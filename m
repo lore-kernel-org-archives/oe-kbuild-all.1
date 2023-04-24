@@ -1,44 +1,48 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B16082F58
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 20:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D442F63C5;
+	Mon, 24 Apr 2023 21:04:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682369642; x=1713905642;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XPKa/Z4mrYLblsRh8gcNKRyyE0c4TU45xzcnx5GN1Do=;
-  b=VrYyBuQQBgTBbxJD/58g7lCtQYhpm9N5xJou5Xe+6atevRJoQfncWqsT
-   vgq/LZPp4FpQeBSNnnXMF039lhaOUvY4oVuv3VlyVmvvnnurwzeCjFfVL
-   +dTyntjsUcX2KgPaslCOKsd7Fj3SATxl0oSfwy5Iot9fVVQ1hJ8N7UU3X
-   Yc9y/3qAL/tYLy+MDuztx+bMfoqzQcIcUZ34l7O3iX4rp1nEBs4mRr7qF
-   rYXL8Wuksv0KUIhJWUVLsgknI15Y+laOVFXnKO2pXyhiCBWAk2CCr/J6g
-   TY9wi7AFLtHTrcqGZCh8v6WOeYTw/nk/E7sFFd5RuEeRgnraVU9FKf+x1
+  t=1682370246; x=1713906246;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w120y8U0Nl44mL6g4HwtTn60PEDVyOXswzL2W/2Luk0=;
+  b=LljMitiSSzDxkNC9TZzposGvInJl40F7NhKryKOPgZpUcLLPpjKihwXZ
+   /utwgJsigWA6Iqnc3jD8hC15E+sB9k4Y2xXKkz+Z6mHRkiMc/uWmidJ+N
+   RmlEH/xeZ+inUtBWCfsCjYLDLXxiv6km9Bgf+vZxk7VlZWu8vd2OK+3h3
+   Ulqct6MQQ6z6JTGN2KdmWH3qBH13cUQ3ViXBhakUN4MFkiD88YWGs2ig0
+   WBTDw9J/M9glxeDnmWdnzchWlv7F8eBqGABp7OohMqiIjVaAADHLSIRa7
+   OhzurocdQfza4PiVltt1sS/MlpP5/pU8uDj1RSjbvA9ICfe00oA6+0IGu
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="330766942"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="326873561"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="330766942"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 13:54:02 -0700
+   d="scan'208";a="326873561"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 14:04:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="723729440"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="782545860"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="723729440"
+   d="scan'208";a="782545860"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 24 Apr 2023 13:54:00 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 24 Apr 2023 14:04:01 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pr3CC-000ieS-00;
-	Mon, 24 Apr 2023 20:54:00 +0000
-Date: Tue, 25 Apr 2023 04:53:03 +0800
+	id 1pr3Ls-000iee-0R;
+	Mon, 24 Apr 2023 21:04:00 +0000
+Date: Tue, 25 Apr 2023 05:03:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Berg <johannes.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Richard Weinberger <richard@nod.at>
-Subject: [linux-next:master 12780/13853] arch/um/drivers/harddog_user.c:6:10:
- fatal error: stdio.h: No such file or directory
-Message-ID: <202304250419.YtCLtUhG-lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Natikar Basavaraj <Basavaraj.Natikar@amd.com>,
+	Donghun Yoon <donghun.yoon@lge.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] xhci-pci: Only run d3cold avoidance quirk for s2idle
+Message-ID: <202304250440.oxpMvFPQ-lkp@intel.com>
+References: <20230424134926.1416-1-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,47 +51,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230424134926.1416-1-mario.limonciello@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3b85b9b39960c08f29fa91b8d984d055dde6017e
-commit: fc54a4f15988e228cf88f888483e985c5f35031e [12780/13853] um: prevent user code in modules
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20230425/202304250419.YtCLtUhG-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Mario,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.3 next-20230421]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/xhci-pci-Only-run-d3cold-avoidance-quirk-for-s2idle/20230424-215356
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230424134926.1416-1-mario.limonciello%40amd.com
+patch subject: [PATCH] xhci-pci: Only run d3cold avoidance quirk for s2idle
+config: i386-randconfig-a005-20230424 (https://download.01.org/0day-ci/archive/20230425/202304250440.oxpMvFPQ-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=fc54a4f15988e228cf88f888483e985c5f35031e
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout fc54a4f15988e228cf88f888483e985c5f35031e
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/8e287659296330d0cb31e4730daacc92d0467e63
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Mario-Limonciello/xhci-pci-Only-run-d3cold-avoidance-quirk-for-s2idle/20230424-215356
+        git checkout 8e287659296330d0cb31e4730daacc92d0467e63
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um olddefconfig
-        make W=1 O=build_dir ARCH=um SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304250419.YtCLtUhG-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304250440.oxpMvFPQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> arch/um/drivers/harddog_user.c:6:10: fatal error: stdio.h: No such file or directory
-       6 | #include <stdio.h>
-         |          ^~~~~~~~~
-   compilation terminated.
-
-
-vim +6 arch/um/drivers/harddog_user.c
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  @6  #include <stdio.h>
-^1da177e4c3f41 Linus Torvalds 2005-04-16   7  #include <unistd.h>
-^1da177e4c3f41 Linus Torvalds 2005-04-16   8  #include <errno.h>
-37185b33240870 Al Viro        2012-10-08   9  #include <os.h>
-^1da177e4c3f41 Linus Torvalds 2005-04-16  10  
-
-:::::: The code at line 6 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+>> ERROR: modpost: "pm_suspend_target_state" [drivers/usb/host/xhci-pci.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
