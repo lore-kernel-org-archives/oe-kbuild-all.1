@@ -1,43 +1,52 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 309F27470;
-	Mon, 24 Apr 2023 22:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F377470
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 23:07:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682376367; x=1713912367;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gkVOv+IXqynqB9kY6WiS6cDq6RDlE18HHF+7Fnwbt2M=;
-  b=jEyOGHKDGOdz+MISJ+AWTenrBgIcfEX2alFnMuTLuZRmArgFgrttad8+
-   NbT4Cx9gbV0wI8a+xEYauj3etURjXArlk+KNXhGxowJPw68lNe+xdJSz9
-   RzSEFG8wuxs4MXHKqNgJ1GgAILYz3LgpgxvuC0fhlobkRCaV2UQOIe9cE
-   96nI7K0OnAYAwEf945KzdsIS/s5EblkqdfP0cTG/dH+kpFzwI/hHTiW28
-   S7vtSEPaqObwXOoT8J9LpQsKx18V0u43uvBAkKCL53/N03EEnkV2HtBlP
-   kM9YYqOFi5w7yIEJp5ZARAY23x1q9YcehogBSu+LGotXGB88Eg1tCVnEn
+  t=1682377628; x=1713913628;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0Kp5hTwPDIWLqjxSDnXZDtxb3NZhqCag3jZVNugCqgo=;
+  b=gO+lvt8oRbPDnRO/vJWpoVk6flFbeJSjq3mizBlpqgToNMB8hZl5WWSi
+   gfP6crbcSryHbPUZW+QbY8sHcazCBsRa3H40wDRLXBCrzUKblmRUpgnbp
+   JAoIaMrK7tSYyU6QPx22haI+jhNCBHtmz0Ba7BGxxsqRah1oIkaBMd2fn
+   JgB9VF5MG15GMZba4YwbRG2M75ZMgZ7qqrEfoQT6kE+OwCQxYn5VBcnra
+   ovrwszvrEvCcCWnBBQ0ZaNrZFPiCjYcISyeOC2w41sqfVwIo6vbRYuTo7
+   ql/pgkjyf+TlQMxue2WMxIEwkEOSoZKKw7AgCNNGFYJLe+TfoyhKd+gdh
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="411872777"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="330800957"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="411872777"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 15:46:05 -0700
+   d="scan'208";a="330800957"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 16:07:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="693253778"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="939515360"
 X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="693253778"
+   d="scan'208";a="939515360"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 24 Apr 2023 15:46:04 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 24 Apr 2023 16:07:03 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pr4wc-000ih8-2i;
-	Mon, 24 Apr 2023 22:46:02 +0000
-Date: Tue, 25 Apr 2023 06:45:34 +0800
+	id 1pr5Gx-000iho-0f;
+	Mon, 24 Apr 2023 23:07:03 +0000
+Date: Tue, 25 Apr 2023 07:06:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:kvm-upstream-workaround 312/338]
- arch/x86/kvm/mmu/mmu.c:713:5: warning: no previous prototype for function
- 'kvm_mmu_topup_memory_cache_for_split'
-Message-ID: <202304250651.Pftd0rsh-lkp@intel.com>
+To: Heiko Stuebner <heiko@sntech.de>, palmer@dabbelt.com,
+	linux-riscv@lists.infradead.org, paul.walmsley@sifive.com
+Cc: oe-kbuild-all@lists.linux.dev, heiko@sntech.de, kito.cheng@sifive.com,
+	jrtc27@jrtc27.com, conor.dooley@microchip.com,
+	matthias.bgg@gmail.com, heinrich.schuchardt@canonical.com,
+	greentime.hu@sifive.com, nick.knight@sifive.com,
+	christoph.muellner@vrull.eu, philipp.tomsich@vrull.eu,
+	richard.henderson@linaro.org, arnd@arndb.de,
+	linux-kernel@vger.kernel.org,
+	Heiko Stuebner <heiko.stuebner@vrull.eu>
+Subject: Re: [PATCH 1/4] RISC-V: create ISA string separately - not as part
+ of cpuinfo
+Message-ID: <202304250614.g73yVtvv-lkp@intel.com>
+References: <20230424194911.264850-2-heiko.stuebner@vrull.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,63 +55,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230424194911.264850-2-heiko.stuebner@vrull.eu>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   5217810067c6f32309d1473fc94649608330885c
-commit: a51188903783ebbcbc6cd13b599fc53b3d5e6695 [312/338] [REVERTME] KVM: TDX, x86/tdp_mmu: Protect Secure-EPT page
-config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20230425/202304250651.Pftd0rsh-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Heiko,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20230424]
+[also build test WARNING on v6.3]
+[cannot apply to soc/for-next linus/master kees/for-next/execve v6.3 v6.3-rc7 v6.3-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/RISC-V-create-ISA-string-separately-not-as-part-of-cpuinfo/20230425-035214
+base:   next-20230424
+patch link:    https://lore.kernel.org/r/20230424194911.264850-2-heiko.stuebner%40vrull.eu
+patch subject: [PATCH 1/4] RISC-V: create ISA string separately - not as part of cpuinfo
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20230425/202304250614.g73yVtvv-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel/tdx/commit/a51188903783ebbcbc6cd13b599fc53b3d5e6695
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx kvm-upstream-workaround
-        git checkout a51188903783ebbcbc6cd13b599fc53b3d5e6695
+        # https://github.com/intel-lab-lkp/linux/commit/8f1a5a16616d673f2c82cdc54ff845fd8b125a21
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Heiko-Stuebner/RISC-V-create-ISA-string-separately-not-as-part-of-cpuinfo/20230425-035214
+        git checkout 8f1a5a16616d673f2c82cdc54ff845fd8b125a21
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kvm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304250651.Pftd0rsh-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304250614.g73yVtvv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/x86/kvm/mmu/mmu.c:713:5: warning: no previous prototype for function 'kvm_mmu_topup_memory_cache_for_split' [-Wmissing-prototypes]
-   int kvm_mmu_topup_memory_cache_for_split(struct kvm *kvm)
-       ^
-   arch/x86/kvm/mmu/mmu.c:713:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int kvm_mmu_topup_memory_cache_for_split(struct kvm *kvm)
-   ^
-   static 
-   1 warning generated.
+   In file included from include/linux/string.h:254,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/rcupdate.h:29,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from arch/riscv/kernel/cpu.c:6:
+   In function 'strnlen',
+       inlined from 'strncat' at include/linux/fortify-string.h:404:13,
+       inlined from 'riscv_create_isa_string' at arch/riscv/kernel/cpu.c:269:4:
+>> include/linux/fortify-string.h:29:33: warning: 'strlen' argument missing terminating nul [-Wstringop-overread]
+      29 |                         __ret = __builtin_strlen(__p);          \
+         |                                 ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/fortify-string.h:195:24: note: in expansion of macro '__compiletime_strlen'
+     195 |         size_t p_len = __compiletime_strlen(p);
+         |                        ^~~~~~~~~~~~~~~~~~~~
+   arch/riscv/kernel/cpu.c: In function 'riscv_create_isa_string':
+   arch/riscv/kernel/cpu.c:245:19: note: referenced argument declared here
+     245 | static const char base_riscv_exts[13] = "imafdqcbkjpvh";
+         |                   ^~~~~~~~~~~~~~~
 
 
-vim +/kvm_mmu_topup_memory_cache_for_split +713 arch/x86/kvm/mmu/mmu.c
+vim +/strlen +29 include/linux/fortify-string.h
 
-   712	
- > 713	int kvm_mmu_topup_memory_cache_for_split(struct kvm *kvm)
-   714	{
-   715		int r = 0;
-   716	#ifdef CONFIG_INTEL_TDX_HOST_DEBUG_MEMORY_CORRUPT
-   717		struct kvm_mmu_memory_cache *mc;
-   718		int start, end, i;
-   719	
-   720		mutex_lock(&kvm->arch.private_spt_for_split_lock);
-   721		mc = &kvm->arch.private_spt_for_split_cache;
-   722		start = kvm_mmu_memory_cache_nr_free_objects(mc);
-   723		r = kvm_mmu_topup_memory_cache(mc, KVM_MAX_HUGEPAGE_LEVEL *
-   724					       kvm->created_vcpus);
-   725		end = kvm_mmu_memory_cache_nr_free_objects(mc);
-   726		for (i = start; i < end; i++)
-   727			kvm_mmu_split_direct_map(virt_to_page(mc->objects[i]));
-   728		mutex_unlock(&kvm->arch.private_spt_for_split_lock);
-   729	#endif
-   730		return r;
-   731	}
-   732	
+a28a6e860c6cf2 Francis Laniel 2021-02-25  18  
+3009f891bb9f32 Kees Cook      2021-08-02  19  #define __compiletime_strlen(p)					\
+3009f891bb9f32 Kees Cook      2021-08-02  20  ({								\
+e9a40e1585d792 Kees Cook      2022-10-25  21  	char *__p = (char *)(p);				\
+311fb40aa0569a Kees Cook      2022-09-02  22  	size_t __ret = SIZE_MAX;				\
+9f7d69c5cd2390 Kees Cook      2022-09-19  23  	size_t __p_size = __member_size(p);			\
+311fb40aa0569a Kees Cook      2022-09-02  24  	if (__p_size != SIZE_MAX &&				\
+d07c0acb4f41cc Kees Cook      2022-09-02  25  	    __builtin_constant_p(*__p)) {			\
+95cadae320be46 Qian Cai       2021-10-25  26  		size_t __p_len = __p_size - 1;			\
+95cadae320be46 Qian Cai       2021-10-25  27  		if (__builtin_constant_p(__p[__p_len]) &&	\
+95cadae320be46 Qian Cai       2021-10-25  28  		    __p[__p_len] == '\0')			\
+95cadae320be46 Qian Cai       2021-10-25 @29  			__ret = __builtin_strlen(__p);		\
+3009f891bb9f32 Kees Cook      2021-08-02  30  	}							\
+95cadae320be46 Qian Cai       2021-10-25  31  	__ret;							\
+3009f891bb9f32 Kees Cook      2021-08-02  32  })
+3009f891bb9f32 Kees Cook      2021-08-02  33  
 
 -- 
 0-DAY CI Kernel Test Service
