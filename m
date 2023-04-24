@@ -1,174 +1,161 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE267C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 05:11:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 919E57C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 05:32:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682313104; x=1713849104;
+  t=1682314363; x=1713850363;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=spjPszczlRJ6WXEUahSzbZ8YRRmzgy2bt1wJgMDK6ng=;
-  b=avXoF9yJb5hzEbJItg9+Fk56a/0VXVwdM27golFHcY9c+/ZCy0dO52oc
-   hOJdgeJym+X2RPviyCCwZgXnpAA9ChOMawOB8n8A3E6P6cVqywRM+0yZG
-   xtiFABWeuHISTZ6ZicqUO6oKLYq1lzgAHGAUi1SppwJBMIdFaXLNDQmmV
-   5MX5KbR2EsjE9A96LvB+6HyMZch/Hz9TL8IEBi0zyYjE1hMHU07r1/tAc
-   zvfjrf2nCxPpfFfZjYMhRxGQhXGYzvRXyQjLShIc+o02HBzL2G5wDDam4
-   piR0vMoG08zJ9H97goVW1nNOv0ebrAs62l6iJN3z84ifFtiZnL9NTVvp1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="374305761"
+   mime-version:in-reply-to;
+  bh=1n43/fJLjYfG3QHQXcc4cXYaQSDmQZ6CPC6WO9kddpk=;
+  b=T4Dgs1Y98SMWqbiPRd5iaDgidCmAGWcqV51x8sWnk02wwXjeqnmtkF26
+   zbAc3MYH02AjZTMptaQCN5dMIGQgqfRGu4KemCP1JFoRdfUqsCQPwRdo4
+   Wd5iq6+FA9F4pWom57jzNBs8rprzcia2fsXQ8Bq/U1qkzMNMmyQTqCjZ6
+   NSHqEVabBQZh0yLQ+CIWYddPoQWhsA7MVC5ICgqlwcdT6iNs9O4nyW25V
+   4U5mWzJy9pkP4bRvvkcCpD60v9p46PvN9l97WK1slAKmyu/iNJp8yvuQw
+   yFG31YDY02FGRWhQJ9TjAypCNQ1f7bCIvTTsbdo00S1M6oeYkdJM9P0hk
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="349164996"
 X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; 
-   d="scan'208";a="374305761"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2023 22:11:43 -0700
+   d="scan'208";a="349164996"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2023 22:32:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="939171660"
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="836825069"
 X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; 
-   d="scan'208";a="939171660"
+   d="scan'208";a="836825069"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 23 Apr 2023 22:11:40 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 23 Apr 2023 22:32:40 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqoUF-000iHE-31;
-	Mon, 24 Apr 2023 05:11:39 +0000
-Date: Mon, 24 Apr 2023 13:11:20 +0800
+	id 1pqooa-000iHg-0k;
+	Mon, 24 Apr 2023 05:32:40 +0000
+Date: Mon, 24 Apr 2023 13:32:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
-	alexander.deucher@amd.com, christian.koenig@amd.com,
-	pierre-eric.pelloux-prayer@amd.com,
-	'Marek =?utf-8?B?T2zFocOhayc=?= <maraeo@gmail.com>,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH] drm/amdgpu: Mark contexts guilty for any reset type
-Message-ID: <202304241259.Qq0Dmlud-lkp@intel.com>
-References: <20230424014324.218531-1-andrealmeid@igalia.com>
+To: Jarkko Sonninen <kasper@iki.fi>
+Cc: oe-kbuild-all@lists.linux.dev, Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] USB: serial: xr: Add TIOCGRS485 and TIOCSRS485 ioctls
+Message-ID: <202304241303.WkdqPPbt-lkp@intel.com>
+References: <20230423185929.1595056-1-kasper@iki.fi>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230424014324.218531-1-andrealmeid@igalia.com>
+In-Reply-To: <20230423185929.1595056-1-kasper@iki.fi>
 
-Hi André,
+Hi Jarkko,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3 next-20230421]
+[auto build test WARNING on johan-usb-serial/usb-next]
+[also build test WARNING on johan-usb-serial/usb-linus linus/master v6.3 next-20230421]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/drm-amdgpu-Mark-contexts-guilty-for-any-reset-type/20230424-094534
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230424014324.218531-1-andrealmeid%40igalia.com
-patch subject: [PATCH] drm/amdgpu: Mark contexts guilty for any reset type
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230424/202304241259.Qq0Dmlud-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sonninen/USB-serial-xr-Add-TIOCGRS485-and-TIOCSRS485-ioctls/20230424-030038
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-next
+patch link:    https://lore.kernel.org/r/20230423185929.1595056-1-kasper%40iki.fi
+patch subject: [PATCH v4] USB: serial: xr: Add TIOCGRS485 and TIOCSRS485 ioctls
+config: ia64-randconfig-s053-20230423 (https://download.01.org/0day-ci/archive/20230424/202304241303.WkdqPPbt-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ea7b1d78b677fdcf5f4776e63de611a2681cd5fb
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/a80fa27b4fe1974bad2427d7f3260012a04b721a
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andr-Almeida/drm-amdgpu-Mark-contexts-guilty-for-any-reset-type/20230424-094534
-        git checkout ea7b1d78b677fdcf5f4776e63de611a2681cd5fb
+        git fetch --no-tags linux-review Jarkko-Sonninen/USB-serial-xr-Add-TIOCGRS485-and-TIOCSRS485-ioctls/20230424-030038
+        git checkout a80fa27b4fe1974bad2427d7f3260012a04b721a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/usb/serial/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304241259.Qq0Dmlud-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304241303.WkdqPPbt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/usb/serial/xr_serial.c:856:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct serial_rs485 *argp @@
+   drivers/usb/serial/xr_serial.c:856:26: sparse:     expected void [noderef] __user *to
+   drivers/usb/serial/xr_serial.c:856:26: sparse:     got struct serial_rs485 *argp
+>> drivers/usb/serial/xr_serial.c:872:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got struct serial_rs485 *argp @@
+   drivers/usb/serial/xr_serial.c:872:36: sparse:     expected void const [noderef] __user *from
+   drivers/usb/serial/xr_serial.c:872:36: sparse:     got struct serial_rs485 *argp
+   drivers/usb/serial/xr_serial.c:881:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got struct serial_rs485 *argp @@
+   drivers/usb/serial/xr_serial.c:881:26: sparse:     expected void [noderef] __user *to
+   drivers/usb/serial/xr_serial.c:881:26: sparse:     got struct serial_rs485 *argp
+>> drivers/usb/serial/xr_serial.c:893:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct serial_rs485 *argp @@     got void [noderef] __user *argp @@
+   drivers/usb/serial/xr_serial.c:893:49: sparse:     expected struct serial_rs485 *argp
+   drivers/usb/serial/xr_serial.c:893:49: sparse:     got void [noderef] __user *argp
+   drivers/usb/serial/xr_serial.c:895:49: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct serial_rs485 *argp @@     got void [noderef] __user *argp @@
+   drivers/usb/serial/xr_serial.c:895:49: sparse:     expected struct serial_rs485 *argp
+   drivers/usb/serial/xr_serial.c:895:49: sparse:     got void [noderef] __user *argp
 
-   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c: In function 'amdgpu_device_pre_asic_reset':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:4738:28: warning: variable 'job' set but not used [-Wunused-but-set-variable]
-    4738 |         struct amdgpu_job *job = NULL;
-         |                            ^~~
+vim +856 drivers/usb/serial/xr_serial.c
 
-
-vim +/job +4738 drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-
-5740682e66cef5 Monk Liu          2017-10-25  4733  
-e3c1b0712fdb03 shaoyunl          2021-02-16  4734  int amdgpu_device_pre_asic_reset(struct amdgpu_device *adev,
-04442bf70debb1 Lijo Lazar        2021-03-16  4735  				 struct amdgpu_reset_context *reset_context)
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4736  {
-5c1e6fa49e8d8d Huang Rui         2021-12-16  4737  	int i, r = 0;
-04442bf70debb1 Lijo Lazar        2021-03-16 @4738  	struct amdgpu_job *job = NULL;
-04442bf70debb1 Lijo Lazar        2021-03-16  4739  	bool need_full_reset =
-04442bf70debb1 Lijo Lazar        2021-03-16  4740  		test_bit(AMDGPU_NEED_FULL_RESET, &reset_context->flags);
-04442bf70debb1 Lijo Lazar        2021-03-16  4741  
-04442bf70debb1 Lijo Lazar        2021-03-16  4742  	if (reset_context->reset_req_dev == adev)
-04442bf70debb1 Lijo Lazar        2021-03-16  4743  		job = reset_context->job;
-711826656bebb0 Monk Liu          2017-12-25  4744  
-b602ca5f31fe69 Tiecheng Zhou     2020-08-19  4745  	if (amdgpu_sriov_vf(adev)) {
-b602ca5f31fe69 Tiecheng Zhou     2020-08-19  4746  		/* stop the data exchange thread */
-b602ca5f31fe69 Tiecheng Zhou     2020-08-19  4747  		amdgpu_virt_fini_data_exchange(adev);
-b602ca5f31fe69 Tiecheng Zhou     2020-08-19  4748  	}
-b602ca5f31fe69 Tiecheng Zhou     2020-08-19  4749  
-9e225fb9e636b3 Andrey Grodzovsky 2022-06-18  4750  	amdgpu_fence_driver_isr_toggle(adev, true);
-9e225fb9e636b3 Andrey Grodzovsky 2022-06-18  4751  
-711826656bebb0 Monk Liu          2017-12-25  4752  	/* block all schedulers and reset given job's ring */
-0875dc9e80eb3b Chunming Zhou     2016-06-12  4753  	for (i = 0; i < AMDGPU_MAX_RINGS; ++i) {
-0875dc9e80eb3b Chunming Zhou     2016-06-12  4754  		struct amdgpu_ring *ring = adev->rings[i];
-0875dc9e80eb3b Chunming Zhou     2016-06-12  4755  
-51687759be93fb Chunming Zhou     2017-04-24  4756  		if (!ring || !ring->sched.thread)
-0875dc9e80eb3b Chunming Zhou     2016-06-12  4757  			continue;
-5740682e66cef5 Monk Liu          2017-10-25  4758  
-c530b02f39850a Jack Zhang        2021-05-12  4759  		/*clear job fence from fence drv to avoid force_completion
-c530b02f39850a Jack Zhang        2021-05-12  4760  		 *leave NULL and vm flush fence in fence drv */
-5c1e6fa49e8d8d Huang Rui         2021-12-16  4761  		amdgpu_fence_driver_clear_job_fences(ring);
-c530b02f39850a Jack Zhang        2021-05-12  4762  
-2200edac745a65 Chunming Zhou     2016-06-30  4763  		/* after all hw jobs are reset, hw fence is meaningless, so force_completion */
-2f9d4084cac96a Monk Liu          2017-10-16  4764  		amdgpu_fence_driver_force_completion(ring);
-2f9d4084cac96a Monk Liu          2017-10-16  4765  	}
-d38ceaf99ed015 Alex Deucher      2015-04-20  4766  
-9e225fb9e636b3 Andrey Grodzovsky 2022-06-18  4767  	amdgpu_fence_driver_isr_toggle(adev, false);
-9e225fb9e636b3 Andrey Grodzovsky 2022-06-18  4768  
-04442bf70debb1 Lijo Lazar        2021-03-16  4769  	r = amdgpu_reset_prepare_hwcontext(adev, reset_context);
-404b277bbe4945 Lijo Lazar        2021-03-26  4770  	/* If reset handler not implemented, continue; otherwise return */
-404b277bbe4945 Lijo Lazar        2021-03-26  4771  	if (r == -ENOSYS)
-404b277bbe4945 Lijo Lazar        2021-03-26  4772  		r = 0;
-404b277bbe4945 Lijo Lazar        2021-03-26  4773  	else
-04442bf70debb1 Lijo Lazar        2021-03-16  4774  		return r;
-04442bf70debb1 Lijo Lazar        2021-03-16  4775  
-1d721ed679db18 Andrey Grodzovsky 2019-04-18  4776  	/* Don't suspend on bare metal if we are not going to HW reset the ASIC */
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4777  	if (!amdgpu_sriov_vf(adev)) {
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4778  
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4779  		if (!need_full_reset)
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4780  			need_full_reset = amdgpu_device_ip_need_full_reset(adev);
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4781  
-360cd08196cabc Likun Gao         2022-12-21  4782  		if (!need_full_reset && amdgpu_gpu_recovery &&
-360cd08196cabc Likun Gao         2022-12-21  4783  		    amdgpu_device_ip_check_soft_reset(adev)) {
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4784  			amdgpu_device_ip_pre_soft_reset(adev);
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4785  			r = amdgpu_device_ip_soft_reset(adev);
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4786  			amdgpu_device_ip_post_soft_reset(adev);
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4787  			if (r || amdgpu_device_ip_check_soft_reset(adev)) {
-aac891685da661 Dennis Li         2020-08-20  4788  				dev_info(adev->dev, "soft reset failed, will fallback to full reset!\n");
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4789  				need_full_reset = true;
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4790  			}
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4791  		}
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4792  
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4793  		if (need_full_reset)
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4794  			r = amdgpu_device_ip_suspend(adev);
-04442bf70debb1 Lijo Lazar        2021-03-16  4795  		if (need_full_reset)
-04442bf70debb1 Lijo Lazar        2021-03-16  4796  			set_bit(AMDGPU_NEED_FULL_RESET, &reset_context->flags);
-04442bf70debb1 Lijo Lazar        2021-03-16  4797  		else
-04442bf70debb1 Lijo Lazar        2021-03-16  4798  			clear_bit(AMDGPU_NEED_FULL_RESET,
-04442bf70debb1 Lijo Lazar        2021-03-16  4799  				  &reset_context->flags);
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4800  	}
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4801  
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4802  	return r;
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4803  }
-26bc534094ed45 Andrey Grodzovsky 2018-11-22  4804  
+   848	
+   849	static int xr_get_rs485_config(struct tty_struct *tty,
+   850				       struct serial_rs485 *argp)
+   851	{
+   852		struct usb_serial_port *port = tty->driver_data;
+   853		struct xr_data *data = usb_get_serial_port_data(port);
+   854	
+   855		mutex_lock(&data->lock);
+ > 856		if (copy_to_user(argp, &data->rs485, sizeof(data->rs485))) {
+   857			mutex_unlock(&data->lock);
+   858			return -EFAULT;
+   859		}
+   860		mutex_unlock(&data->lock);
+   861	
+   862		return 0;
+   863	}
+   864	
+   865	static int xr_set_rs485_config(struct tty_struct *tty,
+   866				       struct serial_rs485 *argp)
+   867	{
+   868		struct usb_serial_port *port = tty->driver_data;
+   869		struct xr_data *data = usb_get_serial_port_data(port);
+   870		struct serial_rs485 rs485;
+   871	
+ > 872		if (copy_from_user(&rs485, argp, sizeof(rs485)))
+   873			return -EFAULT;
+   874		xr_sanitize_serial_rs485(&rs485);
+   875	
+   876		mutex_lock(&data->lock);
+   877		data->rs485 = rs485;
+   878		xr_set_flow_mode(tty, port, NULL);
+   879		mutex_unlock(&data->lock);
+   880	
+   881		if (copy_to_user(argp, &rs485, sizeof(rs485)))
+   882			return -EFAULT;
+   883	
+   884		return 0;
+   885	}
+   886	
+   887	static int xr_ioctl(struct tty_struct *tty, unsigned int cmd, unsigned long arg)
+   888	{
+   889		void __user *argp = (void __user *)arg;
+   890	
+   891		switch (cmd) {
+   892		case TIOCGRS485:
+ > 893			return xr_get_rs485_config(tty, argp);
+   894		case TIOCSRS485:
+   895			return xr_set_rs485_config(tty, argp);
+   896		}
+   897	
+   898		return -ENOIOCTLCMD;
+   899	}
+   900	
 
 -- 
 0-DAY CI Kernel Test Service
