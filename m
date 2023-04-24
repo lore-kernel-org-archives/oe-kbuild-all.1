@@ -1,131 +1,126 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749337C;
-	Mon, 24 Apr 2023 07:46:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682322404; x=1713858404;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u3pZTubpJKZfX8b+6VbLGCsLKvGeuXh1yc7C0hDKUM0=;
-  b=kXKNZ86RDcOT1V4qkOIFYM0OP5VSye7bYmLZITk/VI2NzrfwUMf+cVbb
-   XIJM1ujw5cbPW/LFd/TofzYfMf6AvDy/rPajYl1sn79Q7ethfbN8Cm2i9
-   hNIU/nK1UZUC4Hi6gQdJV+BWeLkUG4qot5IRomF5IvZzSpdTIpqEC+++S
-   bjI6rCrJDu+3zSIIiwk5EwqAlWnr+AY0XT8O5G/Iy3mbNBbjXASUCytwB
-   QVpIcT7h+udfuinq2bR9tBwal561J5JEfB6aqTPkq47yzeHnZdB28dbi7
-   MtM09WIL9aSHUyZhhnl00rcnrvlPHKjGO9kWLjIYub2Guv7PGRL7dtTld
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="335272799"
-X-IronPort-AV: E=Sophos;i="5.99,222,1677571200"; 
-   d="scan'208";a="335272799"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 00:46:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="757594512"
-X-IronPort-AV: E=Sophos;i="5.99,222,1677571200"; 
-   d="scan'208";a="757594512"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Apr 2023 00:46:42 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pqquH-000iJw-1g;
-	Mon, 24 Apr 2023 07:46:41 +0000
-Date: Mon, 24 Apr 2023 15:46:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Steev Klimaszewski <steev@kali.org>
-Subject: [steev:lenovo-x13s-linux-v6.3.0 144/157]
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:649:28: warning: variable 'i' is
- uninitialized when used here
-Message-ID: <202304241515.ornmzM1i-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EC27C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 07:49:22 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-54fb89e1666so25667327b3.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 00:49:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682322561; x=1684914561;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZhRZsU3OCwHhu2Y4xdvv6Apf1TI1FKu57DbzduNxVh8=;
+        b=cNsSWNndnIWB8aXXtY7v1n0XhdvgKyQ2EtynkNZzYfmCM1+mYrL5+X1MXAfKLNoQas
+         HLTwMWACR9SS/3l5mSukNUYhNgmlA3YNWjCnMHymQry1S4OmwYDmz5aNgEICejP4XRAD
+         0//p0sdSss1tCUuOA+J4+1VJ4ttyePxlBBCYdBmagwQnv72/m+Ayy8H3UEJoC5YSTGQl
+         JyjV991f2nH0dBcEFJ+5G0DMAVs10UhKruPNSYCNBNY/Hp92Eu84NwUmjpV0h0Ad1bMu
+         HC6PX2vdOIhok87i9RvjIbYk8rzRC+JH/vxZBVFfx05dNVdqiVe5j7v4eBaT2vGN1p5r
+         IlrQ==
+X-Gm-Message-State: AAQBX9c21veoEsmL1ddAwo2OX8U1jvc/p5NwLaZ1USN65CNRUXqwNolk
+	HaIKy/laTFvgVzxq1l5OvMV1Fwf6mvksBA==
+X-Google-Smtp-Source: AKy350YdqjdlmtALysgEWvv1uN+q9u89dNhOZL18DCPFkyZ45QCFo0Z/2yj2bvZejT/FNVt4TUcI/g==
+X-Received: by 2002:a0d:e888:0:b0:54f:91d:71e9 with SMTP id r130-20020a0de888000000b0054f091d71e9mr8187637ywe.14.1682322560783;
+        Mon, 24 Apr 2023 00:49:20 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id u186-20020a8160c3000000b0054f69ac5220sm2805290ywb.133.2023.04.24.00.49.19
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Apr 2023 00:49:20 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-54fb9b1a421so25703037b3.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 00:49:19 -0700 (PDT)
+X-Received: by 2002:a0d:d98f:0:b0:552:a306:5256 with SMTP id
+ b137-20020a0dd98f000000b00552a3065256mr7246793ywe.18.1682322559690; Mon, 24
+ Apr 2023 00:49:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202304222120.WcBMaHXo-lkp@intel.com> <20230422135838.3rn67ky2p7jmdk3n@pali>
+In-Reply-To: <20230422135838.3rn67ky2p7jmdk3n@pali>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 24 Apr 2023 09:49:07 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdX8PP3gH_ctgZgXfV6Psu95eTuCh0MBsEQsRVG_6rEUVg@mail.gmail.com>
+Message-ID: <CAMuHMdX8PP3gH_ctgZgXfV6Psu95eTuCh0MBsEQsRVG_6rEUVg@mail.gmail.com>
+Subject: Re: {standard input}:924: Error: unrecognized opcode: `eieio'
+To: =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/steev/linux lenovo-x13s-linux-v6.3.0
-head:   dcb4f9644df6b6eab8d660a91c2a307d79b54020
-commit: 558e3820e2f31f7438304aef66c6748783f991a0 [144/157] drm/msm/dpu: add HDMI output support
-config: arm64-randconfig-r013-20230423 (https://download.01.org/0day-ci/archive/20230424/202304241515.ornmzM1i-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/steev/linux/commit/558e3820e2f31f7438304aef66c6748783f991a0
-        git remote add steev https://github.com/steev/linux
-        git fetch --no-tags steev lenovo-x13s-linux-v6.3.0
-        git checkout 558e3820e2f31f7438304aef66c6748783f991a0
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/msm/
+Hi Pali,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304241515.ornmzM1i-lkp@intel.com/
+On Sat, Apr 22, 2023 at 4:03=E2=80=AFPM Pali Roh=C3=A1r <pali@kernel.org> w=
+rote:
+> On Saturday 22 April 2023 21:53:23 kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   8e41e0a575664d26bb87e012c39435c4c3914ed9
+> > commit: ff7c76f66d8bad4e694c264c789249e1d3a8205d powerpc/boot: Don't al=
+ways pass -mcpu=3Dpowerpc when building 32-bit uImage
+> > date:   3 months ago
+> > config: powerpc-buildonly-randconfig-r006-20230422 (https://download.01=
+.org/0day-ci/archive/20230422/202304222120.WcBMaHXo-lkp@intel.com/config)
+> > compiler: powerpc-linux-gcc (GCC) 12.1.0
+> > reproduce (this is a W=3D1 build):
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/s=
+bin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
+x.git/commit/?id=3Dff7c76f66d8bad4e694c264c789249e1d3a8205d
+> >         git remote add linus https://git.kernel.org/pub/scm/linux/kerne=
+l/git/torvalds/linux.git
+> >         git fetch --no-tags linus master
+> >         git checkout ff7c76f66d8bad4e694c264c789249e1d3a8205d
+> >         # save the config file
+> >         mkdir build_dir && cp config build_dir/.config
+> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.c=
+ross W=3D1 O=3Dbuild_dir ARCH=3Dpowerpc olddefconfig
+> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.c=
+ross W=3D1 O=3Dbuild_dir ARCH=3Dpowerpc SHELL=3D/bin/bash
+> >
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Link: https://lore.kernel.org/oe-kbuild-all/202304222120.WcBMaHXo-lkp=
+@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >    {standard input}: Assembler messages:
+> > >> {standard input}:924: Error: unrecognized opcode: `eieio'
+> >    {standard input}:1094: Error: unrecognized opcode: `eieio'
+> >
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests
+>
+> Hello! What is that? In this error report there is no compile log, nor
+> any file / line. And "Link:" line from above error report does not work.
+>
+> Intel, can you look at your robot? This looks some bug in error reporting=
+.
 
-All warnings (new ones prefixed by >>):
+Looks fine to me: this is not a compile problem, but an assembler problem.
+Presumably this is when building a kernel for a PPC platform that does
+not support the eieio instruction?
 
->> drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:649:28: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
-           info.h_tile_instance[0] = i;
-                                     ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:629:7: note: initialize the variable 'i' to silence this warning
-           int i;
-                ^
-                 = 0
-   1 warning generated.
+The Link: works fine for me, sometimes you just have to be a little bit
+patient for the archiver to catch up...
 
+Gr{oetje,eeting}s,
 
-vim +/i +649 drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+                        Geert
 
-   621	
-   622	static int _dpu_kms_initialize_hdmi(struct drm_device *dev,
-   623					    struct msm_drm_private *priv,
-   624					    struct dpu_kms *dpu_kms)
-   625	{
-   626		struct drm_encoder *encoder = NULL;
-   627		struct msm_display_info info;
-   628		int rc;
-   629		int i;
-   630	
-   631		if (!priv->hdmi)
-   632			return 0;
-   633	
-   634		encoder = dpu_encoder_init(dev, DRM_MODE_ENCODER_TMDS);
-   635		if (IS_ERR(encoder)) {
-   636			DPU_ERROR("encoder init failed for HDMI display\n");
-   637			return PTR_ERR(encoder);
-   638		}
-   639	
-   640		memset(&info, 0, sizeof(info));
-   641		rc = msm_hdmi_modeset_init(priv->hdmi, dev, encoder);
-   642		if (rc) {
-   643			DPU_ERROR("modeset_init failed for DP, rc = %d\n", rc);
-   644			drm_encoder_cleanup(encoder);
-   645			return rc;
-   646		}
-   647	
-   648		info.num_of_h_tiles = 1;
- > 649		info.h_tile_instance[0] = i;
-   650		info.intf_type = INTF_HDMI;
-   651		rc = dpu_encoder_setup(dev, encoder, &info);
-   652		if (rc) {
-   653			DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
-   654				  encoder->base.id, rc);
-   655			return rc;
-   656		}
-   657	
-   658		return 0;
-   659	}
-   660	
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
