@@ -1,43 +1,47 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2812F7C;
-	Mon, 24 Apr 2023 06:34:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4C357C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 07:35:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682318084; x=1713854084;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h55tzEJ3sDayktUOnTgBrrilHEXbItXJcrAxVSrSJTQ=;
-  b=nE0qJa2WE0g2FoCYmFeklDHnRPZ1K2bUk/ScAGtJMdyleCIjv+SLZZgR
-   vHxUPWAZb3Pwbp1UTofdUumySYDuw/hcg5A8m1H+7mVSJpX/FcFFLzGOE
-   6DOPwt7RSo+97BKoFJdrWICON9WbJOvqMUZLgY7Qr+xo8zzTaBuQ/QVMb
-   9JoYdSsoZroHli60Jh8HBdTF3SN0VXsKQXYOY2pxmx68Hsk/5A7MgRtO5
-   r7hg//mbhNjBl+0miF01nLr15siIJo1PMFaS+81q9rsCG/WGURg8kytbA
-   rKf0mQrTRIQfJSXJtogkTPVK1eNJJc7bzzNzKl6Tb/uUGe1wR9sX4Rlgb
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="330578923"
-X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; 
-   d="scan'208";a="330578923"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2023 23:34:43 -0700
+  t=1682321745; x=1713857745;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1AZevgGbr+OhBwy7Vz/7+7ZqgeucWBUr7uEJu+d9I1k=;
+  b=SlXKV7XKFG9C4Id2wQL3eHQb0gEkiTSths0RBcNr21kWikK/Hheu0arx
+   QrU7MseB35BnJyuawrPhxacI/1eVvveGT6p/6rguKZ7K737gdIPq/3C5x
+   lzPNzddfuJLy+S84uk8Yd1wTvg71G463yWhRW5Er2RlkjHlwHsTa9tYQe
+   dbcew25va6x3cyTMMbHlPU5v3z3KkVKXSvlcoAGzsLIb0d5BBvrypQ/bs
+   TBnIO/XRDXdgrYdWgp0ycgJdzQw9TBNk/m2W0OkMlMM3QOqkivQmbSL3k
+   FqYTOV/0KLi9jDAESbghlZCR4ZI4OlVnRiBZ9cIaHuo2EmKtG4yIG7lb/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="409318146"
+X-IronPort-AV: E=Sophos;i="5.99,222,1677571200"; 
+   d="scan'208";a="409318146"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 00:35:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="757576647"
-X-IronPort-AV: E=Sophos;i="5.99,221,1677571200"; 
-   d="scan'208";a="757576647"
+X-IronPort-AV: E=McAfee;i="6600,9927,10689"; a="836859965"
+X-IronPort-AV: E=Sophos;i="5.99,222,1677571200"; 
+   d="scan'208";a="836859965"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 23 Apr 2023 23:34:41 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 24 Apr 2023 00:35:42 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pqpma-000iIy-2s;
-	Mon, 24 Apr 2023 06:34:40 +0000
-Date: Mon, 24 Apr 2023 14:34:01 +0800
+	id 1pqqjd-000iJs-1a;
+	Mon, 24 Apr 2023 07:35:41 +0000
+Date: Mon, 24 Apr 2023 15:35:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Joerg Roedel <jroedel@suse.de>
-Subject: drivers/iommu/ipmmu-vmsa.c:946:34: warning: unused variable
- 'ipmmu_of_ids'
-Message-ID: <202304241433.VrIdTpGU-lkp@intel.com>
+To: Md Sadre Alam <quic_mdalam@quicinc.com>, mani@kernel.org,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	linux-mtd@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_srichara@quicinc.com,
+	quic_mdalam@quicinc.com
+Subject: Re: [PATCH V2] mtd: rawnand: qcom: Implement exec_op()
+Message-ID: <202304241556.fafzkLLk-lkp@intel.com>
+References: <20230419093617.27134-1-quic_mdalam@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,101 +50,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230419093617.27134-1-quic_mdalam@quicinc.com>
 
-Hi Robin,
+Hi Md,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   457391b0380335d5e9a5babdec90ac53928b23b4
-commit: b87d6d7fa405e23478f1e1dff6d66b5a533a5433 iommu/ipmmu-vmsa: Clean up bus_set_iommu()
-date:   8 months ago
-config: x86_64-buildonly-randconfig-r002-20230424 (https://download.01.org/0day-ci/archive/20230424/202304241433.VrIdTpGU-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b87d6d7fa405e23478f1e1dff6d66b5a533a5433
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout b87d6d7fa405e23478f1e1dff6d66b5a533a5433
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iommu/
+[auto build test WARNING on mtd/nand/next]
+[also build test WARNING on linus/master v6.3 next-20230421]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Md-Sadre-Alam/mtd-rawnand-qcom-Implement-exec_op/20230419-173849
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
+patch link:    https://lore.kernel.org/r/20230419093617.27134-1-quic_mdalam%40quicinc.com
+patch subject: [PATCH V2] mtd: rawnand: qcom: Implement exec_op()
+config: nios2-randconfig-m041-20230423 (https://download.01.org/0day-ci/archive/20230424/202304241556.fafzkLLk-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304241433.VrIdTpGU-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304241556.fafzkLLk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/mtd/nand/raw/qcom_nandc.c:2751 qcom_read_status_exec() warn: inconsistent indenting
 
->> drivers/iommu/ipmmu-vmsa.c:946:34: warning: unused variable 'ipmmu_of_ids' [-Wunused-const-variable]
-   static const struct of_device_id ipmmu_of_ids[] = {
-                                    ^
-   1 warning generated.
+vim +2751 drivers/mtd/nand/raw/qcom_nandc.c
 
-
-vim +/ipmmu_of_ids +946 drivers/iommu/ipmmu-vmsa.c
-
-7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  945  
-33f3ac9b511612 Magnus Damm             2017-10-16 @946  static const struct of_device_id ipmmu_of_ids[] = {
-33f3ac9b511612 Magnus Damm             2017-10-16  947  	{
-33f3ac9b511612 Magnus Damm             2017-10-16  948  		.compatible = "renesas,ipmmu-vmsa",
-33f3ac9b511612 Magnus Damm             2017-10-16  949  		.data = &ipmmu_features_default,
-60fb0083c9d43b Fabrizio Castro         2018-08-23  950  	}, {
-60fb0083c9d43b Fabrizio Castro         2018-08-23  951  		.compatible = "renesas,ipmmu-r8a774a1",
-60fb0083c9d43b Fabrizio Castro         2018-08-23  952  		.data = &ipmmu_features_rcar_gen3,
-757f26a3a9ec2c Biju Das                2019-09-27  953  	}, {
-757f26a3a9ec2c Biju Das                2019-09-27  954  		.compatible = "renesas,ipmmu-r8a774b1",
-757f26a3a9ec2c Biju Das                2019-09-27  955  		.data = &ipmmu_features_rcar_gen3,
-b6d39cd82241bf Fabrizio Castro         2018-12-13  956  	}, {
-b6d39cd82241bf Fabrizio Castro         2018-12-13  957  		.compatible = "renesas,ipmmu-r8a774c0",
-b6d39cd82241bf Fabrizio Castro         2018-12-13  958  		.data = &ipmmu_features_rcar_gen3,
-4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  959  	}, {
-4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  960  		.compatible = "renesas,ipmmu-r8a774e1",
-4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  961  		.data = &ipmmu_features_rcar_gen3,
-58b8e8bf409236 Magnus Damm             2017-10-16  962  	}, {
-58b8e8bf409236 Magnus Damm             2017-10-16  963  		.compatible = "renesas,ipmmu-r8a7795",
-0b8ac1409641e1 Magnus Damm             2018-06-14  964  		.data = &ipmmu_features_rcar_gen3,
-0b8ac1409641e1 Magnus Damm             2018-06-14  965  	}, {
-0b8ac1409641e1 Magnus Damm             2018-06-14  966  		.compatible = "renesas,ipmmu-r8a7796",
-0b8ac1409641e1 Magnus Damm             2018-06-14  967  		.data = &ipmmu_features_rcar_gen3,
-17fe1618163980 Yoshihiro Shimoda       2020-06-11  968  	}, {
-17fe1618163980 Yoshihiro Shimoda       2020-06-11  969  		.compatible = "renesas,ipmmu-r8a77961",
-17fe1618163980 Yoshihiro Shimoda       2020-06-11  970  		.data = &ipmmu_features_rcar_gen3,
-98dbffd39a6513 Jacopo Mondi            2018-06-14  971  	}, {
-98dbffd39a6513 Jacopo Mondi            2018-06-14  972  		.compatible = "renesas,ipmmu-r8a77965",
-98dbffd39a6513 Jacopo Mondi            2018-06-14  973  		.data = &ipmmu_features_rcar_gen3,
-3701c123e1c13c Simon Horman            2018-06-14  974  	}, {
-3701c123e1c13c Simon Horman            2018-06-14  975  		.compatible = "renesas,ipmmu-r8a77970",
-3701c123e1c13c Simon Horman            2018-06-14  976  		.data = &ipmmu_features_rcar_gen3,
-1cdeb52e5c245b Nikita Yushchenko       2021-09-23  977  	}, {
-1cdeb52e5c245b Nikita Yushchenko       2021-09-23  978  		.compatible = "renesas,ipmmu-r8a77980",
-1cdeb52e5c245b Nikita Yushchenko       2021-09-23  979  		.data = &ipmmu_features_rcar_gen3,
-b0c32912150565 Hai Nguyen Pham         2018-10-17  980  	}, {
-b0c32912150565 Hai Nguyen Pham         2018-10-17  981  		.compatible = "renesas,ipmmu-r8a77990",
-b0c32912150565 Hai Nguyen Pham         2018-10-17  982  		.data = &ipmmu_features_rcar_gen3,
-3701c123e1c13c Simon Horman            2018-06-14  983  	}, {
-3701c123e1c13c Simon Horman            2018-06-14  984  		.compatible = "renesas,ipmmu-r8a77995",
-3701c123e1c13c Simon Horman            2018-06-14  985  		.data = &ipmmu_features_rcar_gen3,
-7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  986  	}, {
-7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  987  		.compatible = "renesas,ipmmu-r8a779a0",
-ae684caf465b7d Yoshihiro Shimoda       2022-02-08  988  		.data = &ipmmu_features_rcar_gen4,
-ae684caf465b7d Yoshihiro Shimoda       2022-02-08  989  	}, {
-9f7d09fe23a011 Yoshihiro Shimoda       2022-06-17  990  		.compatible = "renesas,rcar-gen4-ipmmu-vmsa",
-ae684caf465b7d Yoshihiro Shimoda       2022-02-08  991  		.data = &ipmmu_features_rcar_gen4,
-33f3ac9b511612 Magnus Damm             2017-10-16  992  	}, {
-33f3ac9b511612 Magnus Damm             2017-10-16  993  		/* Terminator */
-33f3ac9b511612 Magnus Damm             2017-10-16  994  	},
-33f3ac9b511612 Magnus Damm             2017-10-16  995  };
-33f3ac9b511612 Magnus Damm             2017-10-16  996  
-
-:::::: The code at line 946 was first introduced by commit
-:::::: 33f3ac9b511612153bae1d328b0c84c0367cd08d iommu/ipmmu-vmsa: Introduce features, break out alias
-
-:::::: TO: Magnus Damm <damm+renesas@opensource.se>
-:::::: CC: Alex Williamson <alex.williamson@redhat.com>
+  2708	
+  2709	static int qcom_read_status_exec(struct nand_chip *chip,
+  2710					 const struct nand_subop *subop)
+  2711	{
+  2712		struct qcom_nand_host *host = to_qcom_nand_host(chip);
+  2713		struct qcom_nand_controller *nandc = get_qcom_nand_controller(chip);
+  2714		struct nand_ecc_ctrl *ecc = &chip->ecc;
+  2715		struct qcom_op q_op;
+  2716		const struct nand_op_instr *instr = NULL;
+  2717		unsigned int op_id = 0;
+  2718		unsigned int len = 0;
+  2719		int ret = 0, num_cw = 1, i;
+  2720		u32 flash_status;
+  2721	
+  2722		host->status = NAND_STATUS_READY | NAND_STATUS_WP;
+  2723	
+  2724		qcom_parse_instructions(chip, subop, &q_op);
+  2725	
+  2726		if (nandc->exec_opwrite) {
+  2727			num_cw = ecc->steps;
+  2728			nandc->exec_opwrite = false;
+  2729		}
+  2730	
+  2731		pre_command(host, NAND_CMD_STATUS);
+  2732	
+  2733		nandc_set_reg(chip, NAND_FLASH_CMD, q_op.cmd_reg);
+  2734		nandc_set_reg(chip, NAND_EXEC_CMD, 1);
+  2735	
+  2736		write_reg_dma(nandc, NAND_FLASH_CMD, 1, NAND_BAM_NEXT_SGL);
+  2737		write_reg_dma(nandc, NAND_EXEC_CMD, 1, NAND_BAM_NEXT_SGL);
+  2738	
+  2739		read_reg_dma(nandc, NAND_FLASH_STATUS, 1, NAND_BAM_NEXT_SGL);
+  2740	
+  2741		ret = submit_descs(nandc);
+  2742		if (ret)
+  2743			dev_err(nandc->dev, "failure in sbumitting status descriptor\n");
+  2744	
+  2745		free_descs(nandc);
+  2746	
+  2747		nandc_read_buffer_sync(nandc, true);
+  2748		for (i = 0; i < num_cw; i++) {
+  2749			flash_status = le32_to_cpu(nandc->reg_read_buf[i]);
+  2750	
+> 2751		if (flash_status & FS_MPU_ERR)
+  2752			host->status &= ~NAND_STATUS_WP;
+  2753	
+  2754		if (flash_status & FS_OP_ERR || (i == (num_cw - 1) &&
+  2755						 (flash_status & FS_DEVICE_STS_ERR)))
+  2756			host->status |= NAND_STATUS_FAIL;
+  2757		}
+  2758	
+  2759		flash_status = host->status;
+  2760	
+  2761		instr = q_op.data_instr;
+  2762		op_id = q_op.data_instr_idx;
+  2763		len = nand_subop_get_data_len(subop, op_id);
+  2764		memcpy(instr->ctx.data.buf.in, &flash_status, len);
+  2765	
+  2766		return ret;
+  2767	}
+  2768	
 
 -- 
 0-DAY CI Kernel Test Service
