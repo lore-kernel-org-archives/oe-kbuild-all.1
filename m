@@ -1,94 +1,89 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D442F63C5;
-	Mon, 24 Apr 2023 21:04:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682370246; x=1713906246;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=w120y8U0Nl44mL6g4HwtTn60PEDVyOXswzL2W/2Luk0=;
-  b=LljMitiSSzDxkNC9TZzposGvInJl40F7NhKryKOPgZpUcLLPpjKihwXZ
-   /utwgJsigWA6Iqnc3jD8hC15E+sB9k4Y2xXKkz+Z6mHRkiMc/uWmidJ+N
-   RmlEH/xeZ+inUtBWCfsCjYLDLXxiv6km9Bgf+vZxk7VlZWu8vd2OK+3h3
-   Ulqct6MQQ6z6JTGN2KdmWH3qBH13cUQ3ViXBhakUN4MFkiD88YWGs2ig0
-   WBTDw9J/M9glxeDnmWdnzchWlv7F8eBqGABp7OohMqiIjVaAADHLSIRa7
-   OhzurocdQfza4PiVltt1sS/MlpP5/pU8uDj1RSjbvA9ICfe00oA6+0IGu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="326873561"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="326873561"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 14:04:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="782545860"
-X-IronPort-AV: E=Sophos;i="5.99,223,1677571200"; 
-   d="scan'208";a="782545860"
-Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 24 Apr 2023 14:04:01 -0700
-Received: from kbuild by b613635ddfff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pr3Ls-000iee-0R;
-	Mon, 24 Apr 2023 21:04:00 +0000
-Date: Tue, 25 Apr 2023 05:03:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Natikar Basavaraj <Basavaraj.Natikar@amd.com>,
-	Donghun Yoon <donghun.yoon@lge.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] xhci-pci: Only run d3cold avoidance quirk for s2idle
-Message-ID: <202304250440.oxpMvFPQ-lkp@intel.com>
-References: <20230424134926.1416-1-mario.limonciello@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A08263C5
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 24 Apr 2023 21:08:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 2C3CB60A0E1E;
+	Mon, 24 Apr 2023 23:00:48 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id ugwIf7tcA6fT; Mon, 24 Apr 2023 23:00:47 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id B4FC364551DE;
+	Mon, 24 Apr 2023 23:00:47 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id g-K51Ih_btys; Mon, 24 Apr 2023 23:00:47 +0200 (CEST)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 90197609B3C0;
+	Mon, 24 Apr 2023 23:00:47 +0200 (CEST)
+Date: Mon, 24 Apr 2023 23:00:47 +0200 (CEST)
+From: Richard Weinberger <richard@nod.at>
+To: kernel test robot <lkp@intel.com>
+Cc: Johannes Berg <johannes.berg@intel.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-mm <linux-mm@kvack.org>
+Message-ID: <280967570.292780.1682370047405.JavaMail.zimbra@nod.at>
+In-Reply-To: <202304250419.YtCLtUhG-lkp@intel.com>
+References: <202304250419.YtCLtUhG-lkp@intel.com>
+Subject: Re: [linux-next:master 12780/13853]
+ arch/um/drivers/harddog_user.c:6:10: fatal error: stdio.h: No such file or
+ directory
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230424134926.1416-1-mario.limonciello@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [195.201.40.130]
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF97 (Linux)/8.8.12_GA_3809)
+Thread-Topic: arch/um/drivers/harddog_user.c:6:10: fatal error: stdio.h: No such file or directory
+Thread-Index: uHpcqendf6kv+PgcUOBNum0LyemTcA==
 
-Hi Mario,
+----- Urspr=C3=BCngliche Mail -----
+> Von: "kernel test robot" <lkp@intel.com>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it
+> master
+> head:   3b85b9b39960c08f29fa91b8d984d055dde6017e
+> commit: fc54a4f15988e228cf88f888483e985c5f35031e [12780/13853] um: preven=
+t user
+> code in modules
+> config: um-allmodconfig
+> (https://download.01.org/0day-ci/archive/20230425/202304250419.YtCLtUhG-l=
+kp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+> reproduce (this is a W=3D1 build):
+>        #
+>        https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.gi=
+t/commit/?id=3Dfc54a4f15988e228cf88f888483e985c5f35031e
+>        git remote add linux-next
+>        https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.gi=
+t
+>        git fetch --no-tags linux-next master
+>        git checkout fc54a4f15988e228cf88f888483e985c5f35031e
+>        # save the config file
+>        mkdir build_dir && cp config build_dir/.config
+>        make W=3D1 O=3Dbuild_dir ARCH=3Dum olddefconfig
+>        make W=3D1 O=3Dbuild_dir ARCH=3Dum SHELL=3D/bin/bash
+>=20
+> If you fix the issue, kindly add following tag where applicable
+>| Reported-by: kernel test robot <lkp@intel.com>
+>| Link: https://lore.kernel.org/oe-kbuild-all/202304250419.YtCLtUhG-lkp@in=
+tel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>>> arch/um/drivers/harddog_user.c:6:10: fatal error: stdio.h: No such file=
+ or
+>>> directory
+>       6 | #include <stdio.h>
+>         |          ^~~~~~~~~
+>   compilation terminated.
 
-kernel test robot noticed the following build errors:
+Wild guess, is this a nolibc toolchain?
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.3 next-20230421]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/xhci-pci-Only-run-d3cold-avoidance-quirk-for-s2idle/20230424-215356
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230424134926.1416-1-mario.limonciello%40amd.com
-patch subject: [PATCH] xhci-pci: Only run d3cold avoidance quirk for s2idle
-config: i386-randconfig-a005-20230424 (https://download.01.org/0day-ci/archive/20230425/202304250440.oxpMvFPQ-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8e287659296330d0cb31e4730daacc92d0467e63
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Mario-Limonciello/xhci-pci-Only-run-d3cold-avoidance-quirk-for-s2idle/20230424-215356
-        git checkout 8e287659296330d0cb31e4730daacc92d0467e63
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304250440.oxpMvFPQ-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "pm_suspend_target_state" [drivers/usb/host/xhci-pci.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks,
+//richard
