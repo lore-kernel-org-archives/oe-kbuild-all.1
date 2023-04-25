@@ -1,43 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304747B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Apr 2023 09:37:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F877B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Apr 2023 10:59:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682415456; x=1713951456;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=USF+nHtjEl9ODEKwScwWikHmSP5tzxfXjyg9H1n9TfQ=;
-  b=VfWTG+OoMa662++jzoP1Jmf0BT8iOUaueU11O5g5evMmXydrb8emK6lf
-   Ma7wUyVV1JZooAICrDZX+/TmsJFOD9dmK0OOf6jFrc9SSYSOfr0PY7qmB
-   Nyvweetsqbgw+u8fOO3GozEzJ8ymDlCUUWvaQMCJLWrhiEadb2kW/uYAt
-   r+ihaKUgV28yBYJXj1opJgMu1k5VdhArjZo/Cl+gaK50kR1zmPvPjaAtr
-   6FGhU2ZJPhgnIsK0fH6g5QQiinu3NXK9ezVsSCL59icR62jM3/Tx0mHNT
-   bT513BKRhULqbgPdTeNe4Ebarswn/EWMPbQ7OhcjvU4sY7CMMCZnOos4d
+  t=1682420373; x=1713956373;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9V0kiViF+fuD1yE1n1hdum9lKWWC9d3vUEFpqJiMr8c=;
+  b=fqkSdJABy+QWHAuwkpi6YXU5CjPomGcrjvxqJ836E+P7hVd/KBgpprtd
+   ru2gwQktOVUGgMv/so5tdJQQ5dNnkZfK4842+HNDy7XccasJbl9oJpM2M
+   fJcSmv2LT8+GMQdN4Pvkz9DlLT4chX2iTwqaXLCPIYhSchiZIGLp/iZ5l
+   NdMOhJDTXDxfA8UZgOpdKKE9LlQcnwY66UdkeZq4WsLT46gmlnKSSXVQK
+   W2OtcE9RDNufe7tIATEu1U8VUgxf9ykAwX1TUlLg0npVQWx8wSekoCZgp
+   QSB+YELC6lNjy6wfTCMuVl8pjWff//rEwFzwIYq/A1w4682WNPcJpa5OS
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="349505334"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="432991913"
 X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
-   d="scan'208";a="349505334"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 02:37:35 -0700
+   d="scan'208";a="432991913"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 03:59:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="758041070"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="726067587"
 X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
-   d="scan'208";a="758041070"
+   d="scan'208";a="726067587"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 25 Apr 2023 02:37:34 -0700
+  by orsmga001.jf.intel.com with ESMTP; 25 Apr 2023 03:59:31 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prF72-000jHM-2l;
-	Tue, 25 Apr 2023 09:37:28 +0000
-Date: Tue, 25 Apr 2023 17:36:44 +0800
+	id 1prGOQ-000jKG-2L;
+	Tue, 25 Apr 2023 10:59:30 +0000
+Date: Tue, 25 Apr 2023 18:58:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-dai-ops-2023-04-25-v2 35/58]
- sound/soc/sof/amd/renoir.c:27:37: warning: 'renoir_sof_dai_ops' defined but
- not used
-Message-ID: <202304251741.UIEXASrE-lkp@intel.com>
+To: Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
+	linux-fbdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Sven Schnelle <svens@stackframe.org>
+Subject: Re: [PATCH v3] fbdev: visfxfb: HP Visualize-FX framebufffer driver
+Message-ID: <202304251827.bmcNCFkF-lkp@intel.com>
+References: <ZEWqkJekzyIlhBlW@p100>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,50 +47,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZEWqkJekzyIlhBlW@p100>
 
-tree:   https://github.com/morimoto/linux sound-dai-ops-2023-04-25-v2
-head:   95707df62ebc8850d4cc2a5fd9b2674d218e1c93
-commit: c28434a42df4f75f25fe6ab8389d032646e85404 [35/58] ASoC: sof: merge DAI call back functions into ops
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230425/202304251741.UIEXASrE-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Helge,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on deller-parisc/for-next]
+[also build test WARNING on linus/master v6.3 next-20230424]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Helge-Deller/fbdev-visfxfb-HP-Visualize-FX-framebufffer-driver/20230424-060227
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git for-next
+patch link:    https://lore.kernel.org/r/ZEWqkJekzyIlhBlW%40p100
+patch subject: [PATCH v3] fbdev: visfxfb: HP Visualize-FX framebufffer driver
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230425/202304251827.bmcNCFkF-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/morimoto/linux/commit/c28434a42df4f75f25fe6ab8389d032646e85404
-        git remote add morimoto https://github.com/morimoto/linux
-        git fetch --no-tags morimoto sound-dai-ops-2023-04-25-v2
-        git checkout c28434a42df4f75f25fe6ab8389d032646e85404
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/96fac55bbf4fc2930b24f7a757369196a5d4940c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Helge-Deller/fbdev-visfxfb-HP-Visualize-FX-framebufffer-driver/20230424-060227
+        git checkout 96fac55bbf4fc2930b24f7a757369196a5d4940c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash sound/soc/sof/amd/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash drivers/video/fbdev/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304251741.UIEXASrE-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304251827.bmcNCFkF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/soc/sof/amd/renoir.c:28:18: error: 'acp_dai_probe' undeclared here (not in a function)
-      28 |         .probe = acp_dai_probe,
-         |                  ^~~~~~~~~~~~~
->> sound/soc/sof/amd/renoir.c:27:37: warning: 'renoir_sof_dai_ops' defined but not used [-Wunused-const-variable=]
-      27 | static const struct snd_soc_dai_ops renoir_sof_dai_ops = {
-         |                                     ^~~~~~~~~~~~~~~~~~
---
-   sound/soc/sof/amd/rembrandt.c:29:18: error: 'acp_dai_probe' undeclared here (not in a function)
-      29 |         .probe = acp_dai_probe,
-         |                  ^~~~~~~~~~~~~
->> sound/soc/sof/amd/rembrandt.c:28:37: warning: 'rembrandt_sof_dai_ops' defined but not used [-Wunused-const-variable=]
-      28 | static const struct snd_soc_dai_ops rembrandt_sof_dai_ops = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/video/fbdev/visfxfb.c:1067:5: warning: no previous prototype for 'visfx_sync' [-Wmissing-prototypes]
+    1067 | int visfx_sync(struct fb_info *info)
+         |     ^~~~~~~~~~
+>> drivers/video/fbdev/visfxfb.c:1431:5: warning: no previous prototype for 'visfx_set_default_mode' [-Wmissing-prototypes]
+    1431 | int visfx_set_default_mode(struct fb_info *info)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/renoir_sof_dai_ops +27 sound/soc/sof/amd/renoir.c
+vim +/visfx_sync +1067 drivers/video/fbdev/visfxfb.c
 
-    26	
-  > 27	static const struct snd_soc_dai_ops renoir_sof_dai_ops = {
-    28		.probe = acp_dai_probe,
-    29	};
-    30	
+  1066	
+> 1067	int visfx_sync(struct fb_info *info)
+  1068	{
+  1069		visfx_wait_write_pipe_empty(info);
+  1070		return 0;
+  1071	}
+  1072	
 
 -- 
 0-DAY CI Kernel Test Service
