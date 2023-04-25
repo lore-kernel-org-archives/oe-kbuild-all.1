@@ -1,52 +1,44 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 828237B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Apr 2023 14:02:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998C963D9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Apr 2023 15:08:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682431368; x=1713967368;
+  t=1682435333; x=1713971333;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=l6q1dc5C1/q1Geq8yt82kUpPLs/7UC9mtgVUN2I56UE=;
-  b=h5LpmLC4zIWnHrVCNUQ/ECOWOAd+4R/QT75d9q2qc5VctZZaxAc3Gj6y
-   Xjp+cxDNpW3Si7YkTZ1H5p0OJMi8VRLamHllThRqBLou1Eu0ngqQGhZn5
-   G63f4GyiGr/ZtnV91Fhl36qYN9F972kpIbqBp0XzB+ISpJRWxT9BFPTUk
-   4YMpZdXj0U9Aq0CDkvfOG6QNs3rzgBbdF9agu/Iy4w1xrGtMkk3ISVX7Z
-   834mf+lwqAG3NIl+IOs0HsECaBIseIEaFZ+FD33lmXRoboRFN/WsYoYUz
-   RiFC/bD+PCU4+SSosNOZ4/3WXaV5soFRZsw7FA6xV2I6ezOhxGc1Fac51
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="412062310"
+  bh=Ky7KJGI4aLZYjVllbPoqj14yZoSvetXm60Y3WBsa/yk=;
+  b=Xr9znOC1BABjiFcgfNNyze75mpNhew0IWB2h2qaRi1jZ9hIQpHwPMARk
+   nIQhdbKz3Z3fRtUguyxyFV8LCq5UvbmGt1mXp0DqXUBHYkA4YIV2yKMxI
+   XU34paoCvI+oWBYrRr/t61226GZp8yjmG866KMNG8cOnU+aHMjW/Q1f5w
+   EGnqK4MCSnR2Nk++YOa6OmMV+LXy+TyWsa7FpVZ8bOgP+CE0Cja1kyNeM
+   IktdhJtrrYMchIGc/RRO+gQreHiY01UGVSbyFhmDE/m0Y3N1WHE8H/CUN
+   lPXrMTLcERZH10OfqleWHWUv07VB1LW6q46C7iQR1+pADjcDNnpYnskZi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="348708194"
 X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
-   d="scan'208";a="412062310"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 07:02:47 -0700
+   d="scan'208";a="348708194"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 08:03:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="837448058"
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="817722995"
 X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
-   d="scan'208";a="837448058"
+   d="scan'208";a="817722995"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Apr 2023 07:02:43 -0700
+  by orsmga004.jf.intel.com with ESMTP; 25 Apr 2023 08:03:44 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prJFh-000jRg-39;
-	Tue, 25 Apr 2023 14:02:41 +0000
-Date: Tue, 25 Apr 2023 22:01:57 +0800
+	id 1prKCl-000jTQ-2D;
+	Tue, 25 Apr 2023 15:03:43 +0000
+Date: Tue, 25 Apr 2023 23:02:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jacky Huang <ychuang570808@gmail.com>, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, lee@kernel.org,
-	mturquette@baylibre.com, sboyd@kernel.org, p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org, jirislaby@kernel.org,
-	tmaimon77@gmail.com, catalin.marinas@arm.com, will@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-serial@vger.kernel.org,
-	arnd@arndb.de, schung@nuvoton.com, mjchen@nuvoton.com,
-	Jacky Huang <ychuang3@nuvoton.com>
-Subject: Re: [PATCH v8 10/11] tty: serial: Add Nuvoton ma35d1 serial driver
- support
-Message-ID: <202304252118.P0ZCvlQO-lkp@intel.com>
-References: <20230425102418.185783-11-ychuang570808@gmail.com>
+To: Javier Carrasco <javier.carrasco@wolfvision.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC v1 3/4] Input: st1232 - add virtual touchscreen and buttons
+ handling
+Message-ID: <202304252259.331PTIli-lkp@intel.com>
+References: <20230425115049.870003-4-javier.carrasco@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,115 +47,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230425102418.185783-11-ychuang570808@gmail.com>
+In-Reply-To: <20230425115049.870003-4-javier.carrasco@wolfvision.net>
 
-Hi Jacky,
+Hi Javier,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on clk/clk-next linus/master v6.3 next-20230424]
-[cannot apply to pza/reset/next pza/imx-drm/next]
+[auto build test WARNING on dtor-input/next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacky-Huang/arm64-Kconfig-platforms-Add-config-for-Nuvoton-MA35-platform/20230425-182746
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230425102418.185783-11-ychuang570808%40gmail.com
-patch subject: [PATCH v8 10/11] tty: serial: Add Nuvoton ma35d1 serial driver support
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230425/202304252118.P0ZCvlQO-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Carrasco/Input-ts-virtobj-Add-touchsreen-virtual-object-handling-to-the-core/20230425-195306
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20230425115049.870003-4-javier.carrasco%40wolfvision.net
+patch subject: [RFC v1 3/4] Input: st1232 - add virtual touchscreen and buttons handling
+config: i386-randconfig-a011-20230424 (https://download.01.org/0day-ci/archive/20230425/202304252259.331PTIli-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9f299bce6e0e871aa112e06e2451e88198a75d97
+        # https://github.com/intel-lab-lkp/linux/commit/2ba680aa42922270aa2c3c4747b0d17505cbca49
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jacky-Huang/arm64-Kconfig-platforms-Add-config-for-Nuvoton-MA35-platform/20230425-182746
-        git checkout 9f299bce6e0e871aa112e06e2451e88198a75d97
+        git fetch --no-tags linux-review Javier-Carrasco/Input-ts-virtobj-Add-touchsreen-virtual-object-handling-to-the-core/20230425-195306
+        git checkout 2ba680aa42922270aa2c3c4747b0d17505cbca49
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/tty/serial/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/input/touchscreen/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304252118.P0ZCvlQO-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304252259.331PTIli-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/tty/serial/ma35d1_serial.c: In function 'ma35d1serial_probe':
-   drivers/tty/serial/ma35d1_serial.c:675:28: error: implicit declaration of function 'devm_ioremap'; did you mean 'of_ioremap'? [-Werror=implicit-function-declaration]
-     675 |         up->port.membase = devm_ioremap(&pdev->dev, up->port.iobase, UART_REG_SIZE);
-         |                            ^~~~~~~~~~~~
-         |                            of_ioremap
->> drivers/tty/serial/ma35d1_serial.c:675:26: warning: assignment to 'unsigned char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     675 |         up->port.membase = devm_ioremap(&pdev->dev, up->port.iobase, UART_REG_SIZE);
-         |                          ^
-   cc1: some warnings being treated as errors
+   In file included from drivers/input/touchscreen/st1232.c:25:
+>> include/linux/input/ts-virtobj.h:17:27: warning: 'ts_virtobj_names' defined but not used [-Wunused-const-variable=]
+      17 | static const char * const ts_virtobj_names[] = {
+         |                           ^~~~~~~~~~~~~~~~
 
 
-vim +675 drivers/tty/serial/ma35d1_serial.c
+vim +/ts_virtobj_names +17 include/linux/input/ts-virtobj.h
 
-   647	
-   648	/*
-   649	 * Register a set of serial devices attached to a platform device.
-   650	 * The list is terminated with a zero flags entry, which means we expect
-   651	 * all entries to have at least UPF_BOOT_AUTOCONF set.
-   652	 */
-   653	static int ma35d1serial_probe(struct platform_device *pdev)
-   654	{
-   655		struct resource *res_mem;
-   656		struct uart_ma35d1_port *up;
-   657		int ret = 0;
-   658		struct clk *clk;
-   659		int err;
-   660	
-   661		if (pdev->dev.of_node) {
-   662			ret = of_alias_get_id(pdev->dev.of_node, "serial");
-   663			if (ret < 0) {
-   664				dev_err(&pdev->dev, "failed to get alias/pdev id, errno %d\n", ret);
-   665				return ret;
-   666			}
-   667		}
-   668		up = &ma35d1serial_ports[ret];
-   669		up->port.line = ret;
-   670		res_mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   671		if (!res_mem)
-   672			return -ENODEV;
-   673	
-   674		up->port.iobase = res_mem->start;
- > 675		up->port.membase = devm_ioremap(&pdev->dev, up->port.iobase, UART_REG_SIZE);
-   676		up->port.ops = &ma35d1serial_ops;
-   677	
-   678		spin_lock_init(&up->port.lock);
-   679	
-   680		clk = of_clk_get(pdev->dev.of_node, 0);
-   681		if (IS_ERR(clk)) {
-   682			err = PTR_ERR(clk);
-   683			dev_err(&pdev->dev, "failed to get core clk: %d\n", err);
-   684			return -ENOENT;
-   685		}
-   686	
-   687		err = clk_prepare_enable(clk);
-   688		if (err)
-   689			return -ENOENT;
-   690	
-   691		if (up->port.line != 0)
-   692			up->port.uartclk = clk_get_rate(clk);
-   693	
-   694		ret = platform_get_irq(pdev, 0);
-   695		if (ret < 0)
-   696			return ret;
-   697		up->port.irq = ret;
-   698		up->port.dev = &pdev->dev;
-   699		up->port.flags = UPF_BOOT_AUTOCONF;
-   700	
-   701		platform_set_drvdata(pdev, up);
-   702	
-   703		return uart_add_one_port(&ma35d1serial_reg, &up->port);
-   704	}
-   705	
+6da665c20fe75e Javier Carrasco 2023-04-25  16  
+6da665c20fe75e Javier Carrasco 2023-04-25 @17  static const char * const ts_virtobj_names[] = {
+6da665c20fe75e Javier Carrasco 2023-04-25  18  	[TOUCHSCREEN] = "virtual-touchscreen",
+6da665c20fe75e Javier Carrasco 2023-04-25  19  	[BUTTON] = "virtual-buttons",
+6da665c20fe75e Javier Carrasco 2023-04-25  20  };
+6da665c20fe75e Javier Carrasco 2023-04-25  21  
 
 -- 
 0-DAY CI Kernel Test Service
