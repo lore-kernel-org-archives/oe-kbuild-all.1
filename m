@@ -1,46 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31A71FD7;
-	Tue, 25 Apr 2023 23:18:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108F21FD7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Apr 2023 23:29:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682464687; x=1714000687;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OqE97e/5quysDLOggWApe/fW7t0vRea+1h8tHOqK3uU=;
-  b=YEU4A/h/DmvwNdmOIb+ZGtDLnUJgTy8FPe9ufub5AKwcGbYRnu0EPh4g
-   GYnm9gGmVq5i+vI3bKEratK37nWcObmTbrSs3kfZF7L/GF4lsAK1MNYsL
-   24GLFXRUOI5IZwYg31dnpY1z3tm50MAu4skqIKo/tV8g5CuN8hoIBTb6m
-   Z7b8mucGz3XKpxXLVaN1C2HlO/0dPznvAHwI9MYzqXPLBf08HHTGmjS68
-   M0XeKuU9Emaa/E4ebjmgyHjplLJHdms6HkT8omj1oupzs7UbJmXnGArnz
-   LX8T015qejwnNbFWa4YIOilpoGvl9+/vOlEORPe3yR+46e2r7Bms0c8cF
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="344387407"
+  t=1682465350; x=1714001350;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3MbTtcp65ykkPTdUsvT9KINpSIy82MMsaf4xAmpH3ns=;
+  b=gH6aGln20BgnC0DS8YtgGeiqeo1T7tzmxDZ8rDaUSzmChFcnXArWpz/p
+   HbAhTyNjsJiTx0+XQXTh7IXyhhCptTTyPh1IkPzZZQzvW61kJnepvzVWY
+   QcNGaaXtp8NvGdZUhsbUimziCf55OaE20M6JfBahYIW0bGKLvZ9CAuukH
+   /jC/kuSrTMxYJ+YeR6CdSsLSXKGi49KRKrGJKEmXtkegTcze8exmVfhGd
+   C4cNxOFmU4PMKFUaFnHDk9AUfT7fQ+7uXxaeuD4arTEcMaiRaVk3nI/Y2
+   MiO2c7xm9qZDM0/uSWVpu4MQox6SDlExzsRO9kEbI66xUuFSVhNAI4Te/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="346956292"
 X-IronPort-AV: E=Sophos;i="5.99,226,1677571200"; 
-   d="scan'208";a="344387407"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 16:18:06 -0700
+   d="scan'208";a="346956292"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 16:29:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="724178143"
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="726294469"
 X-IronPort-AV: E=Sophos;i="5.99,226,1677571200"; 
-   d="scan'208";a="724178143"
+   d="scan'208";a="726294469"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 25 Apr 2023 16:18:04 -0700
+  by orsmga001.jf.intel.com with ESMTP; 25 Apr 2023 16:29:05 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prRvA-000jrU-0b;
-	Tue, 25 Apr 2023 23:18:04 +0000
-Date: Wed, 26 Apr 2023 07:17:57 +0800
+	id 1prS5o-000jrs-1T;
+	Tue, 25 Apr 2023 23:29:04 +0000
+Date: Wed, 26 Apr 2023 07:28:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vinod Govindapillai <vinod.govindapillai@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	ville.syrjala@intel.com
-Subject: Re: [Intel-gfx] [PATCH v2 5/8] drm/i915: modify max_bw to return
- index to intel_bw_info
-Message-ID: <202304260700.y79nyqxs-lkp@intel.com>
-References: <20230425202826.1144429-6-vinod.govindapillai@intel.com>
+To: Isaku Yamahata <isaku.yamahata@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:kvm-upstream-workaround 302/338] vmlinux.o: warning:
+ objtool: tdx_vcpu_enter_exit+0x92: call to to_tdx() leaves .noinstr.text
+ section
+Message-ID: <202304260724.au5L6Nam-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,166 +46,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230425202826.1144429-6-vinod.govindapillai@intel.com>
 
-Hi Vinod,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-tip/drm-tip]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vinod-Govindapillai/drm-i915-fix-the-derating-percentage-for-MTL/20230426-043120
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230425202826.1144429-6-vinod.govindapillai%40intel.com
-patch subject: [Intel-gfx] [PATCH v2 5/8] drm/i915: modify max_bw to return index to intel_bw_info
-config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230426/202304260700.y79nyqxs-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   abaa3072a8763b7a6276df61d205bf33eb2f31a5
+commit: b9678bab3ebb4be97470cc4f547957e20fb581ad [302/338] [REVERTME] KVM: TDX: save info on TDExit for debug
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230426/202304260724.au5L6Nam-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/aad4c33c841b54fa494a8e76da11b72f20bee83b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Vinod-Govindapillai/drm-i915-fix-the-derating-percentage-for-MTL/20230426-043120
-        git checkout aad4c33c841b54fa494a8e76da11b72f20bee83b
+        # https://github.com/intel/tdx/commit/b9678bab3ebb4be97470cc4f547957e20fb581ad
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx kvm-upstream-workaround
+        git checkout b9678bab3ebb4be97470cc4f547957e20fb581ad
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304260700.y79nyqxs-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304260724.au5L6Nam-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_bw.c:833:7: warning: variable 'idx' is uninitialized when used here [-Wuninitialized]
-                   if (idx > ARRAY_SIZE(i915->display.bw.max))
-                       ^~~
-   drivers/gpu/drm/i915/display/intel_bw.c:825:19: note: initialize the variable 'idx' to silence this warning
-                   unsigned int idx;
-                                   ^
-                                    = 0
-   1 warning generated.
+   vmlinux.o: warning: objtool: vmx_vcpu_enter_exit+0x1e4: call to context_tracking_guest_exit() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: tdx_vcpu_enter_exit+0x92: call to to_tdx() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: svm_vcpu_enter_exit+0x85: call to context_tracking_guest_exit() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: do_machine_check+0xb2f: call to pentium_machine_check.constprop.0() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: check_stackleak_irqoff+0x2b: call to end_of_stack() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: np_seamldr_launch+0x129: missing int3 after ret
 
 
-vim +/idx +833 drivers/gpu/drm/i915/display/intel_bw.c
-
-   804	
-   805	static int icl_find_qgv_points(struct drm_i915_private *i915,
-   806				       unsigned int data_rate,
-   807				       unsigned int num_active_planes,
-   808				       const struct intel_bw_state *old_bw_state,
-   809				       struct intel_bw_state *new_bw_state)
-   810	{
-   811		unsigned int max_bw_point = 0;
-   812		unsigned int max_bw = 0;
-   813		unsigned int num_psf_gv_points = i915->display.bw.max[0].num_psf_gv_points;
-   814		unsigned int num_qgv_points = i915->display.bw.max[0].num_qgv_points;
-   815		u16 psf_points = 0;
-   816		u16 qgv_points = 0;
-   817		int i;
-   818		int ret;
-   819	
-   820		ret = intel_atomic_lock_global_state(&new_bw_state->base);
-   821		if (ret)
-   822			return ret;
-   823	
-   824		for (i = 0; i < num_qgv_points; i++) {
-   825			unsigned int idx;
-   826			unsigned int max_data_rate;
-   827	
-   828			if (DISPLAY_VER(i915) > 11)
-   829				tgl_max_bw_index(i915, num_active_planes, i);
-   830			else
-   831				icl_max_bw_index(i915, num_active_planes, i);
-   832	
- > 833			if (idx > ARRAY_SIZE(i915->display.bw.max))
-   834				continue;
-   835	
-   836			max_data_rate = i915->display.bw.max[idx].deratedbw[i];
-   837	
-   838			/*
-   839			 * We need to know which qgv point gives us
-   840			 * maximum bandwidth in order to disable SAGV
-   841			 * if we find that we exceed SAGV block time
-   842			 * with watermarks. By that moment we already
-   843			 * have those, as it is calculated earlier in
-   844			 * intel_atomic_check,
-   845			 */
-   846			if (max_data_rate > max_bw) {
-   847				max_bw_point = i;
-   848				max_bw = max_data_rate;
-   849			}
-   850			if (max_data_rate >= data_rate)
-   851				qgv_points |= BIT(i);
-   852	
-   853			drm_dbg_kms(&i915->drm, "QGV point %d: max bw %d required %d\n",
-   854				    i, max_data_rate, data_rate);
-   855		}
-   856	
-   857		for (i = 0; i < num_psf_gv_points; i++) {
-   858			unsigned int max_data_rate = adl_psf_bw(i915, i);
-   859	
-   860			if (max_data_rate >= data_rate)
-   861				psf_points |= BIT(i);
-   862	
-   863			drm_dbg_kms(&i915->drm, "PSF GV point %d: max bw %d"
-   864				    " required %d\n",
-   865				    i, max_data_rate, data_rate);
-   866		}
-   867	
-   868		/*
-   869		 * BSpec states that we always should have at least one allowed point
-   870		 * left, so if we couldn't - simply reject the configuration for obvious
-   871		 * reasons.
-   872		 */
-   873		if (qgv_points == 0) {
-   874			drm_dbg_kms(&i915->drm, "No QGV points provide sufficient memory"
-   875				    " bandwidth %d for display configuration(%d active planes).\n",
-   876				    data_rate, num_active_planes);
-   877			return -EINVAL;
-   878		}
-   879	
-   880		if (num_psf_gv_points > 0 && psf_points == 0) {
-   881			drm_dbg_kms(&i915->drm, "No PSF GV points provide sufficient memory"
-   882				    " bandwidth %d for display configuration(%d active planes).\n",
-   883				    data_rate, num_active_planes);
-   884			return -EINVAL;
-   885		}
-   886	
-   887		/*
-   888		 * Leave only single point with highest bandwidth, if
-   889		 * we can't enable SAGV due to the increased memory latency it may
-   890		 * cause.
-   891		 */
-   892		if (!intel_can_enable_sagv(i915, new_bw_state)) {
-   893			qgv_points = BIT(max_bw_point);
-   894			drm_dbg_kms(&i915->drm, "No SAGV, using single QGV point %d\n",
-   895				    max_bw_point);
-   896		}
-   897	
-   898		/*
-   899		 * We store the ones which need to be masked as that is what PCode
-   900		 * actually accepts as a parameter.
-   901		 */
-   902		new_bw_state->qgv_points_mask =
-   903			~(ICL_PCODE_REQ_QGV_PT(qgv_points) |
-   904			  ADLS_PCODE_REQ_PSF_PT(psf_points)) &
-   905			icl_qgv_points_mask(i915);
-   906	
-   907		/*
-   908		 * If the actual mask had changed we need to make sure that
-   909		 * the commits are serialized(in case this is a nomodeset, nonblocking)
-   910		 */
-   911		if (new_bw_state->qgv_points_mask != old_bw_state->qgv_points_mask) {
-   912			ret = intel_atomic_serialize_global_state(&new_bw_state->base);
-   913			if (ret)
-   914				return ret;
-   915		}
-   916	
-   917		return 0;
-   918	}
-   919	
+objdump-func vmlinux.o tdx_vcpu_enter_exit:
+0000 0000000000001bc0 <tdx_vcpu_enter_exit>:
+0000     1bc0:	41 54                	push   %r12
+0002     1bc2:	49 89 fc             	mov    %rdi,%r12
+0005     1bc5:	55                   	push   %rbp
+0006     1bc6:	48 89 f5             	mov    %rsi,%rbp
+0009     1bc9:	53                   	push   %rbx
+000a     1bca:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	1bcb: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
+000f     1bcf:	90                   	nop
+0010     1bd0:	e8 00 00 00 00       	call   1bd5 <tdx_vcpu_enter_exit+0x15>	1bd1: R_X86_64_PLT32	trace_hardirqs_on_prepare-0x4
+0015     1bd5:	e8 00 00 00 00       	call   1bda <tdx_vcpu_enter_exit+0x1a>	1bd6: R_X86_64_PLT32	lockdep_hardirqs_on_prepare-0x4
+001a     1bda:	90                   	nop
+001b     1bdb:	90                   	nop
+001c     1bdc:	e8 00 00 00 00       	call   1be1 <tdx_vcpu_enter_exit+0x21>	1bdd: R_X86_64_PC32	.text+0x27b0fc
+0021     1be1:	90                   	nop
+0022     1be2:	48 8b 7c 24 18       	mov    0x18(%rsp),%rdi
+0027     1be7:	e8 00 00 00 00       	call   1bec <tdx_vcpu_enter_exit+0x2c>	1be8: R_X86_64_PLT32	lockdep_hardirqs_on-0x4
+002c     1bec:	48 8b bd d0 1f 00 00 	mov    0x1fd0(%rbp),%rdi
+0033     1bf3:	8b 95 f0 1f 00 00    	mov    0x1ff0(%rbp),%edx
+0039     1bf9:	49 8d b4 24 d8 01 00 00 	lea    0x1d8(%r12),%rsi
+0041     1c01:	e8 00 00 00 00       	call   1c06 <tdx_vcpu_enter_exit+0x46>	1c02: R_X86_64_PLT32	__tdx_vcpu_run-0x4
+0046     1c06:	31 ff                	xor    %edi,%edi
+0048     1c08:	48 89 85 f8 1f 00 00 	mov    %rax,0x1ff8(%rbp)
+004f     1c0f:	48 89 c3             	mov    %rax,%rbx
+0052     1c12:	89 c6                	mov    %eax,%esi
+0054     1c14:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	1c15: R_X86_64_NONE	__sanitizer_cov_trace_const_cmp2-0x4
+0059     1c19:	66 85 db             	test   %bx,%bx
+005c     1c1c:	74 2c                	je     1c4a <tdx_vcpu_enter_exit+0x8a>
+005e     1c1e:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	1c1f: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
+0063     1c23:	48 8b 7c 24 18       	mov    0x18(%rsp),%rdi
+0068     1c28:	e8 00 00 00 00       	call   1c2d <tdx_vcpu_enter_exit+0x6d>	1c29: R_X86_64_PLT32	lockdep_hardirqs_off-0x4
+006d     1c2d:	e8 00 00 00 00       	call   1c32 <tdx_vcpu_enter_exit+0x72>	1c2e: R_X86_64_PC32	.text+0x27a4fc
+0072     1c32:	90                   	nop
+0073     1c33:	e8 00 00 00 00       	call   1c38 <tdx_vcpu_enter_exit+0x78>	1c34: R_X86_64_PLT32	trace_hardirqs_off_finish-0x4
+0078     1c38:	90                   	nop
+0079     1c39:	5b                   	pop    %rbx
+007a     1c3a:	5d                   	pop    %rbp
+007b     1c3b:	41 5c                	pop    %r12
+007d     1c3d:	31 c0                	xor    %eax,%eax
+007f     1c3f:	31 d2                	xor    %edx,%edx
+0081     1c41:	31 f6                	xor    %esi,%esi
+0083     1c43:	31 ff                	xor    %edi,%edi
+0085     1c45:	e9 00 00 00 00       	jmp    1c4a <tdx_vcpu_enter_exit+0x8a>	1c46: R_X86_64_PLT32	__x86_return_thunk-0x4
+008a     1c4a:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	1c4b: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
+008f     1c4f:	4c 89 e7             	mov    %r12,%rdi
+0092     1c52:	e8 00 00 00 00       	call   1c57 <tdx_vcpu_enter_exit+0x97>	1c53: R_X86_64_PC32	.text+0x27b6bc
+0097     1c57:	bf 00 02 00 80       	mov    $0x80000200,%edi
+009c     1c5c:	8b 98 18 20 00 00    	mov    0x2018(%rax),%ebx
+00a2     1c62:	81 e3 00 07 00 80    	and    $0x80000700,%ebx
+00a8     1c68:	89 de                	mov    %ebx,%esi
+00aa     1c6a:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	1c6b: R_X86_64_NONE	__sanitizer_cov_trace_const_cmp4-0x4
+00af     1c6f:	81 fb 00 02 00 80    	cmp    $0x80000200,%ebx
+00b5     1c75:	75 a7                	jne    1c1e <tdx_vcpu_enter_exit+0x5e>
+00b7     1c77:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)	1c78: R_X86_64_NONE	__sanitizer_cov_trace_pc-0x4
+00bc     1c7c:	41 c6 84 24 12 0c 00 00 02 	movb   $0x2,0xc12(%r12)
+00c5     1c85:	e8 00 00 00 00       	call   1c8a <tdx_vcpu_enter_exit+0xca>	1c86: R_X86_64_PLT32	vmx_do_nmi_irqoff-0x4
+00ca     1c8a:	41 c6 84 24 12 0c 00 00 00 	movb   $0x0,0xc12(%r12)
+00d3     1c93:	eb 89                	jmp    1c1e <tdx_vcpu_enter_exit+0x5e>
+00d5     1c95:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
+00df     1c9f:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
+00e9     1ca9:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
+00f3     1cb3:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
+00fd     1cbd:	0f 1f 00             	nopl   (%rax)
 
 -- 
 0-DAY CI Kernel Test Service
