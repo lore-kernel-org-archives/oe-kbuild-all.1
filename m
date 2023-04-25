@@ -1,44 +1,54 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0236E7B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Apr 2023 06:52:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1917B;
+	Tue, 25 Apr 2023 06:52:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682405544; x=1713941544;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2OHUpN6YokFpOz7x9E2V3U+3KdQ7S6caAHTi6IHDZvU=;
-  b=FFEL0oZRKypRQqm6CwwkJPTv0Kl0PfptL87zh50XZ4OJ8Px/3p0p3/lw
-   SZX0La3SkWhZGE/QKtSay0yFIkjDyUq8/Axfj4iZqwqdTn1Jt9eGRzUQd
-   JfG5Ij+ELo1CTvZHbX0EQ0PxWhvYvHBmOFS83h/y0obL5ZPlnxjF8Acle
-   CXnyHSjOwwcLnUOgk9RA9ZxCwxyXJ+PhqBvwiwkm14CK0zalMF3ThQnga
-   F4JLt4Btu3El9x5+zYemrmNFY3XMcMKa35wnxNZXrhPsoqnqXFphOSiRc
-   a5QrZ7ryVO9eJ7pnVZ917C+gtCVS3tJeMZ7PYUvVsoXIRMzgtae6zpwX3
+  t=1682405546; x=1713941546;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hZeZYjSCd7dp30NG35QgMPJdjsADF6mllQwKMfh6V7o=;
+  b=MAgq/0PYSD6ziArBii7WcDv1mbT99/0HGcENBv44Px0IUvkPlFo7Elme
+   8mV0ycmZ62DyWge2Ui5OU0h1T9I3v6ScphNfGF3D9dF/VfwoiK7cb+jmb
+   unxhtwGN9n5Pu/pzwjoy/xnhSE1qc2IyQuDDQmawJQ87JC89cBsqy8xc0
+   44+Bwe/sNJgqEO+UTmcxKN8XqFVyW84U/RVedLoBvZvOwCwNUqtNmHPoy
+   o7Su06sLK0pRok1pI5yKLeeu5U1aWEX+/RuZuRydLT0YeikID28mDSeiM
+   dIIhkXBv4UV62Yh+QZMf89rqhsocnWUqI2fFzQB2KV1n73YBwfmQ4yFYC
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="345433062"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="345433065"
 X-IronPort-AV: E=Sophos;i="5.99,224,1677571200"; 
-   d="scan'208";a="345433062"
+   d="scan'208";a="345433065"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 23:52:23 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 23:52:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="696061775"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="696061774"
 X-IronPort-AV: E=Sophos;i="5.99,224,1677571200"; 
-   d="scan'208";a="696061775"
+   d="scan'208";a="696061774"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
   by fmsmga007.fm.intel.com with ESMTP; 24 Apr 2023 23:52:21 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prCXF-000j7G-0S;
+	id 1prCXF-000j7E-0O;
 	Tue, 25 Apr 2023 06:52:21 +0000
-Date: Tue, 25 Apr 2023 14:52:01 +0800
+Date: Tue, 25 Apr 2023 14:52:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-component-2023-04-25-v1 28/29]
- sound/soc/soc-core.c:2557: warning: expecting prototype for
- snd_soc_register_dais(). Prototype was for devm_snd_soc_register_dais()
- instead
-Message-ID: <202304251404.N5PpqB8z-lkp@intel.com>
+To: Jing Zhang <jingzhangos@google.com>, KVM <kvm@vger.kernel.org>,
+	KVMARM <kvmarm@lists.linux.dev>,
+	ARMLinux <linux-arm-kernel@lists.infradead.org>,
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	James Morse <james.morse@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Fuad Tabba <tabba@google.com>, Reiji Watanabe <reijiw@google.com>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Jing Zhang <jingzhangos@google.com>
+Subject: Re: [PATCH v7 2/6] KVM: arm64: Save ID registers' sanitized value
+ per guest
+Message-ID: <202304251438.2kYTSPa2-lkp@intel.com>
+References: <20230424234704.2571444-3-jingzhangos@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,67 +57,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230424234704.2571444-3-jingzhangos@google.com>
 
-tree:   https://github.com/morimoto/linux sound-component-2023-04-25-v1
-head:   4e73057aedd52c527ec30871513df16e746c46a6
-commit: 1915609dc90041b9f98c4561bd24350500f4bd77 [28/29] ASoC: soc-core.c: use devm_snd_soc_register_dai()
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230425/202304251404.N5PpqB8z-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+Hi Jing,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 6a8f57ae2eb07ab39a6f0ccad60c760743051026]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jing-Zhang/KVM-arm64-Move-CPU-ID-feature-registers-emulation-into-a-separate-file/20230425-074908
+base:   6a8f57ae2eb07ab39a6f0ccad60c760743051026
+patch link:    https://lore.kernel.org/r/20230424234704.2571444-3-jingzhangos%40google.com
+patch subject: [PATCH v7 2/6] KVM: arm64: Save ID registers' sanitized value per guest
+config: arm64-randconfig-r012-20230425 (https://download.01.org/0day-ci/archive/20230425/202304251438.2kYTSPa2-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/morimoto/linux/commit/1915609dc90041b9f98c4561bd24350500f4bd77
-        git remote add morimoto https://github.com/morimoto/linux
-        git fetch --no-tags morimoto sound-component-2023-04-25-v1
-        git checkout 1915609dc90041b9f98c4561bd24350500f4bd77
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/cca571c516149d39bbaf1b5e916df617940458a6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jing-Zhang/KVM-arm64-Move-CPU-ID-feature-registers-emulation-into-a-separate-file/20230425-074908
+        git checkout cca571c516149d39bbaf1b5e916df617940458a6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash sound/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304251404.N5PpqB8z-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304251438.2kYTSPa2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/soc-core.c:2557: warning: expecting prototype for snd_soc_register_dais(). Prototype was for devm_snd_soc_register_dais() instead
+   In file included from arch/arm64/kernel/asm-offsets.c:16:
+   In file included from include/linux/kvm_host.h:45:
+>> arch/arm64/include/asm/kvm_host.h:1109:20: error: no member named 'config_lock' in 'struct kvm_arch'
+           mutex_lock(&arch->config_lock);
+                       ~~~~  ^
+   arch/arm64/include/asm/kvm_host.h:1111:22: error: no member named 'config_lock' in 'struct kvm_arch'
+           mutex_unlock(&arch->config_lock);
+                         ~~~~  ^
+   arch/arm64/include/asm/kvm_host.h:1118:20: error: no member named 'config_lock' in 'struct kvm_arch'
+           mutex_lock(&arch->config_lock);
+                       ~~~~  ^
+   arch/arm64/include/asm/kvm_host.h:1120:22: error: no member named 'config_lock' in 'struct kvm_arch'
+           mutex_unlock(&arch->config_lock);
+                         ~~~~  ^
+   4 errors generated.
+   make[2]: *** [scripts/Makefile.build:114: arch/arm64/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1286: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +2557 sound/soc/soc-core.c
+vim +1109 arch/arm64/include/asm/kvm_host.h
 
-e11381f38f3478 Kuninori Morimoto 2019-11-05  2546  
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2547  /**
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2548   * snd_soc_register_dais - Register a DAI with the ASoC core
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2549   *
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2550   * @component: The component the DAIs are registered for
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2551   * @dai_drv: DAI driver to use for the DAIs
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2552   * @count: Number of DAIs
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2553   */
-1915609dc90041 Kuninori Morimoto 2023-03-15  2554  static int devm_snd_soc_register_dais(struct snd_soc_component *component,
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2555  				      struct snd_soc_dai_driver *dai_drv,
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2556  				      size_t count)
-daf7737335bf55 Kuninori Morimoto 2019-11-05 @2557  {
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2558  	struct snd_soc_dai *dai;
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2559  	unsigned int i;
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2560  
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2561  	for (i = 0; i < count; i++) {
-1915609dc90041 Kuninori Morimoto 2023-03-15  2562  		dai = devm_snd_soc_register_dai(component->dev,
-1915609dc90041 Kuninori Morimoto 2023-03-15  2563  						component, dai_drv + i, count == 1 &&
-129f055a2144ab Charles Keepax    2022-06-23  2564  						component->driver->legacy_dai_naming);
-1915609dc90041 Kuninori Morimoto 2023-03-15  2565  		if (!dai)
-1915609dc90041 Kuninori Morimoto 2023-03-15  2566  			return -ENOMEM;
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2567  	}
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2568  
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2569  	return 0;
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2570  }
-daf7737335bf55 Kuninori Morimoto 2019-11-05  2571  
-
-:::::: The code at line 2557 was first introduced by commit
-:::::: daf7737335bf555abf14031530fe8e47b46b373a ASoC: soc-core: move snd_soc_register_dai()
-
-:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+  1104	
+  1105	static inline u64 idreg_read(struct kvm_arch *arch, u32 id)
+  1106	{
+  1107		u64 val;
+  1108	
+> 1109		mutex_lock(&arch->config_lock);
+  1110		val = _idreg_read(arch, id);
+  1111		mutex_unlock(&arch->config_lock);
+  1112	
+  1113		return val;
+  1114	}
+  1115	
 
 -- 
 0-DAY CI Kernel Test Service
