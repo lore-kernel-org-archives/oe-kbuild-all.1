@@ -1,48 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090A67E8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Apr 2023 08:34:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF8A7B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Apr 2023 08:45:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682411670; x=1713947670;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vFBTtSGo4RJIa5bAoyrilb4W2kFbR/q028Dr+BiFmtQ=;
-  b=eYgHT1RHJ+k2xQRw5ZMG4X3IQ1WwP4wpCnSiaw4+Jfnc+WebzP8U2RaM
-   ryVcetsAwb8n8c9RJD3zR9XPwx8eMWLmE6EnNkNq7R+YumiQVv6eUj/ad
-   gp988dge7tblMrwmXLY3YfDB+8KlR12ged0i9+6MkSszkEh2jzchKCVu5
-   K72ZG0Zt+V5hSNR89trKsD7zecKh46majSZHXW52uNHaWJCR9DTlWY1Bc
-   LDQusUs13jJKWv4rG2gnkQrvD3RRP4bmkJkh8XHMog458qRNFGoMyEPL+
-   rKtiJkGbQR+jtUfR9TN/F5OSRMbmdbriS6/rcnb+hPaZq0bhlf4ioZ+z5
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="374646871"
+  t=1682412328; x=1713948328;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wVDuvoHyfqef7hU/QGEcFpe4zX0NmBVkCFOgiOqw9uY=;
+  b=a6Dub4oU88Qaxr0eyyDa3AZ11KbFTTFxlabSPTOv0fRaVNgJQqBnVmlx
+   iB6OFKbD4egl2rPCpeby5z6mF0QsDpKJfCT6SQXIKKSkXkiBMDS4GLN4G
+   y9/ViiUtWZXz/MXkeYykQtaYvEjXGbqZYW1Ia/4zuO8Az6JrYIA5d2rLp
+   sWHxEAier9BcuvqlaAeZEw/YC1XFXP3G5/3TmhGwLjdgJycg0onDgUc2+
+   WxZ19NdsBG7Ecjc9GuwO0Vp6GyzcIl5FBFiF/aTNY5TZRoKO8s45W+Z+1
+   3KKHSKUTOz6C/p4yPYnSZq3L3pRmb2k1Ykmge9G792Waf5aFhnNbrHHYm
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="409642915"
 X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
-   d="scan'208";a="374646871"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 01:34:29 -0700
+   d="scan'208";a="409642915"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 01:45:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="782754348"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="693415313"
 X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
-   d="scan'208";a="782754348"
+   d="scan'208";a="693415313"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 25 Apr 2023 01:34:27 -0700
+  by orsmga002.jf.intel.com with ESMTP; 25 Apr 2023 01:45:27 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prE82-000jDO-0m;
-	Tue, 25 Apr 2023 08:34:26 +0000
-Date: Tue, 25 Apr 2023 16:34:17 +0800
+	id 1prEIg-000jEG-2A;
+	Tue, 25 Apr 2023 08:45:26 +0000
+Date: Tue, 25 Apr 2023 16:45:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kai-Heng Feng <kai.heng.feng@canonical.com>, jejb@linux.ibm.com,
-	martin.petersen@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, bblock@linux.ibm.com,
-	acelan.kao@canonical.com,
-	Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	Damien Le Moal <dlemoal@kernel.org>, linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ata: libata: Defer rescan on suspended device
-Message-ID: <202304251654.BnZBfauy-lkp@intel.com>
-References: <20230425061746.503145-1-kai.heng.feng@canonical.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:pipe-nonblock.2 1/2] fs/splice.c:60:19: sparse: sparse:
+ cast from restricted fmode_t
+Message-ID: <202304251604.SwJpFdA1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,202 +45,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230425061746.503145-1-kai.heng.feng@canonical.com>
 
-Hi Kai-Heng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.3 next-20230424]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kai-Heng-Feng/ata-libata-Defer-rescan-on-suspended-device/20230425-142001
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230425061746.503145-1-kai.heng.feng%40canonical.com
-patch subject: [PATCH v2] ata: libata: Defer rescan on suspended device
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230425/202304251654.BnZBfauy-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git pipe-nonblock.2
+head:   09ad5feff1f4b3d12bf6a5aabf6752401043c471
+commit: f10cbebf4dd7f77b0e87c77bb0191a5a07d5e7ac [1/2] splice: clear FMODE_NOWAIT on file if splice/vmsplice is used
+config: m68k-randconfig-s033-20230423 (https://download.01.org/0day-ci/archive/20230425/202304251604.SwJpFdA1-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/bed073367820f7e00147a8f39ed5f0d9d5eb6c67
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kai-Heng-Feng/ata-libata-Defer-rescan-on-suspended-device/20230425-142001
-        git checkout bed073367820f7e00147a8f39ed5f0d9d5eb6c67
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git/commit/?id=f10cbebf4dd7f77b0e87c77bb0191a5a07d5e7ac
+        git remote add axboe-block https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git
+        git fetch --no-tags axboe-block pipe-nonblock.2
+        git checkout f10cbebf4dd7f77b0e87c77bb0191a5a07d5e7ac
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304251654.BnZBfauy-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304251604.SwJpFdA1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/splice.c:60:19: sparse: sparse: cast from restricted fmode_t
+>> fs/splice.c:60:19: sparse: sparse: cast from restricted fmode_t
+>> fs/splice.c:60:19: sparse: sparse: cast to restricted fmode_t
 
-   drivers/ata/libata-eh.c: In function 'ata_eh_revalidate_and_attach':
->> drivers/ata/libata-eh.c:2991:29: error: 'pm_suspend_target_state' undeclared (first use in this function); did you mean 'scsi_target_state'?
-    2991 |                         if (pm_suspend_target_state != PM_SUSPEND_ON)
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~
-         |                             scsi_target_state
-   drivers/ata/libata-eh.c:2991:29: note: each undeclared identifier is reported only once for each function it appears in
+vim +60 fs/splice.c
 
-
-vim +2991 drivers/ata/libata-eh.c
-
-  2927	
-  2928	static int ata_eh_revalidate_and_attach(struct ata_link *link,
-  2929						struct ata_device **r_failed_dev)
-  2930	{
-  2931		struct ata_port *ap = link->ap;
-  2932		struct ata_eh_context *ehc = &link->eh_context;
-  2933		struct ata_device *dev;
-  2934		unsigned int new_mask = 0;
-  2935		unsigned long flags;
-  2936		int rc = 0;
-  2937	
-  2938		/* For PATA drive side cable detection to work, IDENTIFY must
-  2939		 * be done backwards such that PDIAG- is released by the slave
-  2940		 * device before the master device is identified.
-  2941		 */
-  2942		ata_for_each_dev(dev, link, ALL_REVERSE) {
-  2943			unsigned int action = ata_eh_dev_action(dev);
-  2944			unsigned int readid_flags = 0;
-  2945	
-  2946			if (ehc->i.flags & ATA_EHI_DID_RESET)
-  2947				readid_flags |= ATA_READID_POSTRESET;
-  2948	
-  2949			if ((action & ATA_EH_REVALIDATE) && ata_dev_enabled(dev)) {
-  2950				WARN_ON(dev->class == ATA_DEV_PMP);
-  2951	
-  2952				/*
-  2953				 * The link may be in a deep sleep, wake it up.
-  2954				 *
-  2955				 * If the link is in deep sleep, ata_phys_link_offline()
-  2956				 * will return true, causing the revalidation to fail,
-  2957				 * which leads to a (potentially) needless hard reset.
-  2958				 *
-  2959				 * ata_eh_recover() will later restore the link policy
-  2960				 * to ap->target_lpm_policy after revalidation is done.
-  2961				 */
-  2962				if (link->lpm_policy > ATA_LPM_MAX_POWER) {
-  2963					rc = ata_eh_set_lpm(link, ATA_LPM_MAX_POWER,
-  2964							    r_failed_dev);
-  2965					if (rc)
-  2966						goto err;
-  2967				}
-  2968	
-  2969				if (ata_phys_link_offline(ata_dev_phys_link(dev))) {
-  2970					rc = -EIO;
-  2971					goto err;
-  2972				}
-  2973	
-  2974				ata_eh_about_to_do(link, dev, ATA_EH_REVALIDATE);
-  2975				rc = ata_dev_revalidate(dev, ehc->classes[dev->devno],
-  2976							readid_flags);
-  2977				if (rc)
-  2978					goto err;
-  2979	
-  2980				ata_eh_done(link, dev, ATA_EH_REVALIDATE);
-  2981	
-  2982				/* Configuration may have changed, reconfigure
-  2983				 * transfer mode.
-  2984				 */
-  2985				ehc->i.flags |= ATA_EHI_SETMODE;
-  2986	
-  2987				/* Schedule the scsi_rescan_device() here.
-  2988				 * Defer the rescan if it's in process of
-  2989				 * suspending or resuming.
-  2990				 */
-> 2991				if (pm_suspend_target_state != PM_SUSPEND_ON)
-  2992					ap->pflags |= ATA_PFLAG_DEFER_RESCAN;
-  2993				else
-  2994					schedule_work(&(ap->scsi_rescan_task));
-  2995			} else if (dev->class == ATA_DEV_UNKNOWN &&
-  2996				   ehc->tries[dev->devno] &&
-  2997				   ata_class_enabled(ehc->classes[dev->devno])) {
-  2998				/* Temporarily set dev->class, it will be
-  2999				 * permanently set once all configurations are
-  3000				 * complete.  This is necessary because new
-  3001				 * device configuration is done in two
-  3002				 * separate loops.
-  3003				 */
-  3004				dev->class = ehc->classes[dev->devno];
-  3005	
-  3006				if (dev->class == ATA_DEV_PMP)
-  3007					rc = sata_pmp_attach(dev);
-  3008				else
-  3009					rc = ata_dev_read_id(dev, &dev->class,
-  3010							     readid_flags, dev->id);
-  3011	
-  3012				/* read_id might have changed class, store and reset */
-  3013				ehc->classes[dev->devno] = dev->class;
-  3014				dev->class = ATA_DEV_UNKNOWN;
-  3015	
-  3016				switch (rc) {
-  3017				case 0:
-  3018					/* clear error info accumulated during probe */
-  3019					ata_ering_clear(&dev->ering);
-  3020					new_mask |= 1 << dev->devno;
-  3021					break;
-  3022				case -ENOENT:
-  3023					/* IDENTIFY was issued to non-existent
-  3024					 * device.  No need to reset.  Just
-  3025					 * thaw and ignore the device.
-  3026					 */
-  3027					ata_eh_thaw_port(ap);
-  3028					break;
-  3029				default:
-  3030					goto err;
-  3031				}
-  3032			}
-  3033		}
-  3034	
-  3035		/* PDIAG- should have been released, ask cable type if post-reset */
-  3036		if ((ehc->i.flags & ATA_EHI_DID_RESET) && ata_is_host_link(link)) {
-  3037			if (ap->ops->cable_detect)
-  3038				ap->cbl = ap->ops->cable_detect(ap);
-  3039			ata_force_cbl(ap);
-  3040		}
-  3041	
-  3042		/* Configure new devices forward such that user doesn't see
-  3043		 * device detection messages backwards.
-  3044		 */
-  3045		ata_for_each_dev(dev, link, ALL) {
-  3046			if (!(new_mask & (1 << dev->devno)))
-  3047				continue;
-  3048	
-  3049			dev->class = ehc->classes[dev->devno];
-  3050	
-  3051			if (dev->class == ATA_DEV_PMP)
-  3052				continue;
-  3053	
-  3054			ehc->i.flags |= ATA_EHI_PRINTINFO;
-  3055			rc = ata_dev_configure(dev);
-  3056			ehc->i.flags &= ~ATA_EHI_PRINTINFO;
-  3057			if (rc) {
-  3058				dev->class = ATA_DEV_UNKNOWN;
-  3059				goto err;
-  3060			}
-  3061	
-  3062			spin_lock_irqsave(ap->lock, flags);
-  3063			ap->pflags |= ATA_PFLAG_SCSI_HOTPLUG;
-  3064			spin_unlock_irqrestore(ap->lock, flags);
-  3065	
-  3066			/* new device discovered, configure xfermode */
-  3067			ehc->i.flags |= ATA_EHI_SETMODE;
-  3068		}
-  3069	
-  3070		return 0;
-  3071	
-  3072	 err:
-  3073		*r_failed_dev = dev;
-  3074		return rc;
-  3075	}
-  3076	
+    39	
+    40	/*
+    41	 * Splice doesn't support FMODE_NOWAIT. Since pipes may set this flag to
+    42	 * indicate they support non-blocking reads or writes, we must clear it
+    43	 * here if set to avoid blocking other users of this pipe if splice is
+    44	 * being done on it.
+    45	 */
+    46	static void pipe_clear_nowait(struct file *file)
+    47	{
+    48		fmode_t new_fmode, old_fmode;
+    49	
+    50		/*
+    51		 * We could get by with just doing an xchg() here as f_mode should
+    52		 * not change in the file's lifetime, but let's be safe and use
+    53		 * a cmpxchg() instead.
+    54		 */
+    55		do {
+    56			old_fmode = READ_ONCE(file->f_mode);
+    57			if (!(old_fmode & FMODE_NOWAIT))
+    58				break;
+    59			new_fmode = old_fmode & ~FMODE_NOWAIT;
+  > 60		} while (!try_cmpxchg(&file->f_mode, &old_fmode, new_fmode));
+    61	}
+    62	
 
 -- 
 0-DAY CI Kernel Test Service
