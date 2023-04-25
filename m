@@ -1,54 +1,52 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D01310FE;
-	Tue, 25 Apr 2023 07:23:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1087B;
+	Tue, 25 Apr 2023 08:14:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682407408; x=1713943408;
+  t=1682410470; x=1713946470;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Gh+Dq+qpRluNFvtttvSFPUtMvQQemZXLhC07eDECZEQ=;
-  b=Tmkg9MEFSsl5Non8mOSgZ5GRBdA2D2kFDegsiqz8PvqBQY84Zh5JclpZ
-   WmchGo5s3Rrhho7zHUQtFVyuQPf1tF+MWaH7Z8r8752MrQb6AO3wdJ7RK
-   ryw1k2dAnrXKTRCOWuoVjxJ52nW+1xLxpjtvnQIn0YGMPoqWGs8sGGdtl
-   heQZui/p/41/8IrTeW55f3fry8k/iEFdoYYHCNdfRSeYeKjwF/QFVgH9z
-   YBvXCfJmSlLrGF9o6BiZN8KmXk8S+VUVCitB8ZGweP1wNjW3sUoZlUlpN
-   3DEXgYNShS/3eHl0BpLvqAuD4CHwXUG6OeThUW+345e7mn5tyf8fQkasN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="344162712"
-X-IronPort-AV: E=Sophos;i="5.99,224,1677571200"; 
-   d="scan'208";a="344162712"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 00:23:27 -0700
+  bh=QRKM2nX+qqnZ2KExa0u7TxfdfApuq1qeuoMBBF7bFYk=;
+  b=VUJ+O1oG4ylJ0b92jKUQm8PwKS9O3fV1HImd9ES9rNa2AHQ1XHKVRv8x
+   CVUWLy30TUSR++MckYNUNUDc4HZldYjhPdNaDtPHrWp700LG4W2hDQSTm
+   jGOSoDnBD9XN9znOkpU6zcPErNs9o8VgELxtEwab2PmtH1XVjCPlanJ99
+   B7SdKCAxbmCP/nGioiD3fpzrjsv3GFf+lmH/HTCfSLH0yR+syEijFjMZa
+   JE8RW0sgf7pgW6DZdGwmOXQJxqV5VlLgFjMdRymwI+4vxK/gV4zqEqXhj
+   Yy4I/RkdcK6UvdA3NV1CJT6I7SBdILx8xEH+vh5by7N5Gf+HRrRq7EeWJ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="345449815"
+X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
+   d="scan'208";a="345449815"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 01:14:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="837326036"
-X-IronPort-AV: E=Sophos;i="5.99,224,1677571200"; 
-   d="scan'208";a="837326036"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="804983790"
+X-IronPort-AV: E=Sophos;i="5.99,225,1677571200"; 
+   d="scan'208";a="804983790"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Apr 2023 00:23:23 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 25 Apr 2023 01:14:26 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prD1H-000j9L-0I;
-	Tue, 25 Apr 2023 07:23:23 +0000
-Date: Tue, 25 Apr 2023 15:22:47 +0800
+	id 1prDoe-000jBq-3B;
+	Tue, 25 Apr 2023 08:14:24 +0000
+Date: Tue, 25 Apr 2023 16:13:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jing Zhang <jingzhangos@google.com>, KVM <kvm@vger.kernel.org>,
-	KVMARM <kvmarm@lists.linux.dev>,
-	ARMLinux <linux-arm-kernel@lists.infradead.org>,
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	James Morse <james.morse@arm.com>,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Fuad Tabba <tabba@google.com>, Reiji Watanabe <reijiw@google.com>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Jing Zhang <jingzhangos@google.com>
-Subject: Re: [PATCH v7 2/6] KVM: arm64: Save ID registers' sanitized value
- per guest
-Message-ID: <202304251520.GoTtrhba-lkp@intel.com>
-References: <20230424234704.2571444-3-jingzhangos@google.com>
+To: Heiko Stuebner <heiko@sntech.de>, palmer@dabbelt.com,
+	linux-riscv@lists.infradead.org, paul.walmsley@sifive.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, heiko@sntech.de,
+	kito.cheng@sifive.com, jrtc27@jrtc27.com,
+	conor.dooley@microchip.com, matthias.bgg@gmail.com,
+	heinrich.schuchardt@canonical.com, greentime.hu@sifive.com,
+	nick.knight@sifive.com, christoph.muellner@vrull.eu,
+	philipp.tomsich@vrull.eu, richard.henderson@linaro.org,
+	arnd@arndb.de, linux-kernel@vger.kernel.org,
+	Heiko Stuebner <heiko.stuebner@vrull.eu>
+Subject: Re: [PATCH 3/4] RISC-V: export the ISA string of the running machine
+ in the aux vector
+Message-ID: <202304251544.rajXe0ut-lkp@intel.com>
+References: <20230424194911.264850-4-heiko.stuebner@vrull.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,76 +55,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230424234704.2571444-3-jingzhangos@google.com>
+In-Reply-To: <20230424194911.264850-4-heiko.stuebner@vrull.eu>
 
-Hi Jing,
+Hi Heiko,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 6a8f57ae2eb07ab39a6f0ccad60c760743051026]
+[auto build test WARNING on next-20230424]
+[also build test WARNING on v6.3]
+[cannot apply to soc/for-next linus/master kees/for-next/execve v6.3 v6.3-rc7 v6.3-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jing-Zhang/KVM-arm64-Move-CPU-ID-feature-registers-emulation-into-a-separate-file/20230425-074908
-base:   6a8f57ae2eb07ab39a6f0ccad60c760743051026
-patch link:    https://lore.kernel.org/r/20230424234704.2571444-3-jingzhangos%40google.com
-patch subject: [PATCH v7 2/6] KVM: arm64: Save ID registers' sanitized value per guest
-config: arm64-randconfig-r034-20230425 (https://download.01.org/0day-ci/archive/20230425/202304251520.GoTtrhba-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/RISC-V-create-ISA-string-separately-not-as-part-of-cpuinfo/20230425-035214
+base:   next-20230424
+patch link:    https://lore.kernel.org/r/20230424194911.264850-4-heiko.stuebner%40vrull.eu
+patch subject: [PATCH 3/4] RISC-V: export the ISA string of the running machine in the aux vector
+config: riscv-randconfig-r042-20230423 (https://download.01.org/0day-ci/archive/20230425/202304251544.rajXe0ut-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/cca571c516149d39bbaf1b5e916df617940458a6
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/3f82c51fa0f92c257313a0291c7a36cbdfdc5bb1
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jing-Zhang/KVM-arm64-Move-CPU-ID-feature-registers-emulation-into-a-separate-file/20230425-074908
-        git checkout cca571c516149d39bbaf1b5e916df617940458a6
+        git fetch --no-tags linux-review Heiko-Stuebner/RISC-V-create-ISA-string-separately-not-as-part-of-cpuinfo/20230425-035214
+        git checkout 3f82c51fa0f92c257313a0291c7a36cbdfdc5bb1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304251520.GoTtrhba-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304251544.rajXe0ut-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kvm_host.h:45,
-                    from arch/arm64/kernel/asm-offsets.c:16:
-   arch/arm64/include/asm/kvm_host.h: In function 'idreg_read':
->> arch/arm64/include/asm/kvm_host.h:1109:25: error: 'struct kvm_arch' has no member named 'config_lock'
-    1109 |         mutex_lock(&arch->config_lock);
-         |                         ^~
-   arch/arm64/include/asm/kvm_host.h:1111:27: error: 'struct kvm_arch' has no member named 'config_lock'
-    1111 |         mutex_unlock(&arch->config_lock);
-         |                           ^~
-   arch/arm64/include/asm/kvm_host.h: In function 'idreg_write':
-   arch/arm64/include/asm/kvm_host.h:1118:25: error: 'struct kvm_arch' has no member named 'config_lock'
-    1118 |         mutex_lock(&arch->config_lock);
-         |                         ^~
-   arch/arm64/include/asm/kvm_host.h:1120:27: error: 'struct kvm_arch' has no member named 'config_lock'
-    1120 |         mutex_unlock(&arch->config_lock);
-         |                           ^~
-   make[2]: *** [scripts/Makefile.build:114: arch/arm64/kernel/asm-offsets.s] Error 1
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:1286: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> arch/riscv/kernel/cpu.c:122:14: warning: function 'riscv_create_isa_string' has internal linkage but is not defined [-Wundefined-internal]
+   static char *riscv_create_isa_string(void);
+                ^
+   arch/riscv/kernel/cpu.c:140:12: note: used here
+           isa_str = riscv_create_isa_string();
+                     ^
+   1 warning generated.
 
 
-vim +1109 arch/arm64/include/asm/kvm_host.h
+vim +/riscv_create_isa_string +122 arch/riscv/kernel/cpu.c
 
-  1104	
-  1105	static inline u64 idreg_read(struct kvm_arch *arch, u32 id)
-  1106	{
-  1107		u64 val;
-  1108	
-> 1109		mutex_lock(&arch->config_lock);
-  1110		val = _idreg_read(arch, id);
-  1111		mutex_unlock(&arch->config_lock);
-  1112	
-  1113		return val;
-  1114	}
-  1115	
+   120	
+   121	const char *riscv_base_platform = NULL;
+ > 122	static char *riscv_create_isa_string(void);
+   123	
 
 -- 
 0-DAY CI Kernel Test Service
