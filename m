@@ -1,46 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585BAA93E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Apr 2023 21:24:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49678A944
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Apr 2023 21:35:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682457843; x=1713993843;
+  t=1682458509; x=1713994509;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MT1iV8CFEJe4SxnoL8XxQKKdfab1gHYX4nK6vr9DknQ=;
-  b=Mn7oG9inv3YC8QtRRJbdwAHQM12sGIWsl13X0DyJZTEeaPVvPMNv9eSi
-   C27OeyVEf7yznkJmiUd5TFCmO7K/4popat6Pc4JnltYK4CzpKY01Aw3E9
-   MMjkpQutvnqX0Kbe0rHcKzy7vJELK+DR8nY4Iua7tcUjbI6LMwTkE45Sh
-   6wuoesPvwyZMrfYuLPMwrZyXDC9yLK7W9105hhXmrFyUhreF+MrOg5lBw
-   oO/RLFxco/UJIhPoRb+SITYSZakc8gh1Z3tgiZ3ayvWO308DB39OMNpvt
-   2HVXaPxgg/R9PQFOO0vTmKqlVi01SICLOHgjY/ZomCnIOIA6FdNDsunZw
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="409870924"
+  bh=qpj7KttovTMIQPOyWBEnDy6HxETw8PBKSVdP2RuLBkw=;
+  b=jB6wJ8ufb+Ll4n1BRtJQMmj3iAg0dQDL9PKD+kL/aeD+cZUlfhZDErEO
+   xnnv98565dmZwn03/rKyu83+Ii4WptDjOk7J684eDyAVash1Viq3lLF6m
+   Jci/+uAXQu/0HlHJbNfTCBewnKM67znX+5p7LT3Yv/RJRGMFX/aXQsHUu
+   rH3ySYM56lQYJ3HBLsuShP1AsiInCdCN5B+MVOJrCzIKX11iBipN90x/v
+   ggVeA5huHYyDhhTPv71IpzjZGOCsFgJS/OQVh7I2DM9YxTqV/Y/mf66Ye
+   34olQBng3924ldUN0lgr57BA6S/W7cdEb5K2pmTVBBy7M2j7uH1OgV3lT
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="326510264"
 X-IronPort-AV: E=Sophos;i="5.99,226,1677571200"; 
-   d="scan'208";a="409870924"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 14:24:02 -0700
+   d="scan'208";a="326510264"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 14:35:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="687629573"
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="726269224"
 X-IronPort-AV: E=Sophos;i="5.99,226,1677571200"; 
-   d="scan'208";a="687629573"
+   d="scan'208";a="726269224"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 25 Apr 2023 14:24:01 -0700
+  by orsmga001.jf.intel.com with ESMTP; 25 Apr 2023 14:35:06 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prQ8m-000jma-0o;
-	Tue, 25 Apr 2023 21:24:00 +0000
-Date: Wed, 26 Apr 2023 05:23:54 +0800
+	id 1prQJQ-000jnE-31;
+	Tue, 25 Apr 2023 21:35:00 +0000
+Date: Wed, 26 Apr 2023 05:34:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Heiko Carstens <hca@linux.ibm.com>
 Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/fsfa3-next-20230425 1/1]
- include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' specified
- bound between 2147483648 and 4294967295 exceeds maximum object size
- 2147483647
-Message-ID: <202304260540.8xVWxKhO-lkp@intel.com>
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 3963/14039] s390-linux-ld: arc-rimi.c:undefined
+ reference to `iounmap'
+Message-ID: <202304260503.EVDTG0PJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,79 +47,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/fsfa3-next-20230425
-head:   b82a35ff486df1d6737f532e08e060c466f9e652
-commit: b82a35ff486df1d6737f532e08e060c466f9e652 [1/1] Makefile: Enable -Wstringop-overflow and -Warray-bounds
-config: i386-randconfig-a014-20230424 (https://download.01.org/0day-ci/archive/20230426/202304260540.8xVWxKhO-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+Hi Heiko,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f600e0bbde8562a06bee31b3eb1b69d49acac4c5
+commit: 6ef55060a1cc29dd54ff390f22cb3de266dab2b0 [3963/14039] s390: make use of CONFIG_FUNCTION_ALIGNMENT
+config: s390-randconfig-r022-20230424 (https://download.01.org/0day-ci/archive/20230426/202304260503.EVDTG0PJ-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/commit/?id=b82a35ff486df1d6737f532e08e060c466f9e652
-        git remote add gustavoars https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git
-        git fetch --no-tags gustavoars testing/fsfa3-next-20230425
-        git checkout b82a35ff486df1d6737f532e08e060c466f9e652
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=6ef55060a1cc29dd54ff390f22cb3de266dab2b0
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 6ef55060a1cc29dd54ff390f22cb3de266dab2b0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/udf/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304260540.8xVWxKhO-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304260503.EVDTG0PJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/string.h:254,
-                    from arch/x86/include/asm/page_32.h:18,
-                    from arch/x86/include/asm/page.h:14,
-                    from arch/x86/include/asm/thread_info.h:12,
-                    from include/linux/thread_info.h:60,
-                    from arch/x86/include/asm/preempt.h:9,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from fs/udf/udfdecl.h:10,
-                    from fs/udf/directory.c:14:
-   fs/udf/directory.c: In function 'udf_copy_fi':
->> include/linux/fortify-string.h:57:33: warning: '__builtin_memcpy' specified bound between 2147483648 and 4294967295 exceeds maximum object size 2147483647 [-Wstringop-overflow=]
-      57 | #define __underlying_memcpy     __builtin_memcpy
-         |                                 ^
-   include/linux/fortify-string.h:585:9: note: in expansion of macro '__underlying_memcpy'
-     585 |         __underlying_##op(p, q, __fortify_size);                        \
-         |         ^~~~~~~~~~~~~
-   include/linux/fortify-string.h:630:26: note: in expansion of macro '__fortify_memcpy_chk'
-     630 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   fs/udf/directory.c:103:9: note: in expansion of macro 'memcpy'
-     103 |         memcpy(&iter->fi, iter->bh[0]->b_data + off, len);
-         |         ^~~~~~
-
-
-vim +/__builtin_memcpy +57 include/linux/fortify-string.h
-
-78a498c3a227f2a Alexander Potapenko 2022-10-24  46  
-78a498c3a227f2a Alexander Potapenko 2022-10-24  47  #if defined(__SANITIZE_MEMORY__)
-78a498c3a227f2a Alexander Potapenko 2022-10-24  48  /*
-78a498c3a227f2a Alexander Potapenko 2022-10-24  49   * For KMSAN builds all memcpy/memset/memmove calls should be replaced by the
-78a498c3a227f2a Alexander Potapenko 2022-10-24  50   * corresponding __msan_XXX functions.
-78a498c3a227f2a Alexander Potapenko 2022-10-24  51   */
-78a498c3a227f2a Alexander Potapenko 2022-10-24  52  #include <linux/kmsan_string.h>
-78a498c3a227f2a Alexander Potapenko 2022-10-24  53  #define __underlying_memcpy	__msan_memcpy
-78a498c3a227f2a Alexander Potapenko 2022-10-24  54  #define __underlying_memmove	__msan_memmove
-78a498c3a227f2a Alexander Potapenko 2022-10-24  55  #define __underlying_memset	__msan_memset
-78a498c3a227f2a Alexander Potapenko 2022-10-24  56  #else
-a28a6e860c6cf23 Francis Laniel      2021-02-25 @57  #define __underlying_memcpy	__builtin_memcpy
-a28a6e860c6cf23 Francis Laniel      2021-02-25  58  #define __underlying_memmove	__builtin_memmove
-a28a6e860c6cf23 Francis Laniel      2021-02-25  59  #define __underlying_memset	__builtin_memset
-78a498c3a227f2a Alexander Potapenko 2022-10-24  60  #endif
-78a498c3a227f2a Alexander Potapenko 2022-10-24  61  
-
-:::::: The code at line 57 was first introduced by commit
-:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
-
-:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   s390-linux-ld: drivers/net/arcnet/arc-rimi.o: in function `check_mirror':
+   arc-rimi.c:(.text+0x16a): undefined reference to `ioremap'
+>> s390-linux-ld: arc-rimi.c:(.text+0x18c): undefined reference to `iounmap'
+   s390-linux-ld: drivers/net/arcnet/arc-rimi.o: in function `arc_rimi_exit':
+   arc-rimi.c:(.exit.text+0x2e): undefined reference to `iounmap'
+   s390-linux-ld: drivers/net/arcnet/arc-rimi.o: in function `arcrimi_found':
+   arc-rimi.c:(.init.text+0xd4): undefined reference to `ioremap'
+   s390-linux-ld: arc-rimi.c:(.init.text+0x158): undefined reference to `iounmap'
+   s390-linux-ld: arc-rimi.c:(.init.text+0x278): undefined reference to `iounmap'
+   s390-linux-ld: arc-rimi.c:(.init.text+0x352): undefined reference to `ioremap'
+   s390-linux-ld: arc-rimi.c:(.init.text+0x43a): undefined reference to `iounmap'
+   s390-linux-ld: drivers/pcmcia/cistpl.o: in function `set_cis_map':
+   cistpl.c:(.text+0x454): undefined reference to `ioremap'
+   s390-linux-ld: cistpl.c:(.text+0x48a): undefined reference to `iounmap'
+   s390-linux-ld: cistpl.c:(.text+0x4fa): undefined reference to `iounmap'
+   s390-linux-ld: cistpl.c:(.text+0x50c): undefined reference to `ioremap'
+   s390-linux-ld: drivers/pcmcia/cistpl.o: in function `release_cis_mem':
+   cistpl.c:(.text+0xd26): undefined reference to `iounmap'
 
 -- 
 0-DAY CI Kernel Test Service
