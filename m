@@ -1,44 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6147B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Apr 2023 05:10:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29B87B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 25 Apr 2023 05:20:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682399420; x=1713935420;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0h3tAaz2zAMBc6n3sW4xR2AgtwJsJs543IFoWcexzgw=;
-  b=jRo2tozIRN1O3zTxW4W/vEA5JxjWCGjF+hh03+szKMYQcjeEjG1NQfzu
-   MzLC5H0gCJPLOhxromn8EyBP5ba47CtgNok3dbGgOH89GCNlioVzeEkln
-   rPkcEmP4YapgPBouHDwKMV7UVu5HbeSuOB7aJaGA/+JjMkL3EhzAC0wZ6
-   xT2amLCDLXBMcXx6199R9CbuLTW+N7aAG8wSbHnHeZCuve8D5MaaRUziH
-   G2AY6Kja5rFvrxDWb5RV+xzjZdfckRTv1APkFidLt7+lYvEWSDucU4QOa
-   /thqMh4vGB6zOA6vrKpRLGLv3LFVO0edRhcPXPQg2kLREtHd+GOTrDQ8S
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="344136826"
+  t=1682400028; x=1713936028;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=trLOlqqreRZR7cfnhacMxfmhse6aCaZZu3OAw3usngE=;
+  b=TqytGQ1pKPqJvHl+u0DKWxB69o8xI/49LsuPvcVTzQUc9SI9yntaarVx
+   iQQOeY/liEwjal9FwYu5+T+a/hsjHJxQTM4L3y6jkkBKHJkyBR7EyC+3F
+   xw3Z6SPr5YpiloEzdzAEW5Y/VzSZ83cmzHzM/lihv9MrRCW/OqFmNTkVo
+   j+3qBP3EhcNHV/nDvVdNk92h5KDHTf6aFG3QJg1hN1mdJZHQxUvHQUB8N
+   z7+HF8qEi9EUg8gWwNR/xrXsuzIyKUElhAQ8YbZod0qTmN7W0On/cCyLX
+   A3a8Ix5ELP0/7ycyPXpSpwx0iz5Xj8yl1H7sKyCttk6fdvUa3LNXH6cgk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="374604799"
 X-IronPort-AV: E=Sophos;i="5.99,224,1677571200"; 
-   d="scan'208";a="344136826"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 22:10:19 -0700
+   d="scan'208";a="374604799"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 22:20:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="782688877"
+X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="696028114"
 X-IronPort-AV: E=Sophos;i="5.99,224,1677571200"; 
-   d="scan'208";a="782688877"
+   d="scan'208";a="696028114"
 Received: from lkp-server01.sh.intel.com (HELO b613635ddfff) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 24 Apr 2023 22:10:18 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 24 Apr 2023 22:20:23 -0700
 Received: from kbuild by b613635ddfff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prAwT-000j12-1W;
-	Tue, 25 Apr 2023 05:10:17 +0000
-Date: Tue, 25 Apr 2023 13:09:43 +0800
+	id 1prB69-000j1e-2h;
+	Tue, 25 Apr 2023 05:20:17 +0000
+Date: Tue, 25 Apr 2023 13:20:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Beichler <benjamin.beichler@uni-rostock.de>
+To: Hector Martin <marcan@marcan.st>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v3] average: change non-init state and add check for
- added values
-Message-ID: <202304251243.k6TscyK6-lkp@intel.com>
-References: <20230424210430.390592-1-benjamin.beichler@uni-rostock.de>
+Subject: [asahilinux:bits/010-soc 8/14] drivers/soc/apple/rtkit.c:627:37:
+ error: 'struct apple_rtkit' has no member named 'mbox_chan'
+Message-ID: <202304251325.fsh5EBuw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,131 +45,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230424210430.390592-1-benjamin.beichler@uni-rostock.de>
 
-Hi Benjamin,
+Hi Hector,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on wireless/main linus/master v6.3 next-20230424]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Beichler/average-change-non-init-state-and-add-check-for-added-values/20230425-050642
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20230424210430.390592-1-benjamin.beichler%40uni-rostock.de
-patch subject: [RFC PATCH v3] average: change non-init state and add check for added values
-config: x86_64-randconfig-a011-20230424 (https://download.01.org/0day-ci/archive/20230425/202304251243.k6TscyK6-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-8) 11.3.0
+tree:   https://github.com/AsahiLinux/linux bits/010-soc
+head:   64314818271dd6e78606e3d5197a5d74bf5d9e7c
+commit: 718fdf42575923c879b29752487020a8add88766 [8/14] mailbox: apple: Delete driver
+config: arm64-buildonly-randconfig-r004-20230423 (https://download.01.org/0day-ci/archive/20230425/202304251325.fsh5EBuw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/5dcb0037ea1da8b44284784d7c5d62aab16abad4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Benjamin-Beichler/average-change-non-init-state-and-add-check-for-added-values/20230425-050642
-        git checkout 5dcb0037ea1da8b44284784d7c5d62aab16abad4
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/AsahiLinux/linux/commit/718fdf42575923c879b29752487020a8add88766
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/010-soc
+        git checkout 718fdf42575923c879b29752487020a8add88766
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/soc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304251243.k6TscyK6-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304251325.fsh5EBuw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/drm_self_refresh_helper.c:8:
->> include/linux/average.h:50:59: error: expected ';', ',' or ')' before 'unsigned'
-      50 |                                                           unsigned long val)    \
-         |                                                           ^~~~~~~~
-   drivers/gpu/drm/drm_self_refresh_helper.c:56:1: note: in expansion of macro 'DECLARE_EWMA'
-      56 | DECLARE_EWMA(psr_time, 4, 4)
-         | ^~~~~~~~~~~~
---
-   In file included from drivers/net/virtio_net.c:19:
->> include/linux/average.h:50:59: error: expected ';', ',' or ')' before 'unsigned'
-      50 |                                                           unsigned long val)    \
-         |                                                           ^~~~~~~~
-   drivers/net/virtio_net.c:54:1: note: in expansion of macro 'DECLARE_EWMA'
-      54 | DECLARE_EWMA(pkt_len, 0, 64)
-         | ^~~~~~~~~~~~
+   drivers/soc/apple/rtkit.c: In function 'apple_rtkit_send_message_wait':
+>> drivers/soc/apple/rtkit.c:627:37: error: 'struct apple_rtkit' has no member named 'mbox_chan'
+     627 |                 ret = mbox_flush(rtk->mbox_chan, timeout);
+         |                                     ^~
 
 
-vim +50 include/linux/average.h
+vim +627 drivers/soc/apple/rtkit.c
 
-     8	
-     9	/*
-    10	 * Exponentially weighted moving average (EWMA)
-    11	 *
-    12	 * This implements a fixed-precision EWMA algorithm, with both the
-    13	 * precision and fall-off coefficient determined at compile-time
-    14	 * and built into the generated helper funtions.
-    15	 *
-    16	 * The first argument to the macro is the name that will be used
-    17	 * for the struct and helper functions.
-    18	 *
-    19	 * The second argument, the precision, expresses how many bits are
-    20	 * used for the fractional part of the fixed-precision values.
-    21	 *
-    22	 * The third argument, the weight reciprocal, determines how the
-    23	 * new values will be weighed vs. the old state, new values will
-    24	 * get weight 1/weight_rcp and old values 1-1/weight_rcp. Note
-    25	 * that this parameter must be a power of two for efficiency. A
-    26	 * weight of 1 is not allowed, because of the internal init function,
-    27	 * but nevertheless it makes no sense, since it means no averaging at all.
-    28	 */
-    29	
-    30	#define EWMA_BUILD_TIME_CHECKS(_precision, _weight_rcp)			\
-    31		do {								\
-    32			BUILD_BUG_ON(!__builtin_constant_p(_precision));	\
-    33			BUILD_BUG_ON(!__builtin_constant_p(_weight_rcp));	\
-    34										\
-    35			BUILD_BUG_ON((_precision) > 30);			\
-    36			BUILD_BUG_ON_NOT_POWER_OF_2(_weight_rcp);		\
-    37			BUILD_BUG_ON(_weight_rcp <= 1);				\
-    38		} while (0)
-    39	
-    40	#define DECLARE_EWMA(name, _precision, _weight_rcp)				\
-    41		struct ewma_##name {							\
-    42			unsigned long internal;						\
-    43		};									\
-    44		static inline void ewma_##name##_init(struct ewma_##name *e)		\
-    45		{									\
-    46			EWMA_BUILD_TIME_CHECKS(_precision, _weight_rcp);		\
-    47			e->internal = ULONG_MAX;					\
-    48		}									\
-    49			static inline void ewma_##name##_init_val(struct ewma_##name *e	\
-  > 50								  unsigned long val)	\
-    51		{									\
-    52			EWMA_BUILD_TIME_CHECKS(_precision, _weight_rcp);		\
-    53			e->internal = val;						\
-    54		}									\
-    55		static inline unsigned long						\
-    56		ewma_##name##_read(struct ewma_##name *e)				\
-    57		{									\
-    58			EWMA_BUILD_TIME_CHECKS(_precision, _weight_rcp);		\
-    59			return unlikely(e->internal == ULONG_MAX) ?			\
-    60					0 : e->internal >> (_precision);		\
-    61		}									\
-    62		static inline void ewma_##name##_add(struct ewma_##name *e,		\
-    63						     unsigned long val)			\
-    64		{									\
-    65			unsigned long internal = READ_ONCE(e->internal);		\
-    66			unsigned long weight_rcp = ilog2(_weight_rcp);			\
-    67			unsigned long precision = _precision;				\
-    68			unsigned long max_val = ULONG_MAX >> (precision + weight_rcp);	\
-    69											\
-    70			EWMA_BUILD_TIME_CHECKS(_precision, _weight_rcp);		\
-    71			WARN_ONCE(val > max_val, "Value (%lu) is too large for ewma_##name##_add, this will result in unexpected values of the ewma filter. Max valid value is %lu",\
-    72				  val, max_val);					\
-    73			WRITE_ONCE(e->internal, unlikely(internal != ULONG_MAX) ?	\
-    74				(((internal << weight_rcp) - internal) +		\
-    75					(val << precision)) >> weight_rcp :		\
-    76				(val << precision));					\
-    77		}
-    78	
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  614  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  615  int apple_rtkit_send_message_wait(struct apple_rtkit *rtk, u8 ep, u64 message,
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  616  				  unsigned long timeout, bool atomic)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  617  {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  618  	DECLARE_COMPLETION_ONSTACK(completion);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  619  	int ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  620  	long t;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  621  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  622  	ret = apple_rtkit_send_message(rtk, ep, message, &completion, atomic);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  623  	if (ret < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  624  		return ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  625  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  626  	if (atomic) {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01 @627  		ret = mbox_flush(rtk->mbox_chan, timeout);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  628  		if (ret < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  629  			return ret;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  630  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  631  		if (try_wait_for_completion(&completion))
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  632  			return 0;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  633  
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  634  		return -ETIME;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  635  	} else {
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  636  		t = wait_for_completion_interruptible_timeout(
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  637  			&completion, msecs_to_jiffies(timeout));
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  638  		if (t < 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  639  			return t;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  640  		else if (t == 0)
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  641  			return -ETIME;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  642  		return 0;
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  643  	}
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  644  }
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  645  EXPORT_SYMBOL_GPL(apple_rtkit_send_message_wait);
+9bd1d9a0d8bb1a Sven Peter 2022-05-01  646  
+
+:::::: The code at line 627 was first introduced by commit
+:::::: 9bd1d9a0d8bb1a549831fd98fcc3105960f7068b soc: apple: Add RTKit IPC library
+
+:::::: TO: Sven Peter <sven@svenpeter.dev>
+:::::: CC: Sven Peter <sven@svenpeter.dev>
 
 -- 
 0-DAY CI Kernel Test Service
