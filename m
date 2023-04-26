@@ -1,47 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313A56ADC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 19:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C9D6ADC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 19:36:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682537214; x=1714073214;
+  t=1682537813; x=1714073813;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G0bI8G9ZDBlhdRFffU/P7F0Ayww7ERWmduAf++G30qA=;
-  b=mYsCBpifxSVWD6FS1W4K+mJP0/dCMTCqWsKxm69Cv5roCE2eutZQe/00
-   0qbDH2rWIIcjhi9/ay41w3EO9xeeoe1YSxrLx36O09Fv+iE/D2Ia2C3K2
-   AZC7eQOHSxyhYho05AXmYLfojSY0zxDMlK9XceShhv2m0oobQavYQLKpM
-   TLRAu5pPUiRV98xdxKiT5CVIZF2lEMcrZUwjwTCPkEoHa8zhZkyoi+yrs
-   hxK4kq9vFgSGBnh3Mx+ghZQKd4B9tZUMbM2zx2abn6YpaFfNst6UEEmIC
-   aUA2CP3Hy6cf83O22XrQdNxF0fDQNb/e9Go1bInyKuVgxFijbtOEgJgKx
+  bh=VZeBJDvoNGRvLCXl6gWcEeOEBIgiOy7IfNluC1I2XMc=;
+  b=MJoKqrHQ6eafukIfNwd8W8YVE3UQCwSh3vdrwq4gE7o4hUQsPtjPiaXx
+   /DSB2T7Gg/vDQ8tGgRiL3LKLBrP9LCav+Ix7QU3KLjlxEP4XXWl25lLGG
+   D60ufdoLfTrDIg29MIERGw9GxG1I8pgtuHUd85BcRyn0uf3UgHwBjMfr9
+   cBkdfTt5pDNWmNkKAADbJRwVsjQB9SHzmeBcoxuhRzcQ//mhTCqMwiOt4
+   vQjwdljNBAWz/EEEW/WBNakGQBlxwv7zmHOvR+QBrvQgPdG9XgcR0mirY
+   e1KPgHhB8md4Eb2yS2YZLbh7+2H35npuY4YLlYBGay6NZcsOsybfJ6zNy
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="433504550"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="345975220"
 X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
-   d="scan'208";a="433504550"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 12:26:53 -0700
+   d="scan'208";a="345975220"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 12:36:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="726688093"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="783448168"
 X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
-   d="scan'208";a="726688093"
+   d="scan'208";a="783448168"
 Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 26 Apr 2023 12:26:51 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 26 Apr 2023 12:36:51 -0700
 Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prkmw-0000Ta-2A;
-	Wed, 26 Apr 2023 19:26:50 +0000
-Date: Thu, 27 Apr 2023 03:26:00 +0800
+	id 1prkwc-0000Tq-2b;
+	Wed, 26 Apr 2023 19:36:50 +0000
+Date: Thu, 27 Apr 2023 03:36:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rakesh Ughreja <rakesh.a.ughreja@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
-	Mark Brown <broonie@kernel.org>,
-	Cheng-Yi Chiang <cychiang@chromium.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Curtis Malainey <cujomalainey@chromium.org>
-Subject: [jsarha:topic/cros-sof-v4.19 3581/6555]
- sound/pci/hda/hda_hwdep.c:39: Error: unrecognized opcode `csrs sstatus,s3'
-Message-ID: <202304270324.oxaWEHBc-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.4 3942/27007]
+ drivers/rtc/hctosys.c:24:5: warning: no previous prototype for function
+ 'rtc_hctosys'
+Message-ID: <202304270348.lYT76t9s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,68 +47,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
-head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
-commit: ff84d736ac384f7d79f33290d6638207f5ae495c [3581/6555] UPSTREAM: ASoC: hdac_hda: add asoc extension for legacy HDA codec drivers
-config: riscv-randconfig-r042-20230426 (https://download.01.org/0day-ci/archive/20230427/202304270324.oxaWEHBc-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+Hi Steve,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   8a14194b61dad2ebb4f6ccef25f1e13c77e42a45
+commit: 5f378fd56aa3988be21e859254a2d72628d044c6 [3942/27007] ANDROID: rtc: class: support hctosys from modular RTC drivers
+config: x86_64-randconfig-a005 (https://download.01.org/0day-ci/archive/20230427/202304270348.lYT76t9s-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/jsarha/linux/commit/ff84d736ac384f7d79f33290d6638207f5ae495c
-        git remote add jsarha https://github.com/jsarha/linux
-        git fetch --no-tags jsarha topic/cros-sof-v4.19
-        git checkout ff84d736ac384f7d79f33290d6638207f5ae495c
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android12-5.4
+        git checkout 5f378fd56aa3988be21e859254a2d72628d044c6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash M=sound/pci/hda
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/mmc/host/ drivers/rtc/ lib/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304270324.oxaWEHBc-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304270348.lYT76t9s-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sound/pci/hda/hda_hwdep.c: Assembler messages:
-   sound/pci/hda/hda_hwdep.c:81: Error: unrecognized opcode `csrs sstatus,a4'
-   sound/pci/hda/hda_hwdep.c:81: Error: unrecognized opcode `csrc sstatus,a4'
->> sound/pci/hda/hda_hwdep.c:39: Error: unrecognized opcode `csrs sstatus,s3'
->> sound/pci/hda/hda_hwdep.c:39: Error: unrecognized opcode `csrc sstatus,s3'
-   sound/pci/hda/hda_hwdep.c:43: Error: unrecognized opcode `csrs sstatus,s3'
-   sound/pci/hda/hda_hwdep.c:43: Error: unrecognized opcode `csrc sstatus,s3'
-   sound/pci/hda/hda_hwdep.c:53: Error: unrecognized opcode `csrs sstatus,a3'
-   sound/pci/hda/hda_hwdep.c:53: Error: unrecognized opcode `csrc sstatus,a3'
-   sound/pci/hda/hda_hwdep.c:65: Error: unrecognized opcode `csrs sstatus,a3'
-   sound/pci/hda/hda_hwdep.c:65: Error: unrecognized opcode `csrc sstatus,a3'
+>> drivers/rtc/hctosys.c:24:5: warning: no previous prototype for function 'rtc_hctosys' [-Wmissing-prototypes]
+   int rtc_hctosys(void)
+       ^
+   drivers/rtc/hctosys.c:24:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int rtc_hctosys(void)
+   ^
+   static 
+   1 warning generated.
 
 
-vim +39 sound/pci/hda/hda_hwdep.c
+vim +/rtc_hctosys +24 drivers/rtc/hctosys.c
 
-2807314d467e7d Takashi Iwai 2007-07-27  30  
-2807314d467e7d Takashi Iwai 2007-07-27  31  /*
-2807314d467e7d Takashi Iwai 2007-07-27  32   * write/read an out-of-bound verb
-2807314d467e7d Takashi Iwai 2007-07-27  33   */
-2807314d467e7d Takashi Iwai 2007-07-27  34  static int verb_write_ioctl(struct hda_codec *codec,
-2807314d467e7d Takashi Iwai 2007-07-27  35  			    struct hda_verb_ioctl __user *arg)
-2807314d467e7d Takashi Iwai 2007-07-27  36  {
-2807314d467e7d Takashi Iwai 2007-07-27  37  	u32 verb, res;
-2807314d467e7d Takashi Iwai 2007-07-27  38  
-2807314d467e7d Takashi Iwai 2007-07-27 @39  	if (get_user(verb, &arg->verb))
-2807314d467e7d Takashi Iwai 2007-07-27  40  		return -EFAULT;
-2807314d467e7d Takashi Iwai 2007-07-27  41  	res = snd_hda_codec_read(codec, verb >> 24, 0,
-2807314d467e7d Takashi Iwai 2007-07-27  42  				 (verb >> 8) & 0xffff, verb & 0xff);
-2807314d467e7d Takashi Iwai 2007-07-27  43  	if (put_user(res, &arg->res))
-2807314d467e7d Takashi Iwai 2007-07-27  44  		return -EFAULT;
-2807314d467e7d Takashi Iwai 2007-07-27  45  	return 0;
-2807314d467e7d Takashi Iwai 2007-07-27  46  }
-2807314d467e7d Takashi Iwai 2007-07-27  47  
-
-:::::: The code at line 39 was first introduced by commit
-:::::: 2807314d467e7dd929c42050031aabbd28e78f0b [ALSA] hda-intel - Add hwdep interface
-
-:::::: TO: Takashi Iwai <tiwai@suse.de>
-:::::: CC: Jaroslav Kysela <perex@perex.cz>
+    12	
+    13	/* IMPORTANT: the RTC only stores whole seconds. It is arbitrary
+    14	 * whether it stores the most close value or the value with partial
+    15	 * seconds truncated. However, it is important that we use it to store
+    16	 * the truncated value. This is because otherwise it is necessary,
+    17	 * in an rtc sync function, to read both xtime.tv_sec and
+    18	 * xtime.tv_nsec. On some processors (i.e. ARM), an atomic read
+    19	 * of >32bits is not possible. So storing the most close value would
+    20	 * slow down the sync API. So here we have the truncated value and
+    21	 * the best guess is to add 0.5s.
+    22	 */
+    23	
+  > 24	int rtc_hctosys(void)
+    25	{
+    26		int err = -ENODEV;
+    27		struct rtc_time tm;
+    28		struct timespec64 tv64 = {
+    29			.tv_nsec = NSEC_PER_SEC >> 1,
+    30		};
+    31		struct rtc_device *rtc = rtc_class_open(CONFIG_RTC_HCTOSYS_DEVICE);
+    32	
+    33		if (!rtc) {
+    34			pr_info("unable to open rtc device (%s)\n",
+    35				CONFIG_RTC_HCTOSYS_DEVICE);
+    36			goto err_open;
+    37		}
+    38	
+    39		err = rtc_read_time(rtc, &tm);
+    40		if (err) {
+    41			dev_err(rtc->dev.parent,
+    42				"hctosys: unable to read the hardware clock\n");
+    43			goto err_read;
+    44		}
+    45	
+    46		tv64.tv_sec = rtc_tm_to_time64(&tm);
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
