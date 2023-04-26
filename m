@@ -1,45 +1,42 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D42D6FC7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 21:31:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876A32CA9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 23:13:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682544680; x=1714080680;
+  t=1682550789; x=1714086789;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=52MENiElqGjCKNBKCv975upmz0b8AA0oByjYCq6NpxA=;
-  b=f1IsmP8mIZglPxtMgQJRUG3lmC5tVDtSoijc2FB7/iRCFG7Q0aFxcVbx
-   1w2G+baaUgefGMDLHs7Pqyd4zHTnsqhzEUOSnQeCejNfbyIpYgZAvhlwr
-   qxsjWknGjhj25SkwkAOSDErKpemKhEtlhK/lR4jW98MsYxC7hRl82RaWk
-   PW13y3g3yoOEKfQoLOseNuReY3udCNkJ8Nd5Xgl40Z4nI0ilLpoPhj5b9
-   AI77skPXhhitzxj5ksRES7kFjZgBbgaRt/g3n4offQrEpHI5PEKNW05Gt
-   soVZuCGRUl35nXH054vwtsclWnsLxivaswUVdg2XgQOdmkEGRZThGIukQ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="326847776"
+  bh=tj4/4SJR3A80EubpHbG/8WwVkng3RDkku/BlhRGNzsY=;
+  b=Xnawdwaq/1UVx4gGullCE8vl4ygvZzc/FRRUdAox+ZIxL36VDlZjuOi5
+   OaGHXJhM6VjKxN5P23ZyB1e1x1FDDMDp/pQ6ez2dNyBL1SR+RTrv+wyzU
+   /tC8MJ73E1OQkgG1GlhRXAHjdxUUkgOLri/PwWssHGctWMb9wROY+YfSx
+   VttSngTB0gu4Ahmml31hXOU19AWoX+QxffyUhZGjTio8rVmACEO4YlSRQ
+   AEJlR9/cBgjo0h4bbMb8DZBKR6AEF90muyQFg4OdRuXxL3PtSr/6JhDI9
+   J5kZ6AUHgfKAJIB+Hhgfcm9fiJWuTOA+P8ItTsoD30Al3D+feVeqfE3oq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="346025137"
 X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
-   d="scan'208";a="326847776"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 14:31:05 -0700
+   d="scan'208";a="346025137"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 16:12:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="818253783"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="671528260"
 X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
-   d="scan'208";a="818253783"
+   d="scan'208";a="671528260"
 Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 26 Apr 2023 14:30:54 -0700
+  by orsmga006.jf.intel.com with ESMTP; 26 Apr 2023 16:12:55 -0700
 Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prmiz-0000XI-16;
-	Wed, 26 Apr 2023 21:30:53 +0000
-Date: Thu, 27 Apr 2023 05:30:15 +0800
+	id 1proJj-0000Zo-0a;
+	Wed, 26 Apr 2023 23:12:55 +0000
+Date: Thu, 27 Apr 2023 07:12:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Justin Stitt <jstitt007@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: drivers/infiniband/hw/qedr/verbs.c:4238:33: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202304270530.KnZhrFXD-lkp@intel.com>
+To: Guenter Roeck <groeck@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jsarha:topic/cros-sof-v4.19 716/6555] kernel/sys.c:195:5: warning:
+ no previous prototype for 'ksys_setpriority'
+Message-ID: <202304270714.HBqV3K0l-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,171 +46,225 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5c7ecada25d2086aee607ff7deb69e77faa4aa92
-commit: d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7 include/uapi/linux/swab.h: move explicit cast outside ternary
-date:   10 months ago
-config: sparc-randconfig-s052-20230426 (https://download.01.org/0day-ci/archive/20230427/202304270530.KnZhrFXD-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: c2185294ad509ea4a6859dc0b4c5e21a9f4ee224 [716/6555] CHROMIUM: alt-syscall: Make required syscalls available for use
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230427/202304270714.HBqV3K0l-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/jsarha/linux/commit/c2185294ad509ea4a6859dc0b4c5e21a9f4ee224
+        git remote add jsarha https://github.com/jsarha/linux
+        git fetch --no-tags jsarha topic/cros-sof-v4.19
+        git checkout c2185294ad509ea4a6859dc0b4c5e21a9f4ee224
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc SHELL=/bin/bash drivers/infiniband/hw/qedr/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/ kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304270530.KnZhrFXD-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304270714.HBqV3K0l-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/infiniband/hw/qedr/verbs.c:127:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be64 [usertype] sys_image_guid @@     got unsigned long long [usertype] sys_image_guid @@
-   drivers/infiniband/hw/qedr/verbs.c:127:30: sparse:     expected restricted __be64 [usertype] sys_image_guid
-   drivers/infiniband/hw/qedr/verbs.c:127:30: sparse:     got unsigned long long [usertype] sys_image_guid
-   drivers/infiniband/hw/qedr/verbs.c:1015:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] icid @@     got unsigned short [usertype] icid @@
-   drivers/infiniband/hw/qedr/verbs.c:1015:34: sparse:     expected restricted __le16 [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:1015:34: sparse:     got unsigned short [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:1400:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] icid @@     got int @@
-   drivers/infiniband/hw/qedr/verbs.c:1400:42: sparse:     expected restricted __le16 [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:1400:42: sparse:     got int
-   drivers/infiniband/hw/qedr/verbs.c:1410:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] icid @@     got unsigned short [usertype] icid @@
-   drivers/infiniband/hw/qedr/verbs.c:1410:42: sparse:     expected restricted __le16 [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:1410:42: sparse:     got unsigned short [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:1990:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] icid @@     got unsigned short [usertype] icid @@
-   drivers/infiniband/hw/qedr/verbs.c:1990:34: sparse:     expected restricted __le16 [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:1990:34: sparse:     got unsigned short [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:2001:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] icid @@     got unsigned short [usertype] icid @@
-   drivers/infiniband/hw/qedr/verbs.c:2001:34: sparse:     expected restricted __le16 [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:2001:34: sparse:     got unsigned short [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:2004:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] icid @@     got unsigned short [usertype] icid @@
-   drivers/infiniband/hw/qedr/verbs.c:2004:41: sparse:     expected restricted __le16 [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:2004:41: sparse:     got unsigned short [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:2005:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] value @@     got unsigned long @@
-   drivers/infiniband/hw/qedr/verbs.c:2005:42: sparse:     expected restricted __le16 [usertype] value
-   drivers/infiniband/hw/qedr/verbs.c:2005:42: sparse:     got unsigned long
-   drivers/infiniband/hw/qedr/verbs.c:3273:22: sparse: sparse: cast from restricted __le64
-   drivers/infiniband/hw/qedr/verbs.c:3273:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __be64 [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:3273:20: sparse:     expected unsigned long long [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3273:20: sparse:     got restricted __be64 [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3433:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] hi @@     got unsigned int [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:3433:24: sparse:     expected restricted __le32 [usertype] hi
-   drivers/infiniband/hw/qedr/verbs.c:3433:24: sparse:     got unsigned int [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3434:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] lo @@     got unsigned int [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:3434:24: sparse:     expected restricted __le32 [usertype] lo
-   drivers/infiniband/hw/qedr/verbs.c:3434:24: sparse:     got unsigned int [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3435:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] l_key @@     got unsigned int const [usertype] key @@
-   drivers/infiniband/hw/qedr/verbs.c:3435:22: sparse:     expected restricted __le32 [usertype] l_key
-   drivers/infiniband/hw/qedr/verbs.c:3435:22: sparse:     got unsigned int const [usertype] key
-   drivers/infiniband/hw/qedr/verbs.c:3454:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] length_lo @@     got unsigned long long [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3454:26: sparse:     expected restricted __le32 [usertype] length_lo
-   drivers/infiniband/hw/qedr/verbs.c:3454:26: sparse:     got unsigned long long [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3455:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] hi @@     got unsigned int [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:3455:28: sparse:     expected restricted __le32 [usertype] hi
-   drivers/infiniband/hw/qedr/verbs.c:3455:28: sparse:     got unsigned int [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3456:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] lo @@     got unsigned int [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:3456:28: sparse:     expected restricted __le32 [usertype] lo
-   drivers/infiniband/hw/qedr/verbs.c:3456:28: sparse:     got unsigned int [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3584:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] bytes_len @@     got restricted __le32 [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3584:54: sparse:     expected unsigned int [usertype] bytes_len
-   drivers/infiniband/hw/qedr/verbs.c:3584:54: sparse:     got restricted __le32 [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3597:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] bytes_len @@     got restricted __le32 [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3597:54: sparse:     expected unsigned int [usertype] bytes_len
-   drivers/infiniband/hw/qedr/verbs.c:3597:54: sparse:     got restricted __le32 [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3610:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] bytes_len @@     got restricted __le32 [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3610:54: sparse:     expected unsigned int [usertype] bytes_len
-   drivers/infiniband/hw/qedr/verbs.c:3610:54: sparse:     got restricted __le32 [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 const [usertype] imm_data @@
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse:     expected unsigned int [usertype] val
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse:     got restricted __be32 const [usertype] imm_data
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse: sparse: cast from restricted __be32
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse: sparse: cast from restricted __be32
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse: sparse: cast from restricted __be32
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse: sparse: cast from restricted __be32
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse: sparse: cast from restricted __le32
-   drivers/infiniband/hw/qedr/verbs.c:3623:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] imm_data @@     got restricted __be32 [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:3623:32: sparse:     expected restricted __le32 [usertype] imm_data
-   drivers/infiniband/hw/qedr/verbs.c:3623:32: sparse:     got restricted __be32 [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3630:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] bytes_len @@     got restricted __le32 [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3630:54: sparse:     expected unsigned int [usertype] bytes_len
-   drivers/infiniband/hw/qedr/verbs.c:3630:54: sparse:     got restricted __le32 [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3643:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] bytes_len @@     got restricted __le32 [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3643:54: sparse:     expected unsigned int [usertype] bytes_len
-   drivers/infiniband/hw/qedr/verbs.c:3643:54: sparse:     got restricted __le32 [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3660:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] bytes_len @@     got restricted __le32 [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3660:54: sparse:     expected unsigned int [usertype] bytes_len
-   drivers/infiniband/hw/qedr/verbs.c:3660:54: sparse:     got restricted __le32 [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3697:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] inv_l_key @@     got unsigned int const [usertype] invalidate_rkey @@
-   drivers/infiniband/hw/qedr/verbs.c:3697:33: sparse:     expected restricted __le32 [usertype] inv_l_key
-   drivers/infiniband/hw/qedr/verbs.c:3697:33: sparse:     got unsigned int const [usertype] invalidate_rkey
-   drivers/infiniband/hw/qedr/verbs.c:3779:42: sparse: sparse: restricted __le16 degrades to integer
-   drivers/infiniband/hw/qedr/verbs.c:3978:42: sparse: sparse: restricted __le16 degrades to integer
-   drivers/infiniband/hw/qedr/verbs.c:4007:43: sparse: sparse: cast from restricted __le32
-   drivers/infiniband/hw/qedr/verbs.c:4007:43: sparse: sparse: restricted __le32 degrades to integer
-   drivers/infiniband/hw/qedr/verbs.c:4103:68: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected unsigned short [usertype] hw_cons @@     got restricted __le16 [usertype] sq_cons @@
-   drivers/infiniband/hw/qedr/verbs.c:4103:68: sparse:     expected unsigned short [usertype] hw_cons
-   drivers/infiniband/hw/qedr/verbs.c:4103:68: sparse:     got restricted __le16 [usertype] sq_cons
-   drivers/infiniband/hw/qedr/verbs.c:4111:68: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected unsigned short [usertype] hw_cons @@     got restricted __le16 [usertype] sq_cons @@
-   drivers/infiniband/hw/qedr/verbs.c:4111:68: sparse:     expected unsigned short [usertype] hw_cons
-   drivers/infiniband/hw/qedr/verbs.c:4111:68: sparse:     got restricted __le16 [usertype] sq_cons
-   drivers/infiniband/hw/qedr/verbs.c:4118:38: sparse: sparse: restricted __le16 degrades to integer
-   drivers/infiniband/hw/qedr/verbs.c:4191:67: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected unsigned short [usertype] hw_cons @@     got restricted __le16 [usertype] sq_cons @@
-   drivers/infiniband/hw/qedr/verbs.c:4191:67: sparse:     expected unsigned short [usertype] hw_cons
-   drivers/infiniband/hw/qedr/verbs.c:4191:67: sparse:     got restricted __le16 [usertype] sq_cons
-   drivers/infiniband/hw/qedr/verbs.c:4376:46: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected unsigned short [usertype] hw_cons @@     got restricted __le16 [usertype] rq_cons_or_srq_id @@
-   drivers/infiniband/hw/qedr/verbs.c:4376:46: sparse:     expected unsigned short [usertype] hw_cons
-   drivers/infiniband/hw/qedr/verbs.c:4376:46: sparse:     got restricted __le16 [usertype] rq_cons_or_srq_id
-   drivers/infiniband/hw/qedr/verbs.c:1180:45: sparse: sparse: cast to restricted __be32
-   drivers/infiniband/hw/qedr/verbs.c:1181:45: sparse: sparse: cast to restricted __be32
->> drivers/infiniband/hw/qedr/verbs.c:4238:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] imm_data @@     got unsigned int [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:4238:33: sparse:     expected restricted __be32 [usertype] imm_data
-   drivers/infiniband/hw/qedr/verbs.c:4238:33: sparse:     got unsigned int [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +4238 drivers/infiniband/hw/qedr/verbs.c
+>> kernel/sys.c:195:5: warning: no previous prototype for 'ksys_setpriority' [-Wmissing-prototypes]
+     195 | int ksys_setpriority(int which, int who, int niceval)
+         |     ^~~~~~~~~~~~~~~~
+>> kernel/sys.c:270:5: warning: no previous prototype for 'ksys_getpriority' [-Wmissing-prototypes]
+     270 | int ksys_getpriority(int which, int who)
+         |     ^~~~~~~~~~~~~~~~
+   kernel/sys.c:2420:5: warning: no previous prototype for 'ksys_prctl' [-Wmissing-prototypes]
+    2420 | int ksys_prctl(int option, unsigned long arg2, unsigned long arg3,
+         |     ^~~~~~~~~~
+>> kernel/sys.c:2654:5: warning: no previous prototype for 'ksys_getcpu' [-Wmissing-prototypes]
+    2654 | int ksys_getcpu(unsigned __user *cpup, unsigned __user *nodep,
+         |     ^~~~~~~~~~~
+   kernel/sys.c: In function 'getrusage':
+   kernel/sys.c:1756:20: warning: this statement may fall through [-Wimplicit-fallthrough=]
+    1756 |                 if (who == RUSAGE_CHILDREN)
+         |                    ^
+   kernel/sys.c:1759:9: note: here
+    1759 |         case RUSAGE_SELF:
+         |         ^~~~
+--
+   kernel/events/core.c:5221:13: warning: no previous prototype for 'arch_perf_update_userpage' [-Wmissing-prototypes]
+    5221 | void __weak arch_perf_update_userpage(
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/events/core.c:10396:5: warning: no previous prototype for 'ksys_perf_event_open' [-Wmissing-prototypes]
+   10396 | int ksys_perf_event_open(struct perf_event_attr __user * attr_uptr, pid_t pid,
+         |     ^~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c:11596:6: warning: no previous prototype for 'perf_swevent_init_cpu' [-Wmissing-prototypes]
+   11596 | void perf_swevent_init_cpu(unsigned int cpu)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/events/core.c: In function 'perf_event_parse_addr_filter':
+   kernel/events/core.c:8921:32: warning: this statement may fall through [-Wimplicit-fallthrough=]
+    8921 |                         kernel = 1;
+         |                         ~~~~~~~^~~
+   kernel/events/core.c:8923:17: note: here
+    8923 |                 case IF_SRC_FILEADDR:
+         |                 ^~~~
+   kernel/events/core.c:133: warning: Function parameter or member 'cpu' not described in 'cpu_function_call'
+   kernel/events/core.c:10398: warning: Function parameter or member 'flags' not described in 'ksys_perf_event_open'
+   kernel/events/core.c:10843: warning: Function parameter or member 'overflow_handler' not described in 'perf_event_create_kernel_counter'
+   kernel/events/core.c:10843: warning: Function parameter or member 'context' not described in 'perf_event_create_kernel_counter'
+--
+>> kernel/time/time.c:266:5: warning: no previous prototype for 'ksys_adjtimex' [-Wmissing-prototypes]
+     266 | int ksys_adjtimex(struct timex __user * txc_p)
+         |     ^~~~~~~~~~~~~
+>> kernel/time/time.c:288:5: warning: no previous prototype for 'compat_ksys_adjtimex' [-Wmissing-prototypes]
+     288 | int compat_ksys_adjtimex(struct compat_timex __user * utp)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   kernel/time/time.c:898:5: warning: no previous prototype for '__compat_get_timespec64' [-Wmissing-prototypes]
+     898 | int __compat_get_timespec64(struct timespec64 *ts64,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/time/time.c:914:5: warning: no previous prototype for '__compat_put_timespec64' [-Wmissing-prototypes]
+     914 | int __compat_put_timespec64(const struct timespec64 *ts64,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
 
-b6acd71fefc92d Amrani, Ram     2017-04-27  4220  
-b6acd71fefc92d Amrani, Ram     2017-04-27  4221  static inline int qedr_set_ok_cqe_resp_wc(struct rdma_cqe_responder *resp,
-b6acd71fefc92d Amrani, Ram     2017-04-27  4222  					  struct ib_wc *wc)
-b6acd71fefc92d Amrani, Ram     2017-04-27  4223  {
-b6acd71fefc92d Amrani, Ram     2017-04-27  4224  	wc->status = IB_WC_SUCCESS;
-afa0e13be75430 Ram Amrani      2016-10-10  4225  	wc->byte_len = le32_to_cpu(resp->length);
-afa0e13be75430 Ram Amrani      2016-10-10  4226  
-b6acd71fefc92d Amrani, Ram     2017-04-27  4227  	if (resp->flags & QEDR_RESP_IMM) {
-7bed7ebcb7c33e Jason Gunthorpe 2018-01-11  4228  		wc->ex.imm_data = cpu_to_be32(le32_to_cpu(resp->imm_data_or_inv_r_Key));
-b6acd71fefc92d Amrani, Ram     2017-04-27  4229  		wc->wc_flags |= IB_WC_WITH_IMM;
-afa0e13be75430 Ram Amrani      2016-10-10  4230  
-b6acd71fefc92d Amrani, Ram     2017-04-27  4231  		if (resp->flags & QEDR_RESP_RDMA)
-afa0e13be75430 Ram Amrani      2016-10-10  4232  			wc->opcode = IB_WC_RECV_RDMA_WITH_IMM;
-afa0e13be75430 Ram Amrani      2016-10-10  4233  
-b6acd71fefc92d Amrani, Ram     2017-04-27  4234  		if (resp->flags & QEDR_RESP_INV)
-b6acd71fefc92d Amrani, Ram     2017-04-27  4235  			return -EINVAL;
-b6acd71fefc92d Amrani, Ram     2017-04-27  4236  
-b6acd71fefc92d Amrani, Ram     2017-04-27  4237  	} else if (resp->flags & QEDR_RESP_INV) {
-b6acd71fefc92d Amrani, Ram     2017-04-27 @4238  		wc->ex.imm_data = le32_to_cpu(resp->imm_data_or_inv_r_Key);
-b6acd71fefc92d Amrani, Ram     2017-04-27  4239  		wc->wc_flags |= IB_WC_WITH_INVALIDATE;
-b6acd71fefc92d Amrani, Ram     2017-04-27  4240  
-b6acd71fefc92d Amrani, Ram     2017-04-27  4241  		if (resp->flags & QEDR_RESP_RDMA)
-b6acd71fefc92d Amrani, Ram     2017-04-27  4242  			return -EINVAL;
-b6acd71fefc92d Amrani, Ram     2017-04-27  4243  
-b6acd71fefc92d Amrani, Ram     2017-04-27  4244  	} else if (resp->flags & QEDR_RESP_RDMA) {
-b6acd71fefc92d Amrani, Ram     2017-04-27  4245  		return -EINVAL;
-afa0e13be75430 Ram Amrani      2016-10-10  4246  	}
-b6acd71fefc92d Amrani, Ram     2017-04-27  4247  
-b6acd71fefc92d Amrani, Ram     2017-04-27  4248  	return 0;
-afa0e13be75430 Ram Amrani      2016-10-10  4249  }
-afa0e13be75430 Ram Amrani      2016-10-10  4250  
 
-:::::: The code at line 4238 was first introduced by commit
-:::::: b6acd71fefc92d13ac9a0f117101d1aab1102d18 RDMA/qedr: add support for send+invalidate in poll CQ
+vim +/ksys_setpriority +195 kernel/sys.c
 
-:::::: TO: Amrani, Ram <Ram.Amrani@cavium.com>
-:::::: CC: Doug Ledford <dledford@redhat.com>
+   194	
+ > 195	int ksys_setpriority(int which, int who, int niceval)
+   196	{
+   197		struct task_struct *g, *p;
+   198		struct user_struct *user;
+   199		const struct cred *cred = current_cred();
+   200		int error = -EINVAL;
+   201		struct pid *pgrp;
+   202		kuid_t uid;
+   203	
+   204		if (which > PRIO_USER || which < PRIO_PROCESS)
+   205			goto out;
+   206	
+   207		/* normalize: avoid signed division (rounding problems) */
+   208		error = -ESRCH;
+   209		if (niceval < MIN_NICE)
+   210			niceval = MIN_NICE;
+   211		if (niceval > MAX_NICE)
+   212			niceval = MAX_NICE;
+   213	
+   214		rcu_read_lock();
+   215		read_lock(&tasklist_lock);
+   216		switch (which) {
+   217		case PRIO_PROCESS:
+   218			if (who)
+   219				p = find_task_by_vpid(who);
+   220			else
+   221				p = current;
+   222			if (p)
+   223				error = set_one_prio(p, niceval, error);
+   224			break;
+   225		case PRIO_PGRP:
+   226			if (who)
+   227				pgrp = find_vpid(who);
+   228			else
+   229				pgrp = task_pgrp(current);
+   230			do_each_pid_thread(pgrp, PIDTYPE_PGID, p) {
+   231				error = set_one_prio(p, niceval, error);
+   232			} while_each_pid_thread(pgrp, PIDTYPE_PGID, p);
+   233			break;
+   234		case PRIO_USER:
+   235			uid = make_kuid(cred->user_ns, who);
+   236			user = cred->user;
+   237			if (!who)
+   238				uid = cred->uid;
+   239			else if (!uid_eq(uid, cred->uid)) {
+   240				user = find_user(uid);
+   241				if (!user)
+   242					goto out_unlock;	/* No processes for this user */
+   243			}
+   244			do_each_thread(g, p) {
+   245				if (uid_eq(task_uid(p), uid) && task_pid_vnr(p))
+   246					error = set_one_prio(p, niceval, error);
+   247			} while_each_thread(g, p);
+   248			if (!uid_eq(uid, cred->uid))
+   249				free_uid(user);		/* For find_user() */
+   250			break;
+   251		}
+   252	out_unlock:
+   253		read_unlock(&tasklist_lock);
+   254		rcu_read_unlock();
+   255	out:
+   256		return error;
+   257	}
+   258	
+   259	SYSCALL_DEFINE3(setpriority, int, which, int, who, int, niceval)
+   260	{
+   261		return ksys_setpriority(which, who, niceval);
+   262	}
+   263	
+   264	/*
+   265	 * Ugh. To avoid negative return values, "getpriority()" will
+   266	 * not return the normal nice-value, but a negated value that
+   267	 * has been offset by 20 (ie it returns 40..1 instead of -20..19)
+   268	 * to stay compatible.
+   269	 */
+ > 270	int ksys_getpriority(int which, int who)
+   271	{
+   272		struct task_struct *g, *p;
+   273		struct user_struct *user;
+   274		const struct cred *cred = current_cred();
+   275		long niceval, retval = -ESRCH;
+   276		struct pid *pgrp;
+   277		kuid_t uid;
+   278	
+   279		if (which > PRIO_USER || which < PRIO_PROCESS)
+   280			return -EINVAL;
+   281	
+   282		rcu_read_lock();
+   283		read_lock(&tasklist_lock);
+   284		switch (which) {
+   285		case PRIO_PROCESS:
+   286			if (who)
+   287				p = find_task_by_vpid(who);
+   288			else
+   289				p = current;
+   290			if (p) {
+   291				niceval = nice_to_rlimit(task_nice(p));
+   292				if (niceval > retval)
+   293					retval = niceval;
+   294			}
+   295			break;
+   296		case PRIO_PGRP:
+   297			if (who)
+   298				pgrp = find_vpid(who);
+   299			else
+   300				pgrp = task_pgrp(current);
+   301			do_each_pid_thread(pgrp, PIDTYPE_PGID, p) {
+   302				niceval = nice_to_rlimit(task_nice(p));
+   303				if (niceval > retval)
+   304					retval = niceval;
+   305			} while_each_pid_thread(pgrp, PIDTYPE_PGID, p);
+   306			break;
+   307		case PRIO_USER:
+   308			uid = make_kuid(cred->user_ns, who);
+   309			user = cred->user;
+   310			if (!who)
+   311				uid = cred->uid;
+   312			else if (!uid_eq(uid, cred->uid)) {
+   313				user = find_user(uid);
+   314				if (!user)
+   315					goto out_unlock;	/* No processes for this user */
+   316			}
+   317			do_each_thread(g, p) {
+   318				if (uid_eq(task_uid(p), uid) && task_pid_vnr(p)) {
+   319					niceval = nice_to_rlimit(task_nice(p));
+   320					if (niceval > retval)
+   321						retval = niceval;
+   322				}
+   323			} while_each_thread(g, p);
+   324			if (!uid_eq(uid, cred->uid))
+   325				free_uid(user);		/* for find_user() */
+   326			break;
+   327		}
+   328	out_unlock:
+   329		read_unlock(&tasklist_lock);
+   330		rcu_read_unlock();
+   331	
+   332		return retval;
+   333	}
+   334	
 
 -- 
 0-DAY CI Kernel Test Service
