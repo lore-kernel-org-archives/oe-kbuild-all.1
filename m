@@ -1,44 +1,44 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729112F2A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 18:44:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472BB63D2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 19:06:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682534692; x=1714070692;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0CzIEC/oN0tHaOwXU+WwM48YunR1KsxbE2FbltY+Fuo=;
-  b=R80ppMR7KFMEJFLSMVnvk8zrEd2LKczz04Hlx9jkhY9CWbxO5NLbGSaT
-   4zn++zv+rXABz5Wmx2D1rIRD4GU8SN1CZRt0XrKeMv9vUZcQqnMs6Ws0R
-   jFdFs2IoQq6cVdF4/mwU9AqMkICnjeO8XJU/3S8EPO3+Aztx2x55kdstS
-   T2LymrTIvufyoqJ52zaZ32l/wK4lZRoXOsCgbt50vPFMZLr9Ak+S7XwA4
-   Syg3pD1oy8GVpMP3z2SP+CTE0JCiwxDJZU6r0Y52tEkarjiKMPuBzzmzX
-   +L3IASWsFXrkeKENxCYKg7jgZtMRn7NykxCUUN8am3xhSxEaRsOJACh6x
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="349144706"
-X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
-   d="scan'208";a="349144706"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 11:44:51 -0700
+  t=1682535980; x=1714071980;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/wMmKhJsPnfod6X2Q9sWRQBQ+EFhpPQLi99UFxdS5mY=;
+  b=d5A//46XrRb4HpQN3x/5Rmc0++llquvVOKOcYJk9KsgdzPs3pGyXE6Vn
+   I2WjJOEO17ZdtS/KLD9flSZqmwJQnsDHqBeQ6Qq6/Ft2029LEBCK12Kh4
+   wsAlO3WykdaMqFNivRN4s6UpgHU7IjDEy2xliAMC9kz3mPzNCIZ6wXoDD
+   3VbUXnIsgEy+YL9lZdwuTUtOpHlDoRNKRCbqOJ3WHvJvUW0KwqLhEj1+N
+   s+rH5PbL+9zRgN9wDOxx8TOrr9fwrND8D2pRnJ3YzVbxY5LutFsPbXgTx
+   833h0jdzsmfBKIZPii/XQmMyJ1gFJ5Rq1XiZkvz8ZawNzr50orI6eVGM7
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="433498974"
+X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
+   d="scan'208";a="433498974"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 12:06:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="696737549"
-X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
-   d="scan'208";a="696737549"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="726682189"
+X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
+   d="scan'208";a="726682189"
 Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 26 Apr 2023 11:44:50 -0700
+  by orsmga001.jf.intel.com with ESMTP; 26 Apr 2023 12:05:51 -0700
 Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prk8H-0000Ru-1h;
-	Wed, 26 Apr 2023 18:44:49 +0000
-Date: Thu, 27 Apr 2023 02:44:35 +0800
+	id 1prkSc-0000TA-1Y;
+	Wed, 26 Apr 2023 19:05:50 +0000
+Date: Thu, 27 Apr 2023 03:05:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Muna Sinada <quic_msinada@quicinc.com>, johannes@sipsolutions.net
-Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
-	Muna Sinada <quic_msinada@quicinc.com>
-Subject: Re: [PATCH v4 3/3] cfg80211: Handle driver updated MU-EDCA params
-Message-ID: <202304270204.JgVVdj2h-lkp@intel.com>
-References: <1682471052-3452-3-git-send-email-quic_msinada@quicinc.com>
+To: Ruchi Kandoi <kandoiruchi@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <groeck@chromium.org>,
+	Amit Pundir <amit.pundir@linaro.org>
+Subject: [jsarha:topic/cros-sof-v4.19 130/6555]
+ kernel/power/wakeup_reason.c:108:12: warning: no previous prototype for
+ 'wakeup_reason_init'
+Message-ID: <202304270335.moYXZd7h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,93 +47,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1682471052-3452-3-git-send-email-quic_msinada@quicinc.com>
 
-Hi Muna,
+Hi Ruchi,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on next-20230426]
-[cannot apply to wireless/main linus/master v6.3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Muna-Sinada/wifi-mac80211-allow-userspace-to-enable-driver-control-of-MU-EDCA/20230426-090616
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/1682471052-3452-3-git-send-email-quic_msinada%40quicinc.com
-patch subject: [PATCH v4 3/3] cfg80211: Handle driver updated MU-EDCA params
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230427/202304270204.JgVVdj2h-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: d99dfffb06d060dcfbd86f5cf0360cfe7de67023 [130/6555] ANDROID: power: wakeup_reason: add an API to log wakeup reasons
+config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230427/202304270335.moYXZd7h-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c9d6aeb60bf675df0acddaa0a54159955e761861
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Muna-Sinada/wifi-mac80211-allow-userspace-to-enable-driver-control-of-MU-EDCA/20230426-090616
-        git checkout c9d6aeb60bf675df0acddaa0a54159955e761861
+        # https://github.com/jsarha/linux/commit/d99dfffb06d060dcfbd86f5cf0360cfe7de67023
+        git remote add jsarha https://github.com/jsarha/linux
+        git fetch --no-tags jsarha topic/cros-sof-v4.19
+        git checkout d99dfffb06d060dcfbd86f5cf0360cfe7de67023
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash net/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/ kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304270204.JgVVdj2h-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304270335.moYXZd7h-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from net/wireless/trace.h:3995,
-                    from net/wireless/trace.c:5:
-   net/wireless/./trace.h: In function 'trace_event_raw_event_cfg80211_update_muedca_params_event':
->> include/trace/stages/stage6_event_callback.h:9:17: error: expected ';' before 'entry'
-       9 | #define __entry entry
-         |                 ^~~~~
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   net/wireless/./trace.h:3788:1: note: in expansion of macro 'TRACE_EVENT'
-    3788 | TRACE_EVENT(cfg80211_update_muedca_params_event,
-         | ^~~~~~~~~~~
-   net/wireless/./trace.h:3808:9: note: in expansion of macro 'TP_fast_assign'
-    3808 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   net/wireless/./trace.h:3811:17: note: in expansion of macro '__entry'
-    3811 |                 __entry->be_aifsn = params->ac_be.aifsn
-         |                 ^~~~~~~
-   In file included from include/trace/define_trace.h:103:
-   net/wireless/./trace.h: In function 'perf_trace_cfg80211_update_muedca_params_event':
->> include/trace/stages/stage6_event_callback.h:9:17: error: expected ';' before 'entry'
-       9 | #define __entry entry
-         |                 ^~~~~
-   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   net/wireless/./trace.h:3788:1: note: in expansion of macro 'TRACE_EVENT'
-    3788 | TRACE_EVENT(cfg80211_update_muedca_params_event,
-         | ^~~~~~~~~~~
-   net/wireless/./trace.h:3808:9: note: in expansion of macro 'TP_fast_assign'
-    3808 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   net/wireless/./trace.h:3811:17: note: in expansion of macro '__entry'
-    3811 |                 __entry->be_aifsn = params->ac_be.aifsn
-         |                 ^~~~~~~
+>> kernel/power/wakeup_reason.c:108:12: warning: no previous prototype for 'wakeup_reason_init' [-Wmissing-prototypes]
+     108 | int __init wakeup_reason_init(void)
+         |            ^~~~~~~~~~~~~~~~~~
 
 
-vim +9 include/trace/stages/stage6_event_callback.h
+vim +/wakeup_reason_init +108 kernel/power/wakeup_reason.c
 
-92a22cea4c847b include/trace/stages/stage6_event_callback.h Steven Rostedt (Google  2023-01-24   7) 
-af6b9668e85ffd include/trace/stages/stage6_defines.h        Steven Rostedt (Google  2022-03-03   8) #undef __entry
-af6b9668e85ffd include/trace/stages/stage6_defines.h        Steven Rostedt (Google  2022-03-03  @9) #define __entry entry
-af6b9668e85ffd include/trace/stages/stage6_defines.h        Steven Rostedt (Google  2022-03-03  10) 
+   104	
+   105	/* Initializes the sysfs parameter
+   106	 * registers the pm_event notifier
+   107	 */
+ > 108	int __init wakeup_reason_init(void)
+   109	{
+   110		int retval;
+   111		spin_lock_init(&resume_reason_lock);
+   112		retval = register_pm_notifier(&wakeup_reason_pm_notifier_block);
+   113		if (retval)
+   114			printk(KERN_WARNING "[%s] failed to register PM notifier %d\n",
+   115					__func__, retval);
+   116	
+   117		wakeup_reason = kobject_create_and_add("wakeup_reasons", kernel_kobj);
+   118		if (!wakeup_reason) {
+   119			printk(KERN_WARNING "[%s] failed to create a sysfs kobject\n",
+   120					__func__);
+   121			return 1;
+   122		}
+   123		retval = sysfs_create_group(wakeup_reason, &attr_group);
+   124		if (retval) {
+   125			kobject_put(wakeup_reason);
+   126			printk(KERN_WARNING "[%s] failed to create a sysfs group %d\n",
+   127					__func__, retval);
+   128		}
+   129		return 0;
+   130	}
+   131	
 
 -- 
 0-DAY CI Kernel Test Service
