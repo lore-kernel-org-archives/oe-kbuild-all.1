@@ -1,45 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CEC538A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 17:42:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729112F2A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 18:44:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682530969; x=1714066969;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xRcs0B/eRzmEcbNKZvEudSDHNaIPum++FQBk4XtumU8=;
-  b=ZLe7+LbFqh8Cs9ZPdidKKNle3YXpNpwD/EkCKzOcsRRLQ/Q7eSXk3B3d
-   MrhrwOTyqOUTBtx6Y4tXO+dpqHJcYXHRV0OWoLY3wYdtunPb4HegdYCtP
-   qPxj/euXZwBmaGMBG3yC8Vf8niY/QJ84+4j5K2PELunfPRbLzS5m3rHZG
-   +pSglYVTbvA0gZ625EoIFcp64dBxRweivfXP6TeYb5mpfQUb/fgn1PCQ/
-   bMh1JaYRndUXB9Y/8Ucf4U4vI5/xYT/1yfSYliGWPjWQPMCLbjIlIqxDo
-   2izqZ7iX+yBLlA4A3EySTkfQp7ASpsyhMGYpeaFmwbsPaU0lWCtDEjsTY
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="326791670"
+  t=1682534692; x=1714070692;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0CzIEC/oN0tHaOwXU+WwM48YunR1KsxbE2FbltY+Fuo=;
+  b=R80ppMR7KFMEJFLSMVnvk8zrEd2LKczz04Hlx9jkhY9CWbxO5NLbGSaT
+   4zn++zv+rXABz5Wmx2D1rIRD4GU8SN1CZRt0XrKeMv9vUZcQqnMs6Ws0R
+   jFdFs2IoQq6cVdF4/mwU9AqMkICnjeO8XJU/3S8EPO3+Aztx2x55kdstS
+   T2LymrTIvufyoqJ52zaZ32l/wK4lZRoXOsCgbt50vPFMZLr9Ak+S7XwA4
+   Syg3pD1oy8GVpMP3z2SP+CTE0JCiwxDJZU6r0Y52tEkarjiKMPuBzzmzX
+   +L3IASWsFXrkeKENxCYKg7jgZtMRn7NykxCUUN8am3xhSxEaRsOJACh6x
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="349144706"
 X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
-   d="scan'208";a="326791670"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 10:42:49 -0700
+   d="scan'208";a="349144706"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 11:44:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="1023722535"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="696737549"
 X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
-   d="scan'208";a="1023722535"
+   d="scan'208";a="696737549"
 Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 26 Apr 2023 10:42:47 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 26 Apr 2023 11:44:50 -0700
 Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prjAE-0000Pa-28;
-	Wed, 26 Apr 2023 17:42:46 +0000
-Date: Thu, 27 Apr 2023 01:42:41 +0800
+	id 1prk8H-0000Ru-1h;
+	Wed, 26 Apr 2023 18:44:49 +0000
+Date: Thu, 27 Apr 2023 02:44:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Justin Stitt <jstitt007@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: drivers/net/ethernet/mediatek/mtk_eth_soc.c:2237:38: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202304270116.SvhuHUfR-lkp@intel.com>
+To: Muna Sinada <quic_msinada@quicinc.com>, johannes@sipsolutions.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	Muna Sinada <quic_msinada@quicinc.com>
+Subject: Re: [PATCH v4 3/3] cfg80211: Handle driver updated MU-EDCA params
+Message-ID: <202304270204.JgVVdj2h-lkp@intel.com>
+References: <1682471052-3452-3-git-send-email-quic_msinada@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,97 +47,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1682471052-3452-3-git-send-email-quic_msinada@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0cfd8703e7da687924371e9bc77a025bdeba9637
-commit: d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7 include/uapi/linux/swab.h: move explicit cast outside ternary
-date:   10 months ago
-config: alpha-randconfig-s032-20230426 (https://download.01.org/0day-ci/archive/20230427/202304270116.SvhuHUfR-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.1.0
-reproduce:
+Hi Muna,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on next-20230426]
+[cannot apply to wireless/main linus/master v6.3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Muna-Sinada/wifi-mac80211-allow-userspace-to-enable-driver-control-of-MU-EDCA/20230426-090616
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/1682471052-3452-3-git-send-email-quic_msinada%40quicinc.com
+patch subject: [PATCH v4 3/3] cfg80211: Handle driver updated MU-EDCA params
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230427/202304270204.JgVVdj2h-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7
+        # https://github.com/intel-lab-lkp/linux/commit/c9d6aeb60bf675df0acddaa0a54159955e761861
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Muna-Sinada/wifi-mac80211-allow-userspace-to-enable-driver-control-of-MU-EDCA/20230426-090616
+        git checkout c9d6aeb60bf675df0acddaa0a54159955e761861
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash drivers/net/ethernet/mediatek/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304270116.SvhuHUfR-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304270204.JgVVdj2h-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1371:45: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __sum16 [usertype] check @@     got restricted __be16 [usertype] @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1371:45: sparse:     expected restricted __sum16 [usertype] check
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1371:45: sparse:     got restricted __be16 [usertype]
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2132:22: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] ip @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2132:22: sparse:     expected unsigned int [usertype] val
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2132:22: sparse:     got restricted __be32 [usertype] ip
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2177:40: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] ip4dst @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2177:40: sparse:     expected unsigned int [usertype] val
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2177:40: sparse:     got restricted __be32 [usertype] ip4dst
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2177:40: sparse: sparse: cast from restricted __be32
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2177:40: sparse: sparse: cast from restricted __be32
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2177:40: sparse: sparse: cast from restricted __be32
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2177:40: sparse: sparse: cast from restricted __be32
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:2237:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] ip4dst @@     got unsigned int [usertype] @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2237:38: sparse:     expected restricted __be32 [usertype] ip4dst
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2237:38: sparse:     got unsigned int [usertype]
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2241:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] ip4src @@     got unsigned int @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2241:38: sparse:     expected restricted __be32 [usertype] ip4src
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2241:38: sparse:     got unsigned int
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2243:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] psrc @@     got int @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2243:36: sparse:     expected restricted __be16 [usertype] psrc
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2243:36: sparse:     got int
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2245:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] pdst @@     got int @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2245:36: sparse:     expected restricted __be16 [usertype] pdst
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:2245:36: sparse:     got int
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:820:9: sparse: sparse: context imbalance in 'mtk_stats_update' - different lock contexts for basic block
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:845:50: sparse: sparse: context imbalance in 'mtk_get_stats64' - wrong count at exit
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:3145:13: sparse: sparse: context imbalance in 'mtk_get_ethtool_stats' - different lock contexts for basic block
+All errors (new ones prefixed by >>):
 
-vim +2237 drivers/net/ethernet/mediatek/mtk_eth_soc.c
+   In file included from include/trace/define_trace.h:102,
+                    from net/wireless/trace.h:3995,
+                    from net/wireless/trace.c:5:
+   net/wireless/./trace.h: In function 'trace_event_raw_event_cfg80211_update_muedca_params_event':
+>> include/trace/stages/stage6_event_callback.h:9:17: error: expected ';' before 'entry'
+       9 | #define __entry entry
+         |                 ^~~~~
+   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+     402 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   net/wireless/./trace.h:3788:1: note: in expansion of macro 'TRACE_EVENT'
+    3788 | TRACE_EVENT(cfg80211_update_muedca_params_event,
+         | ^~~~~~~~~~~
+   net/wireless/./trace.h:3808:9: note: in expansion of macro 'TP_fast_assign'
+    3808 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
+   net/wireless/./trace.h:3811:17: note: in expansion of macro '__entry'
+    3811 |                 __entry->be_aifsn = params->ac_be.aifsn
+         |                 ^~~~~~~
+   In file included from include/trace/define_trace.h:103:
+   net/wireless/./trace.h: In function 'perf_trace_cfg80211_update_muedca_params_event':
+>> include/trace/stages/stage6_event_callback.h:9:17: error: expected ';' before 'entry'
+       9 | #define __entry entry
+         |                 ^~~~~
+   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
+      51 |         { assign; }                                                     \
+         |           ^~~~~~
+   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
+      44 |                              PARAMS(assign),                   \
+         |                              ^~~~~~
+   net/wireless/./trace.h:3788:1: note: in expansion of macro 'TRACE_EVENT'
+    3788 | TRACE_EVENT(cfg80211_update_muedca_params_event,
+         | ^~~~~~~~~~~
+   net/wireless/./trace.h:3808:9: note: in expansion of macro 'TP_fast_assign'
+    3808 |         TP_fast_assign(
+         |         ^~~~~~~~~~~~~~
+   net/wireless/./trace.h:3811:17: note: in expansion of macro '__entry'
+    3811 |                 __entry->be_aifsn = params->ac_be.aifsn
+         |                 ^~~~~~~
 
-7aab747e5563ec Nelson Chang  2016-09-17  2224  
-7aab747e5563ec Nelson Chang  2016-09-17  2225  static int mtk_hwlro_get_fdir_entry(struct net_device *dev,
-7aab747e5563ec Nelson Chang  2016-09-17  2226  				    struct ethtool_rxnfc *cmd)
-7aab747e5563ec Nelson Chang  2016-09-17  2227  {
-7aab747e5563ec Nelson Chang  2016-09-17  2228  	struct mtk_mac *mac = netdev_priv(dev);
-7aab747e5563ec Nelson Chang  2016-09-17  2229  	struct ethtool_rx_flow_spec *fsp =
-7aab747e5563ec Nelson Chang  2016-09-17  2230  		(struct ethtool_rx_flow_spec *)&cmd->fs;
-7aab747e5563ec Nelson Chang  2016-09-17  2231  
-e7e7104e2d5ddf Dan Carpenter 2022-05-26  2232  	if (fsp->location >= ARRAY_SIZE(mac->hwlro_ip))
-e7e7104e2d5ddf Dan Carpenter 2022-05-26  2233  		return -EINVAL;
-e7e7104e2d5ddf Dan Carpenter 2022-05-26  2234  
-7aab747e5563ec Nelson Chang  2016-09-17  2235  	/* only tcp dst ipv4 is meaningful, others are meaningless */
-7aab747e5563ec Nelson Chang  2016-09-17  2236  	fsp->flow_type = TCP_V4_FLOW;
-7aab747e5563ec Nelson Chang  2016-09-17 @2237  	fsp->h_u.tcp_ip4_spec.ip4dst = ntohl(mac->hwlro_ip[fsp->location]);
-7aab747e5563ec Nelson Chang  2016-09-17  2238  	fsp->m_u.tcp_ip4_spec.ip4dst = 0;
-7aab747e5563ec Nelson Chang  2016-09-17  2239  
-7aab747e5563ec Nelson Chang  2016-09-17  2240  	fsp->h_u.tcp_ip4_spec.ip4src = 0;
-7aab747e5563ec Nelson Chang  2016-09-17  2241  	fsp->m_u.tcp_ip4_spec.ip4src = 0xffffffff;
-7aab747e5563ec Nelson Chang  2016-09-17  2242  	fsp->h_u.tcp_ip4_spec.psrc = 0;
-7aab747e5563ec Nelson Chang  2016-09-17  2243  	fsp->m_u.tcp_ip4_spec.psrc = 0xffff;
-7aab747e5563ec Nelson Chang  2016-09-17  2244  	fsp->h_u.tcp_ip4_spec.pdst = 0;
-7aab747e5563ec Nelson Chang  2016-09-17  2245  	fsp->m_u.tcp_ip4_spec.pdst = 0xffff;
-7aab747e5563ec Nelson Chang  2016-09-17  2246  	fsp->h_u.tcp_ip4_spec.tos = 0;
-7aab747e5563ec Nelson Chang  2016-09-17  2247  	fsp->m_u.tcp_ip4_spec.tos = 0xff;
-7aab747e5563ec Nelson Chang  2016-09-17  2248  
-7aab747e5563ec Nelson Chang  2016-09-17  2249  	return 0;
-7aab747e5563ec Nelson Chang  2016-09-17  2250  }
-7aab747e5563ec Nelson Chang  2016-09-17  2251  
 
-:::::: The code at line 2237 was first introduced by commit
-:::::: 7aab747e5563ecbc9f3cb64ddea13fe7b9fee2bd net: ethernet: mediatek: add ethtool functions to configure RX flows of HW LRO
+vim +9 include/trace/stages/stage6_event_callback.h
 
-:::::: TO: Nelson Chang <nelson.chang@mediatek.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+92a22cea4c847b include/trace/stages/stage6_event_callback.h Steven Rostedt (Google  2023-01-24   7) 
+af6b9668e85ffd include/trace/stages/stage6_defines.h        Steven Rostedt (Google  2022-03-03   8) #undef __entry
+af6b9668e85ffd include/trace/stages/stage6_defines.h        Steven Rostedt (Google  2022-03-03  @9) #define __entry entry
+af6b9668e85ffd include/trace/stages/stage6_defines.h        Steven Rostedt (Google  2022-03-03  10) 
 
 -- 
 0-DAY CI Kernel Test Service
