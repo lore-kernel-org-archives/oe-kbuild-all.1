@@ -1,136 +1,144 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805396FC7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 21:15:32 +0000 (UTC)
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id D62B841871
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 21:15:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1682543724;
-	bh=WO2c3QM9J7axXEQOngfO/arhgrhg0yjzoiVitFexdWg=;
-	h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
-	 Content-Type:Date:Message-ID;
-	b=it5PWQFw08L88qZC5chfmTwfVsYoQViZxNxavXSPLvjZNEl9tqnRi1hI0EHHaIlvY
-	 B9sATXWC97VCsFuhWtTfI4S1zCtdz1/FCOtO61sfK3aTMitYCXHvgoiu9sRiingoDW
-	 B/2K0XSe3KgdxncaDRsiNmdpbnC0njUCE2pXDnywNvzaEIUfX+39t1BqAmYn/QJDQi
-	 nKNchkra8hh58FyQURoLsm7OmPYsX8UdoKTSPualeKAiAfIPTvknuKOsi9S5RYsnYI
-	 Xztzu7PXoS3IYkkj8EUDDX8Qa35zel6tAfyZ9DFqYRhOR0vFwuFaQoBzIV7qHxct1e
-	 3EozeaZT4D9Hg==
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-63b5465fb62so5520913b3a.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 14:15:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682543723; x=1685135723;
-        h=message-id:date:content-transfer-encoding:content-id:mime-version
-         :comments:references:in-reply-to:subject:cc:to:from
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WO2c3QM9J7axXEQOngfO/arhgrhg0yjzoiVitFexdWg=;
-        b=ZqHvJCNZIoRYsR5TATBzHjQndTwQfawssbJUxfaIf9E0gbMeCWIL48mUDhEX1lwZvZ
-         Cr0PshyhLbUD5YsZbGsh/u1rUT0l4YNGEX4kchSsE7UdYGeZCTVWlxh9/1398kLbJOud
-         ebJQuQOYi4WucsvhsdiJUD2+fkYSM9/hqmWSgjGaMrUCU2S8kBJVpVn6GxDVB1YXZg9y
-         znK1e4HFkB1UQ5BgzdxeITn8PFqaiWBD1GkwlK3tyWSr1dmnltWP+QJ89szc/lCj8ob3
-         hwjE+Mh6CyYq4JR1SPxTZaWjalZYOahrULplvS8C7Z5wUxuyOxs4D7x+1nGSE5XuWgCV
-         ESFg==
-X-Gm-Message-State: AAQBX9eyUjY+VZUDNcALZ1q8SJQennBteWx26x3Ai6tFP+BNclOF+7dT
-	b2+J3XANOfCDtA8muoVk0EWWObvkAtLVHL1tBtxELgihKnQ87E9Q+tJ0a8cYeelSEf3U6iicXbo
-	cpEGEn7X9P8CPuJKjGmfUHAFv6ECdsrJoV6L5uGV2kQI=
-X-Received: by 2002:a05:6a00:ac3:b0:63d:2382:4948 with SMTP id c3-20020a056a000ac300b0063d23824948mr29162871pfl.25.1682543723398;
-        Wed, 26 Apr 2023 14:15:23 -0700 (PDT)
-X-Google-Smtp-Source: AKy350aLFPMOcznpmw39PtHH5ZrOjpUuKLVNM0kgS7r7e2/TF4bx6EP+Zr6LN5kX9ocQOqXnZ0Am2A==
-X-Received: by 2002:a05:6a00:ac3:b0:63d:2382:4948 with SMTP id c3-20020a056a000ac300b0063d23824948mr29162829pfl.25.1682543723027;
-        Wed, 26 Apr 2023 14:15:23 -0700 (PDT)
-Received: from famine.localdomain ([50.125.80.253])
-        by smtp.gmail.com with ESMTPSA id h8-20020a056a00170800b00571cdbd0771sm11752872pfc.102.2023.04.26.14.15.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 26 Apr 2023 14:15:22 -0700 (PDT)
-Received: by famine.localdomain (Postfix, from userid 1000)
-	id 062D761E6C; Wed, 26 Apr 2023 14:15:21 -0700 (PDT)
-Received: from famine (localhost [127.0.0.1])
-	by famine.localdomain (Postfix) with ESMTP id F2C509FB79;
-	Wed, 26 Apr 2023 14:15:21 -0700 (PDT)
-From: Jay Vosburgh <jay.vosburgh@canonical.com>
-To: Hangbin Liu <liuhangbin@gmail.com>
-cc: Jakub Kicinski <kuba@kernel.org>, kernel test robot <lkp@intel.com>,
-    netdev@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-    "David S . Miller" <davem@davemloft.net>,
-    Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
-    Liang Li <liali@redhat.com>, Vincent Bernat <vincent@bernat.ch>
-Subject: Re: [PATCH net 1/4] bonding: fix send_peer_notif overflow
-In-reply-to: <ZEjM0aTEyxHgAcwa@Laptop-X1>
-References: <20230420082230.2968883-2-liuhangbin@gmail.com> <202304202222.eUq4Xfv8-lkp@intel.com> <27709.1682006380@famine> <20230420162139.3926e85c@kernel.org> <ZEIGCaLWKIY3lDBo@Laptop-X1> <6347.1682053997@famine> <ZEJdfWNwzfjpTXom@Laptop-X1> <ZEjM0aTEyxHgAcwa@Laptop-X1>
-Comments: In-reply-to Hangbin Liu <liuhangbin@gmail.com>
-   message dated "Wed, 26 Apr 2023 15:03:45 +0800."
-X-Mailer: MH-E 8.6+git; nmh 1.6; Emacs 29.0.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA916FC7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 21:21:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682544070; x=1714080070;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+oUvQZIZK5d+wcyfBlKGDZ+4fheT9tXp50SuAENlQUo=;
+  b=PJLUQC2FUbfE9t9ghEs1B2vHUlYBizHwnoNT9icQs/ik/M0qqqlhn3+U
+   937fgeXaQNmCYNX46HQiwYuW0/mR6h0XIBJWsgH2goaNN7hKNujCDfoFq
+   XfDnsq3VFGNDVlErk6+rdILv7jR37rf4gyfn9gfYDsIdQ4UpPqpAStkJV
+   ChJTa7HMOzZRLUSM/pyI9XXgHIIjx3TktU9F4Uklqhxv4SQ5mn7p85mFK
+   BcQ18T3ymm2MnqxiiNsQfs500p4g2L5yHYJocjH/EY9IzcZ6faD4PAQ1P
+   uYYExPFjEMI7zc7xRsF5MYqS+wo/9fUGe2qhzqPcIH2PeurrHCTHtl9IG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="344688980"
+X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
+   d="scan'208";a="344688980"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 14:20:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="805677424"
+X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
+   d="scan'208";a="805677424"
+Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 26 Apr 2023 14:20:53 -0700
+Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1prmZJ-0000X0-0E;
+	Wed, 26 Apr 2023 21:20:53 +0000
+Date: Thu, 27 Apr 2023 05:20:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alobakin:ip_tunnel 8/13] net/ipv4/fou_bpf.c:69:35: error:
+ 'TUNNEL_CSUM' undeclared
+Message-ID: <202304270550.omOpQWCX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <8352.1682543721.1@famine>
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 26 Apr 2023 14:15:21 -0700
-Message-ID: <8353.1682543721@famine>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hangbin Liu <liuhangbin@gmail.com> wrote:
+tree:   https://github.com/alobakin/linux ip_tunnel
+head:   f74bfcd5e2a03cf74e1712f972721fda28d1dcea
+commit: fcdcb3cb96f06940e09254b1fbcca0695506193a [8/13] ip_tunnel: convert __be16 tunnel flags to bitmaps
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20230427/202304270550.omOpQWCX-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/alobakin/linux/commit/fcdcb3cb96f06940e09254b1fbcca0695506193a
+        git remote add alobakin https://github.com/alobakin/linux
+        git fetch --no-tags alobakin ip_tunnel
+        git checkout fcdcb3cb96f06940e09254b1fbcca0695506193a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash net/ipv4/
 
->On Fri, Apr 21, 2023 at 05:55:16PM +0800, Hangbin Liu wrote:
->> > 	I'm fine to limit the peerf_notif_delay range and then use a
->> > smaller type.
->> > =
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304270550.omOpQWCX-lkp@intel.com/
 
->> > 	num_peer_notif is already limited to 255; I'm going to suggest a
->> > limit to the delay of 300 seconds.  That seems like an absurdly long
->> > time for this; I didn't do any kind of science to come up with that
->> > number.
->> > =
+All errors (new ones prefixed by >>):
 
->> > 	As peer_notif_delay is stored in units of miimon intervals, that
->> > gives a worst case peer_notif_delay value of 300000 if miimon is 1, a=
-nd
->> > 255 * 300000 fits easily in a u32 for send_peer_notif.
->> =
+   net/ipv4/fou_bpf.c: In function 'bpf_skb_set_fou_encap':
+>> net/ipv4/fou_bpf.c:69:35: error: 'TUNNEL_CSUM' undeclared (first use in this function)
+      69 |         if (info->key.tun_flags & TUNNEL_CSUM)
+         |                                   ^~~~~~~~~~~
+   net/ipv4/fou_bpf.c:69:35: note: each undeclared identifier is reported only once for each function it appears in
 
->> OK, I just found another overflow. In bond_fill_info(),
->> or bond_option_miimon_set():
->> =
 
->>         if (nla_put_u32(skb, IFLA_BOND_PEER_NOTIF_DELAY,
->>                         bond->params.peer_notif_delay * bond->params.mi=
-imon))
->>                 goto nla_put_failure;
->> =
+vim +/TUNNEL_CSUM +69 net/ipv4/fou_bpf.c
 
->> Since both peer_notif_delay and miimon are defined as int, there is a
->> possibility that the fill in number got overflowed. The same with up/do=
-wn delay.
->> =
+c50e96099edb13 Christian Ehrig 2023-04-07  24  
+c50e96099edb13 Christian Ehrig 2023-04-07  25  __diag_push();
+c50e96099edb13 Christian Ehrig 2023-04-07  26  __diag_ignore_all("-Wmissing-prototypes",
+c50e96099edb13 Christian Ehrig 2023-04-07  27  		  "Global functions as their definitions will be in BTF");
+c50e96099edb13 Christian Ehrig 2023-04-07  28  
+c50e96099edb13 Christian Ehrig 2023-04-07  29  /* bpf_skb_set_fou_encap - Set FOU encap parameters
+c50e96099edb13 Christian Ehrig 2023-04-07  30   *
+c50e96099edb13 Christian Ehrig 2023-04-07  31   * This function allows for using GUE or FOU encapsulation together with an
+c50e96099edb13 Christian Ehrig 2023-04-07  32   * ipip device in collect-metadata mode.
+c50e96099edb13 Christian Ehrig 2023-04-07  33   *
+c50e96099edb13 Christian Ehrig 2023-04-07  34   * It is meant to be used in BPF tc-hooks and after a call to the
+c50e96099edb13 Christian Ehrig 2023-04-07  35   * bpf_skb_set_tunnel_key helper, responsible for setting IP addresses.
+c50e96099edb13 Christian Ehrig 2023-04-07  36   *
+c50e96099edb13 Christian Ehrig 2023-04-07  37   * Parameters:
+c50e96099edb13 Christian Ehrig 2023-04-07  38   * @skb_ctx	Pointer to ctx (__sk_buff) in TC program. Cannot be NULL
+c50e96099edb13 Christian Ehrig 2023-04-07  39   * @encap	Pointer to a `struct bpf_fou_encap` storing UDP src and
+c50e96099edb13 Christian Ehrig 2023-04-07  40   * 		dst ports. If sport is set to 0 the kernel will auto-assign a
+c50e96099edb13 Christian Ehrig 2023-04-07  41   * 		port. This is similar to using `encap-sport auto`.
+c50e96099edb13 Christian Ehrig 2023-04-07  42   * 		Cannot be NULL
+c50e96099edb13 Christian Ehrig 2023-04-07  43   * @type	Encapsulation type for the packet. Their definitions are
+c50e96099edb13 Christian Ehrig 2023-04-07  44   * 		specified in `enum bpf_fou_encap_type`
+c50e96099edb13 Christian Ehrig 2023-04-07  45   */
+c50e96099edb13 Christian Ehrig 2023-04-07  46  __bpf_kfunc int bpf_skb_set_fou_encap(struct __sk_buff *skb_ctx,
+c50e96099edb13 Christian Ehrig 2023-04-07  47  				      struct bpf_fou_encap *encap, int type)
+c50e96099edb13 Christian Ehrig 2023-04-07  48  {
+c50e96099edb13 Christian Ehrig 2023-04-07  49  	struct sk_buff *skb = (struct sk_buff *)skb_ctx;
+c50e96099edb13 Christian Ehrig 2023-04-07  50  	struct ip_tunnel_info *info = skb_tunnel_info(skb);
+c50e96099edb13 Christian Ehrig 2023-04-07  51  
+c50e96099edb13 Christian Ehrig 2023-04-07  52  	if (unlikely(!encap))
+c50e96099edb13 Christian Ehrig 2023-04-07  53  		return -EINVAL;
+c50e96099edb13 Christian Ehrig 2023-04-07  54  
+c50e96099edb13 Christian Ehrig 2023-04-07  55  	if (unlikely(!info || !(info->mode & IP_TUNNEL_INFO_TX)))
+c50e96099edb13 Christian Ehrig 2023-04-07  56  		return -EINVAL;
+c50e96099edb13 Christian Ehrig 2023-04-07  57  
+c50e96099edb13 Christian Ehrig 2023-04-07  58  	switch (type) {
+c50e96099edb13 Christian Ehrig 2023-04-07  59  	case FOU_BPF_ENCAP_FOU:
+c50e96099edb13 Christian Ehrig 2023-04-07  60  		info->encap.type = TUNNEL_ENCAP_FOU;
+c50e96099edb13 Christian Ehrig 2023-04-07  61  		break;
+c50e96099edb13 Christian Ehrig 2023-04-07  62  	case FOU_BPF_ENCAP_GUE:
+c50e96099edb13 Christian Ehrig 2023-04-07  63  		info->encap.type = TUNNEL_ENCAP_GUE;
+c50e96099edb13 Christian Ehrig 2023-04-07  64  		break;
+c50e96099edb13 Christian Ehrig 2023-04-07  65  	default:
+c50e96099edb13 Christian Ehrig 2023-04-07  66  		info->encap.type = TUNNEL_ENCAP_NONE;
+c50e96099edb13 Christian Ehrig 2023-04-07  67  	}
+c50e96099edb13 Christian Ehrig 2023-04-07  68  
+c50e96099edb13 Christian Ehrig 2023-04-07 @69  	if (info->key.tun_flags & TUNNEL_CSUM)
+c50e96099edb13 Christian Ehrig 2023-04-07  70  		info->encap.flags |= TUNNEL_ENCAP_FLAG_CSUM;
+c50e96099edb13 Christian Ehrig 2023-04-07  71  
+c50e96099edb13 Christian Ehrig 2023-04-07  72  	info->encap.sport = encap->sport;
+c50e96099edb13 Christian Ehrig 2023-04-07  73  	info->encap.dport = encap->dport;
+c50e96099edb13 Christian Ehrig 2023-04-07  74  
+c50e96099edb13 Christian Ehrig 2023-04-07  75  	return 0;
+c50e96099edb13 Christian Ehrig 2023-04-07  76  }
+c50e96099edb13 Christian Ehrig 2023-04-07  77  
 
->> Even we limit the peer_notif_delay to 300s, which is 30000, there is st=
-ill has
->> possibility got overflowed if we set miimon large enough.
->> =
+:::::: The code at line 69 was first introduced by commit
+:::::: c50e96099edb134bf107fafc02715fbc4aa2277f bpf,fou: Add bpf_skb_{set,get}_fou_encap kfuncs
 
->> This overflow should only has effect on use space shown since it's a
->> multiplication result. The kernel part works fine. I'm not sure if we s=
-hould
->> also limit the miimon, up/down delay values..
->
->Hi Jay,
->
->Any comments for this issue? Should I send the send_peer_notif fix first =
-and
->discuss the miimon, up/down delay userspace overflow issue later?
+:::::: TO: Christian Ehrig <cehrig@cloudflare.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
-	Let's sort out the current send_peer_notif problems first.  I
-don't see that the lack of upper bounds for miimon or up/down delay
-causes issues for any reasonable configuration, so it can wait a bit.
-
-	-J
-
----
-	-Jay Vosburgh, jay.vosburgh@canonical.com
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
