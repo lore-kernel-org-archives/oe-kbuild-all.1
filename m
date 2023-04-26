@@ -1,218 +1,241 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F8823BE;
-	Wed, 26 Apr 2023 13:37:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682516261; x=1714052261;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mATRcWr0aXBkhLDJViNyss0Ax7HbjLO0ufWDkBE/ZRI=;
-  b=E51pJZXhqlIXVjLW1cQuR0YzXtUHBGK0P5X6Ia8tb3h6qV8MTcaoSNH0
-   RAoK6fP9cbUBGAzi65oPjkRr9Arkjq+c+PdtVTcxCsifAn2lciHH3oeZc
-   l6eBoGw63nTOQW4TDX/N4BL1EqNm5FADXZ2JxepECUjGYTNYCPeoCT4QA
-   3E3tschBE1isyVwLdkO2NukPSRA7y3l8Sw2gWR4mY2X+A6QhVJFqPHmzq
-   FkePvOy+jX9ys9T3Q9nW0ZKfkm04O1+B2AdDHXDpjUAxT2KMytR3b/CKB
-   ML+NlJvdZFUhK9kZIdWeEXiQZdv2Knzkvqxfd3EztxPbhfUQJvGFokboY
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="327432226"
-X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
-   d="scan'208";a="327432226"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 06:37:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="726524482"
-X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
-   d="scan'208";a="726524482"
-Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 26 Apr 2023 06:37:35 -0700
-Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1prfKx-0000EK-0h;
-	Wed, 26 Apr 2023 13:37:35 +0000
-Date: Wed, 26 Apr 2023 21:37:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, oxffffaa@gmail.com,
-	kernel@sberdevices.ru, linux-mtd@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v1] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
-Message-ID: <202304262101.pP2ae1ol-lkp@intel.com>
-References: <20230426072455.3887717-1-AVKrasnov@sberdevices.ru>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1212FB6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 14:24:08 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id DC9B7218F2;
+	Wed, 26 Apr 2023 14:24:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1682519046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n6mQUD1ynKTYG3hNgIqZs81lO+ivxQ/TawT6mi+o4Lo=;
+	b=oEXL5HkfbiDZ+vrrx2ox8CrPEfOmfYf/EEI/tK54cOrUn0YMGs593jymPaA274PLMylQkt
+	QJelOFjlTCVXY8EWh7HkJ2wrLtiulrGbvqPXerlg+9DU/iliyodvQnXI55Ll+P9iV/HdLT
+	liq/THKIl09Z5W02z79JJDDJaXkH9QM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1682519046;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n6mQUD1ynKTYG3hNgIqZs81lO+ivxQ/TawT6mi+o4Lo=;
+	b=SCYeYuPa66/XI1iHJ9nvGZt5cwgKkL5IX1nmC/Y1HYukmJrdeqTG1oj/teSWvVZ7NmGUPQ
+	goRs0jhdQe1LIEDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9C0CD13421;
+	Wed, 26 Apr 2023 14:24:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 3bZMJQY0SWQyXgAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Wed, 26 Apr 2023 14:24:06 +0000
+Message-ID: <dbf2c5eb-925e-3e9a-0184-7da78fc7bc76@suse.de>
+Date: Wed, 26 Apr 2023 16:24:06 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230426072455.3887717-1-AVKrasnov@sberdevices.ru>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH 5/6] fbdev: Move CFB read and write code into helper
+ functions
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch, javierm@redhat.com,
+ deller@gmx.de, geert@linux-m68k.org, sudipm.mukherjee@gmail.com,
+ teddy.wang@siliconmotion.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20230425142846.730-6-tzimmermann@suse.de>
+ <202304261317.QAEwArcB-lkp@intel.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <202304261317.QAEwArcB-lkp@intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------xYnq0JUGXa0tEBYwb6wV4okH"
 
-Hi Arseniy,
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------xYnq0JUGXa0tEBYwb6wV4okH
+Content-Type: multipart/mixed; boundary="------------DFJl0tM9GVK0ppaU8oCajf0P";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: kernel test robot <lkp@intel.com>, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch, javierm@redhat.com,
+ deller@gmx.de, geert@linux-m68k.org, sudipm.mukherjee@gmail.com,
+ teddy.wang@siliconmotion.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Message-ID: <dbf2c5eb-925e-3e9a-0184-7da78fc7bc76@suse.de>
+Subject: Re: [PATCH 5/6] fbdev: Move CFB read and write code into helper
+ functions
+References: <20230425142846.730-6-tzimmermann@suse.de>
+ <202304261317.QAEwArcB-lkp@intel.com>
+In-Reply-To: <202304261317.QAEwArcB-lkp@intel.com>
 
-kernel test robot noticed the following build errors:
+--------------DFJl0tM9GVK0ppaU8oCajf0P
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-[auto build test ERROR on mtd/nand/next]
-[also build test ERROR on linus/master v6.3 next-20230425]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+SGkNCg0KQW0gMjYuMDQuMjMgdW0gMDc6MTYgc2NocmllYiBrZXJuZWwgdGVzdCByb2JvdDoN
+Cj4gSGkgVGhvbWFzLA0KPiANCj4ga2VybmVsIHRlc3Qgcm9ib3Qgbm90aWNlZCB0aGUgZm9s
+bG93aW5nIGJ1aWxkIHdhcm5pbmdzOg0KDQpGWUkgdGhlc2UgZXJyb3JzIGNvbWUgZnJvbSBz
+eXN0ZW1zIHRoYXQgdXNlIHZvbGF0aWxlIF9faW9tZW0gcG9pbnRlcnMgDQp3aXRoIHBsYWlu
+IG1lbWNweSgpLiBTZWUgbXkgcGF0Y2hzZXQgYXQgWzFdIGZvciBhbiBpbXByb3ZlbWVudC4N
+Cg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KWzFdIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVk
+ZXNrdG9wLm9yZy9zZXJpZXMvMTE2OTg1Lw0KDQo+IA0KPiBbYXV0byBidWlsZCB0ZXN0IFdB
+Uk5JTkcgb24gZHJtLW1pc2MvZHJtLW1pc2MtbmV4dF0NCj4gW2Fsc28gYnVpbGQgdGVzdCBX
+QVJOSU5HIG9uIGxpbnVzL21hc3RlciBuZXh0LTIwMjMwNDI1XQ0KPiBbY2Fubm90IGFwcGx5
+IHRvIHY2LjNdDQo+IFtJZiB5b3VyIHBhdGNoIGlzIGFwcGxpZWQgdG8gdGhlIHdyb25nIGdp
+dCB0cmVlLCBraW5kbHkgZHJvcCB1cyBhIG5vdGUuDQo+IEFuZCB3aGVuIHN1Ym1pdHRpbmcg
+cGF0Y2gsIHdlIHN1Z2dlc3QgdG8gdXNlICctLWJhc2UnIGFzIGRvY3VtZW50ZWQgaW4NCj4g
+aHR0cHM6Ly9naXQtc2NtLmNvbS9kb2NzL2dpdC1mb3JtYXQtcGF0Y2gjX2Jhc2VfdHJlZV9p
+bmZvcm1hdGlvbl0NCj4gDQo+IHVybDogICAgaHR0cHM6Ly9naXRodWIuY29tL2ludGVsLWxh
+Yi1sa3AvbGludXgvY29tbWl0cy9UaG9tYXMtWmltbWVybWFubi9mYmRldi1SZXR1cm4tbnVt
+YmVyLW9mLWJ5dGVzLXJlYWQtb3Itd3JpdHRlbi8yMDIzMDQyNS0yMjMwMTENCj4gYmFzZTog
+ICBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLW1pc2MgZHJtLW1pc2Mt
+bmV4dA0KPiBwYXRjaCBsaW5rOiAgICBodHRwczovL2xvcmUua2VybmVsLm9yZy9yLzIwMjMw
+NDI1MTQyODQ2LjczMC02LXR6aW1tZXJtYW5uJTQwc3VzZS5kZQ0KPiBwYXRjaCBzdWJqZWN0
+OiBbUEFUQ0ggNS82XSBmYmRldjogTW92ZSBDRkIgcmVhZCBhbmQgd3JpdGUgY29kZSBpbnRv
+IGhlbHBlciBmdW5jdGlvbnMNCj4gY29uZmlnOiByaXNjdi1yYW5kY29uZmlnLXMwMzMtMjAy
+MzA0MjMgKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDIzMDQy
+Ni8yMDIzMDQyNjEzMTcuUUFFd0FyY0ItbGtwQGludGVsLmNvbS9jb25maWcpDQo+IGNvbXBp
+bGVyOiByaXNjdjY0LWxpbnV4LWdjYyAoR0NDKSAxMi4xLjANCj4gcmVwcm9kdWNlOg0KPiAg
+ICAgICAgICB3Z2V0IGh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9pbnRlbC9s
+a3AtdGVzdHMvbWFzdGVyL3NiaW4vbWFrZS5jcm9zcyAtTyB+L2Jpbi9tYWtlLmNyb3NzDQo+
+ICAgICAgICAgIGNobW9kICt4IH4vYmluL21ha2UuY3Jvc3MNCj4gICAgICAgICAgIyBhcHQt
+Z2V0IGluc3RhbGwgc3BhcnNlDQo+ICAgICAgICAgICMgc3BhcnNlIHZlcnNpb246IHYwLjYu
+NC0zOS1nY2UxYTY3MjAtZGlydHkNCj4gICAgICAgICAgIyBodHRwczovL2dpdGh1Yi5jb20v
+aW50ZWwtbGFiLWxrcC9saW51eC9jb21taXQvZDRhMTUwZjNkZmE4ZTczZjJlOTJmMWM3ZWZj
+OTI3MWUxNzYzMmNjMg0KPiAgICAgICAgICBnaXQgcmVtb3RlIGFkZCBsaW51eC1yZXZpZXcg
+aHR0cHM6Ly9naXRodWIuY29tL2ludGVsLWxhYi1sa3AvbGludXgNCj4gICAgICAgICAgZ2l0
+IGZldGNoIC0tbm8tdGFncyBsaW51eC1yZXZpZXcgVGhvbWFzLVppbW1lcm1hbm4vZmJkZXYt
+UmV0dXJuLW51bWJlci1vZi1ieXRlcy1yZWFkLW9yLXdyaXR0ZW4vMjAyMzA0MjUtMjIzMDEx
+DQo+ICAgICAgICAgIGdpdCBjaGVja291dCBkNGExNTBmM2RmYThlNzNmMmU5MmYxYzdlZmM5
+MjcxZTE3NjMyY2MyDQo+ICAgICAgICAgICMgc2F2ZSB0aGUgY29uZmlnIGZpbGUNCj4gICAg
+ICAgICAgbWtkaXIgYnVpbGRfZGlyICYmIGNwIGNvbmZpZyBidWlsZF9kaXIvLmNvbmZpZw0K
+PiAgICAgICAgICBDT01QSUxFUl9JTlNUQUxMX1BBVEg9JEhPTUUvMGRheSBDT01QSUxFUj1n
+Y2MtMTIuMS4wIG1ha2UuY3Jvc3MgQz0xIENGPSctZmRpYWdub3N0aWMtcHJlZml4IC1EX19D
+SEVDS19FTkRJQU5fXycgTz1idWlsZF9kaXIgQVJDSD1yaXNjdiBvbGRkZWZjb25maWcNCj4g
+ICAgICAgICAgQ09NUElMRVJfSU5TVEFMTF9QQVRIPSRIT01FLzBkYXkgQ09NUElMRVI9Z2Nj
+LTEyLjEuMCBtYWtlLmNyb3NzIEM9MSBDRj0nLWZkaWFnbm9zdGljLXByZWZpeCAtRF9fQ0hF
+Q0tfRU5ESUFOX18nIE89YnVpbGRfZGlyIEFSQ0g9cmlzY3YgU0hFTEw9L2Jpbi9iYXNoIGRy
+aXZlcnMvdmlkZW8vZmJkZXYvY29yZS8NCj4gDQo+IElmIHlvdSBmaXggdGhlIGlzc3VlLCBr
+aW5kbHkgYWRkIGZvbGxvd2luZyB0YWcgd2hlcmUgYXBwbGljYWJsZQ0KPiB8IFJlcG9ydGVk
+LWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4gfCBMaW5rOiBodHRw
+czovL2xvcmUua2VybmVsLm9yZy9vZS1rYnVpbGQtYWxsLzIwMjMwNDI2MTMxNy5RQUV3QXJj
+Qi1sa3BAaW50ZWwuY29tLw0KPiANCj4gc3BhcnNlIHdhcm5pbmdzOiAobmV3IG9uZXMgcHJl
+Zml4ZWQgYnkgPj4pDQo+ICAgICBXQVJOSU5HOiBpbnZhbGlkIGFyZ3VtZW50IHRvICctbWFy
+Y2gnOiAnX3ppaGludHBhdXNlJw0KPj4+IGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9j
+ZmJfZm9wcy5jOjQ0OjM5OiBzcGFyc2U6IHNwYXJzZTogaW5jb3JyZWN0IHR5cGUgaW4gYXJn
+dW1lbnQgMiAoZGlmZmVyZW50IGFkZHJlc3Mgc3BhY2VzKSBAQCAgICAgZXhwZWN0ZWQgdm9p
+ZCBjb25zdCAqIEBAICAgICBnb3QgdW5zaWduZWQgY2hhciBbbm9kZXJlZl0gW3VzZXJ0eXBl
+XSBfX2lvbWVtICpbYXNzaWduZWRdIHNyYyBAQA0KPiAgICAgZHJpdmVycy92aWRlby9mYmRl
+di9jb3JlL2ZiX2NmYl9mb3BzLmM6NDQ6Mzk6IHNwYXJzZTogICAgIGV4cGVjdGVkIHZvaWQg
+Y29uc3QgKg0KPiAgICAgZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZiX2NmYl9mb3BzLmM6
+NDQ6Mzk6IHNwYXJzZTogICAgIGdvdCB1bnNpZ25lZCBjaGFyIFtub2RlcmVmXSBbdXNlcnR5
+cGVdIF9faW9tZW0gKlthc3NpZ25lZF0gc3JjDQo+Pj4gZHJpdmVycy92aWRlby9mYmRldi9j
+b3JlL2ZiX2NmYl9mb3BzLmM6MTEzOjMyOiBzcGFyc2U6IHNwYXJzZTogaW5jb3JyZWN0IHR5
+cGUgaW4gYXJndW1lbnQgMSAoZGlmZmVyZW50IGFkZHJlc3Mgc3BhY2VzKSBAQCAgICAgZXhw
+ZWN0ZWQgdm9pZCAqIEBAICAgICBnb3QgdW5zaWduZWQgY2hhciBbbm9kZXJlZl0gW3VzZXJ0
+eXBlXSBfX2lvbWVtICpbYXNzaWduZWRdIGRzdCBAQA0KPiAgICAgZHJpdmVycy92aWRlby9m
+YmRldi9jb3JlL2ZiX2NmYl9mb3BzLmM6MTEzOjMyOiBzcGFyc2U6ICAgICBleHBlY3RlZCB2
+b2lkICoNCj4gICAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9jZmJfZm9wcy5jOjEx
+MzozMjogc3BhcnNlOiAgICAgZ290IHVuc2lnbmVkIGNoYXIgW25vZGVyZWZdIFt1c2VydHlw
+ZV0gX19pb21lbSAqW2Fzc2lnbmVkXSBkc3QNCj4gDQo+IHZpbSArNDQgZHJpdmVycy92aWRl
+by9mYmRldi9jb3JlL2ZiX2NmYl9mb3BzLmMNCj4gDQo+ICAgICAgIDYJDQo+ICAgICAgIDcJ
+c3NpemVfdCBmYl9jZmJfcmVhZChzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgY2hhciBfX3VzZXIg
+KmJ1Ziwgc2l6ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpDQo+ICAgICAgIDgJew0KPiAgICAg
+ICA5CQl1bnNpZ25lZCBsb25nIHAgPSAqcHBvczsNCj4gICAgICAxMAkJdTggKmJ1ZmZlciwg
+KmRzdDsNCj4gICAgICAxMQkJdTggX19pb21lbSAqc3JjOw0KPiAgICAgIDEyCQlpbnQgYywg
+Y250ID0gMCwgZXJyID0gMDsNCj4gICAgICAxMwkJdW5zaWduZWQgbG9uZyB0b3RhbF9zaXpl
+Ow0KPiAgICAgIDE0CQ0KPiAgICAgIDE1CQlpZiAoIWluZm8tPnNjcmVlbl9iYXNlKQ0KPiAg
+ICAgIDE2CQkJcmV0dXJuIC1FTk9ERVY7DQo+ICAgICAgMTcJDQo+ICAgICAgMTgJCXRvdGFs
+X3NpemUgPSBpbmZvLT5zY3JlZW5fc2l6ZTsNCj4gICAgICAxOQkNCj4gICAgICAyMAkJaWYg
+KHRvdGFsX3NpemUgPT0gMCkNCj4gICAgICAyMQkJCXRvdGFsX3NpemUgPSBpbmZvLT5maXgu
+c21lbV9sZW47DQo+ICAgICAgMjIJDQo+ICAgICAgMjMJCWlmIChwID49IHRvdGFsX3NpemUp
+DQo+ICAgICAgMjQJCQlyZXR1cm4gMDsNCj4gICAgICAyNQkNCj4gICAgICAyNgkJaWYgKGNv
+dW50ID49IHRvdGFsX3NpemUpDQo+ICAgICAgMjcJCQljb3VudCA9IHRvdGFsX3NpemU7DQo+
+ICAgICAgMjgJDQo+ICAgICAgMjkJCWlmIChjb3VudCArIHAgPiB0b3RhbF9zaXplKQ0KPiAg
+ICAgIDMwCQkJY291bnQgPSB0b3RhbF9zaXplIC0gcDsNCj4gICAgICAzMQkNCj4gICAgICAz
+MgkJYnVmZmVyID0ga21hbGxvYygoY291bnQgPiBQQUdFX1NJWkUpID8gUEFHRV9TSVpFIDog
+Y291bnQsIEdGUF9LRVJORUwpOw0KPiAgICAgIDMzCQlpZiAoIWJ1ZmZlcikNCj4gICAgICAz
+NAkJCXJldHVybiAtRU5PTUVNOw0KPiAgICAgIDM1CQ0KPiAgICAgIDM2CQlzcmMgPSAodTgg
+X19pb21lbSAqKShpbmZvLT5zY3JlZW5fYmFzZSArIHApOw0KPiAgICAgIDM3CQ0KPiAgICAg
+IDM4CQlpZiAoaW5mby0+ZmJvcHMtPmZiX3N5bmMpDQo+ICAgICAgMzkJCQlpbmZvLT5mYm9w
+cy0+ZmJfc3luYyhpbmZvKTsNCj4gICAgICA0MAkNCj4gICAgICA0MQkJd2hpbGUgKGNvdW50
+KSB7DQo+ICAgICAgNDIJCQljICA9IChjb3VudCA+IFBBR0VfU0laRSkgPyBQQUdFX1NJWkUg
+OiBjb3VudDsNCj4gICAgICA0MwkJCWRzdCA9IGJ1ZmZlcjsNCj4gICAgPiA0NAkJCWZiX21l
+bWNweV9mcm9tZmIoZHN0LCBzcmMsIGMpOw0KPiAgICAgIDQ1CQkJZHN0ICs9IGM7DQo+ICAg
+ICAgNDYJCQlzcmMgKz0gYzsNCj4gICAgICA0NwkNCj4gICAgICA0OAkJCWlmIChjb3B5X3Rv
+X3VzZXIoYnVmLCBidWZmZXIsIGMpKSB7DQo+ICAgICAgNDkJCQkJZXJyID0gLUVGQVVMVDsN
+Cj4gICAgICA1MAkJCQlicmVhazsNCj4gICAgICA1MQkJCX0NCj4gICAgICA1MgkJCSpwcG9z
+ICs9IGM7DQo+ICAgICAgNTMJCQlidWYgKz0gYzsNCj4gICAgICA1NAkJCWNudCArPSBjOw0K
+PiAgICAgIDU1CQkJY291bnQgLT0gYzsNCj4gICAgICA1NgkJfQ0KPiAgICAgIDU3CQ0KPiAg
+ICAgIDU4CQlrZnJlZShidWZmZXIpOw0KPiAgICAgIDU5CQ0KPiAgICAgIDYwCQlyZXR1cm4g
+Y250ID8gY250IDogZXJyOw0KPiAgICAgIDYxCX0NCj4gICAgICA2MglFWFBPUlRfU1lNQk9M
+KGZiX2NmYl9yZWFkKTsNCj4gICAgICA2MwkNCj4gICAgICA2NAlzc2l6ZV90IGZiX2NmYl93
+cml0ZShzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgY29uc3QgY2hhciBfX3VzZXIgKmJ1Ziwgc2l6
+ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpDQo+ICAgICAgNjUJew0KPiAgICAgIDY2CQl1bnNp
+Z25lZCBsb25nIHAgPSAqcHBvczsNCj4gICAgICA2NwkJdTggKmJ1ZmZlciwgKnNyYzsNCj4g
+ICAgICA2OAkJdTggX19pb21lbSAqZHN0Ow0KPiAgICAgIDY5CQlpbnQgYywgY250ID0gMCwg
+ZXJyID0gMDsNCj4gICAgICA3MAkJdW5zaWduZWQgbG9uZyB0b3RhbF9zaXplOw0KPiAgICAg
+IDcxCQ0KPiAgICAgIDcyCQlpZiAoIWluZm8tPnNjcmVlbl9iYXNlKQ0KPiAgICAgIDczCQkJ
+cmV0dXJuIC1FTk9ERVY7DQo+ICAgICAgNzQJDQo+ICAgICAgNzUJCXRvdGFsX3NpemUgPSBp
+bmZvLT5zY3JlZW5fc2l6ZTsNCj4gICAgICA3NgkNCj4gICAgICA3NwkJaWYgKHRvdGFsX3Np
+emUgPT0gMCkNCj4gICAgICA3OAkJCXRvdGFsX3NpemUgPSBpbmZvLT5maXguc21lbV9sZW47
+DQo+ICAgICAgNzkJDQo+ICAgICAgODAJCWlmIChwID4gdG90YWxfc2l6ZSkNCj4gICAgICA4
+MQkJCXJldHVybiAtRUZCSUc7DQo+ICAgICAgODIJDQo+ICAgICAgODMJCWlmIChjb3VudCA+
+IHRvdGFsX3NpemUpIHsNCj4gICAgICA4NAkJCWVyciA9IC1FRkJJRzsNCj4gICAgICA4NQkJ
+CWNvdW50ID0gdG90YWxfc2l6ZTsNCj4gICAgICA4NgkJfQ0KPiAgICAgIDg3CQ0KPiAgICAg
+IDg4CQlpZiAoY291bnQgKyBwID4gdG90YWxfc2l6ZSkgew0KPiAgICAgIDg5CQkJaWYgKCFl
+cnIpDQo+ICAgICAgOTAJCQkJZXJyID0gLUVOT1NQQzsNCj4gICAgICA5MQkNCj4gICAgICA5
+MgkJCWNvdW50ID0gdG90YWxfc2l6ZSAtIHA7DQo+ICAgICAgOTMJCX0NCj4gICAgICA5NAkN
+Cj4gICAgICA5NQkJYnVmZmVyID0ga21hbGxvYygoY291bnQgPiBQQUdFX1NJWkUpID8gUEFH
+RV9TSVpFIDogY291bnQsIEdGUF9LRVJORUwpOw0KPiAgICAgIDk2CQlpZiAoIWJ1ZmZlcikN
+Cj4gICAgICA5NwkJCXJldHVybiAtRU5PTUVNOw0KPiAgICAgIDk4CQ0KPiAgICAgIDk5CQlk
+c3QgPSAodTggX19pb21lbSAqKShpbmZvLT5zY3JlZW5fYmFzZSArIHApOw0KPiAgICAgMTAw
+CQ0KPiAgICAgMTAxCQlpZiAoaW5mby0+ZmJvcHMtPmZiX3N5bmMpDQo+ICAgICAxMDIJCQlp
+bmZvLT5mYm9wcy0+ZmJfc3luYyhpbmZvKTsNCj4gICAgIDEwMwkNCj4gICAgIDEwNAkJd2hp
+bGUgKGNvdW50KSB7DQo+ICAgICAxMDUJCQljID0gKGNvdW50ID4gUEFHRV9TSVpFKSA/IFBB
+R0VfU0laRSA6IGNvdW50Ow0KPiAgICAgMTA2CQkJc3JjID0gYnVmZmVyOw0KPiAgICAgMTA3
+CQ0KPiAgICAgMTA4CQkJaWYgKGNvcHlfZnJvbV91c2VyKHNyYywgYnVmLCBjKSkgew0KPiAg
+ICAgMTA5CQkJCWVyciA9IC1FRkFVTFQ7DQo+ICAgICAxMTAJCQkJYnJlYWs7DQo+ICAgICAx
+MTEJCQl9DQo+ICAgICAxMTIJDQo+ICAgPiAxMTMJCQlmYl9tZW1jcHlfdG9mYihkc3QsIHNy
+YywgYyk7DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIg
+RGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5r
+ZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2
+LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIg
+MzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230426-153143
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
-patch link:    https://lore.kernel.org/r/20230426072455.3887717-1-AVKrasnov%40sberdevices.ru
-patch subject: [PATCH v1] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
-config: hexagon-randconfig-r041-20230425 (https://download.01.org/0day-ci/archive/20230426/202304262101.pP2ae1ol-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3529f3465e99379489b59c035a8a0506c3756ef4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230426-153143
-        git checkout 3529f3465e99379489b59c035a8a0506c3756ef4
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/mtd/nand/raw/
+--------------DFJl0tM9GVK0ppaU8oCajf0P--
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304262101.pP2ae1ol-lkp@intel.com/
+--------------xYnq0JUGXa0tEBYwb6wV4okH
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-All error/warnings (new ones prefixed by >>):
+-----BEGIN PGP SIGNATURE-----
 
->> drivers/mtd/nand/raw/nand_macronix.c:384:12: error: call to undeclared function 'kmalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-                     ^
-   drivers/mtd/nand/raw/nand_macronix.c:384:12: note: did you mean 'mm_alloc'?
-   include/linux/sched/mm.h:16:26: note: 'mm_alloc' declared here
-   extern struct mm_struct *mm_alloc(void);
-                            ^
->> drivers/mtd/nand/raw/nand_macronix.c:384:10: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
-           dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/mtd/nand/raw/nand_macronix.c:397:17: warning: comparison of distinct pointer types ('typeof ((page)) *' (aka 'unsigned long *') and 'uint64_t *' (aka 'unsigned long long *')) [-Wcompare-distinct-pointer-types]
-           offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:222:28: note: expanded from macro 'do_div'
-           (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-                  ~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~
->> drivers/mtd/nand/raw/nand_macronix.c:397:17: error: incompatible pointer types passing 'unsigned long *' to parameter of type 'uint64_t *' (aka 'unsigned long long *') [-Werror,-Wincompatible-pointer-types]
-           offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:238:22: note: expanded from macro 'do_div'
-                   __rem = __div64_32(&(n), __base);       \
-                                      ^~~~
-   include/asm-generic/div64.h:213:38: note: passing argument to parameter 'dividend' here
-   extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
-                                        ^
->> drivers/mtd/nand/raw/nand_macronix.c:437:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           kfree(dma_buf);
-           ^
-   drivers/mtd/nand/raw/nand_macronix.c:437:2: note: did you mean 'kvfree'?
-   include/linux/rcutiny.h:99:13: note: 'kvfree' declared here
-   extern void kvfree(const void *addr);
-               ^
->> drivers/mtd/nand/raw/nand_macronix.c:397:17: warning: shift count >= width of type [-Wshift-count-overflow]
-           offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
-           } else if (likely(((n) >> 32) == 0)) {          \
-                                  ^  ~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   2 warnings and 4 errors generated.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRJNAYFAwAAAAAACgkQlh/E3EQov+Cc
+xA/+L0YyVP3khi/27pqCiQ4ASaULLZnmgSdBgtuREZpwp6rV5zwCsWsLoCiwEmVJGneQ6L1bSzBa
+259ZZLwhWy5fTEJKV5BfuQWrrtNoSR0l01SRM1blayElwc21bZAFKaKCzcyb4HcjmUwQq6kObg5/
+8JqOgHD8tFKiEryZjuRy3AaNzSAPdmn6JMh781M7Aqp32iqXJAKcmbX90jiD9zJSmo1piJvp8I1I
+Ovp/6gDqkpB78vAnVu0VXNOdRid17dqZhp1pxvzHskUtcFuC9AUWKMlDxcZBQQAkhKriDaZRBY6s
+540YIEGUIOgJW/JyU5sPabtQrOI9u4zGJFvldGqsxAmT4gRIKD8Bf2LCXThMmfJ4zqG4dk5fDQRr
+SXvIQj4xDVPrCKUWtvNDUDn8MabIFoeJGcu9g8pl01nMvWMc9L2Z+8xbQm8RJjxoq1oHHpn07/pl
+Bzwq83icXx3h/nHM0GDsGMaucGjI83HWAUYdWLdc95k2Ei9QSYeL3Uf+GUe12QCHlS7J1JYJxT6d
+X7S6xMI/Q53oabqKxNYVn/bynKEYz6eLSTtclqbN444Lv1GUuL9EB0n0dhpFbOq2JZYUSKiWf6+J
+1NQG1xqemD3cIDVWPfMJlgAvqsjPV1sor2rEEHztwqXWqyakRcKAQN5K7IxbNm4cnCdmjYZ5FNMw
+gIQ=
+=HHVv
+-----END PGP SIGNATURE-----
 
-
-vim +/kmalloc +384 drivers/mtd/nand/raw/nand_macronix.c
-
-   366	
-   367	static int __macronix_30lfxg18ac_rw_otp(struct mtd_info *mtd,
-   368						loff_t offs_in_flash,
-   369						size_t len, size_t *retlen,
-   370						u_char *buf, bool write)
-   371	{
-   372		struct nand_chip *nand;
-   373		size_t bytes_handled;
-   374		unsigned long page;
-   375		off_t offs_in_page;
-   376		void *dma_buf;
-   377		int ret;
-   378	
-   379		/* 'nand_prog/read_page_op()' may use 'buf' as DMA buffer,
-   380		 * so allocate properly aligned memory for it. This is
-   381		 * needed because cross page accesses may lead to unaligned
-   382		 * buffer address for DMA.
-   383		 */
- > 384		dma_buf = kmalloc(MACRONIX_30LFXG18AC_OTP_PAGE_SIZE, GFP_KERNEL);
-   385		if (!dma_buf)
-   386			return -ENOMEM;
-   387	
-   388		nand = mtd_to_nand(mtd);
-   389		nand_select_target(nand, 0);
-   390	
-   391		ret = macronix_30lfxg18ac_otp_enable(nand);
-   392		if (ret)
-   393			goto out_otp;
-   394	
-   395		page = offs_in_flash;
-   396		/* 'page' will be result of division. */
- > 397		offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
-   398		bytes_handled = 0;
-   399	
-   400		while (bytes_handled < len &&
-   401		       page < MACRONIX_30LFXG18AC_OTP_PAGES) {
-   402			size_t bytes_to_handle;
-   403	
-   404			bytes_to_handle = min_t(size_t, len - bytes_handled,
-   405						MACRONIX_30LFXG18AC_OTP_PAGE_SIZE -
-   406						offs_in_page);
-   407	
-   408			if (write) {
-   409				memcpy(dma_buf, &buf[bytes_handled], bytes_to_handle);
-   410				ret = nand_prog_page_op(nand, page, offs_in_page,
-   411							dma_buf, bytes_to_handle);
-   412			} else {
-   413				ret = nand_read_page_op(nand, page, offs_in_page,
-   414							dma_buf, bytes_to_handle);
-   415				if (!ret)
-   416					memcpy(&buf[bytes_handled], dma_buf,
-   417					       bytes_to_handle);
-   418			}
-   419			if (ret)
-   420				goto out_otp;
-   421	
-   422			bytes_handled += bytes_to_handle;
-   423			offs_in_page = 0;
-   424			page++;
-   425		}
-   426	
-   427		*retlen = bytes_handled;
-   428	
-   429	out_otp:
-   430		if (ret)
-   431			dev_err(&mtd->dev, "failed to perform OTP IO: %i\n", ret);
-   432	
-   433		ret = macronix_30lfxg18ac_otp_disable(nand);
-   434		WARN(ret, "failed to leave OTP mode after %s\n",
-   435		     write ? "write" : "read");
-   436		nand_deselect_target(nand);
- > 437		kfree(dma_buf);
-   438	
-   439		return ret;
-   440	}
-   441	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+--------------xYnq0JUGXa0tEBYwb6wV4okH--
