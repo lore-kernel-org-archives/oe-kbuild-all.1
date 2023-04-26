@@ -1,45 +1,50 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BAB0C2D9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 06:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109B91859
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 06:48:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682491719; x=1714027719;
+  t=1682491726; x=1714027726;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=saoril1ufjUEoRA+NhOrUTSuLFbflLDGejb6X6drbXM=;
-  b=f4udG0FY3OkEMKsE/OvGuoG5jSmfPwCwHQsle4BfvtGPe2bKsVl2lJdr
-   Ll8mJsgoW8uZ88FynXRiRLf8B13pVXVT+cF3zZuAUXLaBMPwGolx35C59
-   EdASdmlnE97Cxlsxq354E6Y1NHCK28m8PwPZdFfcKJciUrI+b2Dtlquoe
-   faj10QOJGIzePZjHVfbhoKKgSH3EZiFOfmn6OlGtzS8HFEss/1mneTGO2
-   FSO/0INRJLPnqiyTGS5dPB5tyL4nXP+7QfOfyvmZdXyDGEGCSipULxMBY
-   jMzXoZDmh9Vu5ARNE+iFzNJ92H9H3HCzd5eaWSycC6S9r1YTDIbymritC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="344472626"
+  bh=r5KFZ650Zsj4Y64nq1ui7ZF+VxLS/X2pG7gHFYtdLVE=;
+  b=hMSOQdpPj3v8YygBLz5YSG7JmcH6zMoABwlSISlUMxWyq9CuQ9FiKmgH
+   WdeDIjNVdZYtkSNABCU8PWno+rHAXyM1u7DVJyBmeekneKF+QrOCijgnZ
+   pwLm7qXkavhCTnRi4O+gkgQr3CimcGo5eNnKd18Mdhw6DyUFns+OjJX/0
+   7zIpuGH/HOdgMsaduvt0dZTtIT6IpH+BRlUT2b2huIuxcV+gmF7OtYIBw
+   b+6b5L73JNfn5bzqlcPSkdKtHS9amyVyalE5wQ7VfxTQgiLXsuXdRewgf
+   alskHVEy+AQz1zOGm8xHpnuXIUhsjZHxoxwfFv7SPuLavobCpLsNeq6+L
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="374969495"
 X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; 
-   d="scan'208";a="344472626"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 23:48:38 -0700
+   d="scan'208";a="374969495"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 23:48:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="1023477556"
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="758479423"
 X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; 
-   d="scan'208";a="1023477556"
+   d="scan'208";a="758479423"
 Received: from lkp-server01.sh.intel.com (HELO 98ee5a99fc83) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 25 Apr 2023 23:48:37 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 25 Apr 2023 23:48:42 -0700
 Received: from kbuild by 98ee5a99fc83 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prYxA-0000Du-10;
+	id 1prYxA-0000Dw-15;
 	Wed, 26 Apr 2023 06:48:36 +0000
-Date: Wed, 26 Apr 2023 14:47:58 +0800
+Date: Wed, 26 Apr 2023 14:47:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jes Sorensen <Jes.Sorensen@gmail.com>,
-	Ping-Ke Shih <pkshih@realtek.com>
-Subject: Re: [PATCH] wifi: rtl8xxxu: Support new chip RTL8192FU
-Message-ID: <202304261446.bpmc14h4-lkp@intel.com>
-References: <90102fa5-5065-9598-d21f-3624629a0cb5@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	airlied@gmail.com, daniel@ffwll.ch, javierm@redhat.com,
+	deller@gmx.de, geert@linux-m68k.org, sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 5/6] fbdev: Move CFB read and write code into helper
+ functions
+Message-ID: <202304261419.LvfW9HTa-lkp@intel.com>
+References: <20230425142846.730-6-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,44 +53,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <90102fa5-5065-9598-d21f-3624629a0cb5@gmail.com>
+In-Reply-To: <20230425142846.730-6-tzimmermann@suse.de>
 
-Hi Bitterblue,
+Hi Thomas,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on next-20230425]
-[cannot apply to wireless/main linus/master v6.3]
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master next-20230425]
+[cannot apply to v6.3]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bitterblue-Smith/wifi-rtl8xxxu-Support-new-chip-RTL8192FU/20230426-012956
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/90102fa5-5065-9598-d21f-3624629a0cb5%40gmail.com
-patch subject: [PATCH] wifi: rtl8xxxu: Support new chip RTL8192FU
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230426/202304261446.bpmc14h4-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-Return-number-of-bytes-read-or-written/20230425-223011
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230425142846.730-6-tzimmermann%40suse.de
+patch subject: [PATCH 5/6] fbdev: Move CFB read and write code into helper functions
+config: openrisc-randconfig-s052-20230423 (https://download.01.org/0day-ci/archive/20230426/202304261419.LvfW9HTa-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c6f497a5e6a511da963b0d2f92a13031cc9788c3
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/d4a150f3dfa8e73f2e92f1c7efc9271e17632cc2
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Bitterblue-Smith/wifi-rtl8xxxu-Support-new-chip-RTL8192FU/20230426-012956
-        git checkout c6f497a5e6a511da963b0d2f92a13031cc9788c3
+        git fetch --no-tags linux-review Thomas-Zimmermann/fbdev-Return-number-of-bytes-read-or-written/20230425-223011
+        git checkout d4a150f3dfa8e73f2e92f1c7efc9271e17632cc2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/video/fbdev/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304261446.bpmc14h4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304261419.LvfW9HTa-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/video/fbdev/core/fb_cfb_fops.c:44:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const *src @@     got unsigned char [noderef] [usertype] __iomem *[assigned] src @@
+   drivers/video/fbdev/core/fb_cfb_fops.c:44:39: sparse:     expected void const *src
+   drivers/video/fbdev/core/fb_cfb_fops.c:44:39: sparse:     got unsigned char [noderef] [usertype] __iomem *[assigned] src
+>> drivers/video/fbdev/core/fb_cfb_fops.c:113:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *dest @@     got unsigned char [noderef] [usertype] __iomem *[assigned] dst @@
+   drivers/video/fbdev/core/fb_cfb_fops.c:113:32: sparse:     expected void *dest
+   drivers/video/fbdev/core/fb_cfb_fops.c:113:32: sparse:     got unsigned char [noderef] [usertype] __iomem *[assigned] dst
 
->> ERROR: modpost: "rtl8192fu_fops" [drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.ko] undefined!
+vim +44 drivers/video/fbdev/core/fb_cfb_fops.c
+
+     6	
+     7	ssize_t fb_cfb_read(struct fb_info *info, char __user *buf, size_t count, loff_t *ppos)
+     8	{
+     9		unsigned long p = *ppos;
+    10		u8 *buffer, *dst;
+    11		u8 __iomem *src;
+    12		int c, cnt = 0, err = 0;
+    13		unsigned long total_size;
+    14	
+    15		if (!info->screen_base)
+    16			return -ENODEV;
+    17	
+    18		total_size = info->screen_size;
+    19	
+    20		if (total_size == 0)
+    21			total_size = info->fix.smem_len;
+    22	
+    23		if (p >= total_size)
+    24			return 0;
+    25	
+    26		if (count >= total_size)
+    27			count = total_size;
+    28	
+    29		if (count + p > total_size)
+    30			count = total_size - p;
+    31	
+    32		buffer = kmalloc((count > PAGE_SIZE) ? PAGE_SIZE : count, GFP_KERNEL);
+    33		if (!buffer)
+    34			return -ENOMEM;
+    35	
+    36		src = (u8 __iomem *)(info->screen_base + p);
+    37	
+    38		if (info->fbops->fb_sync)
+    39			info->fbops->fb_sync(info);
+    40	
+    41		while (count) {
+    42			c  = (count > PAGE_SIZE) ? PAGE_SIZE : count;
+    43			dst = buffer;
+  > 44			fb_memcpy_fromfb(dst, src, c);
+    45			dst += c;
+    46			src += c;
+    47	
+    48			if (copy_to_user(buf, buffer, c)) {
+    49				err = -EFAULT;
+    50				break;
+    51			}
+    52			*ppos += c;
+    53			buf += c;
+    54			cnt += c;
+    55			count -= c;
+    56		}
+    57	
+    58		kfree(buffer);
+    59	
+    60		return cnt ? cnt : err;
+    61	}
+    62	EXPORT_SYMBOL(fb_cfb_read);
+    63	
+    64	ssize_t fb_cfb_write(struct fb_info *info, const char __user *buf, size_t count, loff_t *ppos)
+    65	{
+    66		unsigned long p = *ppos;
+    67		u8 *buffer, *src;
+    68		u8 __iomem *dst;
+    69		int c, cnt = 0, err = 0;
+    70		unsigned long total_size;
+    71	
+    72		if (!info->screen_base)
+    73			return -ENODEV;
+    74	
+    75		total_size = info->screen_size;
+    76	
+    77		if (total_size == 0)
+    78			total_size = info->fix.smem_len;
+    79	
+    80		if (p > total_size)
+    81			return -EFBIG;
+    82	
+    83		if (count > total_size) {
+    84			err = -EFBIG;
+    85			count = total_size;
+    86		}
+    87	
+    88		if (count + p > total_size) {
+    89			if (!err)
+    90				err = -ENOSPC;
+    91	
+    92			count = total_size - p;
+    93		}
+    94	
+    95		buffer = kmalloc((count > PAGE_SIZE) ? PAGE_SIZE : count, GFP_KERNEL);
+    96		if (!buffer)
+    97			return -ENOMEM;
+    98	
+    99		dst = (u8 __iomem *)(info->screen_base + p);
+   100	
+   101		if (info->fbops->fb_sync)
+   102			info->fbops->fb_sync(info);
+   103	
+   104		while (count) {
+   105			c = (count > PAGE_SIZE) ? PAGE_SIZE : count;
+   106			src = buffer;
+   107	
+   108			if (copy_from_user(src, buf, c)) {
+   109				err = -EFAULT;
+   110				break;
+   111			}
+   112	
+ > 113			fb_memcpy_tofb(dst, src, c);
 
 -- 
 0-DAY CI Kernel Test Service
