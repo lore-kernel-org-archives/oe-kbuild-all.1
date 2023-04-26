@@ -1,43 +1,47 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61C56ADC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 19:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313A56ADC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 19:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682536567; x=1714072567;
+  t=1682537214; x=1714073214;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IPZ79IeIad+DBJ8H2pX6c+jPVY3UExFY/ZeBde1t6Nk=;
-  b=GAj+GrDPihwgHREMUD7W4wouvI2t+8o9DrLF69hB7y4C+GfVEJBSfzUD
-   +QQRtzq+C4S0xaf9He2xqQExBEJUruLBX0rqKfUffY+HV+Z4BdRHP1y6e
-   eboDG7uB5gKdTFMxJZOpspJoreOIdnxpmUvYM7Ulk1e4r5Iz6XBMB9C3E
-   Jt30dCL6sqipxbLZ7JuPuITUfCXEGezleb1faUGT/E28dSfaT08TD0S9c
-   3ka0g8cg21O0APAqAfINWM+2qbW6QI9/lzaBuXby2Q+zyLS4KjMyRZpv4
-   20IpEu2bP2vGw39QyhOCFI9PcgQvTGHtv/JqcRKDqWlG1Aygis1Dcur10
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="350028128"
+  bh=G0bI8G9ZDBlhdRFffU/P7F0Ayww7ERWmduAf++G30qA=;
+  b=mYsCBpifxSVWD6FS1W4K+mJP0/dCMTCqWsKxm69Cv5roCE2eutZQe/00
+   0qbDH2rWIIcjhi9/ay41w3EO9xeeoe1YSxrLx36O09Fv+iE/D2Ia2C3K2
+   AZC7eQOHSxyhYho05AXmYLfojSY0zxDMlK9XceShhv2m0oobQavYQLKpM
+   TLRAu5pPUiRV98xdxKiT5CVIZF2lEMcrZUwjwTCPkEoHa8zhZkyoi+yrs
+   hxK4kq9vFgSGBnh3Mx+ghZQKd4B9tZUMbM2zx2abn6YpaFfNst6UEEmIC
+   aUA2CP3Hy6cf83O22XrQdNxF0fDQNb/e9Go1bInyKuVgxFijbtOEgJgKx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="433504550"
 X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
-   d="scan'208";a="350028128"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 12:15:53 -0700
+   d="scan'208";a="433504550"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 12:26:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="644369803"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="726688093"
 X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
-   d="scan'208";a="644369803"
+   d="scan'208";a="726688093"
 Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 26 Apr 2023 12:15:51 -0700
+  by orsmga001.jf.intel.com with ESMTP; 26 Apr 2023 12:26:51 -0700
 Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prkcI-0000TO-1p;
-	Wed, 26 Apr 2023 19:15:50 +0000
-Date: Thu, 27 Apr 2023 03:15:30 +0800
+	id 1prkmw-0000Ta-2A;
+	Wed, 26 Apr 2023 19:26:50 +0000
+Date: Thu, 27 Apr 2023 03:26:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ajay Singh <ajay.kathat@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Kalle Valo <kvalo@kernel.org>
-Subject: drivers/net/wireless/microchip/wilc1000/cfg80211.c:361:42: sparse:
- sparse: incorrect type in assignment (different base types)
-Message-ID: <202304270331.2Qa5siE8-lkp@intel.com>
+To: Rakesh Ughreja <rakesh.a.ughreja@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>,
+	Mark Brown <broonie@kernel.org>,
+	Cheng-Yi Chiang <cychiang@chromium.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Curtis Malainey <cujomalainey@chromium.org>
+Subject: [jsarha:topic/cros-sof-v4.19 3581/6555]
+ sound/pci/hda/hda_hwdep.c:39: Error: unrecognized opcode `csrs sstatus,s3'
+Message-ID: <202304270324.oxaWEHBc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,180 +51,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5c7ecada25d2086aee607ff7deb69e77faa4aa92
-commit: c5b331d4f550fb78bf1a553b2517616a5ea913d6 wifi: wilc1000: add WPA3 SAE support
-date:   11 months ago
-config: sparc-randconfig-s052-20230426 (https://download.01.org/0day-ci/archive/20230427/202304270331.2Qa5siE8-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: ff84d736ac384f7d79f33290d6638207f5ae495c [3581/6555] UPSTREAM: ASoC: hdac_hda: add asoc extension for legacy HDA codec drivers
+config: riscv-randconfig-r042-20230426 (https://download.01.org/0day-ci/archive/20230427/202304270324.oxaWEHBc-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c5b331d4f550fb78bf1a553b2517616a5ea913d6
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c5b331d4f550fb78bf1a553b2517616a5ea913d6
+        # https://github.com/jsarha/linux/commit/ff84d736ac384f7d79f33290d6638207f5ae495c
+        git remote add jsarha https://github.com/jsarha/linux
+        git fetch --no-tags jsarha topic/cros-sof-v4.19
+        git checkout ff84d736ac384f7d79f33290d6638207f5ae495c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc SHELL=/bin/bash drivers/infiniband/hw/qedr/ drivers/net/wireless/microchip/wilc1000/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash M=sound/pci/hda
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304270331.2Qa5siE8-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304270324.oxaWEHBc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/microchip/wilc1000/cfg80211.c:361:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int key_mgmt_suite @@     got restricted __be32 [usertype] @@
-   drivers/net/wireless/microchip/wilc1000/cfg80211.c:361:42: sparse:     expected unsigned int key_mgmt_suite
-   drivers/net/wireless/microchip/wilc1000/cfg80211.c:361:42: sparse:     got restricted __be32 [usertype]
+All errors (new ones prefixed by >>):
 
-vim +361 drivers/net/wireless/microchip/wilc1000/cfg80211.c
+   sound/pci/hda/hda_hwdep.c: Assembler messages:
+   sound/pci/hda/hda_hwdep.c:81: Error: unrecognized opcode `csrs sstatus,a4'
+   sound/pci/hda/hda_hwdep.c:81: Error: unrecognized opcode `csrc sstatus,a4'
+>> sound/pci/hda/hda_hwdep.c:39: Error: unrecognized opcode `csrs sstatus,s3'
+>> sound/pci/hda/hda_hwdep.c:39: Error: unrecognized opcode `csrc sstatus,s3'
+   sound/pci/hda/hda_hwdep.c:43: Error: unrecognized opcode `csrs sstatus,s3'
+   sound/pci/hda/hda_hwdep.c:43: Error: unrecognized opcode `csrc sstatus,s3'
+   sound/pci/hda/hda_hwdep.c:53: Error: unrecognized opcode `csrs sstatus,a3'
+   sound/pci/hda/hda_hwdep.c:53: Error: unrecognized opcode `csrc sstatus,a3'
+   sound/pci/hda/hda_hwdep.c:65: Error: unrecognized opcode `csrs sstatus,a3'
+   sound/pci/hda/hda_hwdep.c:65: Error: unrecognized opcode `csrc sstatus,a3'
 
-   300	
-   301	static int connect(struct wiphy *wiphy, struct net_device *dev,
-   302			   struct cfg80211_connect_params *sme)
-   303	{
-   304		struct wilc_vif *vif = netdev_priv(dev);
-   305		struct wilc_priv *priv = &vif->priv;
-   306		struct host_if_drv *wfi_drv = priv->hif_drv;
-   307		int ret;
-   308		u32 i;
-   309		u8 security = WILC_FW_SEC_NO;
-   310		enum authtype auth_type = WILC_FW_AUTH_ANY;
-   311		u32 cipher_group;
-   312		struct cfg80211_bss *bss;
-   313		void *join_params;
-   314		u8 ch;
-   315	
-   316		vif->connecting = true;
-   317	
-   318		cipher_group = sme->crypto.cipher_group;
-   319		if (cipher_group != 0) {
-   320			if (sme->crypto.wpa_versions & NL80211_WPA_VERSION_2) {
-   321				if (cipher_group == WLAN_CIPHER_SUITE_TKIP)
-   322					security = WILC_FW_SEC_WPA2_TKIP;
-   323				else
-   324					security = WILC_FW_SEC_WPA2_AES;
-   325			} else if (sme->crypto.wpa_versions & NL80211_WPA_VERSION_1) {
-   326				if (cipher_group == WLAN_CIPHER_SUITE_TKIP)
-   327					security = WILC_FW_SEC_WPA_TKIP;
-   328				else
-   329					security = WILC_FW_SEC_WPA_AES;
-   330			} else {
-   331				ret = -ENOTSUPP;
-   332				netdev_err(dev, "%s: Unsupported cipher\n",
-   333					   __func__);
-   334				goto out_error;
-   335			}
-   336		}
-   337	
-   338		if ((sme->crypto.wpa_versions & NL80211_WPA_VERSION_1) ||
-   339		    (sme->crypto.wpa_versions & NL80211_WPA_VERSION_2)) {
-   340			for (i = 0; i < sme->crypto.n_ciphers_pairwise; i++) {
-   341				u32 ciphers_pairwise = sme->crypto.ciphers_pairwise[i];
-   342	
-   343				if (ciphers_pairwise == WLAN_CIPHER_SUITE_TKIP)
-   344					security |= WILC_FW_TKIP;
-   345				else
-   346					security |= WILC_FW_AES;
-   347			}
-   348		}
-   349	
-   350		switch (sme->auth_type) {
-   351		case NL80211_AUTHTYPE_OPEN_SYSTEM:
-   352			auth_type = WILC_FW_AUTH_OPEN_SYSTEM;
-   353			break;
-   354	
-   355		case NL80211_AUTHTYPE_SAE:
-   356			auth_type = WILC_FW_AUTH_SAE;
-   357			if (sme->ssid_len) {
-   358				memcpy(vif->auth.ssid.ssid, sme->ssid, sme->ssid_len);
-   359				vif->auth.ssid.ssid_len = sme->ssid_len;
-   360			}
- > 361			vif->auth.key_mgmt_suite = cpu_to_be32(sme->crypto.akm_suites[0]);
-   362			ether_addr_copy(vif->auth.bssid, sme->bssid);
-   363			break;
-   364	
-   365		default:
-   366			break;
-   367		}
-   368	
-   369		if (sme->crypto.n_akm_suites) {
-   370			if (sme->crypto.akm_suites[0] == WLAN_AKM_SUITE_8021X)
-   371				auth_type = WILC_FW_AUTH_IEEE8021;
-   372			else if (sme->crypto.akm_suites[0] == WLAN_AKM_SUITE_PSK_SHA256)
-   373				auth_type = WILC_FW_AUTH_OPEN_SYSTEM_SHA256;
-   374			else if (sme->crypto.akm_suites[0] == WLAN_AKM_SUITE_8021X_SHA256)
-   375				auth_type = WILC_FW_AUTH_IEE8021X_SHA256;
-   376		}
-   377	
-   378		if (wfi_drv->usr_scan_req.scan_result) {
-   379			netdev_err(vif->ndev, "%s: Scan in progress\n", __func__);
-   380			ret = -EBUSY;
-   381			goto out_error;
-   382		}
-   383	
-   384		bss = cfg80211_get_bss(wiphy, sme->channel, sme->bssid, sme->ssid,
-   385				       sme->ssid_len, IEEE80211_BSS_TYPE_ANY,
-   386				       IEEE80211_PRIVACY(sme->privacy));
-   387		if (!bss) {
-   388			ret = -EINVAL;
-   389			goto out_error;
-   390		}
-   391	
-   392		if (ether_addr_equal_unaligned(vif->bssid, bss->bssid)) {
-   393			ret = -EALREADY;
-   394			goto out_put_bss;
-   395		}
-   396	
-   397		join_params = wilc_parse_join_bss_param(bss, &sme->crypto);
-   398		if (!join_params) {
-   399			netdev_err(dev, "%s: failed to construct join param\n",
-   400				   __func__);
-   401			ret = -EINVAL;
-   402			goto out_put_bss;
-   403		}
-   404	
-   405		ch = ieee80211_frequency_to_channel(bss->channel->center_freq);
-   406		vif->wilc->op_ch = ch;
-   407		if (vif->iftype != WILC_CLIENT_MODE)
-   408			vif->wilc->sta_ch = ch;
-   409	
-   410		wilc_wlan_set_bssid(dev, bss->bssid, WILC_STATION_MODE);
-   411	
-   412		wfi_drv->conn_info.security = security;
-   413		wfi_drv->conn_info.auth_type = auth_type;
-   414		wfi_drv->conn_info.ch = ch;
-   415		wfi_drv->conn_info.conn_result = cfg_connect_result;
-   416		wfi_drv->conn_info.arg = priv;
-   417		wfi_drv->conn_info.param = join_params;
-   418	
-   419		ret = wilc_set_join_req(vif, bss->bssid, sme->ie, sme->ie_len);
-   420		if (ret) {
-   421			netdev_err(dev, "wilc_set_join_req(): Error\n");
-   422			ret = -ENOENT;
-   423			if (vif->iftype != WILC_CLIENT_MODE)
-   424				vif->wilc->sta_ch = WILC_INVALID_CHANNEL;
-   425			wilc_wlan_set_bssid(dev, NULL, WILC_STATION_MODE);
-   426			wfi_drv->conn_info.conn_result = NULL;
-   427			kfree(join_params);
-   428			goto out_put_bss;
-   429		}
-   430		kfree(join_params);
-   431		vif->bss = bss;
-   432		cfg80211_put_bss(wiphy, bss);
-   433		return 0;
-   434	
-   435	out_put_bss:
-   436		cfg80211_put_bss(wiphy, bss);
-   437	
-   438	out_error:
-   439		vif->connecting = false;
-   440		return ret;
-   441	}
-   442	
+
+vim +39 sound/pci/hda/hda_hwdep.c
+
+2807314d467e7d Takashi Iwai 2007-07-27  30  
+2807314d467e7d Takashi Iwai 2007-07-27  31  /*
+2807314d467e7d Takashi Iwai 2007-07-27  32   * write/read an out-of-bound verb
+2807314d467e7d Takashi Iwai 2007-07-27  33   */
+2807314d467e7d Takashi Iwai 2007-07-27  34  static int verb_write_ioctl(struct hda_codec *codec,
+2807314d467e7d Takashi Iwai 2007-07-27  35  			    struct hda_verb_ioctl __user *arg)
+2807314d467e7d Takashi Iwai 2007-07-27  36  {
+2807314d467e7d Takashi Iwai 2007-07-27  37  	u32 verb, res;
+2807314d467e7d Takashi Iwai 2007-07-27  38  
+2807314d467e7d Takashi Iwai 2007-07-27 @39  	if (get_user(verb, &arg->verb))
+2807314d467e7d Takashi Iwai 2007-07-27  40  		return -EFAULT;
+2807314d467e7d Takashi Iwai 2007-07-27  41  	res = snd_hda_codec_read(codec, verb >> 24, 0,
+2807314d467e7d Takashi Iwai 2007-07-27  42  				 (verb >> 8) & 0xffff, verb & 0xff);
+2807314d467e7d Takashi Iwai 2007-07-27  43  	if (put_user(res, &arg->res))
+2807314d467e7d Takashi Iwai 2007-07-27  44  		return -EFAULT;
+2807314d467e7d Takashi Iwai 2007-07-27  45  	return 0;
+2807314d467e7d Takashi Iwai 2007-07-27  46  }
+2807314d467e7d Takashi Iwai 2007-07-27  47  
+
+:::::: The code at line 39 was first introduced by commit
+:::::: 2807314d467e7dd929c42050031aabbd28e78f0b [ALSA] hda-intel - Add hwdep interface
+
+:::::: TO: Takashi Iwai <tiwai@suse.de>
+:::::: CC: Jaroslav Kysela <perex@perex.cz>
 
 -- 
 0-DAY CI Kernel Test Service
