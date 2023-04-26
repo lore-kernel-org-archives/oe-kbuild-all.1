@@ -1,48 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766E8139B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 12:35:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346521FA7;
+	Wed, 26 Apr 2023 12:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682512535; x=1714048535;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DVAQ2H9eYhFnYmY1Vo/YzInzguOJas3HkypWUdYady0=;
-  b=YbPAdJQKXQbzR43LuRiPLKowSmoRTLCowqJ73z4TTaIPekue3j+j+Nfu
-   Ht+1gGfQ7yoNJCI3q8KxJ5Vf+g6LUiMffBX7/3Hurd1bCZ/rCcTzsXo9E
-   TokIikitfe/SkNeBrE0GjjH2395uYE8WqLvMuuPWj0SoEM9AJPMHBlZkc
-   dWea1TsuvkHcFQuQ0tw17hZRAkf6hEAInkV5tRw2Rk+33dDYi9B/ZRVzk
-   zMTidBdu50I/6fr/kMYbTREL/BLXWYMcjeLoe0wo8IOe9KOeI+/22fwud
-   DhP+Trl2BqpWdJEHAnbd6VSu/T7dIPReRKOtzfDSG1GQvIMmEn6WXpWYC
+  t=1682513796; x=1714049796;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FXPqLxBIbf8Zkjcyuo4O8RhUpdAl3Teb3LG2zXL0io4=;
+  b=EZBSNkJaBIrS0v7lfcKjHjndZMTw30G9dIeT1lj2pJdX+q3QWE9Ke65m
+   LByoH93Ylsoa2i7U2u/nff+t+f5JD5jXxSCHmH7G9eN9BY9NZ45NtWoRD
+   D2a4kc4pfNyxHSvLlVNTvaBWSFn4QJJbfafMeP7T8lxjWjjyKat3B9W43
+   ZmlFtggTYtEZOYrGqHSV7QEP5OKQZ0XZKSf1DFYJw5ZC3WwyZAXH4KJZS
+   nmY2C46ZOtb5rPiE3KmbAea5+HfTP3AQjfKtLOZw1GxYGR2VbwufhHeli
+   qZTVpToU6S83NWgtxRcA2RCo1SUei29wtQVvyfpLHw7M83qxDi/Rw5dKW
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="375045838"
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="344548988"
 X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
-   d="scan'208";a="375045838"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 05:35:34 -0700
+   d="scan'208";a="344548988"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 05:56:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="1023600017"
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="758602632"
 X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
-   d="scan'208";a="1023600017"
+   d="scan'208";a="758602632"
 Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 26 Apr 2023 05:35:32 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 26 Apr 2023 05:56:33 -0700
 Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1preMt-00008Y-1w;
-	Wed, 26 Apr 2023 12:35:31 +0000
-Date: Wed, 26 Apr 2023 20:35:08 +0800
+	id 1prehE-0000A6-2x;
+	Wed, 26 Apr 2023 12:56:32 +0000
+Date: Wed, 26 Apr 2023 20:55:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Naresh Solanki <naresh.solanki@9elements.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Patrick Rudolph <patrick.rudolph@9elements.com>,
-	Naresh Solanki <Naresh.Solanki@9elements.com>,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH] hwmon: (max597x) Add Maxim Max597x
-Message-ID: <202304262021.nGJgsK76-lkp@intel.com>
-References: <20230426090356.745979-1-Naresh.Solanki@9elements.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:tpm1-s3-bug 32/32]
+ drivers/char/tpm/tpm_tis_core.c:1238:2: error: use of undeclared identifier
+ 'rc'
+Message-ID: <202304262019.01pU4v2D-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,90 +46,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230426090356.745979-1-Naresh.Solanki@9elements.com>
 
-Hi Naresh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on b4c288cfd2f84c44994330c408e14645d45dee5b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Naresh-Solanki/hwmon-max597x-Add-Maxim-Max597x/20230426-170556
-base:   b4c288cfd2f84c44994330c408e14645d45dee5b
-patch link:    https://lore.kernel.org/r/20230426090356.745979-1-Naresh.Solanki%409elements.com
-patch subject: [PATCH] hwmon: (max597x) Add Maxim Max597x
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230426/202304262021.nGJgsK76-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm1-s3-bug
+head:   f6075147019ca730925d4059a6256ab06fbd5d4c
+commit: f6075147019ca730925d4059a6256ab06fbd5d4c [32/32] tpm, tpm_tis: Use tpm_chip_{start,stop}() in tpm_tis_resume()
+config: i386-randconfig-a011 (https://download.01.org/0day-ci/archive/20230426/202304262019.01pU4v2D-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/3d6f729d86a79adf0603717c79bc389a5dcc4444
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Naresh-Solanki/hwmon-max597x-Add-Maxim-Max597x/20230426-170556
-        git checkout 3d6f729d86a79adf0603717c79bc389a5dcc4444
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/commit/?id=f6075147019ca730925d4059a6256ab06fbd5d4c
+        git remote add jarkko-tpmdd git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git
+        git fetch --no-tags jarkko-tpmdd tpm1-s3-bug
+        git checkout f6075147019ca730925d4059a6256ab06fbd5d4c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/char/tpm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304262021.nGJgsK76-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304262019.01pU4v2D-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/hwmon/max597x.c: In function 'max597x_read':
->> drivers/hwmon/max597x.c:47:9: warning: enumeration value 'hwmon_chip' not handled in switch [-Wswitch]
-      47 |         switch (type) {
-         |         ^~~~~~
->> drivers/hwmon/max597x.c:47:9: warning: enumeration value 'hwmon_temp' not handled in switch [-Wswitch]
->> drivers/hwmon/max597x.c:47:9: warning: enumeration value 'hwmon_power' not handled in switch [-Wswitch]
->> drivers/hwmon/max597x.c:47:9: warning: enumeration value 'hwmon_energy' not handled in switch [-Wswitch]
->> drivers/hwmon/max597x.c:47:9: warning: enumeration value 'hwmon_humidity' not handled in switch [-Wswitch]
->> drivers/hwmon/max597x.c:47:9: warning: enumeration value 'hwmon_fan' not handled in switch [-Wswitch]
->> drivers/hwmon/max597x.c:47:9: warning: enumeration value 'hwmon_pwm' not handled in switch [-Wswitch]
->> drivers/hwmon/max597x.c:47:9: warning: enumeration value 'hwmon_intrusion' not handled in switch [-Wswitch]
->> drivers/hwmon/max597x.c:47:9: warning: enumeration value 'hwmon_max' not handled in switch [-Wswitch]
+   In file included from drivers/char/tpm/tpm_tis_core.c:27:
+   In file included from drivers/char/tpm/tpm.h:28:
+   include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
+           int mapping_size;
+               ^
+>> drivers/char/tpm/tpm_tis_core.c:1238:2: error: use of undeclared identifier 'rc'
+           rc = tpm_chip_start(chip);
+           ^
+   drivers/char/tpm/tpm_tis_core.c:1239:6: error: use of undeclared identifier 'rc'
+           if (rc)
+               ^
+   drivers/char/tpm/tpm_tis_core.c:1239:6: error: use of undeclared identifier 'rc'
+   drivers/char/tpm/tpm_tis_core.c:1239:6: error: use of undeclared identifier 'rc'
+   1 warning and 4 errors generated.
 
 
-vim +/hwmon_chip +47 drivers/hwmon/max597x.c
+vim +/rc +1238 drivers/char/tpm/tpm_tis_core.c
 
-    40	
-    41	static int max597x_read(struct device *dev, enum hwmon_sensor_types type,
-    42				u32 attr, int channel, long *val)
-    43	{
-    44		struct max597x_hwmon *ddata = dev_get_drvdata(dev);
-    45		int ret;
-    46	
-  > 47		switch (type) {
-    48		case hwmon_curr:
-    49			switch (attr) {
-    50			case hwmon_curr_input:
-    51				ret = max597x_read_reg(ddata, MAX5970_REG_CURRENT_H(channel),
-    52						       ddata->irng[channel], val);
-    53				if (ret < 0)
-    54					return ret;
-    55	
-    56				return 0;
-    57			default:
-    58				return -EOPNOTSUPP;
-    59			}
-    60	
-    61		case hwmon_in:
-    62			switch (attr) {
-    63			case hwmon_in_input:
-    64				ret = max597x_read_reg(ddata, MAX5970_REG_VOLTAGE_H(channel),
-    65						       ddata->mon_rng[channel], val);
-    66				if (ret < 0)
-    67					return ret;
-    68				return 0;
-    69			default:
-    70				return -EOPNOTSUPP;
-    71			}
-    72		}
-    73		return -EOPNOTSUPP;
-    74	}
-    75	
+  1232	
+  1233	int tpm_tis_resume(struct device *dev)
+  1234	{
+  1235		struct tpm_chip *chip = dev_get_drvdata(dev);
+  1236		int ret;
+  1237	
+> 1238		rc = tpm_chip_start(chip);
+  1239		if (rc)
+  1240			return ret;
+  1241	
+  1242		if (chip->flags & TPM_CHIP_FLAG_IRQ)
+  1243			tpm_tis_reenable_interrupts(chip);
+  1244	
+  1245		ret = tpm_pm_resume(dev);
+  1246		if (ret)
+  1247			goto out;
+  1248	
+  1249		/*
+  1250		 * TPM 1.2 requires self-test on resume. This function actually returns
+  1251		 * an error code but for unknown reason it isn't handled.
+  1252		 */
+  1253		if (!(chip->flags & TPM_CHIP_FLAG_TPM2))
+  1254			tpm1_do_selftest(chip);
+  1255	
+  1256	out:
+  1257		tpm_chip_stop(chip);
+  1258	
+  1259		return ret;
+  1260	}
+  1261	EXPORT_SYMBOL_GPL(tpm_tis_resume);
+  1262	#endif
+  1263	
 
 -- 
 0-DAY CI Kernel Test Service
