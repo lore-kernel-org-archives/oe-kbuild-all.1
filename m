@@ -1,241 +1,138 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB1212FB6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 14:24:08 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DC9B7218F2;
-	Wed, 26 Apr 2023 14:24:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1682519046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n6mQUD1ynKTYG3hNgIqZs81lO+ivxQ/TawT6mi+o4Lo=;
-	b=oEXL5HkfbiDZ+vrrx2ox8CrPEfOmfYf/EEI/tK54cOrUn0YMGs593jymPaA274PLMylQkt
-	QJelOFjlTCVXY8EWh7HkJ2wrLtiulrGbvqPXerlg+9DU/iliyodvQnXI55Ll+P9iV/HdLT
-	liq/THKIl09Z5W02z79JJDDJaXkH9QM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1682519046;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=n6mQUD1ynKTYG3hNgIqZs81lO+ivxQ/TawT6mi+o4Lo=;
-	b=SCYeYuPa66/XI1iHJ9nvGZt5cwgKkL5IX1nmC/Y1HYukmJrdeqTG1oj/teSWvVZ7NmGUPQ
-	goRs0jhdQe1LIEDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 9C0CD13421;
-	Wed, 26 Apr 2023 14:24:06 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 3bZMJQY0SWQyXgAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Wed, 26 Apr 2023 14:24:06 +0000
-Message-ID: <dbf2c5eb-925e-3e9a-0184-7da78fc7bc76@suse.de>
-Date: Wed, 26 Apr 2023 16:24:06 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338DE4C8E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 16:21:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1682526062; x=1714062062;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rB78a7/A6GTI6b2Cqo+eMAXNPCKBcL/FsCAwDCEQlv0=;
+  b=QO5KqCy45L8ezIwGVlMwj95+LvGThSH5fPg3y0HCJzQfx3vnYd5VLGV3
+   hXgMUytRMNUqN/35KlPs/w9nOBngHO4O8xTz5XtXt6FsHTL6WPJu2g78v
+   ycYGUWsZbt+wSQGTuveeeOROtfbFglkGpA/aO8fvEjcIr5Z9aFapMuz9D
+   n9dYo0EEfwqEiabqaP9tB2husnWnyVNe+eVDwEPVp/LhskkkmmomPsxvL
+   zt5WSKC/EXDNGhSl93rGWWHrmyKFDd0S5K0tYcLnEoTXY82dPzEapzaNR
+   UFERsdw2zwIQHeL4OoP2gN+qAH+dnKa+CGugN2CsMqHzom1d4cI53pam4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="349096957"
+X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
+   d="scan'208";a="349096957"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 09:20:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="805571097"
+X-IronPort-AV: E=Sophos;i="5.99,228,1677571200"; 
+   d="scan'208";a="805571097"
+Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 26 Apr 2023 09:20:44 -0700
+Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1prhsp-0000Mc-1m;
+	Wed, 26 Apr 2023 16:20:43 +0000
+Date: Thu, 27 Apr 2023 00:20:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Oleksii Moisieiev <Oleksii_Moisieiev@epam.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC v2 1/3] firmware: arm_scmi: Add SCMI v3.2 pincontrol
+ protocol basic support
+Message-ID: <202304270027.e1pd32ns-lkp@intel.com>
+References: <b4d60f3408f8fe839933fa3938ecdc9bfceb75d7.1682513390.git.oleksii_moisieiev@epam.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 5/6] fbdev: Move CFB read and write code into helper
- functions
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch, javierm@redhat.com,
- deller@gmx.de, geert@linux-m68k.org, sudipm.mukherjee@gmail.com,
- teddy.wang@siliconmotion.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20230425142846.730-6-tzimmermann@suse.de>
- <202304261317.QAEwArcB-lkp@intel.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <202304261317.QAEwArcB-lkp@intel.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------xYnq0JUGXa0tEBYwb6wV4okH"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b4d60f3408f8fe839933fa3938ecdc9bfceb75d7.1682513390.git.oleksii_moisieiev@epam.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------xYnq0JUGXa0tEBYwb6wV4okH
-Content-Type: multipart/mixed; boundary="------------DFJl0tM9GVK0ppaU8oCajf0P";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: kernel test robot <lkp@intel.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, daniel@ffwll.ch, javierm@redhat.com,
- deller@gmx.de, geert@linux-m68k.org, sudipm.mukherjee@gmail.com,
- teddy.wang@siliconmotion.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Message-ID: <dbf2c5eb-925e-3e9a-0184-7da78fc7bc76@suse.de>
-Subject: Re: [PATCH 5/6] fbdev: Move CFB read and write code into helper
- functions
-References: <20230425142846.730-6-tzimmermann@suse.de>
- <202304261317.QAEwArcB-lkp@intel.com>
-In-Reply-To: <202304261317.QAEwArcB-lkp@intel.com>
+Hi Oleksii,
 
---------------DFJl0tM9GVK0ppaU8oCajf0P
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-SGkNCg0KQW0gMjYuMDQuMjMgdW0gMDc6MTYgc2NocmllYiBrZXJuZWwgdGVzdCByb2JvdDoN
-Cj4gSGkgVGhvbWFzLA0KPiANCj4ga2VybmVsIHRlc3Qgcm9ib3Qgbm90aWNlZCB0aGUgZm9s
-bG93aW5nIGJ1aWxkIHdhcm5pbmdzOg0KDQpGWUkgdGhlc2UgZXJyb3JzIGNvbWUgZnJvbSBz
-eXN0ZW1zIHRoYXQgdXNlIHZvbGF0aWxlIF9faW9tZW0gcG9pbnRlcnMgDQp3aXRoIHBsYWlu
-IG1lbWNweSgpLiBTZWUgbXkgcGF0Y2hzZXQgYXQgWzFdIGZvciBhbiBpbXByb3ZlbWVudC4N
-Cg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KWzFdIGh0dHBzOi8vcGF0Y2h3b3JrLmZyZWVk
-ZXNrdG9wLm9yZy9zZXJpZXMvMTE2OTg1Lw0KDQo+IA0KPiBbYXV0byBidWlsZCB0ZXN0IFdB
-Uk5JTkcgb24gZHJtLW1pc2MvZHJtLW1pc2MtbmV4dF0NCj4gW2Fsc28gYnVpbGQgdGVzdCBX
-QVJOSU5HIG9uIGxpbnVzL21hc3RlciBuZXh0LTIwMjMwNDI1XQ0KPiBbY2Fubm90IGFwcGx5
-IHRvIHY2LjNdDQo+IFtJZiB5b3VyIHBhdGNoIGlzIGFwcGxpZWQgdG8gdGhlIHdyb25nIGdp
-dCB0cmVlLCBraW5kbHkgZHJvcCB1cyBhIG5vdGUuDQo+IEFuZCB3aGVuIHN1Ym1pdHRpbmcg
-cGF0Y2gsIHdlIHN1Z2dlc3QgdG8gdXNlICctLWJhc2UnIGFzIGRvY3VtZW50ZWQgaW4NCj4g
-aHR0cHM6Ly9naXQtc2NtLmNvbS9kb2NzL2dpdC1mb3JtYXQtcGF0Y2gjX2Jhc2VfdHJlZV9p
-bmZvcm1hdGlvbl0NCj4gDQo+IHVybDogICAgaHR0cHM6Ly9naXRodWIuY29tL2ludGVsLWxh
-Yi1sa3AvbGludXgvY29tbWl0cy9UaG9tYXMtWmltbWVybWFubi9mYmRldi1SZXR1cm4tbnVt
-YmVyLW9mLWJ5dGVzLXJlYWQtb3Itd3JpdHRlbi8yMDIzMDQyNS0yMjMwMTENCj4gYmFzZTog
-ICBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJtLW1pc2MgZHJtLW1pc2Mt
-bmV4dA0KPiBwYXRjaCBsaW5rOiAgICBodHRwczovL2xvcmUua2VybmVsLm9yZy9yLzIwMjMw
-NDI1MTQyODQ2LjczMC02LXR6aW1tZXJtYW5uJTQwc3VzZS5kZQ0KPiBwYXRjaCBzdWJqZWN0
-OiBbUEFUQ0ggNS82XSBmYmRldjogTW92ZSBDRkIgcmVhZCBhbmQgd3JpdGUgY29kZSBpbnRv
-IGhlbHBlciBmdW5jdGlvbnMNCj4gY29uZmlnOiByaXNjdi1yYW5kY29uZmlnLXMwMzMtMjAy
-MzA0MjMgKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDIzMDQy
-Ni8yMDIzMDQyNjEzMTcuUUFFd0FyY0ItbGtwQGludGVsLmNvbS9jb25maWcpDQo+IGNvbXBp
-bGVyOiByaXNjdjY0LWxpbnV4LWdjYyAoR0NDKSAxMi4xLjANCj4gcmVwcm9kdWNlOg0KPiAg
-ICAgICAgICB3Z2V0IGh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9pbnRlbC9s
-a3AtdGVzdHMvbWFzdGVyL3NiaW4vbWFrZS5jcm9zcyAtTyB+L2Jpbi9tYWtlLmNyb3NzDQo+
-ICAgICAgICAgIGNobW9kICt4IH4vYmluL21ha2UuY3Jvc3MNCj4gICAgICAgICAgIyBhcHQt
-Z2V0IGluc3RhbGwgc3BhcnNlDQo+ICAgICAgICAgICMgc3BhcnNlIHZlcnNpb246IHYwLjYu
-NC0zOS1nY2UxYTY3MjAtZGlydHkNCj4gICAgICAgICAgIyBodHRwczovL2dpdGh1Yi5jb20v
-aW50ZWwtbGFiLWxrcC9saW51eC9jb21taXQvZDRhMTUwZjNkZmE4ZTczZjJlOTJmMWM3ZWZj
-OTI3MWUxNzYzMmNjMg0KPiAgICAgICAgICBnaXQgcmVtb3RlIGFkZCBsaW51eC1yZXZpZXcg
-aHR0cHM6Ly9naXRodWIuY29tL2ludGVsLWxhYi1sa3AvbGludXgNCj4gICAgICAgICAgZ2l0
-IGZldGNoIC0tbm8tdGFncyBsaW51eC1yZXZpZXcgVGhvbWFzLVppbW1lcm1hbm4vZmJkZXYt
-UmV0dXJuLW51bWJlci1vZi1ieXRlcy1yZWFkLW9yLXdyaXR0ZW4vMjAyMzA0MjUtMjIzMDEx
-DQo+ICAgICAgICAgIGdpdCBjaGVja291dCBkNGExNTBmM2RmYThlNzNmMmU5MmYxYzdlZmM5
-MjcxZTE3NjMyY2MyDQo+ICAgICAgICAgICMgc2F2ZSB0aGUgY29uZmlnIGZpbGUNCj4gICAg
-ICAgICAgbWtkaXIgYnVpbGRfZGlyICYmIGNwIGNvbmZpZyBidWlsZF9kaXIvLmNvbmZpZw0K
-PiAgICAgICAgICBDT01QSUxFUl9JTlNUQUxMX1BBVEg9JEhPTUUvMGRheSBDT01QSUxFUj1n
-Y2MtMTIuMS4wIG1ha2UuY3Jvc3MgQz0xIENGPSctZmRpYWdub3N0aWMtcHJlZml4IC1EX19D
-SEVDS19FTkRJQU5fXycgTz1idWlsZF9kaXIgQVJDSD1yaXNjdiBvbGRkZWZjb25maWcNCj4g
-ICAgICAgICAgQ09NUElMRVJfSU5TVEFMTF9QQVRIPSRIT01FLzBkYXkgQ09NUElMRVI9Z2Nj
-LTEyLjEuMCBtYWtlLmNyb3NzIEM9MSBDRj0nLWZkaWFnbm9zdGljLXByZWZpeCAtRF9fQ0hF
-Q0tfRU5ESUFOX18nIE89YnVpbGRfZGlyIEFSQ0g9cmlzY3YgU0hFTEw9L2Jpbi9iYXNoIGRy
-aXZlcnMvdmlkZW8vZmJkZXYvY29yZS8NCj4gDQo+IElmIHlvdSBmaXggdGhlIGlzc3VlLCBr
-aW5kbHkgYWRkIGZvbGxvd2luZyB0YWcgd2hlcmUgYXBwbGljYWJsZQ0KPiB8IFJlcG9ydGVk
-LWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4gfCBMaW5rOiBodHRw
-czovL2xvcmUua2VybmVsLm9yZy9vZS1rYnVpbGQtYWxsLzIwMjMwNDI2MTMxNy5RQUV3QXJj
-Qi1sa3BAaW50ZWwuY29tLw0KPiANCj4gc3BhcnNlIHdhcm5pbmdzOiAobmV3IG9uZXMgcHJl
-Zml4ZWQgYnkgPj4pDQo+ICAgICBXQVJOSU5HOiBpbnZhbGlkIGFyZ3VtZW50IHRvICctbWFy
-Y2gnOiAnX3ppaGludHBhdXNlJw0KPj4+IGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9j
-ZmJfZm9wcy5jOjQ0OjM5OiBzcGFyc2U6IHNwYXJzZTogaW5jb3JyZWN0IHR5cGUgaW4gYXJn
-dW1lbnQgMiAoZGlmZmVyZW50IGFkZHJlc3Mgc3BhY2VzKSBAQCAgICAgZXhwZWN0ZWQgdm9p
-ZCBjb25zdCAqIEBAICAgICBnb3QgdW5zaWduZWQgY2hhciBbbm9kZXJlZl0gW3VzZXJ0eXBl
-XSBfX2lvbWVtICpbYXNzaWduZWRdIHNyYyBAQA0KPiAgICAgZHJpdmVycy92aWRlby9mYmRl
-di9jb3JlL2ZiX2NmYl9mb3BzLmM6NDQ6Mzk6IHNwYXJzZTogICAgIGV4cGVjdGVkIHZvaWQg
-Y29uc3QgKg0KPiAgICAgZHJpdmVycy92aWRlby9mYmRldi9jb3JlL2ZiX2NmYl9mb3BzLmM6
-NDQ6Mzk6IHNwYXJzZTogICAgIGdvdCB1bnNpZ25lZCBjaGFyIFtub2RlcmVmXSBbdXNlcnR5
-cGVdIF9faW9tZW0gKlthc3NpZ25lZF0gc3JjDQo+Pj4gZHJpdmVycy92aWRlby9mYmRldi9j
-b3JlL2ZiX2NmYl9mb3BzLmM6MTEzOjMyOiBzcGFyc2U6IHNwYXJzZTogaW5jb3JyZWN0IHR5
-cGUgaW4gYXJndW1lbnQgMSAoZGlmZmVyZW50IGFkZHJlc3Mgc3BhY2VzKSBAQCAgICAgZXhw
-ZWN0ZWQgdm9pZCAqIEBAICAgICBnb3QgdW5zaWduZWQgY2hhciBbbm9kZXJlZl0gW3VzZXJ0
-eXBlXSBfX2lvbWVtICpbYXNzaWduZWRdIGRzdCBAQA0KPiAgICAgZHJpdmVycy92aWRlby9m
-YmRldi9jb3JlL2ZiX2NmYl9mb3BzLmM6MTEzOjMyOiBzcGFyc2U6ICAgICBleHBlY3RlZCB2
-b2lkICoNCj4gICAgIGRyaXZlcnMvdmlkZW8vZmJkZXYvY29yZS9mYl9jZmJfZm9wcy5jOjEx
-MzozMjogc3BhcnNlOiAgICAgZ290IHVuc2lnbmVkIGNoYXIgW25vZGVyZWZdIFt1c2VydHlw
-ZV0gX19pb21lbSAqW2Fzc2lnbmVkXSBkc3QNCj4gDQo+IHZpbSArNDQgZHJpdmVycy92aWRl
-by9mYmRldi9jb3JlL2ZiX2NmYl9mb3BzLmMNCj4gDQo+ICAgICAgIDYJDQo+ICAgICAgIDcJ
-c3NpemVfdCBmYl9jZmJfcmVhZChzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgY2hhciBfX3VzZXIg
-KmJ1Ziwgc2l6ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpDQo+ICAgICAgIDgJew0KPiAgICAg
-ICA5CQl1bnNpZ25lZCBsb25nIHAgPSAqcHBvczsNCj4gICAgICAxMAkJdTggKmJ1ZmZlciwg
-KmRzdDsNCj4gICAgICAxMQkJdTggX19pb21lbSAqc3JjOw0KPiAgICAgIDEyCQlpbnQgYywg
-Y250ID0gMCwgZXJyID0gMDsNCj4gICAgICAxMwkJdW5zaWduZWQgbG9uZyB0b3RhbF9zaXpl
-Ow0KPiAgICAgIDE0CQ0KPiAgICAgIDE1CQlpZiAoIWluZm8tPnNjcmVlbl9iYXNlKQ0KPiAg
-ICAgIDE2CQkJcmV0dXJuIC1FTk9ERVY7DQo+ICAgICAgMTcJDQo+ICAgICAgMTgJCXRvdGFs
-X3NpemUgPSBpbmZvLT5zY3JlZW5fc2l6ZTsNCj4gICAgICAxOQkNCj4gICAgICAyMAkJaWYg
-KHRvdGFsX3NpemUgPT0gMCkNCj4gICAgICAyMQkJCXRvdGFsX3NpemUgPSBpbmZvLT5maXgu
-c21lbV9sZW47DQo+ICAgICAgMjIJDQo+ICAgICAgMjMJCWlmIChwID49IHRvdGFsX3NpemUp
-DQo+ICAgICAgMjQJCQlyZXR1cm4gMDsNCj4gICAgICAyNQkNCj4gICAgICAyNgkJaWYgKGNv
-dW50ID49IHRvdGFsX3NpemUpDQo+ICAgICAgMjcJCQljb3VudCA9IHRvdGFsX3NpemU7DQo+
-ICAgICAgMjgJDQo+ICAgICAgMjkJCWlmIChjb3VudCArIHAgPiB0b3RhbF9zaXplKQ0KPiAg
-ICAgIDMwCQkJY291bnQgPSB0b3RhbF9zaXplIC0gcDsNCj4gICAgICAzMQkNCj4gICAgICAz
-MgkJYnVmZmVyID0ga21hbGxvYygoY291bnQgPiBQQUdFX1NJWkUpID8gUEFHRV9TSVpFIDog
-Y291bnQsIEdGUF9LRVJORUwpOw0KPiAgICAgIDMzCQlpZiAoIWJ1ZmZlcikNCj4gICAgICAz
-NAkJCXJldHVybiAtRU5PTUVNOw0KPiAgICAgIDM1CQ0KPiAgICAgIDM2CQlzcmMgPSAodTgg
-X19pb21lbSAqKShpbmZvLT5zY3JlZW5fYmFzZSArIHApOw0KPiAgICAgIDM3CQ0KPiAgICAg
-IDM4CQlpZiAoaW5mby0+ZmJvcHMtPmZiX3N5bmMpDQo+ICAgICAgMzkJCQlpbmZvLT5mYm9w
-cy0+ZmJfc3luYyhpbmZvKTsNCj4gICAgICA0MAkNCj4gICAgICA0MQkJd2hpbGUgKGNvdW50
-KSB7DQo+ICAgICAgNDIJCQljICA9IChjb3VudCA+IFBBR0VfU0laRSkgPyBQQUdFX1NJWkUg
-OiBjb3VudDsNCj4gICAgICA0MwkJCWRzdCA9IGJ1ZmZlcjsNCj4gICAgPiA0NAkJCWZiX21l
-bWNweV9mcm9tZmIoZHN0LCBzcmMsIGMpOw0KPiAgICAgIDQ1CQkJZHN0ICs9IGM7DQo+ICAg
-ICAgNDYJCQlzcmMgKz0gYzsNCj4gICAgICA0NwkNCj4gICAgICA0OAkJCWlmIChjb3B5X3Rv
-X3VzZXIoYnVmLCBidWZmZXIsIGMpKSB7DQo+ICAgICAgNDkJCQkJZXJyID0gLUVGQVVMVDsN
-Cj4gICAgICA1MAkJCQlicmVhazsNCj4gICAgICA1MQkJCX0NCj4gICAgICA1MgkJCSpwcG9z
-ICs9IGM7DQo+ICAgICAgNTMJCQlidWYgKz0gYzsNCj4gICAgICA1NAkJCWNudCArPSBjOw0K
-PiAgICAgIDU1CQkJY291bnQgLT0gYzsNCj4gICAgICA1NgkJfQ0KPiAgICAgIDU3CQ0KPiAg
-ICAgIDU4CQlrZnJlZShidWZmZXIpOw0KPiAgICAgIDU5CQ0KPiAgICAgIDYwCQlyZXR1cm4g
-Y250ID8gY250IDogZXJyOw0KPiAgICAgIDYxCX0NCj4gICAgICA2MglFWFBPUlRfU1lNQk9M
-KGZiX2NmYl9yZWFkKTsNCj4gICAgICA2MwkNCj4gICAgICA2NAlzc2l6ZV90IGZiX2NmYl93
-cml0ZShzdHJ1Y3QgZmJfaW5mbyAqaW5mbywgY29uc3QgY2hhciBfX3VzZXIgKmJ1Ziwgc2l6
-ZV90IGNvdW50LCBsb2ZmX3QgKnBwb3MpDQo+ICAgICAgNjUJew0KPiAgICAgIDY2CQl1bnNp
-Z25lZCBsb25nIHAgPSAqcHBvczsNCj4gICAgICA2NwkJdTggKmJ1ZmZlciwgKnNyYzsNCj4g
-ICAgICA2OAkJdTggX19pb21lbSAqZHN0Ow0KPiAgICAgIDY5CQlpbnQgYywgY250ID0gMCwg
-ZXJyID0gMDsNCj4gICAgICA3MAkJdW5zaWduZWQgbG9uZyB0b3RhbF9zaXplOw0KPiAgICAg
-IDcxCQ0KPiAgICAgIDcyCQlpZiAoIWluZm8tPnNjcmVlbl9iYXNlKQ0KPiAgICAgIDczCQkJ
-cmV0dXJuIC1FTk9ERVY7DQo+ICAgICAgNzQJDQo+ICAgICAgNzUJCXRvdGFsX3NpemUgPSBp
-bmZvLT5zY3JlZW5fc2l6ZTsNCj4gICAgICA3NgkNCj4gICAgICA3NwkJaWYgKHRvdGFsX3Np
-emUgPT0gMCkNCj4gICAgICA3OAkJCXRvdGFsX3NpemUgPSBpbmZvLT5maXguc21lbV9sZW47
-DQo+ICAgICAgNzkJDQo+ICAgICAgODAJCWlmIChwID4gdG90YWxfc2l6ZSkNCj4gICAgICA4
-MQkJCXJldHVybiAtRUZCSUc7DQo+ICAgICAgODIJDQo+ICAgICAgODMJCWlmIChjb3VudCA+
-IHRvdGFsX3NpemUpIHsNCj4gICAgICA4NAkJCWVyciA9IC1FRkJJRzsNCj4gICAgICA4NQkJ
-CWNvdW50ID0gdG90YWxfc2l6ZTsNCj4gICAgICA4NgkJfQ0KPiAgICAgIDg3CQ0KPiAgICAg
-IDg4CQlpZiAoY291bnQgKyBwID4gdG90YWxfc2l6ZSkgew0KPiAgICAgIDg5CQkJaWYgKCFl
-cnIpDQo+ICAgICAgOTAJCQkJZXJyID0gLUVOT1NQQzsNCj4gICAgICA5MQkNCj4gICAgICA5
-MgkJCWNvdW50ID0gdG90YWxfc2l6ZSAtIHA7DQo+ICAgICAgOTMJCX0NCj4gICAgICA5NAkN
-Cj4gICAgICA5NQkJYnVmZmVyID0ga21hbGxvYygoY291bnQgPiBQQUdFX1NJWkUpID8gUEFH
-RV9TSVpFIDogY291bnQsIEdGUF9LRVJORUwpOw0KPiAgICAgIDk2CQlpZiAoIWJ1ZmZlcikN
-Cj4gICAgICA5NwkJCXJldHVybiAtRU5PTUVNOw0KPiAgICAgIDk4CQ0KPiAgICAgIDk5CQlk
-c3QgPSAodTggX19pb21lbSAqKShpbmZvLT5zY3JlZW5fYmFzZSArIHApOw0KPiAgICAgMTAw
-CQ0KPiAgICAgMTAxCQlpZiAoaW5mby0+ZmJvcHMtPmZiX3N5bmMpDQo+ICAgICAxMDIJCQlp
-bmZvLT5mYm9wcy0+ZmJfc3luYyhpbmZvKTsNCj4gICAgIDEwMwkNCj4gICAgIDEwNAkJd2hp
-bGUgKGNvdW50KSB7DQo+ICAgICAxMDUJCQljID0gKGNvdW50ID4gUEFHRV9TSVpFKSA/IFBB
-R0VfU0laRSA6IGNvdW50Ow0KPiAgICAgMTA2CQkJc3JjID0gYnVmZmVyOw0KPiAgICAgMTA3
-CQ0KPiAgICAgMTA4CQkJaWYgKGNvcHlfZnJvbV91c2VyKHNyYywgYnVmLCBjKSkgew0KPiAg
-ICAgMTA5CQkJCWVyciA9IC1FRkFVTFQ7DQo+ICAgICAxMTAJCQkJYnJlYWs7DQo+ICAgICAx
-MTEJCQl9DQo+ICAgICAxMTIJDQo+ICAgPiAxMTMJCQlmYl9tZW1jcHlfdG9mYihkc3QsIHNy
-YywgYyk7DQo+IA0KDQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIg
-RGV2ZWxvcGVyDQpTVVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCkZyYW5r
-ZW5zdHJhc3NlIDE0NiwgOTA0NjEgTnVlcm5iZXJnLCBHZXJtYW55DQpHRjogSXZvIFRvdGV2
-LCBBbmRyZXcgTXllcnMsIEFuZHJldyBNY0RvbmFsZCwgQm91ZGllbiBNb2VybWFuDQpIUkIg
-MzY4MDkgKEFHIE51ZXJuYmVyZykNCg==
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.3 next-20230425]
+[cannot apply to linusw-pinctrl/devel linusw-pinctrl/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
---------------DFJl0tM9GVK0ppaU8oCajf0P--
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleksii-Moisieiev/pinctrl-Implementation-of-the-generic-scmi-pinctrl-driver/20230426-222739
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/b4d60f3408f8fe839933fa3938ecdc9bfceb75d7.1682513390.git.oleksii_moisieiev%40epam.com
+patch subject: [RFC v2 1/3] firmware: arm_scmi: Add SCMI v3.2 pincontrol protocol basic support
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230427/202304270027.e1pd32ns-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/d75721913de292ab464a1580633f927a5dd86fde
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Oleksii-Moisieiev/pinctrl-Implementation-of-the-generic-scmi-pinctrl-driver/20230426-222739
+        git checkout d75721913de292ab464a1580633f927a5dd86fde
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/firmware/
 
---------------xYnq0JUGXa0tEBYwb6wV4okH
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304270027.e1pd32ns-lkp@intel.com/
 
------BEGIN PGP SIGNATURE-----
+All errors (new ones prefixed by >>):
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRJNAYFAwAAAAAACgkQlh/E3EQov+Cc
-xA/+L0YyVP3khi/27pqCiQ4ASaULLZnmgSdBgtuREZpwp6rV5zwCsWsLoCiwEmVJGneQ6L1bSzBa
-259ZZLwhWy5fTEJKV5BfuQWrrtNoSR0l01SRM1blayElwc21bZAFKaKCzcyb4HcjmUwQq6kObg5/
-8JqOgHD8tFKiEryZjuRy3AaNzSAPdmn6JMh781M7Aqp32iqXJAKcmbX90jiD9zJSmo1piJvp8I1I
-Ovp/6gDqkpB78vAnVu0VXNOdRid17dqZhp1pxvzHskUtcFuC9AUWKMlDxcZBQQAkhKriDaZRBY6s
-540YIEGUIOgJW/JyU5sPabtQrOI9u4zGJFvldGqsxAmT4gRIKD8Bf2LCXThMmfJ4zqG4dk5fDQRr
-SXvIQj4xDVPrCKUWtvNDUDn8MabIFoeJGcu9g8pl01nMvWMc9L2Z+8xbQm8RJjxoq1oHHpn07/pl
-Bzwq83icXx3h/nHM0GDsGMaucGjI83HWAUYdWLdc95k2Ei9QSYeL3Uf+GUe12QCHlS7J1JYJxT6d
-X7S6xMI/Q53oabqKxNYVn/bynKEYz6eLSTtclqbN444Lv1GUuL9EB0n0dhpFbOq2JZYUSKiWf6+J
-1NQG1xqemD3cIDVWPfMJlgAvqsjPV1sor2rEEHztwqXWqyakRcKAQN5K7IxbNm4cnCdmjYZ5FNMw
-gIQ=
-=HHVv
------END PGP SIGNATURE-----
+   In file included from <command-line>:
+   In function 'scmi_pinctrl_function_select',
+       inlined from 'scmi_pinctrl_set_mux' at drivers/firmware/arm_scmi/pinctrl.c:750:9:
+>> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_501' declared with attribute error: FIELD_PREP: value too large for the field
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:68:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      68 |                 BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
+         |                 ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:114:17: note: in expansion of macro '__BF_FIELD_CHECK'
+     114 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~
+   drivers/firmware/arm_scmi/pinctrl.c:14:21: note: in expansion of macro 'FIELD_PREP'
+      14 | #define SET_TYPE(x) FIELD_PREP(GENMASK(1, 0), (x))
+         |                     ^~~~~~~~~~
+   drivers/firmware/arm_scmi/pinctrl.c:470:21: note: in expansion of macro 'SET_TYPE'
+     470 |         tx->flags = SET_TYPE(cpu_to_le32(type));
+         |                     ^~~~~~~~
 
---------------xYnq0JUGXa0tEBYwb6wV4okH--
+
+vim +/__compiletime_assert_501 +397 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
