@@ -1,43 +1,51 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A23810E9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 04:35:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BEF1859;
+	Wed, 26 Apr 2023 05:16:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682483734; x=1714019734;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fV27SnUMJp9+d6TeVxS/JMbbSYQapEGjY34Kn6K4/Q4=;
-  b=kBuzHm5giA1bpw3dyLOGXdTdMFFCoIgbN5/aESkjoC0EmUr5VNtYyL+M
-   zqabMZmJyCXVLdXqqgraoYHgomry23YcDe6NOMQpZYYNzPnQES/UkpijT
-   YOb/yjeSLflxcmdRdrTFpZWcG3MwqugsiapSVGS+dKuAIRBGbaKMW/T5Q
-   TcrH+eWWWHsM3gNV0AlvEEIS20REdiI3PR4aoq5wLt/UD7SF3ZKdQrgAU
-   NYw/kFB0pXLLiv6fh3BpbFs9IGKgBMhsWKZfoEjPbM8B6mj1dNy4JMLiY
-   bmAXFaO+N9XvyQ4ZQ23eT/tlAiWyu3XlWVXeJvR0hjJnHiirxy/bq0IW6
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="347015630"
+  t=1682486197; x=1714022197;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Eq8o8+B6diLLvj3cb6sS+tT9wrkN93md5/woie8nDsA=;
+  b=KyKzOkVfLmr7MELMJCBFfKDOMKTcLArjtP5CyfoOU9B2GSJaR24T9QU8
+   JqzCJqkrJftDLxrMDiMEtPAD5kiZdPZ2bKU/vqNYVGF5C1DLYKrYDJoIL
+   4Qua8hvOBYh3VNq6VEh3LVfO+y84LpcpjEkSA8RYFWTUsEwRiZHgUdaXr
+   QBUThKza20jQxDPxkXSYenui6eH2vpU7AgAlKwNQy7HGb/1uyF1ALBduR
+   VMURhW8sF3S72P8+brkwSWZQexK/0u0afIw3Hy623aj4LOqk37m2cRZxF
+   gnDrsS+l1pVYdf5qnQKJ9JrTpCnJ1fwrE71R9lw4/Q+/YoaQ/SdoH8WBm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="433277056"
 X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; 
-   d="scan'208";a="347015630"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 21:35:33 -0700
+   d="scan'208";a="433277056"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2023 22:16:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="940045895"
+X-IronPort-AV: E=McAfee;i="6600,9927,10691"; a="758455016"
 X-IronPort-AV: E=Sophos;i="5.99,227,1677571200"; 
-   d="scan'208";a="940045895"
+   d="scan'208";a="758455016"
 Received: from lkp-server01.sh.intel.com (HELO 98ee5a99fc83) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 25 Apr 2023 21:35:32 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 25 Apr 2023 22:16:33 -0700
 Received: from kbuild by 98ee5a99fc83 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prWsN-00007S-1n;
-	Wed, 26 Apr 2023 04:35:31 +0000
-Date: Wed, 26 Apr 2023 12:35:02 +0800
+	id 1prXW4-00008g-0v;
+	Wed, 26 Apr 2023 05:16:32 +0000
+Date: Wed, 26 Apr 2023 13:16:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>
-Subject: [asahilinux:bits/080-wifi 8/25]
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse:
- sparse: incorrect type in assignment (different base types)
-Message-ID: <202304261254.uzAec9Wc-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jaegeuk Kim <jaegeuk@kernel.org>, linux-scsi@vger.kernel.org,
+	Bart Van Assche <bvanassche@acm.org>,
+	Christoph Hellwig <hch@lst.de>, Ming Lei <ming.lei@redhat.com>,
+	Hannes Reinecke <hare@suse.de>,
+	John Garry <john.g.garry@oracle.com>,
+	Mike Christie <michael.christie@oracle.com>,
+	"James E.J. Bottomley" <jejb@linux.ibm.com>
+Subject: Re: [PATCH 3/4] scsi: Only kick the requeue list if necessary
+Message-ID: <202304261310.YvjIbyb4-lkp@intel.com>
+References: <20230425233446.1231000-4-bvanassche@acm.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,69 +54,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230425233446.1231000-4-bvanassche@acm.org>
 
-tree:   https://github.com/AsahiLinux/linux bits/080-wifi
-head:   8a96dfb06cc870730ecf78195187daec961f3e2c
-commit: 289c1cd14c0f6ab6f2998b3548baa8de9a2be42d [8/25] brcmfmac: cfg80211: Add support for PMKID_V3 operations
-config: nios2-randconfig-s031-20230423 (https://download.01.org/0day-ci/archive/20230426/202304261254.uzAec9Wc-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
-reproduce:
+Hi Bart,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on mkp-scsi/for-next]
+[also build test ERROR on jejb-scsi/for-next linus/master v6.3 next-20230425]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bart-Van-Assche/scsi-core-Use-min-instead-of-open-coding-it/20230426-073743
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230425233446.1231000-4-bvanassche%40acm.org
+patch subject: [PATCH 3/4] scsi: Only kick the requeue list if necessary
+config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230426/202304261310.YvjIbyb4-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/AsahiLinux/linux/commit/289c1cd14c0f6ab6f2998b3548baa8de9a2be42d
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux bits/080-wifi
-        git checkout 289c1cd14c0f6ab6f2998b3548baa8de9a2be42d
+        # https://github.com/intel-lab-lkp/linux/commit/1f35bc98f5c39b963f1cbb31159a1e1395dda276
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Bart-Van-Assche/scsi-core-Use-min-instead-of-open-coding-it/20230426-073743
+        git checkout 1f35bc98f5c39b963f1cbb31159a1e1395dda276
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/net/wireless/broadcom/brcm80211/brcmfmac/ drivers/video/fbdev/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/scsi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304261254.uzAec9Wc-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304261310.YvjIbyb4-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] time_left @@     got unsigned int @@
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse:     expected restricted __le32 [usertype] time_left
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse:     got unsigned int
+All errors (new ones prefixed by >>):
 
-vim +4334 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+>> drivers/scsi/scsi_lib.c:509:28: error: use of undeclared identifier 'cmd'
+           if (scsi_host_in_recovery(cmd->device->host))
+                                     ^
+   1 error generated.
 
-  4312	
-  4313	static s32
-  4314	brcmf_pmksa_v3_op(struct brcmf_if *ifp, struct cfg80211_pmksa *pmksa,
-  4315			  bool alive)
-  4316	{
-  4317		struct brcmf_pmk_op_v3_le *pmk_op;
-  4318		int length = offsetof(struct brcmf_pmk_op_v3_le, pmk);
-  4319		int ret;
-  4320	
-  4321		pmk_op = kzalloc(sizeof(*pmk_op), GFP_KERNEL);
-  4322		pmk_op->version = cpu_to_le16(BRCMF_PMKSA_VER_3);
-  4323	
-  4324		if (!pmksa) {
-  4325			/* Flush operation, operate on entire list */
-  4326			pmk_op->count = cpu_to_le16(0);
-  4327		} else {
-  4328			/* Single PMK operation */
-  4329			pmk_op->count = cpu_to_le16(1);
-  4330			length += sizeof(struct brcmf_pmksa_v3);
-  4331			memcpy(pmk_op->pmk[0].bssid, pmksa->bssid, ETH_ALEN);
-  4332			memcpy(pmk_op->pmk[0].pmkid, pmksa->pmkid, WLAN_PMKID_LEN);
-  4333			pmk_op->pmk[0].pmkid_len = WLAN_PMKID_LEN;
-> 4334			pmk_op->pmk[0].time_left = alive ? BRCMF_PMKSA_NO_EXPIRY : 0;
-  4335		}
-  4336	
-  4337		pmk_op->length = cpu_to_le16(length);
-  4338	
-  4339		ret = brcmf_fil_iovar_data_set(ifp, "pmkid_info", pmk_op, sizeof(*pmk_op));
-  4340		kfree(pmk_op);
-  4341		return ret;
-  4342	}
-  4343	
+
+vim +/cmd +509 drivers/scsi/scsi_lib.c
+
+   506	
+   507	static void scsi_run_queue_async(struct scsi_device *sdev)
+   508	{
+ > 509		if (scsi_host_in_recovery(cmd->device->host))
+   510			return;
+   511	
+   512		if (scsi_target(sdev)->single_lun ||
+   513		    !list_empty(&sdev->host->starved_list)) {
+   514			kblockd_schedule_work(&sdev->requeue_work);
+   515		} else {
+   516			/*
+   517			 * smp_mb() present in sbitmap_queue_clear() or implied in
+   518			 * .end_io is for ordering writing .device_busy in
+   519			 * scsi_device_unbusy() and reading sdev->restarts.
+   520			 */
+   521			int old = atomic_read(&sdev->restarts);
+   522	
+   523			/*
+   524			 * ->restarts has to be kept as non-zero if new budget
+   525			 *  contention occurs.
+   526			 *
+   527			 *  No need to run queue when either another re-run
+   528			 *  queue wins in updating ->restarts or a new budget
+   529			 *  contention occurs.
+   530			 */
+   531			if (old && atomic_cmpxchg(&sdev->restarts, old, 0) == old)
+   532				blk_mq_run_hw_queues(sdev->request_queue, true);
+   533		}
+   534	}
+   535	
 
 -- 
 0-DAY CI Kernel Test Service
