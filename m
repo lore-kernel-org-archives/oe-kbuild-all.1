@@ -1,42 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861302F2B;
-	Thu, 27 Apr 2023 14:26:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3202533D9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 15:38:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682605594; x=1714141594;
+  t=1682609908; x=1714145908;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vE9yH8Pnoh2lIEjE7J3XKAtcEDV+VRSxVAQiS3UaYmo=;
-  b=VWROsukxEb51h0Tk9pPkwu8YvoXYIJwF7UXmmxnZWyZSPYV4Blza0wtn
-   SQS06GEWR1280s1YeCZgJArjPvf7C/c1leOU2zfjgfMT+ZUgi6jZ2BUQ5
-   IYxDRtTeTQnbnOCDzfpIyZlwY8INlotX6vLnCgdHFgCbi/zaXGzvgoe9H
-   U9ztY9P19AGtDySxSlOPEr0u6XepV05LJ/0iIsO7eprgg91z60oHMbQtm
-   UTbu2nUwgzlDNVcSyZSw6ynD8DE72A93jol0qcDa2US++mO0E/Uw+IXUv
-   MxWZlA9DwYepVIS6QkBvdYIRCOTeEkO0r8qE7fNwDLO+FCWj9uSlU3SAD
+  bh=iA/lmj8eN+AYFls32Q1l/lmleuyuAdD46e7b2lMcWLU=;
+  b=UFP7t2XDEyORRwqeQbcDA5Cg9i8GpXvB0dfoCBCnSiFWIG4g5/7lOncV
+   k8t9RZrvjXrsV73PhLfIC8BmXuz4YDR2IOpN4fc4hVtJVPypI+UKAgiZw
+   gtFmSwisA1aNXrNg5IdXM9KDJjwBsse/PCGqNnyAnfDBgobOdG3HhEVLa
+   qkiFs30Fte7ovBfreXs9DhFfrsmEygKLgSlxOmYm47kyMLoxHt0SPQRch
+   Pa9AT73ihCkXvM6IbA+DKlPr6MZdWEGKD/F2jeDhcr26uDvtnaa+6zeJw
+   Z0eidYO9gOyMlfzGUPjzw1h+/dmnvC2pecOuabMV58XqChhHnGJWgEqJE
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="331728748"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="433764546"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="331728748"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 07:16:24 -0700
+   d="scan'208";a="433764546"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 08:38:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="694399592"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="868771525"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="694399592"
+   d="scan'208";a="868771525"
 Received: from lkp-server01.sh.intel.com (HELO 1e0e07564161) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 27 Apr 2023 07:16:23 -0700
+  by orsmga005.jf.intel.com with ESMTP; 27 Apr 2023 08:38:26 -0700
 Received: from kbuild by 1e0e07564161 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ps2Q2-0000GL-2Y;
-	Thu, 27 Apr 2023 14:16:22 +0000
-Date: Thu, 27 Apr 2023 22:15:56 +0800
+	id 1ps3hR-0000Iz-2m;
+	Thu, 27 Apr 2023 15:38:25 +0000
+Date: Thu, 27 Apr 2023 23:37:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [nbdd0121:mutex 1/1] ld.lld: error: undefined symbol:
- rust_build_error
-Message-ID: <202304272258.ahjFX3FV-lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:next 1/1] include/linux/tpm.h:285:9: error:
+ redeclaration of enumerator 'TPM_CHIP_FLAG_FIRMWARE_UPGRADE'
+Message-ID: <202304272341.NHxy54IG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,46 +46,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/nbdd0121/linux mutex
-head:   01ae567f6c192bdef2e6e5997769ee2314ff78cd
-commit: 01ae567f6c192bdef2e6e5997769ee2314ff78cd [1/1] WIP: lock guard split
-config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230427/202304272258.ahjFX3FV-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git next
+head:   e2f14081c68395f0b0f9072bbf5e56450b1cb3f8
+commit: e2f14081c68395f0b0f9072bbf5e56450b1cb3f8 [1/1] tpm: Re-enable TPM chip boostrapping non-tpm_tis TPM drivers
+config: m68k-buildonly-randconfig-r005-20230427 (https://download.01.org/0day-ci/archive/20230427/202304272341.NHxy54IG-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/nbdd0121/linux/commit/01ae567f6c192bdef2e6e5997769ee2314ff78cd
-        git remote add nbdd0121 https://github.com/nbdd0121/linux
-        git fetch --no-tags nbdd0121 mutex
-        git checkout 01ae567f6c192bdef2e6e5997769ee2314ff78cd
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/commit/?id=e2f14081c68395f0b0f9072bbf5e56450b1cb3f8
+        git remote add jarkko-tpmdd git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git
+        git fetch --no-tags jarkko-tpmdd next
+        git checkout e2f14081c68395f0b0f9072bbf5e56450b1cb3f8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash security/keys/trusted-keys/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304272258.ahjFX3FV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304272341.NHxy54IG-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: rust_build_error
-   >>> referenced by spinlock.rs:143 (rust/kernel/sync/lock/spinlock.rs:143)
-   >>>               rust/kernel.o:(<kernel::sync::lock::spinlock::SpinLockIrqSaveBackend as kernel::sync::lock::Backend<kernel::sync::lock::spinlock::SpinLockBackend>>::init) in archive vmlinux.a
---
->> warning: missing documentation for a struct
-   --> rust/kernel/sync/lock/spinlock.rs:100:1
-   |
-   100 | pub struct SpinLockIrqSaveBackend;
-   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = note: requested on the command line with `-W missing-docs`
---
->> warning: missing documentation for an associated type
-   --> rust/kernel/sync/lock.rs:78:5
-   |
-   78 |     type IrqSaveBackend: Backend<Self>;
-   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   In file included from include/keys/trusted-type.h:12,
+                    from security/keys/trusted-keys/trusted_core.c:10:
+>> include/linux/tpm.h:285:9: error: redeclaration of enumerator 'TPM_CHIP_FLAG_FIRMWARE_UPGRADE'
+     285 |         TPM_CHIP_FLAG_FIRMWARE_UPGRADE          = BIT(7),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tpm.h:284:9: note: previous definition of 'TPM_CHIP_FLAG_FIRMWARE_UPGRADE' with type 'int'
+     284 |         TPM_CHIP_FLAG_FIRMWARE_UPGRADE          = BIT(7),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tpm.h:286:9: error: redeclaration of enumerator 'TPM_CHIP_FLAG_FIRMWARE_UPGRADE'
+     286 |         TPM_CHIP_FLAG_FIRMWARE_UPGRADE          = BIT(7),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/tpm.h:285:9: note: previous definition of 'TPM_CHIP_FLAG_FIRMWARE_UPGRADE' with type 'int'
+     285 |         TPM_CHIP_FLAG_FIRMWARE_UPGRADE          = BIT(7),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/TPM_CHIP_FLAG_FIRMWARE_UPGRADE +285 include/linux/tpm.h
+
+   275	
+   276	enum tpm_chip_flags {
+   277		TPM_CHIP_FLAG_BOOTSTRAPPED		= BIT(0),
+   278		TPM_CHIP_FLAG_TPM2			= BIT(1),
+   279		TPM_CHIP_FLAG_IRQ			= BIT(2),
+   280		TPM_CHIP_FLAG_VIRTUAL			= BIT(3),
+   281		TPM_CHIP_FLAG_HAVE_TIMEOUTS		= BIT(4),
+   282		TPM_CHIP_FLAG_ALWAYS_POWERED		= BIT(5),
+   283		TPM_CHIP_FLAG_FIRMWARE_POWER_MANAGED	= BIT(6),
+   284		TPM_CHIP_FLAG_FIRMWARE_UPGRADE		= BIT(7),
+ > 285		TPM_CHIP_FLAG_FIRMWARE_UPGRADE		= BIT(7),
+   286		TPM_CHIP_FLAG_FIRMWARE_UPGRADE		= BIT(7),
+   287	};
+   288	
 
 -- 
 0-DAY CI Kernel Test Service
