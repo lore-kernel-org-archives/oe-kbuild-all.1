@@ -1,43 +1,44 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD94A937
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 23:13:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7EEA937;
+	Thu, 27 Apr 2023 23:34:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682637212; x=1714173212;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mFLC6MQw9xo2DE0SYD/Pxi/XqOZY0FniqW+0JA/FVx0=;
-  b=Qfs+JRg+yR13+RKfMPMfiILeAS59/BcI0/qKX/Rw9vLP4aTiYpkp8o6j
-   X4gX9Zw9qsDyfKj5tC0DT6YHXXpK0cflTKePLpi3uIVzJE0cGo1t0OHeR
-   qS4TlWvXimLfLYB7jEojguErLAmw1qnjvAAvRI2ShgycLyk/cykWSp7VR
-   vS4CiEoMo35hocgMxRiY9MJX1Jti0pssuN+JLibLgGdNuTjkS6cebBQ0n
-   ZE+0G9v1IY3SrNXL/rbxKbvgB+HztAsSK6zI4QNNdCMJASyxa2qfus1O2
-   6AS7eDQ7w9R0+4lCUtSa8Scz3sghkh/nycQYkmy1c9VbTJZE2w+DJ4XUZ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="327215934"
+  t=1682638472; x=1714174472;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HfaJGlC5hdrPMRieH9VHs/WnxvqBtMKVL9tv9gFEALc=;
+  b=XPVyz1JNjT29e2gBYj4XNcMGK6EGWdULFMObEXKJUlj3Js/E6HQABm5k
+   fewXxLntFfN0Uw96t+qFxfYLkCDxOKDX+F0QonheHVPZvgznMr0fMJpt/
+   Z7pFjTVostAW363MDeA6IGQ7NEe235XdMdph3VPDhP6WS+S/SpeGvNW0J
+   BLtw/huOSfYXbwuUztslpig5lX0/dfdr3s7Y0PAq3VBLvuME0IxC7lLaz
+   jRfGTeShQyigFKDYkOEPPHYany8OeoTTdAiWfVi2TuSD0iApRgDSQLUYr
+   6uVgbUQG1pNBaHNmRtjyctHloVz8j7wV4DrKqRfXTt4e9mtXJuy2DuQoN
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="327218792"
 X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="327215934"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 16:13:31 -0700
+   d="scan'208";a="327218792"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 16:34:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="940851735"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="1024341746"
 X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="940851735"
+   d="scan'208";a="1024341746"
 Received: from lkp-server01.sh.intel.com (HELO b95e16499b55) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 27 Apr 2023 16:13:29 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 27 Apr 2023 16:34:30 -0700
 Received: from kbuild by b95e16499b55 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psAnp-0000Bx-02;
-	Thu, 27 Apr 2023 23:13:29 +0000
-Date: Fri, 28 Apr 2023 07:13:08 +0800
+	id 1psB89-0000CT-1U;
+	Thu, 27 Apr 2023 23:34:29 +0000
+Date: Fri, 28 Apr 2023 07:33:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:62: warning: wrong
- kernel-doc identifier on line:
-Message-ID: <202304280719.VTxpdVCP-lkp@intel.com>
+To: Jesper Dangaard Brouer <brouer@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC net-next/mm V2 1/2] page_pool: Remove workqueue in
+ new shutdown scheme
+Message-ID: <202304280755.Xm6AzMzG-lkp@intel.com>
+References: <168262351129.2036355.1136491155595493268.stgit@firesoul>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,88 +47,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <168262351129.2036355.1136491155595493268.stgit@firesoul>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cec24b8b6bb841a19b5c5555b600a511a8988100
-commit: 899ff790d1a94dda9bd09a4a6bde01fb7ff0bec8 drm/i915: run kernel-doc on headers as part of HDRTEST
-date:   3 weeks ago
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230428/202304280719.VTxpdVCP-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+Hi Jesper,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on horms-ipvs/master linus/master v6.3 next-20230427]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jesper-Dangaard-Brouer/page_pool-Remove-workqueue-in-new-shutdown-scheme/20230428-032759
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/168262351129.2036355.1136491155595493268.stgit%40firesoul
+patch subject: [PATCH RFC net-next/mm V2 1/2] page_pool: Remove workqueue in new shutdown scheme
+config: mips-buildonly-randconfig-r002-20230427 (https://download.01.org/0day-ci/archive/20230428/202304280755.Xm6AzMzG-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=899ff790d1a94dda9bd09a4a6bde01fb7ff0bec8
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 899ff790d1a94dda9bd09a4a6bde01fb7ff0bec8
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/d6fe37a8a681d3f95c9ac342d182e6fbeba61b72
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jesper-Dangaard-Brouer/page_pool-Remove-workqueue-in-new-shutdown-scheme/20230428-032759
+        git checkout d6fe37a8a681d3f95c9ac342d182e6fbeba61b72
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash net/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304280719.VTxpdVCP-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304280755.Xm6AzMzG-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:27: warning: Function parameter or member 'size' not described in '__guc_capture_bufstate'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:27: warning: Function parameter or member 'data' not described in '__guc_capture_bufstate'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:27: warning: Function parameter or member 'rd' not described in '__guc_capture_bufstate'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:27: warning: Function parameter or member 'wr' not described in '__guc_capture_bufstate'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:59: warning: Function parameter or member 'link' not described in '__guc_capture_parsed_output'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:59: warning: Function parameter or member 'is_partial' not described in '__guc_capture_parsed_output'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:59: warning: Function parameter or member 'eng_class' not described in '__guc_capture_parsed_output'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:59: warning: Function parameter or member 'eng_inst' not described in '__guc_capture_parsed_output'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:59: warning: Function parameter or member 'guc_id' not described in '__guc_capture_parsed_output'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:59: warning: Function parameter or member 'lrca' not described in '__guc_capture_parsed_output'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:59: warning: Function parameter or member 'reginfo' not described in '__guc_capture_parsed_output'
->> drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:62: warning: wrong kernel-doc identifier on line:
-    * struct guc_debug_capture_list_header / struct guc_debug_capture_list
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:80: warning: wrong kernel-doc identifier on line:
-    * struct __guc_mmio_reg_descr / struct __guc_mmio_reg_descr_group
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:105: warning: wrong kernel-doc identifier on line:
-    * struct guc_state_capture_header_t / struct guc_state_capture_t /
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:163: warning: Function parameter or member 'is_valid' not described in '__guc_capture_ads_cache'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:163: warning: Function parameter or member 'ptr' not described in '__guc_capture_ads_cache'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:163: warning: Function parameter or member 'size' not described in '__guc_capture_ads_cache'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:163: warning: Function parameter or member 'status' not described in '__guc_capture_ads_cache'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:216: warning: Function parameter or member 'ads_null_cache' not described in 'intel_guc_state_capture'
-   drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h:216: warning: Function parameter or member 'max_mmio_per_node' not described in 'intel_guc_state_capture'
---
-   drivers/gpu/drm/i915/i915_pmu.h:21: warning: cannot understand function prototype: 'enum i915_pmu_tracked_events '
-   drivers/gpu/drm/i915/i915_pmu.h:32: warning: cannot understand function prototype: 'enum '
->> drivers/gpu/drm/i915/i915_pmu.h:41: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * How many different events we track in the global PMU mask.
---
->> drivers/gpu/drm/i915/i915_request.h:176: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Request queue structure.
-   drivers/gpu/drm/i915/i915_request.h:477: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Returns true if seq1 is later than seq2.
---
->> drivers/gpu/drm/i915/i915_vma.h:145: warning: expecting prototype for i915_vma_offset(). Prototype was for i915_vma_size() instead
+>> net/core/page_pool.c:448:14: warning: no previous prototype for function 'pp_read_hold_cnt' [-Wmissing-prototypes]
+   noinline u32 pp_read_hold_cnt(struct page_pool *pool)
+                ^
+   net/core/page_pool.c:448:10: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   noinline u32 pp_read_hold_cnt(struct page_pool *pool)
+            ^
+            static 
+   1 warning generated.
 
 
-vim +62 drivers/gpu/drm/i915/gt/uc/guc_capture_fwif.h
+vim +/pp_read_hold_cnt +448 net/core/page_pool.c
 
-f5718a7265a6f56 Alan Previn 2022-03-21  60  
-24492514ccbd571 Alan Previn 2022-03-21  61  /**
-24492514ccbd571 Alan Previn 2022-03-21 @62   * struct guc_debug_capture_list_header / struct guc_debug_capture_list
-24492514ccbd571 Alan Previn 2022-03-21  63   *
-24492514ccbd571 Alan Previn 2022-03-21  64   * As part of ADS registration, these header structures (followed by
-24492514ccbd571 Alan Previn 2022-03-21  65   * an array of 'struct guc_mmio_reg' entries) are used to register with
-24492514ccbd571 Alan Previn 2022-03-21  66   * GuC microkernel the list of registers we want it to dump out prior
-24492514ccbd571 Alan Previn 2022-03-21  67   * to a engine reset.
-24492514ccbd571 Alan Previn 2022-03-21  68   */
-24492514ccbd571 Alan Previn 2022-03-21  69  struct guc_debug_capture_list_header {
-24492514ccbd571 Alan Previn 2022-03-21  70  	u32 info;
-24492514ccbd571 Alan Previn 2022-03-21  71  #define GUC_CAPTURELISTHDR_NUMDESCR GENMASK(15, 0)
-24492514ccbd571 Alan Previn 2022-03-21  72  } __packed;
-24492514ccbd571 Alan Previn 2022-03-21  73  
-
-:::::: The code at line 62 was first introduced by commit
-:::::: 24492514ccbd57121f168bb14939f32d8905d579 drm/i915/guc: Update GuC ADS size for error capture lists
-
-:::::: TO: Alan Previn <alan.previn.teres.alexis@intel.com>
-:::::: CC: Lucas De Marchi <lucas.demarchi@intel.com>
+   446	
+   447	/* Avoid inlining code to avoid speculative fetching cacheline */
+ > 448	noinline u32 pp_read_hold_cnt(struct page_pool *pool)
+   449	{
+   450		return READ_ONCE(pool->pages_state_hold_cnt);
+   451	}
+   452	
 
 -- 
 0-DAY CI Kernel Test Service
