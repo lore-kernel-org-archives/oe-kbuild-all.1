@@ -1,49 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793F28829
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 20:39:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9435B8827;
+	Thu, 27 Apr 2023 20:49:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682627971; x=1714163971;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0YnxRyvY588QkIhQ/e9X8ygytR0EFyqhjT6BjUsq4hs=;
-  b=JQcKXbxENRI9I9kx9mu4Zn6WngQXuqL3xSQHFTwduJHPCqNIGZhuYWOT
-   OmsYdec8wv/QbUGzPLcXOxI7ubA2VQZWNAgFbaFsLzPH0Au9tKS+IgYv1
-   vdpiOgI+btRftRzOLjQX4NyrvFxfxuDiIHZm0djpFOby8y/bug9V1kidX
-   +KIq4L+4c1SYO752i+6h+BUQttudEQ8puAauiSOQ1uvWZq1am/qdOP283
-   yJCLAp9YHR3DhshcskbTpyAC6E+lTWWea0zLDtXiKYMtFF7OaPFjPD7sk
-   GtGpyMZ0KsaR/IdByuVlrcjosQSte4mnAbBpLZL053s7t5sRQ951N1fcL
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="412924069"
+  t=1682628576; x=1714164576;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SbiNhqeK/sFFjne8751fHlbtlKa1ST6clbpXqG1XT/E=;
+  b=OyEIfSYZXRw0FewhDVzFgv9o0zydiB0gyi6msdJcftRwU07GDDBnAdjj
+   kVJ8ftctxoN2Pe7TIN+2X0hu5se+kt9x5Pp7oLYq8iGdIef3jTJxewoba
+   Oo1P9FgKk4cM/S9ce5MOM+/4wsYmN1kv9Cdxu1r/BS8IR6LCD6L4RXdVL
+   0PUYImNiB8QGBAsxgEJKI477FdrkAxpVdj+rcWoVoINfd52mzJDIlkLdv
+   aOx31eXBzX2yU0GBYc2aI6xYWdyuNWTeioO5bjrbyZrY/0k8lat967hlr
+   p9HCt87AkjUXeQUsQlD2ZH6qEYeHZ6AAQTNV9EM2F5HmO7Q9ZN7sH1zNY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="347586842"
 X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="412924069"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 13:39:28 -0700
+   d="scan'208";a="347586842"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 13:49:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="868875373"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="763982222"
 X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="868875373"
+   d="scan'208";a="763982222"
 Received: from lkp-server01.sh.intel.com (HELO b95e16499b55) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 27 Apr 2023 13:39:26 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 27 Apr 2023 13:49:26 -0700
 Received: from kbuild by b95e16499b55 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ps8Oj-00006V-1K;
-	Thu, 27 Apr 2023 20:39:25 +0000
-Date: Fri, 28 Apr 2023 04:38:26 +0800
+	id 1ps8YP-00006v-1v;
+	Thu, 27 Apr 2023 20:49:25 +0000
+Date: Fri, 28 Apr 2023 04:48:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Korneliusz Osmenda <korneliuszo@gmail.com>,
-	Oliver Neukum <oneukum@suse.com>
-Subject: Re: [PATCH 2/3] PCI/sysfs: create private functions for
- pci_create_legacy_files/pci_create_sysfs_dev_files
-Message-ID: <202304280450.17v5JK13-lkp@intel.com>
-References: <20230427142901.3570536-3-alexander.stein@ew.tq-group.com>
+To: Rob Herring <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [robh:dt/header-cleanups 55/57] drivers/mfd/wm831x-i2c.c:32:56:
+ error: use of undeclared identifier 'spi'
+Message-ID: <202304280427.XQeii4F6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,64 +45,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230427142901.3570536-3-alexander.stein@ew.tq-group.com>
 
-Hi Alexander,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.3 next-20230427]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Stein/PCI-sysfs-sort-headers-alphabetically/20230427-223059
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20230427142901.3570536-3-alexander.stein%40ew.tq-group.com
-patch subject: [PATCH 2/3] PCI/sysfs: create private functions for pci_create_legacy_files/pci_create_sysfs_dev_files
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230428/202304280450.17v5JK13-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
+head:   d03f4bcb40575c1caf4deb8072eb2f9486e51b25
+commit: a581a78403b6af4ee0aa9c6ee6701e92dc2555f6 [55/57] Use of_device_get_match_data
+config: x86_64-randconfig-a016 (https://download.01.org/0day-ci/archive/20230428/202304280427.XQeii4F6-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/cbc778730116b49890b5c41ffc9fc664b566e3c4
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Alexander-Stein/PCI-sysfs-sort-headers-alphabetically/20230427-223059
-        git checkout cbc778730116b49890b5c41ffc9fc664b566e3c4
+        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=a581a78403b6af4ee0aa9c6ee6701e92dc2555f6
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch --no-tags robh dt/header-cleanups
+        git checkout a581a78403b6af4ee0aa9c6ee6701e92dc2555f6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/pci/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304280450.17v5JK13-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304280427.XQeii4F6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pci/pci-sysfs.c:1256:12: warning: no previous prototype for 'pci_create_resource_files' [-Wmissing-prototypes]
-    1256 | int __weak pci_create_resource_files(struct pci_dev *dev) { return 0; }
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/pci-sysfs.c:1257:13: warning: no previous prototype for 'pci_remove_resource_files' [-Wmissing-prototypes]
-    1257 | void __weak pci_remove_resource_files(struct pci_dev *dev) { return; }
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/pci/pci-sysfs.c:1502:18: warning: no previous prototype for '__pci_create_sysfs_dev_files' [-Wmissing-prototypes]
-    1502 | int __must_check __pci_create_sysfs_dev_files(struct pci_dev *pdev)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/pci-sysfs.c:1015:13: warning: '__pci_create_legacy_files' defined but not used [-Wunused-function]
-    1015 | static void __pci_create_legacy_files(struct pci_bus *b) {}
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/mfd/wm831x-i2c.c:32:56: error: use of undeclared identifier 'spi'
+                   type = (enum wm831x_parent)of_device_get_match_data(&spi->dev);
+                                                                        ^
+>> drivers/mfd/wm831x-i2c.c:37:30: error: use of undeclared identifier 'of_id'
+                   type = (enum wm831x_parent)of_id->data;
+                                              ^
+   2 errors generated.
 
 
-vim +/__pci_create_sysfs_dev_files +1502 drivers/pci/pci-sysfs.c
+vim +/spi +32 drivers/mfd/wm831x-i2c.c
 
-  1501	
-> 1502	int __must_check __pci_create_sysfs_dev_files(struct pci_dev *pdev)
-  1503	{
-  1504		return pci_create_resource_files(pdev);
-  1505	}
-  1506	
+    22	
+    23	static int wm831x_i2c_probe(struct i2c_client *i2c)
+    24	{
+    25		const struct i2c_device_id *id = i2c_client_get_device_id(i2c);
+    26		struct wm831x_pdata *pdata = dev_get_platdata(&i2c->dev);
+    27		struct wm831x *wm831x;
+    28		enum wm831x_parent type;
+    29		int ret;
+    30	
+    31		if (i2c->dev.of_node) {
+  > 32			type = (enum wm831x_parent)of_device_get_match_data(&spi->dev);
+    33			if (!type) {
+    34				dev_err(&i2c->dev, "Failed to match device\n");
+    35				return -ENODEV;
+    36			}
+  > 37			type = (enum wm831x_parent)of_id->data;
+    38		} else {
+    39			type = (enum wm831x_parent)id->driver_data;
+    40		}
+    41	
+    42		wm831x = devm_kzalloc(&i2c->dev, sizeof(struct wm831x), GFP_KERNEL);
+    43		if (wm831x == NULL)
+    44			return -ENOMEM;
+    45	
+    46		i2c_set_clientdata(i2c, wm831x);
+    47		wm831x->dev = &i2c->dev;
+    48		wm831x->type = type;
+    49	
+    50		wm831x->regmap = devm_regmap_init_i2c(i2c, &wm831x_regmap_config);
+    51		if (IS_ERR(wm831x->regmap)) {
+    52			ret = PTR_ERR(wm831x->regmap);
+    53			dev_err(wm831x->dev, "Failed to allocate register map: %d\n",
+    54				ret);
+    55			return ret;
+    56		}
+    57	
+    58		if (pdata)
+    59			memcpy(&wm831x->pdata, pdata, sizeof(*pdata));
+    60	
+    61		return wm831x_device_init(wm831x, i2c->irq);
+    62	}
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
