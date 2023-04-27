@@ -1,40 +1,47 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F3115BA;
-	Thu, 27 Apr 2023 12:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E062E2904
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 13:55:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682598684; x=1714134684;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=9ywq7zSgbKfwYmiSHIqKTZQbhwChYvoWtR/TGw/+T38=;
-  b=dJjOUrKAZY/+gq2lqrr9cbz4BmYVPESmVn5qq2CkLW7EVVQbVeFg+K0K
-   CJJggbqmpXjXnn8AeqCW6bS/T8yo/bVa/lDhaA8I9JRxu9oFqR/VB0xa3
-   dK6Wv2utuFOl0323svfzzedp+6azxCxtr2RAQsSeQiYHaez4ZO7Z+E7no
-   /qxK7tjXE0JEnQQL2yGLvfBrw3xTbpWmAt4RS3HDx3c81Cfj+BWocDgKA
-   kLmuyatjhRtvVIfDOKGv/1gCj6UtAowsPx9tOjSlbYlwcszGj0HnXq3F2
-   WqigsPQGOkOKSKZyfDuEsw8OG6W76OSu5RDVF9SqZ8kKCUpzy28NiISov
+  t=1682603742; x=1714139742;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mNSZDs7qQlMaTmlLQZhTljzdWxEEggLo0iwbLX2jz20=;
+  b=Vmos5YgehZWxOHboyNbc4scg1zHiWBQ8czbjXf1icSASqVrCALNCWSJs
+   ZJgiEQ3/aaL7omu1rcPHebNnsUXK0dfWzJwZ+ofZwYT0NWvgtJB1EGthV
+   U1QXBPSD5OljarooD+/uJfq7mfoAk8w86E8FyGj2TI6YKtcxu9TKDi3yf
+   gG8Zk54BXN/Uusxl42R/rWvuPGySjcOKuAsXjEpLMNsM2aOKWG/O2UKct
+   XPlsGmtdMhJQKVqiTCqDeSgL6uyiv3mB5kDzTH7gF1BqvD+etMK3yqHyh
+   4Ugw5t+wrHfcy9qZeFW4By6sFQjO3Az14Y8V+NNlahJVtzEgOfU6s7e4+
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="344871092"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="327057782"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="344871092"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 05:31:23 -0700
+   d="scan'208";a="327057782"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 06:55:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="644679472"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="727077340"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="644679472"
+   d="scan'208";a="727077340"
 Received: from lkp-server01.sh.intel.com (HELO 1e0e07564161) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 27 Apr 2023 05:31:22 -0700
+  by orsmga001.jf.intel.com with ESMTP; 27 Apr 2023 06:55:23 -0700
 Received: from kbuild by 1e0e07564161 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ps0mP-0000Dx-0p;
-	Thu, 27 Apr 2023 12:31:21 +0000
-Date: Thu, 27 Apr 2023 20:30:45 +0800
+	id 1ps25i-0000Fj-1V;
+	Thu, 27 Apr 2023 13:55:22 +0000
+Date: Thu, 27 Apr 2023 21:54:27 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: error: unknown target CPU 'r5000'
-Message-ID: <202304272037.6P3b9WVm-lkp@intel.com>
+To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>,
+	gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
+	mathias.nyman@intel.com, linux-usb@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Subject: Re: [PATCH v2 1/2] USB: Extend pci resume function to handle PM
+ events
+Message-ID: <202304272113.D8iiep8w-lkp@intel.com>
+References: <20230427104805.3560591-2-Basavaraj.Natikar@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -43,54 +50,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230427104805.3560591-2-Basavaraj.Natikar@amd.com>
 
-CC: linux-kernel@vger.kernel.org
-TO: Paul Cercueil <paul@crapouillou.net>
-CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Hi Basavaraj,
 
-Hi Paul,
+kernel test robot noticed the following build errors:
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.3 next-20230426]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6e98b09da931a00bf4e0477d0fa52748bf28fcce
-commit: c434b9f80b0923e6460031b0fd964f8b0bf3c6a6 MIPS: Kconfig: add MIPS_GENERIC_KERNEL symbol
-date:   2 years, 7 months ago
-config: mips-randconfig-r006-20230427 (https://download.01.org/0day-ci/archive/20230427/202304272037.6P3b9WVm-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+url:    https://github.com/intel-lab-lkp/linux/commits/Basavaraj-Natikar/USB-Extend-pci-resume-function-to-handle-PM-events/20230427-185141
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230427104805.3560591-2-Basavaraj.Natikar%40amd.com
+patch subject: [PATCH v2 1/2] USB: Extend pci resume function to handle PM events
+config: arc-randconfig-r043-20230427 (https://download.01.org/0day-ci/archive/20230427/202304272113.D8iiep8w-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c434b9f80b0923e6460031b0fd964f8b0bf3c6a6
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c434b9f80b0923e6460031b0fd964f8b0bf3c6a6
+        # https://github.com/intel-lab-lkp/linux/commit/c56600f81d90e04002ac435d27ccd0358b560d88
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Basavaraj-Natikar/USB-Extend-pci-resume-function-to-handle-PM-events/20230427-185141
+        git checkout c56600f81d90e04002ac435d27ccd0358b560d88
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/usb/host/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304272037.6P3b9WVm-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304272113.D8iiep8w-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error: unknown target CPU 'r5000'
-   note: valid target CPU values are: mips1, mips2, mips3, mips4, mips5, mips32, mips32r2, mips32r3, mips32r5, mips32r6, mips64, mips64r2, mips64r3, mips64r5, mips64r6, octeon, octeon+, p5600
->> error: unknown target CPU 'r5000'
-   note: valid target CPU values are: mips1, mips2, mips3, mips4, mips5, mips32, mips32r2, mips32r3, mips32r5, mips32r6, mips64, mips64r2, mips64r3, mips64r5, mips64r6, octeon, octeon+, p5600
->> error: unknown target CPU 'r5000'
-   note: valid target CPU values are: mips1, mips2, mips3, mips4, mips5, mips32, mips32r2, mips32r3, mips32r5, mips32r6, mips64, mips64r2, mips64r3, mips64r5, mips64r6, octeon, octeon+, p5600
-   make[2]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1
-   make[2]: *** [scripts/Makefile.build:283: scripts/mod/empty.o] Error 1
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1202: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   drivers/usb/host/xhci-histb.c: In function 'xhci_histb_resume':
+>> drivers/usb/host/xhci-histb.c:370:34: error: incompatible type for argument 2 of 'xhci_resume'
+     370 |         return xhci_resume(xhci, 0);
+         |                                  ^
+         |                                  |
+         |                                  int
+   In file included from drivers/usb/host/xhci-histb.c:19:
+   drivers/usb/host/xhci.h:2143:53: note: expected 'pm_message_t' {aka 'struct pm_message'} but argument is of type 'int'
+    2143 | int xhci_resume(struct xhci_hcd *xhci, pm_message_t msg);
+         |                                        ~~~~~~~~~~~~~^~~
+
+
+vim +/xhci_resume +370 drivers/usb/host/xhci-histb.c
+
+c508f41da07882 Jianguo Sun 2018-05-21  360  
+c508f41da07882 Jianguo Sun 2018-05-21  361  static int __maybe_unused xhci_histb_resume(struct device *dev)
+c508f41da07882 Jianguo Sun 2018-05-21  362  {
+c508f41da07882 Jianguo Sun 2018-05-21  363  	struct xhci_hcd_histb *histb = dev_get_drvdata(dev);
+c508f41da07882 Jianguo Sun 2018-05-21  364  	struct usb_hcd *hcd = histb->hcd;
+c508f41da07882 Jianguo Sun 2018-05-21  365  	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+c508f41da07882 Jianguo Sun 2018-05-21  366  
+c508f41da07882 Jianguo Sun 2018-05-21  367  	if (!device_may_wakeup(dev))
+c508f41da07882 Jianguo Sun 2018-05-21  368  		xhci_histb_host_enable(histb);
+c508f41da07882 Jianguo Sun 2018-05-21  369  
+c508f41da07882 Jianguo Sun 2018-05-21 @370  	return xhci_resume(xhci, 0);
+c508f41da07882 Jianguo Sun 2018-05-21  371  }
+c508f41da07882 Jianguo Sun 2018-05-21  372  
 
 -- 
 0-DAY CI Kernel Test Service
