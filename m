@@ -1,205 +1,163 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99B38BFF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 22:21:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E88291A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 22:32:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682634094; x=1714170094;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Xn8Q/ukJMWhDCdLH8ZxmUSJmzivcGakOmczQ0cA6aJU=;
-  b=WrC6+/CV7oqMR7atVsj81nrG5aqncrGEOqBcgA1xZp7LDMVsToQ/HWWs
-   dDy+V4oPgMfJ9D3IVhCwRL29Pe8Md/AD2LeugM24heEUMOhD2OdpJDMeb
-   ZoToNRgeWwdQwlbj80DbJMZP03AZWcnH1+3i48sju7zfIwSmVbaq7Jr5Z
-   Ulv7ve2BMu7C8A3JNt11euP8GBU2OEavmusCMlbk5y4Qtte7SvRK5jyYL
-   1SJEEMx5j+a/wrpGk+xAMoqZMDoScmHKawAPZXYfNoL7driZrBji1GvtZ
-   EWAzkpEBgpXFdkGzuwe3oV9JctoyQpmP5f9ZvtKYA0XAz2bBsqmRqo++N
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="347609752"
+  t=1682634750; x=1714170750;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SX0LMeESQ3daK4GlcopGJKPMiZ1v3rzUGUEru3UH5iI=;
+  b=hJvC9UFdyEbbrEcpX8G/G9jbbU/Vc6+NFNC9sXl1FIa3o+HEudBEv0fA
+   P8fNjXtYFTwVf5I+Fh/KOIfZaTs6lvRVJDhuQn1LaiZN/1Bh+dVSWPY4I
+   Jg/vD3O/xU2i9Ok8mOdBNDbpwry3X2dXuiT+59NxSyrZUxfSk/o5a2xHA
+   M16g5GMNk/zbY8qIcZY8xHEJJ7O+cH0HfbkYS6NvskfTIvqtmttVuRwek
+   qHEYXCLEy8L/ngbc74pC8GqCUFm0oJC6TSUiXFyVz0Yc3iYzvaYAVpD6X
+   xdm0wjj9c7wZm+O8si7UInlWawXgE8SoBOV3fjBNxci5HsoXVmPP32eUD
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="349577959"
 X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="347609752"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 15:21:30 -0700
+   d="scan'208";a="349577959"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 15:32:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="727310403"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="818738126"
 X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="727310403"
+   d="scan'208";a="818738126"
 Received: from lkp-server01.sh.intel.com (HELO b95e16499b55) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 27 Apr 2023 15:21:28 -0700
+  by orsmga004.jf.intel.com with ESMTP; 27 Apr 2023 15:32:28 -0700
 Received: from kbuild by b95e16499b55 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ps9zT-00009n-25;
-	Thu, 27 Apr 2023 22:21:27 +0000
-Date: Fri, 28 Apr 2023 06:21:22 +0800
+	id 1psAA7-0000AD-2u;
+	Thu, 27 Apr 2023 22:32:27 +0000
+Date: Fri, 28 Apr 2023 06:31:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Yan <yanaijie@huawei.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Theodore Ts'o <tytso@mit.edu>
-Subject: fs/ext4/super.c:1262:13: warning: unused variable 'i'
-Message-ID: <202304280650.3eVEESjh-lkp@intel.com>
+	Matthew Auld <matthew.auld@intel.com>
+Subject: drivers/gpu/drm/radeon/radeon_ttm.c:201:27: warning: variable 'rbo'
+ set but not used
+Message-ID: <202304280626.8qfHQcED-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-
-Hi Jason,
-
-FYI, the error/warning still remains.
+Content-Transfer-Encoding: 8bit
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   cec24b8b6bb841a19b5c5555b600a511a8988100
-commit: dcbf87589d90e3bd5a5a4cf832517f22f3c55efb ext4: factor out ext4_flex_groups_free()
-date:   13 days ago
-config: x86_64-randconfig-a002 (https://download.01.org/0day-ci/archive/20230428/202304280650.3eVEESjh-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+commit: f87c1f0b7b79b7a4f165750d1884da1fd29ae93c drm/ttm: prevent moving of pinned BOs
+date:   3 months ago
+config: alpha-buildonly-randconfig-r002-20230427 (https://download.01.org/0day-ci/archive/20230428/202304280626.8qfHQcED-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dcbf87589d90e3bd5a5a4cf832517f22f3c55efb
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f87c1f0b7b79b7a4f165750d1884da1fd29ae93c
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout dcbf87589d90e3bd5a5a4cf832517f22f3c55efb
+        git checkout f87c1f0b7b79b7a4f165750d1884da1fd29ae93c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/ext4/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/gpu/drm/radeon/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304280650.3eVEESjh-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304280626.8qfHQcED-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/ext4/super.c: In function 'ext4_put_super':
->> fs/ext4/super.c:1262:13: warning: unused variable 'i' [-Wunused-variable]
-    1262 |         int i, err;
-         |             ^
-   fs/ext4/super.c: In function '__ext4_fill_super':
-   fs/ext4/super.c:5104:22: warning: unused variable 'i' [-Wunused-variable]
-    5104 |         unsigned int i;
-         |                      ^
+   drivers/gpu/drm/radeon/radeon_ttm.c: In function 'radeon_bo_move':
+>> drivers/gpu/drm/radeon/radeon_ttm.c:201:27: warning: variable 'rbo' set but not used [-Wunused-but-set-variable]
+     201 |         struct radeon_bo *rbo;
+         |                           ^~~
 
 
-vim +/i +1262 fs/ext4/super.c
+vim +/rbo +201 drivers/gpu/drm/radeon/radeon_ttm.c
 
-dcbf87589d90e3 Jason Yan               2023-03-23  1256  
-617ba13b31fbf5 Mingming Cao            2006-10-11  1257  static void ext4_put_super(struct super_block *sb)
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1258  {
-617ba13b31fbf5 Mingming Cao            2006-10-11  1259  	struct ext4_sb_info *sbi = EXT4_SB(sb);
-617ba13b31fbf5 Mingming Cao            2006-10-11  1260  	struct ext4_super_block *es = sbi->s_es;
-97abd7d4b5d9c4 Theodore Ts'o           2017-02-04  1261  	int aborted = 0;
-ef2cabf7c6d838 Hidehiro Kawai          2008-10-27 @1262  	int i, err;
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1263  
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1264  	/*
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1265  	 * Unregister sysfs before destroying jbd2 journal.
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1266  	 * Since we could still access attr_journal_task attribute via sysfs
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1267  	 * path which could have sbi->s_journal->j_task as NULL
-b98535d091795a Ye Bin                  2022-03-22  1268  	 * Unregister sysfs before flush sbi->s_error_work.
-b98535d091795a Ye Bin                  2022-03-22  1269  	 * Since user may read /proc/fs/ext4/xx/mb_groups during umount, If
-b98535d091795a Ye Bin                  2022-03-22  1270  	 * read metadata verify failed then will queue error work.
-b98535d091795a Ye Bin                  2022-03-22  1271  	 * flush_stashed_error_work will call start_this_handle may trigger
-b98535d091795a Ye Bin                  2022-03-22  1272  	 * BUG_ON.
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1273  	 */
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1274  	ext4_unregister_sysfs(sb);
-5e47868fb94b63 Ritesh Harjani          2020-03-18  1275  
-4808cb5b98b436 Zhang Yi                2022-04-12  1276  	if (___ratelimit(&ext4_mount_msg_ratelimit, "EXT4-fs unmount"))
-bb0fbc782ee9fa Lukas Czerner           2022-11-08  1277  		ext4_msg(sb, KERN_INFO, "unmounting filesystem %pU.",
-bb0fbc782ee9fa Lukas Czerner           2022-11-08  1278  			 &sb->s_uuid);
-4808cb5b98b436 Zhang Yi                2022-04-12  1279  
-b98535d091795a Ye Bin                  2022-03-22  1280  	ext4_unregister_li_request(sb);
-b98535d091795a Ye Bin                  2022-03-22  1281  	ext4_quota_off_umount(sb);
-b98535d091795a Ye Bin                  2022-03-22  1282  
-b98535d091795a Ye Bin                  2022-03-22  1283  	flush_work(&sbi->s_error_work);
-b98535d091795a Ye Bin                  2022-03-22  1284  	destroy_workqueue(sbi->rsv_conversion_wq);
-b98535d091795a Ye Bin                  2022-03-22  1285  	ext4_release_orphan_info(sb);
-b98535d091795a Ye Bin                  2022-03-22  1286  
-0390131ba84fd3 Frank Mayhar            2009-01-07  1287  	if (sbi->s_journal) {
-97abd7d4b5d9c4 Theodore Ts'o           2017-02-04  1288  		aborted = is_journal_aborted(sbi->s_journal);
-ef2cabf7c6d838 Hidehiro Kawai          2008-10-27  1289  		err = jbd2_journal_destroy(sbi->s_journal);
-47b4a50bebfd34 Jan Kara                2008-07-11  1290  		sbi->s_journal = NULL;
-878520ac45f9f6 Theodore Ts'o           2019-11-19  1291  		if ((err < 0) && !aborted) {
-54d3adbc29f0c7 Theodore Ts'o           2020-03-28  1292  			ext4_abort(sb, -err, "Couldn't clean up the journal");
-0390131ba84fd3 Frank Mayhar            2009-01-07  1293  		}
-878520ac45f9f6 Theodore Ts'o           2019-11-19  1294  	}
-d4edac314e9ad0 Josef Bacik             2009-12-08  1295  
-d3922a777f9b4c Zheng Liu               2013-07-01  1296  	ext4_es_unregister_shrinker(sbi);
-292a089d78d3e2 Steven Rostedt (Google  2022-12-20  1297) 	timer_shutdown_sync(&sbi->s_err_report);
-d4edac314e9ad0 Josef Bacik             2009-12-08  1298  	ext4_release_system_zone(sb);
-d4edac314e9ad0 Josef Bacik             2009-12-08  1299  	ext4_mb_release(sb);
-d4edac314e9ad0 Josef Bacik             2009-12-08  1300  	ext4_ext_release(sb);
-d4edac314e9ad0 Josef Bacik             2009-12-08  1301  
-bc98a42c1f7d0f David Howells           2017-07-17  1302  	if (!sb_rdonly(sb) && !aborted) {
-e2b911c53584a9 Darrick J. Wong         2015-10-17  1303  		ext4_clear_feature_journal_needs_recovery(sb);
-02f310fcf47fa9 Jan Kara                2021-08-16  1304  		ext4_clear_feature_orphan_present(sb);
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1305  		es->s_state = cpu_to_le16(sbi->s_mount_state);
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1306  	}
-bc98a42c1f7d0f David Howells           2017-07-17  1307  	if (!sb_rdonly(sb))
-4392fbc4bab57d Jan Kara                2020-12-16  1308  		ext4_commit_super(sb);
-a8e25a83245618 Artem Bityutskiy        2012-03-21  1309  
-6ef684988816fd Jason Yan               2023-03-23  1310  	ext4_group_desc_free(sbi);
-dcbf87589d90e3 Jason Yan               2023-03-23  1311  	ext4_flex_groups_free(sbi);
-1f79467c8a6be6 Jason Yan               2023-03-23  1312  	ext4_percpu_param_destroy(sbi);
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1313  #ifdef CONFIG_QUOTA
-a2d4a646e61954 Jan Kara                2014-09-11  1314  	for (i = 0; i < EXT4_MAXQUOTAS; i++)
-33458eaba4dfe7 Theodore Ts'o           2018-10-12  1315  		kfree(get_qf_name(sb, sbi, i));
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1316  #endif
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1317  
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1318  	/* Debugging code just in case the in-memory inode orphan list
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1319  	 * isn't empty.  The on-disk one can be non-empty if we've
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1320  	 * detected an error and taken the fs readonly, but the
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1321  	 * in-memory list had better be clean by this point. */
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1322  	if (!list_empty(&sbi->s_orphan))
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1323  		dump_orphan_list(sb, sbi);
-837c23fbc1b812 Chunguang Xu            2020-11-07  1324  	ASSERT(list_empty(&sbi->s_orphan));
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1325  
-89d96a6f8e6491 Theodore Ts'o           2015-06-20  1326  	sync_blockdev(sb->s_bdev);
-f98393a64ca139 Peter Zijlstra          2007-05-06  1327  	invalidate_bdev(sb->s_bdev);
-ee7ed3aa0f0862 Chunguang Xu            2020-09-24  1328  	if (sbi->s_journal_bdev && sbi->s_journal_bdev != sb->s_bdev) {
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1329  		/*
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1330  		 * Invalidate the journal device's buffers.  We don't want them
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1331  		 * floating about in memory - the physical journal device may
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1332  		 * hotswapped, and it breaks the `ro-after' testing code.
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1333  		 */
-ee7ed3aa0f0862 Chunguang Xu            2020-09-24  1334  		sync_blockdev(sbi->s_journal_bdev);
-ee7ed3aa0f0862 Chunguang Xu            2020-09-24  1335  		invalidate_bdev(sbi->s_journal_bdev);
-617ba13b31fbf5 Mingming Cao            2006-10-11  1336  		ext4_blkdev_remove(sbi);
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1337  	}
-50c15df69e062b Chengguang Xu           2018-12-04  1338  
-dec214d00e0d78 Tahsin Erdogan          2017-06-22  1339  	ext4_xattr_destroy_cache(sbi->s_ea_inode_cache);
-dec214d00e0d78 Tahsin Erdogan          2017-06-22  1340  	sbi->s_ea_inode_cache = NULL;
-50c15df69e062b Chengguang Xu           2018-12-04  1341  
-47387409ee2e09 Tahsin Erdogan          2017-06-22  1342  	ext4_xattr_destroy_cache(sbi->s_ea_block_cache);
-47387409ee2e09 Tahsin Erdogan          2017-06-22  1343  	sbi->s_ea_block_cache = NULL;
-50c15df69e062b Chengguang Xu           2018-12-04  1344  
-618f003199c618 Pavel Skripkin          2021-04-30  1345  	ext4_stop_mmpd(sbi);
-618f003199c618 Pavel Skripkin          2021-04-30  1346  
-9060dd2c5036b1 Eric Sandeen            2016-11-26  1347  	brelse(sbi->s_sbh);
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1348  	sb->s_fs_info = NULL;
-3197ebdb130473 Theodore Ts'o           2009-03-31  1349  	/*
-3197ebdb130473 Theodore Ts'o           2009-03-31  1350  	 * Now that we are completely done shutting down the
-3197ebdb130473 Theodore Ts'o           2009-03-31  1351  	 * superblock, we need to actually destroy the kobject.
-3197ebdb130473 Theodore Ts'o           2009-03-31  1352  	 */
-3197ebdb130473 Theodore Ts'o           2009-03-31  1353  	kobject_put(&sbi->s_kobj);
-3197ebdb130473 Theodore Ts'o           2009-03-31  1354  	wait_for_completion(&sbi->s_kobj_unregister);
-0441984a339897 Darrick J. Wong         2012-04-29  1355  	if (sbi->s_chksum_driver)
-0441984a339897 Darrick J. Wong         2012-04-29  1356  		crypto_free_shash(sbi->s_chksum_driver);
-705895b61133ef Pekka Enberg            2009-02-15  1357  	kfree(sbi->s_blockgroup_lock);
-8012b866085523 Shiyang Ruan            2022-06-03  1358  	fs_put_dax(sbi->s_daxdev, NULL);
-ac4acb1f4b2b6b Eric Biggers            2020-09-16  1359  	fscrypt_free_dummy_policy(&sbi->s_dummy_enc_policy);
-5298d4bfe80f6a Christoph Hellwig       2022-01-18  1360  #if IS_ENABLED(CONFIG_UNICODE)
-f8f4acb6cded4e Daniel Rosenberg        2020-10-28  1361  	utf8_unload(sb->s_encoding);
-c83ad55eaa91c8 Gabriel Krisman Bertazi 2019-04-25  1362  #endif
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1363  	kfree(sbi);
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1364  }
-ac27a0ec112a08 Dave Kleikamp           2006-10-11  1365  
+771fe6b912fca5 Jerome Glisse   2009-06-05  193  
+2823f4f019d888 Christian König 2017-04-26  194  static int radeon_bo_move(struct ttm_buffer_object *bo, bool evict,
+2823f4f019d888 Christian König 2017-04-26  195  			  struct ttm_operation_ctx *ctx,
+ebdf565169af00 Dave Airlie     2020-10-29  196  			  struct ttm_resource *new_mem,
+ebdf565169af00 Dave Airlie     2020-10-29  197  			  struct ttm_place *hop)
+771fe6b912fca5 Jerome Glisse   2009-06-05  198  {
+d3116756a710e3 Christian König 2021-04-12  199  	struct ttm_resource *old_mem = bo->resource;
+771fe6b912fca5 Jerome Glisse   2009-06-05  200  	struct radeon_device *rdev;
+e1a575ada8d2a3 Michel Dänzer   2016-03-28 @201  	struct radeon_bo *rbo;
+a32ba6bdca21fd Christian König 2021-07-12  202  	int r;
+771fe6b912fca5 Jerome Glisse   2009-06-05  203  
+bfe5e585b44fb8 Dave Airlie     2020-10-20  204  	if (new_mem->mem_type == TTM_PL_TT) {
+bfe5e585b44fb8 Dave Airlie     2020-10-20  205  		r = radeon_ttm_tt_bind(bo->bdev, bo->ttm, new_mem);
+bfe5e585b44fb8 Dave Airlie     2020-10-20  206  		if (r)
+bfe5e585b44fb8 Dave Airlie     2020-10-20  207  			return r;
+bfe5e585b44fb8 Dave Airlie     2020-10-20  208  	}
+6d820003295977 Dave Airlie     2020-10-20  209  
+0ef1ed813e6b13 Dave Airlie     2020-09-23  210  	r = ttm_bo_wait_ctx(bo, ctx);
+88932a7be27d89 Christian König 2016-06-06  211  	if (r)
+9afdda82ee7f69 Christian König 2020-11-25  212  		return r;
+88932a7be27d89 Christian König 2016-06-06  213  
+e1a575ada8d2a3 Michel Dänzer   2016-03-28  214  	rbo = container_of(bo, struct radeon_bo, tbo);
+771fe6b912fca5 Jerome Glisse   2009-06-05  215  	rdev = radeon_get_rdev(bo->bdev);
+771fe6b912fca5 Jerome Glisse   2009-06-05  216  	if (old_mem->mem_type == TTM_PL_SYSTEM && bo->ttm == NULL) {
+ecfe6953fa0011 Dave Airlie     2020-09-08  217  		ttm_bo_move_null(bo, new_mem);
+9afdda82ee7f69 Christian König 2020-11-25  218  		goto out;
+771fe6b912fca5 Jerome Glisse   2009-06-05  219  	}
+51e50e54220432 Dave Airlie     2020-09-24  220  	if (old_mem->mem_type == TTM_PL_SYSTEM &&
+51e50e54220432 Dave Airlie     2020-09-24  221  	    new_mem->mem_type == TTM_PL_TT) {
+ecfe6953fa0011 Dave Airlie     2020-09-08  222  		ttm_bo_move_null(bo, new_mem);
+9afdda82ee7f69 Christian König 2020-11-25  223  		goto out;
+771fe6b912fca5 Jerome Glisse   2009-06-05  224  	}
+51e50e54220432 Dave Airlie     2020-09-24  225  
+51e50e54220432 Dave Airlie     2020-09-24  226  	if (old_mem->mem_type == TTM_PL_TT &&
+c37d951cb42aa3 Dave Airlie     2020-10-19  227  	    new_mem->mem_type == TTM_PL_SYSTEM) {
+29a1d482e4044a Dave Airlie     2020-10-20  228  		radeon_ttm_tt_unbind(bo->bdev, bo->ttm);
+bfa3357ef9abc9 Christian König 2021-04-15  229  		ttm_resource_free(bo, &bo->resource);
+c37d951cb42aa3 Dave Airlie     2020-10-19  230  		ttm_bo_assign_mem(bo, new_mem);
+9afdda82ee7f69 Christian König 2020-11-25  231  		goto out;
+c37d951cb42aa3 Dave Airlie     2020-10-19  232  	}
+9afdda82ee7f69 Christian König 2020-11-25  233  	if (rdev->ring[radeon_copy_ring_index(rdev)].ready &&
+9afdda82ee7f69 Christian König 2020-11-25  234  	    rdev->asic->copy.copy != NULL) {
+9afdda82ee7f69 Christian König 2020-11-25  235  		if ((old_mem->mem_type == TTM_PL_SYSTEM &&
+9afdda82ee7f69 Christian König 2020-11-25  236  		     new_mem->mem_type == TTM_PL_VRAM) ||
+9afdda82ee7f69 Christian König 2020-11-25  237  		    (old_mem->mem_type == TTM_PL_VRAM &&
+9afdda82ee7f69 Christian König 2020-11-25  238  		     new_mem->mem_type == TTM_PL_SYSTEM)) {
+9afdda82ee7f69 Christian König 2020-11-25  239  			hop->fpfn = 0;
+9afdda82ee7f69 Christian König 2020-11-25  240  			hop->lpfn = 0;
+9afdda82ee7f69 Christian König 2020-11-25  241  			hop->mem_type = TTM_PL_TT;
+9afdda82ee7f69 Christian König 2020-11-25  242  			hop->flags = 0;
+9afdda82ee7f69 Christian König 2020-11-25  243  			return -EMULTIHOP;
+771fe6b912fca5 Jerome Glisse   2009-06-05  244  		}
+771fe6b912fca5 Jerome Glisse   2009-06-05  245  
+28a68f82826675 Dave Airlie     2020-10-29  246  		r = radeon_move_blit(bo, evict, new_mem, old_mem);
+9afdda82ee7f69 Christian König 2020-11-25  247  	} else {
+9afdda82ee7f69 Christian König 2020-11-25  248  		r = -ENODEV;
+9afdda82ee7f69 Christian König 2020-11-25  249  	}
+9afdda82ee7f69 Christian König 2020-11-25  250  
+1ab2e1059916b9 Michel Dänzer   2009-07-28  251  	if (r) {
+3e98d829ad0a59 Roger He        2017-12-08  252  		r = ttm_bo_move_memcpy(bo, ctx, new_mem);
+9afdda82ee7f69 Christian König 2020-11-25  253  		if (r)
+9afdda82ee7f69 Christian König 2020-11-25  254  			return r;
+67e8e3f970ad74 Marek Olšák     2014-03-02  255  	}
+67e8e3f970ad74 Marek Olšák     2014-03-02  256  
+9afdda82ee7f69 Christian König 2020-11-25  257  out:
+67e8e3f970ad74 Marek Olšák     2014-03-02  258  	/* update statistics */
+e11bfb99d6ece2 Christian König 2020-12-09  259  	atomic64_add(bo->base.size, &rdev->num_bytes_moved);
+a32ba6bdca21fd Christian König 2021-07-12  260  	radeon_bo_move_notify(bo);
+67e8e3f970ad74 Marek Olšák     2014-03-02  261  	return 0;
+67e8e3f970ad74 Marek Olšák     2014-03-02  262  }
+771fe6b912fca5 Jerome Glisse   2009-06-05  263  
 
-:::::: The code at line 1262 was first introduced by commit
-:::::: ef2cabf7c6d838eb0ee2b4fb8ef84f7c06ce16d9 ext4: fix a bug accessing freed memory in ext4_abort
+:::::: The code at line 201 was first introduced by commit
+:::::: e1a575ada8d2a3c3f107fdd12ac9215f983a7c80 drm/radeon: Don't move pinned BOs
 
-:::::: TO: Hidehiro Kawai <hidehiro.kawai.ez@hitachi.com>
-:::::: CC: Theodore Ts'o <tytso@mit.edu>
+:::::: TO: Michel Dänzer <michel.daenzer@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
