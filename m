@@ -1,43 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9A1C2CB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 19:35:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDE1C2CB;
+	Thu, 27 Apr 2023 20:17:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682624128; x=1714160128;
+  t=1682626647; x=1714162647;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QNXXbxAfYh4C+5lqOIiMDqUc4LiqdHH8E3qjvQLuzcg=;
-  b=Qfd9T/OuNIoCl/S9X/l35Dk78//vGxCTkVtQ6t05wDuF68LUcp9tkX4F
-   z7+RmNGcMrZndqN1rBPRd40HDS3J63Foi5tauHfI0A5tJ0qvXt4ofTZHI
-   XMKhcNxBKBd6nf81aOBUSH/irLZ27dDylTiJBYKS9zkuKWl9cdvUE6s3N
-   sWnvn9hmO2b1O1hJwXQlrTHAKsYQH8AFOOZXHP4dc2hbfGUGLM68x3qCp
-   +h1d67yhDZTj2b5i2ODhxbL0U9wOD1pAuvzuV6JPZfMXzB1t/IoIp/tEy
-   YsUMx+lDaDJA9QlEPyS1rsvkdL6uadtI52aOjEorka6qaQoNBPdOYBSYc
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="345003796"
+  bh=HObM5/TO4BIZUcu6zlgmq4OGW7GWy42sz99p4qzSwws=;
+  b=FDgCRU+hL/dXw379UY51KgYk5+khXELVXoPl6aDjApfaoMBJwYLn5CgG
+   6u9OFbvvIh/r3OAoz5ej4c3WGpPdWEv4zdzHkljTu0NthANhMc3sT4L1C
+   /WTWSX2yqngtZYWBbcFFTZt3g5+Ca80jOeaOqm1OyTnbgi5LiDx6GelE2
+   ZstN4aRJg+vjKoYgRwBFcQyWfVxrFbsEDviNG9KcF2ENzS4nYeymXG/td
+   EcLZrsuCtU2uBJ53DGmigAe9fiEwEJOkFC/NE/BL1iZoPWCkoEFSwIoHv
+   AznYQ9BVf5Te1LCUkgba6BOpBWf0XHCxnOBRZ5zguSBGMTuptsWqjL3T4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="346324592"
 X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="345003796"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 12:35:27 -0700
+   d="scan'208";a="346324592"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 13:17:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="868850709"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="940804807"
 X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="868850709"
+   d="scan'208";a="940804807"
 Received: from lkp-server01.sh.intel.com (HELO b95e16499b55) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 27 Apr 2023 12:35:25 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 27 Apr 2023 13:17:25 -0700
 Received: from kbuild by b95e16499b55 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ps7Om-00005l-1s;
-	Thu, 27 Apr 2023 19:35:24 +0000
-Date: Fri, 28 Apr 2023 03:35:18 +0800
+	id 1ps83R-00006H-0s;
+	Thu, 27 Apr 2023 20:17:25 +0000
+Date: Fri, 28 Apr 2023 04:17:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qing Zhang <zhangqing@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>
-Subject: kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202304280318.3aZhPbxA-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [robh:dt/header-cleanups 55/57]
+ drivers/hwmon/pmbus/lm25066.c:485:13: warning: cast to smaller integer type
+ 'enum chips' from 'const void *'
+Message-ID: <202304280427.UgLOpheh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,193 +47,124 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   32f7ad0fbe7521de2a5e8f79c33d46110247fd7c
-commit: 93a4fa622eb061f75f87f0cf9609ab4e69c67d01 LoongArch: Add STACKTRACE support
-date:   9 months ago
-config: loongarch-randconfig-s053-20230427 (https://download.01.org/0day-ci/archive/20230428/202304280318.3aZhPbxA-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
+head:   d03f4bcb40575c1caf4deb8072eb2f9486e51b25
+commit: a581a78403b6af4ee0aa9c6ee6701e92dc2555f6 [55/57] Use of_device_get_match_data
+config: x86_64-randconfig-a012 (https://download.01.org/0day-ci/archive/20230428/202304280427.UgLOpheh-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=93a4fa622eb061f75f87f0cf9609ab4e69c67d01
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 93a4fa622eb061f75f87f0cf9609ab4e69c67d01
+        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=a581a78403b6af4ee0aa9c6ee6701e92dc2555f6
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch --no-tags robh dt/header-cleanups
+        git checkout a581a78403b6af4ee0aa9c6ee6701e92dc2555f6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/soc/qcom/ kernel/time/ net/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/hwmon/pmbus/ drivers/of/ lib/ net/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304280318.3aZhPbxA-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304280427.UgLOpheh-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
-   kernel/time/tick-sched.c:1151:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
-   kernel/time/tick-sched.c:1151:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
-   kernel/time/tick-sched.c:1151:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
-   kernel/time/tick-sched.c:1151:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
-   kernel/time/tick-sched.c:1151:9: sparse:     got int [noderef] __percpu *
->> kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
-   kernel/time/tick-sched.c:1151:9: sparse:     got int [noderef] __percpu *
->> kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
-   kernel/time/tick-sched.c:1151:9: sparse:     got int [noderef] __percpu *
->> kernel/time/tick-sched.c:1151:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/time/tick-sched.c:1151:9: sparse:     expected void *ptr
-   kernel/time/tick-sched.c:1151:9: sparse:     got int [noderef] __percpu *
---
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got unsigned int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got unsigned int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got unsigned int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got unsigned int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got int [noderef] __percpu *
->> drivers/soc/qcom/rpmh.c:441:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     expected void *ptr
-   drivers/soc/qcom/rpmh.c:441:9: sparse:     got int [noderef] __percpu *
---
-   net/core/dev.c:3325:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
-   net/core/dev.c:3325:23: sparse:     expected restricted __wsum [usertype] csum
-   net/core/dev.c:3325:23: sparse:     got unsigned int
-   net/core/dev.c:3325:23: sparse: sparse: cast from restricted __wsum
-   net/core/dev.c:204:9: sparse: sparse: context imbalance in 'unlist_netdevice' - different lock contexts for basic block
-   net/core/dev.c:3829:17: sparse: sparse: context imbalance in '__dev_queue_xmit' - different lock contexts for basic block
-   net/core/dev.c:5056:17: sparse: sparse: context imbalance in 'net_tx_action' - different lock contexts for basic block
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got unsigned int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
->> net/core/dev.c:4348:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   net/core/dev.c:4348:9: sparse:     expected void *ptr
-   net/core/dev.c:4348:9: sparse:     got int [noderef] __percpu *
+All warnings (new ones prefixed by >>):
 
-vim +1151 kernel/time/tick-sched.c
+>> drivers/hwmon/pmbus/lm25066.c:485:13: warning: cast to smaller integer type 'enum chips' from 'const void *' [-Wvoid-pointer-to-enum-cast]
+           data->id = (enum chips)of_device_get_match_data(&client->dev);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
-554c8aa8ecade21 Rafael J. Wysocki   2018-04-03  1141  
-0e7767687fdabfc Rafael J. Wysocki   2018-04-05  1142  /**
-0e7767687fdabfc Rafael J. Wysocki   2018-04-05  1143   * tick_nohz_idle_enter - prepare for entering idle on the current CPU
-2bbb6817c0ac1b5 Frederic Weisbecker 2011-10-08  1144   *
-0e7767687fdabfc Rafael J. Wysocki   2018-04-05  1145   * Called when we start the idle loop.
-280f06774afedf8 Frederic Weisbecker 2011-10-07  1146   */
-1268fbc746ea1cd Frederic Weisbecker 2011-11-17  1147  void tick_nohz_idle_enter(void)
-280f06774afedf8 Frederic Weisbecker 2011-10-07  1148  {
-280f06774afedf8 Frederic Weisbecker 2011-10-07  1149  	struct tick_sched *ts;
-280f06774afedf8 Frederic Weisbecker 2011-10-07  1150  
-ebf3adbad012b89 Frederic Weisbecker 2017-11-06 @1151  	lockdep_assert_irqs_enabled();
-0db49b72bce2634 Linus Torvalds      2012-01-06  1152  
-1268fbc746ea1cd Frederic Weisbecker 2011-11-17  1153  	local_irq_disable();
-1268fbc746ea1cd Frederic Weisbecker 2011-11-17  1154  
-22127e93c587afa Christoph Lameter   2014-08-17  1155  	ts = this_cpu_ptr(&tick_cpu_sched);
-23a8d888107ce4c Rafael J. Wysocki   2018-04-05  1156  
-23a8d888107ce4c Rafael J. Wysocki   2018-04-05  1157  	WARN_ON_ONCE(ts->timer_expires_base);
-23a8d888107ce4c Rafael J. Wysocki   2018-04-05  1158  
-280f06774afedf8 Frederic Weisbecker 2011-10-07  1159  	ts->inidle = 1;
-0e7767687fdabfc Rafael J. Wysocki   2018-04-05  1160  	tick_nohz_start_idle(ts);
-1268fbc746ea1cd Frederic Weisbecker 2011-11-17  1161  
-1268fbc746ea1cd Frederic Weisbecker 2011-11-17  1162  	local_irq_enable();
-280f06774afedf8 Frederic Weisbecker 2011-10-07  1163  }
-280f06774afedf8 Frederic Weisbecker 2011-10-07  1164  
 
-:::::: The code at line 1151 was first introduced by commit
-:::::: ebf3adbad012b89c4a51a3beae718a587d988a3a timers/nohz: Use lockdep to assert IRQs are disabled/enabled
+vim +485 drivers/hwmon/pmbus/lm25066.c
 
-:::::: TO: Frederic Weisbecker <frederic@kernel.org>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+   463	
+   464	static int lm25066_probe(struct i2c_client *client)
+   465	{
+   466		int config;
+   467		u32 shunt;
+   468		struct lm25066_data *data;
+   469		struct pmbus_driver_info *info;
+   470		const struct __coeff *coeff;
+   471	
+   472		if (!i2c_check_functionality(client->adapter,
+   473					     I2C_FUNC_SMBUS_READ_BYTE_DATA))
+   474			return -ENODEV;
+   475	
+   476		data = devm_kzalloc(&client->dev, sizeof(struct lm25066_data),
+   477				    GFP_KERNEL);
+   478		if (!data)
+   479			return -ENOMEM;
+   480	
+   481		config = i2c_smbus_read_byte_data(client, LM25066_DEVICE_SETUP);
+   482		if (config < 0)
+   483			return config;
+   484	
+ > 485		data->id = (enum chips)of_device_get_match_data(&client->dev);
+   486		if (!data->id)
+   487			data->id = i2c_match_id(lm25066_id, client)->driver_data;
+   488		if (!data->id)
+   489			return -ENODEV;
+   490	
+   491		info = &data->info;
+   492	
+   493		info->pages = 1;
+   494		info->format[PSC_VOLTAGE_IN] = direct;
+   495		info->format[PSC_VOLTAGE_OUT] = direct;
+   496		info->format[PSC_CURRENT_IN] = direct;
+   497		info->format[PSC_TEMPERATURE] = direct;
+   498		info->format[PSC_POWER] = direct;
+   499	
+   500		info->func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VMON
+   501		  | PMBUS_HAVE_PIN | PMBUS_HAVE_IIN | PMBUS_HAVE_STATUS_INPUT
+   502		  | PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP | PMBUS_HAVE_SAMPLES;
+   503	
+   504		if (data->id == lm25056) {
+   505			info->func[0] |= PMBUS_HAVE_STATUS_VMON;
+   506			info->read_word_data = lm25056_read_word_data;
+   507			info->read_byte_data = lm25056_read_byte_data;
+   508			data->rlimit = 0x0fff;
+   509		} else {
+   510			info->func[0] |= PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT;
+   511			info->read_word_data = lm25066_read_word_data;
+   512			data->rlimit = 0x0fff;
+   513		}
+   514		info->write_word_data = lm25066_write_word_data;
+   515	
+   516		coeff = &lm25066_coeff[data->id][0];
+   517		info->m[PSC_TEMPERATURE] = coeff[PSC_TEMPERATURE].m;
+   518		info->b[PSC_TEMPERATURE] = coeff[PSC_TEMPERATURE].b;
+   519		info->R[PSC_TEMPERATURE] = coeff[PSC_TEMPERATURE].R;
+   520		info->m[PSC_VOLTAGE_IN] = coeff[PSC_VOLTAGE_IN].m;
+   521		info->b[PSC_VOLTAGE_IN] = coeff[PSC_VOLTAGE_IN].b;
+   522		info->R[PSC_VOLTAGE_IN] = coeff[PSC_VOLTAGE_IN].R;
+   523		info->m[PSC_VOLTAGE_OUT] = coeff[PSC_VOLTAGE_OUT].m;
+   524		info->b[PSC_VOLTAGE_OUT] = coeff[PSC_VOLTAGE_OUT].b;
+   525		info->R[PSC_VOLTAGE_OUT] = coeff[PSC_VOLTAGE_OUT].R;
+   526		info->R[PSC_CURRENT_IN] = coeff[PSC_CURRENT_IN].R;
+   527		info->R[PSC_POWER] = coeff[PSC_POWER].R;
+   528		if (config & LM25066_DEV_SETUP_CL) {
+   529			info->m[PSC_CURRENT_IN] = coeff[PSC_CURRENT_IN_L].m;
+   530			info->b[PSC_CURRENT_IN] = coeff[PSC_CURRENT_IN_L].b;
+   531			info->m[PSC_POWER] = coeff[PSC_POWER_L].m;
+   532			info->b[PSC_POWER] = coeff[PSC_POWER_L].b;
+   533		} else {
+   534			info->m[PSC_CURRENT_IN] = coeff[PSC_CURRENT_IN].m;
+   535			info->b[PSC_CURRENT_IN] = coeff[PSC_CURRENT_IN].b;
+   536			info->m[PSC_POWER] = coeff[PSC_POWER].m;
+   537			info->b[PSC_POWER] = coeff[PSC_POWER].b;
+   538		}
+   539	
+   540		/*
+   541		 * Values in the TI datasheets are normalized for a 1mOhm sense
+   542		 * resistor; assume that unless DT specifies a value explicitly.
+   543		 */
+   544		if (of_property_read_u32(client->dev.of_node, "shunt-resistor-micro-ohms", &shunt))
+   545			shunt = 1000;
+   546	
+   547		info->m[PSC_CURRENT_IN] = info->m[PSC_CURRENT_IN] * shunt / 1000;
+   548		info->m[PSC_POWER] = info->m[PSC_POWER] * shunt / 1000;
+   549	
 
 -- 
 0-DAY CI Kernel Test Service
