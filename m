@@ -1,42 +1,44 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184A423D1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 10:26:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F013723D1;
+	Thu, 27 Apr 2023 10:26:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682591181; x=1714127181;
+  t=1682591183; x=1714127183;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8rJ4Cx9pOXUvun8klbybruKJt49+/+DPiUhj+Vxft74=;
-  b=Mm/BdSsonY/vggxj20JFFwlTANHMYWkZMsVxra8Vlur7M8F3jmIx9TAT
-   EAYFG02UEYaL+Bla1fpHxlOFd5AgWlbgEPuvRTqVxri+2+MmGF03rj56r
-   YBFW5Sw1aDskz5KTlJqYgSJ7y749RzdkSEe2O9rxa24JE82+Am9xprxq1
-   cQvzsmqOhAKufrjLeorkV4nP04qTQ0vanrRoLh0cak242f9x7XDgaA9IV
-   +6I1BYAy0+nErh6UEvoelqzp2lY26cXdvwZwMDRPJTSXytg1FEldG3UqQ
-   9i+u+66GX3wxza2skZKVwvqxtaV0CA4qhF7c0CU7GAInMG3seABoPEcJM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="433679830"
+  bh=wgOjOQleXk3rIPa3yUms+b5ZVmQBoL/vgR2p4oPCjZA=;
+  b=Y5eumMqBOqWZk/MUN38gA9ZvGFNMzZJvPfStob6mQQFnVE7C2vK/CFcD
+   KuksCHvXtZ+4Ht3b4lfr04qaPRe1KPeOrnsjtyOREFKUEaQXPSIG4Se2G
+   8hdrkEmTHtQrtD9VC0v062NDh5AMOBhMpdEEIwP2yL1HraXagxxHMW84p
+   fuXSepGZQSlangU9flVXk1nAaXUf1u7hPs/Bo59Aq169992ObHIUxgzMx
+   oq6+PToVz/7KhNN8MFlEdh+siJIX29qlnFmsc4JZsbPPWtDKQ8Tw0F/wG
+   UZgL1bZifdosijTcy3g23oSlnOFFzdmB5jPUlzxakwXJ+zc1A8+tacs+4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="433679833"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="433679830"
+   d="scan'208";a="433679833"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 03:26:20 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 03:26:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="763737184"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="763737187"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="763737184"
+   d="scan'208";a="763737187"
 Received: from lkp-server01.sh.intel.com (HELO 1e0e07564161) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 27 Apr 2023 03:26:19 -0700
 Received: from kbuild by 1e0e07564161 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prypO-0000Af-2q;
+	id 1prypO-0000Ah-2w;
 	Thu, 27 Apr 2023 10:26:18 +0000
-Date: Thu, 27 Apr 2023 18:25:39 +0800
+Date: Thu, 27 Apr 2023 18:25:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:dt/header-cleanups 54/56] drivers/regulator/max8660.c:310:34:
- warning: 'max8660_dt_ids' defined but not used
-Message-ID: <202304271847.Y0N4jkd6-lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@kernel.org>
+Subject: [paulmck-rcu:dev.2023.04.26a 35/51] arch/arm/kernel/smp.c:385:1:
+ warning: function declared 'noreturn' should not return
+Message-ID: <202304271836.Rr0pBtSE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,49 +48,119 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
-head:   4cc2262d09430892703b2d82d4a48f65679a8b53
-commit: 2a4525d954c68bb3e0a5d992c7a87f23aa510b6c [54/56] Use of_device_get_match_data
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230427/202304271847.Y0N4jkd6-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.04.26a
+head:   56b38a90a12f76e463a7381d8cff854926fa2b59
+commit: 2b927bfdda366c1719e021cd0e9688baf933c9cf [35/51] objtool: Fix for unreachable instruction warning
+config: arm-milbeaut_m10v_defconfig (https://download.01.org/0day-ci/archive/20230427/202304271836.Rr0pBtSE-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=2a4525d954c68bb3e0a5d992c7a87f23aa510b6c
-        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-        git fetch --no-tags robh dt/header-cleanups
-        git checkout 2a4525d954c68bb3e0a5d992c7a87f23aa510b6c
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?id=2b927bfdda366c1719e021cd0e9688baf933c9cf
+        git remote add paulmck-rcu https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
+        git fetch --no-tags paulmck-rcu dev.2023.04.26a
+        git checkout 2b927bfdda366c1719e021cd0e9688baf933c9cf
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/power/supply/ drivers/regulator/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304271847.Y0N4jkd6-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304271836.Rr0pBtSE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/regulator/max8660.c:310:34: warning: 'max8660_dt_ids' defined but not used [-Wunused-const-variable=]
-     310 | static const struct of_device_id max8660_dt_ids[] = {
-         |                                  ^~~~~~~~~~~~~~
+>> arch/arm/kernel/smp.c:385:1: warning: function declared 'noreturn' should not return [-Winvalid-noreturn]
+   }
+   ^
+   1 warning generated.
 
 
-vim +/max8660_dt_ids +310 drivers/regulator/max8660.c
+vim +/noreturn +385 arch/arm/kernel/smp.c
 
-4a678f037475ed Daniel Mack 2013-08-02  308  
-abe4c51afda024 Daniel Mack 2013-08-02  309  #ifdef CONFIG_OF
-abe4c51afda024 Daniel Mack 2013-08-02 @310  static const struct of_device_id max8660_dt_ids[] = {
-abe4c51afda024 Daniel Mack 2013-08-02  311  	{ .compatible = "maxim,max8660", .data = (void *) MAX8660 },
-abe4c51afda024 Daniel Mack 2013-08-02  312  	{ .compatible = "maxim,max8661", .data = (void *) MAX8661 },
-abe4c51afda024 Daniel Mack 2013-08-02  313  	{ }
-abe4c51afda024 Daniel Mack 2013-08-02  314  };
-abe4c51afda024 Daniel Mack 2013-08-02  315  MODULE_DEVICE_TABLE(of, max8660_dt_ids);
-abe4c51afda024 Daniel Mack 2013-08-02  316  
+a054a811597a17 Russell King     2005-11-02  314  
+a054a811597a17 Russell King     2005-11-02  315  /*
+a054a811597a17 Russell King     2005-11-02  316   * Called from the idle thread for the CPU which has been shutdown.
+a054a811597a17 Russell King     2005-11-02  317   *
+a054a811597a17 Russell King     2005-11-02  318   * Note that we disable IRQs here, but do not re-enable them
+a054a811597a17 Russell King     2005-11-02  319   * before returning to the caller. This is also the behaviour
+a054a811597a17 Russell King     2005-11-02  320   * of the other hotplug-cpu capable cores, so presumably coming
+a054a811597a17 Russell King     2005-11-02  321   * out of idle fixes this.
+a054a811597a17 Russell King     2005-11-02  322   */
+9205b797dbe519 Stephen Boyd     2015-08-24  323  void arch_cpu_idle_dead(void)
+a054a811597a17 Russell King     2005-11-02  324  {
+a054a811597a17 Russell King     2005-11-02  325  	unsigned int cpu = smp_processor_id();
+a054a811597a17 Russell King     2005-11-02  326  
+a054a811597a17 Russell King     2005-11-02  327  	idle_task_exit();
+a054a811597a17 Russell King     2005-11-02  328  
+f36d340122ae87 Russell King     2010-11-30  329  	local_irq_disable();
+f36d340122ae87 Russell King     2010-11-30  330  
+51acdfd1fa38a2 Russell King     2013-04-18  331  	/*
+51acdfd1fa38a2 Russell King     2013-04-18  332  	 * Flush the data out of the L1 cache for this CPU.  This must be
+51acdfd1fa38a2 Russell King     2013-04-18  333  	 * before the completion to ensure that data is safely written out
+51acdfd1fa38a2 Russell King     2013-04-18  334  	 * before platform_cpu_kill() gets called - which may disable
+51acdfd1fa38a2 Russell King     2013-04-18  335  	 * *this* CPU and power down its cache.
+51acdfd1fa38a2 Russell King     2013-04-18  336  	 */
+51acdfd1fa38a2 Russell King     2013-04-18  337  	flush_cache_louis();
+51acdfd1fa38a2 Russell King     2013-04-18  338  
+51acdfd1fa38a2 Russell King     2013-04-18  339  	/*
+51acdfd1fa38a2 Russell King     2013-04-18  340  	 * Tell __cpu_die() that this CPU is now safe to dispose of.  Once
+51acdfd1fa38a2 Russell King     2013-04-18  341  	 * this returns, power and/or clocks can be removed at any point
+51acdfd1fa38a2 Russell King     2013-04-18  342  	 * from this CPU and its cache by platform_cpu_kill().
+51acdfd1fa38a2 Russell King     2013-04-18  343  	 */
+1d5087ab964d84 Paul E. McKenney 2015-05-12  344  	(void)cpu_report_death();
+3c030beabf937b Russell King     2010-11-30  345  
+a054a811597a17 Russell King     2005-11-02  346  	/*
+51acdfd1fa38a2 Russell King     2013-04-18  347  	 * Ensure that the cache lines associated with that completion are
+51acdfd1fa38a2 Russell King     2013-04-18  348  	 * written out.  This covers the case where _this_ CPU is doing the
+51acdfd1fa38a2 Russell King     2013-04-18  349  	 * powering down, to ensure that the completion is visible to the
+51acdfd1fa38a2 Russell King     2013-04-18  350  	 * CPU waiting for this one.
+51acdfd1fa38a2 Russell King     2013-04-18  351  	 */
+51acdfd1fa38a2 Russell King     2013-04-18  352  	flush_cache_louis();
+51acdfd1fa38a2 Russell King     2013-04-18  353  
+51acdfd1fa38a2 Russell King     2013-04-18  354  	/*
+51acdfd1fa38a2 Russell King     2013-04-18  355  	 * The actual CPU shutdown procedure is at least platform (if not
+51acdfd1fa38a2 Russell King     2013-04-18  356  	 * CPU) specific.  This may remove power, or it may simply spin.
+51acdfd1fa38a2 Russell King     2013-04-18  357  	 *
+51acdfd1fa38a2 Russell King     2013-04-18  358  	 * Platforms are generally expected *NOT* to return from this call,
+51acdfd1fa38a2 Russell King     2013-04-18  359  	 * although there are some which do because they have no way to
+51acdfd1fa38a2 Russell King     2013-04-18  360  	 * power down the CPU.  These platforms are the _only_ reason we
+51acdfd1fa38a2 Russell King     2013-04-18  361  	 * have a return path which uses the fragment of assembly below.
+51acdfd1fa38a2 Russell King     2013-04-18  362  	 *
+51acdfd1fa38a2 Russell King     2013-04-18  363  	 * The return path should not be used for platforms which can
+51acdfd1fa38a2 Russell King     2013-04-18  364  	 * power off the CPU.
+a054a811597a17 Russell King     2005-11-02  365  	 */
+0a301110b7bd33 Russell King     2013-01-14  366  	if (smp_ops.cpu_die)
+0a301110b7bd33 Russell King     2013-01-14  367  		smp_ops.cpu_die(cpu);
+a054a811597a17 Russell King     2005-11-02  368  
+668bc38669f9a6 Russell King     2014-01-11  369  	pr_warn("CPU%u: smp_ops.cpu_die() returned, trying to resuscitate\n",
+668bc38669f9a6 Russell King     2014-01-11  370  		cpu);
+668bc38669f9a6 Russell King     2014-01-11  371  
+a054a811597a17 Russell King     2005-11-02  372  	/*
+a054a811597a17 Russell King     2005-11-02  373  	 * Do not return to the idle loop - jump back to the secondary
+a054a811597a17 Russell King     2005-11-02  374  	 * cpu initialisation.  There's some initialisation which needs
+a054a811597a17 Russell King     2005-11-02  375  	 * to be repeated to undo the effects of taking the CPU offline.
+a054a811597a17 Russell King     2005-11-02  376  	 */
+a054a811597a17 Russell King     2005-11-02  377  	__asm__("mov	sp, %0\n"
+faabfa0816916b Russell King     2010-12-20  378  	"	mov	fp, #0\n"
+19f29aebd929c3 Keith Packard    2021-09-18  379  	"	mov	r0, %1\n"
+a054a811597a17 Russell King     2005-11-02  380  	"	b	secondary_start_kernel"
+a054a811597a17 Russell King     2005-11-02  381  		:
+19f29aebd929c3 Keith Packard    2021-09-18  382  		: "r" (task_stack_page(current) + THREAD_SIZE - 8),
+19f29aebd929c3 Keith Packard    2021-09-18  383  		  "r" (current)
+19f29aebd929c3 Keith Packard    2021-09-18  384  		: "r0");
+a054a811597a17 Russell King     2005-11-02 @385  }
+a054a811597a17 Russell King     2005-11-02  386  #endif /* CONFIG_HOTPLUG_CPU */
+a054a811597a17 Russell King     2005-11-02  387  
 
-:::::: The code at line 310 was first introduced by commit
-:::::: abe4c51afda02423c81da6f1eaaa50b733f1ecc2 regulators: max8660: add DT bindings
+:::::: The code at line 385 was first introduced by commit
+:::::: a054a811597a17ffbe92bc4db04a4dc2f1b1ea55 [ARM SMP] Add hotplug CPU infrastructure
 
-:::::: TO: Daniel Mack <zonque@gmail.com>
-:::::: CC: Mark Brown <broonie@linaro.org>
+:::::: TO: Russell King <rmk@dyn-67.arm.linux.org.uk>
+:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
