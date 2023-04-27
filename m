@@ -1,42 +1,43 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA9328827
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 21:51:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76C68827
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 21:51:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682632289; x=1714168289;
+  t=1682632292; x=1714168292;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5ZM86DHt+tuxA7vv3qc9vYG2AVm6OqKrUglVSO/Zvac=;
-  b=AgYZAemfSMuhDlqzk745aAg3vtNRzd0UpCVc2OTQtd1eY4CYLnCRckdF
-   1fzlgiK6V5ARDTziuDmvODAi2/mcrRZ2Hgi2CDHPaOSYGqEp2U1wlEbsI
-   1ItWIDSahTMECl55a7XKoJDLsiATs/bgg+moxi05VEWm4LFU3g3fM6UOr
-   TF4ieZPKX3invpnvbET4HPFDdsiRj9kr6w5+89vuDtlKMQDGvbNCLFRTi
-   0Ghr0XaU+AjjWkvZh9jOFKz7BF8PZTQzZu+uuJxjtK+QDslBWZWcosYrv
-   k7o9Jj8QIMNPwc1aIhcEQDNaNA7/PwZw05rTnb5soFVCoGTDV1cempc30
+  bh=qDKdvAGKI0QcCEwsSQB+6XQop7gFpkd98PF2ePrKY4M=;
+  b=VRjkZ2J9LGukapf7BCCeNEfNJM3sc5YEnOyrPvLYkApdIIV1YsrX4vMi
+   ywh/6ugoQ82blMn7JPnGICsFkbPm4ci1ky4QsuKIZHZ6+IPVu4uXGJt64
+   8xM+iB7DVZH2dTlPiy8tYDmMMPLeNQDP4Le6eIRNHAX1QkQITU1t2sIbw
+   uL2d6gjl9ihU/l1Ox7useCo6S0qAskaRXBY2xxkLaqnXuoTqiuZ73M40b
+   5vavj6tCEUs3HuCv5v74pXHni73gQAGpY3fJ1mlxVUkBZcsdVtS2eQxIz
+   UAuYBM/QN10Pu3QAnRulMat+U5oLv1xyt2kMPyr6U83XOzbhElLVtrgsY
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="346345779"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="346345780"
 X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="346345779"
+   d="scan'208";a="346345780"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 14:51:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="868892636"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="868892637"
 X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="868892636"
+   d="scan'208";a="868892637"
 Received: from lkp-server01.sh.intel.com (HELO b95e16499b55) ([10.239.97.150])
   by orsmga005.jf.intel.com with ESMTP; 27 Apr 2023 14:51:28 -0700
 Received: from kbuild by b95e16499b55 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ps9WR-00008z-0q;
+	id 1ps9WR-000097-19;
 	Thu, 27 Apr 2023 21:51:27 +0000
-Date: Fri, 28 Apr 2023 05:50:44 +0800
+Date: Fri, 28 Apr 2023 05:50:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-fix-2a 11/11] lib/dynamic_debug.c:1267:6: warning: variable
- 'totct' set but not used
-Message-ID: <202304280533.kq9SXUpY-lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@kernel.org>
+Subject: [paulmck-rcu:dev.2023.04.26b 35/53] arch/mips/kernel/process.c:46:1:
+ warning: 'noreturn' function does return
+Message-ID: <202304280553.ZsGndQkE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,117 +47,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jimc/linux.git dd-fix-2a
-head:   4eb307867eecbffe77a3e958068dfa3ec7c94ec6
-commit: 4eb307867eecbffe77a3e958068dfa3ec7c94ec6 [11/11] dyndbg-API: fix DECLARE_DYNDBG_CLASSMAP and CONFIG_DRM_USE_DYNAMIC_DEBUG
-config: hexagon-buildonly-randconfig-r006-20230427 (https://download.01.org/0day-ci/archive/20230428/202304280533.kq9SXUpY-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.04.26b
+head:   fcaa8c6ca41362484ff84124f7fd8929739eef45
+commit: 2b927bfdda366c1719e021cd0e9688baf933c9cf [35/53] objtool: Fix for unreachable instruction warning
+config: mips-randconfig-r012-20230427 (https://download.01.org/0day-ci/archive/20230428/202304280553.ZsGndQkE-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/jimc/linux/commit/4eb307867eecbffe77a3e958068dfa3ec7c94ec6
-        git remote add jimc https://github.com/jimc/linux.git
-        git fetch --no-tags jimc dd-fix-2a
-        git checkout 4eb307867eecbffe77a3e958068dfa3ec7c94ec6
+        # https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?id=2b927bfdda366c1719e021cd0e9688baf933c9cf
+        git remote add paulmck-rcu https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
+        git fetch --no-tags paulmck-rcu dev.2023.04.26b
+        git checkout 2b927bfdda366c1719e021cd0e9688baf933c9cf
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash arch/mips/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304280533.kq9SXUpY-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304280553.ZsGndQkE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from lib/dynamic_debug.c:35:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from lib/dynamic_debug.c:35:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from lib/dynamic_debug.c:35:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> lib/dynamic_debug.c:1267:6: warning: variable 'totct' set but not used [-Wunused-but-set-variable]
-           int totct = 0;
-               ^
-   7 warnings generated.
+   arch/mips/kernel/process.c: In function 'arch_cpu_idle_dead':
+>> arch/mips/kernel/process.c:46:1: warning: 'noreturn' function does return
+      46 | }
+         | ^
 
 
-vim +/totct +1267 lib/dynamic_debug.c
+vim +/noreturn +46 arch/mips/kernel/process.c
 
-  1258	
-  1259	#define vpr_cm_info(cm, _msg, ...)					\
-  1260		v2pr_info(_msg " module:%s base:%d len:%d type:%d\n", ##__VA_ARGS__, \
-  1261			  cm->mod_name, cm->base, cm->length, cm->map_type)
-  1262	
-  1263	static void ddebug_match_apply_kparam(const struct kernel_param *kp, struct ddebug_class_user *cli)
-  1264	{
-  1265		struct ddebug_class_param *dcp;
-  1266		unsigned long new_bits, old_bits = 0;
-> 1267		int totct = 0;
-  1268	
-  1269		if (kp->ops != &param_ops_dyndbg_classes)
-  1270			return;
-  1271	
-  1272		dcp = (struct ddebug_class_param *)kp->arg;
-  1273	
-  1274		if (cli->map == dcp->map) {
-  1275			v2pr_info("found kp:%s =0x%lx", kp->name, *dcp->bits);
-  1276			vpr_cm_info(cli->map, "mapped to:");
-  1277			/*
-  1278			 * using apply-bitmap is too low.
-  1279			 * param_set_dyndbg_classes uses map_type to sort
-  1280			 * levels-to-bits.
-  1281			 * param_set_dyndbg_classes is too high, it takes
-  1282			 * string inputs.
-  1283			 * de-union-ing levels/bits might solve it (partly),
-  1284			 * at least simplifying the translation, and possibly
-  1285			 * the apply-bitmap fn/iface
-  1286			 */
-  1287			new_bits = *dcp->bits;
-  1288			totct += ddebug_apply_class_bitmap(dcp, &new_bits, &old_bits,
-  1289							   cli->user_mod_name);
-  1290		}
-  1291	}
-  1292	
+^1da177e4c3f41 Linus Torvalds  2005-04-16  41  
+cdbedc61c8d012 Thomas Gleixner 2013-03-21  42  #ifdef CONFIG_HOTPLUG_CPU
+cdbedc61c8d012 Thomas Gleixner 2013-03-21  43  void arch_cpu_idle_dead(void)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  44  {
+cdbedc61c8d012 Thomas Gleixner 2013-03-21  45  	play_dead();
+cdbedc61c8d012 Thomas Gleixner 2013-03-21 @46  }
+cdbedc61c8d012 Thomas Gleixner 2013-03-21  47  #endif
+1b2bc75c1bde65 Ralf Baechle    2009-06-23  48  
+
+:::::: The code at line 46 was first introduced by commit
+:::::: cdbedc61c8d0122ad682815936f0d11df1fe5f57 mips: Use generic idle loop
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
