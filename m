@@ -1,42 +1,44 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 181028827
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 20:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D628827
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 21:30:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682629168; x=1714165168;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E7hAgMzT8MYGe9TCOm3NVBXNRiG/MeAU5B5HCqomt9w=;
-  b=NmZ6hyZGRsARMlC1OFTj/ONJJi/6SDMgQYGqfLWvDBm5pn7jRrQ2nfVX
-   fEsDIYrin8vGPQ//vkNLa0eVF5biLDNqlN0Id5Z5bue9iIHg0cbMPPlWU
-   gWtp2/o41/B7x4jkK27dpstZZ1KGh5Ic946EpyZeY/OiaMBxuNcOk3YMk
-   AI/XaF+Ah2dOMlL/PnO/iran9fdeWjIygaF98KxTbNPMiGt5E94TmS1RB
-   BmIQ07yO8tsJnnTgECFUWh968VZVXI1DWSpgNrcE9/GlhtcXJvhTptFVd
-   G6zqIjmzLmSGoOJhcIfCjYSxJZCwLrq59WbhZiFoKTteL3LDYC/aNFYfG
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="327896789"
+  t=1682631029; x=1714167029;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VLC2gKqTZ3TB+TL7hFbHzzoiWb5pwZ7e9/sJimqlYFc=;
+  b=dJD4DnOPANeeNdDjekZjbnyw4QO5+MbsMkR9TcWlzEb2b/9cwLGOkKEb
+   9MAmVIpH/+nDjK+sfkUGaVsEhZXkxnhd3JRIq+AYgxQDPvymNeTvGJJ4g
+   gV3AIV3was/hAyKRo6alFpTfuAZnCiTCxNtx1F5Z5wOub6LLexMFYSfFa
+   8tjYHn+fpAdYS7d+mPHPTlzksszLYuAtoliSLjQCC7YdgmgT4fwdo5j9R
+   tRnoagMkryJCy/oPLQ5MQWv0zZXrh3uo/8sut8/ALTFW34Ar2JJDs3Gyj
+   eDsTUVcf6CF52B0g6NlUaeeQUu43Skwz8D0oTr4iOZTtPzoj1bc7c1Ob8
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="412934151"
 X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="327896789"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 13:59:27 -0700
+   d="scan'208";a="412934151"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 14:30:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="671915834"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="727285720"
 X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="671915834"
+   d="scan'208";a="727285720"
 Received: from lkp-server01.sh.intel.com (HELO b95e16499b55) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 27 Apr 2023 13:59:26 -0700
+  by orsmga001.jf.intel.com with ESMTP; 27 Apr 2023 14:30:27 -0700
 Received: from kbuild by b95e16499b55 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ps8i5-000073-2S;
-	Thu, 27 Apr 2023 20:59:25 +0000
-Date: Fri, 28 Apr 2023 04:59:15 +0800
+	id 1ps9C6-00008L-2J;
+	Thu, 27 Apr 2023 21:30:26 +0000
+Date: Fri, 28 Apr 2023 05:29:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+To: Jesper Dangaard Brouer <brouer@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/631 8858/21337] arch/arm/mach-imx/src.c:91:6:
- warning: no previous prototype for 'imx_gpcv2_set_m_core_pgc'
-Message-ID: <202304280442.MPkIQO4X-lkp@intel.com>
+Subject: Re: [PATCH RFC net-next/mm V2 1/2] page_pool: Remove workqueue in
+ new shutdown scheme
+Message-ID: <202304280541.EISCnBZz-lkp@intel.com>
+References: <168262351129.2036355.1136491155595493268.stgit@firesoul>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,66 +47,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <168262351129.2036355.1136491155595493268.stgit@firesoul>
 
-tree:   https://github.com/Freescale/linux-fslc pr/631
-head:   afb712b0103808b4d0e37f526b6c7b228df74148
-commit: ae0ee2e5c5fbb23eadc2fa87b629bdfca3da7f57 [8858/21337] ARM: imx: add smp support for imx7d
-config: arm-randconfig-r046-20230427 (https://download.01.org/0day-ci/archive/20230428/202304280442.MPkIQO4X-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+Hi Jesper,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on horms-ipvs/master linus/master v6.3 next-20230427]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jesper-Dangaard-Brouer/page_pool-Remove-workqueue-in-new-shutdown-scheme/20230428-032759
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/168262351129.2036355.1136491155595493268.stgit%40firesoul
+patch subject: [PATCH RFC net-next/mm V2 1/2] page_pool: Remove workqueue in new shutdown scheme
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230428/202304280541.EISCnBZz-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/ae0ee2e5c5fbb23eadc2fa87b629bdfca3da7f57
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc pr/631
-        git checkout ae0ee2e5c5fbb23eadc2fa87b629bdfca3da7f57
+        # https://github.com/intel-lab-lkp/linux/commit/d6fe37a8a681d3f95c9ac342d182e6fbeba61b72
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jesper-Dangaard-Brouer/page_pool-Remove-workqueue-in-new-shutdown-scheme/20230428-032759
+        git checkout d6fe37a8a681d3f95c9ac342d182e6fbeba61b72
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash net/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304280442.MPkIQO4X-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304280541.EISCnBZz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm/mach-imx/src.c:91:6: warning: no previous prototype for 'imx_gpcv2_set_m_core_pgc' [-Wmissing-prototypes]
-      91 | void imx_gpcv2_set_m_core_pgc(bool enable, u32 offset)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm/mach-imx/src.c:96:6: warning: no previous prototype for 'imx_gpcv2_set_core1_pdn_pup_by_software' [-Wmissing-prototypes]
-      96 | void imx_gpcv2_set_core1_pdn_pup_by_software(bool pdn)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arm/mach-imx/src.c:14:
-   arch/arm/mach-imx/common.h:119:18: warning: 'imx53_suspend_sz' defined but not used [-Wunused-const-variable=]
-     119 | static const u32 imx53_suspend_sz;
-         |                  ^~~~~~~~~~~~~~~~
+>> net/core/page_pool.c:448:14: warning: no previous prototype for 'pp_read_hold_cnt' [-Wmissing-prototypes]
+     448 | noinline u32 pp_read_hold_cnt(struct page_pool *pool)
+         |              ^~~~~~~~~~~~~~~~
 
 
-vim +/imx_gpcv2_set_m_core_pgc +91 arch/arm/mach-imx/src.c
+vim +/pp_read_hold_cnt +448 net/core/page_pool.c
 
-    90	
-  > 91	void imx_gpcv2_set_m_core_pgc(bool enable, u32 offset)
-    92	{
-    93		writel_relaxed(enable, gpc_base + offset);
-    94	}
-    95	
-  > 96	void imx_gpcv2_set_core1_pdn_pup_by_software(bool pdn)
-    97	{
-    98		u32 reg = pdn ? GPC_CPU_PGC_SW_PDN_REQ : GPC_CPU_PGC_SW_PUP_REQ;
-    99		u32 val;
-   100	
-   101		val = readl_relaxed(gpc_base + reg);
-   102		imx_gpcv2_set_m_core_pgc(true, GPC_PGC_C1);
-   103		val |= BM_CPU_PGC_SW_PDN_PUP_REQ_CORE1_A7;
-   104		writel_relaxed(val, gpc_base + reg);
-   105	
-   106		while (readl_relaxed(gpc_base + reg) & BM_CPU_PGC_SW_PDN_PUP_REQ_CORE1_A7)
-   107			;
-   108	
-   109		imx_gpcv2_set_m_core_pgc(false, GPC_PGC_C1);
-   110	}
-   111	
+   446	
+   447	/* Avoid inlining code to avoid speculative fetching cacheline */
+ > 448	noinline u32 pp_read_hold_cnt(struct page_pool *pool)
+   449	{
+   450		return READ_ONCE(pool->pages_state_hold_cnt);
+   451	}
+   452	
 
 -- 
 0-DAY CI Kernel Test Service
