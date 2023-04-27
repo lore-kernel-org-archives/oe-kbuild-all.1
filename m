@@ -1,46 +1,40 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E4A257D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 11:49:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F3115BA;
+	Thu, 27 Apr 2023 12:31:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682596164; x=1714132164;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z2dWalpLD+qOjw0gB9Smg1m1h51jUqcpx9j78IhlTZg=;
-  b=GIGdBr2tsZ3UKRwKZ0mB8G7vVBf+4G4cBWzeuznkkkvnd9ivu2GtrCla
-   2J24vJ10BpC/lw2lA85OiuIyu+6x2UAeGwL8ouQaBvOaRqs/fSeaX7RZ0
-   8IR+MMh3tEaKBWqdN6tkvbTyO4zcLGCdVEZqPEZk2BcCZGqlKT7rWtV+t
-   wD4donascadZWEv9tZkh5X7CGpCpXhk3cg6NpsZxC3IJ8X2jPgZxVvj9D
-   AP2jMuoGfna+1aLIHOCN/icraAx6K8nDTe35k3+e+qaMumXECDDetf1WD
-   RlBhy6O9XjWyNcuv7QBgn3Kn4DjMaisYBncxZQKoHuzpIvIshKPMHNdQK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="410441359"
+  t=1682598684; x=1714134684;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=9ywq7zSgbKfwYmiSHIqKTZQbhwChYvoWtR/TGw/+T38=;
+  b=dJjOUrKAZY/+gq2lqrr9cbz4BmYVPESmVn5qq2CkLW7EVVQbVeFg+K0K
+   CJJggbqmpXjXnn8AeqCW6bS/T8yo/bVa/lDhaA8I9JRxu9oFqR/VB0xa3
+   dK6Wv2utuFOl0323svfzzedp+6azxCxtr2RAQsSeQiYHaez4ZO7Z+E7no
+   /qxK7tjXE0JEnQQL2yGLvfBrw3xTbpWmAt4RS3HDx3c81Cfj+BWocDgKA
+   kLmuyatjhRtvVIfDOKGv/1gCj6UtAowsPx9tOjSlbYlwcszGj0HnXq3F2
+   WqigsPQGOkOKSKZyfDuEsw8OG6W76OSu5RDVF9SqZ8kKCUpzy28NiISov
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="344871092"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="410441359"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 04:49:23 -0700
+   d="scan'208";a="344871092"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 05:31:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="818500012"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="644679472"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="818500012"
+   d="scan'208";a="644679472"
 Received: from lkp-server01.sh.intel.com (HELO 1e0e07564161) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 27 Apr 2023 04:49:21 -0700
+  by orsmga003.jf.intel.com with ESMTP; 27 Apr 2023 05:31:22 -0700
 Received: from kbuild by 1e0e07564161 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ps07k-0000Cj-13;
-	Thu, 27 Apr 2023 11:49:20 +0000
-Date: Thu, 27 Apr 2023 19:48:59 +0800
+	id 1ps0mP-0000Dx-0p;
+	Thu, 27 Apr 2023 12:31:21 +0000
+Date: Thu, 27 Apr 2023 20:30:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nilesh Javali <njavali@marvell.com>, martin.petersen@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	GR-QLogic-Storage-Upstream@marvell.com, bhazarika@marvell.com,
-	agurumurthy@marvell.com, sdeodhar@marvell.com
-Subject: Re: [PATCH 3/7] qla2xxx: Fix task management cmd fail due to
- unavailable resource
-Message-ID: <202304271952.NKNmoFzv-lkp@intel.com>
-References: <20230427080351.9889-4-njavali@marvell.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: error: unknown target CPU 'r5000'
+Message-ID: <202304272037.6P3b9WVm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,173 +43,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230427080351.9889-4-njavali@marvell.com>
 
-Hi Nilesh,
+CC: linux-kernel@vger.kernel.org
+TO: Paul Cercueil <paul@crapouillou.net>
+CC: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 
-kernel test robot noticed the following build warnings:
+Hi Paul,
 
-[auto build test WARNING on c8e22b7a1694bb8d025ea636816472739d859145]
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nilesh-Javali/qla2xxx-Multi-que-support-for-TMF/20230427-160555
-base:   c8e22b7a1694bb8d025ea636816472739d859145
-patch link:    https://lore.kernel.org/r/20230427080351.9889-4-njavali%40marvell.com
-patch subject: [PATCH 3/7] qla2xxx: Fix task management cmd fail due to unavailable resource
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230427/202304271952.NKNmoFzv-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6e98b09da931a00bf4e0477d0fa52748bf28fcce
+commit: c434b9f80b0923e6460031b0fd964f8b0bf3c6a6 MIPS: Kconfig: add MIPS_GENERIC_KERNEL symbol
+date:   2 years, 7 months ago
+config: mips-randconfig-r006-20230427 (https://download.01.org/0day-ci/archive/20230427/202304272037.6P3b9WVm-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/ea97bb99e7ceb449ede36ec249341061982a7f11
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nilesh-Javali/qla2xxx-Multi-que-support-for-TMF/20230427-160555
-        git checkout ea97bb99e7ceb449ede36ec249341061982a7f11
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c434b9f80b0923e6460031b0fd964f8b0bf3c6a6
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout c434b9f80b0923e6460031b0fd964f8b0bf3c6a6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/scsi/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304271952.NKNmoFzv-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304272037.6P3b9WVm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/scsi/qla2xxx/qla_init.c:2043:1: warning: no previous prototype for 'qla26xx_marker' [-Wmissing-prototypes]
-    2043 | qla26xx_marker(struct tmf_arg *arg)
-         | ^~~~~~~~~~~~~~
-   drivers/scsi/qla2xxx/qla_init.c:2098:1: warning: no previous prototype for '__qla2x00_async_tm_cmd' [-Wmissing-prototypes]
-    2098 | __qla2x00_async_tm_cmd(struct tmf_arg *arg)
-         | ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/qla2xxx/qla_init.c:2152:6: warning: no previous prototype for 'qla_put_tmf' [-Wmissing-prototypes]
-    2152 | void qla_put_tmf(fc_port_t *fcport)
-         |      ^~~~~~~~~~~
-
-
-vim +/qla_put_tmf +2152 drivers/scsi/qla2xxx/qla_init.c
-
-  2041	
-  2042	int
-> 2043	qla26xx_marker(struct tmf_arg *arg)
-  2044	{
-  2045		struct scsi_qla_host *vha = arg->vha;
-  2046		struct srb_iocb *tm_iocb;
-  2047		srb_t *sp;
-  2048		int rval = QLA_FUNCTION_FAILED;
-  2049		fc_port_t *fcport = arg->fcport;
-  2050	
-  2051		/* ref: INIT */
-  2052		sp = qla2xxx_get_qpair_sp(vha, arg->qpair, fcport, GFP_KERNEL);
-  2053		if (!sp)
-  2054			goto done;
-  2055	
-  2056		sp->type = SRB_MARKER;
-  2057		sp->name = "marker";
-  2058		qla2x00_init_async_sp(sp, qla2x00_get_async_timeout(vha), qla_marker_sp_done);
-  2059		sp->u.iocb_cmd.timeout = qla2x00_tmf_iocb_timeout;
-  2060	
-  2061		tm_iocb = &sp->u.iocb_cmd;
-  2062		init_completion(&tm_iocb->u.tmf.comp);
-  2063		tm_iocb->u.tmf.modifier = arg->modifier;
-  2064		tm_iocb->u.tmf.lun = arg->lun;
-  2065		tm_iocb->u.tmf.loop_id = fcport->loop_id;
-  2066		tm_iocb->u.tmf.vp_index = vha->vp_idx;
-  2067	
-  2068		START_SP_W_RETRIES(sp, rval);
-  2069	
-  2070		ql_dbg(ql_dbg_taskm, vha, 0x8006,
-  2071		    "Async-marker hdl=%x loop-id=%x portid=%06x modifier=%x lun=%lld qp=%d rval %d.\n",
-  2072		    sp->handle, fcport->loop_id, fcport->d_id.b24,
-  2073		    arg->modifier, arg->lun, sp->qpair->id, rval);
-  2074	
-  2075		if (rval != QLA_SUCCESS) {
-  2076			ql_log(ql_log_warn, vha, 0x8031,
-  2077			    "Marker IOCB failed (%x).\n", rval);
-  2078			goto done_free_sp;
-  2079		}
-  2080	
-  2081		wait_for_completion(&tm_iocb->u.tmf.comp);
-  2082	
-  2083	done_free_sp:
-  2084		/* ref: INIT */
-  2085		kref_put(&sp->cmd_kref, qla2x00_sp_release);
-  2086	done:
-  2087		return rval;
-  2088	}
-  2089	
-  2090	static void qla2x00_tmf_sp_done(srb_t *sp, int res)
-  2091	{
-  2092		struct srb_iocb *tmf = &sp->u.iocb_cmd;
-  2093	
-  2094		complete(&tmf->u.tmf.comp);
-  2095	}
-  2096	
-  2097	int
-  2098	__qla2x00_async_tm_cmd(struct tmf_arg *arg)
-  2099	{
-  2100		struct scsi_qla_host *vha = arg->vha;
-  2101		struct srb_iocb *tm_iocb;
-  2102		srb_t *sp;
-  2103		int rval = QLA_FUNCTION_FAILED;
-  2104	
-  2105		fc_port_t *fcport = arg->fcport;
-  2106	
-  2107		/* ref: INIT */
-  2108		sp = qla2xxx_get_qpair_sp(vha, arg->qpair, fcport, GFP_KERNEL);
-  2109		if (!sp)
-  2110			goto done;
-  2111	
-  2112		qla_vha_mark_busy(vha);
-  2113		sp->type = SRB_TM_CMD;
-  2114		sp->name = "tmf";
-  2115		qla2x00_init_async_sp(sp, qla2x00_get_async_timeout(vha),
-  2116				      qla2x00_tmf_sp_done);
-  2117		sp->u.iocb_cmd.timeout = qla2x00_tmf_iocb_timeout;
-  2118	
-  2119		tm_iocb = &sp->u.iocb_cmd;
-  2120		init_completion(&tm_iocb->u.tmf.comp);
-  2121		tm_iocb->u.tmf.flags = arg->flags;
-  2122		tm_iocb->u.tmf.lun = arg->lun;
-  2123	
-  2124		START_SP_W_RETRIES(sp, rval);
-  2125	
-  2126		ql_dbg(ql_dbg_taskm, vha, 0x802f,
-  2127		    "Async-tmf hdl=%x loop-id=%x portid=%06x ctrl=%x lun=%lld qp=%d rval=%x.\n",
-  2128		    sp->handle, fcport->loop_id, fcport->d_id.b24,
-  2129		    arg->flags, arg->lun, sp->qpair->id, rval);
-  2130	
-  2131		if (rval != QLA_SUCCESS)
-  2132			goto done_free_sp;
-  2133		wait_for_completion(&tm_iocb->u.tmf.comp);
-  2134	
-  2135		rval = tm_iocb->u.tmf.data;
-  2136	
-  2137		if (rval != QLA_SUCCESS) {
-  2138			ql_log(ql_log_warn, vha, 0x8030,
-  2139			    "TM IOCB failed (%x).\n", rval);
-  2140		}
-  2141	
-  2142		if (!test_bit(UNLOADING, &vha->dpc_flags) && !IS_QLAFX00(vha->hw))
-  2143			rval = qla26xx_marker(arg);
-  2144	
-  2145	done_free_sp:
-  2146		/* ref: INIT */
-  2147		kref_put(&sp->cmd_kref, qla2x00_sp_release);
-  2148	done:
-  2149		return rval;
-  2150	}
-  2151	
-> 2152	void qla_put_tmf(fc_port_t *fcport)
-  2153	{
-  2154		struct scsi_qla_host *vha = fcport->vha;
-  2155		struct qla_hw_data *ha = vha->hw;
-  2156		unsigned long flags;
-  2157	
-  2158		spin_lock_irqsave(&ha->tgt.sess_lock, flags);
-  2159		fcport->active_tmf--;
-  2160		spin_unlock_irqrestore(&ha->tgt.sess_lock, flags);
-  2161	}
-  2162	
+>> error: unknown target CPU 'r5000'
+   note: valid target CPU values are: mips1, mips2, mips3, mips4, mips5, mips32, mips32r2, mips32r3, mips32r5, mips32r6, mips64, mips64r2, mips64r3, mips64r5, mips64r6, octeon, octeon+, p5600
+>> error: unknown target CPU 'r5000'
+   note: valid target CPU values are: mips1, mips2, mips3, mips4, mips5, mips32, mips32r2, mips32r3, mips32r5, mips32r6, mips64, mips64r2, mips64r3, mips64r5, mips64r6, octeon, octeon+, p5600
+>> error: unknown target CPU 'r5000'
+   note: valid target CPU values are: mips1, mips2, mips3, mips4, mips5, mips32, mips32r2, mips32r3, mips32r5, mips32r6, mips64, mips64r2, mips64r3, mips64r5, mips64r6, octeon, octeon+, p5600
+   make[2]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1
+   make[2]: *** [scripts/Makefile.build:283: scripts/mod/empty.o] Error 1
+   make[2]: Target '__build' not remade because of errors.
+   make[1]: *** [Makefile:1202: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:185: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
