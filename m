@@ -1,45 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731C323CF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 10:05:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184A423D1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 10:26:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682589922; x=1714125922;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qNt6DNKR89NUnLNN49LUGqNaFj/jmQfUPGoOjATOVek=;
-  b=WBqTRGGngclav8pEv8KcE58h5cY0sycCGjQRk4FbPvjkXYU4AxSAdgZx
-   VmhmIfIJAuTX1F66E3Vce7M9z8XQPOwvKro8w3zhpdhT18GVcuyABSxE5
-   5bnZcmguHuIqbFCl3URKsRiJLbMbk5rU5lhRoWwGBBgyLkvuWst7i0iFU
-   +uZ/B/Ly9B2/9bkFzIYB5FcJHypzC5uqJrAzK1V6Ez+NCrkl4wdoNBmEs
-   6OrdyijIDRwJUtA1FZA9SLD3qY8PAQIOm11lis+KbPCf00w2ka2A6ghhQ
-   ApirFGtE/H5rU9Yctt0yKWukYwAWA2hcNrp5ZbHrsevxhABfv+/7DC2Cz
+  t=1682591181; x=1714127181;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8rJ4Cx9pOXUvun8klbybruKJt49+/+DPiUhj+Vxft74=;
+  b=Mm/BdSsonY/vggxj20JFFwlTANHMYWkZMsVxra8Vlur7M8F3jmIx9TAT
+   EAYFG02UEYaL+Bla1fpHxlOFd5AgWlbgEPuvRTqVxri+2+MmGF03rj56r
+   YBFW5Sw1aDskz5KTlJqYgSJ7y749RzdkSEe2O9rxa24JE82+Am9xprxq1
+   cQvzsmqOhAKufrjLeorkV4nP04qTQ0vanrRoLh0cak242f9x7XDgaA9IV
+   +6I1BYAy0+nErh6UEvoelqzp2lY26cXdvwZwMDRPJTSXytg1FEldG3UqQ
+   9i+u+66GX3wxza2skZKVwvqxtaV0CA4qhF7c0CU7GAInMG3seABoPEcJM
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="344838352"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="433679830"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="344838352"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 03:05:21 -0700
+   d="scan'208";a="433679830"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 03:26:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="671722563"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="763737184"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="671722563"
+   d="scan'208";a="763737184"
 Received: from lkp-server01.sh.intel.com (HELO 1e0e07564161) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 27 Apr 2023 03:05:19 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 27 Apr 2023 03:26:19 -0700
 Received: from kbuild by 1e0e07564161 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pryV4-00009v-1B;
-	Thu, 27 Apr 2023 10:05:18 +0000
-Date: Thu, 27 Apr 2023 18:04:35 +0800
+	id 1prypO-0000Af-2q;
+	Thu, 27 Apr 2023 10:26:18 +0000
+Date: Thu, 27 Apr 2023 18:25:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nilesh Javali <njavali@marvell.com>, martin.petersen@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	GR-QLogic-Storage-Upstream@marvell.com, bhazarika@marvell.com,
-	agurumurthy@marvell.com, sdeodhar@marvell.com
-Subject: Re: [PATCH 1/7] qla2xxx: Multi-que support for TMF
-Message-ID: <202304271702.GpIL391S-lkp@intel.com>
-References: <20230427080351.9889-2-njavali@marvell.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:dt/header-cleanups 54/56] drivers/regulator/max8660.c:310:34:
+ warning: 'max8660_dt_ids' defined but not used
+Message-ID: <202304271847.Y0N4jkd6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,110 +45,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230427080351.9889-2-njavali@marvell.com>
 
-Hi Nilesh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on c8e22b7a1694bb8d025ea636816472739d859145]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nilesh-Javali/qla2xxx-Multi-que-support-for-TMF/20230427-160555
-base:   c8e22b7a1694bb8d025ea636816472739d859145
-patch link:    https://lore.kernel.org/r/20230427080351.9889-2-njavali%40marvell.com
-patch subject: [PATCH 1/7] qla2xxx: Multi-que support for TMF
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230427/202304271702.GpIL391S-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
+head:   4cc2262d09430892703b2d82d4a48f65679a8b53
+commit: 2a4525d954c68bb3e0a5d992c7a87f23aa510b6c [54/56] Use of_device_get_match_data
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230427/202304271847.Y0N4jkd6-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/b9e8bdc4cd77acae5886c7c447d34d898bd1d821
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Nilesh-Javali/qla2xxx-Multi-que-support-for-TMF/20230427-160555
-        git checkout b9e8bdc4cd77acae5886c7c447d34d898bd1d821
+        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=2a4525d954c68bb3e0a5d992c7a87f23aa510b6c
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch --no-tags robh dt/header-cleanups
+        git checkout 2a4525d954c68bb3e0a5d992c7a87f23aa510b6c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/scsi/qla2xxx/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/power/supply/ drivers/regulator/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304271702.GpIL391S-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304271847.Y0N4jkd6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/scsi/qla2xxx/qla_init.c:2024:1: warning: no previous prototype for '__qla2x00_async_tm_cmd' [-Wmissing-prototypes]
-    2024 | __qla2x00_async_tm_cmd(struct tmf_arg *arg)
-         | ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/regulator/max8660.c:310:34: warning: 'max8660_dt_ids' defined but not used [-Wunused-const-variable=]
+     310 | static const struct of_device_id max8660_dt_ids[] = {
+         |                                  ^~~~~~~~~~~~~~
 
 
-vim +/__qla2x00_async_tm_cmd +2024 drivers/scsi/qla2xxx/qla_init.c
+vim +/max8660_dt_ids +310 drivers/regulator/max8660.c
 
-  2022	
-  2023	int
-> 2024	__qla2x00_async_tm_cmd(struct tmf_arg *arg)
-  2025	{
-  2026		struct scsi_qla_host *vha = arg->vha;
-  2027		struct srb_iocb *tm_iocb;
-  2028		srb_t *sp;
-  2029		unsigned long flags;
-  2030		int rval = QLA_FUNCTION_FAILED;
-  2031	
-  2032		fc_port_t *fcport = arg->fcport;
-  2033	
-  2034		/* ref: INIT */
-  2035		sp = qla2xxx_get_qpair_sp(vha, arg->qpair, fcport, GFP_KERNEL);
-  2036		if (!sp)
-  2037			goto done;
-  2038	
-  2039		qla_vha_mark_busy(vha);
-  2040		sp->type = SRB_TM_CMD;
-  2041		sp->name = "tmf";
-  2042		qla2x00_init_async_sp(sp, qla2x00_get_async_timeout(vha),
-  2043				      qla2x00_tmf_sp_done);
-  2044		sp->u.iocb_cmd.timeout = qla2x00_tmf_iocb_timeout;
-  2045	
-  2046		tm_iocb = &sp->u.iocb_cmd;
-  2047		init_completion(&tm_iocb->u.tmf.comp);
-  2048		tm_iocb->u.tmf.flags = arg->flags;
-  2049		tm_iocb->u.tmf.lun = arg->lun;
-  2050	
-  2051		rval = qla2x00_start_sp(sp);
-  2052		ql_dbg(ql_dbg_taskm, vha, 0x802f,
-  2053		    "Async-tmf hdl=%x loop-id=%x portid=%02x%02x%02x ctrl=%x.\n",
-  2054		    sp->handle, fcport->loop_id, fcport->d_id.b.domain,
-  2055		    fcport->d_id.b.area, fcport->d_id.b.al_pa, arg->flags);
-  2056	
-  2057		if (rval != QLA_SUCCESS)
-  2058			goto done_free_sp;
-  2059		wait_for_completion(&tm_iocb->u.tmf.comp);
-  2060	
-  2061		rval = tm_iocb->u.tmf.data;
-  2062	
-  2063		if (rval != QLA_SUCCESS) {
-  2064			ql_log(ql_log_warn, vha, 0x8030,
-  2065			    "TM IOCB failed (%x).\n", rval);
-  2066		}
-  2067	
-  2068		if (!test_bit(UNLOADING, &vha->dpc_flags) && !IS_QLAFX00(vha->hw)) {
-  2069			flags = tm_iocb->u.tmf.flags;
-  2070			if (flags & (TCF_LUN_RESET|TCF_ABORT_TASK_SET|
-  2071				TCF_CLEAR_TASK_SET|TCF_CLEAR_ACA))
-  2072				flags = MK_SYNC_ID_LUN;
-  2073			else
-  2074				flags = MK_SYNC_ID;
-  2075	
-  2076			qla2x00_marker(vha, sp->qpair,
-  2077			    sp->fcport->loop_id, arg->lun, flags);
-  2078		}
-  2079	
-  2080	done_free_sp:
-  2081		/* ref: INIT */
-  2082		kref_put(&sp->cmd_kref, qla2x00_sp_release);
-  2083	done:
-  2084		return rval;
-  2085	}
-  2086	
+4a678f037475ed Daniel Mack 2013-08-02  308  
+abe4c51afda024 Daniel Mack 2013-08-02  309  #ifdef CONFIG_OF
+abe4c51afda024 Daniel Mack 2013-08-02 @310  static const struct of_device_id max8660_dt_ids[] = {
+abe4c51afda024 Daniel Mack 2013-08-02  311  	{ .compatible = "maxim,max8660", .data = (void *) MAX8660 },
+abe4c51afda024 Daniel Mack 2013-08-02  312  	{ .compatible = "maxim,max8661", .data = (void *) MAX8661 },
+abe4c51afda024 Daniel Mack 2013-08-02  313  	{ }
+abe4c51afda024 Daniel Mack 2013-08-02  314  };
+abe4c51afda024 Daniel Mack 2013-08-02  315  MODULE_DEVICE_TABLE(of, max8660_dt_ids);
+abe4c51afda024 Daniel Mack 2013-08-02  316  
+
+:::::: The code at line 310 was first introduced by commit
+:::::: abe4c51afda02423c81da6f1eaaa50b733f1ecc2 regulators: max8660: add DT bindings
+
+:::::: TO: Daniel Mack <zonque@gmail.com>
+:::::: CC: Mark Brown <broonie@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
