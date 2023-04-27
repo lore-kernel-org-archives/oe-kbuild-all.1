@@ -1,44 +1,43 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F013723D1;
-	Thu, 27 Apr 2023 10:26:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C38110EA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 10:36:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682591183; x=1714127183;
+  t=1682591782; x=1714127782;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wgOjOQleXk3rIPa3yUms+b5ZVmQBoL/vgR2p4oPCjZA=;
-  b=Y5eumMqBOqWZk/MUN38gA9ZvGFNMzZJvPfStob6mQQFnVE7C2vK/CFcD
-   KuksCHvXtZ+4Ht3b4lfr04qaPRe1KPeOrnsjtyOREFKUEaQXPSIG4Se2G
-   8hdrkEmTHtQrtD9VC0v062NDh5AMOBhMpdEEIwP2yL1HraXagxxHMW84p
-   fuXSepGZQSlangU9flVXk1nAaXUf1u7hPs/Bo59Aq169992ObHIUxgzMx
-   oq6+PToVz/7KhNN8MFlEdh+siJIX29qlnFmsc4JZsbPPWtDKQ8Tw0F/wG
-   UZgL1bZifdosijTcy3g23oSlnOFFzdmB5jPUlzxakwXJ+zc1A8+tacs+4
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="433679833"
+  bh=Px5B2Gou+pRMmjzFHaxFdtgcphKDMykbYTeJSM0wkQs=;
+  b=hBeCRAWSXvN9j8W+8jci8QhmdHKCvZiBgaPKO5rmD/F1qvpRylHVnI0G
+   9+EheZDU2tdaW+LdNd9P9LDACwF5zrQd6xFlZrCnIIpbKq1gh1vs+1prw
+   kT3ShFDxClnf0/joY/ufdLc1IgYCFY4H0tX4pKTVbeSXW68m6PPoSkx7d
+   MA+4vu+E+OpuVEEkX9GGEzx9ZH4bIT3SNlt+lYGGd3IywlY+csvpJn1G1
+   A2M6qiSFBn80MvHybzHHzBvZXjn8CWTZmwatlj8VBfYRaYc7ObljbFK2x
+   awFYMRvumF99jSmk4Xm8icJPy69Y/PhBTYAs8J++M+bIclh/AQ08OxZ6f
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="433682470"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="433679833"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 03:26:21 -0700
+   d="scan'208";a="433682470"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 03:36:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="763737187"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="783685885"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="763737187"
+   d="scan'208";a="783685885"
 Received: from lkp-server01.sh.intel.com (HELO 1e0e07564161) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 27 Apr 2023 03:26:19 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 27 Apr 2023 03:36:19 -0700
 Received: from kbuild by 1e0e07564161 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prypO-0000Ah-2w;
-	Thu, 27 Apr 2023 10:26:18 +0000
-Date: Thu, 27 Apr 2023 18:25:38 +0800
+	id 1pryz5-0000Az-0C;
+	Thu, 27 Apr 2023 10:36:19 +0000
+Date: Thu, 27 Apr 2023 18:36:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Paul E. McKenney" <paulmck@kernel.org>
-Subject: [paulmck-rcu:dev.2023.04.26a 35/51] arch/arm/kernel/smp.c:385:1:
- warning: function declared 'noreturn' should not return
-Message-ID: <202304271836.Rr0pBtSE-lkp@intel.com>
+To: Suman Anna <s-anna@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>
+Subject: drivers/remoteproc/ti_k3_dsp_remoteproc.c:432:17: sparse: sparse:
+ cast removes address space '__iomem' of expression
+Message-ID: <202304271850.sdzTf7L3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,119 +47,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.04.26a
-head:   56b38a90a12f76e463a7381d8cff854926fa2b59
-commit: 2b927bfdda366c1719e021cd0e9688baf933c9cf [35/51] objtool: Fix for unreachable instruction warning
-config: arm-milbeaut_m10v_defconfig (https://download.01.org/0day-ci/archive/20230427/202304271836.Rr0pBtSE-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6e98b09da931a00bf4e0477d0fa52748bf28fcce
+commit: b8431920391d36c273f63a29eab0dfc7e884dd17 remoteproc: k3-dsp: Add support for IPC-only mode for all K3 DSPs
+date:   1 year, 2 months ago
+config: arm64-randconfig-s042-20230427 (https://download.01.org/0day-ci/archive/20230427/202304271850.sdzTf7L3-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?id=2b927bfdda366c1719e021cd0e9688baf933c9cf
-        git remote add paulmck-rcu https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
-        git fetch --no-tags paulmck-rcu dev.2023.04.26a
-        git checkout 2b927bfdda366c1719e021cd0e9688baf933c9cf
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b8431920391d36c273f63a29eab0dfc7e884dd17
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b8431920391d36c273f63a29eab0dfc7e884dd17
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/remoteproc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304271836.Rr0pBtSE-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304271850.sdzTf7L3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/remoteproc/ti_k3_dsp_remoteproc.c:432:17: sparse: sparse: cast removes address space '__iomem' of expression
 
->> arch/arm/kernel/smp.c:385:1: warning: function declared 'noreturn' should not return [-Winvalid-noreturn]
-   }
-   ^
-   1 warning generated.
+vim +/__iomem +432 drivers/remoteproc/ti_k3_dsp_remoteproc.c
 
-
-vim +/noreturn +385 arch/arm/kernel/smp.c
-
-a054a811597a17 Russell King     2005-11-02  314  
-a054a811597a17 Russell King     2005-11-02  315  /*
-a054a811597a17 Russell King     2005-11-02  316   * Called from the idle thread for the CPU which has been shutdown.
-a054a811597a17 Russell King     2005-11-02  317   *
-a054a811597a17 Russell King     2005-11-02  318   * Note that we disable IRQs here, but do not re-enable them
-a054a811597a17 Russell King     2005-11-02  319   * before returning to the caller. This is also the behaviour
-a054a811597a17 Russell King     2005-11-02  320   * of the other hotplug-cpu capable cores, so presumably coming
-a054a811597a17 Russell King     2005-11-02  321   * out of idle fixes this.
-a054a811597a17 Russell King     2005-11-02  322   */
-9205b797dbe519 Stephen Boyd     2015-08-24  323  void arch_cpu_idle_dead(void)
-a054a811597a17 Russell King     2005-11-02  324  {
-a054a811597a17 Russell King     2005-11-02  325  	unsigned int cpu = smp_processor_id();
-a054a811597a17 Russell King     2005-11-02  326  
-a054a811597a17 Russell King     2005-11-02  327  	idle_task_exit();
-a054a811597a17 Russell King     2005-11-02  328  
-f36d340122ae87 Russell King     2010-11-30  329  	local_irq_disable();
-f36d340122ae87 Russell King     2010-11-30  330  
-51acdfd1fa38a2 Russell King     2013-04-18  331  	/*
-51acdfd1fa38a2 Russell King     2013-04-18  332  	 * Flush the data out of the L1 cache for this CPU.  This must be
-51acdfd1fa38a2 Russell King     2013-04-18  333  	 * before the completion to ensure that data is safely written out
-51acdfd1fa38a2 Russell King     2013-04-18  334  	 * before platform_cpu_kill() gets called - which may disable
-51acdfd1fa38a2 Russell King     2013-04-18  335  	 * *this* CPU and power down its cache.
-51acdfd1fa38a2 Russell King     2013-04-18  336  	 */
-51acdfd1fa38a2 Russell King     2013-04-18  337  	flush_cache_louis();
-51acdfd1fa38a2 Russell King     2013-04-18  338  
-51acdfd1fa38a2 Russell King     2013-04-18  339  	/*
-51acdfd1fa38a2 Russell King     2013-04-18  340  	 * Tell __cpu_die() that this CPU is now safe to dispose of.  Once
-51acdfd1fa38a2 Russell King     2013-04-18  341  	 * this returns, power and/or clocks can be removed at any point
-51acdfd1fa38a2 Russell King     2013-04-18  342  	 * from this CPU and its cache by platform_cpu_kill().
-51acdfd1fa38a2 Russell King     2013-04-18  343  	 */
-1d5087ab964d84 Paul E. McKenney 2015-05-12  344  	(void)cpu_report_death();
-3c030beabf937b Russell King     2010-11-30  345  
-a054a811597a17 Russell King     2005-11-02  346  	/*
-51acdfd1fa38a2 Russell King     2013-04-18  347  	 * Ensure that the cache lines associated with that completion are
-51acdfd1fa38a2 Russell King     2013-04-18  348  	 * written out.  This covers the case where _this_ CPU is doing the
-51acdfd1fa38a2 Russell King     2013-04-18  349  	 * powering down, to ensure that the completion is visible to the
-51acdfd1fa38a2 Russell King     2013-04-18  350  	 * CPU waiting for this one.
-51acdfd1fa38a2 Russell King     2013-04-18  351  	 */
-51acdfd1fa38a2 Russell King     2013-04-18  352  	flush_cache_louis();
-51acdfd1fa38a2 Russell King     2013-04-18  353  
-51acdfd1fa38a2 Russell King     2013-04-18  354  	/*
-51acdfd1fa38a2 Russell King     2013-04-18  355  	 * The actual CPU shutdown procedure is at least platform (if not
-51acdfd1fa38a2 Russell King     2013-04-18  356  	 * CPU) specific.  This may remove power, or it may simply spin.
-51acdfd1fa38a2 Russell King     2013-04-18  357  	 *
-51acdfd1fa38a2 Russell King     2013-04-18  358  	 * Platforms are generally expected *NOT* to return from this call,
-51acdfd1fa38a2 Russell King     2013-04-18  359  	 * although there are some which do because they have no way to
-51acdfd1fa38a2 Russell King     2013-04-18  360  	 * power down the CPU.  These platforms are the _only_ reason we
-51acdfd1fa38a2 Russell King     2013-04-18  361  	 * have a return path which uses the fragment of assembly below.
-51acdfd1fa38a2 Russell King     2013-04-18  362  	 *
-51acdfd1fa38a2 Russell King     2013-04-18  363  	 * The return path should not be used for platforms which can
-51acdfd1fa38a2 Russell King     2013-04-18  364  	 * power off the CPU.
-a054a811597a17 Russell King     2005-11-02  365  	 */
-0a301110b7bd33 Russell King     2013-01-14  366  	if (smp_ops.cpu_die)
-0a301110b7bd33 Russell King     2013-01-14  367  		smp_ops.cpu_die(cpu);
-a054a811597a17 Russell King     2005-11-02  368  
-668bc38669f9a6 Russell King     2014-01-11  369  	pr_warn("CPU%u: smp_ops.cpu_die() returned, trying to resuscitate\n",
-668bc38669f9a6 Russell King     2014-01-11  370  		cpu);
-668bc38669f9a6 Russell King     2014-01-11  371  
-a054a811597a17 Russell King     2005-11-02  372  	/*
-a054a811597a17 Russell King     2005-11-02  373  	 * Do not return to the idle loop - jump back to the secondary
-a054a811597a17 Russell King     2005-11-02  374  	 * cpu initialisation.  There's some initialisation which needs
-a054a811597a17 Russell King     2005-11-02  375  	 * to be repeated to undo the effects of taking the CPU offline.
-a054a811597a17 Russell King     2005-11-02  376  	 */
-a054a811597a17 Russell King     2005-11-02  377  	__asm__("mov	sp, %0\n"
-faabfa0816916b Russell King     2010-12-20  378  	"	mov	fp, #0\n"
-19f29aebd929c3 Keith Packard    2021-09-18  379  	"	mov	r0, %1\n"
-a054a811597a17 Russell King     2005-11-02  380  	"	b	secondary_start_kernel"
-a054a811597a17 Russell King     2005-11-02  381  		:
-19f29aebd929c3 Keith Packard    2021-09-18  382  		: "r" (task_stack_page(current) + THREAD_SIZE - 8),
-19f29aebd929c3 Keith Packard    2021-09-18  383  		  "r" (current)
-19f29aebd929c3 Keith Packard    2021-09-18  384  		: "r0");
-a054a811597a17 Russell King     2005-11-02 @385  }
-a054a811597a17 Russell King     2005-11-02  386  #endif /* CONFIG_HOTPLUG_CPU */
-a054a811597a17 Russell King     2005-11-02  387  
-
-:::::: The code at line 385 was first introduced by commit
-:::::: a054a811597a17ffbe92bc4db04a4dc2f1b1ea55 [ARM SMP] Add hotplug CPU infrastructure
-
-:::::: TO: Russell King <rmk@dyn-67.arm.linux.org.uk>
-:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
+   402	
+   403	/*
+   404	 * This function implements the .get_loaded_rsc_table() callback and is used
+   405	 * to provide the resource table for a booted DSP in IPC-only mode. The K3 DSP
+   406	 * firmwares follow a design-by-contract approach and are expected to have the
+   407	 * resource table at the base of the DDR region reserved for firmware usage.
+   408	 * This provides flexibility for the remote processor to be booted by different
+   409	 * bootloaders that may or may not have the ability to publish the resource table
+   410	 * address and size through a DT property. This callback is invoked only in
+   411	 * IPC-only mode.
+   412	 */
+   413	static struct resource_table *k3_dsp_get_loaded_rsc_table(struct rproc *rproc,
+   414								  size_t *rsc_table_sz)
+   415	{
+   416		struct k3_dsp_rproc *kproc = rproc->priv;
+   417		struct device *dev = kproc->dev;
+   418	
+   419		if (!kproc->rmem[0].cpu_addr) {
+   420			dev_err(dev, "memory-region #1 does not exist, loaded rsc table can't be found");
+   421			return ERR_PTR(-ENOMEM);
+   422		}
+   423	
+   424		/*
+   425		 * NOTE: The resource table size is currently hard-coded to a maximum
+   426		 * of 256 bytes. The most common resource table usage for K3 firmwares
+   427		 * is to only have the vdev resource entry and an optional trace entry.
+   428		 * The exact size could be computed based on resource table address, but
+   429		 * the hard-coded value suffices to support the IPC-only mode.
+   430		 */
+   431		*rsc_table_sz = 256;
+ > 432		return (struct resource_table *)kproc->rmem[0].cpu_addr;
+   433	}
+   434	
 
 -- 
 0-DAY CI Kernel Test Service
