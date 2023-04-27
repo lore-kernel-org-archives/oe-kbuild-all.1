@@ -1,43 +1,44 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F472CA9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 26 Apr 2023 23:43:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3CC19A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 00:25:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682552639; x=1714088639;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EriFj3Ci0Gi6fXd6F26jEGezpVwQeNf+29sg/ZD+6bc=;
-  b=oEI/oiJ07mMu58NbsnyNahXkzIX7VdaHzP+0cLta/3a9gU9jjnWBE9Yw
-   R87Ei3IDGl52nNORrCbMKJfPCDcZHtFkVKFzL1q7p0Yec46rdvJMa+UF4
-   sphWrRgusADGA+pX8109YpoQH5oucWuRPo8AKSROV0ulnDxqHlFKlj0UJ
-   tXUKt459UAblVGc96Fdp2AWGItEwI1dypenlnrLy5wFpo2zHRXYks2GuU
-   otjn9fpe4LEsD4xGuIEeXXvpTHfpnRcvLr95ztn2QddXfiE8JMAqr+FCW
-   3E80UC4o+eZ7hhW2yuIgeNup0jDw8kCZ0Ndiwtd/sxFAjBoY4NmW7YBwA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="349217301"
+  t=1682555103; x=1714091103;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lctmXPgPtyWv0gLti7t/QbW6Yllr1druEQPdniYhRyk=;
+  b=InZqkuXrTXbh5wDOgDEoWLjmSeQpsJHtXHsy2ueycORu7/vRUhf+EIra
+   cP2koXGWAHdRqpnPAOShWhLKWbLkcgetXdSY0PGZtvyMXSi2h0wjupW+D
+   Z5clcfWiyFV+fTpTjUx1UvEpfEk7eZz/He0VZRSpMwPUP+4xCV+jOCvPH
+   FiGDL3CQ8DfHNS/H+Hwgvarl3kBTVF2M33LlLPFSUpOx3m3fn6ffqVaZH
+   Mxx0mVVmQ3gGnMPWtom3rOnykML3CWdX31gwMBjXf+LtUdm4dy/cZb3aQ
+   qRIBQCy8XZ6o81jy57VwvB+PjS9lBW+uq5i/d0wzUKQSQOlAtT7/KchPB
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="336213864"
 X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
-   d="scan'208";a="349217301"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 16:43:58 -0700
+   d="scan'208";a="336213864"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 17:25:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="763549478"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="696846707"
 X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
-   d="scan'208";a="763549478"
+   d="scan'208";a="696846707"
 Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 26 Apr 2023 16:43:56 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 26 Apr 2023 17:24:57 -0700
 Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pronk-0000ao-0M;
-	Wed, 26 Apr 2023 23:43:56 +0000
-Date: Thu, 27 Apr 2023 07:43:09 +0800
+	id 1prpRQ-0000ba-23;
+	Thu, 27 Apr 2023 00:24:56 +0000
+Date: Thu, 27 Apr 2023 08:24:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	David Sterba <dsterba@suse.com>, Qu Wenruo <wqu@suse.com>
-Subject: include/linux/kasan-checks.h:38:27: warning: 'transid' may be used
- uninitialized
-Message-ID: <202304270743.t9Wk3Dsu-lkp@intel.com>
+To: Khalid Aziz <khalid.aziz@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC v2 4/4] mm/ptshare: Add page fault handling for page
+ table shared regions
+Message-ID: <202304270855.a79e6eaa-lkp@intel.com>
+References: <9edffd2a12a049a42d9a2c216e3f999aae7e65a4.1682453344.git.khalid.aziz@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,117 +47,155 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <9edffd2a12a049a42d9a2c216e3f999aae7e65a4.1682453344.git.khalid.aziz@oracle.com>
 
-Hi Josef,
+Hi Khalid,
 
-FYI, the error/warning still remains.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   36006b1d5c04692924f011aa949e8788f1c604de
-commit: 1ec49744ba83f0429c5c706708610f7821a7b6f4 btrfs: turn on -Wmaybe-uninitialized
-date:   2 months ago
-config: arm-randconfig-r046-20230427 (https://download.01.org/0day-ci/archive/20230427/202304270743.t9Wk3Dsu-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+[auto build test ERROR on arnd-asm-generic/master]
+[also build test ERROR on vfs-idmapping/for-next linus/master v6.3 next-20230426]
+[cannot apply to akpm-mm/mm-everything]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Khalid-Aziz/mm-ptshare-Add-vm-flag-for-shared-PTE/20230427-005143
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
+patch link:    https://lore.kernel.org/r/9edffd2a12a049a42d9a2c216e3f999aae7e65a4.1682453344.git.khalid.aziz%40oracle.com
+patch subject: [PATCH RFC v2 4/4] mm/ptshare: Add page fault handling for page table shared regions
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20230427/202304270855.a79e6eaa-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1ec49744ba83f0429c5c706708610f7821a7b6f4
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 1ec49744ba83f0429c5c706708610f7821a7b6f4
+        # https://github.com/intel-lab-lkp/linux/commit/a2eef9e49f572b7b2dfa23fc32567e83da9573d5
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Khalid-Aziz/mm-ptshare-Add-vm-flag-for-shared-PTE/20230427-005143
+        git checkout a2eef9e49f572b7b2dfa23fc32567e83da9573d5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash fs/btrfs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304270743.t9Wk3Dsu-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304270855.a79e6eaa-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+All errors (new ones prefixed by >>):
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/asm-generic/rwonce.h:26,
-                    from ./arch/arm/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:247,
-                    from include/linux/kernel.h:20,
-                    from fs/btrfs/ioctl.c:6:
-   include/linux/kasan-checks.h: In function 'btrfs_ioctl_wait_sync':
->> include/linux/kasan-checks.h:38:27: warning: 'transid' may be used uninitialized [-Wmaybe-uninitialized]
-      38 | #define kasan_check_write __kasan_check_write
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h:20:6: note: by argument 1 of type 'const volatile void *' to '__kasan_check_write' declared here
-      20 | bool __kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:3134:13: note: 'transid' declared here
-    3134 |         u64 transid;
-         |             ^~~~~~~
-   include/linux/kasan-checks.h: In function 'btrfs_ioctl_space_info':
->> include/linux/kasan-checks.h:38:27: warning: 'space_args' may be used uninitialized [-Wmaybe-uninitialized]
-      38 | #define kasan_check_write __kasan_check_write
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h:20:6: note: by argument 1 of type 'const volatile void *' to '__kasan_check_write' declared here
-      20 | bool __kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:2973:39: note: 'space_args' declared here
-    2973 |         struct btrfs_ioctl_space_args space_args;
-         |                                       ^~~~~~~~~~
+   mm/ptshare.c: In function 'find_shared_vma':
+   mm/ptshare.c:126:17: error: implicit declaration of function 'set_pmd'; did you mean 'get_pmd'? [-Werror=implicit-function-declaration]
+     126 |                 set_pmd(guest_pmd, *host_pmd);
+         |                 ^~~~~~~
+         |                 get_pmd
+   mm/ptshare.c: In function 'ptshare_new_mm':
+>> mm/ptshare.c:171:15: error: 'struct mm_struct' has no member named 'owner'
+     171 |         new_mm->owner = NULL;
+         |               ^~
+   cc1: some warnings being treated as errors
 
 
-vim +/transid +38 include/linux/kasan-checks.h
+vim +171 mm/ptshare.c
 
-b5f6e0fc7d60e0 Marco Elver      2019-07-11   6  
-611806b4bf8dd9 Andrey Konovalov 2021-02-24   7  /*
-611806b4bf8dd9 Andrey Konovalov 2021-02-24   8   * The annotations present in this file are only relevant for the software
-611806b4bf8dd9 Andrey Konovalov 2021-02-24   9   * KASAN modes that rely on compiler instrumentation, and will be optimized
-611806b4bf8dd9 Andrey Konovalov 2021-02-24  10   * away for the hardware tag-based KASAN mode. Use kasan_check_byte() instead.
-611806b4bf8dd9 Andrey Konovalov 2021-02-24  11   */
-611806b4bf8dd9 Andrey Konovalov 2021-02-24  12  
-7d8ad890dad00f Marco Elver      2019-07-11  13  /*
-7d8ad890dad00f Marco Elver      2019-07-11  14   * __kasan_check_*: Always available when KASAN is enabled. This may be used
-7d8ad890dad00f Marco Elver      2019-07-11  15   * even in compilation units that selectively disable KASAN, but must use KASAN
-7d8ad890dad00f Marco Elver      2019-07-11  16   * to validate access to an address.   Never use these in header files!
-7d8ad890dad00f Marco Elver      2019-07-11  17   */
-0fea6e9af889f1 Andrey Konovalov 2020-12-22  18  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  19  bool __kasan_check_read(const volatile void *p, unsigned int size);
-b5f6e0fc7d60e0 Marco Elver      2019-07-11 @20  bool __kasan_check_write(const volatile void *p, unsigned int size);
-7d8ad890dad00f Marco Elver      2019-07-11  21  #else
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  22  static inline bool __kasan_check_read(const volatile void *p, unsigned int size)
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  23  {
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  24  	return true;
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  25  }
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  26  static inline bool __kasan_check_write(const volatile void *p, unsigned int size)
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  27  {
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  28  	return true;
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  29  }
-7d8ad890dad00f Marco Elver      2019-07-11  30  #endif
-7d8ad890dad00f Marco Elver      2019-07-11  31  
-7d8ad890dad00f Marco Elver      2019-07-11  32  /*
-7d8ad890dad00f Marco Elver      2019-07-11  33   * kasan_check_*: Only available when the particular compilation unit has KASAN
-7d8ad890dad00f Marco Elver      2019-07-11  34   * instrumentation enabled. May be used in header files.
-7d8ad890dad00f Marco Elver      2019-07-11  35   */
-7d8ad890dad00f Marco Elver      2019-07-11  36  #ifdef __SANITIZE_ADDRESS__
-7d8ad890dad00f Marco Elver      2019-07-11  37  #define kasan_check_read __kasan_check_read
-7d8ad890dad00f Marco Elver      2019-07-11 @38  #define kasan_check_write __kasan_check_write
-64f8ebaf115bcd Andrey Ryabinin  2016-05-20  39  #else
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  40  static inline bool kasan_check_read(const volatile void *p, unsigned int size)
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  41  {
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  42  	return true;
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  43  }
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  44  static inline bool kasan_check_write(const volatile void *p, unsigned int size)
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  45  {
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  46  	return true;
-b5f6e0fc7d60e0 Marco Elver      2019-07-11  47  }
-64f8ebaf115bcd Andrey Ryabinin  2016-05-20  48  #endif
-64f8ebaf115bcd Andrey Ryabinin  2016-05-20  49  
-
-:::::: The code at line 38 was first introduced by commit
-:::::: 7d8ad890dad00f6cd64bfb44d9be4fceb10cf819 mm/kasan: introduce __kasan_check_{read,write}
-
-:::::: TO: Marco Elver <elver@google.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+    96	
+    97	/*
+    98	 * Find the shared page tables in hosting mm struct and install those in
+    99	 * the guest mm struct
+   100	 */
+   101	vm_fault_t
+   102	find_shared_vma(struct vm_area_struct **vmap, unsigned long *addrp,
+   103				unsigned int flags)
+   104	{
+   105		struct ptshare_data *info;
+   106		struct mm_struct *host_mm;
+   107		struct vm_area_struct *host_vma, *guest_vma = *vmap;
+   108		unsigned long host_addr;
+   109		pmd_t *guest_pmd, *host_pmd;
+   110	
+   111		if ((!guest_vma->vm_file) || (!guest_vma->vm_file->f_mapping))
+   112			return 0;
+   113		info = guest_vma->vm_file->f_mapping->ptshare_data;
+   114		if (!info) {
+   115			pr_warn("VM_SHARED_PT vma with NULL ptshare_data");
+   116			dump_stack_print_info(KERN_WARNING);
+   117			return 0;
+   118		}
+   119		host_mm = info->mm;
+   120	
+   121		mmap_read_lock(host_mm);
+   122		host_addr = *addrp - guest_vma->vm_start + host_mm->mmap_base;
+   123		host_pmd = get_pmd(host_mm, host_addr);
+   124		guest_pmd = get_pmd(guest_vma->vm_mm, *addrp);
+   125		if (!pmd_same(*guest_pmd, *host_pmd)) {
+ > 126			set_pmd(guest_pmd, *host_pmd);
+   127			mmap_read_unlock(host_mm);
+   128			return VM_FAULT_NOPAGE;
+   129		}
+   130	
+   131		*addrp = host_addr;
+   132		host_vma = find_vma(host_mm, host_addr);
+   133		if (!host_vma)
+   134			return VM_FAULT_SIGSEGV;
+   135	
+   136		/*
+   137		 * Point vm_mm for the faulting vma to the mm struct holding shared
+   138		 * page tables so the fault handling will happen in the right
+   139		 * shared context
+   140		 */
+   141		guest_vma->vm_mm = host_mm;
+   142	
+   143		return 0;
+   144	}
+   145	
+   146	/*
+   147	 * Create a new mm struct that will hold the shared PTEs. Pointer to
+   148	 * this new mm is stored in the data structure ptshare_data which also
+   149	 * includes a refcount for any current references to PTEs in this new
+   150	 * mm. This refcount is used to determine when the mm struct for shared
+   151	 * PTEs can be deleted.
+   152	 */
+   153	int
+   154	ptshare_new_mm(struct file *file, struct vm_area_struct *vma)
+   155	{
+   156		struct mm_struct *new_mm;
+   157		struct ptshare_data *info = NULL;
+   158		int retval = 0;
+   159		unsigned long start = vma->vm_start;
+   160		unsigned long len = vma->vm_end - vma->vm_start;
+   161	
+   162		new_mm = mm_alloc();
+   163		if (!new_mm) {
+   164			retval = -ENOMEM;
+   165			goto err_free;
+   166		}
+   167		new_mm->mmap_base = start;
+   168		new_mm->task_size = len;
+   169		if (!new_mm->task_size)
+   170			new_mm->task_size--;
+ > 171		new_mm->owner = NULL;
+   172	
+   173		info = kzalloc(sizeof(*info), GFP_KERNEL);
+   174		if (!info) {
+   175			retval = -ENOMEM;
+   176			goto err_free;
+   177		}
+   178		info->mm = new_mm;
+   179		info->start = start;
+   180		info->size = len;
+   181		refcount_set(&info->refcnt, 1);
+   182		file->f_mapping->ptshare_data = info;
+   183	
+   184		return retval;
+   185	
+   186	err_free:
+   187		if (new_mm)
+   188			mmput(new_mm);
+   189		kfree(info);
+   190		return retval;
+   191	}
+   192	
 
 -- 
 0-DAY CI Kernel Test Service
