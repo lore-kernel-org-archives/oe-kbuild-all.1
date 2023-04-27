@@ -1,43 +1,43 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D042566
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 11:18:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530C52573
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 11:28:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682594303; x=1714130303;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7gJvLM5L+bbxbNKYAu6cO2+hglZbrPhGVphHDvIwCsU=;
-  b=JoyGnl/dzcJUurZoWo/kZG3M3Gp7DVi6EFcxNqTTKgcljAaqMpOi55Zz
-   lunVtg/MfQfdZ1TuQiGLYQvBiAHnqg6+NA85GtvZgcgMjPy6E2fWiu+Bs
-   Cl8PeC/1fvl0VnWrWoFA5ojpkgHN+3ULwvgVqtkyha/alQEISgYdgWm35
-   MkuFw8tFj8f+ekDrPJnWTcyMa2/rwirIFRGJEau6O4To7JEynIZxqij+q
-   4U3gUzTuyj8vU9F1V/0LzsxgIE0rjulfpiVHcRtwNDVQEATiYtdGqtTMf
-   RJxswwRLScpaIguJNBXyl4IF1oKwDDkz6a+b4ihbyh0eB+fs8tsX8aC8J
+  t=1682594902; x=1714130902;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LxebVL/YoupIHE5ahkh1saPj1If9mb4YNuiku2WE4ts=;
+  b=b1Ne51ItWenXp4N5QpjtbErNa7vN+sXK5FTr7zAv5PC7ZRGC51lDeAb4
+   fUlLSyOSbPAfCRwt3292mcQ2Qa1GxpL7ncmpfAHwBM9pcg/R5Mtmtg1O6
+   qNGjMQG/qDffEyQ7QGTD3dxDMyoZQA03MTPzRTP5Wx5QAFa1S805dp5Pt
+   N9tHTPDtgugcsdF+b9Ek6Dpji9rVVmNmdwjHsAJDSIlIl9HdND38xkpWM
+   72+nE8TAP0mNM4PJ6vf4igiUId0ttNVt5AdUZdZV2cmwwTtDMosDzKglA
+   4Z0tIiU3WzsX6vaKC+fd5HLE2JEJeuM5qgk91AJD1q5SizwrG5l/vYfVJ
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="336356742"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="336359762"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="336356742"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 04:18:22 -0700
+   d="scan'208";a="336359762"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 04:28:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="694343868"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="818495944"
 X-IronPort-AV: E=Sophos;i="5.99,230,1677571200"; 
-   d="scan'208";a="694343868"
+   d="scan'208";a="818495944"
 Received: from lkp-server01.sh.intel.com (HELO 1e0e07564161) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 27 Apr 2023 04:18:20 -0700
+  by orsmga004.jf.intel.com with ESMTP; 27 Apr 2023 04:28:20 -0700
 Received: from kbuild by 1e0e07564161 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1przdj-0000C9-2w;
-	Thu, 27 Apr 2023 11:18:19 +0000
-Date: Thu, 27 Apr 2023 19:17:42 +0800
+	id 1prznP-0000CF-38;
+	Thu, 27 Apr 2023 11:28:19 +0000
+Date: Thu, 27 Apr 2023 19:28:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Khalid Aziz <khalid.aziz@oracle.com>
+To: Rob Herring <robh@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC v2 2/4] mm/ptshare: Add flag MAP_SHARED_PT to mmap()
-Message-ID: <202304271925.Q4olRlfz-lkp@intel.com>
-References: <63bb4b1339bbdf33c3412cdd097af61285162cf5.1682453344.git.khalid.aziz@oracle.com>
+Subject: [robh:dt/header-cleanups 56/56]
+ drivers/power/supply/tps65090-charger.c:342:34: warning:
+ 'of_tps65090_charger_match' defined but not used
+Message-ID: <202304271948.nIX7ZDpA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,250 +46,210 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <63bb4b1339bbdf33c3412cdd097af61285162cf5.1682453344.git.khalid.aziz@oracle.com>
 
-Hi Khalid,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on arnd-asm-generic/master]
-[also build test WARNING on vfs-idmapping/for-next linus/master v6.3 next-20230426]
-[cannot apply to akpm-mm/mm-everything]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Khalid-Aziz/mm-ptshare-Add-vm-flag-for-shared-PTE/20230427-005143
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/63bb4b1339bbdf33c3412cdd097af61285162cf5.1682453344.git.khalid.aziz%40oracle.com
-patch subject: [PATCH RFC v2 2/4] mm/ptshare: Add flag MAP_SHARED_PT to mmap()
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230427/202304271925.Q4olRlfz-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
+head:   4cc2262d09430892703b2d82d4a48f65679a8b53
+commit: 4cc2262d09430892703b2d82d4a48f65679a8b53 [56/56] of: header cleanups
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230427/202304271948.nIX7ZDpA-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/a943075cdada2a04dc4ec8a3b5d15981456bb7bf
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Khalid-Aziz/mm-ptshare-Add-vm-flag-for-shared-PTE/20230427-005143
-        git checkout a943075cdada2a04dc4ec8a3b5d15981456bb7bf
+        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=4cc2262d09430892703b2d82d4a48f65679a8b53
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch --no-tags robh dt/header-cleanups
+        git checkout 4cc2262d09430892703b2d82d4a48f65679a8b53
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/power/supply/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304271925.Q4olRlfz-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304271948.nIX7ZDpA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/mmap.c: In function 'do_mmap':
->> mm/mmap.c:1200:13: warning: unused variable 'ptshare' [-Wunused-variable]
-    1200 |         int ptshare = 0;
-         |             ^~~~~~~
+   drivers/power/supply/tps65090-charger.c: In function 'tps65090_parse_dt_charger_data':
+   drivers/power/supply/tps65090-charger.c:200:16: error: implicit declaration of function 'of_property_read_bool' [-Werror=implicit-function-declaration]
+     200 |         prop = of_property_read_bool(np, "ti,enable-low-current-chrg");
+         |                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/power/supply/tps65090-charger.c: At top level:
+   drivers/power/supply/tps65090-charger.c:342:34: error: array type has incomplete element type 'struct of_device_id'
+     342 | static const struct of_device_id of_tps65090_charger_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/power/supply/tps65090-charger.c:342:34: warning: 'of_tps65090_charger_match' defined but not used [-Wunused-variable]
+   cc1: some warnings being treated as errors
 
 
-vim +/ptshare +1200 mm/mmap.c
+vim +/of_tps65090_charger_match +342 drivers/power/supply/tps65090-charger.c
 
-  1188	
-  1189	/*
-  1190	 * The caller must write-lock current->mm->mmap_lock.
-  1191	 */
-  1192	unsigned long do_mmap(struct file *file, unsigned long addr,
-  1193				unsigned long len, unsigned long prot,
-  1194				unsigned long flags, unsigned long pgoff,
-  1195				unsigned long *populate, struct list_head *uf)
-  1196	{
-  1197		struct mm_struct *mm = current->mm;
-  1198		vm_flags_t vm_flags;
-  1199		int pkey = 0;
-> 1200		int ptshare = 0;
-  1201	
-  1202		validate_mm(mm);
-  1203		*populate = 0;
-  1204	
-  1205		if (!len)
-  1206			return -EINVAL;
-  1207	
-  1208		/*
-  1209		 * Does the application expect PROT_READ to imply PROT_EXEC?
-  1210		 *
-  1211		 * (the exception is when the underlying filesystem is noexec
-  1212		 *  mounted, in which case we dont add PROT_EXEC.)
-  1213		 */
-  1214		if ((prot & PROT_READ) && (current->personality & READ_IMPLIES_EXEC))
-  1215			if (!(file && path_noexec(&file->f_path)))
-  1216				prot |= PROT_EXEC;
-  1217	
-  1218		/* force arch specific MAP_FIXED handling in get_unmapped_area */
-  1219		if (flags & MAP_FIXED_NOREPLACE)
-  1220			flags |= MAP_FIXED;
-  1221	
-  1222		if (!(flags & MAP_FIXED))
-  1223			addr = round_hint_to_min(addr);
-  1224	
-  1225		/* Careful about overflows.. */
-  1226		len = PAGE_ALIGN(len);
-  1227		if (!len)
-  1228			return -ENOMEM;
-  1229	
-  1230		/* offset overflow? */
-  1231		if ((pgoff + (len >> PAGE_SHIFT)) < pgoff)
-  1232			return -EOVERFLOW;
-  1233	
-  1234		/* Too many mappings? */
-  1235		if (mm->map_count > sysctl_max_map_count)
-  1236			return -ENOMEM;
-  1237	
-  1238		/*
-  1239		 * If MAP_SHARED_PT is set, MAP_SHARED or MAP_SHARED_VALIDATE must
-  1240		 * be set as well
-  1241		 */
-  1242		if (flags & MAP_SHARED_PT) {
-  1243	#if VM_SHARED_PT
-  1244			if (flags & (MAP_SHARED | MAP_SHARED_VALIDATE))
-  1245				ptshare = 1;
-  1246			else
-  1247				return -EINVAL;
-  1248	#else
-  1249			return -EINVAL;
-  1250	#endif
-  1251		}
-  1252	
-  1253		/* Obtain the address to map to. we verify (or select) it and ensure
-  1254		 * that it represents a valid section of the address space.
-  1255		 */
-  1256		addr = get_unmapped_area(file, addr, len, pgoff, flags);
-  1257		if (IS_ERR_VALUE(addr))
-  1258			return addr;
-  1259	
-  1260		if (flags & MAP_FIXED_NOREPLACE) {
-  1261			if (find_vma_intersection(mm, addr, addr + len))
-  1262				return -EEXIST;
-  1263		}
-  1264	
-  1265		if (prot == PROT_EXEC) {
-  1266			pkey = execute_only_pkey(mm);
-  1267			if (pkey < 0)
-  1268				pkey = 0;
-  1269		}
-  1270	
-  1271		/* Do simple checking here so the lower-level routines won't have
-  1272		 * to. we assume access permissions have been handled by the open
-  1273		 * of the memory object, so we don't do any here.
-  1274		 */
-  1275		vm_flags = calc_vm_prot_bits(prot, pkey) | calc_vm_flag_bits(flags) |
-  1276				mm->def_flags | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC;
-  1277	
-  1278		if (flags & MAP_LOCKED)
-  1279			if (!can_do_mlock())
-  1280				return -EPERM;
-  1281	
-  1282		if (mlock_future_check(mm, vm_flags, len))
-  1283			return -EAGAIN;
-  1284	
-  1285		if (file) {
-  1286			struct inode *inode = file_inode(file);
-  1287			unsigned long flags_mask;
-  1288	
-  1289			if (!file_mmap_ok(file, inode, pgoff, len))
-  1290				return -EOVERFLOW;
-  1291	
-  1292			flags_mask = LEGACY_MAP_MASK | file->f_op->mmap_supported_flags;
-  1293	
-  1294			switch (flags & MAP_TYPE) {
-  1295			case MAP_SHARED:
-  1296				/*
-  1297				 * Force use of MAP_SHARED_VALIDATE with non-legacy
-  1298				 * flags. E.g. MAP_SYNC is dangerous to use with
-  1299				 * MAP_SHARED as you don't know which consistency model
-  1300				 * you will get. We silently ignore unsupported flags
-  1301				 * with MAP_SHARED to preserve backward compatibility.
-  1302				 */
-  1303				flags &= LEGACY_MAP_MASK;
-  1304				fallthrough;
-  1305			case MAP_SHARED_VALIDATE:
-  1306				if (flags & ~flags_mask)
-  1307					return -EOPNOTSUPP;
-  1308				if (prot & PROT_WRITE) {
-  1309					if (!(file->f_mode & FMODE_WRITE))
-  1310						return -EACCES;
-  1311					if (IS_SWAPFILE(file->f_mapping->host))
-  1312						return -ETXTBSY;
-  1313				}
-  1314	
-  1315				/*
-  1316				 * Make sure we don't allow writing to an append-only
-  1317				 * file..
-  1318				 */
-  1319				if (IS_APPEND(inode) && (file->f_mode & FMODE_WRITE))
-  1320					return -EACCES;
-  1321	
-  1322				vm_flags |= VM_SHARED | VM_MAYSHARE;
-  1323				if (!(file->f_mode & FMODE_WRITE))
-  1324					vm_flags &= ~(VM_MAYWRITE | VM_SHARED);
-  1325				fallthrough;
-  1326			case MAP_PRIVATE:
-  1327				if (!(file->f_mode & FMODE_READ))
-  1328					return -EACCES;
-  1329				if (path_noexec(&file->f_path)) {
-  1330					if (vm_flags & VM_EXEC)
-  1331						return -EPERM;
-  1332					vm_flags &= ~VM_MAYEXEC;
-  1333				}
-  1334	
-  1335				if (!file->f_op->mmap)
-  1336					return -ENODEV;
-  1337				if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP))
-  1338					return -EINVAL;
-  1339				break;
-  1340	
-  1341			default:
-  1342				return -EINVAL;
-  1343			}
-  1344		} else {
-  1345			switch (flags & MAP_TYPE) {
-  1346			case MAP_SHARED:
-  1347				if (vm_flags & (VM_GROWSDOWN|VM_GROWSUP))
-  1348					return -EINVAL;
-  1349				/*
-  1350				 * Ignore pgoff.
-  1351				 */
-  1352				pgoff = 0;
-  1353				vm_flags |= VM_SHARED | VM_MAYSHARE;
-  1354				break;
-  1355			case MAP_PRIVATE:
-  1356				/*
-  1357				 * Set pgoff according to addr for anon_vma.
-  1358				 */
-  1359				pgoff = addr >> PAGE_SHIFT;
-  1360				break;
-  1361			default:
-  1362				return -EINVAL;
-  1363			}
-  1364		}
-  1365	
-  1366		/*
-  1367		 * Set 'VM_NORESERVE' if we should not account for the
-  1368		 * memory use of this mapping.
-  1369		 */
-  1370		if (flags & MAP_NORESERVE) {
-  1371			/* We honor MAP_NORESERVE if allowed to overcommit */
-  1372			if (sysctl_overcommit_memory != OVERCOMMIT_NEVER)
-  1373				vm_flags |= VM_NORESERVE;
-  1374	
-  1375			/* hugetlb applies strict overcommit unless MAP_NORESERVE */
-  1376			if (file && is_file_hugepages(file))
-  1377				vm_flags |= VM_NORESERVE;
-  1378		}
-  1379	
-  1380		addr = mmap_region(file, addr, len, vm_flags, pgoff, uf);
-  1381		if (!IS_ERR_VALUE(addr) &&
-  1382		    ((vm_flags & VM_LOCKED) ||
-  1383		     (flags & (MAP_POPULATE | MAP_NONBLOCK)) == MAP_POPULATE))
-  1384			*populate = len;
-  1385		return addr;
-  1386	}
-  1387	
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  186  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  187  static struct tps65090_platform_data *
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  188  		tps65090_parse_dt_charger_data(struct platform_device *pdev)
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  189  {
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  190  	struct tps65090_platform_data *pdata;
+594f8f888d3255 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-21  191  	struct device_node *np = pdev->dev.of_node;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  192  	unsigned int prop;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  193  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  194  	pdata = devm_kzalloc(&pdev->dev, sizeof(*pdata), GFP_KERNEL);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  195  	if (!pdata) {
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  196  		dev_err(&pdev->dev, "Memory alloc for tps65090_pdata failed\n");
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  197  		return NULL;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  198  	}
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  199  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12 @200  	prop = of_property_read_bool(np, "ti,enable-low-current-chrg");
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  201  	pdata->enable_low_current_chrg = prop;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  202  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  203  	pdata->irq_base = -1;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  204  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  205  	return pdata;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  206  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  207  }
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  208  
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  209  static int tps65090_charger_poll_task(void *data)
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  210  {
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  211  	set_freezable();
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  212  
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  213  	while (!kthread_should_stop()) {
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  214  		schedule_timeout_interruptible(POLL_INTERVAL);
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  215  		try_to_freeze();
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  216  		tps65090_charger_isr(-1, data);
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  217  	}
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  218  	return 0;
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  219  }
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  220  
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  221  static const struct power_supply_desc tps65090_charger_desc = {
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  222  	.name			= "tps65090-ac",
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  223  	.type			= POWER_SUPPLY_TYPE_MAINS,
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  224  	.get_property		= tps65090_ac_get_property,
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  225  	.properties		= tps65090_ac_props,
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  226  	.num_properties		= ARRAY_SIZE(tps65090_ac_props),
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  227  };
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  228  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  229  static int tps65090_charger_probe(struct platform_device *pdev)
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  230  {
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  231  	struct tps65090_charger *cdata;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  232  	struct tps65090_platform_data *pdata;
+2dc9215d7c94f7 drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  233  	struct power_supply_config psy_cfg = {};
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  234  	uint8_t status1 = 0;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  235  	int ret;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  236  	int irq;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  237  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  238  	pdata = dev_get_platdata(pdev->dev.parent);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  239  
+e47bcba4a189ab drivers/power/tps65090-charger.c        Manish Badarkhe     2013-09-28  240  	if (IS_ENABLED(CONFIG_OF) && !pdata && pdev->dev.of_node)
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  241  		pdata = tps65090_parse_dt_charger_data(pdev);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  242  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  243  	if (!pdata) {
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  244  		dev_err(&pdev->dev, "%s():no platform data available\n",
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  245  				__func__);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  246  		return -ENODEV;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  247  	}
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  248  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  249  	cdata = devm_kzalloc(&pdev->dev, sizeof(*cdata), GFP_KERNEL);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  250  	if (!cdata) {
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  251  		dev_err(&pdev->dev, "failed to allocate memory status\n");
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  252  		return -ENOMEM;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  253  	}
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  254  
+e08358792422ef drivers/power/tps65090-charger.c        Jingoo Han          2013-05-23  255  	platform_set_drvdata(pdev, cdata);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  256  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  257  	cdata->dev			= &pdev->dev;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  258  	cdata->pdata			= pdata;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  259  
+2dc9215d7c94f7 drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  260  	psy_cfg.supplied_to		= pdata->supplied_to;
+2dc9215d7c94f7 drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  261  	psy_cfg.num_supplicants		= pdata->num_supplicants;
+2dc9215d7c94f7 drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  262  	psy_cfg.of_node			= pdev->dev.of_node;
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  263  	psy_cfg.drv_data		= cdata;
+2dc9215d7c94f7 drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  264  
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  265  	cdata->ac = power_supply_register(&pdev->dev, &tps65090_charger_desc,
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  266  			&psy_cfg);
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  267  	if (IS_ERR(cdata->ac)) {
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  268  		dev_err(&pdev->dev, "failed: power supply register\n");
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  269  		return PTR_ERR(cdata->ac);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  270  	}
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  271  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  272  	irq = platform_get_irq(pdev, 0);
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  273  	if (irq < 0)
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  274  		irq = -ENXIO;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  275  	cdata->irq = irq;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  276  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  277  	ret = tps65090_config_charger(cdata);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  278  	if (ret < 0) {
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  279  		dev_err(&pdev->dev, "charger config failed, err %d\n", ret);
+0ed81393235fbf drivers/power/tps65090-charger.c        Wei Yongjun         2013-09-23  280  		goto fail_unregister_supply;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  281  	}
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  282  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  283  	/* Check for charger presence */
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  284  	ret = tps65090_read(cdata->dev->parent, TPS65090_REG_CG_STATUS1,
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  285  			&status1);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  286  	if (ret < 0) {
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  287  		dev_err(cdata->dev, "%s(): Error in reading reg 0x%x", __func__,
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  288  			TPS65090_REG_CG_STATUS1);
+0ed81393235fbf drivers/power/tps65090-charger.c        Wei Yongjun         2013-09-23  289  		goto fail_unregister_supply;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  290  	}
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  291  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  292  	if (status1 != 0) {
+e24142178fc2f6 drivers/power/tps65090-charger.c        Andrew Chew         2013-06-06  293  		ret = tps65090_enable_charging(cdata);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  294  		if (ret < 0) {
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  295  			dev_err(cdata->dev, "error enabling charger\n");
+0ed81393235fbf drivers/power/tps65090-charger.c        Wei Yongjun         2013-09-23  296  			goto fail_unregister_supply;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  297  		}
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  298  		cdata->ac_online = 1;
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  299  		power_supply_changed(cdata->ac);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  300  	}
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  301  
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  302  	if (irq != -ENXIO) {
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  303  		ret = devm_request_threaded_irq(&pdev->dev, irq, NULL,
+2469b836fa835c drivers/power/supply/tps65090-charger.c dongjian            2021-03-22  304  			tps65090_charger_isr, IRQF_ONESHOT, "tps65090-charger", cdata);
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  305  		if (ret) {
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  306  			dev_err(cdata->dev,
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  307  				"Unable to register irq %d err %d\n", irq,
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  308  				ret);
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  309  			goto fail_unregister_supply;
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  310  		}
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  311  	} else {
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  312  		cdata->poll_task = kthread_run(tps65090_charger_poll_task,
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  313  					      cdata, "ktps65090charger");
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  314  		cdata->passive_mode = true;
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  315  		if (IS_ERR(cdata->poll_task)) {
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  316  			ret = PTR_ERR(cdata->poll_task);
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  317  			dev_err(cdata->dev,
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  318  				"Unable to run kthread err %d\n", ret);
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  319  			goto fail_unregister_supply;
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  320  		}
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  321  	}
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  322  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  323  	return 0;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  324  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  325  fail_unregister_supply:
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  326  	power_supply_unregister(cdata->ac);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  327  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  328  	return ret;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  329  }
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  330  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  331  static int tps65090_charger_remove(struct platform_device *pdev)
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  332  {
+e08358792422ef drivers/power/tps65090-charger.c        Jingoo Han          2013-05-23  333  	struct tps65090_charger *cdata = platform_get_drvdata(pdev);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  334  
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  335  	if (cdata->irq == -ENXIO)
+193dcced049cea drivers/power/tps65090-charger.c        Doug Anderson       2014-06-20  336  		kthread_stop(cdata->poll_task);
+297d716f6260cc drivers/power/tps65090-charger.c        Krzysztof Kozlowski 2015-03-12  337  	power_supply_unregister(cdata->ac);
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  338  
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  339  	return 0;
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  340  }
+6f8da5df8c4511 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-12  341  
+8fb0885504cc02 drivers/power/tps65090-charger.c        Fabian Frederick    2015-03-16 @342  static const struct of_device_id of_tps65090_charger_match[] = {
+594f8f888d3255 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-21  343  	{ .compatible = "ti,tps65090-charger", },
+594f8f888d3255 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-21  344  	{ /* end */ }
+594f8f888d3255 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-21  345  };
+c72b7bf82cc681 drivers/power/tps65090-charger.c        Luis de Bethencourt 2015-09-18  346  MODULE_DEVICE_TABLE(of, of_tps65090_charger_match);
+594f8f888d3255 drivers/power/tps65090-charger.c        Rhyland Klein       2013-03-21  347  
+
+:::::: The code at line 342 was first introduced by commit
+:::::: 8fb0885504cc029bd48877fa89ba91c33c0110b5 power: constify of_device_id array
+
+:::::: TO: Fabian Frederick <fabf@skynet.be>
+:::::: CC: Sebastian Reichel <sre@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
