@@ -1,44 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3CC19A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 00:25:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04913816
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 27 Apr 2023 00:35:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682555103; x=1714091103;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lctmXPgPtyWv0gLti7t/QbW6Yllr1druEQPdniYhRyk=;
-  b=InZqkuXrTXbh5wDOgDEoWLjmSeQpsJHtXHsy2ueycORu7/vRUhf+EIra
-   cP2koXGWAHdRqpnPAOShWhLKWbLkcgetXdSY0PGZtvyMXSi2h0wjupW+D
-   Z5clcfWiyFV+fTpTjUx1UvEpfEk7eZz/He0VZRSpMwPUP+4xCV+jOCvPH
-   FiGDL3CQ8DfHNS/H+Hwgvarl3kBTVF2M33LlLPFSUpOx3m3fn6ffqVaZH
-   Mxx0mVVmQ3gGnMPWtom3rOnykML3CWdX31gwMBjXf+LtUdm4dy/cZb3aQ
-   qRIBQCy8XZ6o81jy57VwvB+PjS9lBW+uq5i/d0wzUKQSQOlAtT7/KchPB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="336213864"
+  t=1682555758; x=1714091758;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RuDzmxT5fovY55Km7fd1gLjrghXhBBdngOyiUu/h7SQ=;
+  b=G1KBgyyU5lZ15TFvsGbfp5VJhQNeWNCYZsb8fgTD4Y+v0t0ar4hH+LT5
+   OLXikG13hOoUqWo4t22vdfq44j5PerZI/pAVZz8+wZQV7RXbHb0Z9RIKR
+   ut+bfqgx9j/g5fXQF4otQQTvOQKHyT6p46osEjIOCe9ST2IxfglLfJMAI
+   edOt7ubbzTuJu3xGPl0YtZMxLP0AQt1je0iUoHUv6QEb9UMbhgo7OX5dk
+   jrxowOscs9x9m9JMNrOeSSCajXFLiLh/3nkrz7luT9/DkcUHSQg1z1DZ9
+   46wrV/fLjhkiiYoadXuutRfjZInG0rA/M3Ptb5bSQBe+3vACbfLle/Jiq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="410304379"
 X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
-   d="scan'208";a="336213864"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 17:25:00 -0700
+   d="scan'208";a="410304379"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2023 17:35:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="696846707"
+X-IronPort-AV: E=McAfee;i="6600,9927,10692"; a="724655167"
 X-IronPort-AV: E=Sophos;i="5.99,229,1677571200"; 
-   d="scan'208";a="696846707"
+   d="scan'208";a="724655167"
 Received: from lkp-server01.sh.intel.com (HELO 041f065c1b1b) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 26 Apr 2023 17:24:57 -0700
+  by orsmga008.jf.intel.com with ESMTP; 26 Apr 2023 17:35:57 -0700
 Received: from kbuild by 041f065c1b1b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1prpRQ-0000ba-23;
-	Thu, 27 Apr 2023 00:24:56 +0000
-Date: Thu, 27 Apr 2023 08:24:52 +0800
+	id 1prpc4-0000bq-2R;
+	Thu, 27 Apr 2023 00:35:56 +0000
+Date: Thu, 27 Apr 2023 08:35:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Khalid Aziz <khalid.aziz@oracle.com>
+To: Asahi Lina <lina@asahilina.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC v2 4/4] mm/ptshare: Add page fault handling for page
- table shared regions
-Message-ID: <202304270855.a79e6eaa-lkp@intel.com>
-References: <9edffd2a12a049a42d9a2c216e3f999aae7e65a4.1682453344.git.khalid.aziz@oracle.com>
+Subject: [asahilinux:gpu/rust-wip 2/69] drivers/iommu/dma-iommu.c:1612:29:
+ warning: unused variable 'iovad'
+Message-ID: <202304270858.Ax3x7Bb0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,155 +45,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9edffd2a12a049a42d9a2c216e3f999aae7e65a4.1682453344.git.khalid.aziz@oracle.com>
 
-Hi Khalid,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on arnd-asm-generic/master]
-[also build test ERROR on vfs-idmapping/for-next linus/master v6.3 next-20230426]
-[cannot apply to akpm-mm/mm-everything]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Khalid-Aziz/mm-ptshare-Add-vm-flag-for-shared-PTE/20230427-005143
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git master
-patch link:    https://lore.kernel.org/r/9edffd2a12a049a42d9a2c216e3f999aae7e65a4.1682453344.git.khalid.aziz%40oracle.com
-patch subject: [PATCH RFC v2 4/4] mm/ptshare: Add page fault handling for page table shared regions
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20230427/202304270855.a79e6eaa-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/AsahiLinux/linux gpu/rust-wip
+head:   967e33995741fcd49dc189f940010f9142f7181a
+commit: 0e91faabe6c8fe256d94cd483dfe8dbbcebb6656 [2/69] iommu hack for DCP
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230427/202304270858.Ax3x7Bb0-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a2eef9e49f572b7b2dfa23fc32567e83da9573d5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Khalid-Aziz/mm-ptshare-Add-vm-flag-for-shared-PTE/20230427-005143
-        git checkout a2eef9e49f572b7b2dfa23fc32567e83da9573d5
+        # https://github.com/AsahiLinux/linux/commit/0e91faabe6c8fe256d94cd483dfe8dbbcebb6656
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux gpu/rust-wip
+        git checkout 0e91faabe6c8fe256d94cd483dfe8dbbcebb6656
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iommu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304270855.a79e6eaa-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304270858.Ax3x7Bb0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/ptshare.c: In function 'find_shared_vma':
-   mm/ptshare.c:126:17: error: implicit declaration of function 'set_pmd'; did you mean 'get_pmd'? [-Werror=implicit-function-declaration]
-     126 |                 set_pmd(guest_pmd, *host_pmd);
-         |                 ^~~~~~~
-         |                 get_pmd
-   mm/ptshare.c: In function 'ptshare_new_mm':
->> mm/ptshare.c:171:15: error: 'struct mm_struct' has no member named 'owner'
-     171 |         new_mm->owner = NULL;
-         |               ^~
-   cc1: some warnings being treated as errors
+   drivers/iommu/dma-iommu.c: In function 'iommu_dma_get_sgtable':
+>> drivers/iommu/dma-iommu.c:1612:29: warning: unused variable 'iovad' [-Wunused-variable]
+    1612 |         struct iova_domain *iovad = &cookie->iovad;
+         |                             ^~~~~
 
 
-vim +171 mm/ptshare.c
+vim +/iovad +1612 drivers/iommu/dma-iommu.c
 
-    96	
-    97	/*
-    98	 * Find the shared page tables in hosting mm struct and install those in
-    99	 * the guest mm struct
-   100	 */
-   101	vm_fault_t
-   102	find_shared_vma(struct vm_area_struct **vmap, unsigned long *addrp,
-   103				unsigned int flags)
-   104	{
-   105		struct ptshare_data *info;
-   106		struct mm_struct *host_mm;
-   107		struct vm_area_struct *host_vma, *guest_vma = *vmap;
-   108		unsigned long host_addr;
-   109		pmd_t *guest_pmd, *host_pmd;
-   110	
-   111		if ((!guest_vma->vm_file) || (!guest_vma->vm_file->f_mapping))
-   112			return 0;
-   113		info = guest_vma->vm_file->f_mapping->ptshare_data;
-   114		if (!info) {
-   115			pr_warn("VM_SHARED_PT vma with NULL ptshare_data");
-   116			dump_stack_print_info(KERN_WARNING);
-   117			return 0;
-   118		}
-   119		host_mm = info->mm;
-   120	
-   121		mmap_read_lock(host_mm);
-   122		host_addr = *addrp - guest_vma->vm_start + host_mm->mmap_base;
-   123		host_pmd = get_pmd(host_mm, host_addr);
-   124		guest_pmd = get_pmd(guest_vma->vm_mm, *addrp);
-   125		if (!pmd_same(*guest_pmd, *host_pmd)) {
- > 126			set_pmd(guest_pmd, *host_pmd);
-   127			mmap_read_unlock(host_mm);
-   128			return VM_FAULT_NOPAGE;
-   129		}
-   130	
-   131		*addrp = host_addr;
-   132		host_vma = find_vma(host_mm, host_addr);
-   133		if (!host_vma)
-   134			return VM_FAULT_SIGSEGV;
-   135	
-   136		/*
-   137		 * Point vm_mm for the faulting vma to the mm struct holding shared
-   138		 * page tables so the fault handling will happen in the right
-   139		 * shared context
-   140		 */
-   141		guest_vma->vm_mm = host_mm;
-   142	
-   143		return 0;
-   144	}
-   145	
-   146	/*
-   147	 * Create a new mm struct that will hold the shared PTEs. Pointer to
-   148	 * this new mm is stored in the data structure ptshare_data which also
-   149	 * includes a refcount for any current references to PTEs in this new
-   150	 * mm. This refcount is used to determine when the mm struct for shared
-   151	 * PTEs can be deleted.
-   152	 */
-   153	int
-   154	ptshare_new_mm(struct file *file, struct vm_area_struct *vma)
-   155	{
-   156		struct mm_struct *new_mm;
-   157		struct ptshare_data *info = NULL;
-   158		int retval = 0;
-   159		unsigned long start = vma->vm_start;
-   160		unsigned long len = vma->vm_end - vma->vm_start;
-   161	
-   162		new_mm = mm_alloc();
-   163		if (!new_mm) {
-   164			retval = -ENOMEM;
-   165			goto err_free;
-   166		}
-   167		new_mm->mmap_base = start;
-   168		new_mm->task_size = len;
-   169		if (!new_mm->task_size)
-   170			new_mm->task_size--;
- > 171		new_mm->owner = NULL;
-   172	
-   173		info = kzalloc(sizeof(*info), GFP_KERNEL);
-   174		if (!info) {
-   175			retval = -ENOMEM;
-   176			goto err_free;
-   177		}
-   178		info->mm = new_mm;
-   179		info->start = start;
-   180		info->size = len;
-   181		refcount_set(&info->refcnt, 1);
-   182		file->f_mapping->ptshare_data = info;
-   183	
-   184		return retval;
-   185	
-   186	err_free:
-   187		if (new_mm)
-   188			mmput(new_mm);
-   189		kfree(info);
-   190		return retval;
-   191	}
-   192	
+06d60728ff5c017 Christoph Hellwig 2019-05-20  1605  
+06d60728ff5c017 Christoph Hellwig 2019-05-20  1606  static int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
+06d60728ff5c017 Christoph Hellwig 2019-05-20  1607  		void *cpu_addr, dma_addr_t dma_addr, size_t size,
+06d60728ff5c017 Christoph Hellwig 2019-05-20  1608  		unsigned long attrs)
+06d60728ff5c017 Christoph Hellwig 2019-05-20  1609  {
+7430adc2c7771fa Asahi Lina        2023-03-22  1610  	struct iommu_domain *domain = iommu_get_dma_domain(dev);
+7430adc2c7771fa Asahi Lina        2023-03-22  1611  	struct iommu_dma_cookie *cookie = domain->iova_cookie;
+7430adc2c7771fa Asahi Lina        2023-03-22 @1612  	struct iova_domain *iovad = &cookie->iovad;
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1613  	struct page *page;
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1614  	int ret;
+06d60728ff5c017 Christoph Hellwig 2019-05-20  1615  
+f5ff79fddf0efec Christoph Hellwig 2022-02-26  1616  	if (is_vmalloc_addr(cpu_addr)) {
+5cf4537975bbd56 Christoph Hellwig 2019-06-03  1617  		struct page **pages = dma_common_find_pages(cpu_addr);
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1618  
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1619  		if (pages) {
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1620  			return sg_alloc_table_from_pages(sgt, pages,
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1621  					PAGE_ALIGN(size) >> PAGE_SHIFT,
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1622  					0, size, GFP_KERNEL);
+06d60728ff5c017 Christoph Hellwig 2019-05-20  1623  		}
+06d60728ff5c017 Christoph Hellwig 2019-05-20  1624  
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1625  		page = vmalloc_to_page(cpu_addr);
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1626  	} else {
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1627  		page = virt_to_page(cpu_addr);
+06d60728ff5c017 Christoph Hellwig 2019-05-20  1628  	}
+06d60728ff5c017 Christoph Hellwig 2019-05-20  1629  
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1630  	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1631  	if (!ret)
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1632  		sg_set_page(sgt->sgl, page, PAGE_ALIGN(size), 0);
+3fb3378bb1eb290 Christoph Hellwig 2019-05-20  1633  	return ret;
+06d60728ff5c017 Christoph Hellwig 2019-05-20  1634  }
+06d60728ff5c017 Christoph Hellwig 2019-05-20  1635  
+
+:::::: The code at line 1612 was first introduced by commit
+:::::: 7430adc2c7771fafedee50a458c5554c98bcb9bb 4k iommu hack
+
+:::::: TO: Asahi Lina <lina@asahilina.net>
+:::::: CC: Asahi Lina <lina@asahilina.net>
 
 -- 
 0-DAY CI Kernel Test Service
