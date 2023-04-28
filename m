@@ -1,42 +1,43 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12F017C7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 04:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F59D17C7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 04:12:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682655139; x=1714191139;
+  t=1682655142; x=1714191142;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a94WV84XhVZ2V76+RdBQReKkiQBCY20Lw8LkOLMRPwg=;
-  b=B/kxAcobrfr0KWNcb4vjpyTlrg5brjNo5AePoWrC/ptddYX7lqx4nm+N
-   k7XQkgPP0+7aKh0tIraXd52y4dHPVrSrUjldxfuyVrCR88XW0Ptk/Gi7l
-   mXRnV+hty4POY4pyaz9+4VBGVWYPYtA3A5mGowHhk9Pv0vvqesTkdF3vm
-   0mG7kyYZRpfGwtM/My+R4YEV1uabr2a8xa/k9D0wUjY3sfzcg/T4UH8VU
-   Jwi0rMc2OtdFfenJ01XlACxXp1OwpHYMk1jbRhZStB0vusoMbyULj4204
-   skE61dDO0UD/5GBdAEeW8o7EgpYCZt68Txn9DKLri50kBwWsTzsHKYUzO
+  bh=OOY7xXEr/nARXi1QHVOvGd2/Kpw+LPo5i1ow1ckglF8=;
+  b=jK2BjsTvZbIy7szAMoI6tX3j1nEuhSBlzmZdy0crd7j2dvWBj1qT5b9Q
+   GUgFS0FkT2yH1DCQNe3iTtup5VwaM9KK4geoK7tlxWd/QVBTX0f+ey5/E
+   1QlpY4TiDlLSNAErlv77PMdmZbRnN05biAzZ0bKsr/asqrLT0v0ouTFZf
+   csnUw/w3VXj0VYWY4oszgYRxyI+RuhMZh59sICyLL8oL8IVFs3prcfnXc
+   SGX4fKR2ckuq1+ghLBZJNgFWeTOE2aS9Z9i6PwQMzX+4mvFr4+qhcUBXX
+   8uUlOHfzGWuhVOqqIt3fvfYBntsWp4XZBlQqwyAlZZqxnfNElYr+B1Qfw
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="413024040"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="413024042"
 X-IronPort-AV: E=Sophos;i="5.99,233,1677571200"; 
-   d="scan'208";a="413024040"
+   d="scan'208";a="413024042"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 21:12:18 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 21:12:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="725205719"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="725205720"
 X-IronPort-AV: E=Sophos;i="5.99,233,1677571200"; 
-   d="scan'208";a="725205719"
+   d="scan'208";a="725205720"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 27 Apr 2023 21:12:17 -0700
+  by orsmga008.jf.intel.com with ESMTP; 27 Apr 2023 21:12:18 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psFSz-00005j-0w;
+	id 1psFSz-00005h-0p;
 	Fri, 28 Apr 2023 04:12:17 +0000
-Date: Fri, 28 Apr 2023 12:12:08 +0800
+Date: Fri, 28 Apr 2023 12:12:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
+To: Arnd Bergmann <arnd@arndb.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.2/prjc 304/394] kernel/sched/alt_core.c:1912:1: warning: the
- frame size of 2064 bytes is larger than 2048 bytes
-Message-ID: <202304281206.W5kJvsIO-lkp@intel.com>
+Subject: [arnd-playground:randconfig-6.3-next 292/344]
+ drivers/char/mem.c:164:25: error: implicit declaration of function
+ 'unxlate_dev_mem_ptr'; did you mean 'xlate_dev_mem_ptr'?
+Message-ID: <202304281233.cFEVQBmt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,128 +47,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.2/prjc
-head:   857ca2f66dabce3d14d9f2f8e3e2e338e1bbff3e
-commit: 1889e596c5647b4e2c36420ecb4dc4f00ed4edcd [304/394] sched/alt: [Sync] bb4479994945 sched, drivers: Remove max param from effective_cpu_util()/sched_cpu_util()
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230428/202304281206.W5kJvsIO-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-6.3-next
+head:   ce323d567a17c02081821dde7ef52ff1a966156d
+commit: 08d2c000a11c05417f0f697b880a93328d498199 [292/344] mips: provide unxlate_dev_mem_ptr() in asm/io.h
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230428/202304281233.cFEVQBmt-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/zen-kernel/zen-kernel/commit/1889e596c5647b4e2c36420ecb4dc4f00ed4edcd
-        git remote add zen https://github.com/zen-kernel/zen-kernel
-        git fetch --no-tags zen 6.2/prjc
-        git checkout 1889e596c5647b4e2c36420ecb4dc4f00ed4edcd
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/commit/?id=08d2c000a11c05417f0f697b880a93328d498199
+        git remote add arnd-playground https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git
+        git fetch --no-tags arnd-playground randconfig-6.3-next
+        git checkout 08d2c000a11c05417f0f697b880a93328d498199
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/sched/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/char/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304281206.W5kJvsIO-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304281233.cFEVQBmt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/sched/alt_core.c:966:6: warning: no previous prototype for 'resched_curr' [-Wmissing-prototypes]
-     966 | void resched_curr(struct rq *rq)
-         |      ^~~~~~~~~~~~
-   kernel/sched/alt_core.c:989:6: warning: no previous prototype for 'resched_cpu' [-Wmissing-prototypes]
-     989 | void resched_cpu(int cpu)
-         |      ^~~~~~~~~~~
-   kernel/sched/alt_core.c:1004:6: warning: no previous prototype for 'select_nohz_load_balancer' [-Wmissing-prototypes]
-    1004 | void select_nohz_load_balancer(int stop_tick) {}
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:1006:6: warning: no previous prototype for 'set_cpu_sd_state_idle' [-Wmissing-prototypes]
-    1006 | void set_cpu_sd_state_idle(void) {}
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:1192:6: warning: no previous prototype for 'hrtick_start' [-Wmissing-prototypes]
-    1192 | void hrtick_start(struct rq *rq, u64 delay)
-         |      ^~~~~~~~~~~~
-   kernel/sched/alt_core.c:2339:6: warning: no previous prototype for 'sched_ttwu_pending' [-Wmissing-prototypes]
-    2339 | void sched_ttwu_pending(void *arg)
-         |      ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:2372:6: warning: no previous prototype for 'send_call_function_single_ipi' [-Wmissing-prototypes]
-    2372 | void send_call_function_single_ipi(int cpu)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:4748:35: warning: no previous prototype for 'schedule_user' [-Wmissing-prototypes]
-    4748 | asmlinkage __visible void __sched schedule_user(void)
-         |                                   ^~~~~~~~~~~~~
-   kernel/sched/alt_core.c:6812:6: warning: no previous prototype for 'idle_task_exit' [-Wmissing-prototypes]
-    6812 | void idle_task_exit(void)
-         |      ^~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7022:5: warning: no previous prototype for 'sched_cpu_activate' [-Wmissing-prototypes]
-    7022 | int sched_cpu_activate(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7061:5: warning: no previous prototype for 'sched_cpu_deactivate' [-Wmissing-prototypes]
-    7061 | int sched_cpu_deactivate(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7125:5: warning: no previous prototype for 'sched_cpu_starting' [-Wmissing-prototypes]
-    7125 | int sched_cpu_starting(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7145:5: warning: no previous prototype for 'sched_cpu_wait_empty' [-Wmissing-prototypes]
-    7145 | int sched_cpu_wait_empty(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7187:5: warning: no previous prototype for 'sched_cpu_dying' [-Wmissing-prototypes]
-    7187 | int sched_cpu_dying(unsigned int cpu)
-         |     ^~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7268:13: warning: no previous prototype for 'sched_init_smp' [-Wmissing-prototypes]
-    7268 | void __init sched_init_smp(void)
-         |             ^~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7320:13: warning: no previous prototype for 'sched_init' [-Wmissing-prototypes]
-    7320 | void __init sched_init(void)
-         |             ^~~~~~~~~~
-   kernel/sched/alt_core.c:7675:20: warning: no previous prototype for 'sched_create_group' [-Wmissing-prototypes]
-    7675 | struct task_group *sched_create_group(struct task_group *parent)
-         |                    ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7686:6: warning: no previous prototype for 'sched_online_group' [-Wmissing-prototypes]
-    7686 | void sched_online_group(struct task_group *tg, struct task_group *parent)
-         |      ^~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7697:6: warning: no previous prototype for 'sched_destroy_group' [-Wmissing-prototypes]
-    7697 | void sched_destroy_group(struct task_group *tg)
-         |      ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7703:6: warning: no previous prototype for 'sched_release_group' [-Wmissing-prototypes]
-    7703 | void sched_release_group(struct task_group *tg)
-         |      ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7773:5: warning: no previous prototype for 'sched_group_set_shares' [-Wmissing-prototypes]
-    7773 | int sched_group_set_shares(struct task_group *tg, unsigned long shares)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7842:27: warning: initialized field overwritten [-Woverride-init]
-    7842 |         .legacy_cftypes = cpu_legacy_files,
-         |                           ^~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7842:27: note: (near initialization for 'cpu_cgrp_subsys.legacy_cftypes')
-   kernel/sched/alt_core.c: In function 'select_task_rq':
->> kernel/sched/alt_core.c:1912:1: warning: the frame size of 2064 bytes is larger than 2048 bytes [-Wframe-larger-than=]
-    1912 | }
-         | ^
+   drivers/char/mem.c: In function 'read_mem':
+>> drivers/char/mem.c:164:25: error: implicit declaration of function 'unxlate_dev_mem_ptr'; did you mean 'xlate_dev_mem_ptr'? [-Werror=implicit-function-declaration]
+     164 |                         unxlate_dev_mem_ptr(p, ptr);
+         |                         ^~~~~~~~~~~~~~~~~~~
+         |                         xlate_dev_mem_ptr
+   cc1: some warnings being treated as errors
 
 
-vim +1912 kernel/sched/alt_core.c
+vim +164 drivers/char/mem.c
 
-8b025fc742d760 Alfred Chen 2019-08-19  1894  
-55a31ddf5a2fc2 Alfred Chen 2021-05-24  1895  static inline int select_task_rq(struct task_struct *p)
-8b025fc742d760 Alfred Chen 2019-08-19  1896  {
-8b025fc742d760 Alfred Chen 2019-08-19  1897  	cpumask_t chk_mask, tmp;
-8b025fc742d760 Alfred Chen 2019-08-19  1898  
-a4064f26543059 Alfred Chen 2021-04-19  1899  	if (unlikely(!cpumask_and(&chk_mask, p->cpus_ptr, cpu_active_mask)))
-8b025fc742d760 Alfred Chen 2019-08-19  1900  		return select_fallback_rq(task_cpu(p), p);
-8b025fc742d760 Alfred Chen 2019-08-19  1901  
-8b025fc742d760 Alfred Chen 2019-08-19  1902  	if (
-8b025fc742d760 Alfred Chen 2019-08-19  1903  #ifdef CONFIG_SCHED_SMT
-8b025fc742d760 Alfred Chen 2019-08-19  1904  	    cpumask_and(&tmp, &chk_mask, &sched_sg_idle_mask) ||
-8b025fc742d760 Alfred Chen 2019-08-19  1905  #endif
-375aa589787e89 Alfred Chen 2021-06-28  1906  	    cpumask_and(&tmp, &chk_mask, sched_rq_watermark) ||
-8b025fc742d760 Alfred Chen 2019-08-19  1907  	    cpumask_and(&tmp, &chk_mask,
-a3e377c471d72f Alfred Chen 2022-06-05  1908  			sched_rq_watermark + SCHED_QUEUE_BITS - 1 - task_sched_prio(p)))
-e8a38151b98828 Alfred Chen 2020-11-03  1909  		return best_mask_cpu(task_cpu(p), &tmp);
-8b025fc742d760 Alfred Chen 2019-08-19  1910  
-e8a38151b98828 Alfred Chen 2020-11-03  1911  	return best_mask_cpu(task_cpu(p), &chk_mask);
-8b025fc742d760 Alfred Chen 2019-08-19 @1912  }
-8b025fc742d760 Alfred Chen 2019-08-19  1913  
+^1da177e4c3f41 Linus Torvalds                2005-04-16  133  
+22ec1a2aea73b9 Kees Cook                     2017-12-01  134  	bounce = kmalloc(PAGE_SIZE, GFP_KERNEL);
+22ec1a2aea73b9 Kees Cook                     2017-12-01  135  	if (!bounce)
+22ec1a2aea73b9 Kees Cook                     2017-12-01  136  		return -ENOMEM;
+22ec1a2aea73b9 Kees Cook                     2017-12-01  137  
+^1da177e4c3f41 Linus Torvalds                2005-04-16  138  	while (count > 0) {
+fa29e97bb8c70f Wu Fengguang                  2009-12-14  139  		unsigned long remaining;
+b5b38200ebe548 Kees Cook                     2018-03-27  140  		int allowed, probe;
+fa29e97bb8c70f Wu Fengguang                  2009-12-14  141  
+f222318e9c3a31 Wu Fengguang                  2009-12-14  142  		sz = size_inside_page(p, count);
+^1da177e4c3f41 Linus Torvalds                2005-04-16  143  
+22ec1a2aea73b9 Kees Cook                     2017-12-01  144  		err = -EPERM;
+a4866aa812518e Kees Cook                     2017-04-05  145  		allowed = page_is_allowed(p >> PAGE_SHIFT);
+a4866aa812518e Kees Cook                     2017-04-05  146  		if (!allowed)
+22ec1a2aea73b9 Kees Cook                     2017-12-01  147  			goto failed;
+22ec1a2aea73b9 Kees Cook                     2017-12-01  148  
+22ec1a2aea73b9 Kees Cook                     2017-12-01  149  		err = -EFAULT;
+a4866aa812518e Kees Cook                     2017-04-05  150  		if (allowed == 2) {
+a4866aa812518e Kees Cook                     2017-04-05  151  			/* Show zeros for restricted memory. */
+a4866aa812518e Kees Cook                     2017-04-05  152  			remaining = clear_user(buf, sz);
+a4866aa812518e Kees Cook                     2017-04-05  153  		} else {
+^1da177e4c3f41 Linus Torvalds                2005-04-16  154  			/*
+a4866aa812518e Kees Cook                     2017-04-05  155  			 * On ia64 if a page has been mapped somewhere as
+a4866aa812518e Kees Cook                     2017-04-05  156  			 * uncached, then it must also be accessed uncached
+a4866aa812518e Kees Cook                     2017-04-05  157  			 * by the kernel or data corruption may occur.
+^1da177e4c3f41 Linus Torvalds                2005-04-16  158  			 */
+^1da177e4c3f41 Linus Torvalds                2005-04-16  159  			ptr = xlate_dev_mem_ptr(p);
+e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18  160  			if (!ptr)
+22ec1a2aea73b9 Kees Cook                     2017-12-01  161  				goto failed;
+a4866aa812518e Kees Cook                     2017-04-05  162  
+fe557319aa06c2 Christoph Hellwig             2020-06-17  163  			probe = copy_from_kernel_nofault(bounce, ptr, sz);
+e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18 @164  			unxlate_dev_mem_ptr(p, ptr);
+b5b38200ebe548 Kees Cook                     2018-03-27  165  			if (probe)
+22ec1a2aea73b9 Kees Cook                     2017-12-01  166  				goto failed;
+22ec1a2aea73b9 Kees Cook                     2017-12-01  167  
+22ec1a2aea73b9 Kees Cook                     2017-12-01  168  			remaining = copy_to_user(buf, bounce, sz);
+a4866aa812518e Kees Cook                     2017-04-05  169  		}
+a4866aa812518e Kees Cook                     2017-04-05  170  
+fa29e97bb8c70f Wu Fengguang                  2009-12-14  171  		if (remaining)
+22ec1a2aea73b9 Kees Cook                     2017-12-01  172  			goto failed;
+e045fb2a988a9a venkatesh.pallipadi@intel.com 2008-03-18  173  
+^1da177e4c3f41 Linus Torvalds                2005-04-16  174  		buf += sz;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  175  		p += sz;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  176  		count -= sz;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  177  		read += sz;
+8619e5bdeee8b2 Tetsuo Handa                  2019-08-26  178  		if (should_stop_iteration())
+8619e5bdeee8b2 Tetsuo Handa                  2019-08-26  179  			break;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  180  	}
+22ec1a2aea73b9 Kees Cook                     2017-12-01  181  	kfree(bounce);
+^1da177e4c3f41 Linus Torvalds                2005-04-16  182  
+^1da177e4c3f41 Linus Torvalds                2005-04-16  183  	*ppos += read;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  184  	return read;
+22ec1a2aea73b9 Kees Cook                     2017-12-01  185  
+22ec1a2aea73b9 Kees Cook                     2017-12-01  186  failed:
+22ec1a2aea73b9 Kees Cook                     2017-12-01  187  	kfree(bounce);
+22ec1a2aea73b9 Kees Cook                     2017-12-01  188  	return err;
+^1da177e4c3f41 Linus Torvalds                2005-04-16  189  }
+^1da177e4c3f41 Linus Torvalds                2005-04-16  190  
 
-:::::: The code at line 1912 was first introduced by commit
-:::::: 8b025fc742d76091232a7404a7ad09c8cad61492 Project C v5.7.5-r2
+:::::: The code at line 164 was first introduced by commit
+:::::: e045fb2a988a9a1964059b0d33dbaf18d12f925f x86: PAT avoid aliasing in /dev/mem read/write
 
-:::::: TO: Alfred Chen <cchalpha@gmail.com>
-:::::: CC: Alfred Chen <cchalpha@gmail.com>
+:::::: TO: venkatesh.pallipadi@intel.com <venkatesh.pallipadi@intel.com>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
