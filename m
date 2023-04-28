@@ -1,65 +1,45 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C4D5CBC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 16:19:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53BA3220
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 17:22:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682698785; x=1714234785;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mJSFhPkeknNj2O1iNEZ3l9oQeY99f0eWfnaVt0hI+2w=;
-  b=byi9cyMyPuqVZoKPTMXBXHIdGLGCrNOJZlG+xtH3VxuqHXiQqToydZxz
-   Xt0hd3ZHdYtXJ6zIPyX2TJ4BcI7IML3l/Psb8Nfzj52TSnXiDUxDOC28r
-   IpWOiiGWHco5jTgSc+Z7XDiKRaZ7iGFUok/ICeu0mqSQz0Ge8Vr4LT/x4
-   abS+/UApNO9jIIo8p1kjrrj29utYP/HsKq9uPe5o2dRRPBHrvzjxMvg3l
-   E2kzAAs5hdPz566nusAH8kaUxgStbzAWvlqyTsS3Tujta+6zqa+GSNPIO
-   QI18/NoUiEETTl95R7Rh3FywLtyHBUB00jaZhRQUyPmt7cAP11xLSkYLG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="349816350"
+  t=1682702561; x=1714238561;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fMQzriYOtpx5T/mTxPJ0wX0h/UYbkJa7KgD65lSi5h0=;
+  b=ReEab7QBLuLReS0DoEubqAQ1Ho7MN3DySMehESKaQFCXP6dv9nX2C/Pi
+   BXqpHYDKJ14Pkjny4A/e2BoSKjL8nEykpGUNXb5dArEamQ5dxi5WKNt43
+   f3MWUGNAH2VCf4HI39i6SUSRF3suqdu8yXxwtELQcDPYFXtE9X7NtHnv1
+   ZlcKARTLjuEisGq25pS0mZ9K9579Kc9m8sFB3041pFoGNsNCWm5CwMYuJ
+   xqrAuSMk/eMah1Ig6T6PsFOoGIvexP+pp39t9EmTmH/bm4+EZdc/FMy2j
+   3kCIBMtADuKigGf+RxmxDXPZuW1h5+yeIVkvePtf3vA3M52SorJovDLnZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="332128906"
 X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="349816350"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 09:19:44 -0700
+   d="scan'208";a="332128906"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 10:22:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="819061758"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="1024687376"
 X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="819061758"
+   d="scan'208";a="1024687376"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 28 Apr 2023 09:19:38 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 28 Apr 2023 10:22:39 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psQor-0000Y9-1I;
-	Fri, 28 Apr 2023 16:19:37 +0000
-Date: Sat, 29 Apr 2023 00:19:34 +0800
+	id 1psRnq-0000Zl-2a;
+	Fri, 28 Apr 2023 17:22:38 +0000
+Date: Sat, 29 Apr 2023 01:22:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi-De Wu <yi-de.wu@mediatek.com>,
-	Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
-	Ze-Yu Wang <ze-yu.wang@mediatek.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	David Bradil <dbrazdil@google.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	Jade Shih <jades.shih@mediatek.com>,
-	Miles Chen <miles.chen@mediatek.com>,
-	Ivan Tseng <ivan.tseng@mediatek.com>,
-	My Chuang <my.chuang@mediatek.com>,
-	Shawn Hsiao <shawn.hsiao@mediatek.com>,
-	PeiLun Suei <peilun.suei@mediatek.com>,
-	Liju Chen <liju-clr.chen@mediatek.com>
-Subject: Re: [PATCH v2 3/7] virt: geniezone: Introduce GenieZone hypervisor
- support
-Message-ID: <202304290052.49kcXbnl-lkp@intel.com>
-References: <20230428103622.18291-4-yi-de.wu@mediatek.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [sudeep-holla:android13-5.10/ffa 8920/9999]
+ arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype
+ for '__ia32_sys_process_mrelease'
+Message-ID: <202304290148.xxBrWA3G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,41 +48,314 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230428103622.18291-4-yi-de.wu@mediatek.com>
 
-Hi Yi-De,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on robh/for-next arnd-asm-generic/master linus/master v6.3 next-20230427]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230428-183738
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20230428103622.18291-4-yi-de.wu%40mediatek.com
-patch subject: [PATCH v2 3/7] virt: geniezone: Introduce GenieZone hypervisor support
-config: x86_64-randconfig-a004 (https://download.01.org/0day-ci/archive/20230429/202304290052.49kcXbnl-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.10/ffa
+head:   9e12ac4f9c69befe08119567c073adc938aafc4d
+commit: 11a2f368e4bc4d124edb9ed23d88b9ee7aecbf65 [8920/9999] UPSTREAM: mm: wire up syscall process_mrelease
+config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230429/202304290148.xxBrWA3G-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/0e3f05a6e4547eb309032d047115a47d8f59641d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230428-183738
-        git checkout 0e3f05a6e4547eb309032d047115a47d8f59641d
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git/commit/?id=11a2f368e4bc4d124edb9ed23d88b9ee7aecbf65
+        git remote add sudeep-holla https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git
+        git fetch --no-tags sudeep-holla android13-5.10/ffa
+        git checkout 11a2f368e4bc4d124edb9ed23d88b9ee7aecbf65
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304290052.49kcXbnl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304290148.xxBrWA3G-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> usr/include/linux/gzvm.h:15: included file 'asm-x86/gzvm_arch.h' is not exported
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:275:1: note: in expansion of macro 'COND_SYSCALL'
+     275 | COND_SYSCALL(mprotect);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_msync' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:276:1: note: in expansion of macro 'COND_SYSCALL'
+     276 | COND_SYSCALL(msync);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_mlock' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:277:1: note: in expansion of macro 'COND_SYSCALL'
+     277 | COND_SYSCALL(mlock);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_munlock' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:278:1: note: in expansion of macro 'COND_SYSCALL'
+     278 | COND_SYSCALL(munlock);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_mlockall' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:279:1: note: in expansion of macro 'COND_SYSCALL'
+     279 | COND_SYSCALL(mlockall);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_munlockall' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:280:1: note: in expansion of macro 'COND_SYSCALL'
+     280 | COND_SYSCALL(munlockall);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_mincore' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:281:1: note: in expansion of macro 'COND_SYSCALL'
+     281 | COND_SYSCALL(mincore);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_madvise' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:282:1: note: in expansion of macro 'COND_SYSCALL'
+     282 | COND_SYSCALL(madvise);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_process_madvise' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:283:1: note: in expansion of macro 'COND_SYSCALL'
+     283 | COND_SYSCALL(process_madvise);
+         | ^~~~~~~~~~~~
+>> arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_process_mrelease' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:284:1: note: in expansion of macro 'COND_SYSCALL'
+     284 | COND_SYSCALL(process_mrelease);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_remap_file_pages' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:285:1: note: in expansion of macro 'COND_SYSCALL'
+     285 | COND_SYSCALL(remap_file_pages);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_mbind' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:286:1: note: in expansion of macro 'COND_SYSCALL'
+     286 | COND_SYSCALL(mbind);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_get_mempolicy' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:288:1: note: in expansion of macro 'COND_SYSCALL'
+     288 | COND_SYSCALL(get_mempolicy);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_set_mempolicy' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:290:1: note: in expansion of macro 'COND_SYSCALL'
+     290 | COND_SYSCALL(set_mempolicy);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_migrate_pages' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:292:1: note: in expansion of macro 'COND_SYSCALL'
+     292 | COND_SYSCALL(migrate_pages);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_move_pages' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:294:1: note: in expansion of macro 'COND_SYSCALL'
+     294 | COND_SYSCALL(move_pages);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_perf_event_open' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+         |         ^~~~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
+     257 |         __IA32_COND_SYSCALL(name)
+         |         ^~~~~~~~~~~~~~~~~~~
+   kernel/sys_ni.c:297:1: note: in expansion of macro 'COND_SYSCALL'
+     297 | COND_SYSCALL(perf_event_open);
+         | ^~~~~~~~~~~~
+   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_accept4' [-Wmissing-prototypes]
+      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
+         |                     ^~
+   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
+     120 |         __COND_SYSCALL(ia32, sys_##name)
+
+
+vim +/__ia32_sys_process_mrelease +83 arch/x86/include/asm/syscall_wrapper.h
+
+cc42c045af1ff4 Brian Gerst       2020-03-13  13  
+25c619e59b395a Brian Gerst       2020-03-13  14  /*
+25c619e59b395a Brian Gerst       2020-03-13  15   * Instead of the generic __SYSCALL_DEFINEx() definition, the x86 version takes
+25c619e59b395a Brian Gerst       2020-03-13  16   * struct pt_regs *regs as the only argument of the syscall stub(s) named as:
+25c619e59b395a Brian Gerst       2020-03-13  17   * __x64_sys_*()         - 64-bit native syscall
+25c619e59b395a Brian Gerst       2020-03-13  18   * __ia32_sys_*()        - 32-bit native syscall or common compat syscall
+25c619e59b395a Brian Gerst       2020-03-13  19   * __ia32_compat_sys_*() - 32-bit compat syscall
+25c619e59b395a Brian Gerst       2020-03-13  20   * __x32_compat_sys_*()  - 64-bit X32 compat syscall
+25c619e59b395a Brian Gerst       2020-03-13  21   *
+25c619e59b395a Brian Gerst       2020-03-13  22   * The registers are decoded according to the ABI:
+25c619e59b395a Brian Gerst       2020-03-13  23   * 64-bit: RDI, RSI, RDX, R10, R8, R9
+25c619e59b395a Brian Gerst       2020-03-13  24   * 32-bit: EBX, ECX, EDX, ESI, EDI, EBP
+25c619e59b395a Brian Gerst       2020-03-13  25   *
+25c619e59b395a Brian Gerst       2020-03-13  26   * The stub then passes the decoded arguments to the __se_sys_*() wrapper to
+25c619e59b395a Brian Gerst       2020-03-13  27   * perform sign-extension (omitted for zero-argument syscalls).  Finally the
+25c619e59b395a Brian Gerst       2020-03-13  28   * arguments are passed to the __do_sys_*() function which is the actual
+25c619e59b395a Brian Gerst       2020-03-13  29   * syscall.  These wrappers are marked as inline so the compiler can optimize
+25c619e59b395a Brian Gerst       2020-03-13  30   * the functions where appropriate.
+25c619e59b395a Brian Gerst       2020-03-13  31   *
+25c619e59b395a Brian Gerst       2020-03-13  32   * Example assembly (slightly re-ordered for better readability):
+25c619e59b395a Brian Gerst       2020-03-13  33   *
+25c619e59b395a Brian Gerst       2020-03-13  34   * <__x64_sys_recv>:		<-- syscall with 4 parameters
+25c619e59b395a Brian Gerst       2020-03-13  35   *	callq	<__fentry__>
+25c619e59b395a Brian Gerst       2020-03-13  36   *
+25c619e59b395a Brian Gerst       2020-03-13  37   *	mov	0x70(%rdi),%rdi	<-- decode regs->di
+25c619e59b395a Brian Gerst       2020-03-13  38   *	mov	0x68(%rdi),%rsi	<-- decode regs->si
+25c619e59b395a Brian Gerst       2020-03-13  39   *	mov	0x60(%rdi),%rdx	<-- decode regs->dx
+25c619e59b395a Brian Gerst       2020-03-13  40   *	mov	0x38(%rdi),%rcx	<-- decode regs->r10
+25c619e59b395a Brian Gerst       2020-03-13  41   *
+25c619e59b395a Brian Gerst       2020-03-13  42   *	xor	%r9d,%r9d	<-- clear %r9
+25c619e59b395a Brian Gerst       2020-03-13  43   *	xor	%r8d,%r8d	<-- clear %r8
+25c619e59b395a Brian Gerst       2020-03-13  44   *
+25c619e59b395a Brian Gerst       2020-03-13  45   *	callq	__sys_recvfrom	<-- do the actual work in __sys_recvfrom()
+25c619e59b395a Brian Gerst       2020-03-13  46   *				    which takes 6 arguments
+25c619e59b395a Brian Gerst       2020-03-13  47   *
+25c619e59b395a Brian Gerst       2020-03-13  48   *	cltq			<-- extend return value to 64-bit
+25c619e59b395a Brian Gerst       2020-03-13  49   *	retq			<-- return
+25c619e59b395a Brian Gerst       2020-03-13  50   *
+25c619e59b395a Brian Gerst       2020-03-13  51   * This approach avoids leaking random user-provided register content down
+25c619e59b395a Brian Gerst       2020-03-13  52   * the call chain.
+25c619e59b395a Brian Gerst       2020-03-13  53   */
+25c619e59b395a Brian Gerst       2020-03-13  54  
+ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  55  /* Mapping of registers to parameters for syscalls on x86-64 and x32 */
+ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  56  #define SC_X86_64_REGS_TO_ARGS(x, ...)					\
+ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  57  	__MAP(x,__SC_ARGS						\
+ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  58  		,,regs->di,,regs->si,,regs->dx				\
+ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  59  		,,regs->r10,,regs->r8,,regs->r9)			\
+ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  60  
+ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  61  /* Mapping of registers to parameters for syscalls on i386 */
+ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  62  #define SC_IA32_REGS_TO_ARGS(x, ...)					\
+ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  63  	__MAP(x,__SC_ARGS						\
+ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  64  	      ,,(unsigned int)regs->bx,,(unsigned int)regs->cx		\
+ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  65  	      ,,(unsigned int)regs->dx,,(unsigned int)regs->si		\
+ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  66  	      ,,(unsigned int)regs->di,,(unsigned int)regs->bp)
+ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  67  
+d2b5de495ee983 Brian Gerst       2020-03-13  68  #define __SYS_STUB0(abi, name)						\
+0f78ff17112d8b Brian Gerst       2020-03-13  69  	long __##abi##_##name(const struct pt_regs *regs);		\
+d2b5de495ee983 Brian Gerst       2020-03-13  70  	ALLOW_ERROR_INJECTION(__##abi##_##name, ERRNO);			\
+0f78ff17112d8b Brian Gerst       2020-03-13  71  	long __##abi##_##name(const struct pt_regs *regs)		\
+d2b5de495ee983 Brian Gerst       2020-03-13  72  		__alias(__do_##name);
+d2b5de495ee983 Brian Gerst       2020-03-13  73  
+4399e0cf494f73 Brian Gerst       2020-03-13  74  #define __SYS_STUBx(abi, name, ...)					\
+0f78ff17112d8b Brian Gerst       2020-03-13  75  	long __##abi##_##name(const struct pt_regs *regs);		\
+4399e0cf494f73 Brian Gerst       2020-03-13  76  	ALLOW_ERROR_INJECTION(__##abi##_##name, ERRNO);			\
+0f78ff17112d8b Brian Gerst       2020-03-13  77  	long __##abi##_##name(const struct pt_regs *regs)		\
+4399e0cf494f73 Brian Gerst       2020-03-13  78  	{								\
+4399e0cf494f73 Brian Gerst       2020-03-13  79  		return __se_##name(__VA_ARGS__);			\
+4399e0cf494f73 Brian Gerst       2020-03-13  80  	}
+4399e0cf494f73 Brian Gerst       2020-03-13  81  
+6cc8d2b286d9e7 Brian Gerst       2020-03-13  82  #define __COND_SYSCALL(abi, name)					\
+0f78ff17112d8b Brian Gerst       2020-03-13 @83  	__weak long __##abi##_##name(const struct pt_regs *__unused)	\
+6cc8d2b286d9e7 Brian Gerst       2020-03-13  84  	{								\
+6cc8d2b286d9e7 Brian Gerst       2020-03-13  85  		return sys_ni_syscall();				\
+6cc8d2b286d9e7 Brian Gerst       2020-03-13  86  	}
+6cc8d2b286d9e7 Brian Gerst       2020-03-13  87  
+
+:::::: The code at line 83 was first introduced by commit
+:::::: 0f78ff17112d8b3469b805ff4ea9780cc1e5c93b x86/entry: Drop asmlinkage from syscalls
+
+:::::: TO: Brian Gerst <brgerst@gmail.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
