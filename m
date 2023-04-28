@@ -1,43 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F19320C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 21:09:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6360C320C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 21:30:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682716187; x=1714252187;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=jl1xKxx2Fy1RbyxMCQG4rcWYLUwluCMgm9E74hiSxPI=;
-  b=QoiZKEIfMHzX5m8AAWcezhsFuqfcgtKSRM4cXy24ZbkTwnttZPyugtcy
-   AR7yBJiojYPvLZuUc9RoLLeXt4uSvJ5l1cEgMtcywjt9lbs4d03XsSyYX
-   EIvnymoc6yz89Dqie3pbRcEM7hfSv/SOWQDGLI01AmXbp7Y5m6F8hEeIE
-   WomkcG979LD19blIbjjR/nSD4WcuA9QmuHR0QmfErCtYbcJBjrubaJdAu
-   Mm0Q3jTs0g371sOxtczoUNTwtWM90ySy+bVDEtyvhDkAZe6L/OReGZBqD
-   huSKDW5vD1kLRyd1G2sAR20CsEXxQM/6esTTMXu+OTth9mOuk+uha9ObI
+  t=1682717447; x=1714253447;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=W+cDeZBugAbFyvLxMgn9CekOcDR/RHSF2Lw6ZvMnv0s=;
+  b=mOsIUQ9qOdR68/KSS+3Cd3QoRDGLPrBoSxyvV2JdodonG0mWRALHZioA
+   yZSUZeVJy/vwACaWNiMhE84w7M9tuqMY+hEyqroDlGd8ACk5mNk7Xj/+x
+   Fok0Tuz0mg7am+bi1YbzjueD/JbJnoXTHbxwPhrNaL7+ThFrc3o7zhZFB
+   GBqi+xIScFRGGKaqiH6/P7dCxYdeQxqXX6+jNxdo97LmzOE3ecEbsewD3
+   I8sNgoJGt5iUEzsrmkccD/C8EnI6+x7cXsLb43D0fK3KhF6KLY3uM/JUV
+   4JuuxVkc2fgL9EoNKuEEwIdAZNEHhuP+2c3r2ATzyx+ZwXwk7hY6e429v
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="349890007"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="332187644"
 X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="349890007"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 14:09:46 -0700
+   d="scan'208";a="332187644"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 14:30:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="725471849"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="819152371"
 X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="725471849"
+   d="scan'208";a="819152371"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 28 Apr 2023 14:09:44 -0700
+  by orsmga004.jf.intel.com with ESMTP; 28 Apr 2023 14:30:45 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psVLc-0000gz-0A;
-	Fri, 28 Apr 2023 21:09:44 +0000
-Date: Sat, 29 Apr 2023 05:08:48 +0800
+	id 1psVfw-0000hZ-2X;
+	Fri, 28 Apr 2023 21:30:44 +0000
+Date: Sat, 29 Apr 2023 05:30:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sagar Biradar <sagar.biradar@microchip.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] aacraid: reply queue mapping to CPUs based of IRQ
- affinity
-Message-ID: <ZEw14CU6rNtHz7Em@afc780e125e2>
+To: Darren Etheridge <detheridge@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y-cicd 62/70] ERROR: modpost: "__aeabi_uldivmod"
+ [drivers/media/platform/img/vxe-vxd/vxd-dec.ko] undefined!
+Message-ID: <202304290558.SrjWbyMg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,23 +46,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230428210751.29722-1-sagar.biradar@microchip.com>
 
-Hi,
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   d0673ae878bb78807f65a6021cd9642d6d45bb93
+commit: 3b23f836c2ec0541aea62823eeed7f2bbe88dc43 [62/70] media: platform: img: add the vxe-vxd driver into the build infra
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230429/202304290558.SrjWbyMg-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-6.1.y-cicd
+        git checkout 3b23f836c2ec0541aea62823eeed7f2bbe88dc43
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
-Thanks for your patch.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202304290558.SrjWbyMg-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH v2] aacraid: reply queue mapping to CPUs based of IRQ affinity
-Link: https://lore.kernel.org/stable/20230428210751.29722-1-sagar.biradar%40microchip.com
-
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+WARNING: modpost: module dma-buf-phys uses symbol dma_buf_unmap_attachment from namespace DMA_BUF, but does not import it.
+WARNING: modpost: module dma-buf-phys uses symbol dma_buf_detach from namespace DMA_BUF, but does not import it.
+WARNING: modpost: module dma-buf-phys uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
+WARNING: modpost: module dma-buf-phys uses symbol dma_buf_get from namespace DMA_BUF, but does not import it.
+WARNING: modpost: module dma-buf-phys uses symbol dma_buf_attach from namespace DMA_BUF, but does not import it.
+WARNING: modpost: module dma-buf-phys uses symbol dma_buf_map_attachment from namespace DMA_BUF, but does not import it.
+>> ERROR: modpost: "__aeabi_uldivmod" [drivers/media/platform/img/vxe-vxd/vxd-dec.ko] undefined!
+>> ERROR: modpost: "__aeabi_ldivmod" [drivers/media/platform/img/vxe-vxd/vxd-dec.ko] undefined!
+>> ERROR: modpost: "__aeabi_uldivmod" [drivers/media/platform/img/vxe-vxd/vxe-enc.ko] undefined!
+>> ERROR: modpost: "__aeabi_ldivmod" [drivers/media/platform/img/vxe-vxd/vxe-enc.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
-
-
