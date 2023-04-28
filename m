@@ -1,59 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4DE2CA6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 11:45:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E78290A
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 11:52:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682682320; x=1714218320;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rBbdv+hk3UP8M0WMEzt4+wWIQYS5wnCgtva4F2d/DLY=;
-  b=gH7jr7y/EkvkopSgm1GuvKcfeM/iTL2RX9lYZXDDSq1ZMQpQ2J+ZwFRA
-   U5d0ZmlLQtUOgWcqgKTbjmLR9WTReKo8asxKilb2kXuapgJtv+hhiS+B1
-   m+eAqkOuKguDycSaDwaOTUwwjg0Y+TWvJ6tCn+0pL5nt6VSGTJgUTMhre
-   xm/TnfG7aRrnY80oGXmDwboqmWZcJkMJs+LJmvk1YQTLlKJs3cB8tsEW2
-   ucfODxjD3BgbcAySxVNhu32ZcbKBtl9Wa1C2xJPyiISEXiL2rUma0szm4
-   AytZpm4GvIWuMAZnls4rB5Jd3e84JYc3J7/xG1pmrvSbX2X7bGky3AaGH
+  t=1682682754; x=1714218754;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dA/hIpQ46EXokCaybAHY+ck1kZpCM5py1OGnb5+Z3U4=;
+  b=Mry/3MlHcen/3PRSrREWnkvNdaJpKoY7pDIgYDQE9ah2nnMTm0/RBcES
+   UufAY4eze+KOzz/CSexoCo8srtcpATJKh3SxvuLhPlDYT8HoN/sZEDhth
+   WWyTpb9SrGnT7cRkucIt6o9chX3hC4ws70IBBxCOT10arJJiQLKwiNsjA
+   rRzxe7OkaPUFlzQesrl2tWMWmsokahiLr5OZj39UXWUlTLqh0Fj5YkfAa
+   6HrzH/OY/4xzUr8ZE3o6sgNTXADcq9CvGzp2BwukML5OA64npy52Bvq/Y
+   GDgn+koSLpLKRxfCVetNz860rEOeLjJJVIm6ktWWANVplevYqCxm9v5xG
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="349750748"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="327354724"
 X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; 
-   d="scan'208";a="349750748"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 04:42:37 -0700
+   d="scan'208";a="327354724"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 04:52:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="645092016"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="725334080"
 X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; 
-   d="scan'208";a="645092016"
+   d="scan'208";a="725334080"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 28 Apr 2023 04:42:31 -0700
+  by orsmga008.jf.intel.com with ESMTP; 28 Apr 2023 04:52:32 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psMUh-0000Ov-0s;
-	Fri, 28 Apr 2023 11:42:31 +0000
-Date: Fri, 28 Apr 2023 19:41:55 +0800
+	id 1psMeN-0000PJ-1Y;
+	Fri, 28 Apr 2023 11:52:31 +0000
+Date: Fri, 28 Apr 2023 19:52:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunfei Dong <yunfei.dong@mediatek.com>,
-	Chen-Yu Tsai <wenst@chromium.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	"Nicolas F . R . A . Prado" <nfraprado@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	Fritz Koenig <frkoenig@chromium.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Steve Cho <stevecho@chromium.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH v2] media: mediatek: vcodec: support stateless hevc
- decoder
-Message-ID: <202304281935.cHbo4d1P-lkp@intel.com>
-References: <20230428082329.28606-1-yunfei.dong@mediatek.com>
+To: Rajneesh Bhardwaj <rajneesh.bhardwaj@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Furquan Shaikh <furquan@chromium.org>
+Subject: [jsarha:topic/cros-sof-v4.14-rebase 199/9999]
+ drivers/idle/intel_idle.c:1000:72: sparse: sparse: incompatible types in
+ conditional expression (different base types):
+Message-ID: <202304281950.7pdoam5E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,93 +46,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230428082329.28606-1-yunfei.dong@mediatek.com>
 
-Hi Yunfei,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linus/master v6.3 next-20230427]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yunfei-Dong/media-mediatek-vcodec-support-stateless-hevc-decoder/20230428-162427
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230428082329.28606-1-yunfei.dong%40mediatek.com
-patch subject: [PATCH v2] media: mediatek: vcodec: support stateless hevc decoder
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230428/202304281935.cHbo4d1P-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/193b8e8eece4506c90eac97b973ef059aaf5c0e1
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yunfei-Dong/media-mediatek-vcodec-support-stateless-hevc-decoder/20230428-162427
-        git checkout 193b8e8eece4506c90eac97b973ef059aaf5c0e1
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.14-rebase
+head:   18a233f3f676a98dde00947535d99ab1a54da340
+commit: 984b012fc9b1fc849276848135307edabd0d5a58 [199/9999] CHROMIUM: intel_idle: dump debug info when S0ix fails
+config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230428/202304281950.7pdoam5E-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/jsarha/linux/commit/984b012fc9b1fc849276848135307edabd0d5a58
+        git remote add jsarha https://github.com/jsarha/linux
+        git fetch --no-tags jsarha topic/cros-sof-v4.14-rebase
+        git checkout 984b012fc9b1fc849276848135307edabd0d5a58
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/media/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/idle/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304281935.cHbo4d1P-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304281950.7pdoam5E-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/idle/intel_idle.c:1038:23: sparse: sparse: undefined identifier 'tick_set_freeze_event'
+   drivers/idle/intel_idle.c:1058:34: sparse: sparse: undefined identifier 'tick_clear_freeze_event'
+>> drivers/idle/intel_idle.c:1000:72: sparse: sparse: incompatible types in conditional expression (different base types):
+>> drivers/idle/intel_idle.c:1000:72: sparse:    int
+>> drivers/idle/intel_idle.c:1000:72: sparse:    void
+   drivers/idle/intel_idle.c: In function 'intel_idle_s2idle_and_check':
+   drivers/idle/intel_idle.c:1038:9: error: implicit declaration of function 'tick_set_freeze_event'; did you mean 'trace_set_clr_event'? [-Werror=implicit-function-declaration]
+      ret = tick_set_freeze_event(cpu, ktime_set(slp_s0_seconds, 0));
+            ^~~~~~~~~~~~~~~~~~~~~
+            trace_set_clr_event
+   drivers/idle/intel_idle.c:1058:27: error: implicit declaration of function 'tick_clear_freeze_event' [-Werror=implicit-function-declaration]
+     if (check_on_this_cpu && tick_clear_freeze_event(cpu))
+                              ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.c: In function 'vdec_hevc_fill_dpb_info':
->> drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.c:412:24: warning: ordered comparison of pointer with integer zero [-Wextra]
-     412 |                 if (vb < 0) {
-         |                        ^
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.c: In function 'vdec_hevc_copy_decode_params':
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.c:587:63: error: 'const struct v4l2_ctrl_hevc_decode_params' has no member named 'num_delta_pocs_of_ref_rps_idx'
-     587 |         dst_params->num_delta_pocs_of_ref_rps_idx = src_params->num_delta_pocs_of_ref_rps_idx;
-         |                                                               ^~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.c: In function 'vdec_hevc_slice_fill_decode_parameters':
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.c:630:27: error: 'const struct v4l2_ctrl_hevc_decode_params' has no member named 'num_delta_pocs_of_ref_rps_idx'
-     630 |                 dec_params->num_delta_pocs_of_ref_rps_idx;
-         |                           ^~
+vim +1000 drivers/idle/intel_idle.c
 
-
-vim +412 drivers/media/platform/mediatek/vcodec/vdec/vdec_hevc_req_multi_if.c
-
-   395	
-   396	static void vdec_hevc_fill_dpb_info(struct mtk_vcodec_ctx *ctx,
-   397					    struct slice_api_hevc_decode_param *decode_params,
-   398					    struct mtk_hevc_dpb_info *hevc_dpb_info)
-   399	{
-   400		const struct slice_hevc_dpb_entry *dpb;
-   401		struct vb2_queue *vq;
-   402		struct vb2_buffer *vb;
-   403		int index;
-   404	
-   405		vq = v4l2_m2m_get_vq(ctx->m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-   406		for (index = 0; index < V4L2_HEVC_DPB_ENTRIES_NUM_MAX; index++) {
-   407			dpb = &decode_params->dpb[index];
-   408			if (index >= decode_params->num_active_dpb_entries)
-   409				continue;
-   410	
-   411			vb = vb2_find_buffer(vq, dpb->timestamp);
- > 412			if (vb < 0) {
-   413				dev_err(&ctx->dev->plat_dev->dev,
-   414					"Reference invalid: dpb_index(%d) timestamp(%lld)",
-   415					index, dpb->timestamp);
-   416				continue;
-   417			}
-   418	
-   419			hevc_dpb_info[index].field = dpb->field_pic;
-   420	
-   421			hevc_dpb_info[index].y_dma_addr = vb2_dma_contig_plane_dma_addr(vb, 0);
-   422			if (ctx->q_data[MTK_Q_DATA_DST].fmt->num_planes == 2)
-   423				hevc_dpb_info[index].c_dma_addr = vb2_dma_contig_plane_dma_addr(vb, 1);
-   424			else
-   425				hevc_dpb_info[index].c_dma_addr =
-   426					hevc_dpb_info[index].y_dma_addr + ctx->picinfo.fb_sz[0];
-   427		}
-   428	}
-   429	
+   988	
+   989	static int check_slp_s0(u64 slp_s0_saved_count)
+   990	{
+   991		u64 slp_s0_new_count;
+   992	
+   993		if (get_slpS0_count(&slp_s0_new_count)) {
+   994			pr_warn("After s2idle attempt: Unable to read SLP S0 residency counter\n");
+   995			return -EIO;
+   996		}
+   997	
+   998		if (slp_s0_saved_count == slp_s0_new_count) {
+   999			WARN(1, "CPU did not enter SLP S0 for suspend-to-idle.\n");
+> 1000			boot_cpu_data.x86_model == INTEL_FAM6_ATOM_GEMINI_LAKE ?
+  1001					telem_soc_states_display() : pmc_core_ppfear_display();
+  1002			return -EIO;
+  1003		}
+  1004	
+  1005		return 0;
+  1006	}
+  1007	
+  1008	/**
+  1009	 * intel_idle_s2idle_and_check - enters suspend-to-idle and validates the power
+  1010	 * state
+  1011	 *
+  1012	 * This function enters suspend-to-idle with intel_idle_freeze, but also sets up
+  1013	 * a timer to check that S0ix (low power state for suspend-to-idle on Intel
+  1014	 * CPUs) is properly entered.
+  1015	 *
+  1016	 * @dev: cpuidle_device
+  1017	 * @drv: cpuidle_driver
+  1018	 * @index: state index
+  1019	 * @return 0 for success, -EERROR if S0ix was not entered.
+  1020	 */
+  1021	static int intel_idle_s2idle_and_check(struct cpuidle_device *dev,
+  1022					       struct cpuidle_driver *drv, int index)
+  1023	{
+  1024		bool check_on_this_cpu = false;
+  1025		u64 slp_s0_saved_count;
+  1026		unsigned long flags;
+  1027		int cpu = smp_processor_id();
+  1028		int ret;
+  1029	
+  1030		/* The last CPU to freeze sets up checking SLP S0 assertion. */
+  1031		spin_lock_irqsave(&slp_s0_check_lock, flags);
+  1032		slp_s0_num_cpus++;
+  1033	
+  1034		if (slp_s0_seconds &&
+  1035		    slp_s0_num_cpus == num_online_cpus() &&
+  1036		    !slp_s0_check_inprogress &&
+  1037		    !get_slpS0_count(&slp_s0_saved_count)) {
+> 1038			ret = tick_set_freeze_event(cpu, ktime_set(slp_s0_seconds, 0));
+  1039			if (ret < 0) {
+  1040				spin_unlock_irqrestore(&slp_s0_check_lock, flags);
+  1041				goto out;
+  1042			}
+  1043	
+  1044			/*
+  1045			 * Make sure check_slp_s0 isn't scheduled on another CPU if it
+  1046			 * were to leave freeze and enter it again before this CPU
+  1047			 * leaves freeze.
+  1048			 */
+  1049			slp_s0_check_inprogress = true;
+  1050			check_on_this_cpu = true;
+  1051		}
+  1052		spin_unlock_irqrestore(&slp_s0_check_lock, flags);
+  1053	
+  1054		ret = intel_idle_s2idle(dev, drv, index);
+  1055		if (ret < 0)
+  1056			goto out;
+  1057	
+  1058		if (check_on_this_cpu && tick_clear_freeze_event(cpu))
+  1059			ret = check_slp_s0(slp_s0_saved_count);
+  1060	
+  1061	out:
+  1062		spin_lock_irqsave(&slp_s0_check_lock, flags);
+  1063		if (check_on_this_cpu) {
+  1064			slp_s0_check_inprogress = false;
+  1065			slp_s0_seconds = min_t(unsigned int,
+  1066					       SLP_S0_EXP_BASE * slp_s0_seconds,
+  1067					       MAX_SLP_S0_SECONDS);
+  1068		}
+  1069		slp_s0_num_cpus--;
+  1070		spin_unlock_irqrestore(&slp_s0_check_lock, flags);
+  1071		return ret;
+  1072	}
+  1073	
 
 -- 
 0-DAY CI Kernel Test Service
