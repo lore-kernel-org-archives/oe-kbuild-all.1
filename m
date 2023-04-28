@@ -1,45 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53BA3220
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 17:22:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42236847B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 17:53:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682702561; x=1714238561;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fMQzriYOtpx5T/mTxPJ0wX0h/UYbkJa7KgD65lSi5h0=;
-  b=ReEab7QBLuLReS0DoEubqAQ1Ho7MN3DySMehESKaQFCXP6dv9nX2C/Pi
-   BXqpHYDKJ14Pkjny4A/e2BoSKjL8nEykpGUNXb5dArEamQ5dxi5WKNt43
-   f3MWUGNAH2VCf4HI39i6SUSRF3suqdu8yXxwtELQcDPYFXtE9X7NtHnv1
-   ZlcKARTLjuEisGq25pS0mZ9K9579Kc9m8sFB3041pFoGNsNCWm5CwMYuJ
-   xqrAuSMk/eMah1Ig6T6PsFOoGIvexP+pp39t9EmTmH/bm4+EZdc/FMy2j
-   3kCIBMtADuKigGf+RxmxDXPZuW1h5+yeIVkvePtf3vA3M52SorJovDLnZ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="332128906"
+  t=1682704422; x=1714240422;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LIpSJiN/rvErkoJbywLhUeEqpv6susiJzMCawQDUSQM=;
+  b=gVXZdygyRZcXrqK/4RWp7W34iBnkicTgkM2miryquRhY1d03bqsRSZBP
+   8txycxDkWUSSIV5LFLSNzhUJmuTV3LkvKl0MOBxr5qTCjdnOwSKEVbzdh
+   FccqeviZZVZlf9Zv0oI3jB1qa95zSVXw79tw8DXMmuJdZAMPK+KyZ17ue
+   UAyhGMztFKFVfoP7h7e49eVCcsPH6TOTjO+qWVt6k0VOtp82IIXB74bn5
+   TY5RYB5wz4/JbSFVZqMyV78L/1dzRzOyInlIBrfH13Zg1Jx75RUEFs25J
+   qRfkfz9r28lmkWoEY48aNONBnJGkKjFXLw1ILzUHTmY/uB48LLEJPREDC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="349839368"
 X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="332128906"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 10:22:41 -0700
+   d="scan'208";a="349839368"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 10:53:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="1024687376"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="688899458"
 X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="1024687376"
+   d="scan'208";a="688899458"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Apr 2023 10:22:39 -0700
+  by orsmga007.jf.intel.com with ESMTP; 28 Apr 2023 10:53:39 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psRnq-0000Zl-2a;
-	Fri, 28 Apr 2023 17:22:38 +0000
-Date: Sat, 29 Apr 2023 01:22:23 +0800
+	id 1psSHr-0000aP-0O;
+	Fri, 28 Apr 2023 17:53:39 +0000
+Date: Sat, 29 Apr 2023 01:53:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [sudeep-holla:android13-5.10/ffa 8920/9999]
- arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype
- for '__ia32_sys_process_mrelease'
-Message-ID: <202304290148.xxBrWA3G-lkp@intel.com>
+To: Vadim Fedorenko <vadfed@meta.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v7 4/8] ice: add admin commands to access cgu
+ configuration
+Message-ID: <202304290110.EXkC5dHd-lkp@intel.com>
+References: <20230428002009.2948020-5-vadfed@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,17 +47,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230428002009.2948020-5-vadfed@meta.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.10/ffa
-head:   9e12ac4f9c69befe08119567c073adc938aafc4d
-commit: 11a2f368e4bc4d124edb9ed23d88b9ee7aecbf65 [8920/9999] UPSTREAM: mm: wire up syscall process_mrelease
-config: i386-randconfig-a001 (https://download.01.org/0day-ci/archive/20230429/202304290148.xxBrWA3G-lkp@intel.com/config)
+Hi Vadim,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.3]
+[cannot apply to tnguy-next-queue/dev-queue linus/master next-20230427]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/dpll-spec-Add-Netlink-spec-in-YAML/20230428-082340
+base:   457391b0380335d5e9a5babdec90ac53928b23b4
+patch link:    https://lore.kernel.org/r/20230428002009.2948020-5-vadfed%40meta.com
+patch subject: [RFC PATCH v7 4/8] ice: add admin commands to access cgu configuration
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230429/202304290110.EXkC5dHd-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git/commit/?id=11a2f368e4bc4d124edb9ed23d88b9ee7aecbf65
-        git remote add sudeep-holla https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git
-        git fetch --no-tags sudeep-holla android13-5.10/ffa
-        git checkout 11a2f368e4bc4d124edb9ed23d88b9ee7aecbf65
+        # https://github.com/intel-lab-lkp/linux/commit/13ef3b4ad86b654d71f1e13448b0968c83403d02
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Vadim-Fedorenko/dpll-spec-Add-Netlink-spec-in-YAML/20230428-082340
+        git checkout 13ef3b4ad86b654d71f1e13448b0968c83403d02
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=i386 olddefconfig
@@ -66,296 +78,207 @@ reproduce (this is a W=1 build):
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304290148.xxBrWA3G-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304290110.EXkC5dHd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:275:1: note: in expansion of macro 'COND_SYSCALL'
-     275 | COND_SYSCALL(mprotect);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_msync' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:276:1: note: in expansion of macro 'COND_SYSCALL'
-     276 | COND_SYSCALL(msync);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_mlock' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:277:1: note: in expansion of macro 'COND_SYSCALL'
-     277 | COND_SYSCALL(mlock);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_munlock' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:278:1: note: in expansion of macro 'COND_SYSCALL'
-     278 | COND_SYSCALL(munlock);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_mlockall' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:279:1: note: in expansion of macro 'COND_SYSCALL'
-     279 | COND_SYSCALL(mlockall);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_munlockall' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:280:1: note: in expansion of macro 'COND_SYSCALL'
-     280 | COND_SYSCALL(munlockall);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_mincore' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:281:1: note: in expansion of macro 'COND_SYSCALL'
-     281 | COND_SYSCALL(mincore);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_madvise' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:282:1: note: in expansion of macro 'COND_SYSCALL'
-     282 | COND_SYSCALL(madvise);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_process_madvise' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:283:1: note: in expansion of macro 'COND_SYSCALL'
-     283 | COND_SYSCALL(process_madvise);
-         | ^~~~~~~~~~~~
->> arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_process_mrelease' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:284:1: note: in expansion of macro 'COND_SYSCALL'
-     284 | COND_SYSCALL(process_mrelease);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_remap_file_pages' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:285:1: note: in expansion of macro 'COND_SYSCALL'
-     285 | COND_SYSCALL(remap_file_pages);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_mbind' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:286:1: note: in expansion of macro 'COND_SYSCALL'
-     286 | COND_SYSCALL(mbind);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_get_mempolicy' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:288:1: note: in expansion of macro 'COND_SYSCALL'
-     288 | COND_SYSCALL(get_mempolicy);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_set_mempolicy' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:290:1: note: in expansion of macro 'COND_SYSCALL'
-     290 | COND_SYSCALL(set_mempolicy);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_migrate_pages' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:292:1: note: in expansion of macro 'COND_SYSCALL'
-     292 | COND_SYSCALL(migrate_pages);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_move_pages' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:294:1: note: in expansion of macro 'COND_SYSCALL'
-     294 | COND_SYSCALL(move_pages);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_perf_event_open' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
-         |         ^~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:257:9: note: in expansion of macro '__IA32_COND_SYSCALL'
-     257 |         __IA32_COND_SYSCALL(name)
-         |         ^~~~~~~~~~~~~~~~~~~
-   kernel/sys_ni.c:297:1: note: in expansion of macro 'COND_SYSCALL'
-     297 | COND_SYSCALL(perf_event_open);
-         | ^~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:83:21: warning: no previous prototype for '__ia32_sys_accept4' [-Wmissing-prototypes]
-      83 |         __weak long __##abi##_##name(const struct pt_regs *__unused)    \
-         |                     ^~
-   arch/x86/include/asm/syscall_wrapper.h:120:9: note: in expansion of macro '__COND_SYSCALL'
-     120 |         __COND_SYSCALL(ia32, sys_##name)
+   In file included from include/linux/bits.h:6,
+                    from include/linux/bitops.h:6,
+                    from include/linux/kernel.h:22,
+                    from include/linux/skbuff.h:13,
+                    from include/linux/ip.h:16,
+                    from drivers/infiniband/hw/irdma/main.h:6,
+                    from drivers/infiniband/hw/irdma/main.c:3:
+   drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h:196:46: error: 'DPLL_PIN_FREQ_SUPP_1_HZ' undeclared here (not in a function); did you mean 'DPLL_PIN_FREQUENCY_1_HZ'?
+     196 | #define ICE_SIG_TYPE_MASK_1PPS_10MHZ    (BIT(DPLL_PIN_FREQ_SUPP_1_HZ) | \
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                            ^~
+   drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h:207:17: note: in expansion of macro 'ICE_SIG_TYPE_MASK_1PPS_10MHZ'
+     207 |                 ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h:197:46: error: 'DPLL_PIN_FREQ_SUPP_10_MHZ' undeclared here (not in a function); did you mean 'DPLL_PIN_FREQUENCY_10_MHZ'?
+     197 |                                          BIT(DPLL_PIN_FREQ_SUPP_10_MHZ))
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                            ^~
+   drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h:207:17: note: in expansion of macro 'ICE_SIG_TYPE_MASK_1PPS_10MHZ'
+     207 |                 ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h:211:21: error: 'DPLL_PIN_FREQ_SUPP_UNSPEC' undeclared here (not in a function); did you mean 'DPLL_PIN_DIRECTION_UNSPEC'?
+     211 |                 BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/bits.h:7:44: note: in definition of macro 'BIT'
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                            ^~
+   In file included from drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp.h:10,
+                    from drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice.h:69,
+                    from drivers/infiniband/hw/irdma/main.c:4:
+>> drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h:325:38: warning: 'ice_e823_zl_cgu_outputs' defined but not used [-Wunused-const-variable=]
+     325 | static const struct ice_cgu_pin_desc ice_e823_zl_cgu_outputs[] = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h:306:38: warning: 'ice_e823_zl_cgu_inputs' defined but not used [-Wunused-const-variable=]
+     306 | static const struct ice_cgu_pin_desc ice_e823_zl_cgu_inputs[] = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h:295:38: warning: 'ice_e823_si_cgu_outputs' defined but not used [-Wunused-const-variable=]
+     295 | static const struct ice_cgu_pin_desc ice_e823_si_cgu_outputs[] = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h:279:38: warning: 'ice_e823_si_cgu_inputs' defined but not used [-Wunused-const-variable=]
+     279 | static const struct ice_cgu_pin_desc ice_e823_si_cgu_inputs[] = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h:262:38: warning: 'ice_e810t_qsfp_cgu_outputs' defined but not used [-Wunused-const-variable=]
+     262 | static const struct ice_cgu_pin_desc ice_e810t_qsfp_cgu_outputs[] = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h:247:38: warning: 'ice_e810t_sfp_cgu_outputs' defined but not used [-Wunused-const-variable=]
+     247 | static const struct ice_cgu_pin_desc ice_e810t_sfp_cgu_outputs[] = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h:224:38: warning: 'ice_e810t_qsfp_cgu_inputs' defined but not used [-Wunused-const-variable=]
+     224 | static const struct ice_cgu_pin_desc ice_e810t_qsfp_cgu_inputs[] = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h:205:38: warning: 'ice_e810t_sfp_cgu_inputs' defined but not used [-Wunused-const-variable=]
+     205 | static const struct ice_cgu_pin_desc ice_e810t_sfp_cgu_inputs[] = {
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/__ia32_sys_process_mrelease +83 arch/x86/include/asm/syscall_wrapper.h
+vim +/ice_e823_zl_cgu_outputs +325 drivers/infiniband/hw/irdma/../../../net/ethernet/intel/ice/ice_ptp_hw.h
 
-cc42c045af1ff4 Brian Gerst       2020-03-13  13  
-25c619e59b395a Brian Gerst       2020-03-13  14  /*
-25c619e59b395a Brian Gerst       2020-03-13  15   * Instead of the generic __SYSCALL_DEFINEx() definition, the x86 version takes
-25c619e59b395a Brian Gerst       2020-03-13  16   * struct pt_regs *regs as the only argument of the syscall stub(s) named as:
-25c619e59b395a Brian Gerst       2020-03-13  17   * __x64_sys_*()         - 64-bit native syscall
-25c619e59b395a Brian Gerst       2020-03-13  18   * __ia32_sys_*()        - 32-bit native syscall or common compat syscall
-25c619e59b395a Brian Gerst       2020-03-13  19   * __ia32_compat_sys_*() - 32-bit compat syscall
-25c619e59b395a Brian Gerst       2020-03-13  20   * __x32_compat_sys_*()  - 64-bit X32 compat syscall
-25c619e59b395a Brian Gerst       2020-03-13  21   *
-25c619e59b395a Brian Gerst       2020-03-13  22   * The registers are decoded according to the ABI:
-25c619e59b395a Brian Gerst       2020-03-13  23   * 64-bit: RDI, RSI, RDX, R10, R8, R9
-25c619e59b395a Brian Gerst       2020-03-13  24   * 32-bit: EBX, ECX, EDX, ESI, EDI, EBP
-25c619e59b395a Brian Gerst       2020-03-13  25   *
-25c619e59b395a Brian Gerst       2020-03-13  26   * The stub then passes the decoded arguments to the __se_sys_*() wrapper to
-25c619e59b395a Brian Gerst       2020-03-13  27   * perform sign-extension (omitted for zero-argument syscalls).  Finally the
-25c619e59b395a Brian Gerst       2020-03-13  28   * arguments are passed to the __do_sys_*() function which is the actual
-25c619e59b395a Brian Gerst       2020-03-13  29   * syscall.  These wrappers are marked as inline so the compiler can optimize
-25c619e59b395a Brian Gerst       2020-03-13  30   * the functions where appropriate.
-25c619e59b395a Brian Gerst       2020-03-13  31   *
-25c619e59b395a Brian Gerst       2020-03-13  32   * Example assembly (slightly re-ordered for better readability):
-25c619e59b395a Brian Gerst       2020-03-13  33   *
-25c619e59b395a Brian Gerst       2020-03-13  34   * <__x64_sys_recv>:		<-- syscall with 4 parameters
-25c619e59b395a Brian Gerst       2020-03-13  35   *	callq	<__fentry__>
-25c619e59b395a Brian Gerst       2020-03-13  36   *
-25c619e59b395a Brian Gerst       2020-03-13  37   *	mov	0x70(%rdi),%rdi	<-- decode regs->di
-25c619e59b395a Brian Gerst       2020-03-13  38   *	mov	0x68(%rdi),%rsi	<-- decode regs->si
-25c619e59b395a Brian Gerst       2020-03-13  39   *	mov	0x60(%rdi),%rdx	<-- decode regs->dx
-25c619e59b395a Brian Gerst       2020-03-13  40   *	mov	0x38(%rdi),%rcx	<-- decode regs->r10
-25c619e59b395a Brian Gerst       2020-03-13  41   *
-25c619e59b395a Brian Gerst       2020-03-13  42   *	xor	%r9d,%r9d	<-- clear %r9
-25c619e59b395a Brian Gerst       2020-03-13  43   *	xor	%r8d,%r8d	<-- clear %r8
-25c619e59b395a Brian Gerst       2020-03-13  44   *
-25c619e59b395a Brian Gerst       2020-03-13  45   *	callq	__sys_recvfrom	<-- do the actual work in __sys_recvfrom()
-25c619e59b395a Brian Gerst       2020-03-13  46   *				    which takes 6 arguments
-25c619e59b395a Brian Gerst       2020-03-13  47   *
-25c619e59b395a Brian Gerst       2020-03-13  48   *	cltq			<-- extend return value to 64-bit
-25c619e59b395a Brian Gerst       2020-03-13  49   *	retq			<-- return
-25c619e59b395a Brian Gerst       2020-03-13  50   *
-25c619e59b395a Brian Gerst       2020-03-13  51   * This approach avoids leaking random user-provided register content down
-25c619e59b395a Brian Gerst       2020-03-13  52   * the call chain.
-25c619e59b395a Brian Gerst       2020-03-13  53   */
-25c619e59b395a Brian Gerst       2020-03-13  54  
-ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  55  /* Mapping of registers to parameters for syscalls on x86-64 and x32 */
-ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  56  #define SC_X86_64_REGS_TO_ARGS(x, ...)					\
-ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  57  	__MAP(x,__SC_ARGS						\
-ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  58  		,,regs->di,,regs->si,,regs->dx				\
-ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  59  		,,regs->r10,,regs->r8,,regs->r9)			\
-ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  60  
-ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  61  /* Mapping of registers to parameters for syscalls on i386 */
-ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  62  #define SC_IA32_REGS_TO_ARGS(x, ...)					\
-ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  63  	__MAP(x,__SC_ARGS						\
-ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  64  	      ,,(unsigned int)regs->bx,,(unsigned int)regs->cx		\
-ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  65  	      ,,(unsigned int)regs->dx,,(unsigned int)regs->si		\
-ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  66  	      ,,(unsigned int)regs->di,,(unsigned int)regs->bp)
-ebeb8c82ffaf94 Dominik Brodowski 2018-04-05  67  
-d2b5de495ee983 Brian Gerst       2020-03-13  68  #define __SYS_STUB0(abi, name)						\
-0f78ff17112d8b Brian Gerst       2020-03-13  69  	long __##abi##_##name(const struct pt_regs *regs);		\
-d2b5de495ee983 Brian Gerst       2020-03-13  70  	ALLOW_ERROR_INJECTION(__##abi##_##name, ERRNO);			\
-0f78ff17112d8b Brian Gerst       2020-03-13  71  	long __##abi##_##name(const struct pt_regs *regs)		\
-d2b5de495ee983 Brian Gerst       2020-03-13  72  		__alias(__do_##name);
-d2b5de495ee983 Brian Gerst       2020-03-13  73  
-4399e0cf494f73 Brian Gerst       2020-03-13  74  #define __SYS_STUBx(abi, name, ...)					\
-0f78ff17112d8b Brian Gerst       2020-03-13  75  	long __##abi##_##name(const struct pt_regs *regs);		\
-4399e0cf494f73 Brian Gerst       2020-03-13  76  	ALLOW_ERROR_INJECTION(__##abi##_##name, ERRNO);			\
-0f78ff17112d8b Brian Gerst       2020-03-13  77  	long __##abi##_##name(const struct pt_regs *regs)		\
-4399e0cf494f73 Brian Gerst       2020-03-13  78  	{								\
-4399e0cf494f73 Brian Gerst       2020-03-13  79  		return __se_##name(__VA_ARGS__);			\
-4399e0cf494f73 Brian Gerst       2020-03-13  80  	}
-4399e0cf494f73 Brian Gerst       2020-03-13  81  
-6cc8d2b286d9e7 Brian Gerst       2020-03-13  82  #define __COND_SYSCALL(abi, name)					\
-0f78ff17112d8b Brian Gerst       2020-03-13 @83  	__weak long __##abi##_##name(const struct pt_regs *__unused)	\
-6cc8d2b286d9e7 Brian Gerst       2020-03-13  84  	{								\
-6cc8d2b286d9e7 Brian Gerst       2020-03-13  85  		return sys_ni_syscall();				\
-6cc8d2b286d9e7 Brian Gerst       2020-03-13  86  	}
-6cc8d2b286d9e7 Brian Gerst       2020-03-13  87  
-
-:::::: The code at line 83 was first introduced by commit
-:::::: 0f78ff17112d8b3469b805ff4ea9780cc1e5c93b x86/entry: Drop asmlinkage from syscalls
-
-:::::: TO: Brian Gerst <brgerst@gmail.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+   204	
+ > 205	static const struct ice_cgu_pin_desc ice_e810t_sfp_cgu_inputs[] = {
+   206		{ "CVL-SDP22",	  ZL_REF0P, DPLL_PIN_TYPE_INT_OSCILLATOR,
+   207			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   208		{ "CVL-SDP20",	  ZL_REF0N, DPLL_PIN_TYPE_INT_OSCILLATOR,
+   209			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   210		{ "C827_0-RCLKA", ZL_REF1P, DPLL_PIN_TYPE_MUX,
+   211			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   212		{ "C827_0-RCLKB", ZL_REF1N, DPLL_PIN_TYPE_MUX,
+   213			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   214		{ "SMA1",	  ZL_REF3P, DPLL_PIN_TYPE_EXT,
+   215			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   216		{ "SMA2/U.FL2",	  ZL_REF3N, DPLL_PIN_TYPE_EXT,
+   217			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   218		{ "GNSS-1PPS",	  ZL_REF4P, DPLL_PIN_TYPE_GNSS,
+   219			BIT(DPLL_PIN_FREQ_SUPP_1_HZ) },
+   220		{ "OCXO",	  ZL_REF4N, DPLL_PIN_TYPE_INT_OSCILLATOR,
+   221			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   222	};
+   223	
+ > 224	static const struct ice_cgu_pin_desc ice_e810t_qsfp_cgu_inputs[] = {
+   225		{ "CVL-SDP22",	  ZL_REF0P, DPLL_PIN_TYPE_INT_OSCILLATOR,
+   226			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   227		{ "CVL-SDP20",	  ZL_REF0N, DPLL_PIN_TYPE_INT_OSCILLATOR,
+   228			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   229		{ "C827_0-RCLKA", ZL_REF1P, DPLL_PIN_TYPE_MUX,
+   230			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   231		{ "C827_0-RCLKB", ZL_REF1N, DPLL_PIN_TYPE_MUX,
+   232			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   233		{ "C827_1-RCLKA", ZL_REF2P, DPLL_PIN_TYPE_MUX,
+   234			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   235		{ "C827_1-RCLKB", ZL_REF2N, DPLL_PIN_TYPE_MUX,
+   236			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   237		{ "SMA1",	  ZL_REF3P, DPLL_PIN_TYPE_EXT,
+   238			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   239		{ "SMA2/U.FL2",	  ZL_REF3N, DPLL_PIN_TYPE_EXT,
+   240			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   241		{ "GNSS-1PPS",	  ZL_REF4P, DPLL_PIN_TYPE_GNSS,
+   242			BIT(DPLL_PIN_FREQ_SUPP_1_HZ) },
+   243		{ "OCXO",	  ZL_REF4N, DPLL_PIN_TYPE_INT_OSCILLATOR,
+   244				BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   245	};
+   246	
+ > 247	static const struct ice_cgu_pin_desc ice_e810t_sfp_cgu_outputs[] = {
+   248		{ "REF-SMA1",	    ZL_OUT0, DPLL_PIN_TYPE_EXT,
+   249			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   250		{ "REF-SMA2/U.FL2", ZL_OUT1, DPLL_PIN_TYPE_EXT,
+   251			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   252		{ "PHY-CLK",	    ZL_OUT2, DPLL_PIN_TYPE_SYNCE_ETH_PORT,
+   253			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   254		{ "MAC-CLK",	    ZL_OUT3, DPLL_PIN_TYPE_SYNCE_ETH_PORT,
+   255			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   256		{ "CVL-SDP21",	    ZL_OUT4, DPLL_PIN_TYPE_EXT,
+   257			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   258		{ "CVL-SDP23",	    ZL_OUT5, DPLL_PIN_TYPE_EXT,
+   259			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   260	};
+   261	
+ > 262	static const struct ice_cgu_pin_desc ice_e810t_qsfp_cgu_outputs[] = {
+   263		{ "REF-SMA1",	    ZL_OUT0, DPLL_PIN_TYPE_EXT,
+   264			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   265		{ "REF-SMA2/U.FL2", ZL_OUT1, DPLL_PIN_TYPE_EXT,
+   266			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   267		{ "PHY-CLK",	    ZL_OUT2, DPLL_PIN_TYPE_SYNCE_ETH_PORT,
+   268			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   269		{ "PHY2-CLK",	    ZL_OUT3, DPLL_PIN_TYPE_SYNCE_ETH_PORT,
+   270			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   271		{ "MAC-CLK",	    ZL_OUT4, DPLL_PIN_TYPE_SYNCE_ETH_PORT,
+   272			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   273		{ "CVL-SDP21",	    ZL_OUT5, DPLL_PIN_TYPE_EXT,
+   274			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   275		{ "CVL-SDP23",	    ZL_OUT6, DPLL_PIN_TYPE_EXT,
+   276			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   277	};
+   278	
+ > 279	static const struct ice_cgu_pin_desc ice_e823_si_cgu_inputs[] = {
+   280		{ "NONE",	  SI_REF0P, DPLL_PIN_TYPE_UNSPEC, 0 },
+   281		{ "NONE",	  SI_REF0N, DPLL_PIN_TYPE_UNSPEC, 0 },
+   282		{ "SYNCE0_DP",	  SI_REF1P, DPLL_PIN_TYPE_MUX,
+   283			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   284		{ "SYNCE0_DN",	  SI_REF1N, DPLL_PIN_TYPE_MUX,
+   285			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   286		{ "EXT_CLK_SYNC", SI_REF2P, DPLL_PIN_TYPE_EXT,
+   287			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   288		{ "NONE",	  SI_REF2N, DPLL_PIN_TYPE_UNSPEC, 0 },
+   289		{ "EXT_PPS_OUT",  SI_REF3,  DPLL_PIN_TYPE_EXT,
+   290			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   291		{ "INT_PPS_OUT",  SI_REF4,  DPLL_PIN_TYPE_EXT,
+   292			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   293	};
+   294	
+ > 295	static const struct ice_cgu_pin_desc ice_e823_si_cgu_outputs[] = {
+   296		{ "1588-TIME_SYNC", SI_OUT0, DPLL_PIN_TYPE_EXT,
+   297			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   298		{ "PHY-CLK",	    SI_OUT1, DPLL_PIN_TYPE_SYNCE_ETH_PORT,
+   299			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   300		{ "10MHZ-SMA2",	    SI_OUT2, DPLL_PIN_TYPE_EXT,
+   301			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   302		{ "PPS-SMA1",	    SI_OUT3, DPLL_PIN_TYPE_EXT,
+   303			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   304	};
+   305	
+ > 306	static const struct ice_cgu_pin_desc ice_e823_zl_cgu_inputs[] = {
+   307		{ "NONE",	  ZL_REF0P, DPLL_PIN_TYPE_UNSPEC, 0 },
+   308		{ "INT_PPS_OUT",  ZL_REF0N, DPLL_PIN_TYPE_EXT,
+   309			BIT(DPLL_PIN_FREQ_SUPP_1_HZ) },
+   310		{ "SYNCE0_DP",	  ZL_REF1P, DPLL_PIN_TYPE_MUX,
+   311			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   312		{ "SYNCE0_DN",	  ZL_REF1N, DPLL_PIN_TYPE_MUX,
+   313			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   314		{ "NONE",	  ZL_REF2P, DPLL_PIN_TYPE_UNSPEC, 0 },
+   315		{ "NONE",	  ZL_REF2N, DPLL_PIN_TYPE_UNSPEC, 0 },
+   316		{ "EXT_CLK_SYNC", ZL_REF3P, DPLL_PIN_TYPE_EXT,
+   317			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   318		{ "NONE",	  ZL_REF3N, DPLL_PIN_TYPE_UNSPEC, 0 },
+   319		{ "EXT_PPS_OUT",  ZL_REF4P, DPLL_PIN_TYPE_EXT,
+   320			BIT(DPLL_PIN_FREQ_SUPP_1_HZ) },
+   321		{ "OCXO",	  ZL_REF4N, DPLL_PIN_TYPE_INT_OSCILLATOR,
+   322				BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   323	};
+   324	
+ > 325	static const struct ice_cgu_pin_desc ice_e823_zl_cgu_outputs[] = {
+   326		{ "PPS-SMA1",	   ZL_OUT0, DPLL_PIN_TYPE_EXT,
+   327			BIT(DPLL_PIN_FREQ_SUPP_1_HZ) },
+   328		{ "10MHZ-SMA2",	   ZL_OUT1, DPLL_PIN_TYPE_EXT,
+   329			BIT(DPLL_PIN_FREQ_SUPP_10_MHZ) },
+   330		{ "PHY-CLK",	   ZL_OUT2, DPLL_PIN_TYPE_SYNCE_ETH_PORT,
+   331			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   332		{ "1588-TIME_REF", ZL_OUT3, DPLL_PIN_TYPE_SYNCE_ETH_PORT,
+   333			BIT(DPLL_PIN_FREQ_SUPP_UNSPEC) },
+   334		{ "CPK-TIME_SYNC", ZL_OUT4, DPLL_PIN_TYPE_EXT,
+   335			ICE_SIG_TYPE_MASK_1PPS_10MHZ },
+   336		{ "NONE",	   ZL_OUT5, DPLL_PIN_TYPE_UNSPEC, 0 },
+   337	};
+   338	
 
 -- 
 0-DAY CI Kernel Test Service
