@@ -1,65 +1,51 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A019883E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 20:07:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4E9883E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 20:17:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682712470; x=1714248470;
+  t=1682713066; x=1714249066;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PRZUzl2+jUQ5/3Y8Iv0j6iOFtZtJybzPsYUqZNHp0vc=;
-  b=HkgWE4lfe4WieiCPjOxq1HGDDuu1H1PSbrxaI98m8RKHtdQmrTb37RK7
-   SO4gTeQvVCJ5rdUn3IpsyJvFES84EpgijyTqkM6sFINneMM+b1ierSRgX
-   8A/eZ02sDl6fcig2Uq8r8DurL2/g5UEZKPGo0/E4IjEonP2Xmh9TjWIzP
-   vdKXbT1Iq1ZjggP/KFGDO53BDSvDqUJn1wGtnTGwpAd+/BaEQQwyEllgf
-   PV0/JJexyEF7OoAfPb0MJJBsQ+5oTZ9FhXhPLUfMd/WVjYA30BD0YJU6R
-   ab+zc9FZ/SUmGsv9tmnkxleXSshXv5Q3kQ8Qi3p+iv/UW9dD/Xk2A5KcV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="346616663"
+  bh=yDRDS5djblnagCc1RW+ZqryqFHXn3yoxu+/t6ww9oCY=;
+  b=c2rXiPK/eNwDsRck9fRuSApxaVD/Q8qYlmOJ8x+/vpqR4a8T3OiMh2+O
+   9CHzgKajieZ7xBPXXP1M/VTlfDjC4MPJlXRTj3RjPSGz+Orvq9WB4qoKd
+   dzD7hfeACSDfQecpjgcMVwYTf5xMXkTJPdH9UAiYbawGUKV5LjRM3/1ep
+   6eam5kO3Ip7OWZ4vKXJVxZ/Fs90/d6TPPQJRsG6HwWWiMR2yK8AyQdDXC
+   rQ0UphZBYAROWN0wpapZcAS8T3AhuZymdqJgXAATOWUaz4qID0J80Gavo
+   lwykAUYsYC3zQzPoxmAa1uMJU3p7XBtoskJegiX9mCfKYj6fJw3TadsBq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="346618463"
 X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="346616663"
+   d="scan'208";a="346618463"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 13:07:49 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 13:17:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="838971503"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="838973080"
 X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="838971503"
+   d="scan'208";a="838973080"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 28 Apr 2023 13:07:43 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 28 Apr 2023 13:17:43 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psUNa-0000er-12;
-	Fri, 28 Apr 2023 20:07:42 +0000
-Date: Sat, 29 Apr 2023 04:07:12 +0800
+	id 1psUXG-0000fJ-1W;
+	Fri, 28 Apr 2023 20:17:42 +0000
+Date: Sat, 29 Apr 2023 04:17:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi-De Wu <yi-de.wu@mediatek.com>,
-	Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
-	Ze-Yu Wang <ze-yu.wang@mediatek.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+To: Ziqin Liu <ziqin_l@hust.edu.cn>, dzm91@hust.edu.cn,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	David Bradil <dbrazdil@google.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	Jade Shih <jades.shih@mediatek.com>,
-	Miles Chen <miles.chen@mediatek.com>,
-	Ivan Tseng <ivan.tseng@mediatek.com>,
-	My Chuang <my.chuang@mediatek.com>,
-	Shawn Hsiao <shawn.hsiao@mediatek.com>,
-	PeiLun Suei <peilun.suei@mediatek.com>,
-	Liju Chen <liju-clr.chen@mediatek.com>
-Subject: Re: [PATCH v2 3/7] virt: geniezone: Introduce GenieZone hypervisor
- support
-Message-ID: <202304290334.fCw7PKYU-lkp@intel.com>
-References: <20230428103622.18291-4-yi-de.wu@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, hust-os-kernel-patches@googlegroups.com,
+	Ziqin Liu <ziqin_l@hust.edu.cn>, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH] clk: mediatek: clk-mt8173: fix memory leak in
+ clk_mt8173_apmixed_probe
+Message-ID: <202304290405.yLxJEMC4-lkp@intel.com>
+References: <20230425132601.106181-1-ziqin_l@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,174 +54,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230428103622.18291-4-yi-de.wu@mediatek.com>
+In-Reply-To: <20230425132601.106181-1-ziqin_l@hust.edu.cn>
 
-Hi Yi-De,
+Hi Ziqin,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on robh/for-next arnd-asm-generic/master linus/master v6.3 next-20230428]
+[auto build test ERROR on clk/clk-next]
+[also build test ERROR on linus/master v6.3 next-20230428]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230428-183738
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20230428103622.18291-4-yi-de.wu%40mediatek.com
-patch subject: [PATCH v2 3/7] virt: geniezone: Introduce GenieZone hypervisor support
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230429/202304290334.fCw7PKYU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Ziqin-Liu/clk-mediatek-clk-mt8173-fix-memory-leak-in-clk_mt8173_apmixed_probe/20230425-212917
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20230425132601.106181-1-ziqin_l%40hust.edu.cn
+patch subject: [PATCH] clk: mediatek: clk-mt8173: fix memory leak in clk_mt8173_apmixed_probe
+config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20230429/202304290405.yLxJEMC4-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/0e3f05a6e4547eb309032d047115a47d8f59641d
+        # https://github.com/intel-lab-lkp/linux/commit/cb4be4dcd48924984a6d0e3df7809cfc26286032
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230428-183738
-        git checkout 0e3f05a6e4547eb309032d047115a47d8f59641d
+        git fetch --no-tags linux-review Ziqin-Liu/clk-mediatek-clk-mt8173-fix-memory-leak-in-clk_mt8173_apmixed_probe/20230425-212917
+        git checkout cb4be4dcd48924984a6d0e3df7809cfc26286032
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/geniezone/ drivers/virt/geniezone/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/clk/mediatek/ drivers/video/fbdev/core/ mm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304290334.fCw7PKYU-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304290405.yLxJEMC4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm64/geniezone/gzvm_arch.c:112:5: warning: no previous prototype for 'gzvm_vm_arch_enable_cap' [-Wmissing-prototypes]
-     112 | int gzvm_vm_arch_enable_cap(struct gzvm *gzvm, struct gzvm_enable_cap *cap,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
---
-   arch/arm64/geniezone/gzvm_arch.c:24: warning: Function parameter or member 'a0' not described in 'gzvm_hypcall_wrapper'
-   arch/arm64/geniezone/gzvm_arch.c:24: warning: Function parameter or member 'a1' not described in 'gzvm_hypcall_wrapper'
-   arch/arm64/geniezone/gzvm_arch.c:24: warning: Function parameter or member 'a2' not described in 'gzvm_hypcall_wrapper'
-   arch/arm64/geniezone/gzvm_arch.c:24: warning: Function parameter or member 'a3' not described in 'gzvm_hypcall_wrapper'
-   arch/arm64/geniezone/gzvm_arch.c:24: warning: Function parameter or member 'a4' not described in 'gzvm_hypcall_wrapper'
-   arch/arm64/geniezone/gzvm_arch.c:24: warning: Function parameter or member 'a5' not described in 'gzvm_hypcall_wrapper'
-   arch/arm64/geniezone/gzvm_arch.c:24: warning: Function parameter or member 'a6' not described in 'gzvm_hypcall_wrapper'
-   arch/arm64/geniezone/gzvm_arch.c:24: warning: Function parameter or member 'a7' not described in 'gzvm_hypcall_wrapper'
-   arch/arm64/geniezone/gzvm_arch.c:24: warning: Function parameter or member 'res' not described in 'gzvm_hypcall_wrapper'
->> arch/arm64/geniezone/gzvm_arch.c:24: warning: expecting prototype for geniezone_hypercall_wrapper(). Prototype was for gzvm_hypcall_wrapper() instead
-   arch/arm64/geniezone/gzvm_arch.c:133: warning: Function parameter or member 'gzvm' not described in 'gzvm_vm_ioctl_get_pvmfw_size'
-   arch/arm64/geniezone/gzvm_arch.c:133: warning: Function parameter or member 'cap' not described in 'gzvm_vm_ioctl_get_pvmfw_size'
-   arch/arm64/geniezone/gzvm_arch.c:133: warning: Function parameter or member 'argp' not described in 'gzvm_vm_ioctl_get_pvmfw_size'
-   arch/arm64/geniezone/gzvm_arch.c:155: warning: Function parameter or member 'gzvm' not described in 'gzvm_vm_ioctl_cap_pvm'
-   arch/arm64/geniezone/gzvm_arch.c:155: warning: Function parameter or member 'cap' not described in 'gzvm_vm_ioctl_cap_pvm'
-   arch/arm64/geniezone/gzvm_arch.c:155: warning: Function parameter or member 'argp' not described in 'gzvm_vm_ioctl_cap_pvm'
+   drivers/clk/mediatek/clk-mt8173-apmixedsys.c: In function 'clk_mt8173_apmixed_probe':
+>> drivers/clk/mediatek/clk-mt8173-apmixedsys.c:149:34: error: incompatible type for argument 1 of 'devm_of_iomap'
+     149 |         base = devm_of_iomap(pdev->dev, node, 0, NULL);
+         |                              ~~~~^~~~~
+         |                                  |
+         |                                  struct device
+   In file included from include/linux/platform_device.h:13,
+                    from drivers/clk/mediatek/clk-mt8173-apmixedsys.c:11:
+   include/linux/device.h:241:44: note: expected 'struct device *' but argument is of type 'struct device'
+     241 | void __iomem *devm_of_iomap(struct device *dev,
+         |                             ~~~~~~~~~~~~~~~^~~
 
 
-vim +/gzvm_vm_arch_enable_cap +112 arch/arm64/geniezone/gzvm_arch.c
+vim +/devm_of_iomap +149 drivers/clk/mediatek/clk-mt8173-apmixedsys.c
 
-    13	
-    14	/**
-    15	 * geniezone_hypercall_wrapper()
-    16	 *
-    17	 * Return: The wrapper helps caller to convert geniezone errno to Linux errno.
-    18	 */
-    19	static int gzvm_hypcall_wrapper(unsigned long a0, unsigned long a1,
-    20					unsigned long a2, unsigned long a3,
-    21					unsigned long a4, unsigned long a5,
-    22					unsigned long a6, unsigned long a7,
-    23					struct arm_smccc_res *res)
-  > 24	{
-    25		arm_smccc_hvc(a0, a1, a2, a3, a4, a5, a6, a7, res);
-    26		return gz_err_to_errno(res->a0);
-    27	}
-    28	
-    29	int gzvm_arch_probe(void)
-    30	{
-    31		struct arm_smccc_res res;
-    32	
-    33		arm_smccc_hvc(MT_HVC_GZVM_PROBE, 0, 0, 0, 0, 0, 0, 0, &res);
-    34		if (res.a0 == 0)
-    35			return 0;
-    36	
-    37		return -ENXIO;
-    38	}
-    39	
-    40	int gzvm_arch_set_memregion(gzvm_id_t vm_id, size_t buf_size,
-    41				    phys_addr_t region)
-    42	{
-    43		struct arm_smccc_res res;
-    44	
-    45		return gzvm_hypcall_wrapper(MT_HVC_GZVM_SET_MEMREGION, vm_id,
-    46					    buf_size, region, 0, 0, 0, 0, &res);
-    47	}
-    48	
-    49	static int gzvm_cap_arm_vm_ipa_size(void __user *argp)
-    50	{
-    51		__u64 value = CONFIG_ARM64_PA_BITS;
-    52	
-    53		if (copy_to_user(argp, &value, sizeof(__u64)))
-    54			return -EFAULT;
-    55	
-    56		return 0;
-    57	}
-    58	
-    59	int gzvm_arch_check_extension(struct gzvm *gzvm, __u64 cap, void __user *argp)
-    60	{
-    61		int ret = -EOPNOTSUPP;
-    62	
-    63		switch (cap) {
-    64		case GZVM_CAP_ARM_PROTECTED_VM: {
-    65			__u64 success = 1;
-    66	
-    67			if (copy_to_user(argp, &success, sizeof(__u64)))
-    68				return -EFAULT;
-    69			ret = 0;
-    70			break;
-    71		}
-    72		case GZVM_CAP_ARM_VM_IPA_SIZE: {
-    73			ret = gzvm_cap_arm_vm_ipa_size(argp);
-    74			break;
-    75		}
-    76		default:
-    77			ret = -EOPNOTSUPP;
-    78		}
-    79	
-    80		return ret;
-    81	}
-    82	
-    83	/**
-    84	 * gzvm_arch_create_vm()
-    85	 *
-    86	 * Return:
-    87	 * * positive value	- VM ID
-    88	 * * -ENOMEM		- Memory not enough for storing VM data
-    89	 */
-    90	int gzvm_arch_create_vm(void)
-    91	{
-    92		struct arm_smccc_res res;
-    93		int ret;
-    94	
-    95		ret = gzvm_hypcall_wrapper(MT_HVC_GZVM_CREATE_VM, 0, 0, 0, 0, 0, 0, 0,
-    96					   &res);
-    97	
-    98		if (ret == 0)
-    99			return res.a1;
-   100		else
-   101			return ret;
-   102	}
-   103	
-   104	int gzvm_arch_destroy_vm(gzvm_id_t vm_id)
-   105	{
-   106		struct arm_smccc_res res;
-   107	
-   108		return gzvm_hypcall_wrapper(MT_HVC_GZVM_DESTROY_VM, vm_id, 0, 0, 0, 0,
-   109					    0, 0, &res);
-   110	}
-   111	
- > 112	int gzvm_vm_arch_enable_cap(struct gzvm *gzvm, struct gzvm_enable_cap *cap,
-   113				    struct arm_smccc_res *res)
-   114	{
-   115		return gzvm_hypcall_wrapper(MT_HVC_GZVM_ENABLE_CAP, gzvm->vm_id,
-   116					   cap->cap, cap->args[0], cap->args[1],
-   117					   cap->args[2], cap->args[3], cap->args[4],
-   118					   res);
-   119	}
-   120	
+   139	
+   140	static int clk_mt8173_apmixed_probe(struct platform_device *pdev)
+   141	{
+   142		const u8 *fhctl_node = "mediatek,mt8173-fhctl";
+   143		struct device_node *node = pdev->dev.of_node;
+   144		struct clk_hw_onecell_data *clk_data;
+   145		void __iomem *base;
+   146		struct clk_hw *hw;
+   147		int r;
+   148	
+ > 149		base = devm_of_iomap(pdev->dev, node, 0, NULL);
+   150		if (!base)
+   151			return PTR_ERR(base);
+   152	
+   153		clk_data = mtk_alloc_clk_data(CLK_APMIXED_NR_CLK);
+   154		if (IS_ERR_OR_NULL(clk_data))
+   155			return -ENOMEM;
+   156	
+   157		fhctl_parse_dt(fhctl_node, pllfhs, ARRAY_SIZE(pllfhs));
+   158		r = mtk_clk_register_pllfhs(node, plls, ARRAY_SIZE(plls),
+   159					    pllfhs, ARRAY_SIZE(pllfhs), clk_data);
+   160		if (r)
+   161			goto free_clk_data;
+   162	
+   163		hw = mtk_clk_register_ref2usb_tx("ref2usb_tx", "clk26m", base + REGOFF_REF2USB);
+   164		if (IS_ERR(hw)) {
+   165			r = PTR_ERR(hw);
+   166			dev_err(&pdev->dev, "Failed to register ref2usb_tx: %d\n", r);
+   167			goto unregister_plls;
+   168		}
+   169		clk_data->hws[CLK_APMIXED_REF2USB_TX] = hw;
+   170	
+   171		hw = devm_clk_hw_register_divider(&pdev->dev, "hdmi_ref", "tvdpll_594m", 0,
+   172						  base + REGOFF_HDMI_REF, 16, 3,
+   173						  CLK_DIVIDER_POWER_OF_TWO, NULL);
+   174		clk_data->hws[CLK_APMIXED_HDMI_REF] = hw;
+   175	
+   176		r = of_clk_add_hw_provider(node, of_clk_hw_onecell_get, clk_data);
+   177		if (r)
+   178			goto unregister_ref2usb;
+   179	
+   180		return 0;
+   181	
+   182	unregister_ref2usb:
+   183		mtk_clk_unregister_ref2usb_tx(clk_data->hws[CLK_APMIXED_REF2USB_TX]);
+   184	unregister_plls:
+   185		mtk_clk_unregister_pllfhs(plls, ARRAY_SIZE(plls), pllfhs,
+   186					  ARRAY_SIZE(pllfhs), clk_data);
+   187	free_clk_data:
+   188		mtk_free_clk_data(clk_data);
+   189		return r;
+   190	}
+   191	
 
 -- 
 0-DAY CI Kernel Test Service
