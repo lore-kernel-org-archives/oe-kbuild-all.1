@@ -1,42 +1,48 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19DED883B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 23:54:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD93AD4C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 23:54:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682726090; x=1714262090;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RTVTSC0LAkWhPRPG87+U/8YkDhKis4mCiXYyTR78US8=;
-  b=jr8tmqzDt5Hqvg6w1Of9P6Eh3RnVdKkWY6IHHTYlRWDZlbFxV2mf+o9d
-   aMflREU4I9nXEXOhHuayL8EHriFpLJiM/zP4lvFxMcLc3tBPR6yC+yRzw
-   5nsvmgaAq0tp5WySd5or4m8W2qgJ5JCLlle+Dn4BfqpAgtlztFbbkSTKN
-   bpLMvvzFSdsMP45Doe2qqJ9u+cQ3ObveBI+qwdjH+YY/AZYDQDnqtgJ8K
-   ov/E1f5iF7Qrxtj9eepOPAEzlAjYmwX2kG/ZrJRxp0ASG8akEhGmaAHAD
-   Hu3eYvC1ZkU/llLuo2RRI0hBjCBixqxLcwe2yXkdS8T3wATXGw/98AAfJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="327503361"
+  t=1682726091; x=1714262091;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SJXp+1HzoIh0ZhIOJuOclUQJn51bNAqL1ZXszXf+6/0=;
+  b=gs4Qcnd1rLaEbO5CjCbv8jH++DircSrNw1XZPlc8ZRkgBSJHDAClgbgS
+   EfyjUnxY2Duc3I+zVXz/GIcn0WW+g+La44y8PNGm9/v5DJ2Z2K+i7xz/k
+   Qg77yBH/uFhCDtw6etsAJodZNTWCepxy8osJNY9N0znz9Z/8rk5R6DZaM
+   IzacARTRDgcTob+xtbkNjv4Bp/uMNdxK51gNpzLdOTku/6aRjo4tJPAnY
+   IJsjgv/NXUK5NLXcMgysZf+Fw5vl0bJ/rDumwaIJtyc+WQtxCnqPvxG+6
+   7U1loGX0Zv45SY687DMmKF+eQsBvhAQR4FV8DuayhbqqgS98j0kTWXwS5
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="346655293"
 X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="327503361"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 16:54:49 -0700
+   d="scan'208";a="346655293"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 16:54:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="806586503"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="689030623"
 X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="806586503"
+   d="scan'208";a="689030623"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 28 Apr 2023 16:54:48 -0700
+  by orsmga007.jf.intel.com with ESMTP; 28 Apr 2023 16:54:48 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psXvL-0000lB-1D;
+	id 1psXvL-0000lD-1J;
 	Fri, 28 Apr 2023 23:54:47 +0000
-Date: Sat, 29 Apr 2023 07:54:11 +0800
+Date: Sat, 29 Apr 2023 07:54:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Ahern <dsahern@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dsahern:enfab-6.3 9/10] include/trace/events/tcp.h:204:32: warning:
- cast from pointer to integer of different size
-Message-ID: <202304290704.P7HpXrg7-lkp@intel.com>
+To: Sai Teja Aluvala <quic_saluvala@quicinc.com>, marcel@holtmann.org,
+	johan.hedberg@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, quic_hemantg@quicinc.com,
+	quic_bgodavar@quicinc.com, quic_rameshn@quicinc.com,
+	jiangzp@google.com, mmandlik@google.com,
+	Sai Teja Aluvala <quic_saluvala@quicinc.com>
+Subject: Re: [PATCH v1 2/2] Bluetooth: hci_qca: Add qcomm devcoredump support
+Message-ID: <202304290720.TfpPCFY6-lkp@intel.com>
+References: <1682666311-8452-1-git-send-email-quic_saluvala@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,130 +51,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1682666311-8452-1-git-send-email-quic_saluvala@quicinc.com>
 
-tree:   https://github.com/dsahern/linux enfab-6.3
-head:   a036626ebabac8cfa59cb5f2a4306b20e4006af6
-commit: af562ba17b291baad23eb4209013590aa18155ea [9/10] tcp: Add tracepoints to tcp_write_xmit and tcp_sendmsg_locked
-config: arc-randconfig-r001-20230428 (https://download.01.org/0day-ci/archive/20230429/202304290704.P7HpXrg7-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
+Hi Sai,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bluetooth/master]
+[also build test WARNING on bluetooth-next/master linus/master v6.3 next-20230428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sai-Teja-Aluvala/Bluetooth-hci_qca-Add-qcomm-devcoredump-support/20230428-152145
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/1682666311-8452-1-git-send-email-quic_saluvala%40quicinc.com
+patch subject: [PATCH v1 2/2] Bluetooth: hci_qca: Add qcomm devcoredump support
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230429/202304290720.TfpPCFY6-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/dsahern/linux/commit/af562ba17b291baad23eb4209013590aa18155ea
-        git remote add dsahern https://github.com/dsahern/linux
-        git fetch --no-tags dsahern enfab-6.3
-        git checkout af562ba17b291baad23eb4209013590aa18155ea
+        # https://github.com/intel-lab-lkp/linux/commit/a3c3d43057a99f13198754e0b8eaf944d1853142
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sai-Teja-Aluvala/Bluetooth-hci_qca-Add-qcomm-devcoredump-support/20230428-152145
+        git checkout a3c3d43057a99f13198754e0b8eaf944d1853142
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash net/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304290704.P7HpXrg7-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304290720.TfpPCFY6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/events/tcp.h:479,
-                    from net/core/net-traces.c:35:
-   include/trace/events/tcp.h: In function 'trace_event_raw_event_tcp_sendmsg_locked':
->> include/trace/events/tcp.h:204:32: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     204 |                 __entry->skb = (__u64)skb;
+>> drivers/bluetooth/hci_qca.c:981:5: warning: no previous prototype for 'qca_dmp_hdr' [-Wmissing-prototypes]
+     981 | int qca_dmp_hdr(struct hci_dev *hdev, char *buf, size_t size)
+         |     ^~~~~~~~~~~
+   drivers/bluetooth/hci_qca.c: In function 'qca_controller_memdump':
+   drivers/bluetooth/hci_qca.c:1070:31: error: implicit declaration of function 'hci_devcoredump_init' [-Werror=implicit-function-declaration]
+    1070 |                         ret = hci_devcoredump_init(hu->hdev, qca_memdump->ram_dump_size);
+         |                               ^~~~~~~~~~~~~~~~~~~~
+   drivers/bluetooth/hci_qca.c:1119:25: error: implicit declaration of function 'hci_devcoredump_append_pattern' [-Werror=implicit-function-declaration]
+    1119 |                         hci_devcoredump_append_pattern(hu->hdev, 0x00,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bluetooth/hci_qca.c:1136:25: error: implicit declaration of function 'hci_devcoredump_append' [-Werror=implicit-function-declaration]
+    1136 |                         hci_devcoredump_append(hu->hdev, skb);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/bluetooth/hci_qca.c:1150:25: error: implicit declaration of function 'hci_devcoredump_complete' [-Werror=implicit-function-declaration]
+    1150 |                         hci_devcoredump_complete(hu->hdev);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bluetooth/hci_qca.c: In function 'qca_hw_error':
+   drivers/bluetooth/hci_qca.c:1557:17: error: implicit declaration of function 'hci_devcoredump_abort' [-Werror=implicit-function-declaration]
+    1557 |                 hci_devcoredump_abort(hu->hdev);
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   drivers/bluetooth/hci_qca.c: In function 'hciqca_coredump_enabled':
+   drivers/bluetooth/hci_qca.c:1727:32: error: 'struct device' has no member named 'coredump_disabled'
+    1727 |         return !hu->serdev->dev.coredump_disabled;
          |                                ^
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/tcp.h:190:1: note: in expansion of macro 'TRACE_EVENT'
-     190 | TRACE_EVENT(tcp_sendmsg_locked,
-         | ^~~~~~~~~~~
-   include/trace/events/tcp.h:203:9: note: in expansion of macro 'TP_fast_assign'
-     203 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:103:
-   include/trace/events/tcp.h: In function 'perf_trace_tcp_sendmsg_locked':
->> include/trace/events/tcp.h:204:32: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     204 |                 __entry->skb = (__u64)skb;
-         |                                ^
-   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/tcp.h:190:1: note: in expansion of macro 'TRACE_EVENT'
-     190 | TRACE_EVENT(tcp_sendmsg_locked,
-         | ^~~~~~~~~~~
-   include/trace/events/tcp.h:203:9: note: in expansion of macro 'TP_fast_assign'
-     203 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/events/neigh.h:255,
-                    from net/core/net-traces.c:51:
-   include/trace/events/neigh.h: In function 'trace_event_raw_event_neigh_create':
-   include/trace/events/neigh.h:42:34: warning: variable 'pin6' set but not used [-Wunused-but-set-variable]
-      42 |                 struct in6_addr *pin6;
-         |                                  ^~~~
-   include/trace/trace_events.h:402:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     402 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/neigh.h:23:1: note: in expansion of macro 'TRACE_EVENT'
-      23 | TRACE_EVENT(neigh_create,
-         | ^~~~~~~~~~~
-   include/trace/events/neigh.h:41:9: note: in expansion of macro 'TP_fast_assign'
-      41 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:103:
-   include/trace/events/neigh.h: In function 'perf_trace_neigh_create':
-   include/trace/events/neigh.h:42:34: warning: variable 'pin6' set but not used [-Wunused-but-set-variable]
-      42 |                 struct in6_addr *pin6;
-         |                                  ^~~~
-   include/trace/perf.h:51:11: note: in definition of macro 'DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/neigh.h:23:1: note: in expansion of macro 'TRACE_EVENT'
-      23 | TRACE_EVENT(neigh_create,
-         | ^~~~~~~~~~~
-   include/trace/events/neigh.h:41:9: note: in expansion of macro 'TP_fast_assign'
-      41 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
+   drivers/bluetooth/hci_qca.c: In function 'qca_setup':
+   drivers/bluetooth/hci_qca.c:1866:25: error: 'struct hci_dev' has no member named 'dump'
+    1866 |                 hu->hdev->dump.enabled = hciqca_coredump_enabled;
+         |                         ^~
+   drivers/bluetooth/hci_qca.c:1906:9: error: implicit declaration of function 'hci_devcoredump_register' [-Werror=implicit-function-declaration]
+    1906 |         hci_devcoredump_register(hdev, hci_coredump_qca, qca_dmp_hdr, NULL);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/bluetooth/hci_qca.c: In function 'hciqca_coredump':
+   drivers/bluetooth/hci_qca.c:2458:17: error: 'struct device' has no member named 'coredump_disabled'
+    2458 |         if (!dev->coredump_disabled && hdev->dump.coredump)
+         |                 ^~
+   drivers/bluetooth/hci_qca.c:2458:44: error: 'struct hci_dev' has no member named 'dump'
+    2458 |         if (!dev->coredump_disabled && hdev->dump.coredump)
+         |                                            ^~
+   drivers/bluetooth/hci_qca.c:2459:21: error: 'struct hci_dev' has no member named 'dump'
+    2459 |                 hdev->dump.coredump(hdev);
+         |                     ^~
+   cc1: some warnings being treated as errors
 
 
-vim +204 include/trace/events/tcp.h
+vim +/qca_dmp_hdr +981 drivers/bluetooth/hci_qca.c
 
-   191	
-   192		TP_PROTO(struct msghdr *msg, struct sk_buff *skb, int size_goal),
-   193	
-   194		TP_ARGS(msg, skb, size_goal),
-   195	
-   196		TP_STRUCT__entry(
-   197			__field(__u64, skb)
-   198			__field(int, skb_len)
-   199			__field(int, msg_left)
-   200			__field(int, size_goal)
-   201		),
-   202	
-   203		TP_fast_assign(
- > 204			__entry->skb = (__u64)skb;
-   205			__entry->skb_len = skb ? skb->len : 0;
-   206			__entry->msg_left = msg_data_left(msg);
-   207			__entry->size_goal = size_goal;
-   208		),
-   209	
-   210		TP_printk("skb %llx len %d msg_left %d size_goal %d",
-   211			  __entry->skb, __entry->skb_len,
-   212			  __entry->msg_left, __entry->size_goal)
-   213	);
-   214	
+   980	
+ > 981	int qca_dmp_hdr(struct hci_dev *hdev, char *buf, size_t size)
+   982	{
+   983		struct hci_uart *hu = hci_get_drvdata(hdev);
+   984		struct qca_data *qca = hu->priv;
+   985		int len = 0;
+   986	
+   987		len += snprintf(buf + len, size-len, "Controller Name: 0x%x\n",
+   988				qca->controller_id);
+   989	
+   990		len += snprintf(buf + len, size-len, "Firmware Version: 0x%x\n",
+   991				qca->fw_version);
+   992	
+   993		len += snprintf(buf + len, size-len, "Vendor:Qualcomm\n");
+   994	
+   995		len += snprintf(buf + len, size-len, "Driver: %s\n",
+   996				hu->serdev->dev.driver->name);
+   997	
+   998		bt_dev_info(hdev, "vendor dump hdr size(%d)", len);
+   999		return len;
+  1000	}
+  1001	
 
 -- 
 0-DAY CI Kernel Test Service
