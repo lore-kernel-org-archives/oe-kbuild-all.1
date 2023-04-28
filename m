@@ -1,37 +1,37 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7044F3C1D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 14:06:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D493C1D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 14:16:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682690798; x=1714226798;
+  t=1682691399; x=1714227399;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6U2Cuq5bNHHidqMCNuA2/bRalbQNJmzMDJcFmv3qNMA=;
-  b=FDHzaaJrvU5CEwVFekmiM4HSKcFaC9eqxoTtMR3SRzJ1FVzy8PFL7FtS
-   uBunp7tJrK6undiOjok5NQ+yAoJU5vQiHq90WDfEN6JMOVOd+XYTgV8Xc
-   +nUZynnXXtN2K7YZo4l93lP3yBYSPquhgoPNlMX2A9wuGdxyfJGlY0fXZ
-   zUShd9oT8diwtKWWZSLeyoEzce+G6wIQ3R3vw0LpI8DSf8jQWA77ZviUk
-   IIcfus8E5cpjSw/y+IjgVZRnULL3rI2pzAocBI1eUAkjIQzNpZAYTgx4g
-   yr5q0WTrym74eihVKha8mCqop6AszWXOAhSTE2+T/ct+oRY+Pdo9MBppJ
+  bh=Pcj+cSdQdRCCbV5iccXjACQN9M1g+OCjIGDd19j+Ffk=;
+  b=dRrMVyLZiDXDDTIrIjpVvvtDiAM60pnAWVmweCNroVhM4sgLjHeLoNVT
+   AQCNiL4siTn5pec53GTaGh9ifQmFO/uv41gl5u4xpLXObZOxrFgDTJzAX
+   xWHs58LhmAAjd6yXgbxcwqnxNiiV+xX63r7o1YWKYLjUnJHD3lxVpiO9f
+   oSFFbk0wgku7VwSL/ktNiPV+7PrO8DIlD45rKaNsxmJ76zhb5PAym5Nw2
+   ugJa+37DB4bFh3sXXwlM1XAKUezqSX1L8hsW1gzXSPzVs8bsHqHtw9L3X
+   DBa+a3rUqwMLiDUYayPPz5QHhNtgbhJihZWXeHNVXQGjWETAQrVNiwvlW
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="350668799"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="327381913"
 X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; 
-   d="scan'208";a="350668799"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 07:06:37 -0700
+   d="scan'208";a="327381913"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 07:16:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="1024607857"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="694814597"
 X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; 
-   d="scan'208";a="1024607857"
+   d="scan'208";a="694814597"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Apr 2023 07:06:35 -0700
+  by orsmga002.jf.intel.com with ESMTP; 28 Apr 2023 07:16:35 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psOk6-0000Tx-14;
-	Fri, 28 Apr 2023 14:06:34 +0000
-Date: Fri, 28 Apr 2023 22:05:48 +0800
+	id 1psOtm-0000Ue-2V;
+	Fri, 28 Apr 2023 14:16:34 +0000
+Date: Fri, 28 Apr 2023 22:16:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
@@ -40,7 +40,7 @@ To: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>,
 Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>
 Subject: Re: [PATCH] mm: optimization on page allocation when CMA enabled
-Message-ID: <202304282107.O93rPndb-lkp@intel.com>
+Message-ID: <202304282118.os2SZpZS-lkp@intel.com>
 References: <1682679641-13652-1-git-send-email-zhaoyang.huang@unisoc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -62,8 +62,8 @@ url:    https://github.com/intel-lab-lkp/linux/commits/zhaoyang-huang/mm-optimiz
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/1682679641-13652-1-git-send-email-zhaoyang.huang%40unisoc.com
 patch subject: [PATCH] mm: optimization on page allocation when CMA enabled
-config: nios2-randconfig-r003-20230428 (https://download.01.org/0day-ci/archive/20230428/202304282107.O93rPndb-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
+config: alpha-randconfig-r014-20230428 (https://download.01.org/0day-ci/archive/20230428/202304282118.os2SZpZS-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -73,12 +73,12 @@ reproduce (this is a W=1 build):
         git checkout dbda57eee661a0c9b47f23720bcc9741495d00a5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304282107.O93rPndb-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304282118.os2SZpZS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
