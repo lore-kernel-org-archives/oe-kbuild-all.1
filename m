@@ -1,43 +1,44 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5D5179
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 00:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A31179
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 00:25:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682640932; x=1714176932;
+  t=1682641538; x=1714177538;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/evQb/sFjxB1OZf6O2iJAPxelGlxTqHFs8emOxK2d9Y=;
-  b=BFhs7/PpZGvRLi3noid0orySbkS8kCz4Tb+HPq50vqRRgHs5zeURqF5y
-   na4gOqoqicrnoHvjjvJqVsW0g5UGkGFcbPeC0A2/8OCO1hq/CYIrF0vQr
-   ZgT+Zmapmr9/VM1kpZ0rnOBT9MepSAB+Pojhm9zE/LHYVS7auDdVe8S/6
-   +iXuJ7jTcfbUqgv/wE8SS3uK6QroxzqDg3YPS+mbkmrisyQnjUICQXoZx
-   H2+rKrHI1pFOboJrW9lJk3k8LmdW3b/6KwFE6Yxf1JCVe9epo1TqRrjvG
-   LpXc6KdJafh1z3mzUuYJmnzYgXoL1cXjdGc9L0WPFPDK9EktmCWoA3Jiv
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="412989415"
+  bh=u+er8SpsxihDGFqkI6Ptr7PFxIRo0kLBEXHqEGMpi1c=;
+  b=JcXS88kosotbzeIxZbPrbFvj+RlOwbHFx7eR09JgO/LaKfs2k/Aws9qu
+   eZ7u36Soo43gngJO5ERDOTXRXmqwXNdfm3cOTum8wXipixrJhfDu9yblU
+   MrMOA2WG1lq9LcD9JsYg/xzu4T8UsM1L/K2eDEUUxb/caJQL7UGD1RUr5
+   6wbX1fRP4/wQ/P8Beksg3yCcvQ8Pi5Kz5KTJPa7R6fTdVuKyz6AsvGYJi
+   rnsNhQPxn3U1GKLZBZgLfDXJoqpOk/pZtH1jbdPfrH7/ydmhG7tPZqyNd
+   rw0nno1oYVnmmkDDZFwqCdSlT8QJqFwz6ymMslrOSlVNOFhMbfRosiyU1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="331912976"
 X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="412989415"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 17:15:32 -0700
+   d="scan'208";a="331912976"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2023 17:25:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="868940767"
-X-IronPort-AV: E=Sophos;i="5.99,232,1677571200"; 
-   d="scan'208";a="868940767"
+X-IronPort-AV: E=McAfee;i="6600,9927,10693"; a="783984039"
+X-IronPort-AV: E=Sophos;i="5.99,233,1677571200"; 
+   d="scan'208";a="783984039"
 Received: from lkp-server01.sh.intel.com (HELO b95e16499b55) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 27 Apr 2023 17:15:30 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 27 Apr 2023 17:25:36 -0700
 Received: from kbuild by b95e16499b55 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psBlp-0000DR-38;
-	Fri, 28 Apr 2023 00:15:29 +0000
-Date: Fri, 28 Apr 2023 08:14:45 +0800
+	id 1psBvW-0000Dv-0w;
+	Fri, 28 Apr 2023 00:25:30 +0000
+Date: Fri, 28 Apr 2023 08:25:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	David Sterba <dsterba@suse.com>
-Subject: fs/btrfs/tree-log.c:6211:23: warning: 'last_range_start' may be used
- uninitialized in this function
-Message-ID: <202304280811.DeQmh7Ky-lkp@intel.com>
+To: Darren Etheridge <detheridge@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y-cicd 62/70]
+ drivers/media/platform/img/vxe-vxd/decoder/hw_control.c:1124:43: warning:
+ cast from pointer to integer of different size
+Message-ID: <202304280827.xAnjRUzc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,120 +48,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d06f5a3f7140921ada47d49574ae6fa4de5e2a89
-commit: f372463124df5f980de6ee0cd6000a3e43df0e01 btrfs: mark btrfs_assertfail() __noreturn
-date:   10 days ago
-config: i386-randconfig-a014 (https://download.01.org/0day-ci/archive/20230428/202304280811.DeQmh7Ky-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   d0673ae878bb78807f65a6021cd9642d6d45bb93
+commit: 3b23f836c2ec0541aea62823eeed7f2bbe88dc43 [62/70] media: platform: img: add the vxe-vxd driver into the build infra
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230428/202304280827.xAnjRUzc-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f372463124df5f980de6ee0cd6000a3e43df0e01
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout f372463124df5f980de6ee0cd6000a3e43df0e01
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-6.1.y-cicd
+        git checkout 3b23f836c2ec0541aea62823eeed7f2bbe88dc43
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/btrfs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/media/platform/img/vxe-vxd/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304280811.DeQmh7Ky-lkp@intel.com/
-
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+| Link: https://lore.kernel.org/oe-kbuild-all/202304280827.xAnjRUzc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/btrfs/tree-log.c: In function 'log_delayed_deletions_incremental.isra':
->> fs/btrfs/tree-log.c:6211:23: warning: 'last_range_start' may be used uninitialized in this function [-Wmaybe-uninitialized]
-    6211 |                 ret = insert_dir_log_key(trans, log, path, key.objectid,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    6212 |                                          first_dir_index, last_dir_index);
-         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/img/vxe-vxd/decoder/hw_control.c: In function 'pvdec_create':
+>> drivers/media/platform/img/vxe-vxd/decoder/hw_control.c:1124:43: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1124 |         corectx->comms_ram_addr = ioremap((phys_addr_t)phy_addr, iMapSize);
+         |                                           ^
+   drivers/media/platform/img/vxe-vxd/decoder/hw_control.c: At top level:
+   drivers/media/platform/img/vxe-vxd/decoder/hw_control.c:782:13: warning: 'hwctrl_dump_state' defined but not used [-Wunused-function]
+     782 | static void hwctrl_dump_state(struct vxd_states *prev_state,
+         |             ^~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/img/vxe-vxd/decoder/vxd_props.h:19,
+                    from drivers/media/platform/img/vxe-vxd/decoder/decoder.h:29,
+                    from drivers/media/platform/img/vxe-vxd/decoder/hw_control.c:22:
+   drivers/media/platform/img/vxe-vxd/common/imgmmu.h:65:28: warning: 'VIRT_DIR_IDX_MASK' defined but not used [-Wunused-const-variable=]
+      65 | static const unsigned long VIRT_DIR_IDX_MASK = (~((1 << MMU_DIR_SHIFT) - 1));
+         |                            ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/img/vxe-vxd/common/imgmmu.h:62:28: warning: 'VIRT_PAGE_TBL_MASK' defined but not used [-Wunused-const-variable=]
+      62 | static const unsigned long VIRT_PAGE_TBL_MASK =
+         |                            ^~~~~~~~~~~~~~~~~~
+   drivers/media/platform/img/vxe-vxd/common/imgmmu.h:60:28: warning: 'VIRT_PAGE_OFF_MASK' defined but not used [-Wunused-const-variable=]
+      60 | static const unsigned long VIRT_PAGE_OFF_MASK = ((1 << MMU_PAGE_SHIFT) - 1);
+         |                            ^~~~~~~~~~~~~~~~~~
 
 
-vim +/last_range_start +6211 fs/btrfs/tree-log.c
+vim +1124 drivers/media/platform/img/vxe-vxd/decoder/hw_control.c
 
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6152  
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6153  static int log_delayed_deletions_incremental(struct btrfs_trans_handle *trans,
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6154  					     struct btrfs_inode *inode,
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6155  					     struct btrfs_path *path,
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6156  					     const struct list_head *delayed_del_list,
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6157  					     struct btrfs_log_ctx *ctx)
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6158  {
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6159  	struct btrfs_root *log = inode->root->log_root;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6160  	const struct btrfs_delayed_item *curr;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6161  	u64 last_range_start;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6162  	u64 last_range_end = 0;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6163  	struct btrfs_key key;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6164  
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6165  	key.objectid = btrfs_ino(inode);
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6166  	key.type = BTRFS_DIR_INDEX_KEY;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6167  	curr = list_first_entry(delayed_del_list, struct btrfs_delayed_item,
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6168  				log_list);
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6169  
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6170  	while (!list_entry_is_head(curr, delayed_del_list, log_list)) {
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6171  		const struct btrfs_delayed_item *last = curr;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6172  		u64 first_dir_index = curr->index;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6173  		u64 last_dir_index;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6174  		bool deleted_items = false;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6175  		int ret;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6176  
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6177  		key.offset = curr->index;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6178  		ret = btrfs_search_slot(trans, log, &key, path, -1, 1);
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6179  		if (ret < 0) {
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6180  			return ret;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6181  		} else if (ret == 0) {
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6182  			ret = batch_delete_dir_index_items(trans, inode, path, ctx,
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6183  							   delayed_del_list, curr,
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6184  							   &last);
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6185  			if (ret)
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6186  				return ret;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6187  			deleted_items = true;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6188  		}
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6189  
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6190  		btrfs_release_path(path);
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6191  
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6192  		/*
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6193  		 * If we deleted items from the leaf, it means we have a range
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6194  		 * item logging their range, so no need to add one or update an
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6195  		 * existing one. Otherwise we have to log a dir range item.
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6196  		 */
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6197  		if (deleted_items)
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6198  			goto next_batch;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6199  
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6200  		last_dir_index = last->index;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6201  		ASSERT(last_dir_index >= first_dir_index);
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6202  		/*
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6203  		 * If this range starts right after where the previous one ends,
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6204  		 * then we want to reuse the previous range item and change its
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6205  		 * end offset to the end of this range. This is just to minimize
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6206  		 * leaf space usage, by avoiding adding a new range item.
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6207  		 */
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6208  		if (last_range_end != 0 && first_dir_index == last_range_end + 1)
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6209  			first_dir_index = last_range_start;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6210  
-30b80f3ce0f9d5 Filipe Manana 2022-08-22 @6211  		ret = insert_dir_log_key(trans, log, path, key.objectid,
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6212  					 first_dir_index, last_dir_index);
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6213  		if (ret)
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6214  			return ret;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6215  
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6216  		last_range_start = first_dir_index;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6217  		last_range_end = last_dir_index;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6218  next_batch:
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6219  		curr = list_next_entry(last, log_list);
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6220  	}
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6221  
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6222  	return 0;
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6223  }
-30b80f3ce0f9d5 Filipe Manana 2022-08-22  6224  
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1085  
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1086  static int pvdec_create(struct vxd_dev *vxd, struct vxd_coreprops *core_props,
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1087  			void **hndl_vdeckm_context)
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1088  {
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1089  	struct vdeckm_context  *corectx;
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1090  	struct vxd_core_props hndl_core_props;
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1091  	int result;
+f3f52724b296b9 drivers/media/platform/vxe-vxd/decoder/hw_control.c Prasanth Babu Mantena 2023-04-25  1092  	int iMapSize, pageSize;
+f3f52724b296b9 drivers/media/platform/vxe-vxd/decoder/hw_control.c Prasanth Babu Mantena 2023-04-25  1093  	void *phy_addr;
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1094  
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1095  	if (!hndl_vdeckm_context || !core_props)
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1096  		return IMG_ERROR_INVALID_PARAMETERS;
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1097  
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1098  	/*
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1099  	 * Obtain core context.
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1100  	 */
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1101  	corectx = &acore_ctx[0];
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1102  
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1103  	memset(corectx, 0, sizeof(*corectx));
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1104  
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1105  	corectx->core_num = 0;
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1106  
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1107  	result = vxd_pvdec_get_props(vxd->dev, vxd->reg_base, &hndl_core_props);
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1108  	if (result != 0)
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1109  		return result;
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1110  
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1111  	vxd_get_coreproperties(&hndl_core_props, &corectx->props);
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1112  
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1113  	memcpy(core_props, &corectx->props, sizeof(*core_props));
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1114  
+f3f52724b296b9 drivers/media/platform/vxe-vxd/decoder/hw_control.c Prasanth Babu Mantena 2023-04-25  1115  	pageSize = PAGE_SIZE;
+f3f52724b296b9 drivers/media/platform/vxe-vxd/decoder/hw_control.c Prasanth Babu Mantena 2023-04-25  1116  	/* end aligned to page (ceiling), in pages */
+f3f52724b296b9 drivers/media/platform/vxe-vxd/decoder/hw_control.c Prasanth Babu Mantena 2023-04-25  1117  	iMapSize = (PVDEC_COMMS_RAM_OFFSET + PVDEC_COMMS_RAM_SIZE + pageSize - 1) / pageSize;
+f3f52724b296b9 drivers/media/platform/vxe-vxd/decoder/hw_control.c Prasanth Babu Mantena 2023-04-25  1118  	/* subtract start aligned to page (floor), in pages */
+f3f52724b296b9 drivers/media/platform/vxe-vxd/decoder/hw_control.c Prasanth Babu Mantena 2023-04-25  1119  	iMapSize -= PVDEC_COMMS_RAM_OFFSET / pageSize;
+f3f52724b296b9 drivers/media/platform/vxe-vxd/decoder/hw_control.c Prasanth Babu Mantena 2023-04-25  1120  	/* convert to bytes */
+f3f52724b296b9 drivers/media/platform/vxe-vxd/decoder/hw_control.c Prasanth Babu Mantena 2023-04-25  1121  	iMapSize *= pageSize;
+f3f52724b296b9 drivers/media/platform/vxe-vxd/decoder/hw_control.c Prasanth Babu Mantena 2023-04-25  1122  	phy_addr = (void *)(0x4300000);
+f3f52724b296b9 drivers/media/platform/vxe-vxd/decoder/hw_control.c Prasanth Babu Mantena 2023-04-25  1123  	phy_addr += (PVDEC_COMMS_RAM_OFFSET);
+f3f52724b296b9 drivers/media/platform/vxe-vxd/decoder/hw_control.c Prasanth Babu Mantena 2023-04-25 @1124  	corectx->comms_ram_addr = ioremap((phys_addr_t)phy_addr, iMapSize);
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1125  	*hndl_vdeckm_context = corectx;
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1126  
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1127  	return 0;
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1128  }
+5c06fabe7dbbb0 drivers/media/platform/vxe-vxd/decoder/hw_control.c Sidraya               2023-04-25  1129  
 
-:::::: The code at line 6211 was first introduced by commit
-:::::: 30b80f3ce0f9d58ab8a2094922f3d54d2fd4f92e btrfs: use delayed items when logging a directory
+:::::: The code at line 1124 was first introduced by commit
+:::::: f3f52724b296b940f33ad99ce4567df3fd5bd0fe vxe-vxd: decoder: Error handling of fatal condition
 
-:::::: TO: Filipe Manana <fdmanana@suse.com>
-:::::: CC: David Sterba <dsterba@suse.com>
+:::::: TO: Prasanth Babu Mantena <p-mantena@ti.com>
+:::::: CC: Praneeth Bajjuri <praneeth@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
