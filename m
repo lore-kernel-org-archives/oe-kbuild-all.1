@@ -1,43 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD252909
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 13:04:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CBA2909
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 13:24:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682687081; x=1714223081;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IzGWDNoEZu/g6KOjg4L3syusucMhD5Axt8WKsUM2elE=;
-  b=MjiXdWb5j27kYESNivj95xQBG0u4d7ZgVqh4XBQxAwFcaztnTRrRT0Wk
-   i+2MewiGy91En+aBC1o1o+FpLM2sn5CiK6DdFiOFzX3u5w2UQq0iQbjZP
-   D9HLVQqb1nvJCAugMA50DW7q7qz6Esr/NTpIhT9pyK3lr8/rn7nyGhoZi
-   eD/WL0v/pBUcmRTRr18A/EEjgcK8Qa/SsUm07S3G7n7qd8te4d6drvCk9
-   53LL3+I2QbEcTIHJ2WM4lo1En7Nl21ziD8382dxSL5Rb55/wMHZcRRwUK
-   jra23bULgMKK3WzYZobZR21yM8UdH4JWPUigvvrBKKRLczetWIit/t9MC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="375735336"
+  t=1682688276; x=1714224276;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t3jqbHPKxzKfgR0QLqQ+5mNQBC8LogKZvGiYb3Dbyr8=;
+  b=HHgT8xTNrREcafRoO42Cae5LWh3DrGKAeElDlOp8Cb/9olykMni4fEd3
+   ++1knARzbSUahV5KyjzurBBa5g3r4hf/kpGlNssGvJUyqcXGGVZ0XdA/6
+   Jk2H9u0vXnH+88X8MjRaQRg0gv1TsvoPg2MVvfl73M6jcen+kVTDHuo2d
+   oiHnS9PAFX9xilkXHFBmWZEcyRr4TRWl6jlppUU3jqR7VCeudReXMZS6q
+   dc+dB0rhmdPjr71oCsqsFlhP4VNEeNNlbDOmQ5xkT2SfTyQNaU3fHZ4Od
+   Rx8Pr62O54E7C/mL9YCHXL2x7AbMMRZO7CrSsX8WnwRe9lz/+rBMyWS17
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="347769106"
 X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; 
-   d="scan'208";a="375735336"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 06:04:35 -0700
+   d="scan'208";a="347769106"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 06:24:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="645106322"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="819010532"
 X-IronPort-AV: E=Sophos;i="5.99,234,1677571200"; 
-   d="scan'208";a="645106322"
+   d="scan'208";a="819010532"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 28 Apr 2023 06:04:32 -0700
+  by orsmga004.jf.intel.com with ESMTP; 28 Apr 2023 06:24:33 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psNm4-0000Rh-2f;
-	Fri, 28 Apr 2023 13:04:32 +0000
-Date: Fri, 28 Apr 2023 21:03:45 +0800
+	id 1psO5R-0000SD-0w;
+	Fri, 28 Apr 2023 13:24:33 +0000
+Date: Fri, 28 Apr 2023 21:24:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Deepak Kumar Singh <quic_deesin@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: drivers/soc/qcom/smem.c:1056:16: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202304282042.ACQATgcJ-lkp@intel.com>
+To: Krzysztof Richert <krzysztof.richert@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v1 1/1] net: mctp: MCTP VDM extension
+Message-ID: <202304282145.fCBnJNDV-lkp@intel.com>
+References: <20230425090748.2380222-2-krzysztof.richert@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,203 +46,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230425090748.2380222-2-krzysztof.richert@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   33afd4b76393627477e878b3b195d606e585d816
-commit: 20bb6c9de1b7e13f11d2ffe73686f4449c426807 soc: qcom: smem: map only partitions used by local HOST
-date:   1 year ago
-config: sh-randconfig-s053-20230428 (https://download.01.org/0day-ci/archive/20230428/202304282042.ACQATgcJ-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+Hi Krzysztof,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v6.3 next-20230427]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Richert/net-mctp-MCTP-VDM-extension/20230425-171027
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230425090748.2380222-2-krzysztof.richert%40intel.com
+patch subject: [RFC PATCH v1 1/1] net: mctp: MCTP VDM extension
+config: sparc-randconfig-s032-20230427 (https://download.01.org/0day-ci/archive/20230428/202304282145.fCBnJNDV-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 12.1.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=20bb6c9de1b7e13f11d2ffe73686f4449c426807
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 20bb6c9de1b7e13f11d2ffe73686f4449c426807
+        # https://github.com/intel-lab-lkp/linux/commit/e9071a679005391fa75adb12a655b002b2c4e408
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Krzysztof-Richert/net-mctp-MCTP-VDM-extension/20230425-171027
+        git checkout e9071a679005391fa75adb12a655b002b2c4e408
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sh SHELL=/bin/bash arch/sh/kernel/ drivers/soc/qcom/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc SHELL=/bin/bash net/mctp/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304282042.ACQATgcJ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304282145.fCBnJNDV-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/soc/qcom/smem.c:422:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:422:16: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:422:16: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:507:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:507:16: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:507:16: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:520:50: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
-   drivers/soc/qcom/smem.c:520:50: sparse:     expected void *
-   drivers/soc/qcom/smem.c:520:50: sparse:     got void [noderef] __iomem *
-   drivers/soc/qcom/smem.c:648:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_partition_header *phdr @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:648:22: sparse:     expected struct smem_partition_header *phdr
-   drivers/soc/qcom/smem.c:648:22: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:653:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_partition_header *phdr @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:653:22: sparse:     expected struct smem_partition_header *phdr
-   drivers/soc/qcom/smem.c:653:22: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:657:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:657:24: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:657:24: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:667:30: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/soc/qcom/smem.c:667:30: sparse:    void *
-   drivers/soc/qcom/smem.c:667:30: sparse:    void [noderef] __iomem *
-   drivers/soc/qcom/smem.c:688:36: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/qcom/smem.c:697:28: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/qcom/smem.c:706:36: sparse: sparse: subtraction of different types can't work (different address spaces)
-   drivers/soc/qcom/smem.c:721:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:721:16: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:721:16: sparse:     got void [noderef] __iomem *virt_base
-   drivers/soc/qcom/smem.c:754:57: sparse: sparse: restricted __le32 degrades to integer
-   drivers/soc/qcom/smem.c:775:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_partition_header *header @@     got void [noderef] __iomem * @@
-   drivers/soc/qcom/smem.c:775:16: sparse:     expected struct smem_partition_header *header
-   drivers/soc/qcom/smem.c:775:16: sparse:     got void [noderef] __iomem *
-   drivers/soc/qcom/smem.c:926:22: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_ptable *ptable @@     got void [noderef] __iomem * @@
-   drivers/soc/qcom/smem.c:926:22: sparse:     expected struct smem_ptable *ptable
-   drivers/soc/qcom/smem.c:926:22: sparse:     got void [noderef] __iomem *
-   drivers/soc/qcom/smem.c:1035:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct smem_header *header @@     got void [noderef] __iomem *virt_base @@
-   drivers/soc/qcom/smem.c:1035:16: sparse:     expected struct smem_header *header
-   drivers/soc/qcom/smem.c:1035:16: sparse:     got void [noderef] __iomem *virt_base
->> drivers/soc/qcom/smem.c:1056:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got restricted __le32 * @@
-   drivers/soc/qcom/smem.c:1056:16: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smem.c:1056:16: sparse:     got restricted __le32 *
-   drivers/soc/qcom/smem.c:1056:52: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got restricted __le32 * @@
-   drivers/soc/qcom/smem.c:1056:52: sparse:     expected void const volatile [noderef] __iomem *ptr
-   drivers/soc/qcom/smem.c:1056:52: sparse:     got restricted __le32 *
+>> net/mctp/af_mctp.c:65:47: sparse: sparse: cast to restricted __be16
+>> net/mctp/af_mctp.c:75:45: sparse: sparse: cast to restricted __be32
+>> net/mctp/af_mctp.c:97:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
+   net/mctp/af_mctp.c:97:41: sparse:     expected unsigned short [usertype]
+   net/mctp/af_mctp.c:97:41: sparse:     got restricted __be16 [usertype]
+>> net/mctp/af_mctp.c:99:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   net/mctp/af_mctp.c:99:41: sparse:     expected unsigned int [usertype]
+   net/mctp/af_mctp.c:99:41: sparse:     got restricted __be32 [usertype]
 
-vim +1056 drivers/soc/qcom/smem.c
+vim +65 net/mctp/af_mctp.c
 
-   973	
-   974	static int qcom_smem_probe(struct platform_device *pdev)
-   975	{
-   976		struct smem_header *header;
-   977		struct reserved_mem *rmem;
-   978		struct qcom_smem *smem;
-   979		unsigned long flags;
-   980		size_t array_size;
-   981		int num_regions;
-   982		int hwlock_id;
-   983		u32 version;
-   984		u32 size;
-   985		int ret;
-   986		int i;
-   987	
-   988		num_regions = 1;
-   989		if (of_find_property(pdev->dev.of_node, "qcom,rpm-msg-ram", NULL))
-   990			num_regions++;
-   991	
-   992		array_size = num_regions * sizeof(struct smem_region);
-   993		smem = devm_kzalloc(&pdev->dev, sizeof(*smem) + array_size, GFP_KERNEL);
-   994		if (!smem)
-   995			return -ENOMEM;
-   996	
-   997		smem->dev = &pdev->dev;
-   998		smem->num_regions = num_regions;
-   999	
-  1000		rmem = of_reserved_mem_lookup(pdev->dev.of_node);
-  1001		if (rmem) {
-  1002			smem->regions[0].aux_base = rmem->base;
-  1003			smem->regions[0].size = rmem->size;
-  1004		} else {
-  1005			/*
-  1006			 * Fall back to the memory-region reference, if we're not a
-  1007			 * reserved-memory node.
-  1008			 */
-  1009			ret = qcom_smem_resolve_mem(smem, "memory-region", &smem->regions[0]);
-  1010			if (ret)
-  1011				return ret;
-  1012		}
-  1013	
-  1014		if (num_regions > 1) {
-  1015			ret = qcom_smem_resolve_mem(smem, "qcom,rpm-msg-ram", &smem->regions[1]);
-  1016			if (ret)
-  1017				return ret;
-  1018		}
-  1019	
-  1020	
-  1021		ret = qcom_smem_map_toc(smem, &smem->regions[0]);
-  1022		if (ret)
-  1023			return ret;
-  1024	
-  1025		for (i = 1; i < num_regions; i++) {
-  1026			smem->regions[i].virt_base = devm_ioremap_wc(&pdev->dev,
-  1027								     smem->regions[i].aux_base,
-  1028								     smem->regions[i].size);
-  1029			if (!smem->regions[i].virt_base) {
-  1030				dev_err(&pdev->dev, "failed to remap %pa\n", &smem->regions[i].aux_base);
-  1031				return -ENOMEM;
-  1032			}
-  1033		}
-  1034	
-  1035		header = smem->regions[0].virt_base;
-  1036		if (le32_to_cpu(header->initialized) != 1 ||
-  1037		    le32_to_cpu(header->reserved)) {
-  1038			dev_err(&pdev->dev, "SMEM is not initialized by SBL\n");
-  1039			return -EINVAL;
-  1040		}
-  1041	
-  1042		hwlock_id = of_hwspin_lock_get_id(pdev->dev.of_node, 0);
-  1043		if (hwlock_id < 0) {
-  1044			if (hwlock_id != -EPROBE_DEFER)
-  1045				dev_err(&pdev->dev, "failed to retrieve hwlock\n");
-  1046			return hwlock_id;
-  1047		}
-  1048	
-  1049		smem->hwlock = hwspin_lock_request_specific(hwlock_id);
-  1050		if (!smem->hwlock)
-  1051			return -ENXIO;
-  1052	
-  1053		ret = hwspin_lock_timeout_irqsave(smem->hwlock, HWSPINLOCK_TIMEOUT, &flags);
-  1054		if (ret)
-  1055			return ret;
-> 1056		size = readl_relaxed(&header->available) + readl_relaxed(&header->free_offset);
-  1057		hwspin_unlock_irqrestore(smem->hwlock, &flags);
-  1058	
-  1059		version = qcom_smem_get_sbl_version(smem);
-  1060		/*
-  1061		 * smem header mapping is required only in heap version scheme, so unmap
-  1062		 * it here. It will be remapped in qcom_smem_map_global() when whole
-  1063		 * partition is mapped again.
-  1064		 */
-  1065		devm_iounmap(smem->dev, smem->regions[0].virt_base);
-  1066		switch (version >> 16) {
-  1067		case SMEM_GLOBAL_PART_VERSION:
-  1068			ret = qcom_smem_set_global_partition(smem);
-  1069			if (ret < 0)
-  1070				return ret;
-  1071			smem->item_count = qcom_smem_get_item_count(smem);
-  1072			break;
-  1073		case SMEM_GLOBAL_HEAP_VERSION:
-  1074			qcom_smem_map_global(smem, size);
-  1075			smem->item_count = SMEM_ITEM_COUNT;
-  1076			break;
-  1077		default:
-  1078			dev_err(&pdev->dev, "Unsupported SMEM version 0x%x\n", version);
-  1079			return -EINVAL;
-  1080		}
-  1081	
-  1082		BUILD_BUG_ON(SMEM_HOST_APPS >= SMEM_HOST_COUNT);
-  1083		ret = qcom_smem_enumerate_partitions(smem, SMEM_HOST_APPS);
-  1084		if (ret < 0 && ret != -ENOENT)
-  1085			return ret;
-  1086	
-  1087		__smem = smem;
-  1088	
-  1089		smem->socinfo = platform_device_register_data(&pdev->dev, "qcom-socinfo",
-  1090							      PLATFORM_DEVID_NONE, NULL,
-  1091							      0);
-  1092		if (IS_ERR(smem->socinfo))
-  1093			dev_dbg(&pdev->dev, "failed to register socinfo device\n");
-  1094	
-  1095		return 0;
-  1096	}
-  1097	
+    56	
+    57	int mctp_vendor_define_message_decode(struct sk_buff *skb, u8 type,
+    58					      struct mctp_vdm_data *vdm_data, u8 *vendorlen)
+    59	{
+    60		union mctp_vendor_id vendorid;
+    61		u8 len = 0;
+    62		int rc = 0;
+    63	
+    64		if (mctp_pci_vdm(type)) {
+  > 65			vendorid.pci_vendor_id.data = ntohs(*((u16 *)((u8 *)skb->data + 1)));
+    66			len = 2;
+    67			switch (vendorid.pci_vendor_id.data) {
+    68			case PCI_VENDOR_ID_INTEL:
+    69				vdm_data->smctp_sub_type = *((u8 *)skb->data + 4);
+    70				break;
+    71			default:
+    72				rc = -EPERM;
+    73			}
+    74		} else if (mctp_iana_vdm(type)) {
+  > 75			vendorid.iana_number.data = ntohl(*((u32 *)((u8 *)skb->data + 1)));
+    76			len = 4;
+    77			/* TODO: no VDM based on IANA support - add if needed for specific vendor */
+    78			rc = -EPERM;
+    79		} else {
+    80			rc = -EINVAL;
+    81		}
+    82	
+    83		if (rc == 0) {
+    84			vdm_data->smctp_vendor = vendorid;
+    85	
+    86			if (vendorlen)
+    87				*vendorlen = len;
+    88		}
+    89	
+    90		return rc;
+    91	}
+    92	
+    93	static int mctp_vendor_define_message_encode(struct sk_buff *skb, u8 type,
+    94						     struct mctp_vdm_data *vdm_data)
+    95	{
+    96		if (mctp_pci_vdm(type))
+  > 97			*(u16 *)skb_put(skb, 2) = htons(vdm_data->smctp_vendor.pci_vendor_id.data);
+    98		else if (mctp_iana_vdm(type))
+  > 99			*(u32 *)skb_put(skb, 4) = htonl(vdm_data->smctp_vendor.iana_number.data);
+   100		else
+   101			return -EINVAL;
+   102	
+   103		return 0;
+   104	}
+   105	
 
 -- 
 0-DAY CI Kernel Test Service
