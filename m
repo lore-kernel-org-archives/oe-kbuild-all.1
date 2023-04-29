@@ -1,45 +1,45 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52983C1D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Apr 2023 14:28:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744B7320C;
+	Sat, 29 Apr 2023 16:40:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682778487; x=1714314487;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dPM8JbYXqqE60OTuP30WCVH2XUlQMcjVOBtfkmoiYz8=;
-  b=YK8UZWknLtwW1LP3zVnF5zoWvsM6Vz5BRT/TGxuUJ5ka74zZvcCDAqgA
-   JGdv+gO1IgUGHB7n7Ef6N8Wgu4bTdbl2yEg2CVITo+rlp/jcMO3x0hQkl
-   KIvFgOO4tWLCt0WvL90teaJQrBYXLH6mWMVKCS0cNQEAcR8zKbvxnpSON
-   yOeg2SKP2XZv+1J6AQrVA8G+BfhdpJs7OaVldUMi7k968IQgzwtYIwWNQ
-   QdunPOlCpuTPesdufKJlwYKJBhgD5+tl/f21ZopJ3JeSjEYreWqRbuAIo
-   9FYfPgD4nUy4e3g46/0bbjk8OBRwtpeHo19BqPmr5rORc+syKy40uXnED
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="346729446"
+  t=1682786410; x=1714322410;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xmzzKOvu+aP2cy3ZFi6Mqj8gl7Dl2IXdInHmOoKIdCo=;
+  b=fH6QXHpRnwXtrLjHbkeVlkwMjLBscTJa05JfuTSyIwoslZpjM1Zwm0Np
+   MG4TauFb1WTk6FPksSXx+ShUwRMTTu0ghwf38DqAAmVVqNciy5t2dm/V+
+   RLPF72jiLawAn6dh99vV/sjXe5FCnBcz3IJdY1qZs8DYRJXuqh9xBimuJ
+   m16Kv6v5vkRuAaeyhahPgAP4aXXfj5ySTR9xe6wLgD5dS3yWHwZnIr2tg
+   yWBVbnk0aablSYlllCuW5c0Y0kdUt26DWkLx1EJUnhql/nx5Y1rjOdukh
+   FCzpT1FYW6kjVEDDpEQADdAuCBIiP9ZqD381A7CHs3VAGvwqm85b78C1G
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="337051851"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="346729446"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 07:28:07 -0700
+   d="scan'208";a="337051851"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 09:40:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="697944304"
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="869622961"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="697944304"
+   d="scan'208";a="869622961"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Apr 2023 07:28:05 -0700
+  by orsmga005.jf.intel.com with ESMTP; 29 Apr 2023 09:40:07 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pslYS-0001CH-2G;
-	Sat, 29 Apr 2023 14:28:04 +0000
-Date: Sat, 29 Apr 2023 22:27:06 +0800
+	id 1psncF-0001Fp-0P;
+	Sat, 29 Apr 2023 16:40:07 +0000
+Date: Sun, 30 Apr 2023 00:40:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yu Kuai <yukuai1@huaweicloud.com>, shinichiro@fastmail.com,
-	snitzer@kernel.org, linux-block@vger.kernel.org,
-	dm-devel@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH blktests v2] tests/dm: add a regression test
-Message-ID: <202304292230.Ai7aIFbo-lkp@intel.com>
-References: <20230427024126.1417646-1-yukuai1@huaweicloud.com>
+To: Neeraj Sanjay Kale <neeraj.sanjaykale@nxp.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: drivers/bluetooth/btnxpuart.c:1277:34: warning: unused variable
+ 'nxpuart_of_match_table'
+Message-ID: <202304300014.vFGw6Dr0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,32 +48,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230427024126.1417646-1-yukuai1@huaweicloud.com>
 
-Hi Yu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on device-mapper-dm/for-next]
-[also build test WARNING on linus/master v6.3 next-20230428]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/tests-dm-add-a-regression-test/20230427-104508
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
-patch link:    https://lore.kernel.org/r/20230427024126.1417646-1-yukuai1%40huaweicloud.com
-patch subject: [PATCH blktests v2] tests/dm: add a regression test
-reproduce:
-        scripts/spdxcheck.py
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   89d77f71f493a3663b10fa812d17f472935d24be
+commit: 689ca16e523278470c38832a3010645a78c544d8 Bluetooth: NXP: Add protocol support for NXP Bluetooth chipsets
+date:   6 days ago
+config: hexagon-randconfig-r045-20230428 (https://download.01.org/0day-ci/archive/20230430/202304300014.vFGw6Dr0-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=689ca16e523278470c38832a3010645a78c544d8
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 689ca16e523278470c38832a3010645a78c544d8
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/bluetooth/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304292230.Ai7aIFbo-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304300014.vFGw6Dr0-lkp@intel.com/
 
-spdxcheck warnings: (new ones prefixed by >>)
->> tests/dm/001: 2:27 Invalid License ID: GPL-3.0+
->> tests/dm/rc: 2:27 Invalid License ID: GPL-3.0+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/bluetooth/btnxpuart.c:10:
+   In file included from include/linux/serdev.h:10:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/bluetooth/btnxpuart.c:10:
+   In file included from include/linux/serdev.h:10:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/bluetooth/btnxpuart.c:10:
+   In file included from include/linux/serdev.h:10:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/bluetooth/btnxpuart.c:1277:34: warning: unused variable 'nxpuart_of_match_table' [-Wunused-const-variable]
+   static const struct of_device_id nxpuart_of_match_table[] = {
+                                    ^
+   7 warnings generated.
+
+
+vim +/nxpuart_of_match_table +1277 drivers/bluetooth/btnxpuart.c
+
+  1276	
+> 1277	static const struct of_device_id nxpuart_of_match_table[] = {
+  1278		{ .compatible = "nxp,88w8987-bt", .data = &w8987_data },
+  1279		{ .compatible = "nxp,88w8997-bt", .data = &w8997_data },
+  1280		{ }
+  1281	};
+  1282	MODULE_DEVICE_TABLE(of, nxpuart_of_match_table);
+  1283	
 
 -- 
 0-DAY CI Kernel Test Service
