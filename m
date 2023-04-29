@@ -1,64 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B86B91361
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Apr 2023 06:35:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2C32116
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Apr 2023 06:55:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682750102; x=1714286102;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9QMrfHmB3IlGnj2ZKNRmcbudyqMRVvUMmyJ4H/dCOm0=;
-  b=f39fxwnzm6PxjhwmkJZfk0Fy3FPqazCQ6maOZKiFkvpY8Dm+4r58Bkns
-   uYx7NOlJ5n0IwhH3a0MgysHZRRT2oLbf6aFo/durtAYCn2wG7WN7V/i5E
-   GyZrvDtUp8gQQsUfAUoe/e6X85T1l7EZlhtu4POqGtMJcVJbX798jhHBg
-   eAlCf2QYpnBnXZoAuXbpnFWUaVXQCGcVXnvjMH/HZdAHdk2au1ZlVrgFc
-   lxDldVxiRuCSe7OAM/50hmDU1mStBoj3kR0Su/ryN+v2Qr0ovLHGg/EEZ
-   bjM+8aK7uFOkNPJxegOsN4Auge6kraZ22M1G6BRBIs/U8h3IkQTtHCIjh
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="328254572"
+  t=1682751358; x=1714287358;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tMmMphvZFWdUM7rsTmgjWEJo8zjR3j1Jjcubt3fDUe0=;
+  b=K5Oz+g/c//JFOkftNvA2iqmI+hYWdsONvlyRg6E3YCJs/4yC6mBPDQxw
+   LCVJnPhvrO+hiTpRhfyIzSGFbiyDV5dBbMCPVSLVDOcB2/fhbMt60xMFW
+   tzNUj7CUI1u1X1cUPY2jreuQBfVlUh4gk4ZqPwdjiDS+rFAzfKZ/KUR+q
+   PWVKuGiurxMKAFGq4YNhNKE7HZ4rqrKKsMFttIGrR6tumX4n/LBRGbNbm
+   EKUcuH/UEAXz9eZoSf4yVtAQB2aWn5HIgSGt9dp/CfCzGIxvuiKoK9gVs
+   oeOEHqpWySZn4RxnyjxVz0KCYaStFyAbULtFPaNYaUZKXNXifUPvFHbsu
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="349947598"
 X-IronPort-AV: E=Sophos;i="5.99,236,1677571200"; 
-   d="scan'208";a="328254572"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 23:35:02 -0700
+   d="scan'208";a="349947598"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 23:55:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="1024923249"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="806713951"
 X-IronPort-AV: E=Sophos;i="5.99,236,1677571200"; 
-   d="scan'208";a="1024923249"
+   d="scan'208";a="806713951"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Apr 2023 23:34:56 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 28 Apr 2023 23:55:56 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pseAZ-0000xX-1N;
-	Sat, 29 Apr 2023 06:34:55 +0000
-Date: Sat, 29 Apr 2023 14:34:39 +0800
+	id 1pseUt-0000yP-2h;
+	Sat, 29 Apr 2023 06:55:55 +0000
+Date: Sat, 29 Apr 2023 14:55:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi-De Wu <yi-de.wu@mediatek.com>,
-	Yingshiuan Pan <yingshiuan.pan@mediatek.com>,
-	Ze-Yu Wang <ze-yu.wang@mediatek.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	David Bradil <dbrazdil@google.com>,
-	Trilok Soni <quic_tsoni@quicinc.com>,
-	Jade Shih <jades.shih@mediatek.com>,
-	Miles Chen <miles.chen@mediatek.com>,
-	Ivan Tseng <ivan.tseng@mediatek.com>,
-	My Chuang <my.chuang@mediatek.com>,
-	Shawn Hsiao <shawn.hsiao@mediatek.com>,
-	PeiLun Suei <peilun.suei@mediatek.com>,
-	Liju Chen <liju-clr.chen@mediatek.com>
-Subject: Re: [PATCH v2 4/7] virt: geniezone: Add vcpu support
-Message-ID: <202304291412.EiKEO9uy-lkp@intel.com>
-References: <20230428103622.18291-5-yi-de.wu@mediatek.com>
+To: Pratyush Yadav <p.yadav@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-rt-linux-6.1.y-cicd 323/382] spi-cadence-quadspi.c:undefined
+ reference to `spi_mem_exec_op'
+Message-ID: <202304291442.3WgDFlPA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,63 +45,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230428103622.18291-5-yi-de.wu@mediatek.com>
 
-Hi Yi-De,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on arm64/for-next/core]
-[also build test WARNING on robh/for-next arnd-asm-generic/master linus/master v6.3 next-20230428]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230428-183738
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20230428103622.18291-5-yi-de.wu%40mediatek.com
-patch subject: [PATCH v2 4/7] virt: geniezone: Add vcpu support
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230429/202304291412.EiKEO9uy-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   5b69be59af422fe55a3cee133b337b1027cb98c3
+commit: 4535fc8cd288f5c537ff9b8abe0e3131a0ebcc98 [323/382] spi: cadence-qspi: Tune PHY to allow running at higher frequencies
+config: arm-randconfig-r036-20230428 (https://download.01.org/0day-ci/archive/20230429/202304291442.3WgDFlPA-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d4ced06ba2f149b099e9bf745a0e451c43e9d823
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yi-De-Wu/docs-geniezone-Introduce-GenieZone-hypervisor/20230428-183738
-        git checkout d4ced06ba2f149b099e9bf745a0e451c43e9d823
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-6.1.y-cicd
+        git checkout 4535fc8cd288f5c537ff9b8abe0e3131a0ebcc98
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304291412.EiKEO9uy-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304291442.3WgDFlPA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_vcpu.c:145:6: warning: no previous prototype for 'gzvm_destroy_vcpu' [-Wmissing-prototypes]
-     145 | void gzvm_destroy_vcpu(struct gzvm_vcpu *vcpu)
-         |      ^~~~~~~~~~~~~~~~~
-
-
-vim +/gzvm_destroy_vcpu +145 arch/arm64/geniezone/../../../drivers/virt/geniezone/gzvm_vcpu.c
-
-   143	
-   144	/* caller must hold the vm lock */
- > 145	void gzvm_destroy_vcpu(struct gzvm_vcpu *vcpu)
-   146	{
-   147		if (!vcpu)
-   148			return;
-   149	
-   150		gzvm_arch_destroy_vcpu(vcpu->gzvm->vm_id, vcpu->vcpuid);
-   151		/* clean guest's data */
-   152		memset(vcpu->run, 0, GZVM_VCPU_RUN_MAP_SIZE);
-   153		free_pages_exact(vcpu->run, GZVM_VCPU_RUN_MAP_SIZE);
-   154		kfree(vcpu);
-   155	}
-   156	
+   arm-linux-gnueabi-ld: drivers/misc/dma-buf-phys.o: in function `dma_buf_phys_release':
+   dma-buf-phys.c:(.text+0x24): undefined reference to `dma_buf_unmap_attachment'
+   arm-linux-gnueabi-ld: dma-buf-phys.c:(.text+0x30): undefined reference to `dma_buf_detach'
+   arm-linux-gnueabi-ld: dma-buf-phys.c:(.text+0x38): undefined reference to `dma_buf_put'
+   arm-linux-gnueabi-ld: drivers/misc/dma-buf-phys.o: in function `dma_buf_phys_ioctl':
+   dma-buf-phys.c:(.text+0x144): undefined reference to `dma_buf_get'
+   arm-linux-gnueabi-ld: dma-buf-phys.c:(.text+0x156): undefined reference to `dma_buf_attach'
+   arm-linux-gnueabi-ld: dma-buf-phys.c:(.text+0x166): undefined reference to `dma_buf_put'
+   arm-linux-gnueabi-ld: dma-buf-phys.c:(.text+0x16e): undefined reference to `dma_buf_map_attachment'
+   arm-linux-gnueabi-ld: dma-buf-phys.c:(.text+0x180): undefined reference to `dma_buf_detach'
+   arm-linux-gnueabi-ld: dma-buf-phys.c:(.text+0x190): undefined reference to `dma_buf_unmap_attachment'
+   arm-linux-gnueabi-ld: drivers/spi/spi-cadence-quadspi.o: in function `cqspi_phy_check_pattern':
+>> spi-cadence-quadspi.c:(.text+0x3fe): undefined reference to `spi_mem_exec_op'
 
 -- 
 0-DAY CI Kernel Test Service
