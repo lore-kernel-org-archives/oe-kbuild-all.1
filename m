@@ -1,42 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6328A20F4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Apr 2023 04:52:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AD620FB;
+	Sat, 29 Apr 2023 05:13:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682743975; x=1714279975;
+  t=1682745181; x=1714281181;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cyW8R50dJeibDclffcOiXIzKXijHN6O10td6h53/lLA=;
-  b=icMhdA9c7ap5pI496uFdRAt09kYIh1xtBSwFkKCIz1HGXRwKrqFisRsc
-   RqXnldb1R6WyGXR3gz8v9N9ZIkQ9QMnBPA7X0E14ihlfCUMyvvKv/ba5+
-   KgEAxvhQrm8NyHEASkQ6VrTUkZnwksRdnVLEizTsXDScgRg4hqh0gEH5G
-   nY6LLtKzmoXiJvOEJBJIjx0c4YwtYJkNTjbYJPnWiJ5HNYYCCRwxp5jCW
-   24VsxvHNkQbNI7c2hmd/OK16WFrov/gJN7182eNvoRZdBTIyfx3Xnv+4L
-   1S3feOKLVJ0tAX/g9q5RpxSeg4hf+KIyd30ez80iMUtcNnRaTFEFFGFBJ
+  bh=iJtELllSMQaeYZN9wgESweSqYrQ88TzfHZVKS9zPNiE=;
+  b=S7LtfVoj8X1rOpj8SinwpZOVadwdhpPuZg0lC4bJGM1MQepIT71L/oU0
+   rZsLRSEBdBqMcIuHrk+ATayRWxzSq2mM0+xzBu/Eblq670fxugkIzKTVI
+   Xqmx3Xar/wWjuS56Mcxe6rVmEbwmvoZswkODWE4HMZezPHtfsycti4lxb
+   1MFgMNstTHlbvlfeDzfmm4bTa/mBpw+DuZ8pfzMNZv9SrB5XetvLSST7E
+   y1jJ2jnaIOj2I/lwbafUmVO1SFSIAgRmbPJG2EDWE0oPjktIM2zKSHFa3
+   BtRycj8o0zhOyrDSfKeHUXzgwTtpl9P8X1aS4O7oaZjUmvdph2F7WUJbd
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="332235598"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="346687391"
 X-IronPort-AV: E=Sophos;i="5.99,236,1677571200"; 
-   d="scan'208";a="332235598"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 21:52:54 -0700
+   d="scan'208";a="346687391"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 22:13:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="869469023"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="839132607"
 X-IronPort-AV: E=Sophos;i="5.99,236,1677571200"; 
-   d="scan'208";a="869469023"
+   d="scan'208";a="839132607"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 28 Apr 2023 21:52:53 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 28 Apr 2023 22:12:59 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pscZo-0000th-2o;
-	Sat, 29 Apr 2023 04:52:52 +0000
-Date: Sat, 29 Apr 2023 12:52:03 +0800
+	id 1psctB-0000uX-1j;
+	Sat, 29 Apr 2023 05:12:53 +0000
+Date: Sat, 29 Apr 2023 13:12:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.3/bbr2 14/28] net/ipv4/tcp_bbr2.c:1786:17: error: implicit
- declaration of function 'prandom_u32_max'; did you mean 'prandom_u32_state'?
-Message-ID: <202304291216.hlo4PGRK-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/090-spi-hid 15/20]
+ drivers/hid/dockchannel-hid/dockchannel-hid.c:974:18: warning: format
+ specifies type 'long' but the argument has type 'unsigned int'
+Message-ID: <202304291349.W0pmcLBq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,72 +47,121 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.3/bbr2
-head:   1141e6d75dcad649f1a41bd45d4a0415b0a0ecac
-commit: be75fd4f4667528d3ca40bfda85b5fa5026fbd2e [14/28] net-tcp_bbr: v2: BBRv2 ("bbr2") congestion control for Linux TCP
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230429/202304291216.hlo4PGRK-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
+head:   9da6a1ef462a428f24cbc085fa49d4cbed5b56f5
+commit: 20143b87e3745940ddaa384b5e1112be1ef9df0b [15/20] hid: Add Apple DockChannel HID transport driver
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20230429/202304291349.W0pmcLBq-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/zen-kernel/zen-kernel/commit/be75fd4f4667528d3ca40bfda85b5fa5026fbd2e
-        git remote add zen https://github.com/zen-kernel/zen-kernel
-        git fetch --no-tags zen 6.3/bbr2
-        git checkout be75fd4f4667528d3ca40bfda85b5fa5026fbd2e
+        # https://github.com/AsahiLinux/linux/commit/20143b87e3745940ddaa384b5e1112be1ef9df0b
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/090-spi-hid
+        git checkout 20143b87e3745940ddaa384b5e1112be1ef9df0b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash net/ipv4/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/bluetooth/ drivers/firmware/ drivers/hid/dockchannel-hid/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304291216.hlo4PGRK-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304291349.W0pmcLBq-lkp@intel.com/
 
-Note: the zen/6.3/bbr2 HEAD 1141e6d75dcad649f1a41bd45d4a0415b0a0ecac builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+   In file included from drivers/hid/dockchannel-hid/dockchannel-hid.c:12:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/hid/dockchannel-hid/dockchannel-hid.c:12:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/hid/dockchannel-hid/dockchannel-hid.c:12:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/hid/dockchannel-hid/dockchannel-hid.c:974:18: warning: format specifies type 'long' but the argument has type 'unsigned int' [-Wformat]
+                           shdr->length, hdr->length - sizeof(*shdr));
+                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:144:65: note: expanded from macro 'dev_err'
+           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
+                                ~~~    ^~~~~~~~~~~
+   7 warnings generated.
 
-   net/ipv4/tcp_bbr2.c: In function 'bbr2_pick_probe_wait':
->> net/ipv4/tcp_bbr2.c:1786:17: error: implicit declaration of function 'prandom_u32_max'; did you mean 'prandom_u32_state'? [-Werror=implicit-function-declaration]
-    1786 |                 prandom_u32_max(bbr->params.bw_probe_rand_rounds);
-         |                 ^~~~~~~~~~~~~~~
-         |                 prandom_u32_state
-   cc1: some warnings being treated as errors
 
+vim +974 drivers/hid/dockchannel-hid/dockchannel-hid.c
 
-vim +1786 net/ipv4/tcp_bbr2.c
-
-  1762	
-  1763	/* How long do we want to wait before probing for bandwidth (and risking
-  1764	 * loss)? We randomize the wait, for better mixing and fairness convergence.
-  1765	 *
-  1766	 * We bound the Reno-coexistence inter-bw-probe time to be 62-63 round trips.
-  1767	 * This is calculated to allow fairness with a 25Mbps, 30ms Reno flow,
-  1768	 * (eg 4K video to a broadband user):
-  1769	 *   BDP = 25Mbps * .030sec /(1514bytes) = 61.9 packets
-  1770	 *
-  1771	 * We bound the BBR-native inter-bw-probe wall clock time to be:
-  1772	 *  (a) higher than 2 sec: to try to avoid causing loss for a long enough time
-  1773	 *      to allow Reno at 30ms to get 4K video bw, the inter-bw-probe time must
-  1774	 *      be at least: 25Mbps * .030sec / (1514bytes) * 0.030sec = 1.9secs
-  1775	 *  (b) lower than 3 sec: to ensure flows can start probing in a reasonable
-  1776	 *      amount of time to discover unutilized bw on human-scale interactive
-  1777	 *      time-scales (e.g. perhaps traffic from a web page download that we
-  1778	 *      were competing with is now complete).
-  1779	 */
-  1780	static void bbr2_pick_probe_wait(struct sock *sk)
-  1781	{
-  1782		struct bbr *bbr = inet_csk_ca(sk);
-  1783	
-  1784		/* Decide the random round-trip bound for wait until probe: */
-  1785		bbr->rounds_since_probe =
-> 1786			prandom_u32_max(bbr->params.bw_probe_rand_rounds);
-  1787		/* Decide the random wall clock bound for wait until probe: */
-  1788		bbr->probe_wait_us = bbr->params.bw_probe_base_us +
-  1789				     prandom_u32_max(bbr->params.bw_probe_rand_us);
-  1790	}
-  1791	
+   966	
+   967	static void dchid_handle_ack(struct dchid_iface *iface, struct dchid_hdr *hdr, void *data)
+   968	{
+   969		struct dchid_subhdr *shdr = (void *)data;
+   970		u8 *payload = data + sizeof(*shdr);
+   971	
+   972		if (shdr->length + sizeof(*shdr) > hdr->length) {
+   973			dev_err(iface->dchid->dev, "Bad sub header length (%d > %ld)\n",
+ > 974				shdr->length, hdr->length - sizeof(*shdr));
+   975			return;
+   976		}
+   977		if (shdr->flags != iface->out_flags) {
+   978			dev_err(iface->dchid->dev,
+   979				"Received unexpected flags 0x%x on ACK channel (expFected 0x%x)\n",
+   980				shdr->flags, iface->out_flags);
+   981			return;
+   982		}
+   983	
+   984		if (shdr->length < 1) {
+   985			dev_err(iface->dchid->dev, "Received length 0 output report ack\n");
+   986			return;
+   987		}
+   988		if (iface->tx_seq != hdr->seq) {
+   989			dev_err(iface->dchid->dev, "Received ACK with bad seq (expected %d, got %d)\n",
+   990				iface->tx_seq, hdr->seq);
+   991			return;
+   992		}
+   993		if (iface->out_report != payload[0]) {
+   994			dev_err(iface->dchid->dev, "Received ACK with bad report (expected %d, got %d\n",
+   995				iface->out_report, payload[0]);
+   996			return;
+   997		}
+   998	
+   999		if (iface->resp_buf && iface->resp_size)
+  1000			memcpy(iface->resp_buf, payload + 1, min((size_t)shdr->length - 1, iface->resp_size));
+  1001	
+  1002		iface->resp_size = shdr->length;
+  1003		iface->out_report = -1;
+  1004		iface->retcode = shdr->retcode;
+  1005		complete(&iface->out_complete);
+  1006	}
+  1007	
 
 -- 
 0-DAY CI Kernel Test Service
