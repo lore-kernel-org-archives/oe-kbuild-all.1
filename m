@@ -1,45 +1,42 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294033D68;
-	Sat, 29 Apr 2023 18:33:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D595672
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Apr 2023 19:04:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682793194; x=1714329194;
+  t=1682795052; x=1714331052;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dGqeIYpC2JZwMxvQegezHt3ZAIGfnZ54XGzF0LvvvaM=;
-  b=fS9zSuTGxRHuc4EY9AGsFTEy0xmyA1VlI/iJIOTXm1UUK/aw0C7m6Q1O
-   lZupSzWrFHDwfx/ZPEE8ePR8zBuMOQLXEDqZiv6FbRI/wpVDrZ8Kh8AFk
-   0x6VJ5utpsflWZpoRco2eVe/Opi06E7DaMf7qVtfFi+mJCPmGJn5KAOOQ
-   x2icwmY/3f+J0nUsNt1kfSv+VJB3+legFNN8w9HKzY9PUdMCq2Ku6iwmW
-   90j3fANsT7ZjWHFpnVnZrJNhI+YyAF/IFNQUD0ADHV3+C+583sJ/+gZxe
-   OfNjDP38kH4l3s8aSSLJE8ZpfJ9ZyT0XcF7D0Z/A2kEaJwnngJhi6Ppww
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="327582142"
+  bh=mcZBr/vLPhCrs8Cn+BNHkLbjRA9LEa6/Vz2iwYywmQ8=;
+  b=UVO8dr+oBnN/T2NWjtPraS5QNfiu+45HoU98aLZg5d5GulfhOP1lVxtT
+   rR31zR/14JvoBLaIcbDhan4ZushSn8WvRJzBV0vVQwaGwKoqEZwTiWL66
+   wR3P/2U+uOwfZfXzFCTnPnrnAQu+p1bRqtbqZ+skmOZPT8NXa5NZKqkaV
+   swn5NB4bw+MgzHytB3oymJcTLLvKYuA2d0QlW3bzaU0OOKnLQ7c8I51hT
+   3RlGZy9t5afefYrC3mjcOPxGq6eF9Tdk1HGrRkqGaZqdheyz6iEuTkGU5
+   JGwipKPwmEs2TlSS+bKnF9RJNbBRYTq8wYsJ0IyUi2RJy/HxVBg35i7Vx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="345422896"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="327582142"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 11:33:13 -0700
+   d="scan'208";a="345422896"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 12:04:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="819469895"
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="806888730"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="819469895"
+   d="scan'208";a="806888730"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 29 Apr 2023 11:33:11 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 29 Apr 2023 12:04:10 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pspNe-0001In-0h;
-	Sat, 29 Apr 2023 18:33:10 +0000
-Date: Sun, 30 Apr 2023 02:32:57 +0800
+	id 1pspre-0001JH-1K;
+	Sat, 29 Apr 2023 19:04:10 +0000
+Date: Sun, 30 Apr 2023 03:03:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: drivers/media/platform/verisilicon/hantro_drv.c:618:34: warning:
- unused variable 'of_hantro_match'
-Message-ID: <202304300210.PXABWBvG-lkp@intel.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.2/prjc 290/395] kernel/sched/smp.h:14:20: error: redefinition
+ of 'flush_smp_call_function_queue'
+Message-ID: <202304300332.YMVyKFMV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,76 +46,136 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ezequiel,
+Hi Alfred,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   89d77f71f493a3663b10fa812d17f472935d24be
-commit: fbb6c848dd89786fe24856ee6b5e773910ded29c media: destage Hantro VPU driver
-date:   8 months ago
-config: hexagon-buildonly-randconfig-r002-20230430 (https://download.01.org/0day-ci/archive/20230430/202304300210.PXABWBvG-lkp@intel.com/config)
+tree:   https://github.com/zen-kernel/zen-kernel 6.2/prjc
+head:   6a80d978aa1f981122f7478fedea389aa9475f9d
+commit: 7b3d43238e0fd4a97c85581d819604e81ff0b585 [290/395] sched/alt: [Sync] 16bf5a5e1ec5 smp: Rename flush_smp_call_function_from_idle()
+config: hexagon-randconfig-r041-20230430 (https://download.01.org/0day-ci/archive/20230430/202304300332.YMVyKFMV-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fbb6c848dd89786fe24856ee6b5e773910ded29c
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout fbb6c848dd89786fe24856ee6b5e773910ded29c
+        # https://github.com/zen-kernel/zen-kernel/commit/7b3d43238e0fd4a97c85581d819604e81ff0b585
+        git remote add zen https://github.com/zen-kernel/zen-kernel
+        git fetch --no-tags zen 6.2/prjc
+        git checkout 7b3d43238e0fd4a97c85581d819604e81ff0b585
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/media/platform/verisilicon/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304300210.PXABWBvG-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304300332.YMVyKFMV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/media/platform/verisilicon/hantro_drv.c:618:34: warning: unused variable 'of_hantro_match' [-Wunused-const-variable]
-   static const struct of_device_id of_hantro_match[] = {
-                                    ^
-   1 warning generated.
+   In file included from kernel/sched/build_policy.c:24:
+   In file included from include/linux/livepatch.h:13:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from kernel/sched/build_policy.c:24:
+   In file included from include/linux/livepatch.h:13:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from kernel/sched/build_policy.c:24:
+   In file included from include/linux/livepatch.h:13:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   In file included from kernel/sched/build_policy.c:35:
+>> kernel/sched/smp.h:14:20: error: redefinition of 'flush_smp_call_function_queue'
+   static inline void flush_smp_call_function_queue(void) { }
+                      ^
+   kernel/sched/alt_sched.h:296:20: note: previous definition is here
+   static inline void flush_smp_call_function_queue(void) { }
+                      ^
+   In file included from kernel/sched/build_policy.c:43:
+   kernel/sched/idle.c:56:2: error: call to undeclared function 'ct_idle_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           ct_idle_enter();
+           ^
+   kernel/sched/idle.c:56:2: note: did you mean 'cpuidle_enter'?
+   include/linux/cpuidle.h:183:19: note: 'cpuidle_enter' declared here
+   static inline int cpuidle_enter(struct cpuidle_driver *drv,
+                     ^
+   In file included from kernel/sched/build_policy.c:43:
+   kernel/sched/idle.c:63:2: error: call to undeclared function 'ct_idle_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           ct_idle_exit();
+           ^
+   kernel/sched/idle.c:63:2: note: did you mean 'ct_irq_exit'?
+   include/linux/context_tracking_irq.h:14:20: note: 'ct_irq_exit' declared here
+   static inline void ct_irq_exit(void) { }
+                      ^
+   In file included from kernel/sched/build_policy.c:43:
+   kernel/sched/idle.c:106:3: error: call to undeclared function 'ct_idle_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   ct_idle_enter();
+                   ^
+   kernel/sched/idle.c:119:3: error: call to undeclared function 'ct_idle_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                   ct_idle_exit();
+                   ^
+   6 warnings and 5 errors generated.
 
 
-vim +/of_hantro_match +618 drivers/media/platform/verisilicon/hantro_drv.c
+vim +/flush_smp_call_function_queue +14 kernel/sched/smp.h
 
-775fec69008d30 drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c Ezequiel Garcia    2018-12-05  617  
-a29add8c9bb29d drivers/staging/media/hantro/hantro_drv.c             Philipp Zabel      2019-06-12 @618  static const struct of_device_id of_hantro_match[] = {
-a29add8c9bb29d drivers/staging/media/hantro/hantro_drv.c             Philipp Zabel      2019-06-12  619  #ifdef CONFIG_VIDEO_HANTRO_ROCKCHIP
-fb7cb344b96938 drivers/staging/media/hantro/hantro_drv.c             Paul Kocialkowski  2021-07-19  620  	{ .compatible = "rockchip,px30-vpu",   .data = &px30_vpu_variant, },
-4f34591568e7a1 drivers/staging/media/hantro/hantro_drv.c             Alex Bee           2021-06-14  621  	{ .compatible = "rockchip,rk3036-vpu", .data = &rk3036_vpu_variant, },
-78bb1ae5472cab drivers/staging/media/hantro/hantro_drv.c             Alex Bee           2021-06-14  622  	{ .compatible = "rockchip,rk3066-vpu", .data = &rk3066_vpu_variant, },
-775fec69008d30 drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c Ezequiel Garcia    2018-12-05  623  	{ .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
-4b898fedeb26c4 drivers/staging/media/hantro/hantro_drv.c             Alex Bee           2021-06-14  624  	{ .compatible = "rockchip,rk3328-vpu", .data = &rk3328_vpu_variant, },
-4b898fedeb26c4 drivers/staging/media/hantro/hantro_drv.c             Alex Bee           2021-06-14  625  	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
-6f1ae821a6c4aa drivers/staging/media/hantro/hantro_drv.c             Nicolas Frattaroli 2022-06-12  626  	{ .compatible = "rockchip,rk3568-vepu", .data = &rk3568_vepu_variant, },
-5f6bfab6da6531 drivers/staging/media/hantro/hantro_drv.c             Piotr Oniszczuk    2022-02-14  627  	{ .compatible = "rockchip,rk3568-vpu", .data = &rk3568_vpu_variant, },
-8e4aaa68786319 drivers/staging/media/hantro/hantro_drv.c             Philipp Zabel      2020-03-20  628  #endif
-8e4aaa68786319 drivers/staging/media/hantro/hantro_drv.c             Philipp Zabel      2020-03-20  629  #ifdef CONFIG_VIDEO_HANTRO_IMX8M
-cf1abc501a5c76 drivers/staging/media/hantro/hantro_drv.c             Adam Ford          2022-01-25  630  	{ .compatible = "nxp,imx8mm-vpu-g1", .data = &imx8mm_vpu_g1_variant, },
-8e4aaa68786319 drivers/staging/media/hantro/hantro_drv.c             Philipp Zabel      2020-03-20  631  	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
-6971efb70ac3e4 drivers/staging/media/hantro/hantro_drv.c             Adam Ford          2022-01-25  632  	{ .compatible = "nxp,imx8mq-vpu-g1", .data = &imx8mq_vpu_g1_variant },
-45040f67504195 drivers/staging/media/hantro/hantro_drv.c             Benjamin Gaignard  2021-06-03  633  	{ .compatible = "nxp,imx8mq-vpu-g2", .data = &imx8mq_vpu_g2_variant },
-82ad940c009499 drivers/staging/media/hantro/hantro_drv.c             Emil Velikov       2021-04-01  634  #endif
-82ad940c009499 drivers/staging/media/hantro/hantro_drv.c             Emil Velikov       2021-04-01  635  #ifdef CONFIG_VIDEO_HANTRO_SAMA5D4
-82ad940c009499 drivers/staging/media/hantro/hantro_drv.c             Emil Velikov       2021-04-01  636  	{ .compatible = "microchip,sama5d4-vdec", .data = &sama5d4_vdec_variant, },
-86790a4fdf4b3d drivers/staging/media/hantro/hantro_drv.c             Jernej Skrabec     2021-11-29  637  #endif
-86790a4fdf4b3d drivers/staging/media/hantro/hantro_drv.c             Jernej Skrabec     2021-11-29  638  #ifdef CONFIG_VIDEO_HANTRO_SUNXI
-86790a4fdf4b3d drivers/staging/media/hantro/hantro_drv.c             Jernej Skrabec     2021-11-29  639  	{ .compatible = "allwinner,sun50i-h6-vpu-g2", .data = &sunxi_vpu_variant, },
-a29add8c9bb29d drivers/staging/media/hantro/hantro_drv.c             Philipp Zabel      2019-06-12  640  #endif
-775fec69008d30 drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c Ezequiel Garcia    2018-12-05  641  	{ /* sentinel */ }
-775fec69008d30 drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c Ezequiel Garcia    2018-12-05  642  };
-a29add8c9bb29d drivers/staging/media/hantro/hantro_drv.c             Philipp Zabel      2019-06-12  643  MODULE_DEVICE_TABLE(of, of_hantro_match);
-775fec69008d30 drivers/staging/media/rockchip/vpu/rockchip_vpu_drv.c Ezequiel Garcia    2018-12-05  644  
+d664e399128bd7 Thomas Gleixner 2022-04-13  10  
+d664e399128bd7 Thomas Gleixner 2022-04-13  11  #ifdef CONFIG_SMP
+16bf5a5e1ec564 Thomas Gleixner 2022-04-13  12  extern void flush_smp_call_function_queue(void);
+d664e399128bd7 Thomas Gleixner 2022-04-13  13  #else
+16bf5a5e1ec564 Thomas Gleixner 2022-04-13 @14  static inline void flush_smp_call_function_queue(void) { }
 
-:::::: The code at line 618 was first introduced by commit
-:::::: a29add8c9bb29dfa8dc47c71b2702e9cc4f332a6 media: rockchip/vpu: rename from rockchip to hantro
+:::::: The code at line 14 was first introduced by commit
+:::::: 16bf5a5e1ec56474ed2a19d72f272ed09a5d3ea1 smp: Rename flush_smp_call_function_from_idle()
 
-:::::: TO: Philipp Zabel <p.zabel@pengutronix.de>
-:::::: CC: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
