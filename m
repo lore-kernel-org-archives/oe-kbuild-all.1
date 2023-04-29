@@ -1,42 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2D595672
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Apr 2023 19:04:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B7D3229
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Apr 2023 20:36:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682795052; x=1714331052;
+  t=1682800573; x=1714336573;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mcZBr/vLPhCrs8Cn+BNHkLbjRA9LEa6/Vz2iwYywmQ8=;
-  b=UVO8dr+oBnN/T2NWjtPraS5QNfiu+45HoU98aLZg5d5GulfhOP1lVxtT
-   rR31zR/14JvoBLaIcbDhan4ZushSn8WvRJzBV0vVQwaGwKoqEZwTiWL66
-   wR3P/2U+uOwfZfXzFCTnPnrnAQu+p1bRqtbqZ+skmOZPT8NXa5NZKqkaV
-   swn5NB4bw+MgzHytB3oymJcTLLvKYuA2d0QlW3bzaU0OOKnLQ7c8I51hT
-   3RlGZy9t5afefYrC3mjcOPxGq6eF9Tdk1HGrRkqGaZqdheyz6iEuTkGU5
-   JGwipKPwmEs2TlSS+bKnF9RJNbBRYTq8wYsJ0IyUi2RJy/HxVBg35i7Vx
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="345422896"
+  bh=DWf48GXUi22X7SQ/KVcgIm6CZgromJBm0nZr6Z4CjWo=;
+  b=iCHNRQD4PflkeVYo81R7itUhKIMWGplMEyCBg2uLk89Gr3jjIrABpq1N
+   qa68xmMq/xqC3bb/w4cPTTqhp4VksBLtEYpOguMndd49i7vgIJhQwr5th
+   h8lweLsq6HAE3L2SHqQ6bg6Knm7Bp6ncReJ8Cu2P0QxO9FCgg3CcEZCeJ
+   qugpdtAwuZ5btrum2TEtq0k/pXz8E5L/M6Afo90KuR2MTiRYDiTfxcmE3
+   JzS6rM10+O70GFYaCZ65FA/yrwz88CliNjhSpzjkwLMc9eD8LUiVE8F/R
+   3Dr8IgJr8tcR0kAjdEuQNjwhfWeQIluTTCRxkaAKoRAZiUSqnlvqdATlr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="350007023"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="345422896"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 12:04:12 -0700
+   d="scan'208";a="350007023"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 13:36:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="806888730"
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="725842300"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="806888730"
+   d="scan'208";a="725842300"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 29 Apr 2023 12:04:10 -0700
+  by orsmga008.jf.intel.com with ESMTP; 29 Apr 2023 13:36:12 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pspre-0001JH-1K;
-	Sat, 29 Apr 2023 19:04:10 +0000
-Date: Sun, 30 Apr 2023 03:03:35 +0800
+	id 1psrIh-0001Kp-1L;
+	Sat, 29 Apr 2023 20:36:11 +0000
+Date: Sun, 30 Apr 2023 04:35:44 +0800
 From: kernel test robot <lkp@intel.com>
 To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.2/prjc 290/395] kernel/sched/smp.h:14:20: error: redefinition
- of 'flush_smp_call_function_queue'
-Message-ID: <202304300332.YMVyKFMV-lkp@intel.com>
+Subject: [zen:6.2/prjc 303/395] kernel/sched/alt_core.c:5782: warning:
+ expecting prototype for sys_sched_getscheduler(). Prototype was for
+ sys_sched_getparam() instead
+Message-ID: <202304300405.eRp0JeAX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,130 +53,87 @@ FYI, the error/warning still remains.
 
 tree:   https://github.com/zen-kernel/zen-kernel 6.2/prjc
 head:   6a80d978aa1f981122f7478fedea389aa9475f9d
-commit: 7b3d43238e0fd4a97c85581d819604e81ff0b585 [290/395] sched/alt: [Sync] 16bf5a5e1ec5 smp: Rename flush_smp_call_function_from_idle()
-config: hexagon-randconfig-r041-20230430 (https://download.01.org/0day-ci/archive/20230430/202304300332.YMVyKFMV-lkp@intel.com/config)
+commit: 5dbca3a371400fe69ad2177b7a6c9d6436dd1fa0 [303/395] sched/alt: [Sync] f5d39b020809 freezer,sched: Rewrite core freezer logic
+config: hexagon-randconfig-r041-20230430 (https://download.01.org/0day-ci/archive/20230430/202304300405.eRp0JeAX-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/zen-kernel/zen-kernel/commit/7b3d43238e0fd4a97c85581d819604e81ff0b585
+        # https://github.com/zen-kernel/zen-kernel/commit/5dbca3a371400fe69ad2177b7a6c9d6436dd1fa0
         git remote add zen https://github.com/zen-kernel/zen-kernel
         git fetch --no-tags zen 6.2/prjc
-        git checkout 7b3d43238e0fd4a97c85581d819604e81ff0b585
+        git checkout 5dbca3a371400fe69ad2177b7a6c9d6436dd1fa0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash kernel/sched/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304300332.YMVyKFMV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304300405.eRp0JeAX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_policy.c:24:
-   In file included from include/linux/livepatch.h:13:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from kernel/sched/build_policy.c:24:
-   In file included from include/linux/livepatch.h:13:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from kernel/sched/build_policy.c:24:
-   In file included from include/linux/livepatch.h:13:
-   In file included from include/linux/ftrace.h:10:
-   In file included from include/linux/trace_recursion.h:5:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   In file included from kernel/sched/build_policy.c:35:
->> kernel/sched/smp.h:14:20: error: redefinition of 'flush_smp_call_function_queue'
-   static inline void flush_smp_call_function_queue(void) { }
-                      ^
-   kernel/sched/alt_sched.h:296:20: note: previous definition is here
-   static inline void flush_smp_call_function_queue(void) { }
-                      ^
-   In file included from kernel/sched/build_policy.c:43:
-   kernel/sched/idle.c:56:2: error: call to undeclared function 'ct_idle_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           ct_idle_enter();
-           ^
-   kernel/sched/idle.c:56:2: note: did you mean 'cpuidle_enter'?
-   include/linux/cpuidle.h:183:19: note: 'cpuidle_enter' declared here
-   static inline int cpuidle_enter(struct cpuidle_driver *drv,
-                     ^
-   In file included from kernel/sched/build_policy.c:43:
-   kernel/sched/idle.c:63:2: error: call to undeclared function 'ct_idle_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           ct_idle_exit();
-           ^
-   kernel/sched/idle.c:63:2: note: did you mean 'ct_irq_exit'?
-   include/linux/context_tracking_irq.h:14:20: note: 'ct_irq_exit' declared here
-   static inline void ct_irq_exit(void) { }
-                      ^
-   In file included from kernel/sched/build_policy.c:43:
-   kernel/sched/idle.c:106:3: error: call to undeclared function 'ct_idle_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   ct_idle_enter();
-                   ^
-   kernel/sched/idle.c:119:3: error: call to undeclared function 'ct_idle_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                   ct_idle_exit();
-                   ^
-   6 warnings and 5 errors generated.
+   kernel/sched/alt_core.c:114: warning: cannot understand function prototype: 'int sched_yield_type __read_mostly = 1; '
+   kernel/sched/alt_core.c:3455: warning: Function parameter or member 'prev' not described in 'prepare_task_switch'
+   kernel/sched/alt_core.c:3488: warning: Excess function parameter 'rq' description in 'finish_task_switch'
+   kernel/sched/alt_core.c:5714: warning: Function parameter or member 'flags' not described in 'sys_sched_setattr'
+>> kernel/sched/alt_core.c:5782: warning: expecting prototype for sys_sched_getscheduler(). Prototype was for sys_sched_getparam() instead
 
 
-vim +/flush_smp_call_function_queue +14 kernel/sched/smp.h
+vim +5782 kernel/sched/alt_core.c
 
-d664e399128bd7 Thomas Gleixner 2022-04-13  10  
-d664e399128bd7 Thomas Gleixner 2022-04-13  11  #ifdef CONFIG_SMP
-16bf5a5e1ec564 Thomas Gleixner 2022-04-13  12  extern void flush_smp_call_function_queue(void);
-d664e399128bd7 Thomas Gleixner 2022-04-13  13  #else
-16bf5a5e1ec564 Thomas Gleixner 2022-04-13 @14  static inline void flush_smp_call_function_queue(void) { }
+8b025fc742d760 Alfred Chen 2019-08-19  5772  
+8b025fc742d760 Alfred Chen 2019-08-19  5773  /**
+8b025fc742d760 Alfred Chen 2019-08-19  5774   * sys_sched_getscheduler - get the RT priority of a thread
+8b025fc742d760 Alfred Chen 2019-08-19  5775   * @pid: the pid in question.
+8b025fc742d760 Alfred Chen 2019-08-19  5776   * @param: structure containing the RT priority.
+8b025fc742d760 Alfred Chen 2019-08-19  5777   *
+8b025fc742d760 Alfred Chen 2019-08-19  5778   * Return: On success, 0 and the RT priority is in @param. Otherwise, an error
+8b025fc742d760 Alfred Chen 2019-08-19  5779   * code.
+8b025fc742d760 Alfred Chen 2019-08-19  5780   */
+8b025fc742d760 Alfred Chen 2019-08-19  5781  SYSCALL_DEFINE2(sched_getparam, pid_t, pid, struct sched_param __user *, param)
+8b025fc742d760 Alfred Chen 2019-08-19 @5782  {
+8b025fc742d760 Alfred Chen 2019-08-19  5783  	struct sched_param lp = { .sched_priority = 0 };
+8b025fc742d760 Alfred Chen 2019-08-19  5784  	struct task_struct *p;
+8b025fc742d760 Alfred Chen 2019-08-19  5785  	int retval = -EINVAL;
+8b025fc742d760 Alfred Chen 2019-08-19  5786  
+8b025fc742d760 Alfred Chen 2019-08-19  5787  	if (!param || pid < 0)
+8b025fc742d760 Alfred Chen 2019-08-19  5788  		goto out_nounlock;
+8b025fc742d760 Alfred Chen 2019-08-19  5789  
+8b025fc742d760 Alfred Chen 2019-08-19  5790  	rcu_read_lock();
+8b025fc742d760 Alfred Chen 2019-08-19  5791  	p = find_process_by_pid(pid);
+8b025fc742d760 Alfred Chen 2019-08-19  5792  	retval = -ESRCH;
+8b025fc742d760 Alfred Chen 2019-08-19  5793  	if (!p)
+8b025fc742d760 Alfred Chen 2019-08-19  5794  		goto out_unlock;
+8b025fc742d760 Alfred Chen 2019-08-19  5795  
+8b025fc742d760 Alfred Chen 2019-08-19  5796  	retval = security_task_getscheduler(p);
+8b025fc742d760 Alfred Chen 2019-08-19  5797  	if (retval)
+8b025fc742d760 Alfred Chen 2019-08-19  5798  		goto out_unlock;
+8b025fc742d760 Alfred Chen 2019-08-19  5799  
+8b025fc742d760 Alfred Chen 2019-08-19  5800  	if (task_has_rt_policy(p))
+8b025fc742d760 Alfred Chen 2019-08-19  5801  		lp.sched_priority = p->rt_priority;
+8b025fc742d760 Alfred Chen 2019-08-19  5802  	rcu_read_unlock();
+8b025fc742d760 Alfred Chen 2019-08-19  5803  
+8b025fc742d760 Alfred Chen 2019-08-19  5804  	/*
+8b025fc742d760 Alfred Chen 2019-08-19  5805  	 * This one might sleep, we cannot do it with a spinlock held ...
+8b025fc742d760 Alfred Chen 2019-08-19  5806  	 */
+8b025fc742d760 Alfred Chen 2019-08-19  5807  	retval = copy_to_user(param, &lp, sizeof(*param)) ? -EFAULT : 0;
+8b025fc742d760 Alfred Chen 2019-08-19  5808  
+8b025fc742d760 Alfred Chen 2019-08-19  5809  out_nounlock:
+8b025fc742d760 Alfred Chen 2019-08-19  5810  	return retval;
+8b025fc742d760 Alfred Chen 2019-08-19  5811  
+8b025fc742d760 Alfred Chen 2019-08-19  5812  out_unlock:
+8b025fc742d760 Alfred Chen 2019-08-19  5813  	rcu_read_unlock();
+8b025fc742d760 Alfred Chen 2019-08-19  5814  	return retval;
+8b025fc742d760 Alfred Chen 2019-08-19  5815  }
+8b025fc742d760 Alfred Chen 2019-08-19  5816  
 
-:::::: The code at line 14 was first introduced by commit
-:::::: 16bf5a5e1ec56474ed2a19d72f272ed09a5d3ea1 smp: Rename flush_smp_call_function_from_idle()
+:::::: The code at line 5782 was first introduced by commit
+:::::: 8b025fc742d76091232a7404a7ad09c8cad61492 Project C v5.7.5-r2
 
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+:::::: TO: Alfred Chen <cchalpha@gmail.com>
+:::::: CC: Alfred Chen <cchalpha@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
