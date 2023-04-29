@@ -1,44 +1,44 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682CB17E8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Apr 2023 12:55:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7702617E8;
+	Sat, 29 Apr 2023 12:55:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682772905; x=1714308905;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xsl9oTJA5IW/dPTMyV2knW7iPHakWVgayUxQ+sH/ASE=;
-  b=NlgmESA/wavstUznzzQofQf7WN8thlc3R9W8xmimuMvRlcnozf1pRxPB
-   dEji30BxYUPvLeC1jTpLfky0x5IhPreHI2APtpL1ijOc1cK9c72w+HyHC
-   8UnG8udG7rxaDvHywve1qiJ3AAF27yPqLfFv4FdgnCkrX319cuySBweFK
-   pgwZTGhQs6WLmp4vJx6GVbLRNpNqtqp1A6m6Oeyr8iceTawUPSmHpwq2l
-   rU4HJr+2yJT/pv4i2a6/EGEKmjFNiegvelAOyHQjkbsAqUNsBQAvSNP54
-   r3z7+rl+dIgNIpIXy2l66+fOV1grrqRndTdDMoKWJEAtprTXyGwg0BiPY
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="413346320"
+  t=1682772910; x=1714308910;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KGHqU3LAlYhjG5tBGOc2nQJAtTnzYDMbe+fxCkqCyCU=;
+  b=XcITMuaqcPpfDtMlWMYkqBwzo8/rEO4rBM4y3QDmK5M/aV1C5UFIoW3V
+   GFAQhU/7iEMpCK/TN5vsW6RE4J+IaCVeo+e82IvghiiZ7jB5DqdAdqAK/
+   AtEaaE6OGxKIk4FM+JQ6l0yRMyRF3pJc7NF4q9Upqeoq2eKQUc/iaYLSv
+   R177QGV3WvekZcjB0a/h8n6aRXClTS2dUHYN1wcqpao8kkzwn8AcQW9Ah
+   YEPrv18scb2FaAmYpY8Wh8kzI6xAjsJbs1lTm0kj1Lks/txz5BJH9DOW7
+   IgcGhHjrB6pbSmJfExci3RXAUom2FUM8rRVAYd/BHh883EoPKLSVV1Vqw
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="413346328"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="413346320"
+   d="scan'208";a="413346328"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 05:55:04 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 05:55:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="697920694"
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="697920704"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="697920694"
+   d="scan'208";a="697920704"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Apr 2023 05:55:03 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 29 Apr 2023 05:55:08 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psk6Q-00019V-31;
+	id 1psk6Q-00019Z-38;
 	Sat, 29 Apr 2023 12:55:02 +0000
-Date: Sat, 29 Apr 2023 20:54:16 +0800
+Date: Sat, 29 Apr 2023 20:54:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kanchan Joshi <joshi.k@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 12/12] pci: implement submission/completion for rawq
- commands
-Message-ID: <202304292003.uwEZSENw-lkp@intel.com>
-References: <20230429093925.133327-13-joshi.k@samsung.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: arch/arm/mach-omap2/cpuidle44xx.c:88: warning: expecting prototype
+ for omap_enter_idle_[simple/coupled](). Prototype was for
+ omap_enter_idle_simple() instead
+Message-ID: <202304292001.RvJU7sWm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,100 +47,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230429093925.133327-13-joshi.k@samsung.com>
 
-Hi Kanchan,
+Hi Arnd,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on axboe-block/for-next]
-[also build test ERROR on linus/master next-20230428]
-[cannot apply to v6.3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kanchan-Joshi/pci-enable-raw_queues-N-module-parameter/20230429-183933
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230429093925.133327-13-joshi.k%40samsung.com
-patch subject: [RFC PATCH 12/12] pci: implement submission/completion for rawq commands
-config: csky-randconfig-r013-20230429 (https://download.01.org/0day-ci/archive/20230429/202304292003.uwEZSENw-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   89d77f71f493a3663b10fa812d17f472935d24be
+commit: 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8 ARM: dove: multiplatform support
+date:   1 year, 1 month ago
+config: arm-randconfig-r034-20230429 (https://download.01.org/0day-ci/archive/20230429/202304292001.RvJU7sWm-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/5e9295340fad52984048c267b4b4c422c9556c86
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kanchan-Joshi/pci-enable-raw_queues-N-module-parameter/20230429-183933
-        git checkout 5e9295340fad52984048c267b4b4c422c9556c86
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash drivers/nvme/host/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304292003.uwEZSENw-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304292001.RvJU7sWm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/nvme/host/pci.c:2021:10: error: 'const struct blk_mq_ops' has no member named 'register_queue'
-    2021 |         .register_queue = nvme_pci_register_queue,
-         |          ^~~~~~~~~~~~~~
-   drivers/nvme/host/pci.c:2021:27: error: initialization of 'void (*)(struct request *)' from incompatible pointer type 'int (*)(void *)' [-Werror=incompatible-pointer-types]
-    2021 |         .register_queue = nvme_pci_register_queue,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/pci.c:2021:27: note: (near initialization for 'nvme_mq_ops.complete')
-   drivers/nvme/host/pci.c:2021:27: warning: initialized field overwritten [-Woverride-init]
-   drivers/nvme/host/pci.c:2021:27: note: (near initialization for 'nvme_mq_ops.complete')
-   drivers/nvme/host/pci.c:2022:10: error: 'const struct blk_mq_ops' has no member named 'unregister_queue'
-    2022 |         .unregister_queue =  nvme_pci_unregister_queue,
-         |          ^~~~~~~~~~~~~~~~
-   drivers/nvme/host/pci.c:2022:30: error: initialization of 'int (*)(struct blk_mq_hw_ctx *, void *, unsigned int)' from incompatible pointer type 'int (*)(void *, int)' [-Werror=incompatible-pointer-types]
-    2022 |         .unregister_queue =  nvme_pci_unregister_queue,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/pci.c:2022:30: note: (near initialization for 'nvme_mq_ops.init_hctx')
-   drivers/nvme/host/pci.c:2022:30: warning: initialized field overwritten [-Woverride-init]
-   drivers/nvme/host/pci.c:2022:30: note: (near initialization for 'nvme_mq_ops.init_hctx')
->> drivers/nvme/host/pci.c:2023:10: error: 'const struct blk_mq_ops' has no member named 'queue_uring_cmd'
-    2023 |         .queue_uring_cmd = nvme_pci_queue_ucmd,
-         |          ^~~~~~~~~~~~~~~
->> drivers/nvme/host/pci.c:2023:28: error: initialization of 'void (*)(struct blk_mq_hw_ctx *, unsigned int)' from incompatible pointer type 'int (*)(struct io_uring_cmd *, int)' [-Werror=incompatible-pointer-types]
-    2023 |         .queue_uring_cmd = nvme_pci_queue_ucmd,
-         |                            ^~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/pci.c:2023:28: note: (near initialization for 'nvme_mq_ops.exit_hctx')
->> drivers/nvme/host/pci.c:2024:10: error: 'const struct blk_mq_ops' has no member named 'poll_uring_cmd'
-    2024 |         .poll_uring_cmd = nvme_poll_uring_cmd,
-         |          ^~~~~~~~~~~~~~
->> drivers/nvme/host/pci.c:2024:27: error: initialization of 'int (*)(struct blk_mq_tag_set *, struct request *, unsigned int,  unsigned int)' from incompatible pointer type 'int (*)(struct io_uring_cmd *, int,  struct io_comp_batch *)' [-Werror=incompatible-pointer-types]
-    2024 |         .poll_uring_cmd = nvme_poll_uring_cmd,
-         |                           ^~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/pci.c:2024:27: note: (near initialization for 'nvme_mq_ops.init_request')
-   drivers/nvme/host/pci.c:2024:27: warning: initialized field overwritten [-Woverride-init]
-   drivers/nvme/host/pci.c:2024:27: note: (near initialization for 'nvme_mq_ops.init_request')
-   cc1: some warnings being treated as errors
+>> arch/arm/mach-omap2/cpuidle44xx.c:88: warning: expecting prototype for omap_enter_idle_[simple/coupled](). Prototype was for omap_enter_idle_simple() instead
 
 
-vim +2023 drivers/nvme/host/pci.c
+vim +88 arch/arm/mach-omap2/cpuidle44xx.c
 
-  2010	
-  2011	static const struct blk_mq_ops nvme_mq_ops = {
-  2012		.queue_rq	= nvme_queue_rq,
-  2013		.queue_rqs	= nvme_queue_rqs,
-  2014		.complete	= nvme_pci_complete_rq,
-  2015		.commit_rqs	= nvme_commit_rqs,
-  2016		.init_hctx	= nvme_init_hctx,
-  2017		.init_request	= nvme_pci_init_request,
-  2018		.map_queues	= nvme_pci_map_queues,
-  2019		.timeout	= nvme_timeout,
-  2020		.poll		= nvme_poll,
-  2021		.register_queue	= nvme_pci_register_queue,
-> 2022		.unregister_queue =  nvme_pci_unregister_queue,
-> 2023		.queue_uring_cmd = nvme_pci_queue_ucmd,
-> 2024		.poll_uring_cmd	= nvme_poll_uring_cmd,
-  2025	};
-  2026	
+9db316b6bf0234 Paul Walmsley     2012-12-15  74  
+98272660970a71 Santosh Shilimkar 2011-08-16  75  /**
+db4f3dab629109 Santosh Shilimkar 2013-04-05  76   * omap_enter_idle_[simple/coupled] - OMAP4PLUS cpuidle entry functions
+98272660970a71 Santosh Shilimkar 2011-08-16  77   * @dev: cpuidle device
+98272660970a71 Santosh Shilimkar 2011-08-16  78   * @drv: cpuidle driver
+98272660970a71 Santosh Shilimkar 2011-08-16  79   * @index: the index of state to be entered
+98272660970a71 Santosh Shilimkar 2011-08-16  80   *
+98272660970a71 Santosh Shilimkar 2011-08-16  81   * Called from the CPUidle framework to program the device to the
+98272660970a71 Santosh Shilimkar 2011-08-16  82   * specified low power state selected by the governor.
+98272660970a71 Santosh Shilimkar 2011-08-16  83   * Returns the amount of time spent in the low power state.
+98272660970a71 Santosh Shilimkar 2011-08-16  84   */
+db4f3dab629109 Santosh Shilimkar 2013-04-05  85  static int omap_enter_idle_simple(struct cpuidle_device *dev,
+dd3ad97c5621aa Santosh Shilimkar 2011-12-25  86  			struct cpuidle_driver *drv,
+dd3ad97c5621aa Santosh Shilimkar 2011-12-25  87  			int index)
+dd3ad97c5621aa Santosh Shilimkar 2011-12-25 @88  {
+dd3ad97c5621aa Santosh Shilimkar 2011-12-25  89  	omap_do_wfi();
+dd3ad97c5621aa Santosh Shilimkar 2011-12-25  90  	return index;
+dd3ad97c5621aa Santosh Shilimkar 2011-12-25  91  }
+dd3ad97c5621aa Santosh Shilimkar 2011-12-25  92  
+
+:::::: The code at line 88 was first introduced by commit
+:::::: dd3ad97c5621aa853843dd5e6783ca787466158c ARM: OMAP4: CPUidle: Use coupled cpuidle states to implement SMP cpuidle.
+
+:::::: TO: Santosh Shilimkar <santosh.shilimkar@ti.com>
+:::::: CC: Kevin Hilman <khilman@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
