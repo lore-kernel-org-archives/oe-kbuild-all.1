@@ -1,42 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C5828EE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Apr 2023 09:49:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F3B15C1;
+	Sat, 29 Apr 2023 10:31:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682761741; x=1714297741;
+  t=1682764262; x=1714300262;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oE6SJASOVO6OvuMhC3wHUsnSzqxMEd0Z0pce8ICKpuM=;
-  b=HnnMiMpR9qrnBD8p0gMWZ8CAUhf+CouN/X7UWb5u97+8/HuIPITziZAN
-   yUtwwqlo3TK0KOgfX4vRrCrOue2/MbqNVEnTXnNyooTW74SEl9OHmBg2S
-   Vnr+zyY9jZiHwAud/rKPy8lx1ZkoDO5DVNMXtgcxFa8cK+YqpL4t6MTd/
-   bxsN0qg5gFmN/PzGk0i6eGeHCewcajMCcls8D5Tec95l0BAIqgSX511sW
-   xrFxyWaFOs9RNFNrWIT8P5ikuz9jKObIWR2ifDmGoR/22vwBOKKzaju8i
-   sTkgQANxPjv4jiAsnvQfvPg1xQEb/D8l1dsxbj6xsKj2ABNp3ulmThbDF
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="349960690"
+  bh=zTOqmkEbQ+DxMgDz3Z8f38DUCSFgfHq12Q6zBdQDTjM=;
+  b=mronZ8iwqdswUm5L1mqHP608+Z5hV1i52rVbw4QpKbkHihLeQhcD0Pxm
+   WkFBXOSXjtLEu2CLIhmxtqYLmz/60+k9y2GuURYgDjppIpUbToxtQ3SN6
+   t2GA5PbMFRv29rzxhlZ5O0jrAfJihILjYszmLf27jtz9zzYDqi0T7l5L1
+   S5gaisNgtezHXICOxdz7ZLlJFRivxBi5Xni+3uRLw9dO743vtMRRBHPhr
+   LddyV2bruSotL8Icb8+XdqBrz+GHaSNcU7Xt8IqXCXyM+E8nrclH7w52X
+   I7qxSbMDNIvE3gFBm0bzy3kOSBUWCKe3co4klfdpk5RCCsWKfIER9Z0Sq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="434222275"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="349960690"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 02:49:00 -0700
+   d="scan'208";a="434222275"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 03:31:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="689219585"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="941448765"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="689219585"
+   d="scan'208";a="941448765"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 29 Apr 2023 02:48:59 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 29 Apr 2023 03:31:00 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pshCM-00012V-1M;
-	Sat, 29 Apr 2023 09:48:58 +0000
-Date: Sat, 29 Apr 2023 17:48:55 +0800
+	id 1pshr1-000140-1H;
+	Sat, 29 Apr 2023 10:30:59 +0000
+Date: Sat, 29 Apr 2023 18:30:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.3/main 295/445] kernel/sched/smp.h:14:20: error: redefinition
- of 'flush_smp_call_function_queue'
-Message-ID: <202304291747.txQZ2S4K-lkp@intel.com>
+To: Kees Cook <keescook@chromium.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: drivers/scsi/fcoe/fcoe_ctlr.c:1871:13: warning: stack frame size
+ (1072) exceeds limit (1024) in 'fcoe_ctlr_recv_work'
+Message-ID: <202304291839.L1PvCRkL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,53 +47,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.3/main
-head:   eba4954612b618a11e1558a7e6dcce53de9c9d85
-commit: bff5eca3b1e3f87c41eba91022950297d0c770bd [295/445] sched/alt: [Sync] 16bf5a5e1ec5 smp: Rename flush_smp_call_function_from_idle()
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230429/202304291747.txQZ2S4K-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   89d77f71f493a3663b10fa812d17f472935d24be
+commit: 54d9469bc515dc5fcbc20eecbe19cea868b70d68 fortify: Add run-time WARN for cross-field memcpy()
+date:   8 months ago
+config: riscv-randconfig-r015-20230429 (https://download.01.org/0day-ci/archive/20230429/202304291839.L1PvCRkL-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/zen-kernel/zen-kernel/commit/bff5eca3b1e3f87c41eba91022950297d0c770bd
-        git remote add zen https://github.com/zen-kernel/zen-kernel
-        git fetch --no-tags zen 6.3/main
-        git checkout bff5eca3b1e3f87c41eba91022950297d0c770bd
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=54d9469bc515dc5fcbc20eecbe19cea868b70d68
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 54d9469bc515dc5fcbc20eecbe19cea868b70d68
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/scsi/fcoe/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304291747.txQZ2S4K-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304291839.L1PvCRkL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_policy.c:35:
->> kernel/sched/smp.h:14:20: error: redefinition of 'flush_smp_call_function_queue'
-      14 | static inline void flush_smp_call_function_queue(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/sched/sched.h:9,
-                    from kernel/sched/build_policy.c:34:
-   kernel/sched/alt_sched.h:296:20: note: previous definition of 'flush_smp_call_function_queue' with type 'void(void)'
-     296 | static inline void flush_smp_call_function_queue(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/fcoe/fcoe_ctlr.c:1871:13: warning: stack frame size (1072) exceeds limit (1024) in 'fcoe_ctlr_recv_work' [-Wframe-larger-than]
+   static void fcoe_ctlr_recv_work(struct work_struct *recv_work)
+               ^
+   677/1072 (63.15%) spills, 395/1072 (36.85%) variables
+   1 warning generated.
 
 
-vim +/flush_smp_call_function_queue +14 kernel/sched/smp.h
+vim +/fcoe_ctlr_recv_work +1871 drivers/scsi/fcoe/fcoe_ctlr.c
 
-d664e399128bd7 Thomas Gleixner 2022-04-13  10  
-d664e399128bd7 Thomas Gleixner 2022-04-13  11  #ifdef CONFIG_SMP
-16bf5a5e1ec564 Thomas Gleixner 2022-04-13  12  extern void flush_smp_call_function_queue(void);
-d664e399128bd7 Thomas Gleixner 2022-04-13  13  #else
-16bf5a5e1ec564 Thomas Gleixner 2022-04-13 @14  static inline void flush_smp_call_function_queue(void) { }
+97c8389d54b966 drivers/scsi/fcoe/libfcoe.c Joe Eykholt 2009-03-17  1866  
+97c8389d54b966 drivers/scsi/fcoe/libfcoe.c Joe Eykholt 2009-03-17  1867  /**
+70b51aabf3b03f drivers/scsi/fcoe/libfcoe.c Robert Love 2009-11-03  1868   * fcoe_ctlr_recv_work() - Worker thread function for receiving FIP frames
+70b51aabf3b03f drivers/scsi/fcoe/libfcoe.c Robert Love 2009-11-03  1869   * @recv_work: Handle to a FCoE controller
+97c8389d54b966 drivers/scsi/fcoe/libfcoe.c Joe Eykholt 2009-03-17  1870   */
+97c8389d54b966 drivers/scsi/fcoe/libfcoe.c Joe Eykholt 2009-03-17 @1871  static void fcoe_ctlr_recv_work(struct work_struct *recv_work)
+97c8389d54b966 drivers/scsi/fcoe/libfcoe.c Joe Eykholt 2009-03-17  1872  {
+97c8389d54b966 drivers/scsi/fcoe/libfcoe.c Joe Eykholt 2009-03-17  1873  	struct fcoe_ctlr *fip;
+97c8389d54b966 drivers/scsi/fcoe/libfcoe.c Joe Eykholt 2009-03-17  1874  	struct sk_buff *skb;
+97c8389d54b966 drivers/scsi/fcoe/libfcoe.c Joe Eykholt 2009-03-17  1875  
+97c8389d54b966 drivers/scsi/fcoe/libfcoe.c Joe Eykholt 2009-03-17  1876  	fip = container_of(recv_work, struct fcoe_ctlr, recv_work);
+1f4aed818d26eb drivers/scsi/fcoe/libfcoe.c Joe Eykholt 2009-11-03  1877  	while ((skb = skb_dequeue(&fip->fip_recv_list)))
+97c8389d54b966 drivers/scsi/fcoe/libfcoe.c Joe Eykholt 2009-03-17  1878  		fcoe_ctlr_recv_handler(fip, skb);
+97c8389d54b966 drivers/scsi/fcoe/libfcoe.c Joe Eykholt 2009-03-17  1879  }
+97c8389d54b966 drivers/scsi/fcoe/libfcoe.c Joe Eykholt 2009-03-17  1880  
 
-:::::: The code at line 14 was first introduced by commit
-:::::: 16bf5a5e1ec56474ed2a19d72f272ed09a5d3ea1 smp: Rename flush_smp_call_function_from_idle()
+:::::: The code at line 1871 was first introduced by commit
+:::::: 97c8389d54b9665c38105ea72a428a44b97ff2f6 [SCSI] fcoe, libfcoe: Add support for FIP. FCoE discovery and keep-alive.
 
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+:::::: TO: Joe Eykholt <jeykholt@cisco.com>
+:::::: CC: James Bottomley <James.Bottomley@HansenPartnership.com>
 
 -- 
 0-DAY CI Kernel Test Service
