@@ -1,48 +1,42 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD93AD4C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 28 Apr 2023 23:54:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BCD193;
+	Sat, 29 Apr 2023 00:04:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682726091; x=1714262091;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SJXp+1HzoIh0ZhIOJuOclUQJn51bNAqL1ZXszXf+6/0=;
-  b=gs4Qcnd1rLaEbO5CjCbv8jH++DircSrNw1XZPlc8ZRkgBSJHDAClgbgS
-   EfyjUnxY2Duc3I+zVXz/GIcn0WW+g+La44y8PNGm9/v5DJ2Z2K+i7xz/k
-   Qg77yBH/uFhCDtw6etsAJodZNTWCepxy8osJNY9N0znz9Z/8rk5R6DZaM
-   IzacARTRDgcTob+xtbkNjv4Bp/uMNdxK51gNpzLdOTku/6aRjo4tJPAnY
-   IJsjgv/NXUK5NLXcMgysZf+Fw5vl0bJ/rDumwaIJtyc+WQtxCnqPvxG+6
-   7U1loGX0Zv45SY687DMmKF+eQsBvhAQR4FV8DuayhbqqgS98j0kTWXwS5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="346655293"
+  t=1682726690; x=1714262690;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5m7iicA5TdJ9z85/6x4Tz+YShtnH1DFmUfXGbYFi91s=;
+  b=ipCOHHtbv+HfdLg/+xU609AQvHrJDNSQrvYM/LWfXnM15Yq4ZckVGKqT
+   Fm/wjLgBKZaY7sTiyNrh8xLS30QRq+CQrtHN6Vmw3NJ4BpYhBnsu5jqj7
+   dYhElci+jWWmEzGiisfctEeiQJkJel3uC5jrTRsutBBEcRSx6c8iYUja9
+   enjjXJBGB7q3gOHCHeo52o1s/pxn3SPLVDZyvavEmqZMptk+tpWYuexl5
+   /SLT9RKkMDqQ3KrXARrQoo9AQr6LTMFIVc7EvHo83wyskCVbWuRdh26pE
+   jUFHAmAMpBmTvB8WaH8824XHA7MJ+tI/2IQZh3MFFiB6RPIpbNDo6CzmB
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="346657098"
 X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="346655293"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 16:54:51 -0700
+   d="scan'208";a="346657098"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2023 17:04:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="689030623"
+X-IronPort-AV: E=McAfee;i="6600,9927,10694"; a="784430064"
 X-IronPort-AV: E=Sophos;i="5.99,235,1677571200"; 
-   d="scan'208";a="689030623"
+   d="scan'208";a="784430064"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 28 Apr 2023 16:54:48 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 28 Apr 2023 17:04:48 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psXvL-0000lD-1J;
-	Fri, 28 Apr 2023 23:54:47 +0000
-Date: Sat, 29 Apr 2023 07:54:10 +0800
+	id 1psY51-0000lh-2E;
+	Sat, 29 Apr 2023 00:04:47 +0000
+Date: Sat, 29 Apr 2023 08:04:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sai Teja Aluvala <quic_saluvala@quicinc.com>, marcel@holtmann.org,
-	johan.hedberg@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, quic_hemantg@quicinc.com,
-	quic_bgodavar@quicinc.com, quic_rameshn@quicinc.com,
-	jiangzp@google.com, mmandlik@google.com,
-	Sai Teja Aluvala <quic_saluvala@quicinc.com>
-Subject: Re: [PATCH v1 2/2] Bluetooth: hci_qca: Add qcomm devcoredump support
-Message-ID: <202304290720.TfpPCFY6-lkp@intel.com>
-References: <1682666311-8452-1-git-send-email-quic_saluvala@quicinc.com>
+To: David Ahern <david@enfabrica.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dsahern:enfab-6.3 2/10] net/ipv4/tcp_offload.c:271:11: warning: use
+ of bitwise '|' with boolean operands
+Message-ID: <202304290757.ikOosSgq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,110 +45,162 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1682666311-8452-1-git-send-email-quic_saluvala@quicinc.com>
 
-Hi Sai,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bluetooth/master]
-[also build test WARNING on bluetooth-next/master linus/master v6.3 next-20230428]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sai-Teja-Aluvala/Bluetooth-hci_qca-Add-qcomm-devcoredump-support/20230428-152145
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/1682666311-8452-1-git-send-email-quic_saluvala%40quicinc.com
-patch subject: [PATCH v1 2/2] Bluetooth: hci_qca: Add qcomm devcoredump support
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230429/202304290720.TfpPCFY6-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/dsahern/linux enfab-6.3
+head:   a036626ebabac8cfa59cb5f2a4306b20e4006af6
+commit: 58c2b79dea441adb10ca120def37057df53cd874 [2/10] skbuff: Add SKBFL_FIXED_FRAG flag and add checks in code
+config: powerpc-randconfig-r006-20230428 (https://download.01.org/0day-ci/archive/20230429/202304290757.ikOosSgq-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a3c3d43057a99f13198754e0b8eaf944d1853142
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sai-Teja-Aluvala/Bluetooth-hci_qca-Add-qcomm-devcoredump-support/20230428-152145
-        git checkout a3c3d43057a99f13198754e0b8eaf944d1853142
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://github.com/dsahern/linux/commit/58c2b79dea441adb10ca120def37057df53cd874
+        git remote add dsahern https://github.com/dsahern/linux
+        git fetch --no-tags dsahern enfab-6.3
+        git checkout 58c2b79dea441adb10ca120def37057df53cd874
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash net/ipv4/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304290720.TfpPCFY6-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304290757.ikOosSgq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/bluetooth/hci_qca.c:981:5: warning: no previous prototype for 'qca_dmp_hdr' [-Wmissing-prototypes]
-     981 | int qca_dmp_hdr(struct hci_dev *hdev, char *buf, size_t size)
-         |     ^~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c: In function 'qca_controller_memdump':
-   drivers/bluetooth/hci_qca.c:1070:31: error: implicit declaration of function 'hci_devcoredump_init' [-Werror=implicit-function-declaration]
-    1070 |                         ret = hci_devcoredump_init(hu->hdev, qca_memdump->ram_dump_size);
-         |                               ^~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1119:25: error: implicit declaration of function 'hci_devcoredump_append_pattern' [-Werror=implicit-function-declaration]
-    1119 |                         hci_devcoredump_append_pattern(hu->hdev, 0x00,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1136:25: error: implicit declaration of function 'hci_devcoredump_append' [-Werror=implicit-function-declaration]
-    1136 |                         hci_devcoredump_append(hu->hdev, skb);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c:1150:25: error: implicit declaration of function 'hci_devcoredump_complete' [-Werror=implicit-function-declaration]
-    1150 |                         hci_devcoredump_complete(hu->hdev);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c: In function 'qca_hw_error':
-   drivers/bluetooth/hci_qca.c:1557:17: error: implicit declaration of function 'hci_devcoredump_abort' [-Werror=implicit-function-declaration]
-    1557 |                 hci_devcoredump_abort(hu->hdev);
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c: In function 'hciqca_coredump_enabled':
-   drivers/bluetooth/hci_qca.c:1727:32: error: 'struct device' has no member named 'coredump_disabled'
-    1727 |         return !hu->serdev->dev.coredump_disabled;
-         |                                ^
-   drivers/bluetooth/hci_qca.c: In function 'qca_setup':
-   drivers/bluetooth/hci_qca.c:1866:25: error: 'struct hci_dev' has no member named 'dump'
-    1866 |                 hu->hdev->dump.enabled = hciqca_coredump_enabled;
-         |                         ^~
-   drivers/bluetooth/hci_qca.c:1906:9: error: implicit declaration of function 'hci_devcoredump_register' [-Werror=implicit-function-declaration]
-    1906 |         hci_devcoredump_register(hdev, hci_coredump_qca, qca_dmp_hdr, NULL);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/bluetooth/hci_qca.c: In function 'hciqca_coredump':
-   drivers/bluetooth/hci_qca.c:2458:17: error: 'struct device' has no member named 'coredump_disabled'
-    2458 |         if (!dev->coredump_disabled && hdev->dump.coredump)
-         |                 ^~
-   drivers/bluetooth/hci_qca.c:2458:44: error: 'struct hci_dev' has no member named 'dump'
-    2458 |         if (!dev->coredump_disabled && hdev->dump.coredump)
-         |                                            ^~
-   drivers/bluetooth/hci_qca.c:2459:21: error: 'struct hci_dev' has no member named 'dump'
-    2459 |                 hdev->dump.coredump(hdev);
-         |                     ^~
-   cc1: some warnings being treated as errors
+>> net/ipv4/tcp_offload.c:271:11: warning: use of bitwise '|' with boolean operands [-Wbitwise-instead-of-logical]
+           flush |= skb_fixed(p) | skb_fixed(skb);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                 ||
+   net/ipv4/tcp_offload.c:271:11: note: cast one or both operands to int to silence this warning
+   1 warning generated.
 
 
-vim +/qca_dmp_hdr +981 drivers/bluetooth/hci_qca.c
+vim +271 net/ipv4/tcp_offload.c
 
-   980	
- > 981	int qca_dmp_hdr(struct hci_dev *hdev, char *buf, size_t size)
-   982	{
-   983		struct hci_uart *hu = hci_get_drvdata(hdev);
-   984		struct qca_data *qca = hu->priv;
-   985		int len = 0;
-   986	
-   987		len += snprintf(buf + len, size-len, "Controller Name: 0x%x\n",
-   988				qca->controller_id);
-   989	
-   990		len += snprintf(buf + len, size-len, "Firmware Version: 0x%x\n",
-   991				qca->fw_version);
-   992	
-   993		len += snprintf(buf + len, size-len, "Vendor:Qualcomm\n");
-   994	
-   995		len += snprintf(buf + len, size-len, "Driver: %s\n",
-   996				hu->serdev->dev.driver->name);
-   997	
-   998		bt_dev_info(hdev, "vendor dump hdr size(%d)", len);
-   999		return len;
-  1000	}
-  1001	
+   180	
+   181	struct sk_buff *tcp_gro_receive(struct list_head *head, struct sk_buff *skb)
+   182	{
+   183		struct sk_buff *pp = NULL;
+   184		struct sk_buff *p;
+   185		struct tcphdr *th;
+   186		struct tcphdr *th2;
+   187		unsigned int len;
+   188		unsigned int thlen;
+   189		__be32 flags;
+   190		unsigned int mss = 1;
+   191		unsigned int hlen;
+   192		unsigned int off;
+   193		int flush = 1;
+   194		int i;
+   195	
+   196		off = skb_gro_offset(skb);
+   197		hlen = off + sizeof(*th);
+   198		th = skb_gro_header(skb, hlen, off);
+   199		if (unlikely(!th))
+   200			goto out;
+   201	
+   202		thlen = th->doff * 4;
+   203		if (thlen < sizeof(*th))
+   204			goto out;
+   205	
+   206		hlen = off + thlen;
+   207		if (skb_gro_header_hard(skb, hlen)) {
+   208			th = skb_gro_header_slow(skb, hlen, off);
+   209			if (unlikely(!th))
+   210				goto out;
+   211		}
+   212	
+   213		skb_gro_pull(skb, thlen);
+   214	
+   215		len = skb_gro_len(skb);
+   216		flags = tcp_flag_word(th);
+   217	
+   218		list_for_each_entry(p, head, list) {
+   219			if (!NAPI_GRO_CB(p)->same_flow)
+   220				continue;
+   221	
+   222			th2 = tcp_hdr(p);
+   223	
+   224			if (*(u32 *)&th->source ^ *(u32 *)&th2->source) {
+   225				NAPI_GRO_CB(p)->same_flow = 0;
+   226				continue;
+   227			}
+   228	
+   229			goto found;
+   230		}
+   231		p = NULL;
+   232		goto out_check_final;
+   233	
+   234	found:
+   235		/* Include the IP ID check below from the inner most IP hdr */
+   236		flush = NAPI_GRO_CB(p)->flush;
+   237		flush |= (__force int)(flags & TCP_FLAG_CWR);
+   238		flush |= (__force int)((flags ^ tcp_flag_word(th2)) &
+   239			  ~(TCP_FLAG_CWR | TCP_FLAG_FIN | TCP_FLAG_PSH));
+   240		flush |= (__force int)(th->ack_seq ^ th2->ack_seq);
+   241		for (i = sizeof(*th); i < thlen; i += 4)
+   242			flush |= *(u32 *)((u8 *)th + i) ^
+   243				 *(u32 *)((u8 *)th2 + i);
+   244	
+   245		/* When we receive our second frame we can made a decision on if we
+   246		 * continue this flow as an atomic flow with a fixed ID or if we use
+   247		 * an incrementing ID.
+   248		 */
+   249		if (NAPI_GRO_CB(p)->flush_id != 1 ||
+   250		    NAPI_GRO_CB(p)->count != 1 ||
+   251		    !NAPI_GRO_CB(p)->is_atomic)
+   252			flush |= NAPI_GRO_CB(p)->flush_id;
+   253		else
+   254			NAPI_GRO_CB(p)->is_atomic = false;
+   255	
+   256		mss = skb_shinfo(p)->gso_size;
+   257	
+   258		/* If skb is a GRO packet, make sure its gso_size matches prior packet mss.
+   259		 * If it is a single frame, do not aggregate it if its length
+   260		 * is bigger than our mss.
+   261		 */
+   262		if (unlikely(skb_is_gso(skb)))
+   263			flush |= (mss != skb_shinfo(skb)->gso_size);
+   264		else
+   265			flush |= (len - 1) >= mss;
+   266	
+   267		flush |= (ntohl(th2->seq) + skb_gro_len(p)) ^ ntohl(th->seq);
+   268	#ifdef CONFIG_TLS_DEVICE
+   269		flush |= p->decrypted ^ skb->decrypted;
+   270	#endif
+ > 271		flush |= skb_fixed(p) | skb_fixed(skb);
+   272	
+   273		if (flush || skb_gro_receive(p, skb)) {
+   274			mss = 1;
+   275			goto out_check_final;
+   276		}
+   277	
+   278		tcp_flag_word(th2) |= flags & (TCP_FLAG_FIN | TCP_FLAG_PSH);
+   279	
+   280	out_check_final:
+   281		/* Force a flush if last segment is smaller than mss. */
+   282		if (unlikely(skb_is_gso(skb)))
+   283			flush = len != NAPI_GRO_CB(skb)->count * skb_shinfo(skb)->gso_size;
+   284		else
+   285			flush = len < mss;
+   286	
+   287		flush |= (__force int)(flags & (TCP_FLAG_URG | TCP_FLAG_PSH |
+   288						TCP_FLAG_RST | TCP_FLAG_SYN |
+   289						TCP_FLAG_FIN));
+   290	
+   291		if (p && (!NAPI_GRO_CB(skb)->same_flow || flush))
+   292			pp = p;
+   293	
+   294	out:
+   295		NAPI_GRO_CB(skb)->flush |= (flush != 0);
+   296	
+   297		return pp;
+   298	}
+   299	
 
 -- 
 0-DAY CI Kernel Test Service
