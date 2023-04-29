@@ -1,44 +1,44 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F9917CB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Apr 2023 12:14:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F7017CB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Apr 2023 12:14:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682770448; x=1714306448;
+  t=1682770450; x=1714306450;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=a1DW/kaiVnNLQKW+/jrJjiFLE8UKzq7HtrR8pNoYir0=;
-  b=LFOvHYHZRqTuH9F1C0hwAx9qK9hS7QU1yqsHenWiY5WSO6lRcSIxiARv
-   3MIBQ+Oqkbw9XnkE4nDt60t1u6MFbhzICz8S+JHmvoUM74+vkqy4LbRXt
-   3DUdAjSsFsnUmj+WPxGm1U6ThxaSGrX56mJ9c6vjg9sltRUd9YifIjvBP
-   zEKZkdgscZI2LX8oTyfzN5NNM5dTVDw6PR8KzK3+jTAOs8c4P9o0cV/Hq
-   iElV1g1nM4CFmDV0y/9WfmKeiXlyngENmUbcuYxcg0jgXymtxd677UuIK
-   oioDHf3MwDy/SlO9WgPxSJpHK2ruO9kYNp+N9AFBKhK5bHqxRPJu+VUfX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="345391906"
+  bh=1TDucoHOWy6n1EiK4krmGMJZ14rPYsyYl5/XoEP9IrI=;
+  b=V/IEaz610aWXfCv099Kbxiivxei+cmjjfS/r4Rj67PKmrUd4X9QKo5+u
+   Seq2GhpuKHi/TnHMvEnhm/qqlJQHxfSrdkIP5SzHU0R9gJhwMnf/orX9v
+   O3xYW1OgdZQIq78aiwsTOE/Yfw5ITBChWKXuSO669n4rUZPXkY7aEHHCk
+   vRkwN0fthLRprizSQg3iRO2CfQ83c+6HYiubPSDqg+B9SzxDdKD+Ql5Xs
+   FrM4IiLa5VV/APWoIthcKVjlWFZdFL4ejuoC1dMK54tc3DHsBw4st+Nfn
+   +8YF1fcSNl9Nk9rq1ybMKHXA+a76WA/fHe7peRD+916zswRBwUsYG72S2
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="345391908"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="345391906"
+   d="scan'208";a="345391908"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 05:14:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="819368913"
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="819368911"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="819368913"
+   d="scan'208";a="819368911"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
   by orsmga004.jf.intel.com with ESMTP; 29 Apr 2023 05:14:02 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psjSj-00017l-2p;
+	id 1psjSj-00017h-2K;
 	Sat, 29 Apr 2023 12:14:01 +0000
 Date: Sat, 29 Apr 2023 20:13:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kanchan Joshi <joshi.k@samsung.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 06/12] pci: implement register/unregister
- functionality
-Message-ID: <202304292023.jmgnfrZF-lkp@intel.com>
-References: <20230429093925.133327-7-joshi.k@samsung.com>
+Subject: Re: [RFC PATCH 05/12] nvme: wire-up register/unregister queue f_op
+ callback
+Message-ID: <202304291929.tFHH75JE-lkp@intel.com>
+References: <20230429093925.133327-6-joshi.k@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230429093925.133327-7-joshi.k@samsung.com>
+In-Reply-To: <20230429093925.133327-6-joshi.k@samsung.com>
 
 Hi Kanchan,
 
@@ -63,66 +63,93 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Kanchan-Joshi/pci-enable-raw_queues-N-module-parameter/20230429-183933
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230429093925.133327-7-joshi.k%40samsung.com
-patch subject: [RFC PATCH 06/12] pci: implement register/unregister functionality
-config: csky-randconfig-r013-20230429 (https://download.01.org/0day-ci/archive/20230429/202304292023.jmgnfrZF-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+patch link:    https://lore.kernel.org/r/20230429093925.133327-6-joshi.k%40samsung.com
+patch subject: [RFC PATCH 05/12] nvme: wire-up register/unregister queue f_op callback
+config: alpha-randconfig-r032-20230428 (https://download.01.org/0day-ci/archive/20230429/202304291929.tFHH75JE-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6b117fabad0d77551dee34c2b3335dde220e057a
+        # https://github.com/intel-lab-lkp/linux/commit/fb2d573b75b3615d774f841c417790d368b70ccd
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Kanchan-Joshi/pci-enable-raw_queues-N-module-parameter/20230429-183933
-        git checkout 6b117fabad0d77551dee34c2b3335dde220e057a
+        git checkout fb2d573b75b3615d774f841c417790d368b70ccd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash drivers/nvme/host/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/nvme/host/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304292023.jmgnfrZF-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304291929.tFHH75JE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/nvme/host/pci.c:1832:10: error: 'const struct blk_mq_ops' has no member named 'register_queue'
-    1832 |         .register_queue = nvme_pci_register_queue,
-         |          ^~~~~~~~~~~~~~
->> drivers/nvme/host/pci.c:1832:27: error: initialization of 'void (*)(struct request *)' from incompatible pointer type 'int (*)(void *)' [-Werror=incompatible-pointer-types]
-    1832 |         .register_queue = nvme_pci_register_queue,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/pci.c:1832:27: note: (near initialization for 'nvme_mq_ops.complete')
-   drivers/nvme/host/pci.c:1832:27: warning: initialized field overwritten [-Woverride-init]
-   drivers/nvme/host/pci.c:1832:27: note: (near initialization for 'nvme_mq_ops.complete')
->> drivers/nvme/host/pci.c:1833:10: error: 'const struct blk_mq_ops' has no member named 'unregister_queue'
-    1833 |         .unregister_queue =  nvme_pci_unregister_queue,
-         |          ^~~~~~~~~~~~~~~~
->> drivers/nvme/host/pci.c:1833:30: error: initialization of 'int (*)(struct blk_mq_hw_ctx *, void *, unsigned int)' from incompatible pointer type 'int (*)(void *, int)' [-Werror=incompatible-pointer-types]
-    1833 |         .unregister_queue =  nvme_pci_unregister_queue,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/pci.c:1833:30: note: (near initialization for 'nvme_mq_ops.init_hctx')
-   drivers/nvme/host/pci.c:1833:30: warning: initialized field overwritten [-Woverride-init]
-   drivers/nvme/host/pci.c:1833:30: note: (near initialization for 'nvme_mq_ops.init_hctx')
-   cc1: some warnings being treated as errors
+   drivers/nvme/host/core.c:4062:5: warning: no previous prototype for 'nvme_register_queue' [-Wmissing-prototypes]
+    4062 | int nvme_register_queue(struct file *file)
+         |     ^~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c: In function 'nvme_register_queue':
+>> drivers/nvme/host/core.c:4069:35: error: 'const struct blk_mq_ops' has no member named 'register_queue'
+    4069 |         if (q->mq_ops && q->mq_ops->register_queue)
+         |                                   ^~
+   drivers/nvme/host/core.c:4070:33: error: 'const struct blk_mq_ops' has no member named 'register_queue'
+    4070 |                 return q->mq_ops->register_queue(ns);
+         |                                 ^~
+   drivers/nvme/host/core.c: At top level:
+   drivers/nvme/host/core.c:4074:5: warning: no previous prototype for 'nvme_unregister_queue' [-Wmissing-prototypes]
+    4074 | int nvme_unregister_queue(struct file *file, int qid)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c: In function 'nvme_unregister_queue':
+>> drivers/nvme/host/core.c:4081:35: error: 'const struct blk_mq_ops' has no member named 'unregister_queue'
+    4081 |         if (q->mq_ops && q->mq_ops->unregister_queue)
+         |                                   ^~
+   drivers/nvme/host/core.c:4082:33: error: 'const struct blk_mq_ops' has no member named 'unregister_queue'
+    4082 |                 return q->mq_ops->unregister_queue(ns, qid);
+         |                                 ^~
+--
+   drivers/nvme/host/ioctl.c: In function 'nvme_ns_head_register_queue':
+>> drivers/nvme/host/ioctl.c:891:35: error: 'const struct blk_mq_ops' has no member named 'register_queue'
+     891 |         if (q->mq_ops && q->mq_ops->register_queue)
+         |                                   ^~
+   drivers/nvme/host/ioctl.c:892:32: error: 'const struct blk_mq_ops' has no member named 'register_queue'
+     892 |                 ret = q->mq_ops->register_queue(ns);
+         |                                ^~
+   drivers/nvme/host/ioctl.c: In function 'nvme_ns_head_unregister_queue':
+>> drivers/nvme/host/ioctl.c:915:35: error: 'const struct blk_mq_ops' has no member named 'unregister_queue'
+     915 |         if (q->mq_ops && q->mq_ops->unregister_queue)
+         |                                   ^~
+   drivers/nvme/host/ioctl.c:916:32: error: 'const struct blk_mq_ops' has no member named 'unregister_queue'
+     916 |                 ret = q->mq_ops->unregister_queue(ns, qid);
+         |                                ^~
 
 
-vim +1832 drivers/nvme/host/pci.c
+vim +4069 drivers/nvme/host/core.c
 
-  1821	
-  1822	static const struct blk_mq_ops nvme_mq_ops = {
-  1823		.queue_rq	= nvme_queue_rq,
-  1824		.queue_rqs	= nvme_queue_rqs,
-  1825		.complete	= nvme_pci_complete_rq,
-  1826		.commit_rqs	= nvme_commit_rqs,
-  1827		.init_hctx	= nvme_init_hctx,
-  1828		.init_request	= nvme_pci_init_request,
-  1829		.map_queues	= nvme_pci_map_queues,
-  1830		.timeout	= nvme_timeout,
-  1831		.poll		= nvme_poll,
-> 1832		.register_queue	= nvme_pci_register_queue,
-> 1833		.unregister_queue =  nvme_pci_unregister_queue,
-  1834	};
-  1835	
+  4061	
+> 4062	int nvme_register_queue(struct file *file)
+  4063	{
+  4064		struct nvme_ns *ns = container_of(file_inode(file)->i_cdev,
+  4065				struct nvme_ns, cdev);
+  4066		struct nvme_ctrl *ctrl = ns->ctrl;
+  4067		struct request_queue *q = ns ? ns->queue : ctrl->admin_q;
+  4068	
+> 4069		if (q->mq_ops && q->mq_ops->register_queue)
+> 4070			return q->mq_ops->register_queue(ns);
+  4071		return -EINVAL;
+  4072	}
+  4073	
+  4074	int nvme_unregister_queue(struct file *file, int qid)
+  4075	{
+  4076		struct nvme_ns *ns = container_of(file_inode(file)->i_cdev,
+  4077				struct nvme_ns, cdev);
+  4078		struct nvme_ctrl *ctrl = ns->ctrl;
+  4079		struct request_queue *q = ns ? ns->queue : ctrl->admin_q;
+  4080	
+> 4081		if (q->mq_ops && q->mq_ops->unregister_queue)
+  4082			return q->mq_ops->unregister_queue(ns, qid);
+  4083		return -EINVAL;
+  4084	}
+  4085	
 
 -- 
 0-DAY CI Kernel Test Service
