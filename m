@@ -1,44 +1,43 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7702617E8;
-	Sat, 29 Apr 2023 12:55:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D6D33F6
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 29 Apr 2023 13:46:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682772910; x=1714308910;
+  t=1682775966; x=1714311966;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KGHqU3LAlYhjG5tBGOc2nQJAtTnzYDMbe+fxCkqCyCU=;
-  b=XcITMuaqcPpfDtMlWMYkqBwzo8/rEO4rBM4y3QDmK5M/aV1C5UFIoW3V
-   GFAQhU/7iEMpCK/TN5vsW6RE4J+IaCVeo+e82IvghiiZ7jB5DqdAdqAK/
-   AtEaaE6OGxKIk4FM+JQ6l0yRMyRF3pJc7NF4q9Upqeoq2eKQUc/iaYLSv
-   R177QGV3WvekZcjB0a/h8n6aRXClTS2dUHYN1wcqpao8kkzwn8AcQW9Ah
-   YEPrv18scb2FaAmYpY8Wh8kzI6xAjsJbs1lTm0kj1Lks/txz5BJH9DOW7
-   IgcGhHjrB6pbSmJfExci3RXAUom2FUM8rRVAYd/BHh883EoPKLSVV1Vqw
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="413346328"
+  bh=hAu+XtSwJcGjVfSWxkoNl1m1zWjRYrLU/I9T88ck34Y=;
+  b=UIJkaMxqOnZVeRQLlO1/cHMEBCmlOupcvHUsSUFaQ3uQpdLdHWFvIT7N
+   KZ/DZN3ZfrjSnt700ebisQXe/kShtmlNEf5fD3QmEUiDZEZBzF4qOtNn4
+   bkZ/bgSQF/fE9G4OLrL8YKZ+Uld4PItL+DOzXr50bqDjl4SLGFCOIozKl
+   021nop/TL5UBA8cqJBZiSmrc07pjc+l5UoN7OPs0sJs5ULqBMfaUHqJK7
+   xkoCar48pQx9XnJ2QjBqHfxHXwPdJCM2O46Op3jqNSLDySIitQ50v9dOw
+   rm27XtQ5PdHfgDHKnh7NgTQdWHJo5SKPSgcgbrjyLMG/Bmw/qwBWqbsRB
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="413349107"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="413346328"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 05:55:10 -0700
+   d="scan'208";a="413349107"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 06:46:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="697920704"
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="764697614"
 X-IronPort-AV: E=Sophos;i="5.99,237,1677571200"; 
-   d="scan'208";a="697920704"
+   d="scan'208";a="764697614"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 29 Apr 2023 05:55:08 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 29 Apr 2023 06:46:04 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psk6Q-00019Z-38;
-	Sat, 29 Apr 2023 12:55:02 +0000
-Date: Sat, 29 Apr 2023 20:54:15 +0800
+	id 1pskto-0001BF-04;
+	Sat, 29 Apr 2023 13:46:04 +0000
+Date: Sat, 29 Apr 2023 21:45:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: arch/arm/mach-omap2/cpuidle44xx.c:88: warning: expecting prototype
- for omap_enter_idle_[simple/coupled](). Prototype was for
- omap_enter_idle_simple() instead
-Message-ID: <202304292001.RvJU7sWm-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>
+Subject: vmlinux.o: warning: objtool: mwait_idle+0x2a: call to
+ ftrace_likely_update() leaves .noinstr.text section
+Message-ID: <202304292130.LFKg2UgL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,66 +47,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
+Hi Peter,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning still remains.
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   89d77f71f493a3663b10fa812d17f472935d24be
-commit: 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8 ARM: dove: multiplatform support
-date:   1 year, 1 month ago
-config: arm-randconfig-r034-20230429 (https://download.01.org/0day-ci/archive/20230429/202304292001.RvJU7sWm-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 437b7602e4a998220871de78afcb020b9c14a661)
+commit: e4df1511e1f4bcaa0d590aa7bbffe8bbbd6dfb49 cpuidle, sched: Remove instrumentation from TIF_{POLLING_NRFLAG,NEED_RESCHED}
+date:   4 months ago
+config: x86_64-randconfig-c022 (https://download.01.org/0day-ci/archive/20230429/202304292130.LFKg2UgL-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e4df1511e1f4bcaa0d590aa7bbffe8bbbd6dfb49
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8
+        git checkout e4df1511e1f4bcaa0d590aa7bbffe8bbbd6dfb49
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304292001.RvJU7sWm-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304292130.LFKg2UgL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm/mach-omap2/cpuidle44xx.c:88: warning: expecting prototype for omap_enter_idle_[simple/coupled](). Prototype was for omap_enter_idle_simple() instead
+   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x32: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x36: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: fixup_bad_iret+0x75: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: noist_exc_debug+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_nmi+0xbc: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: poke_int3_handler+0x34: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: mce_check_crashing_cpu+0xd: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: do_machine_check+0x4d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_machine_check+0x52: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x49: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x6b: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: enter_from_user_mode+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x3f: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x3a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_exit+0x3e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: default_idle+0x4: call to mds_idle_clear_cpu_buffers() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: mwait_idle+0x2a: call to ftrace_likely_update() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0x45: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_ibrs+0x12: call to sched_smt_active() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: intel_idle_xstate+0x5e: call to ftrace_likely_update() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: intel_idle_s2idle+0x63: call to ftrace_likely_update() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: intel_idle_irq+0x5a: call to ftrace_likely_update() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: intel_idle+0x59: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_safe_halt+0xf: call to mds_idle_clear_cpu_buffers() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: io_idle+0x3: call to __inb.isra.0() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0x53: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_idle_enter+0x4c: call to ftrace_likely_update() leaves .noinstr.text section
 
 
-vim +88 arch/arm/mach-omap2/cpuidle44xx.c
-
-9db316b6bf0234 Paul Walmsley     2012-12-15  74  
-98272660970a71 Santosh Shilimkar 2011-08-16  75  /**
-db4f3dab629109 Santosh Shilimkar 2013-04-05  76   * omap_enter_idle_[simple/coupled] - OMAP4PLUS cpuidle entry functions
-98272660970a71 Santosh Shilimkar 2011-08-16  77   * @dev: cpuidle device
-98272660970a71 Santosh Shilimkar 2011-08-16  78   * @drv: cpuidle driver
-98272660970a71 Santosh Shilimkar 2011-08-16  79   * @index: the index of state to be entered
-98272660970a71 Santosh Shilimkar 2011-08-16  80   *
-98272660970a71 Santosh Shilimkar 2011-08-16  81   * Called from the CPUidle framework to program the device to the
-98272660970a71 Santosh Shilimkar 2011-08-16  82   * specified low power state selected by the governor.
-98272660970a71 Santosh Shilimkar 2011-08-16  83   * Returns the amount of time spent in the low power state.
-98272660970a71 Santosh Shilimkar 2011-08-16  84   */
-db4f3dab629109 Santosh Shilimkar 2013-04-05  85  static int omap_enter_idle_simple(struct cpuidle_device *dev,
-dd3ad97c5621aa Santosh Shilimkar 2011-12-25  86  			struct cpuidle_driver *drv,
-dd3ad97c5621aa Santosh Shilimkar 2011-12-25  87  			int index)
-dd3ad97c5621aa Santosh Shilimkar 2011-12-25 @88  {
-dd3ad97c5621aa Santosh Shilimkar 2011-12-25  89  	omap_do_wfi();
-dd3ad97c5621aa Santosh Shilimkar 2011-12-25  90  	return index;
-dd3ad97c5621aa Santosh Shilimkar 2011-12-25  91  }
-dd3ad97c5621aa Santosh Shilimkar 2011-12-25  92  
-
-:::::: The code at line 88 was first introduced by commit
-:::::: dd3ad97c5621aa853843dd5e6783ca787466158c ARM: OMAP4: CPUidle: Use coupled cpuidle states to implement SMP cpuidle.
-
-:::::: TO: Santosh Shilimkar <santosh.shilimkar@ti.com>
-:::::: CC: Kevin Hilman <khilman@ti.com>
+objdump-func vmlinux.o mwait_idle:
+0000 000000000000000d <mwait_idle>:
+0000    d:	f3 0f 1e fa          	endbr64
+0004   11:	55                   	push   %rbp
+0005   12:	48 8b 2c 25 00 00 00 00 	mov    0x0,%rbp	16: R_X86_64_32S	pcpu_hot
+000d   1a:	53                   	push   %rbx
+000e   1b:	80 4d 02 20          	orb    $0x20,0x2(%rbp)
+0012   1f:	48 8b 5d 00          	mov    0x0(%rbp),%rbx
+0016   23:	31 c9                	xor    %ecx,%ecx
+0018   25:	31 d2                	xor    %edx,%edx
+001a   27:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	2a: R_X86_64_32S	_ftrace_annotated_branch+0x91e0
+0021   2e:	48 c1 eb 03          	shr    $0x3,%rbx
+0025   32:	83 e3 01             	and    $0x1,%ebx
+0028   35:	89 de                	mov    %ebx,%esi
+002a   37:	e8 00 00 00 00       	call   3c <mwait_idle+0x2f>	38: R_X86_64_PLT32	ftrace_likely_update-0x4
+002f   3c:	48 85 db             	test   %rbx,%rbx
+0032   3f:	75 50                	jne    91 <mwait_idle+0x84>
+0034   41:	48 8b 05 00 00 00 00 	mov    0x0(%rip),%rax        # 48 <mwait_idle+0x3b>	44: R_X86_64_PC32	boot_cpu_data+0x74
+003b   48:	84 c0                	test   %al,%al
+003d   4a:	79 0e                	jns    5a <mwait_idle+0x4d>
+003f   4c:	0f ae f0             	mfence
+0042   4f:	48 89 ef             	mov    %rbp,%rdi
+0045   52:	e8 00 00 00 00       	call   57 <mwait_idle+0x4a>	53: R_X86_64_PC32	.text+0x3e2b0
+004a   57:	0f ae f0             	mfence
+004d   5a:	48 8b 1c 25 00 00 00 00 	mov    0x0,%rbx	5e: R_X86_64_32S	pcpu_hot
+0055   62:	48 89 df             	mov    %rbx,%rdi
+0058   65:	e8 00 00 00 00       	call   6a <mwait_idle+0x5d>	66: R_X86_64_PC32	.text+0x3e818
+005d   6a:	48 8b 1b             	mov    (%rbx),%rbx
+0060   6d:	31 c9                	xor    %ecx,%ecx
+0062   6f:	31 d2                	xor    %edx,%edx
+0064   71:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	74: R_X86_64_32S	_ftrace_annotated_branch+0x9210
+006b   78:	48 c1 eb 03          	shr    $0x3,%rbx
+006f   7c:	83 e3 01             	and    $0x1,%ebx
+0072   7f:	89 de                	mov    %ebx,%esi
+0074   81:	e8 00 00 00 00       	call   86 <mwait_idle+0x79>	82: R_X86_64_PLT32	ftrace_likely_update-0x4
+0079   86:	48 85 db             	test   %rbx,%rbx
+007c   89:	75 06                	jne    91 <mwait_idle+0x84>
+007e   8b:	e8 00 00 00 00       	call   90 <mwait_idle+0x83>	8c: R_X86_64_PC32	.text+0x3e809
+0083   90:	fa                   	cli
+0084   91:	48 8b 04 25 00 00 00 00 	mov    0x0,%rax	95: R_X86_64_32S	pcpu_hot
+008c   99:	80 60 02 df          	andb   $0xdf,0x2(%rax)
+0090   9d:	5b                   	pop    %rbx
+0091   9e:	5d                   	pop    %rbp
+0092   9f:	c3                   	ret
 
 -- 
 0-DAY CI Kernel Test Service
