@@ -1,48 +1,41 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDCF2F5F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Apr 2023 17:30:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3072F5F;
+	Sun, 30 Apr 2023 17:53:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682875846; x=1714411846;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EmOg6EOUyCPJdIgtaCmi0uNZdCAby1mxeqx8iFroNo0=;
-  b=ecGo+hjbFEzIBEnn0hU3n8cgRwTWzx5Edl1qfaU95yCbS797HWDPqUnH
-   Ay9oyHgNPM6rvwVmL2aF1+T/cJVswQf4Sr2Z2m8SmGEc1vzeWRMmdKIM6
-   E/iuGALVZ+ZwMPV+1EKIusoGAppV7kGwWlwNFkB3SxevBrDszigxuBOpO
-   r+8mCxuoljKM6HBpa6hjMZZBZ3sdezKSPR/duBwxFZkAE38Xdh7WcTBlv
-   eXvuuUz4psBayzSf/UHBBntApeEvES/KpsDZwGIh8vuRgq/IublEE+foJ
-   ym3HupHHXxGBYO5HKdEGEt8fPJnp1qBgHDvVcQrzEppRbX4r5aKqFVe1Z
+  t=1682877224; x=1714413224;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sKWu2WV9aQCaJ/IIGp/6UiAM0mrYzGxbp4Z/NCJnDLM=;
+  b=iwE/M3TdHlhGIh4sDufWxnz0c9rszVPLkhHQKGSb0gtsE4QeYew1x42A
+   kce87JCTaCT/eWVusgY2rsc9Z+H7mGg5bADgKeeiU+sQkCOsgcfe8eFDY
+   AQtXNCuYhTnaal9ImwLk6WMzkJasXErS1bPnTHsy6e+6fz/0aZVeBCxSq
+   S+QeqIBuTHFx30SDyUtyH16rxmrm2Eu7LNm+Ik0zUmF/roB3sdbFPz4ck
+   86cDagcEQUkW7QmndY54JDMesMnRgQeffUh7P4IYVsXeBKXdfqHPqetcU
+   rUvVeSDn973A9cBoslnABmyYikOhnGhC+mUT60nCk96dni/acqJGBWu/C
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="411168833"
+X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="350990537"
 X-IronPort-AV: E=Sophos;i="5.99,239,1677571200"; 
-   d="scan'208";a="411168833"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2023 10:30:46 -0700
+   d="scan'208";a="350990537"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2023 10:53:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="869930794"
+X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="807183152"
 X-IronPort-AV: E=Sophos;i="5.99,239,1677571200"; 
-   d="scan'208";a="869930794"
+   d="scan'208";a="807183152"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 30 Apr 2023 10:30:41 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 30 Apr 2023 10:53:42 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptAsj-00004D-0l;
-	Sun, 30 Apr 2023 17:30:41 +0000
-Date: Mon, 1 May 2023 01:30:20 +0800
+	id 1ptBEz-00004j-1r;
+	Sun, 30 Apr 2023 17:53:41 +0000
+Date: Mon, 1 May 2023 01:53:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, linux-i2c@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] hwmon: pmbus: Add ltc4286 driver
-Message-ID: <202305010110.yAHNljHe-lkp@intel.com>
-References: <20230424101352.28117-3-Delphine_CC_Chiu@Wiwynn.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/090-spi-hid 21/21] Inconsistent kallsyms data
+Message-ID: <202305010135.GAFfzfJN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,64 +44,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230424101352.28117-3-Delphine_CC_Chiu@Wiwynn.com>
 
-Hi Delphine,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.3 next-20230428]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Delphine-CC-Chiu/dt-bindings-hwmon-Add-lltc-ltc4286-driver-bindings/20230424-181521
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20230424101352.28117-3-Delphine_CC_Chiu%40Wiwynn.com
-patch subject: [PATCH v1 2/2] hwmon: pmbus: Add ltc4286 driver
-config: arm-randconfig-s043-20230430 (https://download.01.org/0day-ci/archive/20230501/202305010110.yAHNljHe-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://github.com/AsahiLinux/linux bits/090-spi-hid
+head:   69f9e1f06c6701ac7b333901d20f6b4b1d46e0a9
+commit: 69f9e1f06c6701ac7b333901d20f6b4b1d46e0a9 [21/21] HID: magicmouse: Handle touch controller resets on SPI devices
+config: arm-randconfig-r033-20230430 (https://download.01.org/0day-ci/archive/20230501/202305010135.GAFfzfJN-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b1465cd49efcbc114a75220b153f5a055ce7911f)
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/318b8a252bb2d7430f1cf7b93bb5df8d0e4fee29
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Delphine-CC-Chiu/dt-bindings-hwmon-Add-lltc-ltc4286-driver-bindings/20230424-181521
-        git checkout 318b8a252bb2d7430f1cf7b93bb5df8d0e4fee29
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/AsahiLinux/linux/commit/69f9e1f06c6701ac7b333901d20f6b4b1d46e0a9
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/090-spi-hid
+        git checkout 69f9e1f06c6701ac7b333901d20f6b4b1d46e0a9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/hwmon/pmbus/ drivers/i3c/master/ drivers/spi/ sound/soc/cirrus/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305010110.yAHNljHe-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305010135.GAFfzfJN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/hwmon/pmbus/ltc4286.c:134:18: error: initialization of 'int (*)(struct i2c_client *)' from incompatible pointer type 'int (*)(struct i2c_client *, const struct i2c_device_id *)' [-Werror=incompatible-pointer-types]
-     134 |         .probe = ltc4286_probe,
-         |                  ^~~~~~~~~~~~~
-   drivers/hwmon/pmbus/ltc4286.c:134:18: note: (near initialization for 'ltc4286_driver.<anonymous>.probe')
-   cc1: some warnings being treated as errors
-
-
-vim +134 drivers/hwmon/pmbus/ltc4286.c
-
-   127	
-   128	/* This is the driver that will be inserted */
-   129	static struct i2c_driver ltc4286_driver = {
-   130		.driver = {
-   131			.name = "ltc4286",
-   132			.of_match_table = ltc4286_of_match,
-   133		},
- > 134		.probe = ltc4286_probe,
-   135		.id_table = ltc4286_id,
-   136	};
-   137	
+>> Inconsistent kallsyms data
+   Try make KALLSYMS_EXTRA_PASS=1 as a workaround
 
 -- 
 0-DAY CI Kernel Test Service
