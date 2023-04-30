@@ -1,45 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E30380
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Apr 2023 01:22:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D657D198
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Apr 2023 02:34:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682817740; x=1714353740;
+  t=1682822059; x=1714358059;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AVnF9VDeZvsLXWfvD8Al3C8iXctwwF+ZYTtsAfhNyf4=;
-  b=XjD24Myfs4Hs2lMoknquZwEEmJ7zyIBLNxv6I2R8rMT1e5YhZhTYsdU8
-   X1WemFA//uKJHR5gYoZwWjxgHQ8njgm9tcnNhQblqjsB02DXcdtUty/np
-   /TNwqHTF4MlIkAlF7XDwXEwzWpHNtJBvzb14F6/CA3JlAxg4dC3MSbj/I
-   YYMO033SxUKXyoDs/pDQG/g725q72RxAsIVHBda3RQdFGAzPQ5mK/wbE/
-   E/fbrbd5tNHI3o0d+AWygies2pqfeDtbIkvswhno7DRiirvz1/wRhnuBA
-   CSFGid5ZivNwMkaheM3d+esRtrRwbk/sTP5azKPR/AoA5mObtMuxIEVEH
+  bh=VLDnEpfHdvzK19hgl+BTtq5GNfDkxwP0xfNlW12iQR4=;
+  b=eRIJuGWbb8DiIJRwyj7ryOTAA93SQAc5WD7+DkSWLsd11YI1S+8Oy5f0
+   yJmWO5WaX3dWfDc5ZGwhdzgGeK5LPcF4JGghGtp92Vw0TXhYcug42xELH
+   Fl7LIEq2AxmI4WwRutOVt6VjkUf9XxMUIuPscB42Hzz5EAzrNmDYOdDA3
+   bmJdkUHFHpkzuw4OycvnYiF1rNxQqlnAD4E2uJW71PbHa/QiftfSPw770
+   PZ3WFCJQvomrWd5IYVwbe2HmqfXstpti020rkgTlKVennT+cnlcsX5IPj
+   vnXwxwWx1KAslsPlGf83z5vNEF9yogckJmNZfTOww3ackCJX39OicrypX
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="337082098"
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="328326170"
 X-IronPort-AV: E=Sophos;i="5.99,238,1677571200"; 
-   d="scan'208";a="337082098"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 18:22:19 -0700
+   d="scan'208";a="328326170"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2023 19:34:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="725901477"
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="698095118"
 X-IronPort-AV: E=Sophos;i="5.99,238,1677571200"; 
-   d="scan'208";a="725901477"
+   d="scan'208";a="698095118"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 29 Apr 2023 18:22:17 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 29 Apr 2023 19:34:18 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1psvlY-0001Rf-0m;
-	Sun, 30 Apr 2023 01:22:16 +0000
-Date: Sun, 30 Apr 2023 09:21:42 +0800
+	id 1pswtF-0001TZ-12;
+	Sun, 30 Apr 2023 02:34:17 +0000
+Date: Sun, 30 Apr 2023 10:33:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shiyang Ruan <ruansy.fnst@fujitsu.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christoph Hellwig <hch@lst.de>,
-	"Darrick J. Wong" <djwong@kernel.org>
-Subject: fs/dax.c:1087:23: sparse: sparse: Using plain integer as NULL pointer
-Message-ID: <202304300917.nn0VclKO-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.4 12507/27008] htmldocs:
+ Documentation/arm64/amu.rst:26: WARNING: Unexpected indentation.
+Message-ID: <202304301027.48NRsFfc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,200 +46,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1ae78a14516b9372e4c90a89ac21b259339a3a3a
-commit: ff17b8df224b98e282ec39a9949a3672fa3dbe93 fsdax: introduce dax_iomap_cow_copy()
-date:   10 months ago
-config: s390-randconfig-s041-20230430 (https://download.01.org/0day-ci/archive/20230430/202304300917.nn0VclKO-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+Hi Ionela,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   d5ed2ca98e482beb70819315665172025f8a3bc6
+commit: 7adeb94694a689cd20d41e1405e493a4b17a7289 [12507/27008] UPSTREAM: Documentation: arm64: document support for the AMU extension
 reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ff17b8df224b98e282ec39a9949a3672fa3dbe93
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ff17b8df224b98e282ec39a9949a3672fa3dbe93
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android12-5.4
+        git checkout 7adeb94694a689cd20d41e1405e493a4b17a7289
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304300917.nn0VclKO-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304301027.48NRsFfc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/dax.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/fs_dax.h):
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:10:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:10:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:10:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
-   include/trace/events/fs_dax.h:153:1: sparse: sparse: incorrect type in initializer (different base types) @@     expected unsigned long mask @@     got restricted vm_fault_t @@
-   include/trace/events/fs_dax.h:153:1: sparse:     expected unsigned long mask
-   include/trace/events/fs_dax.h:153:1: sparse:     got restricted vm_fault_t
-   fs/dax.c:658:39: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long v @@     got restricted vm_fault_t @@
-   fs/dax.c:658:39: sparse:     expected unsigned long v
-   fs/dax.c:658:39: sparse:     got restricted vm_fault_t
-   fs/dax.c:660:39: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long v @@     got restricted vm_fault_t @@
-   fs/dax.c:660:39: sparse:     expected unsigned long v
-   fs/dax.c:660:39: sparse:     got restricted vm_fault_t
-   fs/dax.c:664:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned long v @@     got restricted vm_fault_t @@
-   fs/dax.c:664:31: sparse:     expected unsigned long v
-   fs/dax.c:664:31: sparse:     got restricted vm_fault_t
->> fs/dax.c:1087:23: sparse: sparse: Using plain integer as NULL pointer
-   fs/dax.c:1139:41: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [assigned] [usertype] ret @@
-   fs/dax.c:1139:41: sparse:     expected int result
-   fs/dax.c:1139:41: sparse:     got restricted vm_fault_t [assigned] [usertype] ret
-   fs/dax.c:1580:46: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [usertype] ret @@
-   fs/dax.c:1580:46: sparse:     expected int result
-   fs/dax.c:1580:46: sparse:     got restricted vm_fault_t [usertype] ret
-   fs/dax.c:1596:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [assigned] [usertype] ret @@     got unsigned long @@
-   fs/dax.c:1596:21: sparse:     expected restricted vm_fault_t [assigned] [usertype] ret
-   fs/dax.c:1596:21: sparse:     got unsigned long
-   fs/dax.c:1637:51: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [assigned] [usertype] ret @@
-   fs/dax.c:1637:51: sparse:     expected int result
-   fs/dax.c:1637:51: sparse:     got restricted vm_fault_t [assigned] [usertype] ret
-   fs/dax.c:1815:55: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t @@
-   fs/dax.c:1815:55: sparse:     expected int result
-   fs/dax.c:1815:55: sparse:     got restricted vm_fault_t
-   fs/dax.c:1830:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int result @@     got restricted vm_fault_t [assigned] [usertype] ret @@
-   fs/dax.c:1830:58: sparse:     expected int result
-   fs/dax.c:1830:58: sparse:     got restricted vm_fault_t [assigned] [usertype] ret
-   fs/dax.c:257:13: sparse: sparse: context imbalance in 'wait_entry_unlocked' - unexpected unlock
-   fs/dax.c:439:49: sparse: sparse: context imbalance in 'dax_lock_page' - different lock contexts for basic block
-   fs/dax.c:506:17: sparse: sparse: context imbalance in 'dax_lock_mapping_entry' - different lock contexts for basic block
-   fs/dax.c:930:9: sparse: sparse: context imbalance in 'dax_writeback_one' - unexpected unlock
+All warnings (new ones prefixed by >>):
 
-vim +1087 fs/dax.c
+>> Documentation/arm64/amu.rst:26: WARNING: Unexpected indentation.
+>> Documentation/arm64/booting.rst:250: WARNING: Unexpected indentation.
+>> Documentation/arm64/booting.rst:256: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-  1064	
-  1065	/**
-  1066	 * dax_iomap_cow_copy - Copy the data from source to destination before write
-  1067	 * @pos:	address to do copy from.
-  1068	 * @length:	size of copy operation.
-  1069	 * @align_size:	aligned w.r.t align_size (either PMD_SIZE or PAGE_SIZE)
-  1070	 * @srcmap:	iomap srcmap
-  1071	 * @daddr:	destination address to copy to.
-  1072	 *
-  1073	 * This can be called from two places. Either during DAX write fault (page
-  1074	 * aligned), to copy the length size data to daddr. Or, while doing normal DAX
-  1075	 * write operation, dax_iomap_actor() might call this to do the copy of either
-  1076	 * start or end unaligned address. In the latter case the rest of the copy of
-  1077	 * aligned ranges is taken care by dax_iomap_actor() itself.
-  1078	 */
-  1079	static int dax_iomap_cow_copy(loff_t pos, uint64_t length, size_t align_size,
-  1080			const struct iomap *srcmap, void *daddr)
-  1081	{
-  1082		loff_t head_off = pos & (align_size - 1);
-  1083		size_t size = ALIGN(head_off + length, align_size);
-  1084		loff_t end = pos + length;
-  1085		loff_t pg_end = round_up(end, align_size);
-  1086		bool copy_all = head_off == 0 && end == pg_end;
-> 1087		void *saddr = 0;
-  1088		int ret = 0;
-  1089	
-  1090		ret = dax_iomap_direct_access(srcmap, pos, size, &saddr, NULL);
-  1091		if (ret)
-  1092			return ret;
-  1093	
-  1094		if (copy_all) {
-  1095			ret = copy_mc_to_kernel(daddr, saddr, length);
-  1096			return ret ? -EIO : 0;
-  1097		}
-  1098	
-  1099		/* Copy the head part of the range */
-  1100		if (head_off) {
-  1101			ret = copy_mc_to_kernel(daddr, saddr, head_off);
-  1102			if (ret)
-  1103				return -EIO;
-  1104		}
-  1105	
-  1106		/* Copy the tail part of the range */
-  1107		if (end < pg_end) {
-  1108			loff_t tail_off = head_off + length;
-  1109			loff_t tail_len = pg_end - end;
-  1110	
-  1111			ret = copy_mc_to_kernel(daddr + tail_off, saddr + tail_off,
-  1112						tail_len);
-  1113			if (ret)
-  1114				return -EIO;
-  1115		}
-  1116		return 0;
-  1117	}
-  1118	
+vim +26 Documentation/arm64/amu.rst
+
+    23	
+    24	Version 1 of the Activity Monitors architecture implements a counter group
+    25	of four fixed and architecturally defined 64-bit event counters.
+  > 26	  - CPU cycle counter: increments at the frequency of the CPU.
+    27	  - Constant counter: increments at the fixed frequency of the system
+    28	    clock.
+    29	  - Instructions retired: increments with every architecturally executed
+    30	    instruction.
+    31	  - Memory stall cycles: counts instruction dispatch stall cycles caused by
+    32	    misses in the last level cache within the clock domain.
+    33	
 
 -- 
 0-DAY CI Kernel Test Service
