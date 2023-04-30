@@ -1,108 +1,235 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1601E17D7;
-	Sun, 30 Apr 2023 07:59:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620541840
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Apr 2023 07:59:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1682841564; x=1714377564;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mUKJIhpHq4tFM4xyoPHDyYgr2rC3SmrqoKOKHevFuvU=;
-  b=GUDvRLohNMrE1oFH10hv3DeHIvYCYrJ2t+QyjTzsvcbxJfChpV9lfgpJ
-   nZWqcGzcuPdsRbxVihsXofV3XLxuasU0aCC8UTfzQzQWPR0WsZu4FdoIv
-   5JG0BXU6MiHQA6LPSgQf/tDNlpmyYCSX51za5UF0RJDM2oUwFWlya591V
-   FTFyzSr4dTDTkwCkZQnXz8IuVhsUCGa73e8TjBSgEiJsiwk0gV+0gUn1Y
-   9yg8vrC7g3WNduzSLuEAKMaWqYOo3FQsw5fFpV25Q3iCR2yFPFFO2EPUt
-   agiO6Om6Mcaufg3C2KToDnMMoIi1UDhuAhaspox/csIfj20Arksz8APik
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="348040100"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=nNt70c2qJyO2Xz2+WNYLYg3z+OyYyPnpmVTTu1vFnW0=;
+  b=lRI3MWj8+DZA9YtNTbIO5c/xch/LZco9PIKLQaRhNUHuK1ohwbdzE+w8
+   dcMmcsKxiPOEgotL4fqGr8WCp7UVEHNVEAvOVikt5of+b3+ZMfJTXBe5u
+   1/ouuLuB4TXRg8IWceY8sh8VQi//mQtU25Ziua/ejkdASwaJOIN3lAS43
+   E9V3Vw6mwlcBaPFJqTlZ+bU0hL/hfW9/PQfLSDfxUuA2SoArqUTHQC3fx
+   4XeX4zIqWEF9wtsP5rZlMDF590WoLM5IDaVUvxkO2zIFG89p6b3s0dy9c
+   d3maOawUmsZCIV+poI9v6ci719kX12daelYrL0zHzdiof7YkHsv0c/ZDH
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="345470871"
 X-IronPort-AV: E=Sophos;i="5.99,238,1677571200"; 
-   d="scan'208";a="348040100"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2023 00:59:23 -0700
+   d="scan'208";a="345470871"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2023 00:59:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="672830179"
+X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="784895272"
 X-IronPort-AV: E=Sophos;i="5.99,238,1677571200"; 
-   d="scan'208";a="672830179"
+   d="scan'208";a="784895272"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 30 Apr 2023 00:59:22 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 30 Apr 2023 00:59:22 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pt1xp-0001Yn-1G;
+	id 1pt1xp-0001Yp-1L;
 	Sun, 30 Apr 2023 07:59:21 +0000
 Date: Sun, 30 Apr 2023 15:58:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:kvm-upstream-workaround 312/338]
- arch/x86/kvm/mmu/mmu.c:713:5: warning: no previous prototype for function
- 'kvm_mmu_topup_memory_cache_for_split'
-Message-ID: <202304301502.tvxyjnae-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Sebastian Reichel <sre@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Subject: Re: [PATCH] power: supply: remove unneeded include of linux/leds.h
+Message-ID: <202304301551.baBXvI9d-lkp@intel.com>
+References: <20230212-include-power_supply-leds-v1-1-7adbf7424002@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230212-include-power_supply-leds-v1-1-7adbf7424002@weissschuh.net>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   abaa3072a8763b7a6276df61d205bf33eb2f31a5
-commit: 4c3e3b7ca8a13d21b2a77b77a0244c4d7b47b259 [312/338] [REVERTME] KVM: TDX, x86/tdp_mmu: Protect Secure-EPT page
-config: x86_64-allmodconfig (https://download.01.org/0day-ci/archive/20230430/202304301502.tvxyjnae-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Thomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 825a0714d2b3883d4f8ff64f6933fb73ee3f1834]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/power-supply-remove-unneeded-include-of-linux-leds-h/20230430-141232
+base:   825a0714d2b3883d4f8ff64f6933fb73ee3f1834
+patch link:    https://lore.kernel.org/r/20230212-include-power_supply-leds-v1-1-7adbf7424002%40weissschuh.net
+patch subject: [PATCH] power: supply: remove unneeded include of linux/leds.h
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230430/202304301551.baBXvI9d-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel/tdx/commit/4c3e3b7ca8a13d21b2a77b77a0244c4d7b47b259
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx kvm-upstream-workaround
-        git checkout 4c3e3b7ca8a13d21b2a77b77a0244c4d7b47b259
+        # https://github.com/intel-lab-lkp/linux/commit/b75095fc2fd15bc4d539656b12200b44a9705959
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Thomas-Wei-schuh/power-supply-remove-unneeded-include-of-linux-leds-h/20230430-141232
+        git checkout b75095fc2fd15bc4d539656b12200b44a9705959
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kvm/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304301502.tvxyjnae-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202304301551.baBXvI9d-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/kvm/mmu/mmu.c:713:5: warning: no previous prototype for function 'kvm_mmu_topup_memory_cache_for_split' [-Wmissing-prototypes]
-   int kvm_mmu_topup_memory_cache_for_split(struct kvm *kvm)
-       ^
-   arch/x86/kvm/mmu/mmu.c:713:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int kvm_mmu_topup_memory_cache_for_split(struct kvm *kvm)
-   ^
-   static 
-   1 warning generated.
+   drivers/hid/hid-lg4ff.c:1121:30: warning: 'enum led_brightness' declared inside parameter list will not be visible outside of this definition or declaration
+    1121 |                         enum led_brightness value)
+         |                              ^~~~~~~~~~~~~~
+>> drivers/hid/hid-lg4ff.c:1121:45: error: parameter 2 ('value') has incomplete type
+    1121 |                         enum led_brightness value)
+         |                         ~~~~~~~~~~~~~~~~~~~~^~~~~
+>> drivers/hid/hid-lg4ff.c:1120:13: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+    1120 | static void lg4ff_led_set_brightness(struct led_classdev *led_cdev,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-lg4ff.c: In function 'lg4ff_led_set_brightness':
+>> drivers/hid/hid-lg4ff.c:1123:38: error: invalid use of undefined type 'struct led_classdev'
+    1123 |         struct device *dev = led_cdev->dev->parent;
+         |                                      ^~
+>> drivers/hid/hid-lg4ff.c:1145:30: error: 'LED_OFF' undeclared (first use in this function)
+    1145 |                 if (value == LED_OFF && state) {
+         |                              ^~~~~~~
+   drivers/hid/hid-lg4ff.c:1145:30: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/hid/hid-lg4ff.c: At top level:
+>> drivers/hid/hid-lg4ff.c:1156:28: error: return type is an incomplete type
+    1156 | static enum led_brightness lg4ff_led_get_brightness(struct led_classdev *led_cdev)
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-lg4ff.c: In function 'lg4ff_led_get_brightness':
+   drivers/hid/hid-lg4ff.c:1158:38: error: invalid use of undefined type 'struct led_classdev'
+    1158 |         struct device *dev = led_cdev->dev->parent;
+         |                                      ^~
+   drivers/hid/hid-lg4ff.c:1166:24: error: 'LED_OFF' undeclared (first use in this function)
+    1166 |                 return LED_OFF;
+         |                        ^~~~~~~
+   drivers/hid/hid-lg4ff.c:1166:24: error: 'return' with a value, in function returning void [-Werror=return-type]
+   drivers/hid/hid-lg4ff.c:1156:28: note: declared here
+    1156 | static enum led_brightness lg4ff_led_get_brightness(struct led_classdev *led_cdev)
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-lg4ff.c:1173:24: error: 'return' with a value, in function returning void [-Werror=return-type]
+    1173 |                 return LED_OFF;
+         |                        ^~~~~~~
+   drivers/hid/hid-lg4ff.c:1156:28: note: declared here
+    1156 | static enum led_brightness lg4ff_led_get_brightness(struct led_classdev *led_cdev)
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hid/hid-lg4ff.c:1182:24: error: 'LED_FULL' undeclared (first use in this function); did you mean 'LED_NUML'?
+    1182 |         return value ? LED_FULL : LED_OFF;
+         |                        ^~~~~~~~
+         |                        LED_NUML
+   drivers/hid/hid-lg4ff.c:1182:16: error: 'return' with a value, in function returning void [-Werror=return-type]
+    1182 |         return value ? LED_FULL : LED_OFF;
+         |                ^~~~~
+   drivers/hid/hid-lg4ff.c:1156:28: note: declared here
+    1156 | static enum led_brightness lg4ff_led_get_brightness(struct led_classdev *led_cdev)
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-lg4ff.c: In function 'lg4ff_init':
+>> drivers/hid/hid-lg4ff.c:1410:46: error: invalid application of 'sizeof' to incomplete type 'struct led_classdev'
+    1410 |                         led = kzalloc(sizeof(struct led_classdev)+name_sz, GFP_KERNEL);
+         |                                              ^~~~~~
+   drivers/hid/hid-lg4ff.c:1416:45: error: invalid use of undefined type 'struct led_classdev'
+    1416 |                         name = (void *)(&led[1]);
+         |                                             ^
+   drivers/hid/hid-lg4ff.c:1418:28: error: invalid use of undefined type 'struct led_classdev'
+    1418 |                         led->name = name;
+         |                            ^~
+   drivers/hid/hid-lg4ff.c:1419:28: error: invalid use of undefined type 'struct led_classdev'
+    1419 |                         led->brightness = 0;
+         |                            ^~
+   drivers/hid/hid-lg4ff.c:1420:28: error: invalid use of undefined type 'struct led_classdev'
+    1420 |                         led->max_brightness = 1;
+         |                            ^~
+   drivers/hid/hid-lg4ff.c:1421:28: error: invalid use of undefined type 'struct led_classdev'
+    1421 |                         led->brightness_get = lg4ff_led_get_brightness;
+         |                            ^~
+   drivers/hid/hid-lg4ff.c:1422:28: error: invalid use of undefined type 'struct led_classdev'
+    1422 |                         led->brightness_set = lg4ff_led_set_brightness;
+         |                            ^~
+>> drivers/hid/hid-lg4ff.c:1425:33: error: implicit declaration of function 'led_classdev_register'; did you mean 'class_register'? [-Werror=implicit-function-declaration]
+    1425 |                         error = led_classdev_register(&hid->dev, led);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~
+         |                                 class_register
+>> drivers/hid/hid-lg4ff.c:1436:41: error: implicit declaration of function 'led_classdev_unregister'; did you mean 'class_unregister'? [-Werror=implicit-function-declaration]
+    1436 |                                         led_classdev_unregister(led);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                         class_unregister
+   cc1: some warnings being treated as errors
 
 
-vim +/kvm_mmu_topup_memory_cache_for_split +713 arch/x86/kvm/mmu/mmu.c
+vim +1121 drivers/hid/hid-lg4ff.c
 
-   712	
- > 713	int kvm_mmu_topup_memory_cache_for_split(struct kvm *kvm)
-   714	{
-   715		int r = 0;
-   716	#ifdef CONFIG_INTEL_TDX_HOST_DEBUG_MEMORY_CORRUPT
-   717		struct kvm_mmu_memory_cache *mc;
-   718		int start, end, i;
-   719	
-   720		mutex_lock(&kvm->arch.private_spt_for_split_lock);
-   721		mc = &kvm->arch.private_spt_for_split_cache;
-   722		start = kvm_mmu_memory_cache_nr_free_objects(mc);
-   723		r = kvm_mmu_topup_memory_cache(mc, KVM_MAX_HUGEPAGE_LEVEL *
-   724					       kvm->created_vcpus);
-   725		end = kvm_mmu_memory_cache_nr_free_objects(mc);
-   726		for (i = start; i < end; i++)
-   727			kvm_mmu_split_direct_map(virt_to_page(mc->objects[i]));
-   728		mutex_unlock(&kvm->arch.private_spt_for_split_lock);
-   729	#endif
-   730		return r;
-   731	}
-   732	
+22bcefdc8838186 Simon Wood   2012-04-21  1119  
+22bcefdc8838186 Simon Wood   2012-04-21 @1120  static void lg4ff_led_set_brightness(struct led_classdev *led_cdev,
+22bcefdc8838186 Simon Wood   2012-04-21 @1121  			enum led_brightness value)
+22bcefdc8838186 Simon Wood   2012-04-21  1122  {
+22bcefdc8838186 Simon Wood   2012-04-21 @1123  	struct device *dev = led_cdev->dev->parent;
+ee79a8f840a45d3 Geliang Tang 2015-12-27  1124  	struct hid_device *hid = to_hid_device(dev);
+4629fd160f7da96 Axel Lin     2012-09-13  1125  	struct lg_drv_data *drv_data = hid_get_drvdata(hid);
+22bcefdc8838186 Simon Wood   2012-04-21  1126  	struct lg4ff_device_entry *entry;
+22bcefdc8838186 Simon Wood   2012-04-21  1127  	int i, state = 0;
+22bcefdc8838186 Simon Wood   2012-04-21  1128  
+22bcefdc8838186 Simon Wood   2012-04-21  1129  	if (!drv_data) {
+22bcefdc8838186 Simon Wood   2012-04-21  1130  		hid_err(hid, "Device data not found.");
+22bcefdc8838186 Simon Wood   2012-04-21  1131  		return;
+22bcefdc8838186 Simon Wood   2012-04-21  1132  	}
+22bcefdc8838186 Simon Wood   2012-04-21  1133  
+371a1d9e1fed7dc Michal Malý  2015-04-08  1134  	entry = drv_data->device_props;
+22bcefdc8838186 Simon Wood   2012-04-21  1135  
+22bcefdc8838186 Simon Wood   2012-04-21  1136  	if (!entry) {
+22bcefdc8838186 Simon Wood   2012-04-21  1137  		hid_err(hid, "Device properties not found.");
+22bcefdc8838186 Simon Wood   2012-04-21  1138  		return;
+22bcefdc8838186 Simon Wood   2012-04-21  1139  	}
+22bcefdc8838186 Simon Wood   2012-04-21  1140  
+22bcefdc8838186 Simon Wood   2012-04-21  1141  	for (i = 0; i < 5; i++) {
+72529c65a5399be Michal Malý  2015-04-08  1142  		if (led_cdev != entry->wdata.led[i])
+22bcefdc8838186 Simon Wood   2012-04-21  1143  			continue;
+72529c65a5399be Michal Malý  2015-04-08  1144  		state = (entry->wdata.led_state >> i) & 1;
+22bcefdc8838186 Simon Wood   2012-04-21 @1145  		if (value == LED_OFF && state) {
+72529c65a5399be Michal Malý  2015-04-08  1146  			entry->wdata.led_state &= ~(1 << i);
+72529c65a5399be Michal Malý  2015-04-08  1147  			lg4ff_set_leds(hid, entry->wdata.led_state);
+22bcefdc8838186 Simon Wood   2012-04-21  1148  		} else if (value != LED_OFF && !state) {
+72529c65a5399be Michal Malý  2015-04-08  1149  			entry->wdata.led_state |= 1 << i;
+72529c65a5399be Michal Malý  2015-04-08  1150  			lg4ff_set_leds(hid, entry->wdata.led_state);
+22bcefdc8838186 Simon Wood   2012-04-21  1151  		}
+22bcefdc8838186 Simon Wood   2012-04-21  1152  		break;
+22bcefdc8838186 Simon Wood   2012-04-21  1153  	}
+22bcefdc8838186 Simon Wood   2012-04-21  1154  }
+22bcefdc8838186 Simon Wood   2012-04-21  1155  
+22bcefdc8838186 Simon Wood   2012-04-21 @1156  static enum led_brightness lg4ff_led_get_brightness(struct led_classdev *led_cdev)
+22bcefdc8838186 Simon Wood   2012-04-21  1157  {
+22bcefdc8838186 Simon Wood   2012-04-21  1158  	struct device *dev = led_cdev->dev->parent;
+ee79a8f840a45d3 Geliang Tang 2015-12-27  1159  	struct hid_device *hid = to_hid_device(dev);
+4629fd160f7da96 Axel Lin     2012-09-13  1160  	struct lg_drv_data *drv_data = hid_get_drvdata(hid);
+22bcefdc8838186 Simon Wood   2012-04-21  1161  	struct lg4ff_device_entry *entry;
+22bcefdc8838186 Simon Wood   2012-04-21  1162  	int i, value = 0;
+22bcefdc8838186 Simon Wood   2012-04-21  1163  
+22bcefdc8838186 Simon Wood   2012-04-21  1164  	if (!drv_data) {
+22bcefdc8838186 Simon Wood   2012-04-21  1165  		hid_err(hid, "Device data not found.");
+22bcefdc8838186 Simon Wood   2012-04-21  1166  		return LED_OFF;
+22bcefdc8838186 Simon Wood   2012-04-21  1167  	}
+22bcefdc8838186 Simon Wood   2012-04-21  1168  
+371a1d9e1fed7dc Michal Malý  2015-04-08  1169  	entry = drv_data->device_props;
+22bcefdc8838186 Simon Wood   2012-04-21  1170  
+22bcefdc8838186 Simon Wood   2012-04-21  1171  	if (!entry) {
+22bcefdc8838186 Simon Wood   2012-04-21  1172  		hid_err(hid, "Device properties not found.");
+22bcefdc8838186 Simon Wood   2012-04-21  1173  		return LED_OFF;
+22bcefdc8838186 Simon Wood   2012-04-21  1174  	}
+22bcefdc8838186 Simon Wood   2012-04-21  1175  
+22bcefdc8838186 Simon Wood   2012-04-21  1176  	for (i = 0; i < 5; i++)
+72529c65a5399be Michal Malý  2015-04-08  1177  		if (led_cdev == entry->wdata.led[i]) {
+72529c65a5399be Michal Malý  2015-04-08  1178  			value = (entry->wdata.led_state >> i) & 1;
+22bcefdc8838186 Simon Wood   2012-04-21  1179  			break;
+22bcefdc8838186 Simon Wood   2012-04-21  1180  		}
+22bcefdc8838186 Simon Wood   2012-04-21  1181  
+22bcefdc8838186 Simon Wood   2012-04-21 @1182  	return value ? LED_FULL : LED_OFF;
+22bcefdc8838186 Simon Wood   2012-04-21  1183  }
+22bcefdc8838186 Simon Wood   2012-04-21  1184  #endif
+22bcefdc8838186 Simon Wood   2012-04-21  1185  
 
 -- 
 0-DAY CI Kernel Test Service
