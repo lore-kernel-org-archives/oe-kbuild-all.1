@@ -1,43 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BAA3C10
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Apr 2023 20:20:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FEE2F26;
+	Sun, 30 Apr 2023 20:31:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682886046; x=1714422046;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EH2QyYmPGyWtURbWG/Cu8AIcDAVH/mhKL8AGOZRDr7U=;
-  b=U9DjNPKD8Om3G8LDG09JmcXvjMuLzCFlNT/TuC//8DFhSiQZkxlKyCH4
-   XxoZ1/9yrycoXKc8cEZPJ4Btu4qQUVxP++9DvKpo1gogI/MhqMYGBsHPs
-   5pRX23/6BoAZ4LfIF2Cm6Ku5fA96cBTVlB6aHj1jtjKnHfDfs3r3gj828
-   dsfzmcjm7/yyJ3swXuSGwExYWVCJM5FDlY8e8FbXkuigYHaRLYZ1z1l5a
-   ZEusk7yQmkTtESyycW4F321vpKXn/QWee4h+fsgHiHzvK6gC54lhZnQti
-   Iyn9Ei7AjWzzhSZuwE7nWL13SDvv4kta2Bv+wkfDLDdsepgUh4GjcHzCt
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="350112387"
+  t=1682886706; x=1714422706;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ALMugpowdnaYvzwePwc14gwC7oEX04tbGrdkKSZhI44=;
+  b=SSoMmVbEqYNjKbVpsRB156bztzCqfvZP2pbP3ZeedomMygu6hVQSNkOV
+   CKtnWd8Xl53StW6O97p38no9Vr9lsjSVRmJ5uOgrIOJNp8zPiJRibMcog
+   +RfnkdfGhAHaEjB6Z0j8uRTsOSONCn0qaLym3vDxgBT0kTAcbiiCE6Djz
+   iWSzDdaS9TYbX4+SMgWuvccyqQA0YbV/RdGGhupXdayuYZheava8h+BYU
+   L2Vxe9NV+pTZgXsc8yyj+FqR5q++Fqx2/m6KwqCB0ySPN2tuTibPxwOef
+   HuF0V0wpp77IGyLH1o/WAKzqnVYAoDlTxOCmRVzX4VlJ+cO0vKXF4mdMn
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="337166816"
 X-IronPort-AV: E=Sophos;i="5.99,239,1677571200"; 
-   d="scan'208";a="350112387"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2023 13:20:45 -0700
+   d="scan'208";a="337166816"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2023 13:31:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="765083916"
+X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="726140965"
 X-IronPort-AV: E=Sophos;i="5.99,239,1677571200"; 
-   d="scan'208";a="765083916"
+   d="scan'208";a="726140965"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 30 Apr 2023 13:20:44 -0700
+  by orsmga008.jf.intel.com with ESMTP; 30 Apr 2023 13:31:45 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptDXI-000077-0S;
-	Sun, 30 Apr 2023 20:20:44 +0000
-Date: Mon, 1 May 2023 04:20:26 +0800
+	id 1ptDhw-00007L-0w;
+	Sun, 30 Apr 2023 20:31:44 +0000
+Date: Mon, 1 May 2023 04:30:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lunn:leds-offload-support-reduced-auto-netdev 1/38]
- drivers/net/dsa/qca/qca8k-leds.c:171:1: error: redefinition of
- 'qca8k_setup_led_ctrl'
-Message-ID: <202305010438.qnVXGjbS-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 7/8] sched: drop for_each_numa_hop_mask()
+Message-ID: <202305010435.uWmPKEnD-lkp@intel.com>
+References: <20230430171809.124686-8-yury.norov@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,44 +46,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230430171809.124686-8-yury.norov@gmail.com>
 
-tree:   https://github.com/lunn/linux.git leds-offload-support-reduced-auto-netdev
-head:   95771ae239994ead436141b910fabce1e1376c11
-commit: b5aec9daa41c336daa56ce5653b3fc67297a5174 [1/38] net: dsa: qca8k: add LEDs basic support
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230501/202305010438.qnVXGjbS-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.1.0
+Hi Yury,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on v6.3]
+[cannot apply to horms-ipvs/master net/main net-next/main linus/master next-20230428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yury-Norov/sched-fix-sched_numa_find_nth_cpu-in-non-NUMA-case/20230501-012204
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20230430171809.124686-8-yury.norov%40gmail.com
+patch subject: [PATCH v3 7/8] sched: drop for_each_numa_hop_mask()
+config: i386-randconfig-a012-20230501 (https://download.01.org/0day-ci/archive/20230501/202305010435.uWmPKEnD-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/lunn/linux/commit/b5aec9daa41c336daa56ce5653b3fc67297a5174
-        git remote add lunn https://github.com/lunn/linux.git
-        git fetch --no-tags lunn leds-offload-support-reduced-auto-netdev
-        git checkout b5aec9daa41c336daa56ce5653b3fc67297a5174
+        # https://github.com/intel-lab-lkp/linux/commit/a5818e63fc53a7f0cfeb65622ddad6cbe1d41929
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yury-Norov/sched-fix-sched_numa_find_nth_cpu-in-non-NUMA-case/20230501-012204
+        git checkout a5818e63fc53a7f0cfeb65622ddad6cbe1d41929
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash drivers/net/dsa/qca/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/ethernet/intel/ice/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305010438.qnVXGjbS-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305010435.uWmPKEnD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/dsa/qca/qca8k-leds.c:171:1: error: redefinition of 'qca8k_setup_led_ctrl'
-     171 | qca8k_setup_led_ctrl(struct qca8k_priv *priv)
-         | ^~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/dsa/qca/qca8k-leds.c:5:
-   drivers/net/dsa/qca/qca8k.h:578:19: note: previous definition of 'qca8k_setup_led_ctrl' with type 'int(struct qca8k_priv *)'
-     578 | static inline int qca8k_setup_led_ctrl(struct qca8k_priv *priv)
-         |                   ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_base.c:664:23: error: no member named 'numa_node' in 'struct device'
+           int numa_node = dev->numa_node;
+                           ~~~  ^
+>> drivers/net/ethernet/intel/ice/ice_base.c:681:2: error: implicit declaration of function 'for_each_numa_hop_mask' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           for_each_numa_hop_mask(aff_mask, numa_node) {
+           ^
+>> drivers/net/ethernet/intel/ice/ice_base.c:681:45: error: expected ';' after expression
+           for_each_numa_hop_mask(aff_mask, numa_node) {
+                                                      ^
+                                                      ;
+   3 errors generated.
 
 
-vim +/qca8k_setup_led_ctrl +171 drivers/net/dsa/qca/qca8k-leds.c
+vim +/for_each_numa_hop_mask +681 drivers/net/ethernet/intel/ice/ice_base.c
 
-   169	
-   170	int
- > 171	qca8k_setup_led_ctrl(struct qca8k_priv *priv)
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  652  
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  653  /**
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  654   * ice_vsi_alloc_q_vectors - Allocate memory for interrupt vectors
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  655   * @vsi: the VSI being configured
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  656   *
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  657   * We allocate one q_vector per queue interrupt. If allocation fails we
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  658   * return -ENOMEM.
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  659   */
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  660  int ice_vsi_alloc_q_vectors(struct ice_vsi *vsi)
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  661  {
+2795b87092e057 Pawel Chmielewski      2023-02-16  662  	cpumask_t *aff_mask, *last_aff_mask = cpu_none_mask;
+3306f79f428e85 Anirudh Venkataramanan 2020-02-06  663  	struct device *dev = ice_pf_to_dev(vsi->back);
+2795b87092e057 Pawel Chmielewski      2023-02-16 @664  	int numa_node = dev->numa_node;
+2795b87092e057 Pawel Chmielewski      2023-02-16  665  	u16 v_idx, cpu = 0;
+88865fc4bbd61e Karol Kolacinski       2020-05-07  666  	int err;
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  667  
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  668  	if (vsi->q_vectors[0]) {
+4015d11e4b9720 Brett Creeley          2019-11-08  669  		dev_dbg(dev, "VSI %d has existing q_vectors\n", vsi->vsi_num);
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  670  		return -EEXIST;
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  671  	}
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  672  
+3306f79f428e85 Anirudh Venkataramanan 2020-02-06  673  	for (v_idx = 0; v_idx < vsi->num_q_vectors; v_idx++) {
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  674  		err = ice_vsi_alloc_q_vector(vsi, v_idx);
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  675  		if (err)
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  676  			goto err_out;
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  677  	}
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  678  
+2795b87092e057 Pawel Chmielewski      2023-02-16  679  	v_idx = 0;
+2795b87092e057 Pawel Chmielewski      2023-02-16  680  
+2795b87092e057 Pawel Chmielewski      2023-02-16 @681  	for_each_numa_hop_mask(aff_mask, numa_node) {
+2795b87092e057 Pawel Chmielewski      2023-02-16  682  		for_each_cpu_andnot(cpu, aff_mask, last_aff_mask) {
+2795b87092e057 Pawel Chmielewski      2023-02-16  683  			if (v_idx >= vsi->num_q_vectors)
+2795b87092e057 Pawel Chmielewski      2023-02-16  684  				goto out;
+2795b87092e057 Pawel Chmielewski      2023-02-16  685  
+2795b87092e057 Pawel Chmielewski      2023-02-16  686  			if (cpu_online(cpu)) {
+2795b87092e057 Pawel Chmielewski      2023-02-16  687  				cpumask_set_cpu(cpu, &vsi->q_vectors[v_idx]->affinity_mask);
+2795b87092e057 Pawel Chmielewski      2023-02-16  688  				v_idx++;
+2795b87092e057 Pawel Chmielewski      2023-02-16  689  			}
+2795b87092e057 Pawel Chmielewski      2023-02-16  690  		}
+2795b87092e057 Pawel Chmielewski      2023-02-16  691  
+2795b87092e057 Pawel Chmielewski      2023-02-16  692  		last_aff_mask = aff_mask;
+2795b87092e057 Pawel Chmielewski      2023-02-16  693  	}
+2795b87092e057 Pawel Chmielewski      2023-02-16  694  
+2795b87092e057 Pawel Chmielewski      2023-02-16  695  out:
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  696  	return 0;
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  697  
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  698  err_out:
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  699  	while (v_idx--)
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  700  		ice_free_q_vector(vsi, v_idx);
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  701  
+4015d11e4b9720 Brett Creeley          2019-11-08  702  	dev_err(dev, "Failed to allocate %d q_vector for VSI %d, ret=%d\n",
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  703  		vsi->num_q_vectors, vsi->vsi_num, err);
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  704  	vsi->num_q_vectors = 0;
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  705  	return err;
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  706  }
+eff380aaffedb2 Anirudh Venkataramanan 2019-10-24  707  
 
 -- 
 0-DAY CI Kernel Test Service
