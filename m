@@ -1,43 +1,51 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E4E2F37
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Apr 2023 15:48:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58C617C2
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Apr 2023 16:49:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682869722; x=1714405722;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dZqkRh5o849PejBMLlgURL1sHxT5dBczJ6a9ndFeQHY=;
-  b=BN65fPfuvkcn6WU2jspBqp+3y2lk+pjw/CDEou6jZMATt4igMvE0Ocd9
-   eDGeoKd9cmxgJeK+CZzc7MgbBNO9DX64aeSzw6uhlDGzvzWuJxjNq70lh
-   1HWv/e17sRPmC/lXelk00bxoSgByKYOHzaz2K7ld4BFU0x1bw2gPAmtji
-   a5UiqYpYbUptMznr7flxhmylPQqqLzj0Rxz0sgQwjEzpGOIh22h8eD8qB
-   DK5/a1korg+TDTbUTCbK8qmZIOGDfDMIdxB65so4GQ27VnKY4A67eb3ZE
-   IfMlvujHFwcCSR1fiWXFbnHBmndY+wpR6H+fbMX69fb9IjcXyzK8YUXgH
+  t=1682873385; x=1714409385;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/4lkaS66d7RfmGVcMxrZaN3B5HIVuHYecoGKid+YWlo=;
+  b=ZuAikf0heLH8cUJJeM/ccgCv+2nUR1pJfjLLhSd48YnfivgXalFPYm+Y
+   CR/ZFSAlyitzj9UIxnHeftbjRHbIY0xMVGxnOT4W55UmvzROC4A+sn3PE
+   UzHutarhVjdlAGGKP7w5Poh8j8UJq6YZAD1k/6X0LMTraMpMi8UXh2qW2
+   tMsrvXv/PQGtashl22PJFHOCuYnkT9RjYnK+6fVGk6qiF2cFL+0pRoIFs
+   cAQPYJrthHSBEYeVMxtJS2STLeNPO9WXyKd3ixGycnSLIP23M8/EeQsHE
+   H6ec3AMPqO/COnNLnqLvQYhfUEqxaw83+nAY6akXVoL7jZsdvrB+0Owrc
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="345504212"
+X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="434351243"
 X-IronPort-AV: E=Sophos;i="5.99,239,1677571200"; 
-   d="scan'208";a="345504212"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2023 08:48:42 -0700
+   d="scan'208";a="434351243"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2023 09:49:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="839597913"
+X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="695545916"
 X-IronPort-AV: E=Sophos;i="5.99,239,1677571200"; 
-   d="scan'208";a="839597913"
+   d="scan'208";a="695545916"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 30 Apr 2023 08:48:40 -0700
+  by orsmga002.jf.intel.com with ESMTP; 30 Apr 2023 09:49:41 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pt9Hz-00001b-1F;
-	Sun, 30 Apr 2023 15:48:39 +0000
-Date: Sun, 30 Apr 2023 23:47:41 +0800
+	id 1ptAF2-000033-0v;
+	Sun, 30 Apr 2023 16:49:40 +0000
+Date: Mon, 1 May 2023 00:49:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: error: no previous
- prototype for '__vdso_getcpu'
-Message-ID: <202304302304.LTYndwk9-lkp@intel.com>
+To: Arseniy Krasnov <AVKrasnov@sberdevices.ru>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, oxffffaa@gmail.com,
+	kernel@sberdevices.ru, linux-mtd@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
+Message-ID: <202305010034.uh2F9KeO-lkp@intel.com>
+References: <20230426172520.2004711-1-AVKrasnov@sberdevices.ru>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,57 +54,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230426172520.2004711-1-AVKrasnov@sberdevices.ru>
 
-Hi Sebastian,
+Hi Arseniy,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   825a0714d2b3883d4f8ff64f6933fb73ee3f1834
-commit: 92d33063c081a82d25dd08a9cce03947c8ed9164 x86/vdso: Provide getcpu for x86-32.
-date:   3 months ago
-config: x86_64-sof-customedconfig-edison-defconfig (https://download.01.org/0day-ci/archive/20230430/202304302304.LTYndwk9-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+[auto build test ERROR on mtd/nand/next]
+[also build test ERROR on linus/master v6.3 next-20230428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230427-013216
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
+patch link:    https://lore.kernel.org/r/20230426172520.2004711-1-AVKrasnov%40sberdevices.ru
+patch subject: [PATCH v2] mtd: rawnand: macronix: OTP access for MX30LFxG18AC
+config: sparc-randconfig-c042-20230430 (https://download.01.org/0day-ci/archive/20230501/202305010034.uh2F9KeO-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=92d33063c081a82d25dd08a9cce03947c8ed9164
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 92d33063c081a82d25dd08a9cce03947c8ed9164
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/923eca7325935e1120923aeca0177cc0acc61475
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Arseniy-Krasnov/mtd-rawnand-macronix-OTP-access-for-MX30LFxG18AC/20230427-013216
+        git checkout 923eca7325935e1120923aeca0177cc0acc61475
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/mtd/nand/raw/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304302304.LTYndwk9-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305010034.uh2F9KeO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/entry/vdso/vdso32/vgetcpu.c:2:
->> arch/x86/entry/vdso/vdso32/../vgetcpu.c:13:1: error: no previous prototype for '__vdso_getcpu' [-Werror=missing-prototypes]
-      13 | __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
-         | ^~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   In file included from ./arch/sparc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time64.h:5,
+                    from include/linux/restart_block.h:10,
+                    from include/linux/thread_info.h:14,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/sparc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:15,
+                    from drivers/mtd/nand/raw/nand_macronix.c:9:
+   drivers/mtd/nand/raw/nand_macronix.c: In function '__macronix_30lfxg18ac_rw_otp':
+   include/asm-generic/div64.h:222:35: warning: comparison of distinct pointer types lacks a cast
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   drivers/mtd/nand/raw/nand_macronix.c:398:24: note: in expansion of macro 'do_div'
+     398 |         offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
+         |                        ^~~~~~
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/preempt.h:11:
+   include/asm-generic/div64.h:234:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:77:45: note: in definition of macro 'likely'
+      77 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   drivers/mtd/nand/raw/nand_macronix.c:398:24: note: in expansion of macro 'do_div'
+     398 |         offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
+         |                        ^~~~~~
+>> include/asm-generic/div64.h:238:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    long unsigned int *
+   drivers/mtd/nand/raw/nand_macronix.c:398:24: note: in expansion of macro 'do_div'
+     398 |         offs_in_page = do_div(page, MACRONIX_30LFXG18AC_OTP_PAGE_SIZE);
+         |                        ^~~~~~
+   include/asm-generic/div64.h:213:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'long unsigned int *'
+     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/__vdso_getcpu +13 arch/x86/entry/vdso/vdso32/../vgetcpu.c
+vim +/__div64_32 +238 include/asm-generic/div64.h
 
-2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  11  
-23adec554a7648 arch/x86/vdso/vgetcpu.c       Steven Rostedt 2008-05-12  12  notrace long
-23adec554a7648 arch/x86/vdso/vgetcpu.c       Steven Rostedt 2008-05-12 @13  __vdso_getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *unused)
-2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  14  {
-22245bdf0ad805 arch/x86/entry/vdso/vgetcpu.c Ingo Molnar    2018-10-08  15  	vdso_read_cpunode(cpu, node);
-ec3a94188df7d2 arch/x86/entry/vdso/vgetcpu.c Ingo Molnar    2018-10-08  16  
-2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  17  	return 0;
-2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  18  }
-2aae950b21e4bc arch/x86_64/vdso/vgetcpu.c    Andi Kleen     2007-07-21  19  
-
-:::::: The code at line 13 was first introduced by commit
-:::::: 23adec554a7648f99c8acc0caf49c66320cd2b84 x86: add notrace annotations to vsyscall.
-
-:::::: TO: Steven Rostedt <srostedt@redhat.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+^1da177e4c3f415 Linus Torvalds     2005-04-16  215  
+^1da177e4c3f415 Linus Torvalds     2005-04-16  216  /* The unnecessary pointer compare is there
+^1da177e4c3f415 Linus Torvalds     2005-04-16  217   * to check for type safety (n must be 64bit)
+^1da177e4c3f415 Linus Torvalds     2005-04-16  218   */
+^1da177e4c3f415 Linus Torvalds     2005-04-16  219  # define do_div(n,base) ({				\
+^1da177e4c3f415 Linus Torvalds     2005-04-16  220  	uint32_t __base = (base);			\
+^1da177e4c3f415 Linus Torvalds     2005-04-16  221  	uint32_t __rem;					\
+^1da177e4c3f415 Linus Torvalds     2005-04-16  222  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
+911918aa7ef6f86 Nicolas Pitre      2015-11-02  223  	if (__builtin_constant_p(__base) &&		\
+911918aa7ef6f86 Nicolas Pitre      2015-11-02  224  	    is_power_of_2(__base)) {			\
+911918aa7ef6f86 Nicolas Pitre      2015-11-02  225  		__rem = (n) & (__base - 1);		\
+911918aa7ef6f86 Nicolas Pitre      2015-11-02  226  		(n) >>= ilog2(__base);			\
+c747ce4706190ef Geert Uytterhoeven 2021-08-11  227  	} else if (__builtin_constant_p(__base) &&	\
+461a5e51060c93f Nicolas Pitre      2015-10-30  228  		   __base != 0) {			\
+461a5e51060c93f Nicolas Pitre      2015-10-30  229  		uint32_t __res_lo, __n_lo = (n);	\
+461a5e51060c93f Nicolas Pitre      2015-10-30  230  		(n) = __div64_const32(n, __base);	\
+461a5e51060c93f Nicolas Pitre      2015-10-30  231  		/* the remainder can be computed with 32-bit regs */ \
+461a5e51060c93f Nicolas Pitre      2015-10-30  232  		__res_lo = (n);				\
+461a5e51060c93f Nicolas Pitre      2015-10-30  233  		__rem = __n_lo - __res_lo * __base;	\
+911918aa7ef6f86 Nicolas Pitre      2015-11-02 @234  	} else if (likely(((n) >> 32) == 0)) {		\
+^1da177e4c3f415 Linus Torvalds     2005-04-16  235  		__rem = (uint32_t)(n) % __base;		\
+^1da177e4c3f415 Linus Torvalds     2005-04-16  236  		(n) = (uint32_t)(n) / __base;		\
+c747ce4706190ef Geert Uytterhoeven 2021-08-11  237  	} else {					\
+^1da177e4c3f415 Linus Torvalds     2005-04-16 @238  		__rem = __div64_32(&(n), __base);	\
+c747ce4706190ef Geert Uytterhoeven 2021-08-11  239  	}						\
+^1da177e4c3f415 Linus Torvalds     2005-04-16  240  	__rem;						\
+^1da177e4c3f415 Linus Torvalds     2005-04-16  241   })
+^1da177e4c3f415 Linus Torvalds     2005-04-16  242  
 
 -- 
 0-DAY CI Kernel Test Service
