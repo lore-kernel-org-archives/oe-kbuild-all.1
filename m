@@ -1,43 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D762119
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Apr 2023 11:24:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2671191
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Apr 2023 13:02:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682853866; x=1714389866;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kammavdvX7Mwwx+G/gUvXTD0nKfLUC0pS7GyD/dz2yM=;
-  b=ZwORdATQ2y5lQcHvqfpVRRDWSAB4ejSoKdJIMMprk9J6llVYzDJmdZMK
-   8Hm6jYlIZ33bQkTdzTDGxZ0QF6OKgnrIzPCPoxhX6zncfWlcBNrUwOn1f
-   nP/9tXAGf4bNw+Yv00Mh6qBgjfCNevJa59eB1Z3AORrAOKj4rEBW3axx3
-   Es/8fbYmaKJf3s9xMmMzM05S1bsgr4Qhkuv6zm3kApJcB/KV4e4El4hJv
-   ai5+O2lvrjUpuroT7XUMRsvb5pFXTbGKNI5qxBZHay9vw9ZSfKfbiJdPI
-   uuL20NC/PeBusGJ8aNl6qYVzYUbeMfBSM/1D2Jt86nL3NK7ultnpSR6r2
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="350961431"
+  t=1682859747; x=1714395747;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=FfxDSkrde9RoDw6AMXvkTRYqlZEvxC7SB9AvMOZkcCg=;
+  b=hIPei9LqcJy1wjkMLZvztmGsJu9os+RUNkvgBvXde95Lwp3o51gdkP7l
+   wgZe9jpvV42T6XEx+FU5rJMmjavEA4G73HQO6vJcqNvBcEa5iZvPmAqUD
+   onVBmK/eSxZApLed0iqPi3KpBrxVgZHV6BlnSWLlpnXT1/a/LNin06/M/
+   kR5Xq08EagPjL85MZ1aIO590wJfdc6m7PDfO7tvW42alCxBHzaoV0sTtr
+   /Ku/Snv8va703ThBAKss3S3RQZJXdnNWydHZIfuOskEcIPy574FZmeNq1
+   xFhhdqYMLdrILnXbDNdnWAfZieF1Fv+c16Q0MX8m1ShKxh05ft8HOBXhX
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="327650919"
 X-IronPort-AV: E=Sophos;i="5.99,239,1677571200"; 
-   d="scan'208";a="350961431"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2023 04:24:26 -0700
+   d="scan'208";a="327650919"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2023 06:02:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10695"; a="726035181"
+X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="645831960"
 X-IronPort-AV: E=Sophos;i="5.99,239,1677571200"; 
-   d="scan'208";a="726035181"
+   d="scan'208";a="645831960"
 Received: from lkp-server01.sh.intel.com (HELO 5bad9d2b7fcb) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 30 Apr 2023 04:24:25 -0700
+  by orsmga003.jf.intel.com with ESMTP; 30 Apr 2023 06:02:24 -0700
 Received: from kbuild by 5bad9d2b7fcb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pt5AG-0001dh-1J;
-	Sun, 30 Apr 2023 11:24:24 +0000
-Date: Sun, 30 Apr 2023 19:23:26 +0800
+	id 1pt6h6-0001eT-2k;
+	Sun, 30 Apr 2023 13:02:24 +0000
+Date: Sun, 30 Apr 2023 21:01:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4 17409/27008] htmldocs:
- Documentation/admin-guide/pstore-blk.rst:152: WARNING: Error in "kernel-doc"
- directive:
-Message-ID: <202304301957.6JA6tNc9-lkp@intel.com>
+To: Lorenzo Stoakes <lstoakes@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] mm/mempolicy: Correctly update prev when policy is equal
+ on mbind
+Message-ID: <ZE5mvT5Swo6Vggi7@afc780e125e2>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,38 +46,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <db42467a692d78c654ec5c1953329401bd8a9c34.1682859234.git.lstoakes@gmail.com>
 
-Hi WeiXiong,
+Hi,
 
-FYI, the error/warning still remains.
+Thanks for your patch.
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   d5ed2ca98e482beb70819315665172025f8a3bc6
-commit: c0003a71672a751ec23d85451cbe43ff64609ab1 [17409/27008] UPSTREAM: Documentation: Add details for pstore/blk
-reproduce:
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android12-5.4
-        git checkout c0003a71672a751ec23d85451cbe43ff64609ab1
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202304301957.6JA6tNc9-lkp@intel.com/
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH] mm/mempolicy: Correctly update prev when policy is equal on mbind
+Link: https://lore.kernel.org/stable/db42467a692d78c654ec5c1953329401bd8a9c34.1682859234.git.lstoakes%40gmail.com
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/admin-guide/pstore-blk.rst:152: WARNING: Error in "kernel-doc" directive:
->> Documentation/admin-guide/pstore-blk.rst: WARNING: document isn't included in any toctree
-
-vim +152 Documentation/admin-guide/pstore-blk.rst
-
-   151	
- > 152	.. kernel-doc:: fs/pstore/blk.c
-   153	   :identifiers: register_pstore_blk
-   154	
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
+
+
