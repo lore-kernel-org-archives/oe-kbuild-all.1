@@ -1,43 +1,48 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831682F5F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Apr 2023 17:30:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BDCF2F5F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 30 Apr 2023 17:30:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682875843; x=1714411843;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=s+Mn6GL6lzrDi541xjlzv+akoj3qHuZrKW6EKC2xTGc=;
-  b=XfHJLmg4X+ffU2v/8E6dYSPk89kDMOpNkuWDB2QPeyMpi2Ld4p3WaCjT
-   lJAr4akPsfxXYU9Ns1fMFoR1ynqX21AkhO8qjZqAPV8VsFT8STwzZhUF1
-   RJVEhJ6IMrivTC475iBeWl9ZCzU2KJwiAqomSGWJB8k8PIfCOo41acABK
-   cqWEz36EiL1ye4u3Zd6V9BEejqFuE7kWii+1IFS5/o/iXyg/kVKGaj2r+
-   qzgc8GDdlDSsDigoABqx1cBbtnsDhox9LzezYcbzQOQHAj8UQJCoBu8BV
-   rYvgaZlQWby2hvKIXWI0jipZLTsZwrDsoYSxH6mFEIEduvrn0jwia7sk5
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="411168825"
+  t=1682875846; x=1714411846;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EmOg6EOUyCPJdIgtaCmi0uNZdCAby1mxeqx8iFroNo0=;
+  b=ecGo+hjbFEzIBEnn0hU3n8cgRwTWzx5Edl1qfaU95yCbS797HWDPqUnH
+   Ay9oyHgNPM6rvwVmL2aF1+T/cJVswQf4Sr2Z2m8SmGEc1vzeWRMmdKIM6
+   E/iuGALVZ+ZwMPV+1EKIusoGAppV7kGwWlwNFkB3SxevBrDszigxuBOpO
+   r+8mCxuoljKM6HBpa6hjMZZBZ3sdezKSPR/duBwxFZkAE38Xdh7WcTBlv
+   eXvuuUz4psBayzSf/UHBBntApeEvES/KpsDZwGIh8vuRgq/IublEE+foJ
+   ym3HupHHXxGBYO5HKdEGEt8fPJnp1qBgHDvVcQrzEppRbX4r5aKqFVe1Z
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="411168833"
 X-IronPort-AV: E=Sophos;i="5.99,239,1677571200"; 
-   d="scan'208";a="411168825"
+   d="scan'208";a="411168833"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2023 10:30:42 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2023 10:30:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="869930795"
+X-IronPort-AV: E=McAfee;i="6600,9927,10696"; a="869930794"
 X-IronPort-AV: E=Sophos;i="5.99,239,1677571200"; 
-   d="scan'208";a="869930795"
+   d="scan'208";a="869930794"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
   by orsmga005.jf.intel.com with ESMTP; 30 Apr 2023 10:30:41 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptAsj-00004H-0r;
+	id 1ptAsj-00004D-0l;
 	Sun, 30 Apr 2023 17:30:41 +0000
-Date: Mon, 1 May 2023 01:30:21 +0800
+Date: Mon, 1 May 2023 01:30:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kernel Builder (kathleen)" <ubuntu-kernel-bot@canonical.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:tpm1-s3-bug 1/11] htmldocs: Warning:
- debian/rules.d/3-binary-indep.mk references a file that doesn't exist:
- builddir)/tools/tools/bpf/bpftool/Documentation/*.8
-Message-ID: <202305010136.bz7pv3az-lkp@intel.com>
+To: Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>, patrick@stwcx.xyz,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, linux-i2c@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 2/2] hwmon: pmbus: Add ltc4286 driver
+Message-ID: <202305010110.yAHNljHe-lkp@intel.com>
+References: <20230424101352.28117-3-Delphine_CC_Chiu@Wiwynn.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,27 +51,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230424101352.28117-3-Delphine_CC_Chiu@Wiwynn.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm1-s3-bug
-head:   16b1299c9762360866dd649a99c6c03f8a213fe4
-commit: dfff5e890fa1c6a99c3adba032fdf1925ac658e4 [1/11] base packaging
+Hi Delphine,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.3 next-20230428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Delphine-CC-Chiu/dt-bindings-hwmon-Add-lltc-ltc4286-driver-bindings/20230424-181521
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20230424101352.28117-3-Delphine_CC_Chiu%40Wiwynn.com
+patch subject: [PATCH v1 2/2] hwmon: pmbus: Add ltc4286 driver
+config: arm-randconfig-s043-20230430 (https://download.01.org/0day-ci/archive/20230501/202305010110.yAHNljHe-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git/commit/?id=dfff5e890fa1c6a99c3adba032fdf1925ac658e4
-        git remote add jarkko-tpmdd git://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git
-        git fetch --no-tags jarkko-tpmdd tpm1-s3-bug
-        git checkout dfff5e890fa1c6a99c3adba032fdf1925ac658e4
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/318b8a252bb2d7430f1cf7b93bb5df8d0e4fee29
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Delphine-CC-Chiu/dt-bindings-hwmon-Add-lltc-ltc4286-driver-bindings/20230424-181521
+        git checkout 318b8a252bb2d7430f1cf7b93bb5df8d0e4fee29
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/hwmon/pmbus/ drivers/i3c/master/ drivers/spi/ sound/soc/cirrus/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305010136.bz7pv3az-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305010110.yAHNljHe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: debian/rules.d/3-binary-indep.mk references a file that doesn't exist: builddir)/tools/tools/bpf/bpftool/Documentation/*.8
->> Warning: debian/rules.d/3-binary-indep.mk references a file that doesn't exist: builddir)/tools/tools/perf/Documentation/*.1
+>> drivers/hwmon/pmbus/ltc4286.c:134:18: error: initialization of 'int (*)(struct i2c_client *)' from incompatible pointer type 'int (*)(struct i2c_client *, const struct i2c_device_id *)' [-Werror=incompatible-pointer-types]
+     134 |         .probe = ltc4286_probe,
+         |                  ^~~~~~~~~~~~~
+   drivers/hwmon/pmbus/ltc4286.c:134:18: note: (near initialization for 'ltc4286_driver.<anonymous>.probe')
+   cc1: some warnings being treated as errors
+
+
+vim +134 drivers/hwmon/pmbus/ltc4286.c
+
+   127	
+   128	/* This is the driver that will be inserted */
+   129	static struct i2c_driver ltc4286_driver = {
+   130		.driver = {
+   131			.name = "ltc4286",
+   132			.of_match_table = ltc4286_of_match,
+   133		},
+ > 134		.probe = ltc4286_probe,
+   135		.id_table = ltc4286_id,
+   136	};
+   137	
 
 -- 
 0-DAY CI Kernel Test Service
