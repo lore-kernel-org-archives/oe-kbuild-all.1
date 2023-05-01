@@ -1,44 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8478C05
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 May 2023 21:49:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CBC8C05
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 May 2023 22:01:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682977758; x=1714513758;
+  t=1682978477; x=1714514477;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vxCJb/ZMgVJ0uOccv4BqjR+4YW17qoOzGRnDRQPwjVs=;
-  b=EO6d0DFrSaCTWbn6Mvw6g4ZBVnqwRIY+r7+ybXqWfZPTW4AtLczzdA5x
-   3IIc/w2udB9qZEaMVXi2U/HkN/hz0pUTariBFBahA4g+Dt+sqNBmkleLQ
-   iCOxeUSx+OTkzgmsyvO7ey8gMxc8sFugtQBltUwT5I1sSIATHB475niv3
-   B/gPu3fPBd7ws8VNHwt10SXSoL0jFj1oNzHZytEyVFVPkz9En30la283u
-   wNdTzOkDkmGGNfnNhYSNf7I29fNUYSS2NVxAthPYx0thbWQ65N4GzMtfl
-   moMrM2IWY/RzJQoScE9sK9r9yKk1YPda8s06B/DbtZGUpK6QDFv2uyGwR
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="376298638"
+  bh=I28H4rU4gPCOYp4K9p5O0wbwad5zoEOFUwLXmzdxE5M=;
+  b=kRGPnHusCO0k0FXi4t0qBUmtG01XTpqSBVGfkvG6qkEkp7IamzhX9lKS
+   Oqhq2ZWn3Gyoaej42JSTl+QpCB2Qx9c0Nc2HeejZJIHcCa1yp5aS4oKVr
+   x7MzatRbbDVkPm2qcxqP8L+HKxCjyMyPPcB3itIhb86vgvQIgW2SqjrYl
+   Os0g0+bhaZTPGG44lWG0VglOHBYbT+WLYP1usrt1a6QHi+zpA/MKjnLNy
+   RdmD2o2WdPTgQQ6DvBffIjxgyLM7FgWHWLjBT8ONMTURrPr4ukQ5wAiPj
+   /PSZ/J4RrcV8CwatFJrAzvgPYzEnuXHljVXxv5TWobjRsezYtryzER8gD
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="413682066"
 X-IronPort-AV: E=Sophos;i="5.99,242,1677571200"; 
-   d="scan'208";a="376298638"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 14:49:17 -0700
+   d="scan'208";a="413682066"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 15:01:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="673354813"
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="807590324"
 X-IronPort-AV: E=Sophos;i="5.99,242,1677571200"; 
-   d="scan'208";a="673354813"
+   d="scan'208";a="807590324"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 01 May 2023 14:49:16 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 01 May 2023 15:01:16 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptbOV-0000fd-0b;
-	Mon, 01 May 2023 21:49:15 +0000
-Date: Tue, 2 May 2023 05:49:04 +0800
+	id 1ptba7-0000fl-16;
+	Mon, 01 May 2023 22:01:15 +0000
+Date: Tue, 2 May 2023 06:00:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Rob Herring <robh@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 23100/23103]
- drivers/usb/gadget/udc/core.c:56: warning: expecting prototype for protects
- udc->vbus, udc->started, gadget->connect, gadget(). Prototype was for
- DEFINE_MUTEX() instead
-Message-ID: <202305020539.yQez6IO8-lkp@intel.com>
+Subject: [robh:dt/header-cleanups 59/59]
+ drivers/gpu/drm/sti/sti_drv.c:238:18: warning: assignment to 'struct
+ device_node *' from 'int' makes pointer from integer without a cast
+Message-ID: <202305020512.BAZSQVXH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,47 +47,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   9e9e157a6bb93a2c777670890905410c0b3a0768
-commit: b142000da9e5bcdce59dbb5cf3fd78e05edebedd [23100/23103] BACKPORT: FROMGIT: usb: gadget: udc: core: Invoke usb_gadget_connect only when started
-config: i386-randconfig-a011-20230501 (https://download.01.org/0day-ci/archive/20230502/202305020539.yQez6IO8-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
+head:   7637af07fc9dd17bd0f6c2df329ea6da853c0e38
+commit: 7637af07fc9dd17bd0f6c2df329ea6da853c0e38 [59/59] of: header cleanups
+config: arm-randconfig-r046-20230501 (https://download.01.org/0day-ci/archive/20230502/202305020512.BAZSQVXH-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android14-5.15
-        git checkout b142000da9e5bcdce59dbb5cf3fd78e05edebedd
+        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=7637af07fc9dd17bd0f6c2df329ea6da853c0e38
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch --no-tags robh dt/header-cleanups
+        git checkout 7637af07fc9dd17bd0f6c2df329ea6da853c0e38
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/usb/gadget/udc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/omapdrm/ drivers/gpu/drm/sti/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305020539.yQez6IO8-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305020512.BAZSQVXH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/usb/gadget/udc/core.c:56: warning: Function parameter or member 'connect_lock' not described in 'DEFINE_MUTEX'
->> drivers/usb/gadget/udc/core.c:56: warning: expecting prototype for protects udc->vbus, udc->started, gadget->connect, gadget(). Prototype was for DEFINE_MUTEX() instead
+   drivers/gpu/drm/omapdrm/dss/dss.c: In function 'dss_probe':
+>> drivers/gpu/drm/omapdrm/dss/dss.c:1492:13: error: implicit declaration of function 'of_platform_populate' [-Werror=implicit-function-declaration]
+    1492 |         r = of_platform_populate(pdev->dev.of_node, NULL, NULL, &pdev->dev);
+         |             ^~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/omapdrm/dss/dss.c:1509:9: error: implicit declaration of function 'of_platform_depopulate' [-Werror=implicit-function-declaration]
+    1509 |         of_platform_depopulate(&pdev->dev);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/gpu/drm/sti/sti_drv.c: In function 'sti_platform_probe':
+>> drivers/gpu/drm/sti/sti_drv.c:238:20: error: implicit declaration of function 'of_get_next_available_child' [-Werror=implicit-function-declaration]
+     238 |         child_np = of_get_next_available_child(node, NULL);
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/sti/sti_drv.c:238:18: warning: assignment to 'struct device_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     238 |         child_np = of_get_next_available_child(node, NULL);
+         |                  ^
+   drivers/gpu/drm/sti/sti_drv.c:243:26: warning: assignment to 'struct device_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     243 |                 child_np = of_get_next_available_child(node, child_np);
+         |                          ^
+   cc1: some warnings being treated as errors
 
 
-vim +56 drivers/usb/gadget/udc/core.c
+vim +238 drivers/gpu/drm/sti/sti_drv.c
 
-    45	
-    46	static struct class *udc_class;
-    47	static LIST_HEAD(udc_list);
-    48	static LIST_HEAD(gadget_driver_pending_list);
-    49	static DEFINE_MUTEX(udc_lock);
-    50	/**
-    51	 * protects udc->vbus, udc->started, gadget->connect, gadget->deactivate related
-    52	 * functions. usb_gadget_connect_locked, usb_gadget_disconnect_locked,
-    53	 * usb_udc_connect_control_locked, usb_gadget_udc_start_locked, usb_gadget_udc_stop_locked are
-    54	 * called with this lock held.
-    55	 */
-  > 56	static DEFINE_MUTEX(connect_lock);
-    57	
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  226  
+9e1f05b28009ca drivers/gpu/drm/sti/sti_drv.c     Vincent Abriou    2015-07-31  227  static int sti_platform_probe(struct platform_device *pdev)
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  228  {
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  229  	struct device *dev = &pdev->dev;
+53bdcf5f026c56 drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2015-07-17  230  	struct device_node *node = dev->of_node;
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  231  	struct device_node *child_np;
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  232  	struct component_match *match = NULL;
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  233  
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  234  	dma_set_coherent_mask(dev, DMA_BIT_MASK(32));
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  235  
+ac7d3af84b24eb drivers/gpu/drm/sti/sti_drv.c     Benjamin Gaignard 2017-02-24  236  	devm_of_platform_populate(dev);
+53bdcf5f026c56 drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2015-07-17  237  
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31 @238  	child_np = of_get_next_available_child(node, NULL);
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  239  
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  240  	while (child_np) {
+50a912a8660243 drivers/gpu/drm/sti/sti_drv.c     Yong Wu           2022-02-14  241  		drm_of_component_match_add(dev, &match, component_compare_of,
+97ac0e47aed5f6 drivers/gpu/drm/sti/sti_drv.c     Russell King      2016-10-19  242  					   child_np);
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  243  		child_np = of_get_next_available_child(node, child_np);
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  244  	}
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  245  
+9e1f05b28009ca drivers/gpu/drm/sti/sti_drv.c     Vincent Abriou    2015-07-31  246  	return component_master_add_with_match(dev, &sti_ops, match);
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  247  }
+9bbf86fe874cce drivers/gpu/drm/sti/sti_drm_drv.c Benjamin Gaignard 2014-07-31  248  
+
+:::::: The code at line 238 was first introduced by commit
+:::::: 9bbf86fe874cce0169f0e1152d96f0591e680874 drm: sti: Add DRM driver itself
+
+:::::: TO: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+:::::: CC: Benjamin Gaignard <benjamin.gaignard@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
