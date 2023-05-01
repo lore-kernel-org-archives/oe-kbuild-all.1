@@ -1,44 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921B333E6
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 May 2023 19:23:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1293D7465
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  1 May 2023 19:33:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682968996; x=1714504996;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B5tYuDz4kkaMu+KA03E+HlGcXYll/odsRHgiRK6oeaw=;
-  b=mggk0AJXkPNO+H84cvAe9LjG0m4S07u2oiRGZY6w7g4B126B2Mm0W+no
-   DdTM+YMp+6A5goeSjmz3erF9qyNJsyQdvKTJ0j3IDRjijp+F/76q3+nrX
-   1fGLXdDMmXCXN4xWmu3ro/arOHbdJDSm7eV2D+asAfWbI/I/a+mqjFcYU
-   ZxHT1Cmsr0QVGhjBJEmSGsFHCyXOYd1zWUUquK0MLFRZ1Ko0fHMbJolNP
-   B8jmO3UcGmayaK8t0808r1Ej6giGjfHxGoT0uHp7bYGlgpc9pC1vxpQCy
-   VjIgwuHVo82o2ZEjw9aVDJNluxelauBr+E366JyQOI5AuNnT/pp5xNAkx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="350296417"
+  t=1682969594; x=1714505594;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ngjXAQhXB//UKXwZXbe8Gpuk0rGPz/OOJdRlSmqlzpw=;
+  b=SKWa5XNaLiI32wjwzDyhVokEVZ4kQqY3GSVkVQDQV7ohInWbnsgt9AQa
+   Xdy6ZShwfZltmfqC02sMnxhNv+XQInMgXSS3CYCvkI8nmPGkzDRMHTsAX
+   2ZDm+hQb9zOX7IuwK5yyVcW48XCmaIV5gkCvo+q7KGy/pL3fg+MNZC0Yt
+   UHP66nM/HEiQotGmH/9tZMI35I8PkD6k/8kHGf6uK+hgnFDKQkg0vmf9a
+   YSkgIxYvxViq/KLOImOGAVl8L3kKzaOYiY72cONxUoCBAtGBh4AAfK07s
+   8i+8n33tFOHh9X38/tQBKn1/l8cHOCPbUHBvXoU0f60JQTAqP7Rzh8hOT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="337344409"
 X-IronPort-AV: E=Sophos;i="5.99,242,1677571200"; 
-   d="scan'208";a="350296417"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 12:23:13 -0700
+   d="scan'208";a="337344409"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 12:33:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="942155710"
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="689997694"
 X-IronPort-AV: E=Sophos;i="5.99,242,1677571200"; 
-   d="scan'208";a="942155710"
+   d="scan'208";a="689997694"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 01 May 2023 12:23:12 -0700
+  by orsmga007.jf.intel.com with ESMTP; 01 May 2023 12:33:12 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptZ79-0000av-17;
-	Mon, 01 May 2023 19:23:11 +0000
-Date: Tue, 2 May 2023 03:22:23 +0800
+	id 1ptZGp-0000bF-1s;
+	Mon, 01 May 2023 19:33:11 +0000
+Date: Tue, 2 May 2023 03:32:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
+To: Bjorn Andersson <andersson@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 31/34]
- drivers/media/platform/camx/cam_req_mgr/cam_req_mgr_util.c:254:7: warning:
- no previous prototype for 'cam_get_priv'
-Message-ID: <202305020347.0HdZYBx5-lkp@intel.com>
+Subject: Re: [PATCH 5/7] phy: qcom-qmp-combo: Introduce drm_bridge
+Message-ID: <202305020313.fewkOUd1-lkp@intel.com>
+References: <20230425034010.3789376-6-quic_bjorande@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,81 +46,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230425034010.3789376-6-quic_bjorande@quicinc.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   df1763b3ed579f5520f5fc1b2808b0e3d77b0e01
-commit: b89b98635fbdfa2e5dc8de747b44f8fb30fa248e [31/34] CHROMIUM: msm: camera: core: validation of session/device/link handle
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230502/202305020347.0HdZYBx5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+Hi Bjorn,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.3 next-20230428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bjorn-Andersson/dt-bindings-phy-qcom-sc8280xp-qmp-usb43dp-Add-ports-and-orientation-switch/20230425-114219
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230425034010.3789376-6-quic_bjorande%40quicinc.com
+patch subject: [PATCH 5/7] phy: qcom-qmp-combo: Introduce drm_bridge
+config: arm-randconfig-c031-20230430 (https://download.01.org/0day-ci/archive/20230502/202305020313.fewkOUd1-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
-        git fetch --no-tags chrome-os chromeos-6.1
-        git checkout b89b98635fbdfa2e5dc8de747b44f8fb30fa248e
+        # https://github.com/intel-lab-lkp/linux/commit/9d1c54037e7501c68b3ad3347abda7f8ca0d4a7a
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Bjorn-Andersson/dt-bindings-phy-qcom-sc8280xp-qmp-usb43dp-Add-ports-and-orientation-switch/20230425-114219
+        git checkout 9d1c54037e7501c68b3ad3347abda7f8ca0d4a7a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/media/platform/camx/cam_req_mgr/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305020347.0HdZYBx5-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305020313.fewkOUd1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/media/platform/camx/cam_req_mgr/cam_req_mgr_util.c:254:7: warning: no previous prototype for 'cam_get_priv' [-Wmissing-prototypes]
-     254 | void *cam_get_priv(int32_t dev_hdl, int handle_type)
-         |       ^~~~~~~~~~~~
+   arm-linux-gnueabi-ld: drivers/phy/qualcomm/phy-qcom-qmp-combo.o: in function `qmp_combo_bridge_attach':
+>> drivers/phy/qualcomm/phy-qcom-qmp-combo.c:3227: undefined reference to `devm_drm_of_get_bridge'
+>> arm-linux-gnueabi-ld: drivers/phy/qualcomm/phy-qcom-qmp-combo.c:3231: undefined reference to `drm_bridge_attach'
+   arm-linux-gnueabi-ld: drivers/phy/qualcomm/phy-qcom-qmp-combo.o: in function `qmp_combo_dp_register_bridge':
+>> drivers/phy/qualcomm/phy-qcom-qmp-combo.c:3243: undefined reference to `devm_drm_bridge_add'
 
 
-vim +/cam_get_priv +254 drivers/media/platform/camx/cam_req_mgr/cam_req_mgr_util.c
+vim +3227 drivers/phy/qualcomm/phy-qcom-qmp-combo.c
 
-   253	
- > 254	void *cam_get_priv(int32_t dev_hdl, int handle_type)
-   255	{
-   256		int idx;
-   257		int type;
-   258		void *priv;
-   259	
-   260		spin_lock_bh(&hdl_tbl_lock);
-   261		if (!hdl_tbl) {
-   262			CAM_ERR_RATE_LIMIT(CAM_CRM, "Hdl tbl is NULL");
-   263			goto device_priv_fail;
-   264		}
-   265	
-   266		idx = CAM_REQ_MGR_GET_HDL_IDX(dev_hdl);
-   267		if (idx >= CAM_REQ_MGR_MAX_HANDLES) {
-   268			CAM_ERR_RATE_LIMIT(CAM_CRM, "Invalid idx");
-   269			goto device_priv_fail;
-   270		}
-   271	
-   272		if (hdl_tbl->hdl[idx].state != HDL_ACTIVE) {
-   273			CAM_ERR_RATE_LIMIT(CAM_CRM, "Invalid state");
-   274			goto device_priv_fail;
-   275		}
-   276	
-   277		type = CAM_REQ_MGR_GET_HDL_TYPE(dev_hdl);
-   278		if (type != handle_type) {
-   279			CAM_ERR_RATE_LIMIT(CAM_CRM, "Invalid type");
-   280			goto device_priv_fail;
-   281		}
-   282	
-   283		if (hdl_tbl->hdl[idx].hdl_value != dev_hdl) {
-   284			CAM_ERR_RATE_LIMIT(CAM_CRM, "Invalid hdl");
-   285			goto device_priv_fail;
-   286		}
-   287	
-   288		priv = hdl_tbl->hdl[idx].priv;
-   289		spin_unlock_bh(&hdl_tbl_lock);
-   290	
-   291		return priv;
-   292	
-   293	device_priv_fail:
-   294		spin_unlock_bh(&hdl_tbl_lock);
-   295		return NULL;
-   296	}
-   297	
+  3217	
+  3218	static int qmp_combo_bridge_attach(struct drm_bridge *bridge,
+  3219					   enum drm_bridge_attach_flags flags)
+  3220	{
+  3221		struct qmp_combo *qmp = container_of(bridge, struct qmp_combo, bridge);
+  3222		struct drm_bridge *next_bridge;
+  3223	
+  3224		if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
+  3225			return -EINVAL;
+  3226	
+> 3227		next_bridge = devm_drm_of_get_bridge(qmp->dev, qmp->dev->of_node, 0, 0);
+  3228		if (IS_ERR(next_bridge))
+  3229			return dev_err_probe(qmp->dev, PTR_ERR(next_bridge), "failed to acquire drm_bridge\n");
+  3230	
+> 3231		return drm_bridge_attach(bridge->encoder, next_bridge, bridge, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+  3232	}
+  3233	
+  3234	static const struct drm_bridge_funcs qmp_combo_bridge_funcs = {
+  3235		.attach	= qmp_combo_bridge_attach,
+  3236	};
+  3237	
+  3238	static int qmp_combo_dp_register_bridge(struct qmp_combo *qmp)
+  3239	{
+  3240		qmp->bridge.funcs = &qmp_combo_bridge_funcs;
+  3241		qmp->bridge.of_node = qmp->dev->of_node;
+  3242	
+> 3243		return devm_drm_bridge_add(qmp->dev, &qmp->bridge);
+  3244	}
+  3245	
 
 -- 
 0-DAY CI Kernel Test Service
