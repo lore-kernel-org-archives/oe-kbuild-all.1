@@ -1,44 +1,52 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0BB7E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 12:59:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683032371; x=1714568371;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HtdjUm25dyepAznYCx8D+WRzRNxNjlF+Kwns3g1nTzU=;
-  b=Eu4U30RA9WyOf9mdkgFFdB5LY8e/hWQkim0gxvhIlB41C7nFVvMT2z/E
-   MKnZV/TFk3Tf6tss5RzB6NEtHh/xXbn60y4yudEmy9CZnU+8aLBc8rgYv
-   d+hT/QULNDn7Np39FVDTC7IPduepgYx5NbQ3GEZV1aAK5o9xXuFAhGbcu
-   WVJ+TOFcdwY1Z49C1R1X2e5ZNjC3vhFUWi6U4b73zNMXu3cPTYswKCJ0h
-   KGm4EvXajyKKptD4dJ043XJQGRtL4m1DOZoxpCz+SsxerDgyHgoZkx50A
-   KaWLb9KAMuZ0HyY6QnOTVfe3/4/I2/nKB9PL23JIsfNxCSecrEBPXAXpM
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="328763684"
-X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; 
-   d="scan'208";a="328763684"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2023 05:59:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="726727598"
-X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; 
-   d="scan'208";a="726727598"
-Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 02 May 2023 05:59:29 -0700
-Received: from kbuild by e3434d64424d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ptpbI-00013W-0U;
-	Tue, 02 May 2023 12:59:24 +0000
-Date: Tue, 2 May 2023 20:59:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 21/45] versioncheck:
- ./drivers/gpu/arm/mali/platform/mediatek/mt8192_mali_kbase_runtime_pm.c:
- 123: need linux/version.h
-Message-ID: <202305022050.Na8D3pYM-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21632917
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 13:02:33 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3062d764455so1518928f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 02 May 2023 06:02:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683032552; x=1685624552;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yI7es7d2+0DIqALlHq+/W7rD8zTxU/feFIO70XrkNew=;
+        b=WQL0w2zNAPoWWf1Ytr5s/LPoPDCGZRh1yXeq9jgG5ixrkDjypRR0XEgQd5p1tu6QRc
+         ts34Q+Vs+g0dOesHjXjf5zSJ2gyPZu88qGFHaiDdq0dybcZO6jXeugQ+jeXpw7XHmb2K
+         FsNyomyMfnY0q4qQwZq3SKxGU05wFEUaqdI9+vb09QGo49x/65sacDTVKdWgpv4yBxwX
+         M6Dvk2fIkeXYoi7jwPVHCJ+VvJXZSyhhxueenxJCIcgUIL7QmRWQV96ASU7lzDEqkTA1
+         K9EtrJD8eAmhtE9K91JqYHBkOhnkPasveZNjz2OYa2GZ8i92tuIeaCKvF5YFlqwlBdyC
+         dP9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683032552; x=1685624552;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yI7es7d2+0DIqALlHq+/W7rD8zTxU/feFIO70XrkNew=;
+        b=Iy+aolngEz0Z5pvs3dpSdz2YT0wWeZc4ZMAkP5rhKVUZX003boN96ZhuQ0dCctK4W/
+         ZIoNvyWdqO/RHhWAsl8dJq6+8WLsYbUjalejj0NPwxtJH4/gyCJ00RxDNW42m8ds0S+p
+         igJ5UwTvoYVGBDL4GBve6iS5sSgRW3l8xUO0HEFsA+1Cdfhjv34lK7Z71uS2R0dukbia
+         lrxMg0N7rzcT49VNcjLbdjfQ7rK/f1x7ForxNA7voA/eDkxFF25OE24TQCTL+QmpG74b
+         yZOnexn1bZr48i/G2dM+np6nohpNkxglTqK1vcual0Rm/uetknya3Edog05a0oL9ve+Y
+         nwCg==
+X-Gm-Message-State: AC+VfDyWeOuD4Xb2HQULChm8Cc7zErOAhOmW80+AAZ9QdzdlWbD8A5f/
+	l70XR6likdHp93j8hUJmF86mnQ==
+X-Google-Smtp-Source: ACHHUZ4N347G7AswAWEOp4Mu/8D6KX6stNUpFZBYx1KITgol32+f2NcGbP3VUDX9zsLA3ut4wuV0lg==
+X-Received: by 2002:a05:6000:1:b0:306:26d7:3805 with SMTP id h1-20020a056000000100b0030626d73805mr6604084wrx.63.1683032552086;
+        Tue, 02 May 2023 06:02:32 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id h3-20020a5d5043000000b002c70ce264bfsm30894846wrt.76.2023.05.02.06.02.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 May 2023 06:02:30 -0700 (PDT)
+Date: Tue, 2 May 2023 16:02:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild@lists.linux.dev, Takashi Iwai <tiwai@suse.de>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: drivers/gpu/drm/udl/udl_main.c:259 udl_get_urb_locked() warn:
+ can 'unode' even be NULL?
+Message-ID: <5ca02484-8a71-4b8c-b679-11ec11b7eef4@kili.mountain>
+References: <e35cd818-d2f7-4d5e-abf8-b3448ca224aa@kili.mountain>
+ <542af717-b889-3eea-a819-1d2a2cf4729d@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,128 +55,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <542af717-b889-3eea-a819-1d2a2cf4729d@suse.de>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   d876567ca74814624bf8433822b7ff861b5a038c
-commit: ec876dea3192dcc324fe18ece0f67c93244b82fa [21/45] CHROMIUM: gpu: mali: Switch to MT8192 upstream binding
-reproduce:
-        make versioncheck
+On Tue, May 02, 2023 at 01:38:11PM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 02.05.23 um 13:19 schrieb Dan Carpenter:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   2caeeb9d4a1bccd923b7918427f9e9ef7151ddd8
+> > commit: c5c354a3a4728045e1342166394c615d75d45377 drm/udl: Fix inconsistent urbs.count value during udl_free_urb_list()
+> > config: parisc-randconfig-m031-20230421 (https://download.01.org/0day-ci/archive/20230423/202304230801.ncoG1XDr-lkp@intel.com/config)
+> > compiler: hppa-linux-gcc (GCC) 12.1.0
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > | Link: https://lore.kernel.org/r/202304230801.ncoG1XDr-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > drivers/gpu/drm/udl/udl_main.c:259 udl_get_urb_locked() warn: can 'unode' even be NULL?
+> 
+> It can't. Send a fix, if you like. OTOH it's not much of a problem either.
+> 
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305022050.Na8D3pYM-lkp@intel.com/
+Sure, I sent a patch.  This one is harmless, but we recently had a few
+bugs that should have generated bogus NULL check warnings.
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
-   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
-   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_pm_driver.c: 3339: need linux/version.h
-   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_pm_policy.c: 426: need linux/version.h
-   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_time.c: 206: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf.c: 3335: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_defs.h: 1548: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_firmware.c: 2913: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_firmware_no_mali.c: 1598: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_kcpu.c: 2368: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_kcpu.h: 362: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_reset_gpu.c: 637: need linux/version.h
-   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_tiler_heap_reclaim.c: 371: need linux/version.h
-   ./drivers/gpu/arm/mali/include/priority_control_manager.h: 27 linux/version.h not needed.
-   ./drivers/gpu/arm/mali/ipa/mali_kbase_ipa.c: 772: need linux/version.h
-   ./drivers/gpu/arm/mali/jm/mali_kbase_jm_defs.h: 866: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase.h: 758: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_bits.h: 31: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_debug_job_fault.c: 573: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_defs.h: 1986: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_fence.c: 61: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_fence.h: 179: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_fence_ops.c: 85: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_gpuprops.c: 916: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_kinstr_jm.h: 69 linux/version.h not needed.
-   ./drivers/gpu/arm/mali/mali_kbase_mem_linux.h: 533: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_sync.h: 216: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_kbase_utility.h: 52: need linux/version.h
-   ./drivers/gpu/arm/mali/mali_malisw.h: 29 linux/version.h not needed.
->> ./drivers/gpu/arm/mali/platform/mediatek/mt8192_mali_kbase_runtime_pm.c: 123: need linux/version.h
-   ./drivers/gpu/drm/img-rogue/1.17/cache_km.c: 47 linux/version.h not needed.
-   ./drivers/gpu/drm/img-rogue/1.17/mt8173/mt8173_sysconfig.c: 552: need linux/version.h
-   ./drivers/gpu/drm/img-rogue/1.17/osfunc_arm64.c: 43 linux/version.h not needed.
-   ./drivers/gpu/drm/img-rogue/1.17/osfunc_x86.c: 134: need linux/version.h
-   ./drivers/gpu/drm/img-rogue/1.17/pvr_buffer_sync.c: 739: need linux/version.h
-   ./drivers/gpu/drm/img-rogue/1.17/pvr_debugfs.c: 624: need linux/version.h
-   ./drivers/media/pci/intel/ipu-dma.c: 14 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu-isys-csi2.c: 6 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu-isys-video.c: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu-isys.c: 14 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu-psys.c: 16 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu6/ipu6-psys.c: 12 linux/version.h not needed.
-   ./drivers/media/virtio/virtio_video_driver.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/net/wireless/iwl7000/hdrs/config.h: 69: need linux/version.h
-   ./drivers/net/wireless/iwl7000/hdrs/linux/verification.h: 7 linux/version.h not needed.
-   ./drivers/net/wireless/iwl7000/hdrs/mac80211-bp.h: 2419: need linux/version.h
-   ./drivers/net/wireless/iwl7000/hdrs/mac80211-exp.h: 158: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/cfg/22000.c: 1439: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/fw/file.h: 997: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-nvm-parse.c: 2383: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/iwl-tm-gnl.c: 1228: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/d3.c: 3173: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/link.c: 288: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mac80211.c: 6609: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/mvm.h: 2789: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/ops.c: 2262: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/phy-ctxt.c: 399: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/rxmq.c: 2791: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/scan.c: 3347: need linux/version.h
-   ./drivers/net/wireless/iwl7000/iwlwifi/mvm/vendor-cmd.c: 2313: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/backports.c: 490: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/cfg-utils.c: 180: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/cfg.c: 5387: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/chan.c: 2072: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/debugfs.c: 721: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/ieee80211_i.h: 2612: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/iface.c: 2468: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/link.c: 508: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/main.c: 1602: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/mlme.c: 7804: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/rx.c: 5301: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/scan.c: 1508: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/sta_info.c: 3016: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/status.c: 1315: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/tdls.c: 2124: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/tx.c: 6137: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/util.c: 5164: need linux/version.h
-   ./drivers/net/wireless/iwl7000/mac80211/vht.c: 768: need linux/version.h
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
-   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./init/version-timestamp.c: 5 linux/version.h not needed.
-   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+CVE-2023-1073: b12fece4c648 ("HID: check empty report_list in hid_validate_values()")
+CVE-2023-1075: ffe2a2256244 ("net/tls: tls_is_tx_ready() checked list_entry")
+CVE-2023-1077: 7c4a5b89a0b5 ("sched/rt: pick_next_rt_entity(): check list_entry")
+CVE-2023-1078: f753a68980cf ("rds: rds_rm_zerocopy_callback() use list_first_entry()")
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Although CVE-2023-1073 and CVE-2023-1077 are hard to warn about without
+generating too many false positives.
+
+regards,
+dan carpenter
+
