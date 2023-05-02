@@ -1,43 +1,50 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4207491
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 22:15:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B4D7491
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 22:15:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683065742; x=1714601742;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Se4+CrokBDotMpJ4xpxGiRL7Dec2LSIvJrY5kA227H4=;
-  b=WHuZFNSqV3zBsJ/AjTeK3xzbqKa4K6/nZOo3rckUcHPqfJb+QOO3/8OK
-   SKIWbxz4R7OXZLgbd28G9nMCFh2qy6MVTvUv4SO07nmfTxM0TQ/pDb1kK
-   Rtph08caaQQHtfjl2w4S4g0UPG20WPwDQYK8OVWa/JW8OLcdFW+topVfM
-   KhMG0pYJxNluiVnXcEYF5p3VoR7skaPLm/VDn1b1N0/C6jOwH03i2Mmxg
-   p9oHocM3f4WkzdUCBPhma4EGV2iGb7ai+mRqvTCTbViPuHDiHFu5W7FzM
-   yAGsmzaWnQd1kIA7RR8FJwhRBu5Xols/b1DWe0eR+/zeOh+bCHyXqUvy4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="351496605"
+  t=1683065745; x=1714601745;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0I5ig81uZ02aMnVMkminXlKbbHCg627kqdairoEgsuE=;
+  b=jKWFKLIY3FXQLG7vyYXCFxZ8Jj7bIezT9iZUXPx39aNqlZJatEdpBLDI
+   GuB9/ZAgHqXoy+fYhX6a6IbDdTHgaLoNL68BbWc0rrpBh+3e7X/aCmV06
+   z+hGiDxohihLAc+qZRg3bPZOr9HpZ9Vn6shh/TYg2Vr+V5wQ3YKMpfRVx
+   zyYFDvP034ATW6Igvc10rk2BH5e1mReaINNL+ZoDj1pCBstGeZEyFZWWT
+   FW5Ci4OfJq0YKw7/fFgInZqqWtlAyWuxchUXKvCTupQ/ZWJregMklC3pb
+   r8eQE1j/GN4RNyZ2pn3SPu6sxsDJjjb81pJn3Pn2c3sRFQ6kf0c7TexQX
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="351496615"
 X-IronPort-AV: E=Sophos;i="5.99,245,1677571200"; 
-   d="scan'208";a="351496605"
+   d="scan'208";a="351496615"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2023 15:15:42 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2023 15:15:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="870717194"
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="870717195"
 X-IronPort-AV: E=Sophos;i="5.99,245,1677571200"; 
-   d="scan'208";a="870717194"
+   d="scan'208";a="870717195"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
   by orsmga005.jf.intel.com with ESMTP; 02 May 2023 15:15:41 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptyHc-0001JQ-0S;
+	id 1ptyHc-0001JS-0Y;
 	Tue, 02 May 2023 22:15:40 +0000
-Date: Wed, 3 May 2023 06:15:10 +0800
+Date: Wed, 3 May 2023 06:15:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 6733/26132]
- arch/arm64/kvm/fpsimd.c:129:33: error: implicit declaration of function
- 'sve_cond_update_zcr_vq'
-Message-ID: <202305030613.PKW5DszR-lkp@intel.com>
+To: Ajay Kaher <akaher@vmware.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org, shuah@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	chinglinyu@google.com, namit@vmware.com, srivatsab@vmware.com,
+	srivatsa@csail.mit.edu, amakhalov@vmware.com,
+	vsirnapalli@vmware.com, tkundu@vmware.com, er.ajay.kaher@gmail.com,
+	Ajay Kaher <akaher@vmware.com>
+Subject: Re: [PATCH v2 4/9] eventfs: adding eventfs file, directory remove
+ function
+Message-ID: <202305030611.Kas747Ev-lkp@intel.com>
+References: <1683026600-13485-5-git-send-email-akaher@vmware.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,64 +53,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1683026600-13485-5-git-send-email-akaher@vmware.com>
 
-Hi Marc,
+Hi Ajay,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   4d2352ab07ad3dd1f16fd79e50e2815c8daf135f
-commit: b0e15c8c44275afef4aacfb1560e38b974b02ac8 [6733/26132] FROMGIT: KVM: arm64: Save/restore SVE state for nVHE
-config: arm64-randconfig-r006-20230430 (https://download.01.org/0day-ci/archive/20230503/202305030613.PKW5DszR-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android12-5.10
-        git checkout b0e15c8c44275afef4aacfb1560e38b974b02ac8
+[auto build test WARNING on shuah-kselftest/next]
+[also build test WARNING on shuah-kselftest/fixes linus/master rostedt-trace/for-next v6.3 next-20230428]
+[cannot apply to rostedt-trace/for-next-urgent]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ajay-Kaher/eventfs-introducing-struct-tracefs_inode/20230502-192949
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/1683026600-13485-5-git-send-email-akaher%40vmware.com
+patch subject: [PATCH v2 4/9] eventfs: adding eventfs file, directory remove function
+config: i386-randconfig-s002 (https://download.01.org/0day-ci/archive/20230503/202305030611.Kas747Ev-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/9a36b39da0c3fbfe15a3c3a0ed71b52013bac292
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ajay-Kaher/eventfs-introducing-struct-tracefs_inode/20230502-192949
+        git checkout 9a36b39da0c3fbfe15a3c3a0ed71b52013bac292
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kvm/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash fs/tracefs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305030613.PKW5DszR-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305030611.Kas747Ev-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arch/arm64/kvm/fpsimd.c: In function 'kvm_arch_vcpu_put_fp':
->> arch/arm64/kvm/fpsimd.c:129:33: error: implicit declaration of function 'sve_cond_update_zcr_vq' [-Werror=implicit-function-declaration]
-     129 |                                 sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1,
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/sve_cond_update_zcr_vq +129 arch/arm64/kvm/fpsimd.c
-
-   108	
-   109	/*
-   110	 * Write back the vcpu FPSIMD regs if they are dirty, and invalidate the
-   111	 * cpu FPSIMD regs so that they can't be spuriously reused if this vcpu
-   112	 * disappears and another task or vcpu appears that recycles the same
-   113	 * struct fpsimd_state.
-   114	 */
-   115	void kvm_arch_vcpu_put_fp(struct kvm_vcpu *vcpu)
-   116	{
-   117		unsigned long flags;
-   118		bool host_has_sve = system_supports_sve();
-   119		bool guest_has_sve = vcpu_has_sve(vcpu);
-   120	
-   121		local_irq_save(flags);
-   122	
-   123		if (vcpu->arch.flags & KVM_ARM64_FP_ENABLED) {
-   124			if (guest_has_sve) {
-   125				__vcpu_sys_reg(vcpu, ZCR_EL1) = read_sysreg_el1(SYS_ZCR);
-   126	
-   127				/* Restore the VL that was saved when bound to the CPU */
-   128				if (!has_vhe())
- > 129					sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1,
+sparse warnings: (new ones prefixed by >>)
+>> fs/tracefs/event_inode.c:379:6: sparse: sparse: symbol 'eventfs_remove_rec' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
