@@ -1,49 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB7A33EA;
-	Tue,  2 May 2023 15:13:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F4733EA
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 15:35:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683040413; x=1714576413;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g1JhWMaHg8dPkL+NAKckASazi0K2qxrFUTSspRCvr6g=;
-  b=XREJCc4m96aLKXP9ZNRYZOGxv+t/ZFHirXPTQIx+auqBwiz20LA4LWb3
-   IKwkVLiYEY4guLqJumwkWT3BbdZ71bbbSIDq+7NVfxjQTNVp0YuirfvwI
-   crRd3gf8iXe7vEglQhOUlZBIFn4XO7Rrk8xffXM4iU4pQNBA2MxFvPG4v
-   x4FqqQi700KAw/I9FOrVEtvGhN6bE3fEG0/1HiRCFaGkhUuLAchQA+tQT
-   ZuQsDbLR960pnMxSulRf4MrOarxQYlKDfK5vYVoyZP1MyUI+9eZ1w6iTN
-   M5fui1f+LhYOX7DWL18hX+2X3MJ8+92/1Ay3wuPfhuWccKY8D8rqjUhRA
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="345902483"
+  t=1683041743; x=1714577743;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=azUmTho+0Odt1VrtyHmWZV6ZxspubeTjtHZMsRJSFAo=;
+  b=R51LxnOE0OaXf59RYhx7RmcR94AXd0/a9dlCeTsrdgl2kcyNfzQxu/AE
+   AO2ugPKDiwcBbTk/eLAdWmTXCs/e8siP4VJWPG5zmhhJ04hr0APOAXmyv
+   HwBnoAl7DU4/RIeVvtvWBZL/gimqGLKY9i/W91k0uvBsvpGVcLC4W3MLb
+   yYCfy8woT/Qa9LPwuq854xt5hIWmoLOATx2XDVvlLuiIBbQc1HEf0muPU
+   3iO/1lZ09HvoYDzroeyqc9qza971+PtPmG5MHIbqNnok/AfZF+NcEN+Hy
+   T7BaznLH2OlTcujN3Z606rkHE0xpd2kD414taElxrJQMUU0wUFlSYtlTW
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="413888079"
 X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; 
-   d="scan'208";a="345902483"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2023 08:13:32 -0700
+   d="scan'208";a="413888079"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2023 08:34:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="646568393"
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="1026130876"
 X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; 
-   d="scan'208";a="646568393"
+   d="scan'208";a="1026130876"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 02 May 2023 08:13:28 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 02 May 2023 08:34:29 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptrh1-00017U-32;
-	Tue, 02 May 2023 15:13:27 +0000
-Date: Tue, 2 May 2023 23:13:06 +0800
+	id 1pts1M-00018C-1f;
+	Tue, 02 May 2023 15:34:28 +0000
+Date: Tue, 2 May 2023 23:33:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shenghao Ding <13916275206@139.com>, broonie@kernel.org,
-	lgirdwood@gmail.com, perex@perex.cz,
-	pierre-louis.bossart@linux.intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kevin-lu@ti.com,
-	shenghao-ding@ti.com, alsa-devel@alsa-project.org,
-	linux-kernel@vger.kernel.org, x1077012@ti.com, peeyush@ti.com,
-	navada@ti.com, gentuser@gmail.com,
-	Shenghao Ding <13916275206@139.com>
-Subject: Re: [PATCH v1 4/5] ASoC: tas2781: Add tas2781 driver
-Message-ID: <202305022338.ZA1okoZW-lkp@intel.com>
-References: <20230502053254.27085-1-13916275206@139.com>
+To: Pratyush Yadav <p.yadav@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Jai Luthra <j-luthra@ti.com>, Vaishnav Achath <vaishnav.a@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y-cicd 287/382] ld.lld: error: undefined symbol:
+ phy_mipi_dphy_get_default_config_for_hsclk
+Message-ID: <202305022319.ATAY6Q5N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,121 +46,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230502053254.27085-1-13916275206@139.com>
 
-Hi Shenghao,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.3 next-20230428]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shenghao-Ding/ASoC-dt-bindings-Add-tas2781-amplifier/20230502-133533
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230502053254.27085-1-13916275206%40139.com
-patch subject: [PATCH v1 4/5] ASoC: tas2781: Add tas2781 driver
-config: s390-randconfig-r025-20230501 (https://download.01.org/0day-ci/archive/20230502/202305022338.ZA1okoZW-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b1465cd49efcbc114a75220b153f5a055ce7911f)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   bbd8927da68b353efb2d1fb94c3185c0ceabaf86
+commit: f892c1ab1a9175a9d59ecd6e62654014937e72a5 [287/382] media: cadence: csi2rx: Add external DPHY support
+config: i386-randconfig-a012-20230501 (https://download.01.org/0day-ci/archive/20230502/202305022319.ATAY6Q5N-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/2ce0b86d1a6546d78dc4151d98a67537b8cc8669
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Shenghao-Ding/ASoC-dt-bindings-Add-tas2781-amplifier/20230502-133533
-        git checkout 2ce0b86d1a6546d78dc4151d98a67537b8cc8669
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-6.1.y-cicd
+        git checkout f892c1ab1a9175a9d59ecd6e62654014937e72a5
         # save the config file
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 ARCH=s390 
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305022338.ZA1okoZW-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305022319.ATAY6Q5N-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from sound/soc/codecs/tas2781-i2c.c:24:
-   In file included from include/linux/of_gpio.h:14:
-   In file included from include/linux/gpio/driver.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from sound/soc/codecs/tas2781-i2c.c:24:
-   In file included from include/linux/of_gpio.h:14:
-   In file included from include/linux/gpio/driver.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from sound/soc/codecs/tas2781-i2c.c:24:
-   In file included from include/linux/of_gpio.h:14:
-   In file included from include/linux/gpio/driver.h:6:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> sound/soc/codecs/tas2781-i2c.c:40:34: warning: unused variable 'tasdevice_of_match' [-Wunused-const-variable]
-   static const struct of_device_id tasdevice_of_match[] = {
-                                    ^
-   13 warnings generated.
---
-   s390x-linux-ld: DWARF error: could not find abbrev number 48
->> sound/soc/codecs/tas2781-lib.o:(.rodata+0x0): multiple definition of `dvc_tlv'; s390x-linux-ld: DWARF error: could not find abbrev number 9338
-   drivers/firmware/ti/tasdevice-fmw.o:(.rodata+0x2a0): first defined here
->> s390x-linux-ld: sound/soc/codecs/tas2781-lib.o:(.rodata+0x20): multiple definition of `amp_vol_tlv'; drivers/firmware/ti/tasdevice-fmw.o:(.rodata+0x2c0): first defined here
-   s390x-linux-ld: DWARF error: could not find abbrev number 1109429
->> sound/soc/codecs/tas2781-i2c.o:(.rodata+0x20): multiple definition of `dvc_tlv'; drivers/firmware/ti/tasdevice-fmw.o:(.rodata+0x2a0): first defined here
-   s390x-linux-ld: sound/soc/codecs/tas2781-i2c.o:(.rodata+0x40): multiple definition of `amp_vol_tlv'; drivers/firmware/ti/tasdevice-fmw.o:(.rodata+0x2c0): first defined here
+>> ld.lld: error: undefined symbol: phy_mipi_dphy_get_default_config_for_hsclk
+   >>> referenced by cdns-csi2rx.c:161 (drivers/media/platform/cadence/cdns-csi2rx.c:161)
+   >>>               drivers/media/platform/cadence/cdns-csi2rx.o:(csi2rx_configure_external_dphy) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
