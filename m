@@ -1,99 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB77464C;
-	Tue,  2 May 2023 14:49:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 653EAC433D2;
-	Tue,  2 May 2023 14:49:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683038983;
-	bh=EbN5U9p1dvBRyYU8tr68GXf44XmTOJfHp6pBtDEBN6Q=;
-	h=In-Reply-To:References:From:Date:Subject:To:Cc:From;
-	b=IpzOhEigE9MDbCSSfaGdpB0A65MdfJOzxrTw7RQodGXLoyYGyf8Pu6OE+4lm0GTXF
-	 G1kOpjDqgAKpbPLDUgqFrWiXjpSwSchNP5HrHSHiDj25yvHNWj0wp3VYdEzuPIJs0a
-	 DNF+DXlLssz0h4bnd6b8OevHNFPFv2BqC+xLN4z0tiyQoIlYY36kp31dVGe5ExD5tO
-	 H4fM8fzTWti1p9EUSrCDPOiayf/e3PskrJh+Mpo7fyYPdXjg2Ak4uUtXF12y0ihwQt
-	 WHQeQQ/xqYQtQ4Epk2nZ10h4RMH4KPhxgUgeqNDKj9ooqCsyXGxR2i76suCty03b7f
-	 SxAVd0WX7MTSg==
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-18f4a6d2822so23060368fac.1;
-        Tue, 02 May 2023 07:49:43 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxzXFMu4YNC4uOKXdzAZLk7WZbxvpc0uXInJln1cLmc37SwVt2h
-	6La+x9E71pfzq1uWr5VKd0q8RiedMB0lA0Ac774=
-X-Google-Smtp-Source: ACHHUZ56Tai8Hg7phjdFyrwPU13Vf/8XPu2DBkuusYJt3gbwZgfEsGDiBUZ2boE93+AStvioqp1vKcteI17l+08AATE=
-X-Received: by 2002:a05:6820:3cd:b0:547:6db6:7755 with SMTP id
- s13-20020a05682003cd00b005476db67755mr7992917ooj.3.1683038982541; Tue, 02 May
- 2023 07:49:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA9064C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 14:51:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=xRd8948Rcur7p+AyV/ClewooI+HHz+axyJ/J+7e04cU=; b=dWYZLifTtQdNxW8QJ/u6b6l1tP
+	OyFHnp69RP7UtLVU2KnRHM6NTKyPhKT5GFlI0FP1gRZ6Xfa5sepiExl0qjx/PJbE7Paz0mESUjuu2
+	cze4qvY0ennY1Zytm7GpXjgh3uAq3afUiC+fQzlOQjpWtmKKUAzlwnXlDJgu5IM0Ps6+dpnpFriqj
+	skZc/WJfVfQu1/2V+ZcJP6dpZpRBQ04cDkDS/VQbULFvf0hX9eSukLwz0b9h3fBkiy16jqZE3PTR8
+	hTTHSrD2BVijs0fMNfyI/VoXRQYEHRwAzg2QnDAe//oLsAEiASNr7uGEeF8zU3QX43KNoRLzXqmNq
+	I0fSz0BA==;
+Received: from [2601:1c2:980:9ec0::2764]
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1ptrLS-001rl5-2t;
+	Tue, 02 May 2023 14:51:10 +0000
+Message-ID: <749e60bd-b861-8766-93b0-b421bfeefd47@infradead.org>
+Date: Tue, 2 May 2023 07:51:08 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: by 2002:a8a:1086:0:b0:4d3:d9bf:b562 with HTTP; Tue, 2 May 2023
- 07:49:42 -0700 (PDT)
-In-Reply-To: <670b3581-db50-4ba4-ad49-73c1e7006ad1@kili.mountain>
-References: <670b3581-db50-4ba4-ad49-73c1e7006ad1@kili.mountain>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Tue, 2 May 2023 23:49:42 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd-NNEXdHQQ9YnHgROFH24A7MQmBG8LCsHKudikDLk7imA@mail.gmail.com>
-Message-ID: <CAKYAXd-NNEXdHQQ9YnHgROFH24A7MQmBG8LCsHKudikDLk7imA@mail.gmail.com>
-Subject: Re: fs/ksmbd/smb_common.c:350 smb1_allocate_rsp_buf() warn: Please
- consider using kzalloc instead of kmalloc
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Steve French <stfrench@microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v2] docs: consolidate human interface subsystems
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Costa Shulyupin
+ <costa.shul@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, open list <linux-kernel@vger.kernel.org>
+References: <20230501154258.277866-1-costa.shul@redhat.com>
+ <202305021306.dKifEdb7-lkp@intel.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202305021306.dKifEdb7-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-2023-05-02 20:31 GMT+09:00, Dan Carpenter <dan.carpenter@linaro.org>:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> master
-> head:   d06f5a3f7140921ada47d49574ae6fa4de5e2a89
-> commit: dc8289f912387c3bcfbc5d2db29c8947fa207c11 ksmbd: fix
-> slab-out-of-bounds in init_smb2_rsp_hdr
-> config: openrisc-randconfig-m041-20230423
-> (https://download.01.org/0day-ci/archive/20230428/202304281001.oskkuJo0-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 12.1.0
->
+Hi bot,
+
+Already reported and fixed.
+Thanks.
+
+On 5/1/23 22:37, kernel test robot wrote:
+> Hi Costa,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on lwn/docs-next]
+> [also build test WARNING on linus/master v6.3 next-20230428]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Costa-Shulyupin/docs-consolidate-human-interface-subsystems/20230501-234438
+> base:   git://git.lwn.net/linux.git docs-next
+> patch link:    https://lore.kernel.org/r/20230501154258.277866-1-costa.shul%40redhat.com
+> patch subject: [PATCH v2] docs: consolidate human interface subsystems
+> reproduce:
+>         # https://github.com/intel-lab-lkp/linux/commit/2df620e4b9e2c2827f8a5519f6c266e9e5ef85be
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Costa-Shulyupin/docs-consolidate-human-interface-subsystems/20230501-234438
+>         git checkout 2df620e4b9e2c2827f8a5519f6c266e9e5ef85be
+>         make menuconfig
+>         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+>         make htmldocs
+> 
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202304281001.oskkuJo0-lkp@intel.com/
->
-> smatch warnings:
-> fs/ksmbd/smb_common.c:350 smb1_allocate_rsp_buf() warn: Please consider
-> using kzalloc instead of kmalloc
->
-> vim +350 fs/ksmbd/smb_common.c
->
-> dc8289f912387c Namjae Jeon 2023-04-01  348  static int
-> smb1_allocate_rsp_buf(struct ksmbd_work *work)
-> dc8289f912387c Namjae Jeon 2023-04-01  349  {
-> dc8289f912387c Namjae Jeon 2023-04-01 @350  	work->response_buf =
-> kmalloc(MAX_CIFS_SMALL_BUFFER_SIZE,
-> dc8289f912387c Namjae Jeon 2023-04-01  351  			GFP_KERNEL | __GFP_ZERO);
->
-> Someone else wrote this Smatch check to encourage people to use kzalloc()
-> instead of __GFP_ZERO.  I try stay out of style debates.  :P
-Okay. I will change it.
+> | Link: https://lore.kernel.org/oe-kbuild-all/202305021306.dKifEdb7-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> Documentation/subsystem-apis.rst:14: WARNING: Title underline too short.
+> 
+> vim +14 Documentation/subsystem-apis.rst
+> 
+>     12	
+>     13	Human interfaces
+>   > 14	---------------
+>     15	
+> 
 
-Thanks.
->
-> dc8289f912387c Namjae Jeon 2023-04-01  352  	work->response_sz =
-> MAX_CIFS_SMALL_BUFFER_SIZE;
-> dc8289f912387c Namjae Jeon 2023-04-01  353
-> dc8289f912387c Namjae Jeon 2023-04-01  354  	if (!work->response_buf) {
-> dc8289f912387c Namjae Jeon 2023-04-01  355  		pr_err("Failed to allocate %u
-> bytes buffer\n",
-> dc8289f912387c Namjae Jeon 2023-04-01  356
-> 				MAX_CIFS_SMALL_BUFFER_SIZE);
-> dc8289f912387c Namjae Jeon 2023-04-01  357  		return -ENOMEM;
-> dc8289f912387c Namjae Jeon 2023-04-01  358  	}
-> dc8289f912387c Namjae Jeon 2023-04-01  359
-> dc8289f912387c Namjae Jeon 2023-04-01  360  	return 0;
-> dc8289f912387c Namjae Jeon 2023-04-01  361  }
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
->
->
+-- 
+~Randy
