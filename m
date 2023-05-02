@@ -1,56 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E693622;
-	Tue,  2 May 2023 01:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5ED622;
+	Tue,  2 May 2023 02:00:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682992170; x=1714528170;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=atYvzhPCCZ/tytx2DE7s23i4jWidElWSRjsH6cc5aEY=;
-  b=d23w+BzaWJAmUGLwsyxoKCGUVqfn2Pt0qCUmr3/0G6xkWQmWcU+pTkGI
-   OFx4Sb/h5BLVPSvaiAeTMQBCj+D8iW4mRwTVYzONnxqdCsIagCOdjslyl
-   +ETnfYsENbRk+pN80p7yZScGF9gkMFlKFM890osI4k03DnGywa11NZHcZ
-   yFd3Uwl/Uk6BuXqZ/dc0rMUQfMVEn0F8SES92Lt+0EwpNasHQOiklwqnK
-   Cu9Lr2iSQgpJScKCL6/vUHIv7/kucw/OvxSoT4cW5w31eWyXcF0B72vkm
-   wxx2PrKsLL5bMnY/N+55z8TIbgyBDqILJQT9UYatpp+xH/ufnq2Tg6j26
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="328651230"
+  t=1682992823; x=1714528823;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VmCCglEVSm7RX1Ep0MmX8OZpFQP4RzukGhiXAh8fEJI=;
+  b=B6/UYhmiNCRCGNqCWAzlxCx+SF+M/CSfaZGdiRIhKxExaWPg0/oUiS7M
+   a74kvUIQpZzjiJu5wcJRJJj5UCElxkTVl4dTzauai/2EAPo3XkbxQiXy4
+   RBPffNYqX1cSLxNfjp+kmpXEYLSvv3LtYqoNZinzZPK7YOKYuyijEW5Vd
+   Q2yv/gDAFxge5q85cWBEv6BDwUEvs2IwOpHimyhaXe9fLCoxa5ZotQRJf
+   bPtvbOrmMO23ljY9YMXRcHHzFmybAT9/81qQqaaNuxM7vx67PxYC87DZu
+   Fz3BMlgR0/ozYm5BfTRRLvQLx3iO+SLM7nMd6JuMMyVxZwxYasI7K7zt5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="348331076"
 X-IronPort-AV: E=Sophos;i="5.99,242,1677571200"; 
-   d="scan'208";a="328651230"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 18:49:25 -0700
+   d="scan'208";a="348331076"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 19:00:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="698763727"
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="760903993"
 X-IronPort-AV: E=Sophos;i="5.99,242,1677571200"; 
-   d="scan'208";a="698763727"
+   d="scan'208";a="760903993"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 01 May 2023 18:49:20 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 01 May 2023 19:00:21 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptf8q-0000ke-0J;
-	Tue, 02 May 2023 01:49:20 +0000
-Date: Tue, 2 May 2023 09:48:46 +0800
+	id 1ptfJU-0000lU-1f;
+	Tue, 02 May 2023 02:00:20 +0000
+Date: Tue, 2 May 2023 09:59:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-	xen-devel@lists.xenproject.org, kvm@vger.kernel.org,
-	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH v2 21/34] arm64: Convert various functions to use ptdescs
-Message-ID: <202305020914.OGRWcEG1-lkp@intel.com>
-References: <20230501192829.17086-22-vishal.moola@gmail.com>
+To: Rob Herring <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [robh:dt/header-cleanups 57/59] drivers/perf/xgene_pmu.c:1732:36:
+ warning: unused variable 'xgene_pmu_v3_data'
+Message-ID: <202305020945.bGdVB9hL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,94 +45,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230501192829.17086-22-vishal.moola@gmail.com>
 
-Hi Vishal,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master next-20230428]
-[cannot apply to s390/features powerpc/next powerpc/fixes geert-m68k/for-next geert-m68k/for-linus v6.3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vishal-Moola-Oracle/mm-Add-PAGE_TYPE_OP-folio-functions/20230502-033042
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230501192829.17086-22-vishal.moola%40gmail.com
-patch subject: [PATCH v2 21/34] arm64: Convert various functions to use ptdescs
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230502/202305020914.OGRWcEG1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
+head:   34ab035cf8c37588331031cac8fc0dd07f15f3cc
+commit: 23496cc222294cb10cd0a3601c443f75a5016ad6 [57/59] Use of_device_get_match_data
+config: arm64-randconfig-r015-20230430 (https://download.01.org/0day-ci/archive/20230502/202305020945.bGdVB9hL-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b1465cd49efcbc114a75220b153f5a055ce7911f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8e9481b63b5773d7c914836dcd7fbec2449902bc
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Vishal-Moola-Oracle/mm-Add-PAGE_TYPE_OP-folio-functions/20230502-033042
-        git checkout 8e9481b63b5773d7c914836dcd7fbec2449902bc
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=23496cc222294cb10cd0a3601c443f75a5016ad6
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch --no-tags robh dt/header-cleanups
+        git checkout 23496cc222294cb10cd0a3601c443f75a5016ad6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/perf/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305020914.OGRWcEG1-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305020945.bGdVB9hL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/bits.h:21,
-                    from include/linux/bitops.h:6,
-                    from arch/arm64/include/asm/cache.h:39,
-                    from include/linux/cache.h:6,
-                    from arch/arm64/mm/mmu.c:9:
-   arch/arm64/mm/mmu.c: In function 'pgd_pgtable_alloc':
->> arch/arm64/mm/mmu.c:440:24: error: invalid use of void expression
-     440 |                 BUG_ON(!ptdesc_pte_dtor(ptdesc));
-         |                        ^
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   arch/arm64/mm/mmu.c:440:17: note: in expansion of macro 'BUG_ON'
-     440 |                 BUG_ON(!ptdesc_pte_dtor(ptdesc));
-         |                 ^~~~~~
-   arch/arm64/mm/mmu.c:442:24: error: invalid use of void expression
-     442 |                 BUG_ON(!ptdesc_pte_dtor(ptdesc));
-         |                        ^
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   arch/arm64/mm/mmu.c:442:17: note: in expansion of macro 'BUG_ON'
-     442 |                 BUG_ON(!ptdesc_pte_dtor(ptdesc));
-         |                 ^~~~~~
+>> drivers/perf/xgene_pmu.c:1732:36: warning: unused variable 'xgene_pmu_v3_data' [-Wunused-const-variable]
+   static const struct xgene_pmu_data xgene_pmu_v3_data = {
+                                      ^
+   1 warning generated.
 
 
-vim +440 arch/arm64/mm/mmu.c
+vim +/xgene_pmu_v3_data +1732 drivers/perf/xgene_pmu.c
 
-   425	
-   426	static phys_addr_t pgd_pgtable_alloc(int shift)
-   427	{
-   428		phys_addr_t pa = __pgd_pgtable_alloc(shift);
-   429		struct ptdesc *ptdesc = page_ptdesc(phys_to_page(pa));
-   430	
-   431		/*
-   432		 * Call proper page table ctor in case later we need to
-   433		 * call core mm functions like apply_to_page_range() on
-   434		 * this pre-allocated page table.
-   435		 *
-   436		 * We don't select ARCH_ENABLE_SPLIT_PMD_PTLOCK if pmd is
-   437		 * folded, and if so ptdesc_pte_dtor() becomes nop.
-   438		 */
-   439		if (shift == PAGE_SHIFT)
- > 440			BUG_ON(!ptdesc_pte_dtor(ptdesc));
-   441		else if (shift == PMD_SHIFT)
-   442			BUG_ON(!ptdesc_pte_dtor(ptdesc));
-   443	
-   444		return pa;
-   445	}
-   446	
+  1731	
+> 1732	static const struct xgene_pmu_data xgene_pmu_v3_data = {
+  1733		.id   = PCP_PMU_V3,
+  1734	};
+  1735	
 
 -- 
 0-DAY CI Kernel Test Service
