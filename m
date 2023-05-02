@@ -1,56 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCD4622;
-	Tue,  2 May 2023 02:22:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18DB436C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 02:43:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682994127; x=1714530127;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=85LkbDK+KApuWepVvTrNKkbkOtRXRZZHLuh2xgotSTc=;
-  b=SWG2C9mkUi9n7rSt0nciLqhoZZlIgS1cK0m1feX/w1nZ77bfRr6lra8p
-   nAvGgMzUYK3HkUVtkYKeXZgeNURAhOhf6M/AwuVJzvSPOOysfRUgrHk+V
-   3sfvl7u47s005rzV98welPZTZw3zziuKtzFvzkY3DbG+PcNPsNHR9TXvG
-   tQQzG4/IxK9BoZMn/ESTVdIEwj+mgIY/0pP2FtXbnPlfh0chOzBJKms6T
-   34UnUQ3n84LUH6pMRzyPdfu4+r9086uFzMaTllREGcvV4tKNlVOgD3c+N
-   6BavtjK6PDWhF9S57Dy8A2REq3O4vhVwTUmzmKpbvKauKfnK3cPltzr7f
+  t=1682995391; x=1714531391;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PsohgX9b2YEs2h/REEApkMqD3dsmuknKgxQc/j3DzC0=;
+  b=DftTAo3tyKcqztsBpZBuUE4vIrWp25ZBjaP0MI58pDyzfMRNu4l1Wx8p
+   OSuPlZo/Kn1+xUQNnvOAZSnGnmWAhyQlySdB/ugfDVgDznTEjHhOoHQrC
+   AV4BhBFzeTgHFKCyqGdeI8foJ4rTzTOLEMh/Hn9R7/4rxrlo+THYbJizq
+   S4C2ar6L4R/gt2ab/+s/iA+tUZGnNUM8DzZSf9G3V5xSdQIqwIq81aMzI
+   AWncMO6SYcwq43WftXExngZPr2Jx0UpbdzDU0e0WlVL9vtM5+/rMGjMFc
+   ovA0LTTiY7W5SDnZyc74Led4smN8saRmF8kLnjI7EJ0xSoU4lpH9IZicK
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="376342297"
-X-IronPort-AV: E=Sophos;i="5.99,242,1677571200"; 
-   d="scan'208";a="376342297"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 19:22:06 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="348336330"
+X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
+   d="scan'208";a="348336330"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 19:43:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="646346632"
-X-IronPort-AV: E=Sophos;i="5.99,242,1677571200"; 
-   d="scan'208";a="646346632"
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="726573284"
+X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
+   d="scan'208";a="726573284"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 01 May 2023 19:22:01 -0700
+  by orsmga008.jf.intel.com with ESMTP; 01 May 2023 19:43:09 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptfeS-0000m8-1s;
-	Tue, 02 May 2023 02:22:00 +0000
-Date: Tue, 2 May 2023 10:21:30 +0800
+	id 1ptfyu-0000mO-1r;
+	Tue, 02 May 2023 02:43:08 +0000
+Date: Tue, 2 May 2023 10:42:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-	xen-devel@lists.xenproject.org, kvm@vger.kernel.org,
-	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH v2 21/34] arm64: Convert various functions to use ptdescs
-Message-ID: <202305021038.c9jfVDsv-lkp@intel.com>
-References: <20230501192829.17086-22-vishal.moola@gmail.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mhiramat:topic/fprobe-event-ext 4/11]
+ kernel/trace/trace_fprobe.c:853:20: error: 'MODULE_STATE_GOING' undeclared
+Message-ID: <202305021017.KRmfAhn9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,90 +45,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230501192829.17086-22-vishal.moola@gmail.com>
 
-Hi Vishal,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master next-20230428]
-[cannot apply to s390/features powerpc/next powerpc/fixes geert-m68k/for-next geert-m68k/for-linus v6.3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vishal-Moola-Oracle/mm-Add-PAGE_TYPE_OP-folio-functions/20230502-033042
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230501192829.17086-22-vishal.moola%40gmail.com
-patch subject: [PATCH v2 21/34] arm64: Convert various functions to use ptdescs
-config: arm64-randconfig-r023-20230430 (https://download.01.org/0day-ci/archive/20230502/202305021038.c9jfVDsv-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b1465cd49efcbc114a75220b153f5a055ce7911f)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-event-ext
+head:   32e07b49d560e18af3ea10fc794fa755eedceb83
+commit: eb808ed99f69516d0c445a8a7eb0cfeb9c818410 [4/11] tracing/probes: Add tracepoint support on fprobe_events
+config: s390-randconfig-r035-20230501 (https://download.01.org/0day-ci/archive/20230502/202305021017.KRmfAhn9-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/8e9481b63b5773d7c914836dcd7fbec2449902bc
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Vishal-Moola-Oracle/mm-Add-PAGE_TYPE_OP-folio-functions/20230502-033042
-        git checkout 8e9481b63b5773d7c914836dcd7fbec2449902bc
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git/commit/?id=eb808ed99f69516d0c445a8a7eb0cfeb9c818410
+        git remote add mhiramat https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git
+        git fetch --no-tags mhiramat topic/fprobe-event-ext
+        git checkout eb808ed99f69516d0c445a8a7eb0cfeb9c818410
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash kernel/trace/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305021038.c9jfVDsv-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305021017.KRmfAhn9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/arm64/mm/mmu.c:440:10: error: invalid argument type 'void' to unary expression
-                   BUG_ON(!ptdesc_pte_dtor(ptdesc));
-                          ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                               ^~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   arch/arm64/mm/mmu.c:442:10: error: invalid argument type 'void' to unary expression
-                   BUG_ON(!ptdesc_pte_dtor(ptdesc));
-                          ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:71:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                               ^~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   2 errors generated.
+   kernel/trace/trace_fprobe.c: In function '__tracepoint_probe_module_cb':
+>> kernel/trace/trace_fprobe.c:853:20: error: 'MODULE_STATE_GOING' undeclared (first use in this function)
+     853 |         if (val != MODULE_STATE_GOING)
+         |                    ^~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_fprobe.c:853:20: note: each undeclared identifier is reported only once for each function it appears in
+>> kernel/trace/trace_fprobe.c:858:27: error: invalid use of undefined type 'struct tp_module'
+     858 |                 if (tp_mod->mod == tf->mod) {
+         |                           ^~
 
 
-vim +/void +440 arch/arm64/mm/mmu.c
+vim +/MODULE_STATE_GOING +853 kernel/trace/trace_fprobe.c
 
-   425	
-   426	static phys_addr_t pgd_pgtable_alloc(int shift)
-   427	{
-   428		phys_addr_t pa = __pgd_pgtable_alloc(shift);
-   429		struct ptdesc *ptdesc = page_ptdesc(phys_to_page(pa));
-   430	
-   431		/*
-   432		 * Call proper page table ctor in case later we need to
-   433		 * call core mm functions like apply_to_page_range() on
-   434		 * this pre-allocated page table.
-   435		 *
-   436		 * We don't select ARCH_ENABLE_SPLIT_PMD_PTLOCK if pmd is
-   437		 * folded, and if so ptdesc_pte_dtor() becomes nop.
-   438		 */
-   439		if (shift == PAGE_SHIFT)
- > 440			BUG_ON(!ptdesc_pte_dtor(ptdesc));
-   441		else if (shift == PMD_SHIFT)
-   442			BUG_ON(!ptdesc_pte_dtor(ptdesc));
-   443	
-   444		return pa;
-   445	}
-   446	
+   845	
+   846	static int __tracepoint_probe_module_cb(struct notifier_block *self,
+   847						unsigned long val, void *data)
+   848	{
+   849		struct tp_module *tp_mod = data;
+   850		struct trace_fprobe *tf;
+   851		struct dyn_event *pos;
+   852	
+ > 853		if (val != MODULE_STATE_GOING)
+   854			return NOTIFY_DONE;
+   855	
+   856		mutex_lock(&event_mutex);
+   857		for_each_trace_fprobe(tf, pos) {
+ > 858			if (tp_mod->mod == tf->mod) {
+   859				tracepoint_probe_unregister(tf->tpoint,
+   860						tf->tpoint->probestub, NULL);
+   861				tf->tpoint = NULL;
+   862				tf->mod = NULL;
+   863			}
+   864		}
+   865		mutex_unlock(&event_mutex);
+   866	
+   867		return NOTIFY_DONE;
+   868	}
+   869	
 
 -- 
 0-DAY CI Kernel Test Service
