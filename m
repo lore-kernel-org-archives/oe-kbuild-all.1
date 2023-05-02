@@ -1,47 +1,47 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E342A7E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 06:39:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C395A7E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 06:50:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683009558; x=1714545558;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JHmOyhknu72fwCyTp0J5ERbzi4vLQDGwzRbCdXl/ONg=;
-  b=PHcdwRlliVhpGX0tSo1VQbJ5TlFt5y0PWh/4/EKLqhwb/Q5YQEqyJKmz
-   yE+kgCpDMo/jmUtnXxMeTteQNBBxWSy5CdJ6Q1M0ucTx8vH8/M+U7hnpt
-   YNm1v8dpYaNdUF9+ZhYBOXUybXXzyxz7bY84izqt3jJC6ewrDbSWwm+IA
-   JxDDvqON0sJCZXm9EUJWoBdJpUB6vk7DMUBWisLRg+PGTJcJwsMZCWWJ6
-   JGjVol6DXUpB3EY3d+/+oUxgbA9CpMzbBca2yIb+IuhfRlVj0T2nlrZQe
-   dD58eDVUwFRXBbEsP1iEEZAd6LykjRJJL2ne2oo2p9VA9qIhEfOC6FQ4F
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="345798440"
+  t=1683010217; x=1714546217;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ztAK8ZWHCZIgy7zFVBRCxIKxEVTa7UuYRJ6a2knQErg=;
+  b=V7K3XL+6/ml5yUIXYeW+1W9sX6SAU2BPjmgav1xlbLoKlLmfApu1B84Y
+   iV5Atxs/U8pc5BFc6mWeWNVPtLT2VGQLeY4NPs51YOGnK/xsxv+qqqgJc
+   lICzRf2XIB1/C41dVJaNL4WO8bVFRhtA1eRHKb54O5nTsZJfwBwxsaq4i
+   tf4uMJVoZuWLaDO7CmYoh9LQFWDHVO8jrD1Cvx4KodQS7wWmiUb59VxXI
+   fwWCWqclbNHj8JO9aZh3OzX6F6ESwgysGJmsTCQLxA90i/0d4w+2+4m+L
+   FtoSg0FhW0vhM63efNiltOkzZHSrUgz0iycd601AndfSe56Z4vnVqYHKH
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="411456299"
 X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
-   d="scan'208";a="345798440"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 23:39:17 -0700
+   d="scan'208";a="411456299"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 23:50:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="942330850"
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="765647735"
 X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
-   d="scan'208";a="942330850"
+   d="scan'208";a="765647735"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 01 May 2023 23:39:14 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 01 May 2023 23:50:15 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptjfO-0000tI-0f;
-	Tue, 02 May 2023 06:39:14 +0000
-Date: Tue, 2 May 2023 14:38:50 +0800
+	id 1ptjq2-0000tU-11;
+	Tue, 02 May 2023 06:50:14 +0000
+Date: Tue, 2 May 2023 14:49:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bharat Bhushan <bbhushan2@marvell.com>, wim@linux-watchdog.org,
-	linux@roeck-us.net, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, linux-watchdog@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	sgoutham@marvell.com
-Cc: oe-kbuild-all@lists.linux.dev, Bharat Bhushan <bbhushan2@marvell.com>
-Subject: Re: [PATCH 2/2 v3] Watchdog: Add marvell octeontx2 watchdog driver
-Message-ID: <202305021447.bgPFpj8n-lkp@intel.com>
-References: <20230425081926.9234-2-bbhushan2@marvell.com>
+To: Evan Green <evan@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Heiko Stuebner <heiko.stuebner@vrull.eu>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>
+Subject: arch/riscv/kernel/cpufeature.c:34:1: sparse: sparse: symbol
+ '__pcpu_scope_misaligned_access_speed' was not declared. Should it be
+ static?
+Message-ID: <202305021414.EuPdM9kv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,51 +50,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230425081926.9234-2-bbhushan2@marvell.com>
 
-Hi Bharat,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on groeck-staging/hwmon-next linus/master v6.3 next-20230428]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bharat-Bhushan/Watchdog-Add-marvell-octeontx2-watchdog-driver/20230425-162039
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20230425081926.9234-2-bbhushan2%40marvell.com
-patch subject: [PATCH 2/2 v3] Watchdog: Add marvell octeontx2 watchdog driver
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230502/202305021447.bgPFpj8n-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/5b2d826a13c7553b51784a1fb56606bfda9f81d9
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Bharat-Bhushan/Watchdog-Add-marvell-octeontx2-watchdog-driver/20230425-162039
-        git checkout 5b2d826a13c7553b51784a1fb56606bfda9f81d9
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   865fdb08197e657c59e74a35fa32362b12397f58
+commit: 62a31d6e38bd0faef7c956b358d651f7bdc4ae0c RISC-V: hwprobe: Support probing of misaligned access performance
+date:   13 days ago
+config: riscv-randconfig-s052-20230430 (https://download.01.org/0day-ci/archive/20230502/202305021414.EuPdM9kv-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=62a31d6e38bd0faef7c956b358d651f7bdc4ae0c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 62a31d6e38bd0faef7c956b358d651f7bdc4ae0c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um olddefconfig
-        make W=1 O=build_dir ARCH=um SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305021447.bgPFpj8n-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305021414.EuPdM9kv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zihintpause'
+>> arch/riscv/kernel/cpufeature.c:34:1: sparse: sparse: symbol '__pcpu_scope_misaligned_access_speed' was not declared. Should it be static?
 
->> drivers/watchdog/octeontx2_wdt.c:13:10: fatal error: asm/arch_timer.h: No such file or directory
-      13 | #include <asm/arch_timer.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
+vim +/__pcpu_scope_misaligned_access_speed +34 arch/riscv/kernel/cpufeature.c
 
-
-vim +13 drivers/watchdog/octeontx2_wdt.c
-
-    12	
-  > 13	#include <asm/arch_timer.h>
-    14	
+    30	
+    31	/**
+    32	 * riscv_isa_extension_base() - Get base extension word
+    33	 *
+  > 34	 * @isa_bitmap: ISA bitmap to use
+    35	 * Return: base extension word as unsigned long value
+    36	 *
+    37	 * NOTE: If isa_bitmap is NULL then Host ISA bitmap will be used.
+    38	 */
+    39	unsigned long riscv_isa_extension_base(const unsigned long *isa_bitmap)
+    40	{
+    41		if (!isa_bitmap)
+    42			return riscv_isa[0];
+    43		return isa_bitmap[0];
+    44	}
+    45	EXPORT_SYMBOL_GPL(riscv_isa_extension_base);
+    46	
 
 -- 
 0-DAY CI Kernel Test Service
