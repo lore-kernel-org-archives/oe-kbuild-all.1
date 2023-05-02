@@ -1,126 +1,124 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BAA10E4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 11:46:50 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f315712406so165059025e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 02 May 2023 04:46:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890571C2D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 12:22:28 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-2fa36231b1cso2292838f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 02 May 2023 05:22:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683028008; x=1685620008;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yTFNSvlNK9OLSuNfUZudfwb4eJQZN05dqmNmwC73cTc=;
-        b=WDt4HwZKuTxhtTFvJzdvkyKlqlRuoWlMnrUZ7gi/kwR0y5kWfoD4CBneeatP/SmgiU
-         At4yXcBE9n+u6xCrOk1V7OFqkEfkHZ1LGpyjvnaP/vMCNk6fyNh/21JKEuQBlow73Fb1
-         hu7GhIr8AxoJ0DUgf0KyvjgnlnMyVV1Syf80qiN+hrcbPJKvZ0SiCAquvrzY4WquuR4/
-         hzA8uVhPQHSYYBYG6iz8sFM0rsS86bOpAUuryjsYU5/ZNF0PlRTBFBnMjqI93f4YrX1p
-         SmHo6jSiub/2+rnF9ZvpdI6Asfn94Thf6s78TDHLsRA3QmH52m/wy+95uLKnsJPO5v4M
-         VhgQ==
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1683030146; x=1685622146;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nx4CtFX9QxyVfk/q3EEN11kGuSB1DWR9fWIlov2TAkU=;
+        b=1WWbgGlysQzIaLwC2UzSNHkkmgcvAvwA9Hiy9w17z5oE9XrjkKB9OuxVqL3L9damxD
+         tAkj+sI8O+kiGEBfw0XhSp44ZQianpCGDkb3DakG116pRMUejON2+bmiB0w5RXNmFDR7
+         HwNMOi6XA3M+ZehLDUqSrLQw1FrjDMnIlHSZLCfeuRXKeiIfnRCcvc1IBjUes+8CzCe1
+         6jO4L+w8JQqes7ddeDH19bgDUJtdQnm9E/lg7d0X8ARa5wioN4Ud3/Pgf3PuPQ+KrDiA
+         Dbv9KPdZXFT38QINmWTFJay5u4F1j15tki6/SszDigq5Rc3zrtoDHkBtA+D2QcOjvYD5
+         pVIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683028008; x=1685620008;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yTFNSvlNK9OLSuNfUZudfwb4eJQZN05dqmNmwC73cTc=;
-        b=UvF4h0PrrmuFSV4KEFHJVAne93uegAvjNlPYNIvRazHPZK1JPBR2+T0btr43h8g8qm
-         m0/IbnVODKDB60RmKWBqHQPNK819sUHDJUKwvBTmKioOJBrb9Z6Ta/NNqGFfaN0jnQqA
-         d/RyFWrEyHzrFpixKl+TnE/44Gf8rBiVUsAvg20+LWKq146jQe7HMnAJhYQYy9PSRr5w
-         s+XUOpWkWVZNDYd92anVJLrFduwwyJRGAM0GmYjD6jpQIYUur3p3/FBzEQyIY7dGJ2RY
-         L7BNLCy7/1ky/8ouyda2Wtif5MIGIT9vvUM53Qfs4hNfda2tOE0HdGg4tmp5T82aNWQe
-         cnaQ==
-X-Gm-Message-State: AC+VfDyBRRaSBaimNXecZVvZUtwmphNKa56g9UZ929aYUQ8gI4KCjeBL
-	KhH/5ECO+5m7abZoTmV1sCtnIxxmC0GBo7iL2Oo=
-X-Google-Smtp-Source: ACHHUZ5rR7wCjfAAKk7jnBh8uBGAfKGBbPcT4RpfbFNkbLYg30cHXAdl/ws1cFihoZd3fLf1/QWhIA==
-X-Received: by 2002:a05:6000:128e:b0:2fb:b869:bc08 with SMTP id f14-20020a056000128e00b002fbb869bc08mr13523307wrx.23.1683028008490;
-        Tue, 02 May 2023 04:46:48 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id o2-20020a05600c4fc200b003f1738e64c0sm38899117wmq.20.2023.05.02.04.46.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 May 2023 04:46:46 -0700 (PDT)
-Date: Tue, 2 May 2023 14:46:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Zheng Wang <zyytlz.wz@163.com>,
-	matt.hsiao@hpe.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	hackerzheng666@gmail.com, 1395428693sheep@gmail.com,
-	alex000young@gmail.com, Zheng Wang <zyytlz.wz@163.com>
-Subject: Re: [PATCH] misc: hpilo: Fix use after free bug in ilo_remove due to
- race condition with ilo_open
-Message-ID: <cabf202f-a58e-4637-9d55-b0382360c27e@kili.mountain>
+        d=1e100.net; s=20221208; t=1683030146; x=1685622146;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nx4CtFX9QxyVfk/q3EEN11kGuSB1DWR9fWIlov2TAkU=;
+        b=Ds5MzM+KwN5qwqXm8+NGPl1eSs4H6YUloaZvS6CMQi1Q0F5IJbYhxLdW7D1TCI5G0C
+         cdYeMEg7sFGMRuzH3D7ssp4qZLrDpF/aY0RggGgy/UgpNi+lf9feTsDm4ZPqZ6tLUPNE
+         qyBv5sR485nbd13B8Pyw18oCRIqdV3rv4WstlzVwsn5qU1uc9dmBo0/eZho8pUTLsP0W
+         H0H0/H+tAMC4XkRLfAi03K2TgORJkBkX4MwRwh6QQo8IHkyLmD4bKAHcodmWEExsjVOc
+         xU7WaHZ5bvVp7Y0SQ3+PzlB0NL0945zyTsrKlmnhoTyURAJj5J7x5/ib6eRnl8X97IFl
+         8fmw==
+X-Gm-Message-State: AC+VfDw0wKi04LF9jmlxKf+A55H1OzuUfPX24mxbAEE+hTdZh4NN6L9y
+	QdhCnmQCKpdpU1gYGxLZVUnQyU1k66RTVXodCYMAJsgwe3OVBtLM
+X-Google-Smtp-Source: ACHHUZ7gL7v2p9lIQ9ZYhZIRIXsEdQKGPPd4p1XkwAS5t5RnwYfSKbGo75GmV0zdqESpeLFdljuN3hFCqrQ4p1mIJQc=
+X-Received: by 2002:adf:e3c5:0:b0:2cf:ee9d:ce2f with SMTP id
+ k5-20020adfe3c5000000b002cfee9dce2fmr11808712wrm.19.1683030146536; Tue, 02
+ May 2023 05:22:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230417165246.467723-1-zyytlz.wz@163.com>
+References: <202304301606.Cgp113Ha-lkp@intel.com>
+In-Reply-To: <202304301606.Cgp113Ha-lkp@intel.com>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Tue, 2 May 2023 14:22:15 +0200
+Message-ID: <CAHVXubg_PO2uab5ucLjhsFwDEnT+ov_G17ND7dtAosHxHJ8xjQ@mail.gmail.com>
+Subject: Re: riscv64-linux-ld: warning: orphan section `.init.data.rel.ro.local'
+ from `arch/riscv/kernel/pi/lib-fdt.pi.o' being placed in section `.init.data.rel.ro.local'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Palmer Dabbelt <palmer@rivosinc.com>, =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Zheng,
+On Sun, Apr 30, 2023 at 10:30=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   825a0714d2b3883d4f8ff64f6933fb73ee3f1834
+> commit: 26e7aacb83dfd04330673c5c9ac336560da52bb3 riscv: Allow to downgrad=
+e paging mode from the command line
+> date:   4 days ago
+> config: riscv-randconfig-r005-20230430 (https://download.01.org/0day-ci/a=
+rchive/20230430/202304301606.Cgp113Ha-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=3D1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git/commit/?id=3D26e7aacb83dfd04330673c5c9ac336560da52bb3
+>         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/=
+git/torvalds/linux.git
+>         git fetch --no-tags linus master
+>         git checkout 26e7aacb83dfd04330673c5c9ac336560da52bb3
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss W=3D1 O=3Dbuild_dir ARCH=3Driscv olddefconfig
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss W=3D1 O=3Dbuild_dir ARCH=3Driscv SHELL=3D/bin/bash
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202304301606.Cgp113Ha-lkp@i=
+ntel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> riscv64-linux-ld: warning: orphan section `.init.data.rel.ro.local' fr=
+om `arch/riscv/kernel/pi/lib-fdt.pi.o' being placed in section `.init.data.=
+rel.ro.local'
+> >> riscv64-linux-ld: warning: orphan section `.init.printk_index' from `a=
+rch/riscv/kernel/pi/lib-fdt.pi.o' being placed in section `.init.printk_ind=
+ex'
+> >> riscv64-linux-ld: warning: orphan section `.init.data.rel.ro.local' fr=
+om `arch/riscv/kernel/pi/lib-fdt.pi.o' being placed in section `.init.data.=
+rel.ro.local'
+> >> riscv64-linux-ld: warning: orphan section `.init.printk_index' from `a=
+rch/riscv/kernel/pi/lib-fdt.pi.o' being placed in section `.init.printk_ind=
+ex'
+> >> riscv64-linux-ld: warning: orphan section `.init.data.rel.ro.local' fr=
+om `arch/riscv/kernel/pi/lib-fdt.pi.o' being placed in section `.init.data.=
+rel.ro.local'
+> >> riscv64-linux-ld: warning: orphan section `.init.printk_index' from `a=
+rch/riscv/kernel/pi/lib-fdt.pi.o' being placed in section `.init.printk_ind=
+ex'
+> >> riscv64-linux-ld: warning: orphan section `.init.data.rel.ro.local' fr=
+om `arch/riscv/kernel/pi/lib-fdt.pi.o' being placed in section `.init.data.=
+rel.ro.local'
+> >> riscv64-linux-ld: warning: orphan section `.init.printk_index' from `a=
+rch/riscv/kernel/pi/lib-fdt.pi.o' being placed in section `.init.printk_ind=
+ex'
 
-kernel test robot noticed the following build warnings:
+I thought I had caught all the orphan sections introduced with
+kernel/pi, which is not the case: I have a fix that I'm testing.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zheng-Wang/misc-hpilo-Fix-use-after-free-bug-in-ilo_remove-due-to-race-condition-with-ilo_open/20230418-005502
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20230417165246.467723-1-zyytlz.wz%40163.com
-patch subject: [PATCH] misc: hpilo: Fix use after free bug in ilo_remove due  to race condition with ilo_open
-config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230430/202304300909.ALHN6Vry-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202304300909.ALHN6Vry-lkp@intel.com/
-
-smatch warnings:
-drivers/misc/hpilo.c:755 ilo_delete() warn: can 'ilo_hw' even be NULL?
-
-vim +/ilo_hw +755 drivers/misc/hpilo.c
-
-13a22f45e6cb1e Zheng Wang      2023-04-18  749  static void ilo_delete(struct kref *kref)
-13a22f45e6cb1e Zheng Wang      2023-04-18  750  {
-13a22f45e6cb1e Zheng Wang      2023-04-18  751  	int i, minor;
-13a22f45e6cb1e Zheng Wang      2023-04-18  752  	struct ilo_hwinfo *ilo_hw = container_of(kref, struct ilo_hwinfo, refcnt);
-13a22f45e6cb1e Zheng Wang      2023-04-18  753  	struct pci_dev *pdev = ilo_hw->ilo_dev;
-89bcb05d9bbf8b David Altobelli 2008-07-02  754  
-ebf1b764aa5cb3 Mark Rusk       2012-11-06 @755  	if (!ilo_hw)
-                                                            ^^^^^^^
-
-->refcnt member isn't the first struct member so this NULL check
-doesn't make sense.  Generally checking container_of() is ugly.  Some
-people do it and add BUILD_BUG_ON() to ensure that they're checking the
-first struct member but really it's best to avoid that if possible.
-
-ebf1b764aa5cb3 Mark Rusk       2012-11-06  756  		return;
-ebf1b764aa5cb3 Mark Rusk       2012-11-06  757  
-89bcb05d9bbf8b David Altobelli 2008-07-02  758  	clear_device(ilo_hw);
-89bcb05d9bbf8b David Altobelli 2008-07-02  759  
-89bcb05d9bbf8b David Altobelli 2008-07-02  760  	minor = MINOR(ilo_hw->cdev.dev);
-98dcd59dd063dd Camuso, Tony    2012-06-10  761  	for (i = minor; i < minor + max_ccb; i++)
-89bcb05d9bbf8b David Altobelli 2008-07-02  762  		device_destroy(ilo_class, MKDEV(ilo_major, i));
-89bcb05d9bbf8b David Altobelli 2008-07-02  763  
-89bcb05d9bbf8b David Altobelli 2008-07-02  764  	cdev_del(&ilo_hw->cdev);
-9f7048412163d8 David Altobelli 2009-08-17  765  	ilo_disable_interrupts(ilo_hw);
-9f7048412163d8 David Altobelli 2009-08-17  766  	free_irq(pdev->irq, ilo_hw);
-89bcb05d9bbf8b David Altobelli 2008-07-02  767  	ilo_unmap_device(pdev, ilo_hw);
-89bcb05d9bbf8b David Altobelli 2008-07-02  768  	pci_release_regions(pdev);
-bcdee04ea7ae04 Jiri Slaby      2012-09-13  769  	/*
-bcdee04ea7ae04 Jiri Slaby      2012-09-13  770  	 * pci_disable_device(pdev) used to be here. But this PCI device has
-bcdee04ea7ae04 Jiri Slaby      2012-09-13  771  	 * two functions with interrupt lines connected to a single pin. The
-bcdee04ea7ae04 Jiri Slaby      2012-09-13  772  	 * other one is a USB host controller. So when we disable the PIN here
-bcdee04ea7ae04 Jiri Slaby      2012-09-13  773  	 * e.g. by rmmod hpilo, the controller stops working. It is because
-bcdee04ea7ae04 Jiri Slaby      2012-09-13  774  	 * the interrupt link is disabled in ACPI since it is not refcounted
-bcdee04ea7ae04 Jiri Slaby      2012-09-13  775  	 * yet. See acpi_pci_link_free_irq called from acpi_pci_irq_disable.
-bcdee04ea7ae04 Jiri Slaby      2012-09-13  776  	 */
-89bcb05d9bbf8b David Altobelli 2008-07-02  777  	kfree(ilo_hw);
-98dcd59dd063dd Camuso, Tony    2012-06-10  778  	ilo_hwdev[(minor / max_ccb)] = 0;
-89bcb05d9bbf8b David Altobelli 2008-07-02  779  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
