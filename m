@@ -1,42 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5ED622;
-	Tue,  2 May 2023 02:00:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FF862A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 02:00:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1682992823; x=1714528823;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VmCCglEVSm7RX1Ep0MmX8OZpFQP4RzukGhiXAh8fEJI=;
-  b=B6/UYhmiNCRCGNqCWAzlxCx+SF+M/CSfaZGdiRIhKxExaWPg0/oUiS7M
-   a74kvUIQpZzjiJu5wcJRJJj5UCElxkTVl4dTzauai/2EAPo3XkbxQiXy4
-   RBPffNYqX1cSLxNfjp+kmpXEYLSvv3LtYqoNZinzZPK7YOKYuyijEW5Vd
-   Q2yv/gDAFxge5q85cWBEv6BDwUEvs2IwOpHimyhaXe9fLCoxa5ZotQRJf
-   bPtvbOrmMO23ljY9YMXRcHHzFmybAT9/81qQqaaNuxM7vx67PxYC87DZu
-   Fz3BMlgR0/ozYm5BfTRRLvQLx3iO+SLM7nMd6JuMMyVxZwxYasI7K7zt5
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="348331076"
+  bh=S66U377J8eUTkE4TfoP8lxH292zCxuVdJBe9o9ruRwc=;
+  b=FLSs8h3bW/2WmyWqsItDtTrAVahK1WAs6zFzRkB65TYIYR6IaqAOfkHR
+   +JfqyUTGifXMRi6bPiP8QPF3fLVqEUQc1zI6omzanPBg2gHX9jC/JF1J5
+   M75xv5cQv5QkD868h7k0VaOm4qMXbPM2f9Y2SdGwWNajf1pKFlRnTAWxC
+   bQRRZo9blrlkdmC+FhY+br9G36pUfrmSizoAaeL5FhdLrXU/6XqocuaGU
+   fABWt6FSQKc4kT7eiON3UW8o8RtmcV3h/Ubv+FdyfCaM8NgO160Zl31oh
+   OqiZAkE5vOud7rgwXb5DoLzZq5vmWisxX8HIAPZ4A9tcAcnUQLyclOB2e
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="332634185"
 X-IronPort-AV: E=Sophos;i="5.99,242,1677571200"; 
-   d="scan'208";a="348331076"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 19:00:22 -0700
+   d="scan'208";a="332634185"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 19:00:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="760903993"
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="870380012"
 X-IronPort-AV: E=Sophos;i="5.99,242,1677571200"; 
-   d="scan'208";a="760903993"
+   d="scan'208";a="870380012"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 01 May 2023 19:00:21 -0700
+  by orsmga005.jf.intel.com with ESMTP; 01 May 2023 19:00:21 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptfJU-0000lU-1f;
+	id 1ptfJU-0000lW-1j;
 	Tue, 02 May 2023 02:00:20 +0000
-Date: Tue, 2 May 2023 09:59:21 +0800
+Date: Tue, 2 May 2023 09:59:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [robh:dt/header-cleanups 57/59] drivers/perf/xgene_pmu.c:1732:36:
- warning: unused variable 'xgene_pmu_v3_data'
-Message-ID: <202305020945.bGdVB9hL-lkp@intel.com>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: kernel/module/dups.c:118:6: warning: no previous prototype for
+ 'kmod_dup_request_exists_wait'
+Message-ID: <202305020955.b724hNuQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,44 +46,144 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
-head:   34ab035cf8c37588331031cac8fc0dd07f15f3cc
-commit: 23496cc222294cb10cd0a3601c443f75a5016ad6 [57/59] Use of_device_get_match_data
-config: arm64-randconfig-r015-20230430 (https://download.01.org/0day-ci/archive/20230502/202305020945.bGdVB9hL-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b1465cd49efcbc114a75220b153f5a055ce7911f)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c8c655c34e33544aec9d64b660872ab33c29b5f1
+commit: 8660484ed1cf3261e89e0bad94c6395597e87599 module: add debugging auto-load duplicate module support
+date:   12 days ago
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230502/202305020955.b724hNuQ-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=23496cc222294cb10cd0a3601c443f75a5016ad6
-        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-        git fetch --no-tags robh dt/header-cleanups
-        git checkout 23496cc222294cb10cd0a3601c443f75a5016ad6
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8660484ed1cf3261e89e0bad94c6395597e87599
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 8660484ed1cf3261e89e0bad94c6395597e87599
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/perf/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash kernel/module/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305020945.bGdVB9hL-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305020955.b724hNuQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/perf/xgene_pmu.c:1732:36: warning: unused variable 'xgene_pmu_v3_data' [-Wunused-const-variable]
-   static const struct xgene_pmu_data xgene_pmu_v3_data = {
-                                      ^
-   1 warning generated.
+>> kernel/module/dups.c:118:6: warning: no previous prototype for 'kmod_dup_request_exists_wait' [-Wmissing-prototypes]
+     118 | bool kmod_dup_request_exists_wait(char *module_name, bool wait, int *dup_ret)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/module/dups.c:220:6: warning: no previous prototype for 'kmod_dup_request_announce' [-Wmissing-prototypes]
+     220 | void kmod_dup_request_announce(char *module_name, int ret)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/xgene_pmu_v3_data +1732 drivers/perf/xgene_pmu.c
+vim +/kmod_dup_request_exists_wait +118 kernel/module/dups.c
 
-  1731	
-> 1732	static const struct xgene_pmu_data xgene_pmu_v3_data = {
-  1733		.id   = PCP_PMU_V3,
-  1734	};
-  1735	
+   117	
+ > 118	bool kmod_dup_request_exists_wait(char *module_name, bool wait, int *dup_ret)
+   119	{
+   120		struct kmod_dup_req *kmod_req, *new_kmod_req;
+   121		int ret;
+   122	
+   123		/*
+   124		 * Pre-allocate the entry in case we have to use it later
+   125		 * to avoid contention with the mutex.
+   126		 */
+   127		new_kmod_req = kzalloc(sizeof(*new_kmod_req), GFP_KERNEL);
+   128		if (!new_kmod_req)
+   129			return false;
+   130	
+   131		memcpy(new_kmod_req->name, module_name, strlen(module_name));
+   132		INIT_WORK(&new_kmod_req->complete_work, kmod_dup_request_complete);
+   133		INIT_DELAYED_WORK(&new_kmod_req->delete_work, kmod_dup_request_delete);
+   134		init_completion(&new_kmod_req->first_req_done);
+   135	
+   136		mutex_lock(&kmod_dup_mutex);
+   137	
+   138		kmod_req = kmod_dup_request_lookup(module_name);
+   139		if (!kmod_req) {
+   140			/*
+   141			 * If the first request that came through for a module
+   142			 * was with request_module_nowait() we cannot wait for it
+   143			 * and share its return value with other users which may
+   144			 * have used request_module() and need a proper return value
+   145			 * so just skip using them as an anchor.
+   146			 *
+   147			 * If a prior request to this one came through with
+   148			 * request_module() though, then a request_module_nowait()
+   149			 * would benefit from duplicate detection.
+   150			 */
+   151			if (!wait) {
+   152				kfree(new_kmod_req);
+   153				pr_debug("New request_module_nowait() for %s -- cannot track duplicates for this request\n", module_name);
+   154				mutex_unlock(&kmod_dup_mutex);
+   155				return false;
+   156			}
+   157	
+   158			/*
+   159			 * There was no duplicate, just add the request so we can
+   160			 * keep tab on duplicates later.
+   161			 */
+   162			pr_debug("New request_module() for %s\n", module_name);
+   163			list_add_rcu(&new_kmod_req->list, &dup_kmod_reqs);
+   164			mutex_unlock(&kmod_dup_mutex);
+   165			return false;
+   166		}
+   167		mutex_unlock(&kmod_dup_mutex);
+   168	
+   169		/* We are dealing with a duplicate request now */
+   170		kfree(new_kmod_req);
+   171	
+   172		/*
+   173		 * To fix these try to use try_then_request_module() instead as that
+   174		 * will check if the component you are looking for is present or not.
+   175		 * You could also just queue a single request to load the module once,
+   176		 * instead of having each and everything you need try to request for
+   177		 * the module.
+   178		 *
+   179		 * Duplicate request_module() calls  can cause quite a bit of wasted
+   180		 * vmalloc() space when racing with userspace.
+   181		 */
+   182		if (enable_dups_trace)
+   183			WARN(1, "module-autoload: duplicate request for module %s\n", module_name);
+   184		else
+   185			pr_warn("module-autoload: duplicate request for module %s\n", module_name);
+   186	
+   187		if (!wait) {
+   188			/*
+   189			 * If request_module_nowait() was used then the user just
+   190			 * wanted to issue the request and if another module request
+   191			 * was already its way with the same name we don't care for
+   192			 * the return value either. Let duplicate request_module_nowait()
+   193			 * calls bail out right away.
+   194			 */
+   195			*dup_ret = 0;
+   196			return true;
+   197		}
+   198	
+   199		/*
+   200		 * If a duplicate request_module() was used they *may* care for
+   201		 * the return value, so we have no other option but to wait for
+   202		 * the first caller to complete. If the first caller used
+   203		 * the request_module_nowait() call, subsquent callers will
+   204		 * deal with the comprmise of getting a successful call with this
+   205		 * optimization enabled ...
+   206		 */
+   207		ret = wait_for_completion_state(&kmod_req->first_req_done,
+   208						TASK_UNINTERRUPTIBLE | TASK_KILLABLE);
+   209		if (ret) {
+   210			*dup_ret = ret;
+   211			return true;
+   212		}
+   213	
+   214		/* Now the duplicate request has the same exact return value as the first request */
+   215		*dup_ret = kmod_req->dup_ret;
+   216	
+   217		return true;
+   218	}
+   219	
+ > 220	void kmod_dup_request_announce(char *module_name, int ret)
 
 -- 
 0-DAY CI Kernel Test Service
