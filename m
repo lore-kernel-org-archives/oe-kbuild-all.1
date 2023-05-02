@@ -1,49 +1,44 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2792C9C;
-	Tue,  2 May 2023 13:20:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014E37E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 13:41:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683033632; x=1714569632;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5MA4pkcgt8W4MuoPb0tpe5rk1Xt3o5u3PJ7rZD+vUXA=;
-  b=DiNXc9NNi7FdGRXdJs/JKCF/Nl9UZgYYsFAtggZKfTTav9eXuVOrF48n
-   kvof6U3heBxq+QByIBje+NHW73iE809MJZzeOMBzfjF49wXNeBYIXoJUH
-   R6VUBrEG5EBj4YQrDCWwk02jAhd5ZAZiNkrrFqcBGeardG9aAJEbkb/em
-   IlEQL8YJJYZhEJcL799/uJGGMcrf2gAi8pXGKex0qzDHkKs4NFCUus1Lt
-   I6wAzzoDLI8uwgQJVq1HARLDc4k9gWYFT0dMZOwOVUGd5qgFLuT9KIdxw
-   QEGKfK3oe3TGg3aGdvLDncf9txlJBclOoqnJXAH2XtQTbvqu5X7lBFSGv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="347211425"
+  t=1683034887; x=1714570887;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+WmzuKJqiLToZ7Mk0hiDMsmWiqB1GSE9C6L5BtV5nkg=;
+  b=MCj0Ll3tRoKLBC5MBYMvwAt7xeUxUNE9b6Y15XQjbGG441s5xsc1jLzk
+   3ltOOzxIZwsJsjjRiIf4mf0Hzq/6LcMo/TGtpCJU+whqJ6P0fUpCDv6/f
+   DRjqlIKf6LeUJ0AKT/a1S6FEnR8K+XC0izsrMxTXpZJlCiCWctnPv7esr
+   esCYCuHnIRD79qJzMMX+Y304QvVjSKA8c3EZcEINxJ+ZEfIJXsz1hJDZa
+   q34wYNJ5zPusvgEAnduHulJ6pIRJZR7H3GcMTzsaynuEhoc3bXlaLYx4H
+   ysuY/JvXDkvEi/vlNloRZGO6JNekidrfpACkrOZecg5tmKDj7qaDnStJm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="413842511"
 X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; 
-   d="scan'208";a="347211425"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2023 06:20:28 -0700
+   d="scan'208";a="413842511"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2023 06:41:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="690280647"
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="696183091"
 X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; 
-   d="scan'208";a="690280647"
+   d="scan'208";a="696183091"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 02 May 2023 06:20:25 -0700
+  by orsmga002.jf.intel.com with ESMTP; 02 May 2023 06:41:26 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptpvc-000148-1i;
-	Tue, 02 May 2023 13:20:24 +0000
-Date: Tue, 2 May 2023 21:20:01 +0800
+	id 1ptqFx-000151-11;
+	Tue, 02 May 2023 13:41:25 +0000
+Date: Tue, 2 May 2023 21:40:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	chunkuang.hu@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org, wenst@chromium.org,
-	matthias.bgg@gmail.com, kernel@collabora.com,
-	linux-arm-kernel@lists.infradead.org,
-	angelogioacchino.delregno@collabora.com
-Subject: Re: [PATCH 06/11] drm/mediatek: gamma: Use bitfield macros
-Message-ID: <202305022108.9tmu3iyy-lkp@intel.com>
-References: <20230502081650.25947-7-angelogioacchino.delregno@collabora.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.15 1/2] drivers/pci/pci.c:1300:3: error:
+ implicit declaration of function 'pcie_aspm_pm_state_change' is invalid in
+ C99
+Message-ID: <202305022121.JtBUtEMs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,121 +47,112 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230502081650.25947-7-angelogioacchino.delregno@collabora.com>
 
-Hi AngeloGioacchino,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.3 next-20230428]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/drm-mediatek-gamma-Adjust-mtk_drm_gamma_set_common-parameters/20230502-161758
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230502081650.25947-7-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH 06/11] drm/mediatek: gamma: Use bitfield macros
-config: arm-randconfig-r006-20230501 (https://download.01.org/0day-ci/archive/20230502/202305022108.9tmu3iyy-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b1465cd49efcbc114a75220b153f5a055ce7911f)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   73814d53fc5bbbe8e675352ac21aaf8a1ca059dc
+commit: 73814d53fc5bbbe8e675352ac21aaf8a1ca059dc [1/2] BACKPORT: PCI/PM: Split pci_raw_set_power_state()
+config: x86_64-randconfig-a012-20230501 (https://download.01.org/0day-ci/archive/20230502/202305022121.JtBUtEMs-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/171ab0605a0c2b44167dc1339b29dc80c2ac7d4d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review AngeloGioacchino-Del-Regno/drm-mediatek-gamma-Adjust-mtk_drm_gamma_set_common-parameters/20230502-161758
-        git checkout 171ab0605a0c2b44167dc1339b29dc80c2ac7d4d
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.15
+        git checkout 73814d53fc5bbbe8e675352ac21aaf8a1ca059dc
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/gpu/drm/mediatek/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305022108.9tmu3iyy-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305022121.JtBUtEMs-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/mediatek/mtk_disp_gamma.c:111:11: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                           word = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, hwlut.red);
-                                  ^
-   drivers/gpu/drm/mediatek/mtk_disp_gamma.c:124:11: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-                           word = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, diff.red);
-                                  ^
-   drivers/gpu/drm/mediatek/mtk_disp_gamma.c:132:13: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           cfg_val |= FIELD_PREP(GAMMA_LUT_EN, 1);
-                      ^
-   drivers/gpu/drm/mediatek/mtk_disp_gamma.c:151:7: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           sz = FIELD_PREP(DISP_GAMMA_SIZE_HSIZE, w);
-                ^
-   4 errors generated.
+>> drivers/pci/pci.c:1300:3: error: implicit declaration of function 'pcie_aspm_pm_state_change' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                   pcie_aspm_pm_state_change(dev->bus->self);
+                   ^
+   1 error generated.
 
 
-vim +/FIELD_PREP +111 drivers/gpu/drm/mediatek/mtk_disp_gamma.c
+vim +/pcie_aspm_pm_state_change +1300 drivers/pci/pci.c
 
-    77	
-    78	void mtk_gamma_set_common(struct device *dev, void __iomem *regs, struct drm_crtc_state *state)
-    79	{
-    80		struct mtk_disp_gamma *gamma = dev_get_drvdata(dev);
-    81		unsigned int i;
-    82		struct drm_color_lut *lut;
-    83		void __iomem *lut_base;
-    84		bool lut_diff;
-    85		u16 lut_size;
-    86		u32 cfg_val, word;
-    87	
-    88		/* If there's no gamma lut there's nothing to do here. */
-    89		if (!state->gamma_lut)
-    90			return;
-    91	
-    92		if (gamma && gamma->data) {
-    93			lut_diff = gamma->data->lut_diff;
-    94			lut_size = gamma->data->lut_size;
-    95		} else {
-    96			lut_diff = false;
-    97			lut_size = LUT_SIZE_DEFAULT;
-    98		}
-    99	
-   100		cfg_val = readl(regs + DISP_GAMMA_CFG);
-   101		lut_base = regs + DISP_GAMMA_LUT;
-   102		lut = (struct drm_color_lut *)state->gamma_lut->data;
-   103		for (i = 0; i < lut_size; i++) {
-   104			struct drm_color_lut diff, hwlut;
-   105	
-   106			hwlut.red = drm_color_lut_extract(lut[i].red, LUT_BITS_DEFAULT);
-   107			hwlut.green = drm_color_lut_extract(lut[i].green, LUT_BITS_DEFAULT);
-   108			hwlut.red = drm_color_lut_extract(lut[i].blue, LUT_BITS_DEFAULT);
-   109	
-   110			if (!lut_diff || (i % 2 == 0)) {
- > 111				word = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, hwlut.red);
-   112				word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, hwlut.green);
-   113				word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, hwlut.blue);
-   114			} else {
-   115				diff.red = lut[i].red - lut[i - 1].red;
-   116				diff.red = drm_color_lut_extract(diff.red, LUT_BITS_DEFAULT);
-   117	
-   118				diff.green = lut[i].green - lut[i - 1].green;
-   119				diff.green = drm_color_lut_extract(diff.green, LUT_BITS_DEFAULT);
-   120	
-   121				diff.blue = lut[i].blue - lut[i - 1].blue;
-   122				diff.blue = drm_color_lut_extract(diff.blue, LUT_BITS_DEFAULT);
-   123	
-   124				word = FIELD_PREP(DISP_GAMMA_LUT_10BIT_R, diff.red);
-   125				word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_G, diff.green);
-   126				word |= FIELD_PREP(DISP_GAMMA_LUT_10BIT_B, diff.blue);
-   127			}
-   128			writel(word, (lut_base + i * 4));
-   129		}
-   130	
-   131		/* Enable the gamma table */
-   132		cfg_val |= FIELD_PREP(GAMMA_LUT_EN, 1);
-   133	
-   134		writel(cfg_val, regs + DISP_GAMMA_CFG);
-   135	}
-   136	
+  1230	
+  1231	/**
+  1232	 * pci_power_up - Put the given device into D0
+  1233	 * @dev: PCI device to power up
+  1234	 */
+  1235	int pci_power_up(struct pci_dev *dev)
+  1236	{
+  1237		bool need_restore = false;
+  1238		u16 pmcsr;
+  1239	
+  1240		pci_platform_power_transition(dev, PCI_D0);
+  1241	
+  1242		if (dev->current_state == PCI_D0)
+  1243			return 0;
+  1244	
+  1245		if (!dev->pm_cap)
+  1246			return -EIO;
+  1247	
+  1248		pci_read_config_word(dev, dev->pm_cap + PCI_PM_CTRL, &pmcsr);
+  1249		if (PCI_POSSIBLE_ERROR(pmcsr)) {
+  1250			pci_err(dev, "Unable to change power state from %s to D0, device inaccessible\n",
+  1251				pci_power_name(dev->current_state));
+  1252			return -EIO;
+  1253		}
+  1254	
+  1255		/*
+  1256		 * If we're (effectively) in D3, force entire word to 0. This doesn't
+  1257		 * affect PME_Status, disables PME_En, and sets PowerState to 0.
+  1258		 */
+  1259		if (dev->current_state >= PCI_D3hot) {
+  1260			if ((pmcsr & PCI_PM_CTRL_STATE_MASK) == PCI_D3hot &&
+  1261			    !(pmcsr & PCI_PM_CTRL_NO_SOFT_RESET))
+  1262				need_restore = true;
+  1263	
+  1264			pmcsr = 0;
+  1265		} else {
+  1266			pmcsr &= ~PCI_PM_CTRL_STATE_MASK;
+  1267		}
+  1268	
+  1269		pci_write_config_word(dev, dev->pm_cap + PCI_PM_CTRL, pmcsr);
+  1270	
+  1271		/* Mandatory transition delays; see PCI PM 1.2. */
+  1272		if (dev->current_state == PCI_D3hot)
+  1273			pci_dev_d3_sleep(dev);
+  1274		else if (dev->current_state == PCI_D2)
+  1275			udelay(PCI_PM_D2_DELAY);
+  1276	
+  1277		pci_read_config_word(dev, dev->pm_cap + PCI_PM_CTRL, &pmcsr);
+  1278		dev->current_state = pmcsr & PCI_PM_CTRL_STATE_MASK;
+  1279		if (dev->current_state != PCI_D0)
+  1280			pci_info_ratelimited(dev, "Refused to change power state from %s to D0\n",
+  1281					     pci_power_name(dev->current_state));
+  1282	
+  1283		/*
+  1284		 * According to section 5.4.1 of the "PCI BUS POWER MANAGEMENT
+  1285		 * INTERFACE SPECIFICATION, REV. 1.2", a device transitioning
+  1286		 * from D3hot to D0 _may_ perform an internal reset, thereby
+  1287		 * going to "D0 Uninitialized" rather than "D0 Initialized".
+  1288		 * For example, at least some versions of the 3c905B and the
+  1289		 * 3c556B exhibit this behaviour.
+  1290		 *
+  1291		 * At least some laptop BIOSen (e.g. the Thinkpad T21) leave
+  1292		 * devices in a D3hot state at boot.  Consequently, we need to
+  1293		 * restore at least the BARs so that the device will be
+  1294		 * accessible to its driver.
+  1295		 */
+  1296		if (need_restore)
+  1297			pci_restore_bars(dev);
+  1298	
+  1299		if (dev->bus->self)
+> 1300			pcie_aspm_pm_state_change(dev->bus->self);
+  1301	
+  1302		return 0;
+  1303	}
+  1304	
 
 -- 
 0-DAY CI Kernel Test Service
