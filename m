@@ -1,70 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D408C63B;
-	Tue,  2 May 2023 03:34:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A8863B
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 03:55:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682998458; x=1714534458;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+6dA6KdIKutJxGniT6UriJY7gWQ2DD7E0/cszDATHKI=;
-  b=XI71fl8KpqOHUUtsMawlymTY7FfLmsTQUT0CwoIsGK4qTMv3oxFtePZV
-   TBNJqmeFydwzDSVAT988c2M0/wkbas2wUCpE5BOkGVUjHuJstWRy+0QoZ
-   P7ZHPNAifCQcPJZDBRs1hVmtMp5N0/4IWnmI25F2SL2IfFVg/v84gMF6y
-   Bv2dUK+JpH8H7huGLQCZbOVXzK7uS3HtmgVII/CavurSqYeqLyr4hNd21
-   //H0jhlPoLVn0DaEZHsvmCZ8MZbTxkg98H/YCp0vof+ouSO0dt1ZDfDAF
-   RcdkUOsUmjA55ec2x+M5EjtyMkWMvgdLGKzs6anRHpJJZTstty9ctGw3t
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="413734251"
+  t=1682999718; x=1714535718;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GB+FOisZH0321k/P+eCQ49qk7kO3w/2IVHEW24jRUSo=;
+  b=ZY40IkwU18+JWLmIOtFL44O4u+501ahyS76UmbOef5AMidzObtM33JoI
+   rqm/JxT3VEX2A/EL86rDJNzMTenF8oSa/XHw4Bk/DBrJcbQdmAEcjzbxh
+   uDl7D/qVyl7evp8Qr5y51DEE9TJBP6VWnOw7a2uFZfLelmlTJOX1OCl0I
+   AvuNIbFs5d1PW3ntG2MXpNkvhUfVXhNcC4WA/knieK7t92jYGmjh61g12
+   nf269tO3KIf4k3Zs8z7N+ZYS1euaS/PHgy89tFom57hc6byZSQ8dD0zm8
+   9lSz4wEo3JCXsW3OKjJQ7jtSj57pDcSAfm+DDo4DZPSQl3EF2UYTl15oM
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="351276456"
 X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
-   d="scan'208";a="413734251"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 20:34:18 -0700
+   d="scan'208";a="351276456"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 20:55:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="1025889706"
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="785513522"
 X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
-   d="scan'208";a="1025889706"
+   d="scan'208";a="785513522"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 01 May 2023 20:34:10 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 01 May 2023 20:55:16 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptgmI-0000oK-0s;
-	Tue, 02 May 2023 03:34:10 +0000
-Date: Tue, 2 May 2023 11:33:29 +0800
+	id 1pth6c-0000oo-21;
+	Tue, 02 May 2023 03:55:10 +0000
+Date: Tue, 2 May 2023 11:54:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lstoakes@gmail.com>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-	Matthew Wilcox <willy@infradead.org>,
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Christian Benvenuti <benve@cisco.com>,
-	Nelson Escobar <neescoba@cisco.com>,
-	Bernard Metzler <bmt@zurich.ibm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
-	Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Bjorn Topel <bjorn@kernel.org>,
-	Magnus Karlsson <magnus.karlsson@intel.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Christian Brauner <brauner@kernel.org>
-Subject: Re: [PATCH v6 3/3] mm/gup: disallow FOLL_LONGTERM GUP-fast writing
- to file-backed mappings
-Message-ID: <202305021142.vBYXxxEh-lkp@intel.com>
-References: <dee4f4ad6532b0f94d073da263526de334d5d7e0.1682981880.git.lstoakes@gmail.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.2/prjc 304/395] kernel/sched/alt_core.c:1004:6: sparse:
+ sparse: symbol 'select_nohz_load_balancer' was not declared. Should it be
+ static?
+Message-ID: <202305021119.g89DEtyo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,59 +46,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dee4f4ad6532b0f94d073da263526de334d5d7e0.1682981880.git.lstoakes@gmail.com>
 
-Hi Lorenzo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-mmap-separate-writenotify-and-dirty-tracking-logic/20230502-071520
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/dee4f4ad6532b0f94d073da263526de334d5d7e0.1682981880.git.lstoakes%40gmail.com
-patch subject: [PATCH v6 3/3] mm/gup: disallow FOLL_LONGTERM GUP-fast writing to file-backed mappings
-config: arm-randconfig-r013-20230502 (https://download.01.org/0day-ci/archive/20230502/202305021142.vBYXxxEh-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b1465cd49efcbc114a75220b153f5a055ce7911f)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/intel-lab-lkp/linux/commit/602bb9fab888bd9176b8eeb80a0da68499c343ed
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Lorenzo-Stoakes/mm-mmap-separate-writenotify-and-dirty-tracking-logic/20230502-071520
-        git checkout 602bb9fab888bd9176b8eeb80a0da68499c343ed
+tree:   https://github.com/zen-kernel/zen-kernel 6.2/prjc
+head:   6a80d978aa1f981122f7478fedea389aa9475f9d
+commit: 1889e596c5647b4e2c36420ecb4dc4f00ed4edcd [304/395] sched/alt: [Sync] bb4479994945 sched, drivers: Remove max param from effective_cpu_util()/sched_cpu_util()
+config: x86_64-randconfig-s021 (https://download.01.org/0day-ci/archive/20230502/202305021119.g89DEtyo-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/zen-kernel/zen-kernel/commit/1889e596c5647b4e2c36420ecb4dc4f00ed4edcd
+        git remote add zen https://github.com/zen-kernel/zen-kernel
+        git fetch --no-tags zen 6.2/prjc
+        git checkout 1889e596c5647b4e2c36420ecb4dc4f00ed4edcd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/sched/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305021142.vBYXxxEh-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305021119.g89DEtyo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/alt_core.c:968:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:968:38: sparse:     expected struct task_struct *curr
+   kernel/sched/alt_core.c:968:38: sparse:     got struct task_struct [noderef] __rcu *curr
+>> kernel/sched/alt_core.c:1004:6: sparse: sparse: symbol 'select_nohz_load_balancer' was not declared. Should it be static?
+   kernel/sched/alt_core.c:1712:45: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1712:45: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1712:45: sparse:    struct task_struct [noderef] __rcu *
+>> kernel/sched/alt_core.c:2460:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:2460:28: sparse:     expected struct task_struct const *p
+   kernel/sched/alt_core.c:2460:28: sparse:     got struct task_struct [noderef] __rcu *curr
+>> kernel/sched/alt_core.c:6859:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *push_task @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:6859:43: sparse:     expected struct task_struct *push_task
+   kernel/sched/alt_core.c:6859:43: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/alt_core.c:3813:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:3813:15: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:3813:15: sparse:    struct task_struct [noderef] __rcu *
+>> kernel/sched/alt_core.c:4069:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:4069:14: sparse:     expected struct task_struct *curr
+   kernel/sched/alt_core.c:4069:14: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/alt_core.c:4525:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:4525:14: sparse:     expected struct task_struct *prev
+   kernel/sched/alt_core.c:4525:14: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/alt_core.c:5059:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:5059:17: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:5059:17: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:5209:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:5209:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:5209:22: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:6712:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:6712:25: sparse:     expected struct task_struct *p
+   kernel/sched/alt_core.c:6712:25: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/alt_core.c:495:6: sparse: sparse: context imbalance in 'raw_spin_rq_lock_nested' - wrong count at exit
+   kernel/sched/alt_core.c:514:6: sparse: sparse: context imbalance in 'raw_spin_rq_unlock' - unexpected unlock
+   kernel/sched/alt_core.c:1116:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1670:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1670:38: sparse:    struct task_struct [noderef] __rcu *
+>> kernel/sched/alt_core.c:1670:38: sparse:    struct task_struct const *
+   kernel/sched/alt_core.c:1116:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1116:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1116:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1116:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1116:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1116:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1116:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1116:37: sparse:    struct task_struct [noderef] __rcu *
 
->> mm/gup.c:114:49: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-   static bool stabilise_mapping_rcu(struct folio *)
-                                                   ^
-   1 warning generated.
+vim +/select_nohz_load_balancer +1004 kernel/sched/alt_core.c
 
+8b025fc742d760 Alfred Chen 2019-08-19  1003  
+56e0358e1d4dc0 Alfred Chen 2020-08-07 @1004  void select_nohz_load_balancer(int stop_tick) {}
+8b025fc742d760 Alfred Chen 2019-08-19  1005  
 
-vim +114 mm/gup.c
+:::::: The code at line 1004 was first introduced by commit
+:::::: 56e0358e1d4dc0a857a1dabb35776bebf9862a7f sched/alt: Fix/Enabled nohz_csd_func(), but not used.
 
-   108	
-   109	static void unlock_rcu(void)
-   110	{
-   111		rcu_read_unlock();
-   112	}
-   113	#else
- > 114	static bool stabilise_mapping_rcu(struct folio *)
-   115	{
-   116		return true;
-   117	}
-   118	
+:::::: TO: Alfred Chen <cchalpha@gmail.com>
+:::::: CC: Alfred Chen <cchalpha@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
