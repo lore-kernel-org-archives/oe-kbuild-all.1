@@ -1,44 +1,49 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014E37E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 13:41:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE782C9C
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 13:41:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683034887; x=1714570887;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+WmzuKJqiLToZ7Mk0hiDMsmWiqB1GSE9C6L5BtV5nkg=;
-  b=MCj0Ll3tRoKLBC5MBYMvwAt7xeUxUNE9b6Y15XQjbGG441s5xsc1jLzk
-   3ltOOzxIZwsJsjjRiIf4mf0Hzq/6LcMo/TGtpCJU+whqJ6P0fUpCDv6/f
-   DRjqlIKf6LeUJ0AKT/a1S6FEnR8K+XC0izsrMxTXpZJlCiCWctnPv7esr
-   esCYCuHnIRD79qJzMMX+Y304QvVjSKA8c3EZcEINxJ+ZEfIJXsz1hJDZa
-   q34wYNJ5zPusvgEAnduHulJ6pIRJZR7H3GcMTzsaynuEhoc3bXlaLYx4H
-   ysuY/JvXDkvEi/vlNloRZGO6JNekidrfpACkrOZecg5tmKDj7qaDnStJm
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="413842511"
+  t=1683034890; x=1714570890;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=P63kc43UhIKv9Q4LXJ5JiMCSLZz5VKwB49mJBEQrQ3w=;
+  b=N99MNH/G+CSxf1sPlTor1sAeacAMFHgm07wsaewz8683Qq+lQtDgZEWi
+   t6Qtx6iEHDxwAj7DckNr9+3b4N2iJgS5pnLleGDrQ1wS8hi4HY4jQHtf6
+   WJ0boTczzoPIDHxri9i/5c4keFJQOV74BoxbJqIncNQfQikZ3CFeecF10
+   nFbU+oO4xN862zG5Zt2sfhjYiII3zq2DH/PGFhlWxE+eXIMbZj/zyRprf
+   J81v4gHNPz0KAYmx79r7lQgB6RmYmxXaFjbuJM+QZb1ANlg4XTICE8NWU
+   f/HJQI9/tes93mSh+8F7KrpVdU7BzgHuhJ1y1eqKInCCnZM44c8Ae2g7T
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="413842514"
 X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; 
-   d="scan'208";a="413842511"
+   d="scan'208";a="413842514"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2023 06:41:27 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2023 06:41:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="696183091"
+X-IronPort-AV: E=McAfee;i="6600,9927,10698"; a="696183092"
 X-IronPort-AV: E=Sophos;i="5.99,244,1677571200"; 
-   d="scan'208";a="696183091"
+   d="scan'208";a="696183092"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 02 May 2023 06:41:26 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptqFx-000151-11;
+	id 1ptqFx-000153-16;
 	Tue, 02 May 2023 13:41:25 +0000
-Date: Tue, 2 May 2023 21:40:40 +0800
+Date: Tue, 2 May 2023 21:40:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 1/2] drivers/pci/pci.c:1300:3: error:
- implicit declaration of function 'pcie_aspm_pm_state_change' is invalid in
- C99
-Message-ID: <202305022121.JtBUtEMs-lkp@intel.com>
+To: Ajay Kaher <akaher@vmware.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org, shuah@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	chinglinyu@google.com, namit@vmware.com, srivatsab@vmware.com,
+	srivatsa@csail.mit.edu, amakhalov@vmware.com,
+	vsirnapalli@vmware.com, tkundu@vmware.com, er.ajay.kaher@gmail.com,
+	Ajay Kaher <akaher@vmware.com>
+Subject: Re: [PATCH v2 8/9] eventfs: moving tracing/events to eventfs
+Message-ID: <202305022138.cJMVU9RM-lkp@intel.com>
+References: <1683026600-13485-9-git-send-email-akaher@vmware.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,112 +52,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1683026600-13485-9-git-send-email-akaher@vmware.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   73814d53fc5bbbe8e675352ac21aaf8a1ca059dc
-commit: 73814d53fc5bbbe8e675352ac21aaf8a1ca059dc [1/2] BACKPORT: PCI/PM: Split pci_raw_set_power_state()
-config: x86_64-randconfig-a012-20230501 (https://download.01.org/0day-ci/archive/20230502/202305022121.JtBUtEMs-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Ajay,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shuah-kselftest/next]
+[also build test WARNING on shuah-kselftest/fixes linus/master]
+[cannot apply to rostedt-trace/for-next-urgent]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ajay-Kaher/eventfs-introducing-struct-tracefs_inode/20230502-192949
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/1683026600-13485-9-git-send-email-akaher%40vmware.com
+patch subject: [PATCH v2 8/9] eventfs: moving tracing/events to eventfs
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230502/202305022138.cJMVU9RM-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
-        git fetch --no-tags chrome-os chromeos-5.15
-        git checkout 73814d53fc5bbbe8e675352ac21aaf8a1ca059dc
+        # https://github.com/intel-lab-lkp/linux/commit/2fe2002efb23a715f5eb7a58891ff85f4e37b084
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ajay-Kaher/eventfs-introducing-struct-tracefs_inode/20230502-192949
+        git checkout 2fe2002efb23a715f5eb7a58891ff85f4e37b084
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash kernel/trace/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305022121.JtBUtEMs-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305022138.cJMVU9RM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/pci/pci.c:1300:3: error: implicit declaration of function 'pcie_aspm_pm_state_change' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   pcie_aspm_pm_state_change(dev->bus->self);
-                   ^
-   1 error generated.
+   kernel/trace/trace_events.c: In function 'event_create_dir':
+>> kernel/trace/trace_events.c:2424:24: warning: variable 'd_events' set but not used [-Wunused-but-set-variable]
+    2424 |         struct dentry *d_events;
+         |                        ^~~~~~~~
 
 
-vim +/pcie_aspm_pm_state_change +1300 drivers/pci/pci.c
+vim +/d_events +2424 kernel/trace/trace_events.c
 
-  1230	
-  1231	/**
-  1232	 * pci_power_up - Put the given device into D0
-  1233	 * @dev: PCI device to power up
-  1234	 */
-  1235	int pci_power_up(struct pci_dev *dev)
-  1236	{
-  1237		bool need_restore = false;
-  1238		u16 pmcsr;
-  1239	
-  1240		pci_platform_power_transition(dev, PCI_D0);
-  1241	
-  1242		if (dev->current_state == PCI_D0)
-  1243			return 0;
-  1244	
-  1245		if (!dev->pm_cap)
-  1246			return -EIO;
-  1247	
-  1248		pci_read_config_word(dev, dev->pm_cap + PCI_PM_CTRL, &pmcsr);
-  1249		if (PCI_POSSIBLE_ERROR(pmcsr)) {
-  1250			pci_err(dev, "Unable to change power state from %s to D0, device inaccessible\n",
-  1251				pci_power_name(dev->current_state));
-  1252			return -EIO;
-  1253		}
-  1254	
-  1255		/*
-  1256		 * If we're (effectively) in D3, force entire word to 0. This doesn't
-  1257		 * affect PME_Status, disables PME_En, and sets PowerState to 0.
-  1258		 */
-  1259		if (dev->current_state >= PCI_D3hot) {
-  1260			if ((pmcsr & PCI_PM_CTRL_STATE_MASK) == PCI_D3hot &&
-  1261			    !(pmcsr & PCI_PM_CTRL_NO_SOFT_RESET))
-  1262				need_restore = true;
-  1263	
-  1264			pmcsr = 0;
-  1265		} else {
-  1266			pmcsr &= ~PCI_PM_CTRL_STATE_MASK;
-  1267		}
-  1268	
-  1269		pci_write_config_word(dev, dev->pm_cap + PCI_PM_CTRL, pmcsr);
-  1270	
-  1271		/* Mandatory transition delays; see PCI PM 1.2. */
-  1272		if (dev->current_state == PCI_D3hot)
-  1273			pci_dev_d3_sleep(dev);
-  1274		else if (dev->current_state == PCI_D2)
-  1275			udelay(PCI_PM_D2_DELAY);
-  1276	
-  1277		pci_read_config_word(dev, dev->pm_cap + PCI_PM_CTRL, &pmcsr);
-  1278		dev->current_state = pmcsr & PCI_PM_CTRL_STATE_MASK;
-  1279		if (dev->current_state != PCI_D0)
-  1280			pci_info_ratelimited(dev, "Refused to change power state from %s to D0\n",
-  1281					     pci_power_name(dev->current_state));
-  1282	
-  1283		/*
-  1284		 * According to section 5.4.1 of the "PCI BUS POWER MANAGEMENT
-  1285		 * INTERFACE SPECIFICATION, REV. 1.2", a device transitioning
-  1286		 * from D3hot to D0 _may_ perform an internal reset, thereby
-  1287		 * going to "D0 Uninitialized" rather than "D0 Initialized".
-  1288		 * For example, at least some versions of the 3c905B and the
-  1289		 * 3c556B exhibit this behaviour.
-  1290		 *
-  1291		 * At least some laptop BIOSen (e.g. the Thinkpad T21) leave
-  1292		 * devices in a D3hot state at boot.  Consequently, we need to
-  1293		 * restore at least the BARs so that the device will be
-  1294		 * accessible to its driver.
-  1295		 */
-  1296		if (need_restore)
-  1297			pci_restore_bars(dev);
-  1298	
-  1299		if (dev->bus->self)
-> 1300			pcie_aspm_pm_state_change(dev->bus->self);
-  1301	
-  1302		return 0;
-  1303	}
-  1304	
+ac343da7bc9048 Masami Hiramatsu         2020-09-10  2417  
+1473e4417c79f1 Steven Rostedt           2009-02-24  2418  static int
+7f1d2f8210195c Steven Rostedt (Red Hat  2015-05-05  2419) event_create_dir(struct dentry *parent, struct trace_event_file *file)
+1473e4417c79f1 Steven Rostedt           2009-02-24  2420  {
+2425bcb9240f8c Steven Rostedt (Red Hat  2015-05-05  2421) 	struct trace_event_call *call = file->event_call;
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2422  	struct trace_array *tr = file->tr;
+2fe2002efb23a7 Ajay Kaher               2023-05-02  2423  	struct eventfs_file *ef_subsystem = NULL;
+ae63b31e4d0e2e Steven Rostedt           2012-05-03 @2424  	struct dentry *d_events;
+de7b2973903c6c Mathieu Desnoyers        2014-04-08  2425  	const char *name;
+fd99498989f3b3 Steven Rostedt           2009-02-28  2426  	int ret;
+1473e4417c79f1 Steven Rostedt           2009-02-24  2427  
+6ecc2d1ca39177 Steven Rostedt           2009-02-27  2428  	/*
+6ecc2d1ca39177 Steven Rostedt           2009-02-27  2429  	 * If the trace point header did not define TRACE_SYSTEM
+6ecc2d1ca39177 Steven Rostedt           2009-02-27  2430  	 * then the system would be called "TRACE_SYSTEM".
+6ecc2d1ca39177 Steven Rostedt           2009-02-27  2431  	 */
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2432  	if (strcmp(call->class->system, TRACE_SYSTEM) != 0) {
+2fe2002efb23a7 Ajay Kaher               2023-05-02  2433  		ef_subsystem = event_subsystem_dir(tr, call->class->system, file, parent);
+2fe2002efb23a7 Ajay Kaher               2023-05-02  2434  		if (!ef_subsystem)
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2435  			return -ENOMEM;
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2436  	} else
+ae63b31e4d0e2e Steven Rostedt           2012-05-03  2437  		d_events = parent;
+6ecc2d1ca39177 Steven Rostedt           2009-02-27  2438  
+687fcc4aee4567 Steven Rostedt (Red Hat  2015-05-13  2439) 	name = trace_event_name(call);
+2fe2002efb23a7 Ajay Kaher               2023-05-02  2440  	file->ef = eventfs_add_dir(name, ef_subsystem, &tr->eventfs_rwsem);
+2fe2002efb23a7 Ajay Kaher               2023-05-02  2441  	if (IS_ERR(file->ef)) {
+8434dc9340cd2e Steven Rostedt (Red Hat  2015-01-20  2442) 		pr_warn("Could not create tracefs '%s' directory\n", name);
+1473e4417c79f1 Steven Rostedt           2009-02-24  2443  		return -1;
+1473e4417c79f1 Steven Rostedt           2009-02-24  2444  	}
+1473e4417c79f1 Steven Rostedt           2009-02-24  2445  
+9b63776fa3ca96 Steven Rostedt           2012-05-10  2446  	if (call->class->reg && !(call->flags & TRACE_EVENT_FL_IGNORE_ENABLE))
+2fe2002efb23a7 Ajay Kaher               2023-05-02  2447  		eventfs_add_file("enable", TRACE_MODE_WRITE, file->ef, file,
+620a30e97febc8 Oleg Nesterov            2013-07-31  2448  				  &ftrace_enable_fops);
+1473e4417c79f1 Steven Rostedt           2009-02-24  2449  
 
 -- 
 0-DAY CI Kernel Test Service
