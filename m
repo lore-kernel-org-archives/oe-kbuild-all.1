@@ -1,42 +1,70 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18DB436C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  2 May 2023 02:43:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D408C63B;
+	Tue,  2 May 2023 03:34:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1682995391; x=1714531391;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PsohgX9b2YEs2h/REEApkMqD3dsmuknKgxQc/j3DzC0=;
-  b=DftTAo3tyKcqztsBpZBuUE4vIrWp25ZBjaP0MI58pDyzfMRNu4l1Wx8p
-   OSuPlZo/Kn1+xUQNnvOAZSnGnmWAhyQlySdB/ugfDVgDznTEjHhOoHQrC
-   AV4BhBFzeTgHFKCyqGdeI8foJ4rTzTOLEMh/Hn9R7/4rxrlo+THYbJizq
-   S4C2ar6L4R/gt2ab/+s/iA+tUZGnNUM8DzZSf9G3V5xSdQIqwIq81aMzI
-   AWncMO6SYcwq43WftXExngZPr2Jx0UpbdzDU0e0WlVL9vtM5+/rMGjMFc
-   ovA0LTTiY7W5SDnZyc74Led4smN8saRmF8kLnjI7EJ0xSoU4lpH9IZicK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="348336330"
+  t=1682998458; x=1714534458;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+6dA6KdIKutJxGniT6UriJY7gWQ2DD7E0/cszDATHKI=;
+  b=XI71fl8KpqOHUUtsMawlymTY7FfLmsTQUT0CwoIsGK4qTMv3oxFtePZV
+   TBNJqmeFydwzDSVAT988c2M0/wkbas2wUCpE5BOkGVUjHuJstWRy+0QoZ
+   P7ZHPNAifCQcPJZDBRs1hVmtMp5N0/4IWnmI25F2SL2IfFVg/v84gMF6y
+   Bv2dUK+JpH8H7huGLQCZbOVXzK7uS3HtmgVII/CavurSqYeqLyr4hNd21
+   //H0jhlPoLVn0DaEZHsvmCZ8MZbTxkg98H/YCp0vof+ouSO0dt1ZDfDAF
+   RcdkUOsUmjA55ec2x+M5EjtyMkWMvgdLGKzs6anRHpJJZTstty9ctGw3t
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="413734251"
 X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
-   d="scan'208";a="348336330"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 19:43:10 -0700
+   d="scan'208";a="413734251"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2023 20:34:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="726573284"
+X-IronPort-AV: E=McAfee;i="6600,9927,10697"; a="1025889706"
 X-IronPort-AV: E=Sophos;i="5.99,243,1677571200"; 
-   d="scan'208";a="726573284"
+   d="scan'208";a="1025889706"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 01 May 2023 19:43:09 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 01 May 2023 20:34:10 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ptfyu-0000mO-1r;
-	Tue, 02 May 2023 02:43:08 +0000
-Date: Tue, 2 May 2023 10:42:12 +0800
+	id 1ptgmI-0000oK-0s;
+	Tue, 02 May 2023 03:34:10 +0000
+Date: Tue, 2 May 2023 11:33:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mhiramat:topic/fprobe-event-ext 4/11]
- kernel/trace/trace_fprobe.c:853:20: error: 'MODULE_STATE_GOING' undeclared
-Message-ID: <202305021017.KRmfAhn9-lkp@intel.com>
+To: Lorenzo Stoakes <lstoakes@gmail.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+	Matthew Wilcox <willy@infradead.org>,
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Christian Benvenuti <benve@cisco.com>,
+	Nelson Escobar <neescoba@cisco.com>,
+	Bernard Metzler <bmt@zurich.ibm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Bjorn Topel <bjorn@kernel.org>,
+	Magnus Karlsson <magnus.karlsson@intel.com>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Christian Brauner <brauner@kernel.org>
+Subject: Re: [PATCH v6 3/3] mm/gup: disallow FOLL_LONGTERM GUP-fast writing
+ to file-backed mappings
+Message-ID: <202305021142.vBYXxxEh-lkp@intel.com>
+References: <dee4f4ad6532b0f94d073da263526de334d5d7e0.1682981880.git.lstoakes@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,67 +73,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <dee4f4ad6532b0f94d073da263526de334d5d7e0.1682981880.git.lstoakes@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-event-ext
-head:   32e07b49d560e18af3ea10fc794fa755eedceb83
-commit: eb808ed99f69516d0c445a8a7eb0cfeb9c818410 [4/11] tracing/probes: Add tracepoint support on fprobe_events
-config: s390-randconfig-r035-20230501 (https://download.01.org/0day-ci/archive/20230502/202305021017.KRmfAhn9-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+Hi Lorenzo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-mmap-separate-writenotify-and-dirty-tracking-logic/20230502-071520
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/dee4f4ad6532b0f94d073da263526de334d5d7e0.1682981880.git.lstoakes%40gmail.com
+patch subject: [PATCH v6 3/3] mm/gup: disallow FOLL_LONGTERM GUP-fast writing to file-backed mappings
+config: arm-randconfig-r013-20230502 (https://download.01.org/0day-ci/archive/20230502/202305021142.vBYXxxEh-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b1465cd49efcbc114a75220b153f5a055ce7911f)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git/commit/?id=eb808ed99f69516d0c445a8a7eb0cfeb9c818410
-        git remote add mhiramat https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git
-        git fetch --no-tags mhiramat topic/fprobe-event-ext
-        git checkout eb808ed99f69516d0c445a8a7eb0cfeb9c818410
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/intel-lab-lkp/linux/commit/602bb9fab888bd9176b8eeb80a0da68499c343ed
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Lorenzo-Stoakes/mm-mmap-separate-writenotify-and-dirty-tracking-logic/20230502-071520
+        git checkout 602bb9fab888bd9176b8eeb80a0da68499c343ed
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash kernel/trace/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305021017.KRmfAhn9-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305021142.vBYXxxEh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/trace/trace_fprobe.c: In function '__tracepoint_probe_module_cb':
->> kernel/trace/trace_fprobe.c:853:20: error: 'MODULE_STATE_GOING' undeclared (first use in this function)
-     853 |         if (val != MODULE_STATE_GOING)
-         |                    ^~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_fprobe.c:853:20: note: each undeclared identifier is reported only once for each function it appears in
->> kernel/trace/trace_fprobe.c:858:27: error: invalid use of undefined type 'struct tp_module'
-     858 |                 if (tp_mod->mod == tf->mod) {
-         |                           ^~
+>> mm/gup.c:114:49: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+   static bool stabilise_mapping_rcu(struct folio *)
+                                                   ^
+   1 warning generated.
 
 
-vim +/MODULE_STATE_GOING +853 kernel/trace/trace_fprobe.c
+vim +114 mm/gup.c
 
-   845	
-   846	static int __tracepoint_probe_module_cb(struct notifier_block *self,
-   847						unsigned long val, void *data)
-   848	{
-   849		struct tp_module *tp_mod = data;
-   850		struct trace_fprobe *tf;
-   851		struct dyn_event *pos;
-   852	
- > 853		if (val != MODULE_STATE_GOING)
-   854			return NOTIFY_DONE;
-   855	
-   856		mutex_lock(&event_mutex);
-   857		for_each_trace_fprobe(tf, pos) {
- > 858			if (tp_mod->mod == tf->mod) {
-   859				tracepoint_probe_unregister(tf->tpoint,
-   860						tf->tpoint->probestub, NULL);
-   861				tf->tpoint = NULL;
-   862				tf->mod = NULL;
-   863			}
-   864		}
-   865		mutex_unlock(&event_mutex);
-   866	
-   867		return NOTIFY_DONE;
-   868	}
-   869	
+   108	
+   109	static void unlock_rcu(void)
+   110	{
+   111		rcu_read_unlock();
+   112	}
+   113	#else
+ > 114	static bool stabilise_mapping_rcu(struct folio *)
+   115	{
+   116		return true;
+   117	}
+   118	
 
 -- 
 0-DAY CI Kernel Test Service
