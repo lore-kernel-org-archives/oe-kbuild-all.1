@@ -1,43 +1,48 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAFC7D524
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 May 2023 13:49:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683121791; x=1714657791;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PcFWkundwO6Thr/HTdkKDJ1agYR0eVGQRTjp4WlhHww=;
-  b=EFXq8MxVM8yKRIyNPo7PT4fSkZ4Ol6HsqJSn0s/hGIhVoH4O1grs6Ox1
-   UxXeCNY8hPesCc97Vj9aoEVzUxVc0OmUPVg2Gm9USdDEDT/1KS5U5YADB
-   3d8oUqlRKoLUN2WAJp5q6WwfpUyWEDvC0F/psWLlUcdFnna1IMHOpNFNi
-   egY5JnkRPU3uwLZ0qPYGJlLfWWNo9HtQs8CNoCVEP6rJ1QLuf1JgOrtD8
-   oSpY4TAaW3X6O95RBoYwgBL/wwZD+zm7Ts7XFCGIuvMeb58SlU9/H+iMM
-   Y3fpliZqDxCef5XdI/YegxCgzfRnbH5yygyxnCuiOf707hyRi+RY4r7Rs
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="348699277"
-X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; 
-   d="scan'208";a="348699277"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 06:49:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="690694619"
-X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; 
-   d="scan'208";a="690694619"
-Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 03 May 2023 06:49:19 -0700
-Received: from kbuild by e3434d64424d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1puCr8-00022S-0v;
-	Wed, 03 May 2023 13:49:18 +0000
-Date: Wed, 3 May 2023 21:48:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:io_uring/get-buf-op 10/11] drivers/char/mem.c:704:34:
- sparse: sparse: incompatible types in comparison expression (different type
- sizes):
-Message-ID: <202305032122.fYKyiZAk-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A15AB1078D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 May 2023 14:22:36 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3064099f9b6so682956f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 May 2023 07:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683123755; x=1685715755;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=51ayICpRd20JNlJZIywxRj0ta6wR3zgjWIVPQ6dF1cE=;
+        b=DxgAfOOCV1APe2aSk9YxonAvippgclo5KMGMe7GuzoCBBsxPBHWFWNLfiO3i1lu2bw
+         T4/rh/nuO1/bFAQA+3q5Ng/uwm3abqM5/dI62QhIv7+OSiaXxCmvbGCduhqjameaNz5G
+         Z1BLy3AIl9AYoUuBWfNoAH44XEuqqIcuw3ylxkcmHmY6NYD6xHRoSUcCzoAu7r0IQOOn
+         /khLaNwGhXWpSjqj9869jmsR00p8JJCFbPvoEMrOxU+famHxn+HrF6MqWlD8A7LGqicC
+         l3oAlI2OBwzozoNhNIjlxm007Xdlh/i6a/2UM2jxxsz24iaSi0oznyLZuE4vCZW4Zy9Z
+         yR7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683123755; x=1685715755;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=51ayICpRd20JNlJZIywxRj0ta6wR3zgjWIVPQ6dF1cE=;
+        b=InWo32cnbeLnrPUROayAkQMF/S1jyf+i9Ts5Z0hSTAccnS2rMUBE69rGHHaevAC3l2
+         L1D0nwV406nAtLWCaK8unHWgNMYDldLpNgQT1Pc0gsZt52bbxQpo7ADOyhY+ahYDDYWK
+         saymlJtOJjtiuu3Xl18sbSFagrHsKzzeOd2xpbUo1AhwG6xH+LRjXnL+D2bXSBE22r1c
+         WU6jze8kQZImrPK641mJSsPXDGnqtmua8oCdg4en8OiFQZucS2oMuU3bmoK3Ui8a9b5i
+         E4Vn96yfxpZ6INlCNx/NznkLQYK21Gmk9wiMcpRGA7naFD+d4l8ETOAA3VdhXqv7MEdr
+         mp6A==
+X-Gm-Message-State: AC+VfDxc827Y+8BKcwgFtlVRd+Z6x835GGLhDP+ox9IktrvfdgxVcV/N
+	Sc8rB4qWjzA/iu38NTaaiNKCKQ==
+X-Google-Smtp-Source: ACHHUZ6ms+73G3BKQB20/osF4Lpy7TgvPjZjFvA4s1Gnt9sOEKZ3QR9iEAXefTlVnEpkOd4Y6tW1Ug==
+X-Received: by 2002:adf:e9ce:0:b0:306:37d9:201c with SMTP id l14-20020adfe9ce000000b0030637d9201cmr237779wrn.17.1683123754807;
+        Wed, 03 May 2023 07:22:34 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id z10-20020a5d654a000000b002f22c44e974sm33970073wrv.102.2023.05.03.07.22.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 May 2023 07:22:32 -0700 (PDT)
+Date: Wed, 3 May 2023 17:22:27 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Davidlohr Bueso <dave@stgolabs.net>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/3] cxl/mbox: Add background cmd handling machinery
+Message-ID: <f58ab106-2d86-4f61-9fe6-a465e57b209f@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,63 +51,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230502171841.21317-4-dave@stgolabs.net>
 
-tree:   https://github.com/isilence/linux io_uring/get-buf-op
-head:   d4d86a65af9ecafa81981e7b1ba804eaac7de023
-commit: adf5ce0124b4b76a4ff143a16f598124e7116bad [10/11] TEST: mem: testing ->get_buf impl for /dev/null
-config: parisc-randconfig-s051-20230430 (https://download.01.org/0day-ci/archive/20230503/202305032122.fYKyiZAk-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/isilence/linux/commit/adf5ce0124b4b76a4ff143a16f598124e7116bad
-        git remote add isilence https://github.com/isilence/linux
-        git fetch --no-tags isilence io_uring/get-buf-op
-        git checkout adf5ce0124b4b76a4ff143a16f598124e7116bad
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc SHELL=/bin/bash drivers/char/
+Hi Davidlohr,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Davidlohr-Bueso/rcuwait-Support-timeouts/20230503-015128
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
+patch link:    https://lore.kernel.org/r/20230502171841.21317-4-dave%40stgolabs.net
+patch subject: [PATCH 3/3] cxl/mbox: Add background cmd handling machinery
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230503/202305032140.JWW3VebM-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305032122.fYKyiZAk-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202305032140.JWW3VebM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/char/mem.c:704:34: sparse: sparse: incompatible types in comparison expression (different type sizes):
->> drivers/char/mem.c:704:34: sparse:    unsigned int *
->> drivers/char/mem.c:704:34: sparse:    unsigned long *
+smatch warnings:
+drivers/cxl/pci.c:230 __cxl_pci_mbox_send_cmd() warn: maybe use && instead of &
 
-vim +704 drivers/char/mem.c
+vim +230 drivers/cxl/pci.c
 
-   692	
-   693	
-   694	static int zero_get_buf(struct file *file, struct iou_get_buf_info *bi)
-   695	{
-   696		struct iou_buf_desc *d = bi->desc;
-   697		size_t done = 0;
-   698	
-   699		if (bi->off)
-   700			return -EINVAL;
-   701	
-   702	
-   703		while (done != bi->len && d->nr_bvecs < d->max_bvecs) {
- > 704			size_t cur_len = min(bi->len - done, PAGE_SIZE);
-   705	
-   706			get_page(null_char_page);
-   707			bvec_set_page(&d->bvec[d->nr_bvecs], null_char_page, cur_len, 0);
-   708			d->nr_bvecs++;
-   709			done += cur_len;
-   710		}
-   711	
-   712		d->private = NULL;
-   713		d->release = zero_get_buf_release;
-   714		return done;
-   715	}
-   716	
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  221  	if (mbox_cmd->return_code == CXL_MBOX_CMD_RC_BACKGROUND) {
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  222  		int i, ret;
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  223  		u64 bg_status_reg;
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  224  		int timeout = mbox_cmd->poll_interval;
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  225  
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  226  		dev_dbg(dev, "Mailbox background operation (0x%04x) started\n",
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  227  			mbox_cmd->opcode);
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  228  
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  229  		for (i = 0; i < mbox_cmd->poll_count; i++) {
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02 @230  			ret = rcuwait_wait_event_timeout(&cxlds->mbox_wait,
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  231  					TASK_INTERRUPTIBLE,
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  232  					cxl_mbox_background_complete(cxlds),
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  233  					msecs_to_jiffies(timeout));
+
+These TASK_INTERRUPTIBLE and cxl_mbox_background_complete() arguments
+are swapped.  The condition is supposed the second argument.
+
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  234  			if (ret > 0)
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  235  				break;
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  236  			if (ret < 0) /* interrupted by a signal */
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  237  				return ret;
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  238  		}
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  239  
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  240  		if (!cxl_mbox_background_complete(cxlds)) {
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  241  			u64 md_status =
+914e64b06cee69 drivers/cxl/pci.c Davidlohr Bueso 2023-05-02  242  				readq(cxlds->regs.memdev + CXLMDEV_STATUS_OFFSET);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
