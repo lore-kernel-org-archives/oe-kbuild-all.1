@@ -1,47 +1,52 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516AED2F7
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 May 2023 15:41:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683128484; x=1714664484;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9HA1S84wZNk6GkRlQO3x/m2Oi6FiXO4dgjR6rmy9XR4=;
-  b=YtHDamwFZ083Jl14mUBIrEkX6P7RtaUtrdhPR0jY3EZKeJ3rZzK29mzF
-   RTP7wulAjmcTjJeK/39wwv5Kh8pATxiqO9shc8viRUaCrP/a6FY26P2M3
-   0C/ap0TBNpXAd5BcV2TF1z0yAsMjmFdXZDtCCCGyaoPSgoFP4s1ZCZGIG
-   2wLPRFASrikS/Lj6F6IrNZampIIoweUCTchdde/yU/jrC5EZvQOs0BO4V
-   kYcOJYNG0LQPQKYHCDZqfbpGvC+AEAnK/g3cmhqKkU5735DRX/04vB1uU
-   16cjfhZ/4a4pQrfnNfc0sL+sZ9qDp6mgd2S1zWWrp60nR4Zq1kBFae9lg
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="337821053"
-X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; 
-   d="scan'208";a="337821053"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 08:41:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="840721880"
-X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; 
-   d="scan'208";a="840721880"
-Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 03 May 2023 08:41:22 -0700
-Received: from kbuild by e3434d64424d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1puEbZ-00026q-1R;
-	Wed, 03 May 2023 15:41:21 +0000
-Date: Wed, 3 May 2023 23:41:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Boris Sukholitko <boris.sukholitko@broadcom.com>,
-	netfilter-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Ilya Lifshits <ilya.lifshits@broadcom.com>,
-	Boris Sukholitko <boris.sukholitko@broadcom.com>
-Subject: Re: [PATCH nf-next 16/19] netfilter: nftables: fast path payload
- mangle
-Message-ID: <202305032310.WgPNAhx8-lkp@intel.com>
-References: <20230503125552.41113-17-boris.sukholitko@broadcom.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FCBA51
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 May 2023 16:57:21 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3f19b9d5358so54775625e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 May 2023 09:57:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683133039; x=1685725039;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qcEFUNqrSv8hU2EwUJ9bUu4poDYlKJmp96cwk1dCn30=;
+        b=o+ayY+VGH7SCkI+isgiDjCaZAYLTvFp7P/aYmnyzRubk6t/g3MxNADA8nmbhl94sIH
+         rrKAeJzXO1pDOgRvou0eeDKplIbtjNGhJPIGL+9PSnSkXg3xjT/PC5+jexXw4oJLN9He
+         8zkpZuUt0j8SC0OWssg3hDbuegkau0XvD8rTtfAHYkLdsuXWeUCpWspqAl8qLRPR14AB
+         5WuyQ328KlsdmaUJC5+rJs+EOBHU1IsjsDMI2nKpuKJ2FEkFnBPhPDA9SNvoxy2IVvs9
+         CuMGMmuycFcODr2Hfh5X/qpCbCk8GEEsv+tp2udKYUmokoiTPwbKxy+yNcSQNH4O9NHT
+         +QNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683133039; x=1685725039;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qcEFUNqrSv8hU2EwUJ9bUu4poDYlKJmp96cwk1dCn30=;
+        b=Qg3nJg7pE7HRqlbckl4Q6wo9soxB7/UVLxS8Stv9ro8Ceh5kTH/C+znL9cO3xOv4C7
+         IjgXpDRCGtEvVboc0YyoOLrEfR8Lu06dkLGzgmzx+3k5vA7EdLw+B7//JKgzyl37e87K
+         OwofZfnZN0QDP6eArITfF5WCLwytJTeswblLcuheCVlD9o0YNuU9aj8usEIzDI/sXkCE
+         CAtSkn13mSILTTiO1ZpfB07FJ0dHYtVfEOZgan1K3hUJsV5SoteOcZS73Yga6+/aIdHR
+         qSZm+3ai8w3jFQXKpjDW6aPNIWg/8Nt7KCZe6POhMxwm84ISzpBz8YEt2tpZFwugj269
+         YmKA==
+X-Gm-Message-State: AC+VfDxbJR85L2o7qwzS2z7FZOaq/wSMql7GCgNgosj4KMkPVJBGafyJ
+	WTq3sm+EIKMCn2dsghX6sPMSTQ==
+X-Google-Smtp-Source: ACHHUZ6wLdQMETiiNbn1dbLVdUNgLIYiPmcV0m79sxCMMpTd0hrChGFrc9Zphlr2n7w3s71+5KzsAA==
+X-Received: by 2002:a05:600c:299:b0:3f2:50ab:1bba with SMTP id 25-20020a05600c029900b003f250ab1bbamr15515028wmk.19.1683133039587;
+        Wed, 03 May 2023 09:57:19 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q7-20020a1cf307000000b003f18b52c73asm2381741wmq.24.2023.05.03.09.57.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 May 2023 09:57:17 -0700 (PDT)
+Date: Wed, 3 May 2023 19:57:12 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Piotr Raczynski <piotr.raczynski@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
+Subject: [tnguy-next-queue:dev-queue 13/36]
+ drivers/net/ethernet/intel/ice/ice_irq.c:348 ice_free_irq() error: we
+ previously assumed 'entry' could be null (see line 342)
+Message-ID: <b9627c98-ec0a-4f87-91e4-478e7150b529@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,150 +55,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230503125552.41113-17-boris.sukholitko@broadcom.com>
 
-Hi Boris,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on shuah-kselftest/next]
-[also build test WARNING on shuah-kselftest/fixes linus/master v6.3 next-20230428]
-[cannot apply to nf-next/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Boris-Sukholitko/selftest-netfilter-use-proc-for-pid-checking/20230503-205838
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
-patch link:    https://lore.kernel.org/r/20230503125552.41113-17-boris.sukholitko%40broadcom.com
-patch subject: [PATCH nf-next 16/19] netfilter: nftables: fast path payload mangle
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230503/202305032310.WgPNAhx8-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/35886376721f375b56fd9b99c079298c8e027a26
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Boris-Sukholitko/selftest-netfilter-use-proc-for-pid-checking/20230503-205838
-        git checkout 35886376721f375b56fd9b99c079298c8e027a26
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash net/netfilter/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+head:   cf8d73244f3a7bf78ae4042f4d700da212be3dcc
+commit: 1181d50520d25da05f2da1235054fd91964cc3d1 [13/36] ice: add dynamic interrupt allocation
+config: openrisc-randconfig-m031-20230430 (https://download.01.org/0day-ci/archive/20230503/202305032317.RAOFS8W5-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305032310.WgPNAhx8-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202305032317.RAOFS8W5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/net/ethernet/intel/ice/ice_irq.c:348 ice_free_irq() error: we previously assumed 'entry' could be null (see line 342)
 
-   net/netfilter/nf_flow_table_ip.c: In function 'nf_flow_offload_ip_hook':
->> net/netfilter/nf_flow_table_ip.c:395:58: warning: implicit conversion from 'enum flow_offload_tuple_dir' to 'enum ip_conntrack_dir' [-Wenum-conversion]
-     395 |         if (nf_flow_offload_apply_payload(skb, flow->ct, dir, thoff))
-         |                                                          ^~~
+vim +/entry +348 drivers/net/ethernet/intel/ice/ice_irq.c
 
+f71fc417ba04cac Piotr Raczynski 2023-03-23  336  void ice_free_irq(struct ice_pf *pf, struct msi_map map)
+f71fc417ba04cac Piotr Raczynski 2023-03-23  337  {
+1181d50520d25da Piotr Raczynski 2023-03-23  338  	struct ice_irq_entry *entry;
+1181d50520d25da Piotr Raczynski 2023-03-23  339  
+1181d50520d25da Piotr Raczynski 2023-03-23  340  	entry = xa_load(&pf->irq_tracker.entries, map.index);
+1181d50520d25da Piotr Raczynski 2023-03-23  341  
+1181d50520d25da Piotr Raczynski 2023-03-23 @342  	if (!entry)
+1181d50520d25da Piotr Raczynski 2023-03-23  343  		dev_err(ice_pf_to_dev(pf), "Failed to get MSIX interrupt entry at index %d",
+1181d50520d25da Piotr Raczynski 2023-03-23  344  			map.index);
 
-vim +395 net/netfilter/nf_flow_table_ip.c
+return;?
 
-   339	
-   340	unsigned int
-   341	nf_flow_offload_ip_hook(void *priv, struct sk_buff *skb,
-   342				const struct nf_hook_state *state)
-   343	{
-   344		struct flow_offload_tuple_rhash *tuplehash;
-   345		struct nf_flowtable *flow_table = priv;
-   346		struct flow_offload_tuple tuple = {};
-   347		enum flow_offload_tuple_dir dir;
-   348		struct flow_offload *flow;
-   349		struct net_device *outdev;
-   350		u32 hdrsize, offset = 0;
-   351		unsigned int thoff, mtu;
-   352		struct rtable *rt;
-   353		struct iphdr *iph;
-   354		__be32 nexthop;
-   355		int ret;
-   356	
-   357		if (skb->protocol != htons(ETH_P_IP) &&
-   358		    !nf_flow_skb_encap_protocol(skb, htons(ETH_P_IP), &offset))
-   359			return NF_ACCEPT;
-   360	
-   361		if (nf_flow_tuple_ip(skb, state->in, &tuple, &hdrsize, offset) < 0)
-   362			return NF_ACCEPT;
-   363	
-   364		tuplehash = flow_offload_lookup(flow_table, &tuple);
-   365		if (tuplehash == NULL)
-   366			return NF_ACCEPT;
-   367	
-   368		dir = tuplehash->tuple.dir;
-   369		flow = container_of(tuplehash, struct flow_offload, tuplehash[dir]);
-   370	
-   371		mtu = flow->tuplehash[dir].tuple.mtu + offset;
-   372		if (unlikely(nf_flow_exceeds_mtu(skb, mtu)))
-   373			return NF_ACCEPT;
-   374	
-   375		iph = (struct iphdr *)(skb_network_header(skb) + offset);
-   376		thoff = (iph->ihl * 4) + offset;
-   377		if (nf_flow_state_check(flow, iph->protocol, skb, thoff))
-   378			return NF_ACCEPT;
-   379	
-   380		if (!nf_flow_dst_check(&tuplehash->tuple)) {
-   381			flow_offload_teardown(flow);
-   382			return NF_ACCEPT;
-   383		}
-   384	
-   385		if (skb_try_make_writable(skb, thoff + hdrsize))
-   386			return NF_DROP;
-   387	
-   388		flow_offload_refresh(flow_table, flow);
-   389	
-   390		nf_flow_encap_pop(skb, tuplehash);
-   391		thoff -= offset;
-   392	
-   393		iph = ip_hdr(skb);
-   394		nf_flow_nat_ip(flow, skb, thoff, dir, iph);
- > 395		if (nf_flow_offload_apply_payload(skb, flow->ct, dir, thoff))
-   396			return NF_DROP;
-   397	
-   398		ip_decrease_ttl(iph);
-   399		skb_clear_tstamp(skb);
-   400	
-   401		if (flow_table->flags & NF_FLOWTABLE_COUNTER)
-   402			nf_ct_acct_update(flow->ct, tuplehash->tuple.dir, skb->len);
-   403	
-   404		if (unlikely(tuplehash->tuple.xmit_type == FLOW_OFFLOAD_XMIT_XFRM)) {
-   405			rt = (struct rtable *)tuplehash->tuple.dst_cache;
-   406			memset(skb->cb, 0, sizeof(struct inet_skb_parm));
-   407			IPCB(skb)->iif = skb->dev->ifindex;
-   408			IPCB(skb)->flags = IPSKB_FORWARDED;
-   409			return nf_flow_xmit_xfrm(skb, state, &rt->dst);
-   410		}
-   411	
-   412		switch (tuplehash->tuple.xmit_type) {
-   413		case FLOW_OFFLOAD_XMIT_NEIGH:
-   414			rt = (struct rtable *)tuplehash->tuple.dst_cache;
-   415			outdev = rt->dst.dev;
-   416			skb->dev = outdev;
-   417			nexthop = rt_nexthop(rt, flow->tuplehash[!dir].tuple.src_v4.s_addr);
-   418			skb_dst_set_noref(skb, &rt->dst);
-   419			neigh_xmit(NEIGH_ARP_TABLE, outdev, &nexthop, skb);
-   420			ret = NF_STOLEN;
-   421			break;
-   422		case FLOW_OFFLOAD_XMIT_DIRECT:
-   423			ret = nf_flow_queue_xmit(state->net, skb, tuplehash, ETH_P_IP);
-   424			if (ret == NF_DROP)
-   425				flow_offload_teardown(flow);
-   426			break;
-   427		default:
-   428			WARN_ON_ONCE(1);
-   429			ret = NF_DROP;
-   430			break;
-   431		}
-   432	
-   433		return ret;
-   434	}
-   435	EXPORT_SYMBOL_GPL(nf_flow_offload_ip_hook);
-   436	
+1181d50520d25da Piotr Raczynski 2023-03-23  345  
+1181d50520d25da Piotr Raczynski 2023-03-23  346  	dev_dbg(ice_pf_to_dev(pf), "Free irq at index %d\n", map.index);
+1181d50520d25da Piotr Raczynski 2023-03-23  347  
+1181d50520d25da Piotr Raczynski 2023-03-23 @348  	if (entry->dynamic)
+1181d50520d25da Piotr Raczynski 2023-03-23  349  		pci_msix_free_irq(pf->pdev, map);
+1181d50520d25da Piotr Raczynski 2023-03-23  350  
+1261628bc347e3d Piotr Raczynski 2023-03-23  351  	ice_free_irq_res(pf, map.index);
+f71fc417ba04cac Piotr Raczynski 2023-03-23  352  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
