@@ -1,43 +1,54 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450E329A8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 May 2023 23:43:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECAB29A8;
+	Wed,  3 May 2023 23:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683157420; x=1714693420;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xuIv6aB4icJkjWPOX2n2JQvoJeJWWbmHmLV1AgHmydE=;
-  b=eV83ducinbJhPezVjK1hbyKH8mDESyB9RK8jgKEMdKiEVETsuSzDI86X
-   RrK7xMA0oi2KQkbqRBq7V/cFtq7eenRXg2EQHAoW3J1qgjNlaapO/i6GZ
-   Z8dCpqPSGY8x/nSDfJpcu/m+brgA5OljiPBJcch6rFJCR0sZILuanZ819
-   miWTf0lCjbweHQE732NRn7ERohM7NPq1b/ed3I75Y+uzqhNz1lCJ9Jw/2
-   JGW0W2/YC/hmfmNvHm10UTdmkKVQzHTSu7ZzMdtRph6I1sMKkuX6zsIGb
-   jQTD+4ij0UKBc/dGw9PofXQE1esLIR+DxkknqA79ZpVZ3LeHU8a6xOaIz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="350875761"
+  t=1683157422; x=1714693422;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qTenYN15vOzc0n9ab3eQwMr2KsWCXdTwEdx3dVCYBow=;
+  b=jYAxGoJO0fDVSS+vr6Mi64f4NGcrP/omTTEPUYvZe1TDdGjO5k1h+H9Q
+   Bw7tWhTfY4drtcxwfUu0ELq7RW2K/GZ/H9QZFh85XsVplzzehcVv94QKM
+   bcIspTni/5cVqeYbyC211D6PGJN7anXH90ps1zoIqASaMsqYGI56gimGP
+   iqrLjaugo5t3BVF07TNGxGtCBw1WQ0pC25rBcmm+myzUh9UOfiAKRodJl
+   z+PSaFLH1ULElZmSe5dzz/uCOqfPFogNA/EyfR5fBwcOU/UaGjZODLcIf
+   9yEU+Yudo/bw9Cg6N3GRFgjmQ4yR0IJMeDAYMbBwuvqLWJB3EstjA+5Sl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="350875766"
 X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
-   d="scan'208";a="350875761"
+   d="scan'208";a="350875766"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 16:43:39 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 16:43:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="840881960"
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="840881961"
 X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
-   d="scan'208";a="840881960"
+   d="scan'208";a="840881961"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
   by fmsmga001.fm.intel.com with ESMTP; 03 May 2023 16:43:38 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puM8H-0002N6-2d;
+	id 1puM8H-0002N8-2g;
 	Wed, 03 May 2023 23:43:37 +0000
-Date: Thu, 4 May 2023 07:43:28 +0800
+Date: Thu, 4 May 2023 07:43:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-fix-2c 15/15] csky-linux-ld:
- drivers/gpu/drm/udl/udl_main.o:(__dyndbg_class_refs+0x4): undefined
- reference to `drm_debug_classes'
-Message-ID: <202305040744.vyub5nW6-lkp@intel.com>
+To: Jing Zhang <jingzhangos@google.com>, KVM <kvm@vger.kernel.org>,
+	KVMARM <kvmarm@lists.linux.dev>,
+	ARMLinux <linux-arm-kernel@lists.infradead.org>,
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Will Deacon <will@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	James Morse <james.morse@arm.com>,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Fuad Tabba <tabba@google.com>, Reiji Watanabe <reijiw@google.com>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Jing Zhang <jingzhangos@google.com>
+Subject: Re: [PATCH v8 3/6] KVM: arm64: Use per guest ID register for
+ ID_AA64PFR0_EL1.[CSV2|CSV3]
+Message-ID: <202305040748.hUxGyrJF-lkp@intel.com>
+References: <20230503171618.2020461-4-jingzhangos@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,31 +57,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230503171618.2020461-4-jingzhangos@google.com>
 
-tree:   https://github.com/jimc/linux.git dd-fix-2c
-head:   9ae65eae7fa1755bde5e601e9771c2bc35a8202d
-commit: 9ae65eae7fa1755bde5e601e9771c2bc35a8202d [15/15] drm-drivers: add DRM_CLASSMAP_USE decls to 2nd round of drivers, helpers
-config: csky-randconfig-r034-20230501 (https://download.01.org/0day-ci/archive/20230504/202305040744.vyub5nW6-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.1.0
+Hi Jing,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 6a8f57ae2eb07ab39a6f0ccad60c760743051026]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jing-Zhang/KVM-arm64-Move-CPU-ID-feature-registers-emulation-into-a-separate-file/20230504-011759
+base:   6a8f57ae2eb07ab39a6f0ccad60c760743051026
+patch link:    https://lore.kernel.org/r/20230503171618.2020461-4-jingzhangos%40google.com
+patch subject: [PATCH v8 3/6] KVM: arm64: Use per guest ID register for ID_AA64PFR0_EL1.[CSV2|CSV3]
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230504/202305040748.hUxGyrJF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/jimc/linux/commit/9ae65eae7fa1755bde5e601e9771c2bc35a8202d
-        git remote add jimc https://github.com/jimc/linux.git
-        git fetch --no-tags jimc dd-fix-2c
-        git checkout 9ae65eae7fa1755bde5e601e9771c2bc35a8202d
+        # https://github.com/intel-lab-lkp/linux/commit/5c887874c5459c9690cf3eac8b68022d72789533
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jing-Zhang/KVM-arm64-Move-CPU-ID-feature-registers-emulation-into-a-separate-file/20230504-011759
+        git checkout 5c887874c5459c9690cf3eac8b68022d72789533
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305040744.vyub5nW6-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305040748.hUxGyrJF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> csky-linux-ld: drivers/gpu/drm/udl/udl_main.o:(__dyndbg_class_refs+0x4): undefined reference to `drm_debug_classes'
+   In file included from include/linux/rhashtable-types.h:14,
+                    from include/linux/ipc.h:7,
+                    from include/uapi/linux/sem.h:5,
+                    from include/linux/sem.h:5,
+                    from include/linux/sched.h:15,
+                    from include/linux/hardirq.h:9,
+                    from include/linux/kvm_host.h:7,
+                    from arch/arm64/kvm/id_regs.c:13:
+   arch/arm64/kvm/id_regs.c: In function 'get_id_reg':
+>> arch/arm64/kvm/id_regs.c:152:25: error: 'struct kvm_arch' has no member named 'config_lock'
+     152 |         mutex_lock(&arch->config_lock);
+         |                         ^~
+   include/linux/mutex.h:187:44: note: in definition of macro 'mutex_lock'
+     187 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
+         |                                            ^~~~
+   arch/arm64/kvm/id_regs.c:154:27: error: 'struct kvm_arch' has no member named 'config_lock'
+     154 |         mutex_unlock(&arch->config_lock);
+         |                           ^~
+   arch/arm64/kvm/id_regs.c: In function 'set_id_aa64pfr0_el1':
+   arch/arm64/kvm/id_regs.c:221:25: error: 'struct kvm_arch' has no member named 'config_lock'
+     221 |         mutex_lock(&arch->config_lock);
+         |                         ^~
+   include/linux/mutex.h:187:44: note: in definition of macro 'mutex_lock'
+     187 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
+         |                                            ^~~~
+   arch/arm64/kvm/id_regs.c:239:27: error: 'struct kvm_arch' has no member named 'config_lock'
+     239 |         mutex_unlock(&arch->config_lock);
+         |                           ^~
+
+
+vim +152 arch/arm64/kvm/id_regs.c
+
+   139	
+   140	/*
+   141	 * cpufeature ID register user accessors
+   142	 *
+   143	 * For now, these registers are immutable for userspace, so no values
+   144	 * are stored, and for set_id_reg() we don't allow the effective value
+   145	 * to be changed.
+   146	 */
+   147	static int get_id_reg(struct kvm_vcpu *vcpu, const struct sys_reg_desc *rd,
+   148			      u64 *val)
+   149	{
+   150		struct kvm_arch *arch = &vcpu->kvm->arch;
+   151	
+ > 152		mutex_lock(&arch->config_lock);
+   153		*val = read_id_reg(vcpu, rd);
+   154		mutex_unlock(&arch->config_lock);
+   155	
+   156		return 0;
+   157	}
+   158	
 
 -- 
 0-DAY CI Kernel Test Service
