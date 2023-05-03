@@ -1,44 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818B6BE4C;
-	Wed,  3 May 2023 20:58:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0624763B2
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 May 2023 22:40:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683147515; x=1714683515;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g2Jhm9JCN1ufFaAMvraCMRp8lbUi7LFZ3NAXboYQDG8=;
-  b=XVsUZbyOJTlMTVwVeE0xfetHCUcww4EGbeOmdNOQn/LSgb3R8nuRhW0d
-   nea9L7z0cMfL/iU7RtXuwhmbdioxEwCGmm3eD4L2OmtWCoNirtHCucrjz
-   kohH4+wgx0jXAxUIY7fcwnsMrKNEwekI+dmXTqJCq8sOhtKwawpyjlCd1
-   wwrTGxGmch9k5/eQpBilTnaKcKNeY1PSaHOKS0Xy6D0soeLu0vmsEBqE7
-   FkonVeO61+tHSmur2SbJHSgOLv7jZykmqnoc8PndN5cKtgDflopVU21cn
-   J8plar2snmjBWDhvemMP9desYGa+2g6MHjgfTpv5YeclWmCWy1l85wef7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="329126187"
+  t=1683153638; x=1714689638;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LMP/3s1NyeY5xRqQH+s9rqCdS+K6RmXYDsfH7x0+Rjw=;
+  b=aIE/Gl+f9juE8lEMWxO+JDqffRE50J55TR9F+E6gvLEkNq6wDWG7b7Zh
+   QGQ5snrse7zqQtxI8i/qGS4eMrwLeDH23qxgXvikghhSc3HG0tPmGmrb5
+   aNcYJzq0GawYwW5K24NJV44TRubS2RVHyn1n6Pk6ODFUxBAPz575C+/mR
+   ImqPf7fi29ji/WJe8FzNMiHvzgcmlx6nh8P7eXt6A1R1PDFg9EwqYm3tI
+   fL/D9XOCS/wO4aZAQB0sjKVxQ0ibruzY0ccl0qsxNAWTExOQkkSqE/Tw/
+   5Ie+9VbqDDnmrlbatENzOpYfrmrO6RQbLWrWtPZaxlc/70N3LZI2LRqFP
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="435091503"
 X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
-   d="scan'208";a="329126187"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 13:58:34 -0700
+   d="scan'208";a="435091503"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 15:40:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="699569362"
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="840862446"
 X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
-   d="scan'208";a="699569362"
+   d="scan'208";a="840862446"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 03 May 2023 13:58:33 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 03 May 2023 15:40:36 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puJYW-0002HI-21;
-	Wed, 03 May 2023 20:58:32 +0000
-Date: Thu, 4 May 2023 04:57:51 +0800
+	id 1puL9H-0002KL-36;
+	Wed, 03 May 2023 22:40:35 +0000
+Date: Thu, 4 May 2023 06:40:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7 02/13] media: AV1: Make sure that bit depth in
- correctly initialize
-Message-ID: <202305040452.AOtjEcoR-lkp@intel.com>
-References: <20230503083438.85139-3-benjamin.gaignard@collabora.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-efistub-cleanup 10/12]
+ drivers/firmware/efi/libstub/x86-stub.c:853: Error: incorrect register
+ `%eax' used with `w' suffix
+Message-ID: <202305040620.THfjNpr2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,148 +46,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230503083438.85139-3-benjamin.gaignard@collabora.com>
 
-Hi Benjamin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on rockchip/for-next linus/master v6.3 next-20230428]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/dt-bindings-media-rockchip-vpu-Add-rk3588-vpu-compatible/20230503-163702
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230503083438.85139-3-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v7 02/13] media: AV1: Make sure that bit depth in correctly initialize
-config: i386-randconfig-a011-20230501 (https://download.01.org/0day-ci/archive/20230504/202305040452.AOtjEcoR-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-efistub-cleanup
+head:   d19cef90fb0bff9916366748b6bd1ac55247a86b
+commit: df8c0dbe82d9b25c99e9dff452f92ed90362f70f [10/12] x86: efistub: Perform 4/5 level paging switch from the stub
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230504/202305040620.THfjNpr2-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/b6ab729a6726070daaa93896fdbd8e11c8c8a26d
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Benjamin-Gaignard/dt-bindings-media-rockchip-vpu-Add-rk3588-vpu-compatible/20230503-163702
-        git checkout b6ab729a6726070daaa93896fdbd8e11c8c8a26d
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=df8c0dbe82d9b25c99e9dff452f92ed90362f70f
+        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
+        git fetch --no-tags ardb x86-efistub-cleanup
+        git checkout df8c0dbe82d9b25c99e9dff452f92ed90362f70f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/v4l2-core/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305040452.AOtjEcoR-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305040620.THfjNpr2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/media/v4l2-core/v4l2-ctrls-core.c:161:7: error: use of undeclared identifier 'V4L2_CTRL_TYPE_AV1_SEQUENCE'; did you mean 'V4L2_CTRL_TYPE_MPEG2_SEQUENCE'?
-           case V4L2_CTRL_TYPE_AV1_SEQUENCE:
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-                V4L2_CTRL_TYPE_MPEG2_SEQUENCE
-   include/uapi/linux/videodev2.h:1893:2: note: 'V4L2_CTRL_TYPE_MPEG2_SEQUENCE' declared here
-           V4L2_CTRL_TYPE_MPEG2_SEQUENCE       = 0x0251,
-           ^
->> drivers/media/v4l2-core/v4l2-ctrls-core.c:163:17: error: incomplete definition of type 'struct v4l2_ctrl_av1_sequence'
-                   p_av1_sequence->bit_depth = 8;
-                   ~~~~~~~~~~~~~~^
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:114:9: note: forward declaration of 'struct v4l2_ctrl_av1_sequence'
-           struct v4l2_ctrl_av1_sequence *p_av1_sequence;
-                  ^
->> drivers/media/v4l2-core/v4l2-ctrls-core.c:161:7: error: duplicate case value 'V4L2_CTRL_TYPE_MPEG2_SEQUENCE'
-           case V4L2_CTRL_TYPE_AV1_SEQUENCE:
-                ^
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:123:7: note: previous case defined here
-           case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
-                ^
-   3 errors generated.
+   drivers/firmware/efi/libstub/x86-stub.c: Assembler messages:
+>> drivers/firmware/efi/libstub/x86-stub.c:853: Error: incorrect register `%eax' used with `w' suffix
+   drivers/firmware/efi/libstub/x86-stub.c:854: Error: incorrect register `%eax' used with `w' suffix
 
 
-vim +161 drivers/media/v4l2-core/v4l2-ctrls-core.c
+vim +853 drivers/firmware/efi/libstub/x86-stub.c
 
-   103	
-   104	static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-   105				      union v4l2_ctrl_ptr ptr)
-   106	{
-   107		struct v4l2_ctrl_mpeg2_sequence *p_mpeg2_sequence;
-   108		struct v4l2_ctrl_mpeg2_picture *p_mpeg2_picture;
-   109		struct v4l2_ctrl_mpeg2_quantisation *p_mpeg2_quant;
-   110		struct v4l2_ctrl_vp8_frame *p_vp8_frame;
-   111		struct v4l2_ctrl_vp9_frame *p_vp9_frame;
-   112		struct v4l2_ctrl_fwht_params *p_fwht_params;
-   113		struct v4l2_ctrl_h264_scaling_matrix *p_h264_scaling_matrix;
-   114		struct v4l2_ctrl_av1_sequence *p_av1_sequence;
-   115		void *p = ptr.p + idx * ctrl->elem_size;
-   116	
-   117		if (ctrl->p_def.p_const)
-   118			memcpy(p, ctrl->p_def.p_const, ctrl->elem_size);
-   119		else
-   120			memset(p, 0, ctrl->elem_size);
-   121	
-   122		switch ((u32)ctrl->type) {
-   123		case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
-   124			p_mpeg2_sequence = p;
-   125	
-   126			/* 4:2:0 */
-   127			p_mpeg2_sequence->chroma_format = 1;
-   128			break;
-   129		case V4L2_CTRL_TYPE_MPEG2_PICTURE:
-   130			p_mpeg2_picture = p;
-   131	
-   132			/* interlaced top field */
-   133			p_mpeg2_picture->picture_structure = V4L2_MPEG2_PIC_TOP_FIELD;
-   134			p_mpeg2_picture->picture_coding_type =
-   135						V4L2_MPEG2_PIC_CODING_TYPE_I;
-   136			break;
-   137		case V4L2_CTRL_TYPE_MPEG2_QUANTISATION:
-   138			p_mpeg2_quant = p;
-   139	
-   140			memcpy(p_mpeg2_quant->intra_quantiser_matrix,
-   141			       mpeg2_intra_quant_matrix,
-   142			       ARRAY_SIZE(mpeg2_intra_quant_matrix));
-   143			/*
-   144			 * The default non-intra MPEG-2 quantisation
-   145			 * coefficients are all 16, as per the specification.
-   146			 */
-   147			memset(p_mpeg2_quant->non_intra_quantiser_matrix, 16,
-   148			       sizeof(p_mpeg2_quant->non_intra_quantiser_matrix));
-   149			break;
-   150		case V4L2_CTRL_TYPE_VP8_FRAME:
-   151			p_vp8_frame = p;
-   152			p_vp8_frame->num_dct_parts = 1;
-   153			break;
-   154		case V4L2_CTRL_TYPE_VP9_FRAME:
-   155			p_vp9_frame = p;
-   156			p_vp9_frame->profile = 0;
-   157			p_vp9_frame->bit_depth = 8;
-   158			p_vp9_frame->flags |= V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING |
-   159				V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING;
-   160			break;
- > 161		case V4L2_CTRL_TYPE_AV1_SEQUENCE:
-   162			p_av1_sequence = p;
- > 163			p_av1_sequence->bit_depth = 8;
-   164			break;
-   165		case V4L2_CTRL_TYPE_FWHT_PARAMS:
-   166			p_fwht_params = p;
-   167			p_fwht_params->version = V4L2_FWHT_VERSION;
-   168			p_fwht_params->width = 1280;
-   169			p_fwht_params->height = 720;
-   170			p_fwht_params->flags = V4L2_FWHT_FL_PIXENC_YUV |
-   171				(2 << V4L2_FWHT_FL_COMPONENTS_NUM_OFFSET);
-   172			break;
-   173		case V4L2_CTRL_TYPE_H264_SCALING_MATRIX:
-   174			p_h264_scaling_matrix = p;
-   175			/*
-   176			 * The default (flat) H.264 scaling matrix when none are
-   177			 * specified in the bitstream, this is according to formulas
-   178			 *  (7-8) and (7-9) of the specification.
-   179			 */
-   180			memset(p_h264_scaling_matrix, 16, sizeof(*p_h264_scaling_matrix));
-   181			break;
-   182		}
-   183	}
-   184	
+   811	
+   812	static void efi_5level_switch(void)
+   813	{
+   814	#ifdef CONFIG_X86_64
+   815		static const struct desc_struct gdt[] = {
+   816			[GDT_ENTRY_KERNEL32_CS] = GDT_ENTRY_INIT(0xc09b, 0, 0xfffff),
+   817			[GDT_ENTRY_KERNEL_CS]   = GDT_ENTRY_INIT(0xa09b, 0, 0xfffff),
+   818			[GDT_ENTRY_KERNEL_DS]   = GDT_ENTRY_INIT(0xc093, 0, 0xfffff),
+   819		};
+   820	
+   821		bool want_la57 = IS_ENABLED(CONFIG_X86_5LEVEL) && !efi_no5lvl;
+   822		bool have_la57 = native_read_cr4() & X86_CR4_LA57;
+   823		bool need_toggle = want_la57 ^ have_la57;
+   824		u64 *pgt = (void *)la57_toggle + PAGE_SIZE;
+   825		u64 *cr3 = (u64 *)__native_read_cr3();
+   826		struct desc_ptr desc;
+   827		u64 *new_cr3;
+   828	
+   829		if (!la57_toggle || !need_toggle)
+   830			return;
+   831	
+   832		if (!have_la57) {
+   833			/*
+   834			 * We are going to enable 5 level paging, so we need to
+   835			 * allocate a root level page from the 32-bit addressable
+   836			 * physical region, and plug the existing hierarchy into it.
+   837			 */
+   838			new_cr3 = memset(pgt, 0, PAGE_SIZE);
+   839			new_cr3[0] = (u64)cr3 | _PAGE_TABLE_NOENC;
+   840		} else {
+   841			// take the new root table pointer from the current entry #0
+   842			new_cr3 = (u64 *)(cr3[0] & PAGE_MASK);
+   843	
+   844			// copy the new root level table if it is not 32-bit addressable
+   845			if ((u64)new_cr3 > U32_MAX)
+   846				new_cr3 = memcpy(pgt, new_cr3, PAGE_SIZE);
+   847		}
+   848	
+   849		desc.size       = sizeof(gdt) - 1;
+   850		desc.address    = (u64)gdt;
+   851	
+   852		asm("	lgdt	%[gdt]			\n\t"
+ > 853		    "	movw	%[ds], %%ds		\n\t"
+   854		    "	movw	%[ds], %%ss		\n\t"
+   855		    :
+   856		    :	[gdt]	"m"(desc),
+   857			[ds]	"r"(__KERNEL_DS));
+   858	
+   859		la57_toggle(new_cr3, want_la57);
+   860	#endif
+   861	}
+   862	
 
 -- 
 0-DAY CI Kernel Test Service
