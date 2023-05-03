@@ -1,48 +1,48 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6920321D;
-	Wed,  3 May 2023 19:06:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338F9DF67
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 May 2023 20:07:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683140792; x=1714676792;
+  t=1683144454; x=1714680454;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Wsk0nNYE5xsVVwLCvj2n++hfWyTyDUwTHowQExOFJtU=;
-  b=jikYK6JhmNC/IAyxsxTUmvfy/yC1DRl1uypO/7Y3Y1VgsNUHqB+tytN7
-   vsOaRXvZE+4APlXsl9sicq6uwFTdzNr1hHUuLR3zk4/T22xBzXGVZoY9J
-   N6heGPD8MJONTLirERiM+/zweg6o7UNiSOBSHFZL6JYVRfl4E+NzrYQ8f
-   fGAMAdXvUVJk+0Gwq6KiSRyrEowgY71JUj8qPJxIXhYvpHvisNVLsTgST
-   5q/c2TufdH4/jj1WPHs4KxSVZFAzNxUSHqjj6H2oLq7RtooIKMZbettwc
-   rxY7vI6dd4xZuOH0eB3vYc3ju08AEUlOEvHFTfVxAOPfiGqMtP0S7PHKn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="337880841"
+  bh=W2TvSu5by40ZybJina9aajhcjdtA9fS6jM2dAJRRd/o=;
+  b=e/GAnfLEV0MxWDNQKl9T4AJbxMJPnOB8sIkAw7nJT13HqqoEsvnxrb1h
+   ksZRLR9Yx04G8qlztJHJWBdAOh/oaM1bUFdOV+WXvOBt3XxC+rrPgGN7T
+   3TO+Go0eky2hR7TU7yKLHdZLAqpCtMrAmq4gw5mv62IcpuuzHbgojfw75
+   6FL5Euw5OQgyN4evHnBFCwnobFnr3hK6Rph3FDeIqmwithLWfxSFDOSz+
+   NylcnBZO6Di+lwydhvoeEoNaB3Avnqww78nwwwQLlIM6+R2fP4XGGpXt3
+   qTs3QHwNIcnHdbsrMgxeU5GJIhx3aUijoiCCfiqrlz8R2n2HqTDA8gT86
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="333116938"
 X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
-   d="scan'208";a="337880841"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 12:06:32 -0700
+   d="scan'208";a="333116938"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 13:07:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="766246117"
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="690833445"
 X-IronPort-AV: E=Sophos;i="5.99,248,1677571200"; 
-   d="scan'208";a="766246117"
+   d="scan'208";a="690833445"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 03 May 2023 12:06:29 -0700
+  by orsmga007.jf.intel.com with ESMTP; 03 May 2023 13:07:31 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puHo4-0002DG-1U;
-	Wed, 03 May 2023 19:06:28 +0000
-Date: Thu, 4 May 2023 03:06:06 +0800
+	id 1puIl8-0002FM-1E;
+	Wed, 03 May 2023 20:07:30 +0000
+Date: Thu, 4 May 2023 04:07:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jinyoung CHOI <j-young.choi@samsung.com>,
 	"axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
 	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
 	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 05/15] block: fix not to apply bip information in
- blk_rq_bio_prep()
-Message-ID: <202305040206.hTkXRgzQ-lkp@intel.com>
-References: <20230503101048epcms2p61d61df1431955d9517c9939999ee3478@epcms2p6>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 14/15] block: blk-integrity: change sg-table
+ configuration method for integrity
+Message-ID: <202305040333.EHY8r49K-lkp@intel.com>
+References: <20230503102719epcms2p457434fefd535ee43d502eff854227919@epcms2p4>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,7 +51,7 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230503101048epcms2p61d61df1431955d9517c9939999ee3478@epcms2p6>
+In-Reply-To: <20230503102719epcms2p457434fefd535ee43d502eff854227919@epcms2p4>
 
 Hi Jinyoung,
 
@@ -65,124 +65,120 @@ https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Jinyoung-CHOI/block-blk-integiry-add-helper-functions-for-bio_integrity_add_page/20230503-183015
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230503101048epcms2p61d61df1431955d9517c9939999ee3478%40epcms2p6
-patch subject: [PATCH 05/15] block: fix not to apply bip information in blk_rq_bio_prep()
-config: hexagon-randconfig-r045-20230503 (https://download.01.org/0day-ci/archive/20230504/202305040206.hTkXRgzQ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b1465cd49efcbc114a75220b153f5a055ce7911f)
+patch link:    https://lore.kernel.org/r/20230503102719epcms2p457434fefd535ee43d502eff854227919%40epcms2p4
+patch subject: [PATCH 14/15] block: blk-integrity: change sg-table configuration method for integrity
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230504/202305040333.EHY8r49K-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/584edc6ae9cb23e8a778ee73d711b9143038a047
+        # https://github.com/intel-lab-lkp/linux/commit/7e4810d74ca92ed35bbc73cb09a4baa1dacfbc96
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Jinyoung-CHOI/block-blk-integiry-add-helper-functions-for-bio_integrity_add_page/20230503-183015
-        git checkout 584edc6ae9cb23e8a778ee73d711b9143038a047
+        git checkout 7e4810d74ca92ed35bbc73cb09a4baa1dacfbc96
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/md/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305040206.hTkXRgzQ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305040333.EHY8r49K-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/md/md-bitmap.c:19:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/md/md-bitmap.c:19:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/md/md-bitmap.c:19:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   In file included from drivers/md/md-bitmap.c:31:
-   In file included from include/trace/events/block.h:8:
-   In file included from include/linux/blktrace_api.h:5:
-   include/linux/blk-mq.h:972:7: error: no member named 'nr_integrity_segments' in 'struct request'
-                   rq->nr_integrity_segments = bio_integrity(bio)->bip_vcnt;
-                   ~~  ^
-   include/linux/blk-mq.h:972:49: error: member reference base type 'void' is not a structure or union
-                   rq->nr_integrity_segments = bio_integrity(bio)->bip_vcnt;
-                                               ~~~~~~~~~~~~~~~~~~^ ~~~~~~~~
->> drivers/md/md-bitmap.c:2564:34: warning: result of comparison of constant 4294967296 with expression of type 'unsigned long' is always false [-Wtautological-constant-out-of-range-compare]
-           if (BITS_PER_LONG > 32 && csize >= (1ULL << (BITS_PER_BYTE *
-                                     ~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
-   7 warnings and 2 errors generated.
+   In file included from include/linux/blk-integrity.h:5,
+                    from block/blk-merge.c:9:
+   include/linux/blk-mq.h: In function 'blk_rq_bio_prep':
+   include/linux/blk-mq.h:972:19: error: 'struct request' has no member named 'nr_integrity_segments'
+     972 |                 rq->nr_integrity_segments = bio_integrity(bio)->bip_vcnt;
+         |                   ^~
+   include/linux/blk-mq.h:972:63: warning: dereferencing 'void *' pointer
+     972 |                 rq->nr_integrity_segments = bio_integrity(bio)->bip_vcnt;
+         |                                                               ^~
+   include/linux/blk-mq.h:972:63: error: request for member 'bip_vcnt' in something not a structure or union
+   block/blk-merge.c: At top level:
+   block/blk-merge.c:536:5: error: redefinition of 'blk_rq_map_integrity_sg'
+     536 | int blk_rq_map_integrity_sg(struct request_queue *q, struct bio *bio,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from block/blk-merge.c:9:
+   include/linux/blk-integrity.h:132:19: note: previous definition of 'blk_rq_map_integrity_sg' with type 'int(struct request_queue *, struct bio *, struct scatterlist *)'
+     132 | static inline int blk_rq_map_integrity_sg(struct request_queue *q,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+   block/blk-merge.c: In function 'blk_rq_map_integrity_sg':
+   block/blk-merge.c:546:56: error: 'struct bio' has no member named 'bi_integrity'
+     546 |                 struct bio_integrity_payload *bip = bio->bi_integrity;
+         |                                                        ^~
+   block/blk-merge.c:548:17: error: implicit declaration of function 'bip_for_each_mp_bvec'; did you mean 'for_each_mp_bvec'? [-Werror=implicit-function-declaration]
+     548 |                 bip_for_each_mp_bvec(iv, bip, iter) {
+         |                 ^~~~~~~~~~~~~~~~~~~~
+         |                 for_each_mp_bvec
+   block/blk-merge.c:548:52: error: expected ';' before '{' token
+     548 |                 bip_for_each_mp_bvec(iv, bip, iter) {
+         |                                                    ^~
+         |                                                    ;
+>> block/blk-merge.c:543:14: warning: unused variable 'new_bio' [-Wunused-variable]
+     543 |         bool new_bio = false;
+         |              ^~~~~~~
+>> block/blk-merge.c:539:28: warning: unused variable 'ivprv' [-Wunused-variable]
+     539 |         struct bio_vec iv, ivprv = { NULL };
+         |                            ^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +2564 drivers/md/md-bitmap.c
+vim +/new_bio +543 block/blk-merge.c
 
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2549  
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2550  static ssize_t
-fd01b88c75a718 drivers/md/bitmap.c    NeilBrown             2011-10-11  2551  chunksize_store(struct mddev *mddev, const char *buf, size_t len)
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2552  {
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2553  	/* Can only be changed when no bitmap is active */
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2554  	int rv;
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2555  	unsigned long csize;
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2556  	if (mddev->bitmap)
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2557  		return -EBUSY;
-b29bebd66dbd49 drivers/md/bitmap.c    Jingoo Han            2013-06-01  2558  	rv = kstrtoul(buf, 10, &csize);
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2559  	if (rv)
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2560  		return rv;
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2561  	if (csize < 512 ||
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2562  	    !is_power_of_2(csize))
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2563  		return -EINVAL;
-4555211190798b drivers/md/md-bitmap.c Florian-Ewald Mueller 2022-10-25 @2564  	if (BITS_PER_LONG > 32 && csize >= (1ULL << (BITS_PER_BYTE *
-4555211190798b drivers/md/md-bitmap.c Florian-Ewald Mueller 2022-10-25  2565  		sizeof(((bitmap_super_t *)0)->chunksize))))
-4555211190798b drivers/md/md-bitmap.c Florian-Ewald Mueller 2022-10-25  2566  		return -EOVERFLOW;
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2567  	mddev->bitmap_info.chunksize = csize;
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2568  	return len;
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2569  }
-43a705076e51c5 drivers/md/bitmap.c    NeilBrown             2009-12-14  2570  
+   526	
+   527	/**
+   528	 * blk_rq_map_integrity_sg - Map integrity metadata into a scatterlist
+   529	 * @q:		request queue
+   530	 * @bio:	bio with integrity metadata attached
+   531	 * @sglist:	target scatterlist
+   532	 *
+   533	 * Description: Map the integrity vectors in request into a scatterlist.
+   534	 * The scatterlist must be big enough to hold all elements.
+   535	 */
+   536	int blk_rq_map_integrity_sg(struct request_queue *q, struct bio *bio,
+   537				    struct scatterlist *sglist)
+   538	{
+ > 539		struct bio_vec iv, ivprv = { NULL };
+   540		struct scatterlist *sg = NULL;
+   541		unsigned int nsegs = 0;
+   542		struct bvec_iter iter;
+ > 543		bool new_bio = false;
+   544	
+   545		for_each_bio(bio) {
+   546			struct bio_integrity_payload *bip = bio->bi_integrity;
+   547	
+   548			bip_for_each_mp_bvec(iv, bip, iter) {
+   549				/*
+   550				 * Only try to merge bvecs from two bios given we
+   551				 * have done bio internal merge when adding pages
+   552				 * to bio
+   553				 */
+   554				if (new_bio &&
+   555				    __blk_segment_map_sg_merge(q, &iv, &ivprv, &sg))
+   556					goto next_iv;
+   557	
+   558				if (iv.bv_offset + iv.bv_len <= PAGE_SIZE)
+   559					nsegs += __blk_bvec_map_sg(iv, sglist, &sg);
+   560				else
+   561					nsegs += blk_bvec_map_sg(q, &iv, sglist, &sg);
+   562	 next_iv:
+   563				new_bio = false;
+   564			}
+   565	
+   566			if (likely(bip->bip_iter.bi_size)) {
+   567				ivprv = iv;
+   568				new_bio = true;
+   569			}
+   570		}
+   571	
+   572		if (sg)
+   573			sg_mark_end(sg);
+   574	
+   575		return nsegs;
+   576	}
+   577	EXPORT_SYMBOL(blk_rq_map_integrity_sg);
+   578	
 
 -- 
 0-DAY CI Kernel Test Service
