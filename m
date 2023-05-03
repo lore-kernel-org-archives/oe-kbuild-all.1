@@ -1,43 +1,47 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2609A4A11;
-	Wed,  3 May 2023 15:00:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516AED2F7
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 May 2023 15:41:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683126028; x=1714662028;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tyiQTnIxa8bdwBCJ+TBh6oqAz+SAyj2893SjETgWMwU=;
-  b=joMnRxO6Sj8Oq8GBeL1J1OAy0xUlo0mqEVXIt+Z5qY/b7WjPs2XQ6oWj
-   uELG1tPMaR9uapD+msdnU154ZMMkvJKxQTlwc4uC4xqLdZKT4JF2tpuUi
-   0hkt79qHndgb6UHADzB2ID2bPpJa3qg062JynnewV0pASmfaickFQHNS6
-   HuO1FsMTK8tN88C8YlCBrNBdVnr65+NDjCdDMKhsYlw10OSsYbEhCP+7h
-   miUTMFNCJaxSlr6D+WpP6F7rJBGtA62hIAx+yicnyTZ/bcvWYT0P5gHMy
-   /mJj3xtq8pkc8xx2ACv/5AJ9bfvz4Cm1lDdT5bItV0WfyIUzaVSexokgF
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="328301351"
+  t=1683128484; x=1714664484;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9HA1S84wZNk6GkRlQO3x/m2Oi6FiXO4dgjR6rmy9XR4=;
+  b=YtHDamwFZ083Jl14mUBIrEkX6P7RtaUtrdhPR0jY3EZKeJ3rZzK29mzF
+   RTP7wulAjmcTjJeK/39wwv5Kh8pATxiqO9shc8viRUaCrP/a6FY26P2M3
+   0C/ap0TBNpXAd5BcV2TF1z0yAsMjmFdXZDtCCCGyaoPSgoFP4s1ZCZGIG
+   2wLPRFASrikS/Lj6F6IrNZampIIoweUCTchdde/yU/jrC5EZvQOs0BO4V
+   kYcOJYNG0LQPQKYHCDZqfbpGvC+AEAnK/g3cmhqKkU5735DRX/04vB1uU
+   16cjfhZ/4a4pQrfnNfc0sL+sZ9qDp6mgd2S1zWWrp60nR4Zq1kBFae9lg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="337821053"
 X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; 
-   d="scan'208";a="328301351"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 08:00:26 -0700
+   d="scan'208";a="337821053"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 08:41:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="729366193"
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="840721880"
 X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; 
-   d="scan'208";a="729366193"
+   d="scan'208";a="840721880"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 03 May 2023 08:00:25 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 03 May 2023 08:41:22 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puDxr-00024Q-1w;
-	Wed, 03 May 2023 15:00:19 +0000
-Date: Wed, 3 May 2023 22:59:50 +0800
+	id 1puEbZ-00026q-1R;
+	Wed, 03 May 2023 15:41:21 +0000
+Date: Wed, 3 May 2023 23:41:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [robh:dt/header-cleanups 57/59]
- drivers/remoteproc/qcom_wcnss_iris.c:96:34: warning: unused variable
- 'iris_of_match'
-Message-ID: <202305032255.VxPBajjZ-lkp@intel.com>
+To: Boris Sukholitko <boris.sukholitko@broadcom.com>,
+	netfilter-devel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Ilya Lifshits <ilya.lifshits@broadcom.com>,
+	Boris Sukholitko <boris.sukholitko@broadcom.com>
+Subject: Re: [PATCH nf-next 16/19] netfilter: nftables: fast path payload
+ mangle
+Message-ID: <202305032310.WgPNAhx8-lkp@intel.com>
+References: <20230503125552.41113-17-boris.sukholitko@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,55 +50,149 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230503125552.41113-17-boris.sukholitko@broadcom.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
-head:   8ef08ce8c4d8d4899b12a53891d5a5fa97d15f71
-commit: e83eea32c6f9da3743beeb240da6fb3c75ee65f2 [57/59] Use of_device_get_match_data
-config: arm64-randconfig-r011-20230501 (https://download.01.org/0day-ci/archive/20230503/202305032255.VxPBajjZ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b1465cd49efcbc114a75220b153f5a055ce7911f)
+Hi Boris,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on shuah-kselftest/next]
+[also build test WARNING on shuah-kselftest/fixes linus/master v6.3 next-20230428]
+[cannot apply to nf-next/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Boris-Sukholitko/selftest-netfilter-use-proc-for-pid-checking/20230503-205838
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git next
+patch link:    https://lore.kernel.org/r/20230503125552.41113-17-boris.sukholitko%40broadcom.com
+patch subject: [PATCH nf-next 16/19] netfilter: nftables: fast path payload mangle
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230503/202305032310.WgPNAhx8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=e83eea32c6f9da3743beeb240da6fb3c75ee65f2
-        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-        git fetch --no-tags robh dt/header-cleanups
-        git checkout e83eea32c6f9da3743beeb240da6fb3c75ee65f2
+        # https://github.com/intel-lab-lkp/linux/commit/35886376721f375b56fd9b99c079298c8e027a26
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Boris-Sukholitko/selftest-netfilter-use-proc-for-pid-checking/20230503-205838
+        git checkout 35886376721f375b56fd9b99c079298c8e027a26
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/remoteproc/ lib/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash net/netfilter/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305032255.VxPBajjZ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305032310.WgPNAhx8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/remoteproc/qcom_wcnss_iris.c:96:34: warning: unused variable 'iris_of_match' [-Wunused-const-variable]
-   static const struct of_device_id iris_of_match[] = {
-                                    ^
-   1 warning generated.
+   net/netfilter/nf_flow_table_ip.c: In function 'nf_flow_offload_ip_hook':
+>> net/netfilter/nf_flow_table_ip.c:395:58: warning: implicit conversion from 'enum flow_offload_tuple_dir' to 'enum ip_conntrack_dir' [-Wenum-conversion]
+     395 |         if (nf_flow_offload_apply_payload(skb, flow->ct, dir, thoff))
+         |                                                          ^~~
 
 
-vim +/iris_of_match +96 drivers/remoteproc/qcom_wcnss_iris.c
+vim +395 net/netfilter/nf_flow_table_ip.c
 
-aed361adca9ff1 Bjorn Andersson 2016-08-12   95  
-1fcef985c8bdd5 Bjorn Andersson 2021-03-11  @96  static const struct of_device_id iris_of_match[] = {
-1fcef985c8bdd5 Bjorn Andersson 2021-03-11   97  	{ .compatible = "qcom,wcn3620", .data = &wcn3620_data },
-1fcef985c8bdd5 Bjorn Andersson 2021-03-11   98  	{ .compatible = "qcom,wcn3660", .data = &wcn3660_data },
-1fcef985c8bdd5 Bjorn Andersson 2021-03-11   99  	{ .compatible = "qcom,wcn3660b", .data = &wcn3680_data },
-1fcef985c8bdd5 Bjorn Andersson 2021-03-11  100  	{ .compatible = "qcom,wcn3680", .data = &wcn3680_data },
-1fcef985c8bdd5 Bjorn Andersson 2021-03-11  101  	{}
-1fcef985c8bdd5 Bjorn Andersson 2021-03-11  102  };
-1fcef985c8bdd5 Bjorn Andersson 2021-03-11  103  
-
-:::::: The code at line 96 was first introduced by commit
-:::::: 1fcef985c8bdd542c43da0d87bd9d51980c3859b remoteproc: qcom: wcnss: Fix race with iris probe
-
-:::::: TO: Bjorn Andersson <bjorn.andersson@linaro.org>
-:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+   339	
+   340	unsigned int
+   341	nf_flow_offload_ip_hook(void *priv, struct sk_buff *skb,
+   342				const struct nf_hook_state *state)
+   343	{
+   344		struct flow_offload_tuple_rhash *tuplehash;
+   345		struct nf_flowtable *flow_table = priv;
+   346		struct flow_offload_tuple tuple = {};
+   347		enum flow_offload_tuple_dir dir;
+   348		struct flow_offload *flow;
+   349		struct net_device *outdev;
+   350		u32 hdrsize, offset = 0;
+   351		unsigned int thoff, mtu;
+   352		struct rtable *rt;
+   353		struct iphdr *iph;
+   354		__be32 nexthop;
+   355		int ret;
+   356	
+   357		if (skb->protocol != htons(ETH_P_IP) &&
+   358		    !nf_flow_skb_encap_protocol(skb, htons(ETH_P_IP), &offset))
+   359			return NF_ACCEPT;
+   360	
+   361		if (nf_flow_tuple_ip(skb, state->in, &tuple, &hdrsize, offset) < 0)
+   362			return NF_ACCEPT;
+   363	
+   364		tuplehash = flow_offload_lookup(flow_table, &tuple);
+   365		if (tuplehash == NULL)
+   366			return NF_ACCEPT;
+   367	
+   368		dir = tuplehash->tuple.dir;
+   369		flow = container_of(tuplehash, struct flow_offload, tuplehash[dir]);
+   370	
+   371		mtu = flow->tuplehash[dir].tuple.mtu + offset;
+   372		if (unlikely(nf_flow_exceeds_mtu(skb, mtu)))
+   373			return NF_ACCEPT;
+   374	
+   375		iph = (struct iphdr *)(skb_network_header(skb) + offset);
+   376		thoff = (iph->ihl * 4) + offset;
+   377		if (nf_flow_state_check(flow, iph->protocol, skb, thoff))
+   378			return NF_ACCEPT;
+   379	
+   380		if (!nf_flow_dst_check(&tuplehash->tuple)) {
+   381			flow_offload_teardown(flow);
+   382			return NF_ACCEPT;
+   383		}
+   384	
+   385		if (skb_try_make_writable(skb, thoff + hdrsize))
+   386			return NF_DROP;
+   387	
+   388		flow_offload_refresh(flow_table, flow);
+   389	
+   390		nf_flow_encap_pop(skb, tuplehash);
+   391		thoff -= offset;
+   392	
+   393		iph = ip_hdr(skb);
+   394		nf_flow_nat_ip(flow, skb, thoff, dir, iph);
+ > 395		if (nf_flow_offload_apply_payload(skb, flow->ct, dir, thoff))
+   396			return NF_DROP;
+   397	
+   398		ip_decrease_ttl(iph);
+   399		skb_clear_tstamp(skb);
+   400	
+   401		if (flow_table->flags & NF_FLOWTABLE_COUNTER)
+   402			nf_ct_acct_update(flow->ct, tuplehash->tuple.dir, skb->len);
+   403	
+   404		if (unlikely(tuplehash->tuple.xmit_type == FLOW_OFFLOAD_XMIT_XFRM)) {
+   405			rt = (struct rtable *)tuplehash->tuple.dst_cache;
+   406			memset(skb->cb, 0, sizeof(struct inet_skb_parm));
+   407			IPCB(skb)->iif = skb->dev->ifindex;
+   408			IPCB(skb)->flags = IPSKB_FORWARDED;
+   409			return nf_flow_xmit_xfrm(skb, state, &rt->dst);
+   410		}
+   411	
+   412		switch (tuplehash->tuple.xmit_type) {
+   413		case FLOW_OFFLOAD_XMIT_NEIGH:
+   414			rt = (struct rtable *)tuplehash->tuple.dst_cache;
+   415			outdev = rt->dst.dev;
+   416			skb->dev = outdev;
+   417			nexthop = rt_nexthop(rt, flow->tuplehash[!dir].tuple.src_v4.s_addr);
+   418			skb_dst_set_noref(skb, &rt->dst);
+   419			neigh_xmit(NEIGH_ARP_TABLE, outdev, &nexthop, skb);
+   420			ret = NF_STOLEN;
+   421			break;
+   422		case FLOW_OFFLOAD_XMIT_DIRECT:
+   423			ret = nf_flow_queue_xmit(state->net, skb, tuplehash, ETH_P_IP);
+   424			if (ret == NF_DROP)
+   425				flow_offload_teardown(flow);
+   426			break;
+   427		default:
+   428			WARN_ON_ONCE(1);
+   429			ret = NF_DROP;
+   430			break;
+   431		}
+   432	
+   433		return ret;
+   434	}
+   435	EXPORT_SYMBOL_GPL(nf_flow_offload_ip_hook);
+   436	
 
 -- 
 0-DAY CI Kernel Test Service
