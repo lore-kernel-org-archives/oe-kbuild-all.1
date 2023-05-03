@@ -1,48 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADC99479
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  3 May 2023 14:29:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2609A4A11;
+	Wed,  3 May 2023 15:00:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683124162; x=1714660162;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ik8tzDXZ50F3h07IT+orfz5geP/IY8FgDN2FLhPf/a4=;
-  b=L8mbajJ++xh1QsXcJ1aEb+qnDSVNrgwrm/kwTC6ZwLZheJhBQMFcyKVt
-   GsBe1uoVZ7g0ivVrXy1oQM4OwnVi8Q8wJba7nWhDZWxuvkgJlro3EYq2I
-   M0PGV/hxExcuWZLGAvzd+rRdYQeuiHhhyt2+xYgU7mpJ+tDkziMhGrjrU
-   bKUKoUN0AASdBd4+hT0RZ09wSJeQmVvMs//RG1v1WAH2cJELNFsh2JbUY
-   5cFZ4d8eFsm6G2uyWJ1bH8yJu1/vYVLVPxXV70LXKRCND06AhbMnrfmwK
-   WBp/Jn2jMtxLB2rovx7E7XiNW+NJGpGBJOhHAnEaC9whQWvLpZ0K1L7iL
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="411824092"
+  t=1683126028; x=1714662028;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tyiQTnIxa8bdwBCJ+TBh6oqAz+SAyj2893SjETgWMwU=;
+  b=joMnRxO6Sj8Oq8GBeL1J1OAy0xUlo0mqEVXIt+Z5qY/b7WjPs2XQ6oWj
+   uELG1tPMaR9uapD+msdnU154ZMMkvJKxQTlwc4uC4xqLdZKT4JF2tpuUi
+   0hkt79qHndgb6UHADzB2ID2bPpJa3qg062JynnewV0pASmfaickFQHNS6
+   HuO1FsMTK8tN88C8YlCBrNBdVnr65+NDjCdDMKhsYlw10OSsYbEhCP+7h
+   miUTMFNCJaxSlr6D+WpP6F7rJBGtA62hIAx+yicnyTZ/bcvWYT0P5gHMy
+   /mJj3xtq8pkc8xx2ACv/5AJ9bfvz4Cm1lDdT5bItV0WfyIUzaVSexokgF
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="328301351"
 X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; 
-   d="scan'208";a="411824092"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 07:29:21 -0700
+   d="scan'208";a="328301351"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 08:00:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="840704655"
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="729366193"
 X-IronPort-AV: E=Sophos;i="5.99,247,1677571200"; 
-   d="scan'208";a="840704655"
+   d="scan'208";a="729366193"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 03 May 2023 07:29:19 -0700
+  by orsmga001.jf.intel.com with ESMTP; 03 May 2023 08:00:25 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puDTq-00023E-2j;
-	Wed, 03 May 2023 14:29:18 +0000
-Date: Wed, 3 May 2023 22:29:12 +0800
+	id 1puDxr-00024Q-1w;
+	Wed, 03 May 2023 15:00:19 +0000
+Date: Wed, 3 May 2023 22:59:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jinyoung CHOI <j-young.choi@samsung.com>,
-	"axboe@kernel.dk" <axboe@kernel.dk>, "hch@lst.de" <hch@lst.de>,
-	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
-	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 14/15] block: blk-integrity: change sg-table
- configuration method for integrity
-Message-ID: <202305032213.JHLycY4F-lkp@intel.com>
-References: <20230503102719epcms2p457434fefd535ee43d502eff854227919@epcms2p4>
+To: Rob Herring <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [robh:dt/header-cleanups 57/59]
+ drivers/remoteproc/qcom_wcnss_iris.c:96:34: warning: unused variable
+ 'iris_of_match'
+Message-ID: <202305032255.VxPBajjZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,134 +46,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230503102719epcms2p457434fefd535ee43d502eff854227919@epcms2p4>
 
-Hi Jinyoung,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on axboe-block/for-next]
-[also build test ERROR on mkp-scsi/for-next jejb-scsi/for-next linus/master v6.3 next-20230428]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jinyoung-CHOI/block-blk-integiry-add-helper-functions-for-bio_integrity_add_page/20230503-183015
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20230503102719epcms2p457434fefd535ee43d502eff854227919%40epcms2p4
-patch subject: [PATCH 14/15] block: blk-integrity: change sg-table configuration method for integrity
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230503/202305032213.JHLycY4F-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
+head:   8ef08ce8c4d8d4899b12a53891d5a5fa97d15f71
+commit: e83eea32c6f9da3743beeb240da6fb3c75ee65f2 [57/59] Use of_device_get_match_data
+config: arm64-randconfig-r011-20230501 (https://download.01.org/0day-ci/archive/20230503/202305032255.VxPBajjZ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b1465cd49efcbc114a75220b153f5a055ce7911f)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/7e4810d74ca92ed35bbc73cb09a4baa1dacfbc96
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jinyoung-CHOI/block-blk-integiry-add-helper-functions-for-bio_integrity_add_page/20230503-183015
-        git checkout 7e4810d74ca92ed35bbc73cb09a4baa1dacfbc96
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=e83eea32c6f9da3743beeb240da6fb3c75ee65f2
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch --no-tags robh dt/header-cleanups
+        git checkout e83eea32c6f9da3743beeb240da6fb3c75ee65f2
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/remoteproc/ lib/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305032213.JHLycY4F-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305032255.VxPBajjZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/blk-integrity.h:5,
-                    from block/blk-merge.c:9:
-   include/linux/blk-mq.h: In function 'blk_rq_bio_prep':
-   include/linux/blk-mq.h:972:19: error: 'struct request' has no member named 'nr_integrity_segments'
-     972 |                 rq->nr_integrity_segments = bio_integrity(bio)->bip_vcnt;
-         |                   ^~
-   include/linux/blk-mq.h:972:63: warning: dereferencing 'void *' pointer
-     972 |                 rq->nr_integrity_segments = bio_integrity(bio)->bip_vcnt;
-         |                                                               ^~
-   include/linux/blk-mq.h:972:63: error: request for member 'bip_vcnt' in something not a structure or union
-   block/blk-merge.c: At top level:
->> block/blk-merge.c:536:5: error: redefinition of 'blk_rq_map_integrity_sg'
-     536 | int blk_rq_map_integrity_sg(struct request_queue *q, struct bio *bio,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   In file included from block/blk-merge.c:9:
-   include/linux/blk-integrity.h:132:19: note: previous definition of 'blk_rq_map_integrity_sg' with type 'int(struct request_queue *, struct bio *, struct scatterlist *)'
-     132 | static inline int blk_rq_map_integrity_sg(struct request_queue *q,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
-   block/blk-merge.c: In function 'blk_rq_map_integrity_sg':
->> block/blk-merge.c:546:56: error: 'struct bio' has no member named 'bi_integrity'
-     546 |                 struct bio_integrity_payload *bip = bio->bi_integrity;
-         |                                                        ^~
->> block/blk-merge.c:548:17: error: implicit declaration of function 'bip_for_each_mp_bvec'; did you mean 'for_each_mp_bvec'? [-Werror=implicit-function-declaration]
-     548 |                 bip_for_each_mp_bvec(iv, bip, iter) {
-         |                 ^~~~~~~~~~~~~~~~~~~~
-         |                 for_each_mp_bvec
->> block/blk-merge.c:548:52: error: expected ';' before '{' token
-     548 |                 bip_for_each_mp_bvec(iv, bip, iter) {
-         |                                                    ^~
-         |                                                    ;
-   block/blk-merge.c:543:14: warning: unused variable 'new_bio' [-Wunused-variable]
-     543 |         bool new_bio = false;
-         |              ^~~~~~~
-   block/blk-merge.c:539:28: warning: unused variable 'ivprv' [-Wunused-variable]
-     539 |         struct bio_vec iv, ivprv = { NULL };
-         |                            ^~~~~
-   cc1: some warnings being treated as errors
+>> drivers/remoteproc/qcom_wcnss_iris.c:96:34: warning: unused variable 'iris_of_match' [-Wunused-const-variable]
+   static const struct of_device_id iris_of_match[] = {
+                                    ^
+   1 warning generated.
 
 
-vim +/blk_rq_map_integrity_sg +536 block/blk-merge.c
+vim +/iris_of_match +96 drivers/remoteproc/qcom_wcnss_iris.c
 
-   526	
-   527	/**
-   528	 * blk_rq_map_integrity_sg - Map integrity metadata into a scatterlist
-   529	 * @q:		request queue
-   530	 * @bio:	bio with integrity metadata attached
-   531	 * @sglist:	target scatterlist
-   532	 *
-   533	 * Description: Map the integrity vectors in request into a scatterlist.
-   534	 * The scatterlist must be big enough to hold all elements.
-   535	 */
- > 536	int blk_rq_map_integrity_sg(struct request_queue *q, struct bio *bio,
-   537				    struct scatterlist *sglist)
-   538	{
-   539		struct bio_vec iv, ivprv = { NULL };
-   540		struct scatterlist *sg = NULL;
-   541		unsigned int nsegs = 0;
-   542		struct bvec_iter iter;
-   543		bool new_bio = false;
-   544	
-   545		for_each_bio(bio) {
- > 546			struct bio_integrity_payload *bip = bio->bi_integrity;
-   547	
- > 548			bip_for_each_mp_bvec(iv, bip, iter) {
-   549				/*
-   550				 * Only try to merge bvecs from two bios given we
-   551				 * have done bio internal merge when adding pages
-   552				 * to bio
-   553				 */
-   554				if (new_bio &&
-   555				    __blk_segment_map_sg_merge(q, &iv, &ivprv, &sg))
-   556					goto next_iv;
-   557	
-   558				if (iv.bv_offset + iv.bv_len <= PAGE_SIZE)
-   559					nsegs += __blk_bvec_map_sg(iv, sglist, &sg);
-   560				else
-   561					nsegs += blk_bvec_map_sg(q, &iv, sglist, &sg);
-   562	 next_iv:
-   563				new_bio = false;
-   564			}
-   565	
-   566			if (likely(bip->bip_iter.bi_size)) {
-   567				ivprv = iv;
-   568				new_bio = true;
-   569			}
-   570		}
-   571	
-   572		if (sg)
-   573			sg_mark_end(sg);
-   574	
-   575		return nsegs;
-   576	}
-   577	EXPORT_SYMBOL(blk_rq_map_integrity_sg);
-   578	
+aed361adca9ff1 Bjorn Andersson 2016-08-12   95  
+1fcef985c8bdd5 Bjorn Andersson 2021-03-11  @96  static const struct of_device_id iris_of_match[] = {
+1fcef985c8bdd5 Bjorn Andersson 2021-03-11   97  	{ .compatible = "qcom,wcn3620", .data = &wcn3620_data },
+1fcef985c8bdd5 Bjorn Andersson 2021-03-11   98  	{ .compatible = "qcom,wcn3660", .data = &wcn3660_data },
+1fcef985c8bdd5 Bjorn Andersson 2021-03-11   99  	{ .compatible = "qcom,wcn3660b", .data = &wcn3680_data },
+1fcef985c8bdd5 Bjorn Andersson 2021-03-11  100  	{ .compatible = "qcom,wcn3680", .data = &wcn3680_data },
+1fcef985c8bdd5 Bjorn Andersson 2021-03-11  101  	{}
+1fcef985c8bdd5 Bjorn Andersson 2021-03-11  102  };
+1fcef985c8bdd5 Bjorn Andersson 2021-03-11  103  
+
+:::::: The code at line 96 was first introduced by commit
+:::::: 1fcef985c8bdd542c43da0d87bd9d51980c3859b remoteproc: qcom: wcnss: Fix race with iris probe
+
+:::::: TO: Bjorn Andersson <bjorn.andersson@linaro.org>
+:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
