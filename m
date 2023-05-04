@@ -1,45 +1,45 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D6479E1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 15:09:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBFF79E1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 15:17:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683212954; x=1714748954;
+  t=1683213474; x=1714749474;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XXHDjKpWr03lRePpokMj5e9ZqpE3U/YNEjShUjSHH1o=;
-  b=QFv1Dk2CNVgXVvQRE8rQiY//GVkiVls/fOT4s1LbCCEw33LrKW7fQcuH
-   63iLXhu67HwDK6Jw6LKOgUMgeg3a9uDmgfabfVDuibVNOJb5ifQiIPnAg
-   64EffLnB6x7cMheI5Moi8SY9XGeWR33RFKeTlyxr7TF1ErepAPKTiwUie
-   DL2p2xCrFZowsKq9KztFNOwVR/aUDpMheKTMfJTwI0OskmaKi0UdCUQFw
-   NyNW235CaQWjwcT9osfklTImQUTi1lPJnFf6WOD8ooW17HMZGS6+vAFbu
-   rhto2a1HnU0J9CG7oqLvViOAqdU0whg7dwUmbwH34EfY2QweRyF6F8cRF
+  bh=hd5K+aul1oh3E4gE+nggWyzUdVKTQlYIqGOfccIHdtc=;
+  b=H0kprD/5E0R5lI1RhH+WJFhbCJvFfYfqStxmBARPkNSOnyJsYYTUvuB+
+   iKlVuJEVObTcJD8JZHQTWWgRLqR8vu9SYK4dA9GqYCtGLWo9h7onvm1xL
+   o/cUD2UP5kBBbyLPO/Mlp9XX64Sd9IXSeKa+UJcoOqOWcblbFm4YLPXw3
+   AsdG9vPc9cC5xUGpTJtw0/AbwoDcolPsZiDDYgcH4mKxaPA4gnKqVaITm
+   tN/pN84CsdYj4UvHX/GbV/OBmZsYwA17EYzpt5Opz0En8r8QE+jWDUxRY
+   is9+poWs0JBaSDJSP1iez6AK63yoy3frtI4KUOEW52nMN8HO+0VEJueZ3
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="346431830"
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="329321873"
 X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="346431830"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 08:06:49 -0700
+   d="scan'208";a="329321873"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 08:16:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="674581761"
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="727625533"
 X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="674581761"
-Received: from lkp-server01.sh.intel.com (HELO 8e69875ad5b6) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 04 May 2023 08:06:47 -0700
-Received: from kbuild by 8e69875ad5b6 with local (Exim 4.96)
+   d="scan'208";a="727625533"
+Received: from lkp-server01.sh.intel.com (HELO 64cf2984a3fe) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 04 May 2023 08:16:45 -0700
+Received: from kbuild by 64cf2984a3fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puaXe-00001H-0j;
-	Thu, 04 May 2023 15:06:46 +0000
-Date: Thu, 4 May 2023 23:05:49 +0800
+	id 1puahI-000012-0C;
+	Thu, 04 May 2023 15:16:44 +0000
+Date: Thu, 4 May 2023 23:16:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ingo Molnar <mingo@kernel.org>,
-	"Srivatsa S. Bhat (VMware)" <srivatsa@csail.mit.edu>,
-	Juergen Gross <jgross@suse.com>
-Subject: vmlinux.o: warning: objtool: default_idle+0x24: call to
- ftrace_likely_update() leaves .noinstr.text section
-Message-ID: <202305042204.HYTVHf2k-lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Lorenzo Stoakes <lstoakes@gmail.com>
+Subject: [linux-next:master 14552/14714] mm/gup.c:2813:14: error: implicit
+ declaration of function 'folio_fast_pin_allowed'; did you mean
+ 'folio_test_pinned'?
+Message-ID: <202305042329.Gyk53keD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,103 +49,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Peter,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1a5304fecee523060f26e2778d9d8e33c0562df3
-commit: 10a099405fdf96c3205ae775abf19fcd301b31b4 cpuidle, xenpv: Make more PARAVIRT_XXL noinstr clean
-date:   4 months ago
-config: x86_64-randconfig-a011-20220124 (https://download.01.org/0day-ci/archive/20230504/202305042204.HYTVHf2k-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   145e5cddfe8b4bf607510b2dcf630d95f4db420f
+commit: 848839c209785a44524fdafa04b0464cd453da1f [14552/14714] mm-gup-disallow-foll_longterm-gup-fast-writing-to-file-backed-mappings-fix
+config: mips-maltaup_xpa_defconfig (https://download.01.org/0day-ci/archive/20230504/202305042329.Gyk53keD-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=10a099405fdf96c3205ae775abf19fcd301b31b4
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 10a099405fdf96c3205ae775abf19fcd301b31b4
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=848839c209785a44524fdafa04b0464cd453da1f
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 848839c209785a44524fdafa04b0464cd453da1f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305042204.HYTVHf2k-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305042329.Gyk53keD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x25: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x2a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_double_fault+0x3c: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret+0x7e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_debug+0x33: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: noist_exc_debug+0x31: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_nmi+0x4c: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poke_int3_handler+0x36: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mce_check_crashing_cpu+0x11: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: do_machine_check+0x57: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_machine_check+0x43: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: noist_exc_machine_check+0x41: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_page_fault+0x32: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x50: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x44: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: enter_from_user_mode+0x38: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x38: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x38: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_exit+0x31: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: context_tracking_recursion_enter+0x30: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __ct_user_exit+0x47: call to __kasan_check_write() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __ct_user_enter+0x34: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: tdx_safe_halt+0x2d: call to ftrace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: default_idle+0x24: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mwait_idle+0x31: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0xbe: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: cpu_idle_poll.isra.0+0x7d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle+0xd0: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_irq+0x2e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_s2idle+0xe0: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_xstate+0xd5: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_ibrs+0x17: call to sched_smt_active() leaves .noinstr.text section
+   mm/gup.c: In function 'gup_huge_pmd':
+>> mm/gup.c:2813:14: error: implicit declaration of function 'folio_fast_pin_allowed'; did you mean 'folio_test_pinned'? [-Werror=implicit-function-declaration]
+    2813 |         if (!folio_fast_pin_allowed(folio, flags)) {
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+         |              folio_test_pinned
+   cc1: some warnings being treated as errors
 
 
-objdump-func vmlinux.o default_idle:
-0000 0000000000000110 <default_idle>:
-0000  110:	f3 0f 1e fa          	endbr64
-0004  114:	55                   	push   %rbp
-0005  115:	31 f6                	xor    %esi,%esi
-0007  117:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	11a: R_X86_64_32S	_ftrace_annotated_branch+0x13fe0
-000e  11e:	48 89 e5             	mov    %rsp,%rbp
-0011  121:	53                   	push   %rbx
-0012  122:	48 8b 1d 00 00 00 00 	mov    0x0(%rip),%rbx        # 129 <default_idle+0x19>	125: R_X86_64_PC32	pv_ops+0x104
-0019  129:	48 85 db             	test   %rbx,%rbx
-001c  12c:	40 0f 94 c6          	sete   %sil
-0020  130:	31 c9                	xor    %ecx,%ecx
-0022  132:	31 d2                	xor    %edx,%edx
-0024  134:	e8 00 00 00 00       	call   139 <default_idle+0x29>	135: R_X86_64_PLT32	ftrace_likely_update-0x4
-0029  139:	48 85 db             	test   %rbx,%rbx
-002c  13c:	74 37                	je     175 <default_idle+0x65>
-002e  13e:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 144 <default_idle+0x34>	140: R_X86_64_PC32	pv_ops+0x104
-0034  144:	48 8b 1d 00 00 00 00 	mov    0x0(%rip),%rbx        # 14b <default_idle+0x3b>	147: R_X86_64_PC32	pv_ops+0xf4
-003b  14b:	31 f6                	xor    %esi,%esi
-003d  14d:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	150: R_X86_64_32S	_ftrace_annotated_branch+0x13e90
-0044  154:	48 85 db             	test   %rbx,%rbx
-0047  157:	40 0f 94 c6          	sete   %sil
-004b  15b:	31 c9                	xor    %ecx,%ecx
-004d  15d:	31 d2                	xor    %edx,%edx
-004f  15f:	e8 00 00 00 00       	call   164 <default_idle+0x54>	160: R_X86_64_PLT32	ftrace_likely_update-0x4
-0054  164:	48 85 db             	test   %rbx,%rbx
-0057  167:	74 0f                	je     178 <default_idle+0x68>
-0059  169:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 16f <default_idle+0x5f>	16b: R_X86_64_PC32	pv_ops+0xf4
-005f  16f:	48 8b 5d f8          	mov    -0x8(%rbp),%rbx
-0063  173:	c9                   	leave
-0064  174:	c3                   	ret
-0065  175:	90                   	nop
-0066  176:	0f 0b                	ud2
-0068  178:	90                   	nop
-0069  179:	0f 0b                	ud2
-006b  17b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+vim +2813 mm/gup.c
+
+cbd34da7dc9afd Christoph Hellwig       2019-07-11  2782  
+2667f50e8b8145 Steve Capper            2014-10-09  2783  static int gup_huge_pmd(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+0cd22afdcea21f John Hubbard            2019-10-18  2784  			unsigned long end, unsigned int flags,
+0cd22afdcea21f John Hubbard            2019-10-18  2785  			struct page **pages, int *nr)
+2667f50e8b8145 Steve Capper            2014-10-09  2786  {
+667ed1f7bb3b1c Matthew Wilcox (Oracle  2021-12-22  2787) 	struct page *page;
+667ed1f7bb3b1c Matthew Wilcox (Oracle  2021-12-22  2788) 	struct folio *folio;
+2667f50e8b8145 Steve Capper            2014-10-09  2789  	int refs;
+2667f50e8b8145 Steve Capper            2014-10-09  2790  
+b798bec4741bdd Ira Weiny               2019-05-13  2791  	if (!pmd_access_permitted(orig, flags & FOLL_WRITE))
+2667f50e8b8145 Steve Capper            2014-10-09  2792  		return 0;
+2667f50e8b8145 Steve Capper            2014-10-09  2793  
+7af75561e17132 Ira Weiny               2019-05-13  2794  	if (pmd_devmap(orig)) {
+7af75561e17132 Ira Weiny               2019-05-13  2795  		if (unlikely(flags & FOLL_LONGTERM))
+7af75561e17132 Ira Weiny               2019-05-13  2796  			return 0;
+86dfbed49f88fd John Hubbard            2020-04-01  2797  		return __gup_device_huge_pmd(orig, pmdp, addr, end, flags,
+86dfbed49f88fd John Hubbard            2020-04-01  2798  					     pages, nr);
+7af75561e17132 Ira Weiny               2019-05-13  2799  	}
+b59f65fa076a8e Kirill A. Shutemov      2017-03-16  2800  
+c228afb11ac693 Matthew Wilcox (Oracle  2022-01-07  2801) 	page = nth_page(pmd_page(orig), (addr & ~PMD_MASK) >> PAGE_SHIFT);
+a43e982082c24c John Hubbard            2020-01-30  2802  	refs = record_subpages(page, addr, end, pages + *nr);
+2667f50e8b8145 Steve Capper            2014-10-09  2803  
+667ed1f7bb3b1c Matthew Wilcox (Oracle  2021-12-22  2804) 	folio = try_grab_folio(page, refs, flags);
+667ed1f7bb3b1c Matthew Wilcox (Oracle  2021-12-22  2805) 	if (!folio)
+2667f50e8b8145 Steve Capper            2014-10-09  2806  		return 0;
+2667f50e8b8145 Steve Capper            2014-10-09  2807  
+2667f50e8b8145 Steve Capper            2014-10-09  2808  	if (unlikely(pmd_val(orig) != pmd_val(*pmdp))) {
+667ed1f7bb3b1c Matthew Wilcox (Oracle  2021-12-22  2809) 		gup_put_folio(folio, refs, flags);
+2667f50e8b8145 Steve Capper            2014-10-09  2810  		return 0;
+2667f50e8b8145 Steve Capper            2014-10-09  2811  	}
+2667f50e8b8145 Steve Capper            2014-10-09  2812  
+369dd755eb2530 Lorenzo Stoakes         2023-05-02 @2813  	if (!folio_fast_pin_allowed(folio, flags)) {
+369dd755eb2530 Lorenzo Stoakes         2023-05-02  2814  		gup_put_folio(folio, refs, flags);
+369dd755eb2530 Lorenzo Stoakes         2023-05-02  2815  		return 0;
+369dd755eb2530 Lorenzo Stoakes         2023-05-02  2816  	}
+84209e87c6963f David Hildenbrand       2022-11-16  2817  	if (!pmd_write(orig) && gup_must_unshare(NULL, flags, &folio->page)) {
+a7f226604170ac David Hildenbrand       2022-05-09  2818  		gup_put_folio(folio, refs, flags);
+a7f226604170ac David Hildenbrand       2022-05-09  2819  		return 0;
+a7f226604170ac David Hildenbrand       2022-05-09  2820  	}
+a7f226604170ac David Hildenbrand       2022-05-09  2821  
+a43e982082c24c John Hubbard            2020-01-30  2822  	*nr += refs;
+667ed1f7bb3b1c Matthew Wilcox (Oracle  2021-12-22  2823) 	folio_set_referenced(folio);
+2667f50e8b8145 Steve Capper            2014-10-09  2824  	return 1;
+2667f50e8b8145 Steve Capper            2014-10-09  2825  }
+2667f50e8b8145 Steve Capper            2014-10-09  2826  
+
+:::::: The code at line 2813 was first introduced by commit
+:::::: 369dd755eb25309495d67de7cd85b77e0bc0f948 mm/gup: disallow FOLL_LONGTERM GUP-fast writing to file-backed mappings
+
+:::::: TO: Lorenzo Stoakes <lstoakes@gmail.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
