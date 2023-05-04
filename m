@@ -1,45 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CE9156CA
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 20:15:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72EDA7C;
+	Thu,  4 May 2023 20:37:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683231356; x=1714767356;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U/3x0sFtGdBEfQN7VtgDWKIQs6+Y0vLg49FKhQmLF40=;
-  b=PI2IIhMcZJiubHVr4m/Xa5yBqBiLSMiqn28xTbqZX/Nrvz2Kg7Kipdi7
-   DDvvZMK/wXqDgHq2bHa3ktH57SfH9kiYh9juuZ4kD/5DyI2lKUQiYLTnf
-   k4taDhbXlzppdJyR9j8KXKbzg4ZEE8GQmxjpEDZG80O+cmfkZnKCePHRR
-   gt4v20aUF/rhKjpaaSfulBNpP/PqEAnfBQ4oWj8dVTLXvmzjT2e3nsb0d
-   tXUu7T5MndYA4ffbSrd11ayVGyb1q5FYpvkzqkDElFcyXfhqiszlH3goy
-   g6RP6v73eM0uToaYiM1wlsmdX8ufIE4j5GOHvGgpNR/nSNghyRDEElFEk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="414568505"
+  t=1683232674; x=1714768674;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iMnt368wKhWGIoYHS+ZZOrPdI1k/gxyzl+kPiQhQ+Wk=;
+  b=NicP+cy8XUqa+vfy0sB4NtKEAdHFIVieNWrqKShgeNurp7NdUs3kf8iC
+   X2isvGYighWfkOO+vUZX0q2NS2Ca7C0k2MK5H5xjj7xtOEHIqG0cj0I8p
+   92FcWyLJDIV9vEda9BH/4vejIk55N2EO2X4CQ6fScMkuwkvQV1dTaL0g0
+   o1bHo0Ex/SfH8XRXR03Ms4Z6QnqYF7GyEQFuppuEzpMZ1mTZun49dLeuq
+   PJe01DRwj2POqwMdYCeaARwH1rd8Thq+0AXChnApRMlFnD8HdHVzWDp4l
+   JatGssvErHUyXsY8BtnpHp/nPijmg0ZFVJzk8udiFGARk5qRzQfUOGQbH
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="329413343"
 X-IronPort-AV: E=Sophos;i="5.99,250,1677571200"; 
-   d="scan'208";a="414568505"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 13:15:53 -0700
+   d="scan'208";a="329413343"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 13:37:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="808898272"
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="871489807"
 X-IronPort-AV: E=Sophos;i="5.99,250,1677571200"; 
-   d="scan'208";a="808898272"
+   d="scan'208";a="871489807"
 Received: from lkp-server01.sh.intel.com (HELO 64cf2984a3fe) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 04 May 2023 13:15:51 -0700
+  by orsmga005.jf.intel.com with ESMTP; 04 May 2023 13:37:52 -0700
 Received: from kbuild by 64cf2984a3fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pufMl-00007i-0O;
-	Thu, 04 May 2023 20:15:51 +0000
-Date: Fri, 5 May 2023 04:15:49 +0800
+	id 1pufi3-00008A-1O;
+	Thu, 04 May 2023 20:37:51 +0000
+Date: Fri, 5 May 2023 04:37:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com,
-	rodrigo.vivi@intel.com
-Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915/irq: split out display irq
- handling
-Message-ID: <202305050427.FtwE2pE7-lkp@intel.com>
-References: <d175e7571d188e791a3b691919d22b6a55ba8b16.1683219363.git.jani.nikula@intel.com>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [djiang:cxl-qtg 14/28] drivers/cxl/acpi.c:228:11: warning: variable
+ 'entries' set but not used
+Message-ID: <202305050435.mm0pWJZl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,142 +45,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d175e7571d188e791a3b691919d22b6a55ba8b16.1683219363.git.jani.nikula@intel.com>
 
-Hi Jani,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-tip/drm-tip]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i915-irq-relocate-gmbus-and-dp-aux-irq-handlers/20230505-005945
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/d175e7571d188e791a3b691919d22b6a55ba8b16.1683219363.git.jani.nikula%40intel.com
-patch subject: [Intel-gfx] [PATCH 3/3] drm/i915/irq: split out display irq handling
-config: x86_64-randconfig-a002-20230501 (https://download.01.org/0day-ci/archive/20230505/202305050427.FtwE2pE7-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl-qtg
+head:   c09d294a320a41a687ff2881bc080bf7d9ee5ce2
+commit: c858b2d3eecde666304c4dbee7e32bc781971dfd [14/28] cxl: Add support for _DSM Function for retrieving QTG ID
+config: i386-randconfig-a012-20230501 (https://download.01.org/0day-ci/archive/20230505/202305050435.mm0pWJZl-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/8ace6b1f9c8d5dce9faa2181a85d61b33d550b8e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jani-Nikula/drm-i915-irq-relocate-gmbus-and-dp-aux-irq-handlers/20230505-005945
-        git checkout 8ace6b1f9c8d5dce9faa2181a85d61b33d550b8e
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git/commit/?id=c858b2d3eecde666304c4dbee7e32bc781971dfd
+        git remote add djiang https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git
+        git fetch --no-tags djiang cxl-qtg
+        git checkout c858b2d3eecde666304c4dbee7e32bc781971dfd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/cxl/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305050427.FtwE2pE7-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305050435.mm0pWJZl-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_display_irq.c:411:41: warning: argument 3 of type 'u32[4]' {aka 'unsigned int[4]'} with mismatched bound [-Warray-parameter=]
-     411 |                            u32 iir, u32 pipe_stats[I915_MAX_PIPES])
-         |                                     ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/i915/display/intel_display_irq.c:10:
-   drivers/gpu/drm/i915/display/intel_display_irq.h:72:73: note: previously declared as 'u32 *' {aka 'unsigned int *'}
-      72 | void i9xx_pipestat_irq_ack(struct drm_i915_private *i915, u32 iir, u32 *pipe_stats);
-         |                                                                    ~~~~~^~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_irq.c:477:45: warning: argument 3 of type 'u32[4]' {aka 'unsigned int[4]'} with mismatched bound [-Warray-parameter=]
-     477 |                                u16 iir, u32 pipe_stats[I915_MAX_PIPES])
-         |                                         ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/i915/display/intel_display_irq.c:10:
-   drivers/gpu/drm/i915/display/intel_display_irq.h:77:77: note: previously declared as 'u32 *' {aka 'unsigned int *'}
-      77 | void i8xx_pipestat_irq_handler(struct drm_i915_private *i915, u16 iir, u32 *pipe_stats);
-         |                                                                        ~~~~~^~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_irq.c:494:45: warning: argument 3 of type 'u32[4]' {aka 'unsigned int[4]'} with mismatched bound [-Warray-parameter=]
-     494 |                                u32 iir, u32 pipe_stats[I915_MAX_PIPES])
-         |                                         ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/i915/display/intel_display_irq.c:10:
-   drivers/gpu/drm/i915/display/intel_display_irq.h:74:77: note: previously declared as 'u32 *' {aka 'unsigned int *'}
-      74 | void i915_pipestat_irq_handler(struct drm_i915_private *i915, u32 iir, u32 *pipe_stats);
-         |                                                                        ~~~~~^~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_irq.c:518:45: warning: argument 3 of type 'u32[4]' {aka 'unsigned int[4]'} with mismatched bound [-Warray-parameter=]
-     518 |                                u32 iir, u32 pipe_stats[I915_MAX_PIPES])
-         |                                         ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/i915/display/intel_display_irq.c:10:
-   drivers/gpu/drm/i915/display/intel_display_irq.h:75:77: note: previously declared as 'u32 *' {aka 'unsigned int *'}
-      75 | void i965_pipestat_irq_handler(struct drm_i915_private *i915, u32 iir, u32 *pipe_stats);
-         |                                                                        ~~~~~^~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display_irq.c:545:42: warning: argument 2 of type 'u32[4]' {aka 'unsigned int[4]'} with mismatched bound [-Warray-parameter=]
-     545 |                                      u32 pipe_stats[I915_MAX_PIPES])
-         |                                      ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/i915/display/intel_display_irq.c:10:
-   drivers/gpu/drm/i915/display/intel_display_irq.h:76:74: note: previously declared as 'u32 *' {aka 'unsigned int *'}
-      76 | void valleyview_pipestat_irq_handler(struct drm_i915_private *i915, u32 *pipe_stats);
-         |                                                                     ~~~~~^~~~~~~~~~
+>> drivers/cxl/acpi.c:228:11: warning: variable 'entries' set but not used [-Wunused-but-set-variable]
+           int len, entries;
+                    ^
+   1 warning generated.
 
 
-vim +411 drivers/gpu/drm/i915/display/intel_display_irq.c
+vim +/entries +228 drivers/cxl/acpi.c
 
-   409	
-   410	void i9xx_pipestat_irq_ack(struct drm_i915_private *dev_priv,
- > 411				   u32 iir, u32 pipe_stats[I915_MAX_PIPES])
-   412	{
-   413		enum pipe pipe;
-   414	
-   415		spin_lock(&dev_priv->irq_lock);
-   416	
-   417		if (!dev_priv->display_irqs_enabled) {
-   418			spin_unlock(&dev_priv->irq_lock);
-   419			return;
-   420		}
-   421	
-   422		for_each_pipe(dev_priv, pipe) {
-   423			i915_reg_t reg;
-   424			u32 status_mask, enable_mask, iir_bit = 0;
-   425	
-   426			/*
-   427			 * PIPESTAT bits get signalled even when the interrupt is
-   428			 * disabled with the mask bits, and some of the status bits do
-   429			 * not generate interrupts at all (like the underrun bit). Hence
-   430			 * we need to be careful that we only handle what we want to
-   431			 * handle.
-   432			 */
-   433	
-   434			/* fifo underruns are filterered in the underrun handler. */
-   435			status_mask = PIPE_FIFO_UNDERRUN_STATUS;
-   436	
-   437			switch (pipe) {
-   438			default:
-   439			case PIPE_A:
-   440				iir_bit = I915_DISPLAY_PIPE_A_EVENT_INTERRUPT;
-   441				break;
-   442			case PIPE_B:
-   443				iir_bit = I915_DISPLAY_PIPE_B_EVENT_INTERRUPT;
-   444				break;
-   445			case PIPE_C:
-   446				iir_bit = I915_DISPLAY_PIPE_C_EVENT_INTERRUPT;
-   447				break;
-   448			}
-   449			if (iir & iir_bit)
-   450				status_mask |= dev_priv->pipestat_irq_mask[pipe];
-   451	
-   452			if (!status_mask)
-   453				continue;
-   454	
-   455			reg = PIPESTAT(pipe);
-   456			pipe_stats[pipe] = intel_uncore_read(&dev_priv->uncore, reg) & status_mask;
-   457			enable_mask = i915_pipestat_enable_mask(dev_priv, pipe);
-   458	
-   459			/*
-   460			 * Clear the PIPE*STAT regs before the IIR
-   461			 *
-   462			 * Toggle the enable bits to make sure we get an
-   463			 * edge in the ISR pipe event bit if we don't clear
-   464			 * all the enabled status bits. Otherwise the edge
-   465			 * triggered IIR on i965/g4x wouldn't notice that
-   466			 * an interrupt is still pending.
-   467			 */
-   468			if (pipe_stats[pipe]) {
-   469				intel_uncore_write(&dev_priv->uncore, reg, pipe_stats[pipe]);
-   470				intel_uncore_write(&dev_priv->uncore, reg, enable_mask);
-   471			}
-   472		}
-   473		spin_unlock(&dev_priv->irq_lock);
-   474	}
-   475	
+   200	
+   201	/**
+   202	 * cxl_acpi_evaluate_qtg_dsm - Retrieve QTG ids via ACPI _DSM
+   203	 * @handle: ACPI handle
+   204	 * @input: bandwidth and latency data
+   205	 *
+   206	 * Issue QTG _DSM with accompanied bandwidth and latency data in order to get
+   207	 * the QTG IDs that are suitable for the performance point in order of most
+   208	 * suitable to least suitable. Return first QTG ID.
+   209	 */
+   210	static int cxl_acpi_evaluate_qtg_dsm(acpi_handle handle,
+   211					     struct qtg_dsm_input *input)
+   212	{
+   213		union acpi_object *out_obj, *out_buf, *pkg;
+   214		union acpi_object in_buf = {
+   215			.buffer = {
+   216				.type = ACPI_TYPE_BUFFER,
+   217				.pointer = (u8 *)input,
+   218				.length = cpu_to_le32(sizeof(*input)),
+   219			},
+   220		};
+   221		union acpi_object in_obj = {
+   222			.package = {
+   223				.type = ACPI_TYPE_PACKAGE,
+   224				.count = cpu_to_le32(1),
+   225				.elements = &in_buf
+   226			},
+   227		};
+ > 228		int len, entries;
+   229		u16 max_qtg;
+   230		int rc = 0;
+   231	
+   232		out_obj = acpi_evaluate_dsm(handle, &acpi_cxl_qtg_id_guid, 1, 1, &in_obj);
+   233		if (!out_obj)
+   234			return -ENXIO;
+   235	
+   236		if (out_obj->type != ACPI_TYPE_PACKAGE) {
+   237			rc = -ENXIO;
+   238			goto out;
+   239		}
+   240	
+   241		/* Check Max QTG ID */
+   242		pkg = &out_obj->package.elements[0];
+   243		if (pkg->type != ACPI_TYPE_BUFFER) {
+   244			rc = -ENXIO;
+   245			goto out;
+   246		}
+   247	
+   248		if (le32_to_cpu(pkg->buffer.length) != sizeof(u16)) {
+   249			rc = -ENXIO;
+   250			goto out;
+   251		}
+   252	
+   253		max_qtg = le16_to_cpu(*(__le16 *)pkg->buffer.pointer);
+   254	
+   255		/* Retrieve QTG IDs package */
+   256		pkg = &out_obj->package.elements[1];
+   257		if (pkg->type != ACPI_TYPE_PACKAGE) {
+   258			rc = -ENXIO;
+   259			goto out;
+   260		}
+   261	
+   262		out_buf = &pkg->package.elements[0];
+   263		if (out_buf->type != ACPI_TYPE_BUFFER) {
+   264			rc = -ENXIO;
+   265			goto out;
+   266		}
+   267	
+   268		len = le32_to_cpu(out_buf->buffer.length);
+   269	
+   270		/* It's legal to have 0 QTG entries */
+   271		if (len == 0) {
+   272			rc = -EEXIST;
+   273			goto out;
+   274		}
+   275	
+   276		/* Malformed package, not multiple of WORD size */
+   277		if (len % sizeof(u16)) {
+   278			rc = -ENXIO;
+   279			goto out;
+   280		}
+   281	
+   282		entries = len / sizeof(u16);
+   283		rc = le16_to_cpu(*(__le16 *)out_buf->buffer.pointer);
+   284		if (rc > max_qtg) {
+   285			rc = -ERANGE;
+   286			pr_warn("QTG ID %u greater than MAX %u\n", rc, max_qtg);
+   287		}
+   288	
+   289	out:
+   290		ACPI_FREE(out_obj);
+   291		return rc;
+   292	}
+   293	
 
 -- 
 0-DAY CI Kernel Test Service
