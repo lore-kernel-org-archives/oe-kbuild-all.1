@@ -1,43 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E6FED4
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 10:59:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EECED4
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 10:59:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683197948; x=1714733948;
+  t=1683197965; x=1714733965;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8wfP2Bs9YesKHdPHzOk9X/nwOMYeqTtEr0IOm+75fjo=;
-  b=nVx5Q3T9VYlbabJam2DowzZyfnGBRFW4FV2sljCGd+akNLAO8GxVZ1cJ
-   y4rmSNa6nPsPzPIMsevCfP2mI773q32WPvCL356HcTUzlHOufc2rXiNkq
-   puoKyIhfEP1Zj2vjOF4l417YiB/57er7Kv+cbnR5bH4eSDAC1NxO3213N
-   ukCK9acp69Moa91bNRgFb4DRBE4Dx/FZ0N+G2fldB2Y885BjEIEbQmHQ8
-   8W5lQbg1T0cerchpIVxNERcMloN3EfnXqDG1nCAk5b+GSSMHWe/9YFNQP
-   YM6ifnuyJi1HiyXlD8gAsNWIwiz+mDQI6Cft35WXBtvkcLmWIKqrMxLMX
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="333279375"
+  bh=VSYZ2ksxXks/w+kQKfNn4JVfzzDRVgK2yjBTSXUbcZg=;
+  b=eL5B1hugvnTXOspKrCtX12n6uhZ+f7MkDicRs9L5eoHUYilEsjyUaRMX
+   TDXZdLmmBnuWHIiNHsQAPPlBO93v0jsC56KEYqYm/Zt0DAp6EsSP4iAlJ
+   8BcMcIoZzIOeUjbZy3VYs5q+p1PYUMee7UssYE3cUKj0zCXHfCiSiEWcq
+   +C04XTAI6IsJDkkT8hZQHHIFsKKIaWODh09bKnCbFih6JrTwP4JjxTDxY
+   8MWxJnI46F6bsTDZnjT8pnKVVKUQZR5ZsySugwR7tFzkIGfLmLCpm0VoH
+   C4SIa8hMRzL0wEFHA/C45IIeyAkekqPUm4/vBotTzztsJg9v1/u36kZx1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="328520632"
 X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="333279375"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 03:58:24 -0700
+   d="scan'208";a="328520632"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 03:58:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="674503075"
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="821118289"
 X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="674503075"
+   d="scan'208";a="821118289"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 04 May 2023 03:58:22 -0700
+  by orsmga004.jf.intel.com with ESMTP; 04 May 2023 03:58:22 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puWfG-0002rZ-0O;
+	id 1puWfG-0002rW-0C;
 	Thu, 04 May 2023 10:58:22 +0000
 Date: Thu, 4 May 2023 18:58:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: ckkim <changkon12@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
-Subject: [tobetter:odroid-6.3.y 7/34]
- drivers/power/reset/odroid-reboot.c:63:6: warning: no previous prototype for
- 'odroid_card_reset'
-Message-ID: <202305041806.qvj5f8cq-lkp@intel.com>
+To: Jon Derrick <jonathan.derrick@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Song Liu <song@kernel.org>, Christoph Hellwig <hch@lst.de>
+Subject: drivers/md/md-bitmap.c:242 __write_sb_page() warn: unsigned 'offset'
+ is never less than zero.
+Message-ID: <202305041858.yfdVDDZ4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,98 +47,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/tobetter/linux odroid-6.3.y
-head:   6fdc1217984da926f8896235d0c4e8944bf0e5e0
-commit: ad699747102febd37b84fac38a3d5f9378d91df7 [7/34] ODROID-COMMON: power:reset: Add odroid support
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230504/202305041806.qvj5f8cq-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/tobetter/linux/commit/ad699747102febd37b84fac38a3d5f9378d91df7
-        git remote add tobetter https://github.com/tobetter/linux
-        git fetch --no-tags tobetter odroid-6.3.y
-        git checkout ad699747102febd37b84fac38a3d5f9378d91df7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/power/reset/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1a5304fecee523060f26e2778d9d8e33c0562df3
+commit: 10172f200b67aafcb9b8ce7d0575d713c1aafbb7 md: Fix types in sb writer
+date:   3 weeks ago
+config: nios2-randconfig-m031-20230503 (https://download.01.org/0day-ci/archive/20230504/202305041858.yfdVDDZ4-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305041806.qvj5f8cq-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305041858.yfdVDDZ4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/md/md-bitmap.c:242 __write_sb_page() warn: unsigned 'offset' is never less than zero.
 
->> drivers/power/reset/odroid-reboot.c:63:6: warning: no previous prototype for 'odroid_card_reset' [-Wmissing-prototypes]
-      63 | void odroid_card_reset(void)
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/power/reset/odroid-reboot.c: In function 'odroid_restart_probe':
-   drivers/power/reset/odroid-reboot.c:141:17: error: 'arm_pm_restart' undeclared (first use in this function); did you mean 'alarm_restart'?
-     141 |                 arm_pm_restart = do_odroid_restart;
-         |                 ^~~~~~~~~~~~~~
-         |                 alarm_restart
-   drivers/power/reset/odroid-reboot.c:141:17: note: each undeclared identifier is reported only once for each function it appears in
+Old smatch warnings:
+arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
 
+vim +/offset +242 drivers/md/md-bitmap.c
 
-vim +/odroid_card_reset +63 drivers/power/reset/odroid-reboot.c
+b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  211  
+328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  212  static int __write_sb_page(struct md_rdev *rdev, struct bitmap *bitmap,
+328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  213  			   struct page *page)
+a654b9d8f851f4 drivers/md/bitmap.c    NeilBrown        2005-06-21  214  {
+a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  215  	struct block_device *bdev;
+fd01b88c75a718 drivers/md/bitmap.c    NeilBrown        2011-10-11  216  	struct mddev *mddev = bitmap->mddev;
+1ec885cdd01a9a drivers/md/bitmap.c    NeilBrown        2012-05-22  217  	struct bitmap_storage *store = &bitmap->storage;
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  218  	sector_t offset = mddev->bitmap_info.offset;
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  219  	sector_t ps, sboff, doff;
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  220  	unsigned int size = PAGE_SIZE;
+a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  221  
+a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  222  	bdev = (rdev->meta_bdev) ? rdev->meta_bdev : rdev->bdev;
+9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  223  	if (page->index == store->file_pages - 1) {
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  224  		unsigned int last_page_size = store->bytes & (PAGE_SIZE - 1);
+328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  225  
+9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  226  		if (last_page_size == 0)
+9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  227  			last_page_size = PAGE_SIZE;
+9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  228  		size = roundup(last_page_size,
+a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  229  			       bdev_logical_block_size(bdev));
+9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  230  	}
+328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  231  
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  232  	ps = page->index * PAGE_SIZE / SECTOR_SIZE;
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  233  	sboff = rdev->sb_start + offset;
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  234  	doff = rdev->data_offset;
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  235  
+328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  236  	/* Just make sure we aren't corrupting data or metadata */
+f6af949c567211 drivers/md/bitmap.c    NeilBrown        2009-12-14  237  	if (mddev->external) {
+f6af949c567211 drivers/md/bitmap.c    NeilBrown        2009-12-14  238  		/* Bitmap could be anywhere. */
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  239  		if (sboff + ps > doff &&
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  240  		    sboff < (doff + mddev->dev_sectors + PAGE_SIZE / SECTOR_SIZE))
+328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  241  			return -EINVAL;
+f6af949c567211 drivers/md/bitmap.c    NeilBrown        2009-12-14 @242  	} else if (offset < 0) {
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  243  		/* DATA  BITMAP METADATA  */
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  244  		if (offset + ps + size / SECTOR_SIZE > 0)
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  245  			/* bitmap runs in to metadata */
+328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  246  			return -EINVAL;
+328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  247  
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  248  		if (doff + mddev->dev_sectors > sboff)
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  249  			/* data runs in to bitmap */
+328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  250  			return -EINVAL;
+0f420358e3a2ab drivers/md/bitmap.c    Andre Noll       2008-07-11  251  	} else if (rdev->sb_start < rdev->data_offset) {
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  252  		/* METADATA BITMAP DATA */
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  253  		if (sboff + ps + size / SECTOR_SIZE > doff)
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  254  			/* bitmap runs in to data */
+328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  255  			return -EINVAL;
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  256  	} else {
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  257  		/* DATA METADATA BITMAP - no problems */
+f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  258  	}
+328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  259  
+10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  260  	md_super_write(mddev, rdev, sboff + ps, (int) size, page);
+328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  261  	return 0;
+ab6085c795a71b drivers/md/bitmap.c    NeilBrown        2007-05-23  262  }
+a654b9d8f851f4 drivers/md/bitmap.c    NeilBrown        2005-06-21  263  
 
-    62	
-  > 63	void odroid_card_reset(void)
-    64	{
-    65		int ret = 0;
-    66	
-    67		if ((sd_vqsw == 0) && (sd_vmmc == 0))
-    68			return;
-    69	
-    70		if (sd_vqen == 0) {
-    71			gpio_free(sd_vqsw);
-    72			gpio_free(sd_vmmc);
-    73			ret = gpio_request_one(sd_vqsw,
-    74					GPIOF_OUT_INIT_LOW, "REBOOT");
-    75			CHECK_RET(ret);
-    76			mdelay(10);
-    77			ret = gpio_direction_output(sd_vqsw, 1);
-    78			CHECK_RET(ret);
-    79			ret = gpio_request_one(sd_vmmc,
-    80					GPIOF_OUT_INIT_LOW, "REBOOT");
-    81			CHECK_RET(ret);
-    82			mdelay(10);
-    83			ret = gpio_direction_output(sd_vqsw, 0);
-    84			CHECK_RET(ret);
-    85			ret = gpio_direction_output(sd_vmmc, 1);
-    86			CHECK_RET(ret);
-    87			mdelay(5);
-    88			gpio_free(sd_vqsw);
-    89			gpio_free(sd_vmmc);
-    90		} else {
-    91			gpio_free(sd_vqsw);
-    92			gpio_free(sd_vqen);
-    93			gpio_free(sd_vmmc);
-    94	
-    95			ret = gpio_request_one(sd_vqsw,
-    96					GPIOF_OUT_INIT_LOW, "REBOOT");
-    97			CHECK_RET(ret);
-    98			ret = gpio_request_one(sd_vqen,
-    99					GPIOF_OUT_INIT_LOW, "REBOOT");
-   100			CHECK_RET(ret);
-   101			ret = gpio_request_one(sd_vmmc,
-   102					GPIOF_OUT_INIT_LOW, "REBOOT");
-   103			CHECK_RET(ret);
-   104			mdelay(100);
-   105			ret = gpio_direction_input(sd_vqen);
-   106			CHECK_RET(ret);
-   107			ret = gpio_direction_input(sd_vmmc);
-   108			CHECK_RET(ret);
-   109			ret = gpio_direction_input(sd_vqsw);
-   110			CHECK_RET(ret);
-   111			mdelay(5);
-   112			gpio_free(sd_vqen);
-   113			gpio_free(sd_vmmc);
-   114			gpio_free(sd_vqsw);
-   115		}
-   116	}
-   117	
+:::::: The code at line 242 was first introduced by commit
+:::::: f6af949c5672115313cc3c976d85b0533f607d7e md: support bitmap offset appropriate for external-metadata arrays.
+
+:::::: TO: NeilBrown <neilb@suse.de>
+:::::: CC: NeilBrown <neilb@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
