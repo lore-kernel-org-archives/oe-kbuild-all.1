@@ -1,44 +1,45 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA9AFBF7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 14:58:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D6479E1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 15:09:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683212296; x=1714748296;
+  t=1683212954; x=1714748954;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z63+Q/NqkOUMQyIaiCl8XuguPlk7KHCDiIRvcYOthno=;
-  b=T8MiKlmPNJAqyv0aIlS7UF3h7QVcAyx1AqSIiO+EppdRyzef/RN6FGhh
-   h3rOau1/cUsSgXawhP6tGtYFRni8U5bej/xmG/FXG9IA3iDeVG1tReQNR
-   OYoxvd26Cydua8HP1CwIpwlTl96Vv26isKE2eMp46VNVgjtFsLp5d2ipB
-   mVxR6HP4/lj85+rXLhd3pLXsrthyeDljf471uXwTA6vkAfVTEzvv4Qljh
-   VT+h5oRdTEtqogEXLUsqp71FpyXGzDsiC71cX2+hlm9P8b5TBMA1QlzLj
-   5fU5N+7CCHGpALRrge3fGErdQpwmgU+00Gp+cAeUr7Id0Wg4hqo7ZRBH3
+  bh=XXHDjKpWr03lRePpokMj5e9ZqpE3U/YNEjShUjSHH1o=;
+  b=QFv1Dk2CNVgXVvQRE8rQiY//GVkiVls/fOT4s1LbCCEw33LrKW7fQcuH
+   63iLXhu67HwDK6Jw6LKOgUMgeg3a9uDmgfabfVDuibVNOJb5ifQiIPnAg
+   64EffLnB6x7cMheI5Moi8SY9XGeWR33RFKeTlyxr7TF1ErepAPKTiwUie
+   DL2p2xCrFZowsKq9KztFNOwVR/aUDpMheKTMfJTwI0OskmaKi0UdCUQFw
+   NyNW235CaQWjwcT9osfklTImQUTi1lPJnFf6WOD8ooW17HMZGS6+vAFbu
+   rhto2a1HnU0J9CG7oqLvViOAqdU0whg7dwUmbwH34EfY2QweRyF6F8cRF
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="351971737"
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="346431830"
 X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="351971737"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 07:55:44 -0700
+   d="scan'208";a="346431830"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 08:06:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="647366552"
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="674581761"
 X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="647366552"
-Received: from lkp-server01.sh.intel.com (HELO d0e14d8700eb) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 04 May 2023 07:55:42 -0700
-Received: from kbuild by d0e14d8700eb with local (Exim 4.96)
+   d="scan'208";a="674581761"
+Received: from lkp-server01.sh.intel.com (HELO 8e69875ad5b6) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 04 May 2023 08:06:47 -0700
+Received: from kbuild by 8e69875ad5b6 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puaMv-00002U-2t;
-	Thu, 04 May 2023 14:55:41 +0000
-Date: Thu, 4 May 2023 22:54:57 +0800
+	id 1puaXe-00001H-0j;
+	Thu, 04 May 2023 15:06:46 +0000
+Date: Thu, 4 May 2023 23:05:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:x86-efistub-cleanup 15/15]
- drivers/firmware/efi/libstub/x86-stub.c:825:35: warning: implicit
- declaration of function 'kaslr_get_random_long'; did you mean
- 'get_random_long'?
-Message-ID: <202305042245.HXjdUQy7-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>,
+	"Srivatsa S. Bhat (VMware)" <srivatsa@csail.mit.edu>,
+	Juergen Gross <jgross@suse.com>
+Subject: vmlinux.o: warning: objtool: default_idle+0x24: call to
+ ftrace_likely_update() leaves .noinstr.text section
+Message-ID: <202305042204.HYTVHf2k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,48 +49,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-efistub-cleanup
-head:   1201fa1f2a7026937d0a906b96b4e4ec12e65079
-commit: 1201fa1f2a7026937d0a906b96b4e4ec12e65079 [15/15] x86: efistub: Avoid legacy decompressor when doing EFI boot
-config: i386-randconfig-a004-20230501 (https://download.01.org/0day-ci/archive/20230504/202305042245.HXjdUQy7-lkp@intel.com/config)
+Hi Peter,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1a5304fecee523060f26e2778d9d8e33c0562df3
+commit: 10a099405fdf96c3205ae775abf19fcd301b31b4 cpuidle, xenpv: Make more PARAVIRT_XXL noinstr clean
+date:   4 months ago
+config: x86_64-randconfig-a011-20220124 (https://download.01.org/0day-ci/archive/20230504/202305042204.HYTVHf2k-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=1201fa1f2a7026937d0a906b96b4e4ec12e65079
-        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
-        git fetch --no-tags ardb x86-efistub-cleanup
-        git checkout 1201fa1f2a7026937d0a906b96b4e4ec12e65079
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=10a099405fdf96c3205ae775abf19fcd301b31b4
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 10a099405fdf96c3205ae775abf19fcd301b31b4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/firmware/efi/libstub/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305042245.HXjdUQy7-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305042204.HYTVHf2k-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/firmware/efi/libstub/x86-stub.c: In function 'efi_get_seed':
->> drivers/firmware/efi/libstub/x86-stub.c:825:35: warning: implicit declaration of function 'kaslr_get_random_long'; did you mean 'get_random_long'? [-Wimplicit-function-declaration]
-     825 |         *(unsigned long *)seed ^= kaslr_get_random_long("EFI");
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-         |                                   get_random_long
+   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x25: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x2a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_double_fault+0x3c: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: fixup_bad_iret+0x7e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_debug+0x33: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: noist_exc_debug+0x31: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_nmi+0x4c: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: poke_int3_handler+0x36: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: mce_check_crashing_cpu+0x11: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: do_machine_check+0x57: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_machine_check+0x43: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: noist_exc_machine_check+0x41: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_page_fault+0x32: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x50: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x44: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: enter_from_user_mode+0x38: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x38: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x38: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_exit+0x31: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: context_tracking_recursion_enter+0x30: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __ct_user_exit+0x47: call to __kasan_check_write() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __ct_user_enter+0x34: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: tdx_safe_halt+0x2d: call to ftrace_likely_update() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: default_idle+0x24: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: mwait_idle+0x31: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0xbe: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: cpu_idle_poll.isra.0+0x7d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle+0xd0: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_irq+0x2e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_s2idle+0xe0: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_xstate+0xd5: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_ibrs+0x17: call to sched_smt_active() leaves .noinstr.text section
 
 
-vim +825 drivers/firmware/efi/libstub/x86-stub.c
-
-   816	
-   817	static void efi_get_seed(void *seed, int size)
-   818	{
-   819		efi_get_random_bytes(size, seed);
-   820	
-   821		/*
-   822		 * This only updates seed[0] when running on 32-bit, but in that case,
-   823		 * we don't use seed[1] anyway, as there is no virtual KASLR on 32-bit.
-   824		 */
- > 825		*(unsigned long *)seed ^= kaslr_get_random_long("EFI");
-   826	}
-   827	
+objdump-func vmlinux.o default_idle:
+0000 0000000000000110 <default_idle>:
+0000  110:	f3 0f 1e fa          	endbr64
+0004  114:	55                   	push   %rbp
+0005  115:	31 f6                	xor    %esi,%esi
+0007  117:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	11a: R_X86_64_32S	_ftrace_annotated_branch+0x13fe0
+000e  11e:	48 89 e5             	mov    %rsp,%rbp
+0011  121:	53                   	push   %rbx
+0012  122:	48 8b 1d 00 00 00 00 	mov    0x0(%rip),%rbx        # 129 <default_idle+0x19>	125: R_X86_64_PC32	pv_ops+0x104
+0019  129:	48 85 db             	test   %rbx,%rbx
+001c  12c:	40 0f 94 c6          	sete   %sil
+0020  130:	31 c9                	xor    %ecx,%ecx
+0022  132:	31 d2                	xor    %edx,%edx
+0024  134:	e8 00 00 00 00       	call   139 <default_idle+0x29>	135: R_X86_64_PLT32	ftrace_likely_update-0x4
+0029  139:	48 85 db             	test   %rbx,%rbx
+002c  13c:	74 37                	je     175 <default_idle+0x65>
+002e  13e:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 144 <default_idle+0x34>	140: R_X86_64_PC32	pv_ops+0x104
+0034  144:	48 8b 1d 00 00 00 00 	mov    0x0(%rip),%rbx        # 14b <default_idle+0x3b>	147: R_X86_64_PC32	pv_ops+0xf4
+003b  14b:	31 f6                	xor    %esi,%esi
+003d  14d:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	150: R_X86_64_32S	_ftrace_annotated_branch+0x13e90
+0044  154:	48 85 db             	test   %rbx,%rbx
+0047  157:	40 0f 94 c6          	sete   %sil
+004b  15b:	31 c9                	xor    %ecx,%ecx
+004d  15d:	31 d2                	xor    %edx,%edx
+004f  15f:	e8 00 00 00 00       	call   164 <default_idle+0x54>	160: R_X86_64_PLT32	ftrace_likely_update-0x4
+0054  164:	48 85 db             	test   %rbx,%rbx
+0057  167:	74 0f                	je     178 <default_idle+0x68>
+0059  169:	ff 15 00 00 00 00    	call   *0x0(%rip)        # 16f <default_idle+0x5f>	16b: R_X86_64_PC32	pv_ops+0xf4
+005f  16f:	48 8b 5d f8          	mov    -0x8(%rbp),%rbx
+0063  173:	c9                   	leave
+0064  174:	c3                   	ret
+0065  175:	90                   	nop
+0066  176:	0f 0b                	ud2
+0068  178:	90                   	nop
+0069  179:	0f 0b                	ud2
+006b  17b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
 
 -- 
 0-DAY CI Kernel Test Service
