@@ -1,43 +1,46 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA4A156C1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 22:31:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A40156FB
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 22:53:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683239516; x=1714775516;
+  t=1683240793; x=1714776793;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=laho4Ug/FbpczLp0mY4+jRDMQtPqA1qDPgD1/qJ6mjc=;
-  b=IZG/uWTHiuxvpeS5JUrs/T1cxa4J+Rs4HYZ4VLr20eC/dJRA6q62A59Q
-   MUucJtxavrHXqYlIDLCuUY18GAJCC/GjfUsGS8S84zaKD0PFrUdjpdjWO
-   tq3vXVOmSRAycFBvYMpEfH0/4ic9UmmUBz6Mr+b3336tEho5FyIsfjqJC
-   ZSR7S46AxRirgBOfMIaktyf+qHih75l0b/26ZN0yhpUm32UIpI4p0tS8p
-   UajCtwJC7b3u1It6py9mfgFDq7y8cxetqJxt7wOILN0zhjiuo/mAuyxZo
-   dFs/3feX1kro3PAZCDO5mJ9b7kiSX6HB2Kq1mzgz7h7Mh1eX/kRiUcFsm
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="346544535"
+  bh=48aEXCjVdMmSa199Ys0aMYdGl7avBBAU18RJnyLQ21s=;
+  b=bVzZcCvl6mBqSXBLl//zYIOg4Uv3rtyaOS1IoXzZrtBRVuJJ6oihBePb
+   wrE4a2kKtA81nJCRsjqJBDt1jaCKm1ILwKuZEYID3XTQX+y/bQZFQPPTm
+   C+Fzg6meTYWAtYHpLSwNN46P7RRLFWRTKn6hw2VdVjB9bwkr+85PAlRf5
+   f6ghaj5lEGrjERvnps/y0kuqIYUmH0HyU1tzKzLLpRfFC3YTXTwxkiHFf
+   a7QIMjg5+DScOEU20Q25devvBCb47eRwFeR7/RLGEqwmQDC2G+NBf5Hp2
+   FRp71IqaXHEWw/RQMq4rYxkSx4Or1G8H01Nuo9wHM6NYGDr6VrDwPkR1/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="377150412"
 X-IronPort-AV: E=Sophos;i="5.99,250,1677571200"; 
-   d="scan'208";a="346544535"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 15:31:55 -0700
+   d="scan'208";a="377150412"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 15:53:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="730012647"
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="786781598"
 X-IronPort-AV: E=Sophos;i="5.99,250,1677571200"; 
-   d="scan'208";a="730012647"
+   d="scan'208";a="786781598"
 Received: from lkp-server01.sh.intel.com (HELO 64cf2984a3fe) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 04 May 2023 15:31:54 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 04 May 2023 15:52:54 -0700
 Received: from kbuild by 64cf2984a3fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puhUP-0000Ae-2V;
-	Thu, 04 May 2023 22:31:53 +0000
-Date: Fri, 5 May 2023 06:31:47 +0800
+	id 1puhok-0000BU-0h;
+	Thu, 04 May 2023 22:52:54 +0000
+Date: Fri, 5 May 2023 06:52:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djiang:cxl-qtg 19/28] drivers/acpi/numa/hmat.c:132: warning:
- expecting prototype for acpi_get_gen_coordinates(). Prototype was for
- acpi_get_genport_coordinates() instead
-Message-ID: <202305050645.311S2A2t-lkp@intel.com>
+To: Kishon Vijay Abraham I <kishon@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>,
+	Aswath Govindraju <a-govindraju@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y-cicd 1/2]
+ scripts/dtc/include-prefixes/dt-bindings/pinctrl/k3.h:16:2: warning:
+ #warning "These bindings are deprecated. Instead, use the header in the DTS
+ source directory."
+Message-ID: <202305050618.8gH97fQq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,57 +50,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl-qtg
-head:   c09d294a320a41a687ff2881bc080bf7d9ee5ce2
-commit: 8311ace8a090b259fe9bdb833d38f683674da18d [19/28] ACPI: NUMA: Add helper function to retrieve the performance attributes
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230505/202305050645.311S2A2t-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   6d13b41a203854e0340a1438c7ef0c3b2c15bb14
+commit: 1e1b5c1557ab676a5768049471fd4b210b3f32fa [1/2] arm64: dts: ti: Add DT overlay for PCIe + USB3.0 SERDES personality card
+config: arm64-randconfig-r004-20230501 (https://download.01.org/0day-ci/archive/20230505/202305050618.8gH97fQq-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git/commit/?id=8311ace8a090b259fe9bdb833d38f683674da18d
-        git remote add djiang https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git
-        git fetch --no-tags djiang cxl-qtg
-        git checkout 8311ace8a090b259fe9bdb833d38f683674da18d
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-6.1.y-cicd
+        git checkout 1e1b5c1557ab676a5768049471fd4b210b3f32fa
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/acpi/numa/ drivers/cxl/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305050645.311S2A2t-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305050618.8gH97fQq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/acpi/numa/hmat.c:132: warning: expecting prototype for acpi_get_gen_coordinates(). Prototype was for acpi_get_genport_coordinates() instead
+   In file included from arch/arm64/boot/dts/ti/k3-am654-pcie-usb3.dtso:13:
+>> scripts/dtc/include-prefixes/dt-bindings/pinctrl/k3.h:16:2: warning: #warning "These bindings are deprecated. Instead, use the header in the DTS source directory." [-Wcpp]
+      16 | #warning "These bindings are deprecated. Instead, use the header in the DTS source directory."
+         |  ^~~~~~~
 
 
-vim +132 drivers/acpi/numa/hmat.c
-
-   122	
-   123	/**
-   124	 * acpi_get_gen_coordinates - Retrieve the access coordinates for a generic port
-   125	 * @device_handle: Device handle string (ACPI or PCI) to match up to the gen port
-   126	 * @coord: The access coordinates written back out for the generic port
-   127	 *
-   128	 * Return: 0 on success. Errno on failure.
-   129	 */
-   130	int acpi_get_genport_coordinates(u8 *device_handle,
-   131					 struct access_coordinate *coord)
- > 132	{
-   133		struct memory_target *target;
-   134	
-   135		target = acpi_find_genport_target(device_handle);
-   136		if (!target)
-   137			return -ENOENT;
-   138	
-   139		*coord = target->coord[NODE_ACCESS_CLASS_GENPORT];
-   140	
-   141		return 0;
-   142	}
-   143	EXPORT_SYMBOL_GPL(acpi_get_genport_coordinates);
-   144	
+vim +16 scripts/dtc/include-prefixes/dt-bindings/pinctrl/k3.h
 
 -- 
 0-DAY CI Kernel Test Service
