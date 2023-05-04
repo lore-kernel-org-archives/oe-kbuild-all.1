@@ -1,42 +1,45 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77BF156C7
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 19:55:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25CE9156CA
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 20:15:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683230101; x=1714766101;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iHMwykKJJ0AUDriL0ZkioB83pxZqHo6Z5Lhp6wGA1Xc=;
-  b=LImTkz+oIX9mO6Wkkvo2s9OesuuJHi/QZX1E8tpogpTcieK08fij8Ul2
-   PaCDSrTtt3ymsKTU/htpl7mxDRQZ7PtScbULSIcFi8YRzdxnodlke9sj0
-   jIPVehGC6A/HZPAE7YInFvCPicyY4HJME/YZFQDKMQmwj+1UXvwKzDfEW
-   sNBnZVgUXnRXjfyWMETt0Vc6gGzgtEpQxgGDo2Fqc4/uNSwMYgV7f0OCm
-   KEEa708yM3btwvstv6JEZsc8ZKXi6dOC1E8qamvEyRpqYd0qESzASSnIP
-   U0rtttk+YnJ8a2nlvDKgN3u70Ayti2xNwKRBLc31sP8UI3vo+LulFr/C5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="329403775"
+  t=1683231356; x=1714767356;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=U/3x0sFtGdBEfQN7VtgDWKIQs6+Y0vLg49FKhQmLF40=;
+  b=PI2IIhMcZJiubHVr4m/Xa5yBqBiLSMiqn28xTbqZX/Nrvz2Kg7Kipdi7
+   DDvvZMK/wXqDgHq2bHa3ktH57SfH9kiYh9juuZ4kD/5DyI2lKUQiYLTnf
+   k4taDhbXlzppdJyR9j8KXKbzg4ZEE8GQmxjpEDZG80O+cmfkZnKCePHRR
+   gt4v20aUF/rhKjpaaSfulBNpP/PqEAnfBQ4oWj8dVTLXvmzjT2e3nsb0d
+   tXUu7T5MndYA4ffbSrd11ayVGyb1q5FYpvkzqkDElFcyXfhqiszlH3goy
+   g6RP6v73eM0uToaYiM1wlsmdX8ufIE4j5GOHvGgpNR/nSNghyRDEElFEk
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="414568505"
 X-IronPort-AV: E=Sophos;i="5.99,250,1677571200"; 
-   d="scan'208";a="329403775"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 12:54:52 -0700
+   d="scan'208";a="414568505"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 13:15:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="647490872"
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="808898272"
 X-IronPort-AV: E=Sophos;i="5.99,250,1677571200"; 
-   d="scan'208";a="647490872"
+   d="scan'208";a="808898272"
 Received: from lkp-server01.sh.intel.com (HELO 64cf2984a3fe) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 04 May 2023 12:54:51 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 04 May 2023 13:15:51 -0700
 Received: from kbuild by 64cf2984a3fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puf2Q-00007A-2j;
-	Thu, 04 May 2023 19:54:50 +0000
-Date: Fri, 5 May 2023 03:54:32 +0800
+	id 1pufMl-00007i-0O;
+	Thu, 04 May 2023 20:15:51 +0000
+Date: Fri, 5 May 2023 04:15:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>
-Subject: [cilium:pr/new-api-tcx2 2/5] net/core/dev.c:3951:36: sparse: sparse:
- incompatible types in comparison expression (different address spaces):
-Message-ID: <202305050359.puwtj8Mw-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com,
+	rodrigo.vivi@intel.com
+Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915/irq: split out display irq
+ handling
+Message-ID: <202305050427.FtwE2pE7-lkp@intel.com>
+References: <d175e7571d188e791a3b691919d22b6a55ba8b16.1683219363.git.jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,114 +48,142 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <d175e7571d188e791a3b691919d22b6a55ba8b16.1683219363.git.jani.nikula@intel.com>
 
-tree:   https://github.com/cilium/linux.git pr/new-api-tcx2
-head:   b69ee9c2b86789b9b26c3f833a3327d17a35f37c
-commit: abe11a7d6ecffb6402a53bf8b0bd0fc113b916e9 [2/5] bpf: Add generic attach/detach/query API for multi-progs
-config: arc-randconfig-s043-20230430 (https://download.01.org/0day-ci/archive/20230505/202305050359.puwtj8Mw-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/cilium/linux/commit/abe11a7d6ecffb6402a53bf8b0bd0fc113b916e9
-        git remote add cilium https://github.com/cilium/linux.git
-        git fetch --no-tags cilium pr/new-api-tcx2
-        git checkout abe11a7d6ecffb6402a53bf8b0bd0fc113b916e9
+Hi Jani,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i915-irq-relocate-gmbus-and-dp-aux-irq-handlers/20230505-005945
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/d175e7571d188e791a3b691919d22b6a55ba8b16.1683219363.git.jani.nikula%40intel.com
+patch subject: [Intel-gfx] [PATCH 3/3] drm/i915/irq: split out display irq handling
+config: x86_64-randconfig-a002-20230501 (https://download.01.org/0day-ci/archive/20230505/202305050427.FtwE2pE7-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/8ace6b1f9c8d5dce9faa2181a85d61b33d550b8e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jani-Nikula/drm-i915-irq-relocate-gmbus-and-dp-aux-irq-handlers/20230505-005945
+        git checkout 8ace6b1f9c8d5dce9faa2181a85d61b33d550b8e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc SHELL=/bin/bash net/core/ net/sched/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305050359.puwtj8Mw-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305050427.FtwE2pE7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/core/dev.c:3314:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
-   net/core/dev.c:3314:23: sparse:     expected restricted __wsum [usertype] csum
-   net/core/dev.c:3314:23: sparse:     got unsigned int
-   net/core/dev.c:3314:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
-   net/core/dev.c:3314:23: sparse:     expected restricted __wsum [usertype] csum
-   net/core/dev.c:3314:23: sparse:     got unsigned int
-   net/core/dev.c:3314:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __wsum @@
-   net/core/dev.c:3314:23: sparse:     expected unsigned int [usertype] val
-   net/core/dev.c:3314:23: sparse:     got restricted __wsum
-   net/core/dev.c:3314:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
-   net/core/dev.c:3314:23: sparse:     expected restricted __wsum [usertype] csum
-   net/core/dev.c:3314:23: sparse:     got unsigned int
-   net/core/dev.c:3314:23: sparse: sparse: cast from restricted __wsum
-   net/core/dev.c:3314:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
-   net/core/dev.c:3314:23: sparse:     expected restricted __wsum [usertype] csum
-   net/core/dev.c:3314:23: sparse:     got unsigned int
-   net/core/dev.c:3314:23: sparse: sparse: cast from restricted __wsum
-   net/core/dev.c:3314:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
-   net/core/dev.c:3314:23: sparse:     expected restricted __wsum [usertype] csum
-   net/core/dev.c:3314:23: sparse:     got unsigned int
-   net/core/dev.c:3314:23: sparse: sparse: cast from restricted __wsum
-   net/core/dev.c:3314:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
-   net/core/dev.c:3314:23: sparse:     expected restricted __wsum [usertype] csum
-   net/core/dev.c:3314:23: sparse:     got unsigned int
-   net/core/dev.c:3314:23: sparse: sparse: cast from restricted __wsum
->> net/core/dev.c:3951:36: sparse: sparse: incompatible types in comparison expression (different address spaces):
->> net/core/dev.c:3951:36: sparse:    struct mini_Qdisc [noderef] __rcu *
->> net/core/dev.c:3951:36: sparse:    struct mini_Qdisc *
-   net/core/dev.c:411:33: sparse: sparse: context imbalance in 'unlist_netdevice' - different lock contexts for basic block
-   net/core/dev.c: note: in included file (through include/net/checksum.h, include/linux/skbuff.h, include/linux/if_ether.h):
-   arch/arc/include/asm/checksum.h:27:26: sparse: sparse: restricted __wsum degrades to integer
-   arch/arc/include/asm/checksum.h:27:36: sparse: sparse: restricted __wsum degrades to integer
-   arch/arc/include/asm/checksum.h:29:11: sparse: sparse: bad assignment (-=) to restricted __wsum
-   arch/arc/include/asm/checksum.h:30:16: sparse: sparse: restricted __wsum degrades to integer
-   arch/arc/include/asm/checksum.h:30:18: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __sum16 @@     got unsigned int @@
-   arch/arc/include/asm/checksum.h:30:18: sparse:     expected restricted __sum16
-   arch/arc/include/asm/checksum.h:30:18: sparse:     got unsigned int
-   net/core/dev.c:3817:17: sparse: sparse: context imbalance in '__dev_queue_xmit' - different lock contexts for basic block
-   net/core/dev.c:5190:17: sparse: sparse: context imbalance in 'net_tx_action' - different lock contexts for basic block
---
->> net/sched/sch_ingress.c:91:57: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct mini_Qdisc [noderef] __rcu **p_miniq @@     got struct mini_Qdisc ** @@
-   net/sched/sch_ingress.c:91:57: sparse:     expected struct mini_Qdisc [noderef] __rcu **p_miniq
-   net/sched/sch_ingress.c:91:57: sparse:     got struct mini_Qdisc **
-   net/sched/sch_ingress.c:243:65: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct mini_Qdisc [noderef] __rcu **p_miniq @@     got struct mini_Qdisc ** @@
-   net/sched/sch_ingress.c:243:65: sparse:     expected struct mini_Qdisc [noderef] __rcu **p_miniq
-   net/sched/sch_ingress.c:243:65: sparse:     got struct mini_Qdisc **
-   net/sched/sch_ingress.c:261:64: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct mini_Qdisc [noderef] __rcu **p_miniq @@     got struct mini_Qdisc ** @@
-   net/sched/sch_ingress.c:261:64: sparse:     expected struct mini_Qdisc [noderef] __rcu **p_miniq
-   net/sched/sch_ingress.c:261:64: sparse:     got struct mini_Qdisc **
+All warnings (new ones prefixed by >>):
 
-vim +3951 net/core/dev.c
+>> drivers/gpu/drm/i915/display/intel_display_irq.c:411:41: warning: argument 3 of type 'u32[4]' {aka 'unsigned int[4]'} with mismatched bound [-Warray-parameter=]
+     411 |                            u32 iir, u32 pipe_stats[I915_MAX_PIPES])
+         |                                     ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/i915/display/intel_display_irq.c:10:
+   drivers/gpu/drm/i915/display/intel_display_irq.h:72:73: note: previously declared as 'u32 *' {aka 'unsigned int *'}
+      72 | void i9xx_pipestat_irq_ack(struct drm_i915_private *i915, u32 iir, u32 *pipe_stats);
+         |                                                                    ~~~~~^~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_irq.c:477:45: warning: argument 3 of type 'u32[4]' {aka 'unsigned int[4]'} with mismatched bound [-Warray-parameter=]
+     477 |                                u16 iir, u32 pipe_stats[I915_MAX_PIPES])
+         |                                         ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/i915/display/intel_display_irq.c:10:
+   drivers/gpu/drm/i915/display/intel_display_irq.h:77:77: note: previously declared as 'u32 *' {aka 'unsigned int *'}
+      77 | void i8xx_pipestat_irq_handler(struct drm_i915_private *i915, u16 iir, u32 *pipe_stats);
+         |                                                                        ~~~~~^~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_irq.c:494:45: warning: argument 3 of type 'u32[4]' {aka 'unsigned int[4]'} with mismatched bound [-Warray-parameter=]
+     494 |                                u32 iir, u32 pipe_stats[I915_MAX_PIPES])
+         |                                         ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/i915/display/intel_display_irq.c:10:
+   drivers/gpu/drm/i915/display/intel_display_irq.h:74:77: note: previously declared as 'u32 *' {aka 'unsigned int *'}
+      74 | void i915_pipestat_irq_handler(struct drm_i915_private *i915, u32 iir, u32 *pipe_stats);
+         |                                                                        ~~~~~^~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_irq.c:518:45: warning: argument 3 of type 'u32[4]' {aka 'unsigned int[4]'} with mismatched bound [-Warray-parameter=]
+     518 |                                u32 iir, u32 pipe_stats[I915_MAX_PIPES])
+         |                                         ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/i915/display/intel_display_irq.c:10:
+   drivers/gpu/drm/i915/display/intel_display_irq.h:75:77: note: previously declared as 'u32 *' {aka 'unsigned int *'}
+      75 | void i965_pipestat_irq_handler(struct drm_i915_private *i915, u32 iir, u32 *pipe_stats);
+         |                                                                        ~~~~~^~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_irq.c:545:42: warning: argument 2 of type 'u32[4]' {aka 'unsigned int[4]'} with mismatched bound [-Warray-parameter=]
+     545 |                                      u32 pipe_stats[I915_MAX_PIPES])
+         |                                      ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/i915/display/intel_display_irq.c:10:
+   drivers/gpu/drm/i915/display/intel_display_irq.h:76:74: note: previously declared as 'u32 *' {aka 'unsigned int *'}
+      76 | void valleyview_pipestat_irq_handler(struct drm_i915_private *i915, u32 *pipe_stats);
+         |                                                                     ~~~~~^~~~~~~~~~
 
-  3945	
-  3946	#ifdef CONFIG_NET_XGRESS
-  3947	static int tc_run(struct tcx_entry *entry, struct sk_buff *skb)
-  3948	{
-  3949		int ret = TC_ACT_UNSPEC;
-  3950	#ifdef CONFIG_NET_CLS_ACT
-> 3951		struct mini_Qdisc *miniq = rcu_dereference_bh(entry->miniq);
-  3952		struct tcf_result res;
-  3953	
-  3954		if (!miniq)
-  3955			return ret;
-  3956	
-  3957		tc_skb_cb(skb)->mru = 0;
-  3958		tc_skb_cb(skb)->post_ct = false;
-  3959	
-  3960		mini_qdisc_bstats_cpu_update(miniq, skb);
-  3961		ret = tcf_classify(skb, miniq->block, miniq->filter_list, &res, false);
-  3962		/* Only tcf related quirks below. */
-  3963		switch (ret) {
-  3964		case TC_ACT_SHOT:
-  3965			mini_qdisc_qstats_cpu_drop(miniq);
-  3966			break;
-  3967		case TC_ACT_OK:
-  3968		case TC_ACT_RECLASSIFY:
-  3969			skb->tc_index = TC_H_MIN(res.classid);
-  3970			break;
-  3971		}
-  3972	#endif /* CONFIG_NET_CLS_ACT */
-  3973		return ret;
-  3974	}
-  3975	
+
+vim +411 drivers/gpu/drm/i915/display/intel_display_irq.c
+
+   409	
+   410	void i9xx_pipestat_irq_ack(struct drm_i915_private *dev_priv,
+ > 411				   u32 iir, u32 pipe_stats[I915_MAX_PIPES])
+   412	{
+   413		enum pipe pipe;
+   414	
+   415		spin_lock(&dev_priv->irq_lock);
+   416	
+   417		if (!dev_priv->display_irqs_enabled) {
+   418			spin_unlock(&dev_priv->irq_lock);
+   419			return;
+   420		}
+   421	
+   422		for_each_pipe(dev_priv, pipe) {
+   423			i915_reg_t reg;
+   424			u32 status_mask, enable_mask, iir_bit = 0;
+   425	
+   426			/*
+   427			 * PIPESTAT bits get signalled even when the interrupt is
+   428			 * disabled with the mask bits, and some of the status bits do
+   429			 * not generate interrupts at all (like the underrun bit). Hence
+   430			 * we need to be careful that we only handle what we want to
+   431			 * handle.
+   432			 */
+   433	
+   434			/* fifo underruns are filterered in the underrun handler. */
+   435			status_mask = PIPE_FIFO_UNDERRUN_STATUS;
+   436	
+   437			switch (pipe) {
+   438			default:
+   439			case PIPE_A:
+   440				iir_bit = I915_DISPLAY_PIPE_A_EVENT_INTERRUPT;
+   441				break;
+   442			case PIPE_B:
+   443				iir_bit = I915_DISPLAY_PIPE_B_EVENT_INTERRUPT;
+   444				break;
+   445			case PIPE_C:
+   446				iir_bit = I915_DISPLAY_PIPE_C_EVENT_INTERRUPT;
+   447				break;
+   448			}
+   449			if (iir & iir_bit)
+   450				status_mask |= dev_priv->pipestat_irq_mask[pipe];
+   451	
+   452			if (!status_mask)
+   453				continue;
+   454	
+   455			reg = PIPESTAT(pipe);
+   456			pipe_stats[pipe] = intel_uncore_read(&dev_priv->uncore, reg) & status_mask;
+   457			enable_mask = i915_pipestat_enable_mask(dev_priv, pipe);
+   458	
+   459			/*
+   460			 * Clear the PIPE*STAT regs before the IIR
+   461			 *
+   462			 * Toggle the enable bits to make sure we get an
+   463			 * edge in the ISR pipe event bit if we don't clear
+   464			 * all the enabled status bits. Otherwise the edge
+   465			 * triggered IIR on i965/g4x wouldn't notice that
+   466			 * an interrupt is still pending.
+   467			 */
+   468			if (pipe_stats[pipe]) {
+   469				intel_uncore_write(&dev_priv->uncore, reg, pipe_stats[pipe]);
+   470				intel_uncore_write(&dev_priv->uncore, reg, enable_mask);
+   471			}
+   472		}
+   473		spin_unlock(&dev_priv->irq_lock);
+   474	}
+   475	
 
 -- 
 0-DAY CI Kernel Test Service
