@@ -1,104 +1,162 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C267E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 13:43:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683207823; x=1714743823;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fpoWL0/92qDAdRMBmDim9NWmp0C5D4So5ymCwU5ABtQ=;
-  b=eDSXCMlmxTHmhyxL3MwPDIerI4VTZyzqVAU22Fb+mTQbySZoRKQogi/r
-   ht9VNYnbLqkQf+muG0VB8vbYP/UQRxAIPi7a5xgNxJD518RpvGJ3I714o
-   6hqE2ey/5hCvGmwoGqa7QOYJbrv3s9cbDHIAHhx7Lzlw/6IDTYKCdP3cj
-   H3sG7qCoLNrNsRTC6y4KJ8U0Zfo6zypLMzuXYaeBrUzR4FfOxN+2n3O4H
-   /V22NTrJDiXUMhSQROLcGewImAsoh8Vr7AlShUyQhZupiXv9kqc2psKr1
-   AtDUdqBCeaaQraXgQ/zl3wed5kzyIc5/LhLQRNzAsfDVJsqkEqWfQNzOI
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="435242157"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="435242157"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 06:43:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="808727780"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="808727780"
-Received: from lkp-server01.sh.intel.com (HELO d0e14d8700eb) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 04 May 2023 06:43:41 -0700
-Received: from kbuild by d0e14d8700eb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1puZFF-000018-0E;
-	Thu, 04 May 2023 13:43:41 +0000
-Date: Thu, 4 May 2023 21:43:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [superna9999:amlogic/v6.3/upstream/dsi-ccf-vim3l 14/17]
- drivers/clk/meson/g12a.c:3267:60: warning: missing braces around initializer
-Message-ID: <202305042114.eJmyu3NN-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51167E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 13:45:59 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-4f00d41df22so10319931e87.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 04 May 2023 06:45:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683207958; x=1685799958;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Euvwf4w+PF7dcGdqI4XhoSfNb4B+m4UWdOdTdv+MuqM=;
+        b=KrKTHJFZ+LghXyg6cVbPfp31a4auBIA65987yHRH3IzsTDFwozej6/PXVlVXLPiXLz
+         wUfdOFtudeZQIZ99glYbXNFhFaNQf6rFzeXdWXYjuFdn7iVxDpgGvji0zK+Z7aBtKMuN
+         lvt3DkM5YEMG8mF+1Vpvk218aE9oS00ixNnUkKjQjEna/tfZ/xjGC8Z3Pho56QpIGedM
+         i4ASMeJA3h9xPZS3bZLyM37MW+eyiYC5Swm2H4VacsKDlZWXUWeCfNpq6qtfuysMerm/
+         bUP5ll7WRyv/Z0yQyHdStS3CZ2SGq+Jr5FPbmJgff+GHeDLGccIuiKT04gmDfDblrJF5
+         equg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683207958; x=1685799958;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Euvwf4w+PF7dcGdqI4XhoSfNb4B+m4UWdOdTdv+MuqM=;
+        b=SGf1L+Jo2LAH+dQphBKdOpI6gEf+TmHU10gQ7OnkBcULpuAUlJYf8I+oPVWEXBb/Pr
+         ZFsA2FNVg9MLjp9PvZm8nuT1YWKLnV4WPr3Ni/lmt5EQazH7kF4Qg0znNWzGxAF6avg0
+         4OZ0r316aPk1Hn0mMfrhTvBHvlmMoFcl9IpX7oRT3o102vkms1f8vjhNSxM5MKfv1Zpe
+         y4O3T+IXze15zw38/9+ZRnJAizAf5zTEv2LzLJfS50GjtypgJALeK9wUohag5uAA+cjt
+         5mwSZyUHqNEleQN1siIYhlssTw+3d+po1jlkpvDWjJ2x4qcVK9gmQXPUopAYQXkezm82
+         Alrg==
+X-Gm-Message-State: AC+VfDy6jmiJknxBitxG2Pz7lXfh7jnRZaF0m2HLNunGJG7+4dfzhNzo
+	adt9csaeIf9snWFID4kcqCvkBO3sWwXvExRJOXWmAYx04JI=
+X-Google-Smtp-Source: ACHHUZ4MDMoaiOp+0PQmwK/1IfdL7SymXUJ+Ul3aNoMrbyho03TdaRJXiJ/fQRyHg166g6col/TDj2eCt6PCIDH6btU=
+X-Received: by 2002:a05:6512:224f:b0:4ec:36d6:1517 with SMTP id
+ i15-20020a056512224f00b004ec36d61517mr1202176lfu.2.1683207957592; Thu, 04 May
+ 2023 06:45:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230420165454.9517-14-jorge.lopez2@hp.com> <202305041942.Cc0sqwxY-lkp@intel.com>
+In-Reply-To: <202305041942.Cc0sqwxY-lkp@intel.com>
+From: Jorge Lopez <jorgealtxwork@gmail.com>
+Date: Thu, 4 May 2023 08:45:30 -0500
+Message-ID: <CAOOmCE-rsvHd8rNqNqyAvZi6orMbMzR-DcpHyEUPq8dt-sZ_Pw@mail.gmail.com>
+Subject: Re: [PATCH v11 13/14] HP BIOSCFG driver - Makefile
+To: kernel test robot <lkp@intel.com>
+Cc: hdegoede@redhat.com, platform-driver-x86@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, thomas@t-8ch.de, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/superna9999/linux amlogic/v6.3/upstream/dsi-ccf-vim3l
-head:   dc9a851c0d5c5f6d8d1446877e6c7af3e443d7ce
-commit: aa34b57736328bb6bfebad37a00b88ed707b51d6 [14/17] clk: meson: add code to setup VCLK2/DSI clocks
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230504/202305042114.eJmyu3NN-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/superna9999/linux/commit/aa34b57736328bb6bfebad37a00b88ed707b51d6
-        git remote add superna9999 https://github.com/superna9999/linux
-        git fetch --no-tags superna9999 amlogic/v6.3/upstream/dsi-ccf-vim3l
-        git checkout aa34b57736328bb6bfebad37a00b88ed707b51d6
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/clk/meson/
+Hi
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305042114.eJmyu3NN-lkp@intel.com/
+A quick note letting you know that the failures are reported when
+trying to compile HP-BIOSCFG driver and it is including compile
+sources from a DELL driver.   No DELL portions of driver are and will
+be included in HP-BIOSCFG driver.
 
-All warnings (new ones prefixed by >>):
+ld: drivers/platform/x86/hp/hp-bioscfg/bioscfg.o: in function
+`get_wmiobj_pointer':
+>> bioscfg.c:(.text+0x750): multiple definition of `get_wmiobj_pointer'; dr=
+ivers/platform/x86/dell/dell-wmi-sysman/sysman.o:sysman.c:(.text+0x830): fi=
+rst defined here
 
->> drivers/clk/meson/g12a.c:3267:60: warning: missing braces around initializer [-Wmissing-braces]
-    3267 | static struct g12a_vclk_div_notifier g12a_vclk2_div_data = {
-         |                                                            ^
-   ......
-    3272 |         .nb = g12a_vclk_div_notifier_cb,
-         |               {
-    3273 | };
-         | }
-   drivers/clk/meson/g12a.c:3331:58: warning: missing braces around initializer [-Wmissing-braces]
-    3331 | static struct g12a_vclk_reset_notifier g12a_vclk2_data = {
-         |                                                          ^
-   ......
-    3335 |         .nb = g12a_vclk_notifier_cb,
-         |               {
-    3336 | };
-         | }
+Additionally,  functions init_bios_attr_pass_interface() and
+exit_bios_attr_pass_interface() were renamed and the new definition
+will be included in patch v13  for HP-BIOSCFG driver.
 
+Regards,
 
-vim +3267 drivers/clk/meson/g12a.c
+Jorge
 
-  3266	
-> 3267	static struct g12a_vclk_div_notifier g12a_vclk2_div_data = {
-  3268		.clk = &g12a_vclk2_div,
-  3269		.offset = HHI_VIID_CLK_DIV,
-  3270		.en_bit_idx = 16,
-  3271		.reset_bit_idx = 17,
-  3272		.nb = g12a_vclk_div_notifier_cb,
-  3273	};
-  3274	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+On Thu, May 4, 2023 at 6:59=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi Jorge,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on linus/master]
+> [also build test ERROR on v6.3 next-20230428]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jorge-Lopez/HP-BIO=
+SCFG-driver-Documentation/20230421-012956
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20230420165454.9517-14-jorge.lop=
+ez2%40hp.com
+> patch subject: [PATCH v11 13/14] HP BIOSCFG driver  - Makefile
+> config: i386-allyesconfig (https://download.01.org/0day-ci/archive/202305=
+04/202305041942.Cc0sqwxY-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> reproduce (this is a W=3D1 build):
+>         # https://github.com/intel-lab-lkp/linux/commit/55e860a942040b0d0=
+f1b58362dc4885b1a8acaf2
+>         git remote add linux-review https://github.com/intel-lab-lkp/linu=
+x
+>         git fetch --no-tags linux-review Jorge-Lopez/HP-BIOSCFG-driver-Do=
+cumentation/20230421-012956
+>         git checkout 55e860a942040b0d0f1b58362dc4885b1a8acaf2
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         make W=3D1 O=3Dbuild_dir ARCH=3Di386 olddefconfig
+>         make W=3D1 O=3Dbuild_dir ARCH=3Di386 SHELL=3D/bin/bash
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202305041942.Cc0sqwxY-lkp@i=
+ntel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    ld: drivers/platform/x86/hp/hp-bioscfg/bioscfg.o: in function `get_wmi=
+obj_pointer':
+> >> bioscfg.c:(.text+0x750): multiple definition of `get_wmiobj_pointer'; =
+drivers/platform/x86/dell/dell-wmi-sysman/sysman.o:sysman.c:(.text+0x830): =
+first defined here
+>    ld: drivers/platform/x86/hp/hp-bioscfg/bioscfg.o: in function `get_ins=
+tance_count':
+> >> bioscfg.c:(.text+0x7ac): multiple definition of `get_instance_count'; =
+drivers/platform/x86/dell/dell-wmi-sysman/sysman.o:sysman.c:(.text+0x88c): =
+first defined here
+>    ld: drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.o: in functi=
+on `init_bios_attr_set_interface':
+> >> biosattr-interface.c:(.text+0x4dc): multiple definition of `init_bios_=
+attr_set_interface'; drivers/platform/x86/dell/dell-wmi-sysman/biosattr-int=
+erface.o:biosattr-interface.c:(.text+0x33c): first defined here
+>    ld: drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.o: in functi=
+on `exit_bios_attr_set_interface':
+> >> biosattr-interface.c:(.text+0x4f8): multiple definition of `exit_bios_=
+attr_set_interface'; drivers/platform/x86/dell/dell-wmi-sysman/biosattr-int=
+erface.o:biosattr-interface.c:(.text+0x358): first defined here
+>    ld: drivers/platform/x86/hp/hp-bioscfg/passwdattr-interface.o: in func=
+tion `init_bios_attr_pass_interface':
+> >> passwdattr-interface.c:(.text+0x68): multiple definition of `init_bios=
+_attr_pass_interface'; drivers/platform/x86/dell/dell-wmi-sysman/passwordat=
+tr-interface.o:passwordattr-interface.c:(.text+0x338): first defined here
+>    ld: drivers/platform/x86/hp/hp-bioscfg/passwdattr-interface.o: in func=
+tion `exit_bios_attr_pass_interface':
+> >> passwdattr-interface.c:(.text+0x84): multiple definition of `exit_bios=
+_attr_pass_interface'; drivers/platform/x86/dell/dell-wmi-sysman/passwordat=
+tr-interface.o:passwordattr-interface.c:(.text+0x354): first defined here
+>    ld: drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.o: in functio=
+n `calculate_security_buffer':
+> >> spmobj-attributes.c:(.text+0x4c4): multiple definition of `calculate_s=
+ecurity_buffer'; drivers/platform/x86/dell/dell-wmi-sysman/sysman.o:sysman.=
+c:(.text+0x714): first defined here
+>    ld: drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.o: in functio=
+n `populate_security_buffer':
+> >> spmobj-attributes.c:(.text+0x524): multiple definition of `populate_se=
+curity_buffer'; drivers/platform/x86/dell/dell-wmi-sysman/sysman.o:sysman.c=
+:(.text+0x744): first defined here
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
