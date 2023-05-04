@@ -1,43 +1,45 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EECED4
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 10:59:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41DFB10EC
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 11:59:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683197965; x=1714733965;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VSYZ2ksxXks/w+kQKfNn4JVfzzDRVgK2yjBTSXUbcZg=;
-  b=eL5B1hugvnTXOspKrCtX12n6uhZ+f7MkDicRs9L5eoHUYilEsjyUaRMX
-   TDXZdLmmBnuWHIiNHsQAPPlBO93v0jsC56KEYqYm/Zt0DAp6EsSP4iAlJ
-   8BcMcIoZzIOeUjbZy3VYs5q+p1PYUMee7UssYE3cUKj0zCXHfCiSiEWcq
-   +C04XTAI6IsJDkkT8hZQHHIFsKKIaWODh09bKnCbFih6JrTwP4JjxTDxY
-   8MWxJnI46F6bsTDZnjT8pnKVVKUQZR5ZsySugwR7tFzkIGfLmLCpm0VoH
-   C4SIa8hMRzL0wEFHA/C45IIeyAkekqPUm4/vBotTzztsJg9v1/u36kZx1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="328520632"
+  t=1683201567; x=1714737567;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wCXBg5zlOMnRfdDbHBWzSwfpftDOz/d8B2/eAav00OQ=;
+  b=abk3r+NfsJKMOTX7jPBo6MEBHSB2vM3RXJMMA539R4V6XDBcNg6kot9g
+   l2LoVVmspKy8lbx3uw+bmy2ZmadwWtjz//+otHY+7zAX3q1SRJiyiVENg
+   naRXK3iJ1wmNyHAqEr2GygEoaz74ycvpHJoDVFfVFX4FAe5MKZyfjfEK4
+   e8sBs6CIkXCffK+BO1LjJOtzYnTSyllk/ZUITpcfEvJbANoPje2q8Ku8d
+   LAA/j4MZNmPHe0OrC34SsNt0jhgibV2PTyjv4eojHi3pQceT+yB0UbJJY
+   4Q/N5GdtJHwmvnAzVCae5SG/laWXxvrcUOSUTBSFWk6v6nUFuV0joBiIJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="435219604"
 X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="328520632"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 03:58:24 -0700
+   d="scan'208";a="435219604"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 04:59:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="821118289"
+X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="943307312"
 X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="821118289"
+   d="scan'208";a="943307312"
 Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 May 2023 03:58:22 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 04 May 2023 04:59:24 -0700
 Received: from kbuild by e3434d64424d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puWfG-0002rW-0C;
-	Thu, 04 May 2023 10:58:22 +0000
-Date: Thu, 4 May 2023 18:58:13 +0800
+	id 1puXcJ-0002to-2p;
+	Thu, 04 May 2023 11:59:23 +0000
+Date: Thu, 4 May 2023 19:59:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jon Derrick <jonathan.derrick@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Song Liu <song@kernel.org>, Christoph Hellwig <hch@lst.de>
-Subject: drivers/md/md-bitmap.c:242 __write_sb_page() warn: unsigned 'offset'
- is never less than zero.
-Message-ID: <202305041858.yfdVDDZ4-lkp@intel.com>
+To: Jorge Lopez <jorgealtxwork@gmail.com>, hdegoede@redhat.com,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+	thomas@t-8ch.de
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v11 13/14] HP BIOSCFG driver  - Makefile
+Message-ID: <202305041942.Cc0sqwxY-lkp@intel.com>
+References: <20230420165454.9517-14-jorge.lopez2@hp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,85 +48,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230420165454.9517-14-jorge.lopez2@hp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1a5304fecee523060f26e2778d9d8e33c0562df3
-commit: 10172f200b67aafcb9b8ce7d0575d713c1aafbb7 md: Fix types in sb writer
-date:   3 weeks ago
-config: nios2-randconfig-m031-20230503 (https://download.01.org/0day-ci/archive/20230504/202305041858.yfdVDDZ4-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.1.0
+Hi Jorge,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.3 next-20230428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jorge-Lopez/HP-BIOSCFG-driver-Documentation/20230421-012956
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230420165454.9517-14-jorge.lopez2%40hp.com
+patch subject: [PATCH v11 13/14] HP BIOSCFG driver  - Makefile
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230504/202305041942.Cc0sqwxY-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/55e860a942040b0d0f1b58362dc4885b1a8acaf2
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jorge-Lopez/HP-BIOSCFG-driver-Documentation/20230421-012956
+        git checkout 55e860a942040b0d0f1b58362dc4885b1a8acaf2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305041858.yfdVDDZ4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305041942.Cc0sqwxY-lkp@intel.com/
 
-New smatch warnings:
-drivers/md/md-bitmap.c:242 __write_sb_page() warn: unsigned 'offset' is never less than zero.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-arch/nios2/include/asm/thread_info.h:62 current_thread_info() error: uninitialized symbol 'sp'.
-
-vim +/offset +242 drivers/md/md-bitmap.c
-
-b2d2c4ceaddc30 drivers/md/bitmap.c    NeilBrown        2008-09-01  211  
-328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  212  static int __write_sb_page(struct md_rdev *rdev, struct bitmap *bitmap,
-328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  213  			   struct page *page)
-a654b9d8f851f4 drivers/md/bitmap.c    NeilBrown        2005-06-21  214  {
-a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  215  	struct block_device *bdev;
-fd01b88c75a718 drivers/md/bitmap.c    NeilBrown        2011-10-11  216  	struct mddev *mddev = bitmap->mddev;
-1ec885cdd01a9a drivers/md/bitmap.c    NeilBrown        2012-05-22  217  	struct bitmap_storage *store = &bitmap->storage;
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  218  	sector_t offset = mddev->bitmap_info.offset;
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  219  	sector_t ps, sboff, doff;
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  220  	unsigned int size = PAGE_SIZE;
-a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  221  
-a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  222  	bdev = (rdev->meta_bdev) ? rdev->meta_bdev : rdev->bdev;
-9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  223  	if (page->index == store->file_pages - 1) {
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  224  		unsigned int last_page_size = store->bytes & (PAGE_SIZE - 1);
-328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  225  
-9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  226  		if (last_page_size == 0)
-9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  227  			last_page_size = PAGE_SIZE;
-9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  228  		size = roundup(last_page_size,
-a6ff7e089c7fca drivers/md/bitmap.c    Jonathan Brassow 2011-01-14  229  			       bdev_logical_block_size(bdev));
-9b1215c102d4b1 drivers/md/bitmap.c    NeilBrown        2012-05-22  230  	}
-328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  231  
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  232  	ps = page->index * PAGE_SIZE / SECTOR_SIZE;
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  233  	sboff = rdev->sb_start + offset;
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  234  	doff = rdev->data_offset;
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  235  
-328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  236  	/* Just make sure we aren't corrupting data or metadata */
-f6af949c567211 drivers/md/bitmap.c    NeilBrown        2009-12-14  237  	if (mddev->external) {
-f6af949c567211 drivers/md/bitmap.c    NeilBrown        2009-12-14  238  		/* Bitmap could be anywhere. */
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  239  		if (sboff + ps > doff &&
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  240  		    sboff < (doff + mddev->dev_sectors + PAGE_SIZE / SECTOR_SIZE))
-328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  241  			return -EINVAL;
-f6af949c567211 drivers/md/bitmap.c    NeilBrown        2009-12-14 @242  	} else if (offset < 0) {
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  243  		/* DATA  BITMAP METADATA  */
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  244  		if (offset + ps + size / SECTOR_SIZE > 0)
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  245  			/* bitmap runs in to metadata */
-328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  246  			return -EINVAL;
-328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  247  
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  248  		if (doff + mddev->dev_sectors > sboff)
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  249  			/* data runs in to bitmap */
-328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  250  			return -EINVAL;
-0f420358e3a2ab drivers/md/bitmap.c    Andre Noll       2008-07-11  251  	} else if (rdev->sb_start < rdev->data_offset) {
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  252  		/* METADATA BITMAP DATA */
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  253  		if (sboff + ps + size / SECTOR_SIZE > doff)
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  254  			/* bitmap runs in to data */
-328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  255  			return -EINVAL;
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  256  	} else {
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  257  		/* DATA METADATA BITMAP - no problems */
-f0d76d70bc77b9 drivers/md/bitmap.c    NeilBrown        2007-07-17  258  	}
-328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  259  
-10172f200b67aa drivers/md/md-bitmap.c Jon Derrick      2023-02-24  260  	md_super_write(mddev, rdev, sboff + ps, (int) size, page);
-328e17d8d9428b drivers/md/md-bitmap.c Jon Derrick      2023-02-24  261  	return 0;
-ab6085c795a71b drivers/md/bitmap.c    NeilBrown        2007-05-23  262  }
-a654b9d8f851f4 drivers/md/bitmap.c    NeilBrown        2005-06-21  263  
-
-:::::: The code at line 242 was first introduced by commit
-:::::: f6af949c5672115313cc3c976d85b0533f607d7e md: support bitmap offset appropriate for external-metadata arrays.
-
-:::::: TO: NeilBrown <neilb@suse.de>
-:::::: CC: NeilBrown <neilb@suse.de>
+   ld: drivers/platform/x86/hp/hp-bioscfg/bioscfg.o: in function `get_wmiobj_pointer':
+>> bioscfg.c:(.text+0x750): multiple definition of `get_wmiobj_pointer'; drivers/platform/x86/dell/dell-wmi-sysman/sysman.o:sysman.c:(.text+0x830): first defined here
+   ld: drivers/platform/x86/hp/hp-bioscfg/bioscfg.o: in function `get_instance_count':
+>> bioscfg.c:(.text+0x7ac): multiple definition of `get_instance_count'; drivers/platform/x86/dell/dell-wmi-sysman/sysman.o:sysman.c:(.text+0x88c): first defined here
+   ld: drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.o: in function `init_bios_attr_set_interface':
+>> biosattr-interface.c:(.text+0x4dc): multiple definition of `init_bios_attr_set_interface'; drivers/platform/x86/dell/dell-wmi-sysman/biosattr-interface.o:biosattr-interface.c:(.text+0x33c): first defined here
+   ld: drivers/platform/x86/hp/hp-bioscfg/biosattr-interface.o: in function `exit_bios_attr_set_interface':
+>> biosattr-interface.c:(.text+0x4f8): multiple definition of `exit_bios_attr_set_interface'; drivers/platform/x86/dell/dell-wmi-sysman/biosattr-interface.o:biosattr-interface.c:(.text+0x358): first defined here
+   ld: drivers/platform/x86/hp/hp-bioscfg/passwdattr-interface.o: in function `init_bios_attr_pass_interface':
+>> passwdattr-interface.c:(.text+0x68): multiple definition of `init_bios_attr_pass_interface'; drivers/platform/x86/dell/dell-wmi-sysman/passwordattr-interface.o:passwordattr-interface.c:(.text+0x338): first defined here
+   ld: drivers/platform/x86/hp/hp-bioscfg/passwdattr-interface.o: in function `exit_bios_attr_pass_interface':
+>> passwdattr-interface.c:(.text+0x84): multiple definition of `exit_bios_attr_pass_interface'; drivers/platform/x86/dell/dell-wmi-sysman/passwordattr-interface.o:passwordattr-interface.c:(.text+0x354): first defined here
+   ld: drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.o: in function `calculate_security_buffer':
+>> spmobj-attributes.c:(.text+0x4c4): multiple definition of `calculate_security_buffer'; drivers/platform/x86/dell/dell-wmi-sysman/sysman.o:sysman.c:(.text+0x714): first defined here
+   ld: drivers/platform/x86/hp/hp-bioscfg/spmobj-attributes.o: in function `populate_security_buffer':
+>> spmobj-attributes.c:(.text+0x524): multiple definition of `populate_security_buffer'; drivers/platform/x86/dell/dell-wmi-sysman/sysman.o:sysman.c:(.text+0x744): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
