@@ -1,44 +1,49 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDA57E2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 05:14:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683177292; x=1714713292;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U0Mvm2Qigu/1mTyodDCfTROC/3TRZNheY7qiLXnriVk=;
-  b=IhGEh8+Z9O5sJL6bRVNSjOJSQb5dy9aGqCnauSQK+JR76zoEj4ljPz3d
-   LpXIfvQUaCK8p+aRsxMQo4Nb6nBzrO2IpiLYK6iNEkB/iR+wCK0MdV3Y/
-   zj4egz+zh33EcvNYLcIythFMTtBankrBKi9DedJZKgqoUyMTcbDXlU9gc
-   RmQoFQCi+pogGFCf+F+umzzjJjoSNeITB+iGDlIO8qsXdv7IpcAB+C5bf
-   26ST8/x13PTddJMyYCd2PyQc+qNwYnM2VjvNs9DGKjL+BfPxP33w5pYe+
-   qQxHPzTOJudILTKOO6MizB91ouufsUGzwu4V5aIO/Vzjno3i9AQI1o9ce
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="350922771"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="350922771"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2023 22:14:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10699"; a="871219323"
-X-IronPort-AV: E=Sophos;i="5.99,249,1677571200"; 
-   d="scan'208";a="871219323"
-Received: from lkp-server01.sh.intel.com (HELO e3434d64424d) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 03 May 2023 22:14:50 -0700
-Received: from kbuild by e3434d64424d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1puRIn-0002ay-1L;
-	Thu, 04 May 2023 05:14:49 +0000
-Date: Thu, 4 May 2023 13:14:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paulo Alcantara <pc@manguebit.com>, smfrench@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-cifs@vger.kernel.org,
-	Paulo Alcantara <pc@manguebit.com>, stable@vger.kernel.org
-Subject: Re: [PATCH 7/7] cifs: fix sharing of DFS connections
-Message-ID: <202305041040.j7W2xQSy-lkp@intel.com>
-References: <20230503222117.7609-8-pc@manguebit.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19729A2D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 06:38:32 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3f192c23fffso402625e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 03 May 2023 23:38:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683182310; x=1685774310;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0j4be7d2rG+22TYev8I5mh2jy5bdlXqGPQcv/ReyqdQ=;
+        b=tw6Qh5w7opRCW4Q+ayJWgUlmG18Ys0UByGAJ+5n2YniM0PUWxitzIRUlXQwPt9EKa8
+         NWoSfoieLWgQgVtUWeCJPW14Sb6ANdwBvJug7kzSlxco76xHzRuDBEAlU9wX800ZcVV7
+         vrUeX+ISVuoRNMwCuKJ6E/+VFlKYVet33wH9V9N86MCOJsTLfbjmnV1XTXSmB2c9dl+Y
+         8qUUS+LbcJH4V5nOPzJcNsWD2eZbAUn/rTgONZoaZobe9uxR501evVCtP9r+IyqcFfOz
+         hy7OxzdgCO00XmZaasmrQraKq0lhS8FpiTq+IwTIViSvGJTGf4bf+M2ucJkQsxRC+IMU
+         hVjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683182310; x=1685774310;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0j4be7d2rG+22TYev8I5mh2jy5bdlXqGPQcv/ReyqdQ=;
+        b=I75sQAkSAjX1N8tPF6V7a9l9H4CqZD5R7keYepgOLi3pjQdv0/21H9OZA8ljhIESvp
+         N3SlnWai3nWOcUAcnCzS/f3c/h28xQkFrUVio3/CoaBYJZqrosFBaY94ejP566O4T5Ex
+         JqEWxwg8LcTlavyHpy3CLPEaSSp4oWXrngCc9b8Un7/zn1+0JiKY4x5IWYK8mcZuo0hQ
+         BrSkJkG0eRsud8yck8mzjRagXFaQmjnDppb8kFa16sqkFksRJxwHbhYAP8QSpFMYWUaL
+         fT8iMYuBKQhItrKrxxu76R4ExclyQkb1iFxSjfomu3PKpbaoGkhDStDpCKTmWWvvAnEO
+         EBlw==
+X-Gm-Message-State: AC+VfDyP3lXTDsLYFN7OT7t0MWDLo/AHjdC46uZU8EIUwiujjLjJBWhv
+	5u9hYI5dYsF+utzIJlFSJLYGbA==
+X-Google-Smtp-Source: ACHHUZ6YSFXuWIzgIAn2WEOQ2PDaxiYOet8Q+iWJXYQ4KFH0vwIkq2ihD5MIXOFv//R9vz5DMg9RjQ==
+X-Received: by 2002:a7b:cb93:0:b0:3f1:6eaf:daa7 with SMTP id m19-20020a7bcb93000000b003f16eafdaa7mr16219917wmi.10.1683182310180;
+        Wed, 03 May 2023 23:38:30 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id n15-20020a1c720f000000b003f339b2d06fsm3823493wmc.4.2023.05.03.23.38.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 May 2023 23:38:28 -0700 (PDT)
+Date: Thu, 4 May 2023 09:38:22 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Masahiro Yamada <masahiroy@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: drivers/scsi/mpi3mr/mpi3mr_fw.c:1413 mpi3mr_issue_reset() error:
+ uninitialized symbol 'host_diagnostic'.
+Message-ID: <90ba7164-a232-4561-9d59-78c0669e2851@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,112 +52,159 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230503222117.7609-8-pc@manguebit.com>
 
-Hi Paulo,
+Hi Masahiro,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on v6.3]
-[also build test WARNING on linus/master next-20230428]
-[cannot apply to cifs/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paulo-Alcantara/cifs-fix-potential-race-when-tree-connecting-ipc/20230504-062335
-base:   457391b0380335d5e9a5babdec90ac53928b23b4
-patch link:    https://lore.kernel.org/r/20230503222117.7609-8-pc%40manguebit.com
-patch subject: [PATCH 7/7] cifs: fix sharing of DFS connections
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230504/202305041040.j7W2xQSy-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/5a2a7b1846bb61ee5669afdfe2238eaa80c339c2
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Paulo-Alcantara/cifs-fix-potential-race-when-tree-connecting-ipc/20230504-062335
-        git checkout 5a2a7b1846bb61ee5669afdfe2238eaa80c339c2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash fs/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fa31fc82fb775445c176e576304c4098222f47f2
+commit: 3753af778dd9d0d5199d6a7d01b0ead33135d095 kbuild: fix single directory build
+config: arm64-randconfig-m041-20230428 (https://download.01.org/0day-ci/archive/20230504/202305040735.8kNJSKlE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305041040.j7W2xQSy-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202305040735.8kNJSKlE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_fw.c:1413 mpi3mr_issue_reset() error: uninitialized symbol 'host_diagnostic'.
+drivers/scsi/mpi3mr/mpi3mr_fw.c:1919 mpi3mr_create_op_reply_q() error: we previously assumed 'op_reply_q->q_segments' could be null (see line 1872)
+drivers/scsi/mpi3mr/mpi3mr_fw.c:2027 mpi3mr_create_op_req_q() error: we previously assumed 'op_req_q->q_segments' could be null (see line 2000)
+drivers/scsi/mpi3mr/mpi3mr_app.c:1337 mpi3mr_bsg_process_mpt_cmds() warn: potentially one past the end of array 'drv_bufs[mpirep_offset]'
+drivers/scsi/mpi3mr/mpi3mr_app.c:1337 mpi3mr_bsg_process_mpt_cmds() warn: potentially one past the end of array 'drv_bufs[mpirep_offset]'
+drivers/scsi/mpi3mr/mpi3mr_app.c:1367 mpi3mr_bsg_process_mpt_cmds() warn: potentially one past the end of array 'drv_bufs[erb_offset]'
+drivers/scsi/mpi3mr/mpi3mr_transport.c:2063 mpi3mr_expander_add() warn: returning -1 instead of -ENOMEM is sloppy
 
-   fs/cifs/connect.c: In function 'cifs_put_tcon':
->> fs/cifs/connect.c:2310:33: warning: variable 'server' set but not used [-Wunused-but-set-variable]
-    2310 |         struct TCP_Server_Info *server;
-         |                                 ^~~~~~
+Old smatch warnings:
+drivers/scsi/mpi3mr/mpi3mr_app.c:1338 mpi3mr_bsg_process_mpt_cmds() warn: potentially one past the end of array 'drv_bufs[mpirep_offset]'
 
+vim +/host_diagnostic +1413 drivers/scsi/mpi3mr/mpi3mr_fw.c
 
-vim +/server +2310 fs/cifs/connect.c
+824a156633dfdb Kashyap Desai   2021-05-20  1371  
+824a156633dfdb Kashyap Desai   2021-05-20  1372  /**
+824a156633dfdb Kashyap Desai   2021-05-20  1373   * mpi3mr_issue_reset - Issue reset to the controller
+824a156633dfdb Kashyap Desai   2021-05-20  1374   * @mrioc: Adapter reference
+824a156633dfdb Kashyap Desai   2021-05-20  1375   * @reset_type: Reset type
+824a156633dfdb Kashyap Desai   2021-05-20  1376   * @reset_reason: Reset reason code
+824a156633dfdb Kashyap Desai   2021-05-20  1377   *
+f061178e076210 Kashyap Desai   2021-05-20  1378   * Unlock the host diagnostic registers and write the specific
+f061178e076210 Kashyap Desai   2021-05-20  1379   * reset type to that, wait for reset acknowledgment from the
+f061178e076210 Kashyap Desai   2021-05-20  1380   * controller, if the reset is not successful retry for the
+f061178e076210 Kashyap Desai   2021-05-20  1381   * predefined number of times.
+824a156633dfdb Kashyap Desai   2021-05-20  1382   *
+824a156633dfdb Kashyap Desai   2021-05-20  1383   * Return: 0 on success, non-zero on failure.
+824a156633dfdb Kashyap Desai   2021-05-20  1384   */
+824a156633dfdb Kashyap Desai   2021-05-20  1385  static int mpi3mr_issue_reset(struct mpi3mr_ioc *mrioc, u16 reset_type,
+824a156633dfdb Kashyap Desai   2021-05-20  1386  	u32 reset_reason)
+824a156633dfdb Kashyap Desai   2021-05-20  1387  {
+f061178e076210 Kashyap Desai   2021-05-20  1388  	int retval = -1;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1389  	u8 unlock_retry_count = 0;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1390  	u32 host_diagnostic, ioc_status, ioc_config;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1391  	u32 timeout = MPI3MR_RESET_ACK_TIMEOUT * 10;
+f061178e076210 Kashyap Desai   2021-05-20  1392  
+f061178e076210 Kashyap Desai   2021-05-20  1393  	if ((reset_type != MPI3_SYSIF_HOST_DIAG_RESET_ACTION_SOFT_RESET) &&
+f061178e076210 Kashyap Desai   2021-05-20  1394  	    (reset_type != MPI3_SYSIF_HOST_DIAG_RESET_ACTION_DIAG_FAULT))
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1395  		return retval;
+f061178e076210 Kashyap Desai   2021-05-20  1396  	if (mrioc->unrecoverable)
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1397  		return retval;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1398  	if (reset_reason == MPI3MR_RESET_FROM_FIRMWARE) {
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1399  		retval = 0;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1400  		return retval;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1401  	}
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1402  
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1403  	ioc_info(mrioc, "%s reset due to %s(0x%x)\n",
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1404  	    mpi3mr_reset_type_name(reset_type),
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1405  	    mpi3mr_reset_rc_name(reset_reason), reset_reason);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1406  
+f061178e076210 Kashyap Desai   2021-05-20  1407  	mpi3mr_clear_reset_history(mrioc);
+f061178e076210 Kashyap Desai   2021-05-20  1408  	do {
+f061178e076210 Kashyap Desai   2021-05-20  1409  		ioc_info(mrioc,
+f061178e076210 Kashyap Desai   2021-05-20  1410  		    "Write magic sequence to unlock host diag register (retry=%d)\n",
+f061178e076210 Kashyap Desai   2021-05-20  1411  		    ++unlock_retry_count);
+f061178e076210 Kashyap Desai   2021-05-20  1412  		if (unlock_retry_count >= MPI3MR_HOSTDIAG_UNLOCK_RETRY_COUNT) {
+b64845a7d4039a Sreekanth Reddy 2021-12-20 @1413  			ioc_err(mrioc,
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1414  			    "%s reset failed due to unlock failure, host_diagnostic(0x%08x)\n",
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1415  			    mpi3mr_reset_type_name(reset_type),
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1416  			    host_diagnostic);
+                                                                            ^^^^^^^^^^^^^^^^
+Uninitialized.
 
-  2306	
-  2307	void
-  2308	cifs_put_tcon(struct cifs_tcon *tcon)
-  2309	{
-> 2310		struct TCP_Server_Info *server;
-  2311		struct cifs_ses *ses;
-  2312		unsigned int xid;
-  2313	
-  2314		/*
-  2315		 * IPC tcon share the lifetime of their session and are
-  2316		 * destroyed in the session put function
-  2317		 */
-  2318		if (tcon == NULL || tcon->ipc)
-  2319			return;
-  2320	
-  2321		ses = tcon->ses;
-  2322		server = ses->server;
-  2323		cifs_dbg(FYI, "%s: tc_count=%d\n", __func__, tcon->tc_count);
-  2324		spin_lock(&cifs_tcp_ses_lock);
-  2325		spin_lock(&tcon->tc_lock);
-  2326		if (--tcon->tc_count > 0) {
-  2327			spin_unlock(&tcon->tc_lock);
-  2328			spin_unlock(&cifs_tcp_ses_lock);
-  2329			return;
-  2330		}
-  2331	
-  2332		/* tc_count can never go negative */
-  2333		WARN_ON(tcon->tc_count < 0);
-  2334	
-  2335		list_del_init(&tcon->tcon_list);
-  2336		tcon->status = TID_EXITING;
-  2337		spin_unlock(&tcon->tc_lock);
-  2338		spin_unlock(&cifs_tcp_ses_lock);
-  2339	
-  2340		/* cancel polling of interfaces */
-  2341		cancel_delayed_work_sync(&tcon->query_interfaces);
-  2342	#ifdef CONFIG_CIFS_DFS_UPCALL
-  2343		cancel_delayed_work_sync(&tcon->dfs_cache_work);
-  2344	#endif
-  2345	
-  2346		if (tcon->use_witness) {
-  2347			int rc;
-  2348	
-  2349			rc = cifs_swn_unregister(tcon);
-  2350			if (rc < 0) {
-  2351				cifs_dbg(VFS, "%s: Failed to unregister for witness notifications: %d\n",
-  2352						__func__, rc);
-  2353			}
-  2354		}
-  2355	
-  2356		xid = get_xid();
-  2357		if (ses->server->ops->tree_disconnect)
-  2358			ses->server->ops->tree_disconnect(xid, tcon);
-  2359		_free_xid(xid);
-  2360	
-  2361		cifs_fscache_release_super_cookie(tcon);
-  2362		tconInfoFree(tcon);
-  2363		cifs_put_smb_ses(ses);
-  2364	}
-  2365	
+f061178e076210 Kashyap Desai   2021-05-20  1417  			mrioc->unrecoverable = 1;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1418  			return retval;
+f061178e076210 Kashyap Desai   2021-05-20  1419  		}
+f061178e076210 Kashyap Desai   2021-05-20  1420  
+f061178e076210 Kashyap Desai   2021-05-20  1421  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_FLUSH,
+f061178e076210 Kashyap Desai   2021-05-20  1422  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1423  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_1ST,
+f061178e076210 Kashyap Desai   2021-05-20  1424  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1425  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_2ND,
+f061178e076210 Kashyap Desai   2021-05-20  1426  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1427  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_3RD,
+f061178e076210 Kashyap Desai   2021-05-20  1428  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1429  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_4TH,
+f061178e076210 Kashyap Desai   2021-05-20  1430  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1431  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_5TH,
+f061178e076210 Kashyap Desai   2021-05-20  1432  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1433  		writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_6TH,
+f061178e076210 Kashyap Desai   2021-05-20  1434  		    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1435  		usleep_range(1000, 1100);
+f061178e076210 Kashyap Desai   2021-05-20  1436  		host_diagnostic = readl(&mrioc->sysif_regs->host_diagnostic);
+f061178e076210 Kashyap Desai   2021-05-20  1437  		ioc_info(mrioc,
+f061178e076210 Kashyap Desai   2021-05-20  1438  		    "wrote magic sequence: retry_count(%d), host_diagnostic(0x%08x)\n",
+f061178e076210 Kashyap Desai   2021-05-20  1439  		    unlock_retry_count, host_diagnostic);
+f061178e076210 Kashyap Desai   2021-05-20  1440  	} while (!(host_diagnostic & MPI3_SYSIF_HOST_DIAG_DIAG_WRITE_ENABLE));
+f061178e076210 Kashyap Desai   2021-05-20  1441  
+f061178e076210 Kashyap Desai   2021-05-20  1442  	writel(reset_reason, &mrioc->sysif_regs->scratchpad[0]);
+f061178e076210 Kashyap Desai   2021-05-20  1443  	writel(host_diagnostic | reset_type,
+f061178e076210 Kashyap Desai   2021-05-20  1444  	    &mrioc->sysif_regs->host_diagnostic);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1445  	switch (reset_type) {
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1446  	case MPI3_SYSIF_HOST_DIAG_RESET_ACTION_SOFT_RESET:
+f061178e076210 Kashyap Desai   2021-05-20  1447  		do {
+f061178e076210 Kashyap Desai   2021-05-20  1448  			ioc_status = readl(&mrioc->sysif_regs->ioc_status);
+f061178e076210 Kashyap Desai   2021-05-20  1449  			ioc_config =
+f061178e076210 Kashyap Desai   2021-05-20  1450  			    readl(&mrioc->sysif_regs->ioc_configuration);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1451  			if ((ioc_status & MPI3_SYSIF_IOC_STATUS_RESET_HISTORY)
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1452  			    && mpi3mr_soft_reset_success(ioc_status, ioc_config)
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1453  			    ) {
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1454  				mpi3mr_clear_reset_history(mrioc);
+f061178e076210 Kashyap Desai   2021-05-20  1455  				retval = 0;
+f061178e076210 Kashyap Desai   2021-05-20  1456  				break;
+f061178e076210 Kashyap Desai   2021-05-20  1457  			}
+f061178e076210 Kashyap Desai   2021-05-20  1458  			msleep(100);
+f061178e076210 Kashyap Desai   2021-05-20  1459  		} while (--timeout);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1460  		mpi3mr_print_fault_info(mrioc);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1461  		break;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1462  	case MPI3_SYSIF_HOST_DIAG_RESET_ACTION_DIAG_FAULT:
+f061178e076210 Kashyap Desai   2021-05-20  1463  		do {
+f061178e076210 Kashyap Desai   2021-05-20  1464  			ioc_status = readl(&mrioc->sysif_regs->ioc_status);
+f061178e076210 Kashyap Desai   2021-05-20  1465  			if (mpi3mr_diagfault_success(mrioc, ioc_status)) {
+f061178e076210 Kashyap Desai   2021-05-20  1466  				retval = 0;
+f061178e076210 Kashyap Desai   2021-05-20  1467  				break;
+f061178e076210 Kashyap Desai   2021-05-20  1468  			}
+f061178e076210 Kashyap Desai   2021-05-20  1469  			msleep(100);
+f061178e076210 Kashyap Desai   2021-05-20  1470  		} while (--timeout);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1471  		break;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1472  	default:
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1473  		break;
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1474  	}
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1475  
+f061178e076210 Kashyap Desai   2021-05-20  1476  	writel(MPI3_SYSIF_WRITE_SEQUENCE_KEY_VALUE_2ND,
+f061178e076210 Kashyap Desai   2021-05-20  1477  	    &mrioc->sysif_regs->write_sequence);
+f061178e076210 Kashyap Desai   2021-05-20  1478  
+f061178e076210 Kashyap Desai   2021-05-20  1479  	ioc_config = readl(&mrioc->sysif_regs->ioc_configuration);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1480  	ioc_status = readl(&mrioc->sysif_regs->ioc_status);
+f061178e076210 Kashyap Desai   2021-05-20  1481  	ioc_info(mrioc,
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1482  	    "ioc_status/ioc_onfig after %s reset is (0x%x)/(0x%x)\n",
+f061178e076210 Kashyap Desai   2021-05-20  1483  	    (!retval)?"successful":"failed", ioc_status,
+f061178e076210 Kashyap Desai   2021-05-20  1484  	    ioc_config);
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1485  	if (retval)
+b64845a7d4039a Sreekanth Reddy 2021-12-20  1486  		mrioc->unrecoverable = 1;
+f061178e076210 Kashyap Desai   2021-05-20  1487  	return retval;
+824a156633dfdb Kashyap Desai   2021-05-20  1488  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
