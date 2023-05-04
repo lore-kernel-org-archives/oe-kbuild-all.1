@@ -1,47 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E5E3C0A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 16:49:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2832EA94B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  4 May 2023 16:59:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683218992; x=1714754992;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6GATw5TbgnRkMMXSPt4srw7Op6gkzeWo7yyggIFj11A=;
-  b=OYmsGlMjV7dXNZWC8DWxjWhCe80hcurVaOTwnX8JFPazYhx3/kwbgkmP
-   Pu8pO50q4Sg0kgMwbS4sXnxWRemDjFQz2iqpsC4jjfgDGSYrqjODtW2xg
-   x2b+0t+nujH9F/0Sr2AsFlj75Hj5sztvSFL3JP2yJ7mYJAzwE0PhnoPMC
-   surXZERWM0opxPUuaWhO5Na4DbKnskUlggzx99zcbbuEoIstDUg2j89bh
-   BMs/QUDi6CB9yp9prcoPBjQ2vciB/fZiWibQ7u+/owkmo49egV3yA6zpc
-   BkikA38al97BIsUvfy9hxXVOPMVzNFMtyRhRL3hlIrbbJjjia5dyPuCUR
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="338166014"
+  t=1683219591; x=1714755591;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=baBWoCXAZCPEuOvyuTmBjvea+9i4B4aDt4CYe8XeBIs=;
+  b=EwTeo8vsG0MzVozxjgFRP2Mrp8G09x/RPBnDYQCEWvsJMxegipPz7zAV
+   MpUxmGBCiMwVMRmpd/lVKEJzkv3t4ZjegyUhzQXYIl+6q9+qDzwSS7Wqj
+   h+L0AUCwJ7j0vcy9nVI4EzHwYaDlGcL8EEuVYda3wu4vBBYp/rA7tVQ8/
+   6QNh5o9OC5KXAWZ44rUTh+pCyXZZwwAJTpVw5VLv9LE9v7gYJ0oKsHZSK
+   7QeFACFoJA3eO3mrkp0rDfnWop7EP9RR9giAC8n9VRr6MbHk4UcliJa1n
+   zsXSYSJg/Ib/UTXkCHshkMbkJICQWEdITNMu712Gr+q5gw4D1+KWwEsgo
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="435303679"
 X-IronPort-AV: E=Sophos;i="5.99,250,1677571200"; 
-   d="scan'208";a="338166014"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 09:49:51 -0700
+   d="scan'208";a="435303679"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2023 09:59:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="841264040"
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="762009936"
 X-IronPort-AV: E=Sophos;i="5.99,250,1677571200"; 
-   d="scan'208";a="841264040"
+   d="scan'208";a="762009936"
 Received: from lkp-server01.sh.intel.com (HELO 64cf2984a3fe) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 04 May 2023 09:49:48 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 04 May 2023 09:59:48 -0700
 Received: from kbuild by 64cf2984a3fe with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puc9L-00003S-2N;
-	Thu, 04 May 2023 16:49:47 +0000
-Date: Fri, 5 May 2023 00:48:49 +0800
+	id 1pucJ1-00003o-31;
+	Thu, 04 May 2023 16:59:47 +0000
+Date: Fri, 5 May 2023 00:59:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Roman Gushchin <guro@fb.com>, linux-kernel@vger.kernel.org,
-	Zhaoyang Huang <huangzhaoyang@gmail.com>, ke.wang@unisoc.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCHv2] mm: optimization on page allocation when CMA enabled
-Message-ID: <202305050012.G279ml2k-lkp@intel.com>
-References: <1683194994-3070-1-git-send-email-zhaoyang.huang@unisoc.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-efistub-cleanup 15/15]
+ drivers/firmware/efi/libstub/x86-stub.c:825:35: warning: implicit
+ declaration of function 'kaslr_get_random_long'; did you mean
+ 'get_random_long'?
+Message-ID: <202305050057.pH9XUcjY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,111 +47,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1683194994-3070-1-git-send-email-zhaoyang.huang@unisoc.com>
 
-Hi zhaoyang.huang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/zhaoyang-huang/mm-optimization-on-page-allocation-when-CMA-enabled/20230504-181335
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/1683194994-3070-1-git-send-email-zhaoyang.huang%40unisoc.com
-patch subject: [PATCHv2] mm: optimization on page allocation when CMA enabled
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230505/202305050012.G279ml2k-lkp@intel.com/config)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-efistub-cleanup
+head:   f42a97cc423ed45c3d10175914700a3396b6458c
+commit: f42a97cc423ed45c3d10175914700a3396b6458c [15/15] x86: efistub: Avoid legacy decompressor when doing EFI boot
+config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230505/202305050057.pH9XUcjY-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/46cd0a3d98d6b43cd59be9d9e743266fc7f61168
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review zhaoyang-huang/mm-optimization-on-page-allocation-when-CMA-enabled/20230504-181335
-        git checkout 46cd0a3d98d6b43cd59be9d9e743266fc7f61168
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=f42a97cc423ed45c3d10175914700a3396b6458c
+        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
+        git fetch --no-tags ardb x86-efistub-cleanup
+        git checkout f42a97cc423ed45c3d10175914700a3396b6458c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/firmware/efi/libstub/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305050012.G279ml2k-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305050057.pH9XUcjY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/page_alloc.c: In function '__rmqueue':
->> mm/page_alloc.c:2323:42: error: implicit declaration of function '__if_use_cma_first' [-Werror=implicit-function-declaration]
-    2323 |                         bool cma_first = __if_use_cma_first(zone, order, alloc_flags);
-         |                                          ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/firmware/efi/libstub/x86-stub.c: In function 'efi_get_seed':
+>> drivers/firmware/efi/libstub/x86-stub.c:825:35: warning: implicit declaration of function 'kaslr_get_random_long'; did you mean 'get_random_long'? [-Wimplicit-function-declaration]
+     825 |         *(unsigned long *)seed ^= kaslr_get_random_long("EFI");
+         |                                   ^~~~~~~~~~~~~~~~~~~~~
+         |                                   get_random_long
 
 
-vim +/__if_use_cma_first +2323 mm/page_alloc.c
+vim +825 drivers/firmware/efi/libstub/x86-stub.c
 
-  2277	
-  2278	#ifdef CONFIG_CMA
-  2279	static bool __if_use_cma_first(struct zone *zone, unsigned int order, unsigned int alloc_flags)
-  2280	{
-  2281		unsigned long cma_proportion = 0;
-  2282		unsigned long cma_free_proportion = 0;
-  2283		unsigned long watermark = 0;
-  2284		long count = 0;
-  2285		bool cma_first = false;
-  2286	
-  2287		watermark = wmark_pages(zone, alloc_flags & ALLOC_WMARK_MASK);
-  2288		/*check if GFP_MOVABLE pass previous watermark check via the help of CMA*/
-  2289		if (!zone_watermark_ok(zone, order, watermark, 0, alloc_flags & (~ALLOC_CMA)))
-  2290			/* WMARK_LOW failed lead to using cma first, this helps U&R stay
-  2291			 * around low when being drained by GFP_MOVABLE
-  2292			 */
-  2293			cma_first = true;
-  2294		else {
-  2295			/*check proportion when zone_watermark_ok*/
-  2296			count = atomic_long_read(&zone->managed_pages);
-  2297			cma_proportion = zone->cma_pages * 100 / count;
-  2298			cma_free_proportion = zone_page_state(zone, NR_FREE_CMA_PAGES) * 100
-  2299				/  zone_page_state(zone, NR_FREE_PAGES);
-  2300			cma_first = (cma_free_proportion >= cma_proportion * 2
-  2301					|| cma_free_proportion >= 50);
-  2302		}
-  2303		return cma_first;
-  2304	}
-  2305	#endif
-  2306	/*
-  2307	 * Do the hard work of removing an element from the buddy allocator.
-  2308	 * Call me with the zone->lock already held.
-  2309	 */
-  2310	static __always_inline struct page *
-  2311	__rmqueue(struct zone *zone, unsigned int order, int migratetype,
-  2312							unsigned int alloc_flags)
-  2313	{
-  2314		struct page *page;
-  2315	
-  2316		if (IS_ENABLED(CONFIG_CMA)) {
-  2317			/*
-  2318			 * Balance movable allocations between regular and CMA areas by
-  2319			 * allocating from CMA when over half of the zone's free memory
-  2320			 * is in the CMA area.
-  2321			 */
-  2322			if (migratetype == MIGRATE_MOVABLE) {
-> 2323				bool cma_first = __if_use_cma_first(zone, order, alloc_flags);
-  2324	
-  2325				page = cma_first ? __rmqueue_cma_fallback(zone, order) : NULL;
-  2326				if (page)
-  2327					return page;
-  2328			}
-  2329		}
-  2330	retry:
-  2331		page = __rmqueue_smallest(zone, order, migratetype);
-  2332		if (unlikely(!page)) {
-  2333			if (alloc_flags & ALLOC_CMA)
-  2334				page = __rmqueue_cma_fallback(zone, order);
-  2335	
-  2336			if (!page && __rmqueue_fallback(zone, order, migratetype,
-  2337									alloc_flags))
-  2338				goto retry;
-  2339		}
-  2340		return page;
-  2341	}
-  2342	
+   816	
+   817	static void efi_get_seed(void *seed, int size)
+   818	{
+   819		efi_get_random_bytes(size, seed);
+   820	
+   821		/*
+   822		 * This only updates seed[0] when running on 32-bit, but in that case,
+   823		 * we don't use seed[1] anyway, as there is no virtual KASLR on 32-bit.
+   824		 */
+ > 825		*(unsigned long *)seed ^= kaslr_get_random_long("EFI");
+   826	}
+   827	
 
 -- 
 0-DAY CI Kernel Test Service
