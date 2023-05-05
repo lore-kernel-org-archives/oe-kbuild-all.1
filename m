@@ -1,181 +1,125 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90AE11C2B;
-	Fri,  5 May 2023 07:35:58 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-24e3a0aa408so1348590a91.1;
-        Fri, 05 May 2023 00:35:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683272158; x=1685864158;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WvsnarLTa+h+9wv1WpDyAYds2du3eDCIdc9d4CYX4ho=;
-        b=Q/8r8vRGLeizfKDO0jDFZcU36Hwao9qDxKV0GaMq1cM3fYp3T+MKADyCoJFS5W4+a/
-         oePfBgFZgZl9fDggzJPPteThYATDZfkeYjaJwEt0YunPLWy1Sfe6y4a2bWzboJZc+4l3
-         Rc/3s50czCg7LkCw0YoxVt6lWPAnvZgofpORbNnHwWDh5OPUgrKRKvXKutQCa8OPVCJe
-         VRHRQY7gq2XPBxBG97K3CfXx7/k8AhULmD14tAh/eQm16UeH2I9q+nZxQF4iXGTiRz6r
-         1tDFlaGg+RBwrkiT5vybiHstPhMZw0IKAUEJzL5KT/UNQqOudefDzhVOBI0Uv972XqW+
-         IRtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683272158; x=1685864158;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WvsnarLTa+h+9wv1WpDyAYds2du3eDCIdc9d4CYX4ho=;
-        b=XGrkFhT2QuymYe7OPJWHZHXzQq2dpSvrrX6vc/aD+I3alETAQ2x9aowAzKI7KMkoye
-         bBtUaN4n6f0U6S0QuGjyeyZhLPppFgwoNXK9WewAhdqYTRRlVdZXk/CVcnKkzi79dMTv
-         COvyOGT9pck+1p+7BXjznwtIdyp0SAzLFF8YHcC5/OVj8wzGLWZmO5U3r7AHx/I3HwDC
-         FyXLN5O0RKZbof+cVbrh7gAqpWQBBiXduwElnF9vx9dD+Iolx0jSEjCGtO3evE3MWJvY
-         WuaDGZ+nB8SBFdRNAbGTIi4xB4ZAViD7VvjdSzN+5sQCsvtwoDWMrqRu51uZ+pMTKkf2
-         xPNw==
-X-Gm-Message-State: AC+VfDy0B7vZE79OcnAH3T9mKIf+sKL91dsEAkk1WUDJpLgwRTbXl1/+
-	Vwnc6g+5dcRftJ+l4rfzTnwqrCdAunkJ29IaFBpnahzf4FU7QJXl
-X-Google-Smtp-Source: ACHHUZ6T9+MEh7JB/f+oExg1S8KnfJmqI99GacG1jntcX9grbzFkhTfkoTYJk3ZTLBHLzKsvMOU/JX1Bi6ZyXZi522M=
-X-Received: by 2002:a17:90a:6545:b0:249:64d2:4122 with SMTP id
- f5-20020a17090a654500b0024964d24122mr613266pjs.21.1683272157864; Fri, 05 May
- 2023 00:35:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4AAF156EF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 May 2023 08:07:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683274051; x=1714810051;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rmSJY0j+1r5L0IYMLThcW+Hp+jS5MNdVZmUKInYhVyQ=;
+  b=gLzzP/MSsFKwmJqCtkH+3t6rFTpyJNBZjv5rmwfUPtzMFz8vD2HuP/x2
+   7VnJXvR0EOsQvP8oNYim3V8fCd5dNwBkNdX8p08xayYtx3cfYWYR5BXVg
+   j6PGhUxS9DvliYfRmFTuA2T3gJhPMqC+8lWMhMrqlXIN9+zitnlJgknuS
+   ltCUblLsrrns8dm6ZMzNHgiYRGEAA6UeNi6rvKOkaKFEl4Qiv0vwIIBai
+   +644yF6xZ1tBYD8n8FIaXemA7KMY0wIt4tJMhbWp4MzCgZZIrAfgQ7X9o
+   IVH+3pqLzF6mj/PE5Qu7mU4f9piIEO2q9n3tuCk0np74pAEnFpJZalolg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="347980775"
+X-IronPort-AV: E=Sophos;i="5.99,251,1677571200"; 
+   d="scan'208";a="347980775"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 01:07:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="691556991"
+X-IronPort-AV: E=Sophos;i="5.99,251,1677571200"; 
+   d="scan'208";a="691556991"
+Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 05 May 2023 01:07:09 -0700
+Received: from kbuild by fe5d646e317d with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1puqT6-0000ON-04;
+	Fri, 05 May 2023 08:07:08 +0000
+Date: Fri, 5 May 2023 16:06:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-misc:btrfs-bio-ordered 14/20] fs/btrfs/ordered-data.c:326
+ can_finish_ordered_extent() warn: inconsistent indenting
+Message-ID: <202305051554.zTNU0nBF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230417165246.467723-1-zyytlz.wz@163.com> <cabf202f-a58e-4637-9d55-b0382360c27e@kili.mountain>
- <CAJedcCzuPkHHy=uxtyuRT-Qvs56ooZ_irL89KdPq99XxgxfLBw@mail.gmail.com> <daacdf0d-605a-4a3b-a599-3a15857ec224@kili.mountain>
-In-Reply-To: <daacdf0d-605a-4a3b-a599-3a15857ec224@kili.mountain>
-From: Zheng Hacker <hackerzheng666@gmail.com>
-Date: Fri, 5 May 2023 15:35:46 +0800
-Message-ID: <CAJedcCwwOkTcKvJ7PXa+s=46MnaVRCRK8HSehoj2bziLUhaD5w@mail.gmail.com>
-Subject: Re: [PATCH] misc: hpilo: Fix use after free bug in ilo_remove due to
- race condition with ilo_open
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Zheng Wang <zyytlz.wz@163.com>, matt.hsiao@hpe.com, 
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev, arnd@arndb.de, 
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	1395428693sheep@gmail.com, alex000young@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Dan Carpenter <dan.carpenter@linaro.org> =E4=BA=8E2023=E5=B9=B45=E6=9C=885=
-=E6=97=A5=E5=91=A8=E4=BA=94 15:31=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Fri, May 05, 2023 at 12:01:17PM +0800, Zheng Hacker wrote:
-> > Dear Dan,
-> >
-> > Thanks for your reply. I'm not so familiar with the code here. Is the
-> > warning says we should check ilo_hw to see if it's not NULL?
-> >
->
-> Just delete the NULL check.  It's impossible.
->
+tree:   git://git.infradead.org/users/hch/misc.git btrfs-bio-ordered
+head:   9094131de4ccd8a3407420c690ab8f435e7da5cc
+commit: 4f8e47c9b505503bc84bde9155384aaefc1e57e7 [14/20] btrfs: factor out a can_finish_ordered_extent helper
+config: m68k-randconfig-m041-20230430 (https://download.01.org/0day-ci/archive/20230505/202305051554.zTNU0nBF-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 
-Thanks for your explaination.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305051554.zTNU0nBF-lkp@intel.com/
 
-Best regards,
-Zheng
+smatch warnings:
+fs/btrfs/ordered-data.c:326 can_finish_ordered_extent() warn: inconsistent indenting
 
-> regards,
-> dan carpenter
->
-> > Best regards,
-> > Zheng
-> >
-> > Dan Carpenter <dan.carpenter@linaro.org> =E4=BA=8E2023=E5=B9=B45=E6=9C=
-=882=E6=97=A5=E5=91=A8=E4=BA=8C 19:46=E5=86=99=E9=81=93=EF=BC=9A
-> > >
-> > > Hi Zheng,
-> > >
-> > > kernel test robot noticed the following build warnings:
-> > >
-> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > >
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Zheng-Wang/mis=
-c-hpilo-Fix-use-after-free-bug-in-ilo_remove-due-to-race-condition-with-ilo=
-_open/20230418-005502
-> > > base:   char-misc/char-misc-testing
-> > > patch link:    https://lore.kernel.org/r/20230417165246.467723-1-zyyt=
-lz.wz%40163.com
-> > > patch subject: [PATCH] misc: hpilo: Fix use after free bug in ilo_rem=
-ove due  to race condition with ilo_open
-> > > config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive=
-/20230430/202304300909.ALHN6Vry-lkp@intel.com/config)
-> > > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> > >
-> > > If you fix the issue, kindly add following tag where applicable
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > > | Link: https://lore.kernel.org/r/202304300909.ALHN6Vry-lkp@intel.com=
-/
-> > >
-> > > smatch warnings:
-> > > drivers/misc/hpilo.c:755 ilo_delete() warn: can 'ilo_hw' even be NULL=
-?
-> > >
-> > > vim +/ilo_hw +755 drivers/misc/hpilo.c
-> > >
-> > > 13a22f45e6cb1e Zheng Wang      2023-04-18  749  static void ilo_delet=
-e(struct kref *kref)
-> > > 13a22f45e6cb1e Zheng Wang      2023-04-18  750  {
-> > > 13a22f45e6cb1e Zheng Wang      2023-04-18  751          int i, minor;
-> > > 13a22f45e6cb1e Zheng Wang      2023-04-18  752          struct ilo_hw=
-info *ilo_hw =3D container_of(kref, struct ilo_hwinfo, refcnt);
-> > > 13a22f45e6cb1e Zheng Wang      2023-04-18  753          struct pci_de=
-v *pdev =3D ilo_hw->ilo_dev;
-> > > 89bcb05d9bbf8b David Altobelli 2008-07-02  754
-> > > ebf1b764aa5cb3 Mark Rusk       2012-11-06 @755          if (!ilo_hw)
-> > >                                                             ^^^^^^^
-> > >
-> > > ->refcnt member isn't the first struct member so this NULL check
-> > > doesn't make sense.  Generally checking container_of() is ugly.  Some
-> > > people do it and add BUILD_BUG_ON() to ensure that they're checking t=
-he
-> > > first struct member but really it's best to avoid that if possible.
-> > >
-> > > ebf1b764aa5cb3 Mark Rusk       2012-11-06  756                  retur=
-n;
-> > > ebf1b764aa5cb3 Mark Rusk       2012-11-06  757
-> > > 89bcb05d9bbf8b David Altobelli 2008-07-02  758          clear_device(=
-ilo_hw);
-> > > 89bcb05d9bbf8b David Altobelli 2008-07-02  759
-> > > 89bcb05d9bbf8b David Altobelli 2008-07-02  760          minor =3D MIN=
-OR(ilo_hw->cdev.dev);
-> > > 98dcd59dd063dd Camuso, Tony    2012-06-10  761          for (i =3D mi=
-nor; i < minor + max_ccb; i++)
-> > > 89bcb05d9bbf8b David Altobelli 2008-07-02  762                  devic=
-e_destroy(ilo_class, MKDEV(ilo_major, i));
-> > > 89bcb05d9bbf8b David Altobelli 2008-07-02  763
-> > > 89bcb05d9bbf8b David Altobelli 2008-07-02  764          cdev_del(&ilo=
-_hw->cdev);
-> > > 9f7048412163d8 David Altobelli 2009-08-17  765          ilo_disable_i=
-nterrupts(ilo_hw);
-> > > 9f7048412163d8 David Altobelli 2009-08-17  766          free_irq(pdev=
-->irq, ilo_hw);
-> > > 89bcb05d9bbf8b David Altobelli 2008-07-02  767          ilo_unmap_dev=
-ice(pdev, ilo_hw);
-> > > 89bcb05d9bbf8b David Altobelli 2008-07-02  768          pci_release_r=
-egions(pdev);
-> > > bcdee04ea7ae04 Jiri Slaby      2012-09-13  769          /*
-> > > bcdee04ea7ae04 Jiri Slaby      2012-09-13  770           * pci_disabl=
-e_device(pdev) used to be here. But this PCI device has
-> > > bcdee04ea7ae04 Jiri Slaby      2012-09-13  771           * two functi=
-ons with interrupt lines connected to a single pin. The
-> > > bcdee04ea7ae04 Jiri Slaby      2012-09-13  772           * other one =
-is a USB host controller. So when we disable the PIN here
-> > > bcdee04ea7ae04 Jiri Slaby      2012-09-13  773           * e.g. by rm=
-mod hpilo, the controller stops working. It is because
-> > > bcdee04ea7ae04 Jiri Slaby      2012-09-13  774           * the interr=
-upt link is disabled in ACPI since it is not refcounted
-> > > bcdee04ea7ae04 Jiri Slaby      2012-09-13  775           * yet. See a=
-cpi_pci_link_free_irq called from acpi_pci_irq_disable.
-> > > bcdee04ea7ae04 Jiri Slaby      2012-09-13  776           */
-> > > 89bcb05d9bbf8b David Altobelli 2008-07-02  777          kfree(ilo_hw)=
-;
-> > > 98dcd59dd063dd Camuso, Tony    2012-06-10  778          ilo_hwdev[(mi=
-nor / max_ccb)] =3D 0;
-> > > 89bcb05d9bbf8b David Altobelli 2008-07-02  779  }
-> > >
-> > > --
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests
-> > >
+vim +326 fs/btrfs/ordered-data.c
+
+   290	
+   291	static bool can_finish_ordered_extent(struct btrfs_ordered_extent *ordered,
+   292					      struct page *page, u64 file_offset,
+   293					      u64 len, bool uptodate)
+   294	{
+   295		struct btrfs_inode *inode = BTRFS_I(ordered->inode);
+   296		struct btrfs_fs_info *fs_info = inode->root->fs_info;
+   297	
+   298		lockdep_assert_held(&inode->ordered_tree.lock);
+   299	
+   300		if (page) {
+   301			ASSERT(page->mapping);
+   302			ASSERT(page_offset(page) <= file_offset);
+   303			ASSERT(file_offset + len <= page_offset(page) + PAGE_SIZE);
+   304	
+   305			/*
+   306			 * Ordered (Private2) bit indicates whether we still
+   307			 * have pending io unfinished for the ordered extent.
+   308			 *
+   309			 * If there's no such bit, we need to skip to next range.
+   310			 */
+   311			if (!btrfs_page_test_ordered(fs_info, page, file_offset, len))
+   312				return false;
+   313			btrfs_page_clear_ordered(fs_info, page, file_offset, len);
+   314		}
+   315	
+   316		/* Now we're fine to update the accounting */
+   317		if (WARN_ON_ONCE(len > ordered->bytes_left)) {
+   318			btrfs_crit(fs_info,
+   319	"bad ordered extent accounting, root=%llu ino=%llu OE offset=%llu OE len=%llu to_dec=%llu left=%llu",
+   320				   inode->root->root_key.objectid,
+   321				   btrfs_ino(inode),
+   322				   ordered->file_offset,
+   323				   ordered->num_bytes,
+   324				   len,
+   325				   ordered->bytes_left);
+ > 326				   ordered->bytes_left = 0;
+   327		} else {
+   328			ordered->bytes_left -= len;
+   329		}
+   330	
+   331		if (!uptodate)
+   332			set_bit(BTRFS_ORDERED_IOERR, &ordered->flags);
+   333	
+   334		if (ordered->bytes_left)
+   335			return false;
+   336	
+   337		/*
+   338		 * All the IO of the ordered extent is finished, we need to queue
+   339		 * the finish_func to be executed.
+   340		 */
+   341		set_bit(BTRFS_ORDERED_IO_DONE, &ordered->flags);
+   342		cond_wake_up(&ordered->wait);
+   343		refcount_inc(&ordered->refs);
+   344		trace_btrfs_ordered_extent_mark_finished(inode, ordered);
+   345		return true;
+   346	}
+   347	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
