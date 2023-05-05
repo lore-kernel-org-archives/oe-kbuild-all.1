@@ -1,47 +1,50 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D508BE0;
-	Fri,  5 May 2023 15:44:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E275383
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 May 2023 16:55:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683301464; x=1714837464;
+  t=1683305734; x=1714841734;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=lbTzMAvAr3LREHg1QmVWQGp0MTSnNPitDvtk32wqL+w=;
-  b=VvBHb2rSlfDG6ZwkFcZ64vCawBdENLZAjAFeIKijwBCrnX9rSRvHHlrK
-   S6ZaIgLnRkfyPEWX9drVlLxZVuHp7ghJxn1j6rPI3gSJ557zbek0wCMnH
-   bqUsh8jqTZjBb7dC9aQWVVmmfTfVYsYiiyVUEVCrl8QNeOTajupjlVPit
-   pKxaJsOlr3bL9lXAkGmlTOOqTCM7oo9MWWB181lyqzXysVq6E1kn7C9+v
-   rnoXA904jE1HT5ryiHzNylqhP0lM6J3yYvhIqQE+2/TH7GXMqgqbnRJXM
-   bs33ZNrvDvuIgPeWoymEKJttoIFp5ACGO1acjZxWpCHy89y9w8r7VmPkR
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="329590810"
+  bh=/M3gQoGII5mFFWeYtKEFpt2tNhHvNDZduPkof6u7PJI=;
+  b=acZ0YuRjuSqalO0ReTIRQR63REwKoXMzcKp5A5ffBcNK6iK+nR8NjuQc
+   +N7wepv/TvyMqhcUrkFvS0DjdcXd7HOe/eQ6xhBs8VuN/tKCpm4ES8RLQ
+   qoGE+H/+YUPnjCWagK/SmmPbtWh7igVhQv7qR/05EwAzEsRfJjqJXmQWJ
+   YS37OWsgo9IuvKceXFeErgzLUJodnV0mOyq/lGgl+Wk92gzuBf/fWAYf1
+   WEiZhWPECTxowLd9a9oddMbp7XmVDiGPLaPXaBa6mycmhtk4VaqkcXGRg
+   L9yhWr2jTk5tTYQsi6jgDJExQGCuGz5B+vxIu6QDJUdZ9Ut/ec+AW+qPc
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="349289705"
 X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; 
-   d="scan'208";a="329590810"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 08:44:23 -0700
+   d="scan'208";a="349289705"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 09:55:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="871901080"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="728156604"
 X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; 
-   d="scan'208";a="871901080"
+   d="scan'208";a="728156604"
 Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 05 May 2023 08:44:20 -0700
+  by orsmga008.jf.intel.com with ESMTP; 05 May 2023 09:55:23 -0700
 Received: from kbuild by fe5d646e317d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puxbY-0000hZ-10;
-	Fri, 05 May 2023 15:44:20 +0000
-Date: Fri, 5 May 2023 23:43:31 +0800
+	id 1puyiI-0000lV-2P;
+	Fri, 05 May 2023 16:55:22 +0000
+Date: Sat, 6 May 2023 00:55:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
-	tzimmermann@suse.de, airlied@redhat.com, javierm@redhat.com,
-	lyude@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH 4/4] drm/mgag200: Use DMA to copy the framebuffer to the
- VRAM
-Message-ID: <202305052344.TAIFBCMZ-lkp@intel.com>
-References: <20230505124337.854845-5-jfalempe@redhat.com>
+To: Andreas Klinger <ak@it-klinger.de>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Angel Iglesias <ang.iglesiasg@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] iio: pressure: Honeywell mprls0025pa pressure
+ sensor
+Message-ID: <202305060054.AFXCprUA-lkp@intel.com>
+References: <ZFUC/3zBFQRBsYUk@arbad>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,80 +53,179 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230505124337.854845-5-jfalempe@redhat.com>
+In-Reply-To: <ZFUC/3zBFQRBsYUk@arbad>
 
-Hi Jocelyn,
+Hi Andreas,
 
 kernel test robot noticed the following build warnings:
 
 [auto build test WARNING on 457391b0380335d5e9a5babdec90ac53928b23b4]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-mgag200-Rename-constant-MGAREG_Status-to-MGAREG_STATUS/20230505-204705
+url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Klinger/dt-bindings-iio-pressure-Support-Honeywell-mprls0025pa-sensor/20230505-212836
 base:   457391b0380335d5e9a5babdec90ac53928b23b4
-patch link:    https://lore.kernel.org/r/20230505124337.854845-5-jfalempe%40redhat.com
-patch subject: [PATCH 4/4] drm/mgag200: Use DMA to copy the framebuffer to the VRAM
-config: i386-randconfig-a013-20230501 (https://download.01.org/0day-ci/archive/20230505/202305052344.TAIFBCMZ-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+patch link:    https://lore.kernel.org/r/ZFUC%2F3zBFQRBsYUk%40arbad
+patch subject: [PATCH v4 2/3] iio: pressure: Honeywell mprls0025pa pressure sensor
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230506/202305060054.AFXCprUA-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/b3cab0043427adee56c6f3169cdfa15526dd331c
+        # https://github.com/intel-lab-lkp/linux/commit/2e6fb6a53d15af5fb86052a7d5d64c4d343157d0
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jocelyn-Falempe/drm-mgag200-Rename-constant-MGAREG_Status-to-MGAREG_STATUS/20230505-204705
-        git checkout b3cab0043427adee56c6f3169cdfa15526dd331c
+        git fetch --no-tags linux-review Andreas-Klinger/dt-bindings-iio-pressure-Support-Honeywell-mprls0025pa-sensor/20230505-212836
+        git checkout 2e6fb6a53d15af5fb86052a7d5d64c4d343157d0
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/mgag200/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/iio/pressure/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305052344.TAIFBCMZ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305060054.AFXCprUA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/mgag200/mgag200_dma.c:86:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-           int ret;
-               ^
-   1 warning generated.
+   In file included from include/linux/device.h:15,
+                    from drivers/iio/pressure/mprls0025pa.c:18:
+   drivers/iio/pressure/mprls0025pa.c: In function 'mpr_read_pressure':
+>> drivers/iio/pressure/mprls0025pa.c:178:30: warning: format '%u' expects argument of type 'unsigned int', but argument 4 has type 'long unsigned int' [-Wformat=]
+     178 |                 dev_err(dev, "received size doesn't fit - ret: %d / %u\n", ret,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/iio/pressure/mprls0025pa.c:178:17: note: in expansion of macro 'dev_err'
+     178 |                 dev_err(dev, "received size doesn't fit - ret: %d / %u\n", ret,
+         |                 ^~~~~~~
+   drivers/iio/pressure/mprls0025pa.c:178:70: note: format string is defined here
+     178 |                 dev_err(dev, "received size doesn't fit - ret: %d / %u\n", ret,
+         |                                                                     ~^
+         |                                                                      |
+         |                                                                      unsigned int
+         |                                                                     %lu
+   drivers/iio/pressure/mprls0025pa.c:221:30: warning: format '%u' expects argument of type 'unsigned int', but argument 4 has type 'long unsigned int' [-Wformat=]
+     221 |                 dev_err(dev, "received size doesn't fit - ret: %d / %u\n", ret,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
+     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/iio/pressure/mprls0025pa.c:221:17: note: in expansion of macro 'dev_err'
+     221 |                 dev_err(dev, "received size doesn't fit - ret: %d / %u\n", ret,
+         |                 ^~~~~~~
+   drivers/iio/pressure/mprls0025pa.c:221:70: note: format string is defined here
+     221 |                 dev_err(dev, "received size doesn't fit - ret: %d / %u\n", ret,
+         |                                                                     ~^
+         |                                                                      |
+         |                                                                      unsigned int
+         |                                                                     %lu
 
 
-vim +/ret +86 drivers/gpu/drm/mgag200/mgag200_dma.c
+vim +178 drivers/iio/pressure/mprls0025pa.c
 
-    81	
-    82	void mgag200_dma_run_cmd(struct mga_device *mdev)
-    83	{
-    84		struct drm_device *dev = &mdev->base;
-    85		u32 primend;
-  > 86		int ret;
-    87	
-    88		/* Add a last block to trigger the softrap interrupt */
-    89		mgag200_dma_add_block(mdev,
-    90				MGAREG_DMAPAD, 0,
-    91				MGAREG_DMAPAD, 0,
-    92				MGAREG_DMAPAD, 0,
-    93				MGAREG_SOFTRAP, 0);
-    94	
-    95		primend = mdev->cmd_handle + mdev->cmd_idx * sizeof(struct mga_cmd_block);
-    96	
-    97		// Use primary DMA to send the commands
-    98		WREG32(MGAREG_PRIMADDR, (u32) mdev->cmd_handle);
-    99		WREG32(MGAREG_PRIMEND, primend);
-   100		mdev->dma_in_use = 1;
-   101	
-   102		ret = wait_event_timeout(mdev->waitq, mdev->dma_in_use == 0, HZ);
-   103	
-   104		if (mdev->dma_in_use) {
-   105			drm_err(dev, "DMA transfert timed out\n");
-   106			/* something goes wrong, reset the DMA engine */
-   107			WREG8(MGAREG_OPMODE, MGAOPM_DMA_BLIT);
-   108			mdev->dma_in_use = 0;
-   109		}
-   110	
-   111		/* reset command index to start a new sequence */
-   112		mdev->cmd_idx = 0;
-   113	}
-   114	
+   144	
+   145	/**
+   146	 * mpr_read_pressure() - Read pressure value from sensor via I2C
+   147	 * @data: Pointer to private data struct.
+   148	 * @press: Output value read from sensor.
+   149	 *
+   150	 * Reading from the sensor by sending and receiving I2C telegrams.
+   151	 *
+   152	 * If there is an end of conversion (EOC) interrupt registered the function
+   153	 * waits for a maximum of one second for the interrupt.
+   154	 *
+   155	 * Context: The function can sleep and data->lock should be held when calling it
+   156	 * Return:
+   157	 * * 0		- OK, the pressure value could be read
+   158	 * * -ETIMEDOUT	- Timeout while waiting for the EOC interrupt or busy flag is
+   159	 *		  still set after nloops attempts of reading
+   160	 */
+   161	static int mpr_read_pressure(struct mpr_data *data, s32 *press)
+   162	{
+   163		struct device *dev = &data->client->dev;
+   164		int ret, i;
+   165		u8 wdata[] = {0xAA, 0x00, 0x00};
+   166		s32 status;
+   167		int nloops = 10;
+   168		u8 buf[5];
+   169	
+   170		reinit_completion(&data->completion);
+   171	
+   172		ret = i2c_master_send(data->client, wdata, sizeof(wdata));
+   173		if (ret < 0) {
+   174			dev_err(dev, "error while writing ret: %d\n", ret);
+   175			return ret;
+   176		}
+   177		if (ret != sizeof(wdata)) {
+ > 178			dev_err(dev, "received size doesn't fit - ret: %d / %u\n", ret,
+   179									sizeof(wdata));
+   180			return -EIO;
+   181		}
+   182	
+   183		if (data->irq > 0) {
+   184			ret = wait_for_completion_timeout(&data->completion, HZ);
+   185			if (!ret) {
+   186				dev_err(dev, "timeout while waiting for eoc irq\n");
+   187				return -ETIMEDOUT;
+   188			}
+   189		} else {
+   190			/* wait until status indicates data is ready */
+   191			for (i = 0; i < nloops; i++) {
+   192				/*
+   193				 * datasheet only says to wait at least 5 ms for the
+   194				 * data but leave the maximum response time open
+   195				 * --> let's try it nloops (10) times which seems to be
+   196				 *     quite long
+   197				 */
+   198				usleep_range(5000, 10000);
+   199				status = i2c_smbus_read_byte(data->client);
+   200				if (status < 0) {
+   201					dev_err(dev,
+   202						"error while reading, status: %d\n",
+   203						status);
+   204					return status;
+   205				}
+   206				if (!(status & MPR_I2C_BUSY))
+   207					break;
+   208			}
+   209			if (i == nloops) {
+   210				dev_err(dev, "timeout while reading\n");
+   211				return -ETIMEDOUT;
+   212			}
+   213		}
+   214	
+   215		ret = i2c_master_recv(data->client, buf, sizeof(buf));
+   216		if (ret < 0) {
+   217			dev_err(dev, "error in i2c_master_recv ret: %d\n", ret);
+   218			return ret;
+   219		}
+   220		if (ret != sizeof(buf)) {
+   221			dev_err(dev, "received size doesn't fit - ret: %d / %u\n", ret,
+   222									sizeof(buf));
+   223			return -EIO;
+   224		}
+   225	
+   226		if (buf[0] & MPR_I2C_BUSY) {
+   227			/*
+   228			 * it should never be the case that status still indicates
+   229			 * business
+   230			 */
+   231			dev_err(dev, "data still not ready: %08x\n", buf[0]);
+   232			return -ETIMEDOUT;
+   233		}
+   234	
+   235		*press = get_unaligned_be24(&buf[1]);
+   236	
+   237		dev_dbg(dev, "received: %*ph cnt: %d\n", ret, buf, *press);
+   238	
+   239		return 0;
+   240	}
+   241	
 
 -- 
 0-DAY CI Kernel Test Service
