@@ -1,44 +1,45 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1365383
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 May 2023 14:49:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5191FB3;
+	Fri,  5 May 2023 15:02:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683298163; x=1714834163;
+  t=1683298947; x=1714834947;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8SEqnu63V4aMgaTe+M9fdUF3uTxNhkdwiNzKzlV+YIE=;
-  b=bAStoSTaOzDda1wwar+FTV4muQ27vBS+2uiuQjnfcLUgzUiqdE7TXn46
-   nJKL/eEJFC259G+QdzRQ0doHOU5ekmaqDBE2uSCXV9D662QiDFSsV0Pnu
-   b3h8Zx3YdreTgli+0LZHM5l6p4lFkCPrkWmnIb9hLexjrB4ZvGulO2y2U
-   bN1dMLPVKCqwBiFDEQoBM6jZFuuMuaA0k8v68xv7267Kt7ChppTp5hBTg
-   N+AAVEVSY9FIXMPBdO0Nd1Fu0ShNKQMP5n7yDyGFy/ZuI5yeBSTuAS1dx
-   5QsdkYuJdw/r8Yj3a/NhYYnZu0aU16lZwRFwa1ePUVPhRksrHEPAm2xOd
+  bh=CE0l/faMRL3j+GUaQ0XO9bqeDaRnnBzt1VfxirJS3x4=;
+  b=TZ3KOhu7dw6M/jCv+8Z8SzzhKlkL5kQiuody9RGhgQWE+0VcFOLy8s4Z
+   N97bPGgO45bSrvRAw5juQ6wMRLkx5n3b4Zc6A6IlNJ67wPnj1Ix/UgaCb
+   vfM+CL194lLcSCAZZk0XjRyub2IY3oX18c5NRGoyS+pvcN/LzV6NLeS0g
+   Mt4Okex0TwYPAiGfN9QsaDece37KuHVctbu4N3BwkRm6piaDGvbW8Z8Y8
+   DqcGM5UtCnqZJjV7TpdiOhJvdSniMqcrEoYBkGuMyn3Dl0OA7PWQKKdeH
+   X3Xv6v9vGBaBiOdfs1G57vfLiugXbCKjRfcEaH981c5IGhhy+5nyI00iZ
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="377300239"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="414761233"
 X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; 
-   d="scan'208";a="377300239"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 07:49:22 -0700
+   d="scan'208";a="414761233"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 08:02:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="841779833"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="1027533320"
 X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; 
-   d="scan'208";a="841779833"
+   d="scan'208";a="1027533320"
 Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 05 May 2023 07:49:19 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 05 May 2023 08:02:21 -0700
 Received: from kbuild by fe5d646e317d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puwkI-0000f3-3D;
-	Fri, 05 May 2023 14:49:18 +0000
-Date: Fri, 5 May 2023 22:49:13 +0800
+	id 1puwwt-0000fV-0v;
+	Fri, 05 May 2023 15:02:19 +0000
+Date: Fri, 5 May 2023 23:01:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jocelyn Falempe <jfalempe@redhat.com>, dri-devel@lists.freedesktop.org,
 	tzimmermann@suse.de, airlied@redhat.com, javierm@redhat.com,
 	lyude@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jocelyn Falempe <jfalempe@redhat.com>
 Subject: Re: [PATCH 3/4] drm/mgag200: Add IRQ support
-Message-ID: <202305052227.4o72gpi8-lkp@intel.com>
+Message-ID: <202305052227.GGoicr9j-lkp@intel.com>
 References: <20230505124337.854845-4-jfalempe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,8 +61,8 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-mgag2
 base:   457391b0380335d5e9a5babdec90ac53928b23b4
 patch link:    https://lore.kernel.org/r/20230505124337.854845-4-jfalempe%40redhat.com
 patch subject: [PATCH 3/4] drm/mgag200: Add IRQ support
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20230505/202305052227.4o72gpi8-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+config: i386-randconfig-a013-20230501 (https://download.01.org/0day-ci/archive/20230505/202305052227.GGoicr9j-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -71,24 +72,37 @@ reproduce (this is a W=1 build):
         git checkout cbbd69ea02ffdcee64621b76bf22cb360d943294
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpu/drm/mgag200/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/mgag200/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305052227.4o72gpi8-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305052227.GGoicr9j-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/mgag200/mgag200_drv.c:113:13: warning: no previous prototype for 'mgag200_driver_irq_handler' [-Wmissing-prototypes]
-     113 | irqreturn_t mgag200_driver_irq_handler(int irq, void *arg)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/mgag200/mgag200_drv.c:129:6: warning: no previous prototype for 'mgag200_init_irq' [-Wmissing-prototypes]
-     129 | void mgag200_init_irq(struct mga_device *mdev)
-         |      ^~~~~~~~~~~~~~~~
->> drivers/gpu/drm/mgag200/mgag200_drv.c:137:6: warning: no previous prototype for 'mgag200_enable_irq' [-Wmissing-prototypes]
-     137 | void mgag200_enable_irq(struct mga_device *mdev)
-         |      ^~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/mgag200/mgag200_drv.c:113:13: warning: no previous prototype for function 'mgag200_driver_irq_handler' [-Wmissing-prototypes]
+   irqreturn_t mgag200_driver_irq_handler(int irq, void *arg)
+               ^
+   drivers/gpu/drm/mgag200/mgag200_drv.c:113:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   irqreturn_t mgag200_driver_irq_handler(int irq, void *arg)
+   ^
+   static 
+>> drivers/gpu/drm/mgag200/mgag200_drv.c:129:6: warning: no previous prototype for function 'mgag200_init_irq' [-Wmissing-prototypes]
+   void mgag200_init_irq(struct mga_device *mdev)
+        ^
+   drivers/gpu/drm/mgag200/mgag200_drv.c:129:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void mgag200_init_irq(struct mga_device *mdev)
+   ^
+   static 
+>> drivers/gpu/drm/mgag200/mgag200_drv.c:137:6: warning: no previous prototype for function 'mgag200_enable_irq' [-Wmissing-prototypes]
+   void mgag200_enable_irq(struct mga_device *mdev)
+        ^
+   drivers/gpu/drm/mgag200/mgag200_drv.c:137:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void mgag200_enable_irq(struct mga_device *mdev)
+   ^
+   static 
+   3 warnings generated.
 
 
 vim +/mgag200_driver_irq_handler +113 drivers/gpu/drm/mgag200/mgag200_drv.c
