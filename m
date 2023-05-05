@@ -1,47 +1,46 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506AEC2E4
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 May 2023 21:00:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B90C12D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 May 2023 21:21:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683320430; x=1714856430;
+  t=1683321691; x=1714857691;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=l0R2doc2268kKC+joemdtvLKaCJ+iHfybsYYuuu/YNA=;
-  b=ZzjR31nf0tAMBlBX9IQObubbrEyhB5Iw2RPZ/Ye6W2iFCrNomDmRQ7Qq
-   4s9YiRSC0u6tNCodNVdzzGdEzNBv/z4BP2PrJRCAcUu5Gfjvn+RScxxau
-   DLnhuZUdWu7TIRS8mwMcaZX3jkJHrf65F0gPh8Qgh6r9PSBRvGSoUsUJ8
-   z+LQYjk0P7Q5BlPwr4ffHtXCMfuoCYgyZI05pdm7sCvaYfBTV41xrkw3Z
-   0I6o47AEr2Ht09Ki00OVFfRCuDI6KVff7mb1ltuk7Bx2SBJdhLqeAbqSz
-   FjwFQnSHgNZeFkVJ7uv0pFVKsX3jLUDZyzAYKQicTgnGWrSAxRVFAMMZc
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="414843180"
+  bh=NcrdFZhFRig2Ni9b5QUbKvT5QpeRHY0bJM+OZxzy1Uw=;
+  b=DlhDnA/NzOiS2pFNoRYf6RQy9JnEMwvKJA5WI4yt9oNrI3HGRxcMN0ra
+   5mDvR2XGwJtgEtTkDYiJwsAF6f501/dJ4bSxCCoxbehxzQwpv7VlseDTc
+   5zCZkKO033EZpEpT0XXa0sA81B0ofMid7vq5BKRHW8HwZQkqBU8lUz/XC
+   EAIf0kFVD9TqG4UUA2Pt4cW38c62FPh5I8niUL8+dD2l9+DfXDc+aIJO5
+   1bQAx86M6TUmcmewZ/rsUg15rb6vq0IK0on1MwzFWKicfOTR/PgjBThRu
+   5QdDQYdKwxXjRpmTeYI9PhaEAkpkfaQWA/XEGkU8bJljd9iLVPqzcv623
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="412541882"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="414843180"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 14:00:29 -0700
+   d="scan'208";a="412541882"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 14:21:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="767266984"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="697746745"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="767266984"
+   d="scan'208";a="697746745"
 Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 05 May 2023 14:00:27 -0700
+  by orsmga002.jf.intel.com with ESMTP; 05 May 2023 14:21:28 -0700
 Received: from kbuild by fe5d646e317d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pv2XT-0000rR-0o;
-	Fri, 05 May 2023 21:00:27 +0000
-Date: Sat, 6 May 2023 05:00:22 +0800
+	id 1pv2rn-0000rh-1E;
+	Fri, 05 May 2023 21:21:27 +0000
+Date: Sat, 6 May 2023 05:20:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <maxime@cerno.tech>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	Maxime Ripard <maxime@cerno.tech>,
-	Max Filippov <jcmvbkbc@gmail.com>
-Subject: Re: [PATCH v4 12/68] clk: cdce706: Add a determine_rate hook
-Message-ID: <202305060426.mOiZv7Hn-lkp@intel.com>
-References: <20221018-clk-range-checks-fixes-v4-12-971d5077e7d2@cerno.tech>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, Oleksii_Moisieiev@epam.com,
+	linus.walleij@linaro.org, linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	michal.simek@amd.com, peng.fan@oss.nxp.com, sudeep.holla@arm.com
+Subject: Re: [PATCH] [REVIEW][PINCTRL]: Misc Fixes and refactor
+Message-ID: <202305060517.oC3TTnp4-lkp@intel.com>
+References: <20230505201012.3171817-1-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,40 +49,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221018-clk-range-checks-fixes-v4-12-971d5077e7d2@cerno.tech>
+In-Reply-To: <20230505201012.3171817-1-cristian.marussi@arm.com>
 
-Hi Maxime,
+Hi Cristian,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 145e5cddfe8b4bf607510b2dcf630d95f4db420f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/clk-Export-clk_hw_forward_rate_request/20230505-193724
-base:   145e5cddfe8b4bf607510b2dcf630d95f4db420f
-patch link:    https://lore.kernel.org/r/20221018-clk-range-checks-fixes-v4-12-971d5077e7d2%40cerno.tech
-patch subject: [PATCH v4 12/68] clk: cdce706: Add a determine_rate hook
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230506/202305060426.mOiZv7Hn-lkp@intel.com/config)
+
+url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20230506-041158/Oleksii-Moisieiev/pinctrl-Implementation-of-the-generic-scmi-pinctrl-driver/20230426-222739
+base:   the 1th patch of https://lore.kernel.org/r/b4d60f3408f8fe839933fa3938ecdc9bfceb75d7.1682513390.git.oleksii_moisieiev%40epam.com
+patch link:    https://lore.kernel.org/r/20230505201012.3171817-1-cristian.marussi%40arm.com
+patch subject: [PATCH] [REVIEW][PINCTRL]: Misc Fixes and refactor
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230506/202305060517.oC3TTnp4-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/09a54ed3207dca37a9f0541411f1867aa38a750d
+        # https://github.com/intel-lab-lkp/linux/commit/c3e47504d3b8eac203b4ae3fc56c3791790dd88b
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Maxime-Ripard/clk-Export-clk_hw_forward_rate_request/20230505-193724
-        git checkout 09a54ed3207dca37a9f0541411f1867aa38a750d
+        git fetch --no-tags linux-review UPDATE-20230506-041158/Oleksii-Moisieiev/pinctrl-Implementation-of-the-generic-scmi-pinctrl-driver/20230426-222739
+        git checkout c3e47504d3b8eac203b4ae3fc56c3791790dd88b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/firmware/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305060426.mOiZv7Hn-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305060517.oC3TTnp4-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-ERROR: modpost: "clk_hw_determine_rate_no_reparent" [drivers/clk/clk_test.ko] undefined!
->> ERROR: modpost: "clk_hw_determine_rate_no_reparent" [drivers/clk/clk-cdce706.ko] undefined!
+   drivers/firmware/arm_scmi/pinctrl.c: In function 'scmi_pinctrl_attributes':
+   drivers/firmware/arm_scmi/pinctrl.c:227:45: error: passing argument 4 of '((const struct scmi_proto_helpers_ops *)ph->hops)->extended_name_get' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     227 |                                             (u32 *)&type, name,
+         |                                             ^~~~~~~~~~~~
+         |                                             |
+         |                                             u32 * {aka unsigned int *}
+   drivers/firmware/arm_scmi/pinctrl.c:227:45: note: expected 'char *' but argument is of type 'u32 *' {aka 'unsigned int *'}
+>> drivers/firmware/arm_scmi/pinctrl.c:227:59: warning: passing argument 5 of '((const struct scmi_proto_helpers_ops *)ph->hops)->extended_name_get' makes integer from pointer without a cast [-Wint-conversion]
+     227 |                                             (u32 *)&type, name,
+         |                                                           ^~~~
+         |                                                           |
+         |                                                           char *
+   drivers/firmware/arm_scmi/pinctrl.c:227:59: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'char *'
+   drivers/firmware/arm_scmi/pinctrl.c:226:17: error: too many arguments to function '((const struct scmi_proto_helpers_ops *)ph->hops)->extended_name_get'
+     226 |                 ph->hops->extended_name_get(ph, PINCTRL_NAME_GET, selector,
+         |                 ^~
+   cc1: some warnings being treated as errors
+
+
+vim +227 drivers/firmware/arm_scmi/pinctrl.c
+
+   182	
+   183	static int scmi_pinctrl_attributes(const struct scmi_protocol_handle *ph,
+   184					   enum scmi_pinctrl_selector_type type,
+   185					   u32 selector, char *name,
+   186					   unsigned int *n_elems)
+   187	{
+   188		int ret;
+   189		u32 attrs;
+   190		struct scmi_xfer *t;
+   191		struct scmi_msg_pinctrl_attributes *tx;
+   192		struct scmi_resp_pinctrl_attributes *rx;
+   193	
+   194		if (!name)
+   195			return -EINVAL;
+   196	
+   197		ret = scmi_pinctrl_validate_id(ph, selector, type);
+   198		if (ret)
+   199			return ret;
+   200	
+   201		ret = ph->xops->xfer_get_init(ph, PINCTRL_ATTRIBUTES, sizeof(*tx),
+   202					      sizeof(*rx), &t);
+   203		if (ret)
+   204			return ret;
+   205	
+   206		tx = t->tx.buf;
+   207		rx = t->rx.buf;
+   208		tx->identifier = cpu_to_le32(selector);
+   209		tx->flags = cpu_to_le32(type);
+   210	
+   211		ret = ph->xops->do_xfer(ph, t);
+   212		if (!ret) {
+   213			attrs = le32_to_cpu(rx->attributes);
+   214			if (n_elems)
+   215				*n_elems = NUM_ELEMS(attrs);
+   216			strscpy(name, rx->name, SCMI_SHORT_NAME_MAX_SIZE);
+   217		}
+   218	
+   219		ph->xops->xfer_put(ph, t);
+   220	
+   221		/*
+   222		 * If supported overwrite short name with the extended one;
+   223		 * on error just carry on and use already provided short name.
+   224		 */
+   225		if (!ret && EXT_NAME_FLAG(attrs))
+   226			ph->hops->extended_name_get(ph, PINCTRL_NAME_GET, selector,
+ > 227						    (u32 *)&type, name,
+   228						    SCMI_MAX_STR_SIZE);
+   229		return ret;
+   230	}
+   231	
 
 -- 
 0-DAY CI Kernel Test Service
