@@ -1,43 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37244156EF
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 May 2023 08:18:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DE71C08;
+	Fri,  5 May 2023 08:39:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683274691; x=1714810691;
+  t=1683275959; x=1714811959;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QZXf6p2jEHDObXsUp1PteqOdlpPz6jCeOkPwHzjyEC8=;
-  b=aq1/0aIHS8tUsWcG8Cb3mM/kjyAq0cl8nAup0X8GM09D/KePOGc1U4AW
-   xOWMrRam2cjMjZGB667kjeOoJ7bEffPifI0u59vgiW/2Fcl088JtKD2Hn
-   Aq6VmYGloh6fdvK2mtS9HiqTNLbOOatyXxXNhpMhqaYSZhHx4uGO4Dyc6
-   +YmZWh0/5i4jSRIUGq7Uj1TSg/d6Hb9MaTtfIqhDqbB12sAZFqgboVDEp
-   ZxqvmaXueFujSA2bl+u3CKMvbNDxbxgWm0enkdPWAvnBWh8NqSRjz6er8
-   FEgyFRL1TO8RPnYFX15NqfKBiVe9tZSOB9t6KmvR8dZSGlWS0Oe/O8vUr
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="333580953"
+  bh=N6ldFumAt9eAwUaXzZtJ/78unA5GyIfcWVCTVVLPtpU=;
+  b=DITleetBkiD6A5PJFoCbrdCyu7JrZjhIuEvrm34b+XOb6AVPjY/pls+L
+   C6ey2z3AbKzbeHTm4bNl3lAviwdUrHR52Se3GwVUljuYUxjhLhOmVoya1
+   uZvYG9EvW1Wh8h+BksfUkCPutbgIkc6OvdJ5Qpn4Sd7kYMg4IJ2DAKKJy
+   2zh0aP4L85zxYj2f6IiHHVNN9DS6tLpNcbjLOxO/7scEkbFt9DoG3E3s2
+   FdydwPOLBddxSpXlJXZDqKhszmspwvxCId2KN0hguuhNsE4vgJtwlB+tZ
+   0ayDn+up0teasQoe8w2FlobCRWxc0mAJrXDZvZ9SeOHgloDbXAaMWDjB8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="377239982"
 X-IronPort-AV: E=Sophos;i="5.99,251,1677571200"; 
-   d="scan'208";a="333580953"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 01:18:10 -0700
+   d="scan'208";a="377239982"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 01:39:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="871721083"
+X-IronPort-AV: E=McAfee;i="6600,9927,10700"; a="1027372341"
 X-IronPort-AV: E=Sophos;i="5.99,251,1677571200"; 
-   d="scan'208";a="871721083"
+   d="scan'208";a="1027372341"
 Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 05 May 2023 01:18:09 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 05 May 2023 01:39:09 -0700
 Received: from kbuild by fe5d646e317d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1puqdk-0000PB-1Y;
-	Fri, 05 May 2023 08:18:08 +0000
-Date: Fri, 5 May 2023 16:17:10 +0800
+	id 1puqy4-0000Pl-2U;
+	Fri, 05 May 2023 08:39:08 +0000
+Date: Fri, 5 May 2023 16:38:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jon Moeller <jon.moeller@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Faycal Benmlih <faycal.benmlih@intel.com>
-Subject: [mchinth:socwatch_linux_6_3 7/90] versioncheck:
- ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
-Message-ID: <202305051657.FhNDzspr-lkp@intel.com>
+To: Faycal Benmlih <faycal.benmlih@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [mchinth:socwatch_linux_6_3 25/91]
+ drivers/platform/x86/socperf/socperfdrv.c:203:13: warning: no previous
+ prototype for function 'SOCPERF_Read_Data3'
+Message-ID: <202305051606.G5JrvA1P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,104 +47,253 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Faycal,
+
+FYI, the error/warning still remains.
+
 tree:   https://github.com/mchinth/linux socwatch_linux_6_3
 head:   db51827dc3d8fd27fd6312b14811fa2e0c4abe87
-commit: d605aabab41663c9be9e8c549042933189adbf2f [7/90] platform/x86: add sep and socwatch drivers without socperf.
-reproduce:
-        make versioncheck
+commit: e65547c5a9bb37e907edecece4da7cb12dadea96 [25/91] platform/x86: Use $(srctree) instead of $(src) to adapt to kbuild regression
+config: i386-randconfig-a011-20230501 (https://download.01.org/0day-ci/archive/20230505/202305051606.G5JrvA1P-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/mchinth/linux/commit/e65547c5a9bb37e907edecece4da7cb12dadea96
+        git remote add mchinth https://github.com/mchinth/linux
+        git fetch --no-tags mchinth socwatch_linux_6_3
+        git checkout e65547c5a9bb37e907edecece4da7cb12dadea96
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/x86/sepdk/pax/ drivers/platform/x86/socperf/ drivers/platform/x86/socwatch/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305051657.FhNDzspr-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305051606.G5JrvA1P-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 15 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 182: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 62 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 57 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/mfd/mt6360-core.c: 16 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 10 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/inc/linuxos.h: 79: need linux/version.h
->> ./drivers/platform/x86/sepdk/inc/utility.h: 637: need linux/version.h
-   ./drivers/platform/x86/sepdk/sep/chap.c: 26 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/core2.c: 27 linux/version.h not needed.
-   ./drivers/platform/x86/sepdk/sep/gmch.c: 26 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/output.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/perfver4.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/pmi.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/silvermont.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/sys_info.c: 27 linux/version.h not needed.
-   ./drivers/platform/x86/sepdk/sep/unc_mmio.c: 29 linux/version.h not needed.
->> ./drivers/platform/x86/socwatch/sw_telem.c: 60 linux/version.h not needed.
->> ./drivers/platform/x86/socwatch/sw_tracepoint_handlers.c: 399: need linux/version.h
->> ./drivers/platform/x86/socwatchhv/swhv_acrn.c: 11 linux/version.h not needed.
->> ./drivers/platform/x86/socwatchhv/swhv_driver.c: 70 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 15 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+>> drivers/platform/x86/socperf/socperfdrv.c:203:13: warning: no previous prototype for function 'SOCPERF_Read_Data3' [-Wmissing-prototypes]
+   extern VOID SOCPERF_Read_Data3(PVOID data_buffer)
+               ^
+   drivers/platform/x86/socperf/socperfdrv.c:203:8: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   extern VOID SOCPERF_Read_Data3(PVOID data_buffer)
+          ^
+>> drivers/platform/x86/socperf/socperfdrv.c:885:1: warning: no previous prototype for function 'SOCPERF_Switch_Group3' [-Wmissing-prototypes]
+   SOCPERF_Switch_Group3(VOID)
+   ^
+   drivers/platform/x86/socperf/socperfdrv.c:884:8: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   extern OS_STATUS
+          ^
+   drivers/platform/x86/socperf/include/lwpmudrv_defines.h:372:19: note: expanded from macro 'OS_STATUS'
+   #define OS_STATUS int
+                     ^
+>> drivers/platform/x86/socperf/socperfdrv.c:1070:6: warning: no previous prototype for function 'lwpmudrv_Stop_Mem' [-Wmissing-prototypes]
+   VOID lwpmudrv_Stop_Mem(VOID)
+        ^
+   drivers/platform/x86/socperf/socperfdrv.c:1070:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   VOID lwpmudrv_Stop_Mem(VOID)
+   ^
+   static 
+>> drivers/platform/x86/socperf/socperfdrv.c:1155:15: warning: no previous prototype for function 'socperf_Service_IOCTL' [-Wmissing-prototypes]
+   IOCTL_OP_TYPE socperf_Service_IOCTL(IOCTL_USE_INODE struct file *filp,
+                 ^
+   drivers/platform/x86/socperf/socperfdrv.c:1155:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   IOCTL_OP_TYPE socperf_Service_IOCTL(IOCTL_USE_INODE struct file *filp,
+   ^
+   static 
+   drivers/platform/x86/socperf/inc/control.h:84:23: note: expanded from macro 'IOCTL_OP_TYPE'
+   #define IOCTL_OP_TYPE S32
+                         ^
+   drivers/platform/x86/socperf/socperfdrv.c:1299:33: error: expected expression
+           status = socperf_Service_IOCTL(IOCTL_USE_INODE filp, _IOC_NR(cmd),
+                                          ^
+   drivers/platform/x86/socperf/inc/control.h:85:25: note: expanded from macro 'IOCTL_USE_INODE'
+   #define IOCTL_USE_INODE struct inode *inode,
+                           ^
+>> drivers/platform/x86/socperf/socperfdrv.c:1274:6: warning: no previous prototype for function 'socperf_Device_Control' [-Wmissing-prototypes]
+   long socperf_Device_Control(IOCTL_USE_INODE struct file *filp,
+        ^
+   drivers/platform/x86/socperf/socperfdrv.c:1274:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   long socperf_Device_Control(IOCTL_USE_INODE struct file *filp,
+   ^
+   static 
+>> drivers/platform/x86/socperf/socperfdrv.c:1358:5: warning: no previous prototype for function 'SOCPERF_Abnormal_Terminate' [-Wmissing-prototypes]
+   int SOCPERF_Abnormal_Terminate(void)
+       ^
+   drivers/platform/x86/socperf/socperfdrv.c:1358:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int SOCPERF_Abnormal_Terminate(void)
+   ^
+   static 
+   drivers/platform/x86/socperf/socperfdrv.c:1389:2: error: field designator 'ioctl' does not refer to any field in type 'struct file_operations'
+           IOCTL_OP = socperf_Device_Control,
+           ^
+   drivers/platform/x86/socperf/inc/control.h:83:19: note: expanded from macro 'IOCTL_OP'
+   #define IOCTL_OP .ioctl
+                     ^
+   6 warnings and 2 errors generated.
+--
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:301:7: warning: variable 'wrapped' set but not used [-Wunused-but-set-variable]
+           bool wrapped = false;
+                ^
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:299:25: warning: variable 'write_index' set but not used [-Wunused-but-set-variable]
+           size_t read_index = 0, write_index = 0, dst_index = 0;
+                                  ^
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:398:6: warning: no previous prototype for function 'reset_output_buffers' [-Wmissing-prototypes]
+   void reset_output_buffers(void)
+        ^
+   drivers/platform/x86/socwatch/sw_output_buffer.c:398:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void reset_output_buffers(void)
+   ^
+   static 
+   3 warnings generated.
+--
+>> drivers/platform/x86/socwatch/sw_collector.c:86:1: warning: no previous prototype for function 'sw_copy_driver_interface_info_i' [-Wmissing-prototypes]
+   sw_copy_driver_interface_info_i(const struct sw_driver_interface_info *info)
+   ^
+   drivers/platform/x86/socwatch/sw_collector.c:85:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct sw_driver_interface_info *
+   ^
+   static 
+>> drivers/platform/x86/socwatch/sw_collector.c:116:5: warning: no previous prototype for function 'sw_init_driver_interface_info_i' [-Wmissing-prototypes]
+   int sw_init_driver_interface_info_i(struct sw_driver_interface_info *info)
+       ^
+   drivers/platform/x86/socwatch/sw_collector.c:116:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int sw_init_driver_interface_info_i(struct sw_driver_interface_info *info)
+   ^
+   static 
+>> drivers/platform/x86/socwatch/sw_collector.c:138:5: warning: no previous prototype for function 'sw_init_ops_i' [-Wmissing-prototypes]
+   int sw_init_ops_i(const struct sw_hw_ops **ops,
+       ^
+   drivers/platform/x86/socwatch/sw_collector.c:138:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int sw_init_ops_i(const struct sw_hw_ops **ops,
+   ^
+   static 
+>> drivers/platform/x86/socwatch/sw_collector.c:157:8: warning: no previous prototype for function 'sw_get_payload_size_i' [-Wmissing-prototypes]
+   size_t sw_get_payload_size_i(const struct sw_driver_interface_info *info)
+          ^
+   drivers/platform/x86/socwatch/sw_collector.c:157:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   size_t sw_get_payload_size_i(const struct sw_driver_interface_info *info)
+   ^
+   static 
+>> drivers/platform/x86/socwatch/sw_collector.c:175:1: warning: no previous prototype for function 'sw_alloc_collector_msg_i' [-Wmissing-prototypes]
+   sw_alloc_collector_msg_i(const struct sw_driver_interface_info *info,
+   ^
+   drivers/platform/x86/socwatch/sw_collector.c:174:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   sw_driver_msg_t *
+   ^
+   static 
+>> drivers/platform/x86/socwatch/sw_collector.c:211:26: warning: no previous prototype for function 'sw_alloc_ops_i' [-Wmissing-prototypes]
+   const struct sw_hw_ops **sw_alloc_ops_i(pw_u16_t num_io_descriptors)
+                            ^
+   drivers/platform/x86/socwatch/sw_collector.c:211:7: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   const struct sw_hw_ops **sw_alloc_ops_i(pw_u16_t num_io_descriptors)
+         ^
+         static 
+>> drivers/platform/x86/socwatch/sw_collector.c:323:6: warning: no previous prototype for function 'sw_free_driver_interface_info_i' [-Wmissing-prototypes]
+   void sw_free_driver_interface_info_i(struct sw_driver_interface_info *info)
+        ^
+   drivers/platform/x86/socwatch/sw_collector.c:323:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void sw_free_driver_interface_info_i(struct sw_driver_interface_info *info)
+   ^
+   static 
+>> drivers/platform/x86/socwatch/sw_collector.c:329:6: warning: no previous prototype for function 'sw_free_ops_i' [-Wmissing-prototypes]
+   void sw_free_ops_i(const struct sw_hw_ops **ops)
+        ^
+   drivers/platform/x86/socwatch/sw_collector.c:329:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void sw_free_ops_i(const struct sw_hw_ops **ops)
+   ^
+   static 
+>> drivers/platform/x86/socwatch/sw_collector.c:335:5: warning: no previous prototype for function 'sw_reset_driver_interface_info_i' [-Wmissing-prototypes]
+   int sw_reset_driver_interface_info_i(struct sw_driver_interface_info *info)
+       ^
+   drivers/platform/x86/socwatch/sw_collector.c:335:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int sw_reset_driver_interface_info_i(struct sw_driver_interface_info *info)
+   ^
+   static 
+>> drivers/platform/x86/socwatch/sw_collector.c:453:6: warning: no previous prototype for function 'sw_free_collector_msg_i' [-Wmissing-prototypes]
+   void sw_free_collector_msg_i(sw_driver_msg_t *msg)
+        ^
+   drivers/platform/x86/socwatch/sw_collector.c:453:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void sw_free_collector_msg_i(sw_driver_msg_t *msg)
+   ^
+   static 
+>> drivers/platform/x86/socwatch/sw_collector.c:459:6: warning: no previous prototype for function 'sw_handle_per_cpu_msg_i' [-Wmissing-prototypes]
+   void sw_handle_per_cpu_msg_i(void *info, enum sw_wakeup_action action)
+        ^
+   drivers/platform/x86/socwatch/sw_collector.c:459:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void sw_handle_per_cpu_msg_i(void *info, enum sw_wakeup_action action)
+   ^
+   static 
+   11 warnings generated.
+--
+   drivers/platform/x86/socwatch/sw_telem.c:239:32: error: implicit declaration of function 'ioremap_nocache' [-Werror,-Wimplicit-function-declaration]
+           s_punitInterfaceAddr = (u64 *)ioremap_nocache(
+                                         ^
+   drivers/platform/x86/socwatch/sw_telem.c:239:32: note: did you mean 'ioremap_cache'?
+   arch/x86/include/asm/io.h:185:22: note: 'ioremap_cache' declared here
+   extern void __iomem *ioremap_cache(resource_size_t offset, unsigned long size);
+                        ^
+   drivers/platform/x86/socwatch/sw_telem.c:280:27: error: implicit declaration of function 'ioremap_nocache' [-Werror,-Wimplicit-function-declaration]
+           s_pmcIPCCmdAddr = (u64 *)ioremap_nocache(
+                                    ^
+>> drivers/platform/x86/socwatch/sw_telem.c:671:5: warning: no previous prototype for function 'read_telem' [-Wmissing-prototypes]
+   int read_telem(u64 *dst, enum telemetry_unit unit, bool should_retry)
+       ^
+   drivers/platform/x86/socwatch/sw_telem.c:671:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int read_telem(u64 *dst, enum telemetry_unit unit, bool should_retry)
+   ^
+   static 
+   1 warning and 2 errors generated.
+--
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:299:25: warning: variable 'write_index' set but not used [-Wunused-but-set-variable]
+           size_t read_index = 0, write_index = 0, dst_index = 0;
+                                  ^
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:301:7: warning: variable 'wrapped' set but not used [-Wunused-but-set-variable]
+           bool wrapped = false;
+                ^
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:398:6: warning: no previous prototype for function 'reset_output_buffers' [-Wmissing-prototypes]
+   void reset_output_buffers(void)
+        ^
+   drivers/platform/x86/socwatch/sw_output_buffer.c:398:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void reset_output_buffers(void)
+   ^
+   static 
+   3 warnings generated.
+
+
+vim +/SOCPERF_Read_Data3 +203 drivers/platform/x86/socperf/socperfdrv.c
+
+f57492d07625dd Manisha Chinthapally 2019-05-01  189  
+f57492d07625dd Manisha Chinthapally 2019-05-01  190  /* ------------------------------------------------------------------------- */
+f57492d07625dd Manisha Chinthapally 2019-05-01  191  /*!
+f57492d07625dd Manisha Chinthapally 2019-05-01  192   * @fn       VOID SOCPERF_Read_Data
+f57492d07625dd Manisha Chinthapally 2019-05-01  193   *
+f57492d07625dd Manisha Chinthapally 2019-05-01  194   * @brief    Reads counter data
+f57492d07625dd Manisha Chinthapally 2019-05-01  195   *
+f57492d07625dd Manisha Chinthapally 2019-05-01  196   * @param    param   data_buffer - buffer for reading counter data.
+f57492d07625dd Manisha Chinthapally 2019-05-01  197   *
+f57492d07625dd Manisha Chinthapally 2019-05-01  198   * @return  None
+f57492d07625dd Manisha Chinthapally 2019-05-01  199   *
+f57492d07625dd Manisha Chinthapally 2019-05-01  200   * <I>Special Notes:</I>
+f57492d07625dd Manisha Chinthapally 2019-05-01  201   *              <NONE>
+f57492d07625dd Manisha Chinthapally 2019-05-01  202   */
+f57492d07625dd Manisha Chinthapally 2019-05-01 @203  extern VOID SOCPERF_Read_Data3(PVOID data_buffer)
+f57492d07625dd Manisha Chinthapally 2019-05-01  204  {
+f57492d07625dd Manisha Chinthapally 2019-05-01  205  	if (dispatch_uncore && dispatch_uncore->read_current_data) {
+f57492d07625dd Manisha Chinthapally 2019-05-01  206  		dispatch_uncore->read_current_data(data_buffer);
+f57492d07625dd Manisha Chinthapally 2019-05-01  207  	}
+f57492d07625dd Manisha Chinthapally 2019-05-01  208  	SOCPERF_PRINT_DEBUG("%s called\n", __func__);
+f57492d07625dd Manisha Chinthapally 2019-05-01  209  }
+f57492d07625dd Manisha Chinthapally 2019-05-01  210  EXPORT_SYMBOL(SOCPERF_Read_Data3);
+f57492d07625dd Manisha Chinthapally 2019-05-01  211  
+
+:::::: The code at line 203 was first introduced by commit
+:::::: f57492d07625dddac7920eccdb5be08c55ee16fa platform/x86: SOCPERF3 support for sep & socwatch
+
+:::::: TO: Manisha Chinthapally <manisha.chinthapally@intel.com>
+:::::: CC: Faycal Benmlih <faycal.benmlih@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
