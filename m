@@ -1,46 +1,45 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B90C12D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 May 2023 21:21:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBFEBE73;
+	Fri,  5 May 2023 21:31:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683321691; x=1714857691;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NcrdFZhFRig2Ni9b5QUbKvT5QpeRHY0bJM+OZxzy1Uw=;
-  b=DlhDnA/NzOiS2pFNoRYf6RQy9JnEMwvKJA5WI4yt9oNrI3HGRxcMN0ra
-   5mDvR2XGwJtgEtTkDYiJwsAF6f501/dJ4bSxCCoxbehxzQwpv7VlseDTc
-   5zCZkKO033EZpEpT0XXa0sA81B0ofMid7vq5BKRHW8HwZQkqBU8lUz/XC
-   EAIf0kFVD9TqG4UUA2Pt4cW38c62FPh5I8niUL8+dD2l9+DfXDc+aIJO5
-   1bQAx86M6TUmcmewZ/rsUg15rb6vq0IK0on1MwzFWKicfOTR/PgjBThRu
-   5QdDQYdKwxXjRpmTeYI9PhaEAkpkfaQWA/XEGkU8bJljd9iLVPqzcv623
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="412541882"
+  t=1683322290; x=1714858290;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LK6c0dLV2ws2e+MXubi7Zjl8QXC2MGI/oyTIKa/4NgQ=;
+  b=F0en7BMbXMKcm3D4GP4iAZDkWRAYV5qH+K+Ejg7Dt4yVeJGt5BM4DRmv
+   YMPWkbx95dxMlFoJ4E19feOi73xy5hffxEgSqz/EFkaEnPaisgERvII1I
+   aQRbUD+7UdktD+hSi4zt+prSBI4hsIQfRyxensPvWX52JmRHdyYb6fVi4
+   /BaBp0LkOjo3InCREwroHWgfzMT+lUiV2cFY5y2IQ68O5ylbT6dvCH26f
+   9TZej789ePLl8r6q6IH6vy868ui9WfeMikAq5wnruVOftqNP7my3/AfDt
+   s0xC2fEcr7x8AA+oypKAc9dM0lKo2QQkbmEE6MLtFghw5+QmQ806yJPaE
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="351449757"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="412541882"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 14:21:30 -0700
+   d="scan'208";a="351449757"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 14:31:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="697746745"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="728261658"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="697746745"
+   d="scan'208";a="728261658"
 Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 05 May 2023 14:21:28 -0700
+  by orsmga008.jf.intel.com with ESMTP; 05 May 2023 14:31:28 -0700
 Received: from kbuild by fe5d646e317d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pv2rn-0000rh-1E;
-	Fri, 05 May 2023 21:21:27 +0000
-Date: Sat, 6 May 2023 05:20:53 +0800
+	id 1pv31T-0000s7-26;
+	Fri, 05 May 2023 21:31:27 +0000
+Date: Sat, 6 May 2023 05:31:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Oleksii_Moisieiev@epam.com,
-	linus.walleij@linaro.org, linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	michal.simek@amd.com, peng.fan@oss.nxp.com, sudeep.holla@arm.com
-Subject: Re: [PATCH] [REVIEW][PINCTRL]: Misc Fixes and refactor
-Message-ID: <202305060517.oC3TTnp4-lkp@intel.com>
-References: <20230505201012.3171817-1-cristian.marussi@arm.com>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: arch/arm/boot/compressed/atags_to_fdt.c:129:5: warning: stack frame
+ size (1336) exceeds limit (1280) in 'atags_to_fdt'
+Message-ID: <202305060558.U9RE5y1G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,109 +48,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230505201012.3171817-1-cristian.marussi@arm.com>
 
-Hi Cristian,
+Hi Nick,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-
-
-url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20230506-041158/Oleksii-Moisieiev/pinctrl-Implementation-of-the-generic-scmi-pinctrl-driver/20230426-222739
-base:   the 1th patch of https://lore.kernel.org/r/b4d60f3408f8fe839933fa3938ecdc9bfceb75d7.1682513390.git.oleksii_moisieiev%40epam.com
-patch link:    https://lore.kernel.org/r/20230505201012.3171817-1-cristian.marussi%40arm.com
-patch subject: [PATCH] [REVIEW][PINCTRL]: Misc Fixes and refactor
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230506/202305060517.oC3TTnp4-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   78b421b6a7c6dbb6a213877c742af52330f5026d
+commit: 3220022038b9a3845eea762af85f1c5694b9f861 ARM: 9256/1: NWFPE: avoid compiler-generated __aeabi_uldivmod
+date:   6 months ago
+config: arm-randconfig-r046-20230504 (https://download.01.org/0day-ci/archive/20230506/202305060558.U9RE5y1G-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c3e47504d3b8eac203b4ae3fc56c3791790dd88b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review UPDATE-20230506-041158/Oleksii-Moisieiev/pinctrl-Implementation-of-the-generic-scmi-pinctrl-driver/20230426-222739
-        git checkout c3e47504d3b8eac203b4ae3fc56c3791790dd88b
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=3220022038b9a3845eea762af85f1c5694b9f861
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 3220022038b9a3845eea762af85f1c5694b9f861
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/firmware/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305060517.oC3TTnp4-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305060558.U9RE5y1G-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/firmware/arm_scmi/pinctrl.c: In function 'scmi_pinctrl_attributes':
-   drivers/firmware/arm_scmi/pinctrl.c:227:45: error: passing argument 4 of '((const struct scmi_proto_helpers_ops *)ph->hops)->extended_name_get' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     227 |                                             (u32 *)&type, name,
-         |                                             ^~~~~~~~~~~~
-         |                                             |
-         |                                             u32 * {aka unsigned int *}
-   drivers/firmware/arm_scmi/pinctrl.c:227:45: note: expected 'char *' but argument is of type 'u32 *' {aka 'unsigned int *'}
->> drivers/firmware/arm_scmi/pinctrl.c:227:59: warning: passing argument 5 of '((const struct scmi_proto_helpers_ops *)ph->hops)->extended_name_get' makes integer from pointer without a cast [-Wint-conversion]
-     227 |                                             (u32 *)&type, name,
-         |                                                           ^~~~
-         |                                                           |
-         |                                                           char *
-   drivers/firmware/arm_scmi/pinctrl.c:227:59: note: expected 'size_t' {aka 'unsigned int'} but argument is of type 'char *'
-   drivers/firmware/arm_scmi/pinctrl.c:226:17: error: too many arguments to function '((const struct scmi_proto_helpers_ops *)ph->hops)->extended_name_get'
-     226 |                 ph->hops->extended_name_get(ph, PINCTRL_NAME_GET, selector,
-         |                 ^~
-   cc1: some warnings being treated as errors
+   arch/arm/boot/compressed/atags_to_fdt.c:129:5: warning: no previous prototype for function 'atags_to_fdt' [-Wmissing-prototypes]
+   int atags_to_fdt(void *atag_list, void *fdt, int total_space)
+       ^
+   arch/arm/boot/compressed/atags_to_fdt.c:129:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int atags_to_fdt(void *atag_list, void *fdt, int total_space)
+   ^
+   static 
+>> arch/arm/boot/compressed/atags_to_fdt.c:129:5: warning: stack frame size (1336) exceeds limit (1280) in 'atags_to_fdt' [-Wframe-larger-than]
+   int atags_to_fdt(void *atag_list, void *fdt, int total_space)
+       ^
+   44/1336 (3.29%) spills, 1292/1336 (96.71%) variables
+   2 warnings generated.
 
 
-vim +227 drivers/firmware/arm_scmi/pinctrl.c
+vim +/atags_to_fdt +129 arch/arm/boot/compressed/atags_to_fdt.c
 
-   182	
-   183	static int scmi_pinctrl_attributes(const struct scmi_protocol_handle *ph,
-   184					   enum scmi_pinctrl_selector_type type,
-   185					   u32 selector, char *name,
-   186					   unsigned int *n_elems)
-   187	{
-   188		int ret;
-   189		u32 attrs;
-   190		struct scmi_xfer *t;
-   191		struct scmi_msg_pinctrl_attributes *tx;
-   192		struct scmi_resp_pinctrl_attributes *rx;
-   193	
-   194		if (!name)
-   195			return -EINVAL;
-   196	
-   197		ret = scmi_pinctrl_validate_id(ph, selector, type);
-   198		if (ret)
-   199			return ret;
-   200	
-   201		ret = ph->xops->xfer_get_init(ph, PINCTRL_ATTRIBUTES, sizeof(*tx),
-   202					      sizeof(*rx), &t);
-   203		if (ret)
-   204			return ret;
-   205	
-   206		tx = t->tx.buf;
-   207		rx = t->rx.buf;
-   208		tx->identifier = cpu_to_le32(selector);
-   209		tx->flags = cpu_to_le32(type);
-   210	
-   211		ret = ph->xops->do_xfer(ph, t);
-   212		if (!ret) {
-   213			attrs = le32_to_cpu(rx->attributes);
-   214			if (n_elems)
-   215				*n_elems = NUM_ELEMS(attrs);
-   216			strscpy(name, rx->name, SCMI_SHORT_NAME_MAX_SIZE);
-   217		}
-   218	
-   219		ph->xops->xfer_put(ph, t);
-   220	
-   221		/*
-   222		 * If supported overwrite short name with the extended one;
-   223		 * on error just carry on and use already provided short name.
-   224		 */
-   225		if (!ret && EXT_NAME_FLAG(attrs))
-   226			ph->hops->extended_name_get(ph, PINCTRL_NAME_GET, selector,
- > 227						    (u32 *)&type, name,
-   228						    SCMI_MAX_STR_SIZE);
-   229		return ret;
-   230	}
-   231	
+31d0b9f9982f8e3 Ben Dooks          2018-10-12  120  
+b90b9a38251e9c8 Nicolas Pitre      2011-09-13  121  /*
+b90b9a38251e9c8 Nicolas Pitre      2011-09-13  122   * Convert and fold provided ATAGs into the provided FDT.
+b90b9a38251e9c8 Nicolas Pitre      2011-09-13  123   *
+4716e2e34a22a8c Geert Uytterhoeven 2021-05-19  124   * Return values:
+b90b9a38251e9c8 Nicolas Pitre      2011-09-13  125   *    = 0 -> pretend success
+b90b9a38251e9c8 Nicolas Pitre      2011-09-13  126   *    = 1 -> bad ATAG (may retry with another possible ATAG pointer)
+b90b9a38251e9c8 Nicolas Pitre      2011-09-13  127   *    < 0 -> error from libfdt
+b90b9a38251e9c8 Nicolas Pitre      2011-09-13  128   */
+b90b9a38251e9c8 Nicolas Pitre      2011-09-13 @129  int atags_to_fdt(void *atag_list, void *fdt, int total_space)
+
+:::::: The code at line 129 was first introduced by commit
+:::::: b90b9a38251e9c89c34179eccde57411ceb5f1aa ARM: zImage: allow supplementing appended DTB with traditional ATAG data
+
+:::::: TO: Nicolas Pitre <nicolas.pitre@linaro.org>
+:::::: CC: Nicolas Pitre <nico@fluxnic.net>
 
 -- 
 0-DAY CI Kernel Test Service
