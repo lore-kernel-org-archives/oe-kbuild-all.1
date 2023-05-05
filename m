@@ -1,44 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C6D4C99
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 May 2023 22:12:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95B910FF;
+	Fri,  5 May 2023 22:33:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683324751; x=1714860751;
+  t=1683326019; x=1714862019;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6w3EnoLYcjYzCP36Z68hnkauw/xTpYgW7xplEoywr+c=;
-  b=PtFKhL/Y7YsQrTvPzVrxrrIlIA7LLpwl6/b6S+WAuIJ/uCeDEo/GFs+Z
-   4YnC22oK0mT63v1vI9XCe1FCWYwrjMPbk3ZOqiPqRTOynhLK3VNSP9c+d
-   zAKDmYFDHsYjld7bOxO9hOWnzXoFjjuyqje1i5gOdVf5zx4mZ8yEntXKX
-   mmoPxtZCSuThr69Rk8oeOSavaaQf16zuAvX4HHJ1rIeHnBxUCGcoErIfL
-   AxUCR08BDhx+iM7w24adAGr96Ekj8BTEqBzAhQxpQaAm0JfvYCkjeENgq
-   2iumYFzfULY1tlvhrMpYIOfiOvxxwdxFB/kkoIQJ48Ir3tARLFn4gPOrf
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="329660587"
+  bh=ymz6cqoGCt0LaAC0a1M4DnYpfLilhwSNLm+YUZGA2nQ=;
+  b=nnboiRsT69B/HWcrNe7r5WP+T31r8OVzswubUnzBVyMhdUBv+hwnXz6J
+   vSyU+MbGe5BgetnVkE3AT9TEQg5I4eDbkqMzbS2Or+RmXRFWHZnCwWZZ6
+   8vVY8VVtfHfOrHwYfbX6HgVBmBlHuYnpthlhZyE3YDEJYUlKpaNzgJN5Q
+   kmRSeyAfckL+cQcKsbS/RWxeZby/gSje8yjoBjzcv9ckRkf7nuAyzqxZI
+   NdU/ofcCszN/+ZCsAWhbdnZ3uoTwrxcKv24rb8wbbFUmd1R5140wCOSCM
+   9q4H9eZ2ZMGpMnXWPRyVjSAvuQyPZ3RGhDdPncTy7PBpGFtgyP5FEPR3w
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="349348334"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="329660587"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 15:12:30 -0700
+   d="scan'208";a="349348334"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 15:33:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="700631341"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="697763426"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="700631341"
+   d="scan'208";a="697763426"
 Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 05 May 2023 15:12:28 -0700
+  by orsmga002.jf.intel.com with ESMTP; 05 May 2023 15:33:29 -0700
 Received: from kbuild by fe5d646e317d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pv3fA-0000t9-0k;
-	Fri, 05 May 2023 22:12:28 +0000
-Date: Sat, 6 May 2023 06:12:05 +0800
+	id 1pv3zU-0000tl-29;
+	Fri, 05 May 2023 22:33:28 +0000
+Date: Sat, 6 May 2023 06:33:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Christopher M. Riedl" <cmr@bluescreens.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Benjamin Gray <bgray@linux.ibm.com>
-Subject: include/linux/compiler_types.h:357:45: error: call to
- '__compiletime_assert_181' declared with attribute error: BUILD_BUG failed
-Message-ID: <202305060648.EjkrACfJ-lkp@intel.com>
+To: Russell King <rmk+kernel@armlinux.org.uk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [rmk-arm:sa1100 36/41] drivers/net/ethernet/3com/3c589_cs.c:224:48:
+ error: too many arguments to function call, expected 3, have 4
+Message-ID: <202305060618.ioeJlilE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,83 +46,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Christopher,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7163a2111f6c030ee39635ac3334bfa1a52a3dd3
-commit: c28c15b6d28a776538482101522cbcd9f906b15c powerpc/code-patching: Use temporary mm for Radix MMU
-date:   5 months ago
-config: powerpc-randconfig-r031-20230505 (https://download.01.org/0day-ci/archive/20230506/202305060648.EjkrACfJ-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm sa1100
+head:   507a1bafed9c27a0080a42f9e66c5af3689eebcf
+commit: 859235e53abcef4286a77360d2682ddbfc0574c8 [36/41] net: 3c589_cs: convert to NAPI
+config: i386-randconfig-a015-20230501 (https://download.01.org/0day-ci/archive/20230506/202305060618.ioeJlilE-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c28c15b6d28a776538482101522cbcd9f906b15c
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c28c15b6d28a776538482101522cbcd9f906b15c
+        git remote add rmk-arm git://git.armlinux.org.uk/~rmk/linux-arm
+        git fetch --no-tags rmk-arm sa1100
+        git checkout 859235e53abcef4286a77360d2682ddbfc0574c8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305060648.EjkrACfJ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305060618.ioeJlilE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   In function 'local_flush_tlb_page_psize',
-       inlined from '__do_patch_instruction_mm' at arch/powerpc/lib/code-patching.c:310:2,
-       inlined from 'do_patch_instruction' at arch/powerpc/lib/code-patching.c:355:9,
-       inlined from 'patch_instruction' at arch/powerpc/lib/code-patching.c:379:9:
->> include/linux/compiler_types.h:357:45: error: call to '__compiletime_assert_181' declared with attribute error: BUILD_BUG failed
-     357 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:338:25: note: in definition of macro '__compiletime_assert'
-     338 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:357:9: note: in expansion of macro '_compiletime_assert'
-     357 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
-         |                     ^~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/book3s/32/tlbflush.h:83:9: note: in expansion of macro 'BUILD_BUG'
-      83 |         BUILD_BUG();
-         |         ^~~~~~~~~
+>> drivers/net/ethernet/3com/3c589_cs.c:224:48: error: too many arguments to function call, expected 3, have 4
+           netif_napi_add(dev, &lp->napi, el3_napi_poll, NAPI_POLL_WEIGHT);
+           ~~~~~~~~~~~~~~                                ^~~~~~~~~~~~~~~~
+   include/linux/netdevice.h:2591:26: note: expanded from macro 'NAPI_POLL_WEIGHT'
+   #define NAPI_POLL_WEIGHT 64
+                            ^~
+   include/linux/netdevice.h:2606:1: note: 'netif_napi_add' declared here
+   netif_napi_add(struct net_device *dev, struct napi_struct *napi,
+   ^
+   1 error generated.
 
 
-vim +/__compiletime_assert_181 +357 include/linux/compiler_types.h
+vim +224 drivers/net/ethernet/3com/3c589_cs.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  343  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  344  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  345  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  346  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  347  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  348   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  349   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  350   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  351   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  352   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  353   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  354   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  355   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  356  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @357  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  358  
-
-:::::: The code at line 357 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   196	
+   197	static int tc589_probe(struct pcmcia_device *link)
+   198	{
+   199		struct el3_private *lp;
+   200		struct net_device *dev;
+   201	
+   202		dev_dbg(&link->dev, "3c589_attach()\n");
+   203	
+   204		/* Create new ethernet device */
+   205		dev = alloc_etherdev(sizeof(struct el3_private));
+   206		if (!dev)
+   207			return -ENOMEM;
+   208		lp = netdev_priv(dev);
+   209		link->priv = dev;
+   210		lp->p_dev = link;
+   211	
+   212		spin_lock_init(&lp->lock);
+   213		link->resource[0]->end = 16;
+   214		link->resource[0]->flags |= IO_DATA_PATH_WIDTH_16;
+   215	
+   216		link->config_flags |= CONF_ENABLE_IRQ;
+   217		link->config_index = 1;
+   218	
+   219		dev->netdev_ops = &el3_netdev_ops;
+   220		dev->watchdog_timeo = TX_TIMEOUT;
+   221	
+   222		dev->ethtool_ops = &netdev_ethtool_ops;
+   223	
+ > 224		netif_napi_add(dev, &lp->napi, el3_napi_poll, NAPI_POLL_WEIGHT);
+   225	
+   226		return tc589_config(link);
+   227	}
+   228	
 
 -- 
 0-DAY CI Kernel Test Service
