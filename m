@@ -1,49 +1,49 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B21C8CA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 May 2023 18:48:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683312508; x=1714848508;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MKcpZF9Oo6hevkCW4fYvfcPLdY+FU4pFWVz1xDxtgEQ=;
-  b=TjZsJjFnK7fF5iXkI0nY801oMxj5DJ+KMbvbRAQG20LSTbiE/ZhqHA4J
-   Y7SBvE+mPDN0lIV3J3bPlEs07pzGQQeojO4ZZdTEHmOEPBQbLLYvyGkY9
-   AzIrfC0hN/M1lpbhpS07s74ayzd6WGVFCYa+XJYR60UZKZottjxvcgoNu
-   XqddB/X2ASuXsSkjLIn2KgYHldOwX6XBtqIx51iU9bWbGAsLHHJUxngFI
-   HZ0rgmTWt64p9SjTm6fzr6k5Am6DAJWUwM0TnISkNmCMbXxtvRJg4DxbN
-   sKdLdM8qHlMz7aGBogJ5ab/A8P7gu1Vhg2F76D990Y36TbgaAnTEWCo2o
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="338475870"
-X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; 
-   d="scan'208";a="338475870"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 11:48:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="697706129"
-X-IronPort-AV: E=Sophos;i="5.99,252,1677571200"; 
-   d="scan'208";a="697706129"
-Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 05 May 2023 11:48:25 -0700
-Received: from kbuild by fe5d646e317d with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pv0Th-0000oR-0Z;
-	Fri, 05 May 2023 18:48:25 +0000
-Date: Sat, 6 May 2023 02:47:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Ripard <maxime@cerno.tech>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	Maxime Ripard <maxime@cerno.tech>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	patches@opensource.cirrus.com
-Subject: Re: [PATCH v4 17/68] clk: lochnagar: Add a determine_rate hook
-Message-ID: <202305060216.rOqp4J6Z-lkp@intel.com>
-References: <20221018-clk-range-checks-fixes-v4-17-971d5077e7d2@cerno.tech>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3000F2FB6
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  5 May 2023 20:33:24 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3f1728c2a57so22557225e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 05 May 2023 13:33:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683318802; x=1685910802;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hWqJ/3jY3+vrvCck23NKi+QppinQ/nAYGWrW2QXPiDw=;
+        b=uOZ64c7vBkt7hssDX2u9n90ihUQpi7mkFY1A5EHSWtbLObdX2ArIYDeCRfkzrV63BI
+         XPSBBLHONcmrVng9yLkw2DX51DQB1KhsaoZQCRs4/+CPdjtYuzlBHxqpfi9LZNzfQ55c
+         AuZ66Zp8Nd+W0cLRbkJy3vglEp9guhVQIUg/2r7XJlFuqray6FEPeWQTjp2T5SYq/Rt8
+         Q0FIvXW0AW12+1yARVLEoP/7RI5Dm47E7FiQuO9iXdWObX80nzSeZj9oCCpnfYUKgwk3
+         j959LOZSm872NtwqpnMmj+pUlSpK+BOUweXW0+OOrUXsXT2jDmNIHIiGFJScaX1kcSYa
+         Ps9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683318802; x=1685910802;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hWqJ/3jY3+vrvCck23NKi+QppinQ/nAYGWrW2QXPiDw=;
+        b=NqA1fDAHWBCk4JmEpKtc+2C/Em4Dx1nKiqiCVZ1x+O9CM/Qa8QKmwTQNk4uGaKUW00
+         VXoAFWP8b8iC1bEt7IK3zel8VyOiyDGt9ee/P5IxdvV/hfZwOuq5NS8zm2gURdKiJiQN
+         s1y6+1LTtOiciUjQQAY16B23AzeD0cO703mWuIaC8OuSyq7UGt6EfspLyu/wasCH+7QY
+         t1mK76DRxM2wcxM48eVkpY0+K8W+7TaaE4MabAx+an1XUba0SY0TG6s43rXc19iE1eDX
+         hM1gyxYzECOAJ65X7O6Y5ShyZgxwYqTPjD7mqz5yrHXdQm8G6LiMaq9/pFzjxj5l3Pgo
+         kxmQ==
+X-Gm-Message-State: AC+VfDwPvYXwq7PtFvh2Xg17cJe4XCi9owPVfAZgqN1vm0gTALghPeyQ
+	Pko9odDJHCAvm5q/WKOQ4rzSJQ==
+X-Google-Smtp-Source: ACHHUZ7C83BK2/nLW3UUcxDKb9n1fouxz3rCVH+tUz9gMaA4ltRwZ7DnvoboQw6KrJkUclyxqxcBxg==
+X-Received: by 2002:adf:e0ca:0:b0:306:3436:568a with SMTP id m10-20020adfe0ca000000b003063436568amr2282613wri.43.1683318802325;
+        Fri, 05 May 2023 13:33:22 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q14-20020a7bce8e000000b003f182a10106sm8954461wmj.8.2023.05.05.13.33.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 May 2023 13:33:20 -0700 (PDT)
+Date: Fri, 5 May 2023 23:33:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [djiang:cxl-qtg 22/28] drivers/cxl/port.c:88
+ cxl_port_perf_data_calculate() error: we previously assumed 'cxl_root->ops'
+ could be null (see line 88)
+Message-ID: <f813b363-1c1f-4d06-b8a1-fbba00b2d33b@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,42 +52,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20221018-clk-range-checks-fixes-v4-17-971d5077e7d2@cerno.tech>
 
-Hi Maxime,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 145e5cddfe8b4bf607510b2dcf630d95f4db420f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/clk-Export-clk_hw_forward_rate_request/20230505-193724
-base:   145e5cddfe8b4bf607510b2dcf630d95f4db420f
-patch link:    https://lore.kernel.org/r/20221018-clk-range-checks-fixes-v4-17-971d5077e7d2%40cerno.tech
-patch subject: [PATCH v4 17/68] clk: lochnagar: Add a determine_rate hook
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230506/202305060216.rOqp4J6Z-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/273bc4689da3909aebca0a3479e18194a748ee92
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Maxime-Ripard/clk-Export-clk_hw_forward_rate_request/20230505-193724
-        git checkout 273bc4689da3909aebca0a3479e18194a748ee92
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl-qtg
+head:   4cc79fc6093484664713b47ccd4b4cff326bca86
+commit: 90a255f34829f50adb9fbfcd8e32444b188074e3 [22/28] cxl: Compute the entire CXL path latency and bandwidth data
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230506/202305060238.eVFtMQO6-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305060216.rOqp4J6Z-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202305060238.eVFtMQO6-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+smatch warnings:
+drivers/cxl/port.c:88 cxl_port_perf_data_calculate() error: we previously assumed 'cxl_root->ops' could be null (see line 88)
 
-ERROR: modpost: "clk_hw_determine_rate_no_reparent" [drivers/clk/clk_test.ko] undefined!
-ERROR: modpost: "clk_hw_determine_rate_no_reparent" [drivers/clk/clk-cdce706.ko] undefined!
->> ERROR: modpost: "clk_hw_determine_rate_no_reparent" [drivers/clk/clk-lochnagar.ko] undefined!
+vim +88 drivers/cxl/port.c
+
+90a255f34829f5 Dave Jiang 2022-12-05   70  static int cxl_port_perf_data_calculate(struct cxl_port *port,
+90a255f34829f5 Dave Jiang 2022-12-05   71  					struct list_head *dsmas_list)
+90a255f34829f5 Dave Jiang 2022-12-05   72  {
+90a255f34829f5 Dave Jiang 2022-12-05   73  	struct access_coordinate c;
+90a255f34829f5 Dave Jiang 2022-12-05   74  	struct qtg_dsm_input input;
+90a255f34829f5 Dave Jiang 2022-12-05   75  	struct cxl_port *root_port;
+90a255f34829f5 Dave Jiang 2022-12-05   76  	struct cxl_root *cxl_root;
+90a255f34829f5 Dave Jiang 2022-12-05   77  	struct dsmas_entry *dent;
+90a255f34829f5 Dave Jiang 2022-12-05   78  	int rc, qos_class;
+90a255f34829f5 Dave Jiang 2022-12-05   79  
+90a255f34829f5 Dave Jiang 2022-12-05   80  	rc = cxl_endpoint_get_perf_coordinates(port, &c);
+90a255f34829f5 Dave Jiang 2022-12-05   81  	if (rc) {
+90a255f34829f5 Dave Jiang 2022-12-05   82  		dev_dbg(&port->dev, "Failed to retrieve perf coordinates.\n");
+90a255f34829f5 Dave Jiang 2022-12-05   83  		return rc;
+90a255f34829f5 Dave Jiang 2022-12-05   84  	}
+90a255f34829f5 Dave Jiang 2022-12-05   85  
+90a255f34829f5 Dave Jiang 2022-12-05   86  	root_port = find_cxl_root(port);
+90a255f34829f5 Dave Jiang 2022-12-05   87  	cxl_root = to_cxl_root(root_port);
+90a255f34829f5 Dave Jiang 2022-12-05  @88  	if (!cxl_root->ops && !cxl_root->ops->get_qos_class)
+                                                     ^^^^^^^^^^^^^
+Should this probably be || instead of &&.
+
+90a255f34829f5 Dave Jiang 2022-12-05   89  		return -EOPNOTSUPP;
+90a255f34829f5 Dave Jiang 2022-12-05   90  
+90a255f34829f5 Dave Jiang 2022-12-05   91  	list_for_each_entry(dent, dsmas_list, list) {
+90a255f34829f5 Dave Jiang 2022-12-05   92  		dent->coord.read_latency = dent->coord.read_latency +
+90a255f34829f5 Dave Jiang 2022-12-05   93  					   c.read_latency;
+90a255f34829f5 Dave Jiang 2022-12-05   94  		dent->coord.write_latency = dent->coord.write_latency +
+90a255f34829f5 Dave Jiang 2022-12-05   95  					    c.write_latency;
+90a255f34829f5 Dave Jiang 2022-12-05   96  		dent->coord.read_bandwidth = min_t(int, c.read_bandwidth,
+90a255f34829f5 Dave Jiang 2022-12-05   97  						   dent->coord.read_bandwidth);
+90a255f34829f5 Dave Jiang 2022-12-05   98  		dent->coord.write_bandwidth = min_t(int, c.write_bandwidth,
+90a255f34829f5 Dave Jiang 2022-12-05   99  						    dent->coord.write_bandwidth);
+90a255f34829f5 Dave Jiang 2022-12-05  100  
+90a255f34829f5 Dave Jiang 2022-12-05  101  		input.rd_lat = cpu_to_le32(dent->coord.read_latency);
+90a255f34829f5 Dave Jiang 2022-12-05  102  		input.wr_lat = cpu_to_le32(dent->coord.write_latency);
+90a255f34829f5 Dave Jiang 2022-12-05  103  		input.rd_bw = cpu_to_le32(dent->coord.read_bandwidth);
+90a255f34829f5 Dave Jiang 2022-12-05  104  		input.wr_bw = cpu_to_le32(dent->coord.write_bandwidth);
+90a255f34829f5 Dave Jiang 2022-12-05  105  
+90a255f34829f5 Dave Jiang 2022-12-05  106  		qos_class = cxl_root->ops->get_qos_class(root_port, &input);
+90a255f34829f5 Dave Jiang 2022-12-05  107  		if (qos_class < 0)
+90a255f34829f5 Dave Jiang 2022-12-05  108  			continue;
+90a255f34829f5 Dave Jiang 2022-12-05  109  
+90a255f34829f5 Dave Jiang 2022-12-05  110  		dent->qos_class = qos_class;
+90a255f34829f5 Dave Jiang 2022-12-05  111  	}
+90a255f34829f5 Dave Jiang 2022-12-05  112  
+90a255f34829f5 Dave Jiang 2022-12-05  113  	return 0;
+90a255f34829f5 Dave Jiang 2022-12-05  114  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
