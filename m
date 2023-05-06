@@ -1,57 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7939B1FD5;
-	Sat,  6 May 2023 14:27:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 033CF259C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 May 2023 14:48:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683383245; x=1714919245;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1CM9sz3xyD29vV94S0eoChIFsorjvoMRR3Da8zuVnF4=;
-  b=LYIxqVd95isXWzUD7qg6HeqbAc+p3SORCfxHFfHNQh784mvMtGo/z96X
-   if9qDa91Ikzqv2uvIIO0BXp2JrrTtg6G3t2WfM3HlnB8OQLkdFizGjH0C
-   ljjIBZ5XqNiKY2nmQxuTycGWFfXuFm4v6KaB4vLUw4WVBHOVgWFLxVfI4
-   mf1fv+BqQhGrb3rqGLZx2GS9URZ4HWmg1U4jlMVttygW0AD6tk03P9cEe
-   /7Vf3dqvj+mUiDDlsyOrBLjb4v/Q+PUmhx2F2Vb99ATNP0F0FmCdtm64q
-   Bo4dEGLDrtLgXie+qs+bWLA3QEY46MGnxik//cNWRLzmK0gyS0FE/0fAq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="338596539"
+  t=1683384499; x=1714920499;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YiRt9HzcKigJrXwfjLRvH40eH/Lojap0oE0jQXiR5Uw=;
+  b=KVwvon6V7/Gu3JhBnU3gtBfl0VsRYJrTphQdl2huXdX6yD7n1WahhfEE
+   79/q1h0Kc2riZQ2WFslznAuGZO/pszit4qiZbUgIlQ/UzdsAAlth4cRTB
+   c4k9mC8HmXBaFGqnM1A0H7L0KXqfIF4KhPZy8Hy/Cqc1M8dsPt73o4a73
+   og8yhjhssXNyAqSsy7todXdrvib+3p73I35s7LFrWsOZy5VkReMd5tSiO
+   VtaSBxPOS8h9TM4Vc3XOBZoBjGlEpqFavqtQZEZ2dfmDFL9OQyFQlTVit
+   D0Qs7pmCcgIAm4L5aC4hsGtNKDB7Ro/yYHrOjjVHQKZiVHtamAiX12YDv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="414937356"
 X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="338596539"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 07:27:24 -0700
+   d="scan'208";a="414937356"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 07:48:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="730733076"
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="767507609"
 X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="730733076"
+   d="scan'208";a="767507609"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 06 May 2023 07:27:17 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 06 May 2023 07:48:17 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvIsW-0000Lp-2f;
-	Sat, 06 May 2023 14:27:16 +0000
-Date: Sat, 6 May 2023 22:27:12 +0800
+	id 1pvJCr-0000MX-0b;
+	Sat, 06 May 2023 14:48:17 +0000
+Date: Sat, 6 May 2023 22:47:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: chengkaitao <chengkaitao@didiglobal.com>, tj@kernel.org,
-	lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net,
-	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
-	akpm@linux-foundation.org, brauner@kernel.org,
-	muchun.song@linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	viro@zeniv.linux.org.uk, zhengqi.arch@bytedance.com,
-	ebiederm@xmission.com, Liam.Howlett@oracle.com,
-	chengzhihao1@huawei.com, pilgrimtao@gmail.com,
-	haolee.swjtu@gmail.com, yuzhao@google.com, willy@infradead.org,
-	vasily.averin@linux.dev, vbabka@suse.cz, surenb@google.com,
-	sfr@canb.auug.org.au, mcgrof@kernel.org, sujiaxun@uniontech.com,
-	feng.tang@intel.com, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] mm: memcontrol: protect the memory in cgroup from
- being oom killed
-Message-ID: <202305062204.ob5SRKVX-lkp@intel.com>
-References: <20230506114948.6862-2-chengkaitao@didiglobal.com>
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 73/80] lib/maple_tree.c:6251:7: warning: no
+ previous prototype for 'mas_find_range_rev'
+Message-ID: <202305062247.va92Dm6P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,103 +47,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230506114948.6862-2-chengkaitao@didiglobal.com>
 
-Hi chengkaitao,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on tj-cgroup/for-next linus/master v6.3 next-20230505]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/chengkaitao/mm-memcontrol-protect-the-memory-in-cgroup-from-being-oom-killed/20230506-195043
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230506114948.6862-2-chengkaitao%40didiglobal.com
-patch subject: [PATCH v3 1/2] mm: memcontrol: protect the memory in cgroup from being oom killed
-config: i386-randconfig-a011-20230501 (https://download.01.org/0day-ci/archive/20230506/202305062204.ob5SRKVX-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   f96b65aa15baec616fffdb8f1d4fa3222aa56467
+commit: 93bb3be05691973459b9e23f7b9667137528df0f [73/80] maple_tree: add mas_prev_range() and mas_find_range_rev interface
+config: arc-randconfig-r043-20230502 (https://download.01.org/0day-ci/archive/20230506/202305062247.va92Dm6P-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a2779b308166286f77728f04043cb7a17a16dd46
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review chengkaitao/mm-memcontrol-protect-the-memory-in-cgroup-from-being-oom-killed/20230506-195043
-        git checkout a2779b308166286f77728f04043cb7a17a16dd46
+        # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=93bb3be05691973459b9e23f7b9667137528df0f
+        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
+        git fetch --no-tags akpm-mm mm-unstable
+        git checkout 93bb3be05691973459b9e23f7b9667137528df0f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305062204.ob5SRKVX-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305062247.va92Dm6P-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/page_counter.c:44:36: warning: overflow in expression; result is -2147483648 with type 'long' [-Winteger-overflow]
-           if (protected == PAGE_COUNTER_MAX + 1)
-                                             ^
-   1 warning generated.
---
-   mm/memcontrol.c:1739:2: error: implicit declaration of function 'seq_buf_do_printk' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-           seq_buf_do_printk(&s, KERN_INFO);
-           ^
->> mm/memcontrol.c:6445:37: warning: overflow in expression; result is -2147483648 with type 'long' [-Winteger-overflow]
-           else if (value == PAGE_COUNTER_MAX + 1)
-                                              ^
-   mm/memcontrol.c:6743:34: warning: overflow in expression; result is -2147483648 with type 'long' [-Winteger-overflow]
-                   oom_protect = PAGE_COUNTER_MAX + 1;
-                                                  ^
-   2 warnings and 1 error generated.
+   lib/maple_tree.c:4606:7: warning: no previous prototype for 'mas_prev_slot' [-Wmissing-prototypes]
+    4606 | void *mas_prev_slot(struct ma_state *mas, unsigned long min, bool empty)
+         |       ^~~~~~~~~~~~~
+   lib/maple_tree.c:4758:7: warning: no previous prototype for 'mas_next_slot' [-Wmissing-prototypes]
+    4758 | void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty)
+         |       ^~~~~~~~~~~~~
+>> lib/maple_tree.c:6251:7: warning: no previous prototype for 'mas_find_range_rev' [-Wmissing-prototypes]
+    6251 | void *mas_find_range_rev(struct ma_state *mas, unsigned long min)
+         |       ^~~~~~~~~~~~~~~~~~
 
 
-vim +/long +44 mm/page_counter.c
+vim +/mas_find_range_rev +6251 lib/maple_tree.c
 
-    15	
-    16	static void propagate_protected_usage(struct page_counter *c,
-    17					      unsigned long usage)
-    18	{
-    19		unsigned long protected, old_protected;
-    20		long delta;
-    21	
-    22		if (!c->parent)
-    23			return;
-    24	
-    25		protected = min(usage, READ_ONCE(c->min));
-    26		old_protected = atomic_long_read(&c->min_usage);
-    27		if (protected != old_protected) {
-    28			old_protected = atomic_long_xchg(&c->min_usage, protected);
-    29			delta = protected - old_protected;
-    30			if (delta)
-    31				atomic_long_add(delta, &c->parent->children_min_usage);
-    32		}
-    33	
-    34		protected = min(usage, READ_ONCE(c->low));
-    35		old_protected = atomic_long_read(&c->low_usage);
-    36		if (protected != old_protected) {
-    37			old_protected = atomic_long_xchg(&c->low_usage, protected);
-    38			delta = protected - old_protected;
-    39			if (delta)
-    40				atomic_long_add(delta, &c->parent->children_low_usage);
-    41		}
-    42	
-    43		protected = READ_ONCE(c->oom_protect);
-  > 44		if (protected == PAGE_COUNTER_MAX + 1)
-    45			protected = atomic_long_read(&c->children_oom_protect_usage);
-    46		else
-    47			protected = min(usage, protected);
-    48		old_protected = atomic_long_read(&c->oom_protect_usage);
-    49		if (protected != old_protected) {
-    50			old_protected = atomic_long_xchg(&c->oom_protect_usage, protected);
-    51			delta = protected - old_protected;
-    52			if (delta)
-    53				atomic_long_add(delta, &c->parent->children_oom_protect_usage);
-    54		}
-    55	}
-    56	
+  6237	
+  6238	/**
+  6239	 * mas_find_range_rev: On the first call, find the first non-null entry at or
+  6240	 * below mas->index down to %min.  Otherwise advance to the previous slot after
+  6241	 * mas->index down to %min.
+  6242	 * @mas: The maple state
+  6243	 * @min: The minimum value to check.
+  6244	 *
+  6245	 * Must hold rcu_read_lock or the write lock.
+  6246	 * If an entry exists, last and index are updated accordingly.
+  6247	 * May set @mas->node to MAS_NONE.
+  6248	 *
+  6249	 * Return: The entry or %NULL.
+  6250	 */
+> 6251	void *mas_find_range_rev(struct ma_state *mas, unsigned long min)
+  6252	{
+  6253		void *entry;
+  6254	
+  6255		if (mas_find_rev_setup(mas, min, &entry))
+  6256			return entry;
+  6257	
+  6258		/* Retries on dead nodes handled by mas_prev_slot */
+  6259		return mas_prev_slot(mas, min, true);
+  6260	}
+  6261	EXPORT_SYMBOL_GPL(mas_find_range_rev);
+  6262	
 
 -- 
 0-DAY CI Kernel Test Service
