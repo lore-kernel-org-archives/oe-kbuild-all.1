@@ -1,44 +1,46 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3923B7E
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 May 2023 04:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064167E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 May 2023 04:27:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683347264; x=1714883264;
+  t=1683347268; x=1714883268;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HmfWaeU0aFJnkRQl+Fn9eJRDVTAOl6JP0JdVj0Kyo2k=;
-  b=Xu2XbXr9Ll0b+20tENbdiV4c7njrfrCAkkRVi7WavaudawGifHPRRpzr
-   d9yLE/xNMGhTHWr+45KP/Z3UoOzdXF9cqfsQWn36ze7Ulu6VXtAmcdowG
-   vgB4se19nNTfDUOLqTqyTP5rn0dN7V7v0a5SasSMtYG/T4UZWVGVjrPRj
-   khaD7miYUyRHiNJWzLYh9ZhqcaacfZmT+raJe/+x5OrMjSjS4uzjzXYLZ
-   J+6Zffg3/789Fvo4/j5x5/RrPY31frqqdYRgRNQ+P+z9UkK1Gnei5GNck
-   84++zUOeTXF27nTfm3/MjfgiUYA6LWkhoU60xtiUpoKx7x1ZRRN0gJ+sV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="412587643"
+  bh=XFX6hRGYBhNAUAU5DgLTaL9sD9PFKHc051PSQ5XK6EE=;
+  b=R0h3xOKfvphMpeic7o7xmfedLKbXO/VcUJpdTIGqpAlMJJa62KGPIBDr
+   +EQ3drWsauodaLMIOvVe2EniInQDxEHzfgiGI6TZy5gMZ8TuYRCOM70BR
+   whOelH48a4XotBFXuIg7dteBXNu3MolpkDIpneyPXEGCjxzN+IDi6tVLS
+   cE8JH1ugkX5GTGGp8EVCfFSS2suDlpJXAN0dFDgSKi0OmtZ936RlTcPy9
+   6aVgiUry7oQ0rkUteOAz9W+UIA36aUatp/4/Xz42eAIeFZd8c+YxvSCQV
+   WuwgZPRTttxvOaf3B67p36VSaIilKy6gS1aKgcwbxLR7zx7ouxpnyBq2A
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="377424747"
 X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
-   d="scan'208";a="412587643"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 21:27:39 -0700
+   d="scan'208";a="377424747"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 21:27:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="728370673"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="944156863"
 X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
-   d="scan'208";a="728370673"
+   d="scan'208";a="944156863"
 Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 05 May 2023 21:27:38 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 05 May 2023 21:27:38 -0700
 Received: from kbuild by fe5d646e317d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pv9WD-00019J-1h;
+	id 1pv9WD-00019G-1c;
 	Sat, 06 May 2023 04:27:37 +0000
-Date: Sat, 6 May 2023 12:27:18 +0800
+Date: Sat, 6 May 2023 12:27:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ondrej Zary <linux@zary.sk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: drivers/ata/pata_parport/frpw.c:234 frpw_test_proto() warn:
- inconsistent indenting
-Message-ID: <202305061212.EPgEMLXl-lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: [krzk-github:pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
+ 7/200] htmldocs: Warning:
+ Documentation/devicetree/bindings/power/wakeup-source.txt references a file
+ that doesn't exist:
+ Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
+Message-ID: <202305061244.0scOmlxb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,71 +50,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2e1e1337881b0e9844d687982aa54b31b1269b11
-commit: 5f1145d8304f93286be774482db6298c40dfe812 ata: pata_parport: use dev_* instead of printk
-date:   6 weeks ago
-config: x86_64-randconfig-m001-20230501 (https://download.01.org/0day-ci/archive/20230506/202305061212.EPgEMLXl-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://github.com/krzk/linux pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
+head:   37cac42f7369b5677b2c378d885c6c9b342cae57
+commit: d54f9ff29b4a490bd67fcfc4aa58858ccdb0b6ef [7/200] dt-bindings: input: qcom,pm8921-keypad: convert to YAML format
+reproduce:
+        # https://github.com/krzk/linux/commit/d54f9ff29b4a490bd67fcfc4aa58858ccdb0b6ef
+        git remote add krzk-github https://github.com/krzk/linux
+        git fetch --no-tags krzk-github pending/dt-bindings-qcom-new-and-fixes-for-warnings-linux-next
+        git checkout d54f9ff29b4a490bd67fcfc4aa58858ccdb0b6ef
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305061212.EPgEMLXl-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305061244.0scOmlxb-lkp@intel.com/
 
-New smatch warnings:
-drivers/ata/pata_parport/frpw.c:234 frpw_test_proto() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/ata/pata_parport/frpw.c:239 frpw_test_proto() warn: inconsistent indenting
-
-vim +234 drivers/ata/pata_parport/frpw.c
-
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  225  
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  226  {       int     j, k, r;
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  227  	int	e[2] = {0,0};
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  228  
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  229  	if ((pi->private>>1) != pi->port)
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  230  	   pi->private = frpw_test_pnp(pi) + 2*pi->port;
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  231  
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  232  	if (((pi->private%2) == 0) && (pi->mode > 2)) {
-5f1145d8304f93 drivers/ata/pata_parport/frpw.c Ondrej Zary    2023-02-18  233  		dev_dbg(&pi->dev, "frpw: Xilinx does not support mode %d\n", pi->mode);
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16 @234  	   return 1;
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  235  	}
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  236  
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  237  	if (((pi->private%2) == 1) && (pi->mode == 2)) {
-5f1145d8304f93 drivers/ata/pata_parport/frpw.c Ondrej Zary    2023-02-18  238  		dev_dbg(&pi->dev, "frpw: ASIC does not support mode 2\n");
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  239  	   return 1;
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  240  	}
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  241  
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  242  	frpw_connect(pi);
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  243  	for (j=0;j<2;j++) {
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  244                  frpw_write_regr(pi,0,6,0xa0+j*0x10);
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  245                  for (k=0;k<256;k++) {
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  246                          frpw_write_regr(pi,0,2,k^0xaa);
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  247                          frpw_write_regr(pi,0,3,k^0x55);
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  248                          if (frpw_read_regr(pi,0,2) != (k^0xaa)) e[j]++;
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  249                          }
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  250                  }
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  251  	frpw_disconnect(pi);
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  252  
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  253  	frpw_connect(pi);
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  254          frpw_read_block_int(pi,scratch,512,0x10);
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  255          r = 0;
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  256          for (k=0;k<128;k++) if (scratch[k] != k) r++;
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  257  	frpw_disconnect(pi);
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  258  
-5f1145d8304f93 drivers/ata/pata_parport/frpw.c Ondrej Zary    2023-02-18  259  	dev_dbg(&pi->dev, "frpw: port 0x%x, chip %ld, mode %d, test=(%d,%d,%d)\n",
-a4f2ff92ed4a03 drivers/ata/pata_parport/frpw.c Ondrej Zary    2023-02-18  260  	       pi->port, (pi->private%2), pi->mode, e[0], e[1], r);
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  261  
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  262          return (r || (e[0] && e[1]));
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  263  }
-^1da177e4c3f41 drivers/block/paride/frpw.c     Linus Torvalds 2005-04-16  264  
-
-:::::: The code at line 234 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+>> Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/qcom,pm8xxx-keypad.txt
 
 -- 
 0-DAY CI Kernel Test Service
