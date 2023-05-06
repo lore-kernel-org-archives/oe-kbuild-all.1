@@ -1,32 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA822566;
-	Sat,  6 May 2023 18:45:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFE3DC433D2;
-	Sat,  6 May 2023 18:45:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1683398735;
-	bh=+VHRb5W6L1nQ+jRD8PY/0yCsZ8fQuoK/UvwuJ+v0wPo=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=rHG0fmS0W0kFiuvDGTaD+uHY0oCaRL8PO1LsQUDADsmdNXTzuQIJCF/lKCF5zt6C7
-	 1+gg3CFNav6h2RTghlLkKnLSM7DxWOBlROBp38kXIwypnVyl5U8bZsjmwtAa+P4L1m
-	 zuwcvsB6uEgDaZVx6+1QzGHJx76eLnIZuyVErj9bLJE7GAYixrm8QPswHZz5K+Wgeb
-	 xbhMK9dxONbWH2qBdNod587g832R+ndURHBvpr+q58bcYPWrbSGqmDSyTdoZyVaQxp
-	 Hnz2A3IbAvVMn6z7aBt+XYU11+Hpw3aTgehRs07RvrremBvPslTrE9+48jj6eL0QMU
-	 Pn8TlOde2vHzw==
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-	id 7824B15405AA; Sat,  6 May 2023 11:45:35 -0700 (PDT)
-Date: Sat, 6 May 2023 11:45:35 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: kernel/rcu/srcutree.c:1644 srcu_advance_state() warn:
- inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
-Message-ID: <c33b0348-7f86-47ce-913c-f1ebc6431f93@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <c0937326-1cf1-429a-9883-30d9d79b01d0@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C062566;
+	Sat,  6 May 2023 19:44:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683402265; x=1714938265;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=k6dpgsUDtmeOHkKZAVjmplptRtdE0YW6bOGtqRj/IxU=;
+  b=ivG6J9dVVQVxXQs8WbI4VC44NRcrjdlroYKwi+y79mRNNgmtp9EZxZFX
+   ycjDqkE3KH4LZV38HdqaR4aFWoNWwEarhIud2adkCeigoyUuSF1nCnytn
+   UO9fpVm3CqX0/PKOuX15WBbqXj1plVXSYSVWnGScYs5Dx0kdjbUu9kCt3
+   C7YFmiY8fn2yqTprrguzj9m9JhdyhaPY/WpHjlRudQ0YITcB5TFpX+db/
+   AYCwsPWOsSkM03DD9eqGxXeaKZ56SUiWz41TOVT6YaqigGY7zS54iLpXa
+   gae0c09e2O+4yVNbw/0cfnSfdFuakIrviGcLiLYKrP6Dh7EqhvoANn5F7
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="351565949"
+X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
+   d="scan'208";a="351565949"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 12:44:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="944343274"
+X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
+   d="scan'208";a="944343274"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 06 May 2023 12:44:23 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pvNpO-0000Sr-1O;
+	Sat, 06 May 2023 19:44:22 +0000
+Date: Sun, 7 May 2023 03:43:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ben Hutchings <bwh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Salvatore Bonaccorso <carnil@debian.org>
+Subject: [stable:linux-5.4.y 691/8186] ld.lld: error:
+ drivers/usb/common/debug.o: contains a compressed section, but zlib is not
+ available
+Message-ID: <202305070315.ZDRcUF3G-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -35,110 +48,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c0937326-1cf1-429a-9883-30d9d79b01d0@kili.mountain>
 
-On Sat, May 06, 2023 at 10:22:04AM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   418d5c98319f67b9ae651babea031b5394425c18
-> commit: e3a6ab25cfa0fcdcb31c346b9871a566d440980d srcu: Move ->srcu_gp_mutex from srcu_struct to srcu_usage
-> config: x86_64-randconfig-m001-20230501 (https://download.01.org/0day-ci/archive/20230506/202305060951.I8mz6eHt-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202305060951.I8mz6eHt-lkp@intel.com/
-> 
-> smatch warnings:
-> kernel/rcu/srcutree.c:1644 srcu_advance_state() warn: inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
-> 
-> vim +1644 kernel/rcu/srcutree.c
-> 
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1584  static void srcu_advance_state(struct srcu_struct *ssp)
-> dad81a2026841b Paul E. McKenney 2017-03-25  1585  {
-> dad81a2026841b Paul E. McKenney 2017-03-25  1586  	int idx;
-> dad81a2026841b Paul E. McKenney 2017-03-25  1587  
-> e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1588  	mutex_lock(&ssp->srcu_sup->srcu_gp_mutex);
-> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1589  
-> dad81a2026841b Paul E. McKenney 2017-03-25  1590  	/*
-> dad81a2026841b Paul E. McKenney 2017-03-25  1591  	 * Because readers might be delayed for an extended period after
-> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1592  	 * fetching ->srcu_idx for their index, at any point in time there
-> dad81a2026841b Paul E. McKenney 2017-03-25  1593  	 * might well be readers using both idx=0 and idx=1.  We therefore
-> dad81a2026841b Paul E. McKenney 2017-03-25  1594  	 * need to wait for readers to clear from both index values before
-> dad81a2026841b Paul E. McKenney 2017-03-25  1595  	 * invoking a callback.
-> dad81a2026841b Paul E. McKenney 2017-03-25  1596  	 *
-> dad81a2026841b Paul E. McKenney 2017-03-25  1597  	 * The load-acquire ensures that we see the accesses performed
-> dad81a2026841b Paul E. McKenney 2017-03-25  1598  	 * by the prior grace period.
-> dad81a2026841b Paul E. McKenney 2017-03-25  1599  	 */
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1600  	idx = rcu_seq_state(smp_load_acquire(&ssp->srcu_gp_seq)); /* ^^^ */
-> dad81a2026841b Paul E. McKenney 2017-03-25  1601  	if (idx == SRCU_STATE_IDLE) {
-> b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1602  		spin_lock_irq_rcu_node(ssp->srcu_sup);
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1603  		if (ULONG_CMP_GE(ssp->srcu_gp_seq, ssp->srcu_gp_seq_needed)) {
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1604  			WARN_ON_ONCE(rcu_seq_state(ssp->srcu_gp_seq));
-> b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1605  			spin_unlock_irq_rcu_node(ssp->srcu_sup);
-> e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1606  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
-> dad81a2026841b Paul E. McKenney 2017-03-25  1607  			return;
-> dad81a2026841b Paul E. McKenney 2017-03-25  1608  		}
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1609  		idx = rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq));
-> dad81a2026841b Paul E. McKenney 2017-03-25  1610  		if (idx == SRCU_STATE_IDLE)
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1611  			srcu_gp_start(ssp);
-> b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1612  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
-> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1613  		if (idx != SRCU_STATE_IDLE) {
-> e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1614  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
-> dad81a2026841b Paul E. McKenney 2017-03-25  1615  			return; /* Someone else started the grace period. */
-> dad81a2026841b Paul E. McKenney 2017-03-25  1616  		}
-> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1617  	}
-> dad81a2026841b Paul E. McKenney 2017-03-25  1618  
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1619  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN1) {
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1620  		idx = 1 ^ (ssp->srcu_idx & 1);
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1621  		if (!try_check_zero(ssp, idx, 1)) {
-> e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1622  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
-> dad81a2026841b Paul E. McKenney 2017-03-25  1623  			return; /* readers present, retry later. */
-> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1624  		}
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1625  		srcu_flip(ssp);
-> b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1626  		spin_lock_irq_rcu_node(ssp->srcu_sup);
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1627  		rcu_seq_set_state(&ssp->srcu_gp_seq, SRCU_STATE_SCAN2);
-> 282d8998e9979c Paul E. McKenney 2022-03-08  1628  		ssp->srcu_n_exp_nodelay = 0;
-> b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1629  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
-> dad81a2026841b Paul E. McKenney 2017-03-25  1630  	}
-> dad81a2026841b Paul E. McKenney 2017-03-25  1631  
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1632  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN2) {
-> 
-> We don't mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex) if this if
-> statement is false.
+Hi Ben,
 
-Hmmm...
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-I could make the above line read something like the following:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.4.y
+head:   ea7862c507eca54ea6caad9dcfc8bba5e749fbde
+commit: 7c2392f03f3b3644482383d65a834f05225dc400 [691/8186] Partially revert "usb: Kconfig: using select for USB_COMMON dependency"
+config: x86_64-randconfig-r026-20230501 (https://download.01.org/0day-ci/archive/20230507/202305070315.ZDRcUF3G-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=7c2392f03f3b3644482383d65a834f05225dc400
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-5.4.y
+        git checkout 7c2392f03f3b3644482383d65a834f05225dc400
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/usb/
 
-	if (!WARN_ON_ONCE(rcu_seq_state(READ_ONCE(ssp->srcu_sup->srcu_gp_seq)) != SRCU_STATE_SCAN2)) {
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305070315.ZDRcUF3G-lkp@intel.com/
 
-The theory is that there are only three legal values for ->srcu_gp_seq.
-Because we hold ->srcu_gp_mutex, no one else can change it.   The first
-"if" statement either returns or sets that state to SRCU_STATE_SCAN1.
-The second "if" statement also either returns or sets that state to
-SRCU_STATE_SCAN2.  So that statement should not be false.
+All errors (new ones prefixed by >>):
 
-So where is my theory deviating from practice?
+   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
+   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
+   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
+   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
+   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
+   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
+   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
+>> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
+>> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
+>> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
+>> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
+>> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
+>> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
+>> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
+   ld.lld: error: drivers/usb/common/led.o: contains a compressed section, but zlib is not available
+   ld.lld: error: drivers/usb/common/led.o: contains a compressed section, but zlib is not available
+   ld.lld: error: drivers/usb/common/led.o: contains a compressed section, but zlib is not available
+   ld.lld: error: drivers/usb/common/led.o: contains a compressed section, but zlib is not available
+   ld.lld: error: drivers/usb/common/led.o: contains a compressed section, but zlib is not available
+   ld.lld: error: drivers/usb/common/led.o: contains a compressed section, but zlib is not available
+   ld.lld: error: too many errors emitted, stopping now (use -error-limit=0 to see all errors)
 
-							Thanx, Paul
-
-> dad81a2026841b Paul E. McKenney 2017-03-25  1633  
-> dad81a2026841b Paul E. McKenney 2017-03-25  1634  		/*
-> dad81a2026841b Paul E. McKenney 2017-03-25  1635  		 * SRCU read-side critical sections are normally short,
-> dad81a2026841b Paul E. McKenney 2017-03-25  1636  		 * so check at least twice in quick succession after a flip.
-> dad81a2026841b Paul E. McKenney 2017-03-25  1637  		 */
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1638  		idx = 1 ^ (ssp->srcu_idx & 1);
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1639  		if (!try_check_zero(ssp, idx, 2)) {
-> e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1640  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
-> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1641  			return; /* readers present, retry later. */
-> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1642  		}
-> 282d8998e9979c Paul E. McKenney 2022-03-08  1643  		ssp->srcu_n_exp_nodelay = 0;
-> aacb5d91ab1bfb Paul E. McKenney 2018-10-28 @1644  		srcu_gp_end(ssp);  /* Releases ->srcu_gp_mutex. */
-> dad81a2026841b Paul E. McKenney 2017-03-25  1645  	}
-> dad81a2026841b Paul E. McKenney 2017-03-25  1646  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
