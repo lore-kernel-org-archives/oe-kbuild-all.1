@@ -1,45 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798B01FB0;
-	Sat,  6 May 2023 10:51:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F041C13
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 May 2023 11:22:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683370273; x=1714906273;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PC7zVeIIArZFoNf5Uhrbn2o905hsUevHgo9oAP0rVe0=;
-  b=P+VENBCrximPWLp5c6NHYb6+NvrVc2e/7q7/1zj22YxOzdjXR9ZfviDl
-   Y1i43Wp4Y839KF+J4RIwYJ6feA5nzcb2FGGDTQAK9w0TrlHqZn2R1YmJG
-   2jzWQ3VRsgmoTJLJNyclwvTn5NFzmM/jLfI9EkLcvAonGpQQOO/kvrMWQ
-   zLQrvHLy33QxtgU72unFofvGhSGQ7VcLukEeDGOA7zQ8wYvm3mMu4NsIW
-   3/d28pudJ8rCBkiX0f0znBNAcoXUrHMDdTvq6Kg9MEhwspqiLYfW1jtOW
-   h5YnGZxV9/2XtmjYVNHJr/Tor5edjpYRMLgqsEnWsOsBC0JRR51E7ixxm
+  t=1683372134; x=1714908134;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=flVAQwVB7UcsoYbqL2/3u8I87c0T94FBiuA6xvdl6Ic=;
+  b=JlAm8HdLIrmIzVVdGbZs0Mi52dHenAzYSk9BM9fW9SUGngE0CnSlJZRx
+   /Vm0AOwMTd7Hg9ZxjOxcYjPcGJJ2jPUfGfoT0QDfbReeKIywZUvmy+tQd
+   cJW6GHoIR5OQFwIaPgV6BZhCeuElX+IYahrXGesCEg0bqwO//93yx4yrf
+   QWPaQT9P9tNiRLe2FXfALnScoMLnDfCMuphAJ9Q8sLRDwGgpWWNRDal2I
+   w5RvXu9PaSZ1R7KrxPnx9muLY4uWtL7Yzhd9kTFJV6hkiPBYxxvycxxG1
+   1E1dmhjtEtwpfUv5QWclvxl1aru2UX9+eKP1JHclJFKGYt6vrRxUsQPPj
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="349404138"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="328995527"
 X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
-   d="scan'208";a="349404138"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 03:51:12 -0700
+   d="scan'208";a="328995527"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 04:22:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="809598352"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="787498964"
 X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
-   d="scan'208";a="809598352"
+   d="scan'208";a="787498964"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 06 May 2023 03:51:10 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 06 May 2023 04:22:12 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvFVO-0000AT-07;
-	Sat, 06 May 2023 10:51:10 +0000
-Date: Sat, 6 May 2023 18:50:52 +0800
+	id 1pvFzP-0000DZ-21;
+	Sat, 06 May 2023 11:22:11 +0000
+Date: Sat, 6 May 2023 19:22:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: wenjun93 <gwj0511@gmail.com>, miklos@szeredi.hu
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-unionfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-	gwj1235@yeah.net
-Subject: Re: [PATCH] overlayfs: clean error handling
-Message-ID: <202305061831.o7pAYoBr-lkp@intel.com>
-References: <20230506082111.1655980-1-gwj1235@yeah.net>
+To: kumarama-i <aman.kumar@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, renjiaox <jiaojiaox.ren@intel.com>
+Subject: [intel-lts:5.15/linux 1/25] drivers/tty/serial/8250/8250_dma.c:290
+ serial8250_request_dma() warn: inconsistent indenting
+Message-ID: <202305061934.nTBxeNft-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,477 +45,138 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230506082111.1655980-1-gwj1235@yeah.net>
 
-Hi wenjun93,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mszeredi-vfs/overlayfs-next]
-[also build test WARNING on linus/master v6.3 next-20230505]
-[cannot apply to mszeredi-vfs/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/wenjun93/overlayfs-clean-error-handling/20230506-162258
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/vfs.git overlayfs-next
-patch link:    https://lore.kernel.org/r/20230506082111.1655980-1-gwj1235%40yeah.net
-patch subject: [PATCH] overlayfs: clean error handling
-config: i386-randconfig-a011-20230501 (https://download.01.org/0day-ci/archive/20230506/202305061831.o7pAYoBr-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d5593461bec1095c3008da7403952420e637c01a
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review wenjun93/overlayfs-clean-error-handling/20230506-162258
-        git checkout d5593461bec1095c3008da7403952420e637c01a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/overlayfs/
+tree:   https://github.com/intel/linux-intel-lts.git 5.15/linux
+head:   95c83b378e090dcfd0b6371f5ebf68fc063fdb17
+commit: c485aff7273b5137b51827a10b5db356fe9de7d8 [1/25] serial: 8250: EHL_PSE_DMA_enable_for_8250
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230506/202305061934.nTBxeNft-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305061831.o7pAYoBr-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305061934.nTBxeNft-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/tty/serial/8250/8250_dma.c:290 serial8250_request_dma() warn: inconsistent indenting
 
->> fs/overlayfs/super.c:806:4: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                           goto out_dput;
-                           ^
-   fs/overlayfs/super.c:804:3: note: previous statement is here
-                   if (d_really_is_negative(work))
-                   ^
-   fs/overlayfs/super.c:1197:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_unlock;
-                   ^
-   fs/overlayfs/super.c:1195:2: note: previous statement is here
-           if (IS_ERR(temp))
-           ^
-   fs/overlayfs/super.c:1218:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto cleanup_temp;
-                   ^
-   fs/overlayfs/super.c:1216:2: note: previous statement is here
-           if (IS_ERR(whiteout))
-           ^
->> fs/overlayfs/super.c:1195:6: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (IS_ERR(temp))
-               ^~~~~~~~~~~~
-   fs/overlayfs/super.c:1236:9: note: uninitialized use occurs here
-           return err;
-                  ^~~
-   fs/overlayfs/super.c:1195:2: note: remove the 'if' if its condition is always true
-           if (IS_ERR(temp))
-           ^~~~~~~~~~~~~~~~~
-   fs/overlayfs/super.c:1190:9: note: initialize the variable 'err' to silence this warning
-           int err;
-                  ^
-                   = 0
-   fs/overlayfs/super.c:1297:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out;
-                   ^
-   fs/overlayfs/super.c:1295:2: note: previous statement is here
-           if (IS_ERR_OR_NULL(workdir))
-           ^
-   fs/overlayfs/super.c:1612:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out;
-                   ^
-   fs/overlayfs/super.c:1610:2: note: previous statement is here
-           if (ofs->fs == NULL)
-           ^
-   fs/overlayfs/super.c:1610:6: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (ofs->fs == NULL)
-               ^~~~~~~~~~~~~~~
-   fs/overlayfs/super.c:1719:9: note: uninitialized use occurs here
-           return err;
-                  ^~~
-   fs/overlayfs/super.c:1610:2: note: remove the 'if' if its condition is always true
-           if (ofs->fs == NULL)
-           ^~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/super.c:1606:9: note: initialize the variable 'err' to silence this warning
-           int err;
-                  ^
-                   = 0
-   fs/overlayfs/super.c:1762:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_err;
-                   ^
-   fs/overlayfs/super.c:1760:2: note: previous statement is here
-           if (!oe)
-           ^
-   fs/overlayfs/super.c:1906:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out;
-                   ^
-   fs/overlayfs/super.c:1904:2: note: previous statement is here
-           if (WARN_ON(sb->s_user_ns != current_user_ns()))
-           ^
-   fs/overlayfs/super.c:1913:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out;
-                   ^
-   fs/overlayfs/super.c:1911:2: note: previous statement is here
-           if (!ofs)
-           ^
-   fs/overlayfs/super.c:1918:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_err;
-                   ^
-   fs/overlayfs/super.c:1916:2: note: previous statement is here
-           if (!cred)
-           ^
-   fs/overlayfs/super.c:1942:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_err;
-                   ^
-   fs/overlayfs/super.c:1940:2: note: previous statement is here
-           if (!splitlower)
-           ^
-   fs/overlayfs/super.c:1955:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_err;
-                   ^
-   fs/overlayfs/super.c:1953:2: note: previous statement is here
-           if (!layers)
-           ^
-   fs/overlayfs/super.c:2012:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_err;
-                   ^
-   fs/overlayfs/super.c:2010:2: note: previous statement is here
-           if (IS_ERR(oe))
-           ^
-   fs/overlayfs/super.c:2067:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_free_oe;
-                   ^
-   fs/overlayfs/super.c:2065:2: note: previous statement is here
-           if (!root_dentry)
-           ^
-   fs/overlayfs/super.c:1904:6: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (WARN_ON(sb->s_user_ns != current_user_ns()))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:121:28: note: expanded from macro 'WARN_ON'
-   #define WARN_ON(condition) ({                                           \
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/super.c:2084:9: note: uninitialized use occurs here
-           return err;
-                  ^~~
-   fs/overlayfs/super.c:1904:2: note: remove the 'if' if its condition is always true
-           if (WARN_ON(sb->s_user_ns != current_user_ns()))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/super.c:1902:9: note: initialize the variable 'err' to silence this warning
-           int err;
-                  ^
---
->> fs/overlayfs/namei.c:538:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto fail;
-                   ^
-   fs/overlayfs/namei.c:536:2: note: previous statement is here
-           if (index->d_name.len < sizeof(struct ovl_fb)*2)
-           ^
-   fs/overlayfs/namei.c:544:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto fail;
-                   ^
-   fs/overlayfs/namei.c:542:2: note: previous statement is here
-           if (!fh)
-           ^
-   fs/overlayfs/namei.c:548:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto fail;
-                   ^
-   fs/overlayfs/namei.c:546:2: note: previous statement is here
-           if (hex2bin(fh->buf, index->d_name.name, len))
-           ^
->> fs/overlayfs/namei.c:536:6: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (index->d_name.len < sizeof(struct ovl_fb)*2)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/namei.c:610:9: note: uninitialized use occurs here
-           return err;
-                  ^~~
-   fs/overlayfs/namei.c:536:2: note: remove the 'if' if its condition is always true
-           if (index->d_name.len < sizeof(struct ovl_fb)*2)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/namei.c:531:9: note: initialize the variable 'err' to silence this warning
-           int err;
-                  ^
-                   = 0
-   fs/overlayfs/namei.c:912:4: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                           goto out_put_upper;
-                           ^
-   fs/overlayfs/namei.c:910:3: note: previous statement is here
-                   if (!stack)
-                   ^
-   fs/overlayfs/namei.c:1073:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_put;
-                   ^
-   fs/overlayfs/namei.c:1071:2: note: previous statement is here
-           if (!oe)
-           ^
-   fs/overlayfs/namei.c:1120:4: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                           goto out_free_oe;
-                           ^
-   fs/overlayfs/namei.c:1118:3: note: previous statement is here
-                   if (IS_ERR(inode))
-                   ^
-   7 warnings generated.
---
->> fs/overlayfs/dir.c:120:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   return err;
-                   ^
-   fs/overlayfs/dir.c:118:2: note: previous statement is here
-           if (IS_ERR(whiteout))
-           ^
->> fs/overlayfs/dir.c:118:6: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (IS_ERR(whiteout))
-               ^~~~~~~~~~~~~~~~
-   fs/overlayfs/dir.c:120:10: note: uninitialized use occurs here
-                   return err;
-                          ^~~
-   fs/overlayfs/dir.c:118:2: note: remove the 'if' if its condition is always true
-           if (IS_ERR(whiteout))
-           ^~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/dir.c:114:9: note: initialize the variable 'err' to silence this warning
-           int err;
-                  ^
-                   = 0
-   fs/overlayfs/dir.c:181:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out;
-                   ^
-   fs/overlayfs/dir.c:179:2: note: previous statement is here
-           if (newdentry->d_inode)
-           ^
-   fs/overlayfs/dir.c:179:6: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (newdentry->d_inode)
-               ^~~~~~~~~~~~~~~~~~
-   fs/overlayfs/dir.c:220:6: note: uninitialized use occurs here
-           if (err) {
-               ^~~
-   fs/overlayfs/dir.c:179:2: note: remove the 'if' if its condition is always true
-           if (newdentry->d_inode)
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/dir.c:174:9: note: initialize the variable 'err' to silence this warning
-           int err;
-                  ^
-                   = 0
-   fs/overlayfs/dir.c:341:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_unlock;
-                   ^
-   fs/overlayfs/dir.c:339:2: note: previous statement is here
-           if (IS_ERR(newdentry))
-           ^
-   fs/overlayfs/dir.c:339:6: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (IS_ERR(newdentry))
-               ^~~~~~~~~~~~~~~~~
-   fs/overlayfs/dir.c:354:9: note: uninitialized use occurs here
-           return err;
-                  ^~~
-   fs/overlayfs/dir.c:339:2: note: remove the 'if' if its condition is always true
-           if (IS_ERR(newdentry))
-           ^~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/dir.c:329:9: note: initialize the variable 'err' to silence this warning
-           int err;
-                  ^
-                   = 0
-   fs/overlayfs/dir.c:399:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_unlock;
-                   ^
-   fs/overlayfs/dir.c:397:2: note: previous statement is here
-           if (IS_ERR(opaquedir))
-           ^
-   fs/overlayfs/dir.c:478:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_unlock;
-                   ^
-   fs/overlayfs/dir.c:476:2: note: previous statement is here
-           if (IS_ERR(upper))
-           ^
-   fs/overlayfs/dir.c:482:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_dput;
-                   ^
-   fs/overlayfs/dir.c:480:2: note: previous statement is here
-           if (d_is_negative(upper) || !IS_WHITEOUT(d_inode(upper)))
-           ^
-   fs/overlayfs/dir.c:487:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_dput;
-                   ^
-   fs/overlayfs/dir.c:485:2: note: previous statement is here
-           if (IS_ERR(newdentry))
-           ^
-   fs/overlayfs/dir.c:583:4: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                           goto out_revert_creds;
-                           ^
-   fs/overlayfs/dir.c:581:3: note: previous statement is here
-                   if (!override_cred)
-                   ^
-   fs/overlayfs/dir.c:638:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_drop_write;
-                   ^
-   fs/overlayfs/dir.c:636:2: note: previous statement is here
-           if (!inode)
-           ^
-   fs/overlayfs/dir.c:764:4: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                           goto out;
-                           ^
-   fs/overlayfs/dir.c:762:3: note: previous statement is here
-                   if (IS_ERR(opaquedir))
-                   ^
-   fs/overlayfs/dir.c:775:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto out_unlock;
-                   ^
-   fs/overlayfs/dir.c:773:2: note: previous statement is here
-           if (IS_ERR(upper))
-           ^
-   fs/overlayfs/dir.c:762:7: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-                   if (IS_ERR(opaquedir))
---
->> fs/overlayfs/readdir.c:769:4: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                           goto out;
-                           ^
-   fs/overlayfs/readdir.c:767:3: note: previous statement is here
-                   if (IS_ERR(cache))
-                   ^
->> fs/overlayfs/readdir.c:767:7: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-                   if (IS_ERR(cache))
-                       ^~~~~~~~~~~~~
-   fs/overlayfs/readdir.c:795:9: note: uninitialized use occurs here
-           return err;
-                  ^~~
-   fs/overlayfs/readdir.c:767:3: note: remove the 'if' if its condition is always true
-                   if (IS_ERR(cache))
-                   ^~~~~~~~~~~~~~~~~~
-   fs/overlayfs/readdir.c:740:9: note: initialize the variable 'err' to silence this warning
-           int err;
-                  ^
-                   = 0
-   2 warnings generated.
---
->> fs/overlayfs/copy_up.c:513:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto free_name;
-                   ^
-   fs/overlayfs/copy_up.c:511:2: note: previous statement is here
-           if (IS_ERR(temp))
-           ^
-   fs/overlayfs/copy_up.c:711:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto unlock;
-                   ^
-   fs/overlayfs/copy_up.c:709:2: note: previous statement is here
-           if (lock_rename(c->workdir, c->destdir) != NULL)
-           ^
-   fs/overlayfs/copy_up.c:722:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto unlock;
-                   ^
-   fs/overlayfs/copy_up.c:720:2: note: previous statement is here
-           if (IS_ERR(temp))
-           ^
-   fs/overlayfs/copy_up.c:747:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-                   goto cleanup;
-                   ^
-   fs/overlayfs/copy_up.c:745:2: note: previous statement is here
-           if (IS_ERR(upper))
-           ^
->> fs/overlayfs/copy_up.c:709:6: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (lock_rename(c->workdir, c->destdir) != NULL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/copy_up.c:763:9: note: uninitialized use occurs here
-           return err;
-                  ^~~
-   fs/overlayfs/copy_up.c:709:2: note: remove the 'if' if its condition is always true
-           if (lock_rename(c->workdir, c->destdir) != NULL)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/copy_up.c:700:9: note: initialize the variable 'err' to silence this warning
-           int err;
-                  ^
-                   = 0
-   5 warnings generated.
-..
+vim +290 drivers/tty/serial/8250/8250_dma.c
 
-
-vim +/if +806 fs/overlayfs/super.c
-
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  761  
-ad204488d3046b Miklos Szeredi    2017-11-10  762  static struct dentry *ovl_workdir_create(struct ovl_fs *ofs,
-6b8aa129dcbe0e Amir Goldstein    2017-06-21  763  					 const char *name, bool persist)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  764  {
-ad204488d3046b Miklos Szeredi    2017-11-10  765  	struct inode *dir =  ofs->workbasedir->d_inode;
-08f4c7c86d4cf1 Miklos Szeredi    2020-06-04  766  	struct vfsmount *mnt = ovl_upper_mnt(ofs);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  767  	struct dentry *work;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  768  	int err;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  769  	bool retried = false;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  770  
-5955102c9984fa Al Viro           2016-01-22  771  	inode_lock_nested(dir, I_MUTEX_PARENT);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  772  retry:
-22f289ce1f8b10 Christian Brauner 2022-04-04  773  	work = ovl_lookup_upper(ofs, name, ofs->workbasedir, strlen(name));
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  774  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  775  	if (!IS_ERR(work)) {
-c11b9fdd6a612f Miklos Szeredi    2016-09-01  776  		struct iattr attr = {
-c11b9fdd6a612f Miklos Szeredi    2016-09-01  777  			.ia_valid = ATTR_MODE,
-32a3d848eb91a2 Al Viro           2016-12-04  778  			.ia_mode = S_IFDIR | 0,
-c11b9fdd6a612f Miklos Szeredi    2016-09-01  779  		};
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  780  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  781  		if (work->d_inode) {
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  782  			err = -EEXIST;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  783  			if (retried)
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  784  				goto out_dput;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  785  
-6b8aa129dcbe0e Amir Goldstein    2017-06-21  786  			if (persist)
-6b8aa129dcbe0e Amir Goldstein    2017-06-21  787  				goto out_unlock;
-6b8aa129dcbe0e Amir Goldstein    2017-06-21  788  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  789  			retried = true;
-576bb263450bbb Christian Brauner 2022-04-04  790  			err = ovl_workdir_cleanup(ofs, dir, mnt, work, 0);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  791  			dput(work);
-235ce9ed96bc62 Amir Goldstein    2020-08-30  792  			if (err == -EINVAL) {
-235ce9ed96bc62 Amir Goldstein    2020-08-30  793  				work = ERR_PTR(err);
-235ce9ed96bc62 Amir Goldstein    2020-08-30  794  				goto out_unlock;
-235ce9ed96bc62 Amir Goldstein    2020-08-30  795  			}
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  796  			goto retry;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  797  		}
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  798  
-576bb263450bbb Christian Brauner 2022-04-04  799  		err = ovl_mkdir_real(ofs, dir, &work, attr.ia_mode);
-1f5573cfe7a705 Miklos Szeredi    2021-11-04  800  		if (err)
-1f5573cfe7a705 Miklos Szeredi    2021-11-04  801  			goto out_dput;
-1f5573cfe7a705 Miklos Szeredi    2021-11-04  802  
-1f5573cfe7a705 Miklos Szeredi    2021-11-04  803  		/* Weird filesystem returning with hashed negative (kernfs)? */
-1f5573cfe7a705 Miklos Szeredi    2021-11-04  804  		if (d_really_is_negative(work))
-d5593461bec109 wenjun93          2023-05-06  805  			err = -EINVAL;
-1f5573cfe7a705 Miklos Szeredi    2021-11-04 @806  			goto out_dput;
-c11b9fdd6a612f Miklos Szeredi    2016-09-01  807  
-cb348edb6bef72 Miklos Szeredi    2016-10-04  808  		/*
-cb348edb6bef72 Miklos Szeredi    2016-10-04  809  		 * Try to remove POSIX ACL xattrs from workdir.  We are good if:
-cb348edb6bef72 Miklos Szeredi    2016-10-04  810  		 *
-cb348edb6bef72 Miklos Szeredi    2016-10-04  811  		 * a) success (there was a POSIX ACL xattr and was removed)
-cb348edb6bef72 Miklos Szeredi    2016-10-04  812  		 * b) -ENODATA (there was no POSIX ACL xattr)
-cb348edb6bef72 Miklos Szeredi    2016-10-04  813  		 * c) -EOPNOTSUPP (POSIX ACL xattrs are not supported)
-cb348edb6bef72 Miklos Szeredi    2016-10-04  814  		 *
-cb348edb6bef72 Miklos Szeredi    2016-10-04  815  		 * There are various other error values that could effectively
-cb348edb6bef72 Miklos Szeredi    2016-10-04  816  		 * mean that the xattr doesn't exist (e.g. -ERANGE is returned
-cb348edb6bef72 Miklos Szeredi    2016-10-04  817  		 * if the xattr name is too long), but the set of filesystems
-cb348edb6bef72 Miklos Szeredi    2016-10-04  818  		 * allowed as upper are limited to "normal" ones, where checking
-cb348edb6bef72 Miklos Szeredi    2016-10-04  819  		 * for the above two errors is sufficient.
-cb348edb6bef72 Miklos Szeredi    2016-10-04  820  		 */
-31acceb97500dd Christian Brauner 2022-09-22  821  		err = ovl_do_remove_acl(ofs, work, XATTR_NAME_POSIX_ACL_DEFAULT);
-e1ff3dd1ae52ce Miklos Szeredi    2016-09-05  822  		if (err && err != -ENODATA && err != -EOPNOTSUPP)
-c11b9fdd6a612f Miklos Szeredi    2016-09-01  823  			goto out_dput;
-c11b9fdd6a612f Miklos Szeredi    2016-09-01  824  
-31acceb97500dd Christian Brauner 2022-09-22  825  		err = ovl_do_remove_acl(ofs, work, XATTR_NAME_POSIX_ACL_ACCESS);
-e1ff3dd1ae52ce Miklos Szeredi    2016-09-05  826  		if (err && err != -ENODATA && err != -EOPNOTSUPP)
-c11b9fdd6a612f Miklos Szeredi    2016-09-01  827  			goto out_dput;
-c11b9fdd6a612f Miklos Szeredi    2016-09-01  828  
-c11b9fdd6a612f Miklos Szeredi    2016-09-01  829  		/* Clear any inherited mode bits */
-c11b9fdd6a612f Miklos Szeredi    2016-09-01  830  		inode_lock(work->d_inode);
-a15506eac96fdb Christian Brauner 2022-04-04  831  		err = ovl_do_notify_change(ofs, work, &attr);
-c11b9fdd6a612f Miklos Szeredi    2016-09-01  832  		inode_unlock(work->d_inode);
-c11b9fdd6a612f Miklos Szeredi    2016-09-01  833  		if (err)
-c11b9fdd6a612f Miklos Szeredi    2016-09-01  834  			goto out_dput;
-6b8aa129dcbe0e Amir Goldstein    2017-06-21  835  	} else {
-6b8aa129dcbe0e Amir Goldstein    2017-06-21  836  		err = PTR_ERR(work);
-6b8aa129dcbe0e Amir Goldstein    2017-06-21  837  		goto out_err;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  838  	}
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  839  out_unlock:
-6b8aa129dcbe0e Amir Goldstein    2017-06-21  840  	inode_unlock(dir);
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  841  	return work;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  842  
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  843  out_dput:
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  844  	dput(work);
-6b8aa129dcbe0e Amir Goldstein    2017-06-21  845  out_err:
-1bd0a3aea4357e lijiazi           2019-12-16  846  	pr_warn("failed to create directory %s/%s (errno: %i); mounting read-only\n",
-ad204488d3046b Miklos Szeredi    2017-11-10  847  		ofs->config.workdir, name, -err);
-6b8aa129dcbe0e Amir Goldstein    2017-06-21  848  	work = NULL;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  849  	goto out_unlock;
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  850  }
-e9be9d5e76e348 Miklos Szeredi    2014-10-24  851  
+   201	
+   202	int serial8250_request_dma(struct uart_8250_port *p)
+   203	{
+   204		struct uart_8250_dma	*dma = p->dma;
+   205		phys_addr_t rx_dma_addr = dma->rx_dma_addr ?
+   206					  dma->rx_dma_addr : p->port.mapbase;
+   207		phys_addr_t tx_dma_addr = dma->tx_dma_addr ?
+   208					  dma->tx_dma_addr : p->port.mapbase;
+   209		dma_cap_mask_t		mask;
+   210		struct dma_slave_caps	caps;
+   211		int			ret;
+   212	
+   213		/* Default slave configuration parameters */
+   214		dma->rxconf.direction		= DMA_DEV_TO_MEM;
+   215		dma->rxconf.src_addr_width	= DMA_SLAVE_BUSWIDTH_1_BYTE;
+   216		dma->rxconf.src_addr		= rx_dma_addr + UART_RX;
+   217	
+   218		dma->txconf.direction		= DMA_MEM_TO_DEV;
+   219		dma->txconf.dst_addr_width	= DMA_SLAVE_BUSWIDTH_1_BYTE;
+   220		dma->txconf.dst_addr		= tx_dma_addr + UART_TX;
+   221	
+   222		dma_cap_zero(mask);
+   223		dma_cap_set(DMA_SLAVE, mask);
+   224	
+   225		/* Get a channel for RX */
+   226		dma->rxchan = dma_request_slave_channel_compat(mask,
+   227							       dma->fn, dma->rx_param,
+   228							       p->port.dev, "rx");
+   229		if (!dma->rxchan)
+   230			return -ENODEV;
+   231	
+   232		/* 8250 rx dma requires dmaengine driver to support pause/terminate */
+   233		ret = dma_get_slave_caps(dma->rxchan, &caps);
+   234		if (ret)
+   235			goto release_rx;
+   236		if (!caps.cmd_pause || !caps.cmd_terminate ||
+   237		    caps.residue_granularity == DMA_RESIDUE_GRANULARITY_DESCRIPTOR) {
+   238			ret = -EINVAL;
+   239			goto release_rx;
+   240		}
+   241	
+   242		dmaengine_slave_config(dma->rxchan, &dma->rxconf);
+   243	
+   244		/* Get a channel for TX */
+   245		dma->txchan = dma_request_slave_channel_compat(mask,
+   246							       dma->fn, dma->tx_param,
+   247							       p->port.dev, "tx");
+   248		if (!dma->txchan) {
+   249			ret = -ENODEV;
+   250			goto release_rx;
+   251		}
+   252	
+   253		/* 8250 tx dma requires dmaengine driver to support terminate */
+   254		ret = dma_get_slave_caps(dma->txchan, &caps);
+   255		if (ret)
+   256			goto err;
+   257		if (!caps.cmd_terminate) {
+   258			ret = -EINVAL;
+   259			goto err;
+   260		}
+   261	
+   262		dmaengine_slave_config(dma->txchan, &dma->txconf);
+   263	
+   264		/* RX buffer */
+   265		if (!dma->rx_size)
+   266			dma->rx_size = PAGE_SIZE;
+   267	
+   268		if (ehl_pse_dma_dev(p->port.dev)) {
+   269			dma->rx_buf = dma_alloc_coherent(p->port.dev, dma->rx_size,
+   270							&dma->rx_addr, GFP_KERNEL);
+   271		} else {
+   272			dma->rx_buf = dma_alloc_coherent(dma->rxchan->device->dev,
+   273					dma->rx_size, &dma->rx_addr, GFP_KERNEL);
+   274		}
+   275	
+   276		if (!dma->rx_buf) {
+   277			ret = -ENOMEM;
+   278			goto err;
+   279		}
+   280	
+   281		/* TX buffer */
+   282		if (ehl_pse_dma_dev(p->port.dev)) {
+   283			dma->tx_addr = dma_map_single(p->port.dev,
+   284							p->port.state->xmit.buf,
+   285							UART_XMIT_SIZE,
+   286							DMA_TO_DEVICE);
+   287			if (dma_mapping_error(p->port.dev, dma->tx_addr)) {
+   288				dma_free_coherent(p->port.dev, dma->rx_size,
+   289						dma->rx_buf, dma->rx_addr);
+ > 290			ret = -ENOMEM;
+   291			goto err;
+   292			}
+   293		} else {
+   294			dma->tx_addr = dma_map_single(dma->txchan->device->dev,
+   295						p->port.state->xmit.buf,
+   296						UART_XMIT_SIZE,
+   297						DMA_TO_DEVICE);
+   298			if (dma_mapping_error(dma->txchan->device->dev, dma->tx_addr)) {
+   299				dma_free_coherent(dma->rxchan->device->dev, dma->rx_size,
+   300								 dma->rx_buf, dma->rx_addr);
+   301				ret = -ENOMEM;
+   302				goto err;
+   303			}
+   304		}
+   305	
+   306		dev_dbg_ratelimited(p->port.dev, "got both dma channels\n");
+   307	
+   308		return 0;
+   309	err:
+   310		dma_release_channel(dma->txchan);
+   311	release_rx:
+   312		dma_release_channel(dma->rxchan);
+   313		return ret;
+   314	}
+   315	EXPORT_SYMBOL_GPL(serial8250_request_dma);
+   316	
 
 -- 
 0-DAY CI Kernel Test Service
