@@ -1,42 +1,51 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3864010F2
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 May 2023 17:18:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364FA8479
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 May 2023 17:42:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683393503; x=1714929503;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=HnVE3xiw/NBQ6aMBPon8O7ZNvHJfXRrRdt75Fc09ZfI=;
-  b=UxANHxuHTn3eOsjkvk14661F9o2G7cIEqH4vZbdGbPBnQFZszSyHVSML
-   MZ0hc9anS3wJR2jR0Vb+xqbcURePee0kJpKmel63awhi1t7IktNh8cCCh
-   smuYQnEY2YDZClMEwdeN9v6yBAFH6BF7+1EEbcRPCAJCyU518loj56IU5
-   lZqn4j/R4w7vt3xkbaratBWEnjw6LlC2UUA6WQcGx1gzMV9qLlOsB+EKK
-   lz1ZOTHXFjVSrsEMPXMP940FOiYR3dCauR7gKUMuQIaP8NxrbTsaxMB6s
-   v3G3tC6v52qDGhDszCAYS39DlsSn/UonOKEeM7tcq9I3UUGs8cEXU04Ty
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="349434270"
+  t=1683394946; x=1714930946;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oT8CwAw0/pgt47zXZltnYILo21BzxQh30+v5OGLUHNI=;
+  b=cRoH4RzLAQTdi0taXppUf1qyEpyvOt7HFdQuncKTJ1z91DsNYWqvwJbN
+   7WCCYWYXNs6AVJQ7jVjVOzY+HaLzP+mztYIG2ekDncA40wqKofVZcHHdL
+   97SW/BTM+V2bPhvFnCTUmkvYqANkQVY/lRCftZYCF6UPd2EDNsTgHZ1h2
+   CxOyHIxq2442a85Exzw12cfqd3x1UtpPrFDocfwdYBylsshgkMT521Aao
+   d+ZzweVw4vCLiM/4U6ZwsbR/AXVieBoTazkfqfMRGshLrSJO+QLGFJWZc
+   2VyPP7PT1iglgduuBMumasf2y0JjOKDUaOMhsqLpjDZ+6kc/9Ndhrfj53
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="329760997"
 X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="349434270"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 10:18:22 -0700
+   d="scan'208";a="329760997"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 10:42:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="762867875"
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="872289514"
 X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="762867875"
+   d="scan'208";a="872289514"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 06 May 2023 10:18:21 -0700
+  by orsmga005.jf.intel.com with ESMTP; 06 May 2023 10:42:21 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvLY4-0000Pu-39;
-	Sat, 06 May 2023 17:18:20 +0000
-Date: Sun, 7 May 2023 01:17:44 +0800
+	id 1pvLvJ-0000QR-0i;
+	Sat, 06 May 2023 17:42:21 +0000
+Date: Sun, 7 May 2023 01:41:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: frshuov@163.com
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] ALSA: hda/realtek: Add quirk for ASUS GU603ZM
-Message-ID: <ZFaLuB2ztV6EJ1I8@e0f96cf4e6cd>
+To: Adam Ford <aford173@gmail.com>, linux-clk@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, aford@beaconembedded.com,
+	Adam Ford <aford173@gmail.com>, Abel Vesa <abelvesa@kernel.org>,
+	Peng Fan <peng.fan@nxp.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] clk: imx: composite-8m: Add imx8m_divider_determine_rate
+Message-ID: <202305070143.iTqgbS75-lkp@intel.com>
+References: <20230506162403.375212-1-aford173@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,23 +54,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230506171546.50815-1-frshuov@163.com>
+In-Reply-To: <20230506162403.375212-1-aford173@gmail.com>
 
-Hi,
+Hi Adam,
 
-Thanks for your patch.
+kernel test robot noticed the following build warnings:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on v6.3 next-20230505]
+[cannot apply to abelvesa/clk/imx linus/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH] ALSA: hda/realtek: Add quirk for ASUS GU603ZM
-Link: https://lore.kernel.org/stable/20230506171546.50815-1-frshuov%40163.com
+url:    https://github.com/intel-lab-lkp/linux/commits/Adam-Ford/clk-imx-composite-8m-Add-imx8m_divider_determine_rate/20230507-002453
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20230506162403.375212-1-aford173%40gmail.com
+patch subject: [PATCH] clk: imx: composite-8m: Add imx8m_divider_determine_rate
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230507/202305070143.iTqgbS75-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/d92df3b38fc20beb735cb3b75f118b45d1ae304b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Adam-Ford/clk-imx-composite-8m-Add-imx8m_divider_determine_rate/20230507-002453
+        git checkout d92df3b38fc20beb735cb3b75f118b45d1ae304b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/clk/
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305070143.iTqgbS75-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/clk/imx/clk-composite-8m.c:122:5: warning: no previous prototype for 'imx8m_divider_determine_rate' [-Wmissing-prototypes]
+     122 | int imx8m_divider_determine_rate(struct clk_hw *hw,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/imx8m_divider_determine_rate +122 drivers/clk/imx/clk-composite-8m.c
+
+   121	
+ > 122	int imx8m_divider_determine_rate(struct clk_hw *hw,
+   123					      struct clk_rate_request *req)
+   124	{
+   125		struct clk_divider *divider = to_clk_divider(hw);
+   126		int prediv_value;
+   127		int div_value;
+   128	
+   129		/* if read only, just return current value */
+   130		if (divider->flags & CLK_DIVIDER_READ_ONLY) {
+   131			u32 val;
+   132	
+   133			val = readl(divider->reg);
+   134			prediv_value = val >> divider->shift;
+   135			prediv_value &= clk_div_mask(divider->width);
+   136	
+   137			div_value = val >> PCG_DIV_SHIFT;
+   138			div_value &= clk_div_mask(PCG_DIV_WIDTH);
+   139	
+   140			return divider_ro_determine_rate(hw, req, divider->table,
+   141							 PCG_PREDIV_WIDTH + PCG_DIV_WIDTH,
+   142							 divider->flags, prediv_value * div_value);
+   143		}
+   144	
+   145		return divider_determine_rate(hw, req, divider->table,
+   146					      PCG_PREDIV_WIDTH + PCG_DIV_WIDTH,
+   147					      divider->flags);
+   148	}
+   149	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
-
-
