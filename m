@@ -1,51 +1,32 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A8BC2FC;
-	Sat,  6 May 2023 18:12:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683396746; x=1714932746;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YngAekiyMFQcAH087yL/A1vfWTMr5bD0St58aYn+lAc=;
-  b=MIfrrhm0go25i+vKnZvlkr2NS245FLl63Hq3o5CeLizef1m0X2hjmHEd
-   ua+rCWGW0ryDtlDUxQhjcgTDDAnQJi0kLDEQJVBjAe7CPkxiR6CNYSbXY
-   tOsnTRCPQQOccdhjPqc61JzF8JCtDxt2JF3ZoWRR+cHF0PUJoW7iCPuMK
-   9DWRMiWbQaCtC2TMy+cSNx7o8bqU2XvZsgNoOfSW8F/wicMAcb0j02Yy4
-   QZB1Zrckg0kndldjcz5lEYpavrsWj583TDSz7QdNnoQfAke+J7d98VXjt
-   vp6h+rcMx1RsW5obtMTCaifetc4uOlX8g8UZnTLfqMvTcxmlQe3iSvHt0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="329030121"
-X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="329030121"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 11:12:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="822147827"
-X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="822147827"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 06 May 2023 11:12:22 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pvMOL-0000RF-1n;
-	Sat, 06 May 2023 18:12:21 +0000
-Date: Sun, 7 May 2023 02:12:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Adam Ford <aford173@gmail.com>, linux-clk@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	aford@beaconembedded.com, Adam Ford <aford173@gmail.com>,
-	Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] clk: imx: composite-8m: Add imx8m_divider_determine_rate
-Message-ID: <202305070235.r9bEq3U8-lkp@intel.com>
-References: <20230506162403.375212-1-aford173@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA822566;
+	Sat,  6 May 2023 18:45:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFE3DC433D2;
+	Sat,  6 May 2023 18:45:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1683398735;
+	bh=+VHRb5W6L1nQ+jRD8PY/0yCsZ8fQuoK/UvwuJ+v0wPo=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=rHG0fmS0W0kFiuvDGTaD+uHY0oCaRL8PO1LsQUDADsmdNXTzuQIJCF/lKCF5zt6C7
+	 1+gg3CFNav6h2RTghlLkKnLSM7DxWOBlROBp38kXIwypnVyl5U8bZsjmwtAa+P4L1m
+	 zuwcvsB6uEgDaZVx6+1QzGHJx76eLnIZuyVErj9bLJE7GAYixrm8QPswHZz5K+Wgeb
+	 xbhMK9dxONbWH2qBdNod587g832R+ndURHBvpr+q58bcYPWrbSGqmDSyTdoZyVaQxp
+	 Hnz2A3IbAvVMn6z7aBt+XYU11+Hpw3aTgehRs07RvrremBvPslTrE9+48jj6eL0QMU
+	 Pn8TlOde2vHzw==
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+	id 7824B15405AA; Sat,  6 May 2023 11:45:35 -0700 (PDT)
+Date: Sat, 6 May 2023 11:45:35 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: kernel/rcu/srcutree.c:1644 srcu_advance_state() warn:
+ inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
+Message-ID: <c33b0348-7f86-47ce-913c-f1ebc6431f93@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <c0937326-1cf1-429a-9883-30d9d79b01d0@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,87 +35,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230506162403.375212-1-aford173@gmail.com>
+In-Reply-To: <c0937326-1cf1-429a-9883-30d9d79b01d0@kili.mountain>
 
-Hi Adam,
+On Sat, May 06, 2023 at 10:22:04AM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   418d5c98319f67b9ae651babea031b5394425c18
+> commit: e3a6ab25cfa0fcdcb31c346b9871a566d440980d srcu: Move ->srcu_gp_mutex from srcu_struct to srcu_usage
+> config: x86_64-randconfig-m001-20230501 (https://download.01.org/0day-ci/archive/20230506/202305060951.I8mz6eHt-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202305060951.I8mz6eHt-lkp@intel.com/
+> 
+> smatch warnings:
+> kernel/rcu/srcutree.c:1644 srcu_advance_state() warn: inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
+> 
+> vim +1644 kernel/rcu/srcutree.c
+> 
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1584  static void srcu_advance_state(struct srcu_struct *ssp)
+> dad81a2026841b Paul E. McKenney 2017-03-25  1585  {
+> dad81a2026841b Paul E. McKenney 2017-03-25  1586  	int idx;
+> dad81a2026841b Paul E. McKenney 2017-03-25  1587  
+> e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1588  	mutex_lock(&ssp->srcu_sup->srcu_gp_mutex);
+> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1589  
+> dad81a2026841b Paul E. McKenney 2017-03-25  1590  	/*
+> dad81a2026841b Paul E. McKenney 2017-03-25  1591  	 * Because readers might be delayed for an extended period after
+> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1592  	 * fetching ->srcu_idx for their index, at any point in time there
+> dad81a2026841b Paul E. McKenney 2017-03-25  1593  	 * might well be readers using both idx=0 and idx=1.  We therefore
+> dad81a2026841b Paul E. McKenney 2017-03-25  1594  	 * need to wait for readers to clear from both index values before
+> dad81a2026841b Paul E. McKenney 2017-03-25  1595  	 * invoking a callback.
+> dad81a2026841b Paul E. McKenney 2017-03-25  1596  	 *
+> dad81a2026841b Paul E. McKenney 2017-03-25  1597  	 * The load-acquire ensures that we see the accesses performed
+> dad81a2026841b Paul E. McKenney 2017-03-25  1598  	 * by the prior grace period.
+> dad81a2026841b Paul E. McKenney 2017-03-25  1599  	 */
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1600  	idx = rcu_seq_state(smp_load_acquire(&ssp->srcu_gp_seq)); /* ^^^ */
+> dad81a2026841b Paul E. McKenney 2017-03-25  1601  	if (idx == SRCU_STATE_IDLE) {
+> b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1602  		spin_lock_irq_rcu_node(ssp->srcu_sup);
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1603  		if (ULONG_CMP_GE(ssp->srcu_gp_seq, ssp->srcu_gp_seq_needed)) {
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1604  			WARN_ON_ONCE(rcu_seq_state(ssp->srcu_gp_seq));
+> b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1605  			spin_unlock_irq_rcu_node(ssp->srcu_sup);
+> e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1606  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+> dad81a2026841b Paul E. McKenney 2017-03-25  1607  			return;
+> dad81a2026841b Paul E. McKenney 2017-03-25  1608  		}
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1609  		idx = rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq));
+> dad81a2026841b Paul E. McKenney 2017-03-25  1610  		if (idx == SRCU_STATE_IDLE)
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1611  			srcu_gp_start(ssp);
+> b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1612  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
+> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1613  		if (idx != SRCU_STATE_IDLE) {
+> e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1614  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+> dad81a2026841b Paul E. McKenney 2017-03-25  1615  			return; /* Someone else started the grace period. */
+> dad81a2026841b Paul E. McKenney 2017-03-25  1616  		}
+> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1617  	}
+> dad81a2026841b Paul E. McKenney 2017-03-25  1618  
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1619  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN1) {
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1620  		idx = 1 ^ (ssp->srcu_idx & 1);
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1621  		if (!try_check_zero(ssp, idx, 1)) {
+> e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1622  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+> dad81a2026841b Paul E. McKenney 2017-03-25  1623  			return; /* readers present, retry later. */
+> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1624  		}
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1625  		srcu_flip(ssp);
+> b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1626  		spin_lock_irq_rcu_node(ssp->srcu_sup);
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1627  		rcu_seq_set_state(&ssp->srcu_gp_seq, SRCU_STATE_SCAN2);
+> 282d8998e9979c Paul E. McKenney 2022-03-08  1628  		ssp->srcu_n_exp_nodelay = 0;
+> b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1629  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
+> dad81a2026841b Paul E. McKenney 2017-03-25  1630  	}
+> dad81a2026841b Paul E. McKenney 2017-03-25  1631  
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1632  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN2) {
+> 
+> We don't mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex) if this if
+> statement is false.
 
-kernel test robot noticed the following build warnings:
+Hmmm...
 
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on v6.3 next-20230505]
-[cannot apply to abelvesa/clk/imx linus/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I could make the above line read something like the following:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Adam-Ford/clk-imx-composite-8m-Add-imx8m_divider_determine_rate/20230507-002453
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20230506162403.375212-1-aford173%40gmail.com
-patch subject: [PATCH] clk: imx: composite-8m: Add imx8m_divider_determine_rate
-config: powerpc-randconfig-r012-20230507 (https://download.01.org/0day-ci/archive/20230507/202305070235.r9bEq3U8-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/d92df3b38fc20beb735cb3b75f118b45d1ae304b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Adam-Ford/clk-imx-composite-8m-Add-imx8m_divider_determine_rate/20230507-002453
-        git checkout d92df3b38fc20beb735cb3b75f118b45d1ae304b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/clk/imx/
+	if (!WARN_ON_ONCE(rcu_seq_state(READ_ONCE(ssp->srcu_sup->srcu_gp_seq)) != SRCU_STATE_SCAN2)) {
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305070235.r9bEq3U8-lkp@intel.com/
+The theory is that there are only three legal values for ->srcu_gp_seq.
+Because we hold ->srcu_gp_mutex, no one else can change it.   The first
+"if" statement either returns or sets that state to SRCU_STATE_SCAN1.
+The second "if" statement also either returns or sets that state to
+SRCU_STATE_SCAN2.  So that statement should not be false.
 
-All warnings (new ones prefixed by >>):
+So where is my theory deviating from practice?
 
->> drivers/clk/imx/clk-composite-8m.c:122:5: warning: no previous prototype for function 'imx8m_divider_determine_rate' [-Wmissing-prototypes]
-   int imx8m_divider_determine_rate(struct clk_hw *hw,
-       ^
-   drivers/clk/imx/clk-composite-8m.c:122:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int imx8m_divider_determine_rate(struct clk_hw *hw,
-   ^
-   static 
-   1 warning generated.
+							Thanx, Paul
 
-
-vim +/imx8m_divider_determine_rate +122 drivers/clk/imx/clk-composite-8m.c
-
-   121	
- > 122	int imx8m_divider_determine_rate(struct clk_hw *hw,
-   123					      struct clk_rate_request *req)
-   124	{
-   125		struct clk_divider *divider = to_clk_divider(hw);
-   126		int prediv_value;
-   127		int div_value;
-   128	
-   129		/* if read only, just return current value */
-   130		if (divider->flags & CLK_DIVIDER_READ_ONLY) {
-   131			u32 val;
-   132	
-   133			val = readl(divider->reg);
-   134			prediv_value = val >> divider->shift;
-   135			prediv_value &= clk_div_mask(divider->width);
-   136	
-   137			div_value = val >> PCG_DIV_SHIFT;
-   138			div_value &= clk_div_mask(PCG_DIV_WIDTH);
-   139	
-   140			return divider_ro_determine_rate(hw, req, divider->table,
-   141							 PCG_PREDIV_WIDTH + PCG_DIV_WIDTH,
-   142							 divider->flags, prediv_value * div_value);
-   143		}
-   144	
-   145		return divider_determine_rate(hw, req, divider->table,
-   146					      PCG_PREDIV_WIDTH + PCG_DIV_WIDTH,
-   147					      divider->flags);
-   148	}
-   149	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+> dad81a2026841b Paul E. McKenney 2017-03-25  1633  
+> dad81a2026841b Paul E. McKenney 2017-03-25  1634  		/*
+> dad81a2026841b Paul E. McKenney 2017-03-25  1635  		 * SRCU read-side critical sections are normally short,
+> dad81a2026841b Paul E. McKenney 2017-03-25  1636  		 * so check at least twice in quick succession after a flip.
+> dad81a2026841b Paul E. McKenney 2017-03-25  1637  		 */
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1638  		idx = 1 ^ (ssp->srcu_idx & 1);
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1639  		if (!try_check_zero(ssp, idx, 2)) {
+> e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1640  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1641  			return; /* readers present, retry later. */
+> da915ad5cf25b5 Paul E. McKenney 2017-04-05  1642  		}
+> 282d8998e9979c Paul E. McKenney 2022-03-08  1643  		ssp->srcu_n_exp_nodelay = 0;
+> aacb5d91ab1bfb Paul E. McKenney 2018-10-28 @1644  		srcu_gp_end(ssp);  /* Releases ->srcu_gp_mutex. */
+> dad81a2026841b Paul E. McKenney 2017-03-25  1645  	}
+> dad81a2026841b Paul E. McKenney 2017-03-25  1646  }
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
+> 
