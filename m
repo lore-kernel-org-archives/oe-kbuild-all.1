@@ -1,45 +1,49 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6511FAF
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 May 2023 16:21:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3EE882B;
+	Sat,  6 May 2023 16:21:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683390082; x=1714926082;
+  t=1683390085; x=1714926085;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c7vzzJPjtbI+J+8/1HvxdoZJ3gj/2vub9JXHjSlQSfw=;
-  b=IJoHbe+HkMNH4/q3Ja4CFSUjiit2g2iKdaEuIhsnEEW+sCwSk1vK0A6l
-   U89HfHmfLh3DweLu4Nkkae33u5vGfPFlU48mGULLvrzDOfsfxJIb2DQUt
-   075XaLJNkrlWAN7L7S5npbOjvcKY65m0HKATqP2ORsvgMCfg1DFXsT0cC
-   0VZ8ZecgIBTxZDr0w0kJu/5lw4u0MWFz0BtVDaD6o7Z9bvk2blIVDxedA
-   eLBzalxNEBrJhpaHTWOdxoHAEA4fir0D3taYCyAmrzW4opOAtJ4AkZFRM
-   n81CNLOCRjdfSvUeGULxq5PDIi/u+D0cjF2wFiWua5QgZZIE512/HB4sa
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="414948202"
+  bh=ZB+AkW92jfIZlBvpLlVORKecXonM/RC3tdqlmfxeRj8=;
+  b=Mz7PimtbOitQ4856mTPRCo2F/QhjqQEnmM5hfY0bUDIC5qUR/Pic51vH
+   Fy1eHFq1Jqmq6Wkscp6s//MeGqmaxF/296DZ4NqAQ3IofFKPc90Dih/Tk
+   CrywUNYEkhnyP/BWwhqOWmRtsHT0Yhm3lcXEAV6MbQRty/Q/Rgb1Q22xP
+   Jt1SosUOb/XZnF9zyV4JlU5cAWS5y17BW2auXoVz0xTKtSwTnyoht/yPQ
+   018J1ypcAzlmlljh58A0yBVdoih8d21HiTFROa8ep0OofysozrIAiWxe6
+   eWNsr5TAu7jGDVe92oL6WVptG3RqXyPoRVyOsr3MNKYaDTYSOupKR39Zr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="414948207"
 X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="414948202"
+   d="scan'208";a="414948207"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 09:21:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="787558018"
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="787558022"
 X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="787558018"
+   d="scan'208";a="787558022"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 06 May 2023 09:21:20 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvKeu-0000P1-0L;
+	id 1pvKeu-0000Oz-0E;
 	Sat, 06 May 2023 16:21:20 +0000
-Date: Sun, 7 May 2023 00:20:26 +0800
+Date: Sun, 7 May 2023 00:20:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robert Hancock <robert.hancock@calian.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Lunn <andrew@lunn.ch>
-Subject: [stable:linux-4.19.y 1539/5827]
- drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:15: error: implicit
- declaration of function 'read_poll_timeout'
-Message-ID: <202305070011.4NtPsA1e-lkp@intel.com>
+To: Song Yoong Siang <yoong.siang.song@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Sasha Levin <sashal@kernel.org>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Jesper Dangaard Brouer <brouer@redhat.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [linux-stable-rc:queue/5.15 49/355]
+ drivers/net/ethernet/intel/igc/igc_main.c:646:12: error: implicit
+ declaration of function 'FIELD_PREP'
+Message-ID: <202305070001.mYkVPIHh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,264 +53,201 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Robert,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
-head:   cdfda37ab2cfc783a190b563806cda611c35d1e3
-commit: 8b8ad8a7ac24905937c3975b54c4594b93b66ebb [1539/5827] net: axienet: Wait for PhyRstCmplt after core reset
-config: microblaze-randconfig-r005-20230502 (https://download.01.org/0day-ci/archive/20230507/202305070011.4NtPsA1e-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/5.15
+head:   0ba96946e8d1c0dcc8c05330cbe57c8bedae722a
+commit: 17dad56cbca9e1123d8756e82bd840d930abad24 [49/355] igc: read before write to SRRCTL register
+config: s390-randconfig-r021-20230430 (https://download.01.org/0day-ci/archive/20230507/202305070001.mYkVPIHh-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=8b8ad8a7ac24905937c3975b54c4594b93b66ebb
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-4.19.y
-        git checkout 8b8ad8a7ac24905937c3975b54c4594b93b66ebb
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=17dad56cbca9e1123d8756e82bd840d930abad24
+        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
+        git fetch --no-tags linux-stable-rc queue/5.15
+        git checkout 17dad56cbca9e1123d8756e82bd840d930abad24
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/net/ethernet/xilinx/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/net/ethernet/intel/igc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305070011.4NtPsA1e-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305070001.mYkVPIHh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   include/linux/if_vlan.h:584:25: note: in expansion of macro 'if'
-     584 |                         if (unlikely(!vh || !--parse_depth))
-         |                         ^~
-   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
-      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   include/linux/if_vlan.h:584:29: note: in expansion of macro 'unlikely'
-     584 |                         if (unlikely(!vh || !--parse_depth))
-         |                             ^~~~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   include/linux/if_vlan.h:584:25: note: in expansion of macro 'if'
-     584 |                         if (unlikely(!vh || !--parse_depth))
-         |                         ^~
-   include/linux/if_vlan.h: In function 'skb_vlan_tagged':
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   include/linux/if_vlan.h:667:9: note: in expansion of macro 'if'
-     667 |         if (!skb_vlan_tag_present(skb) &&
-         |         ^~
-   include/linux/compiler.h:45:26: note: in expansion of macro '__branch_check__'
-      45 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   include/linux/if_vlan.h:668:13: note: in expansion of macro 'likely'
-     668 |             likely(!eth_type_vlan(skb->protocol)))
-         |             ^~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   include/linux/if_vlan.h:667:9: note: in expansion of macro 'if'
-     667 |         if (!skb_vlan_tag_present(skb) &&
-         |         ^~
-   include/linux/if_vlan.h: In function 'skb_vlan_tagged_multi':
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   include/linux/if_vlan.h:688:17: note: in expansion of macro 'if'
-     688 |                 if (likely(!eth_type_vlan(protocol)))
-         |                 ^~
-   include/linux/compiler.h:45:26: note: in expansion of macro '__branch_check__'
-      45 | #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   include/linux/if_vlan.h:688:21: note: in expansion of macro 'likely'
-     688 |                 if (likely(!eth_type_vlan(protocol)))
-         |                     ^~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   include/linux/if_vlan.h:688:17: note: in expansion of macro 'if'
-     688 |                 if (likely(!eth_type_vlan(protocol)))
-         |                 ^~
-   include/linux/compiler.h:25:39: warning: ignoring attribute 'section ("_ftrace_annotated_branch")' because it conflicts with previous 'section ("_ftrace_branch")' [-Wattributes]
-      25 |                         static struct ftrace_likely_data                \
-         |                                       ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:69:30: note: in definition of macro '__trace_if'
-      69 |                 ______r = !!(cond);                                     \
-         |                              ^~~~
-   include/linux/if_vlan.h:691:17: note: in expansion of macro 'if'
-     691 |                 if (unlikely(!pskb_may_pull(skb, VLAN_ETH_HLEN)))
-         |                 ^~
-   include/linux/compiler.h:48:26: note: in expansion of macro '__branch_check__'
-      48 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-         |                          ^~~~~~~~~~~~~~~~
-   include/linux/if_vlan.h:691:21: note: in expansion of macro 'unlikely'
-     691 |                 if (unlikely(!pskb_may_pull(skb, VLAN_ETH_HLEN)))
-         |                     ^~~~~~~~
-   include/linux/compiler.h:64:25: note: previous declaration here
-      64 |                         ______f = {                                     \
-         |                         ^~~~~~~
-   include/linux/compiler.h:56:23: note: in expansion of macro '__trace_if'
-      56 | #define if(cond, ...) __trace_if( (cond , ## __VA_ARGS__) )
-         |                       ^~~~~~~~~~
-   include/linux/if_vlan.h:691:17: note: in expansion of macro 'if'
-     691 |                 if (unlikely(!pskb_may_pull(skb, VLAN_ETH_HLEN)))
-         |                 ^~
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c: In function 'axienet_dma_bd_init':
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:9: error: 'ret' undeclared (first use in this function); did you mean 'net'?
-     283 |         ret = read_poll_timeout(axienet_ior, value,
-         |         ^~~
-         |         net
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:9: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:15: error: implicit declaration of function 'read_poll_timeout' [-Werror=implicit-function-declaration]
-     283 |         ret = read_poll_timeout(axienet_ior, value,
-         |               ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:283:46: error: 'value' undeclared (first use in this function)
-     283 |         ret = read_poll_timeout(axienet_ior, value,
-         |                                              ^~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/net/ethernet/intel/igc/igc_main.c:6:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:37:
+   In file included from include/net/net_namespace.h:39:
+   In file included from include/linux/skbuff.h:31:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from drivers/net/ethernet/intel/igc/igc_main.c:6:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:37:
+   In file included from include/net/net_namespace.h:39:
+   In file included from include/linux/skbuff.h:31:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from drivers/net/ethernet/intel/igc/igc_main.c:6:
+   In file included from include/linux/if_vlan.h:10:
+   In file included from include/linux/netdevice.h:37:
+   In file included from include/net/net_namespace.h:39:
+   In file included from include/linux/skbuff.h:31:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/net/ethernet/intel/igc/igc_main.c:646:12: error: implicit declaration of function 'FIELD_PREP' [-Werror,-Wimplicit-function-declaration]
+           srrctl |= IGC_SRRCTL_BSIZEHDR(IGC_RX_HDR_LEN);
+                     ^
+   drivers/net/ethernet/intel/igc/igc_base.h:92:33: note: expanded from macro 'IGC_SRRCTL_BSIZEHDR'
+   #define IGC_SRRCTL_BSIZEHDR(x)          FIELD_PREP(IGC_SRRCTL_BSIZEHDR_MASK, \
+                                           ^
+   12 warnings and 1 error generated.
 
 
-vim +/read_poll_timeout +283 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+vim +/FIELD_PREP +646 drivers/net/ethernet/intel/igc/igc_main.c
 
-   178	
-   179	/**
-   180	 * axienet_dma_bd_init - Setup buffer descriptor rings for Axi DMA
-   181	 * @ndev:	Pointer to the net_device structure
-   182	 *
-   183	 * Return: 0, on success -ENOMEM, on failure
-   184	 *
-   185	 * This function is called to initialize the Rx and Tx DMA descriptor
-   186	 * rings. This initializes the descriptors with required default values
-   187	 * and is called when Axi Ethernet driver reset is called.
-   188	 */
-   189	static int axienet_dma_bd_init(struct net_device *ndev)
-   190	{
-   191		u32 cr;
-   192		int i;
-   193		struct sk_buff *skb;
-   194		struct axienet_local *lp = netdev_priv(ndev);
-   195	
-   196		/* Reset the indexes which are used for accessing the BDs */
-   197		lp->tx_bd_ci = 0;
-   198		lp->tx_bd_tail = 0;
-   199		lp->rx_bd_ci = 0;
-   200	
-   201		/* Allocate the Tx and Rx buffer descriptors. */
-   202		lp->tx_bd_v = dma_zalloc_coherent(ndev->dev.parent,
-   203						  sizeof(*lp->tx_bd_v) * TX_BD_NUM,
-   204						  &lp->tx_bd_p, GFP_KERNEL);
-   205		if (!lp->tx_bd_v)
-   206			goto out;
-   207	
-   208		lp->rx_bd_v = dma_zalloc_coherent(ndev->dev.parent,
-   209						  sizeof(*lp->rx_bd_v) * RX_BD_NUM,
-   210						  &lp->rx_bd_p, GFP_KERNEL);
-   211		if (!lp->rx_bd_v)
-   212			goto out;
-   213	
-   214		for (i = 0; i < TX_BD_NUM; i++) {
-   215			lp->tx_bd_v[i].next = lp->tx_bd_p +
-   216					      sizeof(*lp->tx_bd_v) *
-   217					      ((i + 1) % TX_BD_NUM);
-   218		}
-   219	
-   220		for (i = 0; i < RX_BD_NUM; i++) {
-   221			lp->rx_bd_v[i].next = lp->rx_bd_p +
-   222					      sizeof(*lp->rx_bd_v) *
-   223					      ((i + 1) % RX_BD_NUM);
-   224	
-   225			skb = netdev_alloc_skb_ip_align(ndev, lp->max_frm_size);
-   226			if (!skb)
-   227				goto out;
-   228	
-   229			lp->rx_bd_v[i].sw_id_offset = (u32) skb;
-   230			lp->rx_bd_v[i].phys = dma_map_single(ndev->dev.parent,
-   231							     skb->data,
-   232							     lp->max_frm_size,
-   233							     DMA_FROM_DEVICE);
-   234			lp->rx_bd_v[i].cntrl = lp->max_frm_size;
-   235		}
-   236	
-   237		/* Start updating the Rx channel control register */
-   238		cr = axienet_dma_in32(lp, XAXIDMA_RX_CR_OFFSET);
-   239		/* Update the interrupt coalesce count */
-   240		cr = ((cr & ~XAXIDMA_COALESCE_MASK) |
-   241		      ((lp->coalesce_count_rx) << XAXIDMA_COALESCE_SHIFT));
-   242		/* Update the delay timer count */
-   243		cr = ((cr & ~XAXIDMA_DELAY_MASK) |
-   244		      (XAXIDMA_DFT_RX_WAITBOUND << XAXIDMA_DELAY_SHIFT));
-   245		/* Enable coalesce, delay timer and error interrupts */
-   246		cr |= XAXIDMA_IRQ_ALL_MASK;
-   247		/* Write to the Rx channel control register */
-   248		axienet_dma_out32(lp, XAXIDMA_RX_CR_OFFSET, cr);
-   249	
-   250		/* Start updating the Tx channel control register */
-   251		cr = axienet_dma_in32(lp, XAXIDMA_TX_CR_OFFSET);
-   252		/* Update the interrupt coalesce count */
-   253		cr = (((cr & ~XAXIDMA_COALESCE_MASK)) |
-   254		      ((lp->coalesce_count_tx) << XAXIDMA_COALESCE_SHIFT));
-   255		/* Update the delay timer count */
-   256		cr = (((cr & ~XAXIDMA_DELAY_MASK)) |
-   257		      (XAXIDMA_DFT_TX_WAITBOUND << XAXIDMA_DELAY_SHIFT));
-   258		/* Enable coalesce, delay timer and error interrupts */
-   259		cr |= XAXIDMA_IRQ_ALL_MASK;
-   260		/* Write to the Tx channel control register */
-   261		axienet_dma_out32(lp, XAXIDMA_TX_CR_OFFSET, cr);
-   262	
-   263		/* Populate the tail pointer and bring the Rx Axi DMA engine out of
-   264		 * halted state. This will make the Rx side ready for reception.
-   265		 */
-   266		axienet_dma_out32(lp, XAXIDMA_RX_CDESC_OFFSET, lp->rx_bd_p);
-   267		cr = axienet_dma_in32(lp, XAXIDMA_RX_CR_OFFSET);
-   268		axienet_dma_out32(lp, XAXIDMA_RX_CR_OFFSET,
-   269				  cr | XAXIDMA_CR_RUNSTOP_MASK);
-   270		axienet_dma_out32(lp, XAXIDMA_RX_TDESC_OFFSET, lp->rx_bd_p +
-   271				  (sizeof(*lp->rx_bd_v) * (RX_BD_NUM - 1)));
-   272	
-   273		/* Write to the RS (Run-stop) bit in the Tx channel control register.
-   274		 * Tx channel is now ready to run. But only after we write to the
-   275		 * tail pointer register that the Tx channel will start transmitting.
-   276		 */
-   277		axienet_dma_out32(lp, XAXIDMA_TX_CDESC_OFFSET, lp->tx_bd_p);
-   278		cr = axienet_dma_in32(lp, XAXIDMA_TX_CR_OFFSET);
-   279		axienet_dma_out32(lp, XAXIDMA_TX_CR_OFFSET,
-   280				  cr | XAXIDMA_CR_RUNSTOP_MASK);
-   281	
-   282		/* Wait for PhyRstCmplt bit to be set, indicating the PHY reset has finished */
- > 283		ret = read_poll_timeout(axienet_ior, value,
-   284					value & XAE_INT_PHYRSTCMPLT_MASK,
-   285					DELAY_OF_ONE_MILLISEC, 50000, false, lp,
-   286					XAE_IS_OFFSET);
-   287		if (ret) {
-   288			dev_err(lp->dev, "%s: timeout waiting for PhyRstCmplt\n", __func__);
-   289			return ret;
-   290		}
-   291	
-   292		return 0;
-   293	out:
-   294		axienet_dma_bd_release(ndev);
-   295		return -ENOMEM;
-   296	}
-   297	
+   583	
+   584	/**
+   585	 * igc_configure_rx_ring - Configure a receive ring after Reset
+   586	 * @adapter: board private structure
+   587	 * @ring: receive ring to be configured
+   588	 *
+   589	 * Configure the Rx unit of the MAC after a reset.
+   590	 */
+   591	static void igc_configure_rx_ring(struct igc_adapter *adapter,
+   592					  struct igc_ring *ring)
+   593	{
+   594		struct igc_hw *hw = &adapter->hw;
+   595		union igc_adv_rx_desc *rx_desc;
+   596		int reg_idx = ring->reg_idx;
+   597		u32 srrctl = 0, rxdctl = 0;
+   598		u64 rdba = ring->dma;
+   599		u32 buf_size;
+   600	
+   601		xdp_rxq_info_unreg_mem_model(&ring->xdp_rxq);
+   602		ring->xsk_pool = igc_get_xsk_pool(adapter, ring);
+   603		if (ring->xsk_pool) {
+   604			WARN_ON(xdp_rxq_info_reg_mem_model(&ring->xdp_rxq,
+   605							   MEM_TYPE_XSK_BUFF_POOL,
+   606							   NULL));
+   607			xsk_pool_set_rxq_info(ring->xsk_pool, &ring->xdp_rxq);
+   608		} else {
+   609			WARN_ON(xdp_rxq_info_reg_mem_model(&ring->xdp_rxq,
+   610							   MEM_TYPE_PAGE_SHARED,
+   611							   NULL));
+   612		}
+   613	
+   614		if (igc_xdp_is_enabled(adapter))
+   615			set_ring_uses_large_buffer(ring);
+   616	
+   617		/* disable the queue */
+   618		wr32(IGC_RXDCTL(reg_idx), 0);
+   619	
+   620		/* Set DMA base address registers */
+   621		wr32(IGC_RDBAL(reg_idx),
+   622		     rdba & 0x00000000ffffffffULL);
+   623		wr32(IGC_RDBAH(reg_idx), rdba >> 32);
+   624		wr32(IGC_RDLEN(reg_idx),
+   625		     ring->count * sizeof(union igc_adv_rx_desc));
+   626	
+   627		/* initialize head and tail */
+   628		ring->tail = adapter->io_addr + IGC_RDT(reg_idx);
+   629		wr32(IGC_RDH(reg_idx), 0);
+   630		writel(0, ring->tail);
+   631	
+   632		/* reset next-to- use/clean to place SW in sync with hardware */
+   633		ring->next_to_clean = 0;
+   634		ring->next_to_use = 0;
+   635	
+   636		if (ring->xsk_pool)
+   637			buf_size = xsk_pool_get_rx_frame_size(ring->xsk_pool);
+   638		else if (ring_uses_large_buffer(ring))
+   639			buf_size = IGC_RXBUFFER_3072;
+   640		else
+   641			buf_size = IGC_RXBUFFER_2048;
+   642	
+   643		srrctl = rd32(IGC_SRRCTL(reg_idx));
+   644		srrctl &= ~(IGC_SRRCTL_BSIZEPKT_MASK | IGC_SRRCTL_BSIZEHDR_MASK |
+   645			    IGC_SRRCTL_DESCTYPE_MASK);
+ > 646		srrctl |= IGC_SRRCTL_BSIZEHDR(IGC_RX_HDR_LEN);
+   647		srrctl |= IGC_SRRCTL_BSIZEPKT(buf_size);
+   648		srrctl |= IGC_SRRCTL_DESCTYPE_ADV_ONEBUF;
+   649	
+   650		wr32(IGC_SRRCTL(reg_idx), srrctl);
+   651	
+   652		rxdctl |= IGC_RX_PTHRESH;
+   653		rxdctl |= IGC_RX_HTHRESH << 8;
+   654		rxdctl |= IGC_RX_WTHRESH << 16;
+   655	
+   656		/* initialize rx_buffer_info */
+   657		memset(ring->rx_buffer_info, 0,
+   658		       sizeof(struct igc_rx_buffer) * ring->count);
+   659	
+   660		/* initialize Rx descriptor 0 */
+   661		rx_desc = IGC_RX_DESC(ring, 0);
+   662		rx_desc->wb.upper.length = 0;
+   663	
+   664		/* enable receive descriptor fetching */
+   665		rxdctl |= IGC_RXDCTL_QUEUE_ENABLE;
+   666	
+   667		wr32(IGC_RXDCTL(reg_idx), rxdctl);
+   668	}
+   669	
 
 -- 
 0-DAY CI Kernel Test Service
