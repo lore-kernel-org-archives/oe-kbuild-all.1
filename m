@@ -1,42 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4521360
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 May 2023 01:20:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA611365
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 May 2023 02:12:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683336045; x=1714872045;
+  t=1683339156; x=1714875156;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4xrnEffoW9jyJImlPMmc8tAj9Bas6hf+Rf3FZaw6D1U=;
-  b=Rah+WazlZVWKwFFZ40BkJEg20klJOOqaEArWOQOAKeylJeuYTD/lpWOZ
-   7yUEov7Hc8YGeSBdg0+Ebhpt9gnJv35nETPoGhMIAde4wSw6pe+vLfyUn
-   DsoQcNNDvoWL5CBps2n9xqzd/fmaeAJ1aVHC0mJ9ItaS+fu2MSppKSJdy
-   NzwrRqYvmnilQr4Xiw/PJYNlEZMvQjIXMZ7idGAlE3RPl6JY7rUPwhlzD
-   zbgN0Nsd1eEOtBnZ0wtTeLGg+5dqWcI03SSAE6Zpg8Uy+xz/DKZSHI4eu
-   KC3Ehbq7LhipKvFFC4SxUv/7ezBLBDxJu7H/ttH1EWqBu19gqzCUbuGlh
+  bh=ABrthTnLoueMtmGiidF64a2pvhf9LmjgeABn6yXIBLg=;
+  b=H8O77YD+OgJ0PhEDCc8x2D7KEReMYQIA0GOB8bopx7cWycRbb3jAZFUW
+   ulIzeEQBUaSdKDFtc0fdOXPhcwZiRZCOZPZk4qRn2BAh+AdHorTFINQUK
+   wM3+whnpQ+mdbP+Rx/FlVQjCwbGNNY96Is+y3J8CnFdetOiyH5AHOM4yr
+   KDSlkTVC1BtxON9impoHOH3DkNbi3sbx6rEAe6/LcR8sEu3RWWB8R/j50
+   VhAgTpL4a+vR7trng9jGEs9Oepx9e8lKtiBE8YSrzidp3LYbog735wovY
+   /NGOVrgKuWsaPwHZ0PDMAyLG9aBPwEIeVE42z+0KqW3gb85cz7QPP8SRd
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="333758958"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="348157227"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="333758958"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 18:20:34 -0700
+   d="scan'208";a="348157227"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 19:12:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="787355722"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="1027730906"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="787355722"
+   d="scan'208";a="1027730906"
 Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 May 2023 18:20:33 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 05 May 2023 19:12:34 -0700
 Received: from kbuild by fe5d646e317d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pv6bA-000113-2S;
-	Sat, 06 May 2023 01:20:32 +0000
-Date: Sat, 6 May 2023 09:19:41 +0800
+	id 1pv7PW-00013h-06;
+	Sat, 06 May 2023 02:12:34 +0000
+Date: Sat, 6 May 2023 10:12:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-6.3 497/556] arch/s390/boot/vmem.c:97:21:
- error: 'POPULATE_DIRECT' undeclared; did you mean 'POPULATE_NONE'?
-Message-ID: <202305060913.WnlDOhvZ-lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Paul E. McKenney" <paulmck@kernel.org>
+Subject: [paulmck-rcu:dev.2023.05.05a 47/72] arch/csky/kernel/smp.c:320:1:
+ warning: 'noreturn' function does return
+Message-ID: <202305061006.icKxQPqN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,69 +47,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.3
-head:   4f53c7bbb97078231aab5a084977405ef5d4030a
-commit: 2b562616da5a50b1be53f7b40b517be83147b1d0 [497/556] s390/mm: fix direct map accounting
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230506/202305060913.WnlDOhvZ-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev.2023.05.05a
+head:   e217254079020832da33e19179438f4f5dcf81c8
+commit: fb27834418c972c982320994dc42a29cca6df154 [47/72] objtool: Fix for unreachable instruction warning
+config: csky-randconfig-r001-20230505 (https://download.01.org/0day-ci/archive/20230506/202305061006.icKxQPqN-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=2b562616da5a50b1be53f7b40b517be83147b1d0
-        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-6.3
-        git checkout 2b562616da5a50b1be53f7b40b517be83147b1d0
+        # https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?id=fb27834418c972c982320994dc42a29cca6df154
+        git remote add paulmck-rcu https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
+        git fetch --no-tags paulmck-rcu dev.2023.05.05a
+        git checkout fb27834418c972c982320994dc42a29cca6df154
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash arch/csky/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305060913.WnlDOhvZ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305061006.icKxQPqN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/s390/boot/vmem.c: In function 'pgtable_pte_populate':
->> arch/s390/boot/vmem.c:97:21: error: 'POPULATE_DIRECT' undeclared (first use in this function); did you mean 'POPULATE_NONE'?
-      97 |         if (mode == POPULATE_DIRECT)
-         |                     ^~~~~~~~~~~~~~~
-         |                     POPULATE_NONE
-   arch/s390/boot/vmem.c:97:21: note: each undeclared identifier is reported only once for each function it appears in
-   arch/s390/boot/vmem.c: In function 'pgtable_pmd_populate':
-   arch/s390/boot/vmem.c:126:21: error: 'POPULATE_DIRECT' undeclared (first use in this function); did you mean 'POPULATE_NONE'?
-     126 |         if (mode == POPULATE_DIRECT)
-         |                     ^~~~~~~~~~~~~~~
-         |                     POPULATE_NONE
-   arch/s390/boot/vmem.c: In function 'pgtable_pud_populate':
-   arch/s390/boot/vmem.c:155:21: error: 'POPULATE_DIRECT' undeclared (first use in this function); did you mean 'POPULATE_NONE'?
-     155 |         if (mode == POPULATE_DIRECT)
-         |                     ^~~~~~~~~~~~~~~
-         |                     POPULATE_NONE
+   arch/csky/kernel/smp.c:246:6: warning: no previous prototype for 'csky_start_secondary' [-Wmissing-prototypes]
+     246 | void csky_start_secondary(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/csky/kernel/smp.c: In function 'arch_cpu_idle_dead':
+>> arch/csky/kernel/smp.c:320:1: warning: 'noreturn' function does return
+     320 | }
+         | ^
 
 
-vim +97 arch/s390/boot/vmem.c
+vim +/noreturn +320 arch/csky/kernel/smp.c
 
-    81	
-    82	static void pgtable_pte_populate(pmd_t *pmd, unsigned long addr, unsigned long end,
-    83					 enum populate_mode mode)
-    84	{
-    85		unsigned long pages = 0;
-    86		pte_t *pte, entry;
-    87	
-    88		pte = pte_offset_kernel(pmd, addr);
-    89		for (; addr < end; addr += PAGE_SIZE, pte++) {
-    90			if (pte_none(*pte)) {
-    91				entry = __pte(_pa(addr, mode));
-    92				entry = set_pte_bit(entry, PAGE_KERNEL_EXEC);
-    93				set_pte(pte, entry);
-    94				pages++;
-    95			}
-    96		}
-  > 97		if (mode == POPULATE_DIRECT)
-    98			update_page_count(PG_DIRECT_MAP_4K, pages);
-    99	}
-   100	
+859e5f45cbb33f Guo Ren        2018-12-19  302  
+859e5f45cbb33f Guo Ren        2018-12-19  303  void arch_cpu_idle_dead(void)
+859e5f45cbb33f Guo Ren        2018-12-19  304  {
+859e5f45cbb33f Guo Ren        2018-12-19  305  	idle_task_exit();
+859e5f45cbb33f Guo Ren        2018-12-19  306  
+859e5f45cbb33f Guo Ren        2018-12-19  307  	cpu_report_death();
+859e5f45cbb33f Guo Ren        2018-12-19  308  
+859e5f45cbb33f Guo Ren        2018-12-19  309  	while (!secondary_stack)
+859e5f45cbb33f Guo Ren        2018-12-19  310  		arch_cpu_idle();
+859e5f45cbb33f Guo Ren        2018-12-19  311  
+89b3098703bd2a Peter Zijlstra 2023-01-12  312  	raw_local_irq_disable();
+859e5f45cbb33f Guo Ren        2018-12-19  313  
+859e5f45cbb33f Guo Ren        2018-12-19  314  	asm volatile(
+859e5f45cbb33f Guo Ren        2018-12-19  315  		"mov	sp, %0\n"
+859e5f45cbb33f Guo Ren        2018-12-19  316  		"mov	r8, %0\n"
+859e5f45cbb33f Guo Ren        2018-12-19  317  		"jmpi	csky_start_secondary"
+859e5f45cbb33f Guo Ren        2018-12-19  318  		:
+859e5f45cbb33f Guo Ren        2018-12-19  319  		: "r" (secondary_stack));
+859e5f45cbb33f Guo Ren        2018-12-19 @320  }
+
+:::::: The code at line 320 was first introduced by commit
+:::::: 859e5f45cbb33fe5d591a8e429667f0b7d4f4be8 csky: CPU-hotplug supported for SMP
+
+:::::: TO: Guo Ren <ren_guo@c-sky.com>
+:::::: CC: Guo Ren <ren_guo@c-sky.com>
 
 -- 
 0-DAY CI Kernel Test Service
