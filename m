@@ -1,103 +1,62 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C062566;
-	Sat,  6 May 2023 19:44:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683402265; x=1714938265;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k6dpgsUDtmeOHkKZAVjmplptRtdE0YW6bOGtqRj/IxU=;
-  b=ivG6J9dVVQVxXQs8WbI4VC44NRcrjdlroYKwi+y79mRNNgmtp9EZxZFX
-   ycjDqkE3KH4LZV38HdqaR4aFWoNWwEarhIud2adkCeigoyUuSF1nCnytn
-   UO9fpVm3CqX0/PKOuX15WBbqXj1plVXSYSVWnGScYs5Dx0kdjbUu9kCt3
-   C7YFmiY8fn2yqTprrguzj9m9JhdyhaPY/WpHjlRudQ0YITcB5TFpX+db/
-   AYCwsPWOsSkM03DD9eqGxXeaKZ56SUiWz41TOVT6YaqigGY7zS54iLpXa
-   gae0c09e2O+4yVNbw/0cfnSfdFuakIrviGcLiLYKrP6Dh7EqhvoANn5F7
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="351565949"
-X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="351565949"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 12:44:24 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="944343274"
-X-IronPort-AV: E=Sophos;i="5.99,255,1677571200"; 
-   d="scan'208";a="944343274"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 06 May 2023 12:44:23 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pvNpO-0000Sr-1O;
-	Sat, 06 May 2023 19:44:22 +0000
-Date: Sun, 7 May 2023 03:43:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ben Hutchings <bwh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Salvatore Bonaccorso <carnil@debian.org>
-Subject: [stable:linux-5.4.y 691/8186] ld.lld: error:
- drivers/usb/common/debug.o: contains a compressed section, but zlib is not
- available
-Message-ID: <202305070315.ZDRcUF3G-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9146210C;
+	Sat,  6 May 2023 20:35:46 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-6435bbedb4fso3443868b3a.3;
+        Sat, 06 May 2023 13:35:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683405346; x=1685997346;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ePf+V2r15a9+U18c5r7fdtX14NzXyo2pzCcvu9zcVLE=;
+        b=bp5k6g01m9IDlDucoCTae0sK8IV6VORVSKXs40sNfOUekK+2gpxoKWI1bee1DuiyQi
+         OD6oXllE7JFM327pV62Rb+DccPXLi9vfZloEIXzwLEYTU0e0gqT/Un5T/kt78IK/N/L7
+         hwKaUuI5qdnayRYS/zonfQckhCE3UnZ8aONDoiqSY9oxPvvRc9fBzVRwPBJyVIsi8E1t
+         M/gQDSHT5m09/fBOYA6oG1qMjoflH6hjbRuP0i5t07EkCYpV+NAtDt98Jc3J1ezTa+wG
+         zVLfYyxdKXe9iB641MLN2M9jMT8Vm0WH4iozTmtrNfjhdbWtyXFKsCeBHRmTbPpEC1F/
+         s+EA==
+X-Gm-Message-State: AC+VfDxzWKa4b7kWcM/WH5kN8M44vqcuejcdRJptp6mfAatvsWJMJ+Py
+	wFLPuDYUNlHPQeMwuKqOBoc=
+X-Google-Smtp-Source: ACHHUZ5R4Z5jtbumWsIRm3yITqvoOsJEZ8hcXQTqQFDgh8DYBZvvU9/lY+UgRfTnpV/C3qia+eB6Ew==
+X-Received: by 2002:a05:6a21:100e:b0:f5:7035:9a05 with SMTP id nk14-20020a056a21100e00b000f570359a05mr6321313pzb.29.1683405345773;
+        Sat, 06 May 2023 13:35:45 -0700 (PDT)
+Received: from [192.168.3.219] ([98.51.102.78])
+        by smtp.gmail.com with ESMTPSA id y25-20020a62b519000000b00643a5f3ef45sm3081327pfe.199.2023.05.06.13.35.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 06 May 2023 13:35:45 -0700 (PDT)
+Message-ID: <e66ed1da-4bf6-e098-1f00-b0f35add2a9a@acm.org>
+Date: Sat, 6 May 2023 13:35:44 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [bvanassche:mq-deadline 8/11] block/mq-deadline.c:785:43: error:
+ incompatible pointer types passing 'struct list_head **' to parameter of type
+ 'struct list_head *'; remove &
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+References: <202305061437.7YgxVCFa-lkp@intel.com>
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <202305061437.7YgxVCFa-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Ben,
+On 5/5/23 23:21, kernel test robot wrote:
+>>> block/mq-deadline.c:785:43: error: incompatible pointer types passing 'struct list_head **' to parameter of type 'struct list_head *'; remove & [-Werror,-Wincompatible-pointer-types]
+>             if (blk_mq_sched_try_insert_merge(q, rq, &free))
+>                                                      ^~~~~
+>     block/blk-mq-sched.h:15:26: note: passing argument to parameter 'free' here
+>                                        struct list_head *free);
+>                                                          ^
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+A tested fix has been uploaded to my github repository.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.4.y
-head:   ea7862c507eca54ea6caad9dcfc8bba5e749fbde
-commit: 7c2392f03f3b3644482383d65a834f05225dc400 [691/8186] Partially revert "usb: Kconfig: using select for USB_COMMON dependency"
-config: x86_64-randconfig-r026-20230501 (https://download.01.org/0day-ci/archive/20230507/202305070315.ZDRcUF3G-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=7c2392f03f3b3644482383d65a834f05225dc400
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.4.y
-        git checkout 7c2392f03f3b3644482383d65a834f05225dc400
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/usb/
+Bart.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305070315.ZDRcUF3G-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
-   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
-   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
-   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
-   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
-   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
-   ld.lld: error: drivers/usb/common/common.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
->> ld.lld: error: drivers/usb/common/debug.o: contains a compressed section, but zlib is not available
-   ld.lld: error: drivers/usb/common/led.o: contains a compressed section, but zlib is not available
-   ld.lld: error: drivers/usb/common/led.o: contains a compressed section, but zlib is not available
-   ld.lld: error: drivers/usb/common/led.o: contains a compressed section, but zlib is not available
-   ld.lld: error: drivers/usb/common/led.o: contains a compressed section, but zlib is not available
-   ld.lld: error: drivers/usb/common/led.o: contains a compressed section, but zlib is not available
-   ld.lld: error: drivers/usb/common/led.o: contains a compressed section, but zlib is not available
-   ld.lld: error: too many errors emitted, stopping now (use -error-limit=0 to see all errors)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
