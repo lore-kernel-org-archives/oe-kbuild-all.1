@@ -1,220 +1,412 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D187C;
-	Sat,  6 May 2023 08:57:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D4397C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 May 2023 09:07:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683363439; x=1714899439;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=3sbi0eAi0gQ09FFkHo1xDfJJ518n8uVglG5zcobbpU4=;
-  b=RcQZfp9AyGufY8osQBtYHloD1Rh1mvLywmPa0tFDNF4xZU4mLrNEYsFc
-   9ZpEBltjQg3vyvo9Jj+Gy4vf9b3AM1NrA0tpoDv4/bQvhfLVEFVNj8h5H
-   xlPIcNmT7BbxkwlNsdv3awyHKFTGMn6Ziu3xZpTmiRAp2ip+Y2qiKzLCh
-   lUABwFdh1lkmQx+Ex0ClLry2c/qh2ER3fTflQ1gidQ2IzOtVUErrGH8lH
-   brDPx9vdoN22V/6ud3YULtaewOoin0EeRbNdwHIYDWDEm8uW2G0DncRii
-   9bFQXMKWxHu5Nq/YhAYP3QNC6BY8SyMm8I8Ti+o96yzLwPhCriIYrHhuV
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="377445124"
+  t=1683364030; x=1714900030;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8+oIO6fQ/nBfNdlq7/yzwpbvfmZaldp64a20/OBklgM=;
+  b=eJkvvpKEx5P/8b4ocXCLMnhPzmiy/LbufHOLMpQafyFH2TbSTYj5zIt5
+   y6IfFDyIdWCHKffsUxn1WhUA2Vxhd8tq9xlhNpbgfH4MOBFd+KEVwL1fs
+   jqKFt+9GGAg5G6IYf9ft0SSAzoDpf5o6uRAnIdEPDRkj0ky1yyLopwFei
+   qVXsmv/Xe6rmvIn0gFyFHBzHdCoyzoVUwOrwO2PiArJfqvwf2RpeYBx1W
+   1/YeU0zf6zIAzDhlQlTrW/IgL1lCegiqLTa3TcdunVw5tgP6r/FGJ/v8s
+   1IqxlG8YV3AZCgAteqYYmmAbo1ufSDVmQacvL43gITPC+dyFnoFkdfWd8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="329719468"
 X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
-   d="scan'208";a="377445124"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 01:57:18 -0700
+   d="scan'208";a="329719468"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 02:07:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="944214614"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="809576570"
 X-IronPort-AV: E=Sophos;i="5.99,254,1677571200"; 
-   d="scan'208";a="944214614"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmsmga006.fm.intel.com with ESMTP; 06 May 2023 01:57:18 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Sat, 6 May 2023 01:57:18 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Sat, 6 May 2023 01:57:18 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.108)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Sat, 6 May 2023 01:57:18 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FExa5gawANRfgeREEi0HDihO97/oYEx8IZjc65nPxAjFufQ3ElWd/g1UtTU3RTuoVxVHKH5hRz7v74T0y7NfKXyGBFKuPwD9LSvTcoK4JCkKH2seez9UpZCYNQyvLyfHEBk6KL9tRpNcY7W1/VIJq7T5yBvyBcZtb/SSbpe96YqnusToO7ZJo+BjI6aCGgN76tAcef6gxeR/vELCH2hK1nGHEJ0PFPVv0oQq1zxDnUx4I69ImMwpnbveAwnmL860f+Vyy5VMjF6bLod9Tz7wyhcJkrRuPjL8GPwHvO73h8eHjvXrqg6vUvmfIFxGMWgYNbnt2W95tcsu1y/v6S0Kyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MZcjDStAKRL4G1f8T16BnJGD71ftHQFKVcVbe/j5CnI=;
- b=E5WX6WZ/J8FWpj6McLRVFThRf1oqho9MgJ21d80bJuHMv1ySCthB6ZwVN7FJisTBantCcFayIMS4InslmoyfbfkyTbnuubnUol5pwamESroqMPN+bPnITtONAYGg/H9KUe7uBJX4VuqtdzkOc3Z7RkZIWvF7F+WptFT7mw5Yt6OWp5xQ5sbqBCIAfqr1D2tb6+YG9cao+NCVpsbVgymfhKYuMgRtpi1eqT0SEEwdPpl9V5im7PrSpR9POrXR8unA7jqpcQWdUe4n0Ezj2QVvF0AvLsMEKQmmKi5T3cRLvb/h/nstRGpxvTOXoN7n/hYnfQNYwDI+1+UfH+uv7kLQVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CH3PR11MB7345.namprd11.prod.outlook.com (2603:10b6:610:14a::9)
- by DS0PR11MB7632.namprd11.prod.outlook.com (2603:10b6:8:14f::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6363.26; Sat, 6 May
- 2023 08:57:15 +0000
-Received: from CH3PR11MB7345.namprd11.prod.outlook.com
- ([fe80::242e:f580:7242:f039]) by CH3PR11MB7345.namprd11.prod.outlook.com
- ([fe80::242e:f580:7242:f039%5]) with mapi id 15.20.6363.029; Sat, 6 May 2023
- 08:57:15 +0000
-From: "Zhang, Cathy" <cathy.zhang@intel.com>
-To: lkp <lkp@intel.com>, "edumazet@google.com" <edumazet@google.com>,
-	"davem@davemloft.net" <davem@davemloft.net>, "kuba@kernel.org"
-	<kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>
-CC: "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "Brandeburg,
- Jesse" <jesse.brandeburg@intel.com>, "Srinivas, Suresh"
-	<suresh.srinivas@intel.com>, "Chen, Tim C" <tim.c.chen@intel.com>, "You,
- Lizhen" <lizhen.you@intel.com>, "eric.dumazet@gmail.com"
-	<eric.dumazet@gmail.com>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-Subject: RE: [PATCH 2/2] net: Add sysctl_reclaim_threshold
-Thread-Topic: [PATCH 2/2] net: Add sysctl_reclaim_threshold
-Thread-Index: AQHZf9Nvy10ziUezSEi5MxYtTo52SK9M4tgAgAAOSIA=
-Date: Sat, 6 May 2023 08:57:13 +0000
-Message-ID: <CH3PR11MB73452A7E39E98D78433DC58CFC739@CH3PR11MB7345.namprd11.prod.outlook.com>
-References: <20230506042958.15051-3-cathy.zhang@intel.com>
- <202305061521.bAXb1ha9-lkp@intel.com>
-In-Reply-To: <202305061521.bAXb1ha9-lkp@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CH3PR11MB7345:EE_|DS0PR11MB7632:EE_
-x-ms-office365-filtering-correlation-id: 4f2e7e19-26f6-4a0d-af4b-08db4e0fe2da
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2ZjumqFvsunqf43RYPzWP8x10CF1QuleQLsR/PebiwaXBQ+3dlw3NoidYhPlpFOybXvrHz7tVoe4MIKiiC/0WnmiJDo2eVkKDBjWq8kxBndscG5sFnmepiobd+8c4ZYDSnuFUyr2pRMbs5cyT0nXxbRIatNMJQ7zA8IZWjbEok35KFEZyBkApxms9TW75ha/BI5ZOWX7UZ0kdrHF61Dv7+MZOvyWNQeAipArLTWWUEQ5i5bXaP5WCLTFt8cD4enB/1sm8pnW6xWShgwSowcONES9AG2ZTUiuPWc3+MhAe5kiQZLxR0XLz8/gh1qq/rq8E0a5Jm5eI+ANTuhwsWEru5/pj4em+jmhmwn+sWFiJ/dRkXjXQH/OCKGX7tzqgYKGFHPEP+oXE8yLmgrmbiUTvPrCtGiD0Bxj1R9NM/cU3XwFVJN6iclno6+5iecap9VsbaeGkWg05oTdsEWMe4imLCgcpHMbocHy4Fb2R6HDP7Boy+B48qts6Y71K9l8agIhYvJE3xZi8jOdd7ZAyiVxcPM6XLWCqSNDm2trez293ayNDx1fFLnJBWAshFi5VMMT0sWIZLwQd6rH+o4W19Gb5RkWQ/GDTjaGoWvujuXpgrJQERDViyce2XzxlRLaBDMD3khIz19oFeLHGDv1genL9Q==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB7345.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(136003)(346002)(366004)(376002)(39860400002)(396003)(451199021)(316002)(33656002)(41300700001)(2906002)(186003)(71200400001)(53546011)(86362001)(110136005)(6506007)(7696005)(66446008)(64756008)(83380400001)(9686003)(76116006)(66476007)(66946007)(66556008)(4326008)(38070700005)(54906003)(55016003)(122000001)(82960400001)(52536014)(8676002)(5660300002)(478600001)(966005)(38100700002)(8936002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?u1IrXxQ0Rcjx5EIlMwaRxZdcexgTKqnvXWaWjiMArcye2ohoBC1YwQm6mGRV?=
- =?us-ascii?Q?/wX9USTJ2VUhzRjUhACsiA/IuJHrgCAKzRN7MPsl0TAwwYCpVTMo+HbIb75y?=
- =?us-ascii?Q?xxzzSus1olRh16aoJHR4oxoCG6U7kEcUj7AdUcXFud3blz+mvLbbRDJ5zB1C?=
- =?us-ascii?Q?nTBXpsR595VdDe/T9Zq45QHtoZoAkGSY3QBBcjtQknt7t2OhCe7CzJkcY5K3?=
- =?us-ascii?Q?98D0clp8KQPqcU3DGOno99N8n+NeaAPl92bLgemQo9XJX/DnJ4HEXEVHl4+t?=
- =?us-ascii?Q?+0ZR07CzgUieFC6y+yVkobTp3Jk4UgTSWVlmuAfOLDIFfHZzm6X4f2rQRGlR?=
- =?us-ascii?Q?2+uGL1G5ecZ+OKLzjhu1NGNFrh4ff2mbeFxXGsB76bjUMQ0Oi+uWI1OglEiJ?=
- =?us-ascii?Q?85OMx5FQ2ThYoHZY/DueHnWx5lwvt/tZFVPD0RWceFC1+knhu9REkCdLLQR+?=
- =?us-ascii?Q?xQM1WHq/jLjR2Pgwmee8FkuBGRDmXH+yd4wjX4w0cULiTioSe7GpIsBamymy?=
- =?us-ascii?Q?8vkNEAzFYo8umdLRlfpWYXVBSuAj4IH1KdiPBECyFBw3qZJVRURsTbscbL+0?=
- =?us-ascii?Q?sV8pmNnuAdDikGwLvJ/diWwXJsv44+Ndle+x7YApK4aXSiYtZAnZDpYZo+21?=
- =?us-ascii?Q?ovnjCKGKh2RrcPkua2MJe4+FZShxoY1QTQFDCpieYBoKSb4wkZBFf2lI+Uy/?=
- =?us-ascii?Q?ufg/7ksEsvvM7a62k0O9eS5RGvJU/NOqlmbMWHB7IHAmG30MhU8f1cnrZ/qK?=
- =?us-ascii?Q?bZBIQemNAbn3GcfoB+P555k9/1NL94S/cB73+P3xMaEdCVcLDcoXTjVqGYhA?=
- =?us-ascii?Q?8yBU+hWHtMt5dlQjBUggjQXKuBo+FJt97h4+jPyFWCwp29UqaYlIIxcMfNo1?=
- =?us-ascii?Q?kN0Tznxn0wQa/hcW0idVkgI81D6UgheZvP217k7s0206ipvNzcBVd9G6lFEx?=
- =?us-ascii?Q?jzO+8d4yyb1hLGa2OPTa9krB5chp553gDcosCQ8Wjb4eiQwV5zxQQg5BRs95?=
- =?us-ascii?Q?bVB15aD35KcevI1KNOpmQ4sTAlb77sWmMOLxcl203BBW04Hwan/tPJsulZXs?=
- =?us-ascii?Q?vqohO/K/90j0c59Hud20+yovCBduwVyzkjXvsvK3q50U6YCRYmhptoBATW5o?=
- =?us-ascii?Q?ZagwJFDz8Wv3J6VcvI6ZLW4y/X4Bve5LZvnSrz5elCbIAoWayReRX4Bx2SW6?=
- =?us-ascii?Q?Qu4BH6nqzRcWWsT9A8yCtApSe1bsZuDV2fm/lZqQQj/ffl0vgEuQiraJtBhb?=
- =?us-ascii?Q?qgCkFPCMBJaa51TFsqSlaY80b/3lHU2yU7TA1Ozni6KVPLbDa2E7mo83zZEt?=
- =?us-ascii?Q?E7aNCGGMUTAyQ4n4sesRN0VQjGCVdeabCaxOYIyPb0JUU+X8C7IbD+jcbzds?=
- =?us-ascii?Q?BBLcw34FVJn3ETV6C4Ciw9bKVVCF9e4PLc+BUHQ/tdqs2DPEzZAfneC3AtUo?=
- =?us-ascii?Q?rpTpAJ80W1FjV6/Hmd/fpiN1J/k9oHWXp6/h2/hd+wti0geDwUgQzY30uDsf?=
- =?us-ascii?Q?0Ur/NIY5vmN+vp6tHLHpi4B6tvANcp8mdkZZgTXvv8DZE95IbaszHEQ4f1j8?=
- =?us-ascii?Q?6fhLA20F4nuz9pu402Y=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="809576570"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 06 May 2023 02:07:07 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pvDsg-00005M-1z;
+	Sat, 06 May 2023 09:07:06 +0000
+Date: Sat, 6 May 2023 17:06:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jonathan McDowell <noodles@earth.li>
+Cc: oe-kbuild-all@lists.linux.dev, Sasha Levin <sashal@kernel.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [linux-stable-rc:queue/5.4 24/26]
+ drivers/crypto/inside-secure/safexcel.c:1539:34: error: 'struct
+ safexcel_ring' has no member named 'irq'
+Message-ID: <202305061703.GB2pRO8x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB7345.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f2e7e19-26f6-4a0d-af4b-08db4e0fe2da
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2023 08:57:14.0204
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IUunj7TH2HYJIDsvTHmmBuLCtVhQreApIZoa8fisImGcGkScVn9vNmjr2BcO2yYD0W6suC5mBOUfIhQsajoVRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7632
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Yep, the patch is wrongly applied to tip git, sorry for that! Let me rebase=
- it to net git and re-send then.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/5.4
+head:   7e4ab664280ce88c69fad5875e49d02c7c4cf810
+commit: 6869200e5a4b96195cf90fe5ace37016197ef714 [24/26] crypto: safexcel - Cleanup ring IRQ workqueues on load failure
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230506/202305061703.GB2pRO8x-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=6869200e5a4b96195cf90fe5ace37016197ef714
+        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
+        git fetch --no-tags linux-stable-rc queue/5.4
+        git checkout 6869200e5a4b96195cf90fe5ace37016197ef714
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/crypto/inside-secure/
 
-> -----Original Message-----
-> From: lkp <lkp@intel.com>
-> Sent: Saturday, May 6, 2023 4:04 PM
-> To: Zhang, Cathy <cathy.zhang@intel.com>; edumazet@google.com;
-> davem@davemloft.net; kuba@kernel.org; pabeni@redhat.com
-> Cc: llvm@lists.linux.dev; oe-kbuild-all@lists.linux.dev; Brandeburg, Jess=
-e
-> <jesse.brandeburg@intel.com>; Srinivas, Suresh
-> <suresh.srinivas@intel.com>; Chen, Tim C <tim.c.chen@intel.com>; You,
-> Lizhen <lizhen.you@intel.com>; Zhang, Cathy <cathy.zhang@intel.com>;
-> eric.dumazet@gmail.com; netdev@vger.kernel.org
-> Subject: Re: [PATCH 2/2] net: Add sysctl_reclaim_threshold
->=20
-> Hi Cathy,
->=20
-> kernel test robot noticed the following build errors:
->=20
-> [auto build test ERROR on net-next/main] [also build test ERROR on net/ma=
-in
-> horms-ipvs/master linus/master v6.3 next-20230505] [If your patch is
-> applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Cathy-Zhang/net-Ke=
-ep-
-> sk-sk_forward_alloc-as-a-proper-size/20230506-123121
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20230506042958.15051-3-
-> cathy.zhang%40intel.com
-> patch subject: [PATCH 2/2] net: Add sysctl_reclaim_threshold
-> config: mips-randconfig-r033-20230430 (https://download.01.org/0day-
-> ci/archive/20230506/202305061521.bAXb1ha9-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project
-> b0fb98227c90adf2536c9ad644a74d5e92961111)
-> reproduce (this is a W=3D1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-
-> tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install mips cross compiling tool for clang build
->         # apt-get install binutils-mips-linux-gnu
->         # https://github.com/intel-lab-
-> lkp/linux/commit/24beb0b9f6d299a34b853699e5bcaa28a74cad5f
->         git remote add linux-review https://github.com/intel-lab-lkp/linu=
-x
->         git fetch --no-tags linux-review Cathy-Zhang/net-Keep-sk-
-> sk_forward_alloc-as-a-proper-size/20230506-123121
->         git checkout 24beb0b9f6d299a34b853699e5bcaa28a74cad5f
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross
-> W=3D1 O=3Dbuild_dir ARCH=3Dmips olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross
-> W=3D1 O=3Dbuild_dir ARCH=3Dmips SHELL=3D/bin/bash
->=20
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link:
-> | https://lore.kernel.org/oe-kbuild-all/202305061521.bAXb1ha9-lkp@intel.
-> | com/
->=20
-> All errors (new ones prefixed by >>):
->=20
-> >> ld.lld: error: undefined symbol: sysctl_reclaim_threshold
->    >>> referenced by sock.c
->    >>>               net/core/sock.o:(sock_rfree) in archive vmlinux.a
->    >>> referenced by sock.c
->    >>>               net/core/sock.o:(sock_rfree) in archive vmlinux.a
->    >>> referenced by filter.c
->    >>>               net/core/filter.o:(bpf_msg_pop_data) in archive vmli=
-nux.a
->    >>> referenced 15 more times
->=20
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305061703.GB2pRO8x-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/m68k/include/asm/io_mm.h:25,
+                    from arch/m68k/include/asm/io.h:8,
+                    from include/linux/scatterlist.h:9,
+                    from include/linux/dma-mapping.h:11,
+                    from drivers/crypto/inside-secure/safexcel.c:10:
+   arch/m68k/include/asm/raw_io.h: In function 'raw_rom_outsb':
+   arch/m68k/include/asm/raw_io.h:83:14: warning: variable '__w' set but not used [-Wunused-but-set-variable]
+      83 |         ({u8 __w, __v = (b);  u32 _addr = ((u32) (addr)); \
+         |              ^~~
+   arch/m68k/include/asm/raw_io.h:430:17: note: in expansion of macro 'rom_out_8'
+     430 |                 rom_out_8(port, *buf++);
+         |                 ^~~~~~~~~
+   arch/m68k/include/asm/raw_io.h: In function 'raw_rom_outsw':
+   arch/m68k/include/asm/raw_io.h:86:15: warning: variable '__w' set but not used [-Wunused-but-set-variable]
+      86 |         ({u16 __w, __v = (w); u32 _addr = ((u32) (addr)); \
+         |               ^~~
+   arch/m68k/include/asm/raw_io.h:448:17: note: in expansion of macro 'rom_out_be16'
+     448 |                 rom_out_be16(port, *buf++);
+         |                 ^~~~~~~~~~~~
+   arch/m68k/include/asm/raw_io.h: In function 'raw_rom_outsw_swapw':
+   arch/m68k/include/asm/raw_io.h:90:15: warning: variable '__w' set but not used [-Wunused-but-set-variable]
+      90 |         ({u16 __w, __v = (w); u32 _addr = ((u32) (addr)); \
+         |               ^~~
+   arch/m68k/include/asm/raw_io.h:466:17: note: in expansion of macro 'rom_out_le16'
+     466 |                 rom_out_le16(port, *buf++);
+         |                 ^~~~~~~~~~~~
+   In file included from include/linux/err.h:5,
+                    from include/linux/clk.h:12,
+                    from drivers/crypto/inside-secure/safexcel.c:8:
+   include/linux/scatterlist.h: In function 'sg_set_buf':
+   arch/m68k/include/asm/page_mm.h:169:50: warning: ordered comparison of pointer with null pointer [-Wextra]
+     169 | #define virt_addr_valid(kaddr)  ((void *)(kaddr) >= (void *)PAGE_OFFSET && (void *)(kaddr) < high_memory)
+         |                                                  ^~
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/scatterlist.h:143:9: note: in expansion of macro 'BUG_ON'
+     143 |         BUG_ON(!virt_addr_valid(buf));
+         |         ^~~~~~
+   include/linux/scatterlist.h:143:17: note: in expansion of macro 'virt_addr_valid'
+     143 |         BUG_ON(!virt_addr_valid(buf));
+         |                 ^~~~~~~~~~~~~~~
+   In file included from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:12,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:16,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from include/linux/mutex.h:18,
+                    from include/linux/notifier.h:14,
+                    from include/linux/clk.h:14:
+   include/linux/dma-mapping.h: In function 'dma_map_resource':
+   arch/m68k/include/asm/page_mm.h:169:50: warning: ordered comparison of pointer with null pointer [-Wextra]
+     169 | #define virt_addr_valid(kaddr)  ((void *)(kaddr) >= (void *)PAGE_OFFSET && (void *)(kaddr) < high_memory)
+         |                                                  ^~
+   include/asm-generic/bug.h:139:34: note: in definition of macro 'WARN_ON_ONCE'
+     139 |         int __ret_warn_once = !!(condition);                    \
+         |                                  ^~~~~~~~~
+   arch/m68k/include/asm/page_mm.h:170:33: note: in expansion of macro 'virt_addr_valid'
+     170 | #define pfn_valid(pfn)          virt_addr_valid(pfn_to_virt(pfn))
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:355:26: note: in expansion of macro 'pfn_valid'
+     355 |         if (WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
+         |                          ^~~~~~~~~
+   drivers/crypto/inside-secure/safexcel.c: In function 'safexcel_probe_generic':
+>> drivers/crypto/inside-secure/safexcel.c:1539:34: error: 'struct safexcel_ring' has no member named 'irq'
+    1539 |                 if (priv->ring[i].irq)
+         |                                  ^
+   drivers/crypto/inside-secure/safexcel.c:1540:60: error: 'struct safexcel_ring' has no member named 'irq'
+    1540 |                         irq_set_affinity_hint(priv->ring[i].irq, NULL);
+         |                                                            ^
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for NEED_MULTIPLE_NODES
+   Depends on [n]: DISCONTIGMEM [=n] || NUMA
+   Selected by [y]:
+   - SINGLE_MEMORY_CHUNK [=y] && MMU [=y]
+
+
+vim +1539 drivers/crypto/inside-secure/safexcel.c
+
+  1299	
+  1300	/*
+  1301	 * Generic part of probe routine, shared by platform and PCI driver
+  1302	 *
+  1303	 * Assumes IO resources have been mapped, private data mem has been allocated,
+  1304	 * clocks have been enabled, device pointer has been assigned etc.
+  1305	 *
+  1306	 */
+  1307	static int safexcel_probe_generic(void *pdev,
+  1308					  struct safexcel_crypto_priv *priv,
+  1309					  int is_pci_dev)
+  1310	{
+  1311		struct device *dev = priv->dev;
+  1312		u32 peid, version, mask, val, hiaopt;
+  1313		int i, ret, hwctg;
+  1314	
+  1315		priv->context_pool = dmam_pool_create("safexcel-context", dev,
+  1316						      sizeof(struct safexcel_context_record),
+  1317						      1, 0);
+  1318		if (!priv->context_pool)
+  1319			return -ENOMEM;
+  1320	
+  1321		/*
+  1322		 * First try the EIP97 HIA version regs
+  1323		 * For the EIP197, this is guaranteed to NOT return any of the test
+  1324		 * values
+  1325		 */
+  1326		version = readl(priv->base + EIP97_HIA_AIC_BASE + EIP197_HIA_VERSION);
+  1327	
+  1328		mask = 0;  /* do not swap */
+  1329		if (EIP197_REG_LO16(version) == EIP197_HIA_VERSION_LE) {
+  1330			priv->hwconfig.hiaver = EIP197_VERSION_MASK(version);
+  1331		} else if (EIP197_REG_HI16(version) == EIP197_HIA_VERSION_BE) {
+  1332			/* read back byte-swapped, so complement byte swap bits */
+  1333			mask = EIP197_MST_CTRL_BYTE_SWAP_BITS;
+  1334			priv->hwconfig.hiaver = EIP197_VERSION_SWAP(version);
+  1335		} else {
+  1336			/* So it wasn't an EIP97 ... maybe it's an EIP197? */
+  1337			version = readl(priv->base + EIP197_HIA_AIC_BASE +
+  1338					EIP197_HIA_VERSION);
+  1339			if (EIP197_REG_LO16(version) == EIP197_HIA_VERSION_LE) {
+  1340				priv->hwconfig.hiaver = EIP197_VERSION_MASK(version);
+  1341				priv->flags |= SAFEXCEL_HW_EIP197;
+  1342			} else if (EIP197_REG_HI16(version) ==
+  1343				   EIP197_HIA_VERSION_BE) {
+  1344				/* read back byte-swapped, so complement swap bits */
+  1345				mask = EIP197_MST_CTRL_BYTE_SWAP_BITS;
+  1346				priv->hwconfig.hiaver = EIP197_VERSION_SWAP(version);
+  1347				priv->flags |= SAFEXCEL_HW_EIP197;
+  1348			} else {
+  1349				return -ENODEV;
+  1350			}
+  1351		}
+  1352	
+  1353		/* Now initialize the reg offsets based on the probing info so far */
+  1354		safexcel_init_register_offsets(priv);
+  1355	
+  1356		/*
+  1357		 * If the version was read byte-swapped, we need to flip the device
+  1358		 * swapping Keep in mind here, though, that what we write will also be
+  1359		 * byte-swapped ...
+  1360		 */
+  1361		if (mask) {
+  1362			val = readl(EIP197_HIA_AIC(priv) + EIP197_HIA_MST_CTRL);
+  1363			val = val ^ (mask >> 24); /* toggle byte swap bits */
+  1364			writel(val, EIP197_HIA_AIC(priv) + EIP197_HIA_MST_CTRL);
+  1365		}
+  1366	
+  1367		/*
+  1368		 * We're not done probing yet! We may fall through to here if no HIA
+  1369		 * was found at all. So, with the endianness presumably correct now and
+  1370		 * the offsets setup, *really* probe for the EIP97/EIP197.
+  1371		 */
+  1372		version = readl(EIP197_GLOBAL(priv) + EIP197_VERSION);
+  1373		if (((priv->flags & SAFEXCEL_HW_EIP197) &&
+  1374		     (EIP197_REG_LO16(version) != EIP197_VERSION_LE)) ||
+  1375		    ((!(priv->flags & SAFEXCEL_HW_EIP197) &&
+  1376		     (EIP197_REG_LO16(version) != EIP97_VERSION_LE)))) {
+  1377			/*
+  1378			 * We did not find the device that matched our initial probing
+  1379			 * (or our initial probing failed) Report appropriate error.
+  1380			 */
+  1381			return -ENODEV;
+  1382		}
+  1383	
+  1384		priv->hwconfig.hwver = EIP197_VERSION_MASK(version);
+  1385		hwctg = version >> 28;
+  1386		peid = version & 255;
+  1387	
+  1388		/* Detect EIP96 packet engine and version */
+  1389		version = readl(EIP197_PE(priv) + EIP197_PE_EIP96_VERSION(0));
+  1390		if (EIP197_REG_LO16(version) != EIP96_VERSION_LE) {
+  1391			dev_err(dev, "EIP%d: EIP96 not detected.\n", peid);
+  1392			return -ENODEV;
+  1393		}
+  1394		priv->hwconfig.pever = EIP197_VERSION_MASK(version);
+  1395	
+  1396		hiaopt = readl(EIP197_HIA_AIC(priv) + EIP197_HIA_OPTIONS);
+  1397	
+  1398		if (priv->flags & SAFEXCEL_HW_EIP197) {
+  1399			/* EIP197 */
+  1400			priv->hwconfig.hwdataw  = (hiaopt >> EIP197_HWDATAW_OFFSET) &
+  1401						  EIP197_HWDATAW_MASK;
+  1402			priv->hwconfig.hwcfsize = ((hiaopt >> EIP197_CFSIZE_OFFSET) &
+  1403						   EIP197_CFSIZE_MASK) +
+  1404						  EIP197_CFSIZE_ADJUST;
+  1405			priv->hwconfig.hwrfsize = ((hiaopt >> EIP197_RFSIZE_OFFSET) &
+  1406						   EIP197_RFSIZE_MASK) +
+  1407						  EIP197_RFSIZE_ADJUST;
+  1408		} else {
+  1409			/* EIP97 */
+  1410			priv->hwconfig.hwdataw  = (hiaopt >> EIP197_HWDATAW_OFFSET) &
+  1411						  EIP97_HWDATAW_MASK;
+  1412			priv->hwconfig.hwcfsize = (hiaopt >> EIP97_CFSIZE_OFFSET) &
+  1413						  EIP97_CFSIZE_MASK;
+  1414			priv->hwconfig.hwrfsize = (hiaopt >> EIP97_RFSIZE_OFFSET) &
+  1415						  EIP97_RFSIZE_MASK;
+  1416		}
+  1417	
+  1418		/* Get supported algorithms from EIP96 transform engine */
+  1419		priv->hwconfig.algo_flags = readl(EIP197_PE(priv) +
+  1420					    EIP197_PE_EIP96_OPTIONS(0));
+  1421	
+  1422		/* Print single info line describing what we just detected */
+  1423		dev_info(priv->dev, "EIP%d:%x(%d)-HIA:%x(%d,%d,%d),PE:%x,alg:%08x\n",
+  1424			 peid, priv->hwconfig.hwver, hwctg, priv->hwconfig.hiaver,
+  1425			 priv->hwconfig.hwdataw, priv->hwconfig.hwcfsize,
+  1426			 priv->hwconfig.hwrfsize, priv->hwconfig.pever,
+  1427			 priv->hwconfig.algo_flags);
+  1428	
+  1429		safexcel_configure(priv);
+  1430	
+  1431		if (IS_ENABLED(CONFIG_PCI) && priv->version == EIP197_DEVBRD) {
+  1432			/*
+  1433			 * Request MSI vectors for global + 1 per ring -
+  1434			 * or just 1 for older dev images
+  1435			 */
+  1436			struct pci_dev *pci_pdev = pdev;
+  1437	
+  1438			ret = pci_alloc_irq_vectors(pci_pdev,
+  1439						    priv->config.rings + 1,
+  1440						    priv->config.rings + 1,
+  1441						    PCI_IRQ_MSI | PCI_IRQ_MSIX);
+  1442			if (ret < 0) {
+  1443				dev_err(dev, "Failed to allocate PCI MSI interrupts\n");
+  1444				return ret;
+  1445			}
+  1446		}
+  1447	
+  1448		/* Register the ring IRQ handlers and configure the rings */
+  1449		priv->ring = devm_kcalloc(dev, priv->config.rings,
+  1450					  sizeof(*priv->ring),
+  1451					  GFP_KERNEL);
+  1452		if (!priv->ring)
+  1453			return -ENOMEM;
+  1454	
+  1455		for (i = 0; i < priv->config.rings; i++) {
+  1456			char wq_name[9] = {0};
+  1457			int irq;
+  1458			struct safexcel_ring_irq_data *ring_irq;
+  1459	
+  1460			ret = safexcel_init_ring_descriptors(priv,
+  1461							     &priv->ring[i].cdr,
+  1462							     &priv->ring[i].rdr);
+  1463			if (ret) {
+  1464				dev_err(dev, "Failed to initialize rings\n");
+  1465				goto err_cleanup_rings;
+  1466			}
+  1467	
+  1468			priv->ring[i].rdr_req = devm_kcalloc(dev,
+  1469				EIP197_DEFAULT_RING_SIZE,
+  1470				sizeof(*priv->ring[i].rdr_req),
+  1471				GFP_KERNEL);
+  1472			if (!priv->ring[i].rdr_req) {
+  1473				ret = -ENOMEM;
+  1474				goto err_cleanup_rings;
+  1475			}
+  1476	
+  1477			ring_irq = devm_kzalloc(dev, sizeof(*ring_irq), GFP_KERNEL);
+  1478			if (!ring_irq) {
+  1479				ret = -ENOMEM;
+  1480				goto err_cleanup_rings;
+  1481			}
+  1482	
+  1483			ring_irq->priv = priv;
+  1484			ring_irq->ring = i;
+  1485	
+  1486			irq = safexcel_request_ring_irq(pdev,
+  1487							EIP197_IRQ_NUMBER(i, is_pci_dev),
+  1488							is_pci_dev,
+  1489							safexcel_irq_ring,
+  1490							safexcel_irq_ring_thread,
+  1491							ring_irq);
+  1492			if (irq < 0) {
+  1493				dev_err(dev, "Failed to get IRQ ID for ring %d\n", i);
+  1494				ret = irq;
+  1495				goto err_cleanup_rings;
+  1496			}
+  1497	
+  1498			priv->ring[i].work_data.priv = priv;
+  1499			priv->ring[i].work_data.ring = i;
+  1500			INIT_WORK(&priv->ring[i].work_data.work,
+  1501				  safexcel_dequeue_work);
+  1502	
+  1503			snprintf(wq_name, 9, "wq_ring%d", i);
+  1504			priv->ring[i].workqueue =
+  1505				create_singlethread_workqueue(wq_name);
+  1506			if (!priv->ring[i].workqueue) {
+  1507				ret = -ENOMEM;
+  1508				goto err_cleanup_rings;
+  1509			}
+  1510	
+  1511			priv->ring[i].requests = 0;
+  1512			priv->ring[i].busy = false;
+  1513	
+  1514			crypto_init_queue(&priv->ring[i].queue,
+  1515					  EIP197_DEFAULT_RING_SIZE);
+  1516	
+  1517			spin_lock_init(&priv->ring[i].lock);
+  1518			spin_lock_init(&priv->ring[i].queue_lock);
+  1519		}
+  1520	
+  1521		atomic_set(&priv->ring_used, 0);
+  1522	
+  1523		ret = safexcel_hw_init(priv);
+  1524		if (ret) {
+  1525			dev_err(dev, "HW init failed (%d)\n", ret);
+  1526			goto err_cleanup_rings;
+  1527		}
+  1528	
+  1529		ret = safexcel_register_algorithms(priv);
+  1530		if (ret) {
+  1531			dev_err(dev, "Failed to register algorithms (%d)\n", ret);
+  1532			goto err_cleanup_rings;
+  1533		}
+  1534	
+  1535		return 0;
+  1536	
+  1537	err_cleanup_rings:
+  1538		for (i = 0; i < priv->config.rings; i++) {
+> 1539			if (priv->ring[i].irq)
+  1540				irq_set_affinity_hint(priv->ring[i].irq, NULL);
+  1541			if (priv->ring[i].workqueue)
+  1542				destroy_workqueue(priv->ring[i].workqueue);
+  1543		}
+  1544	
+  1545		return ret;
+  1546	}
+  1547	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
