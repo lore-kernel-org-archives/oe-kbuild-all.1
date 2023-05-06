@@ -1,43 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A306C10E6
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 May 2023 01:08:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F44E10E6;
+	Sat,  6 May 2023 01:20:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683335314; x=1714871314;
+  t=1683336042; x=1714872042;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bx4qIGBh4qIZD2RCSTGeGuMNJ77ygSQM8k3mDT8w7T8=;
-  b=VFOWH6R72OUfsLgDySPCOvYwiWVDCVh3fTpE1v1LW+sip5T9JtkOvMhF
-   CLVadDYbLjHahKi38vr0DCahCMdV4DapgLbxIuLoGkaYqzPXKPm92wOQX
-   lzzrNFsAUX7bFyDYurluVNwgFdDi5vKWbE3fbzrZNfRtC+ENCPxjmBATb
-   VNnMffJh2mBNkH+kJrqHFpQFtq6hcMCLWY6zjyJ7vI5LgPWGy6DcptAYp
-   sXN6A/YYYA8x8sHP6Aw0ML9KpMXGFYtfRmumXqXAESk0UzQiOlcyyKUvA
-   aII6rJhcEw1KvVtGT258+IXr/E/4oi1Isn5N0e+hRrc2zucT/5HQe6o6Q
+  bh=sLmS1ulh1Y7jm/osNc2HA1AwwvKrqdax/5pzcHc1jf0=;
+  b=QdICU9t+4ox+S3ZWRI88JyG8KaI8hrVGMq9TRRbeP6rrtDiwb21scAeY
+   Koq6aa81nithGGbiedM0T3cpYuKum+Coqbf9GjqzrCpbjQdJTdzp0KJya
+   PDtsz3w169tSikKzk1FIsUrKlkfyDbf4liEGitDtERYAVSotBoc2ImXc/
+   HvYgBwnpOyqgZKo0Ru39hrgwWWDS4HhCmtgNXxSloW/vK5vmg9SwvDM1p
+   /TV3dBFXrfjS9+8pN5fzo+WuXfhysmpwMPkvVs4wXlcRCKpN+jT1Kfpx9
+   nh75/kvJ4AiGMRad+d0zMxFH+8i3Y/YV9vptQtS9J3qC8ehdCbO9sFH4K
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="338531926"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="333758954"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="338531926"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 18:08:34 -0700
+   d="scan'208";a="333758954"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 18:20:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="821937843"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="787355724"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="821937843"
+   d="scan'208";a="787355724"
 Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 05 May 2023 18:08:33 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 05 May 2023 18:20:33 -0700
 Received: from kbuild by fe5d646e317d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pv6PY-00010T-1b;
-	Sat, 06 May 2023 01:08:32 +0000
-Date: Sat, 6 May 2023 09:08:28 +0800
+	id 1pv6bA-000111-2P;
+	Sat, 06 May 2023 01:20:32 +0000
+Date: Sat, 6 May 2023 09:19:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.10 24/236]
- drivers/char/tpm/tpm_tis_core.c:722:6: warning: variable 'ret' set but not
- used
-Message-ID: <202305060920.VZPElp57-lkp@intel.com>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Daniel Borkmann <daniel@iogearbox.net>
+Subject: [cilium:pr/new-api-tcx2 7/13] include/linux/bpf_mprog.h:193:11:
+ error: call to undeclared function 'bpf_link_by_id'; ISO C99 and later do
+ not support implicit function declarations
+Message-ID: <202305060903.hnV1hub9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,62 +48,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
-head:   a5a0f61c9bfcb47262ab9c603e977057330ea0f9
-commit: 09e8337b145500a101e9f8a492a81c67dfef4bff [24/236] tpm, tpm_tis: Claim locality before writing interrupt registers
-config: x86_64-randconfig-a011-20230501 (https://download.01.org/0day-ci/archive/20230506/202305060920.VZPElp57-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/cilium/linux.git pr/new-api-tcx2
+head:   94e6243273cf3f1e5e03c37288780f5b861fe555
+commit: 3ba2eec83a93ca19cc31cdeae1ebc8d2cddd99c7 [7/13] bpf: Implement relative BPF link handling for tc BPF programs
+config: riscv-randconfig-r023-20230430 (https://download.01.org/0day-ci/archive/20230506/202305060903.hnV1hub9-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=09e8337b145500a101e9f8a492a81c67dfef4bff
-        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-5.10
-        git checkout 09e8337b145500a101e9f8a492a81c67dfef4bff
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv-linux-gnu
+        # https://github.com/cilium/linux/commit/3ba2eec83a93ca19cc31cdeae1ebc8d2cddd99c7
+        git remote add cilium https://github.com/cilium/linux.git
+        git fetch --no-tags cilium pr/new-api-tcx2
+        git checkout 3ba2eec83a93ca19cc31cdeae1ebc8d2cddd99c7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/char/tpm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash net/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305060920.VZPElp57-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305060903.hnV1hub9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/char/tpm/tpm_tis_core.c:27:
-   In file included from drivers/char/tpm/tpm.h:28:
-   include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
-           int mapping_size;
-               ^
->> drivers/char/tpm/tpm_tis_core.c:722:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-           int ret;
-               ^
-   2 warnings generated.
+   In file included from net/core/dev.c:110:
+   In file included from include/net/tcx.h:7:
+>> include/linux/bpf_mprog.h:193:11: error: call to undeclared function 'bpf_link_by_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                           ltmp = bpf_link_by_id(relobj);
+                                  ^
+>> include/linux/bpf_mprog.h:193:9: error: incompatible integer to pointer conversion assigning to 'struct bpf_link *' from 'int' [-Wint-conversion]
+                           ltmp = bpf_link_by_id(relobj);
+                                ^ ~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/bpf_mprog.h:197:11: error: call to undeclared function 'bpf_link_get_from_fd'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+                           ltmp = bpf_link_get_from_fd(relobj);
+                                  ^
+   include/linux/bpf_mprog.h:197:9: error: incompatible integer to pointer conversion assigning to 'struct bpf_link *' from 'int' [-Wint-conversion]
+                           ltmp = bpf_link_get_from_fd(relobj);
+                                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   4 errors generated.
 
 
-vim +/ret +722 drivers/char/tpm/tpm_tis_core.c
+vim +/bpf_link_by_id +193 include/linux/bpf_mprog.h
 
-41a5e1cf1fe151 Christophe Ricard 2016-05-19  716  
-58a522f89db8b7 Lino Sanfilippo   2022-11-24  717  static void tpm_tis_gen_interrupt(struct tpm_chip *chip)
-eb5854e764b91a Jarkko Sakkinen   2016-06-12  718  {
-eb5854e764b91a Jarkko Sakkinen   2016-06-12  719  	const char *desc = "attempting to generate an interrupt";
-eb5854e764b91a Jarkko Sakkinen   2016-06-12  720  	u32 cap2;
-eb5854e764b91a Jarkko Sakkinen   2016-06-12  721  	cap_t cap;
-bfa2e4ed1d399b Lukasz Majczak    2021-02-16 @722  	int ret;
-eb5854e764b91a Jarkko Sakkinen   2016-06-12  723  
-923866165610d8 Jarkko Sakkinen   2021-05-10  724  	if (chip->flags & TPM_CHIP_FLAG_TPM2)
-923866165610d8 Jarkko Sakkinen   2021-05-10  725  		ret = tpm2_get_tpm_pt(chip, 0x100, &cap2, desc);
-923866165610d8 Jarkko Sakkinen   2021-05-10  726  	else
-bfa2e4ed1d399b Lukasz Majczak    2021-02-16  727  		ret = tpm1_getcap(chip, TPM_CAP_PROP_TIS_TIMEOUT, &cap, desc, 0);
-eb5854e764b91a Jarkko Sakkinen   2016-06-12  728  }
-eb5854e764b91a Jarkko Sakkinen   2016-06-12  729  
-
-:::::: The code at line 722 was first introduced by commit
-:::::: bfa2e4ed1d399b2dde49307c127b2d1c48dcd72f tpm, tpm_tis: Decorate tpm_tis_gen_interrupt() with request_locality()
-
-:::::: TO: Lukasz Majczak <lma@semihalf.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   181	
+   182	static inline int
+   183	bpf_mprog_tuple_relative(struct bpf_tuple *tuple,
+   184				 u32 relobj, u32 flags,
+   185				 enum bpf_prog_type type)
+   186	{
+   187		struct bpf_prog *ptmp;
+   188		struct bpf_link *ltmp;
+   189	
+   190		memset(tuple, 0, sizeof(*tuple));
+   191		if (flags & BPF_F_LINK) {
+   192			if (flags & BPF_F_ID) {
+ > 193				ltmp = bpf_link_by_id(relobj);
+   194			} else {
+   195				if (!relobj)
+   196					return -EINVAL;
+ > 197				ltmp = bpf_link_get_from_fd(relobj);
+   198			}
+   199			if (IS_ERR(ltmp))
+   200				return PTR_ERR(ltmp);
+   201			if (ltmp->prog->type != type) {
+   202				bpf_link_put(ltmp);
+   203				return -EINVAL;
+   204			}
+   205			tuple->link = ltmp;
+   206			tuple->prog = ltmp->prog;
+   207		} else {
+   208			if (flags & BPF_F_ID) {
+   209				ptmp = bpf_prog_by_id(relobj);
+   210			} else {
+   211				if (!relobj)
+   212					return 0;
+   213				ptmp = bpf_prog_get(relobj);
+   214			}
+   215			if (IS_ERR(ptmp))
+   216				return PTR_ERR(ptmp);
+   217			if (ptmp->type != type) {
+   218				bpf_prog_put(ptmp);
+   219				return -EINVAL;
+   220			}
+   221			tuple->link = NULL;
+   222			tuple->prog = ptmp;
+   223		}
+   224		return 0;
+   225	}
+   226	
 
 -- 
 0-DAY CI Kernel Test Service
