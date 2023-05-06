@@ -1,43 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FEC4139B
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 May 2023 02:22:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF30E7E
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  6 May 2023 03:04:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683339756; x=1714875756;
+  t=1683342277; x=1714878277;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rVO76IVghcCLntwOIA+886/mzKYFSTyg02zYaJiQieA=;
-  b=PgHsJz4VdBFspu5wlDxBXBL4x9+esxftGFisNqrJPEiAr+KfTl/eS4l+
-   KQQG4FAE0EaKqRSY+64Ro3iAi+SeGB3l8fF/mMEVDTrzXTxHEGph/s+q1
-   pwlLQ/D/UnrhrPl1tbf22PjGX+YjtDsmBlRQzlXHD68+PGBJ6RG7nfl7m
-   9eV0++6m9+fJ1RXjZP1gV6+/+TgDIdITDM9cVLYFg2gt6uFIT6RyQPfJz
-   kZ5/VbZzRmw8mxYaeLjuOmJmC+6WIZMMSTlfIX3yO5iJT3nAhKdWCz/3H
-   ZuHfrVgZbxtcLZwXrseOF8tr0yfs7GfSBw2PpgAUp2P9Znj1ZSDg4eiXN
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="333764616"
+  bh=YNl+j1sbaf2z4HhL+c28MV1Z549ZGBmnP2BTIamvfbU=;
+  b=f9G3HKU/Vu9oqvCVDP+NYP7Z32i5txGwwS5WP/+ajBdwJM9OBNgWMBke
+   YX2kO3gow1J49i4qySrJtnxZ4GfXWcWpayJCiHGjYyDn0Ddx4DnXi2XSm
+   jO943KULk3phdVqZa95pcl/9wbet6y8PbL4x6k2kvge86G+M1npysXIHL
+   uMo3eNhur1qE6oeur60daAaQc3IfBJ1GSGA5b62hTYmA/T4ovBB2TPznJ
+   6rvc4H56qo5N4wRT3DSNZoHAeB4LY91ZpJnYqrb9eD7TTDckO8cjc/SOR
+   95FHX4Y5q8g0IQ5cSLnLMmH3dQPq8eMcfiLdAjiDpCjPunfOUtTcrKdMv
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="338542675"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="333764616"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 19:22:35 -0700
+   d="scan'208";a="338542675"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2023 20:04:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="944126519"
+X-IronPort-AV: E=McAfee;i="6600,9927,10701"; a="767370923"
 X-IronPort-AV: E=Sophos;i="5.99,253,1677571200"; 
-   d="scan'208";a="944126519"
+   d="scan'208";a="767370923"
 Received: from lkp-server01.sh.intel.com (HELO fe5d646e317d) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 05 May 2023 19:22:35 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 05 May 2023 20:04:36 -0700
 Received: from kbuild by fe5d646e317d with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pv7ZC-000145-0h;
-	Sat, 06 May 2023 02:22:34 +0000
-Date: Sat, 6 May 2023 10:22:31 +0800
+	id 1pv8Dr-00016D-18;
+	Sat, 06 May 2023 03:04:35 +0000
+Date: Sat, 6 May 2023 11:03:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>
-Subject: [cilium:pr/new-api-tcx2 7/13] include/linux/bpf_mprog.h:193:30:
- warning: assignment to 'struct bpf_link *' from 'int' makes pointer from
- integer without a cast
-Message-ID: <202305061013.oUJZrFkN-lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-6.2 516/532] drivers/dma/at_xdmac.c:2033:33:
+ error: implicit declaration of function 'at_xdmac_device_pause_set'; did you
+ mean 'at_xdmac_device_pause'?
+Message-ID: <202305061018.P9eg5onD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,94 +47,88 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/cilium/linux.git pr/new-api-tcx2
-head:   94e6243273cf3f1e5e03c37288780f5b861fe555
-commit: 3ba2eec83a93ca19cc31cdeae1ebc8d2cddd99c7 [7/13] bpf: Implement relative BPF link handling for tc BPF programs
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230506/202305061013.oUJZrFkN-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.2
+head:   886911dcc960c1a31ebe92ba882888f5a3311147
+commit: 59776f32b3be4a33cb2e1ae94f52597fa8be192f [516/532] dmaengine: at_xdmac: restore the content of grws register
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230506/202305061018.P9eg5onD-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/cilium/linux/commit/3ba2eec83a93ca19cc31cdeae1ebc8d2cddd99c7
-        git remote add cilium https://github.com/cilium/linux.git
-        git fetch --no-tags cilium pr/new-api-tcx2
-        git checkout 3ba2eec83a93ca19cc31cdeae1ebc8d2cddd99c7
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=59776f32b3be4a33cb2e1ae94f52597fa8be192f
+        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
+        git fetch --no-tags sashal-stable pending-6.2
+        git checkout 59776f32b3be4a33cb2e1ae94f52597fa8be192f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305061013.oUJZrFkN-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305061018.P9eg5onD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/net/tcx.h:7,
-                    from net/core/dev.c:110:
-   include/linux/bpf_mprog.h: In function 'bpf_mprog_tuple_relative':
-   include/linux/bpf_mprog.h:193:32: error: implicit declaration of function 'bpf_link_by_id'; did you mean 'bpf_prog_by_id'? [-Werror=implicit-function-declaration]
-     193 |                         ltmp = bpf_link_by_id(relobj);
-         |                                ^~~~~~~~~~~~~~
-         |                                bpf_prog_by_id
->> include/linux/bpf_mprog.h:193:30: warning: assignment to 'struct bpf_link *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     193 |                         ltmp = bpf_link_by_id(relobj);
-         |                              ^
-   include/linux/bpf_mprog.h:197:32: error: implicit declaration of function 'bpf_link_get_from_fd' [-Werror=implicit-function-declaration]
-     197 |                         ltmp = bpf_link_get_from_fd(relobj);
-         |                                ^~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf_mprog.h:197:30: warning: assignment to 'struct bpf_link *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     197 |                         ltmp = bpf_link_get_from_fd(relobj);
-         |                              ^
+   drivers/dma/at_xdmac.c: In function 'atmel_xdmac_resume':
+>> drivers/dma/at_xdmac.c:2033:33: error: implicit declaration of function 'at_xdmac_device_pause_set'; did you mean 'at_xdmac_device_pause'? [-Werror=implicit-function-declaration]
+    2033 |                                 at_xdmac_device_pause_set(atxdmac, atchan);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                 at_xdmac_device_pause
    cc1: some warnings being treated as errors
 
 
-vim +193 include/linux/bpf_mprog.h
+vim +2033 drivers/dma/at_xdmac.c
 
-   181	
-   182	static inline int
-   183	bpf_mprog_tuple_relative(struct bpf_tuple *tuple,
-   184				 u32 relobj, u32 flags,
-   185				 enum bpf_prog_type type)
-   186	{
-   187		struct bpf_prog *ptmp;
-   188		struct bpf_link *ltmp;
-   189	
-   190		memset(tuple, 0, sizeof(*tuple));
-   191		if (flags & BPF_F_LINK) {
-   192			if (flags & BPF_F_ID) {
- > 193				ltmp = bpf_link_by_id(relobj);
-   194			} else {
-   195				if (!relobj)
-   196					return -EINVAL;
-   197				ltmp = bpf_link_get_from_fd(relobj);
-   198			}
-   199			if (IS_ERR(ltmp))
-   200				return PTR_ERR(ltmp);
-   201			if (ltmp->prog->type != type) {
-   202				bpf_link_put(ltmp);
-   203				return -EINVAL;
-   204			}
-   205			tuple->link = ltmp;
-   206			tuple->prog = ltmp->prog;
-   207		} else {
-   208			if (flags & BPF_F_ID) {
-   209				ptmp = bpf_prog_by_id(relobj);
-   210			} else {
-   211				if (!relobj)
-   212					return 0;
-   213				ptmp = bpf_prog_get(relobj);
-   214			}
-   215			if (IS_ERR(ptmp))
-   216				return PTR_ERR(ptmp);
-   217			if (ptmp->type != type) {
-   218				bpf_prog_put(ptmp);
-   219				return -EINVAL;
-   220			}
-   221			tuple->link = NULL;
-   222			tuple->prog = ptmp;
-   223		}
-   224		return 0;
-   225	}
-   226	
+  1996	
+  1997	static int __maybe_unused atmel_xdmac_resume(struct device *dev)
+  1998	{
+  1999		struct at_xdmac		*atxdmac = dev_get_drvdata(dev);
+  2000		struct at_xdmac_chan	*atchan;
+  2001		struct dma_chan		*chan, *_chan;
+  2002		struct platform_device	*pdev = container_of(dev, struct platform_device, dev);
+  2003		int			i;
+  2004		int ret;
+  2005	
+  2006		ret = clk_prepare_enable(atxdmac->clk);
+  2007		if (ret)
+  2008			return ret;
+  2009	
+  2010		at_xdmac_axi_config(pdev);
+  2011	
+  2012		/* Clear pending interrupts. */
+  2013		for (i = 0; i < atxdmac->dma.chancnt; i++) {
+  2014			atchan = &atxdmac->chan[i];
+  2015			while (at_xdmac_chan_read(atchan, AT_XDMAC_CIS))
+  2016				cpu_relax();
+  2017		}
+  2018	
+  2019		at_xdmac_write(atxdmac, AT_XDMAC_GIE, atxdmac->save_gim);
+  2020		list_for_each_entry_safe(chan, _chan, &atxdmac->dma.channels, device_node) {
+  2021			atchan = to_at_xdmac_chan(chan);
+  2022			at_xdmac_chan_write(atchan, AT_XDMAC_CC, atchan->save_cc);
+  2023			if (at_xdmac_chan_is_cyclic(atchan)) {
+  2024				if (at_xdmac_chan_is_paused(atchan))
+  2025					at_xdmac_device_resume(chan);
+  2026	
+  2027				/*
+  2028				 * We may resume from a deep sleep state where power
+  2029				 * to DMA controller is cut-off. Thus, restore the
+  2030				 * suspend state of channels set though dmaengine API.
+  2031				 */
+  2032				else if (at_xdmac_chan_is_paused(atchan))
+> 2033					at_xdmac_device_pause_set(atxdmac, atchan);
+  2034	
+  2035				at_xdmac_chan_write(atchan, AT_XDMAC_CNDA, atchan->save_cnda);
+  2036				at_xdmac_chan_write(atchan, AT_XDMAC_CNDC, atchan->save_cndc);
+  2037				at_xdmac_chan_write(atchan, AT_XDMAC_CIE, atchan->save_cim);
+  2038				wmb();
+  2039				at_xdmac_write(atxdmac, AT_XDMAC_GE, atchan->mask);
+  2040			}
+  2041		}
+  2042		return 0;
+  2043	}
+  2044	
 
 -- 
 0-DAY CI Kernel Test Service
