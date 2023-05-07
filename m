@@ -1,45 +1,46 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6982567
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 May 2023 16:16:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0DF5253;
+	Sun,  7 May 2023 16:16:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683476198; x=1715012198;
+  t=1683476201; x=1715012201;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vZ4KgN+MuVtddZEL4sLbUYWN2GujaLlhoX8bTESnBFs=;
-  b=WlFWM4exaECFxg9Gvwuwt9riitAYeu4dDSfO+sd/z/oG+ZoETAAXUwQ4
-   Leg2QdvgC0UvgnvjgqDj0kiv+mR7UXihXMts6KYhEkXqIxcxDB5fEsZow
-   lqye1kdp8GtrgpgZraCyHqJZ2aVsQDFvIyV6CS2iV7oF+DegQDLtNsTUS
-   GSaVsJiUb2Tim2w9PwMJPXCvlI1peju8Pr/1bl6PM8lAR9H/NnKC5t5wH
-   DiCN5SaknMt2+f8Run/hclI7fOCffa5YrFmsJIYa+xutqPZXQqIsjOexJ
-   RGyWEd6b4CJ3Yljw6IlARsamwxkztq3cj3Fs2bbt0Imu8tdMGccOw3Ezf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="352550324"
+  bh=14wMgnQ+tLSZjNThqE0TIR4SIRf6N3xg1wpYqlJxur0=;
+  b=gSYBEbsRGCc15A/36CWjqEyq4VLAu2a4exM/mDHmFQOoItbHK5bdB0iK
+   kv2jGkRidR9VAXwpIW0+xsfrtW8lrEjXclme2Q9yFpmiFW7XYdymiw6LB
+   Q9M2uvJ27uxC6mHgiqanMSjPbG5hcJii11Mldb/CTKQ6GJw2ot58JBV31
+   lp6b5k0ArvkCx1AN0KobjWinDj+ZWZlkyNoCzezxFSXxkKc3jjVwjS60e
+   Pdpk9MJB2ZSOXogld8Odbev7y1ZyUG0NigVqINN72BpzLY+rzQjsBuOzP
+   bADDeD91rAXZgToZkTfYQ8qByMOaHiP9r97sFhtWe+RMoV4feYNfaEKx+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="352550330"
 X-IronPort-AV: E=Sophos;i="5.99,257,1677571200"; 
-   d="scan'208";a="352550324"
+   d="scan'208";a="352550330"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2023 09:16:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="701163019"
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="701163018"
 X-IronPort-AV: E=Sophos;i="5.99,257,1677571200"; 
-   d="scan'208";a="701163019"
+   d="scan'208";a="701163018"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
   by fmsmga007.fm.intel.com with ESMTP; 07 May 2023 09:16:35 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvh3q-0000nD-2k;
+	id 1pvh3q-0000nB-2g;
 	Sun, 07 May 2023 16:16:34 +0000
-Date: Mon, 8 May 2023 00:15:54 +0800
+Date: Mon, 8 May 2023 00:15:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: Breno Leitao <leitao@debian.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Christoph Hellwig <hch@lst.de>,
 	Pavel Begunkov <asml.silence@gmail.com>
 Subject: [axboe-block:for-6.4/io_uring 74/75]
- drivers/nvme/host/ioctl.c:555:44: warning: initialization of 'const struct
- nvme_uring_cmd *' from 'int' makes pointer from integer without a cast
-Message-ID: <202305080020.LL72eVZz-lkp@intel.com>
+ drivers/nvme/host/ioctl.c:555:37: error: implicit declaration of function
+ 'io_uring_sqe_cmd' is invalid in C99
+Message-ID: <202305080046.2k8FwiH6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,34 +53,36 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.4/io_uring
 head:   d2b7fa6174bc4260e496cbf84375c73636914641
 commit: fd9b8547bc5c34186dc42ea05fb4380d21695374 [74/75] io_uring: Pass whole sqe to commands
-config: x86_64-randconfig-a002 (https://download.01.org/0day-ci/archive/20230508/202305080020.LL72eVZz-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230508/202305080046.2k8FwiH6-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git/commit/?id=fd9b8547bc5c34186dc42ea05fb4380d21695374
         git remote add axboe-block https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git
         git fetch --no-tags axboe-block for-6.4/io_uring
         git checkout fd9b8547bc5c34186dc42ea05fb4380d21695374
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvme/host/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/nvme/host/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305080020.LL72eVZz-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305080046.2k8FwiH6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/nvme/host/ioctl.c: In function 'nvme_uring_cmd_io':
-   drivers/nvme/host/ioctl.c:555:44: error: implicit declaration of function 'io_uring_sqe_cmd'; did you mean 'io_uring_free'? [-Werror=implicit-function-declaration]
-     555 |         const struct nvme_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
-         |                                            ^~~~~~~~~~~~~~~~
-         |                                            io_uring_free
->> drivers/nvme/host/ioctl.c:555:44: warning: initialization of 'const struct nvme_uring_cmd *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   cc1: some warnings being treated as errors
+>> drivers/nvme/host/ioctl.c:555:37: error: implicit declaration of function 'io_uring_sqe_cmd' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           const struct nvme_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
+                                              ^
+>> drivers/nvme/host/ioctl.c:555:31: warning: incompatible integer to pointer conversion initializing 'const struct nvme_uring_cmd *' with an expression of type 'int' [-Wint-conversion]
+           const struct nvme_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
+                                        ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
-vim +555 drivers/nvme/host/ioctl.c
+vim +/io_uring_sqe_cmd +555 drivers/nvme/host/ioctl.c
 
    550	
    551	static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
