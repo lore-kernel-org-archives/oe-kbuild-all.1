@@ -1,45 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40242568
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 May 2023 16:36:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8DE42568
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 May 2023 16:48:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683477398; x=1715013398;
+  t=1683478117; x=1715014117;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W/la5ydvvDZA6qG7kWrZtCA9xwkvjhfNPPNe390QIQ8=;
-  b=aJlKEQWmXbvqqRL31SxZZGZRHUV3d1waXQcn3ZTjhUv1zB4v81ZnHBjf
-   X2TuyqF2iivRym238pizYfxa8lPqT+s7Yf14MPTn2SR3mPKSyFohzO5oY
-   jtRGLYmKNdRJJermLZoQ13axOvAiHXLeRM7DfZi7bmdbj+lqEwoHk6h0L
-   KFDxEQ5PxNNzblMcLzci9AnoiFh2GYDkvPcfiYpPe4uYNa3yisUXLPet9
-   qwM02RsFGxVPD/dIfxWclr7vaHJpHMxTyxQzR45GayYMSMs89Gel62G1J
-   79DTmot2vtrO0Ofucqh78awpNMYcop6AQdpen/YTuNWxxzMjYZQTDABDB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="435816622"
+  bh=p+mtQkT2NHCAfrfjuSrFeNYll4zZVDjMhsCcGjILW9w=;
+  b=VdQkCHSl8SIt38LVJd1zFdI16Np7fyZu0vIxe0aQJ7eXFId/rhAgrE+v
+   JWtbW8A5j3LCYJnFsDlKJfYEvqgkW57X3R25Fi9TpdmClukiLRnjnlWHY
+   tftv+jSVqXt8Vi3MWe4cpbJwRLrxqLtLvpHqHt8sw3cFUgx94jyIihVCs
+   b7soQwvGK89+XmUYvdyESdelDk7pKkqWz75AUF1KryHOu8WOGZu62dFZ1
+   lcZ4HgWorQgh5uO4iT7Eyq7UeGw05tmABf3RrdTjXU9qYdbQK1lzQY+M+
+   RAoiWcQ540Z9FrV3V+SCAUyUPM9Wxggf604dL/Ydq2Eq8bbyZsU+wVHH/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="329121652"
 X-IronPort-AV: E=Sophos;i="5.99,257,1677571200"; 
-   d="scan'208";a="435816622"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2023 09:36:38 -0700
+   d="scan'208";a="329121652"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2023 09:48:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="872522537"
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="842461135"
 X-IronPort-AV: E=Sophos;i="5.99,257,1677571200"; 
-   d="scan'208";a="872522537"
+   d="scan'208";a="842461135"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 07 May 2023 09:36:35 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 07 May 2023 09:48:35 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvhND-0000np-0g;
-	Sun, 07 May 2023 16:36:35 +0000
-Date: Mon, 8 May 2023 00:36:18 +0800
+	id 1pvhYp-0000nz-12;
+	Sun, 07 May 2023 16:48:35 +0000
+Date: Mon, 8 May 2023 00:47:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Breno Leitao <leitao@debian.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
-	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
-	Pavel Begunkov <asml.silence@gmail.com>
-Subject: [axboe-block:for-6.4/io_uring 74/75]
- drivers/nvme/host/ioctl.c:555:44: error: implicit declaration of function
- 'io_uring_sqe_cmd'; did you mean 'io_uring_free'?
-Message-ID: <202305080039.r7cguaXB-lkp@intel.com>
+To: Faycal Benmlih <faycal.benmlih@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/platform/x86/socwatch/sw_output_buffer.c:344:22: sparse:
+ sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202305080012.eBtcczkm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,132 +46,213 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.4/io_uring
-head:   d2b7fa6174bc4260e496cbf84375c73636914641
-commit: fd9b8547bc5c34186dc42ea05fb4380d21695374 [74/75] io_uring: Pass whole sqe to commands
-config: arc-randconfig-r025-20230507 (https://download.01.org/0day-ci/archive/20230508/202305080039.r7cguaXB-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git/commit/?id=fd9b8547bc5c34186dc42ea05fb4380d21695374
-        git remote add axboe-block https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git
-        git fetch --no-tags axboe-block for-6.4/io_uring
-        git checkout fd9b8547bc5c34186dc42ea05fb4380d21695374
+Hi Faycal,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/mchinth/linux sep_socwatch_linux_5_10
+head:   c55df4a2b60fc7c6c4d00fd9f9fb447087833513
+commit: e65547c5a9bb37e907edecece4da7cb12dadea96 platform/x86: Use $(srctree) instead of $(src) to adapt to kbuild regression
+date:   2 years, 7 months ago
+config: i386-randconfig-s003 (https://download.01.org/0day-ci/archive/20230508/202305080012.eBtcczkm-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/mchinth/linux/commit/e65547c5a9bb37e907edecece4da7cb12dadea96
+        git remote add mchinth https://github.com/mchinth/linux
+        git fetch --no-tags mchinth sep_socwatch_linux_5_10
+        git checkout e65547c5a9bb37e907edecece4da7cb12dadea96
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/nvme/host/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/platform/x86/socperf/ drivers/platform/x86/socwatch/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305080039.r7cguaXB-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305080012.eBtcczkm-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:344:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void *dest @@
+   drivers/platform/x86/socwatch/sw_output_buffer.c:344:22: sparse:     expected void [noderef] __user *to
+   drivers/platform/x86/socwatch/sw_output_buffer.c:344:22: sparse:     got void *dest
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:352:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got void * @@
+   drivers/platform/x86/socwatch/sw_output_buffer.c:352:43: sparse:     expected void [noderef] __user *to
+   drivers/platform/x86/socwatch/sw_output_buffer.c:352:43: sparse:     got void *
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:378:46: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int flags @@     got restricted gfp_t @@
+   drivers/platform/x86/socwatch/sw_output_buffer.c:378:46: sparse:     expected unsigned int flags
+   drivers/platform/x86/socwatch/sw_output_buffer.c:378:46: sparse:     got restricted gfp_t
+   drivers/platform/x86/socwatch/sw_output_buffer.c:562:46: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int flags @@     got restricted gfp_t @@
+   drivers/platform/x86/socwatch/sw_output_buffer.c:562:46: sparse:     expected unsigned int flags
+   drivers/platform/x86/socwatch/sw_output_buffer.c:562:46: sparse:     got restricted gfp_t
+   drivers/platform/x86/socwatch/sw_output_buffer.c:575:67: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int flags @@     got restricted gfp_t @@
+   drivers/platform/x86/socwatch/sw_output_buffer.c:575:67: sparse:     expected unsigned int flags
+   drivers/platform/x86/socwatch/sw_output_buffer.c:575:67: sparse:     got restricted gfp_t
+>> drivers/platform/x86/socwatch/sw_output_buffer.c:774:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *dest @@     got void [noderef] __user *buffer @@
+   drivers/platform/x86/socwatch/sw_output_buffer.c:774:48: sparse:     expected void *dest
+   drivers/platform/x86/socwatch/sw_output_buffer.c:774:48: sparse:     got void [noderef] __user *buffer
+--
+>> drivers/platform/x86/socwatch/sw_mem.c:141:18: sparse: sparse: cast to restricted gfp_t
+   drivers/platform/x86/socwatch/sw_mem.c:305:38: sparse: sparse: cast to restricted gfp_t
+--
+>> drivers/platform/x86/socwatch/sw_collector.c:99:68: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int flags @@     got restricted gfp_t @@
+   drivers/platform/x86/socwatch/sw_collector.c:99:68: sparse:     expected unsigned int flags
+   drivers/platform/x86/socwatch/sw_collector.c:99:68: sparse:     got restricted gfp_t
+>> drivers/platform/x86/socwatch/sw_collector.c:85:33: sparse: sparse: symbol 'sw_copy_driver_interface_info_i' was not declared. Should it be static?
+>> drivers/platform/x86/socwatch/sw_collector.c:116:5: sparse: sparse: symbol 'sw_init_driver_interface_info_i' was not declared. Should it be static?
+>> drivers/platform/x86/socwatch/sw_collector.c:138:5: sparse: sparse: symbol 'sw_init_ops_i' was not declared. Should it be static?
+   drivers/platform/x86/socwatch/sw_collector.c:186:57: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int flags @@     got restricted gfp_t @@
+   drivers/platform/x86/socwatch/sw_collector.c:186:57: sparse:     expected unsigned int flags
+   drivers/platform/x86/socwatch/sw_collector.c:186:57: sparse:     got restricted gfp_t
+   drivers/platform/x86/socwatch/sw_collector.c:214:57: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int flags @@     got restricted gfp_t @@
+   drivers/platform/x86/socwatch/sw_collector.c:214:57: sparse:     expected unsigned int flags
+   drivers/platform/x86/socwatch/sw_collector.c:214:57: sparse:     got restricted gfp_t
+>> drivers/platform/x86/socwatch/sw_collector.c:211:24: sparse: sparse: symbol 'sw_alloc_ops_i' was not declared. Should it be static?
+>> drivers/platform/x86/socwatch/sw_collector.c:323:6: sparse: sparse: symbol 'sw_free_driver_interface_info_i' was not declared. Should it be static?
+>> drivers/platform/x86/socwatch/sw_collector.c:329:6: sparse: sparse: symbol 'sw_free_ops_i' was not declared. Should it be static?
+>> drivers/platform/x86/socwatch/sw_collector.c:335:5: sparse: sparse: symbol 'sw_reset_driver_interface_info_i' was not declared. Should it be static?
+>> drivers/platform/x86/socwatch/sw_collector.c:453:6: sparse: sparse: symbol 'sw_free_collector_msg_i' was not declared. Should it be static?
+>> drivers/platform/x86/socwatch/sw_collector.c:459:6: sparse: sparse: symbol 'sw_handle_per_cpu_msg_i' was not declared. Should it be static?
+   drivers/platform/x86/socwatch/sw_collector.c:516:51: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int flags @@     got restricted gfp_t @@
+   drivers/platform/x86/socwatch/sw_collector.c:516:51: sparse:     expected unsigned int flags
+   drivers/platform/x86/socwatch/sw_collector.c:516:51: sparse:     got restricted gfp_t
+--
+>> drivers/platform/x86/socwatch/sw_hardware_io.c:149:55: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int flags @@     got restricted gfp_t @@
+   drivers/platform/x86/socwatch/sw_hardware_io.c:149:55: sparse:     expected unsigned int flags
+   drivers/platform/x86/socwatch/sw_hardware_io.c:149:55: sparse:     got restricted gfp_t
+--
+>> drivers/platform/x86/socwatch/sw_internal.c:176:50: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int flags @@     got restricted gfp_t @@
+   drivers/platform/x86/socwatch/sw_internal.c:176:50: sparse:     expected unsigned int flags
+   drivers/platform/x86/socwatch/sw_internal.c:176:50: sparse:     got restricted gfp_t
+--
+>> drivers/platform/x86/socwatch/sw_tracepoint_handlers.c:237:44: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int flags @@     got restricted gfp_t @@
+   drivers/platform/x86/socwatch/sw_tracepoint_handlers.c:237:44: sparse:     expected unsigned int flags
+   drivers/platform/x86/socwatch/sw_tracepoint_handlers.c:237:44: sparse:     got restricted gfp_t
+--
+>> drivers/platform/x86/socwatch/sw_driver.c:1309:52: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got char *[assigned] out_arg @@
+   drivers/platform/x86/socwatch/sw_driver.c:1309:52: sparse:     expected void [noderef] __user *to
+   drivers/platform/x86/socwatch/sw_driver.c:1309:52: sparse:     got char *[assigned] out_arg
+>> drivers/platform/x86/socwatch/sw_driver.c:1053:58: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __user *buffer @@     got char *remote_buffer @@
+   drivers/platform/x86/socwatch/sw_driver.c:1053:58: sparse:     expected void [noderef] __user *buffer
+   drivers/platform/x86/socwatch/sw_driver.c:1053:58: sparse:     got char *remote_buffer
+>> drivers/platform/x86/socwatch/sw_driver.c:1070:39: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char *remote_cfg @@
+   drivers/platform/x86/socwatch/sw_driver.c:1070:39: sparse:     expected void const [noderef] __user *from
+   drivers/platform/x86/socwatch/sw_driver.c:1070:39: sparse:     got char *remote_cfg
 
-   drivers/nvme/host/ioctl.c: In function 'nvme_uring_cmd_io':
->> drivers/nvme/host/ioctl.c:555:44: error: implicit declaration of function 'io_uring_sqe_cmd'; did you mean 'io_uring_free'? [-Werror=implicit-function-declaration]
-     555 |         const struct nvme_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
-         |                                            ^~~~~~~~~~~~~~~~
-         |                                            io_uring_free
->> drivers/nvme/host/ioctl.c:555:44: warning: initialization of 'const struct nvme_uring_cmd *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   cc1: some warnings being treated as errors
+vim +344 drivers/platform/x86/socwatch/sw_output_buffer.c
 
+688e338c753b33 Faycal Benmlih 2019-04-23  292  
+688e338c753b33 Faycal Benmlih 2019-04-23  293  /*
+688e338c753b33 Faycal Benmlih 2019-04-23  294   * Returns # of bytes successfully consumed on success
+688e338c753b33 Faycal Benmlih 2019-04-23  295   * 0 on EOF (no error condition)
+688e338c753b33 Faycal Benmlih 2019-04-23  296   */
+688e338c753b33 Faycal Benmlih 2019-04-23  297  static size_t consume_buffer(void *dest, size_t bytes_to_read)
+688e338c753b33 Faycal Benmlih 2019-04-23  298  {
+688e338c753b33 Faycal Benmlih 2019-04-23  299  	size_t read_index = 0, write_index = 0, dst_index = 0;
+688e338c753b33 Faycal Benmlih 2019-04-23  300  	size_t to_read = 0;
+688e338c753b33 Faycal Benmlih 2019-04-23  301  	bool wrapped = false;
+688e338c753b33 Faycal Benmlih 2019-04-23  302  	size_t read_size = bytes_to_read;
+688e338c753b33 Faycal Benmlih 2019-04-23  303  	unsigned long bytes_not_copied = 0;
+688e338c753b33 Faycal Benmlih 2019-04-23  304  	struct sw_driver_continuous_collect data = {0};
+688e338c753b33 Faycal Benmlih 2019-04-23  305  
+688e338c753b33 Faycal Benmlih 2019-04-23  306  	WRITE_LOCK(sw_continuous_lock);
+688e338c753b33 Faycal Benmlih 2019-04-23  307  	smp_mb(); /* memory access ordering */
+688e338c753b33 Faycal Benmlih 2019-04-23  308  	read_index = buffer.read_index;
+688e338c753b33 Faycal Benmlih 2019-04-23  309  	write_index = buffer.write_index;
+688e338c753b33 Faycal Benmlih 2019-04-23  310  	/* EXE sends size as header + payload; we only want payload */
+688e338c753b33 Faycal Benmlih 2019-04-23  311  	read_size -= SW_DRIVER_CONTINUOUS_COLLECT_HEADER_SIZE();
+688e338c753b33 Faycal Benmlih 2019-04-23  312  	data.collection_size = to_read =
+688e338c753b33 Faycal Benmlih 2019-04-23  313  		MIN(read_size, get_data_available(&buffer));
+688e338c753b33 Faycal Benmlih 2019-04-23  314  	pw_pr_debug(
+688e338c753b33 Faycal Benmlih 2019-04-23  315  		"DEBUG: read = %zu, write = %zu, avail = %zu, to_read = %zu\n",
+688e338c753b33 Faycal Benmlih 2019-04-23  316  		read_index, write_index, get_data_available(&buffer), to_read);
+688e338c753b33 Faycal Benmlih 2019-04-23  317  	while (to_read) {
+688e338c753b33 Faycal Benmlih 2019-04-23  318  		size_t curr_read = to_read;
+688e338c753b33 Faycal Benmlih 2019-04-23  319  
+688e338c753b33 Faycal Benmlih 2019-04-23  320  		if (read_index + to_read > buffer.size) {
+688e338c753b33 Faycal Benmlih 2019-04-23  321  			curr_read = buffer.size - read_index;
+688e338c753b33 Faycal Benmlih 2019-04-23  322  			wrapped = true;
+688e338c753b33 Faycal Benmlih 2019-04-23  323  			pw_pr_debug(
+688e338c753b33 Faycal Benmlih 2019-04-23  324  				"DEBUG: read = %zu, to_read = %zu, curr_read = %zu, buffer.size = %lu, WRAPPED!\n",
+688e338c753b33 Faycal Benmlih 2019-04-23  325  				read_index, to_read, curr_read, buffer.size);
+688e338c753b33 Faycal Benmlih 2019-04-23  326  		}
+688e338c753b33 Faycal Benmlih 2019-04-23  327  		memcpy(&output_buffer[dst_index],
+688e338c753b33 Faycal Benmlih 2019-04-23  328  			&buffer.data[read_index], curr_read);
+688e338c753b33 Faycal Benmlih 2019-04-23  329  		read_index = (read_index + curr_read) & (buffer.size - 1);
+688e338c753b33 Faycal Benmlih 2019-04-23  330  		to_read -= curr_read;
+688e338c753b33 Faycal Benmlih 2019-04-23  331  		dst_index += curr_read;
+688e338c753b33 Faycal Benmlih 2019-04-23  332  	}
+688e338c753b33 Faycal Benmlih 2019-04-23  333  	buffer.read_index = read_index;
+688e338c753b33 Faycal Benmlih 2019-04-23  334  	smp_mb(); /* memory access ordering */
+688e338c753b33 Faycal Benmlih 2019-04-23  335  	pw_pr_debug("DEBUG: read at end of while = %zu\n", buffer.read_index);
+688e338c753b33 Faycal Benmlih 2019-04-23  336  	WRITE_UNLOCK(sw_continuous_lock);
+688e338c753b33 Faycal Benmlih 2019-04-23  337  
+688e338c753b33 Faycal Benmlih 2019-04-23  338  	/*
+688e338c753b33 Faycal Benmlih 2019-04-23  339  	 * Call 'copy_to_user' instead of 'sw_copy_to_user' since
+688e338c753b33 Faycal Benmlih 2019-04-23  340  	 * sw_copy_to_user expects to see a 'struct uio' while this
+688e338c753b33 Faycal Benmlih 2019-04-23  341  	 * is called from an IOCTL which does NOT have a 'struct uio'
+688e338c753b33 Faycal Benmlih 2019-04-23  342  	 */
+688e338c753b33 Faycal Benmlih 2019-04-23  343  	bytes_not_copied =
+688e338c753b33 Faycal Benmlih 2019-04-23 @344  	copy_to_user(dest, (char *)&data,
+688e338c753b33 Faycal Benmlih 2019-04-23  345  		SW_DRIVER_CONTINUOUS_COLLECT_HEADER_SIZE());
+688e338c753b33 Faycal Benmlih 2019-04-23  346  	if (bytes_not_copied)
+688e338c753b33 Faycal Benmlih 2019-04-23  347  		return 0;
+688e338c753b33 Faycal Benmlih 2019-04-23  348  
+688e338c753b33 Faycal Benmlih 2019-04-23  349  	pw_pr_debug("DEBUG: collection size = %u\n", data.collection_size);
+688e338c753b33 Faycal Benmlih 2019-04-23  350  	if (data.collection_size) {
+688e338c753b33 Faycal Benmlih 2019-04-23  351  		bytes_not_copied =
+688e338c753b33 Faycal Benmlih 2019-04-23 @352  			copy_to_user(dest +
+688e338c753b33 Faycal Benmlih 2019-04-23  353  				SW_DRIVER_CONTINUOUS_COLLECT_HEADER_SIZE(),
+688e338c753b33 Faycal Benmlih 2019-04-23  354  				output_buffer, data.collection_size);
+688e338c753b33 Faycal Benmlih 2019-04-23  355  		if (bytes_not_copied)
+688e338c753b33 Faycal Benmlih 2019-04-23  356  			return 0;
+688e338c753b33 Faycal Benmlih 2019-04-23  357  
+688e338c753b33 Faycal Benmlih 2019-04-23  358  	}
+688e338c753b33 Faycal Benmlih 2019-04-23  359  	return data.collection_size;
+688e338c753b33 Faycal Benmlih 2019-04-23  360  }
+688e338c753b33 Faycal Benmlih 2019-04-23  361  
+688e338c753b33 Faycal Benmlih 2019-04-23  362  long initialize_circular_buffer(size_t size)
+688e338c753b33 Faycal Benmlih 2019-04-23  363  {
+688e338c753b33 Faycal Benmlih 2019-04-23  364  	size_t alloc_size = size, read_size = size;
+688e338c753b33 Faycal Benmlih 2019-04-23  365  	/*
+688e338c753b33 Faycal Benmlih 2019-04-23  366  	 * We require a power of two size
+688e338c753b33 Faycal Benmlih 2019-04-23  367  	 */
+688e338c753b33 Faycal Benmlih 2019-04-23  368  	pw_pr_debug("DEBUG: old alloc size = %zu\n", alloc_size);
+688e338c753b33 Faycal Benmlih 2019-04-23  369  	if ((alloc_size & (alloc_size - 1)) != 0)
+688e338c753b33 Faycal Benmlih 2019-04-23  370  		alloc_size = 1 << fls(alloc_size);
+688e338c753b33 Faycal Benmlih 2019-04-23  371  
+688e338c753b33 Faycal Benmlih 2019-04-23  372  	pw_pr_debug("DEBUG: new alloc size = %zu\n", alloc_size);
+688e338c753b33 Faycal Benmlih 2019-04-23  373  	/* Create double-sized buffer */
+688e338c753b33 Faycal Benmlih 2019-04-23  374  	alloc_size <<= 1;
+688e338c753b33 Faycal Benmlih 2019-04-23  375  	pw_pr_debug("DEBUG: double alloc size = %zu\n", alloc_size);
+688e338c753b33 Faycal Benmlih 2019-04-23  376  	memset(&buffer, 0, sizeof(buffer));
+688e338c753b33 Faycal Benmlih 2019-04-23  377  	buffer.free_pages =
+688e338c753b33 Faycal Benmlih 2019-04-23 @378  		sw_allocate_pages(GFP_KERNEL | __GFP_ZERO, alloc_size);
+688e338c753b33 Faycal Benmlih 2019-04-23  379  	if (!buffer.free_pages) {
+688e338c753b33 Faycal Benmlih 2019-04-23  380  		pw_pr_error("Couldn't allocate space for buffer!\n");
+688e338c753b33 Faycal Benmlih 2019-04-23  381  		return -ENOMEM;
+688e338c753b33 Faycal Benmlih 2019-04-23  382  	}
+688e338c753b33 Faycal Benmlih 2019-04-23  383  	buffer.read_index = buffer.write_index = 0;
+688e338c753b33 Faycal Benmlih 2019-04-23  384  	buffer.size = alloc_size;
+688e338c753b33 Faycal Benmlih 2019-04-23  385  	SW_INIT_RWLOCK(sw_continuous_lock);
+688e338c753b33 Faycal Benmlih 2019-04-23  386  	/*
+688e338c753b33 Faycal Benmlih 2019-04-23  387  	 * Create temp output buffer
+688e338c753b33 Faycal Benmlih 2019-04-23  388  	 */
+688e338c753b33 Faycal Benmlih 2019-04-23  389  	output_buffer = vmalloc(read_size);
+688e338c753b33 Faycal Benmlih 2019-04-23  390  	if (!output_buffer) {
+688e338c753b33 Faycal Benmlih 2019-04-23  391  		pw_pr_error(
+688e338c753b33 Faycal Benmlih 2019-04-23  392  			"Couldn't create temporary buffer for data output!\n");
+688e338c753b33 Faycal Benmlih 2019-04-23  393  		return -ENOMEM;
+688e338c753b33 Faycal Benmlih 2019-04-23  394  	}
+688e338c753b33 Faycal Benmlih 2019-04-23  395  	return 0;
+688e338c753b33 Faycal Benmlih 2019-04-23  396  }
+688e338c753b33 Faycal Benmlih 2019-04-23  397  
 
-vim +555 drivers/nvme/host/ioctl.c
+:::::: The code at line 344 was first introduced by commit
+:::::: 688e338c753b33c023de3b774f7347effbf537a4 Platform/x86: Update SoCWatch driver code to 2.10
 
-   550	
-   551	static int nvme_uring_cmd_io(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
-   552			struct io_uring_cmd *ioucmd, unsigned int issue_flags, bool vec)
-   553	{
-   554		struct nvme_uring_cmd_pdu *pdu = nvme_uring_cmd_pdu(ioucmd);
- > 555		const struct nvme_uring_cmd *cmd = io_uring_sqe_cmd(ioucmd->sqe);
-   556		struct request_queue *q = ns ? ns->queue : ctrl->admin_q;
-   557		struct nvme_uring_data d;
-   558		struct nvme_command c;
-   559		struct request *req;
-   560		blk_opf_t rq_flags = REQ_ALLOC_CACHE;
-   561		blk_mq_req_flags_t blk_flags = 0;
-   562		void *meta = NULL;
-   563		int ret;
-   564	
-   565		c.common.opcode = READ_ONCE(cmd->opcode);
-   566		c.common.flags = READ_ONCE(cmd->flags);
-   567		if (c.common.flags)
-   568			return -EINVAL;
-   569	
-   570		c.common.command_id = 0;
-   571		c.common.nsid = cpu_to_le32(cmd->nsid);
-   572		if (!nvme_validate_passthru_nsid(ctrl, ns, le32_to_cpu(c.common.nsid)))
-   573			return -EINVAL;
-   574	
-   575		c.common.cdw2[0] = cpu_to_le32(READ_ONCE(cmd->cdw2));
-   576		c.common.cdw2[1] = cpu_to_le32(READ_ONCE(cmd->cdw3));
-   577		c.common.metadata = 0;
-   578		c.common.dptr.prp1 = c.common.dptr.prp2 = 0;
-   579		c.common.cdw10 = cpu_to_le32(READ_ONCE(cmd->cdw10));
-   580		c.common.cdw11 = cpu_to_le32(READ_ONCE(cmd->cdw11));
-   581		c.common.cdw12 = cpu_to_le32(READ_ONCE(cmd->cdw12));
-   582		c.common.cdw13 = cpu_to_le32(READ_ONCE(cmd->cdw13));
-   583		c.common.cdw14 = cpu_to_le32(READ_ONCE(cmd->cdw14));
-   584		c.common.cdw15 = cpu_to_le32(READ_ONCE(cmd->cdw15));
-   585	
-   586		if (!nvme_cmd_allowed(ns, &c, 0, ioucmd->file->f_mode))
-   587			return -EACCES;
-   588	
-   589		d.metadata = READ_ONCE(cmd->metadata);
-   590		d.addr = READ_ONCE(cmd->addr);
-   591		d.data_len = READ_ONCE(cmd->data_len);
-   592		d.metadata_len = READ_ONCE(cmd->metadata_len);
-   593		d.timeout_ms = READ_ONCE(cmd->timeout_ms);
-   594	
-   595		if (issue_flags & IO_URING_F_NONBLOCK) {
-   596			rq_flags |= REQ_NOWAIT;
-   597			blk_flags = BLK_MQ_REQ_NOWAIT;
-   598		}
-   599		if (issue_flags & IO_URING_F_IOPOLL)
-   600			rq_flags |= REQ_POLLED;
-   601	
-   602	retry:
-   603		req = nvme_alloc_user_request(q, &c, rq_flags, blk_flags);
-   604		if (IS_ERR(req))
-   605			return PTR_ERR(req);
-   606		req->timeout = d.timeout_ms ? msecs_to_jiffies(d.timeout_ms) : 0;
-   607	
-   608		if (d.addr && d.data_len) {
-   609			ret = nvme_map_user_request(req, d.addr,
-   610				d.data_len, nvme_to_user_ptr(d.metadata),
-   611				d.metadata_len, 0, &meta, ioucmd, vec);
-   612			if (ret)
-   613				return ret;
-   614		}
-   615	
-   616		if (issue_flags & IO_URING_F_IOPOLL && rq_flags & REQ_POLLED) {
-   617			if (unlikely(!req->bio)) {
-   618				/* we can't poll this, so alloc regular req instead */
-   619				blk_mq_free_request(req);
-   620				rq_flags &= ~REQ_POLLED;
-   621				goto retry;
-   622			} else {
-   623				WRITE_ONCE(ioucmd->cookie, req->bio);
-   624				req->bio->bi_opf |= REQ_POLLED;
-   625			}
-   626		}
-   627		/* to free bio on completion, as req->bio will be null at that time */
-   628		pdu->bio = req->bio;
-   629		pdu->meta_len = d.metadata_len;
-   630		req->end_io_data = ioucmd;
-   631		if (pdu->meta_len) {
-   632			pdu->u.meta = meta;
-   633			pdu->u.meta_buffer = nvme_to_user_ptr(d.metadata);
-   634			req->end_io = nvme_uring_cmd_end_io_meta;
-   635		} else {
-   636			req->end_io = nvme_uring_cmd_end_io;
-   637		}
-   638		blk_execute_rq_nowait(req, false);
-   639		return -EIOCBQUEUED;
-   640	}
-   641	
+:::::: TO: Faycal Benmlih <faycal.benmlih@intel.com>
+:::::: CC: Faycal Benmlih <faycal.benmlih@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
