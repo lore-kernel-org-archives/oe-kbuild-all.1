@@ -1,118 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37FE57E
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 May 2023 01:37:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 243E4C4339B;
-	Sun,  7 May 2023 01:37:03 +0000 (UTC)
-Date: Sat, 6 May 2023 21:37:00 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Chris Zankel <chris@zankel.net>, Max Filippov
- <jcmvbkbc@gmail.com>, linux-xtensa@linux-xtensa.org
-Subject: Re: [stable:linux-5.10.y 127/9999] WARNING: modpost:
- vmlinux.o(.text.unlikely+0x25c0): Section mismatch in reference from the
- function trace_define_generic_fields() to the variable
- .init.data:initcall_level_names
-Message-ID: <20230506213700.18ef20ec@rorschach.local.home>
-In-Reply-To: <202305061834.71GPhELu-lkp@intel.com>
-References: <202305061834.71GPhELu-lkp@intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D1347E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 May 2023 01:40:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683423628; x=1714959628;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=G/Y+t84SEhAGCjP48FvM2IybWm3n0sQqFWTnU44rhXI=;
+  b=YHg+d26etpAInBHrs5nCGG1y0tKUSF9mKw9V2f4ahbooupOrfCrFvZn3
+   BPJoWyJAl9CVowf11pJofb57pF9z+4n5Oo8V06I7ZGBM8O6Dzmq5H7b4/
+   +fDYt2E0ePuVXIRfCnHEFdLF4+naZu4LgWE6yYoine6MoobnXZdDXv3cQ
+   MhyJPPEF9Moh6sQotyoj4lVZuRfHVEMJj3hsYYVyOo3IbXaadYNb/3Yx8
+   8lKA9mwBQhR9//96uxbr29jANGCWZ29ZZSR8HghbyTMNQVGTmkuanHmWD
+   +gMCmCvNWoEZRmQLuyTeQN7dsbYNlsvd6tmRG2GOWSMctQ9Pzi0ox51Nc
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="338653297"
+X-IronPort-AV: E=Sophos;i="5.99,256,1677571200"; 
+   d="scan'208";a="338653297"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 18:40:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="1027996377"
+X-IronPort-AV: E=Sophos;i="5.99,256,1677571200"; 
+   d="scan'208";a="1027996377"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 06 May 2023 18:40:25 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pvTNx-0000YX-0Q;
+	Sun, 07 May 2023 01:40:25 +0000
+Date: Sun, 7 May 2023 09:40:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michael Ellerman <mpe@ellerman.id.au>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>
+Subject: [akpm-mm:mm-unstable 14/80] mm/kfence/core.c:329:34: sparse: sparse:
+ cast to restricted __le64
+Message-ID: <202305070938.YhOGAf6p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, 6 May 2023 18:40:40 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   988a57a6576e4e7f4ad22aa1486fcd807b83f38b
+commit: b58bcd8602ac75d2c1e2757d4027ae039fed6f4c [14/80] mm: kfence: fix false positives on big endian
+config: parisc-randconfig-s043-20230507 (https://download.01.org/0day-ci/archive/20230507/202305070938.YhOGAf6p-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?id=b58bcd8602ac75d2c1e2757d4027ae039fed6f4c
+        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
+        git fetch --no-tags akpm-mm mm-unstable
+        git checkout b58bcd8602ac75d2c1e2757d4027ae039fed6f4c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc SHELL=/bin/bash mm/kfence/
 
-> Hi Steven,
-> 
-> FYI, the error/warning still remains.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.10.y
-> head:   f1b32fda06d2cfb8eea9680b0ba7a8b0d5b81eeb
-> commit: 092a58f0d9ef5013ad3c197a9a5ecf2d7f797a88 [127/9999] tracing: Fix pid filtering when triggers are attached
-> config: xtensa-randconfig-r016-20230430 (https://download.01.org/0day-ci/archive/20230506/202305061834.71GPhELu-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 12.1.0
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305070938.YhOGAf6p-lkp@intel.com/
 
-Yes, this error still exists because it only happens with the xtensa
-toolchain or config. The code that it is complaining about is in
-generic code that should affect *all* architectures if a normal
-function is referencing boot variables.
+sparse warnings: (new ones prefixed by >>)
+>> mm/kfence/core.c:329:34: sparse: sparse: cast to restricted __le64
+>> mm/kfence/core.c:329:34: sparse: sparse: cast to restricted __le64
+>> mm/kfence/core.c:329:34: sparse: sparse: cast to restricted __le64
+>> mm/kfence/core.c:329:34: sparse: sparse: cast to restricted __le64
+>> mm/kfence/core.c:329:34: sparse: sparse: cast to restricted __le64
+>> mm/kfence/core.c:329:34: sparse: sparse: cast to restricted __le64
+>> mm/kfence/core.c:329:34: sparse: sparse: cast to restricted __le64
+>> mm/kfence/core.c:329:34: sparse: sparse: cast to restricted __le64
+>> mm/kfence/core.c:329:34: sparse: sparse: cast to restricted __le64
+>> mm/kfence/core.c:329:34: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:333:34: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:333:34: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:333:34: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:333:34: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:333:34: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:333:34: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:333:34: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:333:34: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:333:34: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:333:34: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:352:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:352:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:352:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:352:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:352:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:352:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:352:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:352:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:352:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:352:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:372:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:372:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:372:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:372:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:372:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:372:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:372:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:372:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:372:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:372:21: sparse: sparse: cast to restricted __le64
+   mm/kfence/core.c:1181:9: sparse: sparse: context imbalance in 'kfence_handle_page_fault' - different lock contexts for basic block
 
-I'm guessing this may be a bug in the xtensa toolchain, or xtensa has
-some strange requirements that I am unaware of.
+vim +329 mm/kfence/core.c
 
-Maybe it's doing some strange optimization and merges code together
-that causes this error?
+0ce20dd840897b Alexander Potapenko 2021-02-25  318  
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  319  static inline void set_canary(const struct kfence_metadata *meta)
+0ce20dd840897b Alexander Potapenko 2021-02-25  320  {
+0ce20dd840897b Alexander Potapenko 2021-02-25  321  	const unsigned long pageaddr = ALIGN_DOWN(meta->addr, PAGE_SIZE);
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  322  	unsigned long addr = pageaddr;
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  323  
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  324  	/*
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  325  	 * The canary may be written to part of the object memory, but it does
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  326  	 * not affect it. The user should initialize the object before using it.
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  327  	 */
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  328  	for (; addr < meta->addr; addr += sizeof(u64))
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03 @329  		*((u64 *)addr) = KFENCE_CANARY_PATTERN_U64;
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  330  
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  331  	addr = ALIGN_DOWN(meta->addr + meta->size, sizeof(u64));
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  332  	for (; addr - pageaddr < PAGE_SIZE; addr += sizeof(u64))
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  333  		*((u64 *)addr) = KFENCE_CANARY_PATTERN_U64;
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  334  }
+1ba3cbf3ec3b21 Peng Zhang          2023-04-03  335  
 
-Perhaps in init/main.c where we have:
+:::::: The code at line 329 was first introduced by commit
+:::::: 1ba3cbf3ec3b21d866436fb46b4bb7bdc38608f9 mm: kfence: improve the performance of __kfence_alloc() and __kfence_free()
 
-	trace_initcall_level(initcall_level_names[level]);
+:::::: TO: Peng Zhang <zhangpeng.00@bytedance.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
-Which is a macro and created by TRACE_EVENT() of:
-
- TRACE_EVENT(initcall_level,
-
-	TP_PROTO(const char *level),
-
-	TP_ARGS(level),
-
-	TP_STRUCT__entry(
-		__string(level, level)
-	),
-
-	TP_fast_assign(
-		__assign_str(level, level);
-	),
-
-	TP_printk("level=%s", __get_str(level))
-);
-
-And that __string() is a macro that does some more magic:
-
-that this is causing the xtensa compiler issues. I also just noticed
-that trace_define_generic_fields() is static, and looks to be only
-called by event_trace_init_fields() which is __init. So perhaps that is
-triggering this. Perhaps it is safe to make
-trace_define_generic_fields() __init if it is only used by init
-functions. But I have to look further into this.
-
-Anyway, it looks to be a placebo bug and the only bug being fixed would
-be to quiet this warning.
-
--- Steve
-
-
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=092a58f0d9ef5013ad3c197a9a5ecf2d7f797a88
->         git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
->         git fetch --no-tags stable linux-5.10.y
->         git checkout 092a58f0d9ef5013ad3c197a9a5ecf2d7f797a88
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=xtensa olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=xtensa SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202305061834.71GPhELu-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>, old ones prefixed by <<):
-> 
-> << WARNING: modpost: vmlinux.o(.text.unlikely+0x243c): Section mismatch in reference from the function trace_printk_seq() to the variable .init.data:initcall_level_names
-> >> WARNING: modpost: vmlinux.o(.text.unlikely+0x25c0): Section mismatch in reference from the function trace_define_generic_fields() to the variable .init.data:initcall_level_names  
-> The function trace_define_generic_fields() references
-> the variable __initdata initcall_level_names.
-> This is often because trace_define_generic_fields lacks a __initdata
-> annotation or the annotation of initcall_level_names is wrong.
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
