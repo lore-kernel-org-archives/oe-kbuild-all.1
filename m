@@ -1,44 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D29817D8
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 May 2023 05:30:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7937C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  7 May 2023 08:55:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683437430; x=1714973430;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=579cDMaPYjBtSAP/0hejrPjdjsvzDheddzkd6znhPSE=;
-  b=kHKEozHN+1hHMNUPEAG2y1JtIu10V8GjYkxpaVgCiQdXTAcDbAAaPWwG
-   n7zra/YcekGwjYQ1beaavDSK28GSyu6RSKxpab3346X1PHwH7fNJi6Tfn
-   9m9tVvIPUZhZqQNP0OU9t9UpfP2olhKTn1fDTHLycw2GXVbjrAMzrnlJ7
-   2FVVNPY5t/b4z5oihM5aYDibLGW0SRXiPMBgkg0m/GD3ejdqldIRJmG62
-   8onmZA3znUttuwGUayK2eVl6kc+6JgDYz3sNmDoYGe/OSKRbyNkwNIzRs
-   3KVjyaS+8nCx5Rak1WAD5oeIIq3VgR9nzSxhssHWl044q4p2kPlR5MLkA
+  t=1683449732; x=1714985732;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PfziRKSkfuDKzrxNGJlgXDoZpp4c4w/3dZKKzkccNV4=;
+  b=Yz2EdqEhkzP2jtO7YZLnRxT3BQsSrokKTYAd7lCNL8hU+aOlpnoD6hgm
+   lBHBSkBzyxXU/uIp3J+f0scqym4n4BAmLvo7llC4wVHNAzIX4kRJFJymZ
+   16phBdwVG1s0Lyx7K+SJ/asO0q4e4L8qjdEcG469/VQykHdslA3oFrfFt
+   2B4k4jJvo4Op9ygFaHUeAqgP3ljzQogUI5it5H0PNSDq7vfVtRhGXmVUu
+   VjCrmjoh36HuMqJQI+4Rylvy93izi3w/ht85B2GokNNl7iOUPDhnXXcCc
+   07CWdpw0nYZ1FUojUu+Uk4i25eTTE+f9s1Gl7I0k5os9Cb+NNWeC24IuL
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="352506179"
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="338683191"
 X-IronPort-AV: E=Sophos;i="5.99,256,1677571200"; 
-   d="scan'208";a="352506179"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 May 2023 22:30:29 -0700
+   d="scan'208";a="338683191"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2023 01:55:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="767669689"
+X-IronPort-AV: E=McAfee;i="6600,9927,10702"; a="701073754"
 X-IronPort-AV: E=Sophos;i="5.99,256,1677571200"; 
-   d="scan'208";a="767669689"
+   d="scan'208";a="701073754"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 06 May 2023 22:30:28 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 07 May 2023 01:55:31 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvWya-0000dN-0Z;
-	Sun, 07 May 2023 05:30:28 +0000
-Date: Sun, 7 May 2023 13:29:59 +0800
+	id 1pvaB0-0000he-0i;
+	Sun, 07 May 2023 08:55:30 +0000
+Date: Sun, 7 May 2023 16:54:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hou Tao <houtao@huaweicloud.com>
+To: Luis Chamberlain <mcgrof@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH bpf-next 2/4] bpf: Add three kfunc helpers for bpf fs
- inode iterator
-Message-ID: <202305071347.6YCIthgI-lkp@intel.com>
-References: <20230507040107.3755166-3-houtao@huaweicloud.com>
+Subject: [mcgrof-next:20230506-fs-freeze 1/6] fs/gfs2/sys.c:167:31: error:
+ 'sb' undeclared; did you mean 's8'?
+Message-ID: <202305071612.dVnL10lt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,89 +45,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230507040107.3755166-3-houtao@huaweicloud.com>
 
-Hi Hou,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf/master]
-[also build test ERROR on linus/master]
-[cannot apply to bpf-next/master akpm-mm/mm-everything v6.3 next-20230505]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hou-Tao/bpf-Introduce-bpf-iterator-for-file-system-inode/20230507-113114
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-patch link:    https://lore.kernel.org/r/20230507040107.3755166-3-houtao%40huaweicloud.com
-patch subject: [RFC PATCH bpf-next 2/4] bpf: Add three kfunc helpers for bpf fs inode iterator
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230507/202305071347.6YCIthgI-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git 20230506-fs-freeze
+head:   f89cf429edea2c04c26d2bd2bf2f16268ba2b181
+commit: 61958780e6d30f6e846f14a5cf2c29250310520a [1/6] fs: unify locking semantics for fs freeze / thaw
+config: arc-buildonly-randconfig-r003-20230507 (https://download.01.org/0day-ci/archive/20230507/202305071612.dVnL10lt-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/93ea1c2e394182d3547673f69a808b8c1fa994e3
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hou-Tao/bpf-Introduce-bpf-iterator-for-file-system-inode/20230507-113114
-        git checkout 93ea1c2e394182d3547673f69a808b8c1fa994e3
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/commit/?id=61958780e6d30f6e846f14a5cf2c29250310520a
+        git remote add mcgrof-next https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git
+        git fetch --no-tags mcgrof-next 20230506-fs-freeze
+        git checkout 61958780e6d30f6e846f14a5cf2c29250310520a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash arch/s390/kvm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash fs/gfs2/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305071347.6YCIthgI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305071612.dVnL10lt-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/uapi/asm-generic/mman.h:5,
-                    from ./arch/s390/include/generated/uapi/asm/mman.h:1,
-                    from include/uapi/linux/mman.h:5,
-                    from include/linux/fs.h:49,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:855,
-                    from include/linux/kvm_host.h:16,
-                    from arch/s390/kvm/kvm-s390.h:17,
-                    from arch/s390/kvm/gaccess.c:16:
->> include/uapi/asm-generic/mman-common.h:16:25: error: expected identifier before numeric constant
-      16 | #define PROT_NONE       0x0             /* page can not be accessed */
-         |                         ^~~
-   arch/s390/kvm/gaccess.c:493:9: note: in expansion of macro 'PROT_NONE'
-     493 |         PROT_NONE,
-         |         ^~~~~~~~~
-   arch/s390/kvm/gaccess.c: In function 'trans_exc_ending':
->> arch/s390/kvm/gaccess.c:516:17: error: duplicate case value
-     516 |                 case PROT_TYPE_LA:
-         |                 ^~~~
-   arch/s390/kvm/gaccess.c:509:17: note: previously used here
-     509 |                 case PROT_NONE:
-         |                 ^~~~
-   In file included from include/linux/compiler_types.h:80,
-                    from <command-line>:
->> include/linux/compiler_attributes.h:208:41: warning: attribute 'fallthrough' not preceding a case label or default label
-     208 | # define fallthrough                    __attribute__((__fallthrough__))
-         |                                         ^~~~~~~~~~~~~
-   arch/s390/kvm/gaccess.c:515:25: note: in expansion of macro 'fallthrough'
-     515 |                         fallthrough;
-         |                         ^~~~~~~~~~~
+   fs/gfs2/sys.c: In function 'freeze_store':
+>> fs/gfs2/sys.c:167:31: error: 'sb' undeclared (first use in this function); did you mean 's8'?
+     167 |         if (!get_active_super(sb->s_bdev))
+         |                               ^~
+         |                               s8
+   fs/gfs2/sys.c:167:31: note: each undeclared identifier is reported only once for each function it appears in
+--
+   fs/gfs2/util.c: In function 'gfs2_withdraw':
+>> fs/gfs2/util.c:348:39: error: 'sb' undeclared (first use in this function); did you mean 's8'?
+     348 |                 if (!get_active_super(sb->s_bdev)) {
+         |                                       ^~
+         |                                       s8
+   fs/gfs2/util.c:348:39: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +16 include/uapi/asm-generic/mman-common.h
+vim +167 fs/gfs2/sys.c
 
-5f6164f3092832e include/asm-generic/mman.h             Michael S. Tsirkin 2006-02-15   9  
-5f6164f3092832e include/asm-generic/mman.h             Michael S. Tsirkin 2006-02-15  10  #define PROT_READ	0x1		/* page can be read */
-5f6164f3092832e include/asm-generic/mman.h             Michael S. Tsirkin 2006-02-15  11  #define PROT_WRITE	0x2		/* page can be written */
-5f6164f3092832e include/asm-generic/mman.h             Michael S. Tsirkin 2006-02-15  12  #define PROT_EXEC	0x4		/* page can be executed */
-5f6164f3092832e include/asm-generic/mman.h             Michael S. Tsirkin 2006-02-15  13  #define PROT_SEM	0x8		/* page may be used for atomic ops */
-d41938d2cbee926 include/uapi/asm-generic/mman-common.h Dave Martin        2019-12-11  14  /*			0x10		   reserved for arch-specific use */
-d41938d2cbee926 include/uapi/asm-generic/mman-common.h Dave Martin        2019-12-11  15  /*			0x20		   reserved for arch-specific use */
-5f6164f3092832e include/asm-generic/mman.h             Michael S. Tsirkin 2006-02-15 @16  #define PROT_NONE	0x0		/* page can not be accessed */
-5f6164f3092832e include/asm-generic/mman.h             Michael S. Tsirkin 2006-02-15  17  #define PROT_GROWSDOWN	0x01000000	/* mprotect flag: extend change to start of growsdown vma */
-5f6164f3092832e include/asm-generic/mman.h             Michael S. Tsirkin 2006-02-15  18  #define PROT_GROWSUP	0x02000000	/* mprotect flag: extend change to end of growsup vma */
-5f6164f3092832e include/asm-generic/mman.h             Michael S. Tsirkin 2006-02-15  19  
+   155	
+   156	static ssize_t freeze_store(struct gfs2_sbd *sdp, const char *buf, size_t len)
+   157	{
+   158		int error, n;
+   159	
+   160		error = kstrtoint(buf, 0, &n);
+   161		if (error)
+   162			return error;
+   163	
+   164		if (!capable(CAP_SYS_ADMIN))
+   165			return -EPERM;
+   166	
+ > 167		if (!get_active_super(sb->s_bdev))
+   168			return -ENOTTY;
+   169	
+   170		switch (n) {
+   171		case 0:
+   172			error = thaw_super(sdp->sd_vfs);
+   173			break;
+   174		case 1:
+   175			error = freeze_super(sdp->sd_vfs);
+   176			break;
+   177		default:
+   178			deactivate_locked_super(sb);
+   179			return -EINVAL;
+   180		}
+   181	
+   182		deactivate_locked_super(sb);
+   183	
+   184		if (error) {
+   185			fs_warn(sdp, "freeze %d error %d\n", n, error);
+   186			return error;
+   187		}
+   188	
+   189		return len;
+   190	}
+   191	
 
 -- 
 0-DAY CI Kernel Test Service
