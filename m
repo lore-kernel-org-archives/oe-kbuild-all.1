@@ -1,105 +1,94 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04C32100
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 16:58:02 +0000 (UTC)
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 348GlvcX022913;
-	Mon, 8 May 2023 16:57:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=pp1;
- bh=ItItWoQnsLsuHMJgYw8gV3/xhYnZJVcdqAF9hGhEFiI=;
- b=fWSD+o1AYvfyHkijHbGSKP9FFxcGzOEAVeiG1VTs9qT4NZv83Fpktgk17hTrz4CGipiA
- wZFWSE65W2sFFH5KUnTU2FUh6sIW9ewYy588I6h20j6BrjJP7QoeP9ziby6zA/Z181xr
- 4Nh5GYBu7BAaM66YGTTzLMgnRqp9ohc1gAN2xnU8RfrB3TYr4NSY55Kn8wkIm+1St+xJ
- PkaXrJx+krPIm2Tub4WGffBjfR53nPFHiAUKSbqYIATVROeJzvOemBYtC4w4EPuoqb0l
- QwCCpU756LGdxZvDbXFEc8/nWEUEvII7Dx5JUPq5dQlcN0lTcSYCuhGCgmCV/7WrqDYa sQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qf4wxg7mq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 May 2023 16:57:51 +0000
-Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 348GqtCq006692;
-	Mon, 8 May 2023 16:57:51 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qf4wxg7k9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 May 2023 16:57:51 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
-	by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3481pojU023497;
-	Mon, 8 May 2023 16:57:48 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3qdeh6h133-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 08 May 2023 16:57:48 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 348GvigQ8389266
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 8 May 2023 16:57:44 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 474F620043;
-	Mon,  8 May 2023 16:57:44 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A46B120040;
-	Mon,  8 May 2023 16:57:43 +0000 (GMT)
-Received: from osiris (unknown [9.171.72.156])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Mon,  8 May 2023 16:57:43 +0000 (GMT)
-Date: Mon, 8 May 2023 18:57:42 +0200
-From: Heiko Carstens <hca@linux.ibm.com>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Andrew Morton <akpm@linux-foundation.org>, gor@linux.ibm.com,
-        agordeev@linux.ibm.com, borntraeger@linux.ibm.com, svens@linux.ibm.com,
-        linux-s390@vger.kernel.org
-Subject: Re: [linux-next:master 14680/14811] mm/filemap.c:4250:1: sparse:
- sparse: Using plain integer as NULL pointer
-Message-ID: <ZFkqBteEnMxRjUfj@osiris>
-References: <202305070840.X0G3ofjl-lkp@intel.com>
- <CAKEwX=MrPCPKF7Yxfjc-uOR2P-+Ee8+RV_B_u1f7iqC0L=_yew@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F96220F9
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 17:03:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683565419; x=1715101419;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4ksxmaz4w+c2S4VJhzI3cbe8ho/PWsLZdhjlyJhKsYc=;
+  b=Axt6OoaecqwkmIKwnA3s26zyiokTLPPKXiQt0XX7qC8o9aNmvMCEX+cf
+   wBI4LyttCeU1MdTZV0j0yxIhmrS+WEy/rNucg+9Zf2BXpJWl3Sq/76J+T
+   lugngXzm0b5YY5UpirMmY61XnejkQUBP509crSy9jCLxIIYv6LMu33ArP
+   4NE99abGROQQYBUp8PP1V7ECIFZW+x8zQitovsy0LA1PBDw6TbCNkSoOx
+   7438+Ll0A2mIAIjLAGb2dIbEC1JW0SEjJQl/dRRnp4nDAE6CIByyLAu5e
+   YB3EvzMwbrLaUJfxaRAMpZAd76Bs5yXGEUktD3M0B2MSGuT8vHQBYYL7m
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="377799256"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
+   d="scan'208";a="377799256"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 10:03:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="763472813"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
+   d="scan'208";a="763472813"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 08 May 2023 10:03:38 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pw4Gv-0001Kb-0A;
+	Mon, 08 May 2023 17:03:37 +0000
+Date: Tue, 9 May 2023 01:02:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/220-tso 2/4] kernel/sys.c:2391:12: warning: no
+ previous prototype for 'arch_prctl_mem_model_get'
+Message-ID: <202305090029.OWogV806-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKEwX=MrPCPKF7Yxfjc-uOR2P-+Ee8+RV_B_u1f7iqC0L=_yew@mail.gmail.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: BKayuXYXVjDh3dxCDCI7ZUV-QxTAHaPV
-X-Proofpoint-ORIG-GUID: tvBe10K9EcBk6Rs1rEKDyqtH9FCgADgO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
- definitions=2023-05-08_12,2023-05-05_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
- impostorscore=0 spamscore=0 malwarescore=0 adultscore=0 phishscore=0
- clxscore=1011 mlxlogscore=999 lowpriorityscore=0 bulkscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2303200000 definitions=main-2305080111
 
-On Mon, May 08, 2023 at 09:45:56AM -0700, Nhat Pham wrote:
-> On Sat, May 6, 2023 at 5:28 PM kernel test robot <lkp@intel.com> wrote:
-> > sparse warnings: (new ones prefixed by >>)
-> >    mm/filemap.c:1416:17: sparse: sparse: context imbalance in 'migration_entry_wait_on_locked' - unexpected unlock
-> > >> mm/filemap.c:4250:1: sparse: sparse: Using plain integer as NULL pointer
-> > >> mm/filemap.c:4250:1: sparse: sparse: Using plain integer as NULL pointer
-> > >> mm/filemap.c:4250:1: sparse: sparse: Using plain integer as NULL pointer
-...
-> > > 4250  SYSCALL_DEFINE4(cachestat, unsigned int, fd,
-> 
-> Hmm I couldn't see where I used 0 as the null pointer. Maybe
-> this is a false positive or a result of not wiring up the syscall
-> for s390? Especially since this is pointed toward the macro
-> line (SYSCALL_DEFINE).
-> 
-> cc-ing this to s390 maintainers and the s390 mailing list...
-> Could you help me debug this? Thanks!
+tree:   https://github.com/AsahiLinux/linux bits/220-tso
+head:   38015ad2af19088e66e0c81f7efd5a8b51814026
+commit: b5c6de40368b847e8c2968e260fb98ac1b7b10d2 [2/4] prctl: Introduce PR_{SET,GET}_MEM_MODEL
+config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230509/202305090029.OWogV806-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/AsahiLinux/linux/commit/b5c6de40368b847e8c2968e260fb98ac1b7b10d2
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/220-tso
+        git checkout b5c6de40368b847e8c2968e260fb98ac1b7b10d2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
 
-Just ignore, this is a known false positive with s390's SYSCALL_DEFINE()
-implementation vs sparse. I looked into it once, but couldn't figure out
-how to silence sparse.
-IIRC, the __TYPE_IS_PTR() macro causes this.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305090029.OWogV806-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> kernel/sys.c:2391:12: warning: no previous prototype for 'arch_prctl_mem_model_get' [-Wmissing-prototypes]
+    2391 | int __weak arch_prctl_mem_model_get(struct task_struct *t)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sys.c:2396:12: warning: no previous prototype for 'arch_prctl_mem_model_set' [-Wmissing-prototypes]
+    2396 | int __weak arch_prctl_mem_model_set(struct task_struct *t, unsigned long val)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/arch_prctl_mem_model_get +2391 kernel/sys.c
+
+  2390	
+> 2391	int __weak arch_prctl_mem_model_get(struct task_struct *t)
+  2392	{
+  2393		return -EINVAL;
+  2394	}
+  2395	
+> 2396	int __weak arch_prctl_mem_model_set(struct task_struct *t, unsigned long val)
+  2397	{
+  2398		return -EINVAL;
+  2399	}
+  2400	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
