@@ -1,91 +1,156 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE74820F9
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 17:26:14 +0000 (UTC)
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-75783ac48e7so93061085a.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 08 May 2023 10:26:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683566773; x=1686158773;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NdTG6ohHjTz/AJd0T3pLa5J84Bi4YtOOy88Rg5Wrl88=;
-        b=sZKcQvQ8ss2FfAs3cWAq70XoPSdDmF46CT2ZeYJcMXw2/RV1OLb1qBWC+tMubE/Eft
-         dCWb8dhIMam2oBdieGewF20DcJkTMZU09dqeH6cq1ro1raSC5d0xeUwhwxhxI66ZDKlM
-         cDZnbQBm4TQobVlcjzklowrhJyM8AMRLK+3h2+toO/jBzZaxk+EedwydP98RlLv37Yl+
-         A1ydfsEdIfqI5x5SGRTMJOBkyJMOXInTuqDWaLSYZTMgq+fGsLNeQq6sER9YQ/OQo/An
-         Js35GKOUX6+5hU+GcNn6CdnXf4F4ffC3BZAmtKE7fzhFGLN7vj4LJxyts3uHVbhL4xMD
-         8/TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683566773; x=1686158773;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NdTG6ohHjTz/AJd0T3pLa5J84Bi4YtOOy88Rg5Wrl88=;
-        b=CUwdjDcBTlwPz5vYaFZO4CdfyWgHOd9w8Qqa4SYscL3oETCYPy6+4OVVzfVwwqi804
-         KJpD0EnN3bw/frTLZiEJeq9pcChCexb1cCZrNmnY2qxjswHn4S9rpURB63fdZoGkWjTz
-         cwYhpjiT3u4sNVYwD9wu/K1hZTqseM5/0OeqTtGd9ZRluxT2y55/wj1vVHjcOPl+SpGF
-         iitSR46Hqw9Sl6YiJaSzqLutCNo7uY2WOCqRBvvegWANSud3hlO42hQxls0eTnxOxnz7
-         /vge9wk4CPFuiat82W8hhQkuaGkwiusdiTMO50TJULJmIynKMvvcTQCbzGGNagBpUWDD
-         CXyQ==
-X-Gm-Message-State: AC+VfDza60Q3fJbSPBL4t0yLpXwMVDjCu8q/y9tXxMeAiGpGC7GM0wgO
-	I0kbAPZGUsLY58yoGz29DCKWs4IpGX8E5mmia2SpTdY62ClMgQ==
-X-Google-Smtp-Source: ACHHUZ7oAEM+KBY9fBtUy4rvw55f2AWZiE1lM90iPY5z0ly8O9pDj3kxdVxcFGr9YTOMr2VeJpgxndQnN15ryBEb5xY=
-X-Received: by 2002:a05:6214:2409:b0:61b:5b4b:2a4 with SMTP id
- fv9-20020a056214240900b0061b5b4b02a4mr18194563qvb.29.1683566773494; Mon, 08
- May 2023 10:26:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC79817D1
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 17:35:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683567359; x=1715103359;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e1JmpXn99KX4PvxeQe9Giaqhj7Jo074wNTWAfE5wjzc=;
+  b=G88Q3z86GauvSEPV3rOLc1+5jx2dejyFsiWD2w9c6Z63kRHq9rYeGr1h
+   KkoXMhtCJnb6bPf4JCJy/+AGlIsUfOSDnttSyzwFnS6y7fZXW+7t/1oan
+   2SlGIJWAm1cbo8eN/hiGjkezmhdQdVxKstOPwDCxmxNUO+34kN11ldAn2
+   hsDPW0dMUhalKjB4IHKcEQaOdDZEhTByEV46Nvt+tkPSAYpdCTGnY4FBA
+   u2VWbrWRlTtLM8WY2cVL8aOBiFxSkUJSzVFDIwK9mGgLP9m8IDWPRw9mG
+   jhAJO0Zfp5fxoTJaNBDUDdW1YiQL7ZM1rkYCWvXnkNlb+xYn6NzKwCB45
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="334156695"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
+   d="scan'208";a="334156695"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 10:35:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="768159934"
+X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
+   d="scan'208";a="768159934"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 08 May 2023 10:35:38 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pw4lt-0001LV-1z;
+	Mon, 08 May 2023 17:35:37 +0000
+Date: Tue, 9 May 2023 01:35:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Bharat Bhushan <bbhushan2@marvell.com>, wim@linux-watchdog.org,
+	linux@roeck-us.net, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sgoutham@marvell.com
+Cc: oe-kbuild-all@lists.linux.dev, Bharat Bhushan <bbhushan2@marvell.com>
+Subject: Re: [PATCH 2/2 v7] Watchdog: Add marvell GTI watchdog driver
+Message-ID: <202305090120.Ji2xbrTK-lkp@intel.com>
+References: <20230508131515.19403-2-bbhushan2@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202305070840.X0G3ofjl-lkp@intel.com> <CAKEwX=MrPCPKF7Yxfjc-uOR2P-+Ee8+RV_B_u1f7iqC0L=_yew@mail.gmail.com>
- <ZFkqBteEnMxRjUfj@osiris>
-In-Reply-To: <ZFkqBteEnMxRjUfj@osiris>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Mon, 8 May 2023 10:26:02 -0700
-Message-ID: <CAKEwX=NrYdaGOvzh41LNfMfWuzM+Yc1GP4V3ybj8tqiKPLFKxQ@mail.gmail.com>
-Subject: Re: [linux-next:master 14680/14811] mm/filemap.c:4250:1: sparse:
- sparse: Using plain integer as NULL pointer
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, gor@linux.ibm.com, 
-	agordeev@linux.ibm.com, borntraeger@linux.ibm.com, svens@linux.ibm.com, 
-	linux-s390@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230508131515.19403-2-bbhushan2@marvell.com>
 
-On Mon, May 8, 2023 at 9:57=E2=80=AFAM Heiko Carstens <hca@linux.ibm.com> w=
-rote:
->
-> On Mon, May 08, 2023 at 09:45:56AM -0700, Nhat Pham wrote:
-> > On Sat, May 6, 2023 at 5:28=E2=80=AFPM kernel test robot <lkp@intel.com=
-> wrote:
-> > > sparse warnings: (new ones prefixed by >>)
-> > >    mm/filemap.c:1416:17: sparse: sparse: context imbalance in 'migrat=
-ion_entry_wait_on_locked' - unexpected unlock
-> > > >> mm/filemap.c:4250:1: sparse: sparse: Using plain integer as NULL p=
-ointer
-> > > >> mm/filemap.c:4250:1: sparse: sparse: Using plain integer as NULL p=
-ointer
-> > > >> mm/filemap.c:4250:1: sparse: sparse: Using plain integer as NULL p=
-ointer
-> ...
-> > > > 4250  SYSCALL_DEFINE4(cachestat, unsigned int, fd,
-> >
-> > Hmm I couldn't see where I used 0 as the null pointer. Maybe
-> > this is a false positive or a result of not wiring up the syscall
-> > for s390? Especially since this is pointed toward the macro
-> > line (SYSCALL_DEFINE).
-> >
-> > cc-ing this to s390 maintainers and the s390 mailing list...
-> > Could you help me debug this? Thanks!
->
-> Just ignore, this is a known false positive with s390's SYSCALL_DEFINE()
-> implementation vs sparse. I looked into it once, but couldn't figure out
-> how to silence sparse.
-> IIRC, the __TYPE_IS_PTR() macro causes this.
+Hi Bharat,
 
-Thanks for the prompt response and support, Heiko!
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on groeck-staging/hwmon-next linus/master v6.4-rc1 next-20230508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bharat-Bhushan/Watchdog-Add-marvell-GTI-watchdog-driver/20230508-211645
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230508131515.19403-2-bbhushan2%40marvell.com
+patch subject: [PATCH 2/2 v7] Watchdog: Add marvell GTI watchdog driver
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230509/202305090120.Ji2xbrTK-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/0b1fbcf987da442c837b205256c6400adf6d298e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Bharat-Bhushan/Watchdog-Add-marvell-GTI-watchdog-driver/20230508-211645
+        git checkout 0b1fbcf987da442c837b205256c6400adf6d298e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305090120.Ji2xbrTK-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/watchdog/marvell_gti_wdt.c: In function 'gti_wdt_interrupt':
+>> drivers/watchdog/marvell_gti_wdt.c:89:9: error: implicit declaration of function 'writeq' [-Werror=implicit-function-declaration]
+      89 |         writeq(GTI_CWD_INT_PENDING_STATUS(priv->wdt_timer_idx),
+         |         ^~~~~~
+   drivers/watchdog/marvell_gti_wdt.c: In function 'gti_wdt_start':
+>> drivers/watchdog/marvell_gti_wdt.c:126:18: error: implicit declaration of function 'readq' [-Werror=implicit-function-declaration]
+     126 |         regval = readq(priv->base + GTI_CWD_WDOG(priv->wdt_timer_idx));
+         |                  ^~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/writeq +89 drivers/watchdog/marvell_gti_wdt.c
+
+    82	
+    83	static irqreturn_t gti_wdt_interrupt(int irq, void *data)
+    84	{
+    85		struct watchdog_device *wdev = data;
+    86		struct gti_wdt_priv *priv = watchdog_get_drvdata(wdev);
+    87	
+    88		/* Clear Interrupt Pending Status */
+  > 89		writeq(GTI_CWD_INT_PENDING_STATUS(priv->wdt_timer_idx),
+    90		       priv->base + GTI_CWD_INT);
+    91	
+    92		watchdog_notify_pretimeout(wdev);
+    93	
+    94		return IRQ_HANDLED;
+    95	}
+    96	
+    97	static int gti_wdt_ping(struct watchdog_device *wdev)
+    98	{
+    99		struct gti_wdt_priv *priv = watchdog_get_drvdata(wdev);
+   100	
+   101		writeq(GTI_CWD_POKE_VAL,
+   102		       priv->base + GTI_CWD_POKE(priv->wdt_timer_idx));
+   103	
+   104		return 0;
+   105	}
+   106	
+   107	static int gti_wdt_start(struct watchdog_device *wdev)
+   108	{
+   109		struct gti_wdt_priv *priv = watchdog_get_drvdata(wdev);
+   110		u64 regval;
+   111	
+   112		if (!wdev->pretimeout)
+   113			return -EINVAL;
+   114	
+   115		set_bit(WDOG_HW_RUNNING, &wdev->status);
+   116	
+   117		/* Clear any pending interrupt */
+   118		writeq(GTI_CWD_INT_PENDING_STATUS(priv->wdt_timer_idx),
+   119		       priv->base + GTI_CWD_INT);
+   120	
+   121		/* Enable Interrupt */
+   122		writeq(GTI_CWD_INT_ENA_SET_VAL(priv->wdt_timer_idx),
+   123		       priv->base + GTI_CWD_INT_ENA_SET);
+   124	
+   125		/* Set (Interrupt + SCP interrupt (DEL3T) + core domain reset) Mode */
+ > 126		regval = readq(priv->base + GTI_CWD_WDOG(priv->wdt_timer_idx));
+   127		regval |= GTI_CWD_WDOG_MODE_INT_DEL3T_RST;
+   128		writeq(regval, priv->base + GTI_CWD_WDOG(priv->wdt_timer_idx));
+   129	
+   130		return 0;
+   131	}
+   132	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
