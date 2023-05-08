@@ -1,41 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508AD11C8F;
-	Mon,  8 May 2023 11:01:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AF7168CD
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 11:22:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683543702; x=1715079702;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=DBnF8Nor69jt9Lkx7YK8DJIju8ez8eNfqWcccEQBF6g=;
-  b=jQz58tYloJCKNwhuYUIbQsN61pV+vEb5oGY3EbMQhpN+zCwxMGdadE9g
-   3l+09NdGQ8KSBFBH8cK2wVGWkR6fnJ3sTfyiLyWbhKnghif8hXYIvtJap
-   1USjF+bjwpM4VV1fHJ7MQZOzHbXb3nxNptC7AHwWAWoBAZbahcom6Wtg7
-   E6TCxFMUKJobA6f4dcl00R/FPJ4W0W1GF8ps0DwYtvqkhpS0odAwKyD8c
-   CzW2fgvB5duZHg8a/ulFKikaO/3HEMYYTcXYZTZ2PdjvL1b224J9d3bhG
-   h4wNosWo21lQ7dL3wRkAlvTgeDAoounPPnoaDu2Yi8Ad+gS/EnMyR2LH0
+  t=1683544926; x=1715080926;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GfXUPFk5DCDsmV5TV/6jFscKCjgUNylh8YPIAhl+Ip4=;
+  b=djzibZKi7CfWhkxQEsoPtVkUARqn+mGOCi+Kns3h/TSS4ijMs6x/JojU
+   uqYvWGPxvmJwU5Obxkyz6bOuCUDq1mKbg9UyibFhfGfN7IwmYQsUSlbj9
+   VZfamoCuMTAsWBUjlPYjy5G2X60vNiI7suagjFSFsQPiayN8zaGNyEJQ3
+   X5Tm5Di0KgetuiuYqcVn0gpMoDplhCApwYker96Hf76FK8n7wdMPBKM5m
+   H2cVt2lUxVGCoEtuyeB7evuLlZKBdAUsw3hRJmWGep/aBGpwOnh+0QBkV
+   +Aoiuz4mSYf30zFYsZJ98WEqRl26TxR962qWUcX1R5vdG3AZDXq+xhVJH
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="351778580"
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="415178292"
 X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
-   d="scan'208";a="351778580"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 04:01:34 -0700
+   d="scan'208";a="415178292"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 04:21:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="676019840"
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="648834909"
 X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
-   d="scan'208";a="676019840"
+   d="scan'208";a="648834909"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 08 May 2023 04:01:31 -0700
+  by orsmga003.jf.intel.com with ESMTP; 08 May 2023 04:21:31 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvycU-0001Cj-26;
-	Mon, 08 May 2023 11:01:30 +0000
-Date: Mon, 8 May 2023 19:00:52 +0800
+	id 1pvyvq-0001D3-2s;
+	Mon, 08 May 2023 11:21:30 +0000
+Date: Mon, 8 May 2023 19:21:09 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: vmlinux.o: warning: objtool: intel_idle_ibrs+0x11d: call to
- ftrace_likely_update() leaves .noinstr.text section
-Message-ID: <202305081859.1iquMYan-lkp@intel.com>
+To: Jordan Niethe <jpn@linux.vnet.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v1 5/5] KVM: PPC: Add support for nested PAPR guests
+Message-ID: <202305081806.CVv1rk9X-lkp@intel.com>
+References: <20230508072332.2937883-6-jpn@linux.vnet.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,162 +46,142 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230508072332.2937883-6-jpn@linux.vnet.ibm.com>
 
-CC: linux-kernel@vger.kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
-CC: Ingo Molnar <mingo@kernel.org>
+Hi Jordan,
 
-Hi Peter,
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-FYI, the error/warning still remains.
+[auto build test ERROR on powerpc/fixes]
+[cannot apply to powerpc/topic/ppc-kvm powerpc/next linus/master v6.4-rc1 next-20230508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ac9a78681b921877518763ba0e89202254349d1b
-commit: e4df1511e1f4bcaa0d590aa7bbffe8bbbd6dfb49 cpuidle, sched: Remove instrumentation from TIF_{POLLING_NRFLAG,NEED_RESCHED}
-date:   4 months ago
-config: x86_64-buildonly-randconfig-r002-20230508 (https://download.01.org/0day-ci/archive/20230508/202305081859.1iquMYan-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jordan-Niethe/KVM-PPC-Use-getters-and-setters-for-vcpu-register-state/20230508-152631
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git fixes
+patch link:    https://lore.kernel.org/r/20230508072332.2937883-6-jpn%40linux.vnet.ibm.com
+patch subject: [RFC PATCH v1 5/5] KVM: PPC: Add support for nested PAPR guests
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230508/202305081806.CVv1rk9X-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e4df1511e1f4bcaa0d590aa7bbffe8bbbd6dfb49
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e4df1511e1f4bcaa0d590aa7bbffe8bbbd6dfb49
+        # https://github.com/intel-lab-lkp/linux/commit/61dc8a829a1c96569deaa958b92fac9ae5dc8178
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jordan-Niethe/KVM-PPC-Use-getters-and-setters-for-vcpu-register-state/20230508-152631
+        git checkout 61dc8a829a1c96569deaa958b92fac9ae5dc8178
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305081859.1iquMYan-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305081806.CVv1rk9X-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: sync_regs+0x20: call to memcpy() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: vc_switch_off_ist+0x8f: call to memcpy() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret+0x82: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: noist_exc_debug+0x3b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_nmi+0x32: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poke_int3_handler+0x37: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __sev_es_ist_exit+0x46: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __sev_get_ghcb+0x20: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __sev_put_ghcb+0x1f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: kernel_exc_vmm_communication+0xbc: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: enter_from_user_mode+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x36: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x2b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_exit_state+0x40: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_nmi_enter+0x43: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_enter_state+0x43: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_idle_enter+0x19: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_exit+0x5b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_idle_exit+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_enter+0x42: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __ct_user_enter+0x3f: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: context_tracking_recursion_enter+0x35: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __ct_user_exit+0x7a: call to __kasan_check_write() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: check_preemption_disabled+0x37: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mwait_idle+0x29: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0xef: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle+0xd7: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_s2idle+0xe7: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_irq+0xd9: call to ftrace_likely_update() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: intel_idle_ibrs+0x11d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_xstate+0xdf: call to ftrace_likely_update() leaves .noinstr.text section
+   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   In file included from include/linux/byteorder/big_endian.h:5,
+                    from arch/powerpc/include/uapi/asm/byteorder.h:14,
+                    from include/asm-generic/bitops/le.h:6,
+                    from arch/powerpc/include/asm/bitops.h:336,
+                    from include/linux/bitops.h:68,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from ./arch/powerpc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/compat.h:10,
+                    from arch/powerpc/kernel/asm-offsets.c:12:
+   arch/powerpc/include/asm/guest-state-buffer.h: In function 'gse_put_vector128':
+>> arch/powerpc/include/asm/guest-state-buffer.h:725:35: error: 'TS_VSRLOWOFFSET' undeclared (first use in this function); did you mean 'TS_FPROFFSET'?
+     725 |         tmp[1] = cpu_to_be64(u.dw[TS_VSRLOWOFFSET]);
+         |                                   ^~~~~~~~~~~~~~~
+   include/uapi/linux/byteorder/big_endian.h:38:51: note: in definition of macro '__cpu_to_be64'
+      38 | #define __cpu_to_be64(x) ((__force __be64)(__u64)(x))
+         |                                                   ^
+   arch/powerpc/include/asm/guest-state-buffer.h:725:18: note: in expansion of macro 'cpu_to_be64'
+     725 |         tmp[1] = cpu_to_be64(u.dw[TS_VSRLOWOFFSET]);
+         |                  ^~~~~~~~~~~
+   arch/powerpc/include/asm/guest-state-buffer.h:725:35: note: each undeclared identifier is reported only once for each function it appears in
+     725 |         tmp[1] = cpu_to_be64(u.dw[TS_VSRLOWOFFSET]);
+         |                                   ^~~~~~~~~~~~~~~
+   include/uapi/linux/byteorder/big_endian.h:38:51: note: in definition of macro '__cpu_to_be64'
+      38 | #define __cpu_to_be64(x) ((__force __be64)(__u64)(x))
+         |                                                   ^
+   arch/powerpc/include/asm/guest-state-buffer.h:725:18: note: in expansion of macro 'cpu_to_be64'
+     725 |         tmp[1] = cpu_to_be64(u.dw[TS_VSRLOWOFFSET]);
+         |                  ^~~~~~~~~~~
+   In file included from arch/powerpc/include/asm/kvm_host.h:28,
+                    from include/linux/kvm_host.h:45,
+                    from arch/powerpc/include/asm/kvm_ppc.h:19,
+                    from arch/powerpc/include/asm/dbell.h:17,
+                    from arch/powerpc/kernel/asm-offsets.c:36:
+   arch/powerpc/include/asm/guest-state-buffer.h: In function 'gse_get_vector128':
+   arch/powerpc/include/asm/guest-state-buffer.h:851:14: error: 'TS_VSRLOWOFFSET' undeclared (first use in this function); did you mean 'TS_FPROFFSET'?
+     851 |         u.dw[TS_VSRLOWOFFSET] = be64_to_cpu(src[1]);
+         |              ^~~~~~~~~~~~~~~
+         |              TS_FPROFFSET
+   In file included from arch/powerpc/include/asm/kvm_host.h:26:
+   arch/powerpc/include/asm/guest-state-buffer.h: In function 'gsb_recv':
+   arch/powerpc/include/asm/hvcall.h:492:36: warning: left shift count >= width of type [-Wshift-count-overflow]
+     492 | #define H_GUEST_FLAGS_WIDE     (1UL<<(63-0))
+         |                                    ^~
+   arch/powerpc/include/asm/guest-state-buffer.h:1018:27: note: in expansion of macro 'H_GUEST_FLAGS_WIDE'
+    1018 |                 hflags |= H_GUEST_FLAGS_WIDE;
+         |                           ^~~~~~~~~~~~~~~~~~
+>> arch/powerpc/include/asm/guest-state-buffer.h:1020:14: error: implicit declaration of function 'plpar_guest_get_state' [-Werror=implicit-function-declaration]
+    1020 |         rc = plpar_guest_get_state(hflags, gsb->guest_id, gsb->vcpu_id,
+         |              ^~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/guest-state-buffer.h: In function 'gsb_send':
+   arch/powerpc/include/asm/hvcall.h:492:36: warning: left shift count >= width of type [-Wshift-count-overflow]
+     492 | #define H_GUEST_FLAGS_WIDE     (1UL<<(63-0))
+         |                                    ^~
+   arch/powerpc/include/asm/guest-state-buffer.h:1088:27: note: in expansion of macro 'H_GUEST_FLAGS_WIDE'
+    1088 |                 hflags |= H_GUEST_FLAGS_WIDE;
+         |                           ^~~~~~~~~~~~~~~~~~
+>> arch/powerpc/include/asm/guest-state-buffer.h:1090:14: error: implicit declaration of function 'plpar_guest_set_state' [-Werror=implicit-function-declaration]
+    1090 |         rc = plpar_guest_set_state(hflags, gsb->guest_id, gsb->vcpu_id,
+         |              ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+   make[2]: *** [scripts/Makefile.build:114: arch/powerpc/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1287: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-objdump-func vmlinux.o intel_idle_ibrs:
-0000 0000000000000640 <intel_idle_ibrs>:
-0000  640:	55                   	push   %rbp
-0001  641:	41 57                	push   %r15
-0003  643:	41 56                	push   %r14
-0005  645:	41 55                	push   %r13
-0007  647:	41 54                	push   %r12
-0009  649:	53                   	push   %rbx
-000a  64a:	41 89 d5             	mov    %edx,%r13d
-000d  64d:	48 89 f3             	mov    %rsi,%rbx
-0010  650:	e9 d3 00 00 00       	jmp    728 <intel_idle_ibrs+0xe8>
-0015  655:	e8 00 00 00 00       	call   65a <intel_idle_ibrs+0x1a>	656: R_X86_64_PLT32	spec_ctrl_current-0x4
-001a  65a:	49 89 c6             	mov    %rax,%r14
-001d  65d:	b9 48 00 00 00       	mov    $0x48,%ecx
-0022  662:	31 c0                	xor    %eax,%eax
-0024  664:	31 d2                	xor    %edx,%edx
-0026  666:	0f 30                	wrmsr
-0028  668:	41 b4 01             	mov    $0x1,%r12b
-002b  66b:	49 63 c5             	movslq %r13d,%rax
-002e  66e:	48 6b c0 68          	imul   $0x68,%rax,%rax
-0032  672:	44 0f b6 7c 03 5b    	movzbl 0x5b(%rbx,%rax,1),%r15d
-0038  678:	e9 00 00 00 00       	jmp    67d <intel_idle_ibrs+0x3d>	679: R_X86_64_PLT32	.altinstr_aux+0xbf0
-003d  67d:	e9 00 00 00 00       	jmp    682 <intel_idle_ibrs+0x42>	67e: R_X86_64_PLT32	.altinstr_aux+0xc02
-0042  682:	0f ae f0             	mfence
-0045  685:	65 48 8b 04 25 00 00 00 00 	mov    %gs:0x0,%rax	68a: R_X86_64_32S	pcpu_hot
-004e  68e:	0f ae 38             	clflush (%rax)
-0051  691:	0f ae f0             	mfence
-0054  694:	65 48 8b 1c 25 00 00 00 00 	mov    %gs:0x0,%rbx	699: R_X86_64_32S	pcpu_hot
-005d  69d:	48 89 d8             	mov    %rbx,%rax
-0060  6a0:	31 c9                	xor    %ecx,%ecx
-0062  6a2:	31 d2                	xor    %edx,%edx
-0064  6a4:	0f 01 c8             	monitor %rax,%ecx,%edx
-0067  6a7:	48 8b 2b             	mov    (%rbx),%rbp
-006a  6aa:	83 e5 08             	and    $0x8,%ebp
-006d  6ad:	48 c1 ed 03          	shr    $0x3,%rbp
-0071  6b1:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	6b4: R_X86_64_32S	_ftrace_annotated_branch+0x76d70
-0078  6b8:	89 ee                	mov    %ebp,%esi
-007a  6ba:	31 d2                	xor    %edx,%edx
-007c  6bc:	31 c9                	xor    %ecx,%ecx
-007e  6be:	e8 00 00 00 00       	call   6c3 <intel_idle_ibrs+0x83>	6bf: R_X86_64_PLT32	ftrace_likely_update-0x4
-0083  6c3:	48 85 ed             	test   %rbp,%rbp
-0086  6c6:	75 14                	jne    6dc <intel_idle_ibrs+0x9c>
-0088  6c8:	eb 07                	jmp    6d1 <intel_idle_ibrs+0x91>
-008a  6ca:	0f 00 2d 00 00 00 00 	verw   0x0(%rip)        # 6d1 <intel_idle_ibrs+0x91>	6cd: R_X86_64_PC32	.rodata+0x86507c
-0091  6d1:	b9 01 00 00 00       	mov    $0x1,%ecx
-0096  6d6:	4c 89 f8             	mov    %r15,%rax
-0099  6d9:	0f 01 c9             	mwait  %eax,%ecx
-009c  6dc:	65 48 8b 04 25 00 00 00 00 	mov    %gs:0x0,%rax	6e1: R_X86_64_32S	pcpu_hot
-00a5  6e5:	f0 80 63 02 df       	lock andb $0xdf,0x2(%rbx)
-00aa  6ea:	f0 83 44 24 fc 00    	lock addl $0x0,-0x4(%rsp)
-00b0  6f0:	48 f7 03 08 00 00 00 	testq  $0x8,(%rbx)
-00b7  6f7:	74 0b                	je     704 <intel_idle_ibrs+0xc4>
-00b9  6f9:	65 81 25 00 00 00 00 ff ff ff 7f 	andl   $0x7fffffff,%gs:0x0(%rip)        # 704 <intel_idle_ibrs+0xc4>	6fc: R_X86_64_PC32	pcpu_hot
-00c4  704:	45 84 e4             	test   %r12b,%r12b
-00c7  707:	74 11                	je     71a <intel_idle_ibrs+0xda>
-00c9  709:	4c 89 f2             	mov    %r14,%rdx
-00cc  70c:	48 c1 ea 20          	shr    $0x20,%rdx
-00d0  710:	b9 48 00 00 00       	mov    $0x48,%ecx
-00d5  715:	44 89 f0             	mov    %r14d,%eax
-00d8  718:	0f 30                	wrmsr
-00da  71a:	44 89 e8             	mov    %r13d,%eax
-00dd  71d:	5b                   	pop    %rbx
-00de  71e:	41 5c                	pop    %r12
-00e0  720:	41 5d                	pop    %r13
-00e2  722:	41 5e                	pop    %r14
-00e4  724:	41 5f                	pop    %r15
-00e6  726:	5d                   	pop    %rbp
-00e7  727:	c3                   	ret
-00e8  728:	45 31 e4             	xor    %r12d,%r12d
-00eb  72b:	e8 00 00 00 00       	call   730 <intel_idle_ibrs+0xf0>	72c: R_X86_64_PLT32	spec_ctrl_current-0x4
-00f0  730:	49 89 c6             	mov    %rax,%r14
-00f3  733:	e9 33 ff ff ff       	jmp    66b <intel_idle_ibrs+0x2b>
-00f8  738:	65 48 8b 1c 25 00 00 00 00 	mov    %gs:0x0,%rbx	73d: R_X86_64_32S	pcpu_hot
-0101  741:	f0 80 4b 02 20       	lock orb $0x20,0x2(%rbx)
-0106  746:	48 8b 2b             	mov    (%rbx),%rbp
-0109  749:	83 e5 08             	and    $0x8,%ebp
-010c  74c:	48 c1 ed 03          	shr    $0x3,%rbp
-0110  750:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	753: R_X86_64_32S	_ftrace_annotated_branch+0x76d40
-0117  757:	89 ee                	mov    %ebp,%esi
-0119  759:	31 d2                	xor    %edx,%edx
-011b  75b:	31 c9                	xor    %ecx,%ecx
-011d  75d:	e8 00 00 00 00       	call   762 <intel_idle_ibrs+0x122>	75e: R_X86_64_PLT32	ftrace_likely_update-0x4
-0122  762:	48 85 ed             	test   %rbp,%rbp
-0125  765:	0f 85 71 ff ff ff    	jne    6dc <intel_idle_ibrs+0x9c>
-012b  76b:	e9 0d ff ff ff       	jmp    67d <intel_idle_ibrs+0x3d>
-0130  770:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-013a  77a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+vim +725 arch/powerpc/include/asm/guest-state-buffer.h
+
+e769880eca81b3 Jordan Niethe 2023-05-08  707  
+e769880eca81b3 Jordan Niethe 2023-05-08  708  /**
+e769880eca81b3 Jordan Niethe 2023-05-08  709   * gse_put_vector128() - add a vector guest state element to a buffer
+e769880eca81b3 Jordan Niethe 2023-05-08  710   * @gsb: guest state buffer to add element to
+e769880eca81b3 Jordan Niethe 2023-05-08  711   * @iden: guest state ID
+e769880eca81b3 Jordan Niethe 2023-05-08  712   * @val: 16 byte vector value
+e769880eca81b3 Jordan Niethe 2023-05-08  713   */
+e769880eca81b3 Jordan Niethe 2023-05-08  714  static inline int gse_put_vector128(struct gs_buff *gsb, u16 iden,
+e769880eca81b3 Jordan Niethe 2023-05-08  715  				    vector128 val)
+e769880eca81b3 Jordan Niethe 2023-05-08  716  {
+e769880eca81b3 Jordan Niethe 2023-05-08  717  	__be64 tmp[2];
+e769880eca81b3 Jordan Niethe 2023-05-08  718  	union {
+e769880eca81b3 Jordan Niethe 2023-05-08  719  		__vector128 v;
+e769880eca81b3 Jordan Niethe 2023-05-08  720  		u64 dw[2];
+e769880eca81b3 Jordan Niethe 2023-05-08  721  	} u;
+e769880eca81b3 Jordan Niethe 2023-05-08  722  
+e769880eca81b3 Jordan Niethe 2023-05-08  723  	u.v = val;
+e769880eca81b3 Jordan Niethe 2023-05-08  724  	tmp[0] = cpu_to_be64(u.dw[TS_FPROFFSET]);
+e769880eca81b3 Jordan Niethe 2023-05-08 @725  	tmp[1] = cpu_to_be64(u.dw[TS_VSRLOWOFFSET]);
+e769880eca81b3 Jordan Niethe 2023-05-08  726  	return __gse_put(gsb, iden, sizeof(tmp), &tmp);
+e769880eca81b3 Jordan Niethe 2023-05-08  727  }
+e769880eca81b3 Jordan Niethe 2023-05-08  728  
 
 -- 
 0-DAY CI Kernel Test Service
