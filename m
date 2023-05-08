@@ -1,42 +1,47 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F96220F9
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 17:03:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D162100;
+	Mon,  8 May 2023 17:13:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683565419; x=1715101419;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4ksxmaz4w+c2S4VJhzI3cbe8ho/PWsLZdhjlyJhKsYc=;
-  b=Axt6OoaecqwkmIKwnA3s26zyiokTLPPKXiQt0XX7qC8o9aNmvMCEX+cf
-   wBI4LyttCeU1MdTZV0j0yxIhmrS+WEy/rNucg+9Zf2BXpJWl3Sq/76J+T
-   lugngXzm0b5YY5UpirMmY61XnejkQUBP509crSy9jCLxIIYv6LMu33ArP
-   4NE99abGROQQYBUp8PP1V7ECIFZW+x8zQitovsy0LA1PBDw6TbCNkSoOx
-   7438+Ll0A2mIAIjLAGb2dIbEC1JW0SEjJQl/dRRnp4nDAE6CIByyLAu5e
-   YB3EvzMwbrLaUJfxaRAMpZAd76Bs5yXGEUktD3M0B2MSGuT8vHQBYYL7m
+  t=1683566020; x=1715102020;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5NIJkXs6LUjGrSFzNNxUCT1m1jDLIh1i0BRiM4BtLpM=;
+  b=Wz0B+q6rY/jJd62BVskZBKoXKjIrXUgEwLe0ZSJzv91vOoN8MS149pgq
+   FyxXDfZB66PiaoYJSTvvR/VutwPxmlP0Wm8H9NDf6ZTf0bJFBCNMxIUEb
+   XNHtn40EPKFqPnyEq8Ma5gGsOMDNqaY493efX/DUgWMmkllMemkmtBQ4P
+   uGpEOnt0W9n5XgYdYci2vbzgrHXZ5eFtQ0gvelO8Ai+5A9TF0OwgDUWgs
+   TNviMzscbzcsTyuawp8cjRijQq2gNnYOqP38yIXOC2v0NIvuFeadFjJ6T
+   dMenyfumB3Fx45rhR2zWSPo3eNztU+PGkXvkWvU5FyKY7HtUyLf864UJ8
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="377799256"
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="348533002"
 X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="377799256"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 10:03:38 -0700
+   d="scan'208";a="348533002"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 10:13:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="763472813"
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="701493547"
 X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="763472813"
+   d="scan'208";a="701493547"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 08 May 2023 10:03:38 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 08 May 2023 10:13:38 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pw4Gv-0001Kb-0A;
-	Mon, 08 May 2023 17:03:37 +0000
-Date: Tue, 9 May 2023 01:02:54 +0800
+	id 1pw4Qb-0001Kz-0o;
+	Mon, 08 May 2023 17:13:37 +0000
+Date: Tue, 9 May 2023 01:13:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/220-tso 2/4] kernel/sys.c:2391:12: warning: no
- previous prototype for 'arch_prctl_mem_model_get'
-Message-ID: <202305090029.OWogV806-lkp@intel.com>
+To: Eiichi Tsukata <eiichi.tsukata@nutanix.com>, paul@paul-moore.com,
+	eparis@redhat.com, linux-kernel@vger.kernel.org,
+	audit@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Eiichi Tsukata <eiichi.tsukata@nutanix.com>
+Subject: Re: [PATCH 4/4] audit: check if queue is full after
+ prepare_to_wait_exclusive()
+Message-ID: <202305090112.uJSc0NBw-lkp@intel.com>
+References: <20230508075812.76077-5-eiichi.tsukata@nutanix.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,49 +50,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230508075812.76077-5-eiichi.tsukata@nutanix.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/220-tso
-head:   38015ad2af19088e66e0c81f7efd5a8b51814026
-commit: b5c6de40368b847e8c2968e260fb98ac1b7b10d2 [2/4] prctl: Introduce PR_{SET,GET}_MEM_MODEL
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230509/202305090029.OWogV806-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+Hi Eiichi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pcmoore-audit/next]
+[also build test WARNING on linus/master v6.4-rc1 next-20230508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eiichi-Tsukata/audit-refactor-queue-full-checks/20230508-160019
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/audit.git next
+patch link:    https://lore.kernel.org/r/20230508075812.76077-5-eiichi.tsukata%40nutanix.com
+patch subject: [PATCH 4/4] audit: check if queue is full after prepare_to_wait_exclusive()
+config: i386-randconfig-a001-20230508 (https://download.01.org/0day-ci/archive/20230509/202305090112.uJSc0NBw-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/AsahiLinux/linux/commit/b5c6de40368b847e8c2968e260fb98ac1b7b10d2
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux bits/220-tso
-        git checkout b5c6de40368b847e8c2968e260fb98ac1b7b10d2
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/cbc69d0c34bdbc06ebca3e3020cfc24034fcf173
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Eiichi-Tsukata/audit-refactor-queue-full-checks/20230508-160019
+        git checkout cbc69d0c34bdbc06ebca3e3020cfc24034fcf173
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305090029.OWogV806-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305090112.uJSc0NBw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/sys.c:2391:12: warning: no previous prototype for 'arch_prctl_mem_model_get' [-Wmissing-prototypes]
-    2391 | int __weak arch_prctl_mem_model_get(struct task_struct *t)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sys.c:2396:12: warning: no previous prototype for 'arch_prctl_mem_model_set' [-Wmissing-prototypes]
-    2396 | int __weak arch_prctl_mem_model_set(struct task_struct *t, unsigned long val)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/audit.c:651:6: warning: variable 'rtime' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+           if (audit_queue_full(&audit_queue)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/audit.c:657:9: note: uninitialized use occurs here
+           return rtime;
+                  ^~~~~
+   kernel/audit.c:651:2: note: remove the 'if' if its condition is always true
+           if (audit_queue_full(&audit_queue)) {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/audit.c:642:12: note: initialize the variable 'rtime' to silence this warning
+           long rtime;
+                     ^
+                      = 0
+   1 warning generated.
 
 
-vim +/arch_prctl_mem_model_get +2391 kernel/sys.c
+vim +651 kernel/audit.c
 
-  2390	
-> 2391	int __weak arch_prctl_mem_model_get(struct task_struct *t)
-  2392	{
-  2393		return -EINVAL;
-  2394	}
-  2395	
-> 2396	int __weak arch_prctl_mem_model_set(struct task_struct *t, unsigned long val)
-  2397	{
-  2398		return -EINVAL;
-  2399	}
-  2400	
+   630	
+   631	/**
+   632	 * wait_for_kauditd - Wait for kauditd to drain the queue
+   633	 * @stime: time to sleep
+   634	 *
+   635	 * Description:
+   636	 * Waits for kauditd to drain the queue then adds duration of sleep time to
+   637	 * audit_backlog_wait_time_actual as cumulative sum.
+   638	 * Returns remaining time to sleep.
+   639	 */
+   640	static long wait_for_kauditd(long stime)
+   641	{
+   642		long rtime;
+   643		DEFINE_WAIT(wait);
+   644	
+   645		prepare_to_wait_exclusive(&audit_backlog_wait, &wait,
+   646					  TASK_UNINTERRUPTIBLE);
+   647	
+   648		/* need to check if the queue is full again because kauditd might have
+   649		 * flushed the queue and went to sleep after prepare_to_wait_exclusive()
+   650		 */
+ > 651		if (audit_queue_full(&audit_queue)) {
+   652			rtime = schedule_timeout(stime);
+   653			atomic_add(stime - rtime, &audit_backlog_wait_time_actual);
+   654		}
+   655		finish_wait(&audit_backlog_wait, &wait);
+   656	
+   657		return rtime;
+   658	}
+   659	
 
 -- 
 0-DAY CI Kernel Test Service
