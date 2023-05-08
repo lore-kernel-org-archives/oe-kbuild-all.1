@@ -1,92 +1,105 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983DE2100
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 16:53:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683564820; x=1715100820;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Q2FPM/ehx2oD4Wdgi1gDVni1vUmU7yPsYNS1QfCOiJ0=;
-  b=EoJgtQ5IISjon7EP99x2cIbaytYPDPsuq3cZkWPdiLGYPbzB8TbPVfOc
-   2GgDp8iMXCML0p9dz11YwGhdyr+SbSpSjmfXSYKgLLxcv8AikAbkv/25j
-   gYEQxDo5JOCgWMSk5dO0hB6VHShLSlI2+mewZBw46hjNA2dcRKwz+DbHL
-   KSRK2tuyUgc0tmaE2cJYsaYNNrAvxG/spufpdJqw3ZaMt2InrIghVkx6V
-   UYXGezlNlObel96YmPBLFEfSVg9mO9HvFaOCRA+3YL95ZguUcl1XzQN36
-   BjRgxb5jtciHrblOlFOqEwj//61ncbXaelq26lSizjhRoYr/xvh+HgC7q
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="352759429"
-X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="352759429"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 09:53:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="692667111"
-X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="692667111"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 08 May 2023 09:53:38 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pw47E-0001KH-2k;
-	Mon, 08 May 2023 16:53:36 +0000
-Date: Tue, 9 May 2023 00:52:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Astrid Rost <astrid.rost@axis.com>, Jonathan Cameron <jic23@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, kernel@axis.com,
-	Astrid Rost <astridr@axis.com>,
-	Lars-Peter Clausen <lars@metafoo.de>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/7] iio: light: vcnl4000: Add als_it for vcnl4040/4200
-Message-ID: <202305090056.mwp6jijk-lkp@intel.com>
-References: <20230508070925.2123265-4-astrid.rost@axis.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04C32100
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 16:58:02 +0000 (UTC)
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 348GlvcX022913;
+	Mon, 8 May 2023 16:57:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=pp1;
+ bh=ItItWoQnsLsuHMJgYw8gV3/xhYnZJVcdqAF9hGhEFiI=;
+ b=fWSD+o1AYvfyHkijHbGSKP9FFxcGzOEAVeiG1VTs9qT4NZv83Fpktgk17hTrz4CGipiA
+ wZFWSE65W2sFFH5KUnTU2FUh6sIW9ewYy588I6h20j6BrjJP7QoeP9ziby6zA/Z181xr
+ 4Nh5GYBu7BAaM66YGTTzLMgnRqp9ohc1gAN2xnU8RfrB3TYr4NSY55Kn8wkIm+1St+xJ
+ PkaXrJx+krPIm2Tub4WGffBjfR53nPFHiAUKSbqYIATVROeJzvOemBYtC4w4EPuoqb0l
+ QwCCpU756LGdxZvDbXFEc8/nWEUEvII7Dx5JUPq5dQlcN0lTcSYCuhGCgmCV/7WrqDYa sQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qf4wxg7mq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 May 2023 16:57:51 +0000
+Received: from m0356517.ppops.net (m0356517.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 348GqtCq006692;
+	Mon, 8 May 2023 16:57:51 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com [159.122.73.71])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qf4wxg7k9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 May 2023 16:57:51 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+	by ppma02fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3481pojU023497;
+	Mon, 8 May 2023 16:57:48 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma02fra.de.ibm.com (PPS) with ESMTPS id 3qdeh6h133-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 08 May 2023 16:57:48 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 348GvigQ8389266
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 8 May 2023 16:57:44 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 474F620043;
+	Mon,  8 May 2023 16:57:44 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A46B120040;
+	Mon,  8 May 2023 16:57:43 +0000 (GMT)
+Received: from osiris (unknown [9.171.72.156])
+	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon,  8 May 2023 16:57:43 +0000 (GMT)
+Date: Mon, 8 May 2023 18:57:42 +0200
+From: Heiko Carstens <hca@linux.ibm.com>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Andrew Morton <akpm@linux-foundation.org>, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com, svens@linux.ibm.com,
+        linux-s390@vger.kernel.org
+Subject: Re: [linux-next:master 14680/14811] mm/filemap.c:4250:1: sparse:
+ sparse: Using plain integer as NULL pointer
+Message-ID: <ZFkqBteEnMxRjUfj@osiris>
+References: <202305070840.X0G3ofjl-lkp@intel.com>
+ <CAKEwX=MrPCPKF7Yxfjc-uOR2P-+Ee8+RV_B_u1f7iqC0L=_yew@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230508070925.2123265-4-astrid.rost@axis.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKEwX=MrPCPKF7Yxfjc-uOR2P-+Ee8+RV_B_u1f7iqC0L=_yew@mail.gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: BKayuXYXVjDh3dxCDCI7ZUV-QxTAHaPV
+X-Proofpoint-ORIG-GUID: tvBe10K9EcBk6Rs1rEKDyqtH9FCgADgO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-08_12,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 suspectscore=0
+ impostorscore=0 spamscore=0 malwarescore=0 adultscore=0 phishscore=0
+ clxscore=1011 mlxlogscore=999 lowpriorityscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303200000 definitions=main-2305080111
 
-Hi Astrid,
+On Mon, May 08, 2023 at 09:45:56AM -0700, Nhat Pham wrote:
+> On Sat, May 6, 2023 at 5:28 PM kernel test robot <lkp@intel.com> wrote:
+> > sparse warnings: (new ones prefixed by >>)
+> >    mm/filemap.c:1416:17: sparse: sparse: context imbalance in 'migration_entry_wait_on_locked' - unexpected unlock
+> > >> mm/filemap.c:4250:1: sparse: sparse: Using plain integer as NULL pointer
+> > >> mm/filemap.c:4250:1: sparse: sparse: Using plain integer as NULL pointer
+> > >> mm/filemap.c:4250:1: sparse: sparse: Using plain integer as NULL pointer
+...
+> > > 4250  SYSCALL_DEFINE4(cachestat, unsigned int, fd,
+> 
+> Hmm I couldn't see where I used 0 as the null pointer. Maybe
+> this is a false positive or a result of not wiring up the syscall
+> for s390? Especially since this is pointed toward the macro
+> line (SYSCALL_DEFINE).
+> 
+> cc-ing this to s390 maintainers and the s390 mailing list...
+> Could you help me debug this? Thanks!
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on linus/master v6.4-rc1 next-20230508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Astrid-Rost/iio-light-vcnl4000-Add-proximity-ps_it-for-vcnl4200/20230508-161005
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20230508070925.2123265-4-astrid.rost%40axis.com
-patch subject: [PATCH v1 3/7] iio: light: vcnl4000: Add als_it for vcnl4040/4200
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230509/202305090056.mwp6jijk-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6ff2e1cf084f5b3038f2d72110fb01f2a8353a34
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Astrid-Rost/iio-light-vcnl4000-Add-proximity-ps_it-for-vcnl4200/20230508-161005
-        git checkout 6ff2e1cf084f5b3038f2d72110fb01f2a8353a34
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305090056.mwp6jijk-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "__divdi3" [drivers/iio/light/vcnl4000.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Just ignore, this is a known false positive with s390's SYSCALL_DEFINE()
+implementation vs sparse. I looked into it once, but couldn't figure out
+how to silence sparse.
+IIRC, the __TYPE_IS_PTR() macro causes this.
