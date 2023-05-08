@@ -1,121 +1,165 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A30917F3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 16:11:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683562317; x=1715098317;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fCkQwbG4yVSGqyBCzCAhJKFOsZtChKfRa5jIKIpurmQ=;
-  b=XzWIWjLzofM5NnpGJ7ygL/ATd2UGJ/OYzIFEFdcVrFQMANwwBCbF32P/
-   rtdp/I0RgKe6HDV5cQBOVm92hONcG19luuyxB99ppHirhM1WMwOvWYz8u
-   poxAiQQ+h6YbQKrt6Ba7+oWCK+BmDD3D3uvXTf58qFj3wDP+zEfXqKbBR
-   8Z2DU9s65rJ4mansFOCu84++o3LsH2KOoUWPyslQxXPVgBE3HoVP4lWea
-   XI1tFRw9EpyNSHJb69IPykk4sC0ODQ2jlMSL6zvlV805Wx1lK5pprxyC6
-   gBccTR5qeoMCzXwJAYeyO625GavN372V0rA6V2uLoog1uwz13IMW/9QWK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="377785159"
-X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="377785159"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 09:11:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="648941169"
-X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="648941169"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 08 May 2023 09:11:36 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pw3SZ-0001Iz-1R;
-	Mon, 08 May 2023 16:11:35 +0000
-Date: Tue, 9 May 2023 00:10:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 143/143]
- drivers/gpu/drm/evdi/evdi_gem.c:278:23: warning: assignment to 'void *' from
- 'int' makes pointer from integer without a cast
-Message-ID: <202305090048.S99VMp3k-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285FB20F9
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 16:46:08 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7577ef2fa31so365271785a.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 08 May 2023 09:46:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1683564368; x=1686156368;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h1sdyuNtBl6CAufIrv7TH3DRaVHKWDkDa227vEOVtN8=;
+        b=NBPuYtttHq9TksMMxaa+Mhne+k5QBA7WKcIz1FImH8Vi7JJOM99UQR74q2CmEfkPqN
+         UE7JObZBCdA2/Dl1kWWAXin+/CR7SaQoLq4Al4bQlVGhnbUwrM5zcVCPgdfy9VkD7/WV
+         hKTx6a8XmotNZyZhVU1npcgrtqbu1MyCFHgIQLm1zMkYr+j1CvMIKsrIPXWQgYLDF9xa
+         8nsl+dMZ00bHrg9mp5UGZvNWfEabXOHFlmEbcQ+NndJui2sYmXHfxo0IlYBkg5+ZpBgw
+         butRCe6p6CvCVtlBEEFs0XSSL72/EumJeUEEzPWxESxbxfZ+bOzlPc0xejl7BbwgqRuk
+         NbjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683564368; x=1686156368;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h1sdyuNtBl6CAufIrv7TH3DRaVHKWDkDa227vEOVtN8=;
+        b=EAgBiDyvJNOaVlpoi7PuP2F1d+a3kVGZVXgYs9gQ/8x8UK/yJPnL5j1q4hmEk7MWH8
+         0wuPBt1Z9vAdl+UNpnoxaFnAWPw+s65J06QhCXQcZXN/fOU7VS5KFORRzqUgnfn5HQi8
+         s4TISKS+19i4mP1Ar1lhQMPzO4P5cB+tyn3WMy1/I0ZxBt1sCngU3CkDIGnBHRJLLN1Q
+         T6FVLMpItXAqytKx0xmdHnFkgMVUJ7khYWjrVaUqaEhm2AB6cidPDwmiXrVvdvEOEODT
+         QBN2IbPDXpRuhO+ujXy8JoaLPNEAsfE8Fc31m43hKEvY7shq2UcyaZcAPcTHuHx0RY81
+         K7gQ==
+X-Gm-Message-State: AC+VfDyKtNoq2oDOwH9uu6WpYDQJiakIksAdpmwLQCpvf3EUZyRIRylr
+	8z0gculOQdJ3sCi+xlZ5/tHHYSAAERQJq7Ca6Vw=
+X-Google-Smtp-Source: ACHHUZ4iNut6fLGXaeFvdUDTjhFNvw3uLW7t98QkqrzWvXRG5QUGZHPc+taOEsXV1Ma4V4gzFwddoxniFVS1p9y/f98=
+X-Received: by 2002:a05:6214:4018:b0:5ef:48c7:3f62 with SMTP id
+ kd24-20020a056214401800b005ef48c73f62mr13901794qvb.15.1683564367638; Mon, 08
+ May 2023 09:46:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202305070840.X0G3ofjl-lkp@intel.com>
+In-Reply-To: <202305070840.X0G3ofjl-lkp@intel.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Mon, 8 May 2023 09:45:56 -0700
+Message-ID: <CAKEwX=MrPCPKF7Yxfjc-uOR2P-+Ee8+RV_B_u1f7iqC0L=_yew@mail.gmail.com>
+Subject: Re: [linux-next:master 14680/14811] mm/filemap.c:4250:1: sparse:
+ sparse: Using plain integer as NULL pointer
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, hca@linux.ibm.com, 
+	gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com, 
+	svens@linux.ibm.com, linux-s390@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   4c84ca78d36c41b436f7586426a05ae274ad7e53
-commit: 4c84ca78d36c41b436f7586426a05ae274ad7e53 [143/143] CHROMIUM: drm/evdi: Port evdi from github.com/DisplayLink/evdi.git
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230509/202305090048.S99VMp3k-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
-        git fetch --no-tags chrome-os chromeos-6.1
-        git checkout 4c84ca78d36c41b436f7586426a05ae274ad7e53
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/
+On Sat, May 6, 2023 at 5:28=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   83e5775d7afda68f6d7576d21f7a080fbfeecc4f
+> commit: d39c65bc7fcb1dad22dc1585fc669b5bfe5d3108 [14680/14811] cachestat:=
+ implement cachestat syscall
+> config: s390-randconfig-s041-20230507 (https://download.01.org/0day-ci/ar=
+chive/20230507/202305070840.X0G3ofjl-lkp@intel.com/config)
+> compiler: s390-linux-gcc (GCC) 12.1.0
+> reproduce:
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # apt-get install sparse
+>         # sparse version: v0.6.4-39-gce1a6720-dirty
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
+.git/commit/?id=3Dd39c65bc7fcb1dad22dc1585fc669b5bfe5d3108
+>         git remote add linux-next https://git.kernel.org/pub/scm/linux/ke=
+rnel/git/next/linux-next.git
+>         git fetch --no-tags linux-next master
+>         git checkout d39c65bc7fcb1dad22dc1585fc669b5bfe5d3108
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
+=3Ds390 olddefconfig
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=
+=3Ds390 SHELL=3D/bin/bash
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Link: https://lore.kernel.org/oe-kbuild-all/202305070840.X0G3ofjl-lkp@i=
+ntel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+>    mm/filemap.c:1416:17: sparse: sparse: context imbalance in 'migration_=
+entry_wait_on_locked' - unexpected unlock
+> >> mm/filemap.c:4250:1: sparse: sparse: Using plain integer as NULL point=
+er
+> >> mm/filemap.c:4250:1: sparse: sparse: Using plain integer as NULL point=
+er
+> >> mm/filemap.c:4250:1: sparse: sparse: Using plain integer as NULL point=
+er
+> >> mm/filemap.c:4250:1: sparse: sparse: Using plain integer as NULL point=
+er
+>
+> vim +4250 mm/filemap.c
+>
+>   4215
+>   4216  /*
+>   4217   * The cachestat(2) system call.
+>   4218   *
+>   4219   * cachestat() returns the page cache statistics of a file in the
+>   4220   * bytes range specified by `off` and `len`: number of cached pag=
+es,
+>   4221   * number of dirty pages, number of pages marked for writeback,
+>   4222   * number of evicted pages, and number of recently evicted pages.
+>   4223   *
+>   4224   * An evicted page is a page that is previously in the page cache
+>   4225   * but has been evicted since. A page is recently evicted if its =
+last
+>   4226   * eviction was recent enough that its reentry to the cache would
+>   4227   * indicate that it is actively being used by the system, and tha=
+t
+>   4228   * there is memory pressure on the system.
+>   4229   *
+>   4230   * `off` and `len` must be non-negative integers. If `len` > 0,
+>   4231   * the queried range is [`off`, `off` + `len`]. If `len` =3D=3D 0=
+,
+>   4232   * we will query in the range from `off` to the end of the file.
+>   4233   *
+>   4234   * The `flags` argument is unused for now, but is included for fu=
+ture
+>   4235   * extensibility. User should pass 0 (i.e no flag specified).
+>   4236   *
+>   4237   * Currently, hugetlbfs is not supported.
+>   4238   *
+>   4239   * Because the status of a page can change after cachestat() chec=
+ks it
+>   4240   * but before it returns to the application, the returned values =
+may
+>   4241   * contain stale information.
+>   4242   *
+>   4243   * return values:
+>   4244   *  zero        - success
+>   4245   *  -EFAULT     - cstat or cstat_range points to an illegal addre=
+ss
+>   4246   *  -EINVAL     - invalid flags
+>   4247   *  -EBADF      - invalid file descriptor
+>   4248   *  -EOPNOTSUPP - file descriptor is of a hugetlbfs file
+>   4249   */
+> > 4250  SYSCALL_DEFINE4(cachestat, unsigned int, fd,
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305090048.S99VMp3k-lkp@intel.com/
+Hmm I couldn't see where I used 0 as the null pointer. Maybe
+this is a false positive or a result of not wiring up the syscall
+for s390? Especially since this is pointed toward the macro
+line (SYSCALL_DEFINE).
 
-All warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/evdi/evdi_gem.c: In function 'evdi_gem_vmap':
-   drivers/gpu/drm/evdi/evdi_gem.c:278:25: error: implicit declaration of function 'vmap'; did you mean 'kmap'? [-Werror=implicit-function-declaration]
-     278 |         obj->vmapping = vmap(obj->pages, page_count, 0, PAGE_KERNEL);
-         |                         ^~~~
-         |                         kmap
->> drivers/gpu/drm/evdi/evdi_gem.c:278:23: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     278 |         obj->vmapping = vmap(obj->pages, page_count, 0, PAGE_KERNEL);
-         |                       ^
-   drivers/gpu/drm/evdi/evdi_gem.c: In function 'evdi_gem_vunmap':
-   drivers/gpu/drm/evdi/evdi_gem.c:301:17: error: implicit declaration of function 'vunmap'; did you mean 'kunmap'? [-Werror=implicit-function-declaration]
-     301 |                 vunmap(obj->vmapping);
-         |                 ^~~~~~
-         |                 kunmap
-   cc1: some warnings being treated as errors
-
-
-vim +278 drivers/gpu/drm/evdi/evdi_gem.c
-
-   257	
-   258	int evdi_gem_vmap(struct evdi_gem_object *obj)
-   259	{
-   260		int page_count = DIV_ROUND_UP(obj->base.size, PAGE_SIZE);
-   261		int ret;
-   262	
-   263		if (evdi_drm_gem_object_use_import_attach(&obj->base)) {
-   264			struct iosys_map map = IOSYS_MAP_INIT_VADDR(NULL);
-   265	
-   266			ret = dma_buf_vmap(obj->base.import_attach->dmabuf, &map);
-   267			if (ret)
-   268				return -ENOMEM;
-   269			obj->vmapping = map.vaddr;
-   270			obj->vmap_is_iomem = map.is_iomem;
-   271			return 0;
-   272		}
-   273	
-   274		ret = evdi_pin_pages(obj);
-   275		if (ret)
-   276			return ret;
-   277	
- > 278		obj->vmapping = vmap(obj->pages, page_count, 0, PAGE_KERNEL);
-   279		if (!obj->vmapping)
-   280			return -ENOMEM;
-   281		return 0;
-   282	}
-   283	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+cc-ing this to s390 maintainers and the s390 mailing list...
+Could you help me debug this? Thanks!
