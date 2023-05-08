@@ -1,44 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702FD15BD
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 14:37:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AECB315BD
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 14:58:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683556657; x=1715092657;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6lsvlo5SdkqZICtvxPrgpkmQjrtlLkqifSzvhcOKSD4=;
-  b=F5DHtX/aP1uDSAhhpEcViSqJwejSsMxQhiNAGaWPC7cR0TtruPfPZmmp
-   A5N0cf4TOg+903b+BoQmY/fpyZt4CX5vt/bzqcm0o5jQeWhv7AGxm9yqu
-   lEFStOW+6Wkc6jcBiUqCOWwI71tmjBde10yy8XpQunzVrCNkvaTP6ebpm
-   tKB6Cc2u2Td9RjBK2ZoVUjsrmewTXux7k1HsuOw+5JzCcEnUMnnhDihAP
-   Hc0a72AQJ+TRIee5vj8G8jh6esssd7OsX1ZSmP3V27Zto6415cZsVYogy
-   tdrVH4cTbUOaivpvlBMPemoxnznOMUZuYfqW6Eq1H6t7rqhnfyAKvuDUI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="330024566"
+  t=1683557916; x=1715093916;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+fa7uWMQCa0UVmqPkwjIrl0eoX83jQb4e2Na8ITe3bw=;
+  b=GQ2y5E7afhvHK4nU0O+uirMhYDVBB7xIIQW22reHikztbBJukc/lftHo
+   BxlEOw8DRk0CGtqUk0gPeT7r7G3FE2KlkojgI+5Wx1fB9k+9Hnmr1EKt6
+   QXnKgOADdEskoFAtCZVuMh+rbETpOxVLiuM5/ZLwI7q0FDR8M6zyVFKsG
+   CXiHg8N9ndBIUr1iF04y5GvE/rTQwjCvubfXHPo3JgD5x/wLtzZLVVa0U
+   QaJBWlgYPGNMwaHDowEHV38YZBwKBaYW+AyonkdIRhP8i7ySQ3cq15sxp
+   dqSkP3vePUZIkLqEoPYW0zVbokCZEUDuYiB6A+cPsDyXhkOSq3BPUeDko
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="415228094"
 X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="330024566"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 07:37:36 -0700
+   d="scan'208";a="415228094"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 07:58:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="872826323"
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="768098844"
 X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="872826323"
+   d="scan'208";a="768098844"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 08 May 2023 07:37:34 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 08 May 2023 07:58:34 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pw1za-0001Gj-03;
-	Mon, 08 May 2023 14:37:34 +0000
-Date: Mon, 8 May 2023 22:37:13 +0800
+	id 1pw2Ju-0001H7-10;
+	Mon, 08 May 2023 14:58:34 +0000
+Date: Mon, 8 May 2023 22:58:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mustapha Ghaddar <mghaddar@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Kshitij Bhardwaj <kshitij.bhardwaj1@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_validation.c:351:13:
- warning: variable 'bw_needed' set but not used
-Message-ID: <202305082222.xwzCCjfA-lkp@intel.com>
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 2/2] net: remove __skb_frag_set_page()
+Message-ID: <202305082238.59BxXcwS-lkp@intel.com>
+References: <20230508123922.39284-3-linyunsheng@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,56 +46,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230508123922.39284-3-linyunsheng@huawei.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ac9a78681b921877518763ba0e89202254349d1b
-commit: a8b537605e22bfe277e666727fa0e9e01f2c729b drm/amd/display: Add function pointer for validate bw usb4
-date:   7 weeks ago
-config: s390-randconfig-r033-20230507 (https://download.01.org/0day-ci/archive/20230508/202305082222.xwzCCjfA-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.1.0
+Hi Yunsheng,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+[also build test WARNING on net-next/main linus/master v6.4-rc1 next-20230508]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yunsheng-Lin/net-introduce-and-use-skb_frag_fill_page_desc/20230508-204326
+base:   net/main
+patch link:    https://lore.kernel.org/r/20230508123922.39284-3-linyunsheng%40huawei.com
+patch subject: [PATCH RFC 2/2] net: remove __skb_frag_set_page()
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230508/202305082238.59BxXcwS-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a8b537605e22bfe277e666727fa0e9e01f2c729b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a8b537605e22bfe277e666727fa0e9e01f2c729b
+        # https://github.com/intel-lab-lkp/linux/commit/999d6693757a196e863558b6d7663425165a7acb
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yunsheng-Lin/net-introduce-and-use-skb_frag_fill_page_desc/20230508-204326
+        git checkout 999d6693757a196e863558b6d7663425165a7acb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/net/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305082222.xwzCCjfA-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305082238.59BxXcwS-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   s390-linux-ld: arch/s390/purgatory/purgatory: in function `sha256_update':
->> (.text+0x248c): undefined reference to `ftrace_likely_update'
-   s390-linux-ld: (.text+0x24a4): undefined reference to `ftrace_likely_update'
-   s390-linux-ld: (.text+0x24bc): undefined reference to `ftrace_likely_update'
-   s390-linux-ld: (.text+0x29b4): undefined reference to `ftrace_likely_update'
-   s390-linux-ld: (.text+0x29cc): undefined reference to `ftrace_likely_update'
-   s390-linux-ld: arch/s390/purgatory/purgatory:(.text+0x29e4): more undefined references to `ftrace_likely_update' follow
---
-   drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_validation.c: In function 'link_validate_dpia_bandwidth':
->> drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_validation.c:352:25: warning: variable 'link' set but not used [-Wunused-but-set-variable]
-     352 |         struct dc_link *link[MAX_DPIA_NUM];
-         |                         ^~~~
->> drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_validation.c:351:13: warning: variable 'bw_needed' set but not used [-Wunused-but-set-variable]
-     351 |         int bw_needed[MAX_DPIA_NUM];
-         |             ^~~~~~~~~
+   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function '__bnxt_rx_agg_pages':
+>> drivers/net/ethernet/broadcom/bnxt/bnxt.c:1105:38: warning: variable 'nr_frags' set but not used [-Wunused-but-set-variable]
+    1105 |                         unsigned int nr_frags;
+         |                                      ^~~~~~~~
 
 
-vim +/bw_needed +351 drivers/gpu/drm/amd/amdgpu/../display/dc/link/link_validation.c
+vim +/nr_frags +1105 drivers/net/ethernet/broadcom/bnxt/bnxt.c
 
-   347	
-   348	bool link_validate_dpia_bandwidth(const struct dc_stream_state *stream, const unsigned int num_streams)
-   349	{
-   350		bool ret = true;
- > 351		int bw_needed[MAX_DPIA_NUM];
- > 352		struct dc_link *link[MAX_DPIA_NUM];
+c0c050c58d8409 Michael Chan    2015-10-22  1054  
+23e4c0469ad03f Andy Gospodarek 2022-04-08  1055  static u32 __bnxt_rx_agg_pages(struct bnxt *bp,
+e44758b78ae814 Michael Chan    2018-10-14  1056  			       struct bnxt_cp_ring_info *cpr,
+ca1df2dd8e2f2c Andy Gospodarek 2022-04-08  1057  			       struct skb_shared_info *shinfo,
+31b9998bf225ec Andy Gospodarek 2022-04-08  1058  			       u16 idx, u32 agg_bufs, bool tpa,
+31b9998bf225ec Andy Gospodarek 2022-04-08  1059  			       struct xdp_buff *xdp)
+c0c050c58d8409 Michael Chan    2015-10-22  1060  {
+e44758b78ae814 Michael Chan    2018-10-14  1061  	struct bnxt_napi *bnapi = cpr->bnapi;
+c0c050c58d8409 Michael Chan    2015-10-22  1062  	struct pci_dev *pdev = bp->pdev;
+b6ab4b01f53b5f Michael Chan    2016-01-02  1063  	struct bnxt_rx_ring_info *rxr = bnapi->rx_ring;
+c0c050c58d8409 Michael Chan    2015-10-22  1064  	u16 prod = rxr->rx_agg_prod;
+ca1df2dd8e2f2c Andy Gospodarek 2022-04-08  1065  	u32 i, total_frag_len = 0;
+bfcd8d791ec184 Michael Chan    2019-07-29  1066  	bool p5_tpa = false;
+c0c050c58d8409 Michael Chan    2015-10-22  1067  
+bfcd8d791ec184 Michael Chan    2019-07-29  1068  	if ((bp->flags & BNXT_FLAG_CHIP_P5) && tpa)
+bfcd8d791ec184 Michael Chan    2019-07-29  1069  		p5_tpa = true;
+bfcd8d791ec184 Michael Chan    2019-07-29  1070  
+c0c050c58d8409 Michael Chan    2015-10-22  1071  	for (i = 0; i < agg_bufs; i++) {
+ca1df2dd8e2f2c Andy Gospodarek 2022-04-08  1072  		skb_frag_t *frag = &shinfo->frags[i];
+c0c050c58d8409 Michael Chan    2015-10-22  1073  		u16 cons, frag_len;
+c0c050c58d8409 Michael Chan    2015-10-22  1074  		struct rx_agg_cmp *agg;
+c0c050c58d8409 Michael Chan    2015-10-22  1075  		struct bnxt_sw_rx_agg_bd *cons_rx_buf;
+c0c050c58d8409 Michael Chan    2015-10-22  1076  		struct page *page;
+c0c050c58d8409 Michael Chan    2015-10-22  1077  		dma_addr_t mapping;
+c0c050c58d8409 Michael Chan    2015-10-22  1078  
+bfcd8d791ec184 Michael Chan    2019-07-29  1079  		if (p5_tpa)
+bfcd8d791ec184 Michael Chan    2019-07-29  1080  			agg = bnxt_get_tpa_agg_p5(bp, rxr, idx, i);
+bfcd8d791ec184 Michael Chan    2019-07-29  1081  		else
+4a228a3a5e58e5 Michael Chan    2019-07-29  1082  			agg = bnxt_get_agg(bp, cpr, idx, i);
+c0c050c58d8409 Michael Chan    2015-10-22  1083  		cons = agg->rx_agg_cmp_opaque;
+c0c050c58d8409 Michael Chan    2015-10-22  1084  		frag_len = (le32_to_cpu(agg->rx_agg_cmp_len_flags_type) &
+c0c050c58d8409 Michael Chan    2015-10-22  1085  			    RX_AGG_CMP_LEN) >> RX_AGG_CMP_LEN_SHIFT;
+c0c050c58d8409 Michael Chan    2015-10-22  1086  
+c0c050c58d8409 Michael Chan    2015-10-22  1087  		cons_rx_buf = &rxr->rx_agg_ring[cons];
+9501ff8f37986d Yunsheng Lin    2023-05-08  1088  		skb_frag_fill_page_desc(frag, cons_rx_buf->page,
+9501ff8f37986d Yunsheng Lin    2023-05-08  1089  					cons_rx_buf->offset, frag_len);
+ca1df2dd8e2f2c Andy Gospodarek 2022-04-08  1090  		shinfo->nr_frags = i + 1;
+c0c050c58d8409 Michael Chan    2015-10-22  1091  		__clear_bit(cons, rxr->rx_agg_bmap);
+c0c050c58d8409 Michael Chan    2015-10-22  1092  
+c0c050c58d8409 Michael Chan    2015-10-22  1093  		/* It is possible for bnxt_alloc_rx_page() to allocate
+c0c050c58d8409 Michael Chan    2015-10-22  1094  		 * a sw_prod index that equals the cons index, so we
+c0c050c58d8409 Michael Chan    2015-10-22  1095  		 * need to clear the cons entry now.
+c0c050c58d8409 Michael Chan    2015-10-22  1096  		 */
+11cd119d31a71b Michael Chan    2017-02-06  1097  		mapping = cons_rx_buf->mapping;
+c0c050c58d8409 Michael Chan    2015-10-22  1098  		page = cons_rx_buf->page;
+c0c050c58d8409 Michael Chan    2015-10-22  1099  		cons_rx_buf->page = NULL;
+c0c050c58d8409 Michael Chan    2015-10-22  1100  
+31b9998bf225ec Andy Gospodarek 2022-04-08  1101  		if (xdp && page_is_pfmemalloc(page))
+31b9998bf225ec Andy Gospodarek 2022-04-08  1102  			xdp_buff_set_frag_pfmemalloc(xdp);
+31b9998bf225ec Andy Gospodarek 2022-04-08  1103  
+c0c050c58d8409 Michael Chan    2015-10-22  1104  		if (bnxt_alloc_rx_page(bp, rxr, prod, GFP_ATOMIC) != 0) {
+c0c050c58d8409 Michael Chan    2015-10-22 @1105  			unsigned int nr_frags;
+c0c050c58d8409 Michael Chan    2015-10-22  1106  
+c0c050c58d8409 Michael Chan    2015-10-22  1107  			nr_frags = --shinfo->nr_frags;
+c0c050c58d8409 Michael Chan    2015-10-22  1108  			cons_rx_buf->page = page;
+c0c050c58d8409 Michael Chan    2015-10-22  1109  
+c0c050c58d8409 Michael Chan    2015-10-22  1110  			/* Update prod since possibly some pages have been
+c0c050c58d8409 Michael Chan    2015-10-22  1111  			 * allocated already.
+c0c050c58d8409 Michael Chan    2015-10-22  1112  			 */
+c0c050c58d8409 Michael Chan    2015-10-22  1113  			rxr->rx_agg_prod = prod;
+4a228a3a5e58e5 Michael Chan    2019-07-29  1114  			bnxt_reuse_rx_agg_bufs(cpr, idx, i, agg_bufs - i, tpa);
+ca1df2dd8e2f2c Andy Gospodarek 2022-04-08  1115  			return 0;
+c0c050c58d8409 Michael Chan    2015-10-22  1116  		}
+c0c050c58d8409 Michael Chan    2015-10-22  1117  
+c519fe9a4f0d1a Shannon Nelson  2017-05-09  1118  		dma_unmap_page_attrs(&pdev->dev, mapping, BNXT_RX_PAGE_SIZE,
+9a6aa350488533 Andy Gospodarek 2022-04-08  1119  				     bp->rx_dir,
+c519fe9a4f0d1a Shannon Nelson  2017-05-09  1120  				     DMA_ATTR_WEAK_ORDERING);
+c0c050c58d8409 Michael Chan    2015-10-22  1121  
+ca1df2dd8e2f2c Andy Gospodarek 2022-04-08  1122  		total_frag_len += frag_len;
+c0c050c58d8409 Michael Chan    2015-10-22  1123  		prod = NEXT_RX_AGG(prod);
+c0c050c58d8409 Michael Chan    2015-10-22  1124  	}
+c0c050c58d8409 Michael Chan    2015-10-22  1125  	rxr->rx_agg_prod = prod;
+ca1df2dd8e2f2c Andy Gospodarek 2022-04-08  1126  	return total_frag_len;
+ca1df2dd8e2f2c Andy Gospodarek 2022-04-08  1127  }
+ca1df2dd8e2f2c Andy Gospodarek 2022-04-08  1128  
 
 -- 
 0-DAY CI Kernel Test Service
