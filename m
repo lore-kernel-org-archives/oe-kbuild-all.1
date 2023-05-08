@@ -1,48 +1,52 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C058111A3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 20:28:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1CE111BC;
+	Mon,  8 May 2023 21:20:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683577730; x=1715113730;
+  t=1683580813; x=1715116813;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kGJO5bW7l9MO0KOgZZZ6RDiyfHYcSzVdXZEnB631cPo=;
-  b=OV6tan0kKL6DAWs3P0epKyz1ci0yUrhCg0E4CDN2K51uS3hv5E15qMGm
-   OPqKP4xfixAqa7eQAblxOPEMbKA4Rj1YsIFpN5tj65Uejqh4VZnJQC1Pz
-   Z/i2dPykpyaSqoWgjsI2aXq5TJKncySk1ewHeNCLubon1tM0uqXWQHJS/
-   NkS/NtAcR9++Cwjr0+ZQe2SFUguavDHA0CtFDLF/gyx4Os13laQ016Q8k
-   LfzbGPEFNTKLgL/+BCIwcBgzvyaenVm0HdNLFnZ7mvMxFCgX44KhW9b42
-   K+OVGqRRhM5wdSYXeVSV28dHUGrBVsFo+NUCpwrbw9RpAWzK0wIiahqaH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="349782836"
+  bh=ZXD+ewt6EPlLmAFkTGfXobVhsHMapRgravjPxFdOVE4=;
+  b=mE6EdNhy5MvllEsol5mDBtfzSVVTfkm5D1e4mMmSnAGSm4rWzmjRiVVi
+   PAUjLGus/XR5zGvJO0ovhEVu4aYP9I+A6sv9GQizWpNf8bntdjOuIPJlq
+   mbfsHJ14TzcsaAgt2z/LLsS1JYjvSS0DfjFPrCFDRdOwMnxSnC/MGgQkh
+   CIAFhHAqAeMVwolTTkay3Cx9hNCDr4UPNmT2EMDsZxJWBJEbzxjcOlwpb
+   nexdFIMR9qxBtbakQF79S6kjx/v68YBw1aAmQz2nmip/dlEHlYiXGhbzZ
+   8b9gza/bSs1yh4nW67ptiU9e64/KBzRgmb3KcPJyFL+kxgxJW0Id9nczg
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="436079609"
 X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="349782836"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 13:28:44 -0700
+   d="scan'208";a="436079609"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 14:19:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="729212406"
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="692727524"
 X-IronPort-AV: E=Sophos;i="5.99,259,1677571200"; 
-   d="scan'208";a="729212406"
+   d="scan'208";a="692727524"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 08 May 2023 13:28:40 -0700
+  by orsmga007.jf.intel.com with ESMTP; 08 May 2023 14:19:42 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pw7TL-0001Ob-2V;
-	Mon, 08 May 2023 20:28:39 +0000
-Date: Tue, 9 May 2023 04:27:53 +0800
+	id 1pw8Gk-0001QT-02;
+	Mon, 08 May 2023 21:19:42 +0000
+Date: Tue, 9 May 2023 05:19:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Piyush Malgujar <pmalgujar@marvell.com>, linux-kernel@vger.kernel.org,
-	linux-acpi@vger.kernel.org, dan.j.williams@intel.com,
-	xueshuai@linux.alibaba.com, jaylu102@amd.com,
-	benjamin.cheatham@amd.com, bp@alien8.de, tony.luck@intel.com,
-	james.morse@arm.com, lenb@kernel.org, rafael@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, jannadurai@marvell.com,
-	cchavva@marvell.com, Piyush Malgujar <pmalgujar@marvell.com>
-Subject: Re: [PATCH] ACPI: APEI: EINJ: EINJV2 support added
-Message-ID: <202305090445.WSd683gm-lkp@intel.com>
-References: <20230503143759.10485-1-pmalgujar@marvell.com>
+To: Lizhe <sensor1010@163.com>, marcan@marcan.st, sven@svenpeter.dev,
+	alyssa@rosenzweig.io, linus.walleij@linaro.org,
+	neil.armstrong@linaro.org, mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com, daniel@zonque.org,
+	haojian.zhuang@gmail.com, robert.jarzmik@free.fr
+Cc: oe-kbuild-all@lists.linux.dev, asahi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-oxnas@groups.io,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Lizhe <sensor1010@163.com>
+Subject: Re: [PATCH] dirvers/pinctrl.c : using pinctrl_dev->dev to obtain
+ struct device * dev
+Message-ID: <202305090411.OyJRHVis-lkp@intel.com>
+References: <20230508154043.11859-1-sensor1010@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,158 +55,212 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230503143759.10485-1-pmalgujar@marvell.com>
+In-Reply-To: <20230508154043.11859-1-sensor1010@163.com>
 
-Hi Piyush,
+Hi Lizhe,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on linus/master v6.4-rc1 next-20230508]
+[auto build test ERROR on linusw-pinctrl/devel]
+[also build test ERROR on linusw-pinctrl/for-next linus/master v6.4-rc1 next-20230508]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Piyush-Malgujar/ACPI-APEI-EINJ-EINJV2-support-added/20230503-223915
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20230503143759.10485-1-pmalgujar%40marvell.com
-patch subject: [PATCH] ACPI: APEI: EINJ: EINJV2 support added
-config: x86_64-randconfig-s022 (https://download.01.org/0day-ci/archive/20230509/202305090445.WSd683gm-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/ca5bbbdcc074577ee88ccaa2d078a37eb5eec36f
+url:    https://github.com/intel-lab-lkp/linux/commits/Lizhe/dirvers-pinctrl-c-using-pinctrl_dev-dev-to-obtain-struct-device-dev/20230508-234502
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20230508154043.11859-1-sensor1010%40163.com
+patch subject: [PATCH] dirvers/pinctrl.c : using pinctrl_dev->dev to obtain struct device * dev
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230509/202305090411.OyJRHVis-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/83751a28d7f5223597b6742300796fb80362dc20
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Piyush-Malgujar/ACPI-APEI-EINJ-EINJV2-support-added/20230503-223915
-        git checkout ca5bbbdcc074577ee88ccaa2d078a37eb5eec36f
+        git fetch --no-tags linux-review Lizhe/dirvers-pinctrl-c-using-pinctrl_dev-dev-to-obtain-struct-device-dev/20230508-234502
+        git checkout 83751a28d7f5223597b6742300796fb80362dc20
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/acpi/apei/ drivers/platform/x86/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305090445.WSd683gm-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305090411.OyJRHVis-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/acpi/apei/einj.c:247:11: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct vendor_error_type_extension *v @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/einj.c:247:11: sparse:     expected struct vendor_error_type_extension *v
-   drivers/acpi/apei/einj.c:247:11: sparse:     got void [noderef] __iomem *
-   drivers/acpi/apei/einj.c:255:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *virt @@     got struct vendor_error_type_extension *v @@
-   drivers/acpi/apei/einj.c:255:29: sparse:     expected void [noderef] __iomem *virt
-   drivers/acpi/apei/einj.c:255:29: sparse:     got struct vendor_error_type_extension *v
->> drivers/acpi/apei/einj.c:286:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct einjv2_set_error_type *v65param @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/einj.c:286:26: sparse:     expected struct einjv2_set_error_type *v65param
-   drivers/acpi/apei/einj.c:286:26: sparse:     got void [noderef] __iomem *
-   drivers/acpi/apei/einj.c:295:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct set_error_type_with_address *v5param @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/einj.c:295:25: sparse:     expected struct set_error_type_with_address *v5param
-   drivers/acpi/apei/einj.c:295:25: sparse:     got void [noderef] __iomem *
-   drivers/acpi/apei/einj.c:305:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct einj_parameter *v4param @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/einj.c:305:25: sparse:     expected struct einj_parameter *v4param
-   drivers/acpi/apei/einj.c:305:25: sparse:     got void [noderef] __iomem *
-   drivers/acpi/apei/einj.c:309:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *virt @@     got struct einj_parameter *v4param @@
-   drivers/acpi/apei/einj.c:309:45: sparse:     expected void [noderef] __iomem *virt
-   drivers/acpi/apei/einj.c:309:45: sparse:     got struct einj_parameter *v4param
-   drivers/acpi/apei/einj.c:376:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct acpi_einj_trigger *trigger_tab @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/einj.c:376:21: sparse:     expected struct acpi_einj_trigger *trigger_tab
-   drivers/acpi/apei/einj.c:376:21: sparse:     got void [noderef] __iomem *
-   drivers/acpi/apei/einj.c:402:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got struct acpi_einj_trigger *trigger_tab @@
-   drivers/acpi/apei/einj.c:402:17: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/apei/einj.c:402:17: sparse:     got struct acpi_einj_trigger *trigger_tab
-   drivers/acpi/apei/einj.c:403:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct acpi_einj_trigger *trigger_tab @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/einj.c:403:21: sparse:     expected struct acpi_einj_trigger *trigger_tab
-   drivers/acpi/apei/einj.c:403:21: sparse:     got void [noderef] __iomem *
-   drivers/acpi/apei/einj.c:468:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got struct acpi_einj_trigger *trigger_tab @@
-   drivers/acpi/apei/einj.c:468:25: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/apei/einj.c:468:25: sparse:     got struct acpi_einj_trigger *trigger_tab
-   drivers/acpi/apei/einj.c:930:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *virt @@     got void *static [assigned] [toplevel] einj_param @@
-   drivers/acpi/apei/einj.c:930:37: sparse:     expected void [noderef] __iomem *virt
-   drivers/acpi/apei/einj.c:930:37: sparse:     got void *static [assigned] [toplevel] einj_param
+All errors (new ones prefixed by >>):
 
-vim +286 drivers/acpi/apei/einj.c
+   In file included from include/linux/device.h:15,
+                    from include/linux/platform_device.h:13,
+                    from drivers/pinctrl/pinctrl-stmfx.c:12:
+   drivers/pinctrl/pinctrl-stmfx.c: In function 'stmfx_pinctrl_probe':
+>> drivers/pinctrl/pinctrl-stmfx.c:714:25: error: 'pctldev' undeclared (first use in this function); did you mean 'pci_dev'?
+     714 |                 dev_err(pctldev->dev, "gpio_chip registration failed\n");
+         |                         ^~~~~~~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/pinctrl/pinctrl-stmfx.c:714:17: note: in expansion of macro 'dev_err'
+     714 |                 dev_err(pctldev->dev, "gpio_chip registration failed\n");
+         |                 ^~~~~~~
+   drivers/pinctrl/pinctrl-stmfx.c:714:25: note: each undeclared identifier is reported only once for each function it appears in
+     714 |                 dev_err(pctldev->dev, "gpio_chip registration failed\n");
+         |                         ^~~~~~~
+   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                         ^~~
+   drivers/pinctrl/pinctrl-stmfx.c:714:17: note: in expansion of macro 'dev_err'
+     714 |                 dev_err(pctldev->dev, "gpio_chip registration failed\n");
+         |                 ^~~~~~~
+--
+   In file included from include/linux/printk.h:564,
+                    from include/asm-generic/bug.h:22,
+                    from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/io.h:11,
+                    from drivers/pinctrl/pxa/pinctrl-pxa2xx.c:9:
+   drivers/pinctrl/pxa/pinctrl-pxa2xx.c: In function 'pxa2xx_pmx_gpio_set_direction':
+>> drivers/pinctrl/pxa/pinctrl-pxa2xx.c:94:24: error: invalid use of undefined type 'struct pinctrl_dev'
+      94 |         dev_dbg(pctldev->dev, "set_direction(pin=%d): dir=%d\n",
+         |                        ^~
+   include/linux/dynamic_debug.h:222:29: note: in definition of macro '__dynamic_func_call_cls'
+     222 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '_dynamic_func_call_cls'
+     248 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:271:9: note: in expansion of macro '_dynamic_func_call'
+     271 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/pinctrl/pxa/pinctrl-pxa2xx.c:94:9: note: in expansion of macro 'dev_dbg'
+      94 |         dev_dbg(pctldev->dev, "set_direction(pin=%d): dir=%d\n",
+         |         ^~~~~~~
+   drivers/pinctrl/pxa/pinctrl-pxa2xx.c: In function 'pxa2xx_pmx_set_mux':
+   drivers/pinctrl/pxa/pinctrl-pxa2xx.c:159:24: error: invalid use of undefined type 'struct pinctrl_dev'
+     159 |         dev_dbg(pctldev->dev, "set_mux(pin=%d): af=%d dir=%d\n",
+         |                        ^~
+   include/linux/dynamic_debug.h:222:29: note: in definition of macro '__dynamic_func_call_cls'
+     222 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '_dynamic_func_call_cls'
+     248 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:271:9: note: in expansion of macro '_dynamic_func_call'
+     271 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/pinctrl/pxa/pinctrl-pxa2xx.c:159:9: note: in expansion of macro 'dev_dbg'
+     159 |         dev_dbg(pctldev->dev, "set_mux(pin=%d): af=%d dir=%d\n",
+         |         ^~~~~~~
 
-   237	
-   238	static void check_vendor_extension(u64 paddr,
-   239					   struct set_error_type_with_address *v5param)
-   240	{
-   241		int	offset = v5param->vendor_extension;
-   242		struct	vendor_error_type_extension *v;
-   243		u32	sbdf;
-   244	
-   245		if (!offset)
-   246			return;
- > 247		v = acpi_os_map_iomem(paddr + offset, sizeof(*v));
-   248		if (!v)
-   249			return;
-   250		sbdf = v->pcie_sbdf;
-   251		sprintf(vendor_dev, "%x:%x:%x.%x vendor_id=%x device_id=%x rev_id=%x\n",
-   252			sbdf >> 24, (sbdf >> 16) & 0xff,
-   253			(sbdf >> 11) & 0x1f, (sbdf >> 8) & 0x7,
-   254			 v->vendor_id, v->device_id, v->rev_id);
-   255		acpi_os_unmap_iomem(v, sizeof(*v));
-   256	}
-   257	
-   258	static void *einj_get_parameter_address(void)
-   259	{
-   260		int i;
-   261		u64 pa_v4 = 0, pa_v5 = 0, pa_v65 = 0;
-   262		struct acpi_whea_header *entry;
-   263	
-   264		entry = EINJ_TAB_ENTRY(einj_tab);
-   265		for (i = 0; i < einj_tab->entries; i++) {
-   266			if (entry->action == ACPI_EINJ_SET_ERROR_TYPE &&
-   267			    entry->instruction == ACPI_EINJ_WRITE_REGISTER &&
-   268			    entry->register_region.space_id ==
-   269			    ACPI_ADR_SPACE_SYSTEM_MEMORY)
-   270				pa_v4 = get_unaligned(&entry->register_region.address);
-   271			if (entry->action == ACPI_EINJ_SET_ERROR_TYPE_WITH_ADDRESS &&
-   272			    entry->instruction == ACPI_EINJ_WRITE_REGISTER &&
-   273			    entry->register_region.space_id ==
-   274			    ACPI_ADR_SPACE_SYSTEM_MEMORY)
-   275				pa_v5 = get_unaligned(&entry->register_region.address);
-   276			if (entry->action == ACPI_EINJV2_SET_ERROR_TYPE &&
-   277			    entry->instruction == ACPI_EINJ_WRITE_REGISTER &&
-   278			    entry->register_region.space_id ==
-   279			    ACPI_ADR_SPACE_SYSTEM_MEMORY)
-   280				pa_v65 = get_unaligned(&entry->register_region.address);
-   281			entry++;
-   282		}
-   283		if (pa_v65) {
-   284			struct einjv2_set_error_type *v65param;
-   285	
- > 286			v65param = acpi_os_map_iomem(pa_v65, sizeof(*v65param));
-   287			if (v65param) {
-   288				einjv2_supp = 1;
-   289				return v65param;
-   290			}
-   291		}
-   292		if (pa_v5) {
-   293			struct set_error_type_with_address *v5param;
-   294	
-   295			v5param = acpi_os_map_iomem(pa_v5, sizeof(*v5param));
-   296			if (v5param) {
-   297				acpi5 = 1;
-   298				check_vendor_extension(pa_v5, v5param);
-   299				return v5param;
-   300			}
-   301		}
-   302		if (param_extension && pa_v4) {
-   303			struct einj_parameter *v4param;
-   304	
-   305			v4param = acpi_os_map_iomem(pa_v4, sizeof(*v4param));
-   306			if (!v4param)
-   307				return NULL;
-   308			if (v4param->reserved1 || v4param->reserved2) {
-   309				acpi_os_unmap_iomem(v4param, sizeof(*v4param));
-   310				return NULL;
-   311			}
-   312			return v4param;
-   313		}
-   314	
-   315		return NULL;
-   316	}
-   317	
+
+vim +714 drivers/pinctrl/pinctrl-stmfx.c
+
+   638	
+   639	static int stmfx_pinctrl_probe(struct platform_device *pdev)
+   640	{
+   641		struct stmfx *stmfx = dev_get_drvdata(pdev->dev.parent);
+   642		struct device_node *np = pdev->dev.of_node;
+   643		struct stmfx_pinctrl *pctl;
+   644		struct gpio_irq_chip *girq;
+   645		int irq, ret;
+   646	
+   647		pctl = devm_kzalloc(stmfx->dev, sizeof(*pctl), GFP_KERNEL);
+   648		if (!pctl)
+   649			return -ENOMEM;
+   650	
+   651		platform_set_drvdata(pdev, pctl);
+   652	
+   653		pctl->dev = &pdev->dev;
+   654		pctl->stmfx = stmfx;
+   655	
+   656		if (!of_property_present(np, "gpio-ranges")) {
+   657			dev_err(pctl->dev, "missing required gpio-ranges property\n");
+   658			return -EINVAL;
+   659		}
+   660	
+   661		irq = platform_get_irq(pdev, 0);
+   662		if (irq <= 0)
+   663			return -ENXIO;
+   664	
+   665		mutex_init(&pctl->lock);
+   666	
+   667		/* Register pin controller */
+   668		pctl->pctl_desc.name = "stmfx-pinctrl";
+   669		pctl->pctl_desc.pctlops = &stmfx_pinctrl_ops;
+   670		pctl->pctl_desc.confops = &stmfx_pinconf_ops;
+   671		pctl->pctl_desc.pins = stmfx_pins;
+   672		pctl->pctl_desc.npins = ARRAY_SIZE(stmfx_pins);
+   673		pctl->pctl_desc.owner = THIS_MODULE;
+   674		pctl->pctl_desc.link_consumers = true;
+   675	
+   676		ret = devm_pinctrl_register_and_init(pctl->dev, &pctl->pctl_desc,
+   677						     pctl, &pctl->pctl_dev);
+   678		if (ret) {
+   679			dev_err(pctl->dev, "pinctrl registration failed\n");
+   680			return ret;
+   681		}
+   682	
+   683		ret = pinctrl_enable(pctl->pctl_dev);
+   684		if (ret) {
+   685			dev_err(pctl->dev, "pinctrl enable failed\n");
+   686			return ret;
+   687		}
+   688	
+   689		/* Register gpio controller */
+   690		pctl->gpio_chip.label = "stmfx-gpio";
+   691		pctl->gpio_chip.parent = pctl->dev;
+   692		pctl->gpio_chip.get_direction = stmfx_gpio_get_direction;
+   693		pctl->gpio_chip.direction_input = stmfx_gpio_direction_input;
+   694		pctl->gpio_chip.direction_output = stmfx_gpio_direction_output;
+   695		pctl->gpio_chip.get = stmfx_gpio_get;
+   696		pctl->gpio_chip.set = stmfx_gpio_set;
+   697		pctl->gpio_chip.set_config = gpiochip_generic_config;
+   698		pctl->gpio_chip.base = -1;
+   699		pctl->gpio_chip.ngpio = pctl->pctl_desc.npins;
+   700		pctl->gpio_chip.can_sleep = true;
+   701	
+   702		girq = &pctl->gpio_chip.irq;
+   703		gpio_irq_chip_set_chip(girq, &stmfx_pinctrl_irq_chip);
+   704		/* This will let us handle the parent IRQ in the driver */
+   705		girq->parent_handler = NULL;
+   706		girq->num_parents = 0;
+   707		girq->parents = NULL;
+   708		girq->default_type = IRQ_TYPE_NONE;
+   709		girq->handler = handle_bad_irq;
+   710		girq->threaded = true;
+   711	
+   712		ret = devm_gpiochip_add_data(pctl->dev, &pctl->gpio_chip, pctl);
+   713		if (ret) {
+ > 714			dev_err(pctldev->dev, "gpio_chip registration failed\n");
+   715			return ret;
+   716		}
+   717	
+   718		ret = stmfx_pinctrl_gpio_function_enable(pctl);
+   719		if (ret)
+   720			return ret;
+   721	
+   722		ret = devm_request_threaded_irq(pctl->dev, irq, NULL,
+   723						stmfx_pinctrl_irq_thread_fn,
+   724						IRQF_ONESHOT,
+   725						dev_name(pctl->dev), pctl);
+   726		if (ret) {
+   727			dev_err(pctldev->dev, "cannot request irq%d\n", irq);
+   728			return ret;
+   729		}
+   730	
+   731		dev_info(pctldev->dev,
+   732			 "%ld GPIOs available\n", hweight_long(pctl->gpio_valid_mask));
+   733	
+   734		return 0;
+   735	}
+   736	
 
 -- 
 0-DAY CI Kernel Test Service
