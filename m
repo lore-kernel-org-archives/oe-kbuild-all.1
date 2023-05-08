@@ -1,49 +1,41 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A72168C4
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 10:09:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508AD11C8F;
+	Mon,  8 May 2023 11:01:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683540574; x=1715076574;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4jr48r3Rg1gBF9nU5gu4Efj5T+5s3X2Wu++aNSu2CO0=;
-  b=OJSI33sK70ILZxwAO8GCu1RtT7vQl49J6VBNW+OaQbL9HQ8mX0bD1V4Z
-   BAOfXq+MwRvJCHt8vyGD54Sp/vaSMwijQrPVtu7bgu7hiORxtFnmuImMJ
-   AKVhBRBhkEn/oMgghCNnQKt3P+8zud0lbPLIIxQruO8nW306yaI3/+OY9
-   2+B5iF12ontUH3Yxa3Y+qHNCz/H9BcQUsZwChuGDGROjA42ejr7cf37Ct
-   hW1OzFUuo9oQ+hA4REwuXNEyBwKuPDbh7orqUVQlju22RT/nfEdB3npiu
-   YFcgOeCYQxlFfoJw9m4iU9m8pr0fQWaeUsbRQOyfvTC52LE2nfgdj1WES
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="329966083"
+  t=1683543702; x=1715079702;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=DBnF8Nor69jt9Lkx7YK8DJIju8ez8eNfqWcccEQBF6g=;
+  b=jQz58tYloJCKNwhuYUIbQsN61pV+vEb5oGY3EbMQhpN+zCwxMGdadE9g
+   3l+09NdGQ8KSBFBH8cK2wVGWkR6fnJ3sTfyiLyWbhKnghif8hXYIvtJap
+   1USjF+bjwpM4VV1fHJ7MQZOzHbXb3nxNptC7AHwWAWoBAZbahcom6Wtg7
+   E6TCxFMUKJobA6f4dcl00R/FPJ4W0W1GF8ps0DwYtvqkhpS0odAwKyD8c
+   CzW2fgvB5duZHg8a/ulFKikaO/3HEMYYTcXYZTZ2PdjvL1b224J9d3bhG
+   h4wNosWo21lQ7dL3wRkAlvTgeDAoounPPnoaDu2Yi8Ad+gS/EnMyR2LH0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="351778580"
 X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
-   d="scan'208";a="329966083"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 03:09:33 -0700
+   d="scan'208";a="351778580"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 04:01:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="872745963"
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="676019840"
 X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
-   d="scan'208";a="872745963"
+   d="scan'208";a="676019840"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 08 May 2023 03:09:30 -0700
+  by orsmga006.jf.intel.com with ESMTP; 08 May 2023 04:01:31 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvxo9-0001BR-2q;
-	Mon, 08 May 2023 10:09:29 +0000
-Date: Mon, 8 May 2023 18:09:04 +0800
+	id 1pvycU-0001Cj-26;
+	Mon, 08 May 2023 11:01:30 +0000
+Date: Mon, 8 May 2023 19:00:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vegard Nossum <vegard.nossum@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Masahiro Yamada <yamada.masahiro@socionext.com>,
-	Daniel Santos <daniel.santos@pobox.com>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [linux-stable-rc:queue/5.4 4610/23318]
- include/linux/compiler.h:350:45: error: call to '__compiletime_assert_255'
- declared with attribute error: FIELD_GET: mask is not constant
-Message-ID: <202305081823.YByGrcJ3-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: vmlinux.o: warning: objtool: intel_idle_ibrs+0x11d: call to
+ ftrace_likely_update() leaves .noinstr.text section
+Message-ID: <202305081859.1iquMYan-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,107 +45,161 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Vegard,
+CC: linux-kernel@vger.kernel.org
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: Ingo Molnar <mingo@kernel.org>
+
+Hi Peter,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/5.4
-head:   0852c87349d4b76efbaf87cff41fb692bf77814c
-commit: 3910babeac1ab031f4e178042cbd1af9a9a0ec51 [4610/23318] compiler.h: fix error in BUILD_BUG_ON() reporting
-config: ia64-randconfig-r014-20230508 (https://download.01.org/0day-ci/archive/20230508/202305081823.YByGrcJ3-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   ac9a78681b921877518763ba0e89202254349d1b
+commit: e4df1511e1f4bcaa0d590aa7bbffe8bbbd6dfb49 cpuidle, sched: Remove instrumentation from TIF_{POLLING_NRFLAG,NEED_RESCHED}
+date:   4 months ago
+config: x86_64-buildonly-randconfig-r002-20230508 (https://download.01.org/0day-ci/archive/20230508/202305081859.1iquMYan-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=3910babeac1ab031f4e178042cbd1af9a9a0ec51
-        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
-        git fetch --no-tags linux-stable-rc queue/5.4
-        git checkout 3910babeac1ab031f4e178042cbd1af9a9a0ec51
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e4df1511e1f4bcaa0d590aa7bbffe8bbbd6dfb49
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e4df1511e1f4bcaa0d590aa7bbffe8bbbd6dfb49
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/net/wireless/mediatek/mt76/mt7615/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305081823.YByGrcJ3-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305081859.1iquMYan-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kernel.h:11,
-                    from include/linux/skbuff.h:13,
-                    from include/linux/if_ether.h:19,
-                    from include/linux/etherdevice.h:20,
-                    from drivers/net/wireless/mediatek/mt76/mt7615/mac.c:10:
-   drivers/net/wireless/mediatek/mt76/mt7615/mac.c: In function 'to_rssi':
->> include/linux/compiler.h:350:45: error: call to '__compiletime_assert_255' declared with attribute error: FIELD_GET: mask is not constant
-     350 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler.h:331:25: note: in definition of macro '__compiletime_assert'
-     331 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler.h:350:9: note: in expansion of macro '_compiletime_assert'
-     350 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:46:17: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      46 |                 BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),          \
-         |                 ^~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:95:17: note: in expansion of macro '__BF_FIELD_CHECK'
-      95 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7615/mac.c:18:17: note: in expansion of macro 'FIELD_GET'
-      18 |         return (FIELD_GET(field, rxv) - 220) / 2;
-         |                 ^~~~~~~~~
-   include/linux/compiler.h:350:45: error: call to '__compiletime_assert_259' declared with attribute error: BUILD_BUG_ON failed: (((field) + (1ULL << (__builtin_ffsll(field) - 1))) & (((field) + (1ULL << (__builtin_ffsll(field) - 1))) - 1)) != 0
-     350 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler.h:331:25: note: in definition of macro '__compiletime_assert'
-     331 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler.h:350:9: note: in expansion of macro '_compiletime_assert'
-     350 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:21:9: note: in expansion of macro 'BUILD_BUG_ON'
-      21 |         BUILD_BUG_ON(((n) & ((n) - 1)) != 0)
-         |         ^~~~~~~~~~~~
-   include/linux/bitfield.h:54:17: note: in expansion of macro '__BUILD_BUG_ON_NOT_POWER_OF_2'
-      54 |                 __BUILD_BUG_ON_NOT_POWER_OF_2((_mask) +                 \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bitfield.h:95:17: note: in expansion of macro '__BF_FIELD_CHECK'
-      95 |                 __BF_FIELD_CHECK(_mask, _reg, 0U, "FIELD_GET: ");       \
-         |                 ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/mediatek/mt76/mt7615/mac.c:18:17: note: in expansion of macro 'FIELD_GET'
-      18 |         return (FIELD_GET(field, rxv) - 220) / 2;
-         |                 ^~~~~~~~~
+   vmlinux.o: warning: objtool: sync_regs+0x20: call to memcpy() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: vc_switch_off_ist+0x8f: call to memcpy() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: fixup_bad_iret+0x82: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: noist_exc_debug+0x3b: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_nmi+0x32: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: poke_int3_handler+0x37: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __sev_es_ist_exit+0x46: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __sev_get_ghcb+0x20: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __sev_put_ghcb+0x1f: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: kernel_exc_vmm_communication+0xbc: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: enter_from_user_mode+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x2f: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x36: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x2b: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_kernel_exit_state+0x40: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_nmi_enter+0x43: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_kernel_enter_state+0x43: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_idle_enter+0x19: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_kernel_exit+0x5b: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_idle_exit+0x39: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_kernel_enter+0x42: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __ct_user_enter+0x3f: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: context_tracking_recursion_enter+0x35: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __ct_user_exit+0x7a: call to __kasan_check_write() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: check_preemption_disabled+0x37: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: mwait_idle+0x29: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0xef: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle+0xd7: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_s2idle+0xe7: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_irq+0xd9: call to ftrace_likely_update() leaves .noinstr.text section
+>> vmlinux.o: warning: objtool: intel_idle_ibrs+0x11d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_xstate+0xdf: call to ftrace_likely_update() leaves .noinstr.text section
 
 
-vim +/__compiletime_assert_255 +350 include/linux/compiler.h
-
-   336	
-   337	#define _compiletime_assert(condition, msg, prefix, suffix) \
-   338		__compiletime_assert(condition, msg, prefix, suffix)
-   339	
-   340	/**
-   341	 * compiletime_assert - break build and emit msg if condition is false
-   342	 * @condition: a compile-time constant condition to check
-   343	 * @msg:       a message to emit if condition is false
-   344	 *
-   345	 * In tradition of POSIX assert, this macro will break the build if the
-   346	 * supplied condition is *false*, emitting the supplied error message if the
-   347	 * compiler has support to do so.
-   348	 */
-   349	#define compiletime_assert(condition, msg) \
- > 350		_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-   351	
+objdump-func vmlinux.o intel_idle_ibrs:
+0000 0000000000000640 <intel_idle_ibrs>:
+0000  640:	55                   	push   %rbp
+0001  641:	41 57                	push   %r15
+0003  643:	41 56                	push   %r14
+0005  645:	41 55                	push   %r13
+0007  647:	41 54                	push   %r12
+0009  649:	53                   	push   %rbx
+000a  64a:	41 89 d5             	mov    %edx,%r13d
+000d  64d:	48 89 f3             	mov    %rsi,%rbx
+0010  650:	e9 d3 00 00 00       	jmp    728 <intel_idle_ibrs+0xe8>
+0015  655:	e8 00 00 00 00       	call   65a <intel_idle_ibrs+0x1a>	656: R_X86_64_PLT32	spec_ctrl_current-0x4
+001a  65a:	49 89 c6             	mov    %rax,%r14
+001d  65d:	b9 48 00 00 00       	mov    $0x48,%ecx
+0022  662:	31 c0                	xor    %eax,%eax
+0024  664:	31 d2                	xor    %edx,%edx
+0026  666:	0f 30                	wrmsr
+0028  668:	41 b4 01             	mov    $0x1,%r12b
+002b  66b:	49 63 c5             	movslq %r13d,%rax
+002e  66e:	48 6b c0 68          	imul   $0x68,%rax,%rax
+0032  672:	44 0f b6 7c 03 5b    	movzbl 0x5b(%rbx,%rax,1),%r15d
+0038  678:	e9 00 00 00 00       	jmp    67d <intel_idle_ibrs+0x3d>	679: R_X86_64_PLT32	.altinstr_aux+0xbf0
+003d  67d:	e9 00 00 00 00       	jmp    682 <intel_idle_ibrs+0x42>	67e: R_X86_64_PLT32	.altinstr_aux+0xc02
+0042  682:	0f ae f0             	mfence
+0045  685:	65 48 8b 04 25 00 00 00 00 	mov    %gs:0x0,%rax	68a: R_X86_64_32S	pcpu_hot
+004e  68e:	0f ae 38             	clflush (%rax)
+0051  691:	0f ae f0             	mfence
+0054  694:	65 48 8b 1c 25 00 00 00 00 	mov    %gs:0x0,%rbx	699: R_X86_64_32S	pcpu_hot
+005d  69d:	48 89 d8             	mov    %rbx,%rax
+0060  6a0:	31 c9                	xor    %ecx,%ecx
+0062  6a2:	31 d2                	xor    %edx,%edx
+0064  6a4:	0f 01 c8             	monitor %rax,%ecx,%edx
+0067  6a7:	48 8b 2b             	mov    (%rbx),%rbp
+006a  6aa:	83 e5 08             	and    $0x8,%ebp
+006d  6ad:	48 c1 ed 03          	shr    $0x3,%rbp
+0071  6b1:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	6b4: R_X86_64_32S	_ftrace_annotated_branch+0x76d70
+0078  6b8:	89 ee                	mov    %ebp,%esi
+007a  6ba:	31 d2                	xor    %edx,%edx
+007c  6bc:	31 c9                	xor    %ecx,%ecx
+007e  6be:	e8 00 00 00 00       	call   6c3 <intel_idle_ibrs+0x83>	6bf: R_X86_64_PLT32	ftrace_likely_update-0x4
+0083  6c3:	48 85 ed             	test   %rbp,%rbp
+0086  6c6:	75 14                	jne    6dc <intel_idle_ibrs+0x9c>
+0088  6c8:	eb 07                	jmp    6d1 <intel_idle_ibrs+0x91>
+008a  6ca:	0f 00 2d 00 00 00 00 	verw   0x0(%rip)        # 6d1 <intel_idle_ibrs+0x91>	6cd: R_X86_64_PC32	.rodata+0x86507c
+0091  6d1:	b9 01 00 00 00       	mov    $0x1,%ecx
+0096  6d6:	4c 89 f8             	mov    %r15,%rax
+0099  6d9:	0f 01 c9             	mwait  %eax,%ecx
+009c  6dc:	65 48 8b 04 25 00 00 00 00 	mov    %gs:0x0,%rax	6e1: R_X86_64_32S	pcpu_hot
+00a5  6e5:	f0 80 63 02 df       	lock andb $0xdf,0x2(%rbx)
+00aa  6ea:	f0 83 44 24 fc 00    	lock addl $0x0,-0x4(%rsp)
+00b0  6f0:	48 f7 03 08 00 00 00 	testq  $0x8,(%rbx)
+00b7  6f7:	74 0b                	je     704 <intel_idle_ibrs+0xc4>
+00b9  6f9:	65 81 25 00 00 00 00 ff ff ff 7f 	andl   $0x7fffffff,%gs:0x0(%rip)        # 704 <intel_idle_ibrs+0xc4>	6fc: R_X86_64_PC32	pcpu_hot
+00c4  704:	45 84 e4             	test   %r12b,%r12b
+00c7  707:	74 11                	je     71a <intel_idle_ibrs+0xda>
+00c9  709:	4c 89 f2             	mov    %r14,%rdx
+00cc  70c:	48 c1 ea 20          	shr    $0x20,%rdx
+00d0  710:	b9 48 00 00 00       	mov    $0x48,%ecx
+00d5  715:	44 89 f0             	mov    %r14d,%eax
+00d8  718:	0f 30                	wrmsr
+00da  71a:	44 89 e8             	mov    %r13d,%eax
+00dd  71d:	5b                   	pop    %rbx
+00de  71e:	41 5c                	pop    %r12
+00e0  720:	41 5d                	pop    %r13
+00e2  722:	41 5e                	pop    %r14
+00e4  724:	41 5f                	pop    %r15
+00e6  726:	5d                   	pop    %rbp
+00e7  727:	c3                   	ret
+00e8  728:	45 31 e4             	xor    %r12d,%r12d
+00eb  72b:	e8 00 00 00 00       	call   730 <intel_idle_ibrs+0xf0>	72c: R_X86_64_PLT32	spec_ctrl_current-0x4
+00f0  730:	49 89 c6             	mov    %rax,%r14
+00f3  733:	e9 33 ff ff ff       	jmp    66b <intel_idle_ibrs+0x2b>
+00f8  738:	65 48 8b 1c 25 00 00 00 00 	mov    %gs:0x0,%rbx	73d: R_X86_64_32S	pcpu_hot
+0101  741:	f0 80 4b 02 20       	lock orb $0x20,0x2(%rbx)
+0106  746:	48 8b 2b             	mov    (%rbx),%rbp
+0109  749:	83 e5 08             	and    $0x8,%ebp
+010c  74c:	48 c1 ed 03          	shr    $0x3,%rbp
+0110  750:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	753: R_X86_64_32S	_ftrace_annotated_branch+0x76d40
+0117  757:	89 ee                	mov    %ebp,%esi
+0119  759:	31 d2                	xor    %edx,%edx
+011b  75b:	31 c9                	xor    %ecx,%ecx
+011d  75d:	e8 00 00 00 00       	call   762 <intel_idle_ibrs+0x122>	75e: R_X86_64_PLT32	ftrace_likely_update-0x4
+0122  762:	48 85 ed             	test   %rbp,%rbp
+0125  765:	0f 85 71 ff ff ff    	jne    6dc <intel_idle_ibrs+0x9c>
+012b  76b:	e9 0d ff ff ff       	jmp    67d <intel_idle_ibrs+0x3d>
+0130  770:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
+013a  77a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
 
 -- 
 0-DAY CI Kernel Test Service
