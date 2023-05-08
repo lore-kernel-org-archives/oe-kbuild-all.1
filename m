@@ -1,43 +1,46 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AF7168CD
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 11:22:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0C6171A8
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 11:43:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683544926; x=1715080926;
+  t=1683546214; x=1715082214;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=GfXUPFk5DCDsmV5TV/6jFscKCjgUNylh8YPIAhl+Ip4=;
-  b=djzibZKi7CfWhkxQEsoPtVkUARqn+mGOCi+Kns3h/TSS4ijMs6x/JojU
-   uqYvWGPxvmJwU5Obxkyz6bOuCUDq1mKbg9UyibFhfGfN7IwmYQsUSlbj9
-   VZfamoCuMTAsWBUjlPYjy5G2X60vNiI7suagjFSFsQPiayN8zaGNyEJQ3
-   X5Tm5Di0KgetuiuYqcVn0gpMoDplhCApwYker96Hf76FK8n7wdMPBKM5m
-   H2cVt2lUxVGCoEtuyeB7evuLlZKBdAUsw3hRJmWGep/aBGpwOnh+0QBkV
-   +Aoiuz4mSYf30zFYsZJ98WEqRl26TxR962qWUcX1R5vdG3AZDXq+xhVJH
+  bh=EaeXkgnPAHHr24wExW0Qm/7g9X9Q0JsJ6bCN3Imb+NQ=;
+  b=e2vgQdbghZfYkPUYh61VWDDDB5Ej7AULWeGv2C4uL+oSJkWuNvhwzsQ3
+   3/DOQ6dGqzQoELr0gzT4eb/Q0E6LGtTcqJwmfDai/yoW+pG1oDNCLPHZK
+   ueUF4hJz3r1zCcH1relftwgCk++VUz4la1tC0wjhDIkJGZmXQ01I6xR7i
+   kJmBGapNuduo5OXNEU1Ls1sgr17o5+afHNE4gBawdfOhCgqv2EfqjyIeA
+   0zjpfJNPDuuCJS7H8qQjIwZB3UCjOenMaPYU43oPKI2l1Xno36VAHvVFy
+   C8/lA9RNRX9CWH13vSoFVVm8hqxfHXTBHAl6v9LubTl4ZcJVup6NMU+Pr
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="415178292"
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="329245178"
 X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
-   d="scan'208";a="415178292"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 04:21:44 -0700
+   d="scan'208";a="329245178"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 04:43:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="648834909"
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="788065041"
 X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
-   d="scan'208";a="648834909"
+   d="scan'208";a="788065041"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 08 May 2023 04:21:31 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 08 May 2023 04:43:32 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvyvq-0001D3-2s;
-	Mon, 08 May 2023 11:21:30 +0000
-Date: Mon, 8 May 2023 19:21:09 +0800
+	id 1pvzH9-0001DV-0T;
+	Mon, 08 May 2023 11:43:31 +0000
+Date: Mon, 8 May 2023 19:42:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jordan Niethe <jpn@linux.vnet.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v1 5/5] KVM: PPC: Add support for nested PAPR guests
-Message-ID: <202305081806.CVv1rk9X-lkp@intel.com>
-References: <20230508072332.2937883-6-jpn@linux.vnet.ibm.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, laurent.pinchart@ideasonboard.com,
+	bingbu.cao@intel.com
+Subject: Re: [PATCH 3/3] media: uapi: Use _BITUL macro for assigning bits in
+ u32 fields
+Message-ID: <202305081924.hCNE42mH-lkp@intel.com>
+References: <20230508091753.80803-4-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,142 +49,237 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230508072332.2937883-6-jpn@linux.vnet.ibm.com>
+In-Reply-To: <20230508091753.80803-4-sakari.ailus@linux.intel.com>
 
-Hi Jordan,
+Hi Sakari,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on powerpc/fixes]
-[cannot apply to powerpc/topic/ppc-kvm powerpc/next linus/master v6.4-rc1 next-20230508]
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linus/master sailus-media-tree/streams v6.4-rc1 next-20230508]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jordan-Niethe/KVM-PPC-Use-getters-and-setters-for-vcpu-register-state/20230508-152631
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git fixes
-patch link:    https://lore.kernel.org/r/20230508072332.2937883-6-jpn%40linux.vnet.ibm.com
-patch subject: [RFC PATCH v1 5/5] KVM: PPC: Add support for nested PAPR guests
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230508/202305081806.CVv1rk9X-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-mc-Make-media_get_pad_index-use-pad-type-flag/20230508-173012
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230508091753.80803-4-sakari.ailus%40linux.intel.com
+patch subject: [PATCH 3/3] media: uapi: Use _BITUL macro for assigning bits in u32 fields
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230508/202305081924.hCNE42mH-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/61dc8a829a1c96569deaa958b92fac9ae5dc8178
+        # https://github.com/intel-lab-lkp/linux/commit/1462451478f4e2ce6cc6364c2c8aacdb2db57d6b
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Jordan-Niethe/KVM-PPC-Use-getters-and-setters-for-vcpu-register-state/20230508-152631
-        git checkout 61dc8a829a1c96569deaa958b92fac9ae5dc8178
+        git fetch --no-tags linux-review Sakari-Ailus/media-mc-Make-media_get_pad_index-use-pad-type-flag/20230508-173012
+        git checkout 1462451478f4e2ce6cc6364c2c8aacdb2db57d6b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/media/i2c/ drivers/media/platform/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305081806.CVv1rk9X-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305081924.hCNE42mH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from include/linux/byteorder/big_endian.h:5,
-                    from arch/powerpc/include/uapi/asm/byteorder.h:14,
-                    from include/asm-generic/bitops/le.h:6,
-                    from arch/powerpc/include/asm/bitops.h:336,
-                    from include/linux/bitops.h:68,
-                    from include/linux/log2.h:12,
-                    from include/asm-generic/div64.h:55,
-                    from ./arch/powerpc/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/math64.h:6,
-                    from include/linux/time.h:6,
-                    from include/linux/compat.h:10,
-                    from arch/powerpc/kernel/asm-offsets.c:12:
-   arch/powerpc/include/asm/guest-state-buffer.h: In function 'gse_put_vector128':
->> arch/powerpc/include/asm/guest-state-buffer.h:725:35: error: 'TS_VSRLOWOFFSET' undeclared (first use in this function); did you mean 'TS_FPROFFSET'?
-     725 |         tmp[1] = cpu_to_be64(u.dw[TS_VSRLOWOFFSET]);
-         |                                   ^~~~~~~~~~~~~~~
-   include/uapi/linux/byteorder/big_endian.h:38:51: note: in definition of macro '__cpu_to_be64'
-      38 | #define __cpu_to_be64(x) ((__force __be64)(__u64)(x))
-         |                                                   ^
-   arch/powerpc/include/asm/guest-state-buffer.h:725:18: note: in expansion of macro 'cpu_to_be64'
-     725 |         tmp[1] = cpu_to_be64(u.dw[TS_VSRLOWOFFSET]);
-         |                  ^~~~~~~~~~~
-   arch/powerpc/include/asm/guest-state-buffer.h:725:35: note: each undeclared identifier is reported only once for each function it appears in
-     725 |         tmp[1] = cpu_to_be64(u.dw[TS_VSRLOWOFFSET]);
-         |                                   ^~~~~~~~~~~~~~~
-   include/uapi/linux/byteorder/big_endian.h:38:51: note: in definition of macro '__cpu_to_be64'
-      38 | #define __cpu_to_be64(x) ((__force __be64)(__u64)(x))
-         |                                                   ^
-   arch/powerpc/include/asm/guest-state-buffer.h:725:18: note: in expansion of macro 'cpu_to_be64'
-     725 |         tmp[1] = cpu_to_be64(u.dw[TS_VSRLOWOFFSET]);
-         |                  ^~~~~~~~~~~
-   In file included from arch/powerpc/include/asm/kvm_host.h:28,
-                    from include/linux/kvm_host.h:45,
-                    from arch/powerpc/include/asm/kvm_ppc.h:19,
-                    from arch/powerpc/include/asm/dbell.h:17,
-                    from arch/powerpc/kernel/asm-offsets.c:36:
-   arch/powerpc/include/asm/guest-state-buffer.h: In function 'gse_get_vector128':
-   arch/powerpc/include/asm/guest-state-buffer.h:851:14: error: 'TS_VSRLOWOFFSET' undeclared (first use in this function); did you mean 'TS_FPROFFSET'?
-     851 |         u.dw[TS_VSRLOWOFFSET] = be64_to_cpu(src[1]);
-         |              ^~~~~~~~~~~~~~~
-         |              TS_FPROFFSET
-   In file included from arch/powerpc/include/asm/kvm_host.h:26:
-   arch/powerpc/include/asm/guest-state-buffer.h: In function 'gsb_recv':
-   arch/powerpc/include/asm/hvcall.h:492:36: warning: left shift count >= width of type [-Wshift-count-overflow]
-     492 | #define H_GUEST_FLAGS_WIDE     (1UL<<(63-0))
-         |                                    ^~
-   arch/powerpc/include/asm/guest-state-buffer.h:1018:27: note: in expansion of macro 'H_GUEST_FLAGS_WIDE'
-    1018 |                 hflags |= H_GUEST_FLAGS_WIDE;
-         |                           ^~~~~~~~~~~~~~~~~~
->> arch/powerpc/include/asm/guest-state-buffer.h:1020:14: error: implicit declaration of function 'plpar_guest_get_state' [-Werror=implicit-function-declaration]
-    1020 |         rc = plpar_guest_get_state(hflags, gsb->guest_id, gsb->vcpu_id,
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   arch/powerpc/include/asm/guest-state-buffer.h: In function 'gsb_send':
-   arch/powerpc/include/asm/hvcall.h:492:36: warning: left shift count >= width of type [-Wshift-count-overflow]
-     492 | #define H_GUEST_FLAGS_WIDE     (1UL<<(63-0))
-         |                                    ^~
-   arch/powerpc/include/asm/guest-state-buffer.h:1088:27: note: in expansion of macro 'H_GUEST_FLAGS_WIDE'
-    1088 |                 hflags |= H_GUEST_FLAGS_WIDE;
-         |                           ^~~~~~~~~~~~~~~~~~
->> arch/powerpc/include/asm/guest-state-buffer.h:1090:14: error: implicit declaration of function 'plpar_guest_set_state' [-Werror=implicit-function-declaration]
-    1090 |         rc = plpar_guest_set_state(hflags, gsb->guest_id, gsb->vcpu_id,
-         |              ^~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[2]: *** [scripts/Makefile.build:114: arch/powerpc/kernel/asm-offsets.s] Error 1
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:1287: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   In file included from include/linux/device.h:15,
+                    from include/linux/acpi.h:15,
+                    from include/linux/i2c.h:13,
+                    from drivers/media/i2c/tvp5150.c:8:
+   drivers/media/i2c/tvp5150.c: In function 'tvp5150_link_setup':
+>> drivers/media/i2c/tvp5150.c:1332:40: warning: format '%d' expects argument of type 'int', but argument 8 has type 'long unsigned int' [-Wformat=]
+    1332 |         dev_dbg_lvl(sd->dev, 1, debug, "link setup '%s':%d->'%s':%d[%d]",
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:129:41: note: in definition of macro 'dev_printk'
+     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+         |                                         ^~~
+   drivers/media/i2c/tvp5150.c:1332:9: note: in expansion of macro 'dev_dbg_lvl'
+    1332 |         dev_dbg_lvl(sd->dev, 1, debug, "link setup '%s':%d->'%s':%d[%d]",
+         |         ^~~~~~~~~~~
+   drivers/media/i2c/tvp5150.c:1332:70: note: format string is defined here
+    1332 |         dev_dbg_lvl(sd->dev, 1, debug, "link setup '%s':%d->'%s':%d[%d]",
+         |                                                                     ~^
+         |                                                                      |
+         |                                                                      int
+         |                                                                     %ld
+   drivers/media/i2c/tvp5150.c:1338:29: warning: format '%d' expects argument of type 'int', but argument 8 has type 'long unsigned int' [-Wformat=]
+    1338 |                             "link setup '%s':%d->'%s':%d[%d]",
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:129:41: note: in definition of macro 'dev_printk'
+     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
+         |                                         ^~~
+   drivers/media/i2c/tvp5150.c:1337:17: note: in expansion of macro 'dev_dbg_lvl'
+    1337 |                 dev_dbg_lvl(sd->dev, 1, debug,
+         |                 ^~~~~~~~~~~
+   drivers/media/i2c/tvp5150.c:1338:59: note: format string is defined here
+    1338 |                             "link setup '%s':%d->'%s':%d[%d]",
+         |                                                          ~^
+         |                                                           |
+         |                                                           int
+         |                                                          %ld
+--
+   In file included from include/linux/printk.h:564,
+                    from include/asm-generic/bug.h:22,
+                    from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:16,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from include/linux/mm_types_task.h:13,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
+                    from drivers/media/platform/video-mux.c:10:
+   drivers/media/platform/video-mux.c: In function 'video_mux_link_setup':
+>> drivers/media/platform/video-mux.c:67:26: warning: format '%d' expects argument of type 'int', but argument 8 has type 'long unsigned int' [-Wformat=]
+      67 |         dev_dbg(sd->dev, "link setup '%s':%d->'%s':%d[%d]",
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:223:29: note: in definition of macro '__dynamic_func_call_cls'
+     223 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:249:9: note: in expansion of macro '_dynamic_func_call_cls'
+     249 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:272:9: note: in expansion of macro '_dynamic_func_call'
+     272 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:9: note: in expansion of macro 'dynamic_dev_dbg'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:155:30: note: in expansion of macro 'dev_fmt'
+     155 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/media/platform/video-mux.c:67:9: note: in expansion of macro 'dev_dbg'
+      67 |         dev_dbg(sd->dev, "link setup '%s':%d->'%s':%d[%d]",
+         |         ^~~~~~~
+   drivers/media/platform/video-mux.c:67:56: note: format string is defined here
+      67 |         dev_dbg(sd->dev, "link setup '%s':%d->'%s':%d[%d]",
+         |                                                       ~^
+         |                                                        |
+         |                                                        int
+         |                                                       %ld
 
 
-vim +725 arch/powerpc/include/asm/guest-state-buffer.h
+vim +1332 drivers/media/i2c/tvp5150.c
 
-e769880eca81b3 Jordan Niethe 2023-05-08  707  
-e769880eca81b3 Jordan Niethe 2023-05-08  708  /**
-e769880eca81b3 Jordan Niethe 2023-05-08  709   * gse_put_vector128() - add a vector guest state element to a buffer
-e769880eca81b3 Jordan Niethe 2023-05-08  710   * @gsb: guest state buffer to add element to
-e769880eca81b3 Jordan Niethe 2023-05-08  711   * @iden: guest state ID
-e769880eca81b3 Jordan Niethe 2023-05-08  712   * @val: 16 byte vector value
-e769880eca81b3 Jordan Niethe 2023-05-08  713   */
-e769880eca81b3 Jordan Niethe 2023-05-08  714  static inline int gse_put_vector128(struct gs_buff *gsb, u16 iden,
-e769880eca81b3 Jordan Niethe 2023-05-08  715  				    vector128 val)
-e769880eca81b3 Jordan Niethe 2023-05-08  716  {
-e769880eca81b3 Jordan Niethe 2023-05-08  717  	__be64 tmp[2];
-e769880eca81b3 Jordan Niethe 2023-05-08  718  	union {
-e769880eca81b3 Jordan Niethe 2023-05-08  719  		__vector128 v;
-e769880eca81b3 Jordan Niethe 2023-05-08  720  		u64 dw[2];
-e769880eca81b3 Jordan Niethe 2023-05-08  721  	} u;
-e769880eca81b3 Jordan Niethe 2023-05-08  722  
-e769880eca81b3 Jordan Niethe 2023-05-08  723  	u.v = val;
-e769880eca81b3 Jordan Niethe 2023-05-08  724  	tmp[0] = cpu_to_be64(u.dw[TS_FPROFFSET]);
-e769880eca81b3 Jordan Niethe 2023-05-08 @725  	tmp[1] = cpu_to_be64(u.dw[TS_VSRLOWOFFSET]);
-e769880eca81b3 Jordan Niethe 2023-05-08  726  	return __gse_put(gsb, iden, sizeof(tmp), &tmp);
-e769880eca81b3 Jordan Niethe 2023-05-08  727  }
-e769880eca81b3 Jordan Niethe 2023-05-08  728  
+0556f1d580d4c1 Marco Felsch 2020-03-12  1299  
+0556f1d580d4c1 Marco Felsch 2020-03-12  1300  static int tvp5150_s_routing(struct v4l2_subdev *sd, u32 input, u32 output,
+0556f1d580d4c1 Marco Felsch 2020-03-12  1301  			     u32 config);
+0556f1d580d4c1 Marco Felsch 2020-03-12  1302  
+0556f1d580d4c1 Marco Felsch 2020-03-12  1303  static int tvp5150_link_setup(struct media_entity *entity,
+0556f1d580d4c1 Marco Felsch 2020-03-12  1304  			      const struct media_pad *tvp5150_pad,
+0556f1d580d4c1 Marco Felsch 2020-03-12  1305  			      const struct media_pad *remote, u32 flags)
+0556f1d580d4c1 Marco Felsch 2020-03-12  1306  {
+0556f1d580d4c1 Marco Felsch 2020-03-12  1307  	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
+0556f1d580d4c1 Marco Felsch 2020-03-12  1308  	struct tvp5150 *decoder = to_tvp5150(sd);
+0556f1d580d4c1 Marco Felsch 2020-03-12  1309  	struct media_pad *other_tvp5150_pad =
+0556f1d580d4c1 Marco Felsch 2020-03-12  1310  		&decoder->pads[tvp5150_pad->index ^ 1];
+0556f1d580d4c1 Marco Felsch 2020-03-12  1311  	struct v4l2_fwnode_connector *v4l2c;
+0556f1d580d4c1 Marco Felsch 2020-03-12  1312  	bool is_svideo = false;
+0556f1d580d4c1 Marco Felsch 2020-03-12  1313  	unsigned int i;
+0556f1d580d4c1 Marco Felsch 2020-03-12  1314  	int err;
+0556f1d580d4c1 Marco Felsch 2020-03-12  1315  
+0556f1d580d4c1 Marco Felsch 2020-03-12  1316  	/*
+0556f1d580d4c1 Marco Felsch 2020-03-12  1317  	 * The TVP5150 state is determined by the enabled sink pad link(s).
+0556f1d580d4c1 Marco Felsch 2020-03-12  1318  	 * Enabling or disabling the source pad link has no effect.
+0556f1d580d4c1 Marco Felsch 2020-03-12  1319  	 */
+0556f1d580d4c1 Marco Felsch 2020-03-12  1320  	if (tvp5150_pad->flags & MEDIA_PAD_FL_SOURCE)
+0556f1d580d4c1 Marco Felsch 2020-03-12  1321  		return 0;
+0556f1d580d4c1 Marco Felsch 2020-03-12  1322  
+0556f1d580d4c1 Marco Felsch 2020-03-12  1323  	/* Check if the svideo connector should be enabled */
+0556f1d580d4c1 Marco Felsch 2020-03-12  1324  	for (i = 0; i < decoder->connectors_num; i++) {
+0556f1d580d4c1 Marco Felsch 2020-03-12  1325  		if (remote->entity == &decoder->connectors[i].ent) {
+0556f1d580d4c1 Marco Felsch 2020-03-12  1326  			v4l2c = &decoder->connectors[i].base;
+0556f1d580d4c1 Marco Felsch 2020-03-12  1327  			is_svideo = v4l2c->type == V4L2_CONN_SVIDEO;
+0556f1d580d4c1 Marco Felsch 2020-03-12  1328  			break;
+0556f1d580d4c1 Marco Felsch 2020-03-12  1329  		}
+0556f1d580d4c1 Marco Felsch 2020-03-12  1330  	}
+0556f1d580d4c1 Marco Felsch 2020-03-12  1331  
+0556f1d580d4c1 Marco Felsch 2020-03-12 @1332  	dev_dbg_lvl(sd->dev, 1, debug, "link setup '%s':%d->'%s':%d[%d]",
+0556f1d580d4c1 Marco Felsch 2020-03-12  1333  		    remote->entity->name, remote->index,
+0556f1d580d4c1 Marco Felsch 2020-03-12  1334  		    tvp5150_pad->entity->name, tvp5150_pad->index,
+0556f1d580d4c1 Marco Felsch 2020-03-12  1335  		    flags & MEDIA_LNK_FL_ENABLED);
+0556f1d580d4c1 Marco Felsch 2020-03-12  1336  	if (is_svideo)
+0556f1d580d4c1 Marco Felsch 2020-03-12  1337  		dev_dbg_lvl(sd->dev, 1, debug,
+0556f1d580d4c1 Marco Felsch 2020-03-12  1338  			    "link setup '%s':%d->'%s':%d[%d]",
+0556f1d580d4c1 Marco Felsch 2020-03-12  1339  			    remote->entity->name, remote->index,
+0556f1d580d4c1 Marco Felsch 2020-03-12  1340  			    other_tvp5150_pad->entity->name,
+0556f1d580d4c1 Marco Felsch 2020-03-12  1341  			    other_tvp5150_pad->index,
+0556f1d580d4c1 Marco Felsch 2020-03-12  1342  			    flags & MEDIA_LNK_FL_ENABLED);
+0556f1d580d4c1 Marco Felsch 2020-03-12  1343  
+0556f1d580d4c1 Marco Felsch 2020-03-12  1344  	/*
+0556f1d580d4c1 Marco Felsch 2020-03-12  1345  	 * The TVP5150 has an internal mux which allows the following setup:
+0556f1d580d4c1 Marco Felsch 2020-03-12  1346  	 *
+0556f1d580d4c1 Marco Felsch 2020-03-12  1347  	 * comp-connector1  --\
+0556f1d580d4c1 Marco Felsch 2020-03-12  1348  	 *		       |---> AIP1A
+0556f1d580d4c1 Marco Felsch 2020-03-12  1349  	 *		      /
+0556f1d580d4c1 Marco Felsch 2020-03-12  1350  	 * svideo-connector -|
+0556f1d580d4c1 Marco Felsch 2020-03-12  1351  	 *		      \
+0556f1d580d4c1 Marco Felsch 2020-03-12  1352  	 *		       |---> AIP1B
+0556f1d580d4c1 Marco Felsch 2020-03-12  1353  	 * comp-connector2  --/
+0556f1d580d4c1 Marco Felsch 2020-03-12  1354  	 *
+0556f1d580d4c1 Marco Felsch 2020-03-12  1355  	 * We can't rely on user space that the current connector gets disabled
+0556f1d580d4c1 Marco Felsch 2020-03-12  1356  	 * first before enabling the new connector. Disable all active
+0556f1d580d4c1 Marco Felsch 2020-03-12  1357  	 * connector links to be on the safe side.
+0556f1d580d4c1 Marco Felsch 2020-03-12  1358  	 */
+0556f1d580d4c1 Marco Felsch 2020-03-12  1359  	err = tvp5150_disable_all_input_links(decoder);
+0556f1d580d4c1 Marco Felsch 2020-03-12  1360  	if (err)
+0556f1d580d4c1 Marco Felsch 2020-03-12  1361  		return err;
+0556f1d580d4c1 Marco Felsch 2020-03-12  1362  
+0556f1d580d4c1 Marco Felsch 2020-03-12  1363  	tvp5150_s_routing(sd, is_svideo ? TVP5150_SVIDEO : tvp5150_pad->index,
+0556f1d580d4c1 Marco Felsch 2020-03-12  1364  			  flags & MEDIA_LNK_FL_ENABLED ? TVP5150_NORMAL :
+0556f1d580d4c1 Marco Felsch 2020-03-12  1365  			  TVP5150_BLACK_SCREEN, 0);
+0556f1d580d4c1 Marco Felsch 2020-03-12  1366  
+0556f1d580d4c1 Marco Felsch 2020-03-12  1367  	if (flags & MEDIA_LNK_FL_ENABLED) {
+baf178219478c2 Marco Felsch 2020-03-12  1368  		struct v4l2_fwnode_connector_analog *v4l2ca;
+baf178219478c2 Marco Felsch 2020-03-12  1369  		u32 new_norm;
+baf178219478c2 Marco Felsch 2020-03-12  1370  
+0556f1d580d4c1 Marco Felsch 2020-03-12  1371  		/*
+0556f1d580d4c1 Marco Felsch 2020-03-12  1372  		 * S-Video connector is conneted to both ports AIP1A and AIP1B.
+0556f1d580d4c1 Marco Felsch 2020-03-12  1373  		 * Both links must be enabled in one-shot regardless which link
+0556f1d580d4c1 Marco Felsch 2020-03-12  1374  		 * the user requests.
+0556f1d580d4c1 Marco Felsch 2020-03-12  1375  		 */
+0556f1d580d4c1 Marco Felsch 2020-03-12  1376  		if (is_svideo) {
+0556f1d580d4c1 Marco Felsch 2020-03-12  1377  			err = tvp5150_set_link((struct media_pad *)remote,
+0556f1d580d4c1 Marco Felsch 2020-03-12  1378  					       other_tvp5150_pad, flags);
+0556f1d580d4c1 Marco Felsch 2020-03-12  1379  			if (err)
+0556f1d580d4c1 Marco Felsch 2020-03-12  1380  				return err;
+0556f1d580d4c1 Marco Felsch 2020-03-12  1381  		}
+baf178219478c2 Marco Felsch 2020-03-12  1382  
+baf178219478c2 Marco Felsch 2020-03-12  1383  		if (!decoder->connectors_num)
+baf178219478c2 Marco Felsch 2020-03-12  1384  			return 0;
+baf178219478c2 Marco Felsch 2020-03-12  1385  
+baf178219478c2 Marco Felsch 2020-03-12  1386  		/* Update the current connector */
+baf178219478c2 Marco Felsch 2020-03-12  1387  		decoder->cur_connector =
+baf178219478c2 Marco Felsch 2020-03-12  1388  			container_of(remote, struct tvp5150_connector, pad);
+baf178219478c2 Marco Felsch 2020-03-12  1389  
+baf178219478c2 Marco Felsch 2020-03-12  1390  		/*
+baf178219478c2 Marco Felsch 2020-03-12  1391  		 * Do nothing if the new connector supports the same tv-norms as
+baf178219478c2 Marco Felsch 2020-03-12  1392  		 * the old one.
+baf178219478c2 Marco Felsch 2020-03-12  1393  		 */
+baf178219478c2 Marco Felsch 2020-03-12  1394  		v4l2ca = &decoder->cur_connector->base.connector.analog;
+baf178219478c2 Marco Felsch 2020-03-12  1395  		new_norm = decoder->norm & v4l2ca->sdtv_stds;
+baf178219478c2 Marco Felsch 2020-03-12  1396  		if (decoder->norm == new_norm)
+baf178219478c2 Marco Felsch 2020-03-12  1397  			return 0;
+baf178219478c2 Marco Felsch 2020-03-12  1398  
+baf178219478c2 Marco Felsch 2020-03-12  1399  		/*
+baf178219478c2 Marco Felsch 2020-03-12  1400  		 * Fallback to the new connector tv-norms if we can't find any
+baf178219478c2 Marco Felsch 2020-03-12  1401  		 * common between the current tv-norm and the new one.
+baf178219478c2 Marco Felsch 2020-03-12  1402  		 */
+baf178219478c2 Marco Felsch 2020-03-12  1403  		tvp5150_s_std(sd, new_norm ? new_norm : v4l2ca->sdtv_stds);
+0556f1d580d4c1 Marco Felsch 2020-03-12  1404  	}
+0556f1d580d4c1 Marco Felsch 2020-03-12  1405  
+0556f1d580d4c1 Marco Felsch 2020-03-12  1406  	return 0;
+0556f1d580d4c1 Marco Felsch 2020-03-12  1407  }
+0556f1d580d4c1 Marco Felsch 2020-03-12  1408  
 
 -- 
 0-DAY CI Kernel Test Service
