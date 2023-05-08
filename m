@@ -1,44 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB35A93B;
-	Mon,  8 May 2023 09:49:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882CB1549F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  8 May 2023 09:59:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683539372; x=1715075372;
+  t=1683539990; x=1715075990;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=w042wTQBiEIVxcg3YStNPzuYG+sn3RWl76EyF7cq+3s=;
-  b=jWvNVrKrGUINHJfP7cdsNKENKKvpE15wqb+I3S9VHsMzEFXBTS7zFa7P
-   6/Jyp6g+t/fsgmnImRGBtyaRZYlrdLTmUnBOJzsenK63VDKHOOlWAyl4+
-   V4+8HHWLaWfIza9WSxtq0H8WQ4pw+gLWwXnKqK7Q7NCx/GqS5QjX+o3GC
-   5OX6e4Qb/VIAY9UCdvscxyIJdHfp+YvNzJX7OitUGoC5AD2x21tgFuC1v
-   hLmHZ0JoSeFwdCx8ZnNh7zr3CbexHk8yhTaHmFiI3BfwnRWSFYH+au2pI
-   ZwgKsZK1LXt9+it7GEykxC6k7sgs9Aq5DazfnOR99s5/5QWSeKwfW352y
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="415163399"
+  bh=2cg1STduZ4cu6EkunJcPMLKtekr/M0hAMTi+gGO7+xs=;
+  b=GdSC+T2xgxcZrT0AAcfGbEPKAPfRzowyyT++LQxWlYFz/rxz+G7jw7Zo
+   NAXiJYfNHGk/BvEp+NdG8v3E9T47h0cQWVHY6OQZGSoLRtEtDxMbBfkAa
+   jAofav31e78J/rXexMRaGP7idJE7tE6VINRmsFLmzul2ZGmso+RhGzAwF
+   1dgUdNfVDKAdzJroG28abai8styS1K3oO4/CFBgngKS4asNUqyA2nU0hQ
+   rOundRcNCaa/iyojEXU/ohyURnKTr8c5t5OKiFIy9nenm6fjRqhb5kf2p
+   iSwyAT58hwWiu/QzrIdeUR5ZHA1L2VIw9XbUkQqkd3oMuscb8EVb8XoIK
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="352661570"
 X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
-   d="scan'208";a="415163399"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 02:49:31 -0700
+   d="scan'208";a="352661570"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 02:59:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="729016233"
+X-IronPort-AV: E=McAfee;i="6600,9927,10703"; a="872739428"
 X-IronPort-AV: E=Sophos;i="5.99,258,1677571200"; 
-   d="scan'208";a="729016233"
+   d="scan'208";a="872739428"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 08 May 2023 02:49:30 -0700
+  by orsmga005.jf.intel.com with ESMTP; 08 May 2023 02:59:28 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pvxUn-0001Ar-1x;
-	Mon, 08 May 2023 09:49:29 +0000
-Date: Mon, 8 May 2023 17:48:30 +0800
+	id 1pvxeT-0001BF-2W;
+	Mon, 08 May 2023 09:59:29 +0000
+Date: Mon, 8 May 2023 17:58:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 1/1] media: pci: ipu3-cio2: Obtain remote pad from
- endpoint
-Message-ID: <202305081739.XqGimPpf-lkp@intel.com>
-References: <20230508064123.979451-1-sakari.ailus@linux.intel.com>
+To: Jordan Niethe <jpn@linux.vnet.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v1 3/5] KVM: PPC: Add vr getters and setters
+Message-ID: <202305081713.dSqlmUru-lkp@intel.com>
+References: <20230508072332.2937883-4-jpn@linux.vnet.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,91 +46,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230508064123.979451-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <20230508072332.2937883-4-jpn@linux.vnet.ibm.com>
 
-Hi Sakari,
+Hi Jordan,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on sailus-media-tree/streams linus/master v6.4-rc1 next-20230508]
+[auto build test ERROR on powerpc/fixes]
+[cannot apply to powerpc/topic/ppc-kvm powerpc/next linus/master v6.4-rc1 next-20230508]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-pci-ipu3-cio2-Obtain-remote-pad-from-endpoint/20230508-144532
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230508064123.979451-1-sakari.ailus%40linux.intel.com
-patch subject: [PATCH v2 1/1] media: pci: ipu3-cio2: Obtain remote pad from endpoint
-config: x86_64-buildonly-randconfig-r002-20230508 (https://download.01.org/0day-ci/archive/20230508/202305081739.XqGimPpf-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jordan-Niethe/KVM-PPC-Use-getters-and-setters-for-vcpu-register-state/20230508-152631
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git fixes
+patch link:    https://lore.kernel.org/r/20230508072332.2937883-4-jpn%40linux.vnet.ibm.com
+patch subject: [RFC PATCH v1 3/5] KVM: PPC: Add vr getters and setters
+config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230508/202305081713.dSqlmUru-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/68c87524825aee53569c763e18948d5571271fa9
+        # https://github.com/intel-lab-lkp/linux/commit/dcfb26d2bc528436a6510e451ccba1156276f67b
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sakari-Ailus/media-pci-ipu3-cio2-Obtain-remote-pad-from-endpoint/20230508-144532
-        git checkout 68c87524825aee53569c763e18948d5571271fa9
+        git fetch --no-tags linux-review Jordan-Niethe/KVM-PPC-Use-getters-and-setters-for-vcpu-register-state/20230508-152631
+        git checkout dcfb26d2bc528436a6510e451ccba1156276f67b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/pci/intel/ipu3/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305081739.XqGimPpf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305081713.dSqlmUru-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/media/pci/intel/ipu3/ipu3-cio2-main.c:1428:9: error: passing 'const struct fwnode_handle *' to parameter of type 'struct fwnode_handle *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-                                                     s_asd->endpoint.local_fwnode,
-                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/media-entity.h:1082:27: note: passing argument to parameter 'fwnode' here
-                                   struct fwnode_handle *fwnode,
-                                                         ^
-   1 error generated.
+   In file included from arch/powerpc/include/asm/kvm_ppc.h:22,
+                    from arch/powerpc/include/asm/dbell.h:17,
+                    from arch/powerpc/kernel/asm-offsets.c:36:
+   arch/powerpc/include/asm/kvm_book3s.h: In function 'kvmppc_get_vsx_vr':
+>> arch/powerpc/include/asm/kvm_book3s.h:449:27: error: 'struct kvm_vcpu_arch' has no member named 'vr'; did you mean 'pvr'?
+     449 |         return vcpu->arch.vr.vr[i];
+         |                           ^~
+         |                           pvr
+   arch/powerpc/include/asm/kvm_book3s.h:447:70: warning: parameter 'i' set but not used [-Wunused-but-set-parameter]
+     447 | static inline vector128 kvmppc_get_vsx_vr(struct kvm_vcpu *vcpu, int i)
+         |                                                                  ~~~~^
+   arch/powerpc/include/asm/kvm_book3s.h: In function 'kvmppc_set_vsx_vr':
+   arch/powerpc/include/asm/kvm_book3s.h:454:20: error: 'struct kvm_vcpu_arch' has no member named 'vr'; did you mean 'pvr'?
+     454 |         vcpu->arch.vr.vr[i] = val;
+         |                    ^~
+         |                    pvr
+   arch/powerpc/include/asm/kvm_book3s.h:452:65: warning: parameter 'i' set but not used [-Wunused-but-set-parameter]
+     452 | static inline void kvmppc_set_vsx_vr(struct kvm_vcpu *vcpu, int i, vector128 val)
+         |                                                             ~~~~^
+   arch/powerpc/include/asm/kvm_book3s.h: In function 'kvmppc_get_vscr':
+   arch/powerpc/include/asm/kvm_book3s.h:459:27: error: 'struct kvm_vcpu_arch' has no member named 'vr'; did you mean 'pvr'?
+     459 |         return vcpu->arch.vr.vscr.u[3];
+         |                           ^~
+         |                           pvr
+   arch/powerpc/include/asm/kvm_book3s.h: In function 'kvmppc_set_vscr':
+   arch/powerpc/include/asm/kvm_book3s.h:464:20: error: 'struct kvm_vcpu_arch' has no member named 'vr'; did you mean 'pvr'?
+     464 |         vcpu->arch.vr.vscr.u[3] = val;
+         |                    ^~
+         |                    pvr
+   make[2]: *** [scripts/Makefile.build:114: arch/powerpc/kernel/asm-offsets.s] Error 1
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1287: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +1428 drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+vim +449 arch/powerpc/include/asm/kvm_book3s.h
 
-  1412	
-  1413	/* .complete() is called after all subdevices have been located */
-  1414	static int cio2_notifier_complete(struct v4l2_async_notifier *notifier)
-  1415	{
-  1416		struct cio2_device *cio2 = to_cio2_device(notifier);
-  1417		struct device *dev = &cio2->pci_dev->dev;
-  1418		struct sensor_async_subdev *s_asd;
-  1419		struct v4l2_async_subdev *asd;
-  1420		struct cio2_queue *q;
-  1421		int ret;
-  1422	
-  1423		list_for_each_entry(asd, &cio2->notifier.asd_list, asd_list) {
-  1424			s_asd = to_sensor_asd(asd);
-  1425			q = &cio2->queue[s_asd->csi2.port];
-  1426	
-  1427			ret = media_entity_get_fwnode_pad(&q->sensor->entity,
-> 1428							  s_asd->endpoint.local_fwnode,
-  1429							  MEDIA_PAD_FL_SOURCE);
-  1430			if (ret < 0) {
-  1431				dev_err(dev, "no endpoint for %pfw (%d)\n",
-  1432					s_asd->endpoint.local_fwnode, ret);
-  1433				return ret;
-  1434			}
-  1435	
-  1436			ret = media_create_pad_link(&q->sensor->entity, ret,
-  1437						    &q->subdev.entity, CIO2_PAD_SINK,
-  1438						    0);
-  1439			if (ret) {
-  1440				dev_err(dev, "failed to create link for %s (endpoint %pfw, error %d)\n",
-  1441					q->sensor->name, s_asd->endpoint.local_fwnode,
-  1442					ret);
-  1443				return ret;
-  1444			}
-  1445		}
-  1446	
-  1447		return v4l2_device_register_subdev_nodes(&cio2->v4l2_dev);
-  1448	}
-  1449	
+   446	
+   447	static inline vector128 kvmppc_get_vsx_vr(struct kvm_vcpu *vcpu, int i)
+   448	{
+ > 449		return vcpu->arch.vr.vr[i];
+   450	}
+   451	
 
 -- 
 0-DAY CI Kernel Test Service
