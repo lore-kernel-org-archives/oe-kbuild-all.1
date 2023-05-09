@@ -1,43 +1,49 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77EC019904
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 May 2023 21:13:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87FED19909
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 May 2023 21:33:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683666780; x=1715202780;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hRZejTJV6CCnJ63NpPkgYIf83RuHHUvIEQG3FebdScs=;
-  b=idPR50y5MRK67/bLninxIpS2mFesA+agbUBvHjQblXjF9rsG/DJKBldx
-   Nu2Ce0cqk4Uxf8bG12ff9jvXUvzQCm1lPSiGOmLS52ErC2Wxp77S70ytQ
-   fjxMEUuGJMn7cv4jGWmYoKGAw+24FoSPuzvzQFOF39rYjL6jNbPjaxT1B
-   hnDNwMcBLLOCiGrrXhXYR6t5nlfcqoDE+al75ucvVummFn4TBhYV6WoPE
-   14lITtFu4GL+6m/btcM5oE/EAKtzobqyM/vN/1J+UVcv+gEOSFnEvR+J5
-   1DmUuTQs4cdbwqLvSbMEBmYjvBKam+WEbJI6sUzcWD/5pC1L7+bYH7pWj
+  t=1683668036; x=1715204036;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LxfhN7twkbsXW4buKGDFp0m82yxZW5uwWpLzdxIpSC8=;
+  b=iqBGjh5irG7x2Mofj3OJr74fNj2tNiKTanjninbxtPza93OpaX4vCcdj
+   Bkh8DJn/4X7RjXq9mbQFaDPGL2Z6xZbkyY8E62LjPoX/SFrYvOVm3Qa0Q
+   AjRUvTnAfb8s4sPA6s6a9KsKhs7qxnXHm+TTGMfwkGNavYLQh6qJt4ZyD
+   eUMkc1NDnJ4xwZKQ89qjQ7A7rym099NpTocD6PQ/6jt9ZVYNabxn/E2+1
+   LXDqWdVAQxSqgMi+o47ZYPr8tq0Ti/Of2W1cQvs1+qkO/u/CtpSksq+rl
+   5vmUqwQllzWlhp73RxRv0e7U5kq6iFyVQnuy9tCjR1I7LToF+40i4+/2r
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="378147784"
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="330421321"
 X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="378147784"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 14:12:51 -0700
+   d="scan'208";a="330421321"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 14:33:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="843260640"
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="729693392"
 X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="843260640"
+   d="scan'208";a="729693392"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 09 May 2023 14:12:50 -0700
+  by orsmga008.jf.intel.com with ESMTP; 09 May 2023 14:33:52 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwUdd-0002VE-2x;
-	Tue, 09 May 2023 21:12:49 +0000
-Date: Wed, 10 May 2023 05:12:44 +0800
+	id 1pwUxz-0002WE-0b;
+	Tue, 09 May 2023 21:33:51 +0000
+Date: Wed, 10 May 2023 05:33:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:sound/ivsense-improvements 31/57]
- sound/soc/apple/macaudio.c:715:32: error: 'struct snd_soc_dai' has no member
- named 'capture_widget'
-Message-ID: <202305100558.HHEVYt91-lkp@intel.com>
+To: Ed Tsai <ed.tsai@mediatek.com>, axboe@kernel.dk
+Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	martin.petersen@oracle.com, bvanassche@acm.org,
+	stanley.chu@mediatek.com, peter.wang@mediatek.com,
+	chun-hung.wu@mediatek.com, alice.chao@mediatek.com,
+	powen.kao@mediatek.com, naomi.chu@mediatek.com,
+	wsd_upstream@mediatek.com, Ed Tsai <ed.tsai@mediatek.com>
+Subject: Re: [PATCH 1/2] block: make the fair sharing of tag configurable
+Message-ID: <202305100557.gdIvlzRS-lkp@intel.com>
+References: <20230509065230.32552-2-ed.tsai@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,82 +52,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230509065230.32552-2-ed.tsai@mediatek.com>
 
-tree:   https://github.com/AsahiLinux/linux sound/ivsense-improvements
-head:   8db1ec849194a2607c8546306d0b9e0e1ed2a1da
-commit: bfe8b9c1822c56ceea71f2580c9910025129c91f [31/57] ASoC: macaudio: Start speaker sense capture support
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230510/202305100558.HHEVYt91-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+Hi Ed,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on axboe-block/for-next]
+[also build test WARNING on jejb-scsi/for-next mkp-scsi/for-next linus/master v6.4-rc1 next-20230509]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ed-Tsai/block-make-the-fair-sharing-of-tag-configurable/20230509-145439
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230509065230.32552-2-ed.tsai%40mediatek.com
+patch subject: [PATCH 1/2] block: make the fair sharing of tag configurable
+config: openrisc-randconfig-r022-20230509 (https://download.01.org/0day-ci/archive/20230510/202305100557.gdIvlzRS-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/AsahiLinux/linux/commit/bfe8b9c1822c56ceea71f2580c9910025129c91f
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux sound/ivsense-improvements
-        git checkout bfe8b9c1822c56ceea71f2580c9910025129c91f
+        # https://github.com/intel-lab-lkp/linux/commit/b1081024bc6d1cdaf5b39994b19040cd8e6099ec
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Ed-Tsai/block-make-the-fair-sharing-of-tag-configurable/20230509-145439
+        git checkout b1081024bc6d1cdaf5b39994b19040cd8e6099ec
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash sound/soc/apple/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305100558.HHEVYt91-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305100557.gdIvlzRS-lkp@intel.com/
 
-Note: the asahilinux/sound/ivsense-improvements HEAD 8db1ec849194a2607c8546306d0b9e0e1ed2a1da builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+   In file included from block/blk-mq.c:12:
+   block/blk-mq.c: In function 'blk_mq_init_allocated_queue':
+>> include/linux/blkdev.h:569:39: warning: left shift count >= width of type [-Wshift-count-overflow]
+     569 |                                  (1UL << QUEUE_FLAG_FAIR_TAG_SHARING))
+         |                                       ^~
+   block/blk-mq.c:4232:27: note: in expansion of macro 'QUEUE_FLAG_MQ_DEFAULT'
+    4232 |         q->queue_flags |= QUEUE_FLAG_MQ_DEFAULT;
+         |                           ^~~~~~~~~~~~~~~~~~~~~
 
-   sound/soc/apple/macaudio.c: In function 'macaudio_add_backend_dai_route':
->> sound/soc/apple/macaudio.c:715:32: error: 'struct snd_soc_dai' has no member named 'capture_widget'
-     715 |                 r->source = dai->capture_widget->name;
-         |                                ^~
 
+vim +569 include/linux/blkdev.h
 
-vim +715 sound/soc/apple/macaudio.c
-
-   685	
-   686	static int macaudio_add_backend_dai_route(struct snd_soc_card *card, struct snd_soc_dai *dai,
-   687						  bool is_speakers)
-   688	{
-   689		struct snd_soc_dapm_route routes[2];
-   690		struct snd_soc_dapm_route *r;
-   691		int nroutes = 0;
-   692		int ret;
-   693	
-   694		memset(routes, 0, sizeof(routes));
-   695	
-   696		dev_dbg(card->dev, "adding routes for '%s'\n", dai->name);
-   697	
-   698		r = &routes[nroutes++];
-   699		if (is_speakers)
-   700			r->source = "Speaker Playback";
-   701		else
-   702			r->source = "Headphone Playback";
-   703		r->sink = dai->stream[SNDRV_PCM_STREAM_PLAYBACK].widget->name;
-   704	
-   705		/* If headphone jack, add capture path */
-   706		if (!is_speakers) {
-   707			r = &routes[nroutes++];
-   708			r->source = dai->stream[SNDRV_PCM_STREAM_CAPTURE].widget->name;
-   709			r->sink = "Headset Capture";
-   710		}
-   711	
-   712		/* If speakers, add sense capture path */
-   713		if (is_speakers) {
-   714			r = &routes[nroutes++];
- > 715			r->source = dai->capture_widget->name;
-   716			r->sink = "Speaker Sense Capture";
-   717		}
-   718	
-   719		ret = snd_soc_dapm_add_routes(&card->dapm, routes, nroutes);
-   720		if (ret)
-   721			dev_err(card->dev, "failed adding dynamic DAPM routes for %s\n",
-   722				dai->name);
-   723		return ret;
-   724	}
-   725	
+   565	
+   566	#define QUEUE_FLAG_MQ_DEFAULT	((1UL << QUEUE_FLAG_IO_STAT) |		\
+   567					 (1UL << QUEUE_FLAG_SAME_COMP) |	\
+   568					 (1UL << QUEUE_FLAG_NOWAIT) |		\
+ > 569					 (1UL << QUEUE_FLAG_FAIR_TAG_SHARING))
+   570	
 
 -- 
 0-DAY CI Kernel Test Service
