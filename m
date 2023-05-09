@@ -1,55 +1,48 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94638C01;
-	Tue,  9 May 2023 09:25:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F56AD3C;
+	Tue,  9 May 2023 09:38:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683624355; x=1715160355;
+  t=1683625099; x=1715161099;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZUjtGLtCp5bmDtgxpBnRsLLbwrRUEv9l+1hvqKxDfhM=;
-  b=jiakkmrm8p3f5JO/BwMlC+DbsugIGTigoTy9/J5COLQ4bUBVWwxGATxq
-   3jmvWItY249Dcw7AMSemyKKZ7OqI3z2XfntwOOpWHK+7Pr6T2vINVERF3
-   TtTg4dATHIJ/q7UiFlefehblLjDw1gVBTu/FQdsiGt6pKXbiYyqWikkBc
-   ffBBh9THl68oKEXbw6oZpb7d4OOoj7zRb1ZB+wIJH9Y85eSQcGvtXQtV4
-   ioBJHcWjNqWTnFHdteje1wt325sWFekQjtwAStyDslj5cp5lyoG1LG5J8
-   NnJNqdr1C18Gq+xCeltSk6dRyKJOote1g4cydeAH9nw4U5X13Yq4Sfiyt
+  bh=U1tu/Ou4injYrbKydLUxfBy7dyxZrBMFc9DZnhXqJmY=;
+  b=iE7+6ttEOB9f0f0h5J1sjbc0YwG7lff7OEwScAgNXk43X5W0HpFLsP2Z
+   DAkCLKTJ4Zy8IRU98c11F05Wxv8zwIJc46d85FaEyhlm9fsTMQNXYktjn
+   8aRTgLsVAj44rqi6Srz1kyR7wpX8BnPvusCKNXalbfM3P5TX23mf4XxTl
+   bbqmK04VCDS+KtkCzl8cLgPCgXf1vd2U15k5IAqn4W6mznl5EwWaMh0Jf
+   gtyokcGkSxGDNDzypu1RDjRthZSoZLNMaA0OrZGQw1aa9Gws0l5OHuqs5
+   a0j4hJlTTtzR09Jo15XfJQ9HZ+FQXN6O1X5b6Se8an6OTXsNOWqSKtZeR
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="352035494"
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="436192421"
 X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
-   d="scan'208";a="352035494"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 02:25:54 -0700
+   d="scan'208";a="436192421"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 02:38:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="729425778"
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="768432339"
 X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
-   d="scan'208";a="729425778"
+   d="scan'208";a="768432339"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 09 May 2023 02:25:51 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 09 May 2023 02:36:51 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwJbS-00020s-1V;
-	Tue, 09 May 2023 09:25:50 +0000
-Date: Tue, 9 May 2023 17:25:21 +0800
+	id 1pwJm7-00021I-0F;
+	Tue, 09 May 2023 09:36:51 +0000
+Date: Tue, 9 May 2023 17:36:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Florian Fainelli <f.fainelli@gmail.com>, netdev@vger.kernel.org
+To: Bharat Bhushan <bbhushan2@marvell.com>, wim@linux-watchdog.org,
+	linux@roeck-us.net, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, linux-watchdog@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	sgoutham@marvell.com
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Doug Berger <opendmb@gmail.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	Peter Geis <pgwipeout@gmail.com>, Frank <Frank.Sae@motor-comm.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 2/3] net: phy: broadcom: Add support for
- Wake-on-LAN
-Message-ID: <202305091725.uiFVrVZR-lkp@intel.com>
-References: <20230508184309.1628108-3-f.fainelli@gmail.com>
+	Bharat Bhushan <bbhushan2@marvell.com>
+Subject: Re: [PATCH 2/2 v7] Watchdog: Add marvell GTI watchdog driver
+Message-ID: <202305091728.1XZ6IePZ-lkp@intel.com>
+References: <20230508131515.19403-2-bbhushan2@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,91 +51,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230508184309.1628108-3-f.fainelli@gmail.com>
+In-Reply-To: <20230508131515.19403-2-bbhushan2@marvell.com>
 
-Hi Florian,
+Hi Bharat,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on groeck-staging/hwmon-next linus/master v6.4-rc1 next-20230509]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Fainelli/net-phy-Let-drivers-check-Wake-on-LAN-status/20230509-024405
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230508184309.1628108-3-f.fainelli%40gmail.com
-patch subject: [PATCH net-next 2/3] net: phy: broadcom: Add support for Wake-on-LAN
-config: s390-randconfig-r036-20230508 (https://download.01.org/0day-ci/archive/20230509/202305091725.uiFVrVZR-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bharat-Bhushan/Watchdog-Add-marvell-GTI-watchdog-driver/20230508-211645
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230508131515.19403-2-bbhushan2%40marvell.com
+patch subject: [PATCH 2/2 v7] Watchdog: Add marvell GTI watchdog driver
+config: hexagon-randconfig-r015-20230508 (https://download.01.org/0day-ci/archive/20230509/202305091728.1XZ6IePZ-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/9bc5e73961748471e3dae79cb94f329382a6d490
+        # https://github.com/intel-lab-lkp/linux/commit/0b1fbcf987da442c837b205256c6400adf6d298e
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Florian-Fainelli/net-phy-Let-drivers-check-Wake-on-LAN-status/20230509-024405
-        git checkout 9bc5e73961748471e3dae79cb94f329382a6d490
+        git fetch --no-tags linux-review Bharat-Bhushan/Watchdog-Add-marvell-GTI-watchdog-driver/20230508-211645
+        git checkout 0b1fbcf987da442c837b205256c6400adf6d298e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/net/phy/ kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/watchdog/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305091725.uiFVrVZR-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305091728.1XZ6IePZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/phy/broadcom.c:13:
-   In file included from drivers/net/phy/bcm-phy-lib.h:9:
-   In file included from include/linux/brcmphy.h:5:
-   In file included from include/linux/phy.h:16:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
+   In file included from drivers/watchdog/marvell_gti_wdt.c:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
    include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
            val = __raw_readb(PCI_IOBASE + addr);
                              ~~~~~~~~~~ ^
    include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
            val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
                                                            ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/net/phy/broadcom.c:13:
-   In file included from drivers/net/phy/bcm-phy-lib.h:9:
-   In file included from include/linux/brcmphy.h:5:
-   In file included from include/linux/phy.h:16:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/watchdog/marvell_gti_wdt.c:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
    include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
            val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
                                                            ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/net/phy/broadcom.c:13:
-   In file included from drivers/net/phy/bcm-phy-lib.h:9:
-   In file included from include/linux/brcmphy.h:5:
-   In file included from include/linux/phy.h:16:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/watchdog/marvell_gti_wdt.c:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
    include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
            __raw_writeb(value, PCI_IOBASE + addr);
                                ~~~~~~~~~~ ^
@@ -152,62 +135,86 @@ All warnings (new ones prefixed by >>):
    include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
            __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
                                                          ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/net/phy/broadcom.c:471:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-           if (priv->wake_irq_enabled != state) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/broadcom.c:479:9: note: uninitialized use occurs here
-           return ret;
-                  ^~~
-   drivers/net/phy/broadcom.c:471:2: note: remove the 'if' if its condition is always true
-           if (priv->wake_irq_enabled != state) {
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/broadcom.c:466:9: note: initialize the variable 'ret' to silence this warning
-           int ret;
-                  ^
-                   = 0
-   13 warnings generated.
+>> drivers/watchdog/marvell_gti_wdt.c:89:2: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           writeq(GTI_CWD_INT_PENDING_STATUS(priv->wdt_timer_idx),
+           ^
+   drivers/watchdog/marvell_gti_wdt.c:101:2: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           writeq(GTI_CWD_POKE_VAL,
+           ^
+   drivers/watchdog/marvell_gti_wdt.c:118:2: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           writeq(GTI_CWD_INT_PENDING_STATUS(priv->wdt_timer_idx),
+           ^
+>> drivers/watchdog/marvell_gti_wdt.c:126:11: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           regval = readq(priv->base + GTI_CWD_WDOG(priv->wdt_timer_idx));
+                    ^
+   drivers/watchdog/marvell_gti_wdt.c:139:2: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           writeq(GTI_CWD_INT_ENA_CLR_VAL(priv->wdt_timer_idx),
+           ^
+   drivers/watchdog/marvell_gti_wdt.c:143:11: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           regval = readq(priv->base + GTI_CWD_WDOG(priv->wdt_timer_idx));
+                    ^
+   drivers/watchdog/marvell_gti_wdt.c:177:11: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           regval = readq(priv->base + GTI_CWD_WDOG(priv->wdt_timer_idx));
+                    ^
+   drivers/watchdog/marvell_gti_wdt.c:181:2: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           writeq(regval, priv->base + GTI_CWD_WDOG(priv->wdt_timer_idx));
+           ^
+   6 warnings and 8 errors generated.
 
 
-vim +471 drivers/net/phy/broadcom.c
+vim +/writeq +89 drivers/watchdog/marvell_gti_wdt.c
 
-   462	
-   463	static int bcm54xx_set_wakeup_irq(struct phy_device *phydev, bool state)
-   464	{
-   465		struct bcm54xx_phy_priv *priv = phydev->priv;
-   466		int ret;
-   467	
-   468		if (!bcm54xx_phy_can_wakeup(phydev))
-   469			return 0;
-   470	
- > 471		if (priv->wake_irq_enabled != state) {
-   472			if (state)
-   473				ret = enable_irq_wake(priv->wake_irq);
-   474			else
-   475				ret = disable_irq_wake(priv->wake_irq);
-   476			priv->wake_irq_enabled = state;
-   477		}
-   478	
-   479		return ret;
-   480	}
-   481	
+    82	
+    83	static irqreturn_t gti_wdt_interrupt(int irq, void *data)
+    84	{
+    85		struct watchdog_device *wdev = data;
+    86		struct gti_wdt_priv *priv = watchdog_get_drvdata(wdev);
+    87	
+    88		/* Clear Interrupt Pending Status */
+  > 89		writeq(GTI_CWD_INT_PENDING_STATUS(priv->wdt_timer_idx),
+    90		       priv->base + GTI_CWD_INT);
+    91	
+    92		watchdog_notify_pretimeout(wdev);
+    93	
+    94		return IRQ_HANDLED;
+    95	}
+    96	
+    97	static int gti_wdt_ping(struct watchdog_device *wdev)
+    98	{
+    99		struct gti_wdt_priv *priv = watchdog_get_drvdata(wdev);
+   100	
+   101		writeq(GTI_CWD_POKE_VAL,
+   102		       priv->base + GTI_CWD_POKE(priv->wdt_timer_idx));
+   103	
+   104		return 0;
+   105	}
+   106	
+   107	static int gti_wdt_start(struct watchdog_device *wdev)
+   108	{
+   109		struct gti_wdt_priv *priv = watchdog_get_drvdata(wdev);
+   110		u64 regval;
+   111	
+   112		if (!wdev->pretimeout)
+   113			return -EINVAL;
+   114	
+   115		set_bit(WDOG_HW_RUNNING, &wdev->status);
+   116	
+   117		/* Clear any pending interrupt */
+   118		writeq(GTI_CWD_INT_PENDING_STATUS(priv->wdt_timer_idx),
+   119		       priv->base + GTI_CWD_INT);
+   120	
+   121		/* Enable Interrupt */
+   122		writeq(GTI_CWD_INT_ENA_SET_VAL(priv->wdt_timer_idx),
+   123		       priv->base + GTI_CWD_INT_ENA_SET);
+   124	
+   125		/* Set (Interrupt + SCP interrupt (DEL3T) + core domain reset) Mode */
+ > 126		regval = readq(priv->base + GTI_CWD_WDOG(priv->wdt_timer_idx));
+   127		regval |= GTI_CWD_WDOG_MODE_INT_DEL3T_RST;
+   128		writeq(regval, priv->base + GTI_CWD_WDOG(priv->wdt_timer_idx));
+   129	
+   130		return 0;
+   131	}
+   132	
 
 -- 
 0-DAY CI Kernel Test Service
