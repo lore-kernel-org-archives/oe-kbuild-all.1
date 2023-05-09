@@ -1,54 +1,48 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53C2A17AB4;
-	Tue,  9 May 2023 08:00:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E91171C7
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 May 2023 08:12:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683619256; x=1715155256;
+  t=1683619966; x=1715155966;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=M8ldeZ8wYKyjh5+JLiPdYoonZd0SIk7CsE32UJHMbgg=;
-  b=DjuY5y1p6owL8vNReG5HpDJAaN5UIp0Bwp9XJQBBemSnYurGa8ZMaDLY
-   AyPbW4/Zd79FmnY2WRi3Blyl/meXHVj7C2htwDuq8lLTl7n6wkCfUBKCH
-   Ouut/MYVdlDhAO9wlKlAcQITQh57KpK1EYKOlYWw+OZnwlsyDBtuadX9d
-   4e+9Sqg+Ttl1521ae4Ol3xh9J6J+OIn/ZB73+RwhaGC2+zNV0BSGOYxMF
-   uG6Yny/IcK+oIx08VuGhN9vL+rb4j/d4XuS2O76+rM2FzIXOrqL+/yRsn
-   w9sDFh+nNoy7XF+jacx5liqO4XVTfhbKzy9zSpgtWjh1Bj37lfVPvNdYv
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="413102457"
+  bh=pVDhvyfWVhVuWZyd6JaHvPDqNIm5zlel1usrxNyley4=;
+  b=kRTOENv81bC5uGAAOk8yeOXd/r/cXOws9XpVySaIuVXxmNMykewdwzfj
+   aZqbz0w5Cy7ukpDdcKdBWAPJzr58X0YadRyXZeCm6wulx7QC2aL/+6WWg
+   FLZNQK5aAkgWiMldaLVSBctU0d8M7uzGhpDRXD9/os5TWFXyfEIJyrWE6
+   vzP2fNTLu2V/gYmkBgu/y7QMLXH1DlI0nNUp7AKpY3KnSsn5JCIMDDrnj
+   acGz23qVm13aIp49vMLrO7NS+W3FHdijLTUqu5eB5ITwdnmDKVpnIu5ZX
+   Wb1/B3bkf1ZHRjlHGJJ0FJMpnno8cMiwhqbc8CVoI7XrRHGpUoolLnP84
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="334283283"
 X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
-   d="scan'208";a="413102457"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 01:00:36 -0700
+   d="scan'208";a="334283283"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 01:12:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="763719607"
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="1028724915"
 X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
-   d="scan'208";a="763719607"
+   d="scan'208";a="1028724915"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 09 May 2023 01:00:31 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 09 May 2023 01:12:43 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwIGs-0001xM-2i;
-	Tue, 09 May 2023 08:00:30 +0000
-Date: Tue, 9 May 2023 15:59:42 +0800
+	id 1pwISg-0001xg-2v;
+	Tue, 09 May 2023 08:12:42 +0000
+Date: Tue, 9 May 2023 16:12:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de,
-	geert@linux-m68k.org, javierm@redhat.com, daniel@ffwll.ch,
-	vgupta@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
-	davem@davemloft.net, James.Bottomley@hansenpartnership.com,
-	arnd@arndb.de, sam@ravnborg.org, suijingfeng@loongson.cn
-Cc: oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-arch@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org, sparclinux@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v5 5/6] fbdev: Move framebuffer I/O helpers into
- <asm/fb.h>
-Message-ID: <202305091533.3zBlgYkC-lkp@intel.com>
-References: <20230508114830.28182-6-tzimmermann@suse.de>
+To: Kuniyuki Iwashima <kuniyu@amazon.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Kuniyuki Iwashima <kuniyu@amazon.com>,
+	syzbot <syzkaller@googlegroups.com>
+Subject: Re: [PATCH v2 net] net: Fix sk->sk_stamp race in sock_recv_cmsgs().
+Message-ID: <202305091519.TLuWISjA-lkp@intel.com>
+References: <20230508165815.45602-1-kuniyu@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,88 +51,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230508114830.28182-6-tzimmermann@suse.de>
+In-Reply-To: <20230508165815.45602-1-kuniyu@amazon.com>
 
-Hi Thomas,
+Hi Kuniyuki,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[cannot apply to deller-parisc/for-next arnd-asm-generic/master linus/master v6.4-rc1 next-20230509]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/fbdev-matrox-Remove-trailing-whitespaces/20230508-195052
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230508114830.28182-6-tzimmermann%40suse.de
-patch subject: [PATCH v5 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
-config: mips-randconfig-r016-20230507 (https://download.01.org/0day-ci/archive/20230509/202305091533.3zBlgYkC-lkp@intel.com/config)
-compiler: mips64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/net-Fix-sk-sk_stamp-race-in-sock_recv_cmsgs/20230509-005901
+base:   net/main
+patch link:    https://lore.kernel.org/r/20230508165815.45602-1-kuniyu%40amazon.com
+patch subject: [PATCH v2 net] net: Fix sk->sk_stamp race in sock_recv_cmsgs().
+config: arm64-randconfig-s032-20230507 (https://download.01.org/0day-ci/archive/20230509/202305091519.TLuWISjA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c64dc7f407b3faa85d4e81ec762407388c5813c1
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/7755d082501de4c89033aed3be404114fcba1c44
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Thomas-Zimmermann/fbdev-matrox-Remove-trailing-whitespaces/20230508-195052
-        git checkout c64dc7f407b3faa85d4e81ec762407388c5813c1
+        git fetch --no-tags linux-review Kuniyuki-Iwashima/net-Fix-sk-sk_stamp-race-in-sock_recv_cmsgs/20230509-005901
+        git checkout 7755d082501de4c89033aed3be404114fcba1c44
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/video/fbdev/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/firmware/tegra/ net/mctp/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305091533.3zBlgYkC-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305091519.TLuWISjA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   net/mctp/af_mctp.c: note: in included file (through arch/arm64/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
+>> arch/arm64/include/asm/cmpxchg.h:174:1: sparse: sparse: cast truncates bits from constant value (ffffffffc4653600 becomes 0)
+   arch/arm64/include/asm/cmpxchg.h:174:1: sparse: sparse: cast truncates bits from constant value (ffffffffc4653600 becomes 3600)
 
-   drivers/video/fbdev/core/cfbfillrect.c: In function 'bitfill_aligned':
->> drivers/video/fbdev/core/cfbfillrect.c:26:21: error: implicit declaration of function 'fb_writeq'; did you mean 'fb_writel'? [-Werror=implicit-function-declaration]
-      26 | #  define FB_WRITEL fb_writeq
-         |                     ^~~~~~~~~
-   drivers/video/fbdev/core/cfbfillrect.c:50:17: note: in expansion of macro 'FB_WRITEL'
-      50 |                 FB_WRITEL(comp(pat, FB_READL(dst), first), dst);
-         |                 ^~~~~~~~~
->> drivers/video/fbdev/core/cfbfillrect.c:27:21: error: implicit declaration of function 'fb_readq'; did you mean 'fb_readl'? [-Werror=implicit-function-declaration]
-      27 | #  define FB_READL  fb_readq
-         |                     ^~~~~~~~
-   drivers/video/fbdev/core/cfbfillrect.c:50:37: note: in expansion of macro 'FB_READL'
-      50 |                 FB_WRITEL(comp(pat, FB_READL(dst), first), dst);
-         |                                     ^~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/video/fbdev/core/cfbcopyarea.c: In function 'bitcpy':
->> drivers/video/fbdev/core/cfbcopyarea.c:37:21: error: implicit declaration of function 'fb_writeq'; did you mean 'fb_writel'? [-Werror=implicit-function-declaration]
-      37 | #  define FB_WRITEL fb_writeq
-         |                     ^~~~~~~~~
-   drivers/video/fbdev/core/cfbcopyarea.c:73:25: note: in expansion of macro 'FB_WRITEL'
-      73 |                         FB_WRITEL( comp( FB_READL(src), FB_READL(dst), first), dst);
-         |                         ^~~~~~~~~
->> drivers/video/fbdev/core/cfbcopyarea.c:38:21: error: implicit declaration of function 'fb_readq'; did you mean 'fb_readl'? [-Werror=implicit-function-declaration]
-      38 | #  define FB_READL  fb_readq
-         |                     ^~~~~~~~
-   drivers/video/fbdev/core/cfbcopyarea.c:73:42: note: in expansion of macro 'FB_READL'
-      73 |                         FB_WRITEL( comp( FB_READL(src), FB_READL(dst), first), dst);
-         |                                          ^~~~~~~~
-   cc1: some warnings being treated as errors
+vim +174 arch/arm64/include/asm/cmpxchg.h
 
-
-vim +26 drivers/video/fbdev/core/cfbfillrect.c
-
-^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  21  
-^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  22  #if BITS_PER_LONG == 32
-^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  23  #  define FB_WRITEL fb_writel
-^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  24  #  define FB_READL  fb_readl
-^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  25  #else
-^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16 @26  #  define FB_WRITEL fb_writeq
-^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16 @27  #  define FB_READL  fb_readq
-^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  28  #endif
-^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  29  
-^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  30      /*
-^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  31       *  Aligned pattern fill using 32/64-bit memory accesses
-^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  32       */
-^1da177e4c3f41 drivers/video/cfbfillrect.c Linus Torvalds 2005-04-16  33  
+10b663aef1c247 Catalin Marinas 2012-03-05  170  
+305d454aaa292b Will Deacon     2015-10-08  171  __CMPXCHG_GEN()
+305d454aaa292b Will Deacon     2015-10-08  172  __CMPXCHG_GEN(_acq)
+305d454aaa292b Will Deacon     2015-10-08  173  __CMPXCHG_GEN(_rel)
+305d454aaa292b Will Deacon     2015-10-08 @174  __CMPXCHG_GEN(_mb)
+10b663aef1c247 Catalin Marinas 2012-03-05  175  
 
 -- 
 0-DAY CI Kernel Test Service
