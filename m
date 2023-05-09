@@ -1,43 +1,34 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2185A6116
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 May 2023 14:07:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683641256; x=1715177256;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5oySstHQVlL6fSWwoO2QX6bbguMOBaqUWB4UEENDbos=;
-  b=Sjqj/jXCh7u26dcMxjMpQ1agYhS0DX47wJv6JxXDKbliuVSzYg6FiO7c
-   66USGv/jYIAyyn9jhFwC7AryC5dPTuo/lXrC4zAKWb3wuXadplv+0qzVW
-   eE3ZfWvNpOKTLcUTWJsE0lLak/vJWu3Rr7Xa9XFCTR/jFKQRXOsC5YjLC
-   EJp4Osm22BoJm0edCGkyDuoN8XqPvrFwj1LVoLkgTRly0ME44VPAwt5su
-   zE0JL7IkN9Hfr7FxZSJ3y9lg6JBbk9FGt9lNMviRh1rAdZMODW0u9Ujf4
-   dG/ioRifCILGbpfWwgpSefbwRYLpr7ARVRIx0N193mH4IW2IhEoH9ccFH
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="348767769"
-X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="348767769"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 07:06:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="729525905"
-X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="729525905"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 09 May 2023 07:06:49 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pwNzM-0002Bz-1J;
-	Tue, 09 May 2023 14:06:48 +0000
-Date: Tue, 9 May 2023 22:06:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:sound/ivsense-improvements 52/57]
- sound/soc/codecs/tas2764-quirks.h:145:23: warning: this statement may fall
- through
-Message-ID: <202305092109.JQiPPHq9-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D12A6116;
+	Tue,  9 May 2023 14:08:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E819BC433D2;
+	Tue,  9 May 2023 14:08:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1683641285;
+	bh=RnRS7BOKD9Sz/6TNOQGjEBtBLahisvztzzzUr3thwFg=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+	b=jBJMuXaRmqLIE7KjRLUavojMfbsNXhjPSaH9U1pkZsGwHMcm7bWuTrvP2vbf0cMQV
+	 4i7P0EPgfOH72BJ/GbSQEeGTvAw1nulb22NLcyE3iQ2lJwNGjDHbrZlqc0DheZWkbG
+	 WIXkI1B95tOkZBn4x089Ry1eNl/0wX2B0PgZiaIu8760p0hueYvCUKeAKZaj9naqbJ
+	 3n40vz4AVugZIWCiqgQGBsB3wczC/ArwJ1IfLUQlaj/s95/OOnj2WJpGMMQt2PSVpt
+	 iijOS6MOP5lIgDLRUcN9Ea+YekSJ8UM5e94xv+J0F7pHs1UyEP6QC1+7VW+nntxj0T
+	 mBd3qbn07EpNQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 69DACCE18EF; Tue,  9 May 2023 07:08:05 -0700 (PDT)
+Date: Tue, 9 May 2023 07:08:05 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: kernel/rcu/srcutree.c:1644 srcu_advance_state() warn:
+ inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
+Message-ID: <4bdbbcd3-6620-4320-ada5-02b71a54106c@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <c0937326-1cf1-429a-9883-30d9d79b01d0@kili.mountain>
+ <c33b0348-7f86-47ce-913c-f1ebc6431f93@paulmck-laptop>
+ <30f2e760-e2f3-4941-be9b-b9c5624fd861@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,89 +37,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <30f2e760-e2f3-4941-be9b-b9c5624fd861@kili.mountain>
 
-tree:   https://github.com/AsahiLinux/linux sound/ivsense-improvements
-head:   8db1ec849194a2607c8546306d0b9e0e1ed2a1da
-commit: 413eac87acb924659be4d8ef4a09469cdfb3ddd8 [52/57] ASoC: tas2764: Add optional 'Apple quirks'
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230509/202305092109.JQiPPHq9-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/AsahiLinux/linux/commit/413eac87acb924659be4d8ef4a09469cdfb3ddd8
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux sound/ivsense-improvements
-        git checkout 413eac87acb924659be4d8ef4a09469cdfb3ddd8
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash sound/soc/
+On Tue, May 09, 2023 at 08:40:33AM +0300, Dan Carpenter wrote:
+> On Sat, May 06, 2023 at 11:45:35AM -0700, Paul E. McKenney wrote:
+> > On Sat, May 06, 2023 at 10:22:04AM +0300, Dan Carpenter wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > > head:   418d5c98319f67b9ae651babea031b5394425c18
+> > > commit: e3a6ab25cfa0fcdcb31c346b9871a566d440980d srcu: Move ->srcu_gp_mutex from srcu_struct to srcu_usage
+> > > config: x86_64-randconfig-m001-20230501 (https://download.01.org/0day-ci/archive/20230506/202305060951.I8mz6eHt-lkp@intel.com/config)
+> > > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> > > 
+> > > If you fix the issue, kindly add following tag where applicable
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > > | Link: https://lore.kernel.org/r/202305060951.I8mz6eHt-lkp@intel.com/
+> > > 
+> > > smatch warnings:
+> > > kernel/rcu/srcutree.c:1644 srcu_advance_state() warn: inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
+> > > 
+> > > vim +1644 kernel/rcu/srcutree.c
+> > > 
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1584  static void srcu_advance_state(struct srcu_struct *ssp)
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1585  {
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1586  	int idx;
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1587  
+> > > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1588  	mutex_lock(&ssp->srcu_sup->srcu_gp_mutex);
+> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1589  
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1590  	/*
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1591  	 * Because readers might be delayed for an extended period after
+> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1592  	 * fetching ->srcu_idx for their index, at any point in time there
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1593  	 * might well be readers using both idx=0 and idx=1.  We therefore
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1594  	 * need to wait for readers to clear from both index values before
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1595  	 * invoking a callback.
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1596  	 *
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1597  	 * The load-acquire ensures that we see the accesses performed
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1598  	 * by the prior grace period.
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1599  	 */
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1600  	idx = rcu_seq_state(smp_load_acquire(&ssp->srcu_gp_seq)); /* ^^^ */
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1601  	if (idx == SRCU_STATE_IDLE) {
+> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1602  		spin_lock_irq_rcu_node(ssp->srcu_sup);
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1603  		if (ULONG_CMP_GE(ssp->srcu_gp_seq, ssp->srcu_gp_seq_needed)) {
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1604  			WARN_ON_ONCE(rcu_seq_state(ssp->srcu_gp_seq));
+> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1605  			spin_unlock_irq_rcu_node(ssp->srcu_sup);
+> > > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1606  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1607  			return;
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1608  		}
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1609  		idx = rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq));
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1610  		if (idx == SRCU_STATE_IDLE)
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1611  			srcu_gp_start(ssp);
+> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1612  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
+> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1613  		if (idx != SRCU_STATE_IDLE) {
+> > > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1614  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1615  			return; /* Someone else started the grace period. */
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1616  		}
+> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1617  	}
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1618  
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1619  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN1) {
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1620  		idx = 1 ^ (ssp->srcu_idx & 1);
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1621  		if (!try_check_zero(ssp, idx, 1)) {
+> > > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1622  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1623  			return; /* readers present, retry later. */
+> > > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1624  		}
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1625  		srcu_flip(ssp);
+> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1626  		spin_lock_irq_rcu_node(ssp->srcu_sup);
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1627  		rcu_seq_set_state(&ssp->srcu_gp_seq, SRCU_STATE_SCAN2);
+> > > 282d8998e9979c Paul E. McKenney 2022-03-08  1628  		ssp->srcu_n_exp_nodelay = 0;
+> > > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1629  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1630  	}
+> > > dad81a2026841b Paul E. McKenney 2017-03-25  1631  
+> > > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1632  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN2) {
+> > > 
+> > > We don't mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex) if this if
+> > > statement is false.
+> > 
+> > Hmmm...
+> > 
+> > I could make the above line read something like the following:
+> > 
+> > 	if (!WARN_ON_ONCE(rcu_seq_state(READ_ONCE(ssp->srcu_sup->srcu_gp_seq)) != SRCU_STATE_SCAN2)) {
+> 
+> Smatch ignores WARN_ON().  WARNings are triggered all the time, so it's
+> not like a BUG() which stops the code flow.
+> 
+> > 
+> > The theory is that there are only three legal values for ->srcu_gp_seq.
+> > Because we hold ->srcu_gp_mutex, no one else can change it.   The first
+> > "if" statement either returns or sets that state to SRCU_STATE_SCAN1.
+> > The second "if" statement also either returns or sets that state to
+> > SRCU_STATE_SCAN2.  So that statement should not be false.
+> 
+> Smatch can't figure out that the statement is true.  The issue there is
+> that ssp->srcu_sup->srcu_gp_seq stores a value in the low bits and a
+> different value in the high bits.  This seems like something that might
+> be worth handling correctly at some point, but that point is in the
+> distant future...
+> 
+> Just ignore this one.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305092109.JQiPPHq9-lkp@intel.com/
+Fair enough!  Yeah, I could imagine that this would be non-trivial.
 
-All warnings (new ones prefixed by >>):
+Is there a not-reached annotation that Smatch pays attention to?
 
-   In file included from sound/soc/codecs/tas2764.c:56:
-   sound/soc/codecs/tas2764-quirks.h: In function 'tas2764_do_quirky_pwr_ctrl_change':
->> sound/soc/codecs/tas2764-quirks.h:145:23: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     145 |                 ret = regmap_multi_reg_write(tas2764->regmap, tas2764_post_shutdown_seq,
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     146 |                                              ARRAY_SIZE(tas2764_post_shutdown_seq));
-         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/tas2764-quirks.h:148:9: note: here
-     148 |         default:
-         |         ^~~~~~~
-
-
-vim +145 sound/soc/codecs/tas2764-quirks.h
-
-   115	
-   116	static int tas2764_do_quirky_pwr_ctrl_change(struct tas2764_priv *tas2764,
-   117						     unsigned int target)
-   118	{
-   119		unsigned int curr;
-   120		int ret;
-   121	
-   122		curr = snd_soc_component_read_field(tas2764->component,
-   123						       TAS2764_PWR_CTRL,
-   124						       TAS2764_PWR_CTRL_MASK);
-   125	
-   126		if (target == curr)
-   127			return 0;
-   128	
-   129	#define TRANSITION(new, old) ((new) << 8 | (old))
-   130		switch (TRANSITION(target, curr)) {
-   131		case TRANSITION(TAS2764_PWR_CTRL_SHUTDOWN, TAS2764_PWR_CTRL_MUTE):
-   132		case TRANSITION(TAS2764_PWR_CTRL_SHUTDOWN, TAS2764_PWR_CTRL_ACTIVE):
-   133			ret = regmap_multi_reg_write(tas2764->regmap, tas2764_pre_shutdown_seq,
-   134						     ARRAY_SIZE(tas2764_pre_shutdown_seq));
-   135			if (ret < 0)
-   136				break;
-   137	
-   138			ret = snd_soc_component_update_bits(tas2764->component,
-   139							    TAS2764_PWR_CTRL,
-   140						    	    TAS2764_PWR_CTRL_MASK,
-   141						    	    TAS2764_PWR_CTRL_SHUTDOWN);
-   142			if (ret > 0)
-   143				break;
-   144	
- > 145			ret = regmap_multi_reg_write(tas2764->regmap, tas2764_post_shutdown_seq,
-   146						     ARRAY_SIZE(tas2764_post_shutdown_seq));
-   147	
-   148		default:
-   149			ret = snd_soc_component_update_bits(tas2764->component, TAS2764_PWR_CTRL,
-   150						    	    TAS2764_PWR_CTRL_MASK, target);
-   151		}
-   152	#undef TRANSITION
-   153	
-   154		if (ret < 0)
-   155			return ret;
-   156		return 0;
-   157	}
-   158	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+							Thanx, Paul
