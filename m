@@ -1,52 +1,44 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6149F20EF
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 May 2023 05:40:40 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3063b5f32aaso3409533f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 08 May 2023 22:40:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683610838; x=1686202838;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tlfhc11Kx7yCJym0I7Mw8R+pcgt3UjUISA434rzN7ZU=;
-        b=gzaV+cshKEwEPwvpEZHakB3YQgEUqNoubuJegSbhS1vfzYxYMRZ6mCbEHcMFjr88Zx
-         9cAzyZN2E8R7ogejtfjWbl/m7qD6EszWQ16V+yYD3+6VSDnbNFxUNmCbpPXmrsnEFKig
-         jiRUCTEgz/36V2jIjEbD7pgkK3cqsV2crUmpPg1pGWRyY8SjT8jsGEXD8TQINOCWRkfk
-         298+YLVJoHrQCGhZ3rmgHmScKFKNZwk2XUNOgyxEMOAo/3cHI/2NewIeIPS/ox0xt5Pe
-         CAgjSNp7Og2ztTFBqzNLXo0+9FPLfmjRctJN53kDoelrwrv1BOTpjBAsbH+Okp+ooTvb
-         6VtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683610838; x=1686202838;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tlfhc11Kx7yCJym0I7Mw8R+pcgt3UjUISA434rzN7ZU=;
-        b=bW4ZyZUCP5AhVpZHCaMINXsypDHvFY3lbK0+BBY07MbXDszR3Ku2Y266og4N7FBhRU
-         XQRCPLrWeSrCHSVlqv4JLhxhYweCsg6lB2UXc06UklcSkZn9YawwnuuQuf4qvsbPYl68
-         gdLeAWJCBXaEvUgdrTVLaDFo89M1SK58v0RzuSi/soMHP7Y45p6bCrSNrvJYRrb1NpIT
-         qNDOPJ5IFrSb9wDZjXRLy5XoEeDiqAaPIbbc/8l/SU3DVqIOYI4pGZGJEPTLWL2f3/l+
-         d+2IluIOD+FTnhW2HhOzY2GUGTadU3eVaEdQn1AELe6XKzfDhrNy940UQbA1vFa4HclQ
-         uiOg==
-X-Gm-Message-State: AC+VfDyTkFfueYAajqGZ3A8R30mkTeAGAjUh81dAibkrY3xxYdf6b2WZ
-	cwhgi1GpF/J0uMzIW78Jre5daA==
-X-Google-Smtp-Source: ACHHUZ40QaGu9oLT5BKu9KVo4Vc6JRHH+zyZDNrP8+lJBVFL12ze4ikQCpOuatixLIqVaYb+9nHPCw==
-X-Received: by 2002:adf:fdca:0:b0:2f9:910b:7166 with SMTP id i10-20020adffdca000000b002f9910b7166mr7718809wrs.57.1683610838397;
-        Mon, 08 May 2023 22:40:38 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id a9-20020adfe5c9000000b0030632110586sm13432312wrn.3.2023.05.08.22.40.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 May 2023 22:40:36 -0700 (PDT)
-Date: Tue, 9 May 2023 08:40:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: kernel/rcu/srcutree.c:1644 srcu_advance_state() warn:
- inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
-Message-ID: <30f2e760-e2f3-4941-be9b-b9c5624fd861@kili.mountain>
-References: <c0937326-1cf1-429a-9883-30d9d79b01d0@kili.mountain>
- <c33b0348-7f86-47ce-913c-f1ebc6431f93@paulmck-laptop>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D32C20EF
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 May 2023 05:45:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683611104; x=1715147104;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9emecGMWaWWjZjMLmmGL+L2JENPjCEJ6LhsRZdQS8Ts=;
+  b=hnUP0No38ebaD/F8jod+4UUvQDlcCO5A7qrd5FrvLZXcKZ4kNcZCfetj
+   rnoToZE8wOG2jjGg/mYCcmYamdneot7l7TbIxSlWe3JHwLvA3RJswgV6H
+   jOBg1Y15i3Du5+BfR3J7XrMkCbXm6oupF1Wk9GBfYae37kzBZy2RjSXon
+   PKcheinm1BB2r3R4hGxDZh7FHucSRM+PP7de8LzexvUVKZpdtNDT6+dNm
+   9vUd6YHqYHmjC6gBKUSBHRnFeKzLjILBtC9SeQIWNLWUFoLicP3Ug/X6l
+   gN74zZemM4UI6vyOT13OKyCBgDp2gmww4UDCmYsChfuGUwVQvJaILlRb0
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="349849786"
+X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
+   d="scan'208";a="349849786"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2023 22:45:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10704"; a="1028680955"
+X-IronPort-AV: E=Sophos;i="5.99,261,1677571200"; 
+   d="scan'208";a="1028680955"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 08 May 2023 22:45:02 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pwG9m-0001nE-16;
+	Tue, 09 May 2023 05:45:02 +0000
+Date: Tue, 9 May 2023 13:44:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:upstream-f2fs-stable-linux-4.19.y 482/1172]
+ include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of
+ type 'long unsigned int', but argument 6 has type 'blkcnt_t' {aka 'long long
+ unsigned int'}
+Message-ID: <202305091349.3XtdK7jv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,103 +47,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c33b0348-7f86-47ce-913c-f1ebc6431f93@paulmck-laptop>
 
-On Sat, May 06, 2023 at 11:45:35AM -0700, Paul E. McKenney wrote:
-> On Sat, May 06, 2023 at 10:22:04AM +0300, Dan Carpenter wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   418d5c98319f67b9ae651babea031b5394425c18
-> > commit: e3a6ab25cfa0fcdcb31c346b9871a566d440980d srcu: Move ->srcu_gp_mutex from srcu_struct to srcu_usage
-> > config: x86_64-randconfig-m001-20230501 (https://download.01.org/0day-ci/archive/20230506/202305060951.I8mz6eHt-lkp@intel.com/config)
-> > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> > 
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <error27@gmail.com>
-> > | Link: https://lore.kernel.org/r/202305060951.I8mz6eHt-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > kernel/rcu/srcutree.c:1644 srcu_advance_state() warn: inconsistent returns '&ssp->srcu_sup->srcu_gp_mutex'.
-> > 
-> > vim +1644 kernel/rcu/srcutree.c
-> > 
-> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1584  static void srcu_advance_state(struct srcu_struct *ssp)
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1585  {
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1586  	int idx;
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1587  
-> > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1588  	mutex_lock(&ssp->srcu_sup->srcu_gp_mutex);
-> > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1589  
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1590  	/*
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1591  	 * Because readers might be delayed for an extended period after
-> > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1592  	 * fetching ->srcu_idx for their index, at any point in time there
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1593  	 * might well be readers using both idx=0 and idx=1.  We therefore
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1594  	 * need to wait for readers to clear from both index values before
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1595  	 * invoking a callback.
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1596  	 *
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1597  	 * The load-acquire ensures that we see the accesses performed
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1598  	 * by the prior grace period.
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1599  	 */
-> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1600  	idx = rcu_seq_state(smp_load_acquire(&ssp->srcu_gp_seq)); /* ^^^ */
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1601  	if (idx == SRCU_STATE_IDLE) {
-> > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1602  		spin_lock_irq_rcu_node(ssp->srcu_sup);
-> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1603  		if (ULONG_CMP_GE(ssp->srcu_gp_seq, ssp->srcu_gp_seq_needed)) {
-> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1604  			WARN_ON_ONCE(rcu_seq_state(ssp->srcu_gp_seq));
-> > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1605  			spin_unlock_irq_rcu_node(ssp->srcu_sup);
-> > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1606  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1607  			return;
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1608  		}
-> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1609  		idx = rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq));
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1610  		if (idx == SRCU_STATE_IDLE)
-> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1611  			srcu_gp_start(ssp);
-> > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1612  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
-> > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1613  		if (idx != SRCU_STATE_IDLE) {
-> > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1614  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1615  			return; /* Someone else started the grace period. */
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1616  		}
-> > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1617  	}
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1618  
-> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1619  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN1) {
-> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1620  		idx = 1 ^ (ssp->srcu_idx & 1);
-> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1621  		if (!try_check_zero(ssp, idx, 1)) {
-> > e3a6ab25cfa0fc Paul E. McKenney 2023-03-17  1622  			mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex);
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1623  			return; /* readers present, retry later. */
-> > da915ad5cf25b5 Paul E. McKenney 2017-04-05  1624  		}
-> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1625  		srcu_flip(ssp);
-> > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1626  		spin_lock_irq_rcu_node(ssp->srcu_sup);
-> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1627  		rcu_seq_set_state(&ssp->srcu_gp_seq, SRCU_STATE_SCAN2);
-> > 282d8998e9979c Paul E. McKenney 2022-03-08  1628  		ssp->srcu_n_exp_nodelay = 0;
-> > b3fb11f7e9c3c6 Paul E. McKenney 2023-03-17  1629  		spin_unlock_irq_rcu_node(ssp->srcu_sup);
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1630  	}
-> > dad81a2026841b Paul E. McKenney 2017-03-25  1631  
-> > aacb5d91ab1bfb Paul E. McKenney 2018-10-28  1632  	if (rcu_seq_state(READ_ONCE(ssp->srcu_gp_seq)) == SRCU_STATE_SCAN2) {
-> > 
-> > We don't mutex_unlock(&ssp->srcu_sup->srcu_gp_mutex) if this if
-> > statement is false.
-> 
-> Hmmm...
-> 
-> I could make the above line read something like the following:
-> 
-> 	if (!WARN_ON_ONCE(rcu_seq_state(READ_ONCE(ssp->srcu_sup->srcu_gp_seq)) != SRCU_STATE_SCAN2)) {
+Hi Chao,
 
-Smatch ignores WARN_ON().  WARNings are triggered all the time, so it's
-not like a BUG() which stops the code flow.
+FYI, the error/warning still remains.
 
-> 
-> The theory is that there are only three legal values for ->srcu_gp_seq.
-> Because we hold ->srcu_gp_mutex, no one else can change it.   The first
-> "if" statement either returns or sets that state to SRCU_STATE_SCAN1.
-> The second "if" statement also either returns or sets that state to
-> SRCU_STATE_SCAN2.  So that statement should not be false.
+tree:   https://android.googlesource.com/kernel/common upstream-f2fs-stable-linux-4.19.y
+head:   b9aeb147225616494256fcf913c559afd4088a05
+commit: 0f87f20d0536ae21524ce1c25335aec991229114 [482/1172] f2fs: fix to check i_compr_blocks correctly
+config: i386-randconfig-a004-20230508 (https://download.01.org/0day-ci/archive/20230509/202305091349.3XtdK7jv-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build):
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common upstream-f2fs-stable-linux-4.19.y
+        git checkout 0f87f20d0536ae21524ce1c25335aec991229114
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/f2fs/
 
-Smatch can't figure out that the statement is true.  The issue there is
-that ssp->srcu_sup->srcu_gp_seq stores a value in the low bits and a
-different value in the high bits.  This seems like something that might
-be worth handling correctly at some point, but that point is in the
-distant future...
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305091349.3XtdK7jv-lkp@intel.com/
 
-Just ignore this one.
+All warnings (new ones prefixed by >>):
 
-regards,
-dan carpenter
+   In file included from fs/f2fs/inode.c:14:
+   fs/f2fs/f2fs.h: In function 'blkaddr_in_node':
+   fs/f2fs/f2fs.h:2377:37: warning: taking address of packed member of 'struct f2fs_inode' may result in an unaligned pointer value [-Waddress-of-packed-member]
+    2377 |         return RAW_IS_INODE(node) ? node->i.i_addr : node->dn.addr;
+         |                                     ^~~~
+   fs/f2fs/f2fs.h:2377:54: warning: taking address of packed member of 'struct direct_node' may result in an unaligned pointer value [-Waddress-of-packed-member]
+    2377 |         return RAW_IS_INODE(node) ? node->i.i_addr : node->dn.addr;
+         |                                                      ^~~~
+   In file included from include/linux/printk.h:7,
+                    from include/linux/kernel.h:14,
+                    from include/linux/list.h:9,
+                    from include/linux/wait.h:7,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from fs/f2fs/inode.c:8:
+   fs/f2fs/inode.c: In function 'sanity_check_inode':
+>> include/linux/kern_levels.h:5:25: warning: format '%lu' expects argument of type 'long unsigned int', but argument 6 has type 'blkcnt_t' {aka 'long long unsigned int'} [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:12:25: note: in expansion of macro 'KERN_SOH'
+      12 | #define KERN_WARNING    KERN_SOH "4"    /* warning conditions */
+         |                         ^~~~~~~~
+   fs/f2fs/f2fs.h:1949:26: note: in expansion of macro 'KERN_WARNING'
+    1949 |         f2fs_printk(sbi, KERN_WARNING fmt, ##__VA_ARGS__)
+         |                          ^~~~~~~~~~~~
+   fs/f2fs/inode.c:303:25: note: in expansion of macro 'f2fs_warn'
+     303 |                         f2fs_warn(sbi, "%s: inode (ino=%lx) has inconsistent "
+         |                         ^~~~~~~~~
 
+
+vim +5 include/linux/kern_levels.h
+
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
