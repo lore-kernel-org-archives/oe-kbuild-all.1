@@ -1,49 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC8519919;
-	Tue,  9 May 2023 20:52:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77EC019904
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 May 2023 21:13:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683665573; x=1715201573;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Qb7JnGYGX/q0kXPU2rhDE3PwsSlBsEq5dhBfzcKgApM=;
-  b=i3PHbBadZy2H0g8SxYX0ucuOcRtd7uTB2v4DdfB12sV6MzelfQgktc41
-   Vd03eIZQoQ9SN+QdBx6ZNdVQgpvGFvV/AZjNj2GOSPBgTkbr/2qiIgNuD
-   MGlA1g8gzy0dqh/UTabLKF40tekgXJiuADrmdSuoINjISw1WJ9TTW+F6N
-   rerhIO993JNuWY4ZjztysRbdy7lIvbgy5QKu5wiWm2/dSlGQAHjZCo+v6
-   h8UvQx6/VfvwsS0F4nMBKQBlkxBsCPVF/2QW7SZae/X9o6fuoZ63X1eJP
-   hAJKC+tig8YnaBiIQcAyahG3uzA0qejFlex8HHNh8KzkDwkqhWGg4Ww1z
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="350081850"
+  t=1683666780; x=1715202780;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hRZejTJV6CCnJ63NpPkgYIf83RuHHUvIEQG3FebdScs=;
+  b=idPR50y5MRK67/bLninxIpS2mFesA+agbUBvHjQblXjF9rsG/DJKBldx
+   Nu2Ce0cqk4Uxf8bG12ff9jvXUvzQCm1lPSiGOmLS52ErC2Wxp77S70ytQ
+   fjxMEUuGJMn7cv4jGWmYoKGAw+24FoSPuzvzQFOF39rYjL6jNbPjaxT1B
+   hnDNwMcBLLOCiGrrXhXYR6t5nlfcqoDE+al75ucvVummFn4TBhYV6WoPE
+   14lITtFu4GL+6m/btcM5oE/EAKtzobqyM/vN/1J+UVcv+gEOSFnEvR+J5
+   1DmUuTQs4cdbwqLvSbMEBmYjvBKam+WEbJI6sUzcWD/5pC1L7+bYH7pWj
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="378147784"
 X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="350081850"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 13:52:53 -0700
+   d="scan'208";a="378147784"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 14:12:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="649486667"
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="843260640"
 X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="649486667"
+   d="scan'208";a="843260640"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 09 May 2023 13:52:50 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 09 May 2023 14:12:50 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwUKH-0002UO-0a;
-	Tue, 09 May 2023 20:52:49 +0000
-Date: Wed, 10 May 2023 04:51:57 +0800
+	id 1pwUdd-0002VE-2x;
+	Tue, 09 May 2023 21:12:49 +0000
+Date: Wed, 10 May 2023 05:12:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Youling Tang <tangyouling@loongson.cn>,
-	Huacai Chen <chenhuacai@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Corbet <corbet@lwn.net>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jason Baron <jbaron@akamai.com>, WANG Xuerui <kernel@xen0n.name>,
-	Zhangjin Wu <falcon@tinylab.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
-Subject: Re: [PATCH] LoongArch: Add jump-label implementation
-Message-ID: <202305100412.gazWW71q-lkp@intel.com>
-References: <1683617390-18015-1-git-send-email-tangyouling@loongson.cn>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:sound/ivsense-improvements 31/57]
+ sound/soc/apple/macaudio.c:715:32: error: 'struct snd_soc_dai' has no member
+ named 'capture_widget'
+Message-ID: <202305100558.HHEVYt91-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,113 +46,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1683617390-18015-1-git-send-email-tangyouling@loongson.cn>
 
-Hi Youling,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.4-rc1 next-20230509]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Youling-Tang/LoongArch-Add-jump-label-implementation/20230509-153154
-base:   linus/master
-patch link:    https://lore.kernel.org/r/1683617390-18015-1-git-send-email-tangyouling%40loongson.cn
-patch subject: [PATCH] LoongArch: Add jump-label implementation
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230510/202305100412.gazWW71q-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/AsahiLinux/linux sound/ivsense-improvements
+head:   8db1ec849194a2607c8546306d0b9e0e1ed2a1da
+commit: bfe8b9c1822c56ceea71f2580c9910025129c91f [31/57] ASoC: macaudio: Start speaker sense capture support
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230510/202305100558.HHEVYt91-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/369827734136be509a0c817517fed12548d9c41f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Youling-Tang/LoongArch-Add-jump-label-implementation/20230509-153154
-        git checkout 369827734136be509a0c817517fed12548d9c41f
+        # https://github.com/AsahiLinux/linux/commit/bfe8b9c1822c56ceea71f2580c9910025129c91f
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux sound/ivsense-improvements
+        git checkout bfe8b9c1822c56ceea71f2580c9910025129c91f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash sound/soc/apple/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305100412.gazWW71q-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305100558.HHEVYt91-lkp@intel.com/
+
+Note: the asahilinux/sound/ivsense-improvements HEAD 8db1ec849194a2607c8546306d0b9e0e1ed2a1da builds fine.
+      It only hurts bisectability.
 
 All errors (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from include/linux/cpumask.h:16,
-                    from arch/loongarch/include/asm/processor.h:9,
-                    from arch/loongarch/include/asm/thread_info.h:15,
-                    from arch/loongarch/include/asm/ptrace.h:10,
-                    from arch/loongarch/include/asm/inst.h:10,
-                    from arch/loongarch/include/asm/jump_label.h:13,
-                    from include/linux/jump_label.h:112,
-                    from include/linux/dynamic_debug.h:6,
-                    from include/linux/printk.h:564,
-                    from include/asm-generic/bug.h:22,
-                    from arch/loongarch/include/asm/bug.h:59,
-                    from include/linux/bug.h:5,
-                    from include/linux/fortify-string.h:5,
-                    from include/linux/string.h:254,
-                    from include/linux/uuid.h:11,
-                    from include/linux/mod_devicetable.h:14,
-                    from scripts/mod/devicetable-offsets.c:3:
-   include/linux/numa.h: In function 'phys_to_target_node':
->> include/linux/numa.h:41:9: error: implicit declaration of function 'pr_info_once' [-Werror=implicit-function-declaration]
-      41 |         pr_info_once("Unknown target node for memory at 0x%llx, assuming node 0\n",
-         |         ^~~~~~~~~~~~
-   include/linux/cpumask.h: In function 'cpu_max_bits_warn':
->> include/linux/cpumask.h:143:9: error: implicit declaration of function 'WARN_ON_ONCE' [-Werror=implicit-function-declaration]
-     143 |         WARN_ON_ONCE(cpu >= bits);
-         |         ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 1
-   make[2]: Target 'scripts/mod/' not remade because of errors.
-   make[1]: *** [Makefile:1286: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   sound/soc/apple/macaudio.c: In function 'macaudio_add_backend_dai_route':
+>> sound/soc/apple/macaudio.c:715:32: error: 'struct snd_soc_dai' has no member named 'capture_widget'
+     715 |                 r->source = dai->capture_widget->name;
+         |                                ^~
 
 
-vim +/pr_info_once +41 include/linux/numa.h
+vim +715 sound/soc/apple/macaudio.c
 
-a927bd6ba952d1 Dan Williams 2020-11-21  29  
-a927bd6ba952d1 Dan Williams 2020-11-21  30  #ifndef memory_add_physaddr_to_nid
-a927bd6ba952d1 Dan Williams 2020-11-21  31  static inline int memory_add_physaddr_to_nid(u64 start)
-a927bd6ba952d1 Dan Williams 2020-11-21  32  {
-a927bd6ba952d1 Dan Williams 2020-11-21  33  	pr_info_once("Unknown online node for memory at 0x%llx, assuming node 0\n",
-a927bd6ba952d1 Dan Williams 2020-11-21  34  			start);
-a927bd6ba952d1 Dan Williams 2020-11-21  35  	return 0;
-a927bd6ba952d1 Dan Williams 2020-11-21  36  }
-a927bd6ba952d1 Dan Williams 2020-11-21  37  #endif
-a927bd6ba952d1 Dan Williams 2020-11-21  38  #ifndef phys_to_target_node
-a927bd6ba952d1 Dan Williams 2020-11-21  39  static inline int phys_to_target_node(u64 start)
-a927bd6ba952d1 Dan Williams 2020-11-21  40  {
-a927bd6ba952d1 Dan Williams 2020-11-21 @41  	pr_info_once("Unknown target node for memory at 0x%llx, assuming node 0\n",
-a927bd6ba952d1 Dan Williams 2020-11-21  42  			start);
-a927bd6ba952d1 Dan Williams 2020-11-21  43  	return 0;
-a927bd6ba952d1 Dan Williams 2020-11-21  44  }
-a927bd6ba952d1 Dan Williams 2020-11-21  45  #endif
-a927bd6ba952d1 Dan Williams 2020-11-21  46  #else /* !CONFIG_NUMA */
-b2ca916ce392a9 Dan Williams 2020-02-16  47  static inline int numa_map_to_online_node(int node)
-b2ca916ce392a9 Dan Williams 2020-02-16  48  {
-b2ca916ce392a9 Dan Williams 2020-02-16  49  	return NUMA_NO_NODE;
-b2ca916ce392a9 Dan Williams 2020-02-16  50  }
-a927bd6ba952d1 Dan Williams 2020-11-21  51  static inline int memory_add_physaddr_to_nid(u64 start)
-a927bd6ba952d1 Dan Williams 2020-11-21  52  {
-a927bd6ba952d1 Dan Williams 2020-11-21  53  	return 0;
-a927bd6ba952d1 Dan Williams 2020-11-21  54  }
-a927bd6ba952d1 Dan Williams 2020-11-21  55  static inline int phys_to_target_node(u64 start)
-a927bd6ba952d1 Dan Williams 2020-11-21  56  {
-a927bd6ba952d1 Dan Williams 2020-11-21  57  	return 0;
-a927bd6ba952d1 Dan Williams 2020-11-21  58  }
-b2ca916ce392a9 Dan Williams 2020-02-16  59  #endif
-b2ca916ce392a9 Dan Williams 2020-02-16  60  
+   685	
+   686	static int macaudio_add_backend_dai_route(struct snd_soc_card *card, struct snd_soc_dai *dai,
+   687						  bool is_speakers)
+   688	{
+   689		struct snd_soc_dapm_route routes[2];
+   690		struct snd_soc_dapm_route *r;
+   691		int nroutes = 0;
+   692		int ret;
+   693	
+   694		memset(routes, 0, sizeof(routes));
+   695	
+   696		dev_dbg(card->dev, "adding routes for '%s'\n", dai->name);
+   697	
+   698		r = &routes[nroutes++];
+   699		if (is_speakers)
+   700			r->source = "Speaker Playback";
+   701		else
+   702			r->source = "Headphone Playback";
+   703		r->sink = dai->stream[SNDRV_PCM_STREAM_PLAYBACK].widget->name;
+   704	
+   705		/* If headphone jack, add capture path */
+   706		if (!is_speakers) {
+   707			r = &routes[nroutes++];
+   708			r->source = dai->stream[SNDRV_PCM_STREAM_CAPTURE].widget->name;
+   709			r->sink = "Headset Capture";
+   710		}
+   711	
+   712		/* If speakers, add sense capture path */
+   713		if (is_speakers) {
+   714			r = &routes[nroutes++];
+ > 715			r->source = dai->capture_widget->name;
+   716			r->sink = "Speaker Sense Capture";
+   717		}
+   718	
+   719		ret = snd_soc_dapm_add_routes(&card->dapm, routes, nroutes);
+   720		if (ret)
+   721			dev_err(card->dev, "failed adding dynamic DAPM routes for %s\n",
+   722				dai->name);
+   723		return ret;
+   724	}
+   725	
 
 -- 
 0-DAY CI Kernel Test Service
