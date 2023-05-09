@@ -1,43 +1,45 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72F819937;
-	Tue,  9 May 2023 22:54:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373BB125A8
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 May 2023 23:26:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683672873; x=1715208873;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=71piCgGuWzuiYkG20Ao5AVjLrI1+LjiGMmLpicz+61w=;
-  b=PmXcHvfFQHMnmQdjc3rBeDvpqvdB6hlR/C01sOZXmiFnTetMzytKiKVo
-   W6IQdvkeCEEQD2GQKs0WKks9pWod1S+UxhLKJiiY7Sjj2sWXFHB293H0E
-   wmsc8c5eJJutC1GhuIY4/yOkhqWaCi31sjtPnvPN9ItXBGc2i7lakMDlE
-   Fb78gpOc969nN1H2MWP2+6IVz8tvdsj2LmsAonN39yUXcsmF/hhgyVrOS
-   xPKX5NCwLy/krKv6Rqe+CQh4hebAPMqu6IObtWcd1oK2+gAVJEcug6atY
-   pp78hYzSSV1xl53iArtFigr5DJ/AJDOO+c3WkH8P2B8csRImbjjkj5bjq
+  t=1683674818; x=1715210818;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=c9rYDZoloupoogZjD/RinnlIkKkS7tioJuuA7Hj7X0o=;
+  b=eN15XVruPcCTwIQRezQ5wSihCLGN31/PvmfCdl5PQJCeFp1LZ7dgrzeh
+   474WkOyLPGudtxz+I3VAvXBMlGfDhU1ygcnmIJt034bt6Z0P3Y2u6w5aC
+   Mj1vb2ec7KFm9X9Mroo8AQXV9pceaLZkPrHCl6/+QU3gQUqIVow/uuC/w
+   5iaaaywLlgCXegXZOmqVIC4Nk7CrA7533sGHyznerjsUXndAcfICdLh43
+   +gOAt1EO+lU7o5kMh0sbXW2+qQz0U+7+Et2raCWAfvX8G9z2aTsuJ1HCz
+   RfqMruUNynP0+KTayUw8DcD+XwomOdtekVU5S9ojJB4kU6RS4+BWfNmr+
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="330439320"
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="352260029"
 X-IronPort-AV: E=Sophos;i="5.99,263,1677571200"; 
-   d="scan'208";a="330439320"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 15:45:56 -0700
+   d="scan'208";a="352260029"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 16:26:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="649523056"
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="731944022"
 X-IronPort-AV: E=Sophos;i="5.99,263,1677571200"; 
-   d="scan'208";a="649523056"
+   d="scan'208";a="731944022"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 09 May 2023 15:45:54 -0700
+  by orsmga001.jf.intel.com with ESMTP; 09 May 2023 16:26:55 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwW5h-0002ay-32;
-	Tue, 09 May 2023 22:45:53 +0000
-Date: Wed, 10 May 2023 06:45:25 +0800
+	id 1pwWjO-0002cG-2h;
+	Tue, 09 May 2023 23:26:54 +0000
+Date: Wed, 10 May 2023 07:26:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [arm-integrator:b4/virt-to-pfn-v6-4-rc1 11/12]
- arch/arm64/kernel/vdso.c:291:38: error: incompatible integer to pointer
- conversion passing 'unsigned long' to parameter of type 'const void *'
-Message-ID: <202305100635.jHxJhhgc-lkp@intel.com>
+To: Kent Overstreet <kmo@daterainc.com>, linux-kernel@vger.kernel.org,
+	peterz@infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, Kent Overstreet <kmo@daterainc.com>,
+	Ingo Molnar <mingo@redhat.com>
+Subject: Re: [PATCH 1/2] lockdep: lock_set_cmp_fn()
+Message-ID: <202305100719.eq9Z9e7H-lkp@intel.com>
+References: <20230509195847.1745548-1-kent.overstreet@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,75 +48,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230509195847.1745548-1-kent.overstreet@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git b4/virt-to-pfn-v6-4-rc1
-head:   2c9796d7393a139f2b658603859f3cb95f98fec6
-commit: e9d83dd0dd653d3355fb5c7309ce964050c162ed [11/12] arm64: memory: Make virt_to_pfn() a static inline
-config: arm64-randconfig-r011-20230509 (https://download.01.org/0day-ci/archive/20230510/202305100635.jHxJhhgc-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
+Hi Kent,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/locking/core]
+[cannot apply to linus/master v6.4-rc1 next-20230509]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kent-Overstreet/bcache-Convert-to-lock_cmp_fn/20230510-040030
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20230509195847.1745548-1-kent.overstreet%40linux.dev
+patch subject: [PATCH 1/2] lockdep: lock_set_cmp_fn()
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230510/202305100719.eq9Z9e7H-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git/commit/?id=e9d83dd0dd653d3355fb5c7309ce964050c162ed
-        git remote add arm-integrator https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git
-        git fetch --no-tags arm-integrator b4/virt-to-pfn-v6-4-rc1
-        git checkout e9d83dd0dd653d3355fb5c7309ce964050c162ed
+        # https://github.com/intel-lab-lkp/linux/commit/f265373c48cadb6f81e032df9893abffc370ab89
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Kent-Overstreet/bcache-Convert-to-lock_cmp_fn/20230510-040030
+        git checkout f265373c48cadb6f81e032df9893abffc370ab89
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/md/ kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305100635.jHxJhhgc-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305100719.eq9Z9e7H-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/arm64/kernel/vdso.c:291:38: error: incompatible integer to pointer conversion passing 'unsigned long' to parameter of type 'const void *' [-Wint-conversion]
-           aarch32_vectors_page = virt_to_page(vdso_page);
-                                               ^~~~~~~~~
-   arch/arm64/include/asm/memory.h:364:50: note: expanded from macro 'virt_to_page'
-   #define virt_to_page(x)         pfn_to_page(virt_to_pfn(x))
-                                                           ^
-   include/asm-generic/memory_model.h:37:40: note: expanded from macro '__pfn_to_page'
-   #define __pfn_to_page(pfn)      (vmemmap + (pfn))
-                                               ^~~
-   arch/arm64/include/asm/memory.h:337:53: note: passing argument to parameter 'kaddr' here
-   static inline unsigned long virt_to_pfn(const void *kaddr)
-                                                       ^
-   1 error generated.
+   kernel/locking/lockdep.c: In function 'print_chain_keys_chain':
+>> kernel/locking/lockdep.c:3592:46: error: passing argument 1 of 'print_lock_name' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    3592 |                 print_lock_name(lock_classes + chain_hlock_class_idx(hlock_id));
+         |                                 ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                              |
+         |                                              struct lock_class *
+   kernel/locking/lockdep.c:732:47: note: expected 'struct held_lock *' but argument is of type 'struct lock_class *'
+     732 | static void print_lock_name(struct held_lock *hlock, struct lock_class *class)
+         |                             ~~~~~~~~~~~~~~~~~~^~~~~
+>> kernel/locking/lockdep.c:3592:17: error: too few arguments to function 'print_lock_name'
+    3592 |                 print_lock_name(lock_classes + chain_hlock_class_idx(hlock_id));
+         |                 ^~~~~~~~~~~~~~~
+   kernel/locking/lockdep.c:732:13: note: declared here
+     732 | static void print_lock_name(struct held_lock *hlock, struct lock_class *class)
+         |             ^~~~~~~~~~~~~~~
+   kernel/locking/lockdep.c: At top level:
+   kernel/locking/lockdep.c:4898:6: warning: no previous prototype for 'lockdep_set_lock_cmp_fn' [-Wmissing-prototypes]
+    4898 | void lockdep_set_lock_cmp_fn(struct lockdep_map *lock, lock_cmp_fn cmp_fn,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +291 arch/arm64/kernel/vdso.c
+vim +/print_lock_name +3592 kernel/locking/lockdep.c
 
-9031fefde6f2ac Will Deacon       2012-03-05  275  
-1255a7341bee6c Vincenzo Frascino 2019-04-15  276  static int aarch32_alloc_kuser_vdso_page(void)
-9031fefde6f2ac Will Deacon       2012-03-05  277  {
-9031fefde6f2ac Will Deacon       2012-03-05  278  	extern char __kuser_helper_start[], __kuser_helper_end[];
-9031fefde6f2ac Will Deacon       2012-03-05  279  	int kuser_sz = __kuser_helper_end - __kuser_helper_start;
-1255a7341bee6c Vincenzo Frascino 2019-04-15  280  	unsigned long vdso_page;
-9031fefde6f2ac Will Deacon       2012-03-05  281  
-af1b3cf2c2a3f4 Vincenzo Frascino 2019-04-15  282  	if (!IS_ENABLED(CONFIG_KUSER_HELPERS))
-af1b3cf2c2a3f4 Vincenzo Frascino 2019-04-15  283  		return 0;
-af1b3cf2c2a3f4 Vincenzo Frascino 2019-04-15  284  
-7cd6ca1d790226 Will Deacon       2021-03-18  285  	vdso_page = get_zeroed_page(GFP_KERNEL);
-1255a7341bee6c Vincenzo Frascino 2019-04-15  286  	if (!vdso_page)
-0d747f6585954d Vincenzo Frascino 2019-04-15  287  		return -ENOMEM;
-9031fefde6f2ac Will Deacon       2012-03-05  288  
-1255a7341bee6c Vincenzo Frascino 2019-04-15  289  	memcpy((void *)(vdso_page + 0x1000 - kuser_sz), __kuser_helper_start,
-1255a7341bee6c Vincenzo Frascino 2019-04-15  290  	       kuser_sz);
-74fc72e77dc5c8 Mark Rutland      2020-04-28 @291  	aarch32_vectors_page = virt_to_page(vdso_page);
-1255a7341bee6c Vincenzo Frascino 2019-04-15  292  	return 0;
-0d747f6585954d Vincenzo Frascino 2019-04-15  293  }
-9031fefde6f2ac Will Deacon       2012-03-05  294  
-
-:::::: The code at line 291 was first introduced by commit
-:::::: 74fc72e77dc5c8033d1b47d2c8a7229b4b83a746 arm64: vdso: remove aarch32_vdso_pages[]
-
-:::::: TO: Mark Rutland <mark.rutland@arm.com>
-:::::: CC: Will Deacon <will@kernel.org>
+39e2e173fb1f90 Alfredo Alvarez Fernandez 2016-03-30  3580  
+39e2e173fb1f90 Alfredo Alvarez Fernandez 2016-03-30  3581  static void print_chain_keys_chain(struct lock_chain *chain)
+39e2e173fb1f90 Alfredo Alvarez Fernandez 2016-03-30  3582  {
+39e2e173fb1f90 Alfredo Alvarez Fernandez 2016-03-30  3583  	int i;
+f6ec8829ac9d59 Yuyang Du                 2019-05-06  3584  	u64 chain_key = INITIAL_CHAIN_KEY;
+f611e8cf98ec90 Boqun Feng                2020-08-07  3585  	u16 hlock_id;
+39e2e173fb1f90 Alfredo Alvarez Fernandez 2016-03-30  3586  
+39e2e173fb1f90 Alfredo Alvarez Fernandez 2016-03-30  3587  	printk("depth: %u\n", chain->depth);
+39e2e173fb1f90 Alfredo Alvarez Fernandez 2016-03-30  3588  	for (i = 0; i < chain->depth; i++) {
+f611e8cf98ec90 Boqun Feng                2020-08-07  3589  		hlock_id = chain_hlocks[chain->base + i];
+f611e8cf98ec90 Boqun Feng                2020-08-07  3590  		chain_key = print_chain_key_iteration(hlock_id, chain_key);
+39e2e173fb1f90 Alfredo Alvarez Fernandez 2016-03-30  3591  
+28df029d53a2fd Cheng Jui Wang            2022-02-10 @3592  		print_lock_name(lock_classes + chain_hlock_class_idx(hlock_id));
+39e2e173fb1f90 Alfredo Alvarez Fernandez 2016-03-30  3593  		printk("\n");
+39e2e173fb1f90 Alfredo Alvarez Fernandez 2016-03-30  3594  	}
+39e2e173fb1f90 Alfredo Alvarez Fernandez 2016-03-30  3595  }
+39e2e173fb1f90 Alfredo Alvarez Fernandez 2016-03-30  3596  
 
 -- 
 0-DAY CI Kernel Test Service
