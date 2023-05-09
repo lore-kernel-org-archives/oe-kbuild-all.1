@@ -1,43 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205D814A80
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 May 2023 18:46:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56EDD14A81
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 May 2023 19:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683657986; x=1715193986;
+  t=1683659852; x=1715195852;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yKvkjrZ48nnY3fzoHUiYbXZSdiEYwrGq8Drle5ptEaU=;
-  b=gVY97Ctyj/8ju5712T2WDtPiQA7I1w2LDcDTekdVaQohEnrfvUWKtl0S
-   +GbnlyPK1SHjj8iWZJ2/sIdu6HOJl4MEqGYMv+PyWxw3GG0kXLPT0g1nE
-   b6hVzqTY0l9B7iaMCGyPiPJtpAr4m9hX20w2xzj99gkftUG04qoUja/ud
-   qNuasgwwCXnfeealoqL/esrKqn/A9CYRwHab/GezEtzBUmRg1wVewK4lp
-   FLgjSspf8Iq4r/ndSZEAaqgRr/zwvoLcfhdBEhAXzgaMCrzT0fwEolDmM
-   Y7y4YtQTn8II6L2t0KZzQB0oUzHRCQ+ufR+xhfDa1W1QyuyhZNP+EgRHO
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="347488321"
+  bh=+wmHoKtQj6NUx+nqAOQgG4iGAigNxBe9B4CsdZG75UM=;
+  b=Pullba20UPzwlrrM4HCc0jtzZxOMuHf1DL2A2A9h+dyOmK/p+x7OH2L5
+   AQJrAwi72C2p3kKzVVpsK+qbWqrQtuYJFxGo+qGmwP1fZGSDODK33+9Yf
+   AEQJCjjQrgxcPG6kEmfVz3z+sw3aQ943+kL5VkijPk63u8iz2KwR1CtkL
+   cGKWC5VfFM6BDaPZqxVMyKoEc1McK2RQkq4EpoMGfsyft5Vec1tWJzY6i
+   5iHQyQlnlGB2lLqB/CvV5eYQXmzxZiHFasKEvi87I1fO7vao9Xbu88heO
+   1jppAEoKDbe9yKceHEznfCz/r/kMi/txZeWt6IxObB8++5tjJoGbBKyrS
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="436349056"
 X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="347488321"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 11:46:25 -0700
+   d="scan'208";a="436349056"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 12:17:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="701979019"
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="768629780"
 X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
-   d="scan'208";a="701979019"
+   d="scan'208";a="768629780"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 09 May 2023 11:46:24 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 09 May 2023 12:17:30 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwSLv-0002OG-1l;
-	Tue, 09 May 2023 18:46:23 +0000
-Date: Wed, 10 May 2023 02:45:47 +0800
+	id 1pwSq1-0002QY-1c;
+	Tue, 09 May 2023 19:17:29 +0000
+Date: Wed, 10 May 2023 03:17:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:sched/clock 7/9] vmlinux.o: warning: objtool:
- read_hv_sched_clock_tsc+0x5a: call to mul_u64_u64_shr.constprop.0() leaves
- .noinstr.text section
-Message-ID: <202305100243.qjhyq5Zv-lkp@intel.com>
+To: Chanho Park <chanho61.park@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Maciej =?utf-8?Q?=C5=BBenczykowski?= <maze@google.com>
+Subject: [sudeep-holla:android13-5.10/ffa 2111/9999] undefined reference to
+ `linkmode_resolve_pause'
+Message-ID: <202305100345.NKZXJDga-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,82 +47,194 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/clock
-head:   cff652516d21cc0acddc316c871ed5ae5dc64909
-commit: 0ed33e636a5875dec149e2f7ddc64412bdabd8aa [7/9] x86/tsc: Provide sched_clock_noinstr()
-config: x86_64-randconfig-a012-20230508 (https://download.01.org/0day-ci/archive/20230510/202305100243.qjhyq5Zv-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.10/ffa
+head:   9e12ac4f9c69befe08119567c073adc938aafc4d
+commit: 36ab8cea47b0d4a3c5067577430c147a903b5261 [2111/9999] ANDROID: GKI: Kconfig.gki: Add GKI_HIDDEN_ETHERNET_CONFIGS
+config: microblaze-buildonly-randconfig-r001-20230509 (https://download.01.org/0day-ci/archive/20230510/202305100345.NKZXJDga-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=0ed33e636a5875dec149e2f7ddc64412bdabd8aa
-        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
-        git fetch --no-tags peterz-queue sched/clock
-        git checkout 0ed33e636a5875dec149e2f7ddc64412bdabd8aa
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git/commit/?id=36ab8cea47b0d4a3c5067577430c147a903b5261
+        git remote add sudeep-holla https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git
+        git fetch --no-tags sudeep-holla android13-5.10/ffa
+        git checkout 36ab8cea47b0d4a3c5067577430c147a903b5261
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305100243.qjhyq5Zv-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305100345.NKZXJDga-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: local_clock+0x6: call to sched_clock() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: read_hv_sched_clock_tsc+0x5a: call to mul_u64_u64_shr.constprop.0() leaves .noinstr.text section
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_get_fixed_state':
+>> (.text+0x1e0): undefined reference to `linkmode_resolve_pause'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_link_down':
+>> (.text+0x3a8): undefined reference to `netif_carrier_off'
+>> microblaze-linux-ld: (.text+0x468): undefined reference to `netdev_printk'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_phy_read':
+>> (.text+0x638): undefined reference to `mdiobus_read'
+>> microblaze-linux-ld: (.text+0x738): undefined reference to `mdiobus_read'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_phy_write':
+>> (.text+0xa20): undefined reference to `mdiobus_write'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_emul_read':
+>> (.text+0xe64): undefined reference to `swphy_read_reg'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_major_config':
+>> (.text+0x1360): undefined reference to `netdev_printk'
+   microblaze-linux-ld: (.text+0x13b4): undefined reference to `netdev_printk'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_phy_change':
+>> (.text+0x147c): undefined reference to `phy_get_pause'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_link_up.isra.0':
+>> (.text+0x16ac): undefined reference to `netif_carrier_on'
+>> microblaze-linux-ld: (.text+0x1740): undefined reference to `phy_speed_to_str'
+>> microblaze-linux-ld: (.text+0x174c): undefined reference to `phy_duplex_to_str'
+   microblaze-linux-ld: (.text+0x17a0): undefined reference to `phy_speed_to_str'
+   microblaze-linux-ld: (.text+0x17b0): undefined reference to `phy_duplex_to_str'
+   microblaze-linux-ld: (.text+0x1804): undefined reference to `netdev_printk'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_decode_c37_word':
+   (.text+0x208c): undefined reference to `linkmode_resolve_pause'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_bringup_phy':
+>> (.text+0x2250): undefined reference to `phy_support_asym_pause'
+>> microblaze-linux-ld: (.text+0x23e0): undefined reference to `phy_attached_info_irq'
+>> microblaze-linux-ld: (.text+0x2684): undefined reference to `phy_request_interrupt'
+   microblaze-linux-ld: (.text+0x2730): undefined reference to `netdev_printk'
+   microblaze-linux-ld: (.text+0x27b4): undefined reference to `netdev_printk'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_parse_fixedlink':
+>> (.text+0x2d80): undefined reference to `phy_lookup_setting'
+   microblaze-linux-ld: (.text+0x312c): undefined reference to `netdev_printk'
+   microblaze-linux-ld: (.text+0x317c): undefined reference to `netdev_printk'
+   microblaze-linux-ld: (.text+0x31b4): undefined reference to `netdev_printk'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_parse_mode':
+   (.text+0x3668): undefined reference to `netdev_printk'
+   microblaze-linux-ld: (.text+0x36a0): undefined reference to `netdev_printk'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_connect_phy':
+>> (.text+0x3c48): undefined reference to `phy_attach_direct'
+>> microblaze-linux-ld: (.text+0x3d88): undefined reference to `phy_detach'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_disconnect_phy':
+>> (.text+0x3fd8): undefined reference to `rtnl_is_locked'
+>> microblaze-linux-ld: (.text+0x40f8): undefined reference to `phy_disconnect'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_start':
+   (.text+0x4214): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x431c): undefined reference to `netif_carrier_off'
+   microblaze-linux-ld: (.text+0x43e0): undefined reference to `phy_start'
+   microblaze-linux-ld: (.text+0x47a0): undefined reference to `netdev_printk'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_stop':
+   (.text+0x47ec): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x48d4): undefined reference to `phy_stop'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_wol':
+   (.text+0x4a14): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x4ae8): undefined reference to `phy_ethtool_get_wol'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_wol':
+   (.text+0x4b54): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x4c20): undefined reference to `phy_ethtool_set_wol'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_get':
+   (.text+0x4c90): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x4d60): undefined reference to `phy_ethtool_ksettings_get'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_ksettings_set':
+   (.text+0x4ee8): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x4fb4): undefined reference to `phy_ethtool_ksettings_set'
+   microblaze-linux-ld: (.text+0x53a8): undefined reference to `phy_lookup_setting'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_nway_reset':
+   (.text+0x5650): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x571c): undefined reference to `phy_restart_aneg'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_pauseparam':
+   (.text+0x5794): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_pauseparam':
+   (.text+0x58c0): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x5c2c): undefined reference to `linkmode_set_pause'
+   microblaze-linux-ld: (.text+0x5e3c): undefined reference to `phy_set_asym_pause'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_get_eee_err':
+   (.text+0x5fec): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x60bc): undefined reference to `phy_get_eee_err'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_init_eee':
+   (.text+0x6124): undefined reference to `phy_init_eee'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_get_eee':
+   (.text+0x6174): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x6240): undefined reference to `phy_ethtool_get_eee'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_ethtool_set_eee':
+   (.text+0x6294): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x6360): undefined reference to `phy_ethtool_set_eee'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_ioctl':
+   (.text+0x63c4): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x64b8): undefined reference to `phy_mii_ioctl'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_speed_down':
+   (.text+0x6754): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x6854): undefined reference to `phy_speed_down'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_speed_up':
+   (.text+0x688c): undefined reference to `rtnl_is_locked'
+   microblaze-linux-ld: (.text+0x6988): undefined reference to `phy_speed_up'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_get_state':
+   (.text+0x6bc8): undefined reference to `mdiobus_read'
+   microblaze-linux-ld: (.text+0x6be0): undefined reference to `mdiobus_read'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_set_advertisement':
+   (.text+0x6efc): undefined reference to `mdiobus_read'
+   microblaze-linux-ld: (.text+0x6f48): undefined reference to `mdiobus_write'
+   microblaze-linux-ld: (.text+0x6f90): undefined reference to `mdiobus_read'
+   microblaze-linux-ld: (.text+0x6fdc): undefined reference to `mdiobus_write'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_config':
+   (.text+0x7138): undefined reference to `mdiobus_modify'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c22_pcs_an_restart':
+   (.text+0x7300): undefined reference to `mdiobus_read'
+   microblaze-linux-ld: (.text+0x7338): undefined reference to `mdiobus_write'
+   microblaze-linux-ld: drivers/net/phy/phylink.o: in function `phylink_mii_c45_pcs_get_state':
+   (.text+0x739c): undefined reference to `mdiobus_read'
 
-
-objdump-func vmlinux.o read_hv_sched_clock_tsc:
-0000 0000000000002e2e <read_hv_sched_clock_tsc>:
-0000     2e2e:	f3 0f 1e fa          	endbr64
-0004     2e32:	48 8b 35 00 00 00 00 	mov    0x0(%rip),%rsi        # 2e39 <read_hv_sched_clock_tsc+0xb>	2e35: R_X86_64_PC32	.data+0x12eb7fc
-000b     2e39:	8b 3e                	mov    (%rsi),%edi
-000d     2e3b:	85 ff                	test   %edi,%edi
-000f     2e3d:	75 1c                	jne    2e5b <read_hv_sched_clock_tsc+0x2d>
-0011     2e3f:	48 83 c8 ff          	or     $0xffffffffffffffff,%rax
-0015     2e43:	48 2b 05 00 00 00 00 	sub    0x0(%rip),%rax        # 2e4a <read_hv_sched_clock_tsc+0x1c>	2e46: R_X86_64_PC32	.data..ro_after_init+0x7a14
-001c     2e4a:	48 6b c0 64          	imul   $0x64,%rax,%rax
-0020     2e4e:	31 d2                	xor    %edx,%edx
-0022     2e50:	31 c9                	xor    %ecx,%ecx
-0024     2e52:	31 f6                	xor    %esi,%esi
-0026     2e54:	31 ff                	xor    %edi,%edi
-0028     2e56:	45 31 c0             	xor    %r8d,%r8d
-002b     2e59:	c3                   	ret
-002c     2e5a:	cc                   	int3
-002d     2e5b:	53                   	push   %rbx
-002e     2e5c:	4c 8b 46 08          	mov    0x8(%rsi),%r8
-0032     2e60:	48 8b 5e 10          	mov    0x10(%rsi),%rbx
-0036     2e64:	0f 31                	rdtsc
-0038     2e66:	90                   	nop
-0039     2e67:	90                   	nop
-003a     2e68:	90                   	nop
-003b     2e69:	8b 0e                	mov    (%rsi),%ecx
-003d     2e6b:	39 cf                	cmp    %ecx,%edi
-003f     2e6d:	74 0c                	je     2e7b <read_hv_sched_clock_tsc+0x4d>
-0041     2e6f:	8b 3e                	mov    (%rsi),%edi
-0043     2e71:	85 ff                	test   %edi,%edi
-0045     2e73:	75 e7                	jne    2e5c <read_hv_sched_clock_tsc+0x2e>
-0047     2e75:	48 83 c8 ff          	or     $0xffffffffffffffff,%rax
-004b     2e79:	eb 15                	jmp    2e90 <read_hv_sched_clock_tsc+0x62>
-004d     2e7b:	48 c1 e2 20          	shl    $0x20,%rdx
-0051     2e7f:	4c 89 c6             	mov    %r8,%rsi
-0054     2e82:	48 09 c2             	or     %rax,%rdx
-0057     2e85:	48 89 d7             	mov    %rdx,%rdi
-005a     2e88:	e8 00 00 00 00       	call   2e8d <read_hv_sched_clock_tsc+0x5f>	2e89: R_X86_64_PC32	.text+0x1fcb0cc
-005f     2e8d:	48 01 d8             	add    %rbx,%rax
-0062     2e90:	48 2b 05 00 00 00 00 	sub    0x0(%rip),%rax        # 2e97 <read_hv_sched_clock_tsc+0x69>	2e93: R_X86_64_PC32	.data..ro_after_init+0x7a14
-0069     2e97:	5b                   	pop    %rbx
-006a     2e98:	48 6b c0 64          	imul   $0x64,%rax,%rax
-006e     2e9c:	31 d2                	xor    %edx,%edx
-0070     2e9e:	31 c9                	xor    %ecx,%ecx
-0072     2ea0:	31 f6                	xor    %esi,%esi
-0074     2ea2:	31 ff                	xor    %edi,%edi
-0076     2ea4:	45 31 c0             	xor    %r8d,%r8d
-0079     2ea7:	c3                   	ret
-007a     2ea8:	cc                   	int3
-007b     2ea9:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-0085     2eb3:	66 2e 0f 1f 84 00 00 00 00 00 	cs nopw 0x0(%rax,%rax,1)
-008f     2ebd:	0f 1f 00             	nopl   (%rax)
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=y] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 -- 
 0-DAY CI Kernel Test Service
