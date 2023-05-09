@@ -1,130 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302F918018;
-	Tue,  9 May 2023 16:46:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B120C433D2;
-	Tue,  9 May 2023 16:46:01 +0000 (UTC)
-Date: Tue, 9 May 2023 12:45:59 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Ajay Kaher <akaher@vmware.com>
-Cc: kernel test robot <lkp@intel.com>, "mhiramat@kernel.org"
- <mhiramat@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
- "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
- "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- "chinglinyu@google.com" <chinglinyu@google.com>, Nadav Amit
- <namit@vmware.com>, Srivatsa Bhat <srivatsab@vmware.com>,
- "srivatsa@csail.mit.edu" <srivatsa@csail.mit.edu>, Alexey Makhalov
- <amakhalov@vmware.com>, Vasavi Sirnapalli <vsirnapalli@vmware.com>, Tapas
- Kundu <tkundu@vmware.com>, "er.ajay.kaher@gmail.com"
- <er.ajay.kaher@gmail.com>
-Subject: Re: [PATCH v2 8/9] eventfs: moving tracing/events to eventfs
-Message-ID: <20230509124559.0d5557ad@rorschach.local.home>
-In-Reply-To: <1CAC8265-A4F3-4AF6-80E4-8F264ED670A9@vmware.com>
-References: <1683026600-13485-9-git-send-email-akaher@vmware.com>
-	<202305030116.Gu6yyvKj-lkp@intel.com>
-	<1CAC8265-A4F3-4AF6-80E4-8F264ED670A9@vmware.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9A118017
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  9 May 2023 17:35:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683653703; x=1715189703;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OI4pkOsWUJfe64YuNDT7+aOfc7oFJk0HvSSxUcUjsb8=;
+  b=PDcQbQtNwuIrNZnF6kMxgTAJy6BGQnX9EX1AnqxGhGrB0dlazbrO/swv
+   mnTmO2Bh3s4FGlrPZ3YbEXC0Zg/hSb62lNHdu46i7LftzELBpRx7ofMUb
+   HLmHDZSahye0Upi6AnwER7/Dd6Q5ywNBP1wwR/+kjYEm3gQiftO1KiGEM
+   GIKEbrG2DAUbmnx3mrTfjky3jKsh8zjr3MdzzkmhJZMsHdnZoDNbjm2A5
+   MFbNIq85FVYSwMGR/vBb7iyZU105MvM6b9eDUE4MyWMSfvw+xjBp/pGsn
+   uK8DhNA0nbL2Ah6pIdPKrDNucajw3f3xO0aHTGNCRTMiCaMlD1GmodjmX
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="413281214"
+X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
+   d="scan'208";a="413281214"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2023 10:30:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="649424132"
+X-IronPort-AV: E=Sophos;i="5.99,262,1677571200"; 
+   d="scan'208";a="649424132"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 09 May 2023 10:30:03 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pwRA2-0002KO-1O;
+	Tue, 09 May 2023 17:30:02 +0000
+Date: Wed, 10 May 2023 01:29:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: oe-kbuild-all@lists.linux.dev, Hector Martin <marcan@marcan.st>
+Subject: [asahilinux:sound/ivsense-improvements 51/57]
+ sound/soc/apple/macaudio.c:1016:5: warning: no previous prototype for
+ 'macaudio_sss_info'
+Message-ID: <202305100111.lYmQSWU0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 9 May 2023 12:29:23 +0000
-Ajay Kaher <akaher@vmware.com> wrote:
+tree:   https://github.com/AsahiLinux/linux sound/ivsense-improvements
+head:   8db1ec849194a2607c8546306d0b9e0e1ed2a1da
+commit: 7553794e9ed11bb344cec33d1460a2d06949a56c [51/57] ASoC: macaudio: Add 'Speakers Up Indicator' control
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230510/202305100111.lYmQSWU0-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/AsahiLinux/linux/commit/7553794e9ed11bb344cec33d1460a2d06949a56c
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux sound/ivsense-improvements
+        git checkout 7553794e9ed11bb344cec33d1460a2d06949a56c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash sound/soc/apple/
 
-> =EF=BB=BF> On 02/05/23, 11:42 PM, "kernel test robot" <lkp@intel.com> wro=
-te: =20
-> >   >> kernel/trace/trace_events.c:2424:17: warning: variable 'd_events' =
-set but not used [-Wunused-but-set-variable] =20
-> >           struct dentry *d_events;
-> >                       ^
-> >    1 warning generated.
-> > =20
->=20
-> Steve, with-in event_create_dir(), do we have any scenario when file->eve=
-nt_call->class->system
-> doesn't have TRACE_SYSTEM? And need to execute following:
->=20
-> ae63b31e4d0e2e Steven Rostedt           2012-05-03  2437                d=
-_events =3D parent;
->=20
-> looking for your input if we could remove d_events from event_create_dir(=
-).
->=20
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305100111.lYmQSWU0-lkp@intel.com/
 
-I have hit this in the beginning, but I don't think it's an issue
-anymore. Perhaps just have it be:
+All warnings (new ones prefixed by >>):
 
-        if (WARN_ON_ONCE(strcmp(call->class->system, TRACE_SYSTEM) =3D=3D 0=
-))
-		return -ENODEV;
+   sound/soc/apple/macaudio.c: In function 'macaudio_add_backend_dai_route':
+   sound/soc/apple/macaudio.c:764:32: error: 'struct snd_soc_dai' has no member named 'capture_widget'
+     764 |                 r->source = dai->capture_widget->name;
+         |                                ^~
+   sound/soc/apple/macaudio.c: At top level:
+>> sound/soc/apple/macaudio.c:1016:5: warning: no previous prototype for 'macaudio_sss_info' [-Wmissing-prototypes]
+    1016 | int macaudio_sss_info(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_info *uinfo)
+         |     ^~~~~~~~~~~~~~~~~
+>> sound/soc/apple/macaudio.c:1026:5: warning: no previous prototype for 'macaudio_sss_get' [-Wmissing-prototypes]
+    1026 | int macaudio_sss_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *uvalue)
+         |     ^~~~~~~~~~~~~~~~
 
-        ef_subsystem =3D event_subsystem_dir(tr, call->class->system, file,=
- parent);
 
-Hmm, how about just add this patch before your patch set:
+vim +/macaudio_sss_info +1016 sound/soc/apple/macaudio.c
 
--- Steve
+  1015	
+> 1016	int macaudio_sss_info(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_info *uinfo)
+  1017	{
+  1018		uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
+  1019		uinfo->count = 1;
+  1020		uinfo->value.integer.min = 0;
+  1021		uinfo->value.integer.max = 1;
+  1022	
+  1023		return 0;
+  1024	}
+  1025	
+> 1026	int macaudio_sss_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *uvalue)
+  1027	{
+  1028		struct snd_soc_card *card = snd_kcontrol_chip(kcontrol);
+  1029		struct macaudio_snd_data *ma = snd_soc_card_get_drvdata(card);
+  1030	
+  1031		/*
+  1032		 * TODO: Check if any locking is in order here. I would
+  1033		 * assume there is some ALSA-level lock, but DAPM implementations
+  1034		 * of kcontrol ops do explicit locking, so look into it.
+  1035		 */
+  1036		uvalue->value.integer.value[0] = ma->speakers_streaming;
+  1037	
+  1038		return 0;
+  1039	}
+  1040	
 
-From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-Subject: [PATCH] tracing: Require all trace events to have a TRACE_SYSTEM
-
-The creation of the trace event directory requires that a TRACE_SYSTEM is
-defined that the trace event directory is added within the system it was
-defined in.
-
-The code handled the case where a TRACE_SYSTEM was not added, and would
-then add the event at the events directory. But nothing should be doing
-this. This code also prevents the implementation of creating dynamic
-dentrys for the eventfs system.
-
-As this path has never been hit on correct code, remove it. If it does get
-hit, issues a WARN_ON_ONCE() and return ENODEV.
-
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
----
-
-  (lightly tested)
-
- kernel/trace/trace_events.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/kernel/trace/trace_events.c b/kernel/trace/trace_events.c
-index 654ffa40457a..16bc5ba45507 100644
---- a/kernel/trace/trace_events.c
-+++ b/kernel/trace/trace_events.c
-@@ -2424,14 +2424,15 @@ event_create_dir(struct dentry *parent, struct trac=
-e_event_file *file)
-=20
- 	/*
- 	 * If the trace point header did not define TRACE_SYSTEM
--	 * then the system would be called "TRACE_SYSTEM".
-+	 * then the system would be called "TRACE_SYSTEM". This should
-+	 * never happen.
- 	 */
--	if (strcmp(call->class->system, TRACE_SYSTEM) !=3D 0) {
--		d_events =3D event_subsystem_dir(tr, call->class->system, file, parent);
--		if (!d_events)
--			return -ENOMEM;
--	} else
--		d_events =3D parent;
-+	if (WARN_ON_ONCE(strcmp(call->class->system, TRACE_SYSTEM) =3D=3D 0))
-+		return -ENODEV;
-+
-+	d_events =3D event_subsystem_dir(tr, call->class->system, file, parent);
-+	if (!d_events)
-+		return -ENOMEM;
-=20
- 	name =3D trace_event_name(call);
- 	file->dir =3D tracefs_create_dir(name, d_events);
---=20
-2.39.2
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
