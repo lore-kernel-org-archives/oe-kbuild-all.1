@@ -1,115 +1,174 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC4720B54;
-	Wed, 10 May 2023 14:16:12 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 5CFC4580437;
-	Wed, 10 May 2023 10:16:11 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Wed, 10 May 2023 10:16:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1683728171; x=1683735371; bh=V2
-	31ipRgvlb0JsA/vw7lkaJwJ/EU1whQFMWkiWFARX4=; b=QDwDJwdPNOvmhCdCh1
-	X1AzrK6ph+oBrK0NV15G0CQ8a9EDXGHxarQ3pDgVXF+shwORiOHLGunzBgsDgzsu
-	3Jk7Q6CBdAdljBawM7jn7aRJKvOJJNChqOIJnvjDb1LbTSD3CH6/2QlhdGYgNfl2
-	KWG51s9KkKlvip8YE8wc3Quv5zW5dDk4YJO64662MGeubJQjnW5D32UmiJgetsNX
-	dyn7OqjxwCqpNLnU2jDpnlW9P3voCJQ1fKWAlav6KrP4TEUwdjKp5o3Eva+Ijevj
-	NPQceRpOvnU+fYqKcug9ffwTp5pTpOjAm3p426I5mfBr77W7I2RNO2FW7dEKduwK
-	zgRQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1683728171; x=1683735371; bh=V231ipRgvlb0J
-	sA/vw7lkaJwJ/EU1whQFMWkiWFARX4=; b=B5hQd3yatPe3qSoPzFvzPZJAmfD0K
-	dxk5GGZvu2u4FdCE4FJoefX8jsJZJD35cLnXZ2y5Cu6AxTtjYpw2UKLTE1xfnGnO
-	1s5E87JphmtKXAutHOshfD4lN4UfDh9LmoUP7KN8YRGE/at8TtsJHl9liZsqLodQ
-	912B+XAj1UxofPVezlCMErSfoYkdf/ARyg2yjcpYZs3SFx1pOAtM+E/yKdUnak0T
-	yF54H/cWDqVRszmOqNnYzTeuGdUmcmYH0gP9jBBcbVPy7V2e/XoF3RdirCLxC+Jz
-	jjH2KGbh58BDdgHKhWK08bfQc7iMT6LBy6YiFvlui8XyiAxtzcHwpwDnA==
-X-ME-Sender: <xms:KKdbZPWWyAbxIJr9yq7gAvPfcyHNKlbGruUy2p_rYKQB2CjcucJMHw>
-    <xme:KKdbZHmA2gI4C84zAmw1RBGc_9stP0sDzYCTVKzXgiyLz_shij5DahgL70OcWoa5R
-    LUrkzcCHQ_q11h8XLA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegiedgheefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
-    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
-    hrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:KKdbZLbBYdtcvHvgeoBb_WM2dfH1Kxrj1-tEPwl_7I61ehCH0wdMxg>
-    <xmx:KKdbZKVqVOn-9ph_fmLkrDW81AOHaxQMHIsUCLmdBfoM2j2A0Bm7-A>
-    <xmx:KKdbZJlqIdOOjUvzb00Yyxi6XvFRuZECGtoLKONQ5G6hG083DJ0rGA>
-    <xmx:K6dbZLVPpbWVfjK3RMLY0JT5mhgDGnkq-fxyLxVnEi84wVrL9oSx9g>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id DD83BB6008D; Wed, 10 May 2023 10:16:07 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-415-gf2b17fe6c3-fm-20230503.001-gf2b17fe6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DF612B74;
+	Wed, 10 May 2023 14:27:19 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B5EC521A04;
+	Wed, 10 May 2023 14:27:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1683728831; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=msQRAoyAoxw91hPZF0PsBVs3IvAlRwLB+O1p/FkHufY=;
+	b=zJiGRMNfknuU4FZzUIdWhuMAHklTownPK8k98//CuzvrvNqgv4AFNaI0EL+QeDQL9XWBrL
+	qX1oBvG9vTmUVSv5XstcsU4SBzS3iixLqZUMZbj6kQd6QWK4mzisq1pHi018HBSPOsDV6+
+	vrW5oTPypO2szh971bouEFREMqEk2e8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1683728831;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=msQRAoyAoxw91hPZF0PsBVs3IvAlRwLB+O1p/FkHufY=;
+	b=nzIRDkg5TELowkMnTyU/Eqa1NNUyyYwwnSGBt47VraZBUpDX2MxNkUaByiExGfPk0vFLRl
+	C00DJmczhmqRpmAg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2FEC7138E5;
+	Wed, 10 May 2023 14:27:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id 6rPBCr+pW2RyMAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Wed, 10 May 2023 14:27:11 +0000
+Message-ID: <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
+Date: Wed, 10 May 2023 16:27:10 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
-In-Reply-To: <202305102136.eMjTSPwH-lkp@intel.com>
-References: <20230510110557.14343-6-tzimmermann@suse.de>
- <202305102136.eMjTSPwH-lkp@intel.com>
-Date: Wed, 10 May 2023 16:15:46 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Helge Deller" <deller@gmx.de>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>,
- "Javier Martinez Canillas" <javierm@redhat.com>,
- "Daniel Vetter" <daniel@ffwll.ch>, "Vineet Gupta" <vgupta@kernel.org>,
- "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.1
+Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into
+ <asm/fb.h>
+Content-Language: en-US
+To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
+ Helge Deller <deller@gmx.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Vineet Gupta <vgupta@kernel.org>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
  "David S . Miller" <davem@davemloft.net>,
  "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Sam Ravnborg" <sam@ravnborg.org>, suijingfeng@loongson.cn
+ Sam Ravnborg <sam@ravnborg.org>, suijingfeng@loongson.cn
 Cc: oe-kbuild-all@lists.linux.dev, Linux-Arch <linux-arch@vger.kernel.org>,
  linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
  linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
  loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
  linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
-Content-Type: text/plain
+References: <20230510110557.14343-6-tzimmermann@suse.de>
+ <202305102136.eMjTSPwH-lkp@intel.com>
+ <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0lOLE90wJNsb39RLAMUItepY"
 
-On Wed, May 10, 2023, at 16:03, kernel test robot wrote:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0lOLE90wJNsb39RLAMUItepY
+Content-Type: multipart/mixed; boundary="------------QVvnIHXNHplIvwXCWF9C7D0M";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
+ Helge Deller <deller@gmx.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Vineet Gupta <vgupta@kernel.org>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ "David S . Miller" <davem@davemloft.net>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ Sam Ravnborg <sam@ravnborg.org>, suijingfeng@loongson.cn
+Cc: oe-kbuild-all@lists.linux.dev, Linux-Arch <linux-arch@vger.kernel.org>,
+ linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
+ loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Message-ID: <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
+Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into
+ <asm/fb.h>
+References: <20230510110557.14343-6-tzimmermann@suse.de>
+ <202305102136.eMjTSPwH-lkp@intel.com>
+ <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
+In-Reply-To: <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
 
->
->    cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory 
-> [-Wmissing-include-dirs]
->    cc1: warning: arch/sh/include/mach-hp6xx: No such file or directory 
-> [-Wmissing-include-dirs]
->    In file included from drivers/video/fbdev/hitfb.c:27:
->    drivers/video/fbdev/hitfb.c: In function 'hitfb_accel_wait':
->>> arch/sh/include/asm/hd64461.h:18:33: warning: passing argument 1 of 'fb_readw' makes pointer from integer without a cast [-Wint-conversion]
->       18 | #define HD64461_IO_OFFSET(x)    (HD64461_IOBASE + (x))
->          |                                 ^~~~~~~~~~~~~~~~~~~~~~
->          |                                 |
->          |                                 unsigned int
->    arch/sh/include/asm/hd64461.h:93:33: note: in expansion of macro 
-> 'HD64461_IO_OFFSET'
->       93 | #define HD64461_GRCFGR          HD64461_IO_OFFSET(0x1044)    
->    /* Accelerator Configuration Register */
->          |                                 ^~~~~~~~~~~~~~~~~
->    drivers/video/fbdev/hitfb.c:47:25: note: in expansion of macro 
-> 'HD64461_GRCFGR'
->       47 |         while (fb_readw(HD64461_GRCFGR) & 
-> HD64461_GRCFGR_ACCSTATUS) ;
+--------------QVvnIHXNHplIvwXCWF9C7D0M
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-I think that's a preexisting bug and I have no idea what the
-correct solution is. Looking for HD64461 shows it being used
-both with inw/outw and readw/writew, so there is no way to have
-the correct type. The sh __raw_readw() definition hides this bug,
-but that is a problem with arch/sh and it probably hides others
-as well.
+SGkNCg0KQW0gMTAuMDUuMjMgdW0gMTY6MTUgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBP
+biBXZWQsIE1heSAxMCwgMjAyMywgYXQgMTY6MDMsIGtlcm5lbCB0ZXN0IHJvYm90IHdyb3Rl
+Og0KPiANCj4+DQo+PiAgICAgY2MxOiB3YXJuaW5nOiBhcmNoL3NoL2luY2x1ZGUvbWFjaC1o
+cDZ4eDogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQ0KPj4gWy1XbWlzc2luZy1pbmNsdWRl
+LWRpcnNdDQo+PiAgICAgY2MxOiB3YXJuaW5nOiBhcmNoL3NoL2luY2x1ZGUvbWFjaC1ocDZ4
+eDogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeQ0KPj4gWy1XbWlzc2luZy1pbmNsdWRlLWRp
+cnNdDQo+PiAgICAgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIGRyaXZlcnMvdmlkZW8vZmJkZXYv
+aGl0ZmIuYzoyNzoNCj4+ICAgICBkcml2ZXJzL3ZpZGVvL2ZiZGV2L2hpdGZiLmM6IEluIGZ1
+bmN0aW9uICdoaXRmYl9hY2NlbF93YWl0JzoNCj4+Pj4gYXJjaC9zaC9pbmNsdWRlL2FzbS9o
+ZDY0NDYxLmg6MTg6MzM6IHdhcm5pbmc6IHBhc3NpbmcgYXJndW1lbnQgMSBvZiAnZmJfcmVh
+ZHcnIG1ha2VzIHBvaW50ZXIgZnJvbSBpbnRlZ2VyIHdpdGhvdXQgYSBjYXN0IFstV2ludC1j
+b252ZXJzaW9uXQ0KPj4gICAgICAgIDE4IHwgI2RlZmluZSBIRDY0NDYxX0lPX09GRlNFVCh4
+KSAgICAoSEQ2NDQ2MV9JT0JBU0UgKyAoeCkpDQo+PiAgICAgICAgICAgfCAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+fn5+fn5+fn5+fn5+fn4NCj4+ICAgICAg
+ICAgICB8ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfA0KPj4gICAgICAgICAg
+IHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBpbnQNCj4+ICAg
+ICBhcmNoL3NoL2luY2x1ZGUvYXNtL2hkNjQ0NjEuaDo5MzozMzogbm90ZTogaW4gZXhwYW5z
+aW9uIG9mIG1hY3JvDQo+PiAnSEQ2NDQ2MV9JT19PRkZTRVQnDQo+PiAgICAgICAgOTMgfCAj
+ZGVmaW5lIEhENjQ0NjFfR1JDRkdSICAgICAgICAgIEhENjQ0NjFfSU9fT0ZGU0VUKDB4MTA0
+NCkNCj4+ICAgICAvKiBBY2NlbGVyYXRvciBDb25maWd1cmF0aW9uIFJlZ2lzdGVyICovDQo+
+PiAgICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF5+fn5+fn5+
+fn5+fn5+fn5+DQo+PiAgICAgZHJpdmVycy92aWRlby9mYmRldi9oaXRmYi5jOjQ3OjI1OiBu
+b3RlOiBpbiBleHBhbnNpb24gb2YgbWFjcm8NCj4+ICdIRDY0NDYxX0dSQ0ZHUicNCj4+ICAg
+ICAgICA0NyB8ICAgICAgICAgd2hpbGUgKGZiX3JlYWR3KEhENjQ0NjFfR1JDRkdSKSAmDQo+
+PiBIRDY0NDYxX0dSQ0ZHUl9BQ0NTVEFUVVMpIDsNCj4gDQo+IEkgdGhpbmsgdGhhdCdzIGEg
+cHJlZXhpc3RpbmcgYnVnIGFuZCBJIGhhdmUgbm8gaWRlYSB3aGF0IHRoZQ0KPiBjb3JyZWN0
+IHNvbHV0aW9uIGlzLiBMb29raW5nIGZvciBIRDY0NDYxIHNob3dzIGl0IGJlaW5nIHVzZWQN
+Cj4gYm90aCB3aXRoIGludy9vdXR3IGFuZCByZWFkdy93cml0ZXcsIHNvIHRoZXJlIGlzIG5v
+IHdheSB0byBoYXZlDQo+IHRoZSBjb3JyZWN0IHR5cGUuIFRoZSBzaCBfX3Jhd19yZWFkdygp
+IGRlZmluaXRpb24gaGlkZXMgdGhpcyBidWcsDQo+IGJ1dCB0aGF0IGlzIGEgcHJvYmxlbSB3
+aXRoIGFyY2gvc2ggYW5kIGl0IHByb2JhYmx5IGhpZGVzIG90aGVycw0KPiBhcyB3ZWxsLg0K
+DQpUaGUgY29uc3RhbnQgSEQ2NDQ2MV9JT0JBU0UgaXMgZGVmaW5lZCBhcyBpbnRlZ2VyIGF0
+DQoNCiANCmh0dHBzOi8vZWxpeGlyLmJvb3RsaW4uY29tL2xpbnV4L2xhdGVzdC9zb3VyY2Uv
+YXJjaC9zaC9pbmNsdWRlL2FzbS9oZDY0NDYxLmgjTDE3DQoNCmJ1dCBmYl9yZWFkdygpIGV4
+cGVjdHMgYSB2b2xhdGlsZS12b2lkIHBvaW50ZXIuIEkgZ3Vlc3Mgd2UgY291bGQgYWRkIGEg
+DQpjYXN0IHNvbWV3aGVyZSB0byBzaWxlbmNlIHRoZSBwcm9ibGVtLiBJbiB0aGUgY3VycmVu
+dCB1cHN0cmVhbSBjb2RlLCANCnRoYXQgYXBwZWFycyB0byBiZSBkb25lIGJ5IHNoJ3MgX19y
+YXdfcmVhZHcoKSBpbnRlcm5hbGx5Og0KDQogDQpodHRwczovL2VsaXhpci5ib290bGluLmNv
+bS9saW51eC9sYXRlc3Qvc291cmNlL2FyY2gvc2gvaW5jbHVkZS9hc20vaW8uaCNMMzUNCg0K
+QmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gICAgICAgICBBcm5kDQoNCi0tIA0KVGhv
+bWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdh
+cmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBO
+dWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3
+IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
 
-       Arnd
+
+--------------QVvnIHXNHplIvwXCWF9C7D0M--
+
+--------------0lOLE90wJNsb39RLAMUItepY
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRbqb4FAwAAAAAACgkQlh/E3EQov+D5
+XA/+NTq2UPDUmKMuT09nX2chx123JIho9zlMm9ERbRkgZCKs3jMkaQBIC+gjppyyC1kloaztXcvL
+VF1riaHZAXzrc6jtJ6U13uytRYq5fO2qwltWxGsB9Er81Qq1YBCxdbFdb4avEiL8PQkfPdan18iV
+iKLAAkkJVL9RZQmZ62DjZT8XtqE+DMRuJ2pgD3VmSRq8/p8WhQr+2gFcl6c1YCWnAjku/XqrKfTt
+x60sTj8Ku/eqgnMBmgTGfTSIsOOW13tApY8NBw5zczZO4Y+K85c2bKNuO+LKGriBkv8+Yw49Ti+m
+Kq3mLr2aT0dLDd2EmvyTDC5UmUY3XXfpMtGSuqhEVS0gUD2TyU5bOfoDctLXAU8euaxLtWPPO4y5
+5tnD0wo5h5K6kXDOp7DVBOT+7B8Irrmejfb7Z3dhGZTzs4h+lcq15ZBx+dXi+22YtEv2tOQXgJzP
+wldJ0E3zOGFBoSV1b49ELTkDRm2tmSZHtUB1tzWiQJwLRklb3CQUQnjAzwu1Nr4YerzHwu/wNRPD
+uI1sDWnS/KWX5SNUCkPRwTbd5mDuuuD8EgyBb3QD49wfI9gJJwUjXwnedSvXSG+SwBSluPqlQ8HK
+cku+xJvsmUqcko9VEYn85TFtqDhxGMiTlmTtB0w+CrNWyVJwdss08zq18cRvR92odbP4dCoDMe4A
+S6A=
+=v04Z
+-----END PGP SIGNATURE-----
+
+--------------0lOLE90wJNsb39RLAMUItepY--
