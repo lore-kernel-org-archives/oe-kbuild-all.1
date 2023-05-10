@@ -1,55 +1,44 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817F12105;
-	Wed, 10 May 2023 12:19:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D4912B67
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 May 2023 12:29:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683721175; x=1715257175;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=qq8fVQ7gjdkMiSHS1W+8BaigREYmj/b60CdMkbnsI0I=;
-  b=CBDtV1bzr+83fBwWuIEvQQLV8Kv9TWFh17JqEKyZ1zucp3YoGCO/51YV
-   85BTbAnpQJjXEjarPLcVa4X9fAHpUWXjnq6rhW0LeJeq105/Ozm9Gm9FN
-   0QuDrhQurj3wcADwDAXnAxmxPIdQrLX7oEYiJY4kysSMQiSDDXFdBmM64
-   IAGu35tTsg5xw2uj/GmNK12DNnDqqMK/IcelowWhlEeHptqKGkic7uPsz
-   akFvZ7TjKD7E/LExhY8BnZ9ylRWWUrgKH6ce+32lsmuQgOcKVmqWedGzI
-   37IAxwEBktUcqRU6GxLO0+Y3hVPaffp2lazYQ31e0twlaoa/x/vtf74Pa
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="330561057"
+  t=1683721772; x=1715257772;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pwpTC3SpS0Qjdj3RfEWN1k6GuYoq+X6b8D3ZhjAaHlM=;
+  b=kMRH3ceb6wWMtmgeTvmYd+QSFPTKyt0gefPWmWqeyeJQ6tQKHFko4qRp
+   QxFR7dwEklQzviLMa1Tz64fGLb2gL4kdI+q/AD9Ta8AAKwfeymRmpW38p
+   REtuI3evVVzHHVMtB2t92yIi53so9aADu/W9oWOkTqRwljUY3hvZcPI66
+   ZjZ7Ku+LLlOvp8xzTb63psUbTGlQ5/vm+LLulVeUCHdlBVeVQwUXqCBGs
+   8uJrBP/haKARaSyGz6BjkrRGr/A3J1sFpJtL79tvbYURFeVl7y/MEps5A
+   EpJteDDg1m5NGUDJEsorIC5J0td8t39h7omDtxfbsGaNFdSqx+VXEFZ92
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="436524776"
 X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; 
-   d="scan'208";a="330561057"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 05:19:34 -0700
+   d="scan'208";a="436524776"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 05:29:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="1029195409"
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="811119102"
 X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; 
-   d="scan'208";a="1029195409"
+   d="scan'208";a="811119102"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 10 May 2023 05:19:30 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 10 May 2023 05:29:31 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwin3-0003GQ-2R;
-	Wed, 10 May 2023 12:19:29 +0000
-Date: Wed, 10 May 2023 20:18:37 +0800
+	id 1pwiwk-0003HI-0N;
+	Wed, 10 May 2023 12:29:30 +0000
+Date: Wed, 10 May 2023 20:29:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Kevin Brodsky <kevin.brodsky@arm.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Lucas De Marchi <lucas.demarchi@intel.com>
-Subject: Re: [PATCH 2/3] linux/bits.h: Add fixed-width GENMASK and BIT macros
-Message-ID: <202305102048.2O5u4Wia-lkp@intel.com>
-References: <20230509051403.2748545-3-lucas.demarchi@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.15 58/58]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c:278:5: warning: no previous
+ prototype for 'amdgpu_try_dma_buf_mmap'
+Message-ID: <202305102017.UWjEDrNp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,200 +47,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230509051403.2748545-3-lucas.demarchi@intel.com>
 
-Hi Lucas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-intel/for-linux-next]
-[also build test ERROR on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4-rc1 next-20230510]
-[cannot apply to drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-De-Marchi/drm-amd-Remove-wrapper-macros-over-get_u-32-16-8/20230509-131544
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20230509051403.2748545-3-lucas.demarchi%40intel.com
-patch subject: [PATCH 2/3] linux/bits.h: Add fixed-width GENMASK and BIT macros
-config: arm64-randconfig-r021-20230509 (https://download.01.org/0day-ci/archive/20230510/202305102048.2O5u4Wia-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   bb8c2f3d1febda3cf9c91ad7e7727f889c1dbb57
+commit: bb8c2f3d1febda3cf9c91ad7e7727f889c1dbb57 [58/58] CHROMIUM: drm/amdgpu: Implement mmap of imported dma-bufs
+config: ia64-randconfig-r025-20230509 (https://download.01.org/0day-ci/archive/20230510/202305102017.UWjEDrNp-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/dc308f14f76fa2d6c1698a701dfbe0f1b247e6bd
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Lucas-De-Marchi/drm-amd-Remove-wrapper-macros-over-get_u-32-16-8/20230509-131544
-        git checkout dc308f14f76fa2d6c1698a701dfbe0f1b247e6bd
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.15
+        git checkout bb8c2f3d1febda3cf9c91ad7e7727f889c1dbb57
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash lib/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/gpu/drm/amd/amdgpu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305102048.2O5u4Wia-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305102017.UWjEDrNp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> lib/zstd/compress/zstd_opt.c:785:9: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-   typedef U32 (*ZSTD_getAllMatchesFn)(
-   ~~~~~~~ ^
-   int
-   include/vdso/const.h:7:18: note: expanded from macro 'U32'
-   #define U32(x)          (_U32(x))
-                            ^
-   include/uapi/linux/const.h:25:19: note: expanded from macro '_U32'
-   #define _U32(x)         (_AC(x, U))
-                            ^
-   include/uapi/linux/const.h:21:18: note: expanded from macro '_AC'
-   #define _AC(X,Y)        __AC(X,Y)
-                           ^
-   include/uapi/linux/const.h:20:20: note: expanded from macro '__AC'
-   #define __AC(X,Y)       (X##Y)
-                            ^
-   <scratch space>:178:1: note: expanded from here
-   ZSTD_getAllMatchesFnU
-   ^
->> lib/zstd/compress/zstd_opt.c:851:8: error: unknown type name 'ZSTD_getAllMatchesFn'; did you mean 'ZSTD_getAllMatchesFnU'?
-   static ZSTD_getAllMatchesFn
-          ^~~~~~~~~~~~~~~~~~~~
-          ZSTD_getAllMatchesFnU
-   lib/zstd/compress/zstd_opt.c:785:9: note: 'ZSTD_getAllMatchesFnU' declared here
-   typedef U32 (*ZSTD_getAllMatchesFn)(
-           ^
-   include/vdso/const.h:7:18: note: expanded from macro 'U32'
-   #define U32(x)          (_U32(x))
-                            ^
-   include/uapi/linux/const.h:25:19: note: expanded from macro '_U32'
-   #define _U32(x)         (_AC(x, U))
-                            ^
-   include/uapi/linux/const.h:21:18: note: expanded from macro '_AC'
-   #define _AC(X,Y)        __AC(X,Y)
-                           ^
-   include/uapi/linux/const.h:20:20: note: expanded from macro '__AC'
-   #define __AC(X,Y)       (X##Y)
-                            ^
-   <scratch space>:178:1: note: expanded from here
-   ZSTD_getAllMatchesFnU
-   ^
->> lib/zstd/compress/zstd_opt.c:854:5: error: use of undeclared identifier 'ZSTD_getAllMatchesFn'
-       ZSTD_getAllMatchesFn const getAllMatchesFns[3][4] = {
-       ^
->> lib/zstd/compress/zstd_opt.c:862:12: error: use of undeclared identifier 'getAllMatchesFns'
-       return getAllMatchesFns[(int)dictMode][mls - 3];
-              ^
-   lib/zstd/compress/zstd_opt.c:1054:5: error: unknown type name 'ZSTD_getAllMatchesFn'; did you mean 'ZSTD_getAllMatchesFnU'?
-       ZSTD_getAllMatchesFn getAllMatches = ZSTD_selectBtGetAllMatches(ms, dictMode);
-       ^~~~~~~~~~~~~~~~~~~~
-       ZSTD_getAllMatchesFnU
-   lib/zstd/compress/zstd_opt.c:785:9: note: 'ZSTD_getAllMatchesFnU' declared here
-   typedef U32 (*ZSTD_getAllMatchesFn)(
-           ^
-   include/vdso/const.h:7:18: note: expanded from macro 'U32'
-   #define U32(x)          (_U32(x))
-                            ^
-   include/uapi/linux/const.h:25:19: note: expanded from macro '_U32'
-   #define _U32(x)         (_AC(x, U))
-                            ^
-   include/uapi/linux/const.h:21:18: note: expanded from macro '_AC'
-   #define _AC(X,Y)        __AC(X,Y)
-                           ^
-   include/uapi/linux/const.h:20:20: note: expanded from macro '__AC'
-   #define __AC(X,Y)       (X##Y)
-                            ^
-   <scratch space>:178:1: note: expanded from here
-   ZSTD_getAllMatchesFnU
-   ^
-   5 errors generated.
+   In file included from arch/ia64/include/asm/pgtable.h:153,
+                    from include/linux/pgtable.h:6,
+                    from arch/ia64/include/asm/uaccess.h:40,
+                    from include/linux/uaccess.h:11,
+                    from include/linux/sched/task.h:11,
+                    from include/linux/sched/signal.h:9,
+                    from include/linux/rcuwait.h:6,
+                    from include/linux/percpu-rwsem.h:7,
+                    from include/linux/fs.h:33,
+                    from include/linux/seq_file.h:11,
+                    from include/drm/drm_print.h:31,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu_ring.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.h:29,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu.h:43,
+                    from drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c:34:
+   arch/ia64/include/asm/mmu_context.h: In function 'reload_context':
+   arch/ia64/include/asm/mmu_context.h:127:48: warning: variable 'old_rr4' set but not used [-Wunused-but-set-variable]
+     127 |         unsigned long rr0, rr1, rr2, rr3, rr4, old_rr4;
+         |                                                ^~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c: At top level:
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c:278:5: warning: no previous prototype for 'amdgpu_try_dma_buf_mmap' [-Wmissing-prototypes]
+     278 | int amdgpu_try_dma_buf_mmap(struct file *filp, struct vm_area_struct *vma)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c: In function 'amdgpu_try_dma_buf_mmap':
+   drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c:285:27: warning: variable 'bo' set but not used [-Wunused-but-set-variable]
+     285 |         struct amdgpu_bo *bo = NULL;
+         |                           ^~
 
 
-vim +/int +785 lib/zstd/compress/zstd_opt.c
+vim +/amdgpu_try_dma_buf_mmap +278 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
 
-e0c1b49f5b674c Nick Terrell 2020-09-11  784  
-2aa14b1ab2c41a Nick Terrell 2022-10-17 @785  typedef U32 (*ZSTD_getAllMatchesFn)(
-2aa14b1ab2c41a Nick Terrell 2022-10-17  786      ZSTD_match_t*,
-2aa14b1ab2c41a Nick Terrell 2022-10-17  787      ZSTD_matchState_t*,
-2aa14b1ab2c41a Nick Terrell 2022-10-17  788      U32*,
-2aa14b1ab2c41a Nick Terrell 2022-10-17  789      const BYTE*,
-2aa14b1ab2c41a Nick Terrell 2022-10-17  790      const BYTE*,
-2aa14b1ab2c41a Nick Terrell 2022-10-17  791      const U32 rep[ZSTD_REP_NUM],
-2aa14b1ab2c41a Nick Terrell 2022-10-17  792      U32 const ll0,
-2aa14b1ab2c41a Nick Terrell 2022-10-17  793      U32 const lengthToBeat);
-e0c1b49f5b674c Nick Terrell 2020-09-11  794  
-2aa14b1ab2c41a Nick Terrell 2022-10-17  795  FORCE_INLINE_TEMPLATE U32 ZSTD_btGetAllMatches_internal(
-2aa14b1ab2c41a Nick Terrell 2022-10-17  796          ZSTD_match_t* matches,
-e0c1b49f5b674c Nick Terrell 2020-09-11  797          ZSTD_matchState_t* ms,
-e0c1b49f5b674c Nick Terrell 2020-09-11  798          U32* nextToUpdate3,
-2aa14b1ab2c41a Nick Terrell 2022-10-17  799          const BYTE* ip,
-2aa14b1ab2c41a Nick Terrell 2022-10-17  800          const BYTE* const iHighLimit,
-e0c1b49f5b674c Nick Terrell 2020-09-11  801          const U32 rep[ZSTD_REP_NUM],
-e0c1b49f5b674c Nick Terrell 2020-09-11  802          U32 const ll0,
-2aa14b1ab2c41a Nick Terrell 2022-10-17  803          U32 const lengthToBeat,
-2aa14b1ab2c41a Nick Terrell 2022-10-17  804          const ZSTD_dictMode_e dictMode,
-2aa14b1ab2c41a Nick Terrell 2022-10-17  805          const U32 mls)
-e0c1b49f5b674c Nick Terrell 2020-09-11  806  {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  807      assert(BOUNDED(3, ms->cParams.minMatch, 6) == mls);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  808      DEBUGLOG(8, "ZSTD_BtGetAllMatches(dictMode=%d, mls=%u)", (int)dictMode, mls);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  809      if (ip < ms->window.base + ms->nextToUpdate)
-2aa14b1ab2c41a Nick Terrell 2022-10-17  810          return 0;   /* skipped area */
-2aa14b1ab2c41a Nick Terrell 2022-10-17  811      ZSTD_updateTree_internal(ms, ip, iHighLimit, mls, dictMode);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  812      return ZSTD_insertBtAndGetAllMatches(matches, ms, nextToUpdate3, ip, iHighLimit, dictMode, rep, ll0, lengthToBeat, mls);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  813  }
-2aa14b1ab2c41a Nick Terrell 2022-10-17  814  
-2aa14b1ab2c41a Nick Terrell 2022-10-17  815  #define ZSTD_BT_GET_ALL_MATCHES_FN(dictMode, mls) ZSTD_btGetAllMatches_##dictMode##_##mls
-2aa14b1ab2c41a Nick Terrell 2022-10-17  816  
-2aa14b1ab2c41a Nick Terrell 2022-10-17  817  #define GEN_ZSTD_BT_GET_ALL_MATCHES_(dictMode, mls)            \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  818      static U32 ZSTD_BT_GET_ALL_MATCHES_FN(dictMode, mls)(      \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  819              ZSTD_match_t* matches,                             \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  820              ZSTD_matchState_t* ms,                             \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  821              U32* nextToUpdate3,                                \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  822              const BYTE* ip,                                    \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  823              const BYTE* const iHighLimit,                      \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  824              const U32 rep[ZSTD_REP_NUM],                       \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  825              U32 const ll0,                                     \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  826              U32 const lengthToBeat)                            \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  827      {                                                          \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  828          return ZSTD_btGetAllMatches_internal(                  \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  829                  matches, ms, nextToUpdate3, ip, iHighLimit,    \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  830                  rep, ll0, lengthToBeat, ZSTD_##dictMode, mls); \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  831      }
-2aa14b1ab2c41a Nick Terrell 2022-10-17  832  
-2aa14b1ab2c41a Nick Terrell 2022-10-17  833  #define GEN_ZSTD_BT_GET_ALL_MATCHES(dictMode)  \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  834      GEN_ZSTD_BT_GET_ALL_MATCHES_(dictMode, 3)  \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  835      GEN_ZSTD_BT_GET_ALL_MATCHES_(dictMode, 4)  \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  836      GEN_ZSTD_BT_GET_ALL_MATCHES_(dictMode, 5)  \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  837      GEN_ZSTD_BT_GET_ALL_MATCHES_(dictMode, 6)
-2aa14b1ab2c41a Nick Terrell 2022-10-17  838  
-2aa14b1ab2c41a Nick Terrell 2022-10-17  839  GEN_ZSTD_BT_GET_ALL_MATCHES(noDict)
-2aa14b1ab2c41a Nick Terrell 2022-10-17  840  GEN_ZSTD_BT_GET_ALL_MATCHES(extDict)
-2aa14b1ab2c41a Nick Terrell 2022-10-17  841  GEN_ZSTD_BT_GET_ALL_MATCHES(dictMatchState)
-2aa14b1ab2c41a Nick Terrell 2022-10-17  842  
-2aa14b1ab2c41a Nick Terrell 2022-10-17  843  #define ZSTD_BT_GET_ALL_MATCHES_ARRAY(dictMode)  \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  844      {                                            \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  845          ZSTD_BT_GET_ALL_MATCHES_FN(dictMode, 3), \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  846          ZSTD_BT_GET_ALL_MATCHES_FN(dictMode, 4), \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  847          ZSTD_BT_GET_ALL_MATCHES_FN(dictMode, 5), \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  848          ZSTD_BT_GET_ALL_MATCHES_FN(dictMode, 6)  \
-2aa14b1ab2c41a Nick Terrell 2022-10-17  849      }
-2aa14b1ab2c41a Nick Terrell 2022-10-17  850  
-2aa14b1ab2c41a Nick Terrell 2022-10-17 @851  static ZSTD_getAllMatchesFn
-2aa14b1ab2c41a Nick Terrell 2022-10-17  852  ZSTD_selectBtGetAllMatches(ZSTD_matchState_t const* ms, ZSTD_dictMode_e const dictMode)
-e0c1b49f5b674c Nick Terrell 2020-09-11  853  {
-2aa14b1ab2c41a Nick Terrell 2022-10-17 @854      ZSTD_getAllMatchesFn const getAllMatchesFns[3][4] = {
-2aa14b1ab2c41a Nick Terrell 2022-10-17  855          ZSTD_BT_GET_ALL_MATCHES_ARRAY(noDict),
-2aa14b1ab2c41a Nick Terrell 2022-10-17  856          ZSTD_BT_GET_ALL_MATCHES_ARRAY(extDict),
-2aa14b1ab2c41a Nick Terrell 2022-10-17  857          ZSTD_BT_GET_ALL_MATCHES_ARRAY(dictMatchState)
-2aa14b1ab2c41a Nick Terrell 2022-10-17  858      };
-2aa14b1ab2c41a Nick Terrell 2022-10-17  859      U32 const mls = BOUNDED(3, ms->cParams.minMatch, 6);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  860      assert((U32)dictMode < 3);
-2aa14b1ab2c41a Nick Terrell 2022-10-17  861      assert(mls - 3 < 4);
-2aa14b1ab2c41a Nick Terrell 2022-10-17 @862      return getAllMatchesFns[(int)dictMode][mls - 3];
-e0c1b49f5b674c Nick Terrell 2020-09-11  863  }
-e0c1b49f5b674c Nick Terrell 2020-09-11  864  
+   277	
+ > 278	int amdgpu_try_dma_buf_mmap(struct file *filp, struct vm_area_struct *vma)
+   279	{
+   280		struct drm_file *priv = filp->private_data;
+   281		struct drm_device *dev = priv->minor->dev;
+   282		struct amdgpu_device *adev = drm_to_adev(dev);
+   283		struct ttm_device *bdev = &adev->mman.bdev;
+   284		struct ttm_buffer_object *tbo = NULL;
+   285		struct amdgpu_bo *bo = NULL;
+   286		struct drm_gem_object *obj = NULL;
+   287		struct drm_vma_offset_node *node;
+   288		int ret;
+   289	
+   290		if (drm_dev_is_unplugged(dev))
+   291			return -ENODEV;
+   292	
+   293		drm_vma_offset_lock_lookup(bdev->vma_manager);
+   294		node = drm_vma_offset_exact_lookup_locked(bdev->vma_manager,
+   295							  vma->vm_pgoff,
+   296							  vma_pages(vma));
+   297	
+   298		if (likely(node)) {
+   299			tbo = container_of(node, struct ttm_buffer_object,
+   300					   base.vma_node);
+   301			tbo = ttm_bo_get_unless_zero(tbo);
+   302		}
+   303		drm_vma_offset_unlock_lookup(bdev->vma_manager);
+   304	
+   305		if (!tbo)
+   306			return -EINVAL;
+   307	
+   308		bo = ttm_to_amdgpu_bo(tbo);
+   309		obj = &tbo->base;
+   310	
+   311		if (!obj->import_attach) {
+   312			ret = -EINVAL;
+   313			goto done;
+   314		}
+   315	
+   316		ret = dma_buf_mmap(obj->import_attach->dmabuf, vma, 0);
+   317	
+   318	done:
+   319		ttm_bo_put(tbo);
+   320		return ret;
+   321	}
+   322	
 
 -- 
 0-DAY CI Kernel Test Service
