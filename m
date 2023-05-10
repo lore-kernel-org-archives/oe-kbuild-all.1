@@ -1,155 +1,137 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EF55678
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 May 2023 07:33:00 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3063208beedso6443831f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 10 May 2023 00:33:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683703979; x=1686295979;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=LiXRW62f0/Z/R/WEDonIEk4qJucqCg+jSVKRIPWZXwA=;
-        b=QVJdGUO5ZFtZyjJ1xF9wc0mHXPALIWDRgiKe0vgkRCHo2rPVwyaVbqunv5Vz22Anx1
-         BPP0yuZGPdxAKnDCD9EHIk+WzB+O4jNEF6hpNRLurJVD1VTI28Ag8DF3vxAhWGXGbmLr
-         Qid4VqNX0ALRiosUASy2b3reC2Mx9UfV3t66I+8uDZfPRwvKM1a1ZYNtC1oL2MCUohGv
-         euTfxiaowDL/jyeAHQxcos+vtiHtyH+66FBqle1ka744kULSK9Wp9l4EBg7CW9WsYyQM
-         VDhZbS7jv3xcSg5n1ixWMqJIcwJhchuLnS8/8NFKwrcgcnFUWtMRRZXsQ/iV3/snSWoF
-         qr1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683703979; x=1686295979;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LiXRW62f0/Z/R/WEDonIEk4qJucqCg+jSVKRIPWZXwA=;
-        b=F/z2a2KOV1DaE+RNJkGokx3nGjkClrEM6SbM35LQjQyHzmoSK1Vtu1ievCQ67di0in
-         Mrn2i8RVgYfxXSUUk9rTqP+O3Pin73UispVTHAkWoIGsG8bxTwlDaDEDXT84NaviBYlT
-         3p+cZqDCqqnMyb05Zi/ASKvBwa5hQEl+HydxQH2GwaPczYPT8EoikNpq14/rjSsHOU+y
-         M7Xt6q19ljdflMp7321ldJzsf8VfHEKM1Mc17kQPYAVOlD7FOk9wEpbYPx7In+B0upSL
-         dYRDVUrI8E3Ee+qOK5dFggcD/3NUdL9/SUjgueUZHJK7zA2TZZx5raSvA7dDx9sMoQLR
-         25eQ==
-X-Gm-Message-State: AC+VfDx4wmN2285iFEvQ3HRp1oKIopuvSn00tzyAiXhT0GciDBN2y9xY
-	kKyQmn/LOv2NUuPmcrQLEyf3jto3PoR7Is39EyQ=
-X-Google-Smtp-Source: ACHHUZ5MzeYPoI8TOT/LH4G0uy7/rknIvx39CXUDBCQF81g65KQjd3SM2WJ+V6dzB8lU+vaJOMUekA==
-X-Received: by 2002:a05:6000:1191:b0:306:462a:b78d with SMTP id g17-20020a056000119100b00306462ab78dmr9804937wrx.53.1683703978695;
-        Wed, 10 May 2023 00:32:58 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id k9-20020adfe8c9000000b0030642f5da27sm16415712wrn.37.2023.05.10.00.32.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 00:32:57 -0700 (PDT)
-Date: Wed, 10 May 2023 10:32:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Udipto Goswami <quic_ugoswami@quicinc.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Pratham Pratap <quic_ppratap@quicinc.com>,
-	Jack Pham <quic_jackp@quicinc.com>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org,
-	Udipto Goswami <quic_ugoswami@quicinc.com>
-Subject: Re: [PATCH v8] usb: dwc3: debugfs: Prevent any register access when
- devices is runtime suspended
-Message-ID: <df7bd9f8-f327-42cb-a5d4-42a804b9790d@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1524B80C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 May 2023 07:37:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683704243; x=1715240243;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=1QNa2g1drrwJCcZndATDmhBHDYh22o/UzhvX4MgcNH4=;
+  b=eAF6Ne1ONaSZ6KNOI4UdSmEj6ZI9XGxj5vf2vvWvD5MNx+mPH9rF6c1J
+   MuxVVMcy2MtW659xwaJRCJHDEfwRaF1lYM4uFiqcUhxpYKKu6/6HfQWIR
+   kKx9NwRptlQh3ZGh3iCT+VjRbThpOzlxHtUrxGnwSxj9A+bV7ZcMVefrk
+   FHwd8V/xqVJW4ahocHH5Y1mi76MYQsC3gVT8kboY+3dwqLA1tKmQY0cbm
+   Z7TdaycO9BIioo8YXcthneEo/PtdV4RFmtIcIwe+EMUkhMqS5YTNldBOZ
+   u8nGj4Bl8Cm4Kc/GSkiUUv9pLsgRM1Y6WgVvFK77OrV+8WYsMBqkqJr3+
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="415723835"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; 
+   d="scan'208";a="415723835"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 00:37:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="843418912"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; 
+   d="scan'208";a="843418912"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 10 May 2023 00:37:21 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pweO1-00031s-00;
+	Wed, 10 May 2023 07:37:21 +0000
+Date: Wed, 10 May 2023 15:37:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 17380/27339]
+ drivers/media/virtio/virtio_video_device.c:801:37: warning: variable
+ 'out_prev_min_buffs' set but not used
+Message-ID: <202305101522.FBh4BZ82-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230504045052.22347-1-quic_ugoswami@quicinc.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Udipto,
+Hi Bartłomiej,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Udipto-Goswami/usb-dwc3-debugfs-Prevent-any-register-access-when-devices-is-runtime-suspended/20230504-125225
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230504045052.22347-1-quic_ugoswami%40quicinc.com
-patch subject: [PATCH v8] usb: dwc3: debugfs: Prevent any register access when devices is runtime suspended
-config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230510/202305101451.V2D0cM4S-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   38c9505e848341b872cc86bab96f3f746a5c7e5d
+commit: df1b8f1ab2fe61012ccc336a3d7371ac274bb570 [17380/27339] CHROMIUM: drivers: media: virtio: send EVENT_CTRL when CID_MIN_BUFFERS_FOR_* changes
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230510/202305101522.FBh4BZ82-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build):
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common mirror-chromeos-5.10-arcvm
+        git checkout df1b8f1ab2fe61012ccc336a3d7371ac274bb570
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/media/virtio/ mm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305101451.V2D0cM4S-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305101522.FBh4BZ82-lkp@intel.com/
 
-New smatch warnings:
-drivers/usb/dwc3/debugfs.c:647 dwc3_link_state_write() warn: missing error code? 'ret'
-drivers/usb/dwc3/debugfs.c:720 dwc3_rx_fifo_size_show() warn: curly braces intended?
-drivers/usb/dwc3/debugfs.c:722 dwc3_rx_fifo_size_show() warn: inconsistent indenting
-drivers/usb/dwc3/debugfs.c:722 dwc3_rx_fifo_size_show() warn: ignoring unreachable code.
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/usb/dwc3/debugfs.c:657 dwc3_link_state_write() warn: missing error code? 'ret'
+   drivers/media/virtio/virtio_video_device.c: In function 'virtio_video_update_params':
+>> drivers/media/virtio/virtio_video_device.c:801:37: warning: variable 'out_prev_min_buffs' set but not used [-Wunused-but-set-variable]
+     801 |         int ret, in_prev_min_buffs, out_prev_min_buffs;
+         |                                     ^~~~~~~~~~~~~~~~~~
 
-vim +/ret +647 drivers/usb/dwc3/debugfs.c
 
-1c53edaeee3338 Udipto Goswami 2023-05-04  638  	ret = pm_runtime_resume_and_get(dwc->dev);
-1c53edaeee3338 Udipto Goswami 2023-05-04  639  	if (ret < 0)
-1c53edaeee3338 Udipto Goswami 2023-05-04  640  		return ret;
-1c53edaeee3338 Udipto Goswami 2023-05-04  641  
-138801aaa566ec Felipe Balbi   2012-01-02  642  	spin_lock_irqsave(&dwc->lock, flags);
-d102444cac1564 Thinh Nguyen   2018-11-07  643  	reg = dwc3_readl(dwc->regs, DWC3_GSTS);
-d102444cac1564 Thinh Nguyen   2018-11-07  644  	if (DWC3_GSTS_CURMOD(reg) != DWC3_GSTS_CURMOD_DEVICE) {
-d102444cac1564 Thinh Nguyen   2018-11-07  645  		spin_unlock_irqrestore(&dwc->lock, flags);
-1c53edaeee3338 Udipto Goswami 2023-05-04  646  		pm_runtime_put_sync(dwc->dev);
-1c53edaeee3338 Udipto Goswami 2023-05-04 @647  		return ret;
+vim +/out_prev_min_buffs +801 drivers/media/virtio/virtio_video_device.c
 
-ret is not necessarily an error code.
-
-d102444cac1564 Thinh Nguyen   2018-11-07  648  	}
-d102444cac1564 Thinh Nguyen   2018-11-07  649  
-0d36dede457873 Thinh Nguyen   2018-11-07  650  	reg = dwc3_readl(dwc->regs, DWC3_DSTS);
-0d36dede457873 Thinh Nguyen   2018-11-07  651  	speed = reg & DWC3_DSTS_CONNECTSPD;
-0d36dede457873 Thinh Nguyen   2018-11-07  652  
-0d36dede457873 Thinh Nguyen   2018-11-07  653  	if (speed < DWC3_DSTS_SUPERSPEED &&
-0d36dede457873 Thinh Nguyen   2018-11-07  654  	    state != DWC3_LINK_STATE_RECOV) {
-0d36dede457873 Thinh Nguyen   2018-11-07  655  		spin_unlock_irqrestore(&dwc->lock, flags);
-1c53edaeee3338 Udipto Goswami 2023-05-04  656  		pm_runtime_put_sync(dwc->dev);
-1c53edaeee3338 Udipto Goswami 2023-05-04  657  		return ret;
-0d36dede457873 Thinh Nguyen   2018-11-07  658  	}
-
-[ snip ]
-
-2c85a1817e4ba0 Thinh Nguyen   2018-11-07  708  static int dwc3_rx_fifo_size_show(struct seq_file *s, void *unused)
-818ec3aba883f5 Felipe Balbi   2016-04-14  709  {
-818ec3aba883f5 Felipe Balbi   2016-04-14  710  	struct dwc3_ep		*dep = s->private;
-818ec3aba883f5 Felipe Balbi   2016-04-14  711  	struct dwc3		*dwc = dep->dwc;
-818ec3aba883f5 Felipe Balbi   2016-04-14  712  	unsigned long		flags;
-d00be779cc5016 Thinh Nguyen   2021-03-27  713  	u32			mdwidth;
-818ec3aba883f5 Felipe Balbi   2016-04-14  714  	u32			val;
-1c53edaeee3338 Udipto Goswami 2023-05-04  715  	int			ret;
-1c53edaeee3338 Udipto Goswami 2023-05-04  716  
-1c53edaeee3338 Udipto Goswami 2023-05-04  717  	ret = pm_runtime_resume_and_get(dwc->dev);
-1c53edaeee3338 Udipto Goswami 2023-05-04  718  	if (ret < 0)
-1c53edaeee3338 Udipto Goswami 2023-05-04  719  		pm_runtime_put_sync(dwc->dev);
-1c53edaeee3338 Udipto Goswami 2023-05-04 @720  		return ret;
-
-Needs curly braces.
-
-818ec3aba883f5 Felipe Balbi   2016-04-14  721  
-818ec3aba883f5 Felipe Balbi   2016-04-14 @722  	spin_lock_irqsave(&dwc->lock, flags);
-2c85a1817e4ba0 Thinh Nguyen   2018-11-07  723  	val = dwc3_core_fifo_space(dep, DWC3_RXFIFO);
-0f874f79dc81ae Thinh Nguyen   2018-11-07  724  
-0f874f79dc81ae Thinh Nguyen   2018-11-07  725  	/* Convert to bytes */
-d00be779cc5016 Thinh Nguyen   2021-03-27  726  	mdwidth = dwc3_mdwidth(dwc);
-4244ba02edb850 Thinh Nguyen   2020-04-11  727  
-4244ba02edb850 Thinh Nguyen   2020-04-11  728  	val *= mdwidth;
-0f874f79dc81ae Thinh Nguyen   2018-11-07  729  	val >>= 3;
-818ec3aba883f5 Felipe Balbi   2016-04-14  730  	seq_printf(s, "%u\n", val);
-818ec3aba883f5 Felipe Balbi   2016-04-14  731  	spin_unlock_irqrestore(&dwc->lock, flags);
-818ec3aba883f5 Felipe Balbi   2016-04-14  732  
-1c53edaeee3338 Udipto Goswami 2023-05-04  733  	pm_runtime_put_sync(dwc->dev);
-818ec3aba883f5 Felipe Balbi   2016-04-14  734  	return 0;
-818ec3aba883f5 Felipe Balbi   2016-04-14  735  }
+   794	
+   795	int virtio_video_update_params(struct virtio_video *vv,
+   796				       struct virtio_video_stream *stream,
+   797				       struct video_format_info *in_info,
+   798				       struct video_format_info *out_info)
+   799	{
+   800		struct virtio_video_device *vvd = to_virtio_vd(stream->video_dev);
+ > 801		int ret, in_prev_min_buffs, out_prev_min_buffs;
+   802		bool is_encoder;
+   803	
+   804		in_prev_min_buffs = stream->in_info.min_buffers;
+   805		out_prev_min_buffs = stream->out_info.min_buffers;
+   806	
+   807		if (in_info) {
+   808			ret = virtio_video_cmd_set_params(vv, stream, in_info,
+   809							  VIRTIO_VIDEO_QUEUE_TYPE_INPUT);
+   810			if (ret)
+   811				return ret;
+   812		}
+   813		if (out_info) {
+   814			ret = virtio_video_cmd_set_params(vv, stream, out_info,
+   815							  VIRTIO_VIDEO_QUEUE_TYPE_OUTPUT);
+   816			if (ret)
+   817				return ret;
+   818		}
+   819	
+   820		ret = virtio_video_cmd_get_params(vv, stream,
+   821						  VIRTIO_VIDEO_QUEUE_TYPE_INPUT);
+   822		if (ret)
+   823			return ret;
+   824		ret = virtio_video_cmd_get_params(vv, stream,
+   825						  VIRTIO_VIDEO_QUEUE_TYPE_OUTPUT);
+   826		if (ret)
+   827			return ret;
+   828	
+   829		is_encoder = vvd->type == VIRTIO_VIDEO_DEVICE_ENCODER;
+   830		if (is_encoder && in_prev_min_buffs != stream->in_info.min_buffers)
+   831			virtio_video_queue_ctrl_event(stream,
+   832						      V4L2_CID_MIN_BUFFERS_FOR_OUTPUT,
+   833						      stream->in_info.min_buffers,
+   834						      V4L2_EVENT_CTRL_CH_VALUE);
+   835		if (!is_encoder && in_prev_min_buffs != stream->out_info.min_buffers)
+   836			virtio_video_queue_ctrl_event(stream,
+   837						      V4L2_CID_MIN_BUFFERS_FOR_CAPTURE,
+   838						      stream->out_info.min_buffers,
+   839						      V4L2_EVENT_CTRL_CH_VALUE);
+   840	
+   841		return 0;
+   842	}
+   843	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
