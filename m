@@ -1,212 +1,118 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804331548F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 10 May 2023 15:38:22 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3f41d087b3bso47649985e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 10 May 2023 08:38:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683733100; x=1686325100;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2FAQoNbre0FsDXKzpUgqTNuLSD+XLqPxWH+hYHe3dIQ=;
-        b=Xb7wK3tPCgTn92pn2iFaqW9dREWyeCq5B9aVjXqcjc1UjRLdt8us5Ew9xQVy/vY/4P
-         vcmbPC7HU5N6bhfRG+bLwaLrALL2w3lIJxdwe163JbchdVhtjWQQbYEDui9km65S/OfS
-         HzMWYou8pPQdd/rlv/972r7MnGzHE1aJXhVBirTSavwnwoS21Empbxo/1K4iohkIYAMd
-         FmgxbXyU38YuL9T3OEz4JPys/qjBYuobytm7yF5UmGoNenMybdv4bvsCrBt4Z7N7Z6MS
-         5KPoczVoCy8szy+Cv5esahdQtXdwWDQqpshnwDPCEaDrYfXhSPhTL6nEa19RuMDlqOuu
-         6yDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683733100; x=1686325100;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2FAQoNbre0FsDXKzpUgqTNuLSD+XLqPxWH+hYHe3dIQ=;
-        b=O5/vOFhMqKkiGqeKaAVXAxOwdAtexZZ4RSWkodtMMpoedFP6q3d5bjdDUybQTFGFm3
-         Yin1fZ7TTY3pq4GfyJDLsQavaj4EyAWactJS0qUxd34KTUjUyIl39QHDeJd8JwgZd6o5
-         td4i8A+wqN0Jb878b5l2f8FJQxYI1ax+FWvk1Y+CLTAe7H8LsvtRsIo4skfXZtT1uv6P
-         k92XA7RS1xl5pCnqwD3kgbIybdT2S1vM7oAKAe5qntEBSlBBFww/fXtfzqJ9RCX7xffL
-         YelxHst2mkrXeAYz+TSIJj5194/wfnGAXkL9/AazxM9ThXiRt7BmHlVhqjJ4XPlsUAob
-         FNiQ==
-X-Gm-Message-State: AC+VfDymXVcE3sPQskV2whkM5BHBcDuTnCNhPYAKPi8X+RB7EHezrpbc
-	coqY+aVAbrVth1JlKBLUp9vmFA==
-X-Google-Smtp-Source: ACHHUZ7rY3ZwXCWbT7a6XTw9vvs4ouHN/edMh3i+1gRTvOPkefoTDCNKnCpLC1laYYpKyl0WYMVapQ==
-X-Received: by 2002:a05:600c:2056:b0:3f4:2bbf:40a with SMTP id p22-20020a05600c205600b003f42bbf040amr4392894wmg.37.1683733100492;
-        Wed, 10 May 2023 08:38:20 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l11-20020a7bc34b000000b003f195d2f1a9sm23022460wmj.15.2023.05.10.08.38.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 May 2023 08:38:18 -0700 (PDT)
-Date: Wed, 10 May 2023 18:38:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, George Kennedy <george.kennedy@oracle.com>,
-	gregkh@linuxfoundation.org, jirislaby@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, george.kennedy@oracle.com,
-	sfr@canb.auug.org.au, akpm@linux-foundation.org,
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux@weissschuh.net, regressions@lists.linux.dev
-Subject: Re: [PATCH] vc_screen: reload load of struct vc_data pointer in
- vcs_write() to avoid UAF
-Message-ID: <ad36d0ab-e81f-4f21-a5a4-8a72c88e61bd@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F566AA8;
+	Wed, 10 May 2023 15:55:05 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 7102A580906;
+	Wed, 10 May 2023 11:55:04 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Wed, 10 May 2023 11:55:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1683734104; x=1683741304; bh=SC
+	KFLRlOu8wMdidaM2MzVAEF3HdgavF0+zWaNr+e62A=; b=A2W0dNaRkjw2NxKUw2
+	y9/WuIWb6k0ZeUb1NuFzsS81Djn7IGJMUkuEFMR7fOflHeNjpOhtvktN1Odc5a0z
+	xPeBgoaCSeAf07UyKrt22YgIieCX3VuYjmzsZ7acBcr9Vhsn43rDMIHBy+tup+62
+	e+b15zL9TwSOE1pwhAWbOyPIs3zDrZiqpL0xF3vLdAvyOzLuSDBSNUGza0tnoSHo
+	GMsx9rsH+NakbnyqBJiDC4rcPPI7eVaCFnr8L802UJnuqWqjK25aunX4hbyjyfUK
+	TAeWqnelfG1gYDmfx0Kz6XhPuM40oPbxxV6++qmIkLZLhhFkjR/B8N0W7z0+yWPj
+	EhEw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1683734104; x=1683741304; bh=SCKFLRlOu8wMd
+	idaM2MzVAEF3HdgavF0+zWaNr+e62A=; b=eIQYFAE5hZb+cnbQVSJEeeGsDPFhq
+	wvSnouTayKkhqt7LWXqhWBFjSVYpoREhn3/6XGgVCsgiUb6sEjigqqvglXS25Pyy
+	X8KK1j6AiBuX7bJeATzfhXCIbvweqMnpWjMHFLv6ODWKcvH6eD1oaw/l5FQuDA8J
+	8ppL8Q4hETUca4ibTrpNmQ9U9eOdtgSe77XLucvhyxq+bxxWUs/X9wHs2KwYV+0J
+	Re8DQdzhPlu/QXxoS/a7Svwl9gcSfF2VIXS6JKfnP6DYDvNYmu863O/WiMzQxNHe
+	n/cwLQVAIPwbhFKgrPGUuqey6mWhQOSMQM9kPgIUqsT/4JmMnP/fmlp7Q==
+X-ME-Sender: <xms:V75bZI0QCyndvyxZhVbdVguFOeHQt11Pw2iNy0w2g7WiqadNq1Ytlw>
+    <xme:V75bZDHWhjp05aUzpFpWCQSYtdCrLKEGuxx9zSEVIglAQacPOJCHfurShIToWBue-
+    2trSsWy2DhMgrv4E4o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegiedgjedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepveevgeegffejueeiudehfefhhefgudejteejleeujeejffeuiedufeevfffh
+    hfffnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:V75bZA6RZfoG5BTYXRp8gTwgZ97mM-O_9pdcTzrGJBDim0LwUysyjQ>
+    <xmx:V75bZB3DXP8AYHeRD6YAVpZW_OGrMUKEYOBMBP0JZqlkMzywaXOVyA>
+    <xmx:V75bZLHlylKFiZVp5FEdY30IJbVOcNVUqvyVlYjqsg3FINwqU_kuyw>
+    <xmx:WL5bZE11XKy2XwogTzJ8hN3VFODqmdERBDmO_-kO_jNl7o2u12Ii7A>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 2BCEFB60086; Wed, 10 May 2023 11:55:03 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-415-gf2b17fe6c3-fm-20230503.001-gf2b17fe6
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1683659319-29701-1-git-send-email-george.kennedy@oracle.com>
+Mime-Version: 1.0
+Message-Id: <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
+In-Reply-To: <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
+References: <20230510110557.14343-6-tzimmermann@suse.de>
+ <202305102136.eMjTSPwH-lkp@intel.com>
+ <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
+ <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
+Date: Wed, 10 May 2023 17:54:18 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "kernel test robot" <lkp@intel.com>, "Helge Deller" <deller@gmx.de>,
+ "Geert Uytterhoeven" <geert@linux-m68k.org>,
+ "Javier Martinez Canillas" <javierm@redhat.com>,
+ "Daniel Vetter" <daniel@ffwll.ch>, "Vineet Gupta" <vgupta@kernel.org>,
+ "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
+ "David S . Miller" <davem@davemloft.net>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Sam Ravnborg" <sam@ravnborg.org>, suijingfeng@loongson.cn
+Cc: oe-kbuild-all@lists.linux.dev, Linux-Arch <linux-arch@vger.kernel.org>,
+ linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
+ loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
+Content-Type: text/plain
 
-Hi George,
+On Wed, May 10, 2023, at 16:27, Thomas Zimmermann wrote:
+> Am 10.05.23 um 16:15 schrieb Arnd Bergmann:
+>> On Wed, May 10, 2023, at 16:03, kernel test robot wrote:
+ 
+>> I think that's a preexisting bug and I have no idea what the
+>> correct solution is. Looking for HD64461 shows it being used
+>> both with inw/outw and readw/writew, so there is no way to have
+>> the correct type. The sh __raw_readw() definition hides this bug,
+>> but that is a problem with arch/sh and it probably hides others
+>> as well.
+>
+> The constant HD64461_IOBASE is defined as integer at
+>
+> 
+> https://elixir.bootlin.com/linux/latest/source/arch/sh/include/asm/hd64461.h#L17
+>
+> but fb_readw() expects a volatile-void pointer. I guess we could add a 
+> cast somewhere to silence the problem. In the current upstream code, 
+> that appears to be done by sh's __raw_readw() internally:
+>
+> 
+> https://elixir.bootlin.com/linux/latest/source/arch/sh/include/asm/io.h#L35
 
-kernel test robot noticed the following build warnings:
+Sure, that would make it build again, but that still doesn't make the
+code correct, since it's completely unclear what base address the
+HD64461_IOBASE is relative to. The hp6xx platform code only passes it
+through inw()/outw(), which take an offset relative to sh_io_port_base,
+but that is not initialized on hp6xx. I tried to find in the history
+when it broke, apparently that was in 2007 commit 34a780a0afeb ("sh:
+hp6xx pata_platform support."), which removed the custom inw/outw
+implementations.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/George-Kennedy/vc_screen-reload-load-of-struct-vc_data-pointer-in-vcs_write-to-avoid-UAF/20230510-031202
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/1683659319-29701-1-git-send-email-george.kennedy%40oracle.com
-patch subject: [PATCH] vc_screen: reload load of struct vc_data pointer in vcs_write() to avoid UAF
-config: ia64-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230510/202305101936.1ROFaVa9-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305101936.1ROFaVa9-lkp@intel.com/
-
-smatch warnings:
-drivers/tty/vt/vc_screen.c:707 vcs_write() warn: maybe return -EFAULT instead of the bytes remaining?
-
-vim +707 drivers/tty/vt/vc_screen.c
-
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  589  static ssize_t
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  590  vcs_write(struct file *file, const char __user *buf, size_t count, loff_t *ppos)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  591  {
-496ad9aa8ef448 drivers/tty/vt/vc_screen.c Al Viro        2013-01-23  592  	struct inode *inode = file_inode(file);
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  593  	struct vc_data *vc;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  594  	char *con_buf;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  595  	u16 *org0, *org;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  596  	unsigned int written;
-2665bef49f96df drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  597  	int size;
-2665bef49f96df drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  598  	ssize_t ret;
-2665bef49f96df drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  599  	loff_t pos;
-2665bef49f96df drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  600  	bool viewed, attr;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  601  
-0c9acb1af77a3c drivers/tty/vt/vc_screen.c Nicolas Pitre  2019-11-05  602  	if (use_unicode(inode))
-0c9acb1af77a3c drivers/tty/vt/vc_screen.c Nicolas Pitre  2019-11-05  603  		return -EOPNOTSUPP;
-0c9acb1af77a3c drivers/tty/vt/vc_screen.c Nicolas Pitre  2019-11-05  604  
-fcdba07ee390d9 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  605  	con_buf = (char *) __get_free_page(GFP_KERNEL);
-fcdba07ee390d9 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  606  	if (!con_buf)
-fcdba07ee390d9 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  607  		return -ENOMEM;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  608  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  609  	pos = *ppos;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  610  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  611  	/* Select the proper current console and verify
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  612  	 * sanity of the situation under the console lock.
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  613  	 */
-ac751efa6a0d70 drivers/tty/vt/vc_screen.c Torben Hohn    2011-01-25  614  	console_lock();
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  615  
-d21b0be246bf3b drivers/tty/vt/vc_screen.c Nicolas Pitre  2018-06-26  616  	attr = use_attributes(inode);
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  617  	ret = -ENXIO;
-fcdba07ee390d9 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  618  	vc = vcs_vc(inode, &viewed);
-fcdba07ee390d9 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  619  	if (!vc)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  620  		goto unlock_out;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  621  
-71d4abfab322e8 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  622  	size = vcs_size(vc, attr, false);
-71d4abfab322e8 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  623  	if (size < 0) {
-71d4abfab322e8 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  624  		ret = size;
-71d4abfab322e8 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  625  		goto unlock_out;
-71d4abfab322e8 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  626  	}
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  627  	ret = -EINVAL;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  628  	if (pos < 0 || pos > size)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  629  		goto unlock_out;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  630  	if (count > size - pos)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  631  		count = size - pos;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  632  	written = 0;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  633  	while (count) {
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  634  		unsigned int this_round = count;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  635  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  636  		if (this_round > CON_BUF_SIZE)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  637  			this_round = CON_BUF_SIZE;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  638  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  639  		/* Temporarily drop the console lock so that we can read
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  640  		 * in the write data from userspace safely.
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  641  		 */
-ac751efa6a0d70 drivers/tty/vt/vc_screen.c Torben Hohn    2011-01-25  642  		console_unlock();
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  643  		ret = copy_from_user(con_buf, buf, this_round);
-ac751efa6a0d70 drivers/tty/vt/vc_screen.c Torben Hohn    2011-01-25  644  		console_lock();
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  645  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  646  		if (ret) {
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  647  			this_round -= ret;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  648  			if (!this_round) {
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  649  				/* Abort loop if no data were copied. Otherwise
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  650  				 * fail with -EFAULT.
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  651  				 */
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  652  				if (written)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  653  					break;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  654  				ret = -EFAULT;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  655  				goto unlock_out;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  656  			}
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  657  		}
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  658  
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  659  		/* The vc might have been freed or vcs_size might have changed
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  660  		 * while we slept to grab the user buffer, so recheck.
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  661  		 * Return data written up to now on failure.
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  662  		 */
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  663  		vc = vcs_vc(inode, &viewed);
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  664  		if (!vc) {
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  665  			if (written)
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  666  				break;
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  667  			goto unlock_out;
-
-The warning message is wrong, but there does need to be a
-"ret = something" here.  Either an error code or ret = size on success.
-
-50f4095ab8ede7 drivers/tty/vt/vc_screen.c George Kennedy 2023-05-09  668  		}
-71d4abfab322e8 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  669  		size = vcs_size(vc, attr, false);
-dc1892c4bc6960 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  670  		if (size < 0) {
-dc1892c4bc6960 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  671  			if (written)
-dc1892c4bc6960 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  672  				break;
-dc1892c4bc6960 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  673  			ret = size;
-dc1892c4bc6960 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  674  			goto unlock_out;
-dc1892c4bc6960 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  675  		}
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  676  		if (pos >= size)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  677  			break;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  678  		if (this_round > size - pos)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  679  			this_round = size - pos;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  680  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  681  		/* OK, now actually push the write to the console
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  682  		 * under the lock using the local kernel buffer.
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  683  		 */
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  684  
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  685  		if (attr)
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  686  			org = vcs_write_buf(vc, con_buf, pos, this_round,
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  687  					viewed, &org0);
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  688  		else
-9e6363784e3f1e drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  689  			org = vcs_write_buf_noattr(vc, con_buf, pos, this_round,
-9e6363784e3f1e drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  690  					viewed, &org0);
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  691  
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  692  		count -= this_round;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  693  		written += this_round;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  694  		buf += this_round;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  695  		pos += this_round;
-95e0d57fd49780 drivers/tty/vt/vc_screen.c Jiri Slaby     2020-08-18  696  		if (org)
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  697  			update_region(vc, (unsigned long)(org0), org - org0);
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  698  	}
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  699  	*ppos += written;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  700  	ret = written;
-432c9ed22aff64 drivers/char/vc_screen.c   Nicolas Pitre  2010-10-01  701  	if (written)
-432c9ed22aff64 drivers/char/vc_screen.c   Nicolas Pitre  2010-10-01  702  		vcs_scr_updated(vc);
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  703  
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  704  unlock_out:
-ac751efa6a0d70 drivers/tty/vt/vc_screen.c Torben Hohn    2011-01-25  705  	console_unlock();
-fcdba07ee390d9 drivers/tty/vt/vc_screen.c Jiri Olsa      2011-02-07  706  	free_page((unsigned long) con_buf);
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16 @707  	return ret;
-^1da177e4c3f41 drivers/char/vc_screen.c   Linus Torvalds 2005-04-16  708  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
-
+      Arnd
