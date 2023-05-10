@@ -1,134 +1,152 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A042597;
-	Wed, 10 May 2023 07:58:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77EC2F37;
+	Wed, 10 May 2023 08:18:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1683705524; x=1715241524;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683706706; x=1715242706;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Q4RA6Es6geZL+3T0CK3mOKV6dn+v7iYhWtpIDgZbPPo=;
-  b=UYVTp8hvAnOy4IZAwLlU743pG6wujA2Gw92hZhsMisLjWxAR7XAktmc+
-   wCjmLQEPGVMtDk7fgn6w7G4wedBTMxuGu+xRZiOcHd6jv3x9rkkVtG+2R
-   xttbFwPfvYg5h7ZFj0HDZgoe3LmF7GgPRsEI86E1Cq5+mAks/FIdaWX1F
-   c072+OYxA1xk8m/ccl94GnjQuQuU2ssFt/9LS3HOiohZFV9oYOCo7nLzf
-   zymvYb/toiACgPlvP7DhQ4Xe/VdTvsWMEjIPegEDdESrxn/Ms3FfKF4v8
-   B+aATdS/Jhztehe19nyGtpgdl5G8I7HRM9PB2HNum+pzFxYQ9kdOK/sTp
-   Q==;
-X-IronPort-AV: E=Sophos;i="5.99,264,1677567600"; 
-   d="asc'?scan'208";a="212698768"
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 10 May 2023 00:57:34 -0700
-Received: from chn-vm-ex03.mchp-main.com (10.10.85.151) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.21; Wed, 10 May 2023 00:57:34 -0700
-Received: from wendy (10.10.115.15) by chn-vm-ex03.mchp-main.com
- (10.10.85.151) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21 via Frontend
- Transport; Wed, 10 May 2023 00:57:33 -0700
-Date: Wed, 10 May 2023 08:57:13 +0100
-From: Conor Dooley <conor.dooley@microchip.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-CC: <oe-kbuild@lists.linux.dev>, Conor Dooley <conor+lkp@kernel.org>,
-	<lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [conor:gpio-irq 3/8] drivers/irqchip/irq-mpfs-mux.c:351
- mpfs_irq_mux_init() warn: 'priv->reg' from of_iomap() not released on lines:
- 310,316,333,339.
-Message-ID: <20230510-overripe-famine-326e83d0287c@wendy>
-References: <eee3db8f-77ba-4218-af2a-9f7ec44ceec7@kili.mountain>
+  bh=I+vGMDDEGxtiu3VkujCFgaDu4FJdh9q/ZxqvG7WTFVs=;
+  b=XcYa5M5YYObL/rl5R8t2HccGbHnGS0pFr/aBgLt2gK3g3AgvpRNl+mDo
+   rk28XyZn5/BGZPBRJWIT2uZZNx3Lr4pE6m+UhiIZZ+pJvi7SK17ejGqy3
+   hzRbPepPqd0B7jrwQZkeM4PTNxwympVBTUkERnukkl2WkoEHJ1h8nupxl
+   FvkiGChcWO+F2Bwa6h7r/Vyr6xwKmptsCu4Psi4mz/MU2/VWXhiKQrAPj
+   OeuEXZNSTW0fxpjrnqBwYd4FXJGtobjn4roGDXnznLhV3BtEoMIPISVwV
+   hl27B6YqRlX58SPq4BgBlyyAvXYojsXFyqrxl4ZroVMkXF0QcHZ5tWIQm
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="330521029"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; 
+   d="scan'208";a="330521029"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 01:18:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10705"; a="676761148"
+X-IronPort-AV: E=Sophos;i="5.99,264,1677571200"; 
+   d="scan'208";a="676761148"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 10 May 2023 01:18:22 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pwf1h-00033A-1v;
+	Wed, 10 May 2023 08:18:21 +0000
+Date: Wed, 10 May 2023 16:18:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
+	Andy Gross <agross@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@somainline.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	Sibi Sankar <quic_sibis@quicinc.com>,
+	Rajendra Nayak <quic_rjendra@quicinc.com>,
+	Souradeep Chowdhury <quic_schowdhu@quicinc.com>
+Subject: Re: [PATCH V6 2/3] soc: qcom: boot_stat: Add Driver Support for Boot
+ Stats
+Message-ID: <202305101517.ld1hBheg-lkp@intel.com>
+References: <35863b47c04c2edd7ae49c57d23682aba6111d4f.1683628357.git.quic_schowdhu@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Ioac55ihHTRtJF6y"
-Content-Disposition: inline
-In-Reply-To: <eee3db8f-77ba-4218-af2a-9f7ec44ceec7@kili.mountain>
-
---Ioac55ihHTRtJF6y
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <35863b47c04c2edd7ae49c57d23682aba6111d4f.1683628357.git.quic_schowdhu@quicinc.com>
+
+Hi Souradeep,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk-dt/for-next linus/master v6.4-rc1 next-20230510]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Souradeep-Chowdhury/dt-bindings-sram-qcom-imem-Add-Boot-Stat-region-within-IMEM/20230509-185332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/35863b47c04c2edd7ae49c57d23682aba6111d4f.1683628357.git.quic_schowdhu%40quicinc.com
+patch subject: [PATCH V6 2/3] soc: qcom: boot_stat: Add Driver Support for Boot Stats
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20230510/202305101517.ld1hBheg-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/7883e99da179c8b49f6834b84a91259b03679e56
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Souradeep-Chowdhury/dt-bindings-sram-qcom-imem-Add-Boot-Stat-region-within-IMEM/20230509-185332
+        git checkout 7883e99da179c8b49f6834b84a91259b03679e56
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/hwmon/ drivers/net/can/usb/ drivers/soc/qcom/ drivers/watchdog/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305101517.ld1hBheg-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/soc/qcom/boot_stats.c:9:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/soc/qcom/boot_stats.c:9:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/soc/qcom/boot_stats.c:9:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/soc/qcom/boot_stats.c:76:6: warning: no previous prototype for function 'boot_stats_remove' [-Wmissing-prototypes]
+   void boot_stats_remove(struct platform_device *pdev)
+        ^
+   drivers/soc/qcom/boot_stats.c:76:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void boot_stats_remove(struct platform_device *pdev)
+   ^
+   static 
+   7 warnings generated.
 
 
-$from: dan.carpenter@linaro.org
+vim +/boot_stats_remove +76 drivers/soc/qcom/boot_stats.c
 
-Congrats on the new job :)
+    75	
+  > 76	void boot_stats_remove(struct platform_device *pdev)
+    77	{
+    78		struct bs_data *drvdata = platform_get_drvdata(pdev);
+    79	
+    80		debugfs_remove_recursive(drvdata->dbg_dir);
+    81	}
+    82	
 
-On Wed, May 10, 2023 at 10:30:55AM +0300, Dan Carpenter wrote:
-
->=20
-> f39a859cf7fec5 Conor Dooley 2023-05-09  289  static int __init mpfs_irq_m=
-ux_init(struct device_node *node, struct device_node *parent)
-> f39a859cf7fec5 Conor Dooley 2023-05-09  290  {
-> f39a859cf7fec5 Conor Dooley 2023-05-09  291  	struct mpfs_irq_mux *priv;
-> f39a859cf7fec5 Conor Dooley 2023-05-09  292  	struct irq_domain *domain;
-> f39a859cf7fec5 Conor Dooley 2023-05-09  293  	int i;
-> f39a859cf7fec5 Conor Dooley 2023-05-09  294 =20
-> f39a859cf7fec5 Conor Dooley 2023-05-09  295  	priv =3D kzalloc(sizeof(*pr=
-iv), GFP_KERNEL);
-> f39a859cf7fec5 Conor Dooley 2023-05-09  296  	if (!priv)
-> f39a859cf7fec5 Conor Dooley 2023-05-09  297  		return -ENOMEM;
-> f39a859cf7fec5 Conor Dooley 2023-05-09  298 =20
-> f39a859cf7fec5 Conor Dooley 2023-05-09  299  	priv->reg =3D of_iomap(node=
-, 0);
-> f39a859cf7fec5 Conor Dooley 2023-05-09  300  	if (!priv->reg)
-> f39a859cf7fec5 Conor Dooley 2023-05-09  301  		return -ENODEV; //TODO: ad=
-d teardown code
->=20
-> Of course, these are all marked with TODOs so you already know about
-> them...  These emails are generated automatically and I just review
-> them and hit forward.
-
-Yah, no worries. I mainly pushed this stuff out to catch whatever
-Kconfig dependencies that I had missed (and I had missed quite a few
-apparently).
-For regular LKP stuff I've got the private report thing on for branches
-not starting with "riscv-" to try and no bother anyone other than the
-robots, hence still having bits marked TODO. Been iterating quite a lot,
-so hadn't bothered writing the error handling yet.
-
-> f39a859cf7fec5 Conor Dooley 2023-05-09  302 =20
-> f39a859cf7fec5 Conor Dooley 2023-05-09  303  	priv->mux_config =3D readl(=
-priv->reg);
-> f39a859cf7fec5 Conor Dooley 2023-05-09  304 =20
-> f39a859cf7fec5 Conor Dooley 2023-05-09  305  	for (i =3D 0; i < MPFS_MUX_=
-NUM_DIRECT_IRQS; i++) {
-> f39a859cf7fec5 Conor Dooley 2023-05-09  306  		priv->irqchip_data[i].outp=
-ut_hwirq =3D i;
-> f39a859cf7fec5 Conor Dooley 2023-05-09  307 =20
-> f39a859cf7fec5 Conor Dooley 2023-05-09  308  		priv->irqchip_data[i].irq =
-=3D irq_of_parse_and_map(node, i);
-> f39a859cf7fec5 Conor Dooley 2023-05-09  309  		if (priv->irqchip_data[i].=
-irq <=3D 0)
-> f39a859cf7fec5 Conor Dooley 2023-05-09  310  			return -1; //TODO: add te=
-ardown code
->=20
-> It's unfortunate that irq_of_parse_and_map() returns zero on error.
-> It's for historical reasons.  It used to return NO_IRQ.  :(  I can't
-> imagine that all the callers check correctly so I've created a new
-> static checker warning for this.  We shall see tomorrow.
-
-Heh, hopefully I am not on the receiving any of any of those!
-
-Thanks,
-Conor.
-
---Ioac55ihHTRtJF6y
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZFtOTAAKCRB4tDGHoIJi
-0lz6AP93pkp/7nV5/TefTiIgp+a9HAb8B73P58M4xErocbWm1gEA2fxwb3TvPAX+
-yPfo7i1adBQ5R14QcaK8HdBtMnDHWQQ=
-=4omw
------END PGP SIGNATURE-----
-
---Ioac55ihHTRtJF6y--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
