@@ -1,182 +1,125 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A2E19E6F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 14:28:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683815318; x=1715351318;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I0Ra3dpxGhtoXsvzx9SltT7x3Psnf25QXHv4DhGZtOw=;
-  b=AbvbZQq6hU34rAahL4AMakcWR/C5z0Mf95m/5VzcrGzJC0//SdlhnuCv
-   YW/xKR58wOTy0J3GBjMdCslzVvIWOiIDjb7q/6P/vfiCFXZcFDNqpleLu
-   QWFwSFWa1qCQvLDM39xzs/OA9vQWewMRLFFb8kZj8RW7ExbGajj/XEnU1
-   XK5dxW97h+IEDHKKtA2gTiZRl2SYES9lQSlK/CHqI2oYcPVcnEmoXzbi7
-   VRoGg9dgR1U6YGstgAKFVowRV+5i/CPZxc+ymsiUhorPOIQrC32fbK2BT
-   ayRurBi87tPISl0LoxGWguurbYBt3hKIL9rV0+pAKEGe80k5zVGcov9SE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="335019416"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
-   d="scan'208";a="335019416"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 07:28:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="946201305"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
-   d="scan'208";a="946201305"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 11 May 2023 07:28:26 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1px7HP-00042u-2q;
-	Thu, 11 May 2023 14:28:27 +0000
-Date: Thu, 11 May 2023 22:27:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@kernel.org>
-Subject: [niks:has_ioport_v4 36/41] drivers/usb/host/pci-quirks.c:506:6:
- warning: no previous prototype for 'usb_amd_pt_check_port'
-Message-ID: <202305112201.J7Yu1ib4-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E0B629
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 14:56:01 +0000 (UTC)
+Received: from pps.filterd (m0353727.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34BEls7Q020193;
+	Thu, 11 May 2023 14:55:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=Sj9pajivdM+uzML4kLBdLjbMi8F3AWfRGQg6/Vqf6R0=;
+ b=iQ5ffTwkXoW64FVv2jL4h66P5QaiqwaGPqTo+9U0SFluzwp1UMJcTpSEUdk+92Ez18lN
+ R/whmrY8v9OGZ5F5THadOU3u4wmLzOWkG7Husn7o/G5cGFdC6UnRWOtM5YuUR1ksMEiH
+ afgfoYe0uH79OG309oOQ3zRmMmxhBIM8aPM1BP8k5j72zImJWElF9gT+5noEHOvOstzw
+ cqjQHygsV+Se8bCN+lE+aiMmSsz5NCfm5beb2SF5wp+KQd1zmhPSFiIKhnc2KL7JbHuC
+ HbiTMv2/bC8oCs1fxA7jehn9aKnYEw0+g6W/5xEzRZsOolB97e+1hYWnG+WKJop8t4ko 9g== 
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3qh1n8j4va-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 May 2023 14:55:51 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+	by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 34BD9x7i020159;
+	Thu, 11 May 2023 14:33:58 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3qf7mhhf31-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 11 May 2023 14:33:57 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 34BEXt9B66781538
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 11 May 2023 14:33:55 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7171E20043;
+	Thu, 11 May 2023 14:33:55 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 33CB520040;
+	Thu, 11 May 2023 14:33:55 +0000 (GMT)
+Received: from [9.171.55.60] (unknown [9.171.55.60])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu, 11 May 2023 14:33:55 +0000 (GMT)
+Message-ID: <255e20c534e74a2ad93ef7e32325b7eb865f61ba.camel@linux.ibm.com>
+Subject: Re: [niks:has_ioport_v4 36/41] drivers/usb/host/xhci-hub.c:1805:37:
+ error: implicit declaration of function 'usb_amd_pt_check_port'
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Date: Thu, 11 May 2023 16:33:54 +0200
+In-Reply-To: <202305112044.901Gb35D-lkp@intel.com>
+References: <202305112044.901Gb35D-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.48.1 (3.48.1-1.fc38) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: PrZdBIzS0Hl6HWLL1V_7YOeZ9V4x6FKl
+X-Proofpoint-GUID: PrZdBIzS0Hl6HWLL1V_7YOeZ9V4x6FKl
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-11_11,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ mlxlogscore=838 lowpriorityscore=0 spamscore=0 phishscore=0 adultscore=0
+ clxscore=1015 impostorscore=0 suspectscore=0 priorityscore=1501 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305110125
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git has_ioport_v4
-head:   fcecef87091e4f08191045aeffe0a93b54adba86
-commit: 96ffabef0a84bae16aff7e26ac08322a27358e1b [36/41] usb: pci-quirks: handle HAS_IOPORT dependencies
-config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230511/202305112201.J7Yu1ib4-lkp@intel.com/config)
-compiler: ia64-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git/commit/?id=96ffabef0a84bae16aff7e26ac08322a27358e1b
-        git remote add niks https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git
-        git fetch --no-tags niks has_ioport_v4
-        git checkout 96ffabef0a84bae16aff7e26ac08322a27358e1b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/usb/host/
+On Thu, 2023-05-11 at 20:41 +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git ha=
+s_ioport_v4
+> head:   7591a40aebcc68208650e4324799df61bed47bb4
+> commit: 96ffabef0a84bae16aff7e26ac08322a27358e1b [36/41] usb: pci-quirks:=
+ handle HAS_IOPORT dependencies
+> config: mips-allmodconfig (https://download.01.org/0day-ci/archive/202305=
+11/202305112044.901Gb35D-lkp@intel.com/config)
+> compiler: mips-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=3D1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/niks/linux.git/=
+commit/?id=3D96ffabef0a84bae16aff7e26ac08322a27358e1b
+>         git remote add niks https://git.kernel.org/pub/scm/linux/kernel/g=
+it/niks/linux.git
+>         git fetch --no-tags niks has_ioport_v4
+>         git checkout 96ffabef0a84bae16aff7e26ac08322a27358e1b
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss W=3D1 O=3Dbuild_dir ARCH=3Dmips olddefconfig
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.cro=
+ss W=3D1 O=3Dbuild_dir ARCH=3Dmips SHELL=3D/bin/bash drivers/usb/host/
+>=20
+> If you fix the issue, kindly add following tag where applicable
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Link: https://lore.kernel.org/oe-kbuild-all/202305112044.901Gb35D-lkp@i=
+ntel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    drivers/usb/host/xhci-hub.c: In function 'xhci_bus_suspend':
+> > > drivers/usb/host/xhci-hub.c:1805:37: error: implicit declaration of f=
+unction 'usb_amd_pt_check_port' [-Werror=3Dimplicit-function-declaration]
+>     1805 |                                 if (usb_amd_pt_check_port(hcd-=
+>self.controller,
+>          |                                     ^~~~~~~~~~~~~~~~~~~~~
+>    cc1: some warnings being treated as errors
+>=20
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305112201.J7Yu1ib4-lkp@intel.com/
+Ok, since I obviously forgot another declaration in pci-quirks.h I now
+checked all of the non-static functions conditional on
+CONFIG_USB_PCI_AMD manually. With my current state plus the above fixed
+all except for usb_hcd_amd_remote_wakeup_quirk() have a prototype and a
+stub in pci-quirks.h. So I'm thinking if I provide a stub for
+usb_hcd_amd_remote_wakeup_quirk() that just returns 0 I can get rid of
+the #ifdef CONFIG_USB_PCI_AMD in hcd-pci.c and have all of them easily
+checkable. So did that.
 
-All warnings (new ones prefixed by >>):
-
->> drivers/usb/host/pci-quirks.c:506:6: warning: no previous prototype for 'usb_amd_pt_check_port' [-Wmissing-prototypes]
-     506 | bool usb_amd_pt_check_port(struct device *device, int port)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/usb_amd_pt_check_port +506 drivers/usb/host/pci-quirks.c
-
-7586269c0b5297 David Brownell  2005-09-23  499  
-bde0716d1f076e Joe Lee         2018-02-12  500  /*
-bde0716d1f076e Joe Lee         2018-02-12  501   * Check if port is disabled in BIOS on AMD Promontory host.
-bde0716d1f076e Joe Lee         2018-02-12  502   * BIOS Disabled ports may wake on connect/disconnect and need
-bde0716d1f076e Joe Lee         2018-02-12  503   * driver workaround to keep them disabled.
-bde0716d1f076e Joe Lee         2018-02-12  504   * Returns true if port is marked disabled.
-bde0716d1f076e Joe Lee         2018-02-12  505   */
-bde0716d1f076e Joe Lee         2018-02-12 @506  bool usb_amd_pt_check_port(struct device *device, int port)
-bde0716d1f076e Joe Lee         2018-02-12  507  {
-bde0716d1f076e Joe Lee         2018-02-12  508  	unsigned char value, port_shift;
-bde0716d1f076e Joe Lee         2018-02-12  509  	struct pci_dev *pdev;
-bde0716d1f076e Joe Lee         2018-02-12  510  	u16 reg;
-bde0716d1f076e Joe Lee         2018-02-12  511  
-bde0716d1f076e Joe Lee         2018-02-12  512  	pdev = to_pci_dev(device);
-bde0716d1f076e Joe Lee         2018-02-12  513  	pci_write_config_word(pdev, PT_ADDR_INDX, PT_SIG_1_ADDR);
-bde0716d1f076e Joe Lee         2018-02-12  514  
-bde0716d1f076e Joe Lee         2018-02-12  515  	pci_read_config_byte(pdev, PT_READ_INDX, &value);
-bde0716d1f076e Joe Lee         2018-02-12  516  	if (value != PT_SIG_1_DATA)
-bde0716d1f076e Joe Lee         2018-02-12  517  		return false;
-bde0716d1f076e Joe Lee         2018-02-12  518  
-bde0716d1f076e Joe Lee         2018-02-12  519  	pci_write_config_word(pdev, PT_ADDR_INDX, PT_SIG_2_ADDR);
-bde0716d1f076e Joe Lee         2018-02-12  520  
-bde0716d1f076e Joe Lee         2018-02-12  521  	pci_read_config_byte(pdev, PT_READ_INDX, &value);
-bde0716d1f076e Joe Lee         2018-02-12  522  	if (value != PT_SIG_2_DATA)
-bde0716d1f076e Joe Lee         2018-02-12  523  		return false;
-bde0716d1f076e Joe Lee         2018-02-12  524  
-bde0716d1f076e Joe Lee         2018-02-12  525  	pci_write_config_word(pdev, PT_ADDR_INDX, PT_SIG_3_ADDR);
-bde0716d1f076e Joe Lee         2018-02-12  526  
-bde0716d1f076e Joe Lee         2018-02-12  527  	pci_read_config_byte(pdev, PT_READ_INDX, &value);
-bde0716d1f076e Joe Lee         2018-02-12  528  	if (value != PT_SIG_3_DATA)
-bde0716d1f076e Joe Lee         2018-02-12  529  		return false;
-bde0716d1f076e Joe Lee         2018-02-12  530  
-bde0716d1f076e Joe Lee         2018-02-12  531  	pci_write_config_word(pdev, PT_ADDR_INDX, PT_SIG_4_ADDR);
-bde0716d1f076e Joe Lee         2018-02-12  532  
-bde0716d1f076e Joe Lee         2018-02-12  533  	pci_read_config_byte(pdev, PT_READ_INDX, &value);
-bde0716d1f076e Joe Lee         2018-02-12  534  	if (value != PT_SIG_4_DATA)
-bde0716d1f076e Joe Lee         2018-02-12  535  		return false;
-bde0716d1f076e Joe Lee         2018-02-12  536  
-bde0716d1f076e Joe Lee         2018-02-12  537  	/* Check disabled port setting, if bit is set port is enabled */
-bde0716d1f076e Joe Lee         2018-02-12  538  	switch (pdev->device) {
-bde0716d1f076e Joe Lee         2018-02-12  539  	case 0x43b9:
-bde0716d1f076e Joe Lee         2018-02-12  540  	case 0x43ba:
-bde0716d1f076e Joe Lee         2018-02-12  541  	/*
-bde0716d1f076e Joe Lee         2018-02-12  542  	 * device is AMD_PROMONTORYA_4(0x43b9) or PROMONTORYA_3(0x43ba)
-bde0716d1f076e Joe Lee         2018-02-12  543  	 * PT4_P1_REG bits[7..1] represents USB2.0 ports 6 to 0
-bde0716d1f076e Joe Lee         2018-02-12  544  	 * PT4_P2_REG bits[6..0] represents ports 13 to 7
-bde0716d1f076e Joe Lee         2018-02-12  545  	 */
-bde0716d1f076e Joe Lee         2018-02-12  546  		if (port > 6) {
-bde0716d1f076e Joe Lee         2018-02-12  547  			reg = PT4_P2_REG;
-bde0716d1f076e Joe Lee         2018-02-12  548  			port_shift = port - 7;
-bde0716d1f076e Joe Lee         2018-02-12  549  		} else {
-bde0716d1f076e Joe Lee         2018-02-12  550  			reg = PT4_P1_REG;
-bde0716d1f076e Joe Lee         2018-02-12  551  			port_shift = port + 1;
-bde0716d1f076e Joe Lee         2018-02-12  552  		}
-bde0716d1f076e Joe Lee         2018-02-12  553  		break;
-bde0716d1f076e Joe Lee         2018-02-12  554  	case 0x43bb:
-bde0716d1f076e Joe Lee         2018-02-12  555  	/*
-bde0716d1f076e Joe Lee         2018-02-12  556  	 * device is AMD_PROMONTORYA_2(0x43bb)
-bde0716d1f076e Joe Lee         2018-02-12  557  	 * PT2_P1_REG bits[7..5] represents USB2.0 ports 2 to 0
-bde0716d1f076e Joe Lee         2018-02-12  558  	 * PT2_P2_REG bits[5..0] represents ports 9 to 3
-bde0716d1f076e Joe Lee         2018-02-12  559  	 */
-bde0716d1f076e Joe Lee         2018-02-12  560  		if (port > 2) {
-bde0716d1f076e Joe Lee         2018-02-12  561  			reg = PT2_P2_REG;
-bde0716d1f076e Joe Lee         2018-02-12  562  			port_shift = port - 3;
-bde0716d1f076e Joe Lee         2018-02-12  563  		} else {
-bde0716d1f076e Joe Lee         2018-02-12  564  			reg = PT2_P1_REG;
-bde0716d1f076e Joe Lee         2018-02-12  565  			port_shift = port + 5;
-bde0716d1f076e Joe Lee         2018-02-12  566  		}
-bde0716d1f076e Joe Lee         2018-02-12  567  		break;
-bde0716d1f076e Joe Lee         2018-02-12  568  	case 0x43bc:
-bde0716d1f076e Joe Lee         2018-02-12  569  	/*
-bde0716d1f076e Joe Lee         2018-02-12  570  	 * device is AMD_PROMONTORYA_1(0x43bc)
-bde0716d1f076e Joe Lee         2018-02-12  571  	 * PT1_P1_REG[7..4] represents USB2.0 ports 3 to 0
-bde0716d1f076e Joe Lee         2018-02-12  572  	 * PT1_P2_REG[5..0] represents ports 9 to 4
-bde0716d1f076e Joe Lee         2018-02-12  573  	 */
-bde0716d1f076e Joe Lee         2018-02-12  574  		if (port > 3) {
-bde0716d1f076e Joe Lee         2018-02-12  575  			reg = PT1_P2_REG;
-bde0716d1f076e Joe Lee         2018-02-12  576  			port_shift = port - 4;
-bde0716d1f076e Joe Lee         2018-02-12  577  		} else {
-bde0716d1f076e Joe Lee         2018-02-12  578  			reg = PT1_P1_REG;
-bde0716d1f076e Joe Lee         2018-02-12  579  			port_shift = port + 4;
-bde0716d1f076e Joe Lee         2018-02-12  580  		}
-bde0716d1f076e Joe Lee         2018-02-12  581  		break;
-bde0716d1f076e Joe Lee         2018-02-12  582  	default:
-bde0716d1f076e Joe Lee         2018-02-12  583  		return false;
-bde0716d1f076e Joe Lee         2018-02-12  584  	}
-bde0716d1f076e Joe Lee         2018-02-12  585  	pci_write_config_word(pdev, PT_ADDR_INDX, reg);
-bde0716d1f076e Joe Lee         2018-02-12  586  	pci_read_config_byte(pdev, PT_READ_INDX, &value);
-bde0716d1f076e Joe Lee         2018-02-12  587  
-bde0716d1f076e Joe Lee         2018-02-12  588  	return !(value & BIT(port_shift));
-bde0716d1f076e Joe Lee         2018-02-12  589  }
-bde0716d1f076e Joe Lee         2018-02-12  590  EXPORT_SYMBOL_GPL(usb_amd_pt_check_port);
-96ffabef0a84ba Niklas Schnelle 2023-05-10  591  #endif /* CONFIG_USB_PCI_AMD */
-96ffabef0a84ba Niklas Schnelle 2023-05-10  592  
-
-:::::: The code at line 506 was first introduced by commit
-:::::: bde0716d1f076e4c913c7946bcc858f71243c7a0 xhci: workaround for AMD Promontory disabled ports wakeup
-
-:::::: TO: Joe Lee <asmt.swfae@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Thanks,
+Niklas
