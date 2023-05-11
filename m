@@ -1,134 +1,196 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CAA87FC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 03:00:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683774054; x=1715310054;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9DuueECz994WssmdbyLkpdHF+qp3ylbXdgHnCEl5fio=;
-  b=e6filzwrUPO4Z7de8pTAaGwM7RBSoAX2Ydon+upYXMXaz3ScZ7BWvsCY
-   r0moDUnv3xTTIj8cyE7RmtOTa+5zXxhf9K3TSYs4UTgjQo24Dqn2PoVfc
-   VNVoXRGToVOM3JXVMLCLbZskjuobOKL1I57szwcRJaVjZXbZR3Be01zRc
-   rbO5LRTtmXz273U6O3acXhJX3uBn+sfTrejQFEppMFQZuZPeolZQeEHcC
-   vDAytly15OkRrJaQPIOk2yUkMqqY7fL6cHPOQBKr3Jr/TgvMMcnb7tNFd
-   xqB6q7YaeIauAHdGIHSxKQQ8uTZ0m6CfTL0rMvxSZQElXbJjUxGnHhWOV
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="413698480"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
-   d="scan'208";a="413698480"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 20:00:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="764537967"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
-   d="scan'208";a="764537967"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 10 May 2023 20:00:52 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pwwXz-0003jI-15;
-	Thu, 11 May 2023 03:00:51 +0000
-Date: Thu, 11 May 2023 11:00:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Stafford Horne <shorne@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/net/wireless/intel/iwlegacy/4965-mac.c:1653:29: warning:
- variable 'out_meta' set but not used
-Message-ID: <202305111044.dALqNbL3-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056A91F189
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 05:13:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1683781987;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jXq0NGvaEl6Y4fwYw+aVxphEabJEfnjuvJNHNLaO6rE=;
+	b=adofkFqONGW5oln+niB8H4Tm/xKTTfUny11+Sbn/XUHbcZ5SVrfajeNFosPdOM4pfEM8Sw
+	PD5isBGZDL+IS/v6e1cIAh3z/wWwmAny023nbpxUqeS/4Q5JRtF3yuwpJfITFOviSNpMTs
+	BKlOSsiyxb0oQLEwPnB0ned1awgQZ6s=
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-359-vs298e0YMPSmoQuQ87B6Kw-1; Thu, 11 May 2023 01:13:06 -0400
+X-MC-Unique: vs298e0YMPSmoQuQ87B6Kw-1
+Received: by mail-oo1-f70.google.com with SMTP id 006d021491bc7-545a072fa5bso5230481eaf.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 10 May 2023 22:13:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683781985; x=1686373985;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+uo+qGSTvo4pu2L9Hp7yMuYb28kY5eo14mS2NSF3Z5E=;
+        b=mFqBCgsBPjN1hn4hG5PE85wQT/HfhK5tj2IIEn+ESqz25nBPrdhiQkBDxjUeKzsB+D
+         ffx0WQRQP6Knwbpc6MofLvMMpdclwbEezgEp0I/R8gN3oqT7P8TivJVmDRB4EbIf7TE/
+         bodavmP/C3kpyrVGt/PhkfKNQv7WZ5Ra58DP/YWg/s9RnWmymjdmK1e/XfEDMfHN9Yso
+         VYWk/m+E2ZaIoeX1MTlQHBOZEPLkiaBkQynkDAjjNAWQuv33APkOW/lZIgpr5NyoxbR4
+         xEd7Lm+VcjjhEzcQXM8Xj7E6sPPG+vcNT5AEPrPri8sBhDy+qQ8JqpIUifKc7PchpbtN
+         eE4A==
+X-Gm-Message-State: AC+VfDwQvDIAr4tPcg+kg8XyYvPhJasp3AbA7gi/ZCQg2rsIJLrss+r7
+	gO2d2yWyIKSlL0QvtOjxfejoR/p5PeccsjveOwhYtSp948D+rCXpEZ96KqZOUPKT2MSFDiYUE6N
+	IMtGDPNiuhrOE3AGJswYrVTfl3LJpALfVqR4Z
+X-Received: by 2002:a05:6808:356:b0:38d:eb23:e3f6 with SMTP id j22-20020a056808035600b0038deb23e3f6mr4543109oie.54.1683781985666;
+        Wed, 10 May 2023 22:13:05 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ7fYjCrGSpdzuQcnUKYokAfndVCkRzUHk7KC9Wc2VdBsA1TSdOIFPzNf95qOS53lz/innugPQ==
+X-Received: by 2002:a05:6808:356:b0:38d:eb23:e3f6 with SMTP id j22-20020a056808035600b0038deb23e3f6mr4543103oie.54.1683781985399;
+        Wed, 10 May 2023 22:13:05 -0700 (PDT)
+Received: from ?IPv6:2804:1b3:a803:3602:abec:117:3c19:43b8? ([2804:1b3:a803:3602:abec:117:3c19:43b8])
+        by smtp.gmail.com with ESMTPSA id s130-20020acac288000000b0038e8efd297fsm3043841oif.9.2023.05.10.22.13.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 May 2023 22:13:04 -0700 (PDT)
+Message-ID: <e20ccacc00c93917686162e0e1f539fe8fda2dd1.camel@redhat.com>
+Subject: Re: [RFC PATCH v3 1/1] trace,smp: Add tracepoints around remotelly
+ called functions
+From: Leonardo =?ISO-8859-1?Q?Br=E1s?= <leobras@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Date: Thu, 11 May 2023 02:13:02 -0300
+In-Reply-To: <202305110816.mcNeYnWd-lkp@intel.com>
+References: <20230510230128.150384-1-leobras@redhat.com>
+	 <202305110816.mcNeYnWd-lkp@intel.com>
+User-Agent: Evolution 3.48.1
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Stafford,
+On Thu, 2023-05-11 at 08:46 +0800, kernel test robot wrote:
+> Hi Leonardo,
+>=20
+> [This is a private test report for your RFC patch.]
+> kernel test robot noticed the following build warnings:
+>=20
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on v6.4-rc1 next-20230510]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/Leonardo-Bras/trac=
+e-smp-Add-tracepoints-around-remotelly-called-functions/20230511-070554
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20230510230128.150384-1-leobras%=
+40redhat.com
+> patch subject: [RFC PATCH v3 1/1] trace,smp: Add tracepoints around remot=
+elly called functions
+> config: riscv-buildonly-randconfig-r004-20230509 (https://download.01.org=
+/0day-ci/archive/20230511/202305110816.mcNeYnWd-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb=
+98227c90adf2536c9ad644a74d5e92961111)
+> reproduce (this is a W=3D1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install riscv cross compiling tool for clang build
+>         # apt-get install binutils-riscv64-linux-gnu
+>         # https://github.com/intel-lab-lkp/linux/commit/fcef1c202a1635b9c=
+7244f06bbad605562b83d43
+>         git remote add linux-review https://github.com/intel-lab-lkp/linu=
+x
+>         git fetch --no-tags linux-review Leonardo-Bras/trace-smp-Add-trac=
+epoints-around-remotelly-called-functions/20230511-070554
+>         git checkout fcef1c202a1635b9c7244f06bbad605562b83d43
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
+=3D1 O=3Dbuild_dir ARCH=3Driscv olddefconfig
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross W=
+=3D1 O=3Dbuild_dir ARCH=3Driscv SHELL=3D/bin/bash
+>=20
+> If you fix the issue, kindly add following tag where applicable
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Link: https://lore.kernel.org/oe-kbuild-all/202305110816.mcNeYnWd-lkp@i=
+ntel.com/
+>=20
+> All warnings (new ones prefixed by >>):
+>=20
+> > > kernel/smp.c:389:27: warning: passing 8-byte aligned argument to 32-b=
+yte aligned parameter 3 of 'csd_do_func' may result in an unaligned pointer=
+ access [-Walign-mismatch]
+>                    csd_do_func(func, info, csd);
+>                                            ^
+>    1 warning generated.
 
-First bad commit (maybe != root cause):
+Oh, ok, it makes sense.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d295b66a7b66ed504a827b58876ad9ea48c0f4a8
-commit: ded2ee36313c941f1a12b6f85cde295b575264ae openrisc: Add pci bus support
-date:   10 months ago
-config: openrisc-buildonly-randconfig-r001-20230511 (https://download.01.org/0day-ci/archive/20230511/202305111044.dALqNbL3-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ded2ee36313c941f1a12b6f85cde295b575264ae
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ded2ee36313c941f1a12b6f85cde295b575264ae
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash drivers/net/wireless/intel/iwlegacy/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305111044.dALqNbL3-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/wireless/intel/iwlegacy/4965-mac.c: In function 'il4965_tx_skb':
->> drivers/net/wireless/intel/iwlegacy/4965-mac.c:1653:29: warning: variable 'out_meta' set but not used [-Wunused-but-set-variable]
-    1653 |         struct il_cmd_meta *out_meta;
-         |                             ^~~~~~~~
+On generic_exec_single(), the second parameter is a struct __call_single_da=
+ta,
+while csd_do_func() csd argument is a call_single_data_t.
 
 
-vim +/out_meta +1653 drivers/net/wireless/intel/iwlegacy/4965-mac.c
+In smp.h we have:
 
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1638  
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1639  /*
-4d69c7521a90cb drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-08-30  1640   * start C_TX command process
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1641   */
-e7392364fcd100 drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1642  int
-36323f817af037 drivers/net/wireless/iwlegacy/4965-mac.c Thomas Huehn      2012-07-23  1643  il4965_tx_skb(struct il_priv *il,
-36323f817af037 drivers/net/wireless/iwlegacy/4965-mac.c Thomas Huehn      2012-07-23  1644  	      struct ieee80211_sta *sta,
-36323f817af037 drivers/net/wireless/iwlegacy/4965-mac.c Thomas Huehn      2012-07-23  1645  	      struct sk_buff *skb)
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1646  {
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1647  	struct ieee80211_hdr *hdr = (struct ieee80211_hdr *)skb->data;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1648  	struct ieee80211_tx_info *info = IEEE80211_SKB_CB(skb);
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1649  	struct il_station_priv *sta_priv = NULL;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1650  	struct il_tx_queue *txq;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1651  	struct il_queue *q;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1652  	struct il_device_cmd *out_cmd;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15 @1653  	struct il_cmd_meta *out_meta;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1654  	struct il_tx_cmd *tx_cmd;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1655  	int txq_id;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1656  	dma_addr_t phys_addr;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1657  	dma_addr_t txcmd_phys;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1658  	dma_addr_t scratch_phys;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1659  	u16 len, firstlen, secondlen;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1660  	u16 seq_number = 0;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1661  	__le16 fc;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1662  	u8 hdr_len;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1663  	u8 sta_id;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1664  	u8 wait_write_ptr = 0;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1665  	u8 tid = 0;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1666  	u8 *qc = NULL;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1667  	unsigned long flags;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1668  	bool is_agg = false;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1669  
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1670  	spin_lock_irqsave(&il->lock, flags);
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1671  	if (il_is_rfkill(il)) {
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1672  		D_DROP("Dropping - RF KILL\n");
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1673  		goto drop_unlock;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1674  	}
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1675  
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1676  	fc = hdr->frame_control;
-a1751b22a82e6c drivers/net/wireless/iwlegacy/4965-mac.c Stanislaw Gruszka 2011-11-15  1677  
+/* Use __aligned() to avoid to use 2 cache lines for 1 csd */
+typedef struct __call_single_data call_single_data_t
+=09__aligned(sizeof(struct __call_single_data));
 
-:::::: The code at line 1653 was first introduced by commit
-:::::: a1751b22a82e6cd2da6c9e79611cfd6d6aba1d39 iwlegacy: merge iwl-4965-{tx,rx}.c into 4965-mac.c
 
-:::::: TO: Stanislaw Gruszka <sgruszka@redhat.com>
-:::::: CC: Stanislaw Gruszka <sgruszka@redhat.com>
+Which makes call_single_data_t 32-byte aligned, while struct __call_single_=
+data
+is 8-byte aligned in 64BIT.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Changing like this should fix the warning:
+-csd_do_func(smp_call_func_t func, void *info, call_single_data_t *csd)
++csd_do_func(smp_call_func_t func, void *info, struct __call_single_data *c=
+sd)
+
+
+I will send this on v4 shortly.
+
+
+>=20
+>=20
+> vim +/csd_do_func +389 kernel/smp.c
+>=20
+>    369=09
+>    370=09/*
+>    371=09 * Insert a previously allocated call_single_data_t element
+>    372=09 * for execution on the given CPU. data must already have
+>    373=09 * ->func, ->info, and ->flags set.
+>    374=09 */
+>    375=09static int generic_exec_single(int cpu, struct __call_single_dat=
+a *csd)
+>    376=09{
+>    377=09=09if (cpu =3D=3D smp_processor_id()) {
+>    378=09=09=09smp_call_func_t func =3D csd->func;
+>    379=09=09=09void *info =3D csd->info;
+>    380=09=09=09unsigned long flags;
+>    381=09
+>    382=09=09=09/*
+>    383=09=09=09 * We can unlock early even for the synchronous on-stack c=
+ase,
+>    384=09=09=09 * since we're doing this from the same CPU..
+>    385=09=09=09 */
+>    386=09=09=09csd_lock_record(csd);
+>    387=09=09=09csd_unlock(csd);
+>    388=09=09=09local_irq_save(flags);
+>  > 389=09=09=09csd_do_func(func, info, csd);
+>    390=09=09=09csd_lock_record(NULL);
+>    391=09=09=09local_irq_restore(flags);
+>    392=09=09=09return 0;
+>    393=09=09}
+>    394=09
+>    395=09=09if ((unsigned)cpu >=3D nr_cpu_ids || !cpu_online(cpu)) {
+>    396=09=09=09csd_unlock(csd);
+>    397=09=09=09return -ENXIO;
+>    398=09=09}
+>    399=09
+>    400=09=09__smp_call_single_queue(cpu, &csd->node.llist);
+>    401=09
+>    402=09=09return 0;
+>    403=09}
+>    404=09
+>=20
+
