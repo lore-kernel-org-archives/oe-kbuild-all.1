@@ -1,43 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD76629;
-	Thu, 11 May 2023 15:32:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD135653
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 16:13:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683819152; x=1715355152;
+  t=1683821613; x=1715357613;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zJ/KXKey+MForJ+KvlFh17iPEYXRJ+7tgAXrXnWw4CY=;
-  b=KL2PUHvmbG9+OWQlS5u3NHXPCgec1MlFHrUld7rqp08wSbdWJE579mnK
-   4ckfA/fMHQacybAguip2xxIqM8Qhzb3Eo3mEnY2gMfjqxUNIt5bLPu4OW
-   Ckhpdpi9m7GciNwMoVR4rr8002RDweqjk3j+tl1s4IPb0UNHQkCdXJ/24
-   7T1yqV82l47hu5mR/05hllD942YINS6dX+qHwsxd6fG0oBKFFR1HTu6EX
-   3S9cZmEtyRmd/LaMZq3PXJ3Q5dQNxT0vOGsDR1kAzwX4o4p9cedq/9SsY
-   KJapicA8kEFIGDar4znC4uKCtaBv5um/KVXTMPxBuakRPbfTf0CEF05aE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="339833325"
+  bh=OTW3U7hWP/pnenQHAXg587szd9tmcKcEkFIByNMvBc0=;
+  b=eyJh6xMyT6FkapJ/tI+c2P0AAjmj3lZlBd6en7+fP+2pJNvQQM8ddbe4
+   +KLkLGnDO8tLjJDIvHYxb/jZKUTI0wZl9RTekWTneiA2dHnCaBupoQcx/
+   IuH6Lo/Pywc62AnGaXWSJ2OS1ML+u7O0+2ooUeP329hHA/NxCNtaT7qMK
+   YA+JXyrWvRPM/7D6eOtuQkJvEMattOvy41fXZvR9Ll45RrE4jrQ7NTGbE
+   detQ6/9WSfbyC8JXpxMxCS1AG+AmSaNiHYPsaGNyeIMBCRdNlen/ETakj
+   9M0+DF3hJIoKVqegjjyiBJUxSHRV7437+wc8+IHWpOc3Z+94EUz5gWhoN
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="330905445"
 X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
-   d="scan'208";a="339833325"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 08:32:31 -0700
+   d="scan'208";a="330905445"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 09:13:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="693850167"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="874036719"
 X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
-   d="scan'208";a="693850167"
+   d="scan'208";a="874036719"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 11 May 2023 08:32:30 -0700
+  by orsmga005.jf.intel.com with ESMTP; 11 May 2023 09:13:31 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1px8HN-00045E-2p;
-	Thu, 11 May 2023 15:32:29 +0000
-Date: Thu, 11 May 2023 23:31:51 +0800
+	id 1px8v4-00046O-2o;
+	Thu, 11 May 2023 16:13:30 +0000
+Date: Fri, 12 May 2023 00:12:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:hotplug 20/37] kernel/cpu.c:304:20: error: incompatible
- pointer types passing 'atomic_t **' to parameter of type 'atomic_t *';
- remove &
-Message-ID: <202305112311.qSBPUoSu-lkp@intel.com>
+To: Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: include/linux/compiler_types.h:338:45: error: call to
+ '__compiletime_assert_285' declared with attribute error: BUILD_BUG_ON
+ failed: (24-12) >= 12
+Message-ID: <202305120022.64DSCOy5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,62 +47,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git hotplug
-head:   33940aaa057c4488b11b5de90abf994ffed76eac
-commit: 1507da72e88398f36d93398556ab865e98b4618a [20/37] x86/smpboot: Switch to hotplug core state synchronization
-config: i386-randconfig-a013 (https://download.01.org/0day-ci/archive/20230511/202305112311.qSBPUoSu-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Will,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   80e62bc8487b049696e67ad133c503bf7f6806f7
+commit: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+date:   2 years, 10 months ago
+config: arc-randconfig-r043-20230509 (https://download.01.org/0day-ci/archive/20230512/202305120022.64DSCOy5-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=1507da72e88398f36d93398556ab865e98b4618a
-        git remote add tglx-devel https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git
-        git fetch --no-tags tglx-devel hotplug
-        git checkout 1507da72e88398f36d93398556ab865e98b4618a
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305112311.qSBPUoSu-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305120022.64DSCOy5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/cpu.c:304:20: error: incompatible pointer types passing 'atomic_t **' to parameter of type 'atomic_t *'; remove & [-Werror,-Wincompatible-pointer-types]
-           (void)atomic_xchg(&st, state);
-                             ^~~
-   include/linux/atomic/atomic-instrumented.h:470:23: note: passing argument to parameter 'v' here
-   atomic_xchg(atomic_t *v, int i)
-                         ^
-   1 error generated.
+   In file included from <command-line>:
+   mm/huge_memory.c: In function 'hugepage_init':
+>> include/linux/compiler_types.h:338:45: error: call to '__compiletime_assert_285' declared with attribute error: BUILD_BUG_ON failed: (24-12) >= 12
+     338 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:319:25: note: in definition of macro '__compiletime_assert'
+     319 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:338:9: note: in expansion of macro '_compiletime_assert'
+     338 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/bug.h:24:25: note: in expansion of macro 'BUILD_BUG_ON'
+      24 |                         BUILD_BUG_ON(cond);             \
+         |                         ^~~~~~~~~~~~
+   mm/huge_memory.c:403:9: note: in expansion of macro 'MAYBE_BUILD_BUG_ON'
+     403 |         MAYBE_BUILD_BUG_ON(HPAGE_PMD_ORDER >= MAX_ORDER);
+         |         ^~~~~~~~~~~~~~~~~~
 
 
-vim +304 kernel/cpu.c
+vim +/__compiletime_assert_285 +338 include/linux/compiler_types.h
 
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  291  
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  292  #ifdef CONFIG_HOTPLUG_CORE_SYNC
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  293  /**
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  294   * cpuhp_ap_update_sync_state - Update synchronization state during bringup/teardown
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  295   * @state:	The synchronization state to set
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  296   *
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  297   * No synchronization point. Just update of the synchronization state, but implies
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  298   * a full barrier so that the AP changes are visible before the control CPU proceeds.
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  299   */
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  300  static inline void cpuhp_ap_update_sync_state(enum cpuhp_sync_state state)
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  301  {
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  302  	atomic_t *st = this_cpu_ptr(&cpuhp_state.ap_sync_state);
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  303  
-2dcac02ca74e74 Thomas Gleixner 2023-05-08 @304  	(void)atomic_xchg(&st, state);
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  305  }
-2dcac02ca74e74 Thomas Gleixner 2023-05-08  306  
-
-:::::: The code at line 304 was first introduced by commit
-:::::: 2dcac02ca74e74a493ea41b4add310ca7c9e096c cpu/hotplug: Add CPU state tracking and synchronization
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+   324	
+   325	#define _compiletime_assert(condition, msg, prefix, suffix) \
+   326		__compiletime_assert(condition, msg, prefix, suffix)
+   327	
+   328	/**
+   329	 * compiletime_assert - break build and emit msg if condition is false
+   330	 * @condition: a compile-time constant condition to check
+   331	 * @msg:       a message to emit if condition is false
+   332	 *
+   333	 * In tradition of POSIX assert, this macro will break the build if the
+   334	 * supplied condition is *false*, emitting the supplied error message if the
+   335	 * compiler has support to do so.
+   336	 */
+   337	#define compiletime_assert(condition, msg) \
+ > 338		_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+   339	
 
 -- 
 0-DAY CI Kernel Test Service
