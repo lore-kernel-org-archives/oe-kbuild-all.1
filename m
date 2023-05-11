@@ -1,133 +1,102 @@
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49891F920;
-	Thu, 11 May 2023 13:41:05 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-	by mailnew.west.internal (Postfix) with ESMTP id 06E522B05DDC;
-	Thu, 11 May 2023 09:41:02 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Thu, 11 May 2023 09:41:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1683812462; x=1683819662; bh=bN
-	MS+yJaTUyOEJLQDsSJtM7hMQk3rsz9Tjm7dcU5DZg=; b=pbfvNGcEhT5R087tiN
-	QnEE33cGWBvS5AiGVm1gu96LmUVgkxF03e4K96Ei9qPwA7fiKdXmlXU35YSty4lV
-	upc6nhsgrNKO1Zu5vJdZRzsTYt5+zUsNa1/G1LgbSdyvZAkWWcimIWPpFpGxaLK6
-	hH7/y6eKFwClAzo+2pbOB483InnbRNbufNRaxh3CrbmLD7GhYXkCtmotomtbcOHW
-	NAkD92i1A1Bqcysq66C1J4W0/8Ffr4tm/CjkCymgi72EioBx6dkJg+rOhYWSOSEQ
-	rfFDwhYNZARWUi2ZC5uIDwtU5o7jO6mXg31RmRIKFygPD4lgfPnMU2vHZpWLzWR9
-	tY6A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1683812462; x=1683819662; bh=bNMS+yJaTUyOE
-	JLQDsSJtM7hMQk3rsz9Tjm7dcU5DZg=; b=NUVaoKGjAUB1IvBp3dt6JHnnJHLVm
-	5FazabUKUOC3zaEmLNyDQKpBgQBJXDhw6415JSYAsI7vcdS5XzphHJbcm+e1RYhU
-	llcs9weTW01qk5AxUBbjOtH2kzwx7xePfQXIMcfPmjZGOSYBauaruz9JqW/61W85
-	heX8lT7nka5DtfPGfdG7S5QpZIuNTpDxxrHbUPJHanrVYS+a2Xfw0XBnyLyCziCN
-	FQo1Pxm5MNwRhnbgYrHcF3+uL/xmCS5YxmDTGoWN77KSYtOLmS5dlADRru9/PWae
-	uUp8Kzt4lULTaZjWcoN7X0TwqmJ+FUlxtD2Zae1Lsi2pmq9JY+k/goTzg==
-X-ME-Sender: <xms:bfBcZMNSgCzv51ibNqiMadxkekdHAGVmhQZVB7Xg4Ch3ubv8oc_OqQ>
-    <xme:bfBcZC-LuOp4qL-OBOPp41xrwYUB7X6JxntaEUrPpvOl-0LjASR1mtr0iBts6oiZU
-    CITzOT_9aVK9gzgF74>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeegkedgieekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
-    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
-    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
-    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:bfBcZDTVU8Z1aHlCiwHMzI3BQFNOhMCOOgQIyHMelQO9w3lKyBypBg>
-    <xmx:bfBcZEvrEazOWER04N0wAeZIGr8U1lNFD45nasK99m4-LBGcCbMMFQ>
-    <xmx:bfBcZEdVboxFWTIW74hVqDVfva2XernqNuoZ92ynPmme6ph_Ri3bvw>
-    <xmx:bvBcZKe-JadH7ZmJYk5LO7CV-vuIG1KgQLl2SxyA8Qajy4KAMUmi0_Uv4kk>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 81468B60089; Thu, 11 May 2023 09:41:01 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-415-gf2b17fe6c3-fm-20230503.001-gf2b17fe6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13934369
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 14:03:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
+	t=1683813790; bh=535/H9AZBcljuFulBnAulAjlubwZxug7JeX4NBgvoLE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=JRInyDloqhWfvqXDWVviNHQUcuKrZGIbV4F6Sf3/HrAHzJaQaM7v8mp73j1UK0uiQ
+	 TPhgwa4yBLEzTYVVW5FH3a04xBIr4XJXZ9Tfbsf/wAe2E/yE1qtEJZAJfw+Ej7xmMB
+	 uMwoKKho3nbkzKJvPItB6nlaJWH46IaZNZ9omctg=
+Received: from [100.100.57.122] (unknown [58.34.185.106])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 6144F60106;
+	Thu, 11 May 2023 22:03:10 +0800 (CST)
+Message-ID: <cf8f8460-c2c8-cf57-c6fb-d289c8727745@xen0n.name>
+Date: Thu, 11 May 2023 22:03:09 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-Id: <d27e359c-1ea3-4d08-b124-e794fd372b28@app.fastmail.com>
-In-Reply-To: <9c4be198444e9987c826c87b592e9dc6@artur-rojek.eu>
-References: <20230510110557.14343-6-tzimmermann@suse.de>
- <202305102136.eMjTSPwH-lkp@intel.com>
- <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
- <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
- <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
- <CAMuHMdVvR1jdbZS8KoMf4R3zhLRWKv9XbG61iBGOGGZPHB+taA@mail.gmail.com>
- <9c4be198444e9987c826c87b592e9dc6@artur-rojek.eu>
-Date: Thu, 11 May 2023 15:40:28 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Artur Rojek" <contact@artur-rojek.eu>,
- "Geert Uytterhoeven" <geert@linux-m68k.org>
-Cc: "Thomas Zimmermann" <tzimmermann@suse.de>,
- "kernel test robot" <lkp@intel.com>, "Helge Deller" <deller@gmx.de>,
- "Javier Martinez Canillas" <javierm@redhat.com>,
- "Daniel Vetter" <daniel@ffwll.ch>, "Vineet Gupta" <vgupta@kernel.org>,
- "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
- "David S . Miller" <davem@davemloft.net>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Sam Ravnborg" <sam@ravnborg.org>, suijingfeng@loongson.cn,
- oe-kbuild-all@lists.linux.dev, Linux-Arch <linux-arch@vger.kernel.org>,
- linux-fbdev@vger.kernel.org, linux-ia64@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-m68k@lists.linux-m68k.org,
- loongarch@lists.linux.dev, sparclinux@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
-Content-Type: text/plain
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.10.1
+Subject: Re: [agd5f:drm-next 226/226]
+ drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:95:17: error:
+ implicit declaration of function 'kernel_fpu_begin'; did you mean
+ 'dc_fpu_begin'?
+Content-Language: en-US
+To: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
+ kernel test robot <lkp@intel.com>, Huacai Chen <chenhuacai@loongson.cn>
+Cc: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+ "Mahfooz, Hamza" <Hamza.Mahfooz@amd.com>
+References: <202305111617.0zRJPm91-lkp@intel.com>
+ <b13b1fa3-8afb-b5d0-c48d-a97b0ac9a475@xen0n.name>
+ <BL1PR12MB51442230AD12A99CEF9EA1BEF7749@BL1PR12MB5144.namprd12.prod.outlook.com>
+From: WANG Xuerui <kernel@xen0n.name>
+In-Reply-To: <BL1PR12MB51442230AD12A99CEF9EA1BEF7749@BL1PR12MB5144.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 11, 2023, at 15:22, Artur Rojek wrote:
-> On 2023-05-11 14:35, Geert Uytterhoeven wrote:
->> 
->> CC Artur, who's working on HP Jornada 680.
-> Thanks for CC'ing me - I faced this exact issue while working on my
-> (still not upstreamed) hd6446x PCMCIA controller driver. The PCMCIA
-> subsystem uses `inb/outb`, which expect the `sh_io_port_base` to be set
-> to something else than the default `-1`. At first I tried to set it to
-> `0xa0000000`, so that all I/O goes through the fixed, non-cacheable P2
-> area. That however broke some other driver code (I had no time to debug
-> which one). Eventually I ended up taking a suggestion from a MIPS PCMCIA
-> driver [1] and simply substract the broken `sh_io_port_base` address
-> from `HD64461_IOBASE`, as the base for `socket.io_offset`. This way all
-> the PCMCIA `inb/outb` accesses are absolute, no matter what the
-> `sh_io_port_base` is set to. This of course is a very ugly solution and
-> we should instead fix the root cause of this mess. I will have a better
-> look at this patch set and the problem at hand at a later date.
->
-> Cheers,
-> Artur
->
-> [1] 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/pcmcia/db1xxx_ss.c?h=v6.4-rc1#n527
+On 2023/5/11 21:07, Deucher, Alexander wrote:
+> [Public]
+> 
+>> -----Original Message-----
+>> From: WANG Xuerui <kernel@xen0n.name>
+>> Sent: Thursday, May 11, 2023 4:54 AM
+>> To: kernel test robot <lkp@intel.com>; Huacai Chen
+>> <chenhuacai@loongson.cn>
+>> Cc: oe-kbuild-all@lists.linux.dev; Deucher, Alexander
+>> <Alexander.Deucher@amd.com>; Mahfooz, Hamza
+>> <Hamza.Mahfooz@amd.com>
+>> Subject: Re: [agd5f:drm-next 226/226]
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:95:17:
+>> error: implicit declaration of function 'kernel_fpu_begin'; did you mean
+>> 'dc_fpu_begin'?
+>>
+>> On 2023/5/11 16:42, kernel test robot wrote:
+>>> [snip]
+>>>
+>>> All errors (new ones prefixed by >>):
+>>>
+>>>      drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c: In
+>> function 'dc_fpu_begin':
+>>>>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:95:17:
+>>>>> error: implicit declaration of function 'kernel_fpu_begin'; did you
+>>>>> mean 'dc_fpu_begin'? [-Werror=implicit-function-declaration]
+>>>         95 |                 kernel_fpu_begin();
+>>>            |                 ^~~~~~~~~~~~~~~~
+>>>            |                 dc_fpu_begin
+>>>      drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c: In
+>> function 'dc_fpu_end':
+>>>>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:134:17:
+>>>>> error: implicit declaration of function 'kernel_fpu_end'; did you
+>>>>> mean 'kernel_read'? [-Werror=implicit-function-declaration]
+>>>        134 |                 kernel_fpu_end();
+>>>            |                 ^~~~~~~~~~~~~~
+>>>            |                 kernel_read
+>>>      cc1: some warnings being treated as errors
+>>>
+>>> [snip]
+>> I checked the https://gitlab.freedesktop.org/agd5f/linux repo and it seems
+>> the baseline is still v6.1.11. The arch/loongarch FPU functions only appeared
+>> in upstream v6.3. Do we arch/loongarch porters need to do anything to
+>> handle such a combination, or can the baseline be updated somehow?
+> 
+> I can drop it until drm-next moves to 6.3 and then add it back at that time.
 
-I think the best fix would be to change all those drivers away
-from using inb/outb to readb/writeb, except when they access the
-actual PCMCIA I/O space behind the bridge.
+Fine with me, sorry for the inconvenience caused.
 
-On most of the modern architectures, inb(addr) now turns into
-approximately readb(PCI_IOBASE + addr), with a bit of extra
-logic to deal with endianess and barrier semantics.
+BTW, how long will it approximately take for such a baseline bump? Would 
+probably be nice to know that as it can help managing expectations e.g. 
+at Loongson side and for community users.
 
-PCI_IOBASE in turn tends to be a hardcoded virtual address
-to which the physical I/O space window gets mapped during
-early boot, though you can also #define it to sh_io_port_base
-if you want to allocate the virtual address dynamically and
-leave the existing logic unchanged.
+-- 
+WANG "xen0n" Xuerui
 
-Setting sh_io_port_base to zero however is a problem for any
-driver that passes a small port number into it -- this then
-turns into a user space pointer dereference, which is trivially
-exploitable.
+Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
 
-     Arnd
