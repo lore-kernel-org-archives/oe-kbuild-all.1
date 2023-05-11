@@ -1,102 +1,117 @@
-Received: from mailbox.box.xen0n.name (mail.xen0n.name [115.28.160.31])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13934369
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 14:03:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
-	t=1683813790; bh=535/H9AZBcljuFulBnAulAjlubwZxug7JeX4NBgvoLE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JRInyDloqhWfvqXDWVviNHQUcuKrZGIbV4F6Sf3/HrAHzJaQaM7v8mp73j1UK0uiQ
-	 TPhgwa4yBLEzTYVVW5FH3a04xBIr4XJXZ9Tfbsf/wAe2E/yE1qtEJZAJfw+Ej7xmMB
-	 uMwoKKho3nbkzKJvPItB6nlaJWH46IaZNZ9omctg=
-Received: from [100.100.57.122] (unknown [58.34.185.106])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 6144F60106;
-	Thu, 11 May 2023 22:03:10 +0800 (CST)
-Message-ID: <cf8f8460-c2c8-cf57-c6fb-d289c8727745@xen0n.name>
-Date: Thu, 11 May 2023 22:03:09 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74ACD1F956;
+	Thu, 11 May 2023 14:19:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683814794; x=1715350794;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3vKeUp1MgKXuPO2KHbni+kKpyIP8A1nYuuHf6QGEErM=;
+  b=ZKr706xpbjnnxBKIo67wDt1o0bIZFcuKtxcstQ6H/tzyKkAK64DBAHV2
+   U6L/zDbrV9wPUc0oCbAAFKBQoz6IEgpWjdo57DTF5bVXCGuJht6Th0L2m
+   QYfpySG1yjw4nHZDvw6g+YMZ/mHqK0YWeQDwb/uyfNUxkFVSb44csenVe
+   jLhtSyY1EHZZSsvN1AQYBlCzpMz8QtHRHb1svu1wF3Xu6GevEQPan4Ka7
+   ub0KA1U08GgSddypw2b6U6QPtpofenFrrxaq/pNB9e17hX9UcPkKg9W8R
+   o0GJ1X6dxM5kM12pi+kFWcIojlhvO5yFxhpJOd/b0jKtttxTk/jDR3gsb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="413863234"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="413863234"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 07:15:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="732592975"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="732592975"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 11 May 2023 07:15:28 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1px74p-00042e-2U;
+	Thu, 11 May 2023 14:15:27 +0000
+Date: Thu, 11 May 2023 22:14:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stefan Roesch <shr@devkernel.io>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>
+Subject: mm/ksm.c:2439:13: warning: stack frame size (2576) exceeds limit
+ (2048) in 'ksm_do_scan'
+Message-ID: <202305112201.5lqIyEo4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.1
-Subject: Re: [agd5f:drm-next 226/226]
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:95:17: error:
- implicit declaration of function 'kernel_fpu_begin'; did you mean
- 'dc_fpu_begin'?
-Content-Language: en-US
-To: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- kernel test robot <lkp@intel.com>, Huacai Chen <chenhuacai@loongson.cn>
-Cc: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
- "Mahfooz, Hamza" <Hamza.Mahfooz@amd.com>
-References: <202305111617.0zRJPm91-lkp@intel.com>
- <b13b1fa3-8afb-b5d0-c48d-a97b0ac9a475@xen0n.name>
- <BL1PR12MB51442230AD12A99CEF9EA1BEF7749@BL1PR12MB5144.namprd12.prod.outlook.com>
-From: WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <BL1PR12MB51442230AD12A99CEF9EA1BEF7749@BL1PR12MB5144.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2023/5/11 21:07, Deucher, Alexander wrote:
-> [Public]
-> 
->> -----Original Message-----
->> From: WANG Xuerui <kernel@xen0n.name>
->> Sent: Thursday, May 11, 2023 4:54 AM
->> To: kernel test robot <lkp@intel.com>; Huacai Chen
->> <chenhuacai@loongson.cn>
->> Cc: oe-kbuild-all@lists.linux.dev; Deucher, Alexander
->> <Alexander.Deucher@amd.com>; Mahfooz, Hamza
->> <Hamza.Mahfooz@amd.com>
->> Subject: Re: [agd5f:drm-next 226/226]
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:95:17:
->> error: implicit declaration of function 'kernel_fpu_begin'; did you mean
->> 'dc_fpu_begin'?
->>
->> On 2023/5/11 16:42, kernel test robot wrote:
->>> [snip]
->>>
->>> All errors (new ones prefixed by >>):
->>>
->>>      drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c: In
->> function 'dc_fpu_begin':
->>>>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:95:17:
->>>>> error: implicit declaration of function 'kernel_fpu_begin'; did you
->>>>> mean 'dc_fpu_begin'? [-Werror=implicit-function-declaration]
->>>         95 |                 kernel_fpu_begin();
->>>            |                 ^~~~~~~~~~~~~~~~
->>>            |                 dc_fpu_begin
->>>      drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c: In
->> function 'dc_fpu_end':
->>>>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/dc_fpu.c:134:17:
->>>>> error: implicit declaration of function 'kernel_fpu_end'; did you
->>>>> mean 'kernel_read'? [-Werror=implicit-function-declaration]
->>>        134 |                 kernel_fpu_end();
->>>            |                 ^~~~~~~~~~~~~~
->>>            |                 kernel_read
->>>      cc1: some warnings being treated as errors
->>>
->>> [snip]
->> I checked the https://gitlab.freedesktop.org/agd5f/linux repo and it seems
->> the baseline is still v6.1.11. The arch/loongarch FPU functions only appeared
->> in upstream v6.3. Do we arch/loongarch porters need to do anything to
->> handle such a combination, or can the baseline be updated somehow?
-> 
-> I can drop it until drm-next moves to 6.3 and then add it back at that time.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   80e62bc8487b049696e67ad133c503bf7f6806f7
+commit: 739100c88f49a67c6487bb2d826b0b5a2ddc80e2 mm: add tracepoints to ksm
+date:   6 weeks ago
+config: mips-randconfig-r023-20230511 (https://download.01.org/0day-ci/archive/20230511/202305112201.5lqIyEo4-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips64-linux-gnuabi64
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=739100c88f49a67c6487bb2d826b0b5a2ddc80e2
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 739100c88f49a67c6487bb2d826b0b5a2ddc80e2
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
-Fine with me, sorry for the inconvenience caused.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305112201.5lqIyEo4-lkp@intel.com/
 
-BTW, how long will it approximately take for such a baseline bump? Would 
-probably be nice to know that as it can help managing expectations e.g. 
-at Loongson side and for community users.
+All warnings (new ones prefixed by >>):
+
+>> mm/ksm.c:2439:13: warning: stack frame size (2576) exceeds limit (2048) in 'ksm_do_scan' [-Wframe-larger-than]
+   static void ksm_do_scan(unsigned int scan_npages)
+               ^
+   2492/2576 (96.74%) spills, 84/2576 (3.26%) variables
+   1 warning generated.
+
+
+vim +/ksm_do_scan +2439 mm/ksm.c
+
+31dbd01f314364 Izik Eidus       2009-09-21  2434  
+31dbd01f314364 Izik Eidus       2009-09-21  2435  /**
+31dbd01f314364 Izik Eidus       2009-09-21  2436   * ksm_do_scan  - the ksm scanner main worker function.
+b7701a5f2ee8e6 Mike Rapoport    2018-02-06  2437   * @scan_npages:  number of pages we want to scan before we return.
+31dbd01f314364 Izik Eidus       2009-09-21  2438   */
+31dbd01f314364 Izik Eidus       2009-09-21 @2439  static void ksm_do_scan(unsigned int scan_npages)
+31dbd01f314364 Izik Eidus       2009-09-21  2440  {
+21fbd59136e077 Qi Zheng         2022-08-31  2441  	struct ksm_rmap_item *rmap_item;
+3f649ab728cda8 Kees Cook        2020-06-03  2442  	struct page *page;
+31dbd01f314364 Izik Eidus       2009-09-21  2443  
+878aee7d6b5504 Andrea Arcangeli 2011-01-13  2444  	while (scan_npages-- && likely(!freezing(current))) {
+31dbd01f314364 Izik Eidus       2009-09-21  2445  		cond_resched();
+31dbd01f314364 Izik Eidus       2009-09-21  2446  		rmap_item = scan_get_next_rmap_item(&page);
+31dbd01f314364 Izik Eidus       2009-09-21  2447  		if (!rmap_item)
+31dbd01f314364 Izik Eidus       2009-09-21  2448  			return;
+31dbd01f314364 Izik Eidus       2009-09-21  2449  		cmp_and_merge_page(page, rmap_item);
+31dbd01f314364 Izik Eidus       2009-09-21  2450  		put_page(page);
+31dbd01f314364 Izik Eidus       2009-09-21  2451  	}
+31dbd01f314364 Izik Eidus       2009-09-21  2452  }
+31dbd01f314364 Izik Eidus       2009-09-21  2453  
+
+:::::: The code at line 2439 was first introduced by commit
+:::::: 31dbd01f314364b70c2e026a5793a29a4da8a9dc ksm: Kernel SamePage Merging
+
+:::::: TO: Izik Eidus <ieidus@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
-WANG "xen0n" Xuerui
-
-Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
