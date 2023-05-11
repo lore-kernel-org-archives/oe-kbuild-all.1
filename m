@@ -1,175 +1,123 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9A265B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 11:39:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683805147; x=1715341147;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tqDmk9zg5RCNehFZcXqeAZSGNPkPAuEwX2Rv9bjN99o=;
-  b=OkyhJbtPoxV8gD50IwTcQ2t/qq2pYJtLoRTuK/655WXuCKtqa+fddy1s
-   Z5YhkEeAITMThMTIzAoaD3STFmbXnbs6jA/UzM/RSHkTysnFeMNqwFUfJ
-   aVVn4obaWp4eD95i3/YnTspyWRe4Uas3k/jdn03E0MN9fa03aXfJweOtu
-   Ww2bFgAotz4/zfujA1QFKyMU9XA2V30Z/RzUeHaHzqKS8TOc1aNsduXSG
-   keCbzaTrt8q6l6dmXztfDa9gWJJeLPR0YcVjys7Aov5FIZK2Y6veDCHG4
-   o0P3sFyMyLTd08YEqfdZKZlP89FH8WxpmYtYCdkhJlBzZHakcTNak/KMG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="339748647"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
-   d="scan'208";a="339748647"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 04:39:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="677208283"
-X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
-   d="scan'208";a="677208283"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 11 May 2023 04:39:05 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1px4dU-0003zQ-2g;
-	Thu, 11 May 2023 11:39:04 +0000
-Date: Thu, 11 May 2023 19:38:58 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jon Moeller <jon.moeller@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: [intel-lts:4.19/android_s 5009/30000] versioncheck:
- ./drivers/platform/x86/sepdk/sep/chap.c: 26 linux/version.h not needed.
-Message-ID: <202305111914.sOtusE5e-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B55B65B;
+	Thu, 11 May 2023 12:36:07 +0000 (UTC)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-559eae63801so129598387b3.2;
+        Thu, 11 May 2023 05:36:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683808566; x=1686400566;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bccEgTIv+NuBZ7b0m7HvDAcmdwRNosK16KRrDt/LqxI=;
+        b=fmxDj6QL0kf6j/HYNUijezMNB3clKymChcxCOUWVr/cH2WRkEb3KiBUUC4gBtxXHVW
+         4PAiKtcpTkiXrrv3/cMRgA9xsNamjw4FD/L+e5Y+Q3PoYKOLV0P460BhGjSh/YZenutA
+         +e+gz2+WOVAbXPzltJsdW2r2XqLsxeN+luhx99zyynxFBffB+DfRuy7PQyLyJAKExjiF
+         P+7CcRfM86hfh/wYj83jmois17+0sd7Jk4iV5ZMX8lAhlCUICEjIUVnqqm/llf4GyZEE
+         hQxjCsFjIYZ/HoW+h04pxMurNm/etNLm/7I0StqLtYLsNohiWG/zPZUbjxvOxS+6luVD
+         PL0g==
+X-Gm-Message-State: AC+VfDxv+QbIsfjiOQ8T0vlLPvwD0BXTwkWLCsF8wt0Ke/etZIo7Hv/u
+	Mq2igfc9E4nh8YfWkdyF9UZNusobVUq9IA==
+X-Google-Smtp-Source: ACHHUZ7WxAh5Va9j2DKODVlLcYcuaGztEogmpitKpdMypfNhMxNnGigU4mDQVyi6S3aUJcVtBKMqpA==
+X-Received: by 2002:a0d:d4d0:0:b0:55a:abf8:5c0d with SMTP id w199-20020a0dd4d0000000b0055aabf85c0dmr20457977ywd.21.1683808565912;
+        Thu, 11 May 2023 05:36:05 -0700 (PDT)
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com. [209.85.128.180])
+        by smtp.gmail.com with ESMTPSA id h11-20020a816c0b000000b0054fdc874c8asm4881193ywc.59.2023.05.11.05.36.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 May 2023 05:36:04 -0700 (PDT)
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-559debdedb5so129814967b3.0;
+        Thu, 11 May 2023 05:36:03 -0700 (PDT)
+X-Received: by 2002:a81:8a05:0:b0:556:1b32:343b with SMTP id
+ a5-20020a818a05000000b005561b32343bmr19413336ywg.45.1683808563363; Thu, 11
+ May 2023 05:36:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230510110557.14343-6-tzimmermann@suse.de> <202305102136.eMjTSPwH-lkp@intel.com>
+ <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com> <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
+ <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
+In-Reply-To: <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 11 May 2023 14:35:51 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVvR1jdbZS8KoMf4R3zhLRWKv9XbG61iBGOGGZPHB+taA@mail.gmail.com>
+Message-ID: <CAMuHMdVvR1jdbZS8KoMf4R3zhLRWKv9XbG61iBGOGGZPHB+taA@mail.gmail.com>
+Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into <asm/fb.h>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, kernel test robot <lkp@intel.com>, Helge Deller <deller@gmx.de>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Daniel Vetter <daniel@ffwll.ch>, Vineet Gupta <vgupta@kernel.org>, 
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+	"David S . Miller" <davem@davemloft.net>, 
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, Sam Ravnborg <sam@ravnborg.org>, 
+	suijingfeng@loongson.cn, oe-kbuild-all@lists.linux.dev, 
+	Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org, 
+	linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev, 
+	sparclinux@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, Artur Rojek <contact@artur-rojek.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   a849597f74a39781c6e75671b5a91bb4e0043a43
-commit: fadb19e08fbf603c6b11d9c45dbf33accdd58016 [5009/30000] platform/x86: add sep and socwatch drivers without socperf.
-reproduce:
-        make versioncheck
+Hi Arnd,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305111914.sOtusE5e-lkp@intel.com/
+CC Artur, who's working on HP Jornada 680.
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
-   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
-   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 954: need linux/version.h
-   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
-   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
-   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
-   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
-   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
-   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
-   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1236: need linux/version.h
-   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
-   ./drivers/platform/x86/sepdk/inc/linuxos.h: 79: need linux/version.h
-   ./drivers/platform/x86/sepdk/inc/utility.h: 637: need linux/version.h
->> ./drivers/platform/x86/sepdk/sep/chap.c: 26 linux/version.h not needed.
-   ./drivers/platform/x86/sepdk/sep/core2.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/gmch.c: 26 linux/version.h not needed.
-   ./drivers/platform/x86/sepdk/sep/output.c: 27 linux/version.h not needed.
-   ./drivers/platform/x86/sepdk/sep/perfver4.c: 27 linux/version.h not needed.
-   ./drivers/platform/x86/sepdk/sep/pmi.c: 27 linux/version.h not needed.
-   ./drivers/platform/x86/sepdk/sep/silvermont.c: 27 linux/version.h not needed.
-   ./drivers/platform/x86/sepdk/sep/sys_info.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/unc_mmio.c: 29 linux/version.h not needed.
-   ./drivers/platform/x86/socwatch/sw_telem.c: 60 linux/version.h not needed.
-   ./drivers/platform/x86/socwatch/sw_tracepoint_handlers.c: 399: need linux/version.h
-   ./drivers/platform/x86/socwatchhv/swhv_acrn.c: 11 linux/version.h not needed.
-   ./drivers/platform/x86/socwatchhv/swhv_driver.c: 70 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
-   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
-   ./sound/soc/codecs/rt700.c: 18 linux/version.h not needed.
-   ./sound/soc/codecs/svfpga-i2c.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/svfpga.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+On Wed, May 10, 2023 at 5:55=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+> On Wed, May 10, 2023, at 16:27, Thomas Zimmermann wrote:
+> > Am 10.05.23 um 16:15 schrieb Arnd Bergmann:
+> >> On Wed, May 10, 2023, at 16:03, kernel test robot wrote:
+>
+> >> I think that's a preexisting bug and I have no idea what the
+> >> correct solution is. Looking for HD64461 shows it being used
+> >> both with inw/outw and readw/writew, so there is no way to have
+> >> the correct type. The sh __raw_readw() definition hides this bug,
+> >> but that is a problem with arch/sh and it probably hides others
+> >> as well.
+> >
+> > The constant HD64461_IOBASE is defined as integer at
+> >
+> >
+> > https://elixir.bootlin.com/linux/latest/source/arch/sh/include/asm/hd64=
+461.h#L17
+> >
+> > but fb_readw() expects a volatile-void pointer. I guess we could add a
+> > cast somewhere to silence the problem. In the current upstream code,
+> > that appears to be done by sh's __raw_readw() internally:
+> >
+> >
+> > https://elixir.bootlin.com/linux/latest/source/arch/sh/include/asm/io.h=
+#L35
+>
+> Sure, that would make it build again, but that still doesn't make the
+> code correct, since it's completely unclear what base address the
+> HD64461_IOBASE is relative to. The hp6xx platform code only passes it
+> through inw()/outw(), which take an offset relative to sh_io_port_base,
+> but that is not initialized on hp6xx. I tried to find in the history
+> when it broke, apparently that was in 2007 commit 34a780a0afeb ("sh:
+> hp6xx pata_platform support."), which removed the custom inw/outw
+> implementations.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+See also commit 4aafae27d0ce73f8 ("sh: hd64461 tidying."), which
+claims they are no longer needed.
+
+Don't the I/O port macros just treat the port as an absolute base address
+when sh_io_port_base isn't set?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
