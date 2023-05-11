@@ -1,231 +1,157 @@
-Received: from mx1.zhaoxin.com (MX1.ZHAOXIN.COM [210.0.225.12])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF901B8FE
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 09:20:54 +0000 (UTC)
-X-ASG-Debug-ID: 1683795732-086e237e5073c10001-VRTCNN
-Received: from ZXSHMBX2.zhaoxin.com (ZXSHMBX2.zhaoxin.com [10.28.252.164]) by mx1.zhaoxin.com with ESMTP id PI4CQ8RqxCkerOfb (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO); Thu, 11 May 2023 17:02:12 +0800 (CST)
-X-Barracuda-Envelope-From: WeitaoWang-oc@zhaoxin.com
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Received: from zxbjmbx1.zhaoxin.com (10.29.252.163) by ZXSHMBX2.zhaoxin.com
- (10.28.252.164) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 11 May
- 2023 17:02:12 +0800
-Received: from [192.168.3.65] (222.128.104.110) by zxbjmbx1.zhaoxin.com
- (10.29.252.163) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 11 May
- 2023 17:02:11 +0800
-X-Barracuda-RBL-Trusted-Forwarder: 10.28.252.164
-Message-ID: <55815ff0-cb80-e3d9-ee00-a5ce767769d6@zhaoxin.com>
-X-Barracuda-RBL-Trusted-Forwarder: 192.168.3.65
-Date: Fri, 12 May 2023 01:02:08 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5479D1B8FA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 09:25:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683797119; x=1715333119;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5Hj9yc7sh0xE1xchrg2O4Ovgolb0jQ/IfLZMJHlPAOw=;
+  b=T2TNty6pGBYrQRBwQM3cSMhRgd2uDGKmaOmWV/yxsUxuXvn4BtC8ZD7e
+   MFooUztq+K4jBgQA3pvHXiibu1WzrawWMpVz0SLbBTMm19+7TBX0/jNbU
+   VMUf6s/ALa3RbsBpJMoLIVsZ+bvCrdKaVRT4wvtYs2xmwNJHDpXQSynG3
+   1PVWmakQHexATcIoT6cXHVkc+fWNfQ02lL1xl6FE0mnXTLXxFwgMNLqxq
+   KJ/Torz47VqHKO5seCJavPS9D5AB61DEhzs/hSeiK6j/odCFV2zt+R6t3
+   vxOVImKGKy/AzRxokjr52pOOwPjpRjgI26WtF6CvF7L36PqVRhZEoQUsO
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="416042118"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="416042118"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 02:25:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="699651035"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="699651035"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 11 May 2023 02:25:01 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1px2Xk-0003v2-1P;
+	Thu, 11 May 2023 09:25:00 +0000
+Date: Thu, 11 May 2023 17:24:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Yew, Chang Ching" <chang.ching.yew@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:4.19/android_s 4227/30000] versioncheck:
+ ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1330: need
+ linux/version.h
+Message-ID: <202305111730.6yJeVyLp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [mnyman-xhci:for-usb-next 10/11] drivers/usb/host/xhci-mem.c:2040
- xhci_add_in_port() error: uninitialized symbol 'tmp_minor_revision'.
-Content-Language: en-US
-X-ASG-Orig-Subj: Re: [mnyman-xhci:for-usb-next 10/11] drivers/usb/host/xhci-mem.c:2040
- xhci_add_in_port() error: uninitialized symbol 'tmp_minor_revision'.
-To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>
-CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>, Mathias Nyman
-	<mathias.nyman@linux.intel.com>
-References: <0cb9bebf-c126-433b-9ee9-e6f44b4652b4@kili.mountain>
-From: "WeitaoWang-oc@zhaoxin.com" <WeitaoWang-oc@zhaoxin.com>
-In-Reply-To: <0cb9bebf-c126-433b-9ee9-e6f44b4652b4@kili.mountain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [222.128.104.110]
-X-ClientProxiedBy: ZXSHCAS1.zhaoxin.com (10.28.252.161) To
- zxbjmbx1.zhaoxin.com (10.29.252.163)
-X-Barracuda-Connect: ZXSHMBX2.zhaoxin.com[10.28.252.164]
-X-Barracuda-Start-Time: 1683795732
-X-Barracuda-Encrypted: ECDHE-RSA-AES128-GCM-SHA256
-X-Barracuda-URL: https://10.28.252.35:4443/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at zhaoxin.com
-X-Barracuda-Scan-Msg-Size: 12914
-X-Barracuda-BRTS-Status: 1
-X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
-X-Barracuda-Spam-Score: 1.49
-X-Barracuda-Spam-Status: No, SCORE=1.49 using global scores of TAG_LEVEL=1000.0 QUARANTINE_LEVEL=1000.0 KILL_LEVEL=9.0 tests=BSF_SC0_SA085b, DATE_IN_FUTURE_06_12, DATE_IN_FUTURE_06_12_2, MAILTO_TO_SPAM_ADDR
-X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.108617
-	Rule breakdown below
-	 pts rule name              description
-	---- ---------------------- --------------------------------------------------
-	0.01 DATE_IN_FUTURE_06_12   Date: is 6 to 12 hours after Received: date
-	0.00 MAILTO_TO_SPAM_ADDR    Includes a link to a likely spammer email
-	0.40 BSF_SC0_SA085b         Custom Rule SA085b
-	3.10 DATE_IN_FUTURE_06_12_2 DATE_IN_FUTURE_06_12_2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2023/5/11 00:51, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git for-usb-next
-> head:   de6fcb4b6f1c55298b3ed0dd3d43961f86aa1b12
-> commit: efcf3bab0767e057d8727b9a211fbb4fb4cdc81e [10/11] xhci: Show ZHAOXIN xHCI root hub speed correctly
-> config: loongarch-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230510/202305102129.39U7mZoj-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 12.1.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202305102129.39U7mZoj-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/usb/host/xhci-mem.c:2040 xhci_add_in_port() error: uninitialized symbol 'tmp_minor_revision'.
-> 
-> vim +/tmp_minor_revision +2040 drivers/usb/host/xhci-mem.c
-> 
-> da6699ce4a889c Sarah Sharp      2010-10-26  1959  static void xhci_add_in_port(struct xhci_hcd *xhci, unsigned int num_ports,
-> d5ddcdf4d672fd Mathias Nyman    2015-11-24  1960  		__le32 __iomem *addr, int max_caps)
-> da6699ce4a889c Sarah Sharp      2010-10-26  1961  {
-> da6699ce4a889c Sarah Sharp      2010-10-26  1962  	u32 temp, port_offset, port_count;
-> da6699ce4a889c Sarah Sharp      2010-10-26  1963  	int i;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1964  	u8 major_revision, minor_revision, tmp_minor_revision;
-> 47189098f8bebe Mathias Nyman    2015-10-01  1965  	struct xhci_hub *rhub;
-> a965315e59f3cb Adam Wallis      2018-05-22  1966  	struct device *dev = xhci_to_hcd(xhci)->self.sysdev;
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  1967  	struct xhci_port_cap *port_cap;
-> da6699ce4a889c Sarah Sharp      2010-10-26  1968
-> 47189098f8bebe Mathias Nyman    2015-10-01  1969  	temp = readl(addr);
-> d5ddcdf4d672fd Mathias Nyman    2015-11-24  1970  	major_revision = XHCI_EXT_PORT_MAJOR(temp);
-> b72eb8435b25be YD Tseng         2017-06-09  1971  	minor_revision = XHCI_EXT_PORT_MINOR(temp);
-> 47189098f8bebe Mathias Nyman    2015-10-01  1972
-> d5ddcdf4d672fd Mathias Nyman    2015-11-24  1973  	if (major_revision == 0x03) {
-> 47189098f8bebe Mathias Nyman    2015-10-01  1974  		rhub = &xhci->usb3_rhub;
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1975  		/*
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1976  		 * Some hosts incorrectly use sub-minor version for minor
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1977  		 * version (i.e. 0x02 instead of 0x20 for bcdUSB 0x320 and 0x01
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1978  		 * for bcdUSB 0x310). Since there is no USB release with sub
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1979  		 * minor version 0x301 to 0x309, we can assume that they are
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1980  		 * incorrect and fix it here.
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1981  		 */
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1982  		if (minor_revision > 0x00 && minor_revision < 0x10)
-> 64364bc912c01b Thinh Nguyen     2021-03-10  1983  			minor_revision <<= 4;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1984  		/*
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1985  		 * Some zhaoxin's xHCI controller that follow usb3.1 spec
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1986  		 * but only support Gen1.
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1987  		 */
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1988  		if (xhci->quirks & XHCI_ZHAOXIN_HOST) {
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1989  			tmp_minor_revision = minor_revision;
-> 
-> tmp_minor_revision is only set for major_revision == 0x03
-> (also XHCI_ZHAOXIN_HOST).
-> 
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1990  			minor_revision = 0;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1991  		}
-> efcf3bab0767e0 Weitao Wang      2023-05-09  1992
-> d5ddcdf4d672fd Mathias Nyman    2015-11-24  1993  	} else if (major_revision <= 0x02) {
-> 47189098f8bebe Mathias Nyman    2015-10-01  1994  		rhub = &xhci->usb2_rhub;
-> 47189098f8bebe Mathias Nyman    2015-10-01  1995  	} else {
-> 4feb07d0ada339 Andy Shevchenko  2023-03-17  1996  		xhci_warn(xhci, "Ignoring unknown port speed, Ext Cap %p, revision = 0x%x\n",
-> da6699ce4a889c Sarah Sharp      2010-10-26  1997  				addr, major_revision);
-> da6699ce4a889c Sarah Sharp      2010-10-26  1998  		/* Ignoring port protocol we can't understand. FIXME */
-> da6699ce4a889c Sarah Sharp      2010-10-26  1999  		return;
-> da6699ce4a889c Sarah Sharp      2010-10-26  2000  	}
-> da6699ce4a889c Sarah Sharp      2010-10-26  2001
-> da6699ce4a889c Sarah Sharp      2010-10-26  2002  	/* Port offset and count in the third dword, see section 7.2 */
-> b0ba9720846c98 Xenia Ragiadakou 2013-11-15  2003  	temp = readl(addr + 2);
-> da6699ce4a889c Sarah Sharp      2010-10-26  2004  	port_offset = XHCI_EXT_PORT_OFF(temp);
-> da6699ce4a889c Sarah Sharp      2010-10-26  2005  	port_count = XHCI_EXT_PORT_COUNT(temp);
-> d195fcffe4c82c Xenia Ragiadakou 2013-08-14  2006  	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
-> 4feb07d0ada339 Andy Shevchenko  2023-03-17  2007  		       "Ext Cap %p, port offset = %u, count = %u, revision = 0x%x",
-> da6699ce4a889c Sarah Sharp      2010-10-26  2008  		       addr, port_offset, port_count, major_revision);
-> da6699ce4a889c Sarah Sharp      2010-10-26  2009  	/* Port count includes the current port offset */
-> da6699ce4a889c Sarah Sharp      2010-10-26  2010  	if (port_offset == 0 || (port_offset + port_count - 1) > num_ports)
-> da6699ce4a889c Sarah Sharp      2010-10-26  2011  		/* WTF? "Valid values are ‘1’ to MaxPorts" */
-> da6699ce4a889c Sarah Sharp      2010-10-26  2012  		return;
-> fc71ff7583b143 Andiry Xu        2011-09-23  2013
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2014  	port_cap = &xhci->port_caps[xhci->num_port_caps++];
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2015  	if (xhci->num_port_caps > max_caps)
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2016  		return;
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2017
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2018  	port_cap->psi_count = XHCI_EXT_PORT_PSIC(temp);
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2019
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2020  	if (port_cap->psi_count) {
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2021  		port_cap->psi = kcalloc_node(port_cap->psi_count,
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2022  					     sizeof(*port_cap->psi),
-> a965315e59f3cb Adam Wallis      2018-05-22  2023  					     GFP_KERNEL, dev_to_node(dev));
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2024  		if (!port_cap->psi)
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2025  			port_cap->psi_count = 0;
-> 47189098f8bebe Mathias Nyman    2015-10-01  2026
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2027  		port_cap->psi_uid_count++;
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2028  		for (i = 0; i < port_cap->psi_count; i++) {
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2029  			port_cap->psi[i] = readl(addr + 4 + i);
-> 47189098f8bebe Mathias Nyman    2015-10-01  2030
-> 47189098f8bebe Mathias Nyman    2015-10-01  2031  			/* count unique ID values, two consecutive entries can
-> 47189098f8bebe Mathias Nyman    2015-10-01  2032  			 * have the same ID if link is assymetric
-> 47189098f8bebe Mathias Nyman    2015-10-01  2033  			 */
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2034  			if (i && (XHCI_EXT_PORT_PSIV(port_cap->psi[i]) !=
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2035  				  XHCI_EXT_PORT_PSIV(port_cap->psi[i - 1])))
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2036  				port_cap->psi_uid_count++;
-> 47189098f8bebe Mathias Nyman    2015-10-01  2037
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2038  			if (xhci->quirks & XHCI_ZHAOXIN_HOST &&
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2039  					XHCI_EXT_PORT_PSIV(port_cap->psi[i]) >= 5)
-> efcf3bab0767e0 Weitao Wang      2023-05-09 @2040  				minor_revision = tmp_minor_revision;
-> 
-> We know XHCI_ZHAOXIN_HOST, but we don't know if major_revision == 0x03.
-> 
-Thanks for your report. I would link to  explain it.
-This condition "XHCI_EXT_PORT_PSIV(port_cap->psi[i]) >= 5" implies that
-major_revision is equal to 0x03 in xHCI spec.
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   a849597f74a39781c6e75671b5a91bb4e0043a43
+commit: e8a0febb1fb5b45f60a2010a90050806aeea9173 [4227/30000] media: intel-ipu4: virtio: IPU virtio backend and frontend drivers base-code
+reproduce:
+        make versioncheck
 
-Best Regards,
-Weitao
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2041
-> 47189098f8bebe Mathias Nyman    2015-10-01  2042  			xhci_dbg(xhci, "PSIV:%d PSIE:%d PLT:%d PFD:%d LP:%d PSIM:%d\n",
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2043  				  XHCI_EXT_PORT_PSIV(port_cap->psi[i]),
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2044  				  XHCI_EXT_PORT_PSIE(port_cap->psi[i]),
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2045  				  XHCI_EXT_PORT_PLT(port_cap->psi[i]),
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2046  				  XHCI_EXT_PORT_PFD(port_cap->psi[i]),
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2047  				  XHCI_EXT_PORT_LP(port_cap->psi[i]),
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2048  				  XHCI_EXT_PORT_PSIM(port_cap->psi[i]));
-> 47189098f8bebe Mathias Nyman    2015-10-01  2049  		}
-> 47189098f8bebe Mathias Nyman    2015-10-01  2050  	}
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2051
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2052  	rhub->maj_rev = major_revision;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2053
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2054  	if (rhub->min_rev < minor_revision)
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2055  		rhub->min_rev = minor_revision;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2056
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2057  	port_cap->maj_rev = major_revision;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2058  	port_cap->min_rev = minor_revision;
-> efcf3bab0767e0 Weitao Wang      2023-05-09  2059
-> b630d4b9d05ba2 Mathias Nyman    2013-05-23  2060  	/* cache usb2 port capabilities */
-> b630d4b9d05ba2 Mathias Nyman    2013-05-23  2061  	if (major_revision < 0x03 && xhci->num_ext_caps < max_caps)
-> b630d4b9d05ba2 Mathias Nyman    2013-05-23  2062  		xhci->ext_caps[xhci->num_ext_caps++] = temp;
-> b630d4b9d05ba2 Mathias Nyman    2013-05-23  2063
-> f1fd62a6b6c62e Zeng Tao         2018-12-07  2064  	if ((xhci->hci_version >= 0x100) && (major_revision != 0x03) &&
-> f1fd62a6b6c62e Zeng Tao         2018-12-07  2065  		 (temp & XHCI_HLC)) {
-> d195fcffe4c82c Xenia Ragiadakou 2013-08-14  2066  		xhci_dbg_trace(xhci, trace_xhci_dbg_init,
-> d195fcffe4c82c Xenia Ragiadakou 2013-08-14  2067  			       "xHCI 1.0: support USB2 hardware lpm");
-> fc71ff7583b143 Andiry Xu        2011-09-23  2068  		xhci->hw_lpm_support = 1;
-> fc71ff7583b143 Andiry Xu        2011-09-23  2069  	}
-> fc71ff7583b143 Andiry Xu        2011-09-23  2070
-> da6699ce4a889c Sarah Sharp      2010-10-26  2071  	port_offset--;
-> da6699ce4a889c Sarah Sharp      2010-10-26  2072  	for (i = port_offset; i < (port_offset + port_count); i++) {
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2073  		struct xhci_port *hw_port = &xhci->hw_ports[i];
-> da6699ce4a889c Sarah Sharp      2010-10-26  2074  		/* Duplicate entry.  Ignore the port if the revisions differ. */
-> 07f7619053874b Mathias Nyman    2018-05-21  2075  		if (hw_port->rhub) {
-> 4feb07d0ada339 Andy Shevchenko  2023-03-17  2076  			xhci_warn(xhci, "Duplicate port entry, Ext Cap %p, port %u\n", addr, i);
-> 4feb07d0ada339 Andy Shevchenko  2023-03-17  2077  			xhci_warn(xhci, "Port was marked as USB %u, duplicated as USB %u\n",
-> 07f7619053874b Mathias Nyman    2018-05-21  2078  					hw_port->rhub->maj_rev, major_revision);
-> da6699ce4a889c Sarah Sharp      2010-10-26  2079  			/* Only adjust the roothub port counts if we haven't
-> da6699ce4a889c Sarah Sharp      2010-10-26  2080  			 * found a similar duplicate.
-> da6699ce4a889c Sarah Sharp      2010-10-26  2081  			 */
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2082  			if (hw_port->rhub != rhub &&
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2083  				 hw_port->hcd_portnum != DUPLICATE_ENTRY) {
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2084  				hw_port->rhub->num_ports--;
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2085  				hw_port->hcd_portnum = DUPLICATE_ENTRY;
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2086  			}
-> f8bbeabc34aa94 Sarah Sharp      2010-12-09  2087  			continue;
-> da6699ce4a889c Sarah Sharp      2010-10-26  2088  		}
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2089  		hw_port->rhub = rhub;
-> cf0ee7c60c8964 Mathias Nyman    2020-02-11  2090  		hw_port->port_cap = port_cap;
-> bcaa9d5c59005e Mathias Nyman    2018-05-21  2091  		rhub->num_ports++;
-> da6699ce4a889c Sarah Sharp      2010-10-26  2092  	}
-> da6699ce4a889c Sarah Sharp      2010-10-26  2093  	/* FIXME: Should we disable ports not in the Extended Capabilities? */
-> da6699ce4a889c Sarah Sharp      2010-10-26  2094  }
-> 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305111730.6yJeVyLp-lkp@intel.com/
+
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
+   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 950: need linux/version.h
+   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
+   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
+   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
+   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
+   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
+   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
+>> ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1330: need linux/version.h
+>> ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
