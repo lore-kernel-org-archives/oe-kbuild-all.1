@@ -1,43 +1,51 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0C78F56
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 20:52:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683838325; x=1715374325;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X6RMg9D/lXqXLrL7y1HHjwv5s4gB33qFx7uWsqkvSjA=;
-  b=ULH/lY/gNmD1TcS08ShDcUhydGwgFpcDOa6u7E8gl+12+pZVV/G0rg5g
-   HrC4LnLtTMZo5WRanZ4YS8xD6fqHcOFMby1kJ7/Wz18Y9eQnozEw/bpKc
-   X72nyPjY5VJgtZZquQHEB97+79l2To01TrqB5qePv6AVU0ity321PxpKd
-   +N4xBNyH24JsF/TlRaaKk2QqGDIdmu1qRycga5kqQxcN+5ds/lYru8/qH
-   TR6WBC/AEgqpbFQW+k8sPmpC5I5WAIqX/zH5IxTeqXPFXAS+12x7niMvr
-   TuNl9YrBfCouZ8EYSKjMUMCX8TyoAxB/aKUGev/YkMexvyLm6ySZc4QEU
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="416250030"
-X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
-   d="scan'208";a="416250030"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 13:52:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="789530838"
-X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
-   d="scan'208";a="789530838"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 11 May 2023 13:52:04 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pxDGd-0004FM-1n;
-	Thu, 11 May 2023 20:52:03 +0000
-Date: Fri, 12 May 2023 04:51:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 14965/29506]
- kernel/sched/stubs.c:8:5: warning: no previous prototype for
- 'sched_isolate_cpu'
-Message-ID: <202305120424.iBA6MuEE-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F9A174F0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 22:21:02 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-1aaea43def7so64261835ad.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 15:21:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1683843662; x=1686435662;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+wlwojL1oOxSkE9A9E+XKPYHRgPZOzZBvK0faNul9WI=;
+        b=Woh7eW/zLezx+tGcvpmJSrs1YDJCJJCMZAs0advUs5dvcXKQhCet0bdYHjzQ/SQjkG
+         MIWaOCgflPc12/F/qzYLnCLtIDDOQeRiGCUq40AjjV43BNkTyHYjlFZIqFrRDescw19g
+         wuiOK5rRib4rMTT3f73c0+QQGJqRmqPryqZTs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683843662; x=1686435662;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+wlwojL1oOxSkE9A9E+XKPYHRgPZOzZBvK0faNul9WI=;
+        b=bcGOFNUGbfimPBaw8OE3MFfsKCWkXaYR+8V3wCqKAITkplxm2qESmhUg5RhkH+f5Bl
+         FLu5Feywq2dysb8nSdZ+CIXmcsbUhGDKDZRAqImBk7nClyJNcf/bhUWXjr2V1HI0F5mq
+         udsvwaPEOzoNIwNsRP8oUb+6dJX7JH6cj3D8cBN9TGovODHZ5fTqHWL/LK0phodR1yGj
+         NIqeHUW67/z2ALM6N/biwaw9gf0QkpPjIe3E7odTUDCqFdQpiaOJ6BaR/XqFQu68VeEP
+         8Pod2GPNh/8oqKvCEMX4YzL4Sr5euNMMGXa7fqdpFhFJzi1K6pXlfrpEjcORNnKAtjOQ
+         2e7g==
+X-Gm-Message-State: AC+VfDw59izCR0keFVunLgVw1yhpIjMQlZavwXEEgYEbn2r3QOL7M+Hw
+	7RLbwYoU+GXmpCRg9EVlBuxNaA==
+X-Google-Smtp-Source: ACHHUZ5gx/nQTd7MJcU+6HgrvcbdkMWHr+5/LzInvYhhOp0ogFqj0xEE1dO9byBVj8rTrR2lt8KXKg==
+X-Received: by 2002:a17:902:a609:b0:1ac:946e:4690 with SMTP id u9-20020a170902a60900b001ac946e4690mr11358838plq.49.1683843662240;
+        Thu, 11 May 2023 15:21:02 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id o3-20020a17090ad24300b0024e47fbe731sm16068073pjw.24.2023.05.11.15.21.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 15:21:01 -0700 (PDT)
+Date: Thu, 11 May 2023 15:21:01 -0700
+From: Kees Cook <keescook@chromium.org>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Marco Elver <elver@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [stable:linux-5.15.y 36/9999] arch/s390/kernel/vtime.c:132:2:
+ error: expected absolute expression
+Message-ID: <202305111519.04845F7@keescook>
+References: <202305111705.8j4cTm2s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,68 +54,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202305111705.8j4cTm2s-lkp@intel.com>
 
-Hi Quentin,
+On Thu, May 11, 2023 at 05:14:16PM +0800, kernel test robot wrote:
+> FYI, the error/warning still remains.
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+> head:   8a7f2a5c5aa1648edb4f2029c6ec33870afb7a95
+> commit: 33db9912ff7c491f839c89a08e98f755aa09598f [36/9999] ubsan: remove CONFIG_UBSAN_OBJECT_SIZE
+> [...]
+> >> arch/s390/kernel/vtime.c:132:2: error: cpu alternatives does not support instructions blocks > 254 bytes
+>            alternative_io("stpt %0\n .insn s,0xb2050000,%1\n",
+>            ^
 
-FYI, the error/warning still remains.
+Thanks for the report! I don't think the new errors are related to this
+removal, though. This patch was just disabling a potential build config.
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   7cf5d82154dcd64ff75b69f3dc8dbff4ed2d2816
-commit: eead51495c8760858c32d9ad0332ffc94397aa82 [14965/29506] ANDROID: GKI: sched: stub sched_isolate symbols
-config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230512/202305120424.iBA6MuEE-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android-4.19-stable
-        git checkout eead51495c8760858c32d9ad0332ffc94397aa82
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvmem/ kernel/sched/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305120424.iBA6MuEE-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> kernel/sched/stubs.c:8:5: warning: no previous prototype for 'sched_isolate_cpu' [-Wmissing-prototypes]
-       8 | int sched_isolate_cpu(int cpu)
-         |     ^~~~~~~~~~~~~~~~~
->> kernel/sched/stubs.c:14:5: warning: no previous prototype for 'sched_unisolate_cpu_unlocked' [-Wmissing-prototypes]
-      14 | int sched_unisolate_cpu_unlocked(int cpu)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/stubs.c:20:5: warning: no previous prototype for 'sched_unisolate_cpu' [-Wmissing-prototypes]
-      20 | int sched_unisolate_cpu(int cpu)
-         |     ^~~~~~~~~~~~~~~~~~~
->> kernel/sched/stubs.c:26:5: warning: no previous prototype for 'set_task_boost' [-Wmissing-prototypes]
-      26 | int set_task_boost(int boost, u64 period)
-         |     ^~~~~~~~~~~~~~
-
-
-vim +/sched_isolate_cpu +8 kernel/sched/stubs.c
-
-     7	
-   > 8	int sched_isolate_cpu(int cpu)
-     9	{
-    10		return -EINVAL;
-    11	}
-    12	EXPORT_SYMBOL_GPL(sched_isolate_cpu);
-    13	
-  > 14	int sched_unisolate_cpu_unlocked(int cpu)
-    15	{
-    16		return -EINVAL;
-    17	}
-    18	EXPORT_SYMBOL_GPL(sched_unisolate_cpu_unlocked);
-    19	
-  > 20	int sched_unisolate_cpu(int cpu)
-    21	{
-    22		return -EINVAL;
-    23	}
-    24	EXPORT_SYMBOL_GPL(sched_unisolate_cpu);
-    25	
-  > 26	int set_task_boost(int boost, u64 period)
+-Kees
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Kees Cook
