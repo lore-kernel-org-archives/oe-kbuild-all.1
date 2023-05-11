@@ -1,44 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A94620;
-	Thu, 11 May 2023 00:46:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FB4365
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 00:46:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683766012; x=1715302012;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=w37U31l3N1NJdAtg4nnqjiiM8XdZ5A64hKhcQXx9XSI=;
-  b=VShVwaND9KvyC9hvxBRGzYwkSrl3SYgKSy2IwqWqvlgD56qSY3sa0VP7
-   xlk1N49ogBT2s4sHA8arSrxwp+YwW9rrngLzq8DEfpic0xUE1Ruc3bp38
-   ZkLibNwweo0t/RhkJSeeA1Lr28tUL5BaUXcHuoTwSzwU8lHSdr1wTTab7
-   /cQJfeGvElCXnhjKladypMBcJjRQzAb3/7fWehxQZhbWcIVOWhsfqAd1o
-   DjW3OR3xN4tH/FaM+7iMD9ORc90oecaotEcnALQAdDv+w04fcMOttfZp1
-   bIVAboZEwkWTw6dJEFFetVCB5JdVRrlZBC2+i8WLy043LvM2rOy86ECi1
+  t=1683766011; x=1715302011;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gFLaAricfTchlEl5f/i2Kav433jekhWDTGqlAghOLC0=;
+  b=hKo22bffd86V6Mnfz56DZkZf81nZH2ZNoC0Y87gdpAdFxfTuF/br83sj
+   GoZCGXZmfkJ4vw96GKghXC8t91auEPanKXPEFDQ1UKRnwouZP10H3qmxA
+   FRW6Ym/EYMrKCteYih908J5EedggIbhBzcn0wcDZj9EpKoz2LaM8/rOXw
+   ny84va4vY4M9oojFYhyXiHRxclFhgjf71/SbPBO2Hz8RSfxnUrQN+f3JR
+   8Nbu1qA9/yLW2n/4+RychWydk3bxnIFjuZFgowjcnh6aqIYDxpoZw8fWS
+   qnpeGwWivwjEF4KW66Pw5Ulo5Axde0OhPlb82pjb+0svcjjyeJ+hZSl8g
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="339616379"
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="329976760"
 X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
-   d="scan'208";a="339616379"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 17:46:51 -0700
+   d="scan'208";a="329976760"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2023 17:46:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="769102292"
+X-IronPort-AV: E=McAfee;i="6600,9927,10706"; a="811362848"
 X-IronPort-AV: E=Sophos;i="5.99,265,1677571200"; 
-   d="scan'208";a="769102292"
+   d="scan'208";a="811362848"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 10 May 2023 17:46:50 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 10 May 2023 17:46:50 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pwuSH-0003g6-1g;
+	id 1pwuSH-0003g9-1k;
 	Thu, 11 May 2023 00:46:49 +0000
-Date: Thu, 11 May 2023 08:46:15 +0800
+Date: Thu, 11 May 2023 08:46:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leonardo Bras <leobras@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v3 1/1] trace,smp: Add tracepoints around remotelly
- called functions
-Message-ID: <202305110816.mcNeYnWd-lkp@intel.com>
-References: <20230510230128.150384-1-leobras@redhat.com>
+To: Kent Overstreet <kmo@daterainc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>
+Subject: [peterz-queue:locking/core 2/2] drivers/md/bcache/btree.c:596:35:
+ error: 'btree_lock_cmp_fn' undeclared; did you mean 'lock_cmp_fn'?
+Message-ID: <202305110850.FE7N4lGg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,89 +45,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230510230128.150384-1-leobras@redhat.com>
 
-Hi Leonardo,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.4-rc1 next-20230510]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Leonardo-Bras/trace-smp-Add-tracepoints-around-remotelly-called-functions/20230511-070554
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230510230128.150384-1-leobras%40redhat.com
-patch subject: [RFC PATCH v3 1/1] trace,smp: Add tracepoints around remotelly called functions
-config: riscv-buildonly-randconfig-r004-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110816.mcNeYnWd-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git locking/core
+head:   c9b4ca9414103eefcb5b2fdce5b0238f64768a53
+commit: c9b4ca9414103eefcb5b2fdce5b0238f64768a53 [2/2] bcache: Convert to lock_cmp_fn
+config: openrisc-randconfig-c032-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110850.FE7N4lGg-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/fcef1c202a1635b9c7244f06bbad605562b83d43
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Leonardo-Bras/trace-smp-Add-tracepoints-around-remotelly-called-functions/20230511-070554
-        git checkout fcef1c202a1635b9c7244f06bbad605562b83d43
+        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=c9b4ca9414103eefcb5b2fdce5b0238f64768a53
+        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
+        git fetch --no-tags peterz-queue locking/core
+        git checkout c9b4ca9414103eefcb5b2fdce5b0238f64768a53
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305110816.mcNeYnWd-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305110850.FE7N4lGg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/smp.c:389:27: warning: passing 8-byte aligned argument to 32-byte aligned parameter 3 of 'csd_do_func' may result in an unaligned pointer access [-Walign-mismatch]
-                   csd_do_func(func, info, csd);
-                                           ^
-   1 warning generated.
+   drivers/md/bcache/btree.c: In function 'mca_bucket_alloc':
+   drivers/md/bcache/btree.c:596:9: error: implicit declaration of function 'lock_set_cmp_fn'; did you mean 'lock_set_class'? [-Werror=implicit-function-declaration]
+     596 |         lock_set_cmp_fn(&b->lock, btree_lock_cmp_fn, btree_lock_print_fn);
+         |         ^~~~~~~~~~~~~~~
+         |         lock_set_class
+>> drivers/md/bcache/btree.c:596:35: error: 'btree_lock_cmp_fn' undeclared (first use in this function); did you mean 'lock_cmp_fn'?
+     596 |         lock_set_cmp_fn(&b->lock, btree_lock_cmp_fn, btree_lock_print_fn);
+         |                                   ^~~~~~~~~~~~~~~~~
+         |                                   lock_cmp_fn
+   drivers/md/bcache/btree.c:596:35: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/md/bcache/btree.c:596:54: error: 'btree_lock_print_fn' undeclared (first use in this function); did you mean 'lock_print_fn'?
+     596 |         lock_set_cmp_fn(&b->lock, btree_lock_cmp_fn, btree_lock_print_fn);
+         |                                                      ^~~~~~~~~~~~~~~~~~~
+         |                                                      lock_print_fn
+   cc1: some warnings being treated as errors
 
 
-vim +/csd_do_func +389 kernel/smp.c
+vim +596 drivers/md/bcache/btree.c
 
-   369	
-   370	/*
-   371	 * Insert a previously allocated call_single_data_t element
-   372	 * for execution on the given CPU. data must already have
-   373	 * ->func, ->info, and ->flags set.
-   374	 */
-   375	static int generic_exec_single(int cpu, struct __call_single_data *csd)
-   376	{
-   377		if (cpu == smp_processor_id()) {
-   378			smp_call_func_t func = csd->func;
-   379			void *info = csd->info;
-   380			unsigned long flags;
-   381	
-   382			/*
-   383			 * We can unlock early even for the synchronous on-stack case,
-   384			 * since we're doing this from the same CPU..
-   385			 */
-   386			csd_lock_record(csd);
-   387			csd_unlock(csd);
-   388			local_irq_save(flags);
- > 389			csd_do_func(func, info, csd);
-   390			csd_lock_record(NULL);
-   391			local_irq_restore(flags);
-   392			return 0;
-   393		}
-   394	
-   395		if ((unsigned)cpu >= nr_cpu_ids || !cpu_online(cpu)) {
-   396			csd_unlock(csd);
-   397			return -ENXIO;
-   398		}
-   399	
-   400		__smp_call_single_queue(cpu, &csd->node.llist);
-   401	
-   402		return 0;
-   403	}
-   404	
+   582	
+   583	static struct btree *mca_bucket_alloc(struct cache_set *c,
+   584					      struct bkey *k, gfp_t gfp)
+   585	{
+   586		/*
+   587		 * kzalloc() is necessary here for initialization,
+   588		 * see code comments in bch_btree_keys_init().
+   589		 */
+   590		struct btree *b = kzalloc(sizeof(struct btree), gfp);
+   591	
+   592		if (!b)
+   593			return NULL;
+   594	
+   595		init_rwsem(&b->lock);
+ > 596		lock_set_cmp_fn(&b->lock, btree_lock_cmp_fn, btree_lock_print_fn);
+   597		mutex_init(&b->write_lock);
+   598		lockdep_set_novalidate_class(&b->write_lock);
+   599		INIT_LIST_HEAD(&b->list);
+   600		INIT_DELAYED_WORK(&b->work, btree_node_write_work);
+   601		b->c = c;
+   602		sema_init(&b->io_mutex, 1);
+   603	
+   604		mca_data_alloc(b, k, gfp);
+   605		return b;
+   606	}
+   607	
 
 -- 
 0-DAY CI Kernel Test Service
