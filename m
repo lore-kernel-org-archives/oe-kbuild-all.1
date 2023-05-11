@@ -1,173 +1,145 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627AB1C76F;
-	Thu, 11 May 2023 10:53:46 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5E88321AFD;
-	Thu, 11 May 2023 10:53:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1683802424; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=i3LZh1EONWVfbVG0uAzUZHlDL1AqBEqEdp5FLcPsG/o=;
-	b=1rEaE59C9gOZq3Rqzwx4QdPoKmD4WuNDAASNX31ocsmQi8d5/p37GxDurM9BEEhYFiqmy/
-	tye/mqN1hmtTER34vyNYUsygW69lryFpgJLLqDz4QttwnRSIIxDwtCd6z14QHDeSOS/XlI
-	nw7SoPPEfNEldI0B04FdyAaSVeGpXyM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1683802424;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=i3LZh1EONWVfbVG0uAzUZHlDL1AqBEqEdp5FLcPsG/o=;
-	b=GDBxgFVn5ravCTx6nanSkuobRAkYarnG3E6goiquTOZ3PTnOiuyNJ2qycP1zO/iVeYGuba
-	A/diddMfOKYoJVCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id DF1B7138FA;
-	Thu, 11 May 2023 10:53:43 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id GFOmNTfJXGTFTAAAMHmgww
-	(envelope-from <tzimmermann@suse.de>); Thu, 11 May 2023 10:53:43 +0000
-Message-ID: <9ea087ab-95f3-3274-b464-ef13718562b1@suse.de>
-Date: Thu, 11 May 2023 12:53:43 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED801C76A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 10:56:19 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-3f435658d23so24080335e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 03:56:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683802578; x=1686394578;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8UsFW/OKFLWzrfCHWAMRNvjMDP4f9tp8Nm34IOcM96Q=;
+        b=Fna4hgvy4ayNdl2Mw7PgG9YfGLMggJPpJVbidjfaUama/51qz00nOGttQcvAWaDqwB
+         u9TL2r8S9+R9piJxfwOCKdDBo4I0rl+Ed5PdQOtkqP6FxMxJU4kbkFqREqyQZff2cUrL
+         NV5IEszFMo+s12cAjxzLlIRk2YUAF7UObDdWykNUzVMk//jNKVw1rEvGJapVQy9L6pJE
+         IwzUs9NhPh6si5MlYEr+ftyW9jwY5vBqU0aNJ4vRsEEROKpIybncvu/FPLDQ8IYxHp7i
+         9kmw03xUvVfIuqGHL9tBm4LEU84SBmrla8GdQ+wyDwvwhRcCZ6GWuP5v0CSlquPlI+Bl
+         FP/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683802578; x=1686394578;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8UsFW/OKFLWzrfCHWAMRNvjMDP4f9tp8Nm34IOcM96Q=;
+        b=QLxauYNLXweXJpJTDZTqizLWKzI0fbn9izKjVHbpQnp/sy5BT8SDXD/D75lGy1Gcva
+         sKAXfLX8kZOy1+CV62mmA4HvteZdgyLNIihSg17wL1MfGEXLtAD6yn4tUdcx0MnFdpRa
+         CwWgCd8RK/j3DW8AWEzqLrvm1IjmHsMt2ngJVp0cPyI7OaRJz9K8NE+PVrV1RryQ8Jr+
+         4NpRAPJre6xIhnFIxRrFX/ABveIHFKc68C55leqsSH5SaCmKK7EIubs3LYeUYFmK6fjF
+         zu8FtWRzT5cYYhrUjGM/4qC+A3Iyy4frOC+Fa4fr4JOAT6fDOdSbT7L6KhuEuEDOQgqn
+         sTAQ==
+X-Gm-Message-State: AC+VfDyaR0mCJKifo043WJP593ZrVrbNtvHs9092R4AlGAkmiltrdMdK
+	JdoYTnrr8ceQKElagbmJIgBxaQ==
+X-Google-Smtp-Source: ACHHUZ5Qb4Owy3olfvWB+XIkZ9U0CNEoY63lEPKXoLzpv/B9Aw7XlwLxfHWcozMz880g73eeikEk7w==
+X-Received: by 2002:a05:600c:2047:b0:3f4:2452:9675 with SMTP id p7-20020a05600c204700b003f424529675mr9666596wmg.0.1683802577815;
+        Thu, 11 May 2023 03:56:17 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f5-20020adff985000000b002fda1b12a0bsm20319280wrr.2.2023.05.11.03.55.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 03:56:15 -0700 (PDT)
+Date: Thu, 11 May 2023 13:55:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dominique Martinet <asmadeus@codewreck.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Pavel Begunkov <asml.silence@gmail.com>, Stefan Roesch <shr@fb.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Clay Harris <bugs@claycon.org>, Dave Chinner <david@fromorbit.com>,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	io-uring@vger.kernel.org,
+	Dominique Martinet <asmadeus@codewreck.org>
+Subject: Re: [PATCH v2 4/6] kernfs: implement readdir FMODE_NOWAIT
+Message-ID: <4e88ec58-be22-4b0c-968d-fa9a52764c98@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into
- <asm/fb.h>
-Content-Language: en-US
-To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
- Helge Deller <deller@gmx.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Vineet Gupta <vgupta@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- "David S . Miller" <davem@davemloft.net>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- Sam Ravnborg <sam@ravnborg.org>, suijingfeng@loongson.cn
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, sparclinux@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-References: <20230510110557.14343-6-tzimmermann@suse.de>
- <202305102136.eMjTSPwH-lkp@intel.com>
- <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
- <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
- <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------gOpI1L9pL7Bq8Fb2HvhAlzDV"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230422-uring-getdents-v2-4-2db1e37dc55e@codewreck.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------gOpI1L9pL7Bq8Fb2HvhAlzDV
-Content-Type: multipart/mixed; boundary="------------IBuMtqzq4nm9A3mKPOZXAzct";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Arnd Bergmann <arnd@arndb.de>, kernel test robot <lkp@intel.com>,
- Helge Deller <deller@gmx.de>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Vineet Gupta <vgupta@kernel.org>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- "David S . Miller" <davem@davemloft.net>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- Sam Ravnborg <sam@ravnborg.org>, suijingfeng@loongson.cn
-Cc: Linux-Arch <linux-arch@vger.kernel.org>, linux-fbdev@vger.kernel.org,
- linux-ia64@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-m68k@lists.linux-m68k.org, loongarch@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, sparclinux@vger.kernel.org,
- linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Message-ID: <9ea087ab-95f3-3274-b464-ef13718562b1@suse.de>
-Subject: Re: [PATCH v6 5/6] fbdev: Move framebuffer I/O helpers into
- <asm/fb.h>
-References: <20230510110557.14343-6-tzimmermann@suse.de>
- <202305102136.eMjTSPwH-lkp@intel.com>
- <f6b2d541-d235-4e98-afcc-9137fb8afa35@app.fastmail.com>
- <49684d58-c19d-b147-5e9f-2ac526dd50f0@suse.de>
- <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
-In-Reply-To: <743d2b1e-c843-4fb2-b252-0006be2e2bd8@app.fastmail.com>
+Hi Dominique,
 
---------------IBuMtqzq4nm9A3mKPOZXAzct
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+kernel test robot noticed the following build warnings:
 
-SGkNCg0KQW0gMTAuMDUuMjMgdW0gMTc6NTQgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPiBP
-biBXZWQsIE1heSAxMCwgMjAyMywgYXQgMTY6MjcsIFRob21hcyBaaW1tZXJtYW5uIHdyb3Rl
-Og0KPj4gQW0gMTAuMDUuMjMgdW0gMTY6MTUgc2NocmllYiBBcm5kIEJlcmdtYW5uOg0KPj4+
-IE9uIFdlZCwgTWF5IDEwLCAyMDIzLCBhdCAxNjowMywga2VybmVsIHRlc3Qgcm9ib3Qgd3Jv
-dGU6DQo+ICAgDQo+Pj4gSSB0aGluayB0aGF0J3MgYSBwcmVleGlzdGluZyBidWcgYW5kIEkg
-aGF2ZSBubyBpZGVhIHdoYXQgdGhlDQo+Pj4gY29ycmVjdCBzb2x1dGlvbiBpcy4gTG9va2lu
-ZyBmb3IgSEQ2NDQ2MSBzaG93cyBpdCBiZWluZyB1c2VkDQo+Pj4gYm90aCB3aXRoIGludy9v
-dXR3IGFuZCByZWFkdy93cml0ZXcsIHNvIHRoZXJlIGlzIG5vIHdheSB0byBoYXZlDQo+Pj4g
-dGhlIGNvcnJlY3QgdHlwZS4gVGhlIHNoIF9fcmF3X3JlYWR3KCkgZGVmaW5pdGlvbiBoaWRl
-cyB0aGlzIGJ1ZywNCj4+PiBidXQgdGhhdCBpcyBhIHByb2JsZW0gd2l0aCBhcmNoL3NoIGFu
-ZCBpdCBwcm9iYWJseSBoaWRlcyBvdGhlcnMNCj4+PiBhcyB3ZWxsLg0KPj4NCj4+IFRoZSBj
-b25zdGFudCBIRDY0NDYxX0lPQkFTRSBpcyBkZWZpbmVkIGFzIGludGVnZXIgYXQNCj4+DQo+
-Pg0KPj4gaHR0cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvbGF0ZXN0L3NvdXJjZS9h
-cmNoL3NoL2luY2x1ZGUvYXNtL2hkNjQ0NjEuaCNMMTcNCj4+DQo+PiBidXQgZmJfcmVhZHco
-KSBleHBlY3RzIGEgdm9sYXRpbGUtdm9pZCBwb2ludGVyLiBJIGd1ZXNzIHdlIGNvdWxkIGFk
-ZCBhDQo+PiBjYXN0IHNvbWV3aGVyZSB0byBzaWxlbmNlIHRoZSBwcm9ibGVtLiBJbiB0aGUg
-Y3VycmVudCB1cHN0cmVhbSBjb2RlLA0KPj4gdGhhdCBhcHBlYXJzIHRvIGJlIGRvbmUgYnkg
-c2gncyBfX3Jhd19yZWFkdygpIGludGVybmFsbHk6DQo+Pg0KPj4NCj4+IGh0dHBzOi8vZWxp
-eGlyLmJvb3RsaW4uY29tL2xpbnV4L2xhdGVzdC9zb3VyY2UvYXJjaC9zaC9pbmNsdWRlL2Fz
-bS9pby5oI0wzNQ0KPiANCj4gU3VyZSwgdGhhdCB3b3VsZCBtYWtlIGl0IGJ1aWxkIGFnYWlu
-LCBidXQgdGhhdCBzdGlsbCBkb2Vzbid0IG1ha2UgdGhlDQo+IGNvZGUgY29ycmVjdCwgc2lu
-Y2UgaXQncyBjb21wbGV0ZWx5IHVuY2xlYXIgd2hhdCBiYXNlIGFkZHJlc3MgdGhlDQoNCk9o
-LCBPSy4gSSB0aG91Z2h0IGl0J3MgbGlrZSB2Z2FmYiwgd2hpY2ggZ3JhYnMgdGhlIGZpeGVk
-IFZHQSBmcmFtZWJ1ZmZlciANCnJhbmdlLg0KDQo+IEhENjQ0NjFfSU9CQVNFIGlzIHJlbGF0
-aXZlIHRvLiBUaGUgaHA2eHggcGxhdGZvcm0gY29kZSBvbmx5IHBhc3NlcyBpdA0KPiB0aHJv
-dWdoIGludygpL291dHcoKSwgd2hpY2ggdGFrZSBhbiBvZmZzZXQgcmVsYXRpdmUgdG8gc2hf
-aW9fcG9ydF9iYXNlLA0KPiBidXQgdGhhdCBpcyBub3QgaW5pdGlhbGl6ZWQgb24gaHA2eHgu
-IEkgdHJpZWQgdG8gZmluZCBpbiB0aGUgaGlzdG9yeQ0KPiB3aGVuIGl0IGJyb2tlLCBhcHBh
-cmVudGx5IHRoYXQgd2FzIGluIDIwMDcgY29tbWl0IDM0YTc4MGEwYWZlYiAoInNoOg0KPiBo
-cDZ4eCBwYXRhX3BsYXRmb3JtIHN1cHBvcnQuIiksIHdoaWNoIHJlbW92ZWQgdGhlIGN1c3Rv
-bSBpbncvb3V0dw0KPiBpbXBsZW1lbnRhdGlvbnMuDQoNClRoYW5rcyBmb3IgbG9va2luZyB0
-aGlzIHVwLiBJZiB0aGlzIGRyaXZlciBoYXMgYmVlbiBicm9rZW4gZm9yIDE1IHllYXJzLCAN
-CnRoZSBjb3JyZWN0IGZpeCBpcyB0byBkZWxldGUgaXQuIEkndmUgbWVhbndoaWxlIHByZXBh
-cmVkIHRoZSBzZWNvbmQtYmVzdCANCmZpeCwgd2hpY2ggaXMgdGhlIHR5cGUgY2FzdGluZy4g
-SXQnbGwgYmUgaW4gdGhlIG5leHQgcGF0Y2hzZXQuDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFz
-DQoNCj4gDQo+ICAgICAgICBBcm5kDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBo
-aWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkg
-R21iSA0KRnJhbmtlbnN0cmFzc2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdG
-OiBJdm8gVG90ZXYsIEFuZHJldyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1v
-ZXJtYW4NCkhSQiAzNjgwOSAoQUcgTnVlcm5iZXJnKQ0K
+url:    https://github.com/intel-lab-lkp/linux/commits/Dominique-Martinet/fs-split-off-vfs_getdents-function-of-getdents64-syscall/20230510-185542
+base:   58390c8ce1bddb6c623f62e7ed36383e7fa5c02f
+patch link:    https://lore.kernel.org/r/20230422-uring-getdents-v2-4-2db1e37dc55e%40codewreck.org
+patch subject: [PATCH v2 4/6] kernfs: implement readdir FMODE_NOWAIT
+config: i386-randconfig-m021 (https://download.01.org/0day-ci/archive/20230511/202305110647.eSnSEulg-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
---------------IBuMtqzq4nm9A3mKPOZXAzct--
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202305110647.eSnSEulg-lkp@intel.com/
 
---------------gOpI1L9pL7Bq8Fb2HvhAlzDV
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+smatch warnings:
+fs/kernfs/dir.c:1863 kernfs_fop_readdir() warn: inconsistent returns '&root->kernfs_rwsem'.
 
------BEGIN PGP SIGNATURE-----
+vim +1863 fs/kernfs/dir.c
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmRcyTcFAwAAAAAACgkQlh/E3EQov+CN
-DA//eC7/2pGbq9WXlm5DpkCSr+KA3eCi9FiYTm4qjDyGoj8p6KJe1IBhFymP11n1J1TKH2y5rfrV
-mGwY3w0ZCSVoA6lE/ky+YMtk9FfixMVMoWAnbuhy9mgOvKapLtJLsHCwmJvFzPe/hCMMpH2WFbet
-g0xbVgFrew0BFVACsE8Z5Zdu72OjSHZ1UeKw5pJDnZhP8Ve6Ax5biBjzk3rCO5RZcNGUOLOvlW98
-CogUbVr9ZPPEE2N1h49QKdgLR14uy27dDmIa4gwBShKLSsH4/REu/t8WBxbMut/lyC07gtUbFk0B
-ORC/RTJEBh/PqVSXAfQCq4nZwCYdo7c2JjDctUbNb/zmqeNmPiMcw/s1xRiD1stwWgHQwP/cBSJ8
-tmZbMWlLzwPenhKgvMhT6arUL3TLGrvIRXXFinEqhsdIYlaS6tFBUKU+LF1+2cytN0nexk2giAI1
-ZxV+aCzgSfC1PjKXNKeraGOWLR9thPzHBGmGjZv/l1ht8SttKkq1P+4HxfIqm6AO4amRLLymWP3t
-MishZo5Om5N3W6USdA/dtQbKSbn7IgaUGXYx56S+Cjd24ZuF5qUjssZ8mH8NWPB3nlPZBvvi8eWC
-1iW6v8QeIUpftFEtpyumNrmi4lanoL/KbsyHJGapGD5jWcklAeH4eLOUTmCNURjZGd1JBtvEA/ep
-dyQ=
-=bKPx
------END PGP SIGNATURE-----
+c637b8acbe079e Tejun Heo          2013-12-11  1815  static int kernfs_fop_readdir(struct file *file, struct dir_context *ctx)
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1816  {
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1817  	struct dentry *dentry = file->f_path.dentry;
+319ba91d352a74 Shaohua Li         2017-07-12  1818  	struct kernfs_node *parent = kernfs_dentry_node(dentry);
+324a56e16e44ba Tejun Heo          2013-12-11  1819  	struct kernfs_node *pos = file->private_data;
+393c3714081a53 Minchan Kim        2021-11-18  1820  	struct kernfs_root *root;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1821  	const void *ns = NULL;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1822  
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1823  	if (!dir_emit_dots(file, ctx))
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1824  		return 0;
+393c3714081a53 Minchan Kim        2021-11-18  1825  
+393c3714081a53 Minchan Kim        2021-11-18  1826  	root = kernfs_root(parent);
+a551138c4b3b9f Dominique Martinet 2023-05-10  1827  	if (ctx->flags & DIR_CONTEXT_F_NOWAIT) {
+a551138c4b3b9f Dominique Martinet 2023-05-10  1828  		if (!down_read_trylock(&root->kernfs_rwsem))
+a551138c4b3b9f Dominique Martinet 2023-05-10  1829  			return -EAGAIN;
+a551138c4b3b9f Dominique Martinet 2023-05-10  1830  	} else {
+393c3714081a53 Minchan Kim        2021-11-18  1831  		down_read(&root->kernfs_rwsem);
+a551138c4b3b9f Dominique Martinet 2023-05-10  1832  	}
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1833  
+324a56e16e44ba Tejun Heo          2013-12-11  1834  	if (kernfs_ns_enabled(parent))
+c525aaddc366df Tejun Heo          2013-12-11  1835  		ns = kernfs_info(dentry->d_sb)->ns;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1836  
+c637b8acbe079e Tejun Heo          2013-12-11  1837  	for (pos = kernfs_dir_pos(ns, parent, ctx->pos, pos);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1838  	     pos;
+c637b8acbe079e Tejun Heo          2013-12-11  1839  	     pos = kernfs_dir_next_pos(ns, parent, ctx->pos, pos)) {
+adc5e8b58f4886 Tejun Heo          2013-12-11  1840  		const char *name = pos->name;
+364595a6851bf6 Jeff Layton        2023-03-30  1841  		unsigned int type = fs_umode_to_dtype(pos->mode);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1842  		int len = strlen(name);
+67c0496e87d193 Tejun Heo          2019-11-04  1843  		ino_t ino = kernfs_ino(pos);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1844  
+adc5e8b58f4886 Tejun Heo          2013-12-11  1845  		ctx->pos = pos->hash;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1846  		file->private_data = pos;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1847  		kernfs_get(pos);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1848  
+393c3714081a53 Minchan Kim        2021-11-18  1849  		up_read(&root->kernfs_rwsem);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1850  		if (!dir_emit(ctx, name, len, ino, type))
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1851  			return 0;
+393c3714081a53 Minchan Kim        2021-11-18  1852  		down_read(&root->kernfs_rwsem);
+                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Needs to be deleted.
 
---------------gOpI1L9pL7Bq8Fb2HvhAlzDV--
+a551138c4b3b9f Dominique Martinet 2023-05-10  1853  		if (ctx->flags & DIR_CONTEXT_F_NOWAIT) {
+a551138c4b3b9f Dominique Martinet 2023-05-10  1854  			if (!down_read_trylock(&root->kernfs_rwsem))
+a551138c4b3b9f Dominique Martinet 2023-05-10  1855  				return 0;
+
+It's a bit strange the this doesn't return -EAGAIN;
+
+a551138c4b3b9f Dominique Martinet 2023-05-10  1856  		} else {
+a551138c4b3b9f Dominique Martinet 2023-05-10  1857  			down_read(&root->kernfs_rwsem);
+a551138c4b3b9f Dominique Martinet 2023-05-10  1858  		}
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1859  	}
+393c3714081a53 Minchan Kim        2021-11-18  1860  	up_read(&root->kernfs_rwsem);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1861  	file->private_data = NULL;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1862  	ctx->pos = INT_MAX;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28 @1863  	return 0;
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1864  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
+
