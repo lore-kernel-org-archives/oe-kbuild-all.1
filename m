@@ -1,70 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2DCA32;
-	Fri, 12 May 2023 03:52:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAEFC819;
+	Fri, 12 May 2023 04:09:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683863562; x=1715399562;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pmopDKLIc4zl+fq5xL7xMuzECz1xDAHg5SvtSuERXKQ=;
-  b=O6od6CE021N3vV5WMGIQo2pdaT7q5QxsVjHf2HuFwkZHuVqMGF+Ul8aG
-   86voWjU7WlVxifh9RjQYuAwUQ+ct5fXV61jSiJTs9/KNCF16BoxeLcUk7
-   vR1qPt4Kb4VoawPMUkuIOi20lSwve2ipqBSGj0E9jQ4Rwjeb60NDx23HA
-   Wm0oeGNxUPsmIII89hrxpIhT/QWGEKM3IXhQP2YBuyUYwl50Jq6OmYVEa
-   8pR0VWEF921OUTFCiM3j/MRZJu6U8SETTzPS1yRGFXSDMwZed240g3Pz2
-   0VC9sV1it3edrduKMq3APU5+XS3Ooa+HKgXf2HBy54CTIe8rnZhnSRiKO
+  t=1683864577; x=1715400577;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=r9ZFjeKq2ZOmrV1kC3sKxzdwFCqg7XWU1RN9CIr3QzA=;
+  b=Fh2DmjY1F+hnKL36cyn5z+MTUQwLqNp9MH5zNDmIiaL0pDb2Zxa0HPKq
+   9gxCkBgzpddQ8rLwWPmMtnq9wVX6b8knPd3hnhqPfC83Ym0MMoCxP4iVv
+   FIYuiaf780GlEIR7ORb2q52csIN2eg9jF9a78YfMxmSUrS9uZjXxuc+wd
+   xaE9rwtACWFNjZgbXYCuZbRyf0aoQwoF7uSfAZVDhGAWSfNrGIQYY75U/
+   2MAh1B2WWujSSiW6Bp7gEdKoLm//wjTGpnteWvdhcKXFWhOtFMkQtmaeS
+   6759sGNLRrFsjBwdQReR/oGqxZzffxVDfrPx8TjJ7DYusNgEWO8a/DjjG
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="437027748"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="414062336"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="437027748"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 20:52:41 -0700
+   d="scan'208";a="414062336"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 21:09:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="769629426"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="694077274"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="769629426"
+   d="scan'208";a="694077274"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 11 May 2023 20:52:35 -0700
+  by orsmga007.jf.intel.com with ESMTP; 11 May 2023 21:09:36 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxJpa-0004TA-28;
-	Fri, 12 May 2023 03:52:34 +0000
-Date: Fri, 12 May 2023 11:52:21 +0800
+	id 1pxK63-0004UG-0P;
+	Fri, 12 May 2023 04:09:35 +0000
+Date: Fri, 12 May 2023 12:09:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Linux Staging Drivers <linux-staging@lists.linux.dev>,
-	Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
-	Linux Kernel Actions <linux-actions@lists.infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, Diederik de Haas <didi.debian@cknow.org>,
-	Kate Stewart <kstewart@linuxfoundation.org>,
-	David Airlie <airlied@redhat.com>,
-	Karsten Keil <isdn@linux-pingi.de>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Sam Creasey <sammy@sammy.net>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, Jan Kara <jack@suse.com>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>, Tom Rix <trix@redhat.com>,
-	Simon Horman <simon.horman@corigine.com>
-Subject: Re: [PATCH 03/10] net: bonding: Add SPDX identifier to remaining
- files
-Message-ID: <202305121116.pEUebm1s-lkp@intel.com>
-References: <20230511133406.78155-4-bagasdotme@gmail.com>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [djiang:cxl-qtg 22/30] ld.lld: error: undefined symbol:
+ acpi_get_genport_coordinates
+Message-ID: <202305121111.YOyD23yp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,35 +45,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230511133406.78155-4-bagasdotme@gmail.com>
 
-Hi Bagas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ac9a78681b921877518763ba0e89202254349d1b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/agp-amd64-Remove-GPL-distribution-notice/20230511-214307
-base:   ac9a78681b921877518763ba0e89202254349d1b
-patch link:    https://lore.kernel.org/r/20230511133406.78155-4-bagasdotme%40gmail.com
-patch subject: [PATCH 03/10] net: bonding: Add SPDX identifier to remaining files
-reproduce:
-        scripts/spdxcheck.py
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl-qtg
+head:   fd35584ec7147f575dcdc65239bc8ac7fe340ab4
+commit: d37b575b54f54d44a5fef781206685ed0c739998 [22/30] cxl: Store the access coordinates for the generic ports
+config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20230512/202305121111.YOyD23yp-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git/commit/?id=d37b575b54f54d44a5fef781206685ed0c739998
+        git remote add djiang https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git
+        git fetch --no-tags djiang cxl-qtg
+        git checkout d37b575b54f54d44a5fef781206685ed0c739998
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305121116.pEUebm1s-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305121111.YOyD23yp-lkp@intel.com/
 
-spdxcheck warnings: (new ones prefixed by >>)
->> include/net/bonding.h: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_audio.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_blowfish.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_cmx.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_core.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_dtmf.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_tones.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/net/bonding/bond_main.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/net/bonding/bonding_priv.h: 1:28 Invalid License ID: GPL-1.0-or-later
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: acpi_get_genport_coordinates
+   >>> referenced by acpi.c:550 (drivers/cxl/acpi.c:550)
+   >>>               vmlinux.o:(add_host_bridge_dport)
 
 -- 
 0-DAY CI Kernel Test Service
