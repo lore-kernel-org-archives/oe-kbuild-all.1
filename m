@@ -1,55 +1,43 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C075EC9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 05:41:16 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3078d1c8828so6463308f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 22:41:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683870074; x=1686462074;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GRLM54m4oNof2pLRboZuVsUjfYt5aZs+58w3qZaftDY=;
-        b=kFDBkoGue96E/tX+H3qVJQxr7ukww/c4REfNOx2RBujhBTRXlOAWnKt7r5cgdmU1JB
-         aLbCxazsL0mhKGxbhhvjS8IfqoH3LM/EowWfU8d7xMWLq0aoJEm7bB1cCjf9PNdn7ouS
-         kSpIZd/d+Yltor7bIu1hKBwJ9yBiI2s8iaqDDV2gpJ/7aQxO8XfZsjmQbt6Yn0gvnxeC
-         62syf98HY8bSC9t8PPyWPDuc1G+8QULNXUhMeESQNcVLjnhIrHnUwdl50P9usyctng/r
-         zPG9OvzLbkPciHHy6ze9sycFdfYz1cEJ8gQlQPbthO0M99+wnRpxxtJx3hfrfgeaGGV3
-         rS7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683870074; x=1686462074;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GRLM54m4oNof2pLRboZuVsUjfYt5aZs+58w3qZaftDY=;
-        b=Hjm5E/CnSXcHUYagngR8s6J5Bzh+C3wbdho1hw14MjvZQ5OuJ2IvFvWCN/C5WpeB5Z
-         3za+whmpaS1RB8L4hq4yiLT/tamPw+QXfPDeuvjn8+fxCOYEVrCsSVxtwMU8t7FQZNTI
-         YoRU1ClNVGYx/fVWjRBR0Qb4RbsKVswb1PCzgCAoVFxY5eBx1u/E8c9GNQfluqAdNqQn
-         YJB1E0NO5mQ6uBKVxRhraJQFCiPiPV/hUuXyGK3OjSdfHABl5T5ViWgdCact/s5ORulm
-         y7yTW3cXZ0x+Fh4Hz2GTf9yxI+RlBDbqinBhTqWNl5G8ojnUcrN0q0eRKFbBktw7lvDX
-         YqTw==
-X-Gm-Message-State: AC+VfDxhmtsRwi+mfEdK79kwo+cBjfv3cJmbM5/j6aNP6Nca9yTVQKZ9
-	87i4gSBstd5zOGruSJY1GRpFDg==
-X-Google-Smtp-Source: ACHHUZ6seLDwpj4RolVQYyb0o1iErqMDr1kmvf6fp+MtcMehIqrlZQ8vKDd63c9pWnSxB6RtD1MWgA==
-X-Received: by 2002:adf:cd0e:0:b0:304:6a26:1f6 with SMTP id w14-20020adfcd0e000000b003046a2601f6mr17996620wrm.59.1683870074239;
-        Thu, 11 May 2023 22:41:14 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v3-20020adfebc3000000b00307c0afc030sm5251841wrn.4.2023.05.11.22.41.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 May 2023 22:41:12 -0700 (PDT)
-Date: Fri, 12 May 2023 08:41:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: oe-kbuild@lists.linux.dev,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: drivers/iio/accel/kionix-kx022a.c:1053 kx022a_probe_internal()
- warn: passing zero to 'dev_err_probe'
-Message-ID: <f5f669fc-ebb4-46df-8957-84c714481ace@kili.mountain>
-References: <46296e39-dbc1-4f27-b89c-af6f08d9f318@kili.mountain>
- <a1ad0e10-23d2-a860-e9a1-2680313d643f@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F34EC9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 05:48:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683870521; x=1715406521;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=imK9QJNZTtYNdZwKWY9XndSnpYxtWKJLA9eEY5vKtBk=;
+  b=fUoL2jh3140mrHHhxvNBLGkp/gf0ydJ8ZGYRYFItZ03DdFfrEozp0rz+
+   OkwdBYTNVxI8vJ466IbNA7WQ4kY7tBlzjAKwzebKWNh9sf6KXNeAP7Lt8
+   iJ8XU1yYmAaWzIoAKsmkx/mGUfS5FfoDdxoSfq1NhY/xuJA2gyI/VB1JA
+   TBwwkK484npsjWk/A0Y8Og8+Bd34W1QFH0bIF7qDttYWeYxsnuvKIzrnk
+   p4dtTfrJQTAvKgZ+l6AKom/f/v+02jj44iuIvrzl5qjYC6ACMU/nQ2mPA
+   0/SquznPAAMyG+V6Ami111dGb2A2c1SjkHZoqBestBuBduw2nqqYrKu8Q
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="348205109"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
+   d="scan'208";a="348205109"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 22:48:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="730679066"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
+   d="scan'208";a="730679066"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 11 May 2023 22:48:39 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pxLdt-0004ZT-2c;
+	Fri, 12 May 2023 05:48:37 +0000
+Date: Fri, 12 May 2023 13:47:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 415/436] clk-mt8195-apmixedsys.c:undefined
+ reference to `mtk_clk_unregister_pllfhs'
+Message-ID: <202305121330.5WP91cgL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,49 +46,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a1ad0e10-23d2-a860-e9a1-2680313d643f@gmail.com>
 
-On Fri, May 12, 2023 at 08:16:02AM +0300, Matti Vaittinen wrote:
-> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1046  	irq = fwnode_irq_get_byname(fwnode, "INT1");
-> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1047  	if (irq > 0) {
-> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1048  		data->inc_reg = KX022A_REG_INC1;
-> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1049  		data->ien_reg = KX022A_REG_INC4;
-> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1050  	} else {
-> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1051  		irq = fwnode_irq_get_byname(fwnode, "INT2");
-> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1052  		if (irq <= 0)
-> >                                                                      ^^^^^^^^
-> > This code assumes fwnode_irq_get_byname() can return zero.
-> > 
-> > 7c1d1677b3227c Matti Vaittinen 2022-10-24 @1053  			return dev_err_probe(dev, irq, "No suitable IRQ\n");
-> > 
-> > But fortunately, it can't otherwise this would return success.
-> > 
-> 
-> Ouch. Actually, the fwnode_irq_get_byname() can return zero on device-tree
-> mapping error. I did actually send a patch to address this some time ago:
-> https://lore.kernel.org/lkml/cover.1666710197.git.mazziesaccount@gmail.com/
-> 
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   5589aa31461720ef9a6e0439a5b4e2ecf98c2910
+commit: 05f325ba73111fe95321062ed6207dff7fcd7399 [415/436] UPSTREAM: clk: mediatek: mt8195: Add support for frequency hopping through FHCTL
+config: loongarch-buildonly-randconfig-r005-20230509 (https://download.01.org/0day-ci/archive/20230512/202305121330.5WP91cgL-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-6.1
+        git checkout 05f325ba73111fe95321062ed6207dff7fcd7399
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
 
-Ah.  I just went by the documentation instead of looking at the code.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305121330.5WP91cgL-lkp@intel.com/
 
-Originally a bunch of irq functions return NO_IRQ on error which was a
-design mistake...  irq_of_parse_and_map() still returns zero on error
-instead of negative error codes.  I wrote a check for that yesterday.
+All errors (new ones prefixed by >>):
 
-drivers/gpu/drm/msm/dsi/dsi_host.c:1949 msm_dsi_host_init() warn: irq_of_parse_and_map() returns zero on failure
-drivers/dma/ti/edma.c:2405 edma_probe() warn: irq_of_parse_and_map() returns zero on failure
-drivers/dma/ti/edma.c:2421 edma_probe() warn: irq_of_parse_and_map() returns zero on failure
-drivers/net/ethernet/xilinx/ll_temac_main.c:1570 temac_probe() warn: irq_of_parse_and_map() returns zero on failure
-drivers/net/ethernet/xilinx/ll_temac_main.c:1573 temac_probe() warn: irq_of_parse_and_map() returns zero on failure
-drivers/ata/sata_mv.c:4094 mv_platform_probe() warn: irq_of_parse_and_map() returns zero on failure
+   loongarch64-linux-ld: drivers/clk/mediatek/clk-mt8195-apmixedsys.o: in function `clk_mt8195_apmixed_remove':
+>> clk-mt8195-apmixedsys.c:(.text+0x40): undefined reference to `mtk_clk_unregister_pllfhs'
+   loongarch64-linux-ld: drivers/clk/mediatek/clk-mt8195-apmixedsys.o: in function `clk_mt8195_apmixed_probe':
+>> clk-mt8195-apmixedsys.c:(.text+0xc8): undefined reference to `fhctl_parse_dt'
+>> loongarch64-linux-ld: clk-mt8195-apmixedsys.c:(.text+0xec): undefined reference to `mtk_clk_register_pllfhs'
+>> loongarch64-linux-ld: clk-mt8195-apmixedsys.c:(.text+0x1ac): undefined reference to `mtk_clk_unregister_pllfhs'
 
-It would be good if we could apply your patch, otherwise I could create
-an explicit check for fwnode_irq_get_byname() returns.
-
-Ideally, everything would just return negative error codes on error.
-It's harder to change irq_of_parse_and_map() because it doesn't return a
-mix of errors and zero, but just zero.  We would have to rename it to
-something else, otherwise backports would get messed up.
-
-regards,
-dan carpenter
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
