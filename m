@@ -1,48 +1,48 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64471321D
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 08:54:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A089460;
+	Fri, 12 May 2023 08:54:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683881687; x=1715417687;
+  t=1683881689; x=1715417689;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bpwPWVXhPzXzGldUZ9YGfL84iDla+D57ECet7awb6b4=;
-  b=Xeav67PPP6XXvI3nP48BcxJWS0WqyaRCjrKPvWOq5Le+8mQuFpU7PUyz
-   nDK3Oph92L4QU0vAB+yKiSpG+A2M2fbmgX+nIh5WhHSdg2WUWpR+sZb+V
-   3BCF3Ki0gAzXrLLQFoFvUbuBFrqB0UcRoIhisNxTIThcXwQsrIYagAv/g
-   prkwz2vaMmJXech4DvksR+5qpx1uQv1Ce2MrKzBhrwqMSAxDUm0xpncy8
-   fVAeruwvGAJhxGIE+nduF0DuS6xcDfxSGB1PT6lVo6kXa+W/qe2eWNdpX
-   Oelpai9EXHzuVGi3guqt3MgxYS9U/slqNTeRn2jIIwaH2RfEVhKHxqCd4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="353874486"
+  bh=ZLf5MT4SG1toK2Ewf11jOOLaMp++8Z7s0AFeltCagdg=;
+  b=NZxDIEra23LyeVqNgFluflWGoPi6pF29wb/FKB06Y9Im42qmX14ps1QP
+   GEL/wsyirkbMUw8K6lO20hTFs1gAwQryDMMxZnqQhtwZalvLsi67Aez82
+   XfV9OW3Dg77AEH1vnpRvxXsuwW7fDY0/yiQF4jgw7rK18z50FrVbl6Qpx
+   U1yrYkoG904Q+9ozx9IEBekFq7Pvsdp8qxeaQoCclpPDfxpBiVgxUQwi0
+   6TYTsQtmCbmm+nJp1DQCtuirEvRKdBBkhWxRXed/rDK388pD4mvNxpjeE
+   wbV4wwATfenmx8pFsg5dUuHXiEuVyxEdFZqfX5XkKgvggARyYPOgUqjIQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="353874494"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="353874486"
+   d="scan'208";a="353874494"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 01:54:46 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 01:54:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="700106936"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="700106937"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="700106936"
+   d="scan'208";a="700106937"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
   by orsmga002.jf.intel.com with ESMTP; 12 May 2023 01:54:44 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxOXz-0004jI-1I;
+	id 1pxOXz-0004jE-12;
 	Fri, 12 May 2023 08:54:43 +0000
-Date: Fri, 12 May 2023 16:54:23 +0800
+Date: Fri, 12 May 2023 16:54:24 +0800
 From: kernel test robot <lkp@intel.com>
 To: Vincent Whitchurch <vincent.whitchurch@axis.com>,
 	Phillip Lougher <phillip@squashfs.org.uk>,
 	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	Philippe Liard <pliard@google.com>, hch@lst.de,
 	linux-kernel@vger.kernel.org, squashfs-devel@lists.sourceforge.net,
 	kernel@axis.com, Vincent Whitchurch <vincent.whitchurch@axis.com>
 Subject: Re: [PATCH] squashfs: cache partial compressed blocks
-Message-ID: <202305121615.T6PJo2hI-lkp@intel.com>
+Message-ID: <202305121650.kWn3uM2f-lkp@intel.com>
 References: <20230510-squashfs-cache-v1-1-3b6bb0e7d952@axis.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,8 +64,8 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Vincent-Whitchurch/squash
 base:   457391b0380335d5e9a5babdec90ac53928b23b4
 patch link:    https://lore.kernel.org/r/20230510-squashfs-cache-v1-1-3b6bb0e7d952%40axis.com
 patch subject: [PATCH] squashfs: cache partial compressed blocks
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230512/202305121615.T6PJo2hI-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+config: x86_64-randconfig-a014 (https://download.01.org/0day-ci/archive/20230512/202305121650.kWn3uM2f-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
@@ -75,18 +75,23 @@ reproduce (this is a W=1 build):
         git checkout 3ca22c93f1faf376ecf133f84d0148497284366a
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash fs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/squashfs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305121615.T6PJo2hI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305121650.kWn3uM2f-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/squashfs/block.c:168:5: warning: no previous prototype for 'squashfs_bio_read' [-Wmissing-prototypes]
-     168 | int squashfs_bio_read(struct super_block *sb, u64 index, int length,
-         |     ^~~~~~~~~~~~~~~~~
+>> fs/squashfs/block.c:168:5: warning: no previous prototype for function 'squashfs_bio_read' [-Wmissing-prototypes]
+   int squashfs_bio_read(struct super_block *sb, u64 index, int length,
+       ^
+   fs/squashfs/block.c:168:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int squashfs_bio_read(struct super_block *sb, u64 index, int length,
+   ^
+   static 
+   1 warning generated.
 
 
 vim +/squashfs_bio_read +168 fs/squashfs/block.c
