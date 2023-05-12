@@ -1,43 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9753FDF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 23:16:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296A139D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 00:40:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683846983; x=1715382983;
+  t=1683852033; x=1715388033;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J0BYiIOeBvnjSlP8zP0U6H5RYNQGb+tNZ2+DTUWTzng=;
-  b=TQrWwl3Tik16ddgrdRS9hhve3+fDqfIQqQPUZAej8Lt32DrKElGnFZTC
-   3Bfl2ggwlj+1xqJ6cXinvoHNjMBo35LGaZYzFAExr/FTU7YfAzBKTGm0G
-   hG/pC36wiYoq2bikUuK3yKF8o3d5Dzkav5RISO3HfxU3XxTRhezeYKK3+
-   y3I8wc1h5d+ZzF3hY9hwwrEvv7wQxX4yO6p8Stjq1Rzr8bRDu4Hv8fdL1
-   ELfv/n9d3OjRie4iqJ/ixWImyg0Z38YKyvPsGatGGx9JRrLTm8QUHHjsA
-   2MdpBt9ErdMgLyjwEw9rHhTFYLpYX2e4rxFy9mDiD2bO0u+MqAK1pk3RJ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="414016055"
+  bh=YU57sOGSEglZe5+qtudIbwsG7tB/HeeYgXmKiH2SZlY=;
+  b=FWrAVLOTTGuFes47P6w1D52I0BpTYWvnfkLPriuXtVZPbbGeT4NL/wky
+   ht+K+C/cLFzBICxC3LWKQiSaccpxm7W6zhkxDgrwoAzgP5QoIon/Qz3ym
+   Pa+lPIqHn3sdL6LuHXeq2z6mtm187jt0SdP5vs+4fHrnC4gl6Mw6Q7cIM
+   f0WCHX/Q0Xxgl2ff7QFL9xr7Rh0Dl5XSmFg9hFm/HyKAfh3M9iR0s1mgo
+   PEcQ0PzqKRDZPGRBupsXGd+i4nEgW4yATOy29RCC9P0JRdKV/Jv7kxtuh
+   W3ZuCMjx6XIIY7LVwPJXkHQzMIyChkQw4APe5wsCXS4IisYbEOJeTXHQ8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="350698662"
 X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
-   d="scan'208";a="414016055"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 16:16:23 -0700
+   d="scan'208";a="350698662"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 17:40:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="650414788"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="789600381"
 X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
-   d="scan'208";a="650414788"
+   d="scan'208";a="789600381"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 11 May 2023 16:16:21 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 11 May 2023 17:40:31 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxFWH-0004Ie-0w;
-	Thu, 11 May 2023 23:16:21 +0000
-Date: Fri, 12 May 2023 07:15:52 +0800
+	id 1pxGpi-0004L0-1F;
+	Fri, 12 May 2023 00:40:30 +0000
+Date: Fri, 12 May 2023 08:40:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 15107/29506]
- drivers/nvmem/core.c:347:5: warning: no previous prototype for
- 'nvmem_add_cells'
-Message-ID: <202305120736.VdpP64Ta-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.1 419/436]
+ drivers/gpu/drm/i915/display/intel_hdcp_gsc.c:61:5: warning: no previous
+ prototype for 'intel_hdcp_gsc_hdcp2_init'
+Message-ID: <202305120814.YTjLtI33-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,94 +48,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Bartosz,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   7cf5d82154dcd64ff75b69f3dc8dbff4ed2d2816
-commit: e96a10625581a499e8a4218ef504f3f53918408b [15107/29506] UPSTREAM: nvmem: add support for cell info
-config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230512/202305120736.VdpP64Ta-lkp@intel.com/config)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   9263d42cea01307513da0d70336b7a44ca574a5b
+commit: 50736b651cab854f2cc3aa6c0c0b4623a4aa5cc5 [419/436] UPSTREAM: drm/i915/mtl: Add function to send command to GSC CS
+config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230512/202305120814.YTjLtI33-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android-4.19-stable
-        git checkout e96a10625581a499e8a4218ef504f3f53918408b
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-6.1
+        git checkout 50736b651cab854f2cc3aa6c0c0b4623a4aa5cc5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/nvmem/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305120736.VdpP64Ta-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305120814.YTjLtI33-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/nvmem/core.c:347:5: warning: no previous prototype for 'nvmem_add_cells' [-Wmissing-prototypes]
-     347 | int nvmem_add_cells(struct nvmem_device *nvmem,
-         |     ^~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_hdcp_gsc.c:61:5: warning: no previous prototype for 'intel_hdcp_gsc_hdcp2_init' [-Wmissing-prototypes]
+      61 | int intel_hdcp_gsc_hdcp2_init(struct drm_i915_private *i915)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_hdcp_gsc.c:84:6: warning: no previous prototype for 'intel_hdcp_gsc_free_message' [-Wmissing-prototypes]
+      84 | void intel_hdcp_gsc_free_message(struct drm_i915_private *i915)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/nvmem_add_cells +347 drivers/nvmem/core.c
+vim +/intel_hdcp_gsc_hdcp2_init +61 drivers/gpu/drm/i915/display/intel_hdcp_gsc.c
 
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  337  
-b3db17e4b864e4 Andrew Lunn         2018-05-11  338  /**
-b3db17e4b864e4 Andrew Lunn         2018-05-11  339   * nvmem_add_cells() - Add cell information to an nvmem device
-b3db17e4b864e4 Andrew Lunn         2018-05-11  340   *
-b3db17e4b864e4 Andrew Lunn         2018-05-11  341   * @nvmem: nvmem device to add cells to.
-b3db17e4b864e4 Andrew Lunn         2018-05-11  342   * @info: nvmem cell info to add to the device
-b3db17e4b864e4 Andrew Lunn         2018-05-11  343   * @ncells: number of cells in info
-b3db17e4b864e4 Andrew Lunn         2018-05-11  344   *
-b3db17e4b864e4 Andrew Lunn         2018-05-11  345   * Return: 0 or negative error code on failure.
-b3db17e4b864e4 Andrew Lunn         2018-05-11  346   */
-b3db17e4b864e4 Andrew Lunn         2018-05-11 @347  int nvmem_add_cells(struct nvmem_device *nvmem,
-b3db17e4b864e4 Andrew Lunn         2018-05-11  348  		    const struct nvmem_cell_info *info,
-b3db17e4b864e4 Andrew Lunn         2018-05-11  349  		    int ncells)
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  350  {
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  351  	struct nvmem_cell **cells;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  352  	int i, rval;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  353  
-b3db17e4b864e4 Andrew Lunn         2018-05-11  354  	cells = kcalloc(ncells, sizeof(*cells), GFP_KERNEL);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  355  	if (!cells)
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  356  		return -ENOMEM;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  357  
-b3db17e4b864e4 Andrew Lunn         2018-05-11  358  	for (i = 0; i < ncells; i++) {
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  359  		cells[i] = kzalloc(sizeof(**cells), GFP_KERNEL);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  360  		if (!cells[i]) {
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  361  			rval = -ENOMEM;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  362  			goto err;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  363  		}
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  364  
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  365  		rval = nvmem_cell_info_to_nvmem_cell(nvmem, &info[i], cells[i]);
-287980e49ffc0f Arnd Bergmann       2016-05-27  366  		if (rval) {
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  367  			kfree(cells[i]);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  368  			goto err;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  369  		}
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  370  
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  371  		nvmem_cell_add(cells[i]);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  372  	}
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  373  
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  374  	/* remove tmp array */
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  375  	kfree(cells);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  376  
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  377  	return 0;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  378  err:
-dfdf141429f089 Rasmus Villemoes    2016-02-08  379  	while (i--)
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  380  		nvmem_cell_drop(cells[i]);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  381  
-dfdf141429f089 Rasmus Villemoes    2016-02-08  382  	kfree(cells);
-dfdf141429f089 Rasmus Villemoes    2016-02-08  383  
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  384  	return rval;
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  385  }
-b3db17e4b864e4 Andrew Lunn         2018-05-11  386  EXPORT_SYMBOL_GPL(nvmem_add_cells);
-eace75cfdcf7d9 Srinivas Kandagatla 2015-07-27  387  
-
-:::::: The code at line 347 was first introduced by commit
-:::::: b3db17e4b864e46ad150ebef69c0e0130a1c5fca drivers: nvmem: Export nvmem_add_cells()
-
-:::::: TO: Andrew Lunn <andrew@lunn.ch>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+    60	
+  > 61	int intel_hdcp_gsc_hdcp2_init(struct drm_i915_private *i915)
+    62	{
+    63		struct intel_hdcp_gsc_message *hdcp_message;
+    64		int ret;
+    65	
+    66		hdcp_message = kzalloc(sizeof(*hdcp_message), GFP_KERNEL);
+    67	
+    68		if (!hdcp_message)
+    69			return -ENOMEM;
+    70	
+    71		/*
+    72		 * NOTE: No need to lock the comp mutex here as it is already
+    73		 * going to be taken before this function called
+    74		 */
+    75		i915->display.hdcp.hdcp_message = hdcp_message;
+    76		ret = intel_hdcp_gsc_initialize_message(i915, hdcp_message);
+    77	
+    78		if (ret)
+    79			drm_err(&i915->drm, "Could not initialize hdcp_message\n");
+    80	
+    81		return ret;
+    82	}
+    83	
+  > 84	void intel_hdcp_gsc_free_message(struct drm_i915_private *i915)
+    85	{
+    86		struct intel_hdcp_gsc_message *hdcp_message =
+    87						i915->display.hdcp.hdcp_message;
+    88	
+    89		i915_vma_unpin_and_release(&hdcp_message->vma, I915_VMA_RELEASE_MAP);
+    90		kfree(hdcp_message);
+    91	}
+    92	
 
 -- 
 0-DAY CI Kernel Test Service
