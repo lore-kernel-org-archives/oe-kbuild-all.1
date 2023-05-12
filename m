@@ -1,59 +1,44 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514B11DDD8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 13:08:35 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f42d937d61so39652765e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 06:08:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1683896913; x=1686488913;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dmS/3zIbZVMhJuJsoKE7px+yK9u/iw8c9fdzMYkr+8g=;
-        b=MLKbyP7nMkzG3nUY1ZeuKoc6wro8yT0cWnze2hpkoVXUgwjOSJCZIV4fHbwTo0kS0Q
-         deKKJeNvxOQwIpMWcZ4/h7bTYR+HuqnSXsxmQRLJhREV9Do86sd2e1vvc089Q2d4LgJz
-         Uzu9SRoXrmVJ9Qy2FuZ6lCOALmLbPHuTJAdqmWM57pKy4pdVDNnkh7gL3GUZy3RSsxs4
-         jRBv0Hj7lZVqZItuFsjdkgZpPPPQn9w3OCg0W+4maSV8RPKYbHB/i4elDRTj0qnkV3jF
-         +XeeN7vcKXBPFZNH9JtRPCIMsK3elkqSudlOwjQKZnRHw8wwXqbocuZjByQ0el8+p3YV
-         qCIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683896913; x=1686488913;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dmS/3zIbZVMhJuJsoKE7px+yK9u/iw8c9fdzMYkr+8g=;
-        b=lCHfcWdH/KpfARwZroiT2ck329uh6WfK1ZRHHL4yH3gPkFmWOPG8w96caZoFNwytL2
-         P9jg7zjCse7oN7oGpO44r08+xOzVqyLHbPIreHnu5A6CUTdFpC25t4HM/1rUcWDApoGl
-         EgjRG2Tp/pVIaSovn3DFNw6A2d1sntO+yBoUSQdKn+4o90YrKELXIpO72G2KPrPuKDnr
-         OCcKhqc/b2O78eZx1rWd8wSm5eERaqpjm3+ScMPI4bwF9LsZkG1ckz9HRUuWxEsoptP3
-         OJtGyCLE+gypYNVdpp1W4HOqgQXyarM0W9NZQ0GRkM6R1vZtBwjKG8x6I68QEK+Pep84
-         U5Ug==
-X-Gm-Message-State: AC+VfDyMu9qFSm66aSutf6MLLjkisen+d6WMBxmcwhAkxFU4YJ0HsT71
-	yPF+WGnIc0dD2XpwJAPqnufDDA==
-X-Google-Smtp-Source: ACHHUZ6Ty/EFcV7z8y9aH06p7h7QzBThGCcA+olD617fUtbEQbwVFr1mUEWzkHBltQ1a4qInkrwN3g==
-X-Received: by 2002:a1c:7702:0:b0:3f1:72ec:4009 with SMTP id t2-20020a1c7702000000b003f172ec4009mr18280372wmi.9.1683896913396;
-        Fri, 12 May 2023 06:08:33 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id v22-20020a7bcb56000000b003f1751016desm28562809wmj.28.2023.05.12.06.08.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 May 2023 06:08:31 -0700 (PDT)
-Date: Fri, 12 May 2023 16:08:14 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, zelong dong <zelong.dong@amlogic.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Sean Young <sean@mess.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	Qianggui.Song@amlogic.com, Yonghui.Yu@amlogic.com,
-	kelvin.zhang@amlogic.com, Zelong Dong <zelong.dong@amlogic.com>
-Subject: Re: [PATCH] media: rc: meson-ir: support MMIO regmaps to access
- registers
-Message-ID: <95860d11-8317-4082-a1b8-a1fdaba9f6aa@kili.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2437B1952E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 13:13:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683897230; x=1715433230;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YGlCDyKyIRr+PtdFA+KR83JFRK7IFBrIT9H+L8pKLCY=;
+  b=Fyw9UjVKYsEZ86Dqp7+/h604ybyVbFOTvKrFVGMXZyWW+bBg2Ici70X7
+   4WBSqJSGuvsqnNqTAoms92CYYdP0gygZoF8thmpKpO3KylyzERqK2Abcn
+   gdg6EBGmUj2h4KEBRnkoGywaJ8cBh36hY6ApbKhw4xIRX8XI1n9d1vNXm
+   2sfkOgUzmwOdkfhR3Fs+39iPHhetmckFkM2MiUQYu9/dmHWemZS4V5p0w
+   J9trlT/PVrJunvVLQe4bLZGJ3eLIpHVDJcBoKPSJxb4YQdV0z/EKxeH8G
+   CskpS9oXJpnTfAQ+xvXoPcO12qR/0SM9QYGtzbbJuT7P/JJpVZz/Bozd2
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="414155581"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
+   d="scan'208";a="414155581"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 06:13:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="730817792"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
+   d="scan'208";a="730817792"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 12 May 2023 06:13:48 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pxSah-0004sM-1m;
+	Fri, 12 May 2023 13:13:47 +0000
+Date: Fri, 12 May 2023 21:13:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com
+Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915/irq: split out display irq
+ handling
+Message-ID: <202305122141.7yr9QGpe-lkp@intel.com>
+References: <20230512102310.1398406-3-jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,144 +47,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230511034333.26800-1-zelong.dong@amlogic.com>
+In-Reply-To: <20230512102310.1398406-3-jani.nikula@intel.com>
 
-Hi zelong,
+Hi Jani,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on drm-intel/for-linux-next]
+[also build test ERROR on next-20230512]
+[cannot apply to drm-intel/for-linux-next-fixes linus/master v6.4-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/zelong-dong/media-rc-meson-ir-support-MMIO-regmaps-to-access-registers/20230511-114604
-base:   457391b0380335d5e9a5babdec90ac53928b23b4
-patch link:    https://lore.kernel.org/r/20230511034333.26800-1-zelong.dong%40amlogic.com
-patch subject: [PATCH] media: rc: meson-ir: support MMIO regmaps to access registers
-config: parisc-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230512/202305122010.lGsFA089-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i915-irq-split-out-hotplug-irq-handling/20230512-182445
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20230512102310.1398406-3-jani.nikula%40intel.com
+patch subject: [Intel-gfx] [PATCH 3/3] drm/i915/irq: split out display irq handling
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20230512/202305122141.7yr9QGpe-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/40f02fc9ce92df7a661245796cb4b53471edb004
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jani-Nikula/drm-i915-irq-split-out-hotplug-irq-handling/20230512-182445
+        git checkout 40f02fc9ce92df7a661245796cb4b53471edb004
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Link: https://lore.kernel.org/r/202305122010.lGsFA089-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305122141.7yr9QGpe-lkp@intel.com/
 
-New smatch warnings:
-drivers/media/rc/meson-ir.c:111 meson_ir_probe() warn: passing zero to 'PTR_ERR'
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/media/rc/meson-ir.c:113 meson_ir_probe() warn: passing zero to 'PTR_ERR'
+>> drivers/gpu/drm/i915/display/intel_display_irq.c:411:41: error: argument 3 of type 'u32[4]' {aka 'unsigned int[4]'} with mismatched bound [-Werror=array-parameter=]
+     411 |                            u32 iir, u32 pipe_stats[I915_MAX_PIPES])
+         |                                     ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/i915/display/intel_display_irq.c:10:
+   drivers/gpu/drm/i915/display/intel_display_irq.h:74:73: note: previously declared as 'u32 *' {aka 'unsigned int *'}
+      74 | void i9xx_pipestat_irq_ack(struct drm_i915_private *i915, u32 iir, u32 *pipe_stats);
+         |                                                                    ~~~~~^~~~~~~~~~
+   cc1: all warnings being treated as errors
 
-vim +/PTR_ERR +111 drivers/media/rc/meson-ir.c
 
-12ddbadf383d55 Beniamino Galvani 2014-11-18   95  static int meson_ir_probe(struct platform_device *pdev)
-12ddbadf383d55 Beniamino Galvani 2014-11-18   96  {
-12ddbadf383d55 Beniamino Galvani 2014-11-18   97  	struct device *dev = &pdev->dev;
-12ddbadf383d55 Beniamino Galvani 2014-11-18   98  	struct device_node *node = dev->of_node;
-5a048b4c2c04b7 Zelong Dong       2023-05-11   99  	struct resource *res;
-5a048b4c2c04b7 Zelong Dong       2023-05-11  100  	void __iomem *res_start;
-12ddbadf383d55 Beniamino Galvani 2014-11-18  101  	const char *map_name;
-12ddbadf383d55 Beniamino Galvani 2014-11-18  102  	struct meson_ir *ir;
-1ffc931c320a8a Heiner Kallweit   2017-04-12  103  	int irq, ret;
-12ddbadf383d55 Beniamino Galvani 2014-11-18  104  
-12ddbadf383d55 Beniamino Galvani 2014-11-18  105  	ir = devm_kzalloc(dev, sizeof(struct meson_ir), GFP_KERNEL);
-12ddbadf383d55 Beniamino Galvani 2014-11-18  106  	if (!ir)
-12ddbadf383d55 Beniamino Galvani 2014-11-18  107  		return -ENOMEM;
-12ddbadf383d55 Beniamino Galvani 2014-11-18  108  
-5a048b4c2c04b7 Zelong Dong       2023-05-11  109  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-5a048b4c2c04b7 Zelong Dong       2023-05-11  110  	if (IS_ERR_OR_NULL(res)) {
-5a048b4c2c04b7 Zelong Dong       2023-05-11 @111  		dev_err(&pdev->dev, "get mem resource error, %ld\n",
-5a048b4c2c04b7 Zelong Dong       2023-05-11  112  			PTR_ERR(res));
-5a048b4c2c04b7 Zelong Dong       2023-05-11  113  		return PTR_ERR(res);
+vim +411 drivers/gpu/drm/i915/display/intel_display_irq.c
 
-The platform_get_resource() function returns NULL on failure.  It never
-returns error pointers.  This means that return PTR_ERR(res); returns
-0 (which means success).  Please read my blog for more information.
-https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
-
-This should be:
-
-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-	if (!res) {
-		dev_err(&pdev->dev, "get mem resource error\n");
-		return -EINVAL;
-	}
-
-5a048b4c2c04b7 Zelong Dong       2023-05-11  114  	}
-5a048b4c2c04b7 Zelong Dong       2023-05-11  115  
-5a048b4c2c04b7 Zelong Dong       2023-05-11  116  	res_start = devm_ioremap_resource(&pdev->dev, res);
-5a048b4c2c04b7 Zelong Dong       2023-05-11  117  	meson_ir_regmap_config.max_register = resource_size(res) - 4;
-5a048b4c2c04b7 Zelong Dong       2023-05-11  118  	ir->reg = devm_regmap_init_mmio(&pdev->dev, res_start,
-5a048b4c2c04b7 Zelong Dong       2023-05-11  119  					&meson_ir_regmap_config);
-9e2e4382ec72d9 Ding Xiang        2019-06-18  120  	if (IS_ERR(ir->reg))
-12ddbadf383d55 Beniamino Galvani 2014-11-18  121  		return PTR_ERR(ir->reg);
-12ddbadf383d55 Beniamino Galvani 2014-11-18  122  
-1ffc931c320a8a Heiner Kallweit   2017-04-12  123  	irq = platform_get_irq(pdev, 0);
-97299a3035328d Stephen Boyd      2019-07-30  124  	if (irq < 0)
-1ffc931c320a8a Heiner Kallweit   2017-04-12  125  		return irq;
-12ddbadf383d55 Beniamino Galvani 2014-11-18  126  
-705aa578d408f6 Heiner Kallweit   2017-04-12  127  	ir->rc = devm_rc_allocate_device(dev, RC_DRIVER_IR_RAW);
-12ddbadf383d55 Beniamino Galvani 2014-11-18  128  	if (!ir->rc) {
-12ddbadf383d55 Beniamino Galvani 2014-11-18  129  		dev_err(dev, "failed to allocate rc device\n");
-12ddbadf383d55 Beniamino Galvani 2014-11-18  130  		return -ENOMEM;
-12ddbadf383d55 Beniamino Galvani 2014-11-18  131  	}
-12ddbadf383d55 Beniamino Galvani 2014-11-18  132  
-12ddbadf383d55 Beniamino Galvani 2014-11-18  133  	ir->rc->priv = ir;
-518f4b26be1ebf Sean Young        2017-07-01  134  	ir->rc->device_name = DRIVER_NAME;
-12ddbadf383d55 Beniamino Galvani 2014-11-18  135  	ir->rc->input_phys = DRIVER_NAME "/input0";
-12ddbadf383d55 Beniamino Galvani 2014-11-18  136  	ir->rc->input_id.bustype = BUS_HOST;
-12ddbadf383d55 Beniamino Galvani 2014-11-18  137  	map_name = of_get_property(node, "linux,rc-map-name", NULL);
-12ddbadf383d55 Beniamino Galvani 2014-11-18  138  	ir->rc->map_name = map_name ? map_name : RC_MAP_EMPTY;
-6d741bfed5ed06 Sean Young        2017-08-07  139  	ir->rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
-5a048b4c2c04b7 Zelong Dong       2023-05-11  140  	ir->rc->rx_resolution = MESON_RAW_TRATE;
-b358e747aebc4a Sean Young        2018-03-12  141  	ir->rc->min_timeout = 1;
-b358e747aebc4a Sean Young        2018-03-12  142  	ir->rc->timeout = IR_DEFAULT_TIMEOUT;
-b358e747aebc4a Sean Young        2018-03-12  143  	ir->rc->max_timeout = 10 * IR_DEFAULT_TIMEOUT;
-12ddbadf383d55 Beniamino Galvani 2014-11-18  144  	ir->rc->driver_name = DRIVER_NAME;
-12ddbadf383d55 Beniamino Galvani 2014-11-18  145  
-12ddbadf383d55 Beniamino Galvani 2014-11-18  146  	spin_lock_init(&ir->lock);
-12ddbadf383d55 Beniamino Galvani 2014-11-18  147  	platform_set_drvdata(pdev, ir);
-12ddbadf383d55 Beniamino Galvani 2014-11-18  148  
-705aa578d408f6 Heiner Kallweit   2017-04-12  149  	ret = devm_rc_register_device(dev, ir->rc);
-12ddbadf383d55 Beniamino Galvani 2014-11-18  150  	if (ret) {
-12ddbadf383d55 Beniamino Galvani 2014-11-18  151  		dev_err(dev, "failed to register rc device\n");
-705aa578d408f6 Heiner Kallweit   2017-04-12  152  		return ret;
-12ddbadf383d55 Beniamino Galvani 2014-11-18  153  	}
-12ddbadf383d55 Beniamino Galvani 2014-11-18  154  
-611ee552a538b0 Heiner Kallweit   2017-04-12  155  	ret = devm_request_irq(dev, irq, meson_ir_irq, 0, NULL, ir);
-12ddbadf383d55 Beniamino Galvani 2014-11-18  156  	if (ret) {
-12ddbadf383d55 Beniamino Galvani 2014-11-18  157  		dev_err(dev, "failed to request irq\n");
-705aa578d408f6 Heiner Kallweit   2017-04-12  158  		return ret;
-12ddbadf383d55 Beniamino Galvani 2014-11-18  159  	}
-12ddbadf383d55 Beniamino Galvani 2014-11-18  160  
-12ddbadf383d55 Beniamino Galvani 2014-11-18  161  	/* Reset the decoder */
-5a048b4c2c04b7 Zelong Dong       2023-05-11  162  	regmap_update_bits(ir->reg, IR_DEC_REG1, IR_DEC_REG1_RESET,
-5a048b4c2c04b7 Zelong Dong       2023-05-11  163  			   IR_DEC_REG1_RESET);
-5a048b4c2c04b7 Zelong Dong       2023-05-11  164  	regmap_update_bits(ir->reg, IR_DEC_REG1, IR_DEC_REG1_RESET, 0);
-6edf27ee258925 Neil Armstrong    2016-08-20  165  
-6edf27ee258925 Neil Armstrong    2016-08-20  166  	/* Set general operation mode (= raw/software decoding) */
-6edf27ee258925 Neil Armstrong    2016-08-20  167  	if (of_device_is_compatible(node, "amlogic,meson6-ir"))
-5a048b4c2c04b7 Zelong Dong       2023-05-11  168  		regmap_update_bits(ir->reg, IR_DEC_REG1, IR_DEC_REG1_MODE,
-5a048b4c2c04b7 Zelong Dong       2023-05-11  169  				   FIELD_PREP(IR_DEC_REG1_MODE, DEC_MODE_RAW));
-6edf27ee258925 Neil Armstrong    2016-08-20  170  	else
-5a048b4c2c04b7 Zelong Dong       2023-05-11  171  		regmap_update_bits(ir->reg, IR_DEC_REG2, IR_DEC_REG2_MODE,
-5a048b4c2c04b7 Zelong Dong       2023-05-11  172  				   FIELD_PREP(IR_DEC_REG2_MODE, DEC_MODE_RAW));
-6edf27ee258925 Neil Armstrong    2016-08-20  173  
-12ddbadf383d55 Beniamino Galvani 2014-11-18  174  	/* Set rate */
-5a048b4c2c04b7 Zelong Dong       2023-05-11  175  	regmap_update_bits(ir->reg, IR_DEC_REG0, IR_DEC_REG0_BASE_TIME,
-5a048b4c2c04b7 Zelong Dong       2023-05-11  176  			   FIELD_PREP(IR_DEC_REG0_BASE_TIME,
-5a048b4c2c04b7 Zelong Dong       2023-05-11  177  				      MESON_RAW_TRATE - 1));
-12ddbadf383d55 Beniamino Galvani 2014-11-18  178  	/* IRQ on rising and falling edges */
-5a048b4c2c04b7 Zelong Dong       2023-05-11  179  	regmap_update_bits(ir->reg, IR_DEC_REG1, IR_DEC_REG1_IRQSEL,
-5a048b4c2c04b7 Zelong Dong       2023-05-11  180  			   FIELD_PREP(IR_DEC_REG1_IRQSEL, IRQSEL_RISE_FALL));
-12ddbadf383d55 Beniamino Galvani 2014-11-18  181  	/* Enable the decoder */
-5a048b4c2c04b7 Zelong Dong       2023-05-11  182  	regmap_update_bits(ir->reg, IR_DEC_REG1, IR_DEC_REG1_ENABLE,
-5a048b4c2c04b7 Zelong Dong       2023-05-11  183  			   IR_DEC_REG1_ENABLE);
-12ddbadf383d55 Beniamino Galvani 2014-11-18  184  
-12ddbadf383d55 Beniamino Galvani 2014-11-18  185  	dev_info(dev, "receiver initialized\n");
-12ddbadf383d55 Beniamino Galvani 2014-11-18  186  
-12ddbadf383d55 Beniamino Galvani 2014-11-18  187  	return 0;
-12ddbadf383d55 Beniamino Galvani 2014-11-18  188  }
+   409	
+   410	void i9xx_pipestat_irq_ack(struct drm_i915_private *dev_priv,
+ > 411				   u32 iir, u32 pipe_stats[I915_MAX_PIPES])
+   412	{
+   413		enum pipe pipe;
+   414	
+   415		spin_lock(&dev_priv->irq_lock);
+   416	
+   417		if (!dev_priv->display_irqs_enabled) {
+   418			spin_unlock(&dev_priv->irq_lock);
+   419			return;
+   420		}
+   421	
+   422		for_each_pipe(dev_priv, pipe) {
+   423			i915_reg_t reg;
+   424			u32 status_mask, enable_mask, iir_bit = 0;
+   425	
+   426			/*
+   427			 * PIPESTAT bits get signalled even when the interrupt is
+   428			 * disabled with the mask bits, and some of the status bits do
+   429			 * not generate interrupts at all (like the underrun bit). Hence
+   430			 * we need to be careful that we only handle what we want to
+   431			 * handle.
+   432			 */
+   433	
+   434			/* fifo underruns are filterered in the underrun handler. */
+   435			status_mask = PIPE_FIFO_UNDERRUN_STATUS;
+   436	
+   437			switch (pipe) {
+   438			default:
+   439			case PIPE_A:
+   440				iir_bit = I915_DISPLAY_PIPE_A_EVENT_INTERRUPT;
+   441				break;
+   442			case PIPE_B:
+   443				iir_bit = I915_DISPLAY_PIPE_B_EVENT_INTERRUPT;
+   444				break;
+   445			case PIPE_C:
+   446				iir_bit = I915_DISPLAY_PIPE_C_EVENT_INTERRUPT;
+   447				break;
+   448			}
+   449			if (iir & iir_bit)
+   450				status_mask |= dev_priv->pipestat_irq_mask[pipe];
+   451	
+   452			if (!status_mask)
+   453				continue;
+   454	
+   455			reg = PIPESTAT(pipe);
+   456			pipe_stats[pipe] = intel_uncore_read(&dev_priv->uncore, reg) & status_mask;
+   457			enable_mask = i915_pipestat_enable_mask(dev_priv, pipe);
+   458	
+   459			/*
+   460			 * Clear the PIPE*STAT regs before the IIR
+   461			 *
+   462			 * Toggle the enable bits to make sure we get an
+   463			 * edge in the ISR pipe event bit if we don't clear
+   464			 * all the enabled status bits. Otherwise the edge
+   465			 * triggered IIR on i965/g4x wouldn't notice that
+   466			 * an interrupt is still pending.
+   467			 */
+   468			if (pipe_stats[pipe]) {
+   469				intel_uncore_write(&dev_priv->uncore, reg, pipe_stats[pipe]);
+   470				intel_uncore_write(&dev_priv->uncore, reg, enable_mask);
+   471			}
+   472		}
+   473		spin_unlock(&dev_priv->irq_lock);
+   474	}
+   475	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
-
