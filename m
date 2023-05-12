@@ -1,44 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10C5BE4E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 13:34:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B224DF69;
+	Fri, 12 May 2023 13:44:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683898490; x=1715434490;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U5Eh7syXhPJlcWRD8CbCUfGSr/btRWO84YxVIi3949E=;
-  b=jtwiR6J4xoBRbPtY154ZNgzauCueyri433/Q+QTUBFyT/883QqAEZNs6
-   N12CdP2eA13yup4e0cAqQiXBbEw0H3st3cubHVnymLfJ8mi9SqI6YcX5o
-   S7ik25dp+HzPbL4KK1EkHO0CZE0n14IkfZJzkutDYVAuGoUgnrBEGN9ER
-   N5XuiwpKGG9sdzjyc5FfPDZSMKBaurmYwd3FCCxoG8XiaMpM2rUh9Jd4m
-   hMNvsbLt1Lh5OZhXpnRTzmyhdplGWZKgboUx+pLoekRAdCdtkiEeRlTe5
-   5jXOIfL3Fx9lxaMJLA9VZQxDyK7S8v6SSllvUcX2e/LQJS++PUg25cfDA
+  t=1683899090; x=1715435090;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=Mz+bm1zyiDFApuqYAtgJoZTUthACqafyjST24ljsRgs=;
+  b=daVIcWbgLiuMRRf0HwJxZ9QtdEZXSGaZroKXhgTHMh/ur5koCs0wvZfB
+   RzNKeKp5WLBEFCXESBH2fonHFEUXkYSAFHjGtEpR/F9spqs9f2xYsnI2x
+   6JiUr7UBHONRFbED32PznVL07fxonihdnjKRi5+DH10s2SFC5CfDybK/g
+   IN2F7DQq4sZjwZFOsUF5pmH0TGQVh/rAFkmFx4U0UgxU3lhBJtiDE2E8i
+   1UF1SANo2jkEjGbAeUf6nBKHfPBfMWO0pGzXw/ZLrdgcFPniZDx3lO1UM
+   Nkn3WYiERQ4wkC23NbGVJs1qrNGse7/VYyTjxEWjgkbdPHFrcQ11oy8dA
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="378925047"
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="330408886"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="378925047"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 06:34:50 -0700
+   d="scan'208";a="330408886"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 06:44:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="844417958"
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="694238753"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="844417958"
+   d="scan'208";a="694238753"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 12 May 2023 06:34:48 -0700
+  by orsmga007.jf.intel.com with ESMTP; 12 May 2023 06:44:48 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxSv2-0004tM-0F;
-	Fri, 12 May 2023 13:34:48 +0000
-Date: Fri, 12 May 2023 21:33:56 +0800
+	id 1pxT4i-0004td-0f;
+	Fri, 12 May 2023 13:44:48 +0000
+Date: Fri, 12 May 2023 21:44:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sunil V L <sunilvl@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: [avpatel:riscv_timer_imp_v1 3/35]
- drivers/crypto/hisilicon/qm.c:621:9: warning: ISO C90 forbids mixed
- declarations and code
-Message-ID: <202305122158.88fFu8uv-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [avpatel:riscv_sbi_nested_v1 43/55] ld.lld: error:
+ vmlinux.a(drivers/regulator/qcom-labibb-regulator.o):(function
+ qcom_labibb_regulator_probe: .text+0x38): relocation R_RISCV_HI20 out of
+ range: 535176 is not in [-524288, 524287]; references '__stack_chk_guard'
+Message-ID: <202305122133.xKcEGC7y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,62 +47,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/avpatel/linux.git riscv_timer_imp_v1
-head:   32160e9f14930198623931dcab8fca27eea7b641
-commit: 1c5afb87ad4f39d46b632a0b5f32763d7ebac95f [3/35] crypto: hisilicon/qm: Fix to enable build with RISC-V clang
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230512/202305122158.88fFu8uv-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+TO: Anup Patel <apatel@ventanamicro.com>
+
+tree:   https://github.com/avpatel/linux.git riscv_sbi_nested_v1
+head:   c1ff19a17b95d49653eed009b10259ad6a70bae4
+commit: 534c5e0de96b344fefe9778e5ee63f74649ea624 [43/55] RISC-V: Add defines for SBI debug console extension
+config: riscv-buildonly-randconfig-r006-20230509 (https://download.01.org/0day-ci/archive/20230512/202305122133.xKcEGC7y-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/avpatel/linux/commit/1c5afb87ad4f39d46b632a0b5f32763d7ebac95f
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/avpatel/linux/commit/534c5e0de96b344fefe9778e5ee63f74649ea624
         git remote add avpatel https://github.com/avpatel/linux.git
-        git fetch --no-tags avpatel riscv_timer_imp_v1
-        git checkout 1c5afb87ad4f39d46b632a0b5f32763d7ebac95f
+        git fetch --no-tags avpatel riscv_sbi_nested_v1
+        git checkout 534c5e0de96b344fefe9778e5ee63f74649ea624
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/crypto/hisilicon/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305122158.88fFu8uv-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305122133.xKcEGC7y-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/crypto/hisilicon/qm.c: In function 'qm_mb_write':
->> drivers/crypto/hisilicon/qm.c:621:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-     621 |         unsigned long tmp0 = 0, tmp1 = 0;
-         |         ^~~~~~~~
-
-
-vim +621 drivers/crypto/hisilicon/qm.c
-
-   608	
-   609	/* 128 bit should be written to hardware at one time to trigger a mailbox */
-   610	static void qm_mb_write(struct hisi_qm *qm, const void *src)
-   611	{
-   612		void __iomem *fun_base = qm->io_base + QM_MB_CMD_SEND_BASE;
-   613	
-   614		if (!IS_ENABLED(CONFIG_ARM64)) {
-   615			memcpy_toio(fun_base, src, 16);
-   616			dma_wmb();
-   617			return;
-   618		}
-   619	
-   620	#if IS_ENABLED(CONFIG_ARM64)
- > 621		unsigned long tmp0 = 0, tmp1 = 0;
-   622	
-   623		asm volatile("ldp %0, %1, %3\n"
-   624			     "stp %0, %1, %2\n"
-   625			     "dmb oshst\n"
-   626			     : "=&r" (tmp0),
-   627			       "=&r" (tmp1),
-   628			       "+Q" (*((char __iomem *)fun_base))
-   629			     : "Q" (*((char *)src))
-   630			     : "memory");
-   631	#endif
-   632	
+>> ld.lld: error: vmlinux.a(drivers/regulator/qcom-labibb-regulator.o):(function qcom_labibb_regulator_probe: .text+0x38): relocation R_RISCV_HI20 out of range: 535176 is not in [-524288, 524287]; references '__stack_chk_guard'
+   >>> referenced by qcom-labibb-regulator.c:762 (drivers/regulator/qcom-labibb-regulator.c:762)
+   >>> defined in vmlinux.a(arch/riscv/kernel/process.o)
 
 -- 
 0-DAY CI Kernel Test Service
