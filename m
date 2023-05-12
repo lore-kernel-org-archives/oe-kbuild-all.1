@@ -1,43 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC7063C6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 07:25:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4807D63D8;
+	Fri, 12 May 2023 07:49:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683876343; x=1715412343;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uY11EgciZ4z61iEWEUaOU1J/ebTTPHbl2HHWof8//rs=;
-  b=faoIauVV5aKO+MOaCKR/pDoEojUklbMlM5zZYOn70IRhMKnGl+b+PSSf
-   OUe8ThIbY44CkeQ8++BOm+A0Ut4xCKFClrTtbskIYTMCvorZmZaH9FjyV
-   mSbPwcp05uZsFFtAuIhFo5lbvv4uF/mkpnftG0p90JDhv2dUJ7r1dtKkN
-   ljrxhlq6R5GwUPH0fZ60VYT8h+3yY8xByKh1QulKkyxN7U7hQTDdw6JSo
-   QQDwl5TYPcKJUSznaRb3p2y+bbzgLgnDxNX/0e2nIhz5CI5oZTL4KdDOF
-   ad9OC1VmABxb4F1UZA/Lo9LcNZJOdkqRwWhS17Zwqii5VJ0Qw1SW9dxH6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="353857333"
+  t=1683877788; x=1715413788;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vSWai5yvn4XBtWqajWXxkcAPVAYheX1l74DihYv3xFw=;
+  b=hrCUB8RVNxbVQTvYNnfjq8ylEB2iDFxTjyfDeVNv4kJNBulnKbqR2dr2
+   kDlsAdIBVjQovlm7B+ybo2a/DNo9UqOArvVsXncIsn7aPNDo9gr5SiBpL
+   CG+g0Jo+5BokjtKnEYdkOU911sr56dhRhkBGcC+LuI61PWNXtH2y0b1/x
+   AmPkj+nQRaZ/lEnXnn3eOv/HMgHbcBcrPOG7Jd1GnX3RuA8yR/VbWsg2C
+   vFCWo5kuqekbJnTCKhzajEooabpLOIeoa/q3P73ycBkP0VA/d0gVDDVhv
+   tOIAUcvzu6qB5exQAaB1Wlz7gDCrwE4L2rRfQeQhnTzxOtwDjRLHbkRSg
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="378865299"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="353857333"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 00:25:42 -0700
+   d="scan'208";a="378865299"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 00:49:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="650540180"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="811970352"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="650540180"
+   d="scan'208";a="811970352"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 12 May 2023 00:25:41 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 12 May 2023 00:49:41 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxN9o-0004da-1D;
-	Fri, 12 May 2023 07:25:40 +0000
-Date: Fri, 12 May 2023 15:25:28 +0800
+	id 1pxNX2-0004em-3D;
+	Fri, 12 May 2023 07:49:40 +0000
+Date: Fri, 12 May 2023 15:49:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 414/436] riscv64-linux-ld:
- clk-mt8192.c:undefined reference to `mtk_clk_register_pllfhs'
-Message-ID: <202305121509.mM0P7y1i-lkp@intel.com>
+To: Tejas Upadhyay <tejas.upadhyay@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Add workaround 14016712196
+Message-ID: <202305121525.3EWdGoBY-lkp@intel.com>
+References: <20230512052744.778113-1-tejas.upadhyay@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,33 +47,186 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230512052744.778113-1-tejas.upadhyay@intel.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   101c17a196db9c062b3a17541bba4585f6e5681f
-commit: c9375b7b7166d355b8e42aa6f7345498c10e6ff7 [414/436] UPSTREAM: clk: mediatek: mt8192: Add support for frequency hopping through FHCTL
-config: riscv-randconfig-r003-20230509 (https://download.01.org/0day-ci/archive/20230512/202305121509.mM0P7y1i-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.1.0
+Hi Tejas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-tip/drm-tip]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tejas-Upadhyay/drm-i915-gt-Add-workaround-14016712196/20230512-132314
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230512052744.778113-1-tejas.upadhyay%40intel.com
+patch subject: [Intel-gfx] [PATCH] drm/i915/gt: Add workaround 14016712196
+config: i386-randconfig-a004 (https://download.01.org/0day-ci/archive/20230512/202305121525.3EWdGoBY-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
-        git fetch --no-tags chrome-os chromeos-6.1
-        git checkout c9375b7b7166d355b8e42aa6f7345498c10e6ff7
+        # https://github.com/intel-lab-lkp/linux/commit/429038a73fb0b1cbcfa5b41e17d70e48d835d347
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Tejas-Upadhyay/drm-i915-gt-Add-workaround-14016712196/20230512-132314
+        git checkout 429038a73fb0b1cbcfa5b41e17d70e48d835d347
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305121509.mM0P7y1i-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305121525.3EWdGoBY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   riscv64-linux-ld: drivers/clk/mediatek/clk-mt8192.o: in function `clk_mt8192_apmixed_probe':
-   clk-mt8192.c:(.text+0x10a): undefined reference to `fhctl_parse_dt'
->> riscv64-linux-ld: clk-mt8192.c:(.text+0x122): undefined reference to `mtk_clk_register_pllfhs'
->> riscv64-linux-ld: clk-mt8192.c:(.text+0x16e): undefined reference to `mtk_clk_unregister_pllfhs'
+>> drivers/gpu/drm/i915/gt/gen8_engine_cs.c:180:5: warning: no previous prototype for function 'mtl_dummy_pipe_control' [-Wmissing-prototypes]
+   int mtl_dummy_pipe_control(struct i915_request *rq, u32 *cs)
+       ^
+   drivers/gpu/drm/i915/gt/gen8_engine_cs.c:180:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int mtl_dummy_pipe_control(struct i915_request *rq, u32 *cs)
+   ^
+   static 
+>> drivers/gpu/drm/i915/gt/gen8_engine_cs.c:248:36: warning: variable 'cs' is uninitialized when used here [-Wuninitialized]
+                   err = mtl_dummy_pipe_control(rq, cs);
+                                                    ^~
+   drivers/gpu/drm/i915/gt/gen8_engine_cs.c:245:10: note: initialize the variable 'cs' to silence this warning
+                   u32 *cs, count;
+                          ^
+                           = NULL
+   drivers/gpu/drm/i915/gt/gen8_engine_cs.c:210:36: warning: variable 'cs' is uninitialized when used here [-Wuninitialized]
+                   err = mtl_dummy_pipe_control(rq, cs);
+                                                    ^~
+   drivers/gpu/drm/i915/gt/gen8_engine_cs.c:207:10: note: initialize the variable 'cs' to silence this warning
+                   u32 *cs;
+                          ^
+                           = NULL
+   3 warnings generated.
+
+
+vim +/mtl_dummy_pipe_control +180 drivers/gpu/drm/i915/gt/gen8_engine_cs.c
+
+   179	
+ > 180	int mtl_dummy_pipe_control(struct i915_request *rq, u32 *cs)
+   181	{
+   182		struct intel_engine_cs *engine = rq->engine;
+   183	
+   184		if (IS_MTL_GRAPHICS_STEP(engine->i915, M, STEP_A0, STEP_B0) ||
+   185		    IS_MTL_GRAPHICS_STEP(engine->i915, P, STEP_A0, STEP_B0)) {
+   186			/* dummy PIPE_CONTROL + depth flush */
+   187			cs = intel_ring_begin(rq, 6);
+   188			if (IS_ERR(cs))
+   189				return PTR_ERR(cs);
+   190			cs = gen12_emit_pipe_control(cs,
+   191						     0,
+   192						     PIPE_CONTROL_DEPTH_CACHE_FLUSH,
+   193						     LRC_PPHWSP_SCRATCH_ADDR);
+   194			intel_ring_advance(rq, cs);
+   195		}
+   196	
+   197		return 0;
+   198	}
+   199	
+   200	int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+   201	{
+   202		struct intel_engine_cs *engine = rq->engine;
+   203		int err;
+   204	
+   205		if (mode & EMIT_FLUSH) {
+   206			u32 flags = 0;
+   207			u32 *cs;
+   208	
+   209			/* Wa_14016712196 */
+   210			err = mtl_dummy_pipe_control(rq, cs);
+   211			if (err)
+   212				return err;
+   213	
+   214			flags |= PIPE_CONTROL_TILE_CACHE_FLUSH;
+   215			flags |= PIPE_CONTROL_FLUSH_L3;
+   216			flags |= PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH;
+   217			flags |= PIPE_CONTROL_DEPTH_CACHE_FLUSH;
+   218			/* Wa_1409600907:tgl,adl-p */
+   219			flags |= PIPE_CONTROL_DEPTH_STALL;
+   220			flags |= PIPE_CONTROL_DC_FLUSH_ENABLE;
+   221			flags |= PIPE_CONTROL_FLUSH_ENABLE;
+   222	
+   223			flags |= PIPE_CONTROL_STORE_DATA_INDEX;
+   224			flags |= PIPE_CONTROL_QW_WRITE;
+   225	
+   226			flags |= PIPE_CONTROL_CS_STALL;
+   227	
+   228			if (!HAS_3D_PIPELINE(engine->i915))
+   229				flags &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
+   230			else if (engine->class == COMPUTE_CLASS)
+   231				flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
+   232	
+   233			cs = intel_ring_begin(rq, 6);
+   234			if (IS_ERR(cs))
+   235				return PTR_ERR(cs);
+   236	
+   237			cs = gen12_emit_pipe_control(cs,
+   238						     PIPE_CONTROL0_HDC_PIPELINE_FLUSH,
+   239						     flags, LRC_PPHWSP_SCRATCH_ADDR);
+   240			intel_ring_advance(rq, cs);
+   241		}
+   242	
+   243		if (mode & EMIT_INVALIDATE) {
+   244			u32 flags = 0;
+   245			u32 *cs, count;
+   246	
+   247			/* Wa_14016712196 */
+ > 248			err = mtl_dummy_pipe_control(rq, cs);
+   249			if (err)
+   250				return err;
+   251	
+   252			flags |= PIPE_CONTROL_COMMAND_CACHE_INVALIDATE;
+   253			flags |= PIPE_CONTROL_TLB_INVALIDATE;
+   254			flags |= PIPE_CONTROL_INSTRUCTION_CACHE_INVALIDATE;
+   255			flags |= PIPE_CONTROL_TEXTURE_CACHE_INVALIDATE;
+   256			flags |= PIPE_CONTROL_VF_CACHE_INVALIDATE;
+   257			flags |= PIPE_CONTROL_CONST_CACHE_INVALIDATE;
+   258			flags |= PIPE_CONTROL_STATE_CACHE_INVALIDATE;
+   259	
+   260			flags |= PIPE_CONTROL_STORE_DATA_INDEX;
+   261			flags |= PIPE_CONTROL_QW_WRITE;
+   262	
+   263			flags |= PIPE_CONTROL_CS_STALL;
+   264	
+   265			if (!HAS_3D_PIPELINE(engine->i915))
+   266				flags &= ~PIPE_CONTROL_3D_ARCH_FLAGS;
+   267			else if (engine->class == COMPUTE_CLASS)
+   268				flags &= ~PIPE_CONTROL_3D_ENGINE_FLAGS;
+   269	
+   270			if (!HAS_FLAT_CCS(rq->engine->i915))
+   271				count = 8 + 4;
+   272			else
+   273				count = 8;
+   274	
+   275			cs = intel_ring_begin(rq, count);
+   276			if (IS_ERR(cs))
+   277				return PTR_ERR(cs);
+   278	
+   279			/*
+   280			 * Prevent the pre-parser from skipping past the TLB
+   281			 * invalidate and loading a stale page for the batch
+   282			 * buffer / request payload.
+   283			 */
+   284			*cs++ = preparser_disable(true);
+   285	
+   286			cs = gen8_emit_pipe_control(cs, flags, LRC_PPHWSP_SCRATCH_ADDR);
+   287	
+   288			if (!HAS_FLAT_CCS(rq->engine->i915)) {
+   289				/* hsdes: 1809175790 */
+   290				cs = gen12_emit_aux_table_inv(rq->engine->gt,
+   291							      cs, GEN12_GFX_CCS_AUX_NV);
+   292			}
+   293	
+   294			*cs++ = preparser_disable(false);
+   295			intel_ring_advance(rq, cs);
+   296		}
+   297	
+   298		return 0;
+   299	}
+   300	
 
 -- 
 0-DAY CI Kernel Test Service
