@@ -1,278 +1,188 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE465200A5;
-	Fri, 12 May 2023 17:11:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683911514; x=1715447514;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xvMiasqrMH8K8WgvBvkOYPOzcAh+VY6MTTrFLmR90rU=;
-  b=ibxgAGi15Chw1V1F1suzCpwi7I2IkYWp8bes5MTx+hPrjmPU81j0QEde
-   W7RYDtk43fRGCTC17kLYKrS3E3Cv2T52Qax4TcL7f92d3uI7kR8ShjIve
-   /UdRkgCGcdMfBKEFzn1hM3+oaacgnlqsjRmjIRrp0czIXXVUAQtjgGB2s
-   rSsNRz7GP1TBKSndduB0/pZpZFHIix/1T/O0Ly92XPGtJYyse6ZHX2F0a
-   kpE0olbqC2ChRc5O4Rm+jXptoe0/Ur+mT3VuW6w9ciilGSNnXGu7QL3kO
-   qXWICKZxQ5rpostE/NRGmSt+KKW1ZxGgYLNc47Fyj/EKQ3CPnIY71bbc7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="335360323"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="335360323"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 10:11:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="769867053"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="769867053"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 12 May 2023 10:11:52 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pxWJ5-0004zA-13;
-	Fri, 12 May 2023 17:11:51 +0000
-Date: Sat, 13 May 2023 01:11:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michal Wilczynski <michal.wilczynski@intel.com>,
-	linux-acpi@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, rafael@kernel.org,
-	Michal Wilczynski <michal.wilczynski@intel.com>
-Subject: Re: [PATCH v1 07/34] acpi/nfit: Move handler installing logic to
- driver
-Message-ID: <202305130006.7vOawF8K-lkp@intel.com>
-References: <20230512140222.124868-8-michal.wilczynski@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093A6200AE;
+	Fri, 12 May 2023 17:18:41 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34CDb9eX032268;
+	Fri, 12 May 2023 17:18:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=/yNHFlCv0grlgkGqCSBZdJCbecs4ORkISiyBaYDOeug=;
+ b=Os/JPW0ugfnVYoj7g0gmZQ2BTvJ5sSeIqvXoproulbID4HbMRyAj2ZQ20dBa8cA66hnN
+ ANsr+Evhf4SXmyJLxm5zPU4bRLObhYCojcHS29umizp+6kFj2RD0dx0TMqg4S2BLndkx
+ IUwD+cPePa4sWDdtIRRCWaUFtgPjUZyc2L3aY+Qj5+b4b4gKfnrn41jyrC/SGFU1UnF8
+ uImCCDG5zOUYTz2k+2FmEMpR8Xl3l/0SYKYqn3e1OxAakSf3nVg+ykUXI77AxLFOV6y7
+ U3rVx3cYmYUfeE/2XDAaLaWDToifubN5ii8E0c2ZO8ieMXP5Lk3hge0Jq/nHudDlfII8 qg== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3qhh3918nw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 12 May 2023 17:18:31 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 34CHIUcf008775
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 12 May 2023 17:18:30 GMT
+Received: from [10.71.115.228] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.42; Fri, 12 May
+ 2023 10:18:29 -0700
+Message-ID: <c7d4c1d4-f337-a425-bf0d-f7b0f03dab7c@quicinc.com>
+Date: Fri, 12 May 2023 10:18:14 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230512140222.124868-8-michal.wilczynski@intel.com>
-
-Hi Michal,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on chrome-platform/for-next groeck-staging/hwmon-next linus/master v6.4-rc1 next-20230512]
-[cannot apply to jic23-iio/togreg nvdimm/libnvdimm-for-next nvdimm/dax-misc crng-random/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wilczynski/acpi-Adjust-functions-installing-bus-event-handlers/20230512-220607
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20230512140222.124868-8-michal.wilczynski%40intel.com
-patch subject: [PATCH v1 07/34] acpi/nfit: Move handler installing logic to driver
-config: arm64-randconfig-r032-20230511 (https://download.01.org/0day-ci/archive/20230513/202305130006.7vOawF8K-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/2f0865bfe3ea129ced1df996b1f80fb5d44133e8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Michal-Wilczynski/acpi-Adjust-functions-installing-bus-event-handlers/20230512-220607
-        git checkout 2f0865bfe3ea129ced1df996b1f80fb5d44133e8
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/acpi/nfit/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305130006.7vOawF8K-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/acpi/nfit/core.c:1717:13: warning: no previous prototype for function 'nfit_intel_shutdown_status' [-Wmissing-prototypes]
-   __weak void nfit_intel_shutdown_status(struct nfit_mem *nfit_mem)
-               ^
-   drivers/acpi/nfit/core.c:1717:8: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   __weak void nfit_intel_shutdown_status(struct nfit_mem *nfit_mem)
-          ^
-          static 
->> drivers/acpi/nfit/core.c:3376:43: error: use of undeclared identifier 'device'
-           return acpi_device_install_event_handler(device, ACPI_DEVICE_NOTIFY, acpi_nfit_notify);
-                                                    ^
->> drivers/acpi/nfit/core.c:3376:71: error: use of undeclared identifier 'acpi_nfit_notify'
-           return acpi_device_install_event_handler(device, ACPI_DEVICE_NOTIFY, acpi_nfit_notify);
-                                                                                ^
-   drivers/acpi/nfit/core.c:3381:35: error: use of undeclared identifier 'device'
-           acpi_device_remove_event_handler(device, ACPI_DEVICE_NOTIFY, acpi_nfit_notify);
-                                            ^
-   drivers/acpi/nfit/core.c:3381:63: error: use of undeclared identifier 'acpi_nfit_notify'
-           acpi_device_remove_event_handler(device, ACPI_DEVICE_NOTIFY, acpi_nfit_notify);
-                                                                        ^
->> drivers/acpi/nfit/core.c:3457:15: error: use of undeclared identifier 'adev'
-           device_lock(&adev->dev);
-                        ^
-   drivers/acpi/nfit/core.c:3458:22: error: use of undeclared identifier 'adev'
-           __acpi_nfit_notify(&adev->dev, adev->handle, event);
-                               ^
-   drivers/acpi/nfit/core.c:3458:33: error: use of undeclared identifier 'adev'
-           __acpi_nfit_notify(&adev->dev, adev->handle, event);
-                                          ^
-   drivers/acpi/nfit/core.c:3459:17: error: use of undeclared identifier 'adev'
-           device_unlock(&adev->dev);
-                          ^
-   1 warning and 8 errors generated.
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 2/2] usb: dwc3: Modify runtime pm ops to handle bus
+ suspend
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
+        <gregkh@linuxfoundation.org>, <Thinh.Nguyen@synopsys.com>
+CC: <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <quic_wcheng@quicinc.com>, <quic_jackp@quicinc.com>
+References: <3e035312-3c06-44e1-95ef-0a4d36456a7d@kili.mountain>
+From: Elson Serrao <quic_eserrao@quicinc.com>
+In-Reply-To: <3e035312-3c06-44e1-95ef-0a4d36456a7d@kili.mountain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: rCfticNtVnhe3hsAXeSR5w7wdX8uP7Le
+X-Proofpoint-ORIG-GUID: rCfticNtVnhe3hsAXeSR5w7wdX8uP7Le
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
+ definitions=2023-05-12_10,2023-05-05_01,2023-02-09_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 spamscore=0
+ priorityscore=1501 malwarescore=0 lowpriorityscore=0 phishscore=0
+ suspectscore=0 clxscore=1011 mlxscore=0 impostorscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2304280000 definitions=main-2305120144
 
 
-vim +/device +3376 drivers/acpi/nfit/core.c
 
-  3314	
-  3315	static int acpi_nfit_add(struct acpi_device *adev)
-  3316	{
-  3317		struct acpi_buffer buf = { ACPI_ALLOCATE_BUFFER, NULL };
-  3318		struct acpi_nfit_desc *acpi_desc;
-  3319		struct device *dev = &adev->dev;
-  3320		struct acpi_table_header *tbl;
-  3321		acpi_status status = AE_OK;
-  3322		acpi_size sz;
-  3323		int rc = 0;
-  3324	
-  3325		status = acpi_get_table(ACPI_SIG_NFIT, 0, &tbl);
-  3326		if (ACPI_FAILURE(status)) {
-  3327			/* The NVDIMM root device allows OS to trigger enumeration of
-  3328			 * NVDIMMs through NFIT at boot time and re-enumeration at
-  3329			 * root level via the _FIT method during runtime.
-  3330			 * This is ok to return 0 here, we could have an nvdimm
-  3331			 * hotplugged later and evaluate _FIT method which returns
-  3332			 * data in the format of a series of NFIT Structures.
-  3333			 */
-  3334			dev_dbg(dev, "failed to find NFIT at startup\n");
-  3335			return 0;
-  3336		}
-  3337	
-  3338		rc = devm_add_action_or_reset(dev, acpi_nfit_put_table, tbl);
-  3339		if (rc)
-  3340			return rc;
-  3341		sz = tbl->length;
-  3342	
-  3343		acpi_desc = devm_kzalloc(dev, sizeof(*acpi_desc), GFP_KERNEL);
-  3344		if (!acpi_desc)
-  3345			return -ENOMEM;
-  3346		acpi_nfit_desc_init(acpi_desc, &adev->dev);
-  3347	
-  3348		/* Save the acpi header for exporting the revision via sysfs */
-  3349		acpi_desc->acpi_header = *tbl;
-  3350	
-  3351		/* Evaluate _FIT and override with that if present */
-  3352		status = acpi_evaluate_object(adev->handle, "_FIT", NULL, &buf);
-  3353		if (ACPI_SUCCESS(status) && buf.length > 0) {
-  3354			union acpi_object *obj = buf.pointer;
-  3355	
-  3356			if (obj->type == ACPI_TYPE_BUFFER)
-  3357				rc = acpi_nfit_init(acpi_desc, obj->buffer.pointer,
-  3358						obj->buffer.length);
-  3359			else
-  3360				dev_dbg(dev, "invalid type %d, ignoring _FIT\n",
-  3361					(int) obj->type);
-  3362			kfree(buf.pointer);
-  3363		} else
-  3364			/* skip over the lead-in header table */
-  3365			rc = acpi_nfit_init(acpi_desc, (void *) tbl
-  3366					+ sizeof(struct acpi_table_nfit),
-  3367					sz - sizeof(struct acpi_table_nfit));
-  3368	
-  3369		if (rc)
-  3370			return rc;
-  3371	
-  3372		rc = devm_add_action_or_reset(dev, acpi_nfit_shutdown, acpi_desc);
-  3373		if (rc)
-  3374			return rc;
-  3375	
-> 3376		return acpi_device_install_event_handler(device, ACPI_DEVICE_NOTIFY, acpi_nfit_notify);
-  3377	}
-  3378	
-  3379	static void acpi_nfit_remove(struct acpi_device *adev)
-  3380	{
-  3381		acpi_device_remove_event_handler(device, ACPI_DEVICE_NOTIFY, acpi_nfit_notify);
-  3382		/* see acpi_nfit_unregister */
-  3383	}
-  3384	
-  3385	static void acpi_nfit_update_notify(struct device *dev, acpi_handle handle)
-  3386	{
-  3387		struct acpi_nfit_desc *acpi_desc = dev_get_drvdata(dev);
-  3388		struct acpi_buffer buf = { ACPI_ALLOCATE_BUFFER, NULL };
-  3389		union acpi_object *obj;
-  3390		acpi_status status;
-  3391		int ret;
-  3392	
-  3393		if (!dev->driver) {
-  3394			/* dev->driver may be null if we're being removed */
-  3395			dev_dbg(dev, "no driver found for dev\n");
-  3396			return;
-  3397		}
-  3398	
-  3399		if (!acpi_desc) {
-  3400			acpi_desc = devm_kzalloc(dev, sizeof(*acpi_desc), GFP_KERNEL);
-  3401			if (!acpi_desc)
-  3402				return;
-  3403			acpi_nfit_desc_init(acpi_desc, dev);
-  3404		} else {
-  3405			/*
-  3406			 * Finish previous registration before considering new
-  3407			 * regions.
-  3408			 */
-  3409			flush_workqueue(nfit_wq);
-  3410		}
-  3411	
-  3412		/* Evaluate _FIT */
-  3413		status = acpi_evaluate_object(handle, "_FIT", NULL, &buf);
-  3414		if (ACPI_FAILURE(status)) {
-  3415			dev_err(dev, "failed to evaluate _FIT\n");
-  3416			return;
-  3417		}
-  3418	
-  3419		obj = buf.pointer;
-  3420		if (obj->type == ACPI_TYPE_BUFFER) {
-  3421			ret = acpi_nfit_init(acpi_desc, obj->buffer.pointer,
-  3422					obj->buffer.length);
-  3423			if (ret)
-  3424				dev_err(dev, "failed to merge updated NFIT\n");
-  3425		} else
-  3426			dev_err(dev, "Invalid _FIT\n");
-  3427		kfree(buf.pointer);
-  3428	}
-  3429	
-  3430	static void acpi_nfit_uc_error_notify(struct device *dev, acpi_handle handle)
-  3431	{
-  3432		struct acpi_nfit_desc *acpi_desc = dev_get_drvdata(dev);
-  3433	
-  3434		if (acpi_desc->scrub_mode == HW_ERROR_SCRUB_ON)
-  3435			acpi_nfit_ars_rescan(acpi_desc, ARS_REQ_LONG);
-  3436		else
-  3437			acpi_nfit_ars_rescan(acpi_desc, ARS_REQ_SHORT);
-  3438	}
-  3439	
-  3440	void __acpi_nfit_notify(struct device *dev, acpi_handle handle, u32 event)
-  3441	{
-  3442		dev_dbg(dev, "event: 0x%x\n", event);
-  3443	
-  3444		switch (event) {
-  3445		case NFIT_NOTIFY_UPDATE:
-  3446			return acpi_nfit_update_notify(dev, handle);
-  3447		case NFIT_NOTIFY_UC_MEMORY_ERROR:
-  3448			return acpi_nfit_uc_error_notify(dev, handle);
-  3449		default:
-  3450			return;
-  3451		}
-  3452	}
-  3453	EXPORT_SYMBOL_GPL(__acpi_nfit_notify);
-  3454	
-  3455	static void acpi_nfit_notify(acpi_handle handle, u32 event, void *data)
-  3456	{
-> 3457		device_lock(&adev->dev);
-  3458		__acpi_nfit_notify(&adev->dev, adev->handle, event);
-  3459		device_unlock(&adev->dev);
-  3460	}
-  3461	
+On 5/11/2023 9:18 PM, Dan Carpenter wrote:
+> Hi Elson,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Elson-Roy-Serrao/usb-function-u_ether-Handle-rx-requests-during-suspend-resume/20230512-015036
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> patch link:    https://lore.kernel.org/r/1683827311-1462-3-git-send-email-quic_eserrao%40quicinc.com
+> patch subject: [PATCH 2/2] usb: dwc3: Modify runtime pm ops to handle bus suspend
+> config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230512/202305120709.tCFYCtsd-lkp@intel.com/config)
+> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <error27@gmail.com>
+> | Link: https://lore.kernel.org/r/202305120709.tCFYCtsd-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/usb/dwc3/gadget.c:2409 dwc3_gadget_wakeup() warn: pm_runtime_get_sync() also returns 1 on success
+> drivers/usb/dwc3/gadget.c:2437 dwc3_gadget_func_wakeup() warn: pm_runtime_get_sync() also returns 1 on success
+> 
+> Old smatch warnings:
+> drivers/usb/dwc3/gadget.c:1648 __dwc3_gadget_kick_transfer() warn: missing error code? 'ret'
+> drivers/usb/dwc3/gadget.c:2744 dwc3_gadget_pullup() warn: pm_runtime_get_sync() also returns 1 on success
+> 
+> vim +2409 drivers/usb/dwc3/gadget.c
+> 
+> 218ef7b647e336 Felipe Balbi     2016-04-04  2392  static int dwc3_gadget_wakeup(struct usb_gadget *g)
+> 218ef7b647e336 Felipe Balbi     2016-04-04  2393  {
+> 218ef7b647e336 Felipe Balbi     2016-04-04  2394  	struct dwc3		*dwc = gadget_to_dwc(g);
+> 218ef7b647e336 Felipe Balbi     2016-04-04  2395  	unsigned long		flags;
+> 218ef7b647e336 Felipe Balbi     2016-04-04  2396  	int			ret;
+> 218ef7b647e336 Felipe Balbi     2016-04-04  2397
+> 047161686b813a Elson Roy Serrao 2023-03-24  2398  	if (!dwc->wakeup_configured) {
+> 047161686b813a Elson Roy Serrao 2023-03-24  2399  		dev_err(dwc->dev, "remote wakeup not configured\n");
+> 047161686b813a Elson Roy Serrao 2023-03-24  2400  		return -EINVAL;
+> 047161686b813a Elson Roy Serrao 2023-03-24  2401  	}
+> 047161686b813a Elson Roy Serrao 2023-03-24  2402
+> 047161686b813a Elson Roy Serrao 2023-03-24  2403  	if (!dwc->gadget->wakeup_armed) {
+> 047161686b813a Elson Roy Serrao 2023-03-24  2404  		dev_err(dwc->dev, "not armed for remote wakeup\n");
+> 047161686b813a Elson Roy Serrao 2023-03-24  2405  		return -EINVAL;
+> 047161686b813a Elson Roy Serrao 2023-03-24  2406  	}
+> 047161686b813a Elson Roy Serrao 2023-03-24  2407
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2408  	ret = pm_runtime_get_sync(dwc->dev);
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11 @2409  	if (ret) {
+> 
+> The checker is correct.  These days it's better to use the
+> pm_runtime_resume_and_get() function instead of pm_runtime_get_sync().
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Sure.Thanks!
+
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2410  		pm_runtime_put(dwc->dev);
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2411  		return ret;
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2412  	}
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2413
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2414  	spin_lock_irqsave(&dwc->lock, flags);
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2415  	ret = __dwc3_gadget_wakeup(dwc, true);
+> 72246da40f3719 Felipe Balbi     2011-08-19  2416  	spin_unlock_irqrestore(&dwc->lock, flags);
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2417  	pm_runtime_put_noidle(dwc->dev);
+> 72246da40f3719 Felipe Balbi     2011-08-19  2418
+> 72246da40f3719 Felipe Balbi     2011-08-19  2419  	return ret;
+> 72246da40f3719 Felipe Balbi     2011-08-19  2420  }
+> 72246da40f3719 Felipe Balbi     2011-08-19  2421
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2422  static void dwc3_resume_gadget(struct dwc3 *dwc);
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2423
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2424  static int dwc3_gadget_func_wakeup(struct usb_gadget *g, int intf_id)
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2425  {
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2426  	struct  dwc3		*dwc = gadget_to_dwc(g);
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2427  	unsigned long		flags;
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2428  	int			ret;
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2429  	int			link_state;
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2430
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2431  	if (!dwc->wakeup_configured) {
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2432  		dev_err(dwc->dev, "remote wakeup not configured\n");
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2433  		return -EINVAL;
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2434  	}
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2435
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2436  	ret = pm_runtime_get_sync(dwc->dev);
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11 @2437  	if (ret) {
+> 
+> Same.
+> 
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2438  		pm_runtime_put(dwc->dev);
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2439  		return ret;
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2440  	}
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2441
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2442  	spin_lock_irqsave(&dwc->lock, flags);
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2443  	/*
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2444  	 * If the link is in U3, signal for remote wakeup and wait for the
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2445  	 * link to transition to U0 before sending device notification.
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2446  	 */
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2447  	link_state = dwc3_gadget_get_link_state(dwc);
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2448  	if (link_state == DWC3_LINK_STATE_U3) {
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2449  		ret = __dwc3_gadget_wakeup(dwc, false);
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2450  		if (ret) {
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2451  			spin_unlock_irqrestore(&dwc->lock, flags);
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2452  			pm_runtime_put_noidle(dwc->dev);
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2453  			return -EINVAL;
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2454  		}
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2455  		dwc3_resume_gadget(dwc);
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2456  		dwc->link_state = DWC3_LINK_STATE_U0;
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2457  	}
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2458
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2459  	ret = dwc3_send_gadget_generic_command(dwc, DWC3_DGCMD_DEV_NOTIFICATION,
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2460  					       DWC3_DGCMDPAR_DN_FUNC_WAKE |
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2461  					       DWC3_DGCMDPAR_INTF_SEL(intf_id));
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2462  	if (ret)
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2463  		dev_err(dwc->dev, "function remote wakeup failed, ret:%d\n", ret);
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2464
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2465  	spin_unlock_irqrestore(&dwc->lock, flags);
+> 0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2466  	pm_runtime_put_noidle(dwc->dev);
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2467
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2468  	return ret;
+> 92c08a84b53e5d Elson Roy Serrao 2023-03-24  2469  }
+> 
