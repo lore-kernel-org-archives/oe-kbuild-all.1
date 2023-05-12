@@ -1,70 +1,55 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC1AA41;
-	Fri, 12 May 2023 05:29:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683869386; x=1715405386;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bs0ofAT1novUaAW2tZBSpT9lpBhIzw94dxd8Xl2+02c=;
-  b=YfNunanLcunoiME9NVbLD8UDKHtJdOjDUDJtvuqzBbaL+43mxA3igbd7
-   O2hSVo3I9VotT4f6jUNHXTdp0tuB9y6ghAilNC3zlX5nmOMpGR4JLXsXt
-   BXGhJsKVEeyQYMXpkIxhLaAiGdyE1VyxxeDiaj+gP6nJJcM1eJSEZ8xcW
-   CQxerYKopcZIDtJjfFFuKCZmtTAegaB1AmIQUZzu1DtOy+YJio4qHtAN4
-   euetwUIej7pFTdOhxw+1UWFTPQ9qyEQ5B4t+jDXIOEba5XrTm7FgiLhUP
-   YJfXoVdEgaiV8gKgW/phSXwhS4rkityE/YERyNbmFrgWxPUu9TJT3POcv
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="350733338"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="350733338"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 22:29:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="732891831"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="732891831"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 11 May 2023 22:29:38 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pxLLV-0004Ya-1K;
-	Fri, 12 May 2023 05:29:37 +0000
-Date: Fri, 12 May 2023 13:28:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Linux Staging Drivers <linux-staging@lists.linux.dev>,
-	Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
-	Linux Kernel Actions <linux-actions@lists.infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, Diederik de Haas <didi.debian@cknow.org>,
-	Kate Stewart <kstewart@linuxfoundation.org>,
-	David Airlie <airlied@redhat.com>,
-	Karsten Keil <isdn@linux-pingi.de>,
-	Jay Vosburgh <j.vosburgh@gmail.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Sam Creasey <sammy@sammy.net>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, Jan Kara <jack@suse.com>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>, Tom Rix <trix@redhat.com>,
-	Simon Horman <simon.horman@corigine.com>
-Subject: Re: [PATCH 08/10] drivers: watchdog: Replace GPL license notice with
- SPDX identifier
-Message-ID: <202305121335.mWkj95DO-lkp@intel.com>
-References: <20230511133406.78155-9-bagasdotme@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C075EC9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 05:41:16 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3078d1c8828so6463308f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 22:41:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683870074; x=1686462074;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GRLM54m4oNof2pLRboZuVsUjfYt5aZs+58w3qZaftDY=;
+        b=kFDBkoGue96E/tX+H3qVJQxr7ukww/c4REfNOx2RBujhBTRXlOAWnKt7r5cgdmU1JB
+         aLbCxazsL0mhKGxbhhvjS8IfqoH3LM/EowWfU8d7xMWLq0aoJEm7bB1cCjf9PNdn7ouS
+         kSpIZd/d+Yltor7bIu1hKBwJ9yBiI2s8iaqDDV2gpJ/7aQxO8XfZsjmQbt6Yn0gvnxeC
+         62syf98HY8bSC9t8PPyWPDuc1G+8QULNXUhMeESQNcVLjnhIrHnUwdl50P9usyctng/r
+         zPG9OvzLbkPciHHy6ze9sycFdfYz1cEJ8gQlQPbthO0M99+wnRpxxtJx3hfrfgeaGGV3
+         rS7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683870074; x=1686462074;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GRLM54m4oNof2pLRboZuVsUjfYt5aZs+58w3qZaftDY=;
+        b=Hjm5E/CnSXcHUYagngR8s6J5Bzh+C3wbdho1hw14MjvZQ5OuJ2IvFvWCN/C5WpeB5Z
+         3za+whmpaS1RB8L4hq4yiLT/tamPw+QXfPDeuvjn8+fxCOYEVrCsSVxtwMU8t7FQZNTI
+         YoRU1ClNVGYx/fVWjRBR0Qb4RbsKVswb1PCzgCAoVFxY5eBx1u/E8c9GNQfluqAdNqQn
+         YJB1E0NO5mQ6uBKVxRhraJQFCiPiPV/hUuXyGK3OjSdfHABl5T5ViWgdCact/s5ORulm
+         y7yTW3cXZ0x+Fh4Hz2GTf9yxI+RlBDbqinBhTqWNl5G8ojnUcrN0q0eRKFbBktw7lvDX
+         YqTw==
+X-Gm-Message-State: AC+VfDxhmtsRwi+mfEdK79kwo+cBjfv3cJmbM5/j6aNP6Nca9yTVQKZ9
+	87i4gSBstd5zOGruSJY1GRpFDg==
+X-Google-Smtp-Source: ACHHUZ6seLDwpj4RolVQYyb0o1iErqMDr1kmvf6fp+MtcMehIqrlZQ8vKDd63c9pWnSxB6RtD1MWgA==
+X-Received: by 2002:adf:cd0e:0:b0:304:6a26:1f6 with SMTP id w14-20020adfcd0e000000b003046a2601f6mr17996620wrm.59.1683870074239;
+        Thu, 11 May 2023 22:41:14 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id v3-20020adfebc3000000b00307c0afc030sm5251841wrn.4.2023.05.11.22.41.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 22:41:12 -0700 (PDT)
+Date: Fri, 12 May 2023 08:41:07 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: oe-kbuild@lists.linux.dev,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: drivers/iio/accel/kionix-kx022a.c:1053 kx022a_probe_internal()
+ warn: passing zero to 'dev_err_probe'
+Message-ID: <f5f669fc-ebb4-46df-8957-84c714481ace@kili.mountain>
+References: <46296e39-dbc1-4f27-b89c-af6f08d9f318@kili.mountain>
+ <a1ad0e10-23d2-a860-e9a1-2680313d643f@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,54 +58,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230511133406.78155-9-bagasdotme@gmail.com>
+In-Reply-To: <a1ad0e10-23d2-a860-e9a1-2680313d643f@gmail.com>
 
-Hi Bagas,
+On Fri, May 12, 2023 at 08:16:02AM +0300, Matti Vaittinen wrote:
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1046  	irq = fwnode_irq_get_byname(fwnode, "INT1");
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1047  	if (irq > 0) {
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1048  		data->inc_reg = KX022A_REG_INC1;
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1049  		data->ien_reg = KX022A_REG_INC4;
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1050  	} else {
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1051  		irq = fwnode_irq_get_byname(fwnode, "INT2");
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24  1052  		if (irq <= 0)
+> >                                                                      ^^^^^^^^
+> > This code assumes fwnode_irq_get_byname() can return zero.
+> > 
+> > 7c1d1677b3227c Matti Vaittinen 2022-10-24 @1053  			return dev_err_probe(dev, irq, "No suitable IRQ\n");
+> > 
+> > But fortunately, it can't otherwise this would return success.
+> > 
+> 
+> Ouch. Actually, the fwnode_irq_get_byname() can return zero on device-tree
+> mapping error. I did actually send a patch to address this some time ago:
+> https://lore.kernel.org/lkml/cover.1666710197.git.mazziesaccount@gmail.com/
+> 
 
-kernel test robot noticed the following build warnings:
+Ah.  I just went by the documentation instead of looking at the code.
 
-[auto build test WARNING on ac9a78681b921877518763ba0e89202254349d1b]
+Originally a bunch of irq functions return NO_IRQ on error which was a
+design mistake...  irq_of_parse_and_map() still returns zero on error
+instead of negative error codes.  I wrote a check for that yesterday.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/agp-amd64-Remove-GPL-distribution-notice/20230511-214307
-base:   ac9a78681b921877518763ba0e89202254349d1b
-patch link:    https://lore.kernel.org/r/20230511133406.78155-9-bagasdotme%40gmail.com
-patch subject: [PATCH 08/10] drivers: watchdog: Replace GPL license notice with SPDX identifier
-reproduce:
-        scripts/spdxcheck.py
+drivers/gpu/drm/msm/dsi/dsi_host.c:1949 msm_dsi_host_init() warn: irq_of_parse_and_map() returns zero on failure
+drivers/dma/ti/edma.c:2405 edma_probe() warn: irq_of_parse_and_map() returns zero on failure
+drivers/dma/ti/edma.c:2421 edma_probe() warn: irq_of_parse_and_map() returns zero on failure
+drivers/net/ethernet/xilinx/ll_temac_main.c:1570 temac_probe() warn: irq_of_parse_and_map() returns zero on failure
+drivers/net/ethernet/xilinx/ll_temac_main.c:1573 temac_probe() warn: irq_of_parse_and_map() returns zero on failure
+drivers/ata/sata_mv.c:4094 mv_platform_probe() warn: irq_of_parse_and_map() returns zero on failure
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305121335.mWkj95DO-lkp@intel.com/
+It would be good if we could apply your patch, otherwise I could create
+an explicit check for fwnode_irq_get_byname() returns.
 
-spdxcheck warnings: (new ones prefixed by >>)
-   drivers/pcmcia/cirrus.h: 1:44 Invalid License ID: MPL
-   drivers/pcmcia/pd6729.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/watchdog/ibmasr.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/watchdog/sb_wdog.c: 1:28 Invalid License ID: GPL-1.0
-   include/net/bonding.h: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_audio.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_blowfish.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_cmx.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_core.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_dtmf.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_tones.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/bonding/bond_main.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/bonding/bonding_priv.h: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/ethernet/8390/8390.h: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/ethernet/8390/apne.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/ethernet/8390/axnet_cs.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/ethernet/8390/hydra.c: 1:28 Invalid License ID: GPL-1.0-only
-   drivers/net/ethernet/8390/lib8390.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/ethernet/8390/mac8390.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/ethernet/8390/ne.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/ethernet/8390/ne2k-pci.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/ethernet/8390/pcnet_cs.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/ethernet/8390/smc-ultra.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/ethernet/8390/wd.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/ethernet/i825xx/82596.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/ethernet/i825xx/lasi_82596.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/ethernet/i825xx/lib82596.c: 1:28 Invalid License ID: GPL-1.0-or-later
+Ideally, everything would just return negative error codes on error.
+It's harder to change irq_of_parse_and_map() because it doesn't return a
+mix of errors and zero, but just zero.  We would have to rename it to
+something else, otherwise backports would get messed up.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+regards,
+dan carpenter
