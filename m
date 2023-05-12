@@ -1,45 +1,44 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D651DDF4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 14:05:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC2BBE4E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 14:16:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683900351; x=1715436351;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aQsrwDrXTYSUlrlR/0XEbhht6wHcDB/nGNcRiSziND4=;
-  b=YqnNPT2/dmLbAUDCHSYgz1TCqeECAUMSOZWz8o/bAYphz6emXoEA0UMu
-   12eukqSjAmKd0RgqnCf+PzSz3TD/iUG4NrOWTXHZZGtwsof0lX3ZCbSrF
-   p4XwEGGg/L75RHYTlM9jRZgW83cXHxjTxmrkbtuKzUTo+v7/wX7G0oa3j
-   CiWdH+4DQCHcjtuRpwsGPxiNpDPIyR6si4pw6FhAI0PVil9JDBB1VFTZr
-   0K46SXRUnsqMDuvqDc47l6PFo3saelYibyr/jpLi1aWiQpzcIIhbjNPfM
-   KMtclKWBR5mippnZKmqygvUUtfVGGKCGWVmcauZsB5qCp4RTUBX/FFLcG
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="350818453"
+  t=1683901011; x=1715437011;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qV9WshMxyAqybQHIx3STQm5nTqBaOmoYqRackSG6mIM=;
+  b=JTczzOq77ae0b4der0mjJh3heojgvAInYmeTqzc/0X8gsnvYiDNoVW/D
+   7Z2lckdjw1L57beVG8u9mQTe5TxINclI2bmijuB5iGDq8inLbxip0dUOw
+   PHDyqXmRHknU0s48dvS6EF9oA/IChgD3Gw50ReW+8XPDLy7T4ccpwqll1
+   o5Hxsn0QMF70XPK8SLw+YWCaHARsVZp5l7gtAhKUghwHBQ1x6jRESuIxc
+   0sXsktRQsem7CD3ViWT4CM8ik0SwrFKq566U23sqJpEzSTLpB4xggYEAd
+   Z0V4r9g1ca4NiqZKWmlyLjS6deha1pg4hfieGVz1EG2kAaJkrN754hX8M
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="335315587"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="350818453"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 07:05:51 -0700
+   d="scan'208";a="335315587"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 07:16:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="694247085"
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="677672157"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="694247085"
+   d="scan'208";a="677672157"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 12 May 2023 07:05:49 -0700
+  by orsmga006.jf.intel.com with ESMTP; 12 May 2023 07:16:49 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxTP2-0004uW-1o;
-	Fri, 12 May 2023 14:05:48 +0000
-Date: Fri, 12 May 2023 22:05:42 +0800
+	id 1pxTZg-0004v4-2j;
+	Fri, 12 May 2023 14:16:48 +0000
+Date: Fri, 12 May 2023 22:16:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dai Ngo <dai.ngo@oracle.com>, chuck.lever@oracle.com,
-	jlayton@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 4/4] NFSD: handle GETATTR conflict with write delegation
-Message-ID: <202305122100.rFiPDpBs-lkp@intel.com>
-References: <1683841383-21372-5-git-send-email-dai.ngo@oracle.com>
+To: Daniel Golle <daniel@makrotopia.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kalle Valo <kvalo@kernel.org>, Sasha Levin <sashal@kernel.org>
+Subject: [stable:linux-4.19.y 4143/5827] rt2800lib.c:undefined reference to
+ `clk_get_sys'
+Message-ID: <202305122244.LLs1eJZX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,197 +47,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1683841383-21372-5-git-send-email-dai.ngo@oracle.com>
 
-Hi Dai,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.4-rc1 next-20230512]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dai-Ngo/locks-allow-support-for-write-delegation/20230512-054404
-base:   linus/master
-patch link:    https://lore.kernel.org/r/1683841383-21372-5-git-send-email-dai.ngo%40oracle.com
-patch subject: [PATCH 4/4] NFSD: handle GETATTR conflict with write delegation
-config: m68k-randconfig-s041-20230509 (https://download.01.org/0day-ci/archive/20230512/202305122100.rFiPDpBs-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   cdfda37ab2cfc783a190b563806cda611c35d1e3
+commit: 5ab1829c353647919bfae9a87f9230811ea26ffd [4143/5827] wifi: rt2x00: set SoC wmac clock register
+config: m68k-randconfig-r021-20230512 (https://download.01.org/0day-ci/archive/20230512/202305122244.LLs1eJZX-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce:
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/9e8fd28524572f2f87cc153cbaaaa7a4120d2319
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Dai-Ngo/locks-allow-support-for-write-delegation/20230512-054404
-        git checkout 9e8fd28524572f2f87cc153cbaaaa7a4120d2319
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=5ab1829c353647919bfae9a87f9230811ea26ffd
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-4.19.y
+        git checkout 5ab1829c353647919bfae9a87f9230811ea26ffd
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash fs/nfsd/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305122100.rFiPDpBs-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305122244.LLs1eJZX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/nfsd/nfs4xdr.c:2968:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __be32 [assigned] [usertype] status @@
-   fs/nfsd/nfs4xdr.c:2968:24: sparse:     expected int
-   fs/nfsd/nfs4xdr.c:2968:24: sparse:     got restricted __be32 [assigned] [usertype] status
->> fs/nfsd/nfs4xdr.c:3043:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [assigned] [usertype] status @@     got int @@
-   fs/nfsd/nfs4xdr.c:3043:24: sparse:     expected restricted __be32 [assigned] [usertype] status
-   fs/nfsd/nfs4xdr.c:3043:24: sparse:     got int
+All errors (new ones prefixed by >>):
 
-vim +2968 fs/nfsd/nfs4xdr.c
+   m68k-linux-ld: drivers/net/wireless/ralink/rt2x00/rt2800lib.o: in function `rt2800_init_registers':
+>> rt2800lib.c:(.text+0xe9ea): undefined reference to `clk_get_sys'
 
-  2942	
-  2943	static int
-  2944	nfs4_handle_wrdeleg_conflict(struct svc_rqst *rqstp, struct inode *inode,
-  2945				bool *modified, u64 *size)
-  2946	{
-  2947		__be32 status;
-  2948		struct file_lock *fl;
-  2949		struct nfs4_delegation *dp;
-  2950		struct nfs4_cb_fattr *ncf;
-  2951		struct iattr attrs;
-  2952	
-  2953		*modified = false;
-  2954		fl = nfs4_wrdeleg_filelock(rqstp, inode);
-  2955		if (!fl)
-  2956			return 0;
-  2957		dp = fl->fl_owner;
-  2958		ncf = &dp->dl_cb_fattr;
-  2959		if (dp->dl_recall.cb_clp == *(rqstp->rq_lease_breaker))
-  2960			return 0;
-  2961	
-  2962		refcount_inc(&dp->dl_stid.sc_count);
-  2963		nfs4_cb_getattr(&dp->dl_cb_fattr);
-  2964		wait_on_bit(&ncf->ncf_cb_flags, CB_GETATTR_BUSY, TASK_INTERRUPTIBLE);
-  2965		if (ncf->ncf_cb_status) {
-  2966			status = nfserrno(nfsd_open_break_lease(inode, NFSD_MAY_READ));
-  2967			nfs4_put_stid(&dp->dl_stid);
-> 2968			return status;
-  2969		}
-  2970		ncf->ncf_cur_fsize = ncf->ncf_cb_fsize;
-  2971		if (!ncf->ncf_file_modified &&
-  2972				(ncf->ncf_initial_cinfo != ncf->ncf_cb_cinfo ||
-  2973				ncf->ncf_cur_fsize != ncf->ncf_cb_fsize)) {
-  2974			ncf->ncf_file_modified = true;
-  2975		}
-  2976	
-  2977		if (ncf->ncf_file_modified) {
-  2978			/*
-  2979			 * The server would not update the file's metadata
-  2980			 * with the client's modified size.
-  2981			 * nfsd4 change attribute is constructed from ctime.
-  2982			 */
-  2983			attrs.ia_mtime = attrs.ia_ctime = current_time(inode);
-  2984			attrs.ia_valid = ATTR_MTIME | ATTR_CTIME;
-  2985			setattr_copy(&nop_mnt_idmap, inode, &attrs);
-  2986			mark_inode_dirty(inode);
-  2987			*size = ncf->ncf_cur_fsize;
-  2988			*modified = true;
-  2989		}
-  2990		nfs4_put_stid(&dp->dl_stid);
-  2991		return 0;
-  2992	}
-  2993	
-  2994	/*
-  2995	 * Note: @fhp can be NULL; in this case, we might have to compose the filehandle
-  2996	 * ourselves.
-  2997	 */
-  2998	static __be32
-  2999	nfsd4_encode_fattr(struct xdr_stream *xdr, struct svc_fh *fhp,
-  3000			struct svc_export *exp,
-  3001			struct dentry *dentry, u32 *bmval,
-  3002			struct svc_rqst *rqstp, int ignore_crossmnt)
-  3003	{
-  3004		u32 bmval0 = bmval[0];
-  3005		u32 bmval1 = bmval[1];
-  3006		u32 bmval2 = bmval[2];
-  3007		struct kstat stat;
-  3008		struct svc_fh *tempfh = NULL;
-  3009		struct kstatfs statfs;
-  3010		__be32 *p, *attrlen_p;
-  3011		int starting_len = xdr->buf->len;
-  3012		int attrlen_offset;
-  3013		u32 dummy;
-  3014		u64 dummy64;
-  3015		u32 rdattr_err = 0;
-  3016		__be32 status;
-  3017		int err;
-  3018		struct nfs4_acl *acl = NULL;
-  3019	#ifdef CONFIG_NFSD_V4_SECURITY_LABEL
-  3020		void *context = NULL;
-  3021		int contextlen;
-  3022	#endif
-  3023		bool contextsupport = false;
-  3024		struct nfsd4_compoundres *resp = rqstp->rq_resp;
-  3025		u32 minorversion = resp->cstate.minorversion;
-  3026		struct path path = {
-  3027			.mnt	= exp->ex_path.mnt,
-  3028			.dentry	= dentry,
-  3029		};
-  3030		struct nfsd_net *nn = net_generic(SVC_NET(rqstp), nfsd_net_id);
-  3031		bool file_modified;
-  3032		u64 size = 0;
-  3033	
-  3034		BUG_ON(bmval1 & NFSD_WRITEONLY_ATTRS_WORD1);
-  3035		BUG_ON(!nfsd_attrs_supported(minorversion, bmval));
-  3036	
-  3037		if (exp->ex_fslocs.migrated) {
-  3038			status = fattr_handle_absent_fs(&bmval0, &bmval1, &bmval2, &rdattr_err);
-  3039			if (status)
-  3040				goto out;
-  3041		}
-  3042		if (bmval0 & (FATTR4_WORD0_CHANGE | FATTR4_WORD0_SIZE)) {
-> 3043			status = nfs4_handle_wrdeleg_conflict(rqstp, d_inode(dentry),
-  3044							&file_modified, &size);
-  3045			if (status)
-  3046				goto out;
-  3047		}
-  3048	
-  3049		err = vfs_getattr(&path, &stat,
-  3050				  STATX_BASIC_STATS | STATX_BTIME | STATX_CHANGE_COOKIE,
-  3051				  AT_STATX_SYNC_AS_STAT);
-  3052		if (err)
-  3053			goto out_nfserr;
-  3054		if (!(stat.result_mask & STATX_BTIME))
-  3055			/* underlying FS does not offer btime so we can't share it */
-  3056			bmval1 &= ~FATTR4_WORD1_TIME_CREATE;
-  3057		if ((bmval0 & (FATTR4_WORD0_FILES_AVAIL | FATTR4_WORD0_FILES_FREE |
-  3058				FATTR4_WORD0_FILES_TOTAL | FATTR4_WORD0_MAXNAME)) ||
-  3059		    (bmval1 & (FATTR4_WORD1_SPACE_AVAIL | FATTR4_WORD1_SPACE_FREE |
-  3060			       FATTR4_WORD1_SPACE_TOTAL))) {
-  3061			err = vfs_statfs(&path, &statfs);
-  3062			if (err)
-  3063				goto out_nfserr;
-  3064		}
-  3065		if ((bmval0 & (FATTR4_WORD0_FILEHANDLE | FATTR4_WORD0_FSID)) && !fhp) {
-  3066			tempfh = kmalloc(sizeof(struct svc_fh), GFP_KERNEL);
-  3067			status = nfserr_jukebox;
-  3068			if (!tempfh)
-  3069				goto out;
-  3070			fh_init(tempfh, NFS4_FHSIZE);
-  3071			status = fh_compose(tempfh, exp, dentry, NULL);
-  3072			if (status)
-  3073				goto out;
-  3074			fhp = tempfh;
-  3075		}
-  3076		if (bmval0 & FATTR4_WORD0_ACL) {
-  3077			err = nfsd4_get_nfs4_acl(rqstp, dentry, &acl);
-  3078			if (err == -EOPNOTSUPP)
-  3079				bmval0 &= ~FATTR4_WORD0_ACL;
-  3080			else if (err == -EINVAL) {
-  3081				status = nfserr_attrnotsupp;
-  3082				goto out;
-  3083			} else if (err != 0)
-  3084				goto out_nfserr;
-  3085		}
-  3086	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for NEED_MULTIPLE_NODES
+   Depends on [n]: DISCONTIGMEM [=n] || NUMA
+   Selected by [y]:
+   - SINGLE_MEMORY_CHUNK [=y] && MMU [=y]
 
 -- 
 0-DAY CI Kernel Test Service
