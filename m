@@ -1,48 +1,46 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E5FBE4E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 14:26:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7C41EA90
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 15:28:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683901612; x=1715437612;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xx5+wlf/N8+iZI9Bp4G6CTUNM1ojf6HIXWta0j61j1Y=;
-  b=BaiaW93QuBQraYFRJt2NMSL97TM8HwNqIsaNn/W/1Caiv34KU6aXgnKr
-   LFf7OkNRLUO1skpspszuSL9uX+ugqEz0uIAqOlOrbxcSjrBgXJttL7efl
-   8lxU1lRbV3NhknBiu9gtjRAPD2tyRs5iLzh5RZeJQyDminotxbyTVmhjj
-   uMUYVOKtOVpXEr9lM4njaEtiiAGQS50y6kdRaYnlNSEyLD+lGg4VfPZei
-   Zp0LPZbzlblQg+zRZO9Frh1NLdnbu4mK26j9wbujvpKceltGgOxQsLGSg
-   hQkNok7NULyiOMTwJS9p5Uz12yegK0uWrqX4CoHIMgAR7F6lOpBlnJ4ja
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="353933405"
+  t=1683905332; x=1715441332;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4uRCpk5OpKDSPt3U+jwY747ZwoSzT2kAzb5aRw3tcZU=;
+  b=MwX2L/QcRXhNJAk+FbnfM/PevhyR6MC5Dg6SNhGfskpPrWIMWuVtEbd/
+   1u1t9YRULJ4g7bgF4u42CjAEvMJ7eGdJlgCZRFj7PF7iQqlG233jHBvHL
+   qBAHu6zjZVXRQFeua4pWg4yNQHdloLn6TR+6QPrnkXtj9t5TSBHdOqb+E
+   ayTeEIVcvJ+DV3jtaoS/9oOk2vPSVk7EnVWY9+DR/tOQfyYRAm25+QDD7
+   JnWxLP6HK6PL8LTMlGTqMXYIIjYZVwpwniAEzn7iwpv5jzcmXCxeK3iHR
+   hBn6UgX4fdkV6G+IVH/Yo6wbrTK7TFC86yXKVFOTCuI8YqpodHSoLZc0p
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="335334626"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="353933405"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 07:26:51 -0700
+   d="scan'208";a="335334626"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 08:28:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="650652032"
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="789866910"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="650652032"
+   d="scan'208";a="789866910"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 12 May 2023 07:26:49 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 12 May 2023 08:28:50 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxTjN-0004vg-0Q;
-	Fri, 12 May 2023 14:26:49 +0000
-Date: Fri, 12 May 2023 22:26:42 +0800
+	id 1pxUhN-0004wu-2X;
+	Fri, 12 May 2023 15:28:49 +0000
+Date: Fri, 12 May 2023 23:28:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Govindaraj Saminathan <quic_gsaminat@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kalle Valo <kvalo@codeaurora.org>,
-	ath10k@lists.infradead.org, Kalle Valo <quic_kvalo@quicinc.com>,
-	Sowmiya Sree Elavalagan <quic_ssreeela@quicinc.com>,
-	Raj Kumar Bhagat <quic_rajkbhag@quicinc.com>
-Subject: [kvalo-ath:pending 50/51]
- drivers/net/wireless/ath/ath11k/testmode.h:19: multiple definition of
- `ath11k_tm_wmi_event';
- drivers/net/wireless/ath/ath11k/wmi.o:drivers/net/wireless/ath/ath11k/testmode.h:19:
- first defined here
-Message-ID: <202305122213.1eOA66xV-lkp@intel.com>
+To: Michal Wilczynski <michal.wilczynski@intel.com>,
+	linux-acpi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, rafael@kernel.org,
+	Michal Wilczynski <michal.wilczynski@intel.com>
+Subject: Re: [PATCH v1 13/34] platform/wilco_ec: Move handler installing
+ logic to driver
+Message-ID: <202305122316.bylumx35-lkp@intel.com>
+References: <20230512140222.124868-14-michal.wilczynski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,52 +49,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230512140222.124868-14-michal.wilczynski@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git pending
-head:   229ea354bdd24bf3c33c9447674fab8d609e24a2
-commit: f3d1f7ae115e12108ba7d7fa0ea6374b9e28869c [50/51] wifi: ath11k: factory test mode support
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230512/202305122213.1eOA66xV-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+Hi Michal,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on chrome-platform/for-next groeck-staging/hwmon-next linus/master v6.4-rc1 next-20230512]
+[cannot apply to jic23-iio/togreg nvdimm/libnvdimm-for-next nvdimm/dax-misc crng-random/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wilczynski/acpi-Adjust-functions-installing-bus-event-handlers/20230512-220607
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20230512140222.124868-14-michal.wilczynski%40intel.com
+patch subject: [PATCH v1 13/34] platform/wilco_ec: Move handler installing logic to driver
+config: ia64-allyesconfig (https://download.01.org/0day-ci/archive/20230512/202305122316.bylumx35-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git/commit/?id=f3d1f7ae115e12108ba7d7fa0ea6374b9e28869c
-        git remote add kvalo-ath https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git
-        git fetch --no-tags kvalo-ath pending
-        git checkout f3d1f7ae115e12108ba7d7fa0ea6374b9e28869c
+        # https://github.com/intel-lab-lkp/linux/commit/eb24371e3b1a867fba1410400cfc19f6961cff7b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Michal-Wilczynski/acpi-Adjust-functions-installing-bus-event-handlers/20230512-220607
+        git checkout eb24371e3b1a867fba1410400cfc19f6961cff7b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=ia64 SHELL=/bin/bash drivers/platform/chrome/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305122213.1eOA66xV-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305122316.bylumx35-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   aarch64-linux-ld: drivers/net/wireless/ath/ath11k/mac.o: in function `ath11k_tm_wmi_event':
->> drivers/net/wireless/ath/ath11k/testmode.h:19: multiple definition of `ath11k_tm_wmi_event'; drivers/net/wireless/ath/ath11k/wmi.o:drivers/net/wireless/ath/ath11k/testmode.h:19: first defined here
---
-   In file included from drivers/net/wireless/ath/ath11k/wmi.c:22:
->> drivers/net/wireless/ath/ath11k/testmode.h:17:6: warning: no previous prototype for 'ath11k_tm_wmi_event' [-Wmissing-prototypes]
-      17 | void ath11k_tm_wmi_event(struct ath11k_base *ab, u32 cmd_id, struct sk_buff *skb)
-         |      ^~~~~~~~~~~~~~~~~~~
+   drivers/platform/chrome/wilco_ec/event.c: In function 'event_device_notify':
+   drivers/platform/chrome/wilco_ec/event.c:256:42: error: expected expression before '=' token
+     256 |         struct acpi_buffer event_buffer; = { ACPI_ALLOCATE_BUFFER, NULL };
+         |                                          ^
+>> drivers/platform/chrome/wilco_ec/event.c:257:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+     257 |         struct acpi_device *adev = data;
+         |         ^~~~~~
+   drivers/platform/chrome/wilco_ec/event.c: In function 'event_device_add':
+   drivers/platform/chrome/wilco_ec/event.c:487:52: error: 'device' undeclared (first use in this function)
+     487 |         error =  acpi_device_install_event_handler(device, ACPI_DEVICE_NOTIFY,
+         |                                                    ^~~~~~
+   drivers/platform/chrome/wilco_ec/event.c:487:52: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/platform/chrome/wilco_ec/event.c: In function 'event_device_remove':
+   drivers/platform/chrome/wilco_ec/event.c:505:42: error: 'device' undeclared (first use in this function)
+     505 |         acpi_device_remove_event_handler(device, ACPI_DEVICE_NOTIFY, event_device_notify);
+         |                                          ^~~~~~
 
 
-vim +19 drivers/net/wireless/ath/ath11k/testmode.h
+vim +257 drivers/platform/chrome/wilco_ec/event.c
 
-d5c65159f28953 Kalle Valo            2019-11-23  16  
-f3d1f7ae115e12 Govindaraj Saminathan 2023-05-12 @17  void ath11k_tm_wmi_event(struct ath11k_base *ab, u32 cmd_id, struct sk_buff *skb)
-d5c65159f28953 Kalle Valo            2019-11-23  18  {
-d5c65159f28953 Kalle Valo            2019-11-23 @19  }
-d5c65159f28953 Kalle Valo            2019-11-23  20  
-
-:::::: The code at line 19 was first introduced by commit
-:::::: d5c65159f2895379e11ca13f62feabe93278985d ath11k: driver for Qualcomm IEEE 802.11ax devices
-
-:::::: TO: Kalle Valo <kvalo@codeaurora.org>
-:::::: CC: Kalle Valo <kvalo@codeaurora.org>
+   253	
+   254	static void event_device_notify(acpi_handle handle, u32 value, void *data)
+   255	{
+   256		struct acpi_buffer event_buffer; = { ACPI_ALLOCATE_BUFFER, NULL };
+ > 257		struct acpi_device *adev = data;
+   258		union acpi_object *obj;
+   259		acpi_status status;
+   260	
+   261		if (value != EC_ACPI_NOTIFY_EVENT) {
+   262			dev_err(&adev->dev, "Invalid event: 0x%08x\n", value);
+   263			return;
+   264		}
+   265	
+   266		/* Execute ACPI method to get event data buffer. */
+   267		status = acpi_evaluate_object(adev->handle, EC_ACPI_GET_EVENT,
+   268					      NULL, &event_buffer);
+   269		if (ACPI_FAILURE(status)) {
+   270			dev_err(&adev->dev, "Error executing ACPI method %s()\n",
+   271				EC_ACPI_GET_EVENT);
+   272			return;
+   273		}
+   274	
+   275		obj = (union acpi_object *)event_buffer.pointer;
+   276		if (!obj) {
+   277			dev_err(&adev->dev, "Nothing returned from %s()\n",
+   278				EC_ACPI_GET_EVENT);
+   279			return;
+   280		}
+   281		if (obj->type != ACPI_TYPE_BUFFER) {
+   282			dev_err(&adev->dev, "Invalid object returned from %s()\n",
+   283				EC_ACPI_GET_EVENT);
+   284			kfree(obj);
+   285			return;
+   286		}
+   287		if (obj->buffer.length < sizeof(struct ec_event)) {
+   288			dev_err(&adev->dev, "Invalid buffer length %d from %s()\n",
+   289				obj->buffer.length, EC_ACPI_GET_EVENT);
+   290			kfree(obj);
+   291			return;
+   292		}
+   293	
+   294		enqueue_events(adev, obj->buffer.pointer, obj->buffer.length);
+   295		kfree(obj);
+   296	}
+   297	
 
 -- 
 0-DAY CI Kernel Test Service
