@@ -1,43 +1,70 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB255111B;
-	Fri, 12 May 2023 06:01:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF3C111B;
+	Fri, 12 May 2023 06:01:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683871302; x=1715407302;
+  t=1683871309; x=1715407309;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=glQlXms576iIP6UyEOdZkwJwZrnSZBq9CppJqV3NqVc=;
-  b=gz2kAmScB6fkcJYWSQo55RiXhfhRmQRCGSkBF3Rt68+qJLtaFi48aD7n
-   mipeI3XeS58X98YqKdo5U/nM3LSlr+7I68sCMt1rnmAbJIXpOuVDLgTHU
-   tkhqNWV7Njksy4ZPvcRSbpwID9KLQozlwlec2M1gQVT9AcJAeV17q8Eu7
-   avaX+7ZDWYxEQskUndBLHnmlLq1zHcME4zFfsVb/ywgnZGFFmwGgV+1y9
-   IOEfOY3AdsYq+jOO7qb2BiwhkHDuWGqDPtWM11yX1pKaTjFG2olbsnjMx
-   hwcgja4Xm3ZbzKAhGTjQapxCvpAqsA/Dz1/USGG5zeur/Q0l8wDN/GIaX
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="353840819"
+  bh=iHUv69UyfzxQ3VeWTpR1GT/N/Rvib8OFJmndtMsMloI=;
+  b=DatQ72d+yu+UjxieNH615C/N5ZDF/qtniM72yQTKCDi0sQN8Vl1F3jBc
+   ndwf8540hpQUNfndfkXFPVL9WukuyPNJ/Vl/MGmASmqWpJemQ91OLeV6m
+   3xeGkwJlJbNO3RAILrAmsbvibrWOcDwMMC3SEEyflXPyoQY1lrC3HRM4k
+   yGj93CLP71L5akArTks3XS0G6GvyHgmm/urynM7SKEjIx82qDX/h0v/0O
+   LMGjap6S9eDnT4qoTXlNn2egIaC/iYmDxiUU2856EuVaZSkBLns76o8lQ
+   X0Ddm/t/pjPFRf8p8R1rDDF1cvyAXmzRJnJemAQBb12yKgOL/1WNgBJ+6
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="353840865"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="353840819"
+   d="scan'208";a="353840865"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 23:01:41 -0700
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 23:01:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="730682994"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="730683054"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="730682994"
+   d="scan'208";a="730683054"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
   by orsmga008.jf.intel.com with ESMTP; 11 May 2023 23:01:38 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxLqU-0004a0-00;
+	id 1pxLqU-0004a2-04;
 	Fri, 12 May 2023 06:01:38 +0000
 Date: Fri, 12 May 2023 14:00:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/6] fs: unify locking semantics for fs freeze / thaw
-Message-ID: <202305121355.m1tpxu0F-lkp@intel.com>
-References: <20230508011717.4034511-2-mcgrof@kernel.org>
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Networking <netdev@vger.kernel.org>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Linux Staging Drivers <linux-staging@lists.linux.dev>,
+	Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
+	Linux Kernel Actions <linux-actions@lists.infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Kate Stewart <kstewart@linuxfoundation.org>,
+	Pavel Machek <pavel@ucw.cz>, Tom Rix <trix@redhat.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Gaosheng Cui <cuigaosheng1@huawei.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Dan Carpenter <error27@gmail.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Minghao Chi <chi.minghao@zte.com.cn>,
+	Simon Horman <simon.horman@corigine.com>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Guenter Roeck <linux@roeck-us.net>, Sam Creasey <sammy@sammy.net>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Jay Vosburgh <j.vosburgh@gmail.com>, Kalle Valo <kvalo@kernel.org>
+Subject: Re: [PATCH 10/10] include: synclink: Replace GPL license notice with
+ SPDX identifier
+Message-ID: <202305121302.dCL8lmbx-lkp@intel.com>
+References: <20230511133406.78155-11-bagasdotme@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,219 +73,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230508011717.4034511-2-mcgrof@kernel.org>
+In-Reply-To: <20230511133406.78155-11-bagasdotme@gmail.com>
 
-Hi Luis,
+Hi Bagas,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on gfs2/for-next]
-[also build test ERROR on axboe-block/for-next jaegeuk-f2fs/dev-test jaegeuk-f2fs/dev linus/master v6.4-rc1 next-20230512]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on ac9a78681b921877518763ba0e89202254349d1b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Chamberlain/fs-unify-locking-semantics-for-fs-freeze-thaw/20230508-092008
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git for-next
-patch link:    https://lore.kernel.org/r/20230508011717.4034511-2-mcgrof%40kernel.org
-patch subject: [PATCH 1/6] fs: unify locking semantics for fs freeze / thaw
-config: hexagon-randconfig-r045-20230511 (https://download.01.org/0day-ci/archive/20230512/202305121355.m1tpxu0F-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f277836573b983c2aa96f25337a36a13e56382f5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Luis-Chamberlain/fs-unify-locking-semantics-for-fs-freeze-thaw/20230508-092008
-        git checkout f277836573b983c2aa96f25337a36a13e56382f5
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash fs/gfs2/
+url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/agp-amd64-Remove-GPL-distribution-notice/20230511-214307
+base:   ac9a78681b921877518763ba0e89202254349d1b
+patch link:    https://lore.kernel.org/r/20230511133406.78155-11-bagasdotme%40gmail.com
+patch subject: [PATCH 10/10] include: synclink: Replace GPL license notice with SPDX identifier
+reproduce:
+        scripts/spdxcheck.py
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305121355.m1tpxu0F-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305121302.dCL8lmbx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from fs/gfs2/sys.c:13:
-   In file included from include/linux/buffer_head.h:12:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from fs/gfs2/sys.c:13:
-   In file included from include/linux/buffer_head.h:12:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from fs/gfs2/sys.c:13:
-   In file included from include/linux/buffer_head.h:12:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> fs/gfs2/sys.c:167:24: error: use of undeclared identifier 'sb'
-           if (!get_active_super(sb->s_bdev))
-                                 ^
->> fs/gfs2/sys.c:167:24: error: use of undeclared identifier 'sb'
->> fs/gfs2/sys.c:167:24: error: use of undeclared identifier 'sb'
-   fs/gfs2/sys.c:178:27: error: use of undeclared identifier 'sb'
-                   deactivate_locked_super(sb);
-                                           ^
-   fs/gfs2/sys.c:182:26: error: use of undeclared identifier 'sb'
-           deactivate_locked_super(sb);
-                                   ^
-   6 warnings and 5 errors generated.
---
-   In file included from fs/gfs2/util.c:11:
-   In file included from include/linux/buffer_head.h:12:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from fs/gfs2/util.c:11:
-   In file included from include/linux/buffer_head.h:12:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from fs/gfs2/util.c:11:
-   In file included from include/linux/buffer_head.h:12:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> fs/gfs2/util.c:348:25: error: use of undeclared identifier 'sb'
-                   if (!get_active_super(sb->s_bdev)) {
-                                         ^
->> fs/gfs2/util.c:348:25: error: use of undeclared identifier 'sb'
->> fs/gfs2/util.c:348:25: error: use of undeclared identifier 'sb'
-   fs/gfs2/util.c:356:27: error: use of undeclared identifier 'sb'
-                   deactivate_locked_super(sb);
-                                           ^
-   6 warnings and 4 errors generated.
-
-
-vim +/sb +167 fs/gfs2/sys.c
-
-   155	
-   156	static ssize_t freeze_store(struct gfs2_sbd *sdp, const char *buf, size_t len)
-   157	{
-   158		int error, n;
-   159	
-   160		error = kstrtoint(buf, 0, &n);
-   161		if (error)
-   162			return error;
-   163	
-   164		if (!capable(CAP_SYS_ADMIN))
-   165			return -EPERM;
-   166	
- > 167		if (!get_active_super(sb->s_bdev))
-   168			return -ENOTTY;
-   169	
-   170		switch (n) {
-   171		case 0:
-   172			error = thaw_super(sdp->sd_vfs);
-   173			break;
-   174		case 1:
-   175			error = freeze_super(sdp->sd_vfs);
-   176			break;
-   177		default:
-   178			deactivate_locked_super(sb);
-   179			return -EINVAL;
-   180		}
-   181	
-   182		deactivate_locked_super(sb);
-   183	
-   184		if (error) {
-   185			fs_warn(sdp, "freeze %d error %d\n", n, error);
-   186			return error;
-   187		}
-   188	
-   189		return len;
-   190	}
-   191	
+spdxcheck warnings: (new ones prefixed by >>)
+   drivers/pcmcia/cirrus.h: 1:44 Invalid License ID: MPL
+   drivers/pcmcia/pd6729.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/watchdog/ibmasr.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/watchdog/sb_wdog.c: 1:28 Invalid License ID: GPL-1.0
+   fs/udf/ecma_167.h: 1:44 Invalid License ID: GPL-1.0-only
+   fs/udf/osta_udf.h: 1:44 Invalid License ID: GPL-1.0-only
+>> include/linux/synclink.h: 1:28 Invalid License ID: GPL-1.0-or-later
+   include/net/bonding.h: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/isdn/mISDN/dsp_audio.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/isdn/mISDN/dsp_blowfish.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/isdn/mISDN/dsp_cmx.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/isdn/mISDN/dsp_core.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/isdn/mISDN/dsp_dtmf.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/isdn/mISDN/dsp_tones.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/bonding/bond_main.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/bonding/bonding_priv.h: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/ethernet/8390/8390.h: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/ethernet/8390/apne.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/ethernet/8390/axnet_cs.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/ethernet/8390/hydra.c: 1:28 Invalid License ID: GPL-1.0-only
+   drivers/net/ethernet/8390/lib8390.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/ethernet/8390/mac8390.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/ethernet/8390/ne.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/ethernet/8390/ne2k-pci.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/ethernet/8390/pcnet_cs.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/ethernet/8390/smc-ultra.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/ethernet/8390/wd.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/ethernet/i825xx/82596.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/ethernet/i825xx/lasi_82596.c: 1:28 Invalid License ID: GPL-1.0-or-later
+   drivers/net/ethernet/i825xx/lib82596.c: 1:28 Invalid License ID: GPL-1.0-or-later
 
 -- 
 0-DAY CI Kernel Test Service
