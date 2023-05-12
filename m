@@ -1,43 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B224DF69;
-	Fri, 12 May 2023 13:44:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCBF1DDF5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 13:44:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1683899090; x=1715435090;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Mz+bm1zyiDFApuqYAtgJoZTUthACqafyjST24ljsRgs=;
-  b=daVIcWbgLiuMRRf0HwJxZ9QtdEZXSGaZroKXhgTHMh/ur5koCs0wvZfB
-   RzNKeKp5WLBEFCXESBH2fonHFEUXkYSAFHjGtEpR/F9spqs9f2xYsnI2x
-   6JiUr7UBHONRFbED32PznVL07fxonihdnjKRi5+DH10s2SFC5CfDybK/g
-   IN2F7DQq4sZjwZFOsUF5pmH0TGQVh/rAFkmFx4U0UgxU3lhBJtiDE2E8i
-   1UF1SANo2jkEjGbAeUf6nBKHfPBfMWO0pGzXw/ZLrdgcFPniZDx3lO1UM
-   Nkn3WYiERQ4wkC23NbGVJs1qrNGse7/VYyTjxEWjgkbdPHFrcQ11oy8dA
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="330408886"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FawK7ovzdULCGf9HE0T97MbRCE2ok7w+0DEJcwKEV5k=;
+  b=DKEuwLtIsJr6h44IxASEn1er8EtU2oNsi+lxpIbA/wtF2y52ubFHtLlM
+   8oepfowlxG9CwNXEWnzdXfal3rBxwnjfwWZef2ssIESwtVg/7wNzqV0Xv
+   ++CWioGru7wcSeM1FEH3m5Coa+6/FhqF/J2g/KIVNImWT1/NaowpIeo01
+   b1xnhm67BllCiinXPxwUlZGKcmXrHJqE09e3gR/bHKaNdYLKZZwi7UTHH
+   YlyAMLrt3YECRGnH7sTKaJJX58HkeBZR7kaWjV8HZPAW9nRC/EL5OBFzL
+   /6wlOv84e1y3kSit5SJte8jwvyobWw6ziP1bDlCtQ302yyXuPR3Xl/Wq1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="331153916"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="330408886"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 06:44:49 -0700
+   d="scan'208";a="331153916"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 06:44:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="694238753"
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="769817359"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="694238753"
+   d="scan'208";a="769817359"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 12 May 2023 06:44:48 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 12 May 2023 06:44:48 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxT4i-0004td-0f;
+	id 1pxT4i-0004ta-0b;
 	Fri, 12 May 2023 13:44:48 +0000
-Date: Fri, 12 May 2023 21:44:25 +0800
+Date: Fri, 12 May 2023 21:44:24 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [avpatel:riscv_sbi_nested_v1 43/55] ld.lld: error:
- vmlinux.a(drivers/regulator/qcom-labibb-regulator.o):(function
- qcom_labibb_regulator_probe: .text+0x38): relocation R_RISCV_HI20 out of
- range: 535176 is not in [-524288, 524287]; references '__stack_chk_guard'
-Message-ID: <202305122133.xKcEGC7y-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com
+Subject: Re: [Intel-gfx] [PATCH 3/3] drm/i915/irq: split out display irq
+ handling
+Message-ID: <202305122119.ReGv8vXc-lkp@intel.com>
+References: <20230512102310.1398406-3-jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,37 +47,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230512102310.1398406-3-jani.nikula@intel.com>
 
-TO: Anup Patel <apatel@ventanamicro.com>
+Hi Jani,
 
-tree:   https://github.com/avpatel/linux.git riscv_sbi_nested_v1
-head:   c1ff19a17b95d49653eed009b10259ad6a70bae4
-commit: 534c5e0de96b344fefe9778e5ee63f74649ea624 [43/55] RISC-V: Add defines for SBI debug console extension
-config: riscv-buildonly-randconfig-r006-20230509 (https://download.01.org/0day-ci/archive/20230512/202305122133.xKcEGC7y-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on next-20230512]
+[cannot apply to drm-intel/for-linux-next-fixes linus/master v6.4-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-i915-irq-split-out-hotplug-irq-handling/20230512-182445
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20230512102310.1398406-3-jani.nikula%40intel.com
+patch subject: [Intel-gfx] [PATCH 3/3] drm/i915/irq: split out display irq handling
+config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230512/202305122119.ReGv8vXc-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/avpatel/linux/commit/534c5e0de96b344fefe9778e5ee63f74649ea624
-        git remote add avpatel https://github.com/avpatel/linux.git
-        git fetch --no-tags avpatel riscv_sbi_nested_v1
-        git checkout 534c5e0de96b344fefe9778e5ee63f74649ea624
+        # https://github.com/intel-lab-lkp/linux/commit/40f02fc9ce92df7a661245796cb4b53471edb004
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Jani-Nikula/drm-i915-irq-split-out-hotplug-irq-handling/20230512-182445
+        git checkout 40f02fc9ce92df7a661245796cb4b53471edb004
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305122133.xKcEGC7y-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305122119.ReGv8vXc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: vmlinux.a(drivers/regulator/qcom-labibb-regulator.o):(function qcom_labibb_regulator_probe: .text+0x38): relocation R_RISCV_HI20 out of range: 535176 is not in [-524288, 524287]; references '__stack_chk_guard'
-   >>> referenced by qcom-labibb-regulator.c:762 (drivers/regulator/qcom-labibb-regulator.c:762)
-   >>> defined in vmlinux.a(arch/riscv/kernel/process.o)
+>> drivers/gpu/drm/i915/display/intel_display_irq.c:411:41: warning: argument 3 of type 'u32[4]' {aka 'unsigned int[4]'} with mismatched bound [-Warray-parameter=]
+     411 |                            u32 iir, u32 pipe_stats[I915_MAX_PIPES])
+         |                                     ~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/i915/display/intel_display_irq.c:10:
+   drivers/gpu/drm/i915/display/intel_display_irq.h:74:73: note: previously declared as 'u32 *' {aka 'unsigned int *'}
+      74 | void i9xx_pipestat_irq_ack(struct drm_i915_private *i915, u32 iir, u32 *pipe_stats);
+         |                                                                    ~~~~~^~~~~~~~~~
+
+
+vim +411 drivers/gpu/drm/i915/display/intel_display_irq.c
+
+   409	
+   410	void i9xx_pipestat_irq_ack(struct drm_i915_private *dev_priv,
+ > 411				   u32 iir, u32 pipe_stats[I915_MAX_PIPES])
+   412	{
+   413		enum pipe pipe;
+   414	
+   415		spin_lock(&dev_priv->irq_lock);
+   416	
+   417		if (!dev_priv->display_irqs_enabled) {
+   418			spin_unlock(&dev_priv->irq_lock);
+   419			return;
+   420		}
+   421	
+   422		for_each_pipe(dev_priv, pipe) {
+   423			i915_reg_t reg;
+   424			u32 status_mask, enable_mask, iir_bit = 0;
+   425	
+   426			/*
+   427			 * PIPESTAT bits get signalled even when the interrupt is
+   428			 * disabled with the mask bits, and some of the status bits do
+   429			 * not generate interrupts at all (like the underrun bit). Hence
+   430			 * we need to be careful that we only handle what we want to
+   431			 * handle.
+   432			 */
+   433	
+   434			/* fifo underruns are filterered in the underrun handler. */
+   435			status_mask = PIPE_FIFO_UNDERRUN_STATUS;
+   436	
+   437			switch (pipe) {
+   438			default:
+   439			case PIPE_A:
+   440				iir_bit = I915_DISPLAY_PIPE_A_EVENT_INTERRUPT;
+   441				break;
+   442			case PIPE_B:
+   443				iir_bit = I915_DISPLAY_PIPE_B_EVENT_INTERRUPT;
+   444				break;
+   445			case PIPE_C:
+   446				iir_bit = I915_DISPLAY_PIPE_C_EVENT_INTERRUPT;
+   447				break;
+   448			}
+   449			if (iir & iir_bit)
+   450				status_mask |= dev_priv->pipestat_irq_mask[pipe];
+   451	
+   452			if (!status_mask)
+   453				continue;
+   454	
+   455			reg = PIPESTAT(pipe);
+   456			pipe_stats[pipe] = intel_uncore_read(&dev_priv->uncore, reg) & status_mask;
+   457			enable_mask = i915_pipestat_enable_mask(dev_priv, pipe);
+   458	
+   459			/*
+   460			 * Clear the PIPE*STAT regs before the IIR
+   461			 *
+   462			 * Toggle the enable bits to make sure we get an
+   463			 * edge in the ISR pipe event bit if we don't clear
+   464			 * all the enabled status bits. Otherwise the edge
+   465			 * triggered IIR on i965/g4x wouldn't notice that
+   466			 * an interrupt is still pending.
+   467			 */
+   468			if (pipe_stats[pipe]) {
+   469				intel_uncore_write(&dev_priv->uncore, reg, pipe_stats[pipe]);
+   470				intel_uncore_write(&dev_priv->uncore, reg, enable_mask);
+   471			}
+   472		}
+   473		spin_unlock(&dev_priv->irq_lock);
+   474	}
+   475	
 
 -- 
 0-DAY CI Kernel Test Service
