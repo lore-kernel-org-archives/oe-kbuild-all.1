@@ -1,43 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C0C1FA6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 07:51:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81C72597
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 08:33:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683877903; x=1715413903;
+  t=1683880428; x=1715416428;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=x/VoZzz0opoFnpWBzUMWU0yekPu0168cocUjNJKaDhg=;
-  b=UTCQklp+15rpa0fnjnV5FkUTqhGqiC0KgLU66a3/bTf+vW+MlYZg3ONW
-   OteAmDLFlmAg1PSACtD3PBN1q9dvcZoBUOrxYyZOo5X8jBRMu13TmQrY9
-   h1Mv9lgDph58oSnl16CJqzn8sopXoD61IaYNwSNgROtGU21sW/EbeEUlb
-   dfph6xeo+Wz2tc6wSRPnGE/RDaUfAplF3h9XjyrEkR2yfibv8SF0lJmgU
-   B6ZZaRMv5CI5gF4obHvW2/dlKlb7KbU7NEAjhb/CVmbZBky8P9jUhFUo/
-   F962E7cdgbFHhteY4nzbBbqa2F25k2rGxQRaKrsPlfMReJtvn2MjSXzQg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="340041132"
+  bh=zd3MKXuQS5MxA15kWVdbKYAMPwNv7AYfI6WDzwLp78Y=;
+  b=kaTP4YG/oL6P6hcjdMn1M8C8pX5IEce5dp42dWn7+PxM98SLYwSRFtPf
+   y2GeGnPQBtRBWAN091fJm59n83osS6NTt5I1d/oxRxeD6Yyl8s05mQSMC
+   z6NQYcSrcuCGjl3OGAKjtfj5VuflGzxTQ8hF8l0CKgwNCoSVeRmlpKNej
+   RGjNuMeCyoWJwINlhg4HWZRhQNUv3dCVrw7a/+elrAhu3CRSD+tTz8tTf
+   EGk5oIg6rprv53VA1zin49RfSAWCpRQFnECyvwXf5CRYlJhYGstzmqu+c
+   Day2+9obDFYtuHb5t6riLj/u5QfTyivb5n4DIg6JXifEDA2jh4QraQzJN
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="350763131"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="340041132"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 00:51:42 -0700
+   d="scan'208";a="350763131"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 01:33:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="650544388"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="844339974"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="650544388"
+   d="scan'208";a="844339974"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 12 May 2023 00:51:41 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 12 May 2023 01:33:43 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxNYz-0004eu-0B;
-	Fri, 12 May 2023 07:51:41 +0000
-Date: Fri, 12 May 2023 15:51:22 +0800
+	id 1pxODe-0004i0-2O;
+	Fri, 12 May 2023 08:33:42 +0000
+Date: Fri, 12 May 2023 16:32:57 +0800
 From: kernel test robot <lkp@intel.com>
 To: Tejas Upadhyay <tejas.upadhyay@intel.com>,
 	intel-gfx@lists.freedesktop.org
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Add workaround 14016712196
-Message-ID: <202305121555.i5dslJkI-lkp@intel.com>
+Message-ID: <202305121641.r0X84703-lkp@intel.com>
 References: <20230512052744.778113-1-tejas.upadhyay@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -51,15 +51,15 @@ In-Reply-To: <20230512052744.778113-1-tejas.upadhyay@intel.com>
 
 Hi Tejas,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-tip/drm-tip]
+[auto build test ERROR on drm-tip/drm-tip]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Tejas-Upadhyay/drm-i915-gt-Add-workaround-14016712196/20230512-132314
 base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
 patch link:    https://lore.kernel.org/r/20230512052744.778113-1-tejas.upadhyay%40intel.com
 patch subject: [Intel-gfx] [PATCH] drm/i915/gt: Add workaround 14016712196
-config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230512/202305121555.i5dslJkI-lkp@intel.com/config)
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230512/202305121641.r0X84703-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
         # https://github.com/intel-lab-lkp/linux/commit/429038a73fb0b1cbcfa5b41e17d70e48d835d347
@@ -73,13 +73,14 @@ reproduce (this is a W=1 build):
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305121555.i5dslJkI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305121641.r0X84703-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/gt/gen8_engine_cs.c:180:5: warning: no previous prototype for 'mtl_dummy_pipe_control' [-Wmissing-prototypes]
+>> drivers/gpu/drm/i915/gt/gen8_engine_cs.c:180:5: error: no previous prototype for 'mtl_dummy_pipe_control' [-Werror=missing-prototypes]
      180 | int mtl_dummy_pipe_control(struct i915_request *rq, u32 *cs)
          |     ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
 vim +/mtl_dummy_pipe_control +180 drivers/gpu/drm/i915/gt/gen8_engine_cs.c
