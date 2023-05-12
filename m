@@ -1,166 +1,127 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DB3A41;
-	Fri, 12 May 2023 05:16:05 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-4f1411e8111so10635449e87.1;
-        Thu, 11 May 2023 22:16:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683868564; x=1686460564;
-        h=content-transfer-encoding:in-reply-to:subject:from:content-language
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YItu8HOFGjYbDrIPqGGARNcDK3pUy+l3/DwuX5PBOMY=;
-        b=bEsKpiJvKUTBv1g5LUaLwpyRPv+OK55MbS7suNx4ObvbZKT4LM+Azxm8g4Zsg3BMt7
-         2V/gJIDjieQa3gBjOfYjgKsWDpcLzs/Lkbo+4LZNNVBUlOr1A8o/V4Yp6mkOEgYqw47u
-         KjULcu/2+YI74c56daRLU/GgMo796idjRtzgW7D4rJxURF1qI/4Ki1YrQuRvLNYJierS
-         v5+CRtPkxUOLwxtXGvCRgzi1IZqskcb0SMuBlCl6AenvAz7Uxa50w0Qh7JXu70ihNbSA
-         jqGZygtnGnAunYRSFYUBz7LKxEVvkcKbZWV/qzvLYROoyl1OJTZUdC9ixw46c1y5tLWL
-         QkUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683868564; x=1686460564;
-        h=content-transfer-encoding:in-reply-to:subject:from:content-language
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YItu8HOFGjYbDrIPqGGARNcDK3pUy+l3/DwuX5PBOMY=;
-        b=XrJaHX/V7ri8Zyu6MjNVFPZlhGrqSXbDs6km/0W6fKIwBnlgPeMRgwBCzMGUo3feIQ
-         A2G/4dkrWOtyxACNyIVrA6Q3hUKvSyPQ1ttDXgSkWdG5hiw62SSFCqpDw6T+aB1SxdIJ
-         WenE5nudNGSueJhmYA4z6jUhWxa63DrO8D7zfshzxvPIDHFh57dsE7Hb9NzuaKzFztMS
-         K1NmsxE37xPVzdsrqsC2owjKtA1CuTjcpQYbyjZmt29ooJ80lEs8QiuK+r39nRfSmSQi
-         2DiVXgJjeN2DHvIQlHU7epMYuuOE+79tzuHiiq0LKHSFP+0v6cXLtpbtv2Ds6qlyRZQE
-         xukA==
-X-Gm-Message-State: AC+VfDyGny9Z3Jh1QZI5rhztxJMoypJHwcKod7Jc+VhZnCIEbZeKZw9F
-	hDS53bbAfXrq7pLaq87/SxQ=
-X-Google-Smtp-Source: ACHHUZ7xqbSiYWWJw+ymmfXp8GvtwoAJrLwf2Ob1CzonIyAw/QsmMJarpqeDK7MkXNJDYIICn8j1Xg==
-X-Received: by 2002:ac2:41cb:0:b0:4ec:a18e:f985 with SMTP id d11-20020ac241cb000000b004eca18ef985mr2847376lfi.13.1683868563709;
-        Thu, 11 May 2023 22:16:03 -0700 (PDT)
-Received: from [192.168.1.126] (62-78-225-252.bb.dnainternet.fi. [62.78.225.252])
-        by smtp.gmail.com with ESMTPSA id i4-20020ac25d24000000b004edb2cb3500sm1341672lfb.279.2023.05.11.22.16.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 May 2023 22:16:03 -0700 (PDT)
-Message-ID: <a1ad0e10-23d2-a860-e9a1-2680313d643f@gmail.com>
-Date: Fri, 12 May 2023 08:16:02 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A37A41
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 05:24:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1683869079; x=1715405079;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hYSxkhxE8GBqsnaVjg5JQgUFnBh8FVsRqtmsaihRPRI=;
+  b=lEbF/EEWwEEiJv7qfrP4Z3hQVeSw0n5iZARbWvuW80QGUJh9PRT7rCZP
+   /sEJIeVsEnSvdUpMIrVDn9beaL0BRSg9Bzsjsy8v8C+pUbs74QO3npxmj
+   I5VSzhYje/QZ18hgHXb6e/1UkcUB8u8fUauroQrK06x70FaHb2si6BPJH
+   H04+0kQooc2InGCwL+gSSBom+uvMxgDSlEQvELHipl68I1hKmTzVz/OaV
+   1bTn3zi4IXtJdl8rQ5JSdfJoUt6HI+qMpTLnKHIXl/WSzoOs15pU7sKXR
+   ZTLf7pa0J4DE1PwaQZ/hz6rv9/1s8r0FO+x8qRQBgOFOa1/m/SN/QV7ge
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="352952494"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
+   d="scan'208";a="352952494"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 22:24:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="1029922598"
+X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
+   d="scan'208";a="1029922598"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 11 May 2023 22:24:37 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pxLGf-0004YK-0t;
+	Fri, 12 May 2023 05:24:37 +0000
+Date: Fri, 12 May 2023 13:23:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xiaobo Liu <cppcoffee@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [stable:linux-4.19.y 4204/5827] net/atm/mpoa_proc.c:226: Error:
+ unrecognized opcode `csrs sstatus,s7'
+Message-ID: <202305121214.ve2veEUK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Jonathan Cameron
- <Jonathan.Cameron@huawei.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <46296e39-dbc1-4f27-b89c-af6f08d9f318@kili.mountain>
-Content-Language: en-US, en-GB
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-Subject: Re: drivers/iio/accel/kionix-kx022a.c:1053 kx022a_probe_internal()
- warn: passing zero to 'dev_err_probe'
-In-Reply-To: <46296e39-dbc1-4f27-b89c-af6f08d9f318@kili.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 5/11/23 13:48, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   ad2fd53a7870a395b8564697bef6c329d017c6c9
-> commit: 7c1d1677b3227c6b18ac999f2b84778baa280b8f iio: accel: Support Kionix/ROHM KX022A accelerometer
-> config: openrisc-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110245.MFxC9bUj-lkp@intel.com/config)
-> compiler: or1k-linux-gcc (GCC) 12.1.0
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Link: https://lore.kernel.org/r/202305110245.MFxC9bUj-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/iio/accel/kionix-kx022a.c:1053 kx022a_probe_internal() warn: passing zero to 'dev_err_probe'
-> 
-> vim +/dev_err_probe +1053 drivers/iio/accel/kionix-kx022a.c
-> 
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1000  int kx022a_probe_internal(struct device *dev)
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1001  {
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1002  	static const char * const regulator_names[] = {"io-vdd", "vdd"};
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1003  	struct iio_trigger *indio_trig;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1004  	struct fwnode_handle *fwnode;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1005  	struct kx022a_data *data;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1006  	struct regmap *regmap;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1007  	unsigned int chip_id;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1008  	struct iio_dev *idev;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1009  	int ret, irq;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1010  	char *name;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1011
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1012  	regmap = dev_get_regmap(dev, NULL);
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1013  	if (!regmap) {
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1014  		dev_err(dev, "no regmap\n");
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1015  		return -EINVAL;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1016  	}
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1017
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1018  	fwnode = dev_fwnode(dev);
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1019  	if (!fwnode)
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1020  		return -ENODEV;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1021
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1022  	idev = devm_iio_device_alloc(dev, sizeof(*data));
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1023  	if (!idev)
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1024  		return -ENOMEM;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1025
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1026  	data = iio_priv(idev);
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1027
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1028  	/*
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1029  	 * VDD is the analog and digital domain voltage supply and
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1030  	 * IO_VDD is the digital I/O voltage supply.
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1031  	 */
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1032  	ret = devm_regulator_bulk_get_enable(dev, ARRAY_SIZE(regulator_names),
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1033  					     regulator_names);
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1034  	if (ret && ret != -ENODEV)
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1035  		return dev_err_probe(dev, ret, "failed to enable regulator\n");
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1036
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1037  	ret = regmap_read(regmap, KX022A_REG_WHO, &chip_id);
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1038  	if (ret)
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1039  		return dev_err_probe(dev, ret, "Failed to access sensor\n");
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1040
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1041  	if (chip_id != KX022A_ID) {
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1042  		dev_err(dev, "unsupported device 0x%x\n", chip_id);
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1043  		return -EINVAL;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1044  	}
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1045
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1046  	irq = fwnode_irq_get_byname(fwnode, "INT1");
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1047  	if (irq > 0) {
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1048  		data->inc_reg = KX022A_REG_INC1;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1049  		data->ien_reg = KX022A_REG_INC4;
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1050  	} else {
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1051  		irq = fwnode_irq_get_byname(fwnode, "INT2");
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24  1052  		if (irq <= 0)
->                                                                      ^^^^^^^^
-> This code assumes fwnode_irq_get_byname() can return zero.
-> 
-> 7c1d1677b3227c Matti Vaittinen 2022-10-24 @1053  			return dev_err_probe(dev, irq, "No suitable IRQ\n");
-> 
-> But fortunately, it can't otherwise this would return success.
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   cdfda37ab2cfc783a190b563806cda611c35d1e3
+commit: c5f762b60cd9ae7c766376a94d9c41f4ed613d9f [4204/5827] net/atm: fix proc_mpc_write incorrect return value
+config: riscv-buildonly-randconfig-r006-20230511 (https://download.01.org/0day-ci/archive/20230512/202305121214.ve2veEUK-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=c5f762b60cd9ae7c766376a94d9c41f4ed613d9f
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-4.19.y
+        git checkout c5f762b60cd9ae7c766376a94d9c41f4ed613d9f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash net/atm/
 
-Ouch. Actually, the fwnode_irq_get_byname() can return zero on 
-device-tree mapping error. I did actually send a patch to address this 
-some time ago:
-https://lore.kernel.org/lkml/cover.1666710197.git.mazziesaccount@gmail.com/
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305121214.ve2veEUK-lkp@intel.com/
 
-but got stuck on not knowing "the right way" of handling an smbus 
-use-case. Later I forgot this.
+All errors (new ones prefixed by >>):
 
-It seems I did describe this very same error in the cover-letter - and 
-right after that I fell on this very trap I described... :/
+   net/atm/mpoa_proc.c: Assembler messages:
+>> net/atm/mpoa_proc.c:226: Error: unrecognized opcode `csrs sstatus,s7'
+>> net/atm/mpoa_proc.c:226: Error: unrecognized opcode `csrc sstatus,s7'
 
-Thanks for the heads-up Dan!
 
-Yours,
-	-- Matti
+vim +226 net/atm/mpoa_proc.c
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  208  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  209  static ssize_t proc_mpc_write(struct file *file, const char __user *buff,
+^1da177e4c3f41 Linus Torvalds 2005-04-16  210  			      size_t nbytes, loff_t *ppos)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  211  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  212  	char *page, *p;
+95c961747284a6 Eric Dumazet   2012-04-15  213  	unsigned int len;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  214  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  215  	if (nbytes == 0)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  216  		return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  217  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  218  	if (nbytes >= PAGE_SIZE)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  219  		nbytes = PAGE_SIZE-1;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  220  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  221  	page = (char *)__get_free_page(GFP_KERNEL);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  222  	if (!page)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  223  		return -ENOMEM;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  224  
+c5f762b60cd9ae Xiaobo Liu     2022-10-14  225  	for (p = page, len = 0; len < nbytes; p++) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @226  		if (get_user(*p, buff++)) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  227  			free_page((unsigned long)page);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  228  			return -EFAULT;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  229  		}
+c5f762b60cd9ae Xiaobo Liu     2022-10-14  230  		len += 1;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  231  		if (*p == '\0' || *p == '\n')
+^1da177e4c3f41 Linus Torvalds 2005-04-16  232  			break;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  233  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  234  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  235  	*p = '\0';
+^1da177e4c3f41 Linus Torvalds 2005-04-16  236  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  237  	if (!parse_qos(page))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  238  		printk("mpoa: proc_mpc_write: could not parse '%s'\n", page);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  239  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  240  	free_page((unsigned long)page);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  241  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  242  	return len;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  243  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  244  
+
+:::::: The code at line 226 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
