@@ -1,70 +1,53 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B51A4A;
-	Fri, 12 May 2023 04:09:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683864585; x=1715400585;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ij2TBovyX1fbUGAzCKCpJn+xp0fp35Qx/066/MjPBlg=;
-  b=mJSgBztLpJ+vPETvyFkfop9chIicPHY0WlMvleGgjo3r7KNPeLY9WfsP
-   DlxqB+ahxXX1J8XHPrJjpDRuqoA1O11/a7Mu4fyUCa+jL2WQZbhLSXQ1j
-   ZgOQXUwavCjE83b4T9vew0B4bKgEMSwxQ0e5ySmAAHXCWE8+M7z8IEdBO
-   PHuKShAaVC3vAWbCbabxAWFDv4I5QDJ8HWc+fCeOOYCSakEshKEbfjBCO
-   AkF68fF2+/YFUu7ydzh8aBlucR2qdJ75H+9upueOxnS62EWhvALNgUtx/
-   ERd6OIXd6cgupWOUPoJPuHbZTTK13tViwVIUAK63QQKXjzvaSK8weIWy3
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="416324506"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="416324506"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 21:09:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="732872157"
-X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="732872157"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 11 May 2023 21:09:35 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pxK63-0004UL-0Y;
-	Fri, 12 May 2023 04:09:35 +0000
-Date: Fri, 12 May 2023 12:09:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Networking <netdev@vger.kernel.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Linux Staging Drivers <linux-staging@lists.linux.dev>,
-	Linux Watchdog Devices <linux-watchdog@vger.kernel.org>,
-	Linux Kernel Actions <linux-actions@lists.infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kate Stewart <kstewart@linuxfoundation.org>,
-	Pavel Machek <pavel@ucw.cz>, Tom Rix <trix@redhat.com>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	"David A . Hinds" <dahinds@users.sourceforge.net>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Gaosheng Cui <cuigaosheng1@huawei.com>,
-	Andy Gospodarek <andy@greyhouse.net>,
-	Dan Carpenter <error27@gmail.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Minghao Chi <chi.minghao@zte.com.cn>,
-	Greg Ungerer <gerg@linux-m68k.org>, Peter De Schrijver <p2@mind.be>,
-	Simon Horman <simon.horman@corigine.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Guenter Roeck <linux@roeck-us.net>, Sam Creasey <sammy@sammy.net>,
-	Donald Becker <becker@scyld.com>
-Subject: Re: [PATCH 04/10] net: ethernet: 8390: Replace GPL boilerplate with
- SPDX identifier
-Message-ID: <202305121107.Au46XZCK-lkp@intel.com>
-References: <20230511133406.78155-5-bagasdotme@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD4DCA3C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 04:18:26 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f475366514so21099485e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 11 May 2023 21:18:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683865105; x=1686457105;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lKSRIDy0J+UduLCQdBIRVgaNQhqBgLMPH7ha37U/mpY=;
+        b=blQ1l551mkk+RhRNR4/CbhJIKKut5nb8rgm1ZlVdYS3Xs/ZAsSfjl9OmJXiFhLRw//
+         fLThEdWuA50YQnH2BZtawfZwWJQL4qD7NbGHby0VERYx9vzBTpa+wxNjToFvj4uRjARx
+         Q1zj3aHn8M1OaIfRQN7nFnUYn/LIwrmKZ9YP9n3+D1R+hkV6k7Z8RenSqfHy9PuHieTZ
+         40zj5vxBqUuHpHvSZhtL86t70GXZZQNBvXN0cCqktdTtlrE2uWJ+HfdDCT8K7BmgBJCA
+         IV0REqLjOlrUvv0Ycs8yZm0zBIQrPutGQ7/qQZScPERY/ozbTz3c+t9jXjAATkuqlv49
+         j0tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683865105; x=1686457105;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lKSRIDy0J+UduLCQdBIRVgaNQhqBgLMPH7ha37U/mpY=;
+        b=ImRre2LYRksVUcZH8VePwSjrk7GCLOpxMq7cONZt8jOelYTcKMXdchHYBKOqH+PkBl
+         EHIDxlZNF+VvtE/HiXGpMlOSEa63Eyz6kicgj1onR6Jf/P/t5C/bB3wIBLF0RgYr8Fmt
+         5ZYKdu9/hJm08BCKQJIaGRDvIIbm0nGRDnwlmIK/3gubM+vZGbvK1ozx5N0l+zzfCX/z
+         K969JizPbKmmKke7ra19TPTG/Z5fcBRuAQuoB0ywanS+2b+t8BOzB9HvuXxwBwJh3f+Z
+         pt9y53E1kypC54iZstfRt6lqNaodzS2bVGELTSbOuar7HkIn4xLvHzs7ill7svVLrSX6
+         aSsg==
+X-Gm-Message-State: AC+VfDxzxehtBQ8jL0JVRhRusmYSLyavrIYCiL3xoAcpxCY0Hlu/pTIQ
+	8i7s6Y88NyAUTvULng1jFgCJYQ==
+X-Google-Smtp-Source: ACHHUZ5p1QJeBJjKCYP8wu3GMgGcx+MS7p0O3HhkJyuYY/Yip8cIUKZ3F1vH9Kfd5azZX90khyqONQ==
+X-Received: by 2002:a7b:c85a:0:b0:3f4:ecf0:8c93 with SMTP id c26-20020a7bc85a000000b003f4ecf08c93mr2384658wml.20.1683865104843;
+        Thu, 11 May 2023 21:18:24 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id x16-20020a05600c21d000b003f318be9442sm27555561wmj.40.2023.05.11.21.18.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 May 2023 21:18:23 -0700 (PDT)
+Date: Fri, 12 May 2023 07:18:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Elson Roy Serrao <quic_eserrao@quicinc.com>,
+	gregkh@linuxfoundation.org, Thinh.Nguyen@synopsys.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	quic_wcheng@quicinc.com, quic_jackp@quicinc.com,
+	Elson Roy Serrao <quic_eserrao@quicinc.com>
+Subject: Re: [PATCH 2/2] usb: dwc3: Modify runtime pm ops to handle bus
+ suspend
+Message-ID: <3e035312-3c06-44e1-95ef-0a4d36456a7d@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,47 +56,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230511133406.78155-5-bagasdotme@gmail.com>
+In-Reply-To: <1683827311-1462-3-git-send-email-quic_eserrao@quicinc.com>
 
-Hi Bagas,
+Hi Elson,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on ac9a78681b921877518763ba0e89202254349d1b]
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/agp-amd64-Remove-GPL-distribution-notice/20230511-214307
-base:   ac9a78681b921877518763ba0e89202254349d1b
-patch link:    https://lore.kernel.org/r/20230511133406.78155-5-bagasdotme%40gmail.com
-patch subject: [PATCH 04/10] net: ethernet: 8390: Replace GPL boilerplate with SPDX identifier
-reproduce:
-        scripts/spdxcheck.py
+url:    https://github.com/intel-lab-lkp/linux/commits/Elson-Roy-Serrao/usb-function-u_ether-Handle-rx-requests-during-suspend-resume/20230512-015036
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/1683827311-1462-3-git-send-email-quic_eserrao%40quicinc.com
+patch subject: [PATCH 2/2] usb: dwc3: Modify runtime pm ops to handle bus suspend
+config: x86_64-randconfig-m001 (https://download.01.org/0day-ci/archive/20230512/202305120709.tCFYCtsd-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305121107.Au46XZCK-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202305120709.tCFYCtsd-lkp@intel.com/
 
-spdxcheck warnings: (new ones prefixed by >>)
-   include/net/bonding.h: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_audio.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_blowfish.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_cmx.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_core.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_dtmf.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/isdn/mISDN/dsp_tones.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/bonding/bond_main.c: 1:28 Invalid License ID: GPL-1.0-or-later
-   drivers/net/bonding/bonding_priv.h: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/net/ethernet/8390/8390.h: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/net/ethernet/8390/apne.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/net/ethernet/8390/axnet_cs.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/net/ethernet/8390/hydra.c: 1:28 Invalid License ID: GPL-1.0-only
->> drivers/net/ethernet/8390/lib8390.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/net/ethernet/8390/mac8390.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/net/ethernet/8390/ne.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/net/ethernet/8390/ne2k-pci.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/net/ethernet/8390/pcnet_cs.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/net/ethernet/8390/smc-ultra.c: 1:28 Invalid License ID: GPL-1.0-or-later
->> drivers/net/ethernet/8390/wd.c: 1:28 Invalid License ID: GPL-1.0-or-later
+New smatch warnings:
+drivers/usb/dwc3/gadget.c:2409 dwc3_gadget_wakeup() warn: pm_runtime_get_sync() also returns 1 on success
+drivers/usb/dwc3/gadget.c:2437 dwc3_gadget_func_wakeup() warn: pm_runtime_get_sync() also returns 1 on success
+
+Old smatch warnings:
+drivers/usb/dwc3/gadget.c:1648 __dwc3_gadget_kick_transfer() warn: missing error code? 'ret'
+drivers/usb/dwc3/gadget.c:2744 dwc3_gadget_pullup() warn: pm_runtime_get_sync() also returns 1 on success
+
+vim +2409 drivers/usb/dwc3/gadget.c
+
+218ef7b647e336 Felipe Balbi     2016-04-04  2392  static int dwc3_gadget_wakeup(struct usb_gadget *g)
+218ef7b647e336 Felipe Balbi     2016-04-04  2393  {
+218ef7b647e336 Felipe Balbi     2016-04-04  2394  	struct dwc3		*dwc = gadget_to_dwc(g);
+218ef7b647e336 Felipe Balbi     2016-04-04  2395  	unsigned long		flags;
+218ef7b647e336 Felipe Balbi     2016-04-04  2396  	int			ret;
+218ef7b647e336 Felipe Balbi     2016-04-04  2397  
+047161686b813a Elson Roy Serrao 2023-03-24  2398  	if (!dwc->wakeup_configured) {
+047161686b813a Elson Roy Serrao 2023-03-24  2399  		dev_err(dwc->dev, "remote wakeup not configured\n");
+047161686b813a Elson Roy Serrao 2023-03-24  2400  		return -EINVAL;
+047161686b813a Elson Roy Serrao 2023-03-24  2401  	}
+047161686b813a Elson Roy Serrao 2023-03-24  2402  
+047161686b813a Elson Roy Serrao 2023-03-24  2403  	if (!dwc->gadget->wakeup_armed) {
+047161686b813a Elson Roy Serrao 2023-03-24  2404  		dev_err(dwc->dev, "not armed for remote wakeup\n");
+047161686b813a Elson Roy Serrao 2023-03-24  2405  		return -EINVAL;
+047161686b813a Elson Roy Serrao 2023-03-24  2406  	}
+047161686b813a Elson Roy Serrao 2023-03-24  2407  
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2408  	ret = pm_runtime_get_sync(dwc->dev);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11 @2409  	if (ret) {
+
+The checker is correct.  These days it's better to use the
+pm_runtime_resume_and_get() function instead of pm_runtime_get_sync().
+
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2410  		pm_runtime_put(dwc->dev);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2411  		return ret;
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2412  	}
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2413  
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2414  	spin_lock_irqsave(&dwc->lock, flags);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2415  	ret = __dwc3_gadget_wakeup(dwc, true);
+72246da40f3719 Felipe Balbi     2011-08-19  2416  	spin_unlock_irqrestore(&dwc->lock, flags);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2417  	pm_runtime_put_noidle(dwc->dev);
+72246da40f3719 Felipe Balbi     2011-08-19  2418  
+72246da40f3719 Felipe Balbi     2011-08-19  2419  	return ret;
+72246da40f3719 Felipe Balbi     2011-08-19  2420  }
+72246da40f3719 Felipe Balbi     2011-08-19  2421  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2422  static void dwc3_resume_gadget(struct dwc3 *dwc);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2423  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2424  static int dwc3_gadget_func_wakeup(struct usb_gadget *g, int intf_id)
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2425  {
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2426  	struct  dwc3		*dwc = gadget_to_dwc(g);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2427  	unsigned long		flags;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2428  	int			ret;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2429  	int			link_state;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2430  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2431  	if (!dwc->wakeup_configured) {
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2432  		dev_err(dwc->dev, "remote wakeup not configured\n");
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2433  		return -EINVAL;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2434  	}
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2435  
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2436  	ret = pm_runtime_get_sync(dwc->dev);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11 @2437  	if (ret) {
+
+Same.
+
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2438  		pm_runtime_put(dwc->dev);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2439  		return ret;
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2440  	}
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2441  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2442  	spin_lock_irqsave(&dwc->lock, flags);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2443  	/*
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2444  	 * If the link is in U3, signal for remote wakeup and wait for the
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2445  	 * link to transition to U0 before sending device notification.
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2446  	 */
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2447  	link_state = dwc3_gadget_get_link_state(dwc);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2448  	if (link_state == DWC3_LINK_STATE_U3) {
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2449  		ret = __dwc3_gadget_wakeup(dwc, false);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2450  		if (ret) {
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2451  			spin_unlock_irqrestore(&dwc->lock, flags);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2452  			pm_runtime_put_noidle(dwc->dev);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2453  			return -EINVAL;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2454  		}
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2455  		dwc3_resume_gadget(dwc);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2456  		dwc->link_state = DWC3_LINK_STATE_U0;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2457  	}
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2458  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2459  	ret = dwc3_send_gadget_generic_command(dwc, DWC3_DGCMD_DEV_NOTIFICATION,
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2460  					       DWC3_DGCMDPAR_DN_FUNC_WAKE |
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2461  					       DWC3_DGCMDPAR_INTF_SEL(intf_id));
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2462  	if (ret)
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2463  		dev_err(dwc->dev, "function remote wakeup failed, ret:%d\n", ret);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2464  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2465  	spin_unlock_irqrestore(&dwc->lock, flags);
+0660b8a88d4d6a Elson Roy Serrao 2023-05-11  2466  	pm_runtime_put_noidle(dwc->dev);
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2467  
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2468  	return ret;
+92c08a84b53e5d Elson Roy Serrao 2023-03-24  2469  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
