@@ -1,43 +1,47 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3C6261DA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 21:01:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC657138F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 21:42:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683925265; x=1715461265;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+5uG4AtUH5+sMlmHVzujie4mHI3ti9XIv5A7kd+b+2c=;
-  b=I80kCiILkkcX+ODayHZc/4ODH7725ZSZUTjIwfOgkQCTsyqtAdNtOCWr
-   QCbu3iuftZgC7aofV0LzfYk5DEKsLbLxwP7BYrlt78RgcBrVtd2aLeU+T
-   WfojTZ1Hv/FvTtvFVhj1hPaH+VT9yFzwhx7Q2DCCp5jJ/qj3s3kbHza7J
-   CP82WyFxM6I+ph1UzFhaucV6SDxeu6ZjMv4cUvIpEX0DhyyvjrBqm6W89
-   +H/J0b8k7bAlfxBXEUvdz2Px/8I5rrdcYX5TAE0fGaWcEOTuEq4YVtZtn
-   7uhkfvCs5rHhwAEgxvrEmKmeNrn4HhGGevlDZnbSFa2kFTVfIyMEBcoPM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="348375818"
+  t=1683927779; x=1715463779;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+Bl/EjMSSHjz1Wk2AIf5TXrIQmI81mS1RQb/Zga8QtI=;
+  b=DHO6y3VuNUUCzNDTwJpBGjk+uHopcn4dMrldlGJVjBdbBglz8Z1s6A2I
+   le8Do7t4lIh75vClUev0wbIWljq/TFoD8cXUtYY5X2xNQdquH/2HtXmmo
+   +Jcbg4ADcS+psy8ElEEt1sjAgCU9XmNTuo7equfTNTozdR3O2NvBfGyWu
+   jLJi/ZyrRhjNC1GUq0M4BZlb0JcDol4gvxPamFnh9WnzEc0sf3+kTLqfL
+   2zCQ0uANlkj9qGOBZ/8/l3IzaAG2tx4qHvJKkL2CZn2J6hAx33AYY5q13
+   Uwz2nJ3hVJRaLxojlGY9g0wIZ0D7fLjrrWpS4jMqr/vmfANR1qNOyr0fq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="353147655"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="348375818"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 14:00:59 -0700
+   d="scan'208";a="353147655"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 14:42:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="874518407"
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="844568072"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="874518407"
+   d="scan'208";a="844568072"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 12 May 2023 14:00:56 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 12 May 2023 14:42:57 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxZsm-00056o-0C;
-	Fri, 12 May 2023 21:00:56 +0000
-Date: Sat, 13 May 2023 05:00:42 +0800
+	id 1pxaXQ-00057s-2c;
+	Fri, 12 May 2023 21:42:56 +0000
+Date: Sat, 13 May 2023 05:42:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Elena Reshetova <elena.reshetova@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
-Subject: [intel-tdx:guest-filter 30/33] drivers/acpi/osl.c:382:17: sparse:
- sparse: incorrect type in return expression (different address spaces)
-Message-ID: <202305130425.jbtq1nuf-lkp@intel.com>
+To: Michal Wilczynski <michal.wilczynski@intel.com>,
+	linux-acpi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, rafael@kernel.org,
+	srinivas.pandruvada@linux.intel.com, hanjun.guo@linaro.org,
+	Michal Wilczynski <michal.wilczynski@intel.com>
+Subject: Re: [PATCH v1 2/2] acpi: Move logic responsible for conveying
+ processor OSPM capabilities
+Message-ID: <202305130519.3kCngRee-lkp@intel.com>
+References: <20230512152545.125302-3-michal.wilczynski@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,65 +50,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230512152545.125302-3-michal.wilczynski@intel.com>
 
-tree:   https://github.com/intel/tdx.git guest-filter
-head:   b143cfba688689945ae56d38a6f76100859b5025
-commit: 70b3d5760c1b65e6c5a1920e8231089f01aff9d6 [30/33] acpica: add acpi_os_map_memory_opregion
-config: x86_64-randconfig-s023 (https://download.01.org/0day-ci/archive/20230513/202305130425.jbtq1nuf-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel/tdx/commit/70b3d5760c1b65e6c5a1920e8231089f01aff9d6
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx guest-filter
-        git checkout 70b3d5760c1b65e6c5a1920e8231089f01aff9d6
+Hi Michal,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on linus/master v6.4-rc1 next-20230512]
+[cannot apply to tip/x86/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wilczynski/acpi-Use-_OSC-method-to-convey-processor-OSPM-capabilites/20230512-232819
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20230512152545.125302-3-michal.wilczynski%40intel.com
+patch subject: [PATCH v1 2/2] acpi: Move logic responsible for conveying processor OSPM capabilities
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230513/202305130519.3kCngRee-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/46f0576d442f1e76c7bd4edaec78ee2357111aff
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Michal-Wilczynski/acpi-Use-_OSC-method-to-convey-processor-OSPM-capabilites/20230512-232819
+        git checkout 46f0576d442f1e76c7bd4edaec78ee2357111aff
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/acpi/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305130425.jbtq1nuf-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305130519.3kCngRee-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/acpi/osl.c:382:17: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/acpi/osl.c:382:17: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void [noderef] __iomem * @@     got void * @@
-   drivers/acpi/osl.c:382:17: sparse:     expected void [noderef] __iomem *
-   drivers/acpi/osl.c:382:17: sparse:     got void *
-   drivers/acpi/osl.c:388:17: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/acpi/osl.c:412:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/acpi/osl.c:414:25: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/acpi/osl.c:1717:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *rv @@     got void [noderef] __iomem * @@
-   drivers/acpi/osl.c:1717:20: sparse:     expected void *rv
-   drivers/acpi/osl.c:1717:20: sparse:     got void [noderef] __iomem *
-   drivers/acpi/osl.c:747:1: sparse: sparse: context imbalance in 'acpi_os_read_memory' - wrong count at exit
-   drivers/acpi/osl.c:780:1: sparse: sparse: context imbalance in 'acpi_os_write_memory' - wrong count at exit
+All errors (new ones prefixed by >>):
 
-vim +382 drivers/acpi/osl.c
+   drivers/acpi/acpi_processor.c: In function 'set_no_mwait':
+>> drivers/acpi/acpi_processor.c:564:9: error: 'boot_option_idle_override' undeclared (first use in this function)
+     564 |         boot_option_idle_override = IDLE_NOMWAIT;
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/acpi_processor.c:564:9: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/acpi/acpi_processor.c:564:37: error: 'IDLE_NOMWAIT' undeclared (first use in this function); did you mean 'FOLL_NOWAIT'?
+     564 |         boot_option_idle_override = IDLE_NOMWAIT;
+         |                                     ^~~~~~~~~~~~
+         |                                     FOLL_NOWAIT
+   drivers/acpi/acpi_processor.c: In function 'acpi_processor_osc':
+   drivers/acpi/acpi_processor.c:604:9: error: implicit declaration of function 'arch_acpi_set_proc_cap_bits' [-Werror=implicit-function-declaration]
+     604 |         arch_acpi_set_proc_cap_bits(&capbuf[OSC_SUPPORT_DWORD]);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/acpi_processor.c:606:13: error: 'boot_option_idle_override' undeclared (first use in this function)
+     606 |         if (boot_option_idle_override == IDLE_NOMWAIT)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/acpi_processor.c:606:42: error: 'IDLE_NOMWAIT' undeclared (first use in this function); did you mean 'FOLL_NOWAIT'?
+     606 |         if (boot_option_idle_override == IDLE_NOMWAIT)
+         |                                          ^~~~~~~~~~~~
+         |                                          FOLL_NOWAIT
+   drivers/acpi/acpi_processor.c:607:48: error: 'ACPI_PDC_C_C2C3_FFH' undeclared (first use in this function)
+     607 |                 capbuf[OSC_SUPPORT_DWORD] &= ~(ACPI_PDC_C_C2C3_FFH | ACPI_PDC_C_C1_FFH);
+         |                                                ^~~~~~~~~~~~~~~~~~~
+   drivers/acpi/acpi_processor.c:607:70: error: 'ACPI_PDC_C_C1_FFH' undeclared (first use in this function)
+     607 |                 capbuf[OSC_SUPPORT_DWORD] &= ~(ACPI_PDC_C_C2C3_FFH | ACPI_PDC_C_C1_FFH);
+         |                                                                      ^~~~~~~~~~~~~~~~~
+   drivers/acpi/acpi_processor.c: At top level:
+   drivers/acpi/acpi_processor.c:627:20: error: redefinition of 'acpi_early_processor_osc'
+     627 | acpi_status __init acpi_early_processor_osc(void)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/acpi/acpi_processor.c:27:
+   drivers/acpi/internal.h:164:27: note: previous definition of 'acpi_early_processor_osc' with type 'acpi_status(void)' {aka 'unsigned int(void)'}
+     164 | static inline acpi_status acpi_early_processor_osc(void) { return AE_ERROR; }
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-   365	
-   366	/**
-   367	 * acpi_os_map_iomem - Get a virtual address for a given physical address range.
-   368	 * @phys: Start of the physical address range to map.
-   369	 * @size: Size of the physical address range to map.
-   370	 *
-   371	 * Look up the given physical address range in the list of existing ACPI memory
-   372	 * mappings.  If found, get a reference to it and return a pointer to it (its
-   373	 * virtual address).  If not found, map it, add it to that list and return a
-   374	 * pointer to it.
-   375	 *
-   376	 * During early init (when acpi_permanent_mmap has not been set yet) this
-   377	 * routine simply calls __acpi_map_table() to get the job done.
-   378	 */
-   379	void __iomem __ref
-   380	*acpi_os_map_iomem(acpi_physical_address phys, acpi_size size)
-   381	{
- > 382		return (void *)__acpi_os_map_iomem(phys, size, false);
-   383	}
-   384	EXPORT_SYMBOL_GPL(acpi_os_map_iomem);
-   385	
+
+vim +/boot_option_idle_override +564 drivers/acpi/acpi_processor.c
+
+   559	
+   560	static int __init set_no_mwait(const struct dmi_system_id *id)
+   561	{
+   562		pr_notice("%s detected - disabling mwait for CPU C-states\n",
+   563			  id->ident);
+ > 564		boot_option_idle_override = IDLE_NOMWAIT;
+   565		return 0;
+   566	}
+   567	
 
 -- 
 0-DAY CI Kernel Test Service
