@@ -1,46 +1,45 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3D57EC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 00:51:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC7F39D;
+	Fri, 12 May 2023 01:02:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683852696; x=1715388696;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JuBowb6rkoPQY8JW3IYI7FVgZO77vD216c1zqWbwajM=;
-  b=VsbBgOA1pJOnh+tQbQUgUm0TD+X9wdW/SjwDMVQaw/aA+RaURjEwXIyS
-   e2jzXHQsL7jCvusPnfyhD2UrSwY1w6f64Rsf68ZP5u388yB2m0kl/gqI+
-   q/ihQnrv/iIOuXEz+gvneIkxREIFZwo4fdEm9dkEPBiBUrczwl0tbcu76
-   JS3wU/ybK8PzA96pDwuamWKdzhdr13CiUXdZB8D+QEjE7D34qCax0qinK
-   SmOB75eJfE2NW05wtRbzFFUD2q5gHcGapyT7uJdPO6/CTb7WZ6O0oA3C4
-   W+Q3IQN+hXBVdLMP0JG4D6tg8ssIXwW0qs9S4h5RW0vppIc4sdoBRrHI+
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="353789679"
+  t=1683853354; x=1715389354;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dCRxN8GRlqazVUhRpYDi45qn973c860pPkgbS7cXHpY=;
+  b=DfjZ6wvvIyyVdxsGGFehKpLcIF2wBWq7/wqnx+F5Y+1/4e4wMPuaU9D2
+   aFCNItNST2r9BpPXEnjtLs1qHe7rwt6ybNGvqSK2yI8C7LcJisIDSMgKr
+   MmjiR51hJyN+Oo+7F9Whm2xPN9GJdg1wWxMtdVP3GY4fudH5TrmRPIudf
+   nZ3Unm3oOA8+WyhHP/ZWJ0MW6lihobD1W1Ese1N1apsB3LS0lb0JQS1dF
+   nf/YKrItqC4bguy8cIkJoEl1VbV/sD8cVHZ6MhlrXMKkkWIHhXasB9Clw
+   PwEyGVuOGNBBKhjSvOMNUW6k5yCqleuHOdQZJ4I2Z0+hWwRR4BxZe3ws7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="335181909"
 X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
-   d="scan'208";a="353789679"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 17:51:33 -0700
+   d="scan'208";a="335181909"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 18:02:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="844199911"
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="730613312"
 X-IronPort-AV: E=Sophos;i="5.99,268,1677571200"; 
-   d="scan'208";a="844199911"
+   d="scan'208";a="730613312"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 11 May 2023 17:51:31 -0700
+  by orsmga008.jf.intel.com with ESMTP; 11 May 2023 18:02:32 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxH0M-0004Lm-3A;
-	Fri, 12 May 2023 00:51:30 +0000
-Date: Fri, 12 May 2023 08:51:22 +0800
+	id 1pxHB1-0004MJ-11;
+	Fri, 12 May 2023 01:02:31 +0000
+Date: Fri, 12 May 2023 09:01:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josef Bacik <josef@toxicpanda.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nikolay Borisov <nborisov@suse.com>,
-	David Sterba <dsterba@suse.com>, Sasha Levin <sashal@kernel.org>
-Subject: [linux-stable-rc:queue/5.4 5848/23329] include/linux/list.h:63:20:
- warning: storing the address of local variable 'ticket' in
- '*&space_info_79(D)->priority_tickets.prev'
-Message-ID: <202305120805.M1icgldq-lkp@intel.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Raul E Rangel <rrangel@chromium.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/7] Input: libps2 - introduce common interrupt handler
+Message-ID: <202305120818.unCn8fQ9-lkp@intel.com>
+References: <20230511185252.386941-7-dmitry.torokhov@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,111 +48,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230511185252.386941-7-dmitry.torokhov@gmail.com>
 
-Hi Josef,
+Hi Dmitry,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/5.4
-head:   d17335b56c10fc4804987be8009455e6ed37c9a8
-commit: 1e42a1857bcff0820498d95c0803ad0e482b8f05 [5848/23329] btrfs: improve global reserve stealing logic
-config: nds32-randconfig-r035-20230509 (https://download.01.org/0day-ci/archive/20230512/202305120805.M1icgldq-lkp@intel.com/config)
-compiler: nds32le-linux-gcc (GCC) 12.1.0
+[auto build test ERROR on dtor-input/next]
+[also build test ERROR on dtor-input/for-linus hid/for-next linus/master v6.4-rc1 next-20230511]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Torokhov/Input-libps2-attach-ps2dev-instances-as-serio-port-s-drvdata/20230512-025431
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20230511185252.386941-7-dmitry.torokhov%40gmail.com
+patch subject: [PATCH 6/7] Input: libps2 - introduce common interrupt handler
+config: mips-randconfig-r031-20230510 (https://download.01.org/0day-ci/archive/20230512/202305120818.unCn8fQ9-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=1e42a1857bcff0820498d95c0803ad0e482b8f05
-        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
-        git fetch --no-tags linux-stable-rc queue/5.4
-        git checkout 1e42a1857bcff0820498d95c0803ad0e482b8f05
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mipsel-linux-gnu
+        # https://github.com/intel-lab-lkp/linux/commit/1f2ba3a941e6f6a3ad745fa780825ac56570616e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dmitry-Torokhov/Input-libps2-attach-ps2dev-instances-as-serio-port-s-drvdata/20230512-025431
+        git checkout 1f2ba3a941e6f6a3ad745fa780825ac56570616e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nds32 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=nds32 SHELL=/bin/bash fs/btrfs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/input/keyboard/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305120805.M1icgldq-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305120818.unCn8fQ9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from fs/btrfs/space-info.c:6:
-   fs/btrfs/sysfs.h:16:1: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
-      16 | const char * const btrfs_feature_set_name(enum btrfs_feature_set set);
-         | ^~~~~
-   In file included from include/linux/rculist.h:10,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from fs/btrfs/misc.h:6,
-                    from fs/btrfs/space-info.c:3:
-   In function '__list_add',
-       inlined from 'list_add_tail' at include/linux/list.h:93:2,
-       inlined from '__reserve_metadata_bytes' at fs/btrfs/space-info.c:1089:4:
->> include/linux/list.h:63:20: warning: storing the address of local variable 'ticket' in '*&space_info_79(D)->priority_tickets.prev' [-Wdangling-pointer=]
-      63 |         next->prev = new;
-         |         ~~~~~~~~~~~^~~~~
-   fs/btrfs/space-info.c: In function '__reserve_metadata_bytes':
-   fs/btrfs/space-info.c:1037:31: note: 'ticket' declared here
-    1037 |         struct reserve_ticket ticket;
-         |                               ^~~~~~
-   fs/btrfs/space-info.c:1037:31: note: 'space_info' declared here
+>> drivers/input/keyboard/atkbd.c:424:3: error: must use 'struct' tag to refer to type 'atkbd'
+                   atkbd->resend = false;
+                   ^
+                   struct 
+>> drivers/input/keyboard/atkbd.c:424:3: error: expected expression
+   2 errors generated.
 
 
-vim +63 include/linux/list.h
+vim +424 drivers/input/keyboard/atkbd.c
 
-d7c816733d501b Kees Cook        2016-08-17  49  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  50  /*
-^1da177e4c3f41 Linus Torvalds   2005-04-16  51   * Insert a new entry between two known consecutive entries.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  52   *
-^1da177e4c3f41 Linus Torvalds   2005-04-16  53   * This is only for internal list manipulation where we know
-^1da177e4c3f41 Linus Torvalds   2005-04-16  54   * the prev/next entries already!
-^1da177e4c3f41 Linus Torvalds   2005-04-16  55   */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  56  static inline void __list_add(struct list_head *new,
-^1da177e4c3f41 Linus Torvalds   2005-04-16  57  			      struct list_head *prev,
-^1da177e4c3f41 Linus Torvalds   2005-04-16  58  			      struct list_head *next)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  59  {
-d7c816733d501b Kees Cook        2016-08-17  60  	if (!__list_add_valid(new, prev, next))
-d7c816733d501b Kees Cook        2016-08-17  61  		return;
-d7c816733d501b Kees Cook        2016-08-17  62  
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @63  	next->prev = new;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  64  	new->next = next;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  65  	new->prev = prev;
-1c97be677f72b3 Paul E. McKenney 2015-09-20  66  	WRITE_ONCE(prev->next, new);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  67  }
-^1da177e4c3f41 Linus Torvalds   2005-04-16  68  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  69  /**
-^1da177e4c3f41 Linus Torvalds   2005-04-16  70   * list_add - add a new entry
-^1da177e4c3f41 Linus Torvalds   2005-04-16  71   * @new: new entry to be added
-^1da177e4c3f41 Linus Torvalds   2005-04-16  72   * @head: list head to add it after
-^1da177e4c3f41 Linus Torvalds   2005-04-16  73   *
-^1da177e4c3f41 Linus Torvalds   2005-04-16  74   * Insert a new entry after the specified head.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  75   * This is good for implementing stacks.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  76   */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  77  static inline void list_add(struct list_head *new, struct list_head *head)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  78  {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  79  	__list_add(new, head, head->next);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  80  }
-199a9afc3dbe98 Dave Jones       2006-09-29  81  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  82  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  83  /**
-^1da177e4c3f41 Linus Torvalds   2005-04-16  84   * list_add_tail - add a new entry
-^1da177e4c3f41 Linus Torvalds   2005-04-16  85   * @new: new entry to be added
-^1da177e4c3f41 Linus Torvalds   2005-04-16  86   * @head: list head to add it before
-^1da177e4c3f41 Linus Torvalds   2005-04-16  87   *
-^1da177e4c3f41 Linus Torvalds   2005-04-16  88   * Insert a new entry before the specified head.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  89   * This is useful for implementing queues.
-^1da177e4c3f41 Linus Torvalds   2005-04-16  90   */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  91  static inline void list_add_tail(struct list_head *new, struct list_head *head)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  92  {
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @93  	__list_add(new, head->prev, head);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  94  }
-^1da177e4c3f41 Linus Torvalds   2005-04-16  95  
-
-:::::: The code at line 63 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+^1da177e4c3f41 Linus Torvalds  2005-04-16  400  
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  401  static enum ps2_disposition atkbd_pre_receive_byte(struct ps2dev *ps2dev,
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  402  						   u8 data, unsigned int flags)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  403  {
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  404  	struct serio *serio = ps2dev->serio;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  405  
+a9a1f9c315c27f Dmitry Torokhov 2010-01-06  406  	dev_dbg(&serio->dev, "Received %02x flags %02x\n", data, flags);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  407  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  408  #if !defined(__i386__) && !defined (__x86_64__)
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  409  	if ((flags & (SERIO_FRAME | SERIO_PARITY)) &&
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  410  	    (~flags & SERIO_TIMEOUT)) {
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  411  		struct atkbd *atkbd = container_of(ps2dev, struct atkbd,
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  412  						   ps2dev);
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  413  
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  414  		if (!atkbd->resend && atkbd->write) {
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  415  			dev_warn(&serio->dev,
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  416  				 "Frame/parity error: %02x\n", flags);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  417  			serio_write(serio, ATKBD_CMD_RESEND);
+a9a1f9c315c27f Dmitry Torokhov 2010-01-06  418  			atkbd->resend = true;
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  419  			return PS2_IGNORE;
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  420  		}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  421  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  422  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  423  	if (!flags && data == ATKBD_RET_ACK)
+a9a1f9c315c27f Dmitry Torokhov 2010-01-06 @424  		atkbd->resend = false;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  425  #endif
+^1da177e4c3f41 Linus Torvalds  2005-04-16  426  
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  427  	return PS2_PROCESS;
+1f2ba3a941e6f6 Dmitry Torokhov 2023-05-11  428  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  429  
 
 -- 
 0-DAY CI Kernel Test Service
