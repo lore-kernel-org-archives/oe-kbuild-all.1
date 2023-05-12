@@ -1,44 +1,45 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E591DDF5;
-	Fri, 12 May 2023 13:44:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D651DDF4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 12 May 2023 14:05:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683899092; x=1715435092;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9b9VC3ygiZUmXTJ3JbWrBb2VJVZfoViQmC7VxeHiA8s=;
-  b=SNasr1iKakYcLr8eukgw8lfHEc2hEwizmoxTFowqccUxl9sesn9nwR8e
-   PVbwnALcNniTGjx0JnzZHATJB8QwgmoZRbhDhd6vqX+JUFPITcOrHlef5
-   9bKxlAVqYifVRkVk3dqeSbV24Jv2HSqKv1k7MFExqlXXnWji/oo93npEh
-   7UDVBGiU1nmkU5vs141HSD/W6R8NfjWK5UWMUv9IK1qRNOe8thMxa75QA
-   dDe0TmQwP0xM3Pt5Amk3RQGwfY7TQO+BROj5/3jmJyKL3mmnSHN16Fwnw
-   SgEEhaBVlnxOgUtiq9u1gPr5UgCE5+O+ClgddITVKhwCUUbLPOo1UfEzS
+  t=1683900351; x=1715436351;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aQsrwDrXTYSUlrlR/0XEbhht6wHcDB/nGNcRiSziND4=;
+  b=YqnNPT2/dmLbAUDCHSYgz1TCqeECAUMSOZWz8o/bAYphz6emXoEA0UMu
+   12eukqSjAmKd0RgqnCf+PzSz3TD/iUG4NrOWTXHZZGtwsof0lX3ZCbSrF
+   p4XwEGGg/L75RHYTlM9jRZgW83cXHxjTxmrkbtuKzUTo+v7/wX7G0oa3j
+   CiWdH+4DQCHcjtuRpwsGPxiNpDPIyR6si4pw6FhAI0PVil9JDBB1VFTZr
+   0K46SXRUnsqMDuvqDc47l6PFo3saelYibyr/jpLi1aWiQpzcIIhbjNPfM
+   KMtclKWBR5mippnZKmqygvUUtfVGGKCGWVmcauZsB5qCp4RTUBX/FFLcG
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="331153917"
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="350818453"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="331153917"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 06:44:49 -0700
+   d="scan'208";a="350818453"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 07:05:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="769817361"
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="694247085"
 X-IronPort-AV: E=Sophos;i="5.99,269,1677571200"; 
-   d="scan'208";a="769817361"
+   d="scan'208";a="694247085"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 12 May 2023 06:44:48 -0700
+  by orsmga007.jf.intel.com with ESMTP; 12 May 2023 07:05:49 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxT4i-0004tY-0W;
-	Fri, 12 May 2023 13:44:48 +0000
-Date: Fri, 12 May 2023 21:44:24 +0800
+	id 1pxTP2-0004uW-1o;
+	Fri, 12 May 2023 14:05:48 +0000
+Date: Fri, 12 May 2023 22:05:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Isaku Yamahata <isaku.yamahata@intel.com>
-Subject: [intel-tdx:kvm-upstream-workaround 3/341]
- arch/powerpc/include/asm/kvm_ppc.h:287:50: error: declaration of 'struct
- kvm_gfn_range' will not be visible outside of this function
-Message-ID: <202305122152.qsPwZ4Bz-lkp@intel.com>
+To: Dai Ngo <dai.ngo@oracle.com>, chuck.lever@oracle.com,
+	jlayton@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 4/4] NFSD: handle GETATTR conflict with write delegation
+Message-ID: <202305122100.rFiPDpBs-lkp@intel.com>
+References: <1683841383-21372-5-git-send-email-dai.ngo@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,121 +48,197 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1683841383-21372-5-git-send-email-dai.ngo@oracle.com>
 
-tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
-head:   a8ba58bfbd61bb49f204238176ff563405f400a7
-commit: a5b25d401bacb5bb98c7ea9e2fe04140cc76dc8a [3/341] KVM: Convert KVM_ARCH_WANT_MMU_NOTIFIER to CONFIG_KVM_GENERIC_MMU_NOTIFIER
-config: powerpc-randconfig-r034-20230511 (https://download.01.org/0day-ci/archive/20230512/202305122152.qsPwZ4Bz-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
-reproduce (this is a W=1 build):
+Hi Dai,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.4-rc1 next-20230512]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dai-Ngo/locks-allow-support-for-write-delegation/20230512-054404
+base:   linus/master
+patch link:    https://lore.kernel.org/r/1683841383-21372-5-git-send-email-dai.ngo%40oracle.com
+patch subject: [PATCH 4/4] NFSD: handle GETATTR conflict with write delegation
+config: m68k-randconfig-s041-20230509 (https://download.01.org/0day-ci/archive/20230512/202305122100.rFiPDpBs-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://github.com/intel/tdx/commit/a5b25d401bacb5bb98c7ea9e2fe04140cc76dc8a
-        git remote add intel-tdx https://github.com/intel/tdx.git
-        git fetch --no-tags intel-tdx kvm-upstream-workaround
-        git checkout a5b25d401bacb5bb98c7ea9e2fe04140cc76dc8a
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/9e8fd28524572f2f87cc153cbaaaa7a4120d2319
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dai-Ngo/locks-allow-support-for-write-delegation/20230512-054404
+        git checkout 9e8fd28524572f2f87cc153cbaaaa7a4120d2319
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash fs/nfsd/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305122152.qsPwZ4Bz-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305122100.rFiPDpBs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/nfsd/nfs4xdr.c:2968:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted __be32 [assigned] [usertype] status @@
+   fs/nfsd/nfs4xdr.c:2968:24: sparse:     expected int
+   fs/nfsd/nfs4xdr.c:2968:24: sparse:     got restricted __be32 [assigned] [usertype] status
+>> fs/nfsd/nfs4xdr.c:3043:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [assigned] [usertype] status @@     got int @@
+   fs/nfsd/nfs4xdr.c:3043:24: sparse:     expected restricted __be32 [assigned] [usertype] status
+   fs/nfsd/nfs4xdr.c:3043:24: sparse:     got int
 
-   In file included from arch/powerpc/kernel/smp.c:44:
->> arch/powerpc/include/asm/kvm_ppc.h:287:50: error: declaration of 'struct kvm_gfn_range' will not be visible outside of this function [-Werror,-Wvisibility]
-           bool (*unmap_gfn_range)(struct kvm *kvm, struct kvm_gfn_range *range);
-                                                           ^
-   arch/powerpc/include/asm/kvm_ppc.h:288:42: error: declaration of 'struct kvm_gfn_range' will not be visible outside of this function [-Werror,-Wvisibility]
-           bool (*age_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
-                                                   ^
-   arch/powerpc/include/asm/kvm_ppc.h:289:47: error: declaration of 'struct kvm_gfn_range' will not be visible outside of this function [-Werror,-Wvisibility]
-           bool (*test_age_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
-                                                        ^
-   arch/powerpc/include/asm/kvm_ppc.h:290:47: error: declaration of 'struct kvm_gfn_range' will not be visible outside of this function [-Werror,-Wvisibility]
-           bool (*set_spte_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
-                                                        ^
-   4 errors generated.
+vim +2968 fs/nfsd/nfs4xdr.c
 
-
-vim +287 arch/powerpc/include/asm/kvm_ppc.h
-
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  260  
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  261  struct kvmppc_ops {
-cbbc58d4fdfab1 Aneesh Kumar K.V     2013-10-07  262  	struct module *owner;
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  263  	int (*get_sregs)(struct kvm_vcpu *vcpu, struct kvm_sregs *sregs);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  264  	int (*set_sregs)(struct kvm_vcpu *vcpu, struct kvm_sregs *sregs);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  265  	int (*get_one_reg)(struct kvm_vcpu *vcpu, u64 id,
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  266  			   union kvmppc_one_reg *val);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  267  	int (*set_one_reg)(struct kvm_vcpu *vcpu, u64 id,
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  268  			   union kvmppc_one_reg *val);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  269  	void (*vcpu_load)(struct kvm_vcpu *vcpu, int cpu);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  270  	void (*vcpu_put)(struct kvm_vcpu *vcpu);
-87a45e07a5abfe Nicholas Piggin      2019-10-02  271  	void (*inject_interrupt)(struct kvm_vcpu *vcpu, int vec, u64 srr1_flags);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  272  	void (*set_msr)(struct kvm_vcpu *vcpu, u64 msr);
-8c99d34578628b Tianjia Zhang        2020-04-27  273  	int (*vcpu_run)(struct kvm_vcpu *vcpu);
-ff030fdf557322 Sean Christopherson  2019-12-18  274  	int (*vcpu_create)(struct kvm_vcpu *vcpu);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  275  	void (*vcpu_free)(struct kvm_vcpu *vcpu);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  276  	int (*check_requests)(struct kvm_vcpu *vcpu);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  277  	int (*get_dirty_log)(struct kvm *kvm, struct kvm_dirty_log *log);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  278  	void (*flush_memslot)(struct kvm *kvm, struct kvm_memory_slot *memslot);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  279  	int (*prepare_memory_region)(struct kvm *kvm,
-537a17b3149300 Sean Christopherson  2021-12-06  280  				     const struct kvm_memory_slot *old,
-537a17b3149300 Sean Christopherson  2021-12-06  281  				     struct kvm_memory_slot *new,
-82307e676f9d88 Sean Christopherson  2020-02-18  282  				     enum kvm_mr_change change);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  283  	void (*commit_memory_region)(struct kvm *kvm,
-537a17b3149300 Sean Christopherson  2021-12-06  284  				     struct kvm_memory_slot *old,
-f032b73459eed4 Bharata B Rao        2018-12-12  285  				     const struct kvm_memory_slot *new,
-f032b73459eed4 Bharata B Rao        2018-12-12  286  				     enum kvm_mr_change change);
-b1c5356e873cc4 Sean Christopherson  2021-04-01 @287  	bool (*unmap_gfn_range)(struct kvm *kvm, struct kvm_gfn_range *range);
-b1c5356e873cc4 Sean Christopherson  2021-04-01  288  	bool (*age_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
-b1c5356e873cc4 Sean Christopherson  2021-04-01  289  	bool (*test_age_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
-b1c5356e873cc4 Sean Christopherson  2021-04-01  290  	bool (*set_spte_gfn)(struct kvm *kvm, struct kvm_gfn_range *range);
-e96c81ee89d80e Sean Christopherson  2020-02-18  291  	void (*free_memslot)(struct kvm_memory_slot *slot);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  292  	int (*init_vm)(struct kvm *kvm);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  293  	void (*destroy_vm)(struct kvm *kvm);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  294  	int (*get_smmu_info)(struct kvm *kvm, struct kvm_ppc_smmu_info *info);
-8c99d34578628b Tianjia Zhang        2020-04-27  295  	int (*emulate_op)(struct kvm_vcpu *vcpu,
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  296  			  unsigned int inst, int *advance);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  297  	int (*emulate_mtspr)(struct kvm_vcpu *vcpu, int sprn, ulong spr_val);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  298  	int (*emulate_mfspr)(struct kvm_vcpu *vcpu, int sprn, ulong *spr_val);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  299  	void (*fast_vcpu_kick)(struct kvm_vcpu *vcpu);
-67c48662e2b553 Thomas Huth          2023-02-08  300  	int (*arch_vm_ioctl)(struct file *filp, unsigned int ioctl,
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  301  			     unsigned long arg);
-ae2113a4f1a6cd Paul Mackerras       2014-06-02  302  	int (*hcall_implemented)(unsigned long hcall);
-9576730d0e6e30 Suresh Warrier       2016-08-19  303  	int (*irq_bypass_add_producer)(struct irq_bypass_consumer *,
-9576730d0e6e30 Suresh Warrier       2016-08-19  304  				       struct irq_bypass_producer *);
-9576730d0e6e30 Suresh Warrier       2016-08-19  305  	void (*irq_bypass_del_producer)(struct irq_bypass_consumer *,
-9576730d0e6e30 Suresh Warrier       2016-08-19  306  					struct irq_bypass_producer *);
-c9270132271168 Paul Mackerras       2017-01-30  307  	int (*configure_mmu)(struct kvm *kvm, struct kvm_ppc_mmuv3_cfg *cfg);
-c9270132271168 Paul Mackerras       2017-01-30  308  	int (*get_rmmu_info)(struct kvm *kvm, struct kvm_ppc_rmmu_info *info);
-3c313524605a6a Paul Mackerras       2017-02-06  309  	int (*set_smt_mode)(struct kvm *kvm, unsigned long mode,
-3c313524605a6a Paul Mackerras       2017-02-06  310  			    unsigned long flags);
-2e6baa46b4ae78 Simon Guo            2018-05-21  311  	void (*giveup_ext)(struct kvm_vcpu *vcpu, ulong msr);
-aa069a996951f3 Paul Mackerras       2018-09-21  312  	int (*enable_nested)(struct kvm *kvm);
-dceadcf91b2e09 Suraj Jitindar Singh 2018-12-14  313  	int (*load_from_eaddr)(struct kvm_vcpu *vcpu, ulong *eaddr, void *ptr,
-dceadcf91b2e09 Suraj Jitindar Singh 2018-12-14  314  			       int size);
-dceadcf91b2e09 Suraj Jitindar Singh 2018-12-14  315  	int (*store_to_eaddr)(struct kvm_vcpu *vcpu, ulong *eaddr, void *ptr,
-dceadcf91b2e09 Suraj Jitindar Singh 2018-12-14  316  			      int size);
-9a5788c615f52f Paul Mackerras       2020-03-19  317  	int (*enable_svm)(struct kvm *kvm);
-22945688acd4d0 Bharata B Rao        2019-11-25  318  	int (*svm_off)(struct kvm *kvm);
-d9a47edabc4f94 Ravi Bangoria        2020-12-16  319  	int (*enable_dawr1)(struct kvm *kvm);
-a722076e947023 Fabiano Rosas        2021-02-05  320  	bool (*hash_v3_possible)(void);
-faf01aef057075 Alexey Kardashevskiy 2022-01-11  321  	int (*create_vm_debugfs)(struct kvm *kvm);
-faf01aef057075 Alexey Kardashevskiy 2022-01-11  322  	int (*create_vcpu_debugfs)(struct kvm_vcpu *vcpu, struct dentry *debugfs_dentry);
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  323  };
-3a167beac07cba Aneesh Kumar K.V     2013-10-07  324  
-
-:::::: The code at line 287 was first introduced by commit
-:::::: b1c5356e873cc4fcbb8f58965e0cd910f3ee37a9 KVM: PPC: Convert to the gfn-based MMU notifier callbacks
-
-:::::: TO: Sean Christopherson <seanjc@google.com>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+  2942	
+  2943	static int
+  2944	nfs4_handle_wrdeleg_conflict(struct svc_rqst *rqstp, struct inode *inode,
+  2945				bool *modified, u64 *size)
+  2946	{
+  2947		__be32 status;
+  2948		struct file_lock *fl;
+  2949		struct nfs4_delegation *dp;
+  2950		struct nfs4_cb_fattr *ncf;
+  2951		struct iattr attrs;
+  2952	
+  2953		*modified = false;
+  2954		fl = nfs4_wrdeleg_filelock(rqstp, inode);
+  2955		if (!fl)
+  2956			return 0;
+  2957		dp = fl->fl_owner;
+  2958		ncf = &dp->dl_cb_fattr;
+  2959		if (dp->dl_recall.cb_clp == *(rqstp->rq_lease_breaker))
+  2960			return 0;
+  2961	
+  2962		refcount_inc(&dp->dl_stid.sc_count);
+  2963		nfs4_cb_getattr(&dp->dl_cb_fattr);
+  2964		wait_on_bit(&ncf->ncf_cb_flags, CB_GETATTR_BUSY, TASK_INTERRUPTIBLE);
+  2965		if (ncf->ncf_cb_status) {
+  2966			status = nfserrno(nfsd_open_break_lease(inode, NFSD_MAY_READ));
+  2967			nfs4_put_stid(&dp->dl_stid);
+> 2968			return status;
+  2969		}
+  2970		ncf->ncf_cur_fsize = ncf->ncf_cb_fsize;
+  2971		if (!ncf->ncf_file_modified &&
+  2972				(ncf->ncf_initial_cinfo != ncf->ncf_cb_cinfo ||
+  2973				ncf->ncf_cur_fsize != ncf->ncf_cb_fsize)) {
+  2974			ncf->ncf_file_modified = true;
+  2975		}
+  2976	
+  2977		if (ncf->ncf_file_modified) {
+  2978			/*
+  2979			 * The server would not update the file's metadata
+  2980			 * with the client's modified size.
+  2981			 * nfsd4 change attribute is constructed from ctime.
+  2982			 */
+  2983			attrs.ia_mtime = attrs.ia_ctime = current_time(inode);
+  2984			attrs.ia_valid = ATTR_MTIME | ATTR_CTIME;
+  2985			setattr_copy(&nop_mnt_idmap, inode, &attrs);
+  2986			mark_inode_dirty(inode);
+  2987			*size = ncf->ncf_cur_fsize;
+  2988			*modified = true;
+  2989		}
+  2990		nfs4_put_stid(&dp->dl_stid);
+  2991		return 0;
+  2992	}
+  2993	
+  2994	/*
+  2995	 * Note: @fhp can be NULL; in this case, we might have to compose the filehandle
+  2996	 * ourselves.
+  2997	 */
+  2998	static __be32
+  2999	nfsd4_encode_fattr(struct xdr_stream *xdr, struct svc_fh *fhp,
+  3000			struct svc_export *exp,
+  3001			struct dentry *dentry, u32 *bmval,
+  3002			struct svc_rqst *rqstp, int ignore_crossmnt)
+  3003	{
+  3004		u32 bmval0 = bmval[0];
+  3005		u32 bmval1 = bmval[1];
+  3006		u32 bmval2 = bmval[2];
+  3007		struct kstat stat;
+  3008		struct svc_fh *tempfh = NULL;
+  3009		struct kstatfs statfs;
+  3010		__be32 *p, *attrlen_p;
+  3011		int starting_len = xdr->buf->len;
+  3012		int attrlen_offset;
+  3013		u32 dummy;
+  3014		u64 dummy64;
+  3015		u32 rdattr_err = 0;
+  3016		__be32 status;
+  3017		int err;
+  3018		struct nfs4_acl *acl = NULL;
+  3019	#ifdef CONFIG_NFSD_V4_SECURITY_LABEL
+  3020		void *context = NULL;
+  3021		int contextlen;
+  3022	#endif
+  3023		bool contextsupport = false;
+  3024		struct nfsd4_compoundres *resp = rqstp->rq_resp;
+  3025		u32 minorversion = resp->cstate.minorversion;
+  3026		struct path path = {
+  3027			.mnt	= exp->ex_path.mnt,
+  3028			.dentry	= dentry,
+  3029		};
+  3030		struct nfsd_net *nn = net_generic(SVC_NET(rqstp), nfsd_net_id);
+  3031		bool file_modified;
+  3032		u64 size = 0;
+  3033	
+  3034		BUG_ON(bmval1 & NFSD_WRITEONLY_ATTRS_WORD1);
+  3035		BUG_ON(!nfsd_attrs_supported(minorversion, bmval));
+  3036	
+  3037		if (exp->ex_fslocs.migrated) {
+  3038			status = fattr_handle_absent_fs(&bmval0, &bmval1, &bmval2, &rdattr_err);
+  3039			if (status)
+  3040				goto out;
+  3041		}
+  3042		if (bmval0 & (FATTR4_WORD0_CHANGE | FATTR4_WORD0_SIZE)) {
+> 3043			status = nfs4_handle_wrdeleg_conflict(rqstp, d_inode(dentry),
+  3044							&file_modified, &size);
+  3045			if (status)
+  3046				goto out;
+  3047		}
+  3048	
+  3049		err = vfs_getattr(&path, &stat,
+  3050				  STATX_BASIC_STATS | STATX_BTIME | STATX_CHANGE_COOKIE,
+  3051				  AT_STATX_SYNC_AS_STAT);
+  3052		if (err)
+  3053			goto out_nfserr;
+  3054		if (!(stat.result_mask & STATX_BTIME))
+  3055			/* underlying FS does not offer btime so we can't share it */
+  3056			bmval1 &= ~FATTR4_WORD1_TIME_CREATE;
+  3057		if ((bmval0 & (FATTR4_WORD0_FILES_AVAIL | FATTR4_WORD0_FILES_FREE |
+  3058				FATTR4_WORD0_FILES_TOTAL | FATTR4_WORD0_MAXNAME)) ||
+  3059		    (bmval1 & (FATTR4_WORD1_SPACE_AVAIL | FATTR4_WORD1_SPACE_FREE |
+  3060			       FATTR4_WORD1_SPACE_TOTAL))) {
+  3061			err = vfs_statfs(&path, &statfs);
+  3062			if (err)
+  3063				goto out_nfserr;
+  3064		}
+  3065		if ((bmval0 & (FATTR4_WORD0_FILEHANDLE | FATTR4_WORD0_FSID)) && !fhp) {
+  3066			tempfh = kmalloc(sizeof(struct svc_fh), GFP_KERNEL);
+  3067			status = nfserr_jukebox;
+  3068			if (!tempfh)
+  3069				goto out;
+  3070			fh_init(tempfh, NFS4_FHSIZE);
+  3071			status = fh_compose(tempfh, exp, dentry, NULL);
+  3072			if (status)
+  3073				goto out;
+  3074			fhp = tempfh;
+  3075		}
+  3076		if (bmval0 & FATTR4_WORD0_ACL) {
+  3077			err = nfsd4_get_nfs4_acl(rqstp, dentry, &acl);
+  3078			if (err == -EOPNOTSUPP)
+  3079				bmval0 &= ~FATTR4_WORD0_ACL;
+  3080			else if (err == -EINVAL) {
+  3081				status = nfserr_attrnotsupp;
+  3082				goto out;
+  3083			} else if (err != 0)
+  3084				goto out_nfserr;
+  3085		}
+  3086	
 
 -- 
 0-DAY CI Kernel Test Service
