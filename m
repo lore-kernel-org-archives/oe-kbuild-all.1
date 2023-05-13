@@ -1,44 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB1622638
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 15:51:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19340EDB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 16:42:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683993074; x=1715529074;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gdn9/1UUpNNa4wybUF7KGRppehw4lXtEeucjCDhK96A=;
-  b=XH6J6tnlrKg+mgVIE0C2gSADZt4SWEZaNQkmxFk3EdP2anREzPhaovf+
-   hSt6KQR2M40ZnF0NxxYYFq80jrRgYZECGGgQbZ3N3RW3XHSsBqajMV+7m
-   VurIwE09CpVZpUAcjvLD+rwLo3NgPcpdcwRELHgLpxp2EVKsX/z25nIf1
-   cOQj82cALeizXeMWyeB1HtFPWVRWmyVpi40goGD5q1HxNR4pXJFNFczjO
-   lXsfH64KM2EMK2lNla94iDRgAFqQ/IYzEvY/mNx3KjFVCqz0JZcXBipJi
-   06GkfDFTM54J54kYkUAx5br6ykt6OFGv/jFK2tEC1ta4fLuyjMLWU2cEb
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="414352497"
+  t=1683996136; x=1715532136;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OwNjPceV71+aWBV4fEF/G0q/Gi+UdMHfh518RarTyas=;
+  b=ZpbYzUauSrn6DMA1Mz/GG/aZAlCehywTuDJ46kfuTBFIy+qt2bWnRAfM
+   KnFg/Jc6nF1KhuLAJCURLwODk21ZqBl7s6OOxjQCl3jva/lFPfhipO/Bx
+   lthCFAE7zZgQZWN1vUqdzM4uDsJX79TVgJgOf0C8/vdDb7R7EEDLkw8QE
+   Q2T36zDQTMxaG7wSvsQmwxOUT27h0tc4XkkmGuLsQYTKa5Hg9bjoaBEAa
+   PTTP/YEXZsvm7Oo+Tz4aipR6mL8uyYD5CEnAWBI/lTOQfJzxZ6C3pMK/J
+   Wn08KOEsV52yaLXP/l6URXnRSZJ2BRcRrIXoDRzNnGfzYDwLzcGDd483K
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="330589989"
 X-IronPort-AV: E=Sophos;i="5.99,272,1677571200"; 
-   d="scan'208";a="414352497"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 08:51:14 -0700
+   d="scan'208";a="330589989"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 09:42:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="731144160"
+X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="812431269"
 X-IronPort-AV: E=Sophos;i="5.99,272,1677571200"; 
-   d="scan'208";a="731144160"
+   d="scan'208";a="812431269"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 13 May 2023 08:51:12 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 13 May 2023 09:42:13 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxrWa-0005Ya-0p;
-	Sat, 13 May 2023 15:51:12 +0000
-Date: Sat, 13 May 2023 23:50:34 +0800
+	id 1pxsJx-0005a8-0t;
+	Sat, 13 May 2023 16:42:13 +0000
+Date: Sun, 14 May 2023 00:41:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ramesh Babu <ramesh.babu@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Guneshwor Singh <guneshwor.o.singh@intel.com>
-Subject: [intel-lts:4.19/android_t 4338/30000]
- drivers/mfd/arizona-i2c.c:115:40: warning: 'micd_ctp_ranges' defined but not
- used
-Message-ID: <202305132322.UtZ8S9be-lkp@intel.com>
+To: Tian Lan <tilan7663@gmail.com>, axboe@kernel.dk,
+	linux-block@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Tian Lan <tian.lan@twosigma.com>
+Subject: Re: [PATCH 1/1] blk-mq: fix blk_mq_hw_ctx active request accounting
+Message-ID: <202305140028.fzLbBFSs-lkp@intel.com>
+References: <20230513141234.8395-1-tilan7663@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,50 +47,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230513141234.8395-1-tilan7663@gmail.com>
 
-Hi Ramesh,
+Hi Tian,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_t
-head:   180df1199944ebd8928f320a1bd16c8a87dba2ed
-commit: 90f1d221943f2adfc6a62813733d6dc0347ab20c [4338/30000] ASoC: mfd: Intel changes for WM8281 integration on K4.0
-config: x86_64-randconfig-a013 (https://download.01.org/0day-ci/archive/20230513/202305132322.UtZ8S9be-lkp@intel.com/config)
+[auto build test ERROR on axboe-block/for-next]
+[also build test ERROR on linus/master v6.4-rc1 next-20230512]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tian-Lan/blk-mq-fix-blk_mq_hw_ctx-active-request-accounting/20230513-221329
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20230513141234.8395-1-tilan7663%40gmail.com
+patch subject: [PATCH 1/1] blk-mq: fix blk_mq_hw_ctx active request accounting
+config: x86_64-randconfig-a011 (https://download.01.org/0day-ci/archive/20230514/202305140028.fzLbBFSs-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel/linux-intel-lts/commit/90f1d221943f2adfc6a62813733d6dc0347ab20c
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
-        git fetch --no-tags intel-lts 4.19/android_t
-        git checkout 90f1d221943f2adfc6a62813733d6dc0347ab20c
+        # https://github.com/intel-lab-lkp/linux/commit/f958f858d42c76e1439649993bd485ac02200f87
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Tian-Lan/blk-mq-fix-blk_mq_hw_ctx-active-request-accounting/20230513-221329
+        git checkout f958f858d42c76e1439649993bd485ac02200f87
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/dma-buf/ drivers/mfd/ drivers/platform/x86/
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305132322.UtZ8S9be-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305140028.fzLbBFSs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/mfd/arizona-i2c.c:115:40: warning: 'micd_ctp_ranges' defined but not used [-Wunused-const-variable=]
-     115 | static const struct arizona_micd_range micd_ctp_ranges[] = {
-         |                                        ^~~~~~~~~~~~~~~
+   block/blk-mq.c: In function 'blk_mq_put_rq_ref':
+>> block/blk-mq.c:1574:66: error: expected ';' before '__blk_mq_free_request'
+    1574 |                         __blk_mq_dec_active_requests(rq->mq_hctx)
+         |                                                                  ^
+         |                                                                  ;
+    1575 | 
+    1576 |                 __blk_mq_free_request(rq);
+         |                 ~~~~~~~~~~~~~~~~~~~~~                             
 
 
-vim +/micd_ctp_ranges +115 drivers/mfd/arizona-i2c.c
+vim +1574 block/blk-mq.c
 
-   113	
-   114	/***********WM8280 Codec Driver platform data*************/
- > 115	static const struct arizona_micd_range micd_ctp_ranges[] = {
-   116		{ .max =  11, .key = BTN_0 },
-   117		{ .max =  28, .key = BTN_1 },
-   118		{ .max =  54, .key = BTN_2 },
-   119		{ .max = 100, .key = BTN_3 },
-   120		{ .max = 186, .key = BTN_4 },
-   121		{ .max = 430, .key = BTN_5 },
-   122	};
-   123	
+  1566	
+  1567	void blk_mq_put_rq_ref(struct request *rq)
+  1568	{
+  1569		if (is_flush_rq(rq)) {
+  1570			if (rq->end_io(rq, 0) == RQ_END_IO_FREE)
+  1571				blk_mq_free_request(rq);
+  1572		} else if (req_ref_put_and_test(rq)) {
+  1573			if (rq->rq_flags & RQF_MQ_INFLIGHT)
+> 1574				__blk_mq_dec_active_requests(rq->mq_hctx)
+  1575	
+  1576			__blk_mq_free_request(rq);
+  1577		}
+  1578	}
+  1579	
 
 -- 
 0-DAY CI Kernel Test Service
