@@ -1,48 +1,30 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527AF1875
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 20:36:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684010180; x=1715546180;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=onYFYVldXP9dx3srsdPLwnPSsSURVschs6xcAcd8kOI=;
-  b=aAK2q9lXteNB55MJCKvJFm6MtMSBTE+RpKswoig6lxcw67NwcNa2nJ58
-   2PKOVzame9S8frsUtIVKV5s4A8UtMxOcHo3poxGl24lzSJ8s+rXXZQShC
-   dTzbWVlSrD460hCjv94y2hb9hh+SNruW2SbB6ULkaUE3PKxMqH83S7yXr
-   3wbT7K6DQef37XzZKKGvntbZiDX/9ag7TpoozUWm/n5DTYc5QXpFzwt6I
-   2yye5Nt2vgwts9f2wIOV1Dnv/zgafUY3VpSUE8x4j9eE8LqhtOyrfjfel
-   e7SvFdCoXI+Bi6gSufg93oIwnBbHlfF5o2umqL4DB/G4vPUcbtsIO7+0C
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="348480327"
-X-IronPort-AV: E=Sophos;i="5.99,273,1677571200"; 
-   d="scan'208";a="348480327"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 13:36:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="844772599"
-X-IronPort-AV: E=Sophos;i="5.99,273,1677571200"; 
-   d="scan'208";a="844772599"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 13 May 2023 13:36:16 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pxvyR-0005fe-35;
-	Sat, 13 May 2023 20:36:15 +0000
-Date: Sun, 14 May 2023 04:35:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Genjian <zhanggenjian123@gmail.com>, tsbogend@alpha.franken.de,
-	rdunlap@infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-mips@vger.kernel.org,
-	linux-kernel@vger.kernel.org, zhanggenjian123@gmail.com,
-	Genjian Zhang <zhanggenjian@kylinos.cn>,
-	k2ci <kernel-bot@kylinos.cn>
-Subject: Re: [PATCH v2] fix ___SYNC () build error when PROFILE_ALL_BRANCHES
- is enabled
-Message-ID: <202305140443.2830m30j-lkp@intel.com>
-References: <20230427150332.2978867-1-zhanggenjian@kylinos.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CCD22622;
+	Sat, 13 May 2023 20:54:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9312EC433D2;
+	Sat, 13 May 2023 20:54:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1684011267;
+	bh=2A+xL3FxnGAo3Gj7UR5JLmQYQjmcswIboDtUo9t8oII=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f7BOnv817u7tiN3UdoJmVFDAS7QgvSw/rwCQChXEh/WRaGc/RkTa343EwNst2LrLL
+	 PWJrHuUuZTB/aN5IHD/W7y0iEL9tGHxkNqkYoPlf0SFKmAz9+WZpxYYznhpcnoW6ri
+	 Ts8kXiUV9F8auj2mc9NxA41901EibMTY3hvlWHrdkwKnTtZi+MPj/WRpgdOgyuXFBF
+	 DOBFtOKPYfTSAIvfTklrbE+too05p7te3A3mv0674/kxvyCu+TTpiFth29JLHDFoZh
+	 19CHSO7eKwWn70VjwIwEhv7Fz5a7BAXasTbO9+NU6PYD9lzAJQnGk2iwXEo6ujJzZj
+	 Wh219hKQhGdmw==
+Date: Sat, 13 May 2023 22:54:22 +0200
+From: Simon Horman <horms@kernel.org>
+To: Tian Lan <tilan7663@gmail.com>
+Cc: lkp@intel.com, axboe@kernel.dk, linux-block@vger.kernel.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	tian.lan@twosigma.com
+Subject: Re: [PATCH 1/1] blk-mq: fix blk_mq_hw_ctx active request accounting
+Message-ID: <ZF/4/k+u3h2fXgHU@kernel.org>
+References: <202305140021.WvuGBjaZ-lkp@intel.com>
+ <20230513190534.331274-1-tilan7663@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,57 +33,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230427150332.2978867-1-zhanggenjian@kylinos.cn>
+In-Reply-To: <20230513190534.331274-1-tilan7663@gmail.com>
 
-Hi Genjian,
+On Sat, May 13, 2023 at 03:05:34PM -0400, Tian Lan wrote:
+> From: Tian Lan <tian.lan@twosigma.com>
+> 
+> The nr_active counter continues to increase over time which causes the
+> blk_mq_get_tag to hang until the thread is rescheduled to a different
+> core despite there are still tags available.
+> 
+> kernel-stack
+> 
+>   INFO: task inboundIOReacto:3014879 blocked for more than 2 seconds
+>   Not tainted 6.1.15-amd64 #1 Debian 6.1.15~debian11
+>   "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+>   task:inboundIOReacto state:D stack:0  pid:3014879 ppid:4557 flags:0x00000000
+>     Call Trace:
+>     <TASK>
+>     __schedule+0x351/0xa20
+>     scheduler+0x5d/0xe0
+>     io_schedule+0x42/0x70
+>     blk_mq_get_tag+0x11a/0x2a0
+>     ? dequeue_task_stop+0x70/0x70
+>     __blk_mq_alloc_requests+0x191/0x2e0
+> 
+> kprobe output showing RQF_MQ_INFLIGHT bit is not cleared before
+> __blk_mq_free_request being called.
+> 
+>   320    320  kworker/29:1H __blk_mq_free_request rq_flags 0x220c0 in-flight 1
+>          b'__blk_mq_free_request+0x1 [kernel]'
+>          b'bt_iter+0x50 [kernel]'
+>          b'blk_mq_queue_tag_busy_iter+0x318 [kernel]'
+>          b'blk_mq_timeout_work+0x7c [kernel]'
+>          b'process_one_work+0x1c4 [kernel]'
+>          b'worker_thread+0x4d [kernel]'
+>          b'kthread+0xe6 [kernel]'
+>          b'ret_from_fork+0x1f [kernel]'
+> 
+> Signed-off-by: Tian Lan <tian.lan@twosigma.com>
+> ---
+>  block/blk-mq.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 9c8dc70020bc..732a39d88cd6 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -716,6 +716,10 @@ static void __blk_mq_free_request(struct request *rq)
+>  	blk_crypto_free_request(rq);
+>  	blk_pm_mark_last_busy(rq);
+>  	rq->mq_hctx = NULL;
+> +
+> +	if (rq->rq_flags & RQF_MQ_INFLIGHT)
+> +		__blk_mq_dec_active_requests(hctx);
+> +
+>  	if (rq->tag != BLK_MQ_NO_TAG)
+>  		blk_mq_put_tag(hctx->tags, ctx, rq->tag);
+>  	if (sched_tag != BLK_MQ_NO_TAG)
+> @@ -733,9 +737,6 @@ void blk_mq_free_request(struct request *rq)
+>  	    q->elevator->type->ops.finish_request)
+>  		q->elevator->type->ops.finish_request(rq);
+>  
+> -	if (rq->rq_flags & RQF_MQ_INFLIGHT)
+> -		__blk_mq_dec_active_requests(hctx);
+> -
 
-kernel test robot noticed the following build warnings:
+Unless I am mistaken, hctx is now unused in this function.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.4-rc1 next-20230512]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Genjian/fix-___SYNC-build-error-when-PROFILE_ALL_BRANCHES-is-enabled/20230427-230626
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230427150332.2978867-1-zhanggenjian%40kylinos.cn
-patch subject: [PATCH v2] fix ___SYNC () build error when PROFILE_ALL_BRANCHES is enabled
-config: mips-decstation_defconfig (https://download.01.org/0day-ci/archive/20230514/202305140443.2830m30j-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6eb50851d61ca808629a062e0545704eba5be950
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Genjian/fix-___SYNC-build-error-when-PROFILE_ALL_BRANCHES-is-enabled/20230427-230626
-        git checkout 6eb50851d61ca808629a062e0545704eba5be950
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash arch/mips/mm/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305140443.2830m30j-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   arch/mips/mm/c-r3k.c:28:15: warning: no previous prototype for 'r3k_cache_size' [-Wmissing-prototypes]
-      28 | unsigned long r3k_cache_size(unsigned long ca_flags)
-         |               ^~~~~~~~~~~~~~
-   arch/mips/mm/c-r3k.c:63:15: warning: no previous prototype for 'r3k_cache_lsize' [-Wmissing-prototypes]
-      63 | unsigned long r3k_cache_lsize(unsigned long ca_flags)
-         |               ^~~~~~~~~~~~~~~
-   arch/mips/mm/c-r3k.c:286:6: warning: no previous prototype for 'r3k_cache_init' [-Wmissing-prototypes]
-     286 | void r3k_cache_init(void)
-         |      ^~~~~~~~~~~~~~
-   {standard input}: Assembler messages:
-   {standard input}:422: Error: non-constant expression in ".if" statement
-   {standard input}: Error: end of file inside conditional
-   {standard input}:422: Error: here is the start of the unterminated conditional
->> {standard input}: Warning: missing .end at end of assembly
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+>  	if (unlikely(laptop_mode && !blk_rq_is_passthrough(rq)))
+>  		laptop_io_completion(q->disk->bdi);
+>  
