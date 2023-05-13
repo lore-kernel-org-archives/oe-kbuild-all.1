@@ -1,148 +1,129 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00482261D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 18:24:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684002260; x=1715538260;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5G+5+Etoz27RfboThw2vuGImFntcqFRFw5uuJgUkIag=;
-  b=JUwgelacYqIB3dg3vhrczLoEwY/IJLwYZhBDciMKEJ3S1R5/jWgSuGH8
-   d0X0RLqJVn7h0CzaDPFHH+RiAAltEqJzyGEHe8f7Kx/Scz20eAIkvN/iu
-   LskaVHRMTz01VTApzZfRdBFVuYePcaMz7xuVgkPqPvgtQMZdB2vohDtr/
-   ikip4TpvB1VGoklM5gqLKecgb811aTq7AlfqtFA3Rii2bLtDXZ1pGna+f
-   ETTeER3oPSeLxW9L7rFnV2cd4GfPPJUUZOo/3edJfIdVmVFTARcgW4f3z
-   YdfTjKH3WaVaaBt3FH4TYQGtyZ2D64404Qz6wh184xW/O35uQNw2gfjcj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="351006696"
-X-IronPort-AV: E=Sophos;i="5.99,272,1677571200"; 
-   d="scan'208";a="351006696"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 11:24:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="824694956"
-X-IronPort-AV: E=Sophos;i="5.99,272,1677571200"; 
-   d="scan'208";a="824694956"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 13 May 2023 11:24:15 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pxtug-0005dM-2W;
-	Sat, 13 May 2023 18:24:14 +0000
-Date: Sun, 14 May 2023 02:23:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Harini Katakam <harini.katakam@amd.com>, andrew@lunn.ch,
-	hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
-	kuba@kernel.org, edumazet@google.com, pabeni@redhat.com,
-	vladimir.oltean@nxp.com, wsa+renesas@sang-engineering.com,
-	simon.horman@corigine.com, mkl@pengutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, harinikatakamlinux@gmail.com,
-	michal.simek@amd.com, harini.katakam@amd.com,
-	radhey.shyam.pandey@amd.com
-Subject: Re: [PATCH net-next v3 2/3] phy: mscc: Add support for RGMII delay
- configuration
-Message-ID: <202305140248.lh4LUw2j-lkp@intel.com>
-References: <20230511120808.28646-3-harini.katakam@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6855B2583;
+	Sat, 13 May 2023 19:05:53 +0000 (UTC)
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-3f4fdf564d1so7878891cf.1;
+        Sat, 13 May 2023 12:05:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684004752; x=1686596752;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aVdNZZzDPqfzZ78pjeGRBegBtv5JdL4w9GcVn6+SXs0=;
+        b=pgTL6cr72iY4APlVnHiCVeKtMhUuz3jtTepnPQeVovCq61Wuiw2sKVItwl9eR8CdNX
+         abTSgrJsa/s81NZLEcjMw+IfuO2Uv//ZZsLzN4ohUwGCzcrUCh0SJnrLzlAL1w/5+v5l
+         tifYjqwDbyKmsGVRFjVvV+e1pH8uE5syM4rD+7KLG/3B1sjQ70/lVbnPbj/8BIuiuM6y
+         LhuMVyb/1VD2Zrp9wDAQzwQ7fn7OoaVoUlPs2yH0OXUhexTHZEMPMVqR2clp/mTLDGnE
+         1eH3UFXe5az2XGqncKWF6Vm5nKop+YH1pCwdK10uGn59BcLFe3HxGC+lxKekVIPZRlEd
+         FBQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684004752; x=1686596752;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aVdNZZzDPqfzZ78pjeGRBegBtv5JdL4w9GcVn6+SXs0=;
+        b=isQzJarrJGLzwhRXgFE17B7+4oTymdjPBdOqRwCtCRUV7cEuxNFoGyFsJsxA+BLFwT
+         rIIRXNK5yHqTNmk632kfOsVj5JVVRRsweWQMhsYN3yF12FFj96GDeuJVu6Fsw8Je7XGN
+         S4Gi4duCQbkP5kRrwOt2mAbF7CWkCe3Gj1kKtqGG6cOOvX+kyYdHuQcCzZSQAzTAUXUj
+         UpcE7DVIV4hRxBiqs7hvKHh9vjSXKNSjVp6B0Cf0dNGc7CqHKQDcReaR/MT0Lk/vc+g2
+         BmxdvYhwOZYVIEq12w1D4SWoEadQvtyWMibW3rufljoBn+8uy6zzxMvfRUWYmW7iaZfR
+         s4Nw==
+X-Gm-Message-State: AC+VfDzBWNGR8x/39cUKo97AOuUoVbBLG/I+28e0r5Fkk70g9SJ2GyMw
+	v43RAJaIbWdEYqvrVZLu2tY=
+X-Google-Smtp-Source: ACHHUZ7CjtIXgDMsQFZajMxUgDSAuFH9dQsDuRSv9xi9U5L7apcATLmSqkm1PZ+bdTCWaPnfN5ssbg==
+X-Received: by 2002:a05:622a:15c7:b0:3f3:7869:d2e1 with SMTP id d7-20020a05622a15c700b003f37869d2e1mr49699089qty.17.1684004752192;
+        Sat, 13 May 2023 12:05:52 -0700 (PDT)
+Received: from tian-Alienware-15-R4.fios-router.home (pool-173-77-254-84.nycmny.fios.verizon.net. [173.77.254.84])
+        by smtp.gmail.com with ESMTPSA id c23-20020ac81e97000000b003f38b4167e5sm4103033qtm.2.2023.05.13.12.05.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 May 2023 12:05:51 -0700 (PDT)
+From: Tian Lan <tilan7663@gmail.com>
+To: lkp@intel.com
+Cc: axboe@kernel.dk,
+	linux-block@vger.kernel.org,
+	llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	tian.lan@twosigma.com,
+	tilan7663@gmail.com
+Subject: [PATCH 1/1] blk-mq: fix blk_mq_hw_ctx active request accounting
+Date: Sat, 13 May 2023 15:05:34 -0400
+Message-Id: <20230513190534.331274-1-tilan7663@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <202305140021.WvuGBjaZ-lkp@intel.com>
+References: <202305140021.WvuGBjaZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230511120808.28646-3-harini.katakam@amd.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Harini,
+From: Tian Lan <tian.lan@twosigma.com>
 
-kernel test robot noticed the following build warnings:
+The nr_active counter continues to increase over time which causes the
+blk_mq_get_tag to hang until the thread is rescheduled to a different
+core despite there are still tags available.
 
-[auto build test WARNING on net-next/main]
+kernel-stack
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Harini-Katakam/phy-mscc-Use-PHY_ID_MATCH_VENDOR-to-minimize-PHY-ID-table/20230511-200935
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230511120808.28646-3-harini.katakam%40amd.com
-patch subject: [PATCH net-next v3 2/3] phy: mscc: Add support for RGMII delay configuration
-config: openrisc-randconfig-m041-20230509 (https://download.01.org/0day-ci/archive/20230514/202305140248.lh4LUw2j-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.1.0
+  INFO: task inboundIOReacto:3014879 blocked for more than 2 seconds
+  Not tainted 6.1.15-amd64 #1 Debian 6.1.15~debian11
+  "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+  task:inboundIOReacto state:D stack:0  pid:3014879 ppid:4557 flags:0x00000000
+    Call Trace:
+    <TASK>
+    __schedule+0x351/0xa20
+    scheduler+0x5d/0xe0
+    io_schedule+0x42/0x70
+    blk_mq_get_tag+0x11a/0x2a0
+    ? dequeue_task_stop+0x70/0x70
+    __blk_mq_alloc_requests+0x191/0x2e0
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305140248.lh4LUw2j-lkp@intel.com/
+kprobe output showing RQF_MQ_INFLIGHT bit is not cleared before
+__blk_mq_free_request being called.
 
-smatch warnings:
-drivers/net/phy/mscc/mscc_main.c:1819 vsc85xx_config_init() warn: unsigned 'vsc8531->rx_delay' is never less than zero.
-drivers/net/phy/mscc/mscc_main.c:1829 vsc85xx_config_init() warn: unsigned 'vsc8531->tx_delay' is never less than zero.
+  320    320  kworker/29:1H __blk_mq_free_request rq_flags 0x220c0 in-flight 1
+         b'__blk_mq_free_request+0x1 [kernel]'
+         b'bt_iter+0x50 [kernel]'
+         b'blk_mq_queue_tag_busy_iter+0x318 [kernel]'
+         b'blk_mq_timeout_work+0x7c [kernel]'
+         b'process_one_work+0x1c4 [kernel]'
+         b'worker_thread+0x4d [kernel]'
+         b'kthread+0xe6 [kernel]'
+         b'ret_from_fork+0x1f [kernel]'
 
-vim +1819 drivers/net/phy/mscc/mscc_main.c
+Signed-off-by: Tian Lan <tian.lan@twosigma.com>
+---
+ block/blk-mq.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-  1807	
-  1808	static const int vsc8531_internal_delay[] = {200, 800, 1100, 1700, 2000, 2300,
-  1809						     2600, 3400};
-  1810	static int vsc85xx_config_init(struct phy_device *phydev)
-  1811	{
-  1812		int delay_size = ARRAY_SIZE(vsc8531_internal_delay);
-  1813		struct vsc8531_private *vsc8531 = phydev->priv;
-  1814		struct device *dev = &phydev->mdio.dev;
-  1815		int rc, i, phy_id;
-  1816	
-  1817		vsc8531->rx_delay = phy_get_internal_delay(phydev, dev, &vsc8531_internal_delay[0],
-  1818							   delay_size, true);
-> 1819		if (vsc8531->rx_delay < 0) {
-  1820			if (phydev->interface == PHY_INTERFACE_MODE_RGMII_RXID ||
-  1821			    phydev->interface == PHY_INTERFACE_MODE_RGMII_ID)
-  1822				vsc8531->rx_delay = RGMII_CLK_DELAY_2_0_NS;
-  1823			else
-  1824				vsc8531->rx_delay = RGMII_CLK_DELAY_0_2_NS;
-  1825		}
-  1826	
-  1827		vsc8531->tx_delay = phy_get_internal_delay(phydev, dev, &vsc8531_internal_delay[0],
-  1828							   delay_size, false);
-> 1829		if (vsc8531->tx_delay < 0) {
-  1830			if (phydev->interface == PHY_INTERFACE_MODE_RGMII_TXID ||
-  1831			    phydev->interface == PHY_INTERFACE_MODE_RGMII_ID)
-  1832				vsc8531->rx_delay = RGMII_CLK_DELAY_2_0_NS;
-  1833			else
-  1834				vsc8531->rx_delay = RGMII_CLK_DELAY_0_2_NS;
-  1835		}
-  1836	
-  1837		rc = vsc85xx_default_config(phydev);
-  1838		if (rc)
-  1839			return rc;
-  1840	
-  1841		rc = vsc85xx_mac_if_set(phydev, phydev->interface);
-  1842		if (rc)
-  1843			return rc;
-  1844	
-  1845		rc = vsc85xx_edge_rate_cntl_set(phydev, vsc8531->rate_magic);
-  1846		if (rc)
-  1847			return rc;
-  1848	
-  1849		phy_id = phydev->drv->phy_id & phydev->drv->phy_id_mask;
-  1850		if (PHY_ID_VSC8531 == phy_id || PHY_ID_VSC8541 == phy_id ||
-  1851		    PHY_ID_VSC8530 == phy_id || PHY_ID_VSC8540 == phy_id) {
-  1852			rc = vsc8531_pre_init_seq_set(phydev);
-  1853			if (rc)
-  1854				return rc;
-  1855		}
-  1856	
-  1857		rc = vsc85xx_eee_init_seq_set(phydev);
-  1858		if (rc)
-  1859			return rc;
-  1860	
-  1861		for (i = 0; i < vsc8531->nleds; i++) {
-  1862			rc = vsc85xx_led_cntl_set(phydev, i, vsc8531->leds_mode[i]);
-  1863			if (rc)
-  1864				return rc;
-  1865		}
-  1866	
-  1867		return 0;
-  1868	}
-  1869	
-
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 9c8dc70020bc..732a39d88cd6 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -716,6 +716,10 @@ static void __blk_mq_free_request(struct request *rq)
+ 	blk_crypto_free_request(rq);
+ 	blk_pm_mark_last_busy(rq);
+ 	rq->mq_hctx = NULL;
++
++	if (rq->rq_flags & RQF_MQ_INFLIGHT)
++		__blk_mq_dec_active_requests(hctx);
++
+ 	if (rq->tag != BLK_MQ_NO_TAG)
+ 		blk_mq_put_tag(hctx->tags, ctx, rq->tag);
+ 	if (sched_tag != BLK_MQ_NO_TAG)
+@@ -733,9 +737,6 @@ void blk_mq_free_request(struct request *rq)
+ 	    q->elevator->type->ops.finish_request)
+ 		q->elevator->type->ops.finish_request(rq);
+ 
+-	if (rq->rq_flags & RQF_MQ_INFLIGHT)
+-		__blk_mq_dec_active_requests(hctx);
+-
+ 	if (unlikely(laptop_mode && !blk_rq_is_passthrough(rq)))
+ 		laptop_io_completion(q->disk->bdi);
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+2.34.1
+
