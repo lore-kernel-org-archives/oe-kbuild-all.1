@@ -1,43 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE5C9A2C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 01:43:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2180A2C;
+	Sat, 13 May 2023 01:54:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683942184; x=1715478184;
+  t=1683942842; x=1715478842;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=34Cknb1J2KZ8RxSkj2V64ntZDo0ctCsQx+gT6go73Es=;
-  b=KTGbcgbiJQ2reRzaSLmiUX2Gx6Pq9RUIadCBd3QKzcEtAtNNLr81Zf5a
-   WNHFO4Bqb9nJWDFd40+PFY56S6Y8inF9QeMJhj0GeRVdlDDORhH8f3A0m
-   b0/SUij/8250ty+D4iB4g94kAL7QyN1H0zZnqnKmK84pUj5QuyxniZsRZ
-   RVKEaSt2fCYyLIi1XUBRdh9VpIRZGzmKLrjjJgODn+cf2GecghaJpY5xi
-   8GEnf02PY07lHo+7meWrTb6JhHtYJtToA6RFktklr9+2WXe2vjELHqnTB
-   AaA2bra3d/8vQWvxCXMNHs5V9b4zGZKgmaYHQzIF1Uj+yUWFRvfSRDv3+
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="335440633"
+  bh=TrpltXc5ozq8v7fe+CzR9EX4xt5Wshe3vKDOjiURwrM=;
+  b=VDTbz5FxBswaXj0d0S+yPkv2FpT23kiMYahfLkhny423Lu5cAEy6cV2N
+   cKbp9XsvLsxfQAZfaIThF2GziwkmCi5M3KZJ/tWPp6HiLHrJp054TsMIh
+   im0eZndkP6wsHMOCdqJTZ2Vxl4AoXfOEw/FNqZ5ubiogwTIaoMOWL6pP0
+   GvaaILPv3nqMu4G4I3Sl/4YVldSEkJF5A2yZ1yYkyBYhHXTP5qs2W2liY
+   ZpckquD00qqlXIvRaM0Z+o/BQ2311KOsGHdlrOGGXH2w5z9SQu2C1ZhWq
+   x9CnNVUqL9TTWJZfzXwpf0je99KKieOaHvE73vTg9sauaqOvRZ5HPS211
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="354054240"
 X-IronPort-AV: E=Sophos;i="5.99,271,1677571200"; 
-   d="scan'208";a="335440633"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 18:43:02 -0700
+   d="scan'208";a="354054240"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 18:54:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="812278050"
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="731016462"
 X-IronPort-AV: E=Sophos;i="5.99,271,1677571200"; 
-   d="scan'208";a="812278050"
+   d="scan'208";a="731016462"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 12 May 2023 18:43:01 -0700
+  by orsmga008.jf.intel.com with ESMTP; 12 May 2023 18:54:01 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxeHk-0005Eb-1L;
-	Sat, 13 May 2023 01:43:00 +0000
-Date: Sat, 13 May 2023 09:42:39 +0800
+	id 1pxeSO-0005Eo-1Y;
+	Sat, 13 May 2023 01:54:00 +0000
+Date: Sat, 13 May 2023 09:53:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ard Biesheuvel <ardb@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ardb:efi-remove-mixed-mode 29/30]
- arch/x86/platform/efi/efi_32.c:116:32: error: passing argument 1 of
- 'efi_call_svam' from incompatible pointer type
-Message-ID: <202305130908.66gVNggY-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:efi-remove-mixed-mode 25/30]
+ drivers/firmware/efi/efi-init.c:108:48: error: incompatible pointer to
+ integer conversion passing 'const efi_config_table_t *' to parameter of type
+ 'unsigned long'
+Message-ID: <202305130932.1UI8dW4n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,82 +50,87 @@ Content-Disposition: inline
 
 tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-remove-mixed-mode
 head:   cd57f70012e67876ab331fb83fd05670727e44d1
-commit: b47a6b27ba7bb4f08536f68ed29b2db3146d3d0e [29/30] efi: Get rid of efi_fn_call()
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230513/202305130908.66gVNggY-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+commit: e078fe8a2777069c99a70bcfac840380d2bbf578 [25/30] efi: get rid of efi_table_attr()
+config: riscv-randconfig-r042-20230509 (https://download.01.org/0day-ci/archive/20230513/202305130932.1UI8dW4n-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=b47a6b27ba7bb4f08536f68ed29b2db3146d3d0e
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=e078fe8a2777069c99a70bcfac840380d2bbf578
         git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
         git fetch --no-tags ardb efi-remove-mixed-mode
-        git checkout b47a6b27ba7bb4f08536f68ed29b2db3146d3d0e
+        git checkout e078fe8a2777069c99a70bcfac840380d2bbf578
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/firmware/efi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305130908.66gVNggY-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305130932.1UI8dW4n-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/platform/efi/efi_32.c: In function 'efi_set_virtual_address_map':
->> arch/x86/platform/efi/efi_32.c:116:32: error: passing argument 1 of 'efi_call_svam' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     116 |         status = efi_call_svam(&systab->runtime,
-         |                                ^~~~~~~~~~~~~~~~
-         |                                |
-         |                                const efi_runtime_services_t * const*
-   arch/x86/platform/efi/efi_32.c:90:28: note: expected 'efi_runtime_services_t * const*' but argument is of type 'const efi_runtime_services_t * const*'
-      90 | efi_status_t efi_call_svam(efi_runtime_services_t * const *,
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> drivers/firmware/efi/efi-init.c:108:48: error: incompatible pointer to integer conversion passing 'const efi_config_table_t *' to parameter of type 'unsigned long' [-Wint-conversion]
+           config_tables = early_memremap_ro(efi_to_phys(systab->tables),
+                                                         ^~~~~~~~~~~~~~
+   drivers/firmware/efi/efi-init.c:39:53: note: passing argument to parameter 'addr' here
+   static phys_addr_t __init efi_to_phys(unsigned long addr)
+                                                       ^
+   1 error generated.
 
 
-vim +/efi_call_svam +116 arch/x86/platform/efi/efi_32.c
+vim +108 drivers/firmware/efi/efi-init.c
 
-3b2664964bc886 arch/x86/platform/efi/efi_32.c Dave Young                2013-12-20   89  
-59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21   90  efi_status_t efi_call_svam(efi_runtime_services_t * const *,
-59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21   91  			   u32, u32, u32, void *, u32);
-69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03   92  
-69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03   93  efi_status_t __init efi_set_virtual_address_map(unsigned long memory_map_size,
-69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03   94  						unsigned long descriptor_size,
-69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03   95  						u32 descriptor_version,
-59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21   96  						efi_memory_desc_t *virtual_map,
-59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21   97  						unsigned long systab_phys)
-^1da177e4c3f41 arch/i386/kernel/efi.c         Linus Torvalds            2005-04-16   98  {
-59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21   99  	const efi_system_table_t *systab = (efi_system_table_t *)systab_phys;
-6b68f01baa810e arch/x86/kernel/efi_32.c       Glauber de Oliveira Costa 2008-01-30  100  	struct desc_ptr gdt_descr;
-69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  101  	efi_status_t status;
-69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  102  	unsigned long flags;
-744937b0b12a66 arch/x86/platform/efi/efi_32.c Ingo Molnar               2015-03-03  103  	pgd_t *save_pgd;
-^1da177e4c3f41 arch/i386/kernel/efi.c         Linus Torvalds            2005-04-16  104  
-744937b0b12a66 arch/x86/platform/efi/efi_32.c Ingo Molnar               2015-03-03  105  	/* Current pgd is swapper_pg_dir, we'll restore it later: */
-744937b0b12a66 arch/x86/platform/efi/efi_32.c Ingo Molnar               2015-03-03  106  	save_pgd = swapper_pg_dir;
-6d3e32e63f1fb4 arch/x86/platform/efi/efi_32.c Matt Fleming              2011-12-08  107  	load_cr3(initial_page_table);
-8b2cb7a8f531d6 arch/x86/kernel/efi_32.c       Huang, Ying               2008-01-30  108  	__flush_tlb_all();
-^1da177e4c3f41 arch/i386/kernel/efi.c         Linus Torvalds            2005-04-16  109  
-3fa1cabbc3b612 arch/x86/platform/efi/efi_32.c Andy Lutomirski           2017-03-22  110  	gdt_descr.address = get_cpu_gdt_paddr(0);
-4fbb5968810b23 arch/i386/kernel/efi.c         Rusty Russell             2007-05-02  111  	gdt_descr.size = GDT_SIZE - 1;
-4fbb5968810b23 arch/i386/kernel/efi.c         Rusty Russell             2007-05-02  112  	load_gdt(&gdt_descr);
-744937b0b12a66 arch/x86/platform/efi/efi_32.c Ingo Molnar               2015-03-03  113  
-69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  114  	/* Disable interrupts around EFI calls: */
-69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  115  	local_irq_save(flags);
-59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21 @116  	status = efi_call_svam(&systab->runtime,
-69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  117  			       memory_map_size, descriptor_size,
-59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21  118  			       descriptor_version, virtual_map,
-59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21  119  			       __pa(&efi.runtime));
-69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  120  	local_irq_restore(flags);
-^1da177e4c3f41 arch/i386/kernel/efi.c         Linus Torvalds            2005-04-16  121  
-cf40361ede6cf9 arch/x86/platform/efi/efi_32.c Guenter Roeck             2018-09-11  122  	load_fixmap_gdt(0);
-744937b0b12a66 arch/x86/platform/efi/efi_32.c Ingo Molnar               2015-03-03  123  	load_cr3(save_pgd);
-8b2cb7a8f531d6 arch/x86/kernel/efi_32.c       Huang, Ying               2008-01-30  124  	__flush_tlb_all();
-69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  125  
-69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  126  	return status;
-^1da177e4c3f41 arch/i386/kernel/efi.c         Linus Torvalds            2005-04-16  127  }
-c55d016f7a930d arch/x86/platform/efi/efi_32.c Borislav Petkov           2014-02-14  128  
+801820bee9bccb drivers/firmware/efi/arm-init.c Ard Biesheuvel 2016-04-25   80  
+8819ba39661efe drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-20   81  static int __init uefi_init(u64 efi_system_table)
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30   82  {
+06c0bd93434c5b drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-22   83  	efi_config_table_t *config_tables;
+8819ba39661efe drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-20   84  	efi_system_table_t *systab;
+f7d92489426579 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30   85  	size_t table_size;
+14fb4209094355 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-20   86  	int retval;
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30   87  
+8819ba39661efe drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-20   88  	systab = early_memremap_ro(efi_system_table, sizeof(efi_system_table_t));
+8819ba39661efe drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-20   89  	if (systab == NULL) {
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30   90  		pr_warn("Unable to map EFI system table.\n");
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30   91  		return -ENOMEM;
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30   92  	}
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30   93  
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30   94  	set_bit(EFI_BOOT, &efi.flags);
+f7d92489426579 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30   95  	if (IS_ENABLED(CONFIG_64BIT))
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30   96  		set_bit(EFI_64BIT, &efi.flags);
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30   97  
+234fa51db95f32 drivers/firmware/efi/efi-init.c Ard Biesheuvel 2023-02-03   98  	retval = efi_systab_check_header(&systab->hdr);
+14fb4209094355 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-20   99  	if (retval)
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  100  		goto out;
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  101  
+8819ba39661efe drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-20  102  	efi.runtime = systab->runtime;
+8819ba39661efe drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-20  103  	efi.runtime_version = systab->hdr.revision;
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  104  
+8819ba39661efe drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-20  105  	efi_systab_report_header(&systab->hdr, efi_to_phys(systab->fw_vendor));
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  106  
+8819ba39661efe drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-20  107  	table_size = sizeof(efi_config_table_t) * systab->nr_tables;
+8819ba39661efe drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-20 @108  	config_tables = early_memremap_ro(efi_to_phys(systab->tables),
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  109  					  table_size);
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  110  	if (config_tables == NULL) {
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  111  		pr_warn("Unable to map EFI config table array.\n");
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  112  		retval = -ENOMEM;
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  113  		goto out;
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  114  	}
+8819ba39661efe drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-20  115  	retval = efi_config_parse_tables(config_tables, systab->nr_tables,
+69e377b2893761 drivers/firmware/efi/efi-init.c Ard Biesheuvel 2022-09-16  116  					 efi_arch_tables);
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  117  
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  118  	early_memunmap(config_tables, table_size);
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  119  out:
+8819ba39661efe drivers/firmware/efi/arm-init.c Ard Biesheuvel 2020-01-20  120  	early_memunmap(systab, sizeof(efi_system_table_t));
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  121  	return retval;
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  122  }
+e5bc22a42e4d46 drivers/firmware/efi/arm-init.c Ard Biesheuvel 2015-11-30  123  
 
-:::::: The code at line 116 was first introduced by commit
-:::::: 59f2a619a2db86111e8bb30f349aebff6eb75baa efi: Add 'runtime' pointer to struct efi
+:::::: The code at line 108 was first introduced by commit
+:::::: 8819ba39661efec88efd11610988424cb1bf99f8 efi/arm: Drop unnecessary references to efi.systab
 
 :::::: TO: Ard Biesheuvel <ardb@kernel.org>
 :::::: CC: Ard Biesheuvel <ardb@kernel.org>
