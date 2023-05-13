@@ -1,43 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2123EA40
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 04:38:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E1CA21
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 04:48:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683952689; x=1715488689;
+  t=1683953286; x=1715489286;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pvHRQZVyOX3HZKiCmVdHbIXAm0jC3Adto9G2qKc1o5U=;
-  b=Pyv/HADi6gVbj5ganseUYAn1EBiNMwd80YXVQqA9GtAJKfZpM40GNXaO
-   HTXbWJVIEKjyQ8l0NcwPCeEL3tmmxguUIcDc4O1hEPnLHwYsqtpLCzY2S
-   ddysOznMraOIwgZAhF6EHfT0IxnR9gaDlFVwMYQWeuj571+fnAd4Rwbih
-   Ezwht0I7mooHsXnd1FCCHPrpFWJYrQFvnUhOWkyMvVypYYRWEZSh4LBFS
-   RkZGVPZ4jpb/Sk5wLT/mdcgyxyU7YizkH66cLQVw3rBLWf4X4LOWu3UhL
-   wnw/0lQtATopRP5sp8wFC21pjk8hqm2x0fbK/3uT4jNzq2nFtcvOlYMYh
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="330542635"
+  bh=g69d7UNOOAmR8a/vlnrTiHSRqIN0yQQJqaT1ENEhE9c=;
+  b=cOJX/5jO3ZoQ0wIbMrKGvS3XmHYujJnRd8/y7LR6PYvmw34f5cs1CQdI
+   doLQRJTTvOMB1gXsXhXo3avwmb0umX+tFcIC2x0OOaON7UQ0/oQImjZh4
+   TLI2bVycmd7uXMDq3B5qJfS8A5FLC5P08fJ1hwSag9jmepekYYmZWsKy+
+   +Uckn/terLhajJqHgVOQA4L8OWGSkVMysdAQDmB8wgTV6jOUYbmtpLSyF
+   rgq8EOvh/MdazBSLSNcEU+BN1HJazh95CJh4bCATdp23EbMT8N0J2v0GO
+   cGEnXz29i+P3RUuyIvWblel1Adlm8UBzFi2d3XQgOdjIHYUZEE9U4CWBs
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="416567162"
 X-IronPort-AV: E=Sophos;i="5.99,271,1677571200"; 
-   d="scan'208";a="330542635"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 21:38:05 -0700
+   d="scan'208";a="416567162"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 21:48:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="733270094"
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="770018139"
 X-IronPort-AV: E=Sophos;i="5.99,271,1677571200"; 
-   d="scan'208";a="733270094"
+   d="scan'208";a="770018139"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 12 May 2023 21:38:04 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 12 May 2023 21:48:04 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxh19-0005K8-1h;
-	Sat, 13 May 2023 04:38:03 +0000
-Date: Sat, 13 May 2023 12:37:37 +0800
+	id 1pxhAp-0005KG-1v;
+	Sat, 13 May 2023 04:48:03 +0000
+Date: Sat, 13 May 2023 12:47:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>
-Subject: drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse: sparse:
- incorrect type in argument 1 (different base types)
-Message-ID: <202305131223.Bdo5IFiE-lkp@intel.com>
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master 1004/2056] lib/maple_tree.c:6251:7: warning: no
+ previous prototype for 'mas_find_range_rev'
+Message-ID: <202305131224.zRZiy5ir-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,103 +48,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9a48d604672220545d209e9996c2a1edbb5637f6
-commit: 437b6b35362b206fdf881fe6dea76720eedb6d25 parisc: Use the generic IO helpers
-date:   8 months ago
-config: parisc-randconfig-s041-20230513 (https://download.01.org/0day-ci/archive/20230513/202305131223.Bdo5IFiE-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e922ba281a8d84f640d8c8e18a385d032c19e185
+commit: ffd97c0e1cac202f40acf8dfbc1c0664295c4f44 [1004/2056] maple_tree: add mas_prev_range() and mas_find_range_rev interface
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20230513/202305131224.zRZiy5ir-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=437b6b35362b206fdf881fe6dea76720eedb6d25
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 437b6b35362b206fdf881fe6dea76720eedb6d25
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=ffd97c0e1cac202f40acf8dfbc1c0664295c4f44
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout ffd97c0e1cac202f40acf8dfbc1c0664295c4f44
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=parisc SHELL=/bin/bash drivers/infiniband/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305131223.Bdo5IFiE-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305131224.zRZiy5ir-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma_cmd.c: note: in included file:
->> drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     expected unsigned int [usertype] value
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     got restricted __le32 [usertype]
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
---
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma_main.c: note: in included file:
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
->> drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     expected unsigned int [usertype] value
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     got restricted __le32 [usertype]
->> drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     expected unsigned int [usertype] value
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     got restricted __le32 [usertype]
->> drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     expected unsigned int [usertype] value
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     got restricted __le32 [usertype]
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
->> drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     expected unsigned int [usertype] value
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     got restricted __le32 [usertype]
->> drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     expected unsigned int [usertype] value
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     got restricted __le32 [usertype]
->> drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     expected unsigned int [usertype] value
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     got restricted __le32 [usertype]
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:306:16: sparse: sparse: cast to restricted __le32
->> drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] value @@     got restricted __le32 [usertype] @@
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     expected unsigned int [usertype] value
-   drivers/infiniband/hw/vmw_pvrdma/pvrdma.h:301:16: sparse:     got restricted __le32 [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +301 drivers/infiniband/hw/vmw_pvrdma/pvrdma.h
+   lib/maple_tree.c:4606:7: warning: no previous prototype for 'mas_prev_slot' [-Wmissing-prototypes]
+    4606 | void *mas_prev_slot(struct ma_state *mas, unsigned long min, bool empty)
+         |       ^~~~~~~~~~~~~
+   lib/maple_tree.c:4758:7: warning: no previous prototype for 'mas_next_slot' [-Wmissing-prototypes]
+    4758 | void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty)
+         |       ^~~~~~~~~~~~~
+>> lib/maple_tree.c:6251:7: warning: no previous prototype for 'mas_find_range_rev' [-Wmissing-prototypes]
+    6251 | void *mas_find_range_rev(struct ma_state *mas, unsigned long min)
+         |       ^~~~~~~~~~~~~~~~~~
 
-29c8d9eba550c6 Adit Ranadive 2016-10-02  298  
-29c8d9eba550c6 Adit Ranadive 2016-10-02  299  static inline void pvrdma_write_reg(struct pvrdma_dev *dev, u32 reg, u32 val)
-29c8d9eba550c6 Adit Ranadive 2016-10-02  300  {
-29c8d9eba550c6 Adit Ranadive 2016-10-02 @301  	writel(cpu_to_le32(val), dev->regs + reg);
-29c8d9eba550c6 Adit Ranadive 2016-10-02  302  }
-29c8d9eba550c6 Adit Ranadive 2016-10-02  303  
 
-:::::: The code at line 301 was first introduced by commit
-:::::: 29c8d9eba550c6d73d17cc1618a9f5f2a7345aa1 IB: Add vmw_pvrdma driver
+vim +/mas_find_range_rev +6251 lib/maple_tree.c
 
-:::::: TO: Adit Ranadive <aditr@vmware.com>
-:::::: CC: Doug Ledford <dledford@redhat.com>
+  6237	
+  6238	/**
+  6239	 * mas_find_range_rev: On the first call, find the first non-null entry at or
+  6240	 * below mas->index down to %min.  Otherwise advance to the previous slot after
+  6241	 * mas->index down to %min.
+  6242	 * @mas: The maple state
+  6243	 * @min: The minimum value to check.
+  6244	 *
+  6245	 * Must hold rcu_read_lock or the write lock.
+  6246	 * If an entry exists, last and index are updated accordingly.
+  6247	 * May set @mas->node to MAS_NONE.
+  6248	 *
+  6249	 * Return: The entry or %NULL.
+  6250	 */
+> 6251	void *mas_find_range_rev(struct ma_state *mas, unsigned long min)
+  6252	{
+  6253		void *entry;
+  6254	
+  6255		if (mas_find_rev_setup(mas, min, &entry))
+  6256			return entry;
+  6257	
+  6258		/* Retries on dead nodes handled by mas_prev_slot */
+  6259		return mas_prev_slot(mas, min, true);
+  6260	}
+  6261	EXPORT_SYMBOL_GPL(mas_find_range_rev);
+  6262	
 
 -- 
 0-DAY CI Kernel Test Service
