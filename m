@@ -1,43 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F62749B;
-	Sat, 13 May 2023 21:38:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D402262F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 22:08:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684013899; x=1715549899;
+  t=1684015698; x=1715551698;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cYbXqvn0BdNTRZYpREOFoAJ0pyJYcML/tt2cAR6k2HU=;
-  b=eUB0hRWxvRW/U8lAqnIF3+1ICsGta18OjdKzyqvU78hfqxbJbEuwi/0a
-   rzLgJ6JSQQ96aa/z6HfK34sRqwVbKnPVWMpHC2IEqOx5P7WADWQkk6KE4
-   rEOhmPIsKqCuVOoFOo6TQ2+3o1eeldw5YJ5OmB8yNROI6FJ6x+zlBgRnE
-   0V3IdBfo4PE+y+BdPHIMwqY/6H3PBm6Dgy0Ny63IU9ggbwFyqBY0aiPNz
-   k4EzV9FvHG2QrvfLFAxtt5TdPtd2I+IQB5OIYWYh3Um0FSemcKcF4sh1F
-   36gKC8SroIUD6B7sDxgbDIg6krFR1xNJ5GpReMuyOTKLAr9I561Kj5ypt
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="340323532"
+  bh=tG1H1cf13kU4wudbQYXTBu0yCb2ILMBf79Fr4GDCPLQ=;
+  b=FTPCqqmOP7tkn70jBof90rexlZHhNUc1pkhPcE04SZJqmGhddXNhqQry
+   EfObX72n/gOtffvXtU+hEJ2h3Q2x1BxvoDStwxknEIwB35LPUr60EOf36
+   1QoJGssU75x7m4h56QayYjB0/1rvq9unxqLD1js7fZHAYh/SQG1WjAJ4G
+   MrAgi+5EiJlLNfwMEC4c37FmiMRa0goPeQL0zVZy4dLrVdRlHPr1Ewo4C
+   qBZ7Wqcap0yR3BMbZiigwTBHyDTDmQXy929aBRVOv6qf86bBpZBThdC1Y
+   K/BZsgBn/k5f89YrVh0EIs3TY9zEnYt2f+eED+qGoCT+25Ue8oncpr+ev
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="414376112"
 X-IronPort-AV: E=Sophos;i="5.99,273,1677571200"; 
-   d="scan'208";a="340323532"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 14:38:18 -0700
+   d="scan'208";a="414376112"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 15:08:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="731189688"
+X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="824718852"
 X-IronPort-AV: E=Sophos;i="5.99,273,1677571200"; 
-   d="scan'208";a="731189688"
+   d="scan'208";a="824718852"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 13 May 2023 14:38:17 -0700
+  by orsmga004.jf.intel.com with ESMTP; 13 May 2023 15:08:17 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxwwS-0005gm-1V;
-	Sat, 13 May 2023 21:38:16 +0000
-Date: Sun, 14 May 2023 05:37:42 +0800
+	id 1pxxPU-0005hQ-2S;
+	Sat, 13 May 2023 22:08:16 +0000
+Date: Sun, 14 May 2023 06:08:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
- 178/453] drivers/pci/endpoint/functions/pci-epf-mhi.c:146:6: warning: no
- previous prototype for function 'pci_epf_mhi_raise_irq'
-Message-ID: <202305140553.mkEWd8CJ-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:core/wip-u128 8/10] include/linux/build_bug.h:78:41:
+ error: static assertion failed: "sizeof(struct slab) <= sizeof(struct page)"
+Message-ID: <202305140655.t4Q3oIyc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,138 +46,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
-head:   255ec801b7a09e914735a942f27f3c74f5e8e810
-commit: 2e57e366c02cd2c24bb947f2f2607857318bc1e4 [178/453] PCI: endpoint: Add PCI Endpoint function driver for MHI bus
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230514/202305140553.mkEWd8CJ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/wip-u128
+head:   bb35d1dc0c123f4d6804b2c18db62118b769c002
+commit: 9baf3496b59fc1f81f3ddb9dff444e6d2226f40d [8/10] slub: Replace cmpxchg_double()
+config: um-alldefconfig (https://download.01.org/0day-ci/archive/20230514/202305140655.t4Q3oIyc-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://github.com/krzk/linux/commit/2e57e366c02cd2c24bb947f2f2607857318bc1e4
-        git remote add krzk-github https://github.com/krzk/linux
-        git fetch --no-tags krzk-github n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
-        git checkout 2e57e366c02cd2c24bb947f2f2607857318bc1e4
+        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=9baf3496b59fc1f81f3ddb9dff444e6d2226f40d
+        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
+        git fetch --no-tags peterz-queue core/wip-u128
+        git checkout 9baf3496b59fc1f81f3ddb9dff444e6d2226f40d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/pci/endpoint/functions/
+        make W=1 O=build_dir ARCH=um olddefconfig
+        make W=1 O=build_dir ARCH=um SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305140553.mkEWd8CJ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305140655.t4Q3oIyc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:100:24: error: field has incomplete type 'enum pci_notify_event'
-           enum pci_notify_event event;
-                                 ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:100:7: note: forward declaration of 'enum pci_notify_event'
-           enum pci_notify_event event;
-                ^
->> drivers/pci/endpoint/functions/pci-epf-mhi.c:146:6: warning: no previous prototype for function 'pci_epf_mhi_raise_irq' [-Wmissing-prototypes]
-   void pci_epf_mhi_raise_irq(struct mhi_ep_cntrl *mhi_cntrl, u32 vector)
-        ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:146:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void pci_epf_mhi_raise_irq(struct mhi_ep_cntrl *mhi_cntrl, u32 vector)
-   ^
-   static 
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:159:5: warning: no previous prototype for function 'pci_epf_mhi_read_from_host' [-Wmissing-prototypes]
-   int pci_epf_mhi_read_from_host(struct mhi_ep_cntrl *mhi_cntrl, u64 from, void __iomem *to,
-       ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:159:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int pci_epf_mhi_read_from_host(struct mhi_ep_cntrl *mhi_cntrl, u64 from, void __iomem *to,
-   ^
-   static 
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:196:5: warning: no previous prototype for function 'pci_epf_mhi_write_to_host' [-Wmissing-prototypes]
-   int pci_epf_mhi_write_to_host(struct mhi_ep_cntrl *mhi_cntrl, void __iomem *from, u64 to,
-       ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:196:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int pci_epf_mhi_write_to_host(struct mhi_ep_cntrl *mhi_cntrl, void __iomem *from, u64 to,
-   ^
-   static 
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:235:57: error: no member named 'nb' in 'struct pci_epf'
-           struct pci_epf *epf = container_of(nb, struct pci_epf, nb);
-                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
-   include/linux/container_of.h:20:49: note: expanded from macro 'container_of'
-           static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:338:74: note: expanded from macro '__same_type'
-   #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-                                                                            ^
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-                                    ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                                          ^~~~
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:235:24: error: no member named 'nb' in 'pci_epf'
-           struct pci_epf *epf = container_of(nb, struct pci_epf, nb);
-                                 ^                                ~~
-   include/linux/container_of.h:23:21: note: expanded from macro 'container_of'
-           ((type *)(__mptr - offsetof(type, member))); })
-                              ^              ~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-   #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-                                   ^                        ~~~~~~
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:235:18: error: initializing 'struct pci_epf *' with an expression of incompatible type 'void'
-           struct pci_epf *epf = container_of(nb, struct pci_epf, nb);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:245:7: error: use of undeclared identifier 'CORE_INIT'
-           case CORE_INIT:
-                ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:270:7: error: use of undeclared identifier 'LINK_UP'
-           case LINK_UP:
-                ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:292:7: error: use of undeclared identifier 'LINK_DOWN'
-           case LINK_DOWN:
-                ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:300:7: error: use of undeclared identifier 'BME'
-           case BME:
-                ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:351:7: error: no member named 'nb' in 'struct pci_epf'
-           epf->nb.notifier_call = pci_epf_mhi_notifier;
-           ~~~  ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:352:2: error: call to undeclared function 'pci_epc_register_notifier'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           pci_epc_register_notifier(epc, &epf->nb);
-           ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:352:39: error: no member named 'nb' in 'struct pci_epf'
-           pci_epc_register_notifier(epc, &epf->nb);
-                                           ~~~  ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:365:2: error: call to undeclared function 'pci_epc_unregister_notifier'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           pci_epc_unregister_notifier(epc, &epf->nb);
-           ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:365:2: note: did you mean 'pci_epf_unregister_driver'?
-   include/linux/pci-epf.h:210:6: note: 'pci_epf_unregister_driver' declared here
-   void pci_epf_unregister_driver(struct pci_epf_driver *driver);
-        ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:365:41: error: no member named 'nb' in 'struct pci_epf'
-           pci_epc_unregister_notifier(epc, &epf->nb);
-                                             ~~~  ^
-   drivers/pci/endpoint/functions/pci-epf-mhi.c:416:12: error: incompatible function pointer types initializing 'int (*)(struct pci_epf *)' with an expression of type 'int (struct pci_epf *, const struct pci_epf_device_id *)' [-Wincompatible-function-pointer-types]
-           .probe          = pci_epf_mhi_probe,
-                             ^~~~~~~~~~~~~~~~~
-   3 warnings and 14 errors generated.
+   In file included from include/linux/init.h:5,
+                    from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from ./arch/um/include/generated/asm/bug.h:1,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from mm/slub.c:13:
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof(struct slab) <= sizeof(struct page)"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   mm/slab.h:111:1: note: in expansion of macro 'static_assert'
+     111 | static_assert(sizeof(struct slab) <= sizeof(struct page));
+         | ^~~~~~~~~~~~~
 
 
-vim +/pci_epf_mhi_raise_irq +146 drivers/pci/endpoint/functions/pci-epf-mhi.c
+vim +78 include/linux/build_bug.h
 
-   145	
- > 146	void pci_epf_mhi_raise_irq(struct mhi_ep_cntrl *mhi_cntrl, u32 vector)
-   147	{
-   148		struct pci_epf_mhi *epf_mhi = container_of(mhi_cntrl, struct pci_epf_mhi, mhi_cntrl);
-   149		struct pci_epf *epf = epf_mhi->epf;
-   150		struct pci_epc *epc = epf->epc;
-   151	
-   152		/*
-   153		 * Vector is incremented by 1 here as the DWC core will decrement it before
-   154		 * writing to iATU.
-   155		 */
-   156		pci_epc_raise_irq(epc, epf->func_no, epf->vfunc_no, PCI_EPC_IRQ_MSI, vector + 1);
-   157	}
-   158	
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
