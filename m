@@ -1,44 +1,44 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B165146B5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 13:57:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBDF46B5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 13:57:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683986233; x=1715522233;
+  t=1683986235; x=1715522235;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y0lOoHCwap1rDgmWS6BSI6nrDhFOuQoMHM4AgM5qne4=;
-  b=UIw339GPhZd5vXgIVbb1yIQR70JdeWNkywcM44OzWGFNFAUbWFtNAGyq
-   mw8MyVBBWizVfNEsN6febBOX/jrS5zMqpnhbAR3ZeUJIBvHo8+ooyHcHS
-   stMsu2H/azgwvg/VnAl0uzE/X43fdDa7MbEe5/2caifobL8nPK0cevmFf
-   Hpop92r623zWg8XSGs0M91jRyDrO4JRv33ereuHqjrW9RJgksEgQa4/4O
-   UxQMohXFW/Yhpi0GKdMe97JcG9ZAZq3IX2KLSWaFRPd8cxKmo8fr8Mfh1
-   MjT4BX+XreL20mdPHuItfdFz1GV8s4o8Scc+PTacojocOYPT9tdndU7fB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="330577135"
+  bh=5KEhkKzZJpTPbQDsKQNyerc0XRFlBGeV1VJt3v6elrU=;
+  b=X6Gq9WHGiNxQ3dUTifgXxeOvrpLbz01BBmb+dSax3Jz2tDupPo/mu/JH
+   Yt3x7eqxrk1p9Of5jQZaWS40fBFVvV3Xuypg08VLXHZTXcFRO8YOxcsKV
+   RQuqCt2oAcG4757aXgzAivXs+PzOECqiJOfXW7ON0duUYi1bOWk3h4Ld9
+   OaSW/mpUgZSC24hvQsShG6j0413lFyTCPRxOeYKPwPs0XBLCpgZfGVQt+
+   eIgmpVD9irMUOR0acf0WYvaLHeiFinokuc5eJJ23h0G9qDt6FDYuyQQ8A
+   oX4qVmi0nows8QWGoAhBxW/ne9dFMtGQ/7P4E1b1zFCYKSc3l57T3s/WK
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="330577138"
 X-IronPort-AV: E=Sophos;i="5.99,272,1677571200"; 
-   d="scan'208";a="330577135"
+   d="scan'208";a="330577138"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 06:57:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="844723159"
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="844723158"
 X-IronPort-AV: E=Sophos;i="5.99,272,1677571200"; 
-   d="scan'208";a="844723159"
+   d="scan'208";a="844723158"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
   by fmsmga001.fm.intel.com with ESMTP; 13 May 2023 06:57:11 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxpkE-0005Vc-1H;
+	id 1pxpkE-0005Ve-1L;
 	Sat, 13 May 2023 13:57:10 +0000
-Date: Sat, 13 May 2023 21:56:16 +0800
+Date: Sat, 13 May 2023 21:56:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Borislav Petkov (AMD)" <bp@alien8.de>
-Cc: oe-kbuild-all@lists.linux.dev, Sasha Levin <sashal@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [linux-stable-rc:queue/6.1 108/183] vmlinux.o: warning: objtool:
- emit_return+0x12: relocation to !ENDBR: .text.__x86.return_thunk+0x3b
-Message-ID: <202305132119.8Z86w1xG-lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Jason A. Donenfeld" <zx2c4@kernel.org>
+Subject: [stable:linux-4.19.y 3113/5827] drivers/char/random.c:1336: Error:
+ unrecognized opcode `csrs sstatus,s6'
+Message-ID: <202305132136.QwWuSvxn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,67 +48,147 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/6.1
-head:   b35b1f6de36bba692669bc17cc73a8c04ab72347
-commit: 8fbd06a141344159de0ba3f09458fab658dd0c63 [108/183] x86/retbleed: Fix return thunk alignment
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230513/202305132119.8Z86w1xG-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+Hi Jens,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   cdfda37ab2cfc783a190b563806cda611c35d1e3
+commit: 1923d9a8a08684c063da049fa9d5d8139edbbcbb [3113/5827] random: convert to using fops->write_iter()
+config: riscv-randconfig-r036-20230511 (https://download.01.org/0day-ci/archive/20230513/202305132136.QwWuSvxn-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=8fbd06a141344159de0ba3f09458fab658dd0c63
-        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
-        git fetch --no-tags linux-stable-rc queue/6.1
-        git checkout 8fbd06a141344159de0ba3f09458fab658dd0c63
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=1923d9a8a08684c063da049fa9d5d8139edbbcbb
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-4.19.y
+        git checkout 1923d9a8a08684c063da049fa9d5d8139edbbcbb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/char/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305132119.8Z86w1xG-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305132136.QwWuSvxn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: emit_return+0x12: relocation to !ENDBR: .text.__x86.return_thunk+0x3b
-   vmlinux.o: warning: objtool: relocate_restore_code+0x3c: relocation to !ENDBR: get_option+0x68
+   arch/riscv/include/asm/irqflags.h: Assembler messages:
+   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc s1,sstatus,2'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s1'
+   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc s8,sstatus,2'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s8'
+   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc s1,sstatus,2'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s1'
+   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc s2,sstatus,2'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s2'
+   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc s1,sstatus,2'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s1'
+   arch/riscv/include/asm/irqflags.h:36: Error: unrecognized opcode `csrc sstatus,2'
+   arch/riscv/include/asm/irqflags.h:30: Error: unrecognized opcode `csrs sstatus,2'
+   arch/riscv/include/asm/irqflags.h:30: Error: unrecognized opcode `csrs sstatus,2'
+   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc s2,sstatus,2'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s2'
+   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc s4,sstatus,2'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s4'
+   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc s4,sstatus,2'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s4'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s4'
+   drivers/char/random.c:1316: Error: unrecognized opcode `csrs sstatus,a3'
+   drivers/char/random.c:1316: Error: unrecognized opcode `csrc sstatus,a3'
+   drivers/char/random.c:1322: Error: unrecognized opcode `csrs sstatus,a4'
+   drivers/char/random.c:1322: Error: unrecognized opcode `csrc sstatus,a4'
+>> drivers/char/random.c:1336: Error: unrecognized opcode `csrs sstatus,s6'
+>> drivers/char/random.c:1336: Error: unrecognized opcode `csrc sstatus,s6'
+   drivers/char/random.c:1340: Error: unrecognized opcode `csrs sstatus,s6'
+   drivers/char/random.c:1340: Error: unrecognized opcode `csrc sstatus,s6'
+   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc s1,sstatus,2'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s1'
+   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc s1,sstatus,2'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s1'
+   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc s2,sstatus,2'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s2'
+   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc s2,sstatus,2'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s2'
+   arch/riscv/include/asm/irqflags.h:42: Error: unrecognized opcode `csrrc s1,sstatus,2'
+   arch/riscv/include/asm/irqflags.h:60: Error: unrecognized opcode `csrs sstatus,s1'
 
 
-objdump-func vmlinux.o emit_return:
-0000 00000000000d7300 <emit_return>:
-0000    d7300:	e8 00 00 00 00       	call   d7305 <emit_return+0x5>	d7301: R_X86_64_PLT32	__fentry__-0x4
-0005    d7305:	55                   	push   %rbp
-0006    d7306:	48 89 fd             	mov    %rdi,%rbp
-0009    d7309:	53                   	push   %rbx
-000a    d730a:	48 8b 1f             	mov    (%rdi),%rbx
-000d    d730d:	e9 00 00 00 00       	jmp    d7312 <emit_return+0x12>	d730e: R_X86_64_PC32	.altinstr_aux+0x1622
-0012    d7312:	48 b8 00 00 00 00 00 00 00 00 	movabs $0x0,%rax	d7314: R_X86_64_64	__x86_return_thunk-0x5
-001c    d731c:	48 29 f0             	sub    %rsi,%rax
-001f    d731f:	48 63 d0             	movslq %eax,%rdx
-0022    d7322:	48 39 d0             	cmp    %rdx,%rax
-0025    d7325:	0f 85 00 00 00 00    	jne    d732b <emit_return+0x2b>	d7327: R_X86_64_PC32	.text.unlikely+0x75a7
-002b    d732b:	c6 03 e9             	movb   $0xe9,(%rbx)
-002e    d732e:	89 43 01             	mov    %eax,0x1(%rbx)
-0031    d7331:	48 83 c3 05          	add    $0x5,%rbx
-0035    d7335:	48 89 5d 00          	mov    %rbx,0x0(%rbp)
-0039    d7339:	5b                   	pop    %rbx
-003a    d733a:	5d                   	pop    %rbp
-003b    d733b:	e9 00 00 00 00       	jmp    d7340 <emit_return+0x40>	d733c: R_X86_64_PLT32	__x86_return_thunk-0x4
-0040    d7340:	c6 03 c3             	movb   $0xc3,(%rbx)
-0043    d7343:	48 83 c3 01          	add    $0x1,%rbx
-0047    d7347:	48 89 5d 00          	mov    %rbx,0x0(%rbp)
-004b    d734b:	5b                   	pop    %rbx
-004c    d734c:	5d                   	pop    %rbp
-004d    d734d:	e9 00 00 00 00       	jmp    d7352 <emit_return+0x52>	d734e: R_X86_64_PLT32	__x86_return_thunk-0x4
-0052    d7352:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
-005d    d735d:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
-0068    d7368:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
-0073    d7373:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
-007e    d737e:	66 90                	xchg   %ax,%ax
-0000 00000000000075ab <emit_return.cold>:
-0000     75ab:	48 c7 c6 00 00 00 00 	mov    $0x0,%rsi	75ae: R_X86_64_32S	__x86_return_thunk
-0007     75b2:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	75b5: R_X86_64_32S	.rodata.str1.8+0x10aa0
-000e     75b9:	e8 00 00 00 00       	call   75be <emit_return.cold+0x13>	75ba: R_X86_64_PLT32	_printk-0x4
-0013     75be:	e9 00 00 00 00       	jmp    75c3 <emit_bpf_tail_call_direct.cold>	75bf: R_X86_64_PC32	.text+0xd7331
+vim +1336 drivers/char/random.c
+
+0d35cc7b3fec62 Jason A. Donenfeld 2022-02-11  1307  
+43ae4860ff4a35 Matt Mackall       2008-04-29  1308  static long random_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1309  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1310  	int __user *p = (int __user *)arg;
+1923d9a8a08684 Jens Axboe         2022-05-19  1311  	int ent_count;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1312  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1313  	switch (cmd) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1314  	case RNDGETENTCNT:
+0d35cc7b3fec62 Jason A. Donenfeld 2022-02-11  1315  		/* Inherently racy, no point locking. */
+85b46e0c80a637 Jason A. Donenfeld 2022-04-30  1316  		if (put_user(input_pool.init_bits, p))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1317  			return -EFAULT;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1318  		return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1319  	case RNDADDTOENTCNT:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1320  		if (!capable(CAP_SYS_ADMIN))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1321  			return -EPERM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1322  		if (get_user(ent_count, p))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1323  			return -EFAULT;
+cead215ea9fdb5 Jason A. Donenfeld 2022-02-04  1324  		if (ent_count < 0)
+cead215ea9fdb5 Jason A. Donenfeld 2022-02-04  1325  			return -EINVAL;
+85b46e0c80a637 Jason A. Donenfeld 2022-04-30  1326  		credit_init_bits(ent_count);
+cead215ea9fdb5 Jason A. Donenfeld 2022-02-04  1327  		return 0;
+1923d9a8a08684 Jens Axboe         2022-05-19  1328  	case RNDADDENTROPY: {
+1923d9a8a08684 Jens Axboe         2022-05-19  1329  		struct iov_iter iter;
+1923d9a8a08684 Jens Axboe         2022-05-19  1330  		struct iovec iov;
+1923d9a8a08684 Jens Axboe         2022-05-19  1331  		ssize_t ret;
+1923d9a8a08684 Jens Axboe         2022-05-19  1332  		int len;
+1923d9a8a08684 Jens Axboe         2022-05-19  1333  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1334  		if (!capable(CAP_SYS_ADMIN))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1335  			return -EPERM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @1336  		if (get_user(ent_count, p++))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1337  			return -EFAULT;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1338  		if (ent_count < 0)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1339  			return -EINVAL;
+1923d9a8a08684 Jens Axboe         2022-05-19  1340  		if (get_user(len, p++))
+1923d9a8a08684 Jens Axboe         2022-05-19  1341  			return -EFAULT;
+1923d9a8a08684 Jens Axboe         2022-05-19  1342  		ret = import_single_range(WRITE, p, len, &iov, &iter);
+1923d9a8a08684 Jens Axboe         2022-05-19  1343  		if (unlikely(ret))
+1923d9a8a08684 Jens Axboe         2022-05-19  1344  			return ret;
+1923d9a8a08684 Jens Axboe         2022-05-19  1345  		ret = write_pool(&iter);
+1923d9a8a08684 Jens Axboe         2022-05-19  1346  		if (unlikely(ret < 0))
+1923d9a8a08684 Jens Axboe         2022-05-19  1347  			return ret;
+1923d9a8a08684 Jens Axboe         2022-05-19  1348  		/* Since we're crediting, enforce that it was all written into the pool. */
+1923d9a8a08684 Jens Axboe         2022-05-19  1349  		if (unlikely(ret != len))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1350  			return -EFAULT;
+85b46e0c80a637 Jason A. Donenfeld 2022-04-30  1351  		credit_init_bits(ent_count);
+cead215ea9fdb5 Jason A. Donenfeld 2022-02-04  1352  		return 0;
+1923d9a8a08684 Jens Axboe         2022-05-19  1353  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1354  	case RNDZAPENTCNT:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1355  	case RNDCLEARPOOL:
+85b46e0c80a637 Jason A. Donenfeld 2022-04-30  1356  		/* No longer has any effect. */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1357  		if (!capable(CAP_SYS_ADMIN))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1358  			return -EPERM;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1359  		return 0;
+d848e5f8e1ebdb Theodore Ts'o      2018-04-11  1360  	case RNDRESEEDCRNG:
+d848e5f8e1ebdb Theodore Ts'o      2018-04-11  1361  		if (!capable(CAP_SYS_ADMIN))
+d848e5f8e1ebdb Theodore Ts'o      2018-04-11  1362  			return -EPERM;
+13ffd431ae1032 Jason A. Donenfeld 2022-03-08  1363  		if (!crng_ready())
+d848e5f8e1ebdb Theodore Ts'o      2018-04-11  1364  			return -ENODATA;
+e2fc165d51e9e3 Jason A. Donenfeld 2022-02-08  1365  		crng_reseed();
+d848e5f8e1ebdb Theodore Ts'o      2018-04-11  1366  		return 0;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1367  	default:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1368  		return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1369  	}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1370  }
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1371  
+
+:::::: The code at line 1336 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
