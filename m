@@ -1,44 +1,45 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32E77E8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 02:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62176EC0;
+	Sat, 13 May 2023 04:07:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683945903; x=1715481903;
+  t=1683950825; x=1715486825;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CWANKOlRohDEpksHUNN0DPLkPCaXRTvdfAbevacFo5k=;
-  b=JBXo3Lzk27zOh7ukQOijhpiPz5CKaSEHXo+OlrXHlD+ffSyIrFtnB1Ug
-   yPRsf4Bduc0jsH3T6E+123JHlqm7Pec3vVBzKeke5kAUVqInTsEeSnbM2
-   XmrGIpYskzGpGyM5GAhkWyo58B49XzbSkyBWJvN4HxgrGJfOp5vC2mdoE
-   6gNZq0KTXDhiIBhewxJJBmHgBW/dPPekhYSvtfpOxHJVzP2lfYs+cdtv2
-   ZkiOswZcp3hb/M6wHhS+cReWD35QWbXreY/osXQ+iHMFDNoPCUtQZFSly
-   kGuKQCSGcDooFv3gV0PnTeopsHv+yS9AlzAeFxvAJs5xVJLKOr0naiYrl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="414299493"
+  bh=tTXEnLbUKtn7GvQTXBh3iJWfHwuFLABMqv+EnYsxbTI=;
+  b=Z6HSG9WjQ+kbbUwCHK8OS1e5syPXNgcKUdlMuAyCgXaT2VFkKvuicjqb
+   1r44dli4uXX7OAVHqAmz8uLuE+sgEPGzzEL3p4DPMJC8CstwgIwtlKHw5
+   vx0sChbxvJQ+NUGCyjS09XP4feej4DeZkjlw3CKJXIgfcKLRAMQuU2nOU
+   xfJ7En/swfRY77CfYk2VnNEF4MpQNs26lDLlQ+08NyJyL8FgJ/3oSLG0A
+   XF5mEL4poSTg/5SoCF7obkGi87/tT/GJpCMbOLozgYmR9x1sUj/gOd9Ww
+   3vV33q4W8lWH5QxQXo32mXZ6v5uxrl8NyUr2UW84gqnPd62mmIJKosPy6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="416564210"
 X-IronPort-AV: E=Sophos;i="5.99,271,1677571200"; 
-   d="scan'208";a="414299493"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 19:45:03 -0700
+   d="scan'208";a="416564210"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2023 21:07:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="733254541"
+X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="700383047"
 X-IronPort-AV: E=Sophos;i="5.99,271,1677571200"; 
-   d="scan'208";a="733254541"
+   d="scan'208";a="700383047"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 12 May 2023 19:45:01 -0700
+  by orsmga002.jf.intel.com with ESMTP; 12 May 2023 21:07:03 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pxfFl-0005G8-09;
-	Sat, 13 May 2023 02:45:01 +0000
-Date: Sat, 13 May 2023 10:44:19 +0800
+	id 1pxgX8-0005Iu-2u;
+	Sat, 13 May 2023 04:07:02 +0000
+Date: Sat, 13 May 2023 12:06:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master 1003/2056] lib/maple_tree.c:4606:7: warning: no
- previous prototype for 'mas_prev_slot'
-Message-ID: <202305131049.J7dKieVZ-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:efi-remove-mixed-mode 29/30]
+ arch/x86/platform/efi/efi_32.c:116:25: error: passing 'const
+ efi_runtime_services_t *const *' to parameter of type
+ 'efi_runtime_services_t *const *' discards qualifiers in nested pointer
+ types
+Message-ID: <202305131109.XRK9ZWJn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,110 +49,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   e922ba281a8d84f640d8c8e18a385d032c19e185
-commit: 0d785405fe36734d6861274187bf504db4229719 [1003/2056] maple_tree: introduce mas_prev_slot() interface
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20230513/202305131049.J7dKieVZ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git efi-remove-mixed-mode
+head:   cd57f70012e67876ab331fb83fd05670727e44d1
+commit: b47a6b27ba7bb4f08536f68ed29b2db3146d3d0e [29/30] efi: Get rid of efi_fn_call()
+config: i386-randconfig-a015 (https://download.01.org/0day-ci/archive/20230513/202305131109.XRK9ZWJn-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=0d785405fe36734d6861274187bf504db4229719
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 0d785405fe36734d6861274187bf504db4229719
+        # https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/commit/?id=b47a6b27ba7bb4f08536f68ed29b2db3146d3d0e
+        git remote add ardb git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git
+        git fetch --no-tags ardb efi-remove-mixed-mode
+        git checkout b47a6b27ba7bb4f08536f68ed29b2db3146d3d0e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305131049.J7dKieVZ-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305131109.XRK9ZWJn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> lib/maple_tree.c:4606:7: warning: no previous prototype for 'mas_prev_slot' [-Wmissing-prototypes]
-    4606 | void *mas_prev_slot(struct ma_state *mas, unsigned long min, bool empty)
-         |       ^~~~~~~~~~~~~
-   lib/maple_tree.c:4758:7: warning: no previous prototype for 'mas_next_slot' [-Wmissing-prototypes]
-    4758 | void *mas_next_slot(struct ma_state *mas, unsigned long max, bool empty)
-         |       ^~~~~~~~~~~~~
+>> arch/x86/platform/efi/efi_32.c:116:25: error: passing 'const efi_runtime_services_t *const *' to parameter of type 'efi_runtime_services_t *const *' discards qualifiers in nested pointer types [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           status = efi_call_svam(&systab->runtime,
+                                  ^~~~~~~~~~~~~~~~
+   arch/x86/platform/efi/efi_32.c:90:60: note: passing argument to parameter here
+   efi_status_t efi_call_svam(efi_runtime_services_t * const *,
+                                                              ^
+   1 error generated.
 
 
-vim +/mas_prev_slot +4606 lib/maple_tree.c
+vim +116 arch/x86/platform/efi/efi_32.c
 
-  4597	
-  4598	/*
-  4599	 * mas_prev_slot() - Get the entry in the previous slot
-  4600	 *
-  4601	 * @mas: The maple state
-  4602	 * @max: The minimum starting range
-  4603	 *
-  4604	 * Return: The entry in the previous slot which is possibly NULL
-  4605	 */
-> 4606	void *mas_prev_slot(struct ma_state *mas, unsigned long min, bool empty)
-  4607	{
-  4608		void *entry;
-  4609		void __rcu **slots;
-  4610		unsigned long pivot;
-  4611		enum maple_type type;
-  4612		unsigned long *pivots;
-  4613		struct maple_node *node;
-  4614		unsigned long save_point = mas->index;
-  4615	
-  4616	retry:
-  4617		node = mas_mn(mas);
-  4618		type = mte_node_type(mas->node);
-  4619		pivots = ma_pivots(node, type);
-  4620		if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
-  4621			goto retry;
-  4622	
-  4623	again:
-  4624		if (mas->min <= min) {
-  4625			pivot = mas_safe_min(mas, pivots, mas->offset);
-  4626	
-  4627			if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
-  4628				goto retry;
-  4629	
-  4630			if (pivot <= min)
-  4631				return NULL;
-  4632		}
-  4633	
-  4634		if (likely(mas->offset)) {
-  4635			mas->offset--;
-  4636			mas->last = mas->index - 1;
-  4637			mas->index = mas_safe_min(mas, pivots, mas->offset);
-  4638		} else  {
-  4639			if (mas_prev_node(mas, min)) {
-  4640				mas_rewalk(mas, save_point);
-  4641				goto retry;
-  4642			}
-  4643	
-  4644			if (mas_is_none(mas))
-  4645				return NULL;
-  4646	
-  4647			mas->last = mas->max;
-  4648			node = mas_mn(mas);
-  4649			type = mte_node_type(mas->node);
-  4650			pivots = ma_pivots(node, type);
-  4651			mas->index = pivots[mas->offset - 1] + 1;
-  4652		}
-  4653	
-  4654		slots = ma_slots(node, type);
-  4655		entry = mas_slot(mas, slots, mas->offset);
-  4656		if (unlikely(mas_rewalk_if_dead(mas, node, save_point)))
-  4657			goto retry;
-  4658	
-  4659		if (likely(entry))
-  4660			return entry;
-  4661	
-  4662		if (!empty)
-  4663			goto again;
-  4664	
-  4665		return entry;
-  4666	}
-  4667	
+3b2664964bc886 arch/x86/platform/efi/efi_32.c Dave Young                2013-12-20   89  
+59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21   90  efi_status_t efi_call_svam(efi_runtime_services_t * const *,
+59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21   91  			   u32, u32, u32, void *, u32);
+69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03   92  
+69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03   93  efi_status_t __init efi_set_virtual_address_map(unsigned long memory_map_size,
+69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03   94  						unsigned long descriptor_size,
+69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03   95  						u32 descriptor_version,
+59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21   96  						efi_memory_desc_t *virtual_map,
+59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21   97  						unsigned long systab_phys)
+^1da177e4c3f41 arch/i386/kernel/efi.c         Linus Torvalds            2005-04-16   98  {
+59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21   99  	const efi_system_table_t *systab = (efi_system_table_t *)systab_phys;
+6b68f01baa810e arch/x86/kernel/efi_32.c       Glauber de Oliveira Costa 2008-01-30  100  	struct desc_ptr gdt_descr;
+69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  101  	efi_status_t status;
+69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  102  	unsigned long flags;
+744937b0b12a66 arch/x86/platform/efi/efi_32.c Ingo Molnar               2015-03-03  103  	pgd_t *save_pgd;
+^1da177e4c3f41 arch/i386/kernel/efi.c         Linus Torvalds            2005-04-16  104  
+744937b0b12a66 arch/x86/platform/efi/efi_32.c Ingo Molnar               2015-03-03  105  	/* Current pgd is swapper_pg_dir, we'll restore it later: */
+744937b0b12a66 arch/x86/platform/efi/efi_32.c Ingo Molnar               2015-03-03  106  	save_pgd = swapper_pg_dir;
+6d3e32e63f1fb4 arch/x86/platform/efi/efi_32.c Matt Fleming              2011-12-08  107  	load_cr3(initial_page_table);
+8b2cb7a8f531d6 arch/x86/kernel/efi_32.c       Huang, Ying               2008-01-30  108  	__flush_tlb_all();
+^1da177e4c3f41 arch/i386/kernel/efi.c         Linus Torvalds            2005-04-16  109  
+3fa1cabbc3b612 arch/x86/platform/efi/efi_32.c Andy Lutomirski           2017-03-22  110  	gdt_descr.address = get_cpu_gdt_paddr(0);
+4fbb5968810b23 arch/i386/kernel/efi.c         Rusty Russell             2007-05-02  111  	gdt_descr.size = GDT_SIZE - 1;
+4fbb5968810b23 arch/i386/kernel/efi.c         Rusty Russell             2007-05-02  112  	load_gdt(&gdt_descr);
+744937b0b12a66 arch/x86/platform/efi/efi_32.c Ingo Molnar               2015-03-03  113  
+69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  114  	/* Disable interrupts around EFI calls: */
+69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  115  	local_irq_save(flags);
+59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21 @116  	status = efi_call_svam(&systab->runtime,
+69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  117  			       memory_map_size, descriptor_size,
+59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21  118  			       descriptor_version, virtual_map,
+59f2a619a2db86 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-21  119  			       __pa(&efi.runtime));
+69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  120  	local_irq_restore(flags);
+^1da177e4c3f41 arch/i386/kernel/efi.c         Linus Torvalds            2005-04-16  121  
+cf40361ede6cf9 arch/x86/platform/efi/efi_32.c Guenter Roeck             2018-09-11  122  	load_fixmap_gdt(0);
+744937b0b12a66 arch/x86/platform/efi/efi_32.c Ingo Molnar               2015-03-03  123  	load_cr3(save_pgd);
+8b2cb7a8f531d6 arch/x86/kernel/efi_32.c       Huang, Ying               2008-01-30  124  	__flush_tlb_all();
+69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  125  
+69829470457344 arch/x86/platform/efi/efi_32.c Ard Biesheuvel            2020-01-03  126  	return status;
+^1da177e4c3f41 arch/i386/kernel/efi.c         Linus Torvalds            2005-04-16  127  }
+c55d016f7a930d arch/x86/platform/efi/efi_32.c Borislav Petkov           2014-02-14  128  
+
+:::::: The code at line 116 was first introduced by commit
+:::::: 59f2a619a2db86111e8bb30f349aebff6eb75baa efi: Add 'runtime' pointer to struct efi
+
+:::::: TO: Ard Biesheuvel <ardb@kernel.org>
+:::::: CC: Ard Biesheuvel <ardb@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
