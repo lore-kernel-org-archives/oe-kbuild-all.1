@@ -1,46 +1,51 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7B21868
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 10:11:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1683972673; x=1715508673;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eRzsCyQYQaEjIXVtYh52dSY+xbfaaIbbvtZS3sBR0S8=;
-  b=lhGfCYcms3zTbo8fl9hGFCzQqfwL2wSEBglFl6CMrjpkkhLZ/otBszlL
-   z7xSqRZVL6wRLIqy/RJXwEcyjOpcC+fPYDTWWEz2mnaG2oIPJ0kVlxcmg
-   ZcIOAFW5oYYWLZynAkx73KWmRDeKMIsqusaU4XlxdUC5H3hiac7R+L072
-   F8OcZCTRZL5fHRvbzpfHshOFuZG88i3oaeGvhAMVadoK8JETmNQcdybNe
-   MucQcwrAXWfTUyipCrpOqS/h58+tSneHdZQgHNe7oe26ee9jdj8Zd77ET
-   qwAnhFoiqBxd56jI/okOj/dzIoFHw5SngwZyWCLDSi2gCHo11ia7CEArp
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="340278995"
-X-IronPort-AV: E=Sophos;i="5.99,272,1677571200"; 
-   d="scan'208";a="340278995"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 03:11:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10708"; a="733329071"
-X-IronPort-AV: E=Sophos;i="5.99,272,1677571200"; 
-   d="scan'208";a="733329071"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 13 May 2023 03:11:09 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pxmDU-0005Ry-1a;
-	Sat, 13 May 2023 10:11:08 +0000
-Date: Sat, 13 May 2023 18:10:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Govindaraj Saminathan <quic_gsaminat@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kalle Valo <kvalo@codeaurora.org>,
-	ath10k@lists.infradead.org, Kalle Valo <quic_kvalo@quicinc.com>,
-	Sowmiya Sree Elavalagan <quic_ssreeela@quicinc.com>,
-	Raj Kumar Bhagat <quic_rajkbhag@quicinc.com>
-Subject: [kvalo-ath:pending 50/51] mac.c:(.text+0xeb3c): multiple definition
- of `ath11k_tm_wmi_event'; riscv32-linux-ld: DWARF error: could not find
- abbrev number 96
-Message-ID: <202305131811.xFAUtLOz-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6391391
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 10:14:06 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3063b5f32aaso7052911f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 13 May 2023 03:14:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1683972845; x=1686564845;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=maF/0RlragViZoWm89VtDYMWcUKFsGrII2Djwtu1jtU=;
+        b=IY4i2rLxvErb1U5L0tYIo81smIefYT8H0FMMKwyURlxzfwft3QTw/mPGVY4CPhGX/i
+         mjC132r2PIX6KWf6iN/X1aaVpjqWABRx124Rbzundkx750o3WiS/dswL9Nv65Oy0TVT4
+         8kh/w7AqpigGtZB+Do6lZMbcanI5GEL2wvGGCjAd2uldTtGNWLnIUu7R0ri8WC2PFZhc
+         zzWEeacsV1eWPF/Pp16UWF7lSArPDxw86Hy9yy5ie9hlAiXa2JumfGeUh7l8qB4CXVoR
+         9efCuQ/sSL2KdIZ/CJKg2wYCtCnueWj2jYY5uNFsucQAP9mydrQfroWa04LFsgDxS9AZ
+         VMWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683972845; x=1686564845;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=maF/0RlragViZoWm89VtDYMWcUKFsGrII2Djwtu1jtU=;
+        b=O1ThDHsV2d2BQv9x5Xq0e3gPjzIcD2pPZBLgoeJy0EghwxVLIjqE/niZfwjagjYSaG
+         zvnb0Qa3dvwfefmfWJia4NTpbnlUnWGz5RfREMnb0WMB+83OVqopKx1lSDTpTZAVHpZ0
+         lnFNxw4ahefLteCxFMFwkcX7ksoj96O3aG+5B4bBSkhAGEg/uBcxNPBdTWosNoHcmm53
+         ifC9UNB2/C+pOAbB9EUwG9RxPLazI6fyaypWzmkNA/p/2pr0xnMpCUvvNtDiI0WADskX
+         emOJk/iavr4andYMrBFutp2+K9ILIGMj5afA11ygZy6jRUAniAyS1I4E3nJ+XHD/0TvO
+         0OeQ==
+X-Gm-Message-State: AC+VfDzRPaWUCDtFCwrzLdWHwKc/b3F+x3q+vOm3DxeGB4X5EAO02qTU
+	oWlVybhoAECCS9a8GiOEzGm5Ig==
+X-Google-Smtp-Source: ACHHUZ6Ff1DQQv+XVzMZzYyuoqJo1osoXgw0EXDX9whkG2ReNHwn193nIbpCCOymcbltHnv8DCHzSA==
+X-Received: by 2002:a5d:61ce:0:b0:306:30ea:a072 with SMTP id q14-20020a5d61ce000000b0030630eaa072mr21699723wrv.53.1683972844853;
+        Sat, 13 May 2023 03:14:04 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id n18-20020adfe792000000b002f7780eee10sm25984067wrm.59.2023.05.13.03.14.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 May 2023 03:14:03 -0700 (PDT)
+Date: Sat, 13 May 2023 13:14:00 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Thara Gopinath <thara.gopinath@gmail.com>
+Subject: drivers/soc/qcom/icc-bwmon.c:360 bwmon_probe() warn: passing zero to
+ 'dev_err_probe'
+Message-ID: <98e45455-7d5d-48e1-a87e-e0b3a05f1bb0@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,34 +55,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git pending
-head:   229ea354bdd24bf3c33c9447674fab8d609e24a2
-commit: f3d1f7ae115e12108ba7d7fa0ea6374b9e28869c [50/51] wifi: ath11k: factory test mode support
-config: riscv-randconfig-c032-20230510 (https://download.01.org/0day-ci/archive/20230513/202305131811.xFAUtLOz-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git/commit/?id=f3d1f7ae115e12108ba7d7fa0ea6374b9e28869c
-        git remote add kvalo-ath https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git
-        git fetch --no-tags kvalo-ath pending
-        git checkout f3d1f7ae115e12108ba7d7fa0ea6374b9e28869c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9a48d604672220545d209e9996c2a1edbb5637f6
+commit: b9c2ae6cac403dee3195fda9eb28d8ee733b225b soc: qcom: icc-bwmon: Add bandwidth monitoring driver
+config: openrisc-randconfig-m031-20230509 (https://download.01.org/0day-ci/archive/20230513/202305131657.76XeHDjF-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305131811.xFAUtLOz-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Link: https://lore.kernel.org/r/202305131657.76XeHDjF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/soc/qcom/icc-bwmon.c:360 bwmon_probe() warn: passing zero to 'dev_err_probe'
 
-   riscv32-linux-ld: riscv32-linux-ld: DWARF error: could not find abbrev number 178438570
-   drivers/net/wireless/ath/ath11k/mac.o: in function `ath11k_tm_wmi_event':
->> mac.c:(.text+0xeb3c): multiple definition of `ath11k_tm_wmi_event'; riscv32-linux-ld: DWARF error: could not find abbrev number 96
-   drivers/net/wireless/ath/ath11k/wmi.o:wmi.c:(.text+0x821c): first defined here
+Old smatch warnings:
+drivers/soc/qcom/icc-bwmon.c:365 bwmon_probe() warn: passing zero to 'dev_err_probe'
+
+vim +/dev_err_probe +360 drivers/soc/qcom/icc-bwmon.c
+
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  327  static int bwmon_probe(struct platform_device *pdev)
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  328  {
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  329  	struct device *dev = &pdev->dev;
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  330  	struct dev_pm_opp *opp;
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  331  	struct icc_bwmon *bwmon;
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  332  	const struct icc_bwmon_data *data;
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  333  	int ret;
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  334  
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  335  	bwmon = devm_kzalloc(dev, sizeof(*bwmon), GFP_KERNEL);
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  336  	if (!bwmon)
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  337  		return -ENOMEM;
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  338  
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  339  	data = of_device_get_match_data(dev);
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  340  
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  341  	bwmon->base = devm_platform_ioremap_resource(pdev, 0);
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  342  	if (IS_ERR(bwmon->base)) {
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  343  		dev_err(dev, "failed to map bwmon registers\n");
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  344  		return PTR_ERR(bwmon->base);
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  345  	}
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  346  
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  347  	bwmon->irq = platform_get_irq(pdev, 0);
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  348  	if (bwmon->irq < 0) {
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  349  		dev_err(dev, "failed to acquire bwmon IRQ\n");
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  350  		return bwmon->irq;
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  351  	}
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  352  
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  353  	ret = devm_pm_opp_of_add_table(dev);
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  354  	if (ret)
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  355  		return dev_err_probe(dev, ret, "failed to add OPP table\n");
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  356  
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  357  	bwmon->max_bw_kbps = UINT_MAX;
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  358  	opp = dev_pm_opp_find_bw_floor(dev, &bwmon->max_bw_kbps, 0);
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  359  	if (IS_ERR(opp))
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04 @360  		return dev_err_probe(dev, ret, "failed to find max peak bandwidth\n");
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  361  
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  362  	bwmon->min_bw_kbps = 0;
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  363  	opp = dev_pm_opp_find_bw_ceil(dev, &bwmon->min_bw_kbps, 0);
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  364  	if (IS_ERR(opp))
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  365  		return dev_err_probe(dev, ret, "failed to find min peak bandwidth\n");
+
+s/ret/PTR_ERR(opp)/
+
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  366  
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  367  	bwmon->sample_ms = data->sample_ms;
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  368  	bwmon->default_lowbw_kbps = data->default_lowbw_kbps;
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  369  	bwmon->dev = dev;
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  370  
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  371  	bwmon_disable(bwmon);
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  372  	ret = devm_request_threaded_irq(dev, bwmon->irq, bwmon_intr,
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  373  					bwmon_intr_thread,
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  374  					IRQF_ONESHOT, dev_name(dev), bwmon);
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  375  	if (ret)
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  376  		return dev_err_probe(dev, ret, "failed to request IRQ\n");
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  377  
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  378  	platform_set_drvdata(pdev, bwmon);
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  379  	bwmon_start(bwmon, data);
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  380  
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  381  	return 0;
+b9c2ae6cac403de Krzysztof Kozlowski 2022-07-04  382  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests
+
