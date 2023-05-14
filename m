@@ -1,43 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79F51374
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 May 2023 02:48:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C883C15A1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 14 May 2023 03:57:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684032501; x=1715568501;
+  t=1684036642; x=1715572642;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cFOZnTX/yGk3AfggrLo+Qd7FFtWO6/8MvvOeJ0pZ14U=;
-  b=bizd7wDLp3sqMt8b/uxcOuUTbc8/j/C/zl+WcPEHAQuUbkIINDFAEBIY
-   POMHNKNlxQcD76JPMJ4SU9f1/gvicdAsyv9wBIcFgdu5hgH9Wz47dh9/d
-   cBaAo5r7gr7xSnRT9N2XeGfk2x91dpwtwEMHG9E8N6CNw/kokqF8OG5bU
-   YrMCf3dNpXqz9Rs8w0wUzyh1sYjxLwkHIIB5rvND40sIdfePviXq8VPYe
-   bnH9iQ86GwT2aQmxD28m0TK/3P7vARj2MgurZAY0pW+lIo3FCyyzDDFZR
-   wsGkNnxFmfqu6N66tsFlfjrKBF6GC8Km3p15z60Sd7ItxbukoLeRj5DBU
+  bh=Qnp7RY2J+KKjzCOBmnwAg59KAx4eoHHTO5ZqDeGG2+I=;
+  b=EHZ3qcpvyFbmUjSRy/1QVREHr8VcjScRLyPnffF9uEQIwlP2gkcCmIaS
+   qwoqxdsumCmPcoDafqlXSmj27jBXZLu/zE/Gf5VXDg3Cs43KCkInwgsrD
+   9JkVjPzEY1Dk1Yd8gvr1CSiEtrSouI3hYH3lW3Yw+ohYaakrq6AklI03D
+   ujSybTC/TgPB729VeNId/r5/bqraQchY1bOtwwbhvqG8DyDMBbZ2cXP1s
+   qc72pG/lou5smbrlsx2+fH1sStUCWeVvxSt+fcJyLTL/dLLEd+AwgY/9Z
+   EROdYb87bvC9tnez2W/2Fbgp/oJxCSiEEsYZC0/s/ZrlVwqPI2hRm6IYp
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="351033186"
+X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="330624348"
 X-IronPort-AV: E=Sophos;i="5.99,273,1677571200"; 
-   d="scan'208";a="351033186"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 19:48:21 -0700
+   d="scan'208";a="330624348"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2023 20:57:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="1030485874"
+X-IronPort-AV: E=McAfee;i="6600,9927,10709"; a="874792599"
 X-IronPort-AV: E=Sophos;i="5.99,273,1677571200"; 
-   d="scan'208";a="1030485874"
+   d="scan'208";a="874792599"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 13 May 2023 19:48:20 -0700
+  by orsmga005.jf.intel.com with ESMTP; 13 May 2023 20:57:20 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1py1mV-0005nK-1K;
-	Sun, 14 May 2023 02:48:19 +0000
-Date: Sun, 14 May 2023 10:47:25 +0800
+	id 1py2rH-0005oS-2t;
+	Sun, 14 May 2023 03:57:19 +0000
+Date: Sun, 14 May 2023 11:57:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.15 113/123]
- drivers/gpu/drm/msm/dp/dp_drm.c:16:27: error: field 'bridge' has incomplete
- type
-Message-ID: <202305141029.ScgH27pk-lkp@intel.com>
+Subject: [sashal-stable:pending-5.15 45/123] arch/s390/kernel/uv.c:228:34:
+ error: no member named 'protected_count' in 'mm_context_t'
+Message-ID: <202305141112.K0alrnT4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,304 +48,133 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.15
 head:   a6b7126ab008b78116ff9c71f553e50b334c73ca
-commit: b7ad5efaae83a442c76243e27d8527f9b49d2618 [113/123] drm/msm/dp: employ bridge mechanism for display enable and disable
-config: arm64-buildonly-randconfig-r001-20230514 (https://download.01.org/0day-ci/archive/20230514/202305141029.ScgH27pk-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.1.0
+commit: 01c05ae79cfd485a82ac8f6264d12b719a64c17d [45/123] KVM: s390: pv: add export before import
+config: s390-randconfig-r044-20230514 (https://download.01.org/0day-ci/archive/20230514/202305141112.K0alrnT4-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=b7ad5efaae83a442c76243e27d8527f9b49d2618
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=01c05ae79cfd485a82ac8f6264d12b719a64c17d
         git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
         git fetch --no-tags sashal-stable pending-5.15
-        git checkout b7ad5efaae83a442c76243e27d8527f9b49d2618
+        git checkout 01c05ae79cfd485a82ac8f6264d12b719a64c17d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/msm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305141029.ScgH27pk-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305141112.K0alrnT4-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/msm/dp/dp_drm.c:16:27: error: field 'bridge' has incomplete type
-      16 |         struct drm_bridge bridge;
-         |                           ^~~~~~
-   drivers/gpu/drm/msm/dp/dp_drm.c: In function 'dp_bridge_mode_set':
->> drivers/gpu/drm/msm/dp/dp_drm.c:181:55: error: invalid use of undefined type 'struct drm_bridge'
-     181 |         msm_dp_display_mode_set(dp_display, drm_bridge->encoder, mode, adjusted_mode);
-         |                                                       ^~
-   drivers/gpu/drm/msm/dp/dp_drm.c: In function 'dp_bridge_enable':
-   drivers/gpu/drm/msm/dp/dp_drm.c:189:53: error: invalid use of undefined type 'struct drm_bridge'
-     189 |         msm_dp_display_enable(dp_display, drm_bridge->encoder);
-         |                                                     ^~
-   drivers/gpu/drm/msm/dp/dp_drm.c: In function 'dp_bridge_disable':
-   drivers/gpu/drm/msm/dp/dp_drm.c:197:58: error: invalid use of undefined type 'struct drm_bridge'
-     197 |         msm_dp_display_pre_disable(dp_display, drm_bridge->encoder);
-         |                                                          ^~
-   drivers/gpu/drm/msm/dp/dp_drm.c: In function 'dp_bridge_post_disable':
-   drivers/gpu/drm/msm/dp/dp_drm.c:205:54: error: invalid use of undefined type 'struct drm_bridge'
-     205 |         msm_dp_display_disable(dp_display, drm_bridge->encoder);
-         |                                                      ^~
-   drivers/gpu/drm/msm/dp/dp_drm.c: At top level:
->> drivers/gpu/drm/msm/dp/dp_drm.c:208:21: error: variable 'dp_bridge_ops' has initializer but incomplete type
-     208 | static const struct drm_bridge_funcs dp_bridge_ops = {
-         |                     ^~~~~~~~~~~~~~~~
->> drivers/gpu/drm/msm/dp/dp_drm.c:209:10: error: 'const struct drm_bridge_funcs' has no member named 'enable'
-     209 |         .enable       = dp_bridge_enable,
-         |          ^~~~~~
->> drivers/gpu/drm/msm/dp/dp_drm.c:209:25: warning: excess elements in struct initializer
-     209 |         .enable       = dp_bridge_enable,
-         |                         ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_drm.c:209:25: note: (near initialization for 'dp_bridge_ops')
->> drivers/gpu/drm/msm/dp/dp_drm.c:210:10: error: 'const struct drm_bridge_funcs' has no member named 'disable'
-     210 |         .disable      = dp_bridge_disable,
-         |          ^~~~~~~
-   drivers/gpu/drm/msm/dp/dp_drm.c:210:25: warning: excess elements in struct initializer
-     210 |         .disable      = dp_bridge_disable,
-         |                         ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_drm.c:210:25: note: (near initialization for 'dp_bridge_ops')
->> drivers/gpu/drm/msm/dp/dp_drm.c:211:10: error: 'const struct drm_bridge_funcs' has no member named 'post_disable'
-     211 |         .post_disable = dp_bridge_post_disable,
-         |          ^~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_drm.c:211:25: warning: excess elements in struct initializer
-     211 |         .post_disable = dp_bridge_post_disable,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_drm.c:211:25: note: (near initialization for 'dp_bridge_ops')
->> drivers/gpu/drm/msm/dp/dp_drm.c:212:10: error: 'const struct drm_bridge_funcs' has no member named 'mode_set'
-     212 |         .mode_set     = dp_bridge_mode_set,
-         |          ^~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_drm.c:212:25: warning: excess elements in struct initializer
-     212 |         .mode_set     = dp_bridge_mode_set,
-         |                         ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_drm.c:212:25: note: (near initialization for 'dp_bridge_ops')
-   drivers/gpu/drm/msm/dp/dp_drm.c: In function 'msm_dp_bridge_init':
-   drivers/gpu/drm/msm/dp/dp_drm.c:229:15: error: invalid use of undefined type 'struct drm_bridge'
-     229 |         bridge->funcs = &dp_bridge_ops;
-         |               ^~
-   drivers/gpu/drm/msm/dp/dp_drm.c:230:15: error: invalid use of undefined type 'struct drm_bridge'
-     230 |         bridge->encoder = encoder;
-         |               ^~
->> drivers/gpu/drm/msm/dp/dp_drm.c:232:14: error: implicit declaration of function 'drm_bridge_attach'; did you mean 'drm_bridge_detach'? [-Werror=implicit-function-declaration]
-     232 |         rc = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-         |              ^~~~~~~~~~~~~~~~~
-         |              drm_bridge_detach
->> drivers/gpu/drm/msm/dp/dp_drm.c:232:55: error: 'DRM_BRIDGE_ATTACH_NO_CONNECTOR' undeclared (first use in this function)
-     232 |         rc = drm_bridge_attach(encoder, bridge, NULL, DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-         |                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/dp/dp_drm.c:232:55: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/gpu/drm/msm/dp/dp_drm.c: At top level:
->> drivers/gpu/drm/msm/dp/dp_drm.c:208:38: error: storage size of 'dp_bridge_ops' isn't known
-     208 | static const struct drm_bridge_funcs dp_bridge_ops = {
-         |                                      ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from arch/s390/kernel/uv.c:14:
+   In file included from include/linux/memblock.h:14:
+   In file included from arch/s390/include/asm/dma.h:5:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:464:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:477:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+                                                             ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+                                                        ^
+   In file included from arch/s390/kernel/uv.c:14:
+   In file included from include/linux/memblock.h:14:
+   In file included from arch/s390/include/asm/dma.h:5:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:490:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+                                                             ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+                                                        ^
+   In file included from arch/s390/kernel/uv.c:14:
+   In file included from include/linux/memblock.h:14:
+   In file included from arch/s390/include/asm/dma.h:5:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:501:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:511:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:521:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:609:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:617:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:625:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:634:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:643:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:652:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   arch/s390/kernel/uv.c:198:12: error: use of undeclared identifier 'UVC_CC_OK'
+           if (cc == UVC_CC_OK)
+                     ^
+   arch/s390/kernel/uv.c:200:17: error: use of undeclared identifier 'UVC_CC_BUSY'
+           else if (cc == UVC_CC_BUSY || cc == UVC_CC_PARTIAL)
+                          ^
+   arch/s390/kernel/uv.c:200:38: error: use of undeclared identifier 'UVC_CC_PARTIAL'
+           else if (cc == UVC_CC_BUSY || cc == UVC_CC_PARTIAL)
+                                               ^
+>> arch/s390/kernel/uv.c:228:34: error: no member named 'protected_count' in 'mm_context_t'
+           return atomic_read(&mm->context.protected_count) > 1;
+                               ~~~~~~~~~~~ ^
+   12 warnings and 4 errors generated.
 
 
-vim +/bridge +16 drivers/gpu/drm/msm/dp/dp_drm.c
+vim +228 arch/s390/kernel/uv.c
 
-    13	
-    14	
-    15	struct msm_dp_bridge {
-  > 16		struct drm_bridge bridge;
-    17		struct msm_dp *dp_display;
-    18	};
-    19	
-    20	#define to_dp_display(x)     container_of((x), struct msm_dp_bridge, bridge)
-    21	
-    22	struct dp_connector {
-    23		struct drm_connector base;
-    24		struct msm_dp *dp_display;
-    25	};
-    26	#define to_dp_connector(x) container_of(x, struct dp_connector, base)
-    27	
-    28	/**
-    29	 * dp_connector_detect - callback to determine if connector is connected
-    30	 * @conn: Pointer to drm connector structure
-    31	 * @force: Force detect setting from drm framework
-    32	 * Returns: Connector 'is connected' status
-    33	 */
-    34	static enum drm_connector_status dp_connector_detect(struct drm_connector *conn,
-    35			bool force)
-    36	{
-    37		struct msm_dp *dp;
-    38	
-    39		dp = to_dp_connector(conn)->dp_display;
-    40	
-    41		DRM_DEBUG_DP("is_connected = %s\n",
-    42			(dp->is_connected) ? "true" : "false");
-    43	
-    44		return (dp->is_connected) ? connector_status_connected :
-    45						connector_status_disconnected;
-    46	}
-    47	
-    48	/**
-    49	 * dp_connector_get_modes - callback to add drm modes via drm_mode_probed_add()
-    50	 * @connector: Pointer to drm connector structure
-    51	 * Returns: Number of modes added
-    52	 */
-    53	static int dp_connector_get_modes(struct drm_connector *connector)
-    54	{
-    55		int rc = 0;
-    56		struct msm_dp *dp;
-    57		struct dp_display_mode *dp_mode = NULL;
-    58		struct drm_display_mode *m, drm_mode;
-    59	
-    60		if (!connector)
-    61			return 0;
-    62	
-    63		dp = to_dp_connector(connector)->dp_display;
-    64	
-    65		dp_mode = kzalloc(sizeof(*dp_mode),  GFP_KERNEL);
-    66		if (!dp_mode)
-    67			return 0;
-    68	
-    69		/* pluggable case assumes EDID is read when HPD */
-    70		if (dp->is_connected) {
-    71			/*
-    72			 *The get_modes() function might return one mode that is stored
-    73			 * in dp_mode when compliance test is in progress. If not, the
-    74			 * return value is equal to the total number of modes supported
-    75			 * by the sink
-    76			 */
-    77			rc = dp_display_get_modes(dp, dp_mode);
-    78			if (rc <= 0) {
-    79				DRM_ERROR("failed to get DP sink modes, rc=%d\n", rc);
-    80				kfree(dp_mode);
-    81				return rc;
-    82			}
-    83			if (dp_mode->drm_mode.clock) { /* valid DP mode */
-    84				memset(&drm_mode, 0x0, sizeof(drm_mode));
-    85				drm_mode_copy(&drm_mode, &dp_mode->drm_mode);
-    86				m = drm_mode_duplicate(connector->dev, &drm_mode);
-    87				if (!m) {
-    88					DRM_ERROR("failed to add mode %ux%u\n",
-    89					       drm_mode.hdisplay,
-    90					       drm_mode.vdisplay);
-    91					kfree(dp_mode);
-    92					return 0;
-    93				}
-    94				drm_mode_probed_add(connector, m);
-    95			}
-    96		} else {
-    97			DRM_DEBUG_DP("No sink connected\n");
-    98		}
-    99		kfree(dp_mode);
-   100		return rc;
-   101	}
-   102	
-   103	/**
-   104	 * dp_connector_mode_valid - callback to determine if specified mode is valid
-   105	 * @connector: Pointer to drm connector structure
-   106	 * @mode: Pointer to drm mode structure
-   107	 * Returns: Validity status for specified mode
-   108	 */
-   109	static enum drm_mode_status dp_connector_mode_valid(
-   110			struct drm_connector *connector,
-   111			struct drm_display_mode *mode)
-   112	{
-   113		struct msm_dp *dp_disp;
-   114	
-   115		dp_disp = to_dp_connector(connector)->dp_display;
-   116	
-   117		if ((dp_disp->max_pclk_khz <= 0) ||
-   118				(dp_disp->max_pclk_khz > DP_MAX_PIXEL_CLK_KHZ) ||
-   119				(mode->clock > dp_disp->max_pclk_khz))
-   120			return MODE_BAD;
-   121	
-   122		return dp_display_validate_mode(dp_disp, mode->clock);
-   123	}
-   124	
-   125	static const struct drm_connector_funcs dp_connector_funcs = {
-   126		.detect = dp_connector_detect,
-   127		.fill_modes = drm_helper_probe_single_connector_modes,
-   128		.destroy = drm_connector_cleanup,
-   129		.reset = drm_atomic_helper_connector_reset,
-   130		.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-   131		.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-   132	};
-   133	
-   134	static const struct drm_connector_helper_funcs dp_connector_helper_funcs = {
-   135		.get_modes = dp_connector_get_modes,
-   136		.mode_valid = dp_connector_mode_valid,
-   137	};
-   138	
-   139	/* connector initialization */
-   140	struct drm_connector *dp_drm_connector_init(struct msm_dp *dp_display)
-   141	{
-   142		struct drm_connector *connector = NULL;
-   143		struct dp_connector *dp_connector;
-   144		int ret;
-   145	
-   146		dp_connector = devm_kzalloc(dp_display->drm_dev->dev,
-   147						sizeof(*dp_connector),
-   148						GFP_KERNEL);
-   149		if (!dp_connector)
-   150			return ERR_PTR(-ENOMEM);
-   151	
-   152		dp_connector->dp_display = dp_display;
-   153	
-   154		connector = &dp_connector->base;
-   155	
-   156		ret = drm_connector_init(dp_display->drm_dev, connector,
-   157				&dp_connector_funcs,
-   158				DRM_MODE_CONNECTOR_DisplayPort);
-   159		if (ret)
-   160			return ERR_PTR(ret);
-   161	
-   162		drm_connector_helper_add(connector, &dp_connector_helper_funcs);
-   163	
-   164		/*
-   165		 * Enable HPD to let hpd event is handled when cable is connected.
-   166		 */
-   167		connector->polled = DRM_CONNECTOR_POLL_HPD;
-   168	
-   169		drm_connector_attach_encoder(connector, dp_display->encoder);
-   170	
-   171		return connector;
-   172	}
-   173	
-   174	static void dp_bridge_mode_set(struct drm_bridge *drm_bridge,
-   175					const struct drm_display_mode *mode,
-   176					const struct drm_display_mode *adjusted_mode)
-   177	{
-   178		struct msm_dp_bridge *dp_bridge = to_dp_display(drm_bridge);
-   179		struct msm_dp *dp_display = dp_bridge->dp_display;
-   180	
- > 181		msm_dp_display_mode_set(dp_display, drm_bridge->encoder, mode, adjusted_mode);
-   182	}
-   183	
-   184	static void dp_bridge_enable(struct drm_bridge *drm_bridge)
-   185	{
-   186		struct msm_dp_bridge *dp_bridge = to_dp_display(drm_bridge);
-   187		struct msm_dp *dp_display = dp_bridge->dp_display;
-   188	
-   189		msm_dp_display_enable(dp_display, drm_bridge->encoder);
-   190	}
-   191	
-   192	static void dp_bridge_disable(struct drm_bridge *drm_bridge)
-   193	{
-   194		struct msm_dp_bridge *dp_bridge = to_dp_display(drm_bridge);
-   195		struct msm_dp *dp_display = dp_bridge->dp_display;
-   196	
-   197		msm_dp_display_pre_disable(dp_display, drm_bridge->encoder);
-   198	}
-   199	
-   200	static void dp_bridge_post_disable(struct drm_bridge *drm_bridge)
-   201	{
-   202		struct msm_dp_bridge *dp_bridge = to_dp_display(drm_bridge);
-   203		struct msm_dp *dp_display = dp_bridge->dp_display;
    204	
-   205		msm_dp_display_disable(dp_display, drm_bridge->encoder);
-   206	}
-   207	
- > 208	static const struct drm_bridge_funcs dp_bridge_ops = {
- > 209		.enable       = dp_bridge_enable,
- > 210		.disable      = dp_bridge_disable,
- > 211		.post_disable = dp_bridge_post_disable,
- > 212		.mode_set     = dp_bridge_mode_set,
-   213	};
-   214	
+   205	/**
+   206	 * should_export_before_import - Determine whether an export is needed
+   207	 * before an import-like operation
+   208	 * @uvcb: the Ultravisor control block of the UVC to be performed
+   209	 * @mm: the mm of the process
+   210	 *
+   211	 * Returns whether an export is needed before every import-like operation.
+   212	 * This is needed for shared pages, which don't trigger a secure storage
+   213	 * exception when accessed from a different guest.
+   214	 *
+   215	 * Although considered as one, the Unpin Page UVC is not an actual import,
+   216	 * so it is not affected.
+   217	 *
+   218	 * No export is needed also when there is only one protected VM, because the
+   219	 * page cannot belong to the wrong VM in that case (there is no "other VM"
+   220	 * it can belong to).
+   221	 *
+   222	 * Return: true if an export is needed before every import, otherwise false.
+   223	 */
+   224	static bool should_export_before_import(struct uv_cb_header *uvcb, struct mm_struct *mm)
+   225	{
+   226		if (uvcb->cmd == UVC_CMD_UNPIN_PAGE_SHARED)
+   227			return false;
+ > 228		return atomic_read(&mm->context.protected_count) > 1;
+   229	}
+   230	
 
 -- 
 0-DAY CI Kernel Test Service
