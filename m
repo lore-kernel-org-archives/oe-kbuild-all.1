@@ -1,42 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E248F79D4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 May 2023 13:11:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176C1C8E9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 May 2023 13:42:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684156277; x=1715692277;
+  t=1684158138; x=1715694138;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RmR0L+YDgD1QLZ10gzUgm8SlxT2V25Lg6Rec/avwLBA=;
-  b=kjB0yNoWmp+RbAdVMxrS7iyj+qi9JSRPIl+7EJ+LE9HItN/sIHFSJ1W5
-   dPVIm0vakcM/3Tze9nz/FDbUiji77dC6/kFExyufTxr4Ha9C/Moi22Hmn
-   BasVdNPYjU77PupxSLLCg+NQYhX2T0gHIbUzgalv+FrzKAP3mgVmGNo7K
-   8nySSq9wslZBm+3NqrWDTxdpd9fckg9RshDhWJdp8THMefWk8J5ZYALt1
-   KszhIGAzFHUk6brTkXFIyV8PtpE1nTBsvEw129cx3VDg6KouQ7JpvDyIM
-   2pLiv2ZY3x2qlW/7xU/K5z5Y88ZyXJiAEeClAoXwh4t+hNRoOJ/wmFiwU
+  bh=4iTNRTHhmWlgytCu2nBVK88LXXmkGTmb14kVqQA7Llw=;
+  b=nOpOROkRdd04+zu2Y2YPJLx+fShliIDvVsenaHouDQV6VA85R/3ephGG
+   oVjn7/cuMQjKE7YcQRbg94OgSVxHXxwoqM4KkniUXt7MGTHMhy0aI4PuW
+   TUniGI2xgi5QBt24EfFbyuFTzqP9iPRyQJvY2gSLbcCMgUXIyQyFCmWWw
+   e3BlpP8lbNDcLBS4PIUJrvKFYmKkA93f8wu9aoUfdWOErcfPQRH3gcp1E
+   KmRzuIyzG49wP/8tXAKzmd1QM5KL6UbOIhyzAwOpTcTq++hQwfI/9/ypO
+   JeMKbDH/10t3xmXeN8EELmDOirC68S2p560myJz0j96owXilBQP5vc2V4
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="437536857"
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="340555184"
 X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; 
-   d="scan'208";a="437536857"
+   d="scan'208";a="340555184"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 06:11:17 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 06:42:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="703974903"
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="703985208"
 X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; 
-   d="scan'208";a="703974903"
+   d="scan'208";a="703985208"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 15 May 2023 06:11:16 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 15 May 2023 06:42:16 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pyXyt-0006MO-1Q;
-	Mon, 15 May 2023 13:11:15 +0000
-Date: Mon, 15 May 2023 21:10:46 +0800
+	id 1pyYSt-0006Ms-2k;
+	Mon, 15 May 2023 13:42:15 +0000
+Date: Mon, 15 May 2023 21:41:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/video/fbdev/omap/lcdc.c:642:23: sparse: sparse: incorrect
- type in assignment (different address spaces)
-Message-ID: <202305152109.tZxT6QGP-lkp@intel.com>
+To: Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alobakin:ip_tunnel 8/13] include/linux/compiler_types.h:397:45:
+ error: call to '__compiletime_assert_920' declared with attribute error:
+ BUILD_BUG_ON failed: !__builtin_constant_p(__res)
+Message-ID: <202305152130.7B1qy1WY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,75 +47,78 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6
-commit: 804f7f19c2e2928aeb8eafef8379fe8b8d13f98b fbdev: omap: avoid using mach/*.h files
-date:   1 year, 1 month ago
-config: arm-randconfig-s031-20230515 (https://download.01.org/0day-ci/archive/20230515/202305152109.tZxT6QGP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://github.com/alobakin/linux ip_tunnel
+head:   6c0810b90f4a15310eef05c546aecf07a0e2c97b
+commit: a7abfce2062edd37108c9ffe01768a52a0729096 [8/13] ip_tunnel: convert __be16 tunnel flags to bitmaps
+config: s390-randconfig-r044-20230515 (https://download.01.org/0day-ci/archive/20230515/202305152130.7B1qy1WY-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=804f7f19c2e2928aeb8eafef8379fe8b8d13f98b
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 804f7f19c2e2928aeb8eafef8379fe8b8d13f98b
+        # https://github.com/alobakin/linux/commit/a7abfce2062edd37108c9ffe01768a52a0729096
+        git remote add alobakin https://github.com/alobakin/linux
+        git fetch --no-tags alobakin ip_tunnel
+        git checkout a7abfce2062edd37108c9ffe01768a52a0729096
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm SHELL=/bin/bash drivers/remoteproc/ drivers/video/fbdev/omap/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/net/ethernet/netronome/nfp/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305152109.tZxT6QGP-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305152130.7B1qy1WY-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/video/fbdev/omap/lcdc.c:642:23: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *vaddr @@     got void *static [addressable] [assigned] [toplevel] vram_virt @@
-   drivers/video/fbdev/omap/lcdc.c:642:23: sparse:     expected void [noderef] __iomem *vaddr
-   drivers/video/fbdev/omap/lcdc.c:642:23: sparse:     got void *static [addressable] [assigned] [toplevel] vram_virt
---
->> drivers/video/fbdev/omap/omapfb_main.c:1027:11: sparse: sparse: cast removes address space '__iomem' of expression
+All errors (new ones prefixed by >>):
 
-vim +642 drivers/video/fbdev/omap/lcdc.c
+   In file included from <command-line>:
+   drivers/net/ethernet/netronome/nfp/flower/action.c: In function 'nfp_fl_set_tun.constprop.isra':
+>> include/linux/compiler_types.h:397:45: error: call to '__compiletime_assert_920' declared with attribute error: BUILD_BUG_ON failed: !__builtin_constant_p(__res)
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:378:25: note: in definition of macro '__compiletime_assert'
+     378 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:397:9: note: in expansion of macro '_compiletime_assert'
+     397 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/netronome/nfp/flower/action.c:405:9: note: in expansion of macro 'BUILD_BUG_ON'
+     405 |         BUILD_BUG_ON(!__builtin_constant_p(__res));     \
+         |         ^~~~~~~~~~~~
+   drivers/net/ethernet/netronome/nfp/flower/action.c:431:9: note: in expansion of macro 'NFP_FL_CHECK'
+     431 |         NFP_FL_CHECK(CSUM);
+         |         ^~~~~~~~~~~~
 
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  620  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  621  static int alloc_fbmem(struct omapfb_mem_region *region)
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  622  {
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  623  	int bpp;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  624  	int frame_size;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  625  	struct lcd_panel *panel = lcdc.fbdev->panel;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  626  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  627  	bpp = panel->bpp;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  628  	if (bpp == 12)
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  629  		bpp = 16;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  630  	frame_size = PAGE_ALIGN(panel->x_res * bpp / 8 * panel->y_res);
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  631  	if (region->size > frame_size)
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  632  		frame_size = region->size;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  633  	lcdc.vram_size = frame_size;
-f6e45661f9be54 drivers/video/fbdev/omap/lcdc.c Luis R. Rodriguez 2016-01-22  634  	lcdc.vram_virt = dma_alloc_wc(lcdc.fbdev->dev, lcdc.vram_size,
-f6e45661f9be54 drivers/video/fbdev/omap/lcdc.c Luis R. Rodriguez 2016-01-22  635  				      &lcdc.vram_phys, GFP_KERNEL);
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  636  	if (lcdc.vram_virt == NULL) {
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  637  		dev_err(lcdc.fbdev->dev, "unable to allocate FB DMA memory\n");
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  638  		return -ENOMEM;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  639  	}
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  640  	region->size = frame_size;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  641  	region->paddr = lcdc.vram_phys;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17 @642  	region->vaddr = lcdc.vram_virt;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  643  	region->alloc = 1;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  644  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  645  	memset(lcdc.vram_virt, 0, lcdc.vram_size);
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  646  
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  647  	return 0;
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  648  }
-569755c706f0f9 drivers/video/omap/lcdc.c       Imre Deak         2007-07-17  649  
 
-:::::: The code at line 642 was first introduced by commit
-:::::: 569755c706f0f94409edd2ae60b9878cb420844f OMAP: add TI OMAP1 internal LCD controller
+vim +/__compiletime_assert_920 +397 include/linux/compiler_types.h
 
-:::::: TO: Imre Deak <imre.deak@solidboot.com>
-:::::: CC: Linus Torvalds <torvalds@woody.linux-foundation.org>
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  383  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  384  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  385  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  386  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  387  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  388   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  389   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  390   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  391   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  392   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  393   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  394   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  395   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  396  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @397  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  398  
+
+:::::: The code at line 397 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
