@@ -1,156 +1,92 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416421FCC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 May 2023 08:34:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684139663; x=1715675663;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GPaXAyag5xMJETbvb38oCN58x/6O1HMembVMLAEucZ4=;
-  b=edDR88p3nRqsAIGU1ftg/D8t9edE6aDOOgfwzFEjflHIf+BJrYKqcmFO
-   WWQ4dpCSxMjkGMp6IJK6deQiEyw0XeK2zTwpxXj5iTKhB7521Ty9R+EQb
-   7vS+b/NbTB5lzmtpIlwsOoTwZUU9HDPg967Gqih5JmPHE1WStrsATp9DN
-   kR86+N/bHeTfByljEUEJJO/PuSgrW85Lv33klEPzNlHCc2HIsoTFtzl++
-   ZDGgiYBiW2RAwdThucXqE8anPzG2xul/qH7mgaHbPpZmqebTu/hTgCUU/
-   fDZF+excoShUfsDKvF5AalHj5W//IQMkDCFcJIQFQNLIcKYJbJA8Zal+3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10710"; a="414541367"
-X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; 
-   d="scan'208";a="414541367"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 01:34:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10710"; a="731556205"
-X-IronPort-AV: E=Sophos;i="5.99,276,1677571200"; 
-   d="scan'208";a="731556205"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 15 May 2023 01:34:20 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pyTej-0006Ho-2H;
-	Mon, 15 May 2023 08:34:09 +0000
-Date: Mon, 15 May 2023 16:33:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Christoph Lameter <cl@linux-foundation.org>
-Subject: drivers/acpi/apei/erst.c:792:9: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202305151602.HQFreva1-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C6D6FB9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 May 2023 08:41:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8915DC433D2;
+	Mon, 15 May 2023 08:41:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1684140092;
+	bh=olAMRw6s9hQhR6pfKJUZieMg8yda1LBQqHGZrpGbpGw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=MZKyc4OUpvHKXG+EVhdLNGqV2KwAl9GP1vCzJTifHAyJ4yAkDhOd0De5vdWtmjWnW
+	 xlsWSn3JwGoiqbg0DQmkLJd4g2OdsadDP1BrnqyiP75pz9hslPSrWZrSEesozJ0gRr
+	 fA6b19uTSyRUTJBhKtVMY4s187ypEYRav6lZdHdAYRw3sVLcsEbvhnKDKGq5pNKh4g
+	 sObwaX4wVDGjCMdEe4TYyjJrn9e4eGz0sA5XQHiI/LhBmveoo1RMXpOaErPbB4Uyp1
+	 2HPun3pKAy3hwCPGoIypcpkqKYr0VNimQzMCtrPg2Uh4pF0PswtHKab0ZnGYW9QnWw
+	 JfXTWzw0Fcerg==
+Message-ID: <e1b34042-9de3-92cb-c04d-ba19e3e87f0f@kernel.org>
+Date: Mon, 15 May 2023 10:41:26 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 3/4] Input: st1232 - add virtual touchscreen and buttons
+ handling
+Content-Language: en-US
+To: Javier Carrasco <javier.carrasco@wolfvision.net>,
+ 202305140640.VLcvhR5G-lkp@intel.com, kernel test robot <lkp@intel.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Henrik Rydberg <rydberg@bitmath.org>, Bastian Hecht <hechtb@gmail.com>,
+ Michael Riesch <michael.riesch@wolfvision.net>
+Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev
+References: <20230510-feature-ts_virtobj_patch-v1-3-5ae5e81bc264@wolfvision.net>
+ <202305140640.VLcvhR5G-lkp@intel.com>
+ <d35b5a67-eeb3-1f0f-c892-4bafcccbf317@wolfvision.net>
+ <40f4e8a3-bac7-f64f-161d-f863103f3aec@kernel.org>
+ <e458d47e-e0da-c6a4-f91a-c44b3a66531b@wolfvision.net>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <e458d47e-e0da-c6a4-f91a-c44b3a66531b@wolfvision.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6
-commit: e240e53ae0abb0896e0f399bdfef41c69cec3123 mm, slub: add CONFIG_SLUB_TINY
-date:   6 months ago
-config: x86_64-randconfig-s022-20230515 (https://download.01.org/0day-ci/archive/20230515/202305151602.HQFreva1-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e240e53ae0abb0896e0f399bdfef41c69cec3123
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e240e53ae0abb0896e0f399bdfef41c69cec3123
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/acpi/apei/
+On 15/05/2023 10:33, Javier Carrasco wrote:
+>>> All these functions are declared in the linux/input/ts-virtobj.h header
+>>> and also inline-defined there if ts-virtobj is not selected. If it is
+>>> selected (either y or M), the functions are exported from
+>>> driver/input/touchscreen/ts-virtobj.c. According to the error report,
+>>> ts-virtobj was selected as a module.
+>>>
+>>> I could build the kernel with the three possible configurations
+>>> (ts-virtobj y/n/M) for x86_64 as well as for arm64 with no errors or
+>>> warnings repeatedly, so I am a bit confused now. I am probably
+>>> missing something, but I do not know what.
+>>>
+>>> I wonder if the new file where the functions are defined (ts-virtobj.c)
+>>> could not be found by some reason or if the test build does not like the
+>>> way I handled the function declaration/definition. Any hint or advice
+>>> would be more than welcome.
+>>
+>> The report is correct. Build driver builtin and your virtual as module.
+> 
+> You are right, that was the configuration I was missing, which I
+> honestly did not even consider when I tested this feature.
+> 
+> The problem seems to be that I am using the IS_ENABLED macro which
+> returns true if selected as a module, but the define is in that case
+> CONFIG_TOUCHSCREEN_TS_VIRTOBJ_MODULE instead of
+> CONFIG_TOUCHSCREEN_TS_VIRTOBJ. As I am using the latter define in the
+> Makefile, it does not get compiled.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305151602.HQFreva1-lkp@intel.com/
+This could be proper solution for build failure but does not look like
+the proper solution for entire choice/design. The questions are: why
+TOUCHSCREEN_TS_VIRTOBJ should be selectable by user? How can user know
+that he needs a driver with VIRTOBJ?
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/acpi/apei/erst.c:272:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *src @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/erst.c:272:13: sparse:     expected void *src
-   drivers/acpi/apei/erst.c:272:13: sparse:     got void [noderef] __iomem *
-   drivers/acpi/apei/erst.c:275:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *dst @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/erst.c:275:13: sparse:     expected void *dst
-   drivers/acpi/apei/erst.c:275:13: sparse:     got void [noderef] __iomem *
-   drivers/acpi/apei/erst.c:277:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *src @@
-   drivers/acpi/apei/erst.c:277:25: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/apei/erst.c:277:25: sparse:     got void *src
-   drivers/acpi/apei/erst.c:283:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *src @@
-   drivers/acpi/apei/erst.c:283:17: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/apei/erst.c:283:17: sparse:     got void *src
-   drivers/acpi/apei/erst.c:284:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *dst @@
-   drivers/acpi/apei/erst.c:284:17: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/acpi/apei/erst.c:284:17: sparse:     got void *dst
-   drivers/acpi/apei/erst.c:792:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [toplevel] vaddr @@
-   drivers/acpi/apei/erst.c:792:9: sparse:     expected void const *
-   drivers/acpi/apei/erst.c:792:9: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
-   drivers/acpi/apei/erst.c:792:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [toplevel] vaddr @@
-   drivers/acpi/apei/erst.c:792:9: sparse:     expected void const *
-   drivers/acpi/apei/erst.c:792:9: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
-   drivers/acpi/apei/erst.c:792:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *static [toplevel] vaddr @@
-   drivers/acpi/apei/erst.c:792:9: sparse:     expected void const *
-   drivers/acpi/apei/erst.c:792:9: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
->> drivers/acpi/apei/erst.c:792:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem *static [toplevel] vaddr @@
-   drivers/acpi/apei/erst.c:792:9: sparse:     expected void *
-   drivers/acpi/apei/erst.c:792:9: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
-   drivers/acpi/apei/erst.c:793:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cper_record_header *rcd_erange @@     got void [noderef] __iomem *static [toplevel] vaddr @@
-   drivers/acpi/apei/erst.c:793:20: sparse:     expected struct cper_record_header *rcd_erange
-   drivers/acpi/apei/erst.c:793:20: sparse:     got void [noderef] __iomem *static [toplevel] vaddr
-   drivers/acpi/apei/erst.c:830:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cper_record_header *rcd_tmp @@     got void [noderef] __iomem * @@
-   drivers/acpi/apei/erst.c:830:17: sparse:     expected struct cper_record_header *rcd_tmp
-   drivers/acpi/apei/erst.c:830:17: sparse:     got void [noderef] __iomem *
+I think he cannot and your config help option suggests that:
+"you are using a touchscreen driver that supports printed overlays".
+What driver supports or not, is a job for kernel developers. Not for
+kernel configurators or distros. User should never investigate whether
+his touchscreen driver support printed overlays. Why would user like to
+dig into kernel to know that? Thus either your driver should select
+VIRTOBJ or depend on it.
 
-vim +792 drivers/acpi/apei/erst.c
+Best regards,
+Krzysztof
 
-a08f82d08053fb Huang Ying 2010-05-18  766  
-a08f82d08053fb Huang Ying 2010-05-18  767  int erst_write(const struct cper_record_header *record)
-a08f82d08053fb Huang Ying 2010-05-18  768  {
-a08f82d08053fb Huang Ying 2010-05-18  769  	int rc;
-a08f82d08053fb Huang Ying 2010-05-18  770  	unsigned long flags;
-a08f82d08053fb Huang Ying 2010-05-18  771  	struct cper_record_header *rcd_erange;
-a08f82d08053fb Huang Ying 2010-05-18  772  
-a08f82d08053fb Huang Ying 2010-05-18  773  	if (erst_disable)
-a08f82d08053fb Huang Ying 2010-05-18  774  		return -ENODEV;
-a08f82d08053fb Huang Ying 2010-05-18  775  
-a08f82d08053fb Huang Ying 2010-05-18  776  	if (memcmp(record->signature, CPER_SIG_RECORD, CPER_SIG_SIZE))
-a08f82d08053fb Huang Ying 2010-05-18  777  		return -EINVAL;
-a08f82d08053fb Huang Ying 2010-05-18  778  
-a08f82d08053fb Huang Ying 2010-05-18  779  	if (erst_erange.attr & ERST_RANGE_NVRAM) {
-3b38bb5f7f0635 Huang Ying 2010-12-02  780  		if (!raw_spin_trylock_irqsave(&erst_lock, flags))
-a08f82d08053fb Huang Ying 2010-05-18  781  			return -EBUSY;
-a08f82d08053fb Huang Ying 2010-05-18  782  		rc = __erst_write_to_nvram(record);
-3b38bb5f7f0635 Huang Ying 2010-12-02  783  		raw_spin_unlock_irqrestore(&erst_lock, flags);
-a08f82d08053fb Huang Ying 2010-05-18  784  		return rc;
-a08f82d08053fb Huang Ying 2010-05-18  785  	}
-a08f82d08053fb Huang Ying 2010-05-18  786  
-a08f82d08053fb Huang Ying 2010-05-18  787  	if (record->record_length > erst_erange.size)
-a08f82d08053fb Huang Ying 2010-05-18  788  		return -EINVAL;
-a08f82d08053fb Huang Ying 2010-05-18  789  
-3b38bb5f7f0635 Huang Ying 2010-12-02  790  	if (!raw_spin_trylock_irqsave(&erst_lock, flags))
-a08f82d08053fb Huang Ying 2010-05-18  791  		return -EBUSY;
-a08f82d08053fb Huang Ying 2010-05-18 @792  	memcpy(erst_erange.vaddr, record, record->record_length);
-a08f82d08053fb Huang Ying 2010-05-18  793  	rcd_erange = erst_erange.vaddr;
-a08f82d08053fb Huang Ying 2010-05-18  794  	/* signature for serialization system */
-a08f82d08053fb Huang Ying 2010-05-18  795  	memcpy(&rcd_erange->persistence_information, "ER", 2);
-a08f82d08053fb Huang Ying 2010-05-18  796  
-a08f82d08053fb Huang Ying 2010-05-18  797  	rc = __erst_write_to_storage(0);
-3b38bb5f7f0635 Huang Ying 2010-12-02  798  	raw_spin_unlock_irqrestore(&erst_lock, flags);
-a08f82d08053fb Huang Ying 2010-05-18  799  
-a08f82d08053fb Huang Ying 2010-05-18  800  	return rc;
-a08f82d08053fb Huang Ying 2010-05-18  801  }
-a08f82d08053fb Huang Ying 2010-05-18  802  EXPORT_SYMBOL_GPL(erst_write);
-a08f82d08053fb Huang Ying 2010-05-18  803  
-
-:::::: The code at line 792 was first introduced by commit
-:::::: a08f82d08053fb6e3aa3635c2c26456d96337c8b ACPI, APEI, Error Record Serialization Table (ERST) support
-
-:::::: TO: Huang Ying <ying.huang@intel.com>
-:::::: CC: Len Brown <len.brown@intel.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
