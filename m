@@ -1,117 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D691539C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 May 2023 06:43:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD32FC433D2;
-	Mon, 15 May 2023 06:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1684133035;
-	bh=l+AvEyvWw3UkQ8+3IHfInyCURmPhZE64HezEkuOzWU8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Mx+mclncw7Li/xSAud55NZWD05YQ/mg2gZOFh3XVjb4SZGiWrvS5SdNsYRgZGbswI
-	 ZZSd5Se6QBdLyvpmV+UuZsDM+3kaerrVQjtbDu2V1M9BLI3V24WvSZ3s6guZ9FEPgD
-	 5tLpaUENhmdiDgVzoeDdwp73m0tl7VDOHvu8eTOpWosf7JnawG075R3tYaxKZk/2PC
-	 lX/dzKxB/PW+ZJZqAHoS4bdMKU4hs7Fyd+m/CFWw9sj65xiwvfle6SuHwmqAe6m48J
-	 nfjUYAXgd2eBFIeZ9i/VK+cSpOfRgOVfFwhTHnKRWaECxwXx7M0l4okR2M0/jigwWB
-	 fGBoOWyOO2Ofw==
-Message-ID: <40f4e8a3-bac7-f64f-161d-f863103f3aec@kernel.org>
-Date: Mon, 15 May 2023 08:43:49 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A28B1FB1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 15 May 2023 07:07:12 +0000 (UTC)
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1pySID-00010b-A3; Mon, 15 May 2023 09:06:49 +0200
+Received: from pengutronix.de (unknown [172.20.34.65])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 899EF1C40AE;
+	Mon, 15 May 2023 07:06:43 +0000 (UTC)
+Date: Mon, 15 May 2023 09:06:43 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Peter Hong <peter_hong@fintek.com.tw>
+Cc: kernel test robot <lkp@intel.com>, wg@grandegger.com,
+	michal.swiatkowski@linux.intel.com, Steen.Hegelund@microchip.com,
+	mailhol.vincent@wanadoo.fr, oe-kbuild-all@lists.linux.dev,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, frank.jungclaus@esd.eu,
+	linux-kernel@vger.kernel.org, linux-can@vger.kernel.org,
+	netdev@vger.kernel.org, hpeter+linux_kernel@gmail.com
+Subject: Re: [PATCH V7] can: usb: f81604: add Fintek F81604 support
+Message-ID: <20230515-uniquely-prodigy-47c74080839b-mkl@pengutronix.de>
+References: <20230509073821.25289-1-peter_hong@fintek.com.tw>
+ <202305091802.pRFS6n2j-lkp@intel.com>
+ <20230509-exert-remindful-0c0e89bf6649-mkl@pengutronix.de>
+ <39d076f3-e569-4b3b-84bf-95222cd61084@fintek.com.tw>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH 3/4] Input: st1232 - add virtual touchscreen and buttons
- handling
-Content-Language: en-US
-To: 202305140640.VLcvhR5G-lkp@intel.com, kernel test robot <lkp@intel.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
- <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Henrik Rydberg <rydberg@bitmath.org>, Bastian Hecht <hechtb@gmail.com>,
- Michael Riesch <michael.riesch@wolfvision.net>
-Cc: linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev
-References: <20230510-feature-ts_virtobj_patch-v1-3-5ae5e81bc264@wolfvision.net>
- <202305140640.VLcvhR5G-lkp@intel.com>
- <d35b5a67-eeb3-1f0f-c892-4bafcccbf317@wolfvision.net>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <d35b5a67-eeb3-1f0f-c892-4bafcccbf317@wolfvision.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="glikuaxsspn5nww5"
+Content-Disposition: inline
+In-Reply-To: <39d076f3-e569-4b3b-84bf-95222cd61084@fintek.com.tw>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-On 15/05/2023 06:34, Javier Carrasco wrote:
-> On 14.05.23 00:38, kernel test robot wrote:
->> Hi Javier,
->>
->> kernel test robot noticed the following build errors:
->>
->> [auto build test ERROR on ac9a78681b921877518763ba0e89202254349d1b]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Javier-Carrasco/Input-ts-virtobj-Add-touchsreen-virtual-object-handling/20230510-215519
->> base:   ac9a78681b921877518763ba0e89202254349d1b
->> patch link:    https://lore.kernel.org/r/20230510-feature-ts_virtobj_patch-v1-3-5ae5e81bc264%40wolfvision.net
->> patch subject: [PATCH 3/4] Input: st1232 - add virtual touchscreen and buttons handling
->> config: arm-randconfig-m041-20230514 (https://download.01.org/0day-ci/archive/20230514/202305140640.VLcvhR5G-lkp@intel.com/config)
->> compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
->> reproduce (this is a W=1 build):
->>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->>         chmod +x ~/bin/make.cross
->>         # https://github.com/intel-lab-lkp/linux/commit/133c0f8c33dc5e70a72e6a7d670e133b6043a7a3
->>         git remote add linux-review https://github.com/intel-lab-lkp/linux
->>         git fetch --no-tags linux-review Javier-Carrasco/Input-ts-virtobj-Add-touchsreen-virtual-object-handling/20230510-215519
->>         git checkout 133c0f8c33dc5e70a72e6a7d670e133b6043a7a3
->>         # save the config file
->>         mkdir build_dir && cp config build_dir/.config
->>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm olddefconfig
->>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
->>
->> If you fix the issue, kindly add following tag where applicable
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Link: https://lore.kernel.org/oe-kbuild-all/202305140640.VLcvhR5G-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>    arm-linux-gnueabi-ld: drivers/input/touchscreen/st1232.o: in function `st1232_ts_parse_and_report':
->>>> st1232.c:(.text+0x148): undefined reference to `ts_virtobj_is_button_slot'
->>>> arm-linux-gnueabi-ld: st1232.c:(.text+0x15e): undefined reference to `ts_virtobj_button_press'
->>>> arm-linux-gnueabi-ld: st1232.c:(.text+0x16c): undefined reference to `ts_virtobj_mt_on_touchscreen'
->>>> arm-linux-gnueabi-ld: st1232.c:(.text+0x242): undefined reference to `ts_virtobj_mapped_buttons'
->>>> arm-linux-gnueabi-ld: st1232.c:(.text+0x266): undefined reference to `ts_virtobj_is_button_slot'
->>>> arm-linux-gnueabi-ld: st1232.c:(.text+0x276): undefined reference to `ts_virtobj_button_release'
->>    arm-linux-gnueabi-ld: drivers/input/touchscreen/st1232.o: in function `st1232_ts_probe':
->>>> st1232.c:(.text+0x42c): undefined reference to `ts_virtobj_map_objects'
->>>> arm-linux-gnueabi-ld: st1232.c:(.text+0x43c): undefined reference to `ts_virtobj_mapped_touchscreen'
->>>> arm-linux-gnueabi-ld: st1232.c:(.text+0x44a): undefined reference to `ts_virtobj_get_touchscreen_abs'
->>    arm-linux-gnueabi-ld: st1232.c:(.text+0x520): undefined reference to `ts_virtobj_mapped_buttons'
->>>> arm-linux-gnueabi-ld: st1232.c:(.text+0x542): undefined reference to `ts_virtobj_set_button_caps'
->>
-> Apparently there is something wrong about the references from this patch
-> to a previous one from the same series ([PATCH 1/4] Input: ts-virtobj -
-> Add touchs[c]reen virtual object handling). The "url" link shows all
-> patches of this series in the right order though.
-> 
-> All these functions are declared in the linux/input/ts-virtobj.h header
-> and also inline-defined there if ts-virtobj is not selected. If it is
-> selected (either y or M), the functions are exported from
-> driver/input/touchscreen/ts-virtobj.c. According to the error report,
-> ts-virtobj was selected as a module.
-> 
-> I could build the kernel with the three possible configurations
-> (ts-virtobj y/n/M) for x86_64 as well as for arm64 with no errors or
-> warnings repeatedly, so I am a bit confused now. I am probably
-> missing something, but I do not know what.
-> 
-> I wonder if the new file where the functions are defined (ts-virtobj.c)
-> could not be found by some reason or if the test build does not like the
-> way I handled the function declaration/definition. Any hint or advice
-> would be more than welcome.
 
-The report is correct. Build driver builtin and your virtual as module.
+--glikuaxsspn5nww5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Krzysztof
+On 15.05.2023 09:11:34, Peter Hong wrote:
+> Hi Marc,
+>=20
+> Marc Kleine-Budde =E6=96=BC 2023/5/9 =E4=B8=8B=E5=8D=88 08:14 =E5=AF=AB=
+=E9=81=93:
+> > Replaced "%lu% by "%zu" while applying the patch.
+>=20
+> Should I fix the warning and resend the patch as v8? or you will modify t=
+he
+> v7 before apply it?
 
+I have applied to patch to my tree and replaced "%lu% by "%zu", no need
+to resend.
+
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--glikuaxsspn5nww5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmRh2gAACgkQvlAcSiqK
+BOgmZwf/XVm9uzh7dxBQFJ8L0dU5BOP7tqJ03EyEFQVC/b9GWJEkg2d32t1/Psdl
+BuDj5kbrDkgYR6vHUKkjUpnfzXUNgfwSQkjj+qBlNM6aUztayan72c3x58v2mkOl
+/bsLY093SdGAoiJ8TtmO49bVW7GB6+1wlpNmZO7yh+TRm28N722n/VcGuZf6ITi+
+FYCIVoPLbO8OHcU7xowpk5+Rc2OEao7/5libji/ahgo6VD6h62u2I4bNvPIeMPiS
+c7GYI3bvTi97ZKdfzQnaKhxb4oDI74gfVCU/fuKX/DVDHLxKnsC3Vs4YDZsV82or
+f/p7ntxSZ6r5CmLHwxPNUzSRqb8AWQ==
+=+qml
+-----END PGP SIGNATURE-----
+
+--glikuaxsspn5nww5--
