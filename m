@@ -1,204 +1,242 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E58E29B0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 04:57:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6171029B0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 05:18:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684213075; x=1715749075;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I8R0bajwQ2AIaMOSNDiwwtgVQhbkGtD8sskQnrH2Xes=;
-  b=lduX0tFt/wTqk8f1DKYs8wHCSHTV9G02HmZnR3dHfvZT384WeDxq1Kk3
-   eY8auVHvGTXscZIoNzF2Fnl9wmVpu0QoQx+WHYzFKrPri81V4p7505+la
-   g7BKXAfYl0oWdg7r8MO/gNgI697tapulAqLN2FY1l1G/ftiDRex7Fn0Mc
-   YhjLLnzs0fmJ4w0wMSJvacWpDfVPi/4k9P3HZ42hTlb6Emocp7tlfvDF9
-   fwQgEr+FBv0kIhXLzvNEr+HTfCfMvBXxSSwI8cryNTB9mliKkGlKSw61/
-   5gtUi8dCwMyUqsQzy4C8bVnB09sEo4ss1wJdKkCOZ5m2Bl6VRRllmrX8g
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="350217114"
+  t=1684214336; x=1715750336;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=A/fma3LpZyCbJw23hzFg/rqz1fMoDJiPfOxYxmWW5D8=;
+  b=mKeN/O0s6O6wupQmPd8WQu9qmHw6QuWENBUHS2SZ6eSk4xF6RN19Iuid
+   r2oogq5oNmrgKl0aobWX1LgwOtd3lCx0sFuEcxY6VzE49gx4uFegYjS9F
+   QTnWiTY1FBWYrIk6UehJ643wIC6mdOuLuvjrxColRRJzAgYA5GR5wM15e
+   X5f0opY/NfFccA2ghWM5NSWqKOi1vEJ9WCV3UZaM9NhJgYzmR9ej6A6bT
+   6v4c28VTtf/KF8FtHI5rry6j6tORoAKZdC7CfElqK6Biu8wiSL7iQI+94
+   UgLKKxfWTjyofxaryQ/E5Y0mnaHvnCrVrITBmNe6xYv+N3w4JE7MJrGDw
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="331000668"
 X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; 
-   d="scan'208";a="350217114"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 21:57:54 -0700
+   d="scan'208";a="331000668"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 22:18:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="695298830"
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="678699829"
 X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; 
-   d="scan'208";a="695298830"
+   d="scan'208";a="678699829"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 15 May 2023 21:57:53 -0700
+  by orsmga006.jf.intel.com with ESMTP; 15 May 2023 22:18:54 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pymkz-0006zP-0Y;
-	Tue, 16 May 2023 04:57:53 +0000
-Date: Tue, 16 May 2023 12:57:49 +0800
+	id 1pyn5J-0006zu-1Y;
+	Tue, 16 May 2023 05:18:53 +0000
+Date: Tue, 16 May 2023 13:18:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
+To: Hugo Villeneuve <hugo@hugovil.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:retain-zoned-write-order 6/18]
- block/bfq-iosched.c:7663:17: error: 'blk_mq_debugfs_rq_show' undeclared here
- (not in a function); did you mean 'blk_mq_debugfs_register'?
-Message-ID: <202305161211.2uR1Rucq-lkp@intel.com>
+Subject: Re: [RFC PATCH] Revert "sc16is7xx: Separate GPIOs from modem control
+ lines"
+Message-ID: <202305161358.uIM7kJbI-lkp@intel.com>
+References: <20230515160206.2801991-1-hugo@hugovil.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230515160206.2801991-1-hugo@hugovil.com>
 
-tree:   https://github.com/bvanassche/linux retain-zoned-write-order
-head:   21c7b3f9031688e908ba662288da9349522e71f9
-commit: 5ea8c1a1b20acc1cbbcf22f4872d87ef8e35fbd5 [6/18] block, bfq: Export more information to debugfs
-config: riscv-randconfig-r042-20230515 (https://download.01.org/0day-ci/archive/20230516/202305161211.2uR1Rucq-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.1.0
+Hi Hugo,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tty/tty-testing]
+[also build test ERROR on tty/tty-next tty/tty-linus linus/master v6.4-rc2 next-20230516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hugo-Villeneuve/Revert-sc16is7xx-Separate-GPIOs-from-modem-control-lines/20230516-022330
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+patch link:    https://lore.kernel.org/r/20230515160206.2801991-1-hugo%40hugovil.com
+patch subject: [RFC PATCH] Revert "sc16is7xx: Separate GPIOs from modem control lines"
+config: loongarch-randconfig-r024-20230515 (https://download.01.org/0day-ci/archive/20230516/202305161358.uIM7kJbI-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/bvanassche/linux/commit/5ea8c1a1b20acc1cbbcf22f4872d87ef8e35fbd5
-        git remote add bvanassche https://github.com/bvanassche/linux
-        git fetch --no-tags bvanassche retain-zoned-write-order
-        git checkout 5ea8c1a1b20acc1cbbcf22f4872d87ef8e35fbd5
+        # https://github.com/intel-lab-lkp/linux/commit/07f35c5b5f2d204418ea211f585d140c9df5506b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Hugo-Villeneuve/Revert-sc16is7xx-Separate-GPIOs-from-modem-control-lines/20230516-022330
+        git checkout 07f35c5b5f2d204418ea211f585d140c9df5506b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash block/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/tty/serial/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305161211.2uR1Rucq-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305161358.uIM7kJbI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> block/bfq-iosched.c:7663:17: error: 'blk_mq_debugfs_rq_show' undeclared here (not in a function); did you mean 'blk_mq_debugfs_register'?
-    7663 |         .show = blk_mq_debugfs_rq_show,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                 blk_mq_debugfs_register
-   block/bfq-iosched.c: In function 'bfq_queued_list_show':
->> block/bfq-iosched.c:7712:41: error: implicit declaration of function '__blk_mq_debugfs_rq_show'; did you mean 'blk_mq_debugfs_register'? [-Werror=implicit-function-declaration]
-    7712 |                                         __blk_mq_debugfs_rq_show(m, rq);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         blk_mq_debugfs_register
-   block/bfq-iosched.c: At top level:
->> block/bfq-iosched.c:7721:41: error: array type has incomplete element type 'struct blk_mq_debugfs_attr'
-    7721 | static const struct blk_mq_debugfs_attr bfq_queue_debugfs_attrs[] = {
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
->> block/bfq-iosched.c:7757:10: error: 'struct elevator_type' has no member named 'queue_debugfs_attrs'
-    7757 |         .queue_debugfs_attrs =  bfq_queue_debugfs_attrs,
-         |          ^~~~~~~~~~~~~~~~~~~
-   block/bfq-iosched.c:7721:41: warning: 'bfq_queue_debugfs_attrs' defined but not used [-Wunused-variable]
-    7721 | static const struct blk_mq_debugfs_attr bfq_queue_debugfs_attrs[] = {
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_probe':
+>> drivers/tty/serial/sc16is7xx.c:1454:28: error: 'const struct sc16is7xx_devtype' has no member named 'has_mctrl'
+    1454 |                 if (devtype->has_mctrl)
+         |                            ^~
 
 
-vim +7663 block/bfq-iosched.c
+vim +1454 drivers/tty/serial/sc16is7xx.c
 
-  7658	
-  7659	static const struct seq_operations bfq_dispatch_list_ops = {
-  7660		.start = bfq_dispatch_start,
-  7661		.next = bfq_dispatch_next,
-  7662		.stop = bfq_dispatch_stop,
-> 7663		.show = blk_mq_debugfs_rq_show,
-  7664	};
-  7665	
-  7666	static int bfq_tot_rq_in_driver_show(void *data, struct seq_file *m)
-  7667	{
-  7668		struct request_queue *q = data;
-  7669		struct bfq_data *bfqd = q->elevator->elevator_data;
-  7670	
-  7671		seq_printf(m, "%u\n", READ_ONCE(bfqd->tot_rq_in_driver));
-  7672		return 0;
-  7673	}
-  7674	
-  7675	static int bfq_queued_show(void *data, struct seq_file *m)
-  7676	{
-  7677		struct request_queue *q = data;
-  7678		struct bfq_data *bfqd = q->elevator->elevator_data;
-  7679	
-  7680		seq_printf(m, "%u\n", READ_ONCE(bfqd->queued));
-  7681		return 0;
-  7682	}
-  7683	
-  7684	static int bfq_queued_list_show(void *data, struct seq_file *m)
-  7685	{
-  7686		struct request_queue *q = data;
-  7687		struct bfq_data *bfqd = q->elevator->elevator_data;
-  7688		struct io_cq *icq;
-  7689	
-  7690		spin_lock_irq(&q->queue_lock);
-  7691		list_for_each_entry(icq, &q->icq_list, q_node) {
-  7692			struct bfq_io_cq *bic = icq_to_bic(icq);
-  7693			unsigned int actuator, is_sync;
-  7694	
-  7695			seq_printf(m, "icq = %p; bic = %p\n", icq, bic);
-  7696			for (actuator = 0; actuator < bfqd->num_actuators; actuator++) {
-  7697				seq_printf(m, "actuator = %u\n", actuator);
-  7698				for (is_sync = 0; is_sync < 2; is_sync++) {
-  7699					struct bfq_queue *bfq =
-  7700						bic_to_bfqq(bic, is_sync, actuator);
-  7701					struct request *rq;
-  7702	
-  7703					if (!bfq)
-  7704						continue;
-  7705					seq_printf(
-  7706						m,
-  7707						"is_sync = %u; busy %u; dispatched %u; queued %u %u\n",
-  7708						is_sync, bfq_bfqq_busy(bfq),
-  7709						bfq->dispatched, bfq->queued[0],
-  7710						bfq->queued[1]);
-  7711					list_for_each_entry(rq, &bfq->fifo, queuelist)
-> 7712						__blk_mq_debugfs_rq_show(m, rq);
-  7713				}
-  7714			}
-  7715		}
-  7716		spin_unlock_irq(&q->queue_lock);
-  7717	
-  7718		return 0;
-  7719	}
-  7720	
-> 7721	static const struct blk_mq_debugfs_attr bfq_queue_debugfs_attrs[] = {
-  7722		{ "busy_queues0", 0444, bfq_busy_queues0_show },
-  7723		{ "busy_queues1", 0444, bfq_busy_queues1_show },
-  7724		{ "busy_queues2", 0444, bfq_busy_queues2_show },
-  7725		{ "dispatch_list", 0400, .seq_ops = &bfq_dispatch_list_ops },
-  7726		{ "tot_rq_in_driver", 0444, bfq_tot_rq_in_driver_show },
-  7727		{ "queued", 0444, bfq_queued_show },
-  7728		{ "queued_list", 0400, bfq_queued_list_show },
-  7729		{},
-  7730	};
-  7731	static struct elevator_type iosched_bfq_mq = {
-  7732		.ops = {
-  7733			.limit_depth		= bfq_limit_depth,
-  7734			.prepare_request	= bfq_prepare_request,
-  7735			.requeue_request        = bfq_finish_requeue_request,
-  7736			.finish_request		= bfq_finish_request,
-  7737			.exit_icq		= bfq_exit_icq,
-  7738			.insert_requests	= bfq_insert_requests,
-  7739			.dispatch_request	= bfq_dispatch_request,
-  7740			.next_request		= elv_rb_latter_request,
-  7741			.former_request		= elv_rb_former_request,
-  7742			.allow_merge		= bfq_allow_bio_merge,
-  7743			.bio_merge		= bfq_bio_merge,
-  7744			.request_merge		= bfq_request_merge,
-  7745			.requests_merged	= bfq_requests_merged,
-  7746			.request_merged		= bfq_request_merged,
-  7747			.has_work		= bfq_has_work,
-  7748			.depth_updated		= bfq_depth_updated,
-  7749			.init_hctx		= bfq_init_hctx,
-  7750			.init_sched		= bfq_init_queue,
-  7751			.exit_sched		= bfq_exit_queue,
-  7752		},
-  7753	
-  7754		.icq_size =		sizeof(struct bfq_io_cq),
-  7755		.icq_align =		__alignof__(struct bfq_io_cq),
-  7756		.elevator_attrs =	bfq_attrs,
-> 7757		.queue_debugfs_attrs =	bfq_queue_debugfs_attrs,
-  7758		.elevator_name =	"bfq",
-  7759		.elevator_owner =	THIS_MODULE,
-  7760	};
-  7761	MODULE_ALIAS("bfq-iosched");
-  7762	
+267913ecf73745 Ilpo Järvinen       2022-06-06  1352  
+dfeae619d781de Jon Ringle          2014-04-24  1353  static int sc16is7xx_probe(struct device *dev,
+68be64ca7e2adc Jakub Kicinski      2015-07-31  1354  			   const struct sc16is7xx_devtype *devtype,
+37f3965d74d5b5 Daniel Mack         2020-05-21  1355  			   struct regmap *regmap, int irq)
+dfeae619d781de Jon Ringle          2014-04-24  1356  {
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1357  	unsigned long freq = 0, *pfreq = dev_get_platdata(dev);
+2aa916e67db3e6 Daniel Mack         2020-05-21  1358  	unsigned int val;
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1359  	u32 uartclk = 0;
+dfeae619d781de Jon Ringle          2014-04-24  1360  	int i, ret;
+dfeae619d781de Jon Ringle          2014-04-24  1361  	struct sc16is7xx_port *s;
+dfeae619d781de Jon Ringle          2014-04-24  1362  
+dfeae619d781de Jon Ringle          2014-04-24  1363  	if (IS_ERR(regmap))
+dfeae619d781de Jon Ringle          2014-04-24  1364  		return PTR_ERR(regmap);
+dfeae619d781de Jon Ringle          2014-04-24  1365  
+2aa916e67db3e6 Daniel Mack         2020-05-21  1366  	/*
+2aa916e67db3e6 Daniel Mack         2020-05-21  1367  	 * This device does not have an identification register that would
+2aa916e67db3e6 Daniel Mack         2020-05-21  1368  	 * tell us if we are really connected to the correct device.
+2aa916e67db3e6 Daniel Mack         2020-05-21  1369  	 * The best we can do is to check if communication is at all possible.
+2aa916e67db3e6 Daniel Mack         2020-05-21  1370  	 */
+2aa916e67db3e6 Daniel Mack         2020-05-21  1371  	ret = regmap_read(regmap,
+2aa916e67db3e6 Daniel Mack         2020-05-21  1372  			  SC16IS7XX_LSR_REG << SC16IS7XX_REG_SHIFT, &val);
+2aa916e67db3e6 Daniel Mack         2020-05-21  1373  	if (ret < 0)
+158e800e0fde91 Annaliese McDermond 2021-03-29  1374  		return -EPROBE_DEFER;
+2aa916e67db3e6 Daniel Mack         2020-05-21  1375  
+dfeae619d781de Jon Ringle          2014-04-24  1376  	/* Alloc port structure */
+84f1c5c0174ace Gustavo A. R. Silva 2019-01-04  1377  	s = devm_kzalloc(dev, struct_size(s, p, devtype->nr_uart), GFP_KERNEL);
+dfeae619d781de Jon Ringle          2014-04-24  1378  	if (!s) {
+dfeae619d781de Jon Ringle          2014-04-24  1379  		dev_err(dev, "Error allocating port structure\n");
+dfeae619d781de Jon Ringle          2014-04-24  1380  		return -ENOMEM;
+dfeae619d781de Jon Ringle          2014-04-24  1381  	}
+dfeae619d781de Jon Ringle          2014-04-24  1382  
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1383  	/* Always ask for fixed clock rate from a property. */
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1384  	device_property_read_u32(dev, "clock-frequency", &uartclk);
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1385  
+cb1b206cff461d Andy Shevchenko     2021-05-17  1386  	s->clk = devm_clk_get_optional(dev, NULL);
+cb1b206cff461d Andy Shevchenko     2021-05-17  1387  	if (IS_ERR(s->clk))
+cb1b206cff461d Andy Shevchenko     2021-05-17  1388  		return PTR_ERR(s->clk);
+cb1b206cff461d Andy Shevchenko     2021-05-17  1389  
+cb1b206cff461d Andy Shevchenko     2021-05-17  1390  	ret = clk_prepare_enable(s->clk);
+cb1b206cff461d Andy Shevchenko     2021-05-17  1391  	if (ret)
+cb1b206cff461d Andy Shevchenko     2021-05-17  1392  		return ret;
+cb1b206cff461d Andy Shevchenko     2021-05-17  1393  
+cb1b206cff461d Andy Shevchenko     2021-05-17  1394  	freq = clk_get_rate(s->clk);
+cb1b206cff461d Andy Shevchenko     2021-05-17  1395  	if (freq == 0) {
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1396  		if (uartclk)
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1397  			freq = uartclk;
+dfeae619d781de Jon Ringle          2014-04-24  1398  		if (pfreq)
+dfeae619d781de Jon Ringle          2014-04-24  1399  			freq = *pfreq;
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1400  		if (freq)
+24bc6e68efa00f Andy Shevchenko     2019-03-18  1401  			dev_dbg(dev, "Clock frequency: %luHz\n", freq);
+dfeae619d781de Jon Ringle          2014-04-24  1402  		else
+cb1b206cff461d Andy Shevchenko     2021-05-17  1403  			return -EINVAL;
+dfeae619d781de Jon Ringle          2014-04-24  1404  	}
+dfeae619d781de Jon Ringle          2014-04-24  1405  
+dfeae619d781de Jon Ringle          2014-04-24  1406  	s->regmap = regmap;
+dfeae619d781de Jon Ringle          2014-04-24  1407  	s->devtype = devtype;
+dfeae619d781de Jon Ringle          2014-04-24  1408  	dev_set_drvdata(dev, s);
+30ec514d440cf2 Phil Elwell         2018-09-12  1409  	mutex_init(&s->efr_lock);
+dfeae619d781de Jon Ringle          2014-04-24  1410  
+3989144f863ac5 Petr Mladek         2016-10-11  1411  	kthread_init_worker(&s->kworker);
+9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1412  	s->kworker_task = kthread_run(kthread_worker_fn, &s->kworker,
+9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1413  				      "sc16is7xx");
+9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1414  	if (IS_ERR(s->kworker_task)) {
+9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1415  		ret = PTR_ERR(s->kworker_task);
+c64349722d1417 Jakub Kicinski      2015-07-31  1416  		goto out_clk;
+9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1417  	}
+28d2f209cd1620 Peter Zijlstra      2020-04-21  1418  	sched_set_fifo(s->kworker_task);
+9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1419  
+43c51bb573aab6 Florian Vallee      2016-07-19  1420  	/* reset device, purging any pending irq / data */
+43c51bb573aab6 Florian Vallee      2016-07-19  1421  	regmap_write(s->regmap, SC16IS7XX_IOCONTROL_REG << SC16IS7XX_REG_SHIFT,
+43c51bb573aab6 Florian Vallee      2016-07-19  1422  			SC16IS7XX_IOCONTROL_SRESET_BIT);
+43c51bb573aab6 Florian Vallee      2016-07-19  1423  
+dfeae619d781de Jon Ringle          2014-04-24  1424  	for (i = 0; i < devtype->nr_uart; ++i) {
+e92a886bf7841c Jakub Kicinski      2015-07-31  1425  		s->p[i].line		= i;
+dfeae619d781de Jon Ringle          2014-04-24  1426  		/* Initialize port data */
+dfeae619d781de Jon Ringle          2014-04-24  1427  		s->p[i].port.dev	= dev;
+dfeae619d781de Jon Ringle          2014-04-24  1428  		s->p[i].port.irq	= irq;
+dfeae619d781de Jon Ringle          2014-04-24  1429  		s->p[i].port.type	= PORT_SC16IS7XX;
+dfeae619d781de Jon Ringle          2014-04-24  1430  		s->p[i].port.fifosize	= SC16IS7XX_FIFO_SIZE;
+dfeae619d781de Jon Ringle          2014-04-24  1431  		s->p[i].port.flags	= UPF_FIXED_TYPE | UPF_LOW_LATENCY;
+5da6b1c079e680 Daniel Mack         2020-09-01  1432  		s->p[i].port.iobase	= i;
+dfeae619d781de Jon Ringle          2014-04-24  1433  		s->p[i].port.iotype	= UPIO_PORT;
+dfeae619d781de Jon Ringle          2014-04-24  1434  		s->p[i].port.uartclk	= freq;
+b57d15fe8b37fe Ricardo Ribalda     2014-11-06  1435  		s->p[i].port.rs485_config = sc16is7xx_config_rs485;
+0139da50dc53f0 Ilpo Järvinen       2022-07-04  1436  		s->p[i].port.rs485_supported = sc16is7xx_rs485_supported;
+dfeae619d781de Jon Ringle          2014-04-24  1437  		s->p[i].port.ops	= &sc16is7xx_ops;
+21144bab4f1191 Tomasz Moń          2022-03-01  1438  		s->p[i].old_mctrl	= 0;
+c64349722d1417 Jakub Kicinski      2015-07-31  1439  		s->p[i].port.line	= sc16is7xx_alloc_line();
+21144bab4f1191 Tomasz Moń          2022-03-01  1440  
+c64349722d1417 Jakub Kicinski      2015-07-31  1441  		if (s->p[i].port.line >= SC16IS7XX_MAX_DEVS) {
+c64349722d1417 Jakub Kicinski      2015-07-31  1442  			ret = -ENOMEM;
+c64349722d1417 Jakub Kicinski      2015-07-31  1443  			goto out_ports;
+c64349722d1417 Jakub Kicinski      2015-07-31  1444  		}
+c64349722d1417 Jakub Kicinski      2015-07-31  1445  
+dfeae619d781de Jon Ringle          2014-04-24  1446  		/* Disable all interrupts */
+dfeae619d781de Jon Ringle          2014-04-24  1447  		sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_IER_REG, 0);
+dfeae619d781de Jon Ringle          2014-04-24  1448  		/* Disable TX/RX */
+dfeae619d781de Jon Ringle          2014-04-24  1449  		sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_EFCR_REG,
+dfeae619d781de Jon Ringle          2014-04-24  1450  				     SC16IS7XX_EFCR_RXDISABLE_BIT |
+dfeae619d781de Jon Ringle          2014-04-24  1451  				     SC16IS7XX_EFCR_TXDISABLE_BIT);
+21144bab4f1191 Tomasz Moń          2022-03-01  1452  
+21144bab4f1191 Tomasz Moń          2022-03-01  1453  		/* Use GPIO lines as modem status registers */
+21144bab4f1191 Tomasz Moń          2022-03-01 @1454  		if (devtype->has_mctrl)
+21144bab4f1191 Tomasz Moń          2022-03-01  1455  			sc16is7xx_port_write(&s->p[i].port,
+21144bab4f1191 Tomasz Moń          2022-03-01  1456  					     SC16IS7XX_IOCONTROL_REG,
+21144bab4f1191 Tomasz Moń          2022-03-01  1457  					     SC16IS7XX_IOCONTROL_MODEM_BIT);
+21144bab4f1191 Tomasz Moń          2022-03-01  1458  
+a0104085362ff9 Jakub Kicinski      2015-05-29  1459  		/* Initialize kthread work structs */
+3989144f863ac5 Petr Mladek         2016-10-11  1460  		kthread_init_work(&s->p[i].tx_work, sc16is7xx_tx_proc);
+3989144f863ac5 Petr Mladek         2016-10-11  1461  		kthread_init_work(&s->p[i].reg_work, sc16is7xx_reg_proc);
+21144bab4f1191 Tomasz Moń          2022-03-01  1462  		kthread_init_delayed_work(&s->p[i].ms_work, sc16is7xx_ms_proc);
+dfeae619d781de Jon Ringle          2014-04-24  1463  		/* Register port */
+c64349722d1417 Jakub Kicinski      2015-07-31  1464  		uart_add_one_port(&sc16is7xx_uart, &s->p[i].port);
+43c51bb573aab6 Florian Vallee      2016-07-19  1465  
+43c51bb573aab6 Florian Vallee      2016-07-19  1466  		/* Enable EFR */
+43c51bb573aab6 Florian Vallee      2016-07-19  1467  		sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_LCR_REG,
+43c51bb573aab6 Florian Vallee      2016-07-19  1468  				     SC16IS7XX_LCR_CONF_MODE_B);
+43c51bb573aab6 Florian Vallee      2016-07-19  1469  
+43c51bb573aab6 Florian Vallee      2016-07-19  1470  		regcache_cache_bypass(s->regmap, true);
+43c51bb573aab6 Florian Vallee      2016-07-19  1471  
+43c51bb573aab6 Florian Vallee      2016-07-19  1472  		/* Enable write access to enhanced features */
+43c51bb573aab6 Florian Vallee      2016-07-19  1473  		sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_EFR_REG,
+43c51bb573aab6 Florian Vallee      2016-07-19  1474  				     SC16IS7XX_EFR_ENABLE_BIT);
+43c51bb573aab6 Florian Vallee      2016-07-19  1475  
+43c51bb573aab6 Florian Vallee      2016-07-19  1476  		regcache_cache_bypass(s->regmap, false);
+43c51bb573aab6 Florian Vallee      2016-07-19  1477  
+43c51bb573aab6 Florian Vallee      2016-07-19  1478  		/* Restore access to general registers */
+43c51bb573aab6 Florian Vallee      2016-07-19  1479  		sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_LCR_REG, 0x00);
+43c51bb573aab6 Florian Vallee      2016-07-19  1480  
+dfeae619d781de Jon Ringle          2014-04-24  1481  		/* Go to suspend mode */
+dfeae619d781de Jon Ringle          2014-04-24  1482  		sc16is7xx_power(&s->p[i].port, 0);
+dfeae619d781de Jon Ringle          2014-04-24  1483  	}
+dfeae619d781de Jon Ringle          2014-04-24  1484  
+9eb90d57b55a0a Pascal Huerst       2020-05-29  1485  	if (dev->of_node) {
+9eb90d57b55a0a Pascal Huerst       2020-05-29  1486  		struct property *prop;
+9eb90d57b55a0a Pascal Huerst       2020-05-29  1487  		const __be32 *p;
+9eb90d57b55a0a Pascal Huerst       2020-05-29  1488  		u32 u;
+9eb90d57b55a0a Pascal Huerst       2020-05-29  1489  
+9eb90d57b55a0a Pascal Huerst       2020-05-29  1490  		of_property_for_each_u32(dev->of_node, "irda-mode-ports",
+9eb90d57b55a0a Pascal Huerst       2020-05-29  1491  					 prop, p, u)
+9eb90d57b55a0a Pascal Huerst       2020-05-29  1492  			if (u < devtype->nr_uart)
+9eb90d57b55a0a Pascal Huerst       2020-05-29  1493  				s->p[u].irda_mode = true;
+9eb90d57b55a0a Pascal Huerst       2020-05-29  1494  	}
+9eb90d57b55a0a Pascal Huerst       2020-05-29  1495  
 
 -- 
 0-DAY CI Kernel Test Service
