@@ -1,43 +1,53 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D80F23C3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 06:52:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684219925; x=1715755925;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=07cYLAB7gUQIBwnYpOGyFSOHtBSCP47hoz6qf5Xgo6A=;
-  b=Nq4n3Tpu0cFv3X+bhtPlZVNxBzz7WvqvepP4ONITN06DiqayklRkoCIY
-   xkZhbHC4rGVz4k2ar7AnG0q3cZ06ApOZqxdFMz9W165C4/xC7wNHHgfpv
-   Tm6A94oRhoh7Mb0a07o1ou8Z7IrmVdO4e1gYcXK8/2qffXwtHeMSdSOJl
-   /TxY1y0UjzEqn2eGH33+mTMGrGo1fN2VgwbLRlX2pdqBlhE0NJBeUJAiX
-   gPOsRq6T6v3Hb2GeuI0TOXMCY5KI5/tialdNwfxqfwo22/yQ6OtDMBAAk
-   gmc4qdcddTQ+m5R5qnzyaeRasu8rA0OOuMmmE7VtISvUd5Lp6c+aVmn0q
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="331760315"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="331760315"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 23:52:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="947725329"
-X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="947725329"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 15 May 2023 23:51:59 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pyoXO-00077e-2r;
-	Tue, 16 May 2023 06:51:58 +0000
-Date: Tue, 16 May 2023 14:51:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bvanassche:retain-zoned-write-order 6/18]
- block/bfq-iosched.c:7721:41: warning: 'bfq_queue_debugfs_attrs' defined but
- not used
-Message-ID: <202305161453.cfrYjaZF-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07EF4101EC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 07:06:01 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f509ec3196so13182445e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 00:06:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684220760; x=1686812760;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tj9w7Aq6+c/DbgNsWpbFH46xdrrTXuub6+RO8bXaBBE=;
+        b=vPJ4xhdBXK61FbYOVS7+zV5j/S+DviYb+hfmdn4Ff4GS6LkS1fMjrVx4lC3fuFt9nK
+         hYhylWIF8rNRlKcUUvD+U1bmqtOUBj4EaAuXS0o66NrWyrhKQTpN5Og8jnFCE15fuWM6
+         Zgau6Isy+zflYzDpLBeUYJr5q0/TmNHpJp7joXBnSrSUD9X/5wpvi0lkXh5U2LYNWJ+d
+         nSc3hEGQRN1bLj6LjGjNbvIP+OzEV3IW3Ez5zOzgpBrRZMg82HRmrEAw4SfB9q/wgemu
+         tDsV5LVIMIzF5z9R2r6MtodMitjHEWCdD+9pKTjAV+btOUx8cMEJs/kmT6k56ySdpwPZ
+         Lf2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684220760; x=1686812760;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tj9w7Aq6+c/DbgNsWpbFH46xdrrTXuub6+RO8bXaBBE=;
+        b=DlviInj4kXIQNLBKK0HeIfBoFQv1/I2+5+9KVNOMOipIxkyY989HwUtfH7xFEEbR0G
+         mskxHcAcrHaPequr7kWoqTrm4X+e0g7UgCL5RbbTHuqOPqDt7e5B7UdZgtouCPs+WNhE
+         v8bkKO6FrWvODUta/NT00XRkOwCe1aTcuCb7eM80Cv2REh8TGIuuAQIY7wX/v/fqME9w
+         pk82FCRNYjCs/qwW+P52t8ioE+wx/DlXTv4hXh2Ng36V+JpJ6mgsfsJcA1/5gfVGe/m0
+         P+TmnonLw7p82eTHRhq5nVdmw9u7Sar+ESYZhBhjJHUwFJRBKHlcuWeUoOVIFfUyJfXV
+         9XKQ==
+X-Gm-Message-State: AC+VfDzwFIXmLiMfZWVciWSm3MtxWr/hcdzZHT/8pGOvDWtsIF+J5Uq7
+	8v/k117ZFvGlWnLbMNr8nzwZxg==
+X-Google-Smtp-Source: ACHHUZ5FKyFZMyl+BDOoNUY2sRmKi/mGvQ3ZODa/hydez+q4/H8tK7Qoi0QDUQPxfzR4xAyojR0hkQ==
+X-Received: by 2002:a05:600c:4444:b0:3f3:284d:8cec with SMTP id v4-20020a05600c444400b003f3284d8cecmr26193079wmn.2.1684220760107;
+        Tue, 16 May 2023 00:06:00 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id r7-20020adff107000000b003012030a0c6sm1493932wro.18.2023.05.16.00.05.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 May 2023 00:05:58 -0700 (PDT)
+Date: Tue, 16 May 2023 10:05:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Joel Granados <j.granados@samsung.com>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [joelgranados:jag/sysctl-testing-for-0day 2/6]
+ drivers/parport/procfs.c:502 parport_proc_register() warn: possible memory
+ leak of 't'
+Message-ID: <98df279e-4558-40e7-ab96-0ab45ba5a16f@kili.mountain>
+References: <CGME20230515073454eucas1p13d3f249160454d835f3cefce3fa7a0eb@eucas1p1.samsung.com>
+ <819e68aa-8c11-4f4d-9dcb-d20ef136fe0f@kili.mountain>
+ <20230515185917.sdxy2mszhmjyngn3@localhost>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,96 +56,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230515185917.sdxy2mszhmjyngn3@localhost>
 
-tree:   https://github.com/bvanassche/linux retain-zoned-write-order
-head:   21c7b3f9031688e908ba662288da9349522e71f9
-commit: 5ea8c1a1b20acc1cbbcf22f4872d87ef8e35fbd5 [6/18] block, bfq: Export more information to debugfs
-config: x86_64-randconfig-a011-20230515 (https://download.01.org/0day-ci/archive/20230516/202305161453.cfrYjaZF-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/bvanassche/linux/commit/5ea8c1a1b20acc1cbbcf22f4872d87ef8e35fbd5
-        git remote add bvanassche https://github.com/bvanassche/linux
-        git fetch --no-tags bvanassche retain-zoned-write-order
-        git checkout 5ea8c1a1b20acc1cbbcf22f4872d87ef8e35fbd5
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+On Mon, May 15, 2023 at 08:59:17PM +0200, Joel Granados wrote:
+> On Mon, May 15, 2023 at 10:34:44AM +0300, Dan Carpenter wrote:
+> > 3756e44223c286 Joel Granados        2023-05-12  504  	if (register_sysctl(tmp_dir_path, t->device_dir) == NULL)
+> > 3756e44223c286 Joel Granados        2023-05-12  505  		/*
+> > 3756e44223c286 Joel Granados        2023-05-12  506  		 * We keep the original behavior of parport where failure to register
+> > 3756e44223c286 Joel Granados        2023-05-12  507  		 * does not return error.
+> > 3756e44223c286 Joel Granados        2023-05-12  508  		 */
+> > 3756e44223c286 Joel Granados        2023-05-12 @509  		goto  exit_free_tmp_dir_path;
+> > 
+> > Smatch wants a error code for this error path.
+> > 
+> > The comments say that we are doing the wrong thing deliberately to
+> > maintain backwards compatibility and avoid breaking stuff.  Fortunately,
+> > (LOL), no one is checking the returns from parport_proc_register() so we
+> > are free to return a correct error code without any worry about breakage.
+> Sigh. Indeed, the only place were this function is called is from
+> parport/share.c. Should we just change the function return value to
+> void?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305161453.cfrYjaZF-lkp@intel.com/
+I feel like we should return errors and not check for them.
 
-All warnings (new ones prefixed by >>):
+Hopefully, some day in the future someone will be able to test this code
+and add checks.  (This seems more optimistic than realistic).
 
-   block/bfq-iosched.c:7663:17: error: 'blk_mq_debugfs_rq_show' undeclared here (not in a function); did you mean 'blk_mq_debugfs_register'?
-    7663 |         .show = blk_mq_debugfs_rq_show,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                 blk_mq_debugfs_register
-   block/bfq-iosched.c: In function 'bfq_queued_list_show':
-   block/bfq-iosched.c:7712:41: error: implicit declaration of function '__blk_mq_debugfs_rq_show'; did you mean 'blk_mq_debugfs_register'? [-Werror=implicit-function-declaration]
-    7712 |                                         __blk_mq_debugfs_rq_show(m, rq);
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                                         blk_mq_debugfs_register
-   block/bfq-iosched.c: At top level:
-   block/bfq-iosched.c:7721:41: error: array type has incomplete element type 'struct blk_mq_debugfs_attr'
-    7721 | static const struct blk_mq_debugfs_attr bfq_queue_debugfs_attrs[] = {
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   block/bfq-iosched.c:7757:10: error: 'struct elevator_type' has no member named 'queue_debugfs_attrs'
-    7757 |         .queue_debugfs_attrs =  bfq_queue_debugfs_attrs,
-         |          ^~~~~~~~~~~~~~~~~~~
->> block/bfq-iosched.c:7721:41: warning: 'bfq_queue_debugfs_attrs' defined but not used [-Wunused-variable]
-    7721 | static const struct blk_mq_debugfs_attr bfq_queue_debugfs_attrs[] = {
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+regards,
+dan carpenter
 
-
-vim +/bfq_queue_debugfs_attrs +7721 block/bfq-iosched.c
-
-  7720	
-> 7721	static const struct blk_mq_debugfs_attr bfq_queue_debugfs_attrs[] = {
-  7722		{ "busy_queues0", 0444, bfq_busy_queues0_show },
-  7723		{ "busy_queues1", 0444, bfq_busy_queues1_show },
-  7724		{ "busy_queues2", 0444, bfq_busy_queues2_show },
-  7725		{ "dispatch_list", 0400, .seq_ops = &bfq_dispatch_list_ops },
-  7726		{ "tot_rq_in_driver", 0444, bfq_tot_rq_in_driver_show },
-  7727		{ "queued", 0444, bfq_queued_show },
-  7728		{ "queued_list", 0400, bfq_queued_list_show },
-  7729		{},
-  7730	};
-  7731	static struct elevator_type iosched_bfq_mq = {
-  7732		.ops = {
-  7733			.limit_depth		= bfq_limit_depth,
-  7734			.prepare_request	= bfq_prepare_request,
-  7735			.requeue_request        = bfq_finish_requeue_request,
-  7736			.finish_request		= bfq_finish_request,
-  7737			.exit_icq		= bfq_exit_icq,
-  7738			.insert_requests	= bfq_insert_requests,
-  7739			.dispatch_request	= bfq_dispatch_request,
-  7740			.next_request		= elv_rb_latter_request,
-  7741			.former_request		= elv_rb_former_request,
-  7742			.allow_merge		= bfq_allow_bio_merge,
-  7743			.bio_merge		= bfq_bio_merge,
-  7744			.request_merge		= bfq_request_merge,
-  7745			.requests_merged	= bfq_requests_merged,
-  7746			.request_merged		= bfq_request_merged,
-  7747			.has_work		= bfq_has_work,
-  7748			.depth_updated		= bfq_depth_updated,
-  7749			.init_hctx		= bfq_init_hctx,
-  7750			.init_sched		= bfq_init_queue,
-  7751			.exit_sched		= bfq_exit_queue,
-  7752		},
-  7753	
-  7754		.icq_size =		sizeof(struct bfq_io_cq),
-  7755		.icq_align =		__alignof__(struct bfq_io_cq),
-  7756		.elevator_attrs =	bfq_attrs,
-  7757		.queue_debugfs_attrs =	bfq_queue_debugfs_attrs,
-  7758		.elevator_name =	"bfq",
-  7759		.elevator_owner =	THIS_MODULE,
-  7760	};
-  7761	MODULE_ALIAS("bfq-iosched");
-  7762	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
