@@ -1,53 +1,42 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07EF4101EC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 07:06:01 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f509ec3196so13182445e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 00:06:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1684220760; x=1686812760;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tj9w7Aq6+c/DbgNsWpbFH46xdrrTXuub6+RO8bXaBBE=;
-        b=vPJ4xhdBXK61FbYOVS7+zV5j/S+DviYb+hfmdn4Ff4GS6LkS1fMjrVx4lC3fuFt9nK
-         hYhylWIF8rNRlKcUUvD+U1bmqtOUBj4EaAuXS0o66NrWyrhKQTpN5Og8jnFCE15fuWM6
-         Zgau6Isy+zflYzDpLBeUYJr5q0/TmNHpJp7joXBnSrSUD9X/5wpvi0lkXh5U2LYNWJ+d
-         nSc3hEGQRN1bLj6LjGjNbvIP+OzEV3IW3Ez5zOzgpBrRZMg82HRmrEAw4SfB9q/wgemu
-         tDsV5LVIMIzF5z9R2r6MtodMitjHEWCdD+9pKTjAV+btOUx8cMEJs/kmT6k56ySdpwPZ
-         Lf2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684220760; x=1686812760;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tj9w7Aq6+c/DbgNsWpbFH46xdrrTXuub6+RO8bXaBBE=;
-        b=DlviInj4kXIQNLBKK0HeIfBoFQv1/I2+5+9KVNOMOipIxkyY989HwUtfH7xFEEbR0G
-         mskxHcAcrHaPequr7kWoqTrm4X+e0g7UgCL5RbbTHuqOPqDt7e5B7UdZgtouCPs+WNhE
-         v8bkKO6FrWvODUta/NT00XRkOwCe1aTcuCb7eM80Cv2REh8TGIuuAQIY7wX/v/fqME9w
-         pk82FCRNYjCs/qwW+P52t8ioE+wx/DlXTv4hXh2Ng36V+JpJ6mgsfsJcA1/5gfVGe/m0
-         P+TmnonLw7p82eTHRhq5nVdmw9u7Sar+ESYZhBhjJHUwFJRBKHlcuWeUoOVIFfUyJfXV
-         9XKQ==
-X-Gm-Message-State: AC+VfDzwFIXmLiMfZWVciWSm3MtxWr/hcdzZHT/8pGOvDWtsIF+J5Uq7
-	8v/k117ZFvGlWnLbMNr8nzwZxg==
-X-Google-Smtp-Source: ACHHUZ5FKyFZMyl+BDOoNUY2sRmKi/mGvQ3ZODa/hydez+q4/H8tK7Qoi0QDUQPxfzR4xAyojR0hkQ==
-X-Received: by 2002:a05:600c:4444:b0:3f3:284d:8cec with SMTP id v4-20020a05600c444400b003f3284d8cecmr26193079wmn.2.1684220760107;
-        Tue, 16 May 2023 00:06:00 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id r7-20020adff107000000b003012030a0c6sm1493932wro.18.2023.05.16.00.05.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 May 2023 00:05:58 -0700 (PDT)
-Date: Tue, 16 May 2023 10:05:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Joel Granados <j.granados@samsung.com>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [joelgranados:jag/sysctl-testing-for-0day 2/6]
- drivers/parport/procfs.c:502 parport_proc_register() warn: possible memory
- leak of 't'
-Message-ID: <98df279e-4558-40e7-ab96-0ab45ba5a16f@kili.mountain>
-References: <CGME20230515073454eucas1p13d3f249160454d835f3cefce3fa7a0eb@eucas1p1.samsung.com>
- <819e68aa-8c11-4f4d-9dcb-d20ef136fe0f@kili.mountain>
- <20230515185917.sdxy2mszhmjyngn3@localhost>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31370168AC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 07:54:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684223644; x=1715759644;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=q4augfCG1Tn7l0DL9Xd2VgTpFaaVySHIlN7sWJf0bSM=;
+  b=J+pBxuUPbOxcctIqkF07J3XLOPqS7IS1KaJMseIiDmhjlpKP0zm2hHtl
+   7KvsEGMXoJh9ZV+WCT0KsW4akVoYhUgPpeHmcelesKJ+utXUQZSLDFLGx
+   ZJyvtDYbuPBq5efHo2yItCW6p+bDSO60x+PfJzDnuSUNcIT8h7L01No0c
+   1J1LWATUcNV+uUzfbRvmtaA0usL4/b6xsvEDoot1DkK9c4aBz52ZrTNCr
+   hyS92BdJgQWP7vo5Mmuq280zgcwEVYDf9pHWMuHm4k3hEGBflMXrZjgyF
+   L30ep0TjuSCGz4lm0iN605T6Ej5xkojzbsFAh06s0wLcekSySlZkRfrRP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="331027637"
+X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
+   d="scan'208";a="331027637"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2023 00:54:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="947738401"
+X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
+   d="scan'208";a="947738401"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 16 May 2023 00:54:02 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pypVR-0007B8-2g;
+	Tue, 16 May 2023 07:54:01 +0000
+Date: Tue, 16 May 2023 15:53:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/gpu/drm/gma500/fbdev.c:245:9: sparse: sparse: incorrect type
+ in argument 1 (different address spaces)
+Message-ID: <202305161516.nT7k9Ujh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,32 +45,148 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230515185917.sdxy2mszhmjyngn3@localhost>
 
-On Mon, May 15, 2023 at 08:59:17PM +0200, Joel Granados wrote:
-> On Mon, May 15, 2023 at 10:34:44AM +0300, Dan Carpenter wrote:
-> > 3756e44223c286 Joel Granados        2023-05-12  504  	if (register_sysctl(tmp_dir_path, t->device_dir) == NULL)
-> > 3756e44223c286 Joel Granados        2023-05-12  505  		/*
-> > 3756e44223c286 Joel Granados        2023-05-12  506  		 * We keep the original behavior of parport where failure to register
-> > 3756e44223c286 Joel Granados        2023-05-12  507  		 * does not return error.
-> > 3756e44223c286 Joel Granados        2023-05-12  508  		 */
-> > 3756e44223c286 Joel Granados        2023-05-12 @509  		goto  exit_free_tmp_dir_path;
-> > 
-> > Smatch wants a error code for this error path.
-> > 
-> > The comments say that we are doing the wrong thing deliberately to
-> > maintain backwards compatibility and avoid breaking stuff.  Fortunately,
-> > (LOL), no one is checking the returns from parport_proc_register() so we
-> > are free to return a correct error code without any worry about breakage.
-> Sigh. Indeed, the only place were this function is called is from
-> parport/share.c. Should we just change the function return value to
-> void?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6
+commit: 8f1aaccb04b7cf63135f4e2748226dfa2fb01e3f drm/gma500: Implement client-based fbdev emulation
+date:   8 weeks ago
+config: i386-randconfig-s001-20230515 (https://download.01.org/0day-ci/archive/20230516/202305161516.nT7k9Ujh-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=8f1aaccb04b7cf63135f4e2748226dfa2fb01e3f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 8f1aaccb04b7cf63135f4e2748226dfa2fb01e3f
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/gma500/ drivers/platform/x86/
 
-I feel like we should return errors and not check for them.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305161516.nT7k9Ujh-lkp@intel.com/
 
-Hopefully, some day in the future someone will be able to test this code
-and add checks.  (This seems more optimistic than realistic).
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/gma500/fbdev.c:245:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got char [noderef] __iomem *screen_base @@
+   drivers/gpu/drm/gma500/fbdev.c:245:9: sparse:     expected void const *
+   drivers/gpu/drm/gma500/fbdev.c:245:9: sparse:     got char [noderef] __iomem *screen_base
+>> drivers/gpu/drm/gma500/fbdev.c:245:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got char [noderef] __iomem *screen_base @@
+   drivers/gpu/drm/gma500/fbdev.c:245:9: sparse:     expected void const *
+   drivers/gpu/drm/gma500/fbdev.c:245:9: sparse:     got char [noderef] __iomem *screen_base
+>> drivers/gpu/drm/gma500/fbdev.c:245:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got char [noderef] __iomem *screen_base @@
+   drivers/gpu/drm/gma500/fbdev.c:245:9: sparse:     expected void *
+   drivers/gpu/drm/gma500/fbdev.c:245:9: sparse:     got char [noderef] __iomem *screen_base
 
-regards,
-dan carpenter
+vim +245 drivers/gpu/drm/gma500/fbdev.c
 
+   158	
+   159	/*
+   160	 * struct drm_fb_helper_funcs
+   161	 */
+   162	
+   163	static int psb_fbdev_fb_probe(struct drm_fb_helper *fb_helper,
+   164				      struct drm_fb_helper_surface_size *sizes)
+   165	{
+   166		struct drm_device *dev = fb_helper->dev;
+   167		struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+   168		struct pci_dev *pdev = to_pci_dev(dev->dev);
+   169		struct fb_info *info;
+   170		struct drm_framebuffer *fb;
+   171		struct drm_mode_fb_cmd2 mode_cmd = { };
+   172		int size;
+   173		int ret;
+   174		struct psb_gem_object *backing;
+   175		struct drm_gem_object *obj;
+   176		u32 bpp, depth;
+   177	
+   178		/* No 24-bit packed mode */
+   179		if (sizes->surface_bpp == 24) {
+   180			sizes->surface_bpp = 32;
+   181			sizes->surface_depth = 24;
+   182		}
+   183		bpp = sizes->surface_bpp;
+   184		depth = sizes->surface_depth;
+   185	
+   186		/*
+   187		 * If the mode does not fit in 32 bit then switch to 16 bit to get
+   188		 * a console on full resolution. The X mode setting server will
+   189		 * allocate its own 32-bit GEM framebuffer.
+   190		 */
+   191		size = ALIGN(sizes->surface_width * DIV_ROUND_UP(bpp, 8), 64) *
+   192			     sizes->surface_height;
+   193		size = ALIGN(size, PAGE_SIZE);
+   194	
+   195		if (size > dev_priv->vram_stolen_size) {
+   196			sizes->surface_bpp = 16;
+   197			sizes->surface_depth = 16;
+   198		}
+   199		bpp = sizes->surface_bpp;
+   200		depth = sizes->surface_depth;
+   201	
+   202		mode_cmd.width = sizes->surface_width;
+   203		mode_cmd.height = sizes->surface_height;
+   204		mode_cmd.pitches[0] = ALIGN(mode_cmd.width * DIV_ROUND_UP(bpp, 8), 64);
+   205		mode_cmd.pixel_format = drm_mode_legacy_fb_format(bpp, depth);
+   206	
+   207		size = mode_cmd.pitches[0] * mode_cmd.height;
+   208		size = ALIGN(size, PAGE_SIZE);
+   209	
+   210		/* Allocate the framebuffer in the GTT with stolen page backing */
+   211		backing = psb_gem_create(dev, size, "fb", true, PAGE_SIZE);
+   212		if (IS_ERR(backing))
+   213			return PTR_ERR(backing);
+   214		obj = &backing->base;
+   215	
+   216		fb = psb_framebuffer_create(dev, &mode_cmd, obj);
+   217		if (IS_ERR(fb)) {
+   218			ret = PTR_ERR(fb);
+   219			goto err_drm_gem_object_put;
+   220		}
+   221	
+   222		fb_helper->fb = fb;
+   223	
+   224		info = drm_fb_helper_alloc_info(fb_helper);
+   225		if (IS_ERR(info)) {
+   226			ret = PTR_ERR(info);
+   227			goto err_drm_framebuffer_unregister_private;
+   228		}
+   229	
+   230		info->fbops = &psb_fbdev_fb_ops;
+   231		info->flags = FBINFO_DEFAULT;
+   232		/* Accessed stolen memory directly */
+   233		info->screen_base = dev_priv->vram_addr + backing->offset;
+   234		info->screen_size = size;
+   235	
+   236		drm_fb_helper_fill_info(info, fb_helper, sizes);
+   237	
+   238		info->fix.smem_start = dev_priv->fb_base;
+   239		info->fix.smem_len = size;
+   240		info->fix.ywrapstep = 0;
+   241		info->fix.ypanstep = 0;
+   242		info->fix.mmio_start = pci_resource_start(pdev, 0);
+   243		info->fix.mmio_len = pci_resource_len(pdev, 0);
+   244	
+ > 245		memset(info->screen_base, 0, info->screen_size);
+   246	
+   247		/* Use default scratch pixmap (info->pixmap.flags = FB_PIXMAP_SYSTEM) */
+   248	
+   249		dev_dbg(dev->dev, "allocated %dx%d fb\n", fb->width, fb->height);
+   250	
+   251		return 0;
+   252	
+   253	err_drm_framebuffer_unregister_private:
+   254		drm_framebuffer_unregister_private(fb);
+   255		fb->obj[0] = NULL;
+   256		drm_framebuffer_cleanup(fb);
+   257		kfree(fb);
+   258	err_drm_gem_object_put:
+   259		drm_gem_object_put(obj);
+   260		return ret;
+   261	}
+   262	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
