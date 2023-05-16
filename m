@@ -1,242 +1,264 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6171029B0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 05:18:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B602F29B0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 05:19:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684214336; x=1715750336;
+  t=1684214345; x=1715750345;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=A/fma3LpZyCbJw23hzFg/rqz1fMoDJiPfOxYxmWW5D8=;
-  b=mKeN/O0s6O6wupQmPd8WQu9qmHw6QuWENBUHS2SZ6eSk4xF6RN19Iuid
-   r2oogq5oNmrgKl0aobWX1LgwOtd3lCx0sFuEcxY6VzE49gx4uFegYjS9F
-   QTnWiTY1FBWYrIk6UehJ643wIC6mdOuLuvjrxColRRJzAgYA5GR5wM15e
-   X5f0opY/NfFccA2ghWM5NSWqKOi1vEJ9WCV3UZaM9NhJgYzmR9ej6A6bT
-   6v4c28VTtf/KF8FtHI5rry6j6tORoAKZdC7CfElqK6Biu8wiSL7iQI+94
-   UgLKKxfWTjyofxaryQ/E5Y0mnaHvnCrVrITBmNe6xYv+N3w4JE7MJrGDw
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="331000668"
+   mime-version:in-reply-to;
+  bh=XNgGQ3Et8Y3ZX6OZQT1dBN4i0srEjM3Jt32Xx2B58ls=;
+  b=OVdlLyqjfHgAkFmxRHASJlq1RWExMcTCphAJTtBFw7xunPUko/bC1U/R
+   vSg+rndRTVpHxoIw3YUJ527qjrGRQLY0bBLKBkEdQT4q4Xsy9xzdpo/NA
+   efMeuvIaNc7OnUFmXa75lYw6OmkTd98n1P8HLQqq28EsYYMNAcz0yo91o
+   vYUZXesYRKJeFYrIZbZQsyNjqHYZDy6dz63D45SHluUBhIb5cBtlZKmxa
+   OMSn4RZFJrBfVHFHP7gAU6rThHcEfBmbPoCilUSuCkmjlDBu+8XJZJkDQ
+   bg3IkY6nOxousEBFFqWVEuH45ynpYUbwyHQDCYXkCPL6GNAb7hxL/8lzk
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="348884142"
 X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; 
-   d="scan'208";a="331000668"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 22:18:55 -0700
+   d="scan'208";a="348884142"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 22:19:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="678699829"
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="825428062"
 X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; 
-   d="scan'208";a="678699829"
+   d="scan'208";a="825428062"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 15 May 2023 22:18:54 -0700
+  by orsmga004.jf.intel.com with ESMTP; 15 May 2023 22:18:54 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pyn5J-0006zu-1Y;
+	id 1pyn5J-0006zw-1b;
 	Tue, 16 May 2023 05:18:53 +0000
-Date: Tue, 16 May 2023 13:18:45 +0800
+Date: Tue, 16 May 2023 13:18:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hugo Villeneuve <hugo@hugovil.com>
+To: MD Danish Anwar <danishanwar@ti.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH] Revert "sc16is7xx: Separate GPIOs from modem control
- lines"
-Message-ID: <202305161358.uIM7kJbI-lkp@intel.com>
-References: <20230515160206.2801991-1-hugo@hugovil.com>
+Subject: Re: [RFC PATCH v7 2/2] net: ti: icssg-prueth: Add ICSSG ethernet
+ driver
+Message-ID: <202305161305.aGhV6o1V-lkp@intel.com>
+References: <20230502061650.2716736-3-danishanwar@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230515160206.2801991-1-hugo@hugovil.com>
+In-Reply-To: <20230502061650.2716736-3-danishanwar@ti.com>
 
-Hi Hugo,
+Hi MD,
 
 [This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus linus/master v6.4-rc2 next-20230516]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on krzk-dt/for-next linus/master v6.4-rc2 next-20230515]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hugo-Villeneuve/Revert-sc16is7xx-Separate-GPIOs-from-modem-control-lines/20230516-022330
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20230515160206.2801991-1-hugo%40hugovil.com
-patch subject: [RFC PATCH] Revert "sc16is7xx: Separate GPIOs from modem control lines"
-config: loongarch-randconfig-r024-20230515 (https://download.01.org/0day-ci/archive/20230516/202305161358.uIM7kJbI-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/MD-Danish-Anwar/dt-bindings-net-Add-ICSSG-Ethernet/20230502-141903
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230502061650.2716736-3-danishanwar%40ti.com
+patch subject: [RFC PATCH v7 2/2] net: ti: icssg-prueth: Add ICSSG ethernet driver
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230516/202305161305.aGhV6o1V-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/07f35c5b5f2d204418ea211f585d140c9df5506b
+        # https://github.com/intel-lab-lkp/linux/commit/a262c00285104f1bc48e47b0b3df0d2f43c7f353
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hugo-Villeneuve/Revert-sc16is7xx-Separate-GPIOs-from-modem-control-lines/20230516-022330
-        git checkout 07f35c5b5f2d204418ea211f585d140c9df5506b
+        git fetch --no-tags linux-review MD-Danish-Anwar/dt-bindings-net-Add-ICSSG-Ethernet/20230502-141903
+        git checkout a262c00285104f1bc48e47b0b3df0d2f43c7f353
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/tty/serial/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305161358.uIM7kJbI-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305161305.aGhV6o1V-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_probe':
->> drivers/tty/serial/sc16is7xx.c:1454:28: error: 'const struct sc16is7xx_devtype' has no member named 'has_mctrl'
-    1454 |                 if (devtype->has_mctrl)
-         |                            ^~
+   drivers/net/ethernet/ti/icssg_prueth.c: In function 'prueth_netdev_init':
+>> drivers/net/ethernet/ti/icssg_prueth.c:1327:15: error: implicit declaration of function 'pruss_request_mem_region'; did you mean 'devm_request_mem_region'? [-Werror=implicit-function-declaration]
+    1327 |         ret = pruss_request_mem_region(prueth->pruss,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~
+         |               devm_request_mem_region
+>> drivers/net/ethernet/ti/icssg_prueth.c:1412:9: error: implicit declaration of function 'pruss_release_mem_region'; did you mean 'devm_release_mem_region'? [-Werror=implicit-function-declaration]
+    1412 |         pruss_release_mem_region(prueth->pruss, &emac->dram);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         devm_release_mem_region
+   drivers/net/ethernet/ti/icssg_prueth.c: In function 'prueth_probe':
+>> drivers/net/ethernet/ti/icssg_prueth.c:1603:17: error: implicit declaration of function 'pruss_get'; did you mean 'css_get'? [-Werror=implicit-function-declaration]
+    1603 |         pruss = pruss_get(eth0_node ?
+         |                 ^~~~~~~~~
+         |                 css_get
+   drivers/net/ethernet/ti/icssg_prueth.c:1603:15: warning: assignment to 'struct pruss *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1603 |         pruss = pruss_get(eth0_node ?
+         |               ^
+>> drivers/net/ethernet/ti/icssg_prueth.c:1617:17: error: implicit declaration of function 'pruss_put'; did you mean 'css_put'? [-Werror=implicit-function-declaration]
+    1617 |                 pruss_put(prueth->pruss);
+         |                 ^~~~~~~~~
+         |                 css_put
+   cc1: some warnings being treated as errors
+--
+   drivers/net/ethernet/ti/icssg_config.c: In function 'icssg_config':
+>> drivers/net/ethernet/ti/icssg_config.c:348:9: error: implicit declaration of function 'pruss_cfg_gpimode' [-Werror=implicit-function-declaration]
+     348 |         pruss_cfg_gpimode(prueth->pruss, prueth->pru_id[slice],
+         |         ^~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/ti/icssg_config.c:349:27: error: 'PRUSS_GPI_MODE_MII' undeclared (first use in this function)
+     349 |                           PRUSS_GPI_MODE_MII);
+         |                           ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/ti/icssg_config.c:349:27: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/net/ethernet/ti/icssg_config.c:352:9: error: implicit declaration of function 'pruss_cfg_xfr_enable' [-Werror=implicit-function-declaration]
+     352 |         pruss_cfg_xfr_enable(prueth->pruss, PRU_TYPE_PRU, true);
+         |         ^~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/ti/icssg_config.c:352:45: error: 'PRU_TYPE_PRU' undeclared (first use in this function); did you mean 'IRQ_TYPE_PROBE'?
+     352 |         pruss_cfg_xfr_enable(prueth->pruss, PRU_TYPE_PRU, true);
+         |                                             ^~~~~~~~~~~~
+         |                                             IRQ_TYPE_PROBE
+   drivers/net/ethernet/ti/icssg_config.c:353:45: error: 'PRU_TYPE_RTU' undeclared (first use in this function)
+     353 |         pruss_cfg_xfr_enable(prueth->pruss, PRU_TYPE_RTU, true);
+         |                                             ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1454 drivers/tty/serial/sc16is7xx.c
+vim +1327 drivers/net/ethernet/ti/icssg_prueth.c
 
-267913ecf73745 Ilpo Järvinen       2022-06-06  1352  
-dfeae619d781de Jon Ringle          2014-04-24  1353  static int sc16is7xx_probe(struct device *dev,
-68be64ca7e2adc Jakub Kicinski      2015-07-31  1354  			   const struct sc16is7xx_devtype *devtype,
-37f3965d74d5b5 Daniel Mack         2020-05-21  1355  			   struct regmap *regmap, int irq)
-dfeae619d781de Jon Ringle          2014-04-24  1356  {
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1357  	unsigned long freq = 0, *pfreq = dev_get_platdata(dev);
-2aa916e67db3e6 Daniel Mack         2020-05-21  1358  	unsigned int val;
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1359  	u32 uartclk = 0;
-dfeae619d781de Jon Ringle          2014-04-24  1360  	int i, ret;
-dfeae619d781de Jon Ringle          2014-04-24  1361  	struct sc16is7xx_port *s;
-dfeae619d781de Jon Ringle          2014-04-24  1362  
-dfeae619d781de Jon Ringle          2014-04-24  1363  	if (IS_ERR(regmap))
-dfeae619d781de Jon Ringle          2014-04-24  1364  		return PTR_ERR(regmap);
-dfeae619d781de Jon Ringle          2014-04-24  1365  
-2aa916e67db3e6 Daniel Mack         2020-05-21  1366  	/*
-2aa916e67db3e6 Daniel Mack         2020-05-21  1367  	 * This device does not have an identification register that would
-2aa916e67db3e6 Daniel Mack         2020-05-21  1368  	 * tell us if we are really connected to the correct device.
-2aa916e67db3e6 Daniel Mack         2020-05-21  1369  	 * The best we can do is to check if communication is at all possible.
-2aa916e67db3e6 Daniel Mack         2020-05-21  1370  	 */
-2aa916e67db3e6 Daniel Mack         2020-05-21  1371  	ret = regmap_read(regmap,
-2aa916e67db3e6 Daniel Mack         2020-05-21  1372  			  SC16IS7XX_LSR_REG << SC16IS7XX_REG_SHIFT, &val);
-2aa916e67db3e6 Daniel Mack         2020-05-21  1373  	if (ret < 0)
-158e800e0fde91 Annaliese McDermond 2021-03-29  1374  		return -EPROBE_DEFER;
-2aa916e67db3e6 Daniel Mack         2020-05-21  1375  
-dfeae619d781de Jon Ringle          2014-04-24  1376  	/* Alloc port structure */
-84f1c5c0174ace Gustavo A. R. Silva 2019-01-04  1377  	s = devm_kzalloc(dev, struct_size(s, p, devtype->nr_uart), GFP_KERNEL);
-dfeae619d781de Jon Ringle          2014-04-24  1378  	if (!s) {
-dfeae619d781de Jon Ringle          2014-04-24  1379  		dev_err(dev, "Error allocating port structure\n");
-dfeae619d781de Jon Ringle          2014-04-24  1380  		return -ENOMEM;
-dfeae619d781de Jon Ringle          2014-04-24  1381  	}
-dfeae619d781de Jon Ringle          2014-04-24  1382  
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1383  	/* Always ask for fixed clock rate from a property. */
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1384  	device_property_read_u32(dev, "clock-frequency", &uartclk);
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1385  
-cb1b206cff461d Andy Shevchenko     2021-05-17  1386  	s->clk = devm_clk_get_optional(dev, NULL);
-cb1b206cff461d Andy Shevchenko     2021-05-17  1387  	if (IS_ERR(s->clk))
-cb1b206cff461d Andy Shevchenko     2021-05-17  1388  		return PTR_ERR(s->clk);
-cb1b206cff461d Andy Shevchenko     2021-05-17  1389  
-cb1b206cff461d Andy Shevchenko     2021-05-17  1390  	ret = clk_prepare_enable(s->clk);
-cb1b206cff461d Andy Shevchenko     2021-05-17  1391  	if (ret)
-cb1b206cff461d Andy Shevchenko     2021-05-17  1392  		return ret;
-cb1b206cff461d Andy Shevchenko     2021-05-17  1393  
-cb1b206cff461d Andy Shevchenko     2021-05-17  1394  	freq = clk_get_rate(s->clk);
-cb1b206cff461d Andy Shevchenko     2021-05-17  1395  	if (freq == 0) {
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1396  		if (uartclk)
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1397  			freq = uartclk;
-dfeae619d781de Jon Ringle          2014-04-24  1398  		if (pfreq)
-dfeae619d781de Jon Ringle          2014-04-24  1399  			freq = *pfreq;
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1400  		if (freq)
-24bc6e68efa00f Andy Shevchenko     2019-03-18  1401  			dev_dbg(dev, "Clock frequency: %luHz\n", freq);
-dfeae619d781de Jon Ringle          2014-04-24  1402  		else
-cb1b206cff461d Andy Shevchenko     2021-05-17  1403  			return -EINVAL;
-dfeae619d781de Jon Ringle          2014-04-24  1404  	}
-dfeae619d781de Jon Ringle          2014-04-24  1405  
-dfeae619d781de Jon Ringle          2014-04-24  1406  	s->regmap = regmap;
-dfeae619d781de Jon Ringle          2014-04-24  1407  	s->devtype = devtype;
-dfeae619d781de Jon Ringle          2014-04-24  1408  	dev_set_drvdata(dev, s);
-30ec514d440cf2 Phil Elwell         2018-09-12  1409  	mutex_init(&s->efr_lock);
-dfeae619d781de Jon Ringle          2014-04-24  1410  
-3989144f863ac5 Petr Mladek         2016-10-11  1411  	kthread_init_worker(&s->kworker);
-9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1412  	s->kworker_task = kthread_run(kthread_worker_fn, &s->kworker,
-9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1413  				      "sc16is7xx");
-9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1414  	if (IS_ERR(s->kworker_task)) {
-9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1415  		ret = PTR_ERR(s->kworker_task);
-c64349722d1417 Jakub Kicinski      2015-07-31  1416  		goto out_clk;
-9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1417  	}
-28d2f209cd1620 Peter Zijlstra      2020-04-21  1418  	sched_set_fifo(s->kworker_task);
-9e6f4ca3e567d5 Jakub Kicinski      2015-05-29  1419  
-43c51bb573aab6 Florian Vallee      2016-07-19  1420  	/* reset device, purging any pending irq / data */
-43c51bb573aab6 Florian Vallee      2016-07-19  1421  	regmap_write(s->regmap, SC16IS7XX_IOCONTROL_REG << SC16IS7XX_REG_SHIFT,
-43c51bb573aab6 Florian Vallee      2016-07-19  1422  			SC16IS7XX_IOCONTROL_SRESET_BIT);
-43c51bb573aab6 Florian Vallee      2016-07-19  1423  
-dfeae619d781de Jon Ringle          2014-04-24  1424  	for (i = 0; i < devtype->nr_uart; ++i) {
-e92a886bf7841c Jakub Kicinski      2015-07-31  1425  		s->p[i].line		= i;
-dfeae619d781de Jon Ringle          2014-04-24  1426  		/* Initialize port data */
-dfeae619d781de Jon Ringle          2014-04-24  1427  		s->p[i].port.dev	= dev;
-dfeae619d781de Jon Ringle          2014-04-24  1428  		s->p[i].port.irq	= irq;
-dfeae619d781de Jon Ringle          2014-04-24  1429  		s->p[i].port.type	= PORT_SC16IS7XX;
-dfeae619d781de Jon Ringle          2014-04-24  1430  		s->p[i].port.fifosize	= SC16IS7XX_FIFO_SIZE;
-dfeae619d781de Jon Ringle          2014-04-24  1431  		s->p[i].port.flags	= UPF_FIXED_TYPE | UPF_LOW_LATENCY;
-5da6b1c079e680 Daniel Mack         2020-09-01  1432  		s->p[i].port.iobase	= i;
-dfeae619d781de Jon Ringle          2014-04-24  1433  		s->p[i].port.iotype	= UPIO_PORT;
-dfeae619d781de Jon Ringle          2014-04-24  1434  		s->p[i].port.uartclk	= freq;
-b57d15fe8b37fe Ricardo Ribalda     2014-11-06  1435  		s->p[i].port.rs485_config = sc16is7xx_config_rs485;
-0139da50dc53f0 Ilpo Järvinen       2022-07-04  1436  		s->p[i].port.rs485_supported = sc16is7xx_rs485_supported;
-dfeae619d781de Jon Ringle          2014-04-24  1437  		s->p[i].port.ops	= &sc16is7xx_ops;
-21144bab4f1191 Tomasz Moń          2022-03-01  1438  		s->p[i].old_mctrl	= 0;
-c64349722d1417 Jakub Kicinski      2015-07-31  1439  		s->p[i].port.line	= sc16is7xx_alloc_line();
-21144bab4f1191 Tomasz Moń          2022-03-01  1440  
-c64349722d1417 Jakub Kicinski      2015-07-31  1441  		if (s->p[i].port.line >= SC16IS7XX_MAX_DEVS) {
-c64349722d1417 Jakub Kicinski      2015-07-31  1442  			ret = -ENOMEM;
-c64349722d1417 Jakub Kicinski      2015-07-31  1443  			goto out_ports;
-c64349722d1417 Jakub Kicinski      2015-07-31  1444  		}
-c64349722d1417 Jakub Kicinski      2015-07-31  1445  
-dfeae619d781de Jon Ringle          2014-04-24  1446  		/* Disable all interrupts */
-dfeae619d781de Jon Ringle          2014-04-24  1447  		sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_IER_REG, 0);
-dfeae619d781de Jon Ringle          2014-04-24  1448  		/* Disable TX/RX */
-dfeae619d781de Jon Ringle          2014-04-24  1449  		sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_EFCR_REG,
-dfeae619d781de Jon Ringle          2014-04-24  1450  				     SC16IS7XX_EFCR_RXDISABLE_BIT |
-dfeae619d781de Jon Ringle          2014-04-24  1451  				     SC16IS7XX_EFCR_TXDISABLE_BIT);
-21144bab4f1191 Tomasz Moń          2022-03-01  1452  
-21144bab4f1191 Tomasz Moń          2022-03-01  1453  		/* Use GPIO lines as modem status registers */
-21144bab4f1191 Tomasz Moń          2022-03-01 @1454  		if (devtype->has_mctrl)
-21144bab4f1191 Tomasz Moń          2022-03-01  1455  			sc16is7xx_port_write(&s->p[i].port,
-21144bab4f1191 Tomasz Moń          2022-03-01  1456  					     SC16IS7XX_IOCONTROL_REG,
-21144bab4f1191 Tomasz Moń          2022-03-01  1457  					     SC16IS7XX_IOCONTROL_MODEM_BIT);
-21144bab4f1191 Tomasz Moń          2022-03-01  1458  
-a0104085362ff9 Jakub Kicinski      2015-05-29  1459  		/* Initialize kthread work structs */
-3989144f863ac5 Petr Mladek         2016-10-11  1460  		kthread_init_work(&s->p[i].tx_work, sc16is7xx_tx_proc);
-3989144f863ac5 Petr Mladek         2016-10-11  1461  		kthread_init_work(&s->p[i].reg_work, sc16is7xx_reg_proc);
-21144bab4f1191 Tomasz Moń          2022-03-01  1462  		kthread_init_delayed_work(&s->p[i].ms_work, sc16is7xx_ms_proc);
-dfeae619d781de Jon Ringle          2014-04-24  1463  		/* Register port */
-c64349722d1417 Jakub Kicinski      2015-07-31  1464  		uart_add_one_port(&sc16is7xx_uart, &s->p[i].port);
-43c51bb573aab6 Florian Vallee      2016-07-19  1465  
-43c51bb573aab6 Florian Vallee      2016-07-19  1466  		/* Enable EFR */
-43c51bb573aab6 Florian Vallee      2016-07-19  1467  		sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_LCR_REG,
-43c51bb573aab6 Florian Vallee      2016-07-19  1468  				     SC16IS7XX_LCR_CONF_MODE_B);
-43c51bb573aab6 Florian Vallee      2016-07-19  1469  
-43c51bb573aab6 Florian Vallee      2016-07-19  1470  		regcache_cache_bypass(s->regmap, true);
-43c51bb573aab6 Florian Vallee      2016-07-19  1471  
-43c51bb573aab6 Florian Vallee      2016-07-19  1472  		/* Enable write access to enhanced features */
-43c51bb573aab6 Florian Vallee      2016-07-19  1473  		sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_EFR_REG,
-43c51bb573aab6 Florian Vallee      2016-07-19  1474  				     SC16IS7XX_EFR_ENABLE_BIT);
-43c51bb573aab6 Florian Vallee      2016-07-19  1475  
-43c51bb573aab6 Florian Vallee      2016-07-19  1476  		regcache_cache_bypass(s->regmap, false);
-43c51bb573aab6 Florian Vallee      2016-07-19  1477  
-43c51bb573aab6 Florian Vallee      2016-07-19  1478  		/* Restore access to general registers */
-43c51bb573aab6 Florian Vallee      2016-07-19  1479  		sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_LCR_REG, 0x00);
-43c51bb573aab6 Florian Vallee      2016-07-19  1480  
-dfeae619d781de Jon Ringle          2014-04-24  1481  		/* Go to suspend mode */
-dfeae619d781de Jon Ringle          2014-04-24  1482  		sc16is7xx_power(&s->p[i].port, 0);
-dfeae619d781de Jon Ringle          2014-04-24  1483  	}
-dfeae619d781de Jon Ringle          2014-04-24  1484  
-9eb90d57b55a0a Pascal Huerst       2020-05-29  1485  	if (dev->of_node) {
-9eb90d57b55a0a Pascal Huerst       2020-05-29  1486  		struct property *prop;
-9eb90d57b55a0a Pascal Huerst       2020-05-29  1487  		const __be32 *p;
-9eb90d57b55a0a Pascal Huerst       2020-05-29  1488  		u32 u;
-9eb90d57b55a0a Pascal Huerst       2020-05-29  1489  
-9eb90d57b55a0a Pascal Huerst       2020-05-29  1490  		of_property_for_each_u32(dev->of_node, "irda-mode-ports",
-9eb90d57b55a0a Pascal Huerst       2020-05-29  1491  					 prop, p, u)
-9eb90d57b55a0a Pascal Huerst       2020-05-29  1492  			if (u < devtype->nr_uart)
-9eb90d57b55a0a Pascal Huerst       2020-05-29  1493  				s->p[u].irda_mode = true;
-9eb90d57b55a0a Pascal Huerst       2020-05-29  1494  	}
-9eb90d57b55a0a Pascal Huerst       2020-05-29  1495  
+  1293	
+  1294	static int prueth_netdev_init(struct prueth *prueth,
+  1295				      struct device_node *eth_node)
+  1296	{
+  1297		int ret, num_tx_chn = PRUETH_MAX_TX_QUEUES;
+  1298		struct prueth_emac *emac;
+  1299		struct net_device *ndev;
+  1300		enum prueth_port port;
+  1301		enum prueth_mac mac;
+  1302	
+  1303		port = prueth_node_port(eth_node);
+  1304		if (port < 0)
+  1305			return -EINVAL;
+  1306	
+  1307		mac = prueth_node_mac(eth_node);
+  1308		if (mac < 0)
+  1309			return -EINVAL;
+  1310	
+  1311		ndev = alloc_etherdev_mq(sizeof(*emac), num_tx_chn);
+  1312		if (!ndev)
+  1313			return -ENOMEM;
+  1314	
+  1315		emac = netdev_priv(ndev);
+  1316		prueth->emac[mac] = emac;
+  1317		emac->prueth = prueth;
+  1318		emac->ndev = ndev;
+  1319		emac->port_id = port;
+  1320		emac->cmd_wq = create_singlethread_workqueue("icssg_cmd_wq");
+  1321		if (!emac->cmd_wq) {
+  1322			ret = -ENOMEM;
+  1323			goto free_ndev;
+  1324		}
+  1325		INIT_WORK(&emac->rx_mode_work, emac_ndo_set_rx_mode_work);
+  1326	
+> 1327		ret = pruss_request_mem_region(prueth->pruss,
+  1328					       port == PRUETH_PORT_MII0 ?
+  1329					       PRUSS_MEM_DRAM0 : PRUSS_MEM_DRAM1,
+  1330					       &emac->dram);
+  1331		if (ret) {
+  1332			dev_err(prueth->dev, "unable to get DRAM: %d\n", ret);
+  1333			ret = -ENOMEM;
+  1334			goto free_wq;
+  1335		}
+  1336	
+  1337		emac->tx_ch_num = 1;
+  1338	
+  1339		SET_NETDEV_DEV(ndev, prueth->dev);
+  1340		spin_lock_init(&emac->lock);
+  1341		mutex_init(&emac->cmd_lock);
+  1342	
+  1343		emac->phy_node = of_parse_phandle(eth_node, "phy-handle", 0);
+  1344		if (!emac->phy_node && !of_phy_is_fixed_link(eth_node)) {
+  1345			dev_err(prueth->dev, "couldn't find phy-handle\n");
+  1346			ret = -ENODEV;
+  1347			goto free;
+  1348		} else if (of_phy_is_fixed_link(eth_node)) {
+  1349			ret = of_phy_register_fixed_link(eth_node);
+  1350			if (ret) {
+  1351				ret = dev_err_probe(prueth->dev, ret,
+  1352						    "failed to register fixed-link phy\n");
+  1353				goto free;
+  1354			}
+  1355	
+  1356			emac->phy_node = eth_node;
+  1357		}
+  1358	
+  1359		ret = of_get_phy_mode(eth_node, &emac->phy_if);
+  1360		if (ret) {
+  1361			dev_err(prueth->dev, "could not get phy-mode property\n");
+  1362			goto free;
+  1363		}
+  1364	
+  1365		if (emac->phy_if != PHY_INTERFACE_MODE_MII &&
+  1366		    !phy_interface_mode_is_rgmii(emac->phy_if)) {
+  1367			dev_err(prueth->dev, "PHY mode unsupported %s\n", phy_modes(emac->phy_if));
+  1368			ret = -EINVAL;
+  1369			goto free;
+  1370		}
+  1371	
+  1372		/* AM65 SR2.0 has TX Internal delay always enabled by hardware
+  1373		 * and it is not possible to disable TX Internal delay. The below
+  1374		 * switch case block describes how we handle different phy modes
+  1375		 * based on hardware restriction.
+  1376		 */
+  1377		switch (emac->phy_if) {
+  1378		case PHY_INTERFACE_MODE_RGMII_ID:
+  1379			emac->phy_if = PHY_INTERFACE_MODE_RGMII_RXID;
+  1380			break;
+  1381		case PHY_INTERFACE_MODE_RGMII_TXID:
+  1382			emac->phy_if = PHY_INTERFACE_MODE_RGMII;
+  1383			break;
+  1384		case PHY_INTERFACE_MODE_RGMII:
+  1385		case PHY_INTERFACE_MODE_RGMII_RXID:
+  1386			dev_err(prueth->dev, "RGMII mode without TX delay is not supported");
+  1387			return -EINVAL;
+  1388		default:
+  1389			break;
+  1390		}
+  1391	
+  1392		/* get mac address from DT and set private and netdev addr */
+  1393		ret = of_get_ethdev_address(eth_node, ndev);
+  1394		if (!is_valid_ether_addr(ndev->dev_addr)) {
+  1395			eth_hw_addr_random(ndev);
+  1396			dev_warn(prueth->dev, "port %d: using random MAC addr: %pM\n",
+  1397				 port, ndev->dev_addr);
+  1398		}
+  1399		ether_addr_copy(emac->mac_addr, ndev->dev_addr);
+  1400	
+  1401		ndev->netdev_ops = &emac_netdev_ops;
+  1402		ndev->ethtool_ops = &icssg_ethtool_ops;
+  1403		ndev->hw_features = NETIF_F_SG;
+  1404		ndev->features = ndev->hw_features;
+  1405	
+  1406		netif_napi_add(ndev, &emac->napi_rx,
+  1407			       emac_napi_rx_poll);
+  1408	
+  1409		return 0;
+  1410	
+  1411	free:
+> 1412		pruss_release_mem_region(prueth->pruss, &emac->dram);
+  1413	free_wq:
+  1414		destroy_workqueue(emac->cmd_wq);
+  1415	free_ndev:
+  1416		free_netdev(ndev);
+  1417		prueth->emac[mac] = NULL;
+  1418	
+  1419		return ret;
+  1420	}
+  1421	
 
 -- 
 0-DAY CI Kernel Test Service
