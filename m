@@ -1,42 +1,42 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C9F23A2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 02:22:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21319621
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 02:43:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684203772; x=1715739772;
+  t=1684205032; x=1715741032;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MQpQLlH1ElSgrElJe4BkOZHxK5lUMZHu4x2srBxOlak=;
-  b=FhW2Riv0iHmF9Ck6XQ0PE9elgXXwiqTc27j20yV7r6GomblcBvAC43+P
-   54M4CANEEmV0EKEIfycg+Da+6F/xGTgveD4h689/NcPbfUcseDOfvyYAC
-   lm9syWQPiJnSiLOVvgz6AndCme7X1MnFXMoXn1o7Lm5HMhnsDatuPb4+l
-   98R1+QhHkwxipnxyEgZFA0AvsrICrCAwZIfu1geoMrAqMHNvO68QD5uZ+
-   d0orhmBpY40C4CoVx3ws287XoCZbsQDCJVlcCZy+oO/SScnzvHCnFpJeS
-   qAxtcZ25f0/45I9mdRpuMNwD3OYqNOrOUUAGL+XC8IgA4QRbdIf9OKmLq
+  bh=H1U9xMhXr8FqMhKbC1tEJUax78hOM+3o9mokfN6qtgY=;
+  b=OsEbUxQMmE+cwp6FzU1/SNvC3oZbueFwa6/SU/cEVTjP5WDGxtkBMD6y
+   SI/BoEqY+ZZmF3llQ2Z04/mxqwoJXwfGQtsX8uwXB5ynfPnNeuh4CTWwP
+   tG/VOJmXeHhTdkBVd+Ozq6Q9edyLZqmAH447VB5fgpG02Ma+0jwrJlooU
+   LuuMhWhB1TiNy80OcSCrSaiDTtwxAgabZApIJCc9lQLwFFxklatQJHoDZ
+   fYk7PddH6bg7cA7hux2wKh0JkQy+ZYyU90ty6+HJ5AYPGz7tbbAZWrI6u
+   JEm1gm0T8lhnS/OIjBj61xyCMnJor6qU4y6ZJocplrYmGuDlN8EmA1ULP
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="340724874"
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="340729559"
 X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; 
-   d="scan'208";a="340724874"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 19:22:51 -0700
+   d="scan'208";a="340729559"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 19:43:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="875437806"
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="947665405"
 X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; 
-   d="scan'208";a="875437806"
+   d="scan'208";a="947665405"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 15 May 2023 19:22:50 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 15 May 2023 19:43:50 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pykKv-0006sc-0m;
-	Tue, 16 May 2023 02:22:49 +0000
-Date: Tue, 16 May 2023 10:22:26 +0800
+	id 1pykfF-0006tc-2h;
+	Tue, 16 May 2023 02:43:49 +0000
+Date: Tue, 16 May 2023 10:43:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: Changbin Du <changbin.du@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Andrii Nakryiko <andrii@kernel.org>
 Subject: Error: failed to load BTF from vmlinux: No data available
-Message-ID: <202305161059.bKLKKlkO-lkp@intel.com>
+Message-ID: <202305161058.hUHyPIjv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,25 +65,24 @@ reproduce:
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305161059.bKLKKlkO-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305161058.hUHyPIjv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
    libbpf: failed to find '.BTF' ELF section in vmlinux
 >> Error: failed to load BTF from vmlinux: No data available
-   make[3]: *** [Makefile:76: tools/bpf/runqslower//vmlinux.h] Error 195
-   make[3]: *** Deleting file 'tools/bpf/runqslower//vmlinux.h'
-   make[2]: *** [Makefile:122: runqslower] Error 2
-   make[2]: *** Waiting for unfinished jobs....
+--
    libbpf: failed to find '.BTF' ELF section in vmlinux
 >> Error: failed to load BTF from vmlinux: No data available
    make[3]: *** [Makefile:204: tools/bpf/bpftool/vmlinux.h] Error 195
    make[3]: *** Deleting file 'tools/bpf/bpftool/vmlinux.h'
-   make[3]: *** Waiting for unfinished jobs....
    make[2]: *** [Makefile:113: bpftool] Error 2
---
+   make[2]: *** Waiting for unfinished jobs....
    libbpf: failed to find '.BTF' ELF section in vmlinux
 >> Error: failed to load BTF from vmlinux: No data available
+   make[3]: *** [Makefile:76: tools/bpf/runqslower//vmlinux.h] Error 195
+   make[3]: *** Deleting file 'tools/bpf/runqslower//vmlinux.h'
+   make[2]: *** [Makefile:122: runqslower] Error 2
 
 -- 
 0-DAY CI Kernel Test Service
