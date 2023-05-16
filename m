@@ -1,105 +1,84 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536F43FDC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 05:46:31 +0000 (UTC)
-Received: from dggpemm500001.china.huawei.com (unknown [172.30.72.56])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4QL4TV43NBzqSJN;
-	Tue, 16 May 2023 13:26:06 +0800 (CST)
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm500001.china.huawei.com (7.185.36.107) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 16 May 2023 13:30:25 +0800
-Message-ID: <9e19c7a6-58fe-0238-49a5-574f92dd64d9@huawei.com>
-Date: Tue, 16 May 2023 13:30:24 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6101107B2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 05:49:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684216198; x=1715752198;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4D/Rsg3HiBDcEacWw3ICgWm108OoAb9aeIMOa50d+7o=;
+  b=PdM8qzn2OO27rdADqvXt/7Q5b5ml9a++ND2MIX4sauklqrI/J6UPfGr8
+   D+wh2gEzaElBRO8BFOAp6HeYVUl2HvahED1zO6X/ZNWvQwnNBGLm96kDK
+   67gT5pB+069uyS5Vh5eEF7FrdWyCEErTFXvwFLGWJBcIrwbSwCGhv+4B5
+   5Esu3U+c3VdCtpGUfnrxxGtt8Z3R+sqTNrAaKNUhnlkfCf7+Xseri8O1i
+   /gcneDMTAdyDYaF6d4U+B8643rS7OuQuiVK5SrsLi3wAWMeGzz9tbpVVH
+   71erW/6pv1XkEBYQxl/C4FeWz2ovRtEboxriIWvZsfNxl/LsgtuBmIIm4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="351422556"
+X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; 
+   d="scan'208";a="351422556"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 22:49:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="770902105"
+X-IronPort-AV: E=Sophos;i="5.99,277,1677571200"; 
+   d="scan'208";a="770902105"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 15 May 2023 22:49:56 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1pynZL-00072M-2d;
+	Tue, 16 May 2023 05:49:55 +0000
+Date: Tue, 16 May 2023 13:49:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sathvika Vasireddy <sv@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	"Naveen N. Rao" <naveen.n.rao@linux.vnet.ibm.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: arch/powerpc/kexec/relocate_32.o: warning: objtool: .text+0x2bc:
+ unannotated intra-function call
+Message-ID: <202305161316.4TNTsLUj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH 04/12] mm: page_alloc: collect mem statistic into
- show_mem.c
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, Linux Memory Management List
-	<linux-mm@kvack.org>, David Hildenbrand <david@redhat.com>, Oscar Salvador
-	<osalvador@suse.de>, "Rafael J. Wysocki" <rafael@kernel.org>, Pavel Machek
-	<pavel@ucw.cz>, Len Brown <len.brown@intel.com>, Luis Chamberlain
-	<mcgrof@kernel.org>, Kees Cook <keescook@chromium.org>, Iurii Zaikin
-	<yzaikin@google.com>, <linux-kernel@vger.kernel.org>,
-	<linux-pm@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>
-References: <20230508071200.123962-5-wangkefeng.wang@huawei.com>
- <202305110807.YVsoVagW-lkp@intel.com>
-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-In-Reply-To: <202305110807.YVsoVagW-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500001.china.huawei.com (7.185.36.107)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Hi Sathvika,
 
+First bad commit (maybe != root cause):
 
-On 2023/5/11 8:04, kernel test robot wrote:
-> Hi Kefeng,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on akpm-mm/mm-everything]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-page_alloc-move-mirrored_kernelcore-into-mm_init-c/20230508-145724
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> patch link:    https://lore.kernel.org/r/20230508071200.123962-5-wangkefeng.wang%40huawei.com
-> patch subject: [PATCH 04/12] mm: page_alloc: collect mem statistic into show_mem.c
-> config: loongarch-randconfig-s051-20230509 (https://download.01.org/0day-ci/archive/20230511/202305110807.YVsoVagW-lkp@intel.com/config)
-> compiler: loongarch64-linux-gcc (GCC) 12.1.0
-> reproduce:
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # apt-get install sparse
->          # sparse version: v0.6.4-39-gce1a6720-dirty
->          # https://github.com/intel-lab-lkp/linux/commit/be69df472e4d9a6b09a17b854d3aeb9722fc2675
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Kefeng-Wang/mm-page_alloc-move-mirrored_kernelcore-into-mm_init-c/20230508-145724
->          git checkout be69df472e4d9a6b09a17b854d3aeb9722fc2675
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Link: https://lore.kernel.org/oe-kbuild-all/202305110807.YVsoVagW-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
->>> mm/show_mem.c:336:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
->     mm/show_mem.c:336:17: sparse:     expected void *ptr
->     mm/show_mem.c:336:17: sparse:     got int [noderef] __percpu *
->>> mm/show_mem.c:336:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
->     mm/show_mem.c:336:17: sparse:     expected void *ptr
->     mm/show_mem.c:336:17: sparse:     got int [noderef] __percpu *
->>> mm/show_mem.c:336:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
->     mm/show_mem.c:336:17: sparse:     expected void *ptr
->     mm/show_mem.c:336:17: sparse:     got int [noderef] __percpu *
->>> mm/show_mem.c:336:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
->     mm/show_mem.c:336:17: sparse:     expected void *ptr
->     mm/show_mem.c:336:17: sparse:     got int [noderef] __percpu *
-> 
-> vim +336 mm/show_mem.c
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6
+commit: c984aef8c8326035570ff6e01d0ff9e79a5dfa76 objtool/powerpc: Add --mcount specific implementation
+date:   6 months ago
+config: powerpc-randconfig-r006-20230516 (https://download.01.org/0day-ci/archive/20230516/202305161316.4TNTsLUj-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c984aef8c8326035570ff6e01d0ff9e79a5dfa76
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout c984aef8c8326035570ff6e01d0ff9e79a5dfa76
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash arch/powerpc/
 
-Thanks, I won't make any change about __show_free_areas（） function,
-and it better not to fix it, at least not in this patch, the patch is 
-only to move some functions. The sparse warning is caused by
-K(this_cpu_read(zone->per_cpu_pageset->count)), maybe change it to
-__this_cpu_read()?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Link: https://lore.kernel.org/oe-kbuild-all/202305161316.4TNTsLUj-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
 
+>> arch/powerpc/kexec/relocate_32.o: warning: objtool: .text+0x2bc: unannotated intra-function call
 
-
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
