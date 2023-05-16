@@ -1,46 +1,43 @@
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FEB723C3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 06:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D80F23C3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 16 May 2023 06:52:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684219923; x=1715755923;
+  t=1684219925; x=1715755925;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b/R8cuiDCCt74WS8984+AUGqTxJugBAftHTBDVwSYq8=;
-  b=eY7Rj3MAfPzl+KB0tECJGY0sf4KRpzfZcFeU/th4vxdDmC3//Ozfzg+2
-   R9eYbgNWhcxEu17jI9pswF36TIz8gHnTlpXHi5m08jYH7OjdyQyRonjxs
-   mit5cpnTlpmipTwWf9qUqNJEGXYad1p+U6b4cNdYGbZhPLyVqeGin0v8f
-   jwAQ/NbDpa81cYLRwYFGGqllGhFrbJklRH85o33jtIOdG7jWXMx/S89Vy
-   8uyq78m8J34ZXxzDDZfnBwiMjraZrZSo7n8n8oD+nTPZh2Dytqy1IFagK
-   FpO7SAdX0w0RJOynwjw+TxCyuaKBLDuP1y1Wv6DM7+tjeNedEJa11RFWu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="331760317"
+  bh=07cYLAB7gUQIBwnYpOGyFSOHtBSCP47hoz6qf5Xgo6A=;
+  b=Nq4n3Tpu0cFv3X+bhtPlZVNxBzz7WvqvepP4ONITN06DiqayklRkoCIY
+   xkZhbHC4rGVz4k2ar7AnG0q3cZ06ApOZqxdFMz9W165C4/xC7wNHHgfpv
+   Tm6A94oRhoh7Mb0a07o1ou8Z7IrmVdO4e1gYcXK8/2qffXwtHeMSdSOJl
+   /TxY1y0UjzEqn2eGH33+mTMGrGo1fN2VgwbLRlX2pdqBlhE0NJBeUJAiX
+   gPOsRq6T6v3Hb2GeuI0TOXMCY5KI5/tialdNwfxqfwo22/yQ6OtDMBAAk
+   gmc4qdcddTQ+m5R5qnzyaeRasu8rA0OOuMmmE7VtISvUd5Lp6c+aVmn0q
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="331760315"
 X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="331760317"
+   d="scan'208";a="331760315"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
   by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2023 23:52:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="947725332"
+X-IronPort-AV: E=McAfee;i="6600,9927,10711"; a="947725329"
 X-IronPort-AV: E=Sophos;i="5.99,278,1677571200"; 
-   d="scan'208";a="947725332"
+   d="scan'208";a="947725329"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
   by fmsmga006.fm.intel.com with ESMTP; 15 May 2023 23:51:59 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pyoXO-00077c-2o;
+	id 1pyoXO-00077e-2r;
 	Tue, 16 May 2023 06:51:58 +0000
-Date: Tue, 16 May 2023 14:51:46 +0800
+Date: Tue, 16 May 2023 14:51:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anshuman Gupta <anshuman.gupta@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-6.1.y 287/5720] drivers/gpu/drm/i915/i915.o: warning:
- objtool: __i915_gem_object_release_mmap_gtt.cold+0x97: relocation to !ENDBR:
- i915_gem_object_runtime_pm_release_mmap_offset.cold+0x0
-Message-ID: <202305161422.IQqXiF0f-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bvanassche:retain-zoned-write-order 6/18]
+ block/bfq-iosched.c:7721:41: warning: 'bfq_queue_debugfs_attrs' defined but
+ not used
+Message-ID: <202305161453.cfrYjaZF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,40 +47,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Anshuman,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-6.1.y
-head:   bf4ad6fa4e5332e53913b073d0219319a4091619
-commit: bd449cadc8db481eeaa4fe2f051e30b288a34933 [287/5720] drm/i915/dgfx: Grab wakeref at i915_ttm_unmap_virtual
-config: x86_64-randconfig-x083 (https://download.01.org/0day-ci/archive/20230516/202305161422.IQqXiF0f-lkp@intel.com/config)
+tree:   https://github.com/bvanassche/linux retain-zoned-write-order
+head:   21c7b3f9031688e908ba662288da9349522e71f9
+commit: 5ea8c1a1b20acc1cbbcf22f4872d87ef8e35fbd5 [6/18] block, bfq: Export more information to debugfs
+config: x86_64-randconfig-a011-20230515 (https://download.01.org/0day-ci/archive/20230516/202305161453.cfrYjaZF-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=bd449cadc8db481eeaa4fe2f051e30b288a34933
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-6.1.y
-        git checkout bd449cadc8db481eeaa4fe2f051e30b288a34933
+        # https://github.com/bvanassche/linux/commit/5ea8c1a1b20acc1cbbcf22f4872d87ef8e35fbd5
+        git remote add bvanassche https://github.com/bvanassche/linux
+        git fetch --no-tags bvanassche retain-zoned-write-order
+        git checkout 5ea8c1a1b20acc1cbbcf22f4872d87ef8e35fbd5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Link: https://lore.kernel.org/oe-kbuild-all/202305161422.IQqXiF0f-lkp@intel.com/
+| Link: https://lore.kernel.org/oe-kbuild-all/202305161453.cfrYjaZF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/i915.o: warning: objtool: gen6_alloc_va_range.cold+0xfe: relocation to !ENDBR: gen6_ppgtt_pin.cold+0x0
-   drivers/gpu/drm/i915/i915.o: warning: objtool: gen8_ppgtt_insert.cold+0x42: relocation to !ENDBR: gen8_ppgtt_create.cold+0x0
-   drivers/gpu/drm/i915/i915.o: warning: objtool: intel_engine_setup.cold+0x2b3: relocation to !ENDBR: intel_engines_release.cold+0x0
-   drivers/gpu/drm/i915/i915.o: warning: objtool: eb_move_to_gpu.cold+0x39: relocation to !ENDBR: i915_reset_gen7_sol_offsets.cold+0x0
->> drivers/gpu/drm/i915/i915.o: warning: objtool: __i915_gem_object_release_mmap_gtt.cold+0x97: relocation to !ENDBR: i915_gem_object_runtime_pm_release_mmap_offset.cold+0x0
-   drivers/gpu/drm/i915/i915.o: warning: objtool: __i915_gem_object_set_pages.cold+0x1f1: relocation to !ENDBR: ____i915_gem_object_get_pages.cold+0x0
+   block/bfq-iosched.c:7663:17: error: 'blk_mq_debugfs_rq_show' undeclared here (not in a function); did you mean 'blk_mq_debugfs_register'?
+    7663 |         .show = blk_mq_debugfs_rq_show,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 blk_mq_debugfs_register
+   block/bfq-iosched.c: In function 'bfq_queued_list_show':
+   block/bfq-iosched.c:7712:41: error: implicit declaration of function '__blk_mq_debugfs_rq_show'; did you mean 'blk_mq_debugfs_register'? [-Werror=implicit-function-declaration]
+    7712 |                                         __blk_mq_debugfs_rq_show(m, rq);
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                                         blk_mq_debugfs_register
+   block/bfq-iosched.c: At top level:
+   block/bfq-iosched.c:7721:41: error: array type has incomplete element type 'struct blk_mq_debugfs_attr'
+    7721 | static const struct blk_mq_debugfs_attr bfq_queue_debugfs_attrs[] = {
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-iosched.c:7757:10: error: 'struct elevator_type' has no member named 'queue_debugfs_attrs'
+    7757 |         .queue_debugfs_attrs =  bfq_queue_debugfs_attrs,
+         |          ^~~~~~~~~~~~~~~~~~~
+>> block/bfq-iosched.c:7721:41: warning: 'bfq_queue_debugfs_attrs' defined but not used [-Wunused-variable]
+    7721 | static const struct blk_mq_debugfs_attr bfq_queue_debugfs_attrs[] = {
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-objdump-func vmlinux.o __i915_gem_object_release_mmap_gtt.cold:
+vim +/bfq_queue_debugfs_attrs +7721 block/bfq-iosched.c
+
+  7720	
+> 7721	static const struct blk_mq_debugfs_attr bfq_queue_debugfs_attrs[] = {
+  7722		{ "busy_queues0", 0444, bfq_busy_queues0_show },
+  7723		{ "busy_queues1", 0444, bfq_busy_queues1_show },
+  7724		{ "busy_queues2", 0444, bfq_busy_queues2_show },
+  7725		{ "dispatch_list", 0400, .seq_ops = &bfq_dispatch_list_ops },
+  7726		{ "tot_rq_in_driver", 0444, bfq_tot_rq_in_driver_show },
+  7727		{ "queued", 0444, bfq_queued_show },
+  7728		{ "queued_list", 0400, bfq_queued_list_show },
+  7729		{},
+  7730	};
+  7731	static struct elevator_type iosched_bfq_mq = {
+  7732		.ops = {
+  7733			.limit_depth		= bfq_limit_depth,
+  7734			.prepare_request	= bfq_prepare_request,
+  7735			.requeue_request        = bfq_finish_requeue_request,
+  7736			.finish_request		= bfq_finish_request,
+  7737			.exit_icq		= bfq_exit_icq,
+  7738			.insert_requests	= bfq_insert_requests,
+  7739			.dispatch_request	= bfq_dispatch_request,
+  7740			.next_request		= elv_rb_latter_request,
+  7741			.former_request		= elv_rb_former_request,
+  7742			.allow_merge		= bfq_allow_bio_merge,
+  7743			.bio_merge		= bfq_bio_merge,
+  7744			.request_merge		= bfq_request_merge,
+  7745			.requests_merged	= bfq_requests_merged,
+  7746			.request_merged		= bfq_request_merged,
+  7747			.has_work		= bfq_has_work,
+  7748			.depth_updated		= bfq_depth_updated,
+  7749			.init_hctx		= bfq_init_hctx,
+  7750			.init_sched		= bfq_init_queue,
+  7751			.exit_sched		= bfq_exit_queue,
+  7752		},
+  7753	
+  7754		.icq_size =		sizeof(struct bfq_io_cq),
+  7755		.icq_align =		__alignof__(struct bfq_io_cq),
+  7756		.elevator_attrs =	bfq_attrs,
+  7757		.queue_debugfs_attrs =	bfq_queue_debugfs_attrs,
+  7758		.elevator_name =	"bfq",
+  7759		.elevator_owner =	THIS_MODULE,
+  7760	};
+  7761	MODULE_ALIAS("bfq-iosched");
+  7762	
 
 -- 
 0-DAY CI Kernel Test Service
