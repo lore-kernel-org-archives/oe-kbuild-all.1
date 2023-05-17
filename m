@@ -1,84 +1,93 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D8318B16
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 May 2023 13:59:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684331967; x=1715867967;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gM9r/EaheKcU2Q8To2BO6C4meIqBvU1J3yytFb4RH+s=;
-  b=GujvNxKe9BEuX2Lakjt2sHYz8NRHKyUZ45EMusMxDaQ8GgpeLVs/55SZ
-   VNdZn1P8emIlwCOWb7BCtbB9u1cvSQCNaGnu6sCfvANi53Ykc0c4+SBv1
-   YIelF1JzRp1+fs4Hx2FAKHuJ2nU8p3IB1gO/jSg4ZPEU8pyEr53AYNfwj
-   29bH+xuVxs9mEoZAkh9BqAwr2mt0DlX3cZqUpaSB+EkimhC9fO4paokAU
-   JTOidBckZlu08U2hpZ52R5jPjgeC8R3jqJ/X0ZWRsJlrFxTEBkGTo9i/c
-   UEv4Pvm5RjgrdYO7PZffT6U4KStTdlvoAwDRtCGWoYV6u0FKxG9kPqRQN
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="336317365"
-X-IronPort-AV: E=Sophos;i="5.99,282,1677571200"; 
-   d="scan'208";a="336317365"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2023 06:59:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10713"; a="695881953"
-X-IronPort-AV: E=Sophos;i="5.99,282,1677571200"; 
-   d="scan'208";a="695881953"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 17 May 2023 06:59:23 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pzHgY-0008x4-2z;
-	Wed, 17 May 2023 13:59:22 +0000
-Date: Wed, 17 May 2023 21:59:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Linux Kernel Actions <linux-actions@lists.infradead.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jan Kara <jack@suse.com>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Paul Eggert <eggert@twinsun.com>,
-	Richard Fontana <rfontana@redhat.com>,
-	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>
-Subject: Re: [PATCH 2/2] fs: udf: udftime: Replace LGPL boilerplate with SPDX
- identifier
-Message-ID: <202305172143.ClcGnDpO-lkp@intel.com>
-References: <20230517083344.1090863-3-bagasdotme@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24C718B16
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 17 May 2023 14:03:54 +0000 (UTC)
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1pzHkq-0003Yx-59; Wed, 17 May 2023 16:03:48 +0200
+Received: from pengutronix.de (unknown [172.20.34.65])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 4BE4D1C72CA;
+	Wed, 17 May 2023 14:03:47 +0000 (UTC)
+Date: Wed, 17 May 2023 16:03:46 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Dario Binacchi <dario.binacchi@amarulasolutions.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-can@vger.kernel.org, Lee Jones <lee@kernel.org>
+Subject: Re: [netdev-net:main 50/55] Error:
+ arch/arm/boot/dts/stm32f746.dtsi:265.20-21 syntax error
+Message-ID: <20230517-multitask-geiger-7eab45858fc5-mkl@pengutronix.de>
+References: <202305172130.eGGEUhpi-lkp@intel.com>
+ <20230517-blighted-scowling-352ffbea5190-mkl@pengutronix.de>
+ <CABGWkvrhXqpx=gKMcGcUUNhA+rUPRfYHJ6LXjFgwBWwsJnjakg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="auwrthcisj4z7usv"
 Content-Disposition: inline
-In-Reply-To: <20230517083344.1090863-3-bagasdotme@gmail.com>
+In-Reply-To: <CABGWkvrhXqpx=gKMcGcUUNhA+rUPRfYHJ6LXjFgwBWwsJnjakg@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:b01:1d::7b
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-Hi Bagas,
 
-kernel test robot noticed the following build warnings:
+--auwrthcisj4z7usv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test WARNING on 689cdaf84d7c00a1a77b25f545b4f3a48e3476d4]
+On 17.05.2023 15:48:26, Dario Binacchi wrote:
+> > | $ git grep CAN include/dt-bindings/mfd/stm32f7-rcc.h
+> > | include/dt-bindings/mfd/stm32f7-rcc.h:78:#define STM32F7_RCC_APB1_CAN=
+1           25
+> > | include/dt-bindings/mfd/stm32f7-rcc.h:79:#define STM32F7_RCC_APB1_CAN=
+2           26
+> >
+> > Dario, do you have a fix at hand?
+>=20
+> in version 1,  the patch "dt-bindings: mfd: stm32f7: add binding
+> definition for CAN3"
+> was accepted by Lee Jones
+> (https://lore.kernel.org/lkml/20230424090229.GB8035@google.com/#t)
+> So I removed it in version 2 as I described in its cover letter:
+> https://marc.info/?l=3Dlinux-arm-kernel&m=3D168262836731935&w=3D2
+> Can we ensure that the patch is merged before this series?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bagas-Sanjaya/fs-udf-Replace-GPL-2-0-boilerplate-license-notice-with-SPDX-identifier/20230517-163856
-base:   689cdaf84d7c00a1a77b25f545b4f3a48e3476d4
-patch link:    https://lore.kernel.org/r/20230517083344.1090863-3-bagasdotme%40gmail.com
-patch subject: [PATCH 2/2] fs: udf: udftime: Replace LGPL boilerplate with SPDX identifier
-reproduce:
-        scripts/spdxcheck.py
+Nope, we already broke the net tree :) Let's ask Lee when his patch
+reaches mainline and decide what to do then.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305172143.ClcGnDpO-lkp@intel.com/
+Marc
 
-spdxcheck warnings: (new ones prefixed by >>)
->> fs/udf/udftime.c: 1:28 Invalid License ID: LGPL-2.0-or-later
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--auwrthcisj4z7usv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEDs2BvajyNKlf9TJQvlAcSiqKBOgFAmRk3sAACgkQvlAcSiqK
+BOhftAf/UhtaraI8Q03zaBywuih28OVqHbZXg6Smp6hxwCh5elglhPE8eeucgCey
++E4DP62JORzR8iddFIf2SUirZYZOPrlNrHVLToAcP4hxb4QwwQ4LEES+IDNrmgV3
+VUVpox3mf5tk4u7FBmea69iso+jsbKSOqMBwzVx7RTpbfJzUlecP+AKzcZ+LUgkX
+TKfJejPwX+wmTx7pItsXG0BGF4bqIRfj97E05ZvGV7FbPxpczKyeCueMJbs/LpSF
++SdwDALbqP/ICRTezMfLTO+4hy0pgO/p/WA16GfWm7cvWTuO8ps8ffsgarjB6Gko
+AEwm3jWc1vKS6U7nsw2GX38M6YTDIw==
+=dsFk
+-----END PGP SIGNATURE-----
+
+--auwrthcisj4z7usv--
