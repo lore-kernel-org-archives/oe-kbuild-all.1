@@ -1,49 +1,53 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 360B17F3
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 07:17:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684480626; x=1716016626;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ruhXfckvLspilVJ3phWpSekvwmW04n6cod92Xsdx9rw=;
-  b=GZijsJFhZqgtSoeUukdpQKV6OoD03TNzwRADhELcT5qJHj/+Lwh+mQQT
-   33ECol+vVKUmgNv+NsHwQ/YiZ+aW02zdSPgRO7LGtdeEtHDONbIb4CjIr
-   08QgVxjsY4XfNHr8yj8mWWBjFgZTIFZkVKLjL0cIcpu3MLvVhbP/RSTBn
-   f7lfi7+nQJ+S5HvDFecsi5LC6aZciYOMIhyH9w4PWCyH72DdK8aPbfGyA
-   uprbhF7J+5tbtRd8QJ3425O8oio1KsYbIe9aDHC+GeBjGBL7HLEScQOeK
-   C0O5KLq8lSeuXvvQP6wrWM5D9tVlJKYQqycmIKJCg8S9ceeVVYkCZYCwc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="380515532"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="380515532"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 00:17:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="826692519"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="826692519"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 19 May 2023 00:17:02 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pzuMI-000Ag2-09;
-	Fri, 19 May 2023 07:17:02 +0000
-Date: Fri, 19 May 2023 15:16:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>, rafael@kernel.org,
-	hdegoede@redhat.com, linus.walleij@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
-	Shyam-sundar.S-k@amd.com, Basavaraj.Natikar@amd.com,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH 2/4] ACPI: x86: Add pm_debug_messages for LPS0 _DSM state
- tracking
-Message-ID: <202305191405.u2HzFqxM-lkp@intel.com>
-References: <20230518172752.93322-3-mario.limonciello@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096747F3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 07:21:44 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-309382efe13so1837433f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 00:21:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684480903; x=1687072903;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aNZ3qyN6oyXbeQpxb9jE35xavW40i2UfsZY947zNi6A=;
+        b=nFBcGtR+q6RWN4wIRGCpaNcck/OXxyOWNm+gj3QIv3XT87Go5ZbPZIZPg5Tn9mLkD+
+         e7ARQa2Nl2KAJluKz35RBPSYkc3c7Ur1zRZoo99U52fVnf0i8tHwBYBtEu2apK8aklYv
+         TA4/dHiDokjBMqyxwZI8t5HMZt1EAvMfS6aZcvxfe4FB9dTVe2fJoCMT5gGYTj9IJYTR
+         5wyaMqOouDY9++Zoc+dHU4N/TJnmFjtlUs2TGLjvNpRWiNEiabUFnaE9wOBf0YwNhR4y
+         yREwTQyMuDRCt4cpuDYBMHfEJ1G+vIEqnnH6SHxsn21k0czziOvRKAxxqahJ9sQxqRUW
+         7+Yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684480903; x=1687072903;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aNZ3qyN6oyXbeQpxb9jE35xavW40i2UfsZY947zNi6A=;
+        b=gjIBEUBGZJ25sm5x8h6c3mw/Yvpt947P9eujDh3Tw2/M5wyI0ENdFbXTP50Q6lqWo5
+         vB2/CKeTkSGXeN8fvNL6tWseUjxaY7aR+rxXGiQ0VlTOBj5E34yxfaJ52pQAji9dJrpc
+         PRBfYMQzDdmVQNl7lOvmoYTR1qIHSvIN88KX86Hqj3dN1vBkSOyAO8Z9TxOghyFJZPFL
+         NYBY76thmL/HUiSB4mIu1fPkQonecjexP0/elWT9mhVYFZonH4qk4kGxNVB46AIrXXoY
+         OipS8ZRApDehswWZXFn7efFCXr3hso+ySNmP9WYEU2n9bekI+7p9UpqBthWLYYkVQwL9
+         rvYg==
+X-Gm-Message-State: AC+VfDztHNw1+2Q5AnX+37KNUuA72UUBK5vcZr2yVrUQk1oaDBI/R+Qt
+	aoXgUGZi/d+cOK38aBAJ6ztwUg==
+X-Google-Smtp-Source: ACHHUZ6Ezp1L9iAjUVbIXAmlKN/iS9Pt494Dm+7ljsI25DttxqjuqCPZ36RewBvHRz+DFiNOy83/Yg==
+X-Received: by 2002:adf:f74a:0:b0:306:342a:6a01 with SMTP id z10-20020adff74a000000b00306342a6a01mr853884wrp.47.1684480903233;
+        Fri, 19 May 2023 00:21:43 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id k17-20020a5d5251000000b003079693eff2sm4331182wrc.41.2023.05.19.00.21.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 May 2023 00:21:41 -0700 (PDT)
+Date: Fri, 19 May 2023 10:21:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kernel test robot <lkp@intel.com>, Oscar Salvador <osalvador@suse.de>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [linux-next:master 2908/3314] lib/stackdepot.c:544 stack_print()
+ warn: unsigned 'stack->size' is never less than zero.
+Message-ID: <110d728f-b125-4358-9839-13e094597ef9@kili.mountain>
+References: <202305182345.LTMlWG84-lkp@intel.com>
+ <20230518133247.a0ece8de7c3fc5dca9e1b67d@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,28 +56,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230518172752.93322-3-mario.limonciello@amd.com>
+In-Reply-To: <20230518133247.a0ece8de7c3fc5dca9e1b67d@linux-foundation.org>
 
-Hi Mario,
+On Thu, May 18, 2023 at 01:32:47PM -0700, Andrew Morton wrote:
+> On Thu, 18 May 2023 23:44:10 +0800 kernel test robot <lkp@intel.com> wrote:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> > head:   798d276b39e984345d52b933a900a71fa0815928
+> > commit: e435b85a4aea7a82259105d5d8025655460052e1 [2908/3314] mm, page_owner: add page_owner_stacks file to print out only stacks and their counte
+> > config: x86_64-randconfig-m001
+> > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202305182345.LTMlWG84-lkp@intel.com/
+> > 
+> > smatch warnings:
+> > lib/stackdepot.c:544 stack_print() warn: unsigned 'stack->size' is never less than zero.
+> > 
+> 
+> Linus would complain about that warning.
+> 
 
-kernel test robot noticed the following build warnings:
+Yeah.  I hadn't intended that warning to be printed.  It's supposed
+to check for if the check for negatives is paired with an upper bound
+check.  That Smatch check is original vintage from 2009 so it's due for
+a re-write.
 
-[auto build test WARNING on dac0c6388ff86af74dc6f4dd6e90a7db5a429e3d]
+> > 
+> >    537	
+> >    538	int stack_print(struct seq_file *m, void *v)
+> >    539	{
+> >    540		char *buf;
+> >    541		int ret = 0;
+> >    542		struct stack_record *stack = v;
+> >    543	
+> >  > 544		if (!stack->size || stack->size < 0 ||
+> >    545		    stack->size > PAGE_SIZE || stack->handle.valid != 1 ||
+> >    546		    refcount_read(&stack->count) < 1)
+> 
+> How about <=?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/include-linux-suspend-h-Only-show-pm_pr_dbg-messages-at-suspend-resume/20230519-013031
-base:   dac0c6388ff86af74dc6f4dd6e90a7db5a429e3d
-patch link:    https://lore.kernel.org/r/20230518172752.93322-3-mario.limonciello%40amd.com
-patch subject: [PATCH 2/4] ACPI: x86: Add pm_debug_messages for LPS0 _DSM state tracking
-config: x86_64-randconfig-c022 (https://download.01.org/0day-ci/archive/20230519/202305191405.u2HzFqxM-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+It doesn't really solve the problem.  Smatch complains about that too.
+I'll fix the Smatch check.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305191405.u2HzFqxM-lkp@intel.com/
+regards,
+dan carpenter
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/acpi/x86/s2idle.c:345:3-4: Unneeded semicolon
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
