@@ -1,44 +1,50 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5E4A6ABF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 11:45:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684496709; x=1716032709;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=a7TYpBtocP6czdTNodjCsvGjcdu44a0JSAqMMfi1Xys=;
-  b=D4iPNNN/1GwhVxgfmvMFQUVH6LU3ZJA91NYrXiC702oYt0CE9vDpTv4q
-   pqTTTAN7TYBj3I/TJLpdA6cArV0/RFky9rhKkYUVeXmZ+I7UmmKzWcK9H
-   F5CvFNUXNU46HKuva0kAlKPVSzV57gfqOSFXs+soUdvIjo2z9XmkTPt/y
-   2ORHfZ36faXXJPQLCBjWHgcxQ0BkaNehBzA9sdGW5alJJlJ0qur1VjWNV
-   P5PAuqo9GgkDrhxX8NOWZMhbyCU2V4E9umWdcAON0A38hMDzE1SoLNpMC
-   SJzWBMuWJy64MiU9G9jgShsa1SH9WjTYXLnFK0RqyoEkIUBEvmkf4M5PN
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="418044634"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="418044634"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 04:45:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="680028941"
-X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="680028941"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 19 May 2023 04:45:08 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1pzyXj-000AoA-2D;
-	Fri, 19 May 2023 11:45:07 +0000
-Date: Fri, 19 May 2023 19:44:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 34/36] ALSA: seq: Print UMP Endpoint and Block
- information in proc outputs
-Message-ID: <202305191902.DcxcK7QD-lkp@intel.com>
-References: <20230519093114.28813-35-tiwai@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63566ABF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 11:53:32 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f42711865eso20081395e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 04:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1684497211; x=1687089211;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wkRlnjVLLrCSiUvXAXLp50ZhpM/wimNPRci9+WoJKwE=;
+        b=aVGHyhoTabdge7XwQDeqn47qag3FVMN61T3G7y1hP660HYt+PSnVXmQoOkGWl+jw/q
+         oHitRzpNgagC4/3IIT6zI2zx6WIa0GujHjIcqzC8XQHO2XDstJD8lhTfOalbCITujpqQ
+         Z0xZrmsj2o5VOLPhR8n0fazu8GJBPC/MBu1wjQjZtkmaAADnE9uAEyD4+ALceaTN9erp
+         JrQE9Zlkeza1+8Z9nzmQDU/VBqSSlwiJiqX0wEdAiAcXBuwC5yNBHcCc+GEbZ+CedyJr
+         oS78ep/Pv7CYBVcwl8+5lh13xqh75nxbT8aHlyL81/Zd/SLSuPxFkTeERQH2EyurjyPu
+         u2Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684497211; x=1687089211;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wkRlnjVLLrCSiUvXAXLp50ZhpM/wimNPRci9+WoJKwE=;
+        b=aSRbcYADFYhKtBHIUBSpka5Ryc+xx9m3cjwh24FYXFVqk0Vv2aI+6Wd+sBsXur126P
+         tRRjK8Cbq1yafMhH3sLfTxrpbI5Ja1jw3GOO63hNip1IWpypXI1yUsUraxi+o3UP4aaY
+         ibisbQWzHkWVrXgJPxAVNOv3uR/8MjG0yl27h8shlbTO5dTSdFYrfSEXuq+rD6ioOQwL
+         zk/cLh/1+NBLDx51m9x4L98m0j7HkMja+e6OEw8uvhm4uPdhtlBRIQRHuW9SqPoCeH+o
+         sBS+vzkZqZUqDHnHFOVBdcoDOJoJLvghvojvOK9bbcCq3zM4pJPx0UpRJ6n4XgZoeaEy
+         n9Gw==
+X-Gm-Message-State: AC+VfDznEI05D0ZMjK024t91tW0ZXolGzoYHRLGBgcYPimVKcHCEffba
+	54YzU46bIDMKa05F1Sg0mcdWsg==
+X-Google-Smtp-Source: ACHHUZ7QNMG+g1oFmony9OdgLN1V4JinX4eEHbXzwc2Tom6y7jcmaiBDHivNGJ4k82wPUwm5+CkH+A==
+X-Received: by 2002:a1c:7303:0:b0:3f1:9acf:8682 with SMTP id d3-20020a1c7303000000b003f19acf8682mr1020081wmb.17.1684497210786;
+        Fri, 19 May 2023 04:53:30 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id k15-20020a05600c1c8f00b003f1978bbcd6sm12076793wms.3.2023.05.19.04.53.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 May 2023 04:53:28 -0700 (PDT)
+Date: Fri, 19 May 2023 14:53:09 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Alejandro Lucero <alejandro.lucero-palau@amd.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>
+Subject: drivers/net/ethernet/sfc/ef100_netdev.c:457 ef100_probe_netdev()
+ warn: 'net_dev' from alloc_etherdev_mqs() not released on lines: 418.
+Message-ID: <bf07d188-a904-4987-816f-3d4f164bf608@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,92 +53,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230519093114.28813-35-tiwai@suse.de>
 
-Hi Takashi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on tiwai-sound/for-linus linus/master v6.4-rc2 next-20230519]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Takashi-Iwai/ALSA-rawmidi-Pass-rawmidi-directly-to-snd_rawmidi_kernel_open/20230519-173634
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230519093114.28813-35-tiwai%40suse.de
-patch subject: [PATCH 34/36] ALSA: seq: Print UMP Endpoint and Block information in proc outputs
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230519/202305191902.DcxcK7QD-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9535297f3611942da6cc4a069bf0604ee42c5a4e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Takashi-Iwai/ALSA-rawmidi-Pass-rawmidi-directly-to-snd_rawmidi_kernel_open/20230519-173634
-        git checkout 9535297f3611942da6cc4a069bf0604ee42c5a4e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash sound/core/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2d1bcbc6cd703e64caf8df314e3669b4786e008a
+commit: 7e056e2360d9267a20509aa2cdb8905485499e95 sfc: obtain device mac address based on firmware handle for ef100
+config: ia64-randconfig-m041-20230514 (https://download.01.org/0day-ci/archive/20230519/202305191859.O6KpRymX-lkp@intel.com/config)
+compiler: ia64-linux-gcc (GCC) 12.1.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305191902.DcxcK7QD-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202305191859.O6KpRymX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/net/ethernet/sfc/ef100_netdev.c:457 ef100_probe_netdev() warn: 'net_dev' from alloc_etherdev_mqs() not released on lines: 418.
 
-   sound/core/seq/seq_clientmgr.c: In function 'dump_ump_info':
->> sound/core/seq/seq_clientmgr.c:2134:16: warning: the comparison will always evaluate as 'true' for the address of 'name' will never be NULL [-Waddress]
-    2134 |         if (ep && ep->name)
-         |                ^~
-   In file included from include/sound/asound.h:24,
-                    from include/sound/asequencer.h:11,
-                    from include/sound/seq_kernel.h:10,
-                    from sound/core/seq/seq_clientmgr.c:16:
-   include/uapi/sound/asound.h:805:23: note: 'name' declared here
-     805 |         unsigned char name[128];        /* endpoint name string */
-         |                       ^~~~
-   sound/core/seq/seq_clientmgr.c:2138:24: warning: the comparison will always evaluate as 'true' for the address of 'name' will never be NULL [-Waddress]
-    2138 |                 if (bp && bp->name) {
-         |                        ^~
-   include/uapi/sound/asound.h:834:23: note: 'name' declared here
-     834 |         unsigned char name[128];        /* block name string */
-         |                       ^~~~
+Old smatch warnings:
+drivers/net/ethernet/sfc/ef100_netdev.c:141 ef100_net_open() warn: missing unwind goto?
 
+vim +/net_dev +457 drivers/net/ethernet/sfc/ef100_netdev.c
 
-vim +2134 sound/core/seq/seq_clientmgr.c
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  358  int ef100_probe_netdev(struct efx_probe_data *probe_data)
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  359  {
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  360  	struct efx_nic *efx = &probe_data->efx;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  361  	struct efx_probe_data **probe_ptr;
+7e056e2360d926 Alejandro Lucero 2023-02-15  362  	struct ef100_nic_data *nic_data;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  363  	struct net_device *net_dev;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  364  	int rc;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  365  
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  366  	if (efx->mcdi->fn_flags &
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  367  			(1 << MC_CMD_DRV_ATTACH_EXT_OUT_FLAG_NO_ACTIVE_PORT)) {
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  368  		pci_info(efx->pci_dev, "No network port on this PCI function");
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  369  		return 0;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  370  	}
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  371  
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  372  	/* Allocate and initialise a struct net_device */
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  373  	net_dev = alloc_etherdev_mq(sizeof(probe_data), EFX_MAX_CORE_TX_QUEUES);
+                                                                  ^^^^^^^^^^^^^^^^^
 
-  2122	
-  2123	#ifdef CONFIG_SND_PROC_FS
-  2124	static void dump_ump_info(struct snd_info_buffer *buffer,
-  2125				  struct snd_seq_client *client)
-  2126	{
-  2127		struct snd_ump_endpoint_info *ep;
-  2128		struct snd_ump_block_info *bp;
-  2129		int i;
-  2130	
-  2131		if (!client->ump_info)
-  2132			return;
-  2133		ep = client->ump_info[SNDRV_SEQ_CLIENT_UMP_INFO_ENDPOINT];
-> 2134		if (ep && ep->name)
-  2135			snd_iprintf(buffer, "  UMP Endpoint: \"%s\"\n", ep->name);
-  2136		for (i = 0; i < SNDRV_UMP_MAX_BLOCKS; i++) {
-  2137			bp = client->ump_info[i + 1];
-  2138			if (bp && bp->name) {
-  2139				snd_iprintf(buffer, "  UMP Block %d: \"%s\" [%s]\n",
-  2140					    i, bp->name,
-  2141					    bp->active ? "Active" : "Inactive");
-  2142				snd_iprintf(buffer, "    Groups: %d-%d\n",
-  2143					    bp->first_group + 1,
-  2144					    bp->first_group + bp->num_groups);
-  2145			}
-  2146		}
-  2147	}
-  2148	#endif
-  2149	
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  374  	if (!net_dev)
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  375  		return -ENOMEM;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  376  	probe_ptr = netdev_priv(net_dev);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  377  	*probe_ptr = probe_data;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  378  	efx->net_dev = net_dev;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  379  	SET_NETDEV_DEV(net_dev, &efx->pci_dev->dev);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  380  
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  381  	net_dev->features |= efx->type->offload_features;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  382  	net_dev->hw_features |= efx->type->offload_features;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  383  	net_dev->hw_enc_features |= efx->type->offload_features;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  384  	net_dev->vlan_features |= NETIF_F_HW_CSUM | NETIF_F_SG |
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  385  				  NETIF_F_HIGHDMA | NETIF_F_ALL_TSO;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  386  	netif_set_tso_max_segs(net_dev,
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  387  			       ESE_EF100_DP_GZ_TSO_MAX_HDR_NUM_SEGS_DEFAULT);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  388  	efx->mdio.dev = net_dev;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  389  
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  390  	rc = efx_ef100_init_datapath_caps(efx);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  391  	if (rc < 0)
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  392  		goto fail;
+
+These goto fail paths will call efx_probe_devlink_unlock() when we have
+not yet taken the lock.  This is a canonical bug for one err label style
+error handling code.  I always try to discourage this style of error
+handling.
+
+https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  393  
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  394  	rc = ef100_phy_probe(efx);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  395  	if (rc)
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  396  		goto fail;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  397  
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  398  	rc = efx_init_channels(efx);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  399  	if (rc)
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  400  		goto fail;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  401  
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  402  	down_write(&efx->filter_sem);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  403  	rc = ef100_filter_table_probe(efx);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  404  	up_write(&efx->filter_sem);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  405  	if (rc)
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  406  		goto fail;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  407  
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  408  	netdev_rss_key_fill(efx->rss_context.rx_hash_key,
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  409  			    sizeof(efx->rss_context.rx_hash_key));
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  410  
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  411  	/* Don't fail init if RSS setup doesn't work. */
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  412  	efx_mcdi_push_default_indir_table(efx, efx->n_rx_channels);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  413  
+7e056e2360d926 Alejandro Lucero 2023-02-15  414  	nic_data = efx->nic_data;
+7e056e2360d926 Alejandro Lucero 2023-02-15  415  	rc = ef100_get_mac_address(efx, net_dev->perm_addr, CLIENT_HANDLE_SELF,
+7e056e2360d926 Alejandro Lucero 2023-02-15  416  				   efx->type->is_vf);
+7e056e2360d926 Alejandro Lucero 2023-02-15  417  	if (rc)
+7e056e2360d926 Alejandro Lucero 2023-02-15  418  		return rc;
+
+Yep.  We need to do some clean up before returning.
+
+7e056e2360d926 Alejandro Lucero 2023-02-15  419  	/* Assign MAC address */
+7e056e2360d926 Alejandro Lucero 2023-02-15  420  	eth_hw_addr_set(net_dev, net_dev->perm_addr);
+7e056e2360d926 Alejandro Lucero 2023-02-15  421  	ether_addr_copy(nic_data->port_id, net_dev->perm_addr);
+7e056e2360d926 Alejandro Lucero 2023-02-15  422  
+fa34a5140a8e8f Alejandro Lucero 2023-02-15  423  	/* devlink creation, registration and lock */
+fa34a5140a8e8f Alejandro Lucero 2023-02-15  424  	rc = efx_probe_devlink_and_lock(efx);
+fa34a5140a8e8f Alejandro Lucero 2023-02-15  425  	if (rc)
+fa34a5140a8e8f Alejandro Lucero 2023-02-15  426  		pci_info(efx->pci_dev, "devlink registration failed");
+fa34a5140a8e8f Alejandro Lucero 2023-02-15  427  
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  428  	rc = ef100_register_netdev(efx);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  429  	if (rc)
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  430  		goto fail;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  431  
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  432  	if (!efx->type->is_vf) {
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  433  		rc = ef100_probe_netdev_pf(efx);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  434  		if (rc)
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  435  			goto fail;
+25414b2a64ae7e Alejandro Lucero 2023-02-15  436  #ifdef CONFIG_SFC_SRIOV
+25414b2a64ae7e Alejandro Lucero 2023-02-15  437  		ef100_pf_set_devlink_port(efx);
+25414b2a64ae7e Alejandro Lucero 2023-02-15  438  #endif
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  439  	}
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  440  
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  441  	efx->netdev_notifier.notifier_call = ef100_netdev_event;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  442  	rc = register_netdevice_notifier(&efx->netdev_notifier);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  443  	if (rc) {
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  444  		netif_err(efx, probe, efx->net_dev,
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  445  			  "Failed to register netdevice notifier, rc=%d\n", rc);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  446  		goto fail;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  447  	}
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  448  
+25414b2a64ae7e Alejandro Lucero 2023-02-15  449  	efx_probe_devlink_unlock(efx);
+25414b2a64ae7e Alejandro Lucero 2023-02-15  450  	return rc;
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28  451  fail:
+25414b2a64ae7e Alejandro Lucero 2023-02-15  452  #ifdef CONFIG_SFC_SRIOV
+25414b2a64ae7e Alejandro Lucero 2023-02-15  453  	/* remove devlink port if does exist */
+25414b2a64ae7e Alejandro Lucero 2023-02-15  454  	ef100_pf_unset_devlink_port(efx);
+25414b2a64ae7e Alejandro Lucero 2023-02-15  455  #endif
+fa34a5140a8e8f Alejandro Lucero 2023-02-15  456  	efx_probe_devlink_unlock(efx);
+98ff4c7c8ac7f5 Jonathan Cooper  2022-06-28 @457  	return rc;
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
