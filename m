@@ -1,68 +1,184 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24723D3BA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 23:18:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684538315; x=1716074315;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=3Zixwlol1xE0X5p41L5oQGRGFktaH19NJOc32BD1ZPQ=;
-  b=Y6Co5NSTZrcgpRR400gnqPN1z8NHNie+HkaHthhb0znhfidqrmQX2V9/
-   XrjzBQTqBgLNeUj0PCTeeL0T/xZ4om6mfnG0SxngA+AyR0S5ZpgNEDBpf
-   hsGHBYFfEg1u2uqZRXfkcTBn9iEf1om/bLqa5pj4biw8H8Jynhdx4dzpd
-   /zf9ln7d3OIVTLp0837BSxUYHxjAcEEXilu66hdHt4wSGpehtk8I48NjB
-   88TV5cX/DsNwseeERmofRQN/qJmD/XX6tC8/AO2SdHgUlcDdqFUhTSvBa
-   FGqJwe2YILHExHBPMCF0d84N33kdqKPIGhCgINgBJojFsXMcCB4X1L5CD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10715"; a="352526291"
-X-IronPort-AV: E=Sophos;i="6.00,178,1681196400"; 
-   d="scan'208";a="352526291"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 16:18:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10715"; a="696888613"
-X-IronPort-AV: E=Sophos;i="6.00,178,1681196400"; 
-   d="scan'208";a="696888613"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 19 May 2023 16:18:25 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q09Me-000B9o-0S;
-	Fri, 19 May 2023 23:18:24 +0000
-Date: Sat, 20 May 2023 07:18:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sagar Biradar <sagar.biradar@microchip.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4] aacraid: reply queue mapping to CPUs based of IRQ
- affinity
-Message-ID: <ZGgDvnIQUh6uI79l@e0f96cf4e6cd>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8653D3B6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 23:30:26 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 3324F32009A3;
+	Fri, 19 May 2023 19:30:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Fri, 19 May 2023 19:30:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=devkernel.io; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; t=1684539024; x=1684625424; bh=Sb
+	Mc2wwNhEFGcrl49hIbTYTKfZHyZrwWYHBZy9WFZfQ=; b=rtPvSaOu2mLg9P1nIC
+	dBW+PqHiWHzd7pHhe2NF09nhFbm7b4qIQ+u7ZhsNtvUq3ex6mPULCxN1t+hIXOyV
+	+vThIB31h4HPCcSDSiRK/AzWQXq0lEBCN1VvMQ6Xztb/p/vxLba8wzswwYIQWiuX
+	i2McRVRceVCrs3ng6fxr0obvHAoUVKnTV3Nj3LYR2w3ILw7Ez/uJrGZLYkuIWZXj
+	hPyisyWiHfrP7wumTvfNkEEHJL/AP4a8OdIQY0uFyimNll7GWUN/oW922V5b3i+U
+	ivA0l+rrh1qTA+sZLeaKKlNptyDlXDm68ttGvi3ybHG3GC75Ae3X/AbhZiRbp552
+	ZfbA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1684539024; x=1684625424; bh=SbMc2wwNhEFGc
+	rl49hIbTYTKfZHyZrwWYHBZy9WFZfQ=; b=TdMQ1lDAVeNLPWtDBqDO3FaSAUuHM
+	w9qswn9+kAqQnbOoCi35EooMNmrKz2W5UaDAXPyrbVguL3jLN5//rpgzcoqvXGKr
+	qgpW2/AwJ2zdWEWvDyDoXl40aiDIiNNMr5KYqxGS9+l+7IghOpHgBcn55Vvzo/1a
+	DWYF/U278WyheAV6U95/noQV4rxCyesmF4W+GUa5rVpkoTJOiCaj2x5iq2rQAGzU
+	3eL64iia1FD+FfObSfLG1CqjwaKPYq9IMTNz8223/6tJqg4Ye970L0QKpVsrCdHd
+	+lS7UeaGACxBgSyh+kKNyrfYLdDesRV35/oczc/Q09V4+fjkuQB2NpPFA==
+X-ME-Sender: <xms:kAZoZIpnJxuDiDh65ndWcAzK8rTxsOKYC8TQ5VRTIb1GowLwrWiEtA>
+    <xme:kAZoZOot-11VHUsm-J6eooA43br3GfKWmthomudHwpMf3kqh9bBth_nUvl4WskGwu
+    C4FAB5PgRGoHK7B4qc>
+X-ME-Received: <xmr:kAZoZNMgS-Zlyyzg1vWFTo4vsJolM5bOkVRHwKnaK2P2IASyJwP5fzttFawMCuOzHDLnzhsh9XE28B55Nsg5E0SdRqgTBWOK7MRSeyVhbhg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeiiedgvddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfhgfhffvvefuffgjkfggtgesthdtredttdertdenucfhrhhomhepufhtvghf
+    rghnucftohgvshgthhcuoehshhhrseguvghvkhgvrhhnvghlrdhioheqnecuggftrfgrth
+    htvghrnhepvdeuieekudefjeejueeifeduuedvvddvjefhkeeivdeghfeivdeffeegffev
+    geeinecuffhomhgrihhnpehgihhthhhusgdrtghomhdpkhgvrhhnvghlrdhorhhgpdhgih
+    hthhhusghushgvrhgtohhnthgvnhhtrdgtohhmnecuvehluhhsthgvrhfuihiivgeptden
+    ucfrrghrrghmpehmrghilhhfrhhomhepshhhrhesuggvvhhkvghrnhgvlhdrihho
+X-ME-Proxy: <xmx:kAZoZP734Q77khPEEI-7RAyNWO_3u7fuYeHQ0cg2vZM79TEaUlaqtQ>
+    <xmx:kAZoZH6PcHmd3HUj7FyTK7pggGJKgx8V3OuyC-T0GK30S_q8gMi3CA>
+    <xmx:kAZoZPjo5uJ7mjdQ5rexclK9C8VpfNGIA5Sx4parvnvU2CL82_nPag>
+    <xmx:kAZoZKYGlFPaA9n2CgJcXOn15fyfKtU6TAfZL8UzyXWJjOlBhSxbDQ>
+Feedback-ID: i84614614:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 19 May 2023 19:30:23 -0400 (EDT)
+References: <20230518211751.3492982-6-shr@devkernel.io>
+ <202305190745.UK8QQ6fw-lkp@intel.com>
+ <cf82830e-91fb-3a50-86c4-b57f7f761a80@kernel.dk>
+User-agent: mu4e 1.10.1; emacs 28.2.50
+From: Stefan Roesch <shr@devkernel.io>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: kernel test robot <lkp@intel.com>, io-uring@vger.kernel.org,
+ kernel-team@fb.com, oe-kbuild-all@lists.linux.dev,
+ ammarfaizi2@gnuweeb.org, netdev@vger.kernel.org, kuba@kernel.org,
+ olivier@trillion01.com
+Subject: Re: [PATCH v13 5/7] io-uring: add sqpoll support for napi busy poll
+Date: Fri, 19 May 2023 16:29:59 -0700
+In-reply-to: <cf82830e-91fb-3a50-86c4-b57f7f761a80@kernel.dk>
+Message-ID: <qvqwilcnx5kh.fsf@devbig1114.prn1.facebook.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230519230834.27436-1-sagar.biradar@microchip.com>
-
-Hi,
-
-Thanks for your patch.
-
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
-
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH v4] aacraid: reply queue mapping to CPUs based of IRQ affinity
-Link: https://lore.kernel.org/stable/20230519230834.27436-1-sagar.biradar%40microchip.com
-
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests
+Content-Type: text/plain
 
 
+Jens Axboe <axboe@kernel.dk> writes:
 
+> On 5/18/23 6:11?PM, kernel test robot wrote:
+>> Hi Stefan,
+>>
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on d2b7fa6174bc4260e496cbf84375c73636914641]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Roesch/net-split-off-__napi_busy_poll-from-napi_busy_poll/20230519-054117
+>> base:   d2b7fa6174bc4260e496cbf84375c73636914641
+>> patch link:    https://lore.kernel.org/r/20230518211751.3492982-6-shr%40devkernel.io
+>> patch subject: [PATCH v13 5/7] io-uring: add sqpoll support for napi busy poll
+>> config: powerpc-allnoconfig
+>> compiler: powerpc-linux-gcc (GCC) 12.1.0
+>> reproduce (this is a W=1 build):
+>>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>>         chmod +x ~/bin/make.cross
+>>         # https://github.com/intel-lab-lkp/linux/commit/8d324fedc325505406b6ea808d5d7a7cacb321a5
+>>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>>         git fetch --no-tags linux-review Stefan-Roesch/net-split-off-__napi_busy_poll-from-napi_busy_poll/20230519-054117
+>>         git checkout 8d324fedc325505406b6ea808d5d7a7cacb321a5
+>>         # save the config file
+>>         mkdir build_dir && cp config build_dir/.config
+>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+>>
+>> If you fix the issue, kindly add following tag where applicable
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202305190745.UK8QQ6fw-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>    In file included from io_uring/sqpoll.c:18:
+>>    io_uring/sqpoll.c: In function '__io_sq_thread':
+>>>> io_uring/napi.h:81:39: error: expected expression before 'do'
+>>       81 | #define io_napi_sqpoll_busy_poll(ctx) do {} while (0)
+>>          |                                       ^~
+>>    io_uring/sqpoll.c:198:32: note: in expansion of macro 'io_napi_sqpoll_busy_poll'
+>>      198 |                         ret += io_napi_sqpoll_busy_poll(ctx);
+>>          |                                ^~~~~~~~~~~~~~~~~~~~~~~~
+>>
+>
+> That's my fault, didn't look closely enough. But let's fold this one into
+> patch 3, to get proper types for !CONFIG_NET_RX_BUSY_POLL.
+>
+>
+> diff --git a/io_uring/napi.h b/io_uring/napi.h
+> index 69c1970cbecc..64d07317866b 100644
+> --- a/io_uring/napi.h
+> +++ b/io_uring/napi.h
+> @@ -60,39 +60,43 @@ static inline void io_napi_add(struct io_kiocb *req)
+>  	__io_napi_add(ctx, req->file);
+>  }
+>
+> -#else
+> +#else /* CONFIG_NET_RX_BUSY_POLL */
+>
+>  static inline void io_napi_init(struct io_ring_ctx *ctx)
+>  {
+>  }
+> -
+>  static inline void io_napi_free(struct io_ring_ctx *ctx)
+>  {
+>  }
+> -
+>  static inline int io_register_napi(struct io_ring_ctx *ctx, void __user *arg)
+>  {
+>  	return -EOPNOTSUPP;
+>  }
+> -
+>  static inline int io_unregister_napi(struct io_ring_ctx *ctx, void __user *arg)
+>  {
+>  	return -EOPNOTSUPP;
+>  }
+> -
+>  static inline bool io_napi(struct io_ring_ctx *ctx)
+>  {
+>  	return false;
+>  }
+> -
+>  static inline void io_napi_add(struct io_kiocb *req)
+>  {
+>  }
+> +static inline void io_napi_adjust_timeout(struct io_ring_ctx *ctx,
+> +					  struct io_wait_queue *iowq,
+> +					  struct timespec64 *ts)
+> +{
+> +}
+> +static inline void io_napi_busy_loop(struct io_ring_ctx *ctx,
+> +				     struct io_wait_queue *iowq)
+> +{
+> +}
+> +static inline int io_napi_sqpoll_busy_poll(struct io_ring_ctx *ctx)
+> +{
+> +	return 0;
+> +}
+>
+> -#define io_napi_adjust_timeout(ctx, iowq, ts) do {} while (0)
+> -#define io_napi_busy_loop(ctx, iowq) do {} while (0)
+> -#define io_napi_sqpoll_busy_poll(ctx) do {} while (0)
+> -
+> -#endif
+> +#endif /* CONFIG_NET_RX_BUSY_POLL */
+>
+>  #endif
+
+I'll make the above fix in the next version.
