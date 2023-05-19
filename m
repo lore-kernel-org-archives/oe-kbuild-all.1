@@ -1,148 +1,171 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF76362
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 00:53:49 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-4f13d8f74abso3112889e87.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 18 May 2023 17:53:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D1A362
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 01:13:31 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-253310a0df7so298917a91.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 18 May 2023 18:13:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684457627; x=1687049627;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sivbYrV1bwadAn0fltPP6rK4i4zR+Og2lN0Gw2Oc6Vo=;
-        b=fV+U0lRFgOUrBk2S15+f6+JYfPBvpTkpMx8KtdzflaHNzL2S2y9Eli5t8RLxJu6Ide
-         6ySt/2IknEJMCbGc0fZ/gUFSrMgJNGlnFgcBNq0eOaYloOYj5bh0m+J5miz0romABUM1
-         fU72IZRjd7GBaD8J12mIiEYI5Lxsd6uZvErlWwjlga2C94GyF4E/T93K8v1DCFx312ii
-         7/NG22ru5of/LDh4OJiwer85D5JHYS7DIyYmS65A+NVAAzjw3UvQ/E7eA2m7lvqAkigX
-         t0CbXhKVxQc7y0CS9odK9PwBo5KOuGcBs62BjbhuED3oZl+W/HO54IOTiDxpWX+ZgDsL
-         qpdg==
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1684458811; x=1687050811;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cFsTEa2NdXOwQC3Qij3M9u6qQzHlvyGxvsYKocMSt28=;
+        b=gLl4KRTTR1bq7Cmnzk8NgCFkZBBLVb/3tVRUJb9rbvKgoinTMohG49OguLk1p5iw6a
+         7gC23Et321bxmUUCy03XE7IweGZHsgUREf2NHTeKwaZNaHMT3PIJ/PD1zjX67f4h1CYQ
+         jEwSXZrXyQr6e0QepCNguYh9wODiepM14dnBRqPHr42FVKjSpCMmUFiC2y7J+UtKwrau
+         YUqMp05svHYkdStQnFcqK9H2k/yIhh9dhjBOS4LyS5+CC8579ODPFYoNg+CFpxsnNesG
+         NN0r5lkqKQ5I3MDBLKaB+N/0eAykvNg6Wdg0qx0NcsUO5+UQYSiwUg4rGAK+9+1QFnvg
+         zBaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684457627; x=1687049627;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sivbYrV1bwadAn0fltPP6rK4i4zR+Og2lN0Gw2Oc6Vo=;
-        b=M2GVXAjlwT+J2Pyi7Y0zj3j1zwq4W2o+nTSmLXz5ozeOaO4t+V3zDmI3Hz+Xvdy8ww
-         gPT0HaOpYwcPxjrW551cCRgmHbIgELlJ2kE09kBTEe5wg1F6iU5ov7sjnJPTteUeQ5kO
-         W3VdcL2edxW97rEncNnn+ffXqwi0jq1C7+cfYKUTbe9Hr1gIfjmRf6heGsx+RCnS28X7
-         6wDPCzUiPncpfKz5E4DqQKEVc/EQNRpWPdW/NoGJwNZmMz6o3JprQz7eRQudVhWgej1y
-         hTMr8LYJe0vP8aV8w9FKci15jWc7T238B1SLxpKd8Qb5wCSHsa/3N7SbEnH2X02HgsUc
-         4bWQ==
-X-Gm-Message-State: AC+VfDxJ6Mkc9CtDDzRLLpUkiXF0TVyhV9If/hbu+Yp4KF6d6EZ6rIIm
-	dKQ/pZHODBfA25qx10xQA7dWErkZWb3bwjlZHnw=
-X-Google-Smtp-Source: ACHHUZ69uBBZgn6f6vUX8sQygzgcHzJYsGHym+7MIAzeaKrUWk1qJvA5wNnrk3YM1RC+LLKe8LJ88BQl+X8zF0LsGsQ=
-X-Received: by 2002:ac2:5939:0:b0:4f3:8823:ebe9 with SMTP id
- v25-20020ac25939000000b004f38823ebe9mr245681lfi.22.1684457627157; Thu, 18 May
- 2023 17:53:47 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1684458811; x=1687050811;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cFsTEa2NdXOwQC3Qij3M9u6qQzHlvyGxvsYKocMSt28=;
+        b=HV0/Z3J/dXP6NaG1rebz1C1D23XCtkaYgWgXvGc4Iw0mtftt72CpYFg2Nj+y2uyADZ
+         aDH1z/19hmX5mdMlRl/ElQmUjy6RqgP53Jw4sJU5RK+rBtDyBMWLgP32ZE8ab08C3GJe
+         JZYwp9MMSLHEUjD+4gG1HBTqlw9wTwSbdf9xmE70sGtVM8H4gYSvWj5nkfpzr8KRLL18
+         UdEH8/E76RtbpqswbkRmIxdZTX1y9FTEHnSzNsWqCM65FnxTK0pnE0l4wQlwV0aQ7rAN
+         /kYoxfLO80njHv9dWJTXZ2UVXF6TVOAC0Ea9OLMGnhMu7OT2IAPO9CwrtWQBeGL8bLgg
+         y9gg==
+X-Gm-Message-State: AC+VfDy0tcWlHQtnlkutMkNTWg8r5gMG/atY93B72M3irNqTktpyYhuI
+	BYLL+DjzvVbDFUsMySZbZ8aG9g==
+X-Google-Smtp-Source: ACHHUZ6kVKgYIh/PnI1AJuopK51NpX+qT27+ZXgqmsN6HVI/wNdrKF5jVgpya7s8cYRlRVxwPQzyHg==
+X-Received: by 2002:a17:90b:4d8a:b0:250:d8e1:d326 with SMTP id oj10-20020a17090b4d8a00b00250d8e1d326mr718933pjb.0.1684458810815;
+        Thu, 18 May 2023 18:13:30 -0700 (PDT)
+Received: from [192.168.1.136] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id r14-20020a17090a454e00b002528588560fsm292152pjm.13.2023.05.18.18.13.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 May 2023 18:13:30 -0700 (PDT)
+Message-ID: <cf82830e-91fb-3a50-86c4-b57f7f761a80@kernel.dk>
+Date: Thu, 18 May 2023 19:13:28 -0600
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230518215444.1418789-2-andrii@kernel.org> <202305190724.nnh1ZV2F-lkp@intel.com>
- <CAEf4BzYW_OXeF=5L1XU5025-VbWN3M-wOSszXqMD6c5E9bEO9w@mail.gmail.com>
-In-Reply-To: <CAEf4BzYW_OXeF=5L1XU5025-VbWN3M-wOSszXqMD6c5E9bEO9w@mail.gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Thu, 18 May 2023 17:53:35 -0700
-Message-ID: <CAADnVQJL3ZAxXrR6nkk=pYbuVS8NhGX19UJpsvSrH4VbPAayhg@mail.gmail.com>
-Subject: Re: [PATCH v2 bpf-next 1/3] bpf: support O_PATH FDs in BPF_OBJ_PIN
- and BPF_OBJ_GET commands
-To: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Andrii Nakryiko <andrii@kernel.org>, bpf <bpf@vger.kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Martin KaFai Lau <martin.lau@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	Aleksa Sarai <cyphar@cyphar.com>, Christian Brauner <brauner@kernel.org>, 
-	Lennart Poettering <lennart@poettering.net>, Linux-Fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH v13 5/7] io-uring: add sqpoll support for napi busy poll
+Content-Language: en-US
+To: kernel test robot <lkp@intel.com>, Stefan Roesch <shr@devkernel.io>,
+ io-uring@vger.kernel.org, kernel-team@fb.com
+Cc: oe-kbuild-all@lists.linux.dev, ammarfaizi2@gnuweeb.org,
+ netdev@vger.kernel.org, kuba@kernel.org, olivier@trillion01.com
+References: <20230518211751.3492982-6-shr@devkernel.io>
+ <202305190745.UK8QQ6fw-lkp@intel.com>
+From: Jens Axboe <axboe@kernel.dk>
+In-Reply-To: <202305190745.UK8QQ6fw-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 18, 2023 at 5:19=E2=80=AFPM Andrii Nakryiko
-<andrii.nakryiko@gmail.com> wrote:
->
-> On Thu, May 18, 2023 at 4:59=E2=80=AFPM kernel test robot <lkp@intel.com>=
- wrote:
-> >
-> > Hi Andrii,
-> >
-> > kernel test robot noticed the following build warnings:
-> >
-> > [auto build test WARNING on bpf-next/master]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/=
-bpf-support-O_PATH-FDs-in-BPF_OBJ_PIN-and-BPF_OBJ_GET-commands/20230519-060=
-110
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.gi=
-t master
-> > patch link:    https://lore.kernel.org/r/20230518215444.1418789-2-andri=
-i%40kernel.org
-> > patch subject: [PATCH v2 bpf-next 1/3] bpf: support O_PATH FDs in BPF_O=
-BJ_PIN and BPF_OBJ_GET commands
-> > config: m68k-allyesconfig
-> > compiler: m68k-linux-gcc (GCC) 12.1.0
-> > reproduce (this is a W=3D1 build):
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/s=
-bin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # https://github.com/intel-lab-lkp/linux/commit/74f08e59c3fccac=
-04b3c080831615209e11be4fb
-> >         git remote add linux-review https://github.com/intel-lab-lkp/li=
-nux
-> >         git fetch --no-tags linux-review Andrii-Nakryiko/bpf-support-O_=
-PATH-FDs-in-BPF_OBJ_PIN-and-BPF_OBJ_GET-commands/20230519-060110
-> >         git checkout 74f08e59c3fccac04b3c080831615209e11be4fb
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.c=
-ross W=3D1 O=3Dbuild_dir ARCH=3Dm68k olddefconfig
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.c=
-ross W=3D1 O=3Dbuild_dir ARCH=3Dm68k SHELL=3D/bin/bash kernel/
-> >
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202305190724.nnh1ZV2F-l=
-kp@intel.com/
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> >    kernel/bpf/syscall.c: In function 'bpf_obj_get':
-> > >> kernel/bpf/syscall.c:2720:13: warning: variable 'path_fd' set but no=
-t used [-Wunused-but-set-variable]
-> >     2720 |         int path_fd;
-> >          |             ^~~~~~~
-> >
-> >
-> > vim +/path_fd +2720 kernel/bpf/syscall.c
-> >
-> >   2717
-> >   2718  static int bpf_obj_get(const union bpf_attr *attr)
-> >   2719  {
-> > > 2720          int path_fd;
-> >   2721
-> >   2722          if (CHECK_ATTR(BPF_OBJ) || attr->bpf_fd !=3D 0 ||
-> >   2723              attr->file_flags & ~(BPF_OBJ_FLAG_MASK | BPF_F_PATH=
-_FD))
-> >   2724                  return -EINVAL;
-> >   2725
-> >   2726          /* path_fd has to be accompanied by BPF_F_PATH_FD flag =
-*/
-> >   2727          if (!(attr->file_flags & BPF_F_PATH_FD) && attr->path_f=
-d)
-> >   2728                  return -EINVAL;
-> >   2729
-> >   2730          path_fd =3D attr->file_flags & BPF_F_PATH_FD ? attr->pa=
-th_fd : AT_FDCWD;
-> >   2731          return bpf_obj_get_user(attr->path_fd, u64_to_user_ptr(=
-attr->pathname),
->
-> argh.... s/attr->path_fd/path_fd/ here, but it's curious how tests
-> didn't catch this because we always provide absolute path in
-> attr->pathname, and from openat() man page:
->
->   If pathname is absolute, then dirfd is ignored.
->
-> So whatever garbage FD is passed in (in this case 0), the kernel won't
-> complain. Interesting. I'll send v3 with a fix.
+On 5/18/23 6:11?PM, kernel test robot wrote:
+> Hi Stefan,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on d2b7fa6174bc4260e496cbf84375c73636914641]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Roesch/net-split-off-__napi_busy_poll-from-napi_busy_poll/20230519-054117
+> base:   d2b7fa6174bc4260e496cbf84375c73636914641
+> patch link:    https://lore.kernel.org/r/20230518211751.3492982-6-shr%40devkernel.io
+> patch subject: [PATCH v13 5/7] io-uring: add sqpoll support for napi busy poll
+> config: powerpc-allnoconfig
+> compiler: powerpc-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/8d324fedc325505406b6ea808d5d7a7cacb321a5
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Stefan-Roesch/net-split-off-__napi_busy_poll-from-napi_busy_poll/20230519-054117
+>         git checkout 8d324fedc325505406b6ea808d5d7a7cacb321a5
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202305190745.UK8QQ6fw-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from io_uring/sqpoll.c:18:
+>    io_uring/sqpoll.c: In function '__io_sq_thread':
+>>> io_uring/napi.h:81:39: error: expected expression before 'do'
+>       81 | #define io_napi_sqpoll_busy_poll(ctx) do {} while (0)
+>          |                                       ^~
+>    io_uring/sqpoll.c:198:32: note: in expansion of macro 'io_napi_sqpoll_busy_poll'
+>      198 |                         ret += io_napi_sqpoll_busy_poll(ctx);
+>          |                                ^~~~~~~~~~~~~~~~~~~~~~~~
+> 
 
-because other tests have an absolute path to bpf objs?
+That's my fault, didn't look closely enough. But let's fold this one into
+patch 3, to get proper types for !CONFIG_NET_RX_BUSY_POLL.
+
+
+diff --git a/io_uring/napi.h b/io_uring/napi.h
+index 69c1970cbecc..64d07317866b 100644
+--- a/io_uring/napi.h
++++ b/io_uring/napi.h
+@@ -60,39 +60,43 @@ static inline void io_napi_add(struct io_kiocb *req)
+ 	__io_napi_add(ctx, req->file);
+ }
+ 
+-#else
++#else /* CONFIG_NET_RX_BUSY_POLL */
+ 
+ static inline void io_napi_init(struct io_ring_ctx *ctx)
+ {
+ }
+-
+ static inline void io_napi_free(struct io_ring_ctx *ctx)
+ {
+ }
+-
+ static inline int io_register_napi(struct io_ring_ctx *ctx, void __user *arg)
+ {
+ 	return -EOPNOTSUPP;
+ }
+-
+ static inline int io_unregister_napi(struct io_ring_ctx *ctx, void __user *arg)
+ {
+ 	return -EOPNOTSUPP;
+ }
+-
+ static inline bool io_napi(struct io_ring_ctx *ctx)
+ {
+ 	return false;
+ }
+-
+ static inline void io_napi_add(struct io_kiocb *req)
+ {
+ }
++static inline void io_napi_adjust_timeout(struct io_ring_ctx *ctx,
++					  struct io_wait_queue *iowq,
++					  struct timespec64 *ts)
++{
++}
++static inline void io_napi_busy_loop(struct io_ring_ctx *ctx,
++				     struct io_wait_queue *iowq)
++{
++}
++static inline int io_napi_sqpoll_busy_poll(struct io_ring_ctx *ctx)
++{
++	return 0;
++}
+ 
+-#define io_napi_adjust_timeout(ctx, iowq, ts) do {} while (0)
+-#define io_napi_busy_loop(ctx, iowq) do {} while (0)
+-#define io_napi_sqpoll_busy_poll(ctx) do {} while (0)
+-
+-#endif
++#endif /* CONFIG_NET_RX_BUSY_POLL */
+ 
+ #endif
+
+-- 
+Jens Axboe
+
