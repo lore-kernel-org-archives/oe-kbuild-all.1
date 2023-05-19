@@ -1,44 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4D73D3B0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 08:08:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756792105
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 08:08:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684483685; x=1716019685;
+  t=1684483722; x=1716019722;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LyHgKL5ocyX59mOIB+q47KdF2PjlUCRg3gvwShveV4s=;
-  b=QCV+hrdg7UNl5pWDrl5mRqkwpjSI4OaKL1PbesjVpGtCtkjUYdUnVKAZ
-   WlGQyN3f/giK14pFX/zJCBMpgOm2IN8gR4/tuEh2Ga3Jcz+nRTGAz8BMr
-   tWjajGf30OkZASAeXnv0JM9VVPekgpHCM/vXSnTQFK1TdvSRfMserOYdP
-   bEyTBhe6rnFg9EWfcu9tniSRk+dEGf11Cnf4pMT9DcPyXh2jMmFwVyk4V
-   ASewxygqzRNwpSBO9hVtLp69PdLEEkFmO+4TsjH5Wf7kna9qYpsITZD3P
-   NTCMJioGFVpbU/bqvqkAMvkdYzySk2HWtM75n4KWwTRuONrFImIAgvabe
+  bh=qwt5XSvotsL6/OoCPhRbxmr6KwouXDESJaWqkjj6sY4=;
+  b=D+y+bKLh+axCq9FUEhMCFyZaM6EPyZz26yhX8yTPDezu4ebOq3sW7DTA
+   1E4bDWZ2UnS8MznSbpORJajE4xdyb2qjKDHEmCkVYE8SgLVKCFQbKCqfU
+   D7vRvVn0ud4Ex3jgwmoSYnplVo7tvK6cDAKXK5ejjEsyW/iD/qLfK0Qry
+   /4B6estX7gr1PU6lCcAIvW50ACNImGZJOUccyVefjIakmhnXAkp2oLV0w
+   /fIcgKsSuD4gZQ0kJllREq/NKtSo65Xnvv7AJCoaJo943eVR428M2vsOH
+   YGOKzRe2G+eT0YRcRpEcAZqdqcKzvxsTAppTO931qWTH4RH8STKg+juw+
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="336904961"
+X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="341747659"
 X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="336904961"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 01:08:04 -0700
+   d="scan'208";a="341747659"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2023 01:08:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="876759529"
+X-IronPort-AV: E=McAfee;i="6600,9927,10714"; a="846805360"
 X-IronPort-AV: E=Sophos;i="6.00,176,1681196400"; 
-   d="scan'208";a="876759529"
+   d="scan'208";a="846805360"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 19 May 2023 01:08:03 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 19 May 2023 01:08:03 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1pzv9f-000Ahg-10;
+	id 1pzv9f-000Ahe-0v;
 	Fri, 19 May 2023 08:08:03 +0000
 Date: Fri, 19 May 2023 16:07:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dexuan Cui <decui@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dcui-tdx:decui/mainline/v6-dda 11/14]
- drivers/hv/vmbus_drv.c:2002:33: warning: unsigned conversion from 'long long
- int' to 'resource_size_t' {aka 'unsigned int'} changes value from
- '68182605824' to '3758096384'
-Message-ID: <202305191551.gm4ZgDg0-lkp@intel.com>
+To: Song Liu <song@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-raid@vger.kernel.org
+Subject: [song-md:module_alloc_test 5/6] arch/powerpc/kernel/module.c:108:15:
+ error: unused variable 'ptr'
+Message-ID: <202305191501.WQ9TlGuW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,161 +46,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/dcui/tdx decui/mainline/v6-dda
-head:   d1c5b4ae25d865e8abf3db4042ebb485121088ba
-commit: 41bc034ec095b46e13c59749736550aff451d011 [11/14] Drivers: hv: vmbus:  Hardcode MMIO resources in vmbus_walk_resources() when necessary
-config: i386-randconfig-a005 (https://download.01.org/0day-ci/archive/20230519/202305191551.gm4ZgDg0-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+Hi Song,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git module_alloc_test
+head:   7b05e9e4784401342805814b52f3dab621fdb1d1
+commit: d4dbd22faf1717ce798327b60fc98cd5b7628ec8 [5/6] powerpc/module: use module_alloc_type
+config: powerpc-pcm030_defconfig (https://download.01.org/0day-ci/archive/20230519/202305191501.WQ9TlGuW-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
-        # https://github.com/dcui/tdx/commit/41bc034ec095b46e13c59749736550aff451d011
-        git remote add dcui-tdx https://github.com/dcui/tdx
-        git fetch --no-tags dcui-tdx decui/mainline/v6-dda
-        git checkout 41bc034ec095b46e13c59749736550aff451d011
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/song/md.git/commit/?id=d4dbd22faf1717ce798327b60fc98cd5b7628ec8
+        git remote add song-md git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git
+        git fetch --no-tags song-md module_alloc_test
+        git checkout d4dbd22faf1717ce798327b60fc98cd5b7628ec8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hv/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305191551.gm4ZgDg0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305191501.WQ9TlGuW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/hv/vmbus_drv.c: In function 'vmbus_walk_resources':
->> drivers/hv/vmbus_drv.c:2002:33: warning: unsigned conversion from 'long long int' to 'resource_size_t' {aka 'unsigned int'} changes value from '68182605824' to '3758096384' [-Woverflow]
-    2002 |                         start = 0xFE0000000;
-         |                                 ^~~~~~~~~~~
-   drivers/hv/vmbus_drv.c:2003:31: warning: unsigned conversion from 'long long int' to 'resource_size_t' {aka 'unsigned int'} changes value from '68719476735' to '4294967295' [-Woverflow]
-    2003 |                         end = 0xFFFFFFFFF;
-         |                               ^~~~~~~~~~~
+   arch/powerpc/kernel/module.c: In function 'module_alloc_type_init':
+>> arch/powerpc/kernel/module.c:108:15: error: unused variable 'ptr' [-Werror=unused-variable]
+     108 |         void *ptr = NULL;
+         |               ^~~
+   cc1: all warnings being treated as errors
 
 
-vim +2002 drivers/hv/vmbus_drv.c
+vim +/ptr +108 arch/powerpc/kernel/module.c
 
-  1965	
-  1966	#ifdef CONFIG_ACPI
-  1967	/*
-  1968	 * VMBUS is an acpi enumerated device. Get the information we
-  1969	 * need from DSDT.
-  1970	 */
-  1971	static acpi_status vmbus_walk_resources(struct acpi_resource *res, void *ctx)
-  1972	{
-  1973		resource_size_t start = 0;
-  1974		resource_size_t end = 0;
-  1975		struct resource *new_res;
-  1976		struct resource **old_res = &hyperv_mmio;
-  1977		struct resource **prev_res = NULL;
-  1978		struct resource r;
-  1979	
-  1980		switch (res->type) {
-  1981	
-  1982		/*
-  1983		 * "Address" descriptors are for bus windows. Ignore
-  1984		 * "memory" descriptors, which are for registers on
-  1985		 * devices.
-  1986		 */
-  1987		case ACPI_RESOURCE_TYPE_ADDRESS32:
-  1988			start = res->data.address32.address.minimum;
-  1989			end = res->data.address32.address.maximum;
-  1990			if (start == 0 && end == 0xFFFFFFFF) {
-  1991				start = 0xF8000000;
-  1992				end = 0xFFFFFFFF;
-  1993				pr_warn("vmbus_walk_resources: using a default 32-bit MMIO range\n");
-  1994			}
-  1995			break;
-  1996	
-  1997		case ACPI_RESOURCE_TYPE_ADDRESS64:
-  1998			start = res->data.address64.address.minimum;
-  1999			end = res->data.address64.address.maximum;
-  2000	
-  2001			if (start == 0 && end == 0xFFFFFFFFFFFFFFFF) {
-> 2002				start = 0xFE0000000;
-  2003				end = 0xFFFFFFFFF;
-  2004				pr_warn("vmbus_walk_resources: using a default 64-bit MMIO range\n");
-  2005			}
-  2006			break;
-  2007	
-  2008		/*
-  2009		 * The IRQ information is needed only on ARM64, which Hyper-V
-  2010		 * sets up in the extended format. IRQ information is present
-  2011		 * on x86/x64 in the non-extended format but it is not used by
-  2012		 * Linux. So don't bother checking for the non-extended format.
-  2013		 */
-  2014		case ACPI_RESOURCE_TYPE_EXTENDED_IRQ:
-  2015			if (!acpi_dev_resource_interrupt(res, 0, &r)) {
-  2016				pr_err("Unable to parse Hyper-V ACPI interrupt\n");
-  2017				return AE_ERROR;
-  2018			}
-  2019			/* ARM64 INTID for VMbus */
-  2020			vmbus_interrupt = res->data.extended_irq.interrupts[0];
-  2021			/* Linux IRQ number */
-  2022			vmbus_irq = r.start;
-  2023			return AE_OK;
-  2024	
-  2025		default:
-  2026			/* Unused resource type */
-  2027			return AE_OK;
-  2028	
-  2029		}
-  2030		/*
-  2031		 * Ignore ranges that are below 1MB, as they're not
-  2032		 * necessary or useful here.
-  2033		 */
-  2034		if (end < 0x100000)
-  2035			return AE_OK;
-  2036	
-  2037		new_res = kzalloc(sizeof(*new_res), GFP_ATOMIC);
-  2038		if (!new_res)
-  2039			return AE_NO_MEMORY;
-  2040	
-  2041		/* If this range overlaps the virtual TPM, truncate it. */
-  2042		if (end > VTPM_BASE_ADDRESS && start < VTPM_BASE_ADDRESS)
-  2043			end = VTPM_BASE_ADDRESS;
-  2044	
-  2045		new_res->name = "hyperv mmio";
-  2046		new_res->flags = IORESOURCE_MEM;
-  2047		new_res->start = start;
-  2048		new_res->end = end;
-  2049	
-  2050		/*
-  2051		 * If two ranges are adjacent, merge them.
-  2052		 */
-  2053		do {
-  2054			if (!*old_res) {
-  2055				*old_res = new_res;
-  2056				break;
-  2057			}
-  2058	
-  2059			if (((*old_res)->end + 1) == new_res->start) {
-  2060				(*old_res)->end = new_res->end;
-  2061				kfree(new_res);
-  2062				break;
-  2063			}
-  2064	
-  2065			if ((*old_res)->start == new_res->end + 1) {
-  2066				(*old_res)->start = new_res->start;
-  2067				kfree(new_res);
-  2068				break;
-  2069			}
-  2070	
-  2071			if ((*old_res)->start > new_res->end) {
-  2072				new_res->sibling = *old_res;
-  2073				if (prev_res)
-  2074					(*prev_res)->sibling = new_res;
-  2075				*old_res = new_res;
-  2076				break;
-  2077			}
-  2078	
-  2079			prev_res = old_res;
-  2080			old_res = &(*old_res)->sibling;
-  2081	
-  2082		} while (1);
-  2083	
-  2084		return AE_OK;
-  2085	}
-  2086	#endif
-  2087	
+d4dbd22faf1717 Song Liu         2023-05-17   98  
+d4dbd22faf1717 Song Liu         2023-05-17   99  void __init module_alloc_type_init(struct mod_allocators *allocators)
+2ec13df167040c Christophe Leroy 2021-04-01  100  {
+4fcc636615b1a3 Jordan Niethe    2021-06-09  101  	pgprot_t prot = strict_module_rwx_enabled() ? PAGE_KERNEL : PAGE_KERNEL_EXEC;
+d4dbd22faf1717 Song Liu         2023-05-17  102  	struct mod_alloc_params *params = &powerpc_mod_type_allocator.params;
+d4dbd22faf1717 Song Liu         2023-05-17  103  	struct vmalloc_params *vmp = &params->vmp[0];
+d4dbd22faf1717 Song Liu         2023-05-17  104  	int i;
+4fcc636615b1a3 Jordan Niethe    2021-06-09  105  
+8abddd968a303d Nicholas Piggin  2021-05-03  106  #ifdef MODULES_VADDR
+2ec13df167040c Christophe Leroy 2021-04-01  107  	unsigned long limit = (unsigned long)_etext - SZ_32M;
+2ec13df167040c Christophe Leroy 2021-04-01 @108  	void *ptr = NULL;
+
+:::::: The code at line 108 was first introduced by commit
+:::::: 2ec13df167040cd153c25c4d96d0ffc573ac4c40 powerpc/modules: Load modules closer to kernel text
+
+:::::: TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
