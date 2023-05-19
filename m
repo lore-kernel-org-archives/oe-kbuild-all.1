@@ -1,88 +1,92 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E29569C;
-	Fri, 19 May 2023 09:28:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E2FEC433EF;
-	Fri, 19 May 2023 09:28:09 +0000 (UTC)
-Date: Fri, 19 May 2023 10:28:06 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [arm64:devel/kmalloc-minalign 14/15] mm/slab_common.c:872:6:
- error: use of undeclared identifier 'io_tlb_default_mem'
-Message-ID: <ZGdBJl2VUURUWA0J@arm.com>
-References: <202305191155.zjUXPrvO-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF5F6108
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 09:49:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 880E7C433D2;
+	Fri, 19 May 2023 09:49:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1684489761;
+	bh=JMyICyhpRS78nuPulWLReiYzHDvjBhYVqIXty0eAsEs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IdbeGFUx0Rf2qD281dHeVnTbaoklQ9oPEMXxDkNZP0xuM3defzaqDyB2/kp3r1Rfd
+	 a0babOIp1nEj6BgamEN9dtojFSnjbUMc8hc4ibWLb/Dw+zhJOP59P0XFao53FlQazJ
+	 KTeuHUH7K+Ai5fcdC6cB3hIRoRRtyoB4hBb1q+3M=
+Date: Fri, 19 May 2023 10:49:15 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: zhuyinbo <zhuyinbo@loongson.cn>
+Cc: kernel test robot <lkp@intel.com>,
+	Minas Harutyunyan <hminas@synopsys.com>,
+	Bjorn Helgaas <helgaas@kernel.org>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>,
+	wanghongliang@loongson.cn, Liu Peibao <liupeibao@loongson.cn>,
+	loongson-kernel@lists.loongnix.cn
+Subject: Re: [PATCH v1] usb: dwc2: add pci_device_id driver_data parse support
+Message-ID: <2023051951-snuff-fit-4cf6@gregkh>
+References: <20230518092240.8023-1-zhuyinbo@loongson.cn>
+ <202305190105.O6ycxCti-lkp@intel.com>
+ <933c829f-0d27-f3b9-3db6-f2211495b086@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <202305191155.zjUXPrvO-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <933c829f-0d27-f3b9-3db6-f2211495b086@loongson.cn>
 
-On Fri, May 19, 2023 at 12:21:57PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git devel/kmalloc-minalign
-> head:   fb23b58c4b9af85f4be40fda6918fb03c558f052
-> commit: c6bfb3f07647d9d3e454ff481dfd10ddb3d925f7 [14/15] mm: slab: Reduce the kmalloc() minimum alignment if DMA bouncing possible
-> config: arm-randconfig-r025-20230517
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm cross compiling tool for clang build
->         # apt-get install binutils-arm-linux-gnueabi
->         # https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/commit/?id=c6bfb3f07647d9d3e454ff481dfd10ddb3d925f7
->         git remote add arm64 https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
->         git fetch --no-tags arm64 devel/kmalloc-minalign
->         git checkout c6bfb3f07647d9d3e454ff481dfd10ddb3d925f7
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+On Fri, May 19, 2023 at 03:13:20PM +0800, zhuyinbo wrote:
 > 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202305191155.zjUXPrvO-lkp@intel.com/
 > 
-> All errors (new ones prefixed by >>):
+> 在 2023/5/19 上午1:52, kernel test robot 写道:
+> > Hi Yinbo,
+> > 
+> > kernel test robot noticed the following build errors:
+> > 
+> > [auto build test ERROR on pci/next]
+> > [also build test ERROR on pci/for-linus westeri-thunderbolt/next linus/master v6.4-rc2 next-20230518]
+> > [cannot apply to usb/usb-testing usb/usb-next usb/usb-linus]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Yinbo-Zhu/usb-dwc2-add-pci_device_id-driver_data-parse-support/20230518-173721
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+> > patch link:    https://lore.kernel.org/r/20230518092240.8023-1-zhuyinbo%40loongson.cn
+> > patch subject: [PATCH v1] usb: dwc2: add pci_device_id driver_data parse support
+> > config: powerpc-allmodconfig
+> > compiler: powerpc-linux-gcc (GCC) 12.1.0
+> > reproduce (this is a W=1 build):
+> >          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >          chmod +x ~/bin/make.cross
+> >          # https://github.com/intel-lab-lkp/linux/commit/3ff56448e1442fe8b1e72651a8d4d6e1086ece32
+> >          git remote add linux-review https://github.com/intel-lab-lkp/linux
+> >          git fetch --no-tags linux-review Yinbo-Zhu/usb-dwc2-add-pci_device_id-driver_data-parse-support/20230518-173721
+> >          git checkout 3ff56448e1442fe8b1e72651a8d4d6e1086ece32
+> >          # save the config file
+> >          mkdir build_dir && cp config build_dir/.config
+> >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+> >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202305190105.O6ycxCti-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>, old ones prefixed by <<):
+> > 
+> > > > ERROR: modpost: "dwc2_pci_ids" [drivers/usb/dwc2/dwc2_pci.ko] undefined!
 > 
-> >> mm/slab_common.c:872:6: error: use of undeclared identifier 'io_tlb_default_mem'
->                io_tlb_default_mem.nslabs == 0)
->                ^
->    1 error generated.
+> 
+> I test it was set dwc2 pci driver as built-in, so no error, this compile
+> error was that dwc2_pci_ids not export when driver as module and I will
+> add EXPORT_SYMBOL_GPL(dwc2_pci_ids) to fix that compile issue.
 
-Ah, I forgot that not all arches have the SWIOTLB enabled. I'll fold the
-hunk below in the next update. Thanks for the report.
+Again, no, please do this properly, no one should ever be walking a pci
+id list by hand like this...
 
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index 84e5a5e435d6..a57aa1a7e7de 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -864,6 +864,7 @@ void __init setup_kmalloc_cache_index_table(void)
- 	}
- }
- 
-+#ifdef CONFIG_SWIOTLB
- static unsigned int __kmalloc_minalign(void)
- {
- 	int cache_align = dma_get_cache_alignment();
-@@ -874,6 +875,12 @@ static unsigned int __kmalloc_minalign(void)
- 
- 	return ARCH_KMALLOC_MINALIGN;
- }
-+#else
-+static unsigned int __kmalloc_minalign(void)
-+{
-+	return dma_get_cache_alignment();
-+}
-+#endif
- 
- void __init
- new_kmalloc_cache(int idx, enum kmalloc_cache_type type, slab_flags_t flags)
+thanks,
 
--- 
-Catalin
+greg k-h
