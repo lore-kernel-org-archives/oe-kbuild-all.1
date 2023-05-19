@@ -1,92 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF5F6108
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 09:49:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 880E7C433D2;
-	Fri, 19 May 2023 09:49:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1684489761;
-	bh=JMyICyhpRS78nuPulWLReiYzHDvjBhYVqIXty0eAsEs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IdbeGFUx0Rf2qD281dHeVnTbaoklQ9oPEMXxDkNZP0xuM3defzaqDyB2/kp3r1Rfd
-	 a0babOIp1nEj6BgamEN9dtojFSnjbUMc8hc4ibWLb/Dw+zhJOP59P0XFao53FlQazJ
-	 KTeuHUH7K+Ai5fcdC6cB3hIRoRRtyoB4hBb1q+3M=
-Date: Fri, 19 May 2023 10:49:15 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: zhuyinbo <zhuyinbo@loongson.cn>
-Cc: kernel test robot <lkp@intel.com>,
-	Minas Harutyunyan <hminas@synopsys.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev, Jianmin Lv <lvjianmin@loongson.cn>,
-	wanghongliang@loongson.cn, Liu Peibao <liupeibao@loongson.cn>,
-	loongson-kernel@lists.loongnix.cn
-Subject: Re: [PATCH v1] usb: dwc2: add pci_device_id driver_data parse support
-Message-ID: <2023051951-snuff-fit-4cf6@gregkh>
-References: <20230518092240.8023-1-zhuyinbo@loongson.cn>
- <202305190105.O6ycxCti-lkp@intel.com>
- <933c829f-0d27-f3b9-3db6-f2211495b086@loongson.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBDB46FAF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 10:00:32 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-1ae79528d4dso10274095ad.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 19 May 2023 03:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1684490432; x=1687082432;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=bxFT/eH6fI01yzQTav7apbXJs4Zkvkdbiyhdl2n33zI=;
+        b=cvDpCNTPA3iJ2kdFkRCSMFHRtdReYV2KXQhy8iT3L9ZJ57nbIqLq8LmQb7Z118jA9Z
+         SeD9I7cI3Y8OG8enSiToTsSgDB8PDXjPB4UZO1pcKN7MMHybvVarhYsNfDvDhCTgFGvb
+         ZFPdyRXJ9FO6OyoWmqeWJD7xnpT4bdCerCbZ8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684490432; x=1687082432;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bxFT/eH6fI01yzQTav7apbXJs4Zkvkdbiyhdl2n33zI=;
+        b=fTD8UFOSWf1BF1FcLfI7zcyv2lwyf3g8wniFxyJmrJ+G5fdawyIFJNa+zMI8+YXuus
+         lJOy7PPdmT/cdB/C/gRiwDYwclOBj98z2EyzB5JidMmsEBTFqLYLO9sk1vQW/AJQVkwh
+         kgjk/tqx8vwz87KiNfsbsdDW82iZMwKEEyMkAv/SmcGZuABsxU3uB3Zs3aW08RWtcz72
+         Bl8wM6JyCMun7mo835mltjfqTKfyr1xYINt1i3yCDDChtyC4wyZvN0bgTlINeh8mRzOb
+         r+Mxyd3gRywvcpby41m6YxI9Ao6ZbgJpkKfQFOh6BwOfxP+VuAvqE4xQlG/9QNwKhs/V
+         VP8w==
+X-Gm-Message-State: AC+VfDxoILFpQ4HOYOKyHgFi+hHyjS95VIEi22QleBxbi3eNcFQLKPKe
+	lkaHeA6UqPryvpPd7XKZFNnZtw==
+X-Google-Smtp-Source: ACHHUZ65Vmg+CYxf6B2/ULrLmerlLS1jMd3W4m8M1xENFlfJroRC/2WxG/uzsCpP0fQnBk7vlkPoRQ==
+X-Received: by 2002:a17:902:ef84:b0:1ad:bb42:7672 with SMTP id iz4-20020a170902ef8400b001adbb427672mr2227133plb.29.1684490430693;
+        Fri, 19 May 2023 03:00:30 -0700 (PDT)
+Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
+        by smtp.gmail.com with ESMTPSA id a4-20020a1709027d8400b001ab12545508sm3043029plm.67.2023.05.19.03.00.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 May 2023 03:00:30 -0700 (PDT)
+Date: Fri, 19 May 2023 10:00:24 +0000
+From: Tomasz Figa <tfiga@chromium.org>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dan Carpenter <error27@gmail.com>, oe-kbuild@lists.linux.dev,
+	m.szyprowski@samsung.com, mchehab@kernel.org, ming.qian@nxp.com,
+	shijie.qin@nxp.com, eagle.zhou@nxp.com, bin.liu@mediatek.com,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
+	yunfei.dong@mediatek.com, stanimir.k.varbanov@gmail.com,
+	quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
+	konrad.dybcio@linaro.org, ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de, daniel.almeida@collabora.com, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic
+ allocated
+Message-ID: <20230519100024.en7immda3jdj2wwq@chromium.org>
+References: <4e2cb832-de83-4ba6-bd8a-119a19038cfe@kili.mountain>
+ <a88b93cc-a81f-6186-09fc-02223867e677@collabora.com>
+ <b0018f7b-0556-0ac1-d2fa-89787a27fba1@xs4all.nl>
+ <20230324084830.GA18895@pendragon.ideasonboard.com>
+ <d4b6ad10-1889-0a63-5a14-cb1320e2dc09@xs4all.nl>
+ <7ad524a1-c54f-a01c-3453-2cf1f0f82a13@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <933c829f-0d27-f3b9-3db6-f2211495b086@loongson.cn>
+In-Reply-To: <7ad524a1-c54f-a01c-3453-2cf1f0f82a13@collabora.com>
 
-On Fri, May 19, 2023 at 03:13:20PM +0800, zhuyinbo wrote:
+On Fri, Mar 24, 2023 at 09:56:34AM +0100, Benjamin Gaignard wrote:
 > 
-> 
-> åœ¨ 2023/5/19 ä¸Šåˆ1:52, kernel test robot å†™é“:
-> > Hi Yinbo,
+> Le 24/03/2023 à 09:52, Hans Verkuil a écrit :
+> > On 24/03/2023 09:48, Laurent Pinchart wrote:
+> > > On Fri, Mar 24, 2023 at 09:31:35AM +0100, Hans Verkuil wrote:
+> > > > On 24/03/2023 09:11, Benjamin Gaignard wrote:
+> > > > > Le 24/03/2023 à 06:01, Dan Carpenter a écrit :
+> > > > > > Hi Benjamin,
+> > > > > > 
+> > > > > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > > > > 
+> > > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230321-183154
+> > > > > > base:   git://linuxtv.org/media_tree.git master
+> > > > > > patch link:    https://lore.kernel.org/r/20230321102855.346732-3-benjamin.gaignard%40collabora.com
+> > > > > > patch subject: [PATCH v2 2/8] media: videobuf2: Make bufs array dynamic allocated
+> > > > > > config: arm64-randconfig-m041-20230319 (https://download.01.org/0day-ci/archive/20230324/202303240148.lKRnUqW9-lkp@intel.com/config)
+> > > > > > compiler: aarch64-linux-gcc (GCC) 12.1.0
+> > > > > > 
+> > > > > > If you fix the issue, kindly add following tag where applicable
+> > > > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > > > | Reported-by: Dan Carpenter <error27@gmail.com>
+> > > > > > | Link: https://lore.kernel.org/r/202303240148.lKRnUqW9-lkp@intel.com/
+> > > > > > 
+> > > > > > smatch warnings:
+> > > > > > include/media/videobuf2-core.h:1272 vb2_queue_add_buffer() warn: sleeping in atomic context
+> > > > > > drivers/media/common/videobuf2/videobuf2-core.c:2456 vb2_core_queue_init() warn: Please consider using kcalloc instead of kmalloc_array
+> > > > > > 
+> > > > > > vim +1272 include/media/videobuf2-core.h
+> > > > > > 
+> > > > > > 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1263  static inline bool vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb)
+> > > > > > 625d46c1c1fe8e Benjamin Gaignard 2023-03-21  1264  {
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1265      bool ret = false;
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1266
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1267      spin_lock(&q->bufs_lock);
+> > > > > >                                                           ^^^^^^^^^^^^^^^^^^^^^^^
+> > > > > > Holding a spin lock.
+> > > > > > 
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1268
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1269      if (vb->index >= q->max_num_bufs) {
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1270          struct vb2_buffer **tmp;
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21  1271
+> > > > > > 487d3f14d12ecf Benjamin Gaignard 2023-03-21 @1272          tmp = krealloc_array(q->bufs, q->max_num_bufs * 2, sizeof(*q->bufs), GFP_KERNEL);
+> > > > > >                                                                                                                                        ^^^^^^^^^^
+> > > > > > Sleeping allocation.  GFP_ATOMIC?  Or is there a way to move the
+> > > > > > allocation outside the lock?
+> > > > > I will add GFP_ATOMIC flag in next version.
+> > > > No need. Instead, don't use realloc here, just allocate a new array, copy over all
+> > > > the data from the old, and then switch q->bufs with the spinlock held. Then you
+> > > > can free the old one.
+> > > > 
+> > > > It's only when you update q->bufs that you need the lock.
+> > > The copy also needs to be protected by the lock.
+> > I suspect that that is not needed, since you shouldn't be able to add buffers here
+> > since a mutex should be held at this time.
 > > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on pci/next]
-> > [also build test ERROR on pci/for-linus westeri-thunderbolt/next linus/master v6.4-rc2 next-20230518]
-> > [cannot apply to usb/usb-testing usb/usb-next usb/usb-linus]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Yinbo-Zhu/usb-dwc2-add-pci_device_id-driver_data-parse-support/20230518-173721
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-> > patch link:    https://lore.kernel.org/r/20230518092240.8023-1-zhuyinbo%40loongson.cn
-> > patch subject: [PATCH v1] usb: dwc2: add pci_device_id driver_data parse support
-> > config: powerpc-allmodconfig
-> > compiler: powerpc-linux-gcc (GCC) 12.1.0
-> > reproduce (this is a W=1 build):
-> >          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> >          chmod +x ~/bin/make.cross
-> >          # https://github.com/intel-lab-lkp/linux/commit/3ff56448e1442fe8b1e72651a8d4d6e1086ece32
-> >          git remote add linux-review https://github.com/intel-lab-lkp/linux
-> >          git fetch --no-tags linux-review Yinbo-Zhu/usb-dwc2-add-pci_device_id-driver_data-parse-support/20230518-173721
-> >          git checkout 3ff56448e1442fe8b1e72651a8d4d6e1086ece32
-> >          # save the config file
-> >          mkdir build_dir && cp config build_dir/.config
-> >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-> >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
-> > 
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202305190105.O6ycxCti-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>, old ones prefixed by <<):
-> > 
-> > > > ERROR: modpost: "dwc2_pci_ids" [drivers/usb/dwc2/dwc2_pci.ko] undefined!
-> 
-> 
-> I test it was set dwc2 pci driver as built-in, so no error, this compile
-> error was that dwc2_pci_ids not export when driver as module and I will
-> add EXPORT_SYMBOL_GPL(dwc2_pci_ids) to fix that compile issue.
+> > That said, it's something that Benjamin needs to analyze.
 
-Again, no, please do this properly, no one should ever be walking a pci
-id list by hand like this...
+I spent some time looking through the call sites of vb2_get_buffer() and
+how those can be called and it turned out to be a massive list of code
+paths, including a lot of calls originating from codec drivers calling
+vb2_find_buffer() in random contexts (possibly even interrupt). So a
+spinlock protecting the array pointer makes sense indeed.
 
-thanks,
+> 
+> Does using GFP_ATOMIC is problematic ?
+> 
 
-greg k-h
+Yes, because the ability to reclaim memory is drastically limited and
+the allocation is more likely to fail (as in: it's actually possible).
+(And generally the time with interrupts disabled should be minimized to
+keep system latency reasonable.)
+
+Best regards,
+Tomasz
