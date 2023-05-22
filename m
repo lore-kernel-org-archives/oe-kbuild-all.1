@@ -1,170 +1,183 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B451115
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 May 2023 08:48:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0492BC433EF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 22 May 2023 08:47:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1684745280;
-	bh=dhkdseplp2rrgwJ8+a1C+wai/ckiWP/ufdoDWmarcBE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=j08MVD/ZML3gIaAMOu28RtCcr+8udcM/LreSdpZ9fKlSKWvGdlA3tRaE0bXfJVb8P
-	 yVhb11VmZtOIQcXBEcjGq3/P6+KO7xi/aPdietUgUwM2l1MQ2KfVpTPe3mV3joTygH
-	 a5f3X01rHjvyGCx0lDexQbx0vGtr4VRbGxNxOlMnkQbAbXa7XPIDMToQzs49nejwIV
-	 YGue4tQdk9bdAc6XKJfRWHIPnntSdb5ZY8fOOxtead29y3pE1xQtpV1T+6sN3CpKZE
-	 rUAbzp62g6N5jnjjk/V1EHk41+pbQ0LntOceSXgQgRdNfkDwgDWLvvg005XJ1qlj6b
-	 JDE2tv0GuC7bQ==
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-510e682795fso8073088a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 22 May 2023 01:47:59 -0700 (PDT)
-X-Gm-Message-State: AC+VfDyeaxWLGAxQc60D0V1cz9N5dLLOG3v9IxRSRXuVluWCStKL9wO2
-	E2dl7wFeF32KHI1Dcol9qHy+C1D74pcnjVI9B3U=
-X-Google-Smtp-Source: ACHHUZ4N/bkRduc2PnEwH6IzxhGOPmnL3dIVGwcrnIbp2yQ/rkAEGxKtZpuuXJsIzKYsdt9rQzrVqL3VvejvU5M2JRw=
-X-Received: by 2002:aa7:c40b:0:b0:50b:d75d:5dca with SMTP id
- j11-20020aa7c40b000000b0050bd75d5dcamr8356986edq.42.1684745278235; Mon, 22
- May 2023 01:47:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3A9946D;
+	Mon, 22 May 2023 09:19:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684747170; x=1716283170;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pS2mprnUOi16zHK0ptiPx76gejB/S33U1wEWQt2BdNs=;
+  b=kxLbLq/km7GWlZLJ3EKo9BrgrFWVh4g7Bw8ylh9hqeHpvOp3lJ786E1x
+   M34omYHd6w3r8yXM7q71reTuWHJRt+K75Hl8o+6OLuSa8Mh5NbchtASub
+   EVX6QzpRoRRPYFpzUcb8YFh3kqkBrDmlEE9sCy3hT0K4a9KdbtygGjISr
+   2YMtJCmqJjyouq5DGq+034NF4m2r7vLkOuwdfeoHOxUIQUMNU6V0XM1/g
+   fkdriOzMPRLW3IzdK69t/Lka3Sz90lsisrKQjuIXptY2F8PUNfBQoj+00
+   /Wm/pgjLIEPcV4f6lDToUXdkHFIyhK8pFaf+pvmA7mWBhwb/F8B6XmVl3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="355217408"
+X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
+   d="scan'208";a="355217408"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2023 02:19:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="827647543"
+X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
+   d="scan'208";a="827647543"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 22 May 2023 02:19:29 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q11hQ-000Ckb-27;
+	Mon, 22 May 2023 09:19:28 +0000
+Date: Mon, 22 May 2023 17:18:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [arm:ktext 2/20] arch/arm64/mm/kasan_init.c:250:3: error: call to
+ '__compiletime_assert_415' declared with 'error' attribute: BUILD_BUG_ON
+ failed: VMALLOC_START != MODULES_END
+Message-ID: <202305221756.r8V0FpBw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230517-genkey-v1-1-b887424da4a8@google.com> <202305181712.xjvv1fbD-lkp@intel.com>
- <CAKwvOd=hoKFMC40U-Pd=2dBJ4zT4P60OgJpHvNmH+zdGAd_J-Q@mail.gmail.com>
-In-Reply-To: <CAKwvOd=hoKFMC40U-Pd=2dBJ4zT4P60OgJpHvNmH+zdGAd_J-Q@mail.gmail.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Mon, 22 May 2023 16:47:46 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTReoP+mFqf4TLjAgE0JJ2vvX8p7SnC2-sdjx+PMK-U+ig@mail.gmail.com>
-Message-ID: <CAJF2gTReoP+mFqf4TLjAgE0JJ2vvX8p7SnC2-sdjx+PMK-U+ig@mail.gmail.com>
-Subject: Re: [PATCH] certs: buffer stderr from openssl unless error
-To: Nick Desaulniers <ndesaulniers@google.com>
-Cc: Philip Li <philip.li@intel.com>, oe-kbuild-all@lists.linux.dev, 
-	Ard Biesheuvel <ardb@kernel.org>, linux-csky@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, 
-	linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>, yunhai.syh@alibaba-inc.com, 
-	Cooper Qu <cooper.qu@linux.alibaba.com>, xlf194833@alibaba-inc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-F.Y.I., our compiler team, would put an eye on this.
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm.git ktext
+head:   ea9e5bed5fc11953c59b562e1a367b4d2c8701ed
+commit: de3606f413a49e283f73bf512ad12693fb52bda3 [2/20] arm64: place kernel in its own L0 page table entry
+config: arm64-randconfig-r035-20230521 (https://download.01.org/0day-ci/archive/20230522/202305221756.r8V0FpBw-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0fb98227c90adf2536c9ad644a74d5e92961111)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        git remote add arm git://git.armlinux.org.uk/~rmk/linux-arm.git
+        git fetch --no-tags arm ktext
+        git checkout de3606f413a49e283f73bf512ad12693fb52bda3
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/mm/
 
-On Fri, May 19, 2023 at 6:37=E2=80=AFAM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> On Thu, May 18, 2023 at 3:23=E2=80=AFAM kernel test robot <lkp@intel.com>=
- wrote:
-> >
-> > Hi,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/ndesaulniers-goo=
-gle-com/certs-buffer-stderr-from-openssl-unless-error/20230518-004753
-> > base:   f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6
-> > patch link:    https://lore.kernel.org/r/20230517-genkey-v1-1-b887424da=
-4a8%40google.com
-> > patch subject: [PATCH] certs: buffer stderr from openssl unless error
-> > config: csky-randconfig-m041-20230517
-> > compiler: csky-linux-gcc (GCC) 12.1.0
-> > reproduce (this is a W=3D1 build):
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/s=
-bin/make.cross -O ~/bin/make.cross
->
-> ^ should encourage `mkdir ~/bin`; the debian docker container doesn't
-> have `~/bin`.
->
-> >         chmod +x ~/bin/make.cross
-> >         # https://github.com/intel-lab-lkp/linux/commit/0e437a41fdb41c8=
-4834de6776bf38951b197792a
-> >         git remote add linux-review https://github.com/intel-lab-lkp/li=
-nux
-> >         git fetch --no-tags linux-review ndesaulniers-google-com/certs-=
-buffer-stderr-from-openssl-unless-error/20230518-004753
->
-> ^ holy crap that takes forever. maybe recommend `b4 shazam <lore link>`?
->
-> >         git checkout 0e437a41fdb41c84834de6776bf38951b197792a
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.c=
-ross W=3D1 O=3Dbuild_dir ARCH=3Dcsky olddefconfig
->
-> ^ should use `~/bin/make.cross` since `~/bin` may not exist in $PATH.
->
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 make.c=
-ross W=3D1 O=3Dbuild_dir ARCH=3Dcsky SHELL=3D/bin/bash
->
-> Hi Philip,
-> I've run into some issues with make.cross when trying to install the
-> csky toolchain. Maybe you can help?
->
-> ```
-> $ COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0
-> ~/bin/make.cross W=3D1 O=3Dbuild_dir ARCH=3Dcsky olddefconfig
-> Compiler will be installed in /root/0day
-> make: gcc: No such file or directory
-> lftpget -c https://download.01.org/0day-ci/cross-package/./gcc-12.1.0-nol=
-ibc/x86_64-gcc-12.1.0-nolibc_csky-linux.tar.xz
-> /linux
-> tar Jxf /root/0day/gcc-12.1.0-nolibc/x86_64-gcc-12.1.0-nolibc_csky-linux.=
-tar.xz
-> -C /root/0day
-> Please update: libc6 or glibc
-> ldd /root/0day/gcc-12.1.0-nolibc/csky-linux/bin/csky-linux-gcc
-> /root/0day/gcc-12.1.0-nolibc/csky-linux/bin/csky-linux-gcc:
-> /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.32' not found
-> (required by /root/0day/gcc-12.1.0-nolibc/csky-linux/bin/csky-linux-gcc)
-> /root/0day/gcc-12.1.0-nolibc/csky-linux/bin/csky-linux-gcc:
-> /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.33' not found
-> (required by /root/0day/gcc-12.1.0-nolibc/csky-linux/bin/csky-linux-gcc)
-> setup_crosstool failed
->
-> $ ldd -v /lib/x86_64-linux-gnu/libc.so.6
-> /lib64/ld-linux-x86-64.so.2 (0x00007f11f3478000)
-> linux-vdso.so.1 (0x00007ffcf45b2000)
->
-> Version information:
-> /lib/x86_64-linux-gnu/libc.so.6:
-> ld-linux-x86-64.so.2 (GLIBC_2.3) =3D> /lib64/ld-linux-x86-64.so.2
-> ld-linux-x86-64.so.2 (GLIBC_PRIVATE) =3D> /lib64/ld-linux-x86-64.so.2
->
-> $ cat /etc/debian_version
-> 11.6
-> ```
-> Perhaps I MUST update my debian container to 11.7?
->
-> Are the 0day toolchains not statically linked? Can they use the ones
-> from kernel.org which are?
-> https://mirrors.edge.kernel.org/pub/tools/crosstool/
->
-> >
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202305181712.xjvv1fbD-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    At main.c:152:
-> >    - SSL error:FFFFFFFF80000002:system library::No such file or directo=
-ry: ../crypto/bio/bss_file.c:67
-> >    - SSL error:10000080:BIO routines::no such file: ../crypto/bio/bss_f=
-ile.c:75
-> > >> extract-cert: certs/signing_key.pem: No such file or directory
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
->
->
->
-> --
-> Thanks,
-> ~Nick Desaulniers
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305221756.r8V0FpBw-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> arch/arm64/mm/kasan_init.c:250:3: error: call to '__compiletime_assert_415' declared with 'error' attribute: BUILD_BUG_ON failed: VMALLOC_START != MODULES_END
+                   BUILD_BUG_ON(VMALLOC_START != MODULES_END);
+                   ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:397:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:385:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:378:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:82:1: note: expanded from here
+   __compiletime_assert_415
+   ^
+   1 error generated.
 
 
+vim +250 arch/arm64/mm/kasan_init.c
 
---=20
-Best Regards
- Guo Ren
+39d114ddc68223 Andrey Ryabinin  2015-10-12  213  
+afe6ef80dcecf2 Andrey Konovalov 2020-12-22  214  static void __init kasan_init_shadow(void)
+39d114ddc68223 Andrey Ryabinin  2015-10-12  215  {
+f9040773b7bbbd Ard Biesheuvel   2016-02-16  216  	u64 kimg_shadow_start, kimg_shadow_end;
+f80fb3a3d50843 Ard Biesheuvel   2016-01-26  217  	u64 mod_shadow_start, mod_shadow_end;
+9a0732efa77418 Lecopzer Chen    2021-03-24  218  	u64 vmalloc_shadow_end;
+b10d6bca87204c Mike Rapoport    2020-10-13  219  	phys_addr_t pa_start, pa_end;
+b10d6bca87204c Mike Rapoport    2020-10-13  220  	u64 i;
+39d114ddc68223 Andrey Ryabinin  2015-10-12  221  
+7d7b88ff5f8fd7 Lecopzer Chen    2021-03-24  222  	kimg_shadow_start = (u64)kasan_mem_to_shadow(KERNEL_START) & PAGE_MASK;
+7d7b88ff5f8fd7 Lecopzer Chen    2021-03-24  223  	kimg_shadow_end = PAGE_ALIGN((u64)kasan_mem_to_shadow(KERNEL_END));
+f9040773b7bbbd Ard Biesheuvel   2016-02-16  224  
+f80fb3a3d50843 Ard Biesheuvel   2016-01-26  225  	mod_shadow_start = (u64)kasan_mem_to_shadow((void *)MODULES_VADDR);
+f80fb3a3d50843 Ard Biesheuvel   2016-01-26  226  	mod_shadow_end = (u64)kasan_mem_to_shadow((void *)MODULES_END);
+f80fb3a3d50843 Ard Biesheuvel   2016-01-26  227  
+9a0732efa77418 Lecopzer Chen    2021-03-24  228  	vmalloc_shadow_end = (u64)kasan_mem_to_shadow((void *)VMALLOC_END);
+9a0732efa77418 Lecopzer Chen    2021-03-24  229  
+39d114ddc68223 Andrey Ryabinin  2015-10-12  230  	/*
+39d114ddc68223 Andrey Ryabinin  2015-10-12  231  	 * We are going to perform proper setup of shadow memory.
+0293c8ba807c86 Kyrylo Tkachov   2018-10-04  232  	 * At first we should unmap early shadow (clear_pgds() call below).
+39d114ddc68223 Andrey Ryabinin  2015-10-12  233  	 * However, instrumented code couldn't execute without shadow memory.
+39d114ddc68223 Andrey Ryabinin  2015-10-12  234  	 * tmp_pg_dir used to keep early shadow mapped until full shadow
+39d114ddc68223 Andrey Ryabinin  2015-10-12  235  	 * setup will be finished.
+39d114ddc68223 Andrey Ryabinin  2015-10-12  236  	 */
+39d114ddc68223 Andrey Ryabinin  2015-10-12  237  	memcpy(tmp_pg_dir, swapper_pg_dir, sizeof(tmp_pg_dir));
+c1a88e9124a499 Mark Rutland     2016-01-25  238  	dsb(ishst);
+1682c45b920643 Ard Biesheuvel   2022-06-24  239  	cpu_replace_ttbr1(lm_alias(tmp_pg_dir), idmap_pg_dir);
+39d114ddc68223 Andrey Ryabinin  2015-10-12  240  
+39d114ddc68223 Andrey Ryabinin  2015-10-12  241  	clear_pgds(KASAN_SHADOW_START, KASAN_SHADOW_END);
+39d114ddc68223 Andrey Ryabinin  2015-10-12  242  
+e17d8025f07e4f Will Deacon      2017-11-15  243  	kasan_map_populate(kimg_shadow_start, kimg_shadow_end,
+7d7b88ff5f8fd7 Lecopzer Chen    2021-03-24  244  			   early_pfn_to_nid(virt_to_pfn(lm_alias(KERNEL_START))));
+f9040773b7bbbd Ard Biesheuvel   2016-02-16  245  
+77ad4ce69321ab Mark Rutland     2019-08-14  246  	kasan_populate_early_shadow(kasan_mem_to_shadow((void *)PAGE_END),
+f80fb3a3d50843 Ard Biesheuvel   2016-01-26  247  				   (void *)mod_shadow_start);
+9a0732efa77418 Lecopzer Chen    2021-03-24  248  
+9a0732efa77418 Lecopzer Chen    2021-03-24  249  	if (IS_ENABLED(CONFIG_KASAN_VMALLOC)) {
+9a0732efa77418 Lecopzer Chen    2021-03-24 @250  		BUILD_BUG_ON(VMALLOC_START != MODULES_END);
+9a0732efa77418 Lecopzer Chen    2021-03-24  251  		kasan_populate_early_shadow((void *)vmalloc_shadow_end,
+9a0732efa77418 Lecopzer Chen    2021-03-24  252  					    (void *)KASAN_SHADOW_END);
+9a0732efa77418 Lecopzer Chen    2021-03-24  253  	} else {
+9577dd74864877 Andrey Konovalov 2018-12-28  254  		kasan_populate_early_shadow((void *)kimg_shadow_end,
+14c127c957c1c6 Steve Capper     2019-08-07  255  					    (void *)KASAN_SHADOW_END);
+f80fb3a3d50843 Ard Biesheuvel   2016-01-26  256  		if (kimg_shadow_start > mod_shadow_end)
+9577dd74864877 Andrey Konovalov 2018-12-28  257  			kasan_populate_early_shadow((void *)mod_shadow_end,
+f80fb3a3d50843 Ard Biesheuvel   2016-01-26  258  						    (void *)kimg_shadow_start);
+9a0732efa77418 Lecopzer Chen    2021-03-24  259  	}
+f80fb3a3d50843 Ard Biesheuvel   2016-01-26  260  
+b10d6bca87204c Mike Rapoport    2020-10-13  261  	for_each_mem_range(i, &pa_start, &pa_end) {
+b10d6bca87204c Mike Rapoport    2020-10-13  262  		void *start = (void *)__phys_to_virt(pa_start);
+b10d6bca87204c Mike Rapoport    2020-10-13  263  		void *end = (void *)__phys_to_virt(pa_end);
+39d114ddc68223 Andrey Ryabinin  2015-10-12  264  
+39d114ddc68223 Andrey Ryabinin  2015-10-12  265  		if (start >= end)
+39d114ddc68223 Andrey Ryabinin  2015-10-12  266  			break;
+39d114ddc68223 Andrey Ryabinin  2015-10-12  267  
+e17d8025f07e4f Will Deacon      2017-11-15  268  		kasan_map_populate((unsigned long)kasan_mem_to_shadow(start),
+3f9ec80f7b22ec Andrey Ryabinin  2017-07-10  269  				   (unsigned long)kasan_mem_to_shadow(end),
+800cb2e553d445 Mark Rutland     2018-04-16  270  				   early_pfn_to_nid(virt_to_pfn(start)));
+39d114ddc68223 Andrey Ryabinin  2015-10-12  271  	}
+39d114ddc68223 Andrey Ryabinin  2015-10-12  272  
+7b1af9795773d7 Ard Biesheuvel   2016-01-11  273  	/*
+9577dd74864877 Andrey Konovalov 2018-12-28  274  	 * KAsan may reuse the contents of kasan_early_shadow_pte directly,
+9577dd74864877 Andrey Konovalov 2018-12-28  275  	 * so we should make sure that it maps the zero page read-only.
+7b1af9795773d7 Ard Biesheuvel   2016-01-11  276  	 */
+7b1af9795773d7 Ard Biesheuvel   2016-01-11  277  	for (i = 0; i < PTRS_PER_PTE; i++)
+9577dd74864877 Andrey Konovalov 2018-12-28  278  		set_pte(&kasan_early_shadow_pte[i],
+9577dd74864877 Andrey Konovalov 2018-12-28  279  			pfn_pte(sym_to_pfn(kasan_early_shadow_page),
+9577dd74864877 Andrey Konovalov 2018-12-28  280  				PAGE_KERNEL_RO));
+7b1af9795773d7 Ard Biesheuvel   2016-01-11  281  
+080eb83f54cf5b Andrey Konovalov 2018-12-28  282  	memset(kasan_early_shadow_page, KASAN_SHADOW_INIT, PAGE_SIZE);
+1682c45b920643 Ard Biesheuvel   2022-06-24  283  	cpu_replace_ttbr1(lm_alias(swapper_pg_dir), idmap_pg_dir);
+afe6ef80dcecf2 Andrey Konovalov 2020-12-22  284  }
+afe6ef80dcecf2 Andrey Konovalov 2020-12-22  285  
+
+:::::: The code at line 250 was first introduced by commit
+:::::: 9a0732efa77418fc85b1bdc5ddee619e62f59545 arm64: kasan: don't populate vmalloc area for CONFIG_KASAN_VMALLOC
+
+:::::: TO: Lecopzer Chen <lecopzer.chen@mediatek.com>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
