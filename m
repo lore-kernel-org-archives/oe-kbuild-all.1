@@ -1,43 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6650E15B0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 May 2023 03:31:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63E2EC2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 May 2023 04:08:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684899106; x=1716435106;
+  t=1684901329; x=1716437329;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YsstuldTalY4Mx542tdcecfN9cpE3GRZszRfQGEA1O0=;
-  b=MuvR//F24Qy0AdX9Aewwf7wI4rGzmxA4dBCWGfUYk4zmBvk6p1vG6g+K
-   CtVNCcpo9ZWx3+fPUADmOW8oQyxKqLTsCLvTIFbJB/ayLKfAlAMnIPsCI
-   IvhLS2wErDztfwu4yNAcL6EKnB+75WQEwT/6Przy38nQg2XqgsLRQN9oz
-   FcTDhTdoJ1/kb6WxfM7k3StaC+onhjSWmkW7kJKYybk2Jn/6y6eewidek
-   4sd8JqOhY9dueJ+4q3OxrS/x0fQq1MON3YzAXweigZuhRW/5WYHCbHHjo
-   CNSAZnlJYx2LhtTkBJkOXZTS5d92uKr+M0xB63ShlhtzHQP19xy4/O4at
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="416902447"
+  bh=/SuQe0dfpjAbJIzJgjS9t+YJOGuBWyMSc4v+SspUa5U=;
+  b=elK1QpKaoyEdE+uTrZnHGY5ASvpmbCZyH/B5tSt4DBGzTRm5GuZhC85L
+   7x2h/IRLRcRewtKmBLyAqMz84rMYsev4LxKF0pNsSijg/qrtYOmUwsky7
+   4owuYvnXpZQ1KSo4+SYtRY46zLeuBGC0bYIJL7D8r+y07P3VaI84vHQHU
+   q32xhGNl2j3ey0+/Xz9m5VIlFTcH1nM8UiSHmrMxwmHgwUJY38t/B9PpG
+   uk4k5UrH0GqH8uherCOizYFXKfQc10bNbssbOElD33K3nVni7+rXBjnem
+   Z13mbZceH/hllPx61m3INqQ8qw86+jwjIGDRhOhHmOM3+vzdRFVKboOeq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="381690644"
 X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
-   d="scan'208";a="416902447"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2023 20:31:45 -0700
+   d="scan'208";a="381690644"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2023 21:04:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="681688595"
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="950836767"
 X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
-   d="scan'208";a="681688595"
+   d="scan'208";a="950836767"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 23 May 2023 20:31:44 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 23 May 2023 21:04:45 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q1fE0-000ELt-0A;
-	Wed, 24 May 2023 03:31:44 +0000
-Date: Wed, 24 May 2023 11:30:49 +0800
+	id 1q1fjw-000EN1-2R;
+	Wed, 24 May 2023 04:04:44 +0000
+Date: Wed, 24 May 2023 12:04:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-1.0.x-imx 254/9879] versioncheck:
- ./drivers/staging/media/imx/imx8-mipi-csi2-sam.c: 42 linux/version.h not
- needed.
-Message-ID: <202305241119.vrP1yEJp-lkp@intel.com>
+Subject: [freescale-fslc:6.1-1.0.x-imx 2936/9879] versioncheck:
+ ./drivers/input/touchscreen/vtl/vtl_ts.c: 20 linux/version.h not needed.
+Message-ID: <202305241152.NjPGnuTg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,13 +48,13 @@ Content-Disposition: inline
 
 tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
 head:   ad9ab3b3c553cbc3c61f233b6e2cd5abdd2a624b
-commit: 09be5179f636b3550c8df61201be53a58e5b05dd [254/9879] LF-5503 CSI: i.MX8MP use dual 10bit raw sensor images is abnormal
+commit: 8457aa0d969d961d9c1c65182a84522589550c92 [2936/9879] MLK-13244 input: touchscreen: add support for vtl touchscreen
 reproduce:
         make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305241119.vrP1yEJp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305241152.NjPGnuTg-lkp@intel.com/
 
 versioncheck warnings: (new ones prefixed by >>)
    INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -65,6 +64,7 @@ versioncheck warnings: (new ones prefixed by >>)
    	| xargs perl -w ./scripts/checkversion.pl
    ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
    ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+>> ./drivers/input/touchscreen/vtl/vtl_ts.c: 20 linux/version.h not needed.
    ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
    ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
    ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
@@ -74,7 +74,6 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
    ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
    ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
->> ./drivers/staging/media/imx/imx8-mipi-csi2-sam.c: 42 linux/version.h not needed.
    ./init/version-timestamp.c: 5 linux/version.h not needed.
    ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
    ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
