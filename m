@@ -1,43 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD8F1FB1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 May 2023 11:14:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F6917ADB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 May 2023 12:08:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1684926848; x=1716462848;
+  t=1684930085; x=1716466085;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zcM8bx5CiOCD3vLr65xKoZZytDZYldk7/AXdrRen3iE=;
-  b=hykk2j5wHHpjjXuHwqW61zQ3OAaM6Ht7+bjpulNN429roJkjtYPmFYus
-   b9d8flOzgBtvHjD4W9K34f9FYvUqguJreryZqKxilzRWTUYjc+n7gDoph
-   4HF8YADYPQhzlM8szLJVPKiWq9PG9/GZtcuYB8v37XCr/cCDDJzDr8DcD
-   TC53Ob5vGgJVM6aNUJlyKMO3RFJfaX33MbRM6xElDoiSS5oBRJtTTs+8z
-   EUElIcO1mhBJP2HUv4CciWiDfvQr0/6J/pnRIrRcsB9a1pgdVw+WmLiPR
-   7ISXZefb6E1UCNyAOju0/QbRc69XzywCnLXlp+qircJ1Fv7hlmweE9V4o
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="351044792"
+  bh=3J79ajbRYOe2LX3HJftI2AGDp8dSowrJ3+6Ceswr6AU=;
+  b=Y4Crwxk7WPvoxxvm+6IYGVjGuhgNbS7vLf+MAYk1PP8xKhMGRyoOSimO
+   1PB4bB0ZDeXAN5d3VRJX1Kdf9FPKdOWr1Eo01/rZsKUDJ5gDeIs6yzdhw
+   46h6lTU4r3wNGu8NmoYYE64SBoaJoNv5A5f7Oc8GpdPVn7JsdqAV9JHSU
+   F9RXbuSIhbN+R6uId6VdryGTOA24blMchDS0+y/V9PkP6i8rKh9xfZz04
+   kskmscazPkfrHbyOGxGRAnGNnH9+3V/9us7Y6DsCF6sC8y8EFyTIbdNjS
+   SUag+VEBTGWqWG/UBThaHBqB+EDQXFiPETngTIx35JBNluKD08TDYsZR8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="333900083"
 X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
-   d="scan'208";a="351044792"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 04:14:03 -0700
+   d="scan'208";a="333900083"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 05:08:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="737260839"
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="735175736"
 X-IronPort-AV: E=Sophos;i="6.00,189,1681196400"; 
-   d="scan'208";a="737260839"
+   d="scan'208";a="735175736"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 24 May 2023 04:14:02 -0700
+  by orsmga008.jf.intel.com with ESMTP; 24 May 2023 05:08:03 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q1mRN-000EjF-20;
-	Wed, 24 May 2023 11:14:01 +0000
-Date: Wed, 24 May 2023 19:13:26 +0800
+	id 1q1nHf-000Elj-0S;
+	Wed, 24 May 2023 12:08:03 +0000
+Date: Wed, 24 May 2023 20:07:22 +0800
 From: kernel test robot <lkp@intel.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-1.0.x-imx 2939/9879] versioncheck:
- ./drivers/input/touchscreen/focaltech_touch/focaltech_core.h: 56
- linux/version.h not needed.
-Message-ID: <202305241856.wT0iiPmY-lkp@intel.com>
+Subject: [freescale-fslc:6.1-1.0.x-imx 3032/9879] versioncheck:
+ ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 3590: need
+ linux/version.h
+Message-ID: <202305241949.ZzXb6BhL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,13 +49,13 @@ Content-Disposition: inline
 
 tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
 head:   ad9ab3b3c553cbc3c61f233b6e2cd5abdd2a624b
-commit: 01ee5873da75bb22bde2eaae4e963d86d2ec9a49 [2939/9879] MLK-14392-1 input: touch: add focaltech touch screen support
+commit: 23bb3be4fd0071d6f770ebc8fa0a23f716a35908 [3032/9879] MGS-4530-1 add 6.2.4.p4 gpu driver for L4.19
 reproduce:
         make versioncheck
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305241856.wT0iiPmY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305241949.ZzXb6BhL-lkp@intel.com/
 
 versioncheck warnings: (new ones prefixed by >>)
    INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -65,8 +65,25 @@ versioncheck warnings: (new ones prefixed by >>)
    	| xargs perl -w ./scripts/checkversion.pl
    ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
    ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
->> ./drivers/input/touchscreen/focaltech_touch/focaltech_core.h: 56 linux/version.h not needed.
-   ./drivers/input/touchscreen/vtl/vtl_ts.c: 20 linux/version.h not needed.
+   ./drivers/mxc/gpu-viv/hal/kernel/arch/gc_hal_kernel_hardware.c: 18549: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/kernel/gc_hal_kernel_video_memory.c: 3590: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dma.c: 604: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_dmabuf.c: 546: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_gfp.c: 1153: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_reserved_mem.c: 511: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/default/gc_hal_kernel_allocator_user_memory.c: 854: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/allocator/freescale/gc_hal_kernel_allocator_cma.c: 603: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.c: 260: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_allocator.h: 572: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_debug.h: 151: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_device.c: 2331: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_driver.c: 1331: need linux/version.h
+   ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_drm.c: 856: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_iommu.c: 250: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_os.c: 7821: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.c: 378: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_sync.h: 151: need linux/version.h
+>> ./drivers/mxc/gpu-viv/hal/os/linux/kernel/platform/freescale/gc_hal_kernel_platform_imx.c: 1642: need linux/version.h
    ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
    ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
    ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
