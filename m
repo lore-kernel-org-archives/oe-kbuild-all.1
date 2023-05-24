@@ -1,125 +1,97 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2054.outbound.protection.outlook.com [40.107.92.54])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73266C8D0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 May 2023 09:49:31 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FqY0Q4P59/jSkyhcBJGLTgu5hIgfU7OKsTfUOmB5O+d2XptaKqXp8mdSlhmQV31cZjRk2P1RerNd5q0tIFPnv38zYU0RGJr6RlmHUEwOXEvVh9djbhTcEzgW0YU6rjzL8GncryV8Wtby6vrllgow0QNYRTgom85WmpTHW4vVbPw4e8CmacpCh6DXN74L432RnxklpXuEn6Xz5RsJcKgHckIhX5wq+jXAeT4y/n2NB1VovgOMAliizzoZXu3r4XLCCvSC09V55KrJ4o//xvhlDqk3JWMAaDuV/zLrYmTnML/Sy4YnXedQRbsLD2fKC1+nnC8l9ExZmdGVaFm/52wP/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=D95hhpWJqU2U2QIei4ykuVY7vz8QYbqs9IdixhMg0Dc=;
- b=UQqwTQRWQJUwv/SrqmjuVwS6ZrNApkOhhW7FD9SXdqCrB0YkCkIwMoVjsuSHvnNLcIRSSXsNMXPHys4hPDGCy/184y/tMSTlf/1CAQMueau5Bv3e6rW0MtydazG72Nu6BXhy8SP7KCgBtv6oqIRALt2bBU6TMeij7S5oHMepxrLJzHhmFdd0TuoH/TtUKJG8SthqTwiD92NY3vHY3ohM42Rmd+XIf6VVF2o+LwaYb/huoH5Xim85H3dIUauzsro9FBMp262N2/GL6qfp0hKZU0v57c7ga1OtnO4TxwieIHzZ/botMsPDg2QCEUCq2naH19Us6HNyC0csi3K2qJuT7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D95hhpWJqU2U2QIei4ykuVY7vz8QYbqs9IdixhMg0Dc=;
- b=H9+Ruypumvgrq0+a/NDPKZnEItOZKvBYLnXaDQyBBrDh0vWcx7Uhy8GrJseQbKKqR+vyZKE6dcNSmRD9hgZaGhGmAeEut0hrKRyEkNlN1546CANmZYKd40YWmjq1RAK/pnnhToDAP+Pcup9cuF5S50CCR/525EwOcSgYEbFV+P0=
-Received: from BN9PR03CA0335.namprd03.prod.outlook.com (2603:10b6:408:f6::10)
- by PH8PR12MB7159.namprd12.prod.outlook.com (2603:10b6:510:229::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.15; Wed, 24 May
- 2023 09:49:28 +0000
-Received: from BN8NAM11FT106.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:f6:cafe::46) by BN9PR03CA0335.outlook.office365.com
- (2603:10b6:408:f6::10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6411.29 via Frontend
- Transport; Wed, 24 May 2023 09:49:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT106.mail.protection.outlook.com (10.13.177.7) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6411.31 via Frontend Transport; Wed, 24 May 2023 09:49:28 +0000
-Received: from rric.localdomain (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 24 May
- 2023 04:49:25 -0500
-Date: Wed, 24 May 2023 11:49:22 +0200
-From: Robert Richter <rrichter@amd.com>
-To: kernel test robot <lkp@intel.com>
-CC: Terry Bowman <terry.bowman@amd.com>, <alison.schofield@intel.com>,
-	<vishal.l.verma@intel.com>, <ira.weiny@intel.com>, <bwidawsk@kernel.org>,
-	<dan.j.williams@intel.com>, <dave.jiang@intel.com>,
-	<Jonathan.Cameron@huawei.com>, <linux-cxl@vger.kernel.org>,
-	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<bhelgaas@google.com>
-Subject: Re: [PATCH v4 13/23] cxl/hdm: Use stored Component Register mappings
- to map HDM decoder capability
-Message-ID: <ZG3cpEj9k8S9DMAA@rric.localdomain>
-References: <20230523232214.55282-14-terry.bowman@amd.com>
- <202305240842.zr8PTfcu-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAEFC8C5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 24 May 2023 09:53:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1684921988; x=1716457988;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZuJKZGeFLfHf7hIZ0F36oK5sHfMgTt/gyphJQGluFtA=;
+  b=jpNy4aZ/BtZuF5d5m01R8veN+n+VZCGg5d7R+GNey1+LKxGsgKxeZE8Q
+   ruPLZ5AXE/up+Qa7lfUnqQa8n5CAyqRAbNoKlC2etPizEzeFMLmoS3I2L
+   3rz4qO0V+tSunbcJbU99depDvsH0O1fkjc42PAA4+LSL0+922NyPEFFZQ
+   8ei1uv6+XTEvXmJRepEZVNBhb3WWQUCf50TjXKgpFsiszfQ7J9/Y118pa
+   szXO2rAOsm+OSkOOm1EqtfGdfsWzbGQJ9agLI0VsGnd2OJ9rlMm01ay79
+   XaM/kb+KS9moc4XIHP8z1TacqpYmjhBSPFI8c2zMHw+kgL2kwo1FvXLfq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="439872705"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
+   d="scan'208";a="439872705"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 May 2023 02:52:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10719"; a="774180947"
+X-IronPort-AV: E=Sophos;i="6.00,188,1681196400"; 
+   d="scan'208";a="774180947"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 24 May 2023 02:52:58 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q1lAv-000Eed-2x;
+	Wed, 24 May 2023 09:52:57 +0000
+Date: Wed, 24 May 2023 17:52:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-1.0.x-imx 254/9879] versioncheck:
+ ./drivers/staging/media/imx/imx8-mipi-csi2-sam.c: 42 linux/version.h not
+ needed.
+Message-ID: <202305241722.R2NdbSGa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202305240842.zr8PTfcu-lkp@intel.com>
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT106:EE_|PH8PR12MB7159:EE_
-X-MS-Office365-Filtering-Correlation-Id: 626655b5-32ed-4395-eb76-08db5c3c2a71
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	m3cZ3MHZL/4jHuOedJZdgrbTWubdx7SZO2mj8YaoEa31ISG/EXHDyKwB9pCP2j4uQMjAugEE7ORPbiUIUEPx1zm6S0UFUY7qqWP3PoqkLWzmZGPpiUciopTIRDYg12+3BbBoU45dk3glCeWfe/mf63k71dhzmbZHZV2K4vVgjxl56dj5wG0XI6RcAeT4tfVgb0YHY8frPgO4zjjo59Nxrccldr0GPKkukZekEeZZWhs/6IGberinvEJhfXBQVkzq35j6RruUwXW4AzMjgYlnKcvwL89YRvtZVlq/fjbGzjc9LiT8V5F1ePJkNPi0yPRAdkFTTZDLqWZ97FZezrGq2FkoD4BDoV/QLfujkjvdjVDFYFTF1KGy+wP3QqB06mwAdEGWYpHplhfhf73FaPpADB2cFor6xpQA0qD27yGSEcKCEp5t7yX7Xyl6sXmcdiKgt5aH1FBquzt5CMpOHNKehI8A/YWqOl8PEN1qMFVYwvs4lF8AzPv03LxNWil3BgqKUXN0kAiFZ+CMSqNPYPqIVbAPlBNumpuNj0G1w3dg7Lgvj+v4Xp1ZTh4dlV3g9uvayPCMZf8Q1aGw2yxcttTUj+okaKnuDCUZa8Mk8TeRO897/vaVcalXsA/KJUJTjzTZgDUWEJBICW8v7U3qBrmRcjHUyw3xFop33/JAFmlIlsgcqXrDpEvlTo+OJeETjReCU1jrvO6Xt7RBJOFnnYaq65K2bdsDV0cR+oJjktFFrv6ckOHDwXLUOaADmFKdvDiDkIVvfUJRC3804LLbQIfiUw==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(396003)(376002)(346002)(39860400002)(136003)(451199021)(36840700001)(46966006)(40470700004)(5660300002)(40460700003)(8676002)(7416002)(8936002)(16526019)(186003)(53546011)(4744005)(36860700001)(47076005)(426003)(336012)(2906002)(83380400001)(356005)(82310400005)(82740400003)(81166007)(40480700001)(55016003)(9686003)(26005)(316002)(70206006)(4326008)(6916009)(70586007)(6666004)(54906003)(478600001)(7696005)(41300700001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2023 09:49:28.2490
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 626655b5-32ed-4395-eb76-08db5c3c2a71
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN8NAM11FT106.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7159
 
-On 24.05.23 09:12:24, kernel test robot wrote:
+tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
+head:   ad9ab3b3c553cbc3c61f233b6e2cd5abdd2a624b
+commit: 09be5179f636b3550c8df61201be53a58e5b05dd [254/9879] LF-5503 CSI: i.MX8MP use dual 10bit raw sensor images is abnormal
+reproduce:
+        make versioncheck
 
-> >> drivers/cxl/core/hdm.c:128:26: warning: no previous prototype for 'cxl_port_get_comp_map' [-Wmissing-prototypes]
->      128 | struct cxl_register_map *cxl_port_get_comp_map(struct cxl_port *port)
->          |                          ^~~~~~~~~~~~~~~~~~~~~
-> 
-> 
-> vim +/cxl_port_get_comp_map +128 drivers/cxl/core/hdm.c
-> 
->    127	
->  > 128	struct cxl_register_map *cxl_port_get_comp_map(struct cxl_port *port)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305241722.R2NdbSGa-lkp@intel.com/
 
-This should have been 'static' and also solves the warning then. Will
-change.
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make W=1 --keep-going HOSTCC=gcc-11 CC=gcc-11 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/mpi3mr/mpi3mr.h: 32 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra-cbb.c: 19 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra194-cbb.c: 26 linux/version.h not needed.
+   ./drivers/soc/tegra/cbb/tegra234-cbb.c: 27 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+>> ./drivers/staging/media/imx/imx8-mipi-csi2-sam.c: 42 linux/version.h not needed.
+   ./init/version-timestamp.c: 5 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 289: need linux/version.h
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 60: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
--Robert
-
->    129	{
->    130		/*
->    131		 * HDM capability applies to Endpoints, USPs and VH Host
->    132		 * Bridges. The Endpoint's component register mappings are
->    133		 * located in the cxlds.
->    134		 */
->    135		if (is_cxl_endpoint(port)) {
->    136			struct cxl_memdev *memdev = to_cxl_memdev(port->uport);
->    137	
->    138			return &memdev->cxlds->comp_map;
->    139		}
->    140	
->    141		return &port->comp_map;
->    142	}
->    143	
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
