@@ -1,42 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222DD17C9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 10:39:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB3C742C1;
+	Fri, 26 May 2023 10:48:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685097550; x=1716633550;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IjuPU7GQbObvEXU8KLSmWapvtbP3H8Sx59dzOaJ2kwM=;
-  b=YoMCJ4s/7fxmbmbD4kRxx8utIvziOACCoCwTHdkmmvoNuZOUueDmlSBg
-   xsxsCxDqbl4xxPyiGBAkiS6XJVtB9B3zySezyJ+SiOfFdwqwp7WaEAOpP
-   ZKSK7akzbOhO4+pDbx1LaS7W1NAwhEk5xxDsyYAfpE+yJ753jED0F4DdF
-   kIKO9IHjcXyPVFtbGvjat3teci0DL1U2j0XB49ZSIwz4+DxHUhXV+hyO6
-   uYaYoHgeU3VbEejTu0lajvl/H/S7dH+X5NFFAg79R5FKsg5QBl7GcQlqT
-   mOvYNFvRBIFh9L7QopXo665pPpv9qd3LY/9g4/wEDa8fN3b1+bMnR+Cqd
+  t=1685098124; x=1716634124;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=K3cQ39qdbYc5raP1SoYRiw+70olT9YafeX/JJympAio=;
+  b=NWiUtJCu2KTKibL0xzWgnHNSBXm7mvVLEX/P0fkN4A0IYVxPoEhn/kuc
+   lLIPsuDDQ4LFFR6zIOSgeQhqadMgDAu5sBII/yNr/VZ3pio97TLBPCub3
+   MU25mc7CsmyjEDg4BBf4uAbw/WDwgtVd0D184smNdjLJG1kaZNa1Xcrop
+   tkkbb65ejnd+zF6lvupr/hkg3uQE1pvQ5YcCgl11AoFQQzsPwfvqMrdqJ
+   TX6oM6gf95A0eWzO6zOxERazf3t2Nfd7brp96Q30PqGXuBXlDt6Ux4DTu
+   uFth94V0qnE/AXWftviYWw0shFx/nqxGG6GAtvoWw5ahX9k6dhOlkq5Gb
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="343669020"
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="334526363"
 X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
-   d="scan'208";a="343669020"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 03:38:28 -0700
+   d="scan'208";a="334526363"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 03:48:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="735954030"
-X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
-   d="scan'208";a="735954030"
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="951839783"
+X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
+   d="scan'208";a="951839783"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 26 May 2023 03:38:26 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 26 May 2023 03:48:26 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2Uq1-000JFb-2u;
-	Fri, 26 May 2023 10:38:25 +0000
-Date: Fri, 26 May 2023 18:37:37 +0800
+	id 1q2Uzi-000JGE-13;
+	Fri, 26 May 2023 10:48:26 +0000
+Date: Fri, 26 May 2023 18:48:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>
-Subject: [mcgrof-next:large-block-20230525 6/31] fops.c:undefined reference
- to `iomap_file_buffered_write'
-Message-ID: <202305261804.xEnDm3bm-lkp@intel.com>
+To: aloktiagi <aloktiagi@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC v7 2/2] seccomp: replace existing file in the epoll
+ interface by a new file injected by the syscall supervisor.
+Message-ID: <202305261818.XqOKqvEb-lkp@intel.com>
+References: <20230524063933.2339105-2-aloktiagi@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,35 +47,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230524063933.2339105-2-aloktiagi@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git large-block-20230525
-head:   1e9b17615c8ad5829f88f54de36523f291a145cc
-commit: 1c054f288031a44c5b7d174d51f4889dfd755d17 [6/31] block: use iomap for writes to block devices
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20230526/202305261804.xEnDm3bm-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.1.0
+Hi aloktiagi,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on kees/for-next/seccomp v6.4-rc3 next-20230525]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/aloktiagi/seccomp-replace-existing-file-in-the-epoll-interface-by-a-new-file-injected-by-the-syscall-supervisor/20230524-144337
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230524063933.2339105-2-aloktiagi%40gmail.com
+patch subject: [RFC v7 2/2] seccomp: replace existing file in the epoll interface by a new file injected by the syscall supervisor.
+config: x86_64-buildonly-randconfig-r001-20230525 (https://download.01.org/0day-ci/archive/20230526/202305261818.XqOKqvEb-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/commit/?id=1c054f288031a44c5b7d174d51f4889dfd755d17
-        git remote add mcgrof-next https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git
-        git fetch --no-tags mcgrof-next large-block-20230525
-        git checkout 1c054f288031a44c5b7d174d51f4889dfd755d17
+        # https://github.com/intel-lab-lkp/linux/commit/190cff52df8da9b0f25db48161a5ed8f93615657
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review aloktiagi/seccomp-replace-existing-file-in-the-epoll-interface-by-a-new-file-injected-by-the-syscall-supervisor/20230524-144337
+        git checkout 190cff52df8da9b0f25db48161a5ed8f93615657
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=loongarch olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=loongarch SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305261804.xEnDm3bm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305261818.XqOKqvEb-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   loongarch64-linux-ld: block/fops.o: in function `.L272':
->> fops.c:(.text+0x11d4): undefined reference to `iomap_file_buffered_write'
-   loongarch64-linux-ld: block/fops.o: in function `.L266':
-   fops.c:(.text+0x121c): undefined reference to `iomap_file_buffered_write'
+>> kernel/seccomp.c:1077:10: error: implicit declaration of function 'eventpoll_replace_file' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           ret = eventpoll_replace_file(old_file, addfd->file, addfd->fd);
+                                 ^
+   kernel/seccomp.c:1077:10: note: did you mean 'eventpoll_release'?
+   include/linux/eventpoll.h:69:20: note: 'eventpoll_release' declared here
+   static inline void eventpoll_release(struct file *file) {}
+                      ^
+   kernel/seccomp.c:1086:10: error: implicit declaration of function 'eventpoll_replace_file' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           ret = eventpoll_replace_file(addfd->file, old_file, addfd->fd);
+                                 ^
+   2 errors generated.
+
+
+vim +/eventpoll_replace_file +1077 kernel/seccomp.c
+
+  1056	
+  1057	static void seccomp_handle_addfd(struct seccomp_kaddfd *addfd, struct seccomp_knotif *n)
+  1058	{
+  1059		int fd;
+  1060		struct file *old_file = NULL;
+  1061	
+  1062		/*
+  1063		 * Remove the notification, and reset the list pointers, indicating
+  1064		 * that it has been handled.
+  1065		 */
+  1066		list_del_init(&addfd->list);
+  1067		if (!addfd->setfd)
+  1068			fd = receive_fd(addfd->file, addfd->flags);
+  1069		else {
+  1070			int ret = 0;
+  1071			if (addfd->ioctl_flags & SECCOMP_ADDFD_FLAG_REPLACE_REF) {
+  1072				old_file = fget(addfd->fd);
+  1073				if (!old_file) {
+  1074					fd = -EBADF;
+  1075					goto error;
+  1076				}
+> 1077				ret = eventpoll_replace_file(old_file, addfd->file, addfd->fd);
+  1078				if (ret < 0) {
+  1079					fd = ret;
+  1080					goto error;
+  1081				}
+  1082			}
+  1083			fd = receive_fd_replace(addfd->fd, addfd->file, addfd->flags);
+  1084			/* In case of error restore all references */
+  1085			if (fd < 0 && addfd->ioctl_flags & SECCOMP_ADDFD_FLAG_REPLACE_REF) {
+  1086				ret = eventpoll_replace_file(addfd->file, old_file, addfd->fd);
+  1087				if (ret < 0) {
+  1088					fd = ret;
+  1089				}
+  1090			}
+  1091		}
+  1092	error:
+  1093		addfd->ret = fd;
+  1094	
+  1095		if (addfd->ioctl_flags & SECCOMP_ADDFD_FLAG_SEND) {
+  1096			/* If we fail reset and return an error to the notifier */
+  1097			if (fd < 0) {
+  1098				n->state = SECCOMP_NOTIFY_SENT;
+  1099			} else {
+  1100				/* Return the FD we just added */
+  1101				n->flags = 0;
+  1102				n->error = 0;
+  1103				n->val = fd;
+  1104			}
+  1105		}
+  1106	
+  1107		if (old_file)
+  1108			fput(old_file);
+  1109	
+  1110		/*
+  1111		 * Mark the notification as completed. From this point, addfd mem
+  1112		 * might be invalidated and we can't safely read it anymore.
+  1113		 */
+  1114		complete(&addfd->completion);
+  1115	}
+  1116	
 
 -- 
 0-DAY CI Kernel Test Service
