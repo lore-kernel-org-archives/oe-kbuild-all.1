@@ -1,49 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC66156C9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 12:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E00D742EA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 12:22:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685102564; x=1716638564;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=niAd+MYPww6pzAj+PuY1sjn6jmYsE0NCxyfY/H+h0AI=;
-  b=C7R/2Oc+GfZKEmusvzmq4fwUCtsz0VO+Rr9VSxUoEe+qYqRhIPRibkCd
-   +0ngHSmb2Yu8LQ/xeCgxQ1le12iKgs/pv8hprcudnkhy9eiwv37hznlXP
-   Gistf6jJwSuwJqyd7PKZlK4vGchZlQz6mYApNKOKQtShQXR511CBE/Fqc
-   LrkzLhklQsnM/otGeZfA3Ecg1qXnXFSF7gFoHrWE2sUkN/3vmKtchjl2U
-   +86m0hfBLNxpowZLZn0u7sLO1XXt3RK4+Z/KMG97ckdvAjuTqeZxRySYz
-   3Dgq0KBRVoUz5Re55lb+4QEJI/6/ooRrZjea6x1aD9TlexHYclMpARlKe
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="333812777"
+  t=1685103752; x=1716639752;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hlYGIeQI1cGRvV42/8J4tAHvpRx+Gq/Bu7GG2LmvfWo=;
+  b=ketd9X8v6V/1RkiDSNCfgIHrsC4pqIaz9TzsGH2idu6yNPObgYgw4Rki
+   1sLxHYgBRUUcn+kah76bYnF39nPfCRQuxCWE1gXSjaEvSN11g4mSBcoWo
+   JXRBMt8Hb4Q+Qzt0zPULnL6ZUfny4gTVX+YZ4M5sPNkzW6r356VHLU7Eq
+   0jQX3PnSVwqTPebBKP4xFqC50Od3yyf5gx2XrGnskznrDSt3kOOMXtm4u
+   b4GLnLWj9zLj36d47DUbLg2khTCVKqTDGgWvYenMDFpxOHbWPkpn7veE2
+   kJN4ag2biFemoXNrR+weAdRgJAAwG24e92427Vofb6t8ucSGECSmiE9C3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="440544077"
 X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
-   d="scan'208";a="333812777"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 05:02:33 -0700
+   d="scan'208";a="440544077"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 05:22:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="738231141"
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="775077418"
 X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
-   d="scan'208";a="738231141"
+   d="scan'208";a="775077418"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 26 May 2023 05:02:30 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 26 May 2023 05:22:30 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2W9N-000JJC-1f;
-	Fri, 26 May 2023 12:02:29 +0000
-Date: Fri, 26 May 2023 20:01:48 +0800
+	id 1q2WSk-000JKU-16;
+	Fri, 26 May 2023 12:22:30 +0000
+Date: Fri, 26 May 2023 20:22:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sungwoo Kim <iam@sung-woo.kim>
-Cc: oe-kbuild-all@lists.linux.dev, wuruoyu@me.com, benquike@gmail.com,
-	daveti@purdue.edu, Sungwoo Kim <iam@sung-woo.kim>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Johan Hedberg <johan.hedberg@gmail.com>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Bluetooth: L2CAP: Fix use-after-free in
- l2cap_sock_ready_cb
-Message-ID: <202305261912.mKLcy6Fw-lkp@intel.com>
-References: <20230526084038.2199788-1-iam@sung-woo.kim>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-1.0.x-imx 1300/9879]
+ usr/include/linux/videodev2.h:2437:20: error: field has incomplete type
+ 'struct timespec'
+Message-ID: <202305262014.jcyP4U6t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,117 +46,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230526084038.2199788-1-iam@sung-woo.kim>
 
-Hi Sungwoo,
+Hi Liu,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on bluetooth/master]
-[also build test ERROR on bluetooth-next/master linus/master v6.4-rc3 next-20230525]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sungwoo-Kim/Bluetooth-L2CAP-Fix-use-after-free-in-l2cap_sock_ready_cb/20230526-164241
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/20230526084038.2199788-1-iam%40sung-woo.kim
-patch subject: [PATCH] Bluetooth: L2CAP: Fix use-after-free in l2cap_sock_ready_cb
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230526/202305261912.mKLcy6Fw-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
+head:   ad9ab3b3c553cbc3c61f233b6e2cd5abdd2a624b
+commit: d368bdd73e55410f089fc065109f13953f409d88 [1300/9879] video: fbdev: mxc: Forward IPUv3 framebuffer driver from imx_4.19.y kernel
+config: i386-randconfig-i006-20230525 (https://download.01.org/0day-ci/archive/20230526/202305262014.jcyP4U6t-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/c0c02b1afbe2667fe21aed47375c4e0d45713f38
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sungwoo-Kim/Bluetooth-L2CAP-Fix-use-after-free-in-l2cap_sock_ready_cb/20230526-164241
-        git checkout c0c02b1afbe2667fe21aed47375c4e0d45713f38
+        # https://github.com/Freescale/linux-fslc/commit/d368bdd73e55410f089fc065109f13953f409d88
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc 6.1-1.0.x-imx
+        git checkout d368bdd73e55410f089fc065109f13953f409d88
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash net/bluetooth/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305261912.mKLcy6Fw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305262014.jcyP4U6t-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/bluetooth/l2cap_sock.c: In function 'l2cap_sock_release':
->> net/bluetooth/l2cap_sock.c:1418:9: error: implicit declaration of function 'l2cap_sock_cleanup_listen'; did you mean 'l2cap_sock_listen'? [-Werror=implicit-function-declaration]
-    1418 |         l2cap_sock_cleanup_listen(sk);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |         l2cap_sock_listen
-   net/bluetooth/l2cap_sock.c: At top level:
->> net/bluetooth/l2cap_sock.c:1436:13: warning: conflicting types for 'l2cap_sock_cleanup_listen'; have 'void(struct sock *)'
-    1436 | static void l2cap_sock_cleanup_listen(struct sock *parent)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
->> net/bluetooth/l2cap_sock.c:1436:13: error: static declaration of 'l2cap_sock_cleanup_listen' follows non-static declaration
-   net/bluetooth/l2cap_sock.c:1418:9: note: previous implicit declaration of 'l2cap_sock_cleanup_listen' with type 'void(struct sock *)'
-    1418 |         l2cap_sock_cleanup_listen(sk);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +1418 net/bluetooth/l2cap_sock.c
-
-  1406	
-  1407	static int l2cap_sock_release(struct socket *sock)
-  1408	{
-  1409		struct sock *sk = sock->sk;
-  1410		int err;
-  1411		struct l2cap_chan *chan;
-  1412	
-  1413		BT_DBG("sock %p, sk %p", sock, sk);
-  1414	
-  1415		if (!sk)
-  1416			return 0;
-  1417	
-> 1418		l2cap_sock_cleanup_listen(sk);
-  1419		bt_sock_unlink(&l2cap_sk_list, sk);
-  1420	
-  1421		err = l2cap_sock_shutdown(sock, SHUT_RDWR);
-  1422		chan = l2cap_pi(sk)->chan;
-  1423	
-  1424		l2cap_chan_hold(chan);
-  1425		l2cap_chan_lock(chan);
-  1426	
-  1427		sock_orphan(sk);
-  1428		l2cap_sock_kill(sk);
-  1429	
-  1430		l2cap_chan_unlock(chan);
-  1431		l2cap_chan_put(chan);
-  1432	
-  1433		return err;
-  1434	}
-  1435	
-> 1436	static void l2cap_sock_cleanup_listen(struct sock *parent)
-  1437	{
-  1438		struct sock *sk;
-  1439	
-  1440		BT_DBG("parent %p state %s", parent,
-  1441		       state_to_string(parent->sk_state));
-  1442	
-  1443		/* Close not yet accepted channels */
-  1444		while ((sk = bt_accept_dequeue(parent, NULL))) {
-  1445			struct l2cap_chan *chan = l2cap_pi(sk)->chan;
-  1446	
-  1447			BT_DBG("child chan %p state %s", chan,
-  1448			       state_to_string(chan->state));
-  1449	
-  1450			l2cap_chan_hold(chan);
-  1451			l2cap_chan_lock(chan);
-  1452	
-  1453			__clear_chan_timer(chan);
-  1454			l2cap_chan_close(chan, ECONNRESET);
-  1455			l2cap_sock_kill(sk);
-  1456	
-  1457			l2cap_chan_unlock(chan);
-  1458			l2cap_chan_put(chan);
-  1459		}
-  1460	}
-  1461	
+   In file included from <built-in>:1:
+   In file included from ./usr/include/linux/ipu.h:29:
+>> usr/include/linux/videodev2.h:2437:20: error: field has incomplete type 'struct timespec'
+           struct timespec                 timestamp;
+                                           ^
+   usr/include/linux/videodev2.h:2437:9: note: forward declaration of 'struct timespec'
+           struct timespec                 timestamp;
+                  ^
+   1 error generated.
 
 -- 
 0-DAY CI Kernel Test Service
