@@ -1,155 +1,102 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4C628E8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 18:56:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685127403; x=1716663403;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6ipZuSgpy1gS+Qfwg/ob+kjrlnsftp73pxyYoFCBu30=;
-  b=FMggQhcpiHs/xHr7OX7thbBERV17dsL0QoDCyQLPEMybG8xKMFvTD7JB
-   HZYRiKohZgk7L0SW5ssY/jINoDPw1l0HxIRsBkhgFSMAoa06Vu+Y3/8a6
-   B5bFDO0j6xjsLSywx4r4T/fNfq4xElMVZy18dhC558xbU3W9dszMZYP7c
-   GnrapkigdfDjVCwbBwzFsd/NJgor3N5FbVbCJDOfW/g1BMYXU3vUdZ0N5
-   +LpgJZInBsa0WrBQVvWsH3w0kdD+6JNljvBlqJuICSCptwgG3pDtcNnLw
-   PSFs9OZI49XYtECKv2faRQrOCfdWpfZxR+kOPMQsDXxblTPfAm2n3wIsf
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="343773914"
-X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
-   d="scan'208";a="343773914"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 11:56:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="738374902"
-X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
-   d="scan'208";a="738374902"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 26 May 2023 11:56:41 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q2ccD-000JXg-0L;
-	Fri, 26 May 2023 18:56:41 +0000
-Date: Sat, 27 May 2023 02:56:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:doe 4/8] lib/spdm.c:578:13: error: assignment to 'struct
- spdm_get_capabilities_reqrsp *' from incompatible pointer type 'u8 *' {aka
- 'unsigned char *'}
-Message-ID: <202305270232.hbVqeLpX-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C866128E8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 18:58:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D75E1C433EF;
+	Fri, 26 May 2023 18:58:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1685127525;
+	bh=LuO+2BJiNosMjkbK4fDQs2ihVslEgPpRQZiIowABKv8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ysYJlGcPZEXxZ0oRwjaaJraIyWWhNulZ9Iry9w8t7s2NOOepQFmyzmfg7rEmvhzU3
+	 m3f/gzlVFnr64EKNS5Stc0FM2o9MLonz2h+67ZRIWfPLuUG5fXGXsk3w7QHv0s2iH6
+	 +OHfChmguWsVQx4dJS3oYgklMWqtjMXTwYUk85D0=
+Date: Fri, 26 May 2023 19:58:42 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Vegard Nossum <vegard.nossum@oracle.com>
+Cc: kernel test robot <lkp@intel.com>, Sasha Levin <sashal@kernel.org>,
+	oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Daniel Santos <daniel.santos@pobox.com>,
+	Ryder Lee <ryder.lee@mediatek.com>, Felix Fietkau <nbd@nbd.name>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [linux-stable-rc:queue/5.4 4610/23441]
+ include/linux/compiler.h:350:45: error: call to '__compiletime_assert_215'
+ declared with attribute error: FIELD_GET: mask is not constant
+Message-ID: <2023052621-raisin-clergyman-47ff@gregkh>
+References: <202305210701.TND2uZBJ-lkp@intel.com>
+ <07135e22-253f-cfdc-dbba-0e5e670c25e9@oracle.com>
+ <e542a9ea-8276-16c7-9319-0bf835f923df@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e542a9ea-8276-16c7-9319-0bf835f923df@oracle.com>
 
-tree:   https://github.com/l1k/linux doe
-head:   6ffa3ef7cf68997f16b363bcb583c872a9e31f99
-commit: 2f5aeff1cb43a10c2e1c97b2785977485c32a1e7 [4/8] PCI/CMA: Authenticate devices on enumeration
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230527/202305270232.hbVqeLpX-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/l1k/linux/commit/2f5aeff1cb43a10c2e1c97b2785977485c32a1e7
-        git remote add l1k https://github.com/l1k/linux
-        git fetch --no-tags l1k doe
-        git checkout 2f5aeff1cb43a10c2e1c97b2785977485c32a1e7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+On Tue, May 23, 2023 at 03:45:29PM +0200, Vegard Nossum wrote:
+> 
+> On 5/23/23 15:37, Vegard Nossum wrote:
+> > 
+> > On 5/21/23 02:12, kernel test robot wrote:
+> > > Hi Vegard,
+> > > 
+> > > FYI, the error/warning still remains.
+> > > 
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
+> > > queue/5.4
+> > > head:   9b5924fbde0d84c8b30d7ee297a08ca441a760de
+> > > commit: 3910babeac1ab031f4e178042cbd1af9a9a0ec51 [4610/23441]
+> > > compiler.h: fix error in BUILD_BUG_ON() reporting
+> > > config: sparc64-randconfig-c44-20230521
+> > > compiler: sparc64-linux-gcc (GCC) 12.1.0
+> [...]
+> 
+> > I'm not sure why this flags my patch as the culprit.
+> > 
+> > I just tried this (with the supplied config):
+> > 
+> > git checkout stable/linux-5.4.y
+> > git revert 3910babeac1ab031f4e178042cbd1af9a9a0ec51 # revert my patch
+> > make drivers/net/wireless/mediatek/mt76/mt7615/mac.o
+> > 
+> > and it still outputs the same error.
+> > 
+> > The FIELD_GET() call was added in bf92e76851009 and seems to have been
+> > broken from the start as far as I can tell? If I checkout bf92e76851009^
+> > then it builds, if I checkout bf92e76851009 then it fails.
+> > 
+> > Should we just redefine to_rssi() as a macro so it actually passes the
+> > field as a literal/constant?
+> 
+> Ah, there is a mainline patch that fixes this, doing exactly that:
+> 
+> commit f53300fdaa84dc02f96ab9446b5bac4d20016c43
+> Author: Pablo Greco <pgreco@centosproject.org>
+> Date:   Sun Dec 1 15:17:10 2019 -0300
+> 
+>     mt76: mt7615: Fix build with older compilers
+> [...]
+> 
+> -static inline s8 to_rssi(u32 field, u32 rxv)
+> -{
+> -       return (FIELD_GET(field, rxv) - 220) / 2;
+> -}
+> +#define to_rssi(field, rxv)            ((FIELD_GET(field, rxv) - 220) / 2)
+> 
+> Greg, Sasha, does it make sense to pick that for 5.4 (as it doesn't seem
+> to be in there) to shut up the kernel test robot?
+> 
+> If so, should we add this to the changelog as well?
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305270232.hbVqeLpX-lkp@intel.com/
+The changelog says it already, so now queued up :)
 
-All errors (new ones prefixed by >>):
+thanks,
 
-   lib/spdm.c: In function 'spdm_get_capabilities':
->> lib/spdm.c:578:13: error: assignment to 'struct spdm_get_capabilities_reqrsp *' from incompatible pointer type 'u8 *' {aka 'unsigned char *'} [-Werror=incompatible-pointer-types]
-     578 |         rsp = (u8 *)req + req_sz;
-         |             ^
-   lib/spdm.c: In function 'spdm_authenticate':
-   lib/spdm.c:1238:22: error: too few arguments to function 'kzalloc'
-    1238 |         transcript = kzalloc(sizeof(struct spdm_get_version_rsp) +
-         |                      ^~~~~~~
-   In file included from include/linux/crypto.h:17,
-                    from include/crypto/hash.h:12,
-                    from lib/spdm.c:22:
-   include/linux/slab.h:678:37: note: declared here
-     678 | static inline __alloc_size(1) void *kzalloc(size_t size, gfp_t flags)
-         |                                     ^~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +578 lib/spdm.c
-
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  554  
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  555  static int spdm_get_capabilities(struct spdm_state *spdm_state,
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  556  				 struct spdm_get_capabilities_reqrsp *req,
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  557  				 size_t *reqrsp_sz)
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  558  {
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  559  	struct spdm_get_capabilities_reqrsp *rsp;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  560  	size_t req_sz;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  561  	size_t rsp_sz;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  562  	int rc, length;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  563  
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  564  	req->code = SPDM_GET_CAPABILITIES;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  565  	req->ctexponent = SPDM_CTEXPONENT;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  566  	req->flags = cpu_to_le32(SPDM_CAPS);
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  567  
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  568  	if (spdm_state->version >= 0x12) {
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  569  		req->data_transfer_size = cpu_to_le32(spdm_state->transport_sz),
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  570  		req->max_spdm_msg_size = cpu_to_le32(UINT_MAX),
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  571  		req_sz = sizeof(*req);
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  572  		rsp_sz = sizeof(*rsp);
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  573  	} else {
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  574  		req_sz = offsetof(typeof(*req), data_transfer_size);
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  575  		rsp_sz = offsetof(typeof(*rsp), data_transfer_size);
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  576  	}
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  577  
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06 @578  	rsp = (u8 *)req + req_sz;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  579  
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  580  	rc = spdm_exchange(spdm_state, req, req_sz, rsp, rsp_sz);
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  581  	if (rc < 0)
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  582  		return rc;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  583  
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  584  	length = rc;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  585  	if (length < rsp_sz) {
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  586  		dev_err(spdm_state->dev, "Truncated capabilities response\n");
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  587  		return -EIO;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  588  	}
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  589  
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  590  	spdm_state->responder_caps = le32_to_cpu(rsp->flags);
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  591  	if ((spdm_state->responder_caps & SPDM_MIN_CAPS) != SPDM_MIN_CAPS)
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  592  		return -EPROTONOSUPPORT;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  593  
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  594  	if (spdm_state->version >= 0x12) {
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  595  		u32 data_transfer_size = le32_to_cpu(rsp->data_transfer_size);
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  596  		if (data_transfer_size < SPDM_MIN_DATA_TRANSFER_SIZE) {
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  597  			dev_err(spdm_state->dev,
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  598  				"Malformed capabilities response\n");
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  599  			return -EPROTO;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  600  		}
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  601  		spdm_state->transport_sz = min(spdm_state->transport_sz,
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  602  					       data_transfer_size);
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  603  	}
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  604  
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  605  	*reqrsp_sz += req_sz + rsp_sz;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  606  
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  607  	return 0;
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  608  }
-7e7ebf8de0b00c Jonathan Cameron 2022-09-06  609  
-
-:::::: The code at line 578 was first introduced by commit
-:::::: 7e7ebf8de0b00c1f6975a8ca14fa97488e21fa34 spdm: Introduce library to authenticate devices
-
-:::::: TO: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-:::::: CC: Lukas Wunner <lukas@wunner.de>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+greg k-h
