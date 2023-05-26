@@ -1,49 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737DB742E0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 11:09:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F86D742D9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 11:31:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685099370; x=1716635370;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QecnW388avL7Pw9D3QBay5Iy0l93Su27eeLgRVARvTk=;
-  b=ZVZ0I5qtvwhxo5D4Se9xgyVOKNH8vAWp4WP1/KFHUb4UQdpG7GobLXat
-   s00gFHSw0e1J5eV7ztk1LQ8GfUIbFHYjnOFfMMWuKEMDkDvnkofVPpVFc
-   /Lf892l0XF5psFkBmgvontwQgloXxEibWkl7wk4pRQx7V3pE3fEW49lOG
-   z4xMhNBYFCYD475aJdbxd6yVIsQEq8+kpIwo6NKu2u2mdGkuvptsdh1J0
-   dwvBI+HwuX296KACqMDgF4M8fgNkP2s3cVp7OpI6MRISi8ehtDecjhZWh
-   VgqtJUCnOYmmpP5yawjryQWFKcz0gN1GG4aKR0BGBK1/FZoUp/l/cOZJS
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="417663741"
+  t=1685100690; x=1716636690;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sEXWsKQr0WMEj4k6in7V+KHx1u+h6TklwOptx8zNF8I=;
+  b=m8aICqzmup5qYsLqsET2AuwdJiCPyYuX/ZB6An1bAAvac3gmKszWY4nM
+   IiPGq0DZWS+6A00l0b0AC40kSmWdRoQ9J7IgQV6xG/v8jdyMsefowSA72
+   ndCu1rffbtQr9Du3UJUJBqjYmpxsQDlRpOegnyb0tM+AnTty6oP+2nTcl
+   4eOAilZTTe6XXP1fhQHFnC2KGaF81ygeWHVku6yroJFtjBzzydzDAgh2S
+   yDtcN4oLM/zcJk06QtzPNDb8BJQJW2peAVrlBFQ51KvSo7HIILdayvLiT
+   D8ZKV8RC7R087/njDcbWJkY5Q3FOERSkQUu4PKcnuVcl+Sy12+7+hNzax
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="354196904"
 X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
-   d="scan'208";a="417663741"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 04:09:29 -0700
+   d="scan'208";a="354196904"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 04:31:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="879527533"
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="829493487"
 X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
-   d="scan'208";a="879527533"
+   d="scan'208";a="829493487"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 26 May 2023 04:09:27 -0700
+  by orsmga004.jf.intel.com with ESMTP; 26 May 2023 04:31:28 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2VK2-000JH9-2l;
-	Fri, 26 May 2023 11:09:26 +0000
-Date: Fri, 26 May 2023 19:09:03 +0800
+	id 1q2VfL-000JIA-1P;
+	Fri, 26 May 2023 11:31:27 +0000
+Date: Fri, 26 May 2023 19:30:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, tsahu@linux.ibm.com,
-	anshuman.khandual@arm.com, ssawgyw@gmail.com,
-	Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH -next] memblock: unify memblock dump and debugfs show
-Message-ID: <202305261822.ZFRYZVQk-lkp@intel.com>
-References: <20230525115856.124507-1-wangkefeng.wang@huawei.com>
+To: James Morse <james.morse@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morse:mpam/monitors_and_locking/v4 15/24]
+ arch/x86/kernel/cpu/resctrl/monitor.c:339:26: sparse: sparse: incompatible
+ types for operation (<):
+Message-ID: <202305261902.SPC4AVIV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,59 +46,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230525115856.124507-1-wangkefeng.wang@huawei.com>
 
-Hi Kefeng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20230525]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/memblock-unify-memblock-dump-and-debugfs-show/20230525-194341
-base:   next-20230525
-patch link:    https://lore.kernel.org/r/20230525115856.124507-1-wangkefeng.wang%40huawei.com
-patch subject: [PATCH -next] memblock: unify memblock dump and debugfs show
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230526/202305261822.ZFRYZVQk-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/08ce8490dec830c059127709a3a692ac7368287e
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Kefeng-Wang/memblock-unify-memblock-dump-and-debugfs-show/20230525-194341
-        git checkout 08ce8490dec830c059127709a3a692ac7368287e
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git mpam/monitors_and_locking/v4
+head:   7a2faaa86a608f308185f2dc0c503e6c103a9206
+commit: 7b6c0f41fa6f30fef835940b8f10b37bddbeaf11 [15/24] x86/resctrl: Allow arch to allocate memory needed in resctrl_arch_rmid_read()
+config: i386-randconfig-s001-20230525 (https://download.01.org/0day-ci/archive/20230526/202305261902.SPC4AVIV-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git/commit/?id=7b6c0f41fa6f30fef835940b8f10b37bddbeaf11
+        git remote add morse https://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git
+        git fetch --no-tags morse mpam/monitors_and_locking/v4
+        git checkout 7b6c0f41fa6f30fef835940b8f10b37bddbeaf11
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/kernel/cpu/resctrl/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305261822.ZFRYZVQk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305261902.SPC4AVIV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/kernel/cpu/resctrl/monitor.c:339:26: sparse: sparse: incompatible types for operation (<):
+>> arch/x86/kernel/cpu/resctrl/monitor.c:339:26: sparse:    void *[assigned] arch_mon_ctx
+>> arch/x86/kernel/cpu/resctrl/monitor.c:339:26: sparse:    int
+   arch/x86/kernel/cpu/resctrl/monitor.c:760:37: sparse: sparse: incompatible types for operation (<):
+   arch/x86/kernel/cpu/resctrl/monitor.c:760:37: sparse:    void *[assigned] arch_mon_ctx
+   arch/x86/kernel/cpu/resctrl/monitor.c:760:37: sparse:    int
+   arch/x86/kernel/cpu/resctrl/monitor.c:771:37: sparse: sparse: incompatible types for operation (<):
+>> arch/x86/kernel/cpu/resctrl/monitor.c:771:37: sparse:    void *[addressable] [assigned] arch_mon_ctx
+   arch/x86/kernel/cpu/resctrl/monitor.c:771:37: sparse:    int
 
-   mm/memblock.c: In function 'memblock_dump.constprop':
->> mm/memblock.c:1910:27: error: 'flagname' causes a section type conflict with 'memblock_debug'
-    1910 | static const char * const flagname[] __initdata_memblock = {
-         |                           ^~~~~~~~
-   mm/memblock.c:158:12: note: 'memblock_debug' was declared here
-     158 | static int memblock_debug __initdata_memblock;
-         |            ^~~~~~~~~~~~~~
+vim +339 arch/x86/kernel/cpu/resctrl/monitor.c
 
-
-vim +1910 mm/memblock.c
-
-  1909	
-> 1910	static const char * const flagname[] __initdata_memblock = {
-  1911		[ilog2(MEMBLOCK_HOTPLUG)]		= "HOTPLUG",
-  1912		[ilog2(MEMBLOCK_MIRROR)]		= "MIRROR",
-  1913		[ilog2(MEMBLOCK_NOMAP)]			= "NOMAP",
-  1914		[ilog2(MEMBLOCK_DRIVER_MANAGED)]	= "DRV_MNG",
-  1915		[ilog2(MEMBLOCK_MAX_UNKNOWN)]		= "UNKNOWN",
-  1916	};
-  1917	
+   321	
+   322	/*
+   323	 * Check the RMIDs that are marked as busy for this domain. If the
+   324	 * reported LLC occupancy is below the threshold clear the busy bit and
+   325	 * decrement the count. If the busy count gets to zero on an RMID, we
+   326	 * free the RMID
+   327	 */
+   328	void __check_limbo(struct rdt_domain *d, bool force_free)
+   329	{
+   330		struct rdt_resource *r = &rdt_resources_all[RDT_RESOURCE_L3].r_resctrl;
+   331		u32 idx_limit = resctrl_arch_system_num_rmid_idx();
+   332		struct rmid_entry *entry;
+   333		u32 idx, cur_idx = 1;
+   334		void *arch_mon_ctx;
+   335		bool rmid_dirty;
+   336		u64 val = 0;
+   337	
+   338		arch_mon_ctx = resctrl_arch_mon_ctx_alloc(r, QOS_L3_OCCUP_EVENT_ID);
+ > 339		if (arch_mon_ctx < 0)
+   340			return;
+   341	
+   342		/*
+   343		 * Skip RMID 0 and start from RMID 1 and check all the RMIDs that
+   344		 * are marked as busy for occupancy < threshold. If the occupancy
+   345		 * is less than the threshold decrement the busy counter of the
+   346		 * RMID and move it to the free list when the counter reaches 0.
+   347		 */
+   348		for (;;) {
+   349			idx = find_next_bit(d->rmid_busy_llc, idx_limit, cur_idx);
+   350			if (idx >= idx_limit)
+   351				break;
+   352	
+   353			entry = __rmid_entry(idx);
+   354			if (resctrl_arch_rmid_read(r, d, entry->closid, entry->rmid,
+   355						   QOS_L3_OCCUP_EVENT_ID, &val,
+   356						   arch_mon_ctx)) {
+   357				rmid_dirty = true;
+   358			} else {
+   359				rmid_dirty = (val >= resctrl_rmid_realloc_threshold);
+   360			}
+   361	
+   362			if (force_free || !rmid_dirty) {
+   363				clear_bit(idx, d->rmid_busy_llc);
+   364				if (!--entry->busy)
+   365					limbo_release_entry(entry);
+   366			}
+   367			cur_idx = idx + 1;
+   368		}
+   369	
+   370		resctrl_arch_mon_ctx_free(r, QOS_L3_OCCUP_EVENT_ID, arch_mon_ctx);
+   371	}
+   372	
 
 -- 
 0-DAY CI Kernel Test Service
