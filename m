@@ -1,50 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga01.intel.com (unknown [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCF615BD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 17:44:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DD115BD
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 18:25:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685123084; x=1716659084;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x5pHN9VZUDdP2TLxPCWhN/t1BZUONMIrFg5l5cvTays=;
-  b=iumDFVZi7C80j6evW6iF0RKqad73FursD70v3leNkSM9R/swmRsZtacA
-   GI59VxuTAHyVoKzWWueAiltYGwmSooOapOedX4iDqdBMmb9KlgyVIfi86
-   AuxWod5EHeZkaL+lyVM4AkAWEssL2tiZS1zm7SNTRpRvTdGn83q91fvWO
-   bmqBp+Mf3uVsZVdGbWo2KH4kC32ei3BtUAqMrYg8libwgRpQ+1eBpsc4j
-   r91k5ksf1SK9myYf6v3iOIsGasbpfx2ORxTJKP7adTp5CBdfcm6h3n7lK
-   511WjJFydYB/XIMHCCnR/yaROsSn/A3Tjw0ZMVwL67TGC7pdZ4K8k+UlX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="417745393"
-X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
-   d="scan'208";a="417745393"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 10:44:43 -0700
+  t=1685125552; x=1716661552;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SRLTObgTeTun8TxEk3z2UJJhlVBRHP+7aLFZIGA+J24=;
+  b=g5tv6bdcdu6nGjiujzlzEmaGROAfHxlNU72NRjBc1kma2rDN5Qb5/OVH
+   92bhJy9Si+aYd0Fk9xxvQv4/bkbFf/Khl9ctSOtEMLRt0tSqODAHiNk+y
+   k9o2TIU104PTQCA7N4rBsoH7bbqtw/JAYXxxRKqnbyd5Us4QFbhsWIrJc
+   V3alOllkve+oSMRwtelqA+piHS+LRgcekyHeAYbk7lvdCeHIRSYbXIKee
+   Lk+7e/IzGBaEYUVFgrx6rJOhP1pWoqVuESUYXcagCdhB1RrlLhds/JkUz
+   2xwEusKOpOSO4K0nmgqNbMg6WBXgP0iCL8Vw2ZX0VpV3z0gvfS8U0Dobn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="382519585"
+X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
+   d="scan'208";a="382519585"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 11:25:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="775163669"
-X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
-   d="scan'208";a="775163669"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="879621892"
+X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
+   d="scan'208";a="879621892"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 26 May 2023 10:44:40 -0700
+  by orsmga005.jf.intel.com with ESMTP; 26 May 2023 11:25:41 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2bUV-000JVq-2o;
-	Fri, 26 May 2023 17:44:39 +0000
-Date: Sat, 27 May 2023 01:44:27 +0800
+	id 1q2c8C-000JX0-1s;
+	Fri, 26 May 2023 18:25:40 +0000
+Date: Sat, 27 May 2023 02:25:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Liang Chen <liangchen.linux@gmail.com>, jasowang@redhat.com,
-	mst@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, xuanzhuo@linux.alibaba.com,
-	kuba@kernel.org, edumazet@google.com, davem@davemloft.net,
-	pabeni@redhat.com, alexander.duyck@gmail.com,
-	Liang Chen <liangchen.linux@gmail.com>
-Subject: Re: [PATCH net-next 3/5] virtio_net: Add page pool fragmentation
- support
-Message-ID: <202305270116.TJ31IjNL-lkp@intel.com>
-References: <20230526054621.18371-3-liangchen.linux@gmail.com>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	WANG Xuerui <git@xen0n.name>, Jianmin Lv <lvjianmin@loongson.cn>
+Subject: drivers/scsi/hisi_sas/hisi_sas_v3_hw.c:2174:43: sparse: sparse:
+ restricted __le32 degrades to integer
+Message-ID: <202305270239.TTHGp9A1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,47 +46,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230526054621.18371-3-liangchen.linux@gmail.com>
 
-Hi Liang,
+Hi Huacai,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Liang-Chen/virtio_net-Add-page_pool-support-to-improve-performance/20230526-135805
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230526054621.18371-3-liangchen.linux%40gmail.com
-patch subject: [PATCH net-next 3/5] virtio_net: Add page pool fragmentation support
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230527/202305270116.TJ31IjNL-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/dda0469e059354b61192e1d25b77c57351346282
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Liang-Chen/virtio_net-Add-page_pool-support-to-improve-performance/20230526-135805
-        git checkout dda0469e059354b61192e1d25b77c57351346282
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0d85b27b0cc6b5cf54567c5ad913a247a71583ce
+commit: 57fc7323a8e7c2e7c1d5795ab63cb3ffea3cfdfb LoongArch: Add PCI controller support
+date:   10 months ago
+config: loongarch-randconfig-s032-20230526 (https://download.01.org/0day-ci/archive/20230527/202305270239.TTHGp9A1-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.1.0
+reproduce:
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=57fc7323a8e7c2e7c1d5795ab63cb3ffea3cfdfb
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 57fc7323a8e7c2e7c1d5795ab63cb3ffea3cfdfb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=loongarch SHELL=/bin/bash drivers/scsi/hisi_sas/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305270116.TJ31IjNL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305270239.TTHGp9A1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/scsi/hisi_sas/hisi_sas_v3_hw.c:2174:43: sparse: sparse: restricted __le32 degrades to integer
+   drivers/scsi/hisi_sas/hisi_sas_v3_hw.c:2175:46: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/scsi/hisi_sas/hisi_sas_v3_hw.c:4440:35: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __le32 [usertype] *[assigned] ptr @@     got unsigned int * @@
+   drivers/scsi/hisi_sas/hisi_sas_v3_hw.c:4440:35: sparse:     expected restricted __le32 [usertype] *[assigned] ptr
+   drivers/scsi/hisi_sas/hisi_sas_v3_hw.c:4440:35: sparse:     got unsigned int *
 
-   ld: vmlinux.o: in function `virtnet_find_vqs':
-   virtio_net.c:(.text+0x901fd2): undefined reference to `page_pool_create'
-   ld: vmlinux.o: in function `add_recvbuf_mergeable.isra.0':
-   virtio_net.c:(.text+0x905662): undefined reference to `page_pool_alloc_pages'
->> ld: virtio_net.c:(.text+0x905715): undefined reference to `page_pool_alloc_frag'
-   ld: vmlinux.o: in function `xdp_linearize_page':
-   virtio_net.c:(.text+0x906c50): undefined reference to `page_pool_alloc_pages'
-   ld: virtio_net.c:(.text+0x906e33): undefined reference to `page_pool_alloc_frag'
-   ld: vmlinux.o: in function `mergeable_xdp_get_buf.isra.0':
->> virtio_net.c:(.text+0x90740e): undefined reference to `page_pool_alloc_frag'
->> ld: virtio_net.c:(.text+0x90750b): undefined reference to `page_pool_alloc_pages'
+vim +2174 drivers/scsi/hisi_sas/hisi_sas_v3_hw.c
+
+fa2314081571f5 Xiaofei Tan     2017-10-24  2150  
+62413199cd6d29 Xingui Yang     2022-02-24  2151  static bool
+60b4a5ee90349a Xiang Chen      2017-06-14  2152  slot_err_v3_hw(struct hisi_hba *hisi_hba, struct sas_task *task,
+60b4a5ee90349a Xiang Chen      2017-06-14  2153  	       struct hisi_sas_slot *slot)
+60b4a5ee90349a Xiang Chen      2017-06-14  2154  {
+60b4a5ee90349a Xiang Chen      2017-06-14  2155  	struct task_status_struct *ts = &task->task_status;
+60b4a5ee90349a Xiang Chen      2017-06-14  2156  	struct hisi_sas_complete_v3_hdr *complete_queue =
+60b4a5ee90349a Xiang Chen      2017-06-14  2157  			hisi_hba->complete_hdr[slot->cmplt_queue];
+60b4a5ee90349a Xiang Chen      2017-06-14  2158  	struct hisi_sas_complete_v3_hdr *complete_hdr =
+60b4a5ee90349a Xiang Chen      2017-06-14  2159  			&complete_queue[slot->cmplt_queue_slot];
+f557e32c0023ea Xiaofei Tan     2017-06-29  2160  	struct hisi_sas_err_record_v3 *record =
+f557e32c0023ea Xiaofei Tan     2017-06-29  2161  			hisi_sas_status_buf_addr_mem(slot);
+735bcc77e6ba83 John Garry      2018-12-06  2162  	u32 dma_rx_err_type = le32_to_cpu(record->dma_rx_err_type);
+735bcc77e6ba83 John Garry      2018-12-06  2163  	u32 trans_tx_fail_type = le32_to_cpu(record->trans_tx_fail_type);
+735bcc77e6ba83 John Garry      2018-12-06  2164  	u32 dw3 = le32_to_cpu(complete_hdr->dw3);
+60b4a5ee90349a Xiang Chen      2017-06-14  2165  
+60b4a5ee90349a Xiang Chen      2017-06-14  2166  	switch (task->task_proto) {
+60b4a5ee90349a Xiang Chen      2017-06-14  2167  	case SAS_PROTOCOL_SSP:
+60b4a5ee90349a Xiang Chen      2017-06-14  2168  		if (dma_rx_err_type & RX_DATA_LEN_UNDERFLOW_MSK) {
+62413199cd6d29 Xingui Yang     2022-02-24  2169  			/*
+62413199cd6d29 Xingui Yang     2022-02-24  2170  			 * If returned response frame is incorrect because of data underflow,
+62413199cd6d29 Xingui Yang     2022-02-24  2171  			 * but I/O information has been written to the host memory, we examine
+62413199cd6d29 Xingui Yang     2022-02-24  2172  			 * response IU.
+62413199cd6d29 Xingui Yang     2022-02-24  2173  			 */
+62413199cd6d29 Xingui Yang     2022-02-24 @2174  			if (!(complete_hdr->dw0 & CMPLT_HDR_RSPNS_GOOD_MSK) &&
+62413199cd6d29 Xingui Yang     2022-02-24  2175  				(complete_hdr->dw0 & CMPLT_HDR_RSPNS_XFRD_MSK))
+62413199cd6d29 Xingui Yang     2022-02-24  2176  				return false;
+62413199cd6d29 Xingui Yang     2022-02-24  2177  
+60b4a5ee90349a Xiang Chen      2017-06-14  2178  			ts->residual = trans_tx_fail_type;
+60b4a5ee90349a Xiang Chen      2017-06-14  2179  			ts->stat = SAS_DATA_UNDERRUN;
+735bcc77e6ba83 John Garry      2018-12-06  2180  		} else if (dw3 & CMPLT_HDR_IO_IN_TARGET_MSK) {
+60b4a5ee90349a Xiang Chen      2017-06-14  2181  			ts->stat = SAS_QUEUE_FULL;
+60b4a5ee90349a Xiang Chen      2017-06-14  2182  			slot->abort = 1;
+60b4a5ee90349a Xiang Chen      2017-06-14  2183  		} else {
+60b4a5ee90349a Xiang Chen      2017-06-14  2184  			ts->stat = SAS_OPEN_REJECT;
+60b4a5ee90349a Xiang Chen      2017-06-14  2185  			ts->open_rej_reason = SAS_OREJ_RSVD_RETRY;
+60b4a5ee90349a Xiang Chen      2017-06-14  2186  		}
+60b4a5ee90349a Xiang Chen      2017-06-14  2187  		break;
+60b4a5ee90349a Xiang Chen      2017-06-14  2188  	case SAS_PROTOCOL_SATA:
+60b4a5ee90349a Xiang Chen      2017-06-14  2189  	case SAS_PROTOCOL_STP:
+60b4a5ee90349a Xiang Chen      2017-06-14  2190  	case SAS_PROTOCOL_SATA | SAS_PROTOCOL_STP:
+60b4a5ee90349a Xiang Chen      2017-06-14  2191  		if (dma_rx_err_type & RX_DATA_LEN_UNDERFLOW_MSK) {
+60b4a5ee90349a Xiang Chen      2017-06-14  2192  			ts->residual = trans_tx_fail_type;
+60b4a5ee90349a Xiang Chen      2017-06-14  2193  			ts->stat = SAS_DATA_UNDERRUN;
+735bcc77e6ba83 John Garry      2018-12-06  2194  		} else if (dw3 & CMPLT_HDR_IO_IN_TARGET_MSK) {
+60b4a5ee90349a Xiang Chen      2017-06-14  2195  			ts->stat = SAS_PHY_DOWN;
+60b4a5ee90349a Xiang Chen      2017-06-14  2196  			slot->abort = 1;
+60b4a5ee90349a Xiang Chen      2017-06-14  2197  		} else {
+60b4a5ee90349a Xiang Chen      2017-06-14  2198  			ts->stat = SAS_OPEN_REJECT;
+60b4a5ee90349a Xiang Chen      2017-06-14  2199  			ts->open_rej_reason = SAS_OREJ_RSVD_RETRY;
+60b4a5ee90349a Xiang Chen      2017-06-14  2200  		}
+60b4a5ee90349a Xiang Chen      2017-06-14  2201  		hisi_sas_sata_done(task, slot);
+60b4a5ee90349a Xiang Chen      2017-06-14  2202  		break;
+60b4a5ee90349a Xiang Chen      2017-06-14  2203  	case SAS_PROTOCOL_SMP:
+d377f415dddc18 Bart Van Assche 2021-05-23  2204  		ts->stat = SAS_SAM_STAT_CHECK_CONDITION;
+60b4a5ee90349a Xiang Chen      2017-06-14  2205  		break;
+60b4a5ee90349a Xiang Chen      2017-06-14  2206  	default:
+60b4a5ee90349a Xiang Chen      2017-06-14  2207  		break;
+60b4a5ee90349a Xiang Chen      2017-06-14  2208  	}
+62413199cd6d29 Xingui Yang     2022-02-24  2209  	return true;
+60b4a5ee90349a Xiang Chen      2017-06-14  2210  }
+60b4a5ee90349a Xiang Chen      2017-06-14  2211  
+
+:::::: The code at line 2174 was first introduced by commit
+:::::: 62413199cd6d2906c121c2dfa3d7b82fd05f08db scsi: hisi_sas: Modify v3 HW SSP underflow error processing
+
+:::::: TO: Xingui Yang <yangxingui@huawei.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 -- 
 0-DAY CI Kernel Test Service
