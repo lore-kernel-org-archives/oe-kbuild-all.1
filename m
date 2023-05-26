@@ -1,152 +1,180 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A1D539E;
-	Fri, 26 May 2023 07:04:18 +0000 (UTC)
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-b9daef8681fso409987276.1;
-        Fri, 26 May 2023 00:04:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A85539E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 07:05:03 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3090d3e9c92so308485f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 00:05:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685084701; x=1687676701;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AEB3j9Hm4cFEq/IWrgb9Zt9idZi6mpH7UvBj/2wltyE=;
+        b=YSrKeg5whAJDn0g5cVRpfV7wR1PzZGXcMZUAkUVutOyRE/1794U3lHibYoa0McpWoc
+         TyCSwKXjmrBMXeKGb02wLVSvpUFQMW/UnYQ6CABaoywBxUOVXLabFwzkcU+NOsp/SIWd
+         l+eWzr9ypgocfjfcdFESwzQIJRUlpzPoVnZ5Gd49eqdmQrAKMlphMRoJX9on8MIZZirA
+         rHZFKlcExktHHZ0g0W0TWDUN8BSEag9b3cVUwpo6Vnuc7PhvCeazcYNfGuwY535KFj56
+         E5vVVCkKT4IkK6fTlwPNEkZ/EKHSwMVXN8mD9bW93VTKIofeHKcJT4/Fl0bqk0GXSd2f
+         xM8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685084657; x=1687676657;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hP5Hjf1luQydJ9DLMKusibQhr4NEmLhV7a5C7xBBU3o=;
-        b=E0/gdd/ekD92G0WsbmDpB2MfsSQ4TlDjqrxx0LHYPWT0QQRj4BQcZ1GELgzvxRZNlh
-         lDK8P1i/jvQVZNQzTsIu9kcjMoUliFWBjpALwQf5p9TxqMpv9ysJmuXgVw0/AN0LQ/yd
-         VZQmw0rpClYhF/x+w6kUX1r/SDq4uDPwEItQb/pb+pjSWbHm0dxTEMK2uS/as4FwfscT
-         DDBFy8+97ig4suPIuHe5XBwfP5XoHcwJw1BDzhCg8jumXQFZtMWyzzM+fbTKfrlERTBL
-         gLiUvSVa5CqEy6DV0HXlfnMmbnmXj+FF4oVu9KVj94P2lVLC+YwycSGlp0GOwN3LT2h5
-         9DLQ==
-X-Gm-Message-State: AC+VfDw9yguthn5dNHRizmD00H9398+QbRO9Btkv0vwc1deCEDk3bKHx
-	tsiX8lzD1fRY/dCM9F5/NTLr4y2wyf8l8Q==
-X-Google-Smtp-Source: ACHHUZ7YkZmfmOrIwGB76O8V7NqGd1BcZdbxIM6tpvtFhD8Vp2Z3y9xDtUzQv3uZVepIUAt6Gpuplg==
-X-Received: by 2002:a25:8087:0:b0:ba6:cf6f:960b with SMTP id n7-20020a258087000000b00ba6cf6f960bmr735694ybk.27.1685084656802;
-        Fri, 26 May 2023 00:04:16 -0700 (PDT)
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com. [209.85.128.169])
-        by smtp.gmail.com with ESMTPSA id 205-20020a2514d6000000b00ba87e9b5bf9sm842244ybu.45.2023.05.26.00.04.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 May 2023 00:04:15 -0700 (PDT)
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-563b1e5f701so4796017b3.3;
-        Fri, 26 May 2023 00:04:15 -0700 (PDT)
-X-Received: by 2002:a0d:cb83:0:b0:561:d21d:8ce4 with SMTP id
- n125-20020a0dcb83000000b00561d21d8ce4mr1048307ywd.19.1685084654815; Fri, 26
- May 2023 00:04:14 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685084701; x=1687676701;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AEB3j9Hm4cFEq/IWrgb9Zt9idZi6mpH7UvBj/2wltyE=;
+        b=QE6TctYV1CjLFxpF2vucrn8KSWgn4ESISplsTHAMGg9vSYuO141d9RiOERbpYi6ffm
+         KqfZTyF7SmOdViBqSr8LJr8U8JN/4J9FZ4JKyqk0UjTKXdcYnRryBC013iFz2QgOVjJY
+         uioPZQiAAcMfzC8h3RKQzOvDwX3pHBMLmnK961rnwbSfFMS1hAVFbndAJrLs7chBpIv0
+         G5VxHnDFZYwsDcPom9R5d5piMYKwPwciY8UeKgIqlKUs5kyEM0HGxZY1es26RRFcr5Zk
+         Itfxh1NtQYrAM32u+3Y5y+ReoHM97nmVLhfrficvPXhoLdfTgmCYXnS+h3ia/hBSoJqb
+         ey0A==
+X-Gm-Message-State: AC+VfDwoTYDssOX8LdaoEG4gF5F9CKbH3b9ABX6y/Nrxcy8a3RbZ7nlv
+	BW66pPsTty7AYy747L+iHwrZDQ==
+X-Google-Smtp-Source: ACHHUZ436Ll/zuj+aPZ58CU5j/t4v3v5iYkysrtJQ7kI4HwVs1SAf0wTOXQ6UMRhdRD5DYbfC7pd8g==
+X-Received: by 2002:adf:cd8e:0:b0:306:3ec8:289d with SMTP id q14-20020adfcd8e000000b003063ec8289dmr689173wrj.46.1685084701478;
+        Fri, 26 May 2023 00:05:01 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id f17-20020a5d5691000000b0030497b3224bsm4017317wrv.64.2023.05.26.00.04.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 May 2023 00:05:00 -0700 (PDT)
+Date: Fri, 26 May 2023 10:04:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	alsa-devel@alsa-project.org, Jaroslav Kysela <perex@perex.cz>
+Subject: [tiwai-sound:topic/midi20 25/40] sound/core/seq/seq_clientmgr.c:482
+ snd_seq_read() error: copy_to_user() '&cell->event' too small (28 vs 32)
+Message-ID: <53743044-5b66-43ab-9675-db0eeed69736@kili.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202305260739.yrWlFZTF-lkp@intel.com>
-In-Reply-To: <202305260739.yrWlFZTF-lkp@intel.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 26 May 2023 09:04:02 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV3wFeBBK64Q5-pGcRVP12Smhmaon-Em0cQREjj2duLEg@mail.gmail.com>
-Message-ID: <CAMuHMdV3wFeBBK64Q5-pGcRVP12Smhmaon-Em0cQREjj2duLEg@mail.gmail.com>
-Subject: Re: [stable:linux-5.4.y 1809/9999] ld.lld: error: lib/fonts/font_sun8x16.o:
- contains a compressed section, but zlib is not available
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Damien Le Moal <damien.lemoal@wdc.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Sasha Levin <sashal@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, May 26, 2023 at 1:24=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
-> FYI, the error/warning was bisected to this commit, please ignore it if i=
-t's irrelevant.
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stab=
-le.git linux-5.4.y
-> head:   f53660ec669f60c772fdf7d75d1c24d288547cee
-> commit: 11420c32c1b49d0f900c4b20bc77c963c54086ce [1809/9999] efi: EFI_EAR=
-LYCON should depend on EFI
-> config: x86_64-randconfig-x071-20230525
-> compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c=
-006a5895fc0e329fe15fead81e37457cb1d1)
-> reproduce (this is a W=3D1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-st=
-able.git/commit/?id=3D11420c32c1b49d0f900c4b20bc77c963c54086ce
->         git remote add stable https://git.kernel.org/pub/scm/linux/kernel=
-/git/stable/linux-stable.git
->         git fetch --no-tags stable linux-5.4.y
->         git checkout 11420c32c1b49d0f900c4b20bc77c963c54086ce
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
-oss W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
-oss W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash lib/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202305260739.yrWlFZTF-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    ld.lld: error: lib/fonts/fonts.o: contains a compressed section, but z=
-lib is not available
->    ld.lld: error: lib/fonts/fonts.o: contains a compressed section, but z=
-lib is not available
->    ld.lld: error: lib/fonts/fonts.o: contains a compressed section, but z=
-lib is not available
->    ld.lld: error: lib/fonts/fonts.o: contains a compressed section, but z=
-lib is not available
->    ld.lld: error: lib/fonts/fonts.o: contains a compressed section, but z=
-lib is not available
->    ld.lld: error: lib/fonts/fonts.o: contains a compressed section, but z=
-lib is not available
->    ld.lld: error: lib/fonts/fonts.o: contains a compressed section, but z=
-lib is not available
->    ld.lld: error: lib/fonts/fonts.o: contains a compressed section, but z=
-lib is not available
->    ld.lld: error: lib/fonts/fonts.o: contains a compressed section, but z=
-lib is not available
-> >> ld.lld: error: lib/fonts/font_sun8x16.o: contains a compressed section=
-, but zlib is not available
-> >> ld.lld: error: lib/fonts/font_sun8x16.o: contains a compressed section=
-, but zlib is not available
-> >> ld.lld: error: lib/fonts/font_sun8x16.o: contains a compressed section=
-, but zlib is not available
-> >> ld.lld: error: lib/fonts/font_sun8x16.o: contains a compressed section=
-, but zlib is not available
-> >> ld.lld: error: lib/fonts/font_sun8x16.o: contains a compressed section=
-, but zlib is not available
-> >> ld.lld: error: lib/fonts/font_sun8x16.o: contains a compressed section=
-, but zlib is not available
-> >> ld.lld: error: lib/fonts/font_sun8x16.o: contains a compressed section=
-, but zlib is not available
-> >> ld.lld: error: lib/fonts/font_sun12x22.o: contains a compressed sectio=
-n, but zlib is not available
-> >> ld.lld: error: lib/fonts/font_sun12x22.o: contains a compressed sectio=
-n, but zlib is not available
-> >> ld.lld: error: lib/fonts/font_sun12x22.o: contains a compressed sectio=
-n, but zlib is not available
-> >> ld.lld: error: lib/fonts/font_sun12x22.o: contains a compressed sectio=
-n, but zlib is not available
->    ld.lld: error: too many errors emitted, stopping now (use -error-limit=
-=3D0 to see all errors)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git topic/midi20
+head:   77700b81bd0e47d89d50eb4b3f2f323492f79998
+commit: 46397622a3fa8372b8fda0f04b33d16923b03b1b [25/40] ALSA: seq: Add UMP support
+config: i386-randconfig-m021-20230525 (https://download.01.org/0day-ci/archive/20230526/202305261415.NY0vapZK-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 
-This looks like a toolchain issue to me: the fonts themselves do not
-contain compressed data, but perhaps they do contain some data that
-coincidentally matches a zlib compressed-data signature?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202305261415.NY0vapZK-lkp@intel.com/
 
-Gr{oetje,eeting}s,
+smatch warnings:
+sound/core/seq/seq_clientmgr.c:482 snd_seq_read() error: copy_to_user() '&cell->event' too small (28 vs 32)
 
-                        Geert
+vim +482 sound/core/seq/seq_clientmgr.c
 
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
+c7e0b5bf9fff1b Takashi Iwai    2005-11-17  407  static ssize_t snd_seq_read(struct file *file, char __user *buf, size_t count,
+c7e0b5bf9fff1b Takashi Iwai    2005-11-17  408  			    loff_t *offset)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  409  {
+c7e0b5bf9fff1b Takashi Iwai    2005-11-17  410  	struct snd_seq_client *client = file->private_data;
+c7e0b5bf9fff1b Takashi Iwai    2005-11-17  411  	struct snd_seq_fifo *fifo;
+46397622a3fa83 Takashi Iwai    2023-05-23  412  	size_t aligned_size;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  413  	int err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  414  	long result = 0;
+c7e0b5bf9fff1b Takashi Iwai    2005-11-17  415  	struct snd_seq_event_cell *cell;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  416  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  417  	if (!(snd_seq_file_flags(file) & SNDRV_SEQ_LFLG_INPUT))
+^1da177e4c3f41 Linus Torvalds  2005-04-16  418  		return -ENXIO;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  419  
+96d4f267e40f95 Linus Torvalds  2019-01-03  420  	if (!access_ok(buf, count))
+^1da177e4c3f41 Linus Torvalds  2005-04-16  421  		return -EFAULT;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  422  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  423  	/* check client structures are in place */
+7eaa943c8ed8e9 Takashi Iwai    2008-08-08  424  	if (snd_BUG_ON(!client))
+7eaa943c8ed8e9 Takashi Iwai    2008-08-08  425  		return -ENXIO;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  426  
+f9a6bb841f7370 Takashi Iwai    2021-06-08  427  	if (!client->accept_input)
+f9a6bb841f7370 Takashi Iwai    2021-06-08  428  		return -ENXIO;
+f9a6bb841f7370 Takashi Iwai    2021-06-08  429  	fifo = client->data.user.fifo;
+f9a6bb841f7370 Takashi Iwai    2021-06-08  430  	if (!fifo)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  431  		return -ENXIO;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  432  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  433  	if (atomic_read(&fifo->overflow) > 0) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  434  		/* buffer overflow is detected */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  435  		snd_seq_fifo_clear(fifo);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  436  		/* return error code */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  437  		return -ENOSPC;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  438  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  439  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  440  	cell = NULL;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  441  	err = 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  442  	snd_seq_fifo_lock(fifo);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  443  
+46397622a3fa83 Takashi Iwai    2023-05-23  444  	if (client->midi_version > 0)
+46397622a3fa83 Takashi Iwai    2023-05-23  445  		aligned_size = sizeof(struct snd_seq_ump_event);
+46397622a3fa83 Takashi Iwai    2023-05-23  446  	else
+46397622a3fa83 Takashi Iwai    2023-05-23  447  		aligned_size = sizeof(struct snd_seq_event);
+46397622a3fa83 Takashi Iwai    2023-05-23  448  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  449  	/* while data available in queue */
+46397622a3fa83 Takashi Iwai    2023-05-23  450  	while (count >= aligned_size) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  451  		int nonblock;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  452  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  453  		nonblock = (file->f_flags & O_NONBLOCK) || result > 0;
+f9a6bb841f7370 Takashi Iwai    2021-06-08  454  		err = snd_seq_fifo_cell_out(fifo, &cell, nonblock);
+f9a6bb841f7370 Takashi Iwai    2021-06-08  455  		if (err < 0)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  456  			break;
+46397622a3fa83 Takashi Iwai    2023-05-23  457  		if (!event_is_compatible(client, &cell->event)) {
+46397622a3fa83 Takashi Iwai    2023-05-23  458  			snd_seq_cell_free(cell);
+46397622a3fa83 Takashi Iwai    2023-05-23  459  			cell = NULL;
+46397622a3fa83 Takashi Iwai    2023-05-23  460  			continue;
+46397622a3fa83 Takashi Iwai    2023-05-23  461  		}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  462  		if (snd_seq_ev_is_variable(&cell->event)) {
 
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
+Smatch isn't clever enough to know that if snd_seq_ev_is_variable()
+is false that means client->midi_version is zero.
+
+46397622a3fa83 Takashi Iwai    2023-05-23  463  			struct snd_seq_ump_event tmpev;
+46397622a3fa83 Takashi Iwai    2023-05-23  464  
+46397622a3fa83 Takashi Iwai    2023-05-23  465  			memcpy(&tmpev, &cell->event, aligned_size);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  466  			tmpev.data.ext.len &= ~SNDRV_SEQ_EXT_MASK;
+46397622a3fa83 Takashi Iwai    2023-05-23  467  			if (copy_to_user(buf, &tmpev, aligned_size)) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  468  				err = -EFAULT;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  469  				break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  470  			}
+46397622a3fa83 Takashi Iwai    2023-05-23  471  			count -= aligned_size;
+46397622a3fa83 Takashi Iwai    2023-05-23  472  			buf += aligned_size;
+4d23359b7ec8b0 Clemens Ladisch 2005-09-05  473  			err = snd_seq_expand_var_event(&cell->event, count,
+4d23359b7ec8b0 Clemens Ladisch 2005-09-05  474  						       (char __force *)buf, 0,
+46397622a3fa83 Takashi Iwai    2023-05-23  475  						       aligned_size);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  476  			if (err < 0)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  477  				break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  478  			result += err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  479  			count -= err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  480  			buf += err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  481  		} else {
+46397622a3fa83 Takashi Iwai    2023-05-23 @482  			if (copy_to_user(buf, &cell->event, aligned_size)) {
+
+So smatch complains that this might be a read overflow.
+
+^1da177e4c3f41 Linus Torvalds  2005-04-16  483  				err = -EFAULT;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  484  				break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  485  			}
+46397622a3fa83 Takashi Iwai    2023-05-23  486  			count -= aligned_size;
+46397622a3fa83 Takashi Iwai    2023-05-23  487  			buf += aligned_size;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  488  		}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  489  		snd_seq_cell_free(cell);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  490  		cell = NULL; /* to be sure */
+46397622a3fa83 Takashi Iwai    2023-05-23  491  		result += aligned_size;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  492  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  493  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  494  	if (err < 0) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  495  		if (cell)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  496  			snd_seq_fifo_cell_putback(fifo, cell);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  497  		if (err == -EAGAIN && result > 0)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  498  			err = 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  499  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  500  	snd_seq_fifo_unlock(fifo);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  501  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  502  	return (err < 0) ? err : result;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  503  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
