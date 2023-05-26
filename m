@@ -1,237 +1,91 @@
-Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com [67.231.149.131])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40007156CF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 10:16:49 +0000 (UTC)
-Received: from pps.filterd (m0122333.ppops.net [127.0.0.1])
-	by mx0a-00190b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34Q7Ap6i029663;
-	Fri, 26 May 2023 10:22:57 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=jan2016.eng;
- bh=JeOzsllBbEWZZrionW4usIEazmFAEqk6AA7pQU/1AKY=;
- b=F/gc7dQ47el/b5XIyfhK3m4MZPuz20P/944pAdsJ4bpshspu0hwubh7+dPICQ6VveR9F
- ItOzxUulC9sN+UDy25kQnb63EHag01kR0LxKMOGvlFHPCZmN5Fr7u/tc8PZ1oLq5i12J
- 9i3djBasTmhdAG2kTyoAgOih3r33vHcuqGJ6k/HRUuiX5vAfm6SjD3xZM7Jzl8govMQT
- QgzkWqurkTEArCC/8xJcThV3a03Fchlh/8+hR9cUOtK8r3gPbwvVWmp3eZu+XQoF6r/x
- LdnPDq3UbIVJc7U3fba9ik8W3NMd6RdJyqCwo1/7aCmdv2UuZLJ5QFrKtYEwZD6DbIIw 3Q== 
-Received: from prod-mail-ppoint5 (prod-mail-ppoint5.akamai.com [184.51.33.60] (may be forged))
-	by mx0a-00190b01.pphosted.com (PPS) with ESMTPS id 3qpnffs43c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 May 2023 10:22:57 +0100
-Received: from pps.filterd (prod-mail-ppoint5.akamai.com [127.0.0.1])
-	by prod-mail-ppoint5.akamai.com (8.17.1.19/8.17.1.19) with ESMTP id 34Q7BT4Y015014;
-	Fri, 26 May 2023 02:22:56 -0700
-Received: from email.msg.corp.akamai.com ([172.27.91.24])
-	by prod-mail-ppoint5.akamai.com (PPS) with ESMTPS id 3qpv697cyr-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 26 May 2023 02:22:56 -0700
-Received: from localhost (172.27.164.43) by
- usma1ex-dag4mb5.msg.corp.akamai.com (172.27.91.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 26 May 2023 05:22:55 -0400
-Date: Fri, 26 May 2023 10:22:52 +0100
-From: Max Tottenham <mtottenh@akamai.com>
-To: kernel test robot <lkp@intel.com>
-CC: <netdev@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>,
-        Jamal Hadi
- Salim <jhs@mojatatu.com>,
-        Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko
-	<jiri@resnulli.us>,
-        Amir Vadai <amir@vadai.me>, Josh Hunt <johunt@akamai.com>
-Subject: Re: [PATCH] net/sched: act_pedit: Parse L3 Header for L4 offset
-Message-ID: <5jy7yqufzneqh5lqwvx6uofgs3ux4xp5vdb36fihkip53kn44j@nlmwrar4r5bz>
-References: <20230525164741.4188115-1-mtottenh@akamai.com>
- <202305261541.N165u9TZ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7B6156D9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 10:27:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685096847; x=1716632847;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VV6FgMAvUBBZnbRI4UrsVNAyDzoBbTp0QLkzvR0+dBo=;
+  b=ikSr9D4CBy42ERd20CKZJ0XYsNMmLXFgMAwyMjw4RGZENl6CIrvrryDv
+   gBvNkh51zsbLlFVaWU6/ZnW5/XpzGrqMsDcLbTvIVEMdzGP9g5odA6N+f
+   ngMoIyI11d8ub9G9JFEgN8nvyBsEflTEZJa+zwYqLDPJEYbz0xepqU41M
+   169j2viSQMItbDdDWhRTgbpa1B6sviPjmSf/WpBTUlLki3Ji7rUhw7Mzg
+   BdfKEJ0u2NbC1cm+RXZIj2dEokUAbDtd6dDyXiQYPlSgo+HpLhgZSSXYa
+   OiaxeVOMo59farsX4KLyvA0BBeCbKCYx30CKyt+a40s9APFv5xXGayYRw
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="357424195"
+X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
+   d="scan'208";a="357424195"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 03:27:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="699380130"
+X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
+   d="scan'208";a="699380130"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 26 May 2023 03:27:26 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q2UfN-000JFN-2N;
+	Fri, 26 May 2023 10:27:25 +0000
+Date: Fri, 26 May 2023 18:27:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>
+Subject: [mcgrof-next:large-block-20230525 6/31] block/fops.c:560: undefined
+ reference to `iomap_file_buffered_write'
+Message-ID: <202305261819.f3Xw0WQr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202305261541.N165u9TZ-lkp@intel.com>
-X-Originating-IP: [172.27.164.43]
-X-ClientProxiedBy: usma1ex-dag4mb7.msg.corp.akamai.com (172.27.91.26) To
- usma1ex-dag4mb5.msg.corp.akamai.com (172.27.91.24)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-26_01,2023-05-25_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0 phishscore=0
- mlxscore=0 adultscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305260080
-X-Proofpoint-ORIG-GUID: hqBqX6m4cuIrisWUWG3oyZLKeNQP2Eg4
-X-Proofpoint-GUID: hqBqX6m4cuIrisWUWG3oyZLKeNQP2Eg4
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
- definitions=2023-05-26_01,2023-05-25_03,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 lowpriorityscore=0
- bulkscore=0 adultscore=0 priorityscore=1501 impostorscore=0 spamscore=0
- clxscore=1011 malwarescore=0 mlxscore=0 suspectscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
- definitions=main-2305260080
 
-On 05/26, kernel test robot wrote:
-> Hi Max,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on net/main]
-> [also build test ERROR on net-next/main linus/master v6.4-rc3 next-20230525]
-> [cannot apply to horms-ipvs/master]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information ]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Max-Tottenham/net-sched-act_pedit-Parse-L3-Header-for-L4-offset/20230526-020135 
-> base:   net/main
-> patch link:    https://lore.kernel.org/r/20230525164741.4188115-1-mtottenh%40akamai.com 
-> patch subject: [PATCH] net/sched: act_pedit: Parse L3 Header for L4 offset
-> config: mips-allyesconfig https://download.01.org/0day-ci/archive/20230526/202305261541.N165u9TZ-lkp@intel.com/config )
-> compiler: mips-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross  -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/intel-lab-lkp/linux/commit/dc60ecbe9b4432221ba2109d4ca1956f47d5c5d6 
->         git remote add linux-review https://github.com/intel-lab-lkp/linux 
->         git fetch --no-tags linux-review Max-Tottenham/net-sched-act_pedit-Parse-L3-Header-for-L4-offset/20230526-020135
->         git checkout dc60ecbe9b4432221ba2109d4ca1956f47d5c5d6
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202305261541.N165u9TZ-lkp@intel.com/ 
-> 
-> All errors (new ones prefixed by >>):
-> 
->    net/sched/act_pedit.c: In function 'tcf_pedit_act':
-> >> net/sched/act_pedit.c:428:17: error: 'rc' undeclared (first use in this function); did you mean 'rq'?
->      428 |                 rc = pedit_skb_hdr_offset(skb, htype, &hoffset);
->          |                 ^~
->          |                 rq
->    net/sched/act_pedit.c:428:17: note: each undeclared identifier is reported only once for each function it appears in
-> 
-> 
-> vim +428 net/sched/act_pedit.c
-> 
->    386	
->    387	TC_INDIRECT_SCOPE int tcf_pedit_act(struct sk_buff *skb,
->    388					    const struct tc_action *a,
->    389					    struct tcf_result *res)
->    390	{
->    391		enum pedit_header_type htype = TCA_PEDIT_KEY_EX_HDR_TYPE_NETWORK;
->    392		enum pedit_cmd cmd = TCA_PEDIT_KEY_EX_CMD_SET;
->    393		struct tcf_pedit *p = to_pedit(a);
->    394		struct tcf_pedit_key_ex *tkey_ex;
->    395		struct tcf_pedit_parms *parms;
->    396		struct tc_pedit_key *tkey;
->    397		u32 max_offset;
->    398		int i;
->    399	
->    400		parms = rcu_dereference_bh(p->parms);
->    401	
->    402		max_offset = (skb_transport_header_was_set(skb) ?
->    403			      skb_transport_offset(skb) :
->    404			      skb_network_offset(skb)) +
->    405			     parms->tcfp_off_max_hint;
->    406		if (skb_ensure_writable(skb, min(skb->len, max_offset)))
->    407			goto done;
->    408	
->    409		tcf_lastuse_update(&p->tcf_tm);
->    410		tcf_action_update_bstats(&p->common, skb);
->    411	
->    412		tkey = parms->tcfp_keys;
->    413		tkey_ex = parms->tcfp_keys_ex;
->    414	
->    415		for (i = parms->tcfp_nkeys; i > 0; i--, tkey++) {
->    416			int offset = tkey->off;
->    417			int hoffset = 0;
->    418			u32 *ptr, hdata;
->    419			u32 val;
->    420	
->    421			if (tkey_ex) {
->    422				htype = tkey_ex->htype;
->    423				cmd = tkey_ex->cmd;
->    424	
->    425				tkey_ex++;
->    426			}
->    427	
->  > 428			rc = pedit_skb_hdr_offset(skb, htype, &hoffset);
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git large-block-20230525
+head:   1e9b17615c8ad5829f88f54de36523f291a145cc
+commit: 1c054f288031a44c5b7d174d51f4889dfd755d17 [6/31] block: use iomap for writes to block devices
+config: nios2-defconfig (https://download.01.org/0day-ci/archive/20230526/202305261819.f3Xw0WQr-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git/commit/?id=1c054f288031a44c5b7d174d51f4889dfd755d17
+        git remote add mcgrof-next https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git
+        git fetch --no-tags mcgrof-next large-block-20230525
+        git checkout 1c054f288031a44c5b7d174d51f4889dfd755d17
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
 
-Ah yep looks like I made an omission while bringing back the rate limited
-error message. Will respin a V2 with the fix.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305261819.f3Xw0WQr-lkp@intel.com/
 
->    429			if (rc) {
->    430				pr_info_ratelimited("tc action pedit unable to extract header offset for header type (0x%x)\n", htype);
->    431				goto bad;
->    432			}
->    433	
->    434			if (tkey->offmask) {
->    435				u8 *d, _d;
->    436	
->    437				if (!offset_valid(skb, hoffset + tkey->at)) {
->    438					pr_info_ratelimited("tc action pedit 'at' offset %d out of bounds\n",
->    439							    hoffset + tkey->at);
->    440					goto bad;
->    441				}
->    442				d = skb_header_pointer(skb, hoffset + tkey->at,
->    443						       sizeof(_d), &_d);
->    444				if (!d)
->    445					goto bad;
->    446	
->    447				offset += (*d & tkey->offmask) >> tkey->shift;
->    448				if (offset % 4) {
->    449					pr_info_ratelimited("tc action pedit offset must be on 32 bit boundaries\n");
->    450					goto bad;
->    451				}
->    452			}
->    453	
->    454			if (!offset_valid(skb, hoffset + offset)) {
->    455				pr_info_ratelimited("tc action pedit offset %d out of bounds\n", hoffset + offset);
->    456				goto bad;
->    457			}
->    458	
->    459			ptr = skb_header_pointer(skb, hoffset + offset,
->    460						 sizeof(hdata), &hdata);
->    461			if (!ptr)
->    462				goto bad;
->    463			/* just do it, baby */
->    464			switch (cmd) {
->    465			case TCA_PEDIT_KEY_EX_CMD_SET:
->    466				val = tkey->val;
->    467				break;
->    468			case TCA_PEDIT_KEY_EX_CMD_ADD:
->    469				val = (*ptr + tkey->val) & ~tkey->mask;
->    470				break;
->    471			default:
->    472				pr_info_ratelimited("tc action pedit bad command (%d)\n", cmd);
->    473				goto bad;
->    474			}
->    475	
->    476			*ptr = ((*ptr & tkey->mask) ^ val);
->    477			if (ptr == &hdata)
->    478				skb_store_bits(skb, hoffset + offset, ptr, 4);
->    479		}
->    480	
->    481		goto done;
->    482	
->    483	bad:
->    484		tcf_action_inc_overlimit_qstats(&p->common);
->    485	done:
->    486		return p->tcf_action;
->    487	}
->    488	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki 
+All errors (new ones prefixed by >>):
+
+   nios2-linux-ld: block/fops.o: in function `blkdev_buffered_write':
+>> block/fops.c:560: undefined reference to `iomap_file_buffered_write'
+   block/fops.c:560:(.text+0x1504): relocation truncated to fit: R_NIOS2_CALL26 against `iomap_file_buffered_write'
+>> nios2-linux-ld: block/fops.c:560: undefined reference to `iomap_file_buffered_write'
+   block/fops.c:560:(.text+0x15b8): relocation truncated to fit: R_NIOS2_CALL26 against `iomap_file_buffered_write'
+
+
+vim +560 block/fops.c
+
+   557	
+   558	static ssize_t blkdev_buffered_write(struct kiocb *iocb, struct iov_iter *from)
+   559	{
+ > 560		return iomap_file_buffered_write(iocb, from, &blkdev_iomap_ops);
+   561	}
+   562	
 
 -- 
-Max Tottenham | Senior Software Engineer
-/(* Akamai Technologies
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
