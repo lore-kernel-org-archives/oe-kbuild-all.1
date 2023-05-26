@@ -1,45 +1,43 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 746382CA6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 17:13:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C405A2CA6
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 17:34:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685121224; x=1716657224;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pKf30GzmTV//LytmILcL7m9uzWJ9KkcfoncHkT1Fy8A=;
-  b=bW2t8gH1nossQnWDW1lO/OPAZ9EzM1kguHZmd6537qOLgkwDQvSlWZ7X
-   19nXkyGA1q6zQM9y7ZDtkXtpzZ64pRv2caQ8tWJMrUfj3A/eJABZoxP0w
-   o59RFyUmytawTnMi23qyJagj52fIInTGYlm+uzTwotHP3usGLWh8dSyL0
-   22Fi8dvKABhEul/C9VHMr6xOy9OkW9yLXH55NCwpP1iJudYz5YnWkmOei
-   fx2ut5WIb57z9xGjkhNexsSvVx/fL5s+KBzaTD3carzXT9B7LR6UpCbe0
-   Ah/cdW6QGpa3DBbZCSJutPOvzYtYBcPoIeStq1ulcqcwiwvytgLhlvwco
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="382501479"
+  t=1685122482; x=1716658482;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=I6sOykhYZM1N5RED4krB0gFPPhYcJUi91buPwDsbtJo=;
+  b=SR20B/LHsWfmM8yt7hKK6VML2IuFSpzImayOqWVzmzSwDQcpAblskX50
+   sbxPA8tXA9d+Vr9YQX7mDTuRl5XkRprnZO6Z2HZnt1bLjkjTI07Ioi6LC
+   kY9/Ik8e4DK2UJu3TQ5pP2L2BBKFR3KYGunCsJU/vHhnpUyDIzsSzpBZs
+   nz4gqz2HSpbUsMct/MvcE8j0uELv6J0q2dbdlH+2k+raL34Tobr6sqpvj
+   UKT/YN8ZV5ClynauvLacxvOXK6EtADCY4Q60/OncQhbYd1Lw9jiTJx/pP
+   jY2Ci7J2G9xjL2YlLZCzJ5yTNPr0xKSBTdDoabGE4BBCaVr8QugofNeEQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="382507659"
 X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
-   d="scan'208";a="382501479"
+   d="scan'208";a="382507659"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 10:13:42 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 10:34:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="655706744"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="655715529"
 X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
-   d="scan'208";a="655706744"
+   d="scan'208";a="655715529"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 26 May 2023 10:13:40 -0700
+  by orsmga003.jf.intel.com with ESMTP; 26 May 2023 10:34:40 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2b0V-000JUg-0f;
-	Fri, 26 May 2023 17:13:39 +0000
-Date: Sat, 27 May 2023 01:13:22 +0800
+	id 1q2bKp-000JVa-2J;
+	Fri, 26 May 2023 17:34:39 +0000
+Date: Sat, 27 May 2023 01:34:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luciano Coelho <luciano.coelho@intel.com>,
-	Golan Ben Ami <golan.ben.ami@intel.com>,
-	Michael Golant <michael.golant@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: drivers/md/dm-bow.c:97:10: warning: no previous prototype for
- 'range_top'
-Message-ID: <202305270119.6WXetqzq-lkp@intel.com>
+Subject: [freescale-fslc:6.1-1.0.x-imx 4859/9879] mips-linux-gcc: error:
+ unrecognized argument in option '-march=armv7-a'
+Message-ID: <202305270100.3oa0C2dv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,137 +46,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
-head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
-commit: 184f0876d5a9e629ebf1bcb3398c74a310c02b3e ANDROID: dm-bow: Add dm-bow feature
-date:   2 years, 5 months ago
-config: nds32-randconfig-r014-20230526 (https://download.01.org/0day-ci/archive/20230527/202305270119.6WXetqzq-lkp@intel.com/config)
-compiler: nds32le-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
+tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
+head:   ad9ab3b3c553cbc3c61f233b6e2cd5abdd2a624b
+commit: 77225c634e06fdb5ae7fcd3d52cb5dd7d2996acb [4859/9879] Merge branch '=
+mxc/next' into next
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230527=
+/202305270100.3oa0C2dv-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=3D1 build):
         mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git/commit/?id=184f0876d5a9e629ebf1bcb3398c74a310c02b3e
-        git remote add iwlwifi-chromeos https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git
-        git fetch --no-tags iwlwifi-chromeos chromeos-5.10__release/core59-42
-        git checkout 184f0876d5a9e629ebf1bcb3398c74a310c02b3e
+        # https://github.com/Freescale/linux-fslc/commit/77225c634e06fdb5ae=
+7fcd3d52cb5dd7d2996acb
+        git remote add freescale-fslc https://github.com/Freescale/linux-fs=
+lc
+        git fetch --no-tags freescale-fslc 6.1-1.0.x-imx
+        git checkout 77225c634e06fdb5ae7fcd3d52cb5dd7d2996acb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=nds32 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=nds32 SHELL=/bin/bash drivers/md/
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 ~/bin/make=
+=2Ecross W=3D1 O=3Dbuild_dir ARCH=3Dmips olddefconfig
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.1.0 ~/bin/make=
+=2Ecross W=3D1 O=3Dbuild_dir ARCH=3Dmips SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305270119.6WXetqzq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305270100.3oa0C2dv-lkp@i=
+ntel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/md/dm-bow.c:97:10: warning: no previous prototype for 'range_top' [-Wmissing-prototypes]
-      97 | sector_t range_top(struct bow_range *br)
-         |          ^~~~~~~~~
->> drivers/md/dm-bow.c:103:5: warning: no previous prototype for 'range_size' [-Wmissing-prototypes]
-     103 | u64 range_size(struct bow_range *br)
-         |     ^~~~~~~~~~
->> drivers/md/dm-bow.c:148:6: warning: no previous prototype for 'add_before' [-Wmissing-prototypes]
-     148 | void add_before(struct rb_root *ranges, struct bow_range *new_br,
-         |      ^~~~~~~~~~
->> drivers/md/dm-bow.c:1093:5: warning: no previous prototype for 'remap_unless_illegal_trim' [-Wmissing-prototypes]
-    1093 | int remap_unless_illegal_trim(struct bow_context *bc, struct bio *bio)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/md/dm-bow.c: In function 'dm_bow_map':
->> drivers/md/dm-bow.c:1129:51: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
-    1129 |                                 /* pass-through */;
-         |                                                   ^
-   drivers/md/dm-bow.c:1136:51: warning: suggest braces around empty body in an 'else' statement [-Wempty-body]
-    1136 |                                 /* pass-through */;
-         |                                                   ^
-   drivers/md/dm-bow.c: At top level:
->> drivers/md/dm-bow.c:1248:5: warning: no previous prototype for 'dm_bow_prepare_ioctl' [-Wmissing-prototypes]
-    1248 | int dm_bow_prepare_ioctl(struct dm_target *ti, struct block_device **bdev)
-         |     ^~~~~~~~~~~~~~~~~~~~
->> drivers/md/dm-bow.c:1279:12: warning: no previous prototype for 'dm_bow_init' [-Wmissing-prototypes]
-    1279 | int __init dm_bow_init(void)
-         |            ^~~~~~~~~~~
->> drivers/md/dm-bow.c:1288:6: warning: no previous prototype for 'dm_bow_exit' [-Wmissing-prototypes]
-    1288 | void dm_bow_exit(void)
-         |      ^~~~~~~~~~~
+>> mips-linux-gcc: error: unrecognized argument in option '-march=3Darmv7-a'
+   mips-linux-gcc: note: valid arguments to '-march=3D' are: 10000 1004kc 1=
+004kf 1004kf1_1 1004kf2_1 10k 12000 12k 14000 14k 16000 16k 2000 20kc 24kc =
+24kec 24kef 24kef1_1 24kef2_1 24kefx 24kex 24kf 24kf1_1 24kf2_1 24kfx 24kx =
+2k 3000 34kc 34kf 34kf1_1 34kf2_1 34kfx 34kn 34kx 3900 3k 4000 4100 4111 41=
+20 4130 4300 4400 4600 4650 4700 4k 4kc 4kec 4kem 4kep 4km 4kp 4ksc 4ksd 50=
+00 5400 5500 5900 5k 5kc 5kf 6000 6k 7000 74kc 74kf 74kf1_1 74kf2_1 74kf3_2=
+ 74kfx 74kx 7k 8000 8k 9000 9k from-abi gs264e gs464 gs464e i6400 i6500 int=
+eraptiv loongson2e loongson2f loongson3a m14k m14kc m14ke m14kec m4k m5100 =
+m5101 mips1 mips2 mips3 mips32 mips32r2 mips32r3 mips32r5 mips32r6 mips4 mi=
+ps64 mips64r2 mips64r3 mips64r5 mips64r6 native octeon octeon+ octeon2 octe=
+on3 orion p5600 p6600 r10000 r1004kc r1004kf r1004kf1_1 r1004kf2_1 r10k r12=
+000 r12k r14000 r14k r16000 r16k r2000 r20kc r24kc r24kec r24kef r24kef1_1 =
+r24kef2_1 r24kefx r24kex r24kf r24kf1_1 r24kf2_1 r24kfx r24kx r2k r3000 r34=
+kc r34kf r34kf1_1 r34kf2_1 r34kfx r34kn r34kx r3900 r3k r4000 r4100 r4111 r=
+4120 r4130 r4300 r4400 r4600 r4650 r4700 r4k r4kc r4kec r4kem r4kep r4km r4=
+kp r4ksc r4ksd r5000 r5400 r5500 r5900 r5k r5kc r5kf r6000 r6k r7000 r74kc =
+r74kf r74kf1_1 r74kf2_1 r74kf3_2 r74kfx r74kx r7k r8000 r8k r9000 r9k rm700=
+0 rm7k rm9000 rm9k sb1 sb1a sr71000 sr71k vr4100 vr4111 vr4120 vr4130 vr430=
+0 vr5000 vr5400 vr5500 vr5k xlp xlr
+>> mips-linux-gcc: error: unrecognized argument in option '-mtune=3Dcortex-=
+a9'
+   mips-linux-gcc: note: valid arguments to '-mtune=3D' are: 10000 1004kc 1=
+004kf 1004kf1_1 1004kf2_1 10k 12000 12k 14000 14k 16000 16k 2000 20kc 24kc =
+24kec 24kef 24kef1_1 24kef2_1 24kefx 24kex 24kf 24kf1_1 24kf2_1 24kfx 24kx =
+2k 3000 34kc 34kf 34kf1_1 34kf2_1 34kfx 34kn 34kx 3900 3k 4000 4100 4111 41=
+20 4130 4300 4400 4600 4650 4700 4k 4kc 4kec 4kem 4kep 4km 4kp 4ksc 4ksd 50=
+00 5400 5500 5900 5k 5kc 5kf 6000 6k 7000 74kc 74kf 74kf1_1 74kf2_1 74kf3_2=
+ 74kfx 74kx 7k 8000 8k 9000 9k from-abi gs264e gs464 gs464e i6400 i6500 int=
+eraptiv loongson2e loongson2f loongson3a m14k m14kc m14ke m14kec m4k m5100 =
+m5101 mips1 mips2 mips3 mips32 mips32r2 mips32r3 mips32r5 mips32r6 mips4 mi=
+ps64 mips64r2 mips64r3 mips64r5 mips64r6 native octeon octeon+ octeon2 octe=
+on3 orion p5600 p6600 r10000 r1004kc r1004kf r1004kf1_1 r1004kf2_1 r10k r12=
+000 r12k r14000 r14k r16000 r16k r2000 r20kc r24kc r24kec r24kef r24kef1_1 =
+r24kef2_1 r24kefx r24kex r24kf r24kf1_1 r24kf2_1 r24kfx r24kx r2k r3000 r34=
+kc r34kf r34kf1_1 r34kf2_1 r34kfx r34kn r34kx r3900 r3k r4000 r4100 r4111 r=
+4120 r4130 r4300 r4400 r4600 r4650 r4700 r4k r4kc r4kec r4kem r4kep r4km r4=
+kp r4ksc r4ksd r5000 r5400 r5500 r5900 r5k r5kc r5kf r6000 r6k r7000 r74kc =
+r74kf r74kf1_1 r74kf2_1 r74kf3_2 r74kfx r74kx r7k r8000 r8k r9000 r9k rm700=
+0 rm7k rm9000 rm9k sb1 sb1a sr71000 sr71k vr4100 vr4111 vr4120 vr4130 vr430=
+0 vr5000 vr5400 vr5500 vr5k xlp xlr
+>> mips-linux-gcc: error: unrecognized command-line option '-mfpu=3Dneon'
+>> mips-linux-gcc: error: unrecognized command-line option '-mfloat-abi=3Ds=
+oftfp'
 
-
-vim +/range_top +97 drivers/md/dm-bow.c
-
-    96	
-  > 97	sector_t range_top(struct bow_range *br)
-    98	{
-    99		return container_of(rb_next(&br->node), struct bow_range, node)
-   100			->sector;
-   101	}
-   102	
- > 103	u64 range_size(struct bow_range *br)
-   104	{
-   105		return (range_top(br) - br->sector) * SECTOR_SIZE;
-   106	}
-   107	
-   108	static sector_t bvec_top(struct bvec_iter *bi_iter)
-   109	{
-   110		return bi_iter->bi_sector + bi_iter->bi_size / SECTOR_SIZE;
-   111	}
-   112	
-   113	/*
-   114	 * Find the first range that overlaps with bi_iter
-   115	 * bi_iter is set to the size of the overlapping sub-range
-   116	 */
-   117	static struct bow_range *find_first_overlapping_range(struct rb_root *ranges,
-   118							      struct bvec_iter *bi_iter)
-   119	{
-   120		struct rb_node *node = ranges->rb_node;
-   121		struct bow_range *br;
-   122	
-   123		while (node) {
-   124			br = container_of(node, struct bow_range, node);
-   125	
-   126			if (br->sector <= bi_iter->bi_sector
-   127			    && bi_iter->bi_sector < range_top(br))
-   128				break;
-   129	
-   130			if (bi_iter->bi_sector < br->sector)
-   131				node = node->rb_left;
-   132			else
-   133				node = node->rb_right;
-   134		}
-   135	
-   136		WARN_ON(!node);
-   137		if (!node)
-   138			return NULL;
-   139	
-   140		if (range_top(br) - bi_iter->bi_sector
-   141		    < bi_iter->bi_size >> SECTOR_SHIFT)
-   142			bi_iter->bi_size = (range_top(br) - bi_iter->bi_sector)
-   143				<< SECTOR_SHIFT;
-   144	
-   145		return br;
-   146	}
-   147	
- > 148	void add_before(struct rb_root *ranges, struct bow_range *new_br,
-   149			struct bow_range *existing)
-   150	{
-   151		struct rb_node *parent = &(existing->node);
-   152		struct rb_node **link = &(parent->rb_left);
-   153	
-   154		while (*link) {
-   155			parent = *link;
-   156			link = &((*link)->rb_right);
-   157		}
-   158	
-   159		rb_link_node(&new_br->node, parent, link);
-   160		rb_insert_color(&new_br->node, ranges);
-   161	}
-   162	
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
