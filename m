@@ -1,44 +1,48 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560682911B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 22:23:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4370215B7
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 23:05:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685139836; x=1716675836;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GndFMQjP0uPAgMf7AaCTKyD5Wi3ITKXHGl4CfOc4QlU=;
-  b=YC4a1ctbQwZbMq648tOHM23ZPjseII3S5tj9bkF5yqgVUZefljSMNDBg
-   PF/t22N7r3XBFjMaEt8z/x959GMnedwwjkceP8hzNs8f3Z5WsFvZQxYIV
-   qkxDLQjMz0tjP4lwy8MEuAYSEDi7p6WOf2vJwsMHhqZvdqyriOFwKN+Yf
-   L8NUY9xYU8AU3HF9SZGl+gHli8xp42zLfLDxjUyKjdSpiQQozY+IGMMix
-   Jva8HdTEH1xi8lWa/xVk8DVriPqEhyEEN+gSkKt6/NVSuUU4+7x53osXX
-   n0VjOK2m9Ids7fokRxB1A6+o1+SzXOGzO9x5GrnRfSf5CTzvr9BPBkOE5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="354335311"
+  t=1685142352; x=1716678352;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pvJQz74MnTdZRRPfhTypRddqinT3EDy3g2yrcXnBbtk=;
+  b=ZsL3nzskDBFyIoaHBcU3K/yYfdbEhqP/svf7iIQeDMJoDwzdiOG11ryG
+   0+qZTjfHAOvfqjYFXrcTsxQWRrx7PQshxb9Qq6qmKAtmNS+ZAhFP+vfr3
+   ftCoNjGHMDP2Sc7dEyGe/EHr9SQu4nLe/C137zoXA+LkHIJB0fzXKT2su
+   CES2bmwg++Ji3YHCenE60jIFVktsl+IPvzVja4/DQyQ8xxks6tGkYQFpt
+   /d4o852ZP/m0Z+P2RxwiitXA7Z5oav877KYh+nFpSF/pUHZ/HLac2vP8H
+   SBH8gyFdaIyttQqrMINmeu7a1plpYBCFaknPhhR46mjWkpPpNhR/D2bvv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="356709017"
 X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
-   d="scan'208";a="354335311"
+   d="scan'208";a="356709017"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 15:23:48 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 16:05:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="879685101"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="879689885"
 X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
-   d="scan'208";a="879685101"
+   d="scan'208";a="879689885"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 26 May 2023 15:23:46 -0700
+  by orsmga005.jf.intel.com with ESMTP; 26 May 2023 16:05:47 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2fqb-000JdW-1Z;
-	Fri, 26 May 2023 22:23:45 +0000
-Date: Sat, 27 May 2023 06:23:18 +0800
+	id 1q2gVG-000JeU-0A;
+	Fri, 26 May 2023 23:05:46 +0000
+Date: Sat, 27 May 2023 07:04:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, Sasha Levin <sashal@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [linux-stable-rc:queue/5.4 129/133] sound/hda/hdac_device.c:610:27:
- error: implicit declaration of function 'pm_runtime_get_if_active'; did you
- mean 'pm_runtime_set_active'?
-Message-ID: <202305270628.mqDzL00S-lkp@intel.com>
+To: David Yang <mmyangfl@gmail.com>, linux-crypto@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, David Yang <mmyangfl@gmail.com>,
+	Weili Qian <qianweili@huawei.com>,
+	Zhou Wang <wangzhou1@hisilicon.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] crypto: hisilicon/advca - Add SHA support
+Message-ID: <202305270619.CZWqR9rV-lkp@intel.com>
+References: <20230525160446.43800-3-mmyangfl@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,55 +51,174 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230525160446.43800-3-mmyangfl@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git queue/5.4
-head:   71d004ed850be4b0a0539d2c22a0b44685482711
-commit: ec704eef8c6272b7762992abf04ef490fdcf75a8 [129/133] ALSA: hda: Fix unhandled register update during auto-suspend period
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230527/202305270628.mqDzL00S-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git/commit/?id=ec704eef8c6272b7762992abf04ef490fdcf75a8
-        git remote add linux-stable-rc https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
-        git fetch --no-tags linux-stable-rc queue/5.4
-        git checkout ec704eef8c6272b7762992abf04ef490fdcf75a8
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 44c026a73be8038f03dbdeef028b642880cf1511]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Yang/crypto-hisilicon-Add-HiSilicon-ADVCA-Subsystem/20230526-002048
+base:   44c026a73be8038f03dbdeef028b642880cf1511
+patch link:    https://lore.kernel.org/r/20230525160446.43800-3-mmyangfl%40gmail.com
+patch subject: [PATCH v3 2/2] crypto: hisilicon/advca - Add SHA support
+config: alpha-randconfig-s033-20230526 (https://download.01.org/0day-ci/archive/20230527/202305270619.CZWqR9rV-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.1.0
+reproduce:
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/e564a62a5be87775c20a4de84d42b8be79be9d11
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review David-Yang/crypto-hisilicon-Add-HiSilicon-ADVCA-Subsystem/20230526-002048
+        git checkout e564a62a5be87775c20a4de84d42b8be79be9d11
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash sound/hda/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=alpha SHELL=/bin/bash drivers/crypto/hisilicon/advca/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305270628.mqDzL00S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305270619.CZWqR9rV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/crypto/hisilicon/advca/hisi-advca-sha.c:163:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] b @@     got restricted __be32 [usertype] @@
+   drivers/crypto/hisilicon/advca/hisi-advca-sha.c:163:32: sparse:     expected unsigned int [usertype] b
+   drivers/crypto/hisilicon/advca/hisi-advca-sha.c:163:32: sparse:     got restricted __be32 [usertype]
+>> drivers/crypto/hisilicon/advca/hisi-advca-sha.c:269:25: sparse: sparse: cast to restricted __be32
+>> drivers/crypto/hisilicon/advca/hisi-advca-sha.c:269:25: sparse: sparse: cast to restricted __be32
+>> drivers/crypto/hisilicon/advca/hisi-advca-sha.c:269:25: sparse: sparse: cast to restricted __be32
+>> drivers/crypto/hisilicon/advca/hisi-advca-sha.c:269:25: sparse: sparse: cast to restricted __be32
+>> drivers/crypto/hisilicon/advca/hisi-advca-sha.c:269:25: sparse: sparse: cast to restricted __be32
+>> drivers/crypto/hisilicon/advca/hisi-advca-sha.c:269:25: sparse: sparse: cast to restricted __be32
 
-   sound/hda/hdac_device.c: In function 'snd_hdac_keep_power_up':
->> sound/hda/hdac_device.c:610:27: error: implicit declaration of function 'pm_runtime_get_if_active'; did you mean 'pm_runtime_set_active'? [-Werror=implicit-function-declaration]
-     610 |                 int ret = pm_runtime_get_if_active(&codec->dev, true);
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                           pm_runtime_set_active
-   cc1: some warnings being treated as errors
+vim +163 drivers/crypto/hisilicon/advca/hisi-advca-sha.c
 
-
-vim +610 sound/hda/hdac_device.c
-
-   602	
-   603	/* like snd_hdac_power_up_pm(), but only increment the pm count when
-   604	 * already powered up.  Returns -1 if not powered up, 1 if incremented
-   605	 * or 0 if unchanged.  Only used in hdac_regmap.c
-   606	 */
-   607	int snd_hdac_keep_power_up(struct hdac_device *codec)
-   608	{
-   609		if (!atomic_inc_not_zero(&codec->in_pm)) {
- > 610			int ret = pm_runtime_get_if_active(&codec->dev, true);
-   611			if (!ret)
-   612				return -1;
-   613			if (ret < 0)
-   614				return 0;
-   615		}
-   616		return 1;
-   617	}
-   618	
+   152	
+   153	/*
+   154	 * must be called before setting SHA_START
+   155	 * does nothing if import is not supported (SHA_TYPE_HASH)
+   156	 */
+   157	static void hica_sha_import(const struct hica_sha_priv *priv, const void *state)
+   158	{
+   159		if (priv->type != SHA_TYPE_MHASH)
+   160			return;
+   161	
+   162		for (unsigned int i = 0; i < SHA_DIGEST_SIZE; i += sizeof(u32))
+ > 163			writel_relaxed(cpu_to_be32(*(const u32 *) (state + i)),
+   164				       priv->base + SHA_INIT0 + i);
+   165	}
+   166	
+   167	static int hica_sha_init(const struct hica_sha_priv *priv,
+   168				 const struct hica_sha_ctrl *ctrl, bool state)
+   169	{
+   170		u32 val;
+   171		int ret;
+   172	
+   173		/* re-enable SHA_START */
+   174		ret = reset_control_assert(priv->rst) ?:
+   175		      reset_control_deassert(priv->rst);
+   176		if (ret)
+   177			return ret;
+   178	
+   179		/* config SHA_CTRL */
+   180		val = readl_relaxed(priv->base + SHA_CTRL);
+   181	
+   182		val &= ~SHA_SINGLE_READ;
+   183		val &= ~SHA_ALG;
+   184		val |= (ctrl->alg << 1) & SHA_ALG;
+   185		val &= ~SHA_HMAC;
+   186		val |= SHA_ENDIAN;
+   187	
+   188		if (priv->type == SHA_TYPE_HASH)
+   189			val |= SHA_USED_BY_ARM;
+   190		else if (state)
+   191			val |= SHA_SET_INIT;
+   192	
+   193		writel(val, priv->base + SHA_CTRL);
+   194	
+   195		/* test SHA_CTRL */
+   196		val = readl_relaxed(priv->base + SHA_CTRL);
+   197		if (val & SHA_USED_BY_C51)
+   198			return -EBUSY;
+   199	
+   200		/* wait ready */
+   201		if (hica_sha_wait(priv, SHA_HASH_READY))
+   202			return -ETIMEDOUT;
+   203	
+   204		/* ask device to set state */
+   205		writel(SHA_START_BIT, priv->base + SHA_START);
+   206	
+   207		pr_debug("%s: alg %u\n", __func__, ctrl->alg);
+   208		return 0;
+   209	}
+   210	
+   211	static int hica_sha_update(const struct hica_sha_priv *priv, const void *data,
+   212				   unsigned int len, bool may_sleep)
+   213	{
+   214		struct device *dev = priv->dev;
+   215		bool inplace = !((uintptr_t) data & 3);
+   216		u8 *buf = NULL;
+   217		dma_addr_t addr;
+   218		int ret;
+   219	
+   220		if (!len)
+   221			return 0;
+   222	
+   223		if (WARN_ON(len % SHA_BLOCK_SIZE))
+   224			return -EINVAL;
+   225	
+   226		if (inplace) {
+   227			addr = dma_map_single(dev, (void *) data, len, DMA_TO_DEVICE);
+   228			if (dma_mapping_error(dev, addr)) {
+   229				dev_err(dev, "error mapping src\n");
+   230				return -EIO;
+   231			}
+   232	
+   233			inplace = !(addr & 3);
+   234			if (!inplace)
+   235				dma_unmap_single(dev, addr, len, DMA_TO_DEVICE);
+   236		}
+   237	
+   238		if (!inplace) {
+   239			buf = dma_alloc_attrs(dev, len, &addr,
+   240					      may_sleep ? GFP_KERNEL : GFP_ATOMIC, 0);
+   241			if (!buf)
+   242				return -ENOMEM;
+   243			memcpy(buf, data, len);
+   244		}
+   245	
+   246		dma_sync_single_for_device(dev, addr, len, DMA_TO_DEVICE);
+   247		ret = hica_sha_record(priv, addr, len) ?:
+   248		      hica_sha_wait(priv, SHA_RECORD_READY);
+   249	
+   250		if (!buf)
+   251			dma_unmap_single(dev, addr, len, DMA_TO_DEVICE);
+   252		else {
+   253			memzero_explicit(buf, len);
+   254			dma_free_attrs(dev, len, buf, addr, 0);
+   255		}
+   256	
+   257		pr_debug("%s: read %u\n", __func__, len);
+   258		return ret;
+   259	}
+   260	
+   261	static int hica_sha_export(const struct hica_sha_priv *priv, void *out,
+   262				   unsigned int digestsize)
+   263	{
+   264		if (hica_sha_wait(priv, SHA_RECORD_READY))
+   265			return -ETIMEDOUT;
+   266	
+   267		for (unsigned int i = 0; i < digestsize; i += sizeof(u32))
+   268			*(u32 *) (out + i) =
+ > 269				be32_to_cpu(readl_relaxed(priv->base + SHA_OUT0 + i));
+   270	
+   271		return 0;
+   272	}
+   273	
 
 -- 
 0-DAY CI Kernel Test Service
