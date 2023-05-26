@@ -1,36 +1,36 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF1524E96
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 19:37:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E9F29115
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 19:48:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685129864; x=1716665864;
+  t=1685130524; x=1716666524;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WX0VBHk9X7s2ExGd9JhpFPzhS7Gk/4jPaxd3Xp/plGc=;
-  b=n0BNPbaqv2rmDZJQTB2g7FV28/9lC70gRP3nUeJ3+Y2rF09tRalRiqW9
-   yUF4QCN6moU0Jo5ZghRz4hIhDj8D1HrwiZXf+A8rKGML3oZf57itunfhO
-   Be/9x76yF+WPSvnudXiV4D5QVJpMDMvfwYWfMaHbFHCtvMhP7QxEFBhrV
-   9lfwdpwZP0OY06WJJN316huuiEGkooMmHGsga6H6ghaGdUThNxVjn7gW5
-   g1X1cfZRGMcujQ83qZXPw47+u/X43FQjS1DVmonSLh/Xg7EKkVr97ttYP
-   5VRp6miEXgFOp9bCGMiEAQ8r4kfdEaDwKPzC1K0UIM4YAluxlNZBMvCdh
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="333913921"
+  bh=TEwULRGiJiYAhELJVUzvwUYnKhh76IPG5E4ukP+Izq4=;
+  b=JACu1T/fmCXE30dqJ+ezDkrRk73zgHcH8+lGritDb459XEtTC4r6W5tX
+   E0DI8RnC/Um2AhGW4EkQiH+DWaozeXmQwl+qCLO4AmltHhksZGQWOl0Qo
+   eokP3Q4W8KMWlhwvuWpsNAmvKFTzZya20W/38HK5iLE2MYSG8J9x8jxBV
+   B4cF+6WBkqpWgSnzNJW0M5+fLbJkjMnOvC7j0v5XQj7UZdOHi1z82KqLc
+   tMYD+C80oz0xuEL6XHGSQckBlI1bh82iyQFznvmIGfroSgS1sqmTMQEcJ
+   BHAaaI108YxrGb6b5A+D5dcnpReEji6r0xRSm4CrnpGhR58XC8o3eFLIh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="417772177"
 X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
-   d="scan'208";a="333913921"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 12:37:43 -0700
+   d="scan'208";a="417772177"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 12:48:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="655754356"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="736110723"
 X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
-   d="scan'208";a="655754356"
+   d="scan'208";a="736110723"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 26 May 2023 12:37:42 -0700
+  by orsmga008.jf.intel.com with ESMTP; 26 May 2023 12:48:42 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2dFu-000JYo-04;
-	Fri, 26 May 2023 19:37:42 +0000
-Date: Sat, 27 May 2023 03:37:19 +0800
+	id 1q2dQY-000JZ0-0O;
+	Fri, 26 May 2023 19:48:42 +0000
+Date: Sat, 27 May 2023 03:47:46 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com,
 	Guenter Roeck <groeck@google.com>
@@ -38,7 +38,7 @@ Cc: oe-kbuild-all@lists.linux.dev
 Subject: [chrome-os:chromeos-5.15 34/38]
  drivers/gpu/drm/i915/i915_drm_client.h:63:36: error: declaration of 'struct
  drm_printer' will not be visible outside of this function
-Message-ID: <202305270324.6CI28kle-lkp@intel.com>
+Message-ID: <202305270344.yJqVbHX2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,7 +51,7 @@ Content-Disposition: inline
 tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
 head:   402fc24bd722630e2ea3afc14ea503bb16124e8d
 commit: 44b5553e4a52067966aacc38b1dfea98320ef4dd [34/38] BACKPORT: FROMLIST: drm/i915: Switch to fdinfo helper
-config: x86_64-randconfig-x056-20230526 (https://download.01.org/0day-ci/archive/20230527/202305270324.6CI28kle-lkp@intel.com/config)
+config: x86_64-randconfig-r011-20230526 (https://download.01.org/0day-ci/archive/20230527/202305270344.yJqVbHX2-lkp@intel.com/config)
 compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
@@ -67,7 +67,7 @@ reproduce (this is a W=1 build):
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305270324.6CI28kle-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305270344.yJqVbHX2-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
