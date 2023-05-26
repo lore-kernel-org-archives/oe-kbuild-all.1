@@ -1,45 +1,44 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9156715497
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 13:04:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871471D2A0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 13:24:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685106274; x=1716642274;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PmkexRzoIqalsN8ZFBIq1pFwqpY5HuK3aJObn/BEItM=;
-  b=PlAjRF3TKbXFmjL0SN47cDuiD7B8yCGbrXt3cTvBwRVribcMJnBJz3jY
-   GMv6MpkJFga5ZBBPTkIGhs5o2FpvtQcWVz70fOzcevtLDeglVwIXKWA/4
-   x9BwhdQ0qvhMyiHguS/TrOxKsTURrOIHjbluwDTpINJ+cMQAtOpVMY3dw
-   sGQ4+QGnmRkWWxBH/LO9Xgqg0aXWw2y5+ZElYwF2bifcT2o3zlOKPdwsX
-   ZySnzOi5FwS/CSGyYsLW2buASBe2Q7Foy/qWDMJ+6TOPbyJfmM9olxIIk
-   G6Lb07TcJJpxX1XeqlDiXj0BM8V3IcC8fw6M2LUJ6DEQ2yvGbf1Fyl5J4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="351705649"
+  t=1685107474; x=1716643474;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dcB3x5PHPrDINGNW3frGOwJDWFqu0LBLYPQb/sE06mo=;
+  b=H2VAmgRjSY1qTw5JtQBqevah3aABu/Mq3MXOUVrqgn16Jh17AR483dZf
+   ygXkmXhihF4Ig1j+HLwClr5d+KDd7N0uK21HPwmzve0YDLJdOz+dgTxL4
+   tqsKotW/vc7otCUkHp11umL7lZ+IE7wYboIjojGDvMgH5pP1rWP4MLwZm
+   KkjBS4DtfHAW7/vHNNxFn1Q0kVNtgRLs4HMyZvkCnx2RgZgxeXD843KPZ
+   Z3R9JDb8TyCkU6LDf0irxFU6MO+WeCHB/wBijtxiurvfde2y0GMNduEAx
+   1zE8BlnksDEbCF8sWdeYQRknQPocnkOeEZ+5lQEtUcqt73jZ0HbYjjJJ7
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="440553251"
 X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
-   d="scan'208";a="351705649"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 06:04:33 -0700
+   d="scan'208";a="440553251"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 06:24:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="817530721"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="795089245"
 X-IronPort-AV: E=Sophos;i="6.00,194,1681196400"; 
-   d="scan'208";a="817530721"
+   d="scan'208";a="795089245"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 26 May 2023 06:04:32 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 26 May 2023 06:24:32 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2X7P-000JLy-1k;
-	Fri, 26 May 2023 13:04:31 +0000
-Date: Fri, 26 May 2023 21:03:40 +0800
+	id 1q2XQl-000JMU-2i;
+	Fri, 26 May 2023 13:24:31 +0000
+Date: Fri, 26 May 2023 21:24:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Noah Wang <noahwang.wang@outlook.com>, linux@roeck-us.net
-Cc: oe-kbuild-all@lists.linux.dev, jdelvare@suse.com,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	Noah Wang <noahwang.wang@outlook.com>
-Subject: Re: [PATCH] hwmon: mp2891: add MP2891 driver
-Message-ID: <202305262023.NJufWPK9-lkp@intel.com>
-References: <TYZPR03MB7130A7F41D61BFB611DDF0C7FA479@TYZPR03MB7130.apcprd03.prod.outlook.com>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>,
+	Nikolay Aleksandrov <razor@blackwall.org>
+Subject: [cilium:pr/new-api-tcx3 19/24] net/core/dev.c:3951:36: sparse:
+ sparse: incompatible types in comparison expression (different address
+ spaces):
+Message-ID: <202305262140.RFSrTJ0D-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,62 +47,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <TYZPR03MB7130A7F41D61BFB611DDF0C7FA479@TYZPR03MB7130.apcprd03.prod.outlook.com>
 
-Hi Noah,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.4-rc3 next-20230525]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Noah-Wang/hwmon-mp2891-add-MP2891-driver/20230526-174424
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/TYZPR03MB7130A7F41D61BFB611DDF0C7FA479%40TYZPR03MB7130.apcprd03.prod.outlook.com
-patch subject: [PATCH] hwmon: mp2891: add MP2891 driver
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230526/202305262023.NJufWPK9-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/be1255480e7afc1fd35bf23c635e7fb98a9c0299
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Noah-Wang/hwmon-mp2891-add-MP2891-driver/20230526-174424
-        git checkout be1255480e7afc1fd35bf23c635e7fb98a9c0299
+tree:   https://github.com/cilium/linux.git pr/new-api-tcx3
+head:   4b72f355d107cb149df94b8a1aa598c0f98b53fe
+commit: 308781151cd58206e9c061dffb70f2d5edb05e8b [19/24] bpf: Add generic attach/detach/query API for multi-progs
+config: i386-randconfig-s001-20230525 (https://download.01.org/0day-ci/archive/20230526/202305262140.RFSrTJ0D-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/cilium/linux/commit/308781151cd58206e9c061dffb70f2d5edb05e8b
+        git remote add cilium https://github.com/cilium/linux.git
+        git fetch --no-tags cilium pr/new-api-tcx3
+        git checkout 308781151cd58206e9c061dffb70f2d5edb05e8b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash net/core/ net/sched/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305262023.NJufWPK9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305262140.RFSrTJ0D-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   net/core/dev.c:3314:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
+   net/core/dev.c:3314:23: sparse:     expected restricted __wsum [usertype] csum
+   net/core/dev.c:3314:23: sparse:     got unsigned int
+   net/core/dev.c:3314:23: sparse: sparse: cast from restricted __wsum
+>> net/core/dev.c:3951:36: sparse: sparse: incompatible types in comparison expression (different address spaces):
+>> net/core/dev.c:3951:36: sparse:    struct mini_Qdisc [noderef] __rcu *
+>> net/core/dev.c:3951:36: sparse:    struct mini_Qdisc *
+   net/core/dev.c:202:9: sparse: sparse: context imbalance in 'unlist_netdevice' - different lock contexts for basic block
+   net/core/dev.c:3817:17: sparse: sparse: context imbalance in '__dev_queue_xmit' - different lock contexts for basic block
+   net/core/dev.c:5188:17: sparse: sparse: context imbalance in 'net_tx_action' - different lock contexts for basic block
+--
+>> net/sched/sch_ingress.c:91:57: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct mini_Qdisc [noderef] __rcu **p_miniq @@     got struct mini_Qdisc ** @@
+   net/sched/sch_ingress.c:91:57: sparse:     expected struct mini_Qdisc [noderef] __rcu **p_miniq
+   net/sched/sch_ingress.c:91:57: sparse:     got struct mini_Qdisc **
+   net/sched/sch_ingress.c:243:65: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct mini_Qdisc [noderef] __rcu **p_miniq @@     got struct mini_Qdisc ** @@
+   net/sched/sch_ingress.c:243:65: sparse:     expected struct mini_Qdisc [noderef] __rcu **p_miniq
+   net/sched/sch_ingress.c:243:65: sparse:     got struct mini_Qdisc **
+   net/sched/sch_ingress.c:261:64: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct mini_Qdisc [noderef] __rcu **p_miniq @@     got struct mini_Qdisc ** @@
+   net/sched/sch_ingress.c:261:64: sparse:     expected struct mini_Qdisc [noderef] __rcu **p_miniq
+   net/sched/sch_ingress.c:261:64: sparse:     got struct mini_Qdisc **
 
->> drivers/hwmon/pmbus/mp2891.c:362:18: error: initialization of 'int (*)(struct i2c_client *)' from incompatible pointer type 'int (*)(struct i2c_client *, const struct i2c_device_id *)' [-Werror=incompatible-pointer-types]
-     362 |         .probe = mp2891_probe,
-         |                  ^~~~~~~~~~~~
-   drivers/hwmon/pmbus/mp2891.c:362:18: note: (near initialization for 'mp2891_driver.<anonymous>.probe')
-   cc1: some warnings being treated as errors
+vim +3951 net/core/dev.c
 
-
-vim +362 drivers/hwmon/pmbus/mp2891.c
-
-   356	
-   357	static struct i2c_driver mp2891_driver = {
-   358		.driver = {
-   359			.name = "mp2891",
-   360			.of_match_table = mp2891_of_match,
-   361		},
- > 362		.probe = mp2891_probe,
-   363		.id_table = mp2891_id,
-   364	};
-   365	
+  3945	
+  3946	#ifdef CONFIG_NET_XGRESS
+  3947	static int tc_run(struct tcx_entry *entry, struct sk_buff *skb)
+  3948	{
+  3949		int ret = TC_ACT_UNSPEC;
+  3950	#ifdef CONFIG_NET_CLS_ACT
+> 3951		struct mini_Qdisc *miniq = rcu_dereference_bh(entry->miniq);
+  3952		struct tcf_result res;
+  3953	
+  3954		if (!miniq)
+  3955			return ret;
+  3956	
+  3957		tc_skb_cb(skb)->mru = 0;
+  3958		tc_skb_cb(skb)->post_ct = false;
+  3959	
+  3960		mini_qdisc_bstats_cpu_update(miniq, skb);
+  3961		ret = tcf_classify(skb, miniq->block, miniq->filter_list, &res, false);
+  3962		/* Only tcf related quirks below. */
+  3963		switch (ret) {
+  3964		case TC_ACT_SHOT:
+  3965			mini_qdisc_qstats_cpu_drop(miniq);
+  3966			break;
+  3967		case TC_ACT_OK:
+  3968		case TC_ACT_RECLASSIFY:
+  3969			skb->tc_index = TC_H_MIN(res.classid);
+  3970			break;
+  3971		}
+  3972	#endif /* CONFIG_NET_CLS_ACT */
+  3973		return ret;
+  3974	}
+  3975	
 
 -- 
 0-DAY CI Kernel Test Service
