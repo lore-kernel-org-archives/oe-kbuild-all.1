@@ -1,45 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD655255
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 09:15:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DAC1523D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 09:25:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685092527; x=1716628527;
+  t=1685093140; x=1716629140;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=94iIUMDJHSt/fNrEPt9CUfI9OJj6tpysYfR5v5/3GyE=;
-  b=XBUfiUysXujiC6xL7H8+rF2e/hEt1ANbEYMZi7fZn9d55+vnxo9wmExc
-   mCeTQbcl5dFcNbnBY9e6Te3wpchVBhKWcYydtEK8GznCd3SkPtERZ+V7o
-   0HuaOKgO9J+rYCKB84perJGM1wBM3EQid8ShZD90PXL4iWpc2TknVz2Wk
-   t+H6LgzHZNHry1t5+hAqXBaRryMffdzRpFqO8GoRwvtgUEZyGBeVlAZM3
-   t5jN2A7kdaVvlc9nH2xRqxOZf2fv9sg+vmRzD22dHbGRO5k6OicUcXxG4
-   wBfAuMmmgw6qRW/aP7LIsFXTvRbKzYnWcttVS/2GH+s2Bpqdm8PhMozEH
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="354176896"
+  bh=fDsqW8+zIu6qtAGeLLTB5X/4+H54BoLa1MhwADKfGoE=;
+  b=lfRXYhGnGvAK3hEHOB3XoXQ8LSdAgSSZT3Yv0uMGFcaSfHh6rVV4V9gH
+   54sBDGz4Cmgk82FbxTGMLU5MP3cDVwLtyLzXsSwoe1eK7nYMTel1hA1ys
+   BjtAZ0di7JFWcXWSzjnm+O0gDNGUmYqFFeZYY31amkscr9kpJUFGkncte
+   S5vJKYAZEjDLBTWPx9NstbbQua558kMzjD9jgnhhd0YBIJHtZ9KOZsjF8
+   MMATvNw4H+4A4Avu59Rqg3qzhCvGY265lHru9PSMviFp03YGBvvHvsKwt
+   fAUxmGwt3p2q8OconO39gBK3YIdWHCmoKnRFuO7W8T9bVmwZsbdC5IG1C
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="343657431"
 X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
-   d="scan'208";a="354176896"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 02:15:26 -0700
+   d="scan'208";a="343657431"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 02:25:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="655574734"
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="738198736"
 X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
-   d="scan'208";a="655574734"
+   d="scan'208";a="738198736"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 26 May 2023 02:15:25 -0700
+  by orsmga001.jf.intel.com with ESMTP; 26 May 2023 02:25:25 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2TXg-000JD3-0u;
-	Fri, 26 May 2023 09:15:24 +0000
-Date: Fri, 26 May 2023 17:15:03 +0800
+	id 1q2ThM-000JDH-1H;
+	Fri, 26 May 2023 09:25:24 +0000
+Date: Fri, 26 May 2023 17:25:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Liu Shixin <liushixin2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: [svarbanov-media-tree:venus-for-next-v6.5 2/15]
- drivers/media/platform/qcom/venus/hfi_venus.c:843:16: error: too few
- arguments to function 'venus_iface_cmdq_write'
-Message-ID: <202305261710.LATF7SyM-lkp@intel.com>
+To: Petr Machata <petrm@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Danielle Ratson <danieller@nvidia.com>
+Subject: [jpirko-mlxsw:combined_queue 82/100] net/bridge/br.c:241:23: error:
+ implicit declaration of function 'br_switchdev_port_replay'; did you mean
+ 'br_switchdev_port_offload'?
+Message-ID: <202305261700.WzCRKMGw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,80 +47,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/svarbanov/media_tree venus-for-next-v6.5
-head:   deb41a0dfc76f12c81de0f4c721d02f45c776ef2
-commit: ac42b3241bba706b577c25708bcc377e7d2b072b [2/15] media: venus: simplify the return expression of venus_sys_set_* function
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230526/202305261710.LATF7SyM-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/jpirko/linux_mlxsw combined_queue
+head:   c427b9397e54c14546a250b6329ae6ec02b6aa35
+commit: 28e3430527466ec1bc7c865f9f5d804ffcf236f3 [82/100] net: switchdev: Add a helper to replay objects on a bridge port
+config: openrisc-randconfig-r031-20230525 (https://download.01.org/0day-ci/archive/20230526/202305261700.WzCRKMGw-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add svarbanov-media-tree git://linuxtv.org/svarbanov/media_tree
-        git fetch --no-tags svarbanov-media-tree venus-for-next-v6.5
-        git checkout ac42b3241bba706b577c25708bcc377e7d2b072b
+        # https://github.com/jpirko/linux_mlxsw/commit/28e3430527466ec1bc7c865f9f5d804ffcf236f3
+        git remote add jpirko-mlxsw https://github.com/jpirko/linux_mlxsw
+        git fetch --no-tags jpirko-mlxsw combined_queue
+        git checkout 28e3430527466ec1bc7c865f9f5d804ffcf236f3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/media/platform/qcom/venus/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash net/bridge/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305261710.LATF7SyM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305261700.WzCRKMGw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/media/platform/qcom/venus/hfi_venus.c: In function 'venus_sys_set_debug':
->> drivers/media/platform/qcom/venus/hfi_venus.c:843:16: error: too few arguments to function 'venus_iface_cmdq_write'
-     843 |         return venus_iface_cmdq_write(hdev, pkt);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/venus/hfi_venus.c:412:12: note: declared here
-     412 | static int venus_iface_cmdq_write(struct venus_hfi_device *hdev, void *pkt, bool sync)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/venus/hfi_venus.c: In function 'venus_sys_set_coverage':
-   drivers/media/platform/qcom/venus/hfi_venus.c:855:16: error: too few arguments to function 'venus_iface_cmdq_write'
-     855 |         return venus_iface_cmdq_write(hdev, pkt);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/venus/hfi_venus.c:412:12: note: declared here
-     412 | static int venus_iface_cmdq_write(struct venus_hfi_device *hdev, void *pkt, bool sync)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/venus/hfi_venus.c: In function 'venus_sys_set_idle_message':
-   drivers/media/platform/qcom/venus/hfi_venus.c:871:16: error: too few arguments to function 'venus_iface_cmdq_write'
-     871 |         return venus_iface_cmdq_write(hdev, pkt);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/venus/hfi_venus.c:412:12: note: declared here
-     412 | static int venus_iface_cmdq_write(struct venus_hfi_device *hdev, void *pkt, bool sync)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/qcom/venus/hfi_venus.c: In function 'venus_sys_set_debug':
-   drivers/media/platform/qcom/venus/hfi_venus.c:844:1: error: control reaches end of non-void function [-Werror=return-type]
-     844 | }
-         | ^
-   drivers/media/platform/qcom/venus/hfi_venus.c: In function 'venus_sys_set_idle_message':
-   drivers/media/platform/qcom/venus/hfi_venus.c:872:1: error: control reaches end of non-void function [-Werror=return-type]
-     872 | }
-         | ^
-   drivers/media/platform/qcom/venus/hfi_venus.c: In function 'venus_sys_set_coverage':
-   drivers/media/platform/qcom/venus/hfi_venus.c:856:1: error: control reaches end of non-void function [-Werror=return-type]
-     856 | }
-         | ^
+   net/bridge/br.c: In function 'br_switchdev_blocking_event':
+>> net/bridge/br.c:241:23: error: implicit declaration of function 'br_switchdev_port_replay'; did you mean 'br_switchdev_port_offload'? [-Werror=implicit-function-declaration]
+     241 |                 err = br_switchdev_port_replay(p, b->dev, b->ctx, b->atomic_nb,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                       br_switchdev_port_offload
    cc1: some warnings being treated as errors
 
 
-vim +/venus_iface_cmdq_write +843 drivers/media/platform/qcom/venus/hfi_venus.c
+vim +241 net/bridge/br.c
 
-   833	
-   834	static int venus_sys_set_debug(struct venus_hfi_device *hdev, u32 debug)
-   835	{
-   836		struct hfi_sys_set_property_pkt *pkt;
-   837		u8 packet[IFACEQ_VAR_SMALL_PKT_SIZE];
-   838	
-   839		pkt = (struct hfi_sys_set_property_pkt *)packet;
-   840	
-   841		pkt_sys_debug_config(pkt, HFI_DEBUG_MODE_QUEUE, debug);
-   842	
- > 843		return venus_iface_cmdq_write(hdev, pkt);
-   844	}
-   845	
+   204	
+   205	/* called under rtnl_mutex */
+   206	static int br_switchdev_blocking_event(struct notifier_block *nb,
+   207					       unsigned long event, void *ptr)
+   208	{
+   209		struct netlink_ext_ack *extack = netdev_notifier_info_to_extack(ptr);
+   210		struct net_device *dev = switchdev_notifier_info_to_dev(ptr);
+   211		struct switchdev_notifier_brport_info *brport_info;
+   212		const struct switchdev_brport *b;
+   213		struct net_bridge_port *p;
+   214		int err = NOTIFY_DONE;
+   215	
+   216		p = br_port_get_rtnl(dev);
+   217		if (!p)
+   218			goto out;
+   219	
+   220		switch (event) {
+   221		case SWITCHDEV_BRPORT_OFFLOADED:
+   222			brport_info = ptr;
+   223			b = &brport_info->brport;
+   224	
+   225			err = br_switchdev_port_offload(p, b->dev, b->ctx,
+   226							b->atomic_nb, b->blocking_nb,
+   227							b->tx_fwd_offload, extack);
+   228			err = notifier_from_errno(err);
+   229			break;
+   230		case SWITCHDEV_BRPORT_UNOFFLOADED:
+   231			brport_info = ptr;
+   232			b = &brport_info->brport;
+   233	
+   234			br_switchdev_port_unoffload(p, b->ctx, b->atomic_nb,
+   235						    b->blocking_nb);
+   236			break;
+   237		case SWITCHDEV_BRPORT_REPLAY:
+   238			brport_info = ptr;
+   239			b = &brport_info->brport;
+   240	
+ > 241			err = br_switchdev_port_replay(p, b->dev, b->ctx, b->atomic_nb,
+   242						       b->blocking_nb, extack);
+   243			err = notifier_from_errno(err);
+   244			break;
+   245		}
+   246	
+   247	out:
+   248		return err;
+   249	}
+   250	
 
 -- 
 0-DAY CI Kernel Test Service
