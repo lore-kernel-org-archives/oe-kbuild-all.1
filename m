@@ -1,113 +1,237 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-00190b01.pphosted.com (mx0a-00190b01.pphosted.com [67.231.149.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD6F11C84;
-	Fri, 26 May 2023 09:48:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B1BCC4339B;
-	Fri, 26 May 2023 09:48:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685094491;
-	bh=cLxbSg+XqqVsWSq9nyUiacTmkj48Tj2ek03PRtbVxJM=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=pTlbvAFp15IpQc78BsTJsGCaOjcHUabJpdVvssTs3xS5BEhJreUTeS85HdEIoXZPJ
-	 r8FapS4wAEssFHCDr5LRQzyj/2yDdW+Z47JKMpjowp0LLm+inWq6Zlq9o/OV8VISnv
-	 yWEniSLOdqChDVJND54Dhf4PY573qYqNALcHKdBAYXURikCdMaooN6N6vR/KFXsrE8
-	 0JoVWTx1OenrwTllyuc+3aTdNKmK95sAWXZfuNpErGMTYrQno265rGEkZvVS2o6/6m
-	 PDx7OGBFyMR8YujMI+tO6uDEk1muaWHqOAoWKU8mwCaazHP0wtU38ZAw0kuRrUxw35
-	 8eA/lCHGa03nQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id A9085CE0CCF; Fri, 26 May 2023 02:48:06 -0700 (PDT)
-Date: Fri, 26 May 2023 02:48:06 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [paulmck-rcu:rcu/next 19/19] kernel/rcu/rcuscale.c:340:20:
- error: use of undeclared identifier 'get_rcu_tasks_trace_gp_kthread'; did
- you mean 'show_rcu_tasks_trace_gp_kthread'?
-Message-ID: <17429c26-d279-43ec-a297-232bc6301bec@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202305190259.Rm6JC6Nz-lkp@intel.com>
- <e51237d6-5b10-424d-a0d3-afe8ee24f530@paulmck-laptop>
- <ZHBeg7SyMQnWJ5Gd@yujie-X299>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40007156CF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 10:16:49 +0000 (UTC)
+Received: from pps.filterd (m0122333.ppops.net [127.0.0.1])
+	by mx0a-00190b01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 34Q7Ap6i029663;
+	Fri, 26 May 2023 10:22:57 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=akamai.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=jan2016.eng;
+ bh=JeOzsllBbEWZZrionW4usIEazmFAEqk6AA7pQU/1AKY=;
+ b=F/gc7dQ47el/b5XIyfhK3m4MZPuz20P/944pAdsJ4bpshspu0hwubh7+dPICQ6VveR9F
+ ItOzxUulC9sN+UDy25kQnb63EHag01kR0LxKMOGvlFHPCZmN5Fr7u/tc8PZ1oLq5i12J
+ 9i3djBasTmhdAG2kTyoAgOih3r33vHcuqGJ6k/HRUuiX5vAfm6SjD3xZM7Jzl8govMQT
+ QgzkWqurkTEArCC/8xJcThV3a03Fchlh/8+hR9cUOtK8r3gPbwvVWmp3eZu+XQoF6r/x
+ LdnPDq3UbIVJc7U3fba9ik8W3NMd6RdJyqCwo1/7aCmdv2UuZLJ5QFrKtYEwZD6DbIIw 3Q== 
+Received: from prod-mail-ppoint5 (prod-mail-ppoint5.akamai.com [184.51.33.60] (may be forged))
+	by mx0a-00190b01.pphosted.com (PPS) with ESMTPS id 3qpnffs43c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 May 2023 10:22:57 +0100
+Received: from pps.filterd (prod-mail-ppoint5.akamai.com [127.0.0.1])
+	by prod-mail-ppoint5.akamai.com (8.17.1.19/8.17.1.19) with ESMTP id 34Q7BT4Y015014;
+	Fri, 26 May 2023 02:22:56 -0700
+Received: from email.msg.corp.akamai.com ([172.27.91.24])
+	by prod-mail-ppoint5.akamai.com (PPS) with ESMTPS id 3qpv697cyr-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 26 May 2023 02:22:56 -0700
+Received: from localhost (172.27.164.43) by
+ usma1ex-dag4mb5.msg.corp.akamai.com (172.27.91.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Fri, 26 May 2023 05:22:55 -0400
+Date: Fri, 26 May 2023 10:22:52 +0100
+From: Max Tottenham <mtottenh@akamai.com>
+To: kernel test robot <lkp@intel.com>
+CC: <netdev@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>,
+        Jamal Hadi
+ Salim <jhs@mojatatu.com>,
+        Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko
+	<jiri@resnulli.us>,
+        Amir Vadai <amir@vadai.me>, Josh Hunt <johunt@akamai.com>
+Subject: Re: [PATCH] net/sched: act_pedit: Parse L3 Header for L4 offset
+Message-ID: <5jy7yqufzneqh5lqwvx6uofgs3ux4xp5vdb36fihkip53kn44j@nlmwrar4r5bz>
+References: <20230525164741.4188115-1-mtottenh@akamai.com>
+ <202305261541.N165u9TZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <ZHBeg7SyMQnWJ5Gd@yujie-X299>
+In-Reply-To: <202305261541.N165u9TZ-lkp@intel.com>
+X-Originating-IP: [172.27.164.43]
+X-ClientProxiedBy: usma1ex-dag4mb7.msg.corp.akamai.com (172.27.91.26) To
+ usma1ex-dag4mb5.msg.corp.akamai.com (172.27.91.24)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-26_01,2023-05-25_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 suspectscore=0 phishscore=0
+ mlxscore=0 adultscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305260080
+X-Proofpoint-ORIG-GUID: hqBqX6m4cuIrisWUWG3oyZLKeNQP2Eg4
+X-Proofpoint-GUID: hqBqX6m4cuIrisWUWG3oyZLKeNQP2Eg4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.573,FMLib:17.11.176.26
+ definitions=2023-05-26_01,2023-05-25_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 lowpriorityscore=0
+ bulkscore=0 adultscore=0 priorityscore=1501 impostorscore=0 spamscore=0
+ clxscore=1011 malwarescore=0 mlxscore=0 suspectscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2304280000
+ definitions=main-2305260080
 
-On Fri, May 26, 2023 at 03:23:47PM +0800, Yujie Liu wrote:
-> Hi Paul,
+On 05/26, kernel test robot wrote:
+> Hi Max,
 > 
-> On Thu, May 18, 2023 at 07:11:33PM -0700, Paul E. McKenney wrote:
-> > On Fri, May 19, 2023 at 02:30:11AM +0800, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git rcu/next
-> > > head:   9bb839a83e1bbbfd4f7f20827aafd0a39fad00c7
-> > > commit: 9bb839a83e1bbbfd4f7f20827aafd0a39fad00c7 [19/19] rcuscale: Measure grace-period kthread CPU time
-> > > config: x86_64-randconfig-a001
-> > > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> > > reproduce (this is a W=1 build):
-> > >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> > >         chmod +x ~/bin/make.cross
-> > >         # https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git/commit/?id=9bb839a83e1bbbfd4f7f20827aafd0a39fad00c7
-> > >         git remote add paulmck-rcu https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git
-> > >         git fetch --no-tags paulmck-rcu rcu/next
-> > >         git checkout 9bb839a83e1bbbfd4f7f20827aafd0a39fad00c7
-> > >         # save the config file
-> > >         mkdir build_dir && cp config build_dir/.config
-> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-> > >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/rcu/
-> > > 
-> > > If you fix the issue, kindly add following tag where applicable
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202305190259.Rm6JC6Nz-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > > >> kernel/rcu/rcuscale.c:340:20: error: use of undeclared identifier 'get_rcu_tasks_trace_gp_kthread'; did you mean 'show_rcu_tasks_trace_gp_kthread'?
-> > >            .rso_gp_kthread = get_rcu_tasks_trace_gp_kthread,
-> > >                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > >                              show_rcu_tasks_trace_gp_kthread
-> > >    kernel/rcu/rcu.h:642:20: note: 'show_rcu_tasks_trace_gp_kthread' declared here
-> > >    static inline void show_rcu_tasks_trace_gp_kthread(void) {}
-> > >                       ^
-> > > >> kernel/rcu/rcuscale.c:340:20: error: incompatible function pointer types initializing 'struct task_struct *(*)(void)' with an expression of type 'void (void)' [-Werror,-Wincompatible-function-pointer-types]
-> > >            .rso_gp_kthread = get_rcu_tasks_trace_gp_kthread,
-> > >                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > >    2 errors generated.
-> > 
-> > Apologies for the hassle!  Does the diff below help at your end?
+> kernel test robot noticed the following build errors:
 > 
-> Sorry for the late reply. We noticed that rcu/next branch was respined
-> and the diff below has been applied. We tested the new head commit
-> 60901dadfadc ("rcuscale: Measure grace-period kthread CPU time")
-> and the build error is gone. Thanks.
+> [auto build test ERROR on net/main]
+> [also build test ERROR on net-next/main linus/master v6.4-rc3 next-20230525]
+> [cannot apply to horms-ipvs/master]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information ]
 > 
-> Tested-by: Yujie Liu <yujie.liu@intel.com>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Max-Tottenham/net-sched-act_pedit-Parse-L3-Header-for-L4-offset/20230526-020135 
+> base:   net/main
+> patch link:    https://lore.kernel.org/r/20230525164741.4188115-1-mtottenh%40akamai.com 
+> patch subject: [PATCH] net/sched: act_pedit: Parse L3 Header for L4 offset
+> config: mips-allyesconfig https://download.01.org/0day-ci/archive/20230526/202305261541.N165u9TZ-lkp@intel.com/config )
+> compiler: mips-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         mkdir -p ~/bin
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross  -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/dc60ecbe9b4432221ba2109d4ca1956f47d5c5d6 
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux 
+>         git fetch --no-tags linux-review Max-Tottenham/net-sched-act_pedit-Parse-L3-Header-for-L4-offset/20230526-020135
+>         git checkout dc60ecbe9b4432221ba2109d4ca1956f47d5c5d6
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202305261541.N165u9TZ-lkp@intel.com/ 
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    net/sched/act_pedit.c: In function 'tcf_pedit_act':
+> >> net/sched/act_pedit.c:428:17: error: 'rc' undeclared (first use in this function); did you mean 'rq'?
+>      428 |                 rc = pedit_skb_hdr_offset(skb, htype, &hoffset);
+>          |                 ^~
+>          |                 rq
+>    net/sched/act_pedit.c:428:17: note: each undeclared identifier is reported only once for each function it appears in
+> 
+> 
+> vim +428 net/sched/act_pedit.c
+> 
+>    386	
+>    387	TC_INDIRECT_SCOPE int tcf_pedit_act(struct sk_buff *skb,
+>    388					    const struct tc_action *a,
+>    389					    struct tcf_result *res)
+>    390	{
+>    391		enum pedit_header_type htype = TCA_PEDIT_KEY_EX_HDR_TYPE_NETWORK;
+>    392		enum pedit_cmd cmd = TCA_PEDIT_KEY_EX_CMD_SET;
+>    393		struct tcf_pedit *p = to_pedit(a);
+>    394		struct tcf_pedit_key_ex *tkey_ex;
+>    395		struct tcf_pedit_parms *parms;
+>    396		struct tc_pedit_key *tkey;
+>    397		u32 max_offset;
+>    398		int i;
+>    399	
+>    400		parms = rcu_dereference_bh(p->parms);
+>    401	
+>    402		max_offset = (skb_transport_header_was_set(skb) ?
+>    403			      skb_transport_offset(skb) :
+>    404			      skb_network_offset(skb)) +
+>    405			     parms->tcfp_off_max_hint;
+>    406		if (skb_ensure_writable(skb, min(skb->len, max_offset)))
+>    407			goto done;
+>    408	
+>    409		tcf_lastuse_update(&p->tcf_tm);
+>    410		tcf_action_update_bstats(&p->common, skb);
+>    411	
+>    412		tkey = parms->tcfp_keys;
+>    413		tkey_ex = parms->tcfp_keys_ex;
+>    414	
+>    415		for (i = parms->tcfp_nkeys; i > 0; i--, tkey++) {
+>    416			int offset = tkey->off;
+>    417			int hoffset = 0;
+>    418			u32 *ptr, hdata;
+>    419			u32 val;
+>    420	
+>    421			if (tkey_ex) {
+>    422				htype = tkey_ex->htype;
+>    423				cmd = tkey_ex->cmd;
+>    424	
+>    425				tkey_ex++;
+>    426			}
+>    427	
+>  > 428			rc = pedit_skb_hdr_offset(skb, htype, &hoffset);
 
-Very good, thank you!  I will apply on my next rebase.
+Ah yep looks like I made an omission while bringing back the rate limited
+error message. Will respin a V2 with the fix.
 
+>    429			if (rc) {
+>    430				pr_info_ratelimited("tc action pedit unable to extract header offset for header type (0x%x)\n", htype);
+>    431				goto bad;
+>    432			}
+>    433	
+>    434			if (tkey->offmask) {
+>    435				u8 *d, _d;
+>    436	
+>    437				if (!offset_valid(skb, hoffset + tkey->at)) {
+>    438					pr_info_ratelimited("tc action pedit 'at' offset %d out of bounds\n",
+>    439							    hoffset + tkey->at);
+>    440					goto bad;
+>    441				}
+>    442				d = skb_header_pointer(skb, hoffset + tkey->at,
+>    443						       sizeof(_d), &_d);
+>    444				if (!d)
+>    445					goto bad;
+>    446	
+>    447				offset += (*d & tkey->offmask) >> tkey->shift;
+>    448				if (offset % 4) {
+>    449					pr_info_ratelimited("tc action pedit offset must be on 32 bit boundaries\n");
+>    450					goto bad;
+>    451				}
+>    452			}
+>    453	
+>    454			if (!offset_valid(skb, hoffset + offset)) {
+>    455				pr_info_ratelimited("tc action pedit offset %d out of bounds\n", hoffset + offset);
+>    456				goto bad;
+>    457			}
+>    458	
+>    459			ptr = skb_header_pointer(skb, hoffset + offset,
+>    460						 sizeof(hdata), &hdata);
+>    461			if (!ptr)
+>    462				goto bad;
+>    463			/* just do it, baby */
+>    464			switch (cmd) {
+>    465			case TCA_PEDIT_KEY_EX_CMD_SET:
+>    466				val = tkey->val;
+>    467				break;
+>    468			case TCA_PEDIT_KEY_EX_CMD_ADD:
+>    469				val = (*ptr + tkey->val) & ~tkey->mask;
+>    470				break;
+>    471			default:
+>    472				pr_info_ratelimited("tc action pedit bad command (%d)\n", cmd);
+>    473				goto bad;
+>    474			}
+>    475	
+>    476			*ptr = ((*ptr & tkey->mask) ^ val);
+>    477			if (ptr == &hdata)
+>    478				skb_store_bits(skb, hoffset + offset, ptr, 4);
+>    479		}
+>    480	
+>    481		goto done;
+>    482	
+>    483	bad:
+>    484		tcf_action_inc_overlimit_qstats(&p->common);
+>    485	done:
+>    486		return p->tcf_action;
+>    487	}
+>    488	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki 
 
-						Thanx, Paul
-
-> > ------------------------------------------------------------------------
-> > 
-> > diff --git a/include/linux/rcupdate_trace.h b/include/linux/rcupdate_trace.h
-> > index 3a5a322939b6..eda493200663 100644
-> > --- a/include/linux/rcupdate_trace.h
-> > +++ b/include/linux/rcupdate_trace.h
-> > @@ -87,9 +87,7 @@ static inline void rcu_read_unlock_trace(void)
-> >  void call_rcu_tasks_trace(struct rcu_head *rhp, rcu_callback_t func);
-> >  void synchronize_rcu_tasks_trace(void);
-> >  void rcu_barrier_tasks_trace(void);
-> > -# ifdef CONFIG_RCU_SCALE_TEST
-> >  struct task_struct *get_rcu_tasks_trace_gp_kthread(void);
-> > -# endif
-> >  #else
-> >  /*
-> >   * The BPF JIT forms these addresses even when it doesn't call these
-> > 
+-- 
+Max Tottenham | Senior Software Engineer
+/(* Akamai Technologies
