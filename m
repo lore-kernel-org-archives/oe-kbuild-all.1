@@ -1,46 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31FF53B5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 07:52:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9A0AD23
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 26 May 2023 08:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685087546; x=1716623546;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MGpah+k1pIZ0tPXYLazG17U/V003vCrY3k0rH8jwHB8=;
-  b=f+Yjz9XLlJwT56kEr4o4aeHWdZBj6CGpZJR+R2XXYyeRzWHZUXSqUOS5
-   wEdRs9PiJB3uBOvBEXeeSFt2Mcr4tD5RDC6HFJrG8t2q2aB4yNqJm/6k6
-   nJNFnFyDRofK7yDZ1i+vHcLTdaVYLKRalgHzo2O2CjyDTkZST395DwPTa
-   B6Gyiu5DaMKJbbdjFTBGcm8mvQ6syZ3UMZgixU9R3LuxZKA5mog2iN97p
-   n7h5PWkIYVdribdsCo3TAaofOQBWeani35yMq1vE0zEUvAd0K9ttShDxb
-   jKjyniPf6fmL5g67qvxtJyqJXqPK2+/lljTpXG0WpAA0CkWEzc9KXe1xC
+  t=1685088805; x=1716624805;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SDWTVuw0iunhjfE2CuvUzNqc8mxK1dwvb8AaTW1sbc0=;
+  b=CppIvXxIMYyiTtY/DVckUWd4SdwUVMpOPUEPG3QfNHFTY13gY7C0uGDB
+   VJjX84I3Wqr9PEHX6vLilckjqEHrVaCiPhYSUuMCo7nnFkQ8I3YNyekh9
+   6wHMZI+kaCxkKPak+rOC88sM3yLyYDl0oxJMwiMeCWQFWhN3vQvh6e/Ju
+   SsXe8n8v3BTlTLBaJzJvoB/qabmLqvyy6uBXp0n5mNhYQizPmmPK9/J02
+   CUXLWuTXn9zchEUCeRjGKxJWnmg5Q1ikQI72PZHaJcT/hYM+PJIHbpNRO
+   OK9gykNA88s2ahXFA79doYTpGfn9bYH0gDqoqY5NZlOUBMLHXSVrs/Kpk
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="352987213"
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="417632048"
 X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
-   d="scan'208";a="352987213"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 00:52:25 -0700
+   d="scan'208";a="417632048"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 01:13:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="829419370"
+X-IronPort-AV: E=McAfee;i="6600,9927,10721"; a="795022319"
 X-IronPort-AV: E=Sophos;i="6.00,193,1681196400"; 
-   d="scan'208";a="829419370"
+   d="scan'208";a="795022319"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 26 May 2023 00:52:23 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 26 May 2023 01:13:23 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2SFK-000JAZ-2t;
-	Fri, 26 May 2023 07:52:22 +0000
-Date: Fri, 26 May 2023 15:52:13 +0800
+	id 1q2SZf-000JBB-0w;
+	Fri, 26 May 2023 08:13:23 +0000
+Date: Fri, 26 May 2023 16:12:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Tottenham <mtottenh@akamai.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jamal Hadi Salim <jhs@mojatatu.com>,
-	Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
-	Amir Vadai <amir@vadai.me>, Josh Hunt <johunt@akamai.com>,
-	Max Tottenham <mtottenh@akamai.com>
-Subject: Re: [PATCH] net/sched: act_pedit: Parse L3 Header for L4 offset
-Message-ID: <202305261541.N165u9TZ-lkp@intel.com>
-References: <20230525164741.4188115-1-mtottenh@akamai.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-1.0.x-imx 3031/9879]
+ drivers/mailbox/imx-mailbox.c:140:10: warning: no previous prototype for
+ function 'get_mu_buf'
+Message-ID: <202305261637.SUkfgrc3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,157 +46,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230525164741.4188115-1-mtottenh@akamai.com>
 
-Hi Max,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net/main]
-[also build test ERROR on net-next/main linus/master v6.4-rc3 next-20230525]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Max-Tottenham/net-sched-act_pedit-Parse-L3-Header-for-L4-offset/20230526-020135
-base:   net/main
-patch link:    https://lore.kernel.org/r/20230525164741.4188115-1-mtottenh%40akamai.com
-patch subject: [PATCH] net/sched: act_pedit: Parse L3 Header for L4 offset
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230526/202305261541.N165u9TZ-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
+head:   ad9ab3b3c553cbc3c61f233b6e2cd5abdd2a624b
+commit: 94cd15eaa1a2683afc6b0949be818d597f51eb2e [3031/9879] LF-6580-1: drivers: imx-mailbox: MU Buffer
+config: hexagon-randconfig-r041-20230524 (https://download.01.org/0day-ci/archive/20230526/202305261637.SUkfgrc3-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/dc60ecbe9b4432221ba2109d4ca1956f47d5c5d6
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Max-Tottenham/net-sched-act_pedit-Parse-L3-Header-for-L4-offset/20230526-020135
-        git checkout dc60ecbe9b4432221ba2109d4ca1956f47d5c5d6
+        # https://github.com/Freescale/linux-fslc/commit/94cd15eaa1a2683afc6b0949be818d597f51eb2e
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc 6.1-1.0.x-imx
+        git checkout 94cd15eaa1a2683afc6b0949be818d597f51eb2e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/mailbox/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305261541.N165u9TZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305261637.SUkfgrc3-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/sched/act_pedit.c: In function 'tcf_pedit_act':
->> net/sched/act_pedit.c:428:17: error: 'rc' undeclared (first use in this function); did you mean 'rq'?
-     428 |                 rc = pedit_skb_hdr_offset(skb, htype, &hoffset);
-         |                 ^~
-         |                 rq
-   net/sched/act_pedit.c:428:17: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from drivers/mailbox/imx-mailbox.c:10:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/mailbox/imx-mailbox.c:10:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/mailbox/imx-mailbox.c:10:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> drivers/mailbox/imx-mailbox.c:140:10: warning: no previous prototype for function 'get_mu_buf' [-Wmissing-prototypes]
+   uint8_t *get_mu_buf(struct mbox_chan *chan)
+            ^
+   drivers/mailbox/imx-mailbox.c:140:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   uint8_t *get_mu_buf(struct mbox_chan *chan)
+   ^
+   static 
+   7 warnings generated.
 
 
-vim +428 net/sched/act_pedit.c
+vim +/get_mu_buf +140 drivers/mailbox/imx-mailbox.c
 
-   386	
-   387	TC_INDIRECT_SCOPE int tcf_pedit_act(struct sk_buff *skb,
-   388					    const struct tc_action *a,
-   389					    struct tcf_result *res)
-   390	{
-   391		enum pedit_header_type htype = TCA_PEDIT_KEY_EX_HDR_TYPE_NETWORK;
-   392		enum pedit_cmd cmd = TCA_PEDIT_KEY_EX_CMD_SET;
-   393		struct tcf_pedit *p = to_pedit(a);
-   394		struct tcf_pedit_key_ex *tkey_ex;
-   395		struct tcf_pedit_parms *parms;
-   396		struct tc_pedit_key *tkey;
-   397		u32 max_offset;
-   398		int i;
-   399	
-   400		parms = rcu_dereference_bh(p->parms);
-   401	
-   402		max_offset = (skb_transport_header_was_set(skb) ?
-   403			      skb_transport_offset(skb) :
-   404			      skb_network_offset(skb)) +
-   405			     parms->tcfp_off_max_hint;
-   406		if (skb_ensure_writable(skb, min(skb->len, max_offset)))
-   407			goto done;
-   408	
-   409		tcf_lastuse_update(&p->tcf_tm);
-   410		tcf_action_update_bstats(&p->common, skb);
-   411	
-   412		tkey = parms->tcfp_keys;
-   413		tkey_ex = parms->tcfp_keys_ex;
-   414	
-   415		for (i = parms->tcfp_nkeys; i > 0; i--, tkey++) {
-   416			int offset = tkey->off;
-   417			int hoffset = 0;
-   418			u32 *ptr, hdata;
-   419			u32 val;
-   420	
-   421			if (tkey_ex) {
-   422				htype = tkey_ex->htype;
-   423				cmd = tkey_ex->cmd;
-   424	
-   425				tkey_ex++;
-   426			}
-   427	
- > 428			rc = pedit_skb_hdr_offset(skb, htype, &hoffset);
-   429			if (rc) {
-   430				pr_info_ratelimited("tc action pedit unable to extract header offset for header type (0x%x)\n", htype);
-   431				goto bad;
-   432			}
-   433	
-   434			if (tkey->offmask) {
-   435				u8 *d, _d;
-   436	
-   437				if (!offset_valid(skb, hoffset + tkey->at)) {
-   438					pr_info_ratelimited("tc action pedit 'at' offset %d out of bounds\n",
-   439							    hoffset + tkey->at);
-   440					goto bad;
-   441				}
-   442				d = skb_header_pointer(skb, hoffset + tkey->at,
-   443						       sizeof(_d), &_d);
-   444				if (!d)
-   445					goto bad;
-   446	
-   447				offset += (*d & tkey->offmask) >> tkey->shift;
-   448				if (offset % 4) {
-   449					pr_info_ratelimited("tc action pedit offset must be on 32 bit boundaries\n");
-   450					goto bad;
-   451				}
-   452			}
-   453	
-   454			if (!offset_valid(skb, hoffset + offset)) {
-   455				pr_info_ratelimited("tc action pedit offset %d out of bounds\n", hoffset + offset);
-   456				goto bad;
-   457			}
-   458	
-   459			ptr = skb_header_pointer(skb, hoffset + offset,
-   460						 sizeof(hdata), &hdata);
-   461			if (!ptr)
-   462				goto bad;
-   463			/* just do it, baby */
-   464			switch (cmd) {
-   465			case TCA_PEDIT_KEY_EX_CMD_SET:
-   466				val = tkey->val;
-   467				break;
-   468			case TCA_PEDIT_KEY_EX_CMD_ADD:
-   469				val = (*ptr + tkey->val) & ~tkey->mask;
-   470				break;
-   471			default:
-   472				pr_info_ratelimited("tc action pedit bad command (%d)\n", cmd);
-   473				goto bad;
-   474			}
-   475	
-   476			*ptr = ((*ptr & tkey->mask) ^ val);
-   477			if (ptr == &hdata)
-   478				skb_store_bits(skb, hoffset + offset, ptr, 4);
-   479		}
-   480	
-   481		goto done;
-   482	
-   483	bad:
-   484		tcf_action_inc_overlimit_qstats(&p->common);
-   485	done:
-   486		return p->tcf_action;
-   487	}
-   488	
+   139	
+ > 140	uint8_t *get_mu_buf(struct mbox_chan *chan)
+   141	{
+   142		uint8_t *addr;
+   143		struct imx_mu_priv *priv = to_imx_mu_priv(chan->mbox);
+   144	
+   145		addr = priv->base + priv->dcfg->xBUF;
+   146		return addr;
+   147	}
+   148	EXPORT_SYMBOL(get_mu_buf);
+   149	
 
 -- 
 0-DAY CI Kernel Test Service
