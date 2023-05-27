@@ -1,134 +1,181 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F24C8BE1
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 11:07:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DEC2115
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 11:27:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685185624; x=1716721624;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=L74hDA45q+pqqA8K9jTL0kklXJ0cef6Nic12DbO9aA4=;
-  b=W7r1xrX0XMDakvmxHy+Qurf70Cmc65P1B6KwTYSbDSfAcnrLGBoQe+hE
-   NpK0ORaeLaM2HtBzMutmK2bYVi1n5T08ADcie3bP59claNn01N6n2OQRk
-   CSR1RrA2et7v/sRLXlXpq/5e5JAKw2bYOlspTsMP+p/p8qfXPytZ/U0Ji
-   EzdajHeoe5NfPrfgdPmMDZpwuQgcQM8wRa00btU7829VJ77WCnRlzI2Ii
-   2+3/EBkMb55cUpC/QTL8Z72e4jNj1GyszlxUmQhPkG5+ONEJ7h1Adu9ad
-   +2+ZPccNZCmzriJ/utXYs9RLEOzC5LtmwVw8AsDu6XWyM2Ijd1dUAodJ/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="334009504"
+  t=1685186822; x=1716722822;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZPHtXDURCiv0NXu4Z/eQqzSIv5LYjlXQ6I1Uh099XCA=;
+  b=VgCHN3D34R1zuye/1ohDb1NE8/8fbWFBmwAzlD24KYfTBvkwq/En2aCv
+   he2ZdwYMMNw09qD/ELuXS+lXIRGTSNbvW2hm6vAVdgevVLy/Df3tV+eSj
+   lJ9fdLvb5iUpyiHF/jAgZDZGkr9eRA0NQlEl1RvekV7WlK+CX3lWYq0T1
+   zmo+x6Vfie+Q+gjt7XR30kIhwEQsimkMCiN1J1S8s3uLShILFJKlwO0AG
+   n2+kao3xm19K6lejFGNdqlSXSyy4DXeq0zsfZuGq1SuIr56DFgbJ2JaS4
+   LK03/J8yfSUFpnn/o1Ztl8KPvzZbKpTHU+WgIoyXnQg3ys4PCheQLsByn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="440743602"
 X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
-   d="scan'208";a="334009504"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 04:07:03 -0700
+   d="scan'208";a="440743602"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 04:27:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="708672893"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="775369131"
 X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
-   d="scan'208";a="708672893"
+   d="scan'208";a="775369131"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 27 May 2023 04:07:01 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 27 May 2023 04:27:01 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2rlE-000Jv6-0t;
-	Sat, 27 May 2023 11:07:00 +0000
-Date: Sat, 27 May 2023 19:06:16 +0800
+	id 1q2s4a-000JvW-1X;
+	Sat, 27 May 2023 11:27:00 +0000
+Date: Sat, 27 May 2023 19:26:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Min Li <lm0963hack@gmail.com>, alexander.deucher@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, christian.koenig@amd.com,
-	Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
-	sumit.semwal@linaro.org, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH] drm/radeon: fix race condition UAF in
- radeon_gem_set_domain_ioctl
-Message-ID: <202305271806.VvOClWyB-lkp@intel.com>
-References: <20230526123753.16160-1-lm0963hack@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-1.0.x-imx 1296/9879]
+ drivers/video/fbdev/mxc/mxcfb_rm68191_qhd.c:154:6: warning: no previous
+ prototype for 'mipid_rm68191_get_lcd_videomode'
+Message-ID: <202305271946.nMXt00jQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230526123753.16160-1-lm0963hack@gmail.com>
 
-Hi Min,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.4-rc3 next-20230525]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Min-Li/drm-radeon-fix-race-condition-UAF-in-radeon_gem_set_domain_ioctl/20230527-155623
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230526123753.16160-1-lm0963hack%40gmail.com
-patch subject: [PATCH] drm/radeon: fix race condition UAF in radeon_gem_set_domain_ioctl
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230527/202305271806.VvOClWyB-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
+head:   ad9ab3b3c553cbc3c61f233b6e2cd5abdd2a624b
+commit: fbacb18769a032d72fb0a9cadc863332b29e6336 [1296/9879] video: fbdev: mxc: add RM68191 mipi panel driver support
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230527/202305271946.nMXt00jQ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/66fb975494d21e80b90235b7d8bf0953990c5c89
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Min-Li/drm-radeon-fix-race-condition-UAF-in-radeon_gem_set_domain_ioctl/20230527-155623
-        git checkout 66fb975494d21e80b90235b7d8bf0953990c5c89
+        # https://github.com/Freescale/linux-fslc/commit/fbacb18769a032d72fb0a9cadc863332b29e6336
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc 6.1-1.0.x-imx
+        git checkout fbacb18769a032d72fb0a9cadc863332b29e6336
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/gpu/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305271806.VvOClWyB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305271946.nMXt00jQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/radeon/radeon_gem.c: In function 'radeon_gem_set_domain_ioctl':
->> drivers/gpu/drm/radeon/radeon_gem.c:462:27: warning: variable 'robj' set but not used [-Wunused-but-set-variable]
-     462 |         struct radeon_bo *robj;
-         |                           ^~~~
+>> drivers/video/fbdev/mxc/mxcfb_rm68191_qhd.c:154:6: warning: no previous prototype for 'mipid_rm68191_get_lcd_videomode' [-Wmissing-prototypes]
+     154 | void mipid_rm68191_get_lcd_videomode(struct fb_videomode **mode, int *size,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/video/fbdev/mxc/mxcfb_rm68191_qhd.c:162:5: warning: no previous prototype for 'mipid_rm68191_lcd_setup' [-Wmissing-prototypes]
+     162 | int mipid_rm68191_lcd_setup(struct mipi_dsi_info *mipi_dsi)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/mxc/mxcfb_rm68191_qhd.c:260:35: warning: 'mipid_lcd_bl_ops' defined but not used [-Wunused-const-variable=]
+     260 | static const struct backlight_ops mipid_lcd_bl_ops = {
+         |                                   ^~~~~~~~~~~~~~~~
 
 
-vim +/robj +462 drivers/gpu/drm/radeon/radeon_gem.c
+vim +/mipid_rm68191_get_lcd_videomode +154 drivers/video/fbdev/mxc/mxcfb_rm68191_qhd.c
 
-f72a113a71ab08 Christian König 2014-08-07  453  
-771fe6b912fca5 Jerome Glisse   2009-06-05  454  int radeon_gem_set_domain_ioctl(struct drm_device *dev, void *data,
-771fe6b912fca5 Jerome Glisse   2009-06-05  455  				struct drm_file *filp)
-771fe6b912fca5 Jerome Glisse   2009-06-05  456  {
-771fe6b912fca5 Jerome Glisse   2009-06-05  457  	/* transition the BO to a domain -
-771fe6b912fca5 Jerome Glisse   2009-06-05  458  	 * just validate the BO into a certain domain */
-dee53e7fb3ee01 Jerome Glisse   2012-07-02  459  	struct radeon_device *rdev = dev->dev_private;
-771fe6b912fca5 Jerome Glisse   2009-06-05  460  	struct drm_radeon_gem_set_domain *args = data;
-771fe6b912fca5 Jerome Glisse   2009-06-05  461  	struct drm_gem_object *gobj;
-4c7886791264f0 Jerome Glisse   2009-11-20 @462  	struct radeon_bo *robj;
-771fe6b912fca5 Jerome Glisse   2009-06-05  463  	int r;
-771fe6b912fca5 Jerome Glisse   2009-06-05  464  
-771fe6b912fca5 Jerome Glisse   2009-06-05  465  	/* for now if someone requests domain CPU -
-771fe6b912fca5 Jerome Glisse   2009-06-05  466  	 * just make sure the buffer is finished with */
-dee53e7fb3ee01 Jerome Glisse   2012-07-02  467  	down_read(&rdev->exclusive_lock);
-771fe6b912fca5 Jerome Glisse   2009-06-05  468  
-771fe6b912fca5 Jerome Glisse   2009-06-05  469  	/* just do a BO wait for now */
-a8ad0bd84f9860 Chris Wilson    2016-05-09  470  	gobj = drm_gem_object_lookup(filp, args->handle);
-771fe6b912fca5 Jerome Glisse   2009-06-05  471  	if (gobj == NULL) {
-dee53e7fb3ee01 Jerome Glisse   2012-07-02  472  		up_read(&rdev->exclusive_lock);
-bf79cb914dbfe8 Chris Wilson    2010-08-04  473  		return -ENOENT;
-771fe6b912fca5 Jerome Glisse   2009-06-05  474  	}
-7e4d15d90afe46 Daniel Vetter   2011-02-18  475  	robj = gem_to_radeon_bo(gobj);
-771fe6b912fca5 Jerome Glisse   2009-06-05  476  
-771fe6b912fca5 Jerome Glisse   2009-06-05  477  	r = radeon_gem_set_domain(gobj, args->read_domains, args->write_domain);
-771fe6b912fca5 Jerome Glisse   2009-06-05  478  
-f11fb66ae92193 Emil Velikov    2020-05-15  479  	drm_gem_object_put(gobj);
-dee53e7fb3ee01 Jerome Glisse   2012-07-02  480  	up_read(&rdev->exclusive_lock);
-66fb975494d21e Min Li          2023-05-26  481  	r = radeon_gem_handle_lockup(rdev, r);
-771fe6b912fca5 Jerome Glisse   2009-06-05  482  	return r;
-771fe6b912fca5 Jerome Glisse   2009-06-05  483  }
-771fe6b912fca5 Jerome Glisse   2009-06-05  484  
+   153	
+ > 154	void mipid_rm68191_get_lcd_videomode(struct fb_videomode **mode, int *size,
+   155					     struct mipi_lcd_config **data)
+   156	{
+   157		*mode = &rk_lcd_modedb[0];
+   158		*size = ARRAY_SIZE(rk_lcd_modedb);
+   159		*data = &lcd_config;
+   160	}
+   161	
+ > 162	int mipid_rm68191_lcd_setup(struct mipi_dsi_info *mipi_dsi)
+   163	{
+   164		u8 buf[DSI_CMD_BUF_MAXSIZE];
+   165	
+   166		dev_dbg(&mipi_dsi->pdev->dev, "MIPI DSI LCD RM68191 setup.\n");
+   167	
+   168		RM68191_DCS_write_1A_5P(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x03);
+   169		RM68191_DCS_write_1A_9P(0x90, 0x05, 0x16, 0x09, 0x03, 0xCD, 0x00, 0x00, 0x00, 0x00);
+   170		RM68191_DCS_write_1A_9P(0x91, 0x05, 0x16, 0x0B, 0x03, 0xCF, 0x00, 0x00, 0x00, 0x00);
+   171		RM68191_DCS_write_1A_11P(0x92, 0x40, 0x0C, 0x0D, 0x0E, 0x0F, 0x00, 0x8F, 0x00, 0x00, 0x04, 0x08);
+   172		RM68191_DCS_write_1A_8P(0x94, 0x00, 0x08, 0x0C, 0x03, 0xD1, 0x03, 0xD2, 0x0C);
+   173		RM68191_DCS_write_1A_16P(0x95, 0x40, 0x10, 0x00, 0x11, 0x00, 0x12, 0x00, 0x13, 0x00, 0x8F, 0x00, 0x00, 0x00, 0x04, 0x00, 0x08);
+   174		RM68191_DCS_write_1A_2P(0x99, 0x00, 0x00);
+   175		RM68191_DCS_write_1A_11P(0x9A, 0x80, 0x10, 0x03, 0xD5, 0x03, 0xD7, 0x00, 0x00, 0x00, 0x00, 0x50);
+   176		RM68191_DCS_write_1A_6P(0x9B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
+   177		RM68191_DCS_write_1A_2P(0x9C, 0x00, 0x00);
+   178		RM68191_DCS_write_1A_8P(0x9D, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00);
+   179		RM68191_DCS_write_1A_2P(0x9E, 0x00, 0x00);
+   180		RM68191_DCS_write_1A_10P(0xA0, 0x84, 0x00, 0x1F, 0x1F, 0x1F, 0x1F, 0x08, 0x1F, 0x0A, 0x1F);
+   181		RM68191_DCS_write_1A_10P(0xA1, 0x1F, 0x1F, 0x1F, 0x1F, 0x0C, 0x1F, 0x0E, 0x1F, 0x1F, 0x1F);
+   182		RM68191_DCS_write_1A_10P(0xA2, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x02, 0x1F, 0x06, 0x1F);
+   183		RM68191_DCS_write_1A_10P(0xA3, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F);
+   184		RM68191_DCS_write_1A_10P(0xA4, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x07, 0x1F, 0x03, 0x1F, 0x0F);
+   185		RM68191_DCS_write_1A_10P(0xA5, 0x1F, 0x0D, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x0B, 0x1F, 0x09);
+   186		RM68191_DCS_write_1A_10P(0xA6, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x01, 0x05);
+   187		RM68191_DCS_write_1A_10P(0xA7, 0x03, 0x07, 0x1F, 0x1F, 0x1F, 0x1F, 0x0B, 0x1F, 0x09, 0x1F);
+   188		RM68191_DCS_write_1A_10P(0xA8, 0x1F, 0x1F, 0x1F, 0x1F, 0x0F, 0x1F, 0x0D, 0x1F, 0x1F, 0x1F);
+   189		RM68191_DCS_write_1A_10P(0xA9, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x05, 0x1F, 0x01, 0x1F);
+   190		RM68191_DCS_write_1A_10P(0xAA, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F);
+   191		RM68191_DCS_write_1A_10P(0xAB, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x00, 0x1F, 0x04, 0x1F, 0x0C);
+   192		RM68191_DCS_write_1A_10P(0xAC, 0x1F, 0x0E, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x08, 0x1F, 0x0A);
+   193		RM68191_DCS_write_1A_10P(0xAD, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x06, 0x02);
+   194		RM68191_DCS_write_1A_5P(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x02);
+   195		RM68191_DCS_write_1A_1P(0xEA, 0x7D);
+   196		RM68191_DCS_write_1A_5P(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x00);
+   197		RM68191_DCS_write_1A_3P(0xBC, 0x00, 0x00, 0x00);
+   198		RM68191_DCS_write_1A_4P(0xB8, 0x01, 0xAF, 0x8F, 0x8F);
+   199		RM68191_DCS_write_1A_5P(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x01);
+   200		RM68191_DCS_write_1A_16P(0xD1, 0x00, 0x00, 0x00, 0x26, 0x00, 0x5E, 0x00, 0x88, 0x00, 0xA8, 0x00, 0xDB, 0x01, 0x02, 0x01, 0x3D);
+   201		RM68191_DCS_write_1A_16P(0xD2, 0x01, 0x67, 0x01, 0xA6, 0x01, 0xD3, 0x02, 0x16, 0x02, 0x49, 0x02, 0x4B, 0x02, 0x7B, 0x02, 0xB3);
+   202		RM68191_DCS_write_1A_16P(0xD3, 0x02, 0xD9, 0x03, 0x0E, 0x03, 0x31, 0x03, 0x61, 0x03, 0x80, 0x03, 0xA5, 0x03, 0xBD, 0x03, 0xD2);
+   203		RM68191_DCS_write_1A_4P(0xD4, 0x03, 0xE5, 0x03, 0xFF);
+   204		RM68191_DCS_write_1A_16P(0xD5, 0x00, 0x00, 0x00, 0x26, 0x00, 0x5E, 0x00, 0x88, 0x00, 0xA8, 0x00, 0xDB, 0x01, 0x02, 0x01, 0x3D);
+   205		RM68191_DCS_write_1A_16P(0xD6, 0x01, 0x67, 0x01, 0xA6, 0x01, 0xD3, 0x02, 0x16, 0x02, 0x49, 0x02, 0x4B, 0x02, 0x7B, 0x02, 0xB3);
+   206		RM68191_DCS_write_1A_16P(0xD7, 0x02, 0xD9, 0x03, 0x0E, 0x03, 0x31, 0x03, 0x61, 0x03, 0x80, 0x03, 0xA5, 0x03, 0xBD, 0x03, 0xD2);
+   207		RM68191_DCS_write_1A_4P(0xD8, 0x03, 0xE5, 0x03, 0xFF);
+   208		RM68191_DCS_write_1A_16P(0xD9, 0x00, 0x00, 0x00, 0x26, 0x00, 0x5E, 0x00, 0x88, 0x00, 0xA8, 0x00, 0xDB, 0x01, 0x02, 0x01, 0x3D);
+   209		RM68191_DCS_write_1A_16P(0xDD, 0x01, 0x67, 0x01, 0xA6, 0x01, 0xD3, 0x02, 0x16, 0x02, 0x49, 0x02, 0x4B, 0x02, 0x7B, 0x02, 0xB3);
+   210		RM68191_DCS_write_1A_16P(0xDE, 0x02, 0xD9, 0x03, 0x0E, 0x03, 0x31, 0x03, 0x61, 0x03, 0x80, 0x03, 0xA5, 0x03, 0xBD, 0x03, 0xD2);
+   211		RM68191_DCS_write_1A_4P(0xDF, 0x03, 0xE5, 0x03, 0xFF);
+   212		RM68191_DCS_write_1A_16P(0xE0, 0x00, 0x00, 0x00, 0x26, 0x00, 0x5E, 0x00, 0x88, 0x00, 0xA8, 0x00, 0xDB, 0x01, 0x02, 0x01, 0x3D);
+   213		RM68191_DCS_write_1A_16P(0xE1, 0x01, 0x67, 0x01, 0xA6, 0x01, 0xD3, 0x02, 0x16, 0x02, 0x49, 0x02, 0x4B, 0x02, 0x7B, 0x02, 0xB3);
+   214		RM68191_DCS_write_1A_16P(0xE2, 0x02, 0xD9, 0x03, 0x0E, 0x03, 0x31, 0x03, 0x61, 0x03, 0x80, 0x03, 0xA5, 0x03, 0xBD, 0x03, 0xD2);
+   215		RM68191_DCS_write_1A_4P(0xE3, 0x03, 0xE5, 0x03, 0xFF);
+   216		RM68191_DCS_write_1A_16P(0xE4, 0x00, 0x00, 0x00, 0x26, 0x00, 0x5E, 0x00, 0x88, 0x00, 0xA8, 0x00, 0xDB, 0x01, 0x02, 0x01, 0x3D);
+   217		RM68191_DCS_write_1A_16P(0xE5, 0x01, 0x67, 0x01, 0xA6, 0x01, 0xD3, 0x02, 0x16, 0x02, 0x49, 0x02, 0x4B, 0x02, 0x7B, 0x02, 0xB3);
+   218		RM68191_DCS_write_1A_16P(0xE6, 0x02, 0xD9, 0x03, 0x0E, 0x03, 0x31, 0x03, 0x61, 0x03, 0x80, 0x03, 0xA5, 0x03, 0xBD, 0x03, 0xD2);
+   219		RM68191_DCS_write_1A_4P(0xE7, 0x03, 0xE5, 0x03, 0xFF);
+   220		RM68191_DCS_write_1A_16P(0xE8, 0x00, 0x00, 0x00, 0x26, 0x00, 0x5E, 0x00, 0x88, 0x00, 0xA8, 0x00, 0xDB, 0x01, 0x02, 0x01, 0x3D);
+   221		RM68191_DCS_write_1A_16P(0xE9, 0x01, 0x67, 0x01, 0xA6, 0x01, 0xD3, 0x02, 0x16, 0x02, 0x49, 0x02, 0x4B, 0x02, 0x7B, 0x02, 0xB3);
+   222		RM68191_DCS_write_1A_16P(0xEA, 0x02, 0xD9, 0x03, 0x0E, 0x03, 0x31, 0x03, 0x61, 0x03, 0x80, 0x03, 0xA5, 0x03, 0xBD, 0x03, 0xD2);
+   223		RM68191_DCS_write_1A_4P(0xEB, 0x03, 0xE5, 0x03, 0xFF);
+   224		RM68191_DCS_write_1A_3P(0xB0, 0x07, 0x07, 0x07);
+   225		RM68191_DCS_write_1A_3P(0xB1, 0x07, 0x07, 0x07);
+   226		RM68191_DCS_write_1A_3P(0xB3, 0x11, 0x11, 0x11);
+   227		RM68191_DCS_write_1A_3P(0xB4, 0x09, 0x09, 0x09);
+   228		RM68191_DCS_write_1A_3P(0xB6, 0x44, 0x44, 0x44);
+   229		RM68191_DCS_write_1A_3P(0xB7, 0x34, 0x34, 0x34);
+   230		RM68191_DCS_write_1A_3P(0xB9, 0x34, 0x34, 0x34);
+   231		RM68191_DCS_write_1A_3P(0xBA, 0x14, 0x14, 0x14);
+   232		RM68191_DCS_write_1A_3P(0xBC, 0x00, 0x98, 0x00);
+   233		RM68191_DCS_write_1A_3P(0xBD, 0x00, 0x98, 0x00);
+   234		RM68191_DCS_write_1A_1P(0xBE, 0x1D);
+   235		RM68191_DCS_write_1A_1P(0x35, 0x00);
+   236	
+   237		RM68191_DCS_write_1A_0P(0x11);
+   238		mdelay(200);
+   239		RM68191_DCS_write_1A_0P(0x29);
+   240		mdelay(200);
+   241	
+   242		return 0;
+   243	}
+   244	
 
 -- 
 0-DAY CI Kernel Test Service
