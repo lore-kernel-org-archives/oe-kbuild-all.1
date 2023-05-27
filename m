@@ -1,43 +1,46 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DEC2115
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 11:27:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A3153A2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 11:48:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685186822; x=1716722822;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZPHtXDURCiv0NXu4Z/eQqzSIv5LYjlXQ6I1Uh099XCA=;
-  b=VgCHN3D34R1zuye/1ohDb1NE8/8fbWFBmwAzlD24KYfTBvkwq/En2aCv
-   he2ZdwYMMNw09qD/ELuXS+lXIRGTSNbvW2hm6vAVdgevVLy/Df3tV+eSj
-   lJ9fdLvb5iUpyiHF/jAgZDZGkr9eRA0NQlEl1RvekV7WlK+CX3lWYq0T1
-   zmo+x6Vfie+Q+gjt7XR30kIhwEQsimkMCiN1J1S8s3uLShILFJKlwO0AG
-   n2+kao3xm19K6lejFGNdqlSXSyy4DXeq0zsfZuGq1SuIr56DFgbJ2JaS4
-   LK03/J8yfSUFpnn/o1Ztl8KPvzZbKpTHU+WgIoyXnQg3ys4PCheQLsByn
+  t=1685188085; x=1716724085;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HduercbIudkggjRz+jUJoxBAuOs1kh2dy/JWAQRuJ1A=;
+  b=K+qEnQSL/uwnLKCbfMrDC6zqwfSJCx+e/eXfMFAoTHxMi/ahVWNKwRgS
+   PcrjiUEX2g338frIBGshsZnrLX2dkn2lYZ6LEvZxk8hsh0I5niQspToGj
+   hoL+flfAH0fCEky3EEQCgHyb4mHVpuHx6nfq+WguiGPHx4gIUml1boLpF
+   lqx/m6pMOFXvJfkj3k+VtzItFMCD1VVYHMH/2Xht9OK/aasx/jKL4IwzE
+   5SQTuCZnmd+Kgn4k9I5FBZPZu64nAZaMUDjT+v+XI1M7NC22gCmgOkmgx
+   4ddQKEdNEbbqjqGxy4l1LqAQk6+qS6Xaal+/OQRAy1gr51S/OsDljTYCr
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="440743602"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="353233283"
 X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
-   d="scan'208";a="440743602"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 04:27:02 -0700
+   d="scan'208";a="353233283"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 04:48:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="775369131"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="849822661"
 X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
-   d="scan'208";a="775369131"
+   d="scan'208";a="849822661"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 27 May 2023 04:27:01 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 27 May 2023 04:48:02 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2s4a-000JvW-1X;
-	Sat, 27 May 2023 11:27:00 +0000
-Date: Sat, 27 May 2023 19:26:56 +0800
+	id 1q2sOv-000JwM-0c;
+	Sat, 27 May 2023 11:48:01 +0000
+Date: Sat, 27 May 2023 19:47:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-1.0.x-imx 1296/9879]
- drivers/video/fbdev/mxc/mxcfb_rm68191_qhd.c:154:6: warning: no previous
- prototype for 'mipid_rm68191_get_lcd_videomode'
-Message-ID: <202305271946.nMXt00jQ-lkp@intel.com>
+To: Lizhi Hou <lizhi.hou@amd.com>, vkoul@kernel.org,
+	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Nishad Saraf <nishads@amd.com>,
+	max.zhen@amd.com, sonal.santan@amd.com, nishad.saraf@amd.com,
+	Lizhi Hou <lizhi.hou@amd.com>
+Subject: Re: [PATCH V1 QDMA 1/1] dmaengine: amd: qdma: Add AMD QDMA driver
+Message-ID: <202305271937.niKlwa4h-lkp@intel.com>
+References: <1685119795-11729-2-git-send-email-lizhi.hou@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,136 +49,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1685119795-11729-2-git-send-email-lizhi.hou@amd.com>
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
-head:   ad9ab3b3c553cbc3c61f233b6e2cd5abdd2a624b
-commit: fbacb18769a032d72fb0a9cadc863332b29e6336 [1296/9879] video: fbdev: mxc: add RM68191 mipi panel driver support
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230527/202305271946.nMXt00jQ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
+Hi Lizhi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on vkoul-dmaengine/next]
+[also build test ERROR on linus/master v6.4-rc3 next-20230525]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lizhi-Hou/dmaengine-amd-qdma-Add-AMD-QDMA-driver/20230527-005214
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/1685119795-11729-2-git-send-email-lizhi.hou%40amd.com
+patch subject: [PATCH V1 QDMA 1/1] dmaengine: amd: qdma: Add AMD QDMA driver
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230527/202305271937.niKlwa4h-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/Freescale/linux-fslc/commit/fbacb18769a032d72fb0a9cadc863332b29e6336
-        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
-        git fetch --no-tags freescale-fslc 6.1-1.0.x-imx
-        git checkout fbacb18769a032d72fb0a9cadc863332b29e6336
+        # https://github.com/intel-lab-lkp/linux/commit/d300fd23b7ecbcc89512dba3fa745941c1c03fac
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Lizhi-Hou/dmaengine-amd-qdma-Add-AMD-QDMA-driver/20230527-005214
+        git checkout d300fd23b7ecbcc89512dba3fa745941c1c03fac
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305271946.nMXt00jQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305271937.niKlwa4h-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/video/fbdev/mxc/mxcfb_rm68191_qhd.c:154:6: warning: no previous prototype for 'mipid_rm68191_get_lcd_videomode' [-Wmissing-prototypes]
-     154 | void mipid_rm68191_get_lcd_videomode(struct fb_videomode **mode, int *size,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/video/fbdev/mxc/mxcfb_rm68191_qhd.c:162:5: warning: no previous prototype for 'mipid_rm68191_lcd_setup' [-Wmissing-prototypes]
-     162 | int mipid_rm68191_lcd_setup(struct mipi_dsi_info *mipi_dsi)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/mxc/mxcfb_rm68191_qhd.c:260:35: warning: 'mipid_lcd_bl_ops' defined but not used [-Wunused-const-variable=]
-     260 | static const struct backlight_ops mipid_lcd_bl_ops = {
-         |                                   ^~~~~~~~~~~~~~~~
-
-
-vim +/mipid_rm68191_get_lcd_videomode +154 drivers/video/fbdev/mxc/mxcfb_rm68191_qhd.c
-
-   153	
- > 154	void mipid_rm68191_get_lcd_videomode(struct fb_videomode **mode, int *size,
-   155					     struct mipi_lcd_config **data)
-   156	{
-   157		*mode = &rk_lcd_modedb[0];
-   158		*size = ARRAY_SIZE(rk_lcd_modedb);
-   159		*data = &lcd_config;
-   160	}
-   161	
- > 162	int mipid_rm68191_lcd_setup(struct mipi_dsi_info *mipi_dsi)
-   163	{
-   164		u8 buf[DSI_CMD_BUF_MAXSIZE];
-   165	
-   166		dev_dbg(&mipi_dsi->pdev->dev, "MIPI DSI LCD RM68191 setup.\n");
-   167	
-   168		RM68191_DCS_write_1A_5P(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x03);
-   169		RM68191_DCS_write_1A_9P(0x90, 0x05, 0x16, 0x09, 0x03, 0xCD, 0x00, 0x00, 0x00, 0x00);
-   170		RM68191_DCS_write_1A_9P(0x91, 0x05, 0x16, 0x0B, 0x03, 0xCF, 0x00, 0x00, 0x00, 0x00);
-   171		RM68191_DCS_write_1A_11P(0x92, 0x40, 0x0C, 0x0D, 0x0E, 0x0F, 0x00, 0x8F, 0x00, 0x00, 0x04, 0x08);
-   172		RM68191_DCS_write_1A_8P(0x94, 0x00, 0x08, 0x0C, 0x03, 0xD1, 0x03, 0xD2, 0x0C);
-   173		RM68191_DCS_write_1A_16P(0x95, 0x40, 0x10, 0x00, 0x11, 0x00, 0x12, 0x00, 0x13, 0x00, 0x8F, 0x00, 0x00, 0x00, 0x04, 0x00, 0x08);
-   174		RM68191_DCS_write_1A_2P(0x99, 0x00, 0x00);
-   175		RM68191_DCS_write_1A_11P(0x9A, 0x80, 0x10, 0x03, 0xD5, 0x03, 0xD7, 0x00, 0x00, 0x00, 0x00, 0x50);
-   176		RM68191_DCS_write_1A_6P(0x9B, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00);
-   177		RM68191_DCS_write_1A_2P(0x9C, 0x00, 0x00);
-   178		RM68191_DCS_write_1A_8P(0x9D, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00);
-   179		RM68191_DCS_write_1A_2P(0x9E, 0x00, 0x00);
-   180		RM68191_DCS_write_1A_10P(0xA0, 0x84, 0x00, 0x1F, 0x1F, 0x1F, 0x1F, 0x08, 0x1F, 0x0A, 0x1F);
-   181		RM68191_DCS_write_1A_10P(0xA1, 0x1F, 0x1F, 0x1F, 0x1F, 0x0C, 0x1F, 0x0E, 0x1F, 0x1F, 0x1F);
-   182		RM68191_DCS_write_1A_10P(0xA2, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x02, 0x1F, 0x06, 0x1F);
-   183		RM68191_DCS_write_1A_10P(0xA3, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F);
-   184		RM68191_DCS_write_1A_10P(0xA4, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x07, 0x1F, 0x03, 0x1F, 0x0F);
-   185		RM68191_DCS_write_1A_10P(0xA5, 0x1F, 0x0D, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x0B, 0x1F, 0x09);
-   186		RM68191_DCS_write_1A_10P(0xA6, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x01, 0x05);
-   187		RM68191_DCS_write_1A_10P(0xA7, 0x03, 0x07, 0x1F, 0x1F, 0x1F, 0x1F, 0x0B, 0x1F, 0x09, 0x1F);
-   188		RM68191_DCS_write_1A_10P(0xA8, 0x1F, 0x1F, 0x1F, 0x1F, 0x0F, 0x1F, 0x0D, 0x1F, 0x1F, 0x1F);
-   189		RM68191_DCS_write_1A_10P(0xA9, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x05, 0x1F, 0x01, 0x1F);
-   190		RM68191_DCS_write_1A_10P(0xAA, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F);
-   191		RM68191_DCS_write_1A_10P(0xAB, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x00, 0x1F, 0x04, 0x1F, 0x0C);
-   192		RM68191_DCS_write_1A_10P(0xAC, 0x1F, 0x0E, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x08, 0x1F, 0x0A);
-   193		RM68191_DCS_write_1A_10P(0xAD, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x06, 0x02);
-   194		RM68191_DCS_write_1A_5P(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x02);
-   195		RM68191_DCS_write_1A_1P(0xEA, 0x7D);
-   196		RM68191_DCS_write_1A_5P(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x00);
-   197		RM68191_DCS_write_1A_3P(0xBC, 0x00, 0x00, 0x00);
-   198		RM68191_DCS_write_1A_4P(0xB8, 0x01, 0xAF, 0x8F, 0x8F);
-   199		RM68191_DCS_write_1A_5P(0xF0, 0x55, 0xAA, 0x52, 0x08, 0x01);
-   200		RM68191_DCS_write_1A_16P(0xD1, 0x00, 0x00, 0x00, 0x26, 0x00, 0x5E, 0x00, 0x88, 0x00, 0xA8, 0x00, 0xDB, 0x01, 0x02, 0x01, 0x3D);
-   201		RM68191_DCS_write_1A_16P(0xD2, 0x01, 0x67, 0x01, 0xA6, 0x01, 0xD3, 0x02, 0x16, 0x02, 0x49, 0x02, 0x4B, 0x02, 0x7B, 0x02, 0xB3);
-   202		RM68191_DCS_write_1A_16P(0xD3, 0x02, 0xD9, 0x03, 0x0E, 0x03, 0x31, 0x03, 0x61, 0x03, 0x80, 0x03, 0xA5, 0x03, 0xBD, 0x03, 0xD2);
-   203		RM68191_DCS_write_1A_4P(0xD4, 0x03, 0xE5, 0x03, 0xFF);
-   204		RM68191_DCS_write_1A_16P(0xD5, 0x00, 0x00, 0x00, 0x26, 0x00, 0x5E, 0x00, 0x88, 0x00, 0xA8, 0x00, 0xDB, 0x01, 0x02, 0x01, 0x3D);
-   205		RM68191_DCS_write_1A_16P(0xD6, 0x01, 0x67, 0x01, 0xA6, 0x01, 0xD3, 0x02, 0x16, 0x02, 0x49, 0x02, 0x4B, 0x02, 0x7B, 0x02, 0xB3);
-   206		RM68191_DCS_write_1A_16P(0xD7, 0x02, 0xD9, 0x03, 0x0E, 0x03, 0x31, 0x03, 0x61, 0x03, 0x80, 0x03, 0xA5, 0x03, 0xBD, 0x03, 0xD2);
-   207		RM68191_DCS_write_1A_4P(0xD8, 0x03, 0xE5, 0x03, 0xFF);
-   208		RM68191_DCS_write_1A_16P(0xD9, 0x00, 0x00, 0x00, 0x26, 0x00, 0x5E, 0x00, 0x88, 0x00, 0xA8, 0x00, 0xDB, 0x01, 0x02, 0x01, 0x3D);
-   209		RM68191_DCS_write_1A_16P(0xDD, 0x01, 0x67, 0x01, 0xA6, 0x01, 0xD3, 0x02, 0x16, 0x02, 0x49, 0x02, 0x4B, 0x02, 0x7B, 0x02, 0xB3);
-   210		RM68191_DCS_write_1A_16P(0xDE, 0x02, 0xD9, 0x03, 0x0E, 0x03, 0x31, 0x03, 0x61, 0x03, 0x80, 0x03, 0xA5, 0x03, 0xBD, 0x03, 0xD2);
-   211		RM68191_DCS_write_1A_4P(0xDF, 0x03, 0xE5, 0x03, 0xFF);
-   212		RM68191_DCS_write_1A_16P(0xE0, 0x00, 0x00, 0x00, 0x26, 0x00, 0x5E, 0x00, 0x88, 0x00, 0xA8, 0x00, 0xDB, 0x01, 0x02, 0x01, 0x3D);
-   213		RM68191_DCS_write_1A_16P(0xE1, 0x01, 0x67, 0x01, 0xA6, 0x01, 0xD3, 0x02, 0x16, 0x02, 0x49, 0x02, 0x4B, 0x02, 0x7B, 0x02, 0xB3);
-   214		RM68191_DCS_write_1A_16P(0xE2, 0x02, 0xD9, 0x03, 0x0E, 0x03, 0x31, 0x03, 0x61, 0x03, 0x80, 0x03, 0xA5, 0x03, 0xBD, 0x03, 0xD2);
-   215		RM68191_DCS_write_1A_4P(0xE3, 0x03, 0xE5, 0x03, 0xFF);
-   216		RM68191_DCS_write_1A_16P(0xE4, 0x00, 0x00, 0x00, 0x26, 0x00, 0x5E, 0x00, 0x88, 0x00, 0xA8, 0x00, 0xDB, 0x01, 0x02, 0x01, 0x3D);
-   217		RM68191_DCS_write_1A_16P(0xE5, 0x01, 0x67, 0x01, 0xA6, 0x01, 0xD3, 0x02, 0x16, 0x02, 0x49, 0x02, 0x4B, 0x02, 0x7B, 0x02, 0xB3);
-   218		RM68191_DCS_write_1A_16P(0xE6, 0x02, 0xD9, 0x03, 0x0E, 0x03, 0x31, 0x03, 0x61, 0x03, 0x80, 0x03, 0xA5, 0x03, 0xBD, 0x03, 0xD2);
-   219		RM68191_DCS_write_1A_4P(0xE7, 0x03, 0xE5, 0x03, 0xFF);
-   220		RM68191_DCS_write_1A_16P(0xE8, 0x00, 0x00, 0x00, 0x26, 0x00, 0x5E, 0x00, 0x88, 0x00, 0xA8, 0x00, 0xDB, 0x01, 0x02, 0x01, 0x3D);
-   221		RM68191_DCS_write_1A_16P(0xE9, 0x01, 0x67, 0x01, 0xA6, 0x01, 0xD3, 0x02, 0x16, 0x02, 0x49, 0x02, 0x4B, 0x02, 0x7B, 0x02, 0xB3);
-   222		RM68191_DCS_write_1A_16P(0xEA, 0x02, 0xD9, 0x03, 0x0E, 0x03, 0x31, 0x03, 0x61, 0x03, 0x80, 0x03, 0xA5, 0x03, 0xBD, 0x03, 0xD2);
-   223		RM68191_DCS_write_1A_4P(0xEB, 0x03, 0xE5, 0x03, 0xFF);
-   224		RM68191_DCS_write_1A_3P(0xB0, 0x07, 0x07, 0x07);
-   225		RM68191_DCS_write_1A_3P(0xB1, 0x07, 0x07, 0x07);
-   226		RM68191_DCS_write_1A_3P(0xB3, 0x11, 0x11, 0x11);
-   227		RM68191_DCS_write_1A_3P(0xB4, 0x09, 0x09, 0x09);
-   228		RM68191_DCS_write_1A_3P(0xB6, 0x44, 0x44, 0x44);
-   229		RM68191_DCS_write_1A_3P(0xB7, 0x34, 0x34, 0x34);
-   230		RM68191_DCS_write_1A_3P(0xB9, 0x34, 0x34, 0x34);
-   231		RM68191_DCS_write_1A_3P(0xBA, 0x14, 0x14, 0x14);
-   232		RM68191_DCS_write_1A_3P(0xBC, 0x00, 0x98, 0x00);
-   233		RM68191_DCS_write_1A_3P(0xBD, 0x00, 0x98, 0x00);
-   234		RM68191_DCS_write_1A_1P(0xBE, 0x1D);
-   235		RM68191_DCS_write_1A_1P(0x35, 0x00);
-   236	
-   237		RM68191_DCS_write_1A_0P(0x11);
-   238		mdelay(200);
-   239		RM68191_DCS_write_1A_0P(0x29);
-   240		mdelay(200);
-   241	
-   242		return 0;
-   243	}
-   244	
+>> ERROR: modpost: "__ffsdi2" [drivers/dma/amd/amd-qdma.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
