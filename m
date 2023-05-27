@@ -1,44 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF43914A91
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 20:42:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50E5D52C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 21:24:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685220135; x=1716756135;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Io7uZbUChNtL4nb7kQxxbu34lljmGj6GjYoP8h0qqkA=;
-  b=g8FZb51oyBuHvXIzZutQgJRouuFwBSQObs/EiHYiMjseAR7x1k7fb2P0
-   Gm/fdwg4rQ47l5677KHmtErNwXx9TQ28ylb6VS0sZ/fP9ww/d1t707eXy
-   0UrUF97xlFYK/o8MGzo7WI2HqHp0rjmJe4UXn0FtbXwY7m8ypBeu3UgxD
-   IhGRfJVBT9u5EPfjd74jihnTWjPcpi/oZ4kDCsMQinIurxGDzs+xrtvLy
-   pEyzrjl4ieyTgNdmpmfBZbI7NhN8ngmIBxA0/GA2d2R61CjvSaOfSWaSV
-   I6P4sWeZbllDFNk/ESVJ/pfGRBjmqjX0dDMmRuR5xRA5gU2VpeQcJr/OI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="354456218"
+  t=1685222656; x=1716758656;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ig5fa3iviXekJ9GWD0OhLcgrEs0110aHVX+/BUsA6vw=;
+  b=mjDb5f4IWT4XNbpjMK6mv9ePaXNHLH+MEBvzVck2bKIYoehL7U6ixeij
+   +ohvAEDqtZp4gCKn1Zw8nAPCb+ibhWJY5yinPV0n9b/LZkrprFdM94WJU
+   ajmo/z+TBJDQ12bH2uvJdIBC/Puo0c9Gg6iMIiCffnhSn41LPqEFVWYL0
+   +I3Vwd/vtkL3wYXHLFR/HlE/cipTbJEDt0Ofp5nGuBnx5gDWQutM7N15G
+   eTH1P5mlsD5BDFm5NzbCfXcqaC+cHaM8mYHPLivpBsRki71exSyOs8s7R
+   x7V7CZpmP76EtWL6PBPKEHkGZ6ERbdHI5G5zYH1253hTsatVh3r9sJLaq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="353290127"
 X-IronPort-AV: E=Sophos;i="6.00,197,1681196400"; 
-   d="scan'208";a="354456218"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 13:42:15 -0700
+   d="scan'208";a="353290127"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 14:24:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="1035720224"
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="817938401"
 X-IronPort-AV: E=Sophos;i="6.00,197,1681196400"; 
-   d="scan'208";a="1035720224"
+   d="scan'208";a="817938401"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 27 May 2023 13:42:14 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 27 May 2023 14:24:15 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q30jt-000KBC-1v;
-	Sat, 27 May 2023 20:42:13 +0000
-Date: Sun, 28 May 2023 04:42:09 +0800
+	id 1q31OY-000KC3-1I;
+	Sat, 27 May 2023 21:24:14 +0000
+Date: Sun, 28 May 2023 05:23:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Oltmanns <frank@oltmanns.dev>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 2/3] clk: sunxi-ng: Implement precalculated NKM rate
- selection
-Message-ID: <202305280405.bUAMrEtn-lkp@intel.com>
-References: <20230527132747.83196-3-frank@oltmanns.dev>
+Subject: [android-common:arcvm12-5.10 5031/27651]
+ sound/soc/hisilicon/hi3660-i2s.c:377:22: error: implicit declaration of
+ function 'devm_pinctrl_get'; did you mean 'of_pinctrl_get'?
+Message-ID: <202305280552.lDQ1cTln-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,96 +46,169 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230527132747.83196-3-frank@oltmanns.dev>
 
-Hi Frank,
+Hi Youlin,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on sunxi/sunxi/for-next]
-[also build test ERROR on clk/clk-next rockchip/for-next shawnguo/for-next soc/for-next linus/master v6.4-rc3 next-20230525]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Oltmanns/clk-sunxi-ng-nkm-Minimize-difference-when-finding-rate/20230527-212953
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/20230527132747.83196-3-frank%40oltmanns.dev
-patch subject: [RFC PATCH 2/3] clk: sunxi-ng: Implement precalculated NKM rate selection
-config: arc-randconfig-r043-20230528 (https://download.01.org/0day-ci/archive/20230528/202305280405.bUAMrEtn-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/e38de690865af6ad020b5a1d9f94501df69b0e70
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Frank-Oltmanns/clk-sunxi-ng-nkm-Minimize-difference-when-finding-rate/20230527-212953
-        git checkout e38de690865af6ad020b5a1d9f94501df69b0e70
+tree:   https://android.googlesource.com/kernel/common arcvm12-5.10
+head:   fb8d4193a852c7d62938aaf3a8c58bbc7888bb23
+commit: b4b11198edb99eb17a4d032c3a80854d3a817b0d [5031/27651] ANDROID: sound: Add hikey960 i2s audio driver
+config: i386-randconfig-s003-20230528 (https://download.01.org/0day-ci/archive/20230528/202305280552.lDQ1cTln-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common arcvm12-5.10
+        git checkout b4b11198edb99eb17a4d032c3a80854d3a817b0d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/clk/sunxi-ng/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/media/ sound/soc/hisilicon/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305280405.bUAMrEtn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305280552.lDQ1cTln-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/clk/sunxi-ng/ccu_nkm.c: In function 'ccu_nkm_set_rate':
->> drivers/clk/sunxi-ng/ccu_nkm.c:209:50: error: invalid type argument of unary '*' (have 'long unsigned int')
-     209 |                 rate = ccu_nkm_find_best_precalc(*parent_rate, rate, &_nkm,
-         |                                                  ^~~~~~~~~~~~
+   sound/soc/hisilicon/hi3660-i2s.c: In function 'hi3660_i2s_probe':
+>> sound/soc/hisilicon/hi3660-i2s.c:377:22: error: implicit declaration of function 'devm_pinctrl_get'; did you mean 'of_pinctrl_get'? [-Werror=implicit-function-declaration]
+     377 |         i2s->pctrl = devm_pinctrl_get(dev);
+         |                      ^~~~~~~~~~~~~~~~
+         |                      of_pinctrl_get
+>> sound/soc/hisilicon/hi3660-i2s.c:377:20: warning: assignment to 'struct pinctrl *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     377 |         i2s->pctrl = devm_pinctrl_get(dev);
+         |                    ^
+>> sound/soc/hisilicon/hi3660-i2s.c:384:28: error: implicit declaration of function 'pinctrl_lookup_state' [-Werror=implicit-function-declaration]
+     384 |         i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
+         |                            ^~~~~~~~~~~~~~~~~~~~
+>> sound/soc/hisilicon/hi3660-i2s.c:384:26: warning: assignment to 'struct pinctrl_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     384 |         i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
+         |                          ^
+>> sound/soc/hisilicon/hi3660-i2s.c:394:13: error: implicit declaration of function 'pinctrl_select_state' [-Werror=implicit-function-declaration]
+     394 |         if (pinctrl_select_state(i2s->pctrl, i2s->pin_default)) {
+         |             ^~~~~~~~~~~~~~~~~~~~
+   sound/soc/hisilicon/hi3660-i2s.c: In function 'hi3660_i2s_remove':
+>> sound/soc/hisilicon/hi3660-i2s.c:422:9: error: implicit declaration of function 'pinctrl_put'; did you mean 'of_pinctrl_get'? [-Werror=implicit-function-declaration]
+     422 |         pinctrl_put(i2s->pctrl);
+         |         ^~~~~~~~~~~
+         |         of_pinctrl_get
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
 
 
-vim +209 drivers/clk/sunxi-ng/ccu_nkm.c
+vim +377 sound/soc/hisilicon/hi3660-i2s.c
 
-   196	
-   197	static int ccu_nkm_set_rate(struct clk_hw *hw, unsigned long rate,
-   198				   unsigned long parent_rate)
-   199	{
-   200		struct ccu_nkm *nkm = hw_to_ccu_nkm(hw);
-   201		struct _ccu_nkm _nkm;
-   202		unsigned long flags;
-   203		u32 reg;
-   204	
-   205		if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
-   206			rate *= nkm->fixed_post_div;
-   207	
-   208		if (nkm->table.num)
- > 209			rate = ccu_nkm_find_best_precalc(*parent_rate, rate, &_nkm,
-   210							 &nkm->table);
-   211		else {
-   212			_nkm.min_n = nkm->n.min ?: 1;
-   213			_nkm.max_n = nkm->n.max ?: 1 << nkm->n.width;
-   214			_nkm.min_k = nkm->k.min ?: 1;
-   215			_nkm.max_k = nkm->k.max ?: 1 << nkm->k.width;
-   216			_nkm.min_m = 1;
-   217			_nkm.max_m = nkm->m.max ?: 1 << nkm->m.width;
-   218			ccu_nkm_find_best(parent_rate, rate, &_nkm);
-   219		}
-   220	
-   221		spin_lock_irqsave(nkm->common.lock, flags);
-   222	
-   223		reg = readl(nkm->common.base + nkm->common.reg);
-   224		reg &= ~GENMASK(nkm->n.width + nkm->n.shift - 1, nkm->n.shift);
-   225		reg &= ~GENMASK(nkm->k.width + nkm->k.shift - 1, nkm->k.shift);
-   226		reg &= ~GENMASK(nkm->m.width + nkm->m.shift - 1, nkm->m.shift);
-   227	
-   228		reg |= (_nkm.n - nkm->n.offset) << nkm->n.shift;
-   229		reg |= (_nkm.k - nkm->k.offset) << nkm->k.shift;
-   230		reg |= (_nkm.m - nkm->m.offset) << nkm->m.shift;
-   231		writel(reg, nkm->common.base + nkm->common.reg);
-   232	
-   233		spin_unlock_irqrestore(nkm->common.lock, flags);
-   234	
-   235		ccu_helper_wait_for_lock(&nkm->common, nkm->lock);
-   236	
-   237		return 0;
-   238	}
-   239	
+   332	
+   333	static int hi3660_i2s_probe(struct platform_device *pdev)
+   334	{
+   335		struct device *dev = &pdev->dev;
+   336		struct hi3660_i2s *i2s;
+   337		struct resource *res;
+   338		int ret;
+   339	
+   340		i2s = devm_kzalloc(dev, sizeof(*i2s), GFP_KERNEL);
+   341		if (!i2s)
+   342			return -ENOMEM;
+   343	
+   344		i2s->dev = dev;
+   345		spin_lock_init(&i2s->lock);
+   346	
+   347		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   348		if (!res) {
+   349			ret = -ENODEV;
+   350			return ret;
+   351		}
+   352		i2s->base_phys = (phys_addr_t)res->start;
+   353	
+   354		i2s->dai = dai_init;
+   355		dev_set_drvdata(&pdev->dev, i2s);
+   356	
+   357		i2s->base = devm_ioremap_resource(dev, res);
+   358		if (IS_ERR(i2s->base)) {
+   359			dev_err(&pdev->dev, "ioremap failed\n");
+   360			ret = PTR_ERR(i2s->base);
+   361			return ret;
+   362		}
+   363	
+   364		res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+   365		if (!res) {
+   366			ret = -ENODEV;
+   367			return ret;
+   368		}
+   369		i2s->base_syscon = devm_ioremap(dev, res->start, resource_size(res));
+   370		if (IS_ERR(i2s->base_syscon)) {
+   371			dev_err(&pdev->dev, "ioremap failed\n");
+   372			ret = PTR_ERR(i2s->base_syscon);
+   373			return ret;
+   374		}
+   375	
+   376		/* i2s iomux config */
+ > 377		i2s->pctrl = devm_pinctrl_get(dev);
+   378		if (IS_ERR(i2s->pctrl)) {
+   379			dev_err(dev, "could not get pinctrl\n");
+   380			ret = -EIO;
+   381			return ret;
+   382		}
+   383	
+ > 384		i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
+   385						PINCTRL_STATE_DEFAULT);
+   386		if (IS_ERR(i2s->pin_default)) {
+   387			dev_err(dev,
+   388				"could not get default state (%li)\n",
+   389				PTR_ERR(i2s->pin_default));
+   390			ret = -EIO;
+   391			return ret;
+   392		}
+   393	
+ > 394		if (pinctrl_select_state(i2s->pctrl, i2s->pin_default)) {
+   395			dev_err(dev, "could not set pins to default state\n");
+   396			ret = -EIO;
+   397			return ret;
+   398		}
+   399	
+   400		ret = devm_snd_dmaengine_pcm_register(&pdev->dev,
+   401					&dmaengine_pcm_config, 0);
+   402		if (ret)
+   403			return ret;
+   404	
+   405		ret = snd_soc_register_component(&pdev->dev, &component_driver,
+   406					&i2s->dai, 1);
+   407		if (ret) {
+   408			dev_err(&pdev->dev, "Failed to register dai\n");
+   409			return ret;
+   410		}
+   411	
+   412		return 0;
+   413	}
+   414	
+   415	static int hi3660_i2s_remove(struct platform_device *pdev)
+   416	{
+   417		struct hi3660_i2s *i2s = dev_get_drvdata(&pdev->dev);
+   418	
+   419		snd_soc_unregister_component(&pdev->dev);
+   420		dev_set_drvdata(&pdev->dev, NULL);
+   421	
+ > 422		pinctrl_put(i2s->pctrl);
+   423	
+   424		return 0;
+   425	}
+   426	
 
 -- 
 0-DAY CI Kernel Test Service
