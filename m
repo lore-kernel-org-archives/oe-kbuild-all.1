@@ -1,44 +1,44 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A29194
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 02:53:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CD9194
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 03:03:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685156032; x=1716692032;
+  t=1685156633; x=1716692633;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HSLVb4TC4U7RABKRbQL3c2j11FE3TRGYrarvY+K5Aw8=;
-  b=USHtDJDUxDRClWQOFvzp799zGyWQ8jgYg1Z6IWACQsYnww0jb1wTxivf
-   DQ8I6F0kJ8fHy3TmQKIx8C+vnFRM70y/xS8pt0XJZf/BMtFkYNfXDB75f
-   hhulVq1s91d+Z5pLZmrbY2abBsQujZJRDkJHVW8VkVk9s0uNLLaSximf0
-   UwtBFzYpjFykuA0IUkjdJn6BzMcQh53kS7IjPaoHx68jLHYD+YzH3U9SL
-   jUSpp94lVNdhyDz+pPc6ppG3JGPpTDd1x/maBLiEn25PuWQyAtKPVLhwv
-   mz+3GzoLCjfC3qEfAgYpbbFJFffTgRuZIm5kbvOoDlghX5Fr8zELQesuz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="440710545"
+  bh=5BTYQNaXe+P4XsD0hl6HXtqfM3QedBmw1/Qh5xptmcc=;
+  b=YSERUCZSiFiXMnRFT9ck7jWnRs1mRPW3F3x6CvrDhO7tRBRX3WjI3XS2
+   o3fWVLAWmBFXhkc4/Ze7AV8I7JIg1zJQV0ywsmSlyUbS2JEPP9bFrn0JP
+   moRiHM/N7mWEfdaHApL4sYxbSMdv5yHRJugg5qfRBGZ37lFs4Mk5o5RZd
+   9mAVBIbi5YQ6HI4Vaq3nDfjf6FtG7WqQmmWuRLefbdMnVF+UNHLVcRcqY
+   eqgpf2CUiyXXp6Cv5yTQLXowRhgqlF6U899gahJtAo1TptEyGca9c6QKE
+   J3PJT/l7vPUeDgnKY6nfnzZvljGUwOlnvXnCQE/htpcZmyl7m+t8GHpnL
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="356733697"
 X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
-   d="scan'208";a="440710545"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 19:53:51 -0700
+   d="scan'208";a="356733697"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 20:03:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="952084223"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="705415965"
 X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
-   d="scan'208";a="952084223"
+   d="scan'208";a="705415965"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 26 May 2023 19:53:50 -0700
+  by orsmga002.jf.intel.com with ESMTP; 26 May 2023 20:03:51 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2k3y-000Jji-0O;
-	Sat, 27 May 2023 02:53:50 +0000
-Date: Sat, 27 May 2023 10:53:16 +0800
+	id 1q2kDe-000Jjy-0n;
+	Sat, 27 May 2023 03:03:50 +0000
+Date: Sat, 27 May 2023 11:03:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.10 121/150]
- drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1472:38: warning: unused
- variable 'mt8173_jpeg_drvdata'
-Message-ID: <202305271056.NGrfzUAK-lkp@intel.com>
+To: Yogesh Lal <quic_ylal@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Sibi Sankar <quic_sibis@quicinc.com>
+Subject: drivers/remoteproc/qcom_q6v5_pas.c:123:9: sparse: sparse: incorrect
+ type in argument 2 (different address spaces)
+Message-ID: <202305271049.KVXkN2NS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,77 +48,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.10
-head:   9de748741e802680a1c2540e75fb3f3dba98d8be
-commit: f2e9d11022fce9bfba1275df0ae26696ba232a4e [121/150] BACKPORT: UPSTREAM: mtk-jpegenc: support jpegenc multi-hardware
-config: hexagon-randconfig-r022-20230526 (https://download.01.org/0day-ci/archive/20230527/202305271056.NGrfzUAK-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   18713e8a689377386f639d9317f958244825bd7b
+commit: a376c10d45a8e6ee5ea55791193f90625b35e156 remoteproc: qcom: pas: Adjust the phys addr wrt the mem region
+date:   3 months ago
+config: arm64-randconfig-s031-20230526 (https://download.01.org/0day-ci/archive/20230527/202305271049.KVXkN2NS-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.1.0
+reproduce:
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
-        git fetch --no-tags chrome-os chromeos-5.10
-        git checkout f2e9d11022fce9bfba1275df0ae26696ba232a4e
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a376c10d45a8e6ee5ea55791193f90625b35e156
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a376c10d45a8e6ee5ea55791193f90625b35e156
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash M=drivers/media/platform/mtk-jpeg
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/remoteproc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305271056.NGrfzUAK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305271049.KVXkN2NS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/remoteproc/qcom_q6v5_pas.c:123:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem * @@     got void * @@
+   drivers/remoteproc/qcom_q6v5_pas.c:123:9: sparse:     expected void const volatile [noderef] __iomem *
+   drivers/remoteproc/qcom_q6v5_pas.c:123:9: sparse:     got void *
+>> drivers/remoteproc/qcom_q6v5_pas.c:108:6: sparse: sparse: symbol 'adsp_segment_dump' was not declared. Should it be static?
+   drivers/remoteproc/qcom_q6v5_pas.c:553:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *mem_region @@     got void [noderef] __iomem * @@
+   drivers/remoteproc/qcom_q6v5_pas.c:553:26: sparse:     expected void *mem_region
+   drivers/remoteproc/qcom_q6v5_pas.c:553:26: sparse:     got void [noderef] __iomem *
+   drivers/remoteproc/qcom_q6v5_pas.c:575:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *dtb_mem_region @@     got void [noderef] __iomem * @@
+   drivers/remoteproc/qcom_q6v5_pas.c:575:30: sparse:     expected void *dtb_mem_region
+   drivers/remoteproc/qcom_q6v5_pas.c:575:30: sparse:     got void [noderef] __iomem *
 
->> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1472:38: warning: unused variable 'mt8173_jpeg_drvdata' [-Wunused-const-variable]
-   static const struct mtk_jpeg_variant mt8173_jpeg_drvdata = {
-                                        ^
->> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:1487:38: warning: unused variable 'mtk_jpeg_drvdata' [-Wunused-const-variable]
-   static const struct mtk_jpeg_variant mtk_jpeg_drvdata = {
-                                        ^
-   2 warnings generated.
+vim +123 drivers/remoteproc/qcom_q6v5_pas.c
 
-
-vim +/mt8173_jpeg_drvdata +1472 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-
-b2f0d2724ba477 Rick Chang 2016-12-14  1471  
-b4a82f5d15102a Xia Jiang  2020-08-14 @1472  static const struct mtk_jpeg_variant mt8173_jpeg_drvdata = {
-b4a82f5d15102a Xia Jiang  2020-08-14  1473  	.clks = mt8173_jpeg_dec_clocks,
-b4a82f5d15102a Xia Jiang  2020-08-14  1474  	.num_clks = ARRAY_SIZE(mt8173_jpeg_dec_clocks),
-b4a82f5d15102a Xia Jiang  2020-08-14  1475  	.formats = mtk_jpeg_dec_formats,
-b4a82f5d15102a Xia Jiang  2020-08-14  1476  	.num_formats = MTK_JPEG_DEC_NUM_FORMATS,
-b4a82f5d15102a Xia Jiang  2020-08-14  1477  	.qops = &mtk_jpeg_dec_qops,
-b4a82f5d15102a Xia Jiang  2020-08-14  1478  	.irq_handler = mtk_jpeg_dec_irq,
-b4a82f5d15102a Xia Jiang  2020-08-14  1479  	.hw_reset = mtk_jpeg_dec_reset,
-b4a82f5d15102a Xia Jiang  2020-08-14  1480  	.m2m_ops = &mtk_jpeg_dec_m2m_ops,
-b4a82f5d15102a Xia Jiang  2020-08-14  1481  	.dev_name = "mtk-jpeg-dec",
-b4a82f5d15102a Xia Jiang  2020-08-14  1482  	.ioctl_ops = &mtk_jpeg_dec_ioctl_ops,
-b4a82f5d15102a Xia Jiang  2020-08-14  1483  	.out_q_default_fourcc = V4L2_PIX_FMT_JPEG,
-b4a82f5d15102a Xia Jiang  2020-08-14  1484  	.cap_q_default_fourcc = V4L2_PIX_FMT_YUV420M,
-b4a82f5d15102a Xia Jiang  2020-08-14  1485  };
-b4a82f5d15102a Xia Jiang  2020-08-14  1486  
-45f13a57d81344 Xia Jiang  2020-08-14 @1487  static const struct mtk_jpeg_variant mtk_jpeg_drvdata = {
-45f13a57d81344 Xia Jiang  2020-08-14  1488  	.clks = mtk_jpeg_clocks,
-45f13a57d81344 Xia Jiang  2020-08-14  1489  	.num_clks = ARRAY_SIZE(mtk_jpeg_clocks),
-45f13a57d81344 Xia Jiang  2020-08-14  1490  	.formats = mtk_jpeg_enc_formats,
-45f13a57d81344 Xia Jiang  2020-08-14  1491  	.num_formats = MTK_JPEG_ENC_NUM_FORMATS,
-45f13a57d81344 Xia Jiang  2020-08-14  1492  	.qops = &mtk_jpeg_enc_qops,
-45f13a57d81344 Xia Jiang  2020-08-14  1493  	.irq_handler = mtk_jpeg_enc_irq,
-45f13a57d81344 Xia Jiang  2020-08-14  1494  	.hw_reset = mtk_jpeg_enc_reset,
-45f13a57d81344 Xia Jiang  2020-08-14  1495  	.m2m_ops = &mtk_jpeg_enc_m2m_ops,
-45f13a57d81344 Xia Jiang  2020-08-14  1496  	.dev_name = "mtk-jpeg-enc",
-45f13a57d81344 Xia Jiang  2020-08-14  1497  	.ioctl_ops = &mtk_jpeg_enc_ioctl_ops,
-45f13a57d81344 Xia Jiang  2020-08-14  1498  	.out_q_default_fourcc = V4L2_PIX_FMT_YUYV,
-45f13a57d81344 Xia Jiang  2020-08-14  1499  	.cap_q_default_fourcc = V4L2_PIX_FMT_JPEG,
-45f13a57d81344 Xia Jiang  2020-08-14  1500  };
-45f13a57d81344 Xia Jiang  2020-08-14  1501  
-
-:::::: The code at line 1472 was first introduced by commit
-:::::: b4a82f5d15102ade6134c8cc4bbc8ccef1f4a7dc media: platform: Using the variant structure to contain the varability between dec and enc
-
-:::::: TO: Xia Jiang <xia.jiang@mediatek.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+   107	
+ > 108	void adsp_segment_dump(struct rproc *rproc, struct rproc_dump_segment *segment,
+   109			       void *dest, size_t offset, size_t size)
+   110	{
+   111		struct qcom_adsp *adsp = rproc->priv;
+   112		int total_offset;
+   113	
+   114		total_offset = segment->da + segment->offset + offset - adsp->mem_phys;
+   115		if (total_offset < 0 || total_offset + size > adsp->mem_size) {
+   116			dev_err(adsp->dev,
+   117				"invalid copy request for segment %pad with offset %zu and size %zu)\n",
+   118				&segment->da, offset, size);
+   119			memset(dest, 0xff, size);
+   120			return;
+   121		}
+   122	
+ > 123		memcpy_fromio(dest, adsp->mem_region + total_offset, size);
+   124	}
+   125	
 
 -- 
 0-DAY CI Kernel Test Service
