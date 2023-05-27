@@ -1,55 +1,44 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C131C04;
-	Sat, 27 May 2023 08:53:23 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-64d604cc0aaso1426461b3a.2;
-        Sat, 27 May 2023 01:53:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685177603; x=1687769603;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=me+mae5cxaS7kwJrJiLva7wyhKeIFfRkkMj+lyKRxtU=;
-        b=RHL/T19yv7ny+SqvpezBVm7xumh3z17Ccv0BA2qbw8y6UxdgwyLO74/L5oM65/yRsR
-         1GL1EJ5FFUH4fpe2Uz+JuhImX2m5YpPoJVgjdYgF/kOcf1rKzgcKFnqLrfT+goUHIoV/
-         lbczMTJeM5HUTwZLqhTYd7DeIqydkSanTbWKjZkb7D00rEcs/choewNm1NTHve3dLJKk
-         utho2S8qwM1u50CwfrU9o0qn5zZ6iaYg/ehoL7AKSxnAhmTLV2DTnQjsAH2l8N5Obt6d
-         xx4WaBKsCmQeHqn7rgeTp0G7GMS972eq7PA9ccrnelBdlRH9IJhuy1YFHxHQktsvkmkd
-         pAHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685177603; x=1687769603;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=me+mae5cxaS7kwJrJiLva7wyhKeIFfRkkMj+lyKRxtU=;
-        b=FlWVJRTaTCpAjbx2f86k45PK3958XXNce3BwxxgfluAdhI62a+LQlTYKQJ0RkWaDhW
-         S6FEuBEljE6oaJvFTO5rL9bGYEuserXPq4QJ7CtPKiynrWF5GSUivwRKYuy1Dy7sBSZH
-         ++syut8hvCd5VFjdbHSwyIrmj2uf1/3qgrcLHWUDyNH2jKKl5UHb4cePiWcX9KjYkt2B
-         oElNnuYDE0MR0J9zWMUHQqTBtwh4jFIeqHHN54pZNkcoFwRuNPpySAk7Z58UQdQM2pUj
-         FwYTNKQVocVz1MSzlutm9VOC7Dn/cuQJZ910BVm+kQrwp0lbvaMNRoCUyFeJ/0Il6f/Q
-         Jvqw==
-X-Gm-Message-State: AC+VfDwDWGYWH+rokKsRvJFoACi6MJbkb7EdiDS4+kJgtwNY6f1yHwGq
-	LlpMV7762rhw3KFM8y5g0lg=
-X-Google-Smtp-Source: ACHHUZ4way3YHn4UaZZCYSWMYhMU65cC4uwsS8WLVsLwojobEpcs5dNPiuMf3wLwT4xoAl6uF5YWFQ==
-X-Received: by 2002:a05:6a00:2308:b0:645:c730:f826 with SMTP id h8-20020a056a00230800b00645c730f826mr8469649pfh.24.1685177603249;
-        Sat, 27 May 2023 01:53:23 -0700 (PDT)
-Received: from redkillpc ([49.207.219.227])
-        by smtp.gmail.com with ESMTPSA id a15-20020aa780cf000000b00640defda6d2sm3702044pfn.207.2023.05.27.01.53.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 May 2023 01:53:22 -0700 (PDT)
-Date: Sat, 27 May 2023 14:23:16 +0530
-From: Prathu Baronia <prathubaronia2011@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: dan.carpenter@linaro.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev,
-	Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v3 1/2] axis-fifo: use devm_kasprintf() for allocating
- formatted strings
-Message-ID: <ZHHE/H2p4Go/Igc/@redkillpc>
-References: <CAJp9fsfJxoY2=fFK3-R_XoDatMB9z5WT4BaeSw3-nMScicERJQ@mail.gmail.com>
- <20230518145154.33377-1-prathubaronia2011@gmail.com>
- <2023052705-modular-unpleased-0e62@gregkh>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C72F1C04;
+	Sat, 27 May 2023 08:59:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685177999; x=1716713999;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=icqsCyU+FSgeqlc9F3DL/1oMG9EXyjYxm7MQIgi7k9w=;
+  b=BzeYNph2prZB/pVxeG8NRfTPEx5xJuu/L3Edb7MHELb9KMdSq0X0BREc
+   9a6uv/zbcZOTeSWwq1n8+QD3NACMOvyTiIrrKVNk4QXCEUNNyxpzciPYS
+   aDNoGtOaobm+i8B8tlMeCvJlSUg6f5v+U3LDZDEmrKLUrRbwPwJMDQ3A8
+   kYk3ncgz+tG2UefY0ibb1zEsFjNFdartcOWYCwzTT0lxEQ05ZvEJyuM70
+   WKWwSP0ZAoplN3IG9WMQSdFBTKNQVYSBCVQc2KFzgdl7mf08L02ABbMba
+   sCpBxifDnbo+/lr3pFSswbDeKM/Kt0qbCMcgIFJMOeBcAUDLrJUslttRo
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="356759214"
+X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
+   d="scan'208";a="356759214"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 01:59:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="879785640"
+X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
+   d="scan'208";a="879785640"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 27 May 2023 01:59:57 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q2pmH-000JsI-01;
+	Sat, 27 May 2023 08:59:57 +0000
+Date: Sat, 27 May 2023 16:59:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 4/7] drm/i915/huc: differentiate the 2 steps of the
+ MTL HuC auth flow
+Message-ID: <202305271643.4lrHpkZs-lkp@intel.com>
+References: <20230527005242.1346093-5-daniele.ceraolospurio@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,33 +47,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2023052705-modular-unpleased-0e62@gregkh>
+In-Reply-To: <20230527005242.1346093-5-daniele.ceraolospurio@intel.com>
 
-On Sat, May 27, 2023 at 08:35:57AM +0100, Greg KH wrote:
-> 
-> Maybe error-prone, but all is fine with the original code, right?
-> 
-Yes, all is fine with the original code. Replaced it only because it was error-prone.
+Hi Daniele,
 
-> When you have "also" in a changelog commit, that usually means this
-> needs to be split out into a separate patch.  And that's the case here,
-> make the first patch of the series fix the problem.  Then do your
-> cleanups on later patches.
-> 
-Point taken, will split it in v4.
+kernel test robot noticed the following build errors:
 
-> > Fixes: d2d7aa53891e ("staging: axis-fifo: convert to use miscdevice")
-> 
-> changing to a different string function does not fix anything.
-Right, this should only be part of the smatch warning fixing commit.
+[auto build test ERROR on drm-tip/drm-tip]
 
-> 
-> > Reported-by: kernel test robot <lkp@intel.com>
-> 
-> It did not report that you need to replace a string function, right?
-> 
-> See, things got messy when you mixed in changes into one.  Please break
-> these up.
-Understood, will do.
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniele-Ceraolo-Spurio/drm-i915-uc-perma-pin-firmwares/20230527-085429
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+patch link:    https://lore.kernel.org/r/20230527005242.1346093-5-daniele.ceraolospurio%40intel.com
+patch subject: [PATCH v3 4/7] drm/i915/huc: differentiate the 2 steps of the MTL HuC auth flow
+config: x86_64-randconfig-x056-20230526 (https://download.01.org/0day-ci/archive/20230527/202305271643.4lrHpkZs-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/5e7ad1c45a6cbb80d8b9f71212d410d19bbe96d9
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Daniele-Ceraolo-Spurio/drm-i915-uc-perma-pin-firmwares/20230527-085429
+        git checkout 5e7ad1c45a6cbb80d8b9f71212d410d19bbe96d9
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
 
-Prathu
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305271643.4lrHpkZs-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c:199:54: error: too few arguments to function call, expected 2, have 1
+           if (intel_huc_is_authenticated(&pxp->ctrl_gt->uc.huc) &&
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~                      ^
+   drivers/gpu/drm/i915/gt/uc/intel_huc.h:60:6: note: 'intel_huc_is_authenticated' declared here
+   bool intel_huc_is_authenticated(struct intel_huc *huc,
+        ^
+   1 error generated.
+
+
+vim +199 drivers/gpu/drm/i915/pxp/intel_pxp_gsccs.c
+
+dc9ac125d81faf Alan Previn 2023-05-11  188  
+99afb7cc8c4457 Alan Previn 2023-05-11  189  bool intel_pxp_gsccs_is_ready_for_sessions(struct intel_pxp *pxp)
+99afb7cc8c4457 Alan Previn 2023-05-11  190  {
+99afb7cc8c4457 Alan Previn 2023-05-11  191  	/*
+99afb7cc8c4457 Alan Previn 2023-05-11  192  	 * GSC-fw loading, HuC-fw loading, HuC-fw authentication and
+99afb7cc8c4457 Alan Previn 2023-05-11  193  	 * GSC-proxy init flow (requiring an mei component driver)
+99afb7cc8c4457 Alan Previn 2023-05-11  194  	 * must all occur first before we can start requesting for PXP
+99afb7cc8c4457 Alan Previn 2023-05-11  195  	 * sessions. Checking for completion on HuC authentication and
+99afb7cc8c4457 Alan Previn 2023-05-11  196  	 * gsc-proxy init flow (the last set of dependencies that
+99afb7cc8c4457 Alan Previn 2023-05-11  197  	 * are out of order) will suffice.
+99afb7cc8c4457 Alan Previn 2023-05-11  198  	 */
+99afb7cc8c4457 Alan Previn 2023-05-11 @199  	if (intel_huc_is_authenticated(&pxp->ctrl_gt->uc.huc) &&
+99afb7cc8c4457 Alan Previn 2023-05-11  200  	    intel_gsc_uc_fw_proxy_init_done(&pxp->ctrl_gt->uc.gsc))
+99afb7cc8c4457 Alan Previn 2023-05-11  201  		return true;
+99afb7cc8c4457 Alan Previn 2023-05-11  202  
+99afb7cc8c4457 Alan Previn 2023-05-11  203  	return false;
+99afb7cc8c4457 Alan Previn 2023-05-11  204  }
+99afb7cc8c4457 Alan Previn 2023-05-11  205  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
