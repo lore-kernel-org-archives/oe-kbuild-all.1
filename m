@@ -1,45 +1,66 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3717037D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 00:49:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685148590; x=1716684590;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U+w5AYRtpXXZiA+UOeTFMhAO0/uGV+zMQAil0NgUnvE=;
-  b=is/uLD2xkv3Cn7hpr0xVVvfDygYFxFgeq+VMlYK4eH7XU84iTGqM+wuk
-   Ewefo3dV1fs1zSVpAYNGpSb3543GpJhdfenAcHIuNIP0Rix+bouSsEer2
-   Elsn4F6iSd6NershdfQq1DByjOYYHDu3kJS5X/KdJSbHteIhR0HbCUOXk
-   ZtwUw5Vx1KHtQ80zAEAkI40hPPzvrd1CEQw9ezzz41Z7u8djubQ+pelU/
-   u4jXiCeFqX/AGAIZIGPNcd/aAFZV2wySRtqcXKCzzk91pe804ItABJMu7
-   A8MLD1W1hFheuIuYekXcr7agGaS5MN/nN6L+9sZmijXAL/0qmQQ+JKrRF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="354355070"
-X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
-   d="scan'208";a="354355070"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 17:49:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="775254384"
-X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
-   d="scan'208";a="775254384"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 26 May 2023 17:49:48 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q2i7v-000Jga-1C;
-	Sat, 27 May 2023 00:49:47 +0000
-Date: Sat, 27 May 2023 08:49:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xiaoyong Lu <xiaoyong.lu@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev, Hans Verkuil <hverkuil@xs4all.nl>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [hverkuil-media-tree:for-v6.5c 15/15]
- drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:2075:46:
- error: 'struct mtk_vcodec_dev' has no member named 'msg_queue_core_ctx'
-Message-ID: <202305270856.cBJFKQqW-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD60737D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 01:20:07 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id C3D7E320090B;
+	Fri, 26 May 2023 21:20:06 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Fri, 26 May 2023 21:20:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm3; t=1685150406; x=1685236806; bh=1d
+	7oKPGVdWB5JAEgMj9dkOXHwQuyjIMmlSbKS0bEYuk=; b=QfQ9unCm3iciiXRh6f
+	V7W/J1OfSjCOSBSgAKv0QLLxkU1E+74aqKQCauR71jmTRE+jCCcJWqUKUe2Bq8DU
+	vtKYPtUI9gp3t/bm2txM0tXS2WHI858sp9Ak9p2mQU3Jic1NDoTyRAOGoCv65D6p
+	ZbAr3oqkfhFdj36kOqj3m9kzP6Ojqnpn4ZFRoyy6Rzy21BzzOrK6YUK9eQRh272a
+	5+tdUKrSrgQeUALGJRIRFfTmmSv32ssPKcQQnpxzpfZ3yJXbxWkbmXsBtuC8H0Ca
+	S27fv8BJdf1pbixqlKlhdtMNYKdSYWC28f8UL9EI/0Rfuz1TpzzEHsBpBFzucAwE
+	YtoQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1685150406; x=1685236806; bh=1d7oKPGVdWB5J
+	AEgMj9dkOXHwQuyjIMmlSbKS0bEYuk=; b=DtLlItFUFURx8AO3WVuiUA2QdvVRc
+	dGlV2AA1jVoj+jhOMi0VZ8gGN3+e78jtxddQaqooOqF5X51H3U0ibVD0S9u6QtMv
+	yczHHhxKm2+PVpmdLqIGJ4HMoQkElCExTJQcVRa/ZeyoCJM+CKiniRJCPb46JFiV
+	TyEihR8F7Pv7fHZfOIPLGmEnefXNxB4uetBstALK3nAEQCvSiB1g/BxjXmT64ZOD
+	wjBWnBEi0qZbqpsw4lCwEHY2p3FUYvBaEZBhmCtkcpcvUay7+r6c8gIUyuCpOO0/
+	ngs1UjjglKoHdGbj/GZ2hxgZG39duodP1z4aeej6rISHaFA8H/finY0fQ==
+X-ME-Sender: <xms:xlpxZP0dZ3EEfINUAhYmEc8j-ylCsXBF9WIaWMKB3cL8BgZBgohpkg>
+    <xme:xlpxZOEuC0EVuGEgStDYsFpr3aIrq56n-qBeN_R437cXh1PQxGomg_mu1NqpaAFJa
+    oTUDAF7sGzyB9M2-AU>
+X-ME-Received: <xmr:xlpxZP5zrQoMrr_WK-o_iI25SN4qrbxiCXS17MRwFcx1p6_CsQpuw-Nx8ns>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeektddggeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfihlhgv
+    rhcujfhitghkshcuoegtohguvgesthihhhhitghkshdrtghomheqnecuggftrfgrthhtvg
+    hrnhepjeeigfdvheejhefgtdfgfffgfeejveejueejfedvgfefveevudfgtdfgteegueff
+    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhhuhgsrdgtohhmnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghouggvsehthihh
+    ihgtkhhsrdgtohhm
+X-ME-Proxy: <xmx:xlpxZE0DHNn_SqGnhmxwVdt9OLFJxqop0UhN6z6dkW6YXNiFJCiG0g>
+    <xmx:xlpxZCFaJKk_90Y5wBXu48FxY5ZQvWygVLWxQhbak59dv19SmpKiPQ>
+    <xmx:xlpxZF-ixuIehEj_CUI_76s4EQeqby5k4RjRYTp9RZEHGcyxl0Zw0g>
+    <xmx:xlpxZHQqOqQiyY1ZTAh62Kqp66KPlk2By5GlQGBeg-Tz9TaUQjHdGA>
+Feedback-ID: i78e14604:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 26 May 2023 21:20:05 -0400 (EDT)
+Date: Fri, 26 May 2023 20:20:03 -0500
+From: Tyler Hicks <code@tyhicks.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Hardik Garg <hargar@linux.microsoft.com>, stable@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 6.1 5.15 5.10 5.4 4.19 4.14] selftests/memfd: Fix unknown
+ type name build failure
+Message-ID: <ZHFaw6k8+2+MM1jv@sequoia>
+References: <20230526232136.255244-1-hargar@linux.microsoft.com>
+ <ZHE/avMpv2Sjqwxf@3bef23cc04e9>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,146 +69,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZHE/avMpv2Sjqwxf@3bef23cc04e9>
 
-tree:   git://linuxtv.org/hverkuil/media_tree.git for-v6.5c
-head:   d50739a417aba71e47bc48598d920ec692e1c6a8
-commit: d50739a417aba71e47bc48598d920ec692e1c6a8 [15/15] media: mediatek: vcodec: support stateless AV1 decoder
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230527/202305270856.cBJFKQqW-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add hverkuil-media-tree git://linuxtv.org/hverkuil/media_tree.git
-        git fetch --no-tags hverkuil-media-tree for-v6.5c
-        git checkout d50739a417aba71e47bc48598d920ec692e1c6a8
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+On 2023-05-27 07:23:22, kernel test robot wrote:
+> Hi,
+> 
+> Thanks for your patch.
+> 
+> FYI: kernel test robot notices the stable kernel rule is not satisfied.
+> 
+> Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+> Subject: [PATCH 6.1 5.15 5.10 5.4 4.19 4.14] selftests/memfd: Fix unknown type name build failure
+> Link: https://lore.kernel.org/stable/20230526232136.255244-1-hargar%40linux.microsoft.com
+> 
+> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+> 
+> Please ignore this mail if the patch is not relevant for upstream.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305270856.cBJFKQqW-lkp@intel.com/
+I think Hardik did the right thing here. This is a build failure bug
+that's present in stable kernels but was fixed in upstream by an
+unrelated commit:
 
-All errors (new ones prefixed by >>):
+ 11f75a01448f ("selftests/memfd: add tests for MFD_NOEXEC_SEAL MFD_EXEC")
 
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_lat_decode':
->> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:2075:46: error: 'struct mtk_vcodec_dev' has no member named 'msg_queue_core_ctx'
-    2075 |                 vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-         |                                              ^~
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:2114:46: error: 'struct mtk_vcodec_dev' has no member named 'msg_queue_core_ctx'
-    2114 |                 vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-         |                                              ^~
+It wouldn't be right to backport that patch because MFD_NOEXEC_SEAL and
+MFD_EXEC weren't introduced until v6.3.
 
+There was an (unmerged) attempt to fix this specific build failure in upstream:
 
-vim +2075 drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
+ https://lore.kernel.org/all/20211203024706.10094-1-luke.nowakowskikrijger@canonical.com/
 
-  2024	
-  2025	static int vdec_av1_slice_lat_decode(void *h_vdec, struct mtk_vcodec_mem *bs,
-  2026					     struct vdec_fb *fb, bool *res_chg)
-  2027	{
-  2028		struct vdec_av1_slice_instance *instance = h_vdec;
-  2029		struct vdec_lat_buf *lat_buf;
-  2030		struct vdec_av1_slice_pfc *pfc;
-  2031		struct vdec_av1_slice_vsi *vsi;
-  2032		struct mtk_vcodec_ctx *ctx;
-  2033		int ret;
-  2034	
-  2035		if (!instance || !instance->ctx)
-  2036			return -EINVAL;
-  2037	
-  2038		ctx = instance->ctx;
-  2039		/* init msgQ for the first time */
-  2040		if (vdec_msg_queue_init(&ctx->msg_queue, ctx,
-  2041					vdec_av1_slice_core_decode, sizeof(*pfc))) {
-  2042			mtk_vcodec_err(instance, "failed to init AV1 msg queue\n");
-  2043			return -ENOMEM;
-  2044		}
-  2045	
-  2046		/* bs NULL means flush decoder */
-  2047		if (!bs)
-  2048			return vdec_av1_slice_flush(h_vdec, bs, fb, res_chg);
-  2049	
-  2050		lat_buf = vdec_msg_queue_dqbuf(&ctx->msg_queue.lat_ctx);
-  2051		if (!lat_buf) {
-  2052			mtk_vcodec_debug(instance, "failed to get AV1 lat buf\n");
-  2053			return -EAGAIN;
-  2054		}
-  2055		pfc = (struct vdec_av1_slice_pfc *)lat_buf->private_data;
-  2056		if (!pfc) {
-  2057			ret = -EINVAL;
-  2058			goto err_free_fb_out;
-  2059		}
-  2060		vsi = &pfc->vsi;
-  2061	
-  2062		ret = vdec_av1_slice_setup_lat(instance, bs, lat_buf, pfc);
-  2063		if (ret) {
-  2064			mtk_vcodec_err(instance, "failed to setup AV1 lat ret %d\n", ret);
-  2065			goto err_free_fb_out;
-  2066		}
-  2067	
-  2068		vdec_av1_slice_vsi_to_remote(vsi, instance->vsi);
-  2069		ret = vpu_dec_start(&instance->vpu, NULL, 0);
-  2070		if (ret) {
-  2071			mtk_vcodec_err(instance, "failed to dec AV1 ret %d\n", ret);
-  2072			goto err_free_fb_out;
-  2073		}
-  2074		if (instance->inneracing_mode)
-> 2075			vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-  2076	
-  2077		if (instance->irq_enabled) {
-  2078			ret = mtk_vcodec_wait_for_done_ctx(ctx, MTK_INST_IRQ_RECEIVED,
-  2079							   WAIT_INTR_TIMEOUT_MS,
-  2080							   MTK_VDEC_LAT0);
-  2081			/* update remote vsi if decode timeout */
-  2082			if (ret) {
-  2083				mtk_vcodec_err(instance, "AV1 Frame %d decode timeout %d\n", pfc->seq, ret);
-  2084				WRITE_ONCE(instance->vsi->state.timeout, 1);
-  2085			}
-  2086			vpu_dec_end(&instance->vpu);
-  2087		}
-  2088	
-  2089		vdec_av1_slice_vsi_from_remote(vsi, instance->vsi);
-  2090		ret = vdec_av1_slice_update_lat(instance, lat_buf, pfc);
-  2091	
-  2092		/* LAT trans full, re-decode */
-  2093		if (ret == -EAGAIN) {
-  2094			mtk_vcodec_err(instance, "AV1 Frame %d trans full\n", pfc->seq);
-  2095			if (!instance->inneracing_mode)
-  2096				vdec_msg_queue_qbuf(&ctx->msg_queue.lat_ctx, lat_buf);
-  2097			return 0;
-  2098		}
-  2099	
-  2100		/* LAT trans full, no more UBE or decode timeout */
-  2101		if (ret == -ENOMEM || vsi->state.timeout) {
-  2102			mtk_vcodec_err(instance, "AV1 Frame %d insufficient buffer or timeout\n", pfc->seq);
-  2103			if (!instance->inneracing_mode)
-  2104				vdec_msg_queue_qbuf(&ctx->msg_queue.lat_ctx, lat_buf);
-  2105			return -EBUSY;
-  2106		}
-  2107		vsi->trans.dma_addr_end += ctx->msg_queue.wdma_addr.dma_addr;
-  2108		mtk_vcodec_debug(instance, "lat dma 1 0x%pad 0x%pad\n",
-  2109				 &pfc->vsi.trans.dma_addr, &pfc->vsi.trans.dma_addr_end);
-  2110	
-  2111		vdec_msg_queue_update_ube_wptr(&ctx->msg_queue, vsi->trans.dma_addr_end);
-  2112	
-  2113		if (!instance->inneracing_mode)
-  2114			vdec_msg_queue_qbuf(&ctx->dev->msg_queue_core_ctx, lat_buf);
-  2115		memcpy(&instance->slots, &vsi->slots, sizeof(instance->slots));
-  2116	
-  2117		return 0;
-  2118	
-  2119	err_free_fb_out:
-  2120		vdec_msg_queue_qbuf(&ctx->msg_queue.lat_ctx, lat_buf);
-  2121	
-  2122		if (pfc)
-  2123			mtk_vcodec_err(instance, "slice dec number: %d err: %d", pfc->seq, ret);
-  2124	
-  2125		return ret;
-  2126	}
-  2127	
+Hardik opted to follow what was done upstream in a patch specifically
+for the stable tree.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Tyler
+
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
+> 
+> 
