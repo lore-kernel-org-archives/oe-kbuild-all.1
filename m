@@ -1,71 +1,90 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BED337D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 08:37:20 +0000 (UTC)
-Authenticated-By: 
-X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 34R8auCT3002567, This message is accepted by code: ctloc85258
-Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
-	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 34R8auCT3002567
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
-	Sat, 27 May 2023 16:36:56 +0800
-Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
- RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.32; Sat, 27 May 2023 16:37:08 +0800
-Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
- RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Sat, 27 May 2023 16:37:08 +0800
-Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
- RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
- 15.01.2375.007; Sat, 27 May 2023 16:37:08 +0800
-From: Ping-Ke Shih <pkshih@realtek.com>
-To: "lkp@intel.com" <lkp@intel.com>
-CC: "stable@vger.kernel.org" <stable@vger.kernel.org>,
-        "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [PATCH 3/3] wifi: rtw89: remove redundant check of entering LPS
-Thread-Topic: [PATCH 3/3] wifi: rtw89: remove redundant check of entering LPS
-Thread-Index: AQHZkHV6NWsTWII30kOxyw8LhjPGDa9tRAqAgAABvQA=
-Date: Sat, 27 May 2023 08:37:08 +0000
-Message-ID: <159b55a75ea8f88e39943d5997e508ce3a41fd5d.camel@realtek.com>
-References: <ZHG/t/dgpF807Z3u@3bef23cc04e9>
-In-Reply-To: <ZHG/t/dgpF807Z3u@3bef23cc04e9>
-Accept-Language: en-US, zh-TW
-Content-Language: zh-TW
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.36.1-2 
-x-originating-ip: [172.16.16.243]
-x-kse-serverinfo: RTEXMBS05.realtek.com.tw, 9
-x-kse-antispam-interceptor-info: fallback
-x-kse-antivirus-interceptor-info: fallback
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <ED18EDCA4FFFB64C96AF5E94A251326E@realtek.com>
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C131C04;
+	Sat, 27 May 2023 08:53:23 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-64d604cc0aaso1426461b3a.2;
+        Sat, 27 May 2023 01:53:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685177603; x=1687769603;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=me+mae5cxaS7kwJrJiLva7wyhKeIFfRkkMj+lyKRxtU=;
+        b=RHL/T19yv7ny+SqvpezBVm7xumh3z17Ccv0BA2qbw8y6UxdgwyLO74/L5oM65/yRsR
+         1GL1EJ5FFUH4fpe2Uz+JuhImX2m5YpPoJVgjdYgF/kOcf1rKzgcKFnqLrfT+goUHIoV/
+         lbczMTJeM5HUTwZLqhTYd7DeIqydkSanTbWKjZkb7D00rEcs/choewNm1NTHve3dLJKk
+         utho2S8qwM1u50CwfrU9o0qn5zZ6iaYg/ehoL7AKSxnAhmTLV2DTnQjsAH2l8N5Obt6d
+         xx4WaBKsCmQeHqn7rgeTp0G7GMS972eq7PA9ccrnelBdlRH9IJhuy1YFHxHQktsvkmkd
+         pAHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685177603; x=1687769603;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=me+mae5cxaS7kwJrJiLva7wyhKeIFfRkkMj+lyKRxtU=;
+        b=FlWVJRTaTCpAjbx2f86k45PK3958XXNce3BwxxgfluAdhI62a+LQlTYKQJ0RkWaDhW
+         S6FEuBEljE6oaJvFTO5rL9bGYEuserXPq4QJ7CtPKiynrWF5GSUivwRKYuy1Dy7sBSZH
+         ++syut8hvCd5VFjdbHSwyIrmj2uf1/3qgrcLHWUDyNH2jKKl5UHb4cePiWcX9KjYkt2B
+         oElNnuYDE0MR0J9zWMUHQqTBtwh4jFIeqHHN54pZNkcoFwRuNPpySAk7Z58UQdQM2pUj
+         FwYTNKQVocVz1MSzlutm9VOC7Dn/cuQJZ910BVm+kQrwp0lbvaMNRoCUyFeJ/0Il6f/Q
+         Jvqw==
+X-Gm-Message-State: AC+VfDwDWGYWH+rokKsRvJFoACi6MJbkb7EdiDS4+kJgtwNY6f1yHwGq
+	LlpMV7762rhw3KFM8y5g0lg=
+X-Google-Smtp-Source: ACHHUZ4way3YHn4UaZZCYSWMYhMU65cC4uwsS8WLVsLwojobEpcs5dNPiuMf3wLwT4xoAl6uF5YWFQ==
+X-Received: by 2002:a05:6a00:2308:b0:645:c730:f826 with SMTP id h8-20020a056a00230800b00645c730f826mr8469649pfh.24.1685177603249;
+        Sat, 27 May 2023 01:53:23 -0700 (PDT)
+Received: from redkillpc ([49.207.219.227])
+        by smtp.gmail.com with ESMTPSA id a15-20020aa780cf000000b00640defda6d2sm3702044pfn.207.2023.05.27.01.53.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 May 2023 01:53:22 -0700 (PDT)
+Date: Sat, 27 May 2023 14:23:16 +0530
+From: Prathu Baronia <prathubaronia2011@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: dan.carpenter@linaro.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev,
+	Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v3 1/2] axis-fifo: use devm_kasprintf() for allocating
+ formatted strings
+Message-ID: <ZHHE/H2p4Go/Igc/@redkillpc>
+References: <CAJp9fsfJxoY2=fFK3-R_XoDatMB9z5WT4BaeSw3-nMScicERJQ@mail.gmail.com>
+ <20230518145154.33377-1-prathubaronia2011@gmail.com>
+ <2023052705-modular-unpleased-0e62@gregkh>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
-X-KSE-AntiSpam-Interceptor-Info: fallback
-X-KSE-Antivirus-Interceptor-Info: fallback
-X-KSE-AntiSpam-Interceptor-Info: fallback
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023052705-modular-unpleased-0e62@gregkh>
 
-T24gU2F0LCAyMDIzLTA1LTI3IGF0IDE2OjMwICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
-ZToNCj4gDQo+IEhpLA0KPiANCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoLg0KPiANCj4gRllJOiBr
-ZXJuZWwgdGVzdCByb2JvdCBub3RpY2VzIHRoZSBzdGFibGUga2VybmVsIHJ1bGUgaXMgbm90IHNh
-dGlzZmllZC4NCj4gDQo+IFJ1bGU6ICdDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZycgb3IgJ2Nv
-bW1pdCA8c2hhMT4gdXBzdHJlYW0uJw0KPiBTdWJqZWN0OiBbUEFUQ0ggMy8zXSB3aWZpOiBydHc4
-OTogcmVtb3ZlIHJlZHVuZGFudCBjaGVjayBvZiBlbnRlcmluZyBMUFMNCj4gTGluazogaHR0cHM6
-Ly9sb3JlLmtlcm5lbC5vcmcvc3RhYmxlLzIwMjMwNTI3MDgyOTM5LjExMjA2LTQtcGtzaGloJTQw
-cmVhbHRlay5jb20NCj4gDQo+IFRoZSBjaGVjayBpcyBiYXNlZCBvbiBodHRwczovL3d3dy5rZXJu
-ZWwub3JnL2RvYy9odG1sL2xhdGVzdC9wcm9jZXNzL3N0YWJsZS1rZXJuZWwtcnVsZXMuaHRtbA0K
-PiANCg0KSSBzZW50IHRoaXMgcGF0Y2hzZXQgd2l0aCB0aGUgc2FtZSBUby9DYyBtYWlsIGFkZHJl
-c3NlcywgYnV0IEkgZG9uJ3Qgd2FudA0KdG8gYXBwbHkgdGhpcyBwYXRjaCB0byBzdGFibGUga2Vy
-bmVsLCBzbyBwbGVhc2Ugc3RhYmxlIG1haW50YWluZXJzDQppZ25vcmUgdGhpcyBwYXRjaC4gSSB3
-aWxsIHRha2UgY2FyZSBhYm91dCB0aGlzIGJ5IG5leHQgc3VibWlzc2lvbi4NCg0KUGluZy1LZQ0K
-DQo=
+On Sat, May 27, 2023 at 08:35:57AM +0100, Greg KH wrote:
+> 
+> Maybe error-prone, but all is fine with the original code, right?
+> 
+Yes, all is fine with the original code. Replaced it only because it was error-prone.
+
+> When you have "also" in a changelog commit, that usually means this
+> needs to be split out into a separate patch.  And that's the case here,
+> make the first patch of the series fix the problem.  Then do your
+> cleanups on later patches.
+> 
+Point taken, will split it in v4.
+
+> > Fixes: d2d7aa53891e ("staging: axis-fifo: convert to use miscdevice")
+> 
+> changing to a different string function does not fix anything.
+Right, this should only be part of the smatch warning fixing commit.
+
+> 
+> > Reported-by: kernel test robot <lkp@intel.com>
+> 
+> It did not report that you need to replace a string function, right?
+> 
+> See, things got messy when you mixed in changes into one.  Please break
+> these up.
+Understood, will do.
+
+Prathu
