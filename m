@@ -1,66 +1,43 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD60737D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 01:20:07 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id C3D7E320090B;
-	Fri, 26 May 2023 21:20:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Fri, 26 May 2023 21:20:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tyhicks.com; h=
-	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1685150406; x=1685236806; bh=1d
-	7oKPGVdWB5JAEgMj9dkOXHwQuyjIMmlSbKS0bEYuk=; b=QfQ9unCm3iciiXRh6f
-	V7W/J1OfSjCOSBSgAKv0QLLxkU1E+74aqKQCauR71jmTRE+jCCcJWqUKUe2Bq8DU
-	vtKYPtUI9gp3t/bm2txM0tXS2WHI858sp9Ak9p2mQU3Jic1NDoTyRAOGoCv65D6p
-	ZbAr3oqkfhFdj36kOqj3m9kzP6Ojqnpn4ZFRoyy6Rzy21BzzOrK6YUK9eQRh272a
-	5+tdUKrSrgQeUALGJRIRFfTmmSv32ssPKcQQnpxzpfZ3yJXbxWkbmXsBtuC8H0Ca
-	S27fv8BJdf1pbixqlKlhdtMNYKdSYWC28f8UL9EI/0Rfuz1TpzzEHsBpBFzucAwE
-	YtoQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1685150406; x=1685236806; bh=1d7oKPGVdWB5J
-	AEgMj9dkOXHwQuyjIMmlSbKS0bEYuk=; b=DtLlItFUFURx8AO3WVuiUA2QdvVRc
-	dGlV2AA1jVoj+jhOMi0VZ8gGN3+e78jtxddQaqooOqF5X51H3U0ibVD0S9u6QtMv
-	yczHHhxKm2+PVpmdLqIGJ4HMoQkElCExTJQcVRa/ZeyoCJM+CKiniRJCPb46JFiV
-	TyEihR8F7Pv7fHZfOIPLGmEnefXNxB4uetBstALK3nAEQCvSiB1g/BxjXmT64ZOD
-	wjBWnBEi0qZbqpsw4lCwEHY2p3FUYvBaEZBhmCtkcpcvUay7+r6c8gIUyuCpOO0/
-	ngs1UjjglKoHdGbj/GZ2hxgZG39duodP1z4aeej6rISHaFA8H/finY0fQ==
-X-ME-Sender: <xms:xlpxZP0dZ3EEfINUAhYmEc8j-ylCsXBF9WIaWMKB3cL8BgZBgohpkg>
-    <xme:xlpxZOEuC0EVuGEgStDYsFpr3aIrq56n-qBeN_R437cXh1PQxGomg_mu1NqpaAFJa
-    oTUDAF7sGzyB9M2-AU>
-X-ME-Received: <xmr:xlpxZP5zrQoMrr_WK-o_iI25SN4qrbxiCXS17MRwFcx1p6_CsQpuw-Nx8ns>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeektddggeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfihlhgv
-    rhcujfhitghkshcuoegtohguvgesthihhhhitghkshdrtghomheqnecuggftrfgrthhtvg
-    hrnhepjeeigfdvheejhefgtdfgfffgfeejveejueejfedvgfefveevudfgtdfgteegueff
-    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpghhithhhuhgsrdgtohhmnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghouggvsehthihh
-    ihgtkhhsrdgtohhm
-X-ME-Proxy: <xmx:xlpxZE0DHNn_SqGnhmxwVdt9OLFJxqop0UhN6z6dkW6YXNiFJCiG0g>
-    <xmx:xlpxZCFaJKk_90Y5wBXu48FxY5ZQvWygVLWxQhbak59dv19SmpKiPQ>
-    <xmx:xlpxZF-ixuIehEj_CUI_76s4EQeqby5k4RjRYTp9RZEHGcyxl0Zw0g>
-    <xmx:xlpxZHQqOqQiyY1ZTAh62Kqp66KPlk2By5GlQGBeg-Tz9TaUQjHdGA>
-Feedback-ID: i78e14604:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 26 May 2023 21:20:05 -0400 (EDT)
-Date: Fri, 26 May 2023 20:20:03 -0500
-From: Tyler Hicks <code@tyhicks.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Hardik Garg <hargar@linux.microsoft.com>, stable@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 6.1 5.15 5.10 5.4 4.19 4.14] selftests/memfd: Fix unknown
- type name build failure
-Message-ID: <ZHFaw6k8+2+MM1jv@sequoia>
-References: <20230526232136.255244-1-hargar@linux.microsoft.com>
- <ZHE/avMpv2Sjqwxf@3bef23cc04e9>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03EC037D;
+	Sat, 27 May 2023 01:50:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685152251; x=1716688251;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QROev6y9tThZJG8LiEBJMv6lN7++6W+EIgx81AqOb5Q=;
+  b=dzog8RHJ2E7T07qGFAb1FeMHDQJc2E4mrKl9jhnfAz5ouOWpdwukUntE
+   GHqb8nCcYWsS31kwTEMA+0mkB4GdBocdOj9t6A5uJty31HHIFR44Y6+mQ
+   heYyZ/43Pkw2DMN0I4y5Cbwz0RbSZWA47QqxSaLTmCv4jv7q29ZSQzQR2
+   fjjdOKqDBc8fyOq5fGSvw7jNGJAsbUqdCgCBETrdDv0RmKr8284lsc61D
+   2MB0YNb49Aof40MpL8NqLDsKqS7PgipWW6TgGIKeOJe7f15ygJrYK06+W
+   jnAImJCSEC5ip9f/i3rEPy1rbwUK8g+gK3wiHPskcsFaYVqrG7c8iSiB9
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="382596614"
+X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
+   d="scan'208";a="382596614"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2023 18:50:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="770494806"
+X-IronPort-AV: E=Sophos;i="6.00,195,1681196400"; 
+   d="scan'208";a="770494806"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 26 May 2023 18:50:49 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q2j4y-000Ji6-2W;
+	Sat, 27 May 2023 01:50:48 +0000
+Date: Sat, 27 May 2023 09:50:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:unmapped-alloc/rfc-v2 1/3] mm/unmapped-alloc.c:150:14:
+ warning: no previous prototype for function 'unmapped_pages_alloc'
+Message-ID: <202305270935.G4Pfcajm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,45 +46,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZHE/avMpv2Sjqwxf@3bef23cc04e9>
 
-On 2023-05-27 07:23:22, kernel test robot wrote:
-> Hi,
-> 
-> Thanks for your patch.
-> 
-> FYI: kernel test robot notices the stable kernel rule is not satisfied.
-> 
-> Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-> Subject: [PATCH 6.1 5.15 5.10 5.4 4.19 4.14] selftests/memfd: Fix unknown type name build failure
-> Link: https://lore.kernel.org/stable/20230526232136.255244-1-hargar%40linux.microsoft.com
-> 
-> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-> 
-> Please ignore this mail if the patch is not relevant for upstream.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git unmapped-alloc/rfc-v2
+head:   e55ecf7bdeeb7ef51b93089d7926303e8259641a
+commit: c4d7927daa7a7ecd012b341e96b4d22b415c7189 [1/3] mm: intorduce unmapped_alloc()
+config: x86_64-randconfig-x062-20230526 (https://download.01.org/0day-ci/archive/20230527/202305270935.G4Pfcajm-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/commit/?id=c4d7927daa7a7ecd012b341e96b4d22b415c7189
+        git remote add rppt https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git
+        git fetch --no-tags rppt unmapped-alloc/rfc-v2
+        git checkout c4d7927daa7a7ecd012b341e96b4d22b415c7189
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-I think Hardik did the right thing here. This is a build failure bug
-that's present in stable kernels but was fixed in upstream by an
-unrelated commit:
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305270935.G4Pfcajm-lkp@intel.com/
 
- 11f75a01448f ("selftests/memfd: add tests for MFD_NOEXEC_SEAL MFD_EXEC")
+All warnings (new ones prefixed by >>):
 
-It wouldn't be right to backport that patch because MFD_NOEXEC_SEAL and
-MFD_EXEC weren't introduced until v6.3.
+>> mm/unmapped-alloc.c:150:14: warning: no previous prototype for function 'unmapped_pages_alloc' [-Wmissing-prototypes]
+   struct page *unmapped_pages_alloc(gfp_t gfp, int order)
+                ^
+   mm/unmapped-alloc.c:150:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   struct page *unmapped_pages_alloc(gfp_t gfp, int order)
+   ^
+   static 
+>> mm/unmapped-alloc.c:198:6: warning: no previous prototype for function 'unmapped_pages_free' [-Wmissing-prototypes]
+   void unmapped_pages_free(struct page *page, int order)
+        ^
+   mm/unmapped-alloc.c:198:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void unmapped_pages_free(struct page *page, int order)
+   ^
+   static 
+   2 warnings generated.
 
-There was an (unmerged) attempt to fix this specific build failure in upstream:
 
- https://lore.kernel.org/all/20211203024706.10094-1-luke.nowakowskikrijger@canonical.com/
+vim +/unmapped_pages_alloc +150 mm/unmapped-alloc.c
 
-Hardik opted to follow what was done upstream in a patch specifically
-for the stable tree.
+   149	
+ > 150	struct page *unmapped_pages_alloc(gfp_t gfp, int order)
+   151	{
+   152	
+   153		int cache_order = PMD_ORDER;
+   154		struct page *page;
+   155	
+   156		page = __rmqueue_smallest(order);
+   157		if (page)
+   158			goto out;
+   159	
+   160		while (cache_order >= order) {
+   161			page = alloc_pages(gfp, cache_order);
+   162			if (page)
+   163				break;
+   164			cache_order--;
+   165		}
+   166	
+   167		if (page) {
+   168			unsigned long addr = (unsigned long)page_address(page);
+   169			unsigned long nr_pages = (1 << order);
+   170			unsigned long size = PAGE_SIZE * nr_pages;
+   171	
+   172			/* FIXME: set_direct_map_invalid_noflush may fail */
+   173			for (int i = 0; i < nr_pages; i++)
+   174				set_direct_map_invalid_noflush(page + i);
+   175	
+   176			flush_tlb_kernel_range(addr, addr + size);
+   177	
+   178			/*
+   179			 * FIXME: have this under lock so that allocation running
+   180			 * in parallel won't steal all pages from the newly cached
+   181			 * ones
+   182			 */
+   183			__free_one_page(page, cache_order, true);
+   184			page = __rmqueue_smallest(order);
+   185	
+   186		}
+   187	
+   188	out:
+   189		if (page) {
+   190			/* FIXME: __prep_new_page() expects page count of 0 */
+   191			set_page_count(page, 0);
+   192			post_alloc_hook(page, order, GFP_KERNEL);
+   193		}
+   194	
+   195		return page;
+   196	}
+   197	
+ > 198	void unmapped_pages_free(struct page *page, int order)
+   199	{
+   200		__free_one_page(page, order, false);
+   201	}
+   202	
 
-Tyler
-
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
-> 
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
