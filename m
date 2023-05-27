@@ -1,92 +1,71 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B698C379
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 08:31:28 +0000 (UTC)
-Received: from dggpeml500002.china.huawei.com (unknown [172.30.72.57])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4QSw0q6Mc4zLpv8;
-	Sat, 27 May 2023 16:28:27 +0800 (CST)
-Received: from [10.67.103.44] (10.67.103.44) by dggpeml500002.china.huawei.com
- (7.185.36.158) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Sat, 27 May
- 2023 16:31:25 +0800
-Subject: Re: [PATCH 1/3] drivers/perf: hisi: Add support for HiSilicon H60PA
- and PAv3 PMU driver
-To: kernel test robot <lkp@intel.com>, <will@kernel.org>,
-	<jonathan.cameron@huawei.com>, <linux-kernel@vger.kernel.org>,
-	<mark.rutland@arm.com>
-References: <20230523131825.6102-2-hejunhao3@huawei.com>
- <202305241109.DJKYvjGM-lkp@intel.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <linuxarm@huawei.com>, <yangyicong@huawei.com>,
-	<shenyang39@huawei.com>, <prime.zeng@hisilicon.com>
-From: hejunhao <hejunhao3@huawei.com>
-Message-ID: <6e7afde3-1358-ddcf-fca1-bd0056285cd8@huawei.com>
-Date: Sat, 27 May 2023 16:31:24 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BED337D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 08:37:20 +0000 (UTC)
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 34R8auCT3002567, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 34R8auCT3002567
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+	Sat, 27 May 2023 16:36:56 +0800
+Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Sat, 27 May 2023 16:37:08 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Sat, 27 May 2023 16:37:08 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
+ RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
+ 15.01.2375.007; Sat, 27 May 2023 16:37:08 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: "lkp@intel.com" <lkp@intel.com>
+CC: "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
+Subject: Re: [PATCH 3/3] wifi: rtw89: remove redundant check of entering LPS
+Thread-Topic: [PATCH 3/3] wifi: rtw89: remove redundant check of entering LPS
+Thread-Index: AQHZkHV6NWsTWII30kOxyw8LhjPGDa9tRAqAgAABvQA=
+Date: Sat, 27 May 2023 08:37:08 +0000
+Message-ID: <159b55a75ea8f88e39943d5997e508ce3a41fd5d.camel@realtek.com>
+References: <ZHG/t/dgpF807Z3u@3bef23cc04e9>
+In-Reply-To: <ZHG/t/dgpF807Z3u@3bef23cc04e9>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Evolution 3.36.1-2 
+x-originating-ip: [172.16.16.243]
+x-kse-serverinfo: RTEXMBS05.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <ED18EDCA4FFFB64C96AF5E94A251326E@realtek.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202305241109.DJKYvjGM-lkp@intel.com>
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.103.44]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500002.china.huawei.com (7.185.36.158)
-X-CFilter-Loop: Reflected
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-
-On 2023/5/24 12:28, kernel test robot wrote:
-> Hi Junhao,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on v6.4-rc3 next-20230523]
-> [cannot apply to soc/for-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Junhao-He/drivers-perf-hisi-Add-support-for-HiSilicon-H60PA-and-PAv3-PMU-driver/20230523-215041
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20230523131825.6102-2-hejunhao3%40huawei.com
-> patch subject: [PATCH 1/3] drivers/perf: hisi: Add support for HiSilicon H60PA and PAv3 PMU driver
-> config: arm64-allyesconfig
-> compiler: aarch64-linux-gcc (GCC) 12.1.0
-> reproduce (this is a W=1 build):
->          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->          chmod +x ~/bin/make.cross
->          # https://github.com/intel-lab-lkp/linux/commit/f89c838447a57f5b51474a6aea981acbe68f73b9
->          git remote add linux-review https://github.com/intel-lab-lkp/linux
->          git fetch --no-tags linux-review Junhao-He/drivers-perf-hisi-Add-support-for-HiSilicon-H60PA-and-PAv3-PMU-driver/20230523-215041
->          git checkout f89c838447a57f5b51474a6aea981acbe68f73b9
->          # save the config file
->          mkdir build_dir && cp config build_dir/.config
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
->          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/perf/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202305241109.DJKYvjGM-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->     In file included from drivers/perf/hisilicon/hisi_uncore_pmu.c:21:
->>> drivers/perf/hisilicon/hisi_uncore_pmu.h:140:5: warning: no previous prototype for 'hisi_uncore_pmu_ver2idx' [-Wmissing-prototypes]
->       140 | int hisi_uncore_pmu_ver2idx(struct hisi_pmu *pmu)
->           |     ^~~~~~~~~~~~~~~~~~~~~~~
-
-Thanks, Will fix in next version.
-
->
-> vim +/hisi_uncore_pmu_ver2idx +140 drivers/perf/hisilicon/hisi_uncore_pmu.h
->
->     139	
->   > 140	int hisi_uncore_pmu_ver2idx(struct hisi_pmu *pmu)
->
-
+T24gU2F0LCAyMDIzLTA1LTI3IGF0IDE2OjMwICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
+ZToNCj4gDQo+IEhpLA0KPiANCj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoLg0KPiANCj4gRllJOiBr
+ZXJuZWwgdGVzdCByb2JvdCBub3RpY2VzIHRoZSBzdGFibGUga2VybmVsIHJ1bGUgaXMgbm90IHNh
+dGlzZmllZC4NCj4gDQo+IFJ1bGU6ICdDYzogc3RhYmxlQHZnZXIua2VybmVsLm9yZycgb3IgJ2Nv
+bW1pdCA8c2hhMT4gdXBzdHJlYW0uJw0KPiBTdWJqZWN0OiBbUEFUQ0ggMy8zXSB3aWZpOiBydHc4
+OTogcmVtb3ZlIHJlZHVuZGFudCBjaGVjayBvZiBlbnRlcmluZyBMUFMNCj4gTGluazogaHR0cHM6
+Ly9sb3JlLmtlcm5lbC5vcmcvc3RhYmxlLzIwMjMwNTI3MDgyOTM5LjExMjA2LTQtcGtzaGloJTQw
+cmVhbHRlay5jb20NCj4gDQo+IFRoZSBjaGVjayBpcyBiYXNlZCBvbiBodHRwczovL3d3dy5rZXJu
+ZWwub3JnL2RvYy9odG1sL2xhdGVzdC9wcm9jZXNzL3N0YWJsZS1rZXJuZWwtcnVsZXMuaHRtbA0K
+PiANCg0KSSBzZW50IHRoaXMgcGF0Y2hzZXQgd2l0aCB0aGUgc2FtZSBUby9DYyBtYWlsIGFkZHJl
+c3NlcywgYnV0IEkgZG9uJ3Qgd2FudA0KdG8gYXBwbHkgdGhpcyBwYXRjaCB0byBzdGFibGUga2Vy
+bmVsLCBzbyBwbGVhc2Ugc3RhYmxlIG1haW50YWluZXJzDQppZ25vcmUgdGhpcyBwYXRjaC4gSSB3
+aWxsIHRha2UgY2FyZSBhYm91dCB0aGlzIGJ5IG5leHQgc3VibWlzc2lvbi4NCg0KUGluZy1LZQ0K
+DQo=
