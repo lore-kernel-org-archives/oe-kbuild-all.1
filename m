@@ -1,99 +1,139 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6730053A2;
-	Sat, 27 May 2023 11:51:19 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-64d3fdcadb8so1362126b3a.3;
-        Sat, 27 May 2023 04:51:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685188279; x=1687780279;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ps7W4euBnPTypuQ48jqWiVzSPldfhUMwv3snwxq59YY=;
-        b=AqYl7ViqxvBn8HqG78gKCD/7rKL7HfBq1/pAor38gVc2DQg5wu3paaZGGxS4V7ZXlS
-         2jedEA59iAcVm+XTq+abpom59mTFsWn9Faeodygf0CuJjOohBCvIds+IGzzMGs+xVbil
-         Z3UNroBt9DysnC6W+qovqNd+CTCvW/e+abPur5uFCWAqnrV4wLz5dLSdyxreUll9Ww/N
-         YwSHPevF6IFrhRlMqtXCErTxxkG+KurtaHOuzZCd9sCUKeDncUTIgMgFWoZtxopNwmmw
-         8jYDOnkRLvJ4qXiOMrsCF34giu8WNZ2fuGm1QvE5N3/dr+/U1plyjdDbR03S7rAzWeK1
-         dC/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685188279; x=1687780279;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ps7W4euBnPTypuQ48jqWiVzSPldfhUMwv3snwxq59YY=;
-        b=Cs668NvTmsVFqR/1GJuaqGQ8nwZ0tzOl+dYET2gvQdQIg4BIak7Fj7ec+wHhUw9Hvo
-         upR172cvwuwKVYPfVOpx0j4KA+S1g97bQPfQS2yZErK+hMRJIAMODSQ80aRg5RsWru39
-         QYb5T9WSDGJzF2tKpXLgf36bES/pTyf9E46qG+doEC01TtLPl1FZ2v396CQWNvz0Y9n9
-         OOVfsH8VNvudhwc00EVw+fuOeT+F2kxykTlG8FbeY4SlgVovwyRA8PPftmJtbJe7oU0Q
-         FYyArOy51dU9uGrVDStYi6LmATsVRlsqub76gyLks5b28dridLwzMOu21gnor9E1RDOC
-         ts/g==
-X-Gm-Message-State: AC+VfDzqEMtrNIQB+esuyPlOo9eXZwCZCIAHbVbzIuoALUHgMQC84a8L
-	KT0UBggEJIz+xDVqBzdoWYw=
-X-Google-Smtp-Source: ACHHUZ5zF+iygF5B/re2qY7V3eQMYr1cqIGaEaq0niqW5MExwb/4oKb4QmWjit3DZrE+2rrXv+iuSg==
-X-Received: by 2002:a05:6a20:5493:b0:10e:d90f:35d5 with SMTP id i19-20020a056a20549300b0010ed90f35d5mr2847160pzk.51.1685188278759;
-        Sat, 27 May 2023 04:51:18 -0700 (PDT)
-Received: from redkillpc.. ([49.207.219.227])
-        by smtp.gmail.com with ESMTPSA id x19-20020aa793b3000000b0064f97ff4506sm2988098pff.68.2023.05.27.04.51.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 May 2023 04:51:18 -0700 (PDT)
-From: Prathu Baronia <prathubaronia2011@gmail.com>
-To: prathubaronia2011@gmail.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Khadija Kamran <kamrankhadijadj@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org,
-	error27@gmail.com,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	oe-kbuild@lists.linux.dev
-Subject: [PATCH v4 3/3] axis-fifo: cleanup space issues with fops struct
-Date: Sat, 27 May 2023 17:21:00 +0530
-Message-Id: <20230527115101.47569-3-prathubaronia2011@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230527115101.47569-1-prathubaronia2011@gmail.com>
-References: <ZHHE/H2p4Go/Igc/@redkillpc>
- <20230527115101.47569-1-prathubaronia2011@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946A353A2
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 11:59:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685188744; x=1716724744;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zmFzT5pRn/sMBj6n/h4s8aWxiX/SSMMcVknEBskT0dM=;
+  b=WowiJpWbMvfsHVJmDEneOOEbz1w7uFU5CHocLSZLvmVToZpFpe3ylm/m
+   ElmUFV3SEC6tdATCKipTjx0Ueyye0FG6Dv1ga3ARjmRp1knoben7KPXeB
+   DpVuu8iYFFJFe36Wo+mLn0OLCghBGIT0NqtPs3VVx24YnS87InUIjipRE
+   RTBWIFnmpEAPGJMgTRHfq53j+HPnn7S+F/sYyDEvAgTPtVJ/bwlD/kWst
+   N+kt7lr6tax24A5Xbwl+ZupmOtToHdW3QVqc3BWNis1mEiCJLKm+dOE7N
+   n+9Kz7e8PxaMdKyiAJE0se1zYzsMjJ/WNH8LTmtQtAmFZ/hCt+J/ZiZwg
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="353233928"
+X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
+   d="scan'208";a="353233928"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 04:59:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="817840390"
+X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
+   d="scan'208";a="817840390"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 27 May 2023 04:59:02 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q2sZZ-000Jwo-1L;
+	Sat, 27 May 2023 11:59:01 +0000
+Date: Sat, 27 May 2023 19:58:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dai Ngo <dai.ngo@oracle.com>, chuck.lever@oracle.com,
+	jlayton@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/2] NFSD: add counter for write delegation recall due to
+ conflict with GETATTR
+Message-ID: <202305271936.3kL7Ufxk-lkp@intel.com>
+References: <1685122722-18287-3-git-send-email-dai.ngo@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1685122722-18287-3-git-send-email-dai.ngo@oracle.com>
 
-Add required spaces for proper formatting of fops members for better
-readability.
+Hi Dai,
 
-Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
----
- drivers/staging/axis-fifo/axis-fifo.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index d71bdc6dd961..59e962467a3d 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -716,11 +716,11 @@ static int axis_fifo_close(struct inode *inod, struct file *f)
- }
- 
- static const struct file_operations fops = {
--	.owner = THIS_MODULE,
--	.open = axis_fifo_open,
-+	.owner   = THIS_MODULE,
-+	.open    = axis_fifo_open,
- 	.release = axis_fifo_close,
--	.read = axis_fifo_read,
--	.write = axis_fifo_write
-+	.read    = axis_fifo_read,
-+	.write   = axis_fifo_write
- };
- 
- /* read named property from the device tree */
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.4-rc3 next-20230525]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dai-Ngo/NFSD-handle-GETATTR-conflict-with-write-delegation/20230527-013936
+base:   linus/master
+patch link:    https://lore.kernel.org/r/1685122722-18287-3-git-send-email-dai.ngo%40oracle.com
+patch subject: [PATCH 2/2] NFSD: add counter for write delegation recall due to conflict with GETATTR
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20230527/202305271936.3kL7Ufxk-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/a90d0ca71c9459b76f9faa8c704c029ac8066d00
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Dai-Ngo/NFSD-handle-GETATTR-conflict-with-write-delegation/20230527-013936
+        git checkout a90d0ca71c9459b76f9faa8c704c029ac8066d00
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash fs/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305271936.3kL7Ufxk-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from fs/nfsd/nfsd.h:28,
+                    from fs/nfsd/state.h:42,
+                    from fs/nfsd/xdr4.h:40,
+                    from fs/nfsd/trace.h:17,
+                    from fs/nfsd/trace.c:4:
+   fs/nfsd/stats.h: In function 'nfsd_stats_wdeleg_getattr_inc':
+>> fs/nfsd/stats.h:99:47: error: 'NFSD_STATS_WDELEG_GETATTR' undeclared (first use in this function)
+      99 |         percpu_counter_inc(&nfsdstats.counter[NFSD_STATS_WDELEG_GETATTR]);
+         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfsd/stats.h:99:47: note: each undeclared identifier is reported only once for each function it appears in
+--
+   In file included from fs/nfsd/nfsd.h:28,
+                    from fs/nfsd/export.c:21:
+   fs/nfsd/stats.h: In function 'nfsd_stats_wdeleg_getattr_inc':
+>> fs/nfsd/stats.h:99:47: error: 'NFSD_STATS_WDELEG_GETATTR' undeclared (first use in this function)
+      99 |         percpu_counter_inc(&nfsdstats.counter[NFSD_STATS_WDELEG_GETATTR]);
+         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfsd/stats.h:99:47: note: each undeclared identifier is reported only once for each function it appears in
+   fs/nfsd/export.c: In function 'exp_rootfh':
+   fs/nfsd/export.c:1005:34: warning: variable 'inode' set but not used [-Wunused-but-set-variable]
+    1005 |         struct inode            *inode;
+         |                                  ^~~~~
+--
+   In file included from fs/nfsd/nfsd.h:28,
+                    from fs/nfsd/state.h:42,
+                    from fs/nfsd/xdr4.h:40,
+                    from fs/nfsd/trace.h:17,
+                    from fs/nfsd/trace.c:4:
+   fs/nfsd/stats.h: In function 'nfsd_stats_wdeleg_getattr_inc':
+>> fs/nfsd/stats.h:99:47: error: 'NFSD_STATS_WDELEG_GETATTR' undeclared (first use in this function)
+      99 |         percpu_counter_inc(&nfsdstats.counter[NFSD_STATS_WDELEG_GETATTR]);
+         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfsd/stats.h:99:47: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from fs/nfsd/trace.h:1589:
+   include/trace/define_trace.h: At top level:
+   include/trace/define_trace.h:95:42: fatal error: ./trace.h: No such file or directory
+      95 | #include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
+         |                                          ^
+   compilation terminated.
+
+
+vim +/NFSD_STATS_WDELEG_GETATTR +99 fs/nfsd/stats.h
+
+    96	
+    97	static inline void nfsd_stats_wdeleg_getattr_inc(void)
+    98	{
+  > 99		percpu_counter_inc(&nfsdstats.counter[NFSD_STATS_WDELEG_GETATTR]);
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
