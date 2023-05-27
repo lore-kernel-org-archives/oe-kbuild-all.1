@@ -1,46 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA992104
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 10:44:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B30A20
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 11:07:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685184243; x=1716720243;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=htgVJ0Mc9jfpsCqyHX2MoPkxQc8Odo9Ce4AmOTBizhE=;
-  b=L/rril5Eyuh0Liy/lAbwjZ8OvMsII1IwAZXza3DdlzKEXeRtyJFNMgBe
-   L8nl75ksilMBO47+ebvVejqiTwLcby0hht3VNYiDla2OV9rAPnOJR26Ge
-   Z27men4KVcipAgSwCOHL8F2rIEhOpklb1OA7DHKlAy0FQA+019ZEcfAQ9
-   76qaHEAKyaRubLfzgGyjCw2ktVBHN+8+RUhsPSJD/Fodekf1RwKG2ymp9
-   g0GKcqXdOeAQR0u/rKgYIAWi2deLMPsDpWPOtp82977trbStjcHzEb4e0
-   Wz/r9FjZv/CUeh2mRXfIuYo6jNGr7se+HnpX9Kvu8id8erZGmz8PrYtUe
+  t=1685185622; x=1716721622;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=c8SZlaZKDb1Fv7N4ngXxJJOnIKnbR83Yw15Uwsk+Sg0=;
+  b=M8WzUab4vLIs5kN6nwIu5MKBUBYMbPBYB4FDxDY2IwnPSct0kMZIuHhR
+   uK4oikCQiOFOVehLi5tN3YnzAuIREd7Z0EExEUneE3BPsuxyQ5ZBCiP4L
+   dwWo5Q7oXPUIKSS976uDXIdraj7LJPjrFWJXIj1DU2xtrgGo3VSqwmKw+
+   g7ZtB1sSTrVhhxzv88khJch6ZgbiBL0R5Yc9lzqQwZypYxtU9DmFEAZEE
+   q5qQTPpivZRnFM9Cg3K14MvNwxELxrcp6rB2fVXsq89ER+tYOUiNYZUe2
+   YOcknRYTDahFFVTSMynymzLGzy/PELTWcFcDBIkq/mKByQMvNNIXjn4Hr
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="417866957"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="334009499"
 X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
-   d="scan'208";a="417866957"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 03:44:03 -0700
+   d="scan'208";a="334009499"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 04:07:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="699679398"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="708672892"
 X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
-   d="scan'208";a="699679398"
+   d="scan'208";a="708672892"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 27 May 2023 03:44:00 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 27 May 2023 04:07:00 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2rOx-000JuI-2L;
-	Sat, 27 May 2023 10:43:59 +0000
-Date: Sat, 27 May 2023 18:43:45 +0800
+	id 1q2rlE-000Jv4-0p;
+	Sat, 27 May 2023 11:07:00 +0000
+Date: Sat, 27 May 2023 19:06:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lizhi Hou <lizhi.hou@amd.com>, vkoul@kernel.org,
-	dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Nishad Saraf <nishads@amd.com>,
-	max.zhen@amd.com, sonal.santan@amd.com, nishad.saraf@amd.com,
-	Lizhi Hou <lizhi.hou@amd.com>
-Subject: Re: [PATCH V1 QDMA 1/1] dmaengine: amd: qdma: Add AMD QDMA driver
-Message-ID: <202305271839.2OLecczN-lkp@intel.com>
-References: <1685119795-11729-2-git-send-email-lizhi.hou@amd.com>
+To: Aswath Govindraju <a-govindraju@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Vinod Koul <vkoul@kernel.org>
+Subject: drivers/mux/mmio.c:29:34: warning: 'mux_mmio_dt_ids' defined but not
+ used
+Message-ID: <202305271837.P7wi3WCR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,64 +46,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1685119795-11729-2-git-send-email-lizhi.hou@amd.com>
 
-Hi Lizhi,
+Hi Aswath,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on vkoul-dmaengine/next]
-[also build test ERROR on linus/master v6.4-rc3 next-20230525]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lizhi-Hou/dmaengine-amd-qdma-Add-AMD-QDMA-driver/20230527-005214
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/1685119795-11729-2-git-send-email-lizhi.hou%40amd.com
-patch subject: [PATCH V1 QDMA 1/1] dmaengine: amd: qdma: Add AMD QDMA driver
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230527/202305271839.2OLecczN-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   49572d5361298711207ab387a6c318407deb963a
+commit: e4d4371253029528c02bfb43a46c252e1c3d035f phy: phy-can-transceiver: Add support for setting mux
+date:   1 year, 2 months ago
+config: i386-buildonly-randconfig-r006-20230526 (https://download.01.org/0day-ci/archive/20230527/202305271837.P7wi3WCR-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/d300fd23b7ecbcc89512dba3fa745941c1c03fac
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Lizhi-Hou/dmaengine-amd-qdma-Add-AMD-QDMA-driver/20230527-005214
-        git checkout d300fd23b7ecbcc89512dba3fa745941c1c03fac
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e4d4371253029528c02bfb43a46c252e1c3d035f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e4d4371253029528c02bfb43a46c252e1c3d035f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/mux/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305271839.2OLecczN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305271837.P7wi3WCR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/mips/kernel/head.o: in function `kernel_entry':
-   (.ref.text+0xac): relocation truncated to fit: R_MIPS_26 against `start_kernel'
-   init/main.o: in function `set_reset_devices':
-   main.c:(.init.text+0x20): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x30): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `debug_kernel':
-   main.c:(.init.text+0xa4): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0xb4): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `quiet_kernel':
-   main.c:(.init.text+0x128): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x138): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `warn_bootconfig':
-   main.c:(.init.text+0x1ac): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x1bc): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `init_setup':
-   main.c:(.init.text+0x234): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x254): additional relocation overflows omitted from the output
-   mips-linux-ld: drivers/dma/amd/qdma.o: in function `qdma_get_field.isra.0':
->> qdma.c:(.text.qdma_get_field.isra.0+0xa8): undefined reference to `__ffsdi2'
->> mips-linux-ld: qdma.c:(.text.qdma_get_field.isra.0+0x200): undefined reference to `__ffsdi2'
-   mips-linux-ld: qdma.c:(.text.qdma_get_field.isra.0+0x3e0): undefined reference to `__ffsdi2'
+>> drivers/mux/mmio.c:29:34: warning: 'mux_mmio_dt_ids' defined but not used [-Wunused-const-variable=]
+      29 | static const struct of_device_id mux_mmio_dt_ids[] = {
+         |                                  ^~~~~~~~~~~~~~~
+
+
+vim +/mux_mmio_dt_ids +29 drivers/mux/mmio.c
+
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  28  
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14 @29  static const struct of_device_id mux_mmio_dt_ids[] = {
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  30  	{ .compatible = "mmio-mux", },
+8ecfaca7926f4b drivers/mux/mmio.c     Pankaj Bansal 2019-06-12  31  	{ .compatible = "reg-mux", },
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  32  	{ /* sentinel */ }
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  33  };
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  34  MODULE_DEVICE_TABLE(of, mux_mmio_dt_ids);
+73726380a26fa1 drivers/mux/mux-mmio.c Philipp Zabel 2017-05-14  35  
+
+:::::: The code at line 29 was first introduced by commit
+:::::: 73726380a26fa1ed490f30fccee10ed9da28dc0c mux: mmio-based syscon mux controller
+
+:::::: TO: Philipp Zabel <p.zabel@pengutronix.de>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
