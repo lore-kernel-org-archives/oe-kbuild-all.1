@@ -1,43 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A1C125DF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 22:46:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D9519512
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 22:46:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1685227585; x=1716763585;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8f5jdyIGkXhDQ6nKfiJw8o1xEghB8VGwol0EPXjX5mk=;
-  b=SKX3x/zTBklQ+iCPYsbuqeJc/2NAPotCtCM8hDDcl//7bdswWZCxzwgq
-   SnmQGJSHFOWJvVt8m50CLFALB5B+PoENYhpfiG3bxx7g+NPSo1zpUitzh
-   wALEWh4JZAz6TpVaq50JkLmx9jtEQpc1geXw7mZ9IX+P8k60e+HfH/qLH
-   Zu2XWGiCRKsw7z0wjQLYeFUz97T52wqNFw3hX6uVO5/4hJGC4+yrdDH3B
-   4iO0cC2PwNsK+H1X0WAENGLUSRoCc/Y1L4xbmcXKdDqiVOa9jNvnDZGjh
-   eJcvtpZ5qK/h8aw8CDE1mx2w3gvUzRslFHoqk4RvxR/qtyhyND5ntxr/N
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="417932983"
+  bh=r0hW86KTHKEKofjImSFREcK72WmXjycx7UwlFNCMV3o=;
+  b=cFFpo+6MSBuwZ7u1ze/vvUqyvYzR23rz03pFUW90e/QFRt1XLlajtt/j
+   Ftu60LLfSleRF/GJrloHMVymLzBGfjPVqS3V/rPhfdFs5tBUv9Umfw4Xt
+   Xln0K+MWqrLh0sg/YKkEesS6zjOg42oRLQlxWg1osZpt4r8+5WuKGNX5J
+   J3mQHwU6QVB6Wm05bzTTAVWRaYrGRpvxCH3QAHhCT1LwyNx2IqIBwtPP6
+   M1bdXEBjOiJqo3LBAhJi03EF2mOX0+LnbhXHdreEXxsDK+KRUdtm3bOp4
+   lgtvGsGFpOzmH+xo/JLlzrOjcEE5CL4MsrOYg5dcGVQ1iLfiEMX2C//U3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="343953144"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="417932983"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 15:46:24 -0700
+   d="scan'208";a="343953144"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 15:46:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="708784585"
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="1035734739"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="708784585"
+   d="scan'208";a="1035734739"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 27 May 2023 15:46:23 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 27 May 2023 15:46:23 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q32g2-000KEK-25;
+	id 1q32g2-000KEI-1k;
 	Sat, 27 May 2023 22:46:22 +0000
-Date: Sun, 28 May 2023 06:45:56 +0800
+Date: Sun, 28 May 2023 06:46:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:arcvm12-5.10 4030/27651]
- drivers/android/debug_symbols.c:50:9: sparse: sparse: cast removes address
- space '__percpu' of expression
-Message-ID: <202305280643.r3FWwzQY-lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/base/regmap/regcache-maple.c:114:23: warning: 'upper_index'
+ is used uninitialized
+Message-ID: <202305280647.ufP2HjHe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,44 +46,134 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common arcvm12-5.10
-head:   fb8d4193a852c7d62938aaf3a8c58bbc7888bb23
-commit: 3fcbb15c1a91a318fb9367bee24603af24648a2d [4030/27651] ANDROID: android: Create debug_symbols driver
-config: i386-randconfig-s002-20230528 (https://download.01.org/0day-ci/archive/20230528/202305280643.r3FWwzQY-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common arcvm12-5.10
-        git checkout 3fcbb15c1a91a318fb9367bee24603af24648a2d
+Hi Mark,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4e893b5aa4ac2c8a56a40d18fe87e9d2295e5dcf
+commit: f033c26de5a5734625d2dd1dc196745fae186f1b regmap: Add maple tree based register cache
+date:   8 weeks ago
+config: arc-randconfig-r043-20230528 (https://download.01.org/0day-ci/archive/20230528/202305280647.ufP2HjHe-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f033c26de5a5734625d2dd1dc196745fae186f1b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout f033c26de5a5734625d2dd1dc196745fae186f1b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/android/ drivers/virtio/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash drivers/base/regmap/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305280643.r3FWwzQY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305280647.ufP2HjHe-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/android/debug_symbols.c:50:9: sparse: sparse: cast removes address space '__percpu' of expression
+All warnings (new ones prefixed by >>):
 
-vim +/__percpu +50 drivers/android/debug_symbols.c
+   drivers/base/regmap/regcache-maple.c: In function 'regcache_maple_drop':
+>> drivers/base/regmap/regcache-maple.c:114:23: warning: 'upper_index' is used uninitialized [-Wuninitialized]
+     114 |         unsigned long upper_index, upper_last;
+         |                       ^~~~~~~~~~~
+>> drivers/base/regmap/regcache-maple.c:114:36: warning: 'upper_last' is used uninitialized [-Wuninitialized]
+     114 |         unsigned long upper_index, upper_last;
+         |                                    ^~~~~~~~~~
+   drivers/base/regmap/regcache-maple.c:113:23: warning: 'lower_index' is used uninitialized [-Wuninitialized]
+     113 |         unsigned long lower_index, lower_last;
+         |                       ^~~~~~~~~~~
+   drivers/base/regmap/regcache-maple.c:113:36: warning: 'lower_last' is used uninitialized [-Wuninitialized]
+     113 |         unsigned long lower_index, lower_last;
+         |                                    ^~~~~~~~~~
 
-    41	
-    42	/*
-    43	 * ads_per_cpu_entries array contains all the per_cpu variable address information.
-    44	 */
-    45	static const struct ads_entry ads_per_cpu_entries[ADS_DEBUG_PER_CPU_END] = {
-    46	#ifdef CONFIG_ARM64
-    47		ADS_PER_CPU_ENTRY(ADS_IRQ_STACK_PTR, irq_stack_ptr),
-    48	#endif
-    49	#ifdef CONFIG_X86
-  > 50		ADS_PER_CPU_ENTRY(ADS_IRQ_STACK_PTR, hardirq_stack_ptr),
-    51	#endif
-    52	};
-    53	
+
+vim +/upper_index +114 drivers/base/regmap/regcache-maple.c
+
+   106	
+   107	static int regcache_maple_drop(struct regmap *map, unsigned int min,
+   108				       unsigned int max)
+   109	{
+   110		struct maple_tree *mt = map->cache;
+   111		MA_STATE(mas, mt, min, max);
+   112		unsigned long *entry, *lower, *upper;
+   113		unsigned long lower_index, lower_last;
+ > 114		unsigned long upper_index, upper_last;
+   115		int ret;
+   116	
+   117		lower = NULL;
+   118		upper = NULL;
+   119	
+   120		mas_lock(&mas);
+   121	
+   122		mas_for_each(&mas, entry, max) {
+   123			/*
+   124			 * This is safe because the regmap lock means the
+   125			 * Maple lock is redundant, but we need to take it due
+   126			 * to lockdep asserts in the maple tree code.
+   127			 */
+   128			mas_unlock(&mas);
+   129	
+   130			/* Do we need to save any of this entry? */
+   131			if (mas.index < min) {
+   132				lower_index = mas.index;
+   133				lower_last = min -1;
+   134	
+   135				lower = kmemdup(entry, ((min - mas.index) *
+   136							sizeof(unsigned long)),
+   137						GFP_KERNEL);
+   138				if (!lower) {
+   139					ret = -ENOMEM;
+   140					goto out;
+   141				}
+   142			}
+   143	
+   144			if (mas.last > max) {
+   145				upper_index = max + 1;
+   146				upper_last = mas.last;
+   147	
+   148				upper = kmemdup(&entry[max + 1],
+   149						((mas.last - max) *
+   150						 sizeof(unsigned long)),
+   151						GFP_KERNEL);
+   152				if (!upper) {
+   153					ret = -ENOMEM;
+   154					goto out;
+   155				}
+   156			}
+   157	
+   158			kfree(entry);
+   159			mas_lock(&mas);
+   160			mas_erase(&mas);
+   161	
+   162			/* Insert new nodes with the saved data */
+   163			if (lower) {
+   164				mas_set_range(&mas, lower_index, lower_last);
+   165				ret = mas_store_gfp(&mas, lower, GFP_KERNEL);
+   166				if (ret != 0)
+   167					goto out;
+   168				lower = NULL;
+   169			}
+   170	
+   171			if (upper) {
+   172				mas_set_range(&mas, upper_index, upper_last);
+   173				ret = mas_store_gfp(&mas, upper, GFP_KERNEL);
+   174				if (ret != 0)
+   175					goto out;
+   176				upper = NULL;
+   177			}
+   178		}
+   179	
+   180	out:
+   181		mas_unlock(&mas);
+   182		kfree(lower);
+   183		kfree(upper);
+   184	
+   185		return ret;
+   186	}
+   187	
 
 -- 
 0-DAY CI Kernel Test Service
