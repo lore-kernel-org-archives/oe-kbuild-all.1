@@ -1,42 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F1D1078A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 15:00:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E24F1078A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 16:02:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685199606; x=1716735606;
+  t=1685203328; x=1716739328;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IqCWaKPKTGGGtaOKH7p7CNNImP67xF5c12bN+RJjMU0=;
-  b=j+9Y+UavAFMv5lsnHxIyAk1zh3IULcgY0hYO/DP4K2z7fZQuFaSMx6gN
-   t9+S8sFsGEOamWBASnBxALHgdTa5UXZ8jbARTgnEdJi3fnBv7S+piFvzY
-   76M5FM194dxdKSPHaeIZ5YW0hlnYWDiYc/EFWgHp3SgmIbKx7rI5ajqV9
-   hJw8LqZRG6z3YudUKkd0QArS1rDDSMfgHujwgv7BAQ1K9zN4pIgrcZzrA
-   Ap8WuanLf9/8JacKjNeok9TaupAn+uQh3lHurMmML4PV0dCiCw9wvy4hr
-   KNoCCj8B38QmxS9PS6U25HK9n6vAPCSUnysoNR8zc87AT9umihmWqIxyE
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="417889914"
+  bh=Z9he7CgW5UB+A/ge9MFSapylNBX2kRyUrMH9x7mvNVg=;
+  b=d404Qwy99tmLKrpsDwVie/4NFA86laVNLE7uJK9oof4kBtrhOA6MjzVP
+   vybtwS5L4Mq3lzlyC93lfXftHo0m6NWQ88RZDOYxjwvKIj7WsJIrqeaHy
+   PSrrbye6YASf4DD6YVbvqNt0wKtrcV/UcnyuXY/yHcXOrKZokZ5yTLftJ
+   deSkqMwyqxm/lQkFGkwThi9etgMbwjo6GEUGBwdrLc+p+BDKhSXS5csFI
+   7sYv7s+l+Xj2eS6e2z2ThKad1dFce5+U/53uJwq5QMp6tTH+ZXERIWu91
+   vsy59iPElPBlqvigqe9SievyTbNapyBsMx4gb2iG2waGa43mAQS7M9yox
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="339006929"
 X-IronPort-AV: E=Sophos;i="6.00,197,1681196400"; 
-   d="scan'208";a="417889914"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 08:00:06 -0700
+   d="scan'208";a="339006929"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 09:02:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="1035668717"
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="879857560"
 X-IronPort-AV: E=Sophos;i="6.00,197,1681196400"; 
-   d="scan'208";a="1035668717"
+   d="scan'208";a="879857560"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 27 May 2023 08:00:05 -0700
+  by orsmga005.jf.intel.com with ESMTP; 27 May 2023 09:02:06 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2vOm-000K14-1F;
-	Sat, 27 May 2023 15:00:04 +0000
-Date: Sat, 27 May 2023 22:59:57 +0800
+	id 1q2wMn-000K2p-2N;
+	Sat, 27 May 2023 16:02:05 +0000
+Date: Sun, 28 May 2023 00:01:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Ujfalusi <peter.ujfalusi@ti.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [omap-audio:peter/linux-next-wip 14/48]
- sound/soc/soc-utils.c:250:34: warning: unused variable 'soc_dummy_ids'
-Message-ID: <202305272237.8rXAlXzK-lkp@intel.com>
+Subject: [freescale-fslc:6.1-1.0.x-imx 93/9879]
+ arch/arm/mach-imx/busfreq_optee.c:108:5: warning: no previous prototype for
+ 'update_freq_optee'
+Message-ID: <202305272349.Xlmbe3B3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,113 +47,223 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/omap-audio/linux-audio peter/linux-next-wip
-head:   f5c320386f9fa464312107b87c50c3c96e253459
-commit: 8d36c4b6664d1b8db35e0e4f53c648c7ba464298 [14/48] ASoC: soc-utils: HACK: DT binding for snd-soc-dummy
-config: s390-buildonly-randconfig-r002-20230526 (https://download.01.org/0day-ci/archive/20230527/202305272237.8rXAlXzK-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
+tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
+head:   ad9ab3b3c553cbc3c61f233b6e2cd5abdd2a624b
+commit: 604b8653bbb81819f01ac592003a205eff100aaa [93/9879] MLK-20023 Move Busfreq support to OPTEE OS
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230527/202305272349.Xlmbe3B3-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/omap-audio/linux-audio/commit/8d36c4b6664d1b8db35e0e4f53c648c7ba464298
-        git remote add omap-audio https://github.com/omap-audio/linux-audio
-        git fetch --no-tags omap-audio peter/linux-next-wip
-        git checkout 8d36c4b6664d1b8db35e0e4f53c648c7ba464298
+        # https://github.com/Freescale/linux-fslc/commit/604b8653bbb81819f01ac592003a205eff100aaa
+        git remote add freescale-fslc https://github.com/Freescale/linux-fslc
+        git fetch --no-tags freescale-fslc 6.1-1.0.x-imx
+        git checkout 604b8653bbb81819f01ac592003a205eff100aaa
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash sound/soc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305272237.8rXAlXzK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305272349.Xlmbe3B3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from sound/soc/soc-utils.c:16:
-   In file included from include/sound/soc.h:20:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from sound/soc/soc-utils.c:16:
-   In file included from include/sound/soc.h:20:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from sound/soc/soc-utils.c:16:
-   In file included from include/sound/soc.h:20:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> sound/soc/soc-utils.c:250:34: warning: unused variable 'soc_dummy_ids' [-Wunused-const-variable]
-   static const struct of_device_id soc_dummy_ids[] = {
-                                    ^
-   13 warnings generated.
+>> arch/arm/mach-imx/busfreq_optee.c:108:5: warning: no previous prototype for 'update_freq_optee' [-Wmissing-prototypes]
+     108 | int update_freq_optee(int ddr_rate)
+         |     ^~~~~~~~~~~~~~~~~
+>> arch/arm/mach-imx/busfreq_optee.c:281:5: warning: no previous prototype for 'init_freq_optee' [-Wmissing-prototypes]
+     281 | int init_freq_optee(struct platform_device *busfreq_pdev)
+         |     ^~~~~~~~~~~~~~~
 
 
-vim +/soc_dummy_ids +250 sound/soc/soc-utils.c
+vim +/update_freq_optee +108 arch/arm/mach-imx/busfreq_optee.c
 
+    99	
+   100	/**
+   101	 * @brief   Request OPTEE OS to change the memory bus frequency
+   102	 *          to \a ddr_rate value
+   103	 *
+   104	 * @param[in]  rate  Bus Frequency
+   105	 *
+   106	 * @retval 0  Success
+   107	 */
+ > 108	int update_freq_optee(int ddr_rate)
+   109	{
+   110		struct arm_smccc_res res;
+   111	
+   112		uint32_t me      = 0;
+   113		uint32_t dll_off = 0;
+   114		int      mode    = get_bus_freq_mode();
+   115	
+   116	#ifdef CONFIG_SMP
+   117		uint32_t reg         = 0;
+   118		uint32_t cpu         = 0;
+   119		uint32_t online_cpus = 0;
+   120		uint32_t all_cpus    = 0;
+   121	#endif
+   122	
+   123		pr_info("\nBusfreq OPTEE set from %d to %d start...\n",
+   124				curr_ddr_rate, ddr_rate);
+   125	
+   126		if (ddr_rate == curr_ddr_rate)
+   127			return 0;
+   128	
+   129		if (cpu_is_imx6()) {
+   130			if ((mode == BUS_FREQ_LOW) || (mode == BUS_FREQ_AUDIO))
+   131				dll_off = 1;
+   132		}
+   133	
+   134		local_irq_disable();
+   135	
+   136	#ifdef CONFIG_SMP
+   137		me = smp_processor_id();
+   138	
+   139		/* Make sure all the online cores to be active */
+   140		do {
+   141			all_cpus = 0;
+   142	
+   143			for_each_online_cpu(cpu)
+   144				all_cpus |= (pSync->wfe_status[cpu] << cpu);
+   145		} while (all_cpus);
+   146	
+   147		pSync->change_ongoing = 1;
+   148		dsb();
+   149	
+   150		for_each_online_cpu(cpu) {
+   151			if (cpu != me) {
+   152				online_cpus |= (1 << cpu);
+   153				/* Set the interrupt to be pending in the GIC. */
+   154				reg = 1 << (irqs_for_wfe[cpu] % 32);
+   155				writel_relaxed(reg, gic_dist_base + GIC_DIST_PENDING_SET
+   156					+ (irqs_for_wfe[cpu] / 32) * 4);
+   157			}
+   158		}
+   159	
+   160		/* Wait for all active CPUs to be in WFE */
+   161		do {
+   162			all_cpus = 0;
+   163	
+   164			for_each_online_cpu(cpu)
+   165				all_cpus |= (pSync->wfe_status[cpu] << cpu);
+   166		} while (all_cpus != online_cpus);
+   167	
+   168	#endif
+   169	
+   170		/* Now we can change the DDR frequency. */
+   171		/* Call the TEE SiP */
+   172		arm_smccc_smc(OPTEE_SMC_FAST_CALL_SIP_VAL(IMX_SIP_BUSFREQ_CHANGE),
+   173					ddr_rate, dll_off, 0, 0, 0, 0, 0, &res);
+   174	
+   175		curr_ddr_rate = ddr_rate;
+   176	
+   177	#ifdef CONFIG_SMP
+   178		/* DDR frequency change is done */
+   179		pSync->change_ongoing = 0;
+   180		dsb();
+   181	
+   182		/* wake up all the cores. */
+   183		sev();
+   184	#endif
+   185	
+   186		local_irq_enable();
+   187	
+   188		pr_info("Busfreq OPTEE set to %d done! cpu=%d\n",
+   189				ddr_rate, me);
+   190	
+   191		return 0;
+   192	}
+   193	
+   194	#ifdef CONFIG_SMP
+   195	static int init_freq_optee_smp(struct platform_device *busfreq_pdev)
+   196	{
+   197		struct device_node *node = 0;
+   198		struct device *dev = &busfreq_pdev->dev;
+   199		uint32_t cpu;
+   200		int err;
+   201		int irq;
+   202		struct irq_data *irq_data;
+   203		unsigned long wfe_iram_base;
+   204	
+   205		if (cpu_is_imx6()) {
+   206			node = of_find_compatible_node(NULL, NULL, "arm,cortex-a9-gic");
+   207			if (!node) {
+   208				if (cpu_is_imx6q())
+   209					pr_debug("failed to find imx6q-a9-gic device tree data!\n");
+   210	
+   211				return -EINVAL;
+   212			}
+   213		} else {
+   214			node = of_find_compatible_node(NULL, NULL, "arm,cortex-a7-gic");
+   215			if (!node) {
+   216				pr_debug("failed to find imx7d-a7-gic device tree data!\n");
+   217				return -EINVAL;
+   218			}
+   219		}
+   220	
+   221		gic_dist_base = of_iomap(node, 0);
+   222		WARN(!gic_dist_base, "unable to map gic dist registers\n");
+   223	
+   224		irqs_for_wfe = devm_kzalloc(dev, sizeof(uint32_t) * num_present_cpus(),
+   225						GFP_KERNEL);
+   226	
+   227		for_each_online_cpu(cpu) {
+   228			/*
+   229			 * set up a reserved interrupt to get all
+   230			 * the active cores into a WFE state
+   231			 * before changing the DDR frequency.
+   232			 */
+   233			irq = platform_get_irq(busfreq_pdev, cpu);
+   234	
+   235			if (cpu_is_imx6()) {
+   236				err = request_irq(irq, wait_in_wfe_irq,
+   237					IRQF_PERCPU, "mmdc_1", NULL);
+   238			} else {
+   239				err = request_irq(irq, wait_in_wfe_irq,
+   240					IRQF_PERCPU, "ddrc", NULL);
+   241			}
+   242	
+   243			if (err) {
+   244				dev_err(dev,
+   245					"Busfreq:request_irq failed %d, err = %d\n",
+   246					irq, err);
+   247				return err;
+   248			}
    249	
- > 250	static const struct of_device_id soc_dummy_ids[] = {
-   251		{ .compatible = "linux,snd-soc-dummy", },
-   252		{ }
-   253	};
-   254	MODULE_DEVICE_TABLE(of, soc_dummy_ids);
-   255	
+   250			err = irq_set_affinity(irq, cpumask_of(cpu));
+   251			if (err) {
+   252				dev_err(dev,
+   253					"Busfreq: Cannot set irq affinity irq=%d,\n",
+   254					irq);
+   255				return err;
+   256			}
+   257	
+   258			irq_data = irq_get_irq_data(irq);
+   259			irqs_for_wfe[cpu] = irq_data->hwirq + 32;
+   260		}
+   261	
+   262		/* Store the variable used to communicate between cores */
+   263		pSync = (void *)ddr_freq_change_iram_base;
+   264	
+   265		memset(pSync, 0, sizeof(*pSync));
+   266	
+   267		wfe_iram_base = ddr_freq_change_iram_base + sizeof(*pSync);
+   268	
+   269		if (wfe_iram_base & (FNCPY_ALIGN - 1))
+   270			wfe_iram_base += FNCPY_ALIGN -
+   271					((uintptr_t)wfe_iram_base % (FNCPY_ALIGN));
+   272	
+   273		wfe_change_freq = (void *)fncpy((void *)wfe_iram_base,
+   274					&imx_smp_wfe_optee,
+   275					((&imx_smp_wfe_end -&imx_smp_wfe_start) *4));
+   276	
+   277		return 0;
+   278	
+   279	}
+   280	
+ > 281	int init_freq_optee(struct platform_device *busfreq_pdev)
 
 -- 
 0-DAY CI Kernel Test Service
