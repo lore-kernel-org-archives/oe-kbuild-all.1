@@ -1,42 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43F619900;
-	Sat, 27 May 2023 23:38:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2556171B1
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 23:38:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1685230710; x=1716766710;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PGjTqxrTCZLR4IqO1wL5PGxZ8YB2DrLjMcyeY0HcXrU=;
-  b=RuyTJormMdp7BQi9AYhrwrPEytp2lUd2oGhpHgaQRO9Juyv+cljyMikI
-   7pGCGvNR6scEhxpiVgbZgiRESBaFJK3OhYuAXfBmrWCm/l7NL6n3mGLqK
-   vtzeHMgqaj6Lin+Y8qFI7ilXrPy9OxtMLr30gmjCTgB/GsLYbec9Q0jnc
-   4YDKyZfXRRuX+lAKn6Sct60ttKavkzWtnW0J5ZdQDf1y7W3ETozjZ/4Ze
-   aGFqHObJhfZy0lFZeqaZGV2zDsaeYqFibY+D4T/0Du9GJWJa7EE1GPwUS
-   nHMu7hFEqdV/QnAbn0b7EZYsF8lIKjjSfDRF+9MVKdVA/7fG3Yk1PZ3Ov
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="353300481"
+  bh=fF5KDF5UHs5tEKjxbrjJ//x1LcJL+cMM+fX7s+kqRDI=;
+  b=JI6rkPI0+uV++deHhYZVQUV+mtst0yRVLa0VLIuF8Z1DiIr5+5bJPjh0
+   LdO3s91LSH4Oqzrtiu7gisSs042LlF+rGHBl7LMGGSHhofxiIZFzmwdEY
+   +WKJR7CP2DvlgeBrmKo9enR9lGp25BENh++dzymIyv0hw7e2dSKsvxhjp
+   KGGe64QSNGgFsQeqH4UNOKYfY+vsivbwzq3itDc3Wu5dlLRSYUvqVYSC6
+   bimZO/JNBYVyfuTFJirpf+1F8j6GYJirnO2PBjRyxaUnCdxmcLCxpVift
+   yPAUaw4/Arl8nl33Q4rSUCinj1YochcIijMyaQoAeCB/R92hgqe9z7KuD
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="382709698"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="353300481"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 16:38:30 -0700
+   d="scan'208";a="382709698"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 16:38:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="738666234"
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="795472731"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="738666234"
+   d="scan'208";a="795472731"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 27 May 2023 16:38:28 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 27 May 2023 16:38:28 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q33US-000KFq-0W;
+	id 1q33US-000KFs-0f;
 	Sat, 27 May 2023 23:38:28 +0000
 Date: Sun, 28 May 2023 07:37:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:uprobe_multi_2 1/22] kernel/trace/bpf_trace.c:3041:16:
- warning: variable 'inode' set but not used
-Message-ID: <202305280743.W2Qij9if-lkp@intel.com>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Joerg Roedel <jroedel@suse.de>
+Subject: drivers/iommu/ipmmu-vmsa.c:946:34: warning: 'ipmmu_of_ids' defined
+ but not used
+Message-ID: <202305280730.ejrHBC6n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,106 +47,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_multi_2
-head:   c8f1191093bc581ca849b4e106d98b69bdc3a9fd
-commit: cd4ef19c217089e0b5af3754c9b5915780926c9b [1/22] bpf: Add multi uprobe link
-config: x86_64-randconfig-x063-20230528 (https://download.01.org/0day-ci/archive/20230528/202305280743.W2Qij9if-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi Robin,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4e893b5aa4ac2c8a56a40d18fe87e9d2295e5dcf
+commit: b87d6d7fa405e23478f1e1dff6d66b5a533a5433 iommu/ipmmu-vmsa: Clean up bus_set_iommu()
+date:   9 months ago
+config: x86_64-buildonly-randconfig-r001-20230528 (https://download.01.org/0day-ci/archive/20230528/202305280730.ejrHBC6n-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=cd4ef19c217089e0b5af3754c9b5915780926c9b
-        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
-        git fetch --no-tags jolsa-perf uprobe_multi_2
-        git checkout cd4ef19c217089e0b5af3754c9b5915780926c9b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b87d6d7fa405e23478f1e1dff6d66b5a533a5433
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b87d6d7fa405e23478f1e1dff6d66b5a533a5433
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/trace/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iommu/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305280743.W2Qij9if-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305280730.ejrHBC6n-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/trace/bpf_trace.c:3041:16: warning: variable 'inode' set but not used [-Wunused-but-set-variable]
-           struct inode *inode, *old_inode;
-                         ^
->> kernel/trace/bpf_trace.c:3092:12: warning: variable 'old_inode' is uninitialized when used here [-Wuninitialized]
-                           inode = old_inode;
-                                   ^~~~~~~~~
-   kernel/trace/bpf_trace.c:3041:33: note: initialize the variable 'old_inode' to silence this warning
-           struct inode *inode, *old_inode;
-                                          ^
-                                           = NULL
-   2 warnings generated.
+>> drivers/iommu/ipmmu-vmsa.c:946:34: warning: 'ipmmu_of_ids' defined but not used [-Wunused-const-variable=]
+     946 | static const struct of_device_id ipmmu_of_ids[] = {
+         |                                  ^~~~~~~~~~~~
 
 
-vim +/inode +3041 kernel/trace/bpf_trace.c
+vim +/ipmmu_of_ids +946 drivers/iommu/ipmmu-vmsa.c
 
-  3032	
-  3033	int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
-  3034	{
-  3035		void __user **upaths, __user *upath, __user *old_upath = NULL;
-  3036		unsigned long __user *uref_ctr_offsets, ref_ctr_offset = 0;
-  3037		struct bpf_uprobe_multi_link *link = NULL;
-  3038		unsigned long __user *uoffsets, offset;
-  3039		struct bpf_link_primer link_primer;
-  3040		struct bpf_uprobe *uprobes = NULL;
-> 3041		struct inode *inode, *old_inode;
-  3042		u32 flags, cnt, i;
-  3043		struct path path;
-  3044		int err;
-  3045	
-  3046		/* no support for 32bit archs yet */
-  3047		if (sizeof(u64) != sizeof(void *))
-  3048			return -EOPNOTSUPP;
-  3049	
-  3050		if (prog->expected_attach_type != BPF_TRACE_UPROBE_MULTI)
-  3051			return -EINVAL;
-  3052	
-  3053		flags = attr->link_create.uprobe_multi.flags;
-  3054		if (flags & ~BPF_F_UPROBE_MULTI_RETURN)
-  3055			return -EINVAL;
-  3056	
-  3057		upaths = u64_to_user_ptr(attr->link_create.uprobe_multi.paths);
-  3058		uoffsets = u64_to_user_ptr(attr->link_create.uprobe_multi.offsets);
-  3059		if (!!upaths != !!uoffsets)
-  3060			return -EINVAL;
-  3061	
-  3062		uref_ctr_offsets = u64_to_user_ptr(attr->link_create.uprobe_multi.ref_ctr_offsets);
-  3063	
-  3064		cnt = attr->link_create.uprobe_multi.cnt;
-  3065		if (!cnt)
-  3066			return -EINVAL;
-  3067	
-  3068		uprobes = kvcalloc(cnt, sizeof(*uprobes), GFP_KERNEL);
-  3069		if (!uprobes)
-  3070			return -ENOMEM;
-  3071	
-  3072		link = kzalloc(sizeof(*link), GFP_KERNEL);
-  3073		if (!link) {
-  3074			err = -ENOMEM;
-  3075			goto error;
-  3076		}
-  3077	
-  3078		for (i = 0; i < cnt; i++) {
-  3079			if (uref_ctr_offsets && __get_user(ref_ctr_offset, uref_ctr_offsets + i)) {
-  3080				err = -EFAULT;
-  3081				goto error_path_put;
-  3082			}
-  3083			if (__get_user(offset, uoffsets + i)) {
-  3084				err = -EFAULT;
-  3085				goto error_path_put;
-  3086			}
-  3087			if (__get_user(upath, upaths + i)) {
-  3088				err = -EFAULT;
-  3089				goto error_path_put;
-  3090			}
-  3091			if (i && old_upath == upath) {
-> 3092				inode = old_inode;
+7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  945  
+33f3ac9b511612 Magnus Damm             2017-10-16 @946  static const struct of_device_id ipmmu_of_ids[] = {
+33f3ac9b511612 Magnus Damm             2017-10-16  947  	{
+33f3ac9b511612 Magnus Damm             2017-10-16  948  		.compatible = "renesas,ipmmu-vmsa",
+33f3ac9b511612 Magnus Damm             2017-10-16  949  		.data = &ipmmu_features_default,
+60fb0083c9d43b Fabrizio Castro         2018-08-23  950  	}, {
+60fb0083c9d43b Fabrizio Castro         2018-08-23  951  		.compatible = "renesas,ipmmu-r8a774a1",
+60fb0083c9d43b Fabrizio Castro         2018-08-23  952  		.data = &ipmmu_features_rcar_gen3,
+757f26a3a9ec2c Biju Das                2019-09-27  953  	}, {
+757f26a3a9ec2c Biju Das                2019-09-27  954  		.compatible = "renesas,ipmmu-r8a774b1",
+757f26a3a9ec2c Biju Das                2019-09-27  955  		.data = &ipmmu_features_rcar_gen3,
+b6d39cd82241bf Fabrizio Castro         2018-12-13  956  	}, {
+b6d39cd82241bf Fabrizio Castro         2018-12-13  957  		.compatible = "renesas,ipmmu-r8a774c0",
+b6d39cd82241bf Fabrizio Castro         2018-12-13  958  		.data = &ipmmu_features_rcar_gen3,
+4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  959  	}, {
+4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  960  		.compatible = "renesas,ipmmu-r8a774e1",
+4b2aa7a6f9b793 Marian-Cristian Rotariu 2020-07-14  961  		.data = &ipmmu_features_rcar_gen3,
+58b8e8bf409236 Magnus Damm             2017-10-16  962  	}, {
+58b8e8bf409236 Magnus Damm             2017-10-16  963  		.compatible = "renesas,ipmmu-r8a7795",
+0b8ac1409641e1 Magnus Damm             2018-06-14  964  		.data = &ipmmu_features_rcar_gen3,
+0b8ac1409641e1 Magnus Damm             2018-06-14  965  	}, {
+0b8ac1409641e1 Magnus Damm             2018-06-14  966  		.compatible = "renesas,ipmmu-r8a7796",
+0b8ac1409641e1 Magnus Damm             2018-06-14  967  		.data = &ipmmu_features_rcar_gen3,
+17fe1618163980 Yoshihiro Shimoda       2020-06-11  968  	}, {
+17fe1618163980 Yoshihiro Shimoda       2020-06-11  969  		.compatible = "renesas,ipmmu-r8a77961",
+17fe1618163980 Yoshihiro Shimoda       2020-06-11  970  		.data = &ipmmu_features_rcar_gen3,
+98dbffd39a6513 Jacopo Mondi            2018-06-14  971  	}, {
+98dbffd39a6513 Jacopo Mondi            2018-06-14  972  		.compatible = "renesas,ipmmu-r8a77965",
+98dbffd39a6513 Jacopo Mondi            2018-06-14  973  		.data = &ipmmu_features_rcar_gen3,
+3701c123e1c13c Simon Horman            2018-06-14  974  	}, {
+3701c123e1c13c Simon Horman            2018-06-14  975  		.compatible = "renesas,ipmmu-r8a77970",
+3701c123e1c13c Simon Horman            2018-06-14  976  		.data = &ipmmu_features_rcar_gen3,
+1cdeb52e5c245b Nikita Yushchenko       2021-09-23  977  	}, {
+1cdeb52e5c245b Nikita Yushchenko       2021-09-23  978  		.compatible = "renesas,ipmmu-r8a77980",
+1cdeb52e5c245b Nikita Yushchenko       2021-09-23  979  		.data = &ipmmu_features_rcar_gen3,
+b0c32912150565 Hai Nguyen Pham         2018-10-17  980  	}, {
+b0c32912150565 Hai Nguyen Pham         2018-10-17  981  		.compatible = "renesas,ipmmu-r8a77990",
+b0c32912150565 Hai Nguyen Pham         2018-10-17  982  		.data = &ipmmu_features_rcar_gen3,
+3701c123e1c13c Simon Horman            2018-06-14  983  	}, {
+3701c123e1c13c Simon Horman            2018-06-14  984  		.compatible = "renesas,ipmmu-r8a77995",
+3701c123e1c13c Simon Horman            2018-06-14  985  		.data = &ipmmu_features_rcar_gen3,
+7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  986  	}, {
+7a62ced8ebd0e1 Yoshihiro Shimoda       2021-09-07  987  		.compatible = "renesas,ipmmu-r8a779a0",
+ae684caf465b7d Yoshihiro Shimoda       2022-02-08  988  		.data = &ipmmu_features_rcar_gen4,
+ae684caf465b7d Yoshihiro Shimoda       2022-02-08  989  	}, {
+9f7d09fe23a011 Yoshihiro Shimoda       2022-06-17  990  		.compatible = "renesas,rcar-gen4-ipmmu-vmsa",
+ae684caf465b7d Yoshihiro Shimoda       2022-02-08  991  		.data = &ipmmu_features_rcar_gen4,
+33f3ac9b511612 Magnus Damm             2017-10-16  992  	}, {
+33f3ac9b511612 Magnus Damm             2017-10-16  993  		/* Terminator */
+33f3ac9b511612 Magnus Damm             2017-10-16  994  	},
+33f3ac9b511612 Magnus Damm             2017-10-16  995  };
+33f3ac9b511612 Magnus Damm             2017-10-16  996  
+
+:::::: The code at line 946 was first introduced by commit
+:::::: 33f3ac9b511612153bae1d328b0c84c0367cd08d iommu/ipmmu-vmsa: Introduce features, break out alias
+
+:::::: TO: Magnus Damm <damm+renesas@opensource.se>
+:::::: CC: Alex Williamson <alex.williamson@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
