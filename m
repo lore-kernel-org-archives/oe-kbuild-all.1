@@ -1,48 +1,46 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044B211CA5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 17:05:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB1941078A;
+	Sat, 27 May 2023 17:16:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685207118; x=1716743118;
+  t=1685207773; x=1716743773;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yboutVWtpGa0SETiEbDedzkoypL8l9gY6xFMh6Sm3x0=;
-  b=AziLok0pV3hVfo+3elZFPN+A6G5ZlxB2m64eOibprQOD63XnAiDPtF71
-   n8I4WjqhjJeahGQgo+aXHKSZlJAHdo6n9B4x9Cypl9HkLSNzLDXeSiMmP
-   uZkDoA/W3hSi9PiJ5vAXEDbxaURX66bVXuheaOANW3Rbs6EE+8+CNwNlI
-   qSu1VCaF1bF3d+0u8s57QvGZx1Q3HwREtJpqf+J++oK8IBJ1r9in7xJcO
-   4Oaevi5FlquLC5o9Pj/YNwbuzD/MKBLUFTE1hReUqtGiYsynN5X4N56VQ
-   cabEjWK/4e3ctmEeJPxMCPOjm4UvD8P4DrtoG7mWV/G3dnkJfxNJQEziu
+  bh=eI4v3Kbvvfcjabeh6H6ktAqjlUA5edg4THJ0FK8h8A8=;
+  b=e5AHF406cXxJ/QgVpJedtDqEJD61J7z96j6Ak7rGmbLf+0ni7eAX9uWj
+   7s9gdLaXeg9Trq6ZnMJ5vS6WOgnh1USGEF+ibhoBln9M0Wj0NTZOSg4EX
+   nsllYVkjgJauRfvyaVeQc2F59lA0uw1cd4OAj65e/TwmHt96O7a79zPgl
+   n7249uBboHqhPiOQFYuBcBuRylyROv+mHOocIaU2rq/EA7pvlkYtoXIFJ
+   Ka+RVQ4pY+g25+wTieHNGnZBKCd7F9/fYIHiJLp5mzo+stTnQUJ5wyxAg
+   3jxz69lYnc194VSXi9QfSDwlkUfjLT63O0YbzjFgBMs+Uu+gTPlBmar6x
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="382674608"
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="334046265"
 X-IronPort-AV: E=Sophos;i="6.00,197,1681196400"; 
-   d="scan'208";a="382674608"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 10:05:17 -0700
+   d="scan'208";a="334046265"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 10:16:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="770628736"
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="879868893"
 X-IronPort-AV: E=Sophos;i="6.00,197,1681196400"; 
-   d="scan'208";a="770628736"
+   d="scan'208";a="879868893"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 27 May 2023 10:05:09 -0700
+  by orsmga005.jf.intel.com with ESMTP; 27 May 2023 10:16:11 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2xLp-000K5W-0B;
-	Sat, 27 May 2023 17:05:09 +0000
-Date: Sun, 28 May 2023 01:04:45 +0800
+	id 1q2xWU-000K5w-04;
+	Sat, 27 May 2023 17:16:10 +0000
+Date: Sun, 28 May 2023 01:15:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tristram.Ha@microchip.com, "David S. Miller" <davem@davemloft.net>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Florian Fainelli <f.fainelli@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	UNGLinuxDriver@microchip.com,
-	Tristram Ha <Tristram.Ha@microchip.com>
-Subject: Re: [PATCH net-next] net: phy: smsc: add WoL support to
- LAN8740/LAN8742 PHYs.
-Message-ID: <202305280053.LordyDHm-lkp@intel.com>
-References: <1685151574-2752-1-git-send-email-Tristram.Ha@microchip.com>
+To: Dai Ngo <dai.ngo@oracle.com>, chuck.lever@oracle.com,
+	jlayton@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/2] NFSD: add counter for write delegation recall due to
+ conflict with GETATTR
+Message-ID: <202305280121.3RAeAt4l-lkp@intel.com>
+References: <1685122722-18287-3-git-send-email-dai.ngo@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,48 +49,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1685151574-2752-1-git-send-email-Tristram.Ha@microchip.com>
+In-Reply-To: <1685122722-18287-3-git-send-email-dai.ngo@oracle.com>
 
-Hi,
+Hi Dai,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.4-rc3 next-20230525]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tristram-Ha-microchip-com/net-phy-smsc-add-WoL-support-to-LAN8740-LAN8742-PHYs/20230527-094102
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/1685151574-2752-1-git-send-email-Tristram.Ha%40microchip.com
-patch subject: [PATCH net-next] net: phy: smsc: add WoL support to LAN8740/LAN8742 PHYs.
-config: x86_64-randconfig-x076-20230526 (https://download.01.org/0day-ci/archive/20230528/202305280053.LordyDHm-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Dai-Ngo/NFSD-handle-GETATTR-conflict-with-write-delegation/20230527-013936
+base:   linus/master
+patch link:    https://lore.kernel.org/r/1685122722-18287-3-git-send-email-dai.ngo%40oracle.com
+patch subject: [PATCH 2/2] NFSD: add counter for write delegation recall due to conflict with GETATTR
+config: i386-randconfig-i074-20230526 (https://download.01.org/0day-ci/archive/20230528/202305280121.3RAeAt4l-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/a1e40c5a7a32445d5ae4541d4e57bbc4b5065057
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/a90d0ca71c9459b76f9faa8c704c029ac8066d00
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Tristram-Ha-microchip-com/net-phy-smsc-add-WoL-support-to-LAN8740-LAN8742-PHYs/20230527-094102
-        git checkout a1e40c5a7a32445d5ae4541d4e57bbc4b5065057
+        git fetch --no-tags linux-review Dai-Ngo/NFSD-handle-GETATTR-conflict-with-write-delegation/20230527-013936
+        git checkout a90d0ca71c9459b76f9faa8c704c029ac8066d00
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305280053.LordyDHm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305280121.3RAeAt4l-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/net/phy/smsc.o: in function `smsc_crc16':
->> drivers/net/phy/smsc.c:330: undefined reference to `crc16'
+   In file included from fs/nfsd/trace.c:4:
+   In file included from fs/nfsd/trace.h:17:
+   In file included from fs/nfsd/xdr4.h:40:
+   In file included from fs/nfsd/state.h:42:
+   In file included from fs/nfsd/nfsd.h:28:
+>> fs/nfsd/stats.h:99:40: error: use of undeclared identifier 'NFSD_STATS_WDELEG_GETATTR'
+           percpu_counter_inc(&nfsdstats.counter[NFSD_STATS_WDELEG_GETATTR]);
+                                                 ^
+   1 error generated.
+--
+   In file included from fs/nfsd/export.c:21:
+   In file included from fs/nfsd/nfsd.h:28:
+>> fs/nfsd/stats.h:99:40: error: use of undeclared identifier 'NFSD_STATS_WDELEG_GETATTR'
+           percpu_counter_inc(&nfsdstats.counter[NFSD_STATS_WDELEG_GETATTR]);
+                                                 ^
+   fs/nfsd/export.c:1005:17: warning: variable 'inode' set but not used [-Wunused-but-set-variable]
+           struct inode            *inode;
+                                    ^
+   1 warning and 1 error generated.
 
 
-vim +330 drivers/net/phy/smsc.c
+vim +/NFSD_STATS_WDELEG_GETATTR +99 fs/nfsd/stats.h
 
-   327	
-   328	static u16 smsc_crc16(const u8 *buffer, size_t len)
-   329	{
- > 330		return bitrev16(crc16(0xFFFF, buffer, len));
-   331	}
-   332	
+    96	
+    97	static inline void nfsd_stats_wdeleg_getattr_inc(void)
+    98	{
+  > 99		percpu_counter_inc(&nfsdstats.counter[NFSD_STATS_WDELEG_GETATTR]);
 
 -- 
 0-DAY CI Kernel Test Service
