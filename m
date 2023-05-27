@@ -1,45 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35640182B8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 23:07:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43F619900;
+	Sat, 27 May 2023 23:38:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685228851; x=1716764851;
+  t=1685230710; x=1716766710;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MTf9IDxVKIo/h9BAMra8Nq7SMFmQpoP1bmp39nOEg+0=;
-  b=aQ/u2MMu+dDvHt6fwGqj2AJqg9mP3Av8xknDJMEUSiDKIRYEg2qhwm6D
-   Q7bryLzcqnJWpjY8BOP746WMqyUAcuSqJp0Lyj0LRi5LSAnLxo5yQCFI1
-   yXxU9+UgDd9TuJ13YRrUz4k4I/enrYdmocO6MYNE80X5xUZAAUTduofMQ
-   aQ0vIQ6rNvmB3i2b7wYgPxluJqvkMWuDB6tSvNmYQCCuJf7dbjfs8TPsT
-   TVEecPyF0zy+lmWdyGB2VpaVDJTmBe7eZDBDhP1PyPYMu3LpSP0oAIU5r
-   TThpoWK0398IwS5BI2yJRQgOZMlGx8XJ/sbODW+A+ATBsKrYi0uGQXCPE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="417934648"
+  bh=PGjTqxrTCZLR4IqO1wL5PGxZ8YB2DrLjMcyeY0HcXrU=;
+  b=RuyTJormMdp7BQi9AYhrwrPEytp2lUd2oGhpHgaQRO9Juyv+cljyMikI
+   7pGCGvNR6scEhxpiVgbZgiRESBaFJK3OhYuAXfBmrWCm/l7NL6n3mGLqK
+   vtzeHMgqaj6Lin+Y8qFI7ilXrPy9OxtMLr30gmjCTgB/GsLYbec9Q0jnc
+   4YDKyZfXRRuX+lAKn6Sct60ttKavkzWtnW0J5ZdQDf1y7W3ETozjZ/4Ze
+   aGFqHObJhfZy0lFZeqaZGV2zDsaeYqFibY+D4T/0Du9GJWJa7EE1GPwUS
+   nHMu7hFEqdV/QnAbn0b7EZYsF8lIKjjSfDRF+9MVKdVA/7fG3Yk1PZ3Ov
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="353300481"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="417934648"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 16:07:30 -0700
+   d="scan'208";a="353300481"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 16:38:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="775475727"
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="738666234"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="775475727"
+   d="scan'208";a="738666234"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 27 May 2023 16:07:28 -0700
+  by orsmga001.jf.intel.com with ESMTP; 27 May 2023 16:38:28 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q330R-000KEs-1R;
-	Sat, 27 May 2023 23:07:27 +0000
-Date: Sun, 28 May 2023 07:06:48 +0800
+	id 1q33US-000KFq-0W;
+	Sat, 27 May 2023 23:38:28 +0000
+Date: Sun, 28 May 2023 07:37:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Justin Stitt <jstitt007@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: drivers/infiniband/hw/qedr/verbs.c:4238:33: sparse: sparse:
- incorrect type in assignment (different base types)
-Message-ID: <202305280608.nCHXVxPc-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:uprobe_multi_2 1/22] kernel/trace/bpf_trace.c:3041:16:
+ warning: variable 'inode' set but not used
+Message-ID: <202305280743.W2Qij9if-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,299 +46,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4e893b5aa4ac2c8a56a40d18fe87e9d2295e5dcf
-commit: d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7 include/uapi/linux/swab.h: move explicit cast outside ternary
-date:   12 months ago
-config: sparc64-randconfig-s033-20230528 (https://download.01.org/0day-ci/archive/20230528/202305280608.nCHXVxPc-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git uprobe_multi_2
+head:   c8f1191093bc581ca849b4e106d98b69bdc3a9fd
+commit: cd4ef19c217089e0b5af3754c9b5915780926c9b [1/22] bpf: Add multi uprobe link
+config: x86_64-randconfig-x063-20230528 (https://download.01.org/0day-ci/archive/20230528/202305280743.W2Qij9if-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout d30dfd490f7dc4cb6a7c11a647bd1ff7a22139e7
+        # https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git/commit/?id=cd4ef19c217089e0b5af3754c9b5915780926c9b
+        git remote add jolsa-perf https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git
+        git fetch --no-tags jolsa-perf uprobe_multi_2
+        git checkout cd4ef19c217089e0b5af3754c9b5915780926c9b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc64 SHELL=/bin/bash drivers/infiniband/hw/qedr/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/trace/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305280608.nCHXVxPc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305280743.W2Qij9if-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/infiniband/hw/qedr/verbs.c:127:30: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be64 [usertype] sys_image_guid @@     got unsigned long long [usertype] sys_image_guid @@
-   drivers/infiniband/hw/qedr/verbs.c:127:30: sparse:     expected restricted __be64 [usertype] sys_image_guid
-   drivers/infiniband/hw/qedr/verbs.c:127:30: sparse:     got unsigned long long [usertype] sys_image_guid
-   drivers/infiniband/hw/qedr/verbs.c:1015:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] icid @@     got unsigned short [usertype] icid @@
-   drivers/infiniband/hw/qedr/verbs.c:1015:34: sparse:     expected restricted __le16 [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:1015:34: sparse:     got unsigned short [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:1400:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] icid @@     got int @@
-   drivers/infiniband/hw/qedr/verbs.c:1400:42: sparse:     expected restricted __le16 [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:1400:42: sparse:     got int
-   drivers/infiniband/hw/qedr/verbs.c:1410:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] icid @@     got unsigned short [usertype] icid @@
-   drivers/infiniband/hw/qedr/verbs.c:1410:42: sparse:     expected restricted __le16 [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:1410:42: sparse:     got unsigned short [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:1990:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] icid @@     got unsigned short [usertype] icid @@
-   drivers/infiniband/hw/qedr/verbs.c:1990:34: sparse:     expected restricted __le16 [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:1990:34: sparse:     got unsigned short [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:2001:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] icid @@     got unsigned short [usertype] icid @@
-   drivers/infiniband/hw/qedr/verbs.c:2001:34: sparse:     expected restricted __le16 [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:2001:34: sparse:     got unsigned short [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:2004:41: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] icid @@     got unsigned short [usertype] icid @@
-   drivers/infiniband/hw/qedr/verbs.c:2004:41: sparse:     expected restricted __le16 [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:2004:41: sparse:     got unsigned short [usertype] icid
-   drivers/infiniband/hw/qedr/verbs.c:2005:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] value @@     got unsigned long @@
-   drivers/infiniband/hw/qedr/verbs.c:2005:42: sparse:     expected restricted __le16 [usertype] value
-   drivers/infiniband/hw/qedr/verbs.c:2005:42: sparse:     got unsigned long
-   drivers/infiniband/hw/qedr/verbs.c:3273:22: sparse: sparse: cast from restricted __le64
-   drivers/infiniband/hw/qedr/verbs.c:3273:20: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] @@     got restricted __be64 [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:3273:20: sparse:     expected unsigned long long [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3273:20: sparse:     got restricted __be64 [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3433:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] hi @@     got unsigned int [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:3433:24: sparse:     expected restricted __le32 [usertype] hi
-   drivers/infiniband/hw/qedr/verbs.c:3433:24: sparse:     got unsigned int [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3434:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] lo @@     got unsigned int [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:3434:24: sparse:     expected restricted __le32 [usertype] lo
-   drivers/infiniband/hw/qedr/verbs.c:3434:24: sparse:     got unsigned int [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3435:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] l_key @@     got unsigned int const [usertype] key @@
-   drivers/infiniband/hw/qedr/verbs.c:3435:22: sparse:     expected restricted __le32 [usertype] l_key
-   drivers/infiniband/hw/qedr/verbs.c:3435:22: sparse:     got unsigned int const [usertype] key
-   drivers/infiniband/hw/qedr/verbs.c:3454:26: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] length_lo @@     got unsigned long long [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3454:26: sparse:     expected restricted __le32 [usertype] length_lo
-   drivers/infiniband/hw/qedr/verbs.c:3454:26: sparse:     got unsigned long long [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3455:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] hi @@     got unsigned int [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:3455:28: sparse:     expected restricted __le32 [usertype] hi
-   drivers/infiniband/hw/qedr/verbs.c:3455:28: sparse:     got unsigned int [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3456:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] lo @@     got unsigned int [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:3456:28: sparse:     expected restricted __le32 [usertype] lo
-   drivers/infiniband/hw/qedr/verbs.c:3456:28: sparse:     got unsigned int [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3584:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] bytes_len @@     got restricted __le32 [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3584:54: sparse:     expected unsigned int [usertype] bytes_len
-   drivers/infiniband/hw/qedr/verbs.c:3584:54: sparse:     got restricted __le32 [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3597:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] bytes_len @@     got restricted __le32 [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3597:54: sparse:     expected unsigned int [usertype] bytes_len
-   drivers/infiniband/hw/qedr/verbs.c:3597:54: sparse:     got restricted __le32 [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3610:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] bytes_len @@     got restricted __le32 [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3610:54: sparse:     expected unsigned int [usertype] bytes_len
-   drivers/infiniband/hw/qedr/verbs.c:3610:54: sparse:     got restricted __le32 [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 const [usertype] imm_data @@
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse:     expected unsigned int [usertype] val
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse:     got restricted __be32 const [usertype] imm_data
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse: sparse: cast from restricted __be32
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse: sparse: cast from restricted __be32
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse: sparse: cast from restricted __be32
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse: sparse: cast from restricted __be32
-   drivers/infiniband/hw/qedr/verbs.c:3623:34: sparse: sparse: cast from restricted __le32
-   drivers/infiniband/hw/qedr/verbs.c:3623:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] imm_data @@     got restricted __be32 [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:3623:32: sparse:     expected restricted __le32 [usertype] imm_data
-   drivers/infiniband/hw/qedr/verbs.c:3623:32: sparse:     got restricted __be32 [usertype]
-   drivers/infiniband/hw/qedr/verbs.c:3630:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] bytes_len @@     got restricted __le32 [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3630:54: sparse:     expected unsigned int [usertype] bytes_len
-   drivers/infiniband/hw/qedr/verbs.c:3630:54: sparse:     got restricted __le32 [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3643:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] bytes_len @@     got restricted __le32 [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3643:54: sparse:     expected unsigned int [usertype] bytes_len
-   drivers/infiniband/hw/qedr/verbs.c:3643:54: sparse:     got restricted __le32 [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3660:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] bytes_len @@     got restricted __le32 [usertype] length @@
-   drivers/infiniband/hw/qedr/verbs.c:3660:54: sparse:     expected unsigned int [usertype] bytes_len
-   drivers/infiniband/hw/qedr/verbs.c:3660:54: sparse:     got restricted __le32 [usertype] length
-   drivers/infiniband/hw/qedr/verbs.c:3697:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] inv_l_key @@     got unsigned int const [usertype] invalidate_rkey @@
-   drivers/infiniband/hw/qedr/verbs.c:3697:33: sparse:     expected restricted __le32 [usertype] inv_l_key
-   drivers/infiniband/hw/qedr/verbs.c:3697:33: sparse:     got unsigned int const [usertype] invalidate_rkey
-   drivers/infiniband/hw/qedr/verbs.c:3779:42: sparse: sparse: restricted __le16 degrades to integer
-   drivers/infiniband/hw/qedr/verbs.c:3978:42: sparse: sparse: restricted __le16 degrades to integer
-   drivers/infiniband/hw/qedr/verbs.c:4007:43: sparse: sparse: cast from restricted __le32
-   drivers/infiniband/hw/qedr/verbs.c:4007:43: sparse: sparse: restricted __le32 degrades to integer
-   drivers/infiniband/hw/qedr/verbs.c:4103:68: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected unsigned short [usertype] hw_cons @@     got restricted __le16 [usertype] sq_cons @@
-   drivers/infiniband/hw/qedr/verbs.c:4103:68: sparse:     expected unsigned short [usertype] hw_cons
-   drivers/infiniband/hw/qedr/verbs.c:4103:68: sparse:     got restricted __le16 [usertype] sq_cons
-   drivers/infiniband/hw/qedr/verbs.c:4111:68: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected unsigned short [usertype] hw_cons @@     got restricted __le16 [usertype] sq_cons @@
-   drivers/infiniband/hw/qedr/verbs.c:4111:68: sparse:     expected unsigned short [usertype] hw_cons
-   drivers/infiniband/hw/qedr/verbs.c:4111:68: sparse:     got restricted __le16 [usertype] sq_cons
-   drivers/infiniband/hw/qedr/verbs.c:4118:38: sparse: sparse: restricted __le16 degrades to integer
-   drivers/infiniband/hw/qedr/verbs.c:4191:67: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected unsigned short [usertype] hw_cons @@     got restricted __le16 [usertype] sq_cons @@
-   drivers/infiniband/hw/qedr/verbs.c:4191:67: sparse:     expected unsigned short [usertype] hw_cons
-   drivers/infiniband/hw/qedr/verbs.c:4191:67: sparse:     got restricted __le16 [usertype] sq_cons
-   drivers/infiniband/hw/qedr/verbs.c:4376:46: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected unsigned short [usertype] hw_cons @@     got restricted __le16 [usertype] rq_cons_or_srq_id @@
-   drivers/infiniband/hw/qedr/verbs.c:4376:46: sparse:     expected unsigned short [usertype] hw_cons
-   drivers/infiniband/hw/qedr/verbs.c:4376:46: sparse:     got restricted __le16 [usertype] rq_cons_or_srq_id
-   drivers/infiniband/hw/qedr/verbs.c:1180:45: sparse: sparse: cast to restricted __be32
-   drivers/infiniband/hw/qedr/verbs.c:1181:45: sparse: sparse: cast to restricted __be32
->> drivers/infiniband/hw/qedr/verbs.c:4238:33: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] imm_data @@     got unsigned int [usertype] @@
-   drivers/infiniband/hw/qedr/verbs.c:4238:33: sparse:     expected restricted __be32 [usertype] imm_data
-   drivers/infiniband/hw/qedr/verbs.c:4238:33: sparse:     got unsigned int [usertype]
+All warnings (new ones prefixed by >>):
 
-vim +4238 drivers/infiniband/hw/qedr/verbs.c
+>> kernel/trace/bpf_trace.c:3041:16: warning: variable 'inode' set but not used [-Wunused-but-set-variable]
+           struct inode *inode, *old_inode;
+                         ^
+>> kernel/trace/bpf_trace.c:3092:12: warning: variable 'old_inode' is uninitialized when used here [-Wuninitialized]
+                           inode = old_inode;
+                                   ^~~~~~~~~
+   kernel/trace/bpf_trace.c:3041:33: note: initialize the variable 'old_inode' to silence this warning
+           struct inode *inode, *old_inode;
+                                          ^
+                                           = NULL
+   2 warnings generated.
 
-afa0e13be75430 Ram Amrani       2016-10-10  4093  
-afa0e13be75430 Ram Amrani       2016-10-10  4094  static int qedr_poll_cq_req(struct qedr_dev *dev,
-afa0e13be75430 Ram Amrani       2016-10-10  4095  			    struct qedr_qp *qp, struct qedr_cq *cq,
-afa0e13be75430 Ram Amrani       2016-10-10  4096  			    int num_entries, struct ib_wc *wc,
-afa0e13be75430 Ram Amrani       2016-10-10  4097  			    struct rdma_cqe_requester *req)
-afa0e13be75430 Ram Amrani       2016-10-10  4098  {
-afa0e13be75430 Ram Amrani       2016-10-10  4099  	int cnt = 0;
-afa0e13be75430 Ram Amrani       2016-10-10  4100  
-afa0e13be75430 Ram Amrani       2016-10-10  4101  	switch (req->status) {
-afa0e13be75430 Ram Amrani       2016-10-10  4102  	case RDMA_CQE_REQ_STS_OK:
-afa0e13be75430 Ram Amrani       2016-10-10  4103  		cnt = process_req(dev, qp, cq, num_entries, wc, req->sq_cons,
-afa0e13be75430 Ram Amrani       2016-10-10  4104  				  IB_WC_SUCCESS, 0);
-afa0e13be75430 Ram Amrani       2016-10-10  4105  		break;
-afa0e13be75430 Ram Amrani       2016-10-10  4106  	case RDMA_CQE_REQ_STS_WORK_REQUEST_FLUSHED_ERR:
-c78c31496111f4 Ram Amrani       2017-01-24  4107  		if (qp->state != QED_ROCE_QP_STATE_ERR)
-dc728f779a7176 Kalderon, Michal 2018-01-25  4108  			DP_DEBUG(dev, QEDR_MSG_CQ,
-afa0e13be75430 Ram Amrani       2016-10-10  4109  				 "Error: POLL CQ with RDMA_CQE_REQ_STS_WORK_REQUEST_FLUSHED_ERR. CQ icid=0x%x, QP icid=0x%x\n",
-afa0e13be75430 Ram Amrani       2016-10-10  4110  				 cq->icid, qp->icid);
-afa0e13be75430 Ram Amrani       2016-10-10  4111  		cnt = process_req(dev, qp, cq, num_entries, wc, req->sq_cons,
-74c3875c3d9aad Amrani, Ram      2016-12-22  4112  				  IB_WC_WR_FLUSH_ERR, 1);
-afa0e13be75430 Ram Amrani       2016-10-10  4113  		break;
-afa0e13be75430 Ram Amrani       2016-10-10  4114  	default:
-afa0e13be75430 Ram Amrani       2016-10-10  4115  		/* process all WQE before the cosumer */
-afa0e13be75430 Ram Amrani       2016-10-10  4116  		qp->state = QED_ROCE_QP_STATE_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4117  		cnt = process_req(dev, qp, cq, num_entries, wc,
-afa0e13be75430 Ram Amrani       2016-10-10 @4118  				  req->sq_cons - 1, IB_WC_SUCCESS, 0);
-afa0e13be75430 Ram Amrani       2016-10-10  4119  		wc += cnt;
-afa0e13be75430 Ram Amrani       2016-10-10  4120  		/* if we have extra WC fill it with actual error info */
-afa0e13be75430 Ram Amrani       2016-10-10  4121  		if (cnt < num_entries) {
-afa0e13be75430 Ram Amrani       2016-10-10  4122  			enum ib_wc_status wc_status;
-afa0e13be75430 Ram Amrani       2016-10-10  4123  
-afa0e13be75430 Ram Amrani       2016-10-10  4124  			switch (req->status) {
-afa0e13be75430 Ram Amrani       2016-10-10  4125  			case RDMA_CQE_REQ_STS_BAD_RESPONSE_ERR:
-afa0e13be75430 Ram Amrani       2016-10-10  4126  				DP_ERR(dev,
-afa0e13be75430 Ram Amrani       2016-10-10  4127  				       "Error: POLL CQ with RDMA_CQE_REQ_STS_BAD_RESPONSE_ERR. CQ icid=0x%x, QP icid=0x%x\n",
-afa0e13be75430 Ram Amrani       2016-10-10  4128  				       cq->icid, qp->icid);
-afa0e13be75430 Ram Amrani       2016-10-10  4129  				wc_status = IB_WC_BAD_RESP_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4130  				break;
-afa0e13be75430 Ram Amrani       2016-10-10  4131  			case RDMA_CQE_REQ_STS_LOCAL_LENGTH_ERR:
-afa0e13be75430 Ram Amrani       2016-10-10  4132  				DP_ERR(dev,
-afa0e13be75430 Ram Amrani       2016-10-10  4133  				       "Error: POLL CQ with RDMA_CQE_REQ_STS_LOCAL_LENGTH_ERR. CQ icid=0x%x, QP icid=0x%x\n",
-afa0e13be75430 Ram Amrani       2016-10-10  4134  				       cq->icid, qp->icid);
-afa0e13be75430 Ram Amrani       2016-10-10  4135  				wc_status = IB_WC_LOC_LEN_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4136  				break;
-afa0e13be75430 Ram Amrani       2016-10-10  4137  			case RDMA_CQE_REQ_STS_LOCAL_QP_OPERATION_ERR:
-afa0e13be75430 Ram Amrani       2016-10-10  4138  				DP_ERR(dev,
-afa0e13be75430 Ram Amrani       2016-10-10  4139  				       "Error: POLL CQ with RDMA_CQE_REQ_STS_LOCAL_QP_OPERATION_ERR. CQ icid=0x%x, QP icid=0x%x\n",
-afa0e13be75430 Ram Amrani       2016-10-10  4140  				       cq->icid, qp->icid);
-afa0e13be75430 Ram Amrani       2016-10-10  4141  				wc_status = IB_WC_LOC_QP_OP_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4142  				break;
-afa0e13be75430 Ram Amrani       2016-10-10  4143  			case RDMA_CQE_REQ_STS_LOCAL_PROTECTION_ERR:
-afa0e13be75430 Ram Amrani       2016-10-10  4144  				DP_ERR(dev,
-afa0e13be75430 Ram Amrani       2016-10-10  4145  				       "Error: POLL CQ with RDMA_CQE_REQ_STS_LOCAL_PROTECTION_ERR. CQ icid=0x%x, QP icid=0x%x\n",
-afa0e13be75430 Ram Amrani       2016-10-10  4146  				       cq->icid, qp->icid);
-afa0e13be75430 Ram Amrani       2016-10-10  4147  				wc_status = IB_WC_LOC_PROT_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4148  				break;
-afa0e13be75430 Ram Amrani       2016-10-10  4149  			case RDMA_CQE_REQ_STS_MEMORY_MGT_OPERATION_ERR:
-afa0e13be75430 Ram Amrani       2016-10-10  4150  				DP_ERR(dev,
-afa0e13be75430 Ram Amrani       2016-10-10  4151  				       "Error: POLL CQ with RDMA_CQE_REQ_STS_MEMORY_MGT_OPERATION_ERR. CQ icid=0x%x, QP icid=0x%x\n",
-afa0e13be75430 Ram Amrani       2016-10-10  4152  				       cq->icid, qp->icid);
-afa0e13be75430 Ram Amrani       2016-10-10  4153  				wc_status = IB_WC_MW_BIND_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4154  				break;
-afa0e13be75430 Ram Amrani       2016-10-10  4155  			case RDMA_CQE_REQ_STS_REMOTE_INVALID_REQUEST_ERR:
-afa0e13be75430 Ram Amrani       2016-10-10  4156  				DP_ERR(dev,
-afa0e13be75430 Ram Amrani       2016-10-10  4157  				       "Error: POLL CQ with RDMA_CQE_REQ_STS_REMOTE_INVALID_REQUEST_ERR. CQ icid=0x%x, QP icid=0x%x\n",
-afa0e13be75430 Ram Amrani       2016-10-10  4158  				       cq->icid, qp->icid);
-afa0e13be75430 Ram Amrani       2016-10-10  4159  				wc_status = IB_WC_REM_INV_REQ_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4160  				break;
-afa0e13be75430 Ram Amrani       2016-10-10  4161  			case RDMA_CQE_REQ_STS_REMOTE_ACCESS_ERR:
-afa0e13be75430 Ram Amrani       2016-10-10  4162  				DP_ERR(dev,
-afa0e13be75430 Ram Amrani       2016-10-10  4163  				       "Error: POLL CQ with RDMA_CQE_REQ_STS_REMOTE_ACCESS_ERR. CQ icid=0x%x, QP icid=0x%x\n",
-afa0e13be75430 Ram Amrani       2016-10-10  4164  				       cq->icid, qp->icid);
-afa0e13be75430 Ram Amrani       2016-10-10  4165  				wc_status = IB_WC_REM_ACCESS_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4166  				break;
-afa0e13be75430 Ram Amrani       2016-10-10  4167  			case RDMA_CQE_REQ_STS_REMOTE_OPERATION_ERR:
-afa0e13be75430 Ram Amrani       2016-10-10  4168  				DP_ERR(dev,
-afa0e13be75430 Ram Amrani       2016-10-10  4169  				       "Error: POLL CQ with RDMA_CQE_REQ_STS_REMOTE_OPERATION_ERR. CQ icid=0x%x, QP icid=0x%x\n",
-afa0e13be75430 Ram Amrani       2016-10-10  4170  				       cq->icid, qp->icid);
-afa0e13be75430 Ram Amrani       2016-10-10  4171  				wc_status = IB_WC_REM_OP_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4172  				break;
-afa0e13be75430 Ram Amrani       2016-10-10  4173  			case RDMA_CQE_REQ_STS_RNR_NAK_RETRY_CNT_ERR:
-afa0e13be75430 Ram Amrani       2016-10-10  4174  				DP_ERR(dev,
-afa0e13be75430 Ram Amrani       2016-10-10  4175  				       "Error: POLL CQ with RDMA_CQE_REQ_STS_RNR_NAK_RETRY_CNT_ERR. CQ icid=0x%x, QP icid=0x%x\n",
-afa0e13be75430 Ram Amrani       2016-10-10  4176  				       cq->icid, qp->icid);
-afa0e13be75430 Ram Amrani       2016-10-10  4177  				wc_status = IB_WC_RNR_RETRY_EXC_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4178  				break;
-afa0e13be75430 Ram Amrani       2016-10-10  4179  			case RDMA_CQE_REQ_STS_TRANSPORT_RETRY_CNT_ERR:
-afa0e13be75430 Ram Amrani       2016-10-10  4180  				DP_ERR(dev,
-afa0e13be75430 Ram Amrani       2016-10-10  4181  				       "Error: POLL CQ with ROCE_CQE_REQ_STS_TRANSPORT_RETRY_CNT_ERR. CQ icid=0x%x, QP icid=0x%x\n",
-afa0e13be75430 Ram Amrani       2016-10-10  4182  				       cq->icid, qp->icid);
-afa0e13be75430 Ram Amrani       2016-10-10  4183  				wc_status = IB_WC_RETRY_EXC_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4184  				break;
-afa0e13be75430 Ram Amrani       2016-10-10  4185  			default:
-afa0e13be75430 Ram Amrani       2016-10-10  4186  				DP_ERR(dev,
-afa0e13be75430 Ram Amrani       2016-10-10  4187  				       "Error: POLL CQ with IB_WC_GENERAL_ERR. CQ icid=0x%x, QP icid=0x%x\n",
-afa0e13be75430 Ram Amrani       2016-10-10  4188  				       cq->icid, qp->icid);
-afa0e13be75430 Ram Amrani       2016-10-10  4189  				wc_status = IB_WC_GENERAL_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4190  			}
-afa0e13be75430 Ram Amrani       2016-10-10  4191  			cnt += process_req(dev, qp, cq, 1, wc, req->sq_cons,
-afa0e13be75430 Ram Amrani       2016-10-10  4192  					   wc_status, 1);
-afa0e13be75430 Ram Amrani       2016-10-10  4193  		}
-afa0e13be75430 Ram Amrani       2016-10-10  4194  	}
-afa0e13be75430 Ram Amrani       2016-10-10  4195  
-afa0e13be75430 Ram Amrani       2016-10-10  4196  	return cnt;
-afa0e13be75430 Ram Amrani       2016-10-10  4197  }
-afa0e13be75430 Ram Amrani       2016-10-10  4198  
-b6acd71fefc92d Amrani, Ram      2017-04-27  4199  static inline int qedr_cqe_resp_status_to_ib(u8 status)
-afa0e13be75430 Ram Amrani       2016-10-10  4200  {
-b6acd71fefc92d Amrani, Ram      2017-04-27  4201  	switch (status) {
-afa0e13be75430 Ram Amrani       2016-10-10  4202  	case RDMA_CQE_RESP_STS_LOCAL_ACCESS_ERR:
-b6acd71fefc92d Amrani, Ram      2017-04-27  4203  		return IB_WC_LOC_ACCESS_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4204  	case RDMA_CQE_RESP_STS_LOCAL_LENGTH_ERR:
-b6acd71fefc92d Amrani, Ram      2017-04-27  4205  		return IB_WC_LOC_LEN_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4206  	case RDMA_CQE_RESP_STS_LOCAL_QP_OPERATION_ERR:
-b6acd71fefc92d Amrani, Ram      2017-04-27  4207  		return IB_WC_LOC_QP_OP_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4208  	case RDMA_CQE_RESP_STS_LOCAL_PROTECTION_ERR:
-b6acd71fefc92d Amrani, Ram      2017-04-27  4209  		return IB_WC_LOC_PROT_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4210  	case RDMA_CQE_RESP_STS_MEMORY_MGT_OPERATION_ERR:
-b6acd71fefc92d Amrani, Ram      2017-04-27  4211  		return IB_WC_MW_BIND_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4212  	case RDMA_CQE_RESP_STS_REMOTE_INVALID_REQUEST_ERR:
-b6acd71fefc92d Amrani, Ram      2017-04-27  4213  		return IB_WC_REM_INV_RD_REQ_ERR;
-afa0e13be75430 Ram Amrani       2016-10-10  4214  	case RDMA_CQE_RESP_STS_OK:
-b6acd71fefc92d Amrani, Ram      2017-04-27  4215  		return IB_WC_SUCCESS;
-b6acd71fefc92d Amrani, Ram      2017-04-27  4216  	default:
-b6acd71fefc92d Amrani, Ram      2017-04-27  4217  		return IB_WC_GENERAL_ERR;
-b6acd71fefc92d Amrani, Ram      2017-04-27  4218  	}
-b6acd71fefc92d Amrani, Ram      2017-04-27  4219  }
-b6acd71fefc92d Amrani, Ram      2017-04-27  4220  
-b6acd71fefc92d Amrani, Ram      2017-04-27  4221  static inline int qedr_set_ok_cqe_resp_wc(struct rdma_cqe_responder *resp,
-b6acd71fefc92d Amrani, Ram      2017-04-27  4222  					  struct ib_wc *wc)
-b6acd71fefc92d Amrani, Ram      2017-04-27  4223  {
-b6acd71fefc92d Amrani, Ram      2017-04-27  4224  	wc->status = IB_WC_SUCCESS;
-afa0e13be75430 Ram Amrani       2016-10-10  4225  	wc->byte_len = le32_to_cpu(resp->length);
-afa0e13be75430 Ram Amrani       2016-10-10  4226  
-b6acd71fefc92d Amrani, Ram      2017-04-27  4227  	if (resp->flags & QEDR_RESP_IMM) {
-7bed7ebcb7c33e Jason Gunthorpe  2018-01-11  4228  		wc->ex.imm_data = cpu_to_be32(le32_to_cpu(resp->imm_data_or_inv_r_Key));
-b6acd71fefc92d Amrani, Ram      2017-04-27  4229  		wc->wc_flags |= IB_WC_WITH_IMM;
-afa0e13be75430 Ram Amrani       2016-10-10  4230  
-b6acd71fefc92d Amrani, Ram      2017-04-27  4231  		if (resp->flags & QEDR_RESP_RDMA)
-afa0e13be75430 Ram Amrani       2016-10-10  4232  			wc->opcode = IB_WC_RECV_RDMA_WITH_IMM;
-afa0e13be75430 Ram Amrani       2016-10-10  4233  
-b6acd71fefc92d Amrani, Ram      2017-04-27  4234  		if (resp->flags & QEDR_RESP_INV)
-b6acd71fefc92d Amrani, Ram      2017-04-27  4235  			return -EINVAL;
-b6acd71fefc92d Amrani, Ram      2017-04-27  4236  
-b6acd71fefc92d Amrani, Ram      2017-04-27  4237  	} else if (resp->flags & QEDR_RESP_INV) {
-b6acd71fefc92d Amrani, Ram      2017-04-27 @4238  		wc->ex.imm_data = le32_to_cpu(resp->imm_data_or_inv_r_Key);
-b6acd71fefc92d Amrani, Ram      2017-04-27  4239  		wc->wc_flags |= IB_WC_WITH_INVALIDATE;
-b6acd71fefc92d Amrani, Ram      2017-04-27  4240  
-b6acd71fefc92d Amrani, Ram      2017-04-27  4241  		if (resp->flags & QEDR_RESP_RDMA)
-b6acd71fefc92d Amrani, Ram      2017-04-27  4242  			return -EINVAL;
-b6acd71fefc92d Amrani, Ram      2017-04-27  4243  
-b6acd71fefc92d Amrani, Ram      2017-04-27  4244  	} else if (resp->flags & QEDR_RESP_RDMA) {
-b6acd71fefc92d Amrani, Ram      2017-04-27  4245  		return -EINVAL;
-afa0e13be75430 Ram Amrani       2016-10-10  4246  	}
-b6acd71fefc92d Amrani, Ram      2017-04-27  4247  
-b6acd71fefc92d Amrani, Ram      2017-04-27  4248  	return 0;
-afa0e13be75430 Ram Amrani       2016-10-10  4249  }
-afa0e13be75430 Ram Amrani       2016-10-10  4250  
 
-:::::: The code at line 4238 was first introduced by commit
-:::::: b6acd71fefc92d13ac9a0f117101d1aab1102d18 RDMA/qedr: add support for send+invalidate in poll CQ
+vim +/inode +3041 kernel/trace/bpf_trace.c
 
-:::::: TO: Amrani, Ram <Ram.Amrani@cavium.com>
-:::::: CC: Doug Ledford <dledford@redhat.com>
+  3032	
+  3033	int bpf_uprobe_multi_link_attach(const union bpf_attr *attr, struct bpf_prog *prog)
+  3034	{
+  3035		void __user **upaths, __user *upath, __user *old_upath = NULL;
+  3036		unsigned long __user *uref_ctr_offsets, ref_ctr_offset = 0;
+  3037		struct bpf_uprobe_multi_link *link = NULL;
+  3038		unsigned long __user *uoffsets, offset;
+  3039		struct bpf_link_primer link_primer;
+  3040		struct bpf_uprobe *uprobes = NULL;
+> 3041		struct inode *inode, *old_inode;
+  3042		u32 flags, cnt, i;
+  3043		struct path path;
+  3044		int err;
+  3045	
+  3046		/* no support for 32bit archs yet */
+  3047		if (sizeof(u64) != sizeof(void *))
+  3048			return -EOPNOTSUPP;
+  3049	
+  3050		if (prog->expected_attach_type != BPF_TRACE_UPROBE_MULTI)
+  3051			return -EINVAL;
+  3052	
+  3053		flags = attr->link_create.uprobe_multi.flags;
+  3054		if (flags & ~BPF_F_UPROBE_MULTI_RETURN)
+  3055			return -EINVAL;
+  3056	
+  3057		upaths = u64_to_user_ptr(attr->link_create.uprobe_multi.paths);
+  3058		uoffsets = u64_to_user_ptr(attr->link_create.uprobe_multi.offsets);
+  3059		if (!!upaths != !!uoffsets)
+  3060			return -EINVAL;
+  3061	
+  3062		uref_ctr_offsets = u64_to_user_ptr(attr->link_create.uprobe_multi.ref_ctr_offsets);
+  3063	
+  3064		cnt = attr->link_create.uprobe_multi.cnt;
+  3065		if (!cnt)
+  3066			return -EINVAL;
+  3067	
+  3068		uprobes = kvcalloc(cnt, sizeof(*uprobes), GFP_KERNEL);
+  3069		if (!uprobes)
+  3070			return -ENOMEM;
+  3071	
+  3072		link = kzalloc(sizeof(*link), GFP_KERNEL);
+  3073		if (!link) {
+  3074			err = -ENOMEM;
+  3075			goto error;
+  3076		}
+  3077	
+  3078		for (i = 0; i < cnt; i++) {
+  3079			if (uref_ctr_offsets && __get_user(ref_ctr_offset, uref_ctr_offsets + i)) {
+  3080				err = -EFAULT;
+  3081				goto error_path_put;
+  3082			}
+  3083			if (__get_user(offset, uoffsets + i)) {
+  3084				err = -EFAULT;
+  3085				goto error_path_put;
+  3086			}
+  3087			if (__get_user(upath, upaths + i)) {
+  3088				err = -EFAULT;
+  3089				goto error_path_put;
+  3090			}
+  3091			if (i && old_upath == upath) {
+> 3092				inode = old_inode;
 
 -- 
 0-DAY CI Kernel Test Service
