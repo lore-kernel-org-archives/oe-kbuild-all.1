@@ -1,46 +1,48 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946A353A2
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 11:59:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABEE1F9CB;
+	Sat, 27 May 2023 11:59:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685188744; x=1716724744;
+  t=1685188745; x=1716724745;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zmFzT5pRn/sMBj6n/h4s8aWxiX/SSMMcVknEBskT0dM=;
-  b=WowiJpWbMvfsHVJmDEneOOEbz1w7uFU5CHocLSZLvmVToZpFpe3ylm/m
-   ElmUFV3SEC6tdATCKipTjx0Ueyye0FG6Dv1ga3ARjmRp1knoben7KPXeB
-   DpVuu8iYFFJFe36Wo+mLn0OLCghBGIT0NqtPs3VVx24YnS87InUIjipRE
-   RTBWIFnmpEAPGJMgTRHfq53j+HPnn7S+F/sYyDEvAgTPtVJ/bwlD/kWst
-   N+kt7lr6tax24A5Xbwl+ZupmOtToHdW3QVqc3BWNis1mEiCJLKm+dOE7N
-   n+9Kz7e8PxaMdKyiAJE0se1zYzsMjJ/WNH8LTmtQtAmFZ/hCt+J/ZiZwg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="353233928"
+  bh=1TPmWjxOFqFxwsJrDeSGVc93SPSkph7oWPfkq3d7EoY=;
+  b=dm4+kSjF7y2CYdlK3JcYU/fH1nLk2XS4aAqtvANzRTaCfKBP8/qlaTh2
+   sAxhpfeUQQmKx4Zu8mSTY9mwyLy7hPQQfYTe3dTj60DvfcjItm4tr07yB
+   G3hUvlhqvJF58GLy3u4WpwAgqW4Q8o+pqAr5JbR0vKbxpUBn0S96GBwaK
+   Vf0tiLC7C0sit3Dbu2AAuMdyuMcUXklu9welIr9wx1njx228ZgzO2AKxh
+   Zp5yu5b48t3+iVrFBQcX2mmJ2RtxtLlrLCxNjTFgR+AzKSWn/+a2rSjOZ
+   Byzo4K6lIIR/DqEp15OLC9HgfjiEhnmIpTy/yPv0M7EvkeWKyTlLO7/js
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="353233931"
 X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
-   d="scan'208";a="353233928"
+   d="scan'208";a="353233931"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 04:59:03 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 04:59:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="817840390"
+X-IronPort-AV: E=McAfee;i="6600,9927,10722"; a="817840389"
 X-IronPort-AV: E=Sophos;i="6.00,196,1681196400"; 
-   d="scan'208";a="817840390"
+   d="scan'208";a="817840389"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
   by fmsmga002.fm.intel.com with ESMTP; 27 May 2023 04:59:02 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q2sZZ-000Jwo-1L;
+	id 1q2sZZ-000Jwm-1H;
 	Sat, 27 May 2023 11:59:01 +0000
-Date: Sat, 27 May 2023 19:58:24 +0800
+Date: Sat, 27 May 2023 19:58:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dai Ngo <dai.ngo@oracle.com>, chuck.lever@oracle.com,
-	jlayton@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 2/2] NFSD: add counter for write delegation recall due to
- conflict with GETATTR
-Message-ID: <202305271936.3kL7Ufxk-lkp@intel.com>
-References: <1685122722-18287-3-git-send-email-dai.ngo@oracle.com>
+To: Frank Li <Frank.Li@nxp.com>, vkoul@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, dmaengine@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	peng.fan@nxp.com, joy.zou@nxp.com, shenwei.wang@nxp.com,
+	imx@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v1 10/12] dmaengine: fsl-edma: move tcd into struct
+ fsl_dma_chan
+Message-ID: <202305271951.gmRobs3a-lkp@intel.com>
+References: <20230526143639.1037099-11-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,90 +51,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1685122722-18287-3-git-send-email-dai.ngo@oracle.com>
+In-Reply-To: <20230526143639.1037099-11-Frank.Li@nxp.com>
 
-Hi Dai,
+Hi Frank,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.4-rc3 next-20230525]
+[auto build test WARNING on vkoul-dmaengine/next]
+[also build test WARNING on robh/for-next linus/master v6.4-rc3 next-20230525]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dai-Ngo/NFSD-handle-GETATTR-conflict-with-write-delegation/20230527-013936
-base:   linus/master
-patch link:    https://lore.kernel.org/r/1685122722-18287-3-git-send-email-dai.ngo%40oracle.com
-patch subject: [PATCH 2/2] NFSD: add counter for write delegation recall due to conflict with GETATTR
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20230527/202305271936.3kL7Ufxk-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.1.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/a90d0ca71c9459b76f9faa8c704c029ac8066d00
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dmaengine-fsl-edma-clean-up-EXPORT_SYMBOL_GPL-in-fsl-edma-common-c/20230526-224442
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20230526143639.1037099-11-Frank.Li%40nxp.com
+patch subject: [PATCH v1 10/12] dmaengine: fsl-edma: move tcd into struct fsl_dma_chan
+config: i386-randconfig-s003-20230526 (https://download.01.org/0day-ci/archive/20230527/202305271951.gmRobs3a-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/913c495a6c017a70bd6d7a518a9edbd361212985
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Dai-Ngo/NFSD-handle-GETATTR-conflict-with-write-delegation/20230527-013936
-        git checkout a90d0ca71c9459b76f9faa8c704c029ac8066d00
+        git fetch --no-tags linux-review Frank-Li/dmaengine-fsl-edma-clean-up-EXPORT_SYMBOL_GPL-in-fsl-edma-common-c/20230526-224442
+        git checkout 913c495a6c017a70bd6d7a518a9edbd361212985
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash fs/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/dma/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305271936.3kL7Ufxk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305271951.gmRobs3a-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/dma/fsl-edma-common.c:367:9: sparse: sparse: cast from restricted __le32
+   drivers/dma/fsl-edma-common.c:367:9: sparse: sparse: cast from restricted __le32
+   drivers/dma/fsl-edma-common.c:368:9: sparse: sparse: cast from restricted __le32
+   drivers/dma/fsl-edma-common.c:368:9: sparse: sparse: cast from restricted __le32
+   drivers/dma/fsl-edma-common.c:370:9: sparse: sparse: cast from restricted __le16
+   drivers/dma/fsl-edma-common.c:370:9: sparse: sparse: cast from restricted __le16
+   drivers/dma/fsl-edma-common.c:371:9: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __le16 [usertype] soff @@
+   drivers/dma/fsl-edma-common.c:371:9: sparse:     expected unsigned short [usertype] val
+   drivers/dma/fsl-edma-common.c:371:9: sparse:     got restricted __le16 [usertype] soff
+>> drivers/dma/fsl-edma-common.c:371:9: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __le16 [usertype] soff @@
+   drivers/dma/fsl-edma-common.c:371:9: sparse:     expected unsigned int [usertype] val
+   drivers/dma/fsl-edma-common.c:371:9: sparse:     got restricted __le16 [usertype] soff
+   drivers/dma/fsl-edma-common.c:373:9: sparse: sparse: cast from restricted __le32
+   drivers/dma/fsl-edma-common.c:373:9: sparse: sparse: cast from restricted __le32
+   drivers/dma/fsl-edma-common.c:374:9: sparse: sparse: cast from restricted __le32
+   drivers/dma/fsl-edma-common.c:374:9: sparse: sparse: cast from restricted __le32
+   drivers/dma/fsl-edma-common.c:376:9: sparse: sparse: cast from restricted __le16
+   drivers/dma/fsl-edma-common.c:376:9: sparse: sparse: cast from restricted __le16
+   drivers/dma/fsl-edma-common.c:377:9: sparse: sparse: cast from restricted __le16
+   drivers/dma/fsl-edma-common.c:377:9: sparse: sparse: cast from restricted __le16
+   drivers/dma/fsl-edma-common.c:378:9: sparse: sparse: cast from restricted __le16
+   drivers/dma/fsl-edma-common.c:378:9: sparse: sparse: cast from restricted __le16
+   drivers/dma/fsl-edma-common.c:380:9: sparse: sparse: cast from restricted __le32
+   drivers/dma/fsl-edma-common.c:380:9: sparse: sparse: cast from restricted __le32
+   drivers/dma/fsl-edma-common.c:388:9: sparse: sparse: cast from restricted __le16
+   drivers/dma/fsl-edma-common.c:388:9: sparse: sparse: cast from restricted __le16
 
-   In file included from fs/nfsd/nfsd.h:28,
-                    from fs/nfsd/state.h:42,
-                    from fs/nfsd/xdr4.h:40,
-                    from fs/nfsd/trace.h:17,
-                    from fs/nfsd/trace.c:4:
-   fs/nfsd/stats.h: In function 'nfsd_stats_wdeleg_getattr_inc':
->> fs/nfsd/stats.h:99:47: error: 'NFSD_STATS_WDELEG_GETATTR' undeclared (first use in this function)
-      99 |         percpu_counter_inc(&nfsdstats.counter[NFSD_STATS_WDELEG_GETATTR]);
-         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfsd/stats.h:99:47: note: each undeclared identifier is reported only once for each function it appears in
---
-   In file included from fs/nfsd/nfsd.h:28,
-                    from fs/nfsd/export.c:21:
-   fs/nfsd/stats.h: In function 'nfsd_stats_wdeleg_getattr_inc':
->> fs/nfsd/stats.h:99:47: error: 'NFSD_STATS_WDELEG_GETATTR' undeclared (first use in this function)
-      99 |         percpu_counter_inc(&nfsdstats.counter[NFSD_STATS_WDELEG_GETATTR]);
-         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfsd/stats.h:99:47: note: each undeclared identifier is reported only once for each function it appears in
-   fs/nfsd/export.c: In function 'exp_rootfh':
-   fs/nfsd/export.c:1005:34: warning: variable 'inode' set but not used [-Wunused-but-set-variable]
-    1005 |         struct inode            *inode;
-         |                                  ^~~~~
---
-   In file included from fs/nfsd/nfsd.h:28,
-                    from fs/nfsd/state.h:42,
-                    from fs/nfsd/xdr4.h:40,
-                    from fs/nfsd/trace.h:17,
-                    from fs/nfsd/trace.c:4:
-   fs/nfsd/stats.h: In function 'nfsd_stats_wdeleg_getattr_inc':
->> fs/nfsd/stats.h:99:47: error: 'NFSD_STATS_WDELEG_GETATTR' undeclared (first use in this function)
-      99 |         percpu_counter_inc(&nfsdstats.counter[NFSD_STATS_WDELEG_GETATTR]);
-         |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfsd/stats.h:99:47: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from fs/nfsd/trace.h:1589:
-   include/trace/define_trace.h: At top level:
-   include/trace/define_trace.h:95:42: fatal error: ./trace.h: No such file or directory
-      95 | #include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
-         |                                          ^
-   compilation terminated.
+vim +371 drivers/dma/fsl-edma-common.c
 
-
-vim +/NFSD_STATS_WDELEG_GETATTR +99 fs/nfsd/stats.h
-
-    96	
-    97	static inline void nfsd_stats_wdeleg_getattr_inc(void)
-    98	{
-  > 99		percpu_counter_inc(&nfsdstats.counter[NFSD_STATS_WDELEG_GETATTR]);
+   353	
+   354	static void fsl_edma_set_tcd_regs(struct fsl_edma_chan *fsl_chan,
+   355					  struct fsl_edma_hw_tcd *tcd)
+   356	{
+   357		u16 csr = 0;
+   358	
+   359		/*
+   360		 * TCD parameters are stored in struct fsl_edma_hw_tcd in little
+   361		 * endian format. However, we need to load the TCD registers in
+   362		 * big- or little-endian obeying the eDMA engine model endian,
+   363		 * and this is performed from specific edma_write functions
+   364		 */
+   365		edma_write_tcdreg(fsl_chan, 0, csr);
+   366	
+   367		edma_write_tcdreg(fsl_chan, (s32)tcd->saddr, saddr);
+   368		edma_write_tcdreg(fsl_chan, (s32)tcd->daddr, daddr);
+   369	
+   370		edma_write_tcdreg(fsl_chan, (s16)tcd->attr, attr);
+ > 371		edma_write_tcdreg(fsl_chan, tcd->soff, soff);
+   372	
+   373		edma_write_tcdreg(fsl_chan, (s32)tcd->nbytes, nbytes);
+   374		edma_write_tcdreg(fsl_chan, (s32)tcd->slast, slast);
+   375	
+   376		edma_write_tcdreg(fsl_chan, (s16)tcd->citer, citer);
+   377		edma_write_tcdreg(fsl_chan, (s16)tcd->biter, biter);
+   378		edma_write_tcdreg(fsl_chan, (s16)tcd->doff, doff);
+   379	
+   380		edma_write_tcdreg(fsl_chan, (s32)tcd->dlast_sga, dlast_sga);
+   381	
+   382		if (fsl_chan->is_sw) {
+   383			csr = le16_to_cpu(tcd->csr);
+   384			csr |= EDMA_TCD_CSR_START;
+   385			tcd->csr = cpu_to_le16(csr);
+   386		}
+   387	
+   388		edma_write_tcdreg(fsl_chan, (s16)tcd->csr, csr);
+   389	}
+   390	
 
 -- 
 0-DAY CI Kernel Test Service
