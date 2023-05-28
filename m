@@ -1,42 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4216E5686;
-	Sun, 28 May 2023 20:21:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089D723B8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 22:37:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685305277; x=1716841277;
+  t=1685313441; x=1716849441;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WVdQHDVOPlOkQn+8IBIehdsbUsP/EBl6EUmKEeMdepA=;
-  b=LRTK/NuJE2fblum92PQGJ7fKKRL8Lc5dVB5XLGt7CnuufI/aT/DLM4eS
-   /WlJJtI7uwMMITTRo659bwDzMr13Gw5fqUqLOgOoKpfD5JbDF8kH+skzc
-   U10LT8+OaOoOpaMYjQt7/750kD9oBOdfh0i8RnsAFLaiGZso7dEbRMZ7P
-   tCRSLLYKgj//20IT7r9q2GOAf1DoQwXg+zK1d3FoZDj0o4aCdAjHyiJJS
-   wVVBGJK5xk1A2+iEe1PFEWzVfiATpGMOP5l8NcbGIN6lgmsThpt6JKtGn
-   pUU8cQTvdGBEvOlod3/OraG8bT+r6itGJuZ62cjv6y5k2u9bdzVp+TU2m
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="357805980"
+  bh=ws0j9X8SB6FySD5C28kWUPjWtOarPQ0DViIIIWcaT5s=;
+  b=TLXWhQewjs0MpPopvJ9nmIZOwM+cXue3oMnTJd7BbBYRv/430I9/gCf+
+   I6ljzcM05ZOiEl0kYy04dvju+K5LAGPtRL15g0JUjRY2VFo4TNc+rjrIU
+   pwHhAJPLyZlXzy0FZii5vzY5dF6LC5DDP+ee4WWjl4qNvUAIRDr5DYaGD
+   CuimXVD1bY0TWxoehj7YcvRheBYplxe6IMY23TnSqp9qixFKhj/hFIdJR
+   nrLZrTr/It1TH0bcZ2mIi6UIsZLuM7gN7/+LoeJ2sukxn2XHHj3HaTzLW
+   3GR2P1xN7G/A+P5YAuqw+CyTGxpxgb1oTV551dk2s6pztHloHp59Q63db
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="353408174"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="357805980"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 13:21:16 -0700
+   d="scan'208";a="353408174"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 15:37:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="775704447"
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="952511889"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="775704447"
+   d="scan'208";a="952511889"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 May 2023 13:21:14 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 28 May 2023 15:37:16 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q3Mt8-000KjO-13;
-	Sun, 28 May 2023 20:21:14 +0000
-Date: Mon, 29 May 2023 04:20:49 +0800
+	id 1q3P0m-000Kl8-0o;
+	Sun, 28 May 2023 22:37:16 +0000
+Date: Mon, 29 May 2023 06:36:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:gpu/rust-wip 69/229] rust/helpers.c:342:9: error:
- implicit declaration of function 'of_node_is_root' is invalid in C99
-Message-ID: <202305290436.KGrKf4Lf-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:arcvm12-5.10 4429/27651]
+ include/trace/hooks/fault.h:15:1: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202305290643.qJSiKP6V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,181 +47,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Asahi,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/AsahiLinux/linux gpu/rust-wip
-head:   98f5852ba1f7bc80f0f575fa9175ceb19aa5c8d5
-commit: c6d23800776bb644812a4a684bf05b031cc8085f [69/229] rust: of: Add OF node abstraction
-config: x86_64-randconfig-r022-20230528 (https://download.01.org/0day-ci/archive/20230529/202305290436.KGrKf4Lf-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/AsahiLinux/linux/commit/c6d23800776bb644812a4a684bf05b031cc8085f
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux gpu/rust-wip
-        git checkout c6d23800776bb644812a4a684bf05b031cc8085f
+tree:   https://android.googlesource.com/kernel/common arcvm12-5.10
+head:   fb8d4193a852c7d62938aaf3a8c58bbc7888bb23
+commit: a8313dbdb3ababea980fdc4a8144349bcfdd04d8 [4429/27651] ANDROID: arm64: add vendor hooks for kernel fault cases
+config: i386-randconfig-s001-20230528 (https://download.01.org/0day-ci/archive/20230529/202305290643.qJSiKP6V-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common arcvm12-5.10
+        git checkout a8313dbdb3ababea980fdc4a8144349bcfdd04d8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 prepare
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/android/ drivers/pci/ kernel/ net/ipv4/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305290436.KGrKf4Lf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305290643.qJSiKP6V-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   include/trace/hooks/sched.h:135:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:135:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:135:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:139:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:139:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:139:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:143:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:143:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:143:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:147:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:147:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:147:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:151:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:151:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:151:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:155:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:155:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:155:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:159:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:159:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:159:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:163:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:163:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:163:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:167:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:167:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:167:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:171:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:171:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:171:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:175:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:175:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:175:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:179:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:179:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:179:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:184:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:184:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:184:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:188:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:188:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:188:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:192:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:192:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:192:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:196:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:196:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:196:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:201:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:201:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:201:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:205:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:205:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:205:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:209:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:209:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:209:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:213:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:213:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:213:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:217:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:217:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:217:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:221:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:221:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:221:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:237:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:237:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:237:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:241:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:241:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:241:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/mm.h):
+   include/trace/hooks/mm.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/mm.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/mm.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/mm.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/mm.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/mm.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/mm.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/mm.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/mm.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/preemptirq.h):
+   include/trace/hooks/preemptirq.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/bug.h):
+   include/trace/hooks/bug.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/bug.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/bug.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/fault.h):
+>> include/trace/hooks/fault.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/fault.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/fault.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/fault.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
-   rust/helpers.c:204:9: error: implicit declaration of function 'ioremap' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:204:9: warning: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
-   rust/helpers.c:210:9: error: implicit declaration of function 'readb' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:216:9: error: implicit declaration of function 'readw' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:222:9: error: implicit declaration of function 'readl' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:229:9: error: implicit declaration of function 'readq' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:236:2: error: implicit declaration of function 'writeb' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:242:2: error: implicit declaration of function 'writew' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:248:2: error: implicit declaration of function 'writel' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:255:2: error: implicit declaration of function 'writeq' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:262:9: error: implicit declaration of function 'readb_relaxed' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:268:9: error: implicit declaration of function 'readw_relaxed' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:274:9: error: implicit declaration of function 'readl_relaxed' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:281:9: error: implicit declaration of function 'readq_relaxed' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:288:2: error: implicit declaration of function 'writeb_relaxed' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:294:2: error: implicit declaration of function 'writew_relaxed' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:300:2: error: implicit declaration of function 'writel_relaxed' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:307:2: error: implicit declaration of function 'writeq_relaxed' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:314:2: error: implicit declaration of function 'memcpy_fromio' is invalid in C99 [-Wimplicit-function-declaration]
->> rust/helpers.c:342:9: error: implicit declaration of function 'of_node_is_root' is invalid in C99 [-Wimplicit-function-declaration]
-   rust/helpers.c:204:9: error: implicit declaration of function 'ioremap' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:204:9: warning: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion], err: false
-   rust/helpers.c:210:9: error: implicit declaration of function 'readb' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:216:9: error: implicit declaration of function 'readw' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:222:9: error: implicit declaration of function 'readl' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:229:9: error: implicit declaration of function 'readq' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:236:2: error: implicit declaration of function 'writeb' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:242:2: error: implicit declaration of function 'writew' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:248:2: error: implicit declaration of function 'writel' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:255:2: error: implicit declaration of function 'writeq' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:262:9: error: implicit declaration of function 'readb_relaxed' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:268:9: error: implicit declaration of function 'readw_relaxed' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:274:9: error: implicit declaration of function 'readl_relaxed' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:281:9: error: implicit declaration of function 'readq_relaxed' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:288:2: error: implicit declaration of function 'writeb_relaxed' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:294:2: error: implicit declaration of function 'writew_relaxed' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:300:2: error: implicit declaration of function 'writel_relaxed' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:307:2: error: implicit declaration of function 'writeq_relaxed' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:314:2: error: implicit declaration of function 'memcpy_fromio' is invalid in C99 [-Wimplicit-function-declaration], err: true
->> rust/helpers.c:342:9: error: implicit declaration of function 'of_node_is_root' is invalid in C99 [-Wimplicit-function-declaration], err: true
-   thread 'main' panicked at 'Unable to generate bindings: ()', /opt/cross/rustc-1.66.0-bindgen-0.56.0/cargo/registry/src/github.com-1ecc6299db9ec823/bindgen-0.56.0/src/main.rs:54:36
-   stack backtrace:
-      0: rust_begin_unwind
-                at /rustc/69f9c33d71c871fc16ac445211281c6e7a340943/library/std/src/panicking.rs:575:5
-      1: core::panicking::panic_fmt
-                at /rustc/69f9c33d71c871fc16ac445211281c6e7a340943/library/core/src/panicking.rs:65:14
-      2: core::result::unwrap_failed
-                at /rustc/69f9c33d71c871fc16ac445211281c6e7a340943/library/core/src/result.rs:1791:5
-      3: bindgen::main
-   note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
-   make[2]: *** [rust/Makefile:330: rust/bindings/bindings_helpers_generated.rs] Error 1
-   make[2]: *** Deleting file 'rust/bindings/bindings_helpers_generated.rs'
-   make[2]: Target 'rust/' not remade because of errors.
-   make[1]: *** [Makefile:1292: prepare] Error 2
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+vim +15 include/trace/hooks/fault.h
 
-
-vim +/of_node_is_root +342 rust/helpers.c
-
-   259	
-   260	u8 rust_helper_readb_relaxed(const volatile void __iomem *addr)
-   261	{
- > 262		return readb_relaxed(addr);
-   263	}
-   264	EXPORT_SYMBOL_GPL(rust_helper_readb_relaxed);
-   265	
-   266	u16 rust_helper_readw_relaxed(const volatile void __iomem *addr)
-   267	{
-   268		return readw_relaxed(addr);
-   269	}
-   270	EXPORT_SYMBOL_GPL(rust_helper_readw_relaxed);
-   271	
-   272	u32 rust_helper_readl_relaxed(const volatile void __iomem *addr)
-   273	{
-   274		return readl_relaxed(addr);
-   275	}
-   276	EXPORT_SYMBOL_GPL(rust_helper_readl_relaxed);
-   277	
-   278	#ifdef CONFIG_64BIT
-   279	u64 rust_helper_readq_relaxed(const volatile void __iomem *addr)
-   280	{
-   281		return readq_relaxed(addr);
-   282	}
-   283	EXPORT_SYMBOL_GPL(rust_helper_readq_relaxed);
-   284	#endif
-   285	
-   286	void rust_helper_writeb_relaxed(u8 value, volatile void __iomem *addr)
-   287	{
-   288		writeb_relaxed(value, addr);
-   289	}
-   290	EXPORT_SYMBOL_GPL(rust_helper_writeb_relaxed);
-   291	
-   292	void rust_helper_writew_relaxed(u16 value, volatile void __iomem *addr)
-   293	{
-   294		writew_relaxed(value, addr);
-   295	}
-   296	EXPORT_SYMBOL_GPL(rust_helper_writew_relaxed);
-   297	
-   298	void rust_helper_writel_relaxed(u32 value, volatile void __iomem *addr)
-   299	{
-   300		writel_relaxed(value, addr);
-   301	}
-   302	EXPORT_SYMBOL_GPL(rust_helper_writel_relaxed);
-   303	
-   304	#ifdef CONFIG_64BIT
-   305	void rust_helper_writeq_relaxed(u64 value, volatile void __iomem *addr)
-   306	{
-   307		writeq_relaxed(value, addr);
-   308	}
-   309	EXPORT_SYMBOL_GPL(rust_helper_writeq_relaxed);
-   310	#endif
-   311	
-   312	void rust_helper_memcpy_fromio(void *to, const volatile void __iomem *from, long count)
-   313	{
-   314		memcpy_fromio(to, from, count);
-   315	}
-   316	EXPORT_SYMBOL_GPL(rust_helper_memcpy_fromio);
-   317	
-   318	void *
-   319	rust_helper_platform_get_drvdata(const struct platform_device *pdev)
-   320	{
-   321		return platform_get_drvdata(pdev);
-   322	}
-   323	EXPORT_SYMBOL_GPL(rust_helper_platform_get_drvdata);
-   324	
-   325	void
-   326	rust_helper_platform_set_drvdata(struct platform_device *pdev,
-   327					 void *data)
-   328	{
-   329		platform_set_drvdata(pdev, data);
-   330	}
-   331	EXPORT_SYMBOL_GPL(rust_helper_platform_set_drvdata);
-   332	
-   333	const struct of_device_id *rust_helper_of_match_device(
-   334			const struct of_device_id *matches, const struct device *dev)
-   335	{
-   336		return of_match_device(matches, dev);
-   337	}
-   338	EXPORT_SYMBOL_GPL(rust_helper_of_match_device);
-   339	
-   340	bool rust_helper_of_node_is_root(const struct device_node *np)
-   341	{
- > 342		return of_node_is_root(np);
-   343	}
-   344	EXPORT_SYMBOL_GPL(rust_helper_of_node_is_root);
-   345	
+     5	
+     6	#if !defined(_TRACE_HOOK_FAULT_H) || defined(TRACE_HEADER_MULTI_READ)
+     7	#define _TRACE_HOOK_FAULT_H
+     8	#include <linux/tracepoint.h>
+     9	#include <trace/hooks/vendor_hooks.h>
+    10	/*
+    11	 * Following tracepoints are not exported in tracefs and provide a
+    12	 * mechanism for vendor modules to hook and extend functionality
+    13	 */
+    14	struct pt_regs;
+  > 15	DECLARE_RESTRICTED_HOOK(android_rvh_die_kernel_fault,
+    16		TP_PROTO(struct pt_regs *regs, unsigned int esr, unsigned long addr, const char *msg),
+    17		TP_ARGS(regs, esr, addr, msg), 1);
+    18	
 
 -- 
 0-DAY CI Kernel Test Service
