@@ -1,116 +1,168 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418F765C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 06:27:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1685255245;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qd1HsDPoIQCA1W8M9wRkc4OBlzVkt6/Jqm85Xt985zA=;
-	b=VoAnEOLvwQPpXS7B1WHtXlhuhwwb8FtoIkCfqONequm3c0nt43u38jndYC3IzGvBzZddwI
-	PK6vwicUSxnFkmcECyV6RKj+R0SbDdzShYT/AKvVoDCzDGjiKOQIOCpXJ78N909NUlBYHV
-	8P9YwER4v8rKONczqqfAw0gJc4cqyaU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-645-2d2L1HyZOYyKttWRBu83Iw-1; Sun, 28 May 2023 02:27:23 -0400
-X-MC-Unique: 2d2L1HyZOYyKttWRBu83Iw-1
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-30a938fcfb5so1263707f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 27 May 2023 23:27:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685255242; x=1687847242;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qd1HsDPoIQCA1W8M9wRkc4OBlzVkt6/Jqm85Xt985zA=;
-        b=hX7OIQg5iWH9MUzEqre+Mku7v7dKqzL3oeYId8TJ/3Xbm8g3o4oest7kByepjB5mi0
-         3fmTe11aV8dDMOTyZP16couDmiZDl9xPvrOZfmocYVmAyxeRwF4ezexRG5lmo0jteGYj
-         nS6jjmaBi4uv8yAZBKQqsKa3qNJGDYnu0ii9JDxJCAMp1+qAtbubXoGsm2c9UF3M/Kk4
-         0UPfsL8C9F3OAGNIn0RRdATSh25+sXwIgq9Xb/6361/jH4X/LM+r0MkZ4lmoUrB6pBLu
-         gSVe2cIFxXdNFk22GlnJP107yic4ApRni0tSmkIfLls5OHkHhYZZfb1SexmHa5SXMfwX
-         J8wg==
-X-Gm-Message-State: AC+VfDyCFn5yXNR8efFP7JWp8vjupG0KIn3o9GaU1l8D38Ntv2QoIpZi
-	ywHEFtNv6yBX50k5hTDpFacvJdNdJoI0g5haFrO8qrk3jzxTs6dspRF2Um7omx4X+S5dBlMPLV4
-	4cH5Mn+OaJekYE50RZRq8wkakXQ==
-X-Received: by 2002:a5d:4746:0:b0:307:a36b:e7b1 with SMTP id o6-20020a5d4746000000b00307a36be7b1mr6251108wrs.5.1685255242762;
-        Sat, 27 May 2023 23:27:22 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ45TZmWQVMRhP5RvxBOirJj2cEFa5HQb7lqFSHk19mNXmZUM8pT5LmgfgqJSeZVjSeHHK6LuA==
-X-Received: by 2002:a5d:4746:0:b0:307:a36b:e7b1 with SMTP id o6-20020a5d4746000000b00307a36be7b1mr6251097wrs.5.1685255242491;
-        Sat, 27 May 2023 23:27:22 -0700 (PDT)
-Received: from redhat.com ([2.52.146.27])
-        by smtp.gmail.com with ESMTPSA id q1-20020a1ce901000000b003f423dfc686sm10083677wmc.45.2023.05.27.23.27.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 May 2023 23:27:21 -0700 (PDT)
-Date: Sun, 28 May 2023 02:27:17 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Liang Chen <liangchen.linux@gmail.com>, jasowang@redhat.com,
-	oe-kbuild-all@lists.linux.dev,
-	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, xuanzhuo@linux.alibaba.com,
-	kuba@kernel.org, edumazet@google.com, davem@davemloft.net,
-	pabeni@redhat.com, alexander.duyck@gmail.com
-Subject: Re: [PATCH net-next 2/5] virtio_net: Add page_pool support to
- improve performance
-Message-ID: <20230528022658-mutt-send-email-mst@kernel.org>
-References: <20230526054621.18371-2-liangchen.linux@gmail.com>
- <202305262334.GiFQ3wpG-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C317C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 07:01:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 166B5C4339C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 07:01:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1685257300;
+	bh=nFRvjgEJI8wYrO4y08Sgf1E7M+ZWKLOFf99mFgOiFow=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ZRg4ni0KCtsWnzsm4cD+qCveP30kgPelE/wpWpnABMQ+E/sUCPQlvY9G0kzTQxdQ4
+	 G+k3K1T/Fs9gp8CH3YjhpBB77EhVTlQo8ixb+pw4hafMxBjcLt7UpF0tSkv/ZWbmGf
+	 gtIVvwev/XyHRHaQ36I8DcwUhyodezTTU6pfiaO6tQlQ92QonlFi9Jd+mpLp8Bf4pG
+	 5KGLPw8G7a5gQrXpbegBpjpZM0T+fOW7xUeKdoPXkDwjhQToVX01JoazVrtxx9MVJc
+	 DRyMGFF5Bx5FRXSw248K6X9gweS0igFjjupqJT1aJeZMofsBv3UOUohZolHpAn4NZo
+	 Axn/NWnsByD6g==
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-19f45faedfbso419168fac.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 00:01:40 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxmudu+AV1auNJtkth0RYlrFt2jwN8iH5XuDHx1haIb8PHwEVTM
+	hsfV/0D9P5ffXQr30t8hNrKQIhsCf+feOVO9/Co=
+X-Google-Smtp-Source: ACHHUZ7E9CRDv4PQTFKd9LASDLqdg9llXmCCe6W4BdyoCyE1Z5j5SPPYEuZtuUtXfCrcOCNKrFi9pkuVc9/XEGqBd4k=
+X-Received: by 2002:a05:6870:172c:b0:196:8dc3:4e21 with SMTP id
+ h44-20020a056870172c00b001968dc34e21mr2576337oae.41.1685257299300; Sun, 28
+ May 2023 00:01:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202305262334.GiFQ3wpG-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202305280830.Rj5ltc9M-lkp@intel.com>
+In-Reply-To: <202305280830.Rj5ltc9M-lkp@intel.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 28 May 2023 16:01:02 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQZ6E7N485L=YtKaE9nGuO609i_fgMbXMPdxfW6dfR1qA@mail.gmail.com>
+Message-ID: <CAK7LNAQZ6E7N485L=YtKaE9nGuO609i_fgMbXMPdxfW6dfR1qA@mail.gmail.com>
+Subject: Re: [masahiroy-kbuild:modpost-v5 23/23] arch/x86/kernel/callthunks.c:45:1:
+ sparse: sparse: cast removes address space '__percpu' of expression
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 27, 2023 at 12:11:25AM +0800, kernel test robot wrote:
-> Hi Liang,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Liang-Chen/virtio_net-Add-page_pool-support-to-improve-performance/20230526-135805
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20230526054621.18371-2-liangchen.linux%40gmail.com
-> patch subject: [PATCH net-next 2/5] virtio_net: Add page_pool support to improve performance
-> config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230526/202305262334.GiFQ3wpG-lkp@intel.com/config)
+On Sun, May 28, 2023 at 9:40=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-k=
+build.git modpost-v5
+> head:   952d644bb57db01d034e1faf94519473fbb1a0a1
+> commit: 952d644bb57db01d034e1faf94519473fbb1a0a1 [23/23] kbuild: implemen=
+t CONFIG_TRIM_UNUSED_KSYMS without recursion
+> config: x86_64-randconfig-s053-20230528 (https://download.01.org/0day-ci/=
+archive/20230528/202305280830.Rj5ltc9M-lkp@intel.com/config)
 > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> reproduce (this is a W=1 build):
->         # https://github.com/intel-lab-lkp/linux/commit/bfba563f43bba37181d8502cb2e566c32f96ec9e
->         git remote add linux-review https://github.com/intel-lab-lkp/linux
->         git fetch --no-tags linux-review Liang-Chen/virtio_net-Add-page_pool-support-to-improve-performance/20230526-135805
->         git checkout bfba563f43bba37181d8502cb2e566c32f96ec9e
+> reproduce:
+>         # apt-get install sparse
+>         # sparse version: v0.6.4-39-gce1a6720-dirty
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux=
+-kbuild.git/commit/?id=3D952d644bb57db01d034e1faf94519473fbb1a0a1
+>         git remote add masahiroy-kbuild https://git.kernel.org/pub/scm/li=
+nux/kernel/git/masahiroy/linux-kbuild.git
+>         git fetch --no-tags masahiroy-kbuild modpost-v5
+>         git checkout 952d644bb57db01d034e1faf94519473fbb1a0a1
 >         # save the config file
 >         mkdir build_dir && cp config build_dir/.config
->         make W=1 O=build_dir ARCH=x86_64 olddefconfig
->         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-> 
+>         make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=
+=3Dbuild_dir ARCH=3Dx86_64 olddefconfig
+>         make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=
+=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash arch/x86/kernel/ kernel/trace/=
+ lib/
+>
 > If you fix the issue, kindly add following tag where applicable
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202305262334.GiFQ3wpG-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    ld: vmlinux.o: in function `virtnet_find_vqs':
-> >> virtio_net.c:(.text+0x901fb5): undefined reference to `page_pool_create'
->    ld: vmlinux.o: in function `add_recvbuf_mergeable.isra.0':
-> >> virtio_net.c:(.text+0x905618): undefined reference to `page_pool_alloc_pages'
->    ld: vmlinux.o: in function `xdp_linearize_page':
->    virtio_net.c:(.text+0x906b6b): undefined reference to `page_pool_alloc_pages'
->    ld: vmlinux.o: in function `mergeable_xdp_get_buf.isra.0':
->    virtio_net.c:(.text+0x90728f): undefined reference to `page_pool_alloc_pages'
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202305280830.Rj5ltc9M-lkp=
+@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+> >> arch/x86/kernel/callthunks.c:45:1: sparse: sparse: cast removes addres=
+s space '__percpu' of expression
+>    arch/x86/kernel/callthunks.c:46:1: sparse: sparse: cast removes addres=
+s space '__percpu' of expression
 
 
-you need to tweak Kconfig to select PAGE_POOL I think.
 
-> -- 
+
+
+Thanks.
+
+This commit is unrelated.
+
+This seems to be a regression of
+https://patchwork.kernel.org/project/linux-kbuild/patch/20230521160426.1881=
+124-11-masahiroy@kernel.org/
+
+I will squash the following fix-up.
+
+
+diff --git a/include/linux/export.h b/include/linux/export.h
+index 32461a01608c..245ecd342772 100644
+--- a/include/linux/export.h
++++ b/include/linux/export.h
+@@ -56,6 +56,7 @@ extern struct module __this_module;
+ #else
+
+ #define ___EXPORT_SYMBOL(sym, license, ns)                     \
++       extern typeof(sym) sym;                                 \
+        __ADDRESSABLE(sym)                                      \
+        asm(__stringify(____EXPORT_SYMBOL(sym, license, ns)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+> vim +/__percpu +45 arch/x86/kernel/callthunks.c
+>
+> e81dc127ef6988 Thomas Gleixner 2022-09-15  39
+> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  40  #ifdef CONFIG_CALL_THUNKS_=
+DEBUG
+> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  41  DEFINE_PER_CPU(u64, __x86_=
+call_count);
+> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  42  DEFINE_PER_CPU(u64, __x86_=
+ret_count);
+> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  43  DEFINE_PER_CPU(u64, __x86_=
+stuffs_count);
+> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  44  DEFINE_PER_CPU(u64, __x86_=
+ctxsw_count);
+> f5c1bb2afe9339 Thomas Gleixner 2022-09-15 @45  EXPORT_SYMBOL_GPL(__x86_ct=
+xsw_count);
+> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  46  EXPORT_SYMBOL_GPL(__x86_ca=
+ll_count);
+> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  47  #endif
+> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  48
+>
+> :::::: The code at line 45 was first introduced by commit
+> :::::: f5c1bb2afe93396d41c5cbdcb909b08a75b8dde4 x86/calldepth: Add ret/ca=
+ll counting for debug
+>
+> :::::: TO: Thomas Gleixner <tglx@linutronix.de>
+> :::::: CC: Peter Zijlstra <peterz@infradead.org>
+>
+> --
 > 0-DAY CI Kernel Test Service
 > https://github.com/intel/lkp-tests/wiki
 
+
+
+--=20
+Best Regards
+Masahiro Yamada
