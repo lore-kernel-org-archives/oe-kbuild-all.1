@@ -1,29 +1,43 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1FF7C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 07:40:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C776BC433D2;
-	Sun, 28 May 2023 07:40:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1685259614;
-	bh=FrH8AIc7TJo3jUvcDEHLofUVr82+hr66ntasZpA8dJQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aJLYmhmOXOPi+4T3wuD7PX5J0xVMJrAP9qq9dimuDNf0hpYkUijBff6rpoxvY84SN
-	 qGzCk7ZvXqZCTlI9s6ypV4OV9kPCmH30yZ6oKDKpvUrIvOygRjXVEU5AwEaY9gnxeY
-	 5/SxYf21LPaPAz3gH3aTgPT1ZoyStWBH7oKmy5+Y=
-Date: Sun, 28 May 2023 08:40:11 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tyler Hicks <code@tyhicks.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Hardik Garg <hargar@linux.microsoft.com>, stable@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 6.1 5.15 5.10 5.4 4.19 4.14] selftests/memfd: Fix unknown
- type name build failure
-Message-ID: <2023052853-harvest-coasting-f857@gregkh>
-References: <20230526232136.255244-1-hargar@linux.microsoft.com>
- <ZHE/avMpv2Sjqwxf@3bef23cc04e9>
- <ZHFaw6k8+2+MM1jv@sequoia>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271727C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 08:24:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685262242; x=1716798242;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4X5Pxes6rCLeJv6kI7klyPxFXPIoEQenK9qRlQzxwL4=;
+  b=l3LRBPKD6KlSwt4GjMvTpD/U9IW9gUlMYI1W/FD4NaPqq9U5SuwTVbRP
+   /PlifNkL1j4TiKobr7dqk2CTq5HMUXkAZeZuKzyeGE1m/lob+qQzdvGdt
+   BVaLN95hZ7JBBzyRj9kAqBu7gjm198G7eBBGRB9s+QXOrEvRNbsqmTYHe
+   e30JCJwE9WRK2tKJG92IQXeaUn+Uf6cFrMhtNi9HiX+eyf3noLpGUB+LB
+   JoARXb8hRSYXAudZPRC2eFDfeG4RmFm1DK1duF/2iYvE7rrJL+60KBung
+   Xyhs/+0XzVvlBj60rVojBLT5YaMMQe7ebBwWKIcM4R1UTdCVEku2tXexv
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="343997181"
+X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
+   d="scan'208";a="343997181"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 01:24:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="952369592"
+X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
+   d="scan'208";a="952369592"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 28 May 2023 01:24:00 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q3Bh1-000KUk-0u;
+	Sun, 28 May 2023 08:23:59 +0000
+Date: Sun, 28 May 2023 16:23:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Guo Ren <guoren@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>
+Subject: arch/riscv/include/asm/atomic.h:339 arch_atomic64_dec_if_positive()
+ warn: inconsistent indenting
+Message-ID: <202305281649.3367YTx7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -32,38 +46,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZHFaw6k8+2+MM1jv@sequoia>
 
-On Fri, May 26, 2023 at 08:20:03PM -0500, Tyler Hicks wrote:
-> On 2023-05-27 07:23:22, kernel test robot wrote:
-> > Hi,
-> > 
-> > Thanks for your patch.
-> > 
-> > FYI: kernel test robot notices the stable kernel rule is not satisfied.
-> > 
-> > Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-> > Subject: [PATCH 6.1 5.15 5.10 5.4 4.19 4.14] selftests/memfd: Fix unknown type name build failure
-> > Link: https://lore.kernel.org/stable/20230526232136.255244-1-hargar%40linux.microsoft.com
-> > 
-> > The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-> > 
-> > Please ignore this mail if the patch is not relevant for upstream.
-> 
-> I think Hardik did the right thing here. This is a build failure bug
-> that's present in stable kernels but was fixed in upstream by an
-> unrelated commit:
-> 
->  11f75a01448f ("selftests/memfd: add tests for MFD_NOEXEC_SEAL MFD_EXEC")
-> 
-> It wouldn't be right to backport that patch because MFD_NOEXEC_SEAL and
-> MFD_EXEC weren't introduced until v6.3.
-> 
-> There was an (unmerged) attempt to fix this specific build failure in upstream:
-> 
->  https://lore.kernel.org/all/20211203024706.10094-1-luke.nowakowskikrijger@canonical.com/
-> 
-> Hardik opted to follow what was done upstream in a patch specifically
-> for the stable tree.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   416839029e3858f61dc7dd346559c03e74ed8380
+commit: 1d7f6932c522ea95668e14265175ce3d753d0c24 riscv: atomic: Optimize dec_if_positive functions
+date:   1 year ago
+config: riscv-randconfig-m031-20230526 (https://download.01.org/0day-ci/archive/20230528/202305281649.3367YTx7-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.1.0
 
-Yes, this is the right thing to do, you can ignore the bot :)
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305281649.3367YTx7-lkp@intel.com/
+
+smatch warnings:
+arch/riscv/include/asm/atomic.h:339 arch_atomic64_dec_if_positive() warn: inconsistent indenting
+
+vim +339 arch/riscv/include/asm/atomic.h
+
+fab957c11efe2f Palmer Dabbelt 2017-07-10  332  
+fab957c11efe2f Palmer Dabbelt 2017-07-10  333  #ifndef CONFIG_GENERIC_ATOMIC64
+1d7f6932c522ea Guo Ren        2022-05-05  334  static __always_inline s64 arch_atomic64_dec_if_positive(atomic64_t *v)
+fab957c11efe2f Palmer Dabbelt 2017-07-10  335  {
+0754211847d7a2 Mark Rutland   2019-05-22  336         s64 prev;
+0754211847d7a2 Mark Rutland   2019-05-22  337         long rc;
+fab957c11efe2f Palmer Dabbelt 2017-07-10  338  
+fab957c11efe2f Palmer Dabbelt 2017-07-10 @339  	__asm__ __volatile__ (
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  340  		"0:	lr.d     %[p],  %[c]\n"
+1d7f6932c522ea Guo Ren        2022-05-05  341  		"	addi      %[rc], %[p], -1\n"
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  342  		"	bltz     %[rc], 1f\n"
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  343  		"	sc.d.rl  %[rc], %[rc], %[c]\n"
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  344  		"	bnez     %[rc], 0b\n"
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  345  		"	fence    rw, rw\n"
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  346  		"1:\n"
+fab957c11efe2f Palmer Dabbelt 2017-07-10  347  		: [p]"=&r" (prev), [rc]"=&r" (rc), [c]"+A" (v->counter)
+1d7f6932c522ea Guo Ren        2022-05-05  348  		:
+fab957c11efe2f Palmer Dabbelt 2017-07-10  349  		: "memory");
+1d7f6932c522ea Guo Ren        2022-05-05  350  	return prev - 1;
+fab957c11efe2f Palmer Dabbelt 2017-07-10  351  }
+fab957c11efe2f Palmer Dabbelt 2017-07-10  352  
+
+:::::: The code at line 339 was first introduced by commit
+:::::: fab957c11efe2f405e08b9f0d080524bc2631428 RISC-V: Atomic and Locking Code
+
+:::::: TO: Palmer Dabbelt <palmer@dabbelt.com>
+:::::: CC: Palmer Dabbelt <palmer@dabbelt.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
