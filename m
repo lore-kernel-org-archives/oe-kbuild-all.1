@@ -1,168 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C317C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 07:01:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 166B5C4339C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 07:01:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685257300;
-	bh=nFRvjgEJI8wYrO4y08Sgf1E7M+ZWKLOFf99mFgOiFow=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ZRg4ni0KCtsWnzsm4cD+qCveP30kgPelE/wpWpnABMQ+E/sUCPQlvY9G0kzTQxdQ4
-	 G+k3K1T/Fs9gp8CH3YjhpBB77EhVTlQo8ixb+pw4hafMxBjcLt7UpF0tSkv/ZWbmGf
-	 gtIVvwev/XyHRHaQ36I8DcwUhyodezTTU6pfiaO6tQlQ92QonlFi9Jd+mpLp8Bf4pG
-	 5KGLPw8G7a5gQrXpbegBpjpZM0T+fOW7xUeKdoPXkDwjhQToVX01JoazVrtxx9MVJc
-	 DRyMGFF5Bx5FRXSw248K6X9gweS0igFjjupqJT1aJeZMofsBv3UOUohZolHpAn4NZo
-	 Axn/NWnsByD6g==
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-19f45faedfbso419168fac.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 00:01:40 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxmudu+AV1auNJtkth0RYlrFt2jwN8iH5XuDHx1haIb8PHwEVTM
-	hsfV/0D9P5ffXQr30t8hNrKQIhsCf+feOVO9/Co=
-X-Google-Smtp-Source: ACHHUZ7E9CRDv4PQTFKd9LASDLqdg9llXmCCe6W4BdyoCyE1Z5j5SPPYEuZtuUtXfCrcOCNKrFi9pkuVc9/XEGqBd4k=
-X-Received: by 2002:a05:6870:172c:b0:196:8dc3:4e21 with SMTP id
- h44-20020a056870172c00b001968dc34e21mr2576337oae.41.1685257299300; Sun, 28
- May 2023 00:01:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861E97C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 07:10:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685257801; x=1716793801;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5Md+DnmaAknh+uTTdKcPyWufo1Fdgux+pXlGu8MukcY=;
+  b=EnRW/T12m3h6JO7OsX7XKy4u8pZOkd2AAL88Bw7goVYJYQk/U4SxzhYy
+   TJ8WOJXPR3kRnm0AGEL0QZ9RVkDGeYHcNRCHpvUiQeKzhkfhXj41bWRZN
+   jHCGkykfY3G+Wg2wVk3WkaKl9o3lwOp7itZxPfWhphp3IVbtQKr1zJ7jZ
+   jAXARdPeT7qoiGSqDbpxdrYpFUb6MV/qOjkp0FFKxSDlHyYV7xfe/Nza8
+   VktTEDj2kftBLvVuRhENKc53I32m9X7bvwgiWtirgYzVnNNop9K6dD7lR
+   jeNWuIOhSgBfPbvca8Yengv7BilI8YwsjC7ftixgOZXYY/MKjF+/z86oE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="420251233"
+X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
+   d="scan'208";a="420251233"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 00:10:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="1035818751"
+X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
+   d="scan'208";a="1035818751"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 28 May 2023 00:09:59 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q3AXO-000KTs-1e;
+	Sun, 28 May 2023 07:09:58 +0000
+Date: Sun, 28 May 2023 15:09:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.15 19/42]
+ drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6152:6: warning:
+ no previous prototype for function 'amdgpu_dm_connector_funcs_force'
+Message-ID: <202305281534.9EmHS8HF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202305280830.Rj5ltc9M-lkp@intel.com>
-In-Reply-To: <202305280830.Rj5ltc9M-lkp@intel.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 28 May 2023 16:01:02 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQZ6E7N485L=YtKaE9nGuO609i_fgMbXMPdxfW6dfR1qA@mail.gmail.com>
-Message-ID: <CAK7LNAQZ6E7N485L=YtKaE9nGuO609i_fgMbXMPdxfW6dfR1qA@mail.gmail.com>
-Subject: Re: [masahiroy-kbuild:modpost-v5 23/23] arch/x86/kernel/callthunks.c:45:1:
- sparse: sparse: cast removes address space '__percpu' of expression
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, May 28, 2023 at 9:40=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-k=
-build.git modpost-v5
-> head:   952d644bb57db01d034e1faf94519473fbb1a0a1
-> commit: 952d644bb57db01d034e1faf94519473fbb1a0a1 [23/23] kbuild: implemen=
-t CONFIG_TRIM_UNUSED_KSYMS without recursion
-> config: x86_64-randconfig-s053-20230528 (https://download.01.org/0day-ci/=
-archive/20230528/202305280830.Rj5ltc9M-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> reproduce:
->         # apt-get install sparse
->         # sparse version: v0.6.4-39-gce1a6720-dirty
->         # https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux=
--kbuild.git/commit/?id=3D952d644bb57db01d034e1faf94519473fbb1a0a1
->         git remote add masahiroy-kbuild https://git.kernel.org/pub/scm/li=
-nux/kernel/git/masahiroy/linux-kbuild.git
->         git fetch --no-tags masahiroy-kbuild modpost-v5
->         git checkout 952d644bb57db01d034e1faf94519473fbb1a0a1
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=
-=3Dbuild_dir ARCH=3Dx86_64 olddefconfig
->         make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=
-=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash arch/x86/kernel/ kernel/trace/=
- lib/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202305280830.Rj5ltc9M-lkp=
-@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
-> >> arch/x86/kernel/callthunks.c:45:1: sparse: sparse: cast removes addres=
-s space '__percpu' of expression
->    arch/x86/kernel/callthunks.c:46:1: sparse: sparse: cast removes addres=
-s space '__percpu' of expression
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   429ad0976d865af5ae1a703a73346144d12e8d38
+commit: 275d3581ae02811e0e976c0797b152e306dd5dcf [19/42] FROMGIT: drm/amd/display: implement force function in amdgpu_dm_connector_funcs
+config: arm64-randconfig-r023-20230528 (https://download.01.org/0day-ci/archive/20230528/202305281534.9EmHS8HF-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.15
+        git checkout 275d3581ae02811e0e976c0797b152e306dd5dcf
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/gpu/drm/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305281534.9EmHS8HF-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6152:6: warning: no previous prototype for function 'amdgpu_dm_connector_funcs_force' [-Wmissing-prototypes]
+   void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
+        ^
+   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6152:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
+   ^
+   static 
+   1 warning generated.
 
 
+vim +/amdgpu_dm_connector_funcs_force +6152 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
 
+  6151	
+> 6152	void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
+  6153	{
+  6154		struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
+  6155		struct dc_link *dc_link = aconnector->dc_link;
+  6156		struct dc_sink *dc_em_sink = aconnector->dc_em_sink;
+  6157		struct edid *edid;
+  6158	
+  6159		if (!connector->edid_override)
+  6160			return;
+  6161	
+  6162		drm_edid_override_connector_update(&aconnector->base);
+  6163		edid = aconnector->base.edid_blob_ptr->data;
+  6164		aconnector->edid = edid;
+  6165	
+  6166		/* Update emulated (virtual) sink's EDID */
+  6167		if (dc_em_sink && dc_link) {
+  6168			memset(&dc_em_sink->edid_caps, 0, sizeof(struct dc_edid_caps));
+  6169			memmove(dc_em_sink->dc_edid.raw_edid, edid, (edid->extensions + 1) * EDID_LENGTH);
+  6170			dm_helpers_parse_edid_caps(
+  6171				dc_link,
+  6172				&dc_em_sink->dc_edid,
+  6173				&dc_em_sink->edid_caps);
+  6174		}
+  6175	}
+  6176	
 
-
-Thanks.
-
-This commit is unrelated.
-
-This seems to be a regression of
-https://patchwork.kernel.org/project/linux-kbuild/patch/20230521160426.1881=
-124-11-masahiroy@kernel.org/
-
-I will squash the following fix-up.
-
-
-diff --git a/include/linux/export.h b/include/linux/export.h
-index 32461a01608c..245ecd342772 100644
---- a/include/linux/export.h
-+++ b/include/linux/export.h
-@@ -56,6 +56,7 @@ extern struct module __this_module;
- #else
-
- #define ___EXPORT_SYMBOL(sym, license, ns)                     \
-+       extern typeof(sym) sym;                                 \
-        __ADDRESSABLE(sym)                                      \
-        asm(__stringify(____EXPORT_SYMBOL(sym, license, ns)))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-> vim +/__percpu +45 arch/x86/kernel/callthunks.c
->
-> e81dc127ef6988 Thomas Gleixner 2022-09-15  39
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  40  #ifdef CONFIG_CALL_THUNKS_=
-DEBUG
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  41  DEFINE_PER_CPU(u64, __x86_=
-call_count);
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  42  DEFINE_PER_CPU(u64, __x86_=
-ret_count);
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  43  DEFINE_PER_CPU(u64, __x86_=
-stuffs_count);
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  44  DEFINE_PER_CPU(u64, __x86_=
-ctxsw_count);
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15 @45  EXPORT_SYMBOL_GPL(__x86_ct=
-xsw_count);
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  46  EXPORT_SYMBOL_GPL(__x86_ca=
-ll_count);
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  47  #endif
-> f5c1bb2afe9339 Thomas Gleixner 2022-09-15  48
->
-> :::::: The code at line 45 was first introduced by commit
-> :::::: f5c1bb2afe93396d41c5cbdcb909b08a75b8dde4 x86/calldepth: Add ret/ca=
-ll counting for debug
->
-> :::::: TO: Thomas Gleixner <tglx@linutronix.de>
-> :::::: CC: Peter Zijlstra <peterz@infradead.org>
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
-
-
---=20
-Best Regards
-Masahiro Yamada
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
