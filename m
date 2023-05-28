@@ -1,219 +1,201 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9AA643
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 05:01:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD6A366;
+	Sun, 28 May 2023 05:23:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685250118; x=1716786118;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bGlnngY8NoMKMXYGAblzfilypk/A4dZEp+UBzqHcRBc=;
-  b=eiqv3e80ezbG2obqxse3vChw1JhfYZJTUqtXHXhxk0etH0Ad1g2mHAXv
-   WGL5ntL/mPstfbmGfEpe/oxwfNl+L7Is314RCTEZXvmhQAcNFbRSsvxSj
-   lT5uuGRsuXAFbdmWdH5s13QK90SNW5YoSe3WJBT7fohK55NMzPPD8dcOW
-   Wju0acCv/9nRsu1DJg1NSamHQYTlIFLOtBEqtmM7M0iPwe9jIwH3ouXd9
-   5qplt5wYuYl9sKx/iox9Vd8k/IBccyWBK5Ay7euNUN/8eZHDuTCCV2SXi
-   DuOTWv1midhdhr87E4P6YxbywJqMDL69oiUnyb6XcUvJs3woXadh1KDpu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="353325470"
+  t=1685251438; x=1716787438;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=CGVBXEjzT+mOl/vxownxAkK/LkLBt94tb6YF690Gk9U=;
+  b=JI0+iG1cQOEGUwBJY002L1quwEgbJPk1UD+4wP2++fTujzbAm5wXxw3o
+   91nzws2x8UqIecEsMXu8chLemIr218jPiOG1RBMFB0IHJG/uC7IAbttSI
+   u7imt4uJ+hJaseR1WLPkPPU9G23Sw5sjnvDwRjVe9h88CSWA3iUWjejOy
+   GQ1UrtQTtVdj9O4bhWEwyZqGHQkWt2QdtFALW601/wQI4qnz13Vbo0M1G
+   kM8aa1tW8YuVXsrsjCF7X3+u0fGt7iSs8/epXIsJ9hu3xfVxYLkuG91Xq
+   ELhsLWW6MMMdpP4TxQs7hVUfVdg/qIBkpv/bjgJ6oBDO7Ne/5YX99LZdc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="351986369"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="353325470"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 22:01:57 -0700
+   d="scan'208";a="351986369"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 22:23:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="849980895"
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="738724129"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="849980895"
+   d="scan'208";a="738724129"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 27 May 2023 22:01:55 -0700
+  by orsmga001.jf.intel.com with ESMTP; 27 May 2023 22:23:55 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q38XS-000KRa-2D;
-	Sun, 28 May 2023 05:01:54 +0000
-Date: Sun, 28 May 2023 13:01:28 +0800
+	id 1q38sk-000KRq-2j;
+	Sun, 28 May 2023 05:23:54 +0000
+Date: Sun, 28 May 2023 13:23:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joshua Hay <joshua.a.hay@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Alan Brady <alan.brady@intel.com>,
-	Madhu Chittim <madhu.chittim@intel.com>,
-	Phani Burra <phani.r.burra@intel.com>,
-	Pavan Kumar Linga <pavan.kumar.linga@intel.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Willem de Bruijn <willemb@google.com>
-Subject: [tnguy-next-queue:dev-queue 37/37]
- drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c:194:29: warning:
- variable 'tx_buf' set but not used
-Message-ID: <202305281225.X8nTZBSM-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, Marc Zyngier <maz@kernel.org>
+Subject: [arm-platforms:kvm-arm64/asahi-base-6.4 9/19]
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1842:35: warning:
+ unused variable 'footer'
+Message-ID: <202305281352.NAc3nr7T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Joshua,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-head:   367c72ccb915a94596005aebb78557aeba517e90
-commit: 5e9eec56736a45c0278d778f119225b413bec18b [37/37] idpf: configure SRIOV and add other ndo_ops
-config: m68k-randconfig-s033-20230528 (https://download.01.org/0day-ci/archive/20230528/202305281225.X8nTZBSM-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.1.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/asahi-base-6.4
+head:   7333165f9eb8694e854bdfb887ce358f501f1d3d
+commit: 13de34d5091d4258c8c24cda5367c06bd95a5d18 [9/19] Merge remote-tracking branch 'asahi/bits/080-wifi' into kvm-asm64/asahi-base-6.4
+config: x86_64-randconfig-x055-20230528 (https://download.01.org/0day-ci/archive/20230528/202305281352.NAc3nr7T-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git/commit/?id=5e9eec56736a45c0278d778f119225b413bec18b
-        git remote add tnguy-next-queue https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git
-        git fetch --no-tags tnguy-next-queue dev-queue
-        git checkout 5e9eec56736a45c0278d778f119225b413bec18b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git/commit/?id=13de34d5091d4258c8c24cda5367c06bd95a5d18
+        git remote add arm-platforms https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git
+        git fetch --no-tags arm-platforms kvm-arm64/asahi-base-6.4
+        git checkout 13de34d5091d4258c8c24cda5367c06bd95a5d18
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/ethernet/intel/idpf/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/wireless/broadcom/brcm80211/brcmfmac/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305281225.X8nTZBSM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305281352.NAc3nr7T-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c: In function 'idpf_tx_singleq_map':
->> drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c:194:29: warning: variable 'tx_buf' set but not used [-Wunused-but-set-variable]
-     194 |         struct idpf_tx_buf *tx_buf = first;
-         |                             ^~~~~~
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1842:35: warning: unused variable 'footer' [-Wunused-variable]
+                   struct brcmf_random_seed_footer footer = {
+                                                   ^
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1846:9: warning: unused variable 'randbuf' [-Wunused-variable]
+                   void *randbuf;
+                         ^
+   2 warnings generated.
 
 
-vim +/tx_buf +194 drivers/net/ethernet/intel/idpf/idpf_singleq_txrx.c
+vim +/footer +1842 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
 
-8eeac5561ccec1 Joshua Hay 2023-05-22  178  
-8eeac5561ccec1 Joshua Hay 2023-05-22  179  /**
-8eeac5561ccec1 Joshua Hay 2023-05-22  180   * idpf_tx_singleq_map - Build the Tx base descriptor
-8eeac5561ccec1 Joshua Hay 2023-05-22  181   * @tx_q: queue to send buffer on
-8eeac5561ccec1 Joshua Hay 2023-05-22  182   * @first: first buffer info buffer to use
-8eeac5561ccec1 Joshua Hay 2023-05-22  183   * @offloads: pointer to struct that holds offload parameters
-8eeac5561ccec1 Joshua Hay 2023-05-22  184   *
-8eeac5561ccec1 Joshua Hay 2023-05-22  185   * This function loops over the skb data pointed to by *first
-8eeac5561ccec1 Joshua Hay 2023-05-22  186   * and gets a physical address for each memory location and programs
-8eeac5561ccec1 Joshua Hay 2023-05-22  187   * it and the length into the transmit base mode descriptor.
-8eeac5561ccec1 Joshua Hay 2023-05-22  188   */
-8eeac5561ccec1 Joshua Hay 2023-05-22  189  static void idpf_tx_singleq_map(struct idpf_queue *tx_q,
-8eeac5561ccec1 Joshua Hay 2023-05-22  190  				struct idpf_tx_buf *first,
-8eeac5561ccec1 Joshua Hay 2023-05-22  191  				struct idpf_tx_offload_params *offloads)
-8eeac5561ccec1 Joshua Hay 2023-05-22  192  {
-8eeac5561ccec1 Joshua Hay 2023-05-22  193  	u32 offsets = offloads->hdr_offsets;
-8eeac5561ccec1 Joshua Hay 2023-05-22 @194  	struct idpf_tx_buf *tx_buf = first;
-8eeac5561ccec1 Joshua Hay 2023-05-22  195  	struct idpf_base_tx_desc *tx_desc;
-8eeac5561ccec1 Joshua Hay 2023-05-22  196  	struct sk_buff *skb = first->skb;
-8eeac5561ccec1 Joshua Hay 2023-05-22  197  	u64 td_cmd = offloads->td_cmd;
-8eeac5561ccec1 Joshua Hay 2023-05-22  198  	unsigned int data_len, size;
-8eeac5561ccec1 Joshua Hay 2023-05-22  199  	u16 i = tx_q->next_to_use;
-8eeac5561ccec1 Joshua Hay 2023-05-22  200  	struct netdev_queue *nq;
-8eeac5561ccec1 Joshua Hay 2023-05-22  201  	skb_frag_t *frag;
-8eeac5561ccec1 Joshua Hay 2023-05-22  202  	dma_addr_t dma;
-8eeac5561ccec1 Joshua Hay 2023-05-22  203  	u64 td_tag = 0;
-8eeac5561ccec1 Joshua Hay 2023-05-22  204  
-8eeac5561ccec1 Joshua Hay 2023-05-22  205  	data_len = skb->data_len;
-8eeac5561ccec1 Joshua Hay 2023-05-22  206  	size = skb_headlen(skb);
-8eeac5561ccec1 Joshua Hay 2023-05-22  207  
-8eeac5561ccec1 Joshua Hay 2023-05-22  208  	tx_desc = IDPF_BASE_TX_DESC(tx_q, i);
-8eeac5561ccec1 Joshua Hay 2023-05-22  209  
-8eeac5561ccec1 Joshua Hay 2023-05-22  210  	dma = dma_map_single(tx_q->dev, skb->data, size, DMA_TO_DEVICE);
-8eeac5561ccec1 Joshua Hay 2023-05-22  211  
-8eeac5561ccec1 Joshua Hay 2023-05-22  212  	/* write each descriptor with CRC bit */
-8eeac5561ccec1 Joshua Hay 2023-05-22  213  	if (tx_q->vport->crc_enable)
-8eeac5561ccec1 Joshua Hay 2023-05-22  214  		td_cmd |= IDPF_TX_DESC_CMD_ICRC;
-8eeac5561ccec1 Joshua Hay 2023-05-22  215  
-8eeac5561ccec1 Joshua Hay 2023-05-22  216  	for (frag = &skb_shinfo(skb)->frags[0];; frag++) {
-8eeac5561ccec1 Joshua Hay 2023-05-22  217  		unsigned int max_data = IDPF_TX_MAX_DESC_DATA_ALIGNED;
-8eeac5561ccec1 Joshua Hay 2023-05-22  218  
-8eeac5561ccec1 Joshua Hay 2023-05-22  219  		if (dma_mapping_error(tx_q->dev, dma))
-8eeac5561ccec1 Joshua Hay 2023-05-22  220  			return idpf_tx_dma_map_error(tx_q, skb, first, i);
-8eeac5561ccec1 Joshua Hay 2023-05-22  221  
-8eeac5561ccec1 Joshua Hay 2023-05-22  222  		/* record length, and DMA address */
-8eeac5561ccec1 Joshua Hay 2023-05-22  223  		dma_unmap_len_set(tx_buf, len, size);
-8eeac5561ccec1 Joshua Hay 2023-05-22  224  		dma_unmap_addr_set(tx_buf, dma, dma);
-8eeac5561ccec1 Joshua Hay 2023-05-22  225  
-8eeac5561ccec1 Joshua Hay 2023-05-22  226  		/* align size to end of page */
-8eeac5561ccec1 Joshua Hay 2023-05-22  227  		max_data += -dma & (IDPF_TX_MAX_READ_REQ_SIZE - 1);
-8eeac5561ccec1 Joshua Hay 2023-05-22  228  		tx_desc->buf_addr = cpu_to_le64(dma);
-8eeac5561ccec1 Joshua Hay 2023-05-22  229  
-8eeac5561ccec1 Joshua Hay 2023-05-22  230  		/* account for data chunks larger than the hardware
-8eeac5561ccec1 Joshua Hay 2023-05-22  231  		 * can handle
-8eeac5561ccec1 Joshua Hay 2023-05-22  232  		 */
-8eeac5561ccec1 Joshua Hay 2023-05-22  233  		while (unlikely(size > IDPF_TX_MAX_DESC_DATA)) {
-8eeac5561ccec1 Joshua Hay 2023-05-22  234  			tx_desc->qw1 = idpf_tx_singleq_build_ctob(td_cmd,
-8eeac5561ccec1 Joshua Hay 2023-05-22  235  								  offsets,
-8eeac5561ccec1 Joshua Hay 2023-05-22  236  								  max_data,
-8eeac5561ccec1 Joshua Hay 2023-05-22  237  								  td_tag);
-8eeac5561ccec1 Joshua Hay 2023-05-22  238  			tx_desc++;
-8eeac5561ccec1 Joshua Hay 2023-05-22  239  			i++;
-8eeac5561ccec1 Joshua Hay 2023-05-22  240  
-8eeac5561ccec1 Joshua Hay 2023-05-22  241  			if (i == tx_q->desc_count) {
-8eeac5561ccec1 Joshua Hay 2023-05-22  242  				tx_desc = IDPF_BASE_TX_DESC(tx_q, 0);
-8eeac5561ccec1 Joshua Hay 2023-05-22  243  				i = 0;
-8eeac5561ccec1 Joshua Hay 2023-05-22  244  			}
-8eeac5561ccec1 Joshua Hay 2023-05-22  245  
-8eeac5561ccec1 Joshua Hay 2023-05-22  246  			dma += max_data;
-8eeac5561ccec1 Joshua Hay 2023-05-22  247  			size -= max_data;
-8eeac5561ccec1 Joshua Hay 2023-05-22  248  
-8eeac5561ccec1 Joshua Hay 2023-05-22  249  			max_data = IDPF_TX_MAX_DESC_DATA_ALIGNED;
-8eeac5561ccec1 Joshua Hay 2023-05-22  250  			tx_desc->buf_addr = cpu_to_le64(dma);
-8eeac5561ccec1 Joshua Hay 2023-05-22  251  		}
-8eeac5561ccec1 Joshua Hay 2023-05-22  252  
-8eeac5561ccec1 Joshua Hay 2023-05-22  253  		if (!data_len)
-8eeac5561ccec1 Joshua Hay 2023-05-22  254  			break;
-8eeac5561ccec1 Joshua Hay 2023-05-22  255  
-8eeac5561ccec1 Joshua Hay 2023-05-22  256  		tx_desc->qw1 = idpf_tx_singleq_build_ctob(td_cmd, offsets,
-8eeac5561ccec1 Joshua Hay 2023-05-22  257  							  size, td_tag);
-8eeac5561ccec1 Joshua Hay 2023-05-22  258  		tx_desc++;
-8eeac5561ccec1 Joshua Hay 2023-05-22  259  		i++;
-8eeac5561ccec1 Joshua Hay 2023-05-22  260  
-8eeac5561ccec1 Joshua Hay 2023-05-22  261  		if (i == tx_q->desc_count) {
-8eeac5561ccec1 Joshua Hay 2023-05-22  262  			tx_desc = IDPF_BASE_TX_DESC(tx_q, 0);
-8eeac5561ccec1 Joshua Hay 2023-05-22  263  			i = 0;
-8eeac5561ccec1 Joshua Hay 2023-05-22  264  		}
-8eeac5561ccec1 Joshua Hay 2023-05-22  265  
-8eeac5561ccec1 Joshua Hay 2023-05-22  266  		size = skb_frag_size(frag);
-8eeac5561ccec1 Joshua Hay 2023-05-22  267  		data_len -= size;
-8eeac5561ccec1 Joshua Hay 2023-05-22  268  
-8eeac5561ccec1 Joshua Hay 2023-05-22  269  		dma = skb_frag_dma_map(tx_q->dev, frag, 0, size,
-8eeac5561ccec1 Joshua Hay 2023-05-22  270  				       DMA_TO_DEVICE);
-8eeac5561ccec1 Joshua Hay 2023-05-22  271  
-8eeac5561ccec1 Joshua Hay 2023-05-22  272  		tx_buf = &tx_q->tx_buf[i];
-8eeac5561ccec1 Joshua Hay 2023-05-22  273  	}
-8eeac5561ccec1 Joshua Hay 2023-05-22  274  
-8eeac5561ccec1 Joshua Hay 2023-05-22  275  	skb_tx_timestamp(first->skb);
-8eeac5561ccec1 Joshua Hay 2023-05-22  276  
-8eeac5561ccec1 Joshua Hay 2023-05-22  277  	/* write last descriptor with RS and EOP bits */
-8eeac5561ccec1 Joshua Hay 2023-05-22  278  	td_cmd |= (u64)(IDPF_TX_DESC_CMD_EOP | IDPF_TX_DESC_CMD_RS);
-8eeac5561ccec1 Joshua Hay 2023-05-22  279  
-8eeac5561ccec1 Joshua Hay 2023-05-22  280  	tx_desc->qw1 = idpf_tx_singleq_build_ctob(td_cmd, offsets, size, td_tag);
-8eeac5561ccec1 Joshua Hay 2023-05-22  281  
-8eeac5561ccec1 Joshua Hay 2023-05-22  282  	IDPF_SINGLEQ_BUMP_RING_IDX(tx_q, i);
-8eeac5561ccec1 Joshua Hay 2023-05-22  283  
-8eeac5561ccec1 Joshua Hay 2023-05-22  284  	/* set next_to_watch value indicating a packet is present */
-8eeac5561ccec1 Joshua Hay 2023-05-22  285  	first->next_to_watch = tx_desc;
-8eeac5561ccec1 Joshua Hay 2023-05-22  286  
-8eeac5561ccec1 Joshua Hay 2023-05-22  287  	nq = netdev_get_tx_queue(tx_q->vport->netdev, tx_q->idx);
-8eeac5561ccec1 Joshua Hay 2023-05-22  288  	netdev_tx_sent_queue(nq, first->bytecount);
-8eeac5561ccec1 Joshua Hay 2023-05-22  289  
-8eeac5561ccec1 Joshua Hay 2023-05-22  290  	idpf_tx_buf_hw_update(tx_q, i, netdev_xmit_more());
-8eeac5561ccec1 Joshua Hay 2023-05-22  291  }
-8eeac5561ccec1 Joshua Hay 2023-05-22  292  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1810  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1811  static int brcmf_pcie_download_fw_nvram(struct brcmf_pciedev_info *devinfo,
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1812  					const struct firmware *fw, void *nvram,
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1813  					u32 nvram_len)
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1814  {
+8602e62441aba2 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-06  1815  	struct brcmf_bus *bus = dev_get_drvdata(&devinfo->pdev->dev);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1816  	u32 sharedram_addr;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1817  	u32 sharedram_addr_written;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1818  	u32 loop_counter;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1819  	int err;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1820  	u32 address;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1821  	u32 resetintr;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1822  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1823  	brcmf_dbg(PCIE, "Halt ARM.\n");
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1824  	err = brcmf_pcie_enter_download_state(devinfo);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1825  	if (err)
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1826  		return err;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1827  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1828  	brcmf_dbg(PCIE, "Download FW %s\n", devinfo->fw_name);
+9466987f246758 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2022-02-01  1829  	memcpy_toio(devinfo->tcm + devinfo->ci->rambase,
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1830  		    (void *)fw->data, fw->size);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1831  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1832  	resetintr = get_unaligned_le32(fw->data);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1833  	release_firmware(fw);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1834  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1835  	/* reset last 4 bytes of RAM address. to be used for shared
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1836  	 * area. This identifies when FW is running
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1837  	 */
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1838  	brcmf_pcie_write_ram32(devinfo, devinfo->ci->ramsize - 4, 0);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1839  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1840  	if (nvram) {
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23  1841  		size_t rand_len = BRCMF_RANDOM_SEED_LENGTH;
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23 @1842  		struct brcmf_random_seed_footer footer = {
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23  1843  			.length = cpu_to_le32(rand_len),
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23  1844  			.magic = cpu_to_le32(BRCMF_RANDOM_SEED_MAGIC),
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23  1845  		};
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23 @1846  		void *randbuf;
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23  1847  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1848  		brcmf_dbg(PCIE, "Download NVRAM %s\n", devinfo->nvram_name);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1849  		address = devinfo->ci->rambase + devinfo->ci->ramsize -
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1850  			  nvram_len;
+9466987f246758 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2022-02-01  1851  		memcpy_toio(devinfo->tcm + address, nvram, nvram_len);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1852  		brcmf_fw_nvram_free(nvram);
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1853  
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1854  		if (devinfo->otp.valid) {
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1855  			size_t rand_len = BRCMF_RANDOM_SEED_LENGTH;
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1856  			struct brcmf_random_seed_footer footer = {
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1857  				.length = cpu_to_le32(rand_len),
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1858  				.magic = cpu_to_le32(BRCMF_RANDOM_SEED_MAGIC),
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1859  			};
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1860  			void *randbuf;
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1861  
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1862  			/* Some Apple chips/firmwares expect a buffer of random
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1863  			 * data to be present before NVRAM
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1864  			 */
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1865  			brcmf_dbg(PCIE, "Download random seed\n");
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1866  
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1867  			address -= sizeof(footer);
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1868  			memcpy_toio(devinfo->tcm + address, &footer,
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1869  				    sizeof(footer));
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1870  
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1871  			address -= rand_len;
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1872  			randbuf = kzalloc(rand_len, GFP_KERNEL);
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1873  			get_random_bytes(randbuf, rand_len);
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1874  			memcpy_toio(devinfo->tcm + address, randbuf, rand_len);
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1875  			kfree(randbuf);
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1876  		}
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1877  	} else {
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1878  		brcmf_dbg(PCIE, "No matching NVRAM file found %s\n",
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1879  			  devinfo->nvram_name);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1880  	}
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1881  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1882  	sharedram_addr_written = brcmf_pcie_read_ram32(devinfo,
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1883  						       devinfo->ci->ramsize -
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1884  						       4);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1885  	brcmf_dbg(PCIE, "Bring ARM in running state\n");
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1886  	err = brcmf_pcie_exit_download_state(devinfo, resetintr);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1887  	if (err)
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1888  		return err;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1889  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1890  	brcmf_dbg(PCIE, "Wait for FW init\n");
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1891  	sharedram_addr = sharedram_addr_written;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1892  	loop_counter = BRCMF_PCIE_FW_UP_TIMEOUT / 50;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1893  	while ((sharedram_addr == sharedram_addr_written) && (loop_counter)) {
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1894  		msleep(50);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1895  		sharedram_addr = brcmf_pcie_read_ram32(devinfo,
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1896  						       devinfo->ci->ramsize -
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1897  						       4);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1898  		loop_counter--;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1899  	}
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1900  	if (sharedram_addr == sharedram_addr_written) {
+8602e62441aba2 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-06  1901  		brcmf_err(bus, "FW failed to initialize\n");
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1902  		return -ENODEV;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1903  	}
+e0a8ef4d7b4315 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-20  1904  	if (sharedram_addr < devinfo->ci->rambase ||
+e0a8ef4d7b4315 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-20  1905  	    sharedram_addr >= devinfo->ci->rambase + devinfo->ci->ramsize) {
+e0a8ef4d7b4315 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-20  1906  		brcmf_err(bus, "Invalid shared RAM address 0x%08x\n",
+e0a8ef4d7b4315 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-20  1907  			  sharedram_addr);
+e0a8ef4d7b4315 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-20  1908  		return -ENODEV;
+e0a8ef4d7b4315 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-20  1909  	}
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1910  	brcmf_dbg(PCIE, "Shared RAM addr: 0x%08x\n", sharedram_addr);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1911  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1912  	return (brcmf_pcie_init_share_ram_info(devinfo, sharedram_addr));
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1913  }
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1914  
 
-:::::: The code at line 194 was first introduced by commit
-:::::: 8eeac5561ccec130e628d7aa78ae5ef6cee3f628 idpf: add singleq start_xmit and napi poll
+:::::: The code at line 1842 was first introduced by commit
+:::::: 9587fcd02f3ed021ff3b81f3b18db5f54ce8f663 brcmfmac: pcie: Provide a buffer of random bytes to the device
 
-:::::: TO: Joshua Hay <joshua.a.hay@intel.com>
-:::::: CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+:::::: TO: Hector Martin <marcan@marcan.st>
+:::::: CC: Hector Martin <marcan@marcan.st>
 
 -- 
 0-DAY CI Kernel Test Service
