@@ -1,44 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD487E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 02:35:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 057FA7E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 03:27:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685241355; x=1716777355;
+  t=1685244476; x=1716780476;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SsbA6YAE4EDLXAY3iKxF49ur7rC4X6+7Zn8oBIIGyAg=;
-  b=BgKoqYHEABO3a5B6Efk7fKobYbGLXeSSJSoWXodC1XB2r2KWB9SB9Gds
-   KfObyIFi2ThqvgS9z5qvdie1+1yPVBwoO61osxrl9BA+I0dUZhRPmX7gu
-   8LmFeNtjMILcX/ZD9JzouOCTDsEqt9PERq2fdQu4uzJ3qasFkxsaZW4V6
-   6mlCUnmtfgtWe2chAbPPBF3SZ/zeiSIsaDk6eyb5l82CbHvJte8lnERgK
-   RyqaqehbfNbpKFp4Q0xjdTGU9wFVLy/x9dP6HVKo0pHXduCb8jOoAtccz
-   vuz8IQuIY43FEk4l3n/UJlwDs/QKesUlIl6g4swPuSHjOYl0HEUMPPSFs
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="334095837"
+  bh=Wi1FPKiKKGxulpQrXS8bUwUO7zD3ZKIbhAcaHMY//i8=;
+  b=dNyFrUu6dgQ9JOJxQEzTvOBpmgQSQJi43W5WcNv3i/EAaqJAEtOtgP3s
+   o0ENrNqvZ5tbE/VO+AxM/3IR/DJtdz0EKWE64h6St/AnW8FDGPbTd/osU
+   IvS3f2is6mnF/Z8rHU16zU6JOim3It026BOYxaDbuj1M1TZbEdma6n2XT
+   2LxTOHwQGgavQNLvkXFImNj/gldVOuc115DWhDkNwFfrLLd2ojx2olW4D
+   LIH2154T01/GDaSHhG+szu6VCvntyw81uidXTKU9BoHiz4YEDbmY5FhkM
+   tknGatcaI9k+aL14b+GCOpmCF43cCWfWAOgvEYrXbnkAxyV+5nbRPrWcz
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="351978953"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="334095837"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 19:35:54 -0700
+   d="scan'208";a="351978953"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2023 20:27:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="1035777852"
+X-IronPort-AV: E=McAfee;i="6600,9927,10723"; a="736441688"
 X-IronPort-AV: E=Sophos;i="6.00,198,1681196400"; 
-   d="scan'208";a="1035777852"
+   d="scan'208";a="736441688"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 27 May 2023 19:35:52 -0700
+  by orsmga008.jf.intel.com with ESMTP; 27 May 2023 20:27:53 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q36G8-000KOQ-0u;
-	Sun, 28 May 2023 02:35:52 +0000
-Date: Sun, 28 May 2023 10:35:24 +0800
+	id 1q374S-000KP4-2b;
+	Sun, 28 May 2023 03:27:52 +0000
+Date: Sun, 28 May 2023 11:27:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Miroslav Benes <mbenes@suse.cz>
-Subject: [tip:objtool/core 8/12] vmlinux.o: warning: objtool:
- do_arch_prctl_common+0xf4: preempt_schedule_thunk() is missing a __noreturn
- annotation
-Message-ID: <202305281037.3PaI3tW4-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 3/4]
+ include/trace/hooks/audio_usboffload.h:19:1: sparse: sparse: incorrect type
+ in assignment (different address spaces)
+Message-ID: <202305281132.woP00nuy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,148 +47,142 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git objtool/core
-head:   6245ce4ab670166efcdae843c35c14e4c0811aa3
-commit: fedb724c3db5490234ddde0103811c28c2fedae0 [8/12] objtool: Detect missing __noreturn annotations
-config: x86_64-randconfig-x085-20230528 (https://download.01.org/0day-ci/archive/20230528/202305281037.3PaI3tW4-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   500484f5be022b113cdfb97287e3491a149435cd
+commit: c3007a323105c158a63a5924a9f8d0c84a478410 [3/4] ANDROID: sound: usb: Add vendor hooks for connect & disconnect
+config: i386-randconfig-s001-20230528 (https://download.01.org/0day-ci/archive/20230528/202305281132.woP00nuy-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=fedb724c3db5490234ddde0103811c28c2fedae0
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-        git fetch --no-tags tip objtool/core
-        git checkout fedb724c3db5490234ddde0103811c28c2fedae0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-6.1
+        git checkout c3007a323105c158a63a5924a9f8d0c84a478410
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/android/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305281037.3PaI3tW4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305281132.woP00nuy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   include/trace/hooks/cgroup.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/cgroup.h:31:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cgroup.h:31:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:31:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/iommu.h):
+   include/trace/hooks/iommu.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/iommu.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/iommu.h:34:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:34:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:34:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/iommu.h:38:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:38:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:38:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/vmscan.h):
+   include/trace/hooks/vmscan.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/vmscan.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/vmscan.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/avc.h):
+   include/trace/hooks/avc.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/creds.h):
+   include/trace/hooks/creds.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/module.h):
+   include/trace/hooks/module.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/selinux.h):
+   include/trace/hooks/selinux.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/selinux.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/selinux.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/gic_v3.h):
+   include/trace/hooks/gic_v3.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/gic_v3.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/gic_v3.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/bug.h):
+   include/trace/hooks/bug.h:10:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/bug.h:10:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/bug.h:10:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/fault.h):
+   include/trace/hooks/fault.h:11:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:11:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:11:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/fault.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/fault.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/traps.h):
+   include/trace/hooks/traps.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:17:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:17:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:17:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:25:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:25:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:25:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:29:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:29:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:29:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/audio_usboffload.h):
+>> include/trace/hooks/audio_usboffload.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/audio_usboffload.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/audio_usboffload.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
->> vmlinux.o: warning: objtool: do_arch_prctl_common+0xf4: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: raise_mce+0x380: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: unwind_next_frame+0x11e4: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: process_one_work+0x942: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: __kthread_parkme+0x14a: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: __sched_setscheduler+0xf54: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: rt_mutex_setprio+0x6e5: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: __down_read_trylock+0x269: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: __up_write+0x405: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: __up_read+0x536: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: __percpu_rwsem_trylock+0x3e: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: __sync_rcu_exp_select_node_cpus+0x41d: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: __symbol_get+0xd9: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: lookup_module_symbol_name+0x118: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: lookup_module_symbol_attrs+0x142: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: show_kprobe_addr+0x134: preempt_schedule_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: __trace_event_discard_commit+0x47: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: __ftrace_trace_stack+0x1da: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: ftrace_trace_userstack+0x246: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
->> vmlinux.o: warning: objtool: __trace_array_puts+0x2e2: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: __trace_bputs+0x19c: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: __trace_array_vprintk+0x1d5: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: tracing_mark_raw_write+0x2bd: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: tracing_mark_write+0x4b2: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: trace_buffered_event_enable+0x193: preempt_schedule_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: trace_buffer_unlock_commit_regs+0xab: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: trace_buffer_unlock_commit_nostack+0x9c: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: trace_function+0x1a9: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: trace_last_func_repeats+0x27a: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: trace_vbprintk+0x225: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: user_event_ftrace+0x303: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: rethook_flush_task+0xb3: preempt_schedule_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: irq_work_queue+0x35f: preempt_schedule_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: bpf_bprintf_prepare+0x1e1: preempt_schedule_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: htab_lock_bucket+0x118: preempt_schedule_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: bp_constraints_lock+0x107: preempt_schedule_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: folio_deactivate+0x15a: preempt_schedule_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: rmqueue_pcplist.constprop.0+0x7f: preempt_schedule_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: free_unref_page+0x170: preempt_schedule_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: free_unref_page_list+0x30c: preempt_schedule_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: __kmem_cache_alloc_bulk+0xf8: preempt_schedule_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: iput+0x287: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: wb_workfn+0x3f5: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: __break_lease+0x889: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: __i2c_transfer+0x346: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: __i2c_smbus_xfer+0x3a8: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: edac_raw_mc_handle_error+0xc16: preempt_schedule_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: iptunnel_xmit+0x6df: preempt_schedule_thunk() is missing a __noreturn annotation
-   vmlinux.o: warning: objtool: native_sched_clock+0xd0: preempt_schedule_notrace_thunk() is missing a __noreturn annotation
+vim +19 include/trace/hooks/audio_usboffload.h
 
-
-objdump-func vmlinux.o do_arch_prctl_common:
-0000 0000000000078edd <do_arch_prctl_common>:
-0000    78edd:	f3 0f 1e fa          	endbr64
-0004    78ee1:	e8 00 00 00 00       	call   78ee6 <do_arch_prctl_common+0x9>	78ee2: R_X86_64_PLT32	__fentry__-0x4
-0009    78ee6:	55                   	push   %rbp
-000a    78ee7:	41 50                	push   %r8
-000c    78ee9:	81 ff 12 10 00 00    	cmp    $0x1012,%edi
-0012    78eef:	74 43                	je     78f34 <do_arch_prctl_common+0x57>
-0014    78ef1:	7f 2b                	jg     78f1e <do_arch_prctl_common+0x41>
-0016    78ef3:	81 ff 11 10 00 00    	cmp    $0x1011,%edi
-001c    78ef9:	0f 85 d4 00 00 00    	jne    78fd3 <do_arch_prctl_common+0xf6>
-0022    78eff:	be 0f 00 00 00       	mov    $0xf,%esi
-0027    78f04:	48 8b 3c 25 00 00 00 00 	mov    0x0,%rdi	78f08: R_X86_64_32S	pcpu_hot
-002f    78f0c:	e8 30 e6 ff ff       	call   77541 <test_ti_thread_flag>
-0034    78f11:	85 c0                	test   %eax,%eax
-0036    78f13:	0f 94 c0             	sete   %al
-0039    78f16:	0f b6 c0             	movzbl %al,%eax
-003c    78f19:	e9 bc 00 00 00       	jmp    78fda <do_arch_prctl_common+0xfd>
-0041    78f1e:	8d 87 df ef ff ff    	lea    -0x1021(%rdi),%eax
-0047    78f24:	83 f8 04             	cmp    $0x4,%eax
-004a    78f27:	0f 87 a6 00 00 00    	ja     78fd3 <do_arch_prctl_common+0xf6>
-0050    78f2d:	59                   	pop    %rcx
-0051    78f2e:	5d                   	pop    %rbp
-0052    78f2f:	e9 00 00 00 00       	jmp    78f34 <do_arch_prctl_common+0x57>	78f30: R_X86_64_PLT32	fpu_xstate_prctl-0x4
-0057    78f34:	48 c7 c0 00 00 00 00 	mov    $0x0,%rax	78f37: R_X86_64_32S	boot_cpu_data+0x40
-005e    78f3b:	ba ff ff 37 00       	mov    $0x37ffff,%edx
-0063    78f40:	48 c1 e8 03          	shr    $0x3,%rax
-0067    78f44:	48 c1 e2 2a          	shl    $0x2a,%rdx
-006b    78f48:	80 3c 10 00          	cmpb   $0x0,(%rax,%rdx,1)
-006f    78f4c:	74 14                	je     78f62 <do_arch_prctl_common+0x85>
-0071    78f4e:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	78f51: R_X86_64_32S	boot_cpu_data+0x40
-0078    78f55:	48 89 34 24          	mov    %rsi,(%rsp)
-007c    78f59:	e8 00 00 00 00       	call   78f5e <do_arch_prctl_common+0x81>	78f5a: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
-0081    78f5e:	48 8b 34 24          	mov    (%rsp),%rsi
-0085    78f62:	48 8b 15 00 00 00 00 	mov    0x0(%rip),%rdx        # 78f69 <do_arch_prctl_common+0x8c>	78f65: R_X86_64_PC32	boot_cpu_data+0x3c
-008c    78f69:	48 c7 c0 ed ff ff ff 	mov    $0xffffffffffffffed,%rax
-0093    78f70:	48 0f ba e2 21       	bt     $0x21,%rdx
-0098    78f75:	73 63                	jae    78fda <do_arch_prctl_common+0xfd>
-009a    78f77:	48 85 f6             	test   %rsi,%rsi
-009d    78f7a:	74 09                	je     78f85 <do_arch_prctl_common+0xa8>
-009f    78f7c:	e8 a9 e6 ff ff       	call   7762a <enable_cpuid>
-00a4    78f81:	31 c0                	xor    %eax,%eax
-00a6    78f83:	eb 55                	jmp    78fda <do_arch_prctl_common+0xfd>
-00a8    78f85:	bf 01 00 00 00       	mov    $0x1,%edi
-00ad    78f8a:	e8 00 00 00 00       	call   78f8f <do_arch_prctl_common+0xb2>	78f8b: R_X86_64_PLT32	preempt_count_add-0x4
-00b2    78f8f:	be 08 00 00 00       	mov    $0x8,%esi
-00b7    78f94:	48 8b 2c 25 00 00 00 00 	mov    0x0,%rbp	78f98: R_X86_64_32S	pcpu_hot
-00bf    78f9c:	48 89 ef             	mov    %rbp,%rdi
-00c2    78f9f:	e8 00 00 00 00       	call   78fa4 <do_arch_prctl_common+0xc7>	78fa0: R_X86_64_PLT32	__kasan_check_write-0x4
-00c7    78fa4:	48 0f ba 6d 00 0f    	btsq   $0xf,0x0(%rbp)
-00cd    78faa:	72 0a                	jb     78fb6 <do_arch_prctl_common+0xd9>
-00cf    78fac:	bf 01 00 00 00       	mov    $0x1,%edi
-00d4    78fb1:	e8 4c e6 ff ff       	call   77602 <set_cpuid_faulting>
-00d9    78fb6:	bf 01 00 00 00       	mov    $0x1,%edi
-00de    78fbb:	e8 00 00 00 00       	call   78fc0 <do_arch_prctl_common+0xe3>	78fbc: R_X86_64_PLT32	preempt_count_sub-0x4
-00e3    78fc0:	31 c0                	xor    %eax,%eax
-00e5    78fc2:	8b 15 00 00 00 00    	mov    0x0(%rip),%edx        # 78fc8 <do_arch_prctl_common+0xeb>	78fc4: R_X86_64_PC32	pcpu_hot+0x4
-00eb    78fc8:	85 d2                	test   %edx,%edx
-00ed    78fca:	75 0e                	jne    78fda <do_arch_prctl_common+0xfd>
-00ef    78fcc:	e8 00 00 00 00       	call   78fd1 <do_arch_prctl_common+0xf4>	78fcd: R_X86_64_PLT32	preempt_schedule_thunk-0x4
-00f4    78fd1:	eb 07                	jmp    78fda <do_arch_prctl_common+0xfd>
-00f6    78fd3:	48 c7 c0 ea ff ff ff 	mov    $0xffffffffffffffea,%rax
-00fd    78fda:	5a                   	pop    %rdx
-00fe    78fdb:	5d                   	pop    %rbp
-00ff    78fdc:	31 d2                	xor    %edx,%edx
-0101    78fde:	31 c9                	xor    %ecx,%ecx
-0103    78fe0:	31 f6                	xor    %esi,%esi
-0105    78fe2:	31 ff                	xor    %edi,%edi
-0107    78fe4:	45 31 c0             	xor    %r8d,%r8d
-010a    78fe7:	e9 00 00 00 00       	jmp    78fec <fpu__init_cpu>	78fe8: R_X86_64_PLT32	__x86_return_thunk-0x4
+    14	
+    15	DECLARE_HOOK(android_vh_audio_usb_offload_connect,
+    16		TP_PROTO(struct usb_interface *intf, struct snd_usb_audio *chip),
+    17		TP_ARGS(intf, chip));
+    18	
+  > 19	DECLARE_RESTRICTED_HOOK(android_rvh_audio_usb_offload_disconnect,
+    20		TP_PROTO(struct usb_interface *intf),
+    21		TP_ARGS(intf), 1);
+    22	
 
 -- 
 0-DAY CI Kernel Test Service
