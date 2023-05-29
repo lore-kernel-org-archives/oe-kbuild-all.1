@@ -1,42 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F64AD532
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 May 2023 20:16:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7FBD51A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 May 2023 20:23:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685391403; x=1716927403;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ep+dlxQSPKpBCb0J1beJBYeUhNZ+oRFFm7lIVHYxo9g=;
-  b=Fa9tFfjjmjknkZPEawEIhfpnjh00rxVWMueG0ucMCnUQnSkHKGUuIL0I
-   +RCOm52oPWgI3geNfjIaVRpXnYVWypURYd3ihU+QqqLbdjzZL70u79OFt
-   XnBuPA8EcHUuYN78k8cnenOYwo44E/iqEs2dsXDiysB9NaFnCKPeIft6O
-   KlmXs/6YwBRFJiK1tr9q7y38GCkIeKaf3LRoPZffvNp7TuU6JMELn8dyw
-   R2G8cCeE3uGc1rEBgOCB16Uyn8Hs+5mox3IWHlpMe2GX5iIAGaicCJ+sZ
-   hpMbw7y4JqutANCsK9cxcqLbdDQapsEoxWniWAm/R8nUf50wVj+Ov+12W
+  t=1685391823; x=1716927823;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=dHzj77M5iW9y0SdEwCAhxo0nw0XBCCxdmbhnS7voNQA=;
+  b=Wy7a36yKi2zrKJ/0HZlOe8sjERSlLmyjAPDTzktRpEepM29iPbPEQ+3r
+   tijAoHQW3ZhwdytVif+AnnHGWr90/PwhS38oa1LYSyAZdXBUadlfp8c9B
+   NbEsn3JiWLDTuagn4yyzvfrjnpWWw1NNDZ80uQN8SsO/QgivX90/1Hw0K
+   vvQoyPncgqJlDa54++SjeZHycbYYW9HuTxyCX5IBS1Dxf6+34c5iELf4R
+   CZs+nAa/PWYMjXbonJ/qscSX5Sqn0MgDIvHwJ86mcnW90m6/Du4RLTY/D
+   IURFWpKFAV6i5ecEZxUZRJC3VF4f+Z1egse8YONQgdPPNNxPH8DIPmqMW
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="353606281"
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="441122071"
 X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="353606281"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 13:16:42 -0700
+   d="scan'208";a="441122071"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 13:23:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="739257875"
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="683678943"
 X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="739257875"
+   d="scan'208";a="683678943"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 29 May 2023 13:16:41 -0700
+  by orsmga006.jf.intel.com with ESMTP; 29 May 2023 13:23:41 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q3jIG-000L7C-2p;
-	Mon, 29 May 2023 20:16:40 +0000
-Date: Tue, 30 May 2023 04:16:28 +0800
+	id 1q3jP3-000L7W-0I;
+	Mon, 29 May 2023 20:23:41 +0000
+Date: Tue, 30 May 2023 04:23:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <chuck.lever@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cel:topic-shmem-stable-dir-cookies 1/3] fs/libfs.c:348:27: warning:
- cast from pointer to integer of different size
-Message-ID: <202305300417.0aObZm6n-lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 1/5] scsi: core: Rework scsi_host_block()
+Message-ID: <ZHUJp6bPf8+Yyf94@b4b7677a4534>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,47 +45,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230529202157.11361-3-bvanassche@acm.org>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux topic-shmem-stable-dir-cookies
-head:   e8e704527450bc5b7773191ff2c6d10a6c901eba
-commit: 1827add947a203ef559bdde486604a26ce8f8a33 [1/3] libfs: Add directory operations for stable cookies
-config: um-i386_defconfig (https://download.01.org/0day-ci/archive/20230530/202305300417.0aObZm6n-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/cel/linux.git/commit/?id=1827add947a203ef559bdde486604a26ce8f8a33
-        git remote add cel git://git.kernel.org/pub/scm/linux/kernel/git/cel/linux
-        git fetch --no-tags cel topic-shmem-stable-dir-cookies
-        git checkout 1827add947a203ef559bdde486604a26ce8f8a33
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=um SUBARCH=i386 SHELL=/bin/bash
+Hi,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305300417.0aObZm6n-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   fs/libfs.c: In function 'stable_dir_emit':
->> fs/libfs.c:348:27: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     348 |                           (loff_t)dentry->d_fsdata, inode->i_ino,
-         |                           ^
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH v4 1/5] scsi: core: Rework scsi_host_block()
+Link: https://lore.kernel.org/stable/20230529202157.11361-3-bvanassche%40acm.org
 
-
-vim +348 fs/libfs.c
-
-   342	
-   343	static bool stable_dir_emit(struct dir_context *ctx, struct dentry *dentry)
-   344	{
-   345		struct inode *inode = d_inode(dentry);
-   346	
-   347		return ctx->actor(ctx, dentry->d_name.name, dentry->d_name.len,
- > 348				  (loff_t)dentry->d_fsdata, inode->i_ino,
-   349				  fs_umode_to_dtype(inode->i_mode));
-   350	}
-   351	
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
