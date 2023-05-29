@@ -1,77 +1,130 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD11D365
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 May 2023 00:21:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685319686; x=1716855686;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FrKLAS13+/VNQRhyPEohz8/TxVP+Rc5bD4UznjpzEMk=;
-  b=JCuIQtu0bEqWTOR7w2dc9xX8+gi7yqKcdx3bNGXWlSXsmQoZVY7PDCri
-   AH2JN+8ArqlKrgAfgv7920JqgF6ymyhV6M+OcjJp8W0aWU8bm0Zz6g4xY
-   +HpgVkzCuyrhA1idzuPrcl/G/f3IhQfjK+AKWHTBgyZT443hlR7U6Kxmm
-   yGAWJr+TbCZ9XdAcCDWIVmBOqOdQpR3SMbj/Nv8wdLwtpSgQteCtIAPPz
-   bAaPHHCTBoPvFn/drQXW6P4to706yV7wCXQ86tgPxO2DbpAjZalSUnHIg
-   hbnqhLh0j6qyhkFHrnnBvNUuy+QqjqFXdfgbCsYTx7YcaMXNnhBd0wEvr
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="418060164"
-X-IronPort-AV: E=Sophos;i="6.00,200,1681196400"; 
-   d="scan'208";a="418060164"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 17:21:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="818227499"
-X-IronPort-AV: E=Sophos;i="6.00,200,1681196400"; 
-   d="scan'208";a="818227499"
-Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 28 May 2023 17:21:24 -0700
-Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q3QdY-000Ko2-0E;
-	Mon, 29 May 2023 00:21:24 +0000
-Date: Mon, 29 May 2023 08:20:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: drivers/net/dsa/sja1105/sja1105_main.o: warning: objtool:
- sja1105_fast_age() falls through to next function
- sja1105_mgmt_xmit.constprop.0.isra.0.cold()
-Message-ID: <202305290847.9YCDpIU4-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123F17C;
+	Mon, 29 May 2023 00:37:32 +0000 (UTC)
+Received: from dggpemm500006.china.huawei.com (unknown [172.30.72.56])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4QTxM44DJyz18Lc8;
+	Mon, 29 May 2023 08:32:48 +0800 (CST)
+Received: from [10.174.178.55] (10.174.178.55) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 29 May 2023 08:37:23 +0800
+Subject: Re: [PATCH 5/6] kexec: add helper __crash_shrink_memory()
+To: kernel test robot <lkp@intel.com>, Eric Biederman <ebiederm@xmission.com>,
+	Baoquan He <bhe@redhat.com>, <kexec@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>
+CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>, Michael Holzheu
+	<holzheu@linux.vnet.ibm.com>, Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>, Amerigo Wang
+	<amwang@redhat.com>
+References: <20230527123439.772-6-thunder.leizhen@huawei.com>
+ <202305280717.Pw06aLkz-lkp@intel.com>
+From: "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
+Message-ID: <acf92c83-ca7b-0931-505f-9b8735be18f6@huawei.com>
+Date: Mon, 29 May 2023 08:37:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <202305280717.Pw06aLkz-lkp@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.178.55]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm500006.china.huawei.com (7.185.36.236)
+X-CFilter-Loop: Reflected
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7877cb91f1081754a1487c144d85dc0d2e2e7fc4
-commit: c27cd083cfb9d392f304657ed00fcde1136704e7 Compiler attributes: GCC cold function alignment workarounds
-date:   4 months ago
-config: x86_64-randconfig-x056-20230529 (https://download.01.org/0day-ci/archive/20230529/202305290847.9YCDpIU4-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c27cd083cfb9d392f304657ed00fcde1136704e7
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout c27cd083cfb9d392f304657ed00fcde1136704e7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305290847.9YCDpIU4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+On 2023/5/28 8:08, kernel test robot wrote:
+> Hi Zhen,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on akpm-mm/mm-everything]
+> [also build test WARNING on linus/master v6.4-rc3 next-20230525]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Zhen-Lei/kexec-fix-a-memory-leak-in-crash_shrink_memory/20230527-203821
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20230527123439.772-6-thunder.leizhen%40huawei.com
+> patch subject: [PATCH 5/6] kexec: add helper __crash_shrink_memory()
+> config: riscv-randconfig-r042-20230526 (https://download.01.org/0day-ci/archive/20230528/202305280717.Pw06aLkz-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
+> reproduce (this is a W=1 build):
+>         mkdir -p ~/bin
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install riscv cross compiling tool for clang build
+>         # apt-get install binutils-riscv64-linux-gnu
+>         # https://github.com/intel-lab-lkp/linux/commit/dea97cef503d26e05d0e11818ae44176056ddf64
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Zhen-Lei/kexec-fix-a-memory-leak-in-crash_shrink_memory/20230527-203821
+>         git checkout dea97cef503d26e05d0e11818ae44176056ddf64
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202305280717.Pw06aLkz-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>>> kernel/kexec_core.c:1108:5: warning: no previous prototype for function '__crash_shrink_memory' [-Wmissing-prototypes]
+>    int __crash_shrink_memory(struct resource *old_res, unsigned long new_size)
+>        ^
+>    kernel/kexec_core.c:1108:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+>    int __crash_shrink_memory(struct resource *old_res, unsigned long new_size)
+>    ^
+>    static 
+>    1 warning generated.
 
->> drivers/net/dsa/sja1105/sja1105_main.o: warning: objtool: sja1105_fast_age() falls through to next function sja1105_mgmt_xmit.constprop.0.isra.0.cold()
+Yes, thanks, a 'static' should be added.
+
+> 
+> 
+> vim +/__crash_shrink_memory +1108 kernel/kexec_core.c
+> 
+>   1107	
+>> 1108	int __crash_shrink_memory(struct resource *old_res, unsigned long new_size)
+>   1109	{
+>   1110		struct resource *ram_res;
+>   1111	
+>   1112		ram_res = kzalloc(sizeof(*ram_res), GFP_KERNEL);
+>   1113		if (!ram_res)
+>   1114			return -ENOMEM;
+>   1115	
+>   1116		ram_res->start = old_res->start + new_size;
+>   1117		ram_res->end   = old_res->end;
+>   1118		ram_res->flags = IORESOURCE_BUSY | IORESOURCE_SYSTEM_RAM;
+>   1119		ram_res->name  = "System RAM";
+>   1120	
+>   1121		if (!new_size) {
+>   1122			release_resource(old_res);
+>   1123			old_res->start = 0;
+>   1124			old_res->end   = 0;
+>   1125		} else {
+>   1126			crashk_res.end = ram_res->start - 1;
+>   1127		}
+>   1128	
+>   1129		crash_free_reserved_phys_range(ram_res->start, ram_res->end);
+>   1130		insert_resource(&iomem_resource, ram_res);
+>   1131	
+>   1132		return 0;
+>   1133	}
+>   1134	
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+  Zhen Lei
