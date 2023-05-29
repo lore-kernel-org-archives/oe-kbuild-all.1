@@ -1,122 +1,127 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5612C7C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 May 2023 01:48:39 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-64d341bdedcso1993885b3a.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 28 May 2023 18:48:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685324919; x=1687916919;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GOFmGCk423gofimhUTypVmaxA2qvZ0yuurXuTjvYLfw=;
-        b=jibXYiYmwLiopIJYKDGIPRzwzROR366vt6gB89i85i09h8PfCqHj8l8NyRDnuVSK2l
-         SAc+ik3xKkJgnMfmd4JjNO4Kx1BVcWXGOl4NfYBUbYFBhoh4r4sVdlC82WT4O7n70tNp
-         opTeHfTg83//59EYEnoT5F+iM+ModLYdXmKdiH0D0eevK21f8BWMl9zSK6k61UHIxWwV
-         t9FpterjvI4DavD3K56ng5JwtCIFkeL2mUkwL2PUyDnPtbCShYpTVHHpZkyL0MXbifDg
-         l5kG5deEds164bHYeIPZp+JVkzW+EOL2hTXDCaVAPXGEAXPbjua5+GPQP1JlrREAjXpy
-         Votw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685324919; x=1687916919;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GOFmGCk423gofimhUTypVmaxA2qvZ0yuurXuTjvYLfw=;
-        b=DETjd+HZzlNtJm4WlLMIET2+rvspoqXgajb/CLn8NR8n4oEIOzfADTHS/T0kU5N0Kx
-         bbz8Q4voEOZQisrsNJaxPzA5sTSz4YIDwFi9k2zY97FfyyHX/udDfzo/42cMb3qKdCim
-         xSIwO94dG7xYTNbI4jqspFJmLr20U0z089cCBSGQdDyCBvL/zfdqCw6v01JylNK7ALIO
-         oActgdMftyOuU7d3/Ia/oHKqnkM5f1fQs3hDZZBKWNuRGGz6AhX1i4yyzZrnAYO7aMeA
-         3RvjjIGC0BOStAmcEt9qTKsnS28z8UsURazt15JTqex8xHEep92l4TKmuy0fNWlVAs4q
-         2YEQ==
-X-Gm-Message-State: AC+VfDzGQHqAt0RpzS6lwU5InNY4AUF8gjUA16S1SYF5NDA6HwlyBNMj
-	QjktjkD66ApoBe718Ci3FIo=
-X-Google-Smtp-Source: ACHHUZ7DHB7Fdyg+9PCkKPW8ga4BTWYCCV7h3UeUevABUwn/vf+CXVVjFaPHehEyxfesDCys+hCXTg==
-X-Received: by 2002:a05:6a20:8419:b0:10b:f590:5a26 with SMTP id c25-20020a056a20841900b0010bf5905a26mr8672281pzd.26.1685324918456;
-        Sun, 28 May 2023 18:48:38 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id q32-20020a635c20000000b005134fc049d7sm6013854pgb.31.2023.05.28.18.48.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 May 2023 18:48:37 -0700 (PDT)
-From: xu xin <xu.xin.sc@gmail.com>
-X-Google-Original-From: xu xin <xu.xin16@zte.com.cn>
-To: lkp@intel.com,
-	akpm@linux-foundation.org
-Cc: david@redhat.com,
-	imbrenda@linux.ibm.com,
-	jiang.xuexin@zte.com.cn,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	oe-kbuild-all@lists.linux.dev,
-	ran.xiaokai@zte.com.cn,
-	xu.xin.sc@gmail.com,
-	xu.xin16@zte.com.cn,
-	yang.yang29@zte.com.cn
-Subject: Re: [PATCH v9 3/5] ksm: add ksm zero pages for each process
-Date: Mon, 29 May 2023 09:48:34 +0800
-Message-Id: <20230529014834.47677-1-xu.xin16@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <202305251415.OLELa7qJ-lkp@intel.com>
-References: <202305251415.OLELa7qJ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAAD862D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 May 2023 02:45:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685328335; x=1716864335;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nDuK5PbbtO0SQaGCfPW+dDAIjl9/rb82uJP3V0ECB3o=;
+  b=c2VfHEActnAKMOlM1H+0d9NCZzaMe9wyWc26O/Dy90HAETMXfkzxi/w2
+   iwYFC1WoW8zRu/lkvSSvRj9XhCPIFZjosC/pHtZ3KGbYX3OXL5aGi3GLY
+   vNmPVCauCm4mB9xmYo6f2llPREHNPwNZ5xf5TSkSWP4yCIpGX8r5Fnfig
+   hhnSiaNu2M+SUzcAwLd8nBFUJwg6WMETCqjw16mJLKs8hufApg1dinUCg
+   NaKjodRv/JMNXmP5llMKW22X90tm4mxOyyvUs4oTr8Ex7AWkzkqjmCM7B
+   zsQ/cSK6Oo49Wz8tI5HNF87aw5NnzRObje8cbd97ZLvEqd80MvpXvF+0U
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="382853044"
+X-IronPort-AV: E=Sophos;i="6.00,200,1681196400"; 
+   d="scan'208";a="382853044"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 19:45:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="656328279"
+X-IronPort-AV: E=Sophos;i="6.00,200,1681196400"; 
+   d="scan'208";a="656328279"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 28 May 2023 19:45:30 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q3Ssz-000Krq-1x;
+	Mon, 29 May 2023 02:45:29 +0000
+Date: Mon, 29 May 2023 10:44:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yafang Shao <laoar.shao@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH bpf-next 2/8] bpf: Support ->fill_link_info for
+ kprobe_multi
+Message-ID: <202305291024.nGHfS0BE-lkp@intel.com>
+References: <20230528142027.5585-3-laoar.shao@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230528142027.5585-3-laoar.shao@gmail.com>
 
+Hi Yafang,
 
-Already fixed in PACTH v10.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
->Hi Yang,
->
->kernel test robot noticed the following build errors:
->
->[auto build test ERROR on akpm-mm/mm-everything]
->[also build test ERROR on linus/master v6.4-rc3 next-20230525]
->[If your patch is applied to the wrong git tree, kindly drop us a note.
->And when submitting patch, we suggest to use '--base' as documented in
->https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
->url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Yang/ksm-count-all-zero-pages-placed-by-KSM/20230524-153333
->base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
->patch link:    https://lore.kernel.org/r/20230524055800.20498-1-yang.yang29%40zte.com.cn
->patch subject: [PATCH v9 3/5] ksm: add ksm zero pages for each process
->config: nios2-defconfig
->compiler: nios2-linux-gcc (GCC) 12.1.0
->reproduce (this is a W=1 build):
->        mkdir -p ~/bin
->        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->        chmod +x ~/bin/make.cross
->        # https://github.com/intel-lab-lkp/linux/commit/c9da8338fa8f95db948cd4d826053d8f6cbcf19c
->        git remote add linux-review https://github.com/intel-lab-lkp/linux
->        git fetch --no-tags linux-review Yang-Yang/ksm-count-all-zero-pages-placed-by-KSM/20230524-153333
->        git checkout c9da8338fa8f95db948cd4d826053d8f6cbcf19c
->        # save the config file
->        mkdir build_dir && cp config build_dir/.config
->        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
->        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
->
->If you fix the issue, kindly add following tag where applicable
->| Reported-by: kernel test robot <lkp@intel.com>
->| Closes: https://lore.kernel.org/oe-kbuild-all/202305251415.OLELa7qJ-lkp@intel.com/
->
->All errors (new ones prefixed by >>):
->
->   mm/memory.c: In function 'zap_pte_range':
->>> mm/memory.c:1419:60: error: incompatible type for argument 1 of 'ksm_notify_unmap_zero_page'
->    1419 |                                 ksm_notify_unmap_zero_page(mm, ptent);
->         |                                                            ^~
->         |                                                            |
->         |                                                            struct mm_struct *
->   In file included from mm/memory.c:56:
->   include/linux/ksm.h:116:53: note: expected 'pte_t' but argument is of type 'struct mm_struct *'
->     116 | static inline void ksm_notify_unmap_zero_page(pte_t pte)
->         |                                               ~~~~~~^~~
->   mm/memory.c:1419:33: error: too many arguments to function 'ksm_notify_unmap_zero_page'
->    1419 |                                 ksm_notify_unmap_zero_page(mm, ptent);
->         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
->   include/linux/ksm.h:116:20: note: declared here
->     116 | static inline void ksm_notify_unmap_zero_page(pte_t pte)
->         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/bpf-Support-show_fdinfo-for-kprobe_multi/20230528-222347
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230528142027.5585-3-laoar.shao%40gmail.com
+patch subject: [RFC PATCH bpf-next 2/8] bpf: Support ->fill_link_info for kprobe_multi
+config: x86_64-randconfig-s043-20230528 (https://download.01.org/0day-ci/archive/20230529/202305291024.nGHfS0BE-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/025a35eef533c935bbcad95fd50bd973538ef4f7
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yafang-Shao/bpf-Support-show_fdinfo-for-kprobe_multi/20230528-222347
+        git checkout 025a35eef533c935bbcad95fd50bd973538ef4f7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/trace/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305291024.nGHfS0BE-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> kernel/trace/bpf_trace.c:2571:23: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [usertype] *uaddrs @@     got void [noderef] __user * @@
+   kernel/trace/bpf_trace.c:2571:23: sparse:     expected unsigned long long [usertype] *uaddrs
+   kernel/trace/bpf_trace.c:2571:23: sparse:     got void [noderef] __user *
+>> kernel/trace/bpf_trace.c:2591:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned long long [usertype] * @@
+   kernel/trace/bpf_trace.c:2591:41: sparse:     expected void [noderef] __user *to
+   kernel/trace/bpf_trace.c:2591:41: sparse:     got unsigned long long [usertype] *
+   kernel/trace/bpf_trace.c:2492:21: sparse: sparse: dereference of noderef expression
+   kernel/trace/bpf_trace.c:2496:66: sparse: sparse: dereference of noderef expression
+
+vim +2571 kernel/trace/bpf_trace.c
+
+  2566	
+  2567	static int bpf_kprobe_multi_link_fill_link_info(const struct bpf_link *link,
+  2568							struct bpf_link_info *info)
+  2569	{
+  2570		struct bpf_kprobe_multi_link *kmulti_link;
+> 2571		u64 *uaddrs = u64_to_user_ptr(info->kprobe_multi.addrs);
+  2572		u32 ucount = info->kprobe_multi.count;
+  2573		int i;
+  2574	
+  2575		if (!uaddrs ^ !ucount)
+  2576			return -EINVAL;
+  2577	
+  2578		kmulti_link = container_of(link, struct bpf_kprobe_multi_link, link);
+  2579		if (!uaddrs) {
+  2580			info->kprobe_multi.count = kmulti_link->cnt;
+  2581			return 0;
+  2582		}
+  2583	
+  2584		if (!ucount)
+  2585			return 0;
+  2586	
+  2587		if (ucount != kmulti_link->cnt)
+  2588			return -EINVAL;
+  2589	
+  2590		for (i = 0; i < ucount; i++)
+> 2591			if (copy_to_user(uaddrs + i, kmulti_link->addrs + i,
+  2592					 sizeof(u64)))
+  2593				return -EFAULT;
+  2594		return 0;
+  2595	}
+  2596	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
