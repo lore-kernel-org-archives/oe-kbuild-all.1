@@ -1,43 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ACC47E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 May 2023 06:10:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAC57E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 May 2023 06:20:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685340641; x=1716876641;
+  t=1685341241; x=1716877241;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Ui5e+hpJjEMBH055sDXv2DCRvdcgFaCddqy3h5liFdU=;
-  b=GRVv7C5x2iF9GXlrFOALglbOdFGZZggVhPvUXdV5IhPZ3c9ET07EyzpG
-   0XdykkH0zsMFv2hQJO+hOhAeOYtvbs1XPt+1JwqeYVEirOexoiO0FDOsa
-   kYZXc7eTb3mmKsBL8IJjgNt7K8ZRZK+w36XIsbyaxu6H/NI0mJN1eEhQY
-   BuD4DMoElSVg/Ox72zyrDcP01p/CEOTnmM/o5GV86KXK9O0fqdi+8ydc3
-   MRi9MKwV+/edCPJ92yuAm34RR+S9dDjH6ITkWPxXtuVZEPsW0T4U8KGL0
-   T++JYKsVrru0Nv5CTQmnf1WyPna2DbaJZSeLfhA/OHCgBmD5J1SdqkJu4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="354643336"
+  bh=mY2erTeWwo8KLcT3K3FPJaJOXqKJMG+PRsSCo6Oc9A8=;
+  b=lb4B+B3t0Wam1xF+IdwV1LWH6jRzf4xcmjNlDqfnl5oVUITMhxbDA3lM
+   NcFjAQvX0zwHG0E49h2x8WCL2Z2zJ61/O4hlalkG41OuIscxa7ZYUEw5x
+   xuFEADRX9OF1ocHEjrFydFpv1Em4h2QZtbEok2ThPRIEoqUXTZ2DGnC2j
+   lRj5D2FD2h3SLHRC0s7CbwZqgYWiq/RF6p0M/F5gaHFqWh+nVNZTMKlJA
+   DPzXwVWKkxcPZqCm25OmZHkWBzUGF29xNa/4xc0DFYur8DEOkf6hPzVc0
+   kM8BUfe+tTfiBA8eXQFjN5zjy+P2Xf8w+k417lHll6feW7n6QmaWbvQMU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="344130747"
 X-IronPort-AV: E=Sophos;i="6.00,200,1681196400"; 
-   d="scan'208";a="354643336"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 23:10:40 -0700
+   d="scan'208";a="344130747"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2023 23:20:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="705937923"
+X-IronPort-AV: E=McAfee;i="6600,9927,10724"; a="952613634"
 X-IronPort-AV: E=Sophos;i="6.00,200,1681196400"; 
-   d="scan'208";a="705937923"
+   d="scan'208";a="952613634"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 28 May 2023 23:10:38 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 28 May 2023 23:20:38 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q3W5V-000KuQ-2j;
-	Mon, 29 May 2023 06:10:37 +0000
-Date: Mon, 29 May 2023 14:10:02 +0800
+	id 1q3WFC-000Kug-0G;
+	Mon, 29 May 2023 06:20:38 +0000
+Date: Mon, 29 May 2023 14:20:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sheng Yong <shengyong@oppo.com>, jaegeuk@kernel.org, chao@kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net,
 	linux-kernel@vger.kernel.org, Sheng Yong <shengyong@oppo.com>
 Subject: Re: [PATCH] f2fs: add f2fs_ioc_[get|set]_extra_attr
-Message-ID: <202305291323.u3OTwJgK-lkp@intel.com>
+Message-ID: <202305291408.kdy2Itan-lkp@intel.com>
 References: <20230529013502.2230810-1-shengyong@oppo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -51,10 +51,10 @@ In-Reply-To: <20230529013502.2230810-1-shengyong@oppo.com>
 
 Hi Sheng,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on jaegeuk-f2fs/dev-test]
-[also build test ERROR on jaegeuk-f2fs/dev next-20230525]
+[auto build test WARNING on jaegeuk-f2fs/dev-test]
+[also build test WARNING on jaegeuk-f2fs/dev next-20230525]
 [cannot apply to linus/master v6.4-rc4]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -64,111 +64,119 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Sheng-Yong/f2fs-add-f2fs_
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
 patch link:    https://lore.kernel.org/r/20230529013502.2230810-1-shengyong%40oppo.com
 patch subject: [PATCH] f2fs: add f2fs_ioc_[get|set]_extra_attr
-config: i386-randconfig-i086-20230529 (https://download.01.org/0day-ci/archive/20230529/202305291323.u3OTwJgK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+config: arc-buildonly-randconfig-r004-20230529 (https://download.01.org/0day-ci/archive/20230529/202305291408.kdy2Itan-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.1.0
 reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://github.com/intel-lab-lkp/linux/commit/519a8b3bbd4d743ae67c32dfef61e8bfa0951cc5
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Sheng-Yong/f2fs-add-f2fs_ioc_-get-set-_extra_attr/20230529-093611
         git checkout 519a8b3bbd4d743ae67c32dfef61e8bfa0951cc5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash fs/f2fs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305291323.u3OTwJgK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305291408.kdy2Itan-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: fs/f2fs/file.o: in function `f2fs_set_compress_option_v2':
->> fs/f2fs/file.c:3996: undefined reference to `zstd_max_clevel'
+   fs/f2fs/file.c: In function 'f2fs_ioc_get_extra_attr':
+>> fs/f2fs/file.c:4312:44: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    4312 |                                            (void __user *)attr.attr))
+         |                                            ^
+   fs/f2fs/file.c:4316:48: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    4316 |                                                (void __user *)attr.attr))
+         |                                                ^
 
 
-vim +3996 fs/f2fs/file.c
+vim +4312 fs/f2fs/file.c
 
-  3957	
-  3958	static int f2fs_set_compress_option_v2(struct file *filp,
-  3959					       unsigned long attr, __u16 *attr_size)
-  3960	{
-  3961		struct inode *inode = file_inode(filp);
-  3962		struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
-  3963		struct f2fs_comp_option_v2 option;
-  3964		int ret = 0;
-  3965	
-  3966		if (sizeof(option) < *attr_size)
-  3967			*attr_size = sizeof(option);
-  3968	
-  3969		if (!f2fs_sb_has_compression(sbi))
-  3970			return -EOPNOTSUPP;
-  3971	
-  3972		if (!(filp->f_mode & FMODE_WRITE))
-  3973			return -EBADF;
-  3974	
-  3975		if (copy_from_user(&option, (void __user *)attr, *attr_size))
-  3976			return -EFAULT;
-  3977	
-  3978		if (!f2fs_compressed_file(inode) ||
-  3979				option.log_cluster_size < MIN_COMPRESS_LOG_SIZE ||
-  3980				option.log_cluster_size > MAX_COMPRESS_LOG_SIZE ||
-  3981				option.algorithm >= COMPRESS_MAX)
-  3982			return -EINVAL;
-  3983	
-  3984		if (*attr_size == sizeof(struct f2fs_comp_option_v2)) {
-  3985			if (option.level != 0) {
-  3986				switch (option.algorithm) {
-  3987				case COMPRESS_LZO:
-  3988				case COMPRESS_LZORLE:
-  3989					return -EINVAL;
-  3990				case COMPRESS_LZ4:
-  3991					if (option.level < LZ4HC_MIN_CLEVEL ||
-  3992					    option.level > LZ4HC_MAX_CLEVEL)
-  3993						return -EINVAL;
-  3994					break;
-  3995				case COMPRESS_ZSTD:
-> 3996					if (option.level > zstd_max_clevel())
-  3997						return -EINVAL;
-  3998					break;
-  3999				}
-  4000			}
-  4001	
-  4002			if (option.flag > BIT(COMPRESS_MAX_FLAG) - 1)
-  4003				return -EINVAL;
-  4004		}
-  4005	
-  4006		file_start_write(filp);
-  4007		inode_lock(inode);
-  4008	
-  4009		if (f2fs_is_mmap_file(inode) || get_dirty_pages(inode)) {
-  4010			ret = -EBUSY;
-  4011			goto out;
-  4012		}
-  4013	
-  4014		if (F2FS_HAS_BLOCKS(inode)) {
-  4015			ret = -EFBIG;
-  4016			goto out;
-  4017		}
-  4018	
-  4019		F2FS_I(inode)->i_compress_algorithm = option.algorithm;
-  4020		F2FS_I(inode)->i_log_cluster_size = option.log_cluster_size;
-  4021		F2FS_I(inode)->i_cluster_size = BIT(option.log_cluster_size);
-  4022		if (*attr_size == sizeof(struct f2fs_comp_option_v2)) {
-  4023			F2FS_I(inode)->i_compress_level = option.level;
-  4024			F2FS_I(inode)->i_compress_flag = option.flag;
-  4025		}
-  4026		f2fs_mark_inode_dirty_sync(inode, true);
-  4027	
-  4028		if (!f2fs_is_compress_backend_ready(inode))
-  4029			f2fs_warn(sbi, "compression algorithm is successfully set, "
-  4030				"but current kernel doesn't support this algorithm.");
-  4031	out:
-  4032		inode_unlock(inode);
-  4033		file_end_write(filp);
-  4034	
-  4035		return ret;
-  4036	}
-  4037	
+  4262	
+  4263	static int f2fs_ioc_get_extra_attr(struct file *filp, unsigned long arg)
+  4264	{
+  4265		struct inode *inode = file_inode(filp);
+  4266		struct f2fs_inode_info *fi = F2FS_I(inode);
+  4267		struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
+  4268		struct f2fs_extra_attr attr;
+  4269		u32 chksum;
+  4270		int ret = 0;
+  4271	
+  4272		if (!f2fs_has_extra_attr(inode))
+  4273			return -EOPNOTSUPP;
+  4274	
+  4275		if (copy_from_user(&attr, (void __user *)arg, sizeof(attr)))
+  4276			return -EFAULT;
+  4277	
+  4278		if (attr.field >= F2FS_EXTRA_ATTR_MAX)
+  4279			return -EINVAL;
+  4280	
+  4281		if (!extra_attr_fits_in_inode(inode, attr.field))
+  4282			return -EOPNOTSUPP;
+  4283	
+  4284		switch (attr.field) {
+  4285		case F2FS_EXTRA_ATTR_TOTAL_SIZE:
+  4286			attr.attr = F2FS_TOTAL_EXTRA_ATTR_SIZE;
+  4287			break;
+  4288		case F2FS_EXTRA_ATTR_ISIZE:
+  4289			attr.attr = fi->i_extra_isize;
+  4290			break;
+  4291		case F2FS_EXTRA_ATTR_INLINE_XATTR_SIZE:
+  4292			if (!f2fs_has_inline_xattr(inode))
+  4293				return -EOPNOTSUPP;
+  4294			attr.attr = get_inline_xattr_addrs(inode);
+  4295			break;
+  4296		case F2FS_EXTRA_ATTR_PROJID:
+  4297			if (!f2fs_sb_has_project_quota(F2FS_I_SB(inode)))
+  4298				return -EOPNOTSUPP;
+  4299			attr.attr = from_kprojid(&init_user_ns, fi->i_projid);
+  4300			break;
+  4301		case F2FS_EXTRA_ATTR_INODE_CHKSUM:
+  4302			ret = f2fs_inode_chksum_get(sbi, inode, &chksum);
+  4303			if (ret)
+  4304				return ret;
+  4305			attr.attr = chksum;
+  4306			break;
+  4307		case F2FS_EXTRA_ATTR_CRTIME:
+  4308			if (!f2fs_sb_has_inode_crtime(sbi))
+  4309				return -EOPNOTSUPP;
+  4310			if (attr.attr_size == sizeof(struct timespec64)) {
+  4311				if (put_timespec64(&fi->i_crtime,
+> 4312						   (void __user *)attr.attr))
+  4313					return -EFAULT;
+  4314			} else if (attr.attr_size == sizeof(struct old_timespec32)) {
+  4315				if (put_old_timespec32(&fi->i_crtime,
+  4316						       (void __user *)attr.attr))
+  4317					return -EFAULT;
+  4318			} else {
+  4319				return -EINVAL;
+  4320			}
+  4321			break;
+  4322		case F2FS_EXTRA_ATTR_COMPR_BLOCKS:
+  4323			ret = f2fs_get_compress_blocks(filp, attr.attr_size);
+  4324			attr.attr = ret;
+  4325			break;
+  4326		case F2FS_EXTRA_ATTR_COMPR_OPTION:
+  4327			ret = f2fs_get_compress_option_v2(filp, attr.attr,
+  4328							  &attr.attr_size);
+  4329			break;
+  4330		default:
+  4331			return -EINVAL;
+  4332		}
+  4333	
+  4334		if (ret < 0)
+  4335			return ret;
+  4336	
+  4337		if (copy_to_user((void __user *)arg, &attr, sizeof(attr)))
+  4338			return -EFAULT;
+  4339	
+  4340		return 0;
+  4341	}
+  4342	
 
 -- 
 0-DAY CI Kernel Test Service
