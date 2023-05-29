@@ -1,179 +1,103 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0104D7C;
-	Mon, 29 May 2023 10:15:01 +0000 (UTC)
-X-GND-Sasl: miquel.raynal@bootlin.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1685355294;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=a5U83pgtUbdNZXbGC3fVAgoMj9cpM77Fj84QM02uyq8=;
-	b=B6mAEL3uE7AHcxPnr4g5M93WAGfGZObq/ytl1vRxrauyVvX4RT+2UqQmz3pCzyxKpSh7O4
-	f6zi5R2Xkh+WkOyBfr1l7CLfBI5fDHB8F1VmK/aKlIxMiTCgTTT+rCzr3jjMiBmeNREFbN
-	xtnlfzZy3giBu9wC1ITJhZZnrxE5BaQd/B2HJB2yPnWDy9JK1UNQsnx9cVfQmTHRUuPpYi
-	lTImpP+8POay4K4xgQQuwdYW6sSUwXKKMiHXFBJGF6eygMxdU0NyxtiGuTtdoopWGq35nw
-	BwPQrG7lhQucPYs62utQHO5CW/ZgQjydTPfHctShicr5PjU1Zm6CV7XrwoE8yw==
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-X-GND-Sasl: miquel.raynal@bootlin.com
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 41E30240002;
-	Mon, 29 May 2023 10:14:53 +0000 (UTC)
-Date: Mon, 29 May 2023 12:14:52 +0200
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Luka Perkov <luka.perkov@sartura.hr>, Robert
- Marko <robert.marko@sartura.hr>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] nvmem: core: Expose cells through sysfs
-Message-ID: <20230529121452.3a2f33f2@xps-13>
-In-Reply-To: <8c442b03-bff3-4d25-96e0-eb297e280797@kili.mountain>
-References: <20230523100239.307574-3-miquel.raynal@bootlin.com>
-	<8c442b03-bff3-4d25-96e0-eb297e280797@kili.mountain>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FE9E3D60;
+	Mon, 29 May 2023 13:12:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685365930; x=1716901930;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SQ2OVp0QljR5baDEtU4HsmwJbaoW64/YHR9On/0jnoA=;
+  b=ebytcL4GzgMFQKWu5VbyHFJ/6lw7Xk5JcfyMGjwOfv5DLx3imm56ZfUa
+   PuJ+3879TpuifsBAFnR+lt/8UpIddP2V0AAaNbxm1l6YYnDm4NLB94/Sj
+   w8Rzr/a9YVCyn4BL1Q2qvDfjB2cXN47BwI19mmizdB/pLNwIyxsJhZ5nz
+   ob9Fg6R7Cf/XTFUqUvv9ld5Kwdj6bayRXFuxf6qaRCypIHQs7qSWoZZxz
+   0m8W50j7xoUVXTw5eIRCPXhNskmjQBciItuwAtqS51FrDgySzCR8EPcWh
+   GhBPV54d8B7aVxVoqZPBBMO+nuk3rns1npTxWUWeDaaQdNqphrGsEf+/e
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="420459045"
+X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
+   d="scan'208";a="420459045"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 06:12:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="1036219812"
+X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
+   d="scan'208";a="1036219812"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 29 May 2023 06:12:07 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q3cfP-000L09-1C;
+	Mon, 29 May 2023 13:12:07 +0000
+Date: Mon, 29 May 2023 21:11:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Isaku Yamahata <isaku.yamahata@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [intel-tdx:kvm-upstream-workaround 319/327]
+ arch/arm64/kvm/../../../virt/kvm/kvm_main.c:1979:12: warning: no previous
+ prototype for function 'kvm_arch_required_alignment'
+Message-ID: <202305292058.bSTEzaTY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Dan,
+tree:   https://github.com/intel/tdx.git kvm-upstream-workaround
+head:   148ce77f987a3cf12193c1f81baa78f41cf13154
+commit: f9628fde0c623c76992345cebbf4cefdcc6bb542 [319/327] KVM: Relax alignment check for restricted mem
+config: arm64-buildonly-randconfig-r002-20230529 (https://download.01.org/0day-ci/archive/20230529/202305292058.bSTEzaTY-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/intel/tdx/commit/f9628fde0c623c76992345cebbf4cefdcc6bb542
+        git remote add intel-tdx https://github.com/intel/tdx.git
+        git fetch --no-tags intel-tdx kvm-upstream-workaround
+        git checkout f9628fde0c623c76992345cebbf4cefdcc6bb542
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
-dan.carpenter@linaro.org wrote on Mon, 29 May 2023 07:28:59 +0300:
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305292058.bSTEzaTY-lkp@intel.com/
 
-> Hi Miquel,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-> url:    https://github.com/intel-lab-lkp/linux/commits/Miquel-Raynal/ABI-=
-sysfs-nvmem-cells-Expose-cells-through-sysfs/20230523-203042
-> base:   char-misc/char-misc-testing
-> patch link:    https://lore.kernel.org/r/20230523100239.307574-3-miquel.r=
-aynal%40bootlin.com
-> patch subject: [PATCH 2/2] nvmem: core: Expose cells through sysfs
-> config: i386-randconfig-m021-20230525 (https://download.01.org/0day-ci/ar=
-chive/20230528/202305280054.NloN5RLk-lkp@intel.com/config)
-> compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
->=20
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <error27@gmail.com>
-> | Closes: https://lore.kernel.org/r/202305280054.NloN5RLk-lkp@intel.com/
->=20
-> smatch warnings:
-> drivers/nvmem/core.c:380 nvmem_cell_attr_read() error: uninitialized symb=
-ol 'read_len'.
->=20
-> vim +/read_len +380 drivers/nvmem/core.c
->=20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  328  static struct nvmem_c=
-ell *nvmem_create_cell(struct nvmem_cell_entry *entry,
-> 22c370b2163e59 Miquel Raynal       2023-05-23  329  					    const char *=
-id, int index);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  330 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  331  static ssize_t nvmem_=
-cell_attr_read(struct file *filp, struct kobject *kobj,
-> 22c370b2163e59 Miquel Raynal       2023-05-23  332  				    struct bin_at=
-tribute *attr, char *buf,
-> 22c370b2163e59 Miquel Raynal       2023-05-23  333  				    loff_t pos, s=
-ize_t count)
-> 22c370b2163e59 Miquel Raynal       2023-05-23  334  {
-> 22c370b2163e59 Miquel Raynal       2023-05-23  335  	struct nvmem_cell_en=
-try *entry;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  336  	struct nvmem_cell *c=
-ell =3D NULL;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  337  	struct nvmem_device =
-*nvmem;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  338  	size_t cell_sz, read=
-_len;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  339  	struct device *dev;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  340  	void *content;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  341 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  342  	if (attr->private)
-> 22c370b2163e59 Miquel Raynal       2023-05-23  343  		dev =3D attr->priva=
-te;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  344  	else
-> 22c370b2163e59 Miquel Raynal       2023-05-23  345  		dev =3D kobj_to_dev=
-(kobj);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  346  	nvmem =3D to_nvmem_d=
-evice(dev);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  347 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  348  	mutex_lock(&nvmem_mu=
-tex);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  349  	list_for_each_entry(=
-entry, &nvmem->cells, node) {
-> 22c370b2163e59 Miquel Raynal       2023-05-23  350  		if (strncmp(entry->=
-name, attr->attr.name, XATTR_NAME_MAX))
-> 22c370b2163e59 Miquel Raynal       2023-05-23  351  			continue;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  352 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  353  		cell =3D nvmem_crea=
-te_cell(entry, entry->name, 0);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  354  		if (IS_ERR(cell)) {
-> 22c370b2163e59 Miquel Raynal       2023-05-23  355  			mutex_unlock(&nvme=
-m_mutex);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  356  			return PTR_ERR(cel=
-l);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  357  		}
-> 22c370b2163e59 Miquel Raynal       2023-05-23  358 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  359  		break;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  360  	}
-> 22c370b2163e59 Miquel Raynal       2023-05-23  361  	mutex_unlock(&nvmem_=
-mutex);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  362 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  363  	if (!cell)
-> 22c370b2163e59 Miquel Raynal       2023-05-23  364  		return -EINVAL;
-> 22c370b2163e59 Miquel Raynal       2023-05-23  365 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  366  	content =3D nvmem_ce=
-ll_read(cell, &cell_sz);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  367  	if (IS_ERR(content))=
- {
-> 22c370b2163e59 Miquel Raynal       2023-05-23  368  		count =3D PTR_ERR(c=
-ontent);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  369  		goto destroy_cell;
->=20
-> read_len not initialized on this goto path.
+All error/warnings (new ones prefixed by >>):
 
-It should be:							read_len =3D PTR_ERR...
-
-I will correct this in the next version, thanks for the report.
-
->=20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  370  	}
-> 22c370b2163e59 Miquel Raynal       2023-05-23  371 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  372  	read_len =3D min_t(u=
-nsigned int, cell_sz - pos, count);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  373  	memcpy(buf, content =
-+ pos, read_len);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  374  	kfree(content);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  375 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  376  destroy_cell:
-> 22c370b2163e59 Miquel Raynal       2023-05-23  377  	kfree_const(cell->id=
-);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  378  	kfree(cell);
-> 22c370b2163e59 Miquel Raynal       2023-05-23  379 =20
-> 22c370b2163e59 Miquel Raynal       2023-05-23 @380  	return read_len;
->                                                         ^^^^^^^^^^^^^^^
->=20
-> 22c370b2163e59 Miquel Raynal       2023-05-23  381  }
->=20
+>> arch/arm64/kvm/../../../virt/kvm/kvm_main.c:1981:19: error: expected ';' after return statement
+           return PAGE_SHIFT
+                            ^
+                            ;
+>> arch/arm64/kvm/../../../virt/kvm/kvm_main.c:1979:12: warning: no previous prototype for function 'kvm_arch_required_alignment' [-Wmissing-prototypes]
+   __weak int kvm_arch_required_alignment(u64 gpa)
+              ^
+   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:1979:8: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   __weak int kvm_arch_required_alignment(u64 gpa)
+          ^
+          static 
+   1 warning and 1 error generated.
 
 
-Thanks,
-Miqu=C3=A8l
+vim +/kvm_arch_required_alignment +1979 arch/arm64/kvm/../../../virt/kvm/kvm_main.c
+
+  1977	
+  1978	#ifndef kvm_arch_required_alignment
+> 1979	__weak int kvm_arch_required_alignment(u64 gpa)
+  1980	{
+> 1981		return PAGE_SHIFT
+  1982	}
+  1983	#endif
+  1984	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
