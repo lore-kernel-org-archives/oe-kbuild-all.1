@@ -1,42 +1,50 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED7FBD51A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 May 2023 20:23:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7928F64
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 29 May 2023 20:38:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685391823; x=1716927823;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=dHzj77M5iW9y0SdEwCAhxo0nw0XBCCxdmbhnS7voNQA=;
-  b=Wy7a36yKi2zrKJ/0HZlOe8sjERSlLmyjAPDTzktRpEepM29iPbPEQ+3r
-   tijAoHQW3ZhwdytVif+AnnHGWr90/PwhS38oa1LYSyAZdXBUadlfp8c9B
-   NbEsn3JiWLDTuagn4yyzvfrjnpWWw1NNDZ80uQN8SsO/QgivX90/1Hw0K
-   vvQoyPncgqJlDa54++SjeZHycbYYW9HuTxyCX5IBS1Dxf6+34c5iELf4R
-   CZs+nAa/PWYMjXbonJ/qscSX5Sqn0MgDIvHwJ86mcnW90m6/Du4RLTY/D
-   IURFWpKFAV6i5ecEZxUZRJC3VF4f+Z1egse8YONQgdPPNNxPH8DIPmqMW
+  t=1685392725; x=1716928725;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=80zeTr03g4xomq5pu4ZYCNKAnqlmEy16OLjNfIzV/lQ=;
+  b=Xk+tIqnDRWDUujY9xQp55i5ExqSV3aTLRFjdtIxQIh1AoncGe8nyNol0
+   SDpYImF+dwBIR7yzZx1A7hfgy248+zrzB1GnsO4EnZuSbsDLi4QNyn4WF
+   +Fqn6KAGgSlY2XCbkeU8C+I7Nyw07mfrGJ22XsVsXJbBo+OfcnK/AvM4m
+   Jyr3WKdIneRYBpMHN6Z4YWRx9e5C0KkvK0nfBuiuAscXnlNJE7NQRgBml
+   GQkCvhcSXB5a01tp48rywyKJKrR2YSzzv8AUYDzkYOtuCKJaQGVFAUkdV
+   WztW341nz2ZgrbPcicDjcxmXuB0AWmv+i5LU5C8AYvm9tMtRMucdnmJgi
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="441122071"
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="357142640"
 X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="441122071"
+   d="scan'208";a="357142640"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 13:23:43 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2023 13:38:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="683678943"
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="683681859"
 X-IronPort-AV: E=Sophos;i="6.00,201,1681196400"; 
-   d="scan'208";a="683678943"
+   d="scan'208";a="683681859"
 Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 29 May 2023 13:23:41 -0700
+  by orsmga006.jf.intel.com with ESMTP; 29 May 2023 13:38:41 -0700
 Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q3jP3-000L7W-0I;
-	Mon, 29 May 2023 20:23:41 +0000
-Date: Tue, 30 May 2023 04:23:03 +0800
+	id 1q3jdZ-000L7e-0V;
+	Mon, 29 May 2023 20:38:41 +0000
+Date: Tue, 30 May 2023 04:37:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bart Van Assche <bvanassche@acm.org>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 1/5] scsi: core: Rework scsi_host_block()
-Message-ID: <ZHUJp6bPf8+Yyf94@b4b7677a4534>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>, s.shtylyov@omp.ru,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+	geert+renesas@glider.be, magnus.damm@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH net-next 5/5] net: renesas: rswitch: Use per-queue rate
+ limiter
+Message-ID: <202305300454.Kyjag1oy-lkp@intel.com>
+References: <20230529080840.1156458-6-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,23 +53,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230529202157.11361-3-bvanassche@acm.org>
+In-Reply-To: <20230529080840.1156458-6-yoshihiro.shimoda.uh@renesas.com>
 
-Hi,
+Hi Yoshihiro,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on net-next/main]
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH v4 1/5] scsi: core: Rework scsi_host_block()
-Link: https://lore.kernel.org/stable/20230529202157.11361-3-bvanassche%40acm.org
+url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Shimoda/dt-bindings-net-r8a779f0-ether-switch-Add-ACLK/20230529-161010
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230529080840.1156458-6-yoshihiro.shimoda.uh%40renesas.com
+patch subject: [PATCH net-next 5/5] net: renesas: rswitch: Use per-queue rate limiter
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230530/202305300454.Kyjag1oy-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.1.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/64502944471d5b6fac76f49c06c29edfbbe43935
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yoshihiro-Shimoda/dt-bindings-net-r8a779f0-ether-switch-Add-ACLK/20230529-161010
+        git checkout 64502944471d5b6fac76f49c06c29edfbbe43935
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305300454.Kyjag1oy-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/mips/kernel/head.o: in function `kernel_entry':
+   (.ref.text+0xac): relocation truncated to fit: R_MIPS_26 against `start_kernel'
+   init/main.o: in function `set_reset_devices':
+   main.c:(.init.text+0x20): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x30): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `debug_kernel':
+   main.c:(.init.text+0xa4): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0xb4): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `quiet_kernel':
+   main.c:(.init.text+0x128): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x138): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `warn_bootconfig':
+   main.c:(.init.text+0x1ac): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x1bc): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
+   init/main.o: in function `init_setup':
+   main.c:(.init.text+0x234): relocation truncated to fit: R_MIPS_26 against `_mcount'
+   main.c:(.init.text+0x254): additional relocation overflows omitted from the output
+   mips-linux-ld: drivers/net/ethernet/renesas/rswitch.o: in function `rswitch_open':
+>> rswitch.c:(.text.rswitch_open+0x1a4): undefined reference to `__udivdi3'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
