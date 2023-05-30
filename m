@@ -1,85 +1,117 @@
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E6046B4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 08:50:24 +0000 (UTC)
-X-QQ-mid:Yeas49t1685436037t569t54720
-Received: from 3DB253DBDE8942B29385B9DFB0B7E889 (jiawenwu@trustnetic.com [183.159.96.128])
-X-QQ-SSF:00400000000000F0FOF000000000000
-From: =?utf-8?b?Smlhd2VuIFd1?= <jiawenwu@trustnetic.com>
-X-BIZMAIL-ID: 9616780576815440517
-To: "'Russell King \(Oracle\)'" <linux@armlinux.org.uk>,
-	"'kernel test robot'" <lkp@intel.com>
-Cc: <netdev@vger.kernel.org>,
-	<jarkko.nikula@linux.intel.com>,
-	<andriy.shevchenko@linux.intel.com>,
-	<mika.westerberg@linux.intel.com>,
-	<jsd@semihalf.com>,
-	<Jose.Abreu@synopsys.com>,
-	<andrew@lunn.ch>,
-	<hkallweit1@gmail.com>,
-	<oe-kbuild-all@lists.linux.dev>,
-	<linux-i2c@vger.kernel.org>,
-	<linux-gpio@vger.kernel.org>,
-	<mengyuanlou@net-swift.com>,
-	"'Piotr Raczynski'" <piotr.raczynski@intel.com>
-References: <20230524091722.522118-6-jiawenwu@trustnetic.com> <202305261959.mnGUW17n-lkp@intel.com> <ZHCZ0hLKARXu3xFH@shell.armlinux.org.uk> <02dd01d991d2$2120fcf0$6362f6d0$@trustnetic.com>
-In-Reply-To: <02dd01d991d2$2120fcf0$6362f6d0$@trustnetic.com>
-Subject: RE: [PATCH net-next v9 5/9] net: txgbe: Add SFP module identify
-Date: Tue, 30 May 2023 16:40:36 +0800
-Message-ID: <03ac01d992d2$67c1ec90$3745c5b0$@trustnetic.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5580212B79
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 09:00:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685437221; x=1716973221;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rTflTYiV3VKyBm981Ml2WLipgh57SbrnaZBjjFs8J7A=;
+  b=l/JPiFzk9GF0lbMZ1NSX2MVq2g0fYtmSFGUUNGnQkeb+rx2cgE55IT/x
+   0QpqzHK+mYICQw4lu/+DDHfJJkYO/jsKsSlJE3R0FHhksmySKrZN/t3s8
+   0Kr3P04eYC1S5u0XQvu3ksy3BYWg2jkV9Pf7rMY1vsXExY+EEYkx0bC9m
+   oyFt/BhLeBdrLPbwfry75xuX/OdlMf2+GEMIEdrOwtnTfZuLZ1D0A3lAz
+   GRow4YpBD+QuHUF+MUqpFHeJTtdRubPscEy4wrAkfNV6ot+sZKxfsf+7e
+   ivex6A/hSSfPPjY7/POW8jAK9GTrWBQaYzaT0+va/3uSIqdjveSi6RtEB
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="335207062"
+X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; 
+   d="scan'208";a="335207062"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 02:00:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="880689121"
+X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; 
+   d="scan'208";a="880689121"
+Received: from lkp-server01.sh.intel.com (HELO fd90924b3b99) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 30 May 2023 02:00:16 -0700
+Received: from kbuild by fd90924b3b99 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q3vDE-0000Eo-2X;
+	Tue, 30 May 2023 09:00:16 +0000
+Date: Tue, 30 May 2023 17:00:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Russell King <linux+etnaviv@armlinux.org.uk>,
+	Christian Gmeiner <christian.gmeiner@gmail.com>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	loongson-kernel@lists.loongnix.cn
+Subject: Re: [PATCH v5 5/6] drm/etnaviv: expand driver support for the PCI
+ devices
+Message-ID: <202305301659.4guSLavL-lkp@intel.com>
+References: <20230529172452.2148819-6-suijingfeng@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQFlCTXCD0V13/nxYaH3lJLB+zCPMgFguorBARt7XSgCWWopnLA04bqA
-Content-Language: zh-cn
-X-QQ-SENDSIZE: 520
-Feedback-ID: Yeas:trustnetic.com:qybglogicsvrgz:qybglogicsvrgz5a-1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230529172452.2148819-6-suijingfeng@loongson.cn>
 
-On Monday, May 29, 2023 10:06 AM, Jiawen Wu wrote:
-> On Friday, May 26, 2023 7:37 PM, Russell King (Oracle) wrote:
-> > On Fri, May 26, 2023 at 07:30:45PM +0800, kernel test robot wrote:
-> > > Kconfig warnings: (for reference only)
-> > >    WARNING: unmet direct dependencies detected for I2C_DESIGNWARE_PLATFORM
-> > >    Depends on [n]: I2C [=n] && HAS_IOMEM [=y] && (ACPI && COMMON_CLK [=y] || !ACPI)
-> > >    Selected by [y]:
-> > >    - TXGBE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_WANGXUN [=y] && PCI [=y]
-> > >    WARNING: unmet direct dependencies detected for SFP
-> > >    Depends on [n]: NETDEVICES [=y] && PHYLIB [=y] && I2C [=n] && PHYLINK [=y] && (HWMON [=n] || HWMON [=n]=n)
-> > >    Selected by [y]:
-> > >    - TXGBE [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_WANGXUN [=y] && PCI [=y]
-> >
-> > ... and is basically caused by "select SFP". No. Do not do this unless
-> > you look at the dependencies for SFP and ensure that those are also
-> > satisfied - because if you don't you create messes like the above
-> > build errors.
-> 
-> So how do I make sure that the module I need compiles and loads correctly,
-> rely on the user to manually select it?
+Hi Sui,
 
-When I changed the TXGBE config to:
-...
-	depends on SFP
-	select PCS_XPCS
-...
-the compilation gave an error:
+kernel test robot noticed the following build errors:
 
-drivers/net/phy/Kconfig:16:error: recursive dependency detected!
-drivers/net/phy/Kconfig:16:     symbol PHYLIB is selected by PHYLINK
-drivers/net/phy/Kconfig:6:      symbol PHYLINK is selected by PCS_XPCS
-drivers/net/pcs/Kconfig:8:      symbol PCS_XPCS is selected by TXGBE
-drivers/net/ethernet/wangxun/Kconfig:40:        symbol TXGBE depends on SFP
-drivers/net/phy/Kconfig:63:     symbol SFP depends on PHYLIB
-For a resolution refer to Documentation/kbuild/kconfig-language.rst
-subsection "Kconfig recursive dependency limitations"
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4-rc4 next-20230530]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Seems deleting "depends on SFP" is the correct way. But is this normal?
-How do we ensure the dependency between TXGBE and SFP?
+url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-etnaviv-add-a-dedicated-function-to-register-an-irq-handler/20230530-012547
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230529172452.2148819-6-suijingfeng%40loongson.cn
+patch subject: [PATCH v5 5/6] drm/etnaviv: expand driver support for the PCI devices
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230530/202305301659.4guSLavL-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/1d05a5fa048dd4b2a934ffbb07c330ddd9279287
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Sui-Jingfeng/drm-etnaviv-add-a-dedicated-function-to-register-an-irq-handler/20230530-012547
+        git checkout 1d05a5fa048dd4b2a934ffbb07c330ddd9279287
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/gpu/drm/etnaviv/
 
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305301659.4guSLavL-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c: In function 'etnaviv_gpu_pci_fini':
+>> drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c:32:9: error: implicit declaration of function 'pci_clear_master'; did you mean 'pci_set_master'? [-Werror=implicit-function-declaration]
+      32 |         pci_clear_master(pdev);
+         |         ^~~~~~~~~~~~~~~~
+         |         pci_set_master
+   cc1: some warnings being treated as errors
+
+
+vim +32 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+
+    27	
+    28	static void etnaviv_gpu_pci_fini(struct etnaviv_gpu *gpu, bool component)
+    29	{
+    30		struct pci_dev *pdev = to_pci_dev(gpu->dev);
+    31	
+  > 32		pci_clear_master(pdev);
+    33	
+    34		dev_dbg(gpu->dev, "component is %s\n",
+    35			component ? "enabled" : "disabled");
+    36	}
+    37	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
