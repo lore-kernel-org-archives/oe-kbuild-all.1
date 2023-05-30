@@ -1,276 +1,284 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D519E1F93B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 17:09:52 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-3f7f73e90f9so24978411cf.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 10:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1685466591; x=1688058591;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4EWuA87ZTwMNaJl1WFYYkO25MGwpDXQ2nj8CcG+i0N8=;
-        b=VSrJMLAgG3zmRzmAuMW0ALroD1+sPpD3Sm/OAVL1eJ/U88LUjkwek/BOjQkZMCQlBd
-         ZBL4LCXvfkVaLM+e3x/m2oMF0n/1xvLE+Z4/SLjTPn0pNa45238jNsQABYgQAxWj6T3S
-         VOAXi+RhfK/6KTmGGhnzai40v6tu1yS+ri+hb+jVFI5lzBLg0QQFEanzgvORtmav3eL4
-         u2k5w5+YQkWWSGH7FiOb1YXyVM0Bm8Aox6aOBJMYU4gOfSeVlXeJFbAqLm6O1tdkynBN
-         5P3+00i6dKx186Tkatajojp0N//y404eNdO11Tgrd4dhmTFslqnpdVL7MyaFdSfQv1si
-         ZLJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685466591; x=1688058591;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4EWuA87ZTwMNaJl1WFYYkO25MGwpDXQ2nj8CcG+i0N8=;
-        b=KM62xselKwQrxYBX9yPmc1YG6NuQ4tXfseotr+RmmHU2NNMmdAALxZ2kIP6wZ2zLqS
-         sP4UUxjgxnjADTHRULhxSgf1vQBpaWrqt9W9yrNLaD8DfxLsLuBdAWlbpfIAbb5GCqrW
-         AGFl/7PQV5tul05RZATC2SXHHt6p4j0YS3RjL9tgyiwMx0G93FSwNZdGiBE/wSut4ROa
-         b+9tu8jwhTifUhtEeFCmqxJAlIN36dKW22VnNkI2ycpv5NwD8X2Sp2TRQm1bFYYJC3TO
-         eEGQ3/xTtd1UHr8nEqhcUEfyHsKl/8BwzO25k3BWADTPZse6yXlrf1bv8wxxV+AI4AzN
-         PQfg==
-X-Gm-Message-State: AC+VfDwY83PflE4DwQH7ahY5ei4b5ctkNiYOpZ4e4d0VuNM3GP4ZuK45
-	9+jGJT4rxeGscH+Xv0mie6LY4NHwkz4gdLG0pw5ORQ==
-X-Google-Smtp-Source: ACHHUZ5qf003D3TcgrV2zibr2F0VVZtcFD7sbGwHjajxZd/1s2/YAo+qLZC+C/XuLRFzPX11QFVyANFfkzWE1PbSTkY=
-X-Received: by 2002:a05:6214:5297:b0:626:2177:319 with SMTP id
- kj23-20020a056214529700b0062621770319mr2561547qvb.21.1685466591389; Tue, 30
- May 2023 10:09:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E4C1EA76
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 17:38:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685468317; x=1717004317;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=i77o7tey1yauP2rmYSC5qLMN4DUz/Lu7/i4PMfCrjLY=;
+  b=CclKEMgJL12N+GyT9T6lG1DqKis8HV7IwmUZo982mVW22hj4Pf2BmxPn
+   V5Lzft6+qRPoHAtrgWn/1Xym1HtonYuRqDiLmKtPK1p31zqqFag+GWyrA
+   1zV2FVufxvyN+x4Itdbo/wRJR/Cy4b8qywbcYFYnYPN9xXKIZTiRNiL9r
+   pwbU5auGDz7fBNLUSVGDhpKieEIYLk6W+twuSjpW7C8jUhOZ53ZOE1tiL
+   wGmqjw+dRT7ANXqtWihf2L462A0dpNvXOO1NIHYid81jq22GCS5sUdQwx
+   vxlqCAd8LDXIwFFJathlhLyj44HxaGgSrkv4Qsx4yaRsXr1xzk4rUTCWM
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="383255269"
+X-IronPort-AV: E=Sophos;i="6.00,204,1681196400"; 
+   d="scan'208";a="383255269"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 10:38:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="880835724"
+X-IronPort-AV: E=Sophos;i="6.00,204,1681196400"; 
+   d="scan'208";a="880835724"
+Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 30 May 2023 10:38:34 -0700
+Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q43Io-0000iN-0s;
+	Tue, 30 May 2023 17:38:34 +0000
+Date: Wed, 31 May 2023 01:37:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Xiaoyong Lu <xiaoyong.lu@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [v11] media: mediatek: vcodec: support stateless AV1 decoder
+Message-ID: <202305310144.HL9pQjAc-lkp@intel.com>
+References: <20230530075500.14870-1-xiaoyong.lu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202305251508.iFEInYVW-lkp@intel.com> <CAKwvOd=QY_QNWP2+nofvowbCD66noajsY8q1xe-MamV_gF3TPA@mail.gmail.com>
- <20230526152458.GA395537@dev-arch.thelio-3990X> <ZHLRexILH7RVNivQ@rli9-mobl>
-In-Reply-To: <ZHLRexILH7RVNivQ@rli9-mobl>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 30 May 2023 10:09:40 -0700
-Message-ID: <CAKwvOdmBMeOUxAzYu0Q13sGsS6-_cVFBtQsnFgjoSfc_kHE14g@mail.gmail.com>
-Subject: Re: [stable:linux-4.19.y 984/6017] ld.lld: error: drivers/usb/dwc2/platform.o:
- contains a compressed section, but zlib is not available
-To: Philip Li <philip.li@intel.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, oe-kbuild-all@lists.linux.dev, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, John Keeping <john@metanate.com>, llvm@lists.linux.dev, 
-	kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230530075500.14870-1-xiaoyong.lu@mediatek.com>
 
-On Sat, May 27, 2023 at 8:59=E2=80=AFPM Philip Li <philip.li@intel.com> wro=
-te:
->
-> On Fri, May 26, 2023 at 08:24:58AM -0700, Nathan Chancellor wrote:
-> > On Thu, May 25, 2023 at 02:21:24PM -0700, Nick Desaulniers wrote:
-> > > On Thu, May 25, 2023 at 12:44=E2=80=AFAM kernel test robot <lkp@intel=
-.com> wrote:
-> > > >
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linu=
-x-stable.git linux-4.19.y
-> > > > head:   3f57fb8b1bd06b277556601133823bec370d723f
-> > > > commit: c964b1bbf179a163084b1ec8ad094b8c8dce28c8 [984/6017] usb: dw=
-c2: hcd_queue: Fix use of floating point literal
-> > > > config: x86_64-randconfig-x093-20230524
-> > > > compiler: clang version 14.0.6 (https://github.com/llvm/llvm-projec=
-t f28c006a5895fc0e329fe15fead81e37457cb1d1)
-> > > > reproduce (this is a W=3D1 build):
-> > > >         mkdir -p ~/bin
-> > > >         wget https://raw.githubusercontent.com/intel/lkp-tests/mast=
-er/sbin/make.cross -O ~/bin/make.cross
-> > > >         chmod +x ~/bin/make.cross
-> > > >         # https://git.kernel.org/pub/scm/linux/kernel/git/stable/li=
-nux-stable.git/commit/?id=3Dc964b1bbf179a163084b1ec8ad094b8c8dce28c8
-> > > >         git remote add stable https://git.kernel.org/pub/scm/linux/=
-kernel/git/stable/linux-stable.git
-> > > >         git fetch --no-tags stable linux-4.19.y
-> > > >         git checkout c964b1bbf179a163084b1ec8ad094b8c8dce28c8
-> > > >         # save the config file
-> > > >         mkdir build_dir && cp config build_dir/.config
-> > > >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/m=
-ake.cross W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 olddefconfig
-> > > >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/m=
-ake.cross W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash drivers/usb/
-> > > >
-> > > > If you fix the issue, kindly add following tag where applicable
-> > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202305251508.iFEInY=
-VW-lkp@intel.com/
-> > > >
-> > > > All errors (new ones prefixed by >>):
-> > > >
-> > > >    ld.lld: error: drivers/usb/dwc2/core.o: contains a compressed se=
-ction, but zlib is not available
-> > >
-> > > Hmmm...that's surprising to see on 4.19.  I didn't add support for
-> > > compressed debug info until:
-> > >
-> > > commit 10e68b02c861 ("Makefile: support compressed debug info")
-> > >
-> > > which landed in v5.8-rc1 and AFAIK was never backported.
-> > >
-> > > I wasn't able to reproduce this with ToT LLVM (clang-17); I wonder if
-> > > this is an issue with clang-14?
->
-> Hi Nathan, we will double check whether it is clang-14 specific. For now,
-> I use the the reproduce steps which can't reproduce this yet, even by run=
-ning
->
->         $ COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
-cross W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash
->
-> The clang version downloaded by reproduce step is clang-16, which
-> can't reproduce
+Hi Xiaoyong,
 
-Hi Philip,
-Is it possible that perhaps on your test machine that you're
-attempting to reproduce, you have zlib installed, but some of the
-automation machines on which the bot runs do not?
+kernel test robot noticed the following build errors:
 
->
-> $ ~/0day/clang/bin/clang --version
-> clang version 16.0.0 (git://gitmirror/llvm_project 8d9828ef5aa9688500657d=
-36cd2aefbe12bbd162)
-> Target: x86_64-unknown-linux-gnu
-> Thread model: posix
->
-> >
-> > Something I was thinking about yesterday is that binutils has a bunch o=
-f
-> > configure flags to control default behavior and one of those is
-> > compressed debug sections on by default:
-> >
-> >   --enable-compressed-debug-sections=3D{all,gas,gold,ld,none}
-> >                           Enable compressed debug sections for gas, gol=
-d or ld
-> >                           by default
-> >
-> > Is it possible that the version of binutils that the kernel test robot
-> > uses has compressed debug sections enabled by default for gas? Although=
-,
->
-> Do you refer to below info? If not, i will check further
->
-> $ ld --version
-> GNU ld (GNU Binutils for Debian) 2.40
->
-> $ ld --help | grep -A4 compress
->   --compress-debug-sections=3D[none|zlib|zlib-gnu|zlib-gabi|zstd]
->                               Compress DWARF debug sections
->                                 Default: none
->   -z common-page-size=3DSIZE    Set common page size to SIZE
->
-> > if I am reading make.cross correctly (linked above), it seems like the
-> > integrated assembler should be used in this case... It would be really
-> > helpful to have the exact make command that the robot used in the repor=
-t
->
-> Got it, let us think of this to share the build log, so far, as it contai=
-ns
-> some debugging/tracing info, we haven't sent it along with the report. Bu=
-t
-> I think at least, we can extract the make command out as first step.
->
-> > to know for sure. I do not see a similar switch available for LLVM and
-> > even then, I would not expect to see the same issue because we should
-> > not even have the ability to generate a compressed debug section if zli=
-b
-> > was not available.
-> >
-> > > Just tried and could not reproduce.  Has this issue been seen elsewhe=
-re?
-> > >
-> > > Ah, we have
-> > >
-> > > https://lore.kernel.org/llvm/?q=3Dcontains+a+compressed+section%2C+bu=
-t+zlib+is+not+available
-> > > https://lore.kernel.org/llvm/20230404161735.GA1703291@dev-arch.thelio=
--3990X/
-> > >
-> > > So since 10e68b02c861 is in v5.8-rc1, then for 4.14, 4.19, and 5.4 we
-> > > probably want a stable-only patch for -gz=3Dnone.
-> > >
-> > > GCC didn't support -gz=3Dnone until 5.1, so that might be an issue fo=
-r
-> > > older branches of stable which might still support older GCC versions=
-.
-> > > 4.19.y still supports gcc 4.6.
-> > >
-> > > ```
-> > > diff --git a/Makefile b/Makefile
-> > > index 71416fde7348..e6754300021c 100644
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -756,6 +756,7 @@ KBUILD_AFLAGS       +=3D -g
-> > >  else
-> > >  KBUILD_AFLAGS  +=3D -Wa,-gdwarf-2
-> > >  endif
-> > > +KBUILD_CFLAGS  +=3D $(call cc-option, -gz=3Dnone)
-> > >  endif
-> > >
-> > >  ifdef CONFIG_DEBUG_INFO_DWARF4
-> > > ```
-> > >
-> > > Godbolt only binutils v2.27+, but 4.19 supported v2.20+ (so I can't
-> > > check --compress-debug-sections=3Dnone assembler support quickly).
-> >
-> > You could do
-> >
-> >   KBUILD_AFLAGS   +=3D $(as-option, -Wa$(comma)--compress-debug-section=
-s=3Dnone)
-> >
-> > no?
->
-> Do you suggest we can do this when using clang-14 to build or even gcc wh=
-en
-> such issue appears?
->
-> >
-> > > >    ld.lld: error: drivers/usb/dwc2/core.o: contains a compressed se=
-ction, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core.o: contains a compressed se=
-ction, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core.o: contains a compressed se=
-ction, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core.o: contains a compressed se=
-ction, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core.o: contains a compressed se=
-ction, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core.o: contains a compressed se=
-ction, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core.o: contains a compressed se=
-ction, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core.o: contains a compressed se=
-ction, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core.o: contains a compressed se=
-ction, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core_intr.o: contains a compress=
-ed section, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core_intr.o: contains a compress=
-ed section, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core_intr.o: contains a compress=
-ed section, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core_intr.o: contains a compress=
-ed section, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core_intr.o: contains a compress=
-ed section, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core_intr.o: contains a compress=
-ed section, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core_intr.o: contains a compress=
-ed section, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core_intr.o: contains a compress=
-ed section, but zlib is not available
-> > > >    ld.lld: error: drivers/usb/dwc2/core_intr.o: contains a compress=
-ed section, but zlib is not available
-> > > > >> ld.lld: error: drivers/usb/dwc2/platform.o: contains a compresse=
-d section, but zlib is not available
-> > > >    ld.lld: error: too many errors emitted, stopping now (use -error=
--limit=3D0 to see all errors)
-> >
-> > Cheers,
-> > Nathan
-> >
+[auto build test ERROR on next-20230530]
+[cannot apply to media-tree/master v6.4-rc4 v6.4-rc3 v6.4-rc2 linus/master v6.4-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xiaoyong-Lu/media-mediatek-vcodec-support-stateless-AV1-decoder/20230530-155716
+base:   next-20230530
+patch link:    https://lore.kernel.org/r/20230530075500.14870-1-xiaoyong.lu%40mediatek.com
+patch subject: [v11] media: mediatek: vcodec: support stateless AV1 decoder
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230531/202305310144.HL9pQjAc-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/dcf1411dacb831e1283e9f27fd55c6397ff8d578
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Xiaoyong-Lu/media-mediatek-vcodec-support-stateless-AV1-decoder/20230530-155716
+        git checkout dcf1411dacb831e1283e9f27fd55c6397ff8d578
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/media/platform/mediatek/vcodec/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305310144.HL9pQjAc-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:188:23: error: 'V4L2_AV1_MAX_TILE_COUNT' undeclared here (not in a function)
+     188 |         u32 tile_size[V4L2_AV1_MAX_TILE_COUNT];
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:268:26: error: 'V4L2_AV1_MAX_SEGMENTS' undeclared here (not in a function)
+     268 |         int feature_data[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX];
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:268:49: error: 'V4L2_AV1_SEG_LVL_MAX' undeclared here (not in a function); did you mean 'V4L2_VP9_SEG_LVL_MAX'?
+     268 |         int feature_data[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX];
+         |                                                 ^~~~~~~~~~~~~~~~~~~~
+         |                                                 V4L2_VP9_SEG_LVL_MAX
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:336:35: error: 'V4L2_AV1_NUM_PLANES_MAX' undeclared here (not in a function)
+     336 |         u8 frame_restoration_type[V4L2_AV1_NUM_PLANES_MAX];
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:356:36: error: 'V4L2_AV1_TOTAL_REFS_PER_FRAME' undeclared here (not in a function)
+     356 |         int loop_filter_ref_deltas[V4L2_AV1_TOTAL_REFS_PER_FRAME];
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:406:27: error: 'V4L2_AV1_MAX_TILE_COLS' undeclared here (not in a function)
+     406 |         int mi_col_starts[V4L2_AV1_MAX_TILE_COLS + 1];
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:407:27: error: 'V4L2_AV1_MAX_TILE_ROWS' undeclared here (not in a function)
+     407 |         int mi_row_starts[V4L2_AV1_MAX_TILE_ROWS + 1];
+         |                           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:559:25: error: 'V4L2_AV1_REFS_PER_FRAME' undeclared here (not in a function)
+     559 |         u32 order_hints[V4L2_AV1_REFS_PER_FRAME];
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:874:49: warning: 'struct v4l2_ctrl_av1_frame' declared inside parameter list will not be visible outside of this definition or declaration
+     874 |                                          struct v4l2_ctrl_av1_frame *ctrl_fh)
+         |                                                 ^~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_cleanup_slots':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:890:36: error: invalid use of undefined type 'struct v4l2_ctrl_av1_frame'
+     890 |                         if (ctrl_fh->reference_frame_ts[ref_id] == timestamp) {
+         |                                    ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: At top level:
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:903:46: warning: 'struct v4l2_ctrl_av1_frame' declared inside parameter list will not be visible outside of this definition or declaration
+     903 |                                       struct v4l2_ctrl_av1_frame *ctrl_fh)
+         |                                              ^~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_slot':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:910:64: error: passing argument 3 of 'vdec_av1_slice_cleanup_slots' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     910 |         vdec_av1_slice_cleanup_slots(&vsi->slots, &vsi->frame, ctrl_fh);
+         |                                                                ^~~~~~~
+         |                                                                |
+         |                                                                struct v4l2_ctrl_av1_frame *
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:874:70: note: expected 'struct v4l2_ctrl_av1_frame *' but argument is of type 'struct v4l2_ctrl_av1_frame *'
+     874 |                                          struct v4l2_ctrl_av1_frame *ctrl_fh)
+         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:933:28: error: invalid use of undefined type 'struct v4l2_ctrl_av1_frame'
+     933 |                 if (ctrl_fh->reference_frame_ts[ref_id] == timestamp)
+         |                            ^~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12,
+                    from drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:7:
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_free_working_buffer':
+>> include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:56:59: note: in expansion of macro '__must_be_array'
+      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1027:25: note: in expansion of macro 'ARRAY_SIZE'
+    1027 |         for (i = 0; i < ARRAY_SIZE(instance->mv); i++)
+         |                         ^~~~~~~~~~
+>> include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:56:59: note: in expansion of macro '__must_be_array'
+      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1030:25: note: in expansion of macro 'ARRAY_SIZE'
+    1030 |         for (i = 0; i < ARRAY_SIZE(instance->seg); i++)
+         |                         ^~~~~~~~~~
+>> include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:231:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     231 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/kernel.h:56:59: note: in expansion of macro '__must_be_array'
+      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1033:25: note: in expansion of macro 'ARRAY_SIZE'
+    1033 |         for (i = 0; i < ARRAY_SIZE(instance->cdf); i++)
+         |                         ^~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: At top level:
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1130:44: warning: 'struct v4l2_av1_global_motion' declared inside parameter list will not be visible outside of this definition or declaration
+    1130 |                                     struct v4l2_av1_global_motion *ctrl_gm)
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_gm':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1135:39: error: invalid use of undefined type 'struct v4l2_av1_global_motion'
+    1135 |                 gm[i].wmtype = ctrl_gm->type[i];
+         |                                       ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1137:49: error: invalid use of undefined type 'struct v4l2_av1_global_motion'
+    1137 |                         gm[i].wmmat[j] = ctrl_gm->params[i][j];
+         |                                                 ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1139:43: error: invalid use of undefined type 'struct v4l2_av1_global_motion'
+    1139 |                 gm[i].invalid = !!(ctrl_gm->invalid & BIT(i));
+         |                                           ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1144:37: error: 'V4L2_AV1_WARP_MODEL_AFFINE' undeclared (first use in this function)
+    1144 |                 if (gm[i].wmtype <= V4L2_AV1_WARP_MODEL_AFFINE)
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1144:37: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: At top level:
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1150:45: warning: 'struct v4l2_av1_segmentation' declared inside parameter list will not be visible outside of this definition or declaration
+    1150 |                                      struct v4l2_av1_segmentation *ctrl_seg)
+         |                                             ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_seg':
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:48: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1154:37: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1154 |         seg->segmentation_enabled = SEGMENTATION_FLAG(ctrl_seg, ENABLED);
+         |                                     ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:58: error: 'V4L2_AV1_SEGMENTATION_FLAG_ENABLED' undeclared (first use in this function); did you mean 'V4L2_VP9_SEGMENTATION_FLAG_ENABLED'?
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1154:37: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1154 |         seg->segmentation_enabled = SEGMENTATION_FLAG(ctrl_seg, ENABLED);
+         |                                     ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:48: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1155:40: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1155 |         seg->segmentation_update_map = SEGMENTATION_FLAG(ctrl_seg, UPDATE_MAP);
+         |                                        ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:58: error: 'V4L2_AV1_SEGMENTATION_FLAG_UPDATE_MAP' undeclared (first use in this function); did you mean 'V4L2_VP9_SEGMENTATION_FLAG_UPDATE_MAP'?
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1155:40: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1155 |         seg->segmentation_update_map = SEGMENTATION_FLAG(ctrl_seg, UPDATE_MAP);
+         |                                        ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:48: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1156:45: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1156 |         seg->segmentation_temporal_update = SEGMENTATION_FLAG(ctrl_seg, TEMPORAL_UPDATE);
+         |                                             ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:58: error: 'V4L2_AV1_SEGMENTATION_FLAG_TEMPORAL_UPDATE' undeclared (first use in this function); did you mean 'V4L2_VP9_SEGMENTATION_FLAG_TEMPORAL_UPDATE'?
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1156:45: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1156 |         seg->segmentation_temporal_update = SEGMENTATION_FLAG(ctrl_seg, TEMPORAL_UPDATE);
+         |                                             ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:48: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1157:41: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1157 |         seg->segmentation_update_data = SEGMENTATION_FLAG(ctrl_seg, UPDATE_DATA);
+         |                                         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:58: error: 'V4L2_AV1_SEGMENTATION_FLAG_UPDATE_DATA' undeclared (first use in this function); did you mean 'V4L2_VP9_SEGMENTATION_FLAG_UPDATE_DATA'?
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1157:41: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1157 |         seg->segmentation_update_data = SEGMENTATION_FLAG(ctrl_seg, UPDATE_DATA);
+         |                                         ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:48: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1158:30: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1158 |         seg->segid_preskip = SEGMENTATION_FLAG(ctrl_seg, SEG_ID_PRE_SKIP);
+         |                              ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:45:58: error: 'V4L2_AV1_SEGMENTATION_FLAG_SEG_ID_PRE_SKIP' undeclared (first use in this function); did you mean 'V4L2_VP9_SEGMENTATION_FLAG_UPDATE_MAP'?
+      45 | #define SEGMENTATION_FLAG(x, name)      (!!((x)->flags & V4L2_AV1_SEGMENTATION_FLAG_##name))
+         |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1158:30: note: in expansion of macro 'SEGMENTATION_FLAG'
+    1158 |         seg->segid_preskip = SEGMENTATION_FLAG(ctrl_seg, SEG_ID_PRE_SKIP);
+         |                              ^~~~~~~~~~~~~~~~~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1159:42: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+    1159 |         seg->last_active_segid = ctrl_seg->last_active_seg_id;
+         |                                          ^~
+   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1162:56: error: invalid use of undefined type 'struct v4l2_av1_segmentation'
+    1162 |                 seg->feature_enabled_mask[i] = ctrl_seg->feature_enabled[i];
+         |                                                        ^~
 
 
+vim +16 include/linux/build_bug.h
 
---=20
-Thanks,
-~Nick Desaulniers
+bc6245e5efd70c Ian Abbott       2017-07-10   6  
+bc6245e5efd70c Ian Abbott       2017-07-10   7  #ifdef __CHECKER__
+bc6245e5efd70c Ian Abbott       2017-07-10   8  #define BUILD_BUG_ON_ZERO(e) (0)
+bc6245e5efd70c Ian Abbott       2017-07-10   9  #else /* __CHECKER__ */
+bc6245e5efd70c Ian Abbott       2017-07-10  10  /*
+bc6245e5efd70c Ian Abbott       2017-07-10  11   * Force a compilation error if condition is true, but also produce a
+8788994376d84d Rikard Falkeborn 2019-12-04  12   * result (of value 0 and type int), so the expression can be used
+bc6245e5efd70c Ian Abbott       2017-07-10  13   * e.g. in a structure initializer (or where-ever else comma expressions
+bc6245e5efd70c Ian Abbott       2017-07-10  14   * aren't permitted).
+bc6245e5efd70c Ian Abbott       2017-07-10  15   */
+8788994376d84d Rikard Falkeborn 2019-12-04 @16  #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+527edbc18a70e7 Masahiro Yamada  2019-01-03  17  #endif /* __CHECKER__ */
+527edbc18a70e7 Masahiro Yamada  2019-01-03  18  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
