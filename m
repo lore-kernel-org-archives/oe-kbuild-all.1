@@ -1,128 +1,96 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665D91EA76
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 18:08:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685470117; x=1717006117;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+QEGqPfFVuk+E/tI4xSylaB0JnSmbuyjuMwlxacAFwY=;
-  b=DQmj0R265vOciDCQByFMCgGyzF69gO4V/dQzX4ViV9f6psg0r6BA5C+w
-   hs+hqYONjOgH01MCnLJM0LaixGOMTWeW95aIA2kE5UamskDneHyDSLrHv
-   6XM6p8cwJT5nQEfNYfzi0KWgDnAxsl8mYaQP6wZbMHMj8U/068gSPwr9n
-   gN7rN1VGPCDIBrr84htSiCqgaLpWa5AgBGenkQz4t5YvOr9/6DAhNHWq8
-   7yaXxmIdy79N5JR1vVevyef9Ndbe4G8XTb6dVnT+ekPVwUySOpIAKvMMQ
-   aRAr4JPcWfGM9ZombNJ5Y4P14UMqqiZSLuM4m/1dlVsmBet9pUCrWfWOy
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="383264087"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="383264087"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 11:08:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="1036697414"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="1036697414"
-Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 30 May 2023 11:08:35 -0700
-Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q43lr-0000jP-0n;
-	Tue, 30 May 2023 18:08:35 +0000
-Date: Wed, 31 May 2023 02:08:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Will Deacon <will@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: include/linux/compiler_types.h:338:45: error: call to
- '__compiletime_assert_304' declared with attribute error: BUILD_BUG_ON
- failed: SECTIONS_WIDTH + NODES_WIDTH + ZONES_WIDTH +
- ilog2(roundup_pow_of_two(NR_CPUS)) > 32
-Message-ID: <202305310229.cc0htUa0-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8D61EA76;
+	Tue, 30 May 2023 18:26:50 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-30ad458f085so126797f8f.0;
+        Tue, 30 May 2023 11:26:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685471208; x=1688063208;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hfAiPhU6K+BMQeqpdySZgN46jLEtUlo38yIT0HEk7Yc=;
+        b=a3afgIpHXLDR+p6PUE88imzl1Fdd3I+Pd3mtn9+XPydzdk5TMgUOew7LiZopkYPuLA
+         QdollxMgOifJ2zwonHK94N/UfFJloiAKymBvDgx7D/aA5zL95o3CoseMcbTnEjPLvnUm
+         F5uT+JKIHlmS0rD8+QtE3uWgNSFkrG3v/h7zpF6OEF6dVru9qT6zyYTdulwsopUVPRsn
+         4O15lj6YRKmXGdSf1l5rUAI0yF/PeHw+H9QLfUJYZPhQGoeylsAc6z7mBQdZAE0V18mQ
+         8lCJr9MQ1lniDlerRHDsW3FYnP1+U67P8VPGJlIVX0D5JVVvuUYYPeoMCcDrNrUsKolW
+         R+rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685471208; x=1688063208;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hfAiPhU6K+BMQeqpdySZgN46jLEtUlo38yIT0HEk7Yc=;
+        b=Ngi9qPARlZ/aYGopHheWa0aH8XuroEAOQS3agTbvtpQG5wjWNl5KNNizT3bB1DUA3e
+         HeKWB/O5tu0fYbhxnP3TdQ70S+9cW0zWYhIJtzsPgS96iFnjo5/t8nGzt2j48aGNEcZC
+         5RSwrGN1wmjS1FJjYDjtmtMpI0/A4fJgR8mVmk7fT4glyuXGryYMZ0pIompsZXNaKY9I
+         Ri9WQO9h453gEz34HWu8/PW/FH8fFTcTKvpFvgkM40fXH420+OfgR4hVI5xaC37d15dI
+         OdqJpXbf3lX81utrCxeZZTgZK2KqfTWqWW9iLnHJG9nlpck0Ci175Ty+9yuIyLFNtQ6v
+         tdKA==
+X-Gm-Message-State: AC+VfDzxHWo0Cj54GZo7OqD0NoCK/MXL1uqo+eDPyd8jxdmx+TvBJmq8
+	3GUmTYoH0MPaW+4sWjuC5/0=
+X-Google-Smtp-Source: ACHHUZ5aG44i0I28ueBuL5OztclzexCR7D7YTc0Yrd8/OnoqXdXXyvWoHZ9uq94s9h334lCsqCSVUg==
+X-Received: by 2002:a5d:6984:0:b0:30a:8fc5:4411 with SMTP id g4-20020a5d6984000000b0030a8fc54411mr10453969wru.32.1685471208102;
+        Tue, 30 May 2023 11:26:48 -0700 (PDT)
+Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
+        by smtp.gmail.com with ESMTPSA id p17-20020a056000019100b00306415ac69asm4029180wrx.15.2023.05.30.11.26.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 May 2023 11:26:47 -0700 (PDT)
+Subject: Re: drivers/net/ethernet/sfc/tc.c:450 efx_tc_flower_replace() warn:
+ missing unwind goto?
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Simon Horman <simon.horman@corigine.com>
+References: <cbbbf576-6788-4049-b1e8-a05862f62cc2@kili.mountain>
+From: Edward Cree <ecree.xilinx@gmail.com>
+Message-ID: <4eabd7b1-66b3-7b3a-cabd-d1876767c49c@gmail.com>
+Date: Tue, 30 May 2023 19:26:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <cbbbf576-6788-4049-b1e8-a05862f62cc2@kili.mountain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Hi Will,
+On 20/05/2023 09:32, Dan Carpenter wrote:
+> b7f5e17b3bb961 Edward Cree 2023-03-27  432  	if (efx_tc_match_is_encap(&match.mask)) {
+> b7f5e17b3bb961 Edward Cree 2023-03-27  433  		NL_SET_ERR_MSG_MOD(extack, "Ingress enc_key matches not supported");
+> b7f5e17b3bb961 Edward Cree 2023-03-27  434  		rc = -EOPNOTSUPP;
+> b7f5e17b3bb961 Edward Cree 2023-03-27  435  		goto release;
+> 
+> This goto confuses Smatch.  It could be converted to a direct return.
+[...]
+> d902e1a737d44e Edward Cree 2022-09-26  456  	if (old) {
+> d902e1a737d44e Edward Cree 2022-09-26  457  		netif_dbg(efx, drv, efx->net_dev,
+> d902e1a737d44e Edward Cree 2022-09-26  458  			  "Already offloaded rule (cookie %lx)\n", tc->cookie);
+> d902e1a737d44e Edward Cree 2022-09-26  459  		rc = -EEXIST;
+> d902e1a737d44e Edward Cree 2022-09-26  460  		NL_SET_ERR_MSG_MOD(extack, "Rule already offloaded");
+> d902e1a737d44e Edward Cree 2022-09-26  461  		goto release;
+> 
+> It looks like this error path is problematic because it will remove the
+> existing rule from the list.  Better to just do:
+> 
+> 	if (old) {
+> 		netif_dbg(...);
+> 		NL_SET_ERR_MSG_MOD(extack, "Rule already offloaded");
+> 		kfree(rule);
+> 		return -EEXIST;
+> 	}
 
-FYI, the error/warning still remains.
+Agreed on both counts.
+(Technically we could add a new goto label in the failure ladder to
+ just do the kfree and return, but this is probably clearer.)
+Guess efx_tc_flower_replace_foreign() now has the latter problem
+ too?  (And it _does_ want to use the failure ladder, because we've
+ got to release the encap match.)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8b817fded42d8fe3a0eb47b1149d907851a3c942
-commit: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-date:   2 years, 10 months ago
-config: sparc-randconfig-r016-20230530 (https://download.01.org/0day-ci/archive/20230531/202305310229.cc0htUa0-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash arch/sparc/mm/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305310229.cc0htUa0-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/sparc/mm/init_64.c: In function 'arch_hugetlb_valid_size':
-   arch/sparc/mm/init_64.c:354:24: error: variable 'hv_pgsz_idx' set but not used [-Werror=unused-but-set-variable]
-     354 |         unsigned short hv_pgsz_idx;
-         |                        ^~~~~~~~~~~
-   In file included from <command-line>:
-   arch/sparc/mm/init_64.c: In function 'paging_init':
->> include/linux/compiler_types.h:338:45: error: call to '__compiletime_assert_304' declared with attribute error: BUILD_BUG_ON failed: SECTIONS_WIDTH + NODES_WIDTH + ZONES_WIDTH + ilog2(roundup_pow_of_two(NR_CPUS)) > 32
-     338 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:319:25: note: in definition of macro '__compiletime_assert'
-     319 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:338:9: note: in expansion of macro '_compiletime_assert'
-     338 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   arch/sparc/mm/init_64.c:2306:9: note: in expansion of macro 'BUILD_BUG_ON'
-    2306 |         BUILD_BUG_ON(SECTIONS_WIDTH + NODES_WIDTH + ZONES_WIDTH +
-         |         ^~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-
-
-vim +/__compiletime_assert_304 +338 include/linux/compiler_types.h
-
-   324	
-   325	#define _compiletime_assert(condition, msg, prefix, suffix) \
-   326		__compiletime_assert(condition, msg, prefix, suffix)
-   327	
-   328	/**
-   329	 * compiletime_assert - break build and emit msg if condition is false
-   330	 * @condition: a compile-time constant condition to check
-   331	 * @msg:       a message to emit if condition is false
-   332	 *
-   333	 * In tradition of POSIX assert, this macro will break the build if the
-   334	 * supplied condition is *false*, emitting the supplied error message if the
-   335	 * compiler has support to do so.
-   336	 */
-   337	#define compiletime_assert(condition, msg) \
- > 338		_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-   339	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks for catching this.  Patch for 'net' to follow shortly.
+-ed
