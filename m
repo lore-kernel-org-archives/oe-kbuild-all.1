@@ -1,128 +1,90 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f201.google.com (mail-yw1-f201.google.com [209.85.128.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19183200BC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 21:28:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685482127; x=1717018127;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sM9GvjISJ6MPSTxRYD8Se1huEBPToqyxtzCyT4efpUM=;
-  b=SHm5tImdTnNUy+LTZvFb5/sKWMG/S4E+P8va/QnD51kI2A++saubx9r4
-   lF173HtLkk9uS6EXAsAXLztmyPkH2O307BXMcooMticgfpnVB5hMPasYO
-   UA5cq6S37Kl64cc74uJ7KD5myDDOHtTb4QvfQ8lXravqhrWheNMQV6aYI
-   sEHnSrk1MEu30FKxkPzjmgiug8I3fVQVAcW+fhqgTKIkN/uiVjoTQecFz
-   zJeTsUbDC3qxDIa2ruLjV6Jh5MGtG2hQ/jwbQVUHvDHLzvM5G7S5NuXhA
-   yLGJYr85mUDrke1eHl0vgurov9H5uxgR/5Xrb20T5xo6e6gElPAuTuaEI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="344556285"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="344556285"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 14:28:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="953335083"
-X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="953335083"
-Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 30 May 2023 14:28:44 -0700
-Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q46tX-0000oR-2s;
-	Tue, 30 May 2023 21:28:43 +0000
-Date: Wed, 31 May 2023 05:27:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Uday Shankar <ushankar@purestorage.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>,
-	Christoph Hellwig <hch@lst.de>
-Subject: [linux-nvme:nvme-6.4-rc4-pull 5/5] drivers/nvme/host/core.c:1202:51:
- error: 'struct nvme_request' has no member named 'start_time'
-Message-ID: <202305310532.V3y3hWXI-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C89200BC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 22:01:57 +0000 (UTC)
+Received: by mail-yw1-f201.google.com with SMTP id 00721157ae682-568a8704f6dso33020727b3.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 15:01:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1685484116; x=1688076116;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=0+70iR5+ost5c3nu5SGwNZ7ykHicGblcBa8JIvdtRIY=;
+        b=VfFGknckRTqc22nrW6VvlOQfbD2l5hVMnw493TP+Ncf6mKjnv5cszKN8BbsRYxczGQ
+         sV1B9VbTof7zdRQlDavEQlhPxDQOIah0FU9tlEKTC5ghnda5eAzsnrMh1SQVnKJrd3oG
+         eH6VZfhEQGO77rL+m+dTgp9eke0uNJIc4JqrVka8Gg46MJ9UHS9Q34CQl64L4TF8Wfv/
+         iAZ8kXVC52og2f+dqYAcnIXDk3cAaE+5GCxFEuVs6YtjQ0SEqMLNXAdBvbZjXlvQBcPO
+         RpDtv/LhCsxRP3OFCxyCwY6kf7ONn5JyY+++MhcaMJ41paGDvbMwMW4iDdgOqTqSRU+L
+         ktMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685484116; x=1688076116;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0+70iR5+ost5c3nu5SGwNZ7ykHicGblcBa8JIvdtRIY=;
+        b=MZix/RuZO3Ftp81DH9fwSw8FuLZS2daLSOuByWabgB8GkKtGozCvG5xco5+pzIxIkN
+         ONMLks7PNihSGw2CF5Lj/3WdONp6lCebrB3of7m73QYn3KZ4PYMsH9JTtfx5ZwJFIYiZ
+         bJ45jt167eZb6OJ6UJIOifhXQj/DRB+M1en8m1tZcNH/rJRxevftkAf9LQqOVLJ562MG
+         AcChNoPxThAQM4bx9Z/TGV6s2fkeoINdf2iNyHxIEs1zU5yHI7pG0J0UBIafIL5ierxC
+         Tt1LVCCnZEi4hNZ1fG0mtWBH7hp84J1hnq0/DXAP4QMpKgA76v8HbVIzCKwyT5P4AuZ1
+         KYbw==
+X-Gm-Message-State: AC+VfDyr+dCgah3TJeG3zxMilC3UxE3tGgGpalkP7+Fubxg0FJtmUIis
+	E3/wNgnnhvDCrDni3zEGBt+WoEUkZCI=
+X-Google-Smtp-Source: ACHHUZ7x0Afrzk/CJpq5MxeMu3EOjZiV8ssfl1UB5mOcaeNDY4scT+VjXgSsBByYST/RaocUtRya8FQJvS0=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a81:a888:0:b0:55a:5aa0:ffe9 with SMTP id
+ f130-20020a81a888000000b0055a5aa0ffe9mr2066566ywh.7.1685484116745; Tue, 30
+ May 2023 15:01:56 -0700 (PDT)
+Date: Tue, 30 May 2023 15:01:55 -0700
+In-Reply-To: <202305302015.D8PglEU7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+References: <202305302015.D8PglEU7-lkp@intel.com>
+Message-ID: <ZHZyUxsezAz083lO@google.com>
+Subject: Re: [kvm-x86:selftests 1/3] make[1]: *** No rule to make target
+ 'kselftest/kvm/x86_64/cpuid_test.c', needed by 'kselftest/kvm/x86_64/cpuid_test.o'.
+From: Sean Christopherson <seanjc@google.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Yu Zhang <yu.c.zhang@linux.intel.com>, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="us-ascii"
 
-tree:   git://git.infradead.org/nvme.git nvme-6.4-rc4-pull
-head:   f041d3b83aea7e76e4dfc6591954d6dfe506dbdb
-commit: f041d3b83aea7e76e4dfc6591954d6dfe506dbdb [5/5] nvme: improve handling of long keep alives
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230531/202305310532.V3y3hWXI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add linux-nvme git://git.infradead.org/nvme.git
-        git fetch --no-tags linux-nvme nvme-6.4-rc4-pull
-        git checkout f041d3b83aea7e76e4dfc6591954d6dfe506dbdb
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/nvme/host/
+On Tue, May 30, 2023, kernel test robot wrote:
+> Hi Yu,
+> 
+> First bad commit (maybe != root cause):
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305310532.V3y3hWXI-lkp@intel.com/
+Confirmed that reverting 954c9c3f96698f3af0c22f93a68e3905bc185458 makes the problem
+go away.
 
-All errors (new ones prefixed by >>):
+> tree:   https://github.com/kvm-x86/linux selftests
 
-   drivers/nvme/host/core.c: In function 'nvme_keep_alive_end_io':
->> drivers/nvme/host/core.c:1202:51: error: 'struct nvme_request' has no member named 'start_time'
-    1202 |         unsigned long rtt = jiffies - nvme_req(rq)->start_time;
-         |                                                   ^~
+In case it wasn't obvious, I applied and pushed this to kvm-x86/selftests but
+hadn't yet merged it to kvm-x86/next.
 
+> head:   a985a858acff64afaa5cf60e058357034cb14476
+> commit: 954c9c3f96698f3af0c22f93a68e3905bc185458 [1/3] KVM: selftests: Add new CFLAGS to generate dependency files
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce:
+>         # https://github.com/kvm-x86/linux/commit/954c9c3f96698f3af0c22f93a68e3905bc185458
+>         git remote add kvm-x86 https://github.com/kvm-x86/linux
+>         git fetch --no-tags kvm-x86 selftests
+>         git checkout 954c9c3f96698f3af0c22f93a68e3905bc185458
+>         make O=/tmp/kselftest headers
+>         make O=/tmp/kselftest -C tools/testing/selftests
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202305302015.D8PglEU7-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    Makefile:89: *** Cannot find a vmlinux for VMLINUX_BTF at any of "vmlinux vmlinux ../../../../vmlinux /sys/kernel/btf/vmlinux /boot/vmlinux-5.9.0-2-amd64".  Stop.
+> >> make[1]: *** No rule to make target 'kselftest/kvm/x86_64/cpuid_test.c', needed by 'kselftest/kvm/x86_64/cpuid_test.o'.
 
-vim +1202 drivers/nvme/host/core.c
+Yu, 
 
-  1195	
-  1196	static enum rq_end_io_ret nvme_keep_alive_end_io(struct request *rq,
-  1197							 blk_status_t status)
-  1198	{
-  1199		struct nvme_ctrl *ctrl = rq->end_io_data;
-  1200		unsigned long flags;
-  1201		bool startka = false;
-> 1202		unsigned long rtt = jiffies - nvme_req(rq)->start_time;
-  1203		unsigned long delay = nvme_keep_alive_work_period(ctrl);
-  1204	
-  1205		/*
-  1206		 * Subtract off the keepalive RTT so nvme_keep_alive_work runs
-  1207		 * at the desired frequency.
-  1208		 */
-  1209		if (rtt <= delay) {
-  1210			delay -= rtt;
-  1211		} else {
-  1212			dev_warn(ctrl->device, "long keepalive RTT (%u ms)\n",
-  1213				 jiffies_to_msecs(rtt));
-  1214			delay = 0;
-  1215		}
-  1216	
-  1217		blk_mq_free_request(rq);
-  1218	
-  1219		if (status) {
-  1220			dev_err(ctrl->device,
-  1221				"failed nvme_keep_alive_end_io error=%d\n",
-  1222					status);
-  1223			return RQ_END_IO_NONE;
-  1224		}
-  1225	
-  1226		ctrl->ka_last_check_time = jiffies;
-  1227		ctrl->comp_seen = false;
-  1228		spin_lock_irqsave(&ctrl->lock, flags);
-  1229		if (ctrl->state == NVME_CTRL_LIVE ||
-  1230		    ctrl->state == NVME_CTRL_CONNECTING)
-  1231			startka = true;
-  1232		spin_unlock_irqrestore(&ctrl->lock, flags);
-  1233		if (startka)
-  1234			queue_delayed_work(nvme_wq, &ctrl->ka_work, delay);
-  1235		return RQ_END_IO_NONE;
-  1236	}
-  1237	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Can you take a look and send v3?  I unfortunately don't have bandwidth to dig
+into this.  I'll drop commit 954c9c3f96698f3af0c22f93a68e3905bc185458.
