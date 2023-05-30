@@ -1,48 +1,45 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 384D712B9C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 09:33:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E32174C5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 10:15:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685439203; x=1716975203;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=05BdlmfEmHrP3826u78d0bwZDk474BhNjCAib6bQs+I=;
-  b=i5OcEsFlZntQ9OvKi7B0Uvc7MgrYOImQmSdvVSo36OBEE+he24g8J4so
-   cFOuMyGkbzj3Fwn/KyXABfzEWSspJPogvjVDoOmSvy8TEloksEDvNzx7D
-   9kwe9OZG4Xgs2GTEm7HPIz86zvawCtmzoED2ckFew6tk8/PJ+OnpZEOhx
-   njjb/QOtOnj8Hr+JkvSWpXSkBrQGqYC7A9HT8mtCA7/FSKuggQU3tifpZ
-   twM0N0sGuBrD3NasE/8X6oFLv2URlo1+66SGSZKHj4pA5s5cOwYm4RERl
-   9gy0VBmtP0yHkxg7WCtQJdwu/DUqLjVyxW2boD8vQDUStHesO9A82fR66
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="354877284"
+  t=1685441723; x=1716977723;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KVTNOGmvAmJ+DiD643wIHXPZZWInWV0fIFdQmNkVpcA=;
+  b=jJZHzVkM/LHBChcxSLViMXAWWViPxEf6mdvXvUCjzjZExMbXQilSoyK8
+   wkZf/0RBnZ6JicglSG82VMVx+WLI6GJSV3bsqj0A03jqg8lMKHu6kdiKt
+   5OOSa7cNjSRp/ljJRFAq3jsJKZ1zRVYp9QMNruHPKIn6pYYpCXB0cnBsx
+   dIy9CcoKY7kLbkWt2WJXDPeDebNUzs08zUHfrB1y3+irQ7whm8jihz8BQ
+   +tJQQQQXLus3jhHT+Xr+2nM2WLN4xDW3z4V2pUsoX3hbwZzmlgFAeXwhi
+   pYgV6UzcYWnp4xBhguDuvk4kfebmv2GyATOzrlUjW8bKxWA57qoRm9wPC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="335221885"
 X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; 
-   d="scan'208";a="354877284"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 02:33:22 -0700
+   d="scan'208";a="335221885"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 03:15:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="656775530"
+X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="830687791"
 X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; 
-   d="scan'208";a="656775530"
+   d="scan'208";a="830687791"
 Received: from lkp-server01.sh.intel.com (HELO fd90924b3b99) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 30 May 2023 02:33:19 -0700
+  by orsmga004.jf.intel.com with ESMTP; 30 May 2023 03:15:20 -0700
 Received: from kbuild by fd90924b3b99 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q3vjC-0000Fi-0P;
-	Tue, 30 May 2023 09:33:18 +0000
-Date: Tue, 30 May 2023 17:32:31 +0800
+	id 1q3wNr-0000Go-2O;
+	Tue, 30 May 2023 10:15:19 +0000
+Date: Tue, 30 May 2023 18:15:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: jeffxu@chromium.org, dave.hansen@intel.com, luto@kernel.org,
-	jorgelo@chromium.org, keescook@chromium.org, groeck@chromium.org,
-	jannh@google.com, sroettger@google.com
-Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
-	jeffxu@google.com, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v1 4/6] PKEY:selftest pkey_enforce_api for mprotect
-Message-ID: <202305301758.ddYd6um5-lkp@intel.com>
-References: <20230519011915.846407-5-jeffxu@chromium.org>
+To: Brijesh Singh <brijesh.singh@amd.com>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Borislav Petkov <bp@suse.de>
+Subject: kismet: WARNING: unmet direct dependencies detected for CRYPTO_AEAD2
+ when selected by SEV_GUEST
+Message-ID: <202305301832.kW1SCYZO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,38 +48,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230519011915.846407-5-jeffxu@chromium.org>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ba0ad6ed89fd5dada3b7b65ef2b08e95d449d4ab]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/jeffxu-chromium-org/PKEY-Introduce-PKEY_ENFORCE_API-flag/20230519-093355
-base:   ba0ad6ed89fd5dada3b7b65ef2b08e95d449d4ab
-patch link:    https://lore.kernel.org/r/20230519011915.846407-5-jeffxu%40chromium.org
-patch subject: [PATCH v1 4/6] PKEY:selftest pkey_enforce_api for mprotect
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8b817fded42d8fe3a0eb47b1149d907851a3c942
+commit: fce96cf0443083e37455eff8f78fd240c621dae3 virt: Add SEV-SNP guest driver
+date:   1 year, 2 months ago
+config: x86_64-kismet-CONFIG_CRYPTO_AEAD2-CONFIG_SEV_GUEST-0-0 (https://download.01.org/0day-ci/archive/20230530/202305301832.kW1SCYZO-lkp@intel.com/config)
 reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/ee635a3d72bf9f400d3542d27d1df9d2813640dc
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review jeffxu-chromium-org/PKEY-Introduce-PKEY_ENFORCE_API-flag/20230519-093355
-        git checkout ee635a3d72bf9f400d3542d27d1df9d2813640dc
-        make O=/tmp/kselftest headers
-        make O=/tmp/kselftest -C tools/testing/selftests
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fce96cf0443083e37455eff8f78fd240c621dae3
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout fce96cf0443083e37455eff8f78fd240c621dae3
+        # 1. reproduce by kismet
+           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
+           kismet --linux-ksrc=linux --selectees CONFIG_CRYPTO_AEAD2 --selectors CONFIG_SEV_GUEST -a=x86_64
+        # 2. reproduce by make
+           # save the config file to linux source tree
+           cd linux
+           make ARCH=x86_64 olddefconfig
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305301758.ddYd6um5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305301832.kW1SCYZO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from pkey_enforce_api.c:72:
-   pkey-x86.h: In function 'expect_fault_on_read_execonly_key':
->> pkey-x86.h:165:13: warning: variable 'ptr_contents' set but not used [-Wunused-but-set-variable]
-     165 |         int ptr_contents;
-         |             ^~~~~~~~~~~~
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for CRYPTO_AEAD2 when selected by SEV_GUEST
+   .config:5061:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_GCM
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - SEV_GUEST [=y] && VIRT_DRIVERS [=y] && AMD_MEM_ENCRYPT [=y]
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_AEAD2
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - SEV_GUEST [=y] && VIRT_DRIVERS [=y] && AMD_MEM_ENCRYPT [=y]
 
 -- 
 0-DAY CI Kernel Test Service
