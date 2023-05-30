@@ -1,211 +1,309 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2044.outbound.protection.outlook.com [40.107.237.44])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1908F200AD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 20:26:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=muVs7tb6NPjWufFmQGsvK1PjTSV8LXsoOTdXEwekXrFhYavczHll9VGI276rsTuY46wO4yuxPDNjSlQt1yMB523vHxxG6Mz3ImQdaO8FN7SXfiDX4E90dKy3SzCTgv+XYB8eSkWVMkxp4Oc45fLqQsjHte1oqU+Oq27TFicFnUeHi7Or47OjR4oX+DTb4+nvwTt9b7y7Xn/U+WaxrS7Dt5Vo8Gxkagn75aaIjoMI/w9s+i741uWWu7Jx3BssTLHhhNqpbwYS9Gc7+p3rQF2OnEP0wsyQkbk6zX8gaPYBjOx31UJH71RGDdg45InyyUsNvS+iY5ZnleV6mDajanswhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OHztWEHWTUGlnp/G7LdyxHlNSr5fxdXrVxj8sRvTPEA=;
- b=P8DVAyYJ3gc/WaNlI+lKs1lIGKM47iWXIkoRXNyzEwXviRJV228DjBHXR6NC8dIBiad7pv0tdX3cHoVZR+ndwh68bts0jlyUpZHt/zA2xwKfY5GN7yjUxqsAJfkTVB9p3CgfVCPTfc3rXG2y4o/8mYMYbAAoMwaApT4hrCwcgiUiPRMxA5UbRrT4GOD5tiCpp3EsRHFiDiG7UooA7cScrY0C3NnYzSMD/XDlBYdlDD0Vg0bOxz3NfMg6clIU2U5LNWSYVTwg8WfwZeq+6uVm8a4T7g4kk1VYMKmRcchn04Qy+j1yQdSa35ntHyqB2QAME8SQfUuYQ0PU3+dKaB07Yw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=davemloft.net smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OHztWEHWTUGlnp/G7LdyxHlNSr5fxdXrVxj8sRvTPEA=;
- b=m0prt3KETr779aUQhnGonNL8m2mPZL9u0AgHcJVZVNlH/u4BHHJx4w5uph1Y6qV6rO0dbL71Z8SdGsS9fIYOm/BlSZ2el9pkcpkZF2IhAt8Tsb+Ew93TB2CiJyM0r3XIj7rgkTo9akKy/9535qOODIBwOkYwKWN29wnSl3/9Q3o=
-Received: from SJ0PR05CA0002.namprd05.prod.outlook.com (2603:10b6:a03:33b::7)
- by CY5PR12MB6299.namprd12.prod.outlook.com (2603:10b6:930:20::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.22; Tue, 30 May
- 2023 20:26:26 +0000
-Received: from DM6NAM11FT101.eop-nam11.prod.protection.outlook.com
- (2603:10b6:a03:33b:cafe::b3) by SJ0PR05CA0002.outlook.office365.com
- (2603:10b6:a03:33b::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.22 via Frontend
- Transport; Tue, 30 May 2023 20:26:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT101.mail.protection.outlook.com (10.13.172.208) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6455.22 via Frontend Transport; Tue, 30 May 2023 20:26:25 +0000
-Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 30 May
- 2023 15:26:25 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB08.amd.com
- (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 30 May
- 2023 13:26:24 -0700
-Received: from xcbecree41x.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34 via Frontend
- Transport; Tue, 30 May 2023 15:26:22 -0500
-From: <edward.cree@amd.com>
-To: <linux-net-drivers@amd.com>, <davem@davemloft.net>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <edumazet@google.com>
-CC: Edward Cree <ecree.xilinx@gmail.com>, <netdev@vger.kernel.org>,
-	<habetsm.xilinx@gmail.com>, <dan.carpenter@linaro.org>,
-	<oe-kbuild-all@lists.linux.dev>, kernel test robot <lkp@intel.com>, "Dan
- Carpenter" <error27@gmail.com>
-Subject: [PATCH net] sfc: fix error unwinds in TC offload
-Date: Tue, 30 May 2023 21:25:27 +0100
-Message-ID: <20230530202527.53115-1-edward.cree@amd.com>
-X-Mailer: git-send-email 2.27.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BC49474
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 20:57:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685480267; x=1717016267;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ifICqhkYrs5BBYuxQAeZFuJBTNlMxJ35SdSVuH06Zfw=;
+  b=fUin+/FFZAOGA9po5bSUlYe0U39hLthv8GH7G723dxAyYsIbmcdDNMAY
+   +n2l3qzl/MAVRT/lrHoCgiAs5e4bj/xdOKUXZ06BCzAc1oQz8sZFN3Wma
+   K1Ku/OiMWeDER8PBNST8i3Ckk7/DPpsBGxnqohKCQGoHzI1T/rcyWGuBZ
+   nVOp6dVrHGowslKlW/TKla8XzNiV8kxE9cG/921/1VD4GEVmHgEBNAR8X
+   utROm7uRNiBdWO8B1E/YBrUN6RIpVR+PLSxVqLQJxPpWyxt5glAzlZhjS
+   evLAFgMD8IpO8mlZP7Z1vYw+ILTPYesn0IMzGDZKwHQ9bWAMobS4lCiHf
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="383306524"
+X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
+   d="scan'208";a="383306524"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 13:57:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="706588481"
+X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
+   d="scan'208";a="706588481"
+Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 30 May 2023 13:57:43 -0700
+Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q46PX-0000o8-2P;
+	Tue, 30 May 2023 20:57:43 +0000
+Date: Wed, 31 May 2023 04:56:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: [hansg:media-atomisp 64/78]
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c:1766:29: warning: variable
+ 'motor' set but not used
+Message-ID: <202305310436.hs8U9xbF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6NAM11FT101:EE_|CY5PR12MB6299:EE_
-X-MS-Office365-Filtering-Correlation-Id: 52680f6e-f09b-4565-503b-08db614c243a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	TQ6g03sr7/6Ne/r3aiGzw2TR5Zq761VFB8Gm5MIdF/caDuY8s1o2MRTmhaZHAn9ZOayajDd+Lyz2lRdBLqvPC3KtxLkEvhcpov7uQQma9cjzkuD1ew7FIhiIMC388GD7sO5K9HexJzhgjjWzoMSguSy/zAcCz+zoBAtBDkbIdbNAQDm5jh9hFpnQ1Qi08f+rKF6DhkwDmz/efLzWRlQ3hPhnyY62Ze9ljHkltNRdXO6HBVUdm/vUVHT3Q8B5hkVlWdafCLaRltx/u28Su5UYJh3YPitdyjMtMQKneLKSLo3Tg258sATbjUMLb5PnUdjhsRZF9GtdQuOQzlQS+0R75OfGL7C4cXvN0FlzDWutqDw4RHACW3Q+jbnw4SQJZXmFHgViiUgQ2fI4Qdo4BakldBPpOwgjPF0hCIsYODsKesTaVq/saohOx36Gf7PjsI/wZH95+80cO64+T3Opz9fZer6fafj3QrHMty1tndQQV5Xio4cX/Fxj9hiDgZ5am6jVp/bxVwzdk3aeciFk3aISxhLPeqyY7ozafLi3P5Tgnx6X75Z2/DZiRONr/jio3gw87wFJuHFGkoV1UJaep/Vrn0HviOF0/DOYe31IDcskz5uv5QxRfEWXjFe8aPfqPvFNo6Ngbp96BRRLM5Vw2R4/Xpcwi+a2LzxYCpbW6o3JGPUSQOboa+F+GiQ7ZOnIx8eu7i/MchrCafmap4xRR063bEo2FGKZdulFmd+ooPH1KzVRgfuZVXlAurDUqbcN7wijNniUfov+dKN2hGmadbUQyg==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(346002)(39860400002)(396003)(376002)(136003)(451199021)(46966006)(36840700001)(40470700004)(36860700001)(83380400001)(36756003)(47076005)(86362001)(426003)(478600001)(2876002)(336012)(70206006)(70586007)(4326008)(110136005)(2616005)(54906003)(2906002)(186003)(81166007)(966005)(1076003)(356005)(316002)(82310400005)(7416002)(40460700003)(26005)(5660300002)(8676002)(82740400003)(40480700001)(8936002)(41300700001)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 May 2023 20:26:25.5486
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52680f6e-f09b-4565-503b-08db614c243a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DM6NAM11FT101.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6299
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Edward Cree <ecree.xilinx@gmail.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git media-atomisp
+head:   411cf9753f5a0f0e810ab155ba1e3698f2e76cf2
+commit: b373643c38c2a04147d5285cfbd4c8573864c659 [64/78] media: atomisp: Remove a bunch of sensor related custom IOCTLs
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230531/202305310436.hs8U9xbF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/commit/?id=b373643c38c2a04147d5285cfbd4c8573864c659
+        git remote add hansg https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git
+        git fetch --no-tags hansg media-atomisp
+        git checkout b373643c38c2a04147d5285cfbd4c8573864c659
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/staging/media/atomisp/
 
-Failure ladders weren't exactly unwinding what the function had done up
- to that point; most seriously, when we encountered an already offloaded
- rule, the failure path tried to remove the new rule from the hashtable,
- which would in fact remove the already-present 'old' rule (since it has
- the same key) from the table, and leak its resources.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305310436.hs8U9xbF-lkp@intel.com/
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <error27@gmail.com>
-Closes: https://lore.kernel.org/r/202305200745.xmIlkqjH-lkp@intel.com/
-Fixes: d902e1a737d4 ("sfc: bare bones TC offload on EF100")
-Fixes: 17654d84b47c ("sfc: add offloading of 'foreign' TC (decap) rules")
-Signed-off-by: Edward Cree <ecree.xilinx@gmail.com>
----
- drivers/net/ethernet/sfc/tc.c | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/drivers/net/ethernet/sfc/tc.c b/drivers/net/ethernet/sfc/tc.c
-index 0327639a628a..c004443c1d58 100644
---- a/drivers/net/ethernet/sfc/tc.c
-+++ b/drivers/net/ethernet/sfc/tc.c
-@@ -624,13 +624,12 @@ static int efx_tc_flower_replace_foreign(struct efx_nic *efx,
- 	if (!found) { /* We don't care. */
- 		netif_dbg(efx, drv, efx->net_dev,
- 			  "Ignoring foreign filter that doesn't egdev us\n");
--		rc = -EOPNOTSUPP;
--		goto release;
-+		return -EOPNOTSUPP;
- 	}
- 
- 	rc = efx_mae_match_check_caps(efx, &match.mask, NULL);
- 	if (rc)
--		goto release;
-+		return rc;
- 
- 	if (efx_tc_match_is_encap(&match.mask)) {
- 		enum efx_encap_type type;
-@@ -639,8 +638,7 @@ static int efx_tc_flower_replace_foreign(struct efx_nic *efx,
- 		if (type == EFX_ENCAP_TYPE_NONE) {
- 			NL_SET_ERR_MSG_MOD(extack,
- 					   "Egress encap match on unsupported tunnel device");
--			rc = -EOPNOTSUPP;
--			goto release;
-+			return -EOPNOTSUPP;
- 		}
- 
- 		rc = efx_mae_check_encap_type_supported(efx, type);
-@@ -648,25 +646,24 @@ static int efx_tc_flower_replace_foreign(struct efx_nic *efx,
- 			NL_SET_ERR_MSG_FMT_MOD(extack,
- 					       "Firmware reports no support for %s encap match",
- 					       efx_tc_encap_type_name(type));
--			goto release;
-+			return rc;
- 		}
- 
- 		rc = efx_tc_flower_record_encap_match(efx, &match, type,
- 						      extack);
- 		if (rc)
--			goto release;
-+			return rc;
- 	} else {
- 		/* This is not a tunnel decap rule, ignore it */
- 		netif_dbg(efx, drv, efx->net_dev,
- 			  "Ignoring foreign filter without encap match\n");
--		rc = -EOPNOTSUPP;
--		goto release;
-+		return -EOPNOTSUPP;
- 	}
- 
- 	rule = kzalloc(sizeof(*rule), GFP_USER);
- 	if (!rule) {
- 		rc = -ENOMEM;
--		goto release;
-+		goto out_free;
- 	}
- 	INIT_LIST_HEAD(&rule->acts.list);
- 	rule->cookie = tc->cookie;
-@@ -678,7 +675,7 @@ static int efx_tc_flower_replace_foreign(struct efx_nic *efx,
- 			  "Ignoring already-offloaded rule (cookie %lx)\n",
- 			  tc->cookie);
- 		rc = -EEXIST;
--		goto release;
-+		goto out_free;
- 	}
- 
- 	act = kzalloc(sizeof(*act), GFP_USER);
-@@ -843,6 +840,7 @@ static int efx_tc_flower_replace_foreign(struct efx_nic *efx,
- 				       efx_tc_match_action_ht_params);
- 		efx_tc_free_action_set_list(efx, &rule->acts, false);
- 	}
-+out_free:
- 	kfree(rule);
- 	if (match.encap)
- 		efx_tc_flower_release_encap_match(efx, match.encap);
-@@ -899,8 +897,7 @@ static int efx_tc_flower_replace(struct efx_nic *efx,
- 		return rc;
- 	if (efx_tc_match_is_encap(&match.mask)) {
- 		NL_SET_ERR_MSG_MOD(extack, "Ingress enc_key matches not supported");
--		rc = -EOPNOTSUPP;
--		goto release;
-+		return -EOPNOTSUPP;
- 	}
- 
- 	if (tc->common.chain_index) {
-@@ -924,9 +921,9 @@ static int efx_tc_flower_replace(struct efx_nic *efx,
- 	if (old) {
- 		netif_dbg(efx, drv, efx->net_dev,
- 			  "Already offloaded rule (cookie %lx)\n", tc->cookie);
--		rc = -EEXIST;
- 		NL_SET_ERR_MSG_MOD(extack, "Rule already offloaded");
--		goto release;
-+		kfree(rule);
-+		return -EEXIST;
- 	}
- 
- 	/* Parse actions */
+   drivers/staging/media/atomisp/pci/atomisp_ioctl.c: In function 'atomisp_vidioc_default':
+>> drivers/staging/media/atomisp/pci/atomisp_ioctl.c:1766:29: warning: variable 'motor' set but not used [-Wunused-but-set-variable]
+    1766 |         struct v4l2_subdev *motor;
+         |                             ^~~~~
+
+
+vim +/motor +1766 drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1759  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1760  static long atomisp_vidioc_default(struct file *file, void *fh,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1761  				   bool valid_prio, unsigned int cmd, void *arg)
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1762  {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1763  	struct video_device *vdev = video_devdata(file);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1764  	struct atomisp_device *isp = video_get_drvdata(vdev);
+af69562a28faa5 drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Hans de Goede         2022-08-28  1765  	struct atomisp_sub_device *asd = atomisp_to_video_pipe(vdev)->asd;
+9ace178dee1543 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-22 @1766  	struct v4l2_subdev *motor;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1767  	int err;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1768  
+469a7306f1717b drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Mauro Carvalho Chehab 2020-06-01  1769  	if (!IS_ISP2401)
+9ace178dee1543 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-22  1770  		motor = isp->inputs[asd->input_curr].motor;
+9ace178dee1543 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-22  1771  	else
+9ace178dee1543 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-22  1772  		motor = isp->motor;
+9ace178dee1543 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-22  1773  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1774  	switch (cmd) {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1775  	case ATOMISP_IOC_S_SENSOR_RUNMODE:
+469a7306f1717b drivers/staging/media/atomisp/pci/atomisp_ioctl.c          Mauro Carvalho Chehab 2020-06-01  1776  		if (IS_ISP2401)
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1777  			err = atomisp_set_sensor_runmode(asd, arg);
+9ace178dee1543 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-22  1778  		else
+9ace178dee1543 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-22  1779  			err = -EINVAL;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1780  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1781  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1782  	case ATOMISP_IOC_G_XNR:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1783  		err = atomisp_xnr(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1784  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1785  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1786  	case ATOMISP_IOC_S_XNR:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1787  		err = atomisp_xnr(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1788  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1789  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1790  	case ATOMISP_IOC_G_NR:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1791  		err = atomisp_nr(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1792  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1793  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1794  	case ATOMISP_IOC_S_NR:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1795  		err = atomisp_nr(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1796  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1797  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1798  	case ATOMISP_IOC_G_TNR:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1799  		err = atomisp_tnr(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1800  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1801  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1802  	case ATOMISP_IOC_S_TNR:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1803  		err = atomisp_tnr(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1804  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1805  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1806  	case ATOMISP_IOC_G_BLACK_LEVEL_COMP:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1807  		err = atomisp_black_level(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1808  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1809  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1810  	case ATOMISP_IOC_S_BLACK_LEVEL_COMP:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1811  		err = atomisp_black_level(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1812  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1813  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1814  	case ATOMISP_IOC_G_EE:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1815  		err = atomisp_ee(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1816  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1817  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1818  	case ATOMISP_IOC_S_EE:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1819  		err = atomisp_ee(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1820  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1821  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1822  	case ATOMISP_IOC_G_DIS_STAT:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1823  		err = atomisp_get_dis_stat(asd, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1824  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1825  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1826  	case ATOMISP_IOC_G_DVS2_BQ_RESOLUTIONS:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1827  		err = atomisp_get_dvs2_bq_resolutions(asd, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1828  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1829  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1830  	case ATOMISP_IOC_S_DIS_COEFS:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1831  		err = atomisp_css_cp_dvs2_coefs(asd, arg,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1832  						&asd->params.css_param, true);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1833  		if (!err && arg)
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1834  			asd->params.css_update_params_needed = true;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1835  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1836  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1837  	case ATOMISP_IOC_S_DIS_VECTOR:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1838  		err = atomisp_cp_dvs_6axis_config(asd, arg,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1839  						  &asd->params.css_param, true);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1840  		if (!err && arg)
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1841  			asd->params.css_update_params_needed = true;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1842  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1843  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1844  	case ATOMISP_IOC_G_ISP_PARM:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1845  		err = atomisp_param(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1846  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1847  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1848  	case ATOMISP_IOC_S_ISP_PARM:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1849  		err = atomisp_param(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1850  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1851  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1852  	case ATOMISP_IOC_G_3A_STAT:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1853  		err = atomisp_3a_stat(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1854  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1855  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1856  	case ATOMISP_IOC_G_ISP_GAMMA:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1857  		err = atomisp_gamma(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1858  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1859  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1860  	case ATOMISP_IOC_S_ISP_GAMMA:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1861  		err = atomisp_gamma(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1862  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1863  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1864  	case ATOMISP_IOC_G_ISP_GDC_TAB:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1865  		err = atomisp_gdc_cac_table(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1866  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1867  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1868  	case ATOMISP_IOC_S_ISP_GDC_TAB:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1869  		err = atomisp_gdc_cac_table(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1870  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1871  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1872  	case ATOMISP_IOC_G_ISP_MACC:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1873  		err = atomisp_macc_table(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1874  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1875  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1876  	case ATOMISP_IOC_S_ISP_MACC:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1877  		err = atomisp_macc_table(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1878  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1879  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1880  	case ATOMISP_IOC_G_ISP_BAD_PIXEL_DETECTION:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1881  		err = atomisp_bad_pixel_param(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1882  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1883  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1884  	case ATOMISP_IOC_S_ISP_BAD_PIXEL_DETECTION:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1885  		err = atomisp_bad_pixel_param(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1886  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1887  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1888  	case ATOMISP_IOC_G_ISP_FALSE_COLOR_CORRECTION:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1889  		err = atomisp_false_color_param(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1890  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1891  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1892  	case ATOMISP_IOC_S_ISP_FALSE_COLOR_CORRECTION:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1893  		err = atomisp_false_color_param(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1894  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1895  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1896  	case ATOMISP_IOC_G_ISP_CTC:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1897  		err = atomisp_ctc(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1898  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1899  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1900  	case ATOMISP_IOC_S_ISP_CTC:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1901  		err = atomisp_ctc(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1902  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1903  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1904  	case ATOMISP_IOC_G_ISP_WHITE_BALANCE:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1905  		err = atomisp_white_balance_param(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1906  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1907  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1908  	case ATOMISP_IOC_S_ISP_WHITE_BALANCE:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1909  		err = atomisp_white_balance_param(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1910  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1911  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1912  	case ATOMISP_IOC_G_3A_CONFIG:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1913  		err = atomisp_3a_config_param(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1914  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1915  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1916  	case ATOMISP_IOC_S_3A_CONFIG:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1917  		err = atomisp_3a_config_param(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1918  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1919  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1920  	case ATOMISP_IOC_S_ISP_FPN_TABLE:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1921  		err = atomisp_fixed_pattern_table(asd, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1922  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1923  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1924  	case ATOMISP_IOC_S_EXPOSURE:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1925  		err = v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1926  				       core, ioctl, cmd, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1927  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1928  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1929  	case ATOMISP_IOC_S_ISP_SHD_TAB:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1930  		err = atomisp_set_shading_table(asd, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1931  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1932  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1933  	case ATOMISP_IOC_G_ISP_GAMMA_CORRECTION:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1934  		err = atomisp_gamma_correction(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1935  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1936  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1937  	case ATOMISP_IOC_S_ISP_GAMMA_CORRECTION:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1938  		err = atomisp_gamma_correction(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1939  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1940  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1941  	case ATOMISP_IOC_S_PARAMETERS:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1942  		err = atomisp_set_parameters(vdev, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1943  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1944  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1945  	case ATOMISP_IOC_EXT_ISP_CTRL:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1946  		err = v4l2_subdev_call(isp->inputs[asd->input_curr].camera,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1947  				       core, ioctl, cmd, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1948  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1949  	case ATOMISP_IOC_EXP_ID_UNLOCK:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1950  		err = atomisp_exp_id_unlock(asd, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1951  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1952  	case ATOMISP_IOC_EXP_ID_CAPTURE:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1953  		err = atomisp_exp_id_capture(asd, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1954  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1955  	case ATOMISP_IOC_S_ENABLE_DZ_CAPT_PIPE:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1956  		err = atomisp_enable_dz_capt_pipe(asd, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1957  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1958  	case ATOMISP_IOC_G_FORMATS_CONFIG:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1959  		err = atomisp_formats(asd, 0, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1960  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1961  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1962  	case ATOMISP_IOC_S_FORMATS_CONFIG:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1963  		err = atomisp_formats(asd, 1, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1964  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1965  	case ATOMISP_IOC_INJECT_A_FAKE_EVENT:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1966  		err = atomisp_inject_a_fake_event(asd, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1967  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1968  	case ATOMISP_IOC_S_ARRAY_RESOLUTION:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1969  		err = atomisp_set_array_res(asd, arg);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1970  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1971  	default:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1972  		err = -EINVAL;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1973  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1974  	}
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1975  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1976  	return err;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1977  }
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_ioctl.c Mauro Carvalho Chehab 2020-04-19  1978  
+
+:::::: The code at line 1766 was first introduced by commit
+:::::: 9ace178dee15432712fc70a5f84cb00695fc70b9 media: atomisp: atomisp_ioctl.c: get rid of a ISP2400/ISP2401 dependency
+
+:::::: TO: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
