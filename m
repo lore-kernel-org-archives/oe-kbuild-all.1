@@ -1,54 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3A6209B2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 14:11:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C6617AD4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 15:55:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685455891; x=1716991891;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0ZSjvmRsPahZ8Twh6++RSb7rZmPdH3pP2QZxrCkFm9U=;
-  b=Akc8v5lBcTq6Apf1aRd8oXaAzH8M8aPZqJM3EkVdiHSRkRRTK0CBIV1y
-   +Y3O4DqOLG5pcUWMcgWPx0gIQqKYKjO2NOQtyFwilh49VoVZnhZzAnAN+
-   lShebfpCKO1i37mVkqT+cLXVn3j7JuxPBdOcogvG3nStVIn3hsLTlrQvG
-   mmVotu9XEapF77rSm9Cpb75+Ftoq6K/SMBacWWHR9oL8ZXTuqUyd6gAG8
-   +kLTapyRkjelHhRRupiMZVlJwRdGdofUdOq2DyLbMByMAPgTamwmaORcL
-   WwsQlf1lTsYBDFmV96lNp18RGCkQSqpjdDf9NWEhqgPDXmbM0SC3bBEfC
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="441282311"
+  t=1685462147; x=1716998147;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=NfV0bZkWChaXe8bp4fbMZk/ohc3rYpv8mkdD7Vp9QG0=;
+  b=UfagrZ+/pCVgl73psI0WDNtvtrEHUE1gzXJjM9w5KHihyYI81jkOST1e
+   /ws+wdj1s/EgZeTnFeG1wY2T4AgV3DC5AQ33XltxkSsL27nGsjvWJ7ZX/
+   G4khm0aQmefq6ohLoR4NkeutIhT5H114727xPShhdUg+7fYRnGPPSYjw2
+   sMiCTzvu6tJcxkYVtE3f9BHX8X5KTypHjyccnOSda8pSk3xkmsqSwuvx9
+   Bf7GxY8r+DbNDNdWU31IwLzqgbsaNM1e61z5+DnMILavTH2l6kmPXcT+t
+   F8XZmqF/Y1xqIaxb7qHovkxQ49tRNUDoLzKwVtbyik/nZYK4/EjwGp5m/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="339548604"
 X-IronPort-AV: E=Sophos;i="6.00,204,1681196400"; 
-   d="scan'208";a="441282311"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 07:11:30 -0700
+   d="scan'208";a="339548604"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 08:55:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="830768672"
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="656923475"
 X-IronPort-AV: E=Sophos;i="6.00,204,1681196400"; 
-   d="scan'208";a="830768672"
+   d="scan'208";a="656923475"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 30 May 2023 07:11:23 -0700
+  by orsmga003.jf.intel.com with ESMTP; 30 May 2023 08:55:30 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q404J-0000ap-0k;
-	Tue, 30 May 2023 14:11:23 +0000
-Date: Tue, 30 May 2023 22:10:52 +0800
+	id 1q41h3-0000el-0P;
+	Tue, 30 May 2023 15:55:29 +0000
+Date: Tue, 30 May 2023 23:55:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Evan Quan <evan.quan@amd.com>, rafael@kernel.org, lenb@kernel.org,
-	alexander.deucher@amd.com, christian.koenig@amd.com,
-	Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
-	kvalo@kernel.org, nbd@nbd.name, lorenzo@kernel.org,
-	ryder.lee@mediatek.com, shayne.chen@mediatek.com,
-	sean.wang@mediatek.com, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, Mario.Limonciello@amd.com,
-	Lijo.Lazar@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, ath12k@lists.infradead.org,
-	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, ath11k@lists.infradead.org
-Subject: Re: [PATCH 8/9] drm/amd/pm: enable Wifi RFI mitigation feature
- support for SMU13.0.0
-Message-ID: <202305302142.rrUt4NJV-lkp@intel.com>
-References: <20230530024227.2139632-9-evan.quan@amd.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 1/1] kernel/sched/sched.h:1204:
+ undefined reference to `clock_task_mult'
+Message-ID: <202305302301.524I0mrJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,48 +45,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230530024227.2139632-9-evan.quan@amd.com>
 
-Hi Evan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on kvalo-ath/ath-next wireless-next/main wireless/main linus/master v6.4-rc4]
-[cannot apply to next-20230530]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Evan-Quan/drivers-acpi-Add-support-for-Wifi-band-RF-mitigations/20230530-104541
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230530024227.2139632-9-evan.quan%40amd.com
-patch subject: [PATCH 8/9] drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.0
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230530/202305302142.rrUt4NJV-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   40259b07af18a32a176706341075482aa23d3515
+commit: 4e709a85e578d28a2626832c4f2cf5e9031d435c [1/1] ANDROID: fix kernelci issue for allnoconfig builds
+config: x86_64-randconfig-a012-20230530 (https://download.01.org/0day-ci/archive/20230530/202305302301.524I0mrJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8ecc361da81a0915bb626156b47403a91b678de1
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Evan-Quan/drivers-acpi-Add-support-for-Wifi-band-RF-mitigations/20230530-104541
-        git checkout 8ecc361da81a0915bb626156b47403a91b678de1
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android13-5.10
+        git checkout 4e709a85e578d28a2626832c4f2cf5e9031d435c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305302142.rrUt4NJV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305302301.524I0mrJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.o: in function `smu_v13_0_0_set_wbrf_exclusion_ranges':
->> smu_v13_0_0_ppt.c:(.text+0x1384): undefined reference to `__aeabi_uldivmod'
->> arm-linux-gnueabi-ld: smu_v13_0_0_ppt.c:(.text+0x139c): undefined reference to `__aeabi_uldivmod'
-   arm-linux-gnueabi-ld: smu_v13_0_0_ppt.c:(.text+0x13b0): undefined reference to `__aeabi_uldivmod'
+   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+   ld: kernel/sched/fair.o: in function `rq_clock_task_mult':
+>> kernel/sched/sched.h:1204: undefined reference to `clock_task_mult'
+>> ld: kernel/sched/sched.h:1204: undefined reference to `clock_task_mult'
+>> ld: kernel/sched/sched.h:1204: undefined reference to `clock_task_mult'
+>> ld: kernel/sched/sched.h:1204: undefined reference to `clock_task_mult'
+>> ld: kernel/sched/sched.h:1204: undefined reference to `clock_task_mult'
+   ld: kernel/sched/fair.o:kernel/sched/sched.h:1204: more undefined references to `clock_task_mult' follow
+
+
+vim +1204 kernel/sched/sched.h
+
+  1198	
+  1199	static inline u64 rq_clock_task_mult(struct rq *rq)
+  1200	{
+  1201		lockdep_assert_held(&rq->lock);
+  1202		assert_clock_updated(rq);
+  1203	
+> 1204		return per_cpu(clock_task_mult, cpu_of(rq));
+  1205	}
+  1206	
 
 -- 
 0-DAY CI Kernel Test Service
