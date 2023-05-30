@@ -1,43 +1,54 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305BB206B4
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 19:33:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACE8200AD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 19:43:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685475221; x=1717011221;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HV30SRNr6TuD9f2xAtVKLmnaO2XMVdAA7go/si++uj4=;
-  b=HelADt7i09rrbkVtwoR2ZGipyOWfd99wD8DS/uzQVnjnnjT63whC2JIC
-   +Txf8pQaw2U6gK0/HSqZxw1JAvBq/MUVy/ks85RULx/X8/9Yz17cMf7dC
-   o6FkbHlBsV7XJLxO4gkD1miX/3yvZ+8n9OfxuMSkXczfoc6/cVCv1YtMF
-   jVwJqVnE1d/x4LcFLLg20bL36vvbprwP4VQtswqP/utK16p9bL0deFmhd
-   9w0wJcpfU94P70oArHo8BxDTu+0KByFiBDs6oPjbjhT+bql7iq6UZrPOk
-   vIK3Zgb9Cjbr6rgIAQ0tsA3nwQsyzRtY2ftU86mxS1tS9LwuiG/+eS5We
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="357408083"
+  t=1685475825; x=1717011825;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nvmOvQoNmAoTsH+wEqnxySP1xPrfiw2o/cbFmdtW2O8=;
+  b=SUJRuj8zGDkMsNBWBqi9DuQ/DnpO2dt10OQtWa/2fXsGitHAxinCb1fI
+   CnRXNKVy0DhgxN3cGl8xQe10MpXPNPZSg68uuk/RjiMNi+8pRvj3MCCdz
+   wZrskjlkKUdf3C5RkKkSbWcLN5I3qIISXhbxx43+MOF+8vNmLRoH1R4t4
+   HTqT+y8Kw/n5pbhoeGV3WmSEQ0rrrqYqoQ3T7h9RSC6GrxOFzvG74tRfT
+   9yCNCBAEb6D1aHtfcrsO5hJ0W0jMDKnDrvhdYALrt+KZAxC2ywJ7M3lJd
+   Qf8NfFSGNG4/gZEuv6YayRFgBmKfmfKel7VfJdAKNmdP4vAVDovAL0rNH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="357410331"
 X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="357408083"
+   d="scan'208";a="357410331"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 12:33:40 -0700
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 12:43:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="776473025"
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="776476045"
 X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="776473025"
+   d="scan'208";a="776476045"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 30 May 2023 12:33:39 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 30 May 2023 12:43:39 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q456A-0000lX-2p;
-	Tue, 30 May 2023 19:33:38 +0000
-Date: Wed, 31 May 2023 03:33:00 +0800
+	id 1q45Fr-0000lq-06;
+	Tue, 30 May 2023 19:43:39 +0000
+Date: Wed, 31 May 2023 03:43:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/vfio_device_cdev_v11 32/33] htmldocs:
- Documentation/driver-api/vfio.rst:694: WARNING: Footnote [5] is not
- referenced.
-Message-ID: <202305310337.HB64Vpvz-lkp@intel.com>
+To: Evan Quan <evan.quan@amd.com>, rafael@kernel.org, lenb@kernel.org,
+	alexander.deucher@amd.com, christian.koenig@amd.com,
+	Xinhui.Pan@amd.com, airlied@gmail.com, daniel@ffwll.ch,
+	kvalo@kernel.org, nbd@nbd.name, lorenzo@kernel.org,
+	ryder.lee@mediatek.com, shayne.chen@mediatek.com,
+	sean.wang@mediatek.com, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com, Mario.Limonciello@amd.com,
+	Lijo.Lazar@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, ath12k@lists.infradead.org,
+	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-acpi@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org, ath11k@lists.infradead.org
+Subject: Re: [PATCH 9/9] drm/amd/pm: enable Wifi RFI mitigation feature
+ support for SMU13.0.7
+Message-ID: <202305310314.EAMX2AeE-lkp@intel.com>
+References: <20230530024227.2139632-10-evan.quan@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,62 +57,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230530024227.2139632-10-evan.quan@amd.com>
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/vfio_device_cdev_v11
-head:   3f4a86f74d631a0b5cdcc3a30018941ffb413e6c
-commit: 01cd109fb6734901ac4fc701e3c4188f8b4a84b9 [32/33] docs: vfio: Add vfio device cdev description
-reproduce:
-        # https://github.com/yiliu1765/iommufd/commit/01cd109fb6734901ac4fc701e3c4188f8b4a84b9
-        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
-        git fetch --no-tags yiliu1765-iommufd wip/vfio_device_cdev_v11
-        git checkout 01cd109fb6734901ac4fc701e3c4188f8b4a84b9
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Hi Evan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on kvalo-ath/ath-next wireless-next/main wireless/main]
+[cannot apply to linus/master v6.4-rc4 next-20230530]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Evan-Quan/drivers-acpi-Add-support-for-Wifi-band-RF-mitigations/20230530-104541
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230530024227.2139632-10-evan.quan%40amd.com
+patch subject: [PATCH 9/9] drm/amd/pm: enable Wifi RFI mitigation feature support for SMU13.0.7
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230531/202305310314.EAMX2AeE-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/8c935eeab7a439739f3dd369516f18ddd86ef348
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Evan-Quan/drivers-acpi-Add-support-for-Wifi-band-RF-mitigations/20230530-104541
+        git checkout 8c935eeab7a439739f3dd369516f18ddd86ef348
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305310337.HB64Vpvz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305310314.EAMX2AeE-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Documentation/driver-api/vfio.rst:694: WARNING: Footnote [5] is not referenced.
-
-vim +694 Documentation/driver-api/vfio.rst
-
-   665	
-   666	.. [1] VFIO was originally an acronym for "Virtual Function I/O" in its
-   667	   initial implementation by Tom Lyon while as Cisco.  We've since
-   668	   outgrown the acronym, but it's catchy.
-   669	
-   670	.. [2] "safe" also depends upon a device being "well behaved".  It's
-   671	   possible for multi-function devices to have backdoors between
-   672	   functions and even for single function devices to have alternative
-   673	   access to things like PCI config space through MMIO registers.  To
-   674	   guard against the former we can include additional precautions in the
-   675	   IOMMU driver to group multi-function PCI devices together
-   676	   (iommu=group_mf).  The latter we can't prevent, but the IOMMU should
-   677	   still provide isolation.  For PCI, SR-IOV Virtual Functions are the
-   678	   best indicator of "well behaved", as these are designed for
-   679	   virtualization usage models.
-   680	
-   681	.. [3] As always there are trade-offs to virtual machine device
-   682	   assignment that are beyond the scope of VFIO.  It's expected that
-   683	   future IOMMU technologies will reduce some, but maybe not all, of
-   684	   these trade-offs.
-   685	
-   686	.. [4] In this case the device is below a PCI bridge, so transactions
-   687	   from either function of the device are indistinguishable to the iommu::
-   688	
-   689		-[0000:00]-+-1e.0-[06]--+-0d.0
-   690					\-0d.1
-   691	
-   692		00:1e.0 PCI bridge: Intel Corporation 82801 PCI Bridge (rev 90)
-   693	
- > 694	.. [5] Nested translation is an IOMMU feature which supports two stage
-   695	   address translations.  This improves the address translation efficiency
-   696	   in IOMMU virtualization.
-   697	
+   arm-linux-gnueabi-ld: drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_0_ppt.o: in function `smu_v13_0_0_set_wbrf_exclusion_ranges':
+   smu_v13_0_0_ppt.c:(.text+0xfa8): undefined reference to `__aeabi_uldivmod'
+   arm-linux-gnueabi-ld: smu_v13_0_0_ppt.c:(.text+0xfc0): undefined reference to `__aeabi_uldivmod'
+   arm-linux-gnueabi-ld: smu_v13_0_0_ppt.c:(.text+0xfd4): undefined reference to `__aeabi_uldivmod'
+   arm-linux-gnueabi-ld: drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.o: in function `smu_v13_0_7_set_wbrf_exclusion_ranges':
+>> smu_v13_0_7_ppt.c:(.text+0xe9c): undefined reference to `__aeabi_uldivmod'
+>> arm-linux-gnueabi-ld: smu_v13_0_7_ppt.c:(.text+0xeb4): undefined reference to `__aeabi_uldivmod'
+   arm-linux-gnueabi-ld: drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_7_ppt.o:smu_v13_0_7_ppt.c:(.text+0xec8): more undefined references to `__aeabi_uldivmod' follow
 
 -- 
 0-DAY CI Kernel Test Service
