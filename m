@@ -1,117 +1,117 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5580212B79
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 09:00:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685437221; x=1716973221;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rTflTYiV3VKyBm981Ml2WLipgh57SbrnaZBjjFs8J7A=;
-  b=l/JPiFzk9GF0lbMZ1NSX2MVq2g0fYtmSFGUUNGnQkeb+rx2cgE55IT/x
-   0QpqzHK+mYICQw4lu/+DDHfJJkYO/jsKsSlJE3R0FHhksmySKrZN/t3s8
-   0Kr3P04eYC1S5u0XQvu3ksy3BYWg2jkV9Pf7rMY1vsXExY+EEYkx0bC9m
-   oyFt/BhLeBdrLPbwfry75xuX/OdlMf2+GEMIEdrOwtnTfZuLZ1D0A3lAz
-   GRow4YpBD+QuHUF+MUqpFHeJTtdRubPscEy4wrAkfNV6ot+sZKxfsf+7e
-   ivex6A/hSSfPPjY7/POW8jAK9GTrWBQaYzaT0+va/3uSIqdjveSi6RtEB
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="335207062"
-X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; 
-   d="scan'208";a="335207062"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 02:00:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10725"; a="880689121"
-X-IronPort-AV: E=Sophos;i="6.00,203,1681196400"; 
-   d="scan'208";a="880689121"
-Received: from lkp-server01.sh.intel.com (HELO fd90924b3b99) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 30 May 2023 02:00:16 -0700
-Received: from kbuild by fd90924b3b99 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q3vDE-0000Eo-2X;
-	Tue, 30 May 2023 09:00:16 +0000
-Date: Tue, 30 May 2023 17:00:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sui Jingfeng <suijingfeng@loongson.cn>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Russell King <linux+etnaviv@armlinux.org.uk>,
-	Christian Gmeiner <christian.gmeiner@gmail.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	loongson-kernel@lists.loongnix.cn
-Subject: Re: [PATCH v5 5/6] drm/etnaviv: expand driver support for the PCI
- devices
-Message-ID: <202305301659.4guSLavL-lkp@intel.com>
-References: <20230529172452.2148819-6-suijingfeng@loongson.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788DB125BA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 09:03:11 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-565c9109167so26179027b3.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 02:03:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685437390; x=1688029390;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jltyANNk0K1fvjo+smvqDLimsWHFFV2WMW5ttZVPjPA=;
+        b=inT3qm/ZhTXvwzzScMwSt//utruUpLmOckGvRPGpjbHmkz7Qvzi/5m+yz7eRwhlNeq
+         pOgpkfUS9XtOIgnTtsggki3zh6DJkc0on/k98V9e8Mt1QOdPopRspFP4gIIGi0UIGdG+
+         q4/yRY7nA9uIN5gJJNM8uZ/MwekyipM+i38CfPkt4axTFvY1VYS4qI+WpdRGbPnEOzRY
+         MBq9v5s+OxG1Mn+matJC3MRkGtPCOmVAKFvpiClp9WfT4Yqp7zquXDRhxMIK0LIvxzkS
+         yUpBYHz1ga+KszfPWx+wPIrkU9Iik18lhODuAlmzMek47v6BhZhZk4i1jdOBzujUL8Fc
+         EZKA==
+X-Gm-Message-State: AC+VfDxwW24I0grYiXco31b6FmCbQHE8AXZ3A1mOHnIsHg6J6Klk9bXc
+	jel9oyn6KMWTEjio/cSd97kQ6mMeM10DIw==
+X-Google-Smtp-Source: ACHHUZ4ZNck8eNBD7AevXMdEZ/b8gefdpEI5qQKs7PsCMue37uXSsRu2M/oqY/DPwjQOJkdF8irodg==
+X-Received: by 2002:a81:69c6:0:b0:561:b8a1:e7ef with SMTP id e189-20020a8169c6000000b00561b8a1e7efmr1761991ywc.41.1685437390202;
+        Tue, 30 May 2023 02:03:10 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id o185-20020a8173c2000000b00545a08184edsm4301118ywc.125.2023.05.30.02.03.09
+        for <oe-kbuild-all@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 May 2023 02:03:09 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-565ca65e7ffso25453107b3.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 30 May 2023 02:03:09 -0700 (PDT)
+X-Received: by 2002:a81:a242:0:b0:568:928a:f482 with SMTP id
+ z2-20020a81a242000000b00568928af482mr1598735ywg.24.1685437389317; Tue, 30 May
+ 2023 02:03:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230529172452.2148819-6-suijingfeng@loongson.cn>
+References: <202305301407.z33zOjcG-lkp@intel.com>
+In-Reply-To: <202305301407.z33zOjcG-lkp@intel.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 30 May 2023 11:02:56 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVM1UoJ=s0TvPVcwzvDe1dHxJehL90WacE8ieirNPNwYA@mail.gmail.com>
+Message-ID: <CAMuHMdVM1UoJ=s0TvPVcwzvDe1dHxJehL90WacE8ieirNPNwYA@mail.gmail.com>
+Subject: Re: [linux-stable-rc:queue/5.15 17/69] m68k-linux-ld: section .rodata
+ VMA [00001000,0024925f] overlaps section .text VMA [00000400,00439aff]
+To: kernel test robot <lkp@intel.com>
+Cc: Finn Thain <fthain@linux-m68k.org>, oe-kbuild-all@lists.linux.dev, 
+	Sasha Levin <sashal@kernel.org>, Michael Schmitz <schmitzmic@gmail.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Greg Ungerer <gerg@linux-m68k.org>, 
+	linux-m68k <linux-m68k@lists.linux-m68k.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sui,
+Hi Robot,
 
-kernel test robot noticed the following build errors:
+Thanks for your report!
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4-rc4 next-20230530]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On Tue, May 30, 2023 at 8:09=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stab=
+le-rc.git queue/5.15
+> head:   45d082d2c0daa97f3ea394c47e705afdd1c621e0
+> commit: 43f232d748d57057e2e9dd041907c55177c50cf2 [17/69] m68k: Move signa=
+l frame following exception on 68020/030
+> config: m68k-randconfig-r035-20230530 (https://download.01.org/0day-ci/ar=
+chive/20230530/202305301407.z33zOjcG-lkp@intel.com/config)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sui-Jingfeng/drm-etnaviv-add-a-dedicated-function-to-register-an-irq-handler/20230530-012547
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230529172452.2148819-6-suijingfeng%40loongson.cn
-patch subject: [PATCH v5 5/6] drm/etnaviv: expand driver support for the PCI devices
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230530/202305301659.4guSLavL-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/1d05a5fa048dd4b2a934ffbb07c330ddd9279287
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Sui-Jingfeng/drm-etnaviv-add-a-dedicated-function-to-register-an-irq-handler/20230530-012547
-        git checkout 1d05a5fa048dd4b2a934ffbb07c330ddd9279287
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/gpu/drm/etnaviv/
+FTR, this is a CONFIG_M68000/CONFIG_M68EZ328 config.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305301659.4guSLavL-lkp@intel.com/
+> compiler: m68k-linux-gcc (GCC) 12.3.0
+> reproduce (this is a W=3D1 build):
+>         mkdir -p ~/bin
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-st=
+able-rc.git/commit/?id=3D43f232d748d57057e2e9dd041907c55177c50cf2
+>         git remote add linux-stable-rc https://git.kernel.org/pub/scm/lin=
+ux/kernel/git/stable/linux-stable-rc.git
+>         git fetch --no-tags linux-stable-rc queue/5.15
+>         git checkout 43f232d748d57057e2e9dd041907c55177c50cf2
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.3.0 ~/bin/ma=
+ke.cross W=3D1 O=3Dbuild_dir ARCH=3Dm68k olddefconfig
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.3.0 ~/bin/ma=
+ke.cross W=3D1 O=3Dbuild_dir ARCH=3Dm68k SHELL=3D/bin/bash
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202305301407.z33zOjcG-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> m68k-linux-ld: section .rodata VMA [00001000,0024925f] overlaps sectio=
+n .text VMA [00000400,00439aff]
 
-All errors (new ones prefixed by >>):
+This is not a regression introduced by the aforementioned commit.
+The same issue is present in 5.1.113, 5.1, and v6.4-rc4.
 
-   drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c: In function 'etnaviv_gpu_pci_fini':
->> drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c:32:9: error: implicit declaration of function 'pci_clear_master'; did you mean 'pci_set_master'? [-Werror=implicit-function-declaration]
-      32 |         pci_clear_master(pdev);
-         |         ^~~~~~~~~~~~~~~~
-         |         pci_set_master
-   cc1: some warnings being treated as errors
+Gr{oetje,eeting}s,
 
+                        Geert
 
-vim +32 drivers/gpu/drm/etnaviv/etnaviv_pci_drv.c
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-    27	
-    28	static void etnaviv_gpu_pci_fini(struct etnaviv_gpu *gpu, bool component)
-    29	{
-    30		struct pci_dev *pdev = to_pci_dev(gpu->dev);
-    31	
-  > 32		pci_clear_master(pdev);
-    33	
-    34		dev_dbg(gpu->dev, "component is %s\n",
-    35			component ? "enabled" : "disabled");
-    36	}
-    37	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
