@@ -1,77 +1,120 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91061640A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 14:30:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685543429; x=1717079429;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fZxUHQhX0GyRGtx2OE3MmZh0e8gGy6ik4PE8LpHqXF4=;
-  b=ZJSi6jgR3rRibevceWBeJ3FaN/tlhKQONq0vGGeXO3raiggpRd4mF4WD
-   0GElzsPCzzOcmr3toj2xaLjGJePefO/0VNGoAJ1+tinv8F1satj67++hR
-   sYErz8obl+v7NSSS9E2Wxz4KwiblgarLwkekU3ErtVlLWje7de+b6253d
-   Nsdk0YkbZGp6QXOYdXAtnsKM7gugvtWlkQGPaxc3k3GMLbkGA6O9DUDFA
-   uQTDkW6YVvQuUrUlw43fibSRUDsIwZwhnzAcA0WrP4nQAy/D2H0ThtfgJ
-   w0Q7BU7z5y7GXaBPgHvsBtYLnmJabtoXlzUleKuRL11F00Afwar6ByGda
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="344766423"
-X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="344766423"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 07:30:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="710099538"
-X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="710099538"
-Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 31 May 2023 07:30:26 -0700
-Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q4MqH-0001OV-2M;
-	Wed, 31 May 2023 14:30:25 +0000
-Date: Wed, 31 May 2023 22:30:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:master 26/68] m68k-linux-ld: section .rodata VMA
- [00001000,00529c6f] overlaps section .text VMA [00000400,009429cf]
-Message-ID: <202305312256.B823JJ2Q-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCE9C8E6
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 14:48:59 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-30ae141785bso4978256f8f.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 07:48:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685544537; x=1688136537;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7V4aOa0uoRUYdUYR7nYgnOP0GeYZb+MEHjtYTAKUMpk=;
+        b=I7yQjZAPk+FyhtHqaIyqfNSBEuTn/tUjS1WTW8UzUCyC/TPspyBMOpyTVe5C1UwtkW
+         zBIUHtPdwRHfvbhwsf/wrk3TZBGgEQuIhkgigULoUwO1yazAQEuRaaZsDhHEKsroFnz9
+         jQgMaoPnkbVQ+IkipzRg9w//UbrJh0BjFT0XcgUHj+yvQCQoWs7opHwh2+cwqzFB8tJy
+         eJJxaAvRqAnF2ejEw79yQ0tyHKvikpJApcAM8hzWPj4KKGvU0hKx2liyXjHlLK3+VAYK
+         kOSi+WDzR1BVszmXwArP1TpCqoAjt0XjvrlTm40UldWxydE4tt/pSHH6L2gvKNb2i1LU
+         zpNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685544537; x=1688136537;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7V4aOa0uoRUYdUYR7nYgnOP0GeYZb+MEHjtYTAKUMpk=;
+        b=Ucb7l3DaH44Nw3fBLopUZbHYbU1K7pZGeBP7e/Fa556VcxVEq/v/rS+Sblyuv1U7rv
+         8W0QeTcMjzhh7GPZB7fFYNVkdXQfuveTxrS2p/i/WNBteIVXvmUSee4qETRMVveSpnR+
+         FQKsJoo9mIok/oxYaUg1ciBxH0tDJ1T5wiA4FqrI1NCKbCSMz+/OdRlUMllbk8JekXTT
+         eJt3HLqVQA9vxbqeSj99JX3TCFiQuBYt+ZqYn0i07cgtTnohahoSfBrUw/Z60HZX719L
+         T0h4NMfdlUzbRYoUX3WYGNcjQ1vGdS9jplKV3zrLFUKqesqYxlV2KAk0LC0VddFMXDDJ
+         MvdQ==
+X-Gm-Message-State: AC+VfDzTJiejq3j4jLPVdarQK3ZHrDqF9s/6ZcYDj4U6fT5lyWxGXsyu
+	DgEqlCBvtCTg0VXWYlmE9Lt96FMgwHrQw6BooGY=
+X-Google-Smtp-Source: ACHHUZ76Ha8CZKICeSBhZyU4Oyb1eBY8UiUyGLLhoB9dAjS/BuxWDWVoT4O+XDFk7Ug65aGOLRPzLbhLSjSA+TzBi4Q=
+X-Received: by 2002:adf:d851:0:b0:304:8147:f0ba with SMTP id
+ k17-20020adfd851000000b003048147f0bamr4748357wrl.3.1685544536973; Wed, 31 May
+ 2023 07:48:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230530164004.986750-1-azeemshaikh38@gmail.com>
+ <202305311135.zGMT1gYR-lkp@intel.com> <09A0C6FA-669F-4B73-9620-43AEA17E5D0C@kernel.org>
+ <103925562.158061.1685514200368.JavaMail.zimbra@nod.at> <CAMuHMdU70uRxnMNb8KCJe8M3BRPPxowRXtj+POcrh+KLkfQyAA@mail.gmail.com>
+In-Reply-To: <CAMuHMdU70uRxnMNb8KCJe8M3BRPPxowRXtj+POcrh+KLkfQyAA@mail.gmail.com>
+From: Azeem Shaikh <azeemshaikh38@gmail.com>
+Date: Wed, 31 May 2023 10:48:45 -0400
+Message-ID: <CADmuW3WXDg-5SFXkMDE6BmvSwLNHmXpTzBonaOL8eErc4+d3qQ@mail.gmail.com>
+Subject: Re: [PATCH] uml: Replace all non-returning strlcpy with strscpy
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Richard Weinberger <richard@nod.at>, Kees Cook <kees@kernel.org>, kernel test robot <lkp@intel.com>, 
+	Maxim Krasnyansky <maxk@qti.qualcomm.com>, oe-kbuild-all <oe-kbuild-all@lists.linux.dev>, 
+	linux-hardening@vger.kernel.org, linux-kernel <linux-kernel@vger.kernel.org>, 
+	anton ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	linux-um <linux-um@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   git://linuxtv.org/sailus/media_tree.git master
-head:   397ede0056e7977ee161817e66bff04542f6deac
-commit: e1bac42e19ce0885bdcba2bea6518f96ce04b8b1 [26/68] media: hi846: fix usage of pm_runtime_get_if_in_use()
-config: m68k-buildonly-randconfig-r002-20230531 (https://download.01.org/0day-ci/archive/20230531/202305312256.B823JJ2Q-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add sailus-media-tree git://linuxtv.org/sailus/media_tree.git
-        git fetch --no-tags sailus-media-tree master
-        git checkout e1bac42e19ce0885bdcba2bea6518f96ce04b8b1
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+Thanks Geert and Richard for the review.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305312256.B823JJ2Q-lkp@intel.com/
+On Wed, May 31, 2023 at 4:05=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
+k.org> wrote:
+>
+> On Wed, May 31, 2023 at 8:23=E2=80=AFAM Richard Weinberger <richard@nod.a=
+t> wrote:
+> > ----- Urspr=C3=BCngliche Mail -----
+> > >>>> arch/um/os-Linux/drivers/tuntap_user.c:149:17: error: implicit dec=
+laration of
+> > >>>> function 'strscpy'; did you mean 'strncpy'?
+> > >>>> [-Werror=3Dimplicit-function-declaration]
+> > >>     149 |                 strscpy(ifr.ifr_name, pri->dev_name,
+> > >>     sizeof(ifr.ifr_name));
+> > >>         |                 ^~~~~~~
+> > >>         |                 strncpy
+> > >>   cc1: some warnings being treated as errors
+> > >
+> > > Ah, yeah, this is another "not actually in the kernel" cases. Let's i=
+gnore this
+> > > strlcpy for now.
+> >
+> > Well, actually it's another case of "not even compile tested". :-(
 
-All errors (new ones prefixed by >>):
+Argh, my test script wasn't cross-compiling for um. Sorry about that :(
 
->> m68k-linux-ld: section .rodata VMA [00001000,00529c6f] overlaps section .text VMA [00000400,009429cf]
+> > Well, strlcpy() isn't part of libc either, so all this would need is to
+> > add it to user.h just like strlcpy() is now?
+>
+> I think so.
+> Azeem, can you please test your changes with this fixup applied?
+>
+> diff --git a/arch/um/include/shared/user.h b/arch/um/include/shared/user.=
+h
+> index bda66e5a9d4e3..e5d3fbbafe4d2 100644
+> --- a/arch/um/include/shared/user.h
+> +++ b/arch/um/include/shared/user.h
+> @@ -52,6 +52,7 @@ static inline int printk(const char *fmt, ...)
+>  extern int in_aton(char *str);
+>  extern size_t strlcpy(char *, const char *, size_t);
+>  extern size_t strlcat(char *, const char *, size_t);
+> +extern ssize_t strscpy(char *, const char *, size_t);
+>
+>  /* Copied from linux/compiler-gcc.h since we can't include it directly *=
+/
+>  #define barrier() __asm__ __volatile__("": : :"memory")
+>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Tested with this fixup, and it builds successfully on ARCH=3Dum
+SUBARCH=3Di386. Let me know if I need to test with any other
+cross-compilation options before I send out v2.
+
+>
+> Ah, yeah, this is another "not actually in the kernel" cases. Let's ignor=
+e this strlcpy for now.
+>
+> -Keed
+
+Planning to send out v2 with the fixup from Richard applied. Let me
+know if that's ok.
