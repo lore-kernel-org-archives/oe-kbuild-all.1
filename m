@@ -1,168 +1,96 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FBB10E1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 01:51:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17286A2D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 01:56:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685497914; x=1717033914;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=MqlXND9E88N68vaLNPIVzAU7D02bBI2LQB+kUsXzEfE=;
-  b=gFL7ZmAhERzKkibrOGnmxjxjE2FWBCLaVPTvFzhHn3PImM76I07upHws
-   mPkID58GGanLRjK7+RowV3y9cGockqHBHkt4hjWDStjW1yTVdEqRejjgw
-   M4CsGj1tY1rrYncAUeOovvfFRXtnKTO0ciJ1VDA9If8kvx8q6TdCQDV3e
-   yeLyQDdC5YckD1K+Dfrx7Qzg6fG2iAyEtvWdLKeDgYDx/IMw4yO5qbg18
-   1jWbP6JRsLBCxj2Qm53dyjZ/htJra8gl2GCia+n7vQJu17DWzhsXzjl1j
-   W0H0P4BBp6lOjT1CWgFRXp9O+tatkhgCiK//Ug3uukMwz37NgW8i47BKD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="344608167"
+  t=1685498215; x=1717034215;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tOkw6m2VVzV2BZPxty9ha1KSowUGEYzrh7agDrhOgUY=;
+  b=n8hc9NKTwE4KWoroqKcFuf+fDmzv/kLdzWwD9OVK9prTNcuD5N75I8Vg
+   eYvbDuz4RUMasP+2fwRPm9zjgreesjHrbThjgXJ+lLqq0+fYStv6Bd/lq
+   YKkA5ayPfPLwjnzTuANtzjuHW3ybPNQ4eTJ7FyolqtQ0iRMMX5IbSrX6Q
+   4oVEvAsqeGjEzm5MuaqfsMPzNsCWuchQ2eDj1A0fwp4RFadK7/i3dPgM7
+   F5y4x5MvlIhRcqZGojUSHDmXews791zDCEdSbO1mJhdXC0ZFnakAwsY39
+   mWfm2WlvnGbE3aIwUuDYFPmfF/AkuLsK+QJ/zOpG6p+gKmCatKUHnYhwN
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="344609143"
 X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="344608167"
+   d="scan'208";a="344609143"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 18:51:48 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 18:56:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="796494315"
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="796495005"
 X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="796494315"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by FMSMGA003.fm.intel.com with ESMTP; 30 May 2023 18:51:47 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 30 May 2023 18:51:46 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 30 May 2023 18:51:46 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Tue, 30 May 2023 18:51:46 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.46) by
- edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Tue, 30 May 2023 18:51:45 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a6Fqv9NpbPn+BrBfKwBn4oVBvQq3nDdSAKFzkU/eOu27nVloeasY1hLexBjiAeMe52TV8fSW4xcJ83wTTz0GUi3qc7HyAZkAxMgJg204udYMNHfJiX7TTEXKCFhyOhr8LvLeriAY7/3YbivZCTSgh2GWMUY8ed6OuBHXdNL40GLVZ+6zHbRlHQPHZEFmyG1FOUMywBzxvX6rRgiw/MYIH9qiw0mW/V971fT9BaX3zc60r7tmkr79QhoO3TedgpgvVulvA2Lu1XlbLkxfW/YOPsFdF5eXKm9sDcQ427DM+la9yXmoPWjj0+G3k0TUDqsp7qI0Q/hSrELxtmNBo2mQkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bfPxXIxr/tdZJ3lMl6u/+9IblvycoLdchVVNMbdBdzA=;
- b=aa1YScqkve5x/uEiaLzBvU8oemUKK2lcj02cek0pftqwcYOiLBOX8R2blGGlw12eOSmy9UGlyOoVKwMNS4mDEkUajyi0KytHdTE8ojYUXwIkZGOpVAW97EO8GcUZA4ah7BO4q7J8e4O92UyHtYiwEOZrWWT+F9HSPtWeAA4Ric4N/eMj9sro1vMVFoOyU1VFDQ2a7ikXC5gmzf+MDmMx4vvve1ahZmppzJ63iaollmo+hgQtybq5X8FywmeF2spMVYjsSBbv7gO+tvKeSV8xLLqMsXQbqa3pH8iqX0S4IH5cdPBfil5NvqWtpNlPunqs9JaB8k69BxTq93PeXsK9Pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
- by PH0PR11MB7586.namprd11.prod.outlook.com (2603:10b6:510:26e::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.23; Wed, 31 May
- 2023 01:51:42 +0000
-Received: from BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::8be:ff0e:230e:ebf8]) by BL0PR11MB2995.namprd11.prod.outlook.com
- ([fe80::8be:ff0e:230e:ebf8%3]) with mapi id 15.20.6433.022; Wed, 31 May 2023
- 01:51:42 +0000
-Date: Wed, 31 May 2023 09:51:31 +0800
-From: Philip Li <philip.li@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-CC: kernel test robot <lkp@intel.com>, Josh Poimboeuf <jpoimboe@redhat.com>,
-	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Peter
- Zijlstra" <peterz@infradead.org>, Miroslav Benes <mbenes@suse.cz>
-Subject: Re: vmlinux.o: warning: objtool: vmw_port_hb_in+0x1df: return with
- modified stack frame
-Message-ID: <ZHaoI0g7VeeG81tj@rli9-mobl>
-References: <202305160128.ULUxagaV-lkp@intel.com>
- <20230530232925.ovvzpoxxeduru4fj@treble>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230530232925.ovvzpoxxeduru4fj@treble>
-X-ClientProxiedBy: SG2PR04CA0164.apcprd04.prod.outlook.com (2603:1096:4::26)
- To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+   d="scan'208";a="796495005"
+Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 30 May 2023 18:56:53 -0700
+Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q4B52-0000yi-1I;
+	Wed, 31 May 2023 01:56:52 +0000
+Date: Wed, 31 May 2023 09:56:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kees Cook <keescook@chromium.org>
+Subject: cistpl.c:undefined reference to `ioremap'
+Message-ID: <202305310948.KgKox74N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|PH0PR11MB7586:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e743aa1-fbed-4b63-5b65-08db6179944f
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: I3QL4111n/R0GECz0gM9c/xICy5LaN+TTOWK8Nw/mK0fH7t/2llIKUTfKWX5U2z4TMgT76ZHGkfc84gJusHAJU6g82UrwCrThV8V0ccxdw9qBthbBha7j8LmJCysofhbTO0TlEWzGB7btJPKRg73E3Wr4agvwZY0Yrq/VFICkxFufVwdLxp/SmgZ5BxJI43AvBlLi6PpU+2mjrHucsJt3i5h3hOipK0XSkREcOvLn50rPGCB+Uz767zcZIZMG7F/2Xxud6MZo5DjLdLR69uqFIaVv4W0XpS6+Gr9pvFAPTZfrvSuunr9toEn3Ow2bncVnWukNs1B2+aNgvXK3ZGNn2tmqPi0e5ceVWeR5SonlkNd5HuS9NssFZgZ2fhSK4R0qIkdzmMDyfdN/Sq85gRrCrI5sXWul7mSVW1VbwBITsj1dNe6YTK1s+93GflWb+IiwrDYcwd7MfjZTwWdWDRy74LBtn5RmqIafNKWpLtlPaD7oArdg0ar3907aYgrxW9FvTDm/KjrsG+tm3sRKMK/EWkQRZqJkoA/pEQaauvCf8aeadwT801ojrFvG1nhq7qX4cgMRxVEIeXPJST1Kxggug==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(346002)(366004)(39860400002)(396003)(136003)(376002)(451199021)(86362001)(54906003)(478600001)(4326008)(316002)(6916009)(66476007)(66946007)(66556008)(966005)(6666004)(5660300002)(6486002)(33716001)(8676002)(8936002)(41300700001)(44832011)(2906002)(38100700002)(82960400001)(186003)(6512007)(26005)(6506007)(9686003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?M0jQJnjKH3SEv6BbnUqRyt8so8U+e897iocRFOyAAY7vjz6NP4iUcSvy42BK?=
- =?us-ascii?Q?cNHkNpH9o7HMBfBJydhnpHawvGjQRvwzIoFqym3eTANqwka9Q8dIjTTej339?=
- =?us-ascii?Q?Bj1rkBia2+g8kGFJgDGQo6dOy6+jqLY02vh3XH0mLvzoxMYxItHYmyiXuqde?=
- =?us-ascii?Q?+RMqa49r0x9PsrrvVMZpEPH7D8f7g9MQwdLMaTqt0fm5wUjjpllHurWtkpSd?=
- =?us-ascii?Q?M7J2N+KGLYzROIxuq7q3kS40F1vPd1/4LIwOtZJpnzCtfwGkVqsyHHPGcGuT?=
- =?us-ascii?Q?ixrxpmjH0b1WsI9vk+mF9LQK2LLB3ifAphT45UQz0WNK3juxRJ5K8iKgOVQO?=
- =?us-ascii?Q?A9uURqomkle55Gxjmji3Gp1IhVydOjeDqx3taPJB4WVeouXelZvyFLxrP7J2?=
- =?us-ascii?Q?GKX07VwiYb+tYDgvbh2msr1kqU94aiq26LMBUfMDBxon8rRS3QHzOErE/ns7?=
- =?us-ascii?Q?v1V2Iojd9Y+UpVEYVHuCdXq/7NFt9MEtO0lCSlbM8dIqSjlCQLaoCzdHXzCK?=
- =?us-ascii?Q?D5lmB/Kv9Zu/G2HslVi8TQFIsRkMbcLmJ3sLVr2AQlUOum0aZc1Jmk2VDGge?=
- =?us-ascii?Q?0Ux4HPw626Zx8bSmiHbtfNVepLhM+9NYW6HLsXtdiUvG+2TruN7lodXSwQ4i?=
- =?us-ascii?Q?m8+dQB22xqhJoJ2+Kt6BnyDZgKG3qIzSAWl8+130/QnZl45l1qDVodFaAAV4?=
- =?us-ascii?Q?FgnX4DACBwqoVytbWTP+On/cUFp5kdtgKS7iI/5iydkNY9CB5/s+iJ7tuRub?=
- =?us-ascii?Q?LhlPzGAeOGaTZBLBuvOH0ioKuOYjmUJYeAu19RL+x44rUnIUzjrGufbLWsgv?=
- =?us-ascii?Q?X6mwDZmsqT6dZGnF1OBIboleZA9tDYTDlrTBE5fDE64MtNn4Fn9F97fk92pf?=
- =?us-ascii?Q?wgXlp5sdywXn9e9pyWyTXwWpVC0cAhtm2hFWinJMS1iFdzJHjJQ7gvhPwx0e?=
- =?us-ascii?Q?FWiakPhV4zu53neVdpMp3mmjY7EXeFiN8IGla8+4jezkOBDfXsefJYKIGBSv?=
- =?us-ascii?Q?CoXHCQ4WcXBbBnk4zTe/zd72zHqOBO5u+zbLjYLzcr0miaHbb5LSZBOphvnD?=
- =?us-ascii?Q?0O0OhR4BDarrm4aLw6UauuIX0qVhJxBaa5AwjJGW9F24H4kraFxgRu77NOeC?=
- =?us-ascii?Q?iKLKaEu8qCAolnm9i549XqGU2u7HcYtqqoQeKuzLw3CjnJAp+B6SDf8RF16f?=
- =?us-ascii?Q?lmgsk0wXqnEcpOBkyx1vH+lgoyhHmfbGU4vdYXI7Cfahq8Yom2TT0wnqK/Q9?=
- =?us-ascii?Q?pJ6sFWExgyjJHurHfPrN/8CHX8g17YBjwr5Pz2spzEh2ictRdzLomFQDVGbw?=
- =?us-ascii?Q?hJVJfX9rZ9+IYFXr2XqtX/mJpxlKVzDN0bD2MzadWtMHuerGBXvO2mvJUn3i?=
- =?us-ascii?Q?iQJrXUldx0Cdv8OSC6T4fxfQzwbOBlG+ZGFqT141ongyqvym1biDJf+0L3d9?=
- =?us-ascii?Q?vZV7gWElDDUzZRmusjYIXC41ZEreCJH9gzQIpQGktEMAXoOt/YXmmSrIDAst?=
- =?us-ascii?Q?zIX6PE4d4jTSfAp2aa/CukK7GrYu0psYXhDaOJwxKa3GeBIeXyZYFhRPDvbV?=
- =?us-ascii?Q?zrU0baPtxFIyz+GqVAIjuyJOXiDwW+qb+TZy5fZ7?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e743aa1-fbed-4b63-5b65-08db6179944f
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2023 01:51:41.4196
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WzM4m6+aGGn57ViC0hD1ju2spL/u90XcXrR9zsFUbm9BK9AJZh645V49HR6xdH6no+SvyYvEU7W22TikPGS8nA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7586
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, May 30, 2023 at 04:29:25PM -0700, Josh Poimboeuf wrote:
-> On Tue, May 16, 2023 at 01:44:48AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   f1fcbaa18b28dec10281551dfe6ed3a3ed80e3d6
-> > commit: 72064474964724c59ddff58a581a31b1ede75cf9 objtool: Make stack validation frame-pointer-specific
-> > date:   1 year, 1 month ago
-> > config: x86_64-randconfig-x091-20230515
-> > compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-> > reproduce (this is a W=1 build):
-> >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=72064474964724c59ddff58a581a31b1ede75cf9
-> >         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> >         git fetch --no-tags linus master
-> >         git checkout 72064474964724c59ddff58a581a31b1ede75cf9
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-> >         make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
-> > 
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Link: https://lore.kernel.org/oe-kbuild-all/202305160128.ULUxagaV-lkp@intel.com/
-> 
-> A link to the actual config would help...
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   48b1320a674e1ff5de2fad8606bee38f724594dc
+commit: 04b38d012556199ba4c31195940160e0c44c64f0 seccomp: Add missing return in non-void function
+date:   2 years, 5 months ago
+config: s390-randconfig-c041-20230530 (https://download.01.org/0day-ci/archive/20230531/202305310948.KgKox74N-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=04b38d012556199ba4c31195940160e0c44c64f0
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 04b38d012556199ba4c31195940160e0c44c64f0
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
-Hi Josh, here is the link https://lore.kernel.org/oe-kbuild-all/202305160128.ULUxagaV-lkp@intel.com/2-config,
-kindly check.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305310948.KgKox74N-lkp@intel.com/
 
-> 
-> -- 
-> Josh
-> 
+All error/warnings (new ones prefixed by >>):
+
+>> s390-linux-ld: warning: drivers/of/unittest-data/testcases.dtb.o: missing .note.GNU-stack section implies executable stack
+   s390-linux-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+>> s390-linux-ld: warning: drivers/of/unittest-data/testcases.dtb.o: missing .note.GNU-stack section implies executable stack
+   s390-linux-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   s390-linux-ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+   s390-linux-ld: kernel/dma/coherent.o: in function `dma_init_coherent_memory':
+   coherent.c:(.text+0x55c): undefined reference to `memremap'
+   s390-linux-ld: coherent.c:(.text+0x6ca): undefined reference to `memunmap'
+   s390-linux-ld: kernel/dma/coherent.o: in function `dma_declare_coherent_memory':
+   coherent.c:(.text+0xfb4): undefined reference to `memunmap'
+   s390-linux-ld: drivers/phy/ingenic/phy-ingenic-usb.o: in function `ingenic_usb_phy_probe':
+   phy-ingenic-usb.c:(.text+0x7f0): undefined reference to `devm_platform_ioremap_resource'
+   s390-linux-ld: drivers/pcmcia/cistpl.o: in function `set_cis_map':
+>> cistpl.c:(.text+0x1360): undefined reference to `ioremap'
+>> s390-linux-ld: cistpl.c:(.text+0x13fe): undefined reference to `iounmap'
+   s390-linux-ld: cistpl.c:(.text+0x1476): undefined reference to `iounmap'
+>> s390-linux-ld: cistpl.c:(.text+0x14b0): undefined reference to `ioremap'
+   s390-linux-ld: drivers/pcmcia/cistpl.o: in function `release_cis_mem':
+>> cistpl.c:(.text+0x20aa): undefined reference to `iounmap'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
