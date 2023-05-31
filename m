@@ -1,183 +1,135 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A860139A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 00:32:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 612E6A2C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 00:42:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685493174; x=1717029174;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=5xEeiekejREC8LvTn5bR/XyYrA71WsI2XilvH/Jg91Y=;
-  b=VXE6QqbVZK3K66bz4VaNJs0cNk+bj2wmuOQmoFo8RcAPCR6RLLxSSZP+
-   9esGs9HoGzsLkcjeLymWN95MnCNQQm0qbMHCVDCo8xNPfoTuWi2eo3lIg
-   gClK71AMHmb5G52m78fkWK/jgzjfxSMyGkOoM0G4hP+pmM5Ijk3wlmSF5
-   njv4SQUEEEunsAHjyzcK7jj8WtgP42lZo28nukYvngTc8s2jJoDjZk27m
-   Ki69ezW93/hhXTHOoI8XYaXqbD4UuiCQin07nVHv/E4TCLhXSinfKO97T
-   k4dYelvAskPYUpMZj5cp8aITwBHtqyOQUVj0I6DeSA/x344dP2jht9qEz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="441445154"
+  t=1685493773; x=1717029773;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=d4GXZlBoYDVbcqgz3R1ywl5RVrrhSIL0nJ1zmsfc+fw=;
+  b=bmJXY/AlhOcxocUqcZEX/Awmtc41uyg3WsAE0bIHjx5o73qdu8bNj8Vh
+   sNC/iZeMa8i/isxexE18QJ/CJTJtkeYdTC0w27ToRvPC8ES6uvxEmGlDJ
+   5N3c36jM3IshYS7wxwBGE/+1c7JWHCU2bXgKpYZIE1Fb5WZz0wKb/2MgW
+   5Wq72EAk2cKecmAbREd5OLW0RMESYPG6d0lolMAP/5GCjb0Nxxaqt6OZl
+   Tg1sN5PwnI3gjMQCHdAv37RerkjFW2hLm/LQbEXqmsKT71Y3drMk4Fih3
+   wfMH1GF01jRgoNSG39ul5XZmwYg4xf+Zdj+Iuztsy+r/ejkVeDhfvAJ74
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="344593764"
 X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="441445154"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 17:32:53 -0700
+   d="scan'208";a="344593764"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2023 17:42:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="1036803686"
+X-IronPort-AV: E=McAfee;i="6600,9927,10726"; a="706656930"
 X-IronPort-AV: E=Sophos;i="6.00,205,1681196400"; 
-   d="scan'208";a="1036803686"
+   d="scan'208";a="706656930"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 30 May 2023 17:32:50 -0700
+  by orsmga002.jf.intel.com with ESMTP; 30 May 2023 17:42:51 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q49li-0000vz-0c;
-	Wed, 31 May 2023 00:32:50 +0000
-Date: Wed, 31 May 2023 08:32:26 +0800
+	id 1q49vO-0000w7-11;
+	Wed, 31 May 2023 00:42:50 +0000
+Date: Wed, 31 May 2023 08:42:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux@rivosinc.com, Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Joerg Roedel <joro@8bytes.org>
-Subject: Re: [PATCH] riscv: mm: Pre-allocate PGD entries vmalloc/modules area
-Message-ID: <202305310822.dhnyydJC-lkp@intel.com>
-References: <20230529180023.289904-1-bjorn@kernel.org>
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/fam01-next20230530 9/9]
+ include/linux/fortify-string.h:57:33: warning: writing 16 bytes into a
+ region of size 0
+Message-ID: <202305310834.1iGa1DB5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230529180023.289904-1-bjorn@kernel.org>
 
-Hi Björn,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on ac9a78681b921877518763ba0e89202254349d1b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bj-rn-T-pel/riscv-mm-Pre-allocate-PGD-entries-vmalloc-modules-area/20230530-020212
-base:   ac9a78681b921877518763ba0e89202254349d1b
-patch link:    https://lore.kernel.org/r/20230529180023.289904-1-bjorn%40kernel.org
-patch subject: [PATCH] riscv: mm: Pre-allocate PGD entries vmalloc/modules area
-config: riscv-randconfig-r042-20230530 (https://download.01.org/0day-ci/archive/20230531/202305310822.dhnyydJC-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/fam01-next20230530
+head:   a2e8533878017f1874b21d78b6bf08a6c4095365
+commit: a2e8533878017f1874b21d78b6bf08a6c4095365 [9/9] Makefile: Globally enable -Wstringop-overflow
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230531/202305310834.1iGa1DB5-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/9383adbcdfb7f850149742579615e8c174328a78
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Bj-rn-T-pel/riscv-mm-Pre-allocate-PGD-entries-vmalloc-modules-area/20230530-020212
-        git checkout 9383adbcdfb7f850149742579615e8c174328a78
+        # https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/commit/?id=a2e8533878017f1874b21d78b6bf08a6c4095365
+        git remote add gustavoars https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git
+        git fetch --no-tags gustavoars testing/fam01-next20230530
+        git checkout a2e8533878017f1874b21d78b6bf08a6c4095365
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/mm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash fs/omfs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305310822.dhnyydJC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305310834.1iGa1DB5-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/riscv/mm/init.c: In function 'preallocate_pgd_pages_range':
-   arch/riscv/mm/init.c:1381:30: error: implicit declaration of function 'pgd_offset_k'; did you mean 'p4d_offset'? [-Werror=implicit-function-declaration]
-    1381 |                 pgd_t *pgd = pgd_offset_k(addr);
-         |                              ^~~~~~~~~~~~
-         |                              p4d_offset
->> arch/riscv/mm/init.c:1381:30: warning: initialization of 'pgd_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   arch/riscv/mm/init.c:1387:23: error: implicit declaration of function 'p4d_alloc'; did you mean 'd_alloc'? [-Werror=implicit-function-declaration]
-    1387 |                 p4d = p4d_alloc(&init_mm, pgd, addr);
-         |                       ^~~~~~~~~
-         |                       d_alloc
->> arch/riscv/mm/init.c:1387:21: warning: assignment to 'p4d_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1387 |                 p4d = p4d_alloc(&init_mm, pgd, addr);
-         |                     ^
-   arch/riscv/mm/init.c:1395:23: error: implicit declaration of function 'pud_alloc'; did you mean 'd_alloc'? [-Werror=implicit-function-declaration]
-    1395 |                 pud = pud_alloc(&init_mm, p4d, addr);
-         |                       ^~~~~~~~~
-         |                       d_alloc
->> arch/riscv/mm/init.c:1395:21: warning: assignment to 'pud_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1395 |                 pud = pud_alloc(&init_mm, p4d, addr);
-         |                     ^
-   arch/riscv/mm/init.c:1403:23: error: implicit declaration of function 'pmd_alloc'; did you mean 'mm_alloc'? [-Werror=implicit-function-declaration]
-    1403 |                 pmd = pmd_alloc(&init_mm, pud, addr);
-         |                       ^~~~~~~~~
-         |                       mm_alloc
->> arch/riscv/mm/init.c:1403:21: warning: assignment to 'pmd_t *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1403 |                 pmd = pmd_alloc(&init_mm, pud, addr);
-         |                     ^
-   arch/riscv/mm/init.c: In function 'pgtable_cache_init':
-   arch/riscv/mm/init.c:1421:45: error: 'MODULES_VADDR' undeclared (first use in this function)
-    1421 |                 preallocate_pgd_pages_range(MODULES_VADDR, MODULES_END, "bpf/modules");
-         |                                             ^~~~~~~~~~~~~
-   arch/riscv/mm/init.c:1421:45: note: each undeclared identifier is reported only once for each function it appears in
-   arch/riscv/mm/init.c:1421:60: error: 'MODULES_END' undeclared (first use in this function)
-    1421 |                 preallocate_pgd_pages_range(MODULES_VADDR, MODULES_END, "bpf/modules");
-         |                                                            ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from include/linux/string.h:254,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from arch/arm64/include/asm/arch_timer.h:18,
+                    from arch/arm64/include/asm/timex.h:8,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from arch/arm64/include/asm/stat.h:12,
+                    from include/linux/stat.h:6,
+                    from include/linux/module.h:13,
+                    from fs/omfs/file.c:7:
+   fs/omfs/file.c: In function 'omfs_grow_extent':
+>> include/linux/fortify-string.h:57:33: warning: writing 16 bytes into a region of size 0 [-Wstringop-overflow=]
+      57 | #define __underlying_memcpy     __builtin_memcpy
+         |                                 ^
+   include/linux/fortify-string.h:648:9: note: in expansion of macro '__underlying_memcpy'
+     648 |         __underlying_##op(p, q, __fortify_size);                        \
+         |         ^~~~~~~~~~~~~
+   include/linux/fortify-string.h:693:26: note: in expansion of macro '__fortify_memcpy_chk'
+     693 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
+         |                          ^~~~~~~~~~~~~~~~~~~~
+   fs/omfs/file.c:170:9: note: in expansion of macro 'memcpy'
+     170 |         memcpy(terminator, entry, sizeof(struct omfs_extent_entry));
+         |         ^~~~~~
+   In file included from fs/omfs/omfs.h:8,
+                    from fs/omfs/file.c:11:
+   fs/omfs/omfs_fs.h:80:34: note: at offset 16 into destination object 'e_entry' of size 16
+      80 |         struct omfs_extent_entry e_entry;       /* start of extent entries */
+         |                                  ^~~~~~~
 
 
-vim +1381 arch/riscv/mm/init.c
+vim +57 include/linux/fortify-string.h
 
-  1366	
-  1367	#ifdef CONFIG_64BIT
-  1368	/*
-  1369	 * Pre-allocates page-table pages for a specific area in the kernel
-  1370	 * page-table. Only the level which needs to be synchronized between
-  1371	 * all page-tables is allocated because the synchronization can be
-  1372	 * expensive.
-  1373	 */
-  1374	static void __init preallocate_pgd_pages_range(unsigned long start, unsigned long end,
-  1375						       const char *area)
-  1376	{
-  1377		unsigned long addr;
-  1378		const char *lvl;
-  1379	
-  1380		for (addr = start; addr < end && addr >= start; addr = ALIGN(addr + 1, PGDIR_SIZE)) {
-> 1381			pgd_t *pgd = pgd_offset_k(addr);
-  1382			p4d_t *p4d;
-  1383			pud_t *pud;
-  1384			pmd_t *pmd;
-  1385	
-  1386			lvl = "p4d";
-> 1387			p4d = p4d_alloc(&init_mm, pgd, addr);
-  1388			if (!p4d)
-  1389				goto failed;
-  1390	
-  1391			if (pgtable_l5_enabled)
-  1392				continue;
-  1393	
-  1394			lvl = "pud";
-> 1395			pud = pud_alloc(&init_mm, p4d, addr);
-  1396			if (!pud)
-  1397				goto failed;
-  1398	
-  1399			if (pgtable_l4_enabled)
-  1400				continue;
-  1401	
-  1402			lvl = "pmd";
-> 1403			pmd = pmd_alloc(&init_mm, pud, addr);
-  1404			if (!pmd)
-  1405				goto failed;
-  1406		}
-  1407		return;
-  1408	
-  1409	failed:
-  1410		/*
-  1411		 * The pages have to be there now or they will be missing in
-  1412		 * process page-tables later.
-  1413		 */
-  1414		panic("Failed to pre-allocate %s pages for %s area\n", lvl, area);
-  1415	}
-  1416	
+78a498c3a227f2 Alexander Potapenko 2022-10-24  46  
+78a498c3a227f2 Alexander Potapenko 2022-10-24  47  #if defined(__SANITIZE_MEMORY__)
+78a498c3a227f2 Alexander Potapenko 2022-10-24  48  /*
+78a498c3a227f2 Alexander Potapenko 2022-10-24  49   * For KMSAN builds all memcpy/memset/memmove calls should be replaced by the
+78a498c3a227f2 Alexander Potapenko 2022-10-24  50   * corresponding __msan_XXX functions.
+78a498c3a227f2 Alexander Potapenko 2022-10-24  51   */
+78a498c3a227f2 Alexander Potapenko 2022-10-24  52  #include <linux/kmsan_string.h>
+78a498c3a227f2 Alexander Potapenko 2022-10-24  53  #define __underlying_memcpy	__msan_memcpy
+78a498c3a227f2 Alexander Potapenko 2022-10-24  54  #define __underlying_memmove	__msan_memmove
+78a498c3a227f2 Alexander Potapenko 2022-10-24  55  #define __underlying_memset	__msan_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  56  #else
+a28a6e860c6cf2 Francis Laniel      2021-02-25 @57  #define __underlying_memcpy	__builtin_memcpy
+a28a6e860c6cf2 Francis Laniel      2021-02-25  58  #define __underlying_memmove	__builtin_memmove
+a28a6e860c6cf2 Francis Laniel      2021-02-25  59  #define __underlying_memset	__builtin_memset
+78a498c3a227f2 Alexander Potapenko 2022-10-24  60  #endif
+78a498c3a227f2 Alexander Potapenko 2022-10-24  61  
+
+:::::: The code at line 57 was first introduced by commit
+:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
+
+:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
