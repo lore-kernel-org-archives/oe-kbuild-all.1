@@ -1,66 +1,70 @@
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+Received: from sipsolutions.net (s3.sipsolutions.net [144.76.43.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8AE2103
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 06:29:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id E454A63CC10C;
-	Wed, 31 May 2023 08:23:20 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id L1MW3AYx1K1h; Wed, 31 May 2023 08:23:20 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 9E3CC616B2CF;
-	Wed, 31 May 2023 08:23:20 +0200 (CEST)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id sVKUU-jUg0rd; Wed, 31 May 2023 08:23:20 +0200 (CEST)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 7EB866081100;
-	Wed, 31 May 2023 08:23:20 +0200 (CEST)
-Date: Wed, 31 May 2023 08:23:20 +0200 (CEST)
-From: Richard Weinberger <richard@nod.at>
-To: Kees Cook <kees@kernel.org>, Azeem Shaikh <azeemshaikh38@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Maxim Krasnyansky <maxk@qti.qualcomm.com>, 
-	oe-kbuild-all <oe-kbuild-all@lists.linux.dev>, 
-	linux-hardening@vger.kernel.org, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	anton ivanov <anton.ivanov@cambridgegreys.com>, 
-	Johannes Berg <johannes@sipsolutions.net>, 
-	linux-um <linux-um@lists.infradead.org>
-Message-ID: <103925562.158061.1685514200368.JavaMail.zimbra@nod.at>
-In-Reply-To: <09A0C6FA-669F-4B73-9620-43AEA17E5D0C@kernel.org>
-References: <20230530164004.986750-1-azeemshaikh38@gmail.com> <202305311135.zGMT1gYR-lkp@intel.com> <09A0C6FA-669F-4B73-9620-43AEA17E5D0C@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DCB81879
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 06:40:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=OMeS+07AgIwC67dUdNYRuvFtsnzkhUi03Dd3OAGMjZo=;
+	t=1685515210; x=1686724810; b=M0nNu4gJv/bYfJaJBjJnDZkvbs67rkgHOXg3nwmz77hgJVF
+	BuRphXWlWYeIWbMtS/QulkD0LEgN9Fxf8yMoRa4O2L3KnkomSkNS0khMAysPQsPHG8i2Hcm9mkdT/
+	+oT3IuTXWhzYPipwtW1BVNdjEjEdVffTL9pQS6E6LWxBUhGr0EJxFU0nckHgUkLjpge37gQZYS9HB
+	Mk2izR2APTm5VZNpQPCh4m3uh2qaUSHY3zjv+Diz2ZkMK+5ax3wNJzbzHDEtyjWd+5+viJEiKqrUr
+	EWt3+25EDvxSmKWlcmKEXTPoQPVPCuRk5Cvq57grX90LRjBNPeJ9uNbOe/R142KA==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1q4F9q-009CER-0i;
+	Wed, 31 May 2023 08:18:06 +0200
+Message-ID: <8033fb8f9677cf9aae411e97eb554d251ca03011.camel@sipsolutions.net>
 Subject: Re: [PATCH] uml: Replace all non-returning strlcpy with strscpy
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Kees Cook <kees@kernel.org>, kernel test robot <lkp@intel.com>, Azeem
+	Shaikh <azeemshaikh38@gmail.com>, Maxim Krasnyansky <maxk@qti.qualcomm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hardening@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Richard Weinberger <richard@nod.at>, Anton
+ Ivanov <anton.ivanov@cambridgegreys.com>, linux-um@lists.infradead.org
+Date: Wed, 31 May 2023 08:18:00 +0200
+In-Reply-To: <09A0C6FA-669F-4B73-9620-43AEA17E5D0C@kernel.org>
+References: <20230530164004.986750-1-azeemshaikh38@gmail.com>
+	 <202305311135.zGMT1gYR-lkp@intel.com>
+	 <09A0C6FA-669F-4B73-9620-43AEA17E5D0C@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [195.201.40.130]
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF97 (Linux)/8.8.12_GA_3809)
-Thread-Topic: Replace all non-returning strlcpy with strscpy
-Thread-Index: /e3HVPBWZ39oPFmlPQoqSK9b5wqRFQ==
+X-malware-bazaar: not-scanned
 
------ Urspr=C3=BCngliche Mail -----
->>>> arch/um/os-Linux/drivers/tuntap_user.c:149:17: error: implicit declara=
-tion of
->>>> function 'strscpy'; did you mean 'strncpy'?
->>>> [-Werror=3Dimplicit-function-declaration]
->>     149 |                 strscpy(ifr.ifr_name, pri->dev_name,
->>     sizeof(ifr.ifr_name));
->>         |                 ^~~~~~~
->>         |                 strncpy
->>   cc1: some warnings being treated as errors
+
+
+> -		strlcpy(ifr.ifr_name, pri->dev_name,
+> sizeof(ifr.ifr_name));
+> +		strscpy(ifr.ifr_name, pri->dev_name,
+> sizeof(ifr.ifr_name));
+>=20
+
+> >   arch/um/os-Linux/drivers/tuntap_user.c: In function 'tuntap_open':
+> > > > arch/um/os-Linux/drivers/tuntap_user.c:149:17: error: implicit decl=
+aration of function 'strscpy'; did you mean 'strncpy'? [-Werror=3Dimplicit-=
+function-declaration]
+> >     149 |                 strscpy(ifr.ifr_name, pri->dev_name, sizeof(i=
+fr.ifr_name));
+> >         |                 ^~~~~~~
+> >         |                 strncpy
+> >   cc1: some warnings being treated as errors
 >=20
 > Ah, yeah, this is another "not actually in the kernel" cases. Let's ignor=
-e this
-> strlcpy for now.
+e this strlcpy for now.
+>=20
 
-Well, actually it's another case of "not even compile tested". :-(
+Well, strlcpy() isn't part of libc either, so all this would need is to
+add it to user.h just like strlcpy() is now?
 
-Thanks,
-//richard
+johannes
