@@ -1,42 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6E13C0A5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 20:15:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709C21640F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 20:45:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685564150; x=1717100150;
+  t=1685565951; x=1717101951;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Tn5HB199oCYVc9ACurKZqDuP0uSn1yG7XPAIkXAOnh8=;
-  b=gAyDSHUfi6Pq8GmjZHl/G/0zjtp3v2N8eybiCXmMGMnnm8sQYwcBYfIt
-   6YErLe3AyWuCgTmqKwsIfusN8bqMMLNrOLBSaSrqHTqWRFl68DL+bAwWg
-   EPSRfFpj4KhjMwwwbRq3vaDdCWbgw7YFv5w0LEyBBGpiVYGnv/IwuG1m0
-   kBw/Wea+b7GgUUSUBErcGSYHGVR9oYyySwbCJTliF5daPFOgAWrUVWu2i
-   za6VFCOTeqoqjctaoI2hUMdGDk7xh1OjXcNFj9S6NKTgvdxtBBe7ogAL2
-   vcOCBV6iwnbmswZiTCFZz/y9qTVLsGunLkHhomV29PW7XoWmaE2lftAcM
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="344876869"
+  bh=PJW21wJli9qkZ7QXFTSH0/MHI0lm6akAUyC4MCnTY5Y=;
+  b=WOG4V5GsWVolvW5DiFvxb+27kbxYrzmPt+SIQ0ZEBsSwh5fAGUk/OVSW
+   B2cqls2/5WMpHQs84L8zhyTd+/HZDT0TE2FSz195wTzoLVCXUXCMU6bgl
+   /EqUisKkapCwikrXxJT0vX2YqisAUvNMwzK8E3DUXtDrYHCiZG3wQa3UR
+   2fCNPOAe2FIHZavtoFrqwl6uj9VirJg4LRMz69rUrvT29WF5bTcgyjOOZ
+   n1C1eXICg0ouQD5mcknFTpG5KPUXSPjDvjWmnN5Tje8cZpKpbn9HXgmwu
+   wkof6sT0aJnlRGcSuUiZbiTkFRsvH5GTBNJO4WtU+TGWb/cIIZqfte6Ke
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="383626952"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="344876869"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 13:15:39 -0700
+   d="scan'208";a="383626952"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 13:45:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="710196329"
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="740111476"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="710196329"
+   d="scan'208";a="740111476"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 31 May 2023 13:15:38 -0700
+  by orsmga001.jf.intel.com with ESMTP; 31 May 2023 13:45:39 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4SEL-0001Zg-2T;
-	Wed, 31 May 2023 20:15:37 +0000
-Date: Thu, 1 Jun 2023 04:14:44 +0800
+	id 1q4ShO-0001af-1V;
+	Wed, 31 May 2023 20:45:38 +0000
+Date: Thu, 1 Jun 2023 04:45:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:perm_alloc/v0 12/13] arch/s390/kernel/module.c:60:9: error:
- implicit declaration of function 'jit_free'
-Message-ID: <202306010448.alja5q1A-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15-2023-06 938/20126]
+ pda_power.c:undefined reference to `usb_put_phy'
+Message-ID: <202306010413.UZy4mv87-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,70 +46,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git perm_alloc/v0
-head:   a92ef5aa5306aeaadefc1625e1a48c6832aa0a26
-commit: 400757f3295e882e8a562583b8b8ee77e696c47c [12/13] arch: make jitalloc setup available regardless of CONFIG_MODULES
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230601/202306010448.alja5q1A-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
+tree:   https://android.googlesource.com/kernel/common android13-5.15-2023-06
+head:   1247e4a9ca826161b8c13c6422a56ed008dc4de5
+commit: adb016dd5328f53cccfabd3af74fd1be9ca02fad [938/20126] ANDROID: GKI: Enable CONFIG_USB_PHY for usb drivers like dwc3
+config: x86_64-buildonly-randconfig-r006-20230531 (https://download.01.org/0day-ci/archive/20230601/202306010413.UZy4mv87-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/commit/?id=400757f3295e882e8a562583b8b8ee77e696c47c
-        git remote add rppt https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git
-        git fetch --no-tags rppt perm_alloc/v0
-        git checkout 400757f3295e882e8a562583b8b8ee77e696c47c
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android13-5.15-2023-06
+        git checkout adb016dd5328f53cccfabd3af74fd1be9ca02fad
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash arch/s390/kernel/ arch/s390/mm/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306010448.alja5q1A-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306010413.UZy4mv87-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/s390/kernel/module.c: In function 'module_arch_cleanup':
->> arch/s390/kernel/module.c:60:9: error: implicit declaration of function 'jit_free' [-Werror=implicit-function-declaration]
-      60 |         jit_free(mod->arch.trampolines_start);
-         |         ^~~~~~~~
-   arch/s390/kernel/module.c: In function 'module_alloc_ftrace_hotpatch_trampolines':
->> arch/s390/kernel/module.c:493:17: error: implicit declaration of function 'jit_text_alloc' [-Werror=implicit-function-declaration]
-     493 |         start = jit_text_alloc(numpages * PAGE_SIZE);
-         |                 ^~~~~~~~~~~~~~
->> arch/s390/kernel/module.c:493:15: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     493 |         start = jit_text_alloc(numpages * PAGE_SIZE);
-         |               ^
-   arch/s390/kernel/module.c: At top level:
-   arch/s390/kernel/module.c:39:22: warning: 'get_module_load_offset' defined but not used [-Wunused-function]
-      39 | static unsigned long get_module_load_offset(void)
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   arch/s390/mm/init.c: In function 'jit_alloc_arch_params':
->> arch/s390/mm/init.c:325:55: error: implicit declaration of function 'get_module_load_offset' [-Werror=implicit-function-declaration]
-     325 |         jit_alloc_params.text.start = MODULES_VADDR + get_module_load_offset();
-         |                                                       ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   ld: drivers/power/supply/pda_power.o: in function `pda_power_remove':
+>> pda_power.c:(.text+0xb18): undefined reference to `usb_put_phy'
+   ld: drivers/power/supply/pda_power.o: in function `pda_power_probe':
+>> pda_power.c:(.text+0xecd): undefined reference to `usb_get_phy'
+   ld: drivers/power/supply/pda_power.o: in function `pda_power_probe.cold':
+>> pda_power.c:(.text.unlikely+0x17c): undefined reference to `usb_put_phy'
+   ld: drivers/power/supply/wm831x_power.o: in function `wm831x_power_probe':
+>> wm831x_power.c:(.text+0x1146): undefined reference to `devm_usb_get_phy_by_phandle'
+   ld: drivers/power/supply/isp1704_charger.o: in function `isp1704_charger_probe':
+>> isp1704_charger.c:(.text+0x22a): undefined reference to `devm_usb_get_phy_by_phandle'
+>> ld: isp1704_charger.c:(.text+0x636): undefined reference to `devm_usb_get_phy'
+   ld: drivers/power/supply/bq25890_charger.o: in function `bq25890_probe':
+>> bq25890_charger.c:(.text+0xf1c): undefined reference to `devm_usb_get_phy'
+   ld: sound/core/jack.o: in function `snd_jack_dev_disconnect':
+   jack.c:(.text+0x3f): undefined reference to `input_free_device'
+   ld: jack.c:(.text+0x65): undefined reference to `input_unregister_device'
+   ld: sound/core/jack.o: in function `snd_jack_dev_register':
+   jack.c:(.text+0x13c): undefined reference to `input_set_capability'
+   ld: jack.c:(.text+0x16f): undefined reference to `input_register_device'
+   ld: sound/core/jack.o: in function `snd_jack_dev_free':
+   jack.c:(.text+0x3f6): undefined reference to `input_free_device'
+   ld: jack.c:(.text+0x437): undefined reference to `input_unregister_device'
+   ld: sound/core/jack.o: in function `snd_jack_new':
+   jack.c:(.text+0x596): undefined reference to `input_allocate_device'
+   ld: jack.c:(.text+0x616): undefined reference to `input_set_capability'
+   ld: jack.c:(.text+0x6fd): undefined reference to `input_free_device'
+   ld: sound/core/jack.o: in function `snd_jack_report':
+   jack.c:(.text+0x951): undefined reference to `input_event'
+   ld: jack.c:(.text+0x978): undefined reference to `input_event'
+   ld: jack.c:(.text+0xa0a): undefined reference to `input_event'
 
-
-vim +/jit_free +60 arch/s390/kernel/module.c
-
-34644cc2e15a7a Heiko Carstens      2023-03-31  56  
-de5012b41e5c90 Ilya Leoshkevich    2021-07-28  57  #ifdef CONFIG_FUNCTION_TRACER
-de5012b41e5c90 Ilya Leoshkevich    2021-07-28  58  void module_arch_cleanup(struct module *mod)
-de5012b41e5c90 Ilya Leoshkevich    2021-07-28  59  {
-f5684bcd2a7053 Mike Rapoport (IBM  2023-05-28 @60) 	jit_free(mod->arch.trampolines_start);
-de5012b41e5c90 Ilya Leoshkevich    2021-07-28  61  }
-de5012b41e5c90 Ilya Leoshkevich    2021-07-28  62  #endif
-de5012b41e5c90 Ilya Leoshkevich    2021-07-28  63  
-
-:::::: The code at line 60 was first introduced by commit
-:::::: f5684bcd2a7053512001491bb5083900bd98e746 mm: introduce jit_text_alloc() and use it instead of module_alloc()
-
-:::::: TO: Mike Rapoport (IBM) <rppt@kernel.org>
-:::::: CC: Mike Rapoport (IBM) <rppt@kernel.org>
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 -- 
 0-DAY CI Kernel Test Service
