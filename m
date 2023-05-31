@@ -1,44 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00EB81428A;
-	Wed, 31 May 2023 12:14:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B26A936
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 13:27:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685535259; x=1717071259;
+  t=1685539658; x=1717075658;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c+3ELCwsKWSp16IufrALk7rMkIvBjHSpjrxmjqta4CE=;
-  b=C9RMS5m9ouYOmcDL5HcLOCCe86LJf7zmKeHXLbNznAPN/IAmgLpP9tcH
-   Lsk2rW/2XHes5U8Buo/PyL+PdB2pIPkybMViaom8mnxq0wUTtOroz3RBv
-   3UtrEwc0ajY3xNNUrq47V1JjG+BFPLKCMjJ4GULNaF+tEIBhk7E85xld7
-   J7xhE3qMRAf2T4oEMzssUVDvQEOtewucGS8hyF9WI5GEGtnJHAMog+ook
-   p2ErV8rjgMk3uNZlrkAjvQj2gMeokxrJ/so2aGEmZNAduHnBStQvnpFP9
-   FRVK/7khjsyTJPyqeoAkoeWpWvduoR+VtzfgRcdRox97bct9y1SStKloP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="418710881"
+  bh=lBjpakHPVkRw+zNYtsuDFlJil+rq89a5vjIgmUHclwY=;
+  b=k2XQkQXRUtQwoqR2cPcPhL5jkx5BS/gSMNT7uLntGjNbcB3ZEMuLLtU0
+   vqFY1mfZjAw0MUv+k4c20AyVnHmNMXT3ssw8dbba1BOXqK0xaNwuSU20l
+   w+QHmjQPltuiOZ+4Jq7RB53b3/Nx9la9NGbTRB9Ty85q9NFYqOaaTE5Tc
+   jeAMaAQVlO5XbK5EmnXEzg9L7lAQcKQGQh83dp+iZ1ysAEOli8YwmdlL1
+   7rvUg/M1vLGOhMr26LsG72KzokhwV+qy5IRQ12eUmeYDCNQMKHaI/kbGl
+   loIRrd5dcOlQS5pye6xT9KDK8mH6CvGJaFUlHYUiIneT5NINkuwJeviz2
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="339828747"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="418710881"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 05:14:19 -0700
+   d="scan'208";a="339828747"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 06:27:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="736647459"
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="706908173"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="736647459"
+   d="scan'208";a="706908173"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 31 May 2023 05:14:17 -0700
+  by orsmga002.jf.intel.com with ESMTP; 31 May 2023 06:27:23 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4KiX-0001Ig-0E;
-	Wed, 31 May 2023 12:14:17 +0000
-Date: Wed, 31 May 2023 20:14:12 +0800
+	id 1q4LrI-0001Md-0B;
+	Wed, 31 May 2023 13:27:24 +0000
+Date: Wed, 31 May 2023 21:26:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ammar Faizi <ammarfaizi2@gnuweeb.org>,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: [ammarfaizi2-block:testing/af/home 3/8] kernel/workqueue.c:4421:5:
- warning: no previous prototype for function 'set_workqueue_cpumask'
-Message-ID: <202305312023.upvkP9at-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15-2022-12 2627/16393]
+ include/linux/compiler_types.h:140:41: error: invalid use of undefined type
+ 'struct module'
+Message-ID: <202305312126.GIjmHpBP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,107 +47,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ammarfaizi2/linux-block testing/af/home
-head:   51fb2efd62ae52dc061dbca301fb823357fb3f80
-commit: 6436622d20b564a334e4bc0bc5019c82a592dd08 [3/8] workqueue: Add set_workqueue_cpumask() helper function
-config: hexagon-randconfig-r041-20230531 (https://download.01.org/0day-ci/archive/20230531/202305312023.upvkP9at-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
+Hi Jone,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android13-5.15-2022-12
+head:   f2d0d2e529a2b7eb25e51e5e7fd99793854c31b8
+commit: 180f8b73199bd665c03ff43853170280fc82e02d [2627/16393] ANDROID: kernel: add module info for debug_kinfo
+config: i386-buildonly-randconfig-r006-20230531 (https://download.01.org/0day-ci/archive/20230531/202305312126.GIjmHpBP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/ammarfaizi2/linux-block/commit/6436622d20b564a334e4bc0bc5019c82a592dd08
-        git remote add ammarfaizi2-block https://github.com/ammarfaizi2/linux-block
-        git fetch --no-tags ammarfaizi2-block testing/af/home
-        git checkout 6436622d20b564a334e4bc0bc5019c82a592dd08
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android13-5.15-2022-12
+        git checkout 180f8b73199bd665c03ff43853170280fc82e02d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/android/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305312023.upvkP9at-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305312126.GIjmHpBP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/workqueue.c:39:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from kernel/workqueue.c:39:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from kernel/workqueue.c:39:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> kernel/workqueue.c:4421:5: warning: no previous prototype for function 'set_workqueue_cpumask' [-Wmissing-prototypes]
-   int set_workqueue_cpumask(struct workqueue_struct *wq, const cpumask_var_t mask)
-       ^
-   kernel/workqueue.c:4421:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int set_workqueue_cpumask(struct workqueue_struct *wq, const cpumask_var_t mask)
-   ^
-   static 
-   7 warnings generated.
+   In file included from <command-line>:
+   drivers/staging/android/debug_kinfo.c: In function 'debug_kinfo_probe':
+>> include/linux/compiler_types.h:140:41: error: invalid use of undefined type 'struct module'
+     140 | #define __compiler_offsetof(a, b)       __builtin_offsetof(a, b)
+         |                                         ^~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:17:33: note: in expansion of macro '__compiler_offsetof'
+      17 | #define offsetof(TYPE, MEMBER)  __compiler_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~~
+   drivers/staging/android/debug_kinfo.c:162:40: note: in expansion of macro 'offsetof'
+     162 |         info->mod_core_layout_offset = offsetof(struct module, core_layout);
+         |                                        ^~~~~~~~
+>> include/linux/compiler_types.h:140:41: error: invalid use of undefined type 'struct module'
+     140 | #define __compiler_offsetof(a, b)       __builtin_offsetof(a, b)
+         |                                         ^~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:17:33: note: in expansion of macro '__compiler_offsetof'
+      17 | #define offsetof(TYPE, MEMBER)  __compiler_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~~
+   drivers/staging/android/debug_kinfo.c:163:40: note: in expansion of macro 'offsetof'
+     163 |         info->mod_init_layout_offset = offsetof(struct module, init_layout);
+         |                                        ^~~~~~~~
+>> include/linux/compiler_types.h:140:41: error: invalid use of undefined type 'struct module'
+     140 | #define __compiler_offsetof(a, b)       __builtin_offsetof(a, b)
+         |                                         ^~~~~~~~~~~~~~~~~~
+   include/linux/stddef.h:17:33: note: in expansion of macro '__compiler_offsetof'
+      17 | #define offsetof(TYPE, MEMBER)  __compiler_offsetof(TYPE, MEMBER)
+         |                                 ^~~~~~~~~~~~~~~~~~~
+   drivers/staging/android/debug_kinfo.c:164:37: note: in expansion of macro 'offsetof'
+     164 |         info->mod_kallsyms_offset = offsetof(struct module, kallsyms);
+         |                                     ^~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=y] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
 
 
-vim +/set_workqueue_cpumask +4421 kernel/workqueue.c
+vim +140 include/linux/compiler_types.h
 
-  4420	
-> 4421	int set_workqueue_cpumask(struct workqueue_struct *wq, const cpumask_var_t mask)
-  4422	{
-  4423		struct workqueue_attrs *tmp_attrs;
-  4424		int ret;
-  4425	
-  4426		tmp_attrs = alloc_workqueue_attrs();
-  4427		if (!tmp_attrs)
-  4428			return -ENOMEM;
-  4429	
-  4430		apply_wqattrs_lock();
-  4431		copy_workqueue_attrs(tmp_attrs, wq->unbound_attrs);
-  4432		cpumask_copy(tmp_attrs->cpumask, mask);
-  4433		ret = apply_workqueue_attrs_locked(wq, tmp_attrs);
-  4434		apply_wqattrs_unlock();
-  4435		free_workqueue_attrs(tmp_attrs);
-  4436		return ret;
-  4437	}
-  4438	EXPORT_SYMBOL_GPL(set_workqueue_cpumask);
-  4439	
+71391bdd2e9aab Xiaozhou Liu 2018-12-14  139  
+71391bdd2e9aab Xiaozhou Liu 2018-12-14 @140  #define __compiler_offsetof(a, b)	__builtin_offsetof(a, b)
+71391bdd2e9aab Xiaozhou Liu 2018-12-14  141  
+
+:::::: The code at line 140 was first introduced by commit
+:::::: 71391bdd2e9aab188f86bf1ecd9b232531ec7eea include/linux/compiler_types.h: don't pollute userspace with macro definitions
+
+:::::: TO: Xiaozhou Liu <liuxiaozhou@bytedance.com>
+:::::: CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
