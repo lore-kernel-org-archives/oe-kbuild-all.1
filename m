@@ -1,43 +1,60 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B26A936
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 13:27:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8041B14290;
+	Wed, 31 May 2023 13:37:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685539658; x=1717075658;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lBjpakHPVkRw+zNYtsuDFlJil+rq89a5vjIgmUHclwY=;
-  b=k2XQkQXRUtQwoqR2cPcPhL5jkx5BS/gSMNT7uLntGjNbcB3ZEMuLLtU0
-   vqFY1mfZjAw0MUv+k4c20AyVnHmNMXT3ssw8dbba1BOXqK0xaNwuSU20l
-   w+QHmjQPltuiOZ+4Jq7RB53b3/Nx9la9NGbTRB9Ty85q9NFYqOaaTE5Tc
-   jeAMaAQVlO5XbK5EmnXEzg9L7lAQcKQGQh83dp+iZ1ysAEOli8YwmdlL1
-   7rvUg/M1vLGOhMr26LsG72KzokhwV+qy5IRQ12eUmeYDCNQMKHaI/kbGl
-   loIRrd5dcOlQS5pye6xT9KDK8mH6CvGJaFUlHYUiIneT5NINkuwJeviz2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="339828747"
+  t=1685540251; x=1717076251;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4j+SR6j6Y91MTRtLsgAmtEiec0cpzY168prO2t2ffXI=;
+  b=QwiOrhxXqu8xzIkBlfyR1A4WYFd0Zlhe2q+F1oe/KDJVD4A1Js4SnhGp
+   0sneh+JEp/EW7Py/XTnxmneL3TLE3lJjknty80kmnLqYxIWc7/BPav+GX
+   yPxKCxDdCMtdxNLjNMJQF6ZmgUUxTxys7imWPJ51zVOwGcVsvWcIdbR8f
+   VDFORMg90Oh2y74i8vVuwQ3G8cIQyrVc8C9ZOaLaZYFSKpu8qAuF+OkkX
+   0hmn4dMk4x7ZnlMkZUA9H55tIXeSnAbCU/ZnMaX1GO1Nz2HxfczxHbYMN
+   +BUivC13agqRZmlw/e9aO6dzqC30ZPpf+DojIB8DD3zMD8+LHx+RHipsi
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="421005393"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="339828747"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 06:27:32 -0700
+   d="scan'208";a="421005393"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 06:37:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="706908173"
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="736673988"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="706908173"
+   d="scan'208";a="736673988"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 31 May 2023 06:27:23 -0700
+  by orsmga008.jf.intel.com with ESMTP; 31 May 2023 06:37:25 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4LrI-0001Md-0B;
-	Wed, 31 May 2023 13:27:24 +0000
-Date: Wed, 31 May 2023 21:26:27 +0800
+	id 1q4M0y-0001Mx-1R;
+	Wed, 31 May 2023 13:37:24 +0000
+Date: Wed, 31 May 2023 21:36:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15-2022-12 2627/16393]
- include/linux/compiler_types.h:140:41: error: invalid use of undefined type
- 'struct module'
-Message-ID: <202305312126.GIjmHpBP-lkp@intel.com>
+To: Breno Leitao <leitao@debian.org>, dsahern@kernel.org,
+	willemdebruijn.kernel@gmail.com,
+	Remi Denis-Courmont <courmisch@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Stefan Schmidt <stefan@datenfreihafen.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Matthieu Baerts <matthieu.baerts@tessares.net>,
+	Mat Martineau <martineau@kernel.org>,
+	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
+	Xin Long <lucien.xin@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, leit@fb.com,
+	axboe@kernel.dk, asml.silence@gmail.com,
+	linux-kernel@vger.kernel.org, dccp@vger.kernel.org,
+	linux-wpan@vger.kernel.org, mptcp@lists.linux.dev,
+	linux-sctp@vger.kernel.org
+Subject: Re: [PATCH net-next v4] net: ioctl: Use kernel memory on protocol
+ ioctl callbacks
+Message-ID: <202305312111.1m4i6rKU-lkp@intel.com>
+References: <20230530175403.2434218-1-leitao@debian.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,115 +63,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230530175403.2434218-1-leitao@debian.org>
 
-Hi Jone,
+Hi Breno,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android13-5.15-2022-12
-head:   f2d0d2e529a2b7eb25e51e5e7fd99793854c31b8
-commit: 180f8b73199bd665c03ff43853170280fc82e02d [2627/16393] ANDROID: kernel: add module info for debug_kinfo
-config: i386-buildonly-randconfig-r006-20230531 (https://download.01.org/0day-ci/archive/20230531/202305312126.GIjmHpBP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/net-ioctl-Use-kernel-memory-on-protocol-ioctl-callbacks/20230531-015554
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230530175403.2434218-1-leitao%40debian.org
+patch subject: [PATCH net-next v4] net: ioctl: Use kernel memory on protocol ioctl callbacks
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230531/202305312111.1m4i6rKU-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android13-5.15-2022-12
-        git checkout 180f8b73199bd665c03ff43853170280fc82e02d
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/f97a3206f5ae59ecb0c7105225c5230b343c6c54
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Breno-Leitao/net-ioctl-Use-kernel-memory-on-protocol-ioctl-callbacks/20230531-015554
+        git checkout f97a3206f5ae59ecb0c7105225c5230b343c6c54
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/android/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305312126.GIjmHpBP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305312111.1m4i6rKU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   drivers/staging/android/debug_kinfo.c: In function 'debug_kinfo_probe':
->> include/linux/compiler_types.h:140:41: error: invalid use of undefined type 'struct module'
-     140 | #define __compiler_offsetof(a, b)       __builtin_offsetof(a, b)
-         |                                         ^~~~~~~~~~~~~~~~~~
-   include/linux/stddef.h:17:33: note: in expansion of macro '__compiler_offsetof'
-      17 | #define offsetof(TYPE, MEMBER)  __compiler_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~~
-   drivers/staging/android/debug_kinfo.c:162:40: note: in expansion of macro 'offsetof'
-     162 |         info->mod_core_layout_offset = offsetof(struct module, core_layout);
-         |                                        ^~~~~~~~
->> include/linux/compiler_types.h:140:41: error: invalid use of undefined type 'struct module'
-     140 | #define __compiler_offsetof(a, b)       __builtin_offsetof(a, b)
-         |                                         ^~~~~~~~~~~~~~~~~~
-   include/linux/stddef.h:17:33: note: in expansion of macro '__compiler_offsetof'
-      17 | #define offsetof(TYPE, MEMBER)  __compiler_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~~
-   drivers/staging/android/debug_kinfo.c:163:40: note: in expansion of macro 'offsetof'
-     163 |         info->mod_init_layout_offset = offsetof(struct module, init_layout);
-         |                                        ^~~~~~~~
->> include/linux/compiler_types.h:140:41: error: invalid use of undefined type 'struct module'
-     140 | #define __compiler_offsetof(a, b)       __builtin_offsetof(a, b)
-         |                                         ^~~~~~~~~~~~~~~~~~
-   include/linux/stddef.h:17:33: note: in expansion of macro '__compiler_offsetof'
-      17 | #define offsetof(TYPE, MEMBER)  __compiler_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~~
-   drivers/staging/android/debug_kinfo.c:164:37: note: in expansion of macro 'offsetof'
-     164 |         info->mod_kallsyms_offset = offsetof(struct module, kallsyms);
-         |                                     ^~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=y] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-
-
-vim +140 include/linux/compiler_types.h
-
-71391bdd2e9aab Xiaozhou Liu 2018-12-14  139  
-71391bdd2e9aab Xiaozhou Liu 2018-12-14 @140  #define __compiler_offsetof(a, b)	__builtin_offsetof(a, b)
-71391bdd2e9aab Xiaozhou Liu 2018-12-14  141  
-
-:::::: The code at line 140 was first introduced by commit
-:::::: 71391bdd2e9aab188f86bf1ecd9b232531ec7eea include/linux/compiler_types.h: don't pollute userspace with macro definitions
-
-:::::: TO: Xiaozhou Liu <liuxiaozhou@bytedance.com>
-:::::: CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+   m68k-linux-ld: net/core/sock.o: in function `sk_ioctl':
+>> sock.c:(.text+0xc7e): undefined reference to `ip6mr_sk_ioctl'
 
 -- 
 0-DAY CI Kernel Test Service
