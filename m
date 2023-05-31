@@ -1,103 +1,110 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B991773E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 16:17:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50F314294
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 16:46:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685549843; x=1717085843;
+  t=1685551598; x=1717087598;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=NP8J/yvcR/yss1+daiu7aMG7qEaHT3dVfT6aXQ7JXm8=;
-  b=eeoJyLcXvVhjwvoK5fNVynjwQa+1vy3E2khe1bJ9391wWz7qFWaxJn9+
-   8VflVa5XiVtoVoW/0PNyyrR9SpRXQ3Z2p0b+T9ZUi17t3Pnnh6jUCh7lP
-   +Egiq9DVfIQdmLQ4IpbU+yHMxWpQLhtUsoGhXbexgoS3x6MCB89fVlq1X
-   kJIhWaSU/YOqGvGfBO7arQf2bgxseWTRFvNnMMl3U3+2bb7gR1mteQmqy
-   bVWWjWEo/EtpiA2+5hQmDa2TjlZzJJdooXHtOkopSylA1EM9KgzRl9UrO
-   flAtge3aIW5m/clNEuwsymBfC3mDl0yjO7y99sXLUJKFs95MPOe7ILxCk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="383550891"
+   mime-version:in-reply-to;
+  bh=S7ccSR/H+xAbzBgPH3RTweUwUU/MzIY0d2tD4VLFzRY=;
+  b=c8uOgdc569V6OnC1UgnOQLZeTBFExzVm9aRFyFEQ82jjvJdoJz3FcCN7
+   /t5iEOls1AhtMrHK6NB4ud4LEKmXwdYTY65mUN+qtNPF2PCk8+23s5s6w
+   BfU0G/CyKdOH3j6FXjY64ZtFqXVK4ZZ/1nUthniQZDL+OhXELj4dtWXAp
+   F7prCzbssuiQPZa2ZA37C16YeMvYYNBmGrft/XyhkeTkomeCt9J5UIDVo
+   Vlaye/brKNbNreGIDiRhEslC7o6pAPxxGgIAuotNiOLWwbIUsf+hLUti/
+   yHINo1LDEuvMlnK46QqjErhDTzt8/hagWbl3J+YzZw+QRpeS7dRacBtzb
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="354138629"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="383550891"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 09:14:34 -0700
+   d="scan'208";a="354138629"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 09:46:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="1037117690"
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="796775222"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="1037117690"
+   d="scan'208";a="796775222"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 31 May 2023 09:14:31 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 31 May 2023 09:46:34 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4OT0-0001Tr-3A;
-	Wed, 31 May 2023 16:14:30 +0000
-Date: Thu, 1 Jun 2023 00:13:40 +0800
+	id 1q4Oy1-0001Ut-1R;
+	Wed, 31 May 2023 16:46:33 +0000
+Date: Thu, 1 Jun 2023 00:45:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yang Li <yang.lee@linux.alibaba.com>, airlied@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, tvrtko.ursulin@linux.intel.com,
-	intel-gfx@lists.freedesktop.org,
-	Abaci Robot <abaci@linux.alibaba.com>, linux-kernel@vger.kernel.org,
-	Yang Li <yang.lee@linux.alibaba.com>,
-	dri-devel@lists.freedesktop.org, rodrigo.vivi@intel.com
-Subject: Re: [PATCH -next] drm/i915: remove unreachable code
-Message-ID: <202306010001.gUxZYcyb-lkp@intel.com>
-References: <20230531021714.125078-1-yang.lee@linux.alibaba.com>
+To: Bongkyu Kim <bongkyu7.kim@samsung.com>, peterz@infradead.org,
+	mingo@redhat.com, will@kernel.org, longman@redhat.com,
+	boqun.feng@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	jwook1.kim@samsung.com, lakkyung.jung@samsung.com,
+	Bongkyu Kim <bongkyu7.kim@samsung.com>
+Subject: Re: [PATCH] locking/rwsem: Optionally re-enable reader optimistic
+ spinning
+Message-ID: <202306010043.VJHcuCnb-lkp@intel.com>
+References: <20230531003436.7082-1-bongkyu7.kim@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230531021714.125078-1-yang.lee@linux.alibaba.com>
+In-Reply-To: <20230531003436.7082-1-bongkyu7.kim@samsung.com>
 
-Hi Yang,
+Hi Bongkyu,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on next-20230530]
+[auto build test ERROR on tip/locking/core]
+[also build test ERROR on linus/master v6.4-rc4 next-20230531]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Li/drm-i915-remove-unreachable-code/20230531-101832
-base:   next-20230530
-patch link:    https://lore.kernel.org/r/20230531021714.125078-1-yang.lee%40linux.alibaba.com
-patch subject: [PATCH -next] drm/i915: remove unreachable code
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230601/202306010001.gUxZYcyb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Bongkyu-Kim/locking-rwsem-Optionally-re-enable-reader-optimistic-spinning/20230531-083658
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20230531003436.7082-1-bongkyu7.kim%40samsung.com
+patch subject: [PATCH] locking/rwsem: Optionally re-enable reader optimistic spinning
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230601/202306010043.VJHcuCnb-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/58232a66b9d21d80bc6b478e2a8fb1443da3adfc
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/8c4098eb89be5b82aded3d17b22f78013454d058
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Yang-Li/drm-i915-remove-unreachable-code/20230531-101832
-        git checkout 58232a66b9d21d80bc6b478e2a8fb1443da3adfc
+        git fetch --no-tags linux-review Bongkyu-Kim/locking-rwsem-Optionally-re-enable-reader-optimistic-spinning/20230531-083658
+        git checkout 8c4098eb89be5b82aded3d17b22f78013454d058
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash kernel/locking/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306010001.gUxZYcyb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306010043.VJHcuCnb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/display/intel_color.c: In function 'intel_color_prepare_commit':
->> drivers/gpu/drm/i915/display/intel_color.c:1803:28: warning: unused variable 'crtc' [-Wunused-variable]
-    1803 |         struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-         |                            ^~~~
+>> kernel/locking/rwsem.c:1097:20: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+    1097 | static inline bool rwsem_no_spinners(sem)
+         |                    ^~~~~~~~~~~~~~~~~
+   kernel/locking/rwsem.c: In function 'rwsem_no_spinners':
+>> kernel/locking/rwsem.c:1097:20: warning: old-style function definition [-Wold-style-definition]
+>> kernel/locking/rwsem.c:1097:20: error: type of 'sem' defaults to 'int' [-Werror=implicit-int]
+   cc1: some warnings being treated as errors
 
 
-vim +/crtc +1803 drivers/gpu/drm/i915/display/intel_color.c
+vim +1097 kernel/locking/rwsem.c
 
-3962ca4e080a52 Ville Syrjälä 2023-03-20  1800  
-efb2b57edf20c3 Ville Syrjälä 2022-11-23  1801  void intel_color_prepare_commit(struct intel_crtc_state *crtc_state)
-efb2b57edf20c3 Ville Syrjälä 2022-11-23  1802  {
-b358c3b98813b1 Ville Syrjälä 2022-11-23 @1803  	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-b358c3b98813b1 Ville Syrjälä 2022-11-23  1804  
-2487ae0bcb53a7 Ville Syrjälä 2022-11-23  1805  	/* FIXME DSB has issues loading LUTs, disable it for now */
-2487ae0bcb53a7 Ville Syrjälä 2022-11-23  1806  	return;
-efb2b57edf20c3 Ville Syrjälä 2022-11-23  1807  }
-efb2b57edf20c3 Ville Syrjälä 2022-11-23  1808  
+  1096	
+> 1097	static inline bool rwsem_no_spinners(sem)
+  1098	{
+  1099		return false;
+  1100	}
+  1101	
 
 -- 
 0-DAY CI Kernel Test Service
