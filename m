@@ -1,70 +1,75 @@
-Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDC510F9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 05:18:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
-	s=default; t=1685509939;
-	bh=zzaIU4lnx1jw0A5eH60TYyPEVaJVimzNKfgdI0RVJ7o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K0B83avTr+8RCpBSdIiyjetLEtOac1cUGkYcQ3/pOrstNOpJ/IrPxCcw7b2t2w3ZR
-	 GGkmLDIf3SVU23WS7PwkxY8JqEw8tsaZ4JV/dore+FBiWrlXgCXDzDNtuRI7RjjPh8
-	 vgMzqs8t9Ulq+ywW/OzHSvHBeVjSvB8NdV4cvXZ5bxHWUapz3t8pJbQbuY7kA1cf5B
-	 ZPxtn2DpMT9C5PTpsOyePW6fzx9sth11KmPttCwpMEfG4Lpj3tgrnSZv5zVqDfgZVR
-	 UXRiiyiz7YIionjmAfdcal0WDokg49V+UEYXX8NXyIV3YY0NdjBLekb3ArNsUAMjf0
-	 /ObmU0cvgCXkw==
-Received: from biznet-home.integral.gnuweeb.org (unknown [182.253.183.166])
-	by gnuweeb.org (Postfix) with ESMTPSA id CBAC223EB4C;
-	Wed, 31 May 2023 12:12:17 +0700 (WIB)
-Date: Wed, 31 May 2023 12:12:13 +0700
-From: Ammar Faizi <ammarfaizi2@gnuweeb.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
-Subject: Re: [ammarfaizi2-block:testing/af/home 3/8]
- kernel/workqueue.c:4421:5: warning: no previous prototype for
- 'set_workqueue_cpumask'
-Message-ID: <ZHbXLZ1O5DjGtI1Z@biznet-home.integral.gnuweeb.org>
-References: <202305310934.bM5gW0SL-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3064C20F3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 06:26:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 6F1F661CECF8;
+	Wed, 31 May 2023 08:26:27 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id OMHGyQ5Lvv4L; Wed, 31 May 2023 08:26:27 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 21F3561A7038;
+	Wed, 31 May 2023 08:26:27 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 6iJ5euobrcBa; Wed, 31 May 2023 08:26:27 +0200 (CEST)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+	by lithops.sigma-star.at (Postfix) with ESMTP id E70AC616B2CF;
+	Wed, 31 May 2023 08:26:26 +0200 (CEST)
+Date: Wed, 31 May 2023 08:26:26 +0200 (CEST)
+From: Richard Weinberger <richard@nod.at>
+To: Johannes Berg <johannes@sipsolutions.net>, 
+	Azeem Shaikh <azeemshaikh38@gmail.com>
+Cc: Kees Cook <kees@kernel.org>, kernel test robot <lkp@intel.com>, 
+	Maxim Krasnyansky <maxk@qti.qualcomm.com>, 
+	oe-kbuild-all <oe-kbuild-all@lists.linux.dev>, 
+	linux-hardening <linux-hardening@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	anton ivanov <anton.ivanov@cambridgegreys.com>, 
+	linux-um <linux-um@lists.infradead.org>
+Message-ID: <959209724.158062.1685514386841.JavaMail.zimbra@nod.at>
+In-Reply-To: <8033fb8f9677cf9aae411e97eb554d251ca03011.camel@sipsolutions.net>
+References: <20230530164004.986750-1-azeemshaikh38@gmail.com> <202305311135.zGMT1gYR-lkp@intel.com> <09A0C6FA-669F-4B73-9620-43AEA17E5D0C@kernel.org> <8033fb8f9677cf9aae411e97eb554d251ca03011.camel@sipsolutions.net>
+Subject: Re: [PATCH] uml: Replace all non-returning strlcpy with strscpy
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202305310934.bM5gW0SL-lkp@intel.com>
-X-Bpl: hUx9VaHkTWcLO7S8CQCslj6OzqBx2hfLChRz45nPESx5VSB/xuJQVOKOB1zSXE3yc9ntP27bV1M1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [195.201.40.130]
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF97 (Linux)/8.8.12_GA_3809)
+Thread-Topic: Replace all non-returning strlcpy with strscpy
+Thread-Index: hWem4mJ9JdjGKB725Dk79ubQ3raPHg==
 
-On Wed, May 31, 2023 at 09:24:17AM +0800, kernel test robot wrote:
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202305310934.bM5gW0SL-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> kernel/workqueue.c:4421:5: warning: no previous prototype for 'set_workqueue_cpumask' [-Wmissing-prototypes]
->     4421 | int set_workqueue_cpumask(struct workqueue_struct *wq, const cpumask_var_t mask)
->          |     ^~~~~~~~~~~~~~~~~~~~~
+----- Urspr=C3=BCngliche Mail -----
+>> Ah, yeah, this is another "not actually in the kernel" cases. Let's igno=
+re this
+>> strlcpy for now.
+>>=20
+>=20
+> Well, strlcpy() isn't part of libc either, so all this would need is to
+> add it to user.h just like strlcpy() is now?
 
-I forgot to add the declaration in the header. The fix below:
+I think so.
+Azeem, can you please test your changes with this fixup applied?
 
-diff --git a/include/linux/workqueue.h b/include/linux/workqueue.h
-index ac551b8ee7d9f2f4..e3bd6f47e74ecd66 100644
---- a/include/linux/workqueue.h
-+++ b/include/linux/workqueue.h
-@@ -710,6 +710,9 @@ int workqueue_online_cpu(unsigned int cpu);
- int workqueue_offline_cpu(unsigned int cpu);
- #endif
- 
-+int set_workqueue_cpumask(struct workqueue_struct *wq,
-+			  const cpumask_var_t mask);
-+
- void __init workqueue_init_early(void);
- void __init workqueue_init(void);
- 
+diff --git a/arch/um/include/shared/user.h b/arch/um/include/shared/user.h
+index bda66e5a9d4e3..e5d3fbbafe4d2 100644
+--- a/arch/um/include/shared/user.h
++++ b/arch/um/include/shared/user.h
+@@ -52,6 +52,7 @@ static inline int printk(const char *fmt, ...)
+ extern int in_aton(char *str);
+ extern size_t strlcpy(char *, const char *, size_t);
+ extern size_t strlcat(char *, const char *, size_t);
++extern ssize_t strscpy(char *, const char *, size_t);
+=20
+ /* Copied from linux/compiler-gcc.h since we can't include it directly */
+ #define barrier() __asm__ __volatile__("": : :"memory")
 
--- 
-Ammar Faizi
-
+Thanks,
+//richard
