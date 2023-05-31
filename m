@@ -1,103 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gnuweeb.org (gnuweeb.org [51.81.211.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099BC10F1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 04:41:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D7EBC433EF;
-	Wed, 31 May 2023 04:41:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685508086;
-	bh=X8DzOtFm5APJJSt0+uSAaCUWMDRz0NNoyEHRZnPXbLg=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=sjFf/DrmDfOeiFUCGHnSSSEe7+oPXj6nFGtGpi+KZpxDPoRvcePXtlx3f2wo1Oj6q
-	 jg9F/QJsRufCCiGIiPNSugaaBgGxQLUMUNnBCW33vuRySPsVugKnd9WULNGwLF18t2
-	 lCRRv0iYflYSCyKT2uR71JNlTrRUrc7sIUxNiHum7CVprq0idDPmjeuuWafT9CzRvf
-	 7wDU5aZzcR+gss5za+wvczpmOHLgYQvRGggIwgqIpMNBl89h/i36d9J2w63de/pwAh
-	 YiIF+rJA5vtXEH80wyrWKIve83+JwHTGrkNvDK3bNZfNxddv9euIm1JlQBoBmNsb8d
-	 9EOtKn3cHGlNg==
-Date: Tue, 30 May 2023 21:41:25 -0700
-From: Kees Cook <kees@kernel.org>
-To: kernel test robot <lkp@intel.com>, Azeem Shaikh <azeemshaikh38@gmail.com>,
- Maxim Krasnyansky <maxk@qti.qualcomm.com>
-CC: oe-kbuild-all@lists.linux.dev, linux-hardening@vger.kernel.org,
- linux-kernel@vger.kernel.org, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>, linux-um@lists.infradead.org
-Subject: Re: [PATCH] uml: Replace all non-returning strlcpy with strscpy
-User-Agent: K-9 Mail for Android
-In-Reply-To: <202305311135.zGMT1gYR-lkp@intel.com>
-References: <20230530164004.986750-1-azeemshaikh38@gmail.com> <202305311135.zGMT1gYR-lkp@intel.com>
-Message-ID: <09A0C6FA-669F-4B73-9620-43AEA17E5D0C@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDC510F9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 05:18:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gnuweeb.org;
+	s=default; t=1685509939;
+	bh=zzaIU4lnx1jw0A5eH60TYyPEVaJVimzNKfgdI0RVJ7o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=K0B83avTr+8RCpBSdIiyjetLEtOac1cUGkYcQ3/pOrstNOpJ/IrPxCcw7b2t2w3ZR
+	 GGkmLDIf3SVU23WS7PwkxY8JqEw8tsaZ4JV/dore+FBiWrlXgCXDzDNtuRI7RjjPh8
+	 vgMzqs8t9Ulq+ywW/OzHSvHBeVjSvB8NdV4cvXZ5bxHWUapz3t8pJbQbuY7kA1cf5B
+	 ZPxtn2DpMT9C5PTpsOyePW6fzx9sth11KmPttCwpMEfG4Lpj3tgrnSZv5zVqDfgZVR
+	 UXRiiyiz7YIionjmAfdcal0WDokg49V+UEYXX8NXyIV3YY0NdjBLekb3ArNsUAMjf0
+	 /ObmU0cvgCXkw==
+Received: from biznet-home.integral.gnuweeb.org (unknown [182.253.183.166])
+	by gnuweeb.org (Postfix) with ESMTPSA id CBAC223EB4C;
+	Wed, 31 May 2023 12:12:17 +0700 (WIB)
+Date: Wed, 31 May 2023 12:12:13 +0700
+From: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	GNU/Weeb Mailing List <gwml@vger.gnuweeb.org>
+Subject: Re: [ammarfaizi2-block:testing/af/home 3/8]
+ kernel/workqueue.c:4421:5: warning: no previous prototype for
+ 'set_workqueue_cpumask'
+Message-ID: <ZHbXLZ1O5DjGtI1Z@biznet-home.integral.gnuweeb.org>
+References: <202305310934.bM5gW0SL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202305310934.bM5gW0SL-lkp@intel.com>
+X-Bpl: hUx9VaHkTWcLO7S8CQCslj6OzqBx2hfLChRz45nPESx5VSB/xuJQVOKOB1zSXE3yc9ntP27bV1M1
 
-On May 30, 2023 8:18:42 PM PDT, kernel test robot <lkp@intel=2Ecom> wrote:
->Hi Azeem,
->
->kernel test robot noticed the following build errors:
->
->[auto build test ERROR on uml/next]
->[also build test ERROR on uml/fixes wireless-next/main wireless/main linu=
-s/master v6=2E4-rc4 next-20230530]
->[If your patch is applied to the wrong git tree, kindly drop us a note=2E
->And when submitting patch, we suggest to use '--base' as documented in
->https://git-scm=2Ecom/docs/git-format-patch#_base_tree_information]
->
->url:    https://github=2Ecom/intel-lab-lkp/linux/commits/Azeem-Shaikh/uml=
--Replace-all-non-returning-strlcpy-with-strscpy/20230531-004115
->base:   git://git=2Ekernel=2Eorg/pub/scm/linux/kernel/git/uml/linux next
->patch link:    https://lore=2Ekernel=2Eorg/r/20230530164004=2E986750-1-az=
-eemshaikh38%40gmail=2Ecom
->patch subject: [PATCH] uml: Replace all non-returning strlcpy with strscp=
-y
->config: um-i386_defconfig (https://download=2E01=2Eorg/0day-ci/archive/20=
-230531/202305311135=2EzGMT1gYR-lkp@intel=2Ecom/config)
->compiler: gcc-12 (Debian 12=2E2=2E0-14) 12=2E2=2E0
->reproduce (this is a W=3D1 build):
->        # https://github=2Ecom/intel-lab-lkp/linux/commit/c51d7beb37cfbda=
-321feb3811bbe0e381f804899
->        git remote add linux-review https://github=2Ecom/intel-lab-lkp/li=
-nux
->        git fetch --no-tags linux-review Azeem-Shaikh/uml-Replace-all-non=
--returning-strlcpy-with-strscpy/20230531-004115
->        git checkout c51d7beb37cfbda321feb3811bbe0e381f804899
->        # save the config file
->        mkdir build_dir && cp config build_dir/=2Econfig
->        make W=3D1 O=3Dbuild_dir ARCH=3Dum SUBARCH=3Di386 olddefconfig
->        make W=3D1 O=3Dbuild_dir ARCH=3Dum SUBARCH=3Di386 SHELL=3D/bin/ba=
-sh
->
->If you fix the issue, kindly add following tag where applicable
->| Reported-by: kernel test robot <lkp@intel=2Ecom>
->| Closes: https://lore=2Ekernel=2Eorg/oe-kbuild-all/202305311135=2EzGMT1g=
-YR-lkp@intel=2Ecom/
->
->All errors (new ones prefixed by >>):
->
->   arch/um/os-Linux/drivers/tuntap_user=2Ec: In function 'tuntap_open':
->>> arch/um/os-Linux/drivers/tuntap_user=2Ec:149:17: error: implicit decla=
-ration of function 'strscpy'; did you mean 'strncpy'? [-Werror=3Dimplicit-f=
-unction-declaration]
->     149 |                 strscpy(ifr=2Eifr_name, pri->dev_name, sizeof(=
-ifr=2Eifr_name));
->         |                 ^~~~~~~
->         |                 strncpy
->   cc1: some warnings being treated as errors
+On Wed, May 31, 2023 at 09:24:17AM +0800, kernel test robot wrote:
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202305310934.bM5gW0SL-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> kernel/workqueue.c:4421:5: warning: no previous prototype for 'set_workqueue_cpumask' [-Wmissing-prototypes]
+>     4421 | int set_workqueue_cpumask(struct workqueue_struct *wq, const cpumask_var_t mask)
+>          |     ^~~~~~~~~~~~~~~~~~~~~
 
-Ah, yeah, this is another "not actually in the kernel" cases=2E Let's igno=
-re this strlcpy for now=2E
+I forgot to add the declaration in the header. The fix below:
 
--Keed
+diff --git a/include/linux/workqueue.h b/include/linux/workqueue.h
+index ac551b8ee7d9f2f4..e3bd6f47e74ecd66 100644
+--- a/include/linux/workqueue.h
++++ b/include/linux/workqueue.h
+@@ -710,6 +710,9 @@ int workqueue_online_cpu(unsigned int cpu);
+ int workqueue_offline_cpu(unsigned int cpu);
+ #endif
+ 
++int set_workqueue_cpumask(struct workqueue_struct *wq,
++			  const cpumask_var_t mask);
++
+ void __init workqueue_init_early(void);
+ void __init workqueue_init(void);
+ 
 
+-- 
+Ammar Faizi
 
-
-
---=20
-Kees Cook
