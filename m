@@ -1,126 +1,104 @@
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2100.outbound.protection.outlook.com [40.107.100.100])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9871171C5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 15:24:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E7lG00WZ2ITKrJG9A2t1ScJPGTqCIbz5TqYlYm2swKeLf7i3ic0YpwDSwgfVQNyOVnjIWP87fwnZOZ0fsLoyDXT6T9XJorS/pW6uJfJrz8+KUuxvp7dv5govilMlSYJDI5USqkOCkm5y7Py7u7nk1lAJmnVtCP4SBP7fkVhDffhPpCWQ0Y0cR3z0C4LQzcpDVPZhgknYIN/3eB4ZHW5qQbvMp/X5wUX3xevdbKRxgQuAbeZoj8pCznqhKd2GSY+dAFCIE3GxKSBeupQzWNAy7TDgRoQyKHsJnnUSekXyhT46G54yXYrY0g1M4aFGJnnJDhaWNZyUW2pirj0L7Rjy/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9BQ9LuQm2QqW+sX8i9KJd+lR7K9URH2K/d6AkvLTqLw=;
- b=HmoKzrHqd7UVFDJ0lKc/N1+F7/RwgXa0KoaBJ4e2KeN8Bo3+2uPdniDk+rhY6Kz69AMqmCYNTQPv6I0cepSRbJcnvs3lE1mTc7v7d0UBCh7NlyBeQYPF6IAqgMSnyzG9qU7vBCGuw934bLY29ax885vn+jrI2H012p9+kl0xTxUnraaMGDxxJLFen/jy2L3NJfqy2G6WGrj4j9u6oaICLAEyY6D8oYVZeAyLHurf/vh489H3hpOQs07cqPfdyiTQlqgrxos6TFnk0hU9G1yQ3HmCQJaq/VtdEBkYjgCuS1Ak+C+vs+1h5RixvKE9ID1waExnqTDAfpMaiyDsgavKVA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9BQ9LuQm2QqW+sX8i9KJd+lR7K9URH2K/d6AkvLTqLw=;
- b=GZLoy0uC+UlHpOpiFY73O0a3Um4udrJKR7lHw80+c8kDnKteIMOmXE/1lar1nB0Cjlm+WOdjrwRApzKVkafM0ftHZ/s19GSknVfey5qu14yIvtSHBe15ydRPpdd9FkMLBg4S2LvdNqkhKzoY1I0cDQmLLjXPhKkeBJH/5/9o8cE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by CH3PR13MB6534.namprd13.prod.outlook.com (2603:10b6:610:1ae::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.22; Wed, 31 May
- 2023 15:24:33 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::5e55:9a39:751f:55f6]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::5e55:9a39:751f:55f6%3]) with mapi id 15.20.6433.024; Wed, 31 May 2023
- 15:24:33 +0000
-Date: Wed, 31 May 2023 17:24:26 +0200
-From: Simon Horman <simon.horman@corigine.com>
-To: edward.cree@amd.com
-Cc: linux-net-drivers@amd.com, davem@davemloft.net, kuba@kernel.org,
-	pabeni@redhat.com, edumazet@google.com,
-	Edward Cree <ecree.xilinx@gmail.com>, netdev@vger.kernel.org,
-	habetsm.xilinx@gmail.com, dan.carpenter@linaro.org,
-	oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>,
-	Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH net] sfc: fix error unwinds in TC offload
-Message-ID: <ZHdmqtuCtat4x9vD@corigine.com>
-References: <20230530202527.53115-1-edward.cree@amd.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230530202527.53115-1-edward.cree@amd.com>
-X-ClientProxiedBy: AM9P195CA0003.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:20b:21f::8) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB8C171D3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 15:32:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685547152; x=1717083152;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ToAgdbmYyBTVciOEZca9OHnOGaVAyu/4tvM8ja+xqKI=;
+  b=jw6V+03qQxEAs5QHunXVnYns5xLBm80o0bFb9yiEoJCK9cef4EbErLMu
+   xic7tdEJwcaBH7lXhsowy1ZD/W1ftNaalYpod9nDfc+F0SxlqxNOOAas9
+   yYxhGqVUrbU+nlCPs9s3C3qIatVfQrgdaMja/cl5V6Mlo9+J2pJIq0hSE
+   p1flDlXJaL1JSEPItduYuOIfp0xTrshWrxqChiImsgP+ni7w69oOUdCd0
+   Dvvf13TNEU9Dj97WLRlnCG4BdVrP5V5I6mB/1y56EPck8CPlj9Zrywfko
+   PEwVfG2X45AqzVbD78dQt94fppDLoiqScZv0ykJbRFD7p/jS2g7cATWqA
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="354116853"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
+   d="scan'208";a="354116853"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 08:32:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="701140918"
+X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
+   d="scan'208";a="701140918"
+Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 31 May 2023 08:32:29 -0700
+Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q4NoL-0001Qj-0K;
+	Wed, 31 May 2023 15:32:29 +0000
+Date: Wed, 31 May 2023 23:32:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michael Ellerman <mpe@ellerman.id.au>
+Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
+Subject: [powerpc:topic/cpu-smt 6/9] kernel/cpu.c:2583:36: error:
+ 'cpu_smt_max_threads' undeclared; did you mean 'cpu_smt_num_threads'?
+Message-ID: <202305312356.SfvJ8Iwh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|CH3PR13MB6534:EE_
-X-MS-Office365-Filtering-Correlation-Id: d48899c5-d885-4841-b131-08db61eb2298
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	wKI7BcZvK9UR+04rrgzjBpn76roxUYPJIxdEDF7jPHT5x1EI3N92/0LUbvIsOpl6AN8L9SEguxzQeocZTSy5NWvWPLIUSDXTNf7fyXyz8HPEbjcMpZlZB345he03u0rwoFxd0iqK3wGk91Y+iJBLapBqWOdPbwCKi5ngbNJWJUOXTYvK0Q2kVKZkjuE+kU10xBwjNNuzUxqyNxgXThlx9TAxc2IU8kEpRkkexmy2CV0GDQ8F6M26wOK5HqMP1FQ1fj8Ccj50GcOtFJqoWpo9ZOMqr9BILWauoUBOEsg1Mwnz26tDZpxkLI+WkslivDF/7wbnZCiboC11VMfis4vTPkDC9Ek5SYS/UwUO6muMryPVkJtw7TnLlx0BOx0YisCTqCw2JWQPzWzXeqpqfThby/kQvJ45bxUkUQqIZeN7aYcBJqqc0BDVCMWkp+FQVJqmy52LQKkzSmpSNMtvK3EXhFSTJOCi5LtH/J0LNauTK40NDbcWRmCDMOUchIXHOVd2BeoS67hGfoo7ftWmzMZgppQ80kwitbXwW4kEh5Hp/ta9kPYULziDy9OtAEbaltJcEbqaeKQ6iIcMkxbug+BpECw8rvXQUQYosfLtmWuf9m4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(396003)(366004)(346002)(39840400004)(136003)(376002)(451199021)(478600001)(54906003)(44832011)(5660300002)(8936002)(8676002)(7416002)(6916009)(36756003)(86362001)(4744005)(2906002)(4326008)(66946007)(66476007)(66556008)(316002)(38100700002)(41300700001)(2616005)(186003)(966005)(6512007)(6506007)(6666004)(6486002)(83380400001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0u0LvAUSAb3zq9mcN0AhkR674yNmLgez3xplFGVwDRK6ijqbz7w6O9HeeEW5?=
- =?us-ascii?Q?vMKRvel9541d5TAIgpULgj4vxasTVDGReISL52yKu44xbY1V6OUdwIo0YN0K?=
- =?us-ascii?Q?K6ZLgiwniTEgohT2lzfy6xrVijxjblmooLSLY0lN/paO3JnmtMT9eWJS3Co4?=
- =?us-ascii?Q?SSamvnfWpiyTCyIP+NOG1IHF2EeCYuGAimbfCytYJ1Mi6eAwHzbtrpaxzqer?=
- =?us-ascii?Q?48/bZ0gmNSP8yvyhV0LUz6Tm8XfaY5iTQXQsg7vvYrkv5NiPkFoedqLWYe/N?=
- =?us-ascii?Q?2fd3hKOyE3iSza5kB2198f1kVT0LmoS79fDVOuTerVXmUJvzBYQuHlBppaK8?=
- =?us-ascii?Q?GTOhb0RPby/QMb5DPomaYWM+SZHbm6e+ec/HSuc84x4sYXCuEEevqhVd5i49?=
- =?us-ascii?Q?KJwiTDD/ZEC0WD84a6IA1xyWPCt5LB5fXVEb+AFvPl1Xuw1C6qmNKkwnqluu?=
- =?us-ascii?Q?8A+wvE4q0Oqf6nOV0jvfTZYgr6IU8lnbhFsJnAi/Ttq6yW8m9fOoifFz1yIQ?=
- =?us-ascii?Q?1fb0j8GSc2DbbSQaQ0wW/1/GrruBL5OrQZo87JOobZ7TnUd12rT6sUdDRFkk?=
- =?us-ascii?Q?EqEH4j99vskeYBIgZypSYrjr8Ge6v91OXvSbQaOFxyyg6rR+y1qiEICN4LnH?=
- =?us-ascii?Q?vPT3ySBdBKE2vdj6Zy/8+WwzWIcBLgdPpTaJ+wZ9MOKPGKhpVAcqi7TrQMSY?=
- =?us-ascii?Q?3/fzTuDFjo0fh7ksFAMzRwpA/xP9aYeliaYlN/hcwVMVSor+MkN/nJpmUsn7?=
- =?us-ascii?Q?L57rDxF2+0UHgiBTW9sKYlQALyvZv//2iXSEn7Tkruj1nfpSCZgaNxZKPbaV?=
- =?us-ascii?Q?dF42RAlAfsZYTk0nUx/VzxJtQtjs/noLauObZ9xLDIYrqUYzTRzdCn4QVwdq?=
- =?us-ascii?Q?fp9JZPhHoR4vOEk/7CtCXzVawnzPkhoMtLiQT/ZiHtSwh0gDLmuJlhCEpNRk?=
- =?us-ascii?Q?iVJmYV2GETgwpe9D7z+XnpZTuEdqdmJd3EA/tNa2ylgyUStJsImoJWpFT9v9?=
- =?us-ascii?Q?jzyuUKEMLB/YsEeZ/ml0XnpLCQjmNCCJS4xw1H0BlP+eSgpCTRYCTMQtvtCo?=
- =?us-ascii?Q?2msyIzsPoqW6Fodh2WW4BKaLJ9vZOo5NoHCKfjuk0B0OSdeMi6bkKSf3VOeZ?=
- =?us-ascii?Q?nPAZ85qEt3L4voiHQ0bQrADwryRhzcX0PlV6yELJXN74g/bXH9XneW6D34Z2?=
- =?us-ascii?Q?o+W1/yDw0V537WRRH0oMZH2y83Bg2F7TDPLWk/4WMlUTi6SmaoayUeDc7Eih?=
- =?us-ascii?Q?S6Iuk4Ng0BZSM6PZIexWlCFF8o+C9MbTrzOa45w7D7ghEjlsUhPxBkf2oTWy?=
- =?us-ascii?Q?bCR+l2ed5/Gtf9A8a2kW08OoqPSUzdLybxUieGsByM4tyidvTVaygpy2o8EP?=
- =?us-ascii?Q?GSnsrDpxMyCtfqHFaF7eIZo0CSxII8w3UyTX92gVdumKYC4MAQwmeKPIZSGl?=
- =?us-ascii?Q?+0t9HdUauk+xkpWPYL6QQYxWbN5LmMruDFbgeD2Uzip8QLsIDhI7Zo9gZxUO?=
- =?us-ascii?Q?RNwLH7OpChcwNsApeaYHLIaKRBVSilmB9rCBDABvArDsFDOJqOcxzecnWh3e?=
- =?us-ascii?Q?IcAmFrg/aadcgUfbwSABwWSh4tCgD1IH8r8SkWv302kMEJNTfRdJzHn2CJM+?=
- =?us-ascii?Q?Zq5p3+t3fBkZfgKvI8f/zazpzb+LLa5aZynK/JOjfohL63n+OOIyD6vfImdC?=
- =?us-ascii?Q?ffAHnw=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d48899c5-d885-4841-b131-08db61eb2298
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2023 15:24:33.5868
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wESmYYHoTdOeBu71jx5q3a8/fdK0DXtxnpqpf48W/S6yQKyQlMSiWXT55BfsL94czQRypSgJBxx/wY6+/+8ftKjZhu/Uk+GDCvjCYnqhyZA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR13MB6534
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, May 30, 2023 at 09:25:27PM +0100, edward.cree@amd.com wrote:
-> From: Edward Cree <ecree.xilinx@gmail.com>
-> 
-> Failure ladders weren't exactly unwinding what the function had done up
->  to that point; most seriously, when we encountered an already offloaded
->  rule, the failure path tried to remove the new rule from the hashtable,
->  which would in fact remove the already-present 'old' rule (since it has
->  the same key) from the table, and leak its resources.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <error27@gmail.com>
-> Closes: https://lore.kernel.org/r/202305200745.xmIlkqjH-lkp@intel.com/
-> Fixes: d902e1a737d4 ("sfc: bare bones TC offload on EF100")
-> Fixes: 17654d84b47c ("sfc: add offloading of 'foreign' TC (decap) rules")
-> Signed-off-by: Edward Cree <ecree.xilinx@gmail.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/cpu-smt
+head:   7bb712baeffc4640f5511feec68add6f1767413f
+commit: 570b70824d468facd197e44b6d40c9e79886b81c [6/9] cpu/SMT: Allow enabling partial SMT states via sysfs
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20230531/202305312356.SfvJ8Iwh-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git/commit/?id=570b70824d468facd197e44b6d40c9e79886b81c
+        git remote add powerpc https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git
+        git fetch --no-tags powerpc topic/cpu-smt
+        git checkout 570b70824d468facd197e44b6d40c9e79886b81c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash
 
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305312356.SfvJ8Iwh-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   kernel/cpu.c: In function 'control_show':
+>> kernel/cpu.c:2583:36: error: 'cpu_smt_max_threads' undeclared (first use in this function); did you mean 'cpu_smt_num_threads'?
+    2583 |             cpu_smt_num_threads != cpu_smt_max_threads)
+         |                                    ^~~~~~~~~~~~~~~~~~~
+         |                                    cpu_smt_num_threads
+   kernel/cpu.c:2583:36: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +2583 kernel/cpu.c
+
+  2571	
+  2572	static ssize_t control_show(struct device *dev,
+  2573				    struct device_attribute *attr, char *buf)
+  2574	{
+  2575		const char *state = smt_states[cpu_smt_control];
+  2576	
+  2577		/*
+  2578		 * If SMT is enabled but not all threads are enabled then show the
+  2579		 * number of threads. If all threads are enabled show "on". Otherwise
+  2580		 * show the state name.
+  2581		 */
+  2582		if (cpu_smt_control == CPU_SMT_ENABLED &&
+> 2583		    cpu_smt_num_threads != cpu_smt_max_threads)
+  2584			return sysfs_emit(buf, "%d\n", cpu_smt_num_threads);
+  2585	
+  2586		return snprintf(buf, PAGE_SIZE - 2, "%s\n", state);
+  2587	}
+  2588	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
