@@ -1,60 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8041B14290;
-	Wed, 31 May 2023 13:37:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91061640A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 14:30:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685540251; x=1717076251;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4j+SR6j6Y91MTRtLsgAmtEiec0cpzY168prO2t2ffXI=;
-  b=QwiOrhxXqu8xzIkBlfyR1A4WYFd0Zlhe2q+F1oe/KDJVD4A1Js4SnhGp
-   0sneh+JEp/EW7Py/XTnxmneL3TLE3lJjknty80kmnLqYxIWc7/BPav+GX
-   yPxKCxDdCMtdxNLjNMJQF6ZmgUUxTxys7imWPJ51zVOwGcVsvWcIdbR8f
-   VDFORMg90Oh2y74i8vVuwQ3G8cIQyrVc8C9ZOaLaZYFSKpu8qAuF+OkkX
-   0hmn4dMk4x7ZnlMkZUA9H55tIXeSnAbCU/ZnMaX1GO1Nz2HxfczxHbYMN
-   +BUivC13agqRZmlw/e9aO6dzqC30ZPpf+DojIB8DD3zMD8+LHx+RHipsi
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="421005393"
+  t=1685543429; x=1717079429;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fZxUHQhX0GyRGtx2OE3MmZh0e8gGy6ik4PE8LpHqXF4=;
+  b=ZJSi6jgR3rRibevceWBeJ3FaN/tlhKQONq0vGGeXO3raiggpRd4mF4WD
+   0GElzsPCzzOcmr3toj2xaLjGJePefO/0VNGoAJ1+tinv8F1satj67++hR
+   sYErz8obl+v7NSSS9E2Wxz4KwiblgarLwkekU3ErtVlLWje7de+b6253d
+   Nsdk0YkbZGp6QXOYdXAtnsKM7gugvtWlkQGPaxc3k3GMLbkGA6O9DUDFA
+   uQTDkW6YVvQuUrUlw43fibSRUDsIwZwhnzAcA0WrP4nQAy/D2H0ThtfgJ
+   w0Q7BU7z5y7GXaBPgHvsBtYLnmJabtoXlzUleKuRL11F00Afwar6ByGda
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="344766423"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="421005393"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 06:37:30 -0700
+   d="scan'208";a="344766423"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 07:30:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="736673988"
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="710099538"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="736673988"
+   d="scan'208";a="710099538"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 31 May 2023 06:37:25 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 31 May 2023 07:30:26 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4M0y-0001Mx-1R;
-	Wed, 31 May 2023 13:37:24 +0000
-Date: Wed, 31 May 2023 21:36:39 +0800
+	id 1q4MqH-0001OV-2M;
+	Wed, 31 May 2023 14:30:25 +0000
+Date: Wed, 31 May 2023 22:30:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Breno Leitao <leitao@debian.org>, dsahern@kernel.org,
-	willemdebruijn.kernel@gmail.com,
-	Remi Denis-Courmont <courmisch@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Matthieu Baerts <matthieu.baerts@tessares.net>,
-	Mat Martineau <martineau@kernel.org>,
-	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-	Xin Long <lucien.xin@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, leit@fb.com,
-	axboe@kernel.dk, asml.silence@gmail.com,
-	linux-kernel@vger.kernel.org, dccp@vger.kernel.org,
-	linux-wpan@vger.kernel.org, mptcp@lists.linux.dev,
-	linux-sctp@vger.kernel.org
-Subject: Re: [PATCH net-next v4] net: ioctl: Use kernel memory on protocol
- ioctl callbacks
-Message-ID: <202305312111.1m4i6rKU-lkp@intel.com>
-References: <20230530175403.2434218-1-leitao@debian.org>
+To: Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [sailus-media-tree:master 26/68] m68k-linux-ld: section .rodata VMA
+ [00001000,00529c6f] overlaps section .text VMA [00000400,009429cf]
+Message-ID: <202305312256.B823JJ2Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,28 +46,19 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230530175403.2434218-1-leitao@debian.org>
 
-Hi Breno,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/net-ioctl-Use-kernel-memory-on-protocol-ioctl-callbacks/20230531-015554
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230530175403.2434218-1-leitao%40debian.org
-patch subject: [PATCH net-next v4] net: ioctl: Use kernel memory on protocol ioctl callbacks
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230531/202305312111.1m4i6rKU-lkp@intel.com/config)
+tree:   git://linuxtv.org/sailus/media_tree.git master
+head:   397ede0056e7977ee161817e66bff04542f6deac
+commit: e1bac42e19ce0885bdcba2bea6518f96ce04b8b1 [26/68] media: hi846: fix usage of pm_runtime_get_if_in_use()
+config: m68k-buildonly-randconfig-r002-20230531 (https://download.01.org/0day-ci/archive/20230531/202305312256.B823JJ2Q-lkp@intel.com/config)
 compiler: m68k-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f97a3206f5ae59ecb0c7105225c5230b343c6c54
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Breno-Leitao/net-ioctl-Use-kernel-memory-on-protocol-ioctl-callbacks/20230531-015554
-        git checkout f97a3206f5ae59ecb0c7105225c5230b343c6c54
+        git remote add sailus-media-tree git://linuxtv.org/sailus/media_tree.git
+        git fetch --no-tags sailus-media-tree master
+        git checkout e1bac42e19ce0885bdcba2bea6518f96ce04b8b1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
@@ -92,12 +66,11 @@ reproduce (this is a W=1 build):
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305312111.1m4i6rKU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202305312256.B823JJ2Q-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   m68k-linux-ld: net/core/sock.o: in function `sk_ioctl':
->> sock.c:(.text+0xc7e): undefined reference to `ip6mr_sk_ioctl'
+>> m68k-linux-ld: section .rodata VMA [00001000,00529c6f] overlaps section .text VMA [00000400,009429cf]
 
 -- 
 0-DAY CI Kernel Test Service
