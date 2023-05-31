@@ -1,48 +1,45 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50F314294
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 16:46:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA3C14294
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 16:46:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685551598; x=1717087598;
+  t=1685551601; x=1717087601;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=S7ccSR/H+xAbzBgPH3RTweUwUU/MzIY0d2tD4VLFzRY=;
-  b=c8uOgdc569V6OnC1UgnOQLZeTBFExzVm9aRFyFEQ82jjvJdoJz3FcCN7
-   /t5iEOls1AhtMrHK6NB4ud4LEKmXwdYTY65mUN+qtNPF2PCk8+23s5s6w
-   BfU0G/CyKdOH3j6FXjY64ZtFqXVK4ZZ/1nUthniQZDL+OhXELj4dtWXAp
-   F7prCzbssuiQPZa2ZA37C16YeMvYYNBmGrft/XyhkeTkomeCt9J5UIDVo
-   Vlaye/brKNbNreGIDiRhEslC7o6pAPxxGgIAuotNiOLWwbIUsf+hLUti/
-   yHINo1LDEuvMlnK46QqjErhDTzt8/hagWbl3J+YzZw+QRpeS7dRacBtzb
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="354138629"
+  bh=OHgj5x9BlTOsr+jbuUC5FRn0FouRgE7wpNKD+K6wmEE=;
+  b=msmtOmJHrBo8n+0mTNDGzN0th1DEtn2rKGx2S9UgvBstjnlMtRfZpnke
+   yEC/XMXgnMWm4izlz0k5Q1hgl+p1Ml7PLZCy5kUub1Z0LVH2fbUSvRuUT
+   WI7wa2n7m6uKCo/X/VANN3jmjymeyhQ2oJAgq9Y/rQ7wPASLlKhJaZOcS
+   efIYhSuwI7AUHaox6IuTxJREDGYBTyJfTnxNyZgzDX2F04suLodizfMRl
+   DgQWD1Pbij94whD2g1adxxk9ttLVrX+70XVnds9/9Qstn3tzcYd+OfoUD
+   NYAIgncdPQgNFY4zXE6CezFkJpKYBbRRAAy/RIrTELvY3FRnpbhLz+po6
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="354138623"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="354138629"
+   d="scan'208";a="354138623"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 09:46:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="796775222"
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="796775221"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="796775222"
+   d="scan'208";a="796775221"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 31 May 2023 09:46:34 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4Oy1-0001Ut-1R;
+	id 1q4Oy1-0001Uv-1V;
 	Wed, 31 May 2023 16:46:33 +0000
 Date: Thu, 1 Jun 2023 00:45:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bongkyu Kim <bongkyu7.kim@samsung.com>, peterz@infradead.org,
-	mingo@redhat.com, will@kernel.org, longman@redhat.com,
-	boqun.feng@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	jwook1.kim@samsung.com, lakkyung.jung@samsung.com,
-	Bongkyu Kim <bongkyu7.kim@samsung.com>
-Subject: Re: [PATCH] locking/rwsem: Optionally re-enable reader optimistic
- spinning
-Message-ID: <202306010043.VJHcuCnb-lkp@intel.com>
-References: <20230531003436.7082-1-bongkyu7.kim@samsung.com>
+To: Jeff LaBundy <jeff@labundy.com>, dmitry.torokhov@gmail.com,
+	robh+dt@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, jeff@labundy.com
+Subject: Re: [PATCH 2/2] Input: iqs7222 - add support for Azoteq IQS7222D
+Message-ID: <202306010012.Dmk3yaas-lkp@intel.com>
+References: <ZHaoFCIpUM6ocPKO@nixie71>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,60 +48,179 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230531003436.7082-1-bongkyu7.kim@samsung.com>
+In-Reply-To: <ZHaoFCIpUM6ocPKO@nixie71>
 
-Hi Bongkyu,
+Hi Jeff,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on tip/locking/core]
-[also build test ERROR on linus/master v6.4-rc4 next-20230531]
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus robh/for-next hid/for-next linus/master v6.4-rc4 next-20230531]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bongkyu-Kim/locking-rwsem-Optionally-re-enable-reader-optimistic-spinning/20230531-083658
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20230531003436.7082-1-bongkyu7.kim%40samsung.com
-patch subject: [PATCH] locking/rwsem: Optionally re-enable reader optimistic spinning
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230601/202306010043.VJHcuCnb-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeff-LaBundy/Input-iqs7222-add-support-for-Azoteq-IQS7222D/20230531-095226
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/ZHaoFCIpUM6ocPKO%40nixie71
+patch subject: [PATCH 2/2] Input: iqs7222 - add support for Azoteq IQS7222D
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230601/202306010012.Dmk3yaas-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/8c4098eb89be5b82aded3d17b22f78013454d058
+        # https://github.com/intel-lab-lkp/linux/commit/b8b40762779cc4c0208ff51ef9fbb2d8015ba164
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Bongkyu-Kim/locking-rwsem-Optionally-re-enable-reader-optimistic-spinning/20230531-083658
-        git checkout 8c4098eb89be5b82aded3d17b22f78013454d058
+        git fetch --no-tags linux-review Jeff-LaBundy/Input-iqs7222-add-support-for-Azoteq-IQS7222D/20230531-095226
+        git checkout b8b40762779cc4c0208ff51ef9fbb2d8015ba164
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash kernel/locking/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/input/misc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306010043.VJHcuCnb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306010012.Dmk3yaas-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/locking/rwsem.c:1097:20: error: function declaration isn't a prototype [-Werror=strict-prototypes]
-    1097 | static inline bool rwsem_no_spinners(sem)
-         |                    ^~~~~~~~~~~~~~~~~
-   kernel/locking/rwsem.c: In function 'rwsem_no_spinners':
->> kernel/locking/rwsem.c:1097:20: warning: old-style function definition [-Wold-style-definition]
->> kernel/locking/rwsem.c:1097:20: error: type of 'sem' defaults to 'int' [-Werror=implicit-int]
-   cc1: some warnings being treated as errors
+   drivers/input/misc/iqs7222.c: In function 'iqs7222_parse_tpad':
+>> drivers/input/misc/iqs7222.c:2574:36: warning: unused variable 'val' [-Wunused-variable]
+    2574 |         unsigned int chan_sel[12], val;
+         |                                    ^~~
 
 
-vim +1097 kernel/locking/rwsem.c
+vim +/val +2574 drivers/input/misc/iqs7222.c
 
-  1096	
-> 1097	static inline bool rwsem_no_spinners(sem)
-  1098	{
-  1099		return false;
-  1100	}
-  1101	
+  2563	
+  2564	static int iqs7222_parse_tpad(struct iqs7222_private *iqs7222,
+  2565				      struct fwnode_handle *tpad_node, int tpad_index)
+  2566	{
+  2567		const struct iqs7222_dev_desc *dev_desc = iqs7222->dev_desc;
+  2568		struct touchscreen_properties *prop = &iqs7222->prop;
+  2569		struct i2c_client *client = iqs7222->client;
+  2570		int num_chan = dev_desc->reg_grps[IQS7222_REG_GRP_CHAN].num_row;
+  2571		int count, error, i;
+  2572		u16 *event_mask = &iqs7222->sys_setup[dev_desc->event_offset];
+  2573		u16 *tpad_setup = iqs7222->tpad_setup;
+> 2574		unsigned int chan_sel[12], val;
+  2575	
+  2576		error = iqs7222_parse_props(iqs7222, tpad_node, tpad_index,
+  2577					    IQS7222_REG_GRP_TPAD,
+  2578					    IQS7222_REG_KEY_NONE);
+  2579		if (error)
+  2580			return error;
+  2581	
+  2582		count = fwnode_property_count_u32(tpad_node, "azoteq,channel-select");
+  2583		if (count < 0) {
+  2584			dev_err(&client->dev, "Failed to count %s channels: %d\n",
+  2585				fwnode_get_name(tpad_node), count);
+  2586			return count;
+  2587		} else if (!count || count > ARRAY_SIZE(chan_sel)) {
+  2588			dev_err(&client->dev, "Invalid number of %s channels\n",
+  2589				fwnode_get_name(tpad_node));
+  2590			return -EINVAL;
+  2591		}
+  2592	
+  2593		error = fwnode_property_read_u32_array(tpad_node,
+  2594						       "azoteq,channel-select",
+  2595						       chan_sel, count);
+  2596		if (error) {
+  2597			dev_err(&client->dev, "Failed to read %s channels: %d\n",
+  2598				fwnode_get_name(tpad_node), error);
+  2599			return error;
+  2600		}
+  2601	
+  2602		tpad_setup[6] &= ~GENMASK(num_chan - 1, 0);
+  2603	
+  2604		for (i = 0; i < ARRAY_SIZE(chan_sel); i++) {
+  2605			tpad_setup[8 + i] = 0;
+  2606			if (i >= count || chan_sel[i] == U8_MAX)
+  2607				continue;
+  2608	
+  2609			if (chan_sel[i] >= num_chan) {
+  2610				dev_err(&client->dev, "Invalid %s channel: %u\n",
+  2611					fwnode_get_name(tpad_node), chan_sel[i]);
+  2612				return -EINVAL;
+  2613			}
+  2614	
+  2615			/*
+  2616			 * The following fields indicate which channels participate in
+  2617			 * the trackpad, as well as each channel's relative placement.
+  2618			 */
+  2619			tpad_setup[6] |= BIT(chan_sel[i]);
+  2620			tpad_setup[8 + i] = chan_sel[i] * 34 + 1072;
+  2621		}
+  2622	
+  2623		tpad_setup[7] = dev_desc->touch_link;
+  2624		if (fwnode_property_present(tpad_node, "azoteq,use-prox"))
+  2625			tpad_setup[7] -= 2;
+  2626	
+  2627		for (i = 0; i < ARRAY_SIZE(iqs7222_tp_events); i++)
+  2628			tpad_setup[20] &= ~(iqs7222_tp_events[i].strict |
+  2629					    iqs7222_tp_events[i].enable);
+  2630	
+  2631		for (i = 0; i < ARRAY_SIZE(iqs7222_tp_events); i++) {
+  2632			const char *event_name = iqs7222_tp_events[i].name;
+  2633			struct fwnode_handle *event_node;
+  2634	
+  2635			event_node = fwnode_get_named_child_node(tpad_node, event_name);
+  2636			if (!event_node)
+  2637				continue;
+  2638	
+  2639			if (fwnode_property_present(event_node,
+  2640						    "azoteq,gesture-angle-tighten"))
+  2641				tpad_setup[20] |= iqs7222_tp_events[i].strict;
+  2642	
+  2643			tpad_setup[20] |= iqs7222_tp_events[i].enable;
+  2644	
+  2645			error = iqs7222_parse_event(iqs7222, event_node, tpad_index,
+  2646						    IQS7222_REG_GRP_TPAD,
+  2647						    iqs7222_tp_events[i].reg_key,
+  2648						    iqs7222_tp_events[i].link, 1566,
+  2649						    NULL,
+  2650						    &iqs7222->tp_code[i]);
+  2651			fwnode_handle_put(event_node);
+  2652			if (error)
+  2653				return error;
+  2654	
+  2655			if (!dev_desc->event_offset)
+  2656				continue;
+  2657	
+  2658			/*
+  2659			 * The press/release event is determined based on whether the
+  2660			 * coordinate fields report 0xFFFF and solely relies on touch
+  2661			 * or proximity interrupts to be unmasked.
+  2662			 */
+  2663			if (i)
+  2664				*event_mask |= IQS7222_EVENT_MASK_TPAD;
+  2665			else if (tpad_setup[7] == dev_desc->touch_link)
+  2666				*event_mask |= IQS7222_EVENT_MASK_TOUCH;
+  2667			else
+  2668				*event_mask |= IQS7222_EVENT_MASK_PROX;
+  2669		}
+  2670	
+  2671		if (!iqs7222->tp_code[0])
+  2672			return 0;
+  2673	
+  2674		input_set_abs_params(iqs7222->keypad, ABS_X,
+  2675				     0, (tpad_setup[4] ? : 1) - 1, 0, 0);
+  2676	
+  2677		input_set_abs_params(iqs7222->keypad, ABS_Y,
+  2678				     0, (tpad_setup[5] ? : 1) - 1, 0, 0);
+  2679	
+  2680		touchscreen_parse_properties(iqs7222->keypad, false, prop);
+  2681	
+  2682		if (prop->max_x >= U16_MAX || prop->max_y >= U16_MAX) {
+  2683			dev_err(&client->dev, "Invalid trackpad size: %u*%u\n",
+  2684				prop->max_x, prop->max_y);
+  2685			return -EINVAL;
+  2686		}
+  2687	
+  2688		tpad_setup[4] = prop->max_x + 1;
+  2689		tpad_setup[5] = prop->max_y + 1;
+  2690	
+  2691		return 0;
+  2692	}
+  2693	
 
 -- 
 0-DAY CI Kernel Test Service
