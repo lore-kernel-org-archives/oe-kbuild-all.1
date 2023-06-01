@@ -1,49 +1,49 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4A1BA2F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 16:04:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F5B40795
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 17:16:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685635478; x=1717171478;
+  t=1685639798; x=1717175798;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TGGR2bLLl8X92/vFFfDqE2A/8GzFdht57yWXQPeix4w=;
-  b=ffVjYekxSMcdosgV1N90JKhn7e0SFZIVMW9AES5sn0UPKTkw/p5IV8pU
-   GP8Ta9dRKubYVpDZ2fTVjYMAIYVGnnmA1RTOA20hmQcTUrUfxe8jTz1F7
-   3Jo6HDSyNOFaD3eP/f87MsHSHcqmQUsRHr5iGV+g1kGZ8I5hC2tdOLwxt
-   lgo1IBZaPxY1MjYu2ZSppS8FgmBxtxa8ZDIXhooqr3h9x8i1RxkegByyt
-   ebpr7WwyFpa/9OiY4U8c8QfpS9A7OmbQBz8RzM3OERAE9fUy2Zizk1zQK
-   iLSeG8BM6vaeD8CsLvuoQP+KNPe5xEwbRyqx2Z4E7fhbLihLo29l/10mk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="358897441"
+  bh=zJ/eQ8hVnS5028QEn4DwKlid6LJ4fXWWbli9hnrbanc=;
+  b=A6j+pUnFPmURkYoYL94E6bMlYBfinztXILngq/iq8jBOIgIFYoOGTnFE
+   etuO8I2kvASV1JrixHB8mVrx8Cbn+R38Q5sjJrShaCsVWUB4uUyccHp73
+   n2Jxgc78ObWhD3Kd+ZL/2VjiSmss81eURwr2BmxO837VK3fFiUE7TbFAo
+   Pa88pmhHbwK/xpIlnH7Mw4F9sSqYX8YoZI/WVi6TRroUM2OJryO4DhpFr
+   faPFxZugJwrZNLlhQEPGc+oU2HZZ2PviQW+crWKswOvlcbAKMppYK14CQ
+   +OsKPkkLl7PMt4IrseW9EYZQ7bJ+aYklDyQWn946sz+sG19PSts6hAeOq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="358922507"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="358897441"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 09:03:32 -0700
+   d="scan'208";a="358922507"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 10:16:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="1037557517"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="657874712"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="1037557517"
+   d="scan'208";a="657874712"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 01 Jun 2023 09:03:30 -0700
+  by orsmga003.jf.intel.com with ESMTP; 01 Jun 2023 10:16:33 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4klt-0002SI-1w;
-	Thu, 01 Jun 2023 16:03:29 +0000
-Date: Fri, 2 Jun 2023 00:03:29 +0800
+	id 1q4lua-0002WK-2j;
+	Thu, 01 Jun 2023 17:16:32 +0000
+Date: Fri, 2 Jun 2023 01:15:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lu Hongfei <luhongfei@vivo.com>, Artur Weber <aweber.kernel@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	"open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
-	open list <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com,
-	luhongfei@vivo.com
-Subject: Re: [PATCH] gpu: drm/panel: Optimize the workflow of s6d7aa0_lock
-Message-ID: <202306012354.obLJxas6-lkp@intel.com>
-References: <20230531110717.36896-1-luhongfei@vivo.com>
+To: Frederic Weisbecker <frederic@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	rcu <rcu@vger.kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Neeraj Upadhyay <quic_neeraju@quicinc.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Giovanni Gherdovich <ggherdovich@suse.cz>
+Subject: Re: [PATCH 3/9] rcu: Rename jiffies_till_flush to jiffies_lazy_flush
+Message-ID: <202306020110.p6f7zsig-lkp@intel.com>
+References: <20230531101736.12981-4-frederic@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,121 +52,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230531110717.36896-1-luhongfei@vivo.com>
+In-Reply-To: <20230531101736.12981-4-frederic@kernel.org>
 
-Hi Lu,
+Hi Frederic,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on next-20230601]
-[cannot apply to linus/master v6.4-rc4]
+[auto build test ERROR on paulmck-rcu/dev]
+[also build test ERROR on linus/master v6.4-rc4 next-20230601]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lu-Hongfei/gpu-drm-panel-Optimize-the-workflow-of-s6d7aa0_lock/20230531-190848
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230531110717.36896-1-luhongfei%40vivo.com
-patch subject: [PATCH] gpu: drm/panel: Optimize the workflow of s6d7aa0_lock
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230601/202306012354.obLJxas6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Frederic-Weisbecker/rcu-Assume-IRQS-disabled-from-rcu_report_dead/20230531-182004
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.git dev
+patch link:    https://lore.kernel.org/r/20230531101736.12981-4-frederic%40kernel.org
+patch subject: [PATCH 3/9] rcu: Rename jiffies_till_flush to jiffies_lazy_flush
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230602/202306020110.p6f7zsig-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/e1ade7d20fb0efb9aa0b332d5ac5da2863f8e68e
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/c07a1bea9df8b80429d4e24052d83de94f5ee160
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Lu-Hongfei/gpu-drm-panel-Optimize-the-workflow-of-s6d7aa0_lock/20230531-190848
-        git checkout e1ade7d20fb0efb9aa0b332d5ac5da2863f8e68e
+        git fetch --no-tags linux-review Frederic-Weisbecker/rcu-Assume-IRQS-disabled-from-rcu_report_dead/20230531-182004
+        git checkout c07a1bea9df8b80429d4e24052d83de94f5ee160
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/panel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306012354.obLJxas6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306020110.p6f7zsig-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:17:
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c: In function 's6d7aa0_lock':
-   include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
-     326 |         do {                                                               \
-         |         ^~
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:72:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
-      72 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0xa5, 0xa5);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
-     326 |         do {                                                               \
-         |         ^~
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:75:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
-      75 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0xa5, 0xa5);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
-     326 |         do {                                                               \
-         |         ^~
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:79:31: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
-      79 |                         ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0x5a, 0x5a);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
-     326 |         do {                                                               \
-         |         ^~
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:84:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
-      84 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0x5a, 0x5a);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
-     326 |         do {                                                               \
-         |         ^~
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:87:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
-      87 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0x5a, 0x5a);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
-     326 |         do {                                                               \
-         |         ^~
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:91:31: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
-      91 |                         ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0xa5, 0xa5);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:68:33: warning: unused variable 'dsi' [-Wunused-variable]
-      68 |         struct mipi_dsi_device *dsi = ctx->dsi;
-         |                                 ^~~
-
-
-vim +/dsi +68 drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-
-6810bb390282bb Artur Weber 2023-05-19  65  
-6810bb390282bb Artur Weber 2023-05-19  66  static int s6d7aa0_lock(struct s6d7aa0 *ctx, bool lock)
-6810bb390282bb Artur Weber 2023-05-19  67  {
-6810bb390282bb Artur Weber 2023-05-19 @68  	struct mipi_dsi_device *dsi = ctx->dsi;
-6810bb390282bb Artur Weber 2023-05-19  69  	int ret = 0;
-6810bb390282bb Artur Weber 2023-05-19  70  
-6810bb390282bb Artur Weber 2023-05-19  71  	if (lock) {
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  72  		ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0xa5, 0xa5);
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  73  		if (ret < 0)
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  74  			return ret;
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  75  		ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0xa5, 0xa5);
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  76  		if (ret < 0)
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  77  			return ret;
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  78  		if (ctx->desc->use_passwd3) {
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  79  			ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0x5a, 0x5a);
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  80  			if (ret < 0)
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  81  				return ret;
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  82  		}
-6810bb390282bb Artur Weber 2023-05-19  83  	} else {
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  84  		ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0x5a, 0x5a);
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  85  		if (ret < 0)
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  86  			return ret;
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  87  		ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0x5a, 0x5a);
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  88  		if (ret < 0)
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  89  			return ret;
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  90  		if (ctx->desc->use_passwd3) {
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  91  			ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0xa5, 0xa5);
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  92  			if (ret < 0)
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  93  				return ret;
-e1ade7d20fb0ef Lu Hongfei  2023-05-31  94  		}
-6810bb390282bb Artur Weber 2023-05-19  95  	}
-6810bb390282bb Artur Weber 2023-05-19  96  
-6810bb390282bb Artur Weber 2023-05-19  97  	return ret;
-6810bb390282bb Artur Weber 2023-05-19  98  }
-6810bb390282bb Artur Weber 2023-05-19  99  
+>> ERROR: modpost: "rcu_get_jiffies_lazy_flush" [kernel/rcu/rcuscale.ko] undefined!
+>> ERROR: modpost: "rcu_set_jiffies_lazy_flush" [kernel/rcu/rcuscale.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
