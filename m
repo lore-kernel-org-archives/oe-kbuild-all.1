@@ -1,43 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BDD223400
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 15:43:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18DE2BA2F;
+	Thu,  1 Jun 2023 16:04:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685634211; x=1717170211;
+  t=1685635460; x=1717171460;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rM5g+AGeUQlGkALrHrLqRnkd3iOXOZzjyISdeRCeLjs=;
-  b=SG5QIxLuRpQMD2nRweZuNlKiGJyX4IlaYvrcsx8+mu3B+QGyaVW3/eZL
-   pyBk3da8kczd+aH/HUQbQnfSC4WTOGTJc6Du7LW03dcttzCs6x+ExzydQ
-   aYIiZMqTrJ2eJfxdpRWaERIeOkm7329RwO8r6cmIkeYRBbWnrjFqeOtzj
-   JvejjNxelPoZBj1EqooXo1LIbptpoR3X/j74l+5yqLTwPwQH3NyvWRDit
-   FnoHsVNhEfHva3K/oIhRowPHXFJMgJyGEAMEBB7oVMqSEysFTGtBW/yNG
-   yFviDomPESCC3sdpLEzqwh0DwYJjuWiKBwTmcyHa8iXd3d0gEqQMOya84
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="383868064"
+  bh=ONiRBD+4hRflOQwlhSxxTdfvpTF2t0Qt/Up3daTp3OU=;
+  b=ig6nqeCf3AF3oFQoyiM8R41fzgCYUDiTB9nNPkQgC0H7LvixlM2Gndzi
+   OcROdmmjD8E4m4f2WoubH84MEHMHBILoqYfittc9VcmEGCTV+NuCmT+YK
+   VasexPQ7ky+6vNIvpVtYwsNbzzzJZrIKnsnhTjDQOipLD/FDc/PaAaCq8
+   LH0eoSu/ct1J2VO9vsFPw32wdVFGIK5rsO6fRnDxtAOrViZmhXR2nY/3s
+   S/7RV5hz3aakLCM8rAX3TvZn/rSCtOTz+ZzllrAuiu+iBohvcf+svbPe6
+   kLJ72eR9cINPafdh306EXo42laQyCzribd2B5FkklBs6ZjUwMyXD0widN
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="354456277"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="383868064"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 08:43:30 -0700
+   d="scan'208";a="354456277"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 09:03:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="819868263"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="831629581"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="819868263"
+   d="scan'208";a="831629581"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2023 08:43:29 -0700
+  by orsmga004.jf.intel.com with ESMTP; 01 Jun 2023 09:03:30 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4kSW-0002Qk-1k;
-	Thu, 01 Jun 2023 15:43:28 +0000
-Date: Thu, 1 Jun 2023 23:42:30 +0800
+	id 1q4klt-0002SC-1h;
+	Thu, 01 Jun 2023 16:03:29 +0000
+Date: Fri, 2 Jun 2023 00:03:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:sched/core 25/25] kernel/sched/core.c:4053:31: error:
- implicit declaration of function '__task_state_match'; did you mean
- 'ttwu_state_match'?
-Message-ID: <202306012319.QpaKwNob-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:sched/core 25/25] kernel/sched/core.c:4053:24: error:
+ call to undeclared function '__task_state_match'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202306012322.qZLstogi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,40 +50,43 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
 head:   1fd7ac28685ef6c242cc8689f97bc7014ae82ca5
 commit: 1fd7ac28685ef6c242cc8689f97bc7014ae82ca5 [25/25] sched: Consider task_struct::saved_state in wait_task_inactive()
-config: arm-randconfig-r046-20230531 (https://download.01.org/0day-ci/archive/20230601/202306012319.QpaKwNob-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+config: riscv-randconfig-r042-20230531 (https://download.01.org/0day-ci/archive/20230601/202306012322.qZLstogi-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=1fd7ac28685ef6c242cc8689f97bc7014ae82ca5
         git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
         git fetch --no-tags peterz-queue sched/core
         git checkout 1fd7ac28685ef6c242cc8689f97bc7014ae82ca5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash kernel/sched/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash kernel/sched/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306012319.QpaKwNob-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306012322.qZLstogi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/sched/core.c: In function 'ttwu_state_match':
->> kernel/sched/core.c:4053:31: error: implicit declaration of function '__task_state_match'; did you mean 'ttwu_state_match'? [-Werror=implicit-function-declaration]
-    4053 |         *success = !!(match = __task_state_match(p, state));
-         |                               ^~~~~~~~~~~~~~~~~~
-         |                               ttwu_state_match
-   kernel/sched/core.c: At top level:
-   kernel/sched/core.c:6815:35: warning: no previous prototype for 'schedule_user' [-Wmissing-prototypes]
-    6815 | asmlinkage __visible void __sched schedule_user(void)
-         |                                   ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> kernel/sched/core.c:4053:24: error: call to undeclared function '__task_state_match'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           *success = !!(match = __task_state_match(p, state));
+                                 ^
+   kernel/sched/core.c:6815:35: warning: no previous prototype for function 'schedule_user' [-Wmissing-prototypes]
+   asmlinkage __visible void __sched schedule_user(void)
+                                     ^
+   kernel/sched/core.c:6815:22: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   asmlinkage __visible void __sched schedule_user(void)
+                        ^
+                        static 
+   1 warning and 1 error generated.
 
 
-vim +4053 kernel/sched/core.c
+vim +/__task_state_match +4053 kernel/sched/core.c
 
   4028	
   4029	/*
