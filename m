@@ -1,45 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7782D10FA
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 23:32:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0B310FA
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 23:53:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685662370; x=1717198370;
+  t=1685663631; x=1717199631;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jnUqFNkhIxJHpKKVsCBE6VI+DG87rqbejJG+frFjsGY=;
-  b=jyCUEN7Ztex3fV03LpAidBk6VieewxJEHJE3TLMmnu4HgSpPob/kUauz
-   YMHk1a6zYXUZgaBc2cNGEUuiWl04hJ0Ca6e12dpPz7fzR2ZW9tGFL7bXa
-   dDV1N8tDa0rxY/qp9b0WHNmJ0g879lHLYb9H6d005QbKBvM6PnuZj2iQh
-   67GcI7uNVU+jxV4MUnELWovpemq5Gufxxx24SFqbJP3+Gj4Jxatyom31W
-   nnC0s3p4DzxtYQjqvy7cPej0B1VDrPqyrLWr9olXQPduhsKXrWtGTpNx5
-   oC36nZ+tDLoHSOfmhFZNKWEtnLDAR4fiJ64QGtP3Z5mhYYTviY64wG0xz
+  bh=Oc7b37mXb1MZdv9E7aYIIQnet+Ysn1Ud1w3QAVVLaWw=;
+  b=dKCGnxjCKbjmottvMVN/Qd2ZoELNdrYTeYP/akIODxK+Ff3HqLfldHiN
+   7vxKYlxbAGwpVrrZ8fAHtQdEL2H68D7bo/Hb8+QXtGBDsU8lKrql3rUWP
+   CEWpAlpBFGkeSTspsDGXqJ8EexN4VFTjxfNJYHvQ465i3CyKi8ExW49QN
+   jXaQcHWhCcx2/m9I4D/tnzInP0zZgiSdiS0R4wLIlyiWepxAmk1SOShyH
+   euVljKM/yYH66JpvJ8HptMOMux9ZnAscuux2KrDdMzCDwW/FnPQ70YM4z
+   JMY/4NE+Rug2b+AoIgiz/IX7KPR6dvqfOW+/3EzTjJHFL4naIvF5eHxuB
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="353209029"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="442091872"
 X-IronPort-AV: E=Sophos;i="6.00,211,1681196400"; 
-   d="scan'208";a="353209029"
+   d="scan'208";a="442091872"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 16:32:49 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 16:53:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="831747988"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="831749961"
 X-IronPort-AV: E=Sophos;i="6.00,211,1681196400"; 
-   d="scan'208";a="831747988"
+   d="scan'208";a="831749961"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 01 Jun 2023 16:32:46 -0700
+  by orsmga004.jf.intel.com with ESMTP; 01 Jun 2023 16:53:48 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4rmf-0002l0-2Z;
-	Thu, 01 Jun 2023 23:32:45 +0000
-Date: Fri, 2 Jun 2023 07:32:29 +0800
+	id 1q4s72-0002mi-0E;
+	Thu, 01 Jun 2023 23:53:48 +0000
+Date: Fri, 2 Jun 2023 07:53:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brijesh Singh <brijesh.singh@amd.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Borislav Petkov <bp@suse.de>
-Subject: kismet: WARNING: unmet direct dependencies detected for CRYPTO_AEAD2
- when selected by SEV_GUEST
-Message-ID: <202306020738.PhX4qjeQ-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.10 12/12] cc1: warning: include/uapi/drm: No
+ such file or directory
+Message-ID: <202306020738.Efjx4L8k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,42 +47,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   9e87b63ed37e202c77aa17d4112da6ae0c7c097c
-commit: fce96cf0443083e37455eff8f78fd240c621dae3 virt: Add SEV-SNP guest driver
-date:   1 year, 2 months ago
-config: x86_64-kismet-CONFIG_CRYPTO_AEAD2-CONFIG_SEV_GUEST-0-0 (https://download.01.org/0day-ci/archive/20230602/202306020738.PhX4qjeQ-lkp@intel.com/config)
-reproduce:
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=fce96cf0443083e37455eff8f78fd240c621dae3
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout fce96cf0443083e37455eff8f78fd240c621dae3
-        # 1. reproduce by kismet
-           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
-           kismet --linux-ksrc=linux --selectees CONFIG_CRYPTO_AEAD2 --selectors CONFIG_SEV_GUEST -a=x86_64
-        # 2. reproduce by make
-           # save the config file to linux source tree
-           cd linux
-           make ARCH=x86_64 olddefconfig
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.10
+head:   f67d263e68b42c6ed85c11c3b2ebe4f149a34a5a
+commit: f67d263e68b42c6ed85c11c3b2ebe4f149a34a5a [12/12] CHROMIUM: drm/evdi: Port evdi from github.com/DisplayLink/evdi.git
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230602/202306020738.Efjx4L8k-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.10
+        git checkout f67d263e68b42c6ed85c11c3b2ebe4f149a34a5a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306020738.PhX4qjeQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306020738.Efjx4L8k-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for CRYPTO_AEAD2 when selected by SEV_GUEST
-   .config:5047:warning: symbol value 'ONFIG_ARCH_MMAP_RND_BITS_MI' invalid for ARCH_MMAP_RND_BITS
-   .config:12594:warning: symbol value 'ONFIG_NR_CPUS_DEFAUL' invalid for NR_CPUS
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_GCM
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - SEV_GUEST [=y] && VIRT_DRIVERS [=y] && AMD_MEM_ENCRYPT [=y]
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_AEAD2
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - SEV_GUEST [=y] && VIRT_DRIVERS [=y] && AMD_MEM_ENCRYPT [=y]
+All warnings (new ones prefixed by >>):
+
+>> cc1: warning: include/uapi/drm: No such file or directory [-Wmissing-include-dirs]
 
 -- 
 0-DAY CI Kernel Test Service
