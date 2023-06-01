@@ -1,42 +1,53 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C890E2341F
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 12:16:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A947B23423
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 14:19:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685621770; x=1717157770;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SVpWxNLAEyRUHbd4/FqvIYc/Ye7coFp43VXGzYbniTc=;
-  b=Sl1m9VXfwAFoNag4mVnM0/of0vPd+RqDYIfq9RcQFbwXOC/2g1q5Ne5Y
-   0qS5zXy+UgVDxDWwmIqtmbLHHnkslGYTi5x9QLjRe1Rfi9KzmTYcwqgL8
-   GDS6h8C4xSZzRsWwrjP988qDPa1dPzZH3t5uNLx2w12Sh1+1shnCUI19z
-   zX4VFziRk3Y9m8zqVYG8XPDvrwDqzerKyXDdFHmlZcbfEWXoETyyjWkoR
-   frm5kQqT3NlZ0ci5ieXJ3g+84JcMHaWzvFiUlrYwScjBul5H3F3Qc3Fyf
-   428mmNcHjjNJLR+ptMXB1t14Uo8/9lxQ7/lbv+B1mA1kpNgHeMqVrUoEv
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="419039484"
+  t=1685629188; x=1717165188;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=I4kycmK6ZsZGDqn1h2vHJE5lPWq2KktJ9e9ABzGmIj4=;
+  b=W7SezOhbl16sgitambIaPmJmLpsSRoSufE7uywLdvw1RehA0q3TjqAMH
+   DayJ2gyAymX0yVGKI3mHYp+eM0bzTuhdl7gXtH/QfM2RCAkGoaFIpr/VN
+   GSHte2kI9m4Ek3plki9qDGWSlckdB1ZJ7nc/WMR9H04mCsbWTGOqlghNb
+   IeElIR2B5aiqWWBjbFy1oUf7Oa9OB8iUb1HyGqUiZxOu7/lKbXY8Gd0pU
+   CoLPgmeL0MOlyvGJHI1r/6DuXhYuxIVP7Pw23z6Qr/nfCm6inTx6krp8d
+   zTraC9JVtTJh+MkBqaSknprV/KBa6zXze75OAVQfybym9Kauu912Rvv/8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="441931597"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="419039484"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 05:16:10 -0700
+   d="scan'208";a="441931597"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 07:19:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="740335846"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="819811076"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="740335846"
+   d="scan'208";a="819811076"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 01 Jun 2023 05:16:09 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2023 07:19:17 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4hDs-0002F4-0w;
-	Thu, 01 Jun 2023 12:16:08 +0000
-Date: Thu, 1 Jun 2023 20:15:23 +0800
+	id 1q4j92-0002Ly-2y;
+	Thu, 01 Jun 2023 14:19:16 +0000
+Date: Thu, 1 Jun 2023 22:18:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-6.1 31/34] drivers/dma/at_xdmac.c:2013:9:
- error: implicit declaration of function 'pm_runtime_get_noresume'
-Message-ID: <202306011559.6IvI8ICS-lkp@intel.com>
+To: Gokul krishna Krishnakumar <quic_gokukris@quicinc.com>,
+	linux-remoteproc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	linux-kernel@vger.kernel.org, Trilok Soni <quic_tsoni@quicinc.com>,
+	Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>,
+	Rajendra Nayak <quic_rjendra@quicinc.com>,
+	Elliot Berman <quic_eberman@quicinc.com>,
+	Guru Das Srinagesh <quic_gurus@quicinc.com>,
+	Sibi Sankar <quic_sibis@quicinc.com>,
+	Melody Olvera <quic_molvera@quicinc.com>,
+	Gokul krishna Krishnakumar <quic_gokukris@quicinc.com>
+Subject: Re: [PATCH v4 2/2] remoteproc: qcom: Add remoteproc tracing
+Message-ID: <202306011819.IWZmMEEa-lkp@intel.com>
+References: <bd949ac8225abb842630bd7f4a2d45334c58f17f.1685486994.git.quic_gokukris@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,86 +56,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <bd949ac8225abb842630bd7f4a2d45334c58f17f.1685486994.git.quic_gokukris@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.1
-head:   01a349b494d6b89296a3f6d2256baf149b4331a6
-commit: 5bcbdb894c83b9f724890eaaca1a5ef516ba4ee2 [31/34] dmaengine: at_xdmac: disable/enable clock directly on suspend/resume
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230601/202306011559.6IvI8ICS-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+Hi Gokul,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on remoteproc/rproc-next]
+[also build test ERROR on linus/master v6.4-rc4 next-20230601]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gokul-krishna-Krishnakumar/remoteproc-Introduce-traces-for-remoteproc-events/20230601-053050
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/bd949ac8225abb842630bd7f4a2d45334c58f17f.1685486994.git.quic_gokukris%40quicinc.com
+patch subject: [PATCH v4 2/2] remoteproc: qcom: Add remoteproc tracing
+config: csky-randconfig-r025-20230531 (https://download.01.org/0day-ci/archive/20230601/202306011819.IWZmMEEa-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/commit/?id=5bcbdb894c83b9f724890eaaca1a5ef516ba4ee2
-        git remote add sashal-stable https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git
-        git fetch --no-tags sashal-stable pending-6.1
-        git checkout 5bcbdb894c83b9f724890eaaca1a5ef516ba4ee2
+        # https://github.com/intel-lab-lkp/linux/commit/8a5252420291719cda102eb8ca72295283540cd4
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Gokul-krishna-Krishnakumar/remoteproc-Introduce-traces-for-remoteproc-events/20230601-053050
+        git checkout 8a5252420291719cda102eb8ca72295283540cd4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/dma/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306011559.6IvI8ICS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306011819.IWZmMEEa-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/dma/at_xdmac.c: In function 'atmel_xdmac_resume':
->> drivers/dma/at_xdmac.c:2013:9: error: implicit declaration of function 'pm_runtime_get_noresume' [-Werror=implicit-function-declaration]
-    2013 |         pm_runtime_get_noresume(atxdmac->dev);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/dma/at_xdmac.c:2013:40: error: 'struct at_xdmac' has no member named 'dev'
-    2013 |         pm_runtime_get_noresume(atxdmac->dev);
-         |                                        ^~
-   cc1: some warnings being treated as errors
-
-
-vim +/pm_runtime_get_noresume +2013 drivers/dma/at_xdmac.c
-
-  1999	
-  2000	static int __maybe_unused atmel_xdmac_resume(struct device *dev)
-  2001	{
-  2002		struct at_xdmac		*atxdmac = dev_get_drvdata(dev);
-  2003		struct at_xdmac_chan	*atchan;
-  2004		struct dma_chan		*chan, *_chan;
-  2005		struct platform_device	*pdev = container_of(dev, struct platform_device, dev);
-  2006		int			i;
-  2007		int ret;
-  2008	
-  2009		ret = clk_prepare_enable(atxdmac->clk);
-  2010		if (ret)
-  2011			return ret;
-  2012	
-> 2013		pm_runtime_get_noresume(atxdmac->dev);
-  2014	
-  2015		at_xdmac_axi_config(pdev);
-  2016	
-  2017		/* Clear pending interrupts. */
-  2018		for (i = 0; i < atxdmac->dma.chancnt; i++) {
-  2019			atchan = &atxdmac->chan[i];
-  2020			while (at_xdmac_chan_read(atchan, AT_XDMAC_CIS))
-  2021				cpu_relax();
-  2022		}
-  2023	
-  2024		at_xdmac_write(atxdmac, AT_XDMAC_GIE, atxdmac->save_gim);
-  2025		list_for_each_entry_safe(chan, _chan, &atxdmac->dma.channels, device_node) {
-  2026			atchan = to_at_xdmac_chan(chan);
-  2027			at_xdmac_chan_write(atchan, AT_XDMAC_CC, atchan->save_cc);
-  2028			if (at_xdmac_chan_is_cyclic(atchan)) {
-  2029				if (at_xdmac_chan_is_paused(atchan))
-  2030					at_xdmac_device_resume(chan);
-  2031				at_xdmac_chan_write(atchan, AT_XDMAC_CNDA, atchan->save_cnda);
-  2032				at_xdmac_chan_write(atchan, AT_XDMAC_CNDC, atchan->save_cndc);
-  2033				at_xdmac_chan_write(atchan, AT_XDMAC_CIE, atchan->save_cim);
-  2034				wmb();
-  2035				if (atxdmac->save_gs & atchan->mask)
-  2036					at_xdmac_write(atxdmac, AT_XDMAC_GE, atchan->mask);
-  2037			}
-  2038		}
-  2039		return 0;
-  2040	}
-  2041	
+   csky-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `rproc_stop':
+>> remoteproc_core.c:(.text+0x4c6): undefined reference to `__traceiter_rproc_stop_event'
+>> csky-linux-ld: remoteproc_core.c:(.text+0x510): undefined reference to `__tracepoint_rproc_stop_event'
+>> csky-linux-ld: remoteproc_core.c:(.text+0x518): undefined reference to `__traceiter_rproc_stop_event'
+   csky-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `rproc_start':
+>> remoteproc_core.c:(.text.unlikely+0x230): undefined reference to `__traceiter_rproc_load_event'
+   csky-linux-ld: drivers/remoteproc/remoteproc_core.o: in function `trace_rproc_start_event':
+>> remoteproc_core.c:(.text.unlikely+0x30a): undefined reference to `__traceiter_rproc_start_event'
+>> csky-linux-ld: remoteproc_core.c:(.text.unlikely+0x31c): undefined reference to `__tracepoint_rproc_load_event'
+>> csky-linux-ld: remoteproc_core.c:(.text.unlikely+0x324): undefined reference to `__traceiter_rproc_load_event'
+>> csky-linux-ld: remoteproc_core.c:(.text.unlikely+0x354): undefined reference to `__tracepoint_rproc_start_event'
+>> csky-linux-ld: remoteproc_core.c:(.text.unlikely+0x358): undefined reference to `__traceiter_rproc_start_event'
 
 -- 
 0-DAY CI Kernel Test Service
