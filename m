@@ -1,133 +1,82 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174CA539B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 07:33:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685604807; x=1717140807;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1hHAFShfH6RM5D9bIYTnO7pAcWdhlDUAINDV1bTB028=;
-  b=nZeAOIxQZf2y88aditSu0ShNg0YGoDq9S2uWBHLNzAr1eZIXnbyWeks5
-   FPjMwmyeE5RCodiOKUBp/eAeMUzmOvoTp/SZwlsTMrRieswax0BwqEdA/
-   4FeyiteoXBSWFcW3XufJ9fuOf87uSbda7PXhIUUpE5mCaend99fpa0nM8
-   P4IxNF5HTUKhzTeSdXD1fnvBbvynxkQR0b0ff9ihstdaRzswK40U8MFOq
-   T1/7MWfnJpTmFZqy6sAq3M3J5iu1+MQDDVbcU0DcXLznAhoyPQWr6hFLO
-   Jbwd7E16fPPrG9qDXTdZK+GS4vamwiYrxb7MpjRG8/HxsivC4Ivv022zv
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="340080706"
-X-IronPort-AV: E=Sophos;i="6.00,209,1681196400"; 
-   d="scan'208";a="340080706"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 00:33:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="684741528"
-X-IronPort-AV: E=Sophos;i="6.00,209,1681196400"; 
-   d="scan'208";a="684741528"
-Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 01 Jun 2023 00:33:25 -0700
-Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q4coG-00023b-2B;
-	Thu, 01 Jun 2023 07:33:24 +0000
-Date: Thu, 1 Jun 2023 15:32:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [superna9999:topic/amlogic/upstream/clkid-public-migration 1/8]
- drivers/clk/meson/meson-eeclk.c:71:70: warning: passing argument 3 of
- 'devm_of_clk_add_hw_provider' discards 'const' qualifier from pointer target
- type
-Message-ID: <202306011538.cJ1clRa6-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD3B539B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 07:34:34 +0000 (UTC)
+From: Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1685604867;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fnyHmo9sTxCtFcNjfHW8xU/+Kdw2Z24bOyeqg/dzcEo=;
+	b=dPKcZ/aDGJ8AfP7AC5wpfVm6Q1XuckkZQDEWhIbY+UlXKAsS4tjBeAyLCUAsOn/oGYLuZs
+	0ZNXS8B/64AZh33fXPHmyeN8NzEuNwwjQqaHvgvPSwlpzLFa0eFkl2mugLXc2EM+mYl9gK
+	dssz267Zq2Z5/Tc6pHeUCeaGF0Sfs32zCdRjIlKwQ8R883yWhvzRDCRBBVRLY43U6C1OHa
+	FofkA4HvR/BsaZAOPFAwCEAUdrgssTo0Fwm2maFI8dDvVyQzVYQMh80Kmv/oxcIVUfSb6E
+	jYREa6qcs9raXhRsKQnnLUgWMIyeXc3kQb6r7nkCPAsCGX87D4SoQOqrvcD+jQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1685604867;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fnyHmo9sTxCtFcNjfHW8xU/+Kdw2Z24bOyeqg/dzcEo=;
+	b=rxQR8a5yAxuDSnePOOFgh/4s03oSKPjhPBfGYQKsCvv+DgeX47LAaA/8ysOgQJdcav0wBk
+	GX3mBRwuc1EOZhBQ==
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sasha Levin <sashal@kernel.org>, Marc
+ Zyngier <maz@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [stable:linux-4.19.y 7623/9999] drivers/pci/msi.c:175:42:
+ error: 'struct device' has no member named 'msi_lock'
+In-Reply-To: <202306010832.aoPNj3I5-lkp@intel.com>
+References: <202306010832.aoPNj3I5-lkp@intel.com>
+Date: Thu, 01 Jun 2023 09:34:26 +0200
+Message-ID: <87pm6feiv1.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-tree:   https://github.com/superna9999/linux topic/amlogic/upstream/clkid-public-migration
-head:   2d9fa5ad146edb7e6e77b66ef66e213ff379e1a5
-commit: 2b2a283b2ddf771ce7895a58579e2640dfca3bd0 [1/8] clk: meson: migrate meson-eeclk out of hw_onecell_data
-config: arm64-randconfig-r033-20230531 (https://download.01.org/0day-ci/archive/20230601/202306011538.cJ1clRa6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/superna9999/linux/commit/2b2a283b2ddf771ce7895a58579e2640dfca3bd0
-        git remote add superna9999 https://github.com/superna9999/linux
-        git fetch --no-tags superna9999 topic/amlogic/upstream/clkid-public-migration
-        git checkout 2b2a283b2ddf771ce7895a58579e2640dfca3bd0
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/clk/meson/
+On Thu, Jun 01 2023 at 08:44, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+> head:   a8b7a32a3427d592a38cb0ed9c33088d44c82840
+> commit: 3c9534778d4cc2bd01e20d4dcffc55df0962aa12 [7623/9999] PCI/MSI: Protect msi_desc::masked for multi-MSI
+> config: powerpc-randconfig-r032-20230531 (https://download.01.org/0day-ci/archive/20230601/202306010832.aoPNj3I5-lkp@intel.com/config)
+> compiler: powerpc-linux-gcc (GCC) 12.3.0
+> reproduce (this is a W=1 build):
+>         mkdir -p ~/bin
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=3c9534778d4cc2bd01e20d4dcffc55df0962aa12
+>         git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+>         git fetch --no-tags stable linux-4.19.y
+>         git checkout 3c9534778d4cc2bd01e20d4dcffc55df0962aa12
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/pci/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306010832.aoPNj3I5-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    include/linux/msi.h:131:9: note: in expansion of macro 'for_each_msi_entry'
+>      131 |         for_each_msi_entry((desc), &(pdev)->dev)
+>          |         ^~~~~~~~~~~~~~~~~~
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306011538.cJ1clRa6-lkp@intel.com/
+# CONFIG_PCI is not set
+CONFIG_PCI_MSI=y
 
-All warnings (new ones prefixed by >>):
+PCI_MSI depends on PCI but there are quite some places in Kconfigs which
+select PCI_MSI independent of PCI
 
-   drivers/clk/meson/meson-eeclk.c: In function 'meson_eeclkc_probe':
->> drivers/clk/meson/meson-eeclk.c:71:70: warning: passing argument 3 of 'devm_of_clk_add_hw_provider' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-      71 |         return devm_of_clk_add_hw_provider(dev, meson_eeclkc_hw_get, data);
-         |                                                                      ^~~~
-   In file included from drivers/clk/meson/meson-eeclk.c:7:
-   include/linux/clk-provider.h:1542:34: note: expected 'void *' but argument is of type 'const struct meson_eeclkc_data *'
-    1542 |                            void *data);
-         |                            ~~~~~~^~~~
+Not sure what to do about that.
 
+Thanks
 
-vim +71 drivers/clk/meson/meson-eeclk.c
-
-    29	
-    30	int meson_eeclkc_probe(struct platform_device *pdev)
-    31	{
-    32		const struct meson_eeclkc_data *data;
-    33		struct device *dev = &pdev->dev;
-    34		struct device_node *np;
-    35		struct regmap *map;
-    36		int ret, i;
-    37	
-    38		data = of_device_get_match_data(dev);
-    39		if (!data)
-    40			return -EINVAL;
-    41	
-    42		/* Get the hhi system controller node */
-    43		np = of_get_parent(dev->of_node);
-    44		map = syscon_node_to_regmap(np);
-    45		of_node_put(np);
-    46		if (IS_ERR(map)) {
-    47			dev_err(dev,
-    48				"failed to get HHI regmap\n");
-    49			return PTR_ERR(map);
-    50		}
-    51	
-    52		if (data->init_count)
-    53			regmap_multi_reg_write(map, data->init_regs, data->init_count);
-    54	
-    55		/* Populate regmap for the regmap backed clocks */
-    56		for (i = 0; i < data->regmap_clk_num; i++)
-    57			data->regmap_clks[i]->map = map;
-    58	
-    59		for (i = 0; i < data->hw_clk_num; i++) {
-    60			/* array might be sparse */
-    61			if (!data->hw_clks[i])
-    62				continue;
-    63	
-    64			ret = devm_clk_hw_register(dev, data->hw_clks[i]);
-    65			if (ret) {
-    66				dev_err(dev, "Clock registration failed\n");
-    67				return ret;
-    68			}
-    69		}
-    70	
-  > 71		return devm_of_clk_add_hw_provider(dev, meson_eeclkc_hw_get, data);
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+        tglx
