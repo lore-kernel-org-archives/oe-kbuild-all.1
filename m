@@ -1,167 +1,343 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D585C85
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 06:00:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5ED17751;
+	Thu,  1 Jun 2023 06:30:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685599209; x=1717135209;
-  h=date:from:to:cc:subject:message-id:in-reply-to:
-   mime-version;
-  bh=GI5V5wo2xWwKJ1IRMzyxGKCuYEOxeCe2SHJuuwMrCOU=;
-  b=J1zlfoHUC1Q2VHXofaiikQzEseacIiEeDiUhoZYTkp4q4SXdBFZjxzKd
-   PCYmsO9YuqOP+K+XRb45I8KU5Yb5Py8dpJgKFSGN9kblutC9EdWqBr6Qh
-   ZY2qNmNZJ5JDiGKiiW10z3Jn1Ts5kRYwuPyM+N8zbYNOQ/wZpjX/KLDqy
-   ks+XyMJo1nzGtEvz3MOPvsF/xdg6Xueddk/iSl3O1ygX68R8raxNtvsFL
-   Lj81ZXOfsRVS0cnzV3jTFIYOt1Xmzswgspwl42sIIlld6v4QEKzcsmc8s
-   GOVonmx1T0Bmu1ejsgOWusvYc+aL7M3SqUWjUJz6LqF/GxWeDl+TOxJ/I
+  t=1685601012; x=1717137012;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SZg8RPEJ5qn+RKcW3Lm491+aEilrKkbVrnLJhkNg+ts=;
+  b=W4pKcyrOiSbfD903Mdz1YuH9j9XP0yAQLGbTNTpEVPGvBihq8Ky9+QoQ
+   0Tj6dA0BXamdrx8U79ZMHE+H0+IEmTmu9NHX6xwHuJVd/OD/73Wg/JX/R
+   1pmuGb5qjlWnFUvH3PWtdMCwiP9HddgJxjavc6rEq9pUdhTuFrdvwZfUl
+   9i8dwotKEYa6AGrwZPUSKIt9l+iggkwAcfPR5Zsazfb9moUKrlodKyrCn
+   VlWZoPErN6i2vJfwOVn07ep/mjdPPbPzsRLz/Gtm4E3VmfSCw0U+g/61b
+   QJ8Vb2ZGaEvuh7YNW8kPL/SAmgh6wv/9Qm4EzdjCQTGXZ60YAAU4BjpHW
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="355469473"
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="357866740"
 X-IronPort-AV: E=Sophos;i="6.00,209,1681196400"; 
-   d="scan'208";a="355469473"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 23:00:07 -0700
+   d="scan'208";a="357866740"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 23:30:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="740240710"
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="710355672"
 X-IronPort-AV: E=Sophos;i="6.00,209,1681196400"; 
-   d="scan'208";a="740240710"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orsmga001.jf.intel.com with ESMTP; 31 May 2023 23:00:07 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Wed, 31 May 2023 23:00:06 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Wed, 31 May 2023 23:00:06 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.106)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Wed, 31 May 2023 23:00:06 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KrcZL2b/iGaocahTvq9iQ7xpczCOqpRnDNmhiTmJwONllcBMY4Eo86ZgYGcEU9tGePagrqqY2egjhJ+sZhZYjIPlFDY4UFJgYxEHW6jMaH+H1sTdD5OERYUoAjYAmHdNGKRSAy8RoQEGU62gu2Nlr7DJ06M0Xw8fngmqTyyT+zZrzUxwsY9PhvOLzZ00BcrN6qvSa4CjhPDlAhTr1hSs6/PT50+calPkFvXcnijlf4b+6rBU1sMUHtGRLrrQjAt6Q2jal6mDCSOLtPks6nZbGoc95aSvkaupMAam2kz8bR0UghqauDVI7PqnROATtJVfAd2XwAyPVcdl0joOquRdwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yT3pzxJBq3e+vjqUCZc5pCAmt5eKrGQMrnHgnnUu+IA=;
- b=c9Y4HL6bwAUOT3sMUJ74Ml7C/9llpw5kP6KQg4l3Y3//4zV+Qpq5vOq1tXWVSnJEK+QZKogHEajAjb53PUL0cdtGMZcLweBVs2Rsb/eIlHYw9ESlMbziOlN/T6dwJQrgKUM4XFpc4J1Hv7Oj1ijDpudw5lZ+CUJ59hdcYYXm4v2sKu2nNCbXZoOye8w9C+V7W4jy2CpUe6eFa5Xfh6vf11ckekrH2Bt5tZdBMgg2lFoa+j9tmuerlTFLE/itTey4jylcjgb1w2Ty+v4TKQ+zve3PpQXz7zOiBPULJjZgedrD0Jg4Noobb42lDhqpDGTn/z9w3pAUaAy53+rJWjYWNw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by PH7PR11MB7607.namprd11.prod.outlook.com (2603:10b6:510:279::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.24; Thu, 1 Jun
- 2023 06:00:04 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::b14b:5c9c:fa0e:8e7c]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::b14b:5c9c:fa0e:8e7c%7]) with mapi id 15.20.6433.022; Thu, 1 Jun 2023
- 06:00:04 +0000
-Date: Thu, 1 Jun 2023 13:56:52 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Jamal Hadi Salim <jhs@mojatatu.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [PATCH RFC v2 net-next 18/28] p4tc: add P4 classifier
-Message-ID: <202305181621.3GcoiWn8-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230517110232.29349-18-jhs@mojatatu.com>
-X-ClientProxiedBy: SG2PR01CA0151.apcprd01.prod.exchangelabs.com
- (2603:1096:4:8f::31) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="710355672"
+Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 31 May 2023 23:30:07 -0700
+Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q4bp0-00020J-2e;
+	Thu, 01 Jun 2023 06:30:06 +0000
+Date: Thu, 1 Jun 2023 14:29:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [linux-next:master 5938/6538] mm/zswap.c:1183:6: warning: variable
+ 'ret' is used uninitialized whenever 'if' condition is true
+Message-ID: <202306011435.2BxsHFUE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|PH7PR11MB7607:EE_
-X-MS-Office365-Filtering-Correlation-Id: cb13c62b-8227-46db-25a7-08db62657136
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /TXk6Xpgy2kQhkI9oB+hMeSj1pZTgxkKYfjXPVHbAtyfDOnuZ0GWtOoTyc8p/dBxd1ZbsWuHCqI08Jv+XvI9eTeF1duQgLtRjKygjEJkVUAzK8u66xvPldwW2NRWhaUWJQrLEbEExNEJoR70BfuWuYc3nlzpBycu4ErGcX7JoD8HDGh2iIy8HLDoeHIY7Xp5RoE9b8EDyUiz/zEjU/R5AGswVaUgVMa6psJRnMvp6W+mklLXAatkFDtkGCGNlyAqn3I7dnrgaFpaexuf5r0b4wSXCsDKQu7Z7pBJtqaABwesB0/ehmIFNQvFlse4w4BdmTchPXT6xMog3u6mkqOXvpc2C38T3+YV6LvKP1C4NqSfIAIoMUQPbB9kZELp2+E26uREMtC0i/bDWMyr8ZrzQWvXCA73D5+kos3CUnatxJbTMNFXzil7pFexSUW/x7A+m0U1e3I3qA6EZDTgOHz1613tY3xlfnSxAMbsr/jV04pUwsFmuWVR/t+79Lkm+rSB0lvncbTANjs0OTwgKpWajF/AGC/z8tMEaIA5Fj0rcuKopAY3k/WUvFA3Ji4Pm9QVVKZY2NFXrrutW05ve+84t7P1tyM9ZbjJlKpsjtwWAuDAa8b/EP1OxbUC9JiTXa/+Xxp3ZamusHrSQTqufQr+vw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(376002)(346002)(136003)(366004)(39860400002)(451199021)(6916009)(66476007)(66946007)(66556008)(316002)(41300700001)(4326008)(8936002)(5660300002)(2906002)(8676002)(966005)(6486002)(6666004)(478600001)(82960400001)(6506007)(1076003)(26005)(36756003)(186003)(83380400001)(2616005)(86362001)(6512007)(38100700002)(32563001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?sRFtUzNJebBxsFKuzxhL521QLwbwo+GP2W7mmC3iM3QpIH4LaEuzwU1YwB4z?=
- =?us-ascii?Q?iOQqArikaL+rmRGNyQHbAcb3UtVtOkkogOIwU07funsmaZksNCUflG1sEDpO?=
- =?us-ascii?Q?DxRPUGmDOh0XISgg5qKeECNPOyZrfu4sjmAkpZUWcjwoerpkTcUHQS+Sgivb?=
- =?us-ascii?Q?XebX8cQhIelrgap6mb9quUByAdkG/8EV16kWGCqYv7fnfHttBp9veDpS6V6f?=
- =?us-ascii?Q?RFCdWMdLDpcV00l6o0twZN36uVhaRlO6L7PTEWSa0uqEIMtHNligK+GiQI40?=
- =?us-ascii?Q?oKHbreABsIU6Xw5JqRx2+TtBc2NiPwU4PXIkrLilIjaMhIkdmLXodqZTFRf7?=
- =?us-ascii?Q?fyAHvdCeVfFL6AH91Dc6YbXtn0sDJi5kqgi+Va8bcfb1yLjtXKHM1+3bRvHa?=
- =?us-ascii?Q?HrVOhzFWbs+o/U7PZfsIGR3TC/EzV5eS5SdpcDvSYmPU5/oP4c0/QYyWAjYJ?=
- =?us-ascii?Q?dYM82yd9aD7y5hRc5JA/Sdwswqe87d+IbDpyWqQzfELIdQHoWCgx5sfc2glj?=
- =?us-ascii?Q?gE6oEl4jKnl4QbUo+ewI7TFnwbkKkTCSCzFqHyrWo53JGFjYHahVSEd8LTaT?=
- =?us-ascii?Q?TkFILq0a13HFFFsrrShyXZ14kn/wmgyuSTyGc+D1X50JLLG7DxFcdKKWpSSs?=
- =?us-ascii?Q?8H03TcmbODqO4u23OtfA78hh+s3u+UH4ije2IV94qhyPyRqwM65Kg5pgg1x+?=
- =?us-ascii?Q?F7m5ZN+OYsYtuDoa10glRqee1XRLHr0/e2wkrnj/lznhbvGddDFRocA4JwBY?=
- =?us-ascii?Q?WGyt1236nnrzZty2OdmEKpIgLlG6hkOP+mU5DH7hc9uFyfyXeitfACZUpDHt?=
- =?us-ascii?Q?EF2YrFq1IJi4QSrpd7Q/njLsq0ryb3GntnkPLlLjDm3DIx52r7qkfb620Z6s?=
- =?us-ascii?Q?1OrCZSDGNhVfIZc9sDc1783IgoXQ0RVcVsMPaynKfRcvJ/GP9mNkOuN2sXo/?=
- =?us-ascii?Q?tRR0S1+918ENEtQQaC02ORQGISnsFhFlWVXStamTBCpPAfKgk3qdfIedmDbZ?=
- =?us-ascii?Q?sVqGwYyfE6VSMApTr5ekf/XNtKcsEUtaA5upHWwl+gJV+1WgtaRTzgr//UoA?=
- =?us-ascii?Q?XZjkjPFQBRWMksL2AX1HQh04sn0/ucdzVgAnwGfSp//yk+7XqAyKkhq+SsjK?=
- =?us-ascii?Q?Q2JJLh94lR/7Hwf/bvzScvcZ5APFihnTgw3FsZTnGy1lyeHEPaq5nTxXpMFb?=
- =?us-ascii?Q?fZUa7B8SlTQl4KKozMvreIMENyu4sEucYW0roFHdvdo93F81Be3+dFC/Tmyv?=
- =?us-ascii?Q?cXwv47dwKoYHsnLSVU5PAzjCrw+QF3lW48WSilv8kD6N4akjn+iIUkr8G1F1?=
- =?us-ascii?Q?/V8J218MUD9/W37C9/nBajXj67Yr4OIT5YjG2bnw9DYhGSmn6oRe/sxJIFrq?=
- =?us-ascii?Q?FHK8+qTTC78Q1ItvblxJT/ed6YTwSwMTlAp4Q+2oHK/V3jcjk3Rouon6PUnM?=
- =?us-ascii?Q?gFmDGBWnBcq7o4A/f9d6AhQb3PDyuj5vuU3UaVXoncS7US1f4JfbKRprFNo8?=
- =?us-ascii?Q?mQImWuy6rLmEvgTkSeromv6OjKBaXEaopaST3VyB8TG9bjN+lsXbh7F5MaEe?=
- =?us-ascii?Q?I/KbrTYxbty9lPzeMgVd8ndsEvYYiOaVg40Q38XX?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb13c62b-8227-46db-25a7-08db62657136
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2023 06:00:03.6938
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i2EKrVjkYfuVRhTpmpR8po79WwHBDgZzkPwj8cwgP9A6IvrHd+jPkmpwsLncnd1kKwG0n9Rh1ALzFpDBH0ZjEw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7607
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Jamal,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jamal-Hadi-Salim/net-sched-act_api-increase-action-kind-string-length/20230517-193344
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230517110232.29349-18-jhs%40mojatatu.com
-patch subject: [PATCH RFC v2 net-next 18/28] p4tc: add P4 classifier
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   571d71e886a5edc89b4ea6d0fe6f445282938320
+commit: be23cb8e7a96c4ae97a35cd99f993e98d9bd66a5 [5938/6538] zswap: do not shrink if cgroup may not zswap
+config: hexagon-randconfig-r045-20230531 (https://download.01.org/0day-ci/archive/20230601/202306011435.2BxsHFUE-lkp@intel.com/config)
+compiler: clang version 15.0.4 (https://github.com/llvm/llvm-project 5c68a1cb123161b54b72ce90e7975d95a8eaf2a4)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=be23cb8e7a96c4ae97a35cd99f993e98d9bd66a5
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout be23cb8e7a96c4ae97a35cd99f993e98d9bd66a5
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202305181621.3GcoiWn8-lkp@intel.com/
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306011435.2BxsHFUE-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> net/sched/p4tc/p4tc_bpf.c: linux/filter.h is included more than once.
+All warnings (new ones prefixed by >>):
 
-90c70f7ced4ac (Jamal Hadi Salim 2023-05-17 07:02:22 -0400  10) #include <linux/bpf_verifier.h>
-90c70f7ced4ac (Jamal Hadi Salim 2023-05-17 07:02:22 -0400  11) #include <linux/bpf.h>
-90c70f7ced4ac (Jamal Hadi Salim 2023-05-17 07:02:22 -0400  12) #include <linux/btf.h>
-90c70f7ced4ac (Jamal Hadi Salim 2023-05-17 07:02:22 -0400 @13) #include <linux/filter.h>
-90c70f7ced4ac (Jamal Hadi Salim 2023-05-17 07:02:22 -0400  14) #include <linux/mutex.h>
-90c70f7ced4ac (Jamal Hadi Salim 2023-05-17 07:02:22 -0400  15) #include <linux/types.h>
-90c70f7ced4ac (Jamal Hadi Salim 2023-05-17 07:02:22 -0400  16) #include <linux/btf_ids.h>
-90c70f7ced4ac (Jamal Hadi Salim 2023-05-17 07:02:22 -0400  17) #include <linux/net_namespace.h>
-90c70f7ced4ac (Jamal Hadi Salim 2023-05-17 07:02:22 -0400  18) #include <net/p4tc.h>
-90c70f7ced4ac (Jamal Hadi Salim 2023-05-17 07:02:22 -0400  19) #include <linux/netdevice.h>
-90c70f7ced4ac (Jamal Hadi Salim 2023-05-17 07:02:22 -0400  20) #include <net/sock.h>
-90c70f7ced4ac (Jamal Hadi Salim 2023-05-17 07:02:22 -0400 @21) #include <linux/filter.h>
+   In file included from mm/zswap.c:18:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from mm/zswap.c:18:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from mm/zswap.c:18:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> mm/zswap.c:1183:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (objcg && !obj_cgroup_may_zswap(objcg))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:1327:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   mm/zswap.c:1183:2: note: remove the 'if' if its condition is always false
+           if (objcg && !obj_cgroup_may_zswap(objcg))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:1158:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   7 warnings generated.
 
+
+vim +1183 mm/zswap.c
+
+a85f878b443f8d Srividya Desireddy  2018-01-31  1144  
+2b2811178e8555 Seth Jennings       2013-07-10  1145  /*********************************
+2b2811178e8555 Seth Jennings       2013-07-10  1146  * frontswap hooks
+2b2811178e8555 Seth Jennings       2013-07-10  1147  **********************************/
+2b2811178e8555 Seth Jennings       2013-07-10  1148  /* attempts to compress and store an single page */
+2b2811178e8555 Seth Jennings       2013-07-10  1149  static int zswap_frontswap_store(unsigned type, pgoff_t offset,
+2b2811178e8555 Seth Jennings       2013-07-10  1150  				struct page *page)
+2b2811178e8555 Seth Jennings       2013-07-10  1151  {
+2b2811178e8555 Seth Jennings       2013-07-10  1152  	struct zswap_tree *tree = zswap_trees[type];
+2b2811178e8555 Seth Jennings       2013-07-10  1153  	struct zswap_entry *entry, *dupentry;
+1ec3b5fe6eec78 Barry Song          2020-12-14  1154  	struct scatterlist input, output;
+1ec3b5fe6eec78 Barry Song          2020-12-14  1155  	struct crypto_acomp_ctx *acomp_ctx;
+f4840ccfca25db Johannes Weiner     2022-05-19  1156  	struct obj_cgroup *objcg = NULL;
+f4840ccfca25db Johannes Weiner     2022-05-19  1157  	struct zswap_pool *pool;
+2b2811178e8555 Seth Jennings       2013-07-10  1158  	int ret;
+9c3760eb80880f Yu Zhao             2018-01-31  1159  	unsigned int hlen, dlen = PAGE_SIZE;
+a85f878b443f8d Srividya Desireddy  2018-01-31  1160  	unsigned long handle, value;
+2b2811178e8555 Seth Jennings       2013-07-10  1161  	char *buf;
+2b2811178e8555 Seth Jennings       2013-07-10  1162  	u8 *src, *dst;
+9c3760eb80880f Yu Zhao             2018-01-31  1163  	struct zswap_header zhdr = { .swpentry = swp_entry(type, offset) };
+d2fcd82bb83aab Hui Zhu             2019-09-23  1164  	gfp_t gfp;
+2b2811178e8555 Seth Jennings       2013-07-10  1165  
+7ba716698cc53f Huang Ying          2018-02-21  1166  	/* THP isn't supported */
+7ba716698cc53f Huang Ying          2018-02-21  1167  	if (PageTransHuge(page)) {
+7ba716698cc53f Huang Ying          2018-02-21  1168  		ret = -EINVAL;
+7ba716698cc53f Huang Ying          2018-02-21  1169  		goto reject;
+7ba716698cc53f Huang Ying          2018-02-21  1170  	}
+7ba716698cc53f Huang Ying          2018-02-21  1171  
+c00ed16a9eb98a Dan Streetman       2015-06-25  1172  	if (!zswap_enabled || !tree) {
+2b2811178e8555 Seth Jennings       2013-07-10  1173  		ret = -ENODEV;
+2b2811178e8555 Seth Jennings       2013-07-10  1174  		goto reject;
+2b2811178e8555 Seth Jennings       2013-07-10  1175  	}
+2b2811178e8555 Seth Jennings       2013-07-10  1176  
+be23cb8e7a96c4 Nhat Pham           2023-05-30  1177  	/*
+be23cb8e7a96c4 Nhat Pham           2023-05-30  1178  	 * XXX: zswap reclaim does not work with cgroups yet. Without a
+be23cb8e7a96c4 Nhat Pham           2023-05-30  1179  	 * cgroup-aware entry LRU, we will push out entries system-wide based on
+be23cb8e7a96c4 Nhat Pham           2023-05-30  1180  	 * local cgroup limits.
+be23cb8e7a96c4 Nhat Pham           2023-05-30  1181  	 */
+f4840ccfca25db Johannes Weiner     2022-05-19  1182  	objcg = get_obj_cgroup_from_page(page);
+f4840ccfca25db Johannes Weiner     2022-05-19 @1183  	if (objcg && !obj_cgroup_may_zswap(objcg))
+be23cb8e7a96c4 Nhat Pham           2023-05-30  1184  		goto reject;
+f4840ccfca25db Johannes Weiner     2022-05-19  1185  
+2b2811178e8555 Seth Jennings       2013-07-10  1186  	/* reclaim space if needed */
+2b2811178e8555 Seth Jennings       2013-07-10  1187  	if (zswap_is_full()) {
+2b2811178e8555 Seth Jennings       2013-07-10  1188  		zswap_pool_limit_hit++;
+45190f01dd4021 Vitaly Wool         2020-01-30  1189  		zswap_pool_reached_full = true;
+f4840ccfca25db Johannes Weiner     2022-05-19  1190  		goto shrink;
+2b2811178e8555 Seth Jennings       2013-07-10  1191  	}
+16e536ef47f567 Li Wang             2018-07-26  1192  
+45190f01dd4021 Vitaly Wool         2020-01-30  1193  	if (zswap_pool_reached_full) {
+45190f01dd4021 Vitaly Wool         2020-01-30  1194  	       if (!zswap_can_accept()) {
+16e536ef47f567 Li Wang             2018-07-26  1195  			ret = -ENOMEM;
+16e536ef47f567 Li Wang             2018-07-26  1196  			goto reject;
+45190f01dd4021 Vitaly Wool         2020-01-30  1197  		} else
+45190f01dd4021 Vitaly Wool         2020-01-30  1198  			zswap_pool_reached_full = false;
+2b2811178e8555 Seth Jennings       2013-07-10  1199  	}
+2b2811178e8555 Seth Jennings       2013-07-10  1200  
+2b2811178e8555 Seth Jennings       2013-07-10  1201  	/* allocate entry */
+2b2811178e8555 Seth Jennings       2013-07-10  1202  	entry = zswap_entry_cache_alloc(GFP_KERNEL);
+2b2811178e8555 Seth Jennings       2013-07-10  1203  	if (!entry) {
+2b2811178e8555 Seth Jennings       2013-07-10  1204  		zswap_reject_kmemcache_fail++;
+2b2811178e8555 Seth Jennings       2013-07-10  1205  		ret = -ENOMEM;
+2b2811178e8555 Seth Jennings       2013-07-10  1206  		goto reject;
+2b2811178e8555 Seth Jennings       2013-07-10  1207  	}
+2b2811178e8555 Seth Jennings       2013-07-10  1208  
+a85f878b443f8d Srividya Desireddy  2018-01-31  1209  	if (zswap_same_filled_pages_enabled) {
+a85f878b443f8d Srividya Desireddy  2018-01-31  1210  		src = kmap_atomic(page);
+a85f878b443f8d Srividya Desireddy  2018-01-31  1211  		if (zswap_is_page_same_filled(src, &value)) {
+a85f878b443f8d Srividya Desireddy  2018-01-31  1212  			kunmap_atomic(src);
+a85f878b443f8d Srividya Desireddy  2018-01-31  1213  			entry->offset = offset;
+a85f878b443f8d Srividya Desireddy  2018-01-31  1214  			entry->length = 0;
+a85f878b443f8d Srividya Desireddy  2018-01-31  1215  			entry->value = value;
+a85f878b443f8d Srividya Desireddy  2018-01-31  1216  			atomic_inc(&zswap_same_filled_pages);
+a85f878b443f8d Srividya Desireddy  2018-01-31  1217  			goto insert_entry;
+a85f878b443f8d Srividya Desireddy  2018-01-31  1218  		}
+a85f878b443f8d Srividya Desireddy  2018-01-31  1219  		kunmap_atomic(src);
+a85f878b443f8d Srividya Desireddy  2018-01-31  1220  	}
+a85f878b443f8d Srividya Desireddy  2018-01-31  1221  
+cb325ddde56162 Maciej S. Szmigiero 2022-03-22  1222  	if (!zswap_non_same_filled_pages_enabled) {
+cb325ddde56162 Maciej S. Szmigiero 2022-03-22  1223  		ret = -EINVAL;
+cb325ddde56162 Maciej S. Szmigiero 2022-03-22  1224  		goto freepage;
+cb325ddde56162 Maciej S. Szmigiero 2022-03-22  1225  	}
+cb325ddde56162 Maciej S. Szmigiero 2022-03-22  1226  
+f1c54846ee4504 Dan Streetman       2015-09-09  1227  	/* if entry is successfully added, it keeps the reference */
+f1c54846ee4504 Dan Streetman       2015-09-09  1228  	entry->pool = zswap_pool_current_get();
+f1c54846ee4504 Dan Streetman       2015-09-09  1229  	if (!entry->pool) {
+f1c54846ee4504 Dan Streetman       2015-09-09  1230  		ret = -EINVAL;
+f1c54846ee4504 Dan Streetman       2015-09-09  1231  		goto freepage;
+f1c54846ee4504 Dan Streetman       2015-09-09  1232  	}
+f1c54846ee4504 Dan Streetman       2015-09-09  1233  
+2b2811178e8555 Seth Jennings       2013-07-10  1234  	/* compress */
+1ec3b5fe6eec78 Barry Song          2020-12-14  1235  	acomp_ctx = raw_cpu_ptr(entry->pool->acomp_ctx);
+1ec3b5fe6eec78 Barry Song          2020-12-14  1236  
+1ec3b5fe6eec78 Barry Song          2020-12-14  1237  	mutex_lock(acomp_ctx->mutex);
+1ec3b5fe6eec78 Barry Song          2020-12-14  1238  
+1ec3b5fe6eec78 Barry Song          2020-12-14  1239  	dst = acomp_ctx->dstmem;
+1ec3b5fe6eec78 Barry Song          2020-12-14  1240  	sg_init_table(&input, 1);
+1ec3b5fe6eec78 Barry Song          2020-12-14  1241  	sg_set_page(&input, page, PAGE_SIZE, 0);
+1ec3b5fe6eec78 Barry Song          2020-12-14  1242  
+1ec3b5fe6eec78 Barry Song          2020-12-14  1243  	/* zswap_dstmem is of size (PAGE_SIZE * 2). Reflect same in sg_list */
+1ec3b5fe6eec78 Barry Song          2020-12-14  1244  	sg_init_one(&output, dst, PAGE_SIZE * 2);
+1ec3b5fe6eec78 Barry Song          2020-12-14  1245  	acomp_request_set_params(acomp_ctx->req, &input, &output, PAGE_SIZE, dlen);
+1ec3b5fe6eec78 Barry Song          2020-12-14  1246  	/*
+1ec3b5fe6eec78 Barry Song          2020-12-14  1247  	 * it maybe looks a little bit silly that we send an asynchronous request,
+1ec3b5fe6eec78 Barry Song          2020-12-14  1248  	 * then wait for its completion synchronously. This makes the process look
+1ec3b5fe6eec78 Barry Song          2020-12-14  1249  	 * synchronous in fact.
+1ec3b5fe6eec78 Barry Song          2020-12-14  1250  	 * Theoretically, acomp supports users send multiple acomp requests in one
+1ec3b5fe6eec78 Barry Song          2020-12-14  1251  	 * acomp instance, then get those requests done simultaneously. but in this
+1ec3b5fe6eec78 Barry Song          2020-12-14  1252  	 * case, frontswap actually does store and load page by page, there is no
+1ec3b5fe6eec78 Barry Song          2020-12-14  1253  	 * existing method to send the second page before the first page is done
+1ec3b5fe6eec78 Barry Song          2020-12-14  1254  	 * in one thread doing frontswap.
+1ec3b5fe6eec78 Barry Song          2020-12-14  1255  	 * but in different threads running on different cpu, we have different
+1ec3b5fe6eec78 Barry Song          2020-12-14  1256  	 * acomp instance, so multiple threads can do (de)compression in parallel.
+1ec3b5fe6eec78 Barry Song          2020-12-14  1257  	 */
+1ec3b5fe6eec78 Barry Song          2020-12-14  1258  	ret = crypto_wait_req(crypto_acomp_compress(acomp_ctx->req), &acomp_ctx->wait);
+1ec3b5fe6eec78 Barry Song          2020-12-14  1259  	dlen = acomp_ctx->req->dlen;
+1ec3b5fe6eec78 Barry Song          2020-12-14  1260  
+2b2811178e8555 Seth Jennings       2013-07-10  1261  	if (ret) {
+2b2811178e8555 Seth Jennings       2013-07-10  1262  		ret = -EINVAL;
+f1c54846ee4504 Dan Streetman       2015-09-09  1263  		goto put_dstmem;
+2b2811178e8555 Seth Jennings       2013-07-10  1264  	}
+2b2811178e8555 Seth Jennings       2013-07-10  1265  
+2b2811178e8555 Seth Jennings       2013-07-10  1266  	/* store */
+9c3760eb80880f Yu Zhao             2018-01-31  1267  	hlen = zpool_evictable(entry->pool->zpool) ? sizeof(zhdr) : 0;
+d2fcd82bb83aab Hui Zhu             2019-09-23  1268  	gfp = __GFP_NORETRY | __GFP_NOWARN | __GFP_KSWAPD_RECLAIM;
+d2fcd82bb83aab Hui Zhu             2019-09-23  1269  	if (zpool_malloc_support_movable(entry->pool->zpool))
+d2fcd82bb83aab Hui Zhu             2019-09-23  1270  		gfp |= __GFP_HIGHMEM | __GFP_MOVABLE;
+d2fcd82bb83aab Hui Zhu             2019-09-23  1271  	ret = zpool_malloc(entry->pool->zpool, hlen + dlen, gfp, &handle);
+2b2811178e8555 Seth Jennings       2013-07-10  1272  	if (ret == -ENOSPC) {
+2b2811178e8555 Seth Jennings       2013-07-10  1273  		zswap_reject_compress_poor++;
+f1c54846ee4504 Dan Streetman       2015-09-09  1274  		goto put_dstmem;
+2b2811178e8555 Seth Jennings       2013-07-10  1275  	}
+2b2811178e8555 Seth Jennings       2013-07-10  1276  	if (ret) {
+2b2811178e8555 Seth Jennings       2013-07-10  1277  		zswap_reject_alloc_fail++;
+f1c54846ee4504 Dan Streetman       2015-09-09  1278  		goto put_dstmem;
+2b2811178e8555 Seth Jennings       2013-07-10  1279  	}
+ae34af1f11d0a6 Miaohe Lin          2021-06-30  1280  	buf = zpool_map_handle(entry->pool->zpool, handle, ZPOOL_MM_WO);
+9c3760eb80880f Yu Zhao             2018-01-31  1281  	memcpy(buf, &zhdr, hlen);
+9c3760eb80880f Yu Zhao             2018-01-31  1282  	memcpy(buf + hlen, dst, dlen);
+f1c54846ee4504 Dan Streetman       2015-09-09  1283  	zpool_unmap_handle(entry->pool->zpool, handle);
+1ec3b5fe6eec78 Barry Song          2020-12-14  1284  	mutex_unlock(acomp_ctx->mutex);
+2b2811178e8555 Seth Jennings       2013-07-10  1285  
+2b2811178e8555 Seth Jennings       2013-07-10  1286  	/* populate entry */
+2b2811178e8555 Seth Jennings       2013-07-10  1287  	entry->offset = offset;
+2b2811178e8555 Seth Jennings       2013-07-10  1288  	entry->handle = handle;
+2b2811178e8555 Seth Jennings       2013-07-10  1289  	entry->length = dlen;
+2b2811178e8555 Seth Jennings       2013-07-10  1290  
+a85f878b443f8d Srividya Desireddy  2018-01-31  1291  insert_entry:
+f4840ccfca25db Johannes Weiner     2022-05-19  1292  	entry->objcg = objcg;
+f4840ccfca25db Johannes Weiner     2022-05-19  1293  	if (objcg) {
+f4840ccfca25db Johannes Weiner     2022-05-19  1294  		obj_cgroup_charge_zswap(objcg, entry->length);
+f4840ccfca25db Johannes Weiner     2022-05-19  1295  		/* Account before objcg ref is moved to tree */
+f4840ccfca25db Johannes Weiner     2022-05-19  1296  		count_objcg_event(objcg, ZSWPOUT);
+f4840ccfca25db Johannes Weiner     2022-05-19  1297  	}
+f4840ccfca25db Johannes Weiner     2022-05-19  1298  
+2b2811178e8555 Seth Jennings       2013-07-10  1299  	/* map */
+2b2811178e8555 Seth Jennings       2013-07-10  1300  	spin_lock(&tree->lock);
+2b2811178e8555 Seth Jennings       2013-07-10  1301  	do {
+2b2811178e8555 Seth Jennings       2013-07-10  1302  		ret = zswap_rb_insert(&tree->rbroot, entry, &dupentry);
+2b2811178e8555 Seth Jennings       2013-07-10  1303  		if (ret == -EEXIST) {
+2b2811178e8555 Seth Jennings       2013-07-10  1304  			zswap_duplicate_entry++;
+2b2811178e8555 Seth Jennings       2013-07-10  1305  			/* remove from rbtree */
+0ab0abcf511545 Weijie Yang         2013-11-12  1306  			zswap_rb_erase(&tree->rbroot, dupentry);
+0ab0abcf511545 Weijie Yang         2013-11-12  1307  			zswap_entry_put(tree, dupentry);
+2b2811178e8555 Seth Jennings       2013-07-10  1308  		}
+2b2811178e8555 Seth Jennings       2013-07-10  1309  	} while (ret == -EEXIST);
+2b2811178e8555 Seth Jennings       2013-07-10  1310  	spin_unlock(&tree->lock);
+2b2811178e8555 Seth Jennings       2013-07-10  1311  
+2b2811178e8555 Seth Jennings       2013-07-10  1312  	/* update stats */
+2b2811178e8555 Seth Jennings       2013-07-10  1313  	atomic_inc(&zswap_stored_pages);
+f1c54846ee4504 Dan Streetman       2015-09-09  1314  	zswap_update_total_size();
+f6498b776d280b Johannes Weiner     2022-05-19  1315  	count_vm_event(ZSWPOUT);
+2b2811178e8555 Seth Jennings       2013-07-10  1316  
+2b2811178e8555 Seth Jennings       2013-07-10  1317  	return 0;
+2b2811178e8555 Seth Jennings       2013-07-10  1318  
+f1c54846ee4504 Dan Streetman       2015-09-09  1319  put_dstmem:
+1ec3b5fe6eec78 Barry Song          2020-12-14  1320  	mutex_unlock(acomp_ctx->mutex);
+f1c54846ee4504 Dan Streetman       2015-09-09  1321  	zswap_pool_put(entry->pool);
+f1c54846ee4504 Dan Streetman       2015-09-09  1322  freepage:
+2b2811178e8555 Seth Jennings       2013-07-10  1323  	zswap_entry_cache_free(entry);
+2b2811178e8555 Seth Jennings       2013-07-10  1324  reject:
+f4840ccfca25db Johannes Weiner     2022-05-19  1325  	if (objcg)
+f4840ccfca25db Johannes Weiner     2022-05-19  1326  		obj_cgroup_put(objcg);
+2b2811178e8555 Seth Jennings       2013-07-10  1327  	return ret;
+f4840ccfca25db Johannes Weiner     2022-05-19  1328  
+f4840ccfca25db Johannes Weiner     2022-05-19  1329  shrink:
+f4840ccfca25db Johannes Weiner     2022-05-19  1330  	pool = zswap_pool_last_get();
+f4840ccfca25db Johannes Weiner     2022-05-19  1331  	if (pool)
+f4840ccfca25db Johannes Weiner     2022-05-19  1332  		queue_work(shrink_wq, &pool->shrink_work);
+f4840ccfca25db Johannes Weiner     2022-05-19  1333  	ret = -ENOMEM;
+f4840ccfca25db Johannes Weiner     2022-05-19  1334  	goto reject;
+2b2811178e8555 Seth Jennings       2013-07-10  1335  }
+2b2811178e8555 Seth Jennings       2013-07-10  1336  
+
+:::::: The code at line 1183 was first introduced by commit
+:::::: f4840ccfca25db225b3371a8f7b5770febee87c5 zswap: memcg accounting
+
+:::::: TO: Johannes Weiner <hannes@cmpxchg.org>
+:::::: CC: akpm <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
