@@ -1,42 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B0824136
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 21:36:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02982182D0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 21:58:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685655408; x=1717191408;
+  t=1685656727; x=1717192727;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DyWSHhrWz5eCZfT8mTCr3jHY0gY42jJv8mHDlKg0kGU=;
-  b=YqlLhcKdSbSr7H+dnn8xeIGzsVYy30lZhOt4I7bp1yx9e2kW8tAYsnA/
-   eferW4KKWjOZCv7ben8h2S3aGoN12x0JBbFvHAhVOL8CaCcOgkVF5kuG2
-   rlU20QXv3zgNvdVqRYdfYrUlNOxQJZNR7PzA0n5qpOuF5iuqmgy3OaPq2
-   CUCQirbb9UWLq+eYtMK767czTQ2/RoIw5y/161OuhXrRogm1ox95ilNVx
-   criEfYuX60JwKocF2qGRn/lAPACHB1srDflZeQKKVPwYFfvPpQAatYYSe
-   14tUPTkTcf9Z/8p1uvYn1SV/T6NRM3SluvZoN0y/2LwIXhV5qmwhkFGjG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="383971413"
+  bh=PthM2b+e+/0t72is9TTB2Tk5FKelo0kJIr8YYt/X/AM=;
+  b=W0cAQQFwTBDt5/EQrLgUb+D5FoWZ8sicsZV/PbAsoghDGsLe4wNHoI+/
+   kvrRwF7X/ZlC4s2Q/DNwKZMx50bwaqCBOuNITBWM6tBeruDSZ+r4QMIA/
+   8uPWNzGKCPteb6Pf27Ov2SSQ+dh1Wf4gANAfNztE5+y02H/RLS6lE6F79
+   z66cu7edMMgJiBTvUuir4nOZ3Ku7Ry2M+YilSyk3RG5vsDu6r5BglVld5
+   GXWiVYxz+WfjVxidfH71+xMz5igbNx7TlGS9E4c+ei0nyg66zKGBEtxSk
+   92juV77SkhYwuFK97F6vsG+P3iP9+9vwjjS5SrSI4fBiF4wvh/ylG6i3w
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="419223187"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="383971413"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 14:36:45 -0700
+   d="scan'208";a="419223187"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 14:58:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="820003479"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="851875770"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="820003479"
+   d="scan'208";a="851875770"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2023 14:36:44 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 01 Jun 2023 14:58:44 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4pyN-0002i0-1G;
-	Thu, 01 Jun 2023 21:36:43 +0000
-Date: Fri, 2 Jun 2023 05:36:01 +0800
+	id 1q4qJg-0002ii-0E;
+	Thu, 01 Jun 2023 21:58:44 +0000
+Date: Fri, 2 Jun 2023 05:58:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:android14-6.1 2/3] drivers/mmc/core/mmc.c:1006:5:
- warning: no previous prototype for function 'mmc_select_bus_width'
-Message-ID: <202306020526.4qbYjNr8-lkp@intel.com>
+ warning: no previous prototype for 'mmc_select_bus_width'
+Message-ID: <202306020524.uCQZYtfF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,71 +49,41 @@ Content-Disposition: inline
 tree:   https://android.googlesource.com/kernel/common android14-6.1
 head:   87b384408e48cba1bc64922b7897185a7c65d4c7
 commit: a3a743e67f3ded182826a65262af30ec11ec5bbe [2/3] ANDROID: mmc: core: Export core functions for kernel modules usage
-config: arm64-randconfig-r026-20230531 (https://download.01.org/0day-ci/archive/20230602/202306020526.4qbYjNr8-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
+config: i386-randconfig-i052-20230531 (https://download.01.org/0day-ci/archive/20230602/202306020524.uCQZYtfF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
         git remote add android-common https://android.googlesource.com/kernel/common
         git fetch --no-tags android-common android14-6.1
         git checkout a3a743e67f3ded182826a65262af30ec11ec5bbe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/mmc/core/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/mmc/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306020526.4qbYjNr8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306020524.uCQZYtfF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mmc/core/mmc.c:1006:5: warning: no previous prototype for function 'mmc_select_bus_width' [-Wmissing-prototypes]
-   int mmc_select_bus_width(struct mmc_card *card)
-       ^
-   drivers/mmc/core/mmc.c:1006:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int mmc_select_bus_width(struct mmc_card *card)
-   ^
-   static 
->> drivers/mmc/core/mmc.c:1076:5: warning: no previous prototype for function 'mmc_select_hs' [-Wmissing-prototypes]
-   int mmc_select_hs(struct mmc_card *card)
-       ^
-   drivers/mmc/core/mmc.c:1076:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int mmc_select_hs(struct mmc_card *card)
-   ^
-   static 
->> drivers/mmc/core/mmc.c:1095:5: warning: no previous prototype for function 'mmc_select_hs_ddr' [-Wmissing-prototypes]
-   int mmc_select_hs_ddr(struct mmc_card *card)
-       ^
-   drivers/mmc/core/mmc.c:1095:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int mmc_select_hs_ddr(struct mmc_card *card)
-   ^
-   static 
->> drivers/mmc/core/mmc.c:1166:5: warning: no previous prototype for function 'mmc_select_hs400' [-Wmissing-prototypes]
-   int mmc_select_hs400(struct mmc_card *card)
-       ^
-   drivers/mmc/core/mmc.c:1166:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int mmc_select_hs400(struct mmc_card *card)
-   ^
-   static 
->> drivers/mmc/core/mmc.c:1541:5: warning: no previous prototype for function 'mmc_select_timing' [-Wmissing-prototypes]
-   int mmc_select_timing(struct mmc_card *card)
-       ^
-   drivers/mmc/core/mmc.c:1541:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int mmc_select_timing(struct mmc_card *card)
-   ^
-   static 
->> drivers/mmc/core/mmc.c:1582:5: warning: no previous prototype for function 'mmc_hs200_tuning' [-Wmissing-prototypes]
-   int mmc_hs200_tuning(struct mmc_card *card)
-       ^
-   drivers/mmc/core/mmc.c:1582:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int mmc_hs200_tuning(struct mmc_card *card)
-   ^
-   static 
-   6 warnings generated.
+>> drivers/mmc/core/mmc.c:1006:5: warning: no previous prototype for 'mmc_select_bus_width' [-Wmissing-prototypes]
+    1006 | int mmc_select_bus_width(struct mmc_card *card)
+         |     ^~~~~~~~~~~~~~~~~~~~
+>> drivers/mmc/core/mmc.c:1076:5: warning: no previous prototype for 'mmc_select_hs' [-Wmissing-prototypes]
+    1076 | int mmc_select_hs(struct mmc_card *card)
+         |     ^~~~~~~~~~~~~
+>> drivers/mmc/core/mmc.c:1095:5: warning: no previous prototype for 'mmc_select_hs_ddr' [-Wmissing-prototypes]
+    1095 | int mmc_select_hs_ddr(struct mmc_card *card)
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/mmc/core/mmc.c:1166:5: warning: no previous prototype for 'mmc_select_hs400' [-Wmissing-prototypes]
+    1166 | int mmc_select_hs400(struct mmc_card *card)
+         |     ^~~~~~~~~~~~~~~~
+>> drivers/mmc/core/mmc.c:1541:5: warning: no previous prototype for 'mmc_select_timing' [-Wmissing-prototypes]
+    1541 | int mmc_select_timing(struct mmc_card *card)
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/mmc/core/mmc.c:1582:5: warning: no previous prototype for 'mmc_hs200_tuning' [-Wmissing-prototypes]
+    1582 | int mmc_hs200_tuning(struct mmc_card *card)
+         |     ^~~~~~~~~~~~~~~~
 
 
 vim +/mmc_select_bus_width +1006 drivers/mmc/core/mmc.c
