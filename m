@@ -1,49 +1,52 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84CE2199
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 07:47:42 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-30ad752f433so480584f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 01 Jun 2023 00:47:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2506BE7F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 07:49:02 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-3f61530506aso5838215e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 01 Jun 2023 00:49:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1685605660; x=1688197660;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uJZu58SZ+P+nkI3BQxTXa3ICtR8svA2Uo/wonuCVw/E=;
-        b=RVqDtmBqThzym8jSxqLaU+ypcazPTNBzygGpPem+yuenYCgQY91396ZG+dT+HlT8hH
-         IiwjnY99RxB9U5DUJf3rmnjdCWYT5EZ3Y6KzoPRBKrM89MCn0vzKHpgluE5Jd7Ng9AdR
-         w+4aj0X/bNlMO080dmaV9XFolyiyfzaX9PxI5jFsvraSpmx3KxCBdARpzR/prZOEQ7DJ
-         Fd4KrUPnV8TRZMipR+rx6W3Ldyo8daaPp5wS4kSOEgoTIGf4giLjdPTURxu1OFFQDGVK
-         aud69Df5O8efG5ogeSrU59iCOut8qtin3vHhRu9a9g6AvTWtpv9oILQ2mWLDO8ZyS6uh
-         dD6g==
+        d=isovalent.com; s=google; t=1685605741; x=1688197741;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IixDW4hFtKMF6IQay/0w4OvSqO+8DXedjJMSkTKUjc0=;
+        b=WjUm7g3pyU60Dt4Hc9O7DdT2wbbdmlgpp1mSPNzvpoQzUdWuFZvS1wL2d60AOrseSr
+         IlHjbn+EmMZ5eawu9ZrjbWfwrA7Rgex2Ap89WnY5+hOr1N8lHDW9OqS3AgpV5ESej95B
+         1uw9Lvky7Lwk3gxZAN+7eMelewBbCnwudy3FWaiaoIYgDd875yLbgRj5ESZBZR0ZRZIE
+         tSxTOtNlLymDY3Xum+puki34c2qs8YOY6JYTwAi/uqcXjSecy19l36gk/t38RS10m/87
+         J6ahjkmx+Y/jxkM5IYxGneI0hGEnRbfZa04K/lnxlFPIOGy7unkRItQo+NMdFdny8aRV
+         uMqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685605660; x=1688197660;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uJZu58SZ+P+nkI3BQxTXa3ICtR8svA2Uo/wonuCVw/E=;
-        b=a0dL/hqGpzp3hxy9esunurM6blbjE7AwjveeQvnR5wqQjRrogM1NEp/e3/g3L8X82e
-         6nDDlEF2h78ekxDfe15pQ8vkiaspsbFsgF/sqfVf0Jg5D/+OHQVNSoAhm+I9sx7+39p2
-         ZZ4TJeNBBR8Bb8ayKtDlr5St8XkEoQDhIHntkHoganQoNcNnCBI04msZUzTKNxPCmmry
-         vZz7q5DV3ZY/7G0HAXHXgZUi8OgUchr7GDZz886ACrbTmab4YY1FPuWpbZ5+n1Ygl6i+
-         IGRQ1/7afaj1zaxXP4Mnssy/uUofmMbrqQ7sCHzrnFMZWHGQfJAa2p4wEOe1RWn5JODk
-         gHAA==
-X-Gm-Message-State: AC+VfDzKUxKGpRUim0mCzwRxAtZ2rAqSfoqyTqaZUqAv/7xNIgOGIOpg
-	HAW7N9DGCa9G2+R9X8cUSLL3GQ==
-X-Google-Smtp-Source: ACHHUZ6NV94rjwv5l+kNIlPg34bLFG/I0qt8UT0AgBu1IfspUCk4h2B0DS2muvyVnX/8cNKvE2B9CA==
-X-Received: by 2002:a5d:66c3:0:b0:306:28fa:16a7 with SMTP id k3-20020a5d66c3000000b0030628fa16a7mr1252994wrw.43.1685605660538;
-        Thu, 01 Jun 2023 00:47:40 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id i16-20020a05600011d000b0030aefa3a957sm9404306wrx.28.2023.06.01.00.47.38
+        d=1e100.net; s=20221208; t=1685605741; x=1688197741;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IixDW4hFtKMF6IQay/0w4OvSqO+8DXedjJMSkTKUjc0=;
+        b=WfniFOhhVsAKpjt/KwCYr00tOQodmd8+bniNyVYYb2aRDsgshR9/AMvfdV8gZb8cCD
+         ALdtjqRweCMk1OLFqIBpxS+1lqbIHqITQu7wyNBiMfNt5pYo8bz2gtYCe+CX94gwlYh6
+         TpfVOTet02PQWDIImybXgBPkxqJWtB60gLNg1w0ApaUN7bYytHeeMUcaGCdQgBRrqxrj
+         SgU9zD2504CgrpZxp0hkcuNDeTunrupnX/1/ibKBNZiX+knzqpbutIcJgceOyoCPShZM
+         xPc6zDkZbCHIX5/jbZCk0P94sFJoSwYQsA0ItWOU2yPH0MmfcJpBHQNa9R7CNKTW9aA3
+         wRvw==
+X-Gm-Message-State: AC+VfDxQYSbPMYIKIJsclGNMVmdPfiIhHHdxX2kE3CICQ8n3YL01KKpb
+	aA+oaj6UC66jzjAcaCE6lDm/iQ==
+X-Google-Smtp-Source: ACHHUZ4u9EZl8Pd8vKLMeCSbWA2CcpZihnV/qHgS/CsZo50iWGqlUeaZQJWNaBFDlmJeugwDoqGJ/A==
+X-Received: by 2002:a05:600c:3645:b0:3f4:ef34:fbc2 with SMTP id y5-20020a05600c364500b003f4ef34fbc2mr1652163wmq.24.1685605740996;
+        Thu, 01 Jun 2023 00:49:00 -0700 (PDT)
+Received: from zh-lab-node-5 ([2a02:168:f656:0:1ac0:4dff:fe0f:3782])
+        by smtp.gmail.com with ESMTPSA id n16-20020a5d4850000000b0030632833e74sm9301244wrs.11.2023.06.01.00.49.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jun 2023 00:47:38 -0700 (PDT)
-Date: Thu, 1 Jun 2023 10:47:35 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:jitalloc/v0.1 3/15] mm/jitalloc.c:68 jit_alloc_init() warn:
- variable dereferenced before check 'p' (see line 65)
-Message-ID: <3602c9c4-6d8e-4e16-85fc-3e34c1dc72da@kadam.mountain>
+        Thu, 01 Jun 2023 00:49:00 -0700 (PDT)
+Date: Thu, 1 Jun 2023 07:50:00 +0000
+From: Anton Protopopov <aspsk@isovalent.com>
+To: kernel test robot <lkp@intel.com>
+Cc: bpf@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	Joe Stringer <joe@isovalent.com>,
+	John Fastabend <john.fastabend@gmail.com>
+Subject: Re: [PATCH bpf-next 1/2] bpf: add new map ops ->map_pressure
+Message-ID: <ZHhNqDi7+k5VzofY@zh-lab-node-5>
+References: <20230531110511.64612-2-aspsk@isovalent.com>
+ <202306010837.mGhA199K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,36 +55,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202306010837.mGhA199K-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git jitalloc/v0.1
-head:   ee9292c97c0c221b03b6a12402596b1829dd2bd0
-commit: 35563a849dd19012dc61857c76d4ec617e6f6096 [3/15] mm/jitalloc, arch: convert simple overrides of module_alloc to jitalloc
-config: i386-randconfig-m021-20230531 (https://download.01.org/0day-ci/archive/20230601/202306011556.s47JJtQ2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+On Thu, Jun 01, 2023 at 08:44:24AM +0800, kernel test robot wrote:
+> Hi Anton,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [...]
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306010837.mGhA199K-lkp@intel.com/
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <error27@gmail.com>
-| Closes: https://lore.kernel.org/r/202306011556.s47JJtQ2-lkp@intel.com/
+How does this apply to patches? If I send a v2, should I include these tags
+there? If this patch gets rejected, is there need to do anything to close the
+robot's ticket?
 
-smatch warnings:
-mm/jitalloc.c:68 jit_alloc_init() warn: variable dereferenced before check 'p' (see line 65)
+> All errors (new ones prefixed by >>):
+> 
+>    kernel/bpf/hashtab.c: In function 'htab_map_pressure':
+> >> kernel/bpf/hashtab.c:189:24: error: implicit declaration of function '__percpu_counter_sum'; did you mean 'percpu_counter_sum'? [-Werror=implicit-function-declaration]
+>      189 |                 return __percpu_counter_sum(&htab->pcount);
+>          |                        ^~~~~~~~~~~~~~~~~~~~
+>          |                        percpu_counter_sum
+>    cc1: some warnings being treated as errors
+> 
+> 
+> vim +189 kernel/bpf/hashtab.c
+> 
+>    183	
+>    184	static u32 htab_map_pressure(const struct bpf_map *map)
+>    185	{
+>    186		struct bpf_htab *htab = container_of(map, struct bpf_htab, map);
+>    187	
+>    188		if (htab->use_percpu_counter)
+>  > 189			return __percpu_counter_sum(&htab->pcount);
+>    190		return atomic_read(&htab->count);
+>    191	}
+>    192	
 
-vim +/p +68 mm/jitalloc.c
+(This bug happens for !SMP case.)
 
-35563a849dd190 Mike Rapoport (IBM  2023-05-28  61) void jit_alloc_init(void)
-35563a849dd190 Mike Rapoport (IBM  2023-05-28  62) {
-35563a849dd190 Mike Rapoport (IBM  2023-05-28  63) 	struct jit_alloc_params *p = jit_alloc_arch_params();
-35563a849dd190 Mike Rapoport (IBM  2023-05-28  64) 
-35563a849dd190 Mike Rapoport (IBM  2023-05-28 @65) 	if (!jit_alloc_validate_params(p))
-                                                                                       ^
-Presumably this is dereferenced inside the function.
-
-35563a849dd190 Mike Rapoport (IBM  2023-05-28  66) 		return;
-35563a849dd190 Mike Rapoport (IBM  2023-05-28  67) 
-35563a849dd190 Mike Rapoport (IBM  2023-05-28 @68) 	if (p)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
