@@ -1,45 +1,53 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F3322602
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E0221CD8
 	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 14:24:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1685629475; x=1717165475;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FwmSAK1q0JkUi+LBLiHFM3Tyf6Tl2yY/xHkwuJt4QYk=;
-  b=iQJKN/PSW3G7x5uaw5L7AaMmIAlLQljRbUyTam/hxuL6GDtiT7bSqfEk
-   g86fm2GTEpkNf+XHeRvHEOFhekEyGGgLLUkvusXFOtZiI+JnU0VRz3XR/
-   /2Y7Iypv4jtEcTzDECjCYpHQXi8cnBdxMRQxw2otMSVWVXNvkP9NelYgt
-   zFEe0CD0dqBhjfjytU8HKeP7kmc/RBXOSJFeF7O2khIm1Vyg3kHD8cJy2
-   pQmgFTO6j87kLRLafo8NGkwvaJkU3UdDqUij/58jYux9JWfqH2WqjSc9P
-   Mp7fYfd5b7nYbrBTs2CSUpaFqmz7sMNrX2oA4IE/z96i3kkGdYbOxD85z
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=F+v0KYqgmXbJzCwwpH3tD86bRW38udBiayCtr+jvjqU=;
+  b=GI55Hu4UFWmb4GVG7xzCJeM+HIOpf9zFEVZWf9/MQcp7i3asFEgB4pnS
+   DFu9MrF8mAot6ynZHMuIYQaJq/rf83IdTKXJpvE2EQesxInZDCk+BRw7O
+   Yi5KE4LxcZGcggQJdp3LDNcsd+sED8VI/gOfD7pSZSWmg0vEchCtCUrYF
+   fVBW1SoKwW0y6RGh3ZqIBHtwWTd80rNTejJMrIGR8akAWD32xogBBn6NY
+   cHhZfshK/tJ9xn6QmcqIJP01ALNU79Y9QRwRMQle8lsgRSI0WUu/PxeZb
+   i67Wa99gbRk1zuu3F1Ws8Vydgu4iXPxmH+En3Kgy6PZw0No8/dGgUov3W
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="419088737"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="419088756"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="419088737"
+   d="scan'208";a="419088756"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 07:19:18 -0700
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 07:19:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="657813873"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="657813872"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="657813873"
+   d="scan'208";a="657813872"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
   by orsmga003.jf.intel.com with ESMTP; 01 Jun 2023 07:19:17 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4j92-0002M1-3D;
-	Thu, 01 Jun 2023 14:19:17 +0000
-Date: Thu, 1 Jun 2023 22:18:15 +0800
+	id 1q4j92-0002Lv-2b;
+	Thu, 01 Jun 2023 14:19:16 +0000
+Date: Thu, 1 Jun 2023 22:18:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-fix-2f 16/18] arm-linux-gnueabi-ld:
- drivers/gpu/drm/nouveau/nouveau_drm.o:(__dyndbg_class_users+0x0): multiple
- definition of `__UNIQUE_ID_ddebug_class_user361';
- drivers/gpu/drm/radeon/radeon_drv.o:(__dyndbg_class_users+0x0): first
- defined here
-Message-ID: <202306011715.PpbIBXdv-lkp@intel.com>
+To: Gokul krishna Krishnakumar <quic_gokukris@quicinc.com>,
+	linux-remoteproc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	linux-kernel@vger.kernel.org, Trilok Soni <quic_tsoni@quicinc.com>,
+	Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>,
+	Rajendra Nayak <quic_rjendra@quicinc.com>,
+	Elliot Berman <quic_eberman@quicinc.com>,
+	Guru Das Srinagesh <quic_gurus@quicinc.com>,
+	Sibi Sankar <quic_sibis@quicinc.com>,
+	Melody Olvera <quic_molvera@quicinc.com>,
+	Gokul krishna Krishnakumar <quic_gokukris@quicinc.com>
+Subject: Re: [PATCH v4 2/2] remoteproc: qcom: Add remoteproc tracing
+Message-ID: <202306011703.PMV10K8E-lkp@intel.com>
+References: <bd949ac8225abb842630bd7f4a2d45334c58f17f.1685486994.git.quic_gokukris@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,37 +56,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <bd949ac8225abb842630bd7f4a2d45334c58f17f.1685486994.git.quic_gokukris@quicinc.com>
 
-Hi Jim,
+Hi Gokul,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/jimc/linux.git dd-fix-2f
-head:   c626dd130ecbe187ed4a005d7fd19c896a017899
-commit: 5a56f7137d32cd4274c818cac99b124d89bacd43 [16/18] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230601/202306011715.PpbIBXdv-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+[auto build test ERROR on remoteproc/rproc-next]
+[also build test ERROR on linus/master v6.4-rc4 next-20230601]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gokul-krishna-Krishnakumar/remoteproc-Introduce-traces-for-remoteproc-events/20230601-053050
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
+patch link:    https://lore.kernel.org/r/bd949ac8225abb842630bd7f4a2d45334c58f17f.1685486994.git.quic_gokukris%40quicinc.com
+patch subject: [PATCH v4 2/2] remoteproc: qcom: Add remoteproc tracing
+config: arm64-randconfig-r036-20230531 (https://download.01.org/0day-ci/archive/20230601/202306011703.PMV10K8E-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/jimc/linux/commit/5a56f7137d32cd4274c818cac99b124d89bacd43
-        git remote add jimc https://github.com/jimc/linux.git
-        git fetch --no-tags jimc dd-fix-2f
-        git checkout 5a56f7137d32cd4274c818cac99b124d89bacd43
+        # https://github.com/intel-lab-lkp/linux/commit/8a5252420291719cda102eb8ca72295283540cd4
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Gokul-krishna-Krishnakumar/remoteproc-Introduce-traces-for-remoteproc-events/20230601-053050
+        git checkout 8a5252420291719cda102eb8ca72295283540cd4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306011715.PpbIBXdv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306011703.PMV10K8E-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> arm-linux-gnueabi-ld: drivers/gpu/drm/nouveau/nouveau_drm.o:(__dyndbg_class_users+0x0): multiple definition of `__UNIQUE_ID_ddebug_class_user361'; drivers/gpu/drm/radeon/radeon_drv.o:(__dyndbg_class_users+0x0): first defined here
->> arm-linux-gnueabi-ld: drivers/gpu/drm/gud/gud_drv.o:(__dyndbg_class_users+0x0): multiple definition of `__UNIQUE_ID_ddebug_class_user287'; drivers/gpu/drm/qxl/qxl_drv.o:(__dyndbg_class_users+0x0): first defined here
+>> ERROR: modpost: "__tracepoint_rproc_subdev_event" [drivers/remoteproc/qcom_common.ko] undefined!
+>> ERROR: modpost: "__traceiter_rproc_subdev_event" [drivers/remoteproc/qcom_common.ko] undefined!
+>> ERROR: modpost: "__tracepoint_rproc_interrupt_event" [drivers/remoteproc/qcom_q6v5.ko] undefined!
+>> ERROR: modpost: "__traceiter_rproc_interrupt_event" [drivers/remoteproc/qcom_q6v5.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
