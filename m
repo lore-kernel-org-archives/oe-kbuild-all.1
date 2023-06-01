@@ -1,60 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB531FA9;
-	Thu,  1 Jun 2023 03:28:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C364C83;
+	Thu,  1 Jun 2023 03:30:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685590085; x=1717126085;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+xq448q5qTkKIgFiYOhT+ecVXzgHvJWPPv1d0I8oCrk=;
-  b=Xr0zQSdnLb1YUATP3SkBcSrMq7Ej5OhOr3RiVBO37hWhQRAH7Q/7mcQY
-   dOISuqIGW7re9tROk3CmqnMn0u9wFvBjpYFENLUkb5t47V36YLiZ390tV
-   odz1BIlbdD5sQcp+38av27FAAM7Mu8skNpyUHie/5LJXLRWk5G47uH/pQ
-   xNcYPBbY2UnqrXEd7zOvi2BxIkySsazbKpLYBojyy3ElGeOw4EBAOjdiF
-   8pTI9fi0Ofs614Bji0BiFOsMNwt/lqSdMZqdoZoSYrSv27XDDFCqZO2DB
-   wMDm2qwYN8tL7CDRuyD0C4QCnG0Iz9+ENWXZy7pMdfivz8ybm0AMg1Dy7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="357839173"
+  t=1685590201; x=1717126201;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/bkwmBrcMfaAhfY2paDibkRrD8yfsaLON71JlWPE0NY=;
+  b=T1+f4nHBC9IZrKzDEwd9Hfem0DkVIgsPDD154BVezXwvkwlUQ37ekEqC
+   LpGSXj2PeK3E4MSBs98YqHoZTpzZeBM96BZbKdmLuUlTCh2lX8fHtf8Eh
+   rnDNAIrLw15d+ZY4yi9ZB1P6g8MU3rBJlUqNsQakXVz/yynjZg1LaqCrL
+   vvU1cO8BWta6TBXi/BRj3/xLGCHVvJdFciyNIydpyx0ENx/dcTxHReNKn
+   2dI8l9Q6NprJGlypIvlN6wRn48SlMODyVtPsiLUV/Z/THXMYOX+O1AJOh
+   0+h+h7hl3Lzm79LNtj/SFyn5Ig5E+40DHp+AnLkLZUOALjyOBJmkiPz4P
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="383705722"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="357839173"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 20:28:04 -0700
+   d="scan'208";a="383705722"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 20:30:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="736913522"
+X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="772233250"
 X-IronPort-AV: E=Sophos;i="6.00,207,1681196400"; 
-   d="scan'208";a="736913522"
+   d="scan'208";a="772233250"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 31 May 2023 20:27:59 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 31 May 2023 20:29:59 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4Yyk-0001s0-1r;
-	Thu, 01 Jun 2023 03:27:58 +0000
-Date: Thu, 1 Jun 2023 11:27:43 +0800
+	id 1q4Z0g-0001sR-2T;
+	Thu, 01 Jun 2023 03:29:58 +0000
+Date: Thu, 1 Jun 2023 11:29:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Breno Leitao <leitao@debian.org>, dsahern@kernel.org,
-	willemdebruijn.kernel@gmail.com,
-	Remi Denis-Courmont <courmisch@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexander Aring <alex.aring@gmail.com>,
-	Stefan Schmidt <stefan@datenfreihafen.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Matthieu Baerts <matthieu.baerts@tessares.net>,
-	Mat Martineau <martineau@kernel.org>,
-	Marcelo Ricardo Leitner <marcelo.leitner@gmail.com>,
-	Xin Long <lucien.xin@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, leit@fb.com,
-	axboe@kernel.dk, asml.silence@gmail.com,
-	linux-kernel@vger.kernel.org, dccp@vger.kernel.org,
-	linux-wpan@vger.kernel.org, mptcp@lists.linux.dev,
-	linux-sctp@vger.kernel.org
-Subject: Re: [PATCH net-next v4] net: ioctl: Use kernel memory on protocol
- ioctl callbacks
-Message-ID: <202306011128.2sM3vsBl-lkp@intel.com>
-References: <20230530175403.2434218-1-leitao@debian.org>
+To: Pankaj Raghav <p.raghav@samsung.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Luis Chamberlain <mcgrof@kernel.org>
+Subject: [mcgrof:large-block-next 13/31] block/bdev.c:455:15: warning: mixing
+ declarations and code is incompatible with standards before C99
+Message-ID: <202306011128.d5xJxSQm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,41 +46,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230530175403.2434218-1-leitao@debian.org>
 
-Hi Breno,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/net-ioctl-Use-kernel-memory-on-protocol-ioctl-callbacks/20230531-015554
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230530175403.2434218-1-leitao%40debian.org
-patch subject: [PATCH net-next v4] net: ioctl: Use kernel memory on protocol ioctl callbacks
-config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230601/202306011128.2sM3vsBl-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git large-block-next
+head:   1e9b17615c8ad5829f88f54de36523f291a145cc
+commit: fbc88e916be0dfe97615d765277253cd35cbf2eb [13/31] block: set mapping order for the block page cache in device_add_disk
+config: powerpc-randconfig-r015-20230531 (https://download.01.org/0day-ci/archive/20230601/202306011128.d5xJxSQm-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/f97a3206f5ae59ecb0c7105225c5230b343c6c54
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Breno-Leitao/net-ioctl-Use-kernel-memory-on-protocol-ioctl-callbacks/20230531-015554
-        git checkout f97a3206f5ae59ecb0c7105225c5230b343c6c54
+        # install powerpc cross compiling tool for clang build
+        # apt-get install binutils-powerpc-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git/commit/?id=fbc88e916be0dfe97615d765277253cd35cbf2eb
+        git remote add mcgrof https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
+        git fetch --no-tags mcgrof large-block-next
+        git checkout fbc88e916be0dfe97615d765277253cd35cbf2eb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306011128.2sM3vsBl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306011128.d5xJxSQm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mips-linux-ld: net/core/sock.o: in function `sk_ioctl':
->> sock.c:(.text.sk_ioctl+0x12c): undefined reference to `ip6mr_sk_ioctl'
+>> block/bdev.c:455:15: warning: mixing declarations and code is incompatible with standards before C99 [-Wdeclaration-after-statement]
+           unsigned int lbs = queue_logical_block_size(bdev->bd_queue);
+                        ^
+   1 warning generated.
+
+
+vim +455 block/bdev.c
+
+   449	
+   450	void bdev_set_mapping_order(struct block_device *bdev)
+   451	{
+   452	#ifdef CONFIG_BUFFER_HEAD
+   453		return;
+   454	#endif
+ > 455		unsigned int lbs = queue_logical_block_size(bdev->bd_queue);
+   456		int order = ilog2(lbs) - PAGE_SHIFT;
+   457	
+   458		if (order > 0)
+   459			mapping_set_min_folio_order(bdev->bd_inode->i_mapping,
+   460						    order);
+   461	}
+   462	
 
 -- 
 0-DAY CI Kernel Test Service
