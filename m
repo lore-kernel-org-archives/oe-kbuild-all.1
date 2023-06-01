@@ -1,43 +1,49 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18DE2BA2F;
-	Thu,  1 Jun 2023 16:04:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4A1BA2F
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 16:04:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685635460; x=1717171460;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ONiRBD+4hRflOQwlhSxxTdfvpTF2t0Qt/Up3daTp3OU=;
-  b=ig6nqeCf3AF3oFQoyiM8R41fzgCYUDiTB9nNPkQgC0H7LvixlM2Gndzi
-   OcROdmmjD8E4m4f2WoubH84MEHMHBILoqYfittc9VcmEGCTV+NuCmT+YK
-   VasexPQ7ky+6vNIvpVtYwsNbzzzJZrIKnsnhTjDQOipLD/FDc/PaAaCq8
-   LH0eoSu/ct1J2VO9vsFPw32wdVFGIK5rsO6fRnDxtAOrViZmhXR2nY/3s
-   S/7RV5hz3aakLCM8rAX3TvZn/rSCtOTz+ZzllrAuiu+iBohvcf+svbPe6
-   kLJ72eR9cINPafdh306EXo42laQyCzribd2B5FkklBs6ZjUwMyXD0widN
+  t=1685635478; x=1717171478;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TGGR2bLLl8X92/vFFfDqE2A/8GzFdht57yWXQPeix4w=;
+  b=ffVjYekxSMcdosgV1N90JKhn7e0SFZIVMW9AES5sn0UPKTkw/p5IV8pU
+   GP8Ta9dRKubYVpDZ2fTVjYMAIYVGnnmA1RTOA20hmQcTUrUfxe8jTz1F7
+   3Jo6HDSyNOFaD3eP/f87MsHSHcqmQUsRHr5iGV+g1kGZ8I5hC2tdOLwxt
+   lgo1IBZaPxY1MjYu2ZSppS8FgmBxtxa8ZDIXhooqr3h9x8i1RxkegByyt
+   ebpr7WwyFpa/9OiY4U8c8QfpS9A7OmbQBz8RzM3OERAE9fUy2Zizk1zQK
+   iLSeG8BM6vaeD8CsLvuoQP+KNPe5xEwbRyqx2Z4E7fhbLihLo29l/10mk
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="354456277"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="358897441"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="354456277"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 09:03:33 -0700
+   d="scan'208";a="358897441"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 09:03:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="831629581"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="1037557517"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="831629581"
+   d="scan'208";a="1037557517"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 01 Jun 2023 09:03:30 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 01 Jun 2023 09:03:30 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4klt-0002SC-1h;
+	id 1q4klt-0002SI-1w;
 	Thu, 01 Jun 2023 16:03:29 +0000
-Date: Fri, 2 Jun 2023 00:03:28 +0800
+Date: Fri, 2 Jun 2023 00:03:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:sched/core 25/25] kernel/sched/core.c:4053:24: error:
- call to undeclared function '__task_state_match'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202306012322.qZLstogi-lkp@intel.com>
+To: Lu Hongfei <luhongfei@vivo.com>, Artur Weber <aweber.kernel@gmail.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	"open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
+	open list <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com,
+	luhongfei@vivo.com
+Subject: Re: [PATCH] gpu: drm/panel: Optimize the workflow of s6d7aa0_lock
+Message-ID: <202306012354.obLJxas6-lkp@intel.com>
+References: <20230531110717.36896-1-luhongfei@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,75 +52,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230531110717.36896-1-luhongfei@vivo.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/core
-head:   1fd7ac28685ef6c242cc8689f97bc7014ae82ca5
-commit: 1fd7ac28685ef6c242cc8689f97bc7014ae82ca5 [25/25] sched: Consider task_struct::saved_state in wait_task_inactive()
-config: riscv-randconfig-r042-20230531 (https://download.01.org/0day-ci/archive/20230601/202306012322.qZLstogi-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
+Hi Lu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on next-20230601]
+[cannot apply to linus/master v6.4-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lu-Hongfei/gpu-drm-panel-Optimize-the-workflow-of-s6d7aa0_lock/20230531-190848
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230531110717.36896-1-luhongfei%40vivo.com
+patch subject: [PATCH] gpu: drm/panel: Optimize the workflow of s6d7aa0_lock
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230601/202306012354.obLJxas6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=1fd7ac28685ef6c242cc8689f97bc7014ae82ca5
-        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
-        git fetch --no-tags peterz-queue sched/core
-        git checkout 1fd7ac28685ef6c242cc8689f97bc7014ae82ca5
+        # https://github.com/intel-lab-lkp/linux/commit/e1ade7d20fb0efb9aa0b332d5ac5da2863f8e68e
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Lu-Hongfei/gpu-drm-panel-Optimize-the-workflow-of-s6d7aa0_lock/20230531-190848
+        git checkout e1ade7d20fb0efb9aa0b332d5ac5da2863f8e68e
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash kernel/sched/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/panel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306012322.qZLstogi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306012354.obLJxas6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/sched/core.c:4053:24: error: call to undeclared function '__task_state_match'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           *success = !!(match = __task_state_match(p, state));
-                                 ^
-   kernel/sched/core.c:6815:35: warning: no previous prototype for function 'schedule_user' [-Wmissing-prototypes]
-   asmlinkage __visible void __sched schedule_user(void)
-                                     ^
-   kernel/sched/core.c:6815:22: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   asmlinkage __visible void __sched schedule_user(void)
-                        ^
-                        static 
-   1 warning and 1 error generated.
+   In file included from drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:17:
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c: In function 's6d7aa0_lock':
+   include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
+     326 |         do {                                                               \
+         |         ^~
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:72:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
+      72 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0xa5, 0xa5);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
+     326 |         do {                                                               \
+         |         ^~
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:75:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
+      75 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0xa5, 0xa5);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
+     326 |         do {                                                               \
+         |         ^~
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:79:31: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
+      79 |                         ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0x5a, 0x5a);
+         |                               ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
+     326 |         do {                                                               \
+         |         ^~
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:84:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
+      84 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0x5a, 0x5a);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
+     326 |         do {                                                               \
+         |         ^~
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:87:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
+      87 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0x5a, 0x5a);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
+     326 |         do {                                                               \
+         |         ^~
+   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:91:31: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
+      91 |                         ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0xa5, 0xa5);
+         |                               ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:68:33: warning: unused variable 'dsi' [-Wunused-variable]
+      68 |         struct mipi_dsi_device *dsi = ctx->dsi;
+         |                                 ^~~
 
 
-vim +/__task_state_match +4053 kernel/sched/core.c
+vim +/dsi +68 drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
 
-  4028	
-  4029	/*
-  4030	 * Invoked from try_to_wake_up() to check whether the task can be woken up.
-  4031	 *
-  4032	 * The caller holds p::pi_lock if p != current or has preemption
-  4033	 * disabled when p == current.
-  4034	 *
-  4035	 * The rules of PREEMPT_RT saved_state:
-  4036	 *
-  4037	 *   The related locking code always holds p::pi_lock when updating
-  4038	 *   p::saved_state, which means the code is fully serialized in both cases.
-  4039	 *
-  4040	 *   The lock wait and lock wakeups happen via TASK_RTLOCK_WAIT. No other
-  4041	 *   bits set. This allows to distinguish all wakeup scenarios.
-  4042	 */
-  4043	static __always_inline
-  4044	bool ttwu_state_match(struct task_struct *p, unsigned int state, int *success)
-  4045	{
-  4046		int match;
-  4047	
-  4048		if (IS_ENABLED(CONFIG_DEBUG_PREEMPT)) {
-  4049			WARN_ON_ONCE((state & TASK_RTLOCK_WAIT) &&
-  4050				     state != TASK_RTLOCK_WAIT);
-  4051		}
-  4052	
-> 4053		*success = !!(match = __task_state_match(p, state));
-  4054	
+6810bb390282bb Artur Weber 2023-05-19  65  
+6810bb390282bb Artur Weber 2023-05-19  66  static int s6d7aa0_lock(struct s6d7aa0 *ctx, bool lock)
+6810bb390282bb Artur Weber 2023-05-19  67  {
+6810bb390282bb Artur Weber 2023-05-19 @68  	struct mipi_dsi_device *dsi = ctx->dsi;
+6810bb390282bb Artur Weber 2023-05-19  69  	int ret = 0;
+6810bb390282bb Artur Weber 2023-05-19  70  
+6810bb390282bb Artur Weber 2023-05-19  71  	if (lock) {
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  72  		ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0xa5, 0xa5);
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  73  		if (ret < 0)
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  74  			return ret;
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  75  		ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0xa5, 0xa5);
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  76  		if (ret < 0)
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  77  			return ret;
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  78  		if (ctx->desc->use_passwd3) {
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  79  			ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0x5a, 0x5a);
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  80  			if (ret < 0)
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  81  				return ret;
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  82  		}
+6810bb390282bb Artur Weber 2023-05-19  83  	} else {
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  84  		ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0x5a, 0x5a);
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  85  		if (ret < 0)
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  86  			return ret;
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  87  		ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0x5a, 0x5a);
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  88  		if (ret < 0)
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  89  			return ret;
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  90  		if (ctx->desc->use_passwd3) {
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  91  			ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0xa5, 0xa5);
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  92  			if (ret < 0)
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  93  				return ret;
+e1ade7d20fb0ef Lu Hongfei  2023-05-31  94  		}
+6810bb390282bb Artur Weber 2023-05-19  95  	}
+6810bb390282bb Artur Weber 2023-05-19  96  
+6810bb390282bb Artur Weber 2023-05-19  97  	return ret;
+6810bb390282bb Artur Weber 2023-05-19  98  }
+6810bb390282bb Artur Weber 2023-05-19  99  
 
 -- 
 0-DAY CI Kernel Test Service
