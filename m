@@ -1,42 +1,42 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2956D33DF
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 21:36:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B0824136
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 21:36:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685655406; x=1717191406;
+  t=1685655408; x=1717191408;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Nl78VFvYzJWIXEIYrg8qnTqsrA97rrLwoTIc8zT+FpU=;
-  b=V5gEV1vKXx9WmRWpUA9Z6iMHVTItm4opq4X56FsHtDnji0yqyTJ4xSwf
-   KZdm85cgcI2vKBeifACn0OrYPsveyhEWOibaK9a5JsAfZQgUNLlLjkUvl
-   TjO49us19lWJn6X4TILyjpGZVat4j3B3d6qFZbob05A8I31z92s8QfDWW
-   se1M4da5WUXPtrGOZKGGAPfU3i04H8UaqRVy6YgamUwENw9/f5RqgQA5t
-   N2YrPU4EGu7JFS/sbxZ+SKmutafRMMAvkpyzicAiREfg4iZWX+o5z1rX+
-   tL/SnoI4vq7umMFLa8dZ/wDakxY95tNMlD0jGJVHAU7tI6l1yjEb970GB
+  bh=DyWSHhrWz5eCZfT8mTCr3jHY0gY42jJv8mHDlKg0kGU=;
+  b=YqlLhcKdSbSr7H+dnn8xeIGzsVYy30lZhOt4I7bp1yx9e2kW8tAYsnA/
+   eferW4KKWjOZCv7ben8h2S3aGoN12x0JBbFvHAhVOL8CaCcOgkVF5kuG2
+   rlU20QXv3zgNvdVqRYdfYrUlNOxQJZNR7PzA0n5qpOuF5iuqmgy3OaPq2
+   CUCQirbb9UWLq+eYtMK767czTQ2/RoIw5y/161OuhXrRogm1ox95ilNVx
+   criEfYuX60JwKocF2qGRn/lAPACHB1srDflZeQKKVPwYFfvPpQAatYYSe
+   14tUPTkTcf9Z/8p1uvYn1SV/T6NRM3SluvZoN0y/2LwIXhV5qmwhkFGjG
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="383971415"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="383971413"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="383971415"
+   d="scan'208";a="383971413"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 14:36:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="820003478"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="820003479"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="820003478"
+   d="scan'208";a="820003479"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
   by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2023 14:36:44 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4pyN-0002hy-1B;
+	id 1q4pyN-0002i0-1G;
 	Thu, 01 Jun 2023 21:36:43 +0000
-Date: Fri, 2 Jun 2023 05:36:08 +0800
+Date: Fri, 2 Jun 2023 05:36:01 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 1/3] include/trace/stages/init.h:2:23:
- warning: 'str__mmc__trace_system_name' defined but not used
-Message-ID: <202306020549.nBIB3Obc-lkp@intel.com>
+Subject: [android-common:android14-6.1 2/3] drivers/mmc/core/mmc.c:1006:5:
+ warning: no previous prototype for function 'mmc_select_bus_width'
+Message-ID: <202306020526.4qbYjNr8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,238 +48,338 @@ Content-Disposition: inline
 
 tree:   https://android.googlesource.com/kernel/common android14-6.1
 head:   87b384408e48cba1bc64922b7897185a7c65d4c7
-commit: 631a2db5a3c7ece81f0b931a50ca57c4f8e5e952 [1/3] ANDROID: vendor_hooks: Define new hooks in _mmc_suspend/resume
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230602/202306020549.nBIB3Obc-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+commit: a3a743e67f3ded182826a65262af30ec11ec5bbe [2/3] ANDROID: mmc: core: Export core functions for kernel modules usage
+config: arm64-randconfig-r026-20230531 (https://download.01.org/0day-ci/archive/20230602/202306020526.4qbYjNr8-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
 reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
         git remote add android-common https://android.googlesource.com/kernel/common
         git fetch --no-tags android-common android14-6.1
-        git checkout 631a2db5a3c7ece81f0b931a50ca57c4f8e5e952
+        git checkout a3a743e67f3ded182826a65262af30ec11ec5bbe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/mmc/core/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306020549.nBIB3Obc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306020526.4qbYjNr8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/net.h:32,
-                    from drivers/android/vendor_hooks.c:37:
-   include/trace/stages/init.h:2:23: warning: 'str__net__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/mm.h:71,
-                    from drivers/android/vendor_hooks.c:36:
-   include/trace/stages/init.h:2:23: warning: 'str__mm__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/iommu.h:46,
-                    from drivers/android/vendor_hooks.c:35:
-   include/trace/stages/init.h:2:23: warning: 'str__iommu__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sys.h:16,
-                    from drivers/android/vendor_hooks.c:34:
-   include/trace/stages/init.h:2:23: warning: 'str__sys__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cgroup.h:44,
-                    from drivers/android/vendor_hooks.c:33:
-   include/trace/stages/init.h:2:23: warning: 'str__cgroup__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/mmc.h:25,
-                    from drivers/android/vendor_hooks.c:32:
->> include/trace/stages/init.h:2:23: warning: 'str__mmc__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ufshcd.h:71,
-                    from drivers/android/vendor_hooks.c:31:
-   include/trace/stages/init.h:2:23: warning: 'str__ufshcd__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ftrace_dump.h:36,
-                    from drivers/android/vendor_hooks.c:30:
-   include/trace/stages/init.h:2:23: warning: 'str__ftrace_dump__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/preemptirq.h:31,
-                    from drivers/android/vendor_hooks.c:29:
-   include/trace/stages/init.h:2:23: warning: 'str__preemptirq__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cpufreq.h:48,
-                    from drivers/android/vendor_hooks.c:28:
-   include/trace/stages/init.h:2:23: warning: 'str__cpufreq__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/stages/init.h:5:29: note: in expansion of macro '__app'
-       5 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/stages/init.h:8:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-       8 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/stages/init.h:11:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      11 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/trace_events.h:27,
-                    from include/trace/define_trace.h:102,
-                    from include/trace/hooks/epoch.h:22,
-                    from drivers/android/vendor_hooks.c:27:
-   include/trace/stages/init.h:2:23: warning: 'str__epoch__trace_system_name' defined but not used [-Wunused-const-variable=]
-       2 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/stages/init.h:3:21: note: in expansion of macro '__app__'
-       3 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
+>> drivers/mmc/core/mmc.c:1006:5: warning: no previous prototype for function 'mmc_select_bus_width' [-Wmissing-prototypes]
+   int mmc_select_bus_width(struct mmc_card *card)
+       ^
+   drivers/mmc/core/mmc.c:1006:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int mmc_select_bus_width(struct mmc_card *card)
+   ^
+   static 
+>> drivers/mmc/core/mmc.c:1076:5: warning: no previous prototype for function 'mmc_select_hs' [-Wmissing-prototypes]
+   int mmc_select_hs(struct mmc_card *card)
+       ^
+   drivers/mmc/core/mmc.c:1076:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int mmc_select_hs(struct mmc_card *card)
+   ^
+   static 
+>> drivers/mmc/core/mmc.c:1095:5: warning: no previous prototype for function 'mmc_select_hs_ddr' [-Wmissing-prototypes]
+   int mmc_select_hs_ddr(struct mmc_card *card)
+       ^
+   drivers/mmc/core/mmc.c:1095:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int mmc_select_hs_ddr(struct mmc_card *card)
+   ^
+   static 
+>> drivers/mmc/core/mmc.c:1166:5: warning: no previous prototype for function 'mmc_select_hs400' [-Wmissing-prototypes]
+   int mmc_select_hs400(struct mmc_card *card)
+       ^
+   drivers/mmc/core/mmc.c:1166:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int mmc_select_hs400(struct mmc_card *card)
+   ^
+   static 
+>> drivers/mmc/core/mmc.c:1541:5: warning: no previous prototype for function 'mmc_select_timing' [-Wmissing-prototypes]
+   int mmc_select_timing(struct mmc_card *card)
+       ^
+   drivers/mmc/core/mmc.c:1541:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int mmc_select_timing(struct mmc_card *card)
+   ^
+   static 
+>> drivers/mmc/core/mmc.c:1582:5: warning: no previous prototype for function 'mmc_hs200_tuning' [-Wmissing-prototypes]
+   int mmc_hs200_tuning(struct mmc_card *card)
+       ^
+   drivers/mmc/core/mmc.c:1582:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int mmc_hs200_tuning(struct mmc_card *card)
+   ^
+   static 
+   6 warnings generated.
 
 
-vim +/str__mmc__trace_system_name +2 include/trace/stages/init.h
+vim +/mmc_select_bus_width +1006 drivers/mmc/core/mmc.c
 
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03 @2) #define __app__(x, y) str__##x##y
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  3) #define __app(x, y) __app__(x, y)
-af6b9668e85ffd Steven Rostedt (Google  2022-03-03  4) 
-
-:::::: The code at line 2 was first introduced by commit
-:::::: af6b9668e85ffd1502aada8036ccbf4dbd481708 tracing: Move the defines to create TRACE_EVENTS into their own files
-
-:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+  1000	
+  1001	/*
+  1002	 * Select the bus width amoung 4-bit and 8-bit(SDR).
+  1003	 * If the bus width is changed successfully, return the selected width value.
+  1004	 * Zero is returned instead of error value if the wide width is not supported.
+  1005	 */
+> 1006	int mmc_select_bus_width(struct mmc_card *card)
+  1007	{
+  1008		static unsigned ext_csd_bits[] = {
+  1009			EXT_CSD_BUS_WIDTH_8,
+  1010			EXT_CSD_BUS_WIDTH_4,
+  1011		};
+  1012		static unsigned bus_widths[] = {
+  1013			MMC_BUS_WIDTH_8,
+  1014			MMC_BUS_WIDTH_4,
+  1015		};
+  1016		struct mmc_host *host = card->host;
+  1017		unsigned idx, bus_width = 0;
+  1018		int err = 0;
+  1019	
+  1020		if (!mmc_can_ext_csd(card) ||
+  1021		    !(host->caps & (MMC_CAP_4_BIT_DATA | MMC_CAP_8_BIT_DATA)))
+  1022			return 0;
+  1023	
+  1024		idx = (host->caps & MMC_CAP_8_BIT_DATA) ? 0 : 1;
+  1025	
+  1026		/*
+  1027		 * Unlike SD, MMC cards dont have a configuration register to notify
+  1028		 * supported bus width. So bus test command should be run to identify
+  1029		 * the supported bus width or compare the ext csd values of current
+  1030		 * bus width and ext csd values of 1 bit mode read earlier.
+  1031		 */
+  1032		for (; idx < ARRAY_SIZE(bus_widths); idx++) {
+  1033			/*
+  1034			 * Host is capable of 8bit transfer, then switch
+  1035			 * the device to work in 8bit transfer mode. If the
+  1036			 * mmc switch command returns error then switch to
+  1037			 * 4bit transfer mode. On success set the corresponding
+  1038			 * bus width on the host.
+  1039			 */
+  1040			err = mmc_switch(card, EXT_CSD_CMD_SET_NORMAL,
+  1041					 EXT_CSD_BUS_WIDTH,
+  1042					 ext_csd_bits[idx],
+  1043					 card->ext_csd.generic_cmd6_time);
+  1044			if (err)
+  1045				continue;
+  1046	
+  1047			bus_width = bus_widths[idx];
+  1048			mmc_set_bus_width(host, bus_width);
+  1049	
+  1050			/*
+  1051			 * If controller can't handle bus width test,
+  1052			 * compare ext_csd previously read in 1 bit mode
+  1053			 * against ext_csd at new bus width
+  1054			 */
+  1055			if (!(host->caps & MMC_CAP_BUS_WIDTH_TEST))
+  1056				err = mmc_compare_ext_csds(card, bus_width);
+  1057			else
+  1058				err = mmc_bus_test(card, bus_width);
+  1059	
+  1060			if (!err) {
+  1061				err = bus_width;
+  1062				break;
+  1063			} else {
+  1064				pr_warn("%s: switch to bus width %d failed\n",
+  1065					mmc_hostname(host), 1 << bus_width);
+  1066			}
+  1067		}
+  1068	
+  1069		return err;
+  1070	}
+  1071	EXPORT_SYMBOL_GPL(mmc_select_bus_width);
+  1072	
+  1073	/*
+  1074	 * Switch to the high-speed mode
+  1075	 */
+> 1076	int mmc_select_hs(struct mmc_card *card)
+  1077	{
+  1078		int err;
+  1079	
+  1080		err = __mmc_switch(card, EXT_CSD_CMD_SET_NORMAL,
+  1081				   EXT_CSD_HS_TIMING, EXT_CSD_TIMING_HS,
+  1082				   card->ext_csd.generic_cmd6_time, MMC_TIMING_MMC_HS,
+  1083				   true, true, MMC_CMD_RETRIES);
+  1084		if (err)
+  1085			pr_warn("%s: switch to high-speed failed, err:%d\n",
+  1086				mmc_hostname(card->host), err);
+  1087	
+  1088		return err;
+  1089	}
+  1090	EXPORT_SYMBOL_GPL(mmc_select_hs);
+  1091	
+  1092	/*
+  1093	 * Activate wide bus and DDR if supported.
+  1094	 */
+> 1095	int mmc_select_hs_ddr(struct mmc_card *card)
+  1096	{
+  1097		struct mmc_host *host = card->host;
+  1098		u32 bus_width, ext_csd_bits;
+  1099		int err = 0;
+  1100	
+  1101		if (!(card->mmc_avail_type & EXT_CSD_CARD_TYPE_DDR_52))
+  1102			return 0;
+  1103	
+  1104		bus_width = host->ios.bus_width;
+  1105		if (bus_width == MMC_BUS_WIDTH_1)
+  1106			return 0;
+  1107	
+  1108		ext_csd_bits = (bus_width == MMC_BUS_WIDTH_8) ?
+  1109			EXT_CSD_DDR_BUS_WIDTH_8 : EXT_CSD_DDR_BUS_WIDTH_4;
+  1110	
+  1111		err = __mmc_switch(card, EXT_CSD_CMD_SET_NORMAL,
+  1112				   EXT_CSD_BUS_WIDTH,
+  1113				   ext_csd_bits,
+  1114				   card->ext_csd.generic_cmd6_time,
+  1115				   MMC_TIMING_MMC_DDR52,
+  1116				   true, true, MMC_CMD_RETRIES);
+  1117		if (err) {
+  1118			pr_err("%s: switch to bus width %d ddr failed\n",
+  1119				mmc_hostname(host), 1 << bus_width);
+  1120			return err;
+  1121		}
+  1122	
+  1123		/*
+  1124		 * eMMC cards can support 3.3V to 1.2V i/o (vccq)
+  1125		 * signaling.
+  1126		 *
+  1127		 * EXT_CSD_CARD_TYPE_DDR_1_8V means 3.3V or 1.8V vccq.
+  1128		 *
+  1129		 * 1.8V vccq at 3.3V core voltage (vcc) is not required
+  1130		 * in the JEDEC spec for DDR.
+  1131		 *
+  1132		 * Even (e)MMC card can support 3.3v to 1.2v vccq, but not all
+  1133		 * host controller can support this, like some of the SDHCI
+  1134		 * controller which connect to an eMMC device. Some of these
+  1135		 * host controller still needs to use 1.8v vccq for supporting
+  1136		 * DDR mode.
+  1137		 *
+  1138		 * So the sequence will be:
+  1139		 * if (host and device can both support 1.2v IO)
+  1140		 *	use 1.2v IO;
+  1141		 * else if (host and device can both support 1.8v IO)
+  1142		 *	use 1.8v IO;
+  1143		 * so if host and device can only support 3.3v IO, this is the
+  1144		 * last choice.
+  1145		 *
+  1146		 * WARNING: eMMC rules are NOT the same as SD DDR
+  1147		 */
+  1148		if (card->mmc_avail_type & EXT_CSD_CARD_TYPE_DDR_1_2V) {
+  1149			err = mmc_set_signal_voltage(host, MMC_SIGNAL_VOLTAGE_120);
+  1150			if (!err)
+  1151				return 0;
+  1152		}
+  1153	
+  1154		if (card->mmc_avail_type & EXT_CSD_CARD_TYPE_DDR_1_8V &&
+  1155		    host->caps & MMC_CAP_1_8V_DDR)
+  1156			err = mmc_set_signal_voltage(host, MMC_SIGNAL_VOLTAGE_180);
+  1157	
+  1158		/* make sure vccq is 3.3v after switching disaster */
+  1159		if (err)
+  1160			err = mmc_set_signal_voltage(host, MMC_SIGNAL_VOLTAGE_330);
+  1161	
+  1162		return err;
+  1163	}
+  1164	EXPORT_SYMBOL_GPL(mmc_select_hs_ddr);
+  1165	
+> 1166	int mmc_select_hs400(struct mmc_card *card)
+  1167	{
+  1168		struct mmc_host *host = card->host;
+  1169		unsigned int max_dtr;
+  1170		int err = 0;
+  1171		u8 val;
+  1172	
+  1173		/*
+  1174		 * HS400 mode requires 8-bit bus width
+  1175		 */
+  1176		if (!(card->mmc_avail_type & EXT_CSD_CARD_TYPE_HS400 &&
+  1177		      host->ios.bus_width == MMC_BUS_WIDTH_8))
+  1178			return 0;
+  1179	
+  1180		/* Switch card to HS mode */
+  1181		val = EXT_CSD_TIMING_HS;
+  1182		err = __mmc_switch(card, EXT_CSD_CMD_SET_NORMAL,
+  1183				   EXT_CSD_HS_TIMING, val,
+  1184				   card->ext_csd.generic_cmd6_time, 0,
+  1185				   false, true, MMC_CMD_RETRIES);
+  1186		if (err) {
+  1187			pr_err("%s: switch to high-speed from hs200 failed, err:%d\n",
+  1188				mmc_hostname(host), err);
+  1189			return err;
+  1190		}
+  1191	
+  1192		/* Prepare host to downgrade to HS timing */
+  1193		if (host->ops->hs400_downgrade)
+  1194			host->ops->hs400_downgrade(host);
+  1195	
+  1196		/* Set host controller to HS timing */
+  1197		mmc_set_timing(host, MMC_TIMING_MMC_HS);
+  1198	
+  1199		/* Reduce frequency to HS frequency */
+  1200		max_dtr = card->ext_csd.hs_max_dtr;
+  1201		mmc_set_clock(host, max_dtr);
+  1202	
+  1203		err = mmc_switch_status(card, true);
+  1204		if (err)
+  1205			goto out_err;
+  1206	
+  1207		if (host->ops->hs400_prepare_ddr)
+  1208			host->ops->hs400_prepare_ddr(host);
+  1209	
+  1210		/* Switch card to DDR */
+  1211		err = mmc_switch(card, EXT_CSD_CMD_SET_NORMAL,
+  1212				 EXT_CSD_BUS_WIDTH,
+  1213				 EXT_CSD_DDR_BUS_WIDTH_8,
+  1214				 card->ext_csd.generic_cmd6_time);
+  1215		if (err) {
+  1216			pr_err("%s: switch to bus width for hs400 failed, err:%d\n",
+  1217				mmc_hostname(host), err);
+  1218			return err;
+  1219		}
+  1220	
+  1221		/* Switch card to HS400 */
+  1222		val = EXT_CSD_TIMING_HS400 |
+  1223		      card->drive_strength << EXT_CSD_DRV_STR_SHIFT;
+  1224		err = __mmc_switch(card, EXT_CSD_CMD_SET_NORMAL,
+  1225				   EXT_CSD_HS_TIMING, val,
+  1226				   card->ext_csd.generic_cmd6_time, 0,
+  1227				   false, true, MMC_CMD_RETRIES);
+  1228		if (err) {
+  1229			pr_err("%s: switch to hs400 failed, err:%d\n",
+  1230				 mmc_hostname(host), err);
+  1231			return err;
+  1232		}
+  1233	
+  1234		/* Set host controller to HS400 timing and frequency */
+  1235		mmc_set_timing(host, MMC_TIMING_MMC_HS400);
+  1236		mmc_set_bus_speed(card);
+  1237	
+  1238		if (host->ops->execute_hs400_tuning) {
+  1239			mmc_retune_disable(host);
+  1240			err = host->ops->execute_hs400_tuning(host, card);
+  1241			mmc_retune_enable(host);
+  1242			if (err)
+  1243				goto out_err;
+  1244		}
+  1245	
+  1246		if (host->ops->hs400_complete)
+  1247			host->ops->hs400_complete(host);
+  1248	
+  1249		err = mmc_switch_status(card, true);
+  1250		if (err)
+  1251			goto out_err;
+  1252	
+  1253		return 0;
+  1254	
+  1255	out_err:
+  1256		pr_err("%s: %s failed, error %d\n", mmc_hostname(card->host),
+  1257		       __func__, err);
+  1258		return err;
+  1259	}
+  1260	EXPORT_SYMBOL_GPL(mmc_select_hs400);
+  1261	
 
 -- 
 0-DAY CI Kernel Test Service
