@@ -1,44 +1,50 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD7663BF
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 04:12:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685592725; x=1717128725;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cu4GmSjnvyftsuvM0Kxe1+exNTi+719t0xYrC+PlZKc=;
-  b=DuXF4jSwPkjQOSnfcD0+A+snh0Q4MD1aNcSD+Qz4lZJXXbzQMklEK0zh
-   ZVcPAvhYlFhd+5F/jKFOWhqZ0r61DHME7wPWSAeDOZL0z4grupiHiI9sq
-   zvdqZQNfBzet0/znKBdlKN06Fhqm4pBr/Vsa8uRCgmFHyaecWSkFTeAuJ
-   ICFXfVp82JviID11XMqPrypSHlLgN3iLXQQaXHlm2i+HFHjRhHuSB3t9w
-   A23WWkL/c+/2YHnbIFJfylx9i8M/ciq9S78SvDexLEmL8T37NDmPA69K5
-   VCb1QJk3wn2ZjyT2rj1QHn8pHW6ItmH0OAH0Yu+MKxnmuiZBB0SPDVT+T
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="418945928"
-X-IronPort-AV: E=Sophos;i="6.00,209,1681196400"; 
-   d="scan'208";a="418945928"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2023 21:12:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10727"; a="953908009"
-X-IronPort-AV: E=Sophos;i="6.00,209,1681196400"; 
-   d="scan'208";a="953908009"
-Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 31 May 2023 21:12:00 -0700
-Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q4ZfL-0001th-2K;
-	Thu, 01 Jun 2023 04:11:59 +0000
-Date: Thu, 1 Jun 2023 12:11:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keerthy <j-keerthy@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Apurva Nandan <a-nandan@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y-cicd 68/88]
- drivers/thermal/k3_j72xx_bandgap.c:407:5: warning: no previous prototype for
- function 'k3_thermal_register_cpu_cooling'
-Message-ID: <202306011222.PXt0Xh5J-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17CE4C93
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 04:22:53 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-3f6ffc2b314so12876065e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 31 May 2023 21:22:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685593372; x=1688185372;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nEUSKakM7CgssIHutSLLFBuhQcpvKDHSFouStIGCbKI=;
+        b=RJBR4CEyV3X3OY/66TlP2daq0Rg6bP8ppblEDDuLG57vuDzCrzb6BuivmIg/RALiDR
+         fbPFTpkcVtl6Gjo1B1h5Q2lCPLdmF0wTm/IKTAG1ycjGTEg7NI1+6Qm9YWPuuZedJ4QU
+         kMng0r4JpU2v/GEjrcSCV3qAyZV2iWy2pUS9RaDzL7iHHa8I5Nv4broTDS5iy/9klq4m
+         jqBGwZM9OcmEjXWjfA7G71F968LpNMxUnEtHl81FKC/JDxrCNvGn9xR9VA11dgws2fi6
+         lYQ61V77p4+XTiBZhTerevzHmhoXDMmAAUqDWZyGE0snB3qI4kHOepofoB6Iv0PQjWYL
+         nZJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685593372; x=1688185372;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nEUSKakM7CgssIHutSLLFBuhQcpvKDHSFouStIGCbKI=;
+        b=QcQSJuc/gkblMf5BJnpb4XXta71/oqwG6FGo0ZQV9fxgsepCE8pXDwQOafoP6i24zQ
+         v1ymfOY+5JcbAYrYNZV07Bi17x3yYaOd215dVylnfF8NtxpYWc0Nvr/AUHYNiQ5dxOL0
+         POgqILk0MPaooADsUO0LjuVuHVwqXvnGeBJ8u6A42JUucqmfqaL8RnJAoDsaE4xsx/J2
+         gwlSdvhB7JUTVbx2UWykZiKORcOvTdyYRajzs/BOm477IFJG67tJOg0ysnmnc00MJrRh
+         /70xrXxD1qjXRMw26yhPuzyHD8EJ4akbWmmjQOuqHVjuotBs0dgc8YqHw/dNDQ64qML4
+         dm7w==
+X-Gm-Message-State: AC+VfDw0tP29zNB4l9FWhJa5B+NE5AWSJV/nWGispgIehrK6N2wFNZpB
+	OqTKL+OtOvWDFLTtWNs0yUvtkQ==
+X-Google-Smtp-Source: ACHHUZ609qLhj2H/vRP631y1n+nwPXyNCW7my8BlllAeUfXlVV61oluu11j+zaNfSk14DUmH/SdmoA==
+X-Received: by 2002:a5d:484f:0:b0:309:5029:95a9 with SMTP id n15-20020a5d484f000000b00309502995a9mr405031wrs.32.1685593372011;
+        Wed, 31 May 2023 21:22:52 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id a14-20020adfe5ce000000b003078354f774sm8789259wrn.36.2023.05.31.21.22.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 May 2023 21:22:49 -0700 (PDT)
+Date: Thu, 1 Jun 2023 07:22:45 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Hans de Goede <hdegoede@redhat.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: drivers/platform/x86/thinkpad_acpi.c:10538 dytc_profile_refresh()
+ error: uninitialized symbol 'funcmode'.
+Message-ID: <09b823d3-4bad-456f-bf30-3221354e33f9@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,236 +54,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
-head:   8509e7bb5765732d005befcd277ade73a5df3760
-commit: 38a145da1625c46c90e453d6e28537e6f97e2720 [68/88] thermal: k3_j72xx_bandgap: Add cooling device support
-config: arm64-randconfig-r021-20230531 (https://download.01.org/0day-ci/archive/20230601/202306011222.PXt0Xh5J-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
-        git fetch --no-tags ti ti-rt-linux-6.1.y-cicd
-        git checkout 38a145da1625c46c90e453d6e28537e6f97e2720
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/thermal/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   929ed21dfdb6ee94391db51c9eedb63314ef6847
+commit: 1bc5d819f0b9784043ea08570e1b21107aa35739 platform/x86: thinkpad_acpi: Fix profile modes on Intel platforms
+config: i386-randconfig-m021-20230531 (https://download.01.org/0day-ci/archive/20230601/202306011202.1hbgLRD4-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306011222.PXt0Xh5J-lkp@intel.com/
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202306011202.1hbgLRD4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+drivers/platform/x86/thinkpad_acpi.c:10538 dytc_profile_refresh() error: uninitialized symbol 'funcmode'.
 
-   drivers/thermal/k3_j72xx_bandgap.c:288:6: warning: variable 'id' set but not used [-Wunused-but-set-variable]
-           int id, tr, ret = 0;
-               ^
->> drivers/thermal/k3_j72xx_bandgap.c:407:5: warning: no previous prototype for function 'k3_thermal_register_cpu_cooling' [-Wmissing-prototypes]
-   int k3_thermal_register_cpu_cooling(struct k3_j72xx_bandgap *bgp, int id)
-       ^
-   drivers/thermal/k3_j72xx_bandgap.c:407:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int k3_thermal_register_cpu_cooling(struct k3_j72xx_bandgap *bgp, int id)
-   ^
-   static 
->> drivers/thermal/k3_j72xx_bandgap.c:449:5: warning: no previous prototype for function 'ti_thermal_unregister_cpu_cooling' [-Wmissing-prototypes]
-   int ti_thermal_unregister_cpu_cooling(struct k3_j72xx_bandgap *bgp, int id)
-       ^
-   drivers/thermal/k3_j72xx_bandgap.c:449:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int ti_thermal_unregister_cpu_cooling(struct k3_j72xx_bandgap *bgp, int id)
-   ^
-   static 
-   3 warnings generated.
+Old smatch warnings:
+drivers/platform/x86/thinkpad_acpi.c:1193 tpacpi_new_rfkill() warn: 'atp_rfk->rfkill' is an error pointer or valid
+drivers/platform/x86/thinkpad_acpi.c:2606 hotkey_inputdev_close() warn: bitwise AND condition is false here
+drivers/platform/x86/thinkpad_acpi.c:3776 hotkey_notify_hotkey() warn: bitwise AND condition is false here
+drivers/platform/x86/thinkpad_acpi.c:10531 dytc_profile_refresh() error: uninitialized symbol 'output'.
+drivers/platform/x86/thinkpad_acpi.c:10537 dytc_profile_refresh() error: uninitialized symbol 'output'.
 
+vim +/funcmode +10538 drivers/platform/x86/thinkpad_acpi.c
 
-vim +/k3_thermal_register_cpu_cooling +407 drivers/thermal/k3_j72xx_bandgap.c
+c3bfcd4c676238 Mark Pearson  2021-01-11  10515  static void dytc_profile_refresh(void)
+c3bfcd4c676238 Mark Pearson  2021-01-11  10516  {
+c3bfcd4c676238 Mark Pearson  2021-01-11  10517  	enum platform_profile_option profile;
+6229ce9c36384c Hans de Goede 2022-03-09  10518  	int output, err = 0;
+fde5f74ccfc771 Mark Pearson  2023-01-12  10519  	int perfmode, funcmode;
+c3bfcd4c676238 Mark Pearson  2021-01-11  10520  
+c3bfcd4c676238 Mark Pearson  2021-01-11  10521  	mutex_lock(&dytc_mutex);
+42504af775361c Mark Pearson  2022-06-03  10522  	if (dytc_capabilities & BIT(DYTC_FC_MMC)) {
+7a47f86bba748b Mark Pearson  2021-04-06  10523  		if (dytc_mmc_get_available)
+7a47f86bba748b Mark Pearson  2021-04-06  10524  			err = dytc_command(DYTC_CMD_MMC_GET, &output);
+7a47f86bba748b Mark Pearson  2021-04-06  10525  		else
+c3bfcd4c676238 Mark Pearson  2021-01-11  10526  			err = dytc_cql_command(DYTC_CMD_GET, &output);
+1bc5d819f0b978 Mark Pearson  2023-01-24  10527  		funcmode = DYTC_FUNCTION_MMC;
+1bc5d819f0b978 Mark Pearson  2023-01-24  10528  	} else if (dytc_capabilities & BIT(DYTC_FC_PSC)) {
+e1c21608e3cfc4 Mark Pearson  2022-02-25  10529  		err = dytc_command(DYTC_CMD_GET, &output);
+1bc5d819f0b978 Mark Pearson  2023-01-24  10530  		/* Check if we are PSC mode, or have AMT enabled */
+1bc5d819f0b978 Mark Pearson  2023-01-24  10531  		funcmode = (output >> DYTC_GET_FUNCTION_BIT) & 0xF;
+1bc5d819f0b978 Mark Pearson  2023-01-24  10532  	}
 
-   282	
-   283	static int k3_thermal_get_trend(struct thermal_zone_device *tz, int trip, enum thermal_trend *trend)
-   284	{
-   285		struct k3_thermal_data *data = tz->devdata;
-   286		struct k3_j72xx_bandgap *bgp;
-   287		u32 temp1, temp2;
- > 288		int id, tr, ret = 0;
-   289	
-   290		bgp = data->bgp;
-   291		id = data->sensor_id;
-   292	
-   293		ret = k3_thermal_get_temp(tz, &temp1);
-   294		if (ret)
-   295			return ret;
-   296		temp2 = data->prev_temp;
-   297	
-   298		tr = temp1 - temp2;
-   299	
-   300		data->prev_temp = temp1;
-   301	
-   302		if (tr > 0)
-   303			*trend = THERMAL_TREND_RAISING;
-   304		else if (tr < 0)
-   305			*trend = THERMAL_TREND_DROPPING;
-   306		else
-   307			*trend = THERMAL_TREND_STABLE;
-   308	
-   309		dev_dbg(bgp->dev, "The temperatures are t1 = %d and t2 = %d and trend =%d\n",
-   310			temp1, temp2, *trend);
-   311	
-   312		return ret;
-   313	}
-   314	
-   315	static const struct thermal_zone_device_ops k3_of_thermal_ops = {
-   316		.get_temp = k3_thermal_get_temp,
-   317		.get_trend = k3_thermal_get_trend,
-   318	};
-   319	
-   320	static int k3_j72xx_bandgap_temp_to_adc_code(int temp)
-   321	{
-   322		int low = 0, high = TABLE_SIZE - 1, mid;
-   323	
-   324		if (temp > 160000 || temp < -50000)
-   325			return -EINVAL;
-   326	
-   327		/* Binary search to find the adc code */
-   328		while (low < (high - 1)) {
-   329			mid = (low + high) / 2;
-   330			if (temp <= derived_table[mid])
-   331				high = mid;
-   332			else
-   333				low = mid;
-   334		}
-   335	
-   336		return mid;
-   337	}
-   338	
-   339	static void get_efuse_values(int id, struct k3_thermal_data *data, int *err,
-   340				     struct k3_j72xx_bandgap *bgp)
-   341	{
-   342		int i, tmp, pow;
-   343		int ct_offsets[5][K3_VTM_CORRECTION_TEMP_CNT] = {
-   344			{ 0x0, 0x8, 0x4 },
-   345			{ 0x0, 0x8, 0x4 },
-   346			{ 0x0, -1,  0x4 },
-   347			{ 0x0, 0xC, -1 },
-   348			{ 0x0, 0xc, 0x8 }
-   349		};
-   350		int ct_bm[5][K3_VTM_CORRECTION_TEMP_CNT] = {
-   351			{ 0x3f, 0x1fe000, 0x1ff },
-   352			{ 0xfc0, 0x1fe000, 0x3fe00 },
-   353			{ 0x3f000, 0x7f800000, 0x7fc0000 },
-   354			{ 0xfc0000, 0x1fe0, 0x1f800000 },
-   355			{ 0x3f000000, 0x1fe000, 0x1ff0 }
-   356		};
-   357	
-   358		for (i = 0; i < 3; i++) {
-   359			/* Extract the offset value using bit-mask */
-   360			if (ct_offsets[id][i] == -1 && i == 1) {
-   361				/* 25C offset Case of Sensor 2 split between 2 regs */
-   362				tmp = (readl(bgp->fuse_base + 0x8) & 0xE0000000) >> (29);
-   363				tmp |= ((readl(bgp->fuse_base + 0xC) & 0x1F) << 3);
-   364				pow = tmp & 0x80;
-   365			} else if (ct_offsets[id][i] == -1 && i == 2) {
-   366				/* 125C Case of Sensor 3 split between 2 regs */
-   367				tmp = (readl(bgp->fuse_base + 0x4) & 0xF8000000) >> (27);
-   368				tmp |= ((readl(bgp->fuse_base + 0x8) & 0xF) << 5);
-   369				pow = tmp & 0x100;
-   370			} else {
-   371				tmp = readl(bgp->fuse_base + ct_offsets[id][i]);
-   372				tmp &= ct_bm[id][i];
-   373				tmp = tmp >> __ffs(ct_bm[id][i]);
-   374	
-   375				/* Obtain the sign bit pow*/
-   376				pow = ct_bm[id][i] >> __ffs(ct_bm[id][i]);
-   377				pow += 1;
-   378				pow /= 2;
-   379			}
-   380	
-   381			/* Check for negative value */
-   382			if (tmp & pow) {
-   383				/* 2's complement value */
-   384				tmp = two_cmp(tmp, ct_bm[id][i] >> __ffs(ct_bm[id][i]));
-   385			}
-   386			err[i] = tmp;
-   387		}
-   388	
-   389		/* Err value for 150C is set to 0 */
-   390		err[i] = 0;
-   391	}
-   392	
-   393	static void print_look_up_table(struct device *dev, int *ref_table)
-   394	{
-   395		int i;
-   396	
-   397		dev_dbg(dev, "The contents of derived array\n");
-   398		dev_dbg(dev, "Code   Temperature\n");
-   399		for (i = 0; i < TABLE_SIZE; i++)
-   400			dev_dbg(dev, "%d       %d %d\n", i, derived_table[i], ref_table[i]);
-   401	}
-   402	
-   403	struct k3_j72xx_bandgap_data {
-   404		unsigned int has_errata_i2128;
-   405	};
-   406	
- > 407	int k3_thermal_register_cpu_cooling(struct k3_j72xx_bandgap *bgp, int id)
-   408	{
-   409		struct k3_thermal_data *data;
-   410		struct device_node *np = bgp->dev->of_node;
-   411	
-   412		/*
-   413		 * We are assuming here that if one deploys the zone
-   414		 * using DT, then it must be aware that the cooling device
-   415		 * loading has to happen via cpufreq driver.
-   416		 */
-   417		if (of_find_property(np, "#thermal-sensor-cells", NULL))
-   418			return 0;
-   419	
-   420		data = bgp->ts_data[id];
-   421		if (!data)
-   422			return -EINVAL;
-   423	
-   424		data->policy = cpufreq_cpu_get(0);
-   425		if (!data->policy) {
-   426			pr_debug("%s: CPUFreq policy not found\n", __func__);
-   427			return -EPROBE_DEFER;
-   428		}
-   429	
-   430		/* Register cooling device */
-   431		data->cool_dev = cpufreq_cooling_register(data->policy);
-   432		if (IS_ERR(data->cool_dev)) {
-   433			int ret = PTR_ERR(data->cool_dev);
-   434	
-   435			dev_err(bgp->dev, "Failed to register cpu cooling device %d\n",
-   436				ret);
-   437			cpufreq_cpu_put(data->policy);
-   438	
-   439			return ret;
-   440		}
-   441	
-   442		data->mode = THERMAL_DEVICE_ENABLED;
-   443	
-   444		INIT_WORK(&data->thermal_wq, k3_thermal_work);
-   445	
-   446		return 0;
-   447	}
-   448	
- > 449	int ti_thermal_unregister_cpu_cooling(struct k3_j72xx_bandgap *bgp, int id)
-   450	{
-   451		struct k3_thermal_data *data;
-   452	
-   453		data = bgp->ts_data[id];
-   454	
-   455		if (!IS_ERR_OR_NULL(data)) {
-   456			cpufreq_cooling_unregister(data->cool_dev);
-   457			if (data->policy)
-   458				cpufreq_cpu_put(data->policy);
-   459		}
-   460	
-   461		return 0;
-   462	}
-   463	
+funcmode not initialized on else path.  err is also 0 on the else path.
+
+c3bfcd4c676238 Mark Pearson  2021-01-11  10533  	mutex_unlock(&dytc_mutex);
+c3bfcd4c676238 Mark Pearson  2021-01-11  10534  	if (err)
+c3bfcd4c676238 Mark Pearson  2021-01-11  10535  		return;
+c3bfcd4c676238 Mark Pearson  2021-01-11  10536  
+c3bfcd4c676238 Mark Pearson  2021-01-11  10537  	perfmode = (output >> DYTC_GET_MODE_BIT) & 0xF;
+fde5f74ccfc771 Mark Pearson  2023-01-12 @10538  	convert_dytc_to_profile(funcmode, perfmode, &profile);
+c3bfcd4c676238 Mark Pearson  2021-01-11  10539  	if (profile != dytc_current_profile) {
+c3bfcd4c676238 Mark Pearson  2021-01-11  10540  		dytc_current_profile = profile;
+c3bfcd4c676238 Mark Pearson  2021-01-11  10541  		platform_profile_notify();
+c3bfcd4c676238 Mark Pearson  2021-01-11  10542  	}
+c3bfcd4c676238 Mark Pearson  2021-01-11  10543  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
