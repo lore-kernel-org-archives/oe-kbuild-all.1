@@ -1,49 +1,52 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BFC623A1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 14:48:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032612342E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 15:23:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685630931; x=1717166931;
+  t=1685632987; x=1717168987;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2FTXpZZUjF4O+XNBC7fuiImWeTKkrfWGkyKkf1TaJnM=;
-  b=L/X5WJRmLFxkwCkMkXsDJy/3Ve7ZvRs6RJV8KrWquAAT6AC8UYrsLNJg
-   wM8C/vDQI/mq4NPAuD267ld8LpFigy7wzwo/ygao7k2YBfyyB3UhC4HjQ
-   xnGQ/92E5G9m91AWW7DVte9ud+xNvfbUjwxtWcT/ddrYnlOlhEJCMmp/m
-   7txaUJjPQ4qjPPimTMsUhcmWZENgd8CMGnte3ZhLazTz2Xu5Wdo5cTnL0
-   6N9M6wG/8tBPRNkBZwxtvfaa3Y02uGEecQ5Pmmthn4e9aEfPcXXH45XCJ
-   qIibl6qs6OZiJYgVhNG4wVU47OmD2ydfzaABV2nbuSZjp/X+xGv7Do7SJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="421382770"
+  bh=gVvYAmz4hzU58KtAxeCJlCFJgLqSrt6q5V7koKnLAso=;
+  b=bEQzvIaUZYIx9v+VnnJkjMWdha4LzpMuL5rZoHwMEALBg0kiaGKwGjnB
+   auXpTQGk9cbdVXqQ6gL4x50uWozqksNAk2YlJW41pSKI5ZDX8LZVvtYUC
+   pU/97Ll6R709EfzwqpR/SBmVDI7ein7hWgCAMlJ4Xxw/pZoSGsM8gXrlN
+   kEPXFe6Ht+O2kNFF9B2LF2s4hF+Hd75ttEkSCIQxNfHCZt2wbktpvN2Va
+   m/5yfPQKmnAUzUWQxxvkyar6m33Gq3WXmA2xp/lZp0226vYTxHtuC7xY7
+   Vs/8GtlHfbzHaWMuXjqPdReY4IKlCUV0fF8qEcf95rx26tuyBBHGVRoV+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="335941912"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="421382770"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 07:38:25 -0700
+   d="scan'208";a="335941912"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 08:21:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="819828394"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="657836521"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="819828394"
+   d="scan'208";a="657836521"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 01 Jun 2023 07:38:23 -0700
+  by orsmga003.jf.intel.com with ESMTP; 01 Jun 2023 08:21:27 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4jRW-0002NW-14;
-	Thu, 01 Jun 2023 14:38:22 +0000
-Date: Thu, 1 Jun 2023 22:37:30 +0800
+	id 1q4k7C-0002Pe-1w;
+	Thu, 01 Jun 2023 15:21:26 +0000
+Date: Thu, 1 Jun 2023 23:20:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lu Hongfei <luhongfei@vivo.com>, Artur Weber <aweber.kernel@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	"open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
-	open list <linux-kernel@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com,
-	luhongfei@vivo.com
-Subject: Re: [PATCH] gpu: drm/panel: Optimize the workflow of s6d7aa0_lock
-Message-ID: <202306012249.Sm2dlQLk-lkp@intel.com>
-References: <20230531110717.36896-1-luhongfei@vivo.com>
+To: Nikita Shubin <nikita.shubin@maquefel.me>,
+	Alexander Sverdlin <alexander.sverdlin@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, Michael Peters <mpeters@embeddedts.com>,
+	Kris Bahnsen <kris@embeddedts.com>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 28/43] input: keypad: ep93xx: add DT support for
+ Cirrus EP93xx
+Message-ID: <202306012336.68kZBdn0-lkp@intel.com>
+References: <20230601054549.10843-10-nikita.shubin@maquefel.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,160 +55,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230531110717.36896-1-luhongfei@vivo.com>
+In-Reply-To: <20230601054549.10843-10-nikita.shubin@maquefel.me>
 
-Hi Lu,
+Hi Nikita,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on next-20230601]
-[cannot apply to linus/master v6.4-rc4]
+[auto build test ERROR on clk/clk-next]
+[also build test ERROR on linusw-pinctrl/devel linusw-pinctrl/for-next linus/master v6.4-rc4 next-20230601]
+[cannot apply to soc/for-next robh/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lu-Hongfei/gpu-drm-panel-Optimize-the-workflow-of-s6d7aa0_lock/20230531-190848
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230531110717.36896-1-luhongfei%40vivo.com
-patch subject: [PATCH] gpu: drm/panel: Optimize the workflow of s6d7aa0_lock
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230601/202306012249.Sm2dlQLk-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikita-Shubin/dt-bindings-soc-Add-Cirrus-EP93xx/20230601-143415
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20230601054549.10843-10-nikita.shubin%40maquefel.me
+patch subject: [PATCH v1 28/43] input: keypad: ep93xx: add DT support for Cirrus EP93xx
+config: arm-randconfig-r046-20230531 (https://download.01.org/0day-ci/archive/20230601/202306012336.68kZBdn0-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/e1ade7d20fb0efb9aa0b332d5ac5da2863f8e68e
+        # https://github.com/intel-lab-lkp/linux/commit/79136093fef692a2db3c48c2d30e37310599131f
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Lu-Hongfei/gpu-drm-panel-Optimize-the-workflow-of-s6d7aa0_lock/20230531-190848
-        git checkout e1ade7d20fb0efb9aa0b332d5ac5da2863f8e68e
+        git fetch --no-tags linux-review Nikita-Shubin/dt-bindings-soc-Add-Cirrus-EP93xx/20230601-143415
+        git checkout 79136093fef692a2db3c48c2d30e37310599131f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/gpu/drm/panel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/input/keyboard/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306012249.Sm2dlQLk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306012336.68kZBdn0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:17:
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c: In function 's6d7aa0_lock':
->> include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
-     326 |         do {                                                               \
-         |         ^~
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:72:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
-      72 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0xa5, 0xa5);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
->> include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
-     326 |         do {                                                               \
-         |         ^~
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:75:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
-      75 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0xa5, 0xa5);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
->> include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
-     326 |         do {                                                               \
-         |         ^~
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:79:31: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
-      79 |                         ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0x5a, 0x5a);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~
->> include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
-     326 |         do {                                                               \
-         |         ^~
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:84:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
-      84 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD1, 0x5a, 0x5a);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
->> include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
-     326 |         do {                                                               \
-         |         ^~
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:87:23: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
-      87 |                 ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD2, 0x5a, 0x5a);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~
->> include/drm/drm_mipi_dsi.h:326:9: error: expected expression before 'do'
-     326 |         do {                                                               \
-         |         ^~
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:91:31: note: in expansion of macro 'mipi_dsi_dcs_write_seq'
-      91 |                         ret = mipi_dsi_dcs_write_seq(dsi, MCS_PASSWD3, 0xa5, 0xa5);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:68:33: warning: unused variable 'dsi' [-Wunused-variable]
-      68 |         struct mipi_dsi_device *dsi = ctx->dsi;
-         |                                 ^~~
+   drivers/input/keyboard/ep93xx_keypad.c: In function 'ep93xx_keypad_probe':
+>> drivers/input/keyboard/ep93xx_keypad.c:262:9: error: implicit declaration of function 'of_property_read_u32' [-Werror=implicit-function-declaration]
+     262 |         of_property_read_u32(np, "cirrus,debounce-delay-ms", &keypad->debounce);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/do +326 include/drm/drm_mipi_dsi.h
+vim +/of_property_read_u32 +262 drivers/input/keyboard/ep93xx_keypad.c
 
-3d9a8fcf1c6a90 Thierry Reding           2014-08-05  268  
-960dd616f61c84 Thierry Reding           2014-07-21  269  ssize_t mipi_dsi_dcs_write_buffer(struct mipi_dsi_device *dsi,
-960dd616f61c84 Thierry Reding           2014-07-21  270  				  const void *data, size_t len);
-960dd616f61c84 Thierry Reding           2014-07-21  271  ssize_t mipi_dsi_dcs_write(struct mipi_dsi_device *dsi, u8 cmd,
-960dd616f61c84 Thierry Reding           2014-07-21  272  			   const void *data, size_t len);
-3c523d7d38a17b Thierry Reding           2014-07-21  273  ssize_t mipi_dsi_dcs_read(struct mipi_dsi_device *dsi, u8 cmd, void *data,
-3c523d7d38a17b Thierry Reding           2014-07-21  274  			  size_t len);
-083d573fd013c9 Thierry Reding           2014-08-05  275  int mipi_dsi_dcs_nop(struct mipi_dsi_device *dsi);
-2f16b89737e24b Thierry Reding           2014-08-05  276  int mipi_dsi_dcs_soft_reset(struct mipi_dsi_device *dsi);
-3d9a8fcf1c6a90 Thierry Reding           2014-08-05  277  int mipi_dsi_dcs_get_power_mode(struct mipi_dsi_device *dsi, u8 *mode);
-5cc0af16fc08cf Thierry Reding           2014-08-05  278  int mipi_dsi_dcs_get_pixel_format(struct mipi_dsi_device *dsi, u8 *format);
-42fe1e755d08b8 YoungJun Cho             2014-08-05  279  int mipi_dsi_dcs_enter_sleep_mode(struct mipi_dsi_device *dsi);
-42fe1e755d08b8 YoungJun Cho             2014-08-05  280  int mipi_dsi_dcs_exit_sleep_mode(struct mipi_dsi_device *dsi);
-42fe1e755d08b8 YoungJun Cho             2014-08-05  281  int mipi_dsi_dcs_set_display_off(struct mipi_dsi_device *dsi);
-42fe1e755d08b8 YoungJun Cho             2014-08-05  282  int mipi_dsi_dcs_set_display_on(struct mipi_dsi_device *dsi);
-3b46d4a0def157 Thierry Reding           2014-08-05  283  int mipi_dsi_dcs_set_column_address(struct mipi_dsi_device *dsi, u16 start,
-3b46d4a0def157 Thierry Reding           2014-08-05  284  				    u16 end);
-3b46d4a0def157 Thierry Reding           2014-08-05  285  int mipi_dsi_dcs_set_page_address(struct mipi_dsi_device *dsi, u16 start,
-3b46d4a0def157 Thierry Reding           2014-08-05  286  				  u16 end);
-42fe1e755d08b8 YoungJun Cho             2014-08-05  287  int mipi_dsi_dcs_set_tear_off(struct mipi_dsi_device *dsi);
-42fe1e755d08b8 YoungJun Cho             2014-08-05  288  int mipi_dsi_dcs_set_tear_on(struct mipi_dsi_device *dsi,
-42fe1e755d08b8 YoungJun Cho             2014-08-05  289  			     enum mipi_dsi_dcs_tear_mode mode);
-5cc0af16fc08cf Thierry Reding           2014-08-05  290  int mipi_dsi_dcs_set_pixel_format(struct mipi_dsi_device *dsi, u8 format);
-bbdcf516a6187d Thierry Reding           2016-08-24  291  int mipi_dsi_dcs_set_tear_scanline(struct mipi_dsi_device *dsi, u16 scanline);
-1a9d759331b832 Vinay Simha BN           2016-07-31  292  int mipi_dsi_dcs_set_display_brightness(struct mipi_dsi_device *dsi,
-1a9d759331b832 Vinay Simha BN           2016-07-31  293  					u16 brightness);
-1a9d759331b832 Vinay Simha BN           2016-07-31  294  int mipi_dsi_dcs_get_display_brightness(struct mipi_dsi_device *dsi,
-1a9d759331b832 Vinay Simha BN           2016-07-31  295  					u16 *brightness);
-c9d27c6be518b4 Daniel Mentz             2023-01-16  296  int mipi_dsi_dcs_set_display_brightness_large(struct mipi_dsi_device *dsi,
-c9d27c6be518b4 Daniel Mentz             2023-01-16  297  					     u16 brightness);
-c9d27c6be518b4 Daniel Mentz             2023-01-16  298  int mipi_dsi_dcs_get_display_brightness_large(struct mipi_dsi_device *dsi,
-c9d27c6be518b4 Daniel Mentz             2023-01-16  299  					     u16 *brightness);
-068a0023396983 Andrzej Hajda            2013-12-04  300  
-a9015ce593204f Javier Martinez Canillas 2023-01-02  301  /**
-a9015ce593204f Javier Martinez Canillas 2023-01-02  302   * mipi_dsi_generic_write_seq - transmit data using a generic write packet
-a9015ce593204f Javier Martinez Canillas 2023-01-02  303   * @dsi: DSI peripheral device
-a9015ce593204f Javier Martinez Canillas 2023-01-02  304   * @seq: buffer containing the payload
-a9015ce593204f Javier Martinez Canillas 2023-01-02  305   */
-a9015ce593204f Javier Martinez Canillas 2023-01-02  306  #define mipi_dsi_generic_write_seq(dsi, seq...)                                \
-a9015ce593204f Javier Martinez Canillas 2023-01-02  307  	do {                                                                   \
-a9015ce593204f Javier Martinez Canillas 2023-01-02  308  		static const u8 d[] = { seq };                                 \
-a9015ce593204f Javier Martinez Canillas 2023-01-02  309  		struct device *dev = &dsi->dev;                                \
-a9015ce593204f Javier Martinez Canillas 2023-01-02  310  		int ret;                                                       \
-a9015ce593204f Javier Martinez Canillas 2023-01-02  311  		ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));           \
-a9015ce593204f Javier Martinez Canillas 2023-01-02  312  		if (ret < 0) {                                                 \
-a9015ce593204f Javier Martinez Canillas 2023-01-02  313  			dev_err_ratelimited(dev, "transmit data failed: %d\n", \
-a9015ce593204f Javier Martinez Canillas 2023-01-02  314  					    ret);                              \
-a9015ce593204f Javier Martinez Canillas 2023-01-02  315  			return ret;                                            \
-a9015ce593204f Javier Martinez Canillas 2023-01-02  316  		}                                                              \
-a9015ce593204f Javier Martinez Canillas 2023-01-02  317  	} while (0)
-a9015ce593204f Javier Martinez Canillas 2023-01-02  318  
-2a9e9daf75231c Joel Selvaraj            2022-06-01  319  /**
-2a9e9daf75231c Joel Selvaraj            2022-06-01  320   * mipi_dsi_dcs_write_seq - transmit a DCS command with payload
-2a9e9daf75231c Joel Selvaraj            2022-06-01  321   * @dsi: DSI peripheral device
-2a9e9daf75231c Joel Selvaraj            2022-06-01  322   * @cmd: Command
-2a9e9daf75231c Joel Selvaraj            2022-06-01  323   * @seq: buffer containing data to be transmitted
-2a9e9daf75231c Joel Selvaraj            2022-06-01  324   */
-51d3c0e7dc3cf1 Javier Martinez Canillas 2023-01-02  325  #define mipi_dsi_dcs_write_seq(dsi, cmd, seq...)                           \
-51d3c0e7dc3cf1 Javier Martinez Canillas 2023-01-02 @326  	do {                                                               \
-2a9e9daf75231c Joel Selvaraj            2022-06-01  327  		static const u8 d[] = { cmd, seq };                        \
-2a9e9daf75231c Joel Selvaraj            2022-06-01  328  		struct device *dev = &dsi->dev;                            \
-2a9e9daf75231c Joel Selvaraj            2022-06-01  329  		int ret;                                                   \
-2a9e9daf75231c Joel Selvaraj            2022-06-01  330  		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));    \
-2a9e9daf75231c Joel Selvaraj            2022-06-01  331  		if (ret < 0) {                                             \
-51d3c0e7dc3cf1 Javier Martinez Canillas 2023-01-02  332  			dev_err_ratelimited(                               \
-51d3c0e7dc3cf1 Javier Martinez Canillas 2023-01-02  333  				dev, "sending command %#02x failed: %d\n", \
-51d3c0e7dc3cf1 Javier Martinez Canillas 2023-01-02  334  				cmd, ret);                                 \
-2a9e9daf75231c Joel Selvaraj            2022-06-01  335  			return ret;                                        \
-2a9e9daf75231c Joel Selvaraj            2022-06-01  336  		}                                                          \
-2a9e9daf75231c Joel Selvaraj            2022-06-01  337  	} while (0)
-2a9e9daf75231c Joel Selvaraj            2022-06-01  338  
+   233	
+   234	static DEFINE_SIMPLE_DEV_PM_OPS(ep93xx_keypad_pm_ops,
+   235					ep93xx_keypad_suspend, ep93xx_keypad_resume);
+   236	
+   237	static int ep93xx_keypad_probe(struct platform_device *pdev)
+   238	{
+   239		struct device_node *np = pdev->dev.of_node;
+   240		struct ep93xx_keypad *keypad;
+   241		struct input_dev *input_dev;
+   242		int err;
+   243	
+   244		keypad = devm_kzalloc(&pdev->dev, sizeof(*keypad), GFP_KERNEL);
+   245		if (!keypad)
+   246			return -ENOMEM;
+   247	
+   248		keypad->irq = platform_get_irq(pdev, 0);
+   249		if (keypad->irq < 0)
+   250			return keypad->irq;
+   251	
+   252		keypad->mmio_base = devm_platform_ioremap_resource(pdev, 0);
+   253		if (IS_ERR(keypad->mmio_base))
+   254			return PTR_ERR(keypad->mmio_base);
+   255	
+   256		keypad->clk = devm_clk_get(&pdev->dev, NULL);
+   257		if (IS_ERR(keypad->clk))
+   258			return PTR_ERR(keypad->clk);
+   259	
+   260		keypad->flags = ep93xx_keypad_flags;
+   261	
+ > 262		of_property_read_u32(np, "cirrus,debounce-delay-ms", &keypad->debounce);
+   263		of_property_read_u32(np, "cirrus,prescale", &keypad->prescale);
+   264	
+   265		input_dev = devm_input_allocate_device(&pdev->dev);
+   266		if (!input_dev)
+   267			return -ENOMEM;
+   268	
+   269		keypad->input_dev = input_dev;
+   270	
+   271		input_dev->name = pdev->name;
+   272		input_dev->id.bustype = BUS_HOST;
+   273		input_dev->open = ep93xx_keypad_open;
+   274		input_dev->close = ep93xx_keypad_close;
+   275	
+   276		err = matrix_keypad_build_keymap(NULL, NULL,
+   277						 EP93XX_MATRIX_ROWS, EP93XX_MATRIX_COLS,
+   278						 keypad->keycodes, input_dev);
+   279		if (err)
+   280			return err;
+   281	
+   282		if (keypad->flags & EP93XX_KEYPAD_AUTOREPEAT)
+   283			__set_bit(EV_REP, input_dev->evbit);
+   284		input_set_drvdata(input_dev, keypad);
+   285	
+   286		err = devm_request_irq(&pdev->dev, keypad->irq,
+   287				       ep93xx_keypad_irq_handler,
+   288				       0, pdev->name, keypad);
+   289		if (err)
+   290			return err;
+   291	
+   292		err = input_register_device(input_dev);
+   293		if (err)
+   294			return err;
+   295	
+   296		platform_set_drvdata(pdev, keypad);
+   297	
+   298		device_init_wakeup(&pdev->dev, 1);
+   299		err = dev_pm_set_wake_irq(&pdev->dev, keypad->irq);
+   300		if (err)
+   301			dev_warn(&pdev->dev, "failed to set up wakeup irq: %d\n", err);
+   302	
+   303		return 0;
+   304	}
+   305	
 
 -- 
 0-DAY CI Kernel Test Service
