@@ -1,56 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8C921CD8;
-	Thu,  1 Jun 2023 14:24:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CF0423422
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  1 Jun 2023 14:34:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685629477; x=1717165477;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BaD1zw6V2jf+wne8NUiF1WEc49QRybnZ2yKptn30Dmk=;
-  b=GJtio0XvrBUFnTo0cv8As3uLXFtj19iYt8cXqTwEefSi3sUcYc/UcQXU
-   BNEV25ZRD9/80X8NPq8CaCzcFB3qro8TJZGv8FjRrvLS0PSju64T7iayM
-   7ZN2KSv7uiqKwq0qxEN2YnZYqfYIuQomWIk0R6d0QiQah58CLmE6uHHdh
-   vwlZW22O/jD7TQqNt9aUHAVTzTuM9R1xMN6M9QTHda1cQp8kR40rPo5hK
-   9nCCwR0o7Lll0XFHFx8MvoZpE3Q73T5LD7bC2W5sBIds3sDFtEt+OAc2v
-   a5LKo3hhQPhqcJkTjQFPm0Akjjqgn8PbciMjtzENb0rqKmPnbahxDJasp
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="419088770"
+  t=1685630065; x=1717166065;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zVZHk094vji0+kgVJHCtjx1vJTvsyfjQSNPxk5yldL0=;
+  b=nVPzJVmAMw6AADs+KH4QkBugbcCezcg+4zBUV+bfZGaT3vaIShPuRtli
+   iYjdBBeK3ufRdEhaL4TRbRzpjO3E+YiAINatnucLMQM32Qly3vmUJxEG5
+   Od+6RGBRWMpBB7rz0KeNmOdWEaXdF2JJ+ZhaQHSiEUWkiRsf39ZF1CcJ9
+   UbpKPGfD3nLduSuDcY/3EpvDwb6vinnkb8ciKwCr/4krscHPQTB8xfuIA
+   ZdS75LZulINJKO73xfAF/fV1eztwurQh9CouOFY0v8Hn7fS649O2xEi4u
+   sGozPIz1xgSSWNJzbAVpHwEcKCJrzBNDm7DuB6jqrLQ77rg5QnaqJA27Z
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="355585908"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="419088770"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 07:19:22 -0700
+   d="scan'208";a="355585908"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 07:34:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="657813870"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="737123545"
 X-IronPort-AV: E=Sophos;i="6.00,210,1681196400"; 
-   d="scan'208";a="657813870"
+   d="scan'208";a="737123545"
 Received: from lkp-server01.sh.intel.com (HELO fb1ced2c09fb) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 01 Jun 2023 07:19:17 -0700
+  by orsmga008.jf.intel.com with ESMTP; 01 Jun 2023 07:34:22 -0700
 Received: from kbuild by fb1ced2c09fb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4j92-0002Lp-1h;
-	Thu, 01 Jun 2023 14:19:16 +0000
-Date: Thu, 1 Jun 2023 22:18:18 +0800
+	id 1q4jNd-0002N4-1y;
+	Thu, 01 Jun 2023 14:34:21 +0000
+Date: Thu, 1 Jun 2023 22:33:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-	xen-devel@lists.xenproject.org, kvm@vger.kernel.org,
-	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH v3 25/34] m68k: Convert various functions to use ptdescs
-Message-ID: <202306011704.i8xMWKPl-lkp@intel.com>
-References: <20230531213032.25338-26-vishal.moola@gmail.com>
+To: Kajol Jain <kjain@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Arnaldo Carvalho de Melo <acme@redhat.com>
+Subject: pmu-events/jevents.c:72:22: warning: no previous prototype for
+ 'convert'
+Message-ID: <202306012020.E4oEWbWO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,184 +46,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230531213032.25338-26-vishal.moola@gmail.com>
 
-Hi Vishal,
+Hi Kajol,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on next-20230531]
-[cannot apply to akpm-mm/mm-everything s390/features powerpc/next powerpc/fixes geert-m68k/for-next geert-m68k/for-linus linus/master v6.4-rc4 v6.4-rc3 v6.4-rc2 v6.4-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vishal-Moola-Oracle/mm-Add-PAGE_TYPE_OP-folio-functions/20230601-053454
-base:   next-20230531
-patch link:    https://lore.kernel.org/r/20230531213032.25338-26-vishal.moola%40gmail.com
-patch subject: [PATCH v3 25/34] m68k: Convert various functions to use ptdescs
-config: m68k-randconfig-r002-20230531 (https://download.01.org/0day-ci/archive/20230601/202306011704.i8xMWKPl-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/915ab62dc3315fe0a0544fccb4ee5f3ee32694b5
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Vishal-Moola-Oracle/mm-Add-PAGE_TYPE_OP-folio-functions/20230601-053454
-        git checkout 915ab62dc3315fe0a0544fccb4ee5f3ee32694b5
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash arch/m68k/mm/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   929ed21dfdb6ee94391db51c9eedb63314ef6847
+commit: 560ccbc4a52c567096023e0c6a9b920048e59017 perf jevents: Add support for parsing perchip/percore events
+date:   2 years, 9 months ago
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=560ccbc4a52c567096023e0c6a9b920048e59017
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 560ccbc4a52c567096023e0c6a9b920048e59017
+        make O=/tmp/kselftest headers
+        make O=/tmp/kselftest -C tools/testing/selftests
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306011704.i8xMWKPl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306012020.E4oEWbWO-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+Note: functions only called from assembly code should be annotated with the asmlinkage attribute
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/m68k/include/asm/pgalloc.h:12,
-                    from arch/m68k/mm/init.c:26:
-   arch/m68k/include/asm/mcf_pgalloc.h: In function 'pgd_alloc':
->> arch/m68k/include/asm/mcf_pgalloc.h:83:59: error: 'GFP_NOWARN' undeclared (first use in this function); did you mean 'GFP_NOWAIT'?
-      83 |         struct ptdesc *ptdesc = pagetable_alloc(GFP_DMA | GFP_NOWARN, 0);
-         |                                                           ^~~~~~~~~~
-         |                                                           GFP_NOWAIT
-   arch/m68k/include/asm/mcf_pgalloc.h:83:59: note: each undeclared identifier is reported only once for each function it appears in
-   arch/m68k/include/asm/mcf_pgalloc.h: At top level:
->> arch/m68k/include/asm/mcf_pgalloc.h:22:27: warning: 'ptdesc_address' is static but used in inline function 'pte_alloc_one_kernel' which is not static
-      22 |         return (pte_t *) (ptdesc_address(ptdesc));
-         |                           ^~~~~~~~~~~~~~
->> arch/m68k/include/asm/mcf_pgalloc.h:17:33: warning: 'pagetable_alloc' is static but used in inline function 'pte_alloc_one_kernel' which is not static
-      17 |         struct ptdesc *ptdesc = pagetable_alloc(GFP_DMA | __GFP_ZERO, 0);
-         |                                 ^~~~~~~~~~~~~~~
->> arch/m68k/include/asm/mcf_pgalloc.h:10:24: warning: 'virt_to_ptdesc' is static but used in inline function 'pte_free_kernel' which is not static
-      10 |         pagetable_free(virt_to_ptdesc(pte));
-         |                        ^~~~~~~~~~~~~~
->> arch/m68k/include/asm/mcf_pgalloc.h:10:9: warning: 'pagetable_free' is static but used in inline function 'pte_free_kernel' which is not static
-      10 |         pagetable_free(virt_to_ptdesc(pte));
-         |         ^~~~~~~~~~~~~~
---
-   In file included from arch/m68k/mm/mcfmmu.c:21:
-   arch/m68k/include/asm/mcf_pgalloc.h: In function 'pgd_alloc':
->> arch/m68k/include/asm/mcf_pgalloc.h:83:59: error: 'GFP_NOWARN' undeclared (first use in this function); did you mean 'GFP_NOWAIT'?
-      83 |         struct ptdesc *ptdesc = pagetable_alloc(GFP_DMA | GFP_NOWARN, 0);
-         |                                                           ^~~~~~~~~~
-         |                                                           GFP_NOWAIT
-   arch/m68k/include/asm/mcf_pgalloc.h:83:59: note: each undeclared identifier is reported only once for each function it appears in
-   arch/m68k/mm/mcfmmu.c: At top level:
-   arch/m68k/mm/mcfmmu.c:36:13: warning: no previous prototype for 'paging_init' [-Wmissing-prototypes]
-      36 | void __init paging_init(void)
-         |             ^~~~~~~~~~~
-   arch/m68k/mm/mcfmmu.c: In function 'paging_init':
-   arch/m68k/mm/mcfmmu.c:41:37: warning: variable 'bootmem_end' set but not used [-Wunused-but-set-variable]
-      41 |         unsigned long next_pgtable, bootmem_end;
-         |                                     ^~~~~~~~~~~
-   arch/m68k/include/asm/mcf_pgalloc.h: At top level:
->> arch/m68k/include/asm/mcf_pgalloc.h:22:27: warning: 'ptdesc_address' is static but used in inline function 'pte_alloc_one_kernel' which is not static
-      22 |         return (pte_t *) (ptdesc_address(ptdesc));
-         |                           ^~~~~~~~~~~~~~
->> arch/m68k/include/asm/mcf_pgalloc.h:17:33: warning: 'pagetable_alloc' is static but used in inline function 'pte_alloc_one_kernel' which is not static
-      17 |         struct ptdesc *ptdesc = pagetable_alloc(GFP_DMA | __GFP_ZERO, 0);
-         |                                 ^~~~~~~~~~~~~~~
->> arch/m68k/include/asm/mcf_pgalloc.h:10:24: warning: 'virt_to_ptdesc' is static but used in inline function 'pte_free_kernel' which is not static
-      10 |         pagetable_free(virt_to_ptdesc(pte));
-         |                        ^~~~~~~~~~~~~~
->> arch/m68k/include/asm/mcf_pgalloc.h:10:9: warning: 'pagetable_free' is static but used in inline function 'pte_free_kernel' which is not static
-      10 |         pagetable_free(virt_to_ptdesc(pte));
-         |         ^~~~~~~~~~~~~~
-
-
-vim +83 arch/m68k/include/asm/mcf_pgalloc.h
-
-     7	
-     8	extern inline void pte_free_kernel(struct mm_struct *mm, pte_t *pte)
-     9	{
-  > 10		pagetable_free(virt_to_ptdesc(pte));
-    11	}
-    12	
-    13	extern const char bad_pmd_string[];
-    14	
-    15	extern inline pte_t *pte_alloc_one_kernel(struct mm_struct *mm)
-    16	{
-  > 17		struct ptdesc *ptdesc = pagetable_alloc(GFP_DMA | __GFP_ZERO, 0);
-    18	
-    19		if (!ptdesc)
-    20			return NULL;
-    21	
-  > 22		return (pte_t *) (ptdesc_address(ptdesc));
-    23	}
-    24	
-    25	extern inline pmd_t *pmd_alloc_kernel(pgd_t *pgd, unsigned long address)
-    26	{
-    27		return (pmd_t *) pgd;
-    28	}
-    29	
-    30	#define pmd_populate(mm, pmd, pte) (pmd_val(*pmd) = (unsigned long)(pte))
-    31	
-    32	#define pmd_populate_kernel pmd_populate
-    33	
-    34	static inline void __pte_free_tlb(struct mmu_gather *tlb, pgtable_t pgtable,
-    35					  unsigned long address)
-    36	{
-    37		struct ptdesc *ptdesc = virt_to_ptdesc(pgtable);
-    38	
-    39		pagetable_pte_dtor(ptdesc);
-    40		pagetable_free(ptdesc);
-    41	}
-    42	
-    43	static inline pgtable_t pte_alloc_one(struct mm_struct *mm)
-    44	{
-    45		struct ptdesc *ptdesc = pagetable_alloc(GFP_DMA, 0);
-    46		pte_t *pte;
-    47	
-    48		if (!ptdesc)
-    49			return NULL;
-    50		if (!pagetable_pte_ctor(ptdesc)) {
-    51			pagetable_free(ptdesc);
-    52			return NULL;
-    53		}
-    54	
-    55		pte = ptdesc_address(ptdesc);
-    56		pagetable_clear(pte);
-    57	
-    58		return pte;
-    59	}
-    60	
-    61	static inline void pte_free(struct mm_struct *mm, pgtable_t pgtable)
-    62	{
-    63		struct ptdesc *ptdesc = virt_to_ptdesc(ptdesc);
-    64	
-    65		pagetable_pte_dtor(ptdesc);
-    66		pagetable_free(ptdesc);
-    67	}
-    68	
-    69	/*
-    70	 * In our implementation, each pgd entry contains 1 pmd that is never allocated
-    71	 * or freed.  pgd_present is always 1, so this should never be called. -NL
-    72	 */
-    73	#define pmd_free(mm, pmd) BUG()
-    74	
-    75	static inline void pgd_free(struct mm_struct *mm, pgd_t *pgd)
-    76	{
-    77		pagetable_free(virt_to_ptdesc(pgd));
-    78	}
-    79	
-    80	static inline pgd_t *pgd_alloc(struct mm_struct *mm)
-    81	{
-    82		pgd_t *new_pgd;
-  > 83		struct ptdesc *ptdesc = pagetable_alloc(GFP_DMA | GFP_NOWARN, 0);
-    84	
-    85		if (!ptdesc)
-    86			return NULL;
-    87		new_pgd = (pgd_t *) ptdesc_address(ptdesc);
-    88	
-    89		memcpy(new_pgd, swapper_pg_dir, PTRS_PER_PGD * sizeof(pgd_t));
-    90		memset(new_pgd, 0, PAGE_OFFSET >> PGDIR_SHIFT);
-    91		return new_pgd;
-    92	}
-    93	
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/in.h' differs from latest version at 'include/uapi/linux/in.h'
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/perf_event.h' differs from latest version at 'include/uapi/linux/perf_event.h'
+   Makefile.config:697: No libcrypto.h found, disables jitted code injection, please install openssl-devel or libssl-dev
+>> pmu-events/jevents.c:72:22: warning: no previous prototype for 'convert' [-Wmissing-prototypes]
+      72 | enum aggr_mode_class convert(const char *aggr_mode)
+         |                      ^~~~~~~
+   In file included from sigchain.c:3:
+   In function 'xrealloc',
+       inlined from 'sigchain_push.isra' at sigchain.c:26:2:
+   subcmd-util.h:56:23: error: pointer may be used after 'realloc' [-Werror=use-after-free]
+      56 |                 ret = realloc(ptr, size);
+         |                       ^~~~~~~~~~~~~~~~~~
+   subcmd-util.h:52:21: note: call to 'realloc' here
+      52 |         void *ret = realloc(ptr, size);
+         |                     ^~~~~~~~~~~~~~~~~~
+   subcmd-util.h:58:31: error: pointer may be used after 'realloc' [-Werror=use-after-free]
+      58 |                         ret = realloc(ptr, 1);
+         |                               ^~~~~~~~~~~~~~~
+   subcmd-util.h:52:21: note: call to 'realloc' here
+      52 |         void *ret = realloc(ptr, size);
+         |                     ^~~~~~~~~~~~~~~~~~
+   In function 'xrealloc',
+       inlined from 'sigchain_push' at sigchain.c:26:2,
+       inlined from 'sigchain_push_common' at sigchain.c:53:2:
+   subcmd-util.h:56:23: error: pointer may be used after 'realloc' [-Werror=use-after-free]
+      56 |                 ret = realloc(ptr, size);
+         |                       ^~~~~~~~~~~~~~~~~~
+   subcmd-util.h:52:21: note: call to 'realloc' here
+      52 |         void *ret = realloc(ptr, size);
+         |                     ^~~~~~~~~~~~~~~~~~
+   subcmd-util.h:58:31: error: pointer may be used after 'realloc' [-Werror=use-after-free]
+      58 |                         ret = realloc(ptr, 1);
+         |                               ^~~~~~~~~~~~~~~
+   subcmd-util.h:52:21: note: call to 'realloc' here
+      52 |         void *ret = realloc(ptr, size);
+         |                     ^~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:96: tools/perf/sigchain.o] Error 1
+   make[6]: *** Waiting for unfinished jobs....
+   In file included from help.c:12:
+   In function 'xrealloc',
+       inlined from 'add_cmdname' at help.c:24:2:
+   subcmd-util.h:56:23: error: pointer may be used after 'realloc' [-Werror=use-after-free]
+      56 |                 ret = realloc(ptr, size);
+         |                       ^~~~~~~~~~~~~~~~~~
+   subcmd-util.h:52:21: note: call to 'realloc' here
+      52 |         void *ret = realloc(ptr, size);
+         |                     ^~~~~~~~~~~~~~~~~~
+   subcmd-util.h:58:31: error: pointer may be used after 'realloc' [-Werror=use-after-free]
+      58 |                         ret = realloc(ptr, 1);
+         |                               ^~~~~~~~~~~~~~~
+   subcmd-util.h:52:21: note: call to 'realloc' here
+      52 |         void *ret = realloc(ptr, size);
+         |                     ^~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:96: tools/perf/help.o] Error 1
+   make[5]: *** [Makefile:59: tools/perf/libsubcmd-in.o] Error 2
+   make[4]: *** [Makefile.perf:811: tools/perf/libsubcmd.a] Error 2
+   make[4]: *** Waiting for unfinished jobs....
+     PERF_VERSION = 5.9.rc3.g560ccbc4a52c
+   make[3]: *** [Makefile.perf:233: sub-make] Error 2
+   make[2]: *** [Makefile:70: all] Error 2
 
 -- 
 0-DAY CI Kernel Test Service
