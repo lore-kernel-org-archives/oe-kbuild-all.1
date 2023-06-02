@@ -1,52 +1,51 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3E98476
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 12:35:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C882F15BF;
+	Fri,  2 Jun 2023 12:56:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685709325; x=1717245325;
+  t=1685710594; x=1717246594;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RFn4lE0CnHg+BrpP8BhtcKygS1L2eOihwOiPLsc1C4Y=;
-  b=a4+vzQw4d8FHqp8ptwFER1BFbTbiYG2oJ+d+BfVy8OgCiaSQVpn8UnXT
-   8lUeUHxSzSGAMlpjqgmBGbwelTB2gp2RfqTwVPu5oD2LsMrKbogKj3nD5
-   s4ddlGLMPe43zImRnDyl3Lx45LyTsRo3IZvy3ry8g/D2THg8Pf/8uQ6Zj
-   CG8X5pBB0DowR/t+VqsLkcHdQ5Xsy6jQVlloAV2DP0zS6OpO5R/TVioGI
-   LRsW3onPt7o9l+iFzGgmHoIJRWZ0uSsvnpl2tR3nWYf8hJcluTmc38dP0
-   XKA+M0zJah0DZK5lOdl/N9eOlkzrSXGJx39jLplhUzhbENWll5imIRetQ
+  bh=25GYVrBSeIZshbsRClfURyGuYpPyStjnVIsiOAveQYw=;
+  b=GfoFtP09q1BlA/WcUsVAFDXAeFNKGMJdM/7CiJdn40dv7LpmD0LO3vUp
+   PeEn/BrGBoaiI5y+6xNN/ZVmiGeo2fso0LH8y5RPV+bJqyt5zNrTl7otJ
+   WAUi30okSES2Z4/dhQhU7oq4SMZjFAu0D07bYupnfJwAGPCG+1PpkuoVX
+   IEft6303HkhgWD+LxxXrtR4Zftp1uErtzO5FXEKWV6EHLYxrFWgfGIKx9
+   riCZJuK8cYUUJxaBWvHdmyeA21rg+3iWrj+kizy0HebIQO2Wcr+Rhw9l6
+   OsNdCuMNUYuMIo0Mex5rIcORXhnOJsSeAKYepUf8/LrmMEPzMjuZAagly
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="353352675"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="419392210"
 X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="353352675"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 05:34:33 -0700
+   d="scan'208";a="419392210"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 05:56:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="737515174"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="831981005"
 X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="737515174"
+   d="scan'208";a="831981005"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 02 Jun 2023 05:34:30 -0700
+  by orsmga004.jf.intel.com with ESMTP; 02 Jun 2023 05:56:30 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q53zB-0000RJ-16;
-	Fri, 02 Jun 2023 12:34:29 +0000
-Date: Fri, 2 Jun 2023 20:33:52 +0800
+	id 1q54KT-0000Rd-2k;
+	Fri, 02 Jun 2023 12:56:29 +0000
+Date: Fri, 2 Jun 2023 20:55:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: William Qiu <william.qiu@starfivetech.com>, devicetree@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
+To: Binbin Zhou <zhoubinbin@loongson.cn>, Vinod Koul <vkoul@kernel.org>,
+	dmaengine@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Emil Renner Berthing <kernel@esmil.dk>,
-	Ziv Xu <ziv.xu@starfivetech.com>,
-	William Qiu <william.qiu@starfivetech.com>
-Subject: Re: [PATCH v2 2/3] spi: cadence-quadspi: Add clock configuration for
- StarFive JH7110 QSPI
-Message-ID: <202306022017.UbwjjWRN-lkp@intel.com>
-References: <20230602084925.215411-3-william.qiu@starfivetech.com>
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Huacai Chen <chenhuacai@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev, Yingkun Meng <mengyingkun@loongson.cn>,
+	loongson-kernel@lists.loongnix.cn,
+	Binbin Zhou <zhoubinbin@loongson.cn>
+Subject: Re: [PATCH 2/2] dmaengine: ls2x-apb: new driver for the Loongson
+ LS2X APB DMA controller
+Message-ID: <202306022006.u6leN6i9-lkp@intel.com>
+References: <f65ebee39b5e1827af08d9e8d1f260928915f9b0.1685448898.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,70 +54,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230602084925.215411-3-william.qiu@starfivetech.com>
+In-Reply-To: <f65ebee39b5e1827af08d9e8d1f260928915f9b0.1685448898.git.zhoubinbin@loongson.cn>
 
-Hi William,
+Hi Binbin,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on broonie-spi/for-next]
-[also build test WARNING on linus/master v6.4-rc4 next-20230602]
-[cannot apply to robh/for-next]
+[auto build test ERROR on vkoul-dmaengine/next]
+[also build test ERROR on robh/for-next linus/master v6.4-rc4 next-20230602]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/William-Qiu/dt-bindings-qspi-cdns-qspi-nor-Add-clocks-for-StarFive-JH7110-SoC/20230602-165251
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20230602084925.215411-3-william.qiu%40starfivetech.com
-patch subject: [PATCH v2 2/3] spi: cadence-quadspi: Add clock configuration for StarFive JH7110 QSPI
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230602/202306022017.UbwjjWRN-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/dt-bindings-dmaengine-Add-Loongson-LS2X-APB-DMA-controller/20230531-165211
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/f65ebee39b5e1827af08d9e8d1f260928915f9b0.1685448898.git.zhoubinbin%40loongson.cn
+patch subject: [PATCH 2/2] dmaengine: ls2x-apb: new driver for the Loongson LS2X APB DMA controller
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230602/202306022006.u6leN6i9-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/6bbd49e32d407d210b6ea322696cef2e49bf3fa1
+        # https://github.com/intel-lab-lkp/linux/commit/c78b43fba2c7874dc293c0e2aba22c4e74500283
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review William-Qiu/dt-bindings-qspi-cdns-qspi-nor-Add-clocks-for-StarFive-JH7110-SoC/20230602-165251
-        git checkout 6bbd49e32d407d210b6ea322696cef2e49bf3fa1
+        git fetch --no-tags linux-review Binbin-Zhou/dt-bindings-dmaengine-Add-Loongson-LS2X-APB-DMA-controller/20230531-165211
+        git checkout c78b43fba2c7874dc293c0e2aba22c4e74500283
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/spi/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/dma/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306022017.UbwjjWRN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306022006.u6leN6i9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/spi/spi-cadence-quadspi.c: In function 'cqspi_resume':
->> drivers/spi/spi-cadence-quadspi.c:1873:17: warning: ignoring return value of 'clk_bulk_prepare_enable' declared with attribute 'warn_unused_result' [-Wunused-result]
-    1873 |                 clk_bulk_prepare_enable(cqspi->num_clks, cqspi->clks);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/ls2x-apb-dma.c: In function 'ls2x_dma_write_cmd':
+>> drivers/dma/ls2x-apb-dma.c:179:15: error: implicit declaration of function 'readq'; did you mean 'readw'? [-Werror=implicit-function-declaration]
+     179 |         val = readq(priv->regs + LDMA_ORDER_ERG) & LDMA_ASK_ADDR_MASK;
+         |               ^~~~~
+         |               readw
+   In file included from include/linux/ratelimit_types.h:5,
+                    from include/linux/ratelimit.h:5,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/dmaengine.h:8,
+                    from drivers/dma/ls2x-apb-dma.c:8:
+   include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/ls2x-apb-dma.c:33:33: note: in expansion of macro 'GENMASK'
+      33 | #define LDMA_ASK_ADDR_MASK      GENMASK(63, 5) /* Ask Addr Mask */
+         |                                 ^~~~~~~
+   drivers/dma/ls2x-apb-dma.c:179:52: note: in expansion of macro 'LDMA_ASK_ADDR_MASK'
+     179 |         val = readq(priv->regs + LDMA_ORDER_ERG) & LDMA_ASK_ADDR_MASK;
+         |                                                    ^~~~~~~~~~~~~~~~~~
+>> drivers/dma/ls2x-apb-dma.c:181:9: error: implicit declaration of function 'writeq'; did you mean 'writew'? [-Werror=implicit-function-declaration]
+     181 |         writeq(val, priv->regs + LDMA_ORDER_ERG);
+         |         ^~~~~~
+         |         writew
+   drivers/dma/ls2x-apb-dma.c: In function 'ls2x_dma_start_transfer':
+   include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/dma/ls2x-apb-dma.c:33:33: note: in expansion of macro 'GENMASK'
+      33 | #define LDMA_ASK_ADDR_MASK      GENMASK(63, 5) /* Ask Addr Mask */
+         |                                 ^~~~~~~
+   drivers/dma/ls2x-apb-dma.c:204:31: note: in expansion of macro 'LDMA_ASK_ADDR_MASK'
+     204 |         val = (ldma_sg->llp & LDMA_ASK_ADDR_MASK) | LDMA_64BIT_EN | LDMA_START;
+         |                               ^~~~~~~~~~~~~~~~~~
+   In file included from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32:
+   drivers/dma/ls2x-apb-dma.c: At top level:
+>> drivers/dma/ls2x-apb-dma.c:628:25: error: 'ls2x_dma_dt_ids' undeclared here (not in a function); did you mean 'ls2x_dma_isr'?
+     628 | MODULE_DEVICE_TABLE(of, ls2x_dma_dt_ids);
+         |                         ^~~~~~~~~~~~~~~
+   include/linux/module.h:244:15: note: in definition of macro 'MODULE_DEVICE_TABLE'
+     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |               ^~~~
+>> include/linux/module.h:244:21: error: '__mod_of__ls2x_dma_dt_ids_device_table' aliased to undefined symbol 'ls2x_dma_dt_ids'
+     244 | extern typeof(name) __mod_##type##__##name##_device_table               \
+         |                     ^~~~~~
+   drivers/dma/ls2x-apb-dma.c:628:1: note: in expansion of macro 'MODULE_DEVICE_TABLE'
+     628 | MODULE_DEVICE_TABLE(of, ls2x_dma_dt_ids);
+         | ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1873 drivers/spi/spi-cadence-quadspi.c
+vim +179 drivers/dma/ls2x-apb-dma.c
 
-  1865	
-  1866	static int cqspi_resume(struct device *dev)
-  1867	{
-  1868		struct cqspi_st *cqspi = dev_get_drvdata(dev);
-  1869		struct spi_master *master = dev_get_drvdata(dev);
-  1870	
-  1871		clk_prepare_enable(cqspi->clk);
-  1872		if (of_device_is_compatible(dev->of_node, "starfive,jh7110-qspi"))
-> 1873			clk_bulk_prepare_enable(cqspi->num_clks, cqspi->clks);
-  1874		cqspi_wait_idle(cqspi);
-  1875		cqspi_controller_init(cqspi);
-  1876	
-  1877		cqspi->current_cs = -1;
-  1878		cqspi->sclk = 0;
-  1879	
-  1880		return spi_master_resume(master);
-  1881	}
-  1882	
+   173	
+   174	static void ls2x_dma_write_cmd(struct ls2x_dma_chan *lchan, bool cmd)
+   175	{
+   176		u64 val = 0;
+   177		struct ls2x_dma_priv *priv = to_ldma_priv(lchan->vchan.chan.device);
+   178	
+ > 179		val = readq(priv->regs + LDMA_ORDER_ERG) & LDMA_ASK_ADDR_MASK;
+   180		val |= LDMA_64BIT_EN | cmd;
+ > 181		writeq(val, priv->regs + LDMA_ORDER_ERG);
+   182	}
+   183	
 
 -- 
 0-DAY CI Kernel Test Service
