@@ -1,47 +1,51 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD7815B2;
-	Fri,  2 Jun 2023 03:10:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEDA15B2
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 03:20:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685675406; x=1717211406;
+  t=1685676007; x=1717212007;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9Gt8st/ryKSg8qnsIEF7QXkgeLEpi4pVanUVqfCBXlI=;
-  b=jlQBSDe9w/BeRHnCN69Xs9sJ4txhaVNGyP0g6F9lNBGPyxXoRD+1Fyfq
-   pE47Zj1veZBiSoD7RwaIssgXYpT5F4teCCXwQy5a2DbIPoTwsdQBfIQlr
-   xEQihOsQFUEZBrHTcsajDO4Z8QzijaVb0UbNTanCCxy/UCu0gi2/s7+ZF
-   NjRfphsnn4XpmrnR5m82A6l7S2vcXiSQGAjQycHHqzn9XOcxZK2o4pf79
-   TKYqxuBtdTtXeCJSf5s/vTh32piEH+KNDPA2bKrbGjmJ3kc+FfKLiwDTF
-   +NoMslqvcZFx6jmNJHqg7ZJXvjs1c81kkr1jcO5IjxLtNUm9/Xn3zYRqM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="353246166"
+  bh=tp1pRxIXNV5sIRotnZf5vbQ/Cdchz8UTj+wy3MPNfDo=;
+  b=BMRsMwjj9g/yEPFh94H8/V2vjEaTsOTz6QuKQrfBHJEFdcFyfQW+o0CB
+   El1KF1LclYsUBEENA9jhjrvbfi0QNfmBZ2RdMMeud044+q1uOjE2IUxk/
+   m0yvhMHGmpuXYApll7qOYRoW7wInAjWpvfDqttF7EBQnT3dN2Fic/ei9F
+   OHJ+WS+nWV4FFeHLZJ9WdkrqKF4AMPxqLxAH9L6vsTHwfzB1A3fNFfEXW
+   sn/xxvCJvOmKAdqP2RRh62qfWp5SWJtQ3HJ5Tur45cnCEiwq+62Uw5NTU
+   lDTdN5hRsicZlXMb/kV8oPd1qGCaYvKn0XRanDBDHHxs7Z0uD0GFZTTnr
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="442128801"
 X-IronPort-AV: E=Sophos;i="6.00,211,1681196400"; 
-   d="scan'208";a="353246166"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 20:10:03 -0700
+   d="scan'208";a="442128801"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 20:20:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="954284983"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="881886189"
 X-IronPort-AV: E=Sophos;i="6.00,211,1681196400"; 
-   d="scan'208";a="954284983"
-Received: from lkp-server01.sh.intel.com (HELO d1d49124694e) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Jun 2023 20:10:00 -0700
-Received: from kbuild by d1d49124694e with local (Exim 4.96)
+   d="scan'208";a="881886189"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 01 Jun 2023 20:20:03 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q4vAu-00001o-11;
-	Fri, 02 Jun 2023 03:10:00 +0000
-Date: Fri, 2 Jun 2023 11:09:19 +0800
+	id 1q4vKd-000013-03;
+	Fri, 02 Jun 2023 03:20:03 +0000
+Date: Fri, 2 Jun 2023 11:19:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Saravanan Vajravel <saravanan.vajravel@broadcom.com>,
-	selvin.xavier@broadcom.com, jgg@ziepe.ca, leon@kernel.org,
-	sagi@grimberg.me
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-rdma@vger.kernel.org,
-	Saravanan Vajravel <saravanan.vajravel@broadcom.com>
-Subject: Re: [PATCH for-rc 1/3] IB/isert: Fix dead lock in ib_isert
-Message-ID: <202306021038.ms6aIjpB-lkp@intel.com>
-References: <20230601094220.64810-2-saravanan.vajravel@broadcom.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+	Rafael Wysocki <rafael@kernel.org>, hdegoede@redhat.com,
+	linus.walleij@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org, linux-pm@vger.kernel.org,
+	S-k Shyam-sundar <Shyam-sundar.S-k@amd.com>,
+	Natikar Basavaraj <Basavaraj.Natikar@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v3 3/4] pinctrl: amd: Use pm_pr_dbg to show debugging
+ messages
+Message-ID: <202306021143.5D8Xmq0r-lkp@intel.com>
+References: <20230601232923.1248-3-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,105 +54,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230601094220.64810-2-saravanan.vajravel@broadcom.com>
+In-Reply-To: <20230601232923.1248-3-mario.limonciello@amd.com>
 
-Hi Saravanan,
+Hi Mario,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on rdma/for-next]
-[also build test ERROR on linus/master v6.4-rc4 next-20230601]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 7736c431466abb54a2679dc257f739fddfa84295]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Saravanan-Vajravel/IB-isert-Fix-dead-lock-in-ib_isert/20230601-225628
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
-patch link:    https://lore.kernel.org/r/20230601094220.64810-2-saravanan.vajravel%40broadcom.com
-patch subject: [PATCH for-rc 1/3] IB/isert: Fix dead lock in ib_isert
-config: arm64-randconfig-r025-20230531 (https://download.01.org/0day-ci/archive/20230602/202306021038.ms6aIjpB-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-x86-Add-pm_debug_messages-for-LPS0-_DSM-state-tracking/20230602-073044
+base:   7736c431466abb54a2679dc257f739fddfa84295
+patch link:    https://lore.kernel.org/r/20230601232923.1248-3-mario.limonciello%40amd.com
+patch subject: [PATCH v3 3/4] pinctrl: amd: Use pm_pr_dbg to show debugging messages
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230602/202306021143.5D8Xmq0r-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/c7031144a2a9b6f14201977b35600ab80ee30e09
+        # https://github.com/intel-lab-lkp/linux/commit/61f4d28eda8f5bf19179080626ec4f1276c1cbae
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Saravanan-Vajravel/IB-isert-Fix-dead-lock-in-ib_isert/20230601-225628
-        git checkout c7031144a2a9b6f14201977b35600ab80ee30e09
+        git fetch --no-tags linux-review Mario-Limonciello/ACPI-x86-Add-pm_debug_messages-for-LPS0-_DSM-state-tracking/20230602-073044
+        git checkout 61f4d28eda8f5bf19179080626ec4f1276c1cbae
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/infiniband/ulp/isert/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/pinctrl/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306021038.ms6aIjpB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306021143.5D8Xmq0r-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/infiniband/ulp/isert/ib_isert.c:2454:54: error: expected ';' after expression
-                           list_move_tail(&isert_conn->node, &drop_conn_list)
-                                                                             ^
-                                                                             ;
-   1 error generated.
+   drivers/pinctrl/pinctrl-amd.c: In function 'do_amd_gpio_irq_handler':
+>> drivers/pinctrl/pinctrl-amd.c:639:28: warning: suggest explicit braces to avoid ambiguous 'else' [-Wdangling-else]
+     639 |                         if (regval & PIN_IRQ_PENDING)
+         |                            ^
 
 
-vim +2454 drivers/infiniband/ulp/isert/ib_isert.c
+vim +/else +639 drivers/pinctrl/pinctrl-amd.c
 
-  2428	
-  2429	static void
-  2430	isert_free_np(struct iscsi_np *np)
-  2431	{
-  2432		struct isert_np *isert_np = np->np_context;
-  2433		struct isert_conn *isert_conn, *n;
-  2434		LIST_HEAD(drop_conn_list);
-  2435	
-  2436		if (isert_np->cm_id)
-  2437			rdma_destroy_id(isert_np->cm_id);
-  2438	
-  2439		/*
-  2440		 * FIXME: At this point we don't have a good way to insure
-  2441		 * that at this point we don't have hanging connections that
-  2442		 * completed RDMA establishment but didn't start iscsi login
-  2443		 * process. So work-around this by cleaning up what ever piled
-  2444		 * up in accepted and pending lists.
-  2445		 */
-  2446		mutex_lock(&isert_np->mutex);
-  2447		if (!list_empty(&isert_np->pending)) {
-  2448			isert_info("Still have isert pending connections\n");
-  2449			list_for_each_entry_safe(isert_conn, n,
-  2450						 &isert_np->pending,
-  2451						 node) {
-  2452				isert_info("cleaning isert_conn %p state (%d)\n",
-  2453					   isert_conn, isert_conn->state);
-> 2454				list_move_tail(&isert_conn->node, &drop_conn_list)
-  2455			}
-  2456		}
-  2457	
-  2458		if (!list_empty(&isert_np->accepted)) {
-  2459			isert_info("Still have isert accepted connections\n");
-  2460			list_for_each_entry_safe(isert_conn, n,
-  2461						 &isert_np->accepted,
-  2462						 node) {
-  2463				isert_info("cleaning isert_conn %p state (%d)\n",
-  2464					   isert_conn, isert_conn->state);
-  2465				list_move_tail(&isert_conn->node, &drop_conn_list);
-  2466			}
-  2467		}
-  2468		mutex_unlock(&isert_np->mutex);
-  2469	
-  2470		list_for_each_entry_safe(isert_conn, n, &drop_conn_list, node) {
-  2471			list_del_init(&isert_conn->node);
-  2472			isert_connect_release(isert_conn);
-  2473		}
-  2474	
-  2475		np->np_context = NULL;
-  2476		kfree(isert_np);
-  2477	}
-  2478	
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  608  
+2d54067fcd23aa Mario Limonciello         2021-10-31  609  static bool do_amd_gpio_irq_handler(int irq, void *dev_id)
+dbad75dd1f25e0 Ken Xue                   2015-03-10  610  {
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  611  	struct amd_gpio *gpio_dev = dev_id;
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  612  	struct gpio_chip *gc = &gpio_dev->gc;
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  613  	unsigned int i, irqnr;
+dbad75dd1f25e0 Ken Xue                   2015-03-10  614  	unsigned long flags;
+10ff58aa3c2e2a Ben Dooks (Codethink      2019-10-22  615) 	u32 __iomem *regs;
+2d54067fcd23aa Mario Limonciello         2021-10-31  616  	bool ret = false;
+10ff58aa3c2e2a Ben Dooks (Codethink      2019-10-22  617) 	u32  regval;
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  618  	u64 status, mask;
+dbad75dd1f25e0 Ken Xue                   2015-03-10  619  
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  620  	/* Read the wake status */
+229710fecdd805 Julia Cartwright          2017-03-09  621  	raw_spin_lock_irqsave(&gpio_dev->lock, flags);
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  622  	status = readl(gpio_dev->base + WAKE_INT_STATUS_REG1);
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  623  	status <<= 32;
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  624  	status |= readl(gpio_dev->base + WAKE_INT_STATUS_REG0);
+229710fecdd805 Julia Cartwright          2017-03-09  625  	raw_spin_unlock_irqrestore(&gpio_dev->lock, flags);
+dbad75dd1f25e0 Ken Xue                   2015-03-10  626  
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  627  	/* Bit 0-45 contain the relevant status bits */
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  628  	status &= (1ULL << 46) - 1;
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  629  	regs = gpio_dev->base;
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  630  	for (mask = 1, irqnr = 0; status; mask <<= 1, regs += 4, irqnr += 4) {
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  631  		if (!(status & mask))
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  632  			continue;
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  633  		status &= ~mask;
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  634  
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  635  		/* Each status bit covers four pins */
+dbad75dd1f25e0 Ken Xue                   2015-03-10  636  		for (i = 0; i < 4; i++) {
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  637  			regval = readl(regs + i);
+1d66e379731f79 Mario Limonciello         2022-10-13  638  
+1d66e379731f79 Mario Limonciello         2022-10-13 @639  			if (regval & PIN_IRQ_PENDING)
+61f4d28eda8f5b Mario Limonciello         2023-06-01  640  				pm_pr_dbg("GPIO %d is active: 0x%x",
+2d54067fcd23aa Mario Limonciello         2021-10-31  641  					  irqnr + i, regval);
+1d66e379731f79 Mario Limonciello         2022-10-13  642  
+1d66e379731f79 Mario Limonciello         2022-10-13  643  			/* caused wake on resume context for shared IRQ */
+1d66e379731f79 Mario Limonciello         2022-10-13  644  			if (irq < 0 && (regval & BIT(WAKE_STS_OFF)))
+2d54067fcd23aa Mario Limonciello         2021-10-31  645  				return true;
+2d54067fcd23aa Mario Limonciello         2021-10-31  646  
+8bbed1eef001fd Daniel Kurtz              2018-07-16  647  			if (!(regval & PIN_IRQ_PENDING) ||
+8bbed1eef001fd Daniel Kurtz              2018-07-16  648  			    !(regval & BIT(INTERRUPT_MASK_OFF)))
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  649  				continue;
+f460c70125bcb1 Sebastian Andrzej Siewior 2022-09-19  650  			generic_handle_domain_irq_safe(gc->irq.domain, irqnr + i);
+6afb10267c1692 Daniel Drake              2017-10-02  651  
+6afb10267c1692 Daniel Drake              2017-10-02  652  			/* Clear interrupt.
+6afb10267c1692 Daniel Drake              2017-10-02  653  			 * We must read the pin register again, in case the
+6afb10267c1692 Daniel Drake              2017-10-02  654  			 * value was changed while executing
+a9cb09b7be84a7 Marc Zyngier              2021-05-04  655  			 * generic_handle_domain_irq() above.
+d21b8adbd475db Daniel Drake              2019-08-14  656  			 * If we didn't find a mapping for the interrupt,
+d21b8adbd475db Daniel Drake              2019-08-14  657  			 * disable it in order to avoid a system hang caused
+d21b8adbd475db Daniel Drake              2019-08-14  658  			 * by an interrupt storm.
+6afb10267c1692 Daniel Drake              2017-10-02  659  			 */
+6afb10267c1692 Daniel Drake              2017-10-02  660  			raw_spin_lock_irqsave(&gpio_dev->lock, flags);
+6afb10267c1692 Daniel Drake              2017-10-02  661  			regval = readl(regs + i);
+d21b8adbd475db Daniel Drake              2019-08-14  662  			if (irq == 0) {
+d21b8adbd475db Daniel Drake              2019-08-14  663  				regval &= ~BIT(INTERRUPT_ENABLE_OFF);
+d21b8adbd475db Daniel Drake              2019-08-14  664  				dev_dbg(&gpio_dev->pdev->dev,
+d21b8adbd475db Daniel Drake              2019-08-14  665  					"Disabling spurious GPIO IRQ %d\n",
+d21b8adbd475db Daniel Drake              2019-08-14  666  					irqnr + i);
+d21b8adbd475db Daniel Drake              2019-08-14  667  			}
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  668  			writel(regval, regs + i);
+6afb10267c1692 Daniel Drake              2017-10-02  669  			raw_spin_unlock_irqrestore(&gpio_dev->lock, flags);
+2d54067fcd23aa Mario Limonciello         2021-10-31  670  			ret = true;
+dbad75dd1f25e0 Ken Xue                   2015-03-10  671  		}
+dbad75dd1f25e0 Ken Xue                   2015-03-10  672  	}
+2d54067fcd23aa Mario Limonciello         2021-10-31  673  	/* did not cause wake on resume context for shared IRQ */
+2d54067fcd23aa Mario Limonciello         2021-10-31  674  	if (irq < 0)
+2d54067fcd23aa Mario Limonciello         2021-10-31  675  		return false;
+dbad75dd1f25e0 Ken Xue                   2015-03-10  676  
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  677  	/* Signal EOI to the GPIO unit */
+229710fecdd805 Julia Cartwright          2017-03-09  678  	raw_spin_lock_irqsave(&gpio_dev->lock, flags);
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  679  	regval = readl(gpio_dev->base + WAKE_INT_MASTER_REG);
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  680  	regval |= EOI_MASK;
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  681  	writel(regval, gpio_dev->base + WAKE_INT_MASTER_REG);
+229710fecdd805 Julia Cartwright          2017-03-09  682  	raw_spin_unlock_irqrestore(&gpio_dev->lock, flags);
+dbad75dd1f25e0 Ken Xue                   2015-03-10  683  
+ba714a9c1dea85 Thomas Gleixner           2017-05-23  684  	return ret;
+dbad75dd1f25e0 Ken Xue                   2015-03-10  685  }
+dbad75dd1f25e0 Ken Xue                   2015-03-10  686  
 
 -- 
 0-DAY CI Kernel Test Service
