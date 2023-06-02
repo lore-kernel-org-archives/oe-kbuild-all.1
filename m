@@ -1,73 +1,113 @@
-Received: from mx.sberdevices.ru (mx.sberdevices.ru [45.89.227.171])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14C058466
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 11:16:58 +0000 (UTC)
-Received: from s-lin-edge02.sberdevices.ru (localhost [127.0.0.1])
-	by mx.sberdevices.ru (Postfix) with ESMTP id 35DCA5FD1D;
-	Fri,  2 Jun 2023 14:03:27 +0300 (MSK)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sberdevices.ru;
-	s=mail; t=1685703807;
-	bh=P21ZCO8cvJf6YwlmF8pYgOOnkYfHNy2KTyAlbb0APBE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	b=kmylLnV7Csqk12Xvc0Kg+idFZT1QbN8IU3H1rnWJi24+VlEVvT6mFRIIVlprgmIqm
-	 7fjR7BL/zgn0viCj8vWO7Vdw2Kjq66n6NME1f2zxetKrwqJrgWat4ClJGF6Myjw/wN
-	 D49WKauAxcUcTUyWslpRrsM+6ZZ0O6TZVUI9A/ZtBA1J9k4cRNoQHnGomjAHLGva78
-	 8/s7NJ+4dxuNiX3EeFhMewOPtzyXJ2K8gXCu55KAX5D64nS+7spOzdKA8x3XjE6BZs
-	 D84N6D0D3f8NrrghoJv34G83VFDkU6zdKcwzb60Zre1iLn+wIkYxoN7Jygj5F+toX6
-	 cEOqA7RhIlkXw==
-Received: from S-MS-EXCH01.sberdevices.ru (S-MS-EXCH01.sberdevices.ru [172.16.1.4])
-	by mx.sberdevices.ru (Postfix) with ESMTP;
-	Fri,  2 Jun 2023 14:03:17 +0300 (MSK)
-Message-ID: <e6302401-7a07-a2fa-621b-29f62ef60261@sberdevices.ru>
-Date: Fri, 2 Jun 2023 14:03:14 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B7C107B1
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 11:20:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685704829; x=1717240829;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ibySYrNNT3IVJib73vqU6Prg/GfysDkIt45VKN1+9iI=;
+  b=YoGnxunphxyxgof2mlCzUUbWiPJ6ZrUqAKaquPs6XNN1JRkKFZFGDwD9
+   veZgxqd4M6Id9O7/9+xyCrhAaCHfmXLgOIzKie12APlZdvmZDlztE9XiO
+   aofkKO435bOX3kzw6ngn8XEBigMNOHTvWzXERUByQIxl/12XdsAGYfHgv
+   xXT6gMOwT8YvTGAli4QnT1OJI7qRjLPcReE9TzXRcsiQjqE8EZv3VOkQq
+   T0RJIwKYBDmcdZU0ZdkVYEuCoZCEudQXHVwLCsD2S89mq98bmWcxPkPN/
+   xW7RvwTw6QKThpsppHJOSHZZhHYZUUCeaY7XTsur1jsFotMTL96j4MvZM
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="384127857"
+X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
+   d="scan'208";a="384127857"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 04:20:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="685288774"
+X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
+   d="scan'208";a="685288774"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 02 Jun 2023 04:20:26 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q52pV-0000Nl-2C;
+	Fri, 02 Jun 2023 11:20:25 +0000
+Date: Fri, 2 Jun 2023 19:19:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hari Chandrakanthan <quic_haric@quicinc.com>, quic_kvalo@quicinc.com,
+	ath11k@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	Hari Chandrakanthan <quic_haric@quicinc.com>
+Subject: Re: [PATCH] wifi: ath11k: add tx delay to TSF
+Message-ID: <202306021958.bdB3k531-lkp@intel.com>
+References: <1685698250-722-1-git-send-email-quic_haric@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.1
-Subject: Re: [PATCH v1] leds: trigger: pattern: add support for hrtimer
-Content-Language: en-US
-To: Lee Jones <lee@kernel.org>, kernel test robot <lkp@intel.com>
-CC: Pavel Machek <pavel@ucw.cz>, ye xingchen <ye.xingchen@zte.com.cn>, Kalle
- Valo <kvalo@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Steven Rostedt
-	<rostedt@goodmis.org>, <oe-kbuild-all@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <linux-leds@vger.kernel.org>,
-	<kernel@sberdevices.ru>
-References: <20230522190412.374474-1-mmkurbanov@sberdevices.ru>
- <202305230549.ekneaQ89-lkp@intel.com> <20230601185116.GL449117@google.com>
-From: Martin Kurbanov <mmkurbanov@sberdevices.ru>
-In-Reply-To: <20230601185116.GL449117@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.16.1.6]
-X-ClientProxiedBy: S-MS-EXCH01.sberdevices.ru (172.16.1.4) To
- S-MS-EXCH01.sberdevices.ru (172.16.1.4)
-X-KSMG-Rule-ID: 4
-X-KSMG-Message-Action: clean
-X-KSMG-AntiSpam-Status: not scanned, disabled by settings
-X-KSMG-AntiSpam-Interceptor-Info: not scanned
-X-KSMG-AntiPhishing: not scanned, disabled by settings
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 1.1.2.30, bases: 2023/06/02 03:06:00 #21401484
-X-KSMG-AntiVirus-Status: Clean, skipped
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1685698250-722-1-git-send-email-quic_haric@quicinc.com>
 
-Hello Lee,
+Hi Hari,
 
-On 01.06.2023 21:51, Lee Jones wrote:
->>    drivers/leds/trigger/ledtrig-pattern.c: In function 'pattern_init':
->>>> drivers/leds/trigger/ledtrig-pattern.c:454:74: warning: implicit conversion from 'enum <anonymous>' to 'enum pattern_type' [-Wenum-conversion]
->>      454 |         err = pattern_trig_store_patterns(led_cdev, NULL, pattern, size, false);
->>          |                                                                          ^~~~~
->  
-> Did you fix this already? 
-> 
-> I don't see a subsequent submission?
+kernel test robot noticed the following build warnings:
 
-Sure, I intend to send the updated version very soon (hopefully today).
+[auto build test WARNING on kvalo-ath/ath-next]
+[also build test WARNING on next-20230602]
+[cannot apply to linus/master v6.4-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hari-Chandrakanthan/wifi-ath11k-add-tx-delay-to-TSF/20230602-173351
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git ath-next
+patch link:    https://lore.kernel.org/r/1685698250-722-1-git-send-email-quic_haric%40quicinc.com
+patch subject: [PATCH] wifi: ath11k: add tx delay to TSF
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230602/202306021958.bdB3k531-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/493e1ad70fff68a5c06b59683ebd453dafcafd19
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Hari-Chandrakanthan/wifi-ath11k-add-tx-delay-to-TSF/20230602-173351
+        git checkout 493e1ad70fff68a5c06b59683ebd453dafcafd19
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/net/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306021958.bdB3k531-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/wireless/ath/ath11k/wmi.c:8609:6: warning: no previous prototype for 'ath11k_wmi_event_tbttoffset_update' [-Wmissing-prototypes]
+    8609 | void ath11k_wmi_event_tbttoffset_update(struct ath11k_base *ab, struct sk_buff *skb)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/ath11k_wmi_event_tbttoffset_update +8609 drivers/net/wireless/ath/ath11k/wmi.c
+
+  8608	
+> 8609	void ath11k_wmi_event_tbttoffset_update(struct ath11k_base *ab, struct sk_buff *skb)
+  8610	{
+  8611		struct wmi_tbtt_offset_info tbtt_offset_info;
+  8612		int ret;
+  8613	
+  8614		ret = ath11k_wmi_tlv_iter(ab, skb->data, skb->len,
+  8615					  ath11k_wmi_tbtt_offset_event_parser,
+  8616					  &tbtt_offset_info);
+  8617		if (ret) {
+  8618			ath11k_warn(ab, "failed to parse tbtt tlv %d\n", ret);
+  8619		}
+  8620	}
+  8621	
 
 -- 
-Best Regards,
-Martin Kurbanov
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
