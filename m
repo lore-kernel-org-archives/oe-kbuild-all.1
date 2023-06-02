@@ -1,43 +1,51 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E122F33
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 20:52:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABE12F33
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 21:47:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685739146; x=1717275146;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v8uuHdnqY+mtEfIKnd7O6BOHWSobdioNQ4SyN1jtIdA=;
-  b=oGKyyKDAJsljvVabUExpXrMh+W5z3Rf1YQHNF3YmH6QYI99V5BAhrTsF
-   0Tycuj730FJJFPbo/ecVjtw1S75OKZQ2vuORMnC0tKPd7YLdCy/ypzpOH
-   dgtHeS4FGkJ0a+S6jmxuvRPGuNuxTVNG2DhX0yMIwqmo2IaAYaJ37z3Sn
-   6j5bD5KQD6QqcVgJtQFhbJZ8ALQhyzqmSUXZVYH89apUMowcE5DugVbXP
-   om/ijFM6UCKMpTg8FZN6owv1NjPytEUc3YBHayyN/kFZKj1FH5E8PL4DL
-   CP7CFBM76+fAVJIUvpWS3r4dHz+xjEpr7K8qgBT+3FHLSj01/3KfQchE5
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="353459284"
+  t=1685742429; x=1717278429;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=y0Ioa4ug2F0tmnP21rKqZ+B3hDBJzy5cKKM2DR6nBWQ=;
+  b=PTZ36uNvAJgitIJKz1DnyIVLvctnSvsXRMkZNfXZbzbTFXInLUzexmWd
+   h00P2Lh/t9Z33qCTfbVfsq43eaOm7/yCfNryTEIQxznCRm7IUbUTuUZ+l
+   ExXwX8xtYd+BnI3RPq0uxtldA0gPA2TYRPqwHaDMF9p4rjGjx6KqYc+KK
+   qzjezeU4UZBlSquY7/u5jNprI+PZ1S4BktFCIoXzxFEJN5B+F+nyLL4VG
+   yG4Qv3MBzsgiifbxXH4FFMw49WscGTMWlSRzCxkZYIu6VNvdl+nERRoyD
+   bcdpuHfKklEs5gf5E9HtkpMuKziUGOZ9N93GYW8IJJwmmLQO9ENQpTu80
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="345560151"
 X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="353459284"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 13:52:25 -0700
+   d="scan'208";a="345560151"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 14:47:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="658399291"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="954635144"
 X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="658399291"
+   d="scan'208";a="954635144"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 02 Jun 2023 13:52:01 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 02 Jun 2023 14:47:03 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q5Bke-0000wn-2P;
-	Fri, 02 Jun 2023 20:52:00 +0000
-Date: Sat, 3 Jun 2023 04:51:37 +0800
+	id 1q5Cbv-000109-0f;
+	Fri, 02 Jun 2023 21:47:03 +0000
+Date: Sat, 3 Jun 2023 05:46:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Udit Kumar <u-kumar1@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
-Subject: [ti:ti-rt-linux-6.1.y-cicd 109/110]
- drivers/mfd/tps6594-core.c:22:30: warning: unused variable
- 'tps6594_regulator_resources'
-Message-ID: <202306030401.jG3TmZWy-lkp@intel.com>
+To: Hugo Villeneuve <hugo@hugovil.com>, gregkh@linuxfoundation.org,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	conor+dt@kernel.org, jirislaby@kernel.org, jringle@gridpoint.com,
+	tomasz.mon@camlingroup.com, l.perczak@camlintechnologies.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	hugo@hugovil.com, linux-gpio@vger.kernel.org,
+	Hugo Villeneuve <hvilleneuve@dimonoff.com>, stable@vger.kernel.org,
+	Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: Re: [PATCH v7 5/9] serial: sc16is7xx: fix regression with GPIO
+ configuration
+Message-ID: <202306030535.SjzsDJSD-lkp@intel.com>
+References: <20230602152626.284324-6-hugo@hugovil.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,94 +54,191 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230602152626.284324-6-hugo@hugovil.com>
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
-head:   5c3e7acb9bacc9006a8ca3ed5d17a22d444f23dc
-commit: 11303d0da06af1356f14ca9c8fea863667cf31b7 [109/110] HACK: mfd: tps6594: Remove tps6594 regulator cell
-config: mips-randconfig-r011-20230601 (https://download.01.org/0day-ci/archive/20230603/202306030401.jG3TmZWy-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
-reproduce (this is a W=1 build):
+Hi Hugo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9e87b63ed37e202c77aa17d4112da6ae0c7c097c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hugo-Villeneuve/serial-sc16is7xx-fix-broken-port-0-uart-init/20230602-232811
+base:   9e87b63ed37e202c77aa17d4112da6ae0c7c097c
+patch link:    https://lore.kernel.org/r/20230602152626.284324-6-hugo%40hugovil.com
+patch subject: [PATCH v7 5/9] serial: sc16is7xx: fix regression with GPIO configuration
+config: microblaze-randconfig-s052-20230531 (https://download.01.org/0day-ci/archive/20230603/202306030535.SjzsDJSD-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
+reproduce:
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
-        git fetch --no-tags ti ti-rt-linux-6.1.y-cicd
-        git checkout 11303d0da06af1356f14ca9c8fea863667cf31b7
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/24626643fe711f447b04a2421ef68e8e8cce86d1
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Hugo-Villeneuve/serial-sc16is7xx-fix-broken-port-0-uart-init/20230602-232811
+        git checkout 24626643fe711f447b04a2421ef68e8e8cce86d1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/mfd/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=microblaze SHELL=/bin/bash drivers/tty/serial/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306030401.jG3TmZWy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306030535.SjzsDJSD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/mfd/tps6594-core.c:22:30: warning: unused variable 'tps6594_regulator_resources' [-Wunused-const-variable]
-   static const struct resource tps6594_regulator_resources[] = {
-                                ^
-   1 warning generated.
+   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_probe':
+>> drivers/tty/serial/sc16is7xx.c:1450:12: warning: variable 'mctrl_mask' set but not used [-Wunused-but-set-variable]
+    1450 |         u8 mctrl_mask;
+         |            ^~~~~~~~~~
 
 
-vim +/tps6594_regulator_resources +22 drivers/mfd/tps6594-core.c
+vim +/mctrl_mask +1450 drivers/tty/serial/sc16is7xx.c
 
-107be4a1c6663b Julien Panis 2023-04-06  21  
-107be4a1c6663b Julien Panis 2023-04-06 @22  static const struct resource tps6594_regulator_resources[] = {
-107be4a1c6663b Julien Panis 2023-04-06  23  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK1_OV, TPS6594_IRQ_NAME_BUCK1_OV),
-107be4a1c6663b Julien Panis 2023-04-06  24  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK1_UV, TPS6594_IRQ_NAME_BUCK1_UV),
-107be4a1c6663b Julien Panis 2023-04-06  25  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK1_SC, TPS6594_IRQ_NAME_BUCK1_SC),
-107be4a1c6663b Julien Panis 2023-04-06  26  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK1_ILIM, TPS6594_IRQ_NAME_BUCK1_ILIM),
-107be4a1c6663b Julien Panis 2023-04-06  27  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK2_OV, TPS6594_IRQ_NAME_BUCK2_OV),
-107be4a1c6663b Julien Panis 2023-04-06  28  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK2_UV, TPS6594_IRQ_NAME_BUCK2_UV),
-107be4a1c6663b Julien Panis 2023-04-06  29  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK2_SC, TPS6594_IRQ_NAME_BUCK2_SC),
-107be4a1c6663b Julien Panis 2023-04-06  30  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK2_ILIM, TPS6594_IRQ_NAME_BUCK2_ILIM),
-107be4a1c6663b Julien Panis 2023-04-06  31  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK3_OV, TPS6594_IRQ_NAME_BUCK3_OV),
-107be4a1c6663b Julien Panis 2023-04-06  32  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK3_UV, TPS6594_IRQ_NAME_BUCK3_UV),
-107be4a1c6663b Julien Panis 2023-04-06  33  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK3_SC, TPS6594_IRQ_NAME_BUCK3_SC),
-107be4a1c6663b Julien Panis 2023-04-06  34  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK3_ILIM, TPS6594_IRQ_NAME_BUCK3_ILIM),
-107be4a1c6663b Julien Panis 2023-04-06  35  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK4_OV, TPS6594_IRQ_NAME_BUCK4_OV),
-107be4a1c6663b Julien Panis 2023-04-06  36  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK4_UV, TPS6594_IRQ_NAME_BUCK4_UV),
-107be4a1c6663b Julien Panis 2023-04-06  37  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK4_SC, TPS6594_IRQ_NAME_BUCK4_SC),
-107be4a1c6663b Julien Panis 2023-04-06  38  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK4_ILIM, TPS6594_IRQ_NAME_BUCK4_ILIM),
-107be4a1c6663b Julien Panis 2023-04-06  39  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK5_OV, TPS6594_IRQ_NAME_BUCK5_OV),
-107be4a1c6663b Julien Panis 2023-04-06  40  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK5_UV, TPS6594_IRQ_NAME_BUCK5_UV),
-107be4a1c6663b Julien Panis 2023-04-06  41  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK5_SC, TPS6594_IRQ_NAME_BUCK5_SC),
-107be4a1c6663b Julien Panis 2023-04-06  42  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_BUCK5_ILIM, TPS6594_IRQ_NAME_BUCK5_ILIM),
-107be4a1c6663b Julien Panis 2023-04-06  43  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO1_OV, TPS6594_IRQ_NAME_LDO1_OV),
-107be4a1c6663b Julien Panis 2023-04-06  44  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO1_UV, TPS6594_IRQ_NAME_LDO1_UV),
-107be4a1c6663b Julien Panis 2023-04-06  45  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO1_SC, TPS6594_IRQ_NAME_LDO1_SC),
-107be4a1c6663b Julien Panis 2023-04-06  46  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO1_ILIM, TPS6594_IRQ_NAME_LDO1_ILIM),
-107be4a1c6663b Julien Panis 2023-04-06  47  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO2_OV, TPS6594_IRQ_NAME_LDO2_OV),
-107be4a1c6663b Julien Panis 2023-04-06  48  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO2_UV, TPS6594_IRQ_NAME_LDO2_UV),
-107be4a1c6663b Julien Panis 2023-04-06  49  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO2_SC, TPS6594_IRQ_NAME_LDO2_SC),
-107be4a1c6663b Julien Panis 2023-04-06  50  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO2_ILIM, TPS6594_IRQ_NAME_LDO2_ILIM),
-107be4a1c6663b Julien Panis 2023-04-06  51  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO3_OV, TPS6594_IRQ_NAME_LDO3_OV),
-107be4a1c6663b Julien Panis 2023-04-06  52  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO3_UV, TPS6594_IRQ_NAME_LDO3_UV),
-107be4a1c6663b Julien Panis 2023-04-06  53  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO3_SC, TPS6594_IRQ_NAME_LDO3_SC),
-107be4a1c6663b Julien Panis 2023-04-06  54  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO3_ILIM, TPS6594_IRQ_NAME_LDO3_ILIM),
-107be4a1c6663b Julien Panis 2023-04-06  55  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO4_OV, TPS6594_IRQ_NAME_LDO4_OV),
-107be4a1c6663b Julien Panis 2023-04-06  56  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO4_UV, TPS6594_IRQ_NAME_LDO4_UV),
-107be4a1c6663b Julien Panis 2023-04-06  57  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO4_SC, TPS6594_IRQ_NAME_LDO4_SC),
-107be4a1c6663b Julien Panis 2023-04-06  58  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_LDO4_ILIM, TPS6594_IRQ_NAME_LDO4_ILIM),
-107be4a1c6663b Julien Panis 2023-04-06  59  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_VCCA_OV, TPS6594_IRQ_NAME_VCCA_OV),
-107be4a1c6663b Julien Panis 2023-04-06  60  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_VCCA_UV, TPS6594_IRQ_NAME_VCCA_UV),
-107be4a1c6663b Julien Panis 2023-04-06  61  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_VMON1_OV, TPS6594_IRQ_NAME_VMON1_OV),
-107be4a1c6663b Julien Panis 2023-04-06  62  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_VMON1_UV, TPS6594_IRQ_NAME_VMON1_UV),
-107be4a1c6663b Julien Panis 2023-04-06  63  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_VMON1_RV, TPS6594_IRQ_NAME_VMON1_RV),
-107be4a1c6663b Julien Panis 2023-04-06  64  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_VMON2_OV, TPS6594_IRQ_NAME_VMON2_OV),
-107be4a1c6663b Julien Panis 2023-04-06  65  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_VMON2_UV, TPS6594_IRQ_NAME_VMON2_UV),
-107be4a1c6663b Julien Panis 2023-04-06  66  	DEFINE_RES_IRQ_NAMED(TPS6594_IRQ_VMON2_RV, TPS6594_IRQ_NAME_VMON2_RV),
-107be4a1c6663b Julien Panis 2023-04-06  67  };
-107be4a1c6663b Julien Panis 2023-04-06  68  
-
-:::::: The code at line 22 was first introduced by commit
-:::::: 107be4a1c6663b1c672bde142c8f11968b7f968b mfd: tps6594: Add driver for TI TPS6594 PMIC
-
-:::::: TO: Julien Panis <jpanis@baylibre.com>
-:::::: CC: Vignesh Raghavendra <vigneshr@ti.com>
+  1443	
+  1444	static int sc16is7xx_probe(struct device *dev,
+  1445				   const struct sc16is7xx_devtype *devtype,
+  1446				   struct regmap *regmap, int irq)
+  1447	{
+  1448		unsigned long freq = 0, *pfreq = dev_get_platdata(dev);
+  1449		unsigned int val;
+> 1450		u8 mctrl_mask;
+  1451		u32 uartclk = 0;
+  1452		int i, ret;
+  1453		struct sc16is7xx_port *s;
+  1454	
+  1455		if (IS_ERR(regmap))
+  1456			return PTR_ERR(regmap);
+  1457	
+  1458		/*
+  1459		 * This device does not have an identification register that would
+  1460		 * tell us if we are really connected to the correct device.
+  1461		 * The best we can do is to check if communication is at all possible.
+  1462		 */
+  1463		ret = regmap_read(regmap,
+  1464				  SC16IS7XX_LSR_REG << SC16IS7XX_REG_SHIFT, &val);
+  1465		if (ret < 0)
+  1466			return -EPROBE_DEFER;
+  1467	
+  1468		/* Alloc port structure */
+  1469		s = devm_kzalloc(dev, struct_size(s, p, devtype->nr_uart), GFP_KERNEL);
+  1470		if (!s) {
+  1471			dev_err(dev, "Error allocating port structure\n");
+  1472			return -ENOMEM;
+  1473		}
+  1474	
+  1475		/* Always ask for fixed clock rate from a property. */
+  1476		device_property_read_u32(dev, "clock-frequency", &uartclk);
+  1477	
+  1478		s->clk = devm_clk_get_optional(dev, NULL);
+  1479		if (IS_ERR(s->clk))
+  1480			return PTR_ERR(s->clk);
+  1481	
+  1482		ret = clk_prepare_enable(s->clk);
+  1483		if (ret)
+  1484			return ret;
+  1485	
+  1486		freq = clk_get_rate(s->clk);
+  1487		if (freq == 0) {
+  1488			if (uartclk)
+  1489				freq = uartclk;
+  1490			if (pfreq)
+  1491				freq = *pfreq;
+  1492			if (freq)
+  1493				dev_dbg(dev, "Clock frequency: %luHz\n", freq);
+  1494			else
+  1495				return -EINVAL;
+  1496		}
+  1497	
+  1498		s->regmap = regmap;
+  1499		s->devtype = devtype;
+  1500		dev_set_drvdata(dev, s);
+  1501		mutex_init(&s->efr_lock);
+  1502	
+  1503		kthread_init_worker(&s->kworker);
+  1504		s->kworker_task = kthread_run(kthread_worker_fn, &s->kworker,
+  1505					      "sc16is7xx");
+  1506		if (IS_ERR(s->kworker_task)) {
+  1507			ret = PTR_ERR(s->kworker_task);
+  1508			goto out_clk;
+  1509		}
+  1510		sched_set_fifo(s->kworker_task);
+  1511	
+  1512		/* reset device, purging any pending irq / data */
+  1513		regmap_write(s->regmap, SC16IS7XX_IOCONTROL_REG << SC16IS7XX_REG_SHIFT,
+  1514				SC16IS7XX_IOCONTROL_SRESET_BIT);
+  1515	
+  1516		for (i = 0; i < devtype->nr_uart; ++i) {
+  1517			s->p[i].line		= i;
+  1518			/* Initialize port data */
+  1519			s->p[i].port.dev	= dev;
+  1520			s->p[i].port.irq	= irq;
+  1521			s->p[i].port.type	= PORT_SC16IS7XX;
+  1522			s->p[i].port.fifosize	= SC16IS7XX_FIFO_SIZE;
+  1523			s->p[i].port.flags	= UPF_FIXED_TYPE | UPF_LOW_LATENCY;
+  1524			s->p[i].port.iobase	= i;
+  1525			s->p[i].port.membase	= (void __iomem *)~0;
+  1526			s->p[i].port.iotype	= UPIO_PORT;
+  1527			s->p[i].port.uartclk	= freq;
+  1528			s->p[i].port.rs485_config = sc16is7xx_config_rs485;
+  1529			s->p[i].port.rs485_supported = sc16is7xx_rs485_supported;
+  1530			s->p[i].port.ops	= &sc16is7xx_ops;
+  1531			s->p[i].old_mctrl	= 0;
+  1532			s->p[i].port.line	= sc16is7xx_alloc_line();
+  1533	
+  1534			if (s->p[i].port.line >= SC16IS7XX_MAX_DEVS) {
+  1535				ret = -ENOMEM;
+  1536				goto out_ports;
+  1537			}
+  1538	
+  1539			/* Disable all interrupts */
+  1540			sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_IER_REG, 0);
+  1541			/* Disable TX/RX */
+  1542			sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_EFCR_REG,
+  1543					     SC16IS7XX_EFCR_RXDISABLE_BIT |
+  1544					     SC16IS7XX_EFCR_TXDISABLE_BIT);
+  1545	
+  1546			/* Initialize kthread work structs */
+  1547			kthread_init_work(&s->p[i].tx_work, sc16is7xx_tx_proc);
+  1548			kthread_init_work(&s->p[i].reg_work, sc16is7xx_reg_proc);
+  1549			kthread_init_delayed_work(&s->p[i].ms_work, sc16is7xx_ms_proc);
+  1550			/* Register port */
+  1551			uart_add_one_port(&sc16is7xx_uart, &s->p[i].port);
+  1552	
+  1553			/* Enable EFR */
+  1554			sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_LCR_REG,
+  1555					     SC16IS7XX_LCR_CONF_MODE_B);
+  1556	
+  1557			regcache_cache_bypass(s->regmap, true);
+  1558	
+  1559			/* Enable write access to enhanced features */
+  1560			sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_EFR_REG,
+  1561					     SC16IS7XX_EFR_ENABLE_BIT);
+  1562	
+  1563			regcache_cache_bypass(s->regmap, false);
+  1564	
+  1565			/* Restore access to general registers */
+  1566			sc16is7xx_port_write(&s->p[i].port, SC16IS7XX_LCR_REG, 0x00);
+  1567	
+  1568			/* Go to suspend mode */
+  1569			sc16is7xx_power(&s->p[i].port, 0);
+  1570		}
+  1571	
+  1572		if (dev->of_node) {
+  1573			struct property *prop;
+  1574			const __be32 *p;
+  1575			u32 u;
+  1576	
+  1577			of_property_for_each_u32(dev->of_node, "irda-mode-ports",
+  1578						 prop, p, u)
+  1579				if (u < devtype->nr_uart)
+  1580					s->p[u].irda_mode = true;
+  1581		}
+  1582	
+  1583		mctrl_mask = sc16is7xx_setup_mctrl_ports(dev);
+  1584	
 
 -- 
 0-DAY CI Kernel Test Service
