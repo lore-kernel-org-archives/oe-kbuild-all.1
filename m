@@ -1,44 +1,46 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A29933302;
-	Fri,  2 Jun 2023 18:47:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7331C74A
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 18:47:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685731676; x=1717267676;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GV3e0+xD0IR/oofWLr1mnA26oTjFBskUAl5J35AOoeA=;
-  b=SACuFhMQX5YiuEuFDLK57GIFVc5j5RvAod6ebqp2OEfIcGulyDAHJAyT
-   EfkWMC8MOUHGPp1fSfBCUFoOx+Z5hOsarB0h916Lm8UVf+TTAb1+JLCgL
-   uPvHsCHuJ1wq3QOUs7/3ropWnsSFWI7JILL404JSTVfxb791YMY7w9gX7
-   5tUhbN4HhrCWZimVj5QEx+iWF+EL2WYGRekPCAsVvXn2I97u8NulLZUrT
-   bxzB+FCwRX+DwVPt6Zucy7sNygBSQbabL65aUqqEOfFA7oDWrft0EEJEd
-   caAqF4yT33Etrv6pKB8U5OsLYW+2XkiGbegZ5C8G5t+rHevv+OCklc6Lu
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="335553716"
+  t=1685731678; x=1717267678;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GOtDdfsc2P2CR837OFCfK8rZd7DNtGjRdjWJhX8MhDI=;
+  b=eg4C447Zy1hrygEmH7fCYD98i4ipq9HAjtQXXxvRpskc8McvHXJ7pq9F
+   X58kGGmEA8jMcIDazfUZbU+O9ezYY1+Fv8R1pqD5uanZ9WdGK/UzxsVhZ
+   K8oJl9Zb1/QEpTFppHqE3hTn638cYZmHizeAicqNkm308PZK/bYHdj5aR
+   bbXX3toN8r955UFp/c6vDvSETNUR9az/ix7TExb1p8yzG0oI6etR1YD35
+   rcZhu95MWMqt1GX/toMOiSdihll1EXZP116YIGEVnRNTD7Ah7DHMya/jj
+   0Hq6EegWdlyzTy4m0qtZoRJJjHxQ3sTBVG+YPRaKiiSUyxFzbFKodUr/p
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="335553722"
 X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="335553716"
+   d="scan'208";a="335553722"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 11:47:55 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 11:47:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="797690949"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="797690951"
 X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="797690949"
+   d="scan'208";a="797690951"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 02 Jun 2023 11:47:54 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q59oX-0000px-34;
+	id 1q59oX-0000q1-3D;
 	Fri, 02 Jun 2023 18:47:53 +0000
-Date: Sat, 3 Jun 2023 02:47:00 +0800
+Date: Sat, 3 Jun 2023 02:46:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:jitalloc/v0.1 12/15] arch/s390/mm/init.c:325:48: error: call
- to undeclared function 'get_module_load_offset'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202306030202.7z8cyTCe-lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-security-module@vger.kernel.org,
+	keescook@chromium.org, brauner@kernel.org, lennart@poettering.net,
+	cyphar@cyphar.com, luto@kernel.org
+Subject: Re: [PATCH RESEND bpf-next 15/18] bpf: take into account BPF token
+ when fetching helper protos
+Message-ID: <202306030252.UOXkWZTK-lkp@intel.com>
+References: <20230602150011.1657856-16-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,105 +49,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230602150011.1657856-16-andrii@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git jitalloc/v0.1
-head:   ee9292c97c0c221b03b6a12402596b1829dd2bd0
-commit: 400757f3295e882e8a562583b8b8ee77e696c47c [12/15] arch: make jitalloc setup available regardless of CONFIG_MODULES
-config: s390-randconfig-r014-20230531 (https://download.01.org/0day-ci/archive/20230603/202306030202.7z8cyTCe-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
+Hi Andrii,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-introduce-BPF-token-object/20230602-230448
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230602150011.1657856-16-andrii%40kernel.org
+patch subject: [PATCH RESEND bpf-next 15/18] bpf: take into account BPF token when fetching helper protos
+config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20230603/202306030252.UOXkWZTK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/commit/?id=400757f3295e882e8a562583b8b8ee77e696c47c
-        git remote add rppt https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git
-        git fetch --no-tags rppt jitalloc/v0.1
-        git checkout 400757f3295e882e8a562583b8b8ee77e696c47c
+        # https://github.com/intel-lab-lkp/linux/commit/3d830ca845b075ab4132487aaaa69b70a467863c
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Andrii-Nakryiko/bpf-introduce-BPF-token-object/20230602-230448
+        git checkout 3d830ca845b075ab4132487aaaa69b70a467863c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash arch/s390/mm/
+        make W=1 O=build_dir ARCH=um SUBARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=um SUBARCH=x86_64 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306030202.7z8cyTCe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306030252.UOXkWZTK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/s390/mm/init.c:25:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from arch/s390/mm/init.c:25:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from arch/s390/mm/init.c:25:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> arch/s390/mm/init.c:325:48: error: call to undeclared function 'get_module_load_offset'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           jit_alloc_params.text.start = MODULES_VADDR + get_module_load_offset();
-                                                         ^
-   12 warnings and 1 error generated.
+   In file included from include/linux/bpf_verifier.h:7,
+                    from net/core/filter.c:21:
+   include/linux/bpf.h: In function 'bpf_token_new_fd':
+   include/linux/bpf.h:2475:16: warning: returning 'int' from a function with return type 'struct bpf_token *' makes pointer from integer without a cast [-Wint-conversion]
+    2475 |         return -EOPNOTSUPP;
+         |                ^
+   net/core/filter.c: In function 'bpf_sk_base_func_proto':
+>> net/core/filter.c:11653:14: error: implicit declaration of function 'bpf_token_capable'; did you mean 'bpf_token_put'? [-Werror=implicit-function-declaration]
+   11653 |         if (!bpf_token_capable(prog->aux->token, CAP_PERFMON))
+         |              ^~~~~~~~~~~~~~~~~
+         |              bpf_token_put
+   cc1: some warnings being treated as errors
 
 
-vim +/get_module_load_offset +325 arch/s390/mm/init.c
+vim +11653 net/core/filter.c
 
-   322	
-   323	struct jit_alloc_params *jit_alloc_arch_params(void)
-   324	{
- > 325		jit_alloc_params.text.start = MODULES_VADDR + get_module_load_offset();
+ 11619	
+ 11620	static const struct bpf_func_proto *
+ 11621	bpf_sk_base_func_proto(enum bpf_func_id func_id, const struct bpf_prog *prog)
+ 11622	{
+ 11623		const struct bpf_func_proto *func;
+ 11624	
+ 11625		switch (func_id) {
+ 11626		case BPF_FUNC_skc_to_tcp6_sock:
+ 11627			func = &bpf_skc_to_tcp6_sock_proto;
+ 11628			break;
+ 11629		case BPF_FUNC_skc_to_tcp_sock:
+ 11630			func = &bpf_skc_to_tcp_sock_proto;
+ 11631			break;
+ 11632		case BPF_FUNC_skc_to_tcp_timewait_sock:
+ 11633			func = &bpf_skc_to_tcp_timewait_sock_proto;
+ 11634			break;
+ 11635		case BPF_FUNC_skc_to_tcp_request_sock:
+ 11636			func = &bpf_skc_to_tcp_request_sock_proto;
+ 11637			break;
+ 11638		case BPF_FUNC_skc_to_udp6_sock:
+ 11639			func = &bpf_skc_to_udp6_sock_proto;
+ 11640			break;
+ 11641		case BPF_FUNC_skc_to_unix_sock:
+ 11642			func = &bpf_skc_to_unix_sock_proto;
+ 11643			break;
+ 11644		case BPF_FUNC_skc_to_mptcp_sock:
+ 11645			func = &bpf_skc_to_mptcp_sock_proto;
+ 11646			break;
+ 11647		case BPF_FUNC_ktime_get_coarse_ns:
+ 11648			return &bpf_ktime_get_coarse_ns_proto;
+ 11649		default:
+ 11650			return bpf_base_func_proto(func_id, prog);
+ 11651		}
+ 11652	
+ 11653		if (!bpf_token_capable(prog->aux->token, CAP_PERFMON))
+ 11654			return NULL;
+ 11655	
+ 11656		return func;
+ 11657	}
+ 11658	
 
 -- 
 0-DAY CI Kernel Test Service
