@@ -1,43 +1,47 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9251623B0
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 09:24:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D405687
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 09:56:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685697864; x=1717233864;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J1rr9kgE7T7z6tOFGuebUS/FnYNUnTOipSw43gUCNu4=;
-  b=HlexES0ujK5eweZMK/mjdM19eeWPqENhFTcNUzqHboV70SG44mGCvBnE
-   vHNVArdpkGEi2WmbsVtYQhWUfYaiRW3XrxSwC1sZ1nkxJj+37o/eQGEjL
-   uf85l1g0AyspTLRakUKegRqXeqQ8nLxsrE5NPPvTDE2QnnYDl/Cy3I4ac
-   dyzbqGsvcUlFgvejQP049+DjdRGO9TPGoeBkC9NpKoVW828fPy3Jw+WuB
-   8JvBgi69AJoWBVRFe6SuLzW9Vv193S53XuKL3YG92uHggp4PMUcdOGSfb
-   NikVoDmwdqTKyRdgtaBIgEiycMeKwFmOlcdEv9UuY6IHLNLjIJNQr8Re6
+  t=1685699786; x=1717235786;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pAgKRoXqRVadaelHXWC7m0n4Mx4Yh4aRGVNZmKHtEd0=;
+  b=AtDlqxN9SV/clmUwdxRuBCDXthsSPDLAkq8CqTcEmlo/JWlilWLSE//7
+   7hn5FjZ8ppY8kHbOYTlZqNDQhUeU2iPxZFQaQzQwq+Qk5YfQU3OEBuaUh
+   wmvy0+3hkyj1/eygN5W1cNehVW3xtBCP/Im8XWcqSdxNU8khf6AnqPSyn
+   A1tMfNfBCmVPbuOu9/e920UvhM1K4I7z4ZULFhWYgUbCeiA5c17Og7izT
+   jhYjeYnm+/9K+maLJwM77RbIvJNeeJWg3Vy8iIpRsSPXqggidV2Xej5S7
+   imTS3/pVUP0t78R3eNFUnnFVjRouuLF6hcm9xnEvh67Sa4SBJkkf+vkJT
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="340455339"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="353326333"
 X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
-   d="scan'208";a="340455339"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 02:24:23 -0700
+   d="scan'208";a="353326333"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 02:56:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="710889350"
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="685267326"
 X-IronPort-AV: E=Sophos;i="6.00,212,1681196400"; 
-   d="scan'208";a="710889350"
+   d="scan'208";a="685267326"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 02 Jun 2023 02:24:22 -0700
+  by orsmga006.jf.intel.com with ESMTP; 02 Jun 2023 02:56:22 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q511B-0000Hp-0f;
-	Fri, 02 Jun 2023 09:24:21 +0000
-Date: Fri, 2 Jun 2023 17:24:18 +0800
+	id 1q51W9-0000Ij-2r;
+	Fri, 02 Jun 2023 09:56:21 +0000
+Date: Fri, 2 Jun 2023 17:56:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [djiang:cxl-qtg 16/26] lib/fw_table.c:30:1: error: expected '=',
- ',', ';', 'asm' or '__attribute__' before 'acpi_get_entry_type'
-Message-ID: <202306021733.Pus9Lyk8-lkp@intel.com>
+To: Shunsuke Mie <mie@igel.co.jp>, "Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Rusty Russell <rusty@rustcorp.com.au>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Shunsuke Mie <mie@igel.co.jp>
+Subject: Re: [PATCH v4 1/1] vringh: IOMEM support
+Message-ID: <202306021725.3otSfXPF-lkp@intel.com>
+References: <20230602055211.309960-2-mie@igel.co.jp>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,262 +50,235 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230602055211.309960-2-mie@igel.co.jp>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl-qtg
-head:   d149ac9ae1abedde6933ea16e12a44b965bb1384
-commit: 5d09ce6212f35827d5ca6c271d70ac8bb9b5eb8a [16/26] cxl: Add callback to parse the DSMAS subtables from CDAT
-config: arm64-randconfig-r016-20230601 (https://download.01.org/0day-ci/archive/20230602/202306021733.Pus9Lyk8-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
+Hi Shunsuke,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mst-vhost/linux-next]
+[also build test WARNING on linus/master horms-ipvs/master v6.4-rc4 next-20230602]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shunsuke-Mie/vringh-IOMEM-support/20230602-135351
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+patch link:    https://lore.kernel.org/r/20230602055211.309960-2-mie%40igel.co.jp
+patch subject: [PATCH v4 1/1] vringh: IOMEM support
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230602/202306021725.3otSfXPF-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git/commit/?id=5d09ce6212f35827d5ca6c271d70ac8bb9b5eb8a
-        git remote add djiang https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git
-        git fetch --no-tags djiang cxl-qtg
-        git checkout 5d09ce6212f35827d5ca6c271d70ac8bb9b5eb8a
+        # https://github.com/intel-lab-lkp/linux/commit/de2a1f5220c32e953400f225aba6bd294a8d41b8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Shunsuke-Mie/vringh-IOMEM-support/20230602-135351
+        git checkout de2a1f5220c32e953400f225aba6bd294a8d41b8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306021733.Pus9Lyk8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306021725.3otSfXPF-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> lib/fw_table.c:30:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'acpi_get_entry_type'
-      30 | acpi_get_entry_type(struct acpi_subtable_entry *entry)
-         | ^~~~~~~~~~~~~~~~~~~
->> lib/fw_table.c:48:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'acpi_get_entry_length'
-      48 | acpi_get_entry_length(struct acpi_subtable_entry *entry)
-         | ^~~~~~~~~~~~~~~~~~~~~
->> lib/fw_table.c:68:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'acpi_get_subtable_header_length'
-      68 | acpi_get_subtable_header_length(struct acpi_subtable_entry *entry)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/fw_table.c:86:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'acpi_get_subtable_type'
-      86 | acpi_get_subtable_type(char *id)
-         | ^~~~~~~~~~~~~~~~~~~~~~
->> lib/fw_table.c:100:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'acpi_table_get_length'
-     100 | acpi_table_get_length(enum acpi_subtable_type type,
-         | ^~~~~~~~~~~~~~~~~~~~~
->> lib/fw_table.c:112:8: error: unknown type name '__init_or_acpilib'
-     112 | static __init_or_acpilib bool has_handler(struct acpi_subtable_proc *proc)
-         |        ^~~~~~~~~~~~~~~~~
->> lib/fw_table.c:112:31: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'has_handler'
-     112 | static __init_or_acpilib bool has_handler(struct acpi_subtable_proc *proc)
-         |                               ^~~~~~~~~~~
->> lib/fw_table.c:117:25: error: expected ';' before 'int'
-     117 | static __init_or_acpilib int call_handler(struct acpi_subtable_proc *proc,
-         |                         ^~~~
-         |                         ;
->> lib/fw_table.c:117:30: warning: no previous prototype for 'call_handler' [-Wmissing-prototypes]
-     117 | static __init_or_acpilib int call_handler(struct acpi_subtable_proc *proc,
-         |                              ^~~~~~~~~~~~
->> lib/fw_table.c:152:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'acpi_parse_entries_array'
-     152 | acpi_parse_entries_array(char *id, unsigned long table_size,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/vhost/vringh.c:1661:5: warning: no previous prototype for 'vringh_init_iomem' [-Wmissing-prototypes]
+    1661 | int vringh_init_iomem(struct vringh *vrh, u64 features, unsigned int num,
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/vhost/vringh.c:1683:5: warning: no previous prototype for 'vringh_getdesc_iomem' [-Wmissing-prototypes]
+    1683 | int vringh_getdesc_iomem(struct vringh *vrh, struct vringh_kiov *riov,
+         |     ^~~~~~~~~~~~~~~~~~~~
+>> drivers/vhost/vringh.c:1714:9: warning: no previous prototype for 'vringh_iov_pull_iomem' [-Wmissing-prototypes]
+    1714 | ssize_t vringh_iov_pull_iomem(struct vringh *vrh, struct vringh_kiov *riov,
+         |         ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/vhost/vringh.c:1729:9: warning: no previous prototype for 'vringh_iov_push_iomem' [-Wmissing-prototypes]
+    1729 | ssize_t vringh_iov_push_iomem(struct vringh *vrh, struct vringh_kiov *wiov,
+         |         ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/vhost/vringh.c:1744:6: warning: no previous prototype for 'vringh_abandon_iomem' [-Wmissing-prototypes]
+    1744 | void vringh_abandon_iomem(struct vringh *vrh, unsigned int num)
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> drivers/vhost/vringh.c:1759:5: warning: no previous prototype for 'vringh_complete_iomem' [-Wmissing-prototypes]
+    1759 | int vringh_complete_iomem(struct vringh *vrh, u16 head, u32 len)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/vhost/vringh.c:1777:6: warning: no previous prototype for 'vringh_notify_enable_iomem' [-Wmissing-prototypes]
+    1777 | bool vringh_notify_enable_iomem(struct vringh *vrh)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/vhost/vringh.c:1790:6: warning: no previous prototype for 'vringh_notify_disable_iomem' [-Wmissing-prototypes]
+    1790 | void vringh_notify_disable_iomem(struct vringh *vrh)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/vhost/vringh.c:1802:5: warning: no previous prototype for 'vringh_need_notify_iomem' [-Wmissing-prototypes]
+    1802 | int vringh_need_notify_iomem(struct vringh *vrh)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +30 lib/fw_table.c
+vim +/vringh_init_iomem +1661 drivers/vhost/vringh.c
 
-773808188a9583e Dave Jiang 2023-05-11   28  
-773808188a9583e Dave Jiang 2023-05-11   29  static unsigned long __init_or_acpilib
-773808188a9583e Dave Jiang 2023-05-11  @30  acpi_get_entry_type(struct acpi_subtable_entry *entry)
-773808188a9583e Dave Jiang 2023-05-11   31  {
-773808188a9583e Dave Jiang 2023-05-11   32  	switch (entry->type) {
-773808188a9583e Dave Jiang 2023-05-11   33  	case ACPI_SUBTABLE_COMMON:
-773808188a9583e Dave Jiang 2023-05-11   34  		return entry->hdr->common.type;
-773808188a9583e Dave Jiang 2023-05-11   35  	case ACPI_SUBTABLE_HMAT:
-773808188a9583e Dave Jiang 2023-05-11   36  		return entry->hdr->hmat.type;
-773808188a9583e Dave Jiang 2023-05-11   37  	case ACPI_SUBTABLE_PRMT:
-773808188a9583e Dave Jiang 2023-05-11   38  		return 0;
-773808188a9583e Dave Jiang 2023-05-11   39  	case ACPI_SUBTABLE_CEDT:
-773808188a9583e Dave Jiang 2023-05-11   40  		return entry->hdr->cedt.type;
-a4f8e943725bf7b Dave Jiang 2023-05-24   41  	case CDAT_SUBTABLE:
-a4f8e943725bf7b Dave Jiang 2023-05-24   42  		return entry->hdr->cdat.type;
-773808188a9583e Dave Jiang 2023-05-11   43  	}
-773808188a9583e Dave Jiang 2023-05-11   44  	return 0;
-773808188a9583e Dave Jiang 2023-05-11   45  }
-773808188a9583e Dave Jiang 2023-05-11   46  
-773808188a9583e Dave Jiang 2023-05-11   47  static unsigned long __init_or_acpilib
-773808188a9583e Dave Jiang 2023-05-11  @48  acpi_get_entry_length(struct acpi_subtable_entry *entry)
-773808188a9583e Dave Jiang 2023-05-11   49  {
-773808188a9583e Dave Jiang 2023-05-11   50  	switch (entry->type) {
-773808188a9583e Dave Jiang 2023-05-11   51  	case ACPI_SUBTABLE_COMMON:
-773808188a9583e Dave Jiang 2023-05-11   52  		return entry->hdr->common.length;
-773808188a9583e Dave Jiang 2023-05-11   53  	case ACPI_SUBTABLE_HMAT:
-773808188a9583e Dave Jiang 2023-05-11   54  		return entry->hdr->hmat.length;
-773808188a9583e Dave Jiang 2023-05-11   55  	case ACPI_SUBTABLE_PRMT:
-773808188a9583e Dave Jiang 2023-05-11   56  		return entry->hdr->prmt.length;
-773808188a9583e Dave Jiang 2023-05-11   57  	case ACPI_SUBTABLE_CEDT:
-773808188a9583e Dave Jiang 2023-05-11   58  		return entry->hdr->cedt.length;
-a4f8e943725bf7b Dave Jiang 2023-05-24   59  	case CDAT_SUBTABLE:
-a4f8e943725bf7b Dave Jiang 2023-05-24   60  		__le16 length = (__force __le16)entry->hdr->cdat.length;
-a4f8e943725bf7b Dave Jiang 2023-05-24   61  
-a4f8e943725bf7b Dave Jiang 2023-05-24   62  		return le16_to_cpu(length);
-773808188a9583e Dave Jiang 2023-05-11   63  	}
-773808188a9583e Dave Jiang 2023-05-11   64  	return 0;
-773808188a9583e Dave Jiang 2023-05-11   65  }
-773808188a9583e Dave Jiang 2023-05-11   66  
-773808188a9583e Dave Jiang 2023-05-11   67  static unsigned long __init_or_acpilib
-773808188a9583e Dave Jiang 2023-05-11  @68  acpi_get_subtable_header_length(struct acpi_subtable_entry *entry)
-773808188a9583e Dave Jiang 2023-05-11   69  {
-773808188a9583e Dave Jiang 2023-05-11   70  	switch (entry->type) {
-773808188a9583e Dave Jiang 2023-05-11   71  	case ACPI_SUBTABLE_COMMON:
-773808188a9583e Dave Jiang 2023-05-11   72  		return sizeof(entry->hdr->common);
-773808188a9583e Dave Jiang 2023-05-11   73  	case ACPI_SUBTABLE_HMAT:
-773808188a9583e Dave Jiang 2023-05-11   74  		return sizeof(entry->hdr->hmat);
-773808188a9583e Dave Jiang 2023-05-11   75  	case ACPI_SUBTABLE_PRMT:
-773808188a9583e Dave Jiang 2023-05-11   76  		return sizeof(entry->hdr->prmt);
-773808188a9583e Dave Jiang 2023-05-11   77  	case ACPI_SUBTABLE_CEDT:
-773808188a9583e Dave Jiang 2023-05-11   78  		return sizeof(entry->hdr->cedt);
-a4f8e943725bf7b Dave Jiang 2023-05-24   79  	case CDAT_SUBTABLE:
-a4f8e943725bf7b Dave Jiang 2023-05-24   80  		return sizeof(entry->hdr->cdat);
-773808188a9583e Dave Jiang 2023-05-11   81  	}
-773808188a9583e Dave Jiang 2023-05-11   82  	return 0;
-773808188a9583e Dave Jiang 2023-05-11   83  }
-773808188a9583e Dave Jiang 2023-05-11   84  
-773808188a9583e Dave Jiang 2023-05-11   85  static enum acpi_subtable_type __init_or_acpilib
-773808188a9583e Dave Jiang 2023-05-11  @86  acpi_get_subtable_type(char *id)
-773808188a9583e Dave Jiang 2023-05-11   87  {
-773808188a9583e Dave Jiang 2023-05-11   88  	if (strncmp(id, ACPI_SIG_HMAT, 4) == 0)
-773808188a9583e Dave Jiang 2023-05-11   89  		return ACPI_SUBTABLE_HMAT;
-773808188a9583e Dave Jiang 2023-05-11   90  	if (strncmp(id, ACPI_SIG_PRMT, 4) == 0)
-773808188a9583e Dave Jiang 2023-05-11   91  		return ACPI_SUBTABLE_PRMT;
-773808188a9583e Dave Jiang 2023-05-11   92  	if (strncmp(id, ACPI_SIG_CEDT, 4) == 0)
-773808188a9583e Dave Jiang 2023-05-11   93  		return ACPI_SUBTABLE_CEDT;
-a4f8e943725bf7b Dave Jiang 2023-05-24   94  	if (strncmp(id, ACPI_SIG_CDAT, 4) == 0)
-a4f8e943725bf7b Dave Jiang 2023-05-24   95  		return CDAT_SUBTABLE;
-773808188a9583e Dave Jiang 2023-05-11   96  	return ACPI_SUBTABLE_COMMON;
-773808188a9583e Dave Jiang 2023-05-11   97  }
-773808188a9583e Dave Jiang 2023-05-11   98  
-a4f8e943725bf7b Dave Jiang 2023-05-24   99  static unsigned long __init_or_acpilib
-a4f8e943725bf7b Dave Jiang 2023-05-24 @100  acpi_table_get_length(enum acpi_subtable_type type,
-a4f8e943725bf7b Dave Jiang 2023-05-24  101  		      union fw_table_header *header)
-a4f8e943725bf7b Dave Jiang 2023-05-24  102  {
-a4f8e943725bf7b Dave Jiang 2023-05-24  103  	if (type == CDAT_SUBTABLE) {
-a4f8e943725bf7b Dave Jiang 2023-05-24  104  		__le32 length = (__force __le32)header->cdat.length;
-a4f8e943725bf7b Dave Jiang 2023-05-24  105  
-a4f8e943725bf7b Dave Jiang 2023-05-24  106  		return le32_to_cpu(length);
-a4f8e943725bf7b Dave Jiang 2023-05-24  107  	}
-a4f8e943725bf7b Dave Jiang 2023-05-24  108  
-a4f8e943725bf7b Dave Jiang 2023-05-24  109  	return header->acpi.length;
-a4f8e943725bf7b Dave Jiang 2023-05-24  110  }
-a4f8e943725bf7b Dave Jiang 2023-05-24  111  
-773808188a9583e Dave Jiang 2023-05-11 @112  static __init_or_acpilib bool has_handler(struct acpi_subtable_proc *proc)
-773808188a9583e Dave Jiang 2023-05-11  113  {
-773808188a9583e Dave Jiang 2023-05-11  114  	return proc->handler || proc->handler_arg;
-773808188a9583e Dave Jiang 2023-05-11  115  }
-773808188a9583e Dave Jiang 2023-05-11  116  
-773808188a9583e Dave Jiang 2023-05-11 @117  static __init_or_acpilib int call_handler(struct acpi_subtable_proc *proc,
-773808188a9583e Dave Jiang 2023-05-11  118  					  union acpi_subtable_headers *hdr,
-773808188a9583e Dave Jiang 2023-05-11  119  					  unsigned long end)
-773808188a9583e Dave Jiang 2023-05-11  120  {
-773808188a9583e Dave Jiang 2023-05-11  121  	if (proc->handler)
-773808188a9583e Dave Jiang 2023-05-11  122  		return proc->handler(hdr, end);
-773808188a9583e Dave Jiang 2023-05-11  123  	if (proc->handler_arg)
-773808188a9583e Dave Jiang 2023-05-11  124  		return proc->handler_arg(hdr, proc->arg, end);
-773808188a9583e Dave Jiang 2023-05-11  125  	return -EINVAL;
-773808188a9583e Dave Jiang 2023-05-11  126  }
-773808188a9583e Dave Jiang 2023-05-11  127  
-773808188a9583e Dave Jiang 2023-05-11  128  /**
-773808188a9583e Dave Jiang 2023-05-11  129   * acpi_parse_entries_array - for each proc_num find a suitable subtable
-773808188a9583e Dave Jiang 2023-05-11  130   *
-773808188a9583e Dave Jiang 2023-05-11  131   * @id: table id (for debugging purposes)
-773808188a9583e Dave Jiang 2023-05-11  132   * @table_size: size of the root table
-773808188a9583e Dave Jiang 2023-05-11  133   * @table_header: where does the table start?
-773808188a9583e Dave Jiang 2023-05-11  134   * @proc: array of acpi_subtable_proc struct containing entry id
-773808188a9583e Dave Jiang 2023-05-11  135   *        and associated handler with it
-773808188a9583e Dave Jiang 2023-05-11  136   * @proc_num: how big proc is?
-773808188a9583e Dave Jiang 2023-05-11  137   * @max_entries: how many entries can we process?
-773808188a9583e Dave Jiang 2023-05-11  138   *
-773808188a9583e Dave Jiang 2023-05-11  139   * For each proc_num find a subtable with proc->id and run proc->handler
-773808188a9583e Dave Jiang 2023-05-11  140   * on it. Assumption is that there's only single handler for particular
-773808188a9583e Dave Jiang 2023-05-11  141   * entry id.
-773808188a9583e Dave Jiang 2023-05-11  142   *
-773808188a9583e Dave Jiang 2023-05-11  143   * The table_size is not the size of the complete ACPI table (the length
-773808188a9583e Dave Jiang 2023-05-11  144   * field in the header struct), but only the size of the root table; i.e.,
-773808188a9583e Dave Jiang 2023-05-11  145   * the offset from the very first byte of the complete ACPI table, to the
-773808188a9583e Dave Jiang 2023-05-11  146   * first byte of the very first subtable.
-773808188a9583e Dave Jiang 2023-05-11  147   *
-773808188a9583e Dave Jiang 2023-05-11  148   * On success returns sum of all matching entries for all proc handlers.
-773808188a9583e Dave Jiang 2023-05-11  149   * Otherwise, -ENODEV or -EINVAL is returned.
-773808188a9583e Dave Jiang 2023-05-11  150   */
-773808188a9583e Dave Jiang 2023-05-11  151  int __init_or_acpilib
-773808188a9583e Dave Jiang 2023-05-11 @152  acpi_parse_entries_array(char *id, unsigned long table_size,
-a4f8e943725bf7b Dave Jiang 2023-05-24  153  			 union fw_table_header *table_header,
-773808188a9583e Dave Jiang 2023-05-11  154  			 struct acpi_subtable_proc *proc,
-773808188a9583e Dave Jiang 2023-05-11  155  			 int proc_num, unsigned int max_entries)
-773808188a9583e Dave Jiang 2023-05-11  156  {
-773808188a9583e Dave Jiang 2023-05-11  157  	unsigned long table_end, subtable_len, entry_len;
-773808188a9583e Dave Jiang 2023-05-11  158  	struct acpi_subtable_entry entry;
-a4f8e943725bf7b Dave Jiang 2023-05-24  159  	enum acpi_subtable_type type;
-773808188a9583e Dave Jiang 2023-05-11  160  	int count = 0;
-773808188a9583e Dave Jiang 2023-05-11  161  	int errs = 0;
-773808188a9583e Dave Jiang 2023-05-11  162  	int i;
-773808188a9583e Dave Jiang 2023-05-11  163  
-a4f8e943725bf7b Dave Jiang 2023-05-24  164  	type = acpi_get_subtable_type(id);
-a4f8e943725bf7b Dave Jiang 2023-05-24  165  	table_end = (unsigned long)table_header +
-a4f8e943725bf7b Dave Jiang 2023-05-24  166  		    acpi_table_get_length(type, table_header);
-773808188a9583e Dave Jiang 2023-05-11  167  
-773808188a9583e Dave Jiang 2023-05-11  168  	/* Parse all entries looking for a match. */
-773808188a9583e Dave Jiang 2023-05-11  169  
-a4f8e943725bf7b Dave Jiang 2023-05-24  170  	entry.type = type;
-773808188a9583e Dave Jiang 2023-05-11  171  	entry.hdr = (union acpi_subtable_headers *)
-773808188a9583e Dave Jiang 2023-05-11  172  	    ((unsigned long)table_header + table_size);
-773808188a9583e Dave Jiang 2023-05-11  173  	subtable_len = acpi_get_subtable_header_length(&entry);
-773808188a9583e Dave Jiang 2023-05-11  174  
-773808188a9583e Dave Jiang 2023-05-11  175  	while (((unsigned long)entry.hdr) + subtable_len  < table_end) {
-773808188a9583e Dave Jiang 2023-05-11  176  		if (max_entries && count >= max_entries)
-773808188a9583e Dave Jiang 2023-05-11  177  			break;
-773808188a9583e Dave Jiang 2023-05-11  178  
-773808188a9583e Dave Jiang 2023-05-11  179  		for (i = 0; i < proc_num; i++) {
-773808188a9583e Dave Jiang 2023-05-11  180  			if (acpi_get_entry_type(&entry) != proc[i].id)
-773808188a9583e Dave Jiang 2023-05-11  181  				continue;
-773808188a9583e Dave Jiang 2023-05-11  182  			if (!has_handler(&proc[i]) ||
-773808188a9583e Dave Jiang 2023-05-11  183  			    (!errs &&
-773808188a9583e Dave Jiang 2023-05-11  184  			     call_handler(&proc[i], entry.hdr, table_end))) {
-773808188a9583e Dave Jiang 2023-05-11  185  				errs++;
-773808188a9583e Dave Jiang 2023-05-11  186  				continue;
-773808188a9583e Dave Jiang 2023-05-11  187  			}
-773808188a9583e Dave Jiang 2023-05-11  188  
-773808188a9583e Dave Jiang 2023-05-11  189  			proc[i].count++;
-773808188a9583e Dave Jiang 2023-05-11  190  			break;
-773808188a9583e Dave Jiang 2023-05-11  191  		}
-773808188a9583e Dave Jiang 2023-05-11  192  		if (i != proc_num)
-773808188a9583e Dave Jiang 2023-05-11  193  			count++;
-773808188a9583e Dave Jiang 2023-05-11  194  
-773808188a9583e Dave Jiang 2023-05-11  195  		/*
-773808188a9583e Dave Jiang 2023-05-11  196  		 * If entry->length is 0, break from this loop to avoid
-773808188a9583e Dave Jiang 2023-05-11  197  		 * infinite loop.
-773808188a9583e Dave Jiang 2023-05-11  198  		 */
-773808188a9583e Dave Jiang 2023-05-11  199  		entry_len = acpi_get_entry_length(&entry);
-773808188a9583e Dave Jiang 2023-05-11  200  		if (entry_len == 0) {
-773808188a9583e Dave Jiang 2023-05-11  201  			pr_err("[%4.4s:0x%02x] Invalid zero length\n", id, proc->id);
-773808188a9583e Dave Jiang 2023-05-11  202  			return -EINVAL;
-773808188a9583e Dave Jiang 2023-05-11  203  		}
-773808188a9583e Dave Jiang 2023-05-11  204  
-773808188a9583e Dave Jiang 2023-05-11  205  		entry.hdr = (union acpi_subtable_headers *)
-773808188a9583e Dave Jiang 2023-05-11  206  		    ((unsigned long)entry.hdr + entry_len);
-773808188a9583e Dave Jiang 2023-05-11  207  	}
-773808188a9583e Dave Jiang 2023-05-11  208  
-773808188a9583e Dave Jiang 2023-05-11  209  	if (max_entries && count > max_entries) {
-773808188a9583e Dave Jiang 2023-05-11  210  		pr_warn("[%4.4s:0x%02x] found the maximum %i entries\n",
-773808188a9583e Dave Jiang 2023-05-11  211  			id, proc->id, count);
-773808188a9583e Dave Jiang 2023-05-11  212  	}
-773808188a9583e Dave Jiang 2023-05-11  213  
-773808188a9583e Dave Jiang 2023-05-11  214  	return errs ? -EINVAL : count;
-773808188a9583e Dave Jiang 2023-05-11  215  }
-773808188a9583e Dave Jiang 2023-05-11  216  EXPORT_SYMBOL_GPL(acpi_parse_entries_array);
-a4f8e943725bf7b Dave Jiang 2023-05-24  217  
-
-:::::: The code at line 30 was first introduced by commit
-:::::: 773808188a9583e1e972862094c60a6ddc70f748 acpi: Move common tables helper functions to common lib
-
-:::::: TO: Dave Jiang <dave.jiang@intel.com>
-:::::: CC: Dave Jiang <dave.jiang@intel.com>
+  1647	
+  1648	/**
+  1649	 * vringh_init_iomem - initialize a vringh for a vring on io-memory.
+  1650	 * @vrh: the vringh to initialize.
+  1651	 * @features: the feature bits for this ring.
+  1652	 * @num: the number of elements.
+  1653	 * @weak_barriers: true if we only need memory barriers, not I/O.
+  1654	 * @desc: the userspace descriptor pointer.
+  1655	 * @avail: the userspace avail pointer.
+  1656	 * @used: the userspace used pointer.
+  1657	 *
+  1658	 * Returns an error if num is invalid: you should check pointers
+  1659	 * yourself!
+  1660	 */
+> 1661	int vringh_init_iomem(struct vringh *vrh, u64 features, unsigned int num,
+  1662			      bool weak_barriers, struct vring_desc *desc,
+  1663			      struct vring_avail *avail, struct vring_used *used)
+  1664	{
+  1665		return vringh_init_kern(vrh, features, num, weak_barriers, desc, avail,
+  1666					used);
+  1667	}
+  1668	EXPORT_SYMBOL(vringh_init_iomem);
+  1669	
+  1670	/**
+  1671	 * vringh_getdesc_iomem - get next available descriptor from vring on io-memory.
+  1672	 * @vrh: the vring on io-memory.
+  1673	 * @riov: where to put the readable descriptors (or NULL)
+  1674	 * @wiov: where to put the writable descriptors (or NULL)
+  1675	 * @head: head index we received, for passing to vringh_complete_iomem().
+  1676	 * @gfp: flags for allocating larger riov/wiov.
+  1677	 *
+  1678	 * Returns 0 if there was no descriptor, 1 if there was, or -errno.
+  1679	 *
+  1680	 * There some notes, and those are same with vringh_getdesc_kern(). Please see
+  1681	 * it.
+  1682	 */
+> 1683	int vringh_getdesc_iomem(struct vringh *vrh, struct vringh_kiov *riov,
+  1684				 struct vringh_kiov *wiov, u16 *head, gfp_t gfp)
+  1685	{
+  1686		int err;
+  1687	
+  1688		err = __vringh_get_head(vrh, getu16_iomem, &vrh->last_avail_idx);
+  1689		if (err < 0)
+  1690			return err;
+  1691	
+  1692		/* Empty... */
+  1693		if (err == vrh->vring.num)
+  1694			return 0;
+  1695	
+  1696		*head = err;
+  1697		err = __vringh_iov(vrh, *head, riov, wiov, no_range_check, NULL, gfp,
+  1698				   copydesc_iomem);
+  1699		if (err)
+  1700			return err;
+  1701	
+  1702		return 1;
+  1703	}
+  1704	EXPORT_SYMBOL(vringh_getdesc_iomem);
+  1705	
+  1706	/**
+  1707	 * vringh_iov_pull_iomem - copy bytes from vring_iov.
+  1708	 * @riov: the riov as passed to vringh_getdesc_iomem() (updated as we consume)
+  1709	 * @dst: the place to copy.
+  1710	 * @len: the maximum length to copy.
+  1711	 *
+  1712	 * Returns the bytes copied <= len or a negative errno.
+  1713	 */
+> 1714	ssize_t vringh_iov_pull_iomem(struct vringh *vrh, struct vringh_kiov *riov,
+  1715				      void *dst, size_t len)
+  1716	{
+  1717		return vringh_iov_xfer(vrh, riov, dst, len, xfer_from_iomem);
+  1718	}
+  1719	EXPORT_SYMBOL(vringh_iov_pull_iomem);
+  1720	
+  1721	/**
+  1722	 * vringh_iov_push_iomem - copy bytes into vring_iov.
+  1723	 * @wiov: the wiov as passed to vringh_getdesc_iomem() (updated as we consume)
+  1724	 * @src: the place to copy from.
+  1725	 * @len: the maximum length to copy.
+  1726	 *
+  1727	 * Returns the bytes copied <= len or a negative errno.
+  1728	 */
+> 1729	ssize_t vringh_iov_push_iomem(struct vringh *vrh, struct vringh_kiov *wiov,
+  1730				      const void *src, size_t len)
+  1731	{
+  1732		return vringh_iov_xfer(vrh, wiov, (void *)src, len, xfer_to_iomem);
+  1733	}
+  1734	EXPORT_SYMBOL(vringh_iov_push_iomem);
+  1735	
+  1736	/**
+  1737	 * vringh_abandon_iomem - we've decided not to handle the descriptor(s).
+  1738	 * @vrh: the vring.
+  1739	 * @num: the number of descriptors to put back (ie. num
+  1740	 *	 vringh_getdesc_iomem() to undo).
+  1741	 *
+  1742	 * The next vringh_get_kern() will return the old descriptor(s) again.
+  1743	 */
+> 1744	void vringh_abandon_iomem(struct vringh *vrh, unsigned int num)
+  1745	{
+  1746		vringh_abandon_kern(vrh, num);
+  1747	}
+  1748	EXPORT_SYMBOL(vringh_abandon_iomem);
+  1749	
+  1750	/**
+  1751	 * vringh_complete_iomem - we've finished with descriptor, publish it.
+  1752	 * @vrh: the vring.
+  1753	 * @head: the head as filled in by vringh_getdesc_iomem().
+  1754	 * @len: the length of data we have written.
+  1755	 *
+  1756	 * You should check vringh_need_notify_iomem() after one or more calls
+  1757	 * to this function.
+  1758	 */
+> 1759	int vringh_complete_iomem(struct vringh *vrh, u16 head, u32 len)
+  1760	{
+  1761		struct vring_used_elem used;
+  1762	
+  1763		used.id = cpu_to_vringh32(vrh, head);
+  1764		used.len = cpu_to_vringh32(vrh, len);
+  1765	
+  1766		return __vringh_complete(vrh, &used, 1, putu16_iomem, putused_iomem);
+  1767	}
+  1768	EXPORT_SYMBOL(vringh_complete_iomem);
+  1769	
+  1770	/**
+  1771	 * vringh_notify_enable_iomem - we want to know if something changes.
+  1772	 * @vrh: the vring.
+  1773	 *
+  1774	 * This always enables notifications, but returns false if there are
+  1775	 * now more buffers available in the vring.
+  1776	 */
+> 1777	bool vringh_notify_enable_iomem(struct vringh *vrh)
+  1778	{
+  1779		return __vringh_notify_enable(vrh, getu16_iomem, putu16_iomem);
+  1780	}
+  1781	EXPORT_SYMBOL(vringh_notify_enable_iomem);
+  1782	
+  1783	/**
+  1784	 * vringh_notify_disable_iomem - don't tell us if something changes.
+  1785	 * @vrh: the vring.
+  1786	 *
+  1787	 * This is our normal running state: we disable and then only enable when
+  1788	 * we're going to sleep.
+  1789	 */
+> 1790	void vringh_notify_disable_iomem(struct vringh *vrh)
+  1791	{
+  1792		__vringh_notify_disable(vrh, putu16_iomem);
+  1793	}
+  1794	EXPORT_SYMBOL(vringh_notify_disable_iomem);
+  1795	
+  1796	/**
+  1797	 * vringh_need_notify_iomem - must we tell the other side about used buffers?
+  1798	 * @vrh: the vring we've called vringh_complete_iomem() on.
+  1799	 *
+  1800	 * Returns -errno or 0 if we don't need to tell the other side, 1 if we do.
+  1801	 */
+> 1802	int vringh_need_notify_iomem(struct vringh *vrh)
+  1803	{
+  1804		return __vringh_need_notify(vrh, getu16_iomem);
+  1805	}
+  1806	EXPORT_SYMBOL(vringh_need_notify_iomem);
+  1807	
 
 -- 
 0-DAY CI Kernel Test Service
