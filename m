@@ -1,181 +1,116 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FDB6538B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 07:42:39 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q4zQc-0007gF-PU; Fri, 02 Jun 2023 09:42:30 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q4zQR-004XFY-Rv; Fri, 02 Jun 2023 09:42:19 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1q4zQR-00AOmZ-8f; Fri, 02 Jun 2023 09:42:19 +0200
-Date: Fri, 2 Jun 2023 09:42:19 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-serial@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linuxppc-dev@lists.ozlabs.org,
-	Paul Gortmaker <paul.gortmaker@windriver.com>
-Subject: Re: [tty:tty-testing 19/19] legacy_serial.c:undefined reference to
- `fsl8250_handle_irq'
-Message-ID: <20230602074219.srlgpaaypewd2q5s@pengutronix.de>
-References: <202306021041.qbRZZenE-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A803463CC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 07:50:27 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-30ae5f2ac94so1718504f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 02 Jun 2023 00:50:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1685692225; x=1688284225;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NvA6TPqwWYJBBM3KRh/gfP2SQJsI9HaN4QQfikDaaUQ=;
+        b=c7+ynRzMurKCDeCkS0/J/1fxGF4iX3h5zqwjj15Y61n58J0O7RpI9NvzQuVho6NFoY
+         hFO6PF9ptwu68j77REdAgeIxlIHegoF9BPn5IPiJbVFKAZ3/wzdBtd/2GjK7ZFX22uaw
+         hcXuMtQnfiRwLy3poKdlGhjzqkRbfk1demqnnrWeRcPKHKyItpnm5qs1t5lpF1YV0D8T
+         CD+RHbw0My0Oi8AnzxEl3Tqfw4bIsQlIY7SwyGE5NTz+wleOHckjAdbwzFtE0algQ+ck
+         ejSPmBxry5U/Eb+dvMUglqKVF6/IRWaSBnWl10vY5v+jdY24pywbqUVgaGP5fJXf/fnO
+         5Xjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685692225; x=1688284225;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NvA6TPqwWYJBBM3KRh/gfP2SQJsI9HaN4QQfikDaaUQ=;
+        b=BF0Jguq1YN9dyvnvVP07OlhXL1oRMXDD9kHuJv4E3uE+0fkYyJIvcsh0SonNZwT3qr
+         5RvdnjN9d9fTaHeUIiPx7msubQaEacsCHDr08zME3JA+hzrkIJkf7ysa7Mn3k7XCsT0Q
+         yu5iWja5n9MRWrYOenbPWcYT4VWoH7OOnG97d3gBNV799nUK+OdkM/Ia5FWxmXrdMtpk
+         sSV1s7e5ud+pd1cYxPU8mjW4UfoDiW5AesvbZTymQAFyo2Z9Izzqm+QEY0jqBvmeiISY
+         2FwVTURZ6+7ZA1pQLzSSYC3RQzi3UevbVHl39lI8rRhm1RzD1WGa7dwKoMwYAcjre88a
+         z1ug==
+X-Gm-Message-State: AC+VfDx7TuiPtcRxuKQpWAaLZDbNoYcO2ZZNIVre+mjB9eVtd2daZA9q
+	BclSBH5t+VQW78JZ2R/BJjsDGQ==
+X-Google-Smtp-Source: ACHHUZ7iV15ZFq7wZFlotpy8GQSUVIyR3DxbbrgM8JdDhTS9nAw61tUfGZkob9WTP8rybK0lRUMjYA==
+X-Received: by 2002:a05:6000:10d:b0:309:3e1e:fa23 with SMTP id o13-20020a056000010d00b003093e1efa23mr3398172wrx.19.1685692225433;
+        Fri, 02 Jun 2023 00:50:25 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id j11-20020a5d564b000000b00307c8d6b4a0sm891595wrw.26.2023.06.02.00.50.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Jun 2023 00:50:22 -0700 (PDT)
+Date: Fri, 2 Jun 2023 10:50:19 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Amritha Nambiar <amritha.nambiar@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [net-next/RFC PATCH v1 2/4] net: Add support for associating
+ napi with queue[s]
+Message-ID: <815f93a9-0d50-4b19-88ee-3bf9cdf16af0@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ve3roce4gpxozldk"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202306021041.qbRZZenE-lkp@intel.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
+In-Reply-To: <168564135094.7284.9691772825401908320.stgit@anambiarhost.jf.intel.com>
 
+Hi Amritha,
 
---ve3roce4gpxozldk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-Hello,
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-On Fri, Jun 02, 2023 at 10:27:52AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tt=
-y-testing
-> head:   3a3d09a9ee0ef5b417d6bdf8486a4da2bef06dc3
-> commit: 3a3d09a9ee0ef5b417d6bdf8486a4da2bef06dc3 [19/19] serial: 8250: Ap=
-ply FSL workarounds also without SERIAL_8250_CONSOLE
-> config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/202=
-30602/202306021041.qbRZZenE-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 12.3.0
-> reproduce (this is a W=3D1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git/=
-commit/?id=3D3a3d09a9ee0ef5b417d6bdf8486a4da2bef06dc3
->         git remote add tty https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/gregkh/tty.git
->         git fetch --no-tags tty tty-testing
->         git checkout 3a3d09a9ee0ef5b417d6bdf8486a4da2bef06dc3
+url:    https://github.com/intel-lab-lkp/linux/commits/Amritha-Nambiar/net-Introduce-new-napi-fields-for-rx-tx-queues/20230602-013021
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/168564135094.7284.9691772825401908320.stgit%40anambiarhost.jf.intel.com
+patch subject: [net-next/RFC PATCH v1 2/4] net: Add support for associating napi with queue[s]
+config: i386-randconfig-m021-20230531 (https://download.01.org/0day-ci/archive/20230602/202306020821.NcqBX7pS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-For the new readers, this is about
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <error27@gmail.com>
+| Closes: https://lore.kernel.org/r/202306020821.NcqBX7pS-lkp@intel.com/
 
-	https://lore.kernel.org/r/20230531083230.2702181-1-u.kleine-koenig@pengutr=
-onix.de
+New smatch warnings:
+net/core/dev.c:6396 netif_napi_add_queue() warn: possible memory leak of 'napi_queue'
 
-Greg already dropped it from his tty-testing tree. Thanks and sorry for
-this second breakage. :-\
+Old smatch warnings:
+net/core/dev.c:10454 netdev_run_todo() warn: passing freed memory 'dev'
 
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.3.0 ~/bin/ma=
-ke.cross W=3D1 O=3Dbuild_dir ARCH=3Dpowerpc olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.3.0 ~/bin/ma=
-ke.cross W=3D1 O=3Dbuild_dir ARCH=3Dpowerpc SHELL=3D/bin/bash
->=20
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306021041.qbRZZenE-lkp=
-@intel.com/
->=20
-> All errors (new ones prefixed by >>):
->=20
->    powerpc-linux-ld: arch/powerpc/kernel/legacy_serial.o: in function `se=
-rial_dev_init':
-> >> legacy_serial.c:(.init.text+0x46a): undefined reference to `fsl8250_ha=
-ndle_irq'
-> >> powerpc-linux-ld: legacy_serial.c:(.init.text+0x472): undefined refere=
-nce to `fsl8250_handle_irq'
+vim +/napi_queue +6396 net/core/dev.c
 
-Urgs, this is ugly. Arch code uses a function from the 8250 driver
-introduced in commit 9deaa53ac7fa ("serial: add irq handler for
-Freescale 16550 errata.").
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6377  int netif_napi_add_queue(struct napi_struct *napi, u16 queue_index,
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6378  			 enum napi_container_type type)
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6379  {
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6380  	struct napi_queue *napi_queue;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6381  
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6382  	napi_queue = kzalloc(sizeof(*napi_queue), GFP_KERNEL);
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6383  	if (!napi_queue)
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6384  		return -ENOMEM;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6385  
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6386  	napi_queue->queue_index = queue_index;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6387  
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6388  	switch (type) {
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6389  	case NAPI_RX_CONTAINER:
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6390  		list_add_rcu(&napi_queue->q_list, &napi->napi_rxq_list);
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6391  		break;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6392  	case NAPI_TX_CONTAINER:
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6393  		list_add_rcu(&napi_queue->q_list, &napi->napi_txq_list);
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6394  		break;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6395  	default:
+9b6d735207c0eb Amritha Nambiar 2023-06-01 @6396  		return -EINVAL;
 
-So the problematic case is SERIAL_8250=3Dm which results in
-fsl8250_handle_irq being in a module.
+This path is likely impossible, right?  Smatch still wants a
+kfree(napi_queue); before the return.
 
-diff --git a/arch/powerpc/kernel/legacy_serial.c b/arch/powerpc/kernel/lega=
-cy_serial.c
-index c9ad12461d44..ad9f15902abb 100644
---- a/arch/powerpc/kernel/legacy_serial.c
-+++ b/arch/powerpc/kernel/legacy_serial.c
-@@ -510,8 +510,12 @@ static void __init fixup_port_irq(int index,
-=20
- #ifdef CONFIG_SERIAL_8250_FSL
- 	if (of_device_is_compatible(np, "fsl,ns16550")) {
--		port->handle_irq =3D fsl8250_handle_irq;
--		port->has_sysrq =3D IS_ENABLED(CONFIG_SERIAL_8250_CONSOLE);
-+		if (IS_REACHABLE(CONFIG_SERIAL_8250)) {
-+			port->handle_irq =3D fsl8250_handle_irq;
-+			port->has_sysrq =3D IS_ENABLED(CONFIG_SERIAL_8250_CONSOLE);
-+		} else {
-+			pr_warn("Not activating fsl workarounds for 8250 port %d\n", index);
-+		}
- 	}
- #endif
- }
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6397  	}
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6398  
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6399  	return 0;
+9b6d735207c0eb Amritha Nambiar 2023-06-01  6400  }
 
-would work. The warning would trigger in cases where before the port
-just silently used the default irq handler and so the FSL bug isn't
-workarounded[1]. If the warning isn't wanted, it could be simplified to:
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
-#if IS_REACHABLE(CONFIG_SERIAL_8250)
-	if (of_device_is_compatible(np, "fsl,ns16550")) {
-		...
-	}
-#endif
-
-But I wonder if in the presence of
-
-        if (IS_ENABLED(CONFIG_SERIAL_8250_FSL) &&
-            (of_device_is_compatible(np, "fsl,ns16550") ||
-             of_device_is_compatible(np, "fsl,16550-FIFO64"))) {
-                port->handle_irq =3D fsl8250_handle_irq;
-                port->has_sysrq =3D IS_ENABLED(CONFIG_SERIAL_8250_CONSOLE);
-        }
-
-in of_platform_serial_setup() the code in
-arch/powerpc/kernel/legacy_serial.c can just be dropped instead?!
-
-Best regards
-Uwe
-
-[1] Of course this won't happen because the help text of SERIAL_8250
-clearly indicates that =3Dm isn't a safe choice in the presence of
-"non-standard serial ports". So the issue is purly theoretic.
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---ve3roce4gpxozldk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmR5nVoACgkQj4D7WH0S
-/k45Owf/RQIZ/tkvEslJTH7fcdK9qycxel/CpGP0wKndii5ft99uuONt4CoX3vVc
-gekWe0d4PQmTPNLmomQ0H6QiHYtI3q/+w+LqsxRubu3woNEQ2zRv5pvBMA5itBam
-K0rWT+8VZ+HcEpR/ZWB9utA1+d6J7fcFcISFcrDDIQDDGsxAiWAhFf6u19deg1w1
-mcUp/NorCRpNwl9ylq/1uyQ3XXeVQ1j8tgDReWvfTS6dVGaYUz9KKFgQpVFV39i3
-f3BbY03AkWojwI/NfHjsnqzr/pwLOzBJiTcMDdqukpp2DR6hcyuJ7DHbsHOELJkw
-YB/4rUr7yMxKmahchJYwjLLZYVw3bA==
-=OxiR
------END PGP SIGNATURE-----
-
---ve3roce4gpxozldk--
