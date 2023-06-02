@@ -1,46 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7331C74A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 18:47:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E041E53C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 20:00:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685731678; x=1717267678;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GOtDdfsc2P2CR837OFCfK8rZd7DNtGjRdjWJhX8MhDI=;
-  b=eg4C447Zy1hrygEmH7fCYD98i4ipq9HAjtQXXxvRpskc8McvHXJ7pq9F
-   X58kGGmEA8jMcIDazfUZbU+O9ezYY1+Fv8R1pqD5uanZ9WdGK/UzxsVhZ
-   K8oJl9Zb1/QEpTFppHqE3hTn638cYZmHizeAicqNkm308PZK/bYHdj5aR
-   bbXX3toN8r955UFp/c6vDvSETNUR9az/ix7TExb1p8yzG0oI6etR1YD35
-   rcZhu95MWMqt1GX/toMOiSdihll1EXZP116YIGEVnRNTD7Ah7DHMya/jj
-   0Hq6EegWdlyzTy4m0qtZoRJJjHxQ3sTBVG+YPRaKiiSUyxFzbFKodUr/p
+  t=1685736002; x=1717272002;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=haIZ6yYjZIe64NqUG9FzLM2OyIX7yAq5K2Im5F1qvtY=;
+  b=Dww1X2R1sloRoRUFaavTSx7AOr8PXJIaUsS0/pmIO7cJBoHRAwU6rpmP
+   eOhdDhzaD0B6w9RcXmBiPLXoILQbbdz2z/lQVdAQTkOvlMNXCCk9Q3f8s
+   moU/af0MHXy9F7WCgqAnndcJf7QpUHbIZQElb/V/TpC64LRrGFuzA8+6d
+   dp14uofUG3ugW2uMi8La/AMrifGfI6q60OOa2TFfgGlO5zAlVJRrpQfQt
+   4eOGg4ksu82I7jRKWqHxeC70zP9ejXF66xaeWDYKMAFf1vCKGvpFRmAsD
+   CICguvxb4AadLfrN5kNFegNHkuqAIdOS8tvTNIQQSJ1qLDo19N4XxwqW8
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="335553722"
-X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="335553722"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 11:47:57 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="345534347"
+X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
+   d="scan'208";a="345534347"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 13:00:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="797690951"
-X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="797690951"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="685419804"
+X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
+   d="scan'208";a="685419804"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 02 Jun 2023 11:47:54 -0700
+  by orsmga006.jf.intel.com with ESMTP; 02 Jun 2023 13:00:00 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q59oX-0000q1-3D;
-	Fri, 02 Jun 2023 18:47:53 +0000
-Date: Sat, 3 Jun 2023 02:46:59 +0800
+	id 1q5AwJ-0000vL-25;
+	Fri, 02 Jun 2023 19:59:59 +0000
+Date: Sat, 3 Jun 2023 03:59:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-security-module@vger.kernel.org,
-	keescook@chromium.org, brauner@kernel.org, lennart@poettering.net,
-	cyphar@cyphar.com, luto@kernel.org
-Subject: Re: [PATCH RESEND bpf-next 15/18] bpf: take into account BPF token
- when fetching helper protos
-Message-ID: <202306030252.UOXkWZTK-lkp@intel.com>
-References: <20230602150011.1657856-16-andrii@kernel.org>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: [brgl:gpio/for-next 22/22] drivers/gpio/gpio-delay.c:79:39: error:
+ 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+Message-ID: <202306030340.PkL0Qly6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,92 +46,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230602150011.1657856-16-andrii@kernel.org>
 
-Hi Andrii,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-introduce-BPF-token-object/20230602-230448
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230602150011.1657856-16-andrii%40kernel.org
-patch subject: [PATCH RESEND bpf-next 15/18] bpf: take into account BPF token when fetching helper protos
-config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20230603/202306030252.UOXkWZTK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+head:   cf5dec80c4e23ac1677b8ef9aafe5a7b87bb18c3
+commit: cf5dec80c4e23ac1677b8ef9aafe5a7b87bb18c3 [22/22] gpio: Add gpio delay driver
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230603/202306030340.PkL0Qly6-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/3d830ca845b075ab4132487aaaa69b70a467863c
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andrii-Nakryiko/bpf-introduce-BPF-token-object/20230602-230448
-        git checkout 3d830ca845b075ab4132487aaaa69b70a467863c
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git/commit/?id=cf5dec80c4e23ac1677b8ef9aafe5a7b87bb18c3
+        git remote add brgl https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
+        git fetch --no-tags brgl gpio/for-next
+        git checkout cf5dec80c4e23ac1677b8ef9aafe5a7b87bb18c3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=um SUBARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/gpio/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306030252.UOXkWZTK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306030340.PkL0Qly6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/bpf_verifier.h:7,
-                    from net/core/filter.c:21:
-   include/linux/bpf.h: In function 'bpf_token_new_fd':
-   include/linux/bpf.h:2475:16: warning: returning 'int' from a function with return type 'struct bpf_token *' makes pointer from integer without a cast [-Wint-conversion]
-    2475 |         return -EOPNOTSUPP;
-         |                ^
-   net/core/filter.c: In function 'bpf_sk_base_func_proto':
->> net/core/filter.c:11653:14: error: implicit declaration of function 'bpf_token_capable'; did you mean 'bpf_token_put'? [-Werror=implicit-function-declaration]
-   11653 |         if (!bpf_token_capable(prog->aux->token, CAP_PERFMON))
-         |              ^~~~~~~~~~~~~~~~~
-         |              bpf_token_put
-   cc1: some warnings being treated as errors
+   drivers/gpio/gpio-delay.c: In function 'gpio_delay_of_xlate':
+>> drivers/gpio/gpio-delay.c:79:39: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+      79 |         if (gpiospec->args_count != gc->of_gpio_n_cells)
+         |                                       ^~
+   drivers/gpio/gpio-delay.c: In function 'gpio_delay_probe':
+>> drivers/gpio/gpio-delay.c:133:17: error: 'struct gpio_chip' has no member named 'of_xlate'
+     133 |         priv->gc.of_xlate = gpio_delay_of_xlate;
+         |                 ^
+   drivers/gpio/gpio-delay.c:134:17: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     134 |         priv->gc.of_gpio_n_cells = 3;
+         |                 ^
 
 
-vim +11653 net/core/filter.c
+vim +79 drivers/gpio/gpio-delay.c
 
- 11619	
- 11620	static const struct bpf_func_proto *
- 11621	bpf_sk_base_func_proto(enum bpf_func_id func_id, const struct bpf_prog *prog)
- 11622	{
- 11623		const struct bpf_func_proto *func;
- 11624	
- 11625		switch (func_id) {
- 11626		case BPF_FUNC_skc_to_tcp6_sock:
- 11627			func = &bpf_skc_to_tcp6_sock_proto;
- 11628			break;
- 11629		case BPF_FUNC_skc_to_tcp_sock:
- 11630			func = &bpf_skc_to_tcp_sock_proto;
- 11631			break;
- 11632		case BPF_FUNC_skc_to_tcp_timewait_sock:
- 11633			func = &bpf_skc_to_tcp_timewait_sock_proto;
- 11634			break;
- 11635		case BPF_FUNC_skc_to_tcp_request_sock:
- 11636			func = &bpf_skc_to_tcp_request_sock_proto;
- 11637			break;
- 11638		case BPF_FUNC_skc_to_udp6_sock:
- 11639			func = &bpf_skc_to_udp6_sock_proto;
- 11640			break;
- 11641		case BPF_FUNC_skc_to_unix_sock:
- 11642			func = &bpf_skc_to_unix_sock_proto;
- 11643			break;
- 11644		case BPF_FUNC_skc_to_mptcp_sock:
- 11645			func = &bpf_skc_to_mptcp_sock_proto;
- 11646			break;
- 11647		case BPF_FUNC_ktime_get_coarse_ns:
- 11648			return &bpf_ktime_get_coarse_ns_proto;
- 11649		default:
- 11650			return bpf_base_func_proto(func_id, prog);
- 11651		}
- 11652	
- 11653		if (!bpf_token_capable(prog->aux->token, CAP_PERFMON))
- 11654			return NULL;
- 11655	
- 11656		return func;
- 11657	}
- 11658	
+    70	
+    71	static int gpio_delay_of_xlate(struct gpio_chip *gc,
+    72				       const struct of_phandle_args *gpiospec,
+    73				       u32 *flags)
+    74	{
+    75		struct gpio_delay_priv *priv = gpiochip_get_data(gc);
+    76		struct gpio_delay_timing *timings;
+    77		u32 line;
+    78	
+  > 79		if (gpiospec->args_count != gc->of_gpio_n_cells)
+    80			return -EINVAL;
+    81	
+    82		line = gpiospec->args[0];
+    83		if (line >= gc->ngpio)
+    84			return -EINVAL;
+    85	
+    86		timings = &priv->delay_timings[line];
+    87		timings->ramp_up_delay_us = gpiospec->args[1];
+    88		timings->ramp_down_delay_us = gpiospec->args[2];
+    89	
+    90		return line;
+    91	}
+    92	
+    93	static bool gpio_delay_can_sleep(const struct gpio_delay_priv *priv)
+    94	{
+    95		int i;
+    96	
+    97		for (i = 0; i < priv->input_gpio->ndescs; i++)
+    98			if (gpiod_cansleep(priv->input_gpio->desc[i]))
+    99				return true;
+   100	
+   101		return false;
+   102	}
+   103	
+   104	static int gpio_delay_probe(struct platform_device *pdev)
+   105	{
+   106		struct gpio_delay_priv *priv;
+   107	
+   108		priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+   109		if (!priv)
+   110			return -ENOMEM;
+   111	
+   112		priv->input_gpio = devm_gpiod_get_array(&pdev->dev, NULL, GPIOD_OUT_LOW);
+   113		if (IS_ERR(priv->input_gpio))
+   114			return dev_err_probe(&pdev->dev, PTR_ERR(priv->input_gpio),
+   115					     "Failed to get input-gpios");
+   116	
+   117		priv->delay_timings = devm_kcalloc(&pdev->dev,
+   118						   priv->input_gpio->ndescs,
+   119						   sizeof(*priv->delay_timings),
+   120						   GFP_KERNEL);
+   121		if (!priv->delay_timings)
+   122			return -ENOMEM;
+   123	
+   124		if (gpio_delay_can_sleep(priv)) {
+   125			priv->gc.can_sleep = true;
+   126			priv->gc.set = gpio_delay_set_can_sleep;
+   127		} else {
+   128			priv->gc.can_sleep = false;
+   129			priv->gc.set = gpio_delay_set;
+   130		}
+   131	
+   132		priv->gc.get_direction = gpio_delay_get_direction;
+ > 133		priv->gc.of_xlate = gpio_delay_of_xlate;
+   134		priv->gc.of_gpio_n_cells = 3;
+   135		priv->gc.ngpio = priv->input_gpio->ndescs;
+   136		priv->gc.owner = THIS_MODULE;
+   137		priv->gc.base = -1;
+   138		priv->gc.parent = &pdev->dev;
+   139	
+   140		platform_set_drvdata(pdev, priv);
+   141	
+   142		return devm_gpiochip_add_data(&pdev->dev, &priv->gc, priv);
+   143	}
+   144	
 
 -- 
 0-DAY CI Kernel Test Service
