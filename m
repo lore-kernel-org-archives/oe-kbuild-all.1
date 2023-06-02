@@ -1,45 +1,50 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10B4332EE
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 17:41:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDB8332EE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 18:04:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685727715; x=1717263715;
+  t=1685729059; x=1717265059;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=T2Z+PRpXdrWfJ6V1xooWewzuG3GPNhnATyZhAlZ8sMk=;
-  b=Ai4bgAhI+OpOunQxAFsSQj87zuD9DA+qTb6IvE7cp+GhARpp7JigySB5
-   iDLOz+ULws9Hy5ZEquPY8e01uXMH2dmoABphA0W3/DlCwaBK9Z8mk0ggg
-   V3plO4MtsiWjroDGYhgG72foClq43g26pU2/rj6gUB0KlOQaXkhEXoCpf
-   t7ngkpFNzHnvw3BOl5nUzEgSeuZWqirYdeKfZPsgFfMW+ns9aq27KBC6h
-   CxyFAr82sCwnb4zI/du/xsNIO7Dgco9tc2frsJHJxHslMbkPl5mXVfPV0
-   SAh5BLhocqkGTdBtKQoZw8Gw2hg7CU6OeRLXdthwsEpXbA2OeN1mdE1HG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="345504650"
+  bh=OpH8w4h7rmgb2ilFDwpfKAz8g4S9v2qEEChc3Sm9WFw=;
+  b=AtUM+YcRPLFVda61BbZ+pZEuLRaVp2PMBNF+dY08ndn60oXB1ZAGVGim
+   G+IZVzPrI/AijFgXXfq0hxAS3ApcF5b7wrn5X0dNSAplInJCeYteP0E+7
+   PJjXwtmBsMZBpSbN9+r1qOnL2YQdp7Vb0pEBA69jJfXPi9j4xDGtXqPmA
+   pV011xGWvHXJ+DNKdNM/qX+mpMChO9qoO47HN1qan6/KGr2/MspE0Kejf
+   39POLnKKnFitubxBVt0GEHck+zoHSXF4V7gTnF+snE7HpSciQs5/uV6Kh
+   KAWt2uM5GNPM3Oi5Hj4ohthUVUxh/SG14DANQKg2y9RC2GJJ5UG1PtIdd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="340558517"
 X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="345504650"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 10:41:54 -0700
+   d="scan'208";a="340558517"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 11:03:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="832051610"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="737625339"
 X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="832051610"
+   d="scan'208";a="737625339"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 02 Jun 2023 10:41:52 -0700
+  by orsmga008.jf.intel.com with ESMTP; 02 Jun 2023 11:03:53 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q58md-0000mp-1B;
-	Fri, 02 Jun 2023 17:41:51 +0000
-Date: Sat, 3 Jun 2023 01:41:18 +0800
+	id 1q597w-0000oD-0m;
+	Fri, 02 Jun 2023 18:03:52 +0000
+Date: Sat, 3 Jun 2023 02:02:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-security-module@vger.kernel.org,
-	keescook@chromium.org, brauner@kernel.org, lennart@poettering.net,
-	cyphar@cyphar.com, luto@kernel.org
-Subject: Re: [PATCH RESEND bpf-next 01/18] bpf: introduce BPF token object
-Message-ID: <202306030138.u9AeNgUk-lkp@intel.com>
-References: <20230602150011.1657856-2-andrii@kernel.org>
+To: Maxime Ripard <mripard@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, linux-kselftest@vger.kernel.org,
+	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH RESEND 1/2] drivers: base: Add basic devm tests for root
+ devices
+Message-ID: <202306030141.WvTexQJf-lkp@intel.com>
+References: <20230329-kunit-devm-inconsistencies-test-v1-1-015b1574d673@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,93 +53,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230602150011.1657856-2-andrii@kernel.org>
+In-Reply-To: <20230329-kunit-devm-inconsistencies-test-v1-1-015b1574d673@kernel.org>
 
-Hi Andrii,
+Hi Maxime,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test WARNING on a6faf7ea9fcb7267d06116d4188947f26e00e57e]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-introduce-BPF-token-object/20230602-230448
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230602150011.1657856-2-andrii%40kernel.org
-patch subject: [PATCH RESEND bpf-next 01/18] bpf: introduce BPF token object
-config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20230603/202306030138.u9AeNgUk-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drivers-base-Add-basic-devm-tests-for-root-devices/20230602-232247
+base:   a6faf7ea9fcb7267d06116d4188947f26e00e57e
+patch link:    https://lore.kernel.org/r/20230329-kunit-devm-inconsistencies-test-v1-1-015b1574d673%40kernel.org
+patch subject: [PATCH RESEND 1/2] drivers: base: Add basic devm tests for root devices
+config: m68k-randconfig-r013-20230601 (https://download.01.org/0day-ci/archive/20230603/202306030141.WvTexQJf-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/59e6ef2000a056ce3386db8481e477e5abfbbe15
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/f685d9ffe8ed7605cf0edbfb05a7e65611216b21
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Andrii-Nakryiko/bpf-introduce-BPF-token-object/20230602-230448
-        git checkout 59e6ef2000a056ce3386db8481e477e5abfbbe15
+        git fetch --no-tags linux-review Maxime-Ripard/drivers-base-Add-basic-devm-tests-for-root-devices/20230602-232247
+        git checkout f685d9ffe8ed7605cf0edbfb05a7e65611216b21
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=um SUBARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=um SUBARCH=x86_64 SHELL=/bin/bash kernel/ net/core/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306030138.u9AeNgUk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306030141.WvTexQJf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/fork.c:98:
-   include/linux/bpf.h: In function 'bpf_token_new_fd':
->> include/linux/bpf.h:2465:16: warning: returning 'int' from a function with return type 'struct bpf_token *' makes pointer from integer without a cast [-Wint-conversion]
-    2465 |         return -EOPNOTSUPP;
-         |                ^
-   kernel/fork.c: At top level:
-   kernel/fork.c:164:13: warning: no previous prototype for 'arch_release_task_struct' [-Wmissing-prototypes]
-     164 | void __weak arch_release_task_struct(struct task_struct *tsk)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:991:20: warning: no previous prototype for 'arch_task_cache_init' [-Wmissing-prototypes]
-     991 | void __init __weak arch_task_cache_init(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:1086:12: warning: no previous prototype for 'arch_dup_task_struct' [-Wmissing-prototypes]
-    1086 | int __weak arch_dup_task_struct(struct task_struct *dst,
-         |            ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from include/linux/filter.h:9,
-                    from kernel/sysctl.c:35:
-   include/linux/bpf.h: In function 'bpf_token_new_fd':
->> include/linux/bpf.h:2465:16: warning: returning 'int' from a function with return type 'struct bpf_token *' makes pointer from integer without a cast [-Wint-conversion]
-    2465 |         return -EOPNOTSUPP;
-         |                ^
---
-   In file included from include/linux/filter.h:9,
-                    from kernel/kallsyms.c:25:
-   include/linux/bpf.h: In function 'bpf_token_new_fd':
->> include/linux/bpf.h:2465:16: warning: returning 'int' from a function with return type 'struct bpf_token *' makes pointer from integer without a cast [-Wint-conversion]
-    2465 |         return -EOPNOTSUPP;
-         |                ^
-   kernel/kallsyms.c: At top level:
-   kernel/kallsyms.c:662:12: warning: no previous prototype for 'arch_get_kallsym' [-Wmissing-prototypes]
-     662 | int __weak arch_get_kallsym(unsigned int symnum, unsigned long *value,
-         |            ^~~~~~~~~~~~~~~~
---
-   In file included from include/linux/filter.h:9,
-                    from kernel/bpf/core.c:21:
-   include/linux/bpf.h: In function 'bpf_token_new_fd':
->> include/linux/bpf.h:2465:16: warning: returning 'int' from a function with return type 'struct bpf_token *' makes pointer from integer without a cast [-Wint-conversion]
-    2465 |         return -EOPNOTSUPP;
-         |                ^
-   kernel/bpf/core.c: At top level:
-   kernel/bpf/core.c:1638:12: warning: no previous prototype for 'bpf_probe_read_kernel' [-Wmissing-prototypes]
-    1638 | u64 __weak bpf_probe_read_kernel(void *dst, u32 size, const void *unsafe_ptr)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/core.c:2075:6: warning: no previous prototype for 'bpf_patch_call_args' [-Wmissing-prototypes]
-    2075 | void bpf_patch_call_args(struct bpf_insn *insn, u32 stack_depth)
-         |      ^~~~~~~~~~~~~~~~~~~
-
-
-vim +2465 include/linux/bpf.h
-
-  2462	
-  2463	static inline struct bpf_token *bpf_token_new_fd(struct bpf_token *token)
-  2464	{
-> 2465		return -EOPNOTSUPP;
-  2466	}
-  2467	
+>> drivers/base/test/.kunitconfig: warning: ignored by one of the .gitignore files
+   drivers/clk/.kunitconfig: warning: ignored by one of the .gitignore files
+   drivers/gpu/drm/tests/.kunitconfig: warning: ignored by one of the .gitignore files
+   drivers/gpu/drm/vc4/tests/.kunitconfig: warning: ignored by one of the .gitignore files
+   drivers/hid/.kunitconfig: warning: ignored by one of the .gitignore files
+   fs/ext4/.kunitconfig: warning: ignored by one of the .gitignore files
+   fs/fat/.kunitconfig: warning: ignored by one of the .gitignore files
+   kernel/kcsan/.kunitconfig: warning: ignored by one of the .gitignore files
+   lib/kunit/.kunitconfig: warning: ignored by one of the .gitignore files
+   mm/kfence/.kunitconfig: warning: ignored by one of the .gitignore files
+   net/sunrpc/.kunitconfig: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/config: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/kvm/settings: warning: ignored by one of the .gitignore files
 
 -- 
 0-DAY CI Kernel Test Service
