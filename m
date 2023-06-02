@@ -1,167 +1,160 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9305E332EE
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 18:13:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9001C746
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 18:25:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685729636; x=1717265636;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yIozrWDl/5hQ5vXZiPITasCQOwSsn+udVyA99ySkQ4Q=;
-  b=LMlhyRSGPVgdVQqJ/a0iR3F2ol5niq/zLCbDcE8VrFHR75vZ63iEtocu
-   pyCvxT020i0dAdsm7DqWDwkvLR3PpMYz+jfNKrlsBgupuCFmYEfp+XCUp
-   QdhnDEP9lgyw88WP6zQa/F7C2ySxJGadqSk5gS0cbKX7uueb0G4/7EbEl
-   hjXIb/S9dtqwIZZH1jKJSbq51D0bSozWKWjLmYlnvY5cA4FWcgmJasJTC
-   2aORBl22e9D+zRmHay4OIfs9rM9A4hAvPesru+ZI9AWwAQhjR6IKoDMT6
-   2ZROjRRCod2uhctE1XO8H+bOogKtN04kXXX7ZWgeiJX1LwiX+pFl9CDko
+  t=1685730355; x=1717266355;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tfAQLRkozSeiGoOh/LFGaIApkdx1b5iyxooLEk1FZOc=;
+  b=hzbmmX4rC/q8Qm9uAuVptGJMdQgag4nI9jV1zHvSRI/3yozOwBaTeQZE
+   QFdhU9vzN5yHk/hi9n5AU422krbyAm+hJQjCPjxUisbzWMPAILcyEdP7i
+   vopnQ2frenGsBznik5MRehNYwWUDg7pbQRsiJjVEUL/ffkmkzpHgU/rV9
+   rTlj7zQau+JhFfuaUcjKKVnZLDoq7QH2yTdl0SyJxQa15OiBmZXdFs6kC
+   AxsB9rjYk/tHS+dY83A3gHkqHgznqrsYIRN/OOXPcXk9N935PPBmd47TQ
+   9P0TG4WbBhLsLUn4oshAzeYk83fAzIreaGaRAa7hKbOxd+LsaL3gIFCxt
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="354782634"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="355945685"
 X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="354782634"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 11:13:55 -0700
+   d="scan'208";a="355945685"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 11:25:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="702034801"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="737628436"
 X-IronPort-AV: E=Sophos;i="6.00,213,1681196400"; 
-   d="scan'208";a="702034801"
+   d="scan'208";a="737628436"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 02 Jun 2023 11:13:53 -0700
+  by orsmga008.jf.intel.com with ESMTP; 02 Jun 2023 11:25:53 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q59Hc-0000oX-1d;
-	Fri, 02 Jun 2023 18:13:52 +0000
-Date: Sat, 3 Jun 2023 02:13:07 +0800
+	id 1q59TE-0000p1-2c;
+	Fri, 02 Jun 2023 18:25:52 +0000
+Date: Sat, 3 Jun 2023 02:25:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shunsuke Mie <mie@igel.co.jp>, "Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Rusty Russell <rusty@rustcorp.com.au>
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Shunsuke Mie <mie@igel.co.jp>
-Subject: Re: [PATCH v4 1/1] vringh: IOMEM support
-Message-ID: <202306030216.bpWr6XV0-lkp@intel.com>
-References: <20230602055211.309960-2-mie@igel.co.jp>
+To: David Woodhouse <dwmw@amazon.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dwmw2:parallel-6.2-rc6 13/15] kernel/cpu.c:1526:32: warning: format
+ '%lld' expects argument of type 'long long int', but argument 4 has type
+ 'cycles_t' {aka 'long unsigned int'}
+Message-ID: <202306030244.cW27cxxQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230602055211.309960-2-mie@igel.co.jp>
+Content-Transfer-Encoding: 8bit
 
-Hi Shunsuke,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on mst-vhost/linux-next]
-[also build test ERROR on linus/master horms-ipvs/master v6.4-rc4 next-20230602]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shunsuke-Mie/vringh-IOMEM-support/20230602-135351
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-patch link:    https://lore.kernel.org/r/20230602055211.309960-2-mie%40igel.co.jp
-patch subject: [PATCH v4 1/1] vringh: IOMEM support
-config: i386-randconfig-i003-20230531 (https://download.01.org/0day-ci/archive/20230603/202306030216.bpWr6XV0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   git://git.infradead.org/users/dwmw2/linux parallel-6.2-rc6
+head:   17bbd12ee03047864f508d539e58974b4f677504
+commit: 323883ff23424dd3fc4697b1e934f0814a74f171 [13/15] Print bringup timing
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20230603/202306030244.cW27cxxQ-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
-        # https://github.com/intel-lab-lkp/linux/commit/de2a1f5220c32e953400f225aba6bd294a8d41b8
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Shunsuke-Mie/vringh-IOMEM-support/20230602-135351
-        git checkout de2a1f5220c32e953400f225aba6bd294a8d41b8
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add dwmw2 git://git.infradead.org/users/dwmw2/linux
+        git fetch --no-tags dwmw2 parallel-6.2-rc6
+        git checkout 323883ff23424dd3fc4697b1e934f0814a74f171
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306030216.bpWr6XV0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306030244.cW27cxxQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/vhost/vringh.c: In function 'getu16_iomem':
->> drivers/vhost/vringh.c:1610:37: error: implicit declaration of function 'ioread16' [-Werror=implicit-function-declaration]
-    1610 |         *val = vringh16_to_cpu(vrh, ioread16(p));
-         |                                     ^~~~~~~~
-   drivers/vhost/vringh.c: In function 'putu16_iomem':
->> drivers/vhost/vringh.c:1616:9: error: implicit declaration of function 'iowrite16' [-Werror=implicit-function-declaration]
-    1616 |         iowrite16(cpu_to_vringh16(vrh, val), p);
-         |         ^~~~~~~~~
-   drivers/vhost/vringh.c: In function 'copydesc_iomem':
->> drivers/vhost/vringh.c:1623:9: error: implicit declaration of function 'memcpy_fromio'; did you mean 'memcpy_from_bvec'? [-Werror=implicit-function-declaration]
-    1623 |         memcpy_fromio(dst, src, len);
-         |         ^~~~~~~~~~~~~
-         |         memcpy_from_bvec
-   drivers/vhost/vringh.c: In function 'putused_iomem':
->> drivers/vhost/vringh.c:1630:9: error: implicit declaration of function 'memcpy_toio' [-Werror=implicit-function-declaration]
-    1630 |         memcpy_toio(dst, src, num * sizeof(*dst));
-         |         ^~~~~~~~~~~
-   drivers/vhost/vringh.c: At top level:
-   drivers/vhost/vringh.c:1661:5: warning: no previous prototype for 'vringh_init_iomem' [-Wmissing-prototypes]
-    1661 | int vringh_init_iomem(struct vringh *vrh, u64 features, unsigned int num,
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/vhost/vringh.c:1683:5: warning: no previous prototype for 'vringh_getdesc_iomem' [-Wmissing-prototypes]
-    1683 | int vringh_getdesc_iomem(struct vringh *vrh, struct vringh_kiov *riov,
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/vringh.c:1714:9: warning: no previous prototype for 'vringh_iov_pull_iomem' [-Wmissing-prototypes]
-    1714 | ssize_t vringh_iov_pull_iomem(struct vringh *vrh, struct vringh_kiov *riov,
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/vringh.c:1729:9: warning: no previous prototype for 'vringh_iov_push_iomem' [-Wmissing-prototypes]
-    1729 | ssize_t vringh_iov_push_iomem(struct vringh *vrh, struct vringh_kiov *wiov,
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/vringh.c:1744:6: warning: no previous prototype for 'vringh_abandon_iomem' [-Wmissing-prototypes]
-    1744 | void vringh_abandon_iomem(struct vringh *vrh, unsigned int num)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/vringh.c:1759:5: warning: no previous prototype for 'vringh_complete_iomem' [-Wmissing-prototypes]
-    1759 | int vringh_complete_iomem(struct vringh *vrh, u16 head, u32 len)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/vringh.c:1777:6: warning: no previous prototype for 'vringh_notify_enable_iomem' [-Wmissing-prototypes]
-    1777 | bool vringh_notify_enable_iomem(struct vringh *vrh)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/vringh.c:1790:6: warning: no previous prototype for 'vringh_notify_disable_iomem' [-Wmissing-prototypes]
-    1790 | void vringh_notify_disable_iomem(struct vringh *vrh)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/vhost/vringh.c:1802:5: warning: no previous prototype for 'vringh_need_notify_iomem' [-Wmissing-prototypes]
-    1802 | int vringh_need_notify_iomem(struct vringh *vrh)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from include/linux/kernel.h:29,
+                    from include/linux/sched/mm.h:5,
+                    from kernel/cpu.c:6:
+   kernel/cpu.c: In function 'bringup_nonboot_cpus':
+>> kernel/cpu.c:1526:32: warning: format '%lld' expects argument of type 'long long int', but argument 4 has type 'cycles_t' {aka 'long unsigned int'} [-Wformat=]
+    1526 |                         printk("Brought %d CPUs to %s in %lld cycles\n", n - i,
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1527 |                                cpuhp_hp_states[st].name, t2 - t1);
+         |                                                          ~~~~~~~
+         |                                                             |
+         |                                                             cycles_t {aka long unsigned int}
+   include/linux/printk.h:429:25: note: in definition of macro 'printk_index_wrap'
+     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   kernel/cpu.c:1526:25: note: in expansion of macro 'printk'
+    1526 |                         printk("Brought %d CPUs to %s in %lld cycles\n", n - i,
+         |                         ^~~~~~
+   kernel/cpu.c:1526:61: note: format string is defined here
+    1526 |                         printk("Brought %d CPUs to %s in %lld cycles\n", n - i,
+         |                                                          ~~~^
+         |                                                             |
+         |                                                             long long int
+         |                                                          %ld
+   kernel/cpu.c:1540:16: warning: format '%lld' expects argument of type 'long long int', but argument 2 has type 'cycles_t' {aka 'long unsigned int'} [-Wformat=]
+    1540 |         printk("Brought CPUs online in %lld cycles\n", t2 - t1);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  ~~~~~~~
+         |                                                           |
+         |                                                           cycles_t {aka long unsigned int}
+   include/linux/printk.h:429:25: note: in definition of macro 'printk_index_wrap'
+     429 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   kernel/cpu.c:1540:9: note: in expansion of macro 'printk'
+    1540 |         printk("Brought CPUs online in %lld cycles\n", t2 - t1);
+         |         ^~~~~~
+   kernel/cpu.c:1540:43: note: format string is defined here
+    1540 |         printk("Brought CPUs online in %lld cycles\n", t2 - t1);
+         |                                        ~~~^
+         |                                           |
+         |                                           long long int
+         |                                        %ld
 
 
-vim +/ioread16 +1610 drivers/vhost/vringh.c
+vim +1526 kernel/cpu.c
 
-  1606	
-  1607	static inline int getu16_iomem(const struct vringh *vrh, u16 *val,
-  1608				       const __virtio16 *p)
-  1609	{
-> 1610		*val = vringh16_to_cpu(vrh, ioread16(p));
-  1611		return 0;
-  1612	}
-  1613	
-  1614	static inline int putu16_iomem(const struct vringh *vrh, __virtio16 *p, u16 val)
-  1615	{
-> 1616		iowrite16(cpu_to_vringh16(vrh, val), p);
-  1617		return 0;
-  1618	}
-  1619	
-  1620	static inline int copydesc_iomem(const struct vringh *vrh, void *dst,
-  1621					 const void *src, size_t len)
-  1622	{
-> 1623		memcpy_fromio(dst, src, len);
-  1624		return 0;
-  1625	}
-  1626	
-  1627	static int putused_iomem(const struct vringh *vrh, struct vring_used_elem *dst,
-  1628				 const struct vring_used_elem *src, unsigned int num)
-  1629	{
-> 1630		memcpy_toio(dst, src, num * sizeof(*dst));
-  1631		return 0;
-  1632	}
-  1633	
+  1504	
+  1505	void bringup_nonboot_cpus(unsigned int setup_max_cpus)
+  1506	{
+  1507		unsigned int cpu;
+  1508		int n = setup_max_cpus - num_online_cpus();
+  1509		cycles_t t1, t2;
+  1510	
+  1511		/* ∀ parallel pre-bringup state, bring N CPUs to it */
+  1512		if (n > 0) {
+  1513			enum cpuhp_state st = CPUHP_BP_PARALLEL_DYN;
+  1514	
+  1515			while (st <= CPUHP_BP_PARALLEL_DYN_END &&
+  1516			       cpuhp_hp_states[st].name) {
+  1517				int i = n;
+  1518				t1 = get_cycles();
+  1519				for_each_present_cpu(cpu) {
+  1520					cpu_up(cpu, st);
+  1521					if (!--i)
+  1522						break;
+  1523				}
+  1524				t2 = get_cycles();
+  1525	
+> 1526				printk("Brought %d CPUs to %s in %lld cycles\n", n - i,
+  1527				       cpuhp_hp_states[st].name, t2 - t1);
+  1528				st++;
+  1529			}
+  1530		}
+  1531	
+  1532		t1 = get_cycles();
+  1533		for_each_present_cpu(cpu) {
+  1534			if (num_online_cpus() >= setup_max_cpus)
+  1535				break;
+  1536			if (!cpu_online(cpu))
+  1537				cpu_up(cpu, CPUHP_ONLINE);
+  1538		}
+  1539		t2 = get_cycles();
+  1540		printk("Brought CPUs online in %lld cycles\n", t2 - t1);
+  1541	}
+  1542	
 
 -- 
 0-DAY CI Kernel Test Service
