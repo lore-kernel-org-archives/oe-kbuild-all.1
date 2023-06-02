@@ -1,192 +1,118 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2078.outbound.protection.outlook.com [40.107.223.78])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8385D10F6
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 05:07:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BP02LlQn4nYr2zWNqrnhDe7EKugTXDHSenatf6aMB7mS9rgxt2EWKiEOJVIsq5Eie1F4dPksMiinV71G2AUtVMoFy8Hy5xZp5NqTLolxUoxLSg0Gp2C6sEq0AfDSBXDeDyWrHzCSEieifRFDfw3STgdA8zwequxr1WL6NIdMcoC6EkxePSe6DFE/xZ9y1o8QTTzg2gxxo+X5Uegz1O8Gu/ZwhDTstP97kP/pHjoCtLvwwqds/85pd+sxmTakrZqdkQC7mXSWO1/fOU3jMnzcO27bqZqop/tLyDfc0HS9RJZ+JrITirljm2WB4mE8GVUlM7kCuxc679+54+67bWRIoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=32VWArjfMOh6Ws2NUfPPEJGGymY6at7HhiR2xt8QrtE=;
- b=WrhTIXJGUjMO5yN/03XKqZ0Mt9k8dY69d2KtVSkJ11eQ5p3lJcenPXF8LWzKChKPObOliFvHanYCJMZpCXtAAikm+rfkvNHVKH+nZuAx+CIn9Q0tNXGakYMpQH9eReFJSfdX00fxmSL3Nn5eEGYhNsiogKFgr/Egf+0B0M08BCUZEunX+YjLcSm5tnnmADOXN6UuI/rH3Nw77iRrKOrU2C7+fkjqUY5Zdo+7xBNkdNJadWCSQNtYppK9j72ndNjJCvQB21aXjbPGHTRke63qdIS9JJRTHCE9Hd0olihDrDmoTTcIp9/kfbIi7BSTj81RLtByS604lUvWX6Jr8NWzww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=32VWArjfMOh6Ws2NUfPPEJGGymY6at7HhiR2xt8QrtE=;
- b=j4hU2UiEQMXfemCaaBWw8lR35+GMqWM2FxrUeHCXlnNpRWEhqBekMATRue9FlNXb/hqFvx+h+BsF5ezjWpjzNPTYcu0F532YMeD6pbfwjIlfhnRrnamtyBCsG+gs7rb0naknVc2y1GFM7nSlMq7p40vG9qF8ccDXIHQ0LUPqZDDK6ExH7w096P1CyHJOvSTdjhPag7jdM+xKPhXX6iKGsVE3jTgITt+Z15nuL2l7Mh0kRbx0tZH59fjvP7200/hjOtVOrqP2BQl8j27Y5KDEsydCTBvxMH/N9HokJbEan8dgmZKuERB16kaaUl3PeJN6quF4Ld4f2kDS7qFOgDDbTw==
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com (2603:10b6:302:12::28)
- by MW4PR12MB7381.namprd12.prod.outlook.com (2603:10b6:303:219::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6433.23; Fri, 2 Jun
- 2023 05:07:26 +0000
-Received: from MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::92c6:4b21:586d:dabc]) by MW2PR12MB4667.namprd12.prod.outlook.com
- ([fe80::92c6:4b21:586d:dabc%4]) with mapi id 15.20.6455.020; Fri, 2 Jun 2023
- 05:07:26 +0000
-From: Chaitanya Kulkarni <chaitanyak@nvidia.com>
-To: Julia Lawall <julia.lawall@inria.fr>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Max
- Gurtovoy <mgurtovoy@nvidia.com>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, Keith Busch <kbusch@kernel.org>, Israel
- Rukshin <israelr@nvidia.com>, Christoph Hellwig <hch@lst.de>
-Subject: Re: [linux-nvme:nvme-6.5 15/21] drivers/nvme/host/fabrics.c:96:2-8:
- preceding lock on line 85 (fwd)
-Thread-Topic: [linux-nvme:nvme-6.5 15/21] drivers/nvme/host/fabrics.c:96:2-8:
- preceding lock on line 85 (fwd)
-Thread-Index: AQHZlQ6oL+6HM1S6/kOUtmcdwnCgSq929h+A
-Date: Fri, 2 Jun 2023 05:07:25 +0000
-Message-ID: <ad237568-3d7c-a2d2-02ac-e75688d768bd@nvidia.com>
-References: <alpine.DEB.2.22.394.2306020654430.2925@hadrien>
-In-Reply-To: <alpine.DEB.2.22.394.2306020654430.2925@hadrien>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MW2PR12MB4667:EE_|MW4PR12MB7381:EE_
-x-ms-office365-filtering-correlation-id: f8b3405f-d5a2-4bdf-abba-08db632741b6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- DRTOMjjK3pUvHNgyde1Foyki6w8QGPlwOxMWGigEXzg5exxXVCYKEY+h3tACQtMvhDJNT4XFw9xzq81N3xsMPlkDt/kA4/MhO4R+xLPlxG7SS7EDJdHK0EggA3QeiRXzQU7Zf1HMgcTRpnRAFl5FSYv8tGQ2qfsiGzZlfXb6BhBjaFJap+It8d+y3kgepsACVfcl47KocU9Sif/QiXsp6V3TUhuyZHrzTta9YfVqHV36Lldvyxrad+7bihi3Qxms5j2lNMkRqupmyzU2CXUqZ4r2o8Pj7s1J8YJDiOSM9cUtzWGoFcwDKthLJ23tkQB4roA9Vt0dKqd7ihjY/TiBOU8IFRBuip3GyXDfYVVMLkWIsN4HZatXaUKiTbYe9c8B9dzrMu9xDEOQkcHM9UORSHqkilvUNeHy3cBb8uZe+12QHQtkdYzIrpKgnUnVwaNOsTC9fT+731lpZIWJvqAKUkPNBqQdfr+AUda5IuvdVyB+ItL/2g0hqWdso5zX7WxQMkjYc43Hd3oJH9rb1GXCBj4rpVZYJiIXb4ukg6qOUmw9KPdQC6M9kUbFrNZ9JFDOYmz9/x6oZ8/GQuUTktDWxBx2euQKahxJyw1jSeBHNY6m8ApY9P0JsPQTzn4GBdeE+YQGM6fU3Gk2DqsJ6PLU1f8QjKxYTinIRED4/pFxpyarDzdTC79ikiGplDcEoihJhJqlE1inc8Hoi+HbT8dJBUItnA2hgomypho66K93ts8=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR12MB4667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(366004)(396003)(346002)(136003)(376002)(451199021)(91956017)(66476007)(76116006)(66556008)(66946007)(66446008)(64756008)(31686004)(6916009)(316002)(4326008)(41300700001)(54906003)(5660300002)(8676002)(2906002)(8936002)(966005)(6486002)(71200400001)(478600001)(26005)(53546011)(186003)(36756003)(83380400001)(6512007)(6506007)(122000001)(2616005)(86362001)(31696002)(38070700005)(38100700002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?U0YzZXRFamwxbTl2YXFrK1JQRitqWnhjbXlraWR4ZDY1cTBtM01WS0E5djBt?=
- =?utf-8?B?TENQS2xYWlpqM3Z1QzliZkNSaVBiSDlMaGV1U1RkSDJxeGF1VWdIMllzUGh6?=
- =?utf-8?B?QWJnTzFpRk1MWkFqdnhYQUxZWGFPQTduSmNSL1VrRTFScHV6SmNJT3QwQ2dV?=
- =?utf-8?B?TzVXa1VRaFZMbUZ5QVY4Q1dscUJLSi9BMFVPK0pZQjdObEJUMHkyZ3psY3ow?=
- =?utf-8?B?V093T25YYi9QTHBmWmJSWEJhY2g4enBhbHNJeG9ZcnZoUmxIcXMzYVFyc2F5?=
- =?utf-8?B?NkVoZlhSdjNncEttOTJhbGw0OUVNWlFzU3Z0L2pnWFVaRTlyR2FaaVRydkVa?=
- =?utf-8?B?b0owY1JvWWM1ZGtIL0prZmVuSnQxNDRYVkZkTU1yWUhQcFB0aEt0QUx1MnpT?=
- =?utf-8?B?Vy8rNHBxSkd5bnJwOUNoT0xwYkpHWHdEWnRCM2J3eXZNa1pRY29rTzMxdVNq?=
- =?utf-8?B?clg1M3NYRGRVcXF5RkpGeVlpZFMxS3MrQVQrOU94VDFESXdQUXgvcTlHRk03?=
- =?utf-8?B?ZU9zUVFIQkorNGZBTDFvQlh3eW5IdEFqbFpCckx6NjJtV2Y0V1puMHhWMUdE?=
- =?utf-8?B?MEJPRmdWWnRhUXhxOW1DRDlQSWYyR3JOWW1IMk81R0hGLy9rQnpFTUpZZWJK?=
- =?utf-8?B?L3QzR2M3TjBPOUFiNVhjSWlOZ0IwcDVQVlJaZzFEaUhNOHVhemJBTDlyTHly?=
- =?utf-8?B?b3RtMVluMk4yTnByeUtRYVZ4Nk1UOXkzRmFDUFl3QVpDdUVyeTZOTms4RHZC?=
- =?utf-8?B?dTRPS0p3c04ycTcxYUNBdERzMnBrdnFKKzZNd24xTkdveGpZbjNkZ3BFckc1?=
- =?utf-8?B?cjBjK3h1RkpONE81cmROZnhnN2M3OERURU1HaXM2WUhvNkFrbjNWVjhIOEJa?=
- =?utf-8?B?azdBUUhTa1R1eXhFQkFCZEZUWklKSmsxNk1WSW5WdFJmSzFlVmdxTlVtSjYx?=
- =?utf-8?B?WU9mZCtFSDlEeVNGN2d5QnNRcTlCTDVIOWVvb3Q5RTU5ckZONzhHN0JMYlpY?=
- =?utf-8?B?MTZUN0NXcjN5VU92Tk85cEduZzRBc09OVm5vR3ViR2l5UHhlOHRPZW5ocGxq?=
- =?utf-8?B?WDNHblNBUXJNTGpVY1lvWk1ZbC9NekpKYjRQeDJFM1pMalBvR2NkVkt2dDNj?=
- =?utf-8?B?QU5MNmxtRENHYWwrWnN1NHdyTnJqdDRTdWdBZEkzUCt5VlF6cjUrN29STENa?=
- =?utf-8?B?dHd4VVRaVmhIQittN3ZqTjdCcnRFVVdjWTlsekg5RUZlalVtdTZHZVU4QXpj?=
- =?utf-8?B?aXh2czRzMEVwbDl1UUg0YnR1UFNFUlNEZjZoZHNCY081TmdHNTZsTGdheXNB?=
- =?utf-8?B?czloczRKVmN1RWFoVmNGbFVrQzBUQUl1TU5EYzZzVE9FSXgwVnRvWmN0bXMv?=
- =?utf-8?B?QnJLNlpFa2JyWWlRUlg5aSs3VXU2ZHNGdTJMdlRuR1pXUjM1QjJoNTdGUmpV?=
- =?utf-8?B?dVF3QkY1M2lkVlA5K1hobDZEdVpMN0h2NFJoZzhwN28wRDkva3ZEUXh5Y2Mw?=
- =?utf-8?B?bCswZTcrTG9YRnJRb25FQ3cxVm5VQTQybjQ1SlMyZ1VXbk0yazNJaDAwdkMv?=
- =?utf-8?B?SXN0S1dJL3FVWFI2U2hDL3cyL1hGcWl0c1ArZ0FxeWJpZVRuNWp5MGFvbUJm?=
- =?utf-8?B?WklLZFFkQkR0UzMyRzRBT2w0c3hwRWk5cmg2SWMzRDNUMjVYYVRWSHJBbWpD?=
- =?utf-8?B?eUJmdGR6dmRhbjBhak1PemtRdWkxLzlTRTUvRGM1anhJSWhuVTAxVXJqZm5k?=
- =?utf-8?B?NjQxNmJkWTl4bU1CSkdodExkR09SWXJZNy85dHVrZnFZQVR2bFNqcHZSVlEz?=
- =?utf-8?B?WVlKSlE3RTkyRGNxazd6Q2dlQTNLdnV4ajBpZjhReVgyVHhnRFRybDBVUDc1?=
- =?utf-8?B?RnFsQlpPRGJwUVFPN2l4a1l6TVFyRnY5cWFMaVFuNXdqVGVyU01UMkEzTzlZ?=
- =?utf-8?B?SHZUSGFxV25JbDlnZzdiWTBGYkhBWjc3MWVOa2FpblNaR2ZyM21kMTdzWFF6?=
- =?utf-8?B?TENLRnZqSG8vTVBwYTJYZll6aGNENlE0ZGN4NjIzMXpOdTVua0pMaWVCUWhZ?=
- =?utf-8?B?MWVSNFJ6U0xYUS9TalBDcXplWHgvQzZYdXVqanlrOC9kVG43NUFnUjNPem8z?=
- =?utf-8?Q?FE2pypQRulBcReqSYxUkDiB2w?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <69B362EF4E6EE64FB154266D1D675C6E@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F251110F6
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  2 Jun 2023 05:18:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685683092; x=1717219092;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AkE4DmguvzxUYQULl8hlVDhWYZ9BtM+PE9kSUOgXzs4=;
+  b=LnIzkeB5EDJ0/groIMPB3RVAUhHIkld9wCCQ5vxegiKt5W4fRb4Krx77
+   kYzmve5UDzO/ypnKsNRyD/y6zNUjWdGK6Hk3lEd+wUBsiPBdDgmVnhif/
+   Kw7ghlAohuNb2mM/ZLmGMEX9CpMetJhDrsV5/5uiubA+QB8zFUcYRvEMI
+   OZJb82sMKPUidxgMEgSh30z7yLfKfK8o6xvvSHHTxBG/bLewh+S9gPRkd
+   Y1PxVEim3LVwYlr7VYUoXrWaQ6CN8Id2Sb5s87ffPNDkG5iniERogw+L+
+   j6FS0fy4/1E+rs21bvVC1fl5k0MXKzgthQNWS1160FcBPaEFNlTffm/OP
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="421596307"
+X-IronPort-AV: E=Sophos;i="6.00,211,1681196400"; 
+   d="scan'208";a="421596307"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2023 22:18:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10728"; a="701821904"
+X-IronPort-AV: E=Sophos;i="6.00,211,1681196400"; 
+   d="scan'208";a="701821904"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 01 Jun 2023 22:18:09 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q4xAv-00006x-0c;
+	Fri, 02 Jun 2023 05:18:09 +0000
+Date: Fri, 2 Jun 2023 13:17:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	lpieralisi@kernel.org, kw@linux.com
+Cc: oe-kbuild-all@lists.linux.dev, kishon@kernel.org, bhelgaas@google.com,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH v5 9/9] PCI: endpoint: Add PCI Endpoint function driver
+ for MHI bus
+Message-ID: <202306021200.ndNlhtdv-lkp@intel.com>
+References: <20230601145718.12204-10-manivannan.sadhasivam@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB4667.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8b3405f-d5a2-4bdf-abba-08db632741b6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2023 05:07:26.0196
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vZ85XISsvlaJ2V1lJY7caq2uR1eFu3M3L9i1+GoCcRRrZUBlZGv6vn71WwIsMr1LjQ+rncDV5t2lAB7LW7raFA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7381
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230601145718.12204-10-manivannan.sadhasivam@linaro.org>
 
-T24gNi8xLzIzIDIxOjU1LCBKdWxpYSBMYXdhbGwgd3JvdGU6DQo+IEFuIHVubG9jayBhcHBlYXJz
-IHRvIGJlIG1pc3Npbmcgb24gbGluZSA5Ni4NCj4NCj4ganVsaWENCj4NCj4gLS0tLS0tLS0tLSBG
-b3J3YXJkZWQgbWVzc2FnZSAtLS0tLS0tLS0tDQo+IERhdGU6IEZyaSwgMiBKdW4gMjAyMyAwOTo1
-NzowNyArMDgwMA0KPiBGcm9tOiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4g
-VG86IG9lLWtidWlsZEBsaXN0cy5saW51eC5kZXYNCj4gQ2M6IGxrcEBpbnRlbC5jb20sIEp1bGlh
-IExhd2FsbCA8anVsaWEubGF3YWxsQGlucmlhLmZyPg0KPiBTdWJqZWN0OiBbbGludXgtbnZtZTpu
-dm1lLTYuNSAxNS8yMV0gZHJpdmVycy9udm1lL2hvc3QvZmFicmljcy5jOjk2OjItODoNCj4gICAg
-ICBwcmVjZWRpbmcgbG9jayBvbiBsaW5lIDg1DQo+DQo+IEJDQzogbGtwQGludGVsLmNvbQ0KPiBD
-Qzogb2Uta2J1aWxkLWFsbEBsaXN0cy5saW51eC5kZXYNCj4gQ0M6IGxpbnV4LW52bWVAbGlzdHMu
-aW5mcmFkZWFkLm9yZw0KPiBUTzogTWF4IEd1cnRvdm95IDxtZ3VydG92b3lAbnZpZGlhLmNvbT4N
-Cj4gQ0M6IEtlaXRoIEJ1c2NoIDxrYnVzY2hAa2VybmVsLm9yZz4NCj4gQ0M6IElzcmFlbCBSdWtz
-aGluIDxpc3JhZWxyQG52aWRpYS5jb20+DQo+IENDOiBDaHJpc3RvcGggSGVsbHdpZyA8aGNoQGxz
-dC5kZT4NCj4NCj4gdHJlZTogICBnaXQ6Ly9naXQuaW5mcmFkZWFkLm9yZy9udm1lLmdpdCBudm1l
-LTYuNQ0KPiBoZWFkOiAgIDE0YWQ5MWY3YTlhMjk1NjJmMjNiZWRkMjA1ZWYyMDkyNTVkOGI4ZDEN
-Cj4gY29tbWl0OiBmMGNlYmY4MjAwNGQ2MTBiZTNlZjQ3YWJmMzE1ZGRmOTVhYTJkY2QxIFsxNS8y
-MV0gbnZtZS1mYWJyaWNzOiBwcmV2ZW50IG92ZXJyaWRpbmcgb2YgZXhpc3RpbmcgaG9zdA0KPiA6
-Ojo6OjogYnJhbmNoIGRhdGU6IDkgaG91cnMgYWdvDQo+IDo6Ojo6OiBjb21taXQgZGF0ZTogMyB3
-ZWVrcyBhZ28NCj4gY29uZmlnOiByaXNjdi1yYW5kY29uZmlnLWMwMzItMjAyMzA1MzEgKGh0dHBz
-Oi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDIzMDYwMi8yMDIzMDYwMjA5MDku
-TVRVRUJlSWEtbGtwQGludGVsLmNvbS9jb25maWcpDQo+IGNvbXBpbGVyOiByaXNjdjY0LWxpbnV4
-LWdjYyAoR0NDKSAxMi4zLjANCj4NCj4gSWYgeW91IGZpeCB0aGUgaXNzdWUsIGtpbmRseSBhZGQg
-Zm9sbG93aW5nIHRhZyB3aGVyZSBhcHBsaWNhYmxlDQo+IHwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0
-ZXN0IHJvYm90IDxsa3BAaW50ZWwuY29tPg0KPiB8IFJlcG9ydGVkLWJ5OiBKdWxpYSBMYXdhbGwg
-PGp1bGlhLmxhd2FsbEBpbnJpYS5mcj4NCj4gfCBDbG9zZXM6IGh0dHBzOi8vbG9yZS5rZXJuZWwu
-b3JnL3IvMjAyMzA2MDIwOTA5Lk1UVUVCZUlhLWxrcEBpbnRlbC5jb20vDQo+DQo+IGNvY2NpIHdh
-cm5pbmdzOiAobmV3IG9uZXMgcHJlZml4ZWQgYnkgPj4pDQo+Pj4gZHJpdmVycy9udm1lL2hvc3Qv
-ZmFicmljcy5jOjk2OjItODogcHJlY2VkaW5nIGxvY2sgb24gbGluZSA4NQ0KPiB2aW0gKzk2IGRy
-aXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuYw0KPg0KPiBmMGNlYmY4MjAwNGQ2MSBNYXggR3VydG92
-b3kgICAgICAyMDIzLTA1LTEyICAgODANCj4gZjBjZWJmODIwMDRkNjEgTWF4IEd1cnRvdm95ICAg
-ICAgMjAyMy0wNS0xMiAgIDgxICBzdGF0aWMgc3RydWN0IG52bWZfaG9zdCAqbnZtZl9ob3N0X2Fk
-ZChjb25zdCBjaGFyICpob3N0bnFuLCB1dWlkX3QgKmlkKQ0KPiAwN2JmY2QwOWEyODg1NSBDaHJp
-c3RvcGggSGVsbHdpZyAyMDE2LTA2LTEzICAgODIgIHsNCj4gMDdiZmNkMDlhMjg4NTUgQ2hyaXN0
-b3BoIEhlbGx3aWcgMjAxNi0wNi0xMyAgIDgzICAJc3RydWN0IG52bWZfaG9zdCAqaG9zdDsNCj4g
-MDdiZmNkMDlhMjg4NTUgQ2hyaXN0b3BoIEhlbGx3aWcgMjAxNi0wNi0xMyAgIDg0DQo+IDA3YmZj
-ZDA5YTI4ODU1IENocmlzdG9waCBIZWxsd2lnIDIwMTYtMDYtMTMgIEA4NSAgCW11dGV4X2xvY2so
-Jm52bWZfaG9zdHNfbXV0ZXgpOw0KPiBmMGNlYmY4MjAwNGQ2MSBNYXggR3VydG92b3kgICAgICAy
-MDIzLTA1LTEyICAgODYgIAlob3N0ID0gX19udm1mX2hvc3RfZmluZChob3N0bnFuLCBpZCk7DQo+
-IGYwY2ViZjgyMDA0ZDYxIE1heCBHdXJ0b3ZveSAgICAgIDIwMjMtMDUtMTIgICA4NyAgCWlmIChJ
-U19FUlIoaG9zdCkpIHsNCj4gZjBjZWJmODIwMDRkNjEgTWF4IEd1cnRvdm95ICAgICAgMjAyMy0w
-NS0xMiAgIDg4ICAJCWdvdG8gb3V0X3VubG9jazsNCj4gZjBjZWJmODIwMDRkNjEgTWF4IEd1cnRv
-dm95ICAgICAgMjAyMy0wNS0xMiAgIDg5ICAJfSBlbHNlIGlmIChob3N0KSB7DQo+IDk4MDk2ZDhh
-Nzg3ZjA1IENocmlzdG9waCBIZWxsd2lnIDIwMTYtMDgtMTggICA5MCAgCQlrcmVmX2dldCgmaG9z
-dC0+cmVmKTsNCj4gMDdiZmNkMDlhMjg4NTUgQ2hyaXN0b3BoIEhlbGx3aWcgMjAxNi0wNi0xMyAg
-IDkxICAJCWdvdG8gb3V0X3VubG9jazsNCj4gOTgwOTZkOGE3ODdmMDUgQ2hyaXN0b3BoIEhlbGx3
-aWcgMjAxNi0wOC0xOCAgIDkyICAJfQ0KPiAwN2JmY2QwOWEyODg1NSBDaHJpc3RvcGggSGVsbHdp
-ZyAyMDE2LTA2LTEzICAgOTMNCj4gZjBjZWJmODIwMDRkNjEgTWF4IEd1cnRvdm95ICAgICAgMjAy
-My0wNS0xMiAgIDk0ICAJaG9zdCA9IG52bWZfaG9zdF9hbGxvYyhob3N0bnFuLCBpZCk7DQo+IDA3
-YmZjZDA5YTI4ODU1IENocmlzdG9waCBIZWxsd2lnIDIwMTYtMDYtMTMgICA5NSAgCWlmICghaG9z
-dCkNCj4gZjBjZWJmODIwMDRkNjEgTWF4IEd1cnRvdm95ICAgICAgMjAyMy0wNS0xMiAgQDk2ICAJ
-CXJldHVybiBFUlJfUFRSKC1FTk9NRU0pOw0KPiAwN2JmY2QwOWEyODg1NSBDaHJpc3RvcGggSGVs
-bHdpZyAyMDE2LTA2LTEzICAgOTcNCj4gMDdiZmNkMDlhMjg4NTUgQ2hyaXN0b3BoIEhlbGx3aWcg
-MjAxNi0wNi0xMyAgIDk4ICAJbGlzdF9hZGRfdGFpbCgmaG9zdC0+bGlzdCwgJm52bWZfaG9zdHMp
-Ow0KPiAwN2JmY2QwOWEyODg1NSBDaHJpc3RvcGggSGVsbHdpZyAyMDE2LTA2LTEzICAgOTkgIG91
-dF91bmxvY2s6DQo+IDA3YmZjZDA5YTI4ODU1IENocmlzdG9waCBIZWxsd2lnIDIwMTYtMDYtMTMg
-IDEwMCAgCW11dGV4X3VubG9jaygmbnZtZl9ob3N0c19tdXRleCk7DQo+IDA3YmZjZDA5YTI4ODU1
-IENocmlzdG9waCBIZWxsd2lnIDIwMTYtMDYtMTMgIDEwMSAgCXJldHVybiBob3N0Ow0KPiAwN2Jm
-Y2QwOWEyODg1NSBDaHJpc3RvcGggSGVsbHdpZyAyMDE2LTA2LTEzICAxMDIgIH0NCj4gMDdiZmNk
-MDlhMjg4NTUgQ2hyaXN0b3BoIEhlbGx3aWcgMjAxNi0wNi0xMyAgMTAzDQo+DQoNCg0KY2FuIHlv
-dSBzZWUgaWYgZm9sbG93aW5nIGZpeGVzIHRoZSBpc3N1ZSA/DQoNCkknbGwgc2VuZCBhIHBhdGNo
-IHNvb246LQ0KDQpudm1lIChudm1lLTYuNSkgIyBnaXQgZGlmZg0KZGlmZiAtLWdpdCBhL2RyaXZl
-cnMvbnZtZS9ob3N0L2ZhYnJpY3MuYyBiL2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuYw0KaW5k
-ZXggYjFmYTI3YjYwOTE3Li45MWMzZDdjMWZhM2UgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL252bWUv
-aG9zdC9mYWJyaWNzLmMNCisrKyBiL2RyaXZlcnMvbnZtZS9ob3N0L2ZhYnJpY3MuYw0KQEAgLTky
-LDggKzkyLDEwIEBAIHN0YXRpYyBzdHJ1Y3QgbnZtZl9ob3N0ICpudm1mX2hvc3RfYWRkKGNvbnN0
-IGNoYXIgDQoqaG9zdG5xbiwgdXVpZF90ICppZCkNCiDCoMKgwqDCoMKgwqDCoCB9DQoNCiDCoMKg
-wqDCoMKgwqDCoCBob3N0ID0gbnZtZl9ob3N0X2FsbG9jKGhvc3RucW4sIGlkKTsNCi3CoMKgwqDC
-oMKgwqAgaWYgKCFob3N0KQ0KK8KgwqDCoMKgwqDCoCBpZiAoIWhvc3QpIHsNCivCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIG11dGV4X3VubG9jaygmbnZtZl9ob3N0c19tdXRleCk7DQogwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBFUlJfUFRSKC1FTk9NRU0pOw0KK8Kg
-wqDCoMKgwqDCoCB9DQoNCiDCoMKgwqDCoMKgwqDCoCBsaXN0X2FkZF90YWlsKCZob3N0LT5saXN0
-LCAmbnZtZl9ob3N0cyk7DQogwqBvdXRfdW5sb2NrOg0KDQotY2sNCg0KDQo=
+Hi Manivannan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus jonmason-ntb/ntb-next linus/master v6.4-rc4 next-20230601]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Manivannan-Sadhasivam/MAINTAINERS-Add-entry-for-MHI-networking-drivers-under-MHI-bus/20230601-232444
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20230601145718.12204-10-manivannan.sadhasivam%40linaro.org
+patch subject: [PATCH v5 9/9] PCI: endpoint: Add PCI Endpoint function driver for MHI bus
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230602/202306021200.ndNlhtdv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/b6931b37d070b86af64eeb92c1d52b4a0c6d61e8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Manivannan-Sadhasivam/MAINTAINERS-Add-entry-for-MHI-networking-drivers-under-MHI-bus/20230601-232444
+        git checkout b6931b37d070b86af64eeb92c1d52b4a0c6d61e8
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/pci/endpoint/functions/
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306021200.ndNlhtdv-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/pci/endpoint/functions/pci-epf-mhi.c: In function 'pci_epf_mhi_link_down':
+>> drivers/pci/endpoint/functions/pci-epf-mhi.c:307:43: warning: unused variable 'info' [-Wunused-variable]
+     307 |         const struct pci_epf_mhi_ep_info *info = epf_mhi->info;
+         |                                           ^~~~
+   drivers/pci/endpoint/functions/pci-epf-mhi.c: In function 'pci_epf_mhi_bme':
+   drivers/pci/endpoint/functions/pci-epf-mhi.c:321:43: warning: unused variable 'info' [-Wunused-variable]
+     321 |         const struct pci_epf_mhi_ep_info *info = epf_mhi->info;
+         |                                           ^~~~
+
+
+vim +/info +307 drivers/pci/endpoint/functions/pci-epf-mhi.c
+
+   303	
+   304	static int pci_epf_mhi_link_down(struct pci_epf *epf)
+   305	{
+   306		struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
+ > 307		const struct pci_epf_mhi_ep_info *info = epf_mhi->info;
+   308		struct mhi_ep_cntrl *mhi_cntrl = &epf_mhi->mhi_cntrl;
+   309	
+   310		if (mhi_cntrl->mhi_dev) {
+   311			mhi_ep_power_down(mhi_cntrl);
+   312			mhi_ep_unregister_controller(mhi_cntrl);
+   313		}
+   314	
+   315		return 0;
+   316	}
+   317	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
