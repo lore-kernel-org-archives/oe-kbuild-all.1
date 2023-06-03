@@ -1,152 +1,180 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3602A257B
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 08:02:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CA4EA0
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 08:24:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685779349; x=1717315349;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cVKarGov8q2U0gWAAcxdzDlSG0I6xxQ7SdjNs4w0UB8=;
-  b=EYJXF6g6S4ld/OgZS2FOTf1dzJA4q42Av6N5azWGT2YHXWhLr8Kgv8Ew
-   QeDhiutsZ96+QjkuvLoKWpaIroGbUTv6VrpCc8G9Rd6MOza0iKXhg2V0e
-   wMiomnEAaBLbfzRgPhF7hLpDjvWPJJY0MNeSSdcj5Gy4P2WjwjRMJ8pRC
-   Rq6tIDsXFPQX2hI7IxBpJaqkWoGwMvZno3i6I52UDhJ6oPtKWp4RDklXV
-   uGQLMVZr12CRf8eBJvbyvvB9YE8SkQOEJWi+mCK6A/G/7o0zGwBBASNNe
-   Ch3yn0T6j9gO0Wx5KNn7a3DFbt3Mqza4LKN5mVhmJtGKZ1pdao67mABz8
+  t=1685780660; x=1717316660;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=bTmHxS5gWAum0zYENv0I1/xlacN07HIgXDCrsgATVLA=;
+  b=hfebDDbRJI4jrJxsGG16kgEisrJlsXbjPDMMlbEvWazTRsTxLvUFyLoK
+   zIH9iakjkSWrNkk66eE5cIr5Rm1DCgiuZuWynlYLUY4gKgkw/UvyRCL7/
+   tuOXXzFKyc4UPTr3MxF7UD9f6K0upu2uD2u1AY5y5YF4/q63khpkpWlFa
+   RKFw12mvVH0Cs1sJAd6PFPECfAaEosS41aYvRb/Rnd454yH5DjmVkm1Nm
+   l2U5XPjsJCSR0LeqSqypw2/Cv0wTj5524CoTSeVNAHA2QuHgqPayRqQwN
+   791wV1tirX7kQ8hCd6UlbFGVxM8v+dV/dUuFN/ZvmSMhqDWjwsHt/EsA5
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="354899163"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="359358449"
 X-IronPort-AV: E=Sophos;i="6.00,215,1681196400"; 
-   d="scan'208";a="354899163"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2023 01:02:27 -0700
+   d="scan'208";a="359358449"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2023 01:24:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="773159943"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="685566655"
 X-IronPort-AV: E=Sophos;i="6.00,215,1681196400"; 
-   d="scan'208";a="773159943"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Jun 2023 01:02:26 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q5MDR-0001RF-32;
-	Sat, 03 Jun 2023 08:02:25 +0000
-Date: Sat, 3 Jun 2023 16:01:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Russell King <rmk+kernel@arm.linux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Subject: [rmk-arm:clearfog 9/10] drivers/pci/pcie/aspm.c:659
- pcie_aspm_cap_init() warn: inconsistent indenting
-Message-ID: <202306031545.K0AqjpsU-lkp@intel.com>
+   d="scan'208";a="685566655"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by orsmga006.jf.intel.com with ESMTP; 03 Jun 2023 01:24:18 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Sat, 3 Jun 2023 01:24:17 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Sat, 3 Jun 2023 01:24:17 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.109)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Sat, 3 Jun 2023 01:24:17 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ppqz1r0JgumRMPycOvOTi5R4CVc+4Xsp6Ihb7yWONE8EVxrnsjNnLCYyycBgWtg/Eue9utzdLTWIXeS7xOsnL5pee1biGhgA9uY8To6SR0VDYcKFpT7e2NqXjUspPPPj8Zj8eDHTv7pEejeLDn7aFJkNDDzZ+MkyG+R5KcohGI6kwnE8dVYL8P/rVzTu7B44RKWjwqZ/NV8A0rUmasNhq+jyeMcoTLCvFEG7X1o1sDOwcYcOc0Q982RBGblEGnD03AtBR3aeSNxuH51vn0+ddhwtgju+joBEZPnQwshxbU1OCdQSnFNO71G0ZsUOOJoWAOjA/g13PLM1L3ElTPfDkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NAiVoBHGw9ywMwuKMYRoVIpGLcWn1nP0zwG6ilS/rX8=;
+ b=dbgjJYreqpmRdr7A9FK3mgmQuEQPz9Wn15IK+Y+/Cr6MHch+0MjjDOTLMSFG3Z/f+9UOT2dux1mExwEGA9R3WJMytPSQ/yGfAZ6UNYCgRThIm6mmi9vemHXbqw7SoAvysNlawzocgLhkoWBHtq9FpEY2jIaTr8hDSO0bVPXbYIPdZOLin695PVn+JFZSrq1cJrnIuf+cdMZpMG3sukoi4PwkoNUEcPg9jP8sBYWUcYHAO7gsNEYq2Dvg7mdOLxLGaJVGuGNC4VSMEe6WX92R9k3B2nOLDOle52fLzFxkBUO/pZ+GJ3IbirGxpV0zqGr+Z/bP1d76Buq2huyF/YiKtA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6366.namprd11.prod.outlook.com (2603:10b6:930:3a::8)
+ by CY8PR11MB6939.namprd11.prod.outlook.com (2603:10b6:930:59::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.28; Sat, 3 Jun
+ 2023 08:24:15 +0000
+Received: from CY5PR11MB6366.namprd11.prod.outlook.com
+ ([fe80::db49:ca8a:d7b0:8714]) by CY5PR11MB6366.namprd11.prod.outlook.com
+ ([fe80::db49:ca8a:d7b0:8714%7]) with mapi id 15.20.6433.018; Sat, 3 Jun 2023
+ 08:24:15 +0000
+Date: Sat, 3 Jun 2023 09:24:04 +0100
+From: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+To: kernel test robot <lkp@intel.com>
+CC: Damian Muszynski <damian.muszynski@intel.com>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-crypto@vger.kernel.org>, Herbert Xu
+	<herbert@gondor.apana.org.au>, <qat-linux@intel.com>
+Subject: Re: [herbert-cryptodev-2.6:master 45/47]
+ drivers/crypto/intel/qat/qat_dh895xcc/adf_drv.c:69:9: error: implicit
+ declaration of function 'adf_dbgfs_exit'; did you mean 'adf_dbgfs_init'?
+Message-ID: <ZHr4pBcuYGkDvtUd@gcabiddu-mobl1.ger.corp.intel.com>
+References: <202306030654.5t4qkyN1-lkp@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <202306030654.5t4qkyN1-lkp@intel.com>
+Organization: Intel Research and Development Ireland Ltd - Co. Reg. #308263 -
+ Collinstown Industrial Park, Leixlip, County Kildare - Ireland
+X-ClientProxiedBy: LO4P265CA0087.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2bd::18) To CY5PR11MB6366.namprd11.prod.outlook.com
+ (2603:10b6:930:3a::8)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6366:EE_|CY8PR11MB6939:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2b15b657-c298-4421-8dd7-08db640beacb
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Gk/d7VAZR/7fsRa0W4l04ExqG9W7+dkYY1eHVsuSxPdwIU4yqY+yOfCoTV3aHVlPKVRRiERWvUivebkIxy8SyVKc0qLcBkNRH4HBB7nPojcm5XXjpq2rDYWpcijbCD6svvY4iY1Sa3DMFurmsPs3jYPILnMUOhpTRiAMNP2FoNgJj9GswqxFl/gC2mVJZkNsWuc2/SQj30Cwr/frzIThrexh6OFjPsWeuJ2VfFi54rewXiND6yLdSG7w+/UTq6cSVmoixhDh+wAtGU8N/kjZvfdYILKjdFjq7WMS4/N9qWnqBlidJi1gGCM3Wtt9RFKoeggnZ4YE4y7VAe+Oy8wJMWcWlpJjVbgZ0O9Q0SYKifVSm+ulWUR3DlZaC1vFR6UDH8WoVbMMcRYNgScQDOPCmkX1FALeqUzEoOX/v9Ce4Qu+RYlcDmo42bW0SFDqrvBkeGVrXtg97uN2fovmpVXrYKlYrLTvTC3reOjWzoECNlkg3SF/Cx/fwN6WhklgNxYbwqOAw9iAWatXhfAed2qnqj3AQbZ+iV7hSwumF3f8qNoR9QCBnyewFu7ZmrEbqxuZx2X1KhIlixyCZplD/2EIfg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6366.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(366004)(136003)(39860400002)(396003)(376002)(346002)(451199021)(83380400001)(2906002)(86362001)(38100700002)(82960400001)(966005)(6486002)(41300700001)(316002)(6666004)(36916002)(5660300002)(8676002)(8936002)(6862004)(54906003)(478600001)(66556008)(66946007)(66476007)(6636002)(4326008)(6512007)(6506007)(26005)(186003)(107886003)(44832011);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oh0p6ysbTpm96f0aAT9FAZuMX4CROelBIhDAlg6qBvlnjetIkjDCtMF7/9CI?=
+ =?us-ascii?Q?FrBVGrEK5xpWlMaLSduLgRaCn9P30KVpOaVK5BaZRfxrl6IITL0FKDFowJhh?=
+ =?us-ascii?Q?ahupbhLSZVb1vzlPU7h0XZEm26U+4otFP/dRzmwTIVIATiWxghwCo3FaD5g9?=
+ =?us-ascii?Q?qQqz5NAQPHWXsHUW8oqVzBDFRhDsf7uTDzRaCi2ikXfw4j9K5h+FGCYDXA/E?=
+ =?us-ascii?Q?Lh9Txe1DpGExCX2Ni0ZQJ2SoPnA4n2ukqFO7X6v+0FRqQQIWYQ49YRMpza1j?=
+ =?us-ascii?Q?xOmjtmrkU++wi9gtNdD7zBcRBqLc2oZEkhqDvBTup881rtL2hHdfQUXqlD/H?=
+ =?us-ascii?Q?JIa/g3iVWpe5zIB2MWvrWe3ixX8xN/oNSDSwEWQ/ZKAmGnat258g5keBI1Qs?=
+ =?us-ascii?Q?Psn2eoo06AiD09Gxpy21tlHV2SmU+/4uhFql8ifR5Zx+QAfqdl4X2pAxy/D1?=
+ =?us-ascii?Q?fCIZz3uZ/zlwRjKVoqD6CWRhk9lJJDq8tkiFWlmzjKdFhNZWVvegSiqthWwl?=
+ =?us-ascii?Q?bgRpG5KEVjXMv3PFE5DeRZ6xqA7Lz/QDwAM/VUd2c4SD9QrMkXXni1kKYHMD?=
+ =?us-ascii?Q?CT8acvHI0GkG6SoolNXNcJ2hVVjZCN4bGR8Z4s2yzFxy+zASXp7x+bxumyIa?=
+ =?us-ascii?Q?LU5TIPZXVCsuU4DL1NkDKNmwATazw5nOwBFmBSwx4WkaeEuQLPt7q2cthhlx?=
+ =?us-ascii?Q?0louAhPxRJZ/bnTkAqZQgrqRpWJEskA33WPDHWNZ5neyHOn2AWwsFwDQh2pr?=
+ =?us-ascii?Q?0/jNciFHJJLCUPSYU/mDZs7mflzwdWuqewvQf0UZPKjpYVQaSuN4pjBPVTmH?=
+ =?us-ascii?Q?F4RnWJtJvPovlskeb5u7lszoiNxJzYqaWeGtzdPLhCJ9CGVyXLtQ/wdxApua?=
+ =?us-ascii?Q?m0CEgCkxi/1dPuJSX3XAU+UQGu6AFhT6Hg+50P9LZ+LlPfBmnBolu4AfRbaF?=
+ =?us-ascii?Q?HrNF10mTaDUFkoHiNR76quQCpA1XHNCFzzrkrWnCvkzYDoG0vnIutE6E565N?=
+ =?us-ascii?Q?d70C7D6N71FOQDwZ+u+EisjyWFhdVoB0i6eBTTU6P5WB9D3oYpIITDotr16S?=
+ =?us-ascii?Q?FRvql/AMB+AzdYqh/bN/gO4pjZMtjOzy0NSevmKQ7Kk+iQquf79F/7jqifl7?=
+ =?us-ascii?Q?8wVMENp58mUe9Pc+j2pHUzADSS8MS6yxuNOpH4nchQi59NaVDLaz3uh3a1gl?=
+ =?us-ascii?Q?FyF5qn5fkOC+dhL27IGepBmfeRVquj4S01NlLv+gbeJCE0SHcdTmGWVIzvt5?=
+ =?us-ascii?Q?Wfq5Nev5dKrWgWaiM58VxkgpOmjwpR5Rr31VeARbkyPu7LuCFGf4192tuCFO?=
+ =?us-ascii?Q?MFnuCOakugSm5NIHYYKnCTb9F0uuKN1rZBZF2UfilA7s6eMmGVojsMs9ilbw?=
+ =?us-ascii?Q?XOgqLK8AlbKNpVIo3ZH9MlSumvNl6ky28OF8AxmxpNSxetganbDQ4TP1+3g6?=
+ =?us-ascii?Q?xmxLp2En+sTRdAcA+p+GDifuVf2/tiK9xlpEaZGQcPChc+5AlBMniX5AuU7H?=
+ =?us-ascii?Q?Ph5A9MNqPdAe7yYOqxEpOkHs11+2DeW50kpxoC/9UgpAhZEh9MfGlnnajQdA?=
+ =?us-ascii?Q?q3JMB4YljpnVSPA3I4LSlgXhpn+o05HD7rDvuLHhtDoe96qEyTqzm9nc6aYG?=
+ =?us-ascii?Q?4g=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b15b657-c298-4421-8dd7-08db640beacb
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6366.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2023 08:24:15.2356
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: t47nfA4qStSTiJ82Fs+vZIJOiNtUuhnwVlpWWf0f2PAZ0pYBFRdaO4VtQCmaLT4S+Oig0QwNHDSNZ5aoCV56RC1lWB/seGn6UC5xB13sRsc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6939
+X-OriginatorOrg: intel.com
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm clearfog
-head:   ceea2a6f65a7d6cfbae2dba4645a9c6a3ce6b83c
-commit: a9d80d9d2d464413fb9794dfd857b179f3681ca2 [9/10] mvebu/clearfog pcie updates
-config: i386-randconfig-m021-20230531 (https://download.01.org/0day-ci/archive/20230603/202306031545.K0AqjpsU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+On Sat, Jun 03, 2023 at 06:58:35AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+> head:   1d217fa26680b074dbb44f6183f971a5304eaf8b
+> commit: 9260db6640a61ebba5348ceae7fa26307d9d5b0e [45/47] crypto: qat - move dbgfs init to separate file
+> config: parisc-randconfig-r005-20230531 (https://download.01.org/0day-ci/archive/20230603/202306030654.5t4qkyN1-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 12.3.0
+> reproduce (this is a W=1 build):
+>         mkdir -p ~/bin
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git/commit/?id=9260db6640a61ebba5348ceae7fa26307d9d5b0e
+>         git remote add herbert-cryptodev-2.6 https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git
+>         git fetch --no-tags herbert-cryptodev-2.6 master
+>         git checkout 9260db6640a61ebba5348ceae7fa26307d9d5b0e
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash drivers/crypto/intel/qat/qat_c3xxxvf/ drivers/crypto/intel/qat/qat_c62x/ drivers/crypto/intel/qat/qat_dh895xcc/ fs/
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306030654.5t4qkyN1-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/crypto/intel/qat/qat_dh895xcc/adf_drv.c: In function 'adf_cleanup_accel':
+> >> drivers/crypto/intel/qat/qat_dh895xcc/adf_drv.c:69:9: error: implicit declaration of function 'adf_dbgfs_exit'; did you mean 'adf_dbgfs_init'? [-Werror=implicit-function-declaration]
+>       69 |         adf_dbgfs_exit(accel_dev);
+>          |         ^~~~~~~~~~~~~~
+>          |         adf_dbgfs_init
+>    cc1: some warnings being treated as errors
+adf_dbgfs.h is not defining adf_dbgfs_exit() when CONFIG_DEBUG_FS=n.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306031545.K0AqjpsU-lkp@intel.com/
+My bad. I thought I had a build with CONFIG_DEBUG_FS=n in my flow but I
+just realized it is not working as expected (CONFIG_DEBUG_FS was forced
+to y).
 
-smatch warnings:
-drivers/pci/pcie/aspm.c:659 pcie_aspm_cap_init() warn: inconsistent indenting
+Sending a fix...
 
-vim +659 drivers/pci/pcie/aspm.c
-
-   622	
-   623	static void pcie_aspm_cap_init(struct pcie_link_state *link, int blacklist)
-   624	{
-   625		struct pci_dev *child = link->downstream, *parent = link->pdev;
-   626		u32 parent_lnkcap, child_lnkcap;
-   627		u16 parent_lnkctl, child_lnkctl;
-   628		struct pci_bus *linkbus = parent->subordinate;
-   629	
-   630		if (blacklist) {
-   631			/* Set enabled/disable so that we will disable ASPM later */
-   632			link->aspm_enabled = ASPM_STATE_ALL;
-   633			link->aspm_disable = ASPM_STATE_ALL;
-   634			return;
-   635		}
-   636	
-   637		/*
-   638		 * If ASPM not supported, don't mess with the clocks and link,
-   639		 * bail out now.
-   640		 */
-   641		pcie_capability_read_dword(parent, PCI_EXP_LNKCAP, &parent_lnkcap);
-   642		pcie_capability_read_dword(child, PCI_EXP_LNKCAP, &child_lnkcap);
-   643		if (!(parent_lnkcap & child_lnkcap & PCI_EXP_LNKCAP_ASPMS))
-   644			return;
-   645	
-   646		/* Configure common clock before checking latencies */
-   647		pcie_aspm_configure_common_clock(link);
-   648	
-   649		/*
-   650		 * Re-read upstream/downstream components' register state after
-   651		 * clock configuration.  L0s & L1 exit latencies in the otherwise
-   652		 * read-only Link Capabilities may change depending on common clock
-   653		 * configuration (PCIe r5.0, sec 7.5.3.6).
-   654		 */
-   655		pcie_capability_read_dword(parent, PCI_EXP_LNKCAP, &parent_lnkcap);
-   656		pcie_capability_read_dword(child, PCI_EXP_LNKCAP, &child_lnkcap);
-   657		pcie_capability_read_word(parent, PCI_EXP_LNKCTL, &parent_lnkctl);
-   658		pcie_capability_read_word(child, PCI_EXP_LNKCTL, &child_lnkctl);
- > 659	dev_info(&parent->dev, "up support %x enabled %x\n",
-   660		 (parent_lnkcap & PCI_EXP_LNKCAP_ASPMS) >> 10,
-   661		 !!(parent_lnkctl & PCI_EXP_LNKCTL_ASPMC));
-   662	dev_info(&parent->dev, "dn support %x enabled %x\n",
-   663		 (child_lnkcap & PCI_EXP_LNKCAP_ASPMS) >> 10,
-   664		 !!(child_lnkctl & PCI_EXP_LNKCTL_ASPMC));
-   665	
-   666		/*
-   667		 * Setup L0s state
-   668		 *
-   669		 * Note that we must not enable L0s in either direction on a
-   670		 * given link unless components on both sides of the link each
-   671		 * support L0s.
-   672		 */
-   673		if (parent_lnkcap & child_lnkcap & PCI_EXP_LNKCAP_ASPM_L0S)
-   674			link->aspm_support |= ASPM_STATE_L0S;
-   675	
-   676		if (child_lnkctl & PCI_EXP_LNKCTL_ASPM_L0S)
-   677			link->aspm_enabled |= ASPM_STATE_L0S_UP;
-   678		if (parent_lnkctl & PCI_EXP_LNKCTL_ASPM_L0S)
-   679			link->aspm_enabled |= ASPM_STATE_L0S_DW;
-   680	
-   681		/* Setup L1 state */
-   682		if (parent_lnkcap & child_lnkcap & PCI_EXP_LNKCAP_ASPM_L1)
-   683			link->aspm_support |= ASPM_STATE_L1;
-   684	
-   685		if (parent_lnkctl & child_lnkctl & PCI_EXP_LNKCTL_ASPM_L1)
-   686			link->aspm_enabled |= ASPM_STATE_L1;
-   687	
-   688		aspm_l1ss_init(link);
-   689	
-   690		/* Save default state */
-   691		link->aspm_default = link->aspm_enabled;
-   692	
-   693		/* Setup initial capable state. Will be updated later */
-   694		link->aspm_capable = link->aspm_support;
-   695	
-   696		/* Get and check endpoint acceptable latencies */
-   697		list_for_each_entry(child, &linkbus->devices, bus_list) {
-   698			if (pci_pcie_type(child) != PCI_EXP_TYPE_ENDPOINT &&
-   699			    pci_pcie_type(child) != PCI_EXP_TYPE_LEG_END)
-   700				continue;
-   701	
-   702			pcie_aspm_check_latency(child);
-   703		}
-   704	}
-   705	
+Regards,
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Giovanni
