@@ -1,44 +1,45 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C085197
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 00:14:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CF9195
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 00:44:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685751253; x=1717287253;
+  t=1685753050; x=1717289050;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mV5e1Hnq07g551uwzC226d+w5qtZ9w+Zk2ndFYOJh4s=;
-  b=PVI5W3DtLQbukDou18cJtgeJgnyIx9HOW0VFv+Z358NP1lDkoYqLfqMD
-   ytrBCe4m4RiDLs1sfRredxX0XyWZddokg7kRZt1ndkt83kV+ZRnewCJeq
-   AIj7cfujL9wjP/BnKF37Ocz/ZQlktOmyb3DKUspls4xp1zQFZWkvU2JvX
-   26fG0q3z/tp1a5xPGZAeig87HuUT2+Wfbm5JyM6DV4BPik7RdsR2Unnab
-   8qYXXVxRMA2i8Q7JLNVvLR2keteu3cH8W8rSTszsAR4UUHucCY3icFr9o
-   5rgiiL2ZGphC3oo/oyzURmSgK4pcMBbV+JiogZmIwZB1/a+F5hdMCsVxg
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="353497866"
+  bh=o4n0TZt6ly9/W8gtyHYjl/JFTX5Yq4k4yAgpXlt0xbU=;
+  b=DzJG+JzN4Epq/fey1aeWf9MxaZsn36N8KA7r2iScU8pWqLHTXk3XvPLM
+   YCWK9KDFLnoeNo3Z6YtwNRFwVxc4pLneVJykbHukikSeL3+YdfFtL59oK
+   9iP9vcLMnQRhvaZftDCH3vvmFbEzQ6DOQuvMnacnTbZmBByURaw16d+ea
+   DeJAoVydeSabk+nEEyR+8j7jkwSIFqg+b9oVB9njs6iVy44Jr3rmTGA5q
+   c66OBYhi7V3h4xwQeouS3folJ/LCfkMxrzCeCP62GZX2pmI+ntYALWZl0
+   +GbtsrLeYRfo8biJCLP6JLDe8Qs78gHKOU1DNiJaYuxd2ds17EOFT3l0h
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="358444404"
 X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="353497866"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 17:12:08 -0700
+   d="scan'208";a="358444404"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 17:44:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="797761721"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="658436969"
 X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="797761721"
+   d="scan'208";a="658436969"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 02 Jun 2023 17:12:07 -0700
+  by orsmga003.jf.intel.com with ESMTP; 02 Jun 2023 17:44:08 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q5EsI-00014f-14;
-	Sat, 03 Jun 2023 00:12:06 +0000
-Date: Sat, 3 Jun 2023 08:11:11 +0800
+	id 1q5FNH-00015x-1W;
+	Sat, 03 Jun 2023 00:44:07 +0000
+Date: Sat, 3 Jun 2023 08:43:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brent Lu <brent.lu@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ranjan Dutta <ranjan.dutta@intel.com>,
-	Bard Liao <bard.liao@intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [intel-lts:5.10/yocto 14/27] ERROR: modpost: "sof_dai_get_bclk"
- [sound/soc/intel/boards/snd-soc-intel-sof-cirrus-common.ko] undefined!
-Message-ID: <202306030818.hAZxp1VC-lkp@intel.com>
+To: Loic Poulain <loic.poulain@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: [krzk-github:n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
+ 136/282] drivers/iio/adc/qcom-spmi-adc5.c:778:24: sparse: sparse: symbol
+ 'adc5_data_pmic_lite' was not declared. Should it be static?
+Message-ID: <202306030852.CdfunLvV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,31 +49,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
-head:   37a4db0e223afb2dcefa8dedf2107011e9bf447c
-commit: 9a88fb0ffebe240db18f71e3a5c49ac40a627429 [14/27] ASoC: SOF: add a helper to get topology configured bclk
-config: i386-randconfig-i002-20230531 (https://download.01.org/0day-ci/archive/20230603/202306030818.hAZxp1VC-lkp@intel.com/config)
+tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
+head:   297b910637065761660eaae156585c0319676c58
+commit: 71797c522650aee028e5657b90f7638864555c29 [136/282] iio: qcom-spmi-adc5: Add support for adc5-lite
+config: i386-randconfig-s003-20230531 (https://download.01.org/0day-ci/archive/20230603/202306030852.CdfunLvV-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        # https://github.com/intel/linux-intel-lts/commit/9a88fb0ffebe240db18f71e3a5c49ac40a627429
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
-        git fetch --no-tags intel-lts 5.10/yocto
-        git checkout 9a88fb0ffebe240db18f71e3a5c49ac40a627429
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/krzk/linux/commit/71797c522650aee028e5657b90f7638864555c29
+        git remote add krzk-github https://github.com/krzk/linux
+        git fetch --no-tags krzk-github n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
+        git checkout 71797c522650aee028e5657b90f7638864555c29
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/iio/adc/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306030818.hAZxp1VC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306030852.CdfunLvV-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/adc/qcom-spmi-adc5.c:778:24: sparse: sparse: symbol 'adc5_data_pmic_lite' was not declared. Should it be static?
 
-WARNING: modpost: missing MODULE_LICENSE() in sound/soc/intel/boards/snd-soc-intel-hda-dsp-common.o
->> ERROR: modpost: "sof_dai_get_bclk" [sound/soc/intel/boards/snd-soc-intel-sof-cirrus-common.ko] undefined!
->> ERROR: modpost: "sof_dai_get_mclk" [sound/soc/intel/boards/snd-soc-intel-sof-realtek-common.ko] undefined!
-ERROR: modpost: "__moddi3" [drivers/net/ethernet/intel/igc/igc.ko] undefined!
+vim +/adc5_data_pmic_lite +778 drivers/iio/adc/qcom-spmi-adc5.c
+
+   777	
+ > 778	const struct adc5_data adc5_data_pmic_lite = {
+   779		.full_scale_code_volt = 0x70e4,
+   780		.full_scale_code_cur = 0x1388,
+   781		.adc_chans = adc5_chans_pmic,
+   782		.info = &adc5_info,
+   783		.decimation = (unsigned int [ADC5_DECIMATION_SAMPLES_MAX])
+   784					{250, 420, 840},
+   785		.hw_settle_1 = (unsigned int [VADC_HW_SETTLE_SAMPLES_MAX])
+   786					{15, 100, 200, 300, 400, 500, 600, 700,
+   787					 800, 900, 1, 2, 4, 6, 8, 10},
+   788	};
+   789	
 
 -- 
 0-DAY CI Kernel Test Service
