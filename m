@@ -1,48 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E4817D5
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 01:27:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263FC1C06
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 02:20:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685755635; x=1717291635;
+  t=1685758814; x=1717294814;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aykvCqJWpkxyCW4T7dgmXwULgkx3PSKtPcJcqH4+dGI=;
-  b=e5/fWyWvgkGr3nxitmCFS8UHRbk6FwffBd5IUIYMtm9B8IKeQ0ePExED
-   KVy2ymp9hPVkvZWCUm1/WOn8LyRqwNlNgmLusiLNAsVero0oOq2ZNloh+
-   EbzjL1mDsfYYuky7+9oFFRmVi+hhpR77/pW6BzhAnx4rs2WKk0DkWuyRy
-   Hu0qJEy40hxsUmyN7abCQztKA0pSrWt87O0d0kAgieeWLOghFNZTQyhGS
-   h7H/gjcccqqLxIpCPyXP8jSO6q8FxeDWoDZHzbO4ha4o7EFlkST3PIlwO
-   WnXfMiMiBwgkuLvbCygtdV85zFEx4q88YTiBZROlVwDj14I9mitCrr1J6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="419551018"
+  bh=OU4kg1DteUMllkg9WZMmi7ruGS917MOo5TE5NO7ZZag=;
+  b=Wiojqd18bJUXKJFJtEusMfN5vGopCN2gKx4U2MW7PmVs/8klFp9eLhDW
+   6Hiu3NwgB/1mGiOnf0kCtdS2+F2htAx7ILJ0fJpP4SvdXi41knbd6jeEa
+   BW0q4CtE2zhlyAXZudYhqTu9vtnTh5vYZx0JyRHOcBFIFba+pKMJJ74C1
+   RnLaPTwH9Wvh4DSkgN2HfZPr+WMkE3GGH5cOy76hAgqHi03Cd8geGTELB
+   TO6BfcGNNzHurE+qj+Nf2F8/PtnuR3OP3rREmqnh6isyDbGNJPexAjFLE
+   +xJQpVW2pvpqSDbhEKQBIG/3Fl6Uw8lxG9MptnHDeXXoI8PYP9tp78jk0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="345604526"
 X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="419551018"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 18:27:13 -0700
+   d="scan'208";a="345604526"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 19:20:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="658446172"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="702150864"
 X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="658446172"
+   d="scan'208";a="702150864"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 02 Jun 2023 18:27:11 -0700
+  by orsmga007.jf.intel.com with ESMTP; 02 Jun 2023 19:20:12 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q5G2w-00018s-1s;
-	Sat, 03 Jun 2023 01:27:10 +0000
-Date: Sat, 3 Jun 2023 09:26:55 +0800
+	id 1q5GsF-0001Aj-3C;
+	Sat, 03 Jun 2023 02:20:11 +0000
+Date: Sat, 3 Jun 2023 10:19:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Gow <davidgow@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Daniel Latypov <dlatypov@google.com>
-Subject: [linux-next:master 6592/6849]
- drivers/gpu/drm/tests/drm_buddy_test.o: warning: objtool:
- drm_test_buddy_alloc_pathological+0x3c0: stack state mismatch: cfa1=4+184
- cfa2=4+192
-Message-ID: <202306030908.PqveYunF-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/110-smc 1/23] lib/vsprintf.c:1779:30: sparse:
+ sparse: cast to restricted __le32
+Message-ID: <202306031032.e2HxQ2Hb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,94 +46,111 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bc708bbd8260ee4eb3428b0109f5f3be661fae46
-commit: 260755184cbdb267a046e7ffd397c1d2ba09bb5e [6592/6849] kunit: Move kunit_abort() call out of kunit_do_failed_assertion()
-config: x86_64-buildonly-randconfig-r002-20230531 (https://download.01.org/0day-ci/archive/20230603/202306030908.PqveYunF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=260755184cbdb267a046e7ffd397c1d2ba09bb5e
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 260755184cbdb267a046e7ffd397c1d2ba09bb5e
+tree:   https://github.com/AsahiLinux/linux bits/110-smc
+head:   107ed86e21d1522d5d5d9d629f1d9c371e37df7f
+commit: da07643e905c39f65fe38be65f7b3940a0681081 [1/23] lib/vsprintf: Add support for generic FOURCCs by extending %p4cc
+config: nios2-randconfig-s043-20230531 (https://download.01.org/0day-ci/archive/20230603/202306031032.e2HxQ2Hb-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.3.0
+reproduce:
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/AsahiLinux/linux/commit/da07643e905c39f65fe38be65f7b3940a0681081
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/110-smc
+        git checkout da07643e905c39f65fe38be65f7b3940a0681081
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/ lib//
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306030908.PqveYunF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306031032.e2HxQ2Hb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> lib/vsprintf.c:1779:30: sparse: sparse: cast to restricted __le32
+>> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
+>> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
+>> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
+>> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
+>> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
+>> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
+   lib/vsprintf.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
 
->> drivers/gpu/drm/tests/drm_buddy_test.o: warning: objtool: drm_test_buddy_alloc_pathological+0x3c0: stack state mismatch: cfa1=4+184 cfa2=4+192
->> drivers/gpu/drm/tests/drm_buddy_test.o: warning: objtool: drm_test_buddy_alloc_pessimistic+0x438: stack state mismatch: cfa1=4+168 cfa2=4+176
->> drivers/gpu/drm/tests/drm_buddy_test.o: warning: objtool: drm_test_buddy_alloc_optimistic+0x136: stack state mismatch: cfa1=4+152 cfa2=4+160
->> drivers/gpu/drm/tests/drm_buddy_test.o: warning: objtool: drm_test_buddy_alloc_range+0x209: stack state mismatch: cfa1=4+184 cfa2=4+200
---
->> drivers/gpu/drm/tests/drm_mm_test.o: warning: objtool: drm_test_mm_debug+0x128: stack state mismatch: cfa1=4+624 cfa2=4+640
---
->> lib/stackinit_kunit.o: warning: objtool: test_packed_assigned_dynamic_all+0x14f: stack state mismatch: cfa1=4+80 cfa2=4+96
->> lib/stackinit_kunit.o: warning: objtool: test_trailing_hole_assigned_dynamic_all+0x158: stack state mismatch: cfa1=4+80 cfa2=4+96
->> lib/stackinit_kunit.o: warning: objtool: test_small_hole_assigned_dynamic_all+0x15a: stack state mismatch: cfa1=4+72 cfa2=4+88
->> lib/stackinit_kunit.o: warning: objtool: test_packed_dynamic_all+0x14f: stack state mismatch: cfa1=4+80 cfa2=4+96
->> lib/stackinit_kunit.o: warning: objtool: test_trailing_hole_dynamic_all+0x158: stack state mismatch: cfa1=4+80 cfa2=4+96
->> lib/stackinit_kunit.o: warning: objtool: test_small_hole_dynamic_all+0x15a: stack state mismatch: cfa1=4+72 cfa2=4+88
->> lib/stackinit_kunit.o: warning: objtool: test_packed_assigned_copy+0x14f: stack state mismatch: cfa1=4+80 cfa2=4+96
->> lib/stackinit_kunit.o: warning: objtool: test_trailing_hole_assigned_copy+0x158: stack state mismatch: cfa1=4+80 cfa2=4+96
->> lib/stackinit_kunit.o: warning: objtool: test_small_hole_assigned_copy+0x15a: stack state mismatch: cfa1=4+72 cfa2=4+88
->> lib/stackinit_kunit.o: warning: objtool: test_switch_2_none+0x10e: stack state mismatch: cfa1=4+40 cfa2=4+56
->> lib/stackinit_kunit.o: warning: objtool: test_switch_1_none+0x10e: stack state mismatch: cfa1=4+40 cfa2=4+56
->> lib/stackinit_kunit.o: warning: objtool: test_user+0x14e: stack state mismatch: cfa1=4+80 cfa2=4+96
->> lib/stackinit_kunit.o: warning: objtool: test_packed_none+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
->> lib/stackinit_kunit.o: warning: objtool: test_trailing_hole_none+0x14e: stack state mismatch: cfa1=4+80 cfa2=4+96
->> lib/stackinit_kunit.o: warning: objtool: test_small_hole_none+0x150: stack state mismatch: cfa1=4+72 cfa2=4+88
->> lib/stackinit_kunit.o: warning: objtool: test_char_array_none+0x13e: stack state mismatch: cfa1=4+64 cfa2=4+80
->> lib/stackinit_kunit.o: warning: objtool: test_u64_none+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
->> lib/stackinit_kunit.o: warning: objtool: test_u32_none+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
->> lib/stackinit_kunit.o: warning: objtool: test_u16_none+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
->> lib/stackinit_kunit.o: warning: objtool: test_u8_none+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_packed_runtime_all+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_trailing_hole_runtime_all+0x14e: stack state mismatch: cfa1=4+80 cfa2=4+96
-   lib/stackinit_kunit.o: warning: objtool: test_small_hole_runtime_all+0x150: stack state mismatch: cfa1=4+72 cfa2=4+88
-   lib/stackinit_kunit.o: warning: objtool: test_packed_runtime_partial+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_trailing_hole_runtime_partial+0x14e: stack state mismatch: cfa1=4+80 cfa2=4+96
-   lib/stackinit_kunit.o: warning: objtool: test_small_hole_runtime_partial+0x150: stack state mismatch: cfa1=4+72 cfa2=4+88
-   lib/stackinit_kunit.o: warning: objtool: test_packed_zero+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_packed_assigned_static_all+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_packed_assigned_static_partial+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_packed_static_all+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_packed_static_partial+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_trailing_hole_zero+0x14e: stack state mismatch: cfa1=4+80 cfa2=4+96
-   lib/stackinit_kunit.o: warning: objtool: test_trailing_hole_assigned_static_all+0x14e: stack state mismatch: cfa1=4+80 cfa2=4+96
-   lib/stackinit_kunit.o: warning: objtool: test_trailing_hole_assigned_static_partial+0x14e: stack state mismatch: cfa1=4+80 cfa2=4+96
-   lib/stackinit_kunit.o: warning: objtool: test_trailing_hole_static_all+0x14e: stack state mismatch: cfa1=4+80 cfa2=4+96
-   lib/stackinit_kunit.o: warning: objtool: test_trailing_hole_static_partial+0x14e: stack state mismatch: cfa1=4+80 cfa2=4+96
-   lib/stackinit_kunit.o: warning: objtool: test_small_hole_zero+0x150: stack state mismatch: cfa1=4+72 cfa2=4+88
-   lib/stackinit_kunit.o: warning: objtool: test_small_hole_assigned_static_all+0x150: stack state mismatch: cfa1=4+72 cfa2=4+88
-   lib/stackinit_kunit.o: warning: objtool: test_small_hole_assigned_static_partial+0x150: stack state mismatch: cfa1=4+72 cfa2=4+88
-   lib/stackinit_kunit.o: warning: objtool: test_small_hole_static_all+0x150: stack state mismatch: cfa1=4+72 cfa2=4+88
-   lib/stackinit_kunit.o: warning: objtool: test_small_hole_static_partial+0x150: stack state mismatch: cfa1=4+72 cfa2=4+88
-   lib/stackinit_kunit.o: warning: objtool: test_char_array_zero+0x13e: stack state mismatch: cfa1=4+64 cfa2=4+80
-   lib/stackinit_kunit.o: warning: objtool: test_u64_zero+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_u32_zero+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_u16_zero+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_u8_zero+0x12f: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_packed_assigned_dynamic_partial+0x133: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_trailing_hole_assigned_dynamic_partial+0x155: stack state mismatch: cfa1=4+80 cfa2=4+96
-   lib/stackinit_kunit.o: warning: objtool: test_small_hole_assigned_dynamic_partial+0x156: stack state mismatch: cfa1=4+72 cfa2=4+88
-   lib/stackinit_kunit.o: warning: objtool: test_packed_dynamic_partial+0x133: stack state mismatch: cfa1=4+48 cfa2=4+64
-   lib/stackinit_kunit.o: warning: objtool: test_trailing_hole_dynamic_partial+0x155: stack state mismatch: cfa1=4+80 cfa2=4+96
-   lib/stackinit_kunit.o: warning: objtool: test_small_hole_dynamic_partial+0x156: stack state mismatch: cfa1=4+72 cfa2=4+88
---
->> lib/memcpy_kunit.o: warning: objtool: inner_loop+0x28e: stack state mismatch: cfa1=4+96 cfa2=4+120
->> lib/memcpy_kunit.o: warning: objtool: copy_large_test+0x11e: stack state mismatch: cfa1=4+104 cfa2=4+120
---
->> lib/kunit/kunit-test.o: warning: objtool: kunit_log_newline_test+0x86: stack state mismatch: cfa1=4+48 cfa2=4+56
+vim +1779 lib/vsprintf.c
 
-
-objdump-func vmlinux.o drm_test_buddy_alloc_pathological:
+  1753	
+  1754	static noinline_for_stack
+  1755	char *fourcc_string(char *buf, char *end, const u32 *fourcc,
+  1756			    struct printf_spec spec, const char *fmt)
+  1757	{
+  1758		char output[sizeof("0123 little-endian (0x01234567)")];
+  1759		char *p = output;
+  1760		unsigned int i;
+  1761		bool pix_fmt = false;
+  1762		u32 orig, val;
+  1763	
+  1764		if (fmt[1] != 'c')
+  1765			return error_string(buf, end, "(%p4?)", spec);
+  1766	
+  1767		if (check_pointer(&buf, end, fourcc, spec))
+  1768			return buf;
+  1769	
+  1770		orig = get_unaligned(fourcc);
+  1771		switch (fmt[2]) {
+  1772		case 'h':
+  1773			val = orig;
+  1774			break;
+  1775		case 'r':
+  1776			val = orig = swab32(orig);
+  1777			break;
+  1778		case 'l':
+> 1779			val = orig = le32_to_cpu(orig);
+  1780			break;
+  1781		case 'b':
+> 1782			val = orig = be32_to_cpu(orig);
+  1783			break;
+  1784		case 'c':
+  1785			/* Pixel formats are printed LSB-first */
+  1786			val = swab32(orig & ~BIT(31));
+  1787			pix_fmt = true;
+  1788			break;
+  1789		default:
+  1790			return error_string(buf, end, "(%p4?)", spec);
+  1791		}
+  1792	
+  1793		for (i = 0; i < sizeof(u32); i++) {
+  1794			unsigned char c = val >> ((3 - i) * 8);
+  1795	
+  1796			/* Print non-control ASCII characters as-is, dot otherwise */
+  1797			*p++ = isascii(c) && isprint(c) ? c : '.';
+  1798		}
+  1799	
+  1800		if (pix_fmt) {
+  1801			*p++ = ' ';
+  1802			strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
+  1803			p += strlen(p);
+  1804		}
+  1805	
+  1806		*p++ = ' ';
+  1807		*p++ = '(';
+  1808		p = special_hex_number(p, output + sizeof(output) - 2, orig, sizeof(u32));
+  1809		*p++ = ')';
+  1810		*p = '\0';
+  1811	
+  1812		return string(buf, end, output, spec);
+  1813	}
+  1814	
 
 -- 
 0-DAY CI Kernel Test Service
