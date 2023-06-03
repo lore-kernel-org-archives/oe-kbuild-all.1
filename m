@@ -1,45 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92B7EA0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 09:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE26257B
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 09:35:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685783070; x=1717319070;
+  t=1685784930; x=1717320930;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WIApp3OlGSkGOblYByLOHClRSb3CkPt3DE7Ui2gCThE=;
-  b=IkuUOsVkj5AtQAbJUgWVKP+5fkDLORAXU7xoNQfdLQmBSgjOEOz8tMBM
-   2MHp55phA7BYflPHZVYImInzX7Q6jn7DMS5anlmbROARt1I6+gP/NU+7R
-   Vedsb8YK0ApUIV64iJDhn07De+E1MzwCr26a3MGBZ9f95x4fV6RHdhrFf
-   1ZsPxypa7nkuNHigFyZ2Y0nwfDXuSQO6KNiP/TMFLpG7OmpauqJcdH3i5
-   bXGUcWwQQtKB5hu87vC9HWAzg5LN8rih5lRSnD827WMFq80mLy9QHsvui
-   7tqW6m2ugL7RHyGaa/In2I1rcch5nXGvV2Y+GA5LWWjGZWoBun8bOqKIt
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="356063982"
+  bh=r8cWREIo2GmTCf0FWCl+3Smrq8LqBaHOq12itg56p7M=;
+  b=J0EkU/B1CwH8ac64q0oaC99e5kTBIR3QnQdzjN4sZEmK53wMKQ573sqt
+   QYS7JXkqa27vVv5HuaAEKYOBspIRhBaQIf19HZLuByLCr0ieRk3f/k2tn
+   ysL4DA1TS5WH6qW/6pxRLuegXFEMKd/8zI00Y3YbsqfsIE+P+IV/KJnJS
+   yjVGbiF51MSVSFtDdzsXWKtV0pdvUMGKhtTU+JcIWIxbIxi0Bfs48ssMS
+   zZntOe7bGGGl/5xvFry7oVTVkfqWWhS0pwoQSp3cMC//CG9mAgiwO1E0V
+   asVu0IMIIgC7e5kuuIuPKBdbcoWXb+AndbLUnA+ek9UEETrFPbs3jpZBu
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="419592603"
 X-IronPort-AV: E=Sophos;i="6.00,215,1681196400"; 
-   d="scan'208";a="356063982"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2023 02:04:29 -0700
+   d="scan'208";a="419592603"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2023 02:35:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="954771717"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="737814704"
 X-IronPort-AV: E=Sophos;i="6.00,215,1681196400"; 
-   d="scan'208";a="954771717"
+   d="scan'208";a="737814704"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 03 Jun 2023 02:04:28 -0700
+  by orsmga008.jf.intel.com with ESMTP; 03 Jun 2023 02:35:28 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q5NBT-0001TN-2O;
-	Sat, 03 Jun 2023 09:04:27 +0000
-Date: Sat, 3 Jun 2023 17:04:00 +0800
+	id 1q5NfU-0001UT-0q;
+	Sat, 03 Jun 2023 09:35:28 +0000
+Date: Sat, 3 Jun 2023 17:35:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/fam01-next20230602 7/7]
- arch/sparc/kernel/irq_32.c:258:14: error: array subscript [16, 79] is
- outside array bounds of 'struct tt_entry[1]'
-Message-ID: <202306031638.zmtz006C-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>
+Subject: [asahilinux:bits/080-wifi 8/25]
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse:
+ sparse: incorrect type in assignment (different base types)
+Message-ID: <202306031747.3BgNEqoz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,216 +47,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/fam01-next20230602
-head:   20aaaa40b39f5178aee00e3982b68ab8fd0c59a8
-commit: 20aaaa40b39f5178aee00e3982b68ab8fd0c59a8 [7/7] Makefile: Enable -Warray-bounds
-config: sparc-randconfig-c043-20230531 (https://download.01.org/0day-ci/archive/20230603/202306031638.zmtz006C-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/commit/?id=20aaaa40b39f5178aee00e3982b68ab8fd0c59a8
-        git remote add gustavoars https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git
-        git fetch --no-tags gustavoars testing/fam01-next20230602
-        git checkout 20aaaa40b39f5178aee00e3982b68ab8fd0c59a8
+tree:   https://github.com/AsahiLinux/linux bits/080-wifi
+head:   8a96dfb06cc870730ecf78195187daec961f3e2c
+commit: 289c1cd14c0f6ab6f2998b3548baa8de9a2be42d [8/25] brcmfmac: cfg80211: Add support for PMKID_V3 operations
+config: x86_64-randconfig-s023-20230531 (https://download.01.org/0day-ci/archive/20230603/202306031747.3BgNEqoz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/AsahiLinux/linux/commit/289c1cd14c0f6ab6f2998b3548baa8de9a2be42d
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/080-wifi
+        git checkout 289c1cd14c0f6ab6f2998b3548baa8de9a2be42d
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash arch/sparc/kernel/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/wireless/broadcom/brcm80211/brcmfmac/ kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306031638.zmtz006C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306031747.3BgNEqoz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] time_left @@     got unsigned int @@
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse:     expected restricted __le32 [usertype] time_left
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:4334:42: sparse:     got unsigned int
 
-   arch/sparc/kernel/irq_32.c: In function 'sparc_floppy_request_irq':
->> arch/sparc/kernel/irq_32.c:258:14: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     258 |         table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_one = SPARC_RD_PSR_L0; \
-         |              ^
-   arch/sparc/kernel/irq_32.c:272:17: note: in expansion of macro 'INSTANTIATE'
-     272 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   In file included from arch/sparc/kernel/irq_32.c:25:
-   arch/sparc/kernel/kernel.h:142:24: note: at offset [256, 1264] into object 'trapbase_cpu1' of size 16
-     142 | extern struct tt_entry trapbase_cpu1;
-         |                        ^~~~~~~~~~~~~
-   In file included from arch/sparc/include/asm/traps.h:10,
-                    from arch/sparc/kernel/kernel.h:8:
-   arch/sparc/kernel/irq_32.c:261:46: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     261 |                              (unsigned long) &table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_two);\
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/sparc/include/uapi/asm/traps.h:27:38: note: in definition of macro 'SPARC_BRANCH'
-      27 |           (0x10800000 | (((dest_addr-inst_addr)>>2)&0x3fffff))
-         |                                      ^~~~~~~~~
-   arch/sparc/kernel/irq_32.c:272:17: note: in expansion of macro 'INSTANTIATE'
-     272 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:142:24: note: at offset [256, 1264] into object 'trapbase_cpu1' of size 16
-     142 | extern struct tt_entry trapbase_cpu1;
-         |                        ^~~~~~~~~~~~~
-   arch/sparc/kernel/irq_32.c:259:14: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     259 |         table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_two = \
-         |              ^
-   arch/sparc/kernel/irq_32.c:272:17: note: in expansion of macro 'INSTANTIATE'
-     272 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:142:24: note: at offset [256, 1264] into object 'trapbase_cpu1' of size 16
-     142 | extern struct tt_entry trapbase_cpu1;
-         |                        ^~~~~~~~~~~~~
-   arch/sparc/kernel/irq_32.c:262:14: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     262 |         table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_three = SPARC_RD_WIM_L3; \
-         |              ^
-   arch/sparc/kernel/irq_32.c:272:17: note: in expansion of macro 'INSTANTIATE'
-     272 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:142:24: note: at offset [256, 1264] into object 'trapbase_cpu1' of size 16
-     142 | extern struct tt_entry trapbase_cpu1;
-         |                        ^~~~~~~~~~~~~
-   arch/sparc/kernel/irq_32.c:263:14: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     263 |         table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_four = SPARC_NOP;
-         |              ^
-   arch/sparc/kernel/irq_32.c:272:17: note: in expansion of macro 'INSTANTIATE'
-     272 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:142:24: note: at offset [256, 1264] into object 'trapbase_cpu1' of size 16
-     142 | extern struct tt_entry trapbase_cpu1;
-         |                        ^~~~~~~~~~~~~
->> arch/sparc/kernel/irq_32.c:258:14: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     258 |         table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_one = SPARC_RD_PSR_L0; \
-         |              ^
-   arch/sparc/kernel/irq_32.c:274:17: note: in expansion of macro 'INSTANTIATE'
-     274 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:143:24: note: at offset [256, 1264] into object 'trapbase_cpu2' of size 16
-     143 | extern struct tt_entry trapbase_cpu2;
-         |                        ^~~~~~~~~~~~~
-   arch/sparc/kernel/irq_32.c:261:46: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     261 |                              (unsigned long) &table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_two);\
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/sparc/include/uapi/asm/traps.h:27:38: note: in definition of macro 'SPARC_BRANCH'
-      27 |           (0x10800000 | (((dest_addr-inst_addr)>>2)&0x3fffff))
-         |                                      ^~~~~~~~~
-   arch/sparc/kernel/irq_32.c:274:17: note: in expansion of macro 'INSTANTIATE'
-     274 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:143:24: note: at offset [256, 1264] into object 'trapbase_cpu2' of size 16
-     143 | extern struct tt_entry trapbase_cpu2;
-         |                        ^~~~~~~~~~~~~
-   arch/sparc/kernel/irq_32.c:259:14: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     259 |         table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_two = \
-         |              ^
-   arch/sparc/kernel/irq_32.c:274:17: note: in expansion of macro 'INSTANTIATE'
-     274 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:143:24: note: at offset [256, 1264] into object 'trapbase_cpu2' of size 16
-     143 | extern struct tt_entry trapbase_cpu2;
-         |                        ^~~~~~~~~~~~~
-   arch/sparc/kernel/irq_32.c:262:14: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     262 |         table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_three = SPARC_RD_WIM_L3; \
-         |              ^
-   arch/sparc/kernel/irq_32.c:274:17: note: in expansion of macro 'INSTANTIATE'
-     274 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:143:24: note: at offset [256, 1264] into object 'trapbase_cpu2' of size 16
-     143 | extern struct tt_entry trapbase_cpu2;
-         |                        ^~~~~~~~~~~~~
-   arch/sparc/kernel/irq_32.c:263:14: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     263 |         table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_four = SPARC_NOP;
-         |              ^
-   arch/sparc/kernel/irq_32.c:274:17: note: in expansion of macro 'INSTANTIATE'
-     274 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:143:24: note: at offset [256, 1264] into object 'trapbase_cpu2' of size 16
-     143 | extern struct tt_entry trapbase_cpu2;
-         |                        ^~~~~~~~~~~~~
->> arch/sparc/kernel/irq_32.c:258:14: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     258 |         table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_one = SPARC_RD_PSR_L0; \
-         |              ^
-   arch/sparc/kernel/irq_32.c:276:17: note: in expansion of macro 'INSTANTIATE'
-     276 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:144:24: note: at offset [256, 1264] into object 'trapbase_cpu3' of size 16
-     144 | extern struct tt_entry trapbase_cpu3;
-         |                        ^~~~~~~~~~~~~
-   arch/sparc/kernel/irq_32.c:261:46: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     261 |                              (unsigned long) &table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_two);\
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/sparc/include/uapi/asm/traps.h:27:38: note: in definition of macro 'SPARC_BRANCH'
-      27 |           (0x10800000 | (((dest_addr-inst_addr)>>2)&0x3fffff))
-         |                                      ^~~~~~~~~
-   arch/sparc/kernel/irq_32.c:276:17: note: in expansion of macro 'INSTANTIATE'
-     276 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:144:24: note: at offset [256, 1264] into object 'trapbase_cpu3' of size 16
-     144 | extern struct tt_entry trapbase_cpu3;
-         |                        ^~~~~~~~~~~~~
-   arch/sparc/kernel/irq_32.c:259:14: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     259 |         table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_two = \
-         |              ^
-   arch/sparc/kernel/irq_32.c:276:17: note: in expansion of macro 'INSTANTIATE'
-     276 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:144:24: note: at offset [256, 1264] into object 'trapbase_cpu3' of size 16
-     144 | extern struct tt_entry trapbase_cpu3;
-         |                        ^~~~~~~~~~~~~
-   arch/sparc/kernel/irq_32.c:262:14: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     262 |         table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_three = SPARC_RD_WIM_L3; \
-         |              ^
-   arch/sparc/kernel/irq_32.c:276:17: note: in expansion of macro 'INSTANTIATE'
-     276 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:144:24: note: at offset [256, 1264] into object 'trapbase_cpu3' of size 16
-     144 | extern struct tt_entry trapbase_cpu3;
-         |                        ^~~~~~~~~~~~~
-   arch/sparc/kernel/irq_32.c:263:14: error: array subscript [16, 79] is outside array bounds of 'struct tt_entry[1]' [-Werror=array-bounds]
-     263 |         table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_four = SPARC_NOP;
-         |              ^
-   arch/sparc/kernel/irq_32.c:276:17: note: in expansion of macro 'INSTANTIATE'
-     276 |                 INSTANTIATE(trap_table)
-         |                 ^~~~~~~~~~~
-   arch/sparc/kernel/kernel.h:144:24: note: at offset [256, 1264] into object 'trapbase_cpu3' of size 16
-     144 | extern struct tt_entry trapbase_cpu3;
-         |                        ^~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+vim +4334 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
 
-
-vim +258 arch/sparc/kernel/irq_32.c
-
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  240  
-6baa9b20a68a88 arch/sparc/kernel/irq_32.c Sam Ravnborg   2011-04-18  241  int sparc_floppy_request_irq(unsigned int irq, irq_handler_t irq_handler)
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  242  {
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  243  	unsigned int cpu_irq;
-6baa9b20a68a88 arch/sparc/kernel/irq_32.c Sam Ravnborg   2011-04-18  244  	int err;
-6baa9b20a68a88 arch/sparc/kernel/irq_32.c Sam Ravnborg   2011-04-18  245  
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  246  
-6baa9b20a68a88 arch/sparc/kernel/irq_32.c Sam Ravnborg   2011-04-18  247  	err = request_irq(irq, irq_handler, 0, "floppy", NULL);
-6baa9b20a68a88 arch/sparc/kernel/irq_32.c Sam Ravnborg   2011-04-18  248  	if (err)
-6baa9b20a68a88 arch/sparc/kernel/irq_32.c Sam Ravnborg   2011-04-18  249  		return -1;
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  250  
-6baa9b20a68a88 arch/sparc/kernel/irq_32.c Sam Ravnborg   2011-04-18  251  	/* Save for later use in floppy interrupt handler */
-6baa9b20a68a88 arch/sparc/kernel/irq_32.c Sam Ravnborg   2011-04-18  252  	floppy_irq = irq;
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  253  
-6baa9b20a68a88 arch/sparc/kernel/irq_32.c Sam Ravnborg   2011-04-18  254  	cpu_irq = (irq & (NR_IRQS - 1));
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  255  
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  256  	/* Dork with trap table if we get this far. */
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  257  #define INSTANTIATE(table) \
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16 @258  	table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_one = SPARC_RD_PSR_L0; \
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  259  	table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_two = \
-6baa9b20a68a88 arch/sparc/kernel/irq_32.c Sam Ravnborg   2011-04-18  260  		SPARC_BRANCH((unsigned long) floppy_hardint, \
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  261  			     (unsigned long) &table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_two);\
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  262  	table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_three = SPARC_RD_WIM_L3; \
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  263  	table[SP_TRAP_IRQ1+(cpu_irq-1)].inst_four = SPARC_NOP;
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  264  
-^1da177e4c3f41 arch/sparc/kernel/irq.c    Linus Torvalds 2005-04-16  265  	INSTANTIATE(sparc_ttable)
-b08b5c9c9b35c9 arch/sparc/kernel/irq_32.c Sam Ravnborg   2012-05-25  266  
-
-:::::: The code at line 258 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+  4312	
+  4313	static s32
+  4314	brcmf_pmksa_v3_op(struct brcmf_if *ifp, struct cfg80211_pmksa *pmksa,
+  4315			  bool alive)
+  4316	{
+  4317		struct brcmf_pmk_op_v3_le *pmk_op;
+  4318		int length = offsetof(struct brcmf_pmk_op_v3_le, pmk);
+  4319		int ret;
+  4320	
+  4321		pmk_op = kzalloc(sizeof(*pmk_op), GFP_KERNEL);
+  4322		pmk_op->version = cpu_to_le16(BRCMF_PMKSA_VER_3);
+  4323	
+  4324		if (!pmksa) {
+  4325			/* Flush operation, operate on entire list */
+  4326			pmk_op->count = cpu_to_le16(0);
+  4327		} else {
+  4328			/* Single PMK operation */
+  4329			pmk_op->count = cpu_to_le16(1);
+  4330			length += sizeof(struct brcmf_pmksa_v3);
+  4331			memcpy(pmk_op->pmk[0].bssid, pmksa->bssid, ETH_ALEN);
+  4332			memcpy(pmk_op->pmk[0].pmkid, pmksa->pmkid, WLAN_PMKID_LEN);
+  4333			pmk_op->pmk[0].pmkid_len = WLAN_PMKID_LEN;
+> 4334			pmk_op->pmk[0].time_left = alive ? BRCMF_PMKSA_NO_EXPIRY : 0;
+  4335		}
+  4336	
+  4337		pmk_op->length = cpu_to_le16(length);
+  4338	
+  4339		ret = brcmf_fil_iovar_data_set(ifp, "pmkid_info", pmk_op, sizeof(*pmk_op));
+  4340		kfree(pmk_op);
+  4341		return ret;
+  4342	}
+  4343	
 
 -- 
 0-DAY CI Kernel Test Service
