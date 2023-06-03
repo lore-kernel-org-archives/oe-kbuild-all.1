@@ -1,45 +1,45 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CF9195
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 00:44:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5E4816
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 00:54:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685753050; x=1717289050;
+  t=1685753650; x=1717289650;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=o4n0TZt6ly9/W8gtyHYjl/JFTX5Yq4k4yAgpXlt0xbU=;
-  b=DzJG+JzN4Epq/fey1aeWf9MxaZsn36N8KA7r2iScU8pWqLHTXk3XvPLM
-   YCWK9KDFLnoeNo3Z6YtwNRFwVxc4pLneVJykbHukikSeL3+YdfFtL59oK
-   9iP9vcLMnQRhvaZftDCH3vvmFbEzQ6DOQuvMnacnTbZmBByURaw16d+ea
-   DeJAoVydeSabk+nEEyR+8j7jkwSIFqg+b9oVB9njs6iVy44Jr3rmTGA5q
-   c66OBYhi7V3h4xwQeouS3folJ/LCfkMxrzCeCP62GZX2pmI+ntYALWZl0
-   +GbtsrLeYRfo8biJCLP6JLDe8Qs78gHKOU1DNiJaYuxd2ds17EOFT3l0h
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="358444404"
+  bh=77S8wqZFuLvz4bxzjRd3xCSQzfeWnG+uOlPaJ3x2F/4=;
+  b=gbo75TYG8qqCGbk2cvPnlOD2xNrHizf6Ok9q1Mz4ByzuuO13Gp3ZDd4j
+   SYrrOltb+mCyxUtOISPQ5by1MGSgJV3ABQ485EvWRZ29BhqiXlT5I/wRd
+   4xeKnEZcX+Wsp+mYrF/5cjs6HVHrafvU+pRFeQZHXA+oifvFof8T15QhS
+   tq7r1VoTXREXqgIlKxTcvuHv/nGVyjpILsauEnJ9EM2TBZPVJm5uF3qh9
+   4o98+4DsDncGEuLV2KVKXfNzFzCQhAomxNDsC1BuE8GEHpOGu70xAV8Wn
+   2Aw9C+Ys7iIo/ZP3KvnmJ8ZZkD/luoajbFhmda1Aru9TzhPgJgZOEoA6w
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="345593444"
 X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="358444404"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 17:44:09 -0700
+   d="scan'208";a="345593444"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 17:54:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="658436969"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="737722583"
 X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="658436969"
+   d="scan'208";a="737722583"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 02 Jun 2023 17:44:08 -0700
+  by orsmga008.jf.intel.com with ESMTP; 02 Jun 2023 17:54:08 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q5FNH-00015x-1W;
-	Sat, 03 Jun 2023 00:44:07 +0000
-Date: Sat, 3 Jun 2023 08:43:29 +0800
+	id 1q5FWx-00016P-35;
+	Sat, 03 Jun 2023 00:54:07 +0000
+Date: Sat, 3 Jun 2023 08:54:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Loic Poulain <loic.poulain@linaro.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>
-Subject: [krzk-github:n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
- 136/282] drivers/iio/adc/qcom-spmi-adc5.c:778:24: sparse: sparse: symbol
- 'adc5_data_pmic_lite' was not declared. Should it be static?
-Message-ID: <202306030852.CdfunLvV-lkp@intel.com>
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/fam01-next20230602 7/7]
+ fs/jffs2/nodelist.h:43:28: warning: array subscript 'union jffs2_sum_mem[0]'
+ is partly outside array bounds of 'unsigned char[26]'
+Message-ID: <202306030807.GiXzVRcZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,45 +49,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
-head:   297b910637065761660eaae156585c0319676c58
-commit: 71797c522650aee028e5657b90f7638864555c29 [136/282] iio: qcom-spmi-adc5: Add support for adc5-lite
-config: i386-randconfig-s003-20230531 (https://download.01.org/0day-ci/archive/20230603/202306030852.CdfunLvV-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/fam01-next20230602
+head:   20aaaa40b39f5178aee00e3982b68ab8fd0c59a8
+commit: 20aaaa40b39f5178aee00e3982b68ab8fd0c59a8 [7/7] Makefile: Enable -Warray-bounds
+config: x86_64-buildonly-randconfig-r003-20230531 (https://download.01.org/0day-ci/archive/20230603/202306030807.GiXzVRcZ-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/krzk/linux/commit/71797c522650aee028e5657b90f7638864555c29
-        git remote add krzk-github https://github.com/krzk/linux
-        git fetch --no-tags krzk-github n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
-        git checkout 71797c522650aee028e5657b90f7638864555c29
+reproduce (this is a W=1 build):
+        # https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/commit/?id=20aaaa40b39f5178aee00e3982b68ab8fd0c59a8
+        git remote add gustavoars https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git
+        git fetch --no-tags gustavoars testing/fam01-next20230602
+        git checkout 20aaaa40b39f5178aee00e3982b68ab8fd0c59a8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/iio/adc/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/clocksource/ drivers/mmc/host/ drivers/soc/qcom/ drivers/spi/ fs/jffs2/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306030852.CdfunLvV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306030807.GiXzVRcZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/adc/qcom-spmi-adc5.c:778:24: sparse: sparse: symbol 'adc5_data_pmic_lite' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/adc5_data_pmic_lite +778 drivers/iio/adc/qcom-spmi-adc5.c
+   In file included from fs/jffs2/summary.c:23:
+   In function 'jffs2_sum_add_mem',
+       inlined from 'jffs2_sum_add_inode_mem' at fs/jffs2/summary.c:130:9:
+>> fs/jffs2/nodelist.h:43:28: warning: array subscript 'union jffs2_sum_mem[0]' is partly outside array bounds of 'unsigned char[26]' [-Warray-bounds]
+      43 | #define je16_to_cpu(x) ((x).v16)
+         |                        ~~~~^~~~~
+   fs/jffs2/summary.c:71:17: note: in expansion of macro 'je16_to_cpu'
+      71 |         switch (je16_to_cpu(item->u.nodetype)) {
+         |                 ^~~~~~~~~~~
+   In file included from fs/jffs2/summary.c:17:
+   In function 'kmalloc',
+       inlined from 'jffs2_sum_add_inode_mem' at fs/jffs2/summary.c:118:37:
+   include/linux/slab.h:559:24: note: object of size 26 allocated by 'kmalloc_trace'
+     559 |                 return kmalloc_trace(
+         |                        ^~~~~~~~~~~~~~
+     560 |                                 kmalloc_caches[kmalloc_type(flags)][index],
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     561 |                                 flags, size);
+         |                                 ~~~~~~~~~~~~
+   In file included from fs/jffs2/nodelist.h:22:
+   In function 'jffs2_sum_add_mem',
+       inlined from 'jffs2_sum_add_inode_mem' at fs/jffs2/summary.c:130:9:
+>> fs/jffs2/summary.c:79:73: warning: array subscript 'union jffs2_sum_mem[0]' is partly outside array bounds of 'unsigned char[26]' [-Warray-bounds]
+      79 |                         s->sum_size += JFFS2_SUMMARY_DIRENT_SIZE(item->d.nsize);
+   fs/jffs2/summary.h:34:80: note: in definition of macro 'JFFS2_SUMMARY_DIRENT_SIZE'
+      34 | #define JFFS2_SUMMARY_DIRENT_SIZE(x) (sizeof(struct jffs2_sum_dirent_flash) + (x))
+         |                                                                                ^
+   In function 'kmalloc',
+       inlined from 'jffs2_sum_add_inode_mem' at fs/jffs2/summary.c:118:37:
+   include/linux/slab.h:559:24: note: object of size 26 allocated by 'kmalloc_trace'
+     559 |                 return kmalloc_trace(
+         |                        ^~~~~~~~~~~~~~
+     560 |                                 kmalloc_caches[kmalloc_type(flags)][index],
+         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     561 |                                 flags, size);
+         |                                 ~~~~~~~~~~~~
+--
+   drivers/spi/spi-imx.c: In function 'spi_imx_probe':
+>> drivers/spi/spi-imx.c:1705:34: warning: array subscript 0 is outside array bounds of 'const bool[0]' {aka 'const _Bool[]'} [-Warray-bounds]
+    1705 |         slave_mode = devtype_data->has_slavemode &&
+         |                      ~~~~~~~~~~~~^~~~~~~~~~~~~~~
+--
+   In file included from include/linux/clocksource.h:22,
+                    from include/linux/clockchips.h:14,
+                    from drivers/clocksource/timer-tegra.c:12:
+   In function '__writel',
+       inlined from 'tegra_timer_resume' at drivers/clocksource/timer-tegra.c:113:2:
+>> arch/x86/include/asm/io.h:56:3: warning: array subscript 0 is outside array bounds of 'void[0]' [-Warray-bounds]
+      56 | { asm volatile("mov" size " %0,%1": :reg (val), \
+         |   ^~~
+   arch/x86/include/asm/io.h:73:1: note: in expansion of macro 'build_mmio_write'
+      73 | build_mmio_write(__writel, "l", unsigned int, "r", )
+         | ^~~~~~~~~~~~~~~~
+--
+   drivers/soc/qcom/llcc-qcom.c: In function 'qcom_llcc_probe':
+>> drivers/soc/qcom/llcc-qcom.c:1039:17: warning: array subscript 0 is outside array bounds of 'const bool[0]' {aka 'const _Bool[]'} [-Warray-bounds]
+    1039 |         if (!cfg->no_edac) {
+         |              ~~~^~~~~~~~~
+--
+   drivers/mmc/host/sdhci-msm.c: In function 'sdhci_msm_probe':
+>> drivers/mmc/host/sdhci-msm.c:2557:48: warning: array subscript 0 is outside array bounds of 'const bool[0]' {aka 'const _Bool[]'} [-Warray-bounds]
+    2557 |         msm_host->restore_dll_config = var_info->restore_dll_config;
+         |                                        ~~~~~~~~^~~~~~~~~~~~~~~~~~~~
 
-   777	
- > 778	const struct adc5_data adc5_data_pmic_lite = {
-   779		.full_scale_code_volt = 0x70e4,
-   780		.full_scale_code_cur = 0x1388,
-   781		.adc_chans = adc5_chans_pmic,
-   782		.info = &adc5_info,
-   783		.decimation = (unsigned int [ADC5_DECIMATION_SAMPLES_MAX])
-   784					{250, 420, 840},
-   785		.hw_settle_1 = (unsigned int [VADC_HW_SETTLE_SAMPLES_MAX])
-   786					{15, 100, 200, 300, 400, 500, 600, 700,
-   787					 800, 900, 1, 2, 4, 6, 8, 10},
-   788	};
-   789	
+
+vim +43 fs/jffs2/nodelist.h
+
+566865a2a4791c David Woodhouse 2007-04-23  42  
+^1da177e4c3f41 Linus Torvalds  2005-04-16 @43  #define je16_to_cpu(x) ((x).v16)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  44  #define je32_to_cpu(x) ((x).v32)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  45  #define jemode_to_cpu(x) (jffs2_to_os_mode((x).m))
+^1da177e4c3f41 Linus Torvalds  2005-04-16  46  #elif defined(JFFS2_BIG_ENDIAN)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  47  #define cpu_to_je16(x) ((jint16_t){cpu_to_be16(x)})
+^1da177e4c3f41 Linus Torvalds  2005-04-16  48  #define cpu_to_je32(x) ((jint32_t){cpu_to_be32(x)})
+^1da177e4c3f41 Linus Torvalds  2005-04-16  49  #define cpu_to_jemode(x) ((jmode_t){cpu_to_be32(os_to_jffs2_mode(x))})
+^1da177e4c3f41 Linus Torvalds  2005-04-16  50  
+
+:::::: The code at line 43 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
