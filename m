@@ -1,79 +1,95 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223821FB4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 22:49:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685832542; x=1717368542;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SeXlg/j3HDDqZMdjZWeKEwbvExXnEWjxRy9FATglmu4=;
-  b=hgOubvdLHCs5C6HvnvMnA8GptP1UPh2Qvg7AXCPNitgr2QIAKdUY3A4C
-   iqT47rKRHh384vs0Yr7WEGHaRYFbnIof4xVe4kXhVRnChqXMwEFv60N8l
-   wkgU3No22B01D0uBt3EgdTZCXjlrY7xG+Fliv2ds5sETKtWvgrAjPE7Sf
-   bleY711mX/AIb/hxPDUAuFOPB2A9aSbs+2GhoAxZyHn+fCCmzzW+gWWtb
-   2mAKPhT/WOqeWs8uu1/v8Ig4PaSAxNA3FVYP3q6M/eWR4DjzaWUO5Q/UV
-   g5cT+ahLfVSr5RWW+ERpv9EDE6mU6pTJIfi4RAbyauTv5/3NaZZqTjmvQ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="353614277"
-X-IronPort-AV: E=Sophos;i="6.00,216,1681196400"; 
-   d="scan'208";a="353614277"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2023 15:49:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="708217966"
-X-IronPort-AV: E=Sophos;i="6.00,216,1681196400"; 
-   d="scan'208";a="708217966"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 03 Jun 2023 15:48:59 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q5a3P-00025F-0M;
-	Sat, 03 Jun 2023 22:48:59 +0000
-Date: Sun, 4 Jun 2023 06:47:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 6832/6849] drivers/input/tests/input_test.o:
- warning: objtool: input_test_grab() falls through to next function
- input_test_match_device_id()
-Message-ID: <202306040600.A514Y0hC-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644951FB4
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 23:20:16 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-256200b49cdso433163a91.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 03 Jun 2023 16:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1685834416; x=1688426416;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h/ltOYCrz5Gre+gjDsbk1Be4DpGcOqJcdi+9ePuaFY4=;
+        b=z8NX9JHNofAWnIVC2N7/YrvOeLd1Oi+//P9hf+0F3xTS4mvG1K3eHfE88EAWRTS4AS
+         yzBNGDqWGQEfASUNhk/LqE4g6FwcqvvFvsfGVsBpL9ZOCnFxIMARrQQrT861W70wcbdC
+         ppjX3q20vO6Z7dIwhiRpaLXfus2+EYqRHUtZrCGoo7i2nqs4z3GUS3gut5SH8uilwQtv
+         SomCR7sCBFeVWNLQvO7SJ15oPSd2eJ/p4UPYNsUi4tS/yKe+Se/qStLE2Vb+/UGugh0w
+         D6iOACUgWuaJAXiKQIiDyYQKozafpdIWgT/cYmpylyJHCo0dJL+Cg2oZ9zOIt7s8tLMA
+         Z/sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685834416; x=1688426416;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h/ltOYCrz5Gre+gjDsbk1Be4DpGcOqJcdi+9ePuaFY4=;
+        b=RJksCLGxmNLcrvpgjtfuy1JO3+2o/1ozrRPDR1+Vsvkl0f7KkOb8ul5ktb4TxmYELT
+         W2jz77y7xs1wSgqFypm8CnvUS4+ZlxGYTfNSU/uxrkNI3D/MOax0ipaTVkAjt7aYsjoa
+         Heqx61se5KWzq9cSm685UESO65iSFzWDBjsTgywzeQtdJ4oH2iVNpfdLXvRASJG8Ht3+
+         WODD4KXtOaVjN1G5U6ji/fCD9caA/tGUrqvvNISF0l4OyifxFNsGbYKYTMqHk+XkNXKz
+         db/R/KOpdfnNSe9cgoJvu7TkqXRqjiYBQorQ7Ue2PQT+ujZipj4lfePwCWNunc9as10X
+         DmvQ==
+X-Gm-Message-State: AC+VfDxr4sBKY9XrUBUQzJFbTrEgUdcrU6B7Btmr4r9ScO+VWm4NNRLp
+	3Tk5JQ2qPaqUSKzfI9smCfDqHQ==
+X-Google-Smtp-Source: ACHHUZ7kDTOOZTJhM+DY91mb4utzbmrJBKlaQ0Rn/Z6XlhWzjp5MWzNDOBoL1N7Ed5epc5Crew+f1A==
+X-Received: by 2002:a17:902:d4c8:b0:1a9:581b:fbaa with SMTP id o8-20020a170902d4c800b001a9581bfbaamr13664596plg.2.1685834416255;
+        Sat, 03 Jun 2023 16:20:16 -0700 (PDT)
+Received: from [127.0.0.1] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id j6-20020a170902758600b001a260b5319bsm3708556pll.91.2023.06.03.16.20.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Jun 2023 16:20:15 -0700 (PDT)
+From: Jens Axboe <axboe@kernel.dk>
+To: Tian Lan <tilan7663@gmail.com>
+Cc: horms@kernel.org, linux-block@vger.kernel.org, lkp@intel.com, 
+ llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, tian.lan@twosigma.com
+In-Reply-To: <20230513221227.497327-1-tilan7663@gmail.com>
+References: <892f5292-884b-42ef-fe24-05cfac56e527@kernel.dk>
+ <20230513221227.497327-1-tilan7663@gmail.com>
+Subject: Re: [PATCH 1/1] blk-mq: fix blk_mq_hw_ctx active request
+ accounting
+Message-Id: <168583441458.548598.9269465063341391809.b4-ty@kernel.dk>
+Date: Sat, 03 Jun 2023 17:20:14 -0600
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13-dev-c6835
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bc708bbd8260ee4eb3428b0109f5f3be661fae46
-commit: d6a727ed1c395a6b128b58b96cb4a160d35b746c [6832/6849] Merge branch 'kunit' of git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git
-config: x86_64-buildonly-randconfig-r005-20230604 (https://download.01.org/0day-ci/archive/20230604/202306040600.A514Y0hC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=d6a727ed1c395a6b128b58b96cb4a160d35b746c
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout d6a727ed1c395a6b128b58b96cb4a160d35b746c
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/input/
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306040600.A514Y0hC-lkp@intel.com/
+On Sat, 13 May 2023 18:12:27 -0400, Tian Lan wrote:
+> The nr_active counter continues to increase over time which causes the
+> blk_mq_get_tag to hang until the thread is rescheduled to a different
+> core despite there are still tags available.
+> 
+> kernel-stack
+> 
+>   INFO: task inboundIOReacto:3014879 blocked for more than 2 seconds
+>   Not tainted 6.1.15-amd64 #1 Debian 6.1.15~debian11
+>   "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+>   task:inboundIOReacto state:D stack:0  pid:3014879 ppid:4557 flags:0x00000000
+>     Call Trace:
+>     <TASK>
+>     __schedule+0x351/0xa20
+>     scheduler+0x5d/0xe0
+>     io_schedule+0x42/0x70
+>     blk_mq_get_tag+0x11a/0x2a0
+>     ? dequeue_task_stop+0x70/0x70
+>     __blk_mq_alloc_requests+0x191/0x2e0
+> 
+> [...]
 
-All warnings (new ones prefixed by >>):
+Applied, thanks!
 
->> drivers/input/tests/input_test.o: warning: objtool: input_test_grab() falls through to next function input_test_match_device_id()
-   drivers/input/tests/input_test.o: warning: objtool: input_test_match_device_id() falls through to next function input_test_timestamp()
-   drivers/input/tests/input_test.o: warning: objtool: input_test_polling() falls through to next function input_test_exit()
-   drivers/input/tests/input_test.o: warning: objtool: .text: unexpected end of section
+[1/1] blk-mq: fix blk_mq_hw_ctx active request accounting
+      commit: ddad59331a4e16088468ca0ad228a9fe32d7955a
 
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jens Axboe
+
+
+
