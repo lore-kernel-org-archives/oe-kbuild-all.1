@@ -1,42 +1,47 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 263FC1C06
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 02:20:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441B8185D
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  3 Jun 2023 02:51:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685758814; x=1717294814;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OU4kg1DteUMllkg9WZMmi7ruGS917MOo5TE5NO7ZZag=;
-  b=Wiojqd18bJUXKJFJtEusMfN5vGopCN2gKx4U2MW7PmVs/8klFp9eLhDW
-   6Hiu3NwgB/1mGiOnf0kCtdS2+F2htAx7ILJ0fJpP4SvdXi41knbd6jeEa
-   BW0q4CtE2zhlyAXZudYhqTu9vtnTh5vYZx0JyRHOcBFIFba+pKMJJ74C1
-   RnLaPTwH9Wvh4DSkgN2HfZPr+WMkE3GGH5cOy76hAgqHi03Cd8geGTELB
-   TO6BfcGNNzHurE+qj+Nf2F8/PtnuR3OP3rREmqnh6isyDbGNJPexAjFLE
-   +xJQpVW2pvpqSDbhEKQBIG/3Fl6Uw8lxG9MptnHDeXXoI8PYP9tp78jk0
+  t=1685760677; x=1717296677;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lAwzLZszPemVEIxG2ZpxMfJ062GpzO5OYgJtv6ZOxd4=;
+  b=DL8WfqEashvxwjpT0Zj3OmuZ/TIKw5K8f0pxvH1eS8prhk59hezJ6EeN
+   m7K1plhUtOc0jmyNwvxvfuzwr1Nie8bz61GpatbFuNUI6AuwlrZmkVlyh
+   ddXF+IuW2xqLCRflx3UMa/N+PzHOHFDRUNeyinlXJ/pUXcBMYc8x+9qMa
+   iahHsMVw52AHAlNXoMvCna1jJclChWxk/8ACIltNUQ/IXojJVt+ghvW1V
+   gJXBsdWiRnkO4Mt2tBWjV4Syr5+6C2gq7smhPDnPzPycYhl1M7/1nnvGU
+   nlz8IwPwsreL9u87qUIUa0cD2YcN/jHLuTkaePFErGGFizmUBe/ad38H7
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="345604526"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="421840749"
 X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="345604526"
+   d="scan'208";a="421840749"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 19:20:13 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2023 19:51:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="702150864"
+X-IronPort-AV: E=McAfee;i="6600,9927,10729"; a="702154100"
 X-IronPort-AV: E=Sophos;i="6.00,214,1681196400"; 
-   d="scan'208";a="702150864"
+   d="scan'208";a="702154100"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 02 Jun 2023 19:20:12 -0700
+  by orsmga007.jf.intel.com with ESMTP; 02 Jun 2023 19:51:13 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q5GsF-0001Aj-3C;
-	Sat, 03 Jun 2023 02:20:11 +0000
-Date: Sat, 3 Jun 2023 10:19:16 +0800
+	id 1q5HMH-0001CH-0M;
+	Sat, 03 Jun 2023 02:51:13 +0000
+Date: Sat, 3 Jun 2023 10:50:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/110-smc 1/23] lib/vsprintf.c:1779:30: sparse:
- sparse: cast to restricted __le32
-Message-ID: <202306031032.e2HxQ2Hb-lkp@intel.com>
+To: Shunsuke Mie <mie@igel.co.jp>, "Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Rusty Russell <rusty@rustcorp.com.au>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Shunsuke Mie <mie@igel.co.jp>
+Subject: Re: [PATCH v4 1/1] vringh: IOMEM support
+Message-ID: <202306031019.wWKekRGz-lkp@intel.com>
+References: <20230602055211.309960-2-mie@igel.co.jp>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,11 +50,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230602055211.309960-2-mie@igel.co.jp>
 
-tree:   https://github.com/AsahiLinux/linux bits/110-smc
-head:   107ed86e21d1522d5d5d9d629f1d9c371e37df7f
-commit: da07643e905c39f65fe38be65f7b3940a0681081 [1/23] lib/vsprintf: Add support for generic FOURCCs by extending %p4cc
-config: nios2-randconfig-s043-20230531 (https://download.01.org/0day-ci/archive/20230603/202306031032.e2HxQ2Hb-lkp@intel.com/config)
+Hi Shunsuke,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on mst-vhost/linux-next]
+[also build test WARNING on linus/master horms-ipvs/master v6.4-rc4 next-20230602]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shunsuke-Mie/vringh-IOMEM-support/20230602-135351
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+patch link:    https://lore.kernel.org/r/20230602055211.309960-2-mie%40igel.co.jp
+patch subject: [PATCH v4 1/1] vringh: IOMEM support
+config: nios2-randconfig-s053-20230531 (https://download.01.org/0day-ci/archive/20230603/202306031019.wWKekRGz-lkp@intel.com/config)
 compiler: nios2-linux-gcc (GCC) 12.3.0
 reproduce:
         mkdir -p ~/bin
@@ -57,100 +74,182 @@ reproduce:
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/AsahiLinux/linux/commit/da07643e905c39f65fe38be65f7b3940a0681081
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux bits/110-smc
-        git checkout da07643e905c39f65fe38be65f7b3940a0681081
+        # https://github.com/intel-lab-lkp/linux/commit/de2a1f5220c32e953400f225aba6bd294a8d41b8
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Shunsuke-Mie/vringh-IOMEM-support/20230602-135351
+        git checkout de2a1f5220c32e953400f225aba6bd294a8d41b8
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/vhost/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306031032.e2HxQ2Hb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306031019.wWKekRGz-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> lib/vsprintf.c:1779:30: sparse: sparse: cast to restricted __le32
->> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
->> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
->> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
->> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
->> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
->> lib/vsprintf.c:1782:30: sparse: sparse: cast to restricted __be32
-   lib/vsprintf.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+>> drivers/vhost/vringh.c:1630:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got struct vring_used_elem *dst @@
+   drivers/vhost/vringh.c:1630:21: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/vhost/vringh.c:1630:21: sparse:     got struct vring_used_elem *dst
+   drivers/vhost/vringh.c:592:18: sparse: sparse: restricted __virtio16 degrades to integer
+   drivers/vhost/vringh.c:592:18: sparse: sparse: restricted __virtio16 degrades to integer
+   drivers/vhost/vringh.c:592:18: sparse: sparse: cast to restricted __virtio16
+   drivers/vhost/vringh.c:1280:23: sparse: sparse: restricted __virtio16 degrades to integer
+   drivers/vhost/vringh.c:1280:23: sparse: sparse: restricted __virtio16 degrades to integer
+   drivers/vhost/vringh.c:1280:23: sparse: sparse: cast to restricted __virtio16
+>> drivers/vhost/vringh.c:1610:46: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got restricted __virtio16 const [usertype] *p @@
+   drivers/vhost/vringh.c:1610:46: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/vhost/vringh.c:1610:46: sparse:     got restricted __virtio16 const [usertype] *p
+>> drivers/vhost/vringh.c:1610:45: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __virtio16 [usertype] val @@     got unsigned short @@
+   drivers/vhost/vringh.c:1610:45: sparse:     expected restricted __virtio16 [usertype] val
+   drivers/vhost/vringh.c:1610:45: sparse:     got unsigned short
+>> drivers/vhost/vringh.c:1623:28: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void const *src @@
+   drivers/vhost/vringh.c:1623:28: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/vhost/vringh.c:1623:28: sparse:     got void const *src
+>> drivers/vhost/vringh.c:1637:28: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void *src @@
+   drivers/vhost/vringh.c:1637:28: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/vhost/vringh.c:1637:28: sparse:     got void *src
+>> drivers/vhost/vringh.c:1644:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *dst @@
+   drivers/vhost/vringh.c:1644:21: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/vhost/vringh.c:1644:21: sparse:     got void *dst
+>> drivers/vhost/vringh.c:1616:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] value @@     got restricted __virtio16 @@
+   drivers/vhost/vringh.c:1616:34: sparse:     expected unsigned short [usertype] value
+   drivers/vhost/vringh.c:1616:34: sparse:     got restricted __virtio16
+>> drivers/vhost/vringh.c:1616:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got restricted __virtio16 [usertype] *p @@
+   drivers/vhost/vringh.c:1616:46: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/vhost/vringh.c:1616:46: sparse:     got restricted __virtio16 [usertype] *p
+   drivers/vhost/vringh.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
    arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
    arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
    arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
    arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
    arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
 
-vim +1779 lib/vsprintf.c
+vim +1630 drivers/vhost/vringh.c
 
-  1753	
-  1754	static noinline_for_stack
-  1755	char *fourcc_string(char *buf, char *end, const u32 *fourcc,
-  1756			    struct printf_spec spec, const char *fmt)
-  1757	{
-  1758		char output[sizeof("0123 little-endian (0x01234567)")];
-  1759		char *p = output;
-  1760		unsigned int i;
-  1761		bool pix_fmt = false;
-  1762		u32 orig, val;
-  1763	
-  1764		if (fmt[1] != 'c')
-  1765			return error_string(buf, end, "(%p4?)", spec);
-  1766	
-  1767		if (check_pointer(&buf, end, fourcc, spec))
-  1768			return buf;
-  1769	
-  1770		orig = get_unaligned(fourcc);
-  1771		switch (fmt[2]) {
-  1772		case 'h':
-  1773			val = orig;
-  1774			break;
-  1775		case 'r':
-  1776			val = orig = swab32(orig);
-  1777			break;
-  1778		case 'l':
-> 1779			val = orig = le32_to_cpu(orig);
-  1780			break;
-  1781		case 'b':
-> 1782			val = orig = be32_to_cpu(orig);
-  1783			break;
-  1784		case 'c':
-  1785			/* Pixel formats are printed LSB-first */
-  1786			val = swab32(orig & ~BIT(31));
-  1787			pix_fmt = true;
-  1788			break;
-  1789		default:
-  1790			return error_string(buf, end, "(%p4?)", spec);
-  1791		}
-  1792	
-  1793		for (i = 0; i < sizeof(u32); i++) {
-  1794			unsigned char c = val >> ((3 - i) * 8);
-  1795	
-  1796			/* Print non-control ASCII characters as-is, dot otherwise */
-  1797			*p++ = isascii(c) && isprint(c) ? c : '.';
-  1798		}
-  1799	
-  1800		if (pix_fmt) {
-  1801			*p++ = ' ';
-  1802			strcpy(p, orig & BIT(31) ? "big-endian" : "little-endian");
-  1803			p += strlen(p);
-  1804		}
-  1805	
-  1806		*p++ = ' ';
-  1807		*p++ = '(';
-  1808		p = special_hex_number(p, output + sizeof(output) - 2, orig, sizeof(u32));
-  1809		*p++ = ')';
-  1810		*p = '\0';
-  1811	
-  1812		return string(buf, end, output, spec);
-  1813	}
-  1814	
+  1606	
+  1607	static inline int getu16_iomem(const struct vringh *vrh, u16 *val,
+  1608				       const __virtio16 *p)
+  1609	{
+> 1610		*val = vringh16_to_cpu(vrh, ioread16(p));
+  1611		return 0;
+  1612	}
+  1613	
+  1614	static inline int putu16_iomem(const struct vringh *vrh, __virtio16 *p, u16 val)
+  1615	{
+> 1616		iowrite16(cpu_to_vringh16(vrh, val), p);
+  1617		return 0;
+  1618	}
+  1619	
+  1620	static inline int copydesc_iomem(const struct vringh *vrh, void *dst,
+  1621					 const void *src, size_t len)
+  1622	{
+> 1623		memcpy_fromio(dst, src, len);
+  1624		return 0;
+  1625	}
+  1626	
+  1627	static int putused_iomem(const struct vringh *vrh, struct vring_used_elem *dst,
+  1628				 const struct vring_used_elem *src, unsigned int num)
+  1629	{
+> 1630		memcpy_toio(dst, src, num * sizeof(*dst));
+  1631		return 0;
+  1632	}
+  1633	
+  1634	static inline int xfer_from_iomem(const struct vringh *vrh, void *src,
+  1635					  void *dst, size_t len)
+  1636	{
+> 1637		memcpy_fromio(dst, src, len);
+  1638		return 0;
+  1639	}
+  1640	
+  1641	static inline int xfer_to_iomem(const struct vringh *vrh, void *dst, void *src,
+  1642					size_t len)
+  1643	{
+> 1644		memcpy_toio(dst, src, len);
+  1645		return 0;
+  1646	}
+  1647	
 
 -- 
 0-DAY CI Kernel Test Service
