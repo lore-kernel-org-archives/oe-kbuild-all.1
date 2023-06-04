@@ -1,42 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E3B23C6;
-	Sun,  4 Jun 2023 14:00:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486EE23A5
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Jun 2023 14:42:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685887244; x=1717423244;
+  t=1685889769; x=1717425769;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1R5svHdBoVb/5Xj0dzt6ySEAujV5v2nEOuHBZ2KiB3Q=;
-  b=XV0YjgXl+O/U2HbRwPqPdY2wTlWOUoY/p+x24sA3mOWSSdU9BruQw7yB
-   aPio6mIQIB3OIhs1AfJwatFY3OIjQvsCBdzYm3DQkQ96mlN+p6XFb4Wa1
-   +06yy+ma6M/etrkie/c9J6VLoA+pWN9zHL7DCubZCZCEf2KsoghVP+EG+
-   D7A63WHRft5KaSlz4xtPj7xjwchg+VWIT0EfwNAvUCdvwkVM/kbxsUnny
-   FL2r2NdM1NLqiAxeyeZXazpCy2BKH2bjG7IpKNvChpWA5pdAAzHQ+4WOL
-   Bqnajc2N2pQa2TJuXmX4t1B8D/MiuZxEY4Pc2w64fn9UDez4dQ+pLO6YE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="358629983"
+  bh=d2e49zLlpAFKAUuP5g2QcKrtwsVhDb6nhdQOGs42wS0=;
+  b=N2jk0PH7nPfajyaxpbh1KVvS97HMTITZcl1437JcRjWH0zyhOKGIfERq
+   MfyJvqzJ7p7N5hmlom2bnIRkuxyBjtV/JH8fohvNz4DNMPezk00lNS2Ct
+   iqoFfOh5SFlT/zAlFgdkwyFKgh/lUFZ8YTNQxpczMz+dLLHTq9WFrHMVl
+   X+eUgwSz42067NOLuVjN21YCfBohwmmiHjM2mqFOud2K/lX1Mssfd36QQ
+   Qc0I45K8vz9Sug6T/NkPQbVFca3qgU6aamWXmY3DojI/2wwtU7wQmI+MI
+   w+kL0ZQnOzC29hI404gPKuVw2e6MsKjYQCOy6TcFJdvT1R0/ZBKmX0Djn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="442565966"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="358629983"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2023 07:00:43 -0700
+   d="scan'208";a="442565966"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2023 07:42:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="832522614"
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="798137159"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="832522614"
+   d="scan'208";a="798137159"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 Jun 2023 07:00:42 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Jun 2023 07:42:47 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q5oHh-0002nv-2m;
-	Sun, 04 Jun 2023 14:00:41 +0000
-Date: Sun, 4 Jun 2023 22:00:14 +0800
+	id 1q5owR-0002tt-0X;
+	Sun, 04 Jun 2023 14:42:47 +0000
+Date: Sun, 4 Jun 2023 22:41:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: Hector Martin <marcan@marcan.st>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/220-tso 1/4] arch/arm64/kernel/process.c:378:14:
- error: no member named 'actlr' in 'struct thread_struct'
-Message-ID: <202306042103.Qj1L3nOJ-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/220-tso 1/4] arch/arm64/kernel/process.c:378:34:
+ error: 'struct thread_struct' has no member named 'actlr'
+Message-ID: <202306042239.Sld8vnzI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,42 +49,47 @@ Content-Disposition: inline
 tree:   https://github.com/AsahiLinux/linux bits/220-tso
 head:   38015ad2af19088e66e0c81f7efd5a8b51814026
 commit: 1d9d900b53057adf79ba22257f2bd551bf5dfed7 [1/4] arm64: Introduce scaffolding to add ACTLR_EL1 to thread state
-config: arm64-randconfig-r012-20230604 (https://download.01.org/0day-ci/archive/20230604/202306042103.Qj1L3nOJ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
+config: arm64-randconfig-r006-20230604 (https://download.01.org/0day-ci/archive/20230604/202306042239.Sld8vnzI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
         # https://github.com/AsahiLinux/linux/commit/1d9d900b53057adf79ba22257f2bd551bf5dfed7
         git remote add asahilinux https://github.com/AsahiLinux/linux
         git fetch --no-tags asahilinux bits/220-tso
         git checkout 1d9d900b53057adf79ba22257f2bd551bf5dfed7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306042103.Qj1L3nOJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306042239.Sld8vnzI-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/arm64/kernel/process.c:378:14: error: no member named 'actlr' in 'struct thread_struct'
-                           p->thread.actlr = read_sysreg(actlr_el1);
-                           ~~~~~~~~~ ^
-   arch/arm64/kernel/process.c:531:18: error: no member named 'actlr' in 'struct thread_struct'
-           current->thread.actlr = read_sysreg(actlr_el1);
-           ~~~~~~~~~~~~~~~ ^
-   arch/arm64/kernel/process.c:532:28: error: no member named 'actlr' in 'struct thread_struct'
-           write_sysreg(next->thread.actlr, actlr_el1);
-                        ~~~~~~~~~~~~ ^
-   arch/arm64/include/asm/sysreg.h:832:20: note: expanded from macro 'write_sysreg'
-           u64 __val = (u64)(v);                                   \
-                             ^
-   3 errors generated.
+   arch/arm64/kernel/process.c: In function 'copy_thread':
+>> arch/arm64/kernel/process.c:378:34: error: 'struct thread_struct' has no member named 'actlr'
+     378 |                         p->thread.actlr = read_sysreg(actlr_el1);
+         |                                  ^
+   arch/arm64/kernel/process.c: In function 'actlr_thread_switch':
+   arch/arm64/kernel/process.c:531:24: error: 'struct thread_struct' has no member named 'actlr'
+     531 |         current->thread.actlr = read_sysreg(actlr_el1);
+         |                        ^
+   In file included from arch/arm64/include/asm/cputype.h:193,
+                    from arch/arm64/include/asm/cache.h:42,
+                    from include/linux/cache.h:6,
+                    from include/linux/time.h:5,
+                    from include/linux/compat.h:10,
+                    from arch/arm64/kernel/process.c:9:
+   arch/arm64/kernel/process.c:532:34: error: 'struct thread_struct' has no member named 'actlr'
+     532 |         write_sysreg(next->thread.actlr, actlr_el1);
+         |                                  ^
+   arch/arm64/include/asm/sysreg.h:832:27: note: in definition of macro 'write_sysreg'
+     832 |         u64 __val = (u64)(v);                                   \
+         |                           ^
 
 
 vim +378 arch/arm64/kernel/process.c
