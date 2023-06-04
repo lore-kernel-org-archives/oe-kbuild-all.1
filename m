@@ -1,44 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608BA28EC
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Jun 2023 16:41:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152CC23A5
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Jun 2023 17:13:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685896864; x=1717432864;
+  t=1685898787; x=1717434787;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=q1ii4ll+mY0rmd4DBaGXUUCYwk83Nu/QMIWJlnZ8siI=;
-  b=PmxWIlQLaoe5tnDteZbtAT2xn5yVryQqJjSyf6Qcxj60HKQ2y1MW47UT
-   DuvNEfclRvqKdNWQMo8qS4yBkFh1q6wDu7MJHd1cOARywAMSElnTM9qgP
-   tmnTiXIm1yLjpdQdi8NgRktwGgJw6CD0WjyE1iYeMQfNkOzLkgg98ThyV
-   XtgBF5K8PdskboYGd6gyhFZpWoSgok2J3EFZw5Awe2VcSubgipCHt9zeu
-   BMu8hDorIOWNJA2cvKN95TJXWY17XNCAgWzd927/EG2tSHqsHWlo2vUOA
-   AeQnvpLsA74xB9c7nvwbiCHYh9V5MdSuNKd0sFi4nADcvmBAfoU6VwiBx
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="353700372"
+  bh=K590VV3LmuuJBsx9zNm0us94QAhGBuRyp81RY9RoIv8=;
+  b=Ox/6fIqE/PLhoETCjc7yPyqb5dPLxGleumka0cyqldfsm9FwHBN1/HhU
+   LMF7vrgNRyWnqKhw7VFyQw/RU9zzxIPOtNZEkk36bT4HcvKNAq+u79r4q
+   A6TF2lPTZBi1XItiNpJFBxDTIo8BJngwa6rXvYFK2VFL257TO7FCGVjZb
+   A8J6MGt25e8CPNSvOO5aiqi7cd/Gs/9B6tS/kjqsd763EhvQ0wbPGHSM7
+   OqYavOqQ7gNviX/I56oWPZwEA2874Y6FzOTiJoh1+iltaWcGSJ8M7nSdm
+   md5EZ7fMJrgdo/Asddkj3tI8SFqIcQh19RZKKenULrkUnj6QvX/eR/xXu
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="358655030"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="353700372"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2023 09:41:03 -0700
+   d="scan'208";a="358655030"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2023 10:13:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="778284396"
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="685874944"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="778284396"
+   d="scan'208";a="685874944"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 04 Jun 2023 09:41:02 -0700
+  by orsmga006.jf.intel.com with ESMTP; 04 Jun 2023 10:13:05 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q5qms-0003BL-0F;
-	Sun, 04 Jun 2023 16:41:02 +0000
-Date: Mon, 5 Jun 2023 00:40:55 +0800
+	id 1q5rHs-0003ER-22;
+	Sun, 04 Jun 2023 17:13:04 +0000
+Date: Mon, 5 Jun 2023 01:12:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
+To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-block:blk-open-release 11/11] drivers/block/z2ram.c:307:20:
- error: initialization of 'void (*)(struct gendisk *)' from incompatible
- pointer type 'void (*)(struct gendisk *, fmode_t)' {aka 'void (*)(struct
- gendisk *, unsigned int)'}
-Message-ID: <202306050015.YvbC7RtF-lkp@intel.com>
+Subject: [wtarreau-nolibc:20230604-nolibc-rv32+stkp6 79/118]
+ kernel/rcu/tasks.h:1265:21: warning: no previous prototype for
+ 'get_rcu_tasks_rude_gp_kthread'
+Message-ID: <202306050138.4DPEHI1b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,51 +47,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/block.git blk-open-release
-head:   82e16464921aeb370b735b19188e8d1078e1867f
-commit: 82e16464921aeb370b735b19188e8d1078e1867f [11/11] block: remove the unused mode argument to ->release
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230605/202306050015.YvbC7RtF-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wtarreau/nolibc.git 20230604-nolibc-rv32+stkp6
+head:   a76324560e0f8f916d89452dd6aec1104e97a3c6
+commit: b58a31cc1eba9ae59a47c986aa91009d27d9dbe6 [79/118] rcuscale: Add RCU Tasks Rude testing
+config: microblaze-randconfig-r022-20230604 (https://download.01.org/0day-ci/archive/20230605/202306050138.4DPEHI1b-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add hch-block git://git.infradead.org/users/hch/block.git
-        git fetch --no-tags hch-block blk-open-release
-        git checkout 82e16464921aeb370b735b19188e8d1078e1867f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/wtarreau/nolibc.git/commit/?id=b58a31cc1eba9ae59a47c986aa91009d27d9dbe6
+        git remote add wtarreau-nolibc https://git.kernel.org/pub/scm/linux/kernel/git/wtarreau/nolibc.git
+        git fetch --no-tags wtarreau-nolibc 20230604-nolibc-rv32+stkp6
+        git checkout b58a31cc1eba9ae59a47c986aa91009d27d9dbe6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306050015.YvbC7RtF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306050138.4DPEHI1b-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/block/z2ram.c:307:20: error: initialization of 'void (*)(struct gendisk *)' from incompatible pointer type 'void (*)(struct gendisk *, fmode_t)' {aka 'void (*)(struct gendisk *, unsigned int)'} [-Werror=incompatible-pointer-types]
-     307 |         .release = z2_release,
-         |                    ^~~~~~~~~~
-   drivers/block/z2ram.c:307:20: note: (near initialization for 'z2_fops.release')
+   In file included from kernel/rcu/update.c:649:
+>> kernel/rcu/tasks.h:1265:21: warning: no previous prototype for 'get_rcu_tasks_rude_gp_kthread' [-Wmissing-prototypes]
+    1265 | struct task_struct *get_rcu_tasks_rude_gp_kthread(void)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/tasks.h:1937:21: warning: no previous prototype for 'get_rcu_tasks_gp_kthread' [-Wmissing-prototypes]
+    1937 | struct task_struct *get_rcu_tasks_gp_kthread(void)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/rcu/tasks.h: In function 'get_rcu_tasks_gp_kthread':
+   kernel/rcu/tasks.h:1939:16: error: 'rcu_tasks' undeclared (first use in this function)
+    1939 |         return rcu_tasks.kthread_ptr;
+         |                ^~~~~~~~~
+   kernel/rcu/tasks.h:1939:16: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/rcu/tasks.h:1940:1: error: control reaches end of non-void function [-Werror=return-type]
+    1940 | }
+         | ^
    cc1: some warnings being treated as errors
 
 
-vim +307 drivers/block/z2ram.c
+vim +/get_rcu_tasks_rude_gp_kthread +1265 kernel/rcu/tasks.h
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  303  
-6c3a05e127058e Christoph Hellwig 2020-10-29  304  static const struct block_device_operations z2_fops = {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  305  	.owner = THIS_MODULE,
-ab746cb9386313 Al Viro           2008-03-02  306  	.open = z2_open,
-ab746cb9386313 Al Viro           2008-03-02 @307  	.release = z2_release,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  308  };
-^1da177e4c3f41 Linus Torvalds    2005-04-16  309  
-
-:::::: The code at line 307 was first introduced by commit
-:::::: ab746cb9386313201f2e0060e85a30781047dee1 [PATCH] switch z2ram
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+  1264	
+> 1265	struct task_struct *get_rcu_tasks_rude_gp_kthread(void)
+  1266	{
+  1267		return rcu_tasks_rude.kthread_ptr;
+  1268	}
+  1269	EXPORT_SYMBOL_GPL(get_rcu_tasks_rude_gp_kthread);
+  1270	
 
 -- 
 0-DAY CI Kernel Test Service
