@@ -1,161 +1,73 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9BA17C8
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Jun 2023 01:04:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685840648; x=1717376648;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+wJqTTbsk/iHJD7CbhDVzaKecBsql3rMokp64c3Bl3M=;
-  b=X9NrkbLtLLVqQ/+/w+E4ME2kSyGlkhz2qlLfW5BhNxCMWEQYFJ5QCIPn
-   ZG2332nzqnsQM857qzhyxrC4uLu9gXjvVMylZH44aItO+WEMumzx1u8/9
-   FIrIfS4Wekf+pAGqKuzMw5DaA2xuDhEpJCLwy+TIazYo1mtDSsmAa/4z0
-   5WGJ6VmDj+XLjbF3rKOCY5hJp0nhLWmEDIUlROvdajERDiDMd1vRmIBgR
-   3X7bkRZMis09vpCDzFDDWLKMRXg9An879vXP6ZjjPNRUnbEvL6JiA4hzn
-   6d2VfN6zZSGxt/mDWr5SGBWrxHGpkzM5mRC4j2OSYX+KAMv5GMFryDGMQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="442508661"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="442508661"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2023 18:04:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="741236515"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="741236515"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 03 Jun 2023 18:04:04 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q5cA8-0002Bn-0F;
-	Sun, 04 Jun 2023 01:04:04 +0000
-Date: Sun, 4 Jun 2023 09:03:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hongyu Xie <xiehongyu1@kylinos.cn>, linux@armlinux.org.uk,
-	gregkh@linuxfoundation.org, jirislaby@kernel.org, corbet@lwn.net
-Cc: oe-kbuild-all@lists.linux.dev, rdunlap@infradead.org,
-	linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
-	xy521521@gmail.com, Hongyu Xie <xiehongyu1@kylinos.cn>
-Subject: Re: [PATCH v2 -next] tty: serial: add panic serial helper
-Message-ID: <202306040839.IrnnKYxH-lkp@intel.com>
-References: <20230602011835.582430-1-xiehongyu1@kylinos.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E7917C8
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Jun 2023 02:04:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E197EC433D2;
+	Sun,  4 Jun 2023 02:04:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1685844244;
+	bh=Bv6NDQo9VdNYdgQDQQYOlGCNwgLTTxAxcYNuPKEPEKs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=LSS02eHxu17/6WNVodQRQFHSmHAf1VyH2Ww70FKn4rxKQmTauKi4+6ccv9Tz4wPB6
+	 rfxWT4u+1F+JdOlogKFPA8czzdqWw3UbQCRMLLPUdV0ew2g80jKiLDxobGVLeVWFXN
+	 3xVQa4G+pUGWGj7dES3rQ1eLkgAgekcBOhPY6zb71ue2tYyqkjW3pqvdBgMI6oW4ki
+	 NxlXl6tT7GuKnCUH6/Xmg7s/vGJlKgH3Vr+cANnMS2A413e2qhC5g62E2nMc9X4luy
+	 mJy8FPj8aZf7oV3iagKRDl1jEkRf6w1V0HOJwSyPBmcnCo4AIlwo9Zoj5PkvXkh1Bv
+	 YCcSYDmPTKbJA==
+Date: Sun, 4 Jun 2023 11:04:00 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Bagas Sanjaya <bagasdotme@gmail.com>,
+ linux-doc@vger.kernel.org
+Subject: Re: [trace:probes/core 16/16] htmldocs: Warning:
+ Documentation/trace/fprobetrace.rst references a file that doesn't exist:
+ Documentation/trace/fprobes.rst
+Message-Id: <20230604110400.197a8c4e201ace830741ccf1@kernel.org>
+In-Reply-To: <202306040144.aD72UzkF-lkp@intel.com>
+References: <202306040144.aD72UzkF-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230602011835.582430-1-xiehongyu1@kylinos.cn>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Hongyu,
+On Sun, 4 Jun 2023 01:15:57 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace probes/core
+> head:   438ae37afde3d24731cf23e5b77370e76218744e
+> commit: 438ae37afde3d24731cf23e5b77370e76218744e [16/16] Documentation: tracing/probes: Add fprobe event tracing document
+> reproduce:
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace.git/commit/?id=438ae37afde3d24731cf23e5b77370e76218744e
+>         git remote add trace git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace
+>         git fetch --no-tags trace probes/core
+>         git checkout 438ae37afde3d24731cf23e5b77370e76218744e
+>         make menuconfig
+>         # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+>         make htmldocs
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306040144.aD72UzkF-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> Warning: Documentation/trace/fprobetrace.rst references a file that doesn't exist: Documentation/trace/fprobes.rst
+> 
 
-[auto build test WARNING on next-20230601]
+Oops, it should be fprobe.rst, instead of fprobes.rst...
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hongyu-Xie/tty-serial-add-panic-serial-helper/20230602-092109
-base:   next-20230601
-patch link:    https://lore.kernel.org/r/20230602011835.582430-1-xiehongyu1%40kylinos.cn
-patch subject: [PATCH v2 -next] tty: serial: add panic serial helper
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/0d2aa58f592716807757b3c92fb62fe7aa4eef66
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Hongyu-Xie/tty-serial-add-panic-serial-helper/20230602-092109
-        git checkout 0d2aa58f592716807757b3c92fb62fe7aa4eef66
-        make menuconfig
-        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
-        make htmldocs
+Thanks,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306040839.IrnnKYxH-lkp@intel.com/
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/dev-tools/panic_serial_helper.rst:66: WARNING: Unexpected indentation.
->> Documentation/dev-tools/panic_serial_helper.rst:62: WARNING: Inline interpreted text or phrase reference start-string without end-string.
->> Documentation/dev-tools/panic_serial_helper.rst:69: WARNING: Block quote ends without a blank line; unexpected unindent.
->> Documentation/dev-tools/panic_serial_helper.rst:86: WARNING: Enumerated list ends without a blank line; unexpected unindent.
->> Documentation/dev-tools/panic_serial_helper.rst:92: WARNING: Option list ends without a blank line; unexpected unindent.
->> Documentation/dev-tools/panic_serial_helper.rst:130: WARNING: Inconsistent literal block quoting.
-
-vim +66 Documentation/dev-tools/panic_serial_helper.rst
-
-    61	
-  > 62	First you need to enable ``CONFIG_PANIC_SERIAL_HELPER`` in your
-    63	config. To enable ``CONFIG_PANIC_SERIAL_HELPER`` you should look under
-    64	:menuselection:
-    65	`Device Drivers
-  > 66	  --> Character devices
-    67	    --> Enable TTY (TTY [=y])
-    68	      --> Serial drivers`
-  > 69	and select
-    70	:menuselection:`debug through UART after panic`.
-    71	
-    72	Second, build and update the kernel image. Then wait for panic.
-    73	
-    74	After panic, you need to do the following,
-    75	1. connect the UART side of an USB-to-UART tool to any UART
-    76	  port on your device (PC, server, Laptop, etc...).
-    77	  Connect the USB side of that tool to another PC. Open
-    78	  minicom (or other app) on that PC, and set "/dev/ttyUSB0"(or
-    79	  "/dev/ttyUSB1 if there is already another USB-to-UART tool
-    80	  connected to your device) with "115200 8N1".
-    81	
-    82	  It automatically selects the port where you first press the
-    83	  "Enter" key (some keyboard labeled this with "Return").
-    84	
-    85	2. press "Enter" (or "Return") in that
-  > 86	  minicom window; you'll get a help menu:
-    87	  "
-    88	  help:
-    89	      -a      show all kernel msg
-    90	      -3      show S3 msg
-    91	      -4      show S4 msg
-  > 92	      -filter-[string]        show msg containing [string]
-    93	      -q-     quit
-    94	  "
-    95	
-    96	see ``Help menu options`` for details.
-    97	
-    98	3. finally, type 'a', '3', '4', 'q' or "filter-xxx" then press
-    99	 "Enter" to get what you want.
-   100	
-   101	Help menu options
-   102	-----------------
-   103	Available options:
-   104	
-   105	 - a
-   106	
-   107	   Show all the messages starting from ``Booting Linux on ...``
-   108	
-   109	 - 3
-   110	
-   111	   If STR happened before panic, this will show messages starting from
-   112	   ``PM: suspend entry...``
-   113	
-   114	 - 4
-   115	
-   116	   If STD happened before panic, this will show messages starting from
-   117	   ``PM: hibernation entry...``
-   118	
-   119	 - filter-[string]
-   120	
-   121	   Provide case-ignored filter matching. Only show messages that containing
-   122	   ``string``. For example, if you're only interesting in message lines
-   123	   that containing ``CPU`` or ``cpu``, you just input
-   124	   ``filter-CPU`` or ``filter-cpu``.
-   125	   Here is an output example for filtering ``CPU``::
-   126	
-   127	   <6>[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x701f6633
-   128	   <6>[    0.000000] Detected PIPT I-cache on CPU0
-   129	   <6>[    0.000000] CPU features: detected: Kernel page table isolation (K
- > 130	   ...
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
