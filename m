@@ -1,124 +1,160 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7057217C8
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Jun 2023 02:06:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685844370; x=1717380370;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H17Z52NC1fO7RmCPvzwNM5L0g6cLDt+b4SXw0TWfuCI=;
-  b=l7vZlKjQM9SWBL5qNY9qmbWa2NLooAqUh1omOLqx+exCV67fMETUNpfY
-   VQ/1EVHOTie56hP/9lsX6hk1eNYbMAV8hKsO+vEgonvhPSiKdFN8Fae7A
-   716AFz6XAbzq+XCidGAAw+kswRJIoOo23ACW+b6o6Pc7XYWyNMHSjrM3Q
-   zTAP4DraXJKF0yIkGFPFhb16ztUF32qt+Z6WXeil8cpIK88RnnsqIaggJ
-   6kK0bqdkqM2x7HnRXOkLHQ0sLLP9nOAoLIvF6eKvPMu9MG47W5clye8Zr
-   9ZNlxR0kr7KC3zu8kNFo3lE31Yft0cdCyZFihlGyzLYRMwYO4V1s4R9KJ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="359453118"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="359453118"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2023 19:06:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10730"; a="852563279"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="852563279"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 03 Jun 2023 19:06:07 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q5d8A-0002ER-1R;
-	Sun, 04 Jun 2023 02:06:06 +0000
-Date: Sun, 4 Jun 2023 10:05:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Saurabh Sengar <ssengar@linux.microsoft.com>, kys@microsoft.com,
-	haiyangz@microsoft.com, wei.liu@kernel.org, decui@microsoft.com,
-	mikelley@microsoft.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/5] uio: Add hv_vmbus_client driver
-Message-ID: <202306040910.13oLufQd-lkp@intel.com>
-References: <1685692629-31351-2-git-send-email-ssengar@linux.microsoft.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60CA17F6
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Jun 2023 03:23:13 +0000 (UTC)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6260e8a1424so26367126d6.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 03 Jun 2023 20:23:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685848993; x=1688440993;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y3j1b2PCL9zmpQZGbEy07CfIrohfmMAKh0OXlOYM/r8=;
+        b=f+gUAdcikhB0kmIc9D4zyKCdPv+l+Om+54rcNsftepq/Mpdqp+J5VZQwrtgl2y/Wqk
+         pyRZg/CYT3RXGz+4zpYnbF/Mpvk3IBd2aCpXQe/kLzSuiE4mTa8KeudNKVFOvKIURo2D
+         +i8KezXPLkCQs45lujEGr/gZUmpRuM7WIgkqdPl2JNr9mo+uPEUM44harBcDwjm5w4F1
+         3WCZavzHTSYrHIlhqoFW1GxurostxVXj8bLy0mluiEKrHqOfsrXuDQtkM9Pizi0LNLy7
+         PXqUQtyKLCNvN8YJSO/a5RyBnS1Rb18eOhPW6hwBCbU5LkzwkcabAwIpNWCLGVVGsxh2
+         D55g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685848993; x=1688440993;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y3j1b2PCL9zmpQZGbEy07CfIrohfmMAKh0OXlOYM/r8=;
+        b=fQH6XT76IyFA5CIWwkpWSArjhkjfxO6QR/jgG9gtlnbQlbHPfAg5tBUwil9A4uAagp
+         BvNYus3bzLg1sBvEqZ8bRHqOkd9QwEDCng8UtWs0tI5CbKRGFvn4X7kW3GmRICv2jW3Z
+         QDk2r03PenJ1iUsP0QWrzg/0hX+DN9r2PNuADpxce0nh+OBHUXZeD8oDYDHqVPOXxmYR
+         igYTDpas3XPCz6ERXU2Yv0S+xdgkDyNBziFuyt98pGb9KOgEFkJWfHYTAeBpgPZYEWur
+         efSTnL6badWhNOaOhlhfs/z22jyZvXtjKxgSV8J1WuJ75O6ECz1YtFq/qayNrSZHs4q7
+         9QkQ==
+X-Gm-Message-State: AC+VfDyQRJ/WP8aXTMTZB+gx2ocw1WJgzPrpmSfrqoMvafz+4f7/4INl
+	CuiapoSlRUquDbHrrepXUqsKt3i5gHRljA4tVL8=
+X-Google-Smtp-Source: ACHHUZ5h3SB+IFvWLnsgRZFb2T+471h/375DGGMrFQMOc8JYdWYAiEG5DaS2URCj/C1OvyjNhVSSakIOuCbSN2Zdf3g=
+X-Received: by 2002:a05:6214:d86:b0:626:29d4:9a09 with SMTP id
+ e6-20020a0562140d8600b0062629d49a09mr4299951qve.53.1685848992654; Sat, 03 Jun
+ 2023 20:23:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1685692629-31351-2-git-send-email-ssengar@linux.microsoft.com>
+References: <20230602085239.91138-2-laoar.shao@gmail.com> <202306031438.0X2HPFQl-lkp@intel.com>
+In-Reply-To: <202306031438.0X2HPFQl-lkp@intel.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Sun, 4 Jun 2023 11:22:36 +0800
+Message-ID: <CALOAHbDYPEVaK5bDfF=taEp33NcbXqDJrAMV1ERdfxaOZZizbQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 1/6] bpf: Support ->fill_link_info for kprobe_multi
+To: kernel test robot <lkp@intel.com>
+Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	martin.lau@linux.dev, song@kernel.org, yhs@fb.com, john.fastabend@gmail.com, 
+	kpsingh@kernel.org, sdf@google.com, haoluo@google.com, jolsa@kernel.org, 
+	quentin@isovalent.com, oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Saurabh,
+On Sat, Jun 3, 2023 at 2:38=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi Yafang,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on bpf-next/master]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Yafang-Shao/bpf-Su=
+pport-fill_link_info-for-kprobe_multi/20230602-165455
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
+master
+> patch link:    https://lore.kernel.org/r/20230602085239.91138-2-laoar.sha=
+o%40gmail.com
+> patch subject: [PATCH bpf-next 1/6] bpf: Support ->fill_link_info for kpr=
+obe_multi
+> config: i386-randconfig-s002-20230601 (https://download.01.org/0day-ci/ar=
+chive/20230603/202306031438.0X2HPFQl-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce:
+>         # apt-get install sparse
+>         # sparse version: v0.6.4-39-gce1a6720-dirty
+>         # https://github.com/intel-lab-lkp/linux/commit/270f3eb6c142f1f0e=
+c7d800b8ecaab1b101682a0
+>         git remote add linux-review https://github.com/intel-lab-lkp/linu=
+x
+>         git fetch --no-tags linux-review Yafang-Shao/bpf-Support-fill_lin=
+k_info-for-kprobe_multi/20230602-165455
+>         git checkout 270f3eb6c142f1f0ec7d800b8ecaab1b101682a0
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=
+=3Dbuild_dir ARCH=3Di386 olddefconfig
+>         make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=
+=3Dbuild_dir ARCH=3Di386 SHELL=3D/bin/bash kernel/trace/
+>
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306031438.0X2HPFQl-lkp=
+@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+> >> kernel/trace/bpf_trace.c:2554:24: sparse: sparse: cast removes address=
+ space '__user' of expression
+> >> kernel/trace/bpf_trace.c:2571:26: sparse: sparse: incorrect type in ar=
+gument 1 (different address spaces) @@     expected void [noderef] __user *=
+to @@     got unsigned long long [usertype] *uaddrs @@
+>    kernel/trace/bpf_trace.c:2571:26: sparse:     expected void [noderef] =
+__user *to
+>    kernel/trace/bpf_trace.c:2571:26: sparse:     got unsigned long long [=
+usertype] *uaddrs
+>    kernel/trace/bpf_trace.c:2492:21: sparse: sparse: dereference of noder=
+ef expression
+>    kernel/trace/bpf_trace.c:2496:66: sparse: sparse: dereference of noder=
+ef expression
+>
+> vim +/__user +2554 kernel/trace/bpf_trace.c
+>
+>   2550
+>   2551  static int bpf_kprobe_multi_link_fill_link_info(const struct bpf_=
+link *link,
+>   2552                                                  struct bpf_link_i=
+nfo *info)
+>   2553  {
+> > 2554          u64 *uaddrs =3D (u64 *)u64_to_user_ptr(info->kprobe_multi=
+.addrs);
 
-kernel test robot noticed the following build warnings:
+Thanks for the report. Will fix it.
 
-[auto build test WARNING on char-misc/char-misc-testing]
-[also build test WARNING on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.4-rc4 next-20230602]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>   2555          struct bpf_kprobe_multi_link *kmulti_link;
+>   2556          u32 ucount =3D info->kprobe_multi.count;
+>   2557
+>   2558          if (!uaddrs ^ !ucount)
+>   2559                  return -EINVAL;
+>   2560
+>   2561          kmulti_link =3D container_of(link, struct bpf_kprobe_mult=
+i_link, link);
+>   2562          if (!uaddrs) {
+>   2563                  info->kprobe_multi.count =3D kmulti_link->cnt;
+>   2564                  return 0;
+>   2565          }
+>   2566
+>   2567          if (!ucount)
+>   2568                  return 0;
+>   2569          if (ucount !=3D kmulti_link->cnt)
+>   2570                  return -EINVAL;
+> > 2571          if (copy_to_user(uaddrs, kmulti_link->addrs, ucount * siz=
+eof(u64)))
+>   2572                  return -EFAULT;
+>   2573          return 0;
+>   2574  }
+>   2575
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Saurabh-Sengar/uio-Add-hv_vmbus_client-driver/20230602-160029
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/1685692629-31351-2-git-send-email-ssengar%40linux.microsoft.com
-patch subject: [PATCH 1/5] uio: Add hv_vmbus_client driver
-config: i386-randconfig-c001-20230604 (https://download.01.org/0day-ci/archive/20230604/202306040910.13oLufQd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306040910.13oLufQd-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/uio/uio_hv_vmbus_client.c:195:1-6: WARNING: invalid free of devm_ allocated data
-
-vim +195 drivers/uio/uio_hv_vmbus_client.c
-
-   158	
-   159	static int uio_hv_vmbus_probe(struct hv_device *dev, const struct hv_vmbus_device_id *dev_id)
-   160	{
-   161		struct uio_hv_vmbus_dev *pdata;
-   162		int ret = 0;
-   163		char *name = NULL;
-   164	
-   165		pdata = devm_kzalloc(&dev->device, sizeof(*pdata), GFP_KERNEL);
-   166		if (!pdata)
-   167			return -ENOMEM;
-   168	
-   169		name = kasprintf(GFP_KERNEL, "%pUl", &dev->dev_instance);
-   170	
-   171		/* Fill general uio info */
-   172		pdata->info.name = name; /* /sys/class/uio/uioX/name */
-   173		pdata->info.version = DRIVER_VERSION;
-   174		pdata->info.irqcontrol = uio_hv_vmbus_irqcontrol;
-   175		pdata->info.open = uio_hv_vmbus_open;
-   176		pdata->info.release = uio_hv_vmbus_release;
-   177		pdata->info.irq = UIO_IRQ_CUSTOM;
-   178		pdata->info.priv = pdata;
-   179		pdata->device = dev;
-   180	
-   181		ret = uio_register_device(&dev->device, &pdata->info);
-   182		if (ret) {
-   183			dev_err(&dev->device, "uio_hv_vmbus register failed\n");
-   184			goto fail;
-   185		}
-   186	
-   187		ret = sysfs_create_file(&dev->device.kobj, &dev_attr_ring_size.attr);
-   188		if (ret)
-   189			dev_notice(&dev->device, "sysfs create ring size file failed; %d\n", ret);
-   190	
-   191		hv_set_drvdata(dev, pdata);
-   192		return 0;
-   193	
-   194	fail:
- > 195		kfree(pdata);
-   196		return ret;
-   197	}
-   198	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Regards
+Yafang
