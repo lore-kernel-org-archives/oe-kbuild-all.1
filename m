@@ -1,42 +1,43 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF6E883C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Jun 2023 18:24:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527F8FC17
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Jun 2023 19:36:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685903050; x=1717439050;
+  t=1685907377; x=1717443377;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FsrPxwCy8jRoYCjtG8929zjNFeS2MvPL1FiteXH9vmI=;
-  b=OrJ93SJkic8yqYCKqMmv8bQBMJ2bYnUm/cORxZoD6qYBI6ipLlckViUw
-   pCbmX9r8NwwsifMdhHOmso4/Jw6SVeLGroRNrIAMq8U1C3OTRC03+0ebm
-   OVNo1K5/Del+TdemBCxvbuJv+iXh8xWW3lvXQsBSTB2hPHcpp7dTM2WA+
-   +B60n/P17JTuHrdxBFHXCq+C3+EG2mmwmFubPNSFByUodbMPkhClXQUx4
-   puHP5hgKWhV/mpVHO7YPwV9++T0/4fgoMYlbngijNMb1HRYqTFAPrS/7o
-   oSGelAMEul8YyOJEJGmQW9ymX8rwFnIQtiF+iAoUbdIC51NLKYqfSkT+J
+  bh=ZSfGAMA7Qaqgsn3g8A5V4P72lAF58TftsFaChYGMk/w=;
+  b=F1qgMoAdMSNzLp5+5Vu/ttMVsU2cc6RnE7GBi+68x03NiM8jSSXRqRc0
+   bPYMFSKEN6LDV6gryZ9dwXuslEHwj+dDY3V9Uheoqj8Z+v4W7LWmP5lQG
+   14RjJf4sGr/n59HpDABqbIUlKRweOFphlYqGO6CRchpQPGS8gV1pyAMlz
+   j24mYp9ogjTVKwGLbwe8p11h3cpKI9KlkCt6j4TZ+Jmgwb0G9ockiUm6s
+   40JenNum9Hd6yQzL1EmD1Abs+YBi9ZBr5F7opuS0mIwCxAPxmJPHlEsuF
+   DwwZIoBxVlEO9YE0GRGWOmJzZEhDlmH6P4bW5bjOFwpMxN8NTpzTOI/Xl
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="356229038"
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="356234600"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="356229038"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2023 11:24:09 -0700
+   d="scan'208";a="356234600"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2023 12:36:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="955085364"
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="658838691"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="955085364"
+   d="scan'208";a="658838691"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 04 Jun 2023 11:24:08 -0700
+  by orsmga003.jf.intel.com with ESMTP; 04 Jun 2023 12:36:13 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q5sOe-0003JP-14;
-	Sun, 04 Jun 2023 18:24:08 +0000
-Date: Mon, 5 Jun 2023 02:23:59 +0800
+	id 1q5tWO-0003Op-2Q;
+	Sun, 04 Jun 2023 19:36:12 +0000
+Date: Mon, 5 Jun 2023 03:35:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-block:blk-open-release 10/11] drivers/block/ataflop.c:1961:27:
- error: passing argument 1 of 'floppy_open' from incompatible pointer type
-Message-ID: <202306050243.nm8VOWPq-lkp@intel.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>
+Subject: drivers/pinctrl/pinctrl-cy8c95x0.c:390:21: error: variable
+ 'cy8c95x0_i2c_regmap' has initializer but incomplete type
+Message-ID: <202306050310.RQsoJPTw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,91 +47,444 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Christoph,
+Hi Geert,
 
 FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-tree:   git://git.infradead.org/users/hch/block.git blk-open-release
-head:   82e16464921aeb370b735b19188e8d1078e1867f
-commit: 2b796dbf82e1a60a694e7f59815bc3c55320ccb2 [10/11] block: pass a gendisk to ->open
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230605/202306050243.nm8VOWPq-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   9561de3a55bed6bdd44a12820ba81ec416e705a7
+commit: 70a640c0efa7667453c3911b13335304ce46ad8b regmap: REGMAP_KUNIT should not select REGMAP
+date:   4 weeks ago
+config: s390-randconfig-r011-20230605 (https://download.01.org/0day-ci/archive/20230605/202306050310.RQsoJPTw-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add hch-block git://git.infradead.org/users/hch/block.git
-        git fetch --no-tags hch-block blk-open-release
-        git checkout 2b796dbf82e1a60a694e7f59815bc3c55320ccb2
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=70a640c0efa7667453c3911b13335304ce46ad8b
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 70a640c0efa7667453c3911b13335304ce46ad8b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/extcon/ drivers/gpio/ drivers/i2c/muxes/ drivers/input/misc/ drivers/media/cec/i2c/ drivers/misc/eeprom/ drivers/mux/ drivers/pinctrl/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306050243.nm8VOWPq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306050310.RQsoJPTw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/block/ataflop.c: In function 'floppy_unlocked_open':
->> drivers/block/ataflop.c:1961:27: error: passing argument 1 of 'floppy_open' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1961 |         ret = floppy_open(bdev, mode);
-         |                           ^~~~
-         |                           |
-         |                           struct block_device *
-   drivers/block/ataflop.c:1918:40: note: expected 'struct gendisk *' but argument is of type 'struct block_device *'
-    1918 | static int floppy_open(struct gendisk *disk, fmode_t mode)
-         |                        ~~~~~~~~~~~~~~~~^~~~
-   drivers/block/ataflop.c: At top level:
->> drivers/block/ataflop.c:1982:27: error: initialization of 'int (*)(struct gendisk *, fmode_t)' {aka 'int (*)(struct gendisk *, unsigned int)'} from incompatible pointer type 'int (*)(struct block_device *, fmode_t)' {aka 'int (*)(struct block_device *, unsigned int)'} [-Werror=incompatible-pointer-types]
-    1982 |         .open           = floppy_unlocked_open,
-         |                           ^~~~~~~~~~~~~~~~~~~~
-   drivers/block/ataflop.c:1982:27: note: (near initialization for 'floppy_fops.open')
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:390:21: error: variable 'cy8c95x0_i2c_regmap' has initializer but incomplete type
+     390 | static const struct regmap_config cy8c95x0_i2c_regmap = {
+         |                     ^~~~~~~~~~~~~
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:391:10: error: 'const struct regmap_config' has no member named 'reg_bits'
+     391 |         .reg_bits = 8,
+         |          ^~~~~~~~
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:391:21: warning: excess elements in struct initializer
+     391 |         .reg_bits = 8,
+         |                     ^
+   drivers/pinctrl/pinctrl-cy8c95x0.c:391:21: note: (near initialization for 'cy8c95x0_i2c_regmap')
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:392:10: error: 'const struct regmap_config' has no member named 'val_bits'
+     392 |         .val_bits = 8,
+         |          ^~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:392:21: warning: excess elements in struct initializer
+     392 |         .val_bits = 8,
+         |                     ^
+   drivers/pinctrl/pinctrl-cy8c95x0.c:392:21: note: (near initialization for 'cy8c95x0_i2c_regmap')
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:394:10: error: 'const struct regmap_config' has no member named 'reg_defaults'
+     394 |         .reg_defaults = cy8c95x0_reg_defaults,
+         |          ^~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:394:25: warning: excess elements in struct initializer
+     394 |         .reg_defaults = cy8c95x0_reg_defaults,
+         |                         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:394:25: note: (near initialization for 'cy8c95x0_i2c_regmap')
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:395:10: error: 'const struct regmap_config' has no member named 'num_reg_defaults'
+     395 |         .num_reg_defaults = ARRAY_SIZE(cy8c95x0_reg_defaults),
+         |          ^~~~~~~~~~~~~~~~
+   In file included from include/linux/cpumask.h:10,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:15,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from drivers/pinctrl/pinctrl-cy8c95x0.c:10:
+>> include/linux/kernel.h:56:25: warning: excess elements in struct initializer
+      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                         ^
+   drivers/pinctrl/pinctrl-cy8c95x0.c:395:29: note: in expansion of macro 'ARRAY_SIZE'
+     395 |         .num_reg_defaults = ARRAY_SIZE(cy8c95x0_reg_defaults),
+         |                             ^~~~~~~~~~
+   include/linux/kernel.h:56:25: note: (near initialization for 'cy8c95x0_i2c_regmap')
+      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                         ^
+   drivers/pinctrl/pinctrl-cy8c95x0.c:395:29: note: in expansion of macro 'ARRAY_SIZE'
+     395 |         .num_reg_defaults = ARRAY_SIZE(cy8c95x0_reg_defaults),
+         |                             ^~~~~~~~~~
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:397:10: error: 'const struct regmap_config' has no member named 'readable_reg'
+     397 |         .readable_reg = cy8c95x0_readable_register,
+         |          ^~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:397:25: warning: excess elements in struct initializer
+     397 |         .readable_reg = cy8c95x0_readable_register,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:397:25: note: (near initialization for 'cy8c95x0_i2c_regmap')
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:398:10: error: 'const struct regmap_config' has no member named 'writeable_reg'
+     398 |         .writeable_reg = cy8c95x0_writeable_register,
+         |          ^~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:398:26: warning: excess elements in struct initializer
+     398 |         .writeable_reg = cy8c95x0_writeable_register,
+         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:398:26: note: (near initialization for 'cy8c95x0_i2c_regmap')
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:399:10: error: 'const struct regmap_config' has no member named 'volatile_reg'
+     399 |         .volatile_reg = cy8c95x0_volatile_register,
+         |          ^~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:399:25: warning: excess elements in struct initializer
+     399 |         .volatile_reg = cy8c95x0_volatile_register,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:399:25: note: (near initialization for 'cy8c95x0_i2c_regmap')
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:400:10: error: 'const struct regmap_config' has no member named 'precious_reg'
+     400 |         .precious_reg = cy8c95x0_precious_register,
+         |          ^~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:400:25: warning: excess elements in struct initializer
+     400 |         .precious_reg = cy8c95x0_precious_register,
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:400:25: note: (near initialization for 'cy8c95x0_i2c_regmap')
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:402:10: error: 'const struct regmap_config' has no member named 'cache_type'
+     402 |         .cache_type = REGCACHE_FLAT,
+         |          ^~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:402:23: warning: excess elements in struct initializer
+     402 |         .cache_type = REGCACHE_FLAT,
+         |                       ^~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:402:23: note: (near initialization for 'cy8c95x0_i2c_regmap')
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:403:10: error: 'const struct regmap_config' has no member named 'max_register'
+     403 |         .max_register = CY8C95X0_COMMAND,
+         |          ^~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:57:33: warning: excess elements in struct initializer
+      57 | #define CY8C95X0_COMMAND        0x30
+         |                                 ^~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:403:25: note: in expansion of macro 'CY8C95X0_COMMAND'
+     403 |         .max_register = CY8C95X0_COMMAND,
+         |                         ^~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:57:33: note: (near initialization for 'cy8c95x0_i2c_regmap')
+      57 | #define CY8C95X0_COMMAND        0x30
+         |                                 ^~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c:403:25: note: in expansion of macro 'CY8C95X0_COMMAND'
+     403 |         .max_register = CY8C95X0_COMMAND,
+         |                         ^~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-cy8c95x0.c: In function 'cy8c95x0_probe':
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:1386:24: error: implicit declaration of function 'devm_regmap_init_i2c' [-Werror=implicit-function-declaration]
+    1386 |         chip->regmap = devm_regmap_init_i2c(client, &cy8c95x0_i2c_regmap);
+         |                        ^~~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:1386:22: warning: assignment to 'struct regmap *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1386 |         chip->regmap = devm_regmap_init_i2c(client, &cy8c95x0_i2c_regmap);
+         |                      ^
+   drivers/pinctrl/pinctrl-cy8c95x0.c: At top level:
+>> drivers/pinctrl/pinctrl-cy8c95x0.c:390:35: error: storage size of 'cy8c95x0_i2c_regmap' isn't known
+     390 | static const struct regmap_config cy8c95x0_i2c_regmap = {
+         |                                   ^~~~~~~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
+--
+>> drivers/pinctrl/pinctrl-mcp23s08.c:58:21: error: variable 'mcp23x08_volatile_range' has initializer but incomplete type
+      58 | static const struct regmap_range mcp23x08_volatile_range = {
+         |                     ^~~~~~~~~~~~
+>> drivers/pinctrl/pinctrl-mcp23s08.c:59:10: error: 'const struct regmap_range' has no member named 'range_min'
+      59 |         .range_min = MCP_INTF,
+         |          ^~~~~~~~~
+>> drivers/pinctrl/pinctrl-mcp23s08.c:42:25: warning: excess elements in struct initializer
+      42 | #define MCP_INTF        0x07
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:59:22: note: in expansion of macro 'MCP_INTF'
+      59 |         .range_min = MCP_INTF,
+         |                      ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:42:25: note: (near initialization for 'mcp23x08_volatile_range')
+      42 | #define MCP_INTF        0x07
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:59:22: note: in expansion of macro 'MCP_INTF'
+      59 |         .range_min = MCP_INTF,
+         |                      ^~~~~~~~
+>> drivers/pinctrl/pinctrl-mcp23s08.c:60:10: error: 'const struct regmap_range' has no member named 'range_max'
+      60 |         .range_max = MCP_GPIO,
+         |          ^~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:44:25: warning: excess elements in struct initializer
+      44 | #define MCP_GPIO        0x09
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:60:22: note: in expansion of macro 'MCP_GPIO'
+      60 |         .range_max = MCP_GPIO,
+         |                      ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:44:25: note: (near initialization for 'mcp23x08_volatile_range')
+      44 | #define MCP_GPIO        0x09
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:60:22: note: in expansion of macro 'MCP_GPIO'
+      60 |         .range_max = MCP_GPIO,
+         |                      ^~~~~~~~
+>> drivers/pinctrl/pinctrl-mcp23s08.c:63:21: error: variable 'mcp23x08_volatile_table' has initializer but incomplete type
+      63 | static const struct regmap_access_table mcp23x08_volatile_table = {
+         |                     ^~~~~~~~~~~~~~~~~~~
+>> drivers/pinctrl/pinctrl-mcp23s08.c:64:10: error: 'const struct regmap_access_table' has no member named 'yes_ranges'
+      64 |         .yes_ranges = &mcp23x08_volatile_range,
+         |          ^~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:64:23: warning: excess elements in struct initializer
+      64 |         .yes_ranges = &mcp23x08_volatile_range,
+         |                       ^
+   drivers/pinctrl/pinctrl-mcp23s08.c:64:23: note: (near initialization for 'mcp23x08_volatile_table')
+>> drivers/pinctrl/pinctrl-mcp23s08.c:65:10: error: 'const struct regmap_access_table' has no member named 'n_yes_ranges'
+      65 |         .n_yes_ranges = 1,
+         |          ^~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:65:25: warning: excess elements in struct initializer
+      65 |         .n_yes_ranges = 1,
+         |                         ^
+   drivers/pinctrl/pinctrl-mcp23s08.c:65:25: note: (near initialization for 'mcp23x08_volatile_table')
+>> drivers/pinctrl/pinctrl-mcp23s08.c:68:21: error: variable 'mcp23x08_precious_range' has initializer but incomplete type
+      68 | static const struct regmap_range mcp23x08_precious_range = {
+         |                     ^~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:69:10: error: 'const struct regmap_range' has no member named 'range_min'
+      69 |         .range_min = MCP_GPIO,
+         |          ^~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:44:25: warning: excess elements in struct initializer
+      44 | #define MCP_GPIO        0x09
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:69:22: note: in expansion of macro 'MCP_GPIO'
+      69 |         .range_min = MCP_GPIO,
+         |                      ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:44:25: note: (near initialization for 'mcp23x08_precious_range')
+      44 | #define MCP_GPIO        0x09
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:69:22: note: in expansion of macro 'MCP_GPIO'
+      69 |         .range_min = MCP_GPIO,
+         |                      ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:70:10: error: 'const struct regmap_range' has no member named 'range_max'
+      70 |         .range_max = MCP_GPIO,
+         |          ^~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:44:25: warning: excess elements in struct initializer
+      44 | #define MCP_GPIO        0x09
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:70:22: note: in expansion of macro 'MCP_GPIO'
+      70 |         .range_max = MCP_GPIO,
+         |                      ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:44:25: note: (near initialization for 'mcp23x08_precious_range')
+      44 | #define MCP_GPIO        0x09
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:70:22: note: in expansion of macro 'MCP_GPIO'
+      70 |         .range_max = MCP_GPIO,
+         |                      ^~~~~~~~
+>> drivers/pinctrl/pinctrl-mcp23s08.c:73:21: error: variable 'mcp23x08_precious_table' has initializer but incomplete type
+      73 | static const struct regmap_access_table mcp23x08_precious_table = {
+         |                     ^~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:74:10: error: 'const struct regmap_access_table' has no member named 'yes_ranges'
+      74 |         .yes_ranges = &mcp23x08_precious_range,
+         |          ^~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:74:23: warning: excess elements in struct initializer
+      74 |         .yes_ranges = &mcp23x08_precious_range,
+         |                       ^
+   drivers/pinctrl/pinctrl-mcp23s08.c:74:23: note: (near initialization for 'mcp23x08_precious_table')
+   drivers/pinctrl/pinctrl-mcp23s08.c:75:10: error: 'const struct regmap_access_table' has no member named 'n_yes_ranges'
+      75 |         .n_yes_ranges = 1,
+         |          ^~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:75:25: warning: excess elements in struct initializer
+      75 |         .n_yes_ranges = 1,
+         |                         ^
+   drivers/pinctrl/pinctrl-mcp23s08.c:75:25: note: (near initialization for 'mcp23x08_precious_table')
+>> drivers/pinctrl/pinctrl-mcp23s08.c:78:14: error: variable 'mcp23x08_regmap' has initializer but incomplete type
+      78 | const struct regmap_config mcp23x08_regmap = {
+         |              ^~~~~~~~~~~~~
+>> drivers/pinctrl/pinctrl-mcp23s08.c:79:10: error: 'const struct regmap_config' has no member named 'reg_bits'
+      79 |         .reg_bits = 8,
+         |          ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:79:21: warning: excess elements in struct initializer
+      79 |         .reg_bits = 8,
+         |                     ^
+   drivers/pinctrl/pinctrl-mcp23s08.c:79:21: note: (near initialization for 'mcp23x08_regmap')
+>> drivers/pinctrl/pinctrl-mcp23s08.c:80:10: error: 'const struct regmap_config' has no member named 'val_bits'
+      80 |         .val_bits = 8,
+         |          ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:80:21: warning: excess elements in struct initializer
+      80 |         .val_bits = 8,
+         |                     ^
+   drivers/pinctrl/pinctrl-mcp23s08.c:80:21: note: (near initialization for 'mcp23x08_regmap')
+>> drivers/pinctrl/pinctrl-mcp23s08.c:82:10: error: 'const struct regmap_config' has no member named 'reg_stride'
+      82 |         .reg_stride = 1,
+         |          ^~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:82:23: warning: excess elements in struct initializer
+      82 |         .reg_stride = 1,
+         |                       ^
+   drivers/pinctrl/pinctrl-mcp23s08.c:82:23: note: (near initialization for 'mcp23x08_regmap')
+>> drivers/pinctrl/pinctrl-mcp23s08.c:83:10: error: 'const struct regmap_config' has no member named 'volatile_table'
+      83 |         .volatile_table = &mcp23x08_volatile_table,
+         |          ^~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:83:27: warning: excess elements in struct initializer
+      83 |         .volatile_table = &mcp23x08_volatile_table,
+         |                           ^
+   drivers/pinctrl/pinctrl-mcp23s08.c:83:27: note: (near initialization for 'mcp23x08_regmap')
+>> drivers/pinctrl/pinctrl-mcp23s08.c:84:10: error: 'const struct regmap_config' has no member named 'precious_table'
+      84 |         .precious_table = &mcp23x08_precious_table,
+         |          ^~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:84:27: warning: excess elements in struct initializer
+      84 |         .precious_table = &mcp23x08_precious_table,
+         |                           ^
+   drivers/pinctrl/pinctrl-mcp23s08.c:84:27: note: (near initialization for 'mcp23x08_regmap')
+>> drivers/pinctrl/pinctrl-mcp23s08.c:85:10: error: 'const struct regmap_config' has no member named 'reg_defaults'
+      85 |         .reg_defaults = mcp23x08_defaults,
+         |          ^~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:85:25: warning: excess elements in struct initializer
+      85 |         .reg_defaults = mcp23x08_defaults,
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:85:25: note: (near initialization for 'mcp23x08_regmap')
+>> drivers/pinctrl/pinctrl-mcp23s08.c:86:10: error: 'const struct regmap_config' has no member named 'num_reg_defaults'
+      86 |         .num_reg_defaults = ARRAY_SIZE(mcp23x08_defaults),
+         |          ^~~~~~~~~~~~~~~~
+   In file included from drivers/pinctrl/pinctrl-mcp23s08.c:5:
+>> include/linux/kernel.h:56:25: warning: excess elements in struct initializer
+      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                         ^
+   drivers/pinctrl/pinctrl-mcp23s08.c:86:29: note: in expansion of macro 'ARRAY_SIZE'
+      86 |         .num_reg_defaults = ARRAY_SIZE(mcp23x08_defaults),
+         |                             ^~~~~~~~~~
+   include/linux/kernel.h:56:25: note: (near initialization for 'mcp23x08_regmap')
+      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                         ^
+   drivers/pinctrl/pinctrl-mcp23s08.c:86:29: note: in expansion of macro 'ARRAY_SIZE'
+      86 |         .num_reg_defaults = ARRAY_SIZE(mcp23x08_defaults),
+         |                             ^~~~~~~~~~
+>> drivers/pinctrl/pinctrl-mcp23s08.c:87:10: error: 'const struct regmap_config' has no member named 'cache_type'
+      87 |         .cache_type = REGCACHE_FLAT,
+         |          ^~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:87:23: warning: excess elements in struct initializer
+      87 |         .cache_type = REGCACHE_FLAT,
+         |                       ^~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:87:23: note: (near initialization for 'mcp23x08_regmap')
+>> drivers/pinctrl/pinctrl-mcp23s08.c:88:10: error: 'const struct regmap_config' has no member named 'max_register'
+      88 |         .max_register = MCP_OLAT,
+         |          ^~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:45:25: warning: excess elements in struct initializer
+      45 | #define MCP_OLAT        0x0a
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:88:25: note: in expansion of macro 'MCP_OLAT'
+      88 |         .max_register = MCP_OLAT,
+         |                         ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:45:25: note: (near initialization for 'mcp23x08_regmap')
+      45 | #define MCP_OLAT        0x0a
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:88:25: note: in expansion of macro 'MCP_OLAT'
+      88 |         .max_register = MCP_OLAT,
+         |                         ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:103:21: error: variable 'mcp23x17_volatile_range' has initializer but incomplete type
+     103 | static const struct regmap_range mcp23x17_volatile_range = {
+         |                     ^~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:104:10: error: 'const struct regmap_range' has no member named 'range_min'
+     104 |         .range_min = MCP_INTF << 1,
+         |          ^~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:42:25: warning: excess elements in struct initializer
+      42 | #define MCP_INTF        0x07
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:104:22: note: in expansion of macro 'MCP_INTF'
+     104 |         .range_min = MCP_INTF << 1,
+         |                      ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:42:25: note: (near initialization for 'mcp23x17_volatile_range')
+      42 | #define MCP_INTF        0x07
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:104:22: note: in expansion of macro 'MCP_INTF'
+     104 |         .range_min = MCP_INTF << 1,
+         |                      ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:105:10: error: 'const struct regmap_range' has no member named 'range_max'
+     105 |         .range_max = MCP_GPIO << 1,
+         |          ^~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:44:25: warning: excess elements in struct initializer
+      44 | #define MCP_GPIO        0x09
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:105:22: note: in expansion of macro 'MCP_GPIO'
+     105 |         .range_max = MCP_GPIO << 1,
+         |                      ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:44:25: note: (near initialization for 'mcp23x17_volatile_range')
+      44 | #define MCP_GPIO        0x09
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:105:22: note: in expansion of macro 'MCP_GPIO'
+     105 |         .range_max = MCP_GPIO << 1,
+         |                      ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:108:21: error: variable 'mcp23x17_volatile_table' has initializer but incomplete type
+     108 | static const struct regmap_access_table mcp23x17_volatile_table = {
+         |                     ^~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:109:10: error: 'const struct regmap_access_table' has no member named 'yes_ranges'
+     109 |         .yes_ranges = &mcp23x17_volatile_range,
+         |          ^~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:109:23: warning: excess elements in struct initializer
+     109 |         .yes_ranges = &mcp23x17_volatile_range,
+         |                       ^
+   drivers/pinctrl/pinctrl-mcp23s08.c:109:23: note: (near initialization for 'mcp23x17_volatile_table')
+   drivers/pinctrl/pinctrl-mcp23s08.c:110:10: error: 'const struct regmap_access_table' has no member named 'n_yes_ranges'
+     110 |         .n_yes_ranges = 1,
+         |          ^~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:110:25: warning: excess elements in struct initializer
+     110 |         .n_yes_ranges = 1,
+         |                         ^
+   drivers/pinctrl/pinctrl-mcp23s08.c:110:25: note: (near initialization for 'mcp23x17_volatile_table')
+   drivers/pinctrl/pinctrl-mcp23s08.c:113:21: error: variable 'mcp23x17_precious_range' has initializer but incomplete type
+     113 | static const struct regmap_range mcp23x17_precious_range = {
+         |                     ^~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:114:10: error: 'const struct regmap_range' has no member named 'range_min'
+     114 |         .range_min = MCP_INTCAP << 1,
+         |          ^~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:43:25: warning: excess elements in struct initializer
+      43 | #define MCP_INTCAP      0x08
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:114:22: note: in expansion of macro 'MCP_INTCAP'
+     114 |         .range_min = MCP_INTCAP << 1,
+         |                      ^~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:43:25: note: (near initialization for 'mcp23x17_precious_range')
+      43 | #define MCP_INTCAP      0x08
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:114:22: note: in expansion of macro 'MCP_INTCAP'
+     114 |         .range_min = MCP_INTCAP << 1,
+         |                      ^~~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:115:10: error: 'const struct regmap_range' has no member named 'range_max'
+     115 |         .range_max = MCP_GPIO << 1,
+         |          ^~~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:44:25: warning: excess elements in struct initializer
+      44 | #define MCP_GPIO        0x09
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:115:22: note: in expansion of macro 'MCP_GPIO'
+     115 |         .range_max = MCP_GPIO << 1,
+         |                      ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:44:25: note: (near initialization for 'mcp23x17_precious_range')
+      44 | #define MCP_GPIO        0x09
+         |                         ^~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:115:22: note: in expansion of macro 'MCP_GPIO'
+     115 |         .range_max = MCP_GPIO << 1,
+         |                      ^~~~~~~~
+   drivers/pinctrl/pinctrl-mcp23s08.c:118:21: error: variable 'mcp23x17_precious_table' has initializer but incomplete type
+     118 | static const struct regmap_access_table mcp23x17_precious_table = {
+         |                     ^~~~~~~~~~~~~~~~~~~
+..
 
 
-vim +/floppy_open +1961 drivers/block/ataflop.c
+vim +/cy8c95x0_i2c_regmap +390 drivers/pinctrl/pinctrl-cy8c95x0.c
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1955  
-6e9624b8caec29 Arnd Bergmann   2010-08-07  1956  static int floppy_unlocked_open(struct block_device *bdev, fmode_t mode)
-6e9624b8caec29 Arnd Bergmann   2010-08-07  1957  {
-6e9624b8caec29 Arnd Bergmann   2010-08-07  1958  	int ret;
-6e9624b8caec29 Arnd Bergmann   2010-08-07  1959  
-2a48fc0ab24241 Arnd Bergmann   2010-06-02  1960  	mutex_lock(&ataflop_mutex);
-6e9624b8caec29 Arnd Bergmann   2010-08-07 @1961  	ret = floppy_open(bdev, mode);
-2a48fc0ab24241 Arnd Bergmann   2010-06-02  1962  	mutex_unlock(&ataflop_mutex);
-6e9624b8caec29 Arnd Bergmann   2010-08-07  1963  
-6e9624b8caec29 Arnd Bergmann   2010-08-07  1964  	return ret;
-6e9624b8caec29 Arnd Bergmann   2010-08-07  1965  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1966  
-db2a144bedd58b Al Viro         2013-05-05  1967  static void floppy_release(struct gendisk *disk, fmode_t mode)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1968  {
-60ad23400717f7 Al Viro         2008-03-02  1969  	struct atari_floppy_struct *p = disk->private_data;
-2a48fc0ab24241 Arnd Bergmann   2010-06-02  1970  	mutex_lock(&ataflop_mutex);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1971  	if (p->ref < 0)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1972  		p->ref = 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1973  	else if (!p->ref--) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1974  		printk(KERN_ERR "floppy_release with fd_ref == 0");
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1975  		p->ref = 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1976  	}
-2a48fc0ab24241 Arnd Bergmann   2010-06-02  1977  	mutex_unlock(&ataflop_mutex);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1978  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1979  
-83d5cde47dedf0 Alexey Dobriyan 2009-09-21  1980  static const struct block_device_operations floppy_fops = {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1981  	.owner		= THIS_MODULE,
-6e9624b8caec29 Arnd Bergmann   2010-08-07 @1982  	.open		= floppy_unlocked_open,
-60ad23400717f7 Al Viro         2008-03-02  1983  	.release	= floppy_release,
-8a6cfeb6deca3a Arnd Bergmann   2010-07-08  1984  	.ioctl		= fd_ioctl,
-1a8a74f03fcde1 Tejun Heo       2011-03-09  1985  	.check_events	= floppy_check_events,
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1986  };
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1987  
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  389  
+e6cbbe42944de9 Patrick Rudolph 2022-08-16 @390  static const struct regmap_config cy8c95x0_i2c_regmap = {
+e6cbbe42944de9 Patrick Rudolph 2022-08-16 @391  	.reg_bits = 8,
+e6cbbe42944de9 Patrick Rudolph 2022-08-16 @392  	.val_bits = 8,
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  393  
+e6cbbe42944de9 Patrick Rudolph 2022-08-16 @394  	.reg_defaults = cy8c95x0_reg_defaults,
+e6cbbe42944de9 Patrick Rudolph 2022-08-16 @395  	.num_reg_defaults = ARRAY_SIZE(cy8c95x0_reg_defaults),
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  396  
+e6cbbe42944de9 Patrick Rudolph 2022-08-16 @397  	.readable_reg = cy8c95x0_readable_register,
+e6cbbe42944de9 Patrick Rudolph 2022-08-16 @398  	.writeable_reg = cy8c95x0_writeable_register,
+e6cbbe42944de9 Patrick Rudolph 2022-08-16 @399  	.volatile_reg = cy8c95x0_volatile_register,
+e6cbbe42944de9 Patrick Rudolph 2022-08-16 @400  	.precious_reg = cy8c95x0_precious_register,
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  401  
+e6cbbe42944de9 Patrick Rudolph 2022-08-16 @402  	.cache_type = REGCACHE_FLAT,
+e6cbbe42944de9 Patrick Rudolph 2022-08-16 @403  	.max_register = CY8C95X0_COMMAND,
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  404  };
+e6cbbe42944de9 Patrick Rudolph 2022-08-16  405  
 
-:::::: The code at line 1961 was first introduced by commit
-:::::: 6e9624b8caec290d28b4c6d9ec75749df6372b87 block: push down BKL into .open and .release
+:::::: The code at line 390 was first introduced by commit
+:::::: e6cbbe42944de93ba4e0785b4f90d284b1d7cdf6 pinctrl: Add Cypress cy8c95x0 support
 
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Jens Axboe <jaxboe@fusionio.com>
+:::::: TO: Patrick Rudolph <patrick.rudolph@9elements.com>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
