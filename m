@@ -1,43 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5615623C6
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  4 Jun 2023 13:08:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E3B23C6;
+	Sun,  4 Jun 2023 14:00:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685884120; x=1717420120;
+  t=1685887244; x=1717423244;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vgjHGCedQ8gY+cpBGENz5B+0tUkuYgHxDdhYxQ6pNps=;
-  b=NL29h7xshEj8T7hDc4Upn/4Ph5qp28UHgBnwlUuVcCxFkN9DRxdxZRua
-   1J1gqtlDOWhZe7IZh/CXRVpvoP/94S8g5nZTlvz2+VgcUVDKD8qNcZZZ5
-   Oz0xzaGcMKYVCj2smhEoBfRQPuzDP/u+XtnetucROvhQ3Gd1NP0s/goNn
-   XP3+5plU6bejCF/UhGfg0v8BIpKoPoKJFhiD3cUw7TAjvHcemOIIOJhL7
-   P5T0NGnrWey3ssbUlM+f2tVK6IKChVvChoDGS9v2uo/j0mqx/Ks5R5xOd
-   fu5zOtZlxFqbN3U2ZItMzugA1AXqjtFhRGzY800BU3DFbPkDfXCT0gvMR
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="353674947"
+  bh=1R5svHdBoVb/5Xj0dzt6ySEAujV5v2nEOuHBZ2KiB3Q=;
+  b=XV0YjgXl+O/U2HbRwPqPdY2wTlWOUoY/p+x24sA3mOWSSdU9BruQw7yB
+   aPio6mIQIB3OIhs1AfJwatFY3OIjQvsCBdzYm3DQkQ96mlN+p6XFb4Wa1
+   +06yy+ma6M/etrkie/c9J6VLoA+pWN9zHL7DCubZCZCEf2KsoghVP+EG+
+   D7A63WHRft5KaSlz4xtPj7xjwchg+VWIT0EfwNAvUCdvwkVM/kbxsUnny
+   FL2r2NdM1NLqiAxeyeZXazpCy2BKH2bjG7IpKNvChpWA5pdAAzHQ+4WOL
+   Bqnajc2N2pQa2TJuXmX4t1B8D/MiuZxEY4Pc2w64fn9UDez4dQ+pLO6YE
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="358629983"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="353674947"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2023 06:08:39 -0700
+   d="scan'208";a="358629983"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2023 07:00:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="738085480"
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="832522614"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="738085480"
+   d="scan'208";a="832522614"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 04 Jun 2023 06:08:38 -0700
+  by orsmga004.jf.intel.com with ESMTP; 04 Jun 2023 07:00:42 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q5nTJ-0002iV-1J;
-	Sun, 04 Jun 2023 13:08:37 +0000
-Date: Sun, 4 Jun 2023 21:08:02 +0800
+	id 1q5oHh-0002nv-2m;
+	Sun, 04 Jun 2023 14:00:41 +0000
+Date: Sun, 4 Jun 2023 22:00:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
- 54/55] drivers/soundwire/qcom.c:600 qcom_swrm_enumerate() warn: inconsistent
- indenting
-Message-ID: <202306042016.fpNpKaiK-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/220-tso 1/4] arch/arm64/kernel/process.c:378:14:
+ error: no member named 'actlr' in 'struct thread_struct'
+Message-ID: <202306042103.Qj1L3nOJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,90 +46,127 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-wip-sm8450-hdmi-audio-on-qcomlt
-head:   297b910637065761660eaae156585c0319676c58
-commit: a7933a07f03a8ea2ada01bc3cb9919454b51f2b4 [54/55] DENUG: soundwire devices
-config: x86_64-randconfig-m001-20230604 (https://download.01.org/0day-ci/archive/20230604/202306042016.fpNpKaiK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://github.com/AsahiLinux/linux bits/220-tso
+head:   38015ad2af19088e66e0c81f7efd5a8b51814026
+commit: 1d9d900b53057adf79ba22257f2bd551bf5dfed7 [1/4] arm64: Introduce scaffolding to add ACTLR_EL1 to thread state
+config: arm64-randconfig-r012-20230604 (https://download.01.org/0day-ci/archive/20230604/202306042103.Qj1L3nOJ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://github.com/AsahiLinux/linux/commit/1d9d900b53057adf79ba22257f2bd551bf5dfed7
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/220-tso
+        git checkout 1d9d900b53057adf79ba22257f2bd551bf5dfed7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306042016.fpNpKaiK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306042103.Qj1L3nOJ-lkp@intel.com/
 
-smatch warnings:
-drivers/soundwire/qcom.c:600 qcom_swrm_enumerate() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +600 drivers/soundwire/qcom.c
+>> arch/arm64/kernel/process.c:378:14: error: no member named 'actlr' in 'struct thread_struct'
+                           p->thread.actlr = read_sysreg(actlr_el1);
+                           ~~~~~~~~~ ^
+   arch/arm64/kernel/process.c:531:18: error: no member named 'actlr' in 'struct thread_struct'
+           current->thread.actlr = read_sysreg(actlr_el1);
+           ~~~~~~~~~~~~~~~ ^
+   arch/arm64/kernel/process.c:532:28: error: no member named 'actlr' in 'struct thread_struct'
+           write_sysreg(next->thread.actlr, actlr_el1);
+                        ~~~~~~~~~~~~ ^
+   arch/arm64/include/asm/sysreg.h:832:20: note: expanded from macro 'write_sysreg'
+           u64 __val = (u64)(v);                                   \
+                             ^
+   3 errors generated.
 
-   587	
-   588	static int qcom_swrm_enumerate(struct sdw_bus *bus)
-   589	{
-   590		struct qcom_swrm_ctrl *ctrl = to_qcom_sdw(bus);
-   591		struct sdw_slave *slave, *_s;
-   592		struct sdw_slave_id id;
-   593		u32 val1, val2;
-   594		bool found;
-   595		u64 addr;
-   596		int i;
-   597		char *buf1 = (char *)&val1, *buf2 = (char *)&val2;
-   598	
-   599			/*SCP_Devid5 - Devid 4*/
- > 600			ctrl->reg_read(ctrl, SWRM_ENUMERATOR_SLAVE_DEV_ID_1(0), &val1);
-   601	
-   602			/*SCP_Devid3 - DevId 2 Devid 1 Devid 0*/
-   603			ctrl->reg_read(ctrl, SWRM_ENUMERATOR_SLAVE_DEV_ID_2(0), &val2);
-   604	
-   605			dev_err(ctrl->dev, "DEV_ID_1[%d]= 0x%x\n", 0, val1);
-   606			dev_err(ctrl->dev, "DEV_ID_2[%d]= 0x%x\n", 0, val2);
-   607	
-   608	
-   609		for (i = 1; i <= SDW_MAX_DEVICES; i++) {
-   610			/* do not continue if the status is Not Present  */
-   611			if (!ctrl->status[i])
-   612				continue;
-   613	
-   614			/*SCP_Devid5 - Devid 4*/
-   615			ctrl->reg_read(ctrl, SWRM_ENUMERATOR_SLAVE_DEV_ID_1(i), &val1);
-   616	
-   617			/*SCP_Devid3 - DevId 2 Devid 1 Devid 0*/
-   618			ctrl->reg_read(ctrl, SWRM_ENUMERATOR_SLAVE_DEV_ID_2(i), &val2);
-   619	
-   620			dev_err(ctrl->dev, "DEV_ID_1[%d]= 0x%x\n", i, val1);
-   621			dev_err(ctrl->dev, "DEV_ID_2[%d]= 0x%x\n", i, val2);
-   622	
-   623			if (!val1 && !val2)
-   624				break;
-   625	
-   626			addr = buf2[1] | (buf2[0] << 8) | (buf1[3] << 16) |
-   627				((u64)buf1[2] << 24) | ((u64)buf1[1] << 32) |
-   628				((u64)buf1[0] << 40);
-   629			dev_err(ctrl->dev, "addr[%d]= 0x%llx\n", i, addr);
-   630	
-   631			sdw_extract_slave_id(bus, addr, &id);
-   632			found = false;
-   633			ctrl->clock_stop_not_supported = false;
-   634			/* Now compare with entries */
-   635			list_for_each_entry_safe(slave, _s, &bus->slaves, node) {
-   636				if (sdw_compare_devid(slave, id) == 0) {
-   637					qcom_swrm_set_slave_dev_num(bus, slave, i);
-   638					if (!slave->prop.simple_clk_stop_capable)
-   639						ctrl->clock_stop_not_supported = true;
-   640	
-   641					found = true;
-   642					break;
-   643				}
-   644			}
-   645	
-   646			if (!found) {
-   647				qcom_swrm_set_slave_dev_num(bus, NULL, i);
-   648				sdw_slave_add(bus, &id, NULL);
-   649			}
-   650		}
-   651	
-   652		complete(&ctrl->enumeration);
-   653		return 0;
-   654	}
-   655	
+
+vim +378 arch/arm64/kernel/process.c
+
+   344	
+   345	int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
+   346	{
+   347		unsigned long clone_flags = args->flags;
+   348		unsigned long stack_start = args->stack;
+   349		unsigned long tls = args->tls;
+   350		struct pt_regs *childregs = task_pt_regs(p);
+   351	
+   352		memset(&p->thread.cpu_context, 0, sizeof(struct cpu_context));
+   353	
+   354		/*
+   355		 * In case p was allocated the same task_struct pointer as some
+   356		 * other recently-exited task, make sure p is disassociated from
+   357		 * any cpu that may have run that now-exited task recently.
+   358		 * Otherwise we could erroneously skip reloading the FPSIMD
+   359		 * registers for p.
+   360		 */
+   361		fpsimd_flush_task_state(p);
+   362	
+   363		ptrauth_thread_init_kernel(p);
+   364	
+   365		if (likely(!args->fn)) {
+   366			*childregs = *current_pt_regs();
+   367			childregs->regs[0] = 0;
+   368	
+   369			/*
+   370			 * Read the current TLS pointer from tpidr_el0 as it may be
+   371			 * out-of-sync with the saved value.
+   372			 */
+   373			*task_user_tls(p) = read_sysreg(tpidr_el0);
+   374			if (system_supports_tpidr2())
+   375				p->thread.tpidr2_el0 = read_sysreg_s(SYS_TPIDR2_EL0);
+   376	
+   377			if (system_has_actlr_state())
+ > 378				p->thread.actlr = read_sysreg(actlr_el1);
+   379	
+   380			if (stack_start) {
+   381				if (is_compat_thread(task_thread_info(p)))
+   382					childregs->compat_sp = stack_start;
+   383				else
+   384					childregs->sp = stack_start;
+   385			}
+   386	
+   387			/*
+   388			 * If a TLS pointer was passed to clone, use it for the new
+   389			 * thread.  We also reset TPIDR2 if it's in use.
+   390			 */
+   391			if (clone_flags & CLONE_SETTLS) {
+   392				p->thread.uw.tp_value = tls;
+   393				p->thread.tpidr2_el0 = 0;
+   394			}
+   395		} else {
+   396			/*
+   397			 * A kthread has no context to ERET to, so ensure any buggy
+   398			 * ERET is treated as an illegal exception return.
+   399			 *
+   400			 * When a user task is created from a kthread, childregs will
+   401			 * be initialized by start_thread() or start_compat_thread().
+   402			 */
+   403			memset(childregs, 0, sizeof(struct pt_regs));
+   404			childregs->pstate = PSR_MODE_EL1h | PSR_IL_BIT;
+   405	
+   406			p->thread.cpu_context.x19 = (unsigned long)args->fn;
+   407			p->thread.cpu_context.x20 = (unsigned long)args->fn_arg;
+   408		}
+   409		p->thread.cpu_context.pc = (unsigned long)ret_from_fork;
+   410		p->thread.cpu_context.sp = (unsigned long)childregs;
+   411		/*
+   412		 * For the benefit of the unwinder, set up childregs->stackframe
+   413		 * as the final frame for the new task.
+   414		 */
+   415		p->thread.cpu_context.fp = (unsigned long)childregs->stackframe;
+   416	
+   417		ptrace_hw_copy_thread(p);
+   418	
+   419		return 0;
+   420	}
+   421	
 
 -- 
 0-DAY CI Kernel Test Service
