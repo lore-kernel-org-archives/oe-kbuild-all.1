@@ -1,11 +1,11 @@
 Received: from cstnet.cn (smtp80.cstnet.cn [159.226.251.80])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2726319B
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jun 2023 01:53:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD1E389
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jun 2023 01:54:58 +0000 (UTC)
 Received: from ed3e173716be.home.arpa (unknown [124.16.138.125])
-	by APP-01 (Coremail) with SMTP id qwCowAA3PAArQH1k+HKFCw--.7797S2;
-	Mon, 05 Jun 2023 09:53:49 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowADHzg4DP31k4vaECw--.18700S2;
+	Mon, 05 Jun 2023 09:48:52 +0800 (CST)
 From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 To: andy.shevchenko@gmail.com
 Cc: oe-kbuild-all@lists.linux.dev,
@@ -17,9 +17,9 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: [PATCH v3] gpio: ath79: Add missing check for platform_get_irq
-Date: Mon,  5 Jun 2023 09:53:45 +0800
-Message-Id: <20230605015345.12801-1-jiasheng@iscas.ac.cn>
+Subject: [PATCH v3] gpio: sifive: Add missing check for platform_get_irq
+Date: Mon,  5 Jun 2023 09:48:50 +0800
+Message-Id: <20230605014850.9591-1-jiasheng@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -28,31 +28,30 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowAA3PAArQH1k+HKFCw--.7797S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7JFykur1fuF13Jw45Zw15XFb_yoWDXrb_Cw
-	1kXw1UCr48Cr9Iqr17Aw1ayrWSyr9rur1fur4vga13tr98A34kur9ruw4rZrnrWr18KFyD
-	Ca4DGrWYvFs3GjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID:qwCowADHzg4DP31k4vaECw--.18700S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7JFykGFW5XryDtr4fJrW3trb_yoWDCFg_Cw
+	1kZFyUWr409F98WF12yrWSyr92vrWkur1kursayFy3tr98Z34UZry7ZFs5AF1DWr1UKFyU
+	Ca95u3y3Aa13GjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
 	9fnUUIcSsGvfJTRUUUb38FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
 	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
 	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
 	6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
 	4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
-	Yx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
+	Yx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
 	WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7Cj
 	xVA2Y2ka0xkIwI1lc2xSY4AK67AK6w4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
 	v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
 	1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
-	AIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
+	AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
 	42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
-	evJa73UjIFyTuYvjfUFVyIUUUUU
+	evJa73UjIFyTuYvjfUOMKZDUUUU
 X-Originating-IP: [124.16.138.125]
 X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 
-Add the missing check for platform_get_irq() and return error
+Add the missing check for platform_get_irq() and return error code
 if it fails.
 
-Fixes: 2b8f89e19b6d ("gpio: ath79: Add support for the interrupt controller")
-
+Fixes: f52d6d8b43e5 ("gpio: sifive: To get gpio irq offset from device tree data")
 Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 ---
 Changelog:
@@ -65,25 +64,28 @@ v1 -> v2:
 
 1. Return "girq->parents[0]" instead of "-ENODEV".
 ---
- drivers/gpio/gpio-ath79.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/gpio/gpio-sifive.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpio/gpio-ath79.c b/drivers/gpio/gpio-ath79.c
-index aa0a954b8392..d2d838ad33bb 100644
---- a/drivers/gpio/gpio-ath79.c
-+++ b/drivers/gpio/gpio-ath79.c
-@@ -285,7 +285,10 @@ static int ath79_gpio_probe(struct platform_device *pdev)
- 					     GFP_KERNEL);
- 		if (!girq->parents)
- 			return -ENOMEM;
--		girq->parents[0] = platform_get_irq(pdev, 0);
-+		err = platform_get_irq(pdev, 0);
-+		if (err < 0)
-+			return err;
-+		girq->parents[0] = err;
- 		girq->default_type = IRQ_TYPE_NONE;
- 		girq->handler = handle_simple_irq;
+diff --git a/drivers/gpio/gpio-sifive.c b/drivers/gpio/gpio-sifive.c
+index 98939cd4a71e..745e5f67254e 100644
+--- a/drivers/gpio/gpio-sifive.c
++++ b/drivers/gpio/gpio-sifive.c
+@@ -221,8 +221,12 @@ static int sifive_gpio_probe(struct platform_device *pdev)
+ 		return -ENODEV;
  	}
+ 
+-	for (i = 0; i < ngpio; i++)
+-		chip->irq_number[i] = platform_get_irq(pdev, i);
++	for (i = 0; i < ngpio; i++) {
++		ret = platform_get_irq(pdev, i);
++		if (ret < 0)
++			return ret;
++		chip->irq_number[i] = ret;
++	}
+ 
+ 	ret = bgpio_init(&chip->gc, dev, 4,
+ 			 chip->base + SIFIVE_GPIO_INPUT_VAL,
 -- 
 2.25.1
 
