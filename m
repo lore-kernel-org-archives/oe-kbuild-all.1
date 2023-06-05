@@ -1,218 +1,159 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2040.outbound.protection.outlook.com [40.107.236.40])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A550525E;
-	Mon,  5 Jun 2023 12:18:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ULqD+5H88mfmbzVWsnl6jP7EAqFgDzhKZYZpbJnq30DSh0B7PBiONqRUmbWMw2Dc/svhp87lVP3QDUJSetQn8Y0sBmzHGPHOqQasqvy1sylfiXh6M/5mGA/8ZHPAEmNmZePHYeDa6t1rwnl8PqmoboUVKx2RzIxw9577GmGhhyu+ATRgsAHigxgWAKbPiZ05B7vfMMo4FzBfbsw0qovOvoMxIbxOFpOIU9cYb7Yksdjx5upDvDjT43NM4LnPbHntEuTPN432ZDAxxMOTBIFdCUNMNXc7KOW6aCztviIsbhU0YDDKYB5F0PeIo722Vd6EMDN5jxexCDTfzVKcMWqfbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i44w0V/2Z4feNn9RKUAavBWCxB5AlB/2FwoxXKqAUUo=;
- b=GT0y/CsUoB2nu64sCm0UJLZY8EJ6dZIDeNuogjDFhjPdG/exnsrSTYlzk3iVqLn64asMqvOd3/DDRTv+3skqDny5S6vxtkZORb2UdqANoIidQxA0eU27lHjzl0zRg/p1+FqgXlipnJxbN/QwQWqJDHO8LTksJWeeFYCp1922p7VKjSk0/HX9LHbw+fwQwoWCPicXdC7jlbvTiInhQs1KKYo1LkoyO65vPgb8pNmmJmuBybjgRALSGA0aPasUz1mL7Io9qphVGVb9yAW/PihHXkaBdt5u/gCEg5tKMdUvUXbqiUCnoaSbvGMhbETuCM01CzmrjBy2FtVycAXzhM07AQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i44w0V/2Z4feNn9RKUAavBWCxB5AlB/2FwoxXKqAUUo=;
- b=HyA8wW0jUgF89pV3aGl3GN2LEzilSV7bYPdWVUVLhn9R9myQCammIMmD5yWh4sbe2Xw7CLiS+84iMz5noEofc4ibVbbihrBlJFqAiIHtlxec62b2S43CTzuu7PYPTYMGUw9BLo4Lq9okyNvi35Ee6ueG+XvE1wdMSVE+cr3Qnt4D4nh/JvQdzHb43l14CzSIE57M2QV6L3jrSDHN2Q6wthwK2W9PNxyPoRHfNKd6ipK5eR0yEru5ASDJoh6JLl/iCU4LrlTR8Jh7iK1+oHM/xXOCh5OTnGmmDXNRF7FTfsRZ6IvHdHOBTULSejgljw31I+8cHQufFWUj0VR+l/0jSw==
-Received: from BN9PR03CA0312.namprd03.prod.outlook.com (2603:10b6:408:112::17)
- by IA0PR12MB8645.namprd12.prod.outlook.com (2603:10b6:208:48f::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33; Mon, 5 Jun
- 2023 12:18:20 +0000
-Received: from BN8NAM11FT093.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:112:cafe::fb) by BN9PR03CA0312.outlook.office365.com
- (2603:10b6:408:112::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.33 via Frontend
- Transport; Mon, 5 Jun 2023 12:18:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BN8NAM11FT093.mail.protection.outlook.com (10.13.177.22) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6455.33 via Frontend Transport; Mon, 5 Jun 2023 12:18:19 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5; Mon, 5 Jun 2023
- 05:18:07 -0700
-Received: from fedora.nvidia.com (10.126.230.35) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.37; Mon, 5 Jun 2023
- 05:18:06 -0700
-References: <202306051816.mO3hqt7d-lkp@intel.com>
-User-agent: mu4e 1.8.11; emacs 28.2
-From: Vlad Buslov <vladbu@nvidia.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Pirko
-	<jiri@nvidia.com>, Sasha Levin <sashal@kernel.org>
-CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [stable:linux-5.4.y 3300/8640] net/sched/cls_flower.c:296:12:
- warning: stack frame size (1040) exceeds limit (1024) in 'fl_classify'
-Date: Mon, 5 Jun 2023 15:11:24 +0300
-In-Reply-To: <202306051816.mO3hqt7d-lkp@intel.com>
-Message-ID: <873536xfus.fsf@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF391C777
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jun 2023 14:06:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685973998; x=1717509998;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=n6ajSEW4ucTeRY8ZfzjfuX4MgorLB8QxEnjd72cLZE8=;
+  b=F57kfZajfaeOgodbS7KTYwja8lw109uHAH8Lc+CiwmcW9rgyQLEBFkew
+   mR5YJ2bdEvTQ5dyJkqSWsHzd+r35wnZGWR8JLUN9Xm+3f3MauC//wTNmz
+   N4ok4MEQ8fDexQ/SOSL0E7Yib9sVrDQ780OMWDdUdvY5E/w4eNxEYDm01
+   h2zGrTGb94UdXZOEBct0jkMZAelWDuoIewbdCEsAXJcHahTduTeAP2vxR
+   BdS0cxC7CTFGIw+rs3IQWvdA2GFMyYfTW46muHhdvZJEFM/5fHGojqbCx
+   MpzNnj3EaVqIJ2kJE2jJqPi5J22VG6Fk+hnNnbkWmfDxOhrB3HVvAI+Yq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="422200290"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
+   d="scan'208";a="422200290"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 07:05:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="798454487"
+X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
+   d="scan'208";a="798454487"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 05 Jun 2023 07:05:06 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q6ApW-0004Bx-0n;
+	Mon, 05 Jun 2023 14:05:06 +0000
+Date: Mon, 5 Jun 2023 22:04:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-block:blk-open-release 45/48] drivers/block/swim.c:617:61:
+ error: 'BLK_MODE_EXCL' undeclared; did you mean 'BLK_OPEN_EXCL'?
+Message-ID: <202306052128.t7y2BgME-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.126.230.35]
-X-ClientProxiedBy: rnnvmail203.nvidia.com (10.129.68.9) To
- rnnvmail201.nvidia.com (10.129.68.8)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8NAM11FT093:EE_|IA0PR12MB8645:EE_
-X-MS-Office365-Filtering-Correlation-Id: dde00925-d1df-4bbe-bc61-08db65bef33b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	efxUb6NqJl83NJxJ0JGaZim568lwbCk6Ya3qLl3Wo2FCsInBGX5ZOVL0xI0JcePumN4mOwYjVei335/hKn5C4/RpJr2K1XlsZpHrFKp7MW5TxIKSA2o0w5FRf829ntNZB8ZigNNU9TgNOL6FGABglw0Sv1LTVXO1CWm6gySlir0ttJKRthgaukcjcXqdCN5zw8NR5rByVnwGXF1SIIkOpNJU3oVDiHFYv0IVewqYALUJBs9YDvp7Fq5ttYXSXWSrxAlmdFFtqgIoZD9uE+OHBpS5Yh6FTFxMhzZoAIhGGsH6iyBJgW/HdfWbqVCSJ22RrSjtnNVSkRA4c5gIe9aKALky95uYi4ZcsEkJz0qrZOLujOWXbAmf5YomrNXqGp/yG8o1KHiZ6StbSmnY4rXahUN+B3Q9aW1aeQe1g3YtlaU5WYfPrvVgCPWGEtayjPAg/yX+tb+njRlv3/3qDJr2AKihLP4eZbrscivEzN/u3p18dcx7eO/CNG4BIx+fEe47X4vC0pJh1rE7HicU641UmMXsocTz1oaHxIxFPIJopT+S83voZed6m+VRQtuVj0urODi+QZrenRNSgE/jo+jkwZAc/WDf5peybixgUI1mv0c4ORUVCsqFvFYP7J0bEE0AXYRvwciIH0YqcgyfaEDdbkzG4mJWHFm/jHSHehT2TfEtl3YVTv1QAnVRhS8QodHeCe+xJbxIsmlmEKq6PESLAH89WCUuY39QshxK7Rl/Jo8neB+0F7D7W+hFyZPlqpwaDSqdVtGeQ4JQYPoOexpaAA==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(136003)(376002)(396003)(346002)(451199021)(36840700001)(40470700004)(46966006)(36860700001)(66574015)(47076005)(83380400001)(40480700001)(86362001)(82310400005)(40460700003)(82740400003)(7636003)(356005)(478600001)(54906003)(110136005)(6666004)(7696005)(966005)(5660300002)(8676002)(8936002)(70206006)(70586007)(4326008)(2906002)(4001150100001)(316002)(41300700001)(2616005)(426003)(336012)(26005)(36756003)(16526019)(186003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2023 12:18:19.9996
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dde00925-d1df-4bbe-bc61-08db65bef33b
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN8NAM11FT093.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8645
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon 05 Jun 2023 at 18:59, kernel test robot <lkp@intel.com> wrote:
-> Hi Vlad,
->
-> First bad commit (maybe !=3D root cause):
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stab=
-le.git linux-5.4.y
-> head:   cf0b1e5482eaeb4db15c9e703267483dba88b575
-> commit: 5f2e54391893c67b709a64b280417ca0318adb73 [3300/8640] net/sched: f=
-lower: fix parsing of ethertype following VLAN header
-> config: mips-randconfig-r013-20230605 (https://download.01.org/0day-ci/ar=
-chive/20230605/202306051816.mO3hqt7d-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf=
-3aaf28226a4e950c103a14f6fc1d1fdabb1b)
-> reproduce (this is a W=3D1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install mips cross compiling tool for clang build
->         # apt-get install binutils-mipsel-linux-gnu
->         # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-st=
-able.git/commit/?id=3D5f2e54391893c67b709a64b280417ca0318adb73
->         git remote add stable https://git.kernel.org/pub/scm/linux/kernel=
-/git/stable/linux-stable.git
->         git fetch --no-tags stable linux-5.4.y
->         git checkout 5f2e54391893c67b709a64b280417ca0318adb73
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
-oss W=3D1 O=3Dbuild_dir ARCH=3Dmips olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
-oss W=3D1 O=3Dbuild_dir ARCH=3Dmips SHELL=3D/bin/bash net/sched/
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306051816.mO3hqt7d-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->>> net/sched/cls_flower.c:296:12: warning: stack frame size (1040) exceeds=
- limit (1024) in 'fl_classify' [-Wframe-larger-than]
->    static int fl_classify(struct sk_buff *skb, const struct tcf_proto *tp,
->               ^
->    1 warning generated.
->
->
-> vim +/fl_classify +296 net/sched/cls_flower.c
->
-> e0ace68af2acfe Paul Blakey            2019-07-09  295=20=20
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12 @296  static int fl_clas=
-sify(struct sk_buff *skb, const struct tcf_proto *tp,
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  297  		       struct tc=
-f_result *res)
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  298  {
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  299  	struct cls_fl_hea=
-d *head =3D rcu_dereference_bh(tp->root);
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  300  	struct fl_flow_ke=
-y skb_mkey;
+tree:   git://git.infradead.org/users/hch/block.git blk-open-release
+head:   74ec704f4aa19cfd25faa78189e5c9d5f2e97ba3
+commit: 54822e562a29c2e2098f70e01d9b1d8a96213d94 [45/48] block: replace fmode_t with a block-specific type for block open flags
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230605/202306052128.t7y2BgME-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add hch-block git://git.infradead.org/users/hch/block.git
+        git fetch --no-tags hch-block blk-open-release
+        git checkout 54822e562a29c2e2098f70e01d9b1d8a96213d94
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/
 
-The stack usage of fl_classify() has already been addressed in later
-kernels by commit 0af413bd3e2d ("flow_dissector: work around stack frame
-size warning") which moved mkey into fl_mask_lookup(). Not sure what
-else can be done since my commit just adds a new flow dissector fields
-that are needed to correctly parse packets with multiple VLAN headers.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306052128.t7y2BgME-lkp@intel.com/
 
-> e0ace68af2acfe Paul Blakey            2019-07-09  301  	struct fl_flow_ke=
-y skb_key;
-> e0ace68af2acfe Paul Blakey            2019-07-09  302  	struct fl_flow_ma=
-sk *mask;
-> e0ace68af2acfe Paul Blakey            2019-07-09  303  	struct cls_fl_fil=
-ter *f;
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  304=20=20
-> 05cd271fd61a0b Paul Blakey            2018-04-30  305  	list_for_each_ent=
-ry_rcu(mask, &head->masks, list) {
-> 50acd32ea7f682 Jason Baron            2020-02-17  306  		flow_dissector_i=
-nit_keys(&skb_key.control, &skb_key.basic);
-> 05cd271fd61a0b Paul Blakey            2018-04-30  307  		fl_clear_masked_=
-range(&skb_key, mask);
-> bc3103f1ed405d Amir Vadai             2016-09-08  308=20=20
-> 8212ed777f40c7 Jiri Pirko             2019-06-19  309  		skb_flow_dissect=
-_meta(skb, &mask->dissector, &skb_key);
-> 05cd271fd61a0b Paul Blakey            2018-04-30  310  		/* skb_flow_diss=
-ect() does not set n_proto in case an unknown
-> 05cd271fd61a0b Paul Blakey            2018-04-30  311  		 * protocol, so =
-do it rather here.
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  312  		 */
-> 9b7fd81cf9b6ca Toke H=C3=B8iland-J=C3=B8rgensen 2020-07-03  313  		skb_ke=
-y.basic.n_proto =3D skb_protocol(skb, false);
-> 05cd271fd61a0b Paul Blakey            2018-04-30  314  		skb_flow_dissect=
-_tunnel_info(skb, &mask->dissector, &skb_key);
-> e0ace68af2acfe Paul Blakey            2019-07-09  315  		skb_flow_dissect=
-_ct(skb, &mask->dissector, &skb_key,
-> e0ace68af2acfe Paul Blakey            2019-07-09  316  				    fl_ct_info=
-_to_flower_map,
-> e0ace68af2acfe Paul Blakey            2019-07-09  317  				    ARRAY_SIZE=
-(fl_ct_info_to_flower_map));
-> 05cd271fd61a0b Paul Blakey            2018-04-30  318  		skb_flow_dissect=
-(skb, &mask->dissector, &skb_key, 0);
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  319=20=20
-> 05cd271fd61a0b Paul Blakey            2018-04-30  320  		fl_set_masked_ke=
-y(&skb_mkey, &skb_key, mask);
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  321=20=20
-> 5c72299fba9df4 Amritha Nambiar        2018-11-12  322  		f =3D fl_lookup(=
-mask, &skb_mkey, &skb_key);
-> e8eb36cd8ca93f Amir Vadai             2016-06-13  323  		if (f && !tc_ski=
-p_sw(f->flags)) {
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  324  			*res =3D f->res;
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  325  			return tcf_exts=
-_exec(skb, &f->exts, res);
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  326  		}
-> 05cd271fd61a0b Paul Blakey            2018-04-30  327  	}
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  328  	return -1;
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  329  }
-> 77b9900ef53ae0 Jiri Pirko             2015-05-12  330=20=20
->
-> :::::: The code at line 296 was first introduced by commit
-> :::::: 77b9900ef53ae047e36a37d13a2aa33bb2d60641 tc: introduce Flower clas=
-sifier
->
-> :::::: TO: Jiri Pirko <jiri@resnulli.us>
-> :::::: CC: David S. Miller <davem@davemloft.net>
+All errors (new ones prefixed by >>):
 
+   drivers/block/swim.c: In function 'floppy_open':
+>> drivers/block/swim.c:617:61: error: 'BLK_MODE_EXCL' undeclared (first use in this function); did you mean 'BLK_OPEN_EXCL'?
+     617 |         if (fs->ref_count == -1 || (fs->ref_count && mode & BLK_MODE_EXCL))
+         |                                                             ^~~~~~~~~~~~~
+         |                                                             BLK_OPEN_EXCL
+   drivers/block/swim.c:617:61: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/block/swim.c:637:22: error: 'BLK_MODE_BLOCKING' undeclared (first use in this function); did you mean 'BLK_MQ_F_BLOCKING'?
+     637 |         if (!(mode & BLK_MODE_BLOCKING))
+         |                      ^~~~~~~~~~~~~~~~~
+         |                      BLK_MQ_F_BLOCKING
+>> drivers/block/swim.c:640:21: error: 'BLK_MODE_READ' undeclared (first use in this function); did you mean 'BLK_OPEN_READ'?
+     640 |         if (mode & (BLK_MODE_READ | BLK_MODE_WRITE)) {
+         |                     ^~~~~~~~~~~~~
+         |                     BLK_OPEN_READ
+>> drivers/block/swim.c:640:37: error: 'BLK_MODE_WRITE' undeclared (first use in this function); did you mean 'BLK_OPEN_WRITE'?
+     640 |         if (mode & (BLK_MODE_READ | BLK_MODE_WRITE)) {
+         |                                     ^~~~~~~~~~~~~~
+         |                                     BLK_OPEN_WRITE
+--
+>> drivers/block/ataflop.c:1966:13: error: conflicting types for 'floppy_release'; have 'void(struct gendisk *, blk_mode_t)' {aka 'void(struct gendisk *, unsigned int)'}
+    1966 | static void floppy_release(struct gendisk *disk, blk_mode_t mode)
+         |             ^~~~~~~~~~~~~~
+   drivers/block/ataflop.c:451:13: note: previous declaration of 'floppy_release' with type 'void(struct gendisk *)'
+     451 | static void floppy_release(struct gendisk *disk);
+         |             ^~~~~~~~~~~~~~
+>> drivers/block/ataflop.c:1982:27: error: initialization of 'void (*)(struct gendisk *)' from incompatible pointer type 'void (*)(struct gendisk *, blk_mode_t)' {aka 'void (*)(struct gendisk *, unsigned int)'} [-Werror=incompatible-pointer-types]
+    1982 |         .release        = floppy_release,
+         |                           ^~~~~~~~~~~~~~
+   drivers/block/ataflop.c:1982:27: note: (near initialization for 'floppy_fops.release')
+   cc1: some warnings being treated as errors
+
+
+vim +617 drivers/block/swim.c
+
+   610	
+   611	static int floppy_open(struct gendisk *disk, blk_mode_t mode)
+   612	{
+   613		struct floppy_state *fs = disk->private_data;
+   614		struct swim __iomem *base = fs->swd->base;
+   615		int err;
+   616	
+ > 617		if (fs->ref_count == -1 || (fs->ref_count && mode & BLK_MODE_EXCL))
+   618			return -EBUSY;
+   619		if (mode & BLK_MODE_EXCL)
+   620			fs->ref_count = -1;
+   621		else
+   622			fs->ref_count++;
+   623		swim_write(base, setup, S_IBM_DRIVE  | S_FCLK_DIV2);
+   624		udelay(10);
+   625		swim_drive(base, fs->location);
+   626		swim_motor(base, ON);
+   627		swim_action(base, SETMFM);
+   628		if (fs->ejected)
+   629			setup_medium(fs);
+   630		if (!fs->disk_in) {
+   631			err = -ENXIO;
+   632			goto out;
+   633		}
+   634	
+   635		set_capacity(fs->disk, fs->total_secs);
+   636	
+ > 637		if (!(mode & BLK_MODE_BLOCKING))
+   638			return 0;
+   639	
+ > 640		if (mode & (BLK_MODE_READ | BLK_MODE_WRITE)) {
+   641			if (disk_check_media_change(disk) && fs->disk_in)
+   642				fs->ejected = 0;
+   643			if ((mode & FMODE_WRITE) && fs->write_protected) {
+   644				err = -EROFS;
+   645				goto out;
+   646			}
+   647		}
+   648		return 0;
+   649	out:
+   650		if (fs->ref_count < 0)
+   651			fs->ref_count = 0;
+   652		else if (fs->ref_count > 0)
+   653			--fs->ref_count;
+   654	
+   655		if (fs->ref_count == 0)
+   656			swim_motor(base, OFF);
+   657		return err;
+   658	}
+   659	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
