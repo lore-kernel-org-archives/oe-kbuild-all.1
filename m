@@ -1,167 +1,449 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F7F37D;
-	Mon,  5 Jun 2023 03:47:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685936862; x=1717472862;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=e1yFbeQsmUovoPcmvs82Hv88TELDGSWPJongEZryTN0=;
-  b=AK4/ec0PY/qM+WX/otBDIDaGOz8rMKZRrKVZzzRi3+Xt7wPqy4LU7Upp
-   kXsxMcW2AP4lJL7WyH3BZd56GgN7L05RGSpqONs8njN2/4LN3rN5nsV9w
-   8JdZePVYAuEoNR4Vh6CmyJKH9O7KDdCSfDrHw8MOC+FDXFNraWqt2hCVS
-   6kfegBpEq8HnSpKVGQzPDNmL2fVgteAmdVgf7YabwstJQWtCTOFbio+zt
-   ApsDj678lxCqFvLRORDKMoeAE0/7hQxNC0HKLs0BZ1/QAIEZ2d0pmFOB2
-   pnrcY7rkp0G+XelvSxcYz26tSz6snrZZNvqZu1fHe3nsg2WHMrKnukXn0
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="419815775"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="419815775"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2023 20:47:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="738225031"
-X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="738225031"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 04 Jun 2023 20:47:39 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q61Bz-0003nv-0M;
-	Mon, 05 Jun 2023 03:47:39 +0000
-Date: Mon, 5 Jun 2023 11:46:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-gpio@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: [brgl:gpio/for-next 22/22] drivers/gpio/gpio-delay.c:79:34: error:
- no member named 'of_gpio_n_cells' in 'struct gpio_chip'
-Message-ID: <202306051102.FyJLV3OH-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D27117F4
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jun 2023 04:04:51 +0000 (UTC)
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-55554c33bf3so3341075eaf.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 04 Jun 2023 21:04:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685937890; x=1688529890;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BejdeN65cIxZZ5H8/q76yXRvLbBZnUEUFMfNrLcKLjg=;
+        b=kYL6+WZlXbw3DT9neTHAET6dXWiNQL8onDCOQ9SJl9YmG/CRUpCkqb5z+fbPDO5YWv
+         3SrO5oH2K5txcuk0sVefNap9Qo8hVFk0My2R+oi1wO+bY9Nc+xo9u7BXo5aA9DOD1khh
+         U+fSd/xsU9IH4D8jY3VIIdOaYfF64MqUdDLdobLoGsAd8ofHmvsUi2joDiHxy7pZGMri
+         zytRXdtDbgDHZUyncrOB7RG6cGTdT7rSkMkWQu03zE+VXcuTHidvSlI6lVkeGY6Qo+Ve
+         ngmyvs6X63aR7/oDLWetxeSaMVj5H2oHAhdvZekrSN9ljgQH5GXclh3TbhEEjdumCBh0
+         BJNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685937890; x=1688529890;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BejdeN65cIxZZ5H8/q76yXRvLbBZnUEUFMfNrLcKLjg=;
+        b=l2g8tzTLmNecJu6ZBkXOTJcbLgiLJXPT1epccZve+44nPUH6LHlruu0TzMbdqWA9SA
+         kMYFk9KkCA0f4tmwDjhcEVPwH1gi6fVujuHszWyye7F6R+xLGocIHusI7FaXfgBeUZ2Y
+         isIWvdiZ+AxAUa6U3DAtKjSQLRrsloNUqqJDgRQq+dBnaExgahsE0hPskoyW7rbmm+s4
+         o/TQpLPNhEur0wamXggugxuRMTUBFXJ/Nh2Es21ZCxvW8Uo2FdhOUGZHiW60a+B+LIrv
+         RsAyU0KUes8DVq8ceOfFeoeG84ySLHmJ8gmtFQhaBfm02Z4bQRye8XrIRNXsDzdDvBT4
+         R2yg==
+X-Gm-Message-State: AC+VfDzuBmopJCSzzou2l3mNQEKk/I1sWKhgyhFRY20v7CSSOiPlUhAJ
+	DjPnivZFp0WucxMpIAxr9zo=
+X-Google-Smtp-Source: ACHHUZ7xQ5UHuNXVnYA+wIKMpVoBYfIiAikygCaqkhkFI66OzcXP9cGpWXKdLNFGAY0N/Fea6VtlXQ==
+X-Received: by 2002:a05:6358:8a5:b0:125:8fac:399f with SMTP id m37-20020a05635808a500b001258fac399fmr25174485rwj.17.1685937889921;
+        Sun, 04 Jun 2023 21:04:49 -0700 (PDT)
+Received: from debian.me (subs03-180-214-233-91.three.co.id. [180.214.233.91])
+        by smtp.gmail.com with ESMTPSA id n19-20020aa78a53000000b0065017055cb4sm4223079pfa.203.2023.06.04.21.04.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Jun 2023 21:04:49 -0700 (PDT)
+Received: by debian.me (Postfix, from userid 1000)
+	id A1EF0106291; Mon,  5 Jun 2023 11:04:46 +0700 (WIB)
+Date: Mon, 5 Jun 2023 11:04:46 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Hongyu Xie <xiehongyu1@kylinos.cn>, linux@armlinux.org.uk,
+	gregkh@linuxfoundation.org, jirislaby@kernel.org, corbet@lwn.net
+Cc: rdunlap@infradead.org, linux-serial@vger.kernel.org,
+	linux-kernel@vger.kernel.org, xy521521@gmail.com,
+	oe-kbuild-all@lists.linux.dev, lkp@intel.com,
+	Linux Documentation <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 -next] tty: serial: add panic serial helper
+Message-ID: <ZH1e3tuuie3bGhPj@debian.me>
+References: <20230605015957.730085-1-xiehongyu1@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BFv1gQA3P/g+VqqO"
 Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-head:   cf5dec80c4e23ac1677b8ef9aafe5a7b87bb18c3
-commit: cf5dec80c4e23ac1677b8ef9aafe5a7b87bb18c3 [22/22] gpio: Add gpio delay driver
-config: i386-buildonly-randconfig-r003-20230605 (https://download.01.org/0day-ci/archive/20230605/202306051102.FyJLV3OH-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git/commit/?id=cf5dec80c4e23ac1677b8ef9aafe5a7b87bb18c3
-        git remote add brgl https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
-        git fetch --no-tags brgl gpio/for-next
-        git checkout cf5dec80c4e23ac1677b8ef9aafe5a7b87bb18c3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpio/
-
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306051102.FyJLV3OH-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/gpio/gpio-delay.c:79:34: error: no member named 'of_gpio_n_cells' in 'struct gpio_chip'
-           if (gpiospec->args_count != gc->of_gpio_n_cells)
-                                       ~~  ^
->> drivers/gpio/gpio-delay.c:133:11: error: no member named 'of_xlate' in 'struct gpio_chip'
-           priv->gc.of_xlate = gpio_delay_of_xlate;
-           ~~~~~~~~ ^
-   drivers/gpio/gpio-delay.c:134:11: error: no member named 'of_gpio_n_cells' in 'struct gpio_chip'
-           priv->gc.of_gpio_n_cells = 3;
-           ~~~~~~~~ ^
-   3 errors generated.
+In-Reply-To: <20230605015957.730085-1-xiehongyu1@kylinos.cn>
 
 
-vim +79 drivers/gpio/gpio-delay.c
+--BFv1gQA3P/g+VqqO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    70	
-    71	static int gpio_delay_of_xlate(struct gpio_chip *gc,
-    72				       const struct of_phandle_args *gpiospec,
-    73				       u32 *flags)
-    74	{
-    75		struct gpio_delay_priv *priv = gpiochip_get_data(gc);
-    76		struct gpio_delay_timing *timings;
-    77		u32 line;
-    78	
-  > 79		if (gpiospec->args_count != gc->of_gpio_n_cells)
-    80			return -EINVAL;
-    81	
-    82		line = gpiospec->args[0];
-    83		if (line >= gc->ngpio)
-    84			return -EINVAL;
-    85	
-    86		timings = &priv->delay_timings[line];
-    87		timings->ramp_up_delay_us = gpiospec->args[1];
-    88		timings->ramp_down_delay_us = gpiospec->args[2];
-    89	
-    90		return line;
-    91	}
-    92	
-    93	static bool gpio_delay_can_sleep(const struct gpio_delay_priv *priv)
-    94	{
-    95		int i;
-    96	
-    97		for (i = 0; i < priv->input_gpio->ndescs; i++)
-    98			if (gpiod_cansleep(priv->input_gpio->desc[i]))
-    99				return true;
-   100	
-   101		return false;
-   102	}
-   103	
-   104	static int gpio_delay_probe(struct platform_device *pdev)
-   105	{
-   106		struct gpio_delay_priv *priv;
-   107	
-   108		priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-   109		if (!priv)
-   110			return -ENOMEM;
-   111	
-   112		priv->input_gpio = devm_gpiod_get_array(&pdev->dev, NULL, GPIOD_OUT_LOW);
-   113		if (IS_ERR(priv->input_gpio))
-   114			return dev_err_probe(&pdev->dev, PTR_ERR(priv->input_gpio),
-   115					     "Failed to get input-gpios");
-   116	
-   117		priv->delay_timings = devm_kcalloc(&pdev->dev,
-   118						   priv->input_gpio->ndescs,
-   119						   sizeof(*priv->delay_timings),
-   120						   GFP_KERNEL);
-   121		if (!priv->delay_timings)
-   122			return -ENOMEM;
-   123	
-   124		if (gpio_delay_can_sleep(priv)) {
-   125			priv->gc.can_sleep = true;
-   126			priv->gc.set = gpio_delay_set_can_sleep;
-   127		} else {
-   128			priv->gc.can_sleep = false;
-   129			priv->gc.set = gpio_delay_set;
-   130		}
-   131	
-   132		priv->gc.get_direction = gpio_delay_get_direction;
- > 133		priv->gc.of_xlate = gpio_delay_of_xlate;
-   134		priv->gc.of_gpio_n_cells = 3;
-   135		priv->gc.ngpio = priv->input_gpio->ndescs;
-   136		priv->gc.owner = THIS_MODULE;
-   137		priv->gc.base = -1;
-   138		priv->gc.parent = &pdev->dev;
-   139	
-   140		platform_set_drvdata(pdev, priv);
-   141	
-   142		return devm_gpiochip_add_data(&pdev->dev, &priv->gc, priv);
-   143	}
-   144	
+On Mon, Jun 05, 2023 at 09:59:57AM +0800, Hongyu Xie wrote:
+> Tested on an arm64 device.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Tested on what device?
+
+> diff --git a/Documentation/dev-tools/panic_serial_helper.rst b/Documentat=
+ion/dev-tools/panic_serial_helper.rst
+> new file mode 100644
+> index 000000000000..fc5b6e9103bc
+> --- /dev/null
+> +++ b/Documentation/dev-tools/panic_serial_helper.rst
+
+The file name convention is using hyphens (like
+panic-serial-helper.rst).
+
+The wording below really confuses me, but I try my best reviewing here.
+
+> @@ -0,0 +1,148 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> +Using panic serial helper to get kernel logs after panic
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> +
+> +:Author: Hongyu Xie <xiehongyu1@kylinos.cn>
+> +
+> +What is this?
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +A debug module inspired by kgdboc that allows you to get all kernel logs
+> +after panic.
+> +
+> +When do you need it and why?
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+> +
+> +When
+> +--------------
+> +
+> +Didn't enable debugging tool like Kdump and didn't connect a USB-to-UART
+> +tool to the debug UART port on your PC before panic.
+
+This section is unnecessary.
+
+> +
+> +Why
+> +--------------
+> +
+> +There are many debugging methods to know what was going on before panic.
+> +
+> +Kdump, for example. If Kdump is enabled, you can get a core image after
+"The first is Kdump. When it is enabled, ... . Then you can use GDB ..."
+> +panic. Then use GDB or Crash to debug that core image to know what happe=
+ned
+> +before panic (see ``Documentation/admin-guide/kdump/kdump.rst`` for more
+> +information about Kdump).
+"(see ``Documentation/admin-guide/kdump/kdump.rst for Kdump
+documentation)."
+> +
+> +Another way is to connect the UART side of a USB-to-UART tool to the
+> +debugging UART port (normally a 3 pin slot on the motherborad or a RS232
+> +port on the back panel of your PC) before panic happens. Then connect the
+> +USB side of a USB-to-UART tool to another PC. You can read all the kernel
+> +logs coming from that UART port through apps like minicom on another PC.
+> +So when panic happens you'll know what was going on.
+> +
+> +What if Kdump hasn't been enabled? And in production environment you don=
+'t
+> +always connect a USB-to-UART tool before panic happens.
+
+"... And yet the panic happens in production where you don't have access
+to USB-to-UART device?"
+
+> +
+> +So if Kdump is not enabled, you can use this module to get all the kernel
+> +logs if this module is loaded prior to the panic.
+
+"For both situations, you can use panic_serial_helper module to get all nec=
+cessary kernel logs once it is loaded."
+
+> +
+> +How to use it?
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Prerequisites
+> +--------------
+> +
+> +1. Same as kgdboc, the UART driver must implement two callbacks in the
+> +struct uart_ops. See ``Documentation/dev-tools/kgdb.rst`` section
+> +``kgdboc and uart_ops``
+> +
+> +2. Your PC has an UART port and it's working.
+> +
+> +How
+> +--------------
+> +
+> +First you need to enable ``CONFIG_PANIC_SERIAL_HELPER`` in your
+> +config. To enable ``CONFIG_PANIC_SERIAL_HELPER`` you should look under
+"To enable it, go to ..."
+> +:menuselection:`Device Drivers-->Character devices-->Enable TTY (TTY [=
+=3Dy])-->Serial drivers`
+> +and select :menuselection:`debug through UART after panic`.
+> +
+> +Second, build and update the kernel image. Then wait for panic.
+"Then build and deploy the kernel as usual."
+> +
+> +After panic, you need to do the following,
+"When the panic occurs, you need to do the following:"
+> +1. connect the UART side of an USB-to-UART tool to any UART
+> +port on your device (PC, server, Laptop, etc...).
+> +Connect the USB side of that tool to another PC. Open
+> +minicom (or other app) on that PC, and set "/dev/ttyUSB0"(or
+> +"/dev/ttyUSB1 if there is already another USB-to-UART tool
+> +connected to your device) with "115200 8N1".
+> +
+> +It automatically selects the port where you first press the
+> +"Enter" key (some keyboard labeled this with "Return").
+> +
+> +2. press "Enter" (or "Return") in that
+> +minicom window; you'll get a help menu:
+"Press Enter and the help menu will appear."
+> +help:::
+> +
+> +    -a      show all kernel msg
+> +
+> +    -3      show S3 msg
+> +
+> +    -4      show S4 msg
+> +
+> +    -filter-[string]        show msg containing [string]
+> +
+> +    -q-     quit
+> +
+> +see ``Help menu options`` for details.
+> +
+> +3. finally, type 'a', '3', '4', 'q' or "filter-xxx" then press
+> +"Enter" to get what you want.
+
+Do I have to pass ``-a`` or ``a``? Or is it command-line program or TUI
+interface?
+
+Anyway,
+
+"3. Select one of above options and happy hacking!"
+
+> +
+> +Help menu options
+> +-----------------
+> +Available options:
+> +
+> + - a
+> +
+> +   Show all the messages starting from ``Booting Linux on ...``
+> +
+> + - 3
+> +
+> +   If STR happened before panic, this will show messages starting from
+> +   ``PM: suspend entry...``
+> +
+> + - 4
+> +
+> +   If STD happened before panic, this will show messages starting from
+> +   ``PM: hibernation entry...``
+> +
+> + - filter-[string]
+> +
+> +   Provide case-ignored filter matching. Only show messages that contain=
+ing
+> +   ``string``. For example, if you're only interesting in message lines
+> +   that containing ``CPU`` or ``cpu``, you just input
+> +   ``filter-CPU`` or ``filter-cpu``.
+> +   Here is an output example for filtering ``CPU``::
+"For example, if you'd like to see message lines that contain ``CPU`` or
+``cpu``, you can pass either ``filter-CPU`` or ``filter-cpu``. The
+corresponding output would be like::"
+> +
+> +   <6>[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x701f6=
+633
+> +   <6>[    0.000000] Detected PIPT I-cache on CPU0
+> +   <6>[    0.000000] CPU features: detected: Kernel page table isolation=
+ (K
+> +
+> +   ...
+> +
+> +   <6>[    0.000000] GICv3: CPU0: using allocated LPI pending table @0x0=
+000
+> +   <6>[    0.002411] smp: Bringing up secondary CPUs ...
+> +   <6>[    0.039105] Detected PIPT I-cache on CPU1
+> +
+> +   ...
+> +
+> +   <4>[    6.432129] CPU: 3 PID: 392 Comm: (crub_all) Tainted: G        W
+> +   <4>[    6.560279] CPU: 2 PID: 478 Comm: (ostnamed) Tainted: G        W
+> +
+> +   ...
+> +
+> +   <4>[  225.297828] CPU: 4 PID: 0 Comm: swapper/4 Tainted: G        W
+> +   <2>[  225.297909] SMP: stopping secondary CPUs
+> +   <0>[  225.297919] CPU features: 0x000000,02000800,0400421b
+> +
+> + - q
+> +
+> +  Return to help menu.
+
+The doc syntax looks messy, so I have to fix it up:
+
+---- >8 ----
+diff --git a/Documentation/dev-tools/panic_serial_helper.rst b/Documentatio=
+n/dev-tools/panic_serial_helper.rst
+index fc5b6e9103bc2d..1ed841d03ab1c2 100644
+--- a/Documentation/dev-tools/panic_serial_helper.rst
++++ b/Documentation/dev-tools/panic_serial_helper.rst
+@@ -28,7 +28,7 @@ There are many debugging methods to know what was going o=
+n before panic.
+=20
+ Kdump, for example. If Kdump is enabled, you can get a core image after
+ panic. Then use GDB or Crash to debug that core image to know what happened
+-before panic (see ``Documentation/admin-guide/kdump/kdump.rst`` for more
++before panic (see Documentation/admin-guide/kdump/kdump.rst for more
+ information about Kdump).
+=20
+ Another way is to connect the UART side of a USB-to-UART tool to the
+@@ -51,8 +51,7 @@ Prerequisites
+ --------------
+=20
+ 1. Same as kgdboc, the UART driver must implement two callbacks in the
+-struct uart_ops. See ``Documentation/dev-tools/kgdb.rst`` section
+-``kgdboc and uart_ops``
++   struct uart_ops. See Documentation/dev-tools/kgdb.rst for details.
+=20
+ 2. Your PC has an UART port and it's working.
+=20
+@@ -66,20 +65,20 @@ and select :menuselection:`debug through UART after pan=
+ic`.
+=20
+ Second, build and update the kernel image. Then wait for panic.
+=20
+-After panic, you need to do the following,
++After panic, you need to do the following:
++
+ 1. connect the UART side of an USB-to-UART tool to any UART
+-port on your device (PC, server, Laptop, etc...).
+-Connect the USB side of that tool to another PC. Open
+-minicom (or other app) on that PC, and set "/dev/ttyUSB0"(or
+-"/dev/ttyUSB1 if there is already another USB-to-UART tool
+-connected to your device) with "115200 8N1".
++   port on your device (PC, server, Laptop, etc...).
++   Connect the USB side of that tool to another PC. Open
++   minicom (or other app) on that PC, and set "/dev/ttyUSB0"(or
++   "/dev/ttyUSB1 if there is already another USB-to-UART tool
++   connected to your device) with "115200 8N1".
+=20
+-It automatically selects the port where you first press the
+-"Enter" key (some keyboard labeled this with "Return").
++   It automatically selects the port where you first press the
++   "Enter" key (some keyboard labeled this with "Return").
+=20
+-2. press "Enter" (or "Return") in that
+-minicom window; you'll get a help menu:
+-help:::
++2. press "Enter" (or "Return") in that minicom window; you'll get a help m=
+enu
++   like::
+=20
+     -a      show all kernel msg
+=20
+@@ -94,7 +93,7 @@ help:::
+ see ``Help menu options`` for details.
+=20
+ 3. finally, type 'a', '3', '4', 'q' or "filter-xxx" then press
+-"Enter" to get what you want.
++   "Enter" to get what you want.
+=20
+ Help menu options
+ -----------------
+@@ -122,27 +121,27 @@ Available options:
+    ``filter-CPU`` or ``filter-cpu``.
+    Here is an output example for filtering ``CPU``::
+=20
+-   <6>[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x701f6633
+-   <6>[    0.000000] Detected PIPT I-cache on CPU0
+-   <6>[    0.000000] CPU features: detected: Kernel page table isolation (K
++     <6>[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x701f6=
+633
++     <6>[    0.000000] Detected PIPT I-cache on CPU0
++     <6>[    0.000000] CPU features: detected: Kernel page table isolation=
+ (K
+=20
+-   ...
++     ...
+=20
+-   <6>[    0.000000] GICv3: CPU0: using allocated LPI pending table @0x0000
+-   <6>[    0.002411] smp: Bringing up secondary CPUs ...
+-   <6>[    0.039105] Detected PIPT I-cache on CPU1
++     <6>[    0.000000] GICv3: CPU0: using allocated LPI pending table @0x0=
+000
++     <6>[    0.002411] smp: Bringing up secondary CPUs ...
++     <6>[    0.039105] Detected PIPT I-cache on CPU1
+=20
+-   ...
++     ...
+=20
+-   <4>[    6.432129] CPU: 3 PID: 392 Comm: (crub_all) Tainted: G        W
+-   <4>[    6.560279] CPU: 2 PID: 478 Comm: (ostnamed) Tainted: G        W
++     <4>[    6.432129] CPU: 3 PID: 392 Comm: (crub_all) Tainted: G        W
++     <4>[    6.560279] CPU: 2 PID: 478 Comm: (ostnamed) Tainted: G        W
+=20
+-   ...
++     ...
+=20
+-   <4>[  225.297828] CPU: 4 PID: 0 Comm: swapper/4 Tainted: G        W
+-   <2>[  225.297909] SMP: stopping secondary CPUs
+-   <0>[  225.297919] CPU features: 0x000000,02000800,0400421b
++     <4>[  225.297828] CPU: 4 PID: 0 Comm: swapper/4 Tainted: G        W
++     <2>[  225.297909] SMP: stopping secondary CPUs
++     <0>[  225.297919] CPU features: 0x000000,02000800,0400421b
+=20
+  - q
+=20
+-  Return to help menu.
++   Return to help menu.
+
+Then apply my wording improves on top of above diff.
+
+> diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
+> index 3e3fb377d90d..86a2c1884b04 100644
+> --- a/drivers/tty/serial/Kconfig
+> +++ b/drivers/tty/serial/Kconfig
+> @@ -198,6 +198,31 @@ config SERIAL_KGDB_NMI
+> =20
+>  	  If unsure, say N.
+> =20
+> +config PANIC_SERIAL_HELPER
+> +	tristate "debug through UART after panic"
+> +	depends on PANIC_TIMEOUT=3D0
+> +	select CONSOLE_POLL
+> +	help
+> +	  This is a debug module that allows you to get all kernel logs
+> +	  after panic.
+> +
+> +	  Normally you need to attach a USB-to-UART tool or enable kdump
+> +	  before panic happens to get log from kernel after panic. If you
+> +	  didn't do that and kdump is not working, you can't get any log to
+> +	  know what happened before panic. If you have a USB-to-UART tool
+> +	  and the UART port on your computer is working, this module helps
+> +	  you to get all kernel log after panic() is called.
+> +
+> +	  This module uses serial port in poll mode, so it's more stable
+> +	  than other debugging methods.
+> +
+> +	  Read <file:Documentation/dev-tools/panic_serial_helper.rst> for
+> +	  usage.
+> +
+> +	  Say Y if you have an UART port that is working. If unsure, say N.
+> +	  Say M if you want add this as a module driver.
+"Say Y if you have a working UART port and you want to gather kernel
+logs. To compile this as module (which will be called panic_serial_helper),
+say M. If unsure, say N."
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--BFv1gQA3P/g+VqqO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZH1e1wAKCRD2uYlJVVFO
+o+TpAQCsMnMPIL59p67dbqDE9czzcxu+Q+IgBPvP5Z/OJuNSegD9Hv5a3dQJQGcr
+LXzMdtJCndinoo0f1zIemWztrhuPxww=
+=VzBO
+-----END PGP SIGNATURE-----
+
+--BFv1gQA3P/g+VqqO--
