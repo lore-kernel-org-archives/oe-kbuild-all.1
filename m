@@ -1,56 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F17134DD;
-	Mon,  5 Jun 2023 09:47:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E7C156C8
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jun 2023 10:08:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685958423; x=1717494423;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v/+LgTrwo+Lelaz5gHvZDSoOIGxhoEQ87vO5F8p1ayo=;
-  b=H9wlxSIdT8mjDaBgbYv4CEty5Kkl0jC5x0GNmxWIuyRtNZUacA55uC4G
-   57lw5lOmkqs48m5KNevJGqSz8plXj4hmNTiWGHMqcCNd2ICWbyIOrXCnZ
-   KWiB8vXrepaZ0rF+SWwaaUxxDNC3YIz5cVUo4OGYqqZ2Nl+ZcORRfdHr8
-   sLroedWXPUksjITHPN8FEeY0sjBoWFn6mN0I+HRJ2BrAB/+eRwuirNoyd
-   3xjgfzAwMwgj/vkQqW1pQ4DMtiicvnZ8+NboKXuWG5kBAWmGFQGJDTooi
-   YFlb960ULORAAoH3kyWl2CNMFbn0mZqtz2JVnE147p9G6IfxEAXUwi5KP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="358775289"
+  t=1685959680; x=1717495680;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=saZyDXa+Z7ShoeVDdUVJJDEQ/MSf+OX1gNgogHhLVJQ=;
+  b=FjA/pujNg373VJUZQIxT/jo4Yd3I4doemWq4EQD97mOAs22CGFbBvB0f
+   IC7UxcZIKy0RGt+oIksFrWSFAEYtWmSj2qR9ZK+8PxUep3ZA9AbKZxXla
+   Q1K0lJfhJZ6fsw+LvyDEkT0NHugt92kiBKiQbJGIoYauqZJU0BBrTl7wK
+   OiYCbrMz+0EBrvQs0CHP7h45HzTVoCvJ3TnrDxXXzgjzxP7G0BCAisPq0
+   UIUkgbvcNP+ja756c1HqstxQjiA4BFsWk5ulmxynghOJHEE4FmcelYW/r
+   IHACn6D13oIUHke7e8kiNLGroPDdXoHinXWOZx9x6sBGdR6P35jpfozso
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="335948340"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="358775289"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 02:47:02 -0700
+   d="scan'208";a="335948340"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 03:07:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="882842499"
+X-IronPort-AV: E=McAfee;i="6600,9927,10731"; a="832751256"
 X-IronPort-AV: E=Sophos;i="6.00,217,1681196400"; 
-   d="scan'208";a="882842499"
+   d="scan'208";a="832751256"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 05 Jun 2023 02:46:57 -0700
+  by orsmga004.jf.intel.com with ESMTP; 05 Jun 2023 03:07:58 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q66ng-00044l-3A;
-	Mon, 05 Jun 2023 09:46:56 +0000
-Date: Mon, 5 Jun 2023 17:46:41 +0800
+	id 1q6782-00045e-0F;
+	Mon, 05 Jun 2023 10:07:58 +0000
+Date: Mon, 5 Jun 2023 18:07:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shradha Gupta <shradhagupta@linux.microsoft.com>,
-	linux-kernel@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Shradha Gupta <shradhagupta@linux.microsoft.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Michael Kelley <mikelley@microsoft.com>,
-	Steen Hegelund <steen.hegelund@microchip.com>,
-	Simon Horman <simon.horman@corigine.com>
-Subject: Re: [PATCH v5] hv_netvsc: Allocate rx indirection table size
- dynamically
-Message-ID: <202306051725.FOGcInnl-lkp@intel.com>
-References: <1685949196-16175-1-git-send-email-shradhagupta@linux.microsoft.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:bits/060-spi 2/2] drivers/spi/spi-apple.c:536:3-8: No
+ need to set .owner here. The core will do it.
+Message-ID: <202306051820.3Jg7FFtj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,69 +45,19 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1685949196-16175-1-git-send-email-shradhagupta@linux.microsoft.com>
 
-Hi Shradha,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on horms-ipvs/master v6.4-rc5 next-20230605]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shradha-Gupta/hv_netvsc-Allocate-rx-indirection-table-size-dynamically/20230605-151438
-base:   linus/master
-patch link:    https://lore.kernel.org/r/1685949196-16175-1-git-send-email-shradhagupta%40linux.microsoft.com
-patch subject: [PATCH v5] hv_netvsc: Allocate rx indirection table size dynamically
-config: i386-randconfig-r002-20230605 (https://download.01.org/0day-ci/archive/20230605/202306051725.FOGcInnl-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/cd4dda15951edad50a4ffd51e084863ef2f50bd3
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Shradha-Gupta/hv_netvsc-Allocate-rx-indirection-table-size-dynamically/20230605-151438
-        git checkout cd4dda15951edad50a4ffd51e084863ef2f50bd3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/net/hyperv/
+tree:   https://github.com/AsahiLinux/linux bits/060-spi
+head:   dfb0bd4a56714916a20a80a68042f02f208ab39a
+commit: dfb0bd4a56714916a20a80a68042f02f208ab39a [2/2] spi: apple: Add driver for Apple SPI controller
+config: parisc-randconfig-c043-20230605 (https://download.01.org/0day-ci/archive/20230605/202306051820.3Jg7FFtj-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306051725.FOGcInnl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306051820.3Jg7FFtj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/net/hyperv/rndis_filter.c:1612:47: error: use of undeclared identifier 'net'
-           struct net_device_context *ndc = netdev_priv(net);
-                                                        ^
-   1 error generated.
-
-
-vim +/net +1612 drivers/net/hyperv/rndis_filter.c
-
-  1607	
-  1608	void rndis_filter_device_remove(struct hv_device *dev,
-  1609					struct netvsc_device *net_dev)
-  1610	{
-  1611		struct rndis_device *rndis_dev = net_dev->extension;
-> 1612		struct net_device_context *ndc = netdev_priv(net);
-  1613		struct net_device *net = hv_get_drvdata(dev);
-  1614	
-  1615		/* Halt and release the rndis device */
-  1616		rndis_filter_halt_device(net_dev, rndis_dev);
-  1617	
-  1618		netvsc_device_remove(dev);
-  1619	
-  1620		ndc->rx_table_sz = 0;
-  1621		kfree(ndc->rx_table);
-  1622		ndc->rx_table = NULL;
-  1623	}
-  1624	
+cocci warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-apple.c:536:3-8: No need to set .owner here. The core will do it.
 
 -- 
 0-DAY CI Kernel Test Service
