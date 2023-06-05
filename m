@@ -1,87 +1,58 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5108FDDC0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jun 2023 20:01:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685995284; x=1717531284;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fT2guEvWUpPkUReyjtcCwFqtI9nShZWpy2Wk46k8D/A=;
-  b=h7nHNUXFmMD7Yb+GtP3R6eru6XShoaFopr0fTLnHOPrPMkf3lhuqc124
-   G92JV9YGpUc52lqVDxcXiCVaOtXgzcOWpBtd12606/v2lMcCaYPhlNXPc
-   5CJRTRLodjKKRoBWalQhkU/kmQ7o2HpVt/whCVpT75CjGj3x+TAtcKkWR
-   7eRFEisZGTRgT443XuRwjFqFlcQZMSiNy+8x7YadKLS1l8LValb1FN0Rw
-   nnLKSRN8I88eSRq3i+EJ08Hjd8yVHySCjmVNkwGWpCZvdnkzGTrry3VnT
-   GuoeMslSw2XyJ4obbTJmRxd0Sd0Tr+VTsmjgY3v9VEjtOK3OUs4TO/K6W
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="359782018"
-X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="359782018"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 13:01:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="708783368"
-X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="708783368"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 05 Jun 2023 13:01:22 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q6GOH-0004P9-1o;
-	Mon, 05 Jun 2023 20:01:21 +0000
-Date: Tue, 6 Jun 2023 04:00:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Simon Horman <simon.horman@corigine.com>
-Subject: [net-next:main 3/19] csky-linux-ld:
- drivers/net/ethernet/altera/altera_tse_main.c:1451: undefined reference to
- `lynx_pcs_destroy'
-Message-ID: <202306060333.4xvu5BJd-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C76DDC0
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jun 2023 20:07:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 10B7363CC10C;
+	Mon,  5 Jun 2023 22:07:31 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id X6roPuzR374K; Mon,  5 Jun 2023 22:07:30 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by lithops.sigma-star.at (Postfix) with ESMTP id BF45E6081100;
+	Mon,  5 Jun 2023 22:07:30 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id xJjb7zySq9_X; Mon,  5 Jun 2023 22:07:30 +0200 (CEST)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+	by lithops.sigma-star.at (Postfix) with ESMTP id 9FE3863CC10C;
+	Mon,  5 Jun 2023 22:07:30 +0200 (CEST)
+Date: Mon, 5 Jun 2023 22:07:30 +0200 (CEST)
+From: Richard Weinberger <richard@nod.at>
+To: Azeem Shaikh <azeemshaikh38@gmail.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Kees Cook <kees@kernel.org>, 
+	kernel test robot <lkp@intel.com>, 
+	Maxim Krasnyansky <maxk@qti.qualcomm.com>, 
+	oe-kbuild-all <oe-kbuild-all@lists.linux.dev>, 
+	linux-hardening <linux-hardening@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	anton ivanov <anton.ivanov@cambridgegreys.com>, 
+	Johannes Berg <johannes@sipsolutions.net>, 
+	linux-um <linux-um@lists.infradead.org>
+Message-ID: <458187791.3685910.1685995650602.JavaMail.zimbra@nod.at>
+In-Reply-To: <CADmuW3WXDg-5SFXkMDE6BmvSwLNHmXpTzBonaOL8eErc4+d3qQ@mail.gmail.com>
+References: <20230530164004.986750-1-azeemshaikh38@gmail.com> <202305311135.zGMT1gYR-lkp@intel.com> <09A0C6FA-669F-4B73-9620-43AEA17E5D0C@kernel.org> <103925562.158061.1685514200368.JavaMail.zimbra@nod.at> <CAMuHMdU70uRxnMNb8KCJe8M3BRPPxowRXtj+POcrh+KLkfQyAA@mail.gmail.com> <CADmuW3WXDg-5SFXkMDE6BmvSwLNHmXpTzBonaOL8eErc4+d3qQ@mail.gmail.com>
+Subject: Re: [PATCH] uml: Replace all non-returning strlcpy with strscpy
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [195.201.40.130]
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF97 (Linux)/8.8.12_GA_3809)
+Thread-Topic: Replace all non-returning strlcpy with strscpy
+Thread-Index: F0kvDMRUOo3WCvHaQMtuD24L4U1LkA==
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
-head:   69da40ac3481993d6f599c98e84fcdbbf0bcd7e0
-commit: db48abbaa18e571106711b42affe68ca6f36ca5a [3/19] net: ethernet: altera-tse: Convert to mdio-regmap and use PCS Lynx
-config: csky-randconfig-r004-20230605 (https://download.01.org/0day-ci/archive/20230606/202306060333.4xvu5BJd-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git/commit/?id=db48abbaa18e571106711b42affe68ca6f36ca5a
-        git remote add net-next https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
-        git fetch --no-tags net-next main
-        git checkout db48abbaa18e571106711b42affe68ca6f36ca5a
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
+----- Urspr=C3=BCngliche Mail -----
+> Von: "Azeem Shaikh" <azeemshaikh38@gmail.com>
+> Planning to send out v2 with the fixup from Richard applied. Let me
+> know if that's ok.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306060333.4xvu5BJd-lkp@intel.com/
+Fine by me. :-)
 
-All errors (new ones prefixed by >>):
-
-   csky-linux-ld: drivers/net/ethernet/altera/altera_tse_main.o: in function `altera_tse_remove':
-   drivers/net/ethernet/altera/altera_tse_main.c:1473: undefined reference to `lynx_pcs_destroy'
-   csky-linux-ld: drivers/net/ethernet/altera/altera_tse_main.o: in function `reset_mac':
-   drivers/net/ethernet/altera/altera_tse_main.c:687: undefined reference to `lynx_pcs_destroy'
-   csky-linux-ld: drivers/net/ethernet/altera/altera_tse_main.o: in function `altera_tse_probe':
-   drivers/net/ethernet/altera/altera_tse_main.c:1419: undefined reference to `lynx_pcs_create_mdiodev'
->> csky-linux-ld: drivers/net/ethernet/altera/altera_tse_main.c:1451: undefined reference to `lynx_pcs_destroy'
->> csky-linux-ld: drivers/net/ethernet/altera/altera_tse_main.c:1456: undefined reference to `lynx_pcs_create_mdiodev'
-   csky-linux-ld: drivers/net/ethernet/altera/altera_tse_main.c:1456: undefined reference to `lynx_pcs_destroy'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+//richard
