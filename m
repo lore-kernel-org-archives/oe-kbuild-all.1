@@ -1,46 +1,46 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93424DDC0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jun 2023 19:28:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE9DDDC0;
+	Mon,  5 Jun 2023 19:50:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685993308; x=1717529308;
+  t=1685994627; x=1717530627;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+E/ryB6l8eVa08SLESYHnQdAnmgDaNrC9EP5jVhlhcQ=;
-  b=hkFmlskp8IcOMVqEcgDoQrNTvaVqYAW+Vr49LgwWnp2LFKlpFmOK86L5
-   rRitU2vHb2gz+h4lJnmYZgq6y5ojvzMgVjZaIL0m3PfOBKM6AHEnItnra
-   XISfxhiMycrBdpcydqYz0LPdvlb+1Glfrz7ZVVb3iTWeUq2vkG9+VjRt9
-   ZGUlWH8w+RHeHP7OZvFk/ZkDy/PCLM/ENghm2BUBgiacYMPE7OYHZqnAO
-   fg2PmS+XASyFKDSDe7KfeJmdUw2+v3bSvkX5UIHg2EZdrnoUxkgOR9iLk
-   wFD2PK9IkmeefpZ3erU9aDBLeLAuDv7NZwHUZQLecnSbpSiraJn7wDFj7
+  bh=q94VM5L4sKKZjMgSvGwItqptIOrEoLGcNgaTpRVjwN4=;
+  b=ZAxrMpT/BX59gOrxkqSM/rniWkfzCwCc3Ui9jK8BXvEAvBgivH9NciEC
+   686gEiD6IJVs7sxdVPxZX0w8eVX0Dg8B9Efy8kUHXfFw3JVcQZBFS6lwd
+   nxg5MQ72/Pp++/RJHI7L0llXXubC7FVZLlwB+E9Awhy4AtRxQFxqA2JoO
+   9/pdOcTOHNdTDC6o419ZVLqENP+xoo5SHb2bg5umkOce542QZRr4XfL1a
+   nN+7LbkrX3dRsE8RpC5zftnS3gSb7x8jBATG4UowAshECXoteqCWJYFKd
+   Sd6A9KZGi0DZWBjUdHV9pOf1vFEw5FpORJldjeYKpYnMYYVYesemKIuMV
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="422288305"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="336087869"
 X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="422288305"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 12:28:23 -0700
+   d="scan'208";a="336087869"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 12:50:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="1038887603"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="741848462"
 X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="1038887603"
+   d="scan'208";a="741848462"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 05 Jun 2023 12:28:21 -0700
+  by orsmga001.jf.intel.com with ESMTP; 05 Jun 2023 12:50:22 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6FsK-0004O9-2d;
-	Mon, 05 Jun 2023 19:28:20 +0000
-Date: Tue, 6 Jun 2023 03:28:03 +0800
+	id 1q6GDd-0004Ox-1S;
+	Mon, 05 Jun 2023 19:50:21 +0000
+Date: Tue, 6 Jun 2023 03:50:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Richard Weinberger <richard@nod.at>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	linux-mtd@lists.infradead.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH 4/4] ubifs: Convert do_writepage() to take a folio
-Message-ID: <202306060302.sCFYZsJ5-lkp@intel.com>
-References: <20230605165029.2908304-5-willy@infradead.org>
+To: YingKun Meng <mengyingkun@loongson.cn>, lgirdwood@gmail.com,
+	broonie@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
+	loongarch@lists.linux.dev, loongson-kernel@lists.loongnix.cn,
+	Yingkun Meng <mengyingkun@loongson.cn>
+Subject: Re: [PATCH 1/3] ASoC: Add support for Loongson I2S controller
+Message-ID: <202306060320.Sphw0ihy-lkp@intel.com>
+References: <20230605120934.2306548-1-mengyingkun@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,63 +49,215 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230605165029.2908304-5-willy@infradead.org>
+In-Reply-To: <20230605120934.2306548-1-mengyingkun@loongson.cn>
 
-Hi Matthew,
+Hi YingKun,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on rw-ubifs/next]
-[also build test WARNING on linus/master v6.4-rc5 next-20230605]
-[cannot apply to rw-ubifs/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 1fbcc5ab1c7a172ef1159b154c296fe1e9ce209b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/ubifs-Convert-from-writepage-to-writepages/20230606-005309
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rw/ubifs.git next
-patch link:    https://lore.kernel.org/r/20230605165029.2908304-5-willy%40infradead.org
-patch subject: [PATCH 4/4] ubifs: Convert do_writepage() to take a folio
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230606/202306060302.sCFYZsJ5-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/YingKun-Meng/ASoC-loongson-Add-Loongson-Generic-ASoC-Sound-Card-Support/20230605-215940
+base:   1fbcc5ab1c7a172ef1159b154c296fe1e9ce209b
+patch link:    https://lore.kernel.org/r/20230605120934.2306548-1-mengyingkun%40loongson.cn
+patch subject: [PATCH 1/3] ASoC: Add support for Loongson I2S controller
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230606/202306060320.Sphw0ihy-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/4f6ac0962f61cc07c95177f78cf1f3b03e79d822
+        # https://github.com/intel-lab-lkp/linux/commit/cb79a1df70a849f772428740eb3c155da83de25b
         git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Matthew-Wilcox-Oracle/ubifs-Convert-from-writepage-to-writepages/20230606-005309
-        git checkout 4f6ac0962f61cc07c95177f78cf1f3b03e79d822
+        git fetch --no-tags linux-review YingKun-Meng/ASoC-loongson-Add-Loongson-Generic-ASoC-Sound-Card-Support/20230605-215940
+        git checkout cb79a1df70a849f772428740eb3c155da83de25b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash fs/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=sh SHELL=/bin/bash sound/soc/loongson/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306060302.sCFYZsJ5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306060320.Sphw0ihy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   fs/ubifs/file.c: In function 'do_writepage':
->> fs/ubifs/file.c:905:22: warning: variable 'i' set but not used [-Wunused-but-set-variable]
-     905 |         int err = 0, i, blen;
-         |                      ^
+   sound/soc/loongson/loongson_i2s_pci.c: In function 'loongson_pcm_hw_params':
+   sound/soc/loongson/loongson_i2s_pci.c:171:45: warning: right shift count >= width of type [-Wshift-count-overflow]
+     171 |                 desc->order_hi = order_addr >> 32;
+         |                                             ^~
+   sound/soc/loongson/loongson_i2s_pci.c:174:43: warning: right shift count >= width of type [-Wshift-count-overflow]
+     174 |                 desc->saddr_hi = mem_addr >> 32;
+         |                                           ^~
+   sound/soc/loongson/loongson_i2s_pci.c:190:57: warning: right shift count >= width of type [-Wshift-count-overflow]
+     190 |                 desc->order_hi = prtd->dma_desc_arr_phy >> 32;
+         |                                                         ^~
+   sound/soc/loongson/loongson_i2s_pci.c: In function 'loongson_i2s_pci_probe':
+>> sound/soc/loongson/loongson_i2s_pci.c:364:15: error: implicit declaration of function 'pci_request_region'; did you mean 'pci_request_regions'? [-Werror=implicit-function-declaration]
+     364 |         ret = pci_request_region(pdev, BAR_NUM, LS_I2S_DRVNAME);
+         |               ^~~~~~~~~~~~~~~~~~
+         |               pci_request_regions
+>> sound/soc/loongson/loongson_i2s_pci.c:379:25: error: implicit declaration of function 'pci_iomap'; did you mean 'pcim_iomap'? [-Werror=implicit-function-declaration]
+     379 |         i2s->reg_base = pci_iomap(pdev, BAR_NUM, 0);
+         |                         ^~~~~~~~~
+         |                         pcim_iomap
+>> sound/soc/loongson/loongson_i2s_pci.c:379:23: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     379 |         i2s->reg_base = pci_iomap(pdev, BAR_NUM, 0);
+         |                       ^
+   sound/soc/loongson/loongson_i2s_pci.c:397:29: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     397 |         tx_data->dev_addr = (u64)i2s->reg_base + LS_I2S_TX_DATA;
+         |                             ^
+   sound/soc/loongson/loongson_i2s_pci.c:400:29: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     400 |         rx_data->dev_addr = (u64)i2s->reg_base + LS_I2S_RX_DATA;
+         |                             ^
+>> sound/soc/loongson/loongson_i2s_pci.c:441:9: error: implicit declaration of function 'pci_iounmap'; did you mean 'pcim_iounmap'? [-Werror=implicit-function-declaration]
+     441 |         pci_iounmap(pdev, i2s->reg_base);
+         |         ^~~~~~~~~~~
+         |         pcim_iounmap
+>> sound/soc/loongson/loongson_i2s_pci.c:443:9: error: implicit declaration of function 'pci_release_region'; did you mean 'pci_release_regions'? [-Werror=implicit-function-declaration]
+     443 |         pci_release_region(pdev, BAR_NUM);
+         |         ^~~~~~~~~~~~~~~~~~
+         |         pci_release_regions
+   sound/soc/loongson/loongson_i2s_pci.c: At top level:
+>> sound/soc/loongson/loongson_i2s_pci.c:474:1: warning: data definition has no type or storage class
+     474 | module_pci_driver(loongson_i2s_driver);
+         | ^~~~~~~~~~~~~~~~~
+>> sound/soc/loongson/loongson_i2s_pci.c:474:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Werror=implicit-int]
+>> sound/soc/loongson/loongson_i2s_pci.c:474:1: warning: parameter names (without types) in function declaration
+   sound/soc/loongson/loongson_i2s_pci.c:464:26: warning: 'loongson_i2s_driver' defined but not used [-Wunused-variable]
+     464 | static struct pci_driver loongson_i2s_driver = {
+         |                          ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/i +905 fs/ubifs/file.c
+vim +364 sound/soc/loongson/loongson_i2s_pci.c
 
-1e51764a3c2ac0 Artem Bityutskiy        2008-07-14  902  
-4f6ac0962f61cc Matthew Wilcox (Oracle  2023-06-05  903) static int do_writepage(struct folio *folio, size_t len)
-1e51764a3c2ac0 Artem Bityutskiy        2008-07-14  904  {
-1e51764a3c2ac0 Artem Bityutskiy        2008-07-14 @905  	int err = 0, i, blen;
-1e51764a3c2ac0 Artem Bityutskiy        2008-07-14  906  	unsigned int block;
-1e51764a3c2ac0 Artem Bityutskiy        2008-07-14  907  	void *addr;
-4f6ac0962f61cc Matthew Wilcox (Oracle  2023-06-05  908) 	size_t offset = 0;
-1e51764a3c2ac0 Artem Bityutskiy        2008-07-14  909  	union ubifs_key key;
-4f6ac0962f61cc Matthew Wilcox (Oracle  2023-06-05  910) 	struct inode *inode = folio->mapping->host;
-1e51764a3c2ac0 Artem Bityutskiy        2008-07-14  911  	struct ubifs_info *c = inode->i_sb->s_fs_info;
-1e51764a3c2ac0 Artem Bityutskiy        2008-07-14  912  
+   350	
+   351	static int loongson_i2s_pci_probe(struct pci_dev *pdev,
+   352					  const struct pci_device_id *pid)
+   353	{
+   354		const struct fwnode_handle *fwnode = pdev->dev.fwnode;
+   355		struct loongson_dma_data *tx_data, *rx_data;
+   356		struct loongson_i2s *i2s;
+   357		int ret;
+   358	
+   359		if (pci_enable_device(pdev)) {
+   360			dev_err(&pdev->dev, "pci_enable_device failed\n");
+   361			return -ENODEV;
+   362		}
+   363	
+ > 364		ret = pci_request_region(pdev, BAR_NUM, LS_I2S_DRVNAME);
+   365		if (ret) {
+   366			dev_err(&pdev->dev, "request regions failed %d\n", ret);
+   367			goto err_disable;
+   368		}
+   369	
+   370		i2s = devm_kzalloc(&pdev->dev, sizeof(*i2s), GFP_KERNEL);
+   371		if (!i2s) {
+   372			ret = -ENOMEM;
+   373			goto err_release;
+   374		}
+   375		i2s->rev_id = pdev->revision;
+   376		i2s->dev = &pdev->dev;
+   377		pci_set_drvdata(pdev, i2s);
+   378	
+ > 379		i2s->reg_base = pci_iomap(pdev, BAR_NUM, 0);
+   380		if (!i2s->reg_base) {
+   381			dev_err(&pdev->dev, "pci_iomap_error\n");
+   382			ret = -EIO;
+   383			goto err_release;
+   384		}
+   385	
+   386		i2s->regmap = devm_regmap_init_mmio(&pdev->dev, i2s->reg_base,
+   387						    &loongson_i2s_regmap_config);
+   388		if (IS_ERR(i2s->regmap)) {
+   389			dev_err(&pdev->dev, "Failed to initialize register map");
+   390			ret = PTR_ERR(i2s->regmap);
+   391			goto err_unmap;
+   392		}
+   393	
+   394		tx_data = &i2s->tx_dma_data;
+   395		rx_data = &i2s->rx_dma_data;
+   396	
+   397		tx_data->dev_addr = (u64)i2s->reg_base + LS_I2S_TX_DATA;
+   398		tx_data->order_addr = i2s->reg_base + LS_I2S_TX_ORDER;
+   399	
+   400		rx_data->dev_addr = (u64)i2s->reg_base + LS_I2S_RX_DATA;
+   401		rx_data->order_addr = i2s->reg_base + LS_I2S_RX_ORDER;
+   402	
+   403		tx_data->irq = fwnode_irq_get_byname(fwnode, "tx");
+   404		if (tx_data->irq < 0) {
+   405			dev_err(&pdev->dev, "dma tx irq invalid\n");
+   406			ret = tx_data->irq;
+   407			goto err_unmap;
+   408		}
+   409	
+   410		rx_data->irq = fwnode_irq_get_byname(fwnode, "rx");
+   411		if (rx_data->irq < 0) {
+   412			dev_err(&pdev->dev, "dma rx irq invalid\n");
+   413			ret = rx_data->irq;
+   414			goto err_unmap;
+   415		}
+   416	
+   417		device_property_read_u32(&pdev->dev, "clock-frequency", &i2s->clk_rate);
+   418		if (!i2s->clk_rate) {
+   419			dev_err(&pdev->dev, "clock-frequency property invalid\n");
+   420			ret = -EINVAL;
+   421			goto err_unmap;
+   422		}
+   423	
+   424		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+   425	
+   426		dev_set_name(&pdev->dev, "%s", loongson_i2s_dai.name);
+   427	
+   428		loongson_i2s_init(i2s);
+   429	
+   430		ret = devm_snd_soc_register_component(&pdev->dev,
+   431						      &loongson_i2s_component,
+   432						      &loongson_i2s_dai, 1);
+   433		if (ret) {
+   434			dev_err(&pdev->dev, "register DAI failed %d\n", ret);
+   435			goto err_unmap;
+   436		}
+   437	
+   438		return 0;
+   439	
+   440	err_unmap:
+ > 441		pci_iounmap(pdev, i2s->reg_base);
+   442	err_release:
+ > 443		pci_release_region(pdev, BAR_NUM);
+   444	err_disable:
+   445		pci_disable_device(pdev);
+   446		return ret;
+   447	}
+   448	
+   449	static void loongson_i2s_pci_remove(struct pci_dev *pdev)
+   450	{
+   451		struct loongson_i2s *i2s = dev_get_drvdata(&pdev->dev);
+   452	
+   453		pci_iounmap(pdev, i2s->reg_base);
+   454		pci_release_region(pdev, BAR_NUM);
+   455		pci_disable_device(pdev);
+   456	}
+   457	
+   458	static const struct pci_device_id loongson_i2s_ids[] = {
+   459		{ PCI_DEVICE(PCI_VENDOR_ID_LOONGSON, 0x7a27) },
+   460		{ },
+   461	};
+   462	MODULE_DEVICE_TABLE(pci, loongson_i2s_ids);
+   463	
+   464	static struct pci_driver loongson_i2s_driver = {
+   465		.name = "loongson-i2s-pci",
+   466		.id_table = loongson_i2s_ids,
+   467		.probe = loongson_i2s_pci_probe,
+   468		.remove = loongson_i2s_pci_remove,
+   469		.driver = {
+   470			.owner = THIS_MODULE,
+   471			.pm = pm_sleep_ptr(&loongson_i2s_pm),
+   472		},
+   473	};
+ > 474	module_pci_driver(loongson_i2s_driver);
+   475	
 
 -- 
 0-DAY CI Kernel Test Service
