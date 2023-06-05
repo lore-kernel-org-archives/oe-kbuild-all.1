@@ -1,74 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A25261DA;
-	Mon,  5 Jun 2023 20:28:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF939C433D2;
-	Mon,  5 Jun 2023 20:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1685996920;
-	bh=SOB6TXii0X/LL9pHwHXkq3U/qAHYc7nqMK4r9mLoUpA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rP+4FEn2nSktXAukfJXBONmnnEcXgF3CmeRdodVU2u8bbUIqn1C8gOIOiS7qXz5be
-	 T9pV/DeYRdZoNwQvg6MwLEUZ/pAtvQh/VRwPD4KGMpBCX7aYQFrw//K1VOxBTwwtsc
-	 WDIiHaS/QCOTGTTFwUPmWhMgxIcSolJqonzUUqMwl8ASaSMzT33ppu3hMwLH07d946
-	 WWZo1UhwAVhWklnr6AYRVRdnn0PeBFpv4VX0lW1BN2i9syRxw4cWtsTpwxtkZctzAY
-	 HL9HMtuEmWKl7eYTTo2QyUgMw/FTrYVppBOvnymdE9ryxvLq91G2QDduEH+EjRgfv4
-	 QOhKrED9HyGoA==
-Date: Mon, 5 Jun 2023 13:28:39 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
- oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org, Simon Horman
- <simon.horman@corigine.com>
-Subject: Re: [net-next:main 3/19]
- drivers/net/ethernet/altera/altera_tse_main.c:1419: undefined reference to
- `lynx_pcs_create_mdiodev'
-Message-ID: <20230605132839.1b604580@kernel.org>
-In-Reply-To: <202306060325.l3TVneV8-lkp@intel.com>
-References: <202306060325.l3TVneV8-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05681261EE
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jun 2023 20:32:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1685997146; x=1717533146;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=btZahgC1h/ESCrvkTLalt9h2IyYRaP2vn69sQbCp+ZM=;
+  b=i6Ymdy0/adVfFVaLO9v88T1qrKvgrLg9UUq/hioe0Of5giHv6g/Sob6C
+   fV9XBrgUOMWyt7U8R/7JdfrtHdprO8su9jiesjp2unyuXgd3ciDqs0FcG
+   XMOiv/LKqQ0GcqgrNQZxDYZ/VA+RRE1uefCGJeHUOjF3UIe4h8h4jf/x5
+   id9dBn9iHUlOEdrRPI2+6YnCFxvd3dwJO+LE3hIYRdLmJJ67En4UDhko0
+   5UbCQXeGKqITZFsAQifPIkA7LaQZA2W+CFlJ84DL88uAVrhgUBKDhFHnp
+   a8EgjgEcBVdiAQATkkyUOunpcxzRAT5gd+rqFVMtPn5nuRjs9XHNlflC/
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="336831471"
+X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
+   d="scan'208";a="336831471"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 13:32:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="708798601"
+X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
+   d="scan'208";a="708798601"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 05 Jun 2023 13:32:23 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q6GsI-0004QT-1h;
+	Mon, 05 Jun 2023 20:32:22 +0000
+Date: Tue, 6 Jun 2023 04:31:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stephan Gerhold <stephan@gerhold.net>,
+	Bjorn Andersson <andersson@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Andy Gross <agross@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	Stephan Gerhold <stephan@gerhold.net>
+Subject: Re: [PATCH 10/14] soc: qcom: Add RPM processor/subsystem driver
+Message-ID: <202306060446.CAOHuKLm-lkp@intel.com>
+References: <20230531-rpm-rproc-v1-10-e0a3b6de1f14@gerhold.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230531-rpm-rproc-v1-10-e0a3b6de1f14@gerhold.net>
 
-On Tue, 6 Jun 2023 03:17:47 +0800 kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
-> head:   69da40ac3481993d6f599c98e84fcdbbf0bcd7e0
-> commit: db48abbaa18e571106711b42affe68ca6f36ca5a [3/19] net: ethernet: altera-tse: Convert to mdio-regmap and use PCS Lynx
-> config: nios2-defconfig (https://download.01.org/0day-ci/archive/20230606/202306060325.l3TVneV8-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 12.3.0
-> reproduce (this is a W=1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git/commit/?id=db48abbaa18e571106711b42affe68ca6f36ca5a
->         git remote add net-next https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
->         git fetch --no-tags net-next main
->         git checkout db48abbaa18e571106711b42affe68ca6f36ca5a
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
-> 
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306060325.l3TVneV8-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    nios2-linux-ld: drivers/net/ethernet/altera/altera_tse_main.o: in function `altera_tse_probe':
-> >> drivers/net/ethernet/altera/altera_tse_main.c:1419: undefined reference to `lynx_pcs_create_mdiodev'  
->    drivers/net/ethernet/altera/altera_tse_main.c:1419:(.text+0xd7c): relocation truncated to fit: R_NIOS2_CALL26 against `lynx_pcs_create_mdiodev'
-> >> nios2-linux-ld: drivers/net/ethernet/altera/altera_tse_main.c:1451: undefined reference to `lynx_pcs_destroy'  
->    drivers/net/ethernet/altera/altera_tse_main.c:1451:(.text+0xdf8): relocation truncated to fit: R_NIOS2_CALL26 against `lynx_pcs_destroy'
->    nios2-linux-ld: drivers/net/ethernet/altera/altera_tse_main.o: in function `altera_tse_remove':
-> >> drivers/net/ethernet/altera/altera_tse_main.c:1473: undefined reference to `lynx_pcs_destroy'  
->    drivers/net/ethernet/altera/altera_tse_main.c:1473:(.text+0x1564): relocation truncated to fit: R_NIOS2_CALL26 against `lynx_pcs_destroy'
+Hi Stephan,
 
-Hum, if it doesn't build without the patch from Mark's tree, I think
-we'll need to revert..
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 8d5a57ea6a0b1722725170e32e511701ca7c454c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stephan-Gerhold/dt-bindings-soc-qcom-smd-rpm-Fix-sort-order/20230605-151438
+base:   8d5a57ea6a0b1722725170e32e511701ca7c454c
+patch link:    https://lore.kernel.org/r/20230531-rpm-rproc-v1-10-e0a3b6de1f14%40gerhold.net
+patch subject: [PATCH 10/14] soc: qcom: Add RPM processor/subsystem driver
+config: m68k-randconfig-r023-20230605 (https://download.01.org/0day-ci/archive/20230606/202306060446.CAOHuKLm-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/e08a6ffdb1d65902d0c4fed40968ff2e4d83a476
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Stephan-Gerhold/dt-bindings-soc-qcom-smd-rpm-Fix-sort-order/20230605-151438
+        git checkout e08a6ffdb1d65902d0c4fed40968ff2e4d83a476
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306060446.CAOHuKLm-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   m68k-linux-ld: drivers/soc/qcom/rpm-proc.o: in function `rpm_proc_remove':
+>> rpm-proc.c:(.text+0x12): undefined reference to `qcom_smd_unregister_edge'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
