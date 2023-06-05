@@ -1,243 +1,196 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8236D20EA;
-	Mon,  5 Jun 2023 18:36:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3C2DDC0
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  5 Jun 2023 19:08:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1685990202; x=1717526202;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UxuTBXyMznw+F+wdRlOGBW1X5FSgsoBb7veRn/CFfuY=;
-  b=TlVaNXrNZigiXWM5kCxTrT5ayYrx+ENtCWMh8MyBYSkznH36fURzvDBB
-   cJpaRMn2/ErHwKYIyFNeTQd03mOWwaA4Uew0od7qFcUHymuXsxfpcwM4J
-   iCJf3cM3BpJ9hgyQHHIuZ0gTrLzMZnuyhFoFCg7U5uZWDHBBKuHrXwaBa
-   h8eGdqVF1aSGD6PtJKSrTW03knsviYq9wneIXklqkSOGMfseucIeiCdEh
-   6LWbWI6uFfL9m9RZGnj7IyjD10Nhci0rhLtEcAHrYIwi5e38jj1NNPAJs
-   9fBLbF+/S8nAHCv9vEGVbrQIByiZyjt51/3wuYq95nsai54/BMMLLtIay
+  t=1685992102; x=1717528102;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=he9vJl6LgZzy7C57CAzJ5wH5kkYGEHuzzPS10Wa9KZ4=;
+  b=CeNDQTupSCkIDyP7g85g7iApjM6UIEJyDZlXGQZHODKnf5nxrXuBs9iJ
+   Tcyj0QwNtkyfRwG5TLLJmbL2v93JC+RGRDQlflSW6XMVyuAWsulLSLhJk
+   HvsqDbvuFcUh84UeAmtJbPzkX2OVix+VYBvGYsBUReU620hwQpYckmNys
+   k+g8HJeTuzWt62p+AdN2N9jNtKHdf4jEY9Q9n0/QEVyDa/AXQaPDbk7n9
+   Lp8h5oh0AHSgwA9EcwhtieSKRn4O+RQyCzTDwlEwqeeGdpJkGsKbzJ/+F
+   jbiP1jNcA0vY+Tb00tSjJTt0QWAmpmzmahuQkTYdKLOwPZHbA+GA0e7kV
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="353940839"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="422282294"
 X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="353940839"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 11:36:22 -0700
+   d="scan'208";a="422282294"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 12:08:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="821284370"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="711918385"
 X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="821284370"
+   d="scan'208";a="711918385"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 05 Jun 2023 11:36:20 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 05 Jun 2023 12:08:20 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6F3z-0004MP-1V;
-	Mon, 05 Jun 2023 18:36:19 +0000
-Date: Tue, 6 Jun 2023 02:35:29 +0800
+	id 1q6FYx-0004N9-2y;
+	Mon, 05 Jun 2023 19:08:19 +0000
+Date: Tue, 6 Jun 2023 03:07:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: YingKun Meng <mengyingkun@loongson.cn>, lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
-	loongarch@lists.linux.dev, loongson-kernel@lists.loongnix.cn,
-	Yingkun Meng <mengyingkun@loongson.cn>
-Subject: Re: [PATCH 1/3] ASoC: Add support for Loongson I2S controller
-Message-ID: <202306060223.9hdivLrx-lkp@intel.com>
-References: <20230605120934.2306548-1-mengyingkun@loongson.cn>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 33/35]
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c:241:34: error: format '%lu'
+ expects argument of type 'long unsigned int', but argument 3 has type
+ 'size_t' {aka 'unsigned int'}
+Message-ID: <202306060235.WVu4U0Bx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230605120934.2306548-1-mengyingkun@loongson.cn>
+Content-Transfer-Encoding: 8bit
 
-Hi YingKun,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 1fbcc5ab1c7a172ef1159b154c296fe1e9ce209b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/YingKun-Meng/ASoC-loongson-Add-Loongson-Generic-ASoC-Sound-Card-Support/20230605-215940
-base:   1fbcc5ab1c7a172ef1159b154c296fe1e9ce209b
-patch link:    https://lore.kernel.org/r/20230605120934.2306548-1-mengyingkun%40loongson.cn
-patch subject: [PATCH 1/3] ASoC: Add support for Loongson I2S controller
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230606/202306060223.9hdivLrx-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   f4bb02c2f52c15a5573562e4a44bb1b304fe1bcc
+commit: 4d24181b3ab5a628b4082be6351feb2e6cf5dbfb [33/35] UPSTREAM: drm/i915: Check for integer truncation on scatterlist creation
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20230606/202306060235.WVu4U0Bx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/cb79a1df70a849f772428740eb3c155da83de25b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review YingKun-Meng/ASoC-loongson-Add-Loongson-Generic-ASoC-Sound-Card-Support/20230605-215940
-        git checkout cb79a1df70a849f772428740eb3c155da83de25b
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-6.1
+        git checkout 4d24181b3ab5a628b4082be6351feb2e6cf5dbfb
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash sound/soc/loongson/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306060223.9hdivLrx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306060235.WVu4U0Bx-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   sound/soc/loongson/loongson_i2s_pci.c: In function 'dma_desc_save':
->> sound/soc/loongson/loongson_i2s_pci.c:82:17: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Werror=implicit-function-declaration]
-      82 |         val |= (readq(order_reg) & DMA_ORDER_CTRL_MASK);
-         |                 ^~~~~
-         |                 readl
->> sound/soc/loongson/loongson_i2s_pci.c:84:9: error: implicit declaration of function 'writeq'; did you mean 'writel'? [-Werror=implicit-function-declaration]
-      84 |         writeq(val, order_reg);
-         |         ^~~~~~
-         |         writel
-   sound/soc/loongson/loongson_i2s_pci.c: In function 'loongson_pcm_hw_params':
->> sound/soc/loongson/loongson_i2s_pci.c:171:45: warning: right shift count >= width of type [-Wshift-count-overflow]
-     171 |                 desc->order_hi = order_addr >> 32;
-         |                                             ^~
-   sound/soc/loongson/loongson_i2s_pci.c:174:43: warning: right shift count >= width of type [-Wshift-count-overflow]
-     174 |                 desc->saddr_hi = mem_addr >> 32;
-         |                                           ^~
-   sound/soc/loongson/loongson_i2s_pci.c:190:57: warning: right shift count >= width of type [-Wshift-count-overflow]
-     190 |                 desc->order_hi = prtd->dma_desc_arr_phy >> 32;
-         |                                                         ^~
-   sound/soc/loongson/loongson_i2s_pci.c: In function 'loongson_i2s_pci_probe':
->> sound/soc/loongson/loongson_i2s_pci.c:397:29: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     397 |         tx_data->dev_addr = (u64)i2s->reg_base + LS_I2S_TX_DATA;
-         |                             ^
-   sound/soc/loongson/loongson_i2s_pci.c:400:29: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
-     400 |         rx_data->dev_addr = (u64)i2s->reg_base + LS_I2S_RX_DATA;
-         |                             ^
-   cc1: some warnings being treated as errors
+   In file included from include/linux/device.h:15,
+                    from include/linux/blk_types.h:11,
+                    from include/linux/writeback.h:13,
+                    from include/linux/memcontrol.h:22,
+                    from include/linux/swap.h:9,
+                    from include/linux/shmem_fs.h:6,
+                    from drivers/gpu/drm/i915/gem/i915_gem_shmem.c:8:
+   drivers/gpu/drm/i915/gem/i915_gem_shmem.c: In function 'shmem_get_pages':
+>> drivers/gpu/drm/i915/gem/i915_gem_shmem.c:241:34: error: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Werror=format=]
+     241 |                                  "Failed to DMA remap %lu pages\n",
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:146:61: note: in expansion of macro 'dev_fmt'
+     146 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                             ^~~~~~~
+   drivers/gpu/drm/i915/gem/i915_gem_shmem.c:240:25: note: in expansion of macro 'dev_warn'
+     240 |                         dev_warn(i915->drm.dev,
+         |                         ^~~~~~~~
+   drivers/gpu/drm/i915/gem/i915_gem_shmem.c:241:57: note: format string is defined here
+     241 |                                  "Failed to DMA remap %lu pages\n",
+         |                                                       ~~^
+         |                                                         |
+         |                                                         long unsigned int
+         |                                                       %u
+   cc1: all warnings being treated as errors
 
 
-vim +82 sound/soc/loongson/loongson_i2s_pci.c
+vim +241 drivers/gpu/drm/i915/gem/i915_gem_shmem.c
 
-    74	
-    75	static struct
-    76	loongson_dma_desc *dma_desc_save(struct loongson_runtime_data *prtd)
-    77	{
-    78		void __iomem *order_reg = prtd->dma_data->order_addr;
-    79		u64 val;
-    80	
-    81		val = (u64)prtd->dma_pos_desc_phy & DMA_ORDER_ASK_MASK;
-  > 82		val |= (readq(order_reg) & DMA_ORDER_CTRL_MASK);
-    83		val |= DMA_ORDER_ASK_VALID;
-  > 84		writeq(val, order_reg);
-    85	
-    86		while (readl(order_reg) & DMA_ORDER_ASK_VALID)
-    87			udelay(2);
-    88	
-    89		return prtd->dma_pos_desc;
-    90	}
-    91	
-    92	static int loongson_pcm_trigger(struct snd_soc_component *component,
-    93					struct snd_pcm_substream *substream, int cmd)
-    94	{
-    95		struct loongson_runtime_data *prtd = substream->runtime->private_data;
-    96		struct device *dev = substream->pcm->card->dev;
-    97		void __iomem *order_reg = prtd->dma_data->order_addr;
-    98		u64 val;
-    99		int ret = 0;
-   100	
-   101		switch (cmd) {
-   102		case SNDRV_PCM_TRIGGER_START:
-   103		case SNDRV_PCM_TRIGGER_RESUME:
-   104		case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-   105			val = prtd->dma_pos_desc_phy & DMA_ORDER_ASK_MASK;
-   106			if (dev->coherent_dma_mask == DMA_BIT_MASK(64))
-   107				val |= DMA_ORDER_ADDR_64;
-   108			else
-   109				val &= ~DMA_ORDER_ADDR_64;
-   110			val |= (readq(order_reg) & DMA_ORDER_CTRL_MASK);
-   111			val |= DMA_ORDER_START;
-   112			writeq(val, order_reg);
-   113	
-   114			while ((readl(order_reg) & DMA_ORDER_START))
-   115				udelay(2);
-   116			break;
-   117		case SNDRV_PCM_TRIGGER_STOP:
-   118		case SNDRV_PCM_TRIGGER_SUSPEND:
-   119		case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-   120			dma_desc_save(prtd);
-   121	
-   122			/* dma stop */
-   123			val = readq(order_reg) | DMA_ORDER_STOP;
-   124			writeq(val, order_reg);
-   125			udelay(1000);
-   126	
-   127			break;
-   128		default:
-   129			ret = -EINVAL;
-   130		}
-   131	
-   132		return ret;
-   133	}
-   134	
-   135	static int loongson_pcm_hw_params(struct snd_soc_component *component,
-   136					  struct snd_pcm_substream *substream,
-   137					  struct snd_pcm_hw_params *params)
-   138	{
-   139		struct snd_pcm_runtime *runtime = substream->runtime;
-   140		struct loongson_runtime_data *prtd = runtime->private_data;
-   141		size_t buf_len = params_buffer_bytes(params);
-   142		size_t period_len = params_period_bytes(params);
-   143		dma_addr_t order_addr, mem_addr;
-   144		struct loongson_dma_desc *desc;
-   145		u32 num_periods;
-   146		int i;
-   147	
-   148		if (buf_len % period_len) {
-   149			pr_err("buf len not multiply of period len\n");
-   150			return -EINVAL;
-   151		}
-   152	
-   153		num_periods = buf_len / period_len;
-   154		if (!num_periods) {
-   155			pr_err("dma data too small\n");
-   156			return -EINVAL;
-   157		}
-   158	
-   159		snd_pcm_set_runtime_buffer(substream, &substream->dma_buffer);
-   160		runtime->dma_bytes = buf_len;
-   161	
-   162		/* initialize dma descriptor array */
-   163		mem_addr = runtime->dma_addr;
-   164		order_addr = prtd->dma_desc_arr_phy;
-   165		for (i = 0; i < num_periods; i++) {
-   166			desc = &prtd->dma_desc_arr[i];
-   167	
-   168			/* next descriptor physical address */
-   169			order_addr += sizeof(*desc);
-   170			desc->order = order_addr | BIT(0);
- > 171			desc->order_hi = order_addr >> 32;
-   172	
-   173			desc->saddr = mem_addr;
-   174			desc->saddr_hi = mem_addr >> 32;
-   175			desc->daddr = prtd->dma_data->dev_addr;
-   176	
-   177			desc->cmd = BIT(0);
-   178			if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
-   179				desc->cmd |= BIT(12);
-   180	
-   181			desc->length = period_len >> 2;
-   182			desc->step_length = 0;
-   183			desc->step_times = 1;
-   184	
-   185			mem_addr += period_len;
-   186		}
-   187		if (num_periods > 0) {
-   188			desc = &prtd->dma_desc_arr[num_periods - 1];
-   189			desc->order = prtd->dma_desc_arr_phy | BIT(0);
-   190			desc->order_hi = prtd->dma_desc_arr_phy >> 32;
-   191		}
-   192	
-   193		/* init position descriptor */
-   194		*prtd->dma_pos_desc = *prtd->dma_desc_arr;
-   195	
-   196		return 0;
-   197	}
-   198	
+f05b985e6f76eb Thomas Hellström  2021-10-18  194  
+f05b985e6f76eb Thomas Hellström  2021-10-18  195  static int shmem_get_pages(struct drm_i915_gem_object *obj)
+f05b985e6f76eb Thomas Hellström  2021-10-18  196  {
+f05b985e6f76eb Thomas Hellström  2021-10-18  197  	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+f05b985e6f76eb Thomas Hellström  2021-10-18  198  	struct intel_memory_region *mem = obj->mm.region;
+f05b985e6f76eb Thomas Hellström  2021-10-18  199  	struct address_space *mapping = obj->base.filp->f_mapping;
+d3f6bacfca86f6 Robert Beckett    2022-10-20  200  	unsigned int max_segment = i915_sg_segment_size(i915->drm.dev);
+f05b985e6f76eb Thomas Hellström  2021-10-18  201  	struct sg_table *st;
+f05b985e6f76eb Thomas Hellström  2021-10-18  202  	struct sgt_iter sgt_iter;
+f05b985e6f76eb Thomas Hellström  2021-10-18  203  	struct page *page;
+f05b985e6f76eb Thomas Hellström  2021-10-18  204  	int ret;
+f05b985e6f76eb Thomas Hellström  2021-10-18  205  
+f05b985e6f76eb Thomas Hellström  2021-10-18  206  	/*
+f05b985e6f76eb Thomas Hellström  2021-10-18  207  	 * Assert that the object is not currently in any GPU domain. As it
+f05b985e6f76eb Thomas Hellström  2021-10-18  208  	 * wasn't in the GTT, there shouldn't be any way it could have been in
+f05b985e6f76eb Thomas Hellström  2021-10-18  209  	 * a GPU cache
+f05b985e6f76eb Thomas Hellström  2021-10-18  210  	 */
+f05b985e6f76eb Thomas Hellström  2021-10-18  211  	GEM_BUG_ON(obj->read_domains & I915_GEM_GPU_DOMAINS);
+f05b985e6f76eb Thomas Hellström  2021-10-18  212  	GEM_BUG_ON(obj->write_domain & I915_GEM_GPU_DOMAINS);
+f05b985e6f76eb Thomas Hellström  2021-10-18  213  
+f05b985e6f76eb Thomas Hellström  2021-10-18  214  rebuild_st:
+a8c18bec83a82a Chris Wilson      2022-07-27  215  	st = kmalloc(sizeof(*st), GFP_KERNEL | __GFP_NOWARN);
+cad7109a2b5e7d Thomas Hellström  2021-11-01  216  	if (!st)
+cad7109a2b5e7d Thomas Hellström  2021-11-01  217  		return -ENOMEM;
+cad7109a2b5e7d Thomas Hellström  2021-11-01  218  
+cad7109a2b5e7d Thomas Hellström  2021-11-01  219  	ret = shmem_sg_alloc_table(i915, st, obj->base.size, mem, mapping,
+cad7109a2b5e7d Thomas Hellström  2021-11-01  220  				   max_segment);
+cad7109a2b5e7d Thomas Hellström  2021-11-01  221  	if (ret)
+f05b985e6f76eb Thomas Hellström  2021-10-18  222  		goto err_st;
+f05b985e6f76eb Thomas Hellström  2021-10-18  223  
+8475355f7a2645 Chris Wilson      2019-05-28  224  	ret = i915_gem_gtt_prepare_pages(obj, st);
+8475355f7a2645 Chris Wilson      2019-05-28  225  	if (ret) {
+8475355f7a2645 Chris Wilson      2019-05-28  226  		/*
+8475355f7a2645 Chris Wilson      2019-05-28  227  		 * DMA remapping failed? One possible cause is that
+8475355f7a2645 Chris Wilson      2019-05-28  228  		 * it could not reserve enough large entries, asking
+8475355f7a2645 Chris Wilson      2019-05-28  229  		 * for PAGE_SIZE chunks instead may be helpful.
+8475355f7a2645 Chris Wilson      2019-05-28  230  		 */
+8475355f7a2645 Chris Wilson      2019-05-28  231  		if (max_segment > PAGE_SIZE) {
+8475355f7a2645 Chris Wilson      2019-05-28  232  			for_each_sgt_page(page, sgt_iter, st)
+8475355f7a2645 Chris Wilson      2019-05-28  233  				put_page(page);
+8475355f7a2645 Chris Wilson      2019-05-28  234  			sg_free_table(st);
+f05b985e6f76eb Thomas Hellström  2021-10-18  235  			kfree(st);
+8475355f7a2645 Chris Wilson      2019-05-28  236  
+8475355f7a2645 Chris Wilson      2019-05-28  237  			max_segment = PAGE_SIZE;
+8475355f7a2645 Chris Wilson      2019-05-28  238  			goto rebuild_st;
+8475355f7a2645 Chris Wilson      2019-05-28  239  		} else {
+8ff5446a7ca47c Thomas Zimmermann 2021-01-28  240  			dev_warn(i915->drm.dev,
+8475355f7a2645 Chris Wilson      2019-05-28 @241  				 "Failed to DMA remap %lu pages\n",
+4d24181b3ab5a6 Chris Wilson      2022-12-28  242  				 obj->base.size >> PAGE_SHIFT);
+8475355f7a2645 Chris Wilson      2019-05-28  243  			goto err_pages;
+8475355f7a2645 Chris Wilson      2019-05-28  244  		}
+8475355f7a2645 Chris Wilson      2019-05-28  245  	}
+8475355f7a2645 Chris Wilson      2019-05-28  246  
+8475355f7a2645 Chris Wilson      2019-05-28  247  	if (i915_gem_object_needs_bit17_swizzle(obj))
+8475355f7a2645 Chris Wilson      2019-05-28  248  		i915_gem_object_do_bit_17_swizzle(obj, st);
+8475355f7a2645 Chris Wilson      2019-05-28  249  
+30f1dccd295b68 Matthew Auld      2021-10-18  250  	if (i915_gem_object_can_bypass_llc(obj))
+13d29c823738c0 Matthew Auld      2021-07-23  251  		obj->cache_dirty = true;
+13d29c823738c0 Matthew Auld      2021-07-23  252  
+fa00223f2b0b56 Matthew Auld      2022-11-08  253  	__i915_gem_object_set_pages(obj, st);
+8475355f7a2645 Chris Wilson      2019-05-28  254  
+8475355f7a2645 Chris Wilson      2019-05-28  255  	return 0;
+8475355f7a2645 Chris Wilson      2019-05-28  256  
+8475355f7a2645 Chris Wilson      2019-05-28  257  err_pages:
+cad7109a2b5e7d Thomas Hellström  2021-11-01  258  	shmem_sg_free_table(st, mapping, false, false);
+8475355f7a2645 Chris Wilson      2019-05-28  259  	/*
+8475355f7a2645 Chris Wilson      2019-05-28  260  	 * shmemfs first checks if there is enough memory to allocate the page
+8475355f7a2645 Chris Wilson      2019-05-28  261  	 * and reports ENOSPC should there be insufficient, along with the usual
+8475355f7a2645 Chris Wilson      2019-05-28  262  	 * ENOMEM for a genuine allocation failure.
+8475355f7a2645 Chris Wilson      2019-05-28  263  	 *
+8475355f7a2645 Chris Wilson      2019-05-28  264  	 * We use ENOSPC in our driver to mean that we have run out of aperture
+8475355f7a2645 Chris Wilson      2019-05-28  265  	 * space and so want to translate the error from shmemfs back to our
+8475355f7a2645 Chris Wilson      2019-05-28  266  	 * usual understanding of ENOMEM.
+8475355f7a2645 Chris Wilson      2019-05-28  267  	 */
+f05b985e6f76eb Thomas Hellström  2021-10-18  268  err_st:
+8475355f7a2645 Chris Wilson      2019-05-28  269  	if (ret == -ENOSPC)
+8475355f7a2645 Chris Wilson      2019-05-28  270  		ret = -ENOMEM;
+8475355f7a2645 Chris Wilson      2019-05-28  271  
+cad7109a2b5e7d Thomas Hellström  2021-11-01  272  	kfree(st);
+cad7109a2b5e7d Thomas Hellström  2021-11-01  273  
+8475355f7a2645 Chris Wilson      2019-05-28  274  	return ret;
+8475355f7a2645 Chris Wilson      2019-05-28  275  }
+8475355f7a2645 Chris Wilson      2019-05-28  276  
+
+:::::: The code at line 241 was first introduced by commit
+:::::: 8475355f7a2645a022288301c03555c31fb4de17 drm/i915: Move shmem object setup to its own file
+
+:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
 
 -- 
 0-DAY CI Kernel Test Service
