@@ -1,74 +1,115 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD34FBED
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 21:19:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686086367; x=1717622367;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EAiQIXN9EjCATjeJmnCEEzjgcjauL972XVLy70xkRP0=;
-  b=aSrDTSi9WXbQoE6LmW4zhE0gp1zZunqSgJaAw2U/FNjYyXu+GYXFu0bm
-   xWlz23i8/aqaflfAYRChbYodXwmmUCnY1I1pkmVybP4w/sgv397UwlTmC
-   UJG8i/HZz/NIaHrJJYdR9tWme8XyArojnmXXCB3ggzTi/FnsKg+F2giuJ
-   +avUEcXXFsUfkgDP+2EniiVnTDyfZGVeg73ye9eDgZeZCogz/z05a+8Pd
-   dLYr/ynlP0EHHOuSPo7mTFzgxP2m/fBhlith+hSasKYPWYA1LvnjOlsAC
-   VQ95N5u+UVb6N146jI49Ly9mEKBe54aUvC4/IAlbrPUQExzfb/tjEj05u
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="422643797"
-X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="422643797"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 14:19:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="853578335"
-X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="853578335"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Jun 2023 14:19:15 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q6e5C-0005lP-1H;
-	Tue, 06 Jun 2023 21:19:14 +0000
-Date: Wed, 7 Jun 2023 05:18:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Will Deacon <will@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arm-perf:kvm/bpf 2/2] ERROR: modpost: "bpf_base_func_proto"
- [arch/x86/kvm/kvm.ko] undefined!
-Message-ID: <202306070527.ccOT6bLb-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A335F294D7;
+	Tue,  6 Jun 2023 21:52:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A546C433EF;
+	Tue,  6 Jun 2023 21:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686088334;
+	bh=GPZrA31f5hxmdBQeDG6A06kCs0MvEaCMExub/aQHK6o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MZA8aQNRXPiXYuBKwCVGW8FspS/pRcnw0s21K+rBM+pQQrH9uaJHokeMwT98oSe9n
+	 Sq44RUv8bYHWcezzQ2QumXVs3DmyRVLfG+2zOj3UdDmXq6qER6rMo58Xtk6446KUSc
+	 pBwUPw0zhvd9W2/FCzJeJ7PEhC1NvscSX/6denbN53plER72iz9edm9h3sGjbKMIW3
+	 /tgtnHUiqNsShmJ9OGeG20u4pRTsTklBAwbdfZuG2UWBcKMiACmYgdan1hTJ8dWbyb
+	 cbpZSagvBGEbvQUGU/ShMNFQNjC98HaWUXlJeSw2dkFUEAiYvUpAtzta7bBjoKcg3Q
+	 MLsYbjb/8BMMw==
+Date: Tue, 6 Jun 2023 14:52:12 -0700
+From: Josh Poimboeuf <jpoimboe@kernel.org>
+To: Miguel Ojeda <ojeda@kernel.org>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Miroslav Benes <mbenes@suse.cz>, kernel test robot <lkp@intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>, rust-for-linux@vger.kernel.org
+Subject: Re: [tip:objtool/core 8/12] vmlinux.o: warning: objtool:
+ rust_begin_unwind+0x5c: rust_helper_BUG() is missing a __noreturn annotation
+Message-ID: <20230606215212.r7if2gsynajugf6j@treble>
+References: <202306070408.EFxuDoRs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <202306070408.EFxuDoRs-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git kvm/bpf
-head:   d33f8163fd6eef7f249c338d822b598ab306fab2
-commit: d33f8163fd6eef7f249c338d822b598ab306fab2 [2/2] KVM: Add support for new KVM_DEV_TYPE_BPF device
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230607/202306070527.ccOT6bLb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/commit/?id=d33f8163fd6eef7f249c338d822b598ab306fab2
-        git remote add arm-perf https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git
-        git fetch --no-tags arm-perf kvm/bpf
-        git checkout d33f8163fd6eef7f249c338d822b598ab306fab2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+Hi Miguel, Wedson,
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306070527.ccOT6bLb-lkp@intel.com/
+Objtool detected that rust_helper_BUG() doesn't return, and seems to be
+missing a __noreturn.  But it actually *does* have __noreturn.  The
+problem is actually that its rust callees don't seem to know that, i.e.
+they assume it returns.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+After a little digging I found this comment in rust panic():
 
->> ERROR: modpost: "bpf_base_func_proto" [arch/x86/kvm/kvm.ko] undefined!
+    unsafe { bindings::BUG() };
+    // Bindgen currently does not recognize `__noreturn` so `BUG` returns `()`
+    // instead of `!`. See <https://github.com/rust-lang/rust-bindgen/issues/2094>.
+    loop {}
+
+So it seems to be an issue with bindgen, though that github issue has
+been resolved.  Any idea when this will show up in a toolchain?
+
+In the meantime we may have to get objtool to manually silence the
+warning, unless you have any better ideas.
+
+On Wed, Jun 07, 2023 at 04:57:42AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git objtool/core
+> head:   ff9a6459bbec06df7da2545020d7383aba13b3fb
+> commit: fedb724c3db5490234ddde0103811c28c2fedae0 [8/12] objtool: Detect missing __noreturn annotations
+> config: x86_64-randconfig-a012-20230606 (https://download.01.org/0day-ci/archive/20230607/202306070408.EFxuDoRs-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> reproduce (this is a W=1 build):
+>         mkdir -p ~/bin
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=fedb724c3db5490234ddde0103811c28c2fedae0
+>         git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
+>         git fetch --no-tags tip objtool/core
+>         git checkout fedb724c3db5490234ddde0103811c28c2fedae0
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+> 
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306070408.EFxuDoRs-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> vmlinux.o: warning: objtool: rust_begin_unwind+0x5c: rust_helper_BUG() is missing a __noreturn annotation
+> 
+> 
+> objdump-func vmlinux.o rust_begin_unwind:
+> 0000 00000000000b9e69 <rust_begin_unwind>:
+> 0000    b9e69:	48 83 ec 48          	sub    $0x48,%rsp
+> 0004    b9e6d:	48 89 e0             	mov    %rsp,%rax
+> 0007    b9e70:	48 89 38             	mov    %rdi,(%rax)
+> 000a    b9e73:	48 8d 4c 24 08       	lea    0x8(%rsp),%rcx
+> 000f    b9e78:	48 89 01             	mov    %rax,(%rcx)
+> 0012    b9e7b:	48 c7 41 08 00 00 00 00 	movq   $0x0,0x8(%rcx)	b9e7f: R_X86_64_32S	_RNvXsR_NtCs3yuwAp0waWO_4core3fmtRNtNtNtB7_5panic10panic_info9PanicInfoNtB5_7Display3fmtCsfATHBUcknU9_6kernel
+> 001a    b9e83:	48 8d 54 24 18       	lea    0x18(%rsp),%rdx
+> 001f    b9e88:	48 c7 02 00 00 00 00 	movq   $0x0,(%rdx)	b9e8b: R_X86_64_32S	.rodata+0x137d8
+> 0026    b9e8f:	48 c7 42 08 02 00 00 00 	movq   $0x2,0x8(%rdx)
+> 002e    b9e97:	48 c7 42 10 00 00 00 00 	movq   $0x0,0x10(%rdx)
+> 0036    b9e9f:	48 89 4a 20          	mov    %rcx,0x20(%rdx)
+> 003a    b9ea3:	48 c7 42 28 01 00 00 00 	movq   $0x1,0x28(%rdx)
+> 0042    b9eab:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	b9eae: R_X86_64_32S	_RNvNtNtCsfATHBUcknU9_6kernel5print14format_strings5EMERG
+> 0049    b9eb2:	48 c7 c6 00 00 00 00 	mov    $0x0,%rsi	b9eb5: R_X86_64_32S	.rodata+0x13568
+> 0050    b9eb9:	31 c0                	xor    %eax,%eax
+> 0052    b9ebb:	e8 00 00 00 00       	call   b9ec0 <rust_begin_unwind+0x57>	b9ebc: R_X86_64_PLT32	_printk-0x4
+> 0057    b9ec0:	e8 00 00 00 00       	call   b9ec5 <rust_begin_unwind+0x5c>	b9ec1: R_X86_64_PLT32	rust_helper_BUG-0x4
+> 005c    b9ec5:	eb fe                	jmp    b9ec5 <rust_begin_unwind+0x5c>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Josh
