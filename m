@@ -1,178 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4EAA2A9CE;
-	Tue,  6 Jun 2023 13:42:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87D69C433EF;
-	Tue,  6 Jun 2023 13:42:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686058967;
-	bh=U3h883flvEqS2X1clqH4TWWLP/40FL+WE/MAXYrRcIs=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=RT4Poi/FKBXFHXZbkEflbrtpDU7xwQq43Cyho27XMxZtrJ6nwUGLwOiJ14V66N/6o
-	 aQ/qvtgaL1WIwtAlayzsuqYY/ki08wD6wlOhG8b+gZgEHBUYQrk+S84lj9G7t6UG40
-	 BCIaN6WqMVHwvOh+6AaRW/e2ONpZzC9auCHpRTXsUJ2m87E4GoT7XDFah+d3v9VB7b
-	 1AV1QYHZW14nxr2nYqP6tu/4fI+T5JLKfumi8/XePna7WV0tYucwqId17Tv1e1ljKd
-	 B+ufRw2u7WQaw3VPJp70Q6yR2O0+7zz8NYx3K/h1nOV7L27M65z7XsHOjxW8Xmwbhs
-	 SHMP6ejCV8HFA==
-From: Kalle Valo <kvalo@kernel.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev,  Felix Fietkau <nbd@nbd.name>,  lkp@intel.com,  oe-kbuild-all@lists.linux.dev,  linux-kernel@vger.kernel.org,
-    linux-wireless@vger.kernel.org
-Subject: Re: drivers/net/wireless/mediatek/mt76/mt76x02_util.c:475 mt76x02_set_key() warn: variable dereferenced before check 'key' (see line 415)
-References: <2f121202-5846-44a9-8b83-e2ba1fa671d0@kadam.mountain>
-Date: Tue, 06 Jun 2023 16:42:43 +0300
-In-Reply-To: <2f121202-5846-44a9-8b83-e2ba1fa671d0@kadam.mountain> (Dan
-	Carpenter's message of "Tue, 6 Jun 2023 08:38:37 +0300")
-Message-ID: <87mt1ciu5o.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6079937B71;
+	Tue,  6 Jun 2023 13:50:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686059442; x=1717595442;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=I3+kJBG1ObK30+MuR2tQyHodqlxIFHSuii8lJUDW0y4=;
+  b=h7rzqEkHaXLCpqXIF+E07Hkbi72gbTP0EHt8LkBtbSqVq63NSeCc2jL/
+   eKqWWsFlTOWrzxZ7sLHBnkYW1jbDM2k7Zt7hGgZiE64YOiIL1e8rayVSg
+   8ApCsog+5ZzaxK5dlhU/dfHKM6auFvwcjbiFARjHK6ciBCBdtG4cLU3gG
+   OrFUaFfLrJPR8SWYFW05rlBRfYZTg3FRA3UKMPB8RFvNDWQi+yWwyZJFx
+   HSe+XrU0whTmA74M+FoVz94zJ38mbBwvdj8BG2IOEW9FOvekeeBTRMrPJ
+   2ghnT2LR2msQ1iEQVnZYIBd4347eYXYtCEkL1nqlDUmJEOwwPTmJWWe/W
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="355530697"
+X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; 
+   d="scan'208";a="355530697"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 06:50:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="709077754"
+X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; 
+   d="scan'208";a="709077754"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 06 Jun 2023 06:50:31 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q6X4w-0005JT-06;
+	Tue, 06 Jun 2023 13:50:30 +0000
+Date: Tue, 6 Jun 2023 21:50:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:timers/posix 58/61] kernel/signal.c:2097:48: error: no
+ member named 'list' in 'struct kernel_siginfo'
+Message-ID: <202306062137.desNbLij-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Adding linux-wireless, top posting so that the whole report is included.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git timers/posix
+head:   16a20adb1e0ae19ad42041a7d1b5583e4705ca0c
+commit: 3ef2ce19cb1200cb49c61f9b3cef58c4b8a3a10d [58/61] signal: Add list to track ignored posix timers
+config: riscv-randconfig-r036-20230605 (https://download.01.org/0day-ci/archive/20230606/202306062137.desNbLij-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=3ef2ce19cb1200cb49c61f9b3cef58c4b8a3a10d
+        git remote add tglx-devel https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git
+        git fetch --no-tags tglx-devel timers/posix
+        git checkout 3ef2ce19cb1200cb49c61f9b3cef58c4b8a3a10d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
-Dan Carpenter <dan.carpenter@linaro.org> writes:
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306062137.desNbLij-lkp@intel.com/
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   f8dba31b0a826e691949cd4fdfa5c30defaac8c5
-> commit: e6db67fa871dee37d22701daba806bfcd4d9df49 wifi: mt76: ignore
-> key disable commands
-> config: riscv-randconfig-m031-20230605
-> (https://download.01.org/0day-ci/archive/20230606/202306060332.WbIToDHL-lkp@intel.com/config)
-> compiler: riscv64-linux-gcc (GCC) 12.3.0
->
-> If you fix the issue, kindly add following tag where applicable
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202306060332.WbIToDHL-lkp@intel.com/
->
-> smatch warnings:
-> drivers/net/wireless/mediatek/mt76/mt76x02_util.c:475
-> mt76x02_set_key() warn: variable dereferenced before check 'key' (see
-> line 415)
->
-> vim +/key +475 drivers/net/wireless/mediatek/mt76/mt76x02_util.c
->
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 407 int
-> mt76x02_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 408 struct ieee80211_vif
-> *vif, struct ieee80211_sta *sta,
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 409 struct
-> ieee80211_key_conf *key)
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  410  {
-> d87cf75f111183 Lorenzo Bianconi 2018-10-07 411 struct mt76x02_dev *dev
-> = hw->priv;
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 412 struct mt76x02_vif
-> *mvif = (struct mt76x02_vif *)vif->drv_priv;
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  413  	struct mt76x02_sta *msta;
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  414  	struct mt76_wcid *wcid;
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 @415  	int idx = key->keyidx;
->
-> "key" is dereferenced here
->
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  416  	int ret;
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  417  
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 418 /* fall back to sw
-> encryption for unsupported ciphers */
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  419  	switch (key->cipher) {
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  420  	case WLAN_CIPHER_SUITE_WEP40:
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  421  	case WLAN_CIPHER_SUITE_WEP104:
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  422  	case WLAN_CIPHER_SUITE_TKIP:
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  423  	case WLAN_CIPHER_SUITE_CCMP:
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  424  		break;
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  425  	default:
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  426  		return -EOPNOTSUPP;
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  427  	}
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  428  
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  429  	/*
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 430 * The hardware does
-> not support per-STA RX GTK, fall back
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  431  	 * to software mode for these.
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  432  	 */
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 433 if ((vif->type ==
-> NL80211_IFTYPE_ADHOC ||
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 434 vif->type ==
-> NL80211_IFTYPE_MESH_POINT) &&
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 435 (key->cipher ==
-> WLAN_CIPHER_SUITE_TKIP ||
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 436 key->cipher ==
-> WLAN_CIPHER_SUITE_CCMP) &&
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 437 !(key->flags &
-> IEEE80211_KEY_FLAG_PAIRWISE))
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  438  		return -EOPNOTSUPP;
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  439  
-> b98558e2529986 Stanislaw Gruszka 2019-03-19  440  	/*
-> b98558e2529986 Stanislaw Gruszka 2019-03-19 441 * In USB AP mode,
-> broadcast/multicast frames are setup in beacon
-> b98558e2529986 Stanislaw Gruszka 2019-03-19 442 * data registers and
-> sent via HW beacons engine, they require to
-> b98558e2529986 Stanislaw Gruszka 2019-03-19  443  	 * be already encrypted.
-> b98558e2529986 Stanislaw Gruszka 2019-03-19  444  	 */
-> 61c51a74a4e586 Lorenzo Bianconi  2019-10-29  445  	if (mt76_is_usb(&dev->mt76) &&
-> b98558e2529986 Stanislaw Gruszka 2019-03-19 446 vif->type ==
-> NL80211_IFTYPE_AP &&
-> b98558e2529986 Stanislaw Gruszka 2019-03-19 447 !(key->flags &
-> IEEE80211_KEY_FLAG_PAIRWISE))
-> b98558e2529986 Stanislaw Gruszka 2019-03-19  448  		return -EOPNOTSUPP;
-> b98558e2529986 Stanislaw Gruszka 2019-03-19  449  
-> 4b36cc6b390f18 David Bauer 2021-02-07 450 /* MT76x0 GTK offloading
-> does not work with more than one VIF */
-> 4b36cc6b390f18 David Bauer 2021-02-07 451 if (is_mt76x0(dev) &&
-> !(key->flags & IEEE80211_KEY_FLAG_PAIRWISE))
-> 4b36cc6b390f18 David Bauer       2021-02-07  452  		return -EOPNOTSUPP;
-> 4b36cc6b390f18 David Bauer       2021-02-07  453  
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 454 msta = sta ? (struct
-> mt76x02_sta *)sta->drv_priv : NULL;
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 455 wcid = msta ?
-> &msta->wcid : &mvif->group_wcid;
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  456  
-> e6db67fa871dee Felix Fietkau     2023-03-30  457  	if (cmd != SET_KEY) {
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 458 if (idx ==
-> wcid->hw_key_idx) {
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 459 wcid->hw_key_idx = -1;
-> f2f6a47b504b8f Felix Fietkau 2019-01-25 460 wcid->sw_iv = false;
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  461  		}
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  462  
-> e6db67fa871dee Felix Fietkau     2023-03-30  463  		return 0;
-> e6db67fa871dee Felix Fietkau     2023-03-30  464  	}
-> e6db67fa871dee Felix Fietkau     2023-03-30  465  
-> e6db67fa871dee Felix Fietkau     2023-03-30  466  	key->hw_key_idx = wcid->idx;
-> e6db67fa871dee Felix Fietkau     2023-03-30  467  	wcid->hw_key_idx = idx;
-> e6db67fa871dee Felix Fietkau 2023-03-30 468 if (key->flags &
-> IEEE80211_KEY_FLAG_RX_MGMT) {
-> e6db67fa871dee Felix Fietkau 2023-03-30 469 key->flags |=
-> IEEE80211_KEY_FLAG_SW_MGMT_TX;
-> e6db67fa871dee Felix Fietkau     2023-03-30  470  		wcid->sw_iv = true;
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  471  	}
-> d87cf75f111183 Lorenzo Bianconi 2018-10-07 472
-> mt76_wcid_key_setup(&dev->mt76, wcid, key);
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  473  
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  474  	if (!msta) {
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 @475 if (key ||
-> wcid->hw_key_idx == idx) {
->
-> This NULL check is too late.
->
-> 8d66af49a3db9a Lorenzo Bianconi 2018-10-07 476 ret =
-> mt76x02_mac_wcid_set_key(dev, wcid->idx, key);
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  477  			if (ret)
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04 478 return ret;
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  479  		}
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  480  
-> 8d66af49a3db9a Lorenzo Bianconi 2018-10-07 481 return
-> mt76x02_mac_shared_key_setup(dev, mvif->idx, idx, key);
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  482  	}
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  483  
-> 8d66af49a3db9a Lorenzo Bianconi 2018-10-07 484 return
-> mt76x02_mac_wcid_set_key(dev, msta->wcid.idx, key);
-> 60c26859e863c1 Stanislaw Gruszka 2018-09-04  485  }
+All errors (new ones prefixed by >>):
+
+>> kernel/signal.c:2097:48: error: no member named 'list' in 'struct kernel_siginfo'
+    2097 |                 if (WARN_ON_ONCE(!list_empty(&tmr->sigq.info.list)))
+         |                                               ~~~~~~~~~~~~~~ ^
+   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON_ONCE'
+     110 |         int __ret_warn_on = !!(condition);                      \
+         |                                ^~~~~~~~~
+   1 error generated.
+
+
+vim +2097 kernel/signal.c
+
+  2067	
+  2068	static void posixtimer_sig_unignore(struct task_struct *tsk, int sig)
+  2069	{
+  2070		struct hlist_head *head = &tsk->signal->ignored_posix_timers;
+  2071		struct hlist_node *tmp;
+  2072		struct k_itimer *tmr;
+  2073	
+  2074		if (likely(hlist_empty(head)))
+  2075			return;
+  2076	
+  2077		/*
+  2078		 * Rearming a timer with sighand lock held is not possible due to
+  2079		 * lock ordering vs. tmr::it_lock. Just stick the sigqueue back and
+  2080		 * let the signal delivery path deal with it whether it needs to be
+  2081		 * rearmed or not. This cannot be decided here w/o dropping sighand
+  2082		 * lock and creating a loop retry horror show.
+  2083		 */
+  2084		hlist_for_each_entry_safe(tmr, tmp , head, ignored_list) {
+  2085			struct task_struct *target;
+  2086	
+  2087			/*
+  2088			 * tmr::sigq.info.si_signo is immutable, so accessing it
+  2089			 * without holding tmr::it_lock is safe.
+  2090			 */
+  2091			if (tmr->sigq.info.si_signo != sig)
+  2092				continue;
+  2093	
+  2094			hlist_del_init(&tmr->ignored_list);
+  2095	
+  2096			/* This should never happen and leaks a reference count */
+> 2097			if (WARN_ON_ONCE(!list_empty(&tmr->sigq.info.list)))
+  2098				continue;
+  2099	
+  2100			/*
+  2101			 * Get the target for the signal. If target is a thread and
+  2102			 * has exited by now, drop the reference count.
+  2103			 */
+  2104			target = posixtimer_get_target(tmr);
+  2105			if (target)
+  2106				posixtimer_queue_sigqueue(&tmr->sigq, target, tmr->it_pid_type);
+  2107			else
+  2108				posixtimer_putref(tmr);
+  2109		}
+  2110	}
+  2111	#else /* CONFIG_POSIX_TIMERS */
+  2112	static inline void posixtimer_sig_ignore(struct task_struct *tsk, struct sigqueue *q) { }
+  2113	static inline void posixtimer_sig_unignore(struct task_struct *tsk, int sig) { }
+  2114	#endif /* !CONFIG_POSIX_TIMERS */
+  2115	
 
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
