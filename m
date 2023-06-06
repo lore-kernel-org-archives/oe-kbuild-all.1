@@ -1,42 +1,60 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D3C97E4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 23:13:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D224F7E4
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 23:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686093201; x=1717629201;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=va/ooyOzhnNlZF7GgDeopYQ3eTyQXmAbcgcVoB8oqQ4=;
-  b=UYm7L0XyYXJ+7ufA4E5e5EMnqqYffHD80HNdS99M9O/1S9BVWXC+RbLM
-   fQ3B05UEQaM788GhnZB/T0LdUY0lRBPWKxi3k7SdxQhnfNzKpGmUWkt+6
-   bHboXNjf45v4wlIG76CQp05AZSSfDEI0k18ke+vi33MnXfGex0LpRwiZv
-   8A6IX2zIfqgrKCpjL/AnC5u9xL1jOie0goc4zdR16h/szsqyOzJ5AR+Kd
-   edtHmYvdSE8vv+5PS+YsbqyTh7jPRM83i4rpicaBpmWUufUCRUGUiJvzx
-   4BvkazoOfxdgIz+pcR2zuvjbCy2GACoBOP74BA1CsftpAV8OyZN7t2k+x
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="356834130"
+  t=1686093205; x=1717629205;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nOLTJSibPiFMfr8fOq4c8i0FSHh1V58oiSrkFHPtWLI=;
+  b=iLR+ridN9UTiu4C3YV021jdMQ1d6CuojAykf9zk4byzVhZtN0a0Aczdv
+   pi+PJYLdvFO5MMac3boomigkldt8KsApo2QLawJ7Hoo2G5iQ3J9zMxy8Z
+   GUUxOn6ecOKLI+z9uOyL2IHVqjVkfWOV/5/kA9z4+9C2WKwIYlRQkCXf/
+   laCiHH6bx0YF+JqfjsOxAhiNPWmyAvmiTIPH16BmiBDk7oVRVAvG4XsYF
+   3OJnEfMuoUiP/3p4V7LxpsuGOXeeRUA7FBH1CROdsNxYKK4ozaT93UBk0
+   OHgbDxfat1LujvVIS0lY9JSACXNevtMAwfnk40vYVcWAM8/wAd5aY4ZC0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="346430671"
 X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="356834130"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 16:13:20 -0700
+   d="scan'208";a="346430671"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 16:13:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="1039365604"
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="799063751"
 X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="1039365604"
+   d="scan'208";a="799063751"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 06 Jun 2023 16:13:19 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 06 Jun 2023 16:13:19 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6fra-0005qW-2F;
+	id 1q6fra-0005qU-25;
 	Tue, 06 Jun 2023 23:13:18 +0000
-Date: Wed, 7 Jun 2023 07:12:56 +0800
+Date: Wed, 7 Jun 2023 07:12:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 2/20] mm/mmap.c:2413:34: warning:
- variable 'e' set but not used
-Message-ID: <202306070737.Umg1axgK-lkp@intel.com>
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com, martin.hecht@avnet.eu,
+	michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Gerald Loacker <gerald.loacker@wolfvision.net>,
+	Shawn Tu <shawnx.tu@intel.com>,
+	Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mikhail Rudenko <mike.rudenko@gmail.com>,
+	Nicholas Roth <nicholas@rothemail.net>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] media: i2c: Add support for alvium camera
+Message-ID: <202306070716.28K0H9Jd-lkp@intel.com>
+References: <20230606155416.260941-4-tomm.merciai@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,217 +63,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230606155416.260941-4-tomm.merciai@gmail.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   2ea053d31750f1be2b92d0d4ceece2504b9fc3ba
-commit: e9fdabfc2aeb273168e60795e68896dfdeed6fdd [2/20] FROMLIST: BACKPORT: mm: Change do_vmi_align_munmap() side tree index
-config: i386-buildonly-randconfig-r005-20230606 (https://download.01.org/0day-ci/archive/20230607/202306070737.Umg1axgK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Tommaso,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on robh/for-next linus/master v6.4-rc5 next-20230606]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tommaso-Merciai/dt-bindings-vendor-prefixes-Add-prefix-alliedvision/20230606-235632
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230606155416.260941-4-tomm.merciai%40gmail.com
+patch subject: [PATCH v3 3/3] media: i2c: Add support for alvium camera
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230607/202306070716.28K0H9Jd-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android14-6.1
-        git checkout e9fdabfc2aeb273168e60795e68896dfdeed6fdd
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add media-tree git://linuxtv.org/media_tree.git
+        git fetch media-tree master
+        git checkout media-tree/master
+        b4 shazam https://lore.kernel.org/r/20230606155416.260941-4-tomm.merciai@gmail.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/media/i2c/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306070737.Umg1axgK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306070716.28K0H9Jd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/mmap.c: In function 'do_mas_align_munmap':
->> mm/mmap.c:2413:34: warning: variable 'e' set but not used [-Wunused-but-set-variable]
-    2413 |                 unsigned long s, e;
-         |                                  ^
->> mm/mmap.c:2413:31: warning: variable 's' set but not used [-Wunused-but-set-variable]
-    2413 |                 unsigned long s, e;
-         |                               ^
+   drivers/media/i2c/alvium-csi2.c: In function 'alvium_set_ctrl_white_balance':
+>> drivers/media/i2c/alvium-csi2.c:2205:21: warning: variable 'blue_min' set but not used [-Wunused-but-set-variable]
+    2205 |                 u64 blue_min;
+         |                     ^~~~~~~~
+>> drivers/media/i2c/alvium-csi2.c:2204:21: warning: variable 'blue_max' set but not used [-Wunused-but-set-variable]
+    2204 |                 u64 blue_max;
+         |                     ^~~~~~~~
+>> drivers/media/i2c/alvium-csi2.c:2203:21: warning: variable 'red_min' set but not used [-Wunused-but-set-variable]
+    2203 |                 u64 red_min;
+         |                     ^~~~~~~
+>> drivers/media/i2c/alvium-csi2.c:2202:21: warning: variable 'red_max' set but not used [-Wunused-but-set-variable]
+    2202 |                 u64 red_max;
+         |                     ^~~~~~~
+   drivers/media/i2c/alvium-csi2.c: In function 'alvium_set_frame_interval':
+>> drivers/media/i2c/alvium-csi2.c:2574:29: warning: variable 'max_fr' set but not used [-Wunused-but-set-variable]
+    2574 |         u64 req_fr, min_fr, max_fr;
+         |                             ^~~~~~
+>> drivers/media/i2c/alvium-csi2.c:2574:21: warning: variable 'min_fr' set but not used [-Wunused-but-set-variable]
+    2574 |         u64 req_fr, min_fr, max_fr;
+         |                     ^~~~~~
+   drivers/media/i2c/alvium-csi2.c: In function 'alvium_subdev_init':
+>> drivers/media/i2c/alvium-csi2.c:3172:27: warning: variable 'crop' set but not used [-Wunused-but-set-variable]
+    3172 |         struct v4l2_rect *crop;
+         |                           ^~~~
+>> drivers/media/i2c/alvium-csi2.c:3171:36: warning: variable 'fmt' set but not used [-Wunused-but-set-variable]
+    3171 |         struct v4l2_mbus_framefmt *fmt;
+         |                                    ^~~
 
 
-vim +/e +2413 mm/mmap.c
+vim +/blue_min +2205 drivers/media/i2c/alvium-csi2.c
 
-  2291	
-  2292	/*
-  2293	 * do_mas_align_munmap() - munmap the aligned region from @start to @end.
-  2294	 * @mas: The maple_state, ideally set up to alter the correct tree location.
-  2295	 * @vma: The starting vm_area_struct
-  2296	 * @mm: The mm_struct
-  2297	 * @start: The aligned start address to munmap.
-  2298	 * @end: The aligned end address to munmap.
-  2299	 * @uf: The userfaultfd list_head
-  2300	 * @downgrade: Set to true to attempt a write downgrade of the mmap_sem
-  2301	 *
-  2302	 * If @downgrade is true, check return code for potential release of the lock.
-  2303	 */
-  2304	static int
-  2305	do_mas_align_munmap(struct ma_state *mas, struct vm_area_struct *vma,
-  2306			    struct mm_struct *mm, unsigned long start,
-  2307			    unsigned long end, struct list_head *uf, bool downgrade)
-  2308	{
-  2309		struct vm_area_struct *prev, *next = NULL;
-  2310		struct maple_tree mt_detach;
-  2311		int count = 0;
-  2312		int error = -ENOMEM;
-  2313		MA_STATE(mas_detach, &mt_detach, 0, 0);
-  2314		mt_init_flags(&mt_detach, mas->tree->ma_flags & MT_FLAGS_LOCK_MASK);
-  2315		mt_set_external_lock(&mt_detach, &mm->mmap_lock);
-  2316	
-  2317		mas->last = end - 1;
-  2318		/*
-  2319		 * If we need to split any vma, do it now to save pain later.
-  2320		 *
-  2321		 * Note: mremap's move_vma VM_ACCOUNT handling assumes a partially
-  2322		 * unmapped vm_area_struct will remain in use: so lower split_vma
-  2323		 * places tmp vma above, and higher split_vma places tmp vma below.
-  2324		 */
-  2325	
-  2326		/* Does it split the first one? */
-  2327		if (start > vma->vm_start) {
-  2328	
-  2329			/*
-  2330			 * Make sure that map_count on return from munmap() will
-  2331			 * not exceed its limit; but let map_count go just above
-  2332			 * its limit temporarily, to help free resources as expected.
-  2333			 */
-  2334			if (end < vma->vm_end && mm->map_count >= sysctl_max_map_count)
-  2335				goto map_count_exceeded;
-  2336	
-  2337			/*
-  2338			 * mas_pause() is not needed since mas->index needs to be set
-  2339			 * differently than vma->vm_end anyways.
-  2340			 */
-  2341			error = __split_vma(mm, vma, start, 0);
-  2342			if (error)
-  2343				goto start_split_failed;
-  2344	
-  2345			mas_set(mas, start);
-  2346			vma = mas_walk(mas);
-  2347		}
-  2348	
-  2349		prev = mas_prev(mas, 0);
-  2350		if (unlikely((!prev)))
-  2351			mas_set(mas, start);
-  2352	
-  2353		/*
-  2354		 * Detach a range of VMAs from the mm. Using next as a temp variable as
-  2355		 * it is always overwritten.
-  2356		 */
-  2357		mas_for_each(mas, next, end - 1) {
-  2358			/* Does it split the end? */
-  2359			if (next->vm_end > end) {
-  2360				struct vm_area_struct *split;
-  2361	
-  2362				error = __split_vma(mm, next, end, 1);
-  2363				if (error)
-  2364					goto end_split_failed;
-  2365	
-  2366				mas_set(mas, end);
-  2367				split = mas_prev(mas, 0);
-  2368				error = munmap_sidetree(split, count, &mas_detach);
-  2369				if (error)
-  2370					goto munmap_sidetree_failed;
-  2371	
-  2372				count++;
-  2373				if (vma == next)
-  2374					vma = split;
-  2375				break;
-  2376			}
-  2377			error = munmap_sidetree(next, count, &mas_detach);
-  2378			if (error)
-  2379				goto munmap_sidetree_failed;
-  2380	
-  2381			count++;
-  2382	#ifdef CONFIG_DEBUG_VM_MAPLE_TREE
-  2383			BUG_ON(next->vm_start < start);
-  2384			BUG_ON(next->vm_start > end);
-  2385	#endif
-  2386		}
-  2387	
-  2388		if (!next)
-  2389			next = mas_next(mas, ULONG_MAX);
-  2390	
-  2391		if (unlikely(uf)) {
-  2392			/*
-  2393			 * If userfaultfd_unmap_prep returns an error the vmas
-  2394			 * will remain split, but userland will get a
-  2395			 * highly unexpected error anyway. This is no
-  2396			 * different than the case where the first of the two
-  2397			 * __split_vma fails, but we don't undo the first
-  2398			 * split, despite we could. This is unlikely enough
-  2399			 * failure that it's not worth optimizing it for.
-  2400			 */
-  2401			error = userfaultfd_unmap_prep(mm, start, end, uf);
-  2402	
-  2403			if (error)
-  2404				goto userfaultfd_error;
-  2405		}
-  2406	
-  2407	#if defined(CONFIG_DEBUG_VM_MAPLE_TREE)
-  2408		/* Make sure no VMAs are about to be lost. */
-  2409		{
-  2410			MA_STATE(test, &mt_detach, 0, 0);
-  2411			struct vm_area_struct *vma_mas, *vma_test;
-  2412			int test_count = 0;
-> 2413			unsigned long s, e;
-  2414	
-  2415			mas_set_range(mas, start, end - 1);
-  2416			rcu_read_lock();
-  2417			vma_test = mas_find(&test, count - 1);
-  2418			mas_for_each(mas, vma_mas, end - 1) {
-  2419				if (!test_count)
-  2420					s = vma_mas->vm_start;
-  2421				BUG_ON(vma_mas != vma_test);
-  2422				test_count++;
-  2423				if (test_count == count)
-  2424					e = vma_mas->vm_end;
-  2425				vma_test = mas_next(&test, count - 1);
-  2426			}
-  2427			rcu_read_unlock();
-  2428			BUG_ON(count != test_count);
-  2429		}
-  2430	#endif
-  2431		/* Point of no return */
-  2432		mas_set_range(mas, start, end - 1);
-  2433		if (mas_store_gfp(mas, NULL, GFP_KERNEL))
-  2434			return -ENOMEM;
-  2435	
-  2436		mm->map_count -= count;
-  2437		/*
-  2438		 * Do not downgrade mmap_lock if we are next to VM_GROWSDOWN or
-  2439		 * VM_GROWSUP VMA. Such VMAs can change their size under
-  2440		 * down_read(mmap_lock) and collide with the VMA we are about to unmap.
-  2441		 */
-  2442		if (downgrade) {
-  2443			if (next && (next->vm_flags & VM_GROWSDOWN))
-  2444				downgrade = false;
-  2445			else if (prev && (prev->vm_flags & VM_GROWSUP))
-  2446				downgrade = false;
-  2447			else
-  2448				mmap_write_downgrade(mm);
-  2449		}
-  2450	
-  2451		unmap_region(mm, &mt_detach, vma, prev, next, start, end, 1, count);
-  2452		/* Statistics and freeing VMAs */
-  2453		mas_set(&mas_detach, 0);
-  2454		remove_mt(mm, &mas_detach);
-  2455		__mt_destroy(&mt_detach);
-  2456	
-  2457	
-  2458		validate_mm(mm);
-  2459		return downgrade ? 1 : 0;
-  2460	
-  2461	userfaultfd_error:
-  2462	munmap_sidetree_failed:
-  2463	end_split_failed:
-  2464		__mt_destroy(&mt_detach);
-  2465	start_split_failed:
-  2466	map_count_exceeded:
-  2467		return error;
-  2468	}
-  2469	
+  2186	
+  2187	static int alvium_set_ctrl_white_balance(struct alvium_dev *alvium,
+  2188					    bool awb)
+  2189	{
+  2190		struct alvium_ctrls *ctrls = &alvium->ctrls;
+  2191		int ret = 0;
+  2192	
+  2193		if (ctrls->auto_wb->is_new) {
+  2194			ret = alvium_set_awb(alvium, awb);
+  2195			if (ret)
+  2196				return ret;
+  2197		}
+  2198	
+  2199		if (!awb && ctrls->auto_wb->is_new) {
+  2200			u64 red = (u64)ctrls->red_balance->val;
+  2201			u64 blue = (u64)ctrls->blue_balance->val;
+> 2202			u64 red_max;
+> 2203			u64 red_min;
+> 2204			u64 blue_max;
+> 2205			u64 blue_min;
+  2206	
+  2207			ret = alvium_get_red_balance_ratio_params(alvium);
+  2208			if (ret)
+  2209				return ret;
+  2210	
+  2211			ret = alvium_get_blue_balance_ratio_params(alvium);
+  2212			if (ret)
+  2213				return ret;
+  2214	
+  2215			red_max = alvium->max_rbalance;
+  2216			red_min = alvium->min_rbalance;
+  2217			blue_max = alvium->max_bbalance;
+  2218			blue_min = alvium->min_rbalance;
+  2219	
+  2220			ret = alvium_set_red_balance_ratio(alvium, red);
+  2221			if (ret)
+  2222				return ret;
+  2223	
+  2224			ret = alvium_set_blue_balance_ratio(alvium, blue);
+  2225			if (ret)
+  2226				return ret;
+  2227		}
+  2228	
+  2229		return ret;
+  2230	}
+  2231	
 
 -- 
 0-DAY CI Kernel Test Service
