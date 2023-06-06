@@ -1,138 +1,125 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6079937B71;
-	Tue,  6 Jun 2023 13:50:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686059442; x=1717595442;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I3+kJBG1ObK30+MuR2tQyHodqlxIFHSuii8lJUDW0y4=;
-  b=h7rzqEkHaXLCpqXIF+E07Hkbi72gbTP0EHt8LkBtbSqVq63NSeCc2jL/
-   eKqWWsFlTOWrzxZ7sLHBnkYW1jbDM2k7Zt7hGgZiE64YOiIL1e8rayVSg
-   8ApCsog+5ZzaxK5dlhU/dfHKM6auFvwcjbiFARjHK6ciBCBdtG4cLU3gG
-   OrFUaFfLrJPR8SWYFW05rlBRfYZTg3FRA3UKMPB8RFvNDWQi+yWwyZJFx
-   HSe+XrU0whTmA74M+FoVz94zJ38mbBwvdj8BG2IOEW9FOvekeeBTRMrPJ
-   2ghnT2LR2msQ1iEQVnZYIBd4347eYXYtCEkL1nqlDUmJEOwwPTmJWWe/W
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="355530697"
-X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; 
-   d="scan'208";a="355530697"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 06:50:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="709077754"
-X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; 
-   d="scan'208";a="709077754"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 06 Jun 2023 06:50:31 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q6X4w-0005JT-06;
-	Tue, 06 Jun 2023 13:50:30 +0000
-Date: Tue, 6 Jun 2023 21:50:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:timers/posix 58/61] kernel/signal.c:2097:48: error: no
- member named 'list' in 'struct kernel_siginfo'
-Message-ID: <202306062137.desNbLij-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08FAA37B97
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 15:18:10 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id D4E5B5C00FC;
+	Tue,  6 Jun 2023 11:18:09 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Tue, 06 Jun 2023 11:18:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1686064689; x=
+	1686151089; bh=XUEmBDCReC+iW6QvdzWSDKkyTa4N1Kwt8dfbbxuqV5I=; b=y
+	COfpzqAi1T3NWAepSCnPrAgkbySq/QQsWMngR0K9TRd334ymeGL/lWSlBnUG25yf
+	t4KBcbXz6MChAl0QfPpE1xyKxR2AKgCQcWwDab4ab5y9f7ujimB0RWbJ0fjwJqon
+	o73RHYfaIXvhuubMImfaIFWsZpHV6cLJAWj6qjmPif6hJxJBiyYV3A0od4w6AETB
+	gLwvSpvbgWK1Pi11ZEOr3xpdo+kWC4lta1bjmkRgu0x3AIFfCHIblHp8aYhctj3L
+	4bE+LNK42pF6Xj2H5tRKnHqh/JGRBfr3XC62COi0IqErY21riM2Cbmn8nQ78K6MF
+	/57kq/uVHtVh62NHWMR4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1686064689; x=
+	1686151089; bh=XUEmBDCReC+iW6QvdzWSDKkyTa4N1Kwt8dfbbxuqV5I=; b=x
+	sMvMhy1c87L9tCq2Y0wKd8xvw1CKHR9WVC2ZrlTUZKvIizYc/+x0NYfHLCTzWNl/
+	mQE8ZTF3egQnFuwydDUhUbhheRsCHOFeAo1hj3bAcQisbFGD3fSFfHJB4DeJOsxG
+	J+hIe9TxCR8nPYhLZ4WUn3XH70H/4jPPUwGXVJLZtikJzRilS4faHUPaevXw6YEd
+	NWgn02kp8114P9dj9EiiUhgNxgsAQ7c1rmpJMsZYuN4WY0hYwRKpYtG5djeZw3gi
+	mBqP3IZadidkudGzmcc5XxbVwyKW1XYn12/YT3rG6LkVyElFAnhM28NGZy63m7PD
+	ctWD61hohCV7dB5W0eP7Q==
+X-ME-Sender: <xms:MU5_ZAr60rNCdTxBhgOrp0pZegRVQ4oaTRVDudyN5HchNdmPiCcmWA>
+    <xme:MU5_ZGqOp5Jt5wna3n6xRlfS4Zf3sMu11aD4iyazQlLowgxC6xc0azK2_bKQd204y
+    WC4OXu9Jy42TQ78XVk>
+X-ME-Received: <xmr:MU5_ZFM3Yygl64vb2Ip-lc_1I227Sq-FbCMlLBtlSmVI2EoObcyptq-_g66RRBXNsbRZVJTkZJB858KzUSj7SOS7hLMRdKEhUl68mi3YPIGWKVDYVQHMxj_Spg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedtuddgkeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucgoteeftdduqddtudculdduhedmnecujfgurhephf
+    fvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrrhhkucfrvggrrhhs
+    ohhnuceomhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsggsrdgtrgeqnecuggftrf
+    grthhtvghrnhepvedtlefggefgjeettddvgfekhfeugfeutdekfeefudeuuddvieeutdel
+    jedvhfdvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhho
+    sehsqhhuvggssgdrtggr
+X-ME-Proxy: <xmx:MU5_ZH6MWpXHRIlK0xIxV5CnoST3noCdjQ3z5jYkfjbFJ4HlpcnoCA>
+    <xmx:MU5_ZP7JMvY4d1PH7MharVteXbYroUlXbKAot6bcDBOHYjEMBoIa2A>
+    <xmx:MU5_ZHjRKHDn45r7Q7nQVzrjB3wO8_RGEqH4MUA36_dO7291MeEhmw>
+    <xmx:MU5_ZCaHGcY0_C1U4gegDoq_AwZ4sd3UYHe18NtEE-Sy7LLqSTORWg>
+Feedback-ID: ibe194615:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 6 Jun 2023 11:18:08 -0400 (EDT)
+From: Mark Pearson <mpearson-lenovo@squebb.ca>
+To: mpearson-lenovo@squebb.ca
+Cc: hdegoede@redhat.com,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org,
+	mario.limonciello@amd.com,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	Dan Carpenter <error27@gmail.com>
+Subject: [PATCH] platform/x86: thinkpad_acpi: Fix lkp-tests warnings for platform profiles
+Date: Tue,  6 Jun 2023 11:18:04 -0400
+Message-Id: <20230606151804.8819-1-mpearson-lenovo@squebb.ca>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <mpearson-lenovo@squebb.ca>
+References: <mpearson-lenovo@squebb.ca>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git timers/posix
-head:   16a20adb1e0ae19ad42041a7d1b5583e4705ca0c
-commit: 3ef2ce19cb1200cb49c61f9b3cef58c4b8a3a10d [58/61] signal: Add list to track ignored posix timers
-config: riscv-randconfig-r036-20230605 (https://download.01.org/0day-ci/archive/20230606/202306062137.desNbLij-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=3ef2ce19cb1200cb49c61f9b3cef58c4b8a3a10d
-        git remote add tglx-devel https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git
-        git fetch --no-tags tglx-devel timers/posix
-        git checkout 3ef2ce19cb1200cb49c61f9b3cef58c4b8a3a10d
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+Fix issues identified in dytc_profile_refresh identified by lkp-tests.
+drivers/platform/x86/thinkpad_acpi.c:10538
+	dytc_profile_refresh() error: uninitialized symbol 'funcmode'.
+drivers/platform/x86/thinkpad_acpi.c:10531
+	dytc_profile_refresh() error: uninitialized symbol 'output'.
+drivers/platform/x86/thinkpad_acpi.c:10537
+	dytc_profile_refresh() error: uninitialized symbol 'output'.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306062137.desNbLij-lkp@intel.com/
+These issues should not lead to real problems in the field as the refresh
+function should only be called if MMC or PSC mode enabled. But good to fix.
 
-All errors (new ones prefixed by >>):
+Thanks to Dan Carpenter and the lkp-tests project for flagging these.
 
->> kernel/signal.c:2097:48: error: no member named 'list' in 'struct kernel_siginfo'
-    2097 |                 if (WARN_ON_ONCE(!list_empty(&tmr->sigq.info.list)))
-         |                                               ~~~~~~~~~~~~~~ ^
-   include/asm-generic/bug.h:110:25: note: expanded from macro 'WARN_ON_ONCE'
-     110 |         int __ret_warn_on = !!(condition);                      \
-         |                                ^~~~~~~~~
-   1 error generated.
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <error27@gmail.com>
+Closes: https://lore.kernel.org/r/202306011202.1hbgLRD4-lkp@intel.com/
+Fixes: 1bc5d819f0b9 ("platform/x86: thinkpad_acpi: Fix profile modes on Intel platforms")
+Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+---
+ drivers/platform/x86/thinkpad_acpi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-
-vim +2097 kernel/signal.c
-
-  2067	
-  2068	static void posixtimer_sig_unignore(struct task_struct *tsk, int sig)
-  2069	{
-  2070		struct hlist_head *head = &tsk->signal->ignored_posix_timers;
-  2071		struct hlist_node *tmp;
-  2072		struct k_itimer *tmr;
-  2073	
-  2074		if (likely(hlist_empty(head)))
-  2075			return;
-  2076	
-  2077		/*
-  2078		 * Rearming a timer with sighand lock held is not possible due to
-  2079		 * lock ordering vs. tmr::it_lock. Just stick the sigqueue back and
-  2080		 * let the signal delivery path deal with it whether it needs to be
-  2081		 * rearmed or not. This cannot be decided here w/o dropping sighand
-  2082		 * lock and creating a loop retry horror show.
-  2083		 */
-  2084		hlist_for_each_entry_safe(tmr, tmp , head, ignored_list) {
-  2085			struct task_struct *target;
-  2086	
-  2087			/*
-  2088			 * tmr::sigq.info.si_signo is immutable, so accessing it
-  2089			 * without holding tmr::it_lock is safe.
-  2090			 */
-  2091			if (tmr->sigq.info.si_signo != sig)
-  2092				continue;
-  2093	
-  2094			hlist_del_init(&tmr->ignored_list);
-  2095	
-  2096			/* This should never happen and leaks a reference count */
-> 2097			if (WARN_ON_ONCE(!list_empty(&tmr->sigq.info.list)))
-  2098				continue;
-  2099	
-  2100			/*
-  2101			 * Get the target for the signal. If target is a thread and
-  2102			 * has exited by now, drop the reference count.
-  2103			 */
-  2104			target = posixtimer_get_target(tmr);
-  2105			if (target)
-  2106				posixtimer_queue_sigqueue(&tmr->sigq, target, tmr->it_pid_type);
-  2107			else
-  2108				posixtimer_putref(tmr);
-  2109		}
-  2110	}
-  2111	#else /* CONFIG_POSIX_TIMERS */
-  2112	static inline void posixtimer_sig_ignore(struct task_struct *tsk, struct sigqueue *q) { }
-  2113	static inline void posixtimer_sig_unignore(struct task_struct *tsk, int sig) { }
-  2114	#endif /* !CONFIG_POSIX_TIMERS */
-  2115	
-
+diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+index b3808ad77278..4b89f42de723 100644
+--- a/drivers/platform/x86/thinkpad_acpi.c
++++ b/drivers/platform/x86/thinkpad_acpi.c
+@@ -10524,7 +10524,7 @@ static int dytc_profile_set(struct platform_profile_handler *pprof,
+ static void dytc_profile_refresh(void)
+ {
+ 	enum platform_profile_option profile;
+-	int output, err = 0;
++	int output = 0, err = 0;
+ 	int perfmode, funcmode;
+ 
+ 	mutex_lock(&dytc_mutex);
+@@ -10538,6 +10538,8 @@ static void dytc_profile_refresh(void)
+ 		err = dytc_command(DYTC_CMD_GET, &output);
+ 		/* Check if we are PSC mode, or have AMT enabled */
+ 		funcmode = (output >> DYTC_GET_FUNCTION_BIT) & 0xF;
++	} else { /* Unknown profile mode */
++		err = -ENODEV;
+ 	}
+ 	mutex_unlock(&dytc_mutex);
+ 	if (err)
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.40.1
+
