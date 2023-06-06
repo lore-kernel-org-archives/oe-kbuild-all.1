@@ -1,95 +1,93 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A79F46B9
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 06:50:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686034204; x=1717570204;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HJEcGOnvHXkQ06r29IlNbWbtbBpgoKOiTCDx8CIrhyU=;
-  b=DSu1cyAVBVHxCfF3wVXHDdGzDjfXbRlOeBQWE9nXs1kXNtAalvienC2K
-   qvjjELhMBvXRsfybDnEELb+GRiJFEBXkOVFh3HOZ4tWT5yYczDZY0UjaS
-   spn5Ej2QhHM2YZLAcvx+YKF2aOtguLUZctV+Nzm65vAqwhNpuJzhR3P1B
-   XFBBjI+ASf5fjSlLiSxyuYXt52vtKlxEuywReHn+U5LoquziO2d1XW9n/
-   Job4P1rxkQaHKWZ5FJhahIHikJyrxcpxF6l0UHzIV9vL49TDC5krf0Qoh
-   dfZHgmfsThdz4XZAOKkeV5fswGn2SUGC2Nf9xq4wGdfxB6E2r7Sm55WpK
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="420130576"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
-   d="scan'208";a="420130576"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 23:50:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="798712306"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
-   d="scan'208";a="798712306"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Jun 2023 23:50:02 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q6QW1-0004ww-2K;
-	Tue, 06 Jun 2023 06:50:01 +0000
-Date: Tue, 6 Jun 2023 14:49:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
-	intel-gfx@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alan Previn <alan.previn.teres.alexis@intel.com>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH v2 4/5] drm/i915/mtl/gsc: Add a gsc_info
- debugfs
-Message-ID: <202306061441.HlzHQi07-lkp@intel.com>
-References: <20230606022402.2048235-5-daniele.ceraolospurio@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5081F5668
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 06:52:43 +0000 (UTC)
+X-GND-Sasl: maxime.chevallier@bootlin.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1686034355;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hq9g+FkBx2qOhWU/2IbG4goANxP2IfC/I4yEBnJijYs=;
+	b=BVolinF+niz64ECVgkOq3AMcPQVtZuP5ivMTYdBQ4fkhKgFUDK3XT8OmDTXXHuTxyx4i8u
+	yyGcymoS4YnnjZKcZN1VMPj/ittCRszQ8QJpiJNL5/CLAECgtIJga9TtB4dkWzxmI9YtYI
+	HEYBDyA/1BWUg26laikioCFoc/dg8nxuwUC//uJlw+ZxZI6EuGSZN/KevBq8uFS+rG7KkY
+	v04xq+VegtmuFj9Y8+1OGnSR283hLMz0Bzbkm+UrJgjtomxuvsg0dXVEsSGEQihA/TuINY
+	cvEi1NYb/M2wbFoPWEkVFmZPZrkOT6sXLejtEzFlp5X5gkhItJh2N5r8RuzWMQ==
+X-GND-Sasl: maxime.chevallier@bootlin.com
+X-GND-Sasl: maxime.chevallier@bootlin.com
+X-GND-Sasl: maxime.chevallier@bootlin.com
+X-GND-Sasl: maxime.chevallier@bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DB62624000B;
+	Tue,  6 Jun 2023 06:52:34 +0000 (UTC)
+Date: Tue, 6 Jun 2023 08:52:33 +0200
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+ netdev@vger.kernel.org, Simon Horman <simon.horman@corigine.com>
+Subject: Re: [net-next:main 3/19]
+ drivers/net/ethernet/altera/altera_tse_main.c:1419: undefined reference to
+ `lynx_pcs_create_mdiodev'
+Message-ID: <20230606085233.41db238a@pc-7.home>
+In-Reply-To: <20230605132839.1b604580@kernel.org>
+References: <202306060325.l3TVneV8-lkp@intel.com>
+	<20230605132839.1b604580@kernel.org>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230606022402.2048235-5-daniele.ceraolospurio@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Daniele,
+Hello Jakub,
 
-kernel test robot noticed the following build warnings:
+On Mon, 5 Jun 2023 13:28:39 -0700
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-[auto build test WARNING on drm-tip/drm-tip]
+> On Tue, 6 Jun 2023 03:17:47 +0800 kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
+> > head:   69da40ac3481993d6f599c98e84fcdbbf0bcd7e0
+> > commit: db48abbaa18e571106711b42affe68ca6f36ca5a [3/19] net: ethernet: altera-tse: Convert to mdio-regmap and use PCS Lynx
+> > config: nios2-defconfig (https://download.01.org/0day-ci/archive/20230606/202306060325.l3TVneV8-lkp@intel.com/config)
+> > compiler: nios2-linux-gcc (GCC) 12.3.0
+> > reproduce (this is a W=1 build):
+> >         mkdir -p ~/bin
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git/commit/?id=db48abbaa18e571106711b42affe68ca6f36ca5a
+> >         git remote add net-next https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
+> >         git fetch --no-tags net-next main
+> >         git checkout db48abbaa18e571106711b42affe68ca6f36ca5a
+> >         # save the config file
+> >         mkdir build_dir && cp config build_dir/.config
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=nios2 olddefconfig
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=nios2 SHELL=/bin/bash
+> > 
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306060325.l3TVneV8-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    nios2-linux-ld: drivers/net/ethernet/altera/altera_tse_main.o: in function `altera_tse_probe':  
+> > >> drivers/net/ethernet/altera/altera_tse_main.c:1419: undefined reference to `lynx_pcs_create_mdiodev'    
+> >    drivers/net/ethernet/altera/altera_tse_main.c:1419:(.text+0xd7c): relocation truncated to fit: R_NIOS2_CALL26 against `lynx_pcs_create_mdiodev'  
+> > >> nios2-linux-ld: drivers/net/ethernet/altera/altera_tse_main.c:1451: undefined reference to `lynx_pcs_destroy'    
+> >    drivers/net/ethernet/altera/altera_tse_main.c:1451:(.text+0xdf8): relocation truncated to fit: R_NIOS2_CALL26 against `lynx_pcs_destroy'
+> >    nios2-linux-ld: drivers/net/ethernet/altera/altera_tse_main.o: in function `altera_tse_remove':  
+> > >> drivers/net/ethernet/altera/altera_tse_main.c:1473: undefined reference to `lynx_pcs_destroy'    
+> >    drivers/net/ethernet/altera/altera_tse_main.c:1473:(.text+0x1564): relocation truncated to fit: R_NIOS2_CALL26 against `lynx_pcs_destroy'  
+> 
+> Hum, if it doesn't build without the patch from Mark's tree, I think
+> we'll need to revert..
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniele-Ceraolo-Spurio/drm-i915-gsc-fixes-and-updates-for-GSC-memory-allocation/20230606-102510
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230606022402.2048235-5-daniele.ceraolospurio%40intel.com
-patch subject: [Intel-gfx] [PATCH v2 4/5] drm/i915/mtl/gsc: Add a gsc_info debugfs
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230606/202306061441.HlzHQi07-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        git remote add drm-tip git://anongit.freedesktop.org/drm/drm-tip
-        git fetch drm-tip drm-tip
-        git checkout drm-tip/drm-tip
-        b4 shazam https://lore.kernel.org/r/20230606022402.2048235-5-daniele.ceraolospurio@intel.com
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/i915/
+Hmpf that's an unrelated error on my side... I've sent a followup
+fix a few minutes ago. Sorry about that.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306061441.HlzHQi07-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c:28:6: warning: no previous prototype for 'intel_gsc_uc_debugfs_register' [-Wmissing-prototypes]
-      28 | void intel_gsc_uc_debugfs_register(struct intel_gsc_uc *gsc_uc, struct dentry *root)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/intel_gsc_uc_debugfs_register +28 drivers/gpu/drm/i915/gt/uc/intel_gsc_uc_debugfs.c
-
-    27	
-  > 28	void intel_gsc_uc_debugfs_register(struct intel_gsc_uc *gsc_uc, struct dentry *root)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Maxime
