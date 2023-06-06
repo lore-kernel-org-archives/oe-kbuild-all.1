@@ -1,42 +1,43 @@
 Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDEA395
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 03:27:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58ECF65C;
+	Tue,  6 Jun 2023 03:27:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686022072; x=1717558072;
+  t=1686022074; x=1717558074;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GaysWPqqiOEwZV79frigRNpxFsA8Yq8DNrQWHPODc9A=;
-  b=oHidE7Na0mg8mOQ+DXUF6KQpt3ZoArc+mzAwunzgMVhffMlKm/cmU4PX
-   J0JT1/BsUyJ1/Xr1U0PrBzr66mpCyY79s1ghJ1JobAnsHEM4XuNXVf1Xc
-   pd4azD2JxkaKcwwpaiMByVREASvjnUotwOZq7yswx5CY7OYO/zJ5HYNkg
-   99hgeJqJnEXBYetmMvhXwxWr0jvXPUHnAlVN8SwiL7Tq+MQaC5/s5lHpF
-   itdsJh9bEcl+QDzS9TKmE0Eu7HibF+uZSKJ+h9KPw4rx6xnlEwlr+AOx3
-   0Hi0048k26O8RziwfXHrxNR7+3xP+qAD8PtSQrx3X/g4AKrr6/0rgIfo0
+  bh=3jugwMRYFof+vJpiHk1VlmAVGD7RYY23TWN2lyl70tY=;
+  b=lKXlcwqRr3e13zcXggCrXtV6U756fpQR4gox2onM0u/AgA9RaTIEjwb+
+   9OQyHzbAr+V+To9IzqeCmbhip/3Ta41JrIIckDA7DQgq3QVElbGrMcoSI
+   Pw0fpfWnNDgSL8r+Mnv66dKv3VYvzgPzPTuXFolXNUJSaV6EzKqgs+60I
+   Pu/uNx+YRBNXk1SV50jtAfzGi+WFQpnK0uOvJ9dUVH8u8ydVLqVUyl4Y4
+   4S4bVCUHLZNWQBB+D11FcUNuDdzdWsnpM0FqeS6ZHwUuQuOR7PRWKUCkC
+   8e6Fgkd9zHid1jU5oRPhCvAOAYuOGxC+I1D/vCOXTFRvM85KV/8kosgcQ
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="420099728"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="420099731"
 X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
-   d="scan'208";a="420099728"
+   d="scan'208";a="420099731"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 20:27:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="703002535"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="703002533"
 X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
-   d="scan'208";a="703002535"
+   d="scan'208";a="703002533"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 05 Jun 2023 20:27:50 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6NML-0004mH-1W;
+	id 1q6NML-0004mF-1O;
 	Tue, 06 Jun 2023 03:27:49 +0000
 Date: Tue, 6 Jun 2023 11:26:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:timers/posix 58/61] kernel/signal.c:2097:61: error:
- 'kernel_siginfo_t' {aka 'struct kernel_siginfo'} has no member named 'list'
-Message-ID: <202306061112.tUSPDz2k-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:timers/posix 56/61] fs/proc/base.c:2504:17: error:
+ member reference type 'struct sigqueue' is not a pointer; did you mean to
+ use '.'?
+Message-ID: <202306061124.o4M9klgi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,103 +49,111 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git timers/posix
 head:   16a20adb1e0ae19ad42041a7d1b5583e4705ca0c
-commit: 3ef2ce19cb1200cb49c61f9b3cef58c4b8a3a10d [58/61] signal: Add list to track ignored posix timers
-config: csky-defconfig (https://download.01.org/0day-ci/archive/20230606/202306061112.tUSPDz2k-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 12.3.0
+commit: 21477ceed1e544982c3c00a574c125a88f2c69ff [56/61] posix-timers: Embed sigqueue in struct k_itimer
+config: riscv-randconfig-r036-20230605 (https://download.01.org/0day-ci/archive/20230606/202306061124.o4M9klgi-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project 4faf3aaf28226a4e950c103a14f6fc1d1fdabb1b)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=3ef2ce19cb1200cb49c61f9b3cef58c4b8a3a10d
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=21477ceed1e544982c3c00a574c125a88f2c69ff
         git remote add tglx-devel https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git
         git fetch --no-tags tglx-devel timers/posix
-        git checkout 3ef2ce19cb1200cb49c61f9b3cef58c4b8a3a10d
+        git checkout 21477ceed1e544982c3c00a574c125a88f2c69ff
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash fs/proc/ kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306061112.tUSPDz2k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306061124.o4M9klgi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:7,
-                    from arch/csky/include/asm/bug.h:18,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/csky/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:15,
-                    from kernel/signal.c:14:
-   kernel/signal.c: In function 'posixtimer_sig_unignore':
->> kernel/signal.c:2097:61: error: 'kernel_siginfo_t' {aka 'struct kernel_siginfo'} has no member named 'list'
-    2097 |                 if (WARN_ON_ONCE(!list_empty(&tmr->sigq.info.list)))
-         |                                                             ^
-   include/linux/once_lite.h:28:41: note: in definition of macro 'DO_ONCE_LITE_IF'
-      28 |                 bool __ret_do_once = !!(condition);                     \
-         |                                         ^~~~~~~~~
-   kernel/signal.c:2097:21: note: in expansion of macro 'WARN_ON_ONCE'
-    2097 |                 if (WARN_ON_ONCE(!list_empty(&tmr->sigq.info.list)))
-         |                     ^~~~~~~~~~~~
+   fs/proc/base.c:2464:24: error: incompatible pointer types passing 'struct hlist_head *' to parameter of type 'struct list_head *' [-Werror,-Wincompatible-pointer-types]
+    2464 |         return seq_list_start(&tp->task->signal->posix_timers, *pos);
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:273:59: note: passing argument to parameter 'head' here
+     273 | extern struct list_head *seq_list_start(struct list_head *head,
+         |                                                           ^
+   fs/proc/base.c:2470:26: error: incompatible pointer types passing 'struct hlist_head *' to parameter of type 'struct list_head *' [-Werror,-Wincompatible-pointer-types]
+    2470 |         return seq_list_next(v, &tp->task->signal->posix_timers, pos);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:277:67: note: passing argument to parameter 'head' here
+     277 | extern struct list_head *seq_list_next(void *v, struct list_head *head,
+         |                                                                   ^
+   fs/proc/base.c:2499:10: error: static assertion failed due to requirement '__builtin_types_compatible_p(struct list_head, struct hlist_node) || __builtin_types_compatible_p(struct list_head, void)': pointer type mismatch in container_of()
+    2499 |         timer = list_entry((struct list_head *)v, struct k_itimer, list);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:520:2: note: expanded from macro 'list_entry'
+     520 |         container_of(ptr, type, member)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:20:16: note: expanded from macro 'container_of'
+      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      21 |                       __same_type(*(ptr), void),                        \
+         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      22 |                       "pointer type mismatch in container_of()");       \
+         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:338:27: note: expanded from macro '__same_type'
+     338 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+>> fs/proc/base.c:2504:17: error: member reference type 'struct sigqueue' is not a pointer; did you mean to use '.'?
+    2504 |                    timer->sigq->info.si_signo,
+         |                    ~~~~~~~~~~~^~
+         |                               .
+   fs/proc/base.c:2505:17: error: member reference type 'struct sigqueue' is not a pointer; did you mean to use '.'?
+    2505 |                    timer->sigq->info.si_value.sival_ptr);
+         |                    ~~~~~~~~~~~^~
+         |                               .
+   5 errors generated.
 
 
-vim +2097 kernel/signal.c
+vim +2504 fs/proc/base.c
 
-  2067	
-  2068	static void posixtimer_sig_unignore(struct task_struct *tsk, int sig)
-  2069	{
-  2070		struct hlist_head *head = &tsk->signal->ignored_posix_timers;
-  2071		struct hlist_node *tmp;
-  2072		struct k_itimer *tmr;
-  2073	
-  2074		if (likely(hlist_empty(head)))
-  2075			return;
-  2076	
-  2077		/*
-  2078		 * Rearming a timer with sighand lock held is not possible due to
-  2079		 * lock ordering vs. tmr::it_lock. Just stick the sigqueue back and
-  2080		 * let the signal delivery path deal with it whether it needs to be
-  2081		 * rearmed or not. This cannot be decided here w/o dropping sighand
-  2082		 * lock and creating a loop retry horror show.
-  2083		 */
-  2084		hlist_for_each_entry_safe(tmr, tmp , head, ignored_list) {
-  2085			struct task_struct *target;
-  2086	
-  2087			/*
-  2088			 * tmr::sigq.info.si_signo is immutable, so accessing it
-  2089			 * without holding tmr::it_lock is safe.
-  2090			 */
-  2091			if (tmr->sigq.info.si_signo != sig)
-  2092				continue;
-  2093	
-  2094			hlist_del_init(&tmr->ignored_list);
-  2095	
-  2096			/* This should never happen and leaks a reference count */
-> 2097			if (WARN_ON_ONCE(!list_empty(&tmr->sigq.info.list)))
-  2098				continue;
-  2099	
-  2100			/*
-  2101			 * Get the target for the signal. If target is a thread and
-  2102			 * has exited by now, drop the reference count.
-  2103			 */
-  2104			target = posixtimer_get_target(tmr);
-  2105			if (target)
-  2106				posixtimer_queue_sigqueue(&tmr->sigq, target, tmr->it_pid_type);
-  2107			else
-  2108				posixtimer_putref(tmr);
-  2109		}
-  2110	}
-  2111	#else /* CONFIG_POSIX_TIMERS */
-  2112	static inline void posixtimer_sig_ignore(struct task_struct *tsk, struct sigqueue *q) { }
-  2113	static inline void posixtimer_sig_unignore(struct task_struct *tsk, int sig) { }
-  2114	#endif /* !CONFIG_POSIX_TIMERS */
-  2115	
+48f6a7a511ef88 Pavel Emelyanov  2013-03-11  2487  
+48f6a7a511ef88 Pavel Emelyanov  2013-03-11  2488  static int show_timer(struct seq_file *m, void *v)
+48f6a7a511ef88 Pavel Emelyanov  2013-03-11  2489  {
+48f6a7a511ef88 Pavel Emelyanov  2013-03-11  2490  	struct k_itimer *timer;
+57b8015e07a703 Pavel Emelyanov  2013-03-11  2491  	struct timers_private *tp = m->private;
+57b8015e07a703 Pavel Emelyanov  2013-03-11  2492  	int notify;
+cedbccab8bb104 Alexey Dobriyan  2014-08-08  2493  	static const char * const nstr[] = {
+57b8015e07a703 Pavel Emelyanov  2013-03-11  2494  		[SIGEV_SIGNAL] = "signal",
+57b8015e07a703 Pavel Emelyanov  2013-03-11  2495  		[SIGEV_NONE] = "none",
+57b8015e07a703 Pavel Emelyanov  2013-03-11  2496  		[SIGEV_THREAD] = "thread",
+57b8015e07a703 Pavel Emelyanov  2013-03-11  2497  	};
+48f6a7a511ef88 Pavel Emelyanov  2013-03-11  2498  
+48f6a7a511ef88 Pavel Emelyanov  2013-03-11  2499  	timer = list_entry((struct list_head *)v, struct k_itimer, list);
+57b8015e07a703 Pavel Emelyanov  2013-03-11  2500  	notify = timer->it_sigev_notify;
+57b8015e07a703 Pavel Emelyanov  2013-03-11  2501  
+48f6a7a511ef88 Pavel Emelyanov  2013-03-11  2502  	seq_printf(m, "ID: %d\n", timer->it_id);
+ba3edf1f770ebc Linus Torvalds   2017-12-06  2503  	seq_printf(m, "signal: %d/%px\n",
+25ce319167b517 Joe Perches      2015-04-15 @2504  		   timer->sigq->info.si_signo,
+57b8015e07a703 Pavel Emelyanov  2013-03-11  2505  		   timer->sigq->info.si_value.sival_ptr);
+57b8015e07a703 Pavel Emelyanov  2013-03-11  2506  	seq_printf(m, "notify: %s/%s.%d\n",
+57b8015e07a703 Pavel Emelyanov  2013-03-11  2507  		   nstr[notify & ~SIGEV_THREAD_ID],
+57b8015e07a703 Pavel Emelyanov  2013-03-11  2508  		   (notify & SIGEV_THREAD_ID) ? "tid" : "pid",
+57b8015e07a703 Pavel Emelyanov  2013-03-11  2509  		   pid_nr_ns(timer->it_pid, tp->ns));
+15ef0298deb392 Pavel Tikhomirov 2013-05-17  2510  	seq_printf(m, "ClockID: %d\n", timer->it_clock);
+48f6a7a511ef88 Pavel Emelyanov  2013-03-11  2511  
+48f6a7a511ef88 Pavel Emelyanov  2013-03-11  2512  	return 0;
+48f6a7a511ef88 Pavel Emelyanov  2013-03-11  2513  }
+48f6a7a511ef88 Pavel Emelyanov  2013-03-11  2514  
+
+:::::: The code at line 2504 was first introduced by commit
+:::::: 25ce319167b517a913a2ba9fc80da8330dbc3249 proc: remove use of seq_printf return value
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
