@@ -1,44 +1,44 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0317F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 01:46:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADB37F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 01:56:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686016000; x=1717552000;
+  t=1686016602; x=1717552602;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=leesVGIUDwBrNhP2hM80VU2eYWmuftLSsEUrV6N0s+o=;
-  b=IXs3Uhl6T5x9/MWKdjx0PsOOiwn3NN2okximOVOPFLgjg4jgz0um1Xy8
-   DAqvU+kd5/9HG77hEYozvlKCw40dyCAXZphDdpQ+NiHMD6GYX/p2rjO1u
-   vSWXRHOTwBKsAVhO2dluT51EynSygAQWdA+WeRlTWp4mPNf5WP5DAV2tj
-   DKG6pCjLqo9+uxgpddbvGi72U7jQEeW0NHcsCCO+l2qaVOdzgcguXysY/
-   09aNecsBbQBdWcfnWUQciCa+LJKkfJ0nPwh4fqm2WbCENHUgUhf/yhgxn
-   /Cq5aV3u1cFP/+A9T4OAqHi5OFUjSP/cULUMHI6Ju/3esV5aGbatGGPnD
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="420082141"
-X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="420082141"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 18:46:39 -0700
+  bh=gLqRZcJIavnXMfdCcwYC3n/syd0NHaeSPr+ljeRc4LY=;
+  b=E8W0DV64ijx1mPu6n17rp54dvbcM0NWb01YKwschkMAole3ak6tmOA9v
+   JCYiN/EnZlU1Sxr0Jmu4CXzjJha+YbKzBsyvW6cDN87yvgMw7ytZeUDo5
+   qhJ76UD2Hrq0Cz9PoUwJ5nGaTzwdbM4Q+4UQsIETPcDUF2iYCkKT/rSpG
+   V2jjsnBzk4TiNGRWNpkH3iMfdx/KDOasQi9wB7VqCGoVWiC1Z/lcIvEf9
+   gZwcMofAIcby/o4bo1UApgyX3K9UV1DZ6c8L8DRC2xqO/wNsdeCYpPIH5
+   11GqhUQu00wtktwPyFT0NK0FmPjHL6stJUZf5DBs/Sc2JXJnzYXjnYwPq
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="346133217"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
+   d="scan'208";a="346133217"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 18:56:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="798639896"
-X-IronPort-AV: E=Sophos;i="6.00,218,1681196400"; 
-   d="scan'208";a="798639896"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="738574670"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
+   d="scan'208";a="738574670"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 05 Jun 2023 18:46:38 -0700
+  by orsmga008.jf.intel.com with ESMTP; 05 Jun 2023 18:56:39 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6LmP-0004g1-2H;
-	Tue, 06 Jun 2023 01:46:37 +0000
-Date: Tue, 6 Jun 2023 09:46:07 +0800
+	id 1q6Lw6-0004gt-1O;
+	Tue, 06 Jun 2023 01:56:38 +0000
+Date: Tue, 6 Jun 2023 09:56:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com,
 	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [chrome-os:chromeos-5.15 41/42]
- include/trace/events/cros_net.h:113:57: warning: invalid conversion
- specifier '-'
-Message-ID: <202306060931.CrOJp2c0-lkp@intel.com>
+ include/trace/events/cros_net.h:118:3: warning: format specifies type 'int'
+ but the argument has type 'size_t' (aka 'unsigned long')
+Message-ID: <202306060923.udhfHcru-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,7 +51,7 @@ Content-Disposition: inline
 tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
 head:   2b9adb7e851879f7f7f393e4048aa739c3ee5028
 commit: 6f4417e6fdbc3ce32575520d4fb5288f424b6a51 [41/42] CHROMIUM: add cros_net tp for inet send,rcv,accept
-config: i386-randconfig-i062-20230605 (https://download.01.org/0day-ci/archive/20230606/202306060931.CrOJp2c0-lkp@intel.com/config)
+config: x86_64-randconfig-a002-20230605 (https://download.01.org/0day-ci/archive/20230606/202306060923.udhfHcru-lkp@intel.com/config)
 compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
@@ -62,12 +62,12 @@ reproduce (this is a W=1 build):
         git checkout 6f4417e6fdbc3ce32575520d4fb5288f424b6a51
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash net/ipv4/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash net/ipv4/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306060931.CrOJp2c0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306060923.udhfHcru-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
@@ -75,7 +75,7 @@ All warnings (new ones prefixed by >>):
    In file included from include/trace/events/cros_net.h:252:
    In file included from include/trace/define_trace.h:102:
    In file included from include/trace/trace_events.h:498:
->> include/trace/events/cros_net.h:113:57: warning: invalid conversion specifier '-' [-Wformat-invalid-specifier]
+   include/trace/events/cros_net.h:113:57: warning: invalid conversion specifier '-' [-Wformat-invalid-specifier]
                    "informational_only_will_be_removed:%pi4:%d-%pi4:%d-%z-prot:%d",
                                                                        ~~^
    include/trace/trace_events.h:319:33: note: expanded from macro 'TP_printk'
@@ -100,7 +100,33 @@ All warnings (new ones prefixed by >>):
    In file included from include/trace/events/cros_net.h:252:
    In file included from include/trace/define_trace.h:102:
    In file included from include/trace/trace_events.h:498:
->> include/trace/events/cros_net.h:119:3: warning: data argument not used by format string [-Wformat-extra-args]
+>> include/trace/events/cros_net.h:118:3: warning: format specifies type 'int' but the argument has type 'size_t' (aka 'unsigned long') [-Wformat]
+                   __entry->bytes_sent,
+                   ^~~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:316:17: note: expanded from macro '__entry'
+   #define __entry field
+                   ^
+   include/trace/trace_events.h:319:43: note: expanded from macro 'TP_printk'
+   #define TP_printk(fmt, args...) fmt "\n", args
+                                   ~~~       ^
+   include/trace/define_trace.h:37:10: note: expanded from macro 'TRACE_EVENT_CONDITION'
+                   PARAMS(print))
+                   ~~~~~~~^~~~~~~
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/trace/trace_events.h:80:16: note: expanded from macro 'TRACE_EVENT'
+                                PARAMS(print));                   \
+                                ~~~~~~~^~~~~~~
+   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
+   #define PARAMS(args...) args
+                           ^~~~
+   include/trace/trace_events.h:464:27: note: expanded from macro 'DECLARE_EVENT_CLASS'
+           trace_event_printf(iter, print);                                \
+                                    ^~~~~
+   In file included from net/ipv4/af_inet.c:126:
+   In file included from include/trace/events/cros_net.h:252:
+   In file included from include/trace/define_trace.h:102:
+   In file included from include/trace/trace_events.h:498:
+   include/trace/events/cros_net.h:119:3: warning: data argument not used by format string [-Wformat-extra-args]
                    __entry->protocol
                    ^~~~~~~~~~~~~~~~~
    include/trace/trace_events.h:316:17: note: expanded from macro '__entry'
@@ -126,7 +152,7 @@ All warnings (new ones prefixed by >>):
    In file included from include/trace/events/cros_net.h:252:
    In file included from include/trace/define_trace.h:102:
    In file included from include/trace/trace_events.h:498:
->> include/trace/events/cros_net.h:186:2: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+   include/trace/events/cros_net.h:186:2: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
            TP_printk(
            ^~~~~~~~~~
    include/trace/trace_events.h:319:38: note: expanded from macro 'TP_printk'
@@ -175,59 +201,9 @@ All warnings (new ones prefixed by >>):
                                     ^~~~~
    In file included from net/ipv4/af_inet.c:126:
    In file included from include/trace/events/cros_net.h:252:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:498:
-   include/trace/events/cros_net.h:222:57: warning: invalid conversion specifier '-' [-Wformat-invalid-specifier]
-                   "informational_only_will_be_removed:%pi4:%d-%pi4:%d-%z-prot:%d",
-                                                                       ~~^
-   include/trace/trace_events.h:319:33: note: expanded from macro 'TP_printk'
-   #define TP_printk(fmt, args...) fmt "\n", args
-                                   ^~~
-   include/trace/define_trace.h:37:10: note: expanded from macro 'TRACE_EVENT_CONDITION'
-                   PARAMS(print))
-                          ^~~~~
-   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
-   #define PARAMS(args...) args
-                           ^~~~
-   include/trace/trace_events.h:80:16: note: expanded from macro 'TRACE_EVENT'
-                                PARAMS(print));                   \
-                                       ^~~~~
-   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
-   #define PARAMS(args...) args
-                           ^~~~
-   include/trace/trace_events.h:464:27: note: expanded from macro 'DECLARE_EVENT_CLASS'
-           trace_event_printf(iter, print);                                \
-                                    ^~~~~
-   In file included from net/ipv4/af_inet.c:126:
-   In file included from include/trace/events/cros_net.h:252:
-   In file included from include/trace/define_trace.h:102:
-   In file included from include/trace/trace_events.h:498:
-   include/trace/events/cros_net.h:228:3: warning: data argument not used by format string [-Wformat-extra-args]
-                   __entry->protocol
-                   ^~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:316:17: note: expanded from macro '__entry'
-   #define __entry field
-                   ^
-   include/trace/trace_events.h:319:43: note: expanded from macro 'TP_printk'
-   #define TP_printk(fmt, args...) fmt "\n", args
-                                             ^
-   include/trace/define_trace.h:37:10: note: expanded from macro 'TRACE_EVENT_CONDITION'
-                   PARAMS(print))
-                   ~~~~~~~^~~~~~~
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/trace/trace_events.h:80:16: note: expanded from macro 'TRACE_EVENT'
-                                PARAMS(print));                   \
-                                ~~~~~~~^~~~~~~
-   include/linux/tracepoint.h:107:25: note: expanded from macro 'PARAMS'
-   #define PARAMS(args...) args
-                           ^
-   include/trace/trace_events.h:464:27: note: expanded from macro 'DECLARE_EVENT_CLASS'
-           trace_event_printf(iter, print);                                \
-                                    ^~~~~
-   6 warnings generated.
 
 
-vim +113 include/trace/events/cros_net.h
+vim +118 include/trace/events/cros_net.h
 
     85	
     86	
@@ -257,13 +233,13 @@ vim +113 include/trace/events/cros_net.h
    110			__entry->bytes_sent = rv;
    111		),
    112		TP_printk(
- > 113			"informational_only_will_be_removed:%pi4:%d-%pi4:%d-%z-prot:%d",
+   113			"informational_only_will_be_removed:%pi4:%d-%pi4:%d-%z-prot:%d",
    114			&__entry->saddr4,
    115			__entry->sport,
    116			&__entry->daddr4,
    117			__entry->dport,
-   118			__entry->bytes_sent,
- > 119			__entry->protocol
+ > 118			__entry->bytes_sent,
+   119			__entry->protocol
    120			)
    121	);
    122	
@@ -330,7 +306,7 @@ vim +113 include/trace/events/cros_net.h
    183			CROS_NET_FILL_ADDR_PORT(sk, __entry);
    184			__entry->bytes_sent = rv;
    185		),
- > 186		TP_printk(
+   186		TP_printk(
    187			"informational_only_will_be_removed:%pi4:%d-%pi4:%d-%z",
    188			&__entry->saddr4,
    189			__entry->sport,
@@ -340,6 +316,63 @@ vim +113 include/trace/events/cros_net.h
    193			)
    194	);
    195	
+   196	TRACE_EVENT_CONDITION(cros_inet_recvmsg_exit,
+   197		/* The tracepoint signature matches the signature of inet_recvmsg with
+   198		 * addition of the return value. This is done to match the expected
+   199		 * signature of an fexit bpf program.
+   200		 * This is done so that a BPF application can use the same
+   201		 * handler for kernels that don't support fexit for ARM64 and those
+   202		 * that do.
+   203		 */
+   204		TP_PROTO(struct socket *sock, struct msghdr *msg, size_t size, int flags, int rv),
+   205		TP_ARGS(sock, msg, size, flags, rv),
+   206		TP_CONDITION(sock && sock->sk),
+   207		TP_STRUCT__entry(
+   208			__field(size_t, bytes_sent)
+   209			__field(__u32, saddr4)
+   210			__field(__u32, daddr4)
+   211			__field(__u16, sport)
+   212			__field(__u16, dport)
+   213			__field(__u8, protocol)
+   214		),
+   215		TP_fast_assign(
+   216			struct sock *sk = sock->sk;
+   217	
+   218			CROS_NET_FILL_ADDR_PORT(sk, __entry);
+   219			__entry->bytes_sent = rv;
+   220		),
+   221		TP_printk(
+   222			"informational_only_will_be_removed:%pi4:%d-%pi4:%d-%z-prot:%d",
+   223			&__entry->saddr4,
+   224			__entry->sport,
+   225			&__entry->daddr4,
+   226			__entry->dport,
+   227			__entry->bytes_sent,
+   228			__entry->protocol
+   229			)
+   230	);
+   231	
+   232	TRACE_EVENT_CONDITION(cros_inet_release_enter,
+   233		TP_PROTO(struct socket *sock),
+   234		TP_ARGS(sock),
+   235		TP_CONDITION(sock && sock->sk),
+   236		TP_STRUCT__entry(
+   237			__field(__u32, saddr4)
+   238			__field(__u32, daddr4)
+   239			__field(__u16, sport)
+   240			__field(__u16, dport)
+   241			__field(__u8, protocol)
+   242		),
+   243		TP_fast_assign(
+   244			struct sock *sk = sock->sk;
+   245	
+   246			CROS_NET_FILL_ADDR_PORT(sk, __entry);
+   247		),
+   248		TP_printk("informational_only_will_be_removed:%pI4:%d-%pI4:%d",
+   249		&__entry->saddr4, __entry->sport, &__entry->daddr4, __entry->dport));
+   250	#endif // _TRACE_CROS_NET_H
+   251	/* This part must be outside protection */
+ > 252	#include <trace/define_trace.h>
 
 -- 
 0-DAY CI Kernel Test Service
