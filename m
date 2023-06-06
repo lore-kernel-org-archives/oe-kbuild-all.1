@@ -1,60 +1,45 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D224F7E4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 23:13:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50667E4;
+	Tue,  6 Jun 2023 23:24:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686093205; x=1717629205;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nOLTJSibPiFMfr8fOq4c8i0FSHh1V58oiSrkFHPtWLI=;
-  b=iLR+ridN9UTiu4C3YV021jdMQ1d6CuojAykf9zk4byzVhZtN0a0Aczdv
-   pi+PJYLdvFO5MMac3boomigkldt8KsApo2QLawJ7Hoo2G5iQ3J9zMxy8Z
-   GUUxOn6ecOKLI+z9uOyL2IHVqjVkfWOV/5/kA9z4+9C2WKwIYlRQkCXf/
-   laCiHH6bx0YF+JqfjsOxAhiNPWmyAvmiTIPH16BmiBDk7oVRVAvG4XsYF
-   3OJnEfMuoUiP/3p4V7LxpsuGOXeeRUA7FBH1CROdsNxYKK4ozaT93UBk0
-   OHgbDxfat1LujvVIS0lY9JSACXNevtMAwfnk40vYVcWAM8/wAd5aY4ZC0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="346430671"
+  t=1686093863; x=1717629863;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bS8+LPNAzSkkuMeDOOKbjmK9t6jI1KPWH2K50C2E05k=;
+  b=QujqaY/u5TjulJso9s5UCQIgz4EuPCqGC8Wk4m3bedZEpwKTKJK9aEOb
+   diypwLmyoMEfEldV/DZ0qko0SdW+csPD8IXdZv2cvIX4m6B+UPOFzYuY2
+   wH7yZ8SKdegcmxw1gGrzT0DzWs8BacnfE8aoS7c4hgCePrizaY+u9N0/T
+   Ui501LnbHNxGU04Li0FPyaf8nlhcBILHXfG1PKIbFhHqDut5+EgJ7jkw0
+   Vpfgf5iheH68zpYp7Sgg57vXBmJArRitK2grQm5seVlXVSzsgPo30bLvP
+   OcGQvKeatGa7sPdI+ylWxfL/ltn8qQllCrVr/hLWfMewpoXV4FcZi/dTl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="355677336"
 X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="346430671"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 16:13:24 -0700
+   d="scan'208";a="355677336"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 16:24:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="799063751"
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="833432184"
 X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="799063751"
+   d="scan'208";a="833432184"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 06 Jun 2023 16:13:19 -0700
+  by orsmga004.jf.intel.com with ESMTP; 06 Jun 2023 16:24:20 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6fra-0005qU-25;
-	Tue, 06 Jun 2023 23:13:18 +0000
-Date: Wed, 7 Jun 2023 07:12:58 +0800
+	id 1q6g2F-0005rP-2n;
+	Tue, 06 Jun 2023 23:24:19 +0000
+Date: Wed, 7 Jun 2023 07:23:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com, martin.hecht@avnet.eu,
-	michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
+To: William Qiu <william.qiu@starfivetech.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Mark Brown <broonie@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>,
-	Shawn Tu <shawnx.tu@intel.com>,
-	Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] media: i2c: Add support for alvium camera
-Message-ID: <202306070716.28K0H9Jd-lkp@intel.com>
-References: <20230606155416.260941-4-tomm.merciai@gmail.com>
+	Hal Feng <hal.feng@starfivetech.com>
+Subject: [broonie-ci:v2_20230602_william_qiu_add_initialization_of_clock_for_starfive_jh7110_soc
+ 24/25] drivers/spi/spi-cadence-quadspi.c:1873:3: warning: ignoring return
+ value of function declared with 'warn_unused_result' attribute
+Message-ID: <202306070721.Sxi9bH0c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,120 +48,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230606155416.260941-4-tomm.merciai@gmail.com>
 
-Hi Tommaso,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on robh/for-next linus/master v6.4-rc5 next-20230606]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tommaso-Merciai/dt-bindings-vendor-prefixes-Add-prefix-alliedvision/20230606-235632
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230606155416.260941-4-tomm.merciai%40gmail.com
-patch subject: [PATCH v3 3/3] media: i2c: Add support for alvium camera
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230607/202306070716.28K0H9Jd-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v2_20230602_william_qiu_add_initialization_of_clock_for_starfive_jh7110_soc
+head:   f14f4e2369847daadb4f776484172385545dd6d0
+commit: 646d067b9269079d8913cea3b19b7626848405ec [24/25] spi: cadence-quadspi: Add clock configuration for StarFive JH7110 QSPI
+config: i386-randconfig-i016-20230606 (https://download.01.org/0day-ci/archive/20230607/202306070721.Sxi9bH0c-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add media-tree git://linuxtv.org/media_tree.git
-        git fetch media-tree master
-        git checkout media-tree/master
-        b4 shazam https://lore.kernel.org/r/20230606155416.260941-4-tomm.merciai@gmail.com
+        # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git/commit/?id=646d067b9269079d8913cea3b19b7626848405ec
+        git remote add broonie-ci https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git
+        git fetch --no-tags broonie-ci v2_20230602_william_qiu_add_initialization_of_clock_for_starfive_jh7110_soc
+        git checkout 646d067b9269079d8913cea3b19b7626848405ec
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/media/i2c/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/spi/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306070716.28K0H9Jd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306070721.Sxi9bH0c-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/media/i2c/alvium-csi2.c: In function 'alvium_set_ctrl_white_balance':
->> drivers/media/i2c/alvium-csi2.c:2205:21: warning: variable 'blue_min' set but not used [-Wunused-but-set-variable]
-    2205 |                 u64 blue_min;
-         |                     ^~~~~~~~
->> drivers/media/i2c/alvium-csi2.c:2204:21: warning: variable 'blue_max' set but not used [-Wunused-but-set-variable]
-    2204 |                 u64 blue_max;
-         |                     ^~~~~~~~
->> drivers/media/i2c/alvium-csi2.c:2203:21: warning: variable 'red_min' set but not used [-Wunused-but-set-variable]
-    2203 |                 u64 red_min;
-         |                     ^~~~~~~
->> drivers/media/i2c/alvium-csi2.c:2202:21: warning: variable 'red_max' set but not used [-Wunused-but-set-variable]
-    2202 |                 u64 red_max;
-         |                     ^~~~~~~
-   drivers/media/i2c/alvium-csi2.c: In function 'alvium_set_frame_interval':
->> drivers/media/i2c/alvium-csi2.c:2574:29: warning: variable 'max_fr' set but not used [-Wunused-but-set-variable]
-    2574 |         u64 req_fr, min_fr, max_fr;
-         |                             ^~~~~~
->> drivers/media/i2c/alvium-csi2.c:2574:21: warning: variable 'min_fr' set but not used [-Wunused-but-set-variable]
-    2574 |         u64 req_fr, min_fr, max_fr;
-         |                     ^~~~~~
-   drivers/media/i2c/alvium-csi2.c: In function 'alvium_subdev_init':
->> drivers/media/i2c/alvium-csi2.c:3172:27: warning: variable 'crop' set but not used [-Wunused-but-set-variable]
-    3172 |         struct v4l2_rect *crop;
-         |                           ^~~~
->> drivers/media/i2c/alvium-csi2.c:3171:36: warning: variable 'fmt' set but not used [-Wunused-but-set-variable]
-    3171 |         struct v4l2_mbus_framefmt *fmt;
-         |                                    ^~~
+>> drivers/spi/spi-cadence-quadspi.c:1873:3: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
+                   clk_bulk_prepare_enable(cqspi->num_clks, cqspi->clks);
+                   ^~~~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +/blue_min +2205 drivers/media/i2c/alvium-csi2.c
+vim +/warn_unused_result +1873 drivers/spi/spi-cadence-quadspi.c
 
-  2186	
-  2187	static int alvium_set_ctrl_white_balance(struct alvium_dev *alvium,
-  2188					    bool awb)
-  2189	{
-  2190		struct alvium_ctrls *ctrls = &alvium->ctrls;
-  2191		int ret = 0;
-  2192	
-  2193		if (ctrls->auto_wb->is_new) {
-  2194			ret = alvium_set_awb(alvium, awb);
-  2195			if (ret)
-  2196				return ret;
-  2197		}
-  2198	
-  2199		if (!awb && ctrls->auto_wb->is_new) {
-  2200			u64 red = (u64)ctrls->red_balance->val;
-  2201			u64 blue = (u64)ctrls->blue_balance->val;
-> 2202			u64 red_max;
-> 2203			u64 red_min;
-> 2204			u64 blue_max;
-> 2205			u64 blue_min;
-  2206	
-  2207			ret = alvium_get_red_balance_ratio_params(alvium);
-  2208			if (ret)
-  2209				return ret;
-  2210	
-  2211			ret = alvium_get_blue_balance_ratio_params(alvium);
-  2212			if (ret)
-  2213				return ret;
-  2214	
-  2215			red_max = alvium->max_rbalance;
-  2216			red_min = alvium->min_rbalance;
-  2217			blue_max = alvium->max_bbalance;
-  2218			blue_min = alvium->min_rbalance;
-  2219	
-  2220			ret = alvium_set_red_balance_ratio(alvium, red);
-  2221			if (ret)
-  2222				return ret;
-  2223	
-  2224			ret = alvium_set_blue_balance_ratio(alvium, blue);
-  2225			if (ret)
-  2226				return ret;
-  2227		}
-  2228	
-  2229		return ret;
-  2230	}
-  2231	
+  1865	
+  1866	static int cqspi_resume(struct device *dev)
+  1867	{
+  1868		struct cqspi_st *cqspi = dev_get_drvdata(dev);
+  1869		struct spi_master *master = dev_get_drvdata(dev);
+  1870	
+  1871		clk_prepare_enable(cqspi->clk);
+  1872		if (of_device_is_compatible(dev->of_node, "starfive,jh7110-qspi"))
+> 1873			clk_bulk_prepare_enable(cqspi->num_clks, cqspi->clks);
+  1874		cqspi_wait_idle(cqspi);
+  1875		cqspi_controller_init(cqspi);
+  1876	
+  1877		cqspi->current_cs = -1;
+  1878		cqspi->sclk = 0;
+  1879	
+  1880		return spi_master_resume(master);
+  1881	}
+  1882	
 
 -- 
 0-DAY CI Kernel Test Service
