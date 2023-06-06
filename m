@@ -1,44 +1,69 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A1946BE;
-	Tue,  6 Jun 2023 20:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6D33D7F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 21:08:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686085107; x=1717621107;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P6rV6zh1DLRXX4p8uNL4qGR98w5JZ4Rkqc41z5Xvt6U=;
-  b=TzwVgUdneNxfLU8kFrQmKKrSBMEgqkec9rMe3/k6Rtk51H/J3ZPJemrA
-   0J/sGiPtbAXTiIbMzxi1zZhrUKkxN2p5VTwfLLtpRz0cQdNzZ4Cmx9kU0
-   jAH5dDD0skWByqmRNt3tcyztBloNiiyppL0GUpp+CqQy3kLAeQoY4j3TW
-   hGxSBIeWE6B4tQ+PTw9igxOI/dWeNsRmMdhmDFIKMbQbm6XPCybVllKC1
-   Tg2/9pWvARDxJ444eo43Gz7JlVP128LxbMrp3KbTRt078jhh3ZpY1FXwB
-   4PrU6i6dCUgyP3kfhcrF5P4S9VCRVBDBtPjzmIbTQTtauDx6WnhBclO9+
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="360121182"
-X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; 
-   d="scan'208";a="360121182"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 13:58:16 -0700
+  t=1686085702; x=1717621702;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TE+hsFEtgKTdemjU0rpyelI4HlRWI8H2qWCPy0IYQto=;
+  b=Lo2BoPp4DzQ0FPA7KvqSqWf2tYuIgndIVvncp/bueojDsE03Tp1bu442
+   GvsMgrq0/yUWB/h3lxFKM68pZVs/z+wBf8CNsjCtEsuFBrB4UIZopv9eR
+   t1to4/VAgA/NfyGlpHUfz3rWkE08fc5OY36zkMl7YKYBsPFA8swO09YEL
+   7XF63LPiI0Iz5maUB6BdGsbzBETMHgRTXrW4fVJuDLqdNHZp6ouOVP6zn
+   xEh5wZOA07WGcYIqRVfjiq7593xpOXfz+dI5GjdqC08576hhw9XcdKmD6
+   PQvV3VtrRTsbsGFVGkDvrL4z9z1gKuAdva0zzHYpCSx++6nkmUHD6rCML
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="422642042"
+X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
+   d="scan'208";a="422642042"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 14:08:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="799013151"
-X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; 
-   d="scan'208";a="799013151"
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="833392520"
+X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
+   d="scan'208";a="833392520"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 06 Jun 2023 13:58:14 -0700
+  by orsmga004.jf.intel.com with ESMTP; 06 Jun 2023 14:08:14 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6dkr-0005jz-12;
-	Tue, 06 Jun 2023 20:58:13 +0000
-Date: Wed, 7 Jun 2023 04:57:42 +0800
+	id 1q6duY-0005kp-09;
+	Tue, 06 Jun 2023 21:08:14 +0000
+Date: Wed, 7 Jun 2023 05:08:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	Miroslav Benes <mbenes@suse.cz>
-Subject: [tip:objtool/core 8/12] vmlinux.o: warning: objtool:
- rust_begin_unwind+0x5c: rust_helper_BUG() is missing a __noreturn annotation
-Message-ID: <202306070408.EFxuDoRs-lkp@intel.com>
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
+	Andrei Vagin <avagin@gmail.com>,
+	Danylo Mocherniuk <mdanylo@google.com>,
+	Paul Gofman <pgofman@codeweavers.com>,
+	Cyrill Gorcunov <gorcunov@gmail.com>,
+	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Yang Shi <shy828301@gmail.com>, Vlastimil Babka <vbabka@suse.cz>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Yun Zhou <yun.zhou@windriver.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Alex Sierra <alex.sierra@amd.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Greg KH <greg@kroah.com>
+Subject: Re: [PATCH v17 2/5] fs/proc/task_mmu: Implement IOCTL to get and
+ optionally clear info about PTEs
+Message-ID: <202306070414.XDn2ITuw-lkp@intel.com>
+References: <20230606060822.1065182-3-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,54 +72,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230606060822.1065182-3-usama.anjum@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git objtool/core
-head:   ff9a6459bbec06df7da2545020d7383aba13b3fb
-commit: fedb724c3db5490234ddde0103811c28c2fedae0 [8/12] objtool: Detect missing __noreturn annotations
-config: x86_64-randconfig-a012-20230606 (https://download.01.org/0day-ci/archive/20230607/202306070408.EFxuDoRs-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+Hi Muhammad,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on next-20230606]
+[cannot apply to linus/master v6.4-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/userfaultfd-UFFD_FEATURE_WP_ASYNC/20230606-141114
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230606060822.1065182-3-usama.anjum%40collabora.com
+patch subject: [PATCH v17 2/5] fs/proc/task_mmu: Implement IOCTL to get and optionally clear info about PTEs
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20230607/202306070414.XDn2ITuw-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?id=fedb724c3db5490234ddde0103811c28c2fedae0
-        git remote add tip https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git
-        git fetch --no-tags tip objtool/core
-        git checkout fedb724c3db5490234ddde0103811c28c2fedae0
+        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
+        git fetch akpm-mm mm-everything
+        git checkout akpm-mm/mm-everything
+        b4 shazam https://lore.kernel.org/r/20230606060822.1065182-3-usama.anjum@collabora.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306070408.EFxuDoRs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306070414.XDn2ITuw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> vmlinux.o: warning: objtool: rust_begin_unwind+0x5c: rust_helper_BUG() is missing a __noreturn annotation
+   fs/proc/task_mmu.c: In function 'pagemap_scan_pmd_entry':
+>> fs/proc/task_mmu.c:1960:31: error: 'HPAGE_SIZE' undeclared (first use in this function); did you mean 'PAGE_SIZE'?
+    1960 |                     n_pages < HPAGE_SIZE/PAGE_SIZE) {
+         |                               ^~~~~~~~~~
+         |                               PAGE_SIZE
+   fs/proc/task_mmu.c:1960:31: note: each undeclared identifier is reported only once for each function it appears in
 
 
-objdump-func vmlinux.o rust_begin_unwind:
-0000 00000000000b9e69 <rust_begin_unwind>:
-0000    b9e69:	48 83 ec 48          	sub    $0x48,%rsp
-0004    b9e6d:	48 89 e0             	mov    %rsp,%rax
-0007    b9e70:	48 89 38             	mov    %rdi,(%rax)
-000a    b9e73:	48 8d 4c 24 08       	lea    0x8(%rsp),%rcx
-000f    b9e78:	48 89 01             	mov    %rax,(%rcx)
-0012    b9e7b:	48 c7 41 08 00 00 00 00 	movq   $0x0,0x8(%rcx)	b9e7f: R_X86_64_32S	_RNvXsR_NtCs3yuwAp0waWO_4core3fmtRNtNtNtB7_5panic10panic_info9PanicInfoNtB5_7Display3fmtCsfATHBUcknU9_6kernel
-001a    b9e83:	48 8d 54 24 18       	lea    0x18(%rsp),%rdx
-001f    b9e88:	48 c7 02 00 00 00 00 	movq   $0x0,(%rdx)	b9e8b: R_X86_64_32S	.rodata+0x137d8
-0026    b9e8f:	48 c7 42 08 02 00 00 00 	movq   $0x2,0x8(%rdx)
-002e    b9e97:	48 c7 42 10 00 00 00 00 	movq   $0x0,0x10(%rdx)
-0036    b9e9f:	48 89 4a 20          	mov    %rcx,0x20(%rdx)
-003a    b9ea3:	48 c7 42 28 01 00 00 00 	movq   $0x1,0x28(%rdx)
-0042    b9eab:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	b9eae: R_X86_64_32S	_RNvNtNtCsfATHBUcknU9_6kernel5print14format_strings5EMERG
-0049    b9eb2:	48 c7 c6 00 00 00 00 	mov    $0x0,%rsi	b9eb5: R_X86_64_32S	.rodata+0x13568
-0050    b9eb9:	31 c0                	xor    %eax,%eax
-0052    b9ebb:	e8 00 00 00 00       	call   b9ec0 <rust_begin_unwind+0x57>	b9ebc: R_X86_64_PLT32	_printk-0x4
-0057    b9ec0:	e8 00 00 00 00       	call   b9ec5 <rust_begin_unwind+0x5c>	b9ec1: R_X86_64_PLT32	rust_helper_BUG-0x4
-005c    b9ec5:	eb fe                	jmp    b9ec5 <rust_begin_unwind+0x5c>
+vim +1960 fs/proc/task_mmu.c
+
+  1931	
+  1932	static int pagemap_scan_pmd_entry(pmd_t *pmd, unsigned long start,
+  1933					  unsigned long end, struct mm_walk *walk)
+  1934	{
+  1935		struct pagemap_scan_private *p = walk->private;
+  1936		struct vm_area_struct *vma = walk->vma;
+  1937		unsigned long addr = end;
+  1938		pte_t *pte, *orig_pte;
+  1939		spinlock_t *ptl;
+  1940		bool is_written;
+  1941		int ret = 0;
+  1942	
+  1943		arch_enter_lazy_mmu_mode();
+  1944	
+  1945	#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+  1946		ptl = pmd_trans_huge_lock(pmd, vma);
+  1947		if (ptl) {
+  1948			unsigned long n_pages = (end - start)/PAGE_SIZE;
+  1949	
+  1950			if (p->max_pages && n_pages > p->max_pages - p->found_pages)
+  1951				n_pages = p->max_pages - p->found_pages;
+  1952	
+  1953			is_written = !is_pmd_uffd_wp(*pmd);
+  1954	
+  1955			/*
+  1956			 * Break huge page into small pages if the WP operation need to
+  1957			 * be performed is on a portion of the huge page.
+  1958			 */
+  1959			if (is_written && IS_PM_SCAN_WP(p->flags) &&
+> 1960			    n_pages < HPAGE_SIZE/PAGE_SIZE) {
+  1961				spin_unlock(ptl);
+  1962	
+  1963				split_huge_pmd(vma, pmd, start);
+  1964				goto process_smaller_pages;
+  1965			}
+  1966	
+  1967			if (IS_PM_SCAN_GET(p->flags))
+  1968				ret = pagemap_scan_output(is_written, vma->vm_file,
+  1969							  pmd_present(*pmd),
+  1970							  is_swap_pmd(*pmd),
+  1971							  p, start, n_pages);
+  1972	
+  1973			if (ret >= 0 && is_written && IS_PM_SCAN_WP(p->flags))
+  1974				make_uffd_wp_pmd(vma, addr, pmd);
+  1975	
+  1976			if (IS_PM_SCAN_WP(p->flags))
+  1977				flush_tlb_range(vma, start, end);
+  1978	
+  1979			spin_unlock(ptl);
+  1980	
+  1981			arch_leave_lazy_mmu_mode();
+  1982			return ret;
+  1983		}
+  1984	
+  1985	process_smaller_pages:
+  1986		if (pmd_trans_unstable(pmd)) {
+  1987			arch_leave_lazy_mmu_mode();
+  1988			walk->action = ACTION_AGAIN;
+  1989			return 0;
+  1990		}
+  1991	#endif
+  1992	
+  1993		orig_pte = pte = pte_offset_map_lock(vma->vm_mm, pmd, start, &ptl);
+  1994		for (addr = start; addr < end && !ret; pte++, addr += PAGE_SIZE) {
+  1995			is_written = !is_pte_uffd_wp(*pte);
+  1996	
+  1997			if (IS_PM_SCAN_GET(p->flags))
+  1998				ret = pagemap_scan_output(is_written, vma->vm_file,
+  1999							  pte_present(*pte),
+  2000							  is_swap_pte(*pte),
+  2001							  p, addr, 1);
+  2002	
+  2003			if (ret >= 0 && is_written && IS_PM_SCAN_WP(p->flags))
+  2004				make_uffd_wp_pte(vma, addr, pte);
+  2005		}
+  2006	
+  2007		if (IS_PM_SCAN_WP(p->flags))
+  2008			flush_tlb_range(vma, start, addr);
+  2009	
+  2010		pte_unmap_unlock(orig_pte, ptl);
+  2011		arch_leave_lazy_mmu_mode();
+  2012	
+  2013		cond_resched();
+  2014		return ret;
+  2015	}
+  2016	
 
 -- 
 0-DAY CI Kernel Test Service
