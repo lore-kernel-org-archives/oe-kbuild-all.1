@@ -1,44 +1,53 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B62D7E4;
-	Tue,  6 Jun 2023 23:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083E17E4
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 23:56:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686095785; x=1717631785;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9OqldgdIkgdRTqJSbNsRPITOfaCceomQtQLMvx2Tt4w=;
-  b=Ed8bwa2dKDOKkm3uUryZZXmu93WGT1t8jyHesh6DqaOICp+4SiDKxFlJ
-   p/7Z3te8DpAkNZ4iQxD+f+qNl5jmszywufKgr3wVkpaejAWgfeSFiOcO6
-   PyCiiuXHPV4/Q0Hmbsvxk1Yyt/GGfj68uYYOjAWCGYRSDcYHSc0aLTAlA
-   tYSRDkbL64e27/v2Bc4jI55o3RXjJrOGBUjgBNV3mn/BypEh1OHM2bItB
-   GJX+FkM+jMdTF8nrOvcwcphs6d7Kbq45q8vjjrEc1d0Yq7Rcg37BXIoiL
-   hpnJlqSCuVGfyaMIKCkHhyvVaYRwJ4dMTkiJajgDn/hLgWNksQ/jeVFg/
+  t=1686095789; x=1717631789;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=66dLf9QF5suSz6s4ALv0ff3Sijn5fcliAkM/PxefKBo=;
+  b=J9GuOxI7rDlQCdzPRMHuhAzFigSt5fdZnIu/MxuEpEQjs4UEAu0AWS8L
+   QawGGqWMKBCFlXtyRaDENZoIlP8dq2mYwGFj+dJj4rm7wYb08liMfPnU/
+   VY2InylGr8EqhjhhT3dgUTILarXpjZLVbhfQ/xkW/X6fCAJQVNdW6sISQ
+   l22WjmFiICFpmaThH3Ci5rjvg7c0QCtvLclVm+ipIkYbrm6Lx294c7pGK
+   qX8KuKwjkq42cu4SKHsgtsRwKzS+3w/HTmS1LYA2WI76XSJH03Su79T6t
+   uK2/h2++zQeH+Arqmz/gcht/1lts8zGtzD94Xfm1TmX6chDZpujZwOpCA
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="341481877"
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="337190046"
 X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="341481877"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 16:56:24 -0700
+   d="scan'208";a="337190046"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 16:56:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="703386456"
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="738979508"
 X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="703386456"
+   d="scan'208";a="738979508"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 06 Jun 2023 16:56:22 -0700
+  by orsmga008.jf.intel.com with ESMTP; 06 Jun 2023 16:56:22 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6gXF-0005tj-2I;
+	id 1q6gXF-0005th-2F;
 	Tue, 06 Jun 2023 23:56:21 +0000
-Date: Wed, 7 Jun 2023 07:55:35 +0800
+Date: Wed, 7 Jun 2023 07:55:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Asahi Lina <lina@asahilina.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/210-gpu 65/225] thread 'main' panicked at 'Unable
- to generate bindings: ()',
- /opt/cross/rustc-1.66.0-bindgen-0.56.0/cargo/registry/src/github.com-1ecc6299db9ec823/bindgen-0.56.0/src/main.rs:54:36
-Message-ID: <202306070701.lv96SuAz-lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+	tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
+	christian.koenig@amd.com, bskeggs@redhat.com,
+	Liam.Howlett@oracle.com, matthew.brost@intel.com,
+	boris.brezillon@collabora.com, alexdeucher@gmail.com,
+	ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+	jason@jlekstrand.net
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v4 04/14] drm: debugfs: provide infrastructure
+ to dump a DRM GPU VA space
+Message-ID: <202306070751.26WX3ive-lkp@intel.com>
+References: <20230606223130.6132-5-dakr@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,89 +56,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230606223130.6132-5-dakr@redhat.com>
 
-Hi Asahi,
+Hi Danilo,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/AsahiLinux/linux bits/210-gpu
-head:   088cf4cc64f4e0eec3c9b99e36c9f5e9a86b1173
-commit: 61f15e866529148c87d259db6a3360536f681d60 [65/225] *RFL import: kernel::io_mem
-config: x86_64-randconfig-a011-20230606 (https://download.01.org/0day-ci/archive/20230607/202306070701.lv96SuAz-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+[auto build test WARNING on 33a86170888b7e4aa0cea94ebb9c67180139cea9]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230607-063442
+base:   33a86170888b7e4aa0cea94ebb9c67180139cea9
+patch link:    https://lore.kernel.org/r/20230606223130.6132-5-dakr%40redhat.com
+patch subject: [PATCH drm-next v4 04/14] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230607/202306070751.26WX3ive-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/AsahiLinux/linux/commit/61f15e866529148c87d259db6a3360536f681d60
-        git remote add asahilinux https://github.com/AsahiLinux/linux
-        git fetch --no-tags asahilinux bits/210-gpu
-        git checkout 61f15e866529148c87d259db6a3360536f681d60
+        git checkout 33a86170888b7e4aa0cea94ebb9c67180139cea9
+        b4 shazam https://lore.kernel.org/r/20230606223130.6132-5-dakr@redhat.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 prepare
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/gpu/drm/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306070701.lv96SuAz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306070751.26WX3ive-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   rust/helpers.c:201:9: error: call to undeclared function 'ioremap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:201:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion]
-   rust/helpers.c:207:9: error: call to undeclared function 'readb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:213:9: error: call to undeclared function 'readw'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:219:9: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:226:9: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:233:2: error: call to undeclared function 'writeb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:239:2: error: call to undeclared function 'writew'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:245:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:252:2: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:259:9: error: call to undeclared function 'readb_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:265:9: error: call to undeclared function 'readw_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:271:9: error: call to undeclared function 'readl_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:278:9: error: call to undeclared function 'readq_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:285:2: error: call to undeclared function 'writeb_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:291:2: error: call to undeclared function 'writew_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:297:2: error: call to undeclared function 'writel_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:304:2: error: call to undeclared function 'writeq_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:311:2: error: call to undeclared function 'memcpy_fromio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-   rust/helpers.c:201:9: error: call to undeclared function 'ioremap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:201:9: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'void *' [-Wint-conversion], err: true
-   rust/helpers.c:207:9: error: call to undeclared function 'readb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:213:9: error: call to undeclared function 'readw'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:219:9: error: call to undeclared function 'readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:226:9: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:233:2: error: call to undeclared function 'writeb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:239:2: error: call to undeclared function 'writew'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:245:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:252:2: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:259:9: error: call to undeclared function 'readb_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:265:9: error: call to undeclared function 'readw_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:271:9: error: call to undeclared function 'readl_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:278:9: error: call to undeclared function 'readq_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:285:2: error: call to undeclared function 'writeb_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:291:2: error: call to undeclared function 'writew_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:297:2: error: call to undeclared function 'writel_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:304:2: error: call to undeclared function 'writeq_relaxed'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
-   rust/helpers.c:311:2: error: call to undeclared function 'memcpy_fromio'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration], err: true
->> thread 'main' panicked at 'Unable to generate bindings: ()', /opt/cross/rustc-1.66.0-bindgen-0.56.0/cargo/registry/src/github.com-1ecc6299db9ec823/bindgen-0.56.0/src/main.rs:54:36
-   stack backtrace:
-      0: rust_begin_unwind
-                at /rustc/69f9c33d71c871fc16ac445211281c6e7a340943/library/std/src/panicking.rs:575:5
-      1: core::panicking::panic_fmt
-                at /rustc/69f9c33d71c871fc16ac445211281c6e7a340943/library/core/src/panicking.rs:65:14
-      2: core::result::unwrap_failed
-                at /rustc/69f9c33d71c871fc16ac445211281c6e7a340943/library/core/src/result.rs:1791:5
-      3: bindgen::main
-   note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
-   make[2]: *** [rust/Makefile:330: rust/bindings/bindings_helpers_generated.rs] Error 1 shuffle=1321394342
-   make[2]: *** Deleting file 'rust/bindings/bindings_helpers_generated.rs'
-   make[2]: Target 'rust/' not remade because of errors.
-   make[1]: *** [Makefile:1292: prepare] Error 2 shuffle=1321394342
-   make: *** [Makefile:226: __sub-make] Error 2 shuffle=1321394342
-   make: Target 'prepare' not remade because of errors.
+   drivers/gpu/drm/drm_debugfs.c: In function 'drm_debugfs_gpuva_info':
+>> drivers/gpu/drm/drm_debugfs.c:213:28: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     213 |                            (u64)va->gem.obj, va->gem.offset);
+         |                            ^
+
+
+vim +213 drivers/gpu/drm/drm_debugfs.c
+
+   178	
+   179	/**
+   180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
+   181	 * @m: pointer to the &seq_file to write
+   182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
+   183	 *
+   184	 * Dumps the GPU VA mappings of a given DRM GPU VA manager.
+   185	 *
+   186	 * For each DRM GPU VA space drivers should call this function from their
+   187	 * &drm_info_list's show callback.
+   188	 *
+   189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
+   190	 */
+   191	int drm_debugfs_gpuva_info(struct seq_file *m,
+   192				   struct drm_gpuva_manager *mgr)
+   193	{
+   194		DRM_GPUVA_ITER(it, mgr, 0);
+   195		struct drm_gpuva *va, *kva = &mgr->kernel_alloc_node;
+   196	
+   197		if (!mgr->name)
+   198			return -ENODEV;
+   199	
+   200		seq_printf(m, "DRM GPU VA space (%s) [0x%016llx;0x%016llx]\n",
+   201			   mgr->name, mgr->mm_start, mgr->mm_start + mgr->mm_range);
+   202		seq_printf(m, "Kernel reserved node [0x%016llx;0x%016llx]\n",
+   203			   kva->va.addr, kva->va.addr + kva->va.range);
+   204		seq_puts(m, "\n");
+   205		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
+   206		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
+   207		drm_gpuva_iter_for_each(va, it) {
+   208			if (unlikely(va == &mgr->kernel_alloc_node))
+   209				continue;
+   210	
+   211			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
+   212				   va->va.addr, va->va.range, va->va.addr + va->va.range,
+ > 213				   (u64)va->gem.obj, va->gem.offset);
+   214		}
+   215	
+   216		return 0;
+   217	}
+   218	EXPORT_SYMBOL(drm_debugfs_gpuva_info);
+   219	
 
 -- 
 0-DAY CI Kernel Test Service
