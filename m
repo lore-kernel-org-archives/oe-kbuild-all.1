@@ -1,50 +1,43 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B5D360
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 05:38:43 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-3f6da07ff00so57129745e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 05 Jun 2023 22:38:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686029922; x=1688621922;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QDoRkFVgtt0ly2lGzEtgXYMPs7j7vOsWoVsKufVaHvE=;
-        b=UB+I9tUa5wgLDtVALQwu6H3jyvBYAT006Thc0t/h4JyHa8FUga6YbgdNKCHVsg4Oj5
-         PdRB5XFIQAFNwhvT5MzsAySRbOCpcY6zjbXMtDvxgTDYvDtRP+t2WIIINLV8EA7LtD7d
-         ln/Bt/8sxEns8sEosBObja9lxoZAUZ6HVMVVPNlLVZIXlkMrKjikqxbjuH16vnD/xcS7
-         7S5ZzFd4Tum//oevLXdqhEyJRE6FNKCFusQ33fjTC/E5iSHmF3KGxViI7bXa2kMmzhP+
-         zDE5xJi88NHd4ht4yFQ3lchxXh02ImwJ59uGj4J1TIE3EER1KR5B9FCMXEDe2edUinjz
-         Bnog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686029922; x=1688621922;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QDoRkFVgtt0ly2lGzEtgXYMPs7j7vOsWoVsKufVaHvE=;
-        b=cr87VgFPNocdywZ+lF0IoERDKMRh7n4HB7issO4lfF3Cv01jOQrdz6Lzp7eWlH3wtK
-         X+a2fzX1XgPw+UuDCuHynz4tYRKOdYMeiO4hZfeJP0s81JhDUuZM094GeTc4iLiScfgx
-         CjZGofUSNe2i5K6GcdPLCKkhbd+zHuyuAcJxq78myzWVNu7z3CIAx9QigXAEwQ+7N43L
-         DQvMGs91UkmqX+44qwPHoLHca/X1zwEaE3/YVxelkFOzVMwbDIc7R2SqUhiJkFPfY/F4
-         Suoq2fAlhjUsCLPF47Pwg/w9IxqsgZCDlRwZfgVeTp2RPCHa0iOi1lADuveQmh51pUok
-         aaVA==
-X-Gm-Message-State: AC+VfDw3ap5YBdECCiIyZIUfAKoDOZQOopnojL4MlaErIoyXCmq+YnWw
-	umRms7UwTnOwcc5xzCaneyPS9O4QSRRJMs54Sww=
-X-Google-Smtp-Source: ACHHUZ7bdLhwl5ditaWswLjB5bFgSLA8PWLXrRGSz1IgeW6EjXeYMCTKFKQSDzrke6es1xjHZY4+Zg==
-X-Received: by 2002:a7b:c8d5:0:b0:3f7:e80b:bfc with SMTP id f21-20020a7bc8d5000000b003f7e80b0bfcmr1190300wml.30.1686029921841;
-        Mon, 05 Jun 2023 22:38:41 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id g11-20020a7bc4cb000000b003f735ba7736sm8056670wmk.46.2023.06.05.22.38.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jun 2023 22:38:40 -0700 (PDT)
-Date: Tue, 6 Jun 2023 08:38:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Felix Fietkau <nbd@nbd.name>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Kalle Valo <kvalo@kernel.org>
-Subject: drivers/net/wireless/mediatek/mt76/mt76x02_util.c:475
- mt76x02_set_key() warn: variable dereferenced before check 'key' (see line
- 415)
-Message-ID: <2f121202-5846-44a9-8b83-e2ba1fa671d0@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 075A638F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 06:28:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686032883; x=1717568883;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=f47HPy8uyvcUsKv8UJftYAaowQHH0V5xq1WrKYUJelo=;
+  b=l2VuVYgn9ExYefFBUX9TklZmhjSocNdtF9S9HVwNjW3YgiCcv0sIPmnJ
+   MVIN/GEBEpTV1yj351y1AmKrGuJZ7J49wL3Ilg/8mEAGE4i6yuHJ1lE0g
+   1h4EDJa+Xw9FiUW47QfWO0rbTSpt5npYgrawC4MbaSu+cyQvnavMrZnM+
+   T4DfEisb5W7GNUCl5rPIWRa8r7V7pxzBuDFx2vZ/BqQVvY+5FZfNRsvcf
+   V+LMFsM1oJ1EncSgnkKSP2HtVVFq+b0CqUIf2sBxzEN3SCrKPNP5IVfEw
+   1Np88KArt1dti23u+Nm0LOboltNesQp5HwfI5/iVnubVx5DRXUQ+fRLi0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="336202330"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
+   d="scan'208";a="336202330"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 23:28:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="742018551"
+X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
+   d="scan'208";a="742018551"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 05 Jun 2023 23:28:00 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q6QAh-0004vn-2d;
+	Tue, 06 Jun 2023 06:27:59 +0000
+Date: Tue, 6 Jun 2023 14:27:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-block:blk-open-release 45/48]
+ drivers/mtd/devices/block2mtd.c:277:44: sparse: sparse: incorrect type in
+ argument 2 (different base types)
+Message-ID: <202306061413.ULe1mz7v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,109 +47,124 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f8dba31b0a826e691949cd4fdfa5c30defaac8c5
-commit: e6db67fa871dee37d22701daba806bfcd4d9df49 wifi: mt76: ignore key disable commands
-config: riscv-randconfig-m031-20230605 (https://download.01.org/0day-ci/archive/20230606/202306060332.WbIToDHL-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
+tree:   git://git.infradead.org/users/hch/block.git blk-open-release
+head:   74ec704f4aa19cfd25faa78189e5c9d5f2e97ba3
+commit: 54822e562a29c2e2098f70e01d9b1d8a96213d94 [45/48] block: replace fmode_t with a block-specific type for block open flags
+config: arc-randconfig-s032-20230606 (https://download.01.org/0day-ci/archive/20230606/202306061413.ULe1mz7v-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.3.0
+reproduce:
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        git remote add hch-block git://git.infradead.org/users/hch/block.git
+        git fetch --no-tags hch-block blk-open-release
+        git checkout 54822e562a29c2e2098f70e01d9b1d8a96213d94
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arc SHELL=/bin/bash drivers/mtd/devices/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202306060332.WbIToDHL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306061413.ULe1mz7v-lkp@intel.com/
 
-smatch warnings:
-drivers/net/wireless/mediatek/mt76/mt76x02_util.c:475 mt76x02_set_key() warn: variable dereferenced before check 'key' (see line 415)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mtd/devices/block2mtd.c:277:44: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted blk_mode_t [usertype] mode @@     got restricted fmode_t const [usertype] mode @@
+   drivers/mtd/devices/block2mtd.c:277:44: sparse:     expected restricted blk_mode_t [usertype] mode
+   drivers/mtd/devices/block2mtd.c:277:44: sparse:     got restricted fmode_t const [usertype] mode
 
-vim +/key +475 drivers/net/wireless/mediatek/mt76/mt76x02_util.c
+vim +277 drivers/mtd/devices/block2mtd.c
 
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  407  int mt76x02_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  408  		    struct ieee80211_vif *vif, struct ieee80211_sta *sta,
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  409  		    struct ieee80211_key_conf *key)
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  410  {
-d87cf75f111183 Lorenzo Bianconi  2018-10-07  411  	struct mt76x02_dev *dev = hw->priv;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  412  	struct mt76x02_vif *mvif = (struct mt76x02_vif *)vif->drv_priv;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  413  	struct mt76x02_sta *msta;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  414  	struct mt76_wcid *wcid;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04 @415  	int idx = key->keyidx;
+c4e7fb313771ac Ville Herva         2006-07-14  260  
+71864ba3d52b8b Christoph Hellwig   2023-05-20  261  static struct block2mtd_dev *add_device(char *devname, int erase_size,
+71864ba3d52b8b Christoph Hellwig   2023-05-20  262  		char *label, int timeout)
+71864ba3d52b8b Christoph Hellwig   2023-05-20  263  {
+46a98c166f9caa Christoph Hellwig   2023-06-05  264  	const fmode_t mode = FMODE_READ | FMODE_WRITE;
+71864ba3d52b8b Christoph Hellwig   2023-05-20  265  	struct block_device *bdev;
+71864ba3d52b8b Christoph Hellwig   2023-05-20  266  	struct block2mtd_dev *dev;
+71864ba3d52b8b Christoph Hellwig   2023-05-20  267  	char *name;
+c4e7fb313771ac Ville Herva         2006-07-14  268  
+71864ba3d52b8b Christoph Hellwig   2023-05-20  269  	if (!devname)
+71864ba3d52b8b Christoph Hellwig   2023-05-20  270  		return NULL;
+71864ba3d52b8b Christoph Hellwig   2023-05-20  271  
+71864ba3d52b8b Christoph Hellwig   2023-05-20  272  	dev = kzalloc(sizeof(struct block2mtd_dev), GFP_KERNEL);
+71864ba3d52b8b Christoph Hellwig   2023-05-20  273  	if (!dev)
+71864ba3d52b8b Christoph Hellwig   2023-05-20  274  		return NULL;
+71864ba3d52b8b Christoph Hellwig   2023-05-20  275  
+71864ba3d52b8b Christoph Hellwig   2023-05-20  276  	/* Get a handle on the device */
+ce7813a1f22845 Christoph Hellwig   2023-06-04 @277  	bdev = blkdev_get_by_path(devname, mode, dev, NULL);
+71864ba3d52b8b Christoph Hellwig   2023-05-20  278  	if (IS_ERR(bdev))
+71864ba3d52b8b Christoph Hellwig   2023-05-20  279  		bdev = mdtblock_early_get_bdev(devname, mode, timeout, dev);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  280  	if (IS_ERR(bdev)) {
+a1c06609b37c30 Joe Perches         2013-04-19  281  		pr_err("error: cannot open device %s\n", devname);
+4bed207cd0b280 Fabian Frederick    2014-01-25  282  		goto err_free_block2mtd;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  283  	}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  284  	dev->blkdev = bdev;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  285  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  286  	if (MAJOR(bdev->bd_dev) == MTD_BLOCK_MAJOR) {
+a1c06609b37c30 Joe Perches         2013-04-19  287  		pr_err("attempting to use an MTD device as a block device\n");
+4bed207cd0b280 Fabian Frederick    2014-01-25  288  		goto err_free_block2mtd;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  289  	}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  290  
+ea6d833a3fddcd Fabian Frederick    2014-03-06  291  	if ((long)dev->blkdev->bd_inode->i_size % erase_size) {
+ea6d833a3fddcd Fabian Frederick    2014-03-06  292  		pr_err("erasesize must be a divisor of device size\n");
+ea6d833a3fddcd Fabian Frederick    2014-03-06  293  		goto err_free_block2mtd;
+ea6d833a3fddcd Fabian Frederick    2014-03-06  294  	}
+ea6d833a3fddcd Fabian Frederick    2014-03-06  295  
+48b192686dd20c Ingo Molnar         2006-03-31  296  	mutex_init(&dev->write_mutex);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  297  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  298  	/* Setup the MTD structure */
+^1da177e4c3f41 Linus Torvalds      2005-04-16  299  	/* make the name contain the block device in */
+7b09acdcb944a9 Joachim Wiberg      2021-10-09  300  	if (!label)
+4d682420cead1c Julia Lawall        2010-03-10  301  		name = kasprintf(GFP_KERNEL, "block2mtd: %s", devname);
+7b09acdcb944a9 Joachim Wiberg      2021-10-09  302  	else
+7b09acdcb944a9 Joachim Wiberg      2021-10-09  303  		name = kstrdup(label, GFP_KERNEL);
+eadcf0d704a469 Greg Kroah-Hartman  2008-07-02  304  	if (!name)
+4bed207cd0b280 Fabian Frederick    2014-01-25  305  		goto err_destroy_mutex;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  306  
+eadcf0d704a469 Greg Kroah-Hartman  2008-07-02  307  	dev->mtd.name = name;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  308  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  309  	dev->mtd.size = dev->blkdev->bd_inode->i_size & PAGE_MASK;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  310  	dev->mtd.erasesize = erase_size;
+17ffc7ba6d7ea6 Artem B. Bityutskiy 2006-06-22  311  	dev->mtd.writesize = 1;
+b604387411ec6a Artem Bityutskiy    2012-02-03  312  	dev->mtd.writebufsize = PAGE_SIZE;
+21c8db9eff9526 David Woodhouse     2006-06-14  313  	dev->mtd.type = MTD_RAM;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  314  	dev->mtd.flags = MTD_CAP_RAM;
+3c3c10bba1e4cc Artem Bityutskiy    2012-01-30  315  	dev->mtd._erase = block2mtd_erase;
+3c3c10bba1e4cc Artem Bityutskiy    2012-01-30  316  	dev->mtd._write = block2mtd_write;
+3c3c10bba1e4cc Artem Bityutskiy    2012-01-30  317  	dev->mtd._sync = block2mtd_sync;
+3c3c10bba1e4cc Artem Bityutskiy    2012-01-30  318  	dev->mtd._read = block2mtd_read;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  319  	dev->mtd.priv = dev;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  320  	dev->mtd.owner = THIS_MODULE;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  321  
+ee0e87b174bb41 Jamie Iles          2011-05-23  322  	if (mtd_device_register(&dev->mtd, NULL, 0)) {
+25985edcedea63 Lucas De Marchi     2011-03-30  323  		/* Device didn't get added, so free the entry */
+4bed207cd0b280 Fabian Frederick    2014-01-25  324  		goto err_destroy_mutex;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  325  	}
+d6a3f0176fe03c Felix Fietkau       2014-11-09  326  
+^1da177e4c3f41 Linus Torvalds      2005-04-16  327  	list_add(&dev->list, &blkmtd_device_list);
+a1c06609b37c30 Joe Perches         2013-04-19  328  	pr_info("mtd%d: [%s] erase_size = %dKiB [%d]\n",
+a1c06609b37c30 Joe Perches         2013-04-19  329  		dev->mtd.index,
+7b09acdcb944a9 Joachim Wiberg      2021-10-09  330  		label ? label : dev->mtd.name + strlen("block2mtd: "),
+^1da177e4c3f41 Linus Torvalds      2005-04-16  331  		dev->mtd.erasesize >> 10, dev->mtd.erasesize);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  332  	return dev;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  333  
+4bed207cd0b280 Fabian Frederick    2014-01-25  334  err_destroy_mutex:
+4bed207cd0b280 Fabian Frederick    2014-01-25  335  	mutex_destroy(&dev->write_mutex);
+4bed207cd0b280 Fabian Frederick    2014-01-25  336  err_free_block2mtd:
+^1da177e4c3f41 Linus Torvalds      2005-04-16  337  	block2mtd_free_device(dev);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  338  	return NULL;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  339  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  340  
 
-"key" is dereferenced here
+:::::: The code at line 277 was first introduced by commit
+:::::: ce7813a1f22845198594957d9462fde7c061bcfb Merge branch 'blk-init-cleanup' into HEAD
 
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  416  	int ret;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  417  
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  418  	/* fall back to sw encryption for unsupported ciphers */
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  419  	switch (key->cipher) {
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  420  	case WLAN_CIPHER_SUITE_WEP40:
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  421  	case WLAN_CIPHER_SUITE_WEP104:
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  422  	case WLAN_CIPHER_SUITE_TKIP:
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  423  	case WLAN_CIPHER_SUITE_CCMP:
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  424  		break;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  425  	default:
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  426  		return -EOPNOTSUPP;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  427  	}
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  428  
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  429  	/*
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  430  	 * The hardware does not support per-STA RX GTK, fall back
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  431  	 * to software mode for these.
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  432  	 */
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  433  	if ((vif->type == NL80211_IFTYPE_ADHOC ||
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  434  	     vif->type == NL80211_IFTYPE_MESH_POINT) &&
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  435  	    (key->cipher == WLAN_CIPHER_SUITE_TKIP ||
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  436  	     key->cipher == WLAN_CIPHER_SUITE_CCMP) &&
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  437  	    !(key->flags & IEEE80211_KEY_FLAG_PAIRWISE))
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  438  		return -EOPNOTSUPP;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  439  
-b98558e2529986 Stanislaw Gruszka 2019-03-19  440  	/*
-b98558e2529986 Stanislaw Gruszka 2019-03-19  441  	 * In USB AP mode, broadcast/multicast frames are setup in beacon
-b98558e2529986 Stanislaw Gruszka 2019-03-19  442  	 * data registers and sent via HW beacons engine, they require to
-b98558e2529986 Stanislaw Gruszka 2019-03-19  443  	 * be already encrypted.
-b98558e2529986 Stanislaw Gruszka 2019-03-19  444  	 */
-61c51a74a4e586 Lorenzo Bianconi  2019-10-29  445  	if (mt76_is_usb(&dev->mt76) &&
-b98558e2529986 Stanislaw Gruszka 2019-03-19  446  	    vif->type == NL80211_IFTYPE_AP &&
-b98558e2529986 Stanislaw Gruszka 2019-03-19  447  	    !(key->flags & IEEE80211_KEY_FLAG_PAIRWISE))
-b98558e2529986 Stanislaw Gruszka 2019-03-19  448  		return -EOPNOTSUPP;
-b98558e2529986 Stanislaw Gruszka 2019-03-19  449  
-4b36cc6b390f18 David Bauer       2021-02-07  450  	/* MT76x0 GTK offloading does not work with more than one VIF */
-4b36cc6b390f18 David Bauer       2021-02-07  451  	if (is_mt76x0(dev) && !(key->flags & IEEE80211_KEY_FLAG_PAIRWISE))
-4b36cc6b390f18 David Bauer       2021-02-07  452  		return -EOPNOTSUPP;
-4b36cc6b390f18 David Bauer       2021-02-07  453  
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  454  	msta = sta ? (struct mt76x02_sta *)sta->drv_priv : NULL;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  455  	wcid = msta ? &msta->wcid : &mvif->group_wcid;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  456  
-e6db67fa871dee Felix Fietkau     2023-03-30  457  	if (cmd != SET_KEY) {
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  458  		if (idx == wcid->hw_key_idx) {
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  459  			wcid->hw_key_idx = -1;
-f2f6a47b504b8f Felix Fietkau     2019-01-25  460  			wcid->sw_iv = false;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  461  		}
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  462  
-e6db67fa871dee Felix Fietkau     2023-03-30  463  		return 0;
-e6db67fa871dee Felix Fietkau     2023-03-30  464  	}
-e6db67fa871dee Felix Fietkau     2023-03-30  465  
-e6db67fa871dee Felix Fietkau     2023-03-30  466  	key->hw_key_idx = wcid->idx;
-e6db67fa871dee Felix Fietkau     2023-03-30  467  	wcid->hw_key_idx = idx;
-e6db67fa871dee Felix Fietkau     2023-03-30  468  	if (key->flags & IEEE80211_KEY_FLAG_RX_MGMT) {
-e6db67fa871dee Felix Fietkau     2023-03-30  469  		key->flags |= IEEE80211_KEY_FLAG_SW_MGMT_TX;
-e6db67fa871dee Felix Fietkau     2023-03-30  470  		wcid->sw_iv = true;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  471  	}
-d87cf75f111183 Lorenzo Bianconi  2018-10-07  472  	mt76_wcid_key_setup(&dev->mt76, wcid, key);
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  473  
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  474  	if (!msta) {
-60c26859e863c1 Stanislaw Gruszka 2018-09-04 @475  		if (key || wcid->hw_key_idx == idx) {
-
-This NULL check is too late.
-
-8d66af49a3db9a Lorenzo Bianconi  2018-10-07  476  			ret = mt76x02_mac_wcid_set_key(dev, wcid->idx, key);
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  477  			if (ret)
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  478  				return ret;
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  479  		}
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  480  
-8d66af49a3db9a Lorenzo Bianconi  2018-10-07  481  		return mt76x02_mac_shared_key_setup(dev, mvif->idx, idx, key);
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  482  	}
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  483  
-8d66af49a3db9a Lorenzo Bianconi  2018-10-07  484  	return mt76x02_mac_wcid_set_key(dev, msta->wcid.idx, key);
-60c26859e863c1 Stanislaw Gruszka 2018-09-04  485  }
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Christoph Hellwig <hch@lst.de>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
