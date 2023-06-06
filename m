@@ -1,42 +1,44 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A542DBC3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 22:11:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66BE3445F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 22:11:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686089478; x=1717625478;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hl+djzm5yN6FFh8Rw2TMawc/tI4umhvN/9QU4IAcNq8=;
-  b=OlSVAAipJxvAQRY42wEaO3Y6MVpTPJJe86S8wbeLDdR/6EeQUjtifVkF
-   Pi36/731c1VJ8deIDOmEO106/kjqSGHy+AHJezPSQnBsInk8mS8DRXOQ5
-   fSf5PHtJnewQLo0lbk3eaQNuoPwdAFI0op8uZpMVE55nssl6rsiArPH6I
-   z9UArLkh6BI3L+jGaYmlfjVdUI573z6a2LtOaNNdIwO+KbiG6sQWtyNJI
-   Aa7BHTAw3bru7NQhWLQIyPGX8bN4OkrlO4M1tshhjyl2c/vCUbMBvq3lj
-   Xup0Kr+d+oKQNgdvRzVk3EFCfAEH9mu3nHdQs+HgwhSPKIjyWHmgzn0+4
+  t=1686089480; x=1717625480;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yuAhAJwP1LLCOOcUcFsFlmr4Z+I1VhhNfWqQy8XUNjs=;
+  b=TgTVM+m09itS9EZxx/xECiEG3vmfW9C20rjOwf1iWef1Gxp6ZJ145P4Y
+   fxuSzunq4+FGk/plgj2/BdUyJLz4rTxYu4mZpF+xP4EIWn+DgQKYZiFqx
+   a5EAo9FA9J21qgu6RFfUcjj1cB75f1t1OCZZWJHlwWrS7pcsjnlP++0sB
+   Yvq91RlIH0NeLdtLrnyXQNqmFmnEBsQ5PK6x766yiOSamFyZU/pL/NAbd
+   2KPFsq9V6YC7NE+4o00TCT7a4JhNhEM/kbMNO6htNWCMduUw+W2fE/Lm1
+   UJy7f7R4FdPcsH4voFQkGT7mFJSvrOakQU+iTqxC2uRoNLzT1sZ6W+vPk
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="346419299"
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="346419301"
 X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="346419299"
+   d="scan'208";a="346419301"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 15:11:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="821846142"
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="821846144"
 X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
-   d="scan'208";a="821846142"
+   d="scan'208";a="821846144"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
   by fmsmga002.fm.intel.com with ESMTP; 06 Jun 2023 15:11:16 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6etX-0005nT-2V;
+	id 1q6etX-0005nY-2g;
 	Tue, 06 Jun 2023 22:11:15 +0000
-Date: Wed, 7 Jun 2023 06:10:50 +0800
+Date: Wed, 7 Jun 2023 06:10:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Neil Armstrong <neil.armstrong@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 1/4] mm/vmscan.c:6384:53: error:
- 'struct scan_control' has no member named 'android_vendor_data1'
-Message-ID: <202306070638.LXYPKjeR-lkp@intel.com>
+Subject: Re: [PATCH RFC 3/4] input: touchscreen: add I2C support for Goodix
+ Berlin Touchscreen IC
+Message-ID: <202306070503.ox5mOdfJ-lkp@intel.com>
+References: <20230606-topic-goodix-berlin-upstream-initial-v1-3-4a0741b8aefd@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,116 +47,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230606-topic-goodix-berlin-upstream-initial-v1-3-4a0741b8aefd@linaro.org>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   312dfb3b7ec3beb9ff305db3b194e19eec7f2bc3
-commit: 3e2dc32f5930c3928c4a241ad11ef752f13b196b [1/4] ANDROID: mm: create vendor hooks for memory reclaim
-config: i386-randconfig-i054-20230606 (https://download.01.org/0day-ci/archive/20230607/202306070638.LXYPKjeR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Neil,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6db29e14f4fb7bce9eb5290288e71b05c2b0d118]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Neil-Armstrong/dt-bindings-input-document-Goodix-Berlin-Touchscreen-IC/20230606-223332
+base:   6db29e14f4fb7bce9eb5290288e71b05c2b0d118
+patch link:    https://lore.kernel.org/r/20230606-topic-goodix-berlin-upstream-initial-v1-3-4a0741b8aefd%40linaro.org
+patch subject: [PATCH RFC 3/4] input: touchscreen: add I2C support for Goodix Berlin Touchscreen IC
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230607/202306070503.ox5mOdfJ-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android14-6.1
-        git checkout 3e2dc32f5930c3928c4a241ad11ef752f13b196b
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git checkout 6db29e14f4fb7bce9eb5290288e71b05c2b0d118
+        b4 shazam https://lore.kernel.org/r/20230606-topic-goodix-berlin-upstream-initial-v1-3-4a0741b8aefd@linaro.org
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/input/touchscreen/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306070638.LXYPKjeR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306070503.ox5mOdfJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/vmscan.c: In function 'should_continue_reclaim':
->> mm/vmscan.c:6384:53: error: 'struct scan_control' has no member named 'android_vendor_data1'
-    6384 |         trace_android_vh_should_continue_reclaim(&sc->android_vendor_data1,
-         |                                                     ^~
-   mm/vmscan.c: In function 'modify_scan_control':
-   mm/vmscan.c:6747:49: error: 'struct scan_control' has no member named 'android_vendor_data1'
-    6747 |         trace_android_vh_modify_scan_control(&sc->android_vendor_data1,
-         |                                                 ^~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MEDIA_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+>> drivers/input/touchscreen/goodix_berlin_core.c:816:5: warning: no previous prototype for 'goodix_berlin_pm_suspend' [-Wmissing-prototypes]
+     816 | int goodix_berlin_pm_suspend(struct device *dev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/input/touchscreen/goodix_berlin_core.c:823:5: warning: no previous prototype for 'goodix_berlin_pm_resume' [-Wmissing-prototypes]
+     823 | int goodix_berlin_pm_resume(struct device *dev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +6384 mm/vmscan.c
+vim +/goodix_berlin_pm_suspend +816 drivers/input/touchscreen/goodix_berlin_core.c
 
-  6325	
-  6326	/*
-  6327	 * Reclaim/compaction is used for high-order allocation requests. It reclaims
-  6328	 * order-0 pages before compacting the zone. should_continue_reclaim() returns
-  6329	 * true if more pages should be reclaimed such that when the page allocator
-  6330	 * calls try_to_compact_pages() that it will have enough free pages to succeed.
-  6331	 * It will give up earlier than that if there is difficulty reclaiming pages.
-  6332	 */
-  6333	static inline bool should_continue_reclaim(struct pglist_data *pgdat,
-  6334						unsigned long nr_reclaimed,
-  6335						struct scan_control *sc)
-  6336	{
-  6337		unsigned long pages_for_compaction;
-  6338		unsigned long inactive_lru_pages;
-  6339		int z;
-  6340		bool continue_reclaim = true;
-  6341	
-  6342		/* If not in reclaim/compaction mode, stop */
-  6343		if (!in_reclaim_compaction(sc))
-  6344			return false;
-  6345	
-  6346		/*
-  6347		 * Stop if we failed to reclaim any pages from the last SWAP_CLUSTER_MAX
-  6348		 * number of pages that were scanned. This will return to the caller
-  6349		 * with the risk reclaim/compaction and the resulting allocation attempt
-  6350		 * fails. In the past we have tried harder for __GFP_RETRY_MAYFAIL
-  6351		 * allocations through requiring that the full LRU list has been scanned
-  6352		 * first, by assuming that zero delta of sc->nr_scanned means full LRU
-  6353		 * scan, but that approximation was wrong, and there were corner cases
-  6354		 * where always a non-zero amount of pages were scanned.
-  6355		 */
-  6356		if (!nr_reclaimed)
-  6357			return false;
-  6358	
-  6359		/* If compaction would go ahead or the allocation would succeed, stop */
-  6360		for (z = 0; z <= sc->reclaim_idx; z++) {
-  6361			struct zone *zone = &pgdat->node_zones[z];
-  6362			if (!managed_zone(zone))
-  6363				continue;
-  6364	
-  6365			switch (compaction_suitable(zone, sc->order, 0, sc->reclaim_idx)) {
-  6366			case COMPACT_SUCCESS:
-  6367			case COMPACT_CONTINUE:
-  6368				return false;
-  6369			default:
-  6370				/* check next zone */
-  6371				;
-  6372			}
-  6373		}
-  6374	
-  6375		/*
-  6376		 * If we have not reclaimed enough pages for compaction and the
-  6377		 * inactive lists are large enough, continue reclaiming
-  6378		 */
-  6379		pages_for_compaction = compact_gap(sc->order);
-  6380		inactive_lru_pages = node_page_state(pgdat, NR_INACTIVE_FILE);
-  6381		if (can_reclaim_anon_pages(NULL, pgdat->node_id, sc))
-  6382			inactive_lru_pages += node_page_state(pgdat, NR_INACTIVE_ANON);
-  6383	
-> 6384		trace_android_vh_should_continue_reclaim(&sc->android_vendor_data1,
-  6385			&sc->nr_to_reclaim, &sc->nr_reclaimed, &continue_reclaim);
-  6386		if (!continue_reclaim)
-  6387			return false;
-  6388	
-  6389		return inactive_lru_pages > pages_for_compaction;
-  6390	}
-  6391	
+fe0f04f551c222 Neil Armstrong 2023-06-06  815  
+fe0f04f551c222 Neil Armstrong 2023-06-06 @816  int goodix_berlin_pm_suspend(struct device *dev)
+fe0f04f551c222 Neil Armstrong 2023-06-06  817  {
+fe0f04f551c222 Neil Armstrong 2023-06-06  818  	struct goodix_berlin_core *cd = dev_get_drvdata(dev);
+fe0f04f551c222 Neil Armstrong 2023-06-06  819  
+fe0f04f551c222 Neil Armstrong 2023-06-06  820  	return goodix_berlin_suspend(cd);
+fe0f04f551c222 Neil Armstrong 2023-06-06  821  }
+fe0f04f551c222 Neil Armstrong 2023-06-06  822  
+fe0f04f551c222 Neil Armstrong 2023-06-06 @823  int goodix_berlin_pm_resume(struct device *dev)
+fe0f04f551c222 Neil Armstrong 2023-06-06  824  {
+fe0f04f551c222 Neil Armstrong 2023-06-06  825  	struct goodix_berlin_core *cd = dev_get_drvdata(dev);
+fe0f04f551c222 Neil Armstrong 2023-06-06  826  
+fe0f04f551c222 Neil Armstrong 2023-06-06  827  	return goodix_berlin_resume(cd);
+fe0f04f551c222 Neil Armstrong 2023-06-06  828  }
+fe0f04f551c222 Neil Armstrong 2023-06-06  829  
 
 -- 
 0-DAY CI Kernel Test Service
