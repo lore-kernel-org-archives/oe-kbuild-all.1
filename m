@@ -1,43 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F90361
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 02:49:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E544C394;
+	Tue,  6 Jun 2023 03:01:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686019785; x=1717555785;
+  t=1686020503; x=1717556503;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KMjgj5iBB94kjsoV/BykiiN01rBknamSOKPMGXODDj0=;
-  b=LxmrAsuuTu9QczgwroORWQfU5YH16Z7+OL+GIVBxgBwRSvsBip1pGTA9
-   deKoaHs93cRF8mo21H+e2bQaEqTLEAH8byO+eKIrh+ezeNO/eOBcyF5oz
-   jrkqGoCRcAkzDYvaogWXRaRKPhXaoTPsVGdcnrvTJsQNk8YvHldIiwcqB
-   h0As+W6IJA3vUYQDSfdxdFKQqCcT1092XA+q1YRvCED5pFEAJeqcGA6zt
-   7AwgWtcEORJINByYqNIk1emGD4XmgwzM5iFKPBm1+qOh8OtpJUyGUtNu/
-   1bc/LPdVxKN301OwL63f5j7qqQrdxITllbEbNter60xviDGgYZ69mO924
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="341185025"
+  bh=/5ea8fiVa2RCDXE05YE8qcb7X862xBSrxkuQR03JqqU=;
+  b=jrN/E+tvj5jlEuO3FzrBqHc3hthnbzHBCVzBX3ytCcuDSXTiaCZHKK8x
+   vuTMdk7P4erY+EGs5jabJVsZop319+ctkUabS+vky4TQ0+FfUngLR9jNd
+   WY7Uo/wqBNydlqH0A6N8Kp2LyvdcIJnAIU7otQD+1xQYPICi4VZ9B1ann
+   ZOH6NPvc7K8Fo7sc9nn6xBj8Obwp31wYq1/4ZL7hJfSMIh5MPE5FiZ2zZ
+   J7EUsjdZCwRPjymB2qo8KhHyxsIff9v/UvP6bvk0PAI7HFjDYhpiTZfLT
+   QA/gztohd7IHktaQ6qy968Lz8xrZVf6ji1gYY9q4lMElpxHAvoj/r6irO
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="420094322"
 X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
-   d="scan'208";a="341185025"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 19:49:43 -0700
+   d="scan'208";a="420094322"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 20:01:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="833041080"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="702995519"
 X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
-   d="scan'208";a="833041080"
+   d="scan'208";a="702995519"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 05 Jun 2023 19:49:41 -0700
+  by orsmga007.jf.intel.com with ESMTP; 05 Jun 2023 20:01:42 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6MlQ-0004jv-32;
-	Tue, 06 Jun 2023 02:49:40 +0000
-Date: Tue, 6 Jun 2023 10:49:15 +0800
+	id 1q6Mx3-0004kZ-1Z;
+	Tue, 06 Jun 2023 03:01:41 +0000
+Date: Tue, 6 Jun 2023 11:00:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:timers/posix 54/61] include/linux/build_bug.h:78:41:
- error: static assertion failed: "sizeof_field(siginfo32_t, _sifields._timer)
- == 4*sizeof(int)"
-Message-ID: <202306061051.BxD3AkIX-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:timers/posix 54/61] arch/x86/kernel/signal_32.c:459:1:
+ error: static assertion failed due to requirement 'sizeof ((((struct siginfo
+ *)0)->_sifields._timer)) == 4 * sizeof(int)': sizeof_field(siginfo32_t,
+ _sifields._timer) == 4*sizeof(int)
+Message-ID: <202306061031.SNHAdqUm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,73 +51,62 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git timers/posix
 head:   16a20adb1e0ae19ad42041a7d1b5583e4705ca0c
 commit: 7980f85caabff6a355848d2d3cd50acbb38b44b3 [54/61] signal: Add sys_private_ptr to siginfo::timer
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230606/202306061051.BxD3AkIX-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+config: i386-buildonly-randconfig-r001-20230605 (https://download.01.org/0day-ci/archive/20230606/202306061031.SNHAdqUm-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=7980f85caabff6a355848d2d3cd50acbb38b44b3
         git remote add tglx-devel https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git
         git fetch --no-tags tglx-devel timers/posix
         git checkout 7980f85caabff6a355848d2d3cd50acbb38b44b3
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/kernel/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306061051.BxD3AkIX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306061031.SNHAdqUm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/kernel.h:21,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/current.h:10,
-                    from include/linux/sched.h:12,
-                    from arch/x86/kernel/signal_32.c:10:
->> include/linux/build_bug.h:78:41: error: static assertion failed: "sizeof_field(siginfo32_t, _sifields._timer) == 4*sizeof(int)"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   arch/x86/kernel/signal_32.c:447:9: note: in expansion of macro 'static_assert'
-     447 |         static_assert(sizeof_field(siginfo32_t, _sifields.name) == size)
-         |         ^~~~~~~~~~~~~
-   arch/x86/kernel/signal_32.c:459:1: note: in expansion of macro 'CHECK_SI_SIZE'
-     459 | CHECK_SI_SIZE  (_timer, 4*sizeof(int));
-         | ^~~~~~~~~~~~~
+>> arch/x86/kernel/signal_32.c:459:1: error: static assertion failed due to requirement 'sizeof ((((struct siginfo *)0)->_sifields._timer)) == 4 * sizeof(int)': sizeof_field(siginfo32_t, _sifields._timer) == 4*sizeof(int)
+   CHECK_SI_SIZE  (_timer, 4*sizeof(int));
+   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/signal_32.c:447:2: note: expanded from macro 'CHECK_SI_SIZE'
+           static_assert(sizeof_field(siginfo32_t, _sifields.name) == size)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: expanded from macro 'static_assert'
+   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:41: note: expanded from macro '__static_assert'
+   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+                                           ^              ~~~~
+   1 error generated.
 
 
-vim +78 include/linux/build_bug.h
+vim +459 arch/x86/kernel/signal_32.c
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+f6e2a56c2bad10d Brian Gerst 2022-12-19  453  
+f6e2a56c2bad10d Brian Gerst 2022-12-19  454  CHECK_SI_OFFSET(_timer);
+f6e2a56c2bad10d Brian Gerst 2022-12-19  455  #ifdef CONFIG_COMPAT
+f6e2a56c2bad10d Brian Gerst 2022-12-19  456  /* compat_siginfo_t doesn't have si_sys_private */
+f6e2a56c2bad10d Brian Gerst 2022-12-19  457  CHECK_SI_SIZE  (_timer, 3*sizeof(int));
+f6e2a56c2bad10d Brian Gerst 2022-12-19  458  #else
+f6e2a56c2bad10d Brian Gerst 2022-12-19 @459  CHECK_SI_SIZE  (_timer, 4*sizeof(int));
+f6e2a56c2bad10d Brian Gerst 2022-12-19  460  #endif
+f6e2a56c2bad10d Brian Gerst 2022-12-19  461  static_assert(offsetof(siginfo32_t, si_tid)     == 0x0C);
+f6e2a56c2bad10d Brian Gerst 2022-12-19  462  static_assert(offsetof(siginfo32_t, si_overrun) == 0x10);
+f6e2a56c2bad10d Brian Gerst 2022-12-19  463  static_assert(offsetof(siginfo32_t, si_value)   == 0x14);
+f6e2a56c2bad10d Brian Gerst 2022-12-19  464  
 
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+:::::: The code at line 459 was first introduced by commit
+:::::: f6e2a56c2bad10dd4381d5ab021332ef70d81990 x86/signal: Move siginfo field tests
 
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Brian Gerst <brgerst@gmail.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
