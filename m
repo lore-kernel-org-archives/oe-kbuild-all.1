@@ -1,176 +1,161 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7569E294D7;
-	Tue,  6 Jun 2023 21:56:54 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2b1ac373c9eso64088941fa.0;
-        Tue, 06 Jun 2023 14:56:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686088612; x=1688680612;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xDmchV2EZ5N2uZl8eHSou3jpN/HDIWm3VmuAYyYE1Jk=;
-        b=V2V+yjiIMR5GmQDM4HUmiMDxFmbGKSCdVFVbh439lRphfgVAQHqFKgPMVRexPl2/sk
-         ed3LH6ZACYDBDXk2fG5jGMuEaXAvo7VVclTIjbxA0Lb3D4qkdKJORZZVEcQXQcxWM4uD
-         KS7hXcUbms3ubg90mmREn4Uvfwmkww01BsVZaJxzOEvLrbWZ99LlN3UCq7vf+OpWD6wp
-         t8D3XBzRQL4HjjLy9GZOUrVxAY3Hiya7iYj/2olIPo53Oejm3nRPXFQJMpsrP0iDt4xi
-         Avn917bPKJw5KMY0iuKAtH0Rlua0/Yqh+yS8HOtjqwFCrgsQk8N39XUUgaTNvw68Azpr
-         38ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686088612; x=1688680612;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xDmchV2EZ5N2uZl8eHSou3jpN/HDIWm3VmuAYyYE1Jk=;
-        b=BD6wtvfv6PLMZPJCCPxJFocvqqEDMaZQQsVYPqidRAlpGds+/IYGPKmDN29P0TYGIt
-         zBiVMy6w6MzoEKABCwgyUqIIkBeZP0TfFK/FkYXdZ2kRiN8MLDvPCTiIGumqy5Uhat+w
-         AXspSObSdCdyOBOyeyhggdWmIJf/0MvDuRLfTDyp9RwhUk1oLguJYNrLgX2yJCTntiwc
-         i2SMNHDTFTmfoLTqUGq8PC2HFky8HU/ikWaGqaXqmXHx2FJbRKpu5wtXqWG+OmFkOZ2Q
-         3fFPGacuf9q2s6ugQftpPFaeFGt3zdBeGEa28g5A1zS2KqnH2kFI1fNUxWeslzvzWX06
-         clow==
-X-Gm-Message-State: AC+VfDxabzbJW6UhNU/KdM6EslGdFIFPkdA8LJB31oFl9jKUED8yPFH/
-	TAKN4A/ykpWQN7bjEsHuqukO9qb7/J3yMQ7TcNo=
-X-Google-Smtp-Source: ACHHUZ4PSjRpDoukaJoqwLq3vngvXA9fOeau95bjEnoIcWdDnphPhmt1TMB7pHqySUHSuosEip5R7QTbFIljxPVUF+Q=
-X-Received: by 2002:a2e:8097:0:b0:2b1:eba8:9cd9 with SMTP id
- i23-20020a2e8097000000b002b1eba89cd9mr1989799ljg.21.1686088611835; Tue, 06
- Jun 2023 14:56:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A542DBC3
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 22:11:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686089478; x=1717625478;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hl+djzm5yN6FFh8Rw2TMawc/tI4umhvN/9QU4IAcNq8=;
+  b=OlSVAAipJxvAQRY42wEaO3Y6MVpTPJJe86S8wbeLDdR/6EeQUjtifVkF
+   Pi36/731c1VJ8deIDOmEO106/kjqSGHy+AHJezPSQnBsInk8mS8DRXOQ5
+   fSf5PHtJnewQLo0lbk3eaQNuoPwdAFI0op8uZpMVE55nssl6rsiArPH6I
+   z9UArLkh6BI3L+jGaYmlfjVdUI573z6a2LtOaNNdIwO+KbiG6sQWtyNJI
+   Aa7BHTAw3bru7NQhWLQIyPGX8bN4OkrlO4M1tshhjyl2c/vCUbMBvq3lj
+   Xup0Kr+d+oKQNgdvRzVk3EFCfAEH9mu3nHdQs+HgwhSPKIjyWHmgzn0+4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="346419299"
+X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
+   d="scan'208";a="346419299"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 15:11:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="821846142"
+X-IronPort-AV: E=Sophos;i="6.00,222,1681196400"; 
+   d="scan'208";a="821846142"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 06 Jun 2023 15:11:16 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q6etX-0005nT-2V;
+	Tue, 06 Jun 2023 22:11:15 +0000
+Date: Wed, 7 Jun 2023 06:10:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 1/4] mm/vmscan.c:6384:53: error:
+ 'struct scan_control' has no member named 'android_vendor_data1'
+Message-ID: <202306070638.LXYPKjeR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202306070408.EFxuDoRs-lkp@intel.com> <20230606215212.r7if2gsynajugf6j@treble>
-In-Reply-To: <20230606215212.r7if2gsynajugf6j@treble>
-From: Alex Gaynor <alex.gaynor@gmail.com>
-Date: Tue, 6 Jun 2023 17:56:40 -0400
-Message-ID: <CAFRnB2VJYrjUFAMq1v+Yxmz57KWOBF6z+09A6kSzcdLpbNKs2g@mail.gmail.com>
-Subject: Re: [tip:objtool/core 8/12] vmlinux.o: warning: objtool:
- rust_begin_unwind+0x5c: rust_helper_BUG() is missing a __noreturn annotation
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Wedson Almeida Filho <wedsonaf@gmail.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	Miroslav Benes <mbenes@suse.cz>, kernel test robot <lkp@intel.com>, Peter Zijlstra <peterz@infradead.org>, 
-	rust-for-linux@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The fix to properly handle noreturn is present in bindgen > 0.61.0.
-Per min-tool-version.sh, we currently only require bindgen 0.56.0 or
-newer.
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   312dfb3b7ec3beb9ff305db3b194e19eec7f2bc3
+commit: 3e2dc32f5930c3928c4a241ad11ef752f13b196b [1/4] ANDROID: mm: create vendor hooks for memory reclaim
+config: i386-randconfig-i054-20230606 (https://download.01.org/0day-ci/archive/20230607/202306070638.LXYPKjeR-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-6.1
+        git checkout 3e2dc32f5930c3928c4a241ad11ef752f13b196b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
-I'm not sure if there are obstacles to requiring a newer bindgen
-version, at which point the loop {} would not be required.
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306070638.LXYPKjeR-lkp@intel.com/
 
-Cheers,
-Alex
+All errors (new ones prefixed by >>):
 
-On Tue, Jun 6, 2023 at 5:52=E2=80=AFPM Josh Poimboeuf <jpoimboe@kernel.org>=
- wrote:
->
-> Hi Miguel, Wedson,
->
-> Objtool detected that rust_helper_BUG() doesn't return, and seems to be
-> missing a __noreturn.  But it actually *does* have __noreturn.  The
-> problem is actually that its rust callees don't seem to know that, i.e.
-> they assume it returns.
->
-> After a little digging I found this comment in rust panic():
->
->     unsafe { bindings::BUG() };
->     // Bindgen currently does not recognize `__noreturn` so `BUG` returns=
- `()`
->     // instead of `!`. See <https://github.com/rust-lang/rust-bindgen/iss=
-ues/2094>.
->     loop {}
->
-> So it seems to be an issue with bindgen, though that github issue has
-> been resolved.  Any idea when this will show up in a toolchain?
->
-> In the meantime we may have to get objtool to manually silence the
-> warning, unless you have any better ideas.
->
-> On Wed, Jun 07, 2023 at 04:57:42AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git obj=
-tool/core
-> > head:   ff9a6459bbec06df7da2545020d7383aba13b3fb
-> > commit: fedb724c3db5490234ddde0103811c28c2fedae0 [8/12] objtool: Detect=
- missing __noreturn annotations
-> > config: x86_64-randconfig-a012-20230606 (https://download.01.org/0day-c=
-i/archive/20230607/202306070408.EFxuDoRs-lkp@intel.com/config)
-> > compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.gi=
-t 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-> > reproduce (this is a W=3D1 build):
-> >         mkdir -p ~/bin
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/s=
-bin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/c=
-ommit/?id=3Dfedb724c3db5490234ddde0103811c28c2fedae0
-> >         git remote add tip https://git.kernel.org/pub/scm/linux/kernel/=
-git/tip/tip.git
-> >         git fetch --no-tags tip objtool/core
-> >         git checkout fedb724c3db5490234ddde0103811c28c2fedae0
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
-cross W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 olddefconfig
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
-cross W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash
-> >
-> > If you fix the issue, kindly add following tag where applicable
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306070408.EFxuDoRs-l=
-kp@intel.com/
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> > >> vmlinux.o: warning: objtool: rust_begin_unwind+0x5c: rust_helper_BUG=
-() is missing a __noreturn annotation
-> >
-> >
-> > objdump-func vmlinux.o rust_begin_unwind:
-> > 0000 00000000000b9e69 <rust_begin_unwind>:
-> > 0000    b9e69:        48 83 ec 48             sub    $0x48,%rsp
-> > 0004    b9e6d:        48 89 e0                mov    %rsp,%rax
-> > 0007    b9e70:        48 89 38                mov    %rdi,(%rax)
-> > 000a    b9e73:        48 8d 4c 24 08          lea    0x8(%rsp),%rcx
-> > 000f    b9e78:        48 89 01                mov    %rax,(%rcx)
-> > 0012    b9e7b:        48 c7 41 08 00 00 00 00         movq   $0x0,0x8(%=
-rcx)   b9e7f: R_X86_64_32S     _RNvXsR_NtCs3yuwAp0waWO_4core3fmtRNtNtNtB7_5=
-panic10panic_info9PanicInfoNtB5_7Display3fmtCsfATHBUcknU9_6kernel
-> > 001a    b9e83:        48 8d 54 24 18          lea    0x18(%rsp),%rdx
-> > 001f    b9e88:        48 c7 02 00 00 00 00    movq   $0x0,(%rdx)      b=
-9e8b: R_X86_64_32S     .rodata+0x137d8
-> > 0026    b9e8f:        48 c7 42 08 02 00 00 00         movq   $0x2,0x8(%=
-rdx)
-> > 002e    b9e97:        48 c7 42 10 00 00 00 00         movq   $0x0,0x10(=
-%rdx)
-> > 0036    b9e9f:        48 89 4a 20             mov    %rcx,0x20(%rdx)
-> > 003a    b9ea3:        48 c7 42 28 01 00 00 00         movq   $0x1,0x28(=
-%rdx)
-> > 0042    b9eab:        48 c7 c7 00 00 00 00    mov    $0x0,%rdi        b=
-9eae: R_X86_64_32S     _RNvNtNtCsfATHBUcknU9_6kernel5print14format_strings5=
-EMERG
-> > 0049    b9eb2:        48 c7 c6 00 00 00 00    mov    $0x0,%rsi        b=
-9eb5: R_X86_64_32S     .rodata+0x13568
-> > 0050    b9eb9:        31 c0                   xor    %eax,%eax
-> > 0052    b9ebb:        e8 00 00 00 00          call   b9ec0 <rust_begin_=
-unwind+0x57>   b9ebc: R_X86_64_PLT32   _printk-0x4
-> > 0057    b9ec0:        e8 00 00 00 00          call   b9ec5 <rust_begin_=
-unwind+0x5c>   b9ec1: R_X86_64_PLT32   rust_helper_BUG-0x4
-> > 005c    b9ec5:        eb fe                   jmp    b9ec5 <rust_begin_=
-unwind+0x5c>
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
->
-> --
-> Josh
+   mm/vmscan.c: In function 'should_continue_reclaim':
+>> mm/vmscan.c:6384:53: error: 'struct scan_control' has no member named 'android_vendor_data1'
+    6384 |         trace_android_vh_should_continue_reclaim(&sc->android_vendor_data1,
+         |                                                     ^~
+   mm/vmscan.c: In function 'modify_scan_control':
+   mm/vmscan.c:6747:49: error: 'struct scan_control' has no member named 'android_vendor_data1'
+    6747 |         trace_android_vh_modify_scan_control(&sc->android_vendor_data1,
+         |                                                 ^~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
+   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MEDIA_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
 
 
+vim +6384 mm/vmscan.c
 
---=20
-All that is necessary for evil to succeed is for good people to do nothing.
+  6325	
+  6326	/*
+  6327	 * Reclaim/compaction is used for high-order allocation requests. It reclaims
+  6328	 * order-0 pages before compacting the zone. should_continue_reclaim() returns
+  6329	 * true if more pages should be reclaimed such that when the page allocator
+  6330	 * calls try_to_compact_pages() that it will have enough free pages to succeed.
+  6331	 * It will give up earlier than that if there is difficulty reclaiming pages.
+  6332	 */
+  6333	static inline bool should_continue_reclaim(struct pglist_data *pgdat,
+  6334						unsigned long nr_reclaimed,
+  6335						struct scan_control *sc)
+  6336	{
+  6337		unsigned long pages_for_compaction;
+  6338		unsigned long inactive_lru_pages;
+  6339		int z;
+  6340		bool continue_reclaim = true;
+  6341	
+  6342		/* If not in reclaim/compaction mode, stop */
+  6343		if (!in_reclaim_compaction(sc))
+  6344			return false;
+  6345	
+  6346		/*
+  6347		 * Stop if we failed to reclaim any pages from the last SWAP_CLUSTER_MAX
+  6348		 * number of pages that were scanned. This will return to the caller
+  6349		 * with the risk reclaim/compaction and the resulting allocation attempt
+  6350		 * fails. In the past we have tried harder for __GFP_RETRY_MAYFAIL
+  6351		 * allocations through requiring that the full LRU list has been scanned
+  6352		 * first, by assuming that zero delta of sc->nr_scanned means full LRU
+  6353		 * scan, but that approximation was wrong, and there were corner cases
+  6354		 * where always a non-zero amount of pages were scanned.
+  6355		 */
+  6356		if (!nr_reclaimed)
+  6357			return false;
+  6358	
+  6359		/* If compaction would go ahead or the allocation would succeed, stop */
+  6360		for (z = 0; z <= sc->reclaim_idx; z++) {
+  6361			struct zone *zone = &pgdat->node_zones[z];
+  6362			if (!managed_zone(zone))
+  6363				continue;
+  6364	
+  6365			switch (compaction_suitable(zone, sc->order, 0, sc->reclaim_idx)) {
+  6366			case COMPACT_SUCCESS:
+  6367			case COMPACT_CONTINUE:
+  6368				return false;
+  6369			default:
+  6370				/* check next zone */
+  6371				;
+  6372			}
+  6373		}
+  6374	
+  6375		/*
+  6376		 * If we have not reclaimed enough pages for compaction and the
+  6377		 * inactive lists are large enough, continue reclaiming
+  6378		 */
+  6379		pages_for_compaction = compact_gap(sc->order);
+  6380		inactive_lru_pages = node_page_state(pgdat, NR_INACTIVE_FILE);
+  6381		if (can_reclaim_anon_pages(NULL, pgdat->node_id, sc))
+  6382			inactive_lru_pages += node_page_state(pgdat, NR_INACTIVE_ANON);
+  6383	
+> 6384		trace_android_vh_should_continue_reclaim(&sc->android_vendor_data1,
+  6385			&sc->nr_to_reclaim, &sc->nr_reclaimed, &continue_reclaim);
+  6386		if (!continue_reclaim)
+  6387			return false;
+  6388	
+  6389		return inactive_lru_pages > pages_for_compaction;
+  6390	}
+  6391	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
