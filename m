@@ -1,45 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D2D37B97
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 16:20:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C2219915
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 17:30:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686068423; x=1717604423;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BsruGfzVFE9xbj+LYUjrIwiU7q7z3OExM8BntaTeARM=;
-  b=X9wGn9HbUwwqV0NItyZ50thxrvDG3A+CxAhEeTdl4bFSWE8xaOFQ7J44
-   LpLV4Utz0zOnbt0pZ0pOO03OqoCVmh74EhZNxUp2HxL4T0mG7cg84NqNB
-   KnGahEY0VbrGDmTLgyfz/QCGK4Yxsz7qf84YQPgkZmMOZvgE4hYvJv3FP
-   OW01MgDkwU/gdGJRfJPzxfmiyeyUt3czOfsIw5CEWcjskbsYb1cvjOmJ9
-   ZvnY89G9Pr+0otEZ9aLO85oR7w/29fJXCnGv8xGyjdjLNnOpNvaWMOUQU
-   hZkcXD7SHFVsPobDbrQMfNUAZblB0C2No8IDigtZ9A1MebU55UrRB06Az
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="354222079"
+  t=1686072604; x=1717608604;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=K+5sjESW4wyXlH/qZeTa+Mgp7ROGClPbFl0hhiR8vIU=;
+  b=iCbX+JLnF/YViQ+1Hp5Ke490ueMNtmYcfQrSpYoMOkbBRyLUupB3g80J
+   3pYOUnEtvCuPCdE8pg6wZ9BjW+5Z0GlBViipc9UzZUx7LmwLaNJemSnTV
+   i1Zq0Eo+bL9hkPpFaHQKKrla7JsvOFCWJskkJVAWRnsZcj4KmMqgATU9M
+   9wV35OqMx0S11lshnfM7CtNtW/9mNzaCaEaK4hLMj3VZtnbiJMDccBnSA
+   o+yJFU6FEx+hrRF+SEvPep5Ra2r0vsvbMwMIIVQA5vRp2dWzwsI4KrIfn
+   EKBJ2xIUtwDgOolNCP7OkEFmFTzl3o4QYlTTgqEXEkpL69GCmpfihkX+8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="443118649"
 X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; 
-   d="scan'208";a="354222079"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 09:17:57 -0700
+   d="scan'208";a="443118649"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 10:30:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="686601058"
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="709158176"
 X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; 
-   d="scan'208";a="686601058"
+   d="scan'208";a="709158176"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 06 Jun 2023 09:17:54 -0700
+  by orsmga002.jf.intel.com with ESMTP; 06 Jun 2023 10:30:02 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6ZNZ-0005Ud-25;
-	Tue, 06 Jun 2023 16:17:53 +0000
-Date: Wed, 7 Jun 2023 00:17:19 +0800
+	id 1q6aVN-0005YR-0t;
+	Tue, 06 Jun 2023 17:30:01 +0000
+Date: Wed, 7 Jun 2023 01:29:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhang Rui <rui.zhang@intel.com>, linux-pm@vger.kernel.org,
-	rafael.j.wysocki@intel.com, daniel.lezcano@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	arnd@arndb.de
-Subject: Re: [PATCH] powercap: intel_rapl: Fix CONFIG_IOSF_MBI dependency
-Message-ID: <202306070006.kzS17w6a-lkp@intel.com>
-References: <20230606140000.385223-1-rui.zhang@intel.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-block:blk-open-release 45/48] fs/btrfs/super.c:2191:59: sparse:
+ sparse: incorrect type in argument 2 (different base types)
+Message-ID: <202306070132.UKIOHOCu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,149 +45,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230606140000.385223-1-rui.zhang@intel.com>
 
-Hi Zhang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on next-20230606]
-[cannot apply to linus/master v6.4-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Rui/powercap-intel_rapl-Fix-CONFIG_IOSF_MBI-dependency/20230606-220222
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20230606140000.385223-1-rui.zhang%40intel.com
-patch subject: [PATCH] powercap: intel_rapl: Fix CONFIG_IOSF_MBI dependency
-config: i386-randconfig-r003-20230606 (attached as .config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        git remote add rafael-pm https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
-        git fetch rafael-pm linux-next
-        git checkout rafael-pm/linux-next
-        b4 shazam https://lore.kernel.org/r/20230606140000.385223-1-rui.zhang@intel.com
+tree:   git://git.infradead.org/users/hch/block.git blk-open-release
+head:   0c548efe09ba601207bd6bb9fa48cf2dd706bfb3
+commit: 54822e562a29c2e2098f70e01d9b1d8a96213d94 [45/48] block: replace fmode_t with a block-specific type for block open flags
+config: powerpc-randconfig-s031-20230606 (https://download.01.org/0day-ci/archive/20230607/202306070132.UKIOHOCu-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.3.0
+reproduce:
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        git remote add hch-block git://git.infradead.org/users/hch/block.git
+        git fetch --no-tags hch-block blk-open-release
+        git checkout 54822e562a29c2e2098f70e01d9b1d8a96213d94
         # save the config file
-        make W=1 ARCH=i386 olddefconfig
-        make W=1 ARCH=i386 
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/mtd/devices/ fs/btrfs/
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306070006.kzS17w6a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306070132.UKIOHOCu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/btrfs/super.c:2191:59: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted blk_mode_t [usertype] flags @@     got restricted fmode_t [usertype] @@
+   fs/btrfs/super.c:2191:59: sparse:     expected restricted blk_mode_t [usertype] flags
+   fs/btrfs/super.c:2191:59: sparse:     got restricted fmode_t [usertype]
+   fs/btrfs/super.c:2205:59: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted blk_mode_t [usertype] flags @@     got restricted fmode_t [usertype] @@
+   fs/btrfs/super.c:2205:59: sparse:     expected restricted blk_mode_t [usertype] flags
+   fs/btrfs/super.c:2205:59: sparse:     got restricted fmode_t [usertype]
+--
+>> drivers/mtd/devices/block2mtd.c:252:56: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted blk_mode_t [usertype] mode @@     got restricted fmode_t [usertype] mode @@
+   drivers/mtd/devices/block2mtd.c:252:56: sparse:     expected restricted blk_mode_t [usertype] mode
+   drivers/mtd/devices/block2mtd.c:252:56: sparse:     got restricted fmode_t [usertype] mode
+   drivers/mtd/devices/block2mtd.c:277:44: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted blk_mode_t [usertype] mode @@     got restricted fmode_t const [usertype] mode @@
+   drivers/mtd/devices/block2mtd.c:277:44: sparse:     expected restricted blk_mode_t [usertype] mode
+   drivers/mtd/devices/block2mtd.c:277:44: sparse:     got restricted fmode_t const [usertype] mode
 
->> arch/x86/Kconfig:674:error: recursive dependency detected!
-   arch/x86/Kconfig:674:	symbol IOSF_MBI is selected by INTEL_RAPL_CORE
-   drivers/powercap/Kconfig:19:	symbol INTEL_RAPL_CORE is selected by INTEL_RAPL_TPMI
-   drivers/powercap/Kconfig:38:	symbol INTEL_RAPL_TPMI depends on IOSF_MBI
-   For a resolution refer to Documentation/kbuild/kconfig-language.rst
-   subsection "Kconfig recursive dependency limitations"
+vim +2191 fs/btrfs/super.c
 
+d8620958296e4f Tom Van Braeckel  2015-03-24  2168  
+d352ac68148b69 Chris Mason       2008-09-29  2169  /*
+cfe953c8240d1b Su Yue            2020-02-04  2170   * Used by /dev/btrfs-control for devices ioctls.
+d352ac68148b69 Chris Mason       2008-09-29  2171   */
+8a4b83cc8bd75f Chris Mason       2008-03-24  2172  static long btrfs_control_ioctl(struct file *file, unsigned int cmd,
+8a4b83cc8bd75f Chris Mason       2008-03-24  2173  				unsigned long arg)
+8a4b83cc8bd75f Chris Mason       2008-03-24  2174  {
+8a4b83cc8bd75f Chris Mason       2008-03-24  2175  	struct btrfs_ioctl_vol_args *vol;
+36350e95a2b1fe Gu Jinxiang       2018-07-12  2176  	struct btrfs_device *device = NULL;
+16cab91a0c8fea Anand Jain        2022-01-12  2177  	dev_t devt = 0;
+c071fcfdb60e7a Chris Mason       2009-01-16  2178  	int ret = -ENOTTY;
+8a4b83cc8bd75f Chris Mason       2008-03-24  2179  
+e441d54de4fd97 Chris Mason       2009-01-05  2180  	if (!capable(CAP_SYS_ADMIN))
+e441d54de4fd97 Chris Mason       2009-01-05  2181  		return -EPERM;
+e441d54de4fd97 Chris Mason       2009-01-05  2182  
+dae7b665cf6d6e Li Zefan          2009-04-08  2183  	vol = memdup_user((void __user *)arg, sizeof(*vol));
+dae7b665cf6d6e Li Zefan          2009-04-08  2184  	if (IS_ERR(vol))
+dae7b665cf6d6e Li Zefan          2009-04-08  2185  		return PTR_ERR(vol);
+f505754fd65992 Filipe Manana     2018-11-14  2186  	vol->name[BTRFS_PATH_NAME_MAX] = '\0';
+c071fcfdb60e7a Chris Mason       2009-01-16  2187  
+8a4b83cc8bd75f Chris Mason       2008-03-24  2188  	switch (cmd) {
+8a4b83cc8bd75f Chris Mason       2008-03-24  2189  	case BTRFS_IOC_SCAN_DEV:
+899f9307c33ce4 David Sterba      2018-06-19  2190  		mutex_lock(&uuid_mutex);
+4a7e7a931e3991 Christoph Hellwig 2023-06-04 @2191  		device = btrfs_scan_one_device(vol->name, FMODE_READ);
+36350e95a2b1fe Gu Jinxiang       2018-07-12  2192  		ret = PTR_ERR_OR_ZERO(device);
+899f9307c33ce4 David Sterba      2018-06-19  2193  		mutex_unlock(&uuid_mutex);
+8a4b83cc8bd75f Chris Mason       2008-03-24  2194  		break;
+228a73abde5c04 Anand Jain        2019-01-04  2195  	case BTRFS_IOC_FORGET_DEV:
+16cab91a0c8fea Anand Jain        2022-01-12  2196  		if (vol->name[0] != 0) {
+16cab91a0c8fea Anand Jain        2022-01-12  2197  			ret = lookup_bdev(vol->name, &devt);
+16cab91a0c8fea Anand Jain        2022-01-12  2198  			if (ret)
+16cab91a0c8fea Anand Jain        2022-01-12  2199  				break;
+16cab91a0c8fea Anand Jain        2022-01-12  2200  		}
+16cab91a0c8fea Anand Jain        2022-01-12  2201  		ret = btrfs_forget_devices(devt);
+228a73abde5c04 Anand Jain        2019-01-04  2202  		break;
+02db0844beffc1 Josef Bacik       2012-06-21  2203  	case BTRFS_IOC_DEVICES_READY:
+899f9307c33ce4 David Sterba      2018-06-19  2204  		mutex_lock(&uuid_mutex);
+4a7e7a931e3991 Christoph Hellwig 2023-06-04  2205  		device = btrfs_scan_one_device(vol->name, FMODE_READ);
+36350e95a2b1fe Gu Jinxiang       2018-07-12  2206  		if (IS_ERR(device)) {
+899f9307c33ce4 David Sterba      2018-06-19  2207  			mutex_unlock(&uuid_mutex);
+36350e95a2b1fe Gu Jinxiang       2018-07-12  2208  			ret = PTR_ERR(device);
+02db0844beffc1 Josef Bacik       2012-06-21  2209  			break;
+899f9307c33ce4 David Sterba      2018-06-19  2210  		}
+36350e95a2b1fe Gu Jinxiang       2018-07-12  2211  		ret = !(device->fs_devices->num_devices ==
+36350e95a2b1fe Gu Jinxiang       2018-07-12  2212  			device->fs_devices->total_devices);
+899f9307c33ce4 David Sterba      2018-06-19  2213  		mutex_unlock(&uuid_mutex);
+02db0844beffc1 Josef Bacik       2012-06-21  2214  		break;
+c5868f8362f562 David Sterba      2016-02-17  2215  	case BTRFS_IOC_GET_SUPPORTED_FEATURES:
+d5131b658c2e90 David Sterba      2016-02-17  2216  		ret = btrfs_ioctl_get_supported_features((void __user*)arg);
+c5868f8362f562 David Sterba      2016-02-17  2217  		break;
+8a4b83cc8bd75f Chris Mason       2008-03-24  2218  	}
+dae7b665cf6d6e Li Zefan          2009-04-08  2219  
+8a4b83cc8bd75f Chris Mason       2008-03-24  2220  	kfree(vol);
+f819d837eea982 Linda Knippers    2008-06-09  2221  	return ret;
+8a4b83cc8bd75f Chris Mason       2008-03-24  2222  }
+8a4b83cc8bd75f Chris Mason       2008-03-24  2223  
 
-vim +674 arch/x86/Kconfig
+:::::: The code at line 2191 was first introduced by commit
+:::::: 4a7e7a931e39919172b4111994e532f23f1d664d btrfs: don't pass a holder for non-exclusive blkdev_get_by_path
 
-506f1d07b31081 Sam Ravnborg              2007-11-09  592  
-ddd70cf93d784a Jun Nakajima              2013-01-21  593  config X86_GOLDFISH
-ddd70cf93d784a Jun Nakajima              2013-01-21  594  	bool "Goldfish (Virtual Platform)"
-cb7b80237a9f41 Ben Hutchings             2013-06-24  595  	depends on X86_EXTENDED_PLATFORM
-a7f7f6248d9740 Masahiro Yamada           2020-06-14  596  	help
-ddd70cf93d784a Jun Nakajima              2013-01-21  597  	  Enable support for the Goldfish virtual platform used primarily
-ddd70cf93d784a Jun Nakajima              2013-01-21  598  	  for Android development. Unless you are building for the Android
-ddd70cf93d784a Jun Nakajima              2013-01-21  599  	  Goldfish emulator say N here.
-ddd70cf93d784a Jun Nakajima              2013-01-21  600  
-c751e17b5371ad Thomas Gleixner           2010-11-09  601  config X86_INTEL_CE
-c751e17b5371ad Thomas Gleixner           2010-11-09  602  	bool "CE4100 TV platform"
-c751e17b5371ad Thomas Gleixner           2010-11-09  603  	depends on PCI
-c751e17b5371ad Thomas Gleixner           2010-11-09  604  	depends on PCI_GODIRECT
-6084a6e23c971e Jiang Liu                 2014-06-09  605  	depends on X86_IO_APIC
-c751e17b5371ad Thomas Gleixner           2010-11-09  606  	depends on X86_32
-c751e17b5371ad Thomas Gleixner           2010-11-09  607  	depends on X86_EXTENDED_PLATFORM
-37bc9f5078c62b Dirk Brandewie            2010-11-09  608  	select X86_REBOOTFIXUPS
-da6b737b9ab768 Sebastian Andrzej Siewior 2011-02-22  609  	select OF
-da6b737b9ab768 Sebastian Andrzej Siewior 2011-02-22  610  	select OF_EARLY_FLATTREE
-a7f7f6248d9740 Masahiro Yamada           2020-06-14  611  	help
-c751e17b5371ad Thomas Gleixner           2010-11-09  612  	  Select for the Intel CE media processor (CE4100) SOC.
-c751e17b5371ad Thomas Gleixner           2010-11-09  613  	  This option compiles in support for the CE4100 SOC for settop
-c751e17b5371ad Thomas Gleixner           2010-11-09  614  	  boxes and media devices.
-c751e17b5371ad Thomas Gleixner           2010-11-09  615  
-4cb9b00f42e078 David Cohen               2013-12-16  616  config X86_INTEL_MID
-43605ef188cd39 Alan Cox                  2011-07-12  617  	bool "Intel MID platform support"
-43605ef188cd39 Alan Cox                  2011-07-12  618  	depends on X86_EXTENDED_PLATFORM
-edc6bc784028f2 David Cohen               2014-01-21  619  	depends on X86_PLATFORM_DEVICES
-1ea7c6737c8f68 Alan Cox                  2011-11-10  620  	depends on PCI
-3fda5bb420e79b Andy Shevchenko           2016-01-15  621  	depends on X86_64 || (PCI_GOANY && X86_32)
-1ea7c6737c8f68 Alan Cox                  2011-11-10  622  	depends on X86_IO_APIC
-4cb9b00f42e078 David Cohen               2013-12-16  623  	select I2C
-7c9c3a1e5fc872 Alan Cox                  2011-12-29  624  	select DW_APB_TIMER
-54b34aa0a7295c Mika Westerberg           2020-04-16  625  	select INTEL_SCU_PCI
-a7f7f6248d9740 Masahiro Yamada           2020-06-14  626  	help
-4cb9b00f42e078 David Cohen               2013-12-16  627  	  Select to build a kernel capable of supporting Intel MID (Mobile
-4cb9b00f42e078 David Cohen               2013-12-16  628  	  Internet Device) platform systems which do not have the PCI legacy
-4cb9b00f42e078 David Cohen               2013-12-16  629  	  interfaces. If you are building for a PC class system say N here.
-1ea7c6737c8f68 Alan Cox                  2011-11-10  630  
-4cb9b00f42e078 David Cohen               2013-12-16  631  	  Intel MID platforms are based on an Intel processor and chipset which
-4cb9b00f42e078 David Cohen               2013-12-16  632  	  consume less power than most of the x86 derivatives.
-43605ef188cd39 Alan Cox                  2011-07-12  633  
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  634  config X86_INTEL_QUARK
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  635  	bool "Intel Quark platform support"
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  636  	depends on X86_32
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  637  	depends on X86_EXTENDED_PLATFORM
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  638  	depends on X86_PLATFORM_DEVICES
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  639  	depends on X86_TSC
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  640  	depends on PCI
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  641  	depends on PCI_GOANY
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  642  	depends on X86_IO_APIC
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  643  	select IOSF_MBI
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  644  	select INTEL_IMR
-9ab6eb51ef4ad6 Andy Shevchenko           2015-03-05  645  	select COMMON_CLK
-a7f7f6248d9740 Masahiro Yamada           2020-06-14  646  	help
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  647  	  Select to include support for Quark X1000 SoC.
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  648  	  Say Y here if you have a Quark based system such as the Arduino
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  649  	  compatible Intel Galileo.
-8bbc2a135b63be Bryan O'Donoghue          2015-01-30  650  
-3d48aab1d5035f Mika Westerberg           2013-01-18  651  config X86_INTEL_LPSS
-3d48aab1d5035f Mika Westerberg           2013-01-18  652  	bool "Intel Low Power Subsystem Support"
-5962dd22f0ff6f Sinan Kaya                2019-01-02  653  	depends on X86 && ACPI && PCI
-3d48aab1d5035f Mika Westerberg           2013-01-18  654  	select COMMON_CLK
-0f531431d3de88 Mathias Nyman             2013-09-13  655  	select PINCTRL
-eebb3e8d8aaf28 Andy Shevchenko           2015-12-12  656  	select IOSF_MBI
-a7f7f6248d9740 Masahiro Yamada           2020-06-14  657  	help
-3d48aab1d5035f Mika Westerberg           2013-01-18  658  	  Select to build support for Intel Low Power Subsystem such as
-3d48aab1d5035f Mika Westerberg           2013-01-18  659  	  found on Intel Lynxpoint PCH. Selecting this option enables
-0f531431d3de88 Mathias Nyman             2013-09-13  660  	  things like clock tree (common clock framework) and pincontrol
-0f531431d3de88 Mathias Nyman             2013-09-13  661  	  which are needed by the LPSS peripheral drivers.
-3d48aab1d5035f Mika Westerberg           2013-01-18  662  
-92082a8886f30a Ken Xue                   2015-02-06  663  config X86_AMD_PLATFORM_DEVICE
-92082a8886f30a Ken Xue                   2015-02-06  664  	bool "AMD ACPI2Platform devices support"
-92082a8886f30a Ken Xue                   2015-02-06  665  	depends on ACPI
-92082a8886f30a Ken Xue                   2015-02-06  666  	select COMMON_CLK
-92082a8886f30a Ken Xue                   2015-02-06  667  	select PINCTRL
-a7f7f6248d9740 Masahiro Yamada           2020-06-14  668  	help
-92082a8886f30a Ken Xue                   2015-02-06  669  	  Select to interpret AMD specific ACPI device to platform device
-92082a8886f30a Ken Xue                   2015-02-06  670  	  such as I2C, UART, GPIO found on AMD Carrizo and later chipsets.
-92082a8886f30a Ken Xue                   2015-02-06  671  	  I2C and UART depend on COMMON_CLK to set clock. GPIO driver is
-92082a8886f30a Ken Xue                   2015-02-06  672  	  implemented under PINCTRL subsystem.
-92082a8886f30a Ken Xue                   2015-02-06  673  
-ced3ce760b8df0 David E. Box              2014-09-17 @674  config IOSF_MBI
-ced3ce760b8df0 David E. Box              2014-09-17  675  	tristate "Intel SoC IOSF Sideband support for SoC platforms"
-ced3ce760b8df0 David E. Box              2014-09-17  676  	depends on PCI
-a7f7f6248d9740 Masahiro Yamada           2020-06-14  677  	help
-ced3ce760b8df0 David E. Box              2014-09-17  678  	  This option enables sideband register access support for Intel SoC
-ced3ce760b8df0 David E. Box              2014-09-17  679  	  platforms. On these platforms the IOSF sideband is used in lieu of
-ced3ce760b8df0 David E. Box              2014-09-17  680  	  MSR's for some register accesses, mostly but not limited to thermal
-ced3ce760b8df0 David E. Box              2014-09-17  681  	  and power. Drivers may query the availability of this device to
-ced3ce760b8df0 David E. Box              2014-09-17  682  	  determine if they need the sideband in order to work on these
-ced3ce760b8df0 David E. Box              2014-09-17  683  	  platforms. The sideband is available on the following SoC products.
-ced3ce760b8df0 David E. Box              2014-09-17  684  	  This list is not meant to be exclusive.
-ced3ce760b8df0 David E. Box              2014-09-17  685  	   - BayTrail
-ced3ce760b8df0 David E. Box              2014-09-17  686  	   - Braswell
-ced3ce760b8df0 David E. Box              2014-09-17  687  	   - Quark
-ced3ce760b8df0 David E. Box              2014-09-17  688  
-ced3ce760b8df0 David E. Box              2014-09-17  689  	  You should say Y if you are running a kernel on one of these SoC's.
-ced3ce760b8df0 David E. Box              2014-09-17  690  
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Christoph Hellwig <hch@lst.de>
 
 -- 
 0-DAY CI Kernel Test Service
