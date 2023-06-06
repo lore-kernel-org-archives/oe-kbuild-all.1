@@ -1,191 +1,109 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B8D022E52;
-	Tue,  6 Jun 2023 20:10:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BD422E46
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 20:17:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686082240; x=1717618240;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=w1Y4uBY6dDruwpH5JXQ4BrjAxUy6xyTyb7b9lMc1d4c=;
-  b=QwWj/HvbD+YY8scPbByQnWAyvfvT/IgHw47/5+BEM2QgXGKFdUeyb4h2
-   CFYqdbHRu8Ceaj1KYGVF9H62aV4FWU4PKkkYJac676Fu+LP9mQcoS00Z7
-   +iZnDTa6LDzXsooowS8iH2bARHduW6V8DN8A0y5kDN32IpYlNs4yF5TyO
-   bmLW1UCTGtx5FTgRQLL2hI27F81bCspBn6coKrhYPiMCdiVTjs5RHPdzh
-   clAWqnZ8RVNfOgRM6KKZWsEeH3MYmBD5SIvbU+EvJokCuF9ZXj6+1Ws1t
-   +YOGSTiPhpETBbwj1XPir3zilMSB4jWw7VoQGX4YcqpAVjQk2ZEFp8TEv
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="385102933"
+  t=1686082634; x=1717618634;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7OwGOmN0SPoX/fNlwG7no6YxZmfbRTyed3hvkTgKUZU=;
+  b=ZMeSSd550hfvlHuIIhzBxQbNR/sB1yb1DBo/2f8S/hz/6LvZFYKfvAn9
+   iiUyh9GITjV5iqA06du4Gmu3MugkUzxRn0uMLN2lSNerwhUr56u+D17eV
+   dSaPyAYtSL7pKLbDoGiG61ey22YSpza6NOqBxZd8cOPLdbso+b57/Nqa9
+   bSiFzRxtDQ3Mym5Y39D6oDeaEJeCYvzRzVcpguZctT2uSI8YVrHqyvygL
+   p6YvdjAQ3QbzyW0ea3+sRm4kUdQBbCqhfHuas96cyS+eRO0BnooDvA+rf
+   X1aVVaI5DvxJ1XeVn5WToqeyaB8oLWyCWg5toDIXe+LMTsXUdgMuIIBBm
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="356801970"
 X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; 
-   d="scan'208";a="385102933"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 13:10:37 -0700
+   d="scan'208";a="356801970"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 13:17:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="853567908"
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="686666407"
 X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; 
-   d="scan'208";a="853567908"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Jun 2023 13:10:37 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 6 Jun 2023 13:10:37 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Tue, 6 Jun 2023 13:10:36 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Tue, 6 Jun 2023 13:10:36 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.102)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Tue, 6 Jun 2023 13:10:35 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ETvoyvzGsOxyirF2iLOJPF+oXsgJyIuonKu+1Bs6BSEhk0m94ipVuLhVNvLBVp6omHc6GpG/8T8Jleg8a1pqLNeaQBcNr0aZUz69cvZI2tirPmNM30dr3/drCmka1w7H7apvWV9TfzjXjVeyL5Y065ZoMNoJbvpL0ShCJxzEvSx8s1ETqRjcQrESh9U9R4E75u6jozlwoYhtVj1T8Nqdi5dJI1j6vKxEltMiz0C1C9bHoUSy+vxrHU538btXojJIHC/hzHbeGMyj6EIJOxYvqWZfpiyPa+3BDq3xsH4xdY2v8cKRUIYGmdRsCHYBibKXVHJCz7R2TiyRONDVkW7FYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kibLYAp4CcyjCUgeihNdZFpLgAJ2DEbxOdnTIOPUXOM=;
- b=YhI/+GIlo4kpknDQ9Ttpe/fiyoDnQJ54t8cv/iVmBNECIidFvpWW4Wfp25dXEyc0FndVeV5fbE0tYt+uEVK7UL1ERD7h/A+frNOh89tc5V3IyGFgu9wz2nddoezX5pgovm/WN7h911rMAjqbdDvpid7+RvydwJwRhOIooF7KMRX0HnkSHH8YQPCbyg1s4iY0TcYKbdMH2C2Dqutnw2OlOCmmc4rM7nXk70xILVzs0BJ1djEgWOl98VD/fQXG1nHph1OUHY3I+NXXe2VSf4YxmJaXrPlLJhkzlfxgxHoucrT32cAASjTr7CWZTqTvygvLxm6y2Wvl0yThRdzTr3Cf1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
- by PH8PR11MB6658.namprd11.prod.outlook.com (2603:10b6:510:1c1::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.28; Tue, 6 Jun
- 2023 20:10:29 +0000
-Received: from PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::95c6:c77e:733b:eee5]) by PH8PR11MB8107.namprd11.prod.outlook.com
- ([fe80::95c6:c77e:733b:eee5%5]) with mapi id 15.20.6455.030; Tue, 6 Jun 2023
- 20:10:28 +0000
-Date: Tue, 6 Jun 2023 13:10:26 -0700
-From: Dan Williams <dan.j.williams@intel.com>
-To: kernel test robot <lkp@intel.com>, Dan Williams <dan.j.williams@intel.com>
-CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [PATCH 06/19] cxl/hdm: Default CXL_DEVTYPE_DEVMEM decoders to
- CXL_DECODER_DEVMEM
-Message-ID: <647f92b2a6189_1433ac29417@dwillia2-xfh.jf.intel.com.notmuch>
-References: <168592153054.1948938.12344684637653088842.stgit@dwillia2-xfh.jf.intel.com>
- <202306050926.zKn5BTKk-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <202306050926.zKn5BTKk-lkp@intel.com>
-X-ClientProxiedBy: SJ0PR05CA0060.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::35) To PH8PR11MB8107.namprd11.prod.outlook.com
- (2603:10b6:510:256::6)
+   d="scan'208";a="686666407"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 06 Jun 2023 13:17:11 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q6d78-0005gz-2r;
+	Tue, 06 Jun 2023 20:17:10 +0000
+Date: Wed, 7 Jun 2023 04:16:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Guenter Roeck <groeck@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, Luigi Semenzato <semenzato@chromium.org>
+Subject: [jsarha:topic/cros-sof-v4.19 949/6555] mm/low-mem-notify.c:87:16:
+ sparse: sparse: incorrect type in return expression (different base types)
+Message-ID: <202306070431.tboKShp1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|PH8PR11MB6658:EE_
-X-MS-Office365-Filtering-Correlation-Id: afd50fe2-d063-4352-ff77-08db66ca129e
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: //AOY3QB8+lZ8QJ4qE/HDRbWEKF2r3qyKK/77TrF9zGu46wt0yRRnBDhIIVIh5BDdRn1MOcj8nV6yheKIHj0UO52//tlEk+vshv2rARe0X1rhfqC7BlWheapWQnZbTjoV7/py1RWtg0lg0pOT3zmQ1Hozvvb7P+43YtEqMK74zVirzoEq8h5XTh4iCuIrIM5Vnhu4xm+Ghw+of/yxCleFNMMqR+HE31MjdqQFHEzfzXzJWM+HF+1Fxzcn08gfy8TNE6YVjgwOBOOxUHiK7jmP3DOFtnbvLzjqu7ABSdSfYj/iy5BeiO0Mi2LUOiQwqZxygJHrivdqamWEd1yyaRmms2RGl3AorAp5XI097+78bfwxFX4FbP0snaYzh+ql8uAJiWlB7rGHrVLzrSjNG74w9f0Q+flKXyqxgKE/hOAOzBFpfHLdmM+GqWeVQtGj3Z20Uq5zxjGSgsJMY3gZQUATSS14SpNDFgc3RXXzyIVygX5MIg5X5Td6mYZUZnz+54iMHvi0CKfNk30lytzjYhyh9aDD7XgBnKHVFxN+Wfo8wUUlgyXzEGo0OOqetu8g/SjassXmL4lOd3416h9Kl1iZA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(136003)(346002)(376002)(396003)(366004)(451199021)(110136005)(478600001)(66556008)(8936002)(8676002)(86362001)(2906002)(4326008)(66946007)(66476007)(450100002)(316002)(82960400001)(5660300002)(38100700002)(41300700001)(83380400001)(6506007)(9686003)(6512007)(26005)(186003)(6486002)(966005);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TGa65PjHZCFmqEJpCKQYhs9asowz2C71lry4DwdykP98hQu3h5NUeMRwhNY7?=
- =?us-ascii?Q?x79j4/vVDZ5UhG4XQs+wpZkLgVjIWZX6s19+5OymudbbFjjKyl/K7L1sNQX8?=
- =?us-ascii?Q?4+y0Xkpq8ddOCB749LQ4JVtM7/BAZGMZPSTg0ogA+p9v8bqr1lOBmbZ7JCdy?=
- =?us-ascii?Q?Aqof6fZQ5OwH7ayKg7LN/1TESZVyJp5lOXQPLaSc1QxOspfslssQkoyWsSuK?=
- =?us-ascii?Q?RWG9dqhGpU7xvqbrA3o/0MEikY/AaNrDHZLG4Snc0Pv/XLOaFb96u+/rzSXY?=
- =?us-ascii?Q?2hRnCXL32+RvnOCqXsc8vXaakj1VCu0c5SBYwKA3uZ9IH7/DNaYvzuhNmhDS?=
- =?us-ascii?Q?fVY4ukfwaolplW51WqUvs2uiKLMMpYFOlsVYdMeseIKOOWx1Mct5ChOsxOff?=
- =?us-ascii?Q?cR2Pham8cOcV3cWn2xHNCgJv37NyVWNGWfYknRU0Hv2OeO6AuaFQdpy1rNMv?=
- =?us-ascii?Q?bbu+kZIPcu1TOghsYUhefSncRyyTJ7o2fEN8qI5HTaUhOQWlfLBqledeZ+xC?=
- =?us-ascii?Q?HZkrAkQofvPqjWBqQg5Xh2xAjoyYuhJB7lRAsJlgBMAW6jAwEPrYLaFFH8Mn?=
- =?us-ascii?Q?o57UGRQ9Iu6QWldD3OZVFl4vSocaM5Hvpw3kahLYiJBHaIiq4nyj+XO7A5AK?=
- =?us-ascii?Q?r0DFHiNKuLUNv74vLTTh3WPDg1th0Eqy2UDR/AZ0yEQ9LaivVh6IezXHgHYD?=
- =?us-ascii?Q?qxPKv4cGp8KLyw6mAwgRng59f7UCm/qXjpemM6urggIfzt+0udRO1YF9k+S3?=
- =?us-ascii?Q?o52Iiz38M+ybM8qOV54Ijn5uYUi9tIjhNtJ6yupFHwSjLLH/MXJw58pfSnrh?=
- =?us-ascii?Q?yZKVz6mh1jBIeR0/w+IM9EDKxLROXU42olA54Ph8iJFeXQ+2AZSNeue1V+ue?=
- =?us-ascii?Q?QfelD9itmeGnNqgMC9hgUZAagJer4yRttTmVIy5HolVgQ6F/H5xtiRvhHFN2?=
- =?us-ascii?Q?ameEy4NQAVh+E/tpA8wHkVA6WhASAkc4BuiUunH8h7OLJlcg/AMhL0Qv9jVC?=
- =?us-ascii?Q?YoU7Tc7f8CyQLbn66WvKTvz8QDxrGP1IJOU6fwXhv58y733Qzixic/vtyNfB?=
- =?us-ascii?Q?q/BAZggpDEO9eJnPXj7JKA9aqVUSNS0qt+02Ebgv60vHjO0wmDCSKHsqq094?=
- =?us-ascii?Q?ge7tVn4+HqZvPp7ysFByiMD/+mdihXWwmrKkcRBM8tXkX5iJl8RIEqHZB/GD?=
- =?us-ascii?Q?IwbNT2mCJEayYcP5oqES2h3TyOOdQL8uL2QznXNh4Am8JOMoQX6aeDTcHY0v?=
- =?us-ascii?Q?xZWhVqAvyxdejJ0wVAYkLa0xghMM9XgARdZ53zUUcoAOYkdDdYqdfJZEDqbg?=
- =?us-ascii?Q?rk8PXaVpUXSEgJJEeS7rrEBedw9FnUhZSUCJvnTk+uT7yHnMYcyffWuQ2HHk?=
- =?us-ascii?Q?rTi1cCDxPtjHMgeD422GaxBoiYy5dlMdWjgamBOS5hJu++k4xGI3dXirdLkX?=
- =?us-ascii?Q?wA/zeHaeI9i2x/YZp4MsK2FZocBq++v7g+SaVd47aQc4BPiS13W6IsTkooKt?=
- =?us-ascii?Q?z3S0evOCY3w3L7jx9tCH08uYVmUbKE06TFiE0sBq2cccaoWzSPddrqm5IGVs?=
- =?us-ascii?Q?Gxh7y7JA0S71yMQguzkNJDQHIp8OFB5C1IgavKQm3w/snFYhoIo3jrGEQewE?=
- =?us-ascii?Q?LQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: afd50fe2-d063-4352-ff77-08db66ca129e
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2023 20:10:28.6292
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a9/0/JE8qx3VuBT7rrUxUjOfc7lX7Lsegm2+1aXsuZrv6U2TrPRqDgYhUX3JpgWpVN0Fxc4x5V9EhzIOOcD01uMSZLwiBEVv/eu4Ky2/Xi4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6658
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-kernel test robot wrote:
-> Hi Dan,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 9561de3a55bed6bdd44a12820ba81ec416e705a7]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Dan-Williams/cxl-regs-Clarify-when-a-struct-cxl_register_map-is-input-vs-output/20230605-073402
-> base:   9561de3a55bed6bdd44a12820ba81ec416e705a7
-> patch link:    https://lore.kernel.org/r/168592153054.1948938.12344684637653088842.stgit%40dwillia2-xfh.jf.intel.com
-> patch subject: [PATCH 06/19] cxl/hdm: Default CXL_DEVTYPE_DEVMEM decoders to CXL_DECODER_DEVMEM
+Hi Guenter,
 
-Will fold in this change:
+First bad commit (maybe != root cause):
 
-diff --git a/drivers/cxl/core/hdm.c b/drivers/cxl/core/hdm.c
-index ca3b99c6eacf..be81fcbb4755 100644
---- a/drivers/cxl/core/hdm.c
-+++ b/drivers/cxl/core/hdm.c
-@@ -793,8 +793,8 @@ static int init_hdm_decoder(struct cxl_port *port, struct cxl_decoder *cxld,
- 			    int *target_map, void __iomem *hdm, int which,
- 			    u64 *dpa_base, struct cxl_endpoint_dvsec_info *info)
- {
-+	struct cxl_endpoint_decoder *cxled = NULL;
- 	u64 size, base, skip, dpa_size, lo, hi;
--	struct cxl_endpoint_decoder *cxled;
- 	bool committed;
- 	u32 remainder;
- 	int i, rc;
-@@ -827,6 +827,8 @@ static int init_hdm_decoder(struct cxl_port *port, struct cxl_decoder *cxld,
- 		return -ENXIO;
- 	}
- 
-+	if (info)
-+		cxled = to_cxl_endpoint_decoder(&cxld->dev);
- 	cxld->hpa_range = (struct range) {
- 		.start = base,
- 		.end = base + size - 1,
-@@ -890,7 +892,7 @@ static int init_hdm_decoder(struct cxl_port *port, struct cxl_decoder *cxld,
- 		port->id, cxld->id, cxld->hpa_range.start, cxld->hpa_range.end,
- 		cxld->interleave_ways, cxld->interleave_granularity);
- 
--	if (!info) {
-+	if (!cxled) {
- 		lo = readl(hdm + CXL_HDM_DECODER0_TL_LOW(which));
- 		hi = readl(hdm + CXL_HDM_DECODER0_TL_HIGH(which));
- 		target_list.value = (hi << 32) + lo;
-@@ -913,7 +915,6 @@ static int init_hdm_decoder(struct cxl_port *port, struct cxl_decoder *cxld,
- 	lo = readl(hdm + CXL_HDM_DECODER0_SKIP_LOW(which));
- 	hi = readl(hdm + CXL_HDM_DECODER0_SKIP_HIGH(which));
- 	skip = (hi << 32) + lo;
--	cxled = to_cxl_endpoint_decoder(&cxld->dev);
- 	rc = devm_cxl_dpa_reserve(cxled, *dpa_base + skip, dpa_size, skip);
- 	if (rc) {
- 		dev_err(&port->dev,
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
+head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
+commit: b7ec7fb624dfc8d07e722cf2e0e72ff82ebaec7b [949/6555] CHROMIUM: low-mem: Fix return type of low_mem_notify_poll
+config: sparc-randconfig-s032-20230606 (https://download.01.org/0day-ci/archive/20230607/202306070431.tboKShp1-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce:
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/jsarha/linux/commit/b7ec7fb624dfc8d07e722cf2e0e72ff82ebaec7b
+        git remote add jsarha https://github.com/jsarha/linux
+        git fetch --no-tags jsarha topic/cros-sof-v4.19
+        git checkout b7ec7fb624dfc8d07e722cf2e0e72ff82ebaec7b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc SHELL=/bin/bash
+
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306070431.tboKShp1-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> mm/low-mem-notify.c:87:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got unsigned int [assigned] ret @@
+   mm/low-mem-notify.c:87:16: sparse:     expected restricted __poll_t
+   mm/low-mem-notify.c:87:16: sparse:     got unsigned int [assigned] ret
+
+vim +87 mm/low-mem-notify.c
+
+89587e9d1c30b5 Luigi Semenzato 2014-04-03  74  
+b7ec7fb624dfc8 Guenter Roeck   2018-11-01  75  static __poll_t low_mem_notify_poll(struct file *file, poll_table *wait)
+89587e9d1c30b5 Luigi Semenzato 2014-04-03  76  {
+89587e9d1c30b5 Luigi Semenzato 2014-04-03  77  	unsigned int ret = 0;
+89587e9d1c30b5 Luigi Semenzato 2014-04-03  78  
+89587e9d1c30b5 Luigi Semenzato 2014-04-03  79  	/* Update state to reflect any recent freeing. */
+89587e9d1c30b5 Luigi Semenzato 2014-04-03  80  	atomic_set(&low_mem_state, is_low_mem_situation());
+89587e9d1c30b5 Luigi Semenzato 2014-04-03  81  
+89587e9d1c30b5 Luigi Semenzato 2014-04-03  82  	poll_wait(file, &low_mem_wait, wait);
+89587e9d1c30b5 Luigi Semenzato 2014-04-03  83  
+1fa6b9516423e6 Luigi Semenzato 2012-04-18  84  	if (low_mem_margin_enabled && atomic_read(&low_mem_state) != 0)
+89587e9d1c30b5 Luigi Semenzato 2014-04-03  85  		ret = POLLIN;
+89587e9d1c30b5 Luigi Semenzato 2014-04-03  86  
+89587e9d1c30b5 Luigi Semenzato 2014-04-03 @87  	return ret;
+89587e9d1c30b5 Luigi Semenzato 2014-04-03  88  }
+89587e9d1c30b5 Luigi Semenzato 2014-04-03  89  
+
+:::::: The code at line 87 was first introduced by commit
+:::::: 89587e9d1c30b5f908d4bfe5f2ee0b920c156c14 CHROMIUM: Add /dev/low-mem device for low-memory notification.
+
+:::::: TO: Luigi Semenzato <semenzato@chromium.org>
+:::::: CC: Guenter Roeck <groeck@chromium.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
