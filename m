@@ -1,45 +1,44 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0BB611C
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 07:54:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C874B5660;
+	Tue,  6 Jun 2023 08:05:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686038050; x=1717574050;
+  t=1686038710; x=1717574710;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FgRD4sEbvzTFM7CXT+/yRwcKLVFhV3dR0qtWTGSbiYM=;
-  b=iDxJ9GR9HVHDx1uu0smHvLxL0CDClKAWCcViFfwkJFiV+CuHbljgD0/M
-   ZVErNlbbFvLXEqRBoBKb+PC2eUPez0WgQUvaIkebVr2sCeqLtta1N6xhy
-   27UuOEmVDN7yqyN0gmnovsAC3KvG4AYe5z0J5TX1WedgAI6m6gVhN8eEC
-   KHkmtoTgZEm+PEuGwiBJJ8K8DI+I5Re9JooGYAO6xij4SZaSY0iwIe/Ne
-   yBvVnCndU/Uc3vSX5zjsAdCgWmqzFmCgxrW32lBswW1kS9ejiuhUg8lMT
-   WaoibuUFGP1uGvDRJK2cW1pAAvD1wzYZGub4fbr86uFTlLuPViUaZxIIh
+  bh=d7ZgL+E9tpDkE9SuW+sxEunDxqXp9Mq6RlJTeC0grEw=;
+  b=LlyRfgZgLcbT7z3U9VWyWMnebKdybBIesfsl1wQfu7qr9hXK5Jhm8c1V
+   4GcaE0od2R5UDTngi+65zyQk00DDQgG44NjhlE3rkvbKM0quk0aiffg03
+   8xYfc+vfqkMJ52QFxhLKIcTQ2QkLSI48uVJ/sXzpqRsiY/vzEjfu65H/K
+   Qpc9H7g+hXoE/vKESbCUYkzZGfgNDMhuXjoBugXiYR/JXw1Gg0whr1te8
+   j3GBwwkXNl/eGA+DMyhtqcI7w4oTIBRigrYbM006+FdvFYOssS+WGeKdh
+   Mr1gBCu11IAXIm2wlF/xRmjuDXf1HOl18NIjUlYIEaHZzOZcKXNQp+W62
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="346192937"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="341238304"
 X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
-   d="scan'208";a="346192937"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 00:54:08 -0700
+   d="scan'208";a="341238304"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 01:05:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="853307884"
+X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="1039088317"
 X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
-   d="scan'208";a="853307884"
+   d="scan'208";a="1039088317"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Jun 2023 00:54:06 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 06 Jun 2023 01:05:06 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6RW1-000507-2A;
-	Tue, 06 Jun 2023 07:54:05 +0000
-Date: Tue, 6 Jun 2023 15:53:58 +0800
+	id 1q6Rgg-00050h-06;
+	Tue, 06 Jun 2023 08:05:06 +0000
+Date: Tue, 6 Jun 2023 16:04:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>
-Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <groeck@chromium.org>,
-	Nick Pelly <npelly@google.com>,
-	Amit Pundir <amit.pundir@linaro.org>
-Subject: [jsarha:topic/cros-sof-v4.19 58/6555]
- drivers/input/misc/gpio_axis.c:28:10: sparse: sparse: symbol
- 'gpio_axis_4bit_gray_map_table' was not declared. Should it be static?
-Message-ID: <202306061552.eTujUZ3J-lkp@intel.com>
+To: Nick Desaulniers <ndesaulniers@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: error: A dwo section may not contain relocations
+Message-ID: <202306061557.A6csfwPr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,70 +48,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
-head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
-commit: 67d0f63b5a28037a7bcb777d9fb1e80f6e760ccc [58/6555] ANDROID: input: Generic GPIO Input devices
-config: sparc64-randconfig-s041-20230606 (https://download.01.org/0day-ci/archive/20230606/202306061552.eTujUZ3J-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f8dba31b0a826e691949cd4fdfa5c30defaac8c5
+commit: 61f2b7c7497ba96cdde5bbaeb9e07f4c48f41f97 Makefile.debug: set -g unconditional on CONFIG_DEBUG_INFO_SPLIT
+date:   9 months ago
+config: riscv-randconfig-r026-20230606 (https://download.01.org/0day-ci/archive/20230606/202306061557.A6csfwPr-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/jsarha/linux/commit/67d0f63b5a28037a7bcb777d9fb1e80f6e760ccc
-        git remote add jsarha https://github.com/jsarha/linux
-        git fetch --no-tags jsarha topic/cros-sof-v4.19
-        git checkout 67d0f63b5a28037a7bcb777d9fb1e80f6e760ccc
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=61f2b7c7497ba96cdde5bbaeb9e07f4c48f41f97
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 61f2b7c7497ba96cdde5bbaeb9e07f4c48f41f97
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=sparc64 SHELL=/bin/bash drivers/input/misc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv prepare
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306061552.eTujUZ3J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306061557.A6csfwPr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/input/misc/gpio_axis.c:28:10: sparse: sparse: symbol 'gpio_axis_4bit_gray_map_table' was not declared. Should it be static?
->> drivers/input/misc/gpio_axis.c:43:10: sparse: sparse: symbol 'gpio_axis_5bit_singletrack_map_table' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/gpio_axis_4bit_gray_map_table +28 drivers/input/misc/gpio_axis.c
-
-    27	
-  > 28	uint16_t gpio_axis_4bit_gray_map_table[] = {
-    29		[0x0] = 0x0, [0x1] = 0x1, /* 0000 0001 */
-    30		[0x3] = 0x2, [0x2] = 0x3, /* 0011 0010 */
-    31		[0x6] = 0x4, [0x7] = 0x5, /* 0110 0111 */
-    32		[0x5] = 0x6, [0x4] = 0x7, /* 0101 0100 */
-    33		[0xc] = 0x8, [0xd] = 0x9, /* 1100 1101 */
-    34		[0xf] = 0xa, [0xe] = 0xb, /* 1111 1110 */
-    35		[0xa] = 0xc, [0xb] = 0xd, /* 1010 1011 */
-    36		[0x9] = 0xe, [0x8] = 0xf, /* 1001 1000 */
-    37	};
-    38	uint16_t gpio_axis_4bit_gray_map(struct gpio_event_axis_info *info, uint16_t in)
-    39	{
-    40		return gpio_axis_4bit_gray_map_table[in];
-    41	}
-    42	
-  > 43	uint16_t gpio_axis_5bit_singletrack_map_table[] = {
-    44		[0x10] = 0x00, [0x14] = 0x01, [0x1c] = 0x02, /*     10000 10100 11100 */
-    45		[0x1e] = 0x03, [0x1a] = 0x04, [0x18] = 0x05, /*     11110 11010 11000 */
-    46		[0x08] = 0x06, [0x0a] = 0x07, [0x0e] = 0x08, /*    01000 01010 01110  */
-    47		[0x0f] = 0x09, [0x0d] = 0x0a, [0x0c] = 0x0b, /*    01111 01101 01100  */
-    48		[0x04] = 0x0c, [0x05] = 0x0d, [0x07] = 0x0e, /*   00100 00101 00111   */
-    49		[0x17] = 0x0f, [0x16] = 0x10, [0x06] = 0x11, /*   10111 10110 00110   */
-    50		[0x02] = 0x12, [0x12] = 0x13, [0x13] = 0x14, /*  00010 10010 10011    */
-    51		[0x1b] = 0x15, [0x0b] = 0x16, [0x03] = 0x17, /*  11011 01011 00011    */
-    52		[0x01] = 0x18, [0x09] = 0x19, [0x19] = 0x1a, /* 00001 01001 11001     */
-    53		[0x1d] = 0x1b, [0x15] = 0x1c, [0x11] = 0x1d, /* 11101 10101 10001     */
-    54	};
-    55	uint16_t gpio_axis_5bit_singletrack_map(
-    56		struct gpio_event_axis_info *info, uint16_t in)
-    57	{
-    58		return gpio_axis_5bit_singletrack_map_table[in];
-    59	}
-    60	
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+>> error: A dwo section may not contain relocations
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+   make[2]: *** [scripts/Makefile.build:249: arch/riscv/kernel/vdso/vgettimeofday.o] Error 1 shuffle=3768112586
+   make[2]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
+   make[1]: *** [arch/riscv/Makefile:128: vdso_prepare] Error 2 shuffle=3768112586
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:222: __sub-make] Error 2 shuffle=3768112586
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
