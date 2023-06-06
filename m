@@ -1,113 +1,94 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp80.cstnet.cn [159.226.251.80])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE16562E;
-	Tue,  6 Jun 2023 03:01:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686020505; x=1717556505;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4KJuvpGFFUWU/TqnGJ40csO5a0OjVVvhUYqAiYsm5Ns=;
-  b=b7zk13l6zzGTlJSUdERwDxA6Mk5U0uBFLtfFgozwy+D8HKGZMSZ7EZTH
-   re1Mjgi3eEgcvmYdQBd9AliNXMI38pGbFE5pWxtOW8NvN70UnuT2/Cs9W
-   OoBJ3dayjHKk7vfqPCPQmZea3iAjUeNB4TrR5xu+ZXGI46oZeGS53ImOL
-   1SRWfWNAyJNhBkjxnVYtB0VhfeiAZniGfLqHJAbSkkZ0sClOznf65I7ut
-   jpanAjgcINNFLl+0n8KF/+I9wsj1+YGOz+MTOK44s5PD5rREFeluTo7B4
-   aFSfpRYcm56e23PRhpwweZyuUaa/ppzHht34ay3iwoBMF56dEBVUwG2qI
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="420094325"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
-   d="scan'208";a="420094325"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2023 20:01:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10732"; a="702995520"
-X-IronPort-AV: E=Sophos;i="6.00,219,1681196400"; 
-   d="scan'208";a="702995520"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 05 Jun 2023 20:01:42 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q6Mx3-0004kb-1f;
-	Tue, 06 Jun 2023 03:01:41 +0000
-Date: Tue, 6 Jun 2023 11:01:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:timers/posix 54/61] arch/x86/kernel/signal_32.c:459:1:
- error: static assertion failed due to requirement 'sizeof ((((struct siginfo
- *)0)->_sifields._timer)) == 4 * sizeof(int)': sizeof_field(siginfo32_t,
- _sifields._timer) == 4*sizeof(int)
-Message-ID: <202306061017.X48OHhzM-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB22394
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 03:12:15 +0000 (UTC)
+Received: from ed3e173716be.home.arpa (unknown [124.16.138.125])
+	by APP-01 (Coremail) with SMTP id qwCowADn7ZkBpH5kskgzDA--.14402S2;
+	Tue, 06 Jun 2023 11:12:03 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: andy.shevchenko@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	linus.walleij@linaro.org,
+	brgl@bgdev.pl,
+	palmer@dabbelt.com,
+	paul.walmsley@sifive.com,
+	linux-gpio@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: [PATCH v3] gpio: sifive: Add missing check for platform_get_irq
+Date: Tue,  6 Jun 2023 11:11:59 +0800
+Message-Id: <20230606031159.38246-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowADn7ZkBpH5kskgzDA--.14402S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7JFyfuF1rXr4fCr1UGw4xtFb_yoWkZwc_Cw
+	1kZFyDXr409F90gF12y3yayr92vrWkurn5urs3tFy3tr98Z34Uury7Zr4rAF1DXr1UKFyD
+	G34ru3yxAa13GjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb38FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
+	4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+	7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+	1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02
+	628vn2kIc2xKxwCY02Avz4vE14v_Gr4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+	v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+	1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+	AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI
+	42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
+	evJa73UjIFyTuYvjfUnQ6pDUUUU
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git timers/posix
-head:   16a20adb1e0ae19ad42041a7d1b5583e4705ca0c
-commit: 7980f85caabff6a355848d2d3cd50acbb38b44b3 [54/61] signal: Add sys_private_ptr to siginfo::timer
-config: i386-randconfig-i062-20230605 (https://download.01.org/0day-ci/archive/20230606/202306061017.X48OHhzM-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=7980f85caabff6a355848d2d3cd50acbb38b44b3
-        git remote add tglx-devel https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git
-        git fetch --no-tags tglx-devel timers/posix
-        git checkout 7980f85caabff6a355848d2d3cd50acbb38b44b3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/kernel/ kernel/
+Add the missing check for platform_get_irq() and return error code
+if it fails.
+The returned error code will be dealed with in
+builtin_platform_driver(sifive_gpio_driver) and the driver will not
+be registered.
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306061017.X48OHhzM-lkp@intel.com/
+Fixes: f52d6d8b43e5 ("gpio: sifive: To get gpio irq offset from device tree data")
+Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+---
+Changelog:
 
-All errors (new ones prefixed by >>):
+v2 -> v3:
 
->> arch/x86/kernel/signal_32.c:459:1: error: static assertion failed due to requirement 'sizeof ((((struct siginfo *)0)->_sifields._timer)) == 4 * sizeof(int)': sizeof_field(siginfo32_t, _sifields._timer) == 4*sizeof(int)
-   CHECK_SI_SIZE  (_timer, 4*sizeof(int));
-   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/signal_32.c:447:2: note: expanded from macro 'CHECK_SI_SIZE'
-           static_assert(sizeof_field(siginfo32_t, _sifields.name) == size)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: expanded from macro 'static_assert'
-   #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:41: note: expanded from macro '__static_assert'
-   #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                           ^              ~~~~
-   1 error generated.
+1. Check before assigning values.
 
+v1 -> v2:
 
-vim +459 arch/x86/kernel/signal_32.c
+1. Return "girq->parents[0]" instead of "-ENODEV".
+---
+ drivers/gpio/gpio-sifive.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-f6e2a56c2bad10 Brian Gerst 2022-12-19  453  
-f6e2a56c2bad10 Brian Gerst 2022-12-19  454  CHECK_SI_OFFSET(_timer);
-f6e2a56c2bad10 Brian Gerst 2022-12-19  455  #ifdef CONFIG_COMPAT
-f6e2a56c2bad10 Brian Gerst 2022-12-19  456  /* compat_siginfo_t doesn't have si_sys_private */
-f6e2a56c2bad10 Brian Gerst 2022-12-19  457  CHECK_SI_SIZE  (_timer, 3*sizeof(int));
-f6e2a56c2bad10 Brian Gerst 2022-12-19  458  #else
-f6e2a56c2bad10 Brian Gerst 2022-12-19 @459  CHECK_SI_SIZE  (_timer, 4*sizeof(int));
-f6e2a56c2bad10 Brian Gerst 2022-12-19  460  #endif
-f6e2a56c2bad10 Brian Gerst 2022-12-19  461  static_assert(offsetof(siginfo32_t, si_tid)     == 0x0C);
-f6e2a56c2bad10 Brian Gerst 2022-12-19  462  static_assert(offsetof(siginfo32_t, si_overrun) == 0x10);
-f6e2a56c2bad10 Brian Gerst 2022-12-19  463  static_assert(offsetof(siginfo32_t, si_value)   == 0x14);
-f6e2a56c2bad10 Brian Gerst 2022-12-19  464  
-
-:::::: The code at line 459 was first introduced by commit
-:::::: f6e2a56c2bad10dd4381d5ab021332ef70d81990 x86/signal: Move siginfo field tests
-
-:::::: TO: Brian Gerst <brgerst@gmail.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
-
+diff --git a/drivers/gpio/gpio-sifive.c b/drivers/gpio/gpio-sifive.c
+index 98939cd4a71e..745e5f67254e 100644
+--- a/drivers/gpio/gpio-sifive.c
++++ b/drivers/gpio/gpio-sifive.c
+@@ -221,8 +221,12 @@ static int sifive_gpio_probe(struct platform_device *pdev)
+ 		return -ENODEV;
+ 	}
+ 
+-	for (i = 0; i < ngpio; i++)
+-		chip->irq_number[i] = platform_get_irq(pdev, i);
++	for (i = 0; i < ngpio; i++) {
++		ret = platform_get_irq(pdev, i);
++		if (ret < 0)
++			return ret;
++		chip->irq_number[i] = ret;
++	}
+ 
+ 	ret = bgpio_init(&chip->gc, dev, 4,
+ 			 chip->base + SIFIVE_GPIO_INPUT_VAL,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
