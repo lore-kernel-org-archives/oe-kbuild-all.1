@@ -1,289 +1,229 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E082B37B97;
-	Tue,  6 Jun 2023 16:07:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686067655; x=1717603655;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RJ2V10bIpMP9rSfInUH+3MYBVcnBoqDyA2KN9iBUC3c=;
-  b=NX7y3gQQVgNdSxK1A0v7CTw6ek7HruoQFxMXIcyWZUkuaUxpAa2+HFJp
-   N91eMpkK9xjNMIQUBsxK2h1wOody6iLvtB1xj7Cni2RwIDsaVaCbAzYVf
-   JLezuzezv/zSWGsZUXLkD35CqVo6u6YKrIX0AJWbpFqoT5HfVG6eaBlq1
-   7KxCCrvNaTGml+ASugQ4rDxyGl/S2/I7AVy7lFtF6S0ivfRj3Um4u6SaZ
-   WpmhdIfimeTA00HP3l30nXrPd6ci2bslfpkVIl0H1OdO3FBz2Db/kcUp+
-   xfIRQIBBWinhTW5P7Udnth6Fyw5P1Okv7s+xVpyZSQl/qeZpKDip65beC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="341372629"
-X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; 
-   d="scan'208";a="341372629"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 09:06:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="853504796"
-X-IronPort-AV: E=Sophos;i="6.00,221,1681196400"; 
-   d="scan'208";a="853504796"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 06 Jun 2023 09:06:52 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q6ZCu-0005St-08;
-	Tue, 06 Jun 2023 16:06:52 +0000
-Date: Wed, 7 Jun 2023 00:06:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Neel Chakraborty <neelchakrabortykernelwork@gmail.com>,
-	abbotti@mev.co.uk
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	hsweeten@visionengravers.com, linux-kernel@vger.kernel.org,
-	Neel Chakraborty <neelchakrabortykernelwork@gmail.com>
-Subject: Re: [PATCH] drivers: comedi: drivers: s526: fixed a commented out if
- else coding style issue
-Message-ID: <202306062334.IyXxcuto-lkp@intel.com>
-References: <20230605131306.427682-1-neelchakrabortykernelwork@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D5F37B97;
+	Tue,  6 Jun 2023 16:13:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1499C433EF;
+	Tue,  6 Jun 2023 16:13:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686068022;
+	bh=QwM7DUTQAmP5CKDLGISPOe3AvYarrqjMTLKruYcs9PU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SJy6gvAh/zvD96T9SPZvmnhkT7brSRIfmeZMKpeEhfunsDeST1CcgNsaiBZlPEHyD
+	 4fMeCfNwFvFtE8GFIa8WqMLkAjyePqldvpEvky9b05OEThINNaqTYkk+0XJSmLsibE
+	 PHBFvv5Lm9EmRsvvwre9VXrBbi53IBFiVlHZ+KOjWVEM5bR67tkFlUzF1ICmaROFqz
+	 PDzIuK2bEkQzgkFgosobbvI3iTSYzKAZyyzOWcUUegdVnMrqhzi83tyXADxRnxsAod
+	 sCMH5SdA7/5cKBZb2QOsy1ZjhFbLhePF6n9HAPDtRoS5s5BgyvF7fxhzHzKMtN7Aal
+	 ZmwHP1ZDVO2Qg==
+Date: Tue, 6 Jun 2023 18:13:36 +0200
+From: Lorenzo Bianconi <lorenzo@kernel.org>
+To: Kalle Valo <kvalo@kernel.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
+	Felix Fietkau <nbd@nbd.name>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-wireless@vger.kernel.org
+Subject: Re: drivers/net/wireless/mediatek/mt76/mt76x02_util.c:475
+ mt76x02_set_key() warn: variable dereferenced before check 'key' (see line
+ 415)
+Message-ID: <ZH9bMMyN/UMPBTq1@lore-desk>
+References: <2f121202-5846-44a9-8b83-e2ba1fa671d0@kadam.mountain>
+ <87mt1ciu5o.fsf@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="p6BjL3/uPCwCbsuy"
+Content-Disposition: inline
+In-Reply-To: <87mt1ciu5o.fsf@kernel.org>
+
+
+--p6BjL3/uPCwCbsuy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230605131306.427682-1-neelchakrabortykernelwork@gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Neel,
+> Adding linux-wireless, top posting so that the whole report is included.
+>=20
+> Dan Carpenter <dan.carpenter@linaro.org> writes:
+>=20
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   f8dba31b0a826e691949cd4fdfa5c30defaac8c5
+> > commit: e6db67fa871dee37d22701daba806bfcd4d9df49 wifi: mt76: ignore
+> > key disable commands
+> > config: riscv-randconfig-m031-20230605
+> > (https://download.01.org/0day-ci/archive/20230606/202306060332.WbIToDHL=
+-lkp@intel.com/config)
+> > compiler: riscv64-linux-gcc (GCC) 12.3.0
+> >
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > | Closes: https://lore.kernel.org/r/202306060332.WbIToDHL-lkp@intel.com/
+> >
+> > smatch warnings:
+> > drivers/net/wireless/mediatek/mt76/mt76x02_util.c:475
+> > mt76x02_set_key() warn: variable dereferenced before check 'key' (see
+> > line 415)
+> >
+> > vim +/key +475 drivers/net/wireless/mediatek/mt76/mt76x02_util.c
+> >
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 407 int
+> > mt76x02_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 408 struct ieee80211_vif
+> > *vif, struct ieee80211_sta *sta,
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 409 struct
+> > ieee80211_key_conf *key)
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  410  {
+> > d87cf75f111183 Lorenzo Bianconi 2018-10-07 411 struct mt76x02_dev *dev
+> > =3D hw->priv;
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 412 struct mt76x02_vif
+> > *mvif =3D (struct mt76x02_vif *)vif->drv_priv;
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  413  	struct mt76x02_sta *=
+msta;
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  414  	struct mt76_wcid *wc=
+id;
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 @415  	int idx =3D key->key=
+idx;
+> >
+> > "key" is dereferenced here
 
-kernel test robot noticed the following build errors:
+I think I have already fixed it here:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.4-rc5 next-20230606]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+https://patchwork.kernel.org/project/linux-wireless/patch/d560f1a16c9024b6e=
+4029bd0baf53384f4552f5a.1683020788.git.lorenzo@kernel.org/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Neel-Chakraborty/drivers-comedi-drivers-s526-fixed-a-commented-out-if-else-coding-style-issue/20230605-211421
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230605131306.427682-1-neelchakrabortykernelwork%40gmail.com
-patch subject: [PATCH] drivers: comedi: drivers: s526: fixed a commented out if else coding style issue
-config: arm-randconfig-r031-20230606 (https://download.01.org/0day-ci/archive/20230606/202306062334.IyXxcuto-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        git checkout linus/master
-        b4 shazam https://lore.kernel.org/r/20230605131306.427682-1-neelchakrabortykernelwork@gmail.com
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/comedi/drivers/
+Regards,
+Lorenzo
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306062334.IyXxcuto-lkp@intel.com/
+> >
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  416  	int ret;
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  417 =20
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 418 /* fall back to sw
+> > encryption for unsupported ciphers */
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  419  	switch (key->cipher)=
+ {
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  420  	case WLAN_CIPHER_SUI=
+TE_WEP40:
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  421  	case WLAN_CIPHER_SUI=
+TE_WEP104:
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  422  	case WLAN_CIPHER_SUI=
+TE_TKIP:
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  423  	case WLAN_CIPHER_SUI=
+TE_CCMP:
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  424  		break;
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  425  	default:
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  426  		return -EOPNOTSUPP;
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  427  	}
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  428 =20
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  429  	/*
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 430 * The hardware does
+> > not support per-STA RX GTK, fall back
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  431  	 * to software mode =
+for these.
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  432  	 */
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 433 if ((vif->type =3D=3D
+> > NL80211_IFTYPE_ADHOC ||
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 434 vif->type =3D=3D
+> > NL80211_IFTYPE_MESH_POINT) &&
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 435 (key->cipher =3D=3D
+> > WLAN_CIPHER_SUITE_TKIP ||
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 436 key->cipher =3D=3D
+> > WLAN_CIPHER_SUITE_CCMP) &&
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 437 !(key->flags &
+> > IEEE80211_KEY_FLAG_PAIRWISE))
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  438  		return -EOPNOTSUPP;
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  439 =20
+> > b98558e2529986 Stanislaw Gruszka 2019-03-19  440  	/*
+> > b98558e2529986 Stanislaw Gruszka 2019-03-19 441 * In USB AP mode,
+> > broadcast/multicast frames are setup in beacon
+> > b98558e2529986 Stanislaw Gruszka 2019-03-19 442 * data registers and
+> > sent via HW beacons engine, they require to
+> > b98558e2529986 Stanislaw Gruszka 2019-03-19  443  	 * be already encryp=
+ted.
+> > b98558e2529986 Stanislaw Gruszka 2019-03-19  444  	 */
+> > 61c51a74a4e586 Lorenzo Bianconi  2019-10-29  445  	if (mt76_is_usb(&dev=
+->mt76) &&
+> > b98558e2529986 Stanislaw Gruszka 2019-03-19 446 vif->type =3D=3D
+> > NL80211_IFTYPE_AP &&
+> > b98558e2529986 Stanislaw Gruszka 2019-03-19 447 !(key->flags &
+> > IEEE80211_KEY_FLAG_PAIRWISE))
+> > b98558e2529986 Stanislaw Gruszka 2019-03-19  448  		return -EOPNOTSUPP;
+> > b98558e2529986 Stanislaw Gruszka 2019-03-19  449 =20
+> > 4b36cc6b390f18 David Bauer 2021-02-07 450 /* MT76x0 GTK offloading
+> > does not work with more than one VIF */
+> > 4b36cc6b390f18 David Bauer 2021-02-07 451 if (is_mt76x0(dev) &&
+> > !(key->flags & IEEE80211_KEY_FLAG_PAIRWISE))
+> > 4b36cc6b390f18 David Bauer       2021-02-07  452  		return -EOPNOTSUPP;
+> > 4b36cc6b390f18 David Bauer       2021-02-07  453 =20
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 454 msta =3D sta ? (struct
+> > mt76x02_sta *)sta->drv_priv : NULL;
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 455 wcid =3D msta ?
+> > &msta->wcid : &mvif->group_wcid;
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  456 =20
+> > e6db67fa871dee Felix Fietkau     2023-03-30  457  	if (cmd !=3D SET_KEY=
+) {
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 458 if (idx =3D=3D
+> > wcid->hw_key_idx) {
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 459 wcid->hw_key_idx =3D -1;
+> > f2f6a47b504b8f Felix Fietkau 2019-01-25 460 wcid->sw_iv =3D false;
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  461  		}
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  462 =20
+> > e6db67fa871dee Felix Fietkau     2023-03-30  463  		return 0;
+> > e6db67fa871dee Felix Fietkau     2023-03-30  464  	}
+> > e6db67fa871dee Felix Fietkau     2023-03-30  465 =20
+> > e6db67fa871dee Felix Fietkau     2023-03-30  466  	key->hw_key_idx =3D =
+wcid->idx;
+> > e6db67fa871dee Felix Fietkau     2023-03-30  467  	wcid->hw_key_idx =3D=
+ idx;
+> > e6db67fa871dee Felix Fietkau 2023-03-30 468 if (key->flags &
+> > IEEE80211_KEY_FLAG_RX_MGMT) {
+> > e6db67fa871dee Felix Fietkau 2023-03-30 469 key->flags |=3D
+> > IEEE80211_KEY_FLAG_SW_MGMT_TX;
+> > e6db67fa871dee Felix Fietkau     2023-03-30  470  		wcid->sw_iv =3D tru=
+e;
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  471  	}
+> > d87cf75f111183 Lorenzo Bianconi 2018-10-07 472
+> > mt76_wcid_key_setup(&dev->mt76, wcid, key);
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  473 =20
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  474  	if (!msta) {
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 @475 if (key ||
+> > wcid->hw_key_idx =3D=3D idx) {
+> >
+> > This NULL check is too late.
+> >
+> > 8d66af49a3db9a Lorenzo Bianconi 2018-10-07 476 ret =3D
+> > mt76x02_mac_wcid_set_key(dev, wcid->idx, key);
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  477  			if (ret)
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04 478 return ret;
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  479  		}
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  480 =20
+> > 8d66af49a3db9a Lorenzo Bianconi 2018-10-07 481 return
+> > mt76x02_mac_shared_key_setup(dev, mvif->idx, idx, key);
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  482  	}
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  483 =20
+> > 8d66af49a3db9a Lorenzo Bianconi 2018-10-07 484 return
+> > mt76x02_mac_wcid_set_key(dev, msta->wcid.idx, key);
+> > 60c26859e863c1 Stanislaw Gruszka 2018-09-04  485  }
+>=20
+> --=20
+> https://patchwork.kernel.org/project/linux-wireless/list/
+>=20
+> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpa=
+tches
 
-All errors (new ones prefixed by >>):
+--p6BjL3/uPCwCbsuy
+Content-Type: application/pgp-signature; name="signature.asc"
 
->> drivers/comedi/drivers/s526.c:251:18: error: use of undeclared identifier 'GPCT_X2'
-                   if (data[1] == GPCT_X2)
-                                  ^
->> drivers/comedi/drivers/s526.c:251:18: error: use of undeclared identifier 'GPCT_X2'
->> drivers/comedi/drivers/s526.c:251:18: error: use of undeclared identifier 'GPCT_X2'
->> drivers/comedi/drivers/s526.c:253:23: error: use of undeclared identifier 'GPCT_X4'
-                   else if (data[1] == GPCT_X4)
-                                       ^
->> drivers/comedi/drivers/s526.c:253:23: error: use of undeclared identifier 'GPCT_X4'
->> drivers/comedi/drivers/s526.c:253:23: error: use of undeclared identifier 'GPCT_X4'
->> drivers/comedi/drivers/s526.c:267:18: error: use of undeclared identifier 'GPCT_RESET_COUNTER_ON_INDEX'
-                   if (data[3] == GPCT_RESET_COUNTER_ON_INDEX) {
-                                  ^
->> drivers/comedi/drivers/s526.c:267:18: error: use of undeclared identifier 'GPCT_RESET_COUNTER_ON_INDEX'
->> drivers/comedi/drivers/s526.c:267:18: error: use of undeclared identifier 'GPCT_RESET_COUNTER_ON_INDEX'
->> drivers/comedi/drivers/s526.c:291:9: error: use of undeclared identifier 'S526_GPCT_CTRL_CT_LOAD'
-                           outw(S526_GPCT_CTRL_CT_LOAD,
-                                ^
-   drivers/comedi/drivers/s526.c:294:2: error: #endif without #if
-   #endif
-    ^
-   11 errors generated.
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYKAB0WIQTquNwa3Txd3rGGn7Y6cBh0uS2trAUCZH9bMAAKCRA6cBh0uS2t
+rN4LAQDNL8BEsPgt6S7+dsLWJDD11V9cJztRbP8Tqks8IYLJigD+KVOZQuZZHTQB
+XRpFvLs0ahWuT/EK3WJqArXr2tovgwc=
+=cLR/
+-----END PGP SIGNATURE-----
 
-vim +/GPCT_X2 +251 drivers/comedi/drivers/s526.c
-
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  208  
-0a85b6f0ab0d2e drivers/staging/comedi/drivers/s526.c Mithlesh Thukral  2009-06-08  209  static int s526_gpct_insn_config(struct comedi_device *dev,
-0a85b6f0ab0d2e drivers/staging/comedi/drivers/s526.c Mithlesh Thukral  2009-06-08  210  				 struct comedi_subdevice *s,
-5a5614cb669f9f drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19  211  				 struct comedi_insn *insn,
-5a5614cb669f9f drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19  212  				 unsigned int *data)
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  213  {
-5f2210627f8d3c drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19  214  	struct s526_private *devpriv = dev->private;
-43a352760e6c1c drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19  215  	unsigned int chan = CR_CHAN(insn->chanspec);
-5a5614cb669f9f drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19  216  	unsigned int val;
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  217  
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  218  	/*
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  219  	 * Check what type of Counter the user requested
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  220  	 * data[0] contains the Application type
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  221  	 */
-b2abd982c484ba drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19  222  	switch (data[0]) {
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  223  	case INSN_CONFIG_GPCT_QUADRATURE_ENCODER:
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  224  		/*
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  225  		 * data[0]: Application Type
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  226  		 * data[1]: Counter Mode Register Value
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  227  		 * data[2]: Pre-load Register Value
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  228  		 * data[3]: Conter Control Register
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  229  		 */
-675f98f101fb6d drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19  230  		devpriv->gpct_config[chan] = data[0];
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  231  
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  232  		/*  Set Counter Mode Register */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  233  		val = data[1] & 0xffff;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  234  		outw(val, dev->iobase + S526_GPCT_MODE_REG(chan));
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  235  
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  236  		/*  Reset the counter if it is software preload */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  237  		if ((val & S526_GPCT_MODE_AUTOLOAD_MASK) ==
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  238  		    S526_GPCT_MODE_AUTOLOAD_NONE) {
-c9c62f4e2c9b52 drivers/staging/comedi/drivers/s526.c Xenofon Foukas    2010-12-15  239  			/*  Reset the counter */
-e5417e49965a47 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  240  			outw(S526_GPCT_CTRL_CT_RESET,
-e5417e49965a47 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  241  			     dev->iobase + S526_GPCT_CTRL_REG(chan));
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  242  			/*
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  243  			 * Load the counter from PR0
-e5417e49965a47 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  244  			 * outw(S526_GPCT_CTRL_CT_LOAD,
-e5417e49965a47 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  245  			 *      dev->iobase + S526_GPCT_CTRL_REG(chan));
-c9c62f4e2c9b52 drivers/staging/comedi/drivers/s526.c Xenofon Foukas    2010-12-15  246  			 */
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  247  		}
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  248  		val = S526_GPCT_MODE_CTDIR_CTRL_QUAD;
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  249  
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  250  		/*  data[1] contains GPCT_X1, GPCT_X2 or GPCT_X4 */
-b2abd982c484ba drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19 @251  		if (data[1] == GPCT_X2)
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  252  			val |= S526_GPCT_MODE_CLK_SRC_QUADX2;
-b2abd982c484ba drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19 @253  		else if (data[1] == GPCT_X4)
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  254  			val |= S526_GPCT_MODE_CLK_SRC_QUADX4;
-c9c62f4e2c9b52 drivers/staging/comedi/drivers/s526.c Xenofon Foukas    2010-12-15  255  		else
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  256  			val |= S526_GPCT_MODE_CLK_SRC_QUADX1;
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  257  
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  258  		/*  When to take into account the indexpulse: */
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  259  		/*
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  260  		 * if (data[2] == GPCT_IndexPhaseLowLow) {
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  261  		 * } else if (data[2] == GPCT_IndexPhaseLowHigh) {
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  262  		 * } else if (data[2] == GPCT_IndexPhaseHighLow) {
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  263  		 * } else if (data[2] == GPCT_IndexPhaseHighHigh) {
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  264  		 * }
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  265  		 */
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  266  		/*  Take into account the index pulse? */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19 @267  		if (data[3] == GPCT_RESET_COUNTER_ON_INDEX) {
-c9c62f4e2c9b52 drivers/staging/comedi/drivers/s526.c Xenofon Foukas    2010-12-15  268  			/*  Auto load with INDEX^ */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  269  			val |= S526_GPCT_MODE_AUTOLOAD_IXRISE;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  270  		}
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  271  
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  272  		/*  Set Counter Mode Register */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  273  		val = data[1] & 0xffff;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  274  		outw(val, dev->iobase + S526_GPCT_MODE_REG(chan));
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  275  
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  276  		/*  Load the pre-load register */
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  277  		s526_gpct_write(dev, chan, data[2]);
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  278  
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  279  		/*  Write the Counter Control Register */
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  280  		if (data[3])
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  281  			outw(data[3] & 0xffff,
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  282  			     dev->iobase + S526_GPCT_CTRL_REG(chan));
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  283  
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  284  		/*  Reset the counter if it is software preload */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  285  		if ((val & S526_GPCT_MODE_AUTOLOAD_MASK) ==
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  286  		    S526_GPCT_MODE_AUTOLOAD_NONE) {
-c9c62f4e2c9b52 drivers/staging/comedi/drivers/s526.c Xenofon Foukas    2010-12-15  287  			/*  Reset the counter */
-e5417e49965a47 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  288  			outw(S526_GPCT_CTRL_CT_RESET,
-e5417e49965a47 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  289  			     dev->iobase + S526_GPCT_CTRL_REG(chan));
-c9c62f4e2c9b52 drivers/staging/comedi/drivers/s526.c Xenofon Foukas    2010-12-15  290  			/*  Load the counter from PR0 */
-e5417e49965a47 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19 @291  			outw(S526_GPCT_CTRL_CT_LOAD,
-e5417e49965a47 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  292  			     dev->iobase + S526_GPCT_CTRL_REG(chan));
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  293  		}
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  294  #endif
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  295  		break;
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  296  
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  297  	case INSN_CONFIG_GPCT_SINGLE_PULSE_GENERATOR:
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  298  		/*
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  299  		 * data[0]: Application Type
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  300  		 * data[1]: Counter Mode Register Value
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  301  		 * data[2]: Pre-load Register 0 Value
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  302  		 * data[3]: Pre-load Register 1 Value
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  303  		 * data[4]: Conter Control Register
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  304  		 */
-675f98f101fb6d drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19  305  		devpriv->gpct_config[chan] = data[0];
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  306  
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  307  		/*  Set Counter Mode Register */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  308  		val = data[1] & 0xffff;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  309  		/* Select PR0 */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  310  		val &= ~S526_GPCT_MODE_PR_SELECT_MASK;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  311  		val |= S526_GPCT_MODE_PR_SELECT_PR0;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  312  		outw(val, dev->iobase + S526_GPCT_MODE_REG(chan));
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  313  
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  314  		/* Load the pre-load register 0 */
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  315  		s526_gpct_write(dev, chan, data[2]);
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  316  
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  317  		/*  Set Counter Mode Register */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  318  		val = data[1] & 0xffff;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  319  		/* Select PR1 */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  320  		val &= ~S526_GPCT_MODE_PR_SELECT_MASK;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  321  		val |= S526_GPCT_MODE_PR_SELECT_PR1;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  322  		outw(val, dev->iobase + S526_GPCT_MODE_REG(chan));
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  323  
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  324  		/* Load the pre-load register 1 */
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  325  		s526_gpct_write(dev, chan, data[3]);
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  326  
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  327  		/*  Write the Counter Control Register */
-5a5614cb669f9f drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19  328  		if (data[4]) {
-5a5614cb669f9f drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19  329  			val = data[4] & 0xffff;
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  330  			outw(val, dev->iobase + S526_GPCT_CTRL_REG(chan));
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  331  		}
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  332  		break;
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  333  
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  334  	case INSN_CONFIG_GPCT_PULSE_TRAIN_GENERATOR:
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  335  		/*
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  336  		 * data[0]: Application Type
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  337  		 * data[1]: Counter Mode Register Value
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  338  		 * data[2]: Pre-load Register 0 Value
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  339  		 * data[3]: Pre-load Register 1 Value
-a399d81d41e174 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  340  		 * data[4]: Conter Control Register
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  341  		 */
-675f98f101fb6d drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19  342  		devpriv->gpct_config[chan] = data[0];
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  343  
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  344  		/*  Set Counter Mode Register */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  345  		val = data[1] & 0xffff;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  346  		/* Select PR0 */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  347  		val &= ~S526_GPCT_MODE_PR_SELECT_MASK;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  348  		val |= S526_GPCT_MODE_PR_SELECT_PR0;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  349  		outw(val, dev->iobase + S526_GPCT_MODE_REG(chan));
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  350  
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  351  		/* Load the pre-load register 0 */
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  352  		s526_gpct_write(dev, chan, data[2]);
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  353  
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  354  		/*  Set Counter Mode Register */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  355  		val = data[1] & 0xffff;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  356  		/* Select PR1 */
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  357  		val &= ~S526_GPCT_MODE_PR_SELECT_MASK;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  358  		val |= S526_GPCT_MODE_PR_SELECT_PR1;
-479bd5edab3ca8 drivers/staging/comedi/drivers/s526.c Ian Abbott        2015-11-19  359  		outw(val, dev->iobase + S526_GPCT_MODE_REG(chan));
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  360  
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  361  		/* Load the pre-load register 1 */
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  362  		s526_gpct_write(dev, chan, data[3]);
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  363  
-232f650253a04b drivers/staging/comedi/drivers/s526.c Bill Pemberton    2009-03-27  364  		/*  Write the Counter Control Register */
-5a5614cb669f9f drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19  365  		if (data[4]) {
-5a5614cb669f9f drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2012-09-19  366  			val = data[4] & 0xffff;
-1d0d1c00daff96 drivers/staging/comedi/drivers/s526.c H Hartley Sweeten 2015-08-17  367  			outw(val, dev->iobase + S526_GPCT_CTRL_REG(chan));
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  368  		}
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  369  		break;
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  370  
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  371  	default:
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  372  		return -EINVAL;
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  373  	}
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  374  
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  375  	return insn->n;
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  376  }
-0c988d008cedca drivers/staging/comedi/drivers/s526.c Everett Wang      2009-02-17  377  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--p6BjL3/uPCwCbsuy--
