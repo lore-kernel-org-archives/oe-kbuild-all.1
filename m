@@ -1,11 +1,11 @@
 Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7943B391
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 02:21:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7B0633
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  6 Jun 2023 02:26:29 +0000 (UTC)
 Received: from ed3e173716be.home.arpa (unknown [124.16.138.125])
-	by APP-05 (Coremail) with SMTP id zQCowADndBAjmH5kCLQdDA--.6981S2;
-	Tue, 06 Jun 2023 10:21:26 +0800 (CST)
+	by APP-05 (Coremail) with SMTP id zQCowAC3v4vol35k4p4dDA--.5770S2;
+	Tue, 06 Jun 2023 10:20:26 +0800 (CST)
 From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
 To: andy.shevchenko@gmail.com
 Cc: oe-kbuild-all@lists.linux.dev,
@@ -18,8 +18,8 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jiasheng Jiang <jiasheng@iscas.ac.cn>
 Subject: Re: [PATCH v3] gpio: sifive: Add missing check for platform_get_irq
-Date: Tue,  6 Jun 2023 10:21:21 +0800
-Message-Id: <20230606022121.37914-1-jiasheng@iscas.ac.cn>
+Date: Tue,  6 Jun 2023 10:20:20 +0800
+Message-Id: <20230606022020.37863-1-jiasheng@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -27,32 +27,33 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowADndBAjmH5kCLQdDA--.6981S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZF1rGw4rXw1UCFy5tFykuFg_yoWfXrX_Kr
-	4vkr13uay0krs5J3Z0qrZ8CF4DZw48Gr4jkr4kCrnaqw43Ja40gaykKF9Yya42qwn7K347
+X-CM-TRANSID:zQCowAC3v4vol35k4p4dDA--.5770S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZw1DXrykXFW3trW3CFW7urg_yoWfXFc_Kr
+	4vkr13uay0krs5J3Z8XrZ8Cr4DZw48Gr4jkr4kCrnaqw43Ja40gaykKF9Yya4aqwn7K347
 	WryF939xAry2qjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbVAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	9fnUUIcSsGvfJTRUUUbVxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
 	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
-	6F4UJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
-	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
-	8cxan2IY04v7MxkIecxEwVAFwVW8JwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
-	WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
-	67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
-	IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF
-	0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxh
-	VjvjDU0xZFpf9x0JUCg4hUUUUU=
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc2xSY4AK67AK6r4UMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+	1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+	b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+	vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
+	cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa
+	73UjIFyTuYvjfUO_MaUUUUU
 X-Originating-IP: [124.16.138.125]
 X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 
 On Mon, 5 Jun 2023 17:15:53 +0800 Andy Shevchenko wrote:
-> On Mon, Jun 5, 2023 at 12:13 PM Andy Shevchenko
+> On Mon, Jun 5, 2023 at 12:13 ¯PM Andy Shevchenko
 > <andy.shevchenko@gmail.com> wrote:
 >>
->> On Mon, Jun 5, 2023 at 4:49 AM Jiasheng Jiang <jiasheng@iscas.ac.cn> wrote:
+>> On Mon, Jun 5, 2023 at 4:49 ¯AM Jiasheng Jiang <jiasheng@iscas.ac.cn> wrote:
 >> >
 >> > Add the missing check for platform_get_irq() and return error code
 >> > if it fails.
