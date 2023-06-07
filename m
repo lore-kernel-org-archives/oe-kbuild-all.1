@@ -1,43 +1,59 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD66F34D9D
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 10:24:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43AD6AB4
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 11:28:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686133476; x=1717669476;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SuLoIPtXDcztVQAE9Lu/jKbZrBAvhda88a/mJ4rxW20=;
-  b=KwVMCjdPIWEWrpzWrTLHZepak2wx/kMIwcdYsti+5sdh16J/oAD00N14
-   m3b/0HOu5YYj8M11INOgJpE6aIKHHELnH0HoZtVrtbDIUwJHujwmgZThD
-   brVWY02CGu7IS789LFW5DIEHjH+3jyzhhxAxhgw6GS7nFhdWXWVXEIX4i
-   gjPClJDk44Jg8PT+Cpg18jm3KSkmD1kBtAFbQA1eDVB110bSm5p5mczJ7
-   cae3m5TYaVFACBwk6xgPWnm1s12PC29ra0veFbSUJMsNbGNJPDEaqJ8VO
-   h4Gs7WGcb3CCRtzPeOqD0jqnH6wE3iMCUgJkqLOE4Dec6PdaOHB2z5I7m
+  t=1686137327; x=1717673327;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e7TMZ16KljFDcwznRpSLNhv1XRuSoLTaPVtloCJ3DK4=;
+  b=f+Q3RVlkQZ6/+cPax7HugbZAOIt3lA3dGPvMxBgs7sUxkFnUwac8WiRZ
+   kr4Ggayn4HwGo9V5l4nYmM3UpFwiXzSYG9CJMiVkt8fD6Mdo0amn63S24
+   1UPOVYKZtR/RNVlY+++PHXg5kn4ENFReMGJ1Nszm1Oi8VVEwbmCnQUOA4
+   JxMY5tfi7IeyzDfGVnEo1AwX03WGVQ0l512egLDatGR+d8Gr6SVuvafao
+   7cnogFyZQbQgYk+78BZlGbwbEC1dlC7hVb7imsOmhnVzVIE4cxlHCtn4a
+   1UFXcRLfNZHdVsIZlefOgMi2G8pxfWTQ94x4BufIUCXiplA6etyVD8Slh
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="355801792"
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="337319815"
 X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
-   d="scan'208";a="355801792"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 03:23:58 -0700
+   d="scan'208";a="337319815"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 04:27:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="883687035"
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="739193982"
 X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
-   d="scan'208";a="883687035"
+   d="scan'208";a="739193982"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 07 Jun 2023 03:23:56 -0700
+  by orsmga008.jf.intel.com with ESMTP; 07 Jun 2023 04:26:59 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6qKa-0006TH-0I;
-	Wed, 07 Jun 2023 10:23:56 +0000
-Date: Wed, 7 Jun 2023 18:23:19 +0800
+	id 1q6rJa-0006VX-0m;
+	Wed, 07 Jun 2023 11:26:58 +0000
+Date: Wed, 7 Jun 2023 19:26:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: arch/alpha/include/asm/jensen.h:187:21: warning: no previous
- prototype for 'jensen_inq'
-Message-ID: <202306071827.lP7b7QJa-lkp@intel.com>
+To: Stanley Chang <stanley_chang@realtek.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Stanley Chang <stanley_chang@realtek.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Michael Grzeschik <m.grzeschik@pengutronix.de>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Matthias Kaehlcke <mka@chromium.org>, Ray Chi <raychi@google.com>,
+	Flavio Suligoi <f.suligoi@asem.it>, linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v3 2/5] phy: realtek: usb: Add driver for the Realtek SoC
+ USB 2.0 PHY
+Message-ID: <202306071901.mhcH1Kcc-lkp@intel.com>
+References: <20230607062500.24669-2-stanley_chang@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,357 +62,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230607062500.24669-2-stanley_chang@realtek.com>
 
-Hi Arnd,
+Hi Stanley,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a4d7d701121981e3c3fe69ade376fe9f26324161
-commit: e19d4ebc536dadb607fe305fdaf48218d3e32d7c alpha: add full ioread64/iowrite64 implementation
-date:   8 months ago
-config: alpha-alldefconfig (https://download.01.org/0day-ci/archive/20230607/202306071827.lP7b7QJa-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
+[auto build test ERROR on usb/usb-testing]
+[also build test ERROR on usb/usb-next usb/usb-linus robh/for-next linus/master v6.4-rc5 next-20230607]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanley-Chang/phy-realtek-usb-Add-driver-for-the-Realtek-SoC-USB-2-0-PHY/20230607-142704
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230607062500.24669-2-stanley_chang%40realtek.com
+patch subject: [PATCH v3 2/5] phy: realtek: usb: Add driver for the Realtek SoC USB 2.0 PHY
+config: sh-randconfig-r033-20230607 (https://download.01.org/0day-ci/archive/20230607/202306071901.mhcH1Kcc-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=e19d4ebc536dadb607fe305fdaf48218d3e32d7c
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e19d4ebc536dadb607fe305fdaf48218d3e32d7c
+        git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
+        git fetch usb usb-testing
+        git checkout usb/usb-testing
+        b4 shazam https://lore.kernel.org/r/20230607062500.24669-2-stanley_chang@realtek.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash arch/alpha/kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir --shuffle=2827500481 ARCH=sh olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir --shuffle=2827500481 ARCH=sh SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306071827.lP7b7QJa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306071901.mhcH1Kcc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/alpha/kernel/sys_jensen.c:12:
-   arch/alpha/include/asm/jensen.h:92:22: warning: no previous prototype for 'jensen_set_hae' [-Wmissing-prototypes]
-      92 | __EXTERN_INLINE void jensen_set_hae(unsigned long addr)
-         |                      ^~~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:115:30: warning: no previous prototype for 'jensen_local_inb' [-Wmissing-prototypes]
-     115 | __EXTERN_INLINE unsigned int jensen_local_inb(unsigned long addr)
-         |                              ^~~~~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:120:22: warning: no previous prototype for 'jensen_local_outb' [-Wmissing-prototypes]
-     120 | __EXTERN_INLINE void jensen_local_outb(u8 b, unsigned long addr)
-         |                      ^~~~~~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:126:30: warning: no previous prototype for 'jensen_bus_inb' [-Wmissing-prototypes]
-     126 | __EXTERN_INLINE unsigned int jensen_bus_inb(unsigned long addr)
-         |                              ^~~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:135:22: warning: no previous prototype for 'jensen_bus_outb' [-Wmissing-prototypes]
-     135 | __EXTERN_INLINE void jensen_bus_outb(u8 b, unsigned long addr)
-         |                      ^~~~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:155:20: warning: no previous prototype for 'jensen_inb' [-Wmissing-prototypes]
-     155 | __EXTERN_INLINE u8 jensen_inb(unsigned long addr)
-         |                    ^~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:163:22: warning: no previous prototype for 'jensen_outb' [-Wmissing-prototypes]
-     163 | __EXTERN_INLINE void jensen_outb(u8 b, unsigned long addr)
-         |                      ^~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:171:21: warning: no previous prototype for 'jensen_inw' [-Wmissing-prototypes]
-     171 | __EXTERN_INLINE u16 jensen_inw(unsigned long addr)
-         |                     ^~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:181:21: warning: no previous prototype for 'jensen_inl' [-Wmissing-prototypes]
-     181 | __EXTERN_INLINE u32 jensen_inl(unsigned long addr)
-         |                     ^~~~~~~~~~
->> arch/alpha/include/asm/jensen.h:187:21: warning: no previous prototype for 'jensen_inq' [-Wmissing-prototypes]
-     187 | __EXTERN_INLINE u64 jensen_inq(unsigned long addr)
-         |                     ^~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:193:22: warning: no previous prototype for 'jensen_outw' [-Wmissing-prototypes]
-     193 | __EXTERN_INLINE void jensen_outw(u16 b, unsigned long addr)
-         |                      ^~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:200:22: warning: no previous prototype for 'jensen_outl' [-Wmissing-prototypes]
-     200 | __EXTERN_INLINE void jensen_outl(u32 b, unsigned long addr)
-         |                      ^~~~~~~~~~~
->> arch/alpha/include/asm/jensen.h:207:22: warning: no previous prototype for 'jensen_outq' [-Wmissing-prototypes]
-     207 | __EXTERN_INLINE void jensen_outq(u64 b, unsigned long addr)
-         |                      ^~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:218:20: warning: no previous prototype for 'jensen_readb' [-Wmissing-prototypes]
-     218 | __EXTERN_INLINE u8 jensen_readb(const volatile void __iomem *xaddr)
-         |                    ^~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:230:21: warning: no previous prototype for 'jensen_readw' [-Wmissing-prototypes]
-     230 | __EXTERN_INLINE u16 jensen_readw(const volatile void __iomem *xaddr)
-         |                     ^~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:242:21: warning: no previous prototype for 'jensen_readl' [-Wmissing-prototypes]
-     242 | __EXTERN_INLINE u32 jensen_readl(const volatile void __iomem *xaddr)
-         |                     ^~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:250:21: warning: no previous prototype for 'jensen_readq' [-Wmissing-prototypes]
-     250 | __EXTERN_INLINE u64 jensen_readq(const volatile void __iomem *xaddr)
-         |                     ^~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:263:22: warning: no previous prototype for 'jensen_writeb' [-Wmissing-prototypes]
-     263 | __EXTERN_INLINE void jensen_writeb(u8 b, volatile void __iomem *xaddr)
-         |                      ^~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:271:22: warning: no previous prototype for 'jensen_writew' [-Wmissing-prototypes]
-     271 | __EXTERN_INLINE void jensen_writew(u16 b, volatile void __iomem *xaddr)
-         |                      ^~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:279:22: warning: no previous prototype for 'jensen_writel' [-Wmissing-prototypes]
-     279 | __EXTERN_INLINE void jensen_writel(u32 b, volatile void __iomem *xaddr)
-         |                      ^~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:287:22: warning: no previous prototype for 'jensen_writeq' [-Wmissing-prototypes]
-     287 | __EXTERN_INLINE void jensen_writeq(u64 b, volatile void __iomem *xaddr)
-         |                      ^~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:297:31: warning: no previous prototype for 'jensen_ioportmap' [-Wmissing-prototypes]
-     297 | __EXTERN_INLINE void __iomem *jensen_ioportmap(unsigned long addr)
-         |                               ^~~~~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:302:31: warning: no previous prototype for 'jensen_ioremap' [-Wmissing-prototypes]
-     302 | __EXTERN_INLINE void __iomem *jensen_ioremap(unsigned long addr,
-         |                               ^~~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:308:21: warning: no previous prototype for 'jensen_is_ioaddr' [-Wmissing-prototypes]
-     308 | __EXTERN_INLINE int jensen_is_ioaddr(unsigned long addr)
-         |                     ^~~~~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:313:21: warning: no previous prototype for 'jensen_is_mmio' [-Wmissing-prototypes]
-     313 | __EXTERN_INLINE int jensen_is_mmio(const volatile void __iomem *addr)
-         |                     ^~~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:322:23: warning: no previous prototype for 'jensen_ioread8' [-Wmissing-prototypes]
-     322 | __EXTERN_INLINE u##NS jensen_ioread##NS(const void __iomem *xaddr)      \
-         |                       ^~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:337:1: note: in expansion of macro 'IOPORT'
-     337 | IOPORT(b, 8)
-         | ^~~~~~
-   arch/alpha/include/asm/jensen.h:329:22: warning: no previous prototype for 'jensen_iowrite8' [-Wmissing-prototypes]
-     329 | __EXTERN_INLINE void jensen_iowrite##NS(u##NS b, void __iomem *xaddr)   \
-         |                      ^~~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:337:1: note: in expansion of macro 'IOPORT'
-     337 | IOPORT(b, 8)
-         | ^~~~~~
-   arch/alpha/include/asm/jensen.h:322:23: warning: no previous prototype for 'jensen_ioread16' [-Wmissing-prototypes]
-     322 | __EXTERN_INLINE u##NS jensen_ioread##NS(const void __iomem *xaddr)      \
-         |                       ^~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:338:1: note: in expansion of macro 'IOPORT'
-     338 | IOPORT(w, 16)
-         | ^~~~~~
-   arch/alpha/include/asm/jensen.h:329:22: warning: no previous prototype for 'jensen_iowrite16' [-Wmissing-prototypes]
-     329 | __EXTERN_INLINE void jensen_iowrite##NS(u##NS b, void __iomem *xaddr)   \
-         |                      ^~~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:338:1: note: in expansion of macro 'IOPORT'
-     338 | IOPORT(w, 16)
-         | ^~~~~~
-   arch/alpha/include/asm/jensen.h:322:23: warning: no previous prototype for 'jensen_ioread32' [-Wmissing-prototypes]
-     322 | __EXTERN_INLINE u##NS jensen_ioread##NS(const void __iomem *xaddr)      \
-         |                       ^~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:339:1: note: in expansion of macro 'IOPORT'
-     339 | IOPORT(l, 32)
-         | ^~~~~~
-   arch/alpha/include/asm/jensen.h:329:22: warning: no previous prototype for 'jensen_iowrite32' [-Wmissing-prototypes]
-     329 | __EXTERN_INLINE void jensen_iowrite##NS(u##NS b, void __iomem *xaddr)   \
-         |                      ^~~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:339:1: note: in expansion of macro 'IOPORT'
-     339 | IOPORT(l, 32)
-         | ^~~~~~
->> arch/alpha/include/asm/jensen.h:322:23: warning: no previous prototype for 'jensen_ioread64' [-Wmissing-prototypes]
-     322 | __EXTERN_INLINE u##NS jensen_ioread##NS(const void __iomem *xaddr)      \
-         |                       ^~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:340:1: note: in expansion of macro 'IOPORT'
-     340 | IOPORT(q, 64)
-         | ^~~~~~
->> arch/alpha/include/asm/jensen.h:329:22: warning: no previous prototype for 'jensen_iowrite64' [-Wmissing-prototypes]
-     329 | __EXTERN_INLINE void jensen_iowrite##NS(u##NS b, void __iomem *xaddr)   \
-         |                      ^~~~~~~~~~~~~~
-   arch/alpha/include/asm/jensen.h:340:1: note: in expansion of macro 'IOPORT'
-     340 | IOPORT(q, 64)
-         | ^~~~~~
-   In file included from arch/alpha/kernel/sys_jensen.c:11:
-   arch/alpha/include/asm/jensen.h:348:33: warning: no previous prototype for 'jensen_iounmap' [-Wmissing-prototypes]
-     348 | #define __IO_PREFIX             jensen
-         |                                 ^~~~~~
-   arch/alpha/include/asm/io.h:137:25: note: in definition of macro '_IO_CONCAT'
-     137 | #define _IO_CONCAT(a,b) a ## _ ## b
-         |                         ^
-   arch/alpha/include/asm/io_trivial.h:141:22: note: in expansion of macro 'IO_CONCAT'
-     141 | __EXTERN_INLINE void IO_CONCAT(__IO_PREFIX,iounmap)(volatile void __iomem *a)
-         |                      ^~~~~~~~~
-   arch/alpha/include/asm/io_trivial.h:141:32: note: in expansion of macro '__IO_PREFIX'
-     141 | __EXTERN_INLINE void IO_CONCAT(__IO_PREFIX,iounmap)(volatile void __iomem *a)
-         |                                ^~~~~~~~~~~
+   sh4-linux-ld: drivers/phy/realtek/phy-rtk-usb2.o: in function `rtk_usb2phy_remove':
+>> drivers/phy/realtek/phy-rtk-usb2.c:1891: undefined reference to `usb_remove_phy'
+   sh4-linux-ld: drivers/phy/realtek/phy-rtk-usb2.o: in function `create_debug_files':
+>> drivers/phy/realtek/phy-rtk-usb2.c:1378: undefined reference to `usb_debug_root'
+   sh4-linux-ld: drivers/phy/realtek/phy-rtk-usb2.o: in function `rtk_usb2phy_probe':
+>> drivers/phy/realtek/phy-rtk-usb2.c:1882: undefined reference to `usb_add_phy_dev'
+   sh4-linux-ld: drivers/power/supply/wm831x_power.o: in function `wm831x_power_probe':
+>> drivers/power/supply/wm831x_power.c:695: undefined reference to `devm_usb_get_phy_by_phandle'
+   sh4-linux-ld: drivers/power/supply/rt9455_charger.o: in function `rt9455_probe':
+>> drivers/power/supply/rt9455_charger.c:1682: undefined reference to `devm_usb_get_phy'
+   sh4-linux-ld: drivers/power/supply/isp1704_charger.o: in function `isp1704_charger_probe':
+>> drivers/power/supply/isp1704_charger.c:73: undefined reference to `devm_usb_get_phy_by_phandle'
+>> sh4-linux-ld: drivers/power/supply/isp1704_charger.c:73: undefined reference to `devm_usb_get_phy'
+   sh4-linux-ld: drivers/power/supply/bq25890_charger.o: in function `bq25890_probe':
+>> drivers/power/supply/bq25890_charger.c:1511: undefined reference to `devm_usb_get_phy'
+   sh4-linux-ld: drivers/power/supply/bq256xx_charger.o: in function `bq256xx_probe':
+>> drivers/power/supply/bq256xx_charger.c:1743: undefined reference to `devm_usb_get_phy'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - PHY_RTK_RTD_USB2PHY [=y]
 
 
-vim +/jensen_inq +187 arch/alpha/include/asm/jensen.h
+vim +1891 drivers/phy/realtek/phy-rtk-usb2.c
 
-   162	
- > 163	__EXTERN_INLINE void jensen_outb(u8 b, unsigned long addr)
-   164	{
-   165		if (jensen_is_local(addr))
-   166			jensen_local_outb(b, addr);
-   167		else
-   168			jensen_bus_outb(b, addr);
-   169	}
-   170	
-   171	__EXTERN_INLINE u16 jensen_inw(unsigned long addr)
-   172	{
-   173		long result;
-   174	
-   175		jensen_set_hae(0);
-   176		result = *(volatile int *) ((addr << 7) + EISA_IO + 0x20);
-   177		result >>= (addr & 3) * 8;
-   178		return 0xffffUL & result;
-   179	}
-   180	
-   181	__EXTERN_INLINE u32 jensen_inl(unsigned long addr)
-   182	{
-   183		jensen_set_hae(0);
-   184		return *(vuip) ((addr << 7) + EISA_IO + 0x60);
-   185	}
-   186	
- > 187	__EXTERN_INLINE u64 jensen_inq(unsigned long addr)
-   188	{
-   189		jensen_set_hae(0);
-   190		return *(vulp) ((addr << 7) + EISA_IO + 0x60);
-   191	}
-   192	
-   193	__EXTERN_INLINE void jensen_outw(u16 b, unsigned long addr)
-   194	{
-   195		jensen_set_hae(0);
-   196		*(vuip) ((addr << 7) + EISA_IO + 0x20) = b * 0x00010001;
-   197		mb();
-   198	}
-   199	
-   200	__EXTERN_INLINE void jensen_outl(u32 b, unsigned long addr)
-   201	{
-   202		jensen_set_hae(0);
-   203		*(vuip) ((addr << 7) + EISA_IO + 0x60) = b;
-   204		mb();
-   205	}
-   206	
- > 207	__EXTERN_INLINE void jensen_outq(u64 b, unsigned long addr)
-   208	{
-   209		jensen_set_hae(0);
-   210		*(vulp) ((addr << 7) + EISA_IO + 0x60) = b;
-   211		mb();
-   212	}
-   213	
-   214	/*
-   215	 * Memory functions.
-   216	 */
-   217	
-   218	__EXTERN_INLINE u8 jensen_readb(const volatile void __iomem *xaddr)
-   219	{
-   220		unsigned long addr = (unsigned long) xaddr;
-   221		long result;
-   222	
-   223		jensen_set_hae(addr);
-   224		addr &= JENSEN_HAE_MASK;
-   225		result = *(volatile int *) ((addr << 7) + EISA_MEM + 0x00);
-   226		result >>= (addr & 3) * 8;
-   227		return 0xffUL & result;
-   228	}
-   229	
-   230	__EXTERN_INLINE u16 jensen_readw(const volatile void __iomem *xaddr)
-   231	{
-   232		unsigned long addr = (unsigned long) xaddr;
-   233		long result;
-   234	
-   235		jensen_set_hae(addr);
-   236		addr &= JENSEN_HAE_MASK;
-   237		result = *(volatile int *) ((addr << 7) + EISA_MEM + 0x20);
-   238		result >>= (addr & 3) * 8;
-   239		return 0xffffUL & result;
-   240	}
-   241	
-   242	__EXTERN_INLINE u32 jensen_readl(const volatile void __iomem *xaddr)
-   243	{
-   244		unsigned long addr = (unsigned long) xaddr;
-   245		jensen_set_hae(addr);
-   246		addr &= JENSEN_HAE_MASK;
-   247		return *(vuip) ((addr << 7) + EISA_MEM + 0x60);
-   248	}
-   249	
-   250	__EXTERN_INLINE u64 jensen_readq(const volatile void __iomem *xaddr)
-   251	{
-   252		unsigned long addr = (unsigned long) xaddr;
-   253		unsigned long r0, r1;
-   254	
-   255		jensen_set_hae(addr);
-   256		addr &= JENSEN_HAE_MASK;
-   257		addr = (addr << 7) + EISA_MEM + 0x60;
-   258		r0 = *(vuip) (addr);
-   259		r1 = *(vuip) (addr + (4 << 7));
-   260		return r1 << 32 | r0;
-   261	}
-   262	
-   263	__EXTERN_INLINE void jensen_writeb(u8 b, volatile void __iomem *xaddr)
-   264	{
-   265		unsigned long addr = (unsigned long) xaddr;
-   266		jensen_set_hae(addr);
-   267		addr &= JENSEN_HAE_MASK;
-   268		*(vuip) ((addr << 7) + EISA_MEM + 0x00) = b * 0x01010101;
-   269	}
-   270	
-   271	__EXTERN_INLINE void jensen_writew(u16 b, volatile void __iomem *xaddr)
-   272	{
-   273		unsigned long addr = (unsigned long) xaddr;
-   274		jensen_set_hae(addr);
-   275		addr &= JENSEN_HAE_MASK;
-   276		*(vuip) ((addr << 7) + EISA_MEM + 0x20) = b * 0x00010001;
-   277	}
-   278	
-   279	__EXTERN_INLINE void jensen_writel(u32 b, volatile void __iomem *xaddr)
-   280	{
-   281		unsigned long addr = (unsigned long) xaddr;
-   282		jensen_set_hae(addr);
-   283		addr &= JENSEN_HAE_MASK;
-   284		*(vuip) ((addr << 7) + EISA_MEM + 0x60) = b;
-   285	}
-   286	
-   287	__EXTERN_INLINE void jensen_writeq(u64 b, volatile void __iomem *xaddr)
-   288	{
-   289		unsigned long addr = (unsigned long) xaddr;
-   290		jensen_set_hae(addr);
-   291		addr &= JENSEN_HAE_MASK;
-   292		addr = (addr << 7) + EISA_MEM + 0x60;
-   293		*(vuip) (addr) = b;
-   294		*(vuip) (addr + (4 << 7)) = b >> 32;
-   295	}
-   296	
-   297	__EXTERN_INLINE void __iomem *jensen_ioportmap(unsigned long addr)
-   298	{
-   299		return (void __iomem *)addr;
-   300	}
-   301	
-   302	__EXTERN_INLINE void __iomem *jensen_ioremap(unsigned long addr,
-   303						     unsigned long size)
-   304	{
-   305		return (void __iomem *)(addr + 0x100000000ul);
-   306	}
-   307	
-   308	__EXTERN_INLINE int jensen_is_ioaddr(unsigned long addr)
-   309	{
-   310		return (long)addr >= 0;
-   311	}
-   312	
-   313	__EXTERN_INLINE int jensen_is_mmio(const volatile void __iomem *addr)
-   314	{
-   315		return (unsigned long)addr >= 0x100000000ul;
-   316	}
-   317	
-   318	/* New-style ioread interface.  All the routines are so ugly for Jensen
-   319	   that it doesn't make sense to merge them.  */
-   320	
-   321	#define IOPORT(OS, NS)							\
- > 322	__EXTERN_INLINE u##NS jensen_ioread##NS(const void __iomem *xaddr)	\
-   323	{									\
-   324		if (jensen_is_mmio(xaddr))					\
-   325			return jensen_read##OS(xaddr - 0x100000000ul);		\
-   326		else								\
-   327			return jensen_in##OS((unsigned long)xaddr);		\
-   328	}									\
- > 329	__EXTERN_INLINE void jensen_iowrite##NS(u##NS b, void __iomem *xaddr)	\
-   330	{									\
-   331		if (jensen_is_mmio(xaddr))					\
-   332			jensen_write##OS(b, xaddr - 0x100000000ul);		\
-   333		else								\
-   334			jensen_out##OS(b, (unsigned long)xaddr);		\
-   335	}
-   336	
-   337	IOPORT(b, 8)
-   338	IOPORT(w, 16)
- > 339	IOPORT(l, 32)
-   340	IOPORT(q, 64)
-   341	
+  1802	
+  1803	static int rtk_usb2phy_probe(struct platform_device *pdev)
+  1804	{
+  1805		struct rtk_usb_phy *rtk_phy;
+  1806		struct device *dev = &pdev->dev;
+  1807		struct device_node *node;
+  1808		struct device_node *sub_node;
+  1809		struct phy *generic_phy;
+  1810		struct phy_provider *phy_provider;
+  1811		int phyN, ret = 0;
+  1812	
+  1813		rtk_phy = devm_kzalloc(dev, sizeof(*rtk_phy), GFP_KERNEL);
+  1814		if (!rtk_phy)
+  1815			return -ENOMEM;
+  1816	
+  1817		rtk_phy->dev			= &pdev->dev;
+  1818		rtk_phy->phy.dev		= rtk_phy->dev;
+  1819		rtk_phy->phy.label		= "rtk-usb2phy";
+  1820		rtk_phy->phy.notify_port_status = rtk_usb_phy_notify_port_status;
+  1821	
+  1822		if (!dev->of_node) {
+  1823			dev_err(dev, "%s %d No device node\n", __func__, __LINE__);
+  1824			goto err;
+  1825		}
+  1826	
+  1827		node = dev->of_node;
+  1828	
+  1829		rtk_phy->usb_ctrl_regs = syscon_regmap_lookup_by_phandle(node, "realtek,usb-ctrl");
+  1830		if (IS_ERR(rtk_phy->usb_ctrl_regs)) {
+  1831			dev_info(dev, "%s: DTS no support usb_ctrl regs syscon\n", __func__);
+  1832			rtk_phy->usb_ctrl_regs = NULL;
+  1833		}
+  1834	
+  1835		phyN = of_get_child_count(node);
+  1836		rtk_phy->phyN = phyN;
+  1837		dev_dbg(dev, "%s phyN=%d\n", __func__, rtk_phy->phyN);
+  1838	
+  1839		rtk_phy->reg_addr = devm_kzalloc(dev,
+  1840			    sizeof(struct reg_addr) * phyN, GFP_KERNEL);
+  1841		if (!rtk_phy->reg_addr)
+  1842			return -ENOMEM;
+  1843	
+  1844		rtk_phy->phy_data = devm_kzalloc(dev,
+  1845			    sizeof(struct phy_data) * phyN, GFP_KERNEL);
+  1846		if (!rtk_phy->phy_data)
+  1847			return -ENOMEM;
+  1848	
+  1849		for (sub_node = of_get_next_child(node, NULL); sub_node != NULL;
+  1850			    sub_node = of_get_next_child(node, sub_node)) {
+  1851			ret = get_phy_parameter(rtk_phy, sub_node);
+  1852			if (ret) {
+  1853				dev_err(dev, "%s: get_phy_parameter fail ret=%d\n",
+  1854					    __func__, ret);
+  1855				goto err;
+  1856			}
+  1857		}
+  1858	
+  1859		platform_set_drvdata(pdev, rtk_phy);
+  1860	
+  1861		generic_phy = devm_phy_create(rtk_phy->dev, NULL, &ops);
+  1862		if (IS_ERR(generic_phy))
+  1863			return PTR_ERR(generic_phy);
+  1864	
+  1865		phy_set_drvdata(generic_phy, rtk_phy);
+  1866	
+  1867		phy_provider = devm_of_phy_provider_register(rtk_phy->dev,
+  1868					    of_phy_simple_xlate);
+  1869		if (IS_ERR(phy_provider))
+  1870			return PTR_ERR(phy_provider);
+  1871	
+  1872		ret = usb_add_phy_dev(&rtk_phy->phy);
+  1873		if (ret)
+  1874			goto err;
+  1875	
+  1876		create_debug_files(rtk_phy);
+  1877	
+  1878	err:
+  1879		dev_dbg(dev, "Probe RTK USB 2.0 PHY (ret=%d)\n", ret);
+  1880	
+  1881		return ret;
+> 1882	}
+  1883	
+  1884	static void rtk_usb2phy_remove(struct platform_device *pdev)
+  1885	{
+  1886		struct rtk_usb_phy *rtk_phy = platform_get_drvdata(pdev);
+  1887	
+  1888		remove_debug_files(rtk_phy);
+  1889	
+  1890		usb_remove_phy(&rtk_phy->phy);
+> 1891	}
+  1892	
 
 -- 
 0-DAY CI Kernel Test Service
