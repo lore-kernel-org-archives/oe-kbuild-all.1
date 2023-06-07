@@ -1,45 +1,53 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC421ACBB;
-	Wed,  7 Jun 2023 15:12:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45DF334D94
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 15:43:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686150742; x=1717686742;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rM69SIuayS4owQ+pFyr4d+/+66I4yOv1mDrJk4ytElo=;
-  b=hcWt2S7Xk0pNciThx+OfEGJ/G2cwZ/uaeANr2WdYTwR7vr7DQFPjPfUb
-   Se8KKtkq8hOF9q3y9fNUehPwrzoSL//aTA7KJA86wZBwLFyP0Frz3u15H
-   bP/8w4+/K2UUredfguNfk4S7L9cm8svGGNtXQ+HBdNUu/cttiEeQkTBmY
-   eml1bpA6+Tl6krJKlJI9iU28x5aO0N3RgqXg4c/1OYDdnIOPFDyBnmHZc
-   iKFf1AofBgG3Yxk3Td73bEo8nIldQjK+WWbaEuT8axZi96RBbgSNv7ldm
-   tXaDO8zx0Ls0nXVtMGTxcSEdWypdbqDNc2S6Zz5Rmy16wrGMHYwUtPznx
+  t=1686152616; x=1717688616;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j6zflyQMoWlDas1SZirAeOtucemhZGcw3KpPqh1Lgbc=;
+  b=oJftp9OEb6p0+5HY2VoawIG7Te/ZZPLY9RVos0p4HRx617taCaqrhwb/
+   GBYa6uWV8ACUljNrx6V/E2BraCwAgRcJ5wdk8MtC5gwDWRuxdmmY5zCN2
+   J2GylZFoy2lw+EkxF1ZJALY1M/D0wNl1EaerRSMFaqG0SHnM/wVmclvnr
+   omq9Up1V97bAJ7KnX7S1pvPQWF5uUCBHayvp6ncgvt9LKy1ATfDCyVxEY
+   o16WaImhlAxb7v8Yl/Yx0MVBDGhHWHlTLZT6BY12qzCBMHM1qzD3CO+fb
+   x79yhw0Vv98L3+yGkE0RUq1r0V6pSpPRV3p1X34CfRPzpKh9PygSu7wao
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="337377679"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="420584311"
 X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; 
-   d="scan'208";a="337377679"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 08:12:20 -0700
+   d="scan'208";a="420584311"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 08:43:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="687033189"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="1039727330"
 X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; 
-   d="scan'208";a="687033189"
+   d="scan'208";a="1039727330"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 07 Jun 2023 08:12:18 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 07 Jun 2023 08:43:20 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6upe-0006gc-0a;
-	Wed, 07 Jun 2023 15:12:18 +0000
-Date: Wed, 7 Jun 2023 23:11:56 +0800
+	id 1q6vJf-0006hv-24;
+	Wed, 07 Jun 2023 15:43:19 +0000
+Date: Wed, 7 Jun 2023 23:42:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yogesh Lal <quic_ylal@quicinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Sibi Sankar <quic_sibis@quicinc.com>
-Subject: drivers/remoteproc/qcom_q6v5_pas.c:108:6: warning: no previous
- prototype for function 'adsp_segment_dump'
-Message-ID: <202306072353.uUeUzI6M-lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+	tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
+	christian.koenig@amd.com, bskeggs@redhat.com,
+	Liam.Howlett@oracle.com, matthew.brost@intel.com,
+	boris.brezillon@collabora.com, alexdeucher@gmail.com,
+	ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+	jason@jlekstrand.net
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v4 09/14] drm/nouveau: fence: separate fence
+ alloc and emit
+Message-ID: <202306072327.BHC88W12-lkp@intel.com>
+References: <20230606223130.6132-10-dakr@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,70 +56,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230606223130.6132-10-dakr@redhat.com>
 
-Hi Yogesh,
+Hi Danilo,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a4d7d701121981e3c3fe69ade376fe9f26324161
-commit: a376c10d45a8e6ee5ea55791193f90625b35e156 remoteproc: qcom: pas: Adjust the phys addr wrt the mem region
-date:   4 months ago
-config: arm64-buildonly-randconfig-r005-20230607 (https://download.01.org/0day-ci/archive/20230607/202306072353.uUeUzI6M-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+[auto build test ERROR on 33a86170888b7e4aa0cea94ebb9c67180139cea9]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230607-063442
+base:   33a86170888b7e4aa0cea94ebb9c67180139cea9
+patch link:    https://lore.kernel.org/r/20230606223130.6132-10-dakr%40redhat.com
+patch subject: [PATCH drm-next v4 09/14] drm/nouveau: fence: separate fence alloc and emit
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230607/202306072327.BHC88W12-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm64 cross compiling tool for clang build
-        # apt-get install binutils-aarch64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=a376c10d45a8e6ee5ea55791193f90625b35e156
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a376c10d45a8e6ee5ea55791193f90625b35e156
+        git checkout 33a86170888b7e4aa0cea94ebb9c67180139cea9
+        b4 shazam https://lore.kernel.org/r/20230606223130.6132-10-dakr@redhat.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/remoteproc/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/gpu/drm/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306072353.uUeUzI6M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306072327.BHC88W12-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/remoteproc/qcom_q6v5_pas.c:108:6: warning: no previous prototype for function 'adsp_segment_dump' [-Wmissing-prototypes]
-     108 | void adsp_segment_dump(struct rproc *rproc, struct rproc_dump_segment *segment,
-         |      ^
-   drivers/remoteproc/qcom_q6v5_pas.c:108:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     108 | void adsp_segment_dump(struct rproc *rproc, struct rproc_dump_segment *segment,
-         | ^
-         | static 
-   1 warning generated.
+   drivers/gpu/drm/nouveau/nouveau_dmem.c: In function 'nouveau_dmem_migrate_chunk':
+>> drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: error: 'chunk' undeclared (first use in this function)
+     681 |                 nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
+         |                                           ^~~~~
+   drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/adsp_segment_dump +108 drivers/remoteproc/qcom_q6v5_pas.c
+vim +/chunk +681 drivers/gpu/drm/nouveau/nouveau_dmem.c
 
-   107	
- > 108	void adsp_segment_dump(struct rproc *rproc, struct rproc_dump_segment *segment,
-   109			       void *dest, size_t offset, size_t size)
-   110	{
-   111		struct qcom_adsp *adsp = rproc->priv;
-   112		int total_offset;
-   113	
-   114		total_offset = segment->da + segment->offset + offset - adsp->mem_phys;
-   115		if (total_offset < 0 || total_offset + size > adsp->mem_size) {
-   116			dev_err(adsp->dev,
-   117				"invalid copy request for segment %pad with offset %zu and size %zu)\n",
-   118				&segment->da, offset, size);
-   119			memset(dest, 0xff, size);
-   120			return;
-   121		}
-   122	
-   123		memcpy_fromio(dest, adsp->mem_region + total_offset, size);
-   124	}
-   125	
+   664	
+   665	static void nouveau_dmem_migrate_chunk(struct nouveau_drm *drm,
+   666			struct nouveau_svmm *svmm, struct migrate_vma *args,
+   667			dma_addr_t *dma_addrs, u64 *pfns)
+   668	{
+   669		struct nouveau_fence *fence;
+   670		unsigned long addr = args->start, nr_dma = 0, i;
+   671	
+   672		for (i = 0; addr < args->end; i++) {
+   673			args->dst[i] = nouveau_dmem_migrate_copy_one(drm, svmm,
+   674					args->src[i], dma_addrs + nr_dma, pfns + i);
+   675			if (!dma_mapping_error(drm->dev->dev, dma_addrs[nr_dma]))
+   676				nr_dma++;
+   677			addr += PAGE_SIZE;
+   678		}
+   679	
+   680		if (!nouveau_fence_new(&fence))
+ > 681			nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
+   682		migrate_vma_pages(args);
+   683		nouveau_dmem_fence_done(&fence);
+   684		nouveau_pfns_map(svmm, args->vma->vm_mm, args->start, pfns, i);
+   685	
+   686		while (nr_dma--) {
+   687			dma_unmap_page(drm->dev->dev, dma_addrs[nr_dma], PAGE_SIZE,
+   688					DMA_BIDIRECTIONAL);
+   689		}
+   690		migrate_vma_finalize(args);
+   691	}
+   692	
 
 -- 
 0-DAY CI Kernel Test Service
