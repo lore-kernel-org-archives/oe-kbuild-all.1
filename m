@@ -1,53 +1,47 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2903539234
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 20:19:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9503925E;
+	Wed,  7 Jun 2023 20:21:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686169187; x=1717705187;
+  t=1686169295; x=1717705295;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sLX5G4ZkL+Cdg+Izw3VSjARG+9fbg+jRISFwXpa7Fx4=;
-  b=PeB4EDNmMtWSEUffMzstY/6I7f1OCeiCAfWfyzUOky48bh3ooX/XiUnM
-   xOJS2NHZpEG+vSM4nh1shpEFaSlYaLLIkgBOs4sKcrQlSPxT6Fl4xo427
-   97jy5AXQBf/Z+IiJehHf33Pxl35EDmdELHBD76FjXgo7V1obznNGLYqfp
-   occWb+8eb+EEIha3qU+tsCt1m2ugmlm0SL5Xdf3RTufWT/9rV1QSzj6a2
-   i6xkUEjltp7hqN7u6YkW8cJbQCnZUD6hGcLfcqrnK3S3sANA/ct2FlO+L
-   hqehOML+HxSqYpz85O7c8GHy3tNYNcO2gKVdEOVjA42kwZeV60B1Cdhro
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="422943178"
+  bh=ptcJdaHahJRD2fNGZZ0WMUGd3tX28UXr2OYz7pD6acg=;
+  b=UbF3L7kdCDbOyNyJo2/su9/yvA8JIKMnLd+nVgBdwVM3x905XtATpdUX
+   I1v+Z1UkLPUEgFhsaYSw1LEzW1VwumeDhgl6VL38nTmaQ/ZyWT3slPvbh
+   7RzGm9h0Gr+OnO8c7yAOdDQI+43xLuMBZunxzgII1hG2NE5+9a+k2zggl
+   R8+llK9Sxha9kN1Sf1sly3PWkA8lIAtac3azTfvdwm1SPNa5e0Ntay5vE
+   RtsCZK9K+vaJdKyXMZIuMdMVnYDbXA0cZALx8Eojz0cGHHiOr51WAOG3f
+   zU8vm63Arr6vVAqiIdnOr3qL1I2HR7AQ5O0vDxljU25flL8j6xJ1o0/Py
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="357109031"
 X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
-   d="scan'208";a="422943178"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 13:19:46 -0700
+   d="scan'208";a="357109031"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 13:20:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="799528903"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="739418877"
 X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
-   d="scan'208";a="799528903"
+   d="scan'208";a="739418877"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 07 Jun 2023 13:19:41 -0700
+  by orsmga008.jf.intel.com with ESMTP; 07 Jun 2023 13:20:40 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6zd6-0006t8-2O;
-	Wed, 07 Jun 2023 20:19:40 +0000
-Date: Thu, 8 Jun 2023 04:19:29 +0800
+	id 1q6ze4-0006tD-2X;
+	Wed, 07 Jun 2023 20:20:40 +0000
+Date: Thu, 8 Jun 2023 04:19:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
-	tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
-	christian.koenig@amd.com, bskeggs@redhat.com,
-	Liam.Howlett@oracle.com, matthew.brost@intel.com,
-	boris.brezillon@collabora.com, alexdeucher@gmail.com,
-	ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-	jason@jlekstrand.net
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	Danilo Krummrich <dakr@redhat.com>
-Subject: Re: [PATCH drm-next v4 04/14] drm: debugfs: provide infrastructure
- to dump a DRM GPU VA space
-Message-ID: <202306080453.W2Dcrevr-lkp@intel.com>
-References: <20230606223130.6132-5-dakr@redhat.com>
+To: Yang Li <yang.lee@linux.alibaba.com>, mani@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, lpieralisi@kernel.org, kw@linux.com,
+	kishon@kernel.org, bhelgaas@google.com, mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-pci@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Yang Li <yang.lee@linux.alibaba.com>,
+	Abaci Robot <abaci@linux.alibaba.com>
+Subject: Re: [PATCH -next] PCI: endpoint: Remove redundant dev_err().
+Message-ID: <202306080418.i64hTj5T-lkp@intel.com>
+References: <20230607093514.104012-1-yang.lee@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,84 +50,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230606223130.6132-5-dakr@redhat.com>
+In-Reply-To: <20230607093514.104012-1-yang.lee@linux.alibaba.com>
 
-Hi Danilo,
+Hi Yang,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 33a86170888b7e4aa0cea94ebb9c67180139cea9]
+[auto build test WARNING on next-20230607]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230607-063442
-base:   33a86170888b7e4aa0cea94ebb9c67180139cea9
-patch link:    https://lore.kernel.org/r/20230606223130.6132-5-dakr%40redhat.com
-patch subject: [PATCH drm-next v4 04/14] drm: debugfs: provide infrastructure to dump a DRM GPU VA space
-config: i386-randconfig-s001-20230607 (https://download.01.org/0day-ci/archive/20230608/202306080453.W2Dcrevr-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yang-Li/PCI-endpoint-Remove-redundant-dev_err/20230607-173708
+base:   next-20230607
+patch link:    https://lore.kernel.org/r/20230607093514.104012-1-yang.lee%40linux.alibaba.com
+patch subject: [PATCH -next] PCI: endpoint: Remove redundant dev_err().
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230608/202306080418.i64hTj5T-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/intel-lab-lkp/linux/commit/513e00e3cf4889b115cd8ab122b8e51adf2805ab
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230607-063442
-        git checkout 513e00e3cf4889b115cd8ab122b8e51adf2805ab
+reproduce (this is a W=1 build):
+        git checkout next-20230607
+        b4 shazam https://lore.kernel.org/r/20230607093514.104012-1-yang.lee@linux.alibaba.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/pci/endpoint/functions/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306080453.W2Dcrevr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306080418.i64hTj5T-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_debugfs.c:213:33: sparse: sparse: non size-preserving pointer to integer cast
+All warnings (new ones prefixed by >>):
 
-vim +213 drivers/gpu/drm/drm_debugfs.c
+   drivers/pci/endpoint/functions/pci-epf-mhi.c: In function 'pci_epf_mhi_bind':
+>> drivers/pci/endpoint/functions/pci-epf-mhi.c:347:24: warning: unused variable 'dev' [-Wunused-variable]
+     347 |         struct device *dev = &epf->dev;
+         |                        ^~~
 
-   178	
-   179	/**
-   180	 * drm_debugfs_gpuva_info - dump the given DRM GPU VA space
-   181	 * @m: pointer to the &seq_file to write
-   182	 * @mgr: the &drm_gpuva_manager representing the GPU VA space
-   183	 *
-   184	 * Dumps the GPU VA mappings of a given DRM GPU VA manager.
-   185	 *
-   186	 * For each DRM GPU VA space drivers should call this function from their
-   187	 * &drm_info_list's show callback.
-   188	 *
-   189	 * Returns: 0 on success, -ENODEV if the &mgr is not initialized
-   190	 */
-   191	int drm_debugfs_gpuva_info(struct seq_file *m,
-   192				   struct drm_gpuva_manager *mgr)
-   193	{
-   194		DRM_GPUVA_ITER(it, mgr, 0);
-   195		struct drm_gpuva *va, *kva = &mgr->kernel_alloc_node;
-   196	
-   197		if (!mgr->name)
-   198			return -ENODEV;
-   199	
-   200		seq_printf(m, "DRM GPU VA space (%s) [0x%016llx;0x%016llx]\n",
-   201			   mgr->name, mgr->mm_start, mgr->mm_start + mgr->mm_range);
-   202		seq_printf(m, "Kernel reserved node [0x%016llx;0x%016llx]\n",
-   203			   kva->va.addr, kva->va.addr + kva->va.range);
-   204		seq_puts(m, "\n");
-   205		seq_puts(m, " VAs | start              | range              | end                | object             | object offset\n");
-   206		seq_puts(m, "-------------------------------------------------------------------------------------------------------------\n");
-   207		drm_gpuva_iter_for_each(va, it) {
-   208			if (unlikely(va == &mgr->kernel_alloc_node))
-   209				continue;
-   210	
-   211			seq_printf(m, "     | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx | 0x%016llx\n",
-   212				   va->va.addr, va->va.range, va->va.addr + va->va.range,
- > 213				   (u64)va->gem.obj, va->gem.offset);
-   214		}
-   215	
-   216		return 0;
-   217	}
-   218	EXPORT_SYMBOL(drm_debugfs_gpuva_info);
-   219	
+
+vim +/dev +347 drivers/pci/endpoint/functions/pci-epf-mhi.c
+
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  341  
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  342  static int pci_epf_mhi_bind(struct pci_epf *epf)
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  343  {
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  344  	struct pci_epf_mhi *epf_mhi = epf_get_drvdata(epf);
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  345  	struct pci_epc *epc = epf->epc;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  346  	struct platform_device *pdev = to_platform_device(epc->dev.parent);
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02 @347  	struct device *dev = &epf->dev;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  348  	struct resource *res;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  349  	int ret;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  350  
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  351  	/* Get MMIO base address from Endpoint controller */
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  352  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "mmio");
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  353  	epf_mhi->mmio_phys = res->start;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  354  	epf_mhi->mmio_size = resource_size(res);
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  355  
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  356  	epf_mhi->mmio = ioremap(epf_mhi->mmio_phys, epf_mhi->mmio_size);
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  357  	if (IS_ERR(epf_mhi->mmio))
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  358  		return PTR_ERR(epf_mhi->mmio);
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  359  
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  360  	ret = platform_get_irq_byname(pdev, "doorbell");
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  361  	if (ret < 0) {
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  362  		iounmap(epf_mhi->mmio);
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  363  		return ret;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  364  	}
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  365  
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  366  	epf_mhi->irq = ret;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  367  
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  368  	return 0;
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  369  }
+7db424a84d96b0 Manivannan Sadhasivam 2023-06-02  370  
 
 -- 
 0-DAY CI Kernel Test Service
