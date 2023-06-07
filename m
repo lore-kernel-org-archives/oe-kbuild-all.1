@@ -1,59 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B43AD6AB4
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 11:28:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636716AB4
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 11:29:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686137327; x=1717673327;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e7TMZ16KljFDcwznRpSLNhv1XRuSoLTaPVtloCJ3DK4=;
-  b=f+Q3RVlkQZ6/+cPax7HugbZAOIt3lA3dGPvMxBgs7sUxkFnUwac8WiRZ
-   kr4Ggayn4HwGo9V5l4nYmM3UpFwiXzSYG9CJMiVkt8fD6Mdo0amn63S24
-   1UPOVYKZtR/RNVlY+++PHXg5kn4ENFReMGJ1Nszm1Oi8VVEwbmCnQUOA4
-   JxMY5tfi7IeyzDfGVnEo1AwX03WGVQ0l512egLDatGR+d8Gr6SVuvafao
-   7cnogFyZQbQgYk+78BZlGbwbEC1dlC7hVb7imsOmhnVzVIE4cxlHCtn4a
-   1UFXcRLfNZHdVsIZlefOgMi2G8pxfWTQ94x4BufIUCXiplA6etyVD8Slh
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="337319815"
+  t=1686137363; x=1717673363;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=f0GPR6xqhtga8SKgHxweP6XqLfx2zmNvyIWeyBwk2fc=;
+  b=PYcReyGMYibhu3HURN1RiPBxTE0lolZIaTOY/x8jdqD3jf3ug5cA4yon
+   LAS6g13L5zGeVc0iRa19d2JpHnNO01MEoNw0X+F4GsRqyjcflUd98YMji
+   X7XWgMCaB4YHq4o3zFB7j3LCCjZOdVb/NVs6KxxgeuEQHLrkKQT65D3Sf
+   Sq8K6LxJuRzuVJNF6oaANMykpYjnE/yhNBG46lvhVZOSCKq6kOokrnIf6
+   mZZ7a2F4Nqt+ovwcrynL+HgCFxKMs3uE3J9/vVcsOsBtdo0Any0qyoLpF
+   wH4irX0EoXdwmzQKbOcH2hsc4A6QjrAHWEgTTyZtq4YUD2dmeb7CVnSP4
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="422802850"
 X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
-   d="scan'208";a="337319815"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 04:27:04 -0700
+   d="scan'208";a="422802850"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 04:28:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="739193982"
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="883733128"
 X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
-   d="scan'208";a="739193982"
+   d="scan'208";a="883733128"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 07 Jun 2023 04:26:59 -0700
+  by orsmga005.jf.intel.com with ESMTP; 07 Jun 2023 04:27:58 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6rJa-0006VX-0m;
-	Wed, 07 Jun 2023 11:26:58 +0000
-Date: Wed, 7 Jun 2023 19:26:48 +0800
+	id 1q6rKY-0006Vd-11;
+	Wed, 07 Jun 2023 11:27:58 +0000
+Date: Wed, 7 Jun 2023 19:27:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanley Chang <stanley_chang@realtek.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Stanley Chang <stanley_chang@realtek.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Matthias Kaehlcke <mka@chromium.org>, Ray Chi <raychi@google.com>,
-	Flavio Suligoi <f.suligoi@asem.it>, linux-phy@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] phy: realtek: usb: Add driver for the Realtek SoC
- USB 2.0 PHY
-Message-ID: <202306071901.mhcH1Kcc-lkp@intel.com>
-References: <20230607062500.24669-2-stanley_chang@realtek.com>
+To: Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arm-perf:kvm/bpf 2/3] ERROR: modpost: "bpf_base_func_proto"
+ [arch/riscv/kvm/kvm.ko] undefined!
+Message-ID: <202306071938.yVCAVTFl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,161 +45,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230607062500.24669-2-stanley_chang@realtek.com>
 
-Hi Stanley,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus robh/for-next linus/master v6.4-rc5 next-20230607]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanley-Chang/phy-realtek-usb-Add-driver-for-the-Realtek-SoC-USB-2-0-PHY/20230607-142704
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230607062500.24669-2-stanley_chang%40realtek.com
-patch subject: [PATCH v3 2/5] phy: realtek: usb: Add driver for the Realtek SoC USB 2.0 PHY
-config: sh-randconfig-r033-20230607 (https://download.01.org/0day-ci/archive/20230607/202306071901.mhcH1Kcc-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git kvm/bpf
+head:   044975299633da153eec3842998426f5f93cda92
+commit: bb22c4e9bcd0289f0ec15ddbf04e8f1e4289fc09 [2/3] KVM: Add support for new KVM_DEV_TYPE_BPF device
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20230607/202306071938.yVCAVTFl-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-        git fetch usb usb-testing
-        git checkout usb/usb-testing
-        b4 shazam https://lore.kernel.org/r/20230607062500.24669-2-stanley_chang@realtek.com
+        # https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/commit/?id=bb22c4e9bcd0289f0ec15ddbf04e8f1e4289fc09
+        git remote add arm-perf https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git
+        git fetch --no-tags arm-perf kvm/bpf
+        git checkout bb22c4e9bcd0289f0ec15ddbf04e8f1e4289fc09
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir --shuffle=2827500481 ARCH=sh olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir --shuffle=2827500481 ARCH=sh SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306071901.mhcH1Kcc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306071938.yVCAVTFl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   sh4-linux-ld: drivers/phy/realtek/phy-rtk-usb2.o: in function `rtk_usb2phy_remove':
->> drivers/phy/realtek/phy-rtk-usb2.c:1891: undefined reference to `usb_remove_phy'
-   sh4-linux-ld: drivers/phy/realtek/phy-rtk-usb2.o: in function `create_debug_files':
->> drivers/phy/realtek/phy-rtk-usb2.c:1378: undefined reference to `usb_debug_root'
-   sh4-linux-ld: drivers/phy/realtek/phy-rtk-usb2.o: in function `rtk_usb2phy_probe':
->> drivers/phy/realtek/phy-rtk-usb2.c:1882: undefined reference to `usb_add_phy_dev'
-   sh4-linux-ld: drivers/power/supply/wm831x_power.o: in function `wm831x_power_probe':
->> drivers/power/supply/wm831x_power.c:695: undefined reference to `devm_usb_get_phy_by_phandle'
-   sh4-linux-ld: drivers/power/supply/rt9455_charger.o: in function `rt9455_probe':
->> drivers/power/supply/rt9455_charger.c:1682: undefined reference to `devm_usb_get_phy'
-   sh4-linux-ld: drivers/power/supply/isp1704_charger.o: in function `isp1704_charger_probe':
->> drivers/power/supply/isp1704_charger.c:73: undefined reference to `devm_usb_get_phy_by_phandle'
->> sh4-linux-ld: drivers/power/supply/isp1704_charger.c:73: undefined reference to `devm_usb_get_phy'
-   sh4-linux-ld: drivers/power/supply/bq25890_charger.o: in function `bq25890_probe':
->> drivers/power/supply/bq25890_charger.c:1511: undefined reference to `devm_usb_get_phy'
-   sh4-linux-ld: drivers/power/supply/bq256xx_charger.o: in function `bq256xx_probe':
->> drivers/power/supply/bq256xx_charger.c:1743: undefined reference to `devm_usb_get_phy'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - PHY_RTK_RTD_USB2PHY [=y]
-
-
-vim +1891 drivers/phy/realtek/phy-rtk-usb2.c
-
-  1802	
-  1803	static int rtk_usb2phy_probe(struct platform_device *pdev)
-  1804	{
-  1805		struct rtk_usb_phy *rtk_phy;
-  1806		struct device *dev = &pdev->dev;
-  1807		struct device_node *node;
-  1808		struct device_node *sub_node;
-  1809		struct phy *generic_phy;
-  1810		struct phy_provider *phy_provider;
-  1811		int phyN, ret = 0;
-  1812	
-  1813		rtk_phy = devm_kzalloc(dev, sizeof(*rtk_phy), GFP_KERNEL);
-  1814		if (!rtk_phy)
-  1815			return -ENOMEM;
-  1816	
-  1817		rtk_phy->dev			= &pdev->dev;
-  1818		rtk_phy->phy.dev		= rtk_phy->dev;
-  1819		rtk_phy->phy.label		= "rtk-usb2phy";
-  1820		rtk_phy->phy.notify_port_status = rtk_usb_phy_notify_port_status;
-  1821	
-  1822		if (!dev->of_node) {
-  1823			dev_err(dev, "%s %d No device node\n", __func__, __LINE__);
-  1824			goto err;
-  1825		}
-  1826	
-  1827		node = dev->of_node;
-  1828	
-  1829		rtk_phy->usb_ctrl_regs = syscon_regmap_lookup_by_phandle(node, "realtek,usb-ctrl");
-  1830		if (IS_ERR(rtk_phy->usb_ctrl_regs)) {
-  1831			dev_info(dev, "%s: DTS no support usb_ctrl regs syscon\n", __func__);
-  1832			rtk_phy->usb_ctrl_regs = NULL;
-  1833		}
-  1834	
-  1835		phyN = of_get_child_count(node);
-  1836		rtk_phy->phyN = phyN;
-  1837		dev_dbg(dev, "%s phyN=%d\n", __func__, rtk_phy->phyN);
-  1838	
-  1839		rtk_phy->reg_addr = devm_kzalloc(dev,
-  1840			    sizeof(struct reg_addr) * phyN, GFP_KERNEL);
-  1841		if (!rtk_phy->reg_addr)
-  1842			return -ENOMEM;
-  1843	
-  1844		rtk_phy->phy_data = devm_kzalloc(dev,
-  1845			    sizeof(struct phy_data) * phyN, GFP_KERNEL);
-  1846		if (!rtk_phy->phy_data)
-  1847			return -ENOMEM;
-  1848	
-  1849		for (sub_node = of_get_next_child(node, NULL); sub_node != NULL;
-  1850			    sub_node = of_get_next_child(node, sub_node)) {
-  1851			ret = get_phy_parameter(rtk_phy, sub_node);
-  1852			if (ret) {
-  1853				dev_err(dev, "%s: get_phy_parameter fail ret=%d\n",
-  1854					    __func__, ret);
-  1855				goto err;
-  1856			}
-  1857		}
-  1858	
-  1859		platform_set_drvdata(pdev, rtk_phy);
-  1860	
-  1861		generic_phy = devm_phy_create(rtk_phy->dev, NULL, &ops);
-  1862		if (IS_ERR(generic_phy))
-  1863			return PTR_ERR(generic_phy);
-  1864	
-  1865		phy_set_drvdata(generic_phy, rtk_phy);
-  1866	
-  1867		phy_provider = devm_of_phy_provider_register(rtk_phy->dev,
-  1868					    of_phy_simple_xlate);
-  1869		if (IS_ERR(phy_provider))
-  1870			return PTR_ERR(phy_provider);
-  1871	
-  1872		ret = usb_add_phy_dev(&rtk_phy->phy);
-  1873		if (ret)
-  1874			goto err;
-  1875	
-  1876		create_debug_files(rtk_phy);
-  1877	
-  1878	err:
-  1879		dev_dbg(dev, "Probe RTK USB 2.0 PHY (ret=%d)\n", ret);
-  1880	
-  1881		return ret;
-> 1882	}
-  1883	
-  1884	static void rtk_usb2phy_remove(struct platform_device *pdev)
-  1885	{
-  1886		struct rtk_usb_phy *rtk_phy = platform_get_drvdata(pdev);
-  1887	
-  1888		remove_debug_files(rtk_phy);
-  1889	
-  1890		usb_remove_phy(&rtk_phy->phy);
-> 1891	}
-  1892	
+>> ERROR: modpost: "bpf_base_func_proto" [arch/riscv/kvm/kvm.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
