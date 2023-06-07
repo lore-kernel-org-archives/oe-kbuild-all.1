@@ -1,44 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA7F63B5;
-	Wed,  7 Jun 2023 16:50:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E903735D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 17:32:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686156644; x=1717692644;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SEgnOiDfpgT7K4MDwD8lslf+8SvraVHJTzb/YRJqyBA=;
-  b=oHh4WoCzSPbBYFiXPxyBcpdjrgA6fmABi/eBTddH1bgAgy8aShICW3BE
-   CRMOfiBfz1Js68z7Z1PeozDxEeMTeluqjeT7oGnzBzvKlywuavm7fvEHc
-   n3ObBKf+td1Zn3kqC9UY7jJ75uis4SmI/3K5iK+o9/RuCTduO6yUR6g80
-   ylVwk709xTihlzgeWrVOfpO8hHiD6KJHBnR+M67XXicElX/iS/JtFq/KM
-   jULYbclanvtaLUfCAWXklTzX4HavqL5LOd/6ViRfUajbRhajcCGaj65bE
-   6V1W6HKS4E0ea0723x7Y9GvBO21epBBHP0KK7xgNSHuJ6eMJdPUxqE3a9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="385373288"
+  t=1686159127; x=1717695127;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=EKLBh5452rTrtnSW4hcfYbaevBvLnjIuyMkRY6643bo=;
+  b=FltIXdWXFN74/fFXabx0Xw3nwJCZXb8SpeQRnRpw8cUrPy00p+BO3UTn
+   gI6IlChLCbxRzYoKJ0CHfn58R590697WcAstO6ItS95l+uCxCns/302iW
+   wtiPjqOzwlCa9/8O1f014072Y96U3y/6CPg1EPs97dbPG9IaCsOGAqoOR
+   DlZDfPRAD/nb0lKxRYqj05D8UquLm5/UYsSb66+X4kAMT5MX3EgnFq0UW
+   aq+JRmFMTZgoAKMjcQMmma4Ss8BeZWaufMxRRqRL9+hyNMsJrrEte1gJA
+   KfkU2cpF/eIVaOntc4Uvs6F3zy88FpyU+p39O6DJjit0DDBtO1YUWAolI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="337417455"
 X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; 
-   d="scan'208";a="385373288"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 09:50:32 -0700
+   d="scan'208";a="337417455"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 10:32:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="703732397"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="709637597"
 X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; 
-   d="scan'208";a="703732397"
+   d="scan'208";a="709637597"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 07 Jun 2023 09:50:30 -0700
+  by orsmga002.jf.intel.com with ESMTP; 07 Jun 2023 10:32:04 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6wMg-0006lD-0J;
-	Wed, 07 Jun 2023 16:50:30 +0000
-Date: Thu, 8 Jun 2023 00:49:30 +0800
+	id 1q6x0t-0006m7-2n;
+	Wed, 07 Jun 2023 17:32:03 +0000
+Date: Thu, 8 Jun 2023 01:31:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Petr Machata <petrm@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Danielle Ratson <danieller@nvidia.com>
-Subject: [jpirko-mlxsw:combined_queue 75/82]
- drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:9834:34: warning:
- variable 'rif' is uninitialized when used here
-Message-ID: <202306080029.CAKJ1SGq-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] fs: avoid empty option when generating legacy mount
+ string
+Message-ID: <ZIC+7BpKkZQIs6hT@a93e062a6cea>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,75 +46,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230607-fs-empty-option-v1-1-20c8dbf4671b@weissschuh.net>
 
-tree:   https://github.com/jpirko/linux_mlxsw combined_queue
-head:   c58ed86fb0a2783e661f4fbb5b9cb02cd1207bbb
-commit: 2cdf9abaaae530f19b20b2b4bf570b23b4233bc3 [75/82] mlxsw: spectrum_router: Replay IP NETDEV_UP on device enslavement
-config: powerpc-randconfig-r031-20230607 (https://download.01.org/0day-ci/archive/20230608/202306080029.CAKJ1SGq-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://github.com/jpirko/linux_mlxsw/commit/2cdf9abaaae530f19b20b2b4bf570b23b4233bc3
-        git remote add jpirko-mlxsw https://github.com/jpirko/linux_mlxsw
-        git fetch --no-tags jpirko-mlxsw combined_queue
-        git checkout 2cdf9abaaae530f19b20b2b4bf570b23b4233bc3
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/net/ethernet/mellanox/mlxsw/
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306080029.CAKJ1SGq-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
->> drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:9834:34: warning: variable 'rif' is uninitialized when used here [-Wuninitialized]
-    9834 |         if (!mlxsw_sp_rif_should_config(rif, dev, NETDEV_UP))
-         |                                         ^~~
-   drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:9821:26: note: initialize the variable 'rif' to silence this warning
-    9821 |         struct mlxsw_sp_rif *rif;
-         |                                 ^
-         |                                  = NULL
-   1 warning generated.
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH] fs: avoid empty option when generating legacy mount string
+Link: https://lore.kernel.org/stable/20230607-fs-empty-option-v1-1-20c8dbf4671b%40weissschuh.net
 
-
-vim +/rif +9834 drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c
-
-  9815	
-  9816	static int mlxsw_sp_router_unreplay_inetaddr_up(struct net_device *dev,
-  9817							struct netdev_nested_priv *priv)
-  9818	{
-  9819		struct mlxsw_sp_router_replay_inetaddr_up *ctx = priv->data;
-  9820		struct mlxsw_sp_crif *crif;
-  9821		struct mlxsw_sp_rif *rif;
-  9822	
-  9823		if (!ctx->done)
-  9824			return 0;
-  9825	
-  9826		if (mlxsw_sp_dev_addr_list_empty(dev))
-  9827			return 0;
-  9828	
-  9829		crif = mlxsw_sp_crif_lookup(ctx->mlxsw_sp->router, dev);
-  9830		if (!crif || !crif->rif)
-  9831			return 0;
-  9832	
-  9833		/* We are rolling back NETDEV_UP, so ask for that. */
-> 9834		if (!mlxsw_sp_rif_should_config(rif, dev, NETDEV_UP))
-  9835			return 0;
-  9836	
-  9837		__mlxsw_sp_inetaddr_event(ctx->mlxsw_sp, dev, NETDEV_DOWN, false, NULL);
-  9838	
-  9839		ctx->done--;
-  9840		return 0;
-  9841	}
-  9842	
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
