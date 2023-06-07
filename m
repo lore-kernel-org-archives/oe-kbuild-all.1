@@ -1,145 +1,90 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D3D9647
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 06:44:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686120289; x=1717656289;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4tki/V8b+YyMtWB/3hCmjlsI9h+GFezHEZ6clq56P3o=;
-  b=WjxIdAi+HCTiJXDcAA5z9WnuNk/EAwmU2gaCYaEwHA4Xxhd02yjmD+OW
-   K6eddebgZaFruUV46NEPhTONllJ9zXY06SV2yFBI6/1EzEUGvlQBjV+Dg
-   StH0v1Z3TPPICIdTGdmi0ySH9CYwwx2mZdGLt1o4jEDn+b7YXLLgTMSGN
-   vSefKzIWrq9+7ril4QvLwIAmqsD1Yrq9J+/AgZsd+pG1u8vTn5qrefefE
-   jrm86lODr7oUHoFj1q42kYA8qNzAnA497Da4nl1OKqd1GqxLDBsR0O5XI
-   3UhdML7t9MFY212Q5uswbXQg9SBg7lx700OaemW1PyCO5vYmyq7PUW2iy
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="354395966"
-X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
-   d="scan'208";a="354395966"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2023 23:44:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="956089496"
-X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
-   d="scan'208";a="956089496"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 06 Jun 2023 23:44:45 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q6muS-0006Gr-0t;
-	Wed, 07 Jun 2023 06:44:44 +0000
-Date: Wed, 7 Jun 2023 14:43:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Steffen Eiden <seiden@linux.ibm.com>, kvm@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Viktor Mihajlovski <mihajlov@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, Janosch Frank <frankja@linux.ibm.com>,
-	Claudio Imbrenda <imbrenda@linux.ibm.com>,
-	Nico Boehr <nrb@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Hendrik Brueckner <brueckner@linux.ibm.com>
-Subject: Re: [PATCH v4 6/6] s390/uv: Update query for secret-UVCs
-Message-ID: <202306071439.xUNkOsqy-lkp@intel.com>
-References: <20230606180817.3019077-7-seiden@linux.ibm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7B917DB
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 07:09:07 +0000 (UTC)
+Received: from ed3e173716be.home.arpa (unknown [124.16.138.125])
+	by APP-05 (Coremail) with SMTP id zQCowAA3P4vlLIBk8SHQDA--.699S2;
+	Wed, 07 Jun 2023 15:08:22 +0800 (CST)
+From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
+To: andy.shevchenko@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	linus.walleij@linaro.org,
+	brgl@bgdev.pl,
+	palmer@dabbelt.com,
+	paul.walmsley@sifive.com,
+	linux-gpio@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Jiasheng Jiang <jiasheng@iscas.ac.cn>
+Subject: Re: [PATCH v3] gpio: ath79: Add missing check for platform_get_irq
+Date: Wed,  7 Jun 2023 15:08:19 +0800
+Message-Id: <20230607070819.48553-1-jiasheng@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230606180817.3019077-7-seiden@linux.ibm.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAA3P4vlLIBk8SHQDA--.699S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tF15Gw4kWr4kGrWxAF1fJFb_yoW8Gw17pF
+	W5KFWvka1kGa1j9wn7ZrWruFW0yan3KryrArWrta45Kwn8ZF9a9r4fKw4Y9FyxCry8Awn2
+	vw4ruan0gF9rZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+	Y2ka0xkIwI1lc2xSY4AK67AK6r4xMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+	1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+	b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
+	vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
+	cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
+	nxnUUI43ZEXa7VUjGXdUUUUUU==
+X-Originating-IP: [124.16.138.125]
+X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
 
-Hi Steffen,
+On Tue, 6 Jun 2023 17:46:36 +0800 Andy Shevchenko wrote:
+> Tue, Jun 06, 2023 at 12:28:17PM +0300, andy.shevchenko@gmail.com kirjoitti:
+>> Tue, Jun 06, 2023 at 11:18:41AM +0800, Jiasheng Jiang kirjoitti:
+>> 
+>> Is this v4?
+>>
 
-kernel test robot noticed the following build errors:
+I will submit a v4.
+ 
+>> > Add the missing check for platform_get_irq() and return error
+>> > if it fails.
+>> > The returned error code will be dealed with in
+>> > module_platform_driver(ath79_gpio_driver) and the driver will not
+>> > be registered.
+>> 
+>> No, this functional change and has not to be for the fixes unless _this_ is the
+>> regression you are fixing. Did the driver work before at some point as after
+>> this change?
 
-[auto build test ERROR on kvms390/next]
-[also build test ERROR on s390/features mst-vhost/linux-next linus/master v6.4-rc5 next-20230607]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I will remove the fixes tag in v4.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Steffen-Eiden/s390-uvdevice-Add-info-IOCTL/20230607-021159
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git next
-patch link:    https://lore.kernel.org/r/20230606180817.3019077-7-seiden%40linux.ibm.com
-patch subject: [PATCH v4 6/6] s390/uv: Update query for secret-UVCs
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230607/202306071439.xUNkOsqy-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add kvms390 https://git.kernel.org/pub/scm/linux/kernel/git/kvms390/linux.git
-        git fetch kvms390 next
-        git checkout kvms390/next
-        b4 shazam https://lore.kernel.org/r/20230606180817.3019077-7-seiden@linux.ibm.com
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+> 
+> To be more clear, answer to the following questions:
+> 1) does driver work with wrong DT configuration?
+> 2a) if yes, does it make sense, i.e. the hardware functioning usefully?
+> 2b) if yes, can we guarantee there are no broken configurations in the wild?
+> 
+> Depending on the answers correct your code and/or commit message.
+> 
+>> Otherwise you have to _justify_ that this functional change won't break
+>> existing setups (with broked IRQ in Device Tree, for example).
 
-If you fix the issue, kindly add following tag where applicable
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306071439.xUNkOsqy-lkp@intel.com/
+Sorry, I do not quite understand what you mean.
+I have no idea how these questions are related to my patch.
+Do you mean I should not fail the ->probe() if there is wrong IRQ numbering in the DT?
+Please tell me the relationship between these questions and my patch.
 
-All errors (new ones prefixed by >>):
+Thanks,
+Jiasheng
 
-   arch/s390/boot/uv.c: In function 'uv_query_info':
->> arch/s390/boot/uv.c:53:55: error: expected ';' before '}' token
-      53 |                 uv_info.max_secrets = uvcb.max_secrets
-         |                                                       ^
-         |                                                       ;
-      54 |         }
-         |         ~                                              
-
-
-vim +53 arch/s390/boot/uv.c
-
-    18	
-    19	void uv_query_info(void)
-    20	{
-    21		struct uv_cb_qui uvcb = {
-    22			.header.cmd = UVC_CMD_QUI,
-    23			.header.len = sizeof(uvcb)
-    24		};
-    25	
-    26		if (!test_facility(158))
-    27			return;
-    28	
-    29		/* rc==0x100 means that there is additional data we do not process */
-    30		if (uv_call(0, (uint64_t)&uvcb) && uvcb.header.rc != 0x100)
-    31			return;
-    32	
-    33		if (IS_ENABLED(CONFIG_KVM)) {
-    34			memcpy(uv_info.inst_calls_list, uvcb.inst_calls_list, sizeof(uv_info.inst_calls_list));
-    35			uv_info.uv_base_stor_len = uvcb.uv_base_stor_len;
-    36			uv_info.guest_base_stor_len = uvcb.conf_base_phys_stor_len;
-    37			uv_info.guest_virt_base_stor_len = uvcb.conf_base_virt_stor_len;
-    38			uv_info.guest_virt_var_stor_len = uvcb.conf_virt_var_stor_len;
-    39			uv_info.guest_cpu_stor_len = uvcb.cpu_stor_len;
-    40			uv_info.max_sec_stor_addr = ALIGN(uvcb.max_guest_stor_addr, PAGE_SIZE);
-    41			uv_info.max_num_sec_conf = uvcb.max_num_sec_conf;
-    42			uv_info.max_guest_cpu_id = uvcb.max_guest_cpu_id;
-    43			uv_info.uv_feature_indications = uvcb.uv_feature_indications;
-    44			uv_info.supp_se_hdr_ver = uvcb.supp_se_hdr_versions;
-    45			uv_info.supp_se_hdr_pcf = uvcb.supp_se_hdr_pcf;
-    46			uv_info.conf_dump_storage_state_len = uvcb.conf_dump_storage_state_len;
-    47			uv_info.conf_dump_finalize_len = uvcb.conf_dump_finalize_len;
-    48			uv_info.supp_att_req_hdr_ver = uvcb.supp_att_req_hdr_ver;
-    49			uv_info.supp_att_pflags = uvcb.supp_att_pflags;
-    50			uv_info.supp_add_secret_req_ver = uvcb.supp_add_secret_req_ver;
-    51			uv_info.supp_add_secret_pcf = uvcb.supp_add_secret_pcf;
-    52			uv_info.supp_secret_types = uvcb.supp_secret_types;
-  > 53			uv_info.max_secrets = uvcb.max_secrets
-    54		}
-    55	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
