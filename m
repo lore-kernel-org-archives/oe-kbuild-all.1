@@ -1,59 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF333735F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 17:32:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B7A1772E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 17:42:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686159129; x=1717695129;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AsVSg3Faz1IxnTa3HiL4YpkQZ7wQ38kBaOY0hJhpXrU=;
-  b=QPHU595MaVDvKre3Peir1jxavI9OQzZVmTbV+HaAfwK8NJ01pKdKw1ik
-   kJtt205TWGqUGEtDdgdLWmetYwwNO+Q3j9CoguJ5XM0FmijjPnJVhYLIw
-   r+tDti17rhar5A0ds1ikVyPCIQNRZcR3rH/nb1DDhpe3x2hcHSJ+H/7gE
-   y90WmKr6oSstlN6aC97m6Q4AMqFBpefDija2IBeU2tQvP8n9vual/Bap1
-   JEoVrtVbdYFk4jI9f/AxLOWR/d7vuE5g1w1R+5q83zrw7wKAPn98PDeZ4
-   7EW6QF7qpogc8bGQEdXA4HqAEOzGb9kQT96TVbgmplSPxK9JHhD5PEGXI
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="420614935"
+  t=1686159777; x=1717695777;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7DozfBAfjyOkRdD/7zhMbBNwGFWoDjVKP241UHjynlU=;
+  b=Ao9cim4faSSEDUfZw16Kbv6qkLQMz6WxrM0RO/ahSe4A9YOpcu6PDmoG
+   EwbY8E+T6mChghUJJdAzIYj0+qDyjft3Vku9OMpQebmILZoiwZNgt+nII
+   h6pAxompOz0Gyzz9kHD1djOh7/S+aclZIlG3U9srDeLs6pBlLNks7Mniw
+   6RPtJ+gF5EeSt52AWOvL3D+J63Qv+gUm0LBxYF8SNQrqUX+s2kn/pWkfw
+   04AiSyd9CiEEaUHXSXaZQFbzuMMbtdoleWV8V6PCNUW6hmraX+99VNSmR
+   llsHxmHrbY2hpruz3ibzP66sJCEaIzwiklFJ+u/AwYpbcOTV/FzleOifW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="357068931"
 X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; 
-   d="scan'208";a="420614935"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 10:32:09 -0700
+   d="scan'208";a="357068931"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 10:42:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="854002886"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="799485186"
 X-IronPort-AV: E=Sophos;i="6.00,224,1681196400"; 
-   d="scan'208";a="854002886"
+   d="scan'208";a="799485186"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Jun 2023 10:32:04 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Jun 2023 10:42:56 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q6x0u-0006mA-0K;
-	Wed, 07 Jun 2023 17:32:04 +0000
-Date: Thu, 8 Jun 2023 01:31:15 +0800
+	id 1q6xBP-0006mh-28;
+	Wed, 07 Jun 2023 17:42:55 +0000
+Date: Thu, 8 Jun 2023 01:42:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanley Chang <stanley_chang@realtek.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Stanley Chang <stanley_chang@realtek.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Matthias Kaehlcke <mka@chromium.org>, Ray Chi <raychi@google.com>,
-	Flavio Suligoi <f.suligoi@asem.it>, linux-phy@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] phy: realtek: usb: Add driver for the Realtek SoC
- USB 2.0 PHY
-Message-ID: <202306080128.Gh3c2H1O-lkp@intel.com>
-References: <20230607062500.24669-2-stanley_chang@realtek.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:mnt_idmap_prot 29/29] fs/mnt_idmapping.c:20:19: warning:
+ no previous prototype for function 'fsnotify_conn_mnt_idmap'
+Message-ID: <202306080124.52KZ0dOL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,52 +45,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230607062500.24669-2-stanley_chang@realtek.com>
 
-Hi Stanley,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus robh/for-next linus/master v6.4-rc5 next-20230607]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanley-Chang/phy-realtek-usb-Add-driver-for-the-Realtek-SoC-USB-2-0-PHY/20230607-142704
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230607062500.24669-2-stanley_chang%40realtek.com
-patch subject: [PATCH v3 2/5] phy: realtek: usb: Add driver for the Realtek SoC USB 2.0 PHY
-config: arm64-randconfig-r014-20230607 (https://download.01.org/0day-ci/archive/20230608/202306080128.Gh3c2H1O-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
+tree:   https://github.com/amir73il/linux mnt_idmap_prot
+head:   8e70eb8a651b98677105e34ded526227e7afb4a8
+commit: c2694695d45048f17fbb48fafc41a919e3cd2d60 [29/29] fs: add support for "protected" attribute on a mount
+config: hexagon-buildonly-randconfig-r004-20230607 (https://download.01.org/0day-ci/archive/20230608/202306080124.52KZ0dOL-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-        git fetch usb usb-testing
-        git checkout usb/usb-testing
-        b4 shazam https://lore.kernel.org/r/20230607062500.24669-2-stanley_chang@realtek.com
+        # https://github.com/amir73il/linux/commit/c2694695d45048f17fbb48fafc41a919e3cd2d60
+        git remote add amir73il https://github.com/amir73il/linux
+        git fetch --no-tags amir73il mnt_idmap_prot
+        git checkout c2694695d45048f17fbb48fafc41a919e3cd2d60
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306080128.Gh3c2H1O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306080124.52KZ0dOL-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-ERROR: modpost: "devm_usb_get_phy_by_phandle" [drivers/power/supply/wm831x_power.ko] undefined!
->> ERROR: modpost: "devm_usb_get_phy" [drivers/power/supply/da9150-charger.ko] undefined!
+>> fs/mnt_idmapping.c:20:19: warning: no previous prototype for function 'fsnotify_conn_mnt_idmap' [-Wmissing-prototypes]
+      20 | struct mnt_idmap *fsnotify_conn_mnt_idmap(struct fsnotify_mark_connector *conn)
+         |                   ^
+   fs/mnt_idmapping.c:20:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      20 | struct mnt_idmap *fsnotify_conn_mnt_idmap(struct fsnotify_mark_connector *conn)
+         | ^
+         | static 
+   1 warning generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
-   Selected by [y]:
-   - PHY_RTK_RTD_USB2PHY [=y]
+
+vim +/fsnotify_conn_mnt_idmap +20 fs/mnt_idmapping.c
+
+    19	
+  > 20	struct mnt_idmap *fsnotify_conn_mnt_idmap(struct fsnotify_mark_connector *conn)
+    21	{
+    22		return container_of(conn->obj, struct mnt_idmap, fsnotify_marks);
+    23	}
+    24	
 
 -- 
 0-DAY CI Kernel Test Service
