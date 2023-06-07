@@ -1,68 +1,135 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652153C097
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 22:30:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686177016; x=1717713016;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=duIqZmSdWrWcs+5wStPAlPj19KmVGhs8xc+W4p7EuGA=;
-  b=JIbSCuoRKRM269AQaF3Qh1mP7BeRv8VcmhV4wlbE3zpDGAqitr0zMMUf
-   qS7k2tkR5gZ8lxILzX8swG7ER1Vdx+NRqWGwhKsIj3DsYxxOYrFzlLLes
-   xKsSWxjqjNK0mQ1z7Q+MuMZsKHy9NdvQ4f3Ed41wmkUy6hx6R6t9jqAHF
-   D/exwJKBgbRso4lGTxy5h7GLtx0TWBpovOhEKZYuqvNiothcVj2bdNQu+
-   mnq2lRhsqHQIBpN2SbHaPP5klCa7BnATyr819275AxPCHuuv75ceforHo
-   CU5yA4mNflLRO6kUyRxAp/pxUFSRs3wbhdnsBLMUDZAAnYvoj7bBnOoMa
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="355983815"
-X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
-   d="scan'208";a="355983815"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 15:30:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="883960006"
-X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
-   d="scan'208";a="883960006"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 07 Jun 2023 15:30:08 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q71fL-0006yB-37;
-	Wed, 07 Jun 2023 22:30:07 +0000
-Date: Thu, 8 Jun 2023 06:29:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Artur Weber <aweber.kernel@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [linux-next:master 3275/7747]
- drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:69:5-8: Unneeded variable:
- "ret". Return "  0" on line 83
-Message-ID: <202306080610.S7geSwzf-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18963B3E0
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 22:33:00 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-62613b2c8b7so257126d6.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 07 Jun 2023 15:33:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1686177179; x=1688769179;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=t9by4qHftkkIV9Dk+LEK7WmI/x+RI+VPrc+0RTrcbSE=;
+        b=ajwy+j036eXsYFXblwjoEB6Aw6OYAH1T+vWl1PD2S4FA48pMWXcuQKY6N9JS7YBGjf
+         1oJt9AhWoSXHs/cHV/yJu/2zFme+hAEFalbyMQCjYxXbxYPfLfMUuXAsxh0QngcDpKt1
+         qBuxMtrQ2tRjZjaOZx1HUc1wmaGpZSpO3dQgXpzgIQbZ5P0PHZallhvi3h/A50nVhyin
+         R1aPZoe5W9qz8UmY9Icgql9muuNPAEIttcC8/+xr3+ttCz5+p6MhAiq6HqsDrLhgktzx
+         UqQpclTpEaVZmBM5WifFpsySrLBbfReTiNxXVQj5itXBKRbLeyNnN3N3NphVqX/2WwX7
+         99yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686177179; x=1688769179;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=t9by4qHftkkIV9Dk+LEK7WmI/x+RI+VPrc+0RTrcbSE=;
+        b=IpA9flPncjUFM4RqoZBwgJfVGM7QX4YM5azF3JKwS+AWG81BOJH/2ksOjd7jP1hUs5
+         ynDvtUyuVT0MPps7lFbyk1BQHQm0+//6PPFE/vg+FaaR8VUHGycBFT8SKvnYGHo3U2de
+         T+cXZk1eZBsQ4pV8V/QKoVQEnRDy7pe6SB3g+HWPqTDJkW7XOaFwLmIKUtovshXLUo1O
+         cmkMpfpAlgpkd2JaVBhpNu/9vrqBxqQBC816bc0nkET5sCwbLCWvi764LwJS33XmP/mI
+         4ciQhdg6oO0ESYyGjecdUN9mb6mv9eXbnu0fa5EOV/yK+wUJwE4w+56WvOMbc/nm0oW8
+         FrKw==
+X-Gm-Message-State: AC+VfDzjxnyw7QSHBkQiq6b23EKPKU16vKeLoCFT33zq1BWXY36eM6vv
+	B6C3UU/VOzeC2lj+dvyJhgvP
+X-Google-Smtp-Source: ACHHUZ4ewnwuAf75MX7qtYNX8ySyhllpz6opxYtjHAmuUfwHeN4bTSuQYtfKgtbd9TlUj5MRrofMow==
+X-Received: by 2002:ad4:5c84:0:b0:625:b67c:919c with SMTP id o4-20020ad45c84000000b00625b67c919cmr6170358qvh.21.1686177179508;
+        Wed, 07 Jun 2023 15:32:59 -0700 (PDT)
+Received: from localhost (static-96-237-115-254.bstnma.fios.verizon.net. [96.237.115.254])
+        by smtp.gmail.com with ESMTPSA id s12-20020a0ce30c000000b00623813aa1d5sm229915qvl.89.2023.06.07.15.32.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Jun 2023 15:32:59 -0700 (PDT)
+Date: Wed, 07 Jun 2023 18:32:58 -0400
+Message-ID: <30166d8a65c734af1c36b15f01501903.paul@paul-moore.com>
+From: Paul Moore <paul@paul-moore.com>
+To: Casey Schaufler <casey@schaufler-ca.com>, linux-security-module@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, jmorris@namei.org, keescook@chromium.org, john.johansen@canonical.com, penguin-kernel@i-love.sakura.ne.jp, stephen.smalley.work@gmail.com, linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, mic@digikod.net
+Subject: Re: [PATCH v10 7/11] LSM: Helpers for attribute names and filling  lsm_ctx
+References: <20230428203417.159874-8-casey@schaufler-ca.com>
+In-Reply-To: <20230428203417.159874-8-casey@schaufler-ca.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   abbd8bb42915d9ed06df11b430bf4ecb3d8ac5ad
-commit: 6810bb390282bb75801832f31d088236503fee89 [3275/7747] drm/panel: Add Samsung S6D7AA0 panel controller driver
-config: arm-randconfig-c031-20230607 (https://download.01.org/0day-ci/archive/20230608/202306080610.S7geSwzf-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+On Apr 28, 2023 kernel test robot <lkp@intel.com> wrote:
+> 
+> Add lsm_name_to_attr(), which translates a text string to a
+> LSM_ATTR value if one is available.
+> 
+> Add lsm_fill_user_ctx(), which fills a struct lsm_ctx, including
+> the trailing attribute value. The .len value is padded to a multiple
+> of 64 bits for alignment.
+> 
+> All are used in module specific components of LSM system calls.
+> 
+> Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
+> ---
+>  include/linux/security.h | 13 ++++++++++++
+>  security/lsm_syscalls.c  | 24 ++++++++++++++++++++++
+>  security/security.c      | 44 ++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 81 insertions(+)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306080610.S7geSwzf-lkp@intel.com/
+...
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c:69:5-8: Unneeded variable: "ret". Return "  0" on line 83
+> diff --git a/security/security.c b/security/security.c
+> index 94b78bfd06b9..8c877d639cae 100644
+> --- a/security/security.c
+> +++ b/security/security.c
+> @@ -761,6 +761,50 @@ static int lsm_superblock_alloc(struct super_block *sb)
+>  	return 0;
+>  }
+>  
+> +/**
+> + * lsm_fill_user_ctx - Fill a user space lsm_ctx structure
+> + * @ctx: an LSM context to be filled
+> + * @context: the new context value
+> + * @context_size: the size of the new context value
+> + * @id: LSM id
+> + * @flags: LSM defined flags
+> + *
+> + * Fill all of the fields in a user space lsm_ctx structure.
+> + * Caller is assumed to have verified that @ctx has enough space
+> + * for @context.
+> + *
+> + * The total length is padded to a multiple of 64 bits to
+> + * accomodate possible alignment issues.
+> + *
+> + * Returns 0 on success, -EFAULT on a copyout error, -ENOMEM
+> + * if memory can't be allocated.
+> + */
+> +int lsm_fill_user_ctx(struct lsm_ctx __user *ctx, void *context,
+> +		      size_t context_size, u64 id, u64 flags)
+> +{
+> +	struct lsm_ctx *lctx;
+> +	size_t locallen = ALIGN(struct_size(lctx, ctx, context_size), 8);
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+See my comment in 7/11 regarding the alignment calculation here.
+
+> +	int rc = 0;
+> +
+> +	lctx = kzalloc(locallen, GFP_KERNEL);
+> +	if (lctx == NULL)
+> +		return -ENOMEM;
+> +
+> +	lctx->id = id;
+> +	lctx->flags = flags;
+> +	lctx->ctx_len = context_size;
+> +	lctx->len = locallen;
+> +
+> +	memcpy(lctx->ctx, context, context_size);
+> +
+> +	if (copy_to_user(ctx, lctx, locallen))
+> +		rc = -EFAULT;
+> +
+> +	kfree(lctx);
+> +
+> +	return rc;
+> +}
+> +
+>  /*
+>   * The default value of the LSM hook is defined in linux/lsm_hook_defs.h and
+>   * can be accessed with:
+> -- 
+> 2.39.2
+
+--
+paul-moore.com
