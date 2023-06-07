@@ -1,90 +1,79 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7B917DB
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  7 Jun 2023 07:09:07 +0000 (UTC)
-Received: from ed3e173716be.home.arpa (unknown [124.16.138.125])
-	by APP-05 (Coremail) with SMTP id zQCowAA3P4vlLIBk8SHQDA--.699S2;
-	Wed, 07 Jun 2023 15:08:22 +0800 (CST)
-From: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-To: andy.shevchenko@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev,
-	linus.walleij@linaro.org,
-	brgl@bgdev.pl,
-	palmer@dabbelt.com,
-	paul.walmsley@sifive.com,
-	linux-gpio@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Subject: Re: [PATCH v3] gpio: ath79: Add missing check for platform_get_irq
-Date: Wed,  7 Jun 2023 15:08:19 +0800
-Message-Id: <20230607070819.48553-1-jiasheng@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C51A63BD;
+	Wed,  7 Jun 2023 07:16:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686122209; x=1717658209;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lQjxbfopK3aalJ8UOxlNnubfZpKYlMpMxa2Ide8xmQU=;
+  b=KswyedIasptcWwHQfHaGwMkd4TkzqGCITBlJDuD05x+dYXOsqAaEYfGS
+   LhraYAyhCfocamuytnIg80H5hHFhXYXCfQUc5+8r9xSu6rFlcJBgV4eof
+   D0mVgYDAI+lf4NNonpR0KEryCgsqY2bkW6w54Z7oZoVGu0frRgz7+q6fG
+   7BAsAOC1akLibAZOMKFGSmMr6LCZGgIocP69Kx8KEd8MuYqrP0L9SeGOd
+   uMZH7N9g9H2DKuCBhuPGUVEpl98UCi1vmUFVYxtoScMdSDn8pBfCZRU1Z
+   5gWj3ZvVZmhSAMi6QdbJ+9+hHYLfJiiTbHFAuej7ZWZnKbUvNrzA0XA7O
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="360233852"
+X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
+   d="scan'208";a="360233852"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 00:16:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10733"; a="833551809"
+X-IronPort-AV: E=Sophos;i="6.00,223,1681196400"; 
+   d="scan'208";a="833551809"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 07 Jun 2023 00:16:47 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q6nPS-0006Ih-2K;
+	Wed, 07 Jun 2023 07:16:46 +0000
+Date: Wed, 7 Jun 2023 15:16:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Hector Martin <marcan@marcan.st>,
+	Wedson Almeida Filho <wedsonaf@google.com>
+Subject: [asahilinux:bits/210-gpu 62/225] error: aborting due to previous
+ error
+Message-ID: <202306071557.FVQshB33-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAA3P4vlLIBk8SHQDA--.699S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tF15Gw4kWr4kGrWxAF1fJFb_yoW8Gw17pF
-	W5KFWvka1kGa1j9wn7ZrWruFW0yan3KryrArWrta45Kwn8ZF9a9r4fKw4Y9FyxCry8Awn2
-	vw4ruan0gF9rZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-	Y2ka0xkIwI1lc2xSY4AK67AK6r4xMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
-	1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
-	b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
-	vE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
-	cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
-	nxnUUI43ZEXa7VUjGXdUUUUUU==
-X-Originating-IP: [124.16.138.125]
-X-CM-SenderInfo: pmld2xxhqjqxpvfd2hldfou0/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 6 Jun 2023 17:46:36 +0800 Andy Shevchenko wrote:
-> Tue, Jun 06, 2023 at 12:28:17PM +0300, andy.shevchenko@gmail.com kirjoitti:
->> Tue, Jun 06, 2023 at 11:18:41AM +0800, Jiasheng Jiang kirjoitti:
->> 
->> Is this v4?
->>
+tree:   https://github.com/AsahiLinux/linux bits/210-gpu
+head:   088cf4cc64f4e0eec3c9b99e36c9f5e9a86b1173
+commit: 283f5cdb2f5d97f021b2d38baccd1c3f1b6362fa [62/225] rust: Add `name` argument to Module::init()
+config: x86_64-randconfig-x061-20230606 (https://download.01.org/0day-ci/archive/20230607/202306071557.FVQshB33-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/AsahiLinux/linux/commit/283f5cdb2f5d97f021b2d38baccd1c3f1b6362fa
+        git remote add asahilinux https://github.com/AsahiLinux/linux
+        git fetch --no-tags asahilinux bits/210-gpu
+        git checkout 283f5cdb2f5d97f021b2d38baccd1c3f1b6362fa
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-I will submit a v4.
- 
->> > Add the missing check for platform_get_irq() and return error
->> > if it fails.
->> > The returned error code will be dealed with in
->> > module_platform_driver(ath79_gpio_driver) and the driver will not
->> > be registered.
->> 
->> No, this functional change and has not to be for the fixes unless _this_ is the
->> regression you are fixing. Did the driver work before at some point as after
->> this change?
+If you fix the issue, kindly add following tag where applicable
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306071557.FVQshB33-lkp@intel.com/
 
-I will remove the fixes tag in v4.
+All errors (new ones prefixed by >>):
 
-> 
-> To be more clear, answer to the following questions:
-> 1) does driver work with wrong DT configuration?
-> 2a) if yes, does it make sense, i.e. the hardware functioning usefully?
-> 2b) if yes, can we guarantee there are no broken configurations in the wild?
-> 
-> Depending on the answers correct your code and/or commit message.
-> 
->> Otherwise you have to _justify_ that this functional change won't break
->> existing setups (with broked IRQ in Device Tree, for example).
+>> error: aborting due to previous error
 
-Sorry, I do not quite understand what you mean.
-I have no idea how these questions are related to my patch.
-Do you mean I should not fail the ->probe() if there is wrong IRQ numbering in the DT?
-Please tell me the relationship between these questions and my patch.
-
-Thanks,
-Jiasheng
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
