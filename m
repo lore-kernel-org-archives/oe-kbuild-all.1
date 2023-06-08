@@ -1,41 +1,44 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C284C84;
-	Thu,  8 Jun 2023 05:55:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4F328F3
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 06:29:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686203734; x=1717739734;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=2Iucio4ou+pWP9d+rnZvmfJ3P/VBTd3iKUGOnWY6IeY=;
-  b=QaAAeABxdZmtGXJvo2NmfWclmae3AlpV7+VUOsI/ri7rKoZZvA0fRvr4
-   14fcguqXhBll32JiTvJ4krhjKM/OVpNXht3dfp7cxbmo43+BjeEkwXgcp
-   dJufn8wQQZ0gzCj/Q5AD2ggNyLHMneRT6tXEJYYBjrhfP6iZFyTtVyabR
-   cC2701qWKWnFO8pK5OYARA2ouNaEXVeyQI6q1mC4B1I1OqpFeH6Yp+biN
-   GSc0kOURxsi4HBo2hqgUcQDLw1x91qjNfs19zhUhD4cLMYmuRA9UPnAvG
-   vCPXVfGQvGTrifpAH8LgFjvJKA3n5I3g3KvjCB7P4LSFhGxltZaGMHt0V
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="423062895"
+  t=1686205792; x=1717741792;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ribm3SEoBeFk1oJCgwZm0KusnpoXOaQSi2B941N/Ak4=;
+  b=T60782i4afXA06z4dmaYmURUFsuQa+8i6MKAayvRBJSEWvQFZ69Wz1Eg
+   givkh617+EjHm9rfBkJHGaaaoVOa1snqsyK8BrQL88ZUFDKqonEcwbJaB
+   TmZPW+poXpnC2MPs0w5yh4YjfgNBYyArIhXJKZKonAIU+HEPy56IXlS0O
+   81xDjcwBeZd8s/6p1Wv2pXOBqnu83VviUaykje0O8cgINb6p7BHT9U+G5
+   OzNpoMH1+evik1+DuJ2Pkh3Ini2GLJbcDD/4USnfXBrgfw1pi2ptkpIO0
+   DKTzbDbwSSEsXWnhmIkz3szeVItGL2c9YCeXpSFhiXpMAvGqAYCaSw/sP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="420786987"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="423062895"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 22:55:34 -0700
+   d="scan'208";a="420786987"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 23:29:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="709839416"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="822473058"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="709839416"
+   d="scan'208";a="822473058"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 07 Jun 2023 22:55:32 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 07 Jun 2023 23:29:39 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q78cO-0007NX-09;
-	Thu, 08 Jun 2023 05:55:32 +0000
-Date: Thu, 8 Jun 2023 13:54:30 +0800
+	id 1q799O-0007Sx-0u;
+	Thu, 08 Jun 2023 06:29:38 +0000
+Date: Thu, 8 Jun 2023 14:28:42 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: Re: [PATCH v2 bpf-next 17/18] libbpf: add BPF token support to
- bpf_prog_load() API
-Message-ID: <202306081346.w8SEKYRr-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.15 81/84] include/linux/kern_levels.h:5:25:
+ warning: format '%llu' expects argument of type 'long long unsigned int',
+ but argument 3 has type 'long unsigned int'
+Message-ID: <202306081449.ooozJodE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,71 +48,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-In-Reply-To: <20230607235352.1723243-18-andrii@kernel.org>
-References: <20230607235352.1723243-18-andrii@kernel.org>
-TO: Andrii Nakryiko <andrii@kernel.org>
-TO: bpf@vger.kernel.org
-CC: linux-security-module@vger.kernel.org
-CC: keescook@chromium.org
-CC: brauner@kernel.org
-CC: lennart@poettering.net
-CC: cyphar@cyphar.com
-CC: luto@kernel.org
-CC: kernel-team@meta.com
-
-Hi Andrii,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-introduce-BPF-token-object/20230608-080004
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230607235352.1723243-18-andrii%40kernel.org
-patch subject: [PATCH v2 bpf-next 17/18] libbpf: add BPF token support to bpf_prog_load() API
-config: riscv-randconfig-r033-20230607 (https://download.01.org/0day-ci/archive/20230608/202306081346.w8SEKYRr-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   065dd1013be45db19d557765f1e0e8404962d231
+commit: 6a29e8e6604154d61ac043426f2e40991d2a748c [81/84] CHROMIUM: hibernate: Add 2 new ioctls to secure image transfer.
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230608/202306081449.ooozJodE-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        git remote add bpf-next https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
-        git fetch bpf-next master
-        git checkout bpf-next/master
-        b4 shazam https://lore.kernel.org/r/20230607235352.1723243-18-andrii@kernel.org
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.15
+        git checkout 6a29e8e6604154d61ac043426f2e40991d2a748c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash kernel/power/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306081346.w8SEKYRr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306081449.ooozJodE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: vmlinux.a(block/badblocks.o):(function badblocks_show: .text+0xff0): relocation R_RISCV_HI20 out of range: 532299 is not in [-524288, 524287]; references '.L.str.9'
-   >>> referenced by badblocks.c
-   >>> defined in vmlinux.a(block/badblocks.o)
---
->> ld.lld: error: vmlinux.a(block/badblocks.o):(function badblocks_store: .text+0x121c): relocation R_RISCV_HI20 out of range: 532284 is not in [-524288, 524287]; references '.L.str.10'
-   >>> referenced by badblocks.c
-   >>> defined in vmlinux.a(block/badblocks.o)
---
->> ld.lld: error: vmlinux.a(block/badblocks.o):(function badblocks_init: .text+0x1324): relocation R_RISCV_HI20 out of range: 532385 is not in [-524288, 524287]; references 'kmalloc_caches'
-   >>> referenced by badblocks.c
-   >>> defined in vmlinux.a(mm/slab_common.o)
---
->> ld.lld: error: vmlinux.a(block/badblocks.o):(function badblocks_init: .text+0x1354): relocation R_RISCV_HI20 out of range: 532048 is not in [-524288, 524287]; references '.L.str.11'
-   >>> referenced by badblocks.c
-   >>> defined in vmlinux.a(block/badblocks.o)
---
->> ld.lld: error: vmlinux.a(block/badblocks.o):(function badblocks_init: .text+0x135c): relocation R_RISCV_HI20 out of range: 535156 is not in [-524288, 524287]; references '__badblocks_init.__key'
-   >>> referenced by badblocks.c
-   >>> defined in vmlinux.a(block/badblocks.o)
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/mips/include/asm/bug.h:42,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/mips/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:55,
+                    from include/linux/swap.h:5,
+                    from include/linux/suspend.h:5,
+                    from kernel/power/user.c:10:
+   kernel/power/user.c: In function 'snapshot_write_block_device':
+>> include/linux/kern_levels.h:5:25: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 3 has type 'long unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:422:25: note: in definition of macro 'printk_index_wrap'
+     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:493:9: note: in expansion of macro 'printk'
+     493 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:493:16: note: in expansion of macro 'KERN_ERR'
+     493 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   kernel/power/user.c:324:25: note: in expansion of macro 'pr_err'
+     324 |                         pr_err("submitting bio failed at sector: %llu block number: %llu\n",
+         |                         ^~~~~~
+
+
+vim +5 include/linux/kern_levels.h
+
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
