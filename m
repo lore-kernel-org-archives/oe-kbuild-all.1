@@ -1,44 +1,45 @@
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D1028F3
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 15:21:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD61C2DA
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 15:42:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686237707; x=1717773707;
+  t=1686238946; x=1717774946;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qLDh1oY1WDY5px+BJYCMxPzq7HnAP/c0S9rh3SgTOWM=;
-  b=lJiRwvcChInGinDrAV+ipzC7T768UprtGqrR8xGIcYl22MKY03DfXcr5
-   BUSfeLiwkeEPp6k/YOlTaYDJIIDMbmaW8DluWqF2er4oU0KSDeaJccMKn
-   c5EI0ar7w1mY+GQmR9aSUrABvnci1Jh+G4chIXxfuOh70hPlpVIlWBr00
-   djhiHnjEdLOVcG4bTqGqMJf5UE78Ttsgh9OO9rHrycEq30F3fUoKEXDQT
-   +0114+tYA7aDocFQBEhhakoZBJy+XcXDX0pDRlgbP70IMCXb3CbM0rUwj
-   uvjYsRq00RPvOWgzk7UH5AcerkpXsBTXHiR/kB4PpncEnENfbNv5kdS9k
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="385679547"
+  bh=XovPN5jWdpaylBfEXbZEN6S437WmBDR4N0ocDjfhz8s=;
+  b=DOjo5NNqrp0NaC4Z6N2c5fPxMMEj7usSll4X5s6iZ7qX70DJ/VTIyTGH
+   /mLPOMRxTlN0R0XN7IdK3XIwsQLTcJs6og2lmMTm1e3YJZZg4bQQlBEXz
+   NJP+VXLuF0Uu2R7B2uRsUS2NYhuSJjhjoku4tnNGz6C0V6keH0/KQHBno
+   hCZzeWMN7wYRwwAFOHgXFvgQ7djLtf7BlHlD4qXKNUthpHqbF4mtFGeEd
+   idPbNWMgVjbW6dEojIcwt3OgJNGcaKwGGzuWyxaFC+gXdAPP8EUXbwiEg
+   XGuT/UlThkcwZKvPpfKo6nJBfx73LhMNaGcfQ930pTVPnpBmjX+HwdJML
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="385687183"
 X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="385679547"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 08:21:24 -0700
+   d="scan'208";a="385687183"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 08:42:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="834231008"
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="687411406"
 X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="834231008"
+   d="scan'208";a="687411406"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 08 Jun 2023 08:21:22 -0700
+  by orsmga006.jf.intel.com with ESMTP; 08 Jun 2023 08:42:23 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7HRx-0007yW-2l;
-	Thu, 08 Jun 2023 15:21:21 +0000
-Date: Thu, 8 Jun 2023 23:21:14 +0800
+	id 1q7HmJ-0007zj-05;
+	Thu, 08 Jun 2023 15:42:23 +0000
+Date: Thu, 8 Jun 2023 23:42:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yauhen Kharuzhy <jekhor@gmail.com>
+To: Steffen Eiden <seiden@linux.ibm.com>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Lee Jones <lee@kernel.org>, Hans de Goede <hdegoede@redhat.com>
-Subject: [linux-next:master 4146/8065] drivers/leds/leds-cht-wcove.c:142:21:
- warning: no previous prototype for 'cht_wc_leds_brightness_get'
-Message-ID: <202306082341.UQtCM8PO-lkp@intel.com>
+	Claudio Imbrenda <imbrenda@linux.ibm.com>,
+	Janosch Frank <frankja@linux.ibm.com>
+Subject: [linux-next:master 7388/8065] ERROR: modpost: "uv_info"
+ [drivers/s390/char/uvdevice.ko] undefined!
+Message-ID: <202306082325.7vvIeVZo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,75 +49,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yauhen,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   db10f126048021b86e43a5d6a335ec49dec10155
-commit: 047da762b9a937d60c16e2c8392c326e5ab11a1d [4146/8065] leds: Add Intel Cherry Trail Whiskey Cove PMIC LED driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230608/202306082341.UQtCM8PO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=047da762b9a937d60c16e2c8392c326e5ab11a1d
+commit: f0e8f36f8b99c475ee75455fd68e0b955c5cd1e4 [7388/8065] s390/uvdevice: Add info IOCTL
+config: s390-randconfig-s041-20230608 (https://download.01.org/0day-ci/archive/20230608/202306082325.7vvIeVZo-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce:
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=f0e8f36f8b99c475ee75455fd68e0b955c5cd1e4
         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
         git fetch --no-tags linux-next master
-        git checkout 047da762b9a937d60c16e2c8392c326e5ab11a1d
+        git checkout f0e8f36f8b99c475ee75455fd68e0b955c5cd1e4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/leds/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306082341.UQtCM8PO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306082325.7vvIeVZo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/leds/leds-cht-wcove.c:142:21: warning: no previous prototype for 'cht_wc_leds_brightness_get' [-Wmissing-prototypes]
-     142 | enum led_brightness cht_wc_leds_brightness_get(struct led_classdev *cdev)
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/cht_wc_leds_brightness_get +142 drivers/leds/leds-cht-wcove.c
-
-   141	
- > 142	enum led_brightness cht_wc_leds_brightness_get(struct led_classdev *cdev)
-   143	{
-   144		struct cht_wc_led *led = container_of(cdev, struct cht_wc_led, cdev);
-   145		unsigned int val;
-   146		int ret;
-   147	
-   148		mutex_lock(&led->mutex);
-   149	
-   150		ret = regmap_read(led->regmap, led->regs->ctrl, &val);
-   151		if (ret < 0) {
-   152			dev_err(cdev->dev, "Failed to read LED CTRL reg: %d\n", ret);
-   153			ret = 0;
-   154			goto done;
-   155		}
-   156	
-   157		val &= led->regs->on_off_mask;
-   158		if (val != led->regs->on_val) {
-   159			ret = 0;
-   160			goto done;
-   161		}
-   162	
-   163		ret = regmap_read(led->regmap, led->regs->pwm, &val);
-   164		if (ret < 0) {
-   165			dev_err(cdev->dev, "Failed to read LED PWM reg: %d\n", ret);
-   166			ret = 0;
-   167			goto done;
-   168		}
-   169	
-   170		ret = val;
-   171	done:
-   172		mutex_unlock(&led->mutex);
-   173	
-   174		return ret;
-   175	}
-   176	
+>> ERROR: modpost: "uv_info" [drivers/s390/char/uvdevice.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
