@@ -1,59 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10FE2D279
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 21:08:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496DA33FC
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 22:41:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686258526; x=1717794526;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=feLhceN5MoyaEEcZHMZvB1mjorERrPsarNA+YfBuF0Q=;
-  b=MxM/q7VABbOgOKXAgkTk/ukRWSCm7dnBcVnKK+8S5dz7TM9SOgzCT6Lp
-   Hd/HCfPhzQbvSfAPR16A9b8M6PIfsFaFCRQ5CX3tFpIdawa5HueFxoAyR
-   +Yp7pJ+qAHgerawGgcqlWBkx5DiHRCEEv9LlGqkVh1i8mlAWXLfNW80gq
-   9csJpbVJOcIenRgmSQaZ//UhS/xvQkfOFqI9s4tG5Ny3nCfbqLJucMfAq
-   cTgoaJhNhPCJ1vJg+ry2YSqG5VEqwA2BKp4TGdvNlkyZ73ZCXpleI0YQK
-   AvTorc05Va1tfejwNuVJKsZobRqzRaS5reD1th2oSnoGVDRENo3DgTayj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="423309344"
+  t=1686264116; x=1717800116;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=R/PCGZmzpm/Z9j0by9WtldUjst+qwJNXygq6xPuWTFg=;
+  b=KR4wMby+fS0p3PmIYOS5+v1YLaNrd0trLt8OYNQCObVq03LtOaIZGZnv
+   1h+czXOYJ1aWUj7/RfB9GumWFXDw+/FGJRBTLlQWIzwF5k1c3vA+M67kw
+   sjKq3icxVRcWzZDoK7QBYcgsECwWdMyKsrPKx2In0eg0SUQPDd480SF28
+   aFc/ai9+y1fWy+4+GdKtY/zz+lp7+juTJcRHlMFqvyOZfl36olYECiIey
+   uaXJyf+tj79XWg0Ih4zFaxnBBlAI4zpwVi50wyIHJ8SDR1iMkyn/lIDka
+   Y2DEXU67xrtWP/H/65e6ZklDaQjZvGJgUoL+a3LQdC5DkY+ojRWPCDJTl
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="421041037"
 X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="423309344"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 14:08:45 -0700
+   d="scan'208";a="421041037"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 15:41:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="660533664"
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="884366878"
 X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="660533664"
+   d="scan'208";a="884366878"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 08 Jun 2023 14:08:40 -0700
+  by orsmga005.jf.intel.com with ESMTP; 08 Jun 2023 15:41:46 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7Ms3-0008Ga-1K;
-	Thu, 08 Jun 2023 21:08:39 +0000
-Date: Fri, 9 Jun 2023 05:08:11 +0800
+	id 1q7OK9-0008Jk-1e;
+	Thu, 08 Jun 2023 22:41:45 +0000
+Date: Fri, 9 Jun 2023 06:41:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, jacopo.mondi@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com, martin.hecht@avnet.eu,
-	michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Shawn Tu <shawnx.tu@intel.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] media: i2c: Add support for alvium camera
-Message-ID: <202306090401.jEkSrYuJ-lkp@intel.com>
-References: <20230608083127.545750-4-tomm.merciai@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 1231/23303]
+ include/trace/trace_events.h:27:23: warning:
+ 'str__fpsimd__trace_system_name' defined but not used
+Message-ID: <202306090640.33siLqss-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,96 +46,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230608083127.545750-4-tomm.merciai@gmail.com>
 
-Hi Tommaso,
+Hi Wooyeon,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on robh/for-next linus/master v6.4-rc5 next-20230608]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tommaso-Merciai/dt-bindings-vendor-prefixes-Add-prefix-alliedvision/20230608-163423
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230608083127.545750-4-tomm.merciai%40gmail.com
-patch subject: [PATCH v5 3/3] media: i2c: Add support for alvium camera
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230609/202306090401.jEkSrYuJ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   a638696f49dfe734d394ec42d5958c311d5b56b6
+commit: 74555f39924dc4c173b4bec9bd015acfeb895e68 [1231/23303] ANDROID: vendor_hooks: FPSIMD save/restore by using vendor_hooks
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230609/202306090640.33siLqss-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add media-tree git://linuxtv.org/media_tree.git
-        git fetch media-tree master
-        git checkout media-tree/master
-        b4 shazam https://lore.kernel.org/r/20230608083127.545750-4-tomm.merciai@gmail.com
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-5.15
+        git checkout 74555f39924dc4c173b4bec9bd015acfeb895e68
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/media/i2c/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/ drivers/md/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306090401.jEkSrYuJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306090640.33siLqss-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/media/i2c/alvium-csi2.c: In function 'alvium_get_dt_data':
->> drivers/media/i2c/alvium-csi2.c:3245:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-    3245 |         int ret = 0;
-         |             ^~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fpsimd.h:26,
+                    from drivers/android/vendor_hooks.c:12:
+>> include/trace/trace_events.h:27:23: warning: 'str__fpsimd__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sched.h:23,
+                    from drivers/android/vendor_hooks.c:11:
+   include/trace/trace_events.h:27:23: warning: 'str__sched__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/ret +3245 drivers/media/i2c/alvium-csi2.c
+vim +/str__fpsimd__trace_system_name +27 include/trace/trace_events.h
 
-  3239	
-  3240	static int alvium_get_dt_data(struct alvium_dev *alvium)
-  3241	{
-  3242		struct device *dev = &alvium->i2c_client->dev;
-  3243		struct device_node *node = dev->of_node;
-  3244		struct fwnode_handle *endpoint;
-> 3245		int ret = 0;
-  3246	
-  3247		if (!node)
-  3248			return -EINVAL;
-  3249	
-  3250		ret = fwnode_property_read_u32(dev_fwnode(dev),
-  3251				  "alliedvision,lp2hs-delay-us",
-  3252				  &alvium->lp2hs_delay);
-  3253	
-  3254		endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
-  3255		if (!endpoint) {
-  3256			dev_err(dev, "endpoint node not found\n");
-  3257			return -EINVAL;
-  3258		}
-  3259	
-  3260		if (v4l2_fwnode_endpoint_alloc_parse(endpoint, &alvium->ep)) {
-  3261			dev_err(dev, "could not parse endpoint\n");
-  3262			return 0;
-  3263		}
-  3264	
-  3265		if (alvium->ep.bus_type != V4L2_MBUS_CSI2_DPHY) {
-  3266			dev_err(dev, "unsupported bus type\n");
-  3267			return -EINVAL;
-  3268		}
-  3269	
-  3270		if (!alvium->ep.nr_of_link_frequencies) {
-  3271			dev_err(dev, "no link frequencies defined");
-  3272			return -EINVAL;
-  3273		}
-  3274	
-  3275		dev_info(dev, "freq: %llu\n",
-  3276					    alvium->ep.link_frequencies[0]);
-  3277		dev_info(dev, "lanes: %d\n",
-  3278					    alvium->ep.bus.mipi_csi2.num_data_lanes);
-  3279	
-  3280		return 0;
-  3281	}
-  3282	
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
