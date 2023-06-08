@@ -1,77 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00CD2F38
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 06:55:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCD5EC433D2;
-	Thu,  8 Jun 2023 06:55:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686207340;
-	bh=tmC0JvlkXc0YDH3wEj4riXVeHJFjJuQ3P/QMfxnJTnY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uLxux5y/J+241Ipaq23GUjH/N6pW3LVuldmj0HgOYZGj5x6xsOlyXO8CyE6BKyZrl
-	 Pta16gpgP4K50GY/u0U6juTGBNHndwaiVuxZZxbjqtxfVP/tKAa3/qk+PwepqHCizN
-	 YykGrfx2ZmAOVfafO4TAgZmkh6UZfM8QwJE5Lx8l+85J4hJvI6rTm95LYFhrbtZ6x8
-	 cGBjszSvEX+1FInA7TLEmpAFl5D8Dz/tG27IrVWfuI+f1kCilUVDyMACQSg+9oj6sS
-	 bwj8bsZ6IDhYkectj1Gg+pWEM59Q6qf5MWsK7FOvj3Que2AZqdLn32mVVLJOr0FPuT
-	 7eDUmN7Sv3BPA==
-Message-ID: <1069d6fa-7b17-00de-ad0b-e91794fae9f2@kernel.org>
-Date: Thu, 8 Jun 2023 08:55:28 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4E476FB1
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 07:04:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686207884; x=1717743884;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wCsytCcrF2dekrsqGmxY0gQBuIC0Ve5DP/qebllWidQ=;
+  b=GLdnb4PuukiBaoWT8azJxRNFTEDiNDocN7vFMwxFyou0gGPIC76CWfBo
+   pQl8wLPrag0wcu5A/EPfU55hrht0SFz3Zok50AGw/MCqZV0wEfBis4FN4
+   hwd63DGkZfYl/4niEl9pz4xoUhhQQtVysCN8nYTEkSvrdf0n1HB4/sgyF
+   Mj0Ea/tHrUCXaEfR4OE9UGE97zJMywVDYPZijFu5+EWY5Txs9wCHYAlJl
+   Y6JWy8OhqYvWkG/+fjkGveuZUkv0PIBwq9MxS7pj0IPolI2MAn7gnxDxW
+   rh55yvaPJf5ADGJ6TuNK+S1jRC9hijbVwF13qDTGIxK220y5sFzJLsTc8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="443596287"
+X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
+   d="scan'208";a="443596287"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 00:04:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="687283017"
+X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
+   d="scan'208";a="687283017"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 08 Jun 2023 00:04:42 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q79hJ-0007VK-1Z;
+	Thu, 08 Jun 2023 07:04:41 +0000
+Date: Thu, 8 Jun 2023 15:03:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-5.15 81/84] kernel/power/user.c:326:11: warning:
+ format specifies type 'unsigned long long' but the argument has type
+ 'unsigned long'
+Message-ID: <202306081421.r6i4eG92-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.2
-Subject: Re: [PATCH v3 2/5] phy: realtek: usb: Add driver for the Realtek SoC
- USB 2.0 PHY
-Content-Language: en-US
-To: =?UTF-8?B?U3RhbmxleSBDaGFuZ1vmmIzogrLlvrdd?= <stanley_chang@realtek.com>,
- kernel test robot <lkp@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Alan Stern <stern@rowland.harvard.edu>,
- Michael Grzeschik <m.grzeschik@pengutronix.de>,
- Mathias Nyman <mathias.nyman@linux.intel.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, Matthias Kaehlcke <mka@chromium.org>,
- Ray Chi <raychi@google.com>, Flavio Suligoi <f.suligoi@asem.it>,
- "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-References: <20230607062500.24669-2-stanley_chang@realtek.com>
- <202306080128.Gh3c2H1O-lkp@intel.com>
- <2444f4875f484cc4bf2ff9c52815fa0c@realtek.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-In-Reply-To: <2444f4875f484cc4bf2ff9c52815fa0c@realtek.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 08/06/2023 04:18, Stanley Chang[昌育德] wrote:
->> ERROR: modpost: "devm_usb_get_phy_by_phandle"
->> [drivers/power/supply/wm831x_power.ko] undefined!
->>>> ERROR: modpost: "devm_usb_get_phy"
->> [drivers/power/supply/da9150-charger.ko] undefined!
->>
->> Kconfig warnings: (for reference only)
->>    WARNING: unmet direct dependencies detected for USB_PHY
->>    Depends on [n]: USB_SUPPORT [=n]
->>    Selected by [y]:
->>    - PHY_RTK_RTD_USB2PHY [=y]
->>
-> 
-> I will add USB_SUUPRT dependency to Kconfig.
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
+head:   4711a5ad0f5e066cfbdcfad6890b1264b0db53b7
+commit: 6a29e8e6604154d61ac043426f2e40991d2a748c [81/84] CHROMIUM: hibernate: Add 2 new ioctls to secure image transfer.
+config: mips-randconfig-r005-20230608 (https://download.01.org/0day-ci/archive/20230608/202306081421.r6i4eG92-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mipsel-linux-gnu
+        git remote add chrome-os https://chromium.googlesource.com/chromiumos/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.15
+        git checkout 6a29e8e6604154d61ac043426f2e40991d2a748c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash kernel/power/
 
-Why? Do you see other phy drivers needing it? Few have it but many
-don't, so you should really investigate the root cause, not just add
-some dependencies.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306081421.r6i4eG92-lkp@intel.com/
 
-Build test your patches locally before sending and investigate the issues.
+All warnings (new ones prefixed by >>):
 
-Best regards,
-Krzysztof
+>> kernel/power/user.c:326:11: warning: format specifies type 'unsigned long long' but the argument has type 'unsigned long' [-Wformat]
+     326 |                         pr_err("submitting bio failed at sector: %llu block number: %llu\n",
+         |                                                                                     ~~~~
+         |                                                                                     %lu
+     327 |                                (unsigned long long)bio.bi_iter.bi_sector,
+     328 |                                sbdev->nr_blocks_used);
+         |                                ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:493:33: note: expanded from macro 'pr_err'
+     493 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:450:60: note: expanded from macro 'printk'
+     450 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:422:19: note: expanded from macro 'printk_index_wrap'
+     422 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   1 warning generated.
 
+
+vim +326 kernel/power/user.c
+
+   291	
+   292	static int snapshot_write_block_device(struct snapshot_data *data) {
+   293		int res = 0;
+   294		struct snapshot_bdev *sbdev = &data->snapshot_bdev;
+   295		struct bio bio;
+   296		struct bio_vec bio_vec;
+   297		int sector = 0;
+   298	
+   299		while (1) {
+   300			struct bio_vec bvec;
+   301	
+   302			res = snapshot_read_next(&data->handle);
+   303			if (!res)
+   304				break;
+   305			else if (res < (int)PAGE_SIZE) {
+   306				if (res > 0)
+   307					res = -EFAULT;
+   308				break;
+   309			}
+   310	
+   311			bvec.bv_page = virt_to_page(data_of(data->handle));
+   312			bvec.bv_len = PAGE_SIZE;
+   313			bvec.bv_offset = 0;
+   314	
+   315			bio_init(&bio, &bio_vec, 1);
+   316			bio_set_dev(&bio, sbdev->bdev);
+   317			bio.bi_iter.bi_sector = sector;
+   318			bio.bi_opf = REQ_OP_WRITE | REQ_SYNC | REQ_IDLE;
+   319			bio_add_page(&bio, bvec.bv_page, bvec.bv_len, bvec.bv_offset);
+   320	
+   321			res = submit_bio_wait(&bio);
+   322	
+   323			if (res) {
+   324				pr_err("submitting bio failed at sector: %llu block number: %llu\n",
+   325				       (unsigned long long)bio.bi_iter.bi_sector,
+ > 326				       sbdev->nr_blocks_used);
+   327				res = -EFAULT;
+   328				break;
+   329			}
+   330	
+   331			sector = bio_end_sector(&bio);
+   332			bio_uninit(&bio);
+   333			sbdev->nr_blocks_used++;
+   334		}
+   335	
+   336		/* flush buffers before returning */
+   337		if (!res) {
+   338			bio_init(&bio, &bio_vec, 0);
+   339			bio_set_dev(&bio, sbdev->bdev);
+   340			bio.bi_opf = REQ_OP_WRITE | REQ_SYNC | REQ_PREFLUSH;
+   341			res = submit_bio_wait(&bio);
+   342			bio_uninit(&bio);
+   343		}
+   344	
+   345		return res;
+   346	}
+   347	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
