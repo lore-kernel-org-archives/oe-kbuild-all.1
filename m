@@ -1,49 +1,50 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E838F4E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 14:07:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92351125BB;
+	Thu,  8 Jun 2023 14:34:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686233226; x=1717769226;
+  t=1686234866; x=1717770866;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Oa6x8KM0eNi6FTDPQxF93G9pAVh+iU8hs4FXo1R4OIU=;
-  b=Zn4Eytj6OY+MIRunDRmQT19ayQ8JAKoSBMyKMnt2JBnH0uQCY6nF3YEF
-   5kk5C1yhnPkCmmNaTSNErekZ5Dflb7xQWo9llM/LEyTvrESn6ANuxk/K+
-   5AnO6dg3uC1H5j3/13nESNmoZjq+Ouk5tkXmfe2d87pAeNVgZukq5Z+2d
-   JABEUrGPHAVCFQaCEWs6OcVwipVYqhsKAmqTohyXe+xQ0erIRqxyzixGB
-   1o9XbJZ7c/bZm/wjuP4Ae0y9flWYGSOs8ZpiCKU90Ky2XEpEFzL5vzz0a
-   5/s6Tw7Wvsq7uS4w0FrH7owA3A9L0Eea5pv2zAnyiZ3GmzY6dMVTmC7vX
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="423176153"
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="423176153"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 06:36:16 -0700
+  bh=4g9PQjpGF62Belg2RoPVipGtcho2R9qNfKAKwzsZ5rA=;
+  b=R5gGCVyj6RkqnsVTfGMl6oUlMowOWh66RZCXMv+hySpzOqlXrqrQ/3HN
+   Nfn5uCBnmkZELvfaWT/5a82ZpsJjIjSph95LAr5J1dTTm9MMR92Wo7oZW
+   bfpk8tZEinndzJ/d5FvJyz+Tfyl93AOKR1Ujr3j+UaWJ/9jDfppuhLa7w
+   wuLsuW5hH1e+asrFelS1cisLMNd5sx+aEdC0OXn6jE10+XJSjzm41jB5U
+   yhh9+L2Dxr+LudNJLT0nWiTIgr+YO9G1MFAfsMnAy23Ja5BFgNN+1uzrp
+   Dd8WQTyMYYzz+cQBPtqbttyqJ3yANrjcOWPzztvw9Fw1otQh96M+QXk6D
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="420898269"
+X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
+   d="scan'208";a="420898269"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 07:27:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="660379152"
-X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="660379152"
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="799837598"
+X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
+   d="scan'208";a="799837598"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 08 Jun 2023 06:36:13 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 08 Jun 2023 07:27:17 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7FoD-0007qC-0q;
-	Thu, 08 Jun 2023 13:36:13 +0000
-Date: Thu, 8 Jun 2023 21:35:16 +0800
+	id 1q7Gbc-0007to-2B;
+	Thu, 08 Jun 2023 14:27:16 +0000
+Date: Thu, 8 Jun 2023 22:26:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jason Gerecke <killertofu@gmail.com>, linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
 	Jiri Kosina <jikos@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ping Cheng <pinglinux@gmail.com>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ping Cheng <pinglinux@gmail.com>,
 	Aaron Armstrong Skomra <skomra@gmail.com>,
 	Joshua Dickens <Joshua@joshua-dickens.com>,
 	Jason Gerecke <jason.gerecke@wacom.com>
 Subject: Re: [PATCH] HID: wacom: Use ktime_t rather than int when dealing
  with timestamps
-Message-ID: <202306082127.6r7qAALi-lkp@intel.com>
+Message-ID: <202306082249.cMqfu24Y-lkp@intel.com>
 References: <20230607214102.2113-1-jason.gerecke@wacom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -69,29 +70,35 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Gerecke/HID-wacom-U
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
 patch link:    https://lore.kernel.org/r/20230607214102.2113-1-jason.gerecke%40wacom.com
 patch subject: [PATCH] HID: wacom: Use ktime_t rather than int when dealing with timestamps
-config: arc-randconfig-c003-20230608 (https://download.01.org/0day-ci/archive/20230608/202306082127.6r7qAALi-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.3.0
+config: arm-randconfig-r036-20230608 (https://download.01.org/0day-ci/archive/20230608/202306082249.cMqfu24Y-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         git remote add hid https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git
         git fetch hid for-next
         git checkout hid/for-next
         b4 shazam https://lore.kernel.org/r/20230607214102.2113-1-jason.gerecke@wacom.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306082127.6r7qAALi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306082249.cMqfu24Y-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "__divdi3" [drivers/hid/wacom.ko] undefined!
+>> ld.lld: error: undefined symbol: __aeabi_ldivmod
+   >>> referenced by wacom_wac.c
+   >>>               drivers/hid/wacom_wac.o:(wacom_wac_irq) in archive vmlinux.a
+   >>> did you mean: __aeabi_idivmod
+   >>> defined in: arch/arm/lib/lib.a(lib1funcs.o)
 
 -- 
 0-DAY CI Kernel Test Service
