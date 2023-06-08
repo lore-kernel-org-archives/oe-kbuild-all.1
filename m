@@ -1,156 +1,136 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF1E11189
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 11:40:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817BF1119D
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 12:22:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686224405; x=1717760405;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MaLf+qHWHMdBUYCI61I1nmeoeH5HH31cXDOI9i4acqU=;
-  b=g7Ihp8eIokJRFH/3ZBbXDPzNQEhJkirUtKqWMz266FcvX0UOVXlulggK
-   4eotWE/GWdggVBGnld6CvgDK5apyn7Znr1H4o/hR16PFVf9grgvcqE/cD
-   mhqwThG+IpDZ2oJnRTBT4X1hZnj9sYfEvtp0d7+T5fBWuc/mZ41yb0xi1
-   Oa23ifuUxPgmOEL5up6aS1MWbWkf6Erv44wjcHHjk+XeEcpDngKqAs99Y
-   ykqjt679wh6sXKt/uu4vSOFwoeMjDMcLNDwlWP8rAF2ms4ip7sJI/PXsV
-   Xw+eI8iSOFzTNKHtyPE3ZNhS6naPMIPcJZfT1kU01LLKJtCxJQ3HPgdej
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="423134340"
+  t=1686226931; x=1717762931;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=XCENFFGMz+AlPXP+TAjP/jMokRT6oH/Ogdvfh1yAGao=;
+  b=WtyBqmEQeGYTNClnVxgnnD4jMvnjOyYwHjFT0hFjr5UdtFrqFv6jNCER
+   GHmdcbxUKQRU3Ooi2Ko3JgMfPTY54GeaMale3r6XsRQ99e1Oe+tSYxgLs
+   l48TR12VnoAI2U7ffWa3RrkRqLNLAQqBA3tFZcZkKI3B/KvyZ7Goo0kUz
+   tHFqovSKE2qG8fnZM7UpiF1GEr1A4eAK3xoVIByJ0pz2sCZWrlCkmTG3O
+   y4MY0ulptsFttvD/n6g95Yvd0WVf0VNWb4Fk3AmeDs1RVrWTQQwrwbClz
+   x3h0iyyj1/F/xgqN/eQlMfDs6kgK4bL+SmL/PvqD4H7IIqpyyG4uod6Gc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="354777367"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="423134340"
+   d="scan'208";a="354777367"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 04:40:04 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 05:22:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="822592350"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="822601301"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="822592350"
+   d="scan'208";a="822601301"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 08 Jun 2023 04:40:02 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 08 Jun 2023 05:22:05 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7Dzm-0007jE-0S;
-	Thu, 08 Jun 2023 11:40:02 +0000
-Date: Thu, 8 Jun 2023 19:39:44 +0800
+	id 1q7EeS-0007kh-2m;
+	Thu, 08 Jun 2023 12:22:04 +0000
+Date: Thu, 8 Jun 2023 20:21:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/fam01-next20230606 5/7]
- arch/x86/kvm/ioapic.c:214:33: error: array subscript 32 is above array
- bounds of 'union kvm_ioapic_redirect_entry[24]'
-Message-ID: <202306081931.EoJfyobB-lkp@intel.com>
+To: =?utf-8?B?4oCcUnlhbg==?= <ryan.lee.analog@gmail.com>,
+	lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org, perex@perex.cz, tiwai@suse.com,
+	rf@opensource.cirrus.com, ryans.lee@analog.com,
+	wangweidong.a@awinic.com, shumingf@realtek.com,
+	herve.codina@bootlin.com, ckeepax@opensource.cirrus.com,
+	doug@schmorgal.com, ajye_huang@compal.corp-partner.google.com,
+	kiseok.jo@irondevice.com, alsa-devel@alsa-project.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, venkataprasad.potturu@amd.com
+Subject: Re: [PATCH 2/2] ASoC: max98388: add amplifier driver
+Message-ID: <202306082054.jIU9oENf-lkp@intel.com>
+References: <20230608054230.344014-2-ryan.lee.analog@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230608054230.344014-2-ryan.lee.analog@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/fam01-next20230606
-head:   deff3c1ef49381ffa232906f49f03e8d712755b7
-commit: e2af9c6b35f6c39c338b785312947759d0dcdba8 [5/7] Makefile: Enable -Warray-bounds
-config: i386-randconfig-i004-20230608 (https://download.01.org/0day-ci/archive/20230608/202306081931.EoJfyobB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi “Ryan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v6.4-rc5 next-20230608]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan/ASoC-max98388-add-amplifier-driver/20230608-134526
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230608054230.344014-2-ryan.lee.analog%40gmail.com
+patch subject: [PATCH 2/2] ASoC: max98388: add amplifier driver
+config: mips-allmodconfig (https://download.01.org/0day-ci/archive/20230608/202306082054.jIU9oENf-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/commit/?id=e2af9c6b35f6c39c338b785312947759d0dcdba8
-        git remote add gustavoars https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git
-        git fetch --no-tags gustavoars testing/fam01-next20230606
-        git checkout e2af9c6b35f6c39c338b785312947759d0dcdba8
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add broonie-sound https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git
+        git fetch broonie-sound for-next
+        git checkout broonie-sound/for-next
+        b4 shazam https://lore.kernel.org/r/20230608054230.344014-2-ryan.lee.analog@gmail.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash arch/x86/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash sound/soc/codecs/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306081931.EoJfyobB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306082054.jIU9oENf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/kvm/ioapic.c: In function 'ioapic_set_irq':
->> arch/x86/kvm/ioapic.c:214:33: error: array subscript 32 is above array bounds of 'union kvm_ioapic_redirect_entry[24]' [-Werror=array-bounds]
-     214 |         entry = ioapic->redirtbl[irq];
-         |                 ~~~~~~~~~~~~~~~~^~~~~
-   In file included from arch/x86/kvm/ioapic.c:46:
-   arch/x86/kvm/ioapic.h:80:41: note: while referencing 'redirtbl'
-      80 |         union kvm_ioapic_redirect_entry redirtbl[IOAPIC_NUM_PINS];
-         |                                         ^~~~~~~~
-   cc1: all warnings being treated as errors
+>> sound/soc/codecs/max98388.c:390:6: warning: no previous prototype for 'max98388_reset' [-Wmissing-prototypes]
+     390 | void max98388_reset(struct max98388_priv *max98388, struct device *dev)
+         |      ^~~~~~~~~~~~~~
+>> sound/soc/codecs/max98388.c:904:6: warning: no previous prototype for 'max98388_read_deveice_property' [-Wmissing-prototypes]
+     904 | void max98388_read_deveice_property(struct device *dev,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +214 arch/x86/kvm/ioapic.c
+vim +/max98388_reset +390 sound/soc/codecs/max98388.c
 
-f458d039db7e85 arch/x86/kvm/ioapic.c Suravee Suthikulpanit 2019-11-14  205  
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  206  static int ioapic_set_irq(struct kvm_ioapic *ioapic, unsigned int irq,
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  207  		int irq_level, bool line_status)
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  208  {
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  209  	union kvm_ioapic_redirect_entry entry;
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  210  	u32 mask = 1 << irq;
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  211  	u32 old_irr;
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  212  	int edge, ret;
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  213  
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18 @214  	entry = ioapic->redirtbl[irq];
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  215  	edge = (entry.fields.trig_mode == IOAPIC_EDGE_TRIG);
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  216  
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  217  	if (!irq_level) {
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  218  		ioapic->irr &= ~mask;
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  219  		ret = 1;
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  220  		goto out;
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  221  	}
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  222  
-f458d039db7e85 arch/x86/kvm/ioapic.c Suravee Suthikulpanit 2019-11-14  223  	/*
-8be8f932e3db5f arch/x86/kvm/ioapic.c Paolo Bonzini         2020-05-04  224  	 * AMD SVM AVIC accelerate EOI write iff the interrupt is edge
-8be8f932e3db5f arch/x86/kvm/ioapic.c Paolo Bonzini         2020-05-04  225  	 * triggered, in which case the in-kernel IOAPIC will not be able
-8be8f932e3db5f arch/x86/kvm/ioapic.c Paolo Bonzini         2020-05-04  226  	 * to receive the EOI.  In this case, we do a lazy update of the
-8be8f932e3db5f arch/x86/kvm/ioapic.c Paolo Bonzini         2020-05-04  227  	 * pending EOI when trying to set IOAPIC irq.
-f458d039db7e85 arch/x86/kvm/ioapic.c Suravee Suthikulpanit 2019-11-14  228  	 */
-8be8f932e3db5f arch/x86/kvm/ioapic.c Paolo Bonzini         2020-05-04  229  	if (edge && kvm_apicv_activated(ioapic->kvm))
-f458d039db7e85 arch/x86/kvm/ioapic.c Suravee Suthikulpanit 2019-11-14  230  		ioapic_lazy_update_eoi(ioapic, irq);
-f458d039db7e85 arch/x86/kvm/ioapic.c Suravee Suthikulpanit 2019-11-14  231  
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  232  	/*
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  233  	 * Return 0 for coalesced interrupts; for edge-triggered interrupts,
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  234  	 * this only happens if a previous edge has not been delivered due
-00116795aa87ca arch/x86/kvm/ioapic.c Miaohe Lin            2019-12-11  235  	 * to masking.  For level interrupts, the remote_irr field tells
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  236  	 * us if the interrupt is waiting for an EOI.
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  237  	 *
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  238  	 * RTC is special: it is edge-triggered, but userspace likes to know
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  239  	 * if it has been already ack-ed via EOI because coalesced RTC
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  240  	 * interrupts lead to time drift in Windows guests.  So we track
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  241  	 * EOI manually for the RTC interrupt.
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  242  	 */
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  243  	if (irq == RTC_GSI && line_status &&
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  244  		rtc_irq_check_coalesced(ioapic)) {
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  245  		ret = 0;
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  246  		goto out;
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  247  	}
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  248  
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  249  	old_irr = ioapic->irr;
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  250  	ioapic->irr |= mask;
-7d2253684dd10e arch/x86/kvm/ioapic.c Nikita Leshenko       2017-11-05  251  	if (edge) {
-5bda6eed2e3626 arch/x86/kvm/ioapic.c Wincy Van             2014-12-24  252  		ioapic->irr_delivered &= ~mask;
-7d2253684dd10e arch/x86/kvm/ioapic.c Nikita Leshenko       2017-11-05  253  		if (old_irr == ioapic->irr) {
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  254  			ret = 0;
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  255  			goto out;
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  256  		}
-7d2253684dd10e arch/x86/kvm/ioapic.c Nikita Leshenko       2017-11-05  257  	}
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  258  
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  259  	ret = ioapic_service(ioapic, irq, line_status);
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  260  
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  261  out:
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  262  	trace_kvm_ioapic_set_irq(entry.bits, irq, ret == 0);
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  263  	return ret;
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  264  }
-44847dea79751e virt/kvm/ioapic.c     Paolo Bonzini         2014-03-18  265  
-
-:::::: The code at line 214 was first introduced by commit
-:::::: 44847dea79751e95665a439f8c63a65e51da8e1f KVM: ioapic: extract body of kvm_ioapic_set_irq
-
-:::::: TO: Paolo Bonzini <pbonzini@redhat.com>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+   389	
+ > 390	void max98388_reset(struct max98388_priv *max98388, struct device *dev)
+   391	{
+   392		int ret, reg, count;
+   393	
+   394		/* Software Reset */
+   395		ret = regmap_update_bits(max98388->regmap,
+   396					 MAX98388_R2000_SW_RESET,
+   397					 MAX98388_SOFT_RESET,
+   398					 MAX98388_SOFT_RESET);
+   399		if (ret)
+   400			dev_err(dev, "Reset command failed. (ret:%d)\n", ret);
+   401	
+   402		count = 0;
+   403		while (count < 3) {
+   404			usleep_range(10000, 11000);
+   405			/* Software Reset Verification */
+   406			ret = regmap_read(max98388->regmap,
+   407					  MAX98388_R22FF_REV_ID, &reg);
+   408			if (!ret) {
+   409				dev_info(dev, "Reset completed (retry:%d)\n", count);
+   410				return;
+   411			}
+   412			count++;
+   413		}
+   414		dev_err(dev, "Reset failed. (ret:%d)\n", ret);
+   415	}
+   416	
 
 -- 
 0-DAY CI Kernel Test Service
