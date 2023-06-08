@@ -1,45 +1,63 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285B33B406;
-	Thu,  8 Jun 2023 03:56:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21DF46B6
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 05:18:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686196583; x=1717732583;
+  t=1686201514; x=1717737514;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=k99wrPIvy0sEGb2/m3VmAkXjfmuNeLcXmkCqr20amFY=;
-  b=MCgpiRxO7AIYe0KaTfShs7VupWJYXmdiqHBmpJwUk/1pbyZuh5X63cMu
-   N5XcXkKg+O+6fJP1McN6LZZzjgd7Ck7j3DQv8BLPVsqq3oG4defrK37fE
-   NMpaG0WZmNr8a98ePM75489ranvtjtgHsgcsy1EsnXy1wVbNjzdHYR9+k
-   d41VBQtu+8adUyXHQCuOMsiKc7xmBsg1mqT/YDG/W87Q9+TqxM8X0FQhJ
-   eriF1rewc2Xy9FM4dFkMS6Ki4XApkpn6U2MlSeCexUI97Sy3NoxHdn8ai
-   9ETN5BV8MLuRGGdW9ZNOe7KcABDBMhtl/yMOGUfii9bOV6XgvMb+0iT6n
+  bh=cHXrEY01bYvheOLH7fG7jjiblWcaaSIEo6dV4ZMjUe0=;
+  b=LocKE1V9IsHhQOMmoyx+6Xu8aCJCT/IkxHeS2XhU57zhfTKCKzMh0F6K
+   ABCuJQnaPti6QoMosND/6tIMxAfGI4Yn13SbcAGAGOOxlWODFSHP26bjr
+   klQJuQjwkkMnCJDcy6A/uIkYD8QxlEHcYyIcbLMCXKsD92JbJ/Dzp3coc
+   Y5qifYizJtpJb3hHlV+GJQ8ATxksDpXpk6cH6ha4CwP7IEzt4LDQFlt7j
+   drpdnplxb2dTLH/N/gb7RgQV3jeq0/g+j6xG8BtBE/R7ILouEqzD9sAqZ
+   ZNb9xUqE6UG00LLAY6L5kysA27BIGgBss9NfhhtzsLn7A8x5oFBTqlEaA
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="360522644"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="357213717"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="360522644"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 20:56:22 -0700
+   d="scan'208";a="357213717"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 22:18:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="854174682"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="703942649"
 X-IronPort-AV: E=Sophos;i="6.00,226,1681196400"; 
-   d="scan'208";a="854174682"
+   d="scan'208";a="703942649"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Jun 2023 20:56:20 -0700
+  by orsmga007.jf.intel.com with ESMTP; 07 Jun 2023 22:18:27 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q76l2-0007Dm-0x;
-	Thu, 08 Jun 2023 03:56:20 +0000
-Date: Thu, 8 Jun 2023 11:55:42 +0800
+	id 1q782U-0007Ih-2L;
+	Thu, 08 Jun 2023 05:18:26 +0000
+Date: Thu, 8 Jun 2023 13:18:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-wired-lan] [PATCH net-next v12 3/4] ice: add ability to
- read FW log data and configure the number of log buffers
-Message-ID: <202306081116.lKcH4bg6-lkp@intel.com>
-References: <20230607222443.119-4-paul.m.stillwell.jr@intel.com>
+To: Douglas Anderson <dianders@chromium.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Douglas Anderson <dianders@chromium.org>,
+	devicetree@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
+	linux-arm-msm@vger.kernel.org,
+	yangcong5@huaqin.corp-partner.google.com,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Chris Morgan <macroalpha82@gmail.com>, linux-input@vger.kernel.org,
+	hsinyi@google.com
+Subject: Re: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
+Message-ID: <202306081344.M0jNn0Ce-lkp@intel.com>
+References: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,72 +66,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230607222443.119-4-paul.m.stillwell.jr@intel.com>
+In-Reply-To: <20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid>
 
-Hi Paul,
+Hi Douglas,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on hid/for-next dtor-input/next dtor-input/for-linus]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-M-Stillwell-Jr/ice-remove-FW-logging-code/20230608-062658
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230607222443.119-4-paul.m.stillwell.jr%40intel.com
-patch subject: [Intel-wired-lan] [PATCH net-next v12 3/4] ice: add ability to read FW log data and configure the number of log buffers
-config: x86_64-randconfig-a006-20230607 (https://download.01.org/0day-ci/archive/20230608/202306081116.lKcH4bg6-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+url:    https://github.com/intel-lab-lkp/linux/commits/Douglas-Anderson/dt-bindings-HID-i2c-hid-Add-panel-property-to-i2c-hid-backed-touchscreens/20230608-055515
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15%40changeid
+patch subject: [PATCH v2 08/10] HID: i2c-hid: Support being a panel follower
+config: arc-randconfig-r021-20230607 (https://download.01.org/0day-ci/archive/20230608/202306081344.M0jNn0Ce-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add net-next https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
-        git fetch net-next main
-        git checkout net-next/main
-        b4 shazam https://lore.kernel.org/r/20230607222443.119-4-paul.m.stillwell.jr@intel.com
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch robh for-next
+        git checkout robh/for-next
+        b4 shazam https://lore.kernel.org/r/20230607144931.v2.8.Ib1a98309c455cd7e26b931c69993d4fba33bbe15@changeid
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/ethernet/intel/ice/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306081116.lKcH4bg6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306081344.M0jNn0Ce-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/intel/ice/ice_debugfs.c:638:6: warning: variable 'debug_count' set but not used [-Wunused-but-set-variable]
-           int debug_count;
-               ^
-   1 warning generated.
-
-
-vim +/debug_count +638 drivers/net/ethernet/intel/ice/ice_debugfs.c
-
-   623	
-   624	/**
-   625	 * ice_debugfs_data_read - read from 'data' file
-   626	 * @filp: the opened file
-   627	 * @buffer: where to write the data for the user to read
-   628	 * @count: the size of the user's buffer
-   629	 * @ppos: file position offset
-   630	 */
-   631	static ssize_t ice_debugfs_data_read(struct file *filp, char __user *buffer,
-   632					     size_t count, loff_t *ppos)
-   633	{
-   634		struct ice_pf *pf = filp->private_data;
-   635		struct ice_hw *hw = &pf->hw;
-   636		int data_copied = 0;
-   637		bool done = false;
- > 638		int debug_count;
-   639	
-   640		/* don't allow commands if the FW doesn't support it */
-   641		if (!ice_fwlog_supported(&pf->hw))
-   642			return -EOPNOTSUPP;
-   643	
-   644		if (ice_fwlog_ring_empty(&hw->fwlog_ring))
-   645			return 0;
-   646	
+   `.exit.text' referenced in section `__jump_table' of lib/test_dynamic_debug.o: defined in discarded section `.exit.text' of lib/test_dynamic_debug.o
+   `.exit.text' referenced in section `__jump_table' of lib/test_dynamic_debug.o: defined in discarded section `.exit.text' of lib/test_dynamic_debug.o
+   `.exit.text' referenced in section `__jump_table' of drivers/misc/phantom.o: defined in discarded section `.exit.text' of drivers/misc/phantom.o
+   `.exit.text' referenced in section `__jump_table' of drivers/misc/phantom.o: defined in discarded section `.exit.text' of drivers/misc/phantom.o
+   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
+   `.exit.text' referenced in section `__jump_table' of drivers/target/target_core_configfs.o: defined in discarded section `.exit.text' of drivers/target/target_core_configfs.o
+   arceb-elf-ld: drivers/hid/i2c-hid/i2c-hid-core.o: in function `i2c_hid_core_remove':
+   drivers/hid/i2c-hid/i2c-hid-core.c:1218: undefined reference to `drm_panel_remove_follower'
+>> arceb-elf-ld: drivers/hid/i2c-hid/i2c-hid-core.c:1218: undefined reference to `drm_panel_remove_follower'
+   arceb-elf-ld: drivers/hid/i2c-hid/i2c-hid-core.o: in function `i2c_hid_core_probe':
+   drivers/hid/i2c-hid/i2c-hid-core.c:1159: undefined reference to `drm_panel_add_follower'
+>> arceb-elf-ld: drivers/hid/i2c-hid/i2c-hid-core.c:1159: undefined reference to `drm_panel_add_follower'
 
 -- 
 0-DAY CI Kernel Test Service
