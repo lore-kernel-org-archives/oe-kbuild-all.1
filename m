@@ -1,125 +1,111 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E412EC8
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 01:51:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686189074; x=1717725074;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DfBhjySOC/aOfriddPQHUPE/IPwmhqkYZ8Upp9h/SZk=;
-  b=cjdkRHz6H3SPLdrkWCip5JBRxdOdptKenoE2UHLBS5bgNroTnwIwizeO
-   62e9rM/1qfPiw0DbFv9jAfhjmrM1qd8Dn4lYKIuFKbEXzclXZSExTfc1X
-   fe0fpuejRrK2OFLqSJG4rPFULjnQd8i8iMeGb5lkjLcegJbnhM7K34kbL
-   gsTi3PfXNHPZfiZEVlPWvbzMSd3BQn/08tTFYOC7vZkR5Ka9/HBoc84Li
-   wEg6z5EvvV85/MziSx6pJLX8epaFGMTkI4lI27eqF8Xw+bU5KhjxOgqv2
-   rJ8mKe438Dg+jdHabxWciy9z6Jb11VZitgzIMaSmox53mXF3QN/KrhEMw
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="346781374"
-X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
-   d="scan'208";a="346781374"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 18:51:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="822400339"
-X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
-   d="scan'208";a="822400339"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Jun 2023 18:51:12 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q74nv-00077N-2x;
-	Thu, 08 Jun 2023 01:51:11 +0000
-Date: Thu, 8 Jun 2023 09:50:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-wired-lan] [PATCH net-next v12 3/4] ice: add ability to
- read FW log data and configure the number of log buffers
-Message-ID: <202306080921.rgVC3eYY-lkp@intel.com>
-References: <20230607222443.119-4-paul.m.stillwell.jr@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 674C9ED0
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 02:19:33 +0000 (UTC)
+Authenticated-By: 
+X-SpamFilter-By: ArmorX SpamTrap 5.77 with qID 3582IccrE030853, This message is accepted by code: ctloc85258
+Received: from mail.realtek.com (rtexh36505.realtek.com.tw[172.21.6.25])
+	by rtits2.realtek.com.tw (8.15.2/2.81/5.90) with ESMTPS id 3582IccrE030853
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK);
+	Thu, 8 Jun 2023 10:18:38 +0800
+Received: from RTEXMBS05.realtek.com.tw (172.21.6.98) by
+ RTEXH36505.realtek.com.tw (172.21.6.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.32; Thu, 8 Jun 2023 10:18:54 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS05.realtek.com.tw (172.21.6.98) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Thu, 8 Jun 2023 10:18:54 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d]) by
+ RTEXMBS04.realtek.com.tw ([fe80::e138:e7f1:4709:ff4d%5]) with mapi id
+ 15.01.2375.007; Thu, 8 Jun 2023 10:18:54 +0800
+From: =?big5?B?U3RhbmxleSBDaGFuZ1up96h8vHdd?= <stanley_chang@realtek.com>
+To: kernel test robot <lkp@intel.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+        "Vinod
+ Koul" <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        "Rob
+ Herring" <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>, "Ray
+ Chi" <raychi@google.com>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
+        Flavio Suligoi <f.suligoi@asem.it>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Mathias Nyman <mathias.nyman@linux.intel.com>,
+        "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: [PATCH v3 3/5] phy: realtek: usb: Add driver for the Realtek SoC USB 3.0 PHY
+Thread-Topic: [PATCH v3 3/5] phy: realtek: usb: Add driver for the Realtek SoC
+ USB 3.0 PHY
+Thread-Index: AQHZmQjXaabXymTUEkebktrVQM6RHa9/mteAgACSIHA=
+Date: Thu, 8 Jun 2023 02:18:54 +0000
+Message-ID: <3d2e828cedba4ed0bb3fa09e3d306e1d@realtek.com>
+References: <20230607062500.24669-3-stanley_chang@realtek.com>
+ <202306080940.5Lcjwfck-lkp@intel.com>
+In-Reply-To: <202306080940.5Lcjwfck-lkp@intel.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-originating-ip: [172.21.190.159]
+x-kse-serverinfo: RTEXMBS05.realtek.com.tw, 9
+x-kse-antispam-interceptor-info: fallback
+x-kse-antivirus-interceptor-info: fallback
+Content-Type: text/plain; charset="big5"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230607222443.119-4-paul.m.stillwell.jr@intel.com>
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-ServerInfo: RTEXH36505.realtek.com.tw, 9
+X-KSE-AntiSpam-Interceptor-Info: fallback
+X-KSE-Antivirus-Interceptor-Info: fallback
+X-KSE-AntiSpam-Interceptor-Info: fallback
 
-Hi Paul,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-M-Stillwell-Jr/ice-remove-FW-logging-code/20230608-062658
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230607222443.119-4-paul.m.stillwell.jr%40intel.com
-patch subject: [Intel-wired-lan] [PATCH net-next v12 3/4] ice: add ability to read FW log data and configure the number of log buffers
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230608/202306080921.rgVC3eYY-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add net-next https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
-        git fetch net-next main
-        git checkout net-next/main
-        b4 shazam https://lore.kernel.org/r/20230607222443.119-4-paul.m.stillwell.jr@intel.com
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/net/ethernet/intel/ice/
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306080921.rgVC3eYY-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/intel/ice/ice_fwlog.c: In function 'ice_fwlog_alloc_ring_buffs':
-   drivers/net/ethernet/intel/ice/ice_fwlog.c:41:30: error: implicit declaration of function 'vzalloc'; did you mean 'kvzalloc'? [-Werror=implicit-function-declaration]
-      41 |                 ring->data = vzalloc(ring->data_size);
-         |                              ^~~~~~~
-         |                              kvzalloc
->> drivers/net/ethernet/intel/ice/ice_fwlog.c:41:28: warning: assignment to 'u8 *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      41 |                 ring->data = vzalloc(ring->data_size);
-         |                            ^
-   drivers/net/ethernet/intel/ice/ice_fwlog.c: In function 'ice_fwlog_free_ring_buffs':
-   drivers/net/ethernet/intel/ice/ice_fwlog.c:59:25: error: implicit declaration of function 'vfree'; did you mean 'kvfree'? [-Werror=implicit-function-declaration]
-      59 |                         vfree(ring->data);
-         |                         ^~~~~
-         |                         kvfree
-   cc1: some warnings being treated as errors
-
-
-vim +41 drivers/net/ethernet/intel/ice/ice_fwlog.c
-
-    32	
-    33	static int ice_fwlog_alloc_ring_buffs(struct ice_fwlog_ring *rings)
-    34	{
-    35		int i, ret = 0;
-    36	
-    37		for (i = 0; i < rings->size; i++) {
-    38			struct ice_fwlog_data *ring = &rings->rings[i];
-    39	
-    40			ring->data_size = PAGE_SIZE;
-  > 41			ring->data = vzalloc(ring->data_size);
-    42			if (!ring->data) {
-    43				ret = -ENOMEM;
-    44				break;
-    45			}
-    46		}
-    47	
-    48		return ret;
-    49	}
-    50	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+PiBBbGwgZXJyb3JzIChuZXcgb25lcyBwcmVmaXhlZCBieSA+Piwgb2xkIG9uZXMgcHJlZml4ZWQg
+YnkgPDwpOg0KPiANCj4gRVJST1I6IG1vZHBvc3Q6ICJ1c2JfcmVtb3ZlX3BoeSIgW2RyaXZlcnMv
+cGh5L3JlYWx0ZWsvcGh5LXJ0ay11c2IyLmtvXQ0KPiB1bmRlZmluZWQhDQo+IEVSUk9SOiBtb2Rw
+b3N0OiAidXNiX2RlYnVnX3Jvb3QiIFtkcml2ZXJzL3BoeS9yZWFsdGVrL3BoeS1ydGstdXNiMi5r
+b10NCj4gdW5kZWZpbmVkIQ0KPiBFUlJPUjogbW9kcG9zdDogIm9mX2lvbWFwIiBbZHJpdmVycy9w
+aHkvcmVhbHRlay9waHktcnRrLXVzYjIua29dIHVuZGVmaW5lZCENCj4gRVJST1I6IG1vZHBvc3Q6
+ICJ1c2JfYWRkX3BoeV9kZXYiIFtkcml2ZXJzL3BoeS9yZWFsdGVrL3BoeS1ydGstdXNiMi5rb10N
+Cj4gdW5kZWZpbmVkIQ0KPiA+PiBFUlJPUjogbW9kcG9zdDogInVzYl9yZW1vdmVfcGh5IiBbZHJp
+dmVycy9waHkvcmVhbHRlay9waHktcnRrLXVzYjMua29dDQo+IHVuZGVmaW5lZCENCj4gPj4gRVJS
+T1I6IG1vZHBvc3Q6ICJ1c2JfZGVidWdfcm9vdCIgW2RyaXZlcnMvcGh5L3JlYWx0ZWsvcGh5LXJ0
+ay11c2IzLmtvXQ0KPiB1bmRlZmluZWQhDQo+ID4+IEVSUk9SOiBtb2Rwb3N0OiAib2ZfaW9tYXAi
+IFtkcml2ZXJzL3BoeS9yZWFsdGVrL3BoeS1ydGstdXNiMy5rb10NCj4gdW5kZWZpbmVkIQ0KPiA+
+PiBFUlJPUjogbW9kcG9zdDogInVzYl9hZGRfcGh5X2RldiIgW2RyaXZlcnMvcGh5L3JlYWx0ZWsv
+cGh5LXJ0ay11c2IzLmtvXQ0KPiB1bmRlZmluZWQhDQo+IEVSUk9SOiBtb2Rwb3N0OiAiZGV2bV9p
+b3JlbWFwX3Jlc291cmNlIiBbZHJpdmVycy9kbWEvcWNvbS9oZG1hLmtvXQ0KPiB1bmRlZmluZWQh
+DQo+IEVSUk9SOiBtb2Rwb3N0OiAiZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291cmNlIg0KPiBb
+ZHJpdmVycy9kbWEvZnNsLWVkbWEua29dIHVuZGVmaW5lZCENCj4gV0FSTklORzogbW9kcG9zdDog
+c3VwcHJlc3NlZCAyNiB1bnJlc29sdmVkIHN5bWJvbCB3YXJuaW5ncyBiZWNhdXNlIHRoZXJlDQo+
+IHdlcmUgdG9vIG1hbnkpDQo+IA0KPiBLY29uZmlnIHdhcm5pbmdzOiAoZm9yIHJlZmVyZW5jZSBv
+bmx5KQ0KPiAgICBXQVJOSU5HOiB1bm1ldCBkaXJlY3QgZGVwZW5kZW5jaWVzIGRldGVjdGVkIGZv
+ciBVU0JfUEhZDQo+ICAgIERlcGVuZHMgb24gW25dOiBVU0JfU1VQUE9SVCBbPW5dDQo+ICAgIFNl
+bGVjdGVkIGJ5IFttXToNCj4gICAgLSBQSFlfUlRLX1JURF9VU0IyUEhZIFs9bV0NCj4gICAgLSBQ
+SFlfUlRLX1JURF9VU0IzUEhZIFs9bV0NCj4gDQoNCkkgd2lsbCBhZGQgVVNCX1NVVVBSVCBkZXBl
+bmRlbmN5IHRvIEtjb25maWcuDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL3BoeS9yZWFsdGVrL0tj
+b25maWcgYi9kcml2ZXJzL3BoeS9yZWFsdGVrL0tjb25maWcNCmluZGV4IDI4ZWUzZDliZTU2OC4u
+YTVhNWE3MWVkYzljIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9waHkvcmVhbHRlay9LY29uZmlnDQor
+KysgYi9kcml2ZXJzL3BoeS9yZWFsdGVrL0tjb25maWcNCkBAIC00LDYgKzQsNyBAQA0KICMNCiBj
+b25maWcgUEhZX1JUS19SVERfVVNCMlBIWQ0KICAgICAgICB0cmlzdGF0ZSAiUmVhbHRlayBSVEQg
+VVNCMiBQSFkgVHJhbnNjZWl2ZXIgRHJpdmVyIg0KKyAgICAgICBkZXBlbmRzIG9uIFVTQl9TVVBQ
+T1JUDQogICAgICAgIHNlbGVjdCBHRU5FUklDX1BIWQ0KICAgICAgICBzZWxlY3QgVVNCX1BIWQ0K
+ICAgICAgICBoZWxwDQpAQCAtMTQsNiArMTUsNyBAQCBjb25maWcgUEhZX1JUS19SVERfVVNCMlBI
+WQ0KDQogY29uZmlnIFBIWV9SVEtfUlREX1VTQjNQSFkNCiAgICAgICAgdHJpc3RhdGUgIlJlYWx0
+ZWsgUlREIFVTQjMgUEhZIFRyYW5zY2VpdmVyIERyaXZlciINCisgICAgICAgZGVwZW5kcyBvbiBV
+U0JfU1VQUE9SVA0KICAgICAgICBzZWxlY3QgR0VORVJJQ19QSFkNCiAgICAgICAgc2VsZWN0IFVT
+Ql9QSFkNCiAgICAgICAgaGVscA0KDQo=
