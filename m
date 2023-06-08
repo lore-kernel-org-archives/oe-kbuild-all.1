@@ -1,49 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF83294D4;
-	Thu,  8 Jun 2023 19:44:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A89817740
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 20:04:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686253486; x=1717789486;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VxXoH67dsmpaHt3OmDmsDM54npgIe5Q392w5Z0/YsUI=;
-  b=Vq6A758ZSkWZ7m8VpECBdj2DlvkfrSYS2AkIppxLPLS6RWD5QHUwCzvJ
-   ec5RxhZhZ1uPz1bCWmVBH67+QfKgOjH2lXVZH5A7etkd8VoXNT8wxKZOW
-   PkeRS5D9BV0bQpMLz4BtHuNm7wQXi3uowyJDYmJ7mgZPNCP6iQJsqec/1
-   MnrAIVImMMYcxBcl2NbJy2wuxp8CMcQrFZ/ttHxqY5d3LC1PDZHtSdorK
-   uhFSF1Yr2/Rb3PBX8OgFOgEk9JIYAa5hwAGibtLnqyMWULwmS/krWJjFq
-   Ee3AcTMvxalWE/ji5E6JEkoSJPVUtL//VqmYSXdG0inW5fPneRYFbBA4H
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="356288958"
+  t=1686254686; x=1717790686;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kQkFXmqkK5JTsoODrS/t5cumLo+xl+L7WgrdNaskZKw=;
+  b=IbqHSbmz8fnh5xiz01YVkDL2C33NcpFo3v2gRM18/2WALZZTEzB42Sdw
+   N35bYTZy9PRuDICQNA64Rm+qU4Bcg67kb8c+ffMyJ7EB5vEIC6svCYO36
+   7Jsd2PExW5mzMkuQy7WCLE+uE1Bih1Ntpfa1GB4a0+0e50+VtTMMppB1d
+   R0PkjzmvFzSv/B04MJuJFSlikZyPPwwuU7DFRVW67g3lfF5olKO18Zbiy
+   wsj0M3DS9geA7YhzgaG1AceR8vS0/h+nu2qoEGtTP/GEZPN16D6pvJfTj
+   VBHcBPiKyWS+fFbeR3p7xaco+T9yAhN0tVyna9uJlsmua/mmz7gsRjnhR
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="359902861"
 X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="356288958"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 12:44:45 -0700
+   d="scan'208";a="359902861"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 13:04:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="822754649"
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="956869061"
 X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="822754649"
+   d="scan'208";a="956869061"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 08 Jun 2023 12:44:42 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 08 Jun 2023 13:04:43 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7LYo-0008Cq-0a;
-	Thu, 08 Jun 2023 19:44:42 +0000
-Date: Fri, 9 Jun 2023 03:43:56 +0800
+	id 1q7LsB-0008Dc-0N;
+	Thu, 08 Jun 2023 20:04:43 +0000
+Date: Fri, 9 Jun 2023 04:04:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Alexander Stein <linux@ew.tq-group.com>
-Subject: Re: [rfc, rft, PATCH v1 1/1] gpio: aggregator: Introduce delay
- support for individual output pins
-Message-ID: <202306090344.UJNc4HFx-lkp@intel.com>
-References: <20230608162130.55015-1-andriy.shevchenko@linux.intel.com>
+To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:jitalloc/v1.1 4/8] arch/arm/kernel/module.c:60:6: warning: no
+ previous prototype for 'module_init_section'
+Message-ID: <202306090343.r7y8F2Nw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,212 +45,260 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230608162130.55015-1-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brgl/gpio/for-next]
-[also build test ERROR on linus/master v6.4-rc5 next-20230608]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/gpio-aggregator-Introduce-delay-support-for-individual-output-pins/20230609-002703
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20230608162130.55015-1-andriy.shevchenko%40linux.intel.com
-patch subject: [rfc, rft, PATCH v1 1/1] gpio: aggregator: Introduce delay support for individual output pins
-config: hexagon-randconfig-r023-20230608 (https://download.01.org/0day-ci/archive/20230609/202306090344.UJNc4HFx-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git jitalloc/v1.1
+head:   b334b84f00b0afae4aeed25189d4d2fefd0256be
+commit: 8c1d38fdb52242e4c41b67bd4344b5d1e0fd529b [4/8] mm/execmem, arch: convert remaining overrides of module_alloc to execmem
+config: arm-buildonly-randconfig-r006-20230608 (https://download.01.org/0day-ci/archive/20230609/202306090343.r7y8F2Nw-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add brgl https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git
-        git fetch brgl gpio/for-next
-        git checkout brgl/gpio/for-next
-        b4 shazam https://lore.kernel.org/r/20230608162130.55015-1-andriy.shevchenko@linux.intel.com
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git/commit/?id=8c1d38fdb52242e4c41b67bd4344b5d1e0fd529b
+        git remote add rppt https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git
+        git fetch --no-tags rppt jitalloc/v1.1
+        git checkout 8c1d38fdb52242e4c41b67bd4344b5d1e0fd529b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpio/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash arch/arm/kernel/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306090344.UJNc4HFx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306090343.r7y8F2Nw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpio/gpio-aggregator.c:26:
-   In file included from include/linux/gpio/driver.h:6:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/gpio/gpio-aggregator.c:26:
-   In file included from include/linux/gpio/driver.h:6:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/gpio/gpio-aggregator.c:26:
-   In file included from include/linux/gpio/driver.h:6:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/gpio/gpio-aggregator.c:426:36: error: no member named 'of_gpio_n_cells' in 'struct gpio_chip'
-     426 |         if (gpiospec->args_count != chip->of_gpio_n_cells)
-         |                                     ~~~~  ^
->> drivers/gpio/gpio-aggregator.c:518:9: error: no member named 'of_xlate' in 'struct gpio_chip'
-     518 |                 chip->of_xlate = gpiochip_fwd_delay_of_xlate;
-         |                 ~~~~  ^
-   drivers/gpio/gpio-aggregator.c:519:9: error: no member named 'of_gpio_n_cells' in 'struct gpio_chip'
-     519 |                 chip->of_gpio_n_cells = 3;
-         |                 ~~~~  ^
-   6 warnings and 3 errors generated.
+>> arch/arm/kernel/module.c:60:6: warning: no previous prototype for 'module_init_section' [-Wmissing-prototypes]
+      60 | bool module_init_section(const char *name)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> arch/arm/kernel/module.c:67:6: warning: no previous prototype for 'module_exit_section' [-Wmissing-prototypes]
+      67 | bool module_exit_section(const char *name)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> arch/arm/kernel/module.c:113:1: warning: no previous prototype for 'apply_relocate' [-Wmissing-prototypes]
+     113 | apply_relocate(Elf32_Shdr *sechdrs, const char *strtab, unsigned int symindex,
+         | ^~~~~~~~~~~~~~
+>> arch/arm/kernel/module.c:458:5: warning: no previous prototype for 'module_finalize' [-Wmissing-prototypes]
+     458 | int module_finalize(const Elf32_Ehdr *hdr, const Elf_Shdr *sechdrs,
+         |     ^~~~~~~~~~~~~~~
+>> arch/arm/kernel/module.c:516:1: warning: no previous prototype for 'module_arch_cleanup' [-Wmissing-prototypes]
+     516 | module_arch_cleanup(struct module *mod)
+         | ^~~~~~~~~~~~~~~~~~~
+>> arch/arm/kernel/module.c:531:13: warning: no previous prototype for 'module_arch_freeing_init' [-Wmissing-prototypes]
+     531 | void __weak module_arch_freeing_init(struct module *mod)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +426 drivers/gpio/gpio-aggregator.c
+vim +/module_init_section +60 arch/arm/kernel/module.c
 
-   417	
-   418	static int gpiochip_fwd_delay_of_xlate(struct gpio_chip *chip,
-   419					       const struct of_phandle_args *gpiospec,
-   420					       u32 *flags)
-   421	{
-   422		struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
-   423		struct gpiochip_fwd_timing *timings;
-   424		u32 line;
-   425	
- > 426		if (gpiospec->args_count != chip->of_gpio_n_cells)
-   427			return -EINVAL;
-   428	
-   429		line = gpiospec->args[0];
-   430		if (line >= chip->ngpio)
-   431			return -EINVAL;
-   432	
-   433		timings = &fwd->delay_timings[line];
-   434		timings->ramp_up_us = gpiospec->args[1];
-   435		timings->ramp_down_us = gpiospec->args[2];
-   436	
-   437		return line;
-   438	}
-   439	
-   440	/**
-   441	 * gpiochip_fwd_create() - Create a new GPIO forwarder
-   442	 * @dev: Parent device pointer
-   443	 * @ngpios: Number of GPIOs in the forwarder.
-   444	 * @descs: Array containing the GPIO descriptors to forward to.
-   445	 *         This array must contain @ngpios entries, and must not be deallocated
-   446	 *         before the forwarder has been destroyed again.
-   447	 * @delay: True if the pins have an external delay line.
-   448	 *
-   449	 * This function creates a new gpiochip, which forwards all GPIO operations to
-   450	 * the passed GPIO descriptors.
-   451	 *
-   452	 * Return: An opaque object pointer, or an ERR_PTR()-encoded negative error
-   453	 *         code on failure.
-   454	 */
-   455	static struct gpiochip_fwd *gpiochip_fwd_create(struct device *dev,
-   456							unsigned int ngpios,
-   457							struct gpio_desc *descs[],
-   458							bool delay)
-   459	{
-   460		const char *label = dev_name(dev);
-   461		struct gpiochip_fwd *fwd;
-   462		struct gpio_chip *chip;
-   463		unsigned int i;
-   464		int error;
-   465	
-   466		fwd = devm_kzalloc(dev, struct_size(fwd, tmp, fwd_tmp_size(ngpios)),
-   467				   GFP_KERNEL);
-   468		if (!fwd)
-   469			return ERR_PTR(-ENOMEM);
-   470	
-   471		chip = &fwd->chip;
-   472	
-   473		/*
-   474		 * If any of the GPIO lines are sleeping, then the entire forwarder
-   475		 * will be sleeping.
-   476		 * If any of the chips support .set_config(), then the forwarder will
-   477		 * support setting configs.
-   478		 */
-   479		for (i = 0; i < ngpios; i++) {
-   480			struct gpio_chip *parent = gpiod_to_chip(descs[i]);
-   481	
-   482			dev_dbg(dev, "%u => gpio %d irq %d\n", i,
-   483				desc_to_gpio(descs[i]), gpiod_to_irq(descs[i]));
-   484	
-   485			if (gpiod_cansleep(descs[i]))
-   486				chip->can_sleep = true;
-   487			if (parent && parent->set_config)
-   488				chip->set_config = gpio_fwd_set_config;
-   489		}
-   490	
-   491		chip->label = label;
-   492		chip->parent = dev;
-   493		chip->owner = THIS_MODULE;
-   494		chip->get_direction = gpio_fwd_get_direction;
-   495		chip->direction_input = gpio_fwd_direction_input;
-   496		chip->direction_output = gpio_fwd_direction_output;
-   497		chip->get = gpio_fwd_get;
-   498		chip->get_multiple = gpio_fwd_get_multiple_locked;
-   499		chip->set = gpio_fwd_set;
-   500		chip->set_multiple = gpio_fwd_set_multiple_locked;
-   501		chip->to_irq = gpio_fwd_to_irq;
-   502		chip->base = -1;
-   503		chip->ngpio = ngpios;
-   504		fwd->descs = descs;
-   505	
-   506		if (chip->can_sleep)
-   507			mutex_init(&fwd->mlock);
-   508		else
-   509			spin_lock_init(&fwd->slock);
-   510	
-   511		if (delay) {
-   512			fwd->delay_timings = devm_kcalloc(dev, ngpios,
-   513							  sizeof(*fwd->delay_timings),
-   514							  GFP_KERNEL);
-   515			if (!fwd->delay_timings)
-   516				return ERR_PTR(-ENOMEM);
-   517	
- > 518			chip->of_xlate = gpiochip_fwd_delay_of_xlate;
-   519			chip->of_gpio_n_cells = 3;
-   520		}
-   521	
-   522		error = devm_gpiochip_add_data(dev, chip, fwd);
-   523		if (error)
-   524			return ERR_PTR(error);
-   525	
-   526		return fwd;
-   527	}
-   528	
+^1da177e4c3f41 Linus Torvalds     2005-04-16   59  
+cdcb07e45a911a Vincent Whitchurch 2020-05-14  @60  bool module_init_section(const char *name)
+cdcb07e45a911a Vincent Whitchurch 2020-05-14   61  {
+cdcb07e45a911a Vincent Whitchurch 2020-05-14   62  	return strstarts(name, ".init") ||
+cdcb07e45a911a Vincent Whitchurch 2020-05-14   63  		strstarts(name, ".ARM.extab.init") ||
+cdcb07e45a911a Vincent Whitchurch 2020-05-14   64  		strstarts(name, ".ARM.exidx.init");
+cdcb07e45a911a Vincent Whitchurch 2020-05-14   65  }
+cdcb07e45a911a Vincent Whitchurch 2020-05-14   66  
+70bac08d4157fd Matthias Schiffer  2019-06-07  @67  bool module_exit_section(const char *name)
+70bac08d4157fd Matthias Schiffer  2019-06-07   68  {
+70bac08d4157fd Matthias Schiffer  2019-06-07   69  	return strstarts(name, ".exit") ||
+70bac08d4157fd Matthias Schiffer  2019-06-07   70  		strstarts(name, ".ARM.extab.exit") ||
+70bac08d4157fd Matthias Schiffer  2019-06-07   71  		strstarts(name, ".ARM.exidx.exit");
+70bac08d4157fd Matthias Schiffer  2019-06-07   72  }
+70bac08d4157fd Matthias Schiffer  2019-06-07   73  
+d6905849f87596 Ard Biesheuvel     2022-01-24   74  #ifdef CONFIG_ARM_HAS_GROUP_RELOCS
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   75  /*
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   76   * This implements the partitioning algorithm for group relocations as
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   77   * documented in the ARM AArch32 ELF psABI (IHI 0044).
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   78   *
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   79   * A single PC-relative symbol reference is divided in up to 3 add or subtract
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   80   * operations, where the final one could be incorporated into a load/store
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   81   * instruction with immediate offset. E.g.,
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   82   *
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   83   *   ADD	Rd, PC, #...		or	ADD	Rd, PC, #...
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   84   *   ADD	Rd, Rd, #...			ADD	Rd, Rd, #...
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   85   *   LDR	Rd, [Rd, #...]			ADD	Rd, Rd, #...
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   86   *
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   87   * The latter has a guaranteed range of only 16 MiB (3x8 == 24 bits), so it is
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   88   * of limited use in the kernel. However, the ADD/ADD/LDR combo has a range of
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   89   * -/+ 256 MiB, (2x8 + 12 == 28 bits), which means it has sufficient range for
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   90   * any in-kernel symbol reference (unless module PLTs are being used).
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   91   *
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   92   * The main advantage of this approach over the typical pattern using a literal
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   93   * load is that literal loads may miss in the D-cache, and generally lead to
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   94   * lower cache efficiency for variables that are referenced often from many
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   95   * different places in the code.
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   96   */
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   97  static u32 get_group_rem(u32 group, u32 *offset)
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   98  {
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24   99  	u32 val = *offset;
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24  100  	u32 shift;
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24  101  	do {
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24  102  		shift = val ? (31 - __fls(val)) & ~1 : 32;
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24  103  		*offset = val;
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24  104  		if (!val)
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24  105  			break;
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24  106  		val &= 0xffffff >> shift;
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24  107  	} while (group--);
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24  108  	return shift;
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24  109  }
+d6905849f87596 Ard Biesheuvel     2022-01-24  110  #endif
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24  111  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  112  int
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @113  apply_relocate(Elf32_Shdr *sechdrs, const char *strtab, unsigned int symindex,
+^1da177e4c3f41 Linus Torvalds     2005-04-16  114  	       unsigned int relindex, struct module *module)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  115  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  116  	Elf32_Shdr *symsec = sechdrs + symindex;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  117  	Elf32_Shdr *relsec = sechdrs + relindex;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  118  	Elf32_Shdr *dstsec = sechdrs + relsec->sh_info;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  119  	Elf32_Rel *rel = (void *)relsec->sh_addr;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  120  	unsigned int i;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  121  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  122  	for (i = 0; i < relsec->sh_size / sizeof(Elf32_Rel); i++, rel++) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  123  		unsigned long loc;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  124  		Elf32_Sym *sym;
+68e6fad488ef21 Russell King       2011-01-11  125  		const char *symname;
+d6905849f87596 Ard Biesheuvel     2022-01-24  126  #ifdef CONFIG_ARM_HAS_GROUP_RELOCS
+1fa8c4b19543ae Ard Biesheuvel     2021-11-24  127  		u32 shift, group = 1;
+d6905849f87596 Ard Biesheuvel     2022-01-24  128  #endif
+^1da177e4c3f41 Linus Torvalds     2005-04-16  129  		s32 offset;
+f592d323bc2353 Ben Dooks          2013-07-19  130  		u32 tmp;
+b749315601b44a Catalin Marinas    2010-06-21  131  #ifdef CONFIG_THUMB2_KERNEL
+adca6dc23bc620 Catalin Marinas    2009-07-24  132  		u32 upper, lower, sign, j1, j2;
+b749315601b44a Catalin Marinas    2010-06-21  133  #endif
+^1da177e4c3f41 Linus Torvalds     2005-04-16  134  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  135  		offset = ELF32_R_SYM(rel->r_info);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  136  		if (offset < 0 || offset > (symsec->sh_size / sizeof(Elf32_Sym))) {
+68e6fad488ef21 Russell King       2011-01-11  137  			pr_err("%s: section %u reloc %u: bad relocation sym offset\n",
+^1da177e4c3f41 Linus Torvalds     2005-04-16  138  				module->name, relindex, i);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  139  			return -ENOEXEC;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  140  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  141  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  142  		sym = ((Elf32_Sym *)symsec->sh_addr) + offset;
+68e6fad488ef21 Russell King       2011-01-11  143  		symname = strtab + sym->st_name;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  144  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  145  		if (rel->r_offset < 0 || rel->r_offset > dstsec->sh_size - sizeof(u32)) {
+68e6fad488ef21 Russell King       2011-01-11  146  			pr_err("%s: section %u reloc %u sym '%s': out of bounds relocation, offset %d size %u\n",
+68e6fad488ef21 Russell King       2011-01-11  147  			       module->name, relindex, i, symname,
+68e6fad488ef21 Russell King       2011-01-11  148  			       rel->r_offset, dstsec->sh_size);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  149  			return -ENOEXEC;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  150  		}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  151  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  152  		loc = dstsec->sh_addr + rel->r_offset;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  153  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  154  		switch (ELF32_R_TYPE(rel->r_info)) {
+2e1926e7b5d39e Catalin Marinas    2009-02-11  155  		case R_ARM_NONE:
+2e1926e7b5d39e Catalin Marinas    2009-02-11  156  			/* ignore */
+2e1926e7b5d39e Catalin Marinas    2009-02-11  157  			break;
+2e1926e7b5d39e Catalin Marinas    2009-02-11  158  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  159  		case R_ARM_ABS32:
+55f0fb6adb83a5 Andrey Ryabinin    2014-08-08  160  		case R_ARM_TARGET1:
+^1da177e4c3f41 Linus Torvalds     2005-04-16  161  			*(u32 *)loc += sym->st_value;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  162  			break;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  163  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  164  		case R_ARM_PC24:
+c2e2611425a956 Daniel Jacobowitz  2005-12-14  165  		case R_ARM_CALL:
+c2e2611425a956 Daniel Jacobowitz  2005-12-14  166  		case R_ARM_JUMP24:
+2b8514d0a79285 Ard Biesheuvel     2014-11-24  167  			if (sym->st_value & 3) {
+2b8514d0a79285 Ard Biesheuvel     2014-11-24  168  				pr_err("%s: section %u reloc %u sym '%s': unsupported interworking call (ARM -> Thumb)\n",
+2b8514d0a79285 Ard Biesheuvel     2014-11-24  169  				       module->name, relindex, i, symname);
+2b8514d0a79285 Ard Biesheuvel     2014-11-24  170  				return -ENOEXEC;
+2b8514d0a79285 Ard Biesheuvel     2014-11-24  171  			}
+2b8514d0a79285 Ard Biesheuvel     2014-11-24  172  
+f592d323bc2353 Ben Dooks          2013-07-19  173  			offset = __mem_to_opcode_arm(*(u32 *)loc);
+f592d323bc2353 Ben Dooks          2013-07-19  174  			offset = (offset & 0x00ffffff) << 2;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  175  			if (offset & 0x02000000)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  176  				offset -= 0x04000000;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  177  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  178  			offset += sym->st_value - loc;
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  179  
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  180  			/*
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  181  			 * Route through a PLT entry if 'offset' exceeds the
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  182  			 * supported range. Note that 'offset + loc + 8'
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  183  			 * contains the absolute jump target, i.e.,
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  184  			 * @sym + addend, corrected for the +8 PC bias.
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  185  			 */
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  186  			if (IS_ENABLED(CONFIG_ARM_MODULE_PLTS) &&
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  187  			    (offset <= (s32)0xfe000000 ||
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  188  			     offset >= (s32)0x02000000))
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  189  				offset = get_module_plt(module, loc,
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  190  							offset + loc + 8)
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  191  					 - loc - 8;
+7d485f647c1f4a Ard Biesheuvel     2014-11-24  192  
+2b8514d0a79285 Ard Biesheuvel     2014-11-24  193  			if (offset <= (s32)0xfe000000 ||
+c5f125031f416b Kevin Welton       2007-05-08  194  			    offset >= (s32)0x02000000) {
+68e6fad488ef21 Russell King       2011-01-11  195  				pr_err("%s: section %u reloc %u sym '%s': relocation %u out of range (%#lx -> %#x)\n",
+68e6fad488ef21 Russell King       2011-01-11  196  				       module->name, relindex, i, symname,
+68e6fad488ef21 Russell King       2011-01-11  197  				       ELF32_R_TYPE(rel->r_info), loc,
+68e6fad488ef21 Russell King       2011-01-11  198  				       sym->st_value);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  199  				return -ENOEXEC;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  200  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  201  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  202  			offset >>= 2;
+f592d323bc2353 Ben Dooks          2013-07-19  203  			offset &= 0x00ffffff;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  204  
+f592d323bc2353 Ben Dooks          2013-07-19  205  			*(u32 *)loc &= __opcode_to_mem_arm(0xff000000);
+f592d323bc2353 Ben Dooks          2013-07-19  206  			*(u32 *)loc |= __opcode_to_mem_arm(offset);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  207  			break;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  208  
+4731f8b66dd34e Daniel Silverstone 2009-03-20  209  	       case R_ARM_V4BX:
+4731f8b66dd34e Daniel Silverstone 2009-03-20  210  		       /* Preserve Rm and the condition code. Alter
+4731f8b66dd34e Daniel Silverstone 2009-03-20  211  			* other bits to re-code instruction as
+4731f8b66dd34e Daniel Silverstone 2009-03-20  212  			* MOV PC,Rm.
+4731f8b66dd34e Daniel Silverstone 2009-03-20  213  			*/
+f592d323bc2353 Ben Dooks          2013-07-19  214  		       *(u32 *)loc &= __opcode_to_mem_arm(0xf000000f);
+f592d323bc2353 Ben Dooks          2013-07-19  215  		       *(u32 *)loc |= __opcode_to_mem_arm(0x01a0f000);
+4731f8b66dd34e Daniel Silverstone 2009-03-20  216  		       break;
+4731f8b66dd34e Daniel Silverstone 2009-03-20  217  
+2e1926e7b5d39e Catalin Marinas    2009-02-11  218  		case R_ARM_PREL31:
+050d18d1c65113 Ard Biesheuvel     2017-01-30  219  			offset = (*(s32 *)loc << 1) >> 1; /* sign extend */
+050d18d1c65113 Ard Biesheuvel     2017-01-30  220  			offset += sym->st_value - loc;
+050d18d1c65113 Ard Biesheuvel     2017-01-30  221  			if (offset >= 0x40000000 || offset < -0x40000000) {
+050d18d1c65113 Ard Biesheuvel     2017-01-30  222  				pr_err("%s: section %u reloc %u sym '%s': relocation %u out of range (%#lx -> %#x)\n",
+050d18d1c65113 Ard Biesheuvel     2017-01-30  223  				       module->name, relindex, i, symname,
+050d18d1c65113 Ard Biesheuvel     2017-01-30  224  				       ELF32_R_TYPE(rel->r_info), loc,
+050d18d1c65113 Ard Biesheuvel     2017-01-30  225  				       sym->st_value);
+050d18d1c65113 Ard Biesheuvel     2017-01-30  226  				return -ENOEXEC;
+050d18d1c65113 Ard Biesheuvel     2017-01-30  227  			}
+050d18d1c65113 Ard Biesheuvel     2017-01-30  228  			*(u32 *)loc &= 0x80000000;
+050d18d1c65113 Ard Biesheuvel     2017-01-30  229  			*(u32 *)loc |= offset & 0x7fffffff;
+2e1926e7b5d39e Catalin Marinas    2009-02-11  230  			break;
+2e1926e7b5d39e Catalin Marinas    2009-02-11  231  
+22f2d23098f7d3 Ard Biesheuvel     2020-09-14  232  		case R_ARM_REL32:
+22f2d23098f7d3 Ard Biesheuvel     2020-09-14  233  			*(u32 *)loc += sym->st_value - loc;
+22f2d23098f7d3 Ard Biesheuvel     2020-09-14  234  			break;
+22f2d23098f7d3 Ard Biesheuvel     2020-09-14  235  
+ae51e609843f7d Paul Gortmaker     2009-05-07  236  		case R_ARM_MOVW_ABS_NC:
+ae51e609843f7d Paul Gortmaker     2009-05-07  237  		case R_ARM_MOVT_ABS:
+22f2d23098f7d3 Ard Biesheuvel     2020-09-14  238  		case R_ARM_MOVW_PREL_NC:
+22f2d23098f7d3 Ard Biesheuvel     2020-09-14  239  		case R_ARM_MOVT_PREL:
+f592d323bc2353 Ben Dooks          2013-07-19  240  			offset = tmp = __mem_to_opcode_arm(*(u32 *)loc);
+ae51e609843f7d Paul Gortmaker     2009-05-07  241  			offset = ((offset & 0xf0000) >> 4) | (offset & 0xfff);
+ae51e609843f7d Paul Gortmaker     2009-05-07  242  			offset = (offset ^ 0x8000) - 0x8000;
+ae51e609843f7d Paul Gortmaker     2009-05-07  243  
+ae51e609843f7d Paul Gortmaker     2009-05-07  244  			offset += sym->st_value;
+22f2d23098f7d3 Ard Biesheuvel     2020-09-14  245  			if (ELF32_R_TYPE(rel->r_info) == R_ARM_MOVT_PREL ||
+22f2d23098f7d3 Ard Biesheuvel     2020-09-14  246  			    ELF32_R_TYPE(rel->r_info) == R_ARM_MOVW_PREL_NC)
+22f2d23098f7d3 Ard Biesheuvel     2020-09-14  247  				offset -= loc;
+22f2d23098f7d3 Ard Biesheuvel     2020-09-14  248  			if (ELF32_R_TYPE(rel->r_info) == R_ARM_MOVT_ABS ||
+22f2d23098f7d3 Ard Biesheuvel     2020-09-14  249  			    ELF32_R_TYPE(rel->r_info) == R_ARM_MOVT_PREL)
+ae51e609843f7d Paul Gortmaker     2009-05-07  250  				offset >>= 16;
+ae51e609843f7d Paul Gortmaker     2009-05-07  251  
+f592d323bc2353 Ben Dooks          2013-07-19  252  			tmp &= 0xfff0f000;
+f592d323bc2353 Ben Dooks          2013-07-19  253  			tmp |= ((offset & 0xf000) << 4) |
+ae51e609843f7d Paul Gortmaker     2009-05-07  254  				(offset & 0x0fff);
+f592d323bc2353 Ben Dooks          2013-07-19  255  
+f592d323bc2353 Ben Dooks          2013-07-19  256  			*(u32 *)loc = __opcode_to_mem_arm(tmp);
+ae51e609843f7d Paul Gortmaker     2009-05-07  257  			break;
+ae51e609843f7d Paul Gortmaker     2009-05-07  258  
+
+:::::: The code at line 60 was first introduced by commit
+:::::: cdcb07e45a911a5be9d38bb1aff1f6de019503b2 ARM: 8975/1: module: fix handling of unwind init sections
+
+:::::: TO: Vincent Whitchurch <vincent.whitchurch@axis.com>
+:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
