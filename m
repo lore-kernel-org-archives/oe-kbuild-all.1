@@ -1,45 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F1C637
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 00:59:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F14FA42
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 01:23:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686185948; x=1717721948;
+  t=1686187391; x=1717723391;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=iKT9SeYaa9aMV1hxaKdQBc+gTC22IMQ7/Sqhx6s+exc=;
-  b=EMAcM4ZfEbr9fHLLrhMLU8DU+XFLvAQZomRjY2y8meFdPd7cotoh4EfN
-   QD0t1+QLExnjmkzTnAlpKK/xeuHi5lmjSdrrJrTzFDn7KGio1Ki++3Iuw
-   RnHW5CgBeagZ/cYADxioj/xuGQrP3Nwi61Tz49n0oOQvzXm5Jh077DU+4
-   LqSJYCS1shSRwU1XqX60D+UwUDOGZlyzwBkn19933i+otCADWqBbN8HQ4
-   rrtAfSs/ss4BaqkZIJwk8JHdLeKWyAtomBcMTijgrLh2Eb7JQNpRu2FCd
-   0Ooe+pCcY29P6okIGAHxsNG93kVyDnkBO6jXgX7zzXT1st1w7Vv0VruWq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="336782145"
+  bh=e3DYXlKKS49Z8nebd52oAVu8uIIvzFgKmsYg9SjRVRk=;
+  b=Yy8gvzMOqpoYRbU/KM9flbDWdD5A1N9AJYNHphuAPxrbMtTsWMafAq4N
+   CcjM28a0cXXFiDQJ2LtUBLXrIaOVQ6X1AMxhEWGII2sXMN9Mp0yg1f+PM
+   mnpek180Di2GcLfBU6KYXtsit1mr+ctkZYog6pzvEC5A9oqHuD/emP97I
+   Ek2SIg0rZnx+a4uLA+VzMSXCOePvDwbLzv5gYmnoveoBZNUHxXnUaUG9R
+   hDAuBnkdFJeaZ1XHWQUzihtHofD8F1Ht2+VyMggRSB0ZZcDYhKd+Wewka
+   U/DF6XJ240KOSiVXDj14qyuqo9D9Hdf2VnG78IX/muSl12RaxH8icwwr8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="356020228"
 X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
-   d="scan'208";a="336782145"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 17:59:07 -0700
+   d="scan'208";a="356020228"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2023 18:23:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="799605076"
+X-IronPort-AV: E=McAfee;i="6600,9927,10734"; a="712905842"
 X-IronPort-AV: E=Sophos;i="6.00,225,1681196400"; 
-   d="scan'208";a="799605076"
+   d="scan'208";a="712905842"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 07 Jun 2023 17:59:05 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 07 Jun 2023 18:23:09 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q73zV-00073z-0W;
-	Thu, 08 Jun 2023 00:59:05 +0000
-Date: Thu, 8 Jun 2023 08:58:33 +0800
+	id 1q74Mm-00075n-2N;
+	Thu, 08 Jun 2023 01:23:08 +0000
+Date: Thu, 8 Jun 2023 09:22:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul M Stillwell Jr <paul.m.stillwell.jr@intel.com>,
-	intel-wired-lan@lists.osuosl.org
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-wired-lan] [PATCH net-next v12 2/4] ice: configure FW
- logging
-Message-ID: <202306080833.aw31Lseu-lkp@intel.com>
-References: <20230607222443.119-3-paul.m.stillwell.jr@intel.com>
+Subject: Re: [PATCH 1/4] ASoC: add new trigger ordering method
+Message-ID: <202306080941.tsvlNi92-lkp@intel.com>
+References: <873532hm8a.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,52 +46,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230607222443.119-3-paul.m.stillwell.jr@intel.com>
+In-Reply-To: <873532hm8a.wl-kuninori.morimoto.gx@renesas.com>
 
-Hi Paul,
+Hi Kuninori,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v6.4-rc5 next-20230607]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-M-Stillwell-Jr/ice-remove-FW-logging-code/20230608-062658
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230607222443.119-3-paul.m.stillwell.jr%40intel.com
-patch subject: [Intel-wired-lan] [PATCH net-next v12 2/4] ice: configure FW logging
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230608/202306080833.aw31Lseu-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/ASoC-add-new-trigger-ordering-method/20230608-074707
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/873532hm8a.wl-kuninori.morimoto.gx%40renesas.com
+patch subject: [PATCH 1/4] ASoC: add new trigger ordering method
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230608/202306080941.tsvlNi92-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
-        git remote add net-next https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
-        git fetch net-next main
-        git checkout net-next/main
-        b4 shazam https://lore.kernel.org/r/20230607222443.119-3-paul.m.stillwell.jr@intel.com
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add broonie-sound https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git
+        git fetch broonie-sound for-next
+        git checkout broonie-sound/for-next
+        b4 shazam https://lore.kernel.org/r/873532hm8a.wl-kuninori.morimoto.gx@renesas.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/ethernet/intel/ice/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash sound/soc/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306080833.aw31Lseu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306080941.tsvlNi92-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/intel/ice/ice_debugfs.c:504:37: warning: 'ice_debugfs_enable_fops' defined but not used [-Wunused-const-variable=]
-     504 | static const struct file_operations ice_debugfs_enable_fops = {
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/soc-pcm.c:1075:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
+    1075 | const static
+         | ^~~~~
+>> sound/soc/soc-pcm.c:1075:1: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
 
 
-vim +/ice_debugfs_enable_fops +504 drivers/net/ethernet/intel/ice/ice_debugfs.c
+vim +/static +1075 sound/soc/soc-pcm.c
 
-   503	
- > 504	static const struct file_operations ice_debugfs_enable_fops = {
-   505		.owner = THIS_MODULE,
-   506		.open  = simple_open,
-   507		.read = ice_debugfs_enable_read,
-   508		.write = ice_debugfs_enable_write,
-   509	};
-   510	
+  1073	
+  1074	#define TRIGGER_MAX 3
+> 1075	const static
+  1076	int (*trigger[][TRIGGER_MAX])(struct snd_pcm_substream *substream, int cmd, int rollback) = {
+  1077		[SND_SOC_TRIGGER_ORDER_DEFAULT] = {
+  1078			snd_soc_link_trigger,
+  1079			snd_soc_pcm_component_trigger,
+  1080			snd_soc_pcm_dai_trigger,
+  1081		},
+  1082		[SND_SOC_TRIGGER_ORDER_LDC] = {
+  1083			snd_soc_link_trigger,
+  1084			snd_soc_pcm_dai_trigger,
+  1085			snd_soc_pcm_component_trigger,
+  1086		},
+  1087	};
+  1088	
 
 -- 
 0-DAY CI Kernel Test Service
