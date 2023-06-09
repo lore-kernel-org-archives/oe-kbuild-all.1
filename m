@@ -1,44 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28E819E52;
-	Fri,  9 Jun 2023 17:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C4118C0E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jun 2023 17:42:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686331938; x=1717867938;
+  t=1686332560; x=1717868560;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BnDa81DfppJJVdcH9M+l/jwSFNt8uZQhJ+cfthCWq6Y=;
-  b=Bh9C02bJOLsokZ0Wdpf5d5WUawnQ7yfKyFBzusFQnIy+6mtftg5ARYIT
-   rzY8omXwMGFPP0tRI4aqtuHpnFX9u+JQgsdDH6eCIeHaKvUL8xtFa27Dj
-   w+Gs/gr2dpBmhnltzxK07Q1Yc3GFDj6gZYZCIdFu6B2IdBbJJ/7+7piDM
-   o7SyV6FtzDjpnh+b9tSws4wiHXbr64tLwkabOUdoGhYt4uNWIiXblXqYa
-   K+40Pwu4ZhCRDy//p1H/xQaw7jODaP/Q5ZslfOQOu/in19IqBMTTgPC0t
-   fN67CdIdYb2u8XGssvODA9Tkp8cb2p2/hdQnj+MhXflabjObqRhYH07x8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="360134414"
+  bh=ZhvyhY5ypOlEVBupYOcCFTUj7puf+ZcAgPGUDWw6i5M=;
+  b=hd0/0Wovl6FSDA7vn8R4Vlw4hnuWwpamcC0fUg6pgIn0oYszHwEiS7Fj
+   iy0kXfG0BQ5aUyBfhBvu7ejhxg7FkRLnO9zr56u+Ljadl19rKi04aUZcU
+   r9r+Jfu7A84Rn5e06DaZP1D7UUSSmRLeHQNVZIy71lfjOGaEo2bMXYXXd
+   +4yFJZMyV7qQdk8RHcxqdAmEivMVeqYK0QwiXkenpGq7IoVX7T03ugyTL
+   x0Id3B68eaLWeSoYlZdpTvObZdAea9OjeHqzhADYQT5E6wsGLe/XlCIwm
+   MBT8DNLyTfSxA9fKIHf/yMUwp9lhkRekz8vp8ubrdtB5DVM1IfLKmHD7t
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="347299504"
 X-IronPort-AV: E=Sophos;i="6.00,230,1681196400"; 
-   d="scan'208";a="360134414"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 10:32:16 -0700
+   d="scan'208";a="347299504"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 10:42:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="740244321"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="713593836"
 X-IronPort-AV: E=Sophos;i="6.00,230,1681196400"; 
-   d="scan'208";a="740244321"
+   d="scan'208";a="713593836"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 09 Jun 2023 10:31:38 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 09 Jun 2023 10:42:38 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7fxZ-0009GA-1x;
-	Fri, 09 Jun 2023 17:31:37 +0000
-Date: Sat, 10 Jun 2023 01:30:40 +0800
+	id 1q7g8D-0009GO-2V;
+	Fri, 09 Jun 2023 17:42:37 +0000
+Date: Sat, 10 Jun 2023 01:41:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-wired-lan] [RFC PATCH v8 06/10] netdev: expose DPLL pin
- handle for netdevice
-Message-ID: <202306100118.qy6qTOoZ-lkp@intel.com>
-References: <20230609121853.3607724-7-arkadiusz.kubalewski@intel.com>
+To: Detlev Casanova <detlev.casanova@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 3/3] net: phy: realtek: Disable clock on suspend
+Message-ID: <202306100152.2hG4J7Ds-lkp@intel.com>
+References: <20230605154010.49611-4-detlev.casanova@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,76 +46,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230609121853.3607724-7-arkadiusz.kubalewski@intel.com>
+In-Reply-To: <20230605154010.49611-4-detlev.casanova@collabora.com>
 
-Hi Arkadiusz,
+Hi Detlev,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tnguy-next-queue/dev-queue]
-[also build test ERROR on tnguy-net-queue/dev-queue net-next/main net/main linus/master v6.4-rc5]
-[cannot apply to next-20230609]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on net/main linus/master v6.4-rc5]
+[cannot apply to net-next/main next-20230609]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arkadiusz-Kubalewski/dpll-documentation-on-DPLL-subsystem-interface/20230609-202453
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20230609121853.3607724-7-arkadiusz.kubalewski%40intel.com
-patch subject: [Intel-wired-lan] [RFC PATCH v8 06/10] netdev: expose DPLL pin handle for netdevice
-config: riscv-buildonly-randconfig-r003-20230608 (https://download.01.org/0day-ci/archive/20230610/202306100118.qy6qTOoZ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+url:    https://github.com/intel-lab-lkp/linux/commits/Detlev-Casanova/net-phy-realtek-Add-optional-external-PHY-clock/20230605-234223
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230605154010.49611-4-detlev.casanova%40collabora.com
+patch subject: [PATCH v4 3/3] net: phy: realtek: Disable clock on suspend
+config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230610/202306100152.2hG4J7Ds-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        git remote add tnguy-next-queue https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git
-        git fetch tnguy-next-queue dev-queue
-        git checkout tnguy-next-queue/dev-queue
-        b4 shazam https://lore.kernel.org/r/20230609121853.3607724-7-arkadiusz.kubalewski@intel.com
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch robh for-next
+        git checkout robh/for-next
+        b4 shazam https://lore.kernel.org/r/20230605154010.49611-4-detlev.casanova@collabora.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash net/core/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306100118.qy6qTOoZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306100152.2hG4J7Ds-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/core/rtnetlink.c:1059:11: error: no member named 'dpll_pin' in 'struct net_device'
-    1059 |         if (dev->dpll_pin)
-         |             ~~~  ^
-   net/core/rtnetlink.c:1060:41: error: no member named 'dpll_pin' in 'struct net_device'
-    1060 |                 size += dpll_msg_pin_handle_size(dev->dpll_pin);
-         |                                                  ~~~  ^
-   net/core/rtnetlink.c:1793:11: error: no member named 'dpll_pin' in 'struct net_device'
-    1793 |         if (dev->dpll_pin) {
-         |             ~~~  ^
-   net/core/rtnetlink.c:1794:43: error: no member named 'dpll_pin' in 'struct net_device'
-    1794 |                 ret = dpll_msg_add_pin_handle(skb, dev->dpll_pin);
-         |                                                    ~~~  ^
-   4 errors generated.
+   drivers/net/phy/realtek.c: In function 'rtl821x_suspend':
+>> drivers/net/phy/realtek.c:434:22: error: 'struct phy_device' has no member named 'wol_enabled'; did you mean 'eee_enabled'?
+     434 |         if (!phydev->wol_enabled) {
+         |                      ^~~~~~~~~~~
+         |                      eee_enabled
+   drivers/net/phy/realtek.c: In function 'rtl821x_resume':
+   drivers/net/phy/realtek.c:451:22: error: 'struct phy_device' has no member named 'wol_enabled'; did you mean 'eee_enabled'?
+     451 |         if (!phydev->wol_enabled)
+         |                      ^~~~~~~~~~~
+         |                      eee_enabled
+   drivers/net/phy/realtek.c: At top level:
+>> drivers/net/phy/realtek.c:962:35: error: 'PHY_ALWAYS_CALL_SUSPEND' undeclared here (not in a function)
+     962 |                 .flags          = PHY_ALWAYS_CALL_SUSPEND,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1059 net/core/rtnetlink.c
+vim +434 drivers/net/phy/realtek.c
 
-  1054	
-  1055	static size_t rtnl_dpll_pin_size(const struct net_device *dev)
-  1056	{
-  1057		size_t size = nla_total_size(0); /* nest IFLA_DPLL_PIN */
-  1058	
-> 1059		if (dev->dpll_pin)
-  1060			size += dpll_msg_pin_handle_size(dev->dpll_pin);
-  1061	
-  1062		return size;
-  1063	}
-  1064	
+   428	
+   429	static int rtl821x_suspend(struct phy_device *phydev)
+   430	{
+   431		struct rtl821x_priv *priv = phydev->priv;
+   432		int ret = 0;
+   433	
+ > 434		if (!phydev->wol_enabled) {
+   435			ret = genphy_suspend(phydev);
+   436	
+   437			if (ret)
+   438				return ret;
+   439	
+   440			clk_disable_unprepare(priv->clk);
+   441		}
+   442	
+   443		return ret;
+   444	}
+   445	
 
 -- 
 0-DAY CI Kernel Test Service
