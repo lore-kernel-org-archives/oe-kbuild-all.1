@@ -1,44 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B08B91953A
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  8 Jun 2023 23:31:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A31E161;
+	Fri,  9 Jun 2023 00:03:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686267115; x=1717803115;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=6z/8lvl7lNbNei+SF/uOfDBhH0wnFKrQG1CHeG4ESEc=;
-  b=ZamRuUZDgy8lHGpGgBLfmQK8u31K8mg6K8G7gObi7OlaRmAluGK6V2uZ
-   nSYg3D9Uxay4/a7h9hxgGrQpUUpDU5g8iKWkAlQV5JcHkCGhGJd/8P4Sd
-   IoGYbl6wTDnG7P6pmEbFeWRxO3MRGAgwXlQ2LiaSi30zqMmyuLR0ATTMq
-   /jJVxwoPWF17lTnd/SlY1e3xfLov3weECYnPaPwnhDqNJJsOP9Hp5Eao5
-   4Bh0KoFIldGOo/GRgRSQMQHShdnvtr/iJEwfp1ZNUau2vhMaMOE1ghUO9
-   1axaOzX01Y3MDCcBorWoFLH8tHsklb+MnNRQb0uA8Il0PBylkPjXTbj0F
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="357466429"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="357466429"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 16:31:52 -0700
+  t=1686269039; x=1717805039;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fymNTbVpyMtUrnTiFAG8s1bvxZisFSkwOOtOcGLXR64=;
+  b=KV+lKkfP2tguiB1iO/ugw77w1F+vu5PkB1WatUI6BJAVoo3QdjI9bwdw
+   iF27PZFUNkes8ZG1730BJt78IH7ZIJX3zlpqbx6BFOI7BVs6fAQfTLKd/
+   /zWV61X5XTJHlEwhJC9x4gF2tDjS3PHKic7GZELjApkOJRLeomJJaxUmy
+   b4Xr0z8p/0WrAmehHKtKHyhcdTk1x0ZekNmEim3RK1MHuyuMaATzDqCZC
+   ceYkCDAbPVF/cWC/La+dnw0VrzCvL9ayA/G6LvihsV7+63wbtsQybIkoQ
+   wxI21mdjTts6WZWYBk5kVs6J1XfTj0a1ZJBlDdgRkR9HKKksUTE8FIDlx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="342142875"
+X-IronPort-AV: E=Sophos;i="6.00,228,1681196400"; 
+   d="scan'208";a="342142875"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2023 17:03:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="884379954"
-X-IronPort-AV: E=Sophos;i="6.00,227,1681196400"; 
-   d="scan'208";a="884379954"
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="713296039"
+X-IronPort-AV: E=Sophos;i="6.00,228,1681196400"; 
+   d="scan'208";a="713296039"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 08 Jun 2023 16:31:48 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 08 Jun 2023 17:03:49 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7P6Z-0008Lg-1O;
-	Thu, 08 Jun 2023 23:31:47 +0000
-Date: Fri, 9 Jun 2023 07:30:50 +0800
+	id 1q7PbY-0008N6-1W;
+	Fri, 09 Jun 2023 00:03:48 +0000
+Date: Fri, 9 Jun 2023 08:03:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v7 08/11] kbuild: implement CONFIG_TRIM_UNUSED_KSYMS
- without recursion
-Message-ID: <202306090735.fxxdATDy-lkp@intel.com>
-References: <20230608142428.256985-9-masahiroy@kernel.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: drivers/media/tuners/xc2028.c:717:12: warning: stack frame size
+ (3520) exceeds limit (2048) in 'check_firmware'
+Message-ID: <202306090751.d3DQi8se-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,307 +46,241 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230608142428.256985-9-masahiroy@kernel.org>
 
-Hi Masahiro,
+Hi Mauro,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on masahiroy-kbuild/for-next]
-[also build test ERROR on next-20230608]
-[cannot apply to masahiroy-kbuild/fixes arnd-asm-generic/master rafael-pm/l=
-inux-next linus/master v6.4-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/Reve=
-rt-PATCH-uml-export-symbols-added-by-GCC-hardened/20230608-223125
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbu=
-ild.git for-next
-patch link:    https://lore.kernel.org/r/20230608142428.256985-9-masahiroy%=
-40kernel.org
-patch subject: [PATCH v7 08/11] kbuild: implement CONFIG_TRIM_UNUSED_KSYMS =
-without recursion
-config: xtensa-randconfig-r025-20230608 (https://download.01.org/0day-ci/ar=
-chive/20230609/202306090735.fxxdATDy-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=3D1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8d15d5e1851b1bbb9cd3289b84c7f32399e06ac5
+commit: d76231e460fbaba7115212bf55f1eab35aba6223 media: xc2028: rename the driver from tuner-xc2028
+date:   1 year, 3 months ago
+config: riscv-randconfig-r012-20230608 (https://download.01.org/0day-ci/archive/20230609/202306090751.d3DQi8se-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build):
         mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add masahiroy-kbuild https://git.kernel.org/pub/scm/linu=
-x/kernel/git/masahiroy/linux-kbuild.git
-        git fetch masahiroy-kbuild for-next
-        git checkout masahiroy-kbuild/for-next
-        b4 shazam https://lore.kernel.org/r/20230608142428.256985-9-masahir=
-oy@kernel.org
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d76231e460fbaba7115212bf55f1eab35aba6223
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d76231e460fbaba7115212bf55f1eab35aba6223
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.3.0 ~/bin/make=
-=2Ecross W=3D1 O=3Dbuild_dir ARCH=3Dxtensa olddefconfig
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.3.0 ~/bin/make=
-=2Ecross W=3D1 O=3Dbuild_dir ARCH=3Dxtensa SHELL=3D/bin/bash kernel/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/ drivers/hid/ drivers/media/tuners/ lib/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306090735.fxxdATDy-lkp@i=
-ntel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306090751.d3DQi8se-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   {standard input}: Assembler messages:
->> {standard input}:6: Error: can't resolve prof_on - L0=01
->> {standard input}:7: Error: can't resolve profile_hits - L0=01
---
-   {standard input}: Assembler messages:
-   {standard input}:6: Error: can't resolve __put_cred - L0=01
-   {standard input}:7: Error: can't resolve get_task_cred - L0=01
-   {standard input}:8: Error: can't resolve prepare_creds - L0=01
-   {standard input}:9: Error: can't resolve commit_creds - L0=01
-   {standard input}:10: Error: can't resolve abort_creds - L0=01
-   {standard input}:11: Error: can't resolve override_creds - L0=01
-   {standard input}:12: Error: can't resolve revert_creds - L0=01
-   {standard input}:13: Error: can't resolve cred_fscmp - L0=01
-   {standard input}:14: Error: can't resolve prepare_kernel_cred - L0=01
-   {standard input}:15: Error: can't resolve set_security_override - L0=01
-   {standard input}:16: Error: can't resolve set_security_override_from_ctx=
- - L0=01
-   {standard input}:17: Error: can't resolve set_create_files_as - L0=01
->> {standard input}:18: Error: can't resolve creds_are_invalid - L0=01
->> {standard input}:19: Error: can't resolve __invalid_creds - L0=01
->> {standard input}:20: Error: can't resolve __validate_process_creds - L0=
-=01
---
-   {standard input}: Assembler messages:
-   {standard input}:6: Error: can't resolve context_tracking - L0=01
->> {standard input}:7: Error: can't resolve ct_idle_enter - L0=01
->> {standard input}:8: Error: can't resolve ct_idle_exit - L0=01
-   {standard input}:9: Error: can't resolve context_tracking_key - L0=01
-   {standard input}:10: Error: can't resolve __ct_user_enter - L0=01
-   {standard input}:11: Error: can't resolve ct_user_enter - L0=01
-   {standard input}:12: Error: can't resolve __ct_user_exit - L0=01
-   {standard input}:13: Error: can't resolve ct_user_exit - L0=01
---
-   {standard input}: Assembler messages:
->> {standard input}:6: Error: can't resolve rcu_scheduler_active - L0=01
->> {standard input}:7: Error: can't resolve rcu_get_gp_kthreads_prio - L0=01
->> {standard input}:8: Error: can't resolve rcu_momentary_dyntick_idle - L0=
-=01
->> {standard input}:9: Error: can't resolve rcu_get_gp_seq - L0=01
->> {standard input}:10: Error: can't resolve rcu_exp_batches_completed - L0=
-=01
->> {standard input}:11: Error: can't resolve rcutorture_get_gp_data - L0=01
->> {standard input}:12: Error: can't resolve rcu_is_watching - L0=01
->> {standard input}:13: Error: can't resolve rcu_gp_slow_register - L0=01
->> {standard input}:14: Error: can't resolve rcu_gp_slow_unregister - L0=01
->> {standard input}:15: Error: can't resolve rcu_gp_set_torture_wait - L0=01
->> {standard input}:16: Error: can't resolve rcu_force_quiescent_state - L0=
-=01
-   {standard input}:17: Error: can't resolve call_rcu - L0=01
-   {standard input}:18: Error: can't resolve kvfree_call_rcu - L0=01
-   {standard input}:19: Error: can't resolve synchronize_rcu - L0=01
-   {standard input}:20: Error: can't resolve get_completed_synchronize_rcu_=
-full - L0=01
-   {standard input}:21: Error: can't resolve get_state_synchronize_rcu - L0=
-=01
->> {standard input}:22: Error: can't resolve get_state_synchronize_rcu_full=
- - L0=01
-   {standard input}:23: Error: can't resolve start_poll_synchronize_rcu - L=
-0=01
->> {standard input}:24: Error: can't resolve start_poll_synchronize_rcu_ful=
-l - L0=01
-   {standard input}:25: Error: can't resolve poll_state_synchronize_rcu - L=
-0=01
->> {standard input}:26: Error: can't resolve poll_state_synchronize_rcu_ful=
-l - L0=01
->> {standard input}:27: Error: can't resolve cond_synchronize_rcu - L0=01
->> {standard input}:28: Error: can't resolve cond_synchronize_rcu_full - L0=
-=01
-   {standard input}:29: Error: can't resolve rcu_barrier - L0=01
->> {standard input}:30: Error: can't resolve rcu_exp_jiffies_till_stall_che=
-ck - L0=01
->> {standard input}:31: Error: can't resolve rcu_jiffies_till_stall_check -=
- L0=01
->> {standard input}:32: Error: can't resolve rcu_check_boost_fail - L0=01
->> {standard input}:33: Error: can't resolve show_rcu_gp_kthreads - L0=01
-   {standard input}:34: Error: can't resolve rcu_fwd_progress_check - L0=01
-   {standard input}:35: Error: can't resolve synchronize_rcu_expedited - L0=
-=01
-   {standard input}:36: Error: can't resolve start_poll_synchronize_rcu_exp=
-edited - L0=01
-   {standard input}:37: Error: can't resolve start_poll_synchronize_rcu_exp=
-edited_full - L0=01
-   {standard input}:38: Error: can't resolve cond_synchronize_rcu_expedited=
- - L0=01
-   {standard input}:39: Error: can't resolve cond_synchronize_rcu_expedited=
-_full - L0=01
-   {standard input}:40: Error: can't resolve rcu_nocb_flush_deferred_wakeup=
- - L0=01
-   {standard input}:41: Error: can't resolve rcu_nocb_cpu_deoffload - L0=01
-   {standard input}:42: Error: can't resolve rcu_nocb_cpu_offload - L0=01
-   {standard input}:43: Error: can't resolve rcu_bind_current_to_nocb - L0=
-=01
-   {standard input}:44: Error: can't resolve rcu_note_context_switch - L0=01
-   {standard input}:45: Error: can't resolve __rcu_read_lock - L0=01
-   {standard input}:46: Error: can't resolve __rcu_read_unlock - L0=01
---
-   {standard input}: Assembler messages:
->> {standard input}:6: Error: can't resolve rcu_gp_is_normal - L0=01
->> {standard input}:7: Error: can't resolve rcu_async_should_hurry - L0=01
->> {standard input}:8: Error: can't resolve rcu_async_hurry - L0=01
->> {standard input}:9: Error: can't resolve rcu_async_relax - L0=01
->> {standard input}:10: Error: can't resolve rcu_gp_is_expedited - L0=01
->> {standard input}:11: Error: can't resolve rcu_expedite_gp - L0=01
->> {standard input}:12: Error: can't resolve rcu_unexpedite_gp - L0=01
->> {standard input}:13: Error: can't resolve rcu_inkernel_boot_has_ended - =
-L0=01
-   {standard input}:14: Error: can't resolve wakeme_after_rcu - L0=01
-   {standard input}:15: Error: can't resolve __wait_rcu_gp - L0=01
-   {standard input}:16: Error: can't resolve finish_rcuwait - L0=01
->> {standard input}:17: Error: can't resolve init_rcu_head - L0=01
->> {standard input}:18: Error: can't resolve destroy_rcu_head - L0=01
->> {standard input}:19: Error: can't resolve init_rcu_head_on_stack - L0=01
->> {standard input}:20: Error: can't resolve destroy_rcu_head_on_stack - L0=
-=01
->> {standard input}:21: Error: can't resolve rcuhead_debug_descr - L0=01
-   {standard input}:22: Error: can't resolve do_trace_rcu_torture_read - L0=
-=01
->> {standard input}:23: Error: can't resolve rcu_cpu_stall_suppress - L0=01
-   {standard input}:24: Error: can't resolve rcu_cpu_stall_suppress_at_boot=
- - L0=01
-   {standard input}:25: Error: can't resolve get_completed_synchronize_rcu =
-- L0=01
-   {standard input}:26: Error: can't resolve call_rcu_tasks - L0=01
-   {standard input}:27: Error: can't resolve synchronize_rcu_tasks - L0=01
-   {standard input}:28: Error: can't resolve rcu_barrier_tasks - L0=01
->> {standard input}:29: Error: can't resolve show_rcu_tasks_classic_gp_kthr=
-ead - L0=01
---
-   {standard input}: Assembler messages:
-   {standard input}:6: Error: can't resolve init_srcu_struct - L0=01
-   {standard input}:7: Error: can't resolve cleanup_srcu_struct - L0=01
->> {standard input}:8: Error: can't resolve __srcu_read_lock - L0=01
-   {standard input}:9: Error: can't resolve __srcu_read_unlock - L0=01
-   {standard input}:10: Error: can't resolve call_srcu - L0=01
->> {standard input}:11: Error: can't resolve synchronize_srcu_expedited - L=
-0=01
-   {standard input}:12: Error: can't resolve synchronize_srcu - L0=01
-   {standard input}:13: Error: can't resolve get_state_synchronize_srcu - L=
-0=01
-   {standard input}:14: Error: can't resolve start_poll_synchronize_srcu - =
-L0=01
-   {standard input}:15: Error: can't resolve poll_state_synchronize_srcu - =
-L0=01
->> {standard input}:16: Error: can't resolve srcu_barrier - L0=01
->> {standard input}:17: Error: can't resolve srcu_batches_completed - L0=01
->> {standard input}:18: Error: can't resolve srcutorture_get_gp_data - L0=01
->> {standard input}:19: Error: can't resolve srcu_torture_stats_print - L0=
-=01
---
-   kernel/sched/core.c:6778:35: warning: no previous prototype for 'schedul=
-e_user' [-Wmissing-prototypes]
-    6778 | asmlinkage __visible void __sched schedule_user(void)
-         |                                   ^~~~~~~~~~~~~
-   {standard input}: Assembler messages:
-   {standard input}:6: Error: can't resolve __tracepoint_ipi_send_cpu - L0=
-=01
-   {standard input}:7: Error: can't resolve __traceiter_ipi_send_cpu - L0=01
-   {standard input}:8: Error: can't resolve __SCK__tp_func_ipi_send_cpu - L=
-0=01
-   {standard input}:9: Error: can't resolve __tracepoint_ipi_send_cpumask -=
- L0=01
-   {standard input}:10: Error: can't resolve __traceiter_ipi_send_cpumask -=
- L0=01
-   {standard input}:11: Error: can't resolve __SCK__tp_func_ipi_send_cpumas=
-k - L0=01
-   {standard input}:12: Error: can't resolve __tracepoint_pelt_cfs_tp - L0=
-=01
-   {standard input}:13: Error: can't resolve __traceiter_pelt_cfs_tp - L0=01
-   {standard input}:14: Error: can't resolve __SCK__tp_func_pelt_cfs_tp - L=
-0=01
-   {standard input}:15: Error: can't resolve __tracepoint_pelt_rt_tp - L0=01
-   {standard input}:16: Error: can't resolve __traceiter_pelt_rt_tp - L0=01
-   {standard input}:17: Error: can't resolve __SCK__tp_func_pelt_rt_tp - L0=
-=01
-   {standard input}:18: Error: can't resolve __tracepoint_pelt_dl_tp - L0=01
-   {standard input}:19: Error: can't resolve __traceiter_pelt_dl_tp - L0=01
-   {standard input}:20: Error: can't resolve __SCK__tp_func_pelt_dl_tp - L0=
-=01
-   {standard input}:21: Error: can't resolve __tracepoint_pelt_irq_tp - L0=
-=01
-   {standard input}:22: Error: can't resolve __traceiter_pelt_irq_tp - L0=01
-   {standard input}:23: Error: can't resolve __SCK__tp_func_pelt_irq_tp - L=
-0=01
-   {standard input}:24: Error: can't resolve __tracepoint_pelt_se_tp - L0=01
-   {standard input}:25: Error: can't resolve __traceiter_pelt_se_tp - L0=01
-   {standard input}:26: Error: can't resolve __SCK__tp_func_pelt_se_tp - L0=
-=01
-   {standard input}:27: Error: can't resolve __tracepoint_pelt_thermal_tp -=
- L0=01
-   {standard input}:28: Error: can't resolve __traceiter_pelt_thermal_tp - =
-L0=01
-   {standard input}:29: Error: can't resolve __SCK__tp_func_pelt_thermal_tp=
- - L0=01
-   {standard input}:30: Error: can't resolve __tracepoint_sched_cpu_capacit=
-y_tp - L0=01
-   {standard input}:31: Error: can't resolve __traceiter_sched_cpu_capacity=
-_tp - L0=01
-   {standard input}:32: Error: can't resolve __SCK__tp_func_sched_cpu_capac=
-ity_tp - L0=01
-   {standard input}:33: Error: can't resolve __tracepoint_sched_overutilize=
-d_tp - L0=01
-   {standard input}:34: Error: can't resolve __traceiter_sched_overutilized=
-_tp - L0=01
-   {standard input}:35: Error: can't resolve __SCK__tp_func_sched_overutili=
-zed_tp - L0=01
-   {standard input}:36: Error: can't resolve __tracepoint_sched_util_est_cf=
-s_tp - L0=01
-   {standard input}:37: Error: can't resolve __traceiter_sched_util_est_cfs=
-_tp - L0=01
-   {standard input}:38: Error: can't resolve __SCK__tp_func_sched_util_est_=
-cfs_tp - L0=01
-   {standard input}:39: Error: can't resolve __tracepoint_sched_util_est_se=
-_tp - L0=01
-   {standard input}:40: Error: can't resolve __traceiter_sched_util_est_se_=
-tp - L0=01
-   {standard input}:41: Error: can't resolve __SCK__tp_func_sched_util_est_=
-se_tp - L0=01
-   {standard input}:42: Error: can't resolve __tracepoint_sched_update_nr_r=
-unning_tp - L0=01
-   {standard input}:43: Error: can't resolve __traceiter_sched_update_nr_ru=
-nning_tp - L0=01
-   {standard input}:44: Error: can't resolve __SCK__tp_func_sched_update_nr=
-_running_tp - L0=01
-   {standard input}:45: Error: can't resolve wake_up_process - L0=01
-   {standard input}:46: Error: can't resolve single_task_running - L0=01
-   {standard input}:47: Error: can't resolve kstat - L0=01
-   {standard input}:48: Error: can't resolve kernel_cpustat - L0=01
-   {standard input}:49: Error: can't resolve schedule - L0=01
->> {standard input}:50: Error: can't resolve preempt_schedule - L0=01
->> {standard input}:51: Error: can't resolve preempt_schedule_notrace - L0=
-=01
-   {standard input}:52: Error: can't resolve default_wake_function - L0=01
-   {standard input}:53: Error: can't resolve set_user_nice - L0=01
-   {standard input}:54: Error: can't resolve sched_setattr_nocheck - L0=01
-   {standard input}:55: Error: can't resolve sched_set_fifo - L0=01
-   {standard input}:56: Error: can't resolve sched_set_fifo_low - L0=01
-   {standard input}:57: Error: can't resolve sched_set_normal - L0=01
-   {standard input}:58: Error: can't resolve __cond_resched_lock - L0=01
-   {standard input}:59: Error: can't resolve __cond_resched_rwlock_read - L=
-0=01
-   {standard input}:60: Error: can't resolve __cond_resched_rwlock_write - =
-L0=01
-   {standard input}:61: Error: can't resolve yield - L0=01
-   {standard input}:62: Error: can't resolve yield_to - L0=01
-   {standard input}:63: Error: can't resolve io_schedule_timeout - L0=01
-   {standard input}:64: Error: can't resolve io_schedule - L0=01
-   {standard input}:65: Error: can't resolve sched_show_task - L0=01
+>> drivers/media/tuners/xc2028.c:717:12: warning: stack frame size (3520) exceeds limit (2048) in 'check_firmware' [-Wframe-larger-than]
+   static int check_firmware(struct dvb_frontend *fe, unsigned int type,
+              ^
+   1 warning generated.
 
---=20
+
+vim +/check_firmware +717 drivers/media/tuners/xc2028.c
+
+ebf044f46f138b drivers/media/tuners/tuner-xc2028.c        Mauro Carvalho Chehab 2014-01-06  716  
+00deff1a076dc1 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-24 @717  static int check_firmware(struct dvb_frontend *fe, unsigned int type,
+66c2d53db28276 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-25  718  			  v4l2_std_id std, __u16 int_freq)
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-02  719  {
+215b95baf969c6 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-23  720  	struct xc2028_data         *priv = fe->tuner_priv;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  721  	struct firmware_properties new_fw;
+61a96113de51e1 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2012-06-30  722  	int			   rc, retry_count = 0;
+7d58d1117ec02f drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  723  	u16			   version, hwmodel;
+47bd5bc6486a52 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  724  	v4l2_std_id		   std0;
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-02  725  
+7e28adb2497f6b drivers/media/video/tuner-xc2028.c         Harvey Harrison       2008-04-08  726  	tuner_dbg("%s called\n", __func__);
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-02  727  
+61a96113de51e1 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2012-06-30  728  	rc = check_device_status(priv);
+de3fe21ba2fdc0 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-24  729  	if (rc < 0)
+de3fe21ba2fdc0 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-24  730  		return rc;
+de3fe21ba2fdc0 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-24  731  
+0f6dac18ccc6fb drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2008-01-05  732  	if (priv->ctrl.mts && !(type & FM))
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  733  		type |= MTS;
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-02  734  
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  735  retry:
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  736  	new_fw.type = type;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  737  	new_fw.id = std;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  738  	new_fw.std_req = std;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  739  	new_fw.scode_table = SCODE | priv->ctrl.scode_table;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  740  	new_fw.scode_nr = 0;
+66c2d53db28276 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-25  741  	new_fw.int_freq = int_freq;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  742  
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  743  	tuner_dbg("checking firmware, user requested type=");
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  744  	if (debug) {
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  745  		dump_firm_type(new_fw.type);
+15c8ffc41a1559 drivers/media/tuners/tuner-xc2028.c        Mauro Carvalho Chehab 2016-10-12  746  		printk(KERN_CONT "(%x), id %016llx, ", new_fw.type,
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  747  		       (unsigned long long)new_fw.std_req);
+e026268870b5f0 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-12-02  748  		if (!int_freq) {
+15c8ffc41a1559 drivers/media/tuners/tuner-xc2028.c        Mauro Carvalho Chehab 2016-10-12  749  			printk(KERN_CONT "scode_tbl ");
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  750  			dump_firm_type(priv->ctrl.scode_table);
+15c8ffc41a1559 drivers/media/tuners/tuner-xc2028.c        Mauro Carvalho Chehab 2016-10-12  751  			printk(KERN_CONT "(%x), ", priv->ctrl.scode_table);
+e026268870b5f0 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-12-02  752  		} else
+15c8ffc41a1559 drivers/media/tuners/tuner-xc2028.c        Mauro Carvalho Chehab 2016-10-12  753  			printk(KERN_CONT "int_freq %d, ", new_fw.int_freq);
+15c8ffc41a1559 drivers/media/tuners/tuner-xc2028.c        Mauro Carvalho Chehab 2016-10-12  754  		printk(KERN_CONT "scode_nr %d\n", new_fw.scode_nr);
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  755  	}
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  756  
+61a96113de51e1 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2012-06-30  757  	/*
+61a96113de51e1 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2012-06-30  758  	 * No need to reload base firmware if it matches and if the tuner
+61a96113de51e1 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2012-06-30  759  	 * is not at sleep mode
+61a96113de51e1 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2012-06-30  760  	 */
+3a495ed77a2f58 drivers/media/common/tuners/tuner-xc2028.c Dan Carpenter         2012-07-21  761  	if ((priv->state == XC2028_ACTIVE) &&
+61a96113de51e1 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2012-06-30  762  	    (((BASE | new_fw.type) & BASE_TYPES) ==
+61a96113de51e1 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2012-06-30  763  	    (priv->cur_fw.type & BASE_TYPES))) {
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  764  		tuner_dbg("BASE firmware not changed.\n");
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  765  		goto skip_base;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  766  	}
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  767  
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  768  	/* Updating BASE - forget about all currently loaded firmware */
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  769  	memset(&priv->cur_fw, 0, sizeof(priv->cur_fw));
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  770  
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  771  	/* Reset is needed before loading firmware */
+d7cba043d7ec84 drivers/media/common/tuners/tuner-xc2028.c Michael Krufky        2008-09-12  772  	rc = do_tuner_callback(fe, XC2028_TUNER_RESET, 0);
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  773  	if (rc < 0)
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  774  		goto fail;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  775  
+47bd5bc6486a52 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  776  	/* BASE firmwares are all std0 */
+47bd5bc6486a52 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  777  	std0 = 0;
+47bd5bc6486a52 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  778  	rc = load_firmware(fe, BASE | new_fw.type, &std0);
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  779  	if (rc < 0) {
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  780  		tuner_err("Error %d while loading base firmware\n",
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  781  			  rc);
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  782  		goto fail;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  783  	}
+5403bbae9bfebe drivers/media/video/tuner-xc2028.c         Michel Ludwig         2007-11-16  784  
+de3fe21ba2fdc0 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-24  785  	/* Load INIT1, if needed */
+83fb340b318487 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-15  786  	tuner_dbg("Load init1 firmware, if exists\n");
+de3fe21ba2fdc0 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-24  787  
+47bd5bc6486a52 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  788  	rc = load_firmware(fe, BASE | INIT1 | new_fw.type, &std0);
+1ad0b796a3fa3d drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  789  	if (rc == -ENOENT)
+1ad0b796a3fa3d drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  790  		rc = load_firmware(fe, (BASE | INIT1 | new_fw.type) & ~F8MHZ,
+1ad0b796a3fa3d drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  791  				   &std0);
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  792  	if (rc < 0 && rc != -ENOENT) {
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  793  		tuner_err("Error %d while loading init1 firmware\n",
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  794  			  rc);
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  795  		goto fail;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  796  	}
+de3fe21ba2fdc0 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-24  797  
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  798  skip_base:
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  799  	/*
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  800  	 * No need to reload standard specific firmware if base firmware
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  801  	 * was not reloaded and requested video standards have not changed.
+de3fe21ba2fdc0 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-24  802  	 */
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  803  	if (priv->cur_fw.type == (BASE | new_fw.type) &&
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  804  	    priv->cur_fw.std_req == std) {
+83fb340b318487 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-15  805  		tuner_dbg("Std-specific firmware already loaded.\n");
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  806  		goto skip_std_specific;
+2e4160ca8046e3 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-07-18  807  	}
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-02  808  
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  809  	/* Reloading std-specific firmware forces a SCODE update */
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  810  	priv->cur_fw.scode_table = 0;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  811  
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  812  	rc = load_firmware(fe, new_fw.type, &new_fw.id);
+cca83798119c92 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-22  813  	if (rc == -ENOENT)
+cca83798119c92 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-22  814  		rc = load_firmware(fe, new_fw.type & ~F8MHZ, &new_fw.id);
+cca83798119c92 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-22  815  
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-02  816  	if (rc < 0)
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  817  		goto fail;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  818  
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  819  skip_std_specific:
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  820  	if (priv->cur_fw.scode_table == new_fw.scode_table &&
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  821  	    priv->cur_fw.scode_nr == new_fw.scode_nr) {
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  822  		tuner_dbg("SCODE firmware already loaded.\n");
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  823  		goto check_device;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  824  	}
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-02  825  
+40ae91a758df91 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2008-02-14  826  	if (new_fw.type & FM)
+40ae91a758df91 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2008-02-14  827  		goto check_device;
+40ae91a758df91 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2008-02-14  828  
+f380e1d2c9a1ff drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-15  829  	/* Load SCODE firmware, if exists */
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  830  	tuner_dbg("Trying to load scode %d\n", new_fw.scode_nr);
+f380e1d2c9a1ff drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-15  831  
+66c2d53db28276 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-25  832  	rc = load_scode(fe, new_fw.type | new_fw.scode_table, &new_fw.id,
+66c2d53db28276 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-25  833  			new_fw.int_freq, new_fw.scode_nr);
+43efe70253dd13 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-14  834  
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  835  check_device:
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  836  	if (xc2028_get_reg(priv, 0x0004, &version) < 0 ||
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  837  	    xc2028_get_reg(priv, 0x0008, &hwmodel) < 0) {
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  838  		tuner_err("Unable to read tuner registers.\n");
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  839  		goto fail;
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  840  	}
+80b522085a2c87 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-05  841  
+2af3eb647e9b90 drivers/media/tuners/tuner-xc2028.c        Mauro Carvalho Chehab 2016-10-12  842  	tuner_dbg("Device is Xceive %d version %d.%d, firmware version %d.%d\n",
+80b522085a2c87 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-05  843  		  hwmodel, (version & 0xf000) >> 12, (version & 0xf00) >> 8,
+80b522085a2c87 drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-11-05  844  		  (version & 0xf0) >> 4, version & 0xf);
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-02  845  
+0fb84ce0dbffee drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2008-12-02  846  
+0fb84ce0dbffee drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2008-12-02  847  	if (priv->ctrl.read_not_reliable)
+0fb84ce0dbffee drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2008-12-02  848  		goto read_not_reliable;
+0fb84ce0dbffee drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2008-12-02  849  
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  850  	/* Check firmware version against what we downloaded. */
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  851  	if (priv->firm_version != ((version & 0xf0) << 4 | (version & 0x0f))) {
+2d5024a9e97337 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2009-09-14  852  		if (!priv->ctrl.read_not_reliable) {
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  853  			tuner_err("Incorrect readback of firmware version.\n");
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  854  			goto fail;
+2d5024a9e97337 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2009-09-14  855  		} else {
+2af3eb647e9b90 drivers/media/tuners/tuner-xc2028.c        Mauro Carvalho Chehab 2016-10-12  856  			tuner_err("Returned an incorrect version. However, read is not reliable enough. Ignoring it.\n");
+2d5024a9e97337 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2009-09-14  857  			hwmodel = 3028;
+2d5024a9e97337 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2009-09-14  858  		}
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  859  	}
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  860  
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  861  	/* Check that the tuner hardware model remains consistent over time. */
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  862  	if (priv->hwmodel == 0 && (hwmodel == 2028 || hwmodel == 3028)) {
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  863  		priv->hwmodel = hwmodel;
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  864  		priv->hwvers  = version & 0xff00;
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  865  	} else if (priv->hwmodel == 0 || priv->hwmodel != hwmodel ||
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  866  		   priv->hwvers != (version & 0xff00)) {
+2af3eb647e9b90 drivers/media/tuners/tuner-xc2028.c        Mauro Carvalho Chehab 2016-10-12  867  		tuner_err("Read invalid device hardware information - tuner hung?\n");
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  868  		goto fail;
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  869  	}
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  870  
+0fb84ce0dbffee drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2008-12-02  871  read_not_reliable:
+03c420010f4c5d drivers/media/tuners/tuner-xc2028.c        Ezequiel Garcia       2012-10-23  872  	priv->cur_fw = new_fw;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  873  
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  874  	/*
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  875  	 * By setting BASE in cur_fw.type only after successfully loading all
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  876  	 * firmwares, we can:
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  877  	 * 1. Identify that BASE firmware with type=0 has been loaded;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  878  	 * 2. Tell whether BASE firmware was just changed the next time through.
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  879  	 */
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  880  	priv->cur_fw.type |= BASE;
+61a96113de51e1 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2012-06-30  881  	priv->state = XC2028_ACTIVE;
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-02  882  
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-02  883  	return 0;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  884  
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  885  fail:
+22a1e7783e173a drivers/media/tuners/tuner-xc2028.c        Takashi Iwai          2016-11-17  886  	free_firmware(priv);
+61a96113de51e1 drivers/media/common/tuners/tuner-xc2028.c Mauro Carvalho Chehab 2012-06-30  887  
+b8bc77db1e23c6 drivers/media/common/tuners/tuner-xc2028.c Alina Friedrichsen    2011-01-23  888  	if (retry_count < 8) {
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  889  		msleep(50);
+b8bc77db1e23c6 drivers/media/common/tuners/tuner-xc2028.c Alina Friedrichsen    2011-01-23  890  		retry_count++;
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  891  		tuner_dbg("Retrying firmware load\n");
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  892  		goto retry;
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  893  	}
+8bf799a6217f63 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  894  
+ebf044f46f138b drivers/media/tuners/tuner-xc2028.c        Mauro Carvalho Chehab 2014-01-06  895  	/* Firmware didn't load. Put the device to sleep */
+ebf044f46f138b drivers/media/tuners/tuner-xc2028.c        Mauro Carvalho Chehab 2014-01-06  896  	xc2028_sleep(fe);
+ebf044f46f138b drivers/media/tuners/tuner-xc2028.c        Mauro Carvalho Chehab 2014-01-06  897  
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  898  	if (rc == -ENOENT)
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  899  		rc = -EINVAL;
+e0f0b37a3e6244 drivers/media/video/tuner-xc2028.c         Chris Pascoe          2007-11-19  900  	return rc;
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-02  901  }
+6cb45879dca84c drivers/media/video/tuner-xc2028.c         Mauro Carvalho Chehab 2007-10-02  902  
+
+:::::: The code at line 717 was first introduced by commit
+:::::: 00deff1a076dc1cf6743813657623626720bf0f5 V4L/DVB (6671): Avoids checking digital/analog at check_firmware
+
+:::::: TO: Mauro Carvalho Chehab <mchehab@infradead.org>
+:::::: CC: Mauro Carvalho Chehab <mchehab@infradead.org>
+
+-- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
