@@ -1,236 +1,173 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1F819907;
-	Fri,  9 Jun 2023 15:53:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A13319BC3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jun 2023 15:53:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686326009; x=1717862009;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=T3R8SvGNykkTqMMANysMd1NrtS1xDurZW0RoFNDUYac=;
-  b=ZxuwF7ypxy7Eo7hI58copxgS+ngCXf37McCKpWkeZTGxst3ZoICfPmvO
-   adm+5xAT8WNyhkXXr971BiiHqTo1YZHCgTjTFfDGQaZlspSHj2V3+GvDU
-   fGZ8p9VPwZa3ydEDuCpQqefC/Uvi+j0QCtMtBM1uR2BmzwbBH9eSey6RH
-   ofRN8S+8Urk6LZ+P1dXgzl2GHwPvmthx8wlPaJU6474OnJBrNCNy0tETq
-   5jB15kpNJxu5tE4TXEnFqkumuTZJq4PhJTv576hJsCbyLpynrOLjraOUR
-   bExpbmwnsX85O1jHyFePd5mVT3Ch8+P8NhnKCJntBtdeQWbj25E9mUbUB
+  t=1686326010; x=1717862010;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PnEcmmPcWUbOef8mrx7KdCR85NWYFsHg8gXOQ/9iOvM=;
+  b=Kngl69JqQOhRwreWX6I/z+Chk8qUoTJd19Yfo76aOhRx8j5HCHr39aCE
+   PwnNMcvB+Ak2fPTkMyOxR09o87WQLO2lw6/0z6x5pI9hRfoSeTWo2ovJD
+   1VG5AZXbZqp5HcSvqZiyezxA9yxnmJxgl1t9HQw4TLSaD1tUUGKK6ldlr
+   KSnVmrfnGWeUbTwGHTLlmkoZfKN6d/l157oEF16mOEflV3wIDTcEkbt7A
+   bwevoYoIjw7Hum9ZobozEFDJdY+u0WPZ+dnY59LGCETT4wHe6/OXo5+44
+   sNd+OF4ZU3Oc+EJ8aqRBRdg+5u1MDnYgxvLOxmMc4Qr3ves64LdLTeEfW
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="360985541"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="357630022"
 X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="360985541"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 08:53:27 -0700
+   d="scan'208";a="357630022"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 08:53:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="780358350"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="704595083"
 X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="780358350"
+   d="scan'208";a="704595083"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 09 Jun 2023 08:53:25 -0700
+  by orsmga007.jf.intel.com with ESMTP; 09 Jun 2023 08:53:25 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7eQW-0009Bk-1A;
+	id 1q7eQW-0009Bm-1H;
 	Fri, 09 Jun 2023 15:53:24 +0000
-Date: Fri, 9 Jun 2023 23:53:09 +0800
+Date: Fri, 9 Jun 2023 23:52:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Boyuan Zhang <boyuan.zhang@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+To: alexis.lothore@bootlin.com, Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Alex Deucher <alexander.deucher@amd.com>
-Subject: drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c:118:12: warning: stack frame
- size (2064) exceeds limit (2048) in 'vcn_v3_0_sw_init'
-Message-ID: <202306092342.fKgkmOE0-lkp@intel.com>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	paul.arola@telus.com, scott.roberts@telus.com
+Subject: Re: [PATCH net-next 2/2] net: dsa: mv88e6xxx: implement egress tbf
+ qdisc for 6393x family
+Message-ID: <202306092327.Gf6CXGqE-lkp@intel.com>
+References: <20230609141812.297521-3-alexis.lothore@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230609141812.297521-3-alexis.lothore@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   33f2b5785a2b6b0ed1948aafee60d3abb12f1e3a
-commit: 945da79e6dd058be70bc47442dce319844e14daa drm/amdgpu/vcn3: send smu interface type
-date:   1 year, 2 months ago
-config: riscv-randconfig-r012-20230608 (https://download.01.org/0day-ci/archive/20230609/202306092342.fKgkmOE0-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/alexis-lothore-bootlin-com/net-dsa-mv88e6xxx-allow-driver-to-hook-TC-callback/20230609-222048
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20230609141812.297521-3-alexis.lothore%40bootlin.com
+patch subject: [PATCH net-next 2/2] net: dsa: mv88e6xxx: implement egress tbf qdisc for 6393x family
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230609/202306092327.Gf6CXGqE-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=945da79e6dd058be70bc47442dce319844e14daa
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 945da79e6dd058be70bc47442dce319844e14daa
+        git remote add net-next https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
+        git fetch net-next main
+        git checkout net-next/main
+        b4 shazam https://lore.kernel.org/r/20230609141812.297521-3-alexis.lothore@bootlin.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/gpu/drm/ lib/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/net/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306092342.fKgkmOE0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306092327.Gf6CXGqE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c:118:12: warning: stack frame size (2064) exceeds limit (2048) in 'vcn_v3_0_sw_init' [-Wframe-larger-than]
-   static int vcn_v3_0_sw_init(void *handle)
-              ^
-   drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c:1517:12: warning: stack frame size (3600) exceeds limit (2048) in 'vcn_v3_0_stop' [-Wframe-larger-than]
-   static int vcn_v3_0_stop(struct amdgpu_device *adev)
-              ^
-   drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c:1089:12: warning: stack frame size (7664) exceeds limit (2048) in 'vcn_v3_0_start' [-Wframe-larger-than]
-   static int vcn_v3_0_start(struct amdgpu_device *adev)
-              ^
-   3 warnings generated.
+>> drivers/net/dsa/mv88e6xxx/port.c:1504:5: warning: no previous prototype for 'mv88e6393x_tbf_add' [-Wmissing-prototypes]
+    1504 | int mv88e6393x_tbf_add(struct mv88e6xxx_chip *chip, int port,
+         |     ^~~~~~~~~~~~~~~~~~
+>> drivers/net/dsa/mv88e6xxx/port.c:1559:5: warning: no previous prototype for 'mv88e6393x_tbf_del' [-Wmissing-prototypes]
+    1559 | int mv88e6393x_tbf_del(struct mv88e6xxx_chip *chip, int port)
+         |     ^~~~~~~~~~~~~~~~~~
 
 
-vim +/vcn_v3_0_sw_init +118 drivers/gpu/drm/amd/amdgpu/vcn_v3_0.c
+vim +/mv88e6393x_tbf_add +1504 drivers/net/dsa/mv88e6xxx/port.c
 
-cf14826cdfb5c9 Leo Liu         2019-11-15  110  
-cf14826cdfb5c9 Leo Liu         2019-11-15  111  /**
-cf14826cdfb5c9 Leo Liu         2019-11-15  112   * vcn_v3_0_sw_init - sw init for VCN block
-cf14826cdfb5c9 Leo Liu         2019-11-15  113   *
-cf14826cdfb5c9 Leo Liu         2019-11-15  114   * @handle: amdgpu_device pointer
-cf14826cdfb5c9 Leo Liu         2019-11-15  115   *
-cf14826cdfb5c9 Leo Liu         2019-11-15  116   * Load firmware and sw initialization
-cf14826cdfb5c9 Leo Liu         2019-11-15  117   */
-cf14826cdfb5c9 Leo Liu         2019-11-15 @118  static int vcn_v3_0_sw_init(void *handle)
-cf14826cdfb5c9 Leo Liu         2019-11-15  119  {
-cf14826cdfb5c9 Leo Liu         2019-11-15  120  	struct amdgpu_ring *ring;
-cf14826cdfb5c9 Leo Liu         2019-11-15  121  	int i, j, r;
-1f61a43fcec1dc Jack Zhang      2020-06-29  122  	int vcn_doorbell_index = 0;
-cf14826cdfb5c9 Leo Liu         2019-11-15  123  	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
-cf14826cdfb5c9 Leo Liu         2019-11-15  124  
-cf14826cdfb5c9 Leo Liu         2019-11-15  125  	r = amdgpu_vcn_sw_init(adev);
-cf14826cdfb5c9 Leo Liu         2019-11-15  126  	if (r)
-cf14826cdfb5c9 Leo Liu         2019-11-15  127  		return r;
-cf14826cdfb5c9 Leo Liu         2019-11-15  128  
-c5dd5667f4196b Alex Deucher    2021-10-19  129  	amdgpu_vcn_setup_ucode(adev);
-cf14826cdfb5c9 Leo Liu         2019-11-15  130  
-cf14826cdfb5c9 Leo Liu         2019-11-15  131  	r = amdgpu_vcn_resume(adev);
-cf14826cdfb5c9 Leo Liu         2019-11-15  132  	if (r)
-cf14826cdfb5c9 Leo Liu         2019-11-15  133  		return r;
-cf14826cdfb5c9 Leo Liu         2019-11-15  134  
-25a35065c06649 Bokun Zhang     2020-11-09  135  	/*
-25a35065c06649 Bokun Zhang     2020-11-09  136  	 * Note: doorbell assignment is fixed for SRIOV multiple VCN engines
-25a35065c06649 Bokun Zhang     2020-11-09  137  	 * Formula:
-25a35065c06649 Bokun Zhang     2020-11-09  138  	 *   vcn_db_base  = adev->doorbell_index.vcn.vcn_ring0_1 << 1;
-25a35065c06649 Bokun Zhang     2020-11-09  139  	 *   dec_ring_i   = vcn_db_base + i * (adev->vcn.num_enc_rings + 1)
-25a35065c06649 Bokun Zhang     2020-11-09  140  	 *   enc_ring_i,j = vcn_db_base + i * (adev->vcn.num_enc_rings + 1) + 1 + j
-25a35065c06649 Bokun Zhang     2020-11-09  141  	 */
-1f61a43fcec1dc Jack Zhang      2020-06-29  142  	if (amdgpu_sriov_vf(adev)) {
-1f61a43fcec1dc Jack Zhang      2020-06-29  143  		vcn_doorbell_index = adev->doorbell_index.vcn.vcn_ring0_1;
-1f61a43fcec1dc Jack Zhang      2020-06-29  144  		/* get DWORD offset */
-1f61a43fcec1dc Jack Zhang      2020-06-29  145  		vcn_doorbell_index = vcn_doorbell_index << 1;
-1f61a43fcec1dc Jack Zhang      2020-06-29  146  	}
-1f61a43fcec1dc Jack Zhang      2020-06-29  147  
-cf14826cdfb5c9 Leo Liu         2019-11-15  148  	for (i = 0; i < adev->vcn.num_vcn_inst; i++) {
-a76087cf97afe4 James Zhu       2020-11-02  149  		volatile struct amdgpu_fw_shared *fw_shared;
-c62dfdbbf71095 Christian König 2021-02-02  150  
-cf14826cdfb5c9 Leo Liu         2019-11-15  151  		if (adev->vcn.harvest_config & (1 << i))
-cf14826cdfb5c9 Leo Liu         2019-11-15  152  			continue;
-cf14826cdfb5c9 Leo Liu         2019-11-15  153  
-cf14826cdfb5c9 Leo Liu         2019-11-15  154  		adev->vcn.internal.context_id = mmUVD_CONTEXT_ID_INTERNAL_OFFSET;
-cf14826cdfb5c9 Leo Liu         2019-11-15  155  		adev->vcn.internal.ib_vmid = mmUVD_LMI_RBC_IB_VMID_INTERNAL_OFFSET;
-cf14826cdfb5c9 Leo Liu         2019-11-15  156  		adev->vcn.internal.ib_bar_low = mmUVD_LMI_RBC_IB_64BIT_BAR_LOW_INTERNAL_OFFSET;
-cf14826cdfb5c9 Leo Liu         2019-11-15  157  		adev->vcn.internal.ib_bar_high = mmUVD_LMI_RBC_IB_64BIT_BAR_HIGH_INTERNAL_OFFSET;
-cf14826cdfb5c9 Leo Liu         2019-11-15  158  		adev->vcn.internal.ib_size = mmUVD_RBC_IB_SIZE_INTERNAL_OFFSET;
-cf14826cdfb5c9 Leo Liu         2019-11-15  159  		adev->vcn.internal.gp_scratch8 = mmUVD_GP_SCRATCH8_INTERNAL_OFFSET;
-cf14826cdfb5c9 Leo Liu         2019-11-15  160  
-cf14826cdfb5c9 Leo Liu         2019-11-15  161  		adev->vcn.internal.scratch9 = mmUVD_SCRATCH9_INTERNAL_OFFSET;
-cf14826cdfb5c9 Leo Liu         2019-11-15  162  		adev->vcn.inst[i].external.scratch9 = SOC15_REG_OFFSET(VCN, i, mmUVD_SCRATCH9);
-cf14826cdfb5c9 Leo Liu         2019-11-15  163  		adev->vcn.internal.data0 = mmUVD_GPCOM_VCPU_DATA0_INTERNAL_OFFSET;
-cf14826cdfb5c9 Leo Liu         2019-11-15  164  		adev->vcn.inst[i].external.data0 = SOC15_REG_OFFSET(VCN, i, mmUVD_GPCOM_VCPU_DATA0);
-cf14826cdfb5c9 Leo Liu         2019-11-15  165  		adev->vcn.internal.data1 = mmUVD_GPCOM_VCPU_DATA1_INTERNAL_OFFSET;
-cf14826cdfb5c9 Leo Liu         2019-11-15  166  		adev->vcn.inst[i].external.data1 = SOC15_REG_OFFSET(VCN, i, mmUVD_GPCOM_VCPU_DATA1);
-cf14826cdfb5c9 Leo Liu         2019-11-15  167  		adev->vcn.internal.cmd = mmUVD_GPCOM_VCPU_CMD_INTERNAL_OFFSET;
-cf14826cdfb5c9 Leo Liu         2019-11-15  168  		adev->vcn.inst[i].external.cmd = SOC15_REG_OFFSET(VCN, i, mmUVD_GPCOM_VCPU_CMD);
-cf14826cdfb5c9 Leo Liu         2019-11-15  169  		adev->vcn.internal.nop = mmUVD_NO_OP_INTERNAL_OFFSET;
-cf14826cdfb5c9 Leo Liu         2019-11-15  170  		adev->vcn.inst[i].external.nop = SOC15_REG_OFFSET(VCN, i, mmUVD_NO_OP);
-cf14826cdfb5c9 Leo Liu         2019-11-15  171  
-cf14826cdfb5c9 Leo Liu         2019-11-15  172  		/* VCN DEC TRAP */
-cf14826cdfb5c9 Leo Liu         2019-11-15  173  		r = amdgpu_irq_add_id(adev, amdgpu_ih_clientid_vcns[i],
-cf14826cdfb5c9 Leo Liu         2019-11-15  174  				VCN_2_0__SRCID__UVD_SYSTEM_MESSAGE_INTERRUPT, &adev->vcn.inst[i].irq);
-cf14826cdfb5c9 Leo Liu         2019-11-15  175  		if (r)
-cf14826cdfb5c9 Leo Liu         2019-11-15  176  			return r;
-cf14826cdfb5c9 Leo Liu         2019-11-15  177  
-c62dfdbbf71095 Christian König 2021-02-02  178  		atomic_set(&adev->vcn.inst[i].sched_score, 0);
-c62dfdbbf71095 Christian König 2021-02-02  179  
-cf14826cdfb5c9 Leo Liu         2019-11-15  180  		ring = &adev->vcn.inst[i].ring_dec;
-cf14826cdfb5c9 Leo Liu         2019-11-15  181  		ring->use_doorbell = true;
-1f61a43fcec1dc Jack Zhang      2020-06-29  182  		if (amdgpu_sriov_vf(adev)) {
-25a35065c06649 Bokun Zhang     2020-11-09  183  			ring->doorbell_index = vcn_doorbell_index + i * (adev->vcn.num_enc_rings + 1);
-1f61a43fcec1dc Jack Zhang      2020-06-29  184  		} else {
-cf14826cdfb5c9 Leo Liu         2019-11-15  185  			ring->doorbell_index = (adev->doorbell_index.vcn.vcn_ring0_1 << 1) + 8 * i;
-1f61a43fcec1dc Jack Zhang      2020-06-29  186  		}
-cf14826cdfb5c9 Leo Liu         2019-11-15  187  		sprintf(ring->name, "vcn_dec_%d", i);
-cf14826cdfb5c9 Leo Liu         2019-11-15  188  		r = amdgpu_ring_init(adev, ring, 512, &adev->vcn.inst[i].irq, 0,
-c62dfdbbf71095 Christian König 2021-02-02  189  				     AMDGPU_RING_PRIO_DEFAULT,
-c62dfdbbf71095 Christian König 2021-02-02  190  				     &adev->vcn.inst[i].sched_score);
-cf14826cdfb5c9 Leo Liu         2019-11-15  191  		if (r)
-cf14826cdfb5c9 Leo Liu         2019-11-15  192  			return r;
-cf14826cdfb5c9 Leo Liu         2019-11-15  193  
-cf14826cdfb5c9 Leo Liu         2019-11-15  194  		for (j = 0; j < adev->vcn.num_enc_rings; ++j) {
-0ad29a4eb13577 Satyajit Sahu   2021-08-27  195  			enum amdgpu_ring_priority_level hw_prio = amdgpu_vcn_get_enc_ring_prio(j);
-0ad29a4eb13577 Satyajit Sahu   2021-08-27  196  
-cf14826cdfb5c9 Leo Liu         2019-11-15  197  			/* VCN ENC TRAP */
-cf14826cdfb5c9 Leo Liu         2019-11-15  198  			r = amdgpu_irq_add_id(adev, amdgpu_ih_clientid_vcns[i],
-cf14826cdfb5c9 Leo Liu         2019-11-15  199  				j + VCN_2_0__SRCID__UVD_ENC_GENERAL_PURPOSE, &adev->vcn.inst[i].irq);
-cf14826cdfb5c9 Leo Liu         2019-11-15  200  			if (r)
-cf14826cdfb5c9 Leo Liu         2019-11-15  201  				return r;
-cf14826cdfb5c9 Leo Liu         2019-11-15  202  
-cf14826cdfb5c9 Leo Liu         2019-11-15  203  			ring = &adev->vcn.inst[i].ring_enc[j];
-cf14826cdfb5c9 Leo Liu         2019-11-15  204  			ring->use_doorbell = true;
-1f61a43fcec1dc Jack Zhang      2020-06-29  205  			if (amdgpu_sriov_vf(adev)) {
-25a35065c06649 Bokun Zhang     2020-11-09  206  				ring->doorbell_index = vcn_doorbell_index + i * (adev->vcn.num_enc_rings + 1) + 1 + j;
-1f61a43fcec1dc Jack Zhang      2020-06-29  207  			} else {
-cf14826cdfb5c9 Leo Liu         2019-11-15  208  				ring->doorbell_index = (adev->doorbell_index.vcn.vcn_ring0_1 << 1) + 2 + j + 8 * i;
-1f61a43fcec1dc Jack Zhang      2020-06-29  209  			}
-cf14826cdfb5c9 Leo Liu         2019-11-15  210  			sprintf(ring->name, "vcn_enc_%d.%d", i, j);
-cf14826cdfb5c9 Leo Liu         2019-11-15  211  			r = amdgpu_ring_init(adev, ring, 512, &adev->vcn.inst[i].irq, 0,
-0ad29a4eb13577 Satyajit Sahu   2021-08-27  212  					     hw_prio, &adev->vcn.inst[i].sched_score);
-cf14826cdfb5c9 Leo Liu         2019-11-15  213  			if (r)
-cf14826cdfb5c9 Leo Liu         2019-11-15  214  				return r;
-cf14826cdfb5c9 Leo Liu         2019-11-15  215  		}
-a76087cf97afe4 James Zhu       2020-11-02  216  
-b6065ebf55ff2f Ruijing Dong    2022-03-02  217  		fw_shared = adev->vcn.inst[i].fw_shared.cpu_addr;
-e42dd87e70e66a Sonny Jiang     2020-11-27  218  		fw_shared->present_flag_0 |= cpu_to_le32(AMDGPU_VCN_SW_RING_FLAG) |
-b2576c3bf4ce9b Sonny Jiang     2021-01-31  219  					     cpu_to_le32(AMDGPU_VCN_MULTI_QUEUE_FLAG) |
-b2576c3bf4ce9b Sonny Jiang     2021-01-31  220  					     cpu_to_le32(AMDGPU_VCN_FW_SHARED_FLAG_0_RB);
-a76087cf97afe4 James Zhu       2020-11-02  221  		fw_shared->sw_ring.is_enabled = cpu_to_le32(DEC_SW_RING_ENABLED);
-945da79e6dd058 Boyuan Zhang    2022-03-24  222  		fw_shared->present_flag_0 |= AMDGPU_VCN_SMU_VERSION_INFO_FLAG;
-945da79e6dd058 Boyuan Zhang    2022-03-24  223  		if (adev->ip_versions[UVD_HWIP][0] == IP_VERSION(3, 1, 2))
-945da79e6dd058 Boyuan Zhang    2022-03-24  224  			fw_shared->smu_interface_info.smu_interface_type = 2;
-945da79e6dd058 Boyuan Zhang    2022-03-24  225  		else if (adev->ip_versions[UVD_HWIP][0] == IP_VERSION(3, 1, 1))
-945da79e6dd058 Boyuan Zhang    2022-03-24  226  			fw_shared->smu_interface_info.smu_interface_type = 1;
-11eb648d014eb9 Ruijing Dong    2022-03-02  227  
-11eb648d014eb9 Ruijing Dong    2022-03-02  228  		if (amdgpu_vcnfw_log)
-11eb648d014eb9 Ruijing Dong    2022-03-02  229  			amdgpu_vcn_fwlog_init(&adev->vcn.inst[i]);
-cf14826cdfb5c9 Leo Liu         2019-11-15  230  	}
-cf14826cdfb5c9 Leo Liu         2019-11-15  231  
-1f61a43fcec1dc Jack Zhang      2020-06-29  232  	if (amdgpu_sriov_vf(adev)) {
-1f61a43fcec1dc Jack Zhang      2020-06-29  233  		r = amdgpu_virt_alloc_mm_table(adev);
-1f61a43fcec1dc Jack Zhang      2020-06-29  234  		if (r)
-1f61a43fcec1dc Jack Zhang      2020-06-29  235  			return r;
-1f61a43fcec1dc Jack Zhang      2020-06-29  236  	}
-cfcc06cd15bf56 Boyuan Zhang    2020-03-27  237  	if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG)
-cfcc06cd15bf56 Boyuan Zhang    2020-03-27  238  		adev->vcn.pause_dpg_mode = vcn_v3_0_pause_dpg_mode;
-cfcc06cd15bf56 Boyuan Zhang    2020-03-27  239  
-cf14826cdfb5c9 Leo Liu         2019-11-15  240  	return 0;
-cf14826cdfb5c9 Leo Liu         2019-11-15  241  }
-cf14826cdfb5c9 Leo Liu         2019-11-15  242  
-
-:::::: The code at line 118 was first introduced by commit
-:::::: cf14826cdfb5c9fe10f98210d040b9d7486c381d drm/amdgpu: add VCN3.0 support for Sienna_Cichlid
-
-:::::: TO: Leo Liu <leo.liu@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+  1503	
+> 1504	int mv88e6393x_tbf_add(struct mv88e6xxx_chip *chip, int port,
+  1505			       struct tc_tbf_qopt_offload_replace_params *replace_params)
+  1506	{
+  1507		int rate_kbps = DIV_ROUND_UP(replace_params->rate.rate_bytes_ps * 8, 1000);
+  1508		int overhead = DIV_ROUND_UP(replace_params->rate.overhead, 4);
+  1509		int rate_step, decrement_rate, err;
+  1510		u16 val;
+  1511	
+  1512		if (rate_kbps < MV88E6393X_PORT_EGRESS_RATE_MIN_KBPS ||
+  1513		    rate_kbps >= MV88E6393X_PORT_EGRESS_RATE_MAX_KBPS)
+  1514			return -EOPNOTSUPP;
+  1515	
+  1516		if (replace_params->rate.overhead > MV88E6393X_PORT_EGRESS_MAX_OVERHEAD)
+  1517			return -EOPNOTSUPP;
+  1518	
+  1519		/* Switch supports only max rate configuration. There is no
+  1520		 * configurable burst/max size nor latency.
+  1521		 * Formula defining registers value is:
+  1522		 * EgressRate = 8 * EgressDec / (16ns * desired Rate)
+  1523		 * EgressRate is a set of fixed values depending of targeted range
+  1524		 */
+  1525		if (rate_kbps < MBPS_TO_KBPS(1)) {
+  1526			decrement_rate = rate_kbps / 64;
+  1527			rate_step = MV88E6XXX_PORT_EGRESS_RATE_CTL1_STEP_64_KBPS;
+  1528		} else if (rate_kbps < MBPS_TO_KBPS(100)) {
+  1529			decrement_rate = rate_kbps / MBPS_TO_KBPS(1);
+  1530			rate_step = MV88E6XXX_PORT_EGRESS_RATE_CTL1_STEP_1_MBPS;
+  1531		} else if (rate_kbps < GBPS_TO_KBPS(1)) {
+  1532			decrement_rate = rate_kbps / MBPS_TO_KBPS(10);
+  1533			rate_step = MV88E6XXX_PORT_EGRESS_RATE_CTL1_STEP_10_MBPS;
+  1534		} else {
+  1535			decrement_rate = rate_kbps / MBPS_TO_KBPS(100);
+  1536			rate_step = MV88E6XXX_PORT_EGRESS_RATE_CTL1_STEP_100_MBPS;
+  1537		}
+  1538	
+  1539		dev_dbg(chip->dev, "p%d: adding egress tbf qdisc with %dkbps rate",
+  1540			port, rate_kbps);
+  1541		val = decrement_rate;
+  1542		val |= (overhead << MV88E6XXX_PORT_EGRESS_RATE_CTL1_FRAME_OVERHEAD_SHIFT);
+  1543		err = mv88e6xxx_port_write(chip, port, MV88E6XXX_PORT_EGRESS_RATE_CTL1,
+  1544					   val);
+  1545		if (err)
+  1546			return err;
+  1547	
+  1548		val = rate_step;
+  1549		/* Configure mode to bits per second mode, on layer 1 */
+  1550		val |= MV88E6XXX_PORT_EGRESS_RATE_CTL2_COUNT_L1_BYTES;
+  1551		err = mv88e6xxx_port_write(chip, port, MV88E6XXX_PORT_EGRESS_RATE_CTL2,
+  1552					   val);
+  1553		if (err)
+  1554			return err;
+  1555	
+  1556		return 0;
+  1557	}
+  1558	
+> 1559	int mv88e6393x_tbf_del(struct mv88e6xxx_chip *chip, int port)
+  1560	{
+  1561		int err;
+  1562	
+  1563		dev_dbg(chip->dev, "p%d: removing tbf qdisc", port);
+  1564		err = mv88e6xxx_port_write(chip, port, MV88E6XXX_PORT_EGRESS_RATE_CTL2,
+  1565					   0x0000);
+  1566		if (err)
+  1567			return err;
+  1568		return mv88e6xxx_port_write(chip, port, MV88E6XXX_PORT_EGRESS_RATE_CTL1,
+  1569					    0x0001);
+  1570	}
+  1571	
 
 -- 
 0-DAY CI Kernel Test Service
