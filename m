@@ -1,43 +1,54 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E11171A3
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jun 2023 14:59:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A4F19901;
+	Fri,  9 Jun 2023 15:41:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686322762; x=1717858762;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vnBZN+06pJvNzbfb83CMTFj9uuENy/u8HaHX31NMgcs=;
-  b=UlbNkUIODH9QhCDWN0oKULRYSmvwfnGLyzxQFIpXdYVJYqjZJ1dAR8eW
-   eqn6VRuOxbFX1sdRJwq+10omHA5C9ubgKLNpmybdxWTbhrn33pZfZeZTo
-   2hJECVqZiqkUQ/c0BFuSqLVADMJeOsVRPBkU+VYy5Nxn72XcGNe9jPXcN
-   B5UjeP0qNq6U4MtcE/2BXl4kbnSSf0kwZIAuNaqSV7HHPJjHrUNLd+Yad
-   t3okEV8kCQrl8L48I/6tJRXCjuW9RlJOefhcAdEOlMmUyBgB2XaKx2/Uw
-   3BEK/ybwYMBZXQPGNOGSHzP9UZciGGyAJ7CBC6N511Ji4LGicf8JzHHQa
+  t=1686325291; x=1717861291;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jA1MIe3DQG1EJItjGDEn8VXGdBffgmF7jysNuMJjaB0=;
+  b=U/971AQwz3SA/5/+XBO8qc11RI3/WAcPrVSNm3xC08WYh+6JdlzKKtde
+   gUG4fPGWJ+yrCT9pQHQ6eg+F8lzT7qwUH3s0697rO9VwDy16rpEzjN8nT
+   KnuH9+zww7WaP/FvFJPRwlctlDc6U41ByREN73xpaD+xezx6a6sxYQam0
+   L6ERYrwhIo1jcO65yDJCvUQwbL5azyBG/yH2AAtt7wAWo3vys9grt4w/S
+   lqplsKcjldtAFk6kQs4Tjy4Ir43HH+5qDd0YeWlWaAPSMIOOekd6BjLfi
+   6ED9ispk1OpUKQy7bROZIyJR1Ovi1xbf+7zALqAnABYcF7/DuU0kwCnce
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="337248753"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="355114051"
 X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="337248753"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 07:59:21 -0700
+   d="scan'208";a="355114051"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 08:41:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="884613641"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="660799416"
 X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="884613641"
+   d="scan'208";a="660799416"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 09 Jun 2023 07:59:20 -0700
+  by orsmga003.jf.intel.com with ESMTP; 09 Jun 2023 08:41:23 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7daB-00096i-0y;
-	Fri, 09 Jun 2023 14:59:19 +0000
-Date: Fri, 9 Jun 2023 22:58:55 +0800
+	id 1q7eEs-0009AN-2V;
+	Fri, 09 Jun 2023 15:41:22 +0000
+Date: Fri, 9 Jun 2023 23:41:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 1382/23306]
- include/trace/trace_events.h:27:23: warning: 'str__dtask__trace_system_name'
- defined but not used
-Message-ID: <202306092252.y4rRQN3M-lkp@intel.com>
+To: Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org, arnd@arndb.de,
+	christophe.leroy@csgroup.eu, hch@lst.de, rppt@kernel.org,
+	willy@infradead.org, agordeev@linux.ibm.com,
+	wangkefeng.wang@huawei.com, schnelle@linux.ibm.com,
+	David.Laight@aculab.com, shorne@gmail.com, deller@gmx.de,
+	Baoquan He <bhe@redhat.com>,
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
+Subject: Re: [PATCH v6 10/19] s390: mm: Convert to GENERIC_IOREMAP
+Message-ID: <202306092349.88mhfjhr-lkp@intel.com>
+References: <20230609075528.9390-11-bhe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,150 +57,205 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230609075528.9390-11-bhe@redhat.com>
 
-Hi Sangmoon,
+Hi Baoquan,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   4742f48a5ab3c8bfa9797cd320ec431a38df7034
-commit: 9ad8ff902e39f37baf15904c6627ca03e8f60c27 [1382/23306] ANDROID: vendor_hooks: add waiting information for blocked tasks
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230609/202306092252.y4rRQN3M-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/asm-generic-iomap-h-remove-ARCH_HAS_IOREMAP_xx-macros/20230609-160014
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230609075528.9390-11-bhe%40redhat.com
+patch subject: [PATCH v6 10/19] s390: mm: Convert to GENERIC_IOREMAP
+config: s390-randconfig-r014-20230608 (https://download.01.org/0day-ci/archive/20230609/202306092349.88mhfjhr-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
 reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android14-5.15
-        git checkout 9ad8ff902e39f37baf15904c6627ca03e8f60c27
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
+        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
+        git fetch akpm-mm mm-everything
+        git checkout akpm-mm/mm-everything
+        b4 shazam https://lore.kernel.org/r/20230609075528.9390-11-bhe@redhat.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/ drivers/md/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=s390 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash drivers/pcmcia/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306092252.y4rRQN3M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306092349.88mhfjhr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/dtask.h:53,
-                    from drivers/android/vendor_hooks.c:16:
->> include/trace/trace_events.h:27:23: warning: 'str__dtask__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/futex.h:26,
-                    from drivers/android/vendor_hooks.c:15:
-   include/trace/trace_events.h:27:23: warning: 'str__futex__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/rwsem.h:38,
-                    from drivers/android/vendor_hooks.c:14:
-   include/trace/trace_events.h:27:23: warning: 'str__rwsem__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/binder.h:33,
-                    from drivers/android/vendor_hooks.c:13:
-   include/trace/trace_events.h:27:23: warning: 'str__binder__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/fpsimd.h:26,
-                    from drivers/android/vendor_hooks.c:12:
-   include/trace/trace_events.h:27:23: warning: 'str__fpsimd__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sched.h:85,
-                    from drivers/android/vendor_hooks.c:11:
-   include/trace/trace_events.h:27:23: warning: 'str__sched__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+   In file included from drivers/pcmcia/cistpl.c:21:
+   In file included from include/linux/pci.h:39:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/pcmcia/cistpl.c:21:
+   In file included from include/linux/pci.h:39:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/pcmcia/cistpl.c:21:
+   In file included from include/linux/pci.h:39:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:78:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/pcmcia/cistpl.c:72:3: error: call to undeclared function 'iounmap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      72 |                 iounmap(s->cis_virt);
+         |                 ^
+   arch/s390/include/asm/io.h:29:17: note: expanded from macro 'iounmap'
+      29 | #define iounmap iounmap
+         |                 ^
+   drivers/pcmcia/cistpl.c:72:3: note: did you mean 'vunmap'?
+   arch/s390/include/asm/io.h:29:17: note: expanded from macro 'iounmap'
+      29 | #define iounmap iounmap
+         |                 ^
+   include/linux/vmalloc.h:167:13: note: 'vunmap' declared here
+     167 | extern void vunmap(const void *addr);
+         |             ^
+>> drivers/pcmcia/cistpl.c:103:17: error: call to undeclared function 'ioremap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     103 |                 s->cis_virt = ioremap(mem->res->start, s->map_size);
+         |                               ^
+>> drivers/pcmcia/cistpl.c:103:15: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+     103 |                 s->cis_virt = ioremap(mem->res->start, s->map_size);
+         |                             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pcmcia/cistpl.c:110:3: error: call to undeclared function 'iounmap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     110 |                 iounmap(s->cis_virt);
+         |                 ^
+   arch/s390/include/asm/io.h:29:17: note: expanded from macro 'iounmap'
+      29 | #define iounmap iounmap
+         |                 ^
+   drivers/pcmcia/cistpl.c:117:4: error: call to undeclared function 'iounmap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     117 |                         iounmap(s->cis_virt);
+         |                         ^
+   arch/s390/include/asm/io.h:29:17: note: expanded from macro 'iounmap'
+      29 | #define iounmap iounmap
+         |                 ^
+   drivers/pcmcia/cistpl.c:118:15: error: incompatible integer to pointer conversion assigning to 'void *' from 'int' [-Wint-conversion]
+     118 |                 s->cis_virt = ioremap(mem->static_start, s->map_size);
+         |                             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   12 warnings and 6 errors generated.
 
 
-vim +/str__dtask__trace_system_name +27 include/trace/trace_events.h
+vim +/iounmap +72 drivers/pcmcia/cistpl.c
 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+^1da177e4c3f41 Linus Torvalds    2005-04-16   60  
+^1da177e4c3f41 Linus Torvalds    2005-04-16   61  void release_cis_mem(struct pcmcia_socket *s)
+^1da177e4c3f41 Linus Torvalds    2005-04-16   62  {
+6b8e087b86c59c Dominik Brodowski 2010-01-12   63  	mutex_lock(&s->ops_mutex);
+^1da177e4c3f41 Linus Torvalds    2005-04-16   64  	if (s->cis_mem.flags & MAP_ACTIVE) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16   65  		s->cis_mem.flags &= ~MAP_ACTIVE;
+^1da177e4c3f41 Linus Torvalds    2005-04-16   66  		s->ops->set_mem_map(s, &s->cis_mem);
+^1da177e4c3f41 Linus Torvalds    2005-04-16   67  		if (s->cis_mem.res) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16   68  			release_resource(s->cis_mem.res);
+^1da177e4c3f41 Linus Torvalds    2005-04-16   69  			kfree(s->cis_mem.res);
+^1da177e4c3f41 Linus Torvalds    2005-04-16   70  			s->cis_mem.res = NULL;
+^1da177e4c3f41 Linus Torvalds    2005-04-16   71  		}
+^1da177e4c3f41 Linus Torvalds    2005-04-16  @72  		iounmap(s->cis_virt);
+^1da177e4c3f41 Linus Torvalds    2005-04-16   73  		s->cis_virt = NULL;
+^1da177e4c3f41 Linus Torvalds    2005-04-16   74  	}
+6b8e087b86c59c Dominik Brodowski 2010-01-12   75  	mutex_unlock(&s->ops_mutex);
+^1da177e4c3f41 Linus Torvalds    2005-04-16   76  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16   77  
+cc448baf85c8f2 Lee Jones         2021-03-12   78  /*
+6e83ee075ed749 Dominik Brodowski 2010-03-02   79   * set_cis_map() - map the card memory at "card_offset" into virtual space.
+6e83ee075ed749 Dominik Brodowski 2010-03-02   80   *
+^1da177e4c3f41 Linus Torvalds    2005-04-16   81   * If flags & MAP_ATTRIB, map the attribute space, otherwise
+^1da177e4c3f41 Linus Torvalds    2005-04-16   82   * map the memory space.
+7ab24855482fbc Dominik Brodowski 2010-02-17   83   *
+7ab24855482fbc Dominik Brodowski 2010-02-17   84   * Must be called with ops_mutex held.
+^1da177e4c3f41 Linus Torvalds    2005-04-16   85   */
+6e83ee075ed749 Dominik Brodowski 2010-03-02   86  static void __iomem *set_cis_map(struct pcmcia_socket *s,
+6e83ee075ed749 Dominik Brodowski 2010-03-02   87  				unsigned int card_offset, unsigned int flags)
+^1da177e4c3f41 Linus Torvalds    2005-04-16   88  {
+^1da177e4c3f41 Linus Torvalds    2005-04-16   89  	pccard_mem_map *mem = &s->cis_mem;
+2ad0a0a793cbd8 Dominik Brodowski 2005-06-27   90  	int ret;
+2ad0a0a793cbd8 Dominik Brodowski 2005-06-27   91  
+2e5a3e79091615 Dominik Brodowski 2005-07-28   92  	if (!(s->features & SS_CAP_STATIC_MAP) && (mem->res == NULL)) {
+6e83ee075ed749 Dominik Brodowski 2010-03-02   93  		mem->res = pcmcia_find_mem_region(0, s->map_size,
+6e83ee075ed749 Dominik Brodowski 2010-03-02   94  						s->map_size, 0, s);
+^1da177e4c3f41 Linus Torvalds    2005-04-16   95  		if (mem->res == NULL) {
+f2e6cf76751d47 Joe Perches       2014-10-10   96  			dev_notice(&s->dev, "cs: unable to map card memory!\n");
+^1da177e4c3f41 Linus Torvalds    2005-04-16   97  			return NULL;
+^1da177e4c3f41 Linus Torvalds    2005-04-16   98  		}
+2e5a3e79091615 Dominik Brodowski 2005-07-28   99  		s->cis_virt = NULL;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  100  	}
+2e5a3e79091615 Dominik Brodowski 2005-07-28  101  
+2e5a3e79091615 Dominik Brodowski 2005-07-28  102  	if (!(s->features & SS_CAP_STATIC_MAP) && (!s->cis_virt))
+2e5a3e79091615 Dominik Brodowski 2005-07-28 @103  		s->cis_virt = ioremap(mem->res->start, s->map_size);
+2e5a3e79091615 Dominik Brodowski 2005-07-28  104  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  105  	mem->card_start = card_offset;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  106  	mem->flags = flags;
+2e5a3e79091615 Dominik Brodowski 2005-07-28  107  
+2ad0a0a793cbd8 Dominik Brodowski 2005-06-27  108  	ret = s->ops->set_mem_map(s, mem);
+2ad0a0a793cbd8 Dominik Brodowski 2005-06-27  109  	if (ret) {
+2ad0a0a793cbd8 Dominik Brodowski 2005-06-27  110  		iounmap(s->cis_virt);
+2e5a3e79091615 Dominik Brodowski 2005-07-28  111  		s->cis_virt = NULL;
+2ad0a0a793cbd8 Dominik Brodowski 2005-06-27  112  		return NULL;
+2ad0a0a793cbd8 Dominik Brodowski 2005-06-27  113  	}
+2ad0a0a793cbd8 Dominik Brodowski 2005-06-27  114  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  115  	if (s->features & SS_CAP_STATIC_MAP) {
+^1da177e4c3f41 Linus Torvalds    2005-04-16  116  		if (s->cis_virt)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  117  			iounmap(s->cis_virt);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  118  		s->cis_virt = ioremap(mem->static_start, s->map_size);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  119  	}
+2e5a3e79091615 Dominik Brodowski 2005-07-28  120  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  121  	return s->cis_virt;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  122  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  123  
 
 -- 
 0-DAY CI Kernel Test Service
