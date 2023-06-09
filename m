@@ -1,51 +1,43 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D9679F5;
-	Fri,  9 Jun 2023 08:29:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA1EEC2
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jun 2023 08:40:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686299342; x=1717835342;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=huJyQhIeFIRe6uvIx6xL3OI0227aQKD8M0QcvxpIZ6M=;
-  b=eSvhodWIhWJtf1xFmQP6FSYZLsXlLTRd2TvLkVSc/bMpc/oc/RezKLU+
-   5FZVushc4paz5GUi7UKf8uiGygp0I5A/DpLraKdBM4KPq5DtTUYfFzaHr
-   gfSaCpkdcooBh7uyioWlbHXLAb0gYEFjtnFCheNAOf6iiH9tIOyEeSlOB
-   PW9Vi9p1wrjI8cRrvI6X2LMLZpUHR3o4BAziyTl7B2dg9LwvqhWMmcby+
-   40cfIC4gOwMqKNX32SFLd52ocA3Jx9IqFFFlKp6KwSHWDAuWS9a2Q/Ssy
-   vIwFuxDiUqAKwV7Vop2+guLj7yyO8ByPyHvPb7iCKSZtXCkZkQOIzb4Kc
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="385904137"
+  t=1686300001; x=1717836001;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8d8EZLl9aLDs76xNI8gDdKl0+/w1V8ZJkq3N24V7zo4=;
+  b=cbf2qvHXQnWpzOXp825hvpuB71vU9Wxcmx0WfTDEdhOoamKmy1bj9KsS
+   ZY55u94/cf2c3Ro/1AFZDkXCN+zMuKRK8tKW0c44p5bc2oc3eQh+U2RAs
+   AOXYdnXNISyW6uWsYIdhWfez9/lTvJNnMgSt3211bXgbGR3LFqhAhwx51
+   LvBHSPq1DPCdR7CylM7xvbYwVLsiZ5BjMuY1myn7dYvbdLEVY+1TaAWzG
+   0n8PJyzYmtSiT49q3g1smhbYMVynhTVgCLcsbDrTtCaxwViXbxr/0NrAw
+   fPjDnofk37WC+Ddfpy5IIkpwKzwXJBEAysazaDuyjlgGfSGQcExN/YzD6
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="337184613"
 X-IronPort-AV: E=Sophos;i="6.00,228,1681196400"; 
-   d="scan'208";a="385904137"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 01:29:01 -0700
+   d="scan'208";a="337184613"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 01:40:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="800146324"
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="713429673"
 X-IronPort-AV: E=Sophos;i="6.00,228,1681196400"; 
-   d="scan'208";a="800146324"
+   d="scan'208";a="713429673"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 09 Jun 2023 01:28:58 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 09 Jun 2023 01:39:59 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7XUQ-0008qm-05;
-	Fri, 09 Jun 2023 08:28:58 +0000
-Date: Fri, 9 Jun 2023 16:28:24 +0800
+	id 1q7Xf4-0008rc-2O;
+	Fri, 09 Jun 2023 08:39:58 +0000
+Date: Fri, 9 Jun 2023 16:39:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lu Hongfei <luhongfei@vivo.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>,
-	Lorenzo Stoakes <lstoakes@gmail.com>,
-	open list <linux-kernel@vger.kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	opensource.kernel@vivo.com, luhongfei@vivo.com
-Subject: Re: [PATCH] mm/vmalloc: Replace the ternary conditional operator
- with min()
-Message-ID: <202306091647.GzAdThKz-lkp@intel.com>
-References: <20230609061309.42453-1-luhongfei@vivo.com>
+To: Greg Ungerer <gerg@linux-m68k.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: drivers/memstick/host/r592.c:83:9: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202306091608.zuOYo5EP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,132 +46,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230609061309.42453-1-luhongfei@vivo.com>
 
-Hi Lu,
+Hi Greg,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lu-Hongfei/mm-vmalloc-Replace-the-ternary-conditional-operator-with-min/20230609-141417
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230609061309.42453-1-luhongfei%40vivo.com
-patch subject: [PATCH] mm/vmalloc: Replace the ternary conditional operator with min()
-config: hexagon-randconfig-r016-20230608 (https://download.01.org/0day-ci/archive/20230609/202306091647.GzAdThKz-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   33f2b5785a2b6b0ed1948aafee60d3abb12f1e3a
+commit: d4aa8affa1e9e51c237a1ec47a97e96dce76c98c m68knommu: fix use of cpu_to_le() on IO access
+date:   2 years, 10 months ago
+config: m68k-randconfig-s041-20230608 (https://download.01.org/0day-ci/archive/20230609/202306091608.zuOYo5EP-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce:
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
-        git fetch akpm-mm mm-everything
-        git checkout akpm-mm/mm-everything
-        b4 shazam https://lore.kernel.org/r/20230609061309.42453-1-luhongfei@vivo.com
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d4aa8affa1e9e51c237a1ec47a97e96dce76c98c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d4aa8affa1e9e51c237a1ec47a97e96dce76c98c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=m68k SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306091647.GzAdThKz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306091608.zuOYo5EP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/memstick/host/r592.c:83:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/memstick/host/r592.c:83:9: sparse:     expected unsigned int volatile [usertype]
+   drivers/memstick/host/r592.c:83:9: sparse:     got restricted __be32 [usertype]
+>> drivers/memstick/host/r592.c:83:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/memstick/host/r592.c:83:9: sparse:     expected unsigned int volatile [usertype]
+   drivers/memstick/host/r592.c:83:9: sparse:     got restricted __be32 [usertype]
+>> drivers/memstick/host/r592.c:83:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/memstick/host/r592.c:83:9: sparse:     expected unsigned int volatile [usertype]
+   drivers/memstick/host/r592.c:83:9: sparse:     got restricted __be32 [usertype]
+   drivers/memstick/host/r592.c:75:16: sparse: sparse: cast to restricted __be32
+   drivers/memstick/host/r592.c:75:16: sparse: sparse: cast to restricted __be32
 
-   In file included from mm/vmalloc.c:14:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from mm/vmalloc.c:14:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from mm/vmalloc.c:14:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> mm/vmalloc.c:3574:9: warning: comparison of distinct pointer types ('typeof (remains) *' (aka 'unsigned int *') and 'typeof ((1UL << 12)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
-                   num = min(remains, PAGE_SIZE);
-                         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:67:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
-           __builtin_choose_expr(__safe_cmp(x, y), \
-                                 ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
-                   (__typecheck(x, y) && __no_side_effects(x, y))
-                    ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
-           (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-                      ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
-   7 warnings generated.
+vim +83 drivers/memstick/host/r592.c
 
+9263412501022f Maxim Levitsky 2011-03-25  42  
+9263412501022f Maxim Levitsky 2011-03-25  43  /**
+9263412501022f Maxim Levitsky 2011-03-25  44   * memstick_debug_get_tpc_name - debug helper that returns string for
+9263412501022f Maxim Levitsky 2011-03-25  45   * a TPC number
+9263412501022f Maxim Levitsky 2011-03-25  46   */
+9263412501022f Maxim Levitsky 2011-03-25 @47  const char *memstick_debug_get_tpc_name(int tpc)
+9263412501022f Maxim Levitsky 2011-03-25  48  {
+9263412501022f Maxim Levitsky 2011-03-25  49  	return tpc_names[tpc-1];
+9263412501022f Maxim Levitsky 2011-03-25  50  }
+9263412501022f Maxim Levitsky 2011-03-25  51  EXPORT_SYMBOL(memstick_debug_get_tpc_name);
+9263412501022f Maxim Levitsky 2011-03-25  52  
+9263412501022f Maxim Levitsky 2011-03-25  53  
+9263412501022f Maxim Levitsky 2011-03-25  54  /* Read a register*/
+9263412501022f Maxim Levitsky 2011-03-25  55  static inline u32 r592_read_reg(struct r592_device *dev, int address)
+9263412501022f Maxim Levitsky 2011-03-25  56  {
+9263412501022f Maxim Levitsky 2011-03-25  57  	u32 value = readl(dev->mmio + address);
+9263412501022f Maxim Levitsky 2011-03-25  58  	dbg_reg("reg #%02d == 0x%08x", address, value);
+9263412501022f Maxim Levitsky 2011-03-25  59  	return value;
+9263412501022f Maxim Levitsky 2011-03-25  60  }
+9263412501022f Maxim Levitsky 2011-03-25  61  
+9263412501022f Maxim Levitsky 2011-03-25  62  /* Write a register */
+9263412501022f Maxim Levitsky 2011-03-25  63  static inline void r592_write_reg(struct r592_device *dev,
+9263412501022f Maxim Levitsky 2011-03-25  64  							int address, u32 value)
+9263412501022f Maxim Levitsky 2011-03-25  65  {
+9263412501022f Maxim Levitsky 2011-03-25  66  	dbg_reg("reg #%02d <- 0x%08x", address, value);
+9263412501022f Maxim Levitsky 2011-03-25  67  	writel(value, dev->mmio + address);
+9263412501022f Maxim Levitsky 2011-03-25  68  }
+9263412501022f Maxim Levitsky 2011-03-25  69  
+9263412501022f Maxim Levitsky 2011-03-25  70  /* Reads a big endian DWORD register */
+9263412501022f Maxim Levitsky 2011-03-25  71  static inline u32 r592_read_reg_raw_be(struct r592_device *dev, int address)
+9263412501022f Maxim Levitsky 2011-03-25  72  {
+9263412501022f Maxim Levitsky 2011-03-25  73  	u32 value = __raw_readl(dev->mmio + address);
+9263412501022f Maxim Levitsky 2011-03-25  74  	dbg_reg("reg #%02d == 0x%08x", address, value);
+9263412501022f Maxim Levitsky 2011-03-25  75  	return be32_to_cpu(value);
+9263412501022f Maxim Levitsky 2011-03-25  76  }
+9263412501022f Maxim Levitsky 2011-03-25  77  
+9263412501022f Maxim Levitsky 2011-03-25  78  /* Writes a big endian DWORD register */
+9263412501022f Maxim Levitsky 2011-03-25  79  static inline void r592_write_reg_raw_be(struct r592_device *dev,
+9263412501022f Maxim Levitsky 2011-03-25  80  							int address, u32 value)
+9263412501022f Maxim Levitsky 2011-03-25  81  {
+9263412501022f Maxim Levitsky 2011-03-25  82  	dbg_reg("reg #%02d <- 0x%08x", address, value);
+9263412501022f Maxim Levitsky 2011-03-25 @83  	__raw_writel(cpu_to_be32(value), dev->mmio + address);
+9263412501022f Maxim Levitsky 2011-03-25  84  }
+9263412501022f Maxim Levitsky 2011-03-25  85  
 
-vim +3574 mm/vmalloc.c
+:::::: The code at line 83 was first introduced by commit
+:::::: 9263412501022fecef844907129ee2513b5a89de memstick: add driver for Ricoh R5C592 card reader
 
-  3561	
-  3562	/*
-  3563	 * Atomically zero bytes in the iterator.
-  3564	 *
-  3565	 * Returns the number of zeroed bytes.
-  3566	 */
-  3567	static size_t zero_iter(struct iov_iter *iter, size_t count)
-  3568	{
-  3569		size_t remains = count;
-  3570	
-  3571		while (remains > 0) {
-  3572			size_t num, copied;
-  3573	
-> 3574			num = min(remains, PAGE_SIZE);
-  3575			copied = copy_page_to_iter_nofault(ZERO_PAGE(0), 0, num, iter);
-  3576			remains -= copied;
-  3577	
-  3578			if (copied < num)
-  3579				break;
-  3580		}
-  3581	
-  3582		return count - remains;
-  3583	}
-  3584	
+:::::: TO: Maxim Levitsky <maximlevitsky@gmail.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
