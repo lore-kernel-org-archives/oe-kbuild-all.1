@@ -1,45 +1,44 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBC5171B4;
-	Fri,  9 Jun 2023 16:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC6119E52
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  9 Jun 2023 17:19:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686329919; x=1717865919;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6INKds2DlLwXJTo0xAjqFhrQvssfKdbM/SBY2w+Y9Rw=;
-  b=X6l0FpNlPce8+xi2Nt4JiDOVOhGHHcr4lGKra9O9KAQHRU+Mk7l5oHE4
-   Z3z76dNspB8oUXEoJwo41IEwgKkrwo2FgKXKKmYVRWQeI6iCWV7g7Pu03
-   Iew35d+OqzRj+qpoWi8b/7anvkU31juzZIgD3tsiI2wGnzQ0Vr48wYewP
-   2Aa6tr/9WDXrqiZp9KS5z0N7zbdR8dNDLt79K+wpp38GmTkY7C4qqodz7
-   PvkCD9ht4bojC04CBlllVO95DLkKJpqa6c4mcxtV7vTWYfx5OM9RpkNoE
-   /U9BOIq6yGjCS1az3TFHuIGyg0hdy/eMQQIKHd+1b5oJ4Agdb8YXp6mRW
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="386008327"
+  t=1686331180; x=1717867180;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R+DPNYs3Odx4as87qA6r8oobE/bUElgTceoldri5s7o=;
+  b=JA+xO7hT+yMPx0jCbpkkwbt6XcfsMFab/a8G/03o07/1CoN9m6WSpYnX
+   tWC+i8xpVrCpliblnhinlB5gf59RmZ7zKT7SKsyKKwRv88oOmQIyB/dqn
+   vdXrHVHU4080whxp5eoXjCTEa7WX4Zaj2AquLOyYm7U8BCX/bJsdoBTo7
+   5xHlmXWyLxi3R00NjnNs457YqAu9ii0T8xcQgWee4DTLdbn94VX9VUKeB
+   b3ww2KOMtks97I7dy9kB8scosNIsrX1SyJIakujoHV7E8mTW+OUCXZKQf
+   qTOCerv0BDZKqDT4tZU8+57GdrHGIpBfmU6j+SNIjt02AC6LGSVm69lMT
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="444020532"
 X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="386008327"
+   d="scan'208";a="444020532"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 09:58:38 -0700
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 10:19:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="687803766"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="687815968"
 X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
-   d="scan'208";a="687803766"
+   d="scan'208";a="687815968"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 09 Jun 2023 09:58:37 -0700
+  by orsmga006.jf.intel.com with ESMTP; 09 Jun 2023 10:19:37 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7fRc-0009Ey-11;
-	Fri, 09 Jun 2023 16:58:36 +0000
-Date: Sat, 10 Jun 2023 00:58:23 +0800
+	id 1q7flw-0009FT-2Z;
+	Fri, 09 Jun 2023 17:19:36 +0000
+Date: Sat, 10 Jun 2023 01:19:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: [linux-next:master 3357/8413] drivers/scsi/FlashPoint.c:1712:12:
- warning: stack frame size (1056) exceeds limit (1024) in
- 'FlashPoint_HandleInterrupt'
-Message-ID: <202306100035.VTusNhm4-lkp@intel.com>
+To: Jordy Zomer <jordyzomer@google.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, phil@philpotter.co.uk,
+	Jordy Zomer <jordyzomer@google.com>
+Subject: Re: [PATCH 1/1] cdrom: Fix spectre-v1 gadget
+Message-ID: <202306100143.yzdJpUid-lkp@intel.com>
+References: <20230609131355.71130-2-jordyzomer@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,122 +47,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230609131355.71130-2-jordyzomer@google.com>
 
-Hi Kees,
+Hi Jordy,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   53ab6975c12d1ad86c599a8927e8c698b144d669
-commit: df8fc4e934c12b906d08050d7779f292b9c5c6b5 [3357/8413] kbuild: Enable -fstrict-flex-arrays=3
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230610/202306100035.VTusNhm4-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.4-rc5 next-20230609]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jordy-Zomer/cdrom-Fix-spectre-v1-gadget/20230609-211545
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230609131355.71130-2-jordyzomer%40google.com
+patch subject: [PATCH 1/1] cdrom: Fix spectre-v1 gadget
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230610/202306100143.yzdJpUid-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=df8fc4e934c12b906d08050d7779f292b9c5c6b5
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout df8fc4e934c12b906d08050d7779f292b9c5c6b5
+        git checkout linus/master
+        b4 shazam https://lore.kernel.org/r/20230609131355.71130-2-jordyzomer@google.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306100035.VTusNhm4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306100143.yzdJpUid-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/scsi/BusLogic.c:51:
->> drivers/scsi/FlashPoint.c:1712:12: warning: stack frame size (1056) exceeds limit (1024) in 'FlashPoint_HandleInterrupt' [-Wframe-larger-than]
-    1712 | static int FlashPoint_HandleInterrupt(void *pcard)
-         |            ^
-   1 warning generated.
+   drivers/cdrom/cdrom.c: In function 'cdrom_ioctl_media_changed':
+>> drivers/cdrom/cdrom.c:2333:15: error: implicit declaration of function 'array_index_mask_nospec' [-Werror=implicit-function-declaration]
+    2333 |         arg = array_index_mask_nospec(arg, cdi->capacity);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/FlashPoint_HandleInterrupt +1712 drivers/scsi/FlashPoint.c
+vim +/array_index_mask_nospec +2333 drivers/cdrom/cdrom.c
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1702  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1703  /*---------------------------------------------------------------------
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1704   *
-d8b6b8bd8a99ee Alexey Dobriyan 2006-03-08  1705   * Function: FlashPoint_HandleInterrupt
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1706   *
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1707   * Description: This is our entry point when an interrupt is generated
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1708   *              by the card and the upper level driver passes it on to
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1709   *              us.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1710   *
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1711   *---------------------------------------------------------------------*/
-391e2f25601e34 Khalid Aziz     2013-05-16 @1712  static int FlashPoint_HandleInterrupt(void *pcard)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1713  {
-69eb2ea4779336 Alexey Dobriyan 2006-03-08  1714  	struct sccb *currSCCB;
-554b117e8fab4f Colin Ian King  2022-07-30  1715  	unsigned char thisCard, result, bm_status;
-c823feeb33161c Alexey Dobriyan 2006-03-08  1716  	unsigned short hp_int;
-db038cf86fc63d Alexey Dobriyan 2006-03-08  1717  	unsigned char i, target;
-391e2f25601e34 Khalid Aziz     2013-05-16  1718  	struct sccb_card *pCurrCard = pcard;
-391e2f25601e34 Khalid Aziz     2013-05-16  1719  	u32 ioport;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1720  
-391e2f25601e34 Khalid Aziz     2013-05-16  1721  	thisCard = pCurrCard->cardIndex;
-391e2f25601e34 Khalid Aziz     2013-05-16  1722  	ioport = pCurrCard->ioPort;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1723  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1724  	MDISABLE_INT(ioport);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1725  
-554b117e8fab4f Colin Ian King  2022-07-30  1726  	if (RD_HARPOON(ioport + hp_int_status) & EXT_STATUS_ON)
-391e2f25601e34 Khalid Aziz     2013-05-16  1727  		bm_status = RD_HARPOON(ioport + hp_ext_status) &
-391e2f25601e34 Khalid Aziz     2013-05-16  1728  					(unsigned char)BAD_EXT_STATUS;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1729  	else
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1730  		bm_status = 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1731  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1732  	WR_HARPOON(ioport + hp_int_mask, (INT_CMD_COMPL | SCSI_INTERRUPT));
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1733  
-391e2f25601e34 Khalid Aziz     2013-05-16  1734  	while ((hp_int = RDW_HARPOON((ioport + hp_intstat)) &
-391e2f25601e34 Khalid Aziz     2013-05-16  1735  				FPT_default_intena) | bm_status) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1736  
-391e2f25601e34 Khalid Aziz     2013-05-16  1737  		currSCCB = pCurrCard->currentSCCB;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1738  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1739  		if (hp_int & (FIFO | TIMEOUT | RESET | SCAM_SEL) || bm_status) {
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1740  			result =
-391e2f25601e34 Khalid Aziz     2013-05-16  1741  			    FPT_SccbMgr_bad_isr(ioport, thisCard, pCurrCard,
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1742  						hp_int);
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1743  			WRW_HARPOON((ioport + hp_intstat),
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1744  				    (FIFO | TIMEOUT | RESET | SCAM_SEL));
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1745  			bm_status = 0;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1746  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1747  			if (result) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1748  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1749  				MENABLE_INT(ioport);
-5c1b85e209af41 Alexey Dobriyan 2006-03-08  1750  				return result;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1751  			}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1752  		}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1753  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1754  		else if (hp_int & ICMD_COMP) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1755  
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1756  			if (!(hp_int & BUS_FREE)) {
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1757  				/* Wait for the BusFree before starting a new command.  We
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1758  				   must also check for being reselected since the BusFree
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1759  				   may not show up if another device reselects us in 1.5us or
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1760  				   less.  SRR Wednesday, 3/8/1995.
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1761  				 */
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1762  				while (!
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1763  				       (RDW_HARPOON((ioport + hp_intstat)) &
-5c04a7b8981f28 Alexey Dobriyan 2006-03-08  1764  					(BUS_FREE | RSEL))) ;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1765  			}
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1766  
-391e2f25601e34 Khalid Aziz     2013-05-16  1767  			if (pCurrCard->globalFlags & F_HOST_XFER_ACT)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1768  
-47b5d69c4aa753 James Bottomley 2005-04-24  1769  				FPT_phaseChkFifo(ioport, thisCard);
-^1da177e4c3f41 Linus Torvalds  2005-04-16  1770  
-
-:::::: The code at line 1712 was first introduced by commit
-:::::: 391e2f25601e34a7d7e5dc155e487bc58dffd8c6 [SCSI] BusLogic: Port driver to 64-bit.
-
-:::::: TO: Khalid Aziz <khalid.aziz@oracle.com>
-:::::: CC: James Bottomley <JBottomley@Parallels.com>
+  2314	
+  2315	static int cdrom_ioctl_media_changed(struct cdrom_device_info *cdi,
+  2316			unsigned long arg)
+  2317	{
+  2318		struct cdrom_changer_info *info;
+  2319		int ret;
+  2320	
+  2321		cd_dbg(CD_DO_IOCTL, "entering CDROM_MEDIA_CHANGED\n");
+  2322	
+  2323		if (!CDROM_CAN(CDC_MEDIA_CHANGED))
+  2324			return -ENOSYS;
+  2325	
+  2326		/* cannot select disc or select current disc */
+  2327		if (!CDROM_CAN(CDC_SELECT_DISC) || arg == CDSL_CURRENT)
+  2328			return media_changed(cdi, 1);
+  2329	
+  2330		if (arg >= cdi->capacity)
+  2331			return -EINVAL;
+  2332	
+> 2333		arg = array_index_mask_nospec(arg, cdi->capacity);
+  2334	
+  2335		info = kmalloc(sizeof(*info), GFP_KERNEL);
+  2336		if (!info)
+  2337			return -ENOMEM;
+  2338	
+  2339		ret = cdrom_read_mech_status(cdi, info);
+  2340		if (!ret)
+  2341			ret = info->slots[arg].change;
+  2342		kfree(info);
+  2343		return ret;
+  2344	}
+  2345	
 
 -- 
 0-DAY CI Kernel Test Service
