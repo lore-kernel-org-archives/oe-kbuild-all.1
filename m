@@ -1,38 +1,43 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF9BC134;
-	Sat, 10 Jun 2023 11:25:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=IcKUTt0Jz4Ee5PzOnQqhV+geQ1WvqJXgqT7HxiBDQZg=; b=OK6nenn2+8pIjFhjRXQF88OMzW
-	LRIqDGi8kDw0p7YZxv42MFaeDB0U8P6Wgh24UpCyUuRW0sUcynzjg6KCpD3+FuAz3Xb57AW8nMoSU
-	bocjtczyJJD2qCSGOJqx5b703uHhclCbiydC019RAnExcYrr9oQdXwOju/na55ox+7rXnGONNizVF
-	hL6g5aI2iC0EN/PGbpdyV4HUcxsw5fhTiuK2jkslvl5eHAd8je3E1E9CU7i+oSflboJEwsKqsqWTa
-	Oswn41K6iwhXumXPBQpmCaUYBzn/V3TuxmOsap+bBQQ5lp2hznw46eWOfKIw4heSyfWVS8oDPBLl0
-	+UDiXUJw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1q7wiu-007w9T-2p;
-	Sat, 10 Jun 2023 11:25:37 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 15BB93001AE;
-	Sat, 10 Jun 2023 13:25:36 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id EA597240FDF94; Sat, 10 Jun 2023 13:25:35 +0200 (CEST)
-Date: Sat, 10 Jun 2023 13:25:35 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [peterz-queue:core/guards 51/58] kernel/events/core.c:12288
- __do_sys_perf_event_open() warn: 'task' is an error pointer or valid
-Message-ID: <20230610112535.GC4253@hirez.programming.kicks-ass.net>
-References: <7e99e673-715a-4949-acdb-607ea28a2175@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02B53236
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 11:45:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686397536; x=1717933536;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=apyVGZglbhvHSI5NBgNcgQZasgi8FVe+iEk2aeRA8zM=;
+  b=awL24effRNoL41N3P6pq2A1WQrfvayAjBENyJ7WVBLXOYTb+TZKa6hX5
+   I31NaSilozz08oW/Bt04jvymxsClIfvQ+O6tbMUXky4fSNqZwrT92n+oC
+   U0Hg6ZqoEeJQyEhmLJrV1B42yoGay5CSyFxHVcZyeBoTMylCESXvgC5/I
+   FasdnqriLg/Z5+wxHFW9spUEAPKwmAKPRWmH2YJfDQAzsSaKg2rWkt2qt
+   cfr8Fphis4xIO+q+d8efV3Hfi2ClqQibC7Z6Pvx0xXecI4YIFUlb41gGb
+   HMDa5k4YihsOBzb4E1NPj4xGMztsTRJJJaUFNM9/R3MMbTkH0Z8oCYO55
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="338117208"
+X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
+   d="scan'208";a="338117208"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 04:45:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="800492369"
+X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
+   d="scan'208";a="800492369"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 10 Jun 2023 04:45:33 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q7x2D-000A3k-0P;
+	Sat, 10 Jun 2023 11:45:33 +0000
+Date: Sat, 10 Jun 2023 19:44:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Li Zhengyu <lizhengyu3@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>
+Subject: arch/riscv/kernel/elf_kexec.c:185:23: warning: variable
+ 'kernel_start' set but not used
+Message-ID: <202306101945.6IFhByu9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -41,34 +46,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7e99e673-715a-4949-acdb-607ea28a2175@kadam.mountain>
 
-On Sat, Jun 10, 2023 at 11:34:41AM +0300, Dan Carpenter wrote:
+Hi Li,
 
-> e5d1367f17ba6a kernel/perf_event.c   Stephane Eranian        2011-02-14  12286  	if (pid != -1 && !(flags & PERF_FLAG_PID_CGROUP)) {
-> c6be5a5cb62592 kernel/perf_event.c   Peter Zijlstra          2010-10-14  12287  		task = find_lively_task_by_vpid(pid);
-> d5731952629b97 kernel/events/core.c  Peter Zijlstra          2023-06-09 @12288  		if (!task)
-> d5731952629b97 kernel/events/core.c  Peter Zijlstra          2023-06-09  12289  			return -ESRCH;
-> 
-> This should be:
-> 
-> 	 if (IS_ERR(task))
-> 		return PTR_ERR(task);
+FYI, the error/warning still remains.
 
-Looks like this is the only actual callsite of that function, so lets
-fix it like so:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   64569520920a3ca5d456ddd9f4f95fc6ea9b8b45
+commit: 838b3e28488f702e2b5477b393f009b2639d2b1a RISC-V: Load purgatory in kexec_file
+date:   1 year, 1 month ago
+config: riscv-randconfig-r026-20230610 (https://download.01.org/0day-ci/archive/20230610/202306101945.6IFhByu9-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=838b3e28488f702e2b5477b393f009b2639d2b1a
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 838b3e28488f702e2b5477b393f009b2639d2b1a
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
 
-diff --git a/kernel/events/core.c b/kernel/events/core.c
-index cb506acfa088..11defaa1add7 100644
---- a/kernel/events/core.c
-+++ b/kernel/events/core.c
-@@ -4668,9 +4668,6 @@ find_lively_task_by_vpid(pid_t vpid)
- 		get_task_struct(task);
- 	rcu_read_unlock();
- 
--	if (!task)
--		return ERR_PTR(-ESRCH);
--
- 	return task;
- }
- 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306101945.6IFhByu9-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   arch/riscv/kernel/elf_kexec.c: In function 'elf_kexec_load':
+>> arch/riscv/kernel/elf_kexec.c:185:23: warning: variable 'kernel_start' set but not used [-Wunused-but-set-variable]
+     185 |         unsigned long kernel_start;
+         |                       ^~~~~~~~~~~~
+   arch/riscv/kernel/elf_kexec.c: In function 'arch_kexec_apply_relocations_add':
+   arch/riscv/kernel/elf_kexec.c:352:9: error: unknown type name 'Elf_Rela'; did you mean 'Elf64_Rela'?
+     352 |         Elf_Rela *relas;
+         |         ^~~~~~~~
+         |         Elf64_Rela
+   In file included from include/linux/elf.h:7,
+                    from arch/riscv/kernel/elf_kexec.c:15:
+   arch/riscv/kernel/elf_kexec.c:370:44: error: request for member 'r_info' in something not a structure or union
+     370 |                 sym += ELF64_R_SYM(relas[i].r_info);
+         |                                            ^
+   include/uapi/linux/elf.h:163:43: note: in definition of macro 'ELF64_R_SYM'
+     163 | #define ELF64_R_SYM(i)                  ((i) >> 32)
+         |                                           ^
+   arch/riscv/kernel/elf_kexec.c:379:32: error: request for member 'r_offset' in something not a structure or union
+     379 |                 loc += relas[i].r_offset;
+         |                                ^
+   arch/riscv/kernel/elf_kexec.c:392:32: error: request for member 'r_addend' in something not a structure or union
+     392 |                 val += relas[i].r_addend;
+         |                                ^
+   arch/riscv/kernel/elf_kexec.c:394:51: error: request for member 'r_offset' in something not a structure or union
+     394 |                 addr = section->sh_addr + relas[i].r_offset;
+         |                                                   ^
+   arch/riscv/kernel/elf_kexec.c:396:47: error: request for member 'r_info' in something not a structure or union
+     396 |                 r_type = ELF64_R_TYPE(relas[i].r_info);
+         |                                               ^
+   include/uapi/linux/elf.h:164:43: note: in definition of macro 'ELF64_R_TYPE'
+     164 | #define ELF64_R_TYPE(i)                 ((i) & 0xffffffff)
+         |                                           ^
+
+
+vim +/kernel_start +185 arch/riscv/kernel/elf_kexec.c
+
+   174	
+   175	static void *elf_kexec_load(struct kimage *image, char *kernel_buf,
+   176				    unsigned long kernel_len, char *initrd,
+   177				    unsigned long initrd_len, char *cmdline,
+   178				    unsigned long cmdline_len)
+   179	{
+   180		int ret;
+   181		unsigned long old_kernel_pbase = ULONG_MAX;
+   182		unsigned long new_kernel_pbase = 0UL;
+   183		unsigned long initrd_pbase = 0UL;
+   184		unsigned long headers_sz;
+ > 185		unsigned long kernel_start;
+   186		void *fdt, *headers;
+   187		struct elfhdr ehdr;
+   188		struct kexec_buf kbuf;
+   189		struct kexec_elf_info elf_info;
+   190		char *modified_cmdline = NULL;
+   191	
+   192		ret = kexec_build_elf_info(kernel_buf, kernel_len, &ehdr, &elf_info);
+   193		if (ret)
+   194			return ERR_PTR(ret);
+   195	
+   196		ret = elf_find_pbase(image, kernel_len, &ehdr, &elf_info,
+   197				     &old_kernel_pbase, &new_kernel_pbase);
+   198		if (ret)
+   199			goto out;
+   200		kernel_start = image->start;
+   201		pr_notice("The entry point of kernel at 0x%lx\n", image->start);
+   202	
+   203		/* Add the kernel binary to the image */
+   204		ret = riscv_kexec_elf_load(image, &ehdr, &elf_info,
+   205					   old_kernel_pbase, new_kernel_pbase);
+   206		if (ret)
+   207			goto out;
+   208	
+   209		kbuf.image = image;
+   210		kbuf.buf_min = new_kernel_pbase + kernel_len;
+   211		kbuf.buf_max = ULONG_MAX;
+   212	
+   213		/* Add elfcorehdr */
+   214		if (image->type == KEXEC_TYPE_CRASH) {
+   215			ret = prepare_elf_headers(&headers, &headers_sz);
+   216			if (ret) {
+   217				pr_err("Preparing elf core header failed\n");
+   218				goto out;
+   219			}
+   220	
+   221			kbuf.buffer = headers;
+   222			kbuf.bufsz = headers_sz;
+   223			kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
+   224			kbuf.memsz = headers_sz;
+   225			kbuf.buf_align = ELF_CORE_HEADER_ALIGN;
+   226			kbuf.top_down = true;
+   227	
+   228			ret = kexec_add_buffer(&kbuf);
+   229			if (ret) {
+   230				vfree(headers);
+   231				goto out;
+   232			}
+   233			image->elf_headers = headers;
+   234			image->elf_load_addr = kbuf.mem;
+   235			image->elf_headers_sz = headers_sz;
+   236	
+   237			pr_debug("Loaded elf core header at 0x%lx bufsz=0x%lx memsz=0x%lx\n",
+   238				 image->elf_load_addr, kbuf.bufsz, kbuf.memsz);
+   239	
+   240			/* Setup cmdline for kdump kernel case */
+   241			modified_cmdline = setup_kdump_cmdline(image, cmdline,
+   242							       cmdline_len);
+   243			if (!modified_cmdline) {
+   244				pr_err("Setting up cmdline for kdump kernel failed\n");
+   245				ret = -EINVAL;
+   246				goto out;
+   247			}
+   248			cmdline = modified_cmdline;
+   249		}
+   250	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
