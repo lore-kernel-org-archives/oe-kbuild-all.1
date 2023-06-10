@@ -1,47 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25ADF15A1;
-	Sat, 10 Jun 2023 02:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0781847
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 03:02:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686362405; x=1717898405;
+  t=1686366128; x=1717902128;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fWaQXUlpmMj44/Y6TdjzPczuAqj0157/goeGEhtFoYs=;
-  b=mNs3lwjBCW2SHpWdWALIsw0CcGZSx0qxr9d5ojkRfLv96fsUy2rTb/4t
-   YdGBvNr4cOonc3ndLYVKpWm8ueP+guBfWJfmFboTldYVMvEtEQhwkd8tf
-   A5sjgWW3K4/u8/cO9+O8bIEGo/ptzJFYrauYWsL0k2/DpTSChLENRdavy
-   GF9peYEhDYOZfZwWz0Bk3aAm4l0RBJvH5uuEBM6qnGAAyYy7wuaCGt5RI
-   lwJzM1ewc48yr3cLQlObpnBnUs+wr1leXu6pVQNwwIxwHQOeoXCadLkh0
-   wi5j/eSZdX8CSkfVsW7NPCH4Wvm8xEblUbFsgKzL6tJ14WDEvPmrrBEc0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="338081498"
+  bh=fb8HjsZi2ydjIFJ+KPON+0lLyXcrCYU8mTBcOkBMzeM=;
+  b=YyfLpFRQDfAn18GtSW+uGc4Z5SlE0zsy8IVNtVM52oRybnKbBpk6cTz+
+   YGKd/jQF0aUBD3RWAGKDN1LdKniUflTuC4lRFb000wGywY+pAZ10oWnyw
+   1UprNdC/S9t+EULYuGiLlhXaBGA+MxEWSbISj5mAObzP5tX2sfHoy/A9p
+   N34FxBqAv12i2jsGC1XuPzyaMtZG/heLp+7hkEBpr3Y77H8mCWVakBEEk
+   6i71XlSSVewaGsC5pOijKREUsIOf/NDY1DSlVI2kcVmXns7n+Z2IF+Upi
+   97ypZq0X51C3l81ryQzOQrADH2g9q9EB8CXWwaClOH7Bq+HpxW/1Lky8x
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="347370851"
 X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; 
-   d="scan'208";a="338081498"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 19:00:04 -0700
+   d="scan'208";a="347370851"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 20:02:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="823260529"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="1040678397"
 X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; 
-   d="scan'208";a="823260529"
+   d="scan'208";a="1040678397"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 09 Jun 2023 19:00:02 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 09 Jun 2023 20:02:06 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7ntZ-0009au-1O;
-	Sat, 10 Jun 2023 02:00:01 +0000
-Date: Sat, 10 Jun 2023 09:59:27 +0800
+	id 1q7ord-0009dM-1I;
+	Sat, 10 Jun 2023 03:02:05 +0000
+Date: Sat, 10 Jun 2023 11:01:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Marco Elver <elver@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [stable:linux-5.15.y 36/9999]
- drivers/media/dvb-frontends/mb86a16.c:1600:26: warning: stack frame size
- (1168) exceeds limit (1024) in 'mb86a16_search'
-Message-ID: <202306100926.Svnvd4mx-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 1416/23309]
+ include/trace/trace_events.h:27:23: warning: 'str__mpam__trace_system_name'
+ defined but not used
+Message-ID: <202306101005.ctyXoTj2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,69 +47,149 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Kees,
+Hi C-J.Chen,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
-head:   7349e40704a0209a2af8b37fa876322209de9684
-commit: 33db9912ff7c491f839c89a08e98f755aa09598f [36/9999] ubsan: remove CONFIG_UBSAN_OBJECT_SIZE
-config: riscv-randconfig-r012-20230608 (https://download.01.org/0day-ci/archive/20230610/202306100926.Svnvd4mx-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   c1d11308117b35f068fbfdb4b8df8b0532f2d7f4
+commit: 1aa1f6a7cf67c9cea1a609581eb9c2602fd96576 [1416/23309] ANDROID: mpam: add vendor hook to record MPAM
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230610/202306101005.ctyXoTj2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=33db9912ff7c491f839c89a08e98f755aa09598f
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.15.y
-        git checkout 33db9912ff7c491f839c89a08e98f755aa09598f
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-5.15
+        git checkout 1aa1f6a7cf67c9cea1a609581eb9c2602fd96576
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/media/dvb-frontends/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/ drivers/md/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306100926.Svnvd4mx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306101005.ctyXoTj2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/dvb-frontends/mb86a16.c:1600:26: warning: stack frame size (1168) exceeds limit (1024) in 'mb86a16_search' [-Wframe-larger-than]
-   static enum dvbfe_search mb86a16_search(struct dvb_frontend *fe)
-                            ^
-   1 warning generated.
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/mpam.h:24,
+                    from drivers/android/vendor_hooks.c:19:
+>> include/trace/trace_events.h:27:23: warning: 'str__mpam__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/topology.h:27,
+                    from drivers/android/vendor_hooks.c:18:
+   include/trace/trace_events.h:27:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cpuidle.h:23,
+                    from drivers/android/vendor_hooks.c:17:
+   include/trace/trace_events.h:27:23: warning: 'str__cpuidle__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/dtask.h:53,
+                    from drivers/android/vendor_hooks.c:16:
+   include/trace/trace_events.h:27:23: warning: 'str__dtask__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/futex.h:26,
+                    from drivers/android/vendor_hooks.c:15:
+   include/trace/trace_events.h:27:23: warning: 'str__futex__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/rwsem.h:38,
+                    from drivers/android/vendor_hooks.c:14:
+   include/trace/trace_events.h:27:23: warning: 'str__rwsem__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
 
-vim +/mb86a16_search +1600 drivers/media/dvb-frontends/mb86a16.c
+vim +/str__mpam__trace_system_name +27 include/trace/trace_events.h
 
-41e840b13e111b drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-02  1599  
-41da5320df6dec drivers/media/dvb/frontends/mb86a16.c Mauro Carvalho Chehab 2011-12-26 @1600  static enum dvbfe_search mb86a16_search(struct dvb_frontend *fe)
-41e840b13e111b drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-02  1601  {
-41da5320df6dec drivers/media/dvb/frontends/mb86a16.c Mauro Carvalho Chehab 2011-12-26  1602  	struct dtv_frontend_properties *p = &fe->dtv_property_cache;
-41e840b13e111b drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-02  1603  	struct mb86a16_state *state = fe->demodulator_priv;
-41e840b13e111b drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-02  1604  
-41e840b13e111b drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-02  1605  	state->frequency = p->frequency / 1000;
-41da5320df6dec drivers/media/dvb/frontends/mb86a16.c Mauro Carvalho Chehab 2011-12-26  1606  	state->srate = p->symbol_rate / 1000;
-41e840b13e111b drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-02  1607  
-5dd83a35bea908 drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-15  1608  	if (!mb86a16_set_fe(state)) {
-25985edcedea63 drivers/media/dvb/frontends/mb86a16.c Lucas De Marchi       2011-03-30  1609  		dprintk(verbose, MB86A16_ERROR, 1, "Successfully acquired LOCK");
-5dd83a35bea908 drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-15  1610  		return DVBFE_ALGO_SEARCH_SUCCESS;
-5dd83a35bea908 drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-15  1611  	}
-41e840b13e111b drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-02  1612  
-5dd83a35bea908 drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-15  1613  	dprintk(verbose, MB86A16_ERROR, 1, "Lock acquisition failed!");
-5dd83a35bea908 drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-15  1614  	return DVBFE_ALGO_SEARCH_FAILED;
-41e840b13e111b drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-02  1615  }
-41e840b13e111b drivers/media/dvb/frontends/mb86a16.c Manu Abraham          2009-12-02  1616  
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
 
-:::::: The code at line 1600 was first introduced by commit
-:::::: 41da5320df6decec7efce0d936ccadfa9deb49d1 [media] dvb: don't pass a DVBv3 parameter for search() fops
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
 
-:::::: TO: Mauro Carvalho Chehab <mchehab@redhat.com>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
