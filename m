@@ -1,43 +1,45 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742801878;
-	Sat, 10 Jun 2023 03:57:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E0F408F8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 04:39:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686369434; x=1717905434;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2oeOC2Xsc2uJbBkIETMCjhpnpofAbFchTB2AYjgmy4k=;
-  b=Ugtr2v+7JXewAQynz7Yv1Xo6D1UMyZ7FxX0kI8xnDtTTQKWmLTsMDyDv
-   c8OgPkj/AgUE5OZZ8DPIZ/FPiiIFJvjbX8e4zpShqVC1oIOUeufXj0MyK
-   V3VXfzzI/g6McoJUiIk1InHkH+YFs794/Y6XLIOoBhQlql0xc/eqoZrzz
-   bvF+lAOqS0B3CvTYwcz8GTnxEIfD1eXafW3K7x0omAXKDSVhxwFVABiZO
-   1nKhMMBQncQ0LaTaEXE+H+8V+sRnVIaMFezCYdtHFAN7vFCPfqpQ8XYkj
-   bOQ+U9Obsnk7ArZ/WajuthAhQeI2uItjwQhPzv3SwfvOjn1+1QGM1wiu6
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="423606782"
+  t=1686371956; x=1717907956;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4xz4XkPwI0i5FFgpnID3pgqRuERUILkXUqai/JNiGdk=;
+  b=D12WGt67otgqMi/97z6sOb3ef/+4pDeXN0keo8Ba4MCAEwgsZzgBztbP
+   /A80/BpHfxfiKABCScoZKR2VAUo9sJ7R6t3/h3iGtFEfM3zM9OFzmIIzt
+   vjfJrKL28+fGdQMiAadcubjoBE82Y2fbuqXEXIBPjKbroLHvCYBsqF1Q7
+   9NsqrOQkxCDTHnmgnd8pENngOFZYoNwJ3MQpsiu0zT7Hky8enz2Cb7zEz
+   p95gAOFeQ0m78dT8T19hUjLOObSKB9jU8ZnElo9EvyyOjotma7Q1kKsiN
+   L7PMDT3WaGPkmEi/kVKegzM1IsQirLZApx4v9n2Yi9+wvhRhMIHWcDx4V
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="338091982"
 X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; 
-   d="scan'208";a="423606782"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 20:57:11 -0700
+   d="scan'208";a="338091982"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 21:39:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="743697568"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="823288974"
 X-IronPort-AV: E=Sophos;i="6.00,231,1681196400"; 
-   d="scan'208";a="743697568"
+   d="scan'208";a="823288974"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 09 Jun 2023 20:57:10 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 09 Jun 2023 21:39:14 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7piv-0009gF-04;
-	Sat, 10 Jun 2023 03:57:09 +0000
-Date: Sat, 10 Jun 2023 11:57:06 +0800
+	id 1q7qNd-0009iy-2D;
+	Sat, 10 Jun 2023 04:39:13 +0000
+Date: Sat, 10 Jun 2023 12:38:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rae Moar <rmoar@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC v1 3/6] kunit: Add ability to filter attributes
-Message-ID: <202306101114.XVXocTvA-lkp@intel.com>
-References: <20230610005149.1145665-4-rmoar@google.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Stephen Boyd <sboyd@kernel.org>
+Subject: [clk:clk-determine-rate 66/68]
+ sound/soc/codecs/tlv320aic32x4-clk.c:219 clk_aic32x4_pll_determine_rate()
+ warn: unsigned 'rate' is never less than zero.
+Message-ID: <202306101217.08CRVGcK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,95 +48,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230610005149.1145665-4-rmoar@google.com>
 
-Hi Rae,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on fefdb43943c1a0d87e1b43ae4d03e5f9a1d058f4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rae-Moar/kunit-Add-test-attributes-API-structure/20230610-085313
-base:   fefdb43943c1a0d87e1b43ae4d03e5f9a1d058f4
-patch link:    https://lore.kernel.org/r/20230610005149.1145665-4-rmoar%40google.com
-patch subject: [RFC v1 3/6] kunit: Add ability to filter attributes
-config: hexagon-randconfig-r003-20230608 (https://download.01.org/0day-ci/archive/20230610/202306101114.XVXocTvA-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git checkout fefdb43943c1a0d87e1b43ae4d03e5f9a1d058f4
-        b4 shazam https://lore.kernel.org/r/20230610005149.1145665-4-rmoar@google.com
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash lib/kunit/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-determine-rate
+head:   326cc42f9fdc3030676e949d5cea3ccc923fd1de
+commit: 25d43ec352eaefbfaee0912d02b6f10ea606931f [66/68] ASoC: tlv320aic32x4: pll: Switch to determine_rate
+config: x86_64-randconfig-m001-20230608 (https://download.01.org/0day-ci/archive/20230610/202306101217.08CRVGcK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306101114.XVXocTvA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306101217.08CRVGcK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+sound/soc/codecs/tlv320aic32x4-clk.c:219 clk_aic32x4_pll_determine_rate() warn: unsigned 'rate' is never less than zero.
 
->> lib/kunit/attributes.c:80:14: warning: variable 'input_val' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
-      80 |         for (i = 0; input[i]; i++) {
-         |                     ^~~~~~~~
-   lib/kunit/attributes.c:87:7: note: uninitialized use occurs here
-      87 |         if (!input_val) {
-         |              ^~~~~~~~~
-   lib/kunit/attributes.c:80:14: note: remove the condition if it is always true
-      80 |         for (i = 0; input[i]; i++) {
-         |                     ^~~~~~~~
-   lib/kunit/attributes.c:78:23: note: initialize the variable 'input_val' to silence this warning
-      78 |         const char *input_val;
-         |                              ^
-         |                               = NULL
-   lib/kunit/attributes.c:137:48: error: initializer element is not a compile-time constant
-     137 | static struct kunit_attr kunit_attr_list[1] = {speed_attr};
-         |                                                ^~~~~~~~~~
-   1 warning and 1 error generated.
+vim +/rate +219 sound/soc/codecs/tlv320aic32x4-clk.c
 
-
-vim +80 lib/kunit/attributes.c
-
-    72	
-    73	static int attr_enum_filter(void *attr, const char *input, int *err,
-    74			const char * const str_list[], int max)
-    75	{
-    76		int i, j, input_int;
-    77		long test_val = (long)attr;
-    78		const char *input_val;
-    79	
-  > 80		for (i = 0; input[i]; i++) {
-    81			if (!strchr("<!=>", input[i])) {
-    82				input_val = input + i;
-    83				break;
-    84			}
-    85		}
-    86	
-    87		if (!input_val) {
-    88			*err = -EINVAL;
-    89			pr_err("kunit executor: filter operation not found: %s\n", input);
-    90			return false;
-    91		}
-    92	
-    93		for (j = 0; j <= max; j++) {
-    94			if (!strcmp(input_val, str_list[j]))
-    95				input_int = j;
-    96		}
-    97	
-    98		if (!input_int) {
-    99			*err = -EINVAL;
-   100			pr_err("kunit executor: invalid filter input: %s\n", input);
-   101			return false;
-   102		}
-   103	
-   104		return int_filter(test_val, input, input_int, err);
-   105	}
-   106	
+   206	
+   207	static int clk_aic32x4_pll_determine_rate(struct clk_hw *hw,
+   208						  struct clk_rate_request *req)
+   209	{
+   210		struct clk_aic32x4_pll_muldiv settings;
+   211		unsigned long rate;
+   212		int ret;
+   213	
+   214		ret = clk_aic32x4_pll_calc_muldiv(&settings, req->rate, req->best_parent_rate);
+   215		if (ret < 0)
+   216			return -EINVAL;
+   217	
+   218		rate = clk_aic32x4_pll_calc_rate(&settings, req->best_parent_rate);
+ > 219		if (rate < 0)
+   220			return rate;
+   221	
+   222		req->rate = rate;
+   223		return 0;
+   224	}
+   225	
 
 -- 
 0-DAY CI Kernel Test Service
