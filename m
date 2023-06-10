@@ -1,43 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738A61FD5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 08:55:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F80B8464
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 10:08:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686387328; x=1717923328;
+  t=1686391711; x=1717927711;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F+q3IUvnVatEapAkaMjEq6k1zlpGCGceqA/f8HCpi9s=;
-  b=J1v4cjAX8ymCxc+E+P/zqpxVt20pFjx3Q/+LCsElA1CM8vkXUn7nAUWt
-   hpHC+AT7Re/SF9E5b3Iqd3MfMKNKfqizevZ9hkhyELJq0e7Gc1rwdNqgd
-   qtOPfDv/f/P8TMNFLSNL/TetgMGQNmp1gc7IsBmdLVDp4cGqFTzWx9yAK
-   2A6yo2diQdTKGNYfxGsFll/ypNATJ/copIFoHfLB6Y0AUAZcqipddcmxY
-   VeaQLF/jFpF1pdIdrxCMblF39cjkUXHszzKUfroLMYhp3NqSbmwPLclta
-   b74ch8v10nknmSk8PS70Qg6mnQwVI15g9rejW89jf3vTgeINID+/fAAIM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="360227832"
+  bh=1+1X0pMqHCkH0/kCqA5rDwYyeGaCl6xUofy1///FVbw=;
+  b=iaYuKdQIQis2RCa5Z/ARU7MJSvooDCr4NGsI+jPQ1XbaAb5JLiwAoxDI
+   rVX7jB5KeHjhCqzDCJjWr2EEQLA9Idlk0fvIF3T8BK3Lm22hBm9r8+2Wr
+   UiC5fpFOz0KXHUvUz4oWs5SfuMoVw3L5LewwjYUWKqGicYKRZCclNcH2i
+   37rMJ6SPVUcC4LHgT15w/wUOw20X6cfWMufu9t/pn5UD7RthtK1YZaMUd
+   ISvDYy34/UlIWlGNsN1dMV+sE/7roFnVrPnVu0LXpBkWY7iMUDPeByGHv
+   p6cgELT9bhAKjvh8vjL2F+4jds2PUzoTGHEzjIARHdtuEEHnk6Yckq8AT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="347395282"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="360227832"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 01:55:27 -0700
+   d="scan'208";a="347395282"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 03:08:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="1040728206"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="957423221"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="1040728206"
+   d="scan'208";a="957423221"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 10 Jun 2023 01:55:26 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 10 Jun 2023 03:08:29 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7uNZ-0009vo-2V;
-	Sat, 10 Jun 2023 08:55:25 +0000
-Date: Sat, 10 Jun 2023 16:54:58 +0800
+	id 1q7vWG-0009zi-2I;
+	Sat, 10 Jun 2023 10:08:28 +0000
+Date: Sat, 10 Jun 2023 18:08:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 1549/23309]
- include/trace/trace_events.h:27:23: warning:
- 'str__wqlockup__trace_system_name' defined but not used
-Message-ID: <202306101638.rwzWkGlj-lkp@intel.com>
+Subject: [yiliu1765-iommufd:wip/iommufd_nesting-05112023-yi-no-bitmap 30/51]
+ drivers/iommu/iommufd/hw_pagetable.o: warning: objtool: iommufd_hwpt_alloc()
+ falls through to next function kzalloc()
+Message-ID: <202306101827.GQMzFsQI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,149 +47,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Sangmoon,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   c1d11308117b35f068fbfdb4b8df8b0532f2d7f4
-commit: 34f087452f27d1f07a6f8a214fdeb83846e9e670 [1549/23309] ANDROID: workqueue: add vendor hook for wq lockup information
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230610/202306101638.rwzWkGlj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-05112023-yi-no-bitmap
+head:   9d42da14a06f33e64fc593b2287ad9a9a4d12880
+commit: 0330eb928dba98c4fb3043c7c965cc6a3db7e133 [30/51] iommu/vt-d: Add nested domain allocation
+config: x86_64-randconfig-a006-20230609 (https://download.01.org/0day-ci/archive/20230610/202306101827.GQMzFsQI-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android14-5.15
-        git checkout 34f087452f27d1f07a6f8a214fdeb83846e9e670
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/yiliu1765/iommufd/commit/0330eb928dba98c4fb3043c7c965cc6a3db7e133
+        git remote add yiliu1765-iommufd https://github.com/yiliu1765/iommufd.git
+        git fetch --no-tags yiliu1765-iommufd wip/iommufd_nesting-05112023-yi-no-bitmap
+        git checkout 0330eb928dba98c4fb3043c7c965cc6a3db7e133
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/ drivers/md/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/iommu/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306101638.rwzWkGlj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306101827.GQMzFsQI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/wqlockup.h:24,
-                    from drivers/android/vendor_hooks.c:21:
->> include/trace/trace_events.h:27:23: warning: 'str__wqlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/gic.h:29,
-                    from drivers/android/vendor_hooks.c:20:
-   include/trace/trace_events.h:27:23: warning: 'str__gic__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/mpam.h:24,
-                    from drivers/android/vendor_hooks.c:19:
-   include/trace/trace_events.h:27:23: warning: 'str__mpam__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/topology.h:29,
-                    from drivers/android/vendor_hooks.c:18:
-   include/trace/trace_events.h:27:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cpuidle.h:23,
-                    from drivers/android/vendor_hooks.c:17:
-   include/trace/trace_events.h:27:23: warning: 'str__cpuidle__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/dtask.h:53,
-                    from drivers/android/vendor_hooks.c:16:
-   include/trace/trace_events.h:27:23: warning: 'str__dtask__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-
-
-vim +/str__wqlockup__trace_system_name +27 include/trace/trace_events.h
-
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+   drivers/iommu/iommufd/hw_pagetable.c:218:7: warning: variable 'pt_obj' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+                   if (WARN_ON(klen < 0)) {
+                       ^~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:121:28: note: expanded from macro 'WARN_ON'
+   #define WARN_ON(condition) ({                                           \
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/hw_pagetable.c:299:21: note: uninitialized use occurs here
+           iommufd_put_object(pt_obj);
+                              ^~~~~~
+   drivers/iommu/iommufd/hw_pagetable.c:218:3: note: remove the 'if' if its condition is always false
+                   if (WARN_ON(klen < 0)) {
+                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/hw_pagetable.c:191:31: note: initialize the variable 'pt_obj' to silence this warning
+           struct iommufd_object *pt_obj;
+                                        ^
+                                         = NULL
+   1 warning generated.
+>> drivers/iommu/iommufd/hw_pagetable.o: warning: objtool: iommufd_hwpt_alloc() falls through to next function kzalloc()
 
 -- 
 0-DAY CI Kernel Test Service
