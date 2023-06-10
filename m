@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD6FC8E3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 15:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA1AC8E3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 16:29:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686412670; x=1717948670;
+  t=1686414589; x=1717950589;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tVtylWyAUND+3I5nm5g+E9MmlofQwlm4TW7YE4u/Sjo=;
-  b=ZsBO+OiFWpVEBv50kQ6drqQV5V21F+EE+H611XjX3fhVc0sASN3BZhSW
-   90WI/PyAk1HSFOsGAbGoU55mL3HuM/ddGXQuwRLNVM43mh8sm3sHDU7fg
-   HwaVXUG4hQPjEDTPs43IoKLoroplEKjzHjJWSJ942BcvcLLL58jbl4885
-   dWfPWznKrQTbXcYhF3zMtW6w2B/oziYlE1hSBQfbhr6YJTXhxfJUh2ItR
-   C0g9zAY0gsQqH97Xe7yEQE+knAkIxR3po+NtbYjLXfEFdW+1sZ+6myDlL
-   qDvLvCQRyJ7OGbYNaNc8fGplzdeMnjbcY9KnR6GnjVJ2fkd3yyLQMY9EO
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="338143861"
+  bh=ediCw7Uo9ieWxJaue3qbOp1kmRGKjCo4h/nkhjURBew=;
+  b=ROS6rd7rc2xDIacttaFcuXMbU/ftydcXrNDl3fZ5eQyXqoZJGiih05GE
+   b/o6GghxrrJW4ZUhSWI8t8RtnqSlL9h83skURjxyTpBLKXiwL1585eK2G
+   DvJztos+09KjwgemR4nWVO/kwSJ7MxciVe9s3MOLfuBP1vUv/WTP2fF54
+   DxYPJ4uui0+U/DO8KAqhvXCjcKAozsfQkHrR8sNkf0FxNxK6M70iJXC+9
+   /GFx8wtTmMy1Qq7N2Dc/EW5tsJseE/HwFqqig6ABqZDSxQEyxRuewUzr9
+   SEmvFgQCtz6EovdgHvb/D/q5JGxk7v+483Cv9WkFFzfVKh5TWiIGcyQ7E
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="444152590"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="338143861"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 08:57:47 -0700
+   d="scan'208";a="444152590"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 09:29:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="688092489"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="855084193"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="688092489"
+   d="scan'208";a="855084193"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 10 Jun 2023 08:57:46 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2023 09:29:47 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q80yH-000ABs-1B;
-	Sat, 10 Jun 2023 15:57:45 +0000
-Date: Sat, 10 Jun 2023 23:57:35 +0800
+	id 1q81TH-000AEU-0R;
+	Sat, 10 Jun 2023 16:29:47 +0000
+Date: Sun, 11 Jun 2023 00:29:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:dt/header-cleanups 18/20] drivers/watchdog/orion_wdt.c:570:27:
- error: assignment to 'const struct orion_watchdog_data *' from incompatible
- pointer type 'const struct of_device_id *'
-Message-ID: <202306102345.5Sq780G4-lkp@intel.com>
+Subject: [android-common:android14-5.15 1803/23309]
+ include/trace/trace_events.h:27:23: warning:
+ 'str__printk__trace_system_name' defined but not used
+Message-ID: <202306110059.E18kfCWH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,171 +47,149 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
-head:   3118a5812ec5b3b83ca38f2d1c4162ccda268c0d
-commit: e5f3e4857d32954dded294a3536c0d97dd345921 [18/20] Use of_device_get_match_data
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230610/202306102345.5Sq780G4-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+Hi Prasad,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   c1d11308117b35f068fbfdb4b8df8b0532f2d7f4
+commit: 7aaa29b82b28311196ff28ff06346ba7df7a9d85 [1803/23309] ANDROID: printk: add vendor hook for console flush
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230611/202306110059.E18kfCWH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=e5f3e4857d32954dded294a3536c0d97dd345921
-        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
-        git fetch --no-tags robh dt/header-cleanups
-        git checkout e5f3e4857d32954dded294a3536c0d97dd345921
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-5.15
+        git checkout 7aaa29b82b28311196ff28ff06346ba7df7a9d85
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/ata/ drivers/bus/ drivers/clk/qcom/ drivers/cpufreq/ drivers/crypto/hisilicon/trng/ drivers/crypto/stm32/ drivers/gpu/drm/armada/ drivers/gpu/drm/imx/lcdc/ drivers/gpu/drm/mediatek/ drivers/gpu/drm/sti/ drivers/hsi/controllers/ drivers/interconnect/qcom/ drivers/memory/tegra/ drivers/mtd/maps/ drivers/pinctrl/ drivers/power/reset/ drivers/remoteproc/ drivers/reset/sti/ drivers/soc/imx/ drivers/soc/tegra/fuse/ drivers/soc/ti/ drivers/spi/ drivers/watchdog/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/ drivers/md/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306102345.5Sq780G4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306110059.E18kfCWH-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/watchdog/orion_wdt.c: In function 'orion_wdt_probe':
->> drivers/watchdog/orion_wdt.c:570:27: error: assignment to 'const struct orion_watchdog_data *' from incompatible pointer type 'const struct of_device_id *' [-Werror=incompatible-pointer-types]
-     570 |                 dev->data = &orion_wdt_of_match_table[0];
-         |                           ^
-   cc1: some warnings being treated as errors
---
-   drivers/pinctrl/pinctrl-at91.c: In function 'at91_pinctrl_probe_dt':
->> drivers/pinctrl/pinctrl-at91.c:1305:17: error: implicit declaration of function 'of_match_device'; did you mean 'of_match_node'? [-Werror=implicit-function-declaration]
-    1305 |                 of_match_device(at91_pinctrl_of_match, &pdev->dev)->data;
-         |                 ^~~~~~~~~~~~~~~
-         |                 of_match_node
->> drivers/pinctrl/pinctrl-at91.c:1305:67: error: invalid type argument of '->' (have 'int')
-    1305 |                 of_match_device(at91_pinctrl_of_match, &pdev->dev)->data;
-         |                                                                   ^~
-   cc1: some warnings being treated as errors
---
-   drivers/reset/sti/reset-syscfg.c: In function 'syscfg_reset_probe':
->> drivers/reset/sti/reset-syscfg.c:205:54: error: 'match' undeclared (first use in this function)
-     205 |         return syscfg_reset_controller_register(dev, match->data);
-         |                                                      ^~~~~
-   drivers/reset/sti/reset-syscfg.c:205:54: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/reset/sti/reset-syscfg.c:206:1: error: control reaches end of non-void function [-Werror=return-type]
-     206 | }
-         | ^
-   cc1: some warnings being treated as errors
---
-   drivers/pinctrl/mvebu/pinctrl-armada-xp.c: In function 'armada_xp_pinctrl_probe':
->> drivers/pinctrl/mvebu/pinctrl-armada-xp.c:572:14: error: 'match' undeclared (first use in this function)
-     572 |         if (!match)
-         |              ^~~~~
-   drivers/pinctrl/mvebu/pinctrl-armada-xp.c:572:14: note: each undeclared identifier is reported only once for each function it appears in
---
-   drivers/pinctrl/nomadik/pinctrl-nomadik.c: In function 'nmk_gpio_populate_chip':
->> drivers/pinctrl/nomadik/pinctrl-nomadik.c:1029:21: error: implicit declaration of function 'of_find_device_by_node'; did you mean 'bus_find_device_by_fwnode'? [-Werror=implicit-function-declaration]
-    1029 |         gpio_pdev = of_find_device_by_node(np);
-         |                     ^~~~~~~~~~~~~~~~~~~~~~
-         |                     bus_find_device_by_fwnode
->> drivers/pinctrl/nomadik/pinctrl-nomadik.c:1029:19: warning: assignment to 'struct platform_device *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1029 |         gpio_pdev = of_find_device_by_node(np);
-         |                   ^
-   cc1: some warnings being treated as errors
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/printk.h:27,
+                    from drivers/android/vendor_hooks.c:24:
+>> include/trace/trace_events.h:27:23: warning: 'str__printk__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sysrqcrash.h:24,
+                    from drivers/android/vendor_hooks.c:23:
+   include/trace/trace_events.h:27:23: warning: 'str__sysrqcrash__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/debug.h:26,
+                    from drivers/android/vendor_hooks.c:22:
+   include/trace/trace_events.h:27:23: warning: 'str__debug__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/wqlockup.h:24,
+                    from drivers/android/vendor_hooks.c:21:
+   include/trace/trace_events.h:27:23: warning: 'str__wqlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/gic.h:29,
+                    from drivers/android/vendor_hooks.c:20:
+   include/trace/trace_events.h:27:23: warning: 'str__gic__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/mpam.h:24,
+                    from drivers/android/vendor_hooks.c:19:
+   include/trace/trace_events.h:27:23: warning: 'str__mpam__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
 
-vim +570 drivers/watchdog/orion_wdt.c
+vim +/str__printk__trace_system_name +27 include/trace/trace_events.h
 
-   555	
-   556	static int orion_wdt_probe(struct platform_device *pdev)
-   557	{
-   558		struct orion_watchdog *dev;
-   559		unsigned int wdt_max_duration;	/* (seconds) */
-   560		int ret, irq;
-   561	
-   562		dev = devm_kzalloc(&pdev->dev, sizeof(struct orion_watchdog),
-   563				   GFP_KERNEL);
-   564		if (!dev)
-   565			return -ENOMEM;
-   566	
-   567		dev->data = of_device_get_match_data(&pdev->dev);
-   568		if (!dev->data)
-   569			/* Default legacy match */
- > 570			dev->data = &orion_wdt_of_match_table[0];
-   571	
-   572		dev->wdt.info = &orion_wdt_info;
-   573		dev->wdt.ops = &orion_wdt_ops;
-   574		dev->wdt.min_timeout = 1;
-   575	
-   576		ret = orion_wdt_get_regs(pdev, dev);
-   577		if (ret)
-   578			return ret;
-   579	
-   580		ret = dev->data->clock_init(pdev, dev);
-   581		if (ret) {
-   582			dev_err(&pdev->dev, "cannot initialize clock\n");
-   583			return ret;
-   584		}
-   585	
-   586		wdt_max_duration = WDT_MAX_CYCLE_COUNT / dev->clk_rate;
-   587	
-   588		dev->wdt.timeout = wdt_max_duration;
-   589		dev->wdt.max_timeout = wdt_max_duration;
-   590		dev->wdt.parent = &pdev->dev;
-   591		watchdog_init_timeout(&dev->wdt, heartbeat, &pdev->dev);
-   592	
-   593		platform_set_drvdata(pdev, &dev->wdt);
-   594		watchdog_set_drvdata(&dev->wdt, dev);
-   595	
-   596		/*
-   597		 * Let's make sure the watchdog is fully stopped, unless it's
-   598		 * explicitly enabled. This may be the case if the module was
-   599		 * removed and re-inserted, or if the bootloader explicitly
-   600		 * set a running watchdog before booting the kernel.
-   601		 */
-   602		if (!orion_wdt_enabled(&dev->wdt))
-   603			orion_wdt_stop(&dev->wdt);
-   604		else
-   605			set_bit(WDOG_HW_RUNNING, &dev->wdt.status);
-   606	
-   607		/* Request the IRQ only after the watchdog is disabled */
-   608		irq = platform_get_irq_optional(pdev, 0);
-   609		if (irq > 0) {
-   610			/*
-   611			 * Not all supported platforms specify an interrupt for the
-   612			 * watchdog, so let's make it optional.
-   613			 */
-   614			ret = devm_request_irq(&pdev->dev, irq, orion_wdt_irq, 0,
-   615					       pdev->name, dev);
-   616			if (ret < 0) {
-   617				dev_err(&pdev->dev, "failed to request IRQ\n");
-   618				goto disable_clk;
-   619			}
-   620		}
-   621	
-   622		/* Optional 2nd interrupt for pretimeout */
-   623		irq = platform_get_irq_optional(pdev, 1);
-   624		if (irq > 0) {
-   625			orion_wdt_info.options |= WDIOF_PRETIMEOUT;
-   626			ret = devm_request_irq(&pdev->dev, irq, orion_wdt_pre_irq,
-   627					       0, pdev->name, dev);
-   628			if (ret < 0) {
-   629				dev_err(&pdev->dev, "failed to request IRQ\n");
-   630				goto disable_clk;
-   631			}
-   632		}
-   633	
-   634	
-   635		watchdog_set_nowayout(&dev->wdt, nowayout);
-   636		ret = watchdog_register_device(&dev->wdt);
-   637		if (ret)
-   638			goto disable_clk;
-   639	
-   640		pr_info("Initial timeout %d sec%s\n",
-   641			dev->wdt.timeout, nowayout ? ", nowayout" : "");
-   642		return 0;
-   643	
-   644	disable_clk:
-   645		clk_disable_unprepare(dev->clk);
-   646		clk_put(dev->clk);
-   647		return ret;
-   648	}
-   649	
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
