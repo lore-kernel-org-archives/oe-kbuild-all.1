@@ -1,43 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64277C2E6;
-	Sat, 10 Jun 2023 11:12:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AAD1FD5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 11:12:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1686395553; x=1717931553;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pf7/McJhbL/163MYUPHbW0LK47faUt40Z5w2ExzAwsU=;
-  b=jnSNLPciLsLF5P9aT225Bv4qCOnmtDkUWDs+LeUin8tQDqd0Kt8MNOQq
-   TYSjAATE7rA3oMP8OOeBq/DpMG/gJMhF81mBrz1YHqGNDQsWCIZ/AehoU
-   D8agVrduYsFk/ImzPJQep8kndVxGbbOR84AE+03RMPwytHIQSvJf9d1TT
-   tpVGx22LsTRlZDlPDxR2415LEOKyYtDsfTUc8JpIKQVC0fw8tTBIPiAyw
-   zpdMLBw4b08HoHU0JEEd2vEWrX9a9UaZ9assGvmk1HeA7LURo1wiwWk+I
-   /SESh8G7gTNbrW86c3sMKs9FHhyTOtxnwrzpZvzFsarbDgopLpsJQtZor
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="361117763"
+  bh=wF5TKK7k1kcR69Vk7uOrfh6BmmiyTQLLLwJOsz9YbAg=;
+  b=OTfp2z3Lz1RmQbSDFXJclGlII5flyaWJjX1QbIne/DUBXeVoE7VFF5x8
+   pLZy7O9VuSBBlShJneG2rxega/mYF+T0bvBQcm6jFLvdH5Baq8fUhoE2q
+   mu9QXiHW0aNgFEwSTis1dUH7QgUYQu+CAER7XT+BzFCRzYkGYJbnZW793
+   znkGSVNgxwDK55QH9ZjqTf7Ib5+JWlrB7ZsWGDjejOPBeeTK2TMHTWMUV
+   0s0QWiPVHHDVB5fW02vyAF5adus1KCwJjYNIlobP81mz32xg6orFbzBVz
+   C812eDS1AgThHoa9FIYxqK3SD1hJKe4xbbWWlJ22L2iqCvHFplTz6Is6T
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="444123757"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="361117763"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 04:12:32 -0700
+   d="scan'208";a="444123757"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 04:12:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="688044840"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="775781995"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="688044840"
+   d="scan'208";a="775781995"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 10 Jun 2023 04:12:31 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 10 Jun 2023 04:12:31 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7wWE-000A2f-2c;
+	id 1q7wWE-000A2a-2P;
 	Sat, 10 Jun 2023 11:12:30 +0000
-Date: Sat, 10 Jun 2023 19:11:37 +0800
+Date: Sat, 10 Jun 2023 19:11:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:core/guards2 12/58] kernel/sched/core.c:5667:7: error:
- call to undeclared function 'cpu_is_online'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202306101919.Z26XbX9g-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:dt/header-cleanups 19/20] sound/ppc/burgundy.c:571:28: error:
+ implicit declaration of function 'of_machine_is_compatible'
+Message-ID: <202306101954.1hyeb3hJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,101 +46,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/guards2
-head:   7e38bc75e33efb3722a7bfeb15207e61819ca3c8
-commit: b8629ae9c880d8e19621e5c7866d217d98fc5288 [12/58] sched: Simplify sched_tick_remote()
-config: arm-randconfig-r046-20230610 (https://download.01.org/0day-ci/archive/20230610/202306101919.Z26XbX9g-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
+head:   3118a5812ec5b3b83ca38f2d1c4162ccda268c0d
+commit: 6bd2c1239dfcde3e23570ac6b044382269edfd17 [19/20] DT include cleanups
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230610/202306101954.1hyeb3hJ-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=b8629ae9c880d8e19621e5c7866d217d98fc5288
-        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
-        git fetch --no-tags peterz-queue core/guards2
-        git checkout b8629ae9c880d8e19621e5c7866d217d98fc5288
+        # https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git/commit/?id=6bd2c1239dfcde3e23570ac6b044382269edfd17
+        git remote add robh https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git
+        git fetch --no-tags robh dt/header-cleanups
+        git checkout 6bd2c1239dfcde3e23570ac6b044382269edfd17
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash kernel/sched/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash sound/ppc/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306101919.Z26XbX9g-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306101954.1hyeb3hJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/sched/core.c:5667:7: error: call to undeclared function 'cpu_is_online'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   if (cpu_is_online(cpu)) {
-                       ^
-   kernel/sched/core.c:5667:7: note: did you mean 'cpu_online'?
-   include/linux/cpumask.h:1080:20: note: 'cpu_online' declared here
-   static inline bool cpu_online(unsigned int cpu)
-                      ^
-   kernel/sched/core.c:6741:35: warning: no previous prototype for function 'schedule_user' [-Wmissing-prototypes]
-   asmlinkage __visible void __sched schedule_user(void)
-                                     ^
-   kernel/sched/core.c:6741:22: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   asmlinkage __visible void __sched schedule_user(void)
-                        ^
-                        static 
-   1 warning and 1 error generated.
+   sound/ppc/burgundy.c: In function 'snd_pmac_burgundy_update_automute':
+>> sound/ppc/burgundy.c:571:28: error: implicit declaration of function 'of_machine_is_compatible' [-Werror=implicit-function-declaration]
+     571 |                 int imac = of_machine_is_compatible("iMac");
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/cpu_is_online +5667 kernel/sched/core.c
+vim +/of_machine_is_compatible +571 sound/ppc/burgundy.c
 
-  5647	
-  5648	static void sched_tick_remote(struct work_struct *work)
-  5649	{
-  5650		struct delayed_work *dwork = to_delayed_work(work);
-  5651		struct tick_work *twork = container_of(dwork, struct tick_work, work);
-  5652		int cpu = twork->cpu;
-  5653		struct rq *rq = cpu_rq(cpu);
-  5654		int os;
-  5655	
-  5656		/*
-  5657		 * Handle the tick only if it appears the remote CPU is running in full
-  5658		 * dynticks mode. The check is racy by nature, but missing a tick or
-  5659		 * having one too much is no big deal because the scheduler tick updates
-  5660		 * statistics and checks timeslices in a time-independent way, regardless
-  5661		 * of when exactly it is running.
-  5662		 */
-  5663		if (tick_nohz_tick_stopped_cpu(cpu)) {
-  5664			guard(rq_lock_irq)(rq);
-  5665			struct task_struct *curr = rq->curr;
-  5666	
-> 5667			if (cpu_is_online(cpu)) {
-  5668				update_rq_clock(rq);
-  5669	
-  5670				if (!is_idle_task(curr)) {
-  5671					/*
-  5672					 * Make sure the next tick runs within a
-  5673					 * reasonable amount of time.
-  5674					 */
-  5675					u64 delta = rq_clock_task(rq) - curr->se.exec_start;
-  5676					WARN_ON_ONCE(delta > (u64)NSEC_PER_SEC * 3);
-  5677				}
-  5678				curr->sched_class->task_tick(rq, curr, 0);
-  5679	
-  5680				calc_load_nohz_remote(rq);
-  5681			}
-  5682		}
-  5683	
-  5684		/*
-  5685		 * Run the remote tick once per second (1Hz). This arbitrary
-  5686		 * frequency is large enough to avoid overload but short enough
-  5687		 * to keep scheduler internal stats reasonably up to date.  But
-  5688		 * first update state to reflect hotplug activity if required.
-  5689		 */
-  5690		os = atomic_fetch_add_unless(&twork->state, -1, TICK_SCHED_REMOTE_RUNNING);
-  5691		WARN_ON_ONCE(os == TICK_SCHED_REMOTE_OFFLINE);
-  5692		if (os == TICK_SCHED_REMOTE_RUNNING)
-  5693			queue_delayed_work(system_unbound_wq, dwork, HZ);
-  5694	}
-  5695	
+^1da177e4c3f41 Linus Torvalds 2005-04-16  567  
+65b29f5039b38a Takashi Iwai   2005-11-17  568  static void snd_pmac_burgundy_update_automute(struct snd_pmac *chip, int do_notify)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  569  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  570  	if (chip->auto_mute) {
+71a157e8edca55 Grant Likely   2010-02-01 @571  		int imac = of_machine_is_compatible("iMac");
+^1da177e4c3f41 Linus Torvalds 2005-04-16  572  		int reg, oreg;
+44deee129c9af3 Risto Suominen 2008-04-16  573  		reg = oreg = snd_pmac_burgundy_rcb(chip,
+44deee129c9af3 Risto Suominen 2008-04-16  574  				MASK_ADDR_BURGUNDY_MORE_OUTPUTENABLES);
+44deee129c9af3 Risto Suominen 2008-04-16  575  		reg &= imac ? ~(BURGUNDY_OUTPUT_LEFT | BURGUNDY_OUTPUT_RIGHT
+44deee129c9af3 Risto Suominen 2008-04-16  576  				| BURGUNDY_HP_LEFT | BURGUNDY_HP_RIGHT)
+44deee129c9af3 Risto Suominen 2008-04-16  577  			: ~(BURGUNDY_OUTPUT_LEFT | BURGUNDY_OUTPUT_RIGHT
+44deee129c9af3 Risto Suominen 2008-04-16  578  				| BURGUNDY_OUTPUT_INTERN);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  579  		if (snd_pmac_burgundy_detect_headphone(chip))
+44deee129c9af3 Risto Suominen 2008-04-16  580  			reg |= imac ? (BURGUNDY_HP_LEFT | BURGUNDY_HP_RIGHT)
+44deee129c9af3 Risto Suominen 2008-04-16  581  				: (BURGUNDY_OUTPUT_LEFT
+44deee129c9af3 Risto Suominen 2008-04-16  582  					| BURGUNDY_OUTPUT_RIGHT);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  583  		else
+44deee129c9af3 Risto Suominen 2008-04-16  584  			reg |= imac ? (BURGUNDY_OUTPUT_LEFT
+44deee129c9af3 Risto Suominen 2008-04-16  585  					| BURGUNDY_OUTPUT_RIGHT)
+44deee129c9af3 Risto Suominen 2008-04-16  586  				: (BURGUNDY_OUTPUT_INTERN);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  587  		if (do_notify && reg == oreg)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  588  			return;
+44deee129c9af3 Risto Suominen 2008-04-16  589  		snd_pmac_burgundy_wcb(chip,
+44deee129c9af3 Risto Suominen 2008-04-16  590  				MASK_ADDR_BURGUNDY_MORE_OUTPUTENABLES, reg);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  591  		if (do_notify) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  592  			snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
+^1da177e4c3f41 Linus Torvalds 2005-04-16  593  				       &chip->master_sw_ctl->id);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  594  			snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
+^1da177e4c3f41 Linus Torvalds 2005-04-16  595  				       &chip->speaker_sw_ctl->id);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  596  			snd_ctl_notify(chip->card, SNDRV_CTL_EVENT_MASK_VALUE,
+^1da177e4c3f41 Linus Torvalds 2005-04-16  597  				       &chip->hp_detect_ctl->id);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  598  		}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  599  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  600  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  601  #endif /* PMAC_SUPPORT_AUTOMUTE */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  602  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  603  
+
+:::::: The code at line 571 was first introduced by commit
+:::::: 71a157e8edca55198e808f8561dd49017a54ee34 of: add 'of_' prefix to machine_is_compatible()
+
+:::::: TO: Grant Likely <grant.likely@secretlab.ca>
+:::::: CC: Grant Likely <grant.likely@secretlab.ca>
 
 -- 
 0-DAY CI Kernel Test Service
