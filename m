@@ -1,43 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6003236
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 11:56:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A78BA4E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 12:59:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686398196; x=1717934196;
+  t=1686401980; x=1717937980;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NuUFUZ/o55WzMkTUDGoSEK4d3yinRbfFdOe9FIiJoUY=;
-  b=PRiLMA+il8p/m60rJT/njtDtqPQJ/9XBXdJtKlq5seFifQPXZktuEZ4E
-   5OrP0Q6/S98n5qasdcvF1hAeRNExKGMACEAIHPTDNBx3Q+gn471B7uLrg
-   P35UBDqxQDpW6opbWw2CDUM41jBitm0QpFgnw0NJvXfeamjOnySOUw+Pw
-   Yh/SA6iUEpYlMCTVn0Cotc4ozTU6Q4DS8TndByn1gm99dhoSsgrdPBQD1
-   b5oiZltW/DPu/xKqTEgBcfPvoxxcSwqFqHC9DwNY2TlREJKHOSyKWd83E
-   c9yCgm8n2exO7DzxG5w6XSWX1FSHFlg6JhpgyAcdcAfA0XCxl9XPbIqCv
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="361120447"
+  bh=Zsy8LfKMHmaVfXo4NxebLwmlaYCmYvjvU+0KumabJZM=;
+  b=HDqheXiZ0Dmb3AtzDMvamoN4LnGgw80Kcu2cxgM3hcsYbou/RKgvkysY
+   f8TdT8s8VIbBxWluFw18nff20ykj5Jw8ZpkRavwttP5MHRzfGxgTeNow7
+   zZcf5TYksasq2LJ+mBaZ7ICPlxT/qGGm7zi0YnKyPT2dzvSZfetina7Si
+   JhrGR9z++oqsCddhTcKqvQR1skMRB1SLMpEs0TTWSpb5LR6H7vjULIfVl
+   07nTBgZPP2n/RTqPjAgIfEWxJYA4vXpdZzYHrDEBkNGJXK1Cqz042DpXI
+   IwHNaNgOquGz3Ck+rS72VFn48I3ZUN8OFFI1JFzWC8kceEh9/5tq6Kh45
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="338122784"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="361120447"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 04:56:36 -0700
+   d="scan'208";a="338122784"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 05:59:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="743768703"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="957451083"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="743768703"
+   d="scan'208";a="957451083"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 10 Jun 2023 04:56:35 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 10 Jun 2023 05:59:38 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7xCs-000A4C-1T;
-	Sat, 10 Jun 2023 11:56:34 +0000
-Date: Sat, 10 Jun 2023 19:56:29 +0800
+	id 1q7yBt-000A64-2A;
+	Sat, 10 Jun 2023 12:59:37 +0000
+Date: Sat, 10 Jun 2023 20:59:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 1552/23309]
- include/trace/trace_events.h:27:23: warning: 'str__debug__trace_system_name'
- defined but not used
-Message-ID: <202306101917.0Tv6P6yX-lkp@intel.com>
+To: Prasad Sodagudi <psodagud@codeaurora.org>
+Cc: oe-kbuild-all@lists.linux.dev, Yogesh Lal <quic_ylal@quicinc.com>,
+	Elliot Berman <eberman@codeaurora.org>
+Subject: [sudeep-holla:android13-5.15/ffa 1113/4062]
+ drivers/android/android_debug_symbols.c:27:6: sparse: sparse: symbol
+ 'ads_page_owner' was not declared. Should it be static?
+Message-ID: <202306102044.5xOHAvPc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,149 +48,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Changki,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   c1d11308117b35f068fbfdb4b8df8b0532f2d7f4
-commit: 56da24e7a9ba0f5bab4a0c90de964ce1541b1695 [1552/23309] ANDROID: vendor_hooks: Add new android vendor hooks for ipi stop
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230610/202306101917.0Tv6P6yX-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.15/ffa
+head:   c6013f50f1ae0e42d14d51a06118779ead3047ef
+commit: b2df67a932b5cbd6535de9f1a6e63004992ad014 [1113/4062] ANDROID: android: Create debug_symbols driver
+config: i386-randconfig-s031-20230610 (https://download.01.org/0day-ci/archive/20230610/202306102044.5xOHAvPc-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android14-5.15
-        git checkout 56da24e7a9ba0f5bab4a0c90de964ce1541b1695
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git/commit/?id=b2df67a932b5cbd6535de9f1a6e63004992ad014
+        git remote add sudeep-holla https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git
+        git fetch --no-tags sudeep-holla android13-5.15/ffa
+        git checkout b2df67a932b5cbd6535de9f1a6e63004992ad014
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/ drivers/md/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306101917.0Tv6P6yX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306102044.5xOHAvPc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/android/android_debug_symbols.c:27:6: sparse: sparse: symbol 'ads_page_owner' was not declared. Should it be static?
+>> drivers/android/android_debug_symbols.c:28:6: sparse: sparse: symbol 'ads_slub_debug' was not declared. Should it be static?
+>> drivers/android/android_debug_symbols.c:29:15: sparse: sparse: symbol 'ads_vmalloc_nr_pages' was not declared. Should it be static?
+>> drivers/android/android_debug_symbols.c:30:15: sparse: sparse: symbol 'ads_pcpu_nr_pages' was not declared. Should it be static?
+>> drivers/android/android_debug_symbols.c:88:9: sparse: sparse: cast removes address space '__percpu' of expression
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/debug.h:25,
-                    from drivers/android/vendor_hooks.c:22:
->> include/trace/trace_events.h:27:23: warning: 'str__debug__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/wqlockup.h:24,
-                    from drivers/android/vendor_hooks.c:21:
-   include/trace/trace_events.h:27:23: warning: 'str__wqlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/gic.h:29,
-                    from drivers/android/vendor_hooks.c:20:
-   include/trace/trace_events.h:27:23: warning: 'str__gic__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/mpam.h:24,
-                    from drivers/android/vendor_hooks.c:19:
-   include/trace/trace_events.h:27:23: warning: 'str__mpam__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/topology.h:29,
-                    from drivers/android/vendor_hooks.c:18:
-   include/trace/trace_events.h:27:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cpuidle.h:23,
-                    from drivers/android/vendor_hooks.c:17:
-   include/trace/trace_events.h:27:23: warning: 'str__cpuidle__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+vim +/ads_page_owner +27 drivers/android/android_debug_symbols.c
 
-
-vim +/str__debug__trace_system_name +27 include/trace/trace_events.h
-
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+    26	
+  > 27	bool ads_page_owner;
+  > 28	bool ads_slub_debug;
+  > 29	unsigned long ads_vmalloc_nr_pages;
+  > 30	unsigned long ads_pcpu_nr_pages;
+    31	
+    32	#define _ADS_ENTRY(index, symbol)			\
+    33		[index] = { .name = #symbol, .addr = (void *)symbol }
+    34	#define ADS_ENTRY(index, symbol) _ADS_ENTRY(index, symbol)
+    35	
+    36	#define _ADS_PER_CPU_ENTRY(index, symbol)			\
+    37		[index] = { .name = #symbol, .addr = (void *)&symbol }
+    38	#define ADS_PER_CPU_ENTRY(index, symbol) _ADS_PER_CPU_ENTRY(index, symbol)
+    39	
+    40	/*
+    41	 * This module maintains static array of symbol and address information.
+    42	 * Add all required core kernel symbols and their addresses into ads_entries[] array,
+    43	 * so that vendor modules can query and to find address of non-exported symbol.
+    44	 */
+    45	static const struct ads_entry ads_entries[ADS_END] = {
+    46		ADS_ENTRY(ADS_SDATA, _sdata),
+    47		ADS_ENTRY(ADS_BSS_END, __bss_stop),
+    48		ADS_ENTRY(ADS_PER_CPU_START, __per_cpu_start),
+    49		ADS_ENTRY(ADS_PER_CPU_END, __per_cpu_end),
+    50		ADS_ENTRY(ADS_START_RO_AFTER_INIT, __start_ro_after_init),
+    51		ADS_ENTRY(ADS_END_RO_AFTER_INIT, __end_ro_after_init),
+    52		ADS_ENTRY(ADS_LINUX_BANNER, linux_banner),
+    53	#ifdef CONFIG_CMA
+    54		ADS_ENTRY(ADS_TOTAL_CMA, &totalcma_pages),
+    55	#endif
+    56		ADS_ENTRY(ADS_SLAB_CACHES, &slab_caches),
+    57		ADS_ENTRY(ADS_SLAB_MUTEX, &slab_mutex),
+    58		ADS_ENTRY(ADS_MIN_LOW_PFN, &min_low_pfn),
+    59		ADS_ENTRY(ADS_MAX_PFN, &max_pfn),
+    60		ADS_ENTRY(ADS_VMALLOC_NR_PAGES, &ads_vmalloc_nr_pages),
+    61		ADS_ENTRY(ADS_PCPU_NR_PAGES, &ads_pcpu_nr_pages),
+    62	#ifdef CONFIG_PAGE_OWNER
+    63		ADS_ENTRY(ADS_PAGE_OWNER_ENABLED, &ads_page_owner),
+    64	#endif
+    65	#ifdef CONFIG_SLUB_DEBUG
+    66		ADS_ENTRY(ADS_SLUB_DEBUG, &ads_slub_debug),
+    67	#endif
+    68	#ifdef CONFIG_SWAP
+    69		ADS_ENTRY(ADS_NR_SWAP_PAGES, &nr_swap_pages),
+    70	#endif
+    71	#ifdef CONFIG_MMU
+    72		ADS_ENTRY(ADS_MMAP_MIN_ADDR, &mmap_min_addr),
+    73	#endif
+    74		ADS_ENTRY(ADS_STACK_GUARD_GAP, &stack_guard_gap),
+    75	#ifdef CONFIG_SYSCTL
+    76		ADS_ENTRY(ADS_SYSCTL_LEGACY_VA_LAYOUT, &sysctl_legacy_va_layout),
+    77	#endif
+    78	};
+    79	
+    80	/*
+    81	 * ads_per_cpu_entries array contains all the per_cpu variable address information.
+    82	 */
+    83	static const struct ads_entry ads_per_cpu_entries[ADS_DEBUG_PER_CPU_END] = {
+    84	#ifdef CONFIG_ARM64
+    85		ADS_PER_CPU_ENTRY(ADS_IRQ_STACK_PTR, irq_stack_ptr),
+    86	#endif
+    87	#ifdef CONFIG_X86
+  > 88		ADS_PER_CPU_ENTRY(ADS_IRQ_STACK_PTR, hardirq_stack_ptr),
+    89	#endif
+    90	};
+    91	
 
 -- 
 0-DAY CI Kernel Test Service
