@@ -1,43 +1,62 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F0CC8F6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 19:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A4CC8F6;
+	Sat, 10 Jun 2023 19:39:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686424686; x=1717960686;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BFnyDr44hFgwxIRYs7amEzKBCMWHTtvemGUvUKBOB9s=;
-  b=JdGa0FqQrb5oJu4S73aZB+9bZcX0VK0wL7rmxUJtYb5Kxf/4r9/jsYq0
-   PgPX81pzZyrsVDrvCTmP+GU2wqYhJ12qWrg/Fu7l9Eaf046CsSKJYi4T0
-   OMQ3cnyCLr177RUAuG5vbQuXACt7giqj5hCfFz0txQ/1dDRO+Ki3NVlPx
-   oh4GX56yHpeNbVqtsUnHGeBmHRHr2H0w1qkF5Gf3V06B0ur6ql85sUpFK
-   4Vt3qDS3CzG0MublUnbjWwMK/GWJeRSKDK3HLGEpRgQhWj7cqwdDuKeBb
-   xVbkGe2QK8E6apVF3PCN2H+MWCs86yhHxAvLBxa3FIxlZuMhLrC+BZCdL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="444168795"
-X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="444168795"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 12:18:05 -0700
+  t=1686425964; x=1717961964;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ufJG5h/aowefg1btQn3CbK4pVsN3453BNzPIbovB+38=;
+  b=hduayHOBr0pRn4ecboyVMhC+aoF9aYpdpZOp9wYkJoHAUWrRdWzEZ9HU
+   tzteEsFXNpf8GfXmbuxKxc5KcFwMG2BEXKAuAS+TXHOSIXZp7L4FZvGZe
+   Yq2IjkA7LkQREd0D32/MpskZpPoAJa+yIxS/e56+PUzOqISR73w309efS
+   ho7zBZfP4nuOp0dNKkGlXjOXFtB6MBE1yibUFjsfpcj7jKLNz1yF8xMfS
+   2Ik/E4IATge3/Yiwlu3ZQGrWCMJy6xZUrVwtks/uH6rG69m8uvRtMJ+wn
+   uQypIoj4gX6MXK4y8QvtgmDEwuc/2+kVHCeMkFdFxJczfB4NVYQlf1f5z
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="361163530"
+X-IronPort-AV: E=Sophos;i="6.00,233,1681196400"; 
+   d="scan'208";a="361163530"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 12:39:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="800565101"
-X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="800565101"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="713885680"
+X-IronPort-AV: E=Sophos;i="6.00,233,1681196400"; 
+   d="scan'208";a="713885680"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 10 Jun 2023 12:18:03 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 10 Jun 2023 12:39:18 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q8466-000ANQ-2T;
-	Sat, 10 Jun 2023 19:18:02 +0000
-Date: Sun, 11 Jun 2023 03:17:43 +0800
+	id 1q84Qg-000AO6-09;
+	Sat, 10 Jun 2023 19:39:18 +0000
+Date: Sun, 11 Jun 2023 03:38:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [broonie-ci:regcache-raw-kunit 2/3] ERROR: modpost:
- "__regmap_init_ram" [drivers/base/regmap/regmap-raw-ram.ko] was exported
- without definition
-Message-ID: <202306110344.H3Ia8Vnt-lkp@intel.com>
+To: Demi Marie Obenour <demi@invisiblethingslab.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+	Lee Jones <lee@kernel.org>, Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Demi Marie Obenour <demi@invisiblethingslab.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	xen-devel@lists.xenproject.org
+Subject: Re: [PATCH v2 1/3] vsscanf(): Integer overflow is a conversion
+ failure
+Message-ID: <202306110319.q5StyX6B-lkp@intel.com>
+References: <20230610170743.2510-2-demi@invisiblethingslab.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,45 +65,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230610170743.2510-2-demi@invisiblethingslab.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git regcache-raw-kunit
-head:   fb8380b5b67d85540ef032c2c48c5e9dc3c45f55
-commit: 244625c861105612120a49dd6d0bb0f63c667d79 [2/3] regmap: Provide a ram backed regmap with raw support
-config: openrisc-buildonly-randconfig-r004-20230611 (https://download.01.org/0day-ci/archive/20230611/202306110344.H3Ia8Vnt-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
+Hi Demi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on lee-mfd/for-mfd-next xen-tip/linux-next linus/master lee-mfd/for-mfd-fixes v6.4-rc5 next-20230609]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Demi-Marie-Obenour/vsscanf-Integer-overflow-is-a-conversion-failure/20230611-010926
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230610170743.2510-2-demi%40invisiblethingslab.com
+patch subject: [PATCH v2 1/3] vsscanf(): Integer overflow is a conversion failure
+config: arc-randconfig-r033-20230611 (https://download.01.org/0day-ci/archive/20230611/202306110319.q5StyX6B-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git/commit/?id=244625c861105612120a49dd6d0bb0f63c667d79
-        git remote add broonie-ci https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git
-        git fetch --no-tags broonie-ci regcache-raw-kunit
-        git checkout 244625c861105612120a49dd6d0bb0f63c667d79
+        git remote add media-tree git://linuxtv.org/media_tree.git
+        git fetch media-tree master
+        git checkout media-tree/master
+        b4 shazam https://lore.kernel.org/r/20230610170743.2510-2-demi@invisiblethingslab.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=openrisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=openrisc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306110344.H3Ia8Vnt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306110319.q5StyX6B-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-ERROR: modpost: drivers/base/regmap/regmap-raw-ram: '__regmap_init_ram' exported twice. Previous export was in drivers/base/regmap/regmap-ram.ko
-ERROR: modpost: "__mulsi3" [kernel/locking/test-ww_mutex.ko] undefined!
-ERROR: modpost: "__mulsi3" [kernel/rcu/rcuscale.ko] undefined!
-ERROR: modpost: "__mulsi3" [kernel/trace/preemptirq_delay_test.ko] undefined!
-ERROR: modpost: "__mulsi3" [fs/dlm/dlm.ko] undefined!
-ERROR: modpost: "__mulsi3" [fs/jffs2/jffs2.ko] undefined!
-ERROR: modpost: "__mulsi3" [fs/romfs/romfs.ko] undefined!
-ERROR: modpost: "__mulsi3" [fs/autofs/autofs4.ko] undefined!
-ERROR: modpost: "__mulsi3" [security/keys/encrypted-keys/encrypted-keys.ko] undefined!
-ERROR: modpost: "__mulsi3" [crypto/pcrypt.ko] undefined!
-ERROR: modpost: "__mulsi3" [crypto/blowfish_common.ko] undefined!
->> ERROR: modpost: "__regmap_init_ram" [drivers/base/regmap/regmap-raw-ram.ko] was exported without definition
-WARNING: modpost: suppressed 376 unresolved symbol warnings because there were too many)
+   lib/vsprintf.c: In function 'simple_strtoll':
+>> lib/vsprintf.c:163:16: error: too few arguments to function 'simple_strntoll'
+     163 |         return simple_strntoll(cp, INT_MAX, endp, base);
+         |                ^~~~~~~~~~~~~~~
+   lib/vsprintf.c:134:18: note: declared here
+     134 | static long long simple_strntoll(const char *cp, size_t max_chars, char **endp,
+         |                  ^~~~~~~~~~~~~~~
+   lib/vsprintf.c: In function 'va_format':
+   lib/vsprintf.c:1687:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    1687 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
+         |         ^~~
+   lib/vsprintf.c: In function 'simple_strtoll':
+   lib/vsprintf.c:164:1: error: control reaches end of non-void function [-Werror=return-type]
+     164 | }
+         | ^
+   cc1: some warnings being treated as errors
+
+
+vim +/simple_strntoll +163 lib/vsprintf.c
+
+900fdc4573766d Richard Fitzgerald 2021-05-14  152  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  153  /**
+^1da177e4c3f41 Linus Torvalds     2005-04-16  154   * simple_strtoll - convert a string to a signed long long
+^1da177e4c3f41 Linus Torvalds     2005-04-16  155   * @cp: The start of the string
+^1da177e4c3f41 Linus Torvalds     2005-04-16  156   * @endp: A pointer to the end of the parsed string will be placed here
+^1da177e4c3f41 Linus Torvalds     2005-04-16  157   * @base: The number base to use
+462e471107624f Eldad Zack         2012-12-17  158   *
+e8cc2b97ca5aa1 Andy Shevchenko    2020-02-21  159   * This function has caveats. Please use kstrtoll instead.
+^1da177e4c3f41 Linus Torvalds     2005-04-16  160   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  161  long long simple_strtoll(const char *cp, char **endp, unsigned int base)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  162  {
+900fdc4573766d Richard Fitzgerald 2021-05-14 @163  	return simple_strntoll(cp, INT_MAX, endp, base);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  164  }
+98d5ce0d004466 Hans Verkuil       2010-04-23  165  EXPORT_SYMBOL(simple_strtoll);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  166  
 
 -- 
 0-DAY CI Kernel Test Service
