@@ -1,43 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27ACB1FAE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 10:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64277C2E6;
+	Sat, 10 Jun 2023 11:12:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686392372; x=1717928372;
+  t=1686395553; x=1717931553;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NHgrM62E7b3380p3KPaUf+mG3fcBhQRyvHEPjlGMUHU=;
-  b=dFmqBu8wuVVHOuQ53NEK7NlpEUeEIUa2Tlm9jDGLGmzxiGC/sYYxlIDd
-   bgwxK4Ih6UgfpHng3Rcq7IkmXFFRx0fgKUY74f/GNoasZX/tvCteUEIj2
-   vrv1y2/9i0RgF3vtfGjtv2IwAS4fh5ANIAg1Dz7H3OFnzQuMQoa+toHgc
-   0Vv5bdm9zgONW6inoCea64Ks4PfKGSIBesvHlApM2OaLvR6WBSulLPzUE
-   mblPjvcJeAxrKyu7lwp/Tgh6emMjgcSfRjcFoFLXULk+pnkEmN1z2+kK5
-   bbq/MYJrl3DnHhj+6tKwf5u0N83vEwQAoaf9d677IwB7Vzsg0Jk+IkZzl
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="444119711"
+  bh=pf7/McJhbL/163MYUPHbW0LK47faUt40Z5w2ExzAwsU=;
+  b=jnSNLPciLsLF5P9aT225Bv4qCOnmtDkUWDs+LeUin8tQDqd0Kt8MNOQq
+   TYSjAATE7rA3oMP8OOeBq/DpMG/gJMhF81mBrz1YHqGNDQsWCIZ/AehoU
+   D8agVrduYsFk/ImzPJQep8kndVxGbbOR84AE+03RMPwytHIQSvJf9d1TT
+   tpVGx22LsTRlZDlPDxR2415LEOKyYtDsfTUc8JpIKQVC0fw8tTBIPiAyw
+   zpdMLBw4b08HoHU0JEEd2vEWrX9a9UaZ9assGvmk1HeA7LURo1wiwWk+I
+   /SESh8G7gTNbrW86c3sMKs9FHhyTOtxnwrzpZvzFsarbDgopLpsJQtZor
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="361117763"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="444119711"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 03:19:31 -0700
+   d="scan'208";a="361117763"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 04:12:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="661034989"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="688044840"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="661034989"
+   d="scan'208";a="688044840"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 10 Jun 2023 03:19:29 -0700
+  by orsmga006.jf.intel.com with ESMTP; 10 Jun 2023 04:12:31 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7vgu-000A0I-3D;
-	Sat, 10 Jun 2023 10:19:28 +0000
-Date: Sat, 10 Jun 2023 18:18:44 +0800
+	id 1q7wWE-000A2f-2c;
+	Sat, 10 Jun 2023 11:12:30 +0000
+Date: Sat, 10 Jun 2023 19:11:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 2/2] ERROR: modpost:
- "dvb_ca_en50221_release" [drivers/media/pci/mantis/mantis_core.ko]
- undefined!
-Message-ID: <202306101804.BEO2AMIV-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:core/guards2 12/58] kernel/sched/core.c:5667:7: error:
+ call to undeclared function 'cpu_is_online'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202306101919.Z26XbX9g-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,54 +47,101 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Lecopzer,
-
-First bad commit (maybe != root cause):
-
-tree:   https://android.googlesource.com/kernel/common android13-5.15
-head:   3c816bcc11de4a5e8a40fb4ba3a94ad0da3ed5c5
-commit: a46280457e55aa3405f8327459f27cce648c921e [2/2] FROMLIST: media: Kconfig: Make DVB_CORE=m possible when MEDIA_SUPPORT=y
-config: x86_64-randconfig-a001-20230610 (https://download.01.org/0day-ci/archive/20230610/202306101804.BEO2AMIV-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/guards2
+head:   7e38bc75e33efb3722a7bfeb15207e61819ca3c8
+commit: b8629ae9c880d8e19621e5c7866d217d98fc5288 [12/58] sched: Simplify sched_tick_remote()
+config: arm-randconfig-r046-20230610 (https://download.01.org/0day-ci/archive/20230610/202306101919.Z26XbX9g-lkp@intel.com/config)
 compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android13-5.15
-        git checkout a46280457e55aa3405f8327459f27cce648c921e
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=b8629ae9c880d8e19621e5c7866d217d98fc5288
+        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
+        git fetch --no-tags peterz-queue core/guards2
+        git checkout b8629ae9c880d8e19621e5c7866d217d98fc5288
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash kernel/sched/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306101804.BEO2AMIV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306101919.Z26XbX9g-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-ERROR: modpost: module dax uses symbol inode_init_once from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module dax uses symbol unlock_new_inode from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-ERROR: modpost: module dax uses symbol iget5_locked from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
->> ERROR: modpost: "dvb_ca_en50221_release" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_ca_en50221_camready_irq" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_ca_en50221_init" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_ca_en50221_camchange_irq" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_unregister_adapter" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_dmx_release" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_dmxdev_release" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_frontend_detach" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_unregister_frontend" [drivers/media/pci/mantis/mantis_core.ko] undefined!
->> ERROR: modpost: "dvb_register_frontend" [drivers/media/pci/mantis/mantis_core.ko] undefined!
-WARNING: modpost: suppressed 5 unresolved symbol warnings because there were too many)
+>> kernel/sched/core.c:5667:7: error: call to undeclared function 'cpu_is_online'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                   if (cpu_is_online(cpu)) {
+                       ^
+   kernel/sched/core.c:5667:7: note: did you mean 'cpu_online'?
+   include/linux/cpumask.h:1080:20: note: 'cpu_online' declared here
+   static inline bool cpu_online(unsigned int cpu)
+                      ^
+   kernel/sched/core.c:6741:35: warning: no previous prototype for function 'schedule_user' [-Wmissing-prototypes]
+   asmlinkage __visible void __sched schedule_user(void)
+                                     ^
+   kernel/sched/core.c:6741:22: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   asmlinkage __visible void __sched schedule_user(void)
+                        ^
+                        static 
+   1 warning and 1 error generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+
+vim +/cpu_is_online +5667 kernel/sched/core.c
+
+  5647	
+  5648	static void sched_tick_remote(struct work_struct *work)
+  5649	{
+  5650		struct delayed_work *dwork = to_delayed_work(work);
+  5651		struct tick_work *twork = container_of(dwork, struct tick_work, work);
+  5652		int cpu = twork->cpu;
+  5653		struct rq *rq = cpu_rq(cpu);
+  5654		int os;
+  5655	
+  5656		/*
+  5657		 * Handle the tick only if it appears the remote CPU is running in full
+  5658		 * dynticks mode. The check is racy by nature, but missing a tick or
+  5659		 * having one too much is no big deal because the scheduler tick updates
+  5660		 * statistics and checks timeslices in a time-independent way, regardless
+  5661		 * of when exactly it is running.
+  5662		 */
+  5663		if (tick_nohz_tick_stopped_cpu(cpu)) {
+  5664			guard(rq_lock_irq)(rq);
+  5665			struct task_struct *curr = rq->curr;
+  5666	
+> 5667			if (cpu_is_online(cpu)) {
+  5668				update_rq_clock(rq);
+  5669	
+  5670				if (!is_idle_task(curr)) {
+  5671					/*
+  5672					 * Make sure the next tick runs within a
+  5673					 * reasonable amount of time.
+  5674					 */
+  5675					u64 delta = rq_clock_task(rq) - curr->se.exec_start;
+  5676					WARN_ON_ONCE(delta > (u64)NSEC_PER_SEC * 3);
+  5677				}
+  5678				curr->sched_class->task_tick(rq, curr, 0);
+  5679	
+  5680				calc_load_nohz_remote(rq);
+  5681			}
+  5682		}
+  5683	
+  5684		/*
+  5685		 * Run the remote tick once per second (1Hz). This arbitrary
+  5686		 * frequency is large enough to avoid overload but short enough
+  5687		 * to keep scheduler internal stats reasonably up to date.  But
+  5688		 * first update state to reflect hotplug activity if required.
+  5689		 */
+  5690		os = atomic_fetch_add_unless(&twork->state, -1, TICK_SCHED_REMOTE_RUNNING);
+  5691		WARN_ON_ONCE(os == TICK_SCHED_REMOTE_OFFLINE);
+  5692		if (os == TICK_SCHED_REMOTE_RUNNING)
+  5693			queue_delayed_work(system_unbound_wq, dwork, HZ);
+  5694	}
+  5695	
 
 -- 
 0-DAY CI Kernel Test Service
