@@ -1,42 +1,45 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B308BE553
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 20:32:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE05B2564
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 20:32:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686429155; x=1717965155;
+  t=1686429156; x=1717965156;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bw+65aIThXyd2NUcDCqFC5hNuTsLVnHB/ZPcaccIs2I=;
-  b=J35DNokprugNSvGcmRsBdC/H3iRK4XEktrEC3YCFe19ZoJD4fNxztCVv
-   d6yYtTrtaro0HV++/2RAubRNQJin0bloFN42qH+BJYmqXS2kEI87ENaZR
-   3OXwmWwbdW7pSMAk2D1TneBuCni758csVpVMlCFZ7N77ROkfuFWeniD7a
-   5EQ+ymJow5DsLVydR5WRC8GVrmgWSgpYAzNWK5JSjnNnJl2/TBOnKId+d
-   RPTKTN9CLxGrgy9A2udsKvXGVVw0yzJ78ONn0RKUxyxIxcHN8G8ZsV0Bg
-   aAgZSl9ZEKmM91eB15eg+YLtdFBFkqII20XLzsNTLXeQ59IcxS8gFEMQ1
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="360285233"
+  bh=SVheK7eKq0ug5loF9GgqaFTj1QQSlpPiN4xEXgdQ/rw=;
+  b=JHDFq38olbIM6g7Ul7JQ7Eq2EI8RCxBkQhOD1oUj6w7ITZriqSVWelqj
+   A95/+NQmDdAvzXyb/h2Iv1R8CGeuEKwPm1M+6Bad8Tancjsf0+FG4QNXC
+   3Ze3JI60lXju/dYKqb/J+SybxYPyHRkrD2w9UQ37NORcxGHB7EKcVUADI
+   eLscmv2nH197l/7bQcijl6k84WS7rr2AnwajDpJmKJK0pbH9XGU8MR7Sp
+   bqoQgS5c0xeA44mdXsRoxgGdiDtkl5U4Aap6Jvr29toLjD7TNVFuIEXeC
+   TU+5/0M3fKFiWkxMuWkMC7SdVFAu9iR5DsoeiTspo9bWTaYJ04rD0KBPi
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="360285234"
 X-IronPort-AV: E=Sophos;i="6.00,233,1681196400"; 
-   d="scan'208";a="360285233"
+   d="scan'208";a="360285234"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 13:32:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="780693885"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="780693884"
 X-IronPort-AV: E=Sophos;i="6.00,233,1681196400"; 
-   d="scan'208";a="780693885"
+   d="scan'208";a="780693884"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 10 Jun 2023 13:32:32 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q85GB-000APl-1q;
+	id 1q85GB-000APj-1l;
 	Sat, 10 Jun 2023 20:32:31 +0000
-Date: Sun, 11 Jun 2023 04:31:51 +0800
+Date: Sun, 11 Jun 2023 04:31:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [amir73il:ovl_encode_fid 20/23] fs/open.c:1132:18: error: use of
- undeclared identifier 'file'
-Message-ID: <202306110449.yXtsYx0I-lkp@intel.com>
+To: Devarsh Thakkar <devarsht@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>, David Huang <d-huang@ti.com>,
+	Darren Etheridge <detheridge@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y-cicd 2/6]
+ drivers/media/platform/img/e5010/e5010-jpeg-enc.c:1443:13: warning: variable
+ 'bytesperline_64div' set but not used
+Message-ID: <202306110416.Ot1Gzxko-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,122 +49,126 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/amir73il/linux ovl_encode_fid
-head:   0ba31a7b3dcbf443fbdd938d66dd9fdc5218bf9d
-commit: 67e5341e22f0f5cbc1d3a0bbb4c2131b2bf896e6 [20/23] ovl: enable fsnotify events on underlying real files
-config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20230611/202306110449.yXtsYx0I-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   625b783e0c76b86448fb8a8b9f8c09fb2220e096
+commit: 995721196ec4b27ce1e6a5a713144a3d6f2b84aa [2/6] media: platform: img: Add E5010 JPEG Encoder driver
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230611/202306110416.Ot1Gzxko-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install um cross compiling tool for clang build
-        # apt-get install binutils-um-linux-gnu
-        # https://github.com/amir73il/linux/commit/67e5341e22f0f5cbc1d3a0bbb4c2131b2bf896e6
-        git remote add amir73il https://github.com/amir73il/linux
-        git fetch --no-tags amir73il ovl_encode_fid
-        git checkout 67e5341e22f0f5cbc1d3a0bbb4c2131b2bf896e6
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-6.1.y-cicd
+        git checkout 995721196ec4b27ce1e6a5a713144a3d6f2b84aa
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=um olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=um SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/media/platform/img/e5010/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306110449.yXtsYx0I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306110416.Ot1Gzxko-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/open.c:14:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from fs/open.c:14:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from fs/open.c:14:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> fs/open.c:1132:18: error: use of undeclared identifier 'file'
-                           fsnotify_open(file);
-                                         ^
-   12 warnings and 1 error generated.
+   drivers/media/platform/img/e5010/e5010-jpeg-enc.c: In function 'e5010_device_run':
+>> drivers/media/platform/img/e5010/e5010-jpeg-enc.c:1443:13: warning: variable 'bytesperline_64div' set but not used [-Wunused-but-set-variable]
+    1443 |         u32 bytesperline_64div;
+         |             ^~~~~~~~~~~~~~~~~~
 
 
-vim +/file +1132 fs/open.c
+vim +/bytesperline_64div +1443 drivers/media/platform/img/e5010/e5010-jpeg-enc.c
 
-  1118	
-  1119	struct file *open_with_fake_path(const struct path *path, int flags,
-  1120					struct inode *inode, const struct cred *cred)
-  1121	{
-  1122		struct file *f = alloc_empty_file_internal(flags, cred);
-  1123		if (!IS_ERR(f)) {
-  1124			int error;
-  1125	
-  1126			f->f_path = *path;
-  1127			error = do_dentry_open(f, inode, NULL);
-  1128			if (error) {
-  1129				fput(f);
-  1130				f = ERR_PTR(error);
-  1131			} else {
-> 1132				fsnotify_open(file);
-  1133			}
-  1134		}
-  1135		return f;
-  1136	}
-  1137	EXPORT_SYMBOL(open_with_fake_path);
-  1138	
+  1435	
+  1436	static void e5010_device_run(void *priv)
+  1437	{
+  1438		struct e5010_context *ctx = priv;
+  1439		struct e5010_dev *dev = ctx->dev;
+  1440		struct vb2_v4l2_buffer *s_vb, *d_vb;
+  1441		u32 reg = 0;
+  1442		int ret = 0;
+> 1443		u32 bytesperline_64div;
+  1444		unsigned long flags;
+  1445		int num_planes = ctx->out_queue.fmt->num_planes;
+  1446	
+  1447		spin_lock_irqsave(&dev->hw_lock, flags);
+  1448		s_vb = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+  1449		WARN_ON(!s_vb);
+  1450		d_vb = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+  1451		WARN_ON(!d_vb);
+  1452	
+  1453		s_vb->sequence = ctx->out_queue.sequence++;
+  1454		d_vb->sequence = ctx->cap_queue.sequence++;
+  1455		d_vb->flags = s_vb->flags;
+  1456		d_vb->vb2_buf.timestamp = s_vb->vb2_buf.timestamp;
+  1457	
+  1458		if (s_vb->flags & V4L2_BUF_FLAG_TIMECODE)
+  1459			d_vb->timecode = s_vb->timecode;
+  1460	
+  1461		if (ctx != dev->last_context_run || ctx->quality_updated)
+  1462			ret = update_qp_tables(ctx);
+  1463		if (ret) {
+  1464			ctx->quality_updated = true;
+  1465			dev_warn(dev->dev, "Failed to update QP tables\n");
+  1466		} else {
+  1467			dev->last_context_run = ctx;
+  1468			ctx->quality_updated = false;
+  1469		}
+  1470	
+  1471		/* Set I/O Buffer addresses */
+  1472		reg = (u32)vb2_dma_contig_plane_dma_addr(&s_vb->vb2_buf, 0);
+  1473		ret = e5010_hw_set_input_luma_addr(dev->jasper_base, reg);
+  1474		if (ret || !reg)
+  1475			dev_err(dev->dev, "Failed to set input luma address\n");
+  1476	
+  1477		if (num_planes == 1)
+  1478			reg += (ctx->out_queue.bytesperline[0]) * (ctx->out_queue.height);
+  1479		else
+  1480			reg = (u32)vb2_dma_contig_plane_dma_addr(&s_vb->vb2_buf, 1);
+  1481	
+  1482		ret = e5010_hw_set_input_chroma_addr(dev->jasper_base, reg);
+  1483		if (ret || !reg)
+  1484			dev_err(dev->dev, "Failed to set input chroma address\n");
+  1485	
+  1486		reg = (u32)vb2_dma_contig_plane_dma_addr(&d_vb->vb2_buf, 0);
+  1487		reg += HEADER_SIZE;
+  1488		ret = e5010_hw_set_output_size(dev->jasper_base, reg);
+  1489		if (ret || !reg)
+  1490			dev_err(dev->dev, "Failed to set output size\n");
+  1491	
+  1492		/* Set input settings */
+  1493		ret = e5010_hw_set_horizontal_size(dev->jasper_base, ctx->out_queue.width - 1);
+  1494		if (ret)
+  1495			dev_err(dev->dev, "Failed to set input width\n");
+  1496	
+  1497		ret = e5010_hw_set_vertical_size(dev->jasper_base, ctx->out_queue.height - 1);
+  1498		if (ret)
+  1499			dev_err(dev->dev, "Failed to set input width\n");
+  1500	
+  1501		bytesperline_64div = ctx->out_queue.bytesperline[0] / 64;
+  1502		ret = e5010_hw_set_luma_stride(dev->jasper_base, ctx->out_queue.bytesperline[0]);
+  1503		if (ret)
+  1504			dev_err(dev->dev, "Failed to set luma stride\n");
+  1505	
+  1506		ret = e5010_hw_set_chroma_stride(dev->jasper_base, ctx->out_queue.bytesperline[0]);
+  1507		if (ret)
+  1508			dev_err(dev->dev, "Failed to set chroma stride\n");
+  1509	
+  1510		ret = e5010_set_input_subsampling(dev->jasper_base, ctx->out_queue.fmt->subsampling);
+  1511		if (ret)
+  1512			dev_err(dev->dev, "Failed to set input subsampling\n");
+  1513	
+  1514		ret = e5010_hw_set_chroma_order(dev->jasper_base, ctx->out_queue.fmt->chroma_order);
+  1515		if (ret)
+  1516			dev_err(dev->dev, "Failed to set chroma order\n");
+  1517	
+  1518		e5010_hw_set_output_max_size(dev->jasper_base, d_vb->planes[0].length);
+  1519		e5010_hw_encode_start(dev->jasper_base, 1);
+  1520		spin_unlock_irqrestore(&dev->hw_lock, flags);
+  1521	}
+  1522	
 
 -- 
 0-DAY CI Kernel Test Service
