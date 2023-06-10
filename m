@@ -1,61 +1,45 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3BDBA4E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 12:59:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC052BA4E;
+	Sat, 10 Jun 2023 13:11:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686401983; x=1717937983;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ITLJwuiMSNZijdY4Cz6EusiXck7vPTOmLnkmQWskaI8=;
-  b=OShB4cayu10aFZla9A0oE9/QG63uiZ6GWDEPrfLgPV93QNywgAj6cBEo
-   KKBVu7Aatq0Wi+2JooeueON54gqju3Q/VgkeioLtd96581UVlsAqOKbsv
-   ORk05fn6N3BN9I/owLjhHmRPxjPwnZKUTEuQQ8iQZ+lG5P2LYXzH5ClN3
-   vILYp7Wjs0NyDNQG+Xzl1bPxPymmdQcehpF1dsmKd14Bim1Jgf4Tlyr5S
-   +absCNldqZJRq13EbA7aKP3MAYC9WMK7aDs2W9tfeetY4DjG2sazUUvU4
-   nfRbMenTM06cskmFSXONjS8MtyfstYj/tQBzFNjvSoSJK3VH1EioU7e0B
+  t=1686402701; x=1717938701;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=taMJlKAKA2towUqUDzWpc8HwtY1ZrICSivcLEeka6lo=;
+  b=RZxI6FTgLkbtM9ZPSsWsjKUuOeRnMsUH1n34C4MyDoV3RvVNqt4+oGN/
+   Ys228Lvg1akQ/DnIEpmSrp4slq9jKoMQkLClnFEPR+A47ojUgxANb6rfH
+   Nnv/3tu1ykhFXNnkYq71PJOEYcjaOq5He1CWsIjdhdHO9UfweZ+p+mMqe
+   wf0B7rYs9SqYuNpTfn4WGOpxZQSDsYfDATCdd23eTKAiuJ6Jhbwi3qIc8
+   Sk7p95GgkTuOGr6At910jOwU+D0ZV6+ZFcVIjDfmphabX1cutlS4fSY+r
+   f1nL0Ov/zSXeB6tKQpF65cVz3JaANYjnifXYj9M6Ep/+Gp48/0O3G3Ljl
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="338122791"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="355252718"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="338122791"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 05:59:42 -0700
+   d="scan'208";a="355252718"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 06:11:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="957451084"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="661061696"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="957451084"
+   d="scan'208";a="661061696"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 10 Jun 2023 05:59:38 -0700
+  by orsmga003.jf.intel.com with ESMTP; 10 Jun 2023 06:11:38 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7yBt-000A6A-2O;
-	Sat, 10 Jun 2023 12:59:37 +0000
-Date: Sat, 10 Jun 2023 20:59:16 +0800
+	id 1q7yNV-000A6a-3C;
+	Sat, 10 Jun 2023 13:11:37 +0000
+Date: Sat, 10 Jun 2023 21:10:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Demi Marie Obenour <demi@invisiblethingslab.com>,
-	Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
-	Federico Vaga <federico.vaga@vaga.pv.it>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Lee Jones <lee@kernel.org>, Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Demi Marie Obenour <demi@invisiblethingslab.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	xen-devel@lists.xenproject.org
-Subject: Re: [PATCH 2/4] vsscanf(): Return -ERANGE on integer overflow
-Message-ID: <202306102055.ZSJK8Xsj-lkp@intel.com>
-References: <20230610025759.1813-2-demi@invisiblethingslab.com>
+To: Edward Cree <ecree.xilinx@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jakub Kicinski <kuba@kernel.org>,
+	Simon Horman <simon.horman@corigine.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
+Subject: [netdev-net-next:main 26/28] ld.lld: error: undefined symbol:
+ efx_tc_netdev_event
+Message-ID: <202306102026.ISK5JfUQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,67 +48,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230610025759.1813-2-demi@invisiblethingslab.com>
 
-Hi Demi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on lee-mfd/for-mfd-next]
-[also build test WARNING on lee-leds/for-leds-next linus/master v6.4-rc5 next-20230609]
-[cannot apply to xen-tip/linux-next lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Demi-Marie-Obenour/vsscanf-Return-ERANGE-on-integer-overflow/20230610-110026
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20230610025759.1813-2-demi%40invisiblethingslab.com
-patch subject: [PATCH 2/4] vsscanf(): Return -ERANGE on integer overflow
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230610/202306102055.ZSJK8Xsj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git main
+head:   e431e712c83676a8a9cd3988b323e3ef994a8ff3
+commit: 7e5e7d800011adf4aeda615f8a1bc31c0c1e2bb9 [26/28] sfc: neighbour lookup for TC encap action offload
+config: arm-randconfig-r011-20230610 (https://download.01.org/0day-ci/archive/20230610/202306102026.ISK5JfUQ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
 reproduce (this is a W=1 build):
-        git remote add lee-mfd https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git
-        git fetch lee-mfd for-mfd-next
-        git checkout lee-mfd/for-mfd-next
-        b4 shazam https://lore.kernel.org/r/20230610025759.1813-2-demi@invisiblethingslab.com
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/?id=7e5e7d800011adf4aeda615f8a1bc31c0c1e2bb9
+        git remote add netdev-net-next https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
+        git fetch --no-tags netdev-net-next main
+        git checkout 7e5e7d800011adf4aeda615f8a1bc31c0c1e2bb9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/staging/media/atomisp/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306102055.ZSJK8Xsj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306102026.ISK5JfUQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/staging/media/atomisp//pci/ia_css_acc_types.h:25,
-                    from drivers/staging/media/atomisp//pci/ia_css_pipe_public.h:29,
-                    from drivers/staging/media/atomisp//pci/ia_css_stream_public.h:25,
-                    from drivers/staging/media/atomisp//pci/runtime/binary/interface/ia_css_binary.h:23,
-                    from drivers/staging/media/atomisp//pci/runtime/debug/interface/ia_css_debug.h:25,
-                    from drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc.host.c:18:
->> drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h:30: warning: "UCHAR_MAX" redefined
-      30 | #define UCHAR_MAX  (255)
-         | 
-   In file included from include/linux/limits.h:7,
-                    from drivers/staging/media/atomisp//pci/hive_isp_css_include/type_support.h:37,
-                    from drivers/staging/media/atomisp//pci/ia_css_types.h:27,
-                    from drivers/staging/media/atomisp/pci/isp/kernels/macc/macc_1.0/ia_css_macc.host.c:16:
-   include/vdso/limits.h:5: note: this is the location of the previous definition
-       5 | #define UCHAR_MAX       ((unsigned char)~0U)
-         | 
-
-
-vim +/UCHAR_MAX +30 drivers/staging/media/atomisp//pci/hive_isp_css_include/platform_support.h
-
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19  27  
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19  28  #define UINT16_MAX USHRT_MAX
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19  29  #define UINT32_MAX UINT_MAX
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19 @30  #define UCHAR_MAX  (255)
-ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/hive_isp_css_include/platform_support.h Mauro Carvalho Chehab 2020-04-19  31  
+>> ld.lld: error: undefined symbol: efx_tc_netdev_event
+   >>> referenced by ef100_netdev.c:313 (drivers/net/ethernet/sfc/ef100_netdev.c:313)
+   >>>               drivers/net/ethernet/sfc/ef100_netdev.o:(ef100_netdev_event) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: efx_tc_netevent_event
+   >>> referenced by ef100_netdev.c:329 (drivers/net/ethernet/sfc/ef100_netdev.c:329)
+   >>>               drivers/net/ethernet/sfc/ef100_netdev.o:(ef100_netevent_event) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
