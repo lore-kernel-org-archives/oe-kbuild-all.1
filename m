@@ -1,40 +1,43 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8338836;
-	Sat, 10 Jun 2023 08:20:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=gWKqc15+EXQAtpyqltNf7kL8HfK2rfuZrC722LYUk6k=; b=MXxUg3LkTPXrUiF2SyIoRW14lG
-	+OkA13KqE53DCJcWzOiMXLjMaROnNjlfGgWhF92sdXKCGA1vDbzlFBgpj+5teHBEzkeAPG+aPVxzq
-	IQQmelRUsLH8DLmsEpFg6Lr7rwEHxaQ1HUDa2c0gbfe4mX86Qe3K+9DbSnG+QuSc0ltCu+mfuiESP
-	tKtI3jJm670DNi8NklWw+/cLUaGUPH7vEz5d+7WzU9j91hc0AYD/3x7O3z1FYV1okZjAgKr0Cc3x5
-	s3tdNrwBE0m+UUBTI242pJy1Q3rgFr/YtGMMlzQSvayBZwM99fSsB2DCyr8f4H8Msb4hBwgU0rKyF
-	Yv6ECCwQ==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1q7tpO-007sOR-0q;
-	Sat, 10 Jun 2023 08:20:07 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A9C423001AE;
-	Sat, 10 Jun 2023 10:20:05 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 8851D243C7B63; Sat, 10 Jun 2023 10:20:05 +0200 (CEST)
-Date: Sat, 10 Jun 2023 10:20:05 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [peterz-queue:core/guards 37/58] kernel/events/core.c:4815:4:
- error: cannot jump from this asm goto statement to one of its possible
- targets
-Message-ID: <20230610082005.GB1370249@hirez.programming.kicks-ass.net>
-References: <202306101109.PqwXuQIY-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9A48836
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 08:23:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686385406; x=1717921406;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tkRtEjNePR07fnihemhFl7JmTuPcQ8wt5o22dCRqbiw=;
+  b=CgfXMBm+w1f0sliKwVi/k9tae0djoY108wEKO2mV5KLA2xFPTuaxm9zK
+   eUb9xNgiMkGps1oDNpEahG34o/DudGK+sh1tPTKn6rmdcDM83RpCWSR8J
+   fEYR6oe13Wc8MswclnoICXCbpxy+52LulUkNHaETOQxyGL7tqwTerG3Gk
+   y3mV73wPcT8dlhCyzZf4ttHk/+dt7cFQV8tSrZsBpuSG8JQkcMgxfVQK6
+   GRSWKoZYy7GAWYrqltglyzwJpyu/yWUWwwOtAuxFf6jqGynAC4tsG0wwG
+   2u5KrWrxqgadCW5pfgy1WkilSICtDf/3MrWXW4pqopWXshX0ds3kuVLB5
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="361108532"
+X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
+   d="scan'208";a="361108532"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 01:23:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="854994070"
+X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
+   d="scan'208";a="854994070"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2023 01:23:24 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q7tsZ-0009to-1v;
+	Sat, 10 Jun 2023 08:23:23 +0000
+Date: Sat, 10 Jun 2023 16:23:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [arm64:devel/kmalloc-minalign 18/18]
+ drivers/media/usb/cx231xx/cx231xx-audio.c:564:20: warning: variable 'devnr'
+ set but not used
+Message-ID: <202306101605.sgUmz5Gf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -43,120 +46,184 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202306101109.PqwXuQIY-lkp@intel.com>
 
-On Sat, Jun 10, 2023 at 11:13:14AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/guards
-> head:   dd132e83d180b932488bcf612576529e6163a1ea
-> commit: bbca204d731b08997a60a4ca0530fdee8b6f429c [37/58] perf: Simplify find_get_pmu_context()
-> config: powerpc-gamecube_defconfig (https://download.01.org/0day-ci/archive/20230610/202306101109.PqwXuQIY-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce (this is a W=1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install powerpc cross compiling tool for clang build
->         # apt-get install binutils-powerpc-linux-gnu
->         # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=bbca204d731b08997a60a4ca0530fdee8b6f429c
->         git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
->         git fetch --no-tags peterz-queue core/guards
->         git checkout bbca204d731b08997a60a4ca0530fdee8b6f429c
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306101109.PqwXuQIY-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git devel/kmalloc-minalign
+head:   e5bbe79231baf5cad690c6fc9de3910ad14a2aa6
+commit: e5bbe79231baf5cad690c6fc9de3910ad14a2aa6 [18/18] fixup! mm/slab: Decouple ARCH_KMALLOC_MINALIGN from ARCH_DMA_MINALIGN
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230610/202306101605.sgUmz5Gf-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/commit/?id=e5bbe79231baf5cad690c6fc9de3910ad14a2aa6
+        git remote add arm64 https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+        git fetch --no-tags arm64 devel/kmalloc-minalign
+        git checkout e5bbe79231baf5cad690c6fc9de3910ad14a2aa6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/media/usb/cx231xx/ drivers/media/usb/em28xx/
 
-> >> kernel/events/core.c:4815:4: error: cannot jump from this asm goto statement to one of its possible targets
->     4815 |                         WARN_ON_ONCE(epc->ctx != ctx);
->          |                         ^
->    include/asm-generic/bug.h:112:3: note: expanded from macro 'WARN_ON_ONCE'
->      112 |                 __WARN_FLAGS(BUGFLAG_ONCE |                     \
->          |                 ^
->    arch/powerpc/include/asm/bug.h:101:2: note: expanded from macro '__WARN_FLAGS'
->      101 |         WARN_ENTRY("twi 31, 0, 0", BUGFLAG_WARNING | (flags), __label_warn_on); \
->          |         ^
->    arch/powerpc/include/asm/bug.h:77:2: note: expanded from macro 'WARN_ENTRY'
->       77 |         asm_volatile_goto(                              \
->          |         ^
->    include/linux/compiler_types.h:328:33: note: expanded from macro 'asm_volatile_goto'
->      328 | #define asm_volatile_goto(x...) asm goto(x)
->          |                                 ^
->    kernel/events/core.c:4784:4: note: possible target of asm goto statement
->     4784 |                         WARN_ON_ONCE(epc->ctx != ctx);
->          |                         ^
->    include/asm-generic/bug.h:112:3: note: expanded from macro 'WARN_ON_ONCE'
->      112 |                 __WARN_FLAGS(BUGFLAG_ONCE |                     \
->          |                 ^
->    arch/powerpc/include/asm/bug.h:104:9: note: expanded from macro '__WARN_FLAGS'
->      104 |                                                                 \
->          |                                                                 ^
->    kernel/events/core.c:4791:8: note: jump exits scope of variable with __attribute__((cleanup))
->     4791 |         void *new __free(kfree) = kzalloc(sizeof(*epc), GFP_KERNEL);
->          |               ^
->    kernel/events/core.c:4784:4: error: cannot jump from this asm goto statement to one of its possible targets
->     4784 |                         WARN_ON_ONCE(epc->ctx != ctx);
->          |                         ^
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306101605.sgUmz5Gf-lkp@intel.com/
 
-So I can't reproduce this using GCC for ARCH=powerpc gamecube_defconfig,
-and I can't figure out WTF the compiler is trying to do. The code in
-question reads:
+All warnings (new ones prefixed by >>):
 
-  static struct perf_event_pmu_context *
-  find_get_pmu_context(struct pmu *pmu, struct perf_event_context *ctx,
-		       struct perf_event *event)
-  {
-	  struct perf_event_pmu_context *epc;
-	  void *task_ctx_data = NULL;
-
-	  if (!ctx->task) {
-		  /*
-		   * perf_pmu_migrate_context() / __perf_pmu_install_event()
-		   * relies on the fact that find_get_pmu_context() cannot fail
-		   * for CPU contexts.
-		   */
-		  struct perf_cpu_pmu_context *cpc;
-
-		  cpc = per_cpu_ptr(pmu->cpu_pmu_context, event->cpu);
-		  epc = &cpc->epc;
-		  raw_spin_lock_irq(&ctx->lock);
-		  if (!epc->ctx) {
-			  atomic_set(&epc->refcount, 1);
-			  epc->embedded = 1;
-			  list_add(&epc->pmu_ctx_entry, &ctx->pmu_ctx_list);
-			  epc->ctx = ctx;
-		  } else {
-			  WARN_ON_ONCE(epc->ctx != ctx);
-
-And for some mysterious raisin this ^^ WARN wants to continue..
-
-			  atomic_inc(&epc->refcount);
-		  }
-		  raw_spin_unlock_irq(&ctx->lock);
-		  return epc;
-	  }
-
-	  void *new __free(kfree) = kzalloc(sizeof(*epc), GFP_KERNEL);
-	  if (!new)
-		  return NULL;
-
-.. here or so? even though it has a return statement before this decl.
+   In file included from include/linux/time.h:5,
+                    from include/linux/videodev2.h:59,
+                    from drivers/media/usb/cx231xx/cx231xx.h:13,
+                    from drivers/media/usb/cx231xx/cx231xx-audio.c:9:
+   include/linux/cache.h:104:38: error: missing binary operator before token "("
+     104 | #define ARCH_DMA_MINALIGN __alignof__(unsigned long long)
+         |                                      ^
+   include/linux/slab.h:239:39: note: in expansion of macro 'ARCH_DMA_MINALIGN'
+     239 | #if defined(ARCH_HAS_DMA_MINALIGN) && ARCH_DMA_MINALIGN > 8 && \
+         |                                       ^~~~~~~~~~~~~~~~~
+   drivers/media/usb/cx231xx/cx231xx-audio.c: In function 'cx231xx_audio_init':
+>> drivers/media/usb/cx231xx/cx231xx-audio.c:564:20: warning: variable 'devnr' set but not used [-Wunused-but-set-variable]
+     564 |         static int devnr;
+         |                    ^~~~~
+   drivers/media/usb/cx231xx/cx231xx-audio.c: At top level:
+   drivers/media/usb/cx231xx/cx231xx-audio.c:29:12: warning: 'index' defined but not used [-Wunused-variable]
+      29 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+         |            ^~~~~
+--
+   In file included from include/linux/time.h:5,
+                    from include/linux/ktime.h:24,
+                    from include/linux/timer.h:6,
+                    from include/linux/workqueue.h:9,
+                    from drivers/media/usb/em28xx/em28xx.h:21,
+                    from drivers/media/usb/em28xx/em28xx-audio.c:14:
+   include/linux/cache.h:104:38: error: missing binary operator before token "("
+     104 | #define ARCH_DMA_MINALIGN __alignof__(unsigned long long)
+         |                                      ^
+   include/linux/slab.h:239:39: note: in expansion of macro 'ARCH_DMA_MINALIGN'
+     239 | #if defined(ARCH_HAS_DMA_MINALIGN) && ARCH_DMA_MINALIGN > 8 && \
+         |                                       ^~~~~~~~~~~~~~~~~
+   drivers/media/usb/em28xx/em28xx-audio.c: In function 'em28xx_audio_init':
+>> drivers/media/usb/em28xx/em28xx-audio.c:808:29: warning: variable 'devnr' set but not used [-Wunused-but-set-variable]
+     808 |         static int          devnr;
+         |                             ^~~~~
+   drivers/media/usb/em28xx/em28xx-audio.c: At top level:
+   drivers/media/usb/em28xx/em28xx-audio.c:47:12: warning: 'index' defined but not used [-Wunused-variable]
+      47 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
+         |            ^~~~~
 
 
-	  if (event->attach_state & PERF_ATTACH_TASK_DATA) {
-		  task_ctx_data = alloc_task_ctx_data(pmu);
-		  if (!task_ctx_data)
-			  return NULL;
-	  }
+vim +/devnr +564 drivers/media/usb/cx231xx/cx231xx-audio.c
 
-	  __perf_init_event_pmu_context(new, pmu);
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  558  
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  559  static int cx231xx_audio_init(struct cx231xx *dev)
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  560  {
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  561  	struct cx231xx_audio *adev = &dev->adev;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  562  	struct snd_pcm *pcm;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  563  	struct snd_card *card;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03 @564  	static int devnr;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  565  	int err;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  566  	struct usb_interface *uif;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  567  	int i, isoc_pipe = 0;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  568  
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  569  	if (dev->has_alsa_audio != 1) {
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  570  		/* This device does not support the extension (in this case
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  571  		   the device is expecting the snd-usb-audio module or
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  572  		   doesn't have analog audio support at all) */
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  573  		return 0;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  574  	}
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  575  
+336fea922936c1 drivers/media/usb/cx231xx/cx231xx-audio.c   Mauro Carvalho Chehab 2014-11-03  576  	dev_dbg(dev->dev,
+b7085c08647598 drivers/media/usb/cx231xx/cx231xx-audio.c   Mauro Carvalho Chehab 2014-11-02  577  		"probing for cx231xx non standard usbaudio\n");
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  578  
+336fea922936c1 drivers/media/usb/cx231xx/cx231xx-audio.c   Mauro Carvalho Chehab 2014-11-03  579  	err = snd_card_new(dev->dev, index[devnr], "Cx231xx Audio",
+e735688875208f drivers/media/usb/cx231xx/cx231xx-audio.c   Takashi Iwai          2014-01-29  580  			   THIS_MODULE, 0, &card);
+a938b8c5be8fe5 drivers/media/video/cx231xx/cx231xx-audio.c Mauro Carvalho Chehab 2009-04-06  581  	if (err < 0)
+a938b8c5be8fe5 drivers/media/video/cx231xx/cx231xx-audio.c Mauro Carvalho Chehab 2009-04-06  582  		return err;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  583  
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  584  	spin_lock_init(&adev->slock);
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  585  	err = snd_pcm_new(card, "Cx231xx Audio", 0, 0, 1, &pcm);
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  586  	if (err < 0)
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  587  		goto err_free_card;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  588  
+84b5dbf39ed2f5 drivers/media/video/cx231xx/cx231xx-audio.c Mauro Carvalho Chehab 2009-03-03  589  	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_CAPTURE,
+84b5dbf39ed2f5 drivers/media/video/cx231xx/cx231xx-audio.c Mauro Carvalho Chehab 2009-03-03  590  			&snd_cx231xx_pcm_capture);
+355b9a0c585669 drivers/media/usb/cx231xx/cx231xx-audio.c   Takashi Iwai          2019-12-10  591  	snd_pcm_set_managed_buffer_all(pcm, SNDRV_DMA_TYPE_VMALLOC, NULL, 0, 0);
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  592  	pcm->info_flags = 0;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  593  	pcm->private_data = dev;
+cc1e6315e83db0 drivers/media/usb/cx231xx/cx231xx-audio.c   Mauro Carvalho Chehab 2018-09-10  594  	strscpy(pcm->name, "Conexant cx231xx Capture", sizeof(pcm->name));
+cc1e6315e83db0 drivers/media/usb/cx231xx/cx231xx-audio.c   Mauro Carvalho Chehab 2018-09-10  595  	strscpy(card->driver, "Cx231xx-Audio", sizeof(card->driver));
+cc1e6315e83db0 drivers/media/usb/cx231xx/cx231xx-audio.c   Mauro Carvalho Chehab 2018-09-10  596  	strscpy(card->shortname, "Cx231xx Audio", sizeof(card->shortname));
+cc1e6315e83db0 drivers/media/usb/cx231xx/cx231xx-audio.c   Mauro Carvalho Chehab 2018-09-10  597  	strscpy(card->longname, "Conexant cx231xx Audio", sizeof(card->longname));
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  598  
+61b04cb24a129f drivers/media/video/cx231xx/cx231xx-audio.c Mauro Carvalho Chehab 2010-09-27  599  	INIT_WORK(&dev->wq_trigger, audio_trigger);
+61b04cb24a129f drivers/media/video/cx231xx/cx231xx-audio.c Mauro Carvalho Chehab 2010-09-27  600  
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  601  	err = snd_card_register(card);
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  602  	if (err < 0)
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  603  		goto err_free_card;
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  604  
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  605  	adev->sndcard = card;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  606  	adev->udev = dev->udev;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  607  
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  608  	/* compute alternate max packet sizes for Audio */
+84b5dbf39ed2f5 drivers/media/video/cx231xx/cx231xx-audio.c Mauro Carvalho Chehab 2009-03-03  609  	uif =
+84b5dbf39ed2f5 drivers/media/video/cx231xx/cx231xx-audio.c Mauro Carvalho Chehab 2009-03-03  610  	    dev->udev->actconfig->interface[dev->current_pcb_config.
+84b5dbf39ed2f5 drivers/media/video/cx231xx/cx231xx-audio.c Mauro Carvalho Chehab 2009-03-03  611  					    hs_config_info[0].interface_info.
+84b5dbf39ed2f5 drivers/media/video/cx231xx/cx231xx-audio.c Mauro Carvalho Chehab 2009-03-03  612  					    audio_index + 1];
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  613  
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  614  	if (uif->altsetting[0].desc.bNumEndpoints < isoc_pipe + 1) {
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  615  		err = -ENODEV;
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  616  		goto err_free_card;
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  617  	}
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  618  
+84b5dbf39ed2f5 drivers/media/video/cx231xx/cx231xx-audio.c Mauro Carvalho Chehab 2009-03-03  619  	adev->end_point_addr =
+69a11a32643bda drivers/media/usb/cx231xx/cx231xx-audio.c   Hans Verkuil          2013-02-07  620  	    uif->altsetting[0].endpoint[isoc_pipe].desc.
+69a11a32643bda drivers/media/usb/cx231xx/cx231xx-audio.c   Hans Verkuil          2013-02-07  621  			bEndpointAddress;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  622  
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  623  	adev->num_alt = uif->num_altsetting;
+336fea922936c1 drivers/media/usb/cx231xx/cx231xx-audio.c   Mauro Carvalho Chehab 2014-11-03  624  	dev_info(dev->dev,
+b7085c08647598 drivers/media/usb/cx231xx/cx231xx-audio.c   Mauro Carvalho Chehab 2014-11-02  625  		"audio EndPoint Addr 0x%x, Alternate settings: %i\n",
+84b5dbf39ed2f5 drivers/media/video/cx231xx/cx231xx-audio.c Mauro Carvalho Chehab 2009-03-03  626  		adev->end_point_addr, adev->num_alt);
+6da2ec56059c3c drivers/media/usb/cx231xx/cx231xx-audio.c   Kees Cook             2018-06-12  627  	adev->alt_max_pkt_size = kmalloc_array(32, adev->num_alt, GFP_KERNEL);
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  628  	if (!adev->alt_max_pkt_size) {
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  629  		err = -ENOMEM;
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  630  		goto err_free_card;
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  631  	}
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  632  
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  633  	for (i = 0; i < adev->num_alt; i++) {
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  634  		u16 tmp;
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  635  
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  636  		if (uif->altsetting[i].desc.bNumEndpoints < isoc_pipe + 1) {
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  637  			err = -ENODEV;
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  638  			goto err_free_pkt_size;
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  639  		}
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  640  
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  641  		tmp = le16_to_cpu(uif->altsetting[i].endpoint[isoc_pipe].desc.
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  642  				wMaxPacketSize);
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  643  		adev->alt_max_pkt_size[i] =
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  644  		    (tmp & 0x07ff) * (((tmp & 0x1800) >> 11) + 1);
+336fea922936c1 drivers/media/usb/cx231xx/cx231xx-audio.c   Mauro Carvalho Chehab 2014-11-03  645  		dev_dbg(dev->dev,
+b7085c08647598 drivers/media/usb/cx231xx/cx231xx-audio.c   Mauro Carvalho Chehab 2014-11-02  646  			"audio alternate setting %i, max size= %i\n", i,
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  647  			adev->alt_max_pkt_size[i]);
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  648  	}
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  649  
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  650  	return 0;
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  651  
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  652  err_free_pkt_size:
+65f921647f4c89 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  653  	kfree(adev->alt_max_pkt_size);
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  654  err_free_card:
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  655  	snd_card_free(card);
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  656  
+fff1abc4d54e46 drivers/media/usb/cx231xx/cx231xx-audio.c   Johan Hovold          2017-03-13  657  	return err;
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  658  }
+e0d3bafd02586c drivers/media/video/cx231xx/cx231xx-audio.c Sri Deevi             2009-03-03  659  
 
+:::::: The code at line 564 was first introduced by commit
+:::::: e0d3bafd02586cfde286c320f56906fd9fa8d256 V4L/DVB (10954): Add cx231xx USB driver
 
-Help?
+:::::: TO: Sri Deevi <Srinivasa.Deevi@conexant.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
