@@ -1,44 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCFCB33D7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 16:40:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1332C23C5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 18:13:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686415253; x=1717951253;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lyFPlqd2MNBk9iE3K8B3ZfZZrjEUSny0Ie1rU5UTEVQ=;
-  b=VbTSfbK3Vzf7Y25HtAYyB+M9PahY2Kx2gQw/sH4aQi9WaLuCpX9TCSv8
-   VyxQ+nmUZZHATQbzefwPJSFuODZep4GxQBPoazEY069PtOMGs/+ZMvQOq
-   zqC73/g/vhDk2vdG37XskWVlLH2uFnuuJAD5iWLoUVPfW4hWpLXF2pTpJ
-   gLbFEhELOlHDAQ18n4vW8BOOC95gr9smbzncVc9ldSthHDNOA72SRwu89
-   d4c0MAuuHmmMv0mhMjFSOHmrPbj8J3jhzVZleOS9a/t0/WZ0Wzp4ti9sk
-   WwqvPJ/UaF5tSLJCL29MHkA2peisudMNuofhdOeouJg3A2wkX0Wc2Yqrv
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="360265160"
+  t=1686420840; x=1717956840;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=k0cow1B/VUGm2WGRr0jcEku2R+qNGzylYKuZ+eDSluo=;
+  b=FwoLQ2gEgp+7dMNnjg+Ha/sBbSVoboY4qDI4lORlSjGuYI4r8XSOVyoa
+   XSO74QqFvJt5VH4TYu4fVcPTpSMW2f1DyOqGoo76hlzXr1y9pRBu0hwuC
+   429+5cyJTG3Gx1BTd5O1iji2oxTgLjPSSkErVFp8QyS1dI4cb+16LNoB5
+   0qQtD4vAVPOLW900g1toRaDeJLLtJKBktmLMumW0s/tscC7gTCG6aOr5R
+   ODHGZZBPWADQXVmdb7ebASyzvVuss1jEUp5yQdpiJExU4a/Pqes5I7BFC
+   zBcRdWzhCXq6Bba1YlYnEtyN999PZczcWQOfqeBMc/jXub5QzQ79ERrCs
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="355284813"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="360265160"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 09:40:53 -0700
+   d="scan'208";a="355284813"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 11:13:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="704877344"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="855097406"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="704877344"
+   d="scan'208";a="855097406"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 10 Jun 2023 09:40:52 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2023 11:13:57 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q81dz-000AGW-14;
-	Sat, 10 Jun 2023 16:40:51 +0000
-Date: Sun, 11 Jun 2023 00:40:29 +0800
+	id 1q8365-000ALU-0m;
+	Sat, 10 Jun 2023 18:13:57 +0000
+Date: Sun, 11 Jun 2023 02:13:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v8 08/11] kbuild: implement CONFIG_TRIM_UNUSED_KSYMS
- without recursion
-Message-ID: <202306110008.dL9Nj6Li-lkp@intel.com>
-References: <20230610091320.1054554-9-masahiroy@kernel.org>
+Subject: [android-common:android14-5.15 1811/23309]
+ include/trace/trace_events.h:27:23: warning:
+ 'str__gic_v3__trace_system_name' defined but not used
+Message-ID: <202306110241.Fm5uoEs5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,123 +46,150 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230610091320.1054554-9-masahiroy@kernel.org>
 
-Hi Masahiro,
+Hi Neeraj,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on masahiroy-kbuild/for-next]
-[also build test ERROR on next-20230609]
-[cannot apply to masahiroy-kbuild/fixes arnd-asm-generic/master rafael-pm/linux-next linus/master v6.4-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/Revert-PATCH-uml-export-symbols-added-by-GCC-hardened/20230610-171620
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/20230610091320.1054554-9-masahiroy%40kernel.org
-patch subject: [PATCH v8 08/11] kbuild: implement CONFIG_TRIM_UNUSED_KSYMS without recursion
-config: riscv-defconfig (https://download.01.org/0day-ci/archive/20230611/202306110008.dL9Nj6Li-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   c1d11308117b35f068fbfdb4b8df8b0532f2d7f4
+commit: 00c6f53e034e2b580e51d3339dbc4b7f06529073 [1811/23309] ANDROID: gic-v3: Add vendor hook to GIC v3
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230611/202306110241.Fm5uoEs5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add masahiroy-kbuild https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
-        git fetch masahiroy-kbuild for-next
-        git checkout masahiroy-kbuild/for-next
-        b4 shazam https://lore.kernel.org/r/20230610091320.1054554-9-masahiroy@kernel.org
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-5.15
+        git checkout 00c6f53e034e2b580e51d3339dbc4b7f06529073
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash M=arch/riscv
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/ drivers/md/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306110008.dL9Nj6Li-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306110241.Fm5uoEs5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> make[2]: *** No rule to make target 'arch/riscv/kvm/kvm.ko', needed by '__modfinal'.
-   make[2]: Target '__modfinal' not remade because of errors.
---
-   make[2]: *** No rule to make target 'crypto/seqiv.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/echainiv.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'crypto/hmac.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'crypto/sha256_generic.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/sha512_generic.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/sha3_generic.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/blake2b_generic.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/cbc.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/ctr.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/gcm.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'crypto/aes_generic.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/authenc.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/authencesn.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/xxhash_generic.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/drbg.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/jitterentropy_rng.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/ghash-generic.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/xor.ko', needed by '__modfinal'.
-   make[2]: Target '__modfinal' not remade because of errors.
---
->> make[2]: *** No rule to make target 'drivers/clk/starfive/clk-starfive-jh7100-audio.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/clk/starfive/clk-starfive-jh7110-aon.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/clk/sunxi-ng/sun8i-de2-ccu.ko', needed by '__modfinal'.
-   make[2]: Target '__modfinal' not remade because of errors.
---
-   make[2]: *** No rule to make target 'drivers/dma/virt-dma.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/dma/sun6i-dma.ko', needed by '__modfinal'.
-   make[2]: Target '__modfinal' not remade because of errors.
---
->> make[2]: *** No rule to make target 'drivers/i2c/algos/i2c-algo-bit.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/i2c/busses/i2c-mv64xxx.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/i2c/i2c-core.ko', needed by '__modfinal'.
-   make[2]: Target '__modfinal' not remade because of errors.
---
->> make[2]: *** No rule to make target 'drivers/input/keyboard/sun4i-lradc-keys.ko', needed by '__modfinal'.
-   make[2]: Target '__modfinal' not remade because of errors.
---
-   make[2]: *** No rule to make target 'drivers/net/mdio/mdio-mux.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/net/pcs/pcs_xpcs.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/net/ethernet/stmicro/stmmac/stmmac.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/net/ethernet/stmicro/stmmac/stmmac-platform.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/net/ethernet/stmicro/stmmac/dwmac-generic.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/ipvlan/ipvlan.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/dummy.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/macvlan.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/mii.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/veth.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/vxlan/vxlan.ko', needed by '__modfinal'.
-   make[2]: Target '__modfinal' not remade because of errors.
---
->> make[2]: *** No rule to make target 'drivers/phy/allwinner/phy-sun4i-usb.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/phy/allwinner/phy-sun6i-mipi-dphy.ko', needed by '__modfinal'.
-   make[2]: Target '__modfinal' not remade because of errors.
---
->> make[2]: *** No rule to make target 'drivers/video/backlight/backlight.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/video/fbdev/core/cfbfillrect.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/video/fbdev/core/cfbcopyarea.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/video/fbdev/core/cfbimgblt.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/video/fbdev/core/sysfillrect.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/video/fbdev/core/syscopyarea.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/video/fbdev/core/sysimgblt.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/video/fbdev/core/fb_sys_fops.ko', needed by '__modfinal'.
-   make[2]: Target '__modfinal' not remade because of errors.
---
->> make[2]: *** No rule to make target 'lib/crypto/libaes.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'lib/crypto/gf128mul.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'lib/crypto/libsha256.ko', needed by '__modfinal'.
-   make[2]: Target '__modfinal' not remade because of errors.
---
->> make[2]: *** No rule to make target 'lib/lzo/lzo_compress.ko', needed by '__modfinal'.
-   make[2]: Target '__modfinal' not remade because of errors.
-..
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/gic_v3.h:29,
+                    from drivers/android/vendor_hooks.c:25:
+>> include/trace/trace_events.h:27:23: warning: 'str__gic_v3__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/printk.h:27,
+                    from drivers/android/vendor_hooks.c:24:
+   include/trace/trace_events.h:27:23: warning: 'str__printk__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sysrqcrash.h:24,
+                    from drivers/android/vendor_hooks.c:23:
+   include/trace/trace_events.h:27:23: warning: 'str__sysrqcrash__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/debug.h:26,
+                    from drivers/android/vendor_hooks.c:22:
+   include/trace/trace_events.h:27:23: warning: 'str__debug__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/wqlockup.h:24,
+                    from drivers/android/vendor_hooks.c:21:
+   include/trace/trace_events.h:27:23: warning: 'str__wqlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/gic.h:29,
+                    from drivers/android/vendor_hooks.c:20:
+   include/trace/trace_events.h:27:23: warning: 'str__gic__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+
+
+vim +/str__gic_v3__trace_system_name +27 include/trace/trace_events.h
+
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
