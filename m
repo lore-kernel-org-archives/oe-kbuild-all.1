@@ -1,43 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F914110A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 20:54:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58077110A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 20:54:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686430441; x=1717966441;
+  t=1686430455; x=1717966455;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZOXSVwmZKqTp3oD9fdi1X/eZyvyTPufuz/ImDOZpwGA=;
-  b=BzdWxGjO7pevU6Pnj+w3DQ4eK5MMgrm7ZbEY+ZozrxjEY0Nk7sZLcAx7
-   8HergO1gBzLjkogxh7fExKZ3bUtdglGdR1XesJ2V/DiV3VkZ8vRArtCEo
-   YjcrSAFn9t7SWsvYMuR8nIqk6fVM6uwRd2fSIAe+klR7OUwQbp9JygzGE
-   +ZbLm6uUBf7Ek1WwfXHzc1GkE+rmcOkwm5JJ4G3gVNY8SVheNgEhpLB8/
-   ZY02LO0HE3InqIzuv/v/+S1rJ/n0GEqawIi75MEJNu5fEpvnloWfWPM54
-   Ob52VjRzaofqCVlUcS7nquVF/mgUhR9jzScfH9QJLlkf6+K6LN04EbpvX
+  bh=U6XL1B+TcmACKhdvc9yqDp5YmbCjNm5IFnI5ipcP8RQ=;
+  b=hmPyuayhhSDdzDTu6E5k7k7LIeauRwfDIYQhFACPuQFW+5D4BM6+nmoC
+   JgcSIdg0f15vxguvetr6W/c0oZyd1ZOukK5nypQt3lpCLNCK+WU9CZtDd
+   38zyj5Z3xo0upOM9CK4jME3D2XOVvOzCjKGHRRG5gmi71Va+ObQJEje+C
+   r2VLnU69ffP3tgANg8pnHvdxEQjSb8lLlcUQLpxlhORPt7LauruAkGlrv
+   XcgdeXHUFl37eOey44w926vlWrKGZu4qXP5kb7MqOUgWnlHs05Yz7MW8V
+   2JySUh3GXqkf3NF27bWib0ahIEEGqTR8Rcdghn+4dA/+9eR+7Krqj7cP4
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="361168179"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="423681730"
 X-IronPort-AV: E=Sophos;i="6.00,233,1681196400"; 
-   d="scan'208";a="361168179"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 13:54:00 -0700
+   d="scan'208";a="423681730"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 13:54:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="688137502"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="855119964"
 X-IronPort-AV: E=Sophos;i="6.00,233,1681196400"; 
-   d="scan'208";a="688137502"
+   d="scan'208";a="855119964"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 10 Jun 2023 13:53:59 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2023 13:54:13 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q85aw-000AQ4-2r;
-	Sat, 10 Jun 2023 20:53:58 +0000
-Date: Sun, 11 Jun 2023 04:53:03 +0800
+	id 1q85bA-000AQ8-2t;
+	Sat, 10 Jun 2023 20:54:12 +0000
+Date: Sun, 11 Jun 2023 04:53:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: drivers/remoteproc/qcom_q6v5_pas.c:550:30: sparse: sparse: incorrect
- type in assignment (different address spaces)
-Message-ID: <202306110422.14XhzmV6-lkp@intel.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:ovl_encode_fid 20/23] fs/open.c:1132:39: error: 'file'
+ undeclared
+Message-ID: <202306110409.YtcVLfjG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,94 +46,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   64569520920a3ca5d456ddd9f4f95fc6ea9b8b45
-commit: 29814986b82e820ae9d3eb7474cdcf66605bd114 remoteproc: qcom_q6v5_pas: add support for dtb co-firmware loading
-date:   5 months ago
-config: arm64-randconfig-s052-20230611 (https://download.01.org/0day-ci/archive/20230611/202306110422.14XhzmV6-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce:
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=29814986b82e820ae9d3eb7474cdcf66605bd114
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 29814986b82e820ae9d3eb7474cdcf66605bd114
+tree:   https://github.com/amir73il/linux ovl_encode_fid
+head:   0ba31a7b3dcbf443fbdd938d66dd9fdc5218bf9d
+commit: 67e5341e22f0f5cbc1d3a0bbb4c2131b2bf896e6 [20/23] ovl: enable fsnotify events on underlying real files
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20230611/202306110409.YtcVLfjG-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        # https://github.com/amir73il/linux/commit/67e5341e22f0f5cbc1d3a0bbb4c2131b2bf896e6
+        git remote add amir73il https://github.com/amir73il/linux
+        git fetch --no-tags amir73il ovl_encode_fid
+        git checkout 67e5341e22f0f5cbc1d3a0bbb4c2131b2bf896e6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash drivers/remoteproc/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306110422.14XhzmV6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306110409.YtcVLfjG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/remoteproc/qcom_q6v5_pas.c:528:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *mem_region @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/qcom_q6v5_pas.c:528:26: sparse:     expected void *mem_region
-   drivers/remoteproc/qcom_q6v5_pas.c:528:26: sparse:     got void [noderef] __iomem *
->> drivers/remoteproc/qcom_q6v5_pas.c:550:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *dtb_mem_region @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/qcom_q6v5_pas.c:550:30: sparse:     expected void *dtb_mem_region
-   drivers/remoteproc/qcom_q6v5_pas.c:550:30: sparse:     got void [noderef] __iomem *
+All errors (new ones prefixed by >>):
 
-vim +550 drivers/remoteproc/qcom_q6v5_pas.c
+   fs/open.c: In function 'open_with_fake_path':
+>> fs/open.c:1132:39: error: 'file' undeclared (first use in this function)
+    1132 |                         fsnotify_open(file);
+         |                                       ^~~~
+   fs/open.c:1132:39: note: each undeclared identifier is reported only once for each function it appears in
 
-   508	
-   509	static int adsp_alloc_memory_region(struct qcom_adsp *adsp)
-   510	{
-   511		struct device_node *node;
-   512		struct resource r;
-   513		int ret;
-   514	
-   515		node = of_parse_phandle(adsp->dev->of_node, "memory-region", 0);
-   516		if (!node) {
-   517			dev_err(adsp->dev, "no memory-region specified\n");
-   518			return -EINVAL;
-   519		}
-   520	
-   521		ret = of_address_to_resource(node, 0, &r);
-   522		of_node_put(node);
-   523		if (ret)
-   524			return ret;
-   525	
-   526		adsp->mem_phys = adsp->mem_reloc = r.start;
-   527		adsp->mem_size = resource_size(&r);
- > 528		adsp->mem_region = devm_ioremap_wc(adsp->dev, adsp->mem_phys, adsp->mem_size);
-   529		if (!adsp->mem_region) {
-   530			dev_err(adsp->dev, "unable to map memory region: %pa+%zx\n",
-   531				&r.start, adsp->mem_size);
-   532			return -EBUSY;
-   533		}
-   534	
-   535		if (!adsp->dtb_pas_id)
-   536			return 0;
-   537	
-   538		node = of_parse_phandle(adsp->dev->of_node, "memory-region", 1);
-   539		if (!node) {
-   540			dev_err(adsp->dev, "no dtb memory-region specified\n");
-   541			return -EINVAL;
-   542		}
-   543	
-   544		ret = of_address_to_resource(node, 0, &r);
-   545		if (ret)
-   546			return ret;
-   547	
-   548		adsp->dtb_mem_phys = adsp->dtb_mem_reloc = r.start;
-   549		adsp->dtb_mem_size = resource_size(&r);
- > 550		adsp->dtb_mem_region = devm_ioremap_wc(adsp->dev, adsp->dtb_mem_phys, adsp->dtb_mem_size);
-   551		if (!adsp->dtb_mem_region) {
-   552			dev_err(adsp->dev, "unable to map dtb memory region: %pa+%zx\n",
-   553				&r.start, adsp->dtb_mem_size);
-   554			return -EBUSY;
-   555		}
-   556	
-   557		return 0;
-   558	}
-   559	
+
+vim +/file +1132 fs/open.c
+
+  1118	
+  1119	struct file *open_with_fake_path(const struct path *path, int flags,
+  1120					struct inode *inode, const struct cred *cred)
+  1121	{
+  1122		struct file *f = alloc_empty_file_internal(flags, cred);
+  1123		if (!IS_ERR(f)) {
+  1124			int error;
+  1125	
+  1126			f->f_path = *path;
+  1127			error = do_dentry_open(f, inode, NULL);
+  1128			if (error) {
+  1129				fput(f);
+  1130				f = ERR_PTR(error);
+  1131			} else {
+> 1132				fsnotify_open(file);
+  1133			}
+  1134		}
+  1135		return f;
+  1136	}
+  1137	EXPORT_SYMBOL(open_with_fake_path);
+  1138	
 
 -- 
 0-DAY CI Kernel Test Service
