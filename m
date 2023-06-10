@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02B53236
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 11:45:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6003236
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 11:56:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686397536; x=1717933536;
+  t=1686398196; x=1717934196;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=apyVGZglbhvHSI5NBgNcgQZasgi8FVe+iEk2aeRA8zM=;
-  b=awL24effRNoL41N3P6pq2A1WQrfvayAjBENyJ7WVBLXOYTb+TZKa6hX5
-   I31NaSilozz08oW/Bt04jvymxsClIfvQ+O6tbMUXky4fSNqZwrT92n+oC
-   U0Hg6ZqoEeJQyEhmLJrV1B42yoGay5CSyFxHVcZyeBoTMylCESXvgC5/I
-   FasdnqriLg/Z5+wxHFW9spUEAPKwmAKPRWmH2YJfDQAzsSaKg2rWkt2qt
-   cfr8Fphis4xIO+q+d8efV3Hfi2ClqQibC7Z6Pvx0xXecI4YIFUlb41gGb
-   HMDa5k4YihsOBzb4E1NPj4xGMztsTRJJJaUFNM9/R3MMbTkH0Z8oCYO55
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="338117208"
+  bh=NuUFUZ/o55WzMkTUDGoSEK4d3yinRbfFdOe9FIiJoUY=;
+  b=PRiLMA+il8p/m60rJT/njtDtqPQJ/9XBXdJtKlq5seFifQPXZktuEZ4E
+   5OrP0Q6/S98n5qasdcvF1hAeRNExKGMACEAIHPTDNBx3Q+gn471B7uLrg
+   P35UBDqxQDpW6opbWw2CDUM41jBitm0QpFgnw0NJvXfeamjOnySOUw+Pw
+   Yh/SA6iUEpYlMCTVn0Cotc4ozTU6Q4DS8TndByn1gm99dhoSsgrdPBQD1
+   b5oiZltW/DPu/xKqTEgBcfPvoxxcSwqFqHC9DwNY2TlREJKHOSyKWd83E
+   c9yCgm8n2exO7DzxG5w6XSWX1FSHFlg6JhpgyAcdcAfA0XCxl9XPbIqCv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="361120447"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="338117208"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 04:45:35 -0700
+   d="scan'208";a="361120447"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 04:56:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="800492369"
+X-IronPort-AV: E=McAfee;i="6600,9927,10736"; a="743768703"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="800492369"
+   d="scan'208";a="743768703"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 10 Jun 2023 04:45:33 -0700
+  by orsmga001.jf.intel.com with ESMTP; 10 Jun 2023 04:56:35 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q7x2D-000A3k-0P;
-	Sat, 10 Jun 2023 11:45:33 +0000
-Date: Sat, 10 Jun 2023 19:44:43 +0800
+	id 1q7xCs-000A4C-1T;
+	Sat, 10 Jun 2023 11:56:34 +0000
+Date: Sat, 10 Jun 2023 19:56:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Li Zhengyu <lizhengyu3@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>
-Subject: arch/riscv/kernel/elf_kexec.c:185:23: warning: variable
- 'kernel_start' set but not used
-Message-ID: <202306101945.6IFhByu9-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 1552/23309]
+ include/trace/trace_events.h:27:23: warning: 'str__debug__trace_system_name'
+ defined but not used
+Message-ID: <202306101917.0Tv6P6yX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,149 +47,149 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Li,
+Hi Changki,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   64569520920a3ca5d456ddd9f4f95fc6ea9b8b45
-commit: 838b3e28488f702e2b5477b393f009b2639d2b1a RISC-V: Load purgatory in kexec_file
-date:   1 year, 1 month ago
-config: riscv-randconfig-r026-20230610 (https://download.01.org/0day-ci/archive/20230610/202306101945.6IFhByu9-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   c1d11308117b35f068fbfdb4b8df8b0532f2d7f4
+commit: 56da24e7a9ba0f5bab4a0c90de964ce1541b1695 [1552/23309] ANDROID: vendor_hooks: Add new android vendor hooks for ipi stop
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230610/202306101917.0Tv6P6yX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=838b3e28488f702e2b5477b393f009b2639d2b1a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 838b3e28488f702e2b5477b393f009b2639d2b1a
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android14-5.15
+        git checkout 56da24e7a9ba0f5bab4a0c90de964ce1541b1695
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/ drivers/md/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306101945.6IFhByu9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306101917.0Tv6P6yX-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/riscv/kernel/elf_kexec.c: In function 'elf_kexec_load':
->> arch/riscv/kernel/elf_kexec.c:185:23: warning: variable 'kernel_start' set but not used [-Wunused-but-set-variable]
-     185 |         unsigned long kernel_start;
-         |                       ^~~~~~~~~~~~
-   arch/riscv/kernel/elf_kexec.c: In function 'arch_kexec_apply_relocations_add':
-   arch/riscv/kernel/elf_kexec.c:352:9: error: unknown type name 'Elf_Rela'; did you mean 'Elf64_Rela'?
-     352 |         Elf_Rela *relas;
-         |         ^~~~~~~~
-         |         Elf64_Rela
-   In file included from include/linux/elf.h:7,
-                    from arch/riscv/kernel/elf_kexec.c:15:
-   arch/riscv/kernel/elf_kexec.c:370:44: error: request for member 'r_info' in something not a structure or union
-     370 |                 sym += ELF64_R_SYM(relas[i].r_info);
-         |                                            ^
-   include/uapi/linux/elf.h:163:43: note: in definition of macro 'ELF64_R_SYM'
-     163 | #define ELF64_R_SYM(i)                  ((i) >> 32)
-         |                                           ^
-   arch/riscv/kernel/elf_kexec.c:379:32: error: request for member 'r_offset' in something not a structure or union
-     379 |                 loc += relas[i].r_offset;
-         |                                ^
-   arch/riscv/kernel/elf_kexec.c:392:32: error: request for member 'r_addend' in something not a structure or union
-     392 |                 val += relas[i].r_addend;
-         |                                ^
-   arch/riscv/kernel/elf_kexec.c:394:51: error: request for member 'r_offset' in something not a structure or union
-     394 |                 addr = section->sh_addr + relas[i].r_offset;
-         |                                                   ^
-   arch/riscv/kernel/elf_kexec.c:396:47: error: request for member 'r_info' in something not a structure or union
-     396 |                 r_type = ELF64_R_TYPE(relas[i].r_info);
-         |                                               ^
-   include/uapi/linux/elf.h:164:43: note: in definition of macro 'ELF64_R_TYPE'
-     164 | #define ELF64_R_TYPE(i)                 ((i) & 0xffffffff)
-         |                                           ^
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/debug.h:25,
+                    from drivers/android/vendor_hooks.c:22:
+>> include/trace/trace_events.h:27:23: warning: 'str__debug__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/wqlockup.h:24,
+                    from drivers/android/vendor_hooks.c:21:
+   include/trace/trace_events.h:27:23: warning: 'str__wqlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/gic.h:29,
+                    from drivers/android/vendor_hooks.c:20:
+   include/trace/trace_events.h:27:23: warning: 'str__gic__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/mpam.h:24,
+                    from drivers/android/vendor_hooks.c:19:
+   include/trace/trace_events.h:27:23: warning: 'str__mpam__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/topology.h:29,
+                    from drivers/android/vendor_hooks.c:18:
+   include/trace/trace_events.h:27:23: warning: 'str__topology__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cpuidle.h:23,
+                    from drivers/android/vendor_hooks.c:17:
+   include/trace/trace_events.h:27:23: warning: 'str__cpuidle__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
 
-vim +/kernel_start +185 arch/riscv/kernel/elf_kexec.c
+vim +/str__debug__trace_system_name +27 include/trace/trace_events.h
 
-   174	
-   175	static void *elf_kexec_load(struct kimage *image, char *kernel_buf,
-   176				    unsigned long kernel_len, char *initrd,
-   177				    unsigned long initrd_len, char *cmdline,
-   178				    unsigned long cmdline_len)
-   179	{
-   180		int ret;
-   181		unsigned long old_kernel_pbase = ULONG_MAX;
-   182		unsigned long new_kernel_pbase = 0UL;
-   183		unsigned long initrd_pbase = 0UL;
-   184		unsigned long headers_sz;
- > 185		unsigned long kernel_start;
-   186		void *fdt, *headers;
-   187		struct elfhdr ehdr;
-   188		struct kexec_buf kbuf;
-   189		struct kexec_elf_info elf_info;
-   190		char *modified_cmdline = NULL;
-   191	
-   192		ret = kexec_build_elf_info(kernel_buf, kernel_len, &ehdr, &elf_info);
-   193		if (ret)
-   194			return ERR_PTR(ret);
-   195	
-   196		ret = elf_find_pbase(image, kernel_len, &ehdr, &elf_info,
-   197				     &old_kernel_pbase, &new_kernel_pbase);
-   198		if (ret)
-   199			goto out;
-   200		kernel_start = image->start;
-   201		pr_notice("The entry point of kernel at 0x%lx\n", image->start);
-   202	
-   203		/* Add the kernel binary to the image */
-   204		ret = riscv_kexec_elf_load(image, &ehdr, &elf_info,
-   205					   old_kernel_pbase, new_kernel_pbase);
-   206		if (ret)
-   207			goto out;
-   208	
-   209		kbuf.image = image;
-   210		kbuf.buf_min = new_kernel_pbase + kernel_len;
-   211		kbuf.buf_max = ULONG_MAX;
-   212	
-   213		/* Add elfcorehdr */
-   214		if (image->type == KEXEC_TYPE_CRASH) {
-   215			ret = prepare_elf_headers(&headers, &headers_sz);
-   216			if (ret) {
-   217				pr_err("Preparing elf core header failed\n");
-   218				goto out;
-   219			}
-   220	
-   221			kbuf.buffer = headers;
-   222			kbuf.bufsz = headers_sz;
-   223			kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
-   224			kbuf.memsz = headers_sz;
-   225			kbuf.buf_align = ELF_CORE_HEADER_ALIGN;
-   226			kbuf.top_down = true;
-   227	
-   228			ret = kexec_add_buffer(&kbuf);
-   229			if (ret) {
-   230				vfree(headers);
-   231				goto out;
-   232			}
-   233			image->elf_headers = headers;
-   234			image->elf_load_addr = kbuf.mem;
-   235			image->elf_headers_sz = headers_sz;
-   236	
-   237			pr_debug("Loaded elf core header at 0x%lx bufsz=0x%lx memsz=0x%lx\n",
-   238				 image->elf_load_addr, kbuf.bufsz, kbuf.memsz);
-   239	
-   240			/* Setup cmdline for kdump kernel case */
-   241			modified_cmdline = setup_kdump_cmdline(image, cmdline,
-   242							       cmdline_len);
-   243			if (!modified_cmdline) {
-   244				pr_err("Setting up cmdline for kdump kernel failed\n");
-   245				ret = -EINVAL;
-   246				goto out;
-   247			}
-   248			cmdline = modified_cmdline;
-   249		}
-   250	
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
