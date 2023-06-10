@@ -1,43 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA62C8E3;
-	Sat, 10 Jun 2023 16:29:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCFCB33D7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 16:40:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686414591; x=1717950591;
+  t=1686415253; x=1717951253;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BrSFLtlzuqPtV1oR/Y5C0G/kUggPS1rU3IEj7/Snh9U=;
-  b=hTWpWUTJk1wGaQ57Igy2WMsnSI1iAllYnngAfob2+mv7gRTr+purCjFb
-   af5vUqn74MuVndmP+qK+mD73uSzVzIRM0GA+STsZYgGDJGUIlpXjjgEq9
-   t9C+tvJ/SWRVtaD9uBsBXYGTQ2VIM6TUOwjJVzlWaDMYRaH1YwGT3OOKd
-   /cW2TL0aZL8xGON2Ujf7vZ6XykSHDTHNHVnwr8X/L4/KzwhaePa2vYzpg
-   64cYvPGp0T60Qw8GL8lQnYSS3la0PDrdQCVpoQqo5tsFUczerZy8ZyzIt
-   NRbRlRNXXu8Z1vhiyqXaZ2CWyKVnUbtnFviHKaTsjprcsAqcts2oSPRxY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="444152591"
+  bh=lyFPlqd2MNBk9iE3K8B3ZfZZrjEUSny0Ie1rU5UTEVQ=;
+  b=VbTSfbK3Vzf7Y25HtAYyB+M9PahY2Kx2gQw/sH4aQi9WaLuCpX9TCSv8
+   VyxQ+nmUZZHATQbzefwPJSFuODZep4GxQBPoazEY069PtOMGs/+ZMvQOq
+   zqC73/g/vhDk2vdG37XskWVlLH2uFnuuJAD5iWLoUVPfW4hWpLXF2pTpJ
+   gLbFEhELOlHDAQ18n4vW8BOOC95gr9smbzncVc9ldSthHDNOA72SRwu89
+   d4c0MAuuHmmMv0mhMjFSOHmrPbj8J3jhzVZleOS9a/t0/WZ0Wzp4ti9sk
+   WwqvPJ/UaF5tSLJCL29MHkA2peisudMNuofhdOeouJg3A2wkX0Wc2Yqrv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="360265160"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="444152591"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 09:29:48 -0700
+   d="scan'208";a="360265160"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 09:40:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="855084192"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="704877344"
 X-IronPort-AV: E=Sophos;i="6.00,232,1681196400"; 
-   d="scan'208";a="855084192"
+   d="scan'208";a="704877344"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2023 09:29:47 -0700
+  by orsmga007.jf.intel.com with ESMTP; 10 Jun 2023 09:40:52 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q81TG-000AEO-39;
-	Sat, 10 Jun 2023 16:29:46 +0000
-Date: Sun, 11 Jun 2023 00:29:29 +0800
+	id 1q81dz-000AGW-14;
+	Sat, 10 Jun 2023 16:40:51 +0000
+Date: Sun, 11 Jun 2023 00:40:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH v8 08/11] kbuild: implement CONFIG_TRIM_UNUSED_KSYMS
  without recursion
-Message-ID: <202306110018.Ir9UVvn9-lkp@intel.com>
+Message-ID: <202306110008.dL9Nj6Li-lkp@intel.com>
 References: <20230610091320.1054554-9-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -64,198 +64,106 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/Revert-PA
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
 patch link:    https://lore.kernel.org/r/20230610091320.1054554-9-masahiroy%40kernel.org
 patch subject: [PATCH v8 08/11] kbuild: implement CONFIG_TRIM_UNUSED_KSYMS without recursion
-config: s390-randconfig-r003-20230610 (https://download.01.org/0day-ci/archive/20230611/202306110018.Ir9UVvn9-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20230611/202306110008.dL9Nj6Li-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
         git remote add masahiroy-kbuild https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git
         git fetch masahiroy-kbuild for-next
         git checkout masahiroy-kbuild/for-next
         b4 shazam https://lore.kernel.org/r/20230610091320.1054554-9-masahiroy@kernel.org
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash M=arch/riscv
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306110018.Ir9UVvn9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306110008.dL9Nj6Li-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   s390x-linux-ld: drivers/irqchip/irq-al-fic.o: in function `al_fic_init_dt':
-   irq-al-fic.c:(.init.text+0x24): undefined reference to `of_iomap'
->> s390x-linux-ld: irq-al-fic.c:(.init.text+0x1f0): undefined reference to `iounmap'
+>> make[2]: *** No rule to make target 'arch/riscv/kvm/kvm.ko', needed by '__modfinal'.
+   make[2]: Target '__modfinal' not remade because of errors.
 --
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-adstech-dvb-t-pci.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/phy/amd.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-imon-pad.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/input/rmi4/rmi_smbus.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/health/max30100.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/ir-nec-decoder.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/phy/dp83848.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/power/supply/bq2415x_charger.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-terratec-cinergy-s2-hd.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-nebula.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/phy/davicom.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/common/st_sensors/st_sensors.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'fs/nls/mac-centeuro.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/proximity/vl53l0x-i2c.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/misc/isl29003.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/comedi/comedi.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/accel/mma7660.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/adc/envelope-detector.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/scsi/raid_class.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-ati-tv-wonder-hd-600.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/light/veml6070.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/input/misc/pwm-vibra.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-pine64.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-dreambox.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/nfc/pn544/pn544.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/dac/dpot-dac.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-dib0700-nec.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-pinnacle-pctv-hd.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/light/apds9960.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/phy/national.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/phy/qsemi.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-beelink-gs1.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/virtio/virtio_input.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/leds/leds-tlc591xx.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/temperature/tsys01.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/magnetometer/hmc5843_i2c.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'fs/befs/befs.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/magnetometer/mmc35240.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/staging/most/net/most_net.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-tevii-nec.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/nfc/pn544/pn544_i2c.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/pressure/mpl3115.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-zx-irdec.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/leds/trigger/ledtrig-pattern.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'kernel/kheaders.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/scsi/scsi_transport_fc.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/base/regmap/regmap-i2c.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/misc/lis3lv02d/lis3lv02d.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-astrometa-t2hybrid.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/misc/echo/echo.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/most/most_cdev.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/slimbus/slimbus.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/s390/char/con3270.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/phy/microchip_t1.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/regulator/sy8106a-regulator.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-hauppauge.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/light/adux1020.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/pps/clients/pps-ktimer.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/iio/industrialio-sw-trigger.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-xbox-dvd.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/power/supply/ltc2941-battery-gauge.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'lib/crc64-rocksoft.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-technisat-usb2.ko', needed by '__modfinal'.
->> make[2]: *** No rule to make target 'drivers/target/target_core_pscsi.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/phy/mscc/mscc.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'fs/nls/nls_euc-jp.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/dac/max517.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'lib/notifier-error-inject.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/buffer/industrialio-buffer-dma.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/mtd/sm_ftl.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/nfc/microread/microread_i2c.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-budget-ci-old.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-pixelview-new.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/proximity/sx_common.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-flydvb.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/common/st_sensors/st_sensors_i2c.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/accel/mma7455_core.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'fs/cachefiles/cachefiles.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/hwtracing/stm/dummy_stm.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/hid/hid-cypress.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/hid/hid-led.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/scsi/scsi_transport_iscsi.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/pressure/st_pressure.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/scsi/device_handler/scsi_dh_emc.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/md4.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/power/supply/bq25890_charger.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/regulator/ltc3589.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/accel/adxl345_core.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-anysee.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'lib/kunit/kunit-test.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'lib/of-reconfig-notifier-error-inject.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/leds/trigger/ledtrig-activity.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/light/isl29028.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/imu/inv_mpu6050/inv-mpu6050-i2c.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/mtd/nftl.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/power/supply/smb347-charger.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-kaiomy.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/mtd/tests/mtd_readtest.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/light/al3320a.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/hid/hid-keytouch.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/leds/leds-is31fl319x.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-wetek-play2.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-avermedia-m135a.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/chemical/ams-iaq-core.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-total-media-in-hand-02.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/wan/hdlc_raw.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/accel/dmard06.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/regulator/vctrl-regulator.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/misc/eeprom/ee1004.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/regulator/mpq7920.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/mtd/tests/mtd_subpagetest.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/leds/leds-pwm.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/proximity/sx9310.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/target/tcm_fc/tcm_fc.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/mtd/ubi/ubi.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'arch/s390/net/pnet.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/magnetometer/bmc150_magn.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/eql.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/vfio/vfio.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/light/si1133.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/mtd/nand/raw/nandsim.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/accel/dmard09.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/dac/ad5592r-base.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-beelink-mxiii.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/staging/most/i2c/most_i2c.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'net/netlink/netlink_diag.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/spmi/spmi.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/devfreq/governor_userspace.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/nvmem/nvmem_qcom-spmi-sdam.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-nec-terratec-cinergy-xs.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'net/unix/unix_diag.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/pcbc.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/cast_common.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-pinnacle-grey.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/humidity/hdc100x.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-msi-digivox-ii.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/chemical/scd30_i2c.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/magnetometer/hmc5843_core.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/mdio/fwnode_mdio.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/phy/et1011c.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/scsi/scsi_debug.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'net/unix/unix.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/i2c/muxes/i2c-mux-pca954x.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/seqiv.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/echainiv.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'crypto/hmac.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'crypto/sha256_generic.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/sha512_generic.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/sha3_generic.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/blake2b_generic.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/cbc.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/ctr.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/gcm.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'crypto/aes_generic.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/authenc.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/authencesn.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/xxhash_generic.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/drbg.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/jitterentropy_rng.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/ghash-generic.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'crypto/xor.ko', needed by '__modfinal'.
+   make[2]: Target '__modfinal' not remade because of errors.
+--
+>> make[2]: *** No rule to make target 'drivers/clk/starfive/clk-starfive-jh7100-audio.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'drivers/clk/starfive/clk-starfive-jh7110-aon.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'drivers/clk/sunxi-ng/sun8i-de2-ccu.ko', needed by '__modfinal'.
+   make[2]: Target '__modfinal' not remade because of errors.
+--
+   make[2]: *** No rule to make target 'drivers/dma/virt-dma.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'drivers/dma/sun6i-dma.ko', needed by '__modfinal'.
+   make[2]: Target '__modfinal' not remade because of errors.
+--
+>> make[2]: *** No rule to make target 'drivers/i2c/algos/i2c-algo-bit.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'drivers/i2c/busses/i2c-mv64xxx.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/i2c/i2c-core.ko', needed by '__modfinal'.
+   make[2]: Target '__modfinal' not remade because of errors.
+--
+>> make[2]: *** No rule to make target 'drivers/input/keyboard/sun4i-lradc-keys.ko', needed by '__modfinal'.
+   make[2]: Target '__modfinal' not remade because of errors.
+--
    make[2]: *** No rule to make target 'drivers/net/mdio/mdio-mux.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/mtd/chips/map_absent.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/wan/hdlc_cisco.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/net/wan/hdlc_ppp.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/scsi/sd_mod.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/hid/hid-monterey.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'crypto/lzo-rle.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'lib/kunit/kunit-example-test.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/power/supply/cw2015_battery.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/input/misc/drv2667.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/imu/fxos8700_i2c.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-dntv-live-dvbt-pro.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/media/rc/keymaps/rc-twinhan1027.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/s390/net/smsgiucv.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/pressure/ms5637.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'fs/fuse/virtiofs.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/dac/ad5686.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/adc/qcom-spmi-adc5.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/target/target_core_user.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/leds/leds-lm3530.ko', needed by '__modfinal'.
-   make[2]: *** No rule to make target 'drivers/iio/accel/da311.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'drivers/net/pcs/pcs_xpcs.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'drivers/net/ethernet/stmicro/stmmac/stmmac.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'drivers/net/ethernet/stmicro/stmmac/stmmac-platform.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'drivers/net/ethernet/stmicro/stmmac/dwmac-starfive.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'drivers/net/ethernet/stmicro/stmmac/dwmac-generic.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/net/ipvlan/ipvlan.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/net/dummy.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/net/macvlan.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/net/mii.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/net/veth.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/net/vxlan/vxlan.ko', needed by '__modfinal'.
+   make[2]: Target '__modfinal' not remade because of errors.
+--
+>> make[2]: *** No rule to make target 'drivers/phy/allwinner/phy-sun4i-usb.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'drivers/phy/allwinner/phy-sun6i-mipi-dphy.ko', needed by '__modfinal'.
+   make[2]: Target '__modfinal' not remade because of errors.
+--
+>> make[2]: *** No rule to make target 'drivers/video/backlight/backlight.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/video/fbdev/core/cfbfillrect.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/video/fbdev/core/cfbcopyarea.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/video/fbdev/core/cfbimgblt.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/video/fbdev/core/sysfillrect.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/video/fbdev/core/syscopyarea.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/video/fbdev/core/sysimgblt.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'drivers/video/fbdev/core/fb_sys_fops.ko', needed by '__modfinal'.
+   make[2]: Target '__modfinal' not remade because of errors.
+--
+>> make[2]: *** No rule to make target 'lib/crypto/libaes.ko', needed by '__modfinal'.
+   make[2]: *** No rule to make target 'lib/crypto/gf128mul.ko', needed by '__modfinal'.
+>> make[2]: *** No rule to make target 'lib/crypto/libsha256.ko', needed by '__modfinal'.
+   make[2]: Target '__modfinal' not remade because of errors.
+--
+>> make[2]: *** No rule to make target 'lib/lzo/lzo_compress.ko', needed by '__modfinal'.
+   make[2]: Target '__modfinal' not remade because of errors.
+..
 
 -- 
 0-DAY CI Kernel Test Service
