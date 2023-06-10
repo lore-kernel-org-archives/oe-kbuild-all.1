@@ -1,43 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63259C8F6
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 20:10:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2945DC8F6
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 10 Jun 2023 20:21:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686427826; x=1717963826;
+  t=1686428486; x=1717964486;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F5eg5MtnNrhzoZevAmE0L2TEehyr1HL7LB94ZgFGJ4k=;
-  b=hDOP/RmrtPc2XdnfIcr0GmRfj9lYYk4eWQyTvn8Iwk+dNVBSmP4zFxLz
-   9l80/TqoSufRXLfS7UHxBdFFujniCm8YMs8kT4iSo4rpk/tNSFfVRNmAF
-   t2nXw9lvjA2wbfBjAXLaW1G5U1tNNEjkbw5iE2DUpd6xb34XjDeDQYzoW
-   IhAL6QzTv1kE1RQXm1DN0kLKeKu9PSY1Vz1qo+zSazgOK0Ywx9sVzVt8F
-   C6CrwGwvTjFKW9gFQFXqhUFT37JgVRAFjunuRYKpvd8ilX8rDsdTBBjNO
-   J+KQS2lOPYt+I4FcDWwZ1D2hH8UuGHuVfzbWjiQ0vAGejsYBafI9kWDb1
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="357799614"
+  bh=Yp1x66gu1micWalQT+00donTYaCdkv0Et9aEy2xAoE4=;
+  b=DTHTYuPWENjxmCh8/z/Svp4w/AkBJNrds7zmTOEylBRbEvjrlP7gS2vk
+   V6/1SfwvPgwKF8j5X7rUnDAW6mlz2gemP5+hHN2DWfFjq/Y1/du5tOIEf
+   MJ/eLIOgNhf50X0q7tMp92Su+BXyI7W3PqKsU1RWtDlf6myVn5vMei460
+   83RVk1pmE+DH4REGF7ZzAy4kpyPNjYrS7jCT7WHqnzs6F8GKigYB5vrk9
+   YlwXNsoSHQDpT9Tm/IevR36E5dAfjh41aVy5Pw4XXymcjaXP4Z6EggxYX
+   2/Rc+wbSohWi8wadRC05Ogy6TJ+LUHkhYhjQQ4uOXXDHKmwqK11VU5vg4
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="423679317"
 X-IronPort-AV: E=Sophos;i="6.00,233,1681196400"; 
-   d="scan'208";a="357799614"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 13:10:25 -0700
+   d="scan'208";a="423679317"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 13:21:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="834998146"
+X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="740512872"
 X-IronPort-AV: E=Sophos;i="6.00,233,1681196400"; 
-   d="scan'208";a="834998146"
+   d="scan'208";a="740512872"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 10 Jun 2023 13:10:24 -0700
+  by orsmga008.jf.intel.com with ESMTP; 10 Jun 2023 13:21:24 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q84ul-000AP2-0p;
-	Sat, 10 Jun 2023 20:10:23 +0000
-Date: Sun, 11 Jun 2023 04:10:05 +0800
+	id 1q855Q-000APO-05;
+	Sat, 10 Jun 2023 20:21:24 +0000
+Date: Sun, 11 Jun 2023 04:21:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Jim Cromie <jim.cromie@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 1822/23309]
- include/trace/trace_events.h:27:23: warning: 'str__epoch__trace_system_name'
- defined but not used
-Message-ID: <202306110422.fDYyJG4e-lkp@intel.com>
+Subject: [jimc:dd-fix-2g 17/17] ld.lld: error: duplicate symbol:
+ __UNIQUE_ID_ddebug_class_user285
+Message-ID: <202306110415.dJUzSuwm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,149 +46,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Murali,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   c1d11308117b35f068fbfdb4b8df8b0532f2d7f4
-commit: 76b58ff07b29541231a8e0781ef0e3865495a4f6 [1822/23309] ANDROID: sched_clock: Add vendor hook to print epoch values
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230611/202306110422.fDYyJG4e-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://github.com/jimc/linux.git dd-fix-2g
+head:   9d18924f8ebbf3e18d9c50a9ac6d2e42841ae6b4
+commit: 9d18924f8ebbf3e18d9c50a9ac6d2e42841ae6b4 [17/17] drm-drivers: DRM_CLASSMAP_USE in 2nd batch of drivers, helpers
+config: arm-randconfig-r046-20230610 (https://download.01.org/0day-ci/archive/20230611/202306110415.dJUzSuwm-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android14-5.15
-        git checkout 76b58ff07b29541231a8e0781ef0e3865495a4f6
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/jimc/linux/commit/9d18924f8ebbf3e18d9c50a9ac6d2e42841ae6b4
+        git remote add jimc https://github.com/jimc/linux.git
+        git fetch --no-tags jimc dd-fix-2g
+        git checkout 9d18924f8ebbf3e18d9c50a9ac6d2e42841ae6b4
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/ drivers/md/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306110422.fDYyJG4e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306110415.dJUzSuwm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/epoch.h:31,
-                    from drivers/android/vendor_hooks.c:26:
->> include/trace/trace_events.h:27:23: warning: 'str__epoch__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/gic_v3.h:29,
-                    from drivers/android/vendor_hooks.c:25:
-   include/trace/trace_events.h:27:23: warning: 'str__gic_v3__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/printk.h:27,
-                    from drivers/android/vendor_hooks.c:24:
-   include/trace/trace_events.h:27:23: warning: 'str__printk__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/sysrqcrash.h:24,
-                    from drivers/android/vendor_hooks.c:23:
-   include/trace/trace_events.h:27:23: warning: 'str__sysrqcrash__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/debug.h:26,
-                    from drivers/android/vendor_hooks.c:22:
-   include/trace/trace_events.h:27:23: warning: 'str__debug__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/wqlockup.h:24,
-                    from drivers/android/vendor_hooks.c:21:
-   include/trace/trace_events.h:27:23: warning: 'str__wqlockup__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-
-
-vim +/str__epoch__trace_system_name +27 include/trace/trace_events.h
-
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+>> ld.lld: error: duplicate symbol: __UNIQUE_ID_ddebug_class_user285
+   >>> defined at qxl_drv.c
+   >>>            drivers/gpu/drm/qxl/qxl_drv.o:(__UNIQUE_ID_ddebug_class_user285) in archive vmlinux.a
+   >>> defined at gud_drv.c
+   >>>            drivers/gpu/drm/gud/gud_drv.o:(__dyndbg_class_users+0x0) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
