@@ -1,106 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A0F9C121
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jun 2023 15:50:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AABE0C433EF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jun 2023 15:50:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686498647;
-	bh=7YkGE3oAy2YlOb34NM6GYIRQPzHpY+P6jMt0TGhHeic=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cqZpo72OJJyldLtvnKOcQ1zLebfm9h0JSz8CdJ/fxuqPTwesZO+Qirl2auJv7ltza
-	 PFr8hfjlY8MWSfPpU9TqS/9WAX/YvCvLiSD97aenaS6JZxiTEQ4xDpVRj8t32WLXjU
-	 lyMi7wWNtxopJRuKB4xWTlZ1eRkjhF6MnZ27QRF4yGQYgqoNwBteP+UysHzuO4Cht8
-	 /9LC3MiYHAE1D9iVtylQIHW6HTPvSmqDiG8rqybCxmqLOgojI2cJvu1iWir4csmghA
-	 pg+BEiRmVWSADXvm+dWM20UJaNVTAuSm887hjzMoNxw3T+MyVn/Z0+kvYgYBjS4+kP
-	 JU0aQkClweBqw==
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-55b77d50465so596953eaf.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jun 2023 08:50:47 -0700 (PDT)
-X-Gm-Message-State: AC+VfDxXfFdHtCAbefNz3ORJXWAPNHtcy4hrevM6SkF74vjL90kzNYLe
-	y9AZkOj1i1qbPRLyNsRXn+XHxKQfn1Ku/R+aEFQ=
-X-Google-Smtp-Source: ACHHUZ7cRigYqhXO+rUJtGow62SAM+vaVIKB4DHGC2MK/jIZh0J/J9agDHtUurnCxVo7Gsq/Rk8UAL/pk05a+nGg7gE=
-X-Received: by 2002:a05:6870:8291:b0:1a6:7661:f0f4 with SMTP id
- q17-20020a056870829100b001a67661f0f4mr1026972oae.10.1686498646955; Sun, 11
- Jun 2023 08:50:46 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB95523E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jun 2023 16:36:34 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-65242634690so2697924b3a.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jun 2023 09:36:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1686501393; x=1689093393;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hUvO2TCYGirAYbGLJLIna0SIwoDnkDAoyWbwoTdhGLA=;
+        b=u5YhC6B9aOxD7dIw81nMWhPZJEkCZmzZt29x116VkKUR+oBnRlpTzvemLGS6uE0uW8
+         IhXCCR9RIPjqH3NbqmEGNBoqJLRq1mnveOFx/KjOwCsMzE7xhSC693akFzS43gXo6M5H
+         16fLepMY31kjrpTOzDm3SSofkkklKfrWXNZfkjhr51H6dSPnE39H1b59cw+PWLIocjMd
+         z9Y4W9PPRlVZRwmUrcZf3gGP0fcHadIuX9A8Ohl6GI+dkod02+903Y3C4cWOS0CGHqWt
+         d76J2it7ztLNsPmKXo+DX3GLb2wfC/h6ytXQpsl1BUHau93oGhRhI8k8rY9fGiMk2/9u
+         uOjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686501393; x=1689093393;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hUvO2TCYGirAYbGLJLIna0SIwoDnkDAoyWbwoTdhGLA=;
+        b=VjapJ1utkDPotpjO0ED5fHk6N17BEE6Njc1cHiKoC02TE1Mha76bk4JAtpVbCPpqhh
+         mXKknKfn739WK+i7l95r/FVyKrfpm+vbToqXTOHXqkE2NeLM3SklykBhBPJc2Wo7NCOR
+         fZTQ1H9HUwOZR6ylEqnpMnita4W3eb5Xzg//7ccrBSUwAZJ8T7cCDspbFlLnXFRbjp9P
+         Rgwpu+A55RD3BMJJCw+ZacdDux/xTayYN9qN6Vib+4fYeTvJYIH2gwy5JHw3Q9Tt+v4m
+         nyYkSm8LLIwcDevOcbHoiHya6I2IMYiPb3bBmPIjNX3DPS6jewLLreI+RT++NcMf7evd
+         3+Ww==
+X-Gm-Message-State: AC+VfDz91Hvf2MI9DAlv+BqZAly0dCGq6idv/PBJSlQJcRo/pQUf9/Ha
+	ozzv1UCmUnZeeQlzRrF6KqLy
+X-Google-Smtp-Source: ACHHUZ4OOjy3tStCPSvum+BnHLsRzIrQhFNrUMWjXE014c6JOfVeL23yh/gwzu4jGD7Z80/RG105QA==
+X-Received: by 2002:a05:6a21:6811:b0:10f:500b:18a2 with SMTP id wr17-20020a056a21681100b0010f500b18a2mr6960902pzb.48.1686501393418;
+        Sun, 11 Jun 2023 09:36:33 -0700 (PDT)
+Received: from thinkpad ([103.28.246.116])
+        by smtp.gmail.com with ESMTPSA id l6-20020a632506000000b00513973a7014sm5953884pgl.12.2023.06.11.09.36.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Jun 2023 09:36:32 -0700 (PDT)
+Date: Sun, 11 Jun 2023 22:06:26 +0530
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hemant Kumar <hemantk@codeaurora.org>,
+	Alex Elder <elder@linaro.org>, Sasha Levin <sashal@kernel.org>
+Subject: Re: [stable:linux-5.15.y 9400/9999] drivers/bus/mhi/host/pm.c:733:6:
+ warning: stack frame size (2768) exceeds limit (2048) in 'mhi_pm_st_worker'
+Message-ID: <20230611163626.GA28607@thinkpad>
+References: <202306100303.KZViMwBJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230610091320.1054554-9-masahiroy@kernel.org> <202306110246.xCEMOjZy-lkp@intel.com>
-In-Reply-To: <202306110246.xCEMOjZy-lkp@intel.com>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Mon, 12 Jun 2023 00:50:10 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQBGke2qLmJ6oNrYbwyM-tmAqsNzP0AYoGJOGGwo=UFvg@mail.gmail.com>
-Message-ID: <CAK7LNAQBGke2qLmJ6oNrYbwyM-tmAqsNzP0AYoGJOGGwo=UFvg@mail.gmail.com>
-Subject: Re: [PATCH v8 08/11] kbuild: implement CONFIG_TRIM_UNUSED_KSYMS
- without recursion
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202306100303.KZViMwBJ-lkp@intel.com>
 
-On Sun, Jun 11, 2023 at 3:25=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Masahiro,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on masahiroy-kbuild/for-next]
-> [also build test ERROR on next-20230609]
-> [cannot apply to masahiroy-kbuild/fixes arnd-asm-generic/master rafael-pm=
-/linux-next linus/master v6.4-rc5]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/Re=
-vert-PATCH-uml-export-symbols-added-by-GCC-hardened/20230610-171620
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-k=
-build.git for-next
-> patch link:    https://lore.kernel.org/r/20230610091320.1054554-9-masahir=
-oy%40kernel.org
-> patch subject: [PATCH v8 08/11] kbuild: implement CONFIG_TRIM_UNUSED_KSYM=
-S without recursion
-> config: arc-randconfig-r035-20230610 (https://download.01.org/0day-ci/arc=
-hive/20230611/202306110246.xCEMOjZy-lkp@intel.com/config)
-> compiler: arceb-elf-gcc (GCC) 12.3.0
-> reproduce (this is a W=3D1 build):
+On Sat, Jun 10, 2023 at 03:26:35AM +0800, kernel test robot wrote:
+> Hi Manivannan,
+> 
+> First bad commit (maybe != root cause):
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+> head:   7349e40704a0209a2af8b37fa876322209de9684
+> commit: 9fbf10148f31a63b6d8c2b0e56cb97eb173d600b [9400/9999] bus: mhi: Move host MHI code to "host" directory
+> config: riscv-randconfig-r001-20230609 (https://download.01.org/0day-ci/archive/20230610/202306100303.KZViMwBJ-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> reproduce (this is a W=1 build):
 >         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
 >         chmod +x ~/bin/make.cross
->         git remote add masahiroy-kbuild https://git.kernel.org/pub/scm/li=
-nux/kernel/git/masahiroy/linux-kbuild.git
->         git fetch masahiroy-kbuild for-next
->         git checkout masahiroy-kbuild/for-next
->         b4 shazam https://lore.kernel.org/r/20230610091320.1054554-9-masa=
-hiroy@kernel.org
+>         # install riscv cross compiling tool for clang build
+>         # apt-get install binutils-riscv64-linux-gnu
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=9fbf10148f31a63b6d8c2b0e56cb97eb173d600b
+>         git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+>         git fetch --no-tags stable linux-5.15.y
+>         git checkout 9fbf10148f31a63b6d8c2b0e56cb97eb173d600b
 >         # save the config file
 >         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.3.0 ~/bin/ma=
-ke.cross W=3D1 O=3Dbuild_dir ARCH=3Darc olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-12.3.0 ~/bin/ma=
-ke.cross W=3D1 O=3Dbuild_dir ARCH=3Darc SHELL=3D/bin/bash arch/arc/kernel/ =
-drivers/infiniband/core/ drivers/media/dvb-core/ drivers/mtd/chips/ fs/ io_=
-uring/ kernel/ lib/ mm/ net/802/ net/core/ net/ethernet/ net/ipv4/ net/ipv6=
-/ net/llc/ net/netfilter/ net/rxrpc/ net/sched/ net/wireless/ net/xfrm/ sec=
-urity/keys/
->
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/bus/mhi/host/
 
-This is a bug of 03/11.
+I couldn't reproduce the issue with these steps and also with checkstack script.
+So ignoring this for now.
 
-For most architectures, a semicolon works as an instruction separator,
-but for ARC, it is the start of a comment.
+- Mani
 
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306100303.KZViMwBJ-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/bus/mhi/host/pm.c:733:6: warning: stack frame size (2768) exceeds limit (2048) in 'mhi_pm_st_worker' [-Wframe-larger-than]
+>    void mhi_pm_st_worker(struct work_struct *work)
+>         ^
+>    1 warning generated.
+> 
+> 
+> vim +/mhi_pm_st_worker +733 drivers/bus/mhi/host/pm.c
+> 
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  731  
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  732  /* Device State Transition worker */
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20 @733  void mhi_pm_st_worker(struct work_struct *work)
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  734  {
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  735  	struct state_transition *itr, *tmp;
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  736  	LIST_HEAD(head);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  737  	struct mhi_controller *mhi_cntrl = container_of(work,
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  738  							struct mhi_controller,
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  739  							st_worker);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  740  	struct device *dev = &mhi_cntrl->mhi_dev->dev;
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  741  
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  742  	spin_lock_irq(&mhi_cntrl->transition_lock);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  743  	list_splice_tail_init(&mhi_cntrl->transition_list, &head);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  744  	spin_unlock_irq(&mhi_cntrl->transition_lock);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  745  
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  746  	list_for_each_entry_safe(itr, tmp, &head, node) {
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  747  		list_del(&itr->node);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  748  		dev_dbg(dev, "Handling state transition: %s\n",
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  749  			TO_DEV_STATE_TRANS_STR(itr->state));
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  750  
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  751  		switch (itr->state) {
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  752  		case DEV_ST_TRANSITION_PBL:
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  753  			write_lock_irq(&mhi_cntrl->pm_lock);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  754  			if (MHI_REG_ACCESS_VALID(mhi_cntrl->pm_state))
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  755  				mhi_cntrl->ee = mhi_get_exec_env(mhi_cntrl);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  756  			write_unlock_irq(&mhi_cntrl->pm_lock);
+> 560e3a045961ed drivers/bus/mhi/core/pm.c Bhaumik Bhatt         2020-05-21  757  			mhi_fw_load_handler(mhi_cntrl);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  758  			break;
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  759  		case DEV_ST_TRANSITION_SBL:
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  760  			write_lock_irq(&mhi_cntrl->pm_lock);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  761  			mhi_cntrl->ee = MHI_EE_SBL;
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  762  			write_unlock_irq(&mhi_cntrl->pm_lock);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  763  			/*
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  764  			 * The MHI devices are only created when the client
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  765  			 * device switches its Execution Environment (EE) to
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  766  			 * either SBL or AMSS states
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  767  			 */
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  768  			mhi_create_devices(mhi_cntrl);
+> 4884362f6977fc drivers/bus/mhi/core/pm.c Bhaumik Bhatt         2021-02-24  769  			if (mhi_cntrl->fbc_download)
+> 4884362f6977fc drivers/bus/mhi/core/pm.c Bhaumik Bhatt         2021-02-24  770  				mhi_download_amss_image(mhi_cntrl);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  771  			break;
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  772  		case DEV_ST_TRANSITION_MISSION_MODE:
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  773  			mhi_pm_mission_mode_transition(mhi_cntrl);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  774  			break;
+> 66ac7985b2af31 drivers/bus/mhi/core/pm.c Carl Yin              2021-03-29  775  		case DEV_ST_TRANSITION_FP:
+> 66ac7985b2af31 drivers/bus/mhi/core/pm.c Carl Yin              2021-03-29  776  			write_lock_irq(&mhi_cntrl->pm_lock);
+> 66ac7985b2af31 drivers/bus/mhi/core/pm.c Carl Yin              2021-03-29  777  			mhi_cntrl->ee = MHI_EE_FP;
+> 66ac7985b2af31 drivers/bus/mhi/core/pm.c Carl Yin              2021-03-29  778  			write_unlock_irq(&mhi_cntrl->pm_lock);
+> 66ac7985b2af31 drivers/bus/mhi/core/pm.c Carl Yin              2021-03-29  779  			mhi_create_devices(mhi_cntrl);
+> 66ac7985b2af31 drivers/bus/mhi/core/pm.c Carl Yin              2021-03-29  780  			break;
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  781  		case DEV_ST_TRANSITION_READY:
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  782  			mhi_ready_state_transition(mhi_cntrl);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  783  			break;
+> bc7ccce5a5192c drivers/bus/mhi/core/pm.c Hemant Kumar          2020-05-21  784  		case DEV_ST_TRANSITION_SYS_ERR:
+> 556bbb442bbb44 drivers/bus/mhi/core/pm.c Bhaumik Bhatt         2020-11-09  785  			mhi_pm_sys_error_transition(mhi_cntrl);
+> bc7ccce5a5192c drivers/bus/mhi/core/pm.c Hemant Kumar          2020-05-21  786  			break;
+> 3c1bd0047124f5 drivers/bus/mhi/core/pm.c Hemant Kumar          2020-05-21  787  		case DEV_ST_TRANSITION_DISABLE:
+> a03c7a86e12721 drivers/bus/mhi/core/pm.c Bhaumik Bhatt         2020-11-09  788  			mhi_pm_disable_transition(mhi_cntrl);
+> 3c1bd0047124f5 drivers/bus/mhi/core/pm.c Hemant Kumar          2020-05-21  789  			break;
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  790  		default:
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  791  			break;
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  792  		}
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  793  		kfree(itr);
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  794  	}
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  795  }
+> a6e2e3522f2914 drivers/bus/mhi/core/pm.c Manivannan Sadhasivam 2020-02-20  796  
+> 
+> :::::: The code at line 733 was first introduced by commit
+> :::::: a6e2e3522f29141b95c1ef8580c665a3582b3e66 bus: mhi: core: Add support for PM state transitions
+> 
+> :::::: TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-I will fix it in v9.
-
-
-
---
-Best Regards
-Masahiro Yamada
+-- 
+மணிவண்ணன் சதாசிவம்
