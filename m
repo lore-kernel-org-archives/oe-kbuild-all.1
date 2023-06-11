@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFAB6D510
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jun 2023 17:09:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EDAC523E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jun 2023 17:51:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686503351; x=1718039351;
+  t=1686505874; x=1718041874;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DM2/oUaGPGrKen+a6Z7OR1nQFNaQwgWfBbNMME9pGi0=;
-  b=QCsj8RdJgs9W5DIuYjYCCd+ERESN0+6nGNWQkN8v2YguRW+sGlQw7pM/
-   zJTQx6eK+sdNrzWaQSvwbJDRR2lei17fhmkrnTrSMxXYJ79CJHLhky/5W
-   OpPh7lAWcegqOhIBey+y9HN4jaecRz/gax49gVUknTTmRMDue63Qyu8Cg
-   prbNWxMcVolDy4k8Ezbbaz3dIL0DBOJvGRoTyrPWKq62DFOccxOZm5OhA
-   oSqKpPYMv4Z18D06BulnLrL07o6hl95UFlUm5GsxMOPkXuBPMn39wYX9f
-   cXMgWKfLsRcgvfnyltfzn0/joXym8Ztje79mwhN1l5rQgMXTD5rqGKKMd
+  bh=xYKAcdrJ39rdgCYXNRMarqKIDpIvzW5PC63ZEqfAMHQ=;
+  b=Jq/a1N5HgDCtxhW2k2rWGaWsJh24vfaeMaNW17u1+UjpepD69g10rJ82
+   hx0mdGXjqwO3K4p8pKNt7tGc+fG7W8IXj2RDpFDukDO8TWy7uqa/kWmKB
+   NcgLbt9o44v2475qgjPjcFLqATa58M3UFU/FjZXkzEIp2iaInfPbHUnz2
+   F6haB+EAJm1NKxWBgoQhx5gXubYGWIaS/F+ZxSByFFqnEVyVRVy6pR8PY
+   nqBhVOp19OLDvU/RBVWiNWJIz40Rr8gfe1ylZzYihhZqOLNVUlbiavGXN
+   p6vA9XYS6Rw1hsvFIjJoa/zOCAOX0hr2k5ofXOm7ZzFzO0wT6DLnZ+GWA
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="338244811"
+X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="357881639"
 X-IronPort-AV: E=Sophos;i="6.00,234,1681196400"; 
-   d="scan'208";a="338244811"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2023 10:09:09 -0700
+   d="scan'208";a="357881639"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2023 10:51:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="855336763"
+X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="800773183"
 X-IronPort-AV: E=Sophos;i="6.00,234,1681196400"; 
-   d="scan'208";a="855336763"
+   d="scan'208";a="800773183"
 Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Jun 2023 10:09:07 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 11 Jun 2023 10:51:12 -0700
 Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q8OYs-000AxI-2r;
-	Sun, 11 Jun 2023 17:09:06 +0000
-Date: Mon, 12 Jun 2023 01:08:59 +0800
+	id 1q8PDb-000B1p-1E;
+	Sun, 11 Jun 2023 17:51:11 +0000
+Date: Mon, 12 Jun 2023 01:50:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sabrina Dubroca <sd@queasysnail.net>, netdev@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, Sabrina Dubroca <sd@queasysnail.net>,
 	kuba@kernel.org
 Subject: Re: [PATCH net-next] netdevsim: add dummy macsec offload
-Message-ID: <202306120129.MSWI7cn1-lkp@intel.com>
+Message-ID: <202306120146.8tukbUAq-lkp@intel.com>
 References: <0b87a0b7f9faf82de05c5689fbe8b8b4a83aa25d.1686494112.git.sd@queasysnail.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -59,25 +59,22 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Sabrina-Dubroca/netdevsim
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/0b87a0b7f9faf82de05c5689fbe8b8b4a83aa25d.1686494112.git.sd%40queasysnail.net
 patch subject: [PATCH net-next] netdevsim: add dummy macsec offload
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230612/202306120129.MSWI7cn1-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230612/202306120146.8tukbUAq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
         git remote add net-next https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
         git fetch net-next main
         git checkout net-next/main
         b4 shazam https://lore.kernel.org/r/0b87a0b7f9faf82de05c5689fbe8b8b4a83aa25d.1686494112.git.sd@queasysnail.net
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/net/netdevsim/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306120129.MSWI7cn1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306120146.8tukbUAq-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
