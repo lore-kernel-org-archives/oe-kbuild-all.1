@@ -1,125 +1,114 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04589C126
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jun 2023 15:47:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686498427; x=1718034427;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TAUH8I5bV0rLJjyIBLInv5sGrB6yke/WZq0UwXQC80Y=;
-  b=HODbezsT0bKQmf5oCpXxMgdpXdlI8x6dJYgRUYaeZ8nakO12DU6NYLQY
-   RwRAYiTLo/LK8WOKOYDPBOomdyyNKOkNU+w/Y5hX/16vowSCKmG7Mpta9
-   hBnGmvWU5rWWZre9CyiKSGG8xqTe3W8lLL8lQBESazbXIELAkNQlyfXTb
-   c4zgannzsmwD7eEZq339fJGWTW0hSY+eLjd6PdH88BSfWyHNhjzXxc8mi
-   Ssz2/SGlFDn+o+iyeLT6Fa6LV1bobUIgWJHva5uY+j1Yiw3p0bxCySP8M
-   /geyfStFpEFAf6hnWY0r4i0j9OEDwgCfvTfHv1VoCICuMEdsGL+CmkX9w
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="361237890"
-X-IronPort-AV: E=Sophos;i="6.00,234,1681196400"; 
-   d="scan'208";a="361237890"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2023 08:47:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="1041060701"
-X-IronPort-AV: E=Sophos;i="6.00,234,1681196400"; 
-   d="scan'208";a="1041060701"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 11 Jun 2023 08:47:05 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q8NHV-000Aua-08;
-	Sun, 11 Jun 2023 15:47:05 +0000
-Date: Sun, 11 Jun 2023 23:46:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
-	Jaroslav Kysela <perex@perex.cz>
-Subject: [tiwai-sound:for-next 14/74] include/sound/ump_msg.h:196:13: error:
- duplicate member 'reserved'
-Message-ID: <202306112301.dMok4XSA-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843B2C126;
+	Sun, 11 Jun 2023 15:49:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12C68C433EF;
+	Sun, 11 Jun 2023 15:49:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686498551;
+	bh=3EWekhSO1wCU4VDEQeoyAhqXeIvgHkX0M4Gym7P43cc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=nkI7xFkKc8YC3T0KVl8s7QzTzu8Z/N9/h/Q4WSUXHJcMU5kfjBNJ0vrsV5ep40Wtt
+	 mt/a22izi5RD61oVJOCKjp09N1NSiZL/LB+divy+gSHtQcJWm+l0rvdsHa+lPnBayM
+	 Ts16s1FVgpFAMuLzt2xeauCEBZVwFfU7FX7jLOlueUJrTpsBPpu9Dm0qHLif/7cCGr
+	 Q8v23U74cJXkTdWZLgqnfUZ666XusHG4AoIbFf9Drn+rVhjf8V+o90e+r2UNiVslmm
+	 IVy9OD0haIS2rHZMQHAc/4EMNamCKG/KNqKhFFl5qKVVPzeFxJOjXKGUUQ3g4g93kp
+	 oWc42XUkYT8HA==
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-1a6820804abso187975fac.2;
+        Sun, 11 Jun 2023 08:49:11 -0700 (PDT)
+X-Gm-Message-State: AC+VfDx4zRF880nMhc21vFPpPr51mhzcFR0HmPyCVT+j6l3gxgobUhgP
+	CBjRIVJUH+qX3s83yGRGY6KKHE6vYCHOem0jlp0=
+X-Google-Smtp-Source: ACHHUZ7qiig9mTkb1GkwfQqDGJIUSEqgnCvqUVTUHH/+IbdB/ObuYk9sAcbQg+FJPtptj5XiIEcYi8HcwqUWVkzikuI=
+X-Received: by 2002:a05:6870:9182:b0:1a2:93ff:a275 with SMTP id
+ b2-20020a056870918200b001a293ffa275mr4291191oaf.38.1686498550324; Sun, 11 Jun
+ 2023 08:49:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20230610091320.1054554-9-masahiroy@kernel.org> <202306110018.Ir9UVvn9-lkp@intel.com>
+In-Reply-To: <202306110018.Ir9UVvn9-lkp@intel.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Mon, 12 Jun 2023 00:48:34 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASVC_KOrU+pUEdNZnAYb1LCDejrYzSsRjafm8vJ05bdwQ@mail.gmail.com>
+Message-ID: <CAK7LNASVC_KOrU+pUEdNZnAYb1LCDejrYzSsRjafm8vJ05bdwQ@mail.gmail.com>
+Subject: Re: [PATCH v8 08/11] kbuild: implement CONFIG_TRIM_UNUSED_KSYMS
+ without recursion
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-head:   15253079ca300160c92c9c0ee2541836463043f6
-commit: 0b5288f5fe63eab687c14e5940b9e0d532b129f2 [14/74] ALSA: ump: Add legacy raw MIDI support
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230611/202306112301.dMok4XSA-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git/commit/?id=0b5288f5fe63eab687c14e5940b9e0d532b129f2
-        git remote add tiwai-sound https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git
-        git fetch --no-tags tiwai-sound for-next
-        git checkout 0b5288f5fe63eab687c14e5940b9e0d532b129f2
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash
+On Sun, Jun 11, 2023 at 1:29=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Masahiro,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on masahiroy-kbuild/for-next]
+> [also build test ERROR on next-20230609]
+> [cannot apply to masahiroy-kbuild/fixes arnd-asm-generic/master rafael-pm=
+/linux-next linus/master v6.4-rc5]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/Re=
+vert-PATCH-uml-export-symbols-added-by-GCC-hardened/20230610-171620
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-k=
+build.git for-next
+> patch link:    https://lore.kernel.org/r/20230610091320.1054554-9-masahir=
+oy%40kernel.org
+> patch subject: [PATCH v8 08/11] kbuild: implement CONFIG_TRIM_UNUSED_KSYM=
+S without recursion
+> config: s390-randconfig-r003-20230610 (https://download.01.org/0day-ci/ar=
+chive/20230611/202306110018.Ir9UVvn9-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git =
+8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> reproduce (this is a W=3D1 build):
+>         mkdir -p ~/bin
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
+n/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install s390 cross compiling tool for clang build
+>         # apt-get install binutils-s390x-linux-gnu
+>         git remote add masahiroy-kbuild https://git.kernel.org/pub/scm/li=
+nux/kernel/git/masahiroy/linux-kbuild.git
+>         git fetch masahiroy-kbuild for-next
+>         git checkout masahiroy-kbuild/for-next
+>         b4 shazam https://lore.kernel.org/r/20230610091320.1054554-9-masa=
+hiroy@kernel.org
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
+oss W=3D1 O=3Dbuild_dir ARCH=3Ds390 olddefconfig
+>         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
+oss W=3D1 O=3Dbuild_dir ARCH=3Ds390 SHELL=3D/bin/bash
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306110018.Ir9UVvn9-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    s390x-linux-ld: drivers/irqchip/irq-al-fic.o: in function `al_fic_init=
+_dt':
+>    irq-al-fic.c:(.init.text+0x24): undefined reference to `of_iomap'
+> >> s390x-linux-ld: irq-al-fic.c:(.init.text+0x1f0): undefined reference t=
+o `iounmap'
+> --
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306112301.dMok4XSA-lkp@intel.com/
 
-Note: the tiwai-sound/for-next HEAD 15253079ca300160c92c9c0ee2541836463043f6 builds fine.
-      It only hurts bisectability.
+The options in getopt() got broken due to a mistake of git-rebase.
+I will fix it in v9.
 
-All errors (new ones prefixed by >>):
-
-   In file included from sound/core/ump_convert.h:5,
-                    from sound/core/ump.c:14:
->> include/sound/ump_msg.h:196:13: error: duplicate member 'reserved'
-     196 |         u32 reserved:8;
-         |             ^~~~~~~~
->> include/sound/ump_msg.h:197:13: error: duplicate member 'program'
-     197 |         u32 program:8;
-         |             ^~~~~~~
->> include/sound/ump_msg.h:198:13: error: duplicate member 'channel'
-     198 |         u32 channel:4;
-         |             ^~~~~~~
->> include/sound/ump_msg.h:199:13: error: duplicate member 'status'
-     199 |         u32 status:4;
-         |             ^~~~~~
->> include/sound/ump_msg.h:200:13: error: duplicate member 'group'
-     200 |         u32 group:4;
-         |             ^~~~~
->> include/sound/ump_msg.h:201:13: error: duplicate member 'type'
-     201 |         u32 type:4;
-         |             ^~~~
-
-
-vim +/reserved +196 include/sound/ump_msg.h
-
-   184	
-   185	/* MIDI 1.0 Program Change (32bit) */
-   186	struct snd_ump_midi1_msg_program {
-   187	#ifdef __BIG_ENDIAN_BITFIELD
-   188		u32 type:4;
-   189		u32 group:4;
-   190		u32 status:4;
-   191		u32 channel:4;
-   192		u32 program:8;
-   193		u32 reserved:8;
-   194	#else
-   195	#endif
- > 196		u32 reserved:8;
- > 197		u32 program:8;
- > 198		u32 channel:4;
- > 199		u32 status:4;
- > 200		u32 group:4;
- > 201		u32 type:4;
-   202	} __packed;
-   203	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Best Regards
+Masahiro Yamada
