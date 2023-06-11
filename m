@@ -1,43 +1,36 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE7F1864
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 11 Jun 2023 05:21:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686460912; x=1717996912;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=47pYTDvOxA6QRmYviIwhE3XXW46zHE2EBYCif0WF5EM=;
-  b=DNsVQWieE3fdzEges9fcWFaBJhgGhnLuW4MRfyFdQlwljzthM6xSGbv4
-   8VIu3Ds3fEO4KtjyQMpyZ9ZskOaE6DQZ0JhojWCS9OvTkTdd20XiaQnA3
-   MRZZRb4PSW9/dO8iGtR4FHBU23vZnewWAdl+ANqRw83QctgzeDAyg0M7K
-   tVLaayPsI9DnKDkJu/LR26wpBwU/zIc4jYrCjKnR3aZ9LQZ2VI2V9p/oo
-   QCzMN+r+YQOskGwvuaraCxKJj4Xzl0cE8/dAurNO1dEWKTE7gy58TVGao
-   IEomjJwNOwtHXxn0V1wcMvivdER0lfG2yxC6G+r1Qzp9JASKdQ4V2NcXR
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="421424000"
-X-IronPort-AV: E=Sophos;i="6.00,233,1681196400"; 
-   d="scan'208";a="421424000"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2023 22:21:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10737"; a="743913934"
-X-IronPort-AV: E=Sophos;i="6.00,233,1681196400"; 
-   d="scan'208";a="743913934"
-Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 10 Jun 2023 22:21:49 -0700
-Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q8DWO-000Aeo-0r;
-	Sun, 11 Jun 2023 05:21:48 +0000
-Date: Sun, 11 Jun 2023 13:21:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 2392/23309]
- include/trace/trace_events.h:27:23: warning:
- 'str__cgroup__trace_system_name' defined but not used
-Message-ID: <202306111302.CMWd0fpZ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E955D139B;
+	Sun, 11 Jun 2023 05:40:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0583EC433D2;
+	Sun, 11 Jun 2023 05:40:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686462052;
+	bh=AOePUCdk8HH40/kO3zeZTnh0lgUCybcEtMlUeFBOGCE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z0quu/rX+FbryYUYKQ18xzpR8z1AVRioRfsP5sjIGjKogfKOfOA5hf2HfZVhMcn3E
+	 udpi5Fz1C3V57rmqP7EFhZ6J8osvGRQ8lIDyXLee7dRqXjxXCjidMPSuP74BPE9WRs
+	 XPcBXhe6XuW1tXUo4UUfQMysojEW/eKpcKz7GepBE2N/mmD9Q9W4xenLeRHQa3bXmV
+	 2PsDZkwdfA0yBqg/RipIi2ScYmwxNGkDDzn0Xo7xLO5G0HNMh70cMbSa9JZSYhQIiq
+	 2gfuFz1zvUKFBOEBQgSpi6FHtb8MvG+1EKfcPevj7/J0k0slVBXv85IlW1nurlBA8p
+	 8Mq+aelN40+Fg==
+Date: Sun, 11 Jun 2023 08:40:19 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Baoquan He <bhe@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org, arnd@arndb.de,
+	christophe.leroy@csgroup.eu, hch@lst.de, willy@infradead.org,
+	agordeev@linux.ibm.com, wangkefeng.wang@huawei.com,
+	schnelle@linux.ibm.com, David.Laight@aculab.com, shorne@gmail.com,
+	deller@gmx.de, Brian Cain <bcain@quicinc.com>,
+	linux-hexagon@vger.kernel.org
+Subject: Re: [PATCH v6 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
+Message-ID: <20230611054019.GL52412@kernel.org>
+References: <20230609075528.9390-3-bhe@redhat.com>
+ <202306091859.NhlW2nny-lkp@intel.com>
+ <ZIQzrRo0JhfBLDes@MiWiFi-R3L-srv>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,147 +39,146 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZIQzrRo0JhfBLDes@MiWiFi-R3L-srv>
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   c1d11308117b35f068fbfdb4b8df8b0532f2d7f4
-commit: 7d91e4ee75c2190c9dade185e8f54ad7384a0c2e [2392/23309] ANDROID: cgroup: Add vendor hook to the cgroup
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230611/202306111302.CMWd0fpZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android14-5.15
-        git checkout 7d91e4ee75c2190c9dade185e8f54ad7384a0c2e
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/ drivers/md/
+Hi Baoquan,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306111302.CMWd0fpZ-lkp@intel.com/
+On Sat, Jun 10, 2023 at 04:26:21PM +0800, Baoquan He wrote:
+> On 06/09/23 at 07:09pm, kernel test robot wrote:
+> > Hi Baoquan,
+> > 
+> > kernel test robot noticed the following build errors:
+> > 
+> > [auto build test ERROR on akpm-mm/mm-everything]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/asm-generic-iomap-h-remove-ARCH_HAS_IOREMAP_xx-macros/20230609-160014
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> > patch link:    https://lore.kernel.org/r/20230609075528.9390-3-bhe%40redhat.com
+> > patch subject: [PATCH v6 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
+> > config: hexagon-randconfig-r041-20230608 (https://download.01.org/0day-ci/archive/20230609/202306091859.NhlW2nny-lkp@intel.com/config)
+> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> > reproduce (this is a W=1 build):
+> >         mkdir -p ~/bin
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
+> >         git fetch akpm-mm mm-everything
+> >         git checkout akpm-mm/mm-everything
+> >         b4 shazam https://lore.kernel.org/r/20230609075528.9390-3-bhe@redhat.com
+> >         # save the config file
+> >         mkdir build_dir && cp config build_dir/.config
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon prepare
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306091859.NhlW2nny-lkp@intel.com/
+> 
+> Thanks for reporting. I reproduced them on my local machine. Below patch
+> can fix them. And by the way, I also saw the clone3 warning, and have to 
+> made change in scripts/checksyscalls.sh to mute it, wondering how you
+> handle it in your testing.
 
-All warnings (new ones prefixed by >>):
+I think the warning kbuild reported is rather this one:
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cgroup.h:17,
-                    from drivers/android/vendor_hooks.c:32:
->> include/trace/trace_events.h:27:23: warning: 'str__cgroup__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ufshcd.h:41,
-                    from drivers/android/vendor_hooks.c:31:
-   include/trace/trace_events.h:27:23: warning: 'str__ufshcd__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/ftrace_dump.h:50,
-                    from drivers/android/vendor_hooks.c:30:
-   include/trace/trace_events.h:27:23: warning: 'str__ftrace_dump__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/preemptirq.h:32,
-                    from drivers/android/vendor_hooks.c:29:
-   include/trace/trace_events.h:27:23: warning: 'str__preemptirq__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/mm.h:28,
-                    from drivers/android/vendor_hooks.c:28:
-   include/trace/trace_events.h:27:23: warning: 'str__mm__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/cpufreq.h:24,
-                    from drivers/android/vendor_hooks.c:27:
-   include/trace/trace_events.h:27:23: warning: 'str__cpufreq__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
-      28 | #define __app(x, y) __app__(x, y)
-         |                     ^~~~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-
-
-vim +/str__cgroup__trace_system_name +27 include/trace/trace_events.h
-
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+>> include/asm-generic/io.h:1078:6: error: conflicting types for 'iounmap'
+    1078 | void iounmap(volatile void __iomem *addr);
+         |      ^
+ 
+> ------
+> stdin>:1520:2: warning: syscall clone3 not implemented [-W#warnings]
+>  1520 | #warning syscall clone3 not implemented
+>       |  ^
+> 1 warning generated.
+> 
+> ------
+> diff --git a/scripts/checksyscalls.sh b/scripts/checksyscalls.sh
+> index 1e5d2eeb726d..3a369b78edb7 100755
+> --- a/scripts/checksyscalls.sh
+> +++ b/scripts/checksyscalls.sh
+> @@ -148,6 +148,7 @@ cat << EOF
+>  #define __IGNORE_nanosleep
+>  #define __IGNORE_io_getevents
+>  #define __IGNORE_recvmmsg
+> +#define __IGNORE_clone3
+>  #endif
+> 
+> 
+> From 6a86f4360a61a2b7b4d71172e5c03be554367553 Mon Sep 17 00:00:00 2001
+> From: root <root@dell-pem620-01.dell2.lab.eng.bos.redhat.com>
+> Date: Fri, 9 Jun 2023 21:21:36 -0400
+> Subject: [PATCH] hexagon: mm: fix warning in asm/io.h
+> Content-type: text/plain
+> 
+> Remove the old iounmap() declaration which is not consistent with the
+> standard one in asm-generic/io.h, let's use the standard one.
+> 
+> And also add macro definition of inb/w/l and outb/w/l to override
+> the definition of them in asm-generic/io.h.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Baoquan He <bhe@redhat.com>
+> ---
+>  arch/hexagon/include/asm/io.h | 8 ++++++--
+>  scripts/checksyscalls.sh      | 1 +
+>  2 files changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/hexagon/include/asm/io.h b/arch/hexagon/include/asm/io.h
+> index dcd9cbbf5934..efe9cb00ebf8 100644
+> --- a/arch/hexagon/include/asm/io.h
+> +++ b/arch/hexagon/include/asm/io.h
+> @@ -27,8 +27,6 @@
+>  extern int remap_area_pages(unsigned long start, unsigned long phys_addr,
+>  				unsigned long end, unsigned long flags);
+>  
+> -extern void iounmap(const volatile void __iomem *addr);
+> -
+>  /* Defined in lib/io.c, needed for smc91x driver. */
+>  extern void __raw_readsw(const void __iomem *addr, void *data, int wordlen);
+>  extern void __raw_writesw(void __iomem *addr, const void *data, int wordlen);
+> @@ -207,16 +205,19 @@ static inline void memset_io(volatile void __iomem *addr, int value,
+>   *
+>   * Operates on "I/O bus I/O space"
+>   */
+> +#define inb inb
+>  static inline u8 inb(unsigned long port)
+>  {
+>  	return readb(_IO_BASE + (port & IO_SPACE_LIMIT));
+>  }
+>  
+> +#define inw inw
+>  static inline u16 inw(unsigned long port)
+>  {
+>  	return readw(_IO_BASE + (port & IO_SPACE_LIMIT));
+>  }
+>  
+> +#define inl inl
+>  static inline u32 inl(unsigned long port)
+>  {
+>  	return readl(_IO_BASE + (port & IO_SPACE_LIMIT));
+> @@ -227,16 +228,19 @@ static inline u32 inl(unsigned long port)
+>   * @data: data to write to
+>   * @addr:  address in I/O space
+>   */
+> +#define outb outb
+>  static inline void outb(u8 data, unsigned long port)
+>  {
+>  	writeb(data, _IO_BASE + (port & IO_SPACE_LIMIT));
+>  }
+>  
+> +#define outw outw
+>  static inline void outw(u16 data, unsigned long port)
+>  {
+>  	writew(data, _IO_BASE + (port & IO_SPACE_LIMIT));
+>  }
+>  
+> +#define outl outl
+>  static inline void outl(u32 data, unsigned long port)
+>  {
+>  	writel(data, _IO_BASE + (port & IO_SPACE_LIMIT));
+> 
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sincerely yours,
+Mike.
