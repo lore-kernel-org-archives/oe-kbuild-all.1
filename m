@@ -1,81 +1,120 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D877538C;
-	Mon, 12 Jun 2023 20:44:48 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-3f78a32266bso48756765e9.3;
-        Mon, 12 Jun 2023 13:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686602687; x=1689194687;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ALjtb1mIX+GZejE31to3xfsby/eOvSoCSDDPLC+nH8A=;
-        b=nWnT2Ip48Z5YrH4Iz+A80ravFKFkjRg8lIRgfaBRLgKcEx98gjWQA7RmTzbceBJJ9b
-         OhYeE3/mnEV+oQRgE83mD3lo6WDjv20Q/EPdhypuvJG7iIyUiykjQWne1GhOUkIQlESL
-         /2D5H7ARsaaEIEcWg9vKSxFOBkKmT1GQBdBNANEV++VL1HOVmC3Gp6cZsaemY1kMJ/++
-         d2Js7egZ3mc0CNaIXkmm1RgRk7Bjt7Klj2dbHG2hCJk1ylFmXEbX1IgDbVTnWeeovddE
-         g8gXS7EaFiuIfhiB74kd01JFJ/wLf7Y1zCtkSdtThgKWZK29RXv3HLc1MhyvAnvs7if8
-         DxWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686602687; x=1689194687;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ALjtb1mIX+GZejE31to3xfsby/eOvSoCSDDPLC+nH8A=;
-        b=hJ9F3Cmj37x6UlCW5lMVbq0r/GH4fj5qDjjJOyy+xxuSDcOwcgDcRg5whp4utrpJWi
-         ivx6EfZAbOlpglv8hnpnRmL5pF4wwNEyyZ2969XrQ+JFSclxDeX+hYpmDNFoxjV4LTyV
-         q7RCzfz6VXwgap+No4upfWGFotPngsHV3wHOgAc+QjWSxTVysvyYZLMmVXNFCT1VmNat
-         gukjcX7OYRmddnxTwldGlNbhSd40JeyE0tVmJ/9PxL3JjcsB7OK/QNx+oLtXV/OQb4fd
-         4A7IVQumSrEOxZIoKyBgcyjKREd+4y+0DaawDUfE2eOe/Ce+pLJKhmBBvFq+2las3hkA
-         xQTw==
-X-Gm-Message-State: AC+VfDy9jfOdimjwayNedxL3zA8t7C9yx+j0mKBp2JFIGlMgA4JuUtlX
-	NKaGZV602E6hQQl85ybum3A=
-X-Google-Smtp-Source: ACHHUZ6HgQri17EQgGB6hP+QvkVq22s68BSuTg5TQ0W3NZO1vKc/aDZCMWNSlqdZMSs2Nka6Slh6wg==
-X-Received: by 2002:a05:600c:2245:b0:3f7:33cf:707f with SMTP id a5-20020a05600c224500b003f733cf707fmr8494315wmm.35.1686602686967;
-        Mon, 12 Jun 2023 13:44:46 -0700 (PDT)
-Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
-        by smtp.gmail.com with ESMTPSA id y24-20020a05600c365800b003f735ba7736sm12310321wmq.46.2023.06.12.13.44.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jun 2023 13:44:46 -0700 (PDT)
-Subject: Re: [netdev-net-next:main 26/28] ld.lld: error: undefined symbol:
- efx_tc_netdev_event
-To: Simon Horman <simon.horman@corigine.com>,
- kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Jakub Kicinski <kuba@kernel.org>,
- Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
-References: <202306102026.ISK5JfUQ-lkp@intel.com>
- <ZIbUNpktWf2TmKGZ@corigine.com>
-From: Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <8724de62-fe9b-cdd4-bb39-b3c06b440f5f@gmail.com>
-Date: Mon, 12 Jun 2023 21:44:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF798EA0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 20:49:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686602950; x=1718138950;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DuR3Mukky86FBCd65H8AtVQWyt7WrFN4rvrigdlzgLo=;
+  b=M27Rt2Q94ZalqE9z2Tu0LWKsoQluNIq/jozpoCVCIEQdTRHVSbExXLWD
+   qVyWyRLDg4oNDb+405wXcN3QZypZ3k/KjjM3Fq8OvVaCmY0dR9s777EoM
+   S18o0N9XHu1pRPBFvlk7RBQehWz1Mrcuwv8+FM1tz9vwjFwn2vJKyB1UW
+   jaC02CFUjbq9DGeORZWNZxED8uRxK63UfypsZ8mgg+sqJf1gKKQfotmD/
+   LkNBb1wAs0Bv1GoXX7kHthHdQC4ciJUmYC0zKzRCgUc/K4j9bx2aSKKov
+   fpG2whzpuCyf+kTQ2L8Vhx/I42odW3mJuUxeaHz3Rm5/kdO9jn86I+qUh
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="386547161"
+X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
+   d="scan'208";a="386547161"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 13:49:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="711360379"
+X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
+   d="scan'208";a="711360379"
+Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 12 Jun 2023 13:49:07 -0700
+Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q8oTK-0000hQ-1Q;
+	Mon, 12 Jun 2023 20:49:06 +0000
+Date: Tue, 13 Jun 2023 04:48:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.4 3942/27775]
+ drivers/rtc/hctosys.c:24:5: warning: no previous prototype for 'rtc_hctosys'
+Message-ID: <202306130441.fcsct95k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <ZIbUNpktWf2TmKGZ@corigine.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 12/06/2023 09:15, Simon Horman wrote:
-> On Sat, Jun 10, 2023 at 09:10:45PM +0800, kernel test robot wrote:
->> All errors (new ones prefixed by >>):
->>
->>>> ld.lld: error: undefined symbol: efx_tc_netdev_event
->>    >>> referenced by ef100_netdev.c:313 (drivers/net/ethernet/sfc/ef100_netdev.c:313)
->>    >>>               drivers/net/ethernet/sfc/ef100_netdev.o:(ef100_netdev_event) in archive vmlinux.a
->> --
->>>> ld.lld: error: undefined symbol: efx_tc_netevent_event
->>    >>> referenced by ef100_netdev.c:329 (drivers/net/ethernet/sfc/ef100_netdev.c:329)
->>    >>>               drivers/net/ethernet/sfc/ef100_netdev.o:(ef100_netevent_event) in archive vmlinux.a
-> 
-> A cursory investigation leads me to thinking this occurs
-> if the CONFIG_SFC is set but CONFIG_SFC_SRIOV is not.
+Hi Steve,
 
-Yep, looks that way.  Patch on its way shortly.
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   e77ffdfd7269cc7a5b05a0a072f3063161d8b5ee
+commit: 5f378fd56aa3988be21e859254a2d72628d044c6 [3942/27775] ANDROID: rtc: class: support hctosys from modular RTC drivers
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230613/202306130441.fcsct95k-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android12-5.4
+        git checkout 5f378fd56aa3988be21e859254a2d72628d044c6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/rtc/
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306130441.fcsct95k-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/rtc/hctosys.c:24:5: warning: no previous prototype for 'rtc_hctosys' [-Wmissing-prototypes]
+      24 | int rtc_hctosys(void)
+         |     ^~~~~~~~~~~
+
+
+vim +/rtc_hctosys +24 drivers/rtc/hctosys.c
+
+    12	
+    13	/* IMPORTANT: the RTC only stores whole seconds. It is arbitrary
+    14	 * whether it stores the most close value or the value with partial
+    15	 * seconds truncated. However, it is important that we use it to store
+    16	 * the truncated value. This is because otherwise it is necessary,
+    17	 * in an rtc sync function, to read both xtime.tv_sec and
+    18	 * xtime.tv_nsec. On some processors (i.e. ARM), an atomic read
+    19	 * of >32bits is not possible. So storing the most close value would
+    20	 * slow down the sync API. So here we have the truncated value and
+    21	 * the best guess is to add 0.5s.
+    22	 */
+    23	
+  > 24	int rtc_hctosys(void)
+    25	{
+    26		int err = -ENODEV;
+    27		struct rtc_time tm;
+    28		struct timespec64 tv64 = {
+    29			.tv_nsec = NSEC_PER_SEC >> 1,
+    30		};
+    31		struct rtc_device *rtc = rtc_class_open(CONFIG_RTC_HCTOSYS_DEVICE);
+    32	
+    33		if (!rtc) {
+    34			pr_info("unable to open rtc device (%s)\n",
+    35				CONFIG_RTC_HCTOSYS_DEVICE);
+    36			goto err_open;
+    37		}
+    38	
+    39		err = rtc_read_time(rtc, &tm);
+    40		if (err) {
+    41			dev_err(rtc->dev.parent,
+    42				"hctosys: unable to read the hardware clock\n");
+    43			goto err_read;
+    44		}
+    45	
+    46		tv64.tv_sec = rtc_tm_to_time64(&tm);
+    47	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
