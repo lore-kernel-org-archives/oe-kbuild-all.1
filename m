@@ -1,44 +1,49 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634E9BE63
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 23:16:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15595BE66
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 23:37:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686611783; x=1718147783;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DSwI0e3m6wOlAf8gQGQ1v8T320lYTOa7XwDp9Fkdd60=;
-  b=h64FBU0lUVul2n8pKV3lbp+lez/eJ3gRBZft6tBMU/ViouLThZybf5Zz
-   MEvLQvl8ix7I78AjV1DgboAQ+0QNoe2Y9f47b3iVnzUgkv230CgXJVqod
-   rhJJK8uyJBQT3R77OPSwngRVxNi69lJjMdew7MmNyGYs/8pElIcucgflZ
-   Mu2AwbIdZyQ4ORGRp02dkK9156ifyikolHDuwXXowM/gryEebu26ajbe0
-   1UaAjC5zovu7of5QfavSKRDNpfeRZQT8+povuGRxlvdGslbd23tre9crH
-   47P/zdWeTwp+d6KcHrKO4vKfN4UYsAAjlH3jwslkrfbwVOzUvQMaRoQX3
+  t=1686613047; x=1718149047;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2Z52hCVOR7DJUTPlLD7xaPNXC1JoIJf4cVIpOC5zfkY=;
+  b=esFWek8zX50g5NNJV+VbZMZeN/+2VAxNs/XL2a2EmE5SUGks/hx3kVs2
+   75jXRzUTsqEak01nH4Inbce/Yu6BnmThXOS4/cLF1W3F1sHkg7AbsAGlj
+   sBTRB6Xn1yCH/uBy7TYGCODU7FA8Sod4ftnReQoNI9NXd4vDYknb1O5B3
+   JAxJmCjnLuR8K0gcxaU5HKuh84g6fG97mL9LVug7vclMoljzQPlG3HEMY
+   HaXiAnYoD90YCoVmFSJRBBfgSHJB4s3+QUc/cyb6TT6Gpa7/GW6H1r2iP
+   Y01hANP4VDjD1GLACXomu6/wWcXJUjbe/IzhTGsXg2w8vaK59WAwP++a7
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="358181767"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="361552039"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="358181767"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 16:16:22 -0700
+   d="scan'208";a="361552039"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 16:37:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="714568301"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="801209462"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="714568301"
+   d="scan'208";a="801209462"
 Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 12 Jun 2023 16:16:20 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 12 Jun 2023 16:37:21 -0700
 Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q8qlo-0000pc-05;
-	Mon, 12 Jun 2023 23:16:20 +0000
-Date: Tue, 13 Jun 2023 07:15:51 +0800
+	id 1q8r68-0000qK-1B;
+	Mon, 12 Jun 2023 23:37:20 +0000
+Date: Tue, 13 Jun 2023 07:36:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
-	Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Subject: [linux-nvme:nvme-6.5 26/26] drivers/nvme/host/core.c:2999:52:
- warning: passing argument 2 of 'const_test_bit' makes pointer from integer
- without a cast
-Message-ID: <202306130727.dlc4hcMB-lkp@intel.com>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Helge Deller <deller@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH] fbdev/media: Use GPIO descriptors for VIA GPIO
+Message-ID: <202306130745.DRBLkZcT-lkp@intel.com>
+References: <20230612134500.249178-1-linus.walleij@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,144 +52,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230612134500.249178-1-linus.walleij@linaro.org>
 
-tree:   git://git.infradead.org/nvme.git nvme-6.5
-head:   9aa77a0506d6990714c9fbb1c03596cd8e1094c7
-commit: 9aa77a0506d6990714c9fbb1c03596cd8e1094c7 [26/26] nvme: skip optional id ctrl csi if it failed
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230613/202306130727.dlc4hcMB-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
+Hi Linus,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on linus/master v6.4-rc6 next-20230609]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/fbdev-media-Use-GPIO-descriptors-for-VIA-GPIO/20230612-214746
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20230612134500.249178-1-linus.walleij%40linaro.org
+patch subject: [PATCH] fbdev/media: Use GPIO descriptors for VIA GPIO
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230613/202306130745.DRBLkZcT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add linux-nvme git://git.infradead.org/nvme.git
-        git fetch --no-tags linux-nvme nvme-6.5
-        git checkout 9aa77a0506d6990714c9fbb1c03596cd8e1094c7
+        git remote add media-tree git://linuxtv.org/media_tree.git
+        git fetch media-tree master
+        git checkout media-tree/master
+        b4 shazam https://lore.kernel.org/r/20230612134500.249178-1-linus.walleij@linaro.org
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/nvme/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306130727.dlc4hcMB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306130745.DRBLkZcT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/thread_info.h:27,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/alpha/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from include/linux/highmem.h:5,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/blkdev.h:9,
-                    from drivers/nvme/host/core.c:7:
-   drivers/nvme/host/core.c: In function 'nvme_init_non_mdts_limits':
->> drivers/nvme/host/core.c:2999:52: warning: passing argument 2 of 'const_test_bit' makes pointer from integer without a cast [-Wint-conversion]
-    2999 |             test_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags))
-         |                                                ~~~~^~~~~~~
-         |                                                    |
-         |                                                    long unsigned int
-   include/linux/bitops.h:53:24: note: in definition of macro 'bitop'
-      53 |          const##op(nr, addr) : op(nr, addr))
-         |                        ^~~~
-   drivers/nvme/host/core.c:2999:13: note: in expansion of macro 'test_bit'
-    2999 |             test_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags))
-         |             ^~~~~~~~
-   In file included from include/linux/bitops.h:34:
-   include/asm-generic/bitops/generic-non-atomic.h:166:64: note: expected 'const volatile long unsigned int *' but argument is of type 'long unsigned int'
-     166 | const_test_bit(unsigned long nr, const volatile unsigned long *addr)
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
->> drivers/nvme/host/core.c:2999:52: warning: passing argument 2 of 'generic_test_bit' makes pointer from integer without a cast [-Wint-conversion]
-    2999 |             test_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags))
-         |                                                ~~~~^~~~~~~
-         |                                                    |
-         |                                                    long unsigned int
-   include/linux/bitops.h:53:39: note: in definition of macro 'bitop'
-      53 |          const##op(nr, addr) : op(nr, addr))
-         |                                       ^~~~
-   drivers/nvme/host/core.c:2999:13: note: in expansion of macro 'test_bit'
-    2999 |             test_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags))
-         |             ^~~~~~~~
-   include/asm-generic/bitops/generic-non-atomic.h:121:66: note: expected 'const volatile long unsigned int *' but argument is of type 'long unsigned int'
-     121 | generic_test_bit(unsigned long nr, const volatile unsigned long *addr)
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
->> drivers/nvme/host/core.c:3022:55: warning: passing argument 2 of 'set_bit' makes pointer from integer without a cast [-Wint-conversion]
-    3022 |                 set_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags);
-         |                                                   ~~~~^~~~~~~
-         |                                                       |
-         |                                                       long unsigned int
-   In file included from include/linux/bitops.h:68:
-   arch/alpha/include/asm/bitops.h:29:43: note: expected 'volatile void *' but argument is of type 'long unsigned int'
-      29 | set_bit(unsigned long nr, volatile void * addr)
-         |                           ~~~~~~~~~~~~~~~~^~~~
+>> drivers/video/fbdev/via/via-gpio.c:13:10: fatal error: linux/via-gpio.h: No such file or directory
+      13 | #include <linux/via-gpio.h>
+         |          ^~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
 
-vim +/const_test_bit +2999 drivers/nvme/host/core.c
+vim +13 drivers/video/fbdev/via/via-gpio.c
 
-  2970	
-  2971	static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
-  2972	{
-  2973		struct nvme_command c = { };
-  2974		struct nvme_id_ctrl_nvm *id;
-  2975		int ret;
-  2976	
-  2977		if (ctrl->oncs & NVME_CTRL_ONCS_DSM) {
-  2978			ctrl->max_discard_sectors = UINT_MAX;
-  2979			ctrl->max_discard_segments = NVME_DSM_MAX_RANGES;
-  2980		} else {
-  2981			ctrl->max_discard_sectors = 0;
-  2982			ctrl->max_discard_segments = 0;
-  2983		}
-  2984	
-  2985		/*
-  2986		 * Even though NVMe spec explicitly states that MDTS is not applicable
-  2987		 * to the write-zeroes, we are cautious and limit the size to the
-  2988		 * controllers max_hw_sectors value, which is based on the MDTS field
-  2989		 * and possibly other limiting factors.
-  2990		 */
-  2991		if ((ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES) &&
-  2992		    !(ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES))
-  2993			ctrl->max_zeroes_sectors = ctrl->max_hw_sectors;
-  2994		else
-  2995			ctrl->max_zeroes_sectors = 0;
-  2996	
-  2997		if (ctrl->subsys->subtype != NVME_NQN_NVME ||
-  2998		    nvme_ctrl_limited_cns(ctrl) ||
-> 2999		    test_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags))
-  3000			return 0;
-  3001	
-  3002		id = kzalloc(sizeof(*id), GFP_KERNEL);
-  3003		if (!id)
-  3004			return -ENOMEM;
-  3005	
-  3006		c.identify.opcode = nvme_admin_identify;
-  3007		c.identify.cns = NVME_ID_CNS_CS_CTRL;
-  3008		c.identify.csi = NVME_CSI_NVM;
-  3009	
-  3010		ret = nvme_submit_sync_cmd(ctrl->admin_q, &c, id, sizeof(*id));
-  3011		if (ret)
-  3012			goto free_data;
-  3013	
-  3014		if (id->dmrl)
-  3015			ctrl->max_discard_segments = id->dmrl;
-  3016		ctrl->dmrsl = le32_to_cpu(id->dmrsl);
-  3017		if (id->wzsl)
-  3018			ctrl->max_zeroes_sectors = nvme_mps_to_sectors(ctrl, id->wzsl);
-  3019	
-  3020	free_data:
-  3021		if (ret > 0)
-> 3022			set_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags);
-  3023		kfree(id);
-  3024		return ret;
-  3025	}
-  3026	
+ec66841e495b9a drivers/video/via/via-gpio.c Jonathan Corbet 2010-05-05 @13  #include <linux/via-gpio.h>
+a8a359318530a7 drivers/video/via/via-gpio.c Paul Gortmaker  2011-07-10  14  #include <linux/export.h>
+7e0de022680f78 drivers/video/via/via-gpio.c Jonathan Corbet 2009-12-01  15  
 
 -- 
 0-DAY CI Kernel Test Service
