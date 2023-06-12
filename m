@@ -1,77 +1,135 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2B21F189;
-	Mon, 12 Jun 2023 17:50:32 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-97ea801b0d0so49767466b.1;
-        Mon, 12 Jun 2023 10:50:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686592231; x=1689184231;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Wvyyw0RH8M6wqUGKw3iOenKs+/MxXTFepExt8iHfBqM=;
-        b=S2Q0XjYJfFcDNMWcP69ytzhss0CIy6DtjuROLgUAS7pKaD7B2JMGjyy/+fO2KMFstf
-         W/CKXVTB4Z5Lw7fZyc9/TB5IjkS8KUxt5WhHAo5g32v4UsFnme8q4wo4BuSID3KKWlaX
-         XGNnpODdGvkY4ZcntLrKvKjqhrNoTSaqsU5SAXuQ5xcnFRlwFA4MMpeglYDqBnZ8Ht/P
-         ea/i2CUkyTcQusAPj5MCdekcDp666YOp+kd0s6XVQW/mHYwdptVjcPi7IeoNbUOI9sPH
-         c59yVHQ9QEdTNoGN6LsDTUhEeIKUFTNe/sIhdIvZaOvHe/StqJosuxy1cKK3p0pG4h1b
-         PAww==
-X-Gm-Message-State: AC+VfDw3rdgbWUVoCTQM5dO5UqeE2rO3d2gRn4yINWe0xgRyHZbzo8yu
-	eVrYdt7M3sSyWRRrC1dkvUS4MonknwH/wAZg6dQ=
-X-Google-Smtp-Source: ACHHUZ48EwYeJ/hSMZnwj4sh7Sw3R37wzvPOsSt8Oh7LDPDCuTIxgM51IrMmr4+YgLo/RDdy9XTvKwb38fBxVT1NRiM=
-X-Received: by 2002:a17:906:7a03:b0:977:cbc4:5d8 with SMTP id
- d3-20020a1709067a0300b00977cbc405d8mr8767410ejo.4.1686592230594; Mon, 12 Jun
- 2023 10:50:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0FC19BB1;
+	Mon, 12 Jun 2023 18:11:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686593518; x=1718129518;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MUJIyIIxyWDXLsGprFR9Y5h4WDL/y5XyfJH9HS3u2l4=;
+  b=dXfD7fH5tnm5gE9+znQ/LA6Xy7CRYZgRvJ3lILh/ZO4SJUKVW2LhaZKq
+   sEp58g1GfCF55bPGv42s888v5DTGy2cvzXgl7nNfeIWlV2TzH0ZauHv6Z
+   Y6ZxhUDxypodRv1Mu0em5oZuttBpRk++TJ7HFX8c68dveHz8qZgM/i1cE
+   SfZJ8qL97RttJ+sfhuYNbLiAS4FOblbXELwvcBY9YKEzYpijVykEgnGMF
+   jjC7UcPP9MoAqhvRLdRz5+KsMKkJb0sL3qkfaVGvsIqRlKaq/N1y3Kzhs
+   ZCeU40oBJauT4xNKWYifqKfnpHbRcyODcwGqXWRNnMAJ4nn7wqMCFylxc
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="444502004"
+X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
+   d="scan'208";a="444502004"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 11:11:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="855757138"
+X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
+   d="scan'208";a="855757138"
+Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 12 Jun 2023 11:11:42 -0700
+Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q8m0z-0000YW-2g;
+	Mon, 12 Jun 2023 18:11:41 +0000
+Date: Tue, 13 Jun 2023 02:10:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-rtc@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/8] rtc: isl12022: add support for trip level DT bindings
+Message-ID: <202306130116.8PIDa21J-lkp@intel.com>
+References: <20230612113059.247275-5-linux@rasmusvillemoes.dk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230606140000.385223-1-rui.zhang@intel.com> <202306062334.5Z1NkD1F-lkp@intel.com>
- <62b7e97ede85927cd523578be0b702723043d92b.camel@intel.com>
-In-Reply-To: <62b7e97ede85927cd523578be0b702723043d92b.camel@intel.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 12 Jun 2023 19:50:19 +0200
-Message-ID: <CAJZ5v0higwL64NP4tFfOwVog1daSBsUTdh+M5ocZqDi14cYVDQ@mail.gmail.com>
-Subject: Re: [PATCH] powercap: intel_rapl: Fix CONFIG_IOSF_MBI dependency
-To: "Zhang, Rui" <rui.zhang@intel.com>
-Cc: "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, 
-	"Wysocki, Rafael J" <rafael.j.wysocki@intel.com>, 
-	"daniel.lezcano@linaro.org" <daniel.lezcano@linaro.org>, lkp <lkp@intel.com>, 
-	"llvm@lists.linux.dev" <llvm@lists.linux.dev>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, "arnd@arndb.de" <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230612113059.247275-5-linux@rasmusvillemoes.dk>
 
-On Wed, Jun 7, 2023 at 4:23=E2=80=AFAM Zhang, Rui <rui.zhang@intel.com> wro=
-te:
->
-> On Tue, 2023-06-06 at 23:45 +0800, kernel test robot wrote:
-> > Hi Zhang,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on rafael-pm/linux-next]
-> > [also build test ERROR on next-20230606]
-> > [cannot apply to linus/master v6.4-rc5]
-> > [If your patch is applied to the wrong git tree, kindly drop us a
-> > note.
-> > And when submitting patch, we suggest to use '--base' as documented
-> > in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:
-> > https://github.com/intel-lab-lkp/linux/commits/Zhang-Rui/powercap-intel=
-_rapl-Fix-CONFIG_IOSF_MBI-dependency/20230606-220222
->
-> This is a false alarm from the robot.
-> It applied Arnd' patch first and then applied this patch on top.
->
-> I think we can ignore the lkp robot warnings for this thread.
+Hi Rasmus,
 
-OK
+kernel test robot noticed the following build errors:
 
-Applied as 6.5 material, thanks!
+[auto build test ERROR on abelloni/rtc-next]
+[also build test ERROR on robh/for-next linus/master v6.4-rc6 next-20230609]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rasmus-Villemoes/rtc-isl12022-remove-wrong-warning-for-low-battery-level/20230612-211434
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20230612113059.247275-5-linux%40rasmusvillemoes.dk
+patch subject: [PATCH 4/8] rtc: isl12022: add support for trip level DT bindings
+config: arm-randconfig-r012-20230612 (https://download.01.org/0day-ci/archive/20230613/202306130116.8PIDa21J-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        git remote add abelloni https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git
+        git fetch abelloni rtc-next
+        git checkout abelloni/rtc-next
+        b4 shazam https://lore.kernel.org/r/20230612113059.247275-5-linux@rasmusvillemoes.dk
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/rtc/
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306130116.8PIDa21J-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/rtc/rtc-isl12022.c:238:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     238 |         val = FIELD_PREP(ISL12022_REG_VB85_MASK, x85) | FIELD_PREP(ISL12022_REG_VB75_MASK, x75);
+         |               ^
+   1 error generated.
+
+
+vim +/FIELD_PREP +238 drivers/rtc/rtc-isl12022.c
+
+   219	
+   220	static void isl12022_set_trip_levels(struct device *dev)
+   221	{
+   222		struct regmap *regmap = dev_get_drvdata(dev);
+   223		u32 level85 = 0, level75 = 0;
+   224		int ret, x85, x75;
+   225		u8 val, mask;
+   226	
+   227		device_property_read_u32(dev, "isil,trip-level85-microvolt", &level85);
+   228		device_property_read_u32(dev, "isil,trip-level75-microvolt", &level75);
+   229	
+   230		for (x85 = 0; x85 < ARRAY_SIZE(trip_level85) - 1; ++x85)
+   231			if (level85 <= trip_level85[x85])
+   232				break;
+   233	
+   234		for (x75 = 0; x75 < ARRAY_SIZE(trip_level75) - 1; ++x75)
+   235			if (level75 <= trip_level75[x75])
+   236				break;
+   237	
+ > 238		val = FIELD_PREP(ISL12022_REG_VB85_MASK, x85) | FIELD_PREP(ISL12022_REG_VB75_MASK, x75);
+   239		mask = ISL12022_REG_VB85_MASK | ISL12022_REG_VB75_MASK;
+   240	
+   241		ret = regmap_update_bits(regmap, ISL12022_REG_PWR_VBAT, mask, val);
+   242		if (ret)
+   243			dev_warn(dev, "unable to set battery alarm levels: %d\n", ret);
+   244	}
+   245	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
