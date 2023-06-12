@@ -1,167 +1,155 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685591FD8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 06:45:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EA2136D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 07:29:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686552329; x=1718088329;
+  t=1686554943; x=1718090943;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kevnPU6jwKje6X+2h3FAUFtJ9pBHvJBkYH8GigT+Rw8=;
-  b=ImDp4qHkP4Mp4LvfvuKyHzOzylvTxrX84CEAAvaKqBqFAWSbB5sY2hYQ
-   2GjiRyN+SzhAoy6mEUElS3zXHmH6PBsR2U1NjYtP3pljLPJXjUqf1Fa2V
-   OU2mHL3M3dWGHUwXtXtR9JMtVM6iQTa5BzFZkJcVwT4CdtGac9CehlYLQ
-   UVNy7+kEx1301KoU+itQi5dzZunvlz/KQlyXqUCC3aANAls6W3uNqLu5x
-   4Nk0RZatRBtup7i55ObW64ugkBk0DeIMTGq5/kuhUH+PRL4ylYFQWuCHG
-   mJE3tiPHma6t0jKJzgETZRtqni4SlvooIv1wyRb1UHWq8aV9g5KIEhd6r
+  bh=E0h7eNs882HvCVUQrfIphzZsmYxlnGcfDW2+Oqdq+6Y=;
+  b=VNM8m/VhVnXLHWF8uC7r6Dmgc9ENSHYZ2ivm4SRk8Df9Zl1cnVJR0z2r
+   uMV+/mYQA/6FnAuvJqmSwEYBvI+0v4fh7MNvm3qNnjUdSR0Csx6poDDM7
+   2+T3dRzap7kDb0WEPV7xyMrk03+UVPoGGGcAMaq3I6WOUE2/M0wd5ptcm
+   ibBHOal38S4pgZ44zt+AgFGWKCGitJCLQzfsKK2ukbfSUM85f3NbDZb92
+   MRFwzaAfJDtz1SruNpfGdGdMXAKEwt/8GIUjWIw8DYwajNaILXh4NMEZF
+   +xeYZ5C9INcYiGdBRg3PWqr/sTwOLIxfuTsckfwiIcIHJ7cfKesEmOVvX
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="355456158"
+X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="444342231"
 X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="355456158"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2023 23:45:27 -0700
+   d="scan'208";a="444342231"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 00:29:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="661459251"
+X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="855503153"
 X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="661459251"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by orsmga003.jf.intel.com with ESMTP; 11 Jun 2023 23:45:27 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Sun, 11 Jun 2023 23:45:26 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Sun, 11 Jun 2023 23:45:26 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Sun, 11 Jun 2023 23:45:26 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Sun, 11 Jun 2023 23:45:25 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BBt7bvZ1SB5ME2PaarE9aXpH9iyI9V6ujoFOyzOTMZ+6Yx0wwEEBioi6V+slt0Dx+edf9jjm4xcaIruZQkQSS/NLtYAfBfhzimP0IdTGjokz5AY31nPFky40NxruRKEp7dUw6A7O520Mr61NkVm0SF/6fvM+OFP+A5W4U97o5LnPu8qbg8Vt9NAAXgALA4MV8F32fQ/+bBUbCw4sDGlDowq1VDkahc3iaN7ti1ENfKwo+7X4ApfIFhSctVYAxOT4r1VOZ54z2gnYOvaOqsmA1r5vB74hu2R4adpO80rtToaPo0cDqFmWp8K40VfmpduI1hCOQFEY0gC+sZmY+Xn28w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z8CrR3oBhrg024FX+8MuP/hn+GymKhLIQJnFL9CrzKA=;
- b=AVDXtMWJZDDm6e0oI3ZMp7JtuABKcn48IWF4GDq+/0mjxyHyjgPo32pCSRWncQMUvt36D/Ly1l5ttVQZC79cYYYz6hQKICpGCs0xAfGaMhh0hJ9sddONphacZxTflmIZCOjdg7spJ/5iVL8/qXhXSbBt42L+NnisZsiKf5NEL4ZdwRlybqumvNEI8OyUp/Mjbm7gIfoBGfyWH7+ub34aOPH2ePlHq38R3uKcSKbugNRCeyCqHOYgfc06M9kA6Ip2fE4rMa8fg6z4yFQyJEzs2uEIWLCY1bhCIKod35lNbD7SHWLneZ9lA9FpvvRePJwa9ZxNeYbF/H4xmvBv7QBUZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by DM4PR11MB6065.namprd11.prod.outlook.com (2603:10b6:8:60::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6455.38; Mon, 12 Jun
- 2023 06:45:18 +0000
-Received: from CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::5486:41e6:7c9e:740e]) by CY5PR11MB6392.namprd11.prod.outlook.com
- ([fe80::5486:41e6:7c9e:740e%7]) with mapi id 15.20.6477.028; Mon, 12 Jun 2023
- 06:45:18 +0000
-Date: Mon, 12 Jun 2023 14:42:10 +0800
-From: kernel test robot <yujie.liu@intel.com>
-To: Rob Herring <robh@kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [robh:dt/header-cleanups 19/20] arch/powerpc/sysdev/of_rtc.c:
- linux/of.h is included more than once.
-Message-ID: <202306111337.g3HQW5b3-lkp@intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SI2PR02CA0014.apcprd02.prod.outlook.com
- (2603:1096:4:194::19) To CY5PR11MB6392.namprd11.prod.outlook.com
- (2603:10b6:930:37::15)
+   d="scan'208";a="855503153"
+Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 12 Jun 2023 00:29:01 -0700
+Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q8bz2-00007E-1Y;
+	Mon, 12 Jun 2023 07:29:00 +0000
+Date: Mon, 12 Jun 2023 15:28:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Greg Ungerer <gerg@linux-m68k.org>, Sasha Levin <sashal@kernel.org>
+Subject: [stable:linux-5.4.y 384/8740]
+ drivers/staging/comedi/drivers/comedi_isadma.c:31:9: error: implicit
+ declaration of function 'release_dma_lock'
+Message-ID: <202306121518.ORgjlsR5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|DM4PR11MB6065:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2ac34a8d-f90e-40cc-4218-08db6b1095ed
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7zT+BvmmgS/D/r61hELcs5flvj/Z0qUILbWxRR++S/Tj+C1f7JdkZLyrCpf9iO/IbAESwClStq3cfVKyzY7/eZIld+KNN9x4Y53t1vhnFmBKy+Q/G1xvU7joEZjEU2AMfOb8TCvNuUKSl6l1e4A+8uib/2eOa9t2JLcsKTgr6Gn/VRb2WNO0MZMPY42MpuClraEJ5AxtdQvlWvJTom2tW+lXCjyhpKrvzVNz2hA9Zh0DbMb1L5hblFS4rdq333twdxF0Aw/GdhIW23FRHbhLihqbaQ9SWswUhYpRM+upHCy6TiwxkA+/QJdx63kYi7LtbGb1wq61lFE9PdjOFwhSZVTLIpf0jZVfq8WsV6iF/nI2uGAtUCvMl3/9tRWZqKwWJk8Ekfb0XNin8hr4AvhlP1Nhb98vWoyEb7zaRblBJNjgmloWev/iM+uTIo/6FXmbrmAmD/f33Q3gaqB5Zd8wzgUTiVqKrtLVPvPtNPOPPYNhndvDlxFSieFRpE8gETIISKaa/GrwZRBypIzz19H+Q/+XNGgMNUBfyHVZlExXoN+SVv/q46g7Bvz6uArfH/goS9v9/bPCV4PsMHX+HT6ggg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(366004)(376002)(136003)(346002)(396003)(451199021)(26005)(6506007)(1076003)(186003)(2616005)(6512007)(83380400001)(6666004)(2906002)(6486002)(966005)(8936002)(82960400001)(8676002)(36756003)(478600001)(6916009)(38100700002)(5660300002)(86362001)(66476007)(66946007)(4326008)(41300700001)(316002)(66556008);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FrjC95p0RD5MOVQf7zpdUBKHchocX2OOsTiyWpWM+9WNkSwoHh+JVf3LO8en?=
- =?us-ascii?Q?HmVWT/3B9IptmRijplbwAjo7vxh+FvIGj4bNbfAD0ICb/4q7wh8jHaqlTNfo?=
- =?us-ascii?Q?q6llWRVp5ML93prA5R86X/uyrvtQvIanp6Ch6do6byD4psINiq2jL3r3AgJ9?=
- =?us-ascii?Q?q/Tz1NOFUPTMPEXGeMr2xAJkgsosSXBK38yQK8Z/FjcxLYZtdtThF6pExjCI?=
- =?us-ascii?Q?5owYqAhipO2vRl8sygUGg7ZKc/5jQLV66JzFYmaQcTwgd8Q6KbUqKkkSedEs?=
- =?us-ascii?Q?HL24DHgzlxq4KK/DvAbO8HDLt1adWgi3wg+B4/SOZEE6MWP6sG3T4QEUzqJy?=
- =?us-ascii?Q?7tZQpi47nGFRpKQ5RNjF9s8IRrpLC+mR45iXf0U0VBdsv1xLpyKsSNt5GbLR?=
- =?us-ascii?Q?i6klsNRCfO2wp/D/hk1G57TsdCWEcwpGOaG3aGx+dDg6ylNRvhDx5xD69zeS?=
- =?us-ascii?Q?JfANNeDDPl2aEGQR3g64yrLcn4/6dCpdkhWmx2yq+omQnbzZ7MUwnLU9NB0D?=
- =?us-ascii?Q?gr1bh4aDgC4b+Hv0AfusT3z2r8ekvi1r1WYNV1+5EJxthUQWNhuRKHLtpib6?=
- =?us-ascii?Q?I6NkKB5jD1uZ+AgY6Nx9meHMeVnH3doN84XTtr2rG/jHEGlu5dEWwxcQZUX0?=
- =?us-ascii?Q?Nb1fLDBVpoTvkUB5W9WuFlwgDZtL9205bEspAPFzWPEH1V7MX1iELTbjovZq?=
- =?us-ascii?Q?RVt/MNvqjqPNV5PC2J0Slo79Kf/4obXvewNs0H95gfP0dJdGbVzzAjynLNmg?=
- =?us-ascii?Q?f0IPnu/nQ+1hmM26E9oR/cainwlCDPOCfIUFNNzJQhTzZfWJfIVwvSbKoely?=
- =?us-ascii?Q?maNESG3Bk6HqQV+hzBLg/CrRMqPKgdS21Pki8yLwPA/Qycbvcy1jeoPiO0HM?=
- =?us-ascii?Q?+yFjslax24PyRTqzFTlh0qfZM7bJ8IfaNtt9l9QLDW+vtg9h+IsuVNimbQE/?=
- =?us-ascii?Q?UQAZllt9P3e4MYsZK6qv5opboyqaiLNNHVkxavRJhr3tiU4jmjfykCwtCg50?=
- =?us-ascii?Q?EC2qbXWLLTFmrzE+MV8VIaQsxfy00O0n6tWpKCnWBK3Rfk0i8IJ0qVwraRQ0?=
- =?us-ascii?Q?UpckCiDxwLg8SXkShoJRFa43PeTzznMIghh7FV7G1n0Qid5MnZUKzEWtHjm2?=
- =?us-ascii?Q?cAXOazj5DOVWDnTsyrwgh5BUYN4D/sj0CpU/2dkX8bZxnstmBUotg5l4mrjz?=
- =?us-ascii?Q?CpA7j6+qV9cQ85kXzFacl/UBFLlDtbv8OicjIPgyK2UUEGYFPHR2jaYlCK+V?=
- =?us-ascii?Q?lMVOa/weua+ZKJDnY8UrvHOaz9cFXTCuHmCVTtmFpzkjHg91lHJwWn7kx4pL?=
- =?us-ascii?Q?XXbFZa7TVSlH1Aq+NKta/aLqrtBLXldZsmiUfJs2JDSEPab7uBWUz8ziqSU9?=
- =?us-ascii?Q?C7sf/MgJuywa4BM0muJVslWSG4C25gaNAESAkfm4Px5VXwYJawBuP/vnwElg?=
- =?us-ascii?Q?FUBiw1fox7vIDCuJuwKgLnIi9PA22cCkdVN4lPzgG6AA5WY77kWRaZzledHZ?=
- =?us-ascii?Q?BT4IJX45FU4TQhC2ehqeLjMqkgE6ITfprt/ofqe72qy5vgqckPbbYyQWmrZh?=
- =?us-ascii?Q?SuUi4vo3a6DKK7wQIkB3dBK+OTpmKzSwdTEONf58?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ac34a8d-f90e-40cc-4218-08db6b1095ed
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 06:45:18.4081
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: o4ZklNQ7Z8FlqVvFR4cVlBG1zCv0HQfKBDNyY1Qf+fMh4tFGELXFy/jyNmUTQYwuVKEJSgmi5XnGPUxdTdj/kw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6065
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
-head:   3118a5812ec5b3b83ca38f2d1c4162ccda268c0d
-commit: 6bd2c1239dfcde3e23570ac6b044382269edfd17 [19/20] DT include cleanups
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Arnd,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.4.y
+head:   f568a20f058fa1e37069cff4aac4187c1650a0e9
+commit: 53a72858bcae7eaa7df8d167dbf60682d70f82a6 [384/8740] m68knommu: only set CONFIG_ISA_DMA_API for ColdFire sub-arch
+config: m68k-randconfig-r035-20230612 (https://download.01.org/0day-ci/archive/20230612/202306121518.ORgjlsR5-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=53a72858bcae7eaa7df8d167dbf60682d70f82a6
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-5.4.y
+        git checkout 53a72858bcae7eaa7df8d167dbf60682d70f82a6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/staging/comedi/drivers/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202306111337.g3HQW5b3-lkp@intel.com/
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306121518.ORgjlsR5-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/phy/tegra/xusb.c: linux/platform_device.h is included more than once.
---
->> arch/powerpc/sysdev/of_rtc.c: linux/of.h is included more than once.
---
->> drivers/net/ethernet/freescale/fman/mac.c: linux/of_platform.h is included more than once.
---
->> drivers/usb/host/fsl-mph-dr-of.c: linux/of.h is included more than once.
---
->> drivers/regulator/mt6359-regulator.c: linux/platform_device.h is included more than once.
+All errors (new ones prefixed by >>):
 
-vim +8 arch/powerpc/sysdev/of_rtc.c
+   In file included from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:12,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:51,
+                    from include/linux/seqlock.h:36,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:10,
+                    from drivers/staging/comedi/drivers/comedi_isadma.c:7:
+   include/linux/dma-mapping.h: In function 'dma_map_resource':
+   arch/m68k/include/asm/page_mm.h:169:50: warning: ordered comparison of pointer with null pointer [-Wextra]
+     169 | #define virt_addr_valid(kaddr)  ((void *)(kaddr) >= (void *)PAGE_OFFSET && (void *)(kaddr) < high_memory)
+         |                                                  ^~
+   include/asm-generic/bug.h:182:32: note: in definition of macro 'WARN_ON'
+     182 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   include/linux/dma-mapping.h:355:13: note: in expansion of macro 'WARN_ON_ONCE'
+     355 |         if (WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
+         |             ^~~~~~~~~~~~
+   arch/m68k/include/asm/page_mm.h:170:33: note: in expansion of macro 'virt_addr_valid'
+     170 | #define pfn_valid(pfn)          virt_addr_valid(pfn_to_virt(pfn))
+         |                                 ^~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:355:26: note: in expansion of macro 'pfn_valid'
+     355 |         if (WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
+         |                          ^~~~~~~~~
+   drivers/staging/comedi/drivers/comedi_isadma.c: In function 'comedi_isadma_program':
+   drivers/staging/comedi/drivers/comedi_isadma.c:25:17: error: implicit declaration of function 'claim_dma_lock' [-Werror=implicit-function-declaration]
+      25 |         flags = claim_dma_lock();
+         |                 ^~~~~~~~~~~~~~
+>> drivers/staging/comedi/drivers/comedi_isadma.c:31:9: error: implicit declaration of function 'release_dma_lock' [-Werror=implicit-function-declaration]
+      31 |         release_dma_lock(flags);
+         |         ^~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-   > 8	#include <linux/of.h>
-     9	#include <linux/init.h>
-  > 10	#include <linux/of.h>
-    11	#include <linux/of_address.h>
-    12	#include <linux/platform_device.h>
-    13	#include <linux/slab.h>
-    14	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for NEED_MULTIPLE_NODES
+   Depends on [n]: DISCONTIGMEM [=n] || NUMA
+   Selected by [y]:
+   - SINGLE_MEMORY_CHUNK [=y] && MMU [=y]
+
+
+vim +/release_dma_lock +31 drivers/staging/comedi/drivers/comedi_isadma.c
+
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  16  
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  17  /**
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  18   * comedi_isadma_program - program and enable an ISA DMA transfer
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  19   * @desc:	the ISA DMA cookie to program and enable
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  20   */
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  21  void comedi_isadma_program(struct comedi_isadma_desc *desc)
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  22  {
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  23  	unsigned long flags;
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  24  
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  25  	flags = claim_dma_lock();
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  26  	clear_dma_ff(desc->chan);
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  27  	set_dma_mode(desc->chan, desc->mode);
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  28  	set_dma_addr(desc->chan, desc->hw_addr);
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  29  	set_dma_count(desc->chan, desc->size);
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  30  	enable_dma(desc->chan);
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14 @31  	release_dma_lock(flags);
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  32  }
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  33  EXPORT_SYMBOL_GPL(comedi_isadma_program);
+20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  34  
+
+:::::: The code at line 31 was first introduced by commit
+:::::: 20a1ea7d6ba184a1f6e25e85786738003387cada staging: comedi: comedi_isadma: introduce helper module for ISA DMA
+
+:::::: TO: H Hartley Sweeten <hsweeten@visionengravers.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
