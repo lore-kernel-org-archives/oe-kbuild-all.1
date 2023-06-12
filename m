@@ -1,141 +1,106 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5AC19E79
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 14:07:18 +0000 (UTC)
-Received: from arisu.localnet (mtl.collabora.ca [66.171.169.34])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: detlev)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id A5F8B66003AE;
-	Mon, 12 Jun 2023 15:07:16 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1686578836;
-	bh=6vtD62E+6YLVyLXvrNbt3qOk6TyhALzLXliJLZrVRQM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oDuV0tgiFSLzZBqi6nOZE09TvuUXkh9blN1c5CR79QHSLitBLasWu6COac4xc/Ncn
-	 DfG2vyGF0bSZ58hgnH9gRjSjcocV3CcdQmAvpp5fIncAJ43Bmnpi4GrKOI9Hvm1bR5
-	 fvCtG1RKGIV904qvDbNVlzEfIyT7HWXAOMr8mXlU1QjTKt3ZfmK3nWMldkKXtUpzpw
-	 WYv4YbceiVF8ixG/bS8z8QXKRR15UQXuqO9YolJTXm6iDks7AUwrhXyxkF/+VRXcGG
-	 72a1g7hNnDQHRT/G5kKpu2O3fXlvqVWM/Nx4tW55+N/G2n0RYgSxfgbIPHiAqqU3sT
-	 2xMXMX9nVieFA==
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 3/3] net: phy: realtek: Disable clock on suspend
-Date: Mon, 12 Jun 2023 10:07:20 -0400
-Message-ID: <5979222.lOV4Wx5bFT@arisu>
-In-Reply-To: <202306100152.2hG4J7Ds-lkp@intel.com>
-References:
- <20230605154010.49611-4-detlev.casanova@collabora.com>
- <202306100152.2hG4J7Ds-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35085AD38
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 14:47:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686581259; x=1718117259;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qE36kDjC6BLxmPmGqXNtz2bR9FszoZEidlEinlW69tI=;
+  b=H9U02QvVqilBUlE3adpclRvq2nwAfHbd+6q2Wym2bOILfmh40PY739FE
+   8HGgqZ69Z7Fs8wl7WvPS3WbxeuYujWja6wwxxqC0chnx5FdLV3nhkfmoc
+   9z2jS1WTPOMdXJ41dU4I/Vqc8AI5xUXHRT0z8rwU7stax5setnFXUeoOO
+   vqGaEvaS/XgiSOXs/qD2/44zWkn3F0x+7L9rz3xo26ZTwGigWMkLb3e5t
+   /SrPuai2TpVmvt9CJAWADGNxYmIxhbQoFdFnhiKOEvj2xAgOzPQOjWU5p
+   GZkZCIxUFgt/5S722oCFPFthDfCnvW/cbLB7qWkwH9df7gQyqAsf0ai14
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="423940258"
+X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
+   d="scan'208";a="423940258"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 07:47:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="824013872"
+X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
+   d="scan'208";a="824013872"
+Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 12 Jun 2023 07:47:32 -0700
+Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q8ipP-0000KC-29;
+	Mon, 12 Jun 2023 14:47:31 +0000
+Date: Mon, 12 Jun 2023 22:47:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>
+Subject: [linux-next:master 2350/8413] arch/parisc/kernel/pdt.c:65:6:
+ warning: no previous prototype for 'arch_report_meminfo'
+Message-ID: <202306122223.HHER4zOo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Friday, June 9, 2023 1:41:58 P.M. EDT kernel test robot wrote:
-> Hi Detlev,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on robh/for-next]
-> [also build test ERROR on net/main linus/master v6.4-rc5]
-> [cannot apply to net-next/main next-20230609]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   53ab6975c12d1ad86c599a8927e8c698b144d669
+commit: ef104443bffa004f631729dfc924f0b84abbd602 [2350/8413] procfs: consolidate arch_report_meminfo declaration
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20230612/202306122223.HHER4zOo-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=ef104443bffa004f631729dfc924f0b84abbd602
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout ef104443bffa004f631729dfc924f0b84abbd602
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash arch/parisc/kernel/
 
-Hi,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306122223.HHER4zOo-lkp@intel.com/
 
-Yes, it is applied on the wrong tree, the correct tree should be net-next 
-(git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git). I didn't 
-know about the --base argument, I will use that in the future., thanks !
+All warnings (new ones prefixed by >>):
 
-Detlev.
-
-> url:   
-> https://github.com/intel-lab-lkp/linux/commits/Detlev-Casanova/net-phy-real
-> tek-Add-optional-external-PHY-clock/20230605-234223 base:  
-> https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-> patch link:   
-> https://lore.kernel.org/r/20230605154010.49611-4-detlev.casanova%40collabor
-> a.com patch subject: [PATCH v4 3/3] net: phy: realtek: Disable clock on
-> suspend config: i386-debian-10.3
-> (https://download.01.org/0day-ci/archive/20230610/202306100152.2hG4J7Ds-lkp
-> @intel.com/config) compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build):
->         git remote add robh
-> https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git git fetch
-> robh for-next
->         git checkout robh/for-next
->         b4 shazam
-> https://lore.kernel.org/r/20230605154010.49611-4-detlev.casanova@collabora.
-> com # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         make W=1 O=build_dir ARCH=i386 olddefconfig
->         make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version
-> of the same patch/commit), kindly add following tags
-> 
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:
-> | https://lore.kernel.org/oe-kbuild-all/202306100152.2hG4J7Ds-lkp@intel.com
-> | /
-> All errors (new ones prefixed by >>):
-> 
->    drivers/net/phy/realtek.c: In function 'rtl821x_suspend':
-> >> drivers/net/phy/realtek.c:434:22: error: 'struct phy_device' has no
-> >> member named 'wol_enabled'; did you mean 'eee_enabled'?
->      434 |         if (!phydev->wol_enabled) {
-> 
->          |                      ^~~~~~~~~~~
->          |                      eee_enabled
-> 
->    drivers/net/phy/realtek.c: In function 'rtl821x_resume':
->    drivers/net/phy/realtek.c:451:22: error: 'struct phy_device' has no
-> member named 'wol_enabled'; did you mean 'eee_enabled'? 451 |         if
-> (!phydev->wol_enabled)
-> 
->          |                      ^~~~~~~~~~~
->          |                      eee_enabled
-> 
->    drivers/net/phy/realtek.c: At top level:
-> >> drivers/net/phy/realtek.c:962:35: error: 'PHY_ALWAYS_CALL_SUSPEND'
-> >> undeclared here (not in a function)
->      962 |                 .flags          = PHY_ALWAYS_CALL_SUSPEND,
-> 
->          |                                   ^~~~~~~~~~~~~~~~~~~~~~~
-> 
-> vim +434 drivers/net/phy/realtek.c
-> 
->    428
->    429	static int rtl821x_suspend(struct phy_device *phydev)
->    430	{
->    431		struct rtl821x_priv *priv = phydev->priv;
->    432		int ret = 0;
->    433
-> 
->  > 434		if (!phydev->wol_enabled) {
-> 
->    435			ret = genphy_suspend(phydev);
->    436
->    437			if (ret)
->    438				return ret;
->    439
->    440			clk_disable_unprepare(priv->clk);
->    441		}
->    442
->    443		return ret;
->    444	}
->    445
+>> arch/parisc/kernel/pdt.c:65:6: warning: no previous prototype for 'arch_report_meminfo' [-Wmissing-prototypes]
+      65 | void arch_report_meminfo(struct seq_file *m)
+         |      ^~~~~~~~~~~~~~~~~~~
 
 
+vim +/arch_report_meminfo +65 arch/parisc/kernel/pdt.c
 
+c9c2877d08d9aa Helge Deller 2017-05-11  63  
+c9c2877d08d9aa Helge Deller 2017-05-11  64  /* report PDT entries via /proc/meminfo */
+c9c2877d08d9aa Helge Deller 2017-05-11 @65  void arch_report_meminfo(struct seq_file *m)
+c9c2877d08d9aa Helge Deller 2017-05-11  66  {
+c9c2877d08d9aa Helge Deller 2017-05-11  67  	if (pdt_type == PDT_NONE)
+c9c2877d08d9aa Helge Deller 2017-05-11  68  		return;
+c9c2877d08d9aa Helge Deller 2017-05-11  69  
+c9c2877d08d9aa Helge Deller 2017-05-11  70  	seq_printf(m, "PDT_max_entries: %7lu\n",
+c9c2877d08d9aa Helge Deller 2017-05-11  71  			pdt_status.pdt_size);
+c9c2877d08d9aa Helge Deller 2017-05-11  72  	seq_printf(m, "PDT_cur_entries: %7lu\n",
+c9c2877d08d9aa Helge Deller 2017-05-11  73  			pdt_status.pdt_entries);
+c9c2877d08d9aa Helge Deller 2017-05-11  74  }
+c9c2877d08d9aa Helge Deller 2017-05-11  75  
 
+:::::: The code at line 65 was first introduced by commit
+:::::: c9c2877d08d9aa0ca0a5c227ac795fbb76269300 parisc: Add Page Deallocation Table (PDT) support
+
+:::::: TO: Helge Deller <deller@gmx.de>
+:::::: CC: Helge Deller <deller@gmx.de>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
