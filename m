@@ -1,44 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F375822D44
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 22:02:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC85318AE0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 22:23:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686607341; x=1718143341;
+  t=1686608601; x=1718144601;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Fj9KWsCu8qAY7TaRTK2VlseduZabDyG7FQkgBKqCPCs=;
-  b=TXU7Pkul5JEX31EdwMdUAYxlujdIi5tNOf/efygK0CAUz/G8vB8i4AIc
-   tpM6Myk5emeHPySP91riQ/QWUO2VLt4hSoz0VAQ9HlaORD6FKqrZ24bk6
-   xwv/4L4ZCBo542mFXJJM9PW0aGBPJ/7iHzp10aIxBLp2uZJgIQLucV1Jz
-   bmCntesK8PBr6Uva7S7hz7e558RGmRNHPrxnxP2h5TgIKiZ7ZlneryM+3
-   TF+GLnI8PJ0/pi1On/q6RozuYdjruUXcfnXENqEc2dTP+gqrHgKH2tkHD
-   V05FY9XTadkJiW9/+ex+dTKkezn/waDkF1R7xHRhdy1jhh+jnp+YwHZU6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="358169314"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="358169314"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 15:02:20 -0700
+  bh=oxMUmBauQjv3CQ/O9SLADsbrUEj4OkGBAYzD2sPWYxU=;
+  b=fuvlZUJMuWRknMTI1kcSnLZveLchQuAIRHHWEdiBLwGjgkFQBTxSMZrV
+   fZQem2Nsp0FvaE/zaV2vr9q6VO3hR5TUOzwQjuRP8YqRZiaq6Yf9YSR/+
+   9/Z0QjOyBp0a8RiCLvTnKAO5F9ADMIEb0tAqFggh2xban+yOcS23wCLeA
+   Bvdrtx6s1vRtbvfksBINDknEx7/OlYQmuUjCOe+sdVe4jJITA52c0KxEi
+   XSyGAUo/HbQI9yOgemUK8yHNQYCfMn+vY9ZsUYuBcmSym/buy4Qok86cz
+   TgqwH7ruHLzK16rCFd8cEgiEK94lT0kUGQB1cTT/DONRXl25UpAIcFZSi
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="338534535"
+X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
+   d="scan'208";a="338534535"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 15:23:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="688796336"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="688796336"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="705550335"
+X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
+   d="scan'208";a="705550335"
 Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 12 Jun 2023 15:02:18 -0700
+  by orsmga007.jf.intel.com with ESMTP; 12 Jun 2023 15:23:19 -0700
 Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q8pc9-0000ma-2o;
-	Mon, 12 Jun 2023 22:02:17 +0000
-Date: Tue, 13 Jun 2023 06:01:33 +0800
+	id 1q8pwU-0000nR-1W;
+	Mon, 12 Jun 2023 22:23:18 +0000
+Date: Tue, 13 Jun 2023 06:22:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sarath Babu Naidu Gaddam <sarath.babu.naidu.gaddam@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [xilinx-xlnx:lkp_test 3/3]
- xilinx_axienet_main.c:(.text.axienet_probe+0x16d8): undefined reference to
- `xilinx_vdma_channel_set_config'
-Message-ID: <202306130511.T17IqGzi-lkp@intel.com>
+To: Greg KH <greg@kroah.com>
+Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>
+Subject: [peterz-queue:core/guards2 23/59] kernel/events/core.c:11384:1:
+ warning: 'static' is not at beginning of declaration
+Message-ID: <202306130653.Dm0xwKCS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,51 +46,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Xilinx/linux-xlnx lkp_test
-head:   008dab8f0109b0f762a72a01e3ffa8a334ec447b
-commit: 008dab8f0109b0f762a72a01e3ffa8a334ec447b [3/3] net: axienet: Introduce dmaengine support
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230613/202306130511.T17IqGzi-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git core/guards2
+head:   d982cb15a612c31105d806c86764d72346142398
+commit: 50b0f0252d75f1477582be46833594b22acd031f [23/59] perf/core: Fix narrow startup race when creating the perf nr_addr_filters sysfs file
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230613/202306130653.Dm0xwKCS-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/Xilinx/linux-xlnx/commit/008dab8f0109b0f762a72a01e3ffa8a334ec447b
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx lkp_test
-        git checkout 008dab8f0109b0f762a72a01e3ffa8a334ec447b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?id=50b0f0252d75f1477582be46833594b22acd031f
+        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git
+        git fetch --no-tags peterz-queue core/guards2
+        git checkout 50b0f0252d75f1477582be46833594b22acd031f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash kernel/events/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306130511.T17IqGzi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306130653.Dm0xwKCS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/mips/kernel/head.o: in function `_stext':
-   (.text+0x0): relocation truncated to fit: R_MIPS_26 against `kernel_entry'
-   arch/mips/kernel/head.o: in function `smp_bootstrap':
-   (.ref.text+0xd8): relocation truncated to fit: R_MIPS_26 against `start_secondary'
-   init/main.o: in function `set_reset_devices':
-   main.c:(.init.text+0x20): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x30): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `debug_kernel':
-   main.c:(.init.text+0xa4): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0xb4): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `quiet_kernel':
-   main.c:(.init.text+0x128): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x138): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `warn_bootconfig':
-   main.c:(.init.text+0x1ac): relocation truncated to fit: R_MIPS_26 against `_mcount'
-   main.c:(.init.text+0x1bc): relocation truncated to fit: R_MIPS_26 against `__sanitizer_cov_trace_pc'
-   init/main.o: in function `init_setup':
-   main.c:(.init.text+0x230): additional relocation overflows omitted from the output
-   mips-linux-ld: drivers/net/ethernet/xilinx/xilinx_axienet_main.o: in function `axienet_probe':
->> xilinx_axienet_main.c:(.text.axienet_probe+0x16d8): undefined reference to `xilinx_vdma_channel_set_config'
+>> kernel/events/core.c:11384:1: warning: 'static' is not at beginning of declaration [-Wold-style-declaration]
+   11384 | const static struct attribute_group *pmu_dev_groups[] = {
+         | ^~~~~
+
+
+vim +/static +11384 kernel/events/core.c
+
+ 11383	
+ 11384	const static struct attribute_group *pmu_dev_groups[] = {
+ 11385		&pmu_dev_attr_group,
+ 11386		NULL,
+ 11387	};
+ 11388	
 
 -- 
 0-DAY CI Kernel Test Service
