@@ -1,155 +1,144 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2120.outbound.protection.outlook.com [40.107.220.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EA2136D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 07:29:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686554943; x=1718090943;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E0h7eNs882HvCVUQrfIphzZsmYxlnGcfDW2+Oqdq+6Y=;
-  b=VNM8m/VhVnXLHWF8uC7r6Dmgc9ENSHYZ2ivm4SRk8Df9Zl1cnVJR0z2r
-   uMV+/mYQA/6FnAuvJqmSwEYBvI+0v4fh7MNvm3qNnjUdSR0Csx6poDDM7
-   2+T3dRzap7kDb0WEPV7xyMrk03+UVPoGGGcAMaq3I6WOUE2/M0wd5ptcm
-   ibBHOal38S4pgZ44zt+AgFGWKCGitJCLQzfsKK2ukbfSUM85f3NbDZb92
-   MRFwzaAfJDtz1SruNpfGdGdMXAKEwt/8GIUjWIw8DYwajNaILXh4NMEZF
-   +xeYZ5C9INcYiGdBRg3PWqr/sTwOLIxfuTsckfwiIcIHJ7cfKesEmOVvX
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="444342231"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="444342231"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 00:29:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10738"; a="855503153"
-X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="855503153"
-Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 12 Jun 2023 00:29:01 -0700
-Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q8bz2-00007E-1Y;
-	Mon, 12 Jun 2023 07:29:00 +0000
-Date: Mon, 12 Jun 2023 15:28:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Greg Ungerer <gerg@linux-m68k.org>, Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-5.4.y 384/8740]
- drivers/staging/comedi/drivers/comedi_isadma.c:31:9: error: implicit
- declaration of function 'release_dma_lock'
-Message-ID: <202306121518.ORgjlsR5-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEEDCC8D8;
+	Mon, 12 Jun 2023 08:15:58 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F2pirTqk7QRU/XlUL+DH51lxOYUkL66juMflqJzHUUeCWpYkEm9sHJQaMyiSIx0d3exKM+m/FgseYm3j1gSagilQfzOHtoSe7t9ZzaTT5vXWV6qOhutMBkM62vsNowuPSjyPQFkpAjenAn9NyoeFuYJ/XgR6l7lLayL7Q2OeMbnVIfjYO5Go724jloee4XlKyWcVpMr1rLPIPxq9NjHg95utTiE2cI5bahCB/jq601IMKVKyDRnzc3ZU/g0upV/iMRpPH4WYA1Z8UihqbFRiEf9007y8LkaKzfF0kHNs7sVDsGfzTEyFqgUEjE4EjetAZv9SI6CQy5j3+7FWrzXlaQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7NS025U+WSKNQGN5ODYlsZ55zh6i6W0yzzwUzLo9WyU=;
+ b=e4c7JV0gcNjH4z913UxLZYylax35X5qpvGxoyyHdbAYuE644+4sTuIsgQoyEiPki+LlYbZcPBAAmKrQGi7T2/fFXbad0s2TKT3GnYp1TlptSw8+ZW0hTHFVibcAOTdcR8GTiOvhSIoXI2Db47XtITXOBq/FIy2f35Dd3raBfagGP4PwDXjCCWczvPF7fJLBCoUU/cMpw2+Rh63YyE1XaVlmssbSsD4950J6OOfDYAM8AY+SWGNXyXmS9/TYSL94vN7wHk2Xzt2kwKCbO+MPavaxv3vDJaLL46WK8zr0MYBzFrXWzu1yWBQhrzyJRNXgVAY/v2ZiBe8NdrNzuM2gHwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7NS025U+WSKNQGN5ODYlsZ55zh6i6W0yzzwUzLo9WyU=;
+ b=tULDedXwxsEK7QFUfjQjCG0LHjhmIUH70PU+KmnLg2ZQuF37Ejj5dWgbASf81DScv4K9PmPSHduHhXFROMQ+sv6jNBqDDkIVRV7PwcswfKhDjJO0fU/KMu6YjQlDTONJGPU+472fYwKa/gRt8S9JR3HFDy4dWeul9ov1e6fAX10=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
+ by SA3PR13MB6347.namprd13.prod.outlook.com (2603:10b6:806:37f::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.21; Mon, 12 Jun
+ 2023 08:15:56 +0000
+Received: from PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::eb8f:e482:76e0:fe6e]) by PH0PR13MB4842.namprd13.prod.outlook.com
+ ([fe80::eb8f:e482:76e0:fe6e%4]) with mapi id 15.20.6477.028; Mon, 12 Jun 2023
+ 08:15:55 +0000
+Date: Mon, 12 Jun 2023 10:15:50 +0200
+From: Simon Horman <simon.horman@corigine.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Edward Cree <ecree.xilinx@gmail.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
+Subject: Re: [netdev-net-next:main 26/28] ld.lld: error: undefined symbol:
+ efx_tc_netdev_event
+Message-ID: <ZIbUNpktWf2TmKGZ@corigine.com>
+References: <202306102026.ISK5JfUQ-lkp@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202306102026.ISK5JfUQ-lkp@intel.com>
+X-ClientProxiedBy: AM0PR02CA0170.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28e::7) To PH0PR13MB4842.namprd13.prod.outlook.com
+ (2603:10b6:510:78::6)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|SA3PR13MB6347:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66beedca-9d50-4b82-d0f5-08db6b1d3ed8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	YSS+nrLWFiU0HDlfFDCa5vvg/Dzm22X7qGZ194Ss9mcjxMxsRCkAf5PvMkv7p0Ol4T+kzAINDDKhuOmN3V2aaYRn/v3Mu/zWhruhPEuz/FDgcHOoKtIvtrCofIlZ8ePGX2ucfVoXTDwcbIDHSH/cpXiW36J4L/uRsyp4CedH6hYrjeTy4+PhfLEivQo9kHylFmw9QSTBqX0OtuI23+TscEUc+8HMseLYhUCwYC+xc40M7dg9W4IyEP7Oz+KYIHj2CQfkX5XomtcmwMgmxAxhmxcfu4qtfic+9QWwOOkfnvdsQbSZMDJmaX7ZGiSHJ7MEdHyx6fkZSVfAhMo5THLBZSUARCD6OWpa0loHe+q+mUf5FX3XqOT/qr0hjXUUD6bcIZDh5Qm9PwSkseO4mmNH2erPbwVd3DYP0GIty7mnUNDKokjXb2Z7thZZAv84oQxPZvsF9WpuUELmltyXFA70moHFFssLUkDavVIutBvoUchraYbfv1McTq2Rdbe/cyAcv/pKFk0kJ0e73gz7uILzN69UfYU7G6wC8I3dDHMgWgI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(376002)(346002)(396003)(136003)(39830400003)(366004)(451199021)(54906003)(5660300002)(6916009)(4326008)(66946007)(66556008)(8936002)(8676002)(44832011)(41300700001)(316002)(2906002)(186003)(478600001)(66476007)(6666004)(966005)(6486002)(6512007)(6506007)(83380400001)(36756003)(86362001)(2616005)(38100700002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?3QKqqgqZZBhN2CXajYSugYW30q0yZEP7WD29D+O6MijefiJegwhUZj+xgdON?=
+ =?us-ascii?Q?NIR7nnL+OVEs5ybBoK3PqWEO/8Nc0vkdEB87rbS7yUriXVJI6Q02hkIr4hvH?=
+ =?us-ascii?Q?W/W+J79MuOlQsLY8aBD2/u0iwWPQEbn5jmtq7o5kXgdDFkMIPbZtRxLbPgeY?=
+ =?us-ascii?Q?frK4u2G/fadmy17jimng0VobCwWtctxxkL+PvkpFIQAtWVLzFBG4NMBB0Veb?=
+ =?us-ascii?Q?H8AcGwXP7RconAORxIJBN5aExhsrWiZUxbt6ryAlF/MutKqutOTJdEqD07aQ?=
+ =?us-ascii?Q?HAvX2HhJ2MkAOT+z/60Dlehpe5svTF0eHNF3boZ8WkYYAPkxfF1vN2PIOhHb?=
+ =?us-ascii?Q?fHGBD2nOCSPIHnLgzx6DMCu42X5UM6oemdGeFP2kC+JAfG01JmuU6idouMF8?=
+ =?us-ascii?Q?gS/9aNlKW9rI4DJkbLvCa0lHSFkvZPIfdRHL7+ipfVVabicqp1ZU0R8/yfqa?=
+ =?us-ascii?Q?NcQ5mLLduHaEo3Hes8MPHW9ZD05db2cBesmPIOcfZLD7anCTT+lNk8gtVAR8?=
+ =?us-ascii?Q?S6hz8GKft6J+5G8t6WkhS6pQrRmaa4ZQF69ESBEm13mzZtS+Le+aLET3HmKC?=
+ =?us-ascii?Q?Bd2AYJo54UrCZrD1Yv7UZkephMGmyx/CiP4kwpX+vCRXeaVaf3loXuKXia8L?=
+ =?us-ascii?Q?zGT5k1oqhHBgP9qUjOuRqD+cTUyBKWrMjlYpclXfsqJBk79cu2+MtlLC+x2D?=
+ =?us-ascii?Q?NF3lr3J9magV4cEhMTsaWoMdas16BloBV1RWkmB5gRvjkx3Sv27xd1k7aEvp?=
+ =?us-ascii?Q?BpbLf5eSH5q92qcUpOoQhTzsVk2hkbodtN5tt712vY+lQJdgZ1zsn+fTSuch?=
+ =?us-ascii?Q?17iKyjkerbcmOxn5J1fWM+3bSxchVxmwtl47CeMbyZe/B6y/Frp03d5Q/MYn?=
+ =?us-ascii?Q?FDo68d/f7PTvRFX/WwT1gVgwxVzyWuZ6wQ3RyI2oyZ1ZJCulRY93YiiRWN8x?=
+ =?us-ascii?Q?9th1eZZjhbCgxOOra8cIUTuJqWEJyU3JifB3yyFQHZJE6OL12F1lt+XPXUld?=
+ =?us-ascii?Q?l93Ch0akLyR6EB79M7YGnn4YbnGxu9auTGrVCwPwmc5CL6APu/o6fKmf7Fk+?=
+ =?us-ascii?Q?ZKwBrDVuYs9Gyrc74MWpIpFkK/Vq3+6EWXtpgrO3XNo2JR7d9q6Ff2NyF3Mj?=
+ =?us-ascii?Q?0ShoJRPi9khwwgnoH5m7np2hRFovvyLvS6bR9zgCc1DHJlUHniXTofEU09rq?=
+ =?us-ascii?Q?eZWacARSSINUWEIDFFVhbvYbc9WVQjhM4lnwdPQcmxj7tHZluZkSbnm+fGmw?=
+ =?us-ascii?Q?YjLkOUdHuM19y51+8CC5r+fer9nl0/gPppecuXPP1JY7Fz3IgKspIoNH5zUD?=
+ =?us-ascii?Q?x41nOZdAcXKcTh5TAL9z9+hipxkxS0W4qcKg4CyLm3o6/jg0PTGrnX1JgBb4?=
+ =?us-ascii?Q?YsdgZKbmuWLY8dS/PC3BRk3IU6WrE+2eIRMeta7fuQbp8ViNV4pPR47vhbiJ?=
+ =?us-ascii?Q?L2V4Aq5EfP8Gd3O3/xKHYxlB1DAeh+wDs/gnxJKYr7e456vb5J8RjlUlQL03?=
+ =?us-ascii?Q?2Kyoz+E7qgOhR63v473LFy6EXfJa4BjTu2c1Y1uLa2712NVR5kQBUfrGvI7a?=
+ =?us-ascii?Q?ROqJbiTZUNexVtj7cgfy7R27qcgAh358/oV3WCFqanEY3Aq4SLoSnwd4dFF4?=
+ =?us-ascii?Q?MHYD2Pl5Flyx6CdXlJ+1I+qc7Cc3FPcfdt24BBGFmwJJUDtqVAuhHg+vUwe4?=
+ =?us-ascii?Q?AyR47w=3D=3D?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66beedca-9d50-4b82-d0f5-08db6b1d3ed8
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 08:15:55.7272
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hk0V4Pdz6NW2TN+q8SQVBxeZ+WQLBvGuCSck2rTxezBYBZ4GEKET8KqMv9dCRykFN5myCvUqqEYjHsg/CyEKRrzJFvJ79HQ9XQjnjakmYg8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR13MB6347
 
-Hi Arnd,
+On Sat, Jun 10, 2023 at 09:10:45PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git main
+> head:   e431e712c83676a8a9cd3988b323e3ef994a8ff3
+> commit: 7e5e7d800011adf4aeda615f8a1bc31c0c1e2bb9 [26/28] sfc: neighbour lookup for TC encap action offload
+> config: arm-randconfig-r011-20230610 (https://download.01.org/0day-ci/archive/20230610/202306102026.ISK5JfUQ-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> reproduce (this is a W=1 build):
+>         mkdir -p ~/bin
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install arm cross compiling tool for clang build
+>         # apt-get install binutils-arm-linux-gnueabi
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/commit/?id=7e5e7d800011adf4aeda615f8a1bc31c0c1e2bb9
+>         git remote add netdev-net-next https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
+>         git fetch --no-tags netdev-net-next main
+>         git checkout 7e5e7d800011adf4aeda615f8a1bc31c0c1e2bb9
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306102026.ISK5JfUQ-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> ld.lld: error: undefined symbol: efx_tc_netdev_event
+>    >>> referenced by ef100_netdev.c:313 (drivers/net/ethernet/sfc/ef100_netdev.c:313)
+>    >>>               drivers/net/ethernet/sfc/ef100_netdev.o:(ef100_netdev_event) in archive vmlinux.a
+> --
+> >> ld.lld: error: undefined symbol: efx_tc_netevent_event
+>    >>> referenced by ef100_netdev.c:329 (drivers/net/ethernet/sfc/ef100_netdev.c:329)
+>    >>>               drivers/net/ethernet/sfc/ef100_netdev.o:(ef100_netevent_event) in archive vmlinux.a
 
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.4.y
-head:   f568a20f058fa1e37069cff4aac4187c1650a0e9
-commit: 53a72858bcae7eaa7df8d167dbf60682d70f82a6 [384/8740] m68knommu: only set CONFIG_ISA_DMA_API for ColdFire sub-arch
-config: m68k-randconfig-r035-20230612 (https://download.01.org/0day-ci/archive/20230612/202306121518.ORgjlsR5-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=53a72858bcae7eaa7df8d167dbf60682d70f82a6
-        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
-        git fetch --no-tags stable linux-5.4.y
-        git checkout 53a72858bcae7eaa7df8d167dbf60682d70f82a6
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/staging/comedi/drivers/
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306121518.ORgjlsR5-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/m68k/include/asm/bug.h:32,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:12,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:51,
-                    from include/linux/seqlock.h:36,
-                    from include/linux/time.h:6,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:10,
-                    from drivers/staging/comedi/drivers/comedi_isadma.c:7:
-   include/linux/dma-mapping.h: In function 'dma_map_resource':
-   arch/m68k/include/asm/page_mm.h:169:50: warning: ordered comparison of pointer with null pointer [-Wextra]
-     169 | #define virt_addr_valid(kaddr)  ((void *)(kaddr) >= (void *)PAGE_OFFSET && (void *)(kaddr) < high_memory)
-         |                                                  ^~
-   include/asm-generic/bug.h:182:32: note: in definition of macro 'WARN_ON'
-     182 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   include/linux/dma-mapping.h:355:13: note: in expansion of macro 'WARN_ON_ONCE'
-     355 |         if (WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
-         |             ^~~~~~~~~~~~
-   arch/m68k/include/asm/page_mm.h:170:33: note: in expansion of macro 'virt_addr_valid'
-     170 | #define pfn_valid(pfn)          virt_addr_valid(pfn_to_virt(pfn))
-         |                                 ^~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:355:26: note: in expansion of macro 'pfn_valid'
-     355 |         if (WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
-         |                          ^~~~~~~~~
-   drivers/staging/comedi/drivers/comedi_isadma.c: In function 'comedi_isadma_program':
-   drivers/staging/comedi/drivers/comedi_isadma.c:25:17: error: implicit declaration of function 'claim_dma_lock' [-Werror=implicit-function-declaration]
-      25 |         flags = claim_dma_lock();
-         |                 ^~~~~~~~~~~~~~
->> drivers/staging/comedi/drivers/comedi_isadma.c:31:9: error: implicit declaration of function 'release_dma_lock' [-Werror=implicit-function-declaration]
-      31 |         release_dma_lock(flags);
-         |         ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for NEED_MULTIPLE_NODES
-   Depends on [n]: DISCONTIGMEM [=n] || NUMA
-   Selected by [y]:
-   - SINGLE_MEMORY_CHUNK [=y] && MMU [=y]
-
-
-vim +/release_dma_lock +31 drivers/staging/comedi/drivers/comedi_isadma.c
-
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  16  
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  17  /**
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  18   * comedi_isadma_program - program and enable an ISA DMA transfer
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  19   * @desc:	the ISA DMA cookie to program and enable
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  20   */
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  21  void comedi_isadma_program(struct comedi_isadma_desc *desc)
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  22  {
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  23  	unsigned long flags;
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  24  
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  25  	flags = claim_dma_lock();
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  26  	clear_dma_ff(desc->chan);
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  27  	set_dma_mode(desc->chan, desc->mode);
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  28  	set_dma_addr(desc->chan, desc->hw_addr);
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  29  	set_dma_count(desc->chan, desc->size);
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  30  	enable_dma(desc->chan);
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14 @31  	release_dma_lock(flags);
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  32  }
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  33  EXPORT_SYMBOL_GPL(comedi_isadma_program);
-20a1ea7d6ba184 H Hartley Sweeten 2015-01-14  34  
-
-:::::: The code at line 31 was first introduced by commit
-:::::: 20a1ea7d6ba184a1f6e25e85786738003387cada staging: comedi: comedi_isadma: introduce helper module for ISA DMA
-
-:::::: TO: H Hartley Sweeten <hsweeten@visionengravers.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+A cursory investigation leads me to thinking this occurs
+if the CONFIG_SFC is set but CONFIG_SFC_SRIOV is not.
