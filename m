@@ -1,186 +1,187 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213E818AF3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 13:14:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6106718AF3;
+	Mon, 12 Jun 2023 13:40:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686575689; x=1718111689;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7qB7z1YBk5KIH3YcadkHp3TFVfCs7fA8sRTG31SLlZ8=;
-  b=Pkqr78VPUgEnlhAf9rIrdoakrHbaudTqLlma8BWdrHM2g1U+MDdXGlXA
-   rkcW6idBRSqFzsMFh9ax0MXtxxvK/QXPjDzCnc7/vKAg8dqQzv8vsvZ7M
-   mkgklM1SNYEIsQS9RO9BWztegGtr6iFbdEsdNLhgdiDB7hD9wEaZXcFlQ
-   lY/eJkKjYpC7qWoWomkT5M3CcY2FMHZxNEyF4QH9224cTNLrfdvobL3tm
-   WoflNWzHwQMZxIJ1IG9ba54M9VHjAwHkO3oBSikR1csMGWWBWDSAZ6IAx
-   ie0I2ua7HTH0Rqi15we8HLTYUHb8qdY1zWzsl/vCR/uCC3uPTtkCe/7xK
+  t=1686577224; x=1718113224;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=4DulU+4u2nPsNZkgYyAkw+FK+H6JFtaHvfz0KjVcWAM=;
+  b=AWn+X7YU3KtsbQk+diakVpn5srTVKwLnAr8JhBksDRa0leDGOzE+zlns
+   rhgOAePtNbXLLIdBFwQFz8noRCCDGrj2dwFoF5iVdNfpyt94BNjVvQeRc
+   JROReLQuNaHmkllac5JpPjDPVmCo1Kl7C0JxwNl0MbgDSUim8Ro3sabnW
+   6C2PHgA8VdQonxs1X6CsYn65tt+5agCFQkHcAhtBVHbZImdPg97Zofsnz
+   IxNp5+SfX34ZBJGnJzO26x0bGkYcAEISWe0FtbxwOOK3MQWyAHxOo42bG
+   /jxozKGqaC/+/xVN7l+XXcOUxlixY0f1vx++KvLda+1O45sfPMyBdJd6i
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="361393521"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="337672978"
 X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="361393521"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 06:14:48 -0700
+   d="scan'208";a="337672978"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 06:40:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="744324968"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="688615688"
 X-IronPort-AV: E=Sophos;i="6.00,236,1681196400"; 
-   d="scan'208";a="744324968"
-Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 12 Jun 2023 06:14:47 -0700
-Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q8hNe-0000GC-0f;
-	Mon, 12 Jun 2023 13:14:46 +0000
-Date: Mon, 12 Jun 2023 21:14:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/pid_rcu 3/3] arch/arm64/kvm/vgic/vgic-init.c:102:21:
- sparse: sparse: incompatible types in comparison expression (different
- address spaces):
-Message-ID: <202306122139.ZtsKSxaC-lkp@intel.com>
+   d="scan'208";a="688615688"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga006.jf.intel.com with ESMTP; 12 Jun 2023 06:40:20 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 12 Jun 2023 06:40:20 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23; Mon, 12 Jun 2023 06:40:20 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Mon, 12 Jun 2023 06:40:20 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.44) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Mon, 12 Jun 2023 06:40:18 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=C3ZTXwrRC6Tw7vFM3wlN9VWQVASj0bTxo+HJFG/N3Go1CNuKdQHGxMufnRdP0HPYTEnabb9JA8jlf8fZRSLfyFXf6ajQNf4YbbGRUT2haQezFs3M00dK2ABF7tOggFq/v6rt4lFB5Jnke6hTSK5Fvuq2Mn9fgVZf1lTFIKkeR7kEpMHpJUH2qJKe8xeO7dOVKhQmMfM/Y1M8glC/Ju7PZrQ/zuGmaP3Aw7v6Gb59apBR/3ya9opDPOb3n7s+gK+3DWGvJ2fBKJW8mC9A/CQdB3pQuBnq05Br2fCCdDRAOkG4FsoYn2soiUfPxOB6uCedf6d+58TPsIgBwiVFLvL9mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CYzMt8FyvqIe/j9D8zM5xKyJxtjfSdmWF9DHLIYA+Q0=;
+ b=GWdZylYnf5+BBJwOU72gpr7pLR9rl/xiI7GARtZBh6XoMZzPEO8MWJvhWQRlvEVduXiN3VwH+2v3VZDTm2r30IqBWvXVWWZTWEhLIAPOARW4YSZUu3noSWNrwdif1e+QMkFz+6+/SpkhioMAHhvqMbtKz/uB/TVRfP8SSIn96hTsO9CVbq2PcZLVaZ/JFtQrBSPZ0tsumftG0jB4503dU3eRESLIFcvIoMvtp9Hpy+Du22n51fhgYt6oc3Se4oh8Was9QM1NBrhEQ/oPCg+7mawGzpXufy1MDVfQkR/Q66zwzGyuNN6b+9ZHOj/T4pFNUyQCGXxOadlZMGWHcCbvgg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
+ by DS0PR11MB7902.namprd11.prod.outlook.com (2603:10b6:8:f6::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6477.29; Mon, 12 Jun 2023 13:40:17 +0000
+Received: from BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::d549:ec18:45ca:2786]) by BL0PR11MB2995.namprd11.prod.outlook.com
+ ([fe80::d549:ec18:45ca:2786%4]) with mapi id 15.20.6455.030; Mon, 12 Jun 2023
+ 13:40:17 +0000
+Date: Mon, 12 Jun 2023 21:40:06 +0800
+From: Philip Li <philip.li@intel.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+CC: Kent Gibson <warthog618@gmail.com>, <linux-gpio@vger.kernel.org>,
+	<llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>
+Subject: Re: [libgpiod][PATCH] doc: add configuration to generate doxygen
+ documentation on readthedocs.
+Message-ID: <ZIcgNne/L0lTpdAd@rli9-mobl>
+References: <20230610020148.8973-1-warthog618@gmail.com>
+ <202306101327.8CQ451FM-lkp@intel.com>
+ <ZIQNbB30BUsirOr1@sol>
+ <CAMRc=MeLYqU8HuqVs7wGpAjZ6U+_J3TMsNonknup=hOSPqj2bQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=MeLYqU8HuqVs7wGpAjZ6U+_J3TMsNonknup=hOSPqj2bQ@mail.gmail.com>
+X-ClientProxiedBy: SG2PR04CA0164.apcprd04.prod.outlook.com (2603:1096:4::26)
+ To BL0PR11MB2995.namprd11.prod.outlook.com (2603:10b6:208:7a::28)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL0PR11MB2995:EE_|DS0PR11MB7902:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2f631444-bc7e-46b1-2026-08db6b4a8e92
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: UW/MNk2ROJ047ZcsA+Y4wPGn8UbO6HVXFWjNwxYasoCDWPAjjbjhdJ1MXCubNTQoirWGXcYMaeowlOv0GqeosJJMb4Lkmoyc1X83OCbn02/w/cnsiYIRFMXSDVAjIu6OGSxSPje4Rzt9uWx5vDYROEWrk0jq9qiyXl77IVsIvTGRO5M1IEKjRFiwAuyRw5FbdQIcpdlKtgJTIahtHIaNdettuV7e3GMucmwxOOt3ejzjwKNlzJmg3ygS0m92kANdALJbtij8Fou8987p4n7TDJDHmnRjdQEficrkCfokyTMmjzduZ40jIkSjJslFGLsFCdsidq8aiojUIiywjacTVXUVi42T51UGTL1ODIH3qEnYbEKnRPUZL9OA4ywKXVHN24k3QP9WBAvA3zcw4mykpiPD8O7+FML1TimHo1OtqmnMJTvsu9rWmLN0Zp/Tn4rI83zfrx0/zXWH8kkfy67F4GH0W4RpWTzpBokT7owJVCwqE9jX5rm030GRtAY+tFbzrH3B/VpEm0lnloQ7AcvMAAFQkZW7Pcv/CMgj8E4fWs8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB2995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(7916004)(39860400002)(136003)(396003)(376002)(346002)(366004)(451199021)(6916009)(4326008)(66946007)(66476007)(66556008)(186003)(478600001)(2906002)(33716001)(8676002)(316002)(966005)(41300700001)(86362001)(6486002)(6666004)(6506007)(9686003)(53546011)(44832011)(8936002)(82960400001)(83380400001)(5660300002)(26005)(38100700002)(6512007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?REM1SXo4ZnhVOEFQQmFNNGlUVkk1N2xSNHA2UzUyTHVIM1FsSDdmTTE4bzh6?=
+ =?utf-8?B?T0JVOUJMYk0zODlGMk9QSm1aeDd6R1FzVXQ3eUlQcElGZTVtSGt2R3V3bkZn?=
+ =?utf-8?B?OHRLVVhwSUhvRUtyWWhWMUwyREhRTWw5cC9tbmxiV1ZPUnU2Z0Y1c2pkcXEv?=
+ =?utf-8?B?dDBzZG5SZmdZNk9PcVZWR1cxdXlSRGFqRFJTKyt1bk4wS1hFWFVxNDVlTzNv?=
+ =?utf-8?B?aDlBb2ZQUVVBUVkzYVZLR29BMzhReU5vMHZGVUhaRVZXWWpvVjdEOUNQeklF?=
+ =?utf-8?B?TlQ3bzZkYjgzaUlPZE0xdXExbmYwckhRdGlKZmNacFB6alBobVhsdXQzNjcv?=
+ =?utf-8?B?aGY0SzMvYSs0bEdqZTZDcEtnVnY0OGFINys3OWZDRHB0YW4zaUE0bHFYV0Zn?=
+ =?utf-8?B?QlJPaFQwK25DRldMcG1VMjhiWSs2aXZvem1qY1RWemZlMmJSZW1NL3FWT0M5?=
+ =?utf-8?B?RW9Id3BReHN0VjZZMnl2NXhsdVhDK2RFSnd5L3BBNnFDbG1hTWRmOHpZalln?=
+ =?utf-8?B?cEhDTjJtYXVWWnNkOWNsR1AydDlzUWNXeUhVeEFRWWs5cjhDSnZJSjZ1RC95?=
+ =?utf-8?B?ZGtrcG1CTmpHUVZHR3BwOVFjeHFjZS8yY2EwYmFhUm5lQVpkeE1IUWNvM3RU?=
+ =?utf-8?B?a01Zc2QyblF4cFBaeEhNZ3pmdGVLSFI4TE8yL1Z2WW40MHVzNE1rRUlhdk9P?=
+ =?utf-8?B?dkpzSkF3MWFpY0ZtZnNWb0tIQkUvV3ROb1d5UWo4MEwremVBVmxSaFRsZjh1?=
+ =?utf-8?B?bXpNNUE4dmlUQkJwbkUvc25RVmFVbHZwYXlNdCsvbzZBalVSK2tGdFpJMFBD?=
+ =?utf-8?B?YUhFaWZXblBWMldqL1RJQmFOMTNFc2RLbUZUT3BWZXhTMkY5d0RONWxBQld5?=
+ =?utf-8?B?OU83c1hpcFlmTitVekRNSGhYcUxNWlAvT3BUYkZ0WGVIcjJaRVIydmw1Njk2?=
+ =?utf-8?B?Y2RNMlo0K1ljT2VVZjNob29FaVpqNGxEUXcwY2lEdGpTSDJHald1YlRyTHk5?=
+ =?utf-8?B?YStvZXFkK1FpRjUvME9Wc084VjcyQVhpYXBuUzhVYTd2SEMvTE9RRVBNdzhG?=
+ =?utf-8?B?VFFrRER6ckc3dGYzUXR0THo2WDl0ZGtha3dvbldyckhjU1hlTVdockJ1RXgx?=
+ =?utf-8?B?ZXZGWHpWakF5TGs2MTVwR21ycnZodVFHdEo1Z0JmcEJKT0pNWWVJQVZ4M0pG?=
+ =?utf-8?B?ajlLWm0xampXMVFpU282WkFjdkwzazZhbUwwSUJXSFE5QUM4TGpqQ3U2eCs0?=
+ =?utf-8?B?VnVxSWhUNVdVVFovc0NUWEttYkJQNEFhaGNSZXJKYVdlazF5ay9RQ3Ewb2V3?=
+ =?utf-8?B?aHJpY1duNzNiK3lDN0xkTEs4Mlk1TVljY1Q5bEdFY2V0UXBtOWdVNitPOWI3?=
+ =?utf-8?B?bmM1eXNyM2xQTEpodFFiRjAxQm1FSUNReC9kRGc3enRGUExoc0RXYUFMT2Z2?=
+ =?utf-8?B?eGlxZFdBZTR4ckpLcHRRZmlEWXZJVy9qZGJFUU5nS3pzYXJXeHM2OXBKT2lw?=
+ =?utf-8?B?UG5uYm1YTW40WUhwMXRQWktZWHR2LzdvellGKy9XYzNDRmk3V2RPWjM0dzk2?=
+ =?utf-8?B?U2xzcG1QbE9LdzA5aWNSK2xRZGpPbVJDQmxzUkd1NXVjUGVXcExHYXA1UmlM?=
+ =?utf-8?B?UUV6Nkd0bU5GbzA0QjNUWnZKc1llTTR2eVlrZGR6cDVjQVo4ODBpUjZyTENl?=
+ =?utf-8?B?enZieWxMcGVFbE1TVFAxQ2pZNmp2T1haVS82My9yMWJ3VDVwUkZ6WE9Oc0ZP?=
+ =?utf-8?B?QTdUQ09SN2NwRytHcEFjSmMzQ3J1SXl1Zm9pd1dVMVRUOStNZU9NRXJYbVJm?=
+ =?utf-8?B?NnVoUmdQbUo2UzZvZTZGcUdNTWthSTlLcDVIRTMyZ1FOblN3Nm9lcW5jbUdo?=
+ =?utf-8?B?ck9XdXB1MHpDQ2hRL29ZYVpNZUt0eFlmS0wxUllzbkZFUmh1WWwydzFHNXM2?=
+ =?utf-8?B?MjA2c3lKT1RybHZtOStwZm54TS9vMExSMFF1dG9wQzE5emdtVDlyNGJEUjVn?=
+ =?utf-8?B?VHlLRTljYWpkc3JmRWpOSE1vOWc1UzAxQTJOVmxjeU8vNDZlWlB5Ky8rUHZo?=
+ =?utf-8?B?dDQ5Q3ZRbDRNRE5nYzhvd3hlbmVwK3dqV0tTcWUxRW9OQUlMUFoxdHdicWZj?=
+ =?utf-8?Q?tGB4JL5IB5WzQL5HdBJN3dHoO?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2f631444-bc7e-46b1-2026-08db6b4a8e92
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB2995.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2023 13:40:17.0017
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bGNICPgVGIhRfzJZt6deOT/C00fAgRfr+04bMU+R1Mfg3oASWc7S9gfppy+96ZICfHvCL7OzNfMC8VdjOLtnYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7902
+X-OriginatorOrg: intel.com
 
-tree:   https://github.com/sean-jc/linux x86/pid_rcu
-head:   5d00dce3a81797c0ce156d4270f833b94a78b3dd
-commit: 5d00dce3a81797c0ce156d4270f833b94a78b3dd [3/3] KVM: Protect vCPU's "last run PID" with rwlock, not RCU
-config: arm64-randconfig-s043-20230611 (https://download.01.org/0day-ci/archive/20230612/202306122139.ZtsKSxaC-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce:
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        # https://github.com/sean-jc/linux/commit/5d00dce3a81797c0ce156d4270f833b94a78b3dd
-        git remote add sean-jc https://github.com/sean-jc/linux
-        git fetch --no-tags sean-jc x86/pid_rcu
-        git checkout 5d00dce3a81797c0ce156d4270f833b94a78b3dd
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=arm64 SHELL=/bin/bash arch/arm64/kvm/ virt/
+On Mon, Jun 12, 2023 at 02:58:28PM +0200, Bartosz Golaszewski wrote:
+> On Sat, Jun 10, 2023 at 7:43 AM Kent Gibson <warthog618@gmail.com> wrote:
+> >
+> > On Sat, Jun 10, 2023 at 01:20:47PM +0800, kernel test robot wrote:
+> > > Hi Kent,
+> > >
+> > > kernel test robot noticed the following build warnings:
+> > >
+> >
+> > Ok, not sure what to make of that - why is the test robot concerned with
+> > libgpiod patches?
+> >
+> > The files in the patch aren't ignored by the .gitignores in the libgpiod
+> > tree, so it must've applied the patch to the linux tree - which doesn't
+> > like dot-files. That wont end well either way.
+> >
+> > Can we tell the test robot not to try paddling around in the libgpiod
+> > pool, e.g. ignore patches with the [libgpiod] prefix?
+> >
+> > Cheers,
+> > Kent.
+> 
+> Normally the robot can figure out non-kernel patches. I think this
+> time it got confused by the commit only adding a new file and tried to
+> apply it to the kernel?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306122139.ZtsKSxaC-lkp@intel.com/
+Sorry for the false positive. Yes, this is the case, the patch was successfully
+applied and wrongly considered as kernel patch. We will fix the logic in next
+few days to avoid such problem.
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kvm/vgic/vgic-init.c:102:21: sparse: sparse: incompatible types in comparison expression (different address spaces):
->> arch/arm64/kvm/vgic/vgic-init.c:102:21: sparse:    struct pid [noderef] __rcu *
->> arch/arm64/kvm/vgic/vgic-init.c:102:21: sparse:    struct pid *
---
->> arch/arm64/kvm/arm.c:389:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
->> arch/arm64/kvm/arm.c:389:13: sparse:    struct pid [noderef] __rcu *
->> arch/arm64/kvm/arm.c:389:13: sparse:    struct pid *
-   arch/arm64/kvm/arm.c:586:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/arm64/kvm/arm.c:586:13: sparse:    struct pid [noderef] __rcu *
-   arch/arm64/kvm/arm.c:586:13: sparse:    struct pid *
-   arch/arm64/kvm/arm.c:1235:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/arm64/kvm/arm.c:1235:13: sparse:    struct pid [noderef] __rcu *
-   arch/arm64/kvm/arm.c:1235:13: sparse:    struct pid *
---
->> arch/arm64/kvm/../../../virt/kvm/kvm_main.c:499:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
->> arch/arm64/kvm/../../../virt/kvm/kvm_main.c:499:17: sparse:    struct pid [noderef] __rcu *
->> arch/arm64/kvm/../../../virt/kvm/kvm_main.c:499:17: sparse:    struct pid *
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c: note: in included file:
-   include/linux/kvm_host.h:1912:54: sparse: sparse: array of flexible structures
-   include/linux/kvm_host.h:1914:56: sparse: sparse: array of flexible structures
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:593:9: sparse: sparse: context imbalance in 'kvm_mmu_notifier_change_pte' - different lock contexts for basic block
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:593:9: sparse: sparse: context imbalance in 'kvm_mmu_notifier_invalidate_range_start' - different lock contexts for basic block
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:593:9: sparse: sparse: context imbalance in 'kvm_mmu_notifier_invalidate_range_end' - different lock contexts for basic block
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:593:9: sparse: sparse: context imbalance in 'kvm_mmu_notifier_clear_flush_young' - different lock contexts for basic block
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:593:9: sparse: sparse: context imbalance in 'kvm_mmu_notifier_clear_young' - different lock contexts for basic block
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:593:9: sparse: sparse: context imbalance in 'kvm_mmu_notifier_test_young' - different lock contexts for basic block
-   arch/arm64/kvm/../../../virt/kvm/kvm_main.c:2635:9: sparse: sparse: context imbalance in 'hva_to_pfn_remapped' - unexpected unlock
+> 
+> Anyway, I'm not sure where to report this. Looks like the robot lives
+> on github, so I'll try opening an issue there.
 
-vim +102 arch/arm64/kvm/vgic/vgic-init.c
+Thanks, yes, github https://github.com/intel/lkp-tests could be used to report
+any issue related to the bot. Or you can drop mail to lkp@intel.com, that we
+monitor the mail tightly.
 
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   62  
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   63  /**
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   64   * kvm_vgic_create: triggered by the instantiation of the VGIC device by
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   65   * user space, either through the legacy KVM_CREATE_IRQCHIP ioctl (v2 only)
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   66   * or through the generic KVM_CREATE_DEVICE API ioctl.
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   67   * irqchip_in_kernel() tells you if this function succeeded or not.
-ad275b8bb1e659 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   68   * @kvm: kvm struct pointer
-ad275b8bb1e659 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   69   * @type: KVM_DEV_TYPE_ARM_VGIC_V[23]
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   70   */
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   71  int kvm_vgic_create(struct kvm *kvm, u32 type)
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   72  {
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   73  	struct kvm_vcpu *vcpu;
-46808a4cb89708 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier        2021-11-16   74  	unsigned long i;
-46808a4cb89708 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier        2021-11-16   75  	int ret;
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   76  
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   77  	/*
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   78  	 * This function is also called by the KVM_CREATE_IRQCHIP handler,
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   79  	 * which had no chance yet to check the availability of the GICv2
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   80  	 * emulation. So check this here again. KVM_CREATE_DEVICE does
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   81  	 * the proper checks already.
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   82  	 */
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   83  	if (type == KVM_DEV_TYPE_ARM_VGIC_V2 &&
-a28ebea2adc4a2 virt/kvm/arm/vgic/vgic-init.c   Christoffer Dall    2016-08-09   84  		!kvm_vgic_global_state.can_emulate_gicv2)
-a28ebea2adc4a2 virt/kvm/arm/vgic/vgic-init.c   Christoffer Dall    2016-08-09   85  		return -ENODEV;
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   86  
-f00327731131d1 arch/arm64/kvm/vgic/vgic-init.c Oliver Upton        2023-03-27   87  	/* Must be held to avoid race with vCPU creation */
-f00327731131d1 arch/arm64/kvm/vgic/vgic-init.c Oliver Upton        2023-03-27   88  	lockdep_assert_held(&kvm->lock);
-f00327731131d1 arch/arm64/kvm/vgic/vgic-init.c Oliver Upton        2023-03-27   89  
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   90  	ret = -EBUSY;
-72a610f32e1f16 virt/kvm/arm/vgic/vgic-init.c   Miaohe Lin          2019-11-30   91  	if (!lock_all_vcpus(kvm))
-72a610f32e1f16 virt/kvm/arm/vgic/vgic-init.c   Miaohe Lin          2019-11-30   92  		return ret;
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21   93  
-f00327731131d1 arch/arm64/kvm/vgic/vgic-init.c Oliver Upton        2023-03-27   94  	mutex_lock(&kvm->arch.config_lock);
-f00327731131d1 arch/arm64/kvm/vgic/vgic-init.c Oliver Upton        2023-03-27   95  
-f00327731131d1 arch/arm64/kvm/vgic/vgic-init.c Oliver Upton        2023-03-27   96  	if (irqchip_in_kernel(kvm)) {
-f00327731131d1 arch/arm64/kvm/vgic/vgic-init.c Oliver Upton        2023-03-27   97  		ret = -EEXIST;
-f00327731131d1 arch/arm64/kvm/vgic/vgic-init.c Oliver Upton        2023-03-27   98  		goto out_unlock;
-f00327731131d1 arch/arm64/kvm/vgic/vgic-init.c Oliver Upton        2023-03-27   99  	}
-f00327731131d1 arch/arm64/kvm/vgic/vgic-init.c Oliver Upton        2023-03-27  100  
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  101  	kvm_for_each_vcpu(i, vcpu, kvm) {
-cc5705fb1bf119 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier        2021-10-14 @102  		if (vcpu_has_run_once(vcpu))
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  103  			goto out_unlock;
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  104  	}
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  105  	ret = 0;
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  106  
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  107  	if (type == KVM_DEV_TYPE_ARM_VGIC_V2)
-f502cc568de95e arch/arm64/kvm/vgic/vgic-init.c Sean Christopherson 2022-03-04  108  		kvm->max_vcpus = VGIC_V2_MAX_CPUS;
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  109  	else
-f502cc568de95e arch/arm64/kvm/vgic/vgic-init.c Sean Christopherson 2022-03-04  110  		kvm->max_vcpus = VGIC_V3_MAX_CPUS;
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  111  
-f502cc568de95e arch/arm64/kvm/vgic/vgic-init.c Sean Christopherson 2022-03-04  112  	if (atomic_read(&kvm->online_vcpus) > kvm->max_vcpus) {
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  113  		ret = -E2BIG;
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  114  		goto out_unlock;
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  115  	}
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  116  
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  117  	kvm->arch.vgic.in_kernel = true;
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  118  	kvm->arch.vgic.vgic_model = type;
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  119  
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  120  	kvm->arch.vgic.vgic_dist_base = VGIC_ADDR_UNDEF;
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2018-05-22  121  
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2018-05-22  122  	if (type == KVM_DEV_TYPE_ARM_VGIC_V2)
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  123  		kvm->arch.vgic.vgic_cpu_base = VGIC_ADDR_UNDEF;
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2018-05-22  124  	else
-dbd9733ab6742d virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2018-05-22  125  		INIT_LIST_HEAD(&kvm->arch.vgic.rd_regions);
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  126  
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  127  out_unlock:
-f00327731131d1 arch/arm64/kvm/vgic/vgic-init.c Oliver Upton        2023-03-27  128  	mutex_unlock(&kvm->arch.config_lock);
-72a610f32e1f16 virt/kvm/arm/vgic/vgic-init.c   Miaohe Lin          2019-11-30  129  	unlock_all_vcpus(kvm);
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  130  	return ret;
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  131  }
-5e6431da8f3a04 virt/kvm/arm/vgic/vgic-init.c   Eric Auger          2015-12-21  132  
-
-:::::: The code at line 102 was first introduced by commit
-:::::: cc5705fb1bf119ebb693d594f0157e0dd418590e KVM: arm64: Drop vcpu->arch.has_run_once for vcpu->pid
-
-:::::: TO: Marc Zyngier <maz@kernel.org>
-:::::: CC: Marc Zyngier <maz@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Bart
+> 
