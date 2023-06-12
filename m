@@ -1,44 +1,44 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435F9BE63
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 23:05:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634E9BE63
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 23:16:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686611123; x=1718147123;
+  t=1686611783; x=1718147783;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PxLmthxbn66Y9f085uI2IbozWMtbjqXN5EjsLkeNJg0=;
-  b=FHXPjnk792Pg+TUPEVsIM8VK+DPRhanmQoSMcYgK7wW2Rfp2NYiMqBUH
-   isEEUxxw4jYW/o8+xEGnKPqifa4/Z4wT2Dj0rNx6364KfuT88nHF43+HV
-   fvTNqg/2QPpJW/j40y9qK7iJx0xFwhQIt1ag9nOmfaLBazA0xtjG7EX7n
-   hI5J3yBg1vCOCSxLmWAl/cskYHrowVAeP664MzcJxfk03K4e1uIaDfPIg
-   nsobkntJbLNA06Gn+I4GXw6voPur8nZZb6yFhmUlklQ9Tr4OwNnsFHsor
-   uUhIktseU78W0Wl4E/SF401Vvh7ri39Ja4gcoN4tHHerh5ZXB+ivj9HK8
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="337816698"
+  bh=DSwI0e3m6wOlAf8gQGQ1v8T320lYTOa7XwDp9Fkdd60=;
+  b=h64FBU0lUVul2n8pKV3lbp+lez/eJ3gRBZft6tBMU/ViouLThZybf5Zz
+   MEvLQvl8ix7I78AjV1DgboAQ+0QNoe2Y9f47b3iVnzUgkv230CgXJVqod
+   rhJJK8uyJBQT3R77OPSwngRVxNi69lJjMdew7MmNyGYs/8pElIcucgflZ
+   Mu2AwbIdZyQ4ORGRp02dkK9156ifyikolHDuwXXowM/gryEebu26ajbe0
+   1UaAjC5zovu7of5QfavSKRDNpfeRZQT8+povuGRxlvdGslbd23tre9crH
+   47P/zdWeTwp+d6KcHrKO4vKfN4UYsAAjlH3jwslkrfbwVOzUvQMaRoQX3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="358181767"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="337816698"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 16:05:22 -0700
+   d="scan'208";a="358181767"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 16:16:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="781405349"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="714568301"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="781405349"
+   d="scan'208";a="714568301"
 Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 12 Jun 2023 16:05:20 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 12 Jun 2023 16:16:20 -0700
 Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q8qb9-0000p2-28;
-	Mon, 12 Jun 2023 23:05:19 +0000
-Date: Tue, 13 Jun 2023 07:05:17 +0800
+	id 1q8qlo-0000pc-05;
+	Mon, 12 Jun 2023 23:16:20 +0000
+Date: Tue, 13 Jun 2023 07:15:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: Keith Busch <kbusch@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
 	Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
-Subject: [linux-nvme:nvme-6.5 26/26] drivers/nvme/host/core.c:3022:55:
- warning: passing argument 2 of 'bset_mem_set_bit' makes pointer from integer
+Subject: [linux-nvme:nvme-6.5 26/26] drivers/nvme/host/core.c:2999:52:
+ warning: passing argument 2 of 'const_test_bit' makes pointer from integer
  without a cast
-Message-ID: <202306130610.FXxV2Jqp-lkp@intel.com>
+Message-ID: <202306130727.dlc4hcMB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,8 +51,8 @@ Content-Disposition: inline
 tree:   git://git.infradead.org/nvme.git nvme-6.5
 head:   9aa77a0506d6990714c9fbb1c03596cd8e1094c7
 commit: 9aa77a0506d6990714c9fbb1c03596cd8e1094c7 [26/26] nvme: skip optional id ctrl csi if it failed
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230613/202306130610.FXxV2Jqp-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230613/202306130727.dlc4hcMB-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
@@ -62,19 +62,19 @@ reproduce (this is a W=1 build):
         git checkout 9aa77a0506d6990714c9fbb1c03596cd8e1094c7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/nvme/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/nvme/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306130610.FXxV2Jqp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306130727.dlc4hcMB-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
    In file included from include/linux/thread_info.h:27,
                     from include/asm-generic/preempt.h:5,
-                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from ./arch/alpha/include/generated/asm/preempt.h:1,
                     from include/linux/preempt.h:78,
                     from include/linux/spinlock.h:56,
                     from include/linux/wait.h:9,
@@ -86,7 +86,7 @@ All warnings (new ones prefixed by >>):
                     from include/linux/blkdev.h:9,
                     from drivers/nvme/host/core.c:7:
    drivers/nvme/host/core.c: In function 'nvme_init_non_mdts_limits':
-   drivers/nvme/host/core.c:2999:52: warning: passing argument 2 of 'const_test_bit' makes pointer from integer without a cast [-Wint-conversion]
+>> drivers/nvme/host/core.c:2999:52: warning: passing argument 2 of 'const_test_bit' makes pointer from integer without a cast [-Wint-conversion]
     2999 |             test_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags))
          |                                                ~~~~^~~~~~~
          |                                                    |
@@ -101,7 +101,7 @@ All warnings (new ones prefixed by >>):
    include/asm-generic/bitops/generic-non-atomic.h:166:64: note: expected 'const volatile long unsigned int *' but argument is of type 'long unsigned int'
      166 | const_test_bit(unsigned long nr, const volatile unsigned long *addr)
          |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/nvme/host/core.c:2999:52: warning: passing argument 2 of 'generic_test_bit' makes pointer from integer without a cast [-Wint-conversion]
+>> drivers/nvme/host/core.c:2999:52: warning: passing argument 2 of 'generic_test_bit' makes pointer from integer without a cast [-Wint-conversion]
     2999 |             test_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags))
          |                                                ~~~~^~~~~~~
          |                                                    |
@@ -115,32 +115,18 @@ All warnings (new ones prefixed by >>):
    include/asm-generic/bitops/generic-non-atomic.h:121:66: note: expected 'const volatile long unsigned int *' but argument is of type 'long unsigned int'
      121 | generic_test_bit(unsigned long nr, const volatile unsigned long *addr)
          |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+>> drivers/nvme/host/core.c:3022:55: warning: passing argument 2 of 'set_bit' makes pointer from integer without a cast [-Wint-conversion]
+    3022 |                 set_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags);
+         |                                                   ~~~~^~~~~~~
+         |                                                       |
+         |                                                       long unsigned int
    In file included from include/linux/bitops.h:68:
->> drivers/nvme/host/core.c:3022:55: warning: passing argument 2 of 'bset_mem_set_bit' makes pointer from integer without a cast [-Wint-conversion]
-    3022 |                 set_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags);
-         |                                                   ~~~~^~~~~~~
-         |                                                       |
-         |                                                       long unsigned int
-   arch/m68k/include/asm/bitops.h:64:54: note: in definition of macro 'set_bit'
-      64 |                                 bset_mem_set_bit(nr, vaddr) : \
-         |                                                      ^~~~~
-   arch/m68k/include/asm/bitops.h:41:69: note: expected 'volatile long unsigned int *' but argument is of type 'long unsigned int'
-      41 | static inline void bset_mem_set_bit(int nr, volatile unsigned long *vaddr)
-         |                                             ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
->> drivers/nvme/host/core.c:3022:55: warning: passing argument 2 of 'bfset_mem_set_bit' makes pointer from integer without a cast [-Wint-conversion]
-    3022 |                 set_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags);
-         |                                                   ~~~~^~~~~~~
-         |                                                       |
-         |                                                       long unsigned int
-   arch/m68k/include/asm/bitops.h:65:55: note: in definition of macro 'set_bit'
-      65 |                                 bfset_mem_set_bit(nr, vaddr))
-         |                                                       ^~~~~
-   arch/m68k/include/asm/bitops.h:50:70: note: expected 'volatile long unsigned int *' but argument is of type 'long unsigned int'
-      50 | static inline void bfset_mem_set_bit(int nr, volatile unsigned long *vaddr)
-         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   arch/alpha/include/asm/bitops.h:29:43: note: expected 'volatile void *' but argument is of type 'long unsigned int'
+      29 | set_bit(unsigned long nr, volatile void * addr)
+         |                           ~~~~~~~~~~~~~~~~^~~~
 
 
-vim +/bset_mem_set_bit +3022 drivers/nvme/host/core.c
+vim +/const_test_bit +2999 drivers/nvme/host/core.c
 
   2970	
   2971	static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
