@@ -1,43 +1,44 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F620BE66
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 22:45:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435F9BE63
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 23:05:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686609921; x=1718145921;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K03diEb+yWT+bGLJNGONRHLvUfziK9mXPR46UkF4qmo=;
-  b=UsbAtjNHHwz9E5+aE4Q/CvE0Zjg40sDMcCF4X/NYQaI8JXNI5A3cj22g
-   3mdIMBYiP+FfHSioW9AR/syU+2oSUZbKagwU32h1cHvra8JntUqsEgdqI
-   QVZvwqWTytjqzzq7FQF9dna2mYycwUbhxgDnMWmvwRAmWiGm6dQAArscs
-   /9nQ++4Y+jjsup0Uc/2562LzNKsEMFGtGibtJmC9H3yi3XIv9c0NIJ0e+
-   8Y0dq7c3LUUFM4aqVw6QyWEjIICBWtQpJLk7a2Ub4QF1GlgzTrg7MvVqC
-   eYEwnTKamFOk1V9ActZlZnJoDWX1asD08H+F4r3bUedEqXHggh+54jb2h
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="337813400"
+  t=1686611123; x=1718147123;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PxLmthxbn66Y9f085uI2IbozWMtbjqXN5EjsLkeNJg0=;
+  b=FHXPjnk792Pg+TUPEVsIM8VK+DPRhanmQoSMcYgK7wW2Rfp2NYiMqBUH
+   isEEUxxw4jYW/o8+xEGnKPqifa4/Z4wT2Dj0rNx6364KfuT88nHF43+HV
+   fvTNqg/2QPpJW/j40y9qK7iJx0xFwhQIt1ag9nOmfaLBazA0xtjG7EX7n
+   hI5J3yBg1vCOCSxLmWAl/cskYHrowVAeP664MzcJxfk03K4e1uIaDfPIg
+   nsobkntJbLNA06Gn+I4GXw6voPur8nZZb6yFhmUlklQ9Tr4OwNnsFHsor
+   uUhIktseU78W0Wl4E/SF401Vvh7ri39Ja4gcoN4tHHerh5ZXB+ivj9HK8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="337816698"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="337813400"
+   d="scan'208";a="337816698"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 15:45:20 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 16:05:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="781400418"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="781405349"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="781400418"
+   d="scan'208";a="781405349"
 Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 12 Jun 2023 15:45:19 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 12 Jun 2023 16:05:20 -0700
 Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q8qHn-0000oG-0Q;
-	Mon, 12 Jun 2023 22:45:19 +0000
-Date: Tue, 13 Jun 2023 06:44:42 +0800
+	id 1q8qb9-0000p2-28;
+	Mon, 12 Jun 2023 23:05:19 +0000
+Date: Tue, 13 Jun 2023 07:05:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Karolina Stolarek <karolina.stolarek@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 1/3] drm/ttm: Introduce KUnit tests
-Message-ID: <202306130639.SThg4StX-lkp@intel.com>
-References: <8f9cfbbd05dda1a3e9914285d76c793442b1065e.1686563485.git.karolina.stolarek@intel.com>
+To: Keith Busch <kbusch@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
+	Sagi Grimberg <sagi@grimberg.me>, Christoph Hellwig <hch@lst.de>
+Subject: [linux-nvme:nvme-6.5 26/26] drivers/nvme/host/core.c:3022:55:
+ warning: passing argument 2 of 'bset_mem_set_bit' makes pointer from integer
+ without a cast
+Message-ID: <202306130610.FXxV2Jqp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,50 +47,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8f9cfbbd05dda1a3e9914285d76c793442b1065e.1686563485.git.karolina.stolarek@intel.com>
 
-Hi Karolina,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4-rc6 next-20230609]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Karolina-Stolarek/drm-ttm-tests-Add-tests-for-ttm_device/20230612-210534
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/8f9cfbbd05dda1a3e9914285d76c793442b1065e.1686563485.git.karolina.stolarek%40intel.com
-patch subject: [RFC PATCH 1/3] drm/ttm: Introduce KUnit tests
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230613/202306130639.SThg4StX-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
+tree:   git://git.infradead.org/nvme.git nvme-6.5
+head:   9aa77a0506d6990714c9fbb1c03596cd8e1094c7
+commit: 9aa77a0506d6990714c9fbb1c03596cd8e1094c7 [26/26] nvme: skip optional id ctrl csi if it failed
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230613/202306130610.FXxV2Jqp-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add drm-misc git://anongit.freedesktop.org/drm/drm-misc
-        git fetch drm-misc drm-misc-next
-        git checkout drm-misc/drm-misc-next
-        b4 shazam https://lore.kernel.org/r/8f9cfbbd05dda1a3e9914285d76c793442b1065e.1686563485.git.karolina.stolarek@intel.com
+        git remote add linux-nvme git://git.infradead.org/nvme.git
+        git fetch --no-tags linux-nvme nvme-6.5
+        git checkout 9aa77a0506d6990714c9fbb1c03596cd8e1094c7
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/nvme/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306130639.SThg4StX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306130610.FXxV2Jqp-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-ERROR: modpost: missing MODULE_LICENSE() in drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.o
->> ERROR: modpost: "ttm_kunit_helper_alloc_device" [drivers/gpu/drm/ttm/tests/ttm_device_test.ko] undefined!
->> ERROR: modpost: "ttm_dev_funcs" [drivers/gpu/drm/ttm/tests/ttm_device_test.ko] undefined!
->> ERROR: modpost: "ttm_test_devices_init" [drivers/gpu/drm/ttm/tests/ttm_device_test.ko] undefined!
->> ERROR: modpost: "ttm_test_devices_fini" [drivers/gpu/drm/ttm/tests/ttm_device_test.ko] undefined!
+   In file included from include/linux/thread_info.h:27,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/blkdev.h:9,
+                    from drivers/nvme/host/core.c:7:
+   drivers/nvme/host/core.c: In function 'nvme_init_non_mdts_limits':
+   drivers/nvme/host/core.c:2999:52: warning: passing argument 2 of 'const_test_bit' makes pointer from integer without a cast [-Wint-conversion]
+    2999 |             test_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags))
+         |                                                ~~~~^~~~~~~
+         |                                                    |
+         |                                                    long unsigned int
+   include/linux/bitops.h:53:24: note: in definition of macro 'bitop'
+      53 |          const##op(nr, addr) : op(nr, addr))
+         |                        ^~~~
+   drivers/nvme/host/core.c:2999:13: note: in expansion of macro 'test_bit'
+    2999 |             test_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags))
+         |             ^~~~~~~~
+   In file included from include/linux/bitops.h:34:
+   include/asm-generic/bitops/generic-non-atomic.h:166:64: note: expected 'const volatile long unsigned int *' but argument is of type 'long unsigned int'
+     166 | const_test_bit(unsigned long nr, const volatile unsigned long *addr)
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   drivers/nvme/host/core.c:2999:52: warning: passing argument 2 of 'generic_test_bit' makes pointer from integer without a cast [-Wint-conversion]
+    2999 |             test_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags))
+         |                                                ~~~~^~~~~~~
+         |                                                    |
+         |                                                    long unsigned int
+   include/linux/bitops.h:53:39: note: in definition of macro 'bitop'
+      53 |          const##op(nr, addr) : op(nr, addr))
+         |                                       ^~~~
+   drivers/nvme/host/core.c:2999:13: note: in expansion of macro 'test_bit'
+    2999 |             test_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags))
+         |             ^~~~~~~~
+   include/asm-generic/bitops/generic-non-atomic.h:121:66: note: expected 'const volatile long unsigned int *' but argument is of type 'long unsigned int'
+     121 | generic_test_bit(unsigned long nr, const volatile unsigned long *addr)
+         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   In file included from include/linux/bitops.h:68:
+>> drivers/nvme/host/core.c:3022:55: warning: passing argument 2 of 'bset_mem_set_bit' makes pointer from integer without a cast [-Wint-conversion]
+    3022 |                 set_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags);
+         |                                                   ~~~~^~~~~~~
+         |                                                       |
+         |                                                       long unsigned int
+   arch/m68k/include/asm/bitops.h:64:54: note: in definition of macro 'set_bit'
+      64 |                                 bset_mem_set_bit(nr, vaddr) : \
+         |                                                      ^~~~~
+   arch/m68k/include/asm/bitops.h:41:69: note: expected 'volatile long unsigned int *' but argument is of type 'long unsigned int'
+      41 | static inline void bset_mem_set_bit(int nr, volatile unsigned long *vaddr)
+         |                                             ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+>> drivers/nvme/host/core.c:3022:55: warning: passing argument 2 of 'bfset_mem_set_bit' makes pointer from integer without a cast [-Wint-conversion]
+    3022 |                 set_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags);
+         |                                                   ~~~~^~~~~~~
+         |                                                       |
+         |                                                       long unsigned int
+   arch/m68k/include/asm/bitops.h:65:55: note: in definition of macro 'set_bit'
+      65 |                                 bfset_mem_set_bit(nr, vaddr))
+         |                                                       ^~~~~
+   arch/m68k/include/asm/bitops.h:50:70: note: expected 'volatile long unsigned int *' but argument is of type 'long unsigned int'
+      50 | static inline void bfset_mem_set_bit(int nr, volatile unsigned long *vaddr)
+         |                                              ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+
+
+vim +/bset_mem_set_bit +3022 drivers/nvme/host/core.c
+
+  2970	
+  2971	static int nvme_init_non_mdts_limits(struct nvme_ctrl *ctrl)
+  2972	{
+  2973		struct nvme_command c = { };
+  2974		struct nvme_id_ctrl_nvm *id;
+  2975		int ret;
+  2976	
+  2977		if (ctrl->oncs & NVME_CTRL_ONCS_DSM) {
+  2978			ctrl->max_discard_sectors = UINT_MAX;
+  2979			ctrl->max_discard_segments = NVME_DSM_MAX_RANGES;
+  2980		} else {
+  2981			ctrl->max_discard_sectors = 0;
+  2982			ctrl->max_discard_segments = 0;
+  2983		}
+  2984	
+  2985		/*
+  2986		 * Even though NVMe spec explicitly states that MDTS is not applicable
+  2987		 * to the write-zeroes, we are cautious and limit the size to the
+  2988		 * controllers max_hw_sectors value, which is based on the MDTS field
+  2989		 * and possibly other limiting factors.
+  2990		 */
+  2991		if ((ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES) &&
+  2992		    !(ctrl->quirks & NVME_QUIRK_DISABLE_WRITE_ZEROES))
+  2993			ctrl->max_zeroes_sectors = ctrl->max_hw_sectors;
+  2994		else
+  2995			ctrl->max_zeroes_sectors = 0;
+  2996	
+  2997		if (ctrl->subsys->subtype != NVME_NQN_NVME ||
+  2998		    nvme_ctrl_limited_cns(ctrl) ||
+> 2999		    test_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags))
+  3000			return 0;
+  3001	
+  3002		id = kzalloc(sizeof(*id), GFP_KERNEL);
+  3003		if (!id)
+  3004			return -ENOMEM;
+  3005	
+  3006		c.identify.opcode = nvme_admin_identify;
+  3007		c.identify.cns = NVME_ID_CNS_CS_CTRL;
+  3008		c.identify.csi = NVME_CSI_NVM;
+  3009	
+  3010		ret = nvme_submit_sync_cmd(ctrl->admin_q, &c, id, sizeof(*id));
+  3011		if (ret)
+  3012			goto free_data;
+  3013	
+  3014		if (id->dmrl)
+  3015			ctrl->max_discard_segments = id->dmrl;
+  3016		ctrl->dmrsl = le32_to_cpu(id->dmrsl);
+  3017		if (id->wzsl)
+  3018			ctrl->max_zeroes_sectors = nvme_mps_to_sectors(ctrl, id->wzsl);
+  3019	
+  3020	free_data:
+  3021		if (ret > 0)
+> 3022			set_bit(NVME_CTRL_SKIP_ID_CNS_CS, ctrl->flags);
+  3023		kfree(id);
+  3024		return ret;
+  3025	}
+  3026	
 
 -- 
 0-DAY CI Kernel Test Service
