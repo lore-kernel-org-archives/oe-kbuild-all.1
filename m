@@ -1,45 +1,51 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16EC91ED3A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 20:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03C4C1ED43;
+	Tue, 13 Jun 2023 21:16:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686689069; x=1718225069;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=X7MiNBmxKG11wYBAtd8RJnGq4nHocac+BkiDsfdC/uM=;
-  b=goCkopmhm+xd/h727gNIooNRhtPvqaZbqSTYWqRp38UJPAeq73cD191h
-   s5FO55gGluCGzLoijK6GSdvQMM6pY7lR7mEhJBSIOmR6IX2+AvO1lBS3J
-   LeF6xk9mpZ51eL9hOunfQx4Oiq4gJeKlRrGYTohkIdZx9obI+05iBPIpU
-   fVMYaWItd+fOI2i4aBG+KjOgzdxUhcOKrEsOGkVYwT3ptkE/g69IZ5OMc
-   jnwsZCkBLsaDEJCzyg0RC3MH6NKsbMJ4C02zFHM6YZOIfeBBaN574OLOk
-   P3AhXxnsPCs+KUcDJSwnTa2tLcFKip6M06Uv9gBou1Vr2KfYwBo23yJKT
+  t=1686690996; x=1718226996;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xBxRrQSWCNJeRrf4b0WLzHh8isR+4h1yUuTtpwm0xS8=;
+  b=ORgBbE6oJQ6Zxp1wijzm0fPTMRzcpHkQyUKkz3uwCHyODFTEk+kCbzna
+   F9VLUxXuCXeozNXM9H5rS73GtaUs1uXaZYg5oxMVAmgpt3xKS2SpPqjW8
+   LYC2dxGcG/IPAq0xueF2bIJre9LKxlQfelpprGABQMlEpW85QOb02OBAy
+   rodZ+leUZKZ2RyAgEuc7Q1BrYJU1KpFYklU+NVg73mmS/pO5LLwwdtVx0
+   iaqh40wQC95BDmcOfEWGUJ8oTCixflRFpNNj9dwPZzH/GWlMky4aO6wRe
+   zvDjWdv5mdIZlENlt/RaXPUXbtOyYKKxYLucQOYTiaGC/yQTa05vEkByd
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="355945933"
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="357334280"
 X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
-   d="scan'208";a="355945933"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 13:44:22 -0700
+   d="scan'208";a="357334280"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 14:16:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="711788245"
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="1041912514"
 X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
-   d="scan'208";a="711788245"
+   d="scan'208";a="1041912514"
 Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 13 Jun 2023 13:44:20 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 13 Jun 2023 14:16:22 -0700
 Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9AsF-0001kq-31;
-	Tue, 13 Jun 2023 20:44:19 +0000
-Date: Wed, 14 Jun 2023 04:43:56 +0800
+	id 1q9BNF-0001mK-2i;
+	Tue, 13 Jun 2023 21:16:21 +0000
+Date: Wed, 14 Jun 2023 05:16:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-nvme@lists.infradead.org,
-	Keith Busch <kbusch@kernel.org>, Hannes Reinecke <hare@suse.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>
-Subject: [linux-nvme:nvme-6.5-merged 197/227] drivers/block/swim3.c:919:15:
- error: too many arguments to function 'floppy_locked_ioctl'
-Message-ID: <202306140401.DgFYAeVz-lkp@intel.com>
+To: mwilck@suse.com, "Martin K. Petersen" <martin.petersen@oracle.com>,
+	Christoph Hellwig <hch@lst.de>, Ming Lei <ming.lei@redhat.com>,
+	Bart Van Assche <bvanassche@acm.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	James Bottomley <jejb@linux.vnet.ibm.com>,
+	linux-scsi@vger.kernel.org, linux-block@vger.kernel.org,
+	Hannes Reinecke <hare@suse.de>, Martin Wilck <mwilck@suse.com>,
+	Karan Tilak Kumar <kartilak@cisco.com>,
+	Sesidhar Baddela <sebaddel@cisco.com>
+Subject: Re: [PATCH v6 6/7] scsi: replace scsi_target_block() by
+ scsi_block_targets()
+Message-ID: <202306140503.hMWyg8Xa-lkp@intel.com>
+References: <20230613174227.11235-7-mwilck@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,65 +54,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230613174227.11235-7-mwilck@suse.com>
 
-tree:   git://git.infradead.org/nvme.git nvme-6.5-merged
-head:   84a1df76eb397f3b8bf3a386bfcfb2e84f75554b
-commit: 0f306bf5ab2690b12d1708273aaa974c790f838e [197/227] block: replace fmode_t with a block-specific type for block open flags
-config: powerpc-buildonly-randconfig-r002-20230612 (https://download.01.org/0day-ci/archive/20230614/202306140401.DgFYAeVz-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on mkp-scsi/for-next]
+[also build test ERROR on jejb-scsi/for-next axboe-block/for-next linus/master v6.4-rc6 next-20230613]
+[cannot apply to hch-configfs/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/mwilck-suse-com/bsg-increase-number-of-devices/20230614-014437
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20230613174227.11235-7-mwilck%40suse.com
+patch subject: [PATCH v6 6/7] scsi: replace scsi_target_block() by scsi_block_targets()
+config: arm-randconfig-r011-20230612 (https://download.01.org/0day-ci/archive/20230614/202306140503.hMWyg8Xa-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add linux-nvme git://git.infradead.org/nvme.git
-        git fetch --no-tags linux-nvme nvme-6.5-merged
-        git checkout 0f306bf5ab2690b12d1708273aaa974c790f838e
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        git remote add mkp-scsi https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git
+        git fetch mkp-scsi for-next
+        git checkout mkp-scsi/for-next
+        b4 shazam https://lore.kernel.org/r/20230613174227.11235-7-mwilck@suse.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/block/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/scsi/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306140401.DgFYAeVz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306140503.hMWyg8Xa-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/block/swim3.c: In function 'floppy_ioctl':
->> drivers/block/swim3.c:919:15: error: too many arguments to function 'floppy_locked_ioctl'
-     919 |         ret = floppy_locked_ioctl(bdev, mode, cmd, param);
-         |               ^~~~~~~~~~~~~~~~~~~
-   drivers/block/swim3.c:885:12: note: declared here
-     885 | static int floppy_locked_ioctl(struct block_device *bdev,
-         |            ^~~~~~~~~~~~~~~~~~~
-   drivers/block/swim3.c: At top level:
-   drivers/block/swim3.c:1280:5: warning: no previous prototype for 'swim3_init' [-Wmissing-prototypes]
-    1280 | int swim3_init(void)
-         |     ^~~~~~~~~~
+>> drivers/scsi/scsi_lib.c:2912:1: error: conflicting types for 'scsi_block_targets'
+    2912 | scsi_block_targets(struct device *dev, struct Scsi_Host *shost)
+         | ^
+   include/scsi/scsi_device.h:459:6: note: previous declaration is here
+     459 | void scsi_block_targets(struct Scsi_Host *shost, struct device *dev);
+         |      ^
+   1 error generated.
 
 
-vim +/floppy_locked_ioctl +919 drivers/block/swim3.c
+vim +/scsi_block_targets +2912 drivers/scsi/scsi_lib.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  912  
-0f306bf5ab2690 Christoph Hellwig 2023-06-08  913  static int floppy_ioctl(struct block_device *bdev, blk_mode_t mode,
-8a6cfeb6deca3a Arnd Bergmann     2010-07-08  914  				 unsigned int cmd, unsigned long param)
-8a6cfeb6deca3a Arnd Bergmann     2010-07-08  915  {
-8a6cfeb6deca3a Arnd Bergmann     2010-07-08  916  	int ret;
-8a6cfeb6deca3a Arnd Bergmann     2010-07-08  917  
-2a48fc0ab24241 Arnd Bergmann     2010-06-02  918  	mutex_lock(&swim3_mutex);
-8a6cfeb6deca3a Arnd Bergmann     2010-07-08 @919  	ret = floppy_locked_ioctl(bdev, mode, cmd, param);
-2a48fc0ab24241 Arnd Bergmann     2010-06-02  920  	mutex_unlock(&swim3_mutex);
-8a6cfeb6deca3a Arnd Bergmann     2010-07-08  921  
-8a6cfeb6deca3a Arnd Bergmann     2010-07-08  922  	return ret;
-8a6cfeb6deca3a Arnd Bergmann     2010-07-08  923  }
-8a6cfeb6deca3a Arnd Bergmann     2010-07-08  924  
-
-:::::: The code at line 919 was first introduced by commit
-:::::: 8a6cfeb6deca3a8fefd639d898b0d163c0b5d368 block: push down BKL into .locked_ioctl
-
-:::::: TO: Arnd Bergmann <arnd@arndb.de>
-:::::: CC: Jens Axboe <jaxboe@fusionio.com>
+  2898	
+  2899	/**
+  2900	 * scsi_block_targets - transition all SCSI child devices to SDEV_BLOCK state
+  2901	 * @dev: a parent device of one or more scsi_target devices
+  2902	 * @shost: the Scsi_Host to which this device belongs
+  2903	 *
+  2904	 * Iterate over all children of @dev, which should be scsi_target devices,
+  2905	 * and switch all subordinate scsi devices to SDEV_BLOCK state. Wait for
+  2906	 * ongoing scsi_queue_rq() calls to finish. May sleep.
+  2907	 *
+  2908	 * Note:
+  2909	 * @dev must not itself be a scsi_target device.
+  2910	 */
+  2911	void
+> 2912	scsi_block_targets(struct device *dev, struct Scsi_Host *shost)
+  2913	{
+  2914		WARN_ON_ONCE(scsi_is_target_device(dev));
+  2915		device_for_each_child(dev, NULL, target_block);
+  2916		blk_mq_wait_quiesce_done(&shost->tag_set);
+  2917	}
+  2918	EXPORT_SYMBOL_GPL(scsi_block_targets);
+  2919	
 
 -- 
 0-DAY CI Kernel Test Service
