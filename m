@@ -1,110 +1,101 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45AD135B39
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 14:22:53 +0000 (UTC)
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-784f7f7deddso431897241.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 07:22:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20221208.gappssmtp.com; s=20221208; t=1686666173; x=1689258173;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1gWIF6WfXGGLV7wV95q+Bs7ONpfkMQ74yIFAAdWgckU=;
-        b=a/BBVjmaMQ4W6Uh57UzU2yX7l6o8M8VmaUrobFylrp2Lj1e8Zk4i1JsD2rhJGFOGj7
-         LxDaeAiMscWxru8mlDYV+lxikYRK9FwFcFn8f+TTir+jo+Qie32VNdKSUx8pDD+ZKUb8
-         dN9/VheT2T5upyliDSFeUcOABFpv242h0NutbQBIyyfuyYPSvqSpQgxvPcMU6lWLbkL9
-         gBJ9VH0NT1H8dBe5UP+rm7EakoA5vVCJ1Xf5GshvGP3rnuzEPcWtoKxMkwvpNOtmvYMR
-         oosmUI7srWEIx77rEfNqbHTwIl6ltzIjWmI1kK4Yj7PZAgT01zkcszpmUt76ZeuVqzr7
-         qY0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686666173; x=1689258173;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1gWIF6WfXGGLV7wV95q+Bs7ONpfkMQ74yIFAAdWgckU=;
-        b=TZ2Mq3n5dWG2kiVPUov7/xTELVNkZWlWjdXItjE4iokXkt7ruiZcHhFTuJQn+rZrEg
-         dR8cnKOq+fSsUQiXFJuhdvA4dzE9TQnEtocz66ENmVrg687qc5m7qIS9pVuLhhd7xYhr
-         1fSTO30NQUbL1rFVSSRbxSwG2oupRQFgN1xPs0Z0YxudXKK/nGNk/5gfbHpwPs2oLNWU
-         L4Jv3bUmZWETKtizRsIhb8h5NUFCWQUabTIjZ/NmJHyXJivQ/z7BNRUmnHqNJlLdF5fZ
-         mXS/ka9geLFBUxZ0oZfDSzqJv8A9o8u5xPWRa6TUCKZcLCNlTNm+xnE9B0WuoGAtWfwT
-         ebzw==
-X-Gm-Message-State: AC+VfDzDbMCbrYlgt83dMIxfH3mkV9BPZxfVR8aUmyCkHg9d3wC82l1M
-	g2bggfKcX88kEjQeUdWfmFe6tMCc5I4ub7utl9v+JQ==
-X-Google-Smtp-Source: ACHHUZ5vP+V+IYfx+6K3RQdpyB8TtZRAxKeKOoDh1dO34vqqR5jmKqETRZ2YfFdpKic4CFmIUYOgjxbDQldWhsZkLD8=
-X-Received: by 2002:a05:6102:408:b0:430:e0:ac2e with SMTP id
- d8-20020a056102040800b0043000e0ac2emr5618052vsq.15.1686666172953; Tue, 13 Jun
- 2023 07:22:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC52023DB;
+	Tue, 13 Jun 2023 14:40:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686667204; x=1718203204;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=O04xgOWnl7c7B5L/0wKgOWkmzrJ2hmKIs/j/NCTnWZI=;
+  b=jTponp1MLZFBT8Hid8aWQ9LKzGrICQ6eWyJXk6nkwXon/npRy7+Ju0pV
+   Ix85PakL7GcypeNnLdD5JBzhV94vbxpzxPpStQ9J3o8QMmPyYlCe82rHK
+   DDWIi7UvvyZNvX/Yc595Ix2JNFVTGTaJ6A1+Z8RUqLd96oLtbQK1YunBB
+   88DtsQsjZsb5TEcC4OczcGes5i5yHiFvBqcgTPTY9IBvAFWiC4BbHplck
+   KeDbDzVXhu97JfEQ3Xz9d1uLZxQF25JFdAEbu6S53qaBxcsAqllNp+gR6
+   9+9+CBYnnBMGutKJLmczM/fuzN5RWbQwE0moxx6um9kZpporjFbz5zks0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="337989748"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="337989748"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 07:40:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="662033818"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="662033818"
+Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 13 Jun 2023 07:40:01 -0700
+Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q95Bh-0001Qp-05;
+	Tue, 13 Jun 2023 14:40:01 +0000
+Date: Tue, 13 Jun 2023 22:39:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>
+Subject: [linux-next:master 2238/9385]
+ drivers/gpu/drm/i915/display/intel_display_power.h:256:70: error:
+ declaration of 'struct seq_file' will not be visible outside of this
+ function
+Message-ID: <202306132237.Z4LJE8bP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230606031159.38246-1-jiasheng@iscas.ac.cn>
-In-Reply-To: <20230606031159.38246-1-jiasheng@iscas.ac.cn>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 13 Jun 2023 16:22:42 +0200
-Message-ID: <CAMRc=McoDu4jsy4pWnu=T1+q_FfnYa8bfqWb39ZZXM_YmaGpXw@mail.gmail.com>
-Subject: Re: [PATCH v3] gpio: sifive: Add missing check for platform_get_irq
-To: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-Cc: andy.shevchenko@gmail.com, oe-kbuild-all@lists.linux.dev, 
-	linus.walleij@linaro.org, palmer@dabbelt.com, paul.walmsley@sifive.com, 
-	linux-gpio@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Jun 6, 2023 at 5:12=E2=80=AFAM Jiasheng Jiang <jiasheng@iscas.ac.cn=
-> wrote:
->
-> Add the missing check for platform_get_irq() and return error code
-> if it fails.
-> The returned error code will be dealed with in
-> builtin_platform_driver(sifive_gpio_driver) and the driver will not
-> be registered.
->
-> Fixes: f52d6d8b43e5 ("gpio: sifive: To get gpio irq offset from device tr=
-ee data")
-> Signed-off-by: Jiasheng Jiang <jiasheng@iscas.ac.cn>
-> ---
-> Changelog:
->
-> v2 -> v3:
->
-> 1. Check before assigning values.
->
-> v1 -> v2:
->
-> 1. Return "girq->parents[0]" instead of "-ENODEV".
-> ---
->  drivers/gpio/gpio-sifive.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpio/gpio-sifive.c b/drivers/gpio/gpio-sifive.c
-> index 98939cd4a71e..745e5f67254e 100644
-> --- a/drivers/gpio/gpio-sifive.c
-> +++ b/drivers/gpio/gpio-sifive.c
-> @@ -221,8 +221,12 @@ static int sifive_gpio_probe(struct platform_device =
-*pdev)
->                 return -ENODEV;
->         }
->
-> -       for (i =3D 0; i < ngpio; i++)
-> -               chip->irq_number[i] =3D platform_get_irq(pdev, i);
-> +       for (i =3D 0; i < ngpio; i++) {
-> +               ret =3D platform_get_irq(pdev, i);
-> +               if (ret < 0)
-> +                       return ret;
-> +               chip->irq_number[i] =3D ret;
-> +       }
->
->         ret =3D bgpio_init(&chip->gc, dev, 4,
->                          chip->base + SIFIVE_GPIO_INPUT_VAL,
-> --
-> 2.25.1
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   1f6ce8392d6ff486af5ca96df9ded5882c4b6977
+commit: ef104443bffa004f631729dfc924f0b84abbd602 [2238/9385] procfs: consolidate arch_report_meminfo declaration
+config: x86_64-randconfig-r036-20230612 (https://download.01.org/0day-ci/archive/20230613/202306132237.Z4LJE8bP-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=ef104443bffa004f631729dfc924f0b84abbd602
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout ef104443bffa004f631729dfc924f0b84abbd602
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-Applied, thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306132237.Z4LJE8bP-lkp@intel.com/
 
-Bart
+All errors (new ones prefixed by >>):
+
+   In file included from <built-in>:4:
+   In file included from drivers/gpu/drm/i915/display/intel_display_power_well.h:10:
+>> drivers/gpu/drm/i915/display/intel_display_power.h:256:70: error: declaration of 'struct seq_file' will not be visible outside of this function [-Werror,-Wvisibility]
+   void intel_display_power_debug(struct drm_i915_private *i915, struct seq_file *m);
+                                                                        ^
+   1 error generated.
+
+
+vim +256 drivers/gpu/drm/i915/display/intel_display_power.h
+
+6979cb9a2cb41f Imre Deak   2020-12-01  255  
+6abf2fc0072b02 Jani Nikula 2021-11-16 @256  void intel_display_power_debug(struct drm_i915_private *i915, struct seq_file *m);
+6abf2fc0072b02 Jani Nikula 2021-11-16  257  
+
+:::::: The code at line 256 was first introduced by commit
+:::::: 6abf2fc0072b020cdbb9124ea935603b02502e6c drm/i915/debugfs: move debug printing to intel_display_power.c
+
+:::::: TO: Jani Nikula <jani.nikula@intel.com>
+:::::: CC: Jani Nikula <jani.nikula@intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
