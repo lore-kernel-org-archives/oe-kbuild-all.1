@@ -1,54 +1,46 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104D18BE0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 08:29:57 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-3f8c65020dfso5984145e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 01:29:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isovalent.com; s=google; t=1686644996; x=1689236996;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fJz3+17+rI7c/r9Lxv1o3gM9l7EUudwPFAZ2efkW9cM=;
-        b=QtW2Ic+jqj4l0V4rUR3g5XwyEe5HAeSBmgBIeCA9Ahj+oPxHvnoLzvMLrdI0W/PdQN
-         NwQTFeVR+CSpq0rd/5K1de/PZ+FysmEXscm5FEMlKUUjbd/CnE23w70QNKdB8nNMRWqF
-         7iBzg3F8LKamO3rVyJlQGU6+gjTRiNf7mAbKa7hVqJpcoAjV9CnS/btZlLBqmlU0SC1U
-         JRHK6RES+ADnMIcHld/rOi8iUGX/+pibfDpN6UTLVEBnJ10WZdrdqHJoK9IrrrDMST3g
-         4ooqSpiMqi75GZgOy5Aiu+MSKIXLQR0kgWeu/BLkYMdsbW+eB7Qmvp93LHMahbMfDgaK
-         Dheg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686644996; x=1689236996;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fJz3+17+rI7c/r9Lxv1o3gM9l7EUudwPFAZ2efkW9cM=;
-        b=EJeu0uVmKwqGOtDRXCWH9etHX0fteCSjJXYv6sQmTB92LsCTELT3ItCZ5fKmNqGJmh
-         AeMtnPUNCdjSLFAkadGbQ6VuCxTp/B/asV7UMUxEhO/WufPDhxkdtuD8cI+UMhr4pHk4
-         zdVL8OpR3jv7x6SdfaDQmqfFrvtE9C1ZTL/LXug+F4RMV4CH8vnpLwrXmGp8x6gfDgf/
-         3sWlyjeTOQU9vCmbEuWIeh2idVhadxZU0OJmNjjyGsVQ6TPMEkt3Ul5h1ysWppKJcPhO
-         X9v02amrDkg4Dcpjjr0O+EQ04BNbwVss7SGt79HUHEyhNI2AXEiarpiTTLFF7lBvwGux
-         w8TQ==
-X-Gm-Message-State: AC+VfDxlKZ7zGr0zl/NaUhUJ0e06lwKSoOZq1Axr6sd+aVh7A4E5rPWH
-	x8OKmHlB2ZoqWrXaHv1348ADaw==
-X-Google-Smtp-Source: ACHHUZ6VKL3vVviuMXqByKDjVuBWHuEoYjd4AUXr52K2TFKp398Trwaduu/AdesUxduSSatDHxYwsQ==
-X-Received: by 2002:a7b:cb8f:0:b0:3f7:26f8:4cd0 with SMTP id m15-20020a7bcb8f000000b003f726f84cd0mr8651529wmi.16.1686644996018;
-        Tue, 13 Jun 2023 01:29:56 -0700 (PDT)
-Received: from zh-lab-node-5 ([2a02:168:f656:0:1ac0:4dff:fe0f:3782])
-        by smtp.gmail.com with ESMTPSA id n26-20020a1c721a000000b003f78fd2cf5esm13645608wmc.40.2023.06.13.01.29.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jun 2023 01:29:55 -0700 (PDT)
-Date: Tue, 13 Jun 2023 08:30:23 +0000
-From: Anton Protopopov <aspsk@isovalent.com>
-To: Yujie Liu <yujie.liu@intel.com>
-Cc: kernel test robot <lkp@intel.com>, bpf@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev, Joe Stringer <joe@isovalent.com>,
-	John Fastabend <john.fastabend@gmail.com>
-Subject: Re: [PATCH bpf-next 1/2] bpf: add new map ops ->map_pressure
-Message-ID: <ZIgpH43cHO9ZEz73@zh-lab-node-5>
-References: <20230531110511.64612-2-aspsk@isovalent.com>
- <202306010837.mGhA199K-lkp@intel.com>
- <ZHhNqDi7+k5VzofY@zh-lab-node-5>
- <ZIgngQXrlaCtAYgl@yujie-X299>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0ED9568C;
+	Tue, 13 Jun 2023 09:17:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686647866; x=1718183866;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FEoMNzuuvXSuMflDY7mvoN7sBa2jkXZCTsDIB/QocmU=;
+  b=F8F8D2owM71WYQnAmYC33PP9rk1gR5elZnlfSB6kNFr1exMaWejYBZbm
+   z6uEs9g8aabcGHlHVKrhUpz7rgqeKLX2G9+T7uT/N/Pravwg/KGUsBhH5
+   cjPqksKpvtY9LGtp6i+FLGpEN0OxaanyP7IaFSwTEG71FXvEkFjgHNWU8
+   FtBA0dcoWWCNzSRVyrTJWZ53vDybOsim5zu6v0efCVz2MBplBsX/0GWwt
+   2UG1XTXiJP6Bj/Fkt4jp1amItIL6R11yG9hlYpHapgTmPYa3q3Alm3gll
+   VGXzQSjx+cyxMklo+5E/cJhEaa2xSECoNGUnkCsLK8CuBx3bTQxl7x0Re
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="347930550"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="347930550"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 02:17:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="714719482"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="714719482"
+Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 13 Jun 2023 02:17:44 -0700
+Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q909n-00019U-1Q;
+	Tue, 13 Jun 2023 09:17:43 +0000
+Date: Tue, 13 Jun 2023 17:16:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yogesh Hegde <yogi.kernel@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/5] staging: rtl8192e: Remove variable
+ SetBWModeHandler
+Message-ID: <202306131731.yvRofzzm-lkp@intel.com>
+References: <0af9595916447a28e27c249f3696fe107382ca53.1686149467.git.yogi.kernel@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,75 +49,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZIgngQXrlaCtAYgl@yujie-X299>
+In-Reply-To: <0af9595916447a28e27c249f3696fe107382ca53.1686149467.git.yogi.kernel@gmail.com>
 
-On Tue, Jun 13, 2023 at 04:23:29PM +0800, Yujie Liu wrote:
-> Hi Anton,
-> 
-> Sorry for the late reply.
-> 
-> On Thu, Jun 01, 2023 at 07:50:00AM +0000, Anton Protopopov wrote:
-> > On Thu, Jun 01, 2023 at 08:44:24AM +0800, kernel test robot wrote:
-> > > Hi Anton,
-> > > 
-> > > kernel test robot noticed the following build errors:
-> > > 
-> > > [...]
-> > > 
-> > > If you fix the issue, kindly add following tag where applicable
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202306010837.mGhA199K-lkp@intel.com/
-> > 
-> > How does this apply to patches? If I send a v2, should I include these tags
-> > there?
-> 
-> If a v2 is sent, these tags should not be included.
-> 
-> > If this patch gets rejected, is there need to do anything to close the
-> > robot's ticket?
-> 
-> No need to close this ticket.
-> 
-> Thanks for raising above concerns. We have updated the wording in our
-> reports as below to avoid misinterpretation:
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: ...
-> | Closes: ...
+Hi Yogesh,
 
-Great, thanks for the explanations!
+kernel test robot noticed the following build errors:
 
-> --
-> Best Regards,
-> Yujie
-> 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > >    kernel/bpf/hashtab.c: In function 'htab_map_pressure':
-> > > >> kernel/bpf/hashtab.c:189:24: error: implicit declaration of function '__percpu_counter_sum'; did you mean 'percpu_counter_sum'? [-Werror=implicit-function-declaration]
-> > >      189 |                 return __percpu_counter_sum(&htab->pcount);
-> > >          |                        ^~~~~~~~~~~~~~~~~~~~
-> > >          |                        percpu_counter_sum
-> > >    cc1: some warnings being treated as errors
-> > > 
-> > > 
-> > > vim +189 kernel/bpf/hashtab.c
-> > > 
-> > >    183	
-> > >    184	static u32 htab_map_pressure(const struct bpf_map *map)
-> > >    185	{
-> > >    186		struct bpf_htab *htab = container_of(map, struct bpf_htab, map);
-> > >    187	
-> > >    188		if (htab->use_percpu_counter)
-> > >  > 189			return __percpu_counter_sum(&htab->pcount);
-> > >    190		return atomic_read(&htab->count);
-> > >    191	}
-> > >    192	
-> > 
-> > (This bug happens for !SMP case.)
-> > 
-> > > -- 
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
-> > 
+[auto build test ERROR on staging/staging-testing]
+[also build test ERROR on staging/staging-next staging/staging-linus linus/master v6.4-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yogesh-Hegde/staging-rtl8192e-Remove-variable-SetWirelessMode/20230607-230636
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/0af9595916447a28e27c249f3696fe107382ca53.1686149467.git.yogi.kernel%40gmail.com
+patch subject: [PATCH v2 2/5] staging: rtl8192e: Remove variable SetBWModeHandler
+config: x86_64-randconfig-s053-20230611 (https://download.01.org/0day-ci/archive/20230613/202306131731.yvRofzzm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://github.com/intel-lab-lkp/linux/commit/58c941ed304bd37db4311cd7151f399f8e77daa6
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Yogesh-Hegde/staging-rtl8192e-Remove-variable-SetWirelessMode/20230607-230636
+        git checkout 58c941ed304bd37db4311cd7151f399f8e77daa6
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306131731.yvRofzzm-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "rtl92e_set_bw_mode" [drivers/staging/rtl8192e/rtllib.ko] undefined!
+ERROR: modpost: "rtl92e_set_wireless_mode" [drivers/staging/rtl8192e/rtllib.ko] undefined!
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
