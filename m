@@ -1,101 +1,93 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC52023DB;
-	Tue, 13 Jun 2023 14:40:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686667204; x=1718203204;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=O04xgOWnl7c7B5L/0wKgOWkmzrJ2hmKIs/j/NCTnWZI=;
-  b=jTponp1MLZFBT8Hid8aWQ9LKzGrICQ6eWyJXk6nkwXon/npRy7+Ju0pV
-   Ix85PakL7GcypeNnLdD5JBzhV94vbxpzxPpStQ9J3o8QMmPyYlCe82rHK
-   DDWIi7UvvyZNvX/Yc595Ix2JNFVTGTaJ6A1+Z8RUqLd96oLtbQK1YunBB
-   88DtsQsjZsb5TEcC4OczcGes5i5yHiFvBqcgTPTY9IBvAFWiC4BbHplck
-   KeDbDzVXhu97JfEQ3Xz9d1uLZxQF25JFdAEbu6S53qaBxcsAqllNp+gR6
-   9+9+CBYnnBMGutKJLmczM/fuzN5RWbQwE0moxx6um9kZpporjFbz5zks0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="337989748"
-X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="337989748"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 07:40:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="662033818"
-X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="662033818"
-Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 13 Jun 2023 07:40:01 -0700
-Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q95Bh-0001Qp-05;
-	Tue, 13 Jun 2023 14:40:01 +0000
-Date: Tue, 13 Jun 2023 22:39:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>
-Subject: [linux-next:master 2238/9385]
- drivers/gpu/drm/i915/display/intel_display_power.h:256:70: error:
- declaration of 'struct seq_file' will not be visible outside of this
- function
-Message-ID: <202306132237.Z4LJE8bP-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B2923DB;
+	Tue, 13 Jun 2023 15:56:48 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-65292f79456so4337635b3a.2;
+        Tue, 13 Jun 2023 08:56:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686671808; x=1689263808;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Lm83ENN7P26mz8SroVi/kReZQaeZTD5r+fv7IA/VbbU=;
+        b=OcI6+OEjvGF5Vg7TnVZ1fPbCaBV3YkbNc1/qzP/41NzjDStS0TLzUooa+3bzeuYU+M
+         uhxFMZHirWOIT+oJEsZEsY1V5saMy8ZS0pejxV4SbXGQuWqw9lGt0EwMrswDlL78TLTZ
+         ZEXHFvMgE2TEYB9Q7niWu2bACmA4oGClN9c1Xxjgo2W4kwl73/sKN7EfSsA+dYnxYV+/
+         F9sRGgZEAL08qO99IdgsYmR2eWDhO1IfrHxgd7XCYSdwuclhx4D70JSOyt6iiJY06fsA
+         96Uhpt3b11q5A95sep70SXE3p7NxQIm1Nse7Z6kVC1XMRHx9HNO72eiQqnHy1GRK5jk/
+         O7rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686671808; x=1689263808;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lm83ENN7P26mz8SroVi/kReZQaeZTD5r+fv7IA/VbbU=;
+        b=GZd1ey8GblYE9VaNgoqtCGTRZPIfqUry3rBMI473fg9qKytCRiQ8UcQBwO+9idi61B
+         QM6hrUY6WyIqyEGkcRgfrClUYxcMFy8XCl4aPHPta1SWd3q19evCFlj5MkXifXQ6O8F/
+         q5HrCgyn6G0+Hc3GMBFDaROICyiuKLtrlv5KPdaGE8ohY1vKv4D7iGAodU1FED3HmPsq
+         84pCkmlIh1PW6TsG50vdTO9TPnHmdAeR/r57m5anNO3BrwN8ccCrJtJatXo3qfJmU9+x
+         wRH+fN16b7UTkPNQlsfgWTzGtZlz0JZD9J93srTM8QS/nAjuGrwu48sPiry3RoZHZVk6
+         TWrA==
+X-Gm-Message-State: AC+VfDwntIDrDhM0qbeqv+TCDN7PjIN+ekz9xzZw0rQ/m3E7Pz7+4WOn
+	eOcZDqfwtZWDSAAEPkp4Uh8=
+X-Google-Smtp-Source: ACHHUZ4Jrl5CU4kc2B5lBFHU2ztnTPo2MjVbPd481iEIl7vEUTFWpS5CwLQ7HIkBZPyb8EBuEc0AJQ==
+X-Received: by 2002:a05:6a00:2195:b0:65c:9e3e:889b with SMTP id h21-20020a056a00219500b0065c9e3e889bmr13293515pfi.6.1686671808312;
+        Tue, 13 Jun 2023 08:56:48 -0700 (PDT)
+Received: from redkillpc ([49.207.203.99])
+        by smtp.gmail.com with ESMTPSA id e21-20020a62aa15000000b0065014c15a57sm8863891pff.35.2023.06.13.08.56.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Jun 2023 08:56:47 -0700 (PDT)
+Date: Tue, 13 Jun 2023 21:26:41 +0530
+From: Prathu Baronia <prathubaronia2011@gmail.com>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v4 3/3] axis-fifo: cleanup space issues with fops struct
+Message-ID: <ZIiRueq6pSOC27PN@redkillpc>
+References: <ZHHE/H2p4Go/Igc/@redkillpc>
+ <20230527115101.47569-1-prathubaronia2011@gmail.com>
+ <20230527115101.47569-3-prathubaronia2011@gmail.com>
+ <20230527223111.jidik3ffcsxdkenb@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230527223111.jidik3ffcsxdkenb@pengutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1f6ce8392d6ff486af5ca96df9ded5882c4b6977
-commit: ef104443bffa004f631729dfc924f0b84abbd602 [2238/9385] procfs: consolidate arch_report_meminfo declaration
-config: x86_64-randconfig-r036-20230612 (https://download.01.org/0day-ci/archive/20230613/202306132237.Z4LJE8bP-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=ef104443bffa004f631729dfc924f0b84abbd602
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout ef104443bffa004f631729dfc924f0b84abbd602
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+On Sun, May 28, 2023 at 12:31:11AM +0200, Uwe Kleine-König wrote:
+> Note this is only subjectively better. IMHO with just a single space
+> this is perfectly readable. Aligning the = might look nice, but it's
+> also annoying at times. When you add another member (e.g.
+> .iterate_shared) you either add a line that doesn't match all others, or
+> you have to touch all other lines of that struct which (objectively?)
+> hurts readability of that patch. Also for generated patches this kind of
+> alignment yields extra work. (See for example
+> https://lore.kernel.org/lkml/20230525205840.734432-1-u.kleine-koenig@pengutronix.de/
+> which required semi-manual fixup to keep the alignment after coccinelle
+> generated the patch.)
+> 
+Agreed, that this would create more troubles than benefits.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306132237.Z4LJE8bP-lkp@intel.com/
+> If you still think this is a good idea, I'd ask you to stick to one
+> style for the whole file. e.g. axis_fifo_driver uses inconsistent
+> and different indention.
+> 
+> A thing that IMHO is more useful to change here, is the name fops; I'd
+> suggest something like axis_fifo_fops (and also use prefixes for some
+> other symbols like "get_dts_property"). In 6.4-rc1 my ctags file knows
+> about 64 different places that define something called "fops".
+> 
+Agreed. Upon further walkthrough I think this driver requires a lot of cleanup
+so I will leave that cleanup for another dedicated patch series for now.
 
-All errors (new ones prefixed by >>):
-
-   In file included from <built-in>:4:
-   In file included from drivers/gpu/drm/i915/display/intel_display_power_well.h:10:
->> drivers/gpu/drm/i915/display/intel_display_power.h:256:70: error: declaration of 'struct seq_file' will not be visible outside of this function [-Werror,-Wvisibility]
-   void intel_display_power_debug(struct drm_i915_private *i915, struct seq_file *m);
-                                                                        ^
-   1 error generated.
-
-
-vim +256 drivers/gpu/drm/i915/display/intel_display_power.h
-
-6979cb9a2cb41f Imre Deak   2020-12-01  255  
-6abf2fc0072b02 Jani Nikula 2021-11-16 @256  void intel_display_power_debug(struct drm_i915_private *i915, struct seq_file *m);
-6abf2fc0072b02 Jani Nikula 2021-11-16  257  
-
-:::::: The code at line 256 was first introduced by commit
-:::::: 6abf2fc0072b020cdbb9124ea935603b02502e6c drm/i915/debugfs: move debug printing to intel_display_power.c
-
-:::::: TO: Jani Nikula <jani.nikula@intel.com>
-:::::: CC: Jani Nikula <jani.nikula@intel.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Prathu
