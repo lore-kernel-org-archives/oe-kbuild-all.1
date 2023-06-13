@@ -1,43 +1,53 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5972915
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 10:09:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D3327738;
+	Tue, 13 Jun 2023 10:09:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686650995; x=1718186995;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fQ2NKHMJF2pjCAToyc0tjdgWJcx96fiiGeIkoq83i8I=;
-  b=c99X4OtP8hQix594vYAtvP1k25yGWpQeMyJzHpNkVShp/45VyuxSILNn
-   b5Osg+WY2BinXNOvl5Ebvkg8mkbmcCuxULeiUtttph3yYhI9UQij07KVk
-   HktwKcd4Cvp+ZoDre8Mj/31S3FV1PYTs26sU+D/3G2rn1rEy5nmpBq1T1
-   Jie4whkjduPw5qGA7LC0b3NQ66MjjuZnEDNggRDBpS5d2k/JEmbS2Zun5
-   vxM+OoctQMVTmJ1NNkhyyOOasdtGyv1FvlCLkp7y9DtHxreGWXNvz7HF2
-   i+//OnBNjWC+cIptptUeAf5YKaX3RMQSslNPsqcjKhKAZhovPyagg0zm7
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="358285056"
+  t=1686650997; x=1718186997;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2VSwRPSkxIPkkO43q2Odc9trSs0HhJfKrbzg/FdIwSU=;
+  b=BUdxGZNo07AJTCZYdjrAk+WF/bnVKlDsXKF7xlpLdWdcgvUQ2lcg5xzw
+   L1fB5vBJB+c7qyl+989X4n25bxpLo/+zAG6155PHGdG2Khz4cyi2RM0AZ
+   RtcwONm4069CevfyUnFxSjq4gkhmw1QBYG+5dEtMfMv9RmCjv1tjjjcTE
+   ONYBYHKHdxKhReaMTnXDjkMREgNwJVtis18nRsN2b0/XuAD0npnpdoNs4
+   99IuSqPQOw3ZWhA5vD5V8Ds0DXYFzEysUV46JmPGE7id9pwW0sqlT6gsA
+   6yXHqd9P8PH+NYR9/oHW4msSGop+T3b8UolRP/k+dSdMnLzD//5dY9+8z
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="358285066"
 X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="358285056"
+   d="scan'208";a="358285066"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 03:09:49 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 03:09:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="711582108"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="711582141"
 X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="711582108"
+   d="scan'208";a="711582141"
 Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 13 Jun 2023 03:09:47 -0700
+  by orsmga002.jf.intel.com with ESMTP; 13 Jun 2023 03:09:48 -0700
 Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q90yB-0001Dk-0s;
+	id 1q90yB-0001Dq-1D;
 	Tue, 13 Jun 2023 10:09:47 +0000
-Date: Tue, 13 Jun 2023 18:09:26 +0800
+Date: Tue, 13 Jun 2023 18:09:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10-2022-10 21714/21864]
- drivers/dma-buf/dma-buf-sysfs-stats.c:142:9: error: static assertion failed:
- "kobject is smaller than work_struct"
-Message-ID: <202306131840.iIHxN3Xu-lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+	Huang Rui <ray.huang@amd.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+	Robert Moore <robert.moore@intel.com>, linux-acpi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	devel@acpica.org, Gautham Ranjal Shenoy <gautham.shenoy@amd.com>,
+	Wyes Karny <Wyes.Karny@amd.com>, Perry Yuan <perry.yuan@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH 4/4] cpufreq: intel_pstate: Use the
+ acpi_pm_profile_server() symbol
+Message-ID: <202306131736.HZQ9caR6-lkp@intel.com>
+References: <20230605151133.2615-5-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,82 +56,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230605151133.2615-5-mario.limonciello@amd.com>
 
-Hi Mercier,
+Hi Mario,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10-2022-10
-head:   c38b396f0413289daf7a9664ef2bb2865c3e3dc4
-commit: d34064cf6258cb4980ac890e00c3f5e75066d905 [21714/21864] BACKPORT: ANDROID: dma-buf: Move sysfs work out of DMA-BUF export path
-config: i386-randconfig-r016-20230612 (https://download.01.org/0day-ci/archive/20230613/202306131840.iIHxN3Xu-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on linus/master v6.4-rc6 next-20230613]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-CPPC-Add-a-symbol-to-check-if-the-preferred-profile-is-a-server/20230605-231602
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20230605151133.2615-5-mario.limonciello%40amd.com
+patch subject: [PATCH 4/4] cpufreq: intel_pstate: Use the acpi_pm_profile_server() symbol
+config: i386-buildonly-randconfig-r006-20230612 (https://download.01.org/0day-ci/archive/20230613/202306131736.HZQ9caR6-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android12-5.10-2022-10
-        git checkout d34064cf6258cb4980ac890e00c3f5e75066d905
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add rafael-pm https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
+        git fetch rafael-pm linux-next
+        git checkout rafael-pm/linux-next
+        b4 shazam https://lore.kernel.org/r/20230605151133.2615-5-mario.limonciello@amd.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/cpufreq/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306131840.iIHxN3Xu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306131736.HZQ9caR6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/dma-buf/dma-buf-sysfs-stats.c: In function 'sysfs_add_workfn':
->> drivers/dma-buf/dma-buf-sysfs-stats.c:142:9: error: static assertion failed: "kobject is smaller than work_struct"
-     142 |         _Static_assert(sizeof(struct kobject) >= sizeof(struct work_struct),
-         |         ^~~~~~~~~~~~~~
+>> drivers/cpufreq/intel_pstate.c:2397:8: error: call to undeclared function 'acpi_pm_profile_server'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                           if (acpi_pm_profile_server())
+                               ^
+   1 error generated.
 
 
-vim +142 drivers/dma-buf/dma-buf-sysfs-stats.c
+vim +/acpi_pm_profile_server +2397 drivers/cpufreq/intel_pstate.c
 
-   138	
-   139	static void sysfs_add_workfn(struct work_struct *work)
-   140	{
-   141		/* The ABI would have to change for this to be false, but let's be paranoid. */
- > 142		_Static_assert(sizeof(struct kobject) >= sizeof(struct work_struct),
-   143			"kobject is smaller than work_struct");
-   144	
-   145		struct dma_buf_sysfs_entry *sysfs_entry =
-   146			container_of((struct kobject *)work, struct dma_buf_sysfs_entry, kobj);
-   147		struct dma_buf *dmabuf = sysfs_entry->dmabuf;
-   148	
-   149		/*
-   150		 * A dmabuf is ref-counted via its file member. If this handler holds the only
-   151		 * reference to the dmabuf, there is no need for sysfs kobject creation. This is an
-   152		 * optimization and a race; when the reference count drops to 1 immediately after
-   153		 * this check it is not harmful as the sysfs entry will still get cleaned up in
-   154		 * dma_buf_stats_teardown, which won't get called until the final dmabuf reference
-   155		 * is released, and that can't happen until the end of this function.
-   156		 */
-   157		if (file_count(dmabuf->file) > 1) {
-   158			/*
-   159			 * kobject_init_and_add expects kobject to be zero-filled, but we have populated it
-   160			 * to trigger this work function.
-   161			 */
-   162			memset(&dmabuf->sysfs_entry->kobj, 0, sizeof(dmabuf->sysfs_entry->kobj));
-   163			dmabuf->sysfs_entry->kobj.kset = dma_buf_per_buffer_stats_kset;
-   164			if (kobject_init_and_add(&dmabuf->sysfs_entry->kobj, &dma_buf_ktype, NULL,
-   165							"%lu", file_inode(dmabuf->file)->i_ino)) {
-   166				kobject_put(&dmabuf->sysfs_entry->kobj);
-   167				dmabuf->sysfs_entry = NULL;
-   168			}
-   169		} else {
-   170			/*
-   171			 * Free the sysfs_entry and reset the pointer so dma_buf_stats_teardown doesn't
-   172			 * attempt to operate on it.
-   173			 */
-   174			kfree(dmabuf->sysfs_entry);
-   175			dmabuf->sysfs_entry = NULL;
-   176		}
-   177		dma_buf_put(dmabuf);
-   178	}
-   179	
+  2376	
+  2377	static int intel_pstate_init_cpu(unsigned int cpunum)
+  2378	{
+  2379		struct cpudata *cpu;
+  2380	
+  2381		cpu = all_cpu_data[cpunum];
+  2382	
+  2383		if (!cpu) {
+  2384			cpu = kzalloc(sizeof(*cpu), GFP_KERNEL);
+  2385			if (!cpu)
+  2386				return -ENOMEM;
+  2387	
+  2388			WRITE_ONCE(all_cpu_data[cpunum], cpu);
+  2389	
+  2390			cpu->cpu = cpunum;
+  2391	
+  2392			cpu->epp_default = -EINVAL;
+  2393	
+  2394			if (hwp_active) {
+  2395				intel_pstate_hwp_enable(cpu);
+  2396	
+> 2397				if (acpi_pm_profile_server())
+  2398					hwp_boost = true;
+  2399			}
+  2400		} else if (hwp_active) {
+  2401			/*
+  2402			 * Re-enable HWP in case this happens after a resume from ACPI
+  2403			 * S3 if the CPU was offline during the whole system/resume
+  2404			 * cycle.
+  2405			 */
+  2406			intel_pstate_hwp_reenable(cpu);
+  2407		}
+  2408	
+  2409		cpu->epp_powersave = -EINVAL;
+  2410		cpu->epp_policy = 0;
+  2411	
+  2412		intel_pstate_get_cpu_pstates(cpu);
+  2413	
+  2414		pr_debug("controlling: cpu %d\n", cpunum);
+  2415	
+  2416		return 0;
+  2417	}
+  2418	
 
 -- 
 0-DAY CI Kernel Test Service
