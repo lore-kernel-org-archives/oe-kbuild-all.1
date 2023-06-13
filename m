@@ -1,49 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15595BE66
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 12 Jun 2023 23:37:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A298B17E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 00:17:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686613047; x=1718149047;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2Z52hCVOR7DJUTPlLD7xaPNXC1JoIJf4cVIpOC5zfkY=;
-  b=esFWek8zX50g5NNJV+VbZMZeN/+2VAxNs/XL2a2EmE5SUGks/hx3kVs2
-   75jXRzUTsqEak01nH4Inbce/Yu6BnmThXOS4/cLF1W3F1sHkg7AbsAGlj
-   sBTRB6Xn1yCH/uBy7TYGCODU7FA8Sod4ftnReQoNI9NXd4vDYknb1O5B3
-   JAxJmCjnLuR8K0gcxaU5HKuh84g6fG97mL9LVug7vclMoljzQPlG3HEMY
-   HaXiAnYoD90YCoVmFSJRBBfgSHJB4s3+QUc/cyb6TT6Gpa7/GW6H1r2iP
-   Y01hANP4VDjD1GLACXomu6/wWcXJUjbe/IzhTGsXg2w8vaK59WAwP++a7
+  t=1686615445; x=1718151445;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xARPly7ay4a/Yqms0QSIWKJCzfKiIc4z4mUoT9wV/r4=;
+  b=CKpraoeeDn8m8R1/TGTjF5m0u8FZoiK+MiL4Iv7u9g4q1zNz6gXfq7qI
+   CJf1apwQ/qhswOttGIRAgQPLfMoyb+9OnmoWnho9rKt7+uGAaEdfBwnKD
+   O1t0NdY7Ev2Gpz5+cyPeW1E8zd2+rrfVQVwJzZTBw3jwcvRyG8tezOQ1z
+   Y3e+sdroWOFqnnHxfaHpLWb3LC4bhn0Xtr2vNnROt/eBWS22Dr1YEXZLp
+   WqTq6fWUNhte3+GsOt/dqnQYR+dOHVZjnK08EG4zM8Ysbk2jpeF1441UI
+   HR5dAWUTMJEFz6hBXLP5AquN1hRrfAgLjlycp2pyle8mCFdYQAUudCKEG
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="361552039"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="358190325"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="361552039"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 16:37:26 -0700
+   d="scan'208";a="358190325"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 17:17:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="801209462"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="958209056"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="801209462"
+   d="scan'208";a="958209056"
 Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 12 Jun 2023 16:37:21 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 12 Jun 2023 17:17:23 -0700
 Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q8r68-0000qK-1B;
-	Mon, 12 Jun 2023 23:37:20 +0000
-Date: Tue, 13 Jun 2023 07:36:27 +0800
+	id 1q8ris-0000ra-1v;
+	Tue, 13 Jun 2023 00:17:22 +0000
+Date: Tue, 13 Jun 2023 08:17:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Florian Tobias Schandinat <FlorianSchandinat@gmx.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH] fbdev/media: Use GPIO descriptors for VIA GPIO
-Message-ID: <202306130745.DRBLkZcT-lkp@intel.com>
-References: <20230612134500.249178-1-linus.walleij@linaro.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [krzk-github:n/audio-wsa884x-on-top-of-wip-sm8450-audio-on-next-fsa4480-ucsi-debug
+ 44/44] include/linux/kern_levels.h:5:25: warning: format '%d' expects
+ argument of type 'int', but argument 5 has type 'long unsigned int'
+Message-ID: <202306130855.Wo9RISSS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,52 +46,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230612134500.249178-1-linus.walleij@linaro.org>
 
-Hi Linus,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.4-rc6 next-20230609]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/fbdev-media-Use-GPIO-descriptors-for-VIA-GPIO/20230612-214746
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230612134500.249178-1-linus.walleij%40linaro.org
-patch subject: [PATCH] fbdev/media: Use GPIO descriptors for VIA GPIO
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230613/202306130745.DRBLkZcT-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-wip-sm8450-audio-on-next-fsa4480-ucsi-debug
+head:   a72e8da380a21bf580aaf46377318c3703d4107f
+commit: a72e8da380a21bf580aaf46377318c3703d4107f [44/44] DEBUGL ucsi
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230613/202306130855.Wo9RISSS-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
-        git remote add media-tree git://linuxtv.org/media_tree.git
-        git fetch media-tree master
-        git checkout media-tree/master
-        b4 shazam https://lore.kernel.org/r/20230612134500.249178-1-linus.walleij@linaro.org
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/krzk/linux/commit/a72e8da380a21bf580aaf46377318c3703d4107f
+        git remote add krzk-github https://github.com/krzk/linux
+        git fetch --no-tags krzk-github n/audio-wsa884x-on-top-of-wip-sm8450-audio-on-next-fsa4480-ucsi-debug
+        git checkout a72e8da380a21bf580aaf46377318c3703d4107f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/usb/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306130745.DRBLkZcT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306130855.Wo9RISSS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/video/fbdev/via/via-gpio.c:13:10: fatal error: linux/via-gpio.h: No such file or directory
-      13 | #include <linux/via-gpio.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/alpha/include/asm/bug.h:23,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/alpha/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/swait.h:7,
+                    from include/linux/completion.h:12,
+                    from drivers/usb/typec/ucsi/ucsi.c:9:
+   drivers/usb/typec/ucsi/ucsi.c: In function 'ucsi_register_partner':
+>> include/linux/kern_levels.h:5:25: warning: format '%d' expects argument of type 'int', but argument 5 has type 'long unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:498:16: note: in expansion of macro 'KERN_ERR'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   drivers/usb/typec/ucsi/ucsi.c:754:9: note: in expansion of macro 'pr_err'
+     754 |         pr_err("%s:%d AAA register partner: 0x%x=%d\n",
+         |         ^~~~~~
+   drivers/usb/typec/ucsi/ucsi.c: In function 'ucsi_partner_change':
+>> include/linux/kern_levels.h:5:25: warning: format '%d' expects argument of type 'int', but argument 5 has type 'long unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:498:16: note: in expansion of macro 'KERN_ERR'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   drivers/usb/typec/ucsi/ucsi.c:801:9: note: in expansion of macro 'pr_err'
+     801 |         pr_err("%s:%d AAA partner: 0x%x=%d\n",
+         |         ^~~~~~
 
 
-vim +13 drivers/video/fbdev/via/via-gpio.c
+vim +5 include/linux/kern_levels.h
 
-ec66841e495b9a drivers/video/via/via-gpio.c Jonathan Corbet 2010-05-05 @13  #include <linux/via-gpio.h>
-a8a359318530a7 drivers/video/via/via-gpio.c Paul Gortmaker  2011-07-10  14  #include <linux/export.h>
-7e0de022680f78 drivers/video/via/via-gpio.c Jonathan Corbet 2009-12-01  15  
+314ba3520e513a Joe Perches 2012-07-30  4  
+04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+
+:::::: The code at line 5 was first introduced by commit
+:::::: 04d2c8c83d0e3ac5f78aeede51babb3236200112 printk: convert the format for KERN_<LEVEL> to a 2 byte pattern
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
