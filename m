@@ -1,43 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9215A7E0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 01:08:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CAE617C7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 02:10:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686618507; x=1718154507;
+  t=1686622228; x=1718158228;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=SUuJLtWzz6cFwtMmr6+RKqvRczQ1+N50S8nqxq6ywWk=;
-  b=Untl7AlztlhvdYnj+9II75TneMyOZaDbSgvfNVjSijurq0dorX+i2dCZ
-   lmxOi5W25EUH2kMi+V5kZt+mI9dnwIYMLSdZLXH2+FWTQJAHuBpiY7UeU
-   sLrC4NgbklfcZb/4W7+reTjymwbsbTVLxkkIiKqtOYpjZqmkSberdoZNT
-   y02szVIxv5aC6VFEn2pCa/bZH+x6LezSYKWMOjNmZ//0UjlUDTi5Dy2zO
-   u+x2oEI1VXX9ExDG+PCRkX6HUJdlGDlPunjgD1CGAF0JnexbP07MmPwBq
-   P5FL4J4dZyeGW9JhHohFMfCImZRM4w2pCMEqpQtpOODzX3tZUsrvXtT0v
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="358195767"
+  bh=4+5HWTTmkvilRvoxRZHjl/gdkJiMi/IXhlhos7MjOzM=;
+  b=hZKhCrxHC62Js33+pscVoeS3vcTioZrun861b/Ty8tPpESfhtmrTIPXu
+   WNH/Bx/U0ZIuhGVf8WXWg1zGlj8tj8I3YFoB72afMgW1YM7Lh5VgMUza9
+   Ps9+j9pSG6DbW0VnyOGm06AiU8pHV3xKPfgAldnERgUQSOt55LlMy4UYp
+   XwzZgsKOt4NdJEu95pVYbwKDKRR6kegoNA4GxGYwx8ofTTtZ+a80+DaN0
+   VUWWTadrfpuHTobIaqMJa641tiw1yxj0blvXWVBhOze5IPFNbZzRbVlc4
+   OYoTbIDI71yGTslt1qBgtblEea8uzr6qcbQfJU9QMxOLG3jJnUZjvZz+i
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="361577345"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="358195767"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 18:08:26 -0700
+   d="scan'208";a="361577345"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 19:10:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="744509325"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="835703855"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="744509325"
+   d="scan'208";a="835703855"
 Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 12 Jun 2023 18:08:25 -0700
+  by orsmga004.jf.intel.com with ESMTP; 12 Jun 2023 19:10:26 -0700
 Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q8sWG-0000tM-1N;
-	Tue, 13 Jun 2023 01:08:24 +0000
-Date: Tue, 13 Jun 2023 09:08:19 +0800
+	id 1q8tUH-0000vI-2B;
+	Tue, 13 Jun 2023 02:10:25 +0000
+Date: Tue, 13 Jun 2023 10:09:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: gregory.greenman@intel.com
+To: Stanislav Fomichev <sdf@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 13/15] wifi: iwlwifi: pass ESR parameters to the firmware
-Message-ID: <202306130831.sTGaPqF4-lkp@intel.com>
-References: <20230612184434.09fa06820d03.Ie9a9fd37d4948f8c5dd91161de254184b1a093c0@changeid>
+Subject: Re: [RFC bpf-next 3/7] bpf: implement devtx hook points
+Message-ID: <202306130953.PG26Cgga-lkp@intel.com>
+References: <20230612172307.3923165-4-sdf@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,118 +46,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230612184434.09fa06820d03.Ie9a9fd37d4948f8c5dd91161de254184b1a093c0@changeid>
+In-Reply-To: <20230612172307.3923165-4-sdf@google.com>
 
-Hi,
+Hi Stanislav,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on next-20230609]
-[cannot apply to wireless/main linus/master v6.4-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/gregory-greenman-intel-com/wifi-iwlwifi-make-debugfs-entries-link-specific/20230612-235504
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20230612184434.09fa06820d03.Ie9a9fd37d4948f8c5dd91161de254184b1a093c0%40changeid
-patch subject: [PATCH 13/15] wifi: iwlwifi: pass ESR parameters to the firmware
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230613/202306130831.sTGaPqF4-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/bpf-rename-some-xdp-metadata-functions-into-dev-bound/20230613-012928
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230612172307.3923165-4-sdf%40google.com
+patch subject: [RFC bpf-next 3/7] bpf: implement devtx hook points
+config: i386-randconfig-r016-20230612 (https://download.01.org/0day-ci/archive/20230613/202306130953.PG26Cgga-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        git remote add wireless-next https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git
-        git fetch wireless-next main
-        git checkout wireless-next/main
-        b4 shazam https://lore.kernel.org/r/20230612184434.09fa06820d03.Ie9a9fd37d4948f8c5dd91161de254184b1a093c0@changeid
+        git remote add bpf-next https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
+        git fetch bpf-next master
+        git checkout bpf-next/master
+        b4 shazam https://lore.kernel.org/r/20230612172307.3923165-4-sdf@google.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306130831.sTGaPqF4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306130953.PG26Cgga-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/wireless/intel/iwlwifi/mvm/mld-mac.c: In function 'iwl_mvm_mld_mac_ctxt_cmd_sta':
->> drivers/net/wireless/intel/iwlwifi/mvm/mld-mac.c:137:13: error: implicit declaration of function 'ieee80211_vif_is_mld'; did you mean 'ieee80211_vif_is_mesh'? [-Werror=implicit-function-declaration]
-     137 |         if (ieee80211_vif_is_mld(vif)) {
-         |             ^~~~~~~~~~~~~~~~~~~~
-         |             ieee80211_vif_is_mesh
-   cc1: some warnings being treated as errors
+   ld: net/core/dev.o: in function `unregister_netdevice_many_notify':
+>> net/core/dev.c:10879: undefined reference to `devtx_shutdown'
 
 
-vim +137 drivers/net/wireless/intel/iwlwifi/mvm/mld-mac.c
+vim +10879 net/core/dev.c
 
-    93	
-    94	static int iwl_mvm_mld_mac_ctxt_cmd_sta(struct iwl_mvm *mvm,
-    95						struct ieee80211_vif *vif,
-    96						u32 action, bool force_assoc_off)
-    97	{
-    98		struct iwl_mac_config_cmd cmd = {};
-    99		u16 esr_transition_timeout;
-   100	
-   101		WARN_ON(vif->type != NL80211_IFTYPE_STATION);
-   102	
-   103		/* Fill the common data for all mac context types */
-   104		iwl_mvm_mld_mac_ctxt_cmd_common(mvm, vif, &cmd, action);
-   105	
-   106		/*
-   107		 * We always want to hear MCAST frames, if we're not authorized yet,
-   108		 * we'll drop them.
-   109		 */
-   110		cmd.filter_flags |= cpu_to_le32(MAC_CFG_FILTER_ACCEPT_GRP);
-   111	
-   112		if (vif->p2p)
-   113			cmd.client.ctwin =
-   114				iwl_mvm_mac_ctxt_cmd_p2p_sta_get_oppps_ctwin(mvm, vif);
-   115	
-   116		if (vif->cfg.assoc && !force_assoc_off) {
-   117			struct iwl_mvm_vif *mvmvif = iwl_mvm_vif_from_mac80211(vif);
-   118	
-   119			cmd.client.is_assoc = 1;
-   120	
-   121			if (!mvmvif->authorized &&
-   122			    fw_has_capa(&mvm->fw->ucode_capa,
-   123					IWL_UCODE_TLV_CAPA_COEX_HIGH_PRIO))
-   124				cmd.client.data_policy |=
-   125					cpu_to_le16(COEX_HIGH_PRIORITY_ENABLE);
-   126	
-   127		} else {
-   128			cmd.client.is_assoc = 0;
-   129	
-   130			/* Allow beacons to pass through as long as we are not
-   131			 * associated, or we do not have dtim period information.
-   132			 */
-   133			cmd.filter_flags |= cpu_to_le32(MAC_CFG_FILTER_ACCEPT_BEACON);
-   134		}
-   135	
-   136		cmd.client.assoc_id = cpu_to_le16(vif->cfg.aid);
- > 137		if (ieee80211_vif_is_mld(vif)) {
-   138			esr_transition_timeout =
-   139				u16_get_bits(vif->cfg.eml_cap,
-   140					     IEEE80211_EML_CAP_TRANSITION_TIMEOUT);
-   141	
-   142			cmd.client.esr_transition_timeout =
-   143				min_t(u16, IEEE80211_EML_CAP_TRANSITION_TIMEOUT_128TU,
-   144				      esr_transition_timeout);
-   145			cmd.client.medium_sync_delay =
-   146				cpu_to_le16(vif->cfg.eml_med_sync_delay);
-   147		}
-   148	
-   149		if (vif->probe_req_reg && vif->cfg.assoc && vif->p2p)
-   150			cmd.filter_flags |= cpu_to_le32(MAC_CFG_FILTER_ACCEPT_PROBE_REQ);
-   151	
-   152		if (vif->bss_conf.he_support && !iwlwifi_mod_params.disable_11ax)
-   153			cmd.client.data_policy |=
-   154				cpu_to_le16(iwl_mvm_mac_ctxt_cmd_sta_get_twt_policy(mvm, vif));
-   155	
-   156		return iwl_mvm_mld_mac_ctxt_send_cmd(mvm, &cmd);
-   157	}
-   158	
+ 10826	
+ 10827	void unregister_netdevice_many_notify(struct list_head *head,
+ 10828					      u32 portid, const struct nlmsghdr *nlh)
+ 10829	{
+ 10830		struct net_device *dev, *tmp;
+ 10831		LIST_HEAD(close_head);
+ 10832	
+ 10833		BUG_ON(dev_boot_phase);
+ 10834		ASSERT_RTNL();
+ 10835	
+ 10836		if (list_empty(head))
+ 10837			return;
+ 10838	
+ 10839		list_for_each_entry_safe(dev, tmp, head, unreg_list) {
+ 10840			/* Some devices call without registering
+ 10841			 * for initialization unwind. Remove those
+ 10842			 * devices and proceed with the remaining.
+ 10843			 */
+ 10844			if (dev->reg_state == NETREG_UNINITIALIZED) {
+ 10845				pr_debug("unregister_netdevice: device %s/%p never was registered\n",
+ 10846					 dev->name, dev);
+ 10847	
+ 10848				WARN_ON(1);
+ 10849				list_del(&dev->unreg_list);
+ 10850				continue;
+ 10851			}
+ 10852			dev->dismantle = true;
+ 10853			BUG_ON(dev->reg_state != NETREG_REGISTERED);
+ 10854		}
+ 10855	
+ 10856		/* If device is running, close it first. */
+ 10857		list_for_each_entry(dev, head, unreg_list)
+ 10858			list_add_tail(&dev->close_list, &close_head);
+ 10859		dev_close_many(&close_head, true);
+ 10860	
+ 10861		list_for_each_entry(dev, head, unreg_list) {
+ 10862			/* And unlink it from device chain. */
+ 10863			write_lock(&dev_base_lock);
+ 10864			unlist_netdevice(dev, false);
+ 10865			dev->reg_state = NETREG_UNREGISTERING;
+ 10866			write_unlock(&dev_base_lock);
+ 10867		}
+ 10868		flush_all_backlogs();
+ 10869	
+ 10870		synchronize_net();
+ 10871	
+ 10872		list_for_each_entry(dev, head, unreg_list) {
+ 10873			struct sk_buff *skb = NULL;
+ 10874	
+ 10875			/* Shutdown queueing discipline. */
+ 10876			dev_shutdown(dev);
+ 10877	
+ 10878			dev_xdp_uninstall(dev);
+ 10879			devtx_shutdown(dev);
+ 10880			bpf_dev_bound_netdev_unregister(dev);
+ 10881	
+ 10882			netdev_offload_xstats_disable_all(dev);
+ 10883	
+ 10884			/* Notify protocols, that we are about to destroy
+ 10885			 * this device. They should clean all the things.
+ 10886			 */
+ 10887			call_netdevice_notifiers(NETDEV_UNREGISTER, dev);
+ 10888	
+ 10889			if (!dev->rtnl_link_ops ||
+ 10890			    dev->rtnl_link_state == RTNL_LINK_INITIALIZED)
+ 10891				skb = rtmsg_ifinfo_build_skb(RTM_DELLINK, dev, ~0U, 0,
+ 10892							     GFP_KERNEL, NULL, 0,
+ 10893							     portid, nlh);
+ 10894	
+ 10895			/*
+ 10896			 *	Flush the unicast and multicast chains
+ 10897			 */
+ 10898			dev_uc_flush(dev);
+ 10899			dev_mc_flush(dev);
+ 10900	
+ 10901			netdev_name_node_alt_flush(dev);
+ 10902			netdev_name_node_free(dev->name_node);
+ 10903	
+ 10904			call_netdevice_notifiers(NETDEV_PRE_UNINIT, dev);
+ 10905	
+ 10906			if (dev->netdev_ops->ndo_uninit)
+ 10907				dev->netdev_ops->ndo_uninit(dev);
+ 10908	
+ 10909			if (skb)
+ 10910				rtmsg_ifinfo_send(skb, dev, GFP_KERNEL, portid, nlh);
+ 10911	
+ 10912			/* Notifier chain MUST detach us all upper devices. */
+ 10913			WARN_ON(netdev_has_any_upper_dev(dev));
+ 10914			WARN_ON(netdev_has_any_lower_dev(dev));
+ 10915	
+ 10916			/* Remove entries from kobject tree */
+ 10917			netdev_unregister_kobject(dev);
+ 10918	#ifdef CONFIG_XPS
+ 10919			/* Remove XPS queueing entries */
+ 10920			netif_reset_xps_queues_gt(dev, 0);
+ 10921	#endif
+ 10922		}
+ 10923	
+ 10924		synchronize_net();
+ 10925	
+ 10926		list_for_each_entry(dev, head, unreg_list) {
+ 10927			netdev_put(dev, &dev->dev_registered_tracker);
+ 10928			net_set_todo(dev);
+ 10929		}
+ 10930	
+ 10931		list_del(head);
+ 10932	}
+ 10933	
 
 -- 
 0-DAY CI Kernel Test Service
