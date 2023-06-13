@@ -1,43 +1,46 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E8E23A5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 06:39:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 854FC8BE0;
+	Tue, 13 Jun 2023 07:42:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686638382; x=1718174382;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eVy44c9wk3Ukqljb2SkA3VD8r2cw1smK5K4A4/zrRUA=;
-  b=jwM3lgi8S4aXU678nSYT3jcigcqAOLEhstuf/cV9a393Aq99/HtWOj0l
-   RdZ8V0sTLWDR7XbAqkOJVVCtMD204woykEHfS9iofxGOVgGaNVlD5+J3a
-   2Bdf7LaUGxVWWuxivUrHaRoxsPoA7veN52DK0g1dMts2VwBQc+Dg07Z4n
-   Dpr3+gNYsiSnB4+PJVnEKmI1Bsczt/OkUGgjzSWb/xDtyJ+GbDGItLRCJ
-   56fH9fMHkga2ZSkzHsuLuMI76gZ3GcmkKZRROHM1eWStbAJ1cdUAQgwo9
-   /3DU7sSqWVjh8pThGvg7NJcnmPdt9LRcM0Qc/bFpz/qSXNDxcNP3BCcrE
+  t=1686642164; x=1718178164;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rniLsWnACjZZ6Kmsz9b14uy1hoecAmhH7gTtOx3cOo8=;
+  b=CPJi4CO9yc87+n+CU3sm4LOM6RjFK4IzF0DPwP+XNP0kVrlNb2gJNSQh
+   AO82jNHttcd3IyizBJHJ36JWDq7kioJKLhlR0xXmX16J652tVrz/CT5tz
+   mWCd8q2zL7sUEJ5gzUrd7jpgkCqEIexEC+IheICgHA97NrmThv4fnsnD+
+   j+7mBrY2OADNO9ZRuEi5/L720rNPXZVUBqSQ9bfL0nTLatUQpuRoqncPg
+   vjj9svkXIM4Bt0ZZEVRd65ZXUImKw/gxL6G8Z5qtzXmwdI/Sq7pvfMKgE
+   xmDIXvU+XDE/FDcap8JWZoz5P6QkVDv5rNIF4kRhRe0RhSBzOjtiyagjt
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="338603283"
-X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="338603283"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 23:39:41 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="424139694"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="424139694"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 00:42:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="661896362"
-X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="661896362"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="744601046"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="744601046"
 Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 12 Jun 2023 23:39:40 -0700
+  by orsmga001.jf.intel.com with ESMTP; 13 Jun 2023 00:42:41 -0700
 Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q8xgp-00014W-1q;
-	Tue, 13 Jun 2023 06:39:39 +0000
-Date: Tue, 13 Jun 2023 14:39:19 +0800
+	id 1q8yfp-00016Z-0i;
+	Tue, 13 Jun 2023 07:42:41 +0000
+Date: Tue, 13 Jun 2023 15:42:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Karolina Stolarek <karolina.stolarek@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 3/3] drm/ttm/tests: Add tests for ttm_pool
-Message-ID: <202306131457.mchJMaiB-lkp@intel.com>
-References: <042feb7cc902f7fd78daf131a691d4afc14d3d8c.1686563485.git.karolina.stolarek@intel.com>
+To: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Florian Fainelli <f.fainelli@gmail.com>
+Subject: lib/test_bitmap.c:926:2: error: call to '__compiletime_assert_190'
+ declared with 'error' attribute: BUILD_BUG_ON failed:
+ !__builtin_constant_p(res)
+Message-ID: <202306131550.LosyU9Kt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,56 +49,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <042feb7cc902f7fd78daf131a691d4afc14d3d8c.1686563485.git.karolina.stolarek@intel.com>
 
-Hi Karolina,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Karolina-Stolarek/drm-ttm-tests-Add-tests-for-ttm_device/20230612-210534
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/042feb7cc902f7fd78daf131a691d4afc14d3d8c.1686563485.git.karolina.stolarek%40intel.com
-patch subject: [RFC PATCH 3/3] drm/ttm/tests: Add tests for ttm_pool
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230613/202306131457.mchJMaiB-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   fb054096aea0576f0c0a61c598e5e9676443ee86
+commit: d539fee9f825b0c8eac049732c83562b28a483b5 ARM: 9253/1: ubsan: select ARCH_HAS_UBSAN_SANITIZE_ALL
+date:   7 months ago
+config: arm-randconfig-r034-20230613 (https://download.01.org/0day-ci/archive/20230613/202306131550.LosyU9Kt-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add drm-misc git://anongit.freedesktop.org/drm/drm-misc
-        git fetch drm-misc drm-misc-next
-        git checkout drm-misc/drm-misc-next
-        b4 shazam https://lore.kernel.org/r/042feb7cc902f7fd78daf131a691d4afc14d3d8c.1686563485.git.karolina.stolarek@intel.com
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=d539fee9f825b0c8eac049732c83562b28a483b5
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d539fee9f825b0c8eac049732c83562b28a483b5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306131457.mchJMaiB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306131550.LosyU9Kt-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
-ERROR: modpost: missing MODULE_LICENSE() in drivers/gpu/drm/ttm/tests/ttm_kunit_helpers.o
-ERROR: modpost: "ttm_kunit_helper_alloc_device" [drivers/gpu/drm/ttm/tests/ttm_device_test.ko] undefined!
-ERROR: modpost: "ttm_dev_funcs" [drivers/gpu/drm/ttm/tests/ttm_device_test.ko] undefined!
-ERROR: modpost: "ttm_test_devices_init" [drivers/gpu/drm/ttm/tests/ttm_device_test.ko] undefined!
-ERROR: modpost: "ttm_test_devices_fini" [drivers/gpu/drm/ttm/tests/ttm_device_test.ko] undefined!
->> ERROR: modpost: "ttm_kunit_helper_ttm_bo_init" [drivers/gpu/drm/ttm/tests/ttm_pool_test.ko] undefined!
->> ERROR: modpost: "ttm_kunit_helper_ttm_bo_fini" [drivers/gpu/drm/ttm/tests/ttm_pool_test.ko] undefined!
->> ERROR: modpost: "ttm_pool_init" [drivers/gpu/drm/ttm/tests/ttm_pool_test.ko] undefined!
->> ERROR: modpost: "ttm_pool_fini" [drivers/gpu/drm/ttm/tests/ttm_pool_test.ko] undefined!
->> ERROR: modpost: "ttm_test_devices_init" [drivers/gpu/drm/ttm/tests/ttm_pool_test.ko] undefined!
->> ERROR: modpost: "ttm_test_devices_fini" [drivers/gpu/drm/ttm/tests/ttm_pool_test.ko] undefined!
+>> lib/test_bitmap.c:926:2: error: call to '__compiletime_assert_190' declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(res)
+     926 |         BUILD_BUG_ON(!__builtin_constant_p(res));
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:354:2: note: expanded from macro 'compiletime_assert'
+     354 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:342:2: note: expanded from macro '_compiletime_assert'
+     342 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:335:4: note: expanded from macro '__compiletime_assert'
+     335 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:196:1: note: expanded from here
+     196 | __compiletime_assert_190
+         | ^
+   1 error generated.
+
+
+vim +926 lib/test_bitmap.c
+
+291f93ca339f5b Barry Song        2021-08-06  877  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  878  static void __init test_bitmap_const_eval(void)
+dc34d5036692c6 Alexander Lobakin 2022-06-24  879  {
+dc34d5036692c6 Alexander Lobakin 2022-06-24  880  	DECLARE_BITMAP(bitmap, BITS_PER_LONG);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  881  	unsigned long initvar = BIT(2);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  882  	unsigned long bitopvar = 0;
+dc34d5036692c6 Alexander Lobakin 2022-06-24  883  	unsigned long var = 0;
+dc34d5036692c6 Alexander Lobakin 2022-06-24  884  	int res;
+dc34d5036692c6 Alexander Lobakin 2022-06-24  885  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  886  	/*
+dc34d5036692c6 Alexander Lobakin 2022-06-24  887  	 * Compilers must be able to optimize all of those to compile-time
+dc34d5036692c6 Alexander Lobakin 2022-06-24  888  	 * constants on any supported optimization level (-O2, -Os) and any
+dc34d5036692c6 Alexander Lobakin 2022-06-24  889  	 * architecture. Otherwise, trigger a build bug.
+dc34d5036692c6 Alexander Lobakin 2022-06-24  890  	 * The whole function gets optimized out then, there's nothing to do
+dc34d5036692c6 Alexander Lobakin 2022-06-24  891  	 * in runtime.
+dc34d5036692c6 Alexander Lobakin 2022-06-24  892  	 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  893  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  894  	/*
+dc34d5036692c6 Alexander Lobakin 2022-06-24  895  	 * Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }`.
+dc34d5036692c6 Alexander Lobakin 2022-06-24  896  	 * Clang on s390 optimizes bitops at compile-time as intended, but at
+dc34d5036692c6 Alexander Lobakin 2022-06-24  897  	 * the same time stops treating @bitmap and @bitopvar as compile-time
+dc34d5036692c6 Alexander Lobakin 2022-06-24  898  	 * constants after regular test_bit() is executed, thus triggering the
+dc34d5036692c6 Alexander Lobakin 2022-06-24  899  	 * build bugs below. So, call const_test_bit() there directly until
+dc34d5036692c6 Alexander Lobakin 2022-06-24  900  	 * the compiler is fixed.
+dc34d5036692c6 Alexander Lobakin 2022-06-24  901  	 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  902  	bitmap_clear(bitmap, 0, BITS_PER_LONG);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  903  #if defined(__s390__) && defined(__clang__)
+dc34d5036692c6 Alexander Lobakin 2022-06-24  904  	if (!const_test_bit(7, bitmap))
+dc34d5036692c6 Alexander Lobakin 2022-06-24  905  #else
+dc34d5036692c6 Alexander Lobakin 2022-06-24  906  	if (!test_bit(7, bitmap))
+dc34d5036692c6 Alexander Lobakin 2022-06-24  907  #endif
+dc34d5036692c6 Alexander Lobakin 2022-06-24  908  		bitmap_set(bitmap, 5, 2);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  909  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  910  	/* Equals to `unsigned long bitopvar = BIT(20)` */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  911  	__change_bit(31, &bitopvar);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  912  	bitmap_shift_right(&bitopvar, &bitopvar, 11, BITS_PER_LONG);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  913  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  914  	/* Equals to `unsigned long var = BIT(25)` */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  915  	var |= BIT(25);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  916  	if (var & BIT(0))
+dc34d5036692c6 Alexander Lobakin 2022-06-24  917  		var ^= GENMASK(9, 6);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  918  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  919  	/* __const_hweight<32|64>(GENMASK(6, 5)) == 2 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  920  	res = bitmap_weight(bitmap, 20);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  921  	BUILD_BUG_ON(!__builtin_constant_p(res));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  922  	BUILD_BUG_ON(res != 2);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  923  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  924  	/* !(BIT(31) & BIT(18)) == 1 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  925  	res = !test_bit(18, &bitopvar);
+dc34d5036692c6 Alexander Lobakin 2022-06-24 @926  	BUILD_BUG_ON(!__builtin_constant_p(res));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  927  	BUILD_BUG_ON(!res);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  928  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  929  	/* BIT(2) & GENMASK(14, 8) == 0 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  930  	res = initvar & GENMASK(14, 8);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  931  	BUILD_BUG_ON(!__builtin_constant_p(res));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  932  	BUILD_BUG_ON(res);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  933  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  934  	/* ~BIT(25) */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  935  	BUILD_BUG_ON(!__builtin_constant_p(~var));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  936  	BUILD_BUG_ON(~var != ~BIT(25));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  937  }
+dc34d5036692c6 Alexander Lobakin 2022-06-24  938  
+
+:::::: The code at line 926 was first introduced by commit
+:::::: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
+
+:::::: TO: Alexander Lobakin <alexandr.lobakin@intel.com>
+:::::: CC: Yury Norov <yury.norov@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
