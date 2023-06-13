@@ -1,151 +1,140 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D3327738;
-	Tue, 13 Jun 2023 10:09:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686650997; x=1718186997;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2VSwRPSkxIPkkO43q2Odc9trSs0HhJfKrbzg/FdIwSU=;
-  b=BUdxGZNo07AJTCZYdjrAk+WF/bnVKlDsXKF7xlpLdWdcgvUQ2lcg5xzw
-   L1fB5vBJB+c7qyl+989X4n25bxpLo/+zAG6155PHGdG2Khz4cyi2RM0AZ
-   RtcwONm4069CevfyUnFxSjq4gkhmw1QBYG+5dEtMfMv9RmCjv1tjjjcTE
-   ONYBYHKHdxKhReaMTnXDjkMREgNwJVtis18nRsN2b0/XuAD0npnpdoNs4
-   99IuSqPQOw3ZWhA5vD5V8Ds0DXYFzEysUV46JmPGE7id9pwW0sqlT6gsA
-   6yXHqd9P8PH+NYR9/oHW4msSGop+T3b8UolRP/k+dSdMnLzD//5dY9+8z
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="358285066"
-X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="358285066"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 03:09:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="711582141"
-X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
-   d="scan'208";a="711582141"
-Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 13 Jun 2023 03:09:48 -0700
-Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q90yB-0001Dq-1D;
-	Tue, 13 Jun 2023 10:09:47 +0000
-Date: Tue, 13 Jun 2023 18:09:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
-	Huang Rui <ray.huang@amd.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
-	Robert Moore <robert.moore@intel.com>, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	devel@acpica.org, Gautham Ranjal Shenoy <gautham.shenoy@amd.com>,
-	Wyes Karny <Wyes.Karny@amd.com>, Perry Yuan <perry.yuan@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH 4/4] cpufreq: intel_pstate: Use the
- acpi_pm_profile_server() symbol
-Message-ID: <202306131736.HZQ9caR6-lkp@intel.com>
-References: <20230605151133.2615-5-mario.limonciello@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4C5DDBC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 10:26:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1686651968;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=rZcEQjdnUPfgnpDLwolPkeA4s5uTdek4kX0pKcQkY8Y=;
+	b=M94Y/7lh9SAuQiNyBpReA2xcK7XM8wnpO4OfcHWM5YRyEZpCpLAYxaSoadApe90j90HKIW
+	5/TQA1qmGNkjFdI6a29R6av6iy1KGLpPLWK0GUZVgq1YfleezJGjKfhbFbU4KLp5kBt38s
+	z58HRwSbFnZH6FsGc/WuO5UCxw67rk8=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-155-h15dsHIeNeunMJmaUSatXw-1; Tue, 13 Jun 2023 06:26:05 -0400
+X-MC-Unique: h15dsHIeNeunMJmaUSatXw-1
+Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-50bf847b267so4742618a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 03:26:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686651964; x=1689243964;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rZcEQjdnUPfgnpDLwolPkeA4s5uTdek4kX0pKcQkY8Y=;
+        b=h2DWrt9B4AiEpgqA+wkB6VJqtFPjoCNIPngq/oNKQMxFqT65mUo2V30LhkBZjNSCmm
+         Z7+str573+cd9jeeT2EKamGQIYaqit325ykclxnKplYhB9uOZW9IlriwFY/+irxESpZS
+         xIhfmhMjB+n+xAJ6KKQu7vd6jMuzGruxH2EuIgIquba+K+koV8CsgW6GKrrmSaXAB7d5
+         a84tcAs7bqrJW+jI4WuFiqZ11iXA0IrnEU1xqwtO9U8PKj/ugdQdwYhPLyj92laFGWIp
+         WcM2lyXc1S5rH2KQzTbZ4b56vXgj4EMp1SSH4W/FISN520FG96iTqLr/yUSoO5/AgO/L
+         Vqnw==
+X-Gm-Message-State: AC+VfDw8AIHkShBjsPW3KTR9r2kdqDRDprpj7C8l7wEhlxAzv/ClIkxn
+	x7OLAWzAv8jky97t/F3SBy+ZC5yXxY1TB89c7ez4vrKrvT3MOGASMV7SmUiMv4X8CrYK5F03IQ+
+	MwgU44TrcKsEd8wPDGagOBBTcWw==
+X-Received: by 2002:aa7:d753:0:b0:516:af22:bccc with SMTP id a19-20020aa7d753000000b00516af22bcccmr6962275eds.21.1686651964348;
+        Tue, 13 Jun 2023 03:26:04 -0700 (PDT)
+X-Google-Smtp-Source: ACHHUZ4tlMWLfp9k2VwaUsES5I5/qCebnVY4QmLrOb65dkTElszfGX1KeIZRlmbWTJ1Hg0MZYQv25g==
+X-Received: by 2002:aa7:d753:0:b0:516:af22:bccc with SMTP id a19-20020aa7d753000000b00516af22bcccmr6962261eds.21.1686651964027;
+        Tue, 13 Jun 2023 03:26:04 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id o13-20020aa7d3cd000000b005083bc605f9sm6254625edr.72.2023.06.13.03.26.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Jun 2023 03:26:03 -0700 (PDT)
+Message-ID: <89f6fe6b-c674-1ff6-dddb-06050ad5c97d@redhat.com>
+Date: Tue, 13 Jun 2023 12:26:02 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230605151133.2615-5-mario.limonciello@amd.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Fix lkp-tests warnings for
+ platform profiles
+To: Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dan.carpenter@linaro.org, mario.limonciello@amd.com, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev, Dan Carpenter <error27@gmail.com>
+References: <mpearson-lenovo@squebb.ca>
+ <20230606151804.8819-1-mpearson-lenovo@squebb.ca>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20230606151804.8819-1-mpearson-lenovo@squebb.ca>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, nl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Mario,
+Hi,
 
-kernel test robot noticed the following build errors:
+On 6/6/23 17:18, Mark Pearson wrote:
+> Fix issues identified in dytc_profile_refresh identified by lkp-tests.
+> drivers/platform/x86/thinkpad_acpi.c:10538
+> 	dytc_profile_refresh() error: uninitialized symbol 'funcmode'.
+> drivers/platform/x86/thinkpad_acpi.c:10531
+> 	dytc_profile_refresh() error: uninitialized symbol 'output'.
+> drivers/platform/x86/thinkpad_acpi.c:10537
+> 	dytc_profile_refresh() error: uninitialized symbol 'output'.
+> 
+> These issues should not lead to real problems in the field as the refresh
+> function should only be called if MMC or PSC mode enabled. But good to fix.
+> 
+> Thanks to Dan Carpenter and the lkp-tests project for flagging these.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <error27@gmail.com>
+> Closes: https://lore.kernel.org/r/202306011202.1hbgLRD4-lkp@intel.com/
+> Fixes: 1bc5d819f0b9 ("platform/x86: thinkpad_acpi: Fix profile modes on Intel platforms")
+> Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on linus/master v6.4-rc6 next-20230613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thank you for your patch, I've applied this patch to my review-hans 
+branch:
+https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-CPPC-Add-a-symbol-to-check-if-the-preferred-profile-is-a-server/20230605-231602
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20230605151133.2615-5-mario.limonciello%40amd.com
-patch subject: [PATCH 4/4] cpufreq: intel_pstate: Use the acpi_pm_profile_server() symbol
-config: i386-buildonly-randconfig-r006-20230612 (https://download.01.org/0day-ci/archive/20230613/202306131736.HZQ9caR6-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add rafael-pm https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git
-        git fetch rafael-pm linux-next
-        git checkout rafael-pm/linux-next
-        b4 shazam https://lore.kernel.org/r/20230605151133.2615-5-mario.limonciello@amd.com
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/cpufreq/
+Note it will show up in my review-hans branch once I've pushed my
+local branch there, which might take a while.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306131736.HZQ9caR6-lkp@intel.com/
+Once I've run some tests on this branch the patches there will be
+added to the platform-drivers-x86/for-next branch and eventually
+will be included in the pdx86 pull-request to Linus for the next
+merge-window.
 
-All errors (new ones prefixed by >>):
+Regards,
 
->> drivers/cpufreq/intel_pstate.c:2397:8: error: call to undeclared function 'acpi_pm_profile_server'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                           if (acpi_pm_profile_server())
-                               ^
-   1 error generated.
+Hans
 
 
-vim +/acpi_pm_profile_server +2397 drivers/cpufreq/intel_pstate.c
 
-  2376	
-  2377	static int intel_pstate_init_cpu(unsigned int cpunum)
-  2378	{
-  2379		struct cpudata *cpu;
-  2380	
-  2381		cpu = all_cpu_data[cpunum];
-  2382	
-  2383		if (!cpu) {
-  2384			cpu = kzalloc(sizeof(*cpu), GFP_KERNEL);
-  2385			if (!cpu)
-  2386				return -ENOMEM;
-  2387	
-  2388			WRITE_ONCE(all_cpu_data[cpunum], cpu);
-  2389	
-  2390			cpu->cpu = cpunum;
-  2391	
-  2392			cpu->epp_default = -EINVAL;
-  2393	
-  2394			if (hwp_active) {
-  2395				intel_pstate_hwp_enable(cpu);
-  2396	
-> 2397				if (acpi_pm_profile_server())
-  2398					hwp_boost = true;
-  2399			}
-  2400		} else if (hwp_active) {
-  2401			/*
-  2402			 * Re-enable HWP in case this happens after a resume from ACPI
-  2403			 * S3 if the CPU was offline during the whole system/resume
-  2404			 * cycle.
-  2405			 */
-  2406			intel_pstate_hwp_reenable(cpu);
-  2407		}
-  2408	
-  2409		cpu->epp_powersave = -EINVAL;
-  2410		cpu->epp_policy = 0;
-  2411	
-  2412		intel_pstate_get_cpu_pstates(cpu);
-  2413	
-  2414		pr_debug("controlling: cpu %d\n", cpunum);
-  2415	
-  2416		return 0;
-  2417	}
-  2418	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+>  drivers/platform/x86/thinkpad_acpi.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
+> index b3808ad77278..4b89f42de723 100644
+> --- a/drivers/platform/x86/thinkpad_acpi.c
+> +++ b/drivers/platform/x86/thinkpad_acpi.c
+> @@ -10524,7 +10524,7 @@ static int dytc_profile_set(struct platform_profile_handler *pprof,
+>  static void dytc_profile_refresh(void)
+>  {
+>  	enum platform_profile_option profile;
+> -	int output, err = 0;
+> +	int output = 0, err = 0;
+>  	int perfmode, funcmode;
+>  
+>  	mutex_lock(&dytc_mutex);
+> @@ -10538,6 +10538,8 @@ static void dytc_profile_refresh(void)
+>  		err = dytc_command(DYTC_CMD_GET, &output);
+>  		/* Check if we are PSC mode, or have AMT enabled */
+>  		funcmode = (output >> DYTC_GET_FUNCTION_BIT) & 0xF;
+> +	} else { /* Unknown profile mode */
+> +		err = -ENODEV;
+>  	}
+>  	mutex_unlock(&dytc_mutex);
+>  	if (err)
+
