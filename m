@@ -1,50 +1,46 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC3D3D3A7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 21:22:28 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-65242634690so4606804b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 14:22:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1686691348; x=1689283348;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wWRudrPnHjVGc5oCn6M809kCQsjvZKoLo1qzFLP37Us=;
-        b=Ktgo8zSr8EXXB2UzZLgdhE6zaCRIeHoRMwBb1uUA1A9M3CTZ+2BYMnYKR2PzOHPNwa
-         YWDiUp1WSeHQkJDCpGcgRLHm9/AGUtAYL1oeHSQmkxlym0jpb8Pr2lf6FjB/QY+fD9Bz
-         oU9HOHcqvQec/HPDkxKJvpmw5IMRk3QcXazpw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686691348; x=1689283348;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wWRudrPnHjVGc5oCn6M809kCQsjvZKoLo1qzFLP37Us=;
-        b=W7wgSOFelI26CI/UHDE2qSZ3zvzupCYfaO2+mIgfJ6MhTv9R5nRdYNJu7Bz0fNJA/I
-         PNc/TYizWAEspXJVkmqwiagk2IyujgylMCq1b1j3FSjjrH2NQ0NTxqwsjDLv1H0RonGc
-         t3YzoEjdvDsSW7DxNJLJH0ZAl4TfjxXMlEY5W6/UJh+bpbR+vzN0L5Y5BDaMOBdI1zFD
-         gJTy+tYvnlOjrgUAIWaEX82LRquzSHaN7QtV2+hcFYjGBjVhH4bVEa6Lv2Q/XacE9V74
-         IO25LA/QUYcUlo6znlehUuzGMhbViBLNLYJjRjcUJnFAK6Zzuzn4VZ1Mq5LOyJURSz3v
-         lDOg==
-X-Gm-Message-State: AC+VfDw1WfCHGXJqj1y/tXW1I+4dW3vxtyWEsORXZe7mC8F0XlFo8PQt
-	MAvkjWQNv0urYpQqRjmQjt+vig==
-X-Google-Smtp-Source: ACHHUZ7Hnj2dBGCbwSlRjBAKHsJQ2zREIGLpMzHssRYQlX+brI0ocqWinP2aG4ynfZVSI0C/+C81Cw==
-X-Received: by 2002:a05:6a00:14d0:b0:64c:c5f9:1533 with SMTP id w16-20020a056a0014d000b0064cc5f91533mr16110132pfu.33.1686691347806;
-        Tue, 13 Jun 2023 14:22:27 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id u5-20020aa78385000000b0064d4d11b8bfsm8986934pfm.59.2023.06.13.14.22.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jun 2023 14:22:27 -0700 (PDT)
-Date: Tue, 13 Jun 2023 14:22:26 -0700
-From: Kees Cook <keescook@chromium.org>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2473D385
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 21:48:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686692907; x=1718228907;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0wgOieI/cYvfDquGZwmNO9r/9UvAT9qAMFt6hKsxZNk=;
+  b=d5h37xpy4ra7irMD/6Cdkd2iBIvVZyZbklYA93ZVvdaILGyxjLB9kD2p
+   6yOkNdzu2FInUiQRS6/U8Bateg/nCNcLm9F6TfyZcnvPT/CsMXLI0djpp
+   VtEI6wKlwCHdavby+2tado8WUDvd3RbFUxCHXPvG5aeeCH0xAS0eQ+/Gx
+   0WRJAxEcswOtNmjhv97JvvngIrsKnlEScBONNVIGzmHotzymCIn5sKIF4
+   yHYwfRXB4GME1scilpBt/y9R289EIO1pO2PYRJAxLsnnkxOqE481ikHTD
+   aXwbtT8A/gVU+1Sk4if3CCGd49kJCN2VKaVLWosPyO7TxghGoz9CvAYUa
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="338812705"
+X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
+   d="scan'208";a="338812705"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 14:48:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="741602675"
+X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
+   d="scan'208";a="741602675"
+Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 13 Jun 2023 14:48:24 -0700
+Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9BsF-0001om-2w;
+	Tue, 13 Jun 2023 21:48:23 +0000
+Date: Wed, 14 Jun 2023 05:47:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shay Drory <shayd@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [linux-next:master 3357/8413] drivers/scsi/FlashPoint.c:1712:12:
- warning: stack frame size (1056) exceeds limit (1024) in
- 'FlashPoint_HandleInterrupt'
-Message-ID: <202306131418.35B5D649DC@keescook>
-References: <202306100035.VTusNhm4-lkp@intel.com>
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Moshe Shemesh <moshe@nvidia.com>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 8191/9385] htmldocs:
+ Documentation/networking/device_drivers/ethernet/mellanox/mlx5/switchdev.rst:57:
+ WARNING: Unexpected indentation.
+Message-ID: <202306140505.ZTBob65w-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,82 +49,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202306100035.VTusNhm4-lkp@intel.com>
 
-On Sat, Jun 10, 2023 at 12:58:23AM +0800, kernel test robot wrote:
-> First bad commit (maybe != root cause):
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   53ab6975c12d1ad86c599a8927e8c698b144d669
-> commit: df8fc4e934c12b906d08050d7779f292b9c5c6b5 [3357/8413] kbuild: Enable -fstrict-flex-arrays=3
-> config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230610/202306100035.VTusNhm4-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce (this is a W=1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install powerpc cross compiling tool for clang build
->         # apt-get install binutils-powerpc-linux-gnu
->         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=df8fc4e934c12b906d08050d7779f292b9c5c6b5
->         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
->         git fetch --no-tags linux-next master
->         git checkout df8fc4e934c12b906d08050d7779f292b9c5c6b5
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc SHELL=/bin/bash drivers/
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306100035.VTusNhm4-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from drivers/scsi/BusLogic.c:51:
-> >> drivers/scsi/FlashPoint.c:1712:12: warning: stack frame size (1056) exceeds limit (1024) in 'FlashPoint_HandleInterrupt' [-Wframe-larger-than]
->     1712 | static int FlashPoint_HandleInterrupt(void *pcard)
->          |            ^
->    1 warning generated.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   1f6ce8392d6ff486af5ca96df9ded5882c4b6977
+commit: e71383fb9cd15a28d6c01d2c165a96f1c0bcf418 [8191/9385] net/mlx5: Light probe local SFs
+reproduce:
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=e71383fb9cd15a28d6c01d2c165a96f1c0bcf418
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout e71383fb9cd15a28d6c01d2c165a96f1c0bcf418
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-I wasn't able to generate the warning with my Clang, but it sure is
-close! Building with KCFLAGS=-Rpass-analysis=stack-frame-layout I see:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306140505.ZTBob65w-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
 
-In file included from ../drivers/scsi/BusLogic.c:51:
-../drivers/scsi/FlashPoint.c:1713:1: remark:
-Function: FlashPoint_HandleInterrupt
-Offset: [SP-4], Type: Protector, Align: 4, Size: 4
-Offset: [SP-8], Type: Spill, Align: 8, Size: 4
-Offset: [SP-12], Type: Spill, Align: 4, Size: 4
-Offset: [SP-16], Type: Spill, Align: 16, Size: 4
-Offset: [SP-20], Type: Spill, Align: 4, Size: 4
-Offset: [SP-24], Type: Spill, Align: 8, Size: 4
-Offset: [SP-28], Type: Spill, Align: 4, Size: 4
-Offset: [SP-32], Type: Spill, Align: 16, Size: 4
-Offset: [SP-36], Type: Spill, Align: 4, Size: 4
-Offset: [SP-40], Type: Spill, Align: 8, Size: 4
-Offset: [SP-44], Type: Spill, Align: 4, Size: 4
-Offset: [SP-48], Type: Spill, Align: 16, Size: 4
-Offset: [SP-52], Type: Spill, Align: 4, Size: 4
-Offset: [SP-56], Type: Spill, Align: 8, Size: 4
-Offset: [SP-60], Type: Spill, Align: 4, Size: 4
-Offset: [SP-64], Type: Spill, Align: 16, Size: 4
-Offset: [SP-68], Type: Spill, Align: 4, Size: 4
-Offset: [SP-72], Type: Spill, Align: 8, Size: 4
-Offset: [SP-76], Type: Variable, Align: 4, Size: 4
-Offset: [SP-80], Type: Spill, Align: 4, Size: 4
-Offset: [SP-84], Type: Spill, Align: 4, Size: 4
-...[4 byte spills]...
-Offset: [SP-1012], Type: Variable, Align: 4, Size: 4
-Offset: [SP-1016], Type: Variable, Align: 4, Size: 4
-[-Rpass-analysis=stack-frame-layout]
+>> Documentation/networking/device_drivers/ethernet/mellanox/mlx5/switchdev.rst:57: WARNING: Unexpected indentation.
+>> Documentation/networking/device_drivers/ethernet/mellanox/mlx5/switchdev.rst:66: WARNING: undefined label: documentation/networking/devlink/devlink-params.rst (if the link has no caption the label must precede a section header)
 
-So something is very weird in FlashPoint_HandleInterrupt -- it has a
-single while loop with an internal if/else if/.../else chain. So I don't
-see why it would need such extensive spills...
+vim +57 Documentation/networking/device_drivers/ethernet/mellanox/mlx5/switchdev.rst
 
-This seems like a missed optimization in Clang, maybe?
+    52	
+    53	Usage example:
+    54	Create SF:
+    55	$ devlink port add pci/0000:08:00.0 flavour pcisf pfnum 0 sfnum 11
+    56	$ devlink port function set pci/0000:08:00.0/32768 \
+  > 57	               hw_addr 00:00:00:00:00:11 state active
+    58	
+    59	Enable ETH auxiliary device:
+    60	$ devlink dev param set auxiliary/mlx5_core.sf.1 \
+    61	              name enable_eth value true cmode driverinit
+    62	
+    63	Now, in order to fully probe the SF, use devlink reload:
+    64	$ devlink dev reload auxiliary/mlx5_core.sf.1
+    65	
+  > 66	mlx5 supports ETH,rdma and vdpa (vnet) auxiliary devices devlink params (see :ref:`Documentation/networking/devlink/devlink-params.rst`)
+    67	
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
