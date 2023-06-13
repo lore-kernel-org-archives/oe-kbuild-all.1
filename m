@@ -1,44 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42D59179;
-	Tue, 13 Jun 2023 02:31:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6C87F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 02:31:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686623489; x=1718159489;
+  t=1686623488; x=1718159488;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GOiNhNQJ7Kbc4limx3A3nHNPpQ3hcpot1ecRyWzTGn0=;
-  b=HSj9xXf6qfmGPpon6dRhD6j9q0k5TL3Tz2oYPd4HkN8/0aFxbvP4lUJC
-   1SNH/OHYaXOECnmlg4s857we9YvcDg6dahLGVr8cVc8ugy//H3Qb/Bc0C
-   FycOJYRehN48xG9N/QsuTklv8gA34OgxWBrryQY+LZ8zLlrJsA8C/AjrY
-   iGVGk+Lox571RDEG2QnFFrX0mltO5Fh3VS/N3oPqseIzK1Y3+uFUpeCQy
-   TfBdJ/qOB/eY9DSnNfU130+tTQwjSjJ/+qcnCKRvIBNuHIOp/sLICH+tG
-   TeTloYoJFVeuJi7H3gJLMZwrHp/+rWKESLc7hTufzps9zL791wWTL7G53
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="347864115"
+  bh=OLacDd/WZDK+wobVB8Ma1+BlnIQGBur79aUel3FibgU=;
+  b=lx6Q5yL28PnR1mlIejM5J4/nAnVUVi3bnaElpW6yOIo4eaZwh1RIKE1a
+   UJnhQBWNG+VdTB6Vg+LXrOZ/L7GmJNwffAb1yLSS0bZ41SZgECYpsxEAT
+   +ozKHV9I08BzkhLo2V/zWN031Nuyga2UAvHbXyIax3qAqnL4jrjtcjqbL
+   eWVzp7bXgCwqZM5X9yBFkrp3rvra9Ou3u0QVsVfATN83DAtC/EifSWuky
+   fNHqAtxgp/FGg5dVJQY1Dk53ltLlGMfZeMDyX8Lv8Ol8AwAc83tGwSH5B
+   +AnI2q8TwOYY+V0fruz5pPpw4SUl9ABNFahEfoKem0C+v5dLqu4QhGwO0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="424093782"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="347864115"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 19:31:28 -0700
+   d="scan'208";a="424093782"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 19:31:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="885674094"
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="714613245"
 X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
-   d="scan'208";a="885674094"
+   d="scan'208";a="714613245"
 Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 12 Jun 2023 19:31:26 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 12 Jun 2023 19:31:26 -0700
 Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q8toc-0000w6-0Z;
+	id 1q8toc-0000w4-0V;
 	Tue, 13 Jun 2023 02:31:26 +0000
-Date: Tue, 13 Jun 2023 10:30:46 +0800
+Date: Tue, 13 Jun 2023 10:30:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Petr Machata <petrm@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Danielle Ratson <danieller@nvidia.com>
-Subject: [jpirko-mlxsw:combined_queue 76/94]
- drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:9834:34: warning:
- variable 'rif' is uninitialized when used here
-Message-ID: <202306131041.qUsgJbAX-lkp@intel.com>
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [arm64:devel/kmalloc-minalign 1/17]
+ arch/powerpc/include/asm/page_32.h:16: warning: "ARCH_DMA_MINALIGN"
+ redefined
+Message-ID: <202306131011.OGbdy4PK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,71 +47,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jpirko/linux_mlxsw combined_queue
-head:   3cfb81e62be1e484eed57086d87ac32038f50fa5
-commit: 5efc31463b07489a9a3cec153a696c93d0a3a6a6 [76/94] mlxsw: spectrum_router: Replay IP NETDEV_UP on device enslavement
-config: i386-randconfig-i004-20230612 (https://download.01.org/0day-ci/archive/20230613/202306131041.qUsgJbAX-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git devel/kmalloc-minalign
+head:   b862c01a97ef575e8d5f018e542dbd30ddc524b9
+commit: 9c5a142fe1e2aeb1a1821eb79b39edd09bbb0078 [1/17] mm/slab: Decouple ARCH_KMALLOC_MINALIGN from ARCH_DMA_MINALIGN
+config: powerpc-rainier_defconfig (https://download.01.org/0day-ci/archive/20230613/202306131011.OGbdy4PK-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/jpirko/linux_mlxsw/commit/5efc31463b07489a9a3cec153a696c93d0a3a6a6
-        git remote add jpirko-mlxsw https://github.com/jpirko/linux_mlxsw
-        git fetch --no-tags jpirko-mlxsw combined_queue
-        git checkout 5efc31463b07489a9a3cec153a696c93d0a3a6a6
+        # https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git/commit/?id=9c5a142fe1e2aeb1a1821eb79b39edd09bbb0078
+        git remote add arm64 https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+        git fetch --no-tags arm64 devel/kmalloc-minalign
+        git checkout 9c5a142fe1e2aeb1a1821eb79b39edd09bbb0078
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpio/ drivers/net/ethernet/mellanox/mlxsw/ sound/soc/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=powerpc prepare
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306131041.qUsgJbAX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306131011.OGbdy4PK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:9834:34: warning: variable 'rif' is uninitialized when used here [-Wuninitialized]
-           if (!mlxsw_sp_rif_should_config(rif, dev, NETDEV_UP))
-                                           ^~~
-   drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c:9821:26: note: initialize the variable 'rif' to silence this warning
-           struct mlxsw_sp_rif *rif;
-                                   ^
-                                    = NULL
-   1 warning generated.
+   In file included from arch/powerpc/include/asm/page.h:247,
+                    from arch/powerpc/include/asm/thread_info.h:13,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/powerpc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/ipc.h:5,
+                    from include/uapi/linux/sem.h:5,
+                    from include/linux/sem.h:5,
+                    from include/linux/compat.h:14,
+                    from arch/powerpc/kernel/asm-offsets.c:12:
+>> arch/powerpc/include/asm/page_32.h:16: warning: "ARCH_DMA_MINALIGN" redefined
+      16 | #define ARCH_DMA_MINALIGN       L1_CACHE_BYTES
+         | 
+   In file included from include/linux/time.h:5,
+                    from include/linux/compat.h:10:
+   include/linux/cache.h:104: note: this is the location of the previous definition
+     104 | #define ARCH_DMA_MINALIGN __alignof__(unsigned long long)
+         | 
+--
+   In file included from arch/powerpc/include/asm/page.h:247,
+                    from arch/powerpc/include/asm/thread_info.h:13,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/powerpc/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/ipc.h:5,
+                    from include/uapi/linux/sem.h:5,
+                    from include/linux/sem.h:5,
+                    from include/linux/compat.h:14,
+                    from arch/powerpc/kernel/asm-offsets.c:12:
+>> arch/powerpc/include/asm/page_32.h:16: warning: "ARCH_DMA_MINALIGN" redefined
+      16 | #define ARCH_DMA_MINALIGN       L1_CACHE_BYTES
+         | 
+   In file included from include/linux/time.h:5,
+                    from include/linux/compat.h:10:
+   include/linux/cache.h:104: note: this is the location of the previous definition
+     104 | #define ARCH_DMA_MINALIGN __alignof__(unsigned long long)
+         | 
 
 
-vim +/rif +9834 drivers/net/ethernet/mellanox/mlxsw/spectrum_router.c
+vim +/ARCH_DMA_MINALIGN +16 arch/powerpc/include/asm/page_32.h
 
-  9815	
-  9816	static int mlxsw_sp_router_unreplay_inetaddr_up(struct net_device *dev,
-  9817							struct netdev_nested_priv *priv)
-  9818	{
-  9819		struct mlxsw_sp_router_replay_inetaddr_up *ctx = priv->data;
-  9820		struct mlxsw_sp_crif *crif;
-  9821		struct mlxsw_sp_rif *rif;
-  9822	
-  9823		if (!ctx->done)
-  9824			return 0;
-  9825	
-  9826		if (mlxsw_sp_dev_addr_list_empty(dev))
-  9827			return 0;
-  9828	
-  9829		crif = mlxsw_sp_crif_lookup(ctx->mlxsw_sp->router, dev);
-  9830		if (!crif || !crif->rif)
-  9831			return 0;
-  9832	
-  9833		/* We are rolling back NETDEV_UP, so ask for that. */
-> 9834		if (!mlxsw_sp_rif_should_config(rif, dev, NETDEV_UP))
-  9835			return 0;
-  9836	
-  9837		__mlxsw_sp_inetaddr_event(ctx->mlxsw_sp, dev, NETDEV_DOWN, false, NULL);
-  9838	
-  9839		ctx->done--;
-  9840		return 0;
-  9841	}
-  9842	
+5cd16ee934eafc include/asm-powerpc/page_32.h      Michael Ellerman       2005-11-11  14  
+52142e756e9bf6 include/asm-powerpc/page_32.h      Benjamin Herrenschmidt 2007-11-19  15  #ifdef CONFIG_NOT_COHERENT_CACHE
+a6eb9fe105d5de arch/powerpc/include/asm/page_32.h FUJITA Tomonori        2010-08-10 @16  #define ARCH_DMA_MINALIGN	L1_CACHE_BYTES
+52142e756e9bf6 include/asm-powerpc/page_32.h      Benjamin Herrenschmidt 2007-11-19  17  #endif
+52142e756e9bf6 include/asm-powerpc/page_32.h      Benjamin Herrenschmidt 2007-11-19  18  
+
+:::::: The code at line 16 was first introduced by commit
+:::::: a6eb9fe105d5de0053b261148cee56c94b4720ca dma-mapping: rename ARCH_KMALLOC_MINALIGN to ARCH_DMA_MINALIGN
+
+:::::: TO: FUJITA Tomonori <fujita.tomonori@lab.ntt.co.jp>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
