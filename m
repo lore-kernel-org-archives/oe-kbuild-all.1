@@ -1,158 +1,80 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906CD7495
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 08:17:07 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-3f8d0d684f3so1821065e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 01:17:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1686644225; x=1689236225;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=L7QlNfAS35s5IEireeywT9BDZtDXaOwJcuTVGyEkAeI=;
-        b=WulKdQxAXrxH+7PEV/Up9ciz+zGSeTlkGR3tmJo3i4TCjapz60sLnp9bZdtGT2gETq
-         6EOZv+lIqkQyBNbkNkBULCMoHQGp7CqrEcrLeSZZhgBq/XhYX8hM//+JV/FmHc0zAA7I
-         7XT6TIxc5PiBJLOhdVYjDaIeFSIKBqNhCm/F/MoChPnXegvv767f5cjSpn/5ARsQy69K
-         MbepAqYhmKrM8kY7wJvrxRgtD/oPddTh4RwprwfSlV0siHkToL3+Ljrd5OXG4ZfXubXa
-         EE+KKQ02et3CVShbjP4gQMl1Td70nApUMnbDoSzL/ZC1bL/oIBvkzANdkNyaMLb9ZDnm
-         0WwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686644225; x=1689236225;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=L7QlNfAS35s5IEireeywT9BDZtDXaOwJcuTVGyEkAeI=;
-        b=O4mUwZCLk3673TuU47JzYsflrYA7PX/mbxIcN0hszqewLE4Gm9lWnQFferN5ymsxey
-         Jjh3QeP/A+n198ToqziCUCM85xzcKv9bfSE+Iq0mc2EmIxNDYDQPilPpWQg2depJJWjW
-         Pk4ho2smL54eLvarjtWbrN18COq3syejiPzsAgz/NBShWK/W3fKQgbgLwo51eIHc639D
-         jTCaMkq9j8ALzm/aNUNF8Xs0CPcGfraGfi3Tx72pNLaRODRYZcFSkT74nrc6g9ATYutx
-         WhcUjWHph1tJH3Inz6+IN9aCJm5PrZvMwGd+ULtAo0yGwbKYzUPneiPCIgGgAobSso7f
-         OQ6Q==
-X-Gm-Message-State: AC+VfDw4YxqsNtIYII7poL+hn/LGzyOEqvVxStegvFfkC4f7G9U7im/y
-	D+zUc76ZLeE6JTN9Hv5euhetk45lzkgJjEmfgxDxcw==
-X-Google-Smtp-Source: ACHHUZ7VmXEbkSo06kH3PnaXfBgVtlxIDL8bZLrkOLf2u653hvOcOpBicst3nGcLYsyaJpXv2rjGxGR/0aBZpCkhIFM=
-X-Received: by 2002:adf:e985:0:b0:30f:c1d6:61cf with SMTP id
- h5-20020adfe985000000b0030fc1d661cfmr4192511wrm.51.1686644225284; Tue, 13 Jun
- 2023 01:17:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B32567E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 08:24:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686644700; x=1718180700;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mszgVLuX/Ro0Zsbd0vOfiJ43HT5FCBguSjH1bHhkMy4=;
+  b=XZgeJdx6Iyl69pUwpz4AAeZet5pn+6Is2BjAAJ3W2vWH7H5ztb6eqBS9
+   Ep+iQLiApYOAy4RtQX9Hj+eDsyUaWwcC58qalOiW/4zdiNIm/nDbJy2gE
+   Xd3zKYPyBKoGCUo+RnhCfx1y5vZFLgDNuwmsF6w5pYkFDyymwO91Vw6BJ
+   xiIRswO0LHGdoe53faOp3277uAikPHcq7fpN8V3gA/u9xhRNUe7B50VEo
+   bZZC0QImWhrdQQl7hz6Jh1adWT9GL86CT7yqyn3iSSsTCXsRPJgzGB4lc
+   amkXmoN/4Cb6Cou4wwOHzI8PWi+Npu/oxxgtzbKtSgfiLiY4c/jHQ7X17
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="337902276"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="337902276"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 01:24:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="705725811"
+X-IronPort-AV: E=Sophos;i="6.00,239,1681196400"; 
+   d="scan'208";a="705725811"
+Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 13 Jun 2023 01:24:43 -0700
+Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q8zKU-000188-0o;
+	Tue, 13 Jun 2023 08:24:42 +0000
+Date: Tue, 13 Jun 2023 16:24:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [linux-next:master 8408/8413] xtensa-linux-ld: section
+ .Level2InterruptVector.text VMA [00000180,00000193] overlaps section .data
+ VMA [00000000,0008e757]
+Message-ID: <202306131622.msoZgTDd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202306110855.7TlBCIzI-lkp@intel.com>
-In-Reply-To: <202306110855.7TlBCIzI-lkp@intel.com>
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Tue, 13 Jun 2023 10:16:54 +0200
-Message-ID: <CAHVXubhKstDeRDp8n-POR_eL0vh5DdHuWKHu7pN+X_j0rtG4Dw@mail.gmail.com>
-Subject: Re: ld.lld: error: relocation R_RISCV_HI20 cannot be used against
- symbol 'misaligned_access_speed'; recompile with -fPIC
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Jun 11, 2023 at 2:11=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   022ce8862dff83c859089cd14bc4dca0733e2f90
-> commit: 8dc2a7e8027fbeca0c7df81d4c82e735a59b5741 riscv: Fix relocatable k=
-ernels with early alternatives using -fno-pie
-> date:   10 days ago
-> config: riscv-randconfig-r022-20230611 (https://download.01.org/0day-ci/a=
-rchive/20230611/202306110855.7TlBCIzI-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git =
-ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce (this is a W=3D1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbi=
-n/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install riscv cross compiling tool for clang build
->         # apt-get install binutils-riscv64-linux-gnu
->         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git/commit/?id=3D8dc2a7e8027fbeca0c7df81d4c82e735a59b5741
->         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/=
-git/torvalds/linux.git
->         git fetch --no-tags linus master
->         git checkout 8dc2a7e8027fbeca0c7df81d4c82e735a59b5741
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
-oss W=3D1 O=3Dbuild_dir ARCH=3Driscv olddefconfig
->         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.cr=
-oss W=3D1 O=3Dbuild_dir ARCH=3Driscv SHELL=3D/bin/bash
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306110855.7TlBCIzI-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol '=
-misaligned_access_speed'; recompile with -fPIC
->    >>> defined in vmlinux.a(arch/riscv/kernel/cpufeature.o)
->    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
->    >>>               arch/riscv/errata/thead/errata.o:(thead_feature_prob=
-e_func) in archive vmlinux.a
-> --
-> >> ld.lld: error: relocation R_RISCV_LO12_I cannot be used against symbol=
- 'misaligned_access_speed'; recompile with -fPIC
->    >>> defined in vmlinux.a(arch/riscv/kernel/cpufeature.o)
->    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
->    >>>               arch/riscv/errata/thead/errata.o:(thead_feature_prob=
-e_func) in archive vmlinux.a
-> --
-> >> ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol '=
-riscv_cbom_block_size'; recompile with -fPIC
->    >>> defined in vmlinux.a(arch/riscv/mm/cacheflush.o)
->    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
->    >>>               arch/riscv/errata/thead/errata.o:(thead_errata_patch=
-_func) in archive vmlinux.a
-> --
-> >> ld.lld: error: relocation R_RISCV_LO12_S cannot be used against symbol=
- 'riscv_cbom_block_size'; recompile with -fPIC
->    >>> defined in vmlinux.a(arch/riscv/mm/cacheflush.o)
->    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
->    >>>               arch/riscv/errata/thead/errata.o:(thead_errata_patch=
-_func) in archive vmlinux.a
-> --
-> >> ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol '=
-__per_cpu_offset'; recompile with -fPIC
->    >>> defined in vmlinux.a(mm/percpu.o)
->    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
->    >>>               arch/riscv/errata/thead/errata.o:(thead_feature_prob=
-e_func) in archive vmlinux.a
-> --
-> >> ld.lld: error: relocation R_RISCV_LO12_I cannot be used against symbol=
- '__per_cpu_offset'; recompile with -fPIC
->    >>> defined in vmlinux.a(mm/percpu.o)
->    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
->    >>>               arch/riscv/errata/thead/errata.o:(thead_feature_prob=
-e_func) in archive vmlinux.a
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   53ab6975c12d1ad86c599a8927e8c698b144d669
+commit: 9afc41011eebd880e4af37db39d35cb08c54a9a7 [8408/8413] Merge branch 'sysctl-next' of git://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git
+config: xtensa-buildonly-randconfig-r005-20230612 (https://download.01.org/0day-ci/archive/20230613/202306131622.msoZgTDd-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=9afc41011eebd880e4af37db39d35cb08c54a9a7
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 9afc41011eebd880e4af37db39d35cb08c54a9a7
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=xtensa olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=xtensa SHELL=/bin/bash
 
-So I looked into those errors, the config is basically =3D RELOCATABLE +
-MEDLOW - EARLY_ALTERNATIVES. Then errata/thead is not compiled as
-medany, which makes sense since we only need this code to be medany
-when EARLY_ALTERNATIVES is enabled (because the code would be executed
-with mmu off, which is not the case here).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306131622.msoZgTDd-lkp@intel.com/
 
-I can fix those errors by adding the medany flag, but I'm not sure
-actually we want to do that since we do not need it and gcc does not
-complain: any idea?
+All errors (new ones prefixed by >>):
 
-Alex
+>> xtensa-linux-ld: section .Level2InterruptVector.text VMA [00000180,00000193] overlaps section .data VMA [00000000,0008e757]
 
-
-
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
