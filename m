@@ -1,45 +1,45 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319E233E3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 17:04:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F0F023C6A;
+	Tue, 13 Jun 2023 17:27:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686675866; x=1718211866;
+  t=1686677235; x=1718213235;
   h=date:from:to:cc:subject:message-id:mime-version:
    content-transfer-encoding;
-  bh=YRGX4oUTvWH+/4Mv8xtJ94vIEFCHO/t+X3uq6Wk1nx4=;
-  b=KJAhMh+EzNDwbAONLqFUSoqxQNVpyIjU5Izx2GSb9tdoXPtc0jFPDPds
-   zGjUoYT7u15CRUMtyqUvrzzS47WbreAYeXIxeobsFq3TOZpf4qYBwR3MO
-   /tpSp1+9EfxgPqXYNn4XoSHTRiJivjL6N7PMOBoy+tkDsKQW6qrn5e2tL
-   A0Siw/qKiSRa8+VBfWuV91ANBjggZma7WGY6gFdSBIHzUj8WMtmKFO5JH
-   yGHUXAftcBa2HZm1fuoGlPwtmYXfYzYfwk7zj/5yTs2E3RdYH++wYeLyo
-   9uoBj6cTW1aX2rVnAy8qIdpSigwTyf7Gw73ng9d08ysDhbxVZ+aihEdJX
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="343086871"
+  bh=jyvQSH+DjXpUI38Q2GUhXUGhH7fG+eF8RY8i3LTVGPg=;
+  b=LnvCABl0XZ8xPRk25oeIZV42pgHmDKvNFA7HdBeqglBABKQEAWuum4P8
+   EKrroYv1b8Zydg+NdnKVHFOcV13LYsjG6DHhDnPRW7OcTr+n4pJdoUz1R
+   fpH/gJm64rwT88R+uaKOb3w1jSMEHKlY7kMu6Gstn3KxJl8ZiZWxEsrQv
+   u7v5NtgtN78p5fpFAc1n8+tV+2ztpmDVUyPxLGeyKkgNby9K0cZecs5mB
+   IA4Wz3zDgxqqERu72Jst2EYNmDkU6gCt8aR+8lkSNA0lTbe044Rc4KNDD
+   Q7leUO311lQI5Yb6DW0H8rZ0b2BH492/FADaTxnUPLXFay4vFAdSzIPrc
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="361774252"
 X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
-   d="scan'208";a="343086871"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 10:04:12 -0700
+   d="scan'208";a="361774252"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 10:27:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="781754656"
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="885923878"
 X-IronPort-AV: E=Sophos;i="6.00,240,1681196400"; 
-   d="scan'208";a="781754656"
+   d="scan'208";a="885923878"
 Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Jun 2023 10:04:10 -0700
+  by orsmga005.jf.intel.com with ESMTP; 13 Jun 2023 10:27:12 -0700
 Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q97RC-0001ZQ-0a;
-	Tue, 13 Jun 2023 17:04:10 +0000
-Date: Wed, 14 Jun 2023 01:04:02 +0800
+	id 1q97nT-0001bI-2d;
+	Tue, 13 Jun 2023 17:27:11 +0000
+Date: Wed, 14 Jun 2023 01:26:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jirislaby:devel 18/55] drivers/tty/n_tty.c:2497:28: error:
- initialization of 'void (*)(struct tty_struct *, const u8 *, const char *,
- int)' {aka 'void (*)(struct tty_struct *, const unsigned char *, const char
- *, int)'} from incompatible pointer type 'void (*)(struct tty_struct...
-Message-ID: <202306140017.1ybSWyQx-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 18/55] drivers/tty/n_tty.c:2497:21: error:
+ incompatible function pointer types initializing 'void (*)(struct tty_struct
+ *, const u8 *, const char *, int)' (aka 'void (*)(struct tty_struct *, const
+ unsigned char *, const char *, int)') with an expression of type ...
+Message-ID: <202306140115.40MgB7UU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,39 +57,34 @@ FYI, the error/warning was bisected to this commit, please ignore it if it's irr
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
 head:   f8c938871c78b165f3123967084c0f7b4f64a439
 commit: 3d09071ac166db7da003b89200b9858a4005066f [18/55] make flags u8
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230614/202306140017.1ybSWyQx-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
+config: arm-randconfig-r024-20230612 (https://download.01.org/0day-ci/archive/20230614/202306140115.40MgB7UU-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git/commit/?id=3d09071ac166db7da003b89200b9858a4005066f
         git remote add jirislaby https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git
         git fetch --no-tags jirislaby devel
         git checkout 3d09071ac166db7da003b89200b9858a4005066f
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/tty/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306140017.1ybSWyQx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306140115.40MgB7UU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/tty/n_tty.c:2497:28: error: initialization of 'void (*)(struct tty_struct *, const u8 *, const char *, int)' {aka 'void (*)(struct tty_struct *, const unsigned char *, const char *, int)'} from incompatible pointer type 'void (*)(struct tty_struct *, const u8 *, const u8 *, int)' {aka 'void (*)(struct tty_struct *, const unsigned char *, const unsigned char *, int)'} [-Werror=incompatible-pointer-types]
-    2497 |         .receive_buf     = n_tty_receive_buf,
-         |                            ^~~~~~~~~~~~~~~~~
-   drivers/tty/n_tty.c:2497:28: note: (near initialization for 'n_tty_ops.receive_buf')
-   cc1: some warnings being treated as errors
---
->> drivers/accessibility/speakup/spk_ttyio.c:111:27: error: initialization of 'int (*)(struct tty_struct *, const u8 *, const u8 *, int)' {aka 'int (*)(struct tty_struct *, const unsigned char *, const unsigned char *, int)'} from incompatible pointer type 'int (*)(struct tty_struct *, const u8 *, const char *, int)' {aka 'int (*)(struct tty_struct *, const unsigned char *, const char *, int)'} [-Werror=incompatible-pointer-types]
-     111 |         .receive_buf2   = spk_ttyio_receive_buf2,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/accessibility/speakup/spk_ttyio.c:111:27: note: (near initialization for 'spk_ttyio_ldisc_ops.receive_buf2')
-   cc1: some warnings being treated as errors
+>> drivers/tty/n_tty.c:2497:21: error: incompatible function pointer types initializing 'void (*)(struct tty_struct *, const u8 *, const char *, int)' (aka 'void (*)(struct tty_struct *, const unsigned char *, const char *, int)') with an expression of type 'void (struct tty_struct *, const u8 *, const u8 *, int)' (aka 'void (struct tty_struct *, const unsigned char *, const unsigned char *, int)') [-Wincompatible-function-pointer-types]
+           .receive_buf     = n_tty_receive_buf,
+                              ^~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
 vim +2497 drivers/tty/n_tty.c
