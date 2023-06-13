@@ -1,51 +1,27 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4C5DDBC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 10:26:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1686651968;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rZcEQjdnUPfgnpDLwolPkeA4s5uTdek4kX0pKcQkY8Y=;
-	b=M94Y/7lh9SAuQiNyBpReA2xcK7XM8wnpO4OfcHWM5YRyEZpCpLAYxaSoadApe90j90HKIW
-	5/TQA1qmGNkjFdI6a29R6av6iy1KGLpPLWK0GUZVgq1YfleezJGjKfhbFbU4KLp5kBt38s
-	z58HRwSbFnZH6FsGc/WuO5UCxw67rk8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-155-h15dsHIeNeunMJmaUSatXw-1; Tue, 13 Jun 2023 06:26:05 -0400
-X-MC-Unique: h15dsHIeNeunMJmaUSatXw-1
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-50bf847b267so4742618a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 03:26:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686651964; x=1689243964;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rZcEQjdnUPfgnpDLwolPkeA4s5uTdek4kX0pKcQkY8Y=;
-        b=h2DWrt9B4AiEpgqA+wkB6VJqtFPjoCNIPngq/oNKQMxFqT65mUo2V30LhkBZjNSCmm
-         Z7+str573+cd9jeeT2EKamGQIYaqit325ykclxnKplYhB9uOZW9IlriwFY/+irxESpZS
-         xIhfmhMjB+n+xAJ6KKQu7vd6jMuzGruxH2EuIgIquba+K+koV8CsgW6GKrrmSaXAB7d5
-         a84tcAs7bqrJW+jI4WuFiqZ11iXA0IrnEU1xqwtO9U8PKj/ugdQdwYhPLyj92laFGWIp
-         WcM2lyXc1S5rH2KQzTbZ4b56vXgj4EMp1SSH4W/FISN520FG96iTqLr/yUSoO5/AgO/L
-         Vqnw==
-X-Gm-Message-State: AC+VfDw8AIHkShBjsPW3KTR9r2kdqDRDprpj7C8l7wEhlxAzv/ClIkxn
-	x7OLAWzAv8jky97t/F3SBy+ZC5yXxY1TB89c7ez4vrKrvT3MOGASMV7SmUiMv4X8CrYK5F03IQ+
-	MwgU44TrcKsEd8wPDGagOBBTcWw==
-X-Received: by 2002:aa7:d753:0:b0:516:af22:bccc with SMTP id a19-20020aa7d753000000b00516af22bcccmr6962275eds.21.1686651964348;
-        Tue, 13 Jun 2023 03:26:04 -0700 (PDT)
-X-Google-Smtp-Source: ACHHUZ4tlMWLfp9k2VwaUsES5I5/qCebnVY4QmLrOb65dkTElszfGX1KeIZRlmbWTJ1Hg0MZYQv25g==
-X-Received: by 2002:aa7:d753:0:b0:516:af22:bccc with SMTP id a19-20020aa7d753000000b00516af22bcccmr6962261eds.21.1686651964027;
-        Tue, 13 Jun 2023 03:26:04 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id o13-20020aa7d3cd000000b005083bc605f9sm6254625edr.72.2023.06.13.03.26.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Jun 2023 03:26:03 -0700 (PDT)
-Message-ID: <89f6fe6b-c674-1ff6-dddb-06050ad5c97d@redhat.com>
-Date: Tue, 13 Jun 2023 12:26:02 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EAC85CB0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 10:35:57 +0000 (UTC)
+Received: from [192.168.10.54] (unknown [119.155.33.163])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: usama.anjum)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 1F391660000E;
+	Tue, 13 Jun 2023 11:35:47 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1686652555;
+	bh=HbdSMphLp1/aGNarPBMTAmoMfCdZYDwXjyzqGZPOGtA=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=eCbyTU2BUbopMEp0/l014XJDWH7zLmxfwh6N+IuQqSPT8pAD5HNik18UCjw7Dsc7G
+	 /vqmj4fttKTO0BVCwJiqnn48/01nNX5aJ0czU9q13HY6d5YgAECt/27yeFOtmBpd5+
+	 1cpwi9XnJK3ImYUXPXD7oHwevazumaZiK+213l1QbvXH3obGgIQcOM8NZ+b6+7nVDX
+	 nRzqIZebJjG/SqbTFdtsx9sGMAlu6nQlFv73gbfOQKnr0k8dXPJ3QIrX4IWQdOrzEQ
+	 /Y962W7NI2pvyTejjNeSukWiaANvS0kljQtCv2nU/ewwoBDQK0Q3Wtevvf6mii2biX
+	 uqIW8Jt3z6Rcg==
+Message-ID: <0e6b318a-bbf8-3701-00af-1802c6347897@collabora.com>
+Date: Tue, 13 Jun 2023 15:35:44 +0500
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,88 +29,116 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] platform/x86: thinkpad_acpi: Fix lkp-tests warnings for
- platform profiles
-To: Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
- dan.carpenter@linaro.org, mario.limonciello@amd.com, lkp@intel.com,
- oe-kbuild-all@lists.linux.dev, Dan Carpenter <error27@gmail.com>
-References: <mpearson-lenovo@squebb.ca>
- <20230606151804.8819-1-mpearson-lenovo@squebb.ca>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20230606151804.8819-1-mpearson-lenovo@squebb.ca>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
+ Thunderbird/102.11.0
+Cc: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+ oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Christian Brauner <brauner@kernel.org>, Yang Shi <shy828301@gmail.com>,
+ Vlastimil Babka <vbabka@suse.cz>, "Liam R . Howlett"
+ <Liam.Howlett@oracle.com>, Yun Zhou <yun.zhou@windriver.com>,
+ Suren Baghdasaryan <surenb@google.com>, Alex Sierra <alex.sierra@amd.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Axel Rasmussen <axelrasmussen@google.com>,
+ "Gustavo A . R . Silva" <gustavoars@kernel.org>,
+ Dan Williams <dan.j.williams@intel.com>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Greg KH <greg@kroah.com>, kernel test robot <lkp@intel.com>,
+ Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>, =?UTF-8?B?TWljaGHFgiBNaXJvc8WC?=
+ =?UTF-8?Q?aw?= <emmir@google.com>, Andrei Vagin <avagin@gmail.com>,
+ Danylo Mocherniuk <mdanylo@google.com>, Paul Gofman
+ <pgofman@codeweavers.com>, Cyrill Gorcunov <gorcunov@gmail.com>,
+ Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>
+Subject: Re: [PATCH v12 2/5] fs/proc/task_mmu: Implement IOCTL to get and
+ optionally clear info about PTEs
+Content-Language: en-US
+To: Vineet Gupta <vgupta@kernel.org>, linux-snps-arc@lists.infradead.org,
+ Andrew Morton <akpm@linux-foundation.org>, Hugh Dickins <hughd@google.com>,
+ =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
+ Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>
+References: <20230406074005.1784728-3-usama.anjum@collabora.com>
+ <202304061914.N1Hmx12N-lkp@intel.com>
+ <e3c82373-256a-6297-bcb4-5e1179a2cbe2@collabora.com>
+ <9d8b5b8e-47c9-16dd-050a-45d917d73c07@collabora.com>
+From: Muhammad Usama Anjum <usama.anjum@collabora.com>
+In-Reply-To: <9d8b5b8e-47c9-16dd-050a-45d917d73c07@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi Vineet,
 
-On 6/6/23 17:18, Mark Pearson wrote:
-> Fix issues identified in dytc_profile_refresh identified by lkp-tests.
-> drivers/platform/x86/thinkpad_acpi.c:10538
-> 	dytc_profile_refresh() error: uninitialized symbol 'funcmode'.
-> drivers/platform/x86/thinkpad_acpi.c:10531
-> 	dytc_profile_refresh() error: uninitialized symbol 'output'.
-> drivers/platform/x86/thinkpad_acpi.c:10537
-> 	dytc_profile_refresh() error: uninitialized symbol 'output'.
+It seems arc architecture supports CONFIG_TRANSPARENT_HUGEPAGE, but it
+doesn't define HPAGE_SIZE. It only defines PAGE_SIZE in
+include/uapi/asm/page.h? AFAIK HPAGE_SIZE must be defined when
+CONFIG_TRANSPARENT_HUGEPAGE is enabled. What can be the solution here for arc?
+
+Should I just compile out this code for arc architecture specifically?
+
+Thanks,
+Usama
+
+
+On 6/7/23 10:45 AM, Muhammad Usama Anjum wrote:
+> On 4/6/23 5:56 PM, Muhammad Usama Anjum wrote:
+>> On 4/6/23 4:40 PM, kernel test robot wrote:
+>>> Hi Muhammad,
+>>>
+>>> kernel test robot noticed the following build errors:
+>>>
+>>> [auto build test ERROR on akpm-mm/mm-everything]
+>>> [also build test ERROR on next-20230406]
+>>> [cannot apply to linus/master v6.3-rc5]
+>>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>>> And when submitting patch, we suggest to use '--base' as documented in
+>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>>
+>>> url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/userfaultfd-UFFD_FEATURE_WP_ASYNC/20230406-154314
+>>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+>>> patch link:    https://lore.kernel.org/r/20230406074005.1784728-3-usama.anjum%40collabora.com
+>>> patch subject: [PATCH v12 2/5] fs/proc/task_mmu: Implement IOCTL to get and optionally clear info about PTEs
+>>> config: arc-randconfig-r023-20230405 (https://download.01.org/0day-ci/archive/20230406/202304061914.N1Hmx12N-lkp@intel.com/config)
+>>> compiler: arceb-elf-gcc (GCC) 12.1.0
+>>> reproduce (this is a W=1 build):
+>>>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>>>         chmod +x ~/bin/make.cross
+>>>         # https://github.com/intel-lab-lkp/linux/commit/f13abb36f64c77913509da8ca157512d2fb9f031
+>>>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>>>         git fetch --no-tags linux-review Muhammad-Usama-Anjum/userfaultfd-UFFD_FEATURE_WP_ASYNC/20230406-154314
+>>>         git checkout f13abb36f64c77913509da8ca157512d2fb9f031
+>>>         # save the config file
+>>>         mkdir build_dir && cp config build_dir/.config
+>>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc olddefconfig
+>>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=arc SHELL=/bin/bash fs/proc/
+>>>
+>>> If you fix the issue, kindly add following tag where applicable
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Link: https://lore.kernel.org/oe-kbuild-all/202304061914.N1Hmx12N-lkp@intel.com/
+>>>
+>>> All error/warnings (new ones prefixed by >>):
+>>>
+>>>    fs/proc/task_mmu.c: In function 'pagemap_scan_pmd_entry':
+>>>>> fs/proc/task_mmu.c:1921:37: error: 'HPAGE_SIZE' undeclared (first use in this function); did you mean 'PAGE_SIZE'?
+>>>     1921 |                     ((end - start < HPAGE_SIZE) ||
+>>>          |                                     ^~~~~~~~~~
+>>>          |                                     PAGE_SIZE
+>> It seems arc architecture supports CONFIG_TRANSPARENT_HUGEPAGE, but it
+>> doesn't define HPAGE_SIZE. It only defines PAGE_SIZE in
+>> include/uapi/asm/page.h? AFAIK HPAGE_SIZE must be defined when
+>> CONFIG_TRANSPARENT_HUGEPAGE is enabled. What can be the solution here for arc?
+> I'm still looking for solution. Vineet do you have some thoughts?
 > 
-> These issues should not lead to real problems in the field as the refresh
-> function should only be called if MMC or PSC mode enabled. But good to fix.
+>>
+>> The remaining build failures are because the wrong tree. I base my patches
+>> on latest next, while the bot has based patches on mm-everything. I guess
+>> today's next would have latest mm stuff, a rebase would make things correct
+>> or I'll shift to mm-everything.
+>>
+>>
 > 
-> Thanks to Dan Carpenter and the lkp-tests project for flagging these.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <error27@gmail.com>
-> Closes: https://lore.kernel.org/r/202306011202.1hbgLRD4-lkp@intel.com/
-> Fixes: 1bc5d819f0b9 ("platform/x86: thinkpad_acpi: Fix profile modes on Intel platforms")
-> Signed-off-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 
-Thank you for your patch, I've applied this patch to my review-hans 
-branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/log/?h=review-hans
-
-Note it will show up in my review-hans branch once I've pushed my
-local branch there, which might take a while.
-
-Once I've run some tests on this branch the patches there will be
-added to the platform-drivers-x86/for-next branch and eventually
-will be included in the pdx86 pull-request to Linus for the next
-merge-window.
-
-Regards,
-
-Hans
-
-
-
-
-> ---
->  drivers/platform/x86/thinkpad_acpi.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-> index b3808ad77278..4b89f42de723 100644
-> --- a/drivers/platform/x86/thinkpad_acpi.c
-> +++ b/drivers/platform/x86/thinkpad_acpi.c
-> @@ -10524,7 +10524,7 @@ static int dytc_profile_set(struct platform_profile_handler *pprof,
->  static void dytc_profile_refresh(void)
->  {
->  	enum platform_profile_option profile;
-> -	int output, err = 0;
-> +	int output = 0, err = 0;
->  	int perfmode, funcmode;
->  
->  	mutex_lock(&dytc_mutex);
-> @@ -10538,6 +10538,8 @@ static void dytc_profile_refresh(void)
->  		err = dytc_command(DYTC_CMD_GET, &output);
->  		/* Check if we are PSC mode, or have AMT enabled */
->  		funcmode = (output >> DYTC_GET_FUNCTION_BIT) & 0xF;
-> +	} else { /* Unknown profile mode */
-> +		err = -ENODEV;
->  	}
->  	mutex_unlock(&dytc_mutex);
->  	if (err)
-
+-- 
+BR,
+Muhammad Usama Anjum
