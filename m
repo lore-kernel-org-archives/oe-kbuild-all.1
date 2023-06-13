@@ -1,129 +1,138 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2131.outbound.protection.outlook.com [40.107.237.131])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7608361
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 13 Jun 2023 06:10:10 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C0QByzz54D5+CaYf5I4tkVnbTNOlewSI6Ylj67lrwaKNqIwVTMrdIP84GM/XZgkSRl8WoNkTuf1+pIMHW+o5RLB7KiQ0wBc1A7lNtXp9UE5Dq59A/1bHRCk5NCcjt25z8Q5jyPWtfDdBs2hJ+e3ejp8siIc7A2wxaw2cvn3aSgqhkLAQx01W+eORr3U6b2PzDliX28oYjMeqrlGZp+59S7Ze9jPR3r/IvMv7OobY5TVd4wpchGX+g6hD5Mu0wW8FaOxpJNZB7XihBG3UJmH/vtVt0Hx0OtCXM0ZyTQp199k+6M0OfXEza2Jhik99bKsTXmS++6HSIQ16fLL/p1VpGQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qt2XzfP1o4qtGh7PEnNnlQP6GFbcAMd8H1fh53Tq0nc=;
- b=QPW/0RZWiky8D6OHaelarZ7lVigm3r8jxmuccY+ZBfJoS9KCLzOZv0nVuZftxG828IafYOq7iXRBHl8X+6osnvi9ouL4GdSni29hUMa45re4aiyl1d5kmCg7MLbT9WfcaGxIpxZ+TXpebCo9Qn0kp1daE+d6lmCabWm+ieEeOkDFwO+HQlz09h0kaEraiEjy+Q+4k1OmDG44nC59adnE1q8hw5mJWMR0VWFghTaTSwzDe2LtWbKaa/qGF0cHoDqaR+QVGpmLMtYVRZldMhSJXwImj40pZxgoWQu1l4bE/IRLfQvgBGKG1Gl58xGbyjlbka8chM9h+SWEEGvu/pFVkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
- dkim=pass header.d=corigine.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qt2XzfP1o4qtGh7PEnNnlQP6GFbcAMd8H1fh53Tq0nc=;
- b=B82bkvB0F/yo53rQ8V+aODXET2WLc5VCMZYbMumueU/RoQMjBeXh1dLbljLGPRXg9tHDrHCJEbSRihUpbb1OVZh2W2xoQw7Myn+4hwpvPPCV1rl0VX8HLFMRjWC7eT8GN8rA5zZpNKMXdTMQMra82DxB0GLqHfkxBXhUW4Xkolw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=corigine.com;
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com (2603:10b6:510:78::6)
- by CH0PR13MB4763.namprd13.prod.outlook.com (2603:10b6:610:c8::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.29; Tue, 13 Jun
- 2023 06:10:07 +0000
-Received: from PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::eb8f:e482:76e0:fe6e]) by PH0PR13MB4842.namprd13.prod.outlook.com
- ([fe80::eb8f:e482:76e0:fe6e%4]) with mapi id 15.20.6477.028; Tue, 13 Jun 2023
- 06:10:06 +0000
-Date: Tue, 13 Jun 2023 08:09:59 +0200
-From: Simon Horman <simon.horman@corigine.com>
-To: edward.cree@amd.com
-Cc: linux-net-drivers@amd.com, davem@davemloft.net, kuba@kernel.org,
-	pabeni@redhat.com, edumazet@google.com,
-	Edward Cree <ecree.xilinx@gmail.com>, netdev@vger.kernel.org,
-	habetsm.xilinx@gmail.com, oe-kbuild-all@lists.linux.dev,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH net-next] sfc: do not try to call tc functions when
- CONFIG_SFC_SRIOV=n
-Message-ID: <ZIgIN7VqkGytCiKx@corigine.com>
-References: <20230612205428.1780-1-edward.cree@amd.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230612205428.1780-1-edward.cree@amd.com>
-X-ClientProxiedBy: AM0PR07CA0021.eurprd07.prod.outlook.com
- (2603:10a6:208:ac::34) To PH0PR13MB4842.namprd13.prod.outlook.com
- (2603:10b6:510:78::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F156523CD;
+	Tue, 13 Jun 2023 06:20:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686637242; x=1718173242;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UM3IHuTsa6izrIPK7yHaYSJMoWtyJyQyl1XOgL5IY6g=;
+  b=jjPtLr6yee17BFO5ayDOktnSgknBEylQwBLzFr2ZeFK34LQGp93zgiYi
+   R14OEIKUE8YbOE+akuO7L1tuGsJmuV6h2Wc9tENB30Lcff9gHYi4EfADX
+   0WdWyH9iL1QS/KI+4x2gBtaLMdOzeuVP/SknpcbozUiD+FVZogbQ+HR+q
+   Z2OZ9T45lCbEg5so9bbnpaRKGIn7ziGTFSVceJqGS4wqpQM3ZDK3c5iYK
+   0cwjPiX9psIbVjMjpCkS56qwErFzJWPQu6orKWh83KbuoAZWiv9LrFf5u
+   y63rjDG7S2YV1NTigWgYI61xw9F8Bu4LKOGa7J9O0q3cajjYL383RSFml
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="357125174"
+X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
+   d="scan'208";a="357125174"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2023 23:19:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10739"; a="781516543"
+X-IronPort-AV: E=Sophos;i="6.00,238,1681196400"; 
+   d="scan'208";a="781516543"
+Received: from lkp-server01.sh.intel.com (HELO 211f47bdb1cb) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 12 Jun 2023 23:19:36 -0700
+Received: from kbuild by 211f47bdb1cb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q8xNP-00013c-1j;
+	Tue, 13 Jun 2023 06:19:35 +0000
+Date: Tue, 13 Jun 2023 14:19:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gokul krishna Krishnakumar <quic_gokukris@quicinc.com>,
+	linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@linaro.org>,
+	linux-kernel@vger.kernel.org, Trilok Soni <quic_tsoni@quicinc.com>,
+	Satya Durga Srinivasu Prabhala <quic_satyap@quicinc.com>,
+	Rajendra Nayak <quic_rjendra@quicinc.com>,
+	Elliot Berman <quic_eberman@quicinc.com>,
+	Guru Das Srinagesh <quic_gurus@quicinc.com>,
+	Sibi Sankar <quic_sibis@quicinc.com>,
+	Melody Olvera <quic_molvera@quicinc.com>,
+	Gokul krishna Krishnakumar <quic_gokukris@quicinc.com>
+Subject: Re: [PATCH v5 2/2] remoteproc: qcom: Add remoteproc tracing
+Message-ID: <202306131424.QEYiIiQA-lkp@intel.com>
+References: <12b533c73b8c6b039e90f20afef1c8dcd30b80de.1686606835.git.quic_gokukris@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR13MB4842:EE_|CH0PR13MB4763:EE_
-X-MS-Office365-Filtering-Correlation-Id: a6924184-7c08-4124-9da0-08db6bd4d5b4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	/thDfo/ywBLeW2ITUNo1Sn/8Xl7V6eYMRrz54o9bX6UcbD7dOWVgfih5if4m9RNWHddqQ9yFTv8+H61wJfj9HJeChMI58yqh8Wz+IMsBopuugRHjjDuzk8Sac5Ab6cVt0x/b8P2hK9Av3P7ggpiupkj2IwaASmr9pRbDlw8V457rINGJkY9k8ywI8fRiqh3frKP7IwCoUANDOJu+1HvIV4nDTM2lTmE0MlX3SkqjvlpEAyMS6dg8MhLhhJVARXGwnQTH6vgs2gMkHJvp6eeyscbM6TxW54UG8hD1yngJUMXU4CVcG50N1CTVkp3HRrfKoZB+ZViPCRMD/ch/iuYxLJsuQEGm18w2RXXcg6AlUkQDPNkKICh+gtPzkb+usfwdYn5kv9tsFCCgsEf6wriVdU7OT6UfBf9MkIOMyXzpAD/nGh3raINfUlHC84fXF4wLBUNdJif4SiJ28tNn8C2qCnCYRYfXQ9eXmnT/NUptUQn+s03z+fgeRKC2VK4Fu19JeLLJPThti0PiTPwWsN8+Wyzl+jc3JeXSeVIJEyeDd0M=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR13MB4842.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(346002)(376002)(39840400004)(396003)(136003)(366004)(451199021)(5660300002)(54906003)(2906002)(66946007)(66556008)(4326008)(6916009)(8936002)(316002)(8676002)(41300700001)(44832011)(7416002)(186003)(66476007)(478600001)(6666004)(966005)(6486002)(6512007)(83380400001)(36756003)(6506007)(2616005)(86362001)(38100700002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?xbfS4Fj2YQVkTthE54AvyEcZMuaMICxw54xmq4Jo/d2WfH38lcchUnSYCY5t?=
- =?us-ascii?Q?ZBzyIX+llses9R4EEku57rQ1aFZbuSNudxYsQpDEmiFefyameoN+7bHWKqpx?=
- =?us-ascii?Q?v93X6oF3JiFhhrP0dIJYldB4ub6afxiRSFZ/Xes8nVDgnLt8CwFNs0Uti+VE?=
- =?us-ascii?Q?wegeLY1Tp5UULIfeaynABR/WqbH5/wSAtWFBNnMKyeMCE1HJEIHGcS/BMdzm?=
- =?us-ascii?Q?y0SZOOHN76xJp2jdP25TWNh7ljo66XJOqdy6qdeQKUtb9XN3RcTd6sbru8+a?=
- =?us-ascii?Q?KZYR/QyML1bPvk3KTz98cR2LQ1RgJjkTil+jjHZhYm+wTOMpmU5ZPY3oGAzu?=
- =?us-ascii?Q?yClLZKS9CcI6Ja8WbKNvd7H1wmrX0zb+w8uKwJljJi0QoplAbPNwoKO6tL5M?=
- =?us-ascii?Q?T4gnUlwCVJvp/J8Asl2cp5cuhpxvMGWl4QwRg13Z0y6/njnR1L4OreEl46lg?=
- =?us-ascii?Q?/QfM2oXx+Mb6yFxYWqmaRW51QlrNZfFOzlEfOanvqLedvTzur4pbyJQQrqrN?=
- =?us-ascii?Q?5j0ezbQR+6fE9xvIsrlHqUi05FPfWIwIG/B4q9D7CTuUzn9gEaCXD6b6IWMQ?=
- =?us-ascii?Q?xYi90wBFXeNcCUZg6K4aqXpiKeuXbMlJeHU+S8JWAsZYlG9elJ9rGjhQyM58?=
- =?us-ascii?Q?1iHAYps6jRS/rBfqlKz3zuiTsKmAkgy5qZgmEPgzEhw86UpdYci/8JeHtArp?=
- =?us-ascii?Q?3QPusdBt9ARkQYKIC5sPyyiiRlhoyUODzF4y5/RpBAZNHtS4lpbo2MwFpb8D?=
- =?us-ascii?Q?H9gtcJjhfBkPbghIiUv3BsRfg6sw25lfhCV02fH3rfEtj/h/dFJ9mnNysV4V?=
- =?us-ascii?Q?+nis+y7yBGDxITK2DIwCef4M8vy/t90WIOJgMKHNyKFHA4fsUTkA4NjkXK+y?=
- =?us-ascii?Q?KhhreXTXAX5piYjkD3uOAEQmrwAn7cxXYHBf725DyqmwBQ8B1l7vj/8J9UjI?=
- =?us-ascii?Q?ju3MqCCrIr7kEbBwspY/tESapVkk2jyQhyZ3+qMCvLf4EOdnGRb+4zSxBNBe?=
- =?us-ascii?Q?/aRIojwxx1PTUg3loTd56fimuzRGFzJfwXLl24EI8qrtMhdWtJFxO+WhxY1/?=
- =?us-ascii?Q?JlwxQ8b3UgY+sf/XUulAK2pGs7LPBGxLGc9iDo5weeUbUn4iRksSw2f2D20U?=
- =?us-ascii?Q?RSiMELATH6UMIJ59eAgSE3O2A5n/i0Fl2lvXe3tQguEPvRinsz6D3ZRUAm60?=
- =?us-ascii?Q?kxzsNQL+xfNaj/RZwirEn++Kbfskab1MQHpWGsDjav+gzokcOjLUSuOoOrhZ?=
- =?us-ascii?Q?+MhFEqkIjNRTGbFyILSy1PMafq8ZnABiBJwlMi6mkaVHS+pcJ4uf8BK/yGxU?=
- =?us-ascii?Q?WMic7GWRVwNid0I3o3Rq5y/I5Sgy5iOyoTlA83b+GErUdVC4rcKQ4mvOgt9c?=
- =?us-ascii?Q?G7Y1Fhh95RPBpgZeY+fy7Cdv4TyB8gh4ROxeRjc4zdwPgZmPS8P96A45nDaR?=
- =?us-ascii?Q?uPwZt9ks+pqwxX3wKT6ofaRqyJ3jfJ3clzPbEnoRHvDZoMTYJf9U6A35u2x6?=
- =?us-ascii?Q?cOM9W3kqVBDVmwFh5OdwOzr8jh0QPx+9YA4VEiw1I2xExHz0BnbIOpqAaYeJ?=
- =?us-ascii?Q?vNI4tvy5iwRwFfitxY23k/4xuxA74eDOGCy+s7e7s2TuaD7lJk7rPrVtH7Si?=
- =?us-ascii?Q?R0UeDCIyhTzSMvzuc4Oeg4dNSST+mdZ00EMvEGRIrhR1BWDEeJDEXe4CT6ev?=
- =?us-ascii?Q?gx8vEQ=3D=3D?=
-X-OriginatorOrg: corigine.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6924184-7c08-4124-9da0-08db6bd4d5b4
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR13MB4842.namprd13.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jun 2023 06:10:06.7420
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Bn7U33tdCl1v8dgu8MaW1+P/WXkcKOv8sHuFBwneoHS1PXsiy1J3rwOKAuVaL90JG7yOfsrlcApGaFlIkUVurz8ki6IffYpSwAlZ+7L43Fk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR13MB4763
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <12b533c73b8c6b039e90f20afef1c8dcd30b80de.1686606835.git.quic_gokukris@quicinc.com>
 
-On Mon, Jun 12, 2023 at 09:54:28PM +0100, edward.cree@amd.com wrote:
-> From: Edward Cree <ecree.xilinx@gmail.com>
-> 
-> Functions efx_tc_netdev_event and efx_tc_netevent_event do not exist
->  in that case as object files tc_bindings.o and tc_encap_actions.o
->  are not built, so the calls to them from ef100_netdev_event and
->  ef100_netevent_event cause link errors.
-> Guard the relevant part of ef100_netdev_event with #ifdef, as well as
->  the entire function ef100_netevent_event and the code that registers
->  and unregisters the netevent notifier.
-> Also guard the includes of tc_bindings.h and tc_encap_actions.h into
->  ef100_netdev.c, as the symbols from these headers are only available
->  when the corresponding object files are built.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202306102026.ISK5JfUQ-lkp@intel.com/
-> Fixes: 7e5e7d800011 ("sfc: neighbour lookup for TC encap action offload")
-> Signed-off-by: Edward Cree <ecree.xilinx@gmail.com>
+Hi Gokul,
 
-Reviewed-by: Simon Horman <simon.horman@corigine.com>
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on 1ca04f21b204e99dd704146231adfb79ea2fb366]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gokul-krishna-Krishnakumar/remoteproc-Introduce-traces-for-remoteproc-events/20230613-060527
+base:   1ca04f21b204e99dd704146231adfb79ea2fb366
+patch link:    https://lore.kernel.org/r/12b533c73b8c6b039e90f20afef1c8dcd30b80de.1686606835.git.quic_gokukris%40quicinc.com
+patch subject: [PATCH v5 2/2] remoteproc: qcom: Add remoteproc tracing
+config: hexagon-randconfig-r041-20230612 (https://download.01.org/0day-ci/archive/20230613/202306131424.QEYiIiQA-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git checkout 1ca04f21b204e99dd704146231adfb79ea2fb366
+        b4 shazam https://lore.kernel.org/r/12b533c73b8c6b039e90f20afef1c8dcd30b80de.1686606835.git.quic_gokukris@quicinc.com
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306131424.QEYiIiQA-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: __tracepoint_rproc_start_event
+   >>> referenced by jump_label.h:260 (include/linux/jump_label.h:260)
+   >>>               drivers/remoteproc/remoteproc_core.o:(rproc_boot) in archive vmlinux.a
+   >>> referenced by jump_label.h:260 (include/linux/jump_label.h:260)
+   >>>               drivers/remoteproc/remoteproc_core.o:(rproc_boot) in archive vmlinux.a
+   >>> referenced by jump_label.h:260 (include/linux/jump_label.h:260)
+   >>>               drivers/remoteproc/remoteproc_core.o:(rproc_boot) in archive vmlinux.a
+   >>> referenced 1 more times
+--
+>> ld.lld: error: undefined symbol: __traceiter_rproc_start_event
+   >>> referenced by remoteproc_tracepoints.h:63 (include/trace/events/remoteproc_tracepoints.h:63)
+   >>>               drivers/remoteproc/remoteproc_core.o:(rproc_boot) in archive vmlinux.a
+   >>> referenced by remoteproc_tracepoints.h:63 (include/trace/events/remoteproc_tracepoints.h:63)
+   >>>               drivers/remoteproc/remoteproc_core.o:(rproc_boot) in archive vmlinux.a
+   >>> referenced by remoteproc_tracepoints.h:63 (include/trace/events/remoteproc_tracepoints.h:63)
+   >>>               drivers/remoteproc/remoteproc_core.o:(rproc_boot) in archive vmlinux.a
+   >>> referenced 1 more times
+--
+>> ld.lld: error: undefined symbol: __tracepoint_rproc_load_segment_event
+   >>> referenced by remoteproc_internal.h:178 (drivers/remoteproc/remoteproc_internal.h:178)
+   >>>               drivers/remoteproc/remoteproc_core.o:(rproc_start) in archive vmlinux.a
+   >>> referenced by remoteproc_internal.h:178 (drivers/remoteproc/remoteproc_internal.h:178)
+   >>>               drivers/remoteproc/remoteproc_core.o:(rproc_start) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: __traceiter_rproc_load_segment_event
+   >>> referenced by remoteproc_tracepoints.h:17 (include/trace/events/remoteproc_tracepoints.h:17)
+   >>>               drivers/remoteproc/remoteproc_core.o:(rproc_start) in archive vmlinux.a
+   >>> referenced by remoteproc_tracepoints.h:17 (include/trace/events/remoteproc_tracepoints.h:17)
+   >>>               drivers/remoteproc/remoteproc_core.o:(rproc_start) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: __tracepoint_rproc_stop_event
+   >>> referenced by jump_label.h:260 (include/linux/jump_label.h:260)
+   >>>               drivers/remoteproc/remoteproc_core.o:(trace_rproc_stop_event) in archive vmlinux.a
+   >>> referenced by jump_label.h:260 (include/linux/jump_label.h:260)
+   >>>               drivers/remoteproc/remoteproc_core.o:(trace_rproc_stop_event) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: __traceiter_rproc_stop_event
+   >>> referenced by remoteproc_tracepoints.h:82 (include/trace/events/remoteproc_tracepoints.h:82)
+   >>>               drivers/remoteproc/remoteproc_core.o:(trace_rproc_stop_event) in archive vmlinux.a
+   >>> referenced by remoteproc_tracepoints.h:82 (include/trace/events/remoteproc_tracepoints.h:82)
+   >>>               drivers/remoteproc/remoteproc_core.o:(trace_rproc_stop_event) in archive vmlinux.a
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
