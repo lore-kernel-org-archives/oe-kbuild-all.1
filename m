@@ -1,101 +1,72 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485EA7F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 08:20:04 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Qgyyd53xpz9spc;
-	Wed, 14 Jun 2023 10:19:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1686730793;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y6pBRIpjaWMJhTlkSGPLNmRsqhfWV6jsW5Wta8ORf2w=;
-	b=o6Q6KH0ZcL5FQqEpVZjrd6gYCIs9S9i+rs4AZQQ0TaHpGzbCNf9IPsVbIanvnzhfi2iGP4
-	rDfP+MzbTkmrhPME9OrNlzny6DPwKBCA47/N86OfAJ6PApj4SqOEYP2KM9S03sbtB3me2A
-	SQBq3LL6dS1LV86s2eH0wsw3V34y67Q/u3DW4UtFIR6LzYO06zi4rXFwCFnC7/uSIVNfPw
-	jfFBOHe92QvusOgvQMWu13r+a5+IChEGeOdL/psrhiT/oJ4BS2Pyj6bllvcS8RXsUMgQ7p
-	FOMfJg3AskbTHwx5ILltt6xvZtZ1MVd/G0deDvww7ZPfBAuXVksf0H5aHJ44EA==
-References: <20230613083626.227476-3-frank@oltmanns.dev>
- <202306132038.nUB6hmCv-lkp@intel.com>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: kernel test robot <lkp@intel.com>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, "A.s. Dong" <aisheng.dong@nxp.com>, Abel
- Vesa <abelvesa@kernel.org>, Fabio Estevam <festevam@gmail.com>,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, NXP Linux Team <linux-imx@nxp.com>, Peng Fan
- <peng.fan@nxp.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH v2 2/2] clk: tests: Add tests for fractional divisor
- approximation
-In-reply-to: <202306132038.nUB6hmCv-lkp@intel.com>
-Date: Wed, 14 Jun 2023 10:19:37 +0200
-Message-ID: <87edmeqwva.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4BC7F;
+	Wed, 14 Jun 2023 08:25:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17E56C433C0;
+	Wed, 14 Jun 2023 08:25:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686731109;
+	bh=qv7ZrgSm9Ln/aGp/kiqgz0NRobfFBMT5o4e8ivb7x+w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VEW1hxUSaszh3VxIvcwfyXi4Kfr4/7zx/rnmonlUEXpqIcfOMqNCl2xpf+jGl3aRo
+	 pP+g/7PcOB0y2YLmlHweHYKrz7mMiONUez4GsdQj4g6NCymOopkh4GEM36s3pgD1CL
+	 rJ9GQ88EwtMSLv5c+I9yl12Pbwkzc2u0DHA5HLLj/HDOftvMZPN99VwuwamOQjgqdA
+	 aLCo0Nhrx5iSl2xcBGGCb5OkqPY+PDnB2/mdxKkOvlhWTuDVqht+PBNmloGxZJPpnw
+	 bSB3YoBZ8HlnyJWqulYay2+OMxOgl69hJ12uOP7XJH9fTgLu73bj2diiDv8Z00ubNA
+	 YQTl8EuvYHM7g==
+Date: Wed, 14 Jun 2023 10:25:05 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>
+Subject: Re: [linux-next:master 2238/9385]
+ drivers/gpu/drm/i915/display/intel_display_power.h:256:70: error:
+ declaration of 'struct seq_file' will not be visible outside of this
+ function
+Message-ID: <20230614-stadien-gasbetrieben-f9cbfc4343b8@brauner>
+References: <202306132237.Z4LJE8bP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Rspamd-Queue-Id: 4Qgyyd53xpz9spc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <202306132237.Z4LJE8bP-lkp@intel.com>
 
-Hi,
-
-On 2023-06-13 at 20:48:21 +0800, kernel test robot <lkp@intel.com> wrote:
-> Hi Frank,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on v6.4-rc6]
-> [also build test ERROR on linus/master]
-> [cannot apply to clk/clk-next next-20230613]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Oltmanns/clk-fractional-divider-Improve-approximation-when-zero-based/20230613-163903
-> base:   v6.4-rc6
-> patch link:    https://lore.kernel.org/r/20230613083626.227476-3-frank%40oltmanns.dev
-> patch subject: [PATCH v2 2/2] clk: tests: Add tests for fractional divisor approximation
-> config: csky-randconfig-r011-20230612 (https://download.01.org/0day-ci/archive/20230613/202306132038.nUB6hmCv-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 12.3.0
+On Tue, Jun 13, 2023 at 10:39:01PM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   1f6ce8392d6ff486af5ca96df9ded5882c4b6977
+> commit: ef104443bffa004f631729dfc924f0b84abbd602 [2238/9385] procfs: consolidate arch_report_meminfo declaration
+> config: x86_64-randconfig-r036-20230612 (https://download.01.org/0day-ci/archive/20230613/202306132237.Z4LJE8bP-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
 > reproduce (this is a W=1 build):
 >         mkdir -p ~/bin
 >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
 >         chmod +x ~/bin/make.cross
->         git checkout v6.4-rc6
->         b4 shazam https://lore.kernel.org/r/20230613083626.227476-3-frank@oltmanns.dev
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=ef104443bffa004f631729dfc924f0b84abbd602
+>         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+>         git fetch --no-tags linux-next master
+>         git checkout ef104443bffa004f631729dfc924f0b84abbd602
 >         # save the config file
 >         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
->
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+> 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306132038.nUB6hmCv-lkp@intel.com/
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->
->>> ERROR: modpost: "clk_fractional_divider_general_approximation" [drivers/clk/clk_test.ko] undefined!
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306132237.Z4LJE8bP-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from <built-in>:4:
+>    In file included from drivers/gpu/drm/i915/display/intel_display_power_well.h:10:
+> >> drivers/gpu/drm/i915/display/intel_display_power.h:256:70: error: declaration of 'struct seq_file' will not be visible outside of this function [-Werror,-Wvisibility]
+>    void intel_display_power_debug(struct drm_i915_private *i915, struct seq_file *m);
 
-The issue seems to be that clk_fractional_divider_general_approximation
-is not exported as a symbol, while the config builds the clk_test as a
-module:
-CONFIG_CLK_KUNIT_TEST=m
-
-If I'm not mistaken, this means that I can't test
-clk_fractional_divider_general_approximation directly. Instead I'd have
-to test it using clk_fractional_divider_ops.round_rate.
-
-Can someone more knowlegdable than me please confirm if my understanding
-is correct?
-
-Thanks,
-  Frank
+This seems odd. Arnd, any idea?
