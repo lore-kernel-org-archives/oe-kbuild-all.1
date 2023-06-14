@@ -1,42 +1,45 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048B11095C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 16:24:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=tL93bI0jCWhGF3WG58T3OaJIDMhjtKg7c9c3OsvljCg=; b=qpvSUqzkIvq2pf6t36jXKr2o0P
-	1Bb6JiMkPcXkWHbaeticZajm/w8h5A8KKPUZjGIRbHW1DdbuoG5p+MfHoSC4KyGHTCJbyBZ9suO+Y
-	l3/uYhPVsVfLBLNYjylwXFXfZHY644VQ5UpytE3b/DsndFToTAGZr5m2Fao8tNA2x4KTW/eg8XS2m
-	obtH625jiwihlTyS/r+/aJBLQSmUpUfWPSPEAqhgxgEIOMyMO/VjPTTlWxg+8flWGQIVe1ZsawW89
-	v6JZszuL/Hepl08MvDDCE1E/v81nXvJ0s5ZhpW4WsMhzRvVkRTyADmSpQ/jCS3jUEdnRV7fo6roLT
-	eoZnZJ4g==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:40838)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1q9THx-0001yP-1A; Wed, 14 Jun 2023 17:24:05 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.94.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1q9THu-0000Z3-LM; Wed, 14 Jun 2023 17:24:02 +0100
-Date: Wed, 14 Jun 2023 17:24:02 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Wei Chin Tsai <Wei-chin.Tsai@mediatek.com>
-Cc: lkp@intel.com, angelogioacchino.delregno@collabora.com,
-	ivan.tseng@mediatek.com, linux-arm-kernel@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, matthias.bgg@gmail.com,
-	mel.lee@mediatek.com, oe-kbuild-all@lists.linux.dev,
-	wsd_upstream@mediatek.com
-Subject: Re: [PATCH v3 1/1] memory: Fix export symbol twice compiler error
- for "export symbols for memory related functions" patch
-Message-ID: <ZInpooYdKnhdm3SW@shell.armlinux.org.uk>
-References: <202306142030.GjGWnIkY-lkp@intel.com>
- <20230614153902.26206-1-Wei-chin.Tsai@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912A62EC00
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 16:35:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686760506; x=1718296506;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=y9W5rPxPJo/DsN3uBRO2fUDIuhMCoNGku7aZ6GNZjXE=;
+  b=bwQLROdQhK5PQ33/HcxBE4hbfNGWcAytqpN2R+gb0nomgJTMrU/fEr0/
+   xNsL9ILKHzVpdndtJ0082yeqcfKuxwh5LzIRC6/iNsr7RhIPBrJuWm7aA
+   5ndoH2nbL7Srza9VEzidWtZhzzrNxV6wG3QnCJX+WxeQZKnZqG/Nuya38
+   +mw5Ti9F/whZHQP/2G1s2BYtx/CR4SOnA0KXwMjOjpTUnvJerdOnmoonQ
+   vOJvs+/lTeeHEUfce5XzqAemmf4Pw26oOirll32E+teIUx72zHgrfjyqY
+   txCojSqK018FhaoSYZD9FlxN/ILDQTQLW6ULcRqHsr2DUAX5rHzV9yCCq
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="358668018"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="358668018"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 09:35:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="1042290671"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="1042290671"
+Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 14 Jun 2023 09:35:04 -0700
+Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9TSC-0000r9-2w;
+	Wed, 14 Jun 2023 16:34:49 +0000
+Date: Thu, 15 Jun 2023 00:34:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
+Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
+	Michal Simek <monstr@monstr.eu>
+Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS_2023.1_update 88/1079]
+ drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:147: warning: expecting
+ prototype for struct strm_node. Prototype was for struct stream_context_node
+ instead
+Message-ID: <202306150002.LtyhxE4e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,51 +48,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230614153902.26206-1-Wei-chin.Tsai@mediatek.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Wed, Jun 14, 2023 at 11:39:02PM +0800, Wei Chin Tsai wrote:
-> User could not add the export symbol "arch_vma_name"
-> in arch/arm/kernel/process.c and kernel/signal.c both.
-> It would cause the export symbol twice compiler error
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> Signed-off-by: Wei Chin Tsai <Wei-chin.Tsai@mediatek.com>
+Hi Venkateshwar,
 
-I'm sorry, but this patch is silly.
+FYI, the error/warning still remains.
 
-> diff --git a/arch/arm/kernel/process.c b/arch/arm/kernel/process.c
-> index df91412a1069..d71a9bafb584 100644
-> --- a/arch/arm/kernel/process.c
-> +++ b/arch/arm/kernel/process.c
-> @@ -343,7 +343,10 @@ const char *arch_vma_name(struct vm_area_struct *vma)
->  {
->  	return is_gate_vma(vma) ? "[vectors]" : NULL;
->  }
-> +
-> +#ifdef CONFIG_ARM
->  EXPORT_SYMBOL_GPL(arch_vma_name);
-> +#endif
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS_2023.1_update
+head:   b8d15414a440db0904ee32f03268e2d262dbf397
+commit: 94ece3554bcf455d4f036547a7030a774bbeec9c [88/1079] staging: xlnx_tsmux: Initial version of xlnx mpeg2tsmux driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230615/202306150002.LtyhxE4e-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        # https://github.com/Xilinx/linux-xlnx/commit/94ece3554bcf455d4f036547a7030a774bbeec9c
+        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
+        git fetch --no-tags xilinx-xlnx xlnx_rebase_v6.1_LTS_2023.1_update
+        git checkout 94ece3554bcf455d4f036547a7030a774bbeec9c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/clk/ drivers/gpu/drm/xlnx/ drivers/media/platform/xilinx/ drivers/net/ethernet/xilinx/ drivers/of/ drivers/staging/
 
-CONFIG_ARM will always be set here, so adding this ifdef is useless.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306150002.LtyhxE4e-lkp@intel.com/
 
-> diff --git a/kernel/signal.c b/kernel/signal.c
-> index a1abe77fcdc3..f7d03450781e 100644
-> --- a/kernel/signal.c
-> +++ b/kernel/signal.c
-> @@ -4700,7 +4700,10 @@ __weak const char *arch_vma_name(struct vm_area_struct *vma)
->  {
->  	return NULL;
->  }
-> +
-> +#ifdef CONFIG_ARM64
->  EXPORT_SYMBOL_GPL(arch_vma_name);
-> +#endif
+All warnings (new ones prefixed by >>):
 
-Sorry, but no.
+>> drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:147: warning: expecting prototype for struct strm_node. Prototype was for struct stream_context_node instead
+>> drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c:161: warning: expecting prototype for struct strm_info. Prototype was for struct stream_info instead
 
-Please do the research I've now twice asked for.
+
+vim +147 drivers/staging/xlnx_tsmux/xlnx_mpg2tsmux.c
+
+   124	
+   125	/**
+   126	 * struct strm_node - struct to describe stream node in linked list
+   127	 * @node_number: node number to handle streams
+   128	 * @node_status: status of stream node
+   129	 * @element: stream context info
+   130	 * @error_code: error codes
+   131	 * @reserved1: reserved bits for hardware align
+   132	 * @tail_pointer: physical address of next stream node in linked list
+   133	 * @strm_phy_addr: physical address of stream context
+   134	 * @node: struct of linked list head
+   135	 * @reserved2: reserved for hardware align
+   136	 */
+   137	struct stream_context_node {
+   138		u32 node_number;
+   139		enum node_status_info node_status;
+   140		struct stream_context element;
+   141		enum stream_errors error_code;
+   142		u32 reserved1;
+   143		u64 tail_pointer;
+   144		u64 strm_phy_addr;
+   145		struct list_head node;
+   146		u64 reserved2;
+ > 147	};
+   148	
+   149	/**
+   150	 * struct strm_info - struct to describe streamid node in streamid table
+   151	 * @pid: identification number of stream
+   152	 * @continuity_counter: counter to maintain packet count for a stream
+   153	 * @usageflag: flag to know free or under use for allocating streamid node
+   154	 * @strmtbl_update: struct to know enqueue or dequeue streamid in table
+   155	 */
+   156	struct stream_info {
+   157		u16 pid;
+   158		u8 continuity_counter;
+   159		bool usageflag;
+   160		enum strmtbl_cnxt strmtbl_update;
+ > 161	};
+   162	
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
