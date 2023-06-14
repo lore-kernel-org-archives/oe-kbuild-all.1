@@ -1,146 +1,126 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C079B15499
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 22:58:41 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-1b3be39e666so1544965ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 15:58:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1686783521; x=1689375521;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=mZoi1bNKOhXBExhJOXQO6XVV9KpmpLb4lBwItpjnHWY=;
-        b=ANMU/U0yEYhD1KjeGLSBIAtuTuo/Ml3KgnPppr37JJzBNonje37HRd/JpahvqLr5vH
-         9D7jtvTs7u+LxcJvBSAm1jymib1LzrDm9LMawLSpOYpj3SVvphpR9CXs4F+eVfUFE+d2
-         y104M8h5KpRSP+tYhybTo78cxZ3LsFezLvjbE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686783521; x=1689375521;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mZoi1bNKOhXBExhJOXQO6XVV9KpmpLb4lBwItpjnHWY=;
-        b=VCL9f98XIt8hSPX/RdAeYM3rAv8ZT5f5+wIJP5nELPk+hZvhaiXBTzFiwt2CHHX9Oz
-         5H951SxhDD5Q5FnTq+/9d9raEgSK/mQ6i8PDBq6RJ9ca53LbWiQqQyIUy/khpYpJwsYM
-         uB5kZF+3DILJpzYo3n7ECQT9qcJV/REzitDJxicKpZL/yicqsQVM2n1PDDkh66usImc9
-         Rzxipx6X7YBGVjSW3mSEKI+cafxlyL5Q5eDFeT2wfX+ZWohlA/BUWHjd2C8hYq9nZ1j1
-         Jo8ReSeSj1Zrtrilb8/Gz9JuFJ3T70GLNXlGZU2veB+qVVHDwEKw6DWUmeEdvHG5YKDd
-         NoJg==
-X-Gm-Message-State: AC+VfDxJjAH/9fQUnmEaklyOeZF9LpoXG1z5O7cPCoeEk5dNGNqFBtOb
-	K3RYxe++ajEKt1ylwrf3zUdjfA==
-X-Google-Smtp-Source: ACHHUZ6wohFkQ9WR3wFAYVoYMKv3LJuhQaDuFM/LHXBWC+CjOXeEnsyLOw57F8R/Z2i+9M28S8mV4Q==
-X-Received: by 2002:a17:902:c951:b0:1a2:a904:c42e with SMTP id i17-20020a170902c95100b001a2a904c42emr4759122pla.24.1686783520999;
-        Wed, 14 Jun 2023 15:58:40 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id bg1-20020a1709028e8100b001b3a21fbb4fsm8910888plb.12.2023.06.14.15.58.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jun 2023 15:58:40 -0700 (PDT)
-Date: Wed, 14 Jun 2023 15:58:39 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Nick Desaulniers <ndesaulniers@google.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [linux-next:master 3357/8413] drivers/scsi/FlashPoint.c:1712:12:
- warning: stack frame size (1056) exceeds limit (1024) in
- 'FlashPoint_HandleInterrupt'
-Message-ID: <202306141527.95B9960@keescook>
-References: <202306100035.VTusNhm4-lkp@intel.com>
- <202306131418.35B5D649DC@keescook>
- <CAKwvOdmZ7fMB1Kpat3wbcUxaVbWmjO30MzQcytUZ=2Yj-NLmTA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8B061548A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 23:09:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686784155; x=1718320155;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=zFl77UvUSPI2bo1pG65ty+vKamQm9GIyBL0rWrVcsWA=;
+  b=C0hfZ8u9qru3/932kBVFPEH/bEev7tdnAg/xCVdxTIG1srWOkasxqrSA
+   AhAEEEi3EGYjMLEpTt+vAgs+0JY49m3tVXpGKnqiUM5d0cbDNiIvaFadV
+   mPywjvYOKUPLwab4IvoFKUmbjsRGvwF0QunDVBQY4iDUxTITfPOJmdsyv
+   CtWT4SzEiI7F+87i4iPJX19e8Aq5KokDrhd7QSYVS4GyXG8Z3fdwBugNa
+   FSbb+VIwm2dMNi25/I3qzO/tyG+Bhj5jwjqOdmBPeLHjGTMeDj+RhZ95o
+   A2ESQV7gNtA2MdSLQjcU/kvGn70HfoLZXXbr9g5qqRTb6+2bHSbLlxiD3
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="357639644"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="357639644"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 16:08:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="782274212"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="782274212"
+Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 14 Jun 2023 16:08:33 -0700
+Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9ZbM-00019j-1S;
+	Wed, 14 Jun 2023 23:08:32 +0000
+Date: Thu, 15 Jun 2023 07:08:14 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Dutta, Ranjan" <ranjan.dutta@intel.com>
+Subject: [intel-lts:5.10/preempt-rt 4654/30000]
+ drivers/video/fbdev/aty/atyfb_base.c:180:6: warning: no previous prototype
+ for function 'aty_st_lcd'
+Message-ID: <202306150737.Hqwo7Imk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKwvOdmZ7fMB1Kpat3wbcUxaVbWmjO30MzQcytUZ=2Yj-NLmTA@mail.gmail.com>
 
-On Wed, Jun 14, 2023 at 04:27:46PM -0400, Nick Desaulniers wrote:
-> On Tue, Jun 13, 2023 at 5:22 PM Kees Cook <keescook@chromium.org> wrote:
-> >
-> > On Sat, Jun 10, 2023 at 12:58:23AM +0800, kernel test robot wrote:
-> > > First bad commit (maybe != root cause):
-> > >
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > > head:   53ab6975c12d1ad86c599a8927e8c698b144d669
-> > > commit: df8fc4e934c12b906d08050d7779f292b9c5c6b5 [3357/8413] kbuild: Enable -fstrict-flex-arrays=3
-> > > config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230610/202306100035.VTusNhm4-lkp@intel.com/config)
-> 
-> ^ I just checked this config. CONFIG_KASAN=y is not set, so this is
-> not a case of
-> https://github.com/ClangBuiltLinux/linux/issues/39
-> 
-> UBSAN is though (maybe a red herring) as well as GCOV and TSAN/KCSAN.
-> 
-> Disabling GCOV did not change the stack usage from allmodconfig.
-> 
-> Disable KCSAN dropped it down from 2272 to 2160.
-> 
-> Disabling UBSAN produced no warnings, and changed the inlining
-> behavior such that FlashPoint_HandleInterrupt only uses 656B rather
-> than 2272 via allmodconfig.
-> 
-> Seems specific to:
-> ```
-> CONFIG_UBSAN=y
-> CONFIG_CC_HAS_UBSAN_ARRAY_BOUNDS=y
-> CONFIG_UBSAN_BOUNDS=y
-> CONFIG_UBSAN_ARRAY_BOUNDS=y
-> # CONFIG_UBSAN_SHIFT is not set
-> # CONFIG_UBSAN_UNREACHABLE is not set
-> # CONFIG_UBSAN_BOOL is not set
-> # CONFIG_UBSAN_ENUM is not set
-> CONFIG_UBSAN_SANITIZE_ALL=y
-> ```
-> but adding these on top of powernv_defconfig I couldn't reproduce.  So
-> perhaps we can do a config bisection between allmodconfig and
-> powernv_defconfig to see what combination of configs in allmodconfig
-> is causing this to blow up.
+Hi Randy,
 
-I think you're missing:
+FYI, the error/warning still remains.
 
-CONFIG_SCSI_BUSLOGIC=y
-CONFIG_SCSI_FLASHPOINT=y
+tree:   https://github.com/intel/linux-intel-lts.git 5.10/preempt-rt
+head:   3ac1bd25f960eb6f98d69d28d53e3fddd1e6f88a
+commit: f11431c81837b0819854ee10da218949d4c7e2f1 [4654/30000] fbdev: atyfb: add stubs for aty_{ld,st}_lcd()
+config: i386-randconfig-i015-20230613 (https://download.01.org/0day-ci/archive/20230615/202306150737.Hqwo7Imk-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel/linux-intel-lts/commit/f11431c81837b0819854ee10da218949d4c7e2f1
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
+        git fetch --no-tags intel-lts 5.10/preempt-rt
+        git checkout f11431c81837b0819854ee10da218949d4c7e2f1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/thunderbolt/ drivers/video/fbdev/aty/
 
-Or the function doesn't get built. I'm using powernv_defconfig plus your
-UBSAN configs and the 2 above:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306150737.Hqwo7Imk-lkp@intel.com/
 
-make -j128 O=clang-ppc LLVM=1 ARCH=powerpc \
-	KCFLAGS=-Rpass-analysis=stack-frame-layout \
-	drivers/scsi/BusLogic.o
+All warnings (new ones prefixed by >>):
 
-And I see the huge stack usage.
+>> drivers/video/fbdev/aty/atyfb_base.c:180:6: warning: no previous prototype for function 'aty_st_lcd' [-Wmissing-prototypes]
+   void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
+        ^
+   drivers/video/fbdev/aty/atyfb_base.c:180:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
+   ^
+   static 
+>> drivers/video/fbdev/aty/atyfb_base.c:183:5: warning: no previous prototype for function 'aty_ld_lcd' [-Wmissing-prototypes]
+   u32 aty_ld_lcd(int index, const struct atyfb_par *par)
+       ^
+   drivers/video/fbdev/aty/atyfb_base.c:183:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   u32 aty_ld_lcd(int index, const struct atyfb_par *par)
+   ^
+   static 
+   2 warnings generated.
 
-Having -fstrict-flex-arrays=3's seems to contribute about 200B:
 
-Enabled:
-	Offset: [SP-2032], Type: Spill, Align: 8, Size: 8
-Disabled:
-	Offset: [SP-1808], Type: Spill, Align: 8, Size: 8
+vim +/aty_st_lcd +180 drivers/video/fbdev/aty/atyfb_base.c
 
-Even just a quick check of structs, I see several that gain UBSAN_BOUNDS
-coverage as a result (i.e. that have trailing arrays):
-
-	struct sccb_mgr_tar_info
-	struct nvram_info
-	struct sccb_card
-
-So everything is working "as intended" from that perspective.
-
-Is this just the result of inlining? Some of the called functions are
-short, but FPT_sres() is not and has comical indentation. If everything
-got inlined into FlashPoint_HandleInterrupt() and all the array indexes
-get instrumented, maybe that's it? Though I'd expect stack slot reuse
-for array index instrumentation... so maybe it's similar to what is
-mentioned in:
-https://github.com/ClangBuiltLinux/linux/issues/39#issuecomment-1273688761
-
--Kees
+   163	
+   164	u32 aty_ld_lcd(int index, const struct atyfb_par *par)
+   165	{
+   166		if (M64_HAS(LT_LCD_REGS)) {
+   167			return aty_ld_le32(lt_lcd_regs[index], par);
+   168		} else {
+   169			unsigned long temp;
+   170	
+   171			/* write addr byte */
+   172			temp = aty_ld_le32(LCD_INDEX, par);
+   173			aty_st_le32(LCD_INDEX, (temp & ~LCD_INDEX_MASK) | index, par);
+   174			/* read the register value */
+   175			return aty_ld_le32(LCD_DATA, par);
+   176		}
+   177	}
+   178	#else /* defined(CONFIG_PMAC_BACKLIGHT) || defined(CONFIG_FB_ATY_BACKLIGHT) \
+   179		 defined(CONFIG_FB_ATY_GENERIC_LCD) */
+ > 180	void aty_st_lcd(int index, u32 val, const struct atyfb_par *par)
+   181	{ }
+   182	
+ > 183	u32 aty_ld_lcd(int index, const struct atyfb_par *par)
+   184	{
+   185		return 0;
+   186	}
+   187	#endif /* defined(CONFIG_PMAC_BACKLIGHT) || defined (CONFIG_FB_ATY_GENERIC_LCD) */
+   188	
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
