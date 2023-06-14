@@ -1,108 +1,193 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4E6101DD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 20:23:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686774202; x=1718310202;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HpOoocgRSqb9ufbSMPusYet9vgv9Ln7/lDTmRx8LeO4=;
-  b=NAK96vQzY6Vg6QJ5xAPlmjyHeb7ITAoTYoAViKl+6x3HJSfbxT7Ewrft
-   TSFZqiCOAA0FUHLrgoRigmh0pBQCDmEqbv+rSFdF+3Z2/TRGau8hNszdU
-   tmXrv/zBk+Gc+Pi/FyBKwfndQkLWOAbKPp1qmjF7uizGSnaAh6Ekcse/G
-   YuyMW3AhOGY2XpeMl+qyp5FkQWmlc6J3OcI2G049yoM7kQQYkuR2IlDU7
-   YgNrpahy6DhhExeyd4OLKhvuudXgnpnBEGD1fT/VSGFFeSTSv/ScPxL5/
-   DXJ8Xv8GF0bdQa/OZTmImN57NphIoxTOWWkEhK/sddIuck4XZmdNpua68
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="445098246"
-X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="445098246"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 13:23:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="662536797"
-X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="662536797"
-Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 14 Jun 2023 13:23:19 -0700
-Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q9X19-000137-1R;
-	Wed, 14 Jun 2023 20:23:18 +0000
-Date: Thu, 15 Jun 2023 04:21:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Venkateshwar Rao Gannavarapu <venkateshwar.rao.gannavarapu@xilinx.com>
-Cc: oe-kbuild-all@lists.linux.dev, git@amd.com,
-	Michal Simek <monstr@monstr.eu>
-Subject: [xilinx-xlnx:xlnx_rebase_v6.1_LTS_2023.1_update 140/1079]
- drivers/clk/clk-si5324.c:474: warning: expecting prototype for
- si5324_regmap_is_writable(). Prototype was for si5324_regmap_is_writeable()
- instead
-Message-ID: <202306150408.UXmDG0pa-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECA7125C1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 20:27:59 +0000 (UTC)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-62fe188255eso579786d6.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 13:27:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1686774478; x=1689366478;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kimLIYWPOvzs4k2x7Iocr5Znn/T70aABOYbrugGGfHk=;
+        b=1Dp95kTjoBgw5soGCnXEj5PVJ6JaMLGi2nMWtU3y4lJXt/E0oBA57JOFvEur5abN9G
+         /h1JgUgo4ExdPrbtD1+VINTEzbAsmENDcwvFunWnDCyWxHOOVP8Myu34ou4unGSmhQPG
+         QIpKgJJHxQ/JFZGzff9JsQfURNfLROVmZv9gBDoLXr2bFf1BHB2CDsdNKFsH9XqHB9ig
+         wPD4mqR+Bh2stXDXR9XGEVOoQJJpAgs76OvLjUNqtnV2Sl7c9Qyt+kx5eE0ZU28neurQ
+         pMaksSioupfoOYZWx9pkzPP1AEK254YXDgmmvTSAbq8boRAuFjnuBC1ZY1NpwywDKJCv
+         V9+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686774478; x=1689366478;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kimLIYWPOvzs4k2x7Iocr5Znn/T70aABOYbrugGGfHk=;
+        b=a9V6OCfcTw1HfsGJtu7q+tMc6cmk3zuuHnNPjLk0NFDU4EYejg7lYwNwgiam/BQdH7
+         4nQYF4JZ2+wTkYcaYIqNvFufa2+2mDmY9PXEwpJOFY7mAvyqY1uV8iE+krXBuKVQOIzr
+         2oBPJQHFdwhsVildraVNArfNUHiZeUij984nB1453hNvtFhqRiT8fv2Lm9M/dYsq93NE
+         QWMRWFpJbLd5Kp9iOr/qajvUwt/d7NzygRB3wX19ziXL07qUsKUxwJjn6AjYbAQILNcQ
+         ITRPPzHdb/3BsHzaXAAQe3Lxm6aA7dCN0nbzKMZG5bYAxfUuW6QJnSnCV8H0BzToFc7E
+         V05A==
+X-Gm-Message-State: AC+VfDxV563GC+c/j9+9Sn9qd+osE0/B8HaJOZpbmWIzQzbRRTpFEEK2
+	PuIGZiIBq9GfknrXoe7Xr9HnSSf3pKDamssC/iSm9g==
+X-Google-Smtp-Source: ACHHUZ7ay8BwIAHN3FlqdH3RTUmegJtrBYKRwr5TaPYYT2JLfVoH8FJtYQ8A89LRAaOeARNe1NIR4/MB8+6wMGmCs0o=
+X-Received: by 2002:ad4:5c81:0:b0:62d:e3d7:5b7a with SMTP id
+ o1-20020ad45c81000000b0062de3d75b7amr3409806qvh.11.1686774478425; Wed, 14 Jun
+ 2023 13:27:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202306100035.VTusNhm4-lkp@intel.com> <202306131418.35B5D649DC@keescook>
+In-Reply-To: <202306131418.35B5D649DC@keescook>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Wed, 14 Jun 2023 16:27:46 -0400
+Message-ID: <CAKwvOdmZ7fMB1Kpat3wbcUxaVbWmjO30MzQcytUZ=2Yj-NLmTA@mail.gmail.com>
+Subject: Re: [linux-next:master 3357/8413] drivers/scsi/FlashPoint.c:1712:12:
+ warning: stack frame size (1056) exceeds limit (1024) in 'FlashPoint_HandleInterrupt'
+To: Kees Cook <keescook@chromium.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v6.1_LTS_2023.1_update
-head:   b8d15414a440db0904ee32f03268e2d262dbf397
-commit: cc938825e6e8f50d47ed23750273894aa5429e39 [140/1079] clk: Adding Silicon labs si5324 clock driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230615/202306150408.UXmDG0pa-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        # https://github.com/Xilinx/linux-xlnx/commit/cc938825e6e8f50d47ed23750273894aa5429e39
-        git remote add xilinx-xlnx https://github.com/Xilinx/linux-xlnx
-        git fetch --no-tags xilinx-xlnx xlnx_rebase_v6.1_LTS_2023.1_update
-        git checkout cc938825e6e8f50d47ed23750273894aa5429e39
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/clk/ drivers/gpu/drm/xlnx/ drivers/media/platform/xilinx/ drivers/net/ethernet/xilinx/ drivers/staging/
+On Tue, Jun 13, 2023 at 5:22=E2=80=AFPM Kees Cook <keescook@chromium.org> w=
+rote:
+>
+> On Sat, Jun 10, 2023 at 12:58:23AM +0800, kernel test robot wrote:
+> > First bad commit (maybe !=3D root cause):
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
+.git master
+> > head:   53ab6975c12d1ad86c599a8927e8c698b144d669
+> > commit: df8fc4e934c12b906d08050d7779f292b9c5c6b5 [3357/8413] kbuild: En=
+able -fstrict-flex-arrays=3D3
+> > config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/2=
+0230610/202306100035.VTusNhm4-lkp@intel.com/config)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306150408.UXmDG0pa-lkp@intel.com/
+^ I just checked this config. CONFIG_KASAN=3Dy is not set, so this is
+not a case of
+https://github.com/ClangBuiltLinux/linux/issues/39
 
-All warnings (new ones prefixed by >>):
+UBSAN is though (maybe a red herring) as well as GCOV and TSAN/KCSAN.
 
->> drivers/clk/clk-si5324.c:474: warning: expecting prototype for si5324_regmap_is_writable(). Prototype was for si5324_regmap_is_writeable() instead
+Disabling GCOV did not change the stack usage from allmodconfig.
+
+Disable KCSAN dropped it down from 2272 to 2160.
+
+Disabling UBSAN produced no warnings, and changed the inlining
+behavior such that FlashPoint_HandleInterrupt only uses 656B rather
+than 2272 via allmodconfig.
+
+Seems specific to:
+```
+CONFIG_UBSAN=3Dy
+CONFIG_CC_HAS_UBSAN_ARRAY_BOUNDS=3Dy
+CONFIG_UBSAN_BOUNDS=3Dy
+CONFIG_UBSAN_ARRAY_BOUNDS=3Dy
+# CONFIG_UBSAN_SHIFT is not set
+# CONFIG_UBSAN_UNREACHABLE is not set
+# CONFIG_UBSAN_BOOL is not set
+# CONFIG_UBSAN_ENUM is not set
+CONFIG_UBSAN_SANITIZE_ALL=3Dy
+```
+but adding these on top of powernv_defconfig I couldn't reproduce.  So
+perhaps we can do a config bisection between allmodconfig and
+powernv_defconfig to see what combination of configs in allmodconfig
+is causing this to blow up.
+
+> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.gi=
+t 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> > reproduce (this is a W=3D1 build):
+> >         mkdir -p ~/bin
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/s=
+bin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # install powerpc cross compiling tool for clang build
+> >         # apt-get install binutils-powerpc-linux-gnu
+> >         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-ne=
+xt.git/commit/?id=3Ddf8fc4e934c12b906d08050d7779f292b9c5c6b5
+> >         git remote add linux-next https://git.kernel.org/pub/scm/linux/=
+kernel/git/next/linux-next.git
+> >         git fetch --no-tags linux-next master
+> >         git checkout df8fc4e934c12b906d08050d7779f292b9c5c6b5
+> >         # save the config file
+> >         mkdir build_dir && cp config build_dir/.config
+> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
+cross W=3D1 O=3Dbuild_dir ARCH=3Dpowerpc olddefconfig
+> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
+cross W=3D1 O=3Dbuild_dir ARCH=3Dpowerpc SHELL=3D/bin/bash drivers/
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306100035.VTusNhm4-l=
+kp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> >    In file included from drivers/scsi/BusLogic.c:51:
+> > >> drivers/scsi/FlashPoint.c:1712:12: warning: stack frame size (1056) =
+exceeds limit (1024) in 'FlashPoint_HandleInterrupt' [-Wframe-larger-than]
+> >     1712 | static int FlashPoint_HandleInterrupt(void *pcard)
+> >          |            ^
+> >    1 warning generated.
+>
+> I wasn't able to generate the warning with my Clang, but it sure is
+> close! Building with KCFLAGS=3D-Rpass-analysis=3Dstack-frame-layout I see=
+:
+>
+>
+> In file included from ../drivers/scsi/BusLogic.c:51:
+> ../drivers/scsi/FlashPoint.c:1713:1: remark:
+> Function: FlashPoint_HandleInterrupt
+> Offset: [SP-4], Type: Protector, Align: 4, Size: 4
+> Offset: [SP-8], Type: Spill, Align: 8, Size: 4
+> Offset: [SP-12], Type: Spill, Align: 4, Size: 4
+> Offset: [SP-16], Type: Spill, Align: 16, Size: 4
+
+Perhaps alignment 16B for a 4B variable leads to excessive padding?
+Perhaps this config changes the alignment of a type?  No, looks like
+most spills are the 4B w/ 4B alignment and the 16B alignment spills
+are insignificant.
+
+> Offset: [SP-20], Type: Spill, Align: 4, Size: 4
+> Offset: [SP-24], Type: Spill, Align: 8, Size: 4
+> Offset: [SP-28], Type: Spill, Align: 4, Size: 4
+> Offset: [SP-32], Type: Spill, Align: 16, Size: 4
+> Offset: [SP-36], Type: Spill, Align: 4, Size: 4
+> Offset: [SP-40], Type: Spill, Align: 8, Size: 4
+> Offset: [SP-44], Type: Spill, Align: 4, Size: 4
+> Offset: [SP-48], Type: Spill, Align: 16, Size: 4
+> Offset: [SP-52], Type: Spill, Align: 4, Size: 4
+> Offset: [SP-56], Type: Spill, Align: 8, Size: 4
+> Offset: [SP-60], Type: Spill, Align: 4, Size: 4
+> Offset: [SP-64], Type: Spill, Align: 16, Size: 4
+> Offset: [SP-68], Type: Spill, Align: 4, Size: 4
+> Offset: [SP-72], Type: Spill, Align: 8, Size: 4
+> Offset: [SP-76], Type: Variable, Align: 4, Size: 4
+> Offset: [SP-80], Type: Spill, Align: 4, Size: 4
+> Offset: [SP-84], Type: Spill, Align: 4, Size: 4
+> ...[4 byte spills]...
+> Offset: [SP-1012], Type: Variable, Align: 4, Size: 4
+> Offset: [SP-1016], Type: Variable, Align: 4, Size: 4
+> [-Rpass-analysis=3Dstack-frame-layout]
+>
+> So something is very weird in FlashPoint_HandleInterrupt -- it has a
+> single while loop with an internal if/else if/.../else chain. So I don't
+> see why it would need such extensive spills...
+>
+> This seems like a missed optimization in Clang, maybe?
+>
+> --
+> Kees Cook
+>
 
 
-vim +474 drivers/clk/clk-si5324.c
-
-   462	
-   463	/**
-   464	 * si5324_regmap_is_writable - Checks the register is writable or not
-   465	 *
-   466	 * @dev:	Registered device
-   467	 * @reg:	Register offset
-   468	 *
-   469	 * Checks the register is writable or not.
-   470	 *
-   471	 * Return:	True if the register is writeable, False if it's not writeable.
-   472	 */
-   473	static bool si5324_regmap_is_writeable(struct device *dev, unsigned int reg)
- > 474	{
-   475		if ((reg > SI5324_POWERDOWN && reg < SI5324_FOS_LOCKT) ||
-   476		    (reg > SI5324_N1_HS && reg < SI5324_NC1_LS_H) ||
-   477		    (reg > SI5324_NC2_LS_L && reg < SI5324_N2_HS_LS_H) ||
-   478		    (reg > SI5324_N32_CLKIN_L && reg < SI5324_FOS_CLKIN_RATE) ||
-   479		    (reg > SI5324_FOS_CLKIN_RATE && reg < SI5324_PLL_ACTV_CLK) ||
-   480		    reg > SI5324_SKEW2 ||
-   481		    (reg >= SI5324_PLL_ACTV_CLK && reg <= SI5324_CLKIN_LOL_STATUS) ||
-   482		    (reg >= SI5324_PARTNO_H && reg <= SI5324_PARTNO_L))
-   483			return false;
-   484	
-   485		return true;
-   486	}
-   487	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Thanks,
+~Nick Desaulniers
