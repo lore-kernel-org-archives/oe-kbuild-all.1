@@ -1,45 +1,50 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206221548A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 23:09:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8941F7F3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 00:01:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686784158; x=1718320158;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MdcweoXvwlqFbzv4spf5iwDI3yB8txFPV8J+gi5BPgI=;
-  b=J1wnDdJ+BqEolAgxwc1lYHb3Vqh9yNnHn5zXOO3C9BP+zMFVH25Okr75
-   f46u1RE8XpVsfpVJjQXhAgV5WZ55AOcaENlLqns8S6wcbDdbE48FCZER6
-   /37xo3x6+e9x3m4U5XLTKLnjMNmvwxMLOtswnbkYGmsVs9/Kn+FcZFt3v
-   dw6yDTH+KK0003p2R3v3PL5ZP4le78XxKpxgyynx+yoS7qsCvq0y6rUB4
-   qVKsD4kZrS6b/4kZnoCRktmyvjP9k5dWoSmY3ZJjxKnk2wgAg8NsEOsLa
-   cHs/fV43pKn61e9SHolSnwjHW0LFLM7lMR2DW+4WsUPy4XkuyuIhl5X3d
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="357639643"
+  t=1686787291; x=1718323291;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vlOy6sNgAGOk3m1Tw2KlI83PWTTLu4KM+zfhCO79zT0=;
+  b=SEffVFP0qRkZO/g+PYR+X68Coz40848nKC/oLkJjGC6WpJGvxX/d3LdY
+   nOnfklE0UUCRZzUGx32nebyOhL/wQOqLMTLBCjXO+7Qj67XWgOO9kVmRF
+   SeMZv4XuzOhf8yIfOSwerzRQRjJLOMG7mVNm+TW72vS/VZqvbcWE9tjC5
+   Q67kPRHfE7rhikmRz0lsPRwUM/Hg5ViwCvCJjpMJhAKvFTIaTZkPeiqJY
+   Uj0t649yeRbLbszofd3rCO/9DULw3fKB54Vzs+jwfd6f5fOXUqg6YUcaj
+   RhmUbuuz7wU8f1+4X6R0mHThJpsPX1QLK8fN0aHtnnT4Ahh0dLgjqKWCu
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="356259694"
 X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="357639643"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 16:08:35 -0700
+   d="scan'208";a="356259694"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 17:01:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="782274210"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="742021292"
 X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="782274210"
+   d="scan'208";a="742021292"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 14 Jun 2023 16:08:33 -0700
+  by orsmga008.jf.intel.com with ESMTP; 14 Jun 2023 17:01:25 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9ZbM-00019h-1N;
-	Wed, 14 Jun 2023 23:08:32 +0000
-Date: Thu, 15 Jun 2023 07:08:13 +0800
+	id 1q9aQ0-0001BJ-1e;
+	Thu, 15 Jun 2023 00:00:57 +0000
+Date: Thu, 15 Jun 2023 07:59:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-fix-2h 17/17] s390x-linux-ld:
- drivers/gpu/drm/display/drm_dp_helper.o:(__dyndbg_class_users+0x0): multiple
- definition of `__UNIQUE_ID_ddebug_class_user361';
- drivers/gpu/drm/drm_gem_shmem_helper.o:(__dyndbg_class_users+0x0): first
- defined here
-Message-ID: <202306150758.diGUNe8q-lkp@intel.com>
+To: Azeem Shaikh <azeemshaikh38@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Valentina Manea <valentina.manea.m@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Kees Cook <keescook@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hardening@vger.kernel.org,
+	Azeem Shaikh <azeemshaikh38@gmail.com>,
+	Hongren Zheng <i@zenithal.me>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usbip: usbip_host: Replace strlcpy with strscpy
+Message-ID: <202306150753.vOUEonLq-lkp@intel.com>
+References: <20230614141026.2113749-1-azeemshaikh38@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,35 +53,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230614141026.2113749-1-azeemshaikh38@gmail.com>
 
-tree:   https://github.com/jimc/linux.git dd-fix-2h
-head:   4aa6878283ac7e7ccb8aa13c848b0f4a96b7314c
-commit: 1b1c0b6d4ae661d7e2a7cb50b34c245283b01aa0 [17/17] drm-drivers: DRM_CLASSMAP_USE in 2nd batch of drivers, helpers
-config: s390-randconfig-r044-20230613 (https://download.01.org/0day-ci/archive/20230615/202306150758.diGUNe8q-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+Hi Azeem,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.4-rc6 next-20230614]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Azeem-Shaikh/usbip-usbip_host-Replace-strlcpy-with-strscpy/20230614-221217
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230614141026.2113749-1-azeemshaikh38%40gmail.com
+patch subject: [PATCH v2] usbip: usbip_host: Replace strlcpy with strscpy
+config: i386-randconfig-i012-20230614 (https://download.01.org/0day-ci/archive/20230615/202306150753.vOUEonLq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install s390 cross compiling tool for clang build
-        # apt-get install binutils-s390x-linux-gnu
-        # https://github.com/jimc/linux/commit/1b1c0b6d4ae661d7e2a7cb50b34c245283b01aa0
-        git remote add jimc https://github.com/jimc/linux.git
-        git fetch --no-tags jimc dd-fix-2h
-        git checkout 1b1c0b6d4ae661d7e2a7cb50b34c245283b01aa0
+        git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
+        git fetch usb usb-testing
+        git checkout usb/usb-testing
+        b4 shazam https://lore.kernel.org/r/20230614141026.2113749-1-azeemshaikh38@gmail.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=s390 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/usb/usbip/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306150758.diGUNe8q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306150753.vOUEonLq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> s390x-linux-ld: drivers/gpu/drm/display/drm_dp_helper.o:(__dyndbg_class_users+0x0): multiple definition of `__UNIQUE_ID_ddebug_class_user361'; drivers/gpu/drm/drm_gem_shmem_helper.o:(__dyndbg_class_users+0x0): first defined here
+   drivers/usb/usbip/stub_main.c: In function 'match_busid_store':
+>> drivers/usb/usbip/stub_main.c:170:13: warning: unused variable 'len' [-Wunused-variable]
+     170 |         int len;
+         |             ^~~
+
+
+vim +/len +170 drivers/usb/usbip/stub_main.c
+
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  166  
+cc3d53def83a99 drivers/usb/usbip/stub_main.c     Greg Kroah-Hartman 2017-06-09  167  static ssize_t match_busid_store(struct device_driver *dev, const char *buf,
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  168  				 size_t count)
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  169  {
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09 @170  	int len;
+e913397202b755 drivers/staging/usbip/stub_main.c Kay Sievers        2008-10-30  171  	char busid[BUSID_SIZE];
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  172  
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  173  	if (count < 5)
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  174  		return -EINVAL;
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  175  
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  176  	/* busid needs to include \0 termination */
+7e5b2b663aa01a drivers/usb/usbip/stub_main.c     Azeem Shaikh       2023-06-14  177  	if (strscpy(busid, buf + 4, BUSID_SIZE) < 0)
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  178  		return -EINVAL;
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  179  
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  180  	if (!strncmp(buf, "add ", 4)) {
+2183b77ece517f drivers/staging/usbip/stub_main.c Kurt Kanzenbach    2013-04-04  181  		if (add_match_busid(busid) < 0)
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  182  			return -ENOMEM;
+2183b77ece517f drivers/staging/usbip/stub_main.c Kurt Kanzenbach    2013-04-04  183  
+1a4b6f66285785 drivers/staging/usbip/stub_main.c matt mooney        2011-05-19  184  		pr_debug("add busid %s\n", busid);
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  185  		return count;
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  186  	}
+2183b77ece517f drivers/staging/usbip/stub_main.c Kurt Kanzenbach    2013-04-04  187  
+2183b77ece517f drivers/staging/usbip/stub_main.c Kurt Kanzenbach    2013-04-04  188  	if (!strncmp(buf, "del ", 4)) {
+2183b77ece517f drivers/staging/usbip/stub_main.c Kurt Kanzenbach    2013-04-04  189  		if (del_match_busid(busid) < 0)
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  190  			return -ENODEV;
+2183b77ece517f drivers/staging/usbip/stub_main.c Kurt Kanzenbach    2013-04-04  191  
+1a4b6f66285785 drivers/staging/usbip/stub_main.c matt mooney        2011-05-19  192  		pr_debug("del busid %s\n", busid);
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  193  		return count;
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  194  	}
+2183b77ece517f drivers/staging/usbip/stub_main.c Kurt Kanzenbach    2013-04-04  195  
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  196  	return -EINVAL;
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  197  }
+cc3d53def83a99 drivers/usb/usbip/stub_main.c     Greg Kroah-Hartman 2017-06-09  198  static DRIVER_ATTR_RW(match_busid);
+4d7b5c7f8ad49b drivers/staging/usbip/stub_main.c Takahiro Hirofuchi 2008-07-09  199  
 
 -- 
 0-DAY CI Kernel Test Service
