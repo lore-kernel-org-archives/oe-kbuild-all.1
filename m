@@ -1,52 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B22A8F68
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 12:22:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F2669441
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 12:22:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686745329; x=1718281329;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2wurr3a70A1th1nzJb1CFm7v+4FT74d7krbArrguyJE=;
-  b=jQQyuaNexP4PiwYFBCQYvSH4nNQ9LzzCDv3356pGq6KXuFwp3uxzE4lJ
-   1b04I/VOGF0nt6Ky08zd7D7vZ0eq6Hsvscw4I80sgqxfPt6H7sLnjFZg0
-   I2LfnflNtP0KZJPoScrC8mka6+1MnWRIR1RstqDdOIu1EE/2RmjyC48RB
-   uL+62qLsYiYodeT4BFqE/3/jH7HdpKVop8Pnieo2L/sTDIjXRiTwNfgQN
-   MI/8EtK9vEKiSu6D+E/cYuRYCnQ1015ko99LDHNpjn0PErbHwAZg5V9US
-   hqpHLaEnsG6KanvWFb4qaBZuGVPu0Km6JFDNbLrCZboTNpvQaNnzKAyBe
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="343294393"
+  t=1686745330; x=1718281330;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1NFeHdkWFMl71+5QSVhJs9jPMJycQkIAFO30T8xAP9c=;
+  b=LEYNGg5L4wkvxoUg4UTFOAwGroMWJfwGC5vBq7ny6BtBFST24o4pLQ1H
+   Xywdw2hqpDr/2bsYcMDPO5XnwYnIznYG3awnBLFsmYiU24096xc9XUm99
+   WlZ4qXyUT94EByRTaOQ1xIIV+Ek+l8sN0dW4fVr7NY/20NbmnXGewCs/w
+   5JJT9KOBrgCchzGYybpYh5wXgI+1daLVl9nyBgXMNpSfsmYiTDK680Mfv
+   PUWIw44m/U8ao0D/IeOHUqtT/uK4Y5XU9odrgpUawFkF4OabpFmCv/+Zt
+   Wyd1jvMcPOxnuuRBoOkDDFxZ+f9rlZXBBSCtYmMF+6oLefja2qNO4QJwW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="356089020"
 X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="343294393"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 05:22:08 -0700
+   d="scan'208";a="356089020"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 05:22:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="801888082"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="741821018"
 X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="801888082"
+   d="scan'208";a="741821018"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2023 05:22:04 -0700
+  by orsmga008.jf.intel.com with ESMTP; 14 Jun 2023 05:22:08 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9PVg-0000cf-12;
-	Wed, 14 Jun 2023 12:22:01 +0000
-Date: Wed, 14 Jun 2023 20:21:30 +0800
+	id 1q9PVj-0000ch-0q;
+	Wed, 14 Jun 2023 12:22:04 +0000
+Date: Wed, 14 Jun 2023 20:21:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maso Hunag <maso.huang@mediatek.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Trevor Wu <trevor.wu@mediatek.com>,
-	Jiaxin Yu <jiaxin.yu@mediatek.com>,
-	Ren Zhijie <renzhijie2@huawei.com>, Arnd Bergmann <arnd@arndb.de>,
-	Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, Maso Huang <maso.huang@mediatek.com>
-Subject: Re: [PATCH 3/7] ASoC: mediatek: mt79xx: add platform driver
-Message-ID: <202306142005.uUyPtOQT-lkp@intel.com>
-References: <20230612105250.15441-4-maso.huang@mediatek.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 6769/28487]
+ include/trace/hooks/typec.h:20:1: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202306142015.YgRvaDDU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,565 +46,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230612105250.15441-4-maso.huang@mediatek.com>
 
-Hi Maso,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.4-rc6 next-20230614]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maso-Hunag/ASoC-mediatek-mt79xx-add-common-header/20230612-211033
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230612105250.15441-4-maso.huang%40mediatek.com
-patch subject: [PATCH 3/7] ASoC: mediatek: mt79xx: add platform driver
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230614/202306142005.uUyPtOQT-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add broonie-sound https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git
-        git fetch broonie-sound for-next
-        git checkout broonie-sound/for-next
-        b4 shazam https://lore.kernel.org/r/20230612105250.15441-4-maso.huang@mediatek.com
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   31cdb217f127543fa6979d42a2f53f13e077676b
+commit: abbebf1a3e6ab5a14cf34a2fe03dba7e10c2cf2c [6769/28487] ANDROID: usb: typec: tcpci: Migrate restricted vendor hook
+config: x86_64-randconfig-s021-20230614 (https://download.01.org/0day-ci/archive/20230614/202306142015.YgRvaDDU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android13-5.10
+        git checkout abbebf1a3e6ab5a14cf34a2fe03dba7e10c2cf2c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash sound/soc/mediatek/mt79xx/
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/android/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306142005.uUyPtOQT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306142015.YgRvaDDU-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   include/trace/hooks/sched.h:199:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:199:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:199:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:203:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:203:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:203:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:207:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:207:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:207:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:211:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:211:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:211:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:215:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:215:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:215:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:219:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:219:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:219:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:235:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:235:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:235:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:239:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:239:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:239:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:244:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:244:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:244:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:249:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:249:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:249:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:263:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:263:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:263:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:271:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:271:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:271:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:274:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:274:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:274:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:277:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:277:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:277:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/sched.h:281:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/sched.h:281:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/sched.h:281:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cpufreq.h):
+   include/trace/hooks/cpufreq.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cpufreq.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cpufreq.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/mm.h):
+   include/trace/hooks/mm.h:16:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/mm.h:16:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/mm.h:16:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/mm.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/mm.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/mm.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/mm.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/mm.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/mm.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/preemptirq.h):
+   include/trace/hooks/preemptirq.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/bug.h):
+   include/trace/hooks/bug.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/bug.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/bug.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/fault.h):
+   include/trace/hooks/fault.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/fault.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/fault.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/fault.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/traps.h):
+   include/trace/hooks/traps.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/traps.h:24:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:24:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:24:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/typec.h):
+>> include/trace/hooks/typec.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/typec.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/typec.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/typec.h:31:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/typec.h:31:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/typec.h:31:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c: In function 'mt79xx_afe_irq_handler':
->> sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:322:35: warning: missing terminating " character
-     322 |                 dev_err(afe->dev, "%s(), irq status err, ret %d, status 0x%x,
-         |                                   ^
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:323:38: warning: missing terminating " character
-     323 |                         mcu_en 0x%x\n", __func__, ret, status, mcu_en);
-         |                                      ^
->> sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:608:23: error: unterminated argument list invoking macro "dev_err"
-     608 | MODULE_LICENSE("GPL");
-         |                       ^
->> sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:322:17: error: 'dev_err' undeclared (first use in this function); did you mean '_dev_err'?
-     322 |                 dev_err(afe->dev, "%s(), irq status err, ret %d, status 0x%x,
-         |                 ^~~~~~~
-         |                 _dev_err
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:322:17: note: each undeclared identifier is reported only once for each function it appears in
->> sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:322:24: error: expected ';' at end of input
-     322 |                 dev_err(afe->dev, "%s(), irq status err, ret %d, status 0x%x,
-         |                        ^
-         |                        ;
-   ......
->> sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:322:17: error: expected declaration or statement at end of input
-     322 |                 dev_err(afe->dev, "%s(), irq status err, ret %d, status 0x%x,
-         |                 ^~~~~~~
->> sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:322:17: error: expected declaration or statement at end of input
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:312:21: warning: unused variable 'irq_ret' [-Wunused-variable]
-     312 |         irqreturn_t irq_ret = IRQ_HANDLED;
-         |                     ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:311:13: warning: unused variable 'i' [-Wunused-variable]
-     311 |         int i;
-         |             ^
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:306:34: warning: unused variable 'irq' [-Wunused-variable]
-     306 |         struct mtk_base_afe_irq *irq;
-         |                                  ^~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:322:17: error: no return statement in function returning non-void [-Werror=return-type]
-     322 |                 dev_err(afe->dev, "%s(), irq status err, ret %d, status 0x%x,
-         |                 ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c: At top level:
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:303:20: warning: 'mt79xx_afe_irq_handler' defined but not used [-Wunused-function]
-     303 | static irqreturn_t mt79xx_afe_irq_handler(int irq_id, void *dev)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:294:35: warning: 'mt79xx_afe_regmap_config' defined but not used [-Wunused-const-variable=]
-     294 | static const struct regmap_config mt79xx_afe_regmap_config = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:232:39: warning: 'irq_data' defined but not used [-Wunused-const-variable=]
-     232 | static const struct mtk_base_irq_data irq_data[MT79XX_IRQ_NUM] = {
-         |                                       ^~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:183:41: warning: 'memif_data' defined but not used [-Wunused-const-variable=]
-     183 | static const struct mtk_base_memif_data memif_data[MT79XX_MEMIF_NUM] = {
-         |                                         ^~~~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:179:46: warning: 'mt79xx_afe_pcm_dai_component' defined but not used [-Wunused-const-variable=]
-     179 | static const struct snd_soc_component_driver mt79xx_afe_pcm_dai_component = {
-         |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:170:40: warning: 'mt79xx_memif_routes' defined but not used [-Wunused-const-variable=]
-     170 | static const struct snd_soc_dapm_route mt79xx_memif_routes[] = {
-         |                                        ^~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:158:41: warning: 'mt79xx_memif_widgets' defined but not used [-Wunused-const-variable=]
-     158 | static const struct snd_soc_dapm_widget mt79xx_memif_widgets[] = {
-         |                                         ^~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:122:34: warning: 'mt79xx_memif_dai_driver' defined but not used [-Wunused-variable]
-     122 | static struct snd_soc_dai_driver mt79xx_memif_dai_driver[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:101:12: warning: 'mt79xx_irq_fs' defined but not used [-Wunused-function]
-     101 | static int mt79xx_irq_fs(struct snd_pcm_substream *substream,
-         |            ^~~~~~~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:90:12: warning: 'mt79xx_memif_fs' defined but not used [-Wunused-function]
-      90 | static int mt79xx_memif_fs(struct snd_pcm_substream *substream,
-         |            ^~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c:75:38: warning: 'mt79xx_afe_hardware' defined but not used [-Wunused-const-variable=]
-      75 | static const struct snd_pcm_hardware mt79xx_afe_hardware = {
-         |                                      ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c: In function 'mt79xx_init_clock':
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:43: warning: missing terminating " character
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                                           ^
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:42: warning: missing terminating " character
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                          ^
-   In file included from include/linux/kernel.h:30,
-                    from include/linux/clk.h:13,
-                    from sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:10:
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:43: error: missing terminating " character
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:379:42: note: in definition of macro '__printk_index_emit'
-     379 |                 if (__builtin_constant_p(_fmt) && __builtin_constant_p(_level)) { \
-         |                                          ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:33: error: 'ret' undeclared (first use in this function); did you mean 'net'?
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                 ^~~
-   include/linux/printk.h:379:42: note: in definition of macro '__printk_index_emit'
-     379 |                 if (__builtin_constant_p(_fmt) && __builtin_constant_p(_level)) { \
-         |                                          ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:33: note: each undeclared identifier is reported only once for each function it appears in
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                 ^~~
-   include/linux/printk.h:379:42: note: in definition of macro '__printk_index_emit'
-     379 |                 if (__builtin_constant_p(_fmt) && __builtin_constant_p(_level)) { \
-         |                                          ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:40: error: stray '\' in program
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                        ^
-   include/linux/printk.h:379:42: note: in definition of macro '__printk_index_emit'
-     379 |                 if (__builtin_constant_p(_fmt) && __builtin_constant_p(_level)) { \
-         |                                          ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:38: error: 'ld' undeclared (first use in this function)
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                      ^~
-   include/linux/printk.h:379:42: note: in definition of macro '__printk_index_emit'
-     379 |                 if (__builtin_constant_p(_fmt) && __builtin_constant_p(_level)) { \
-         |                                          ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:41: error: expected ')' before 'n'
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                         ^
-   include/linux/printk.h:379:42: note: in definition of macro '__printk_index_emit'
-     379 |                 if (__builtin_constant_p(_fmt) && __builtin_constant_p(_level)) { \
-         |                                          ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
-   include/linux/printk.h:379:41: note: to match this '('
-     379 |                 if (__builtin_constant_p(_fmt) && __builtin_constant_p(_level)) { \
-         |                                         ^
-   include/linux/printk.h:422:9: note: in expansion of macro '__printk_index_emit'
-     422 |         __printk_index_emit(fmt, level, subsys_fmt_prefix)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:42: error: missing terminating " character
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:379:42: note: in definition of macro '__printk_index_emit'
-     379 |                 if (__builtin_constant_p(_fmt) && __builtin_constant_p(_level)) { \
-         |                                          ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:43: error: missing terminating " character
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:388:61: note: in definition of macro '__printk_index_emit'
-     388 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                             ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:40: error: stray '\' in program
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                        ^
-   include/linux/printk.h:388:61: note: in definition of macro '__printk_index_emit'
-     388 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                             ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:41: error: expected ')' before 'n'
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                         ^
-   include/linux/printk.h:388:61: note: in definition of macro '__printk_index_emit'
-     388 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                             ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
-   include/linux/printk.h:388:60: note: to match this '('
-     388 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                            ^
-   include/linux/printk.h:422:9: note: in expansion of macro '__printk_index_emit'
-     422 |         __printk_index_emit(fmt, level, subsys_fmt_prefix)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:42: error: missing terminating " character
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:388:61: note: in definition of macro '__printk_index_emit'
-     388 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                             ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:43: error: missing terminating " character
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:388:70: note: in definition of macro '__printk_index_emit'
-     388 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                                      ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:40: error: stray '\' in program
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                        ^
-   include/linux/printk.h:388:70: note: in definition of macro '__printk_index_emit'
-     388 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                                      ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:41: error: expected ')' before 'n'
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                         ^
-   include/linux/printk.h:388:70: note: in definition of macro '__printk_index_emit'
-     388 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                                      ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
-   include/linux/printk.h:388:69: note: to match this '('
-     388 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                                     ^
-   include/linux/printk.h:422:9: note: in expansion of macro '__printk_index_emit'
-     422 |         __printk_index_emit(fmt, level, subsys_fmt_prefix)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:42: error: missing terminating " character
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:388:70: note: in definition of macro '__printk_index_emit'
-     388 |                                 .fmt = __builtin_constant_p(_fmt) ? (_fmt) : NULL, \
-         |                                                                      ^~~~
-   include/linux/dev_printk.h:105:9: note: in expansion of macro 'printk_index_subsys_emit'
-     105 |         printk_index_subsys_emit("%s %s: ", level, fmt)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:109:17: note: in expansion of macro 'dev_printk_index_emit'
-     109 |                 dev_printk_index_emit(level, fmt);                      \
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from include/sound/soc.h:14,
-                    from sound/soc/mediatek/mt79xx/mt79xx-afe-common.h:13,
-                    from sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:12:
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:43: error: missing terminating " character
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:40: error: stray '\' in program
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                        ^
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
->> sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:41: error: expected ')' before 'n'
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                         ^
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
-   include/linux/dev_printk.h:110:24: note: to match this '('
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                        ^
-   include/linux/dev_printk.h:144:9: note: in expansion of macro 'dev_printk_index_wrap'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:47:42: error: missing terminating " character
-      47 |                                 ret %ld\n", __func__, aud_clks[i],
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:144:56: note: in expansion of macro 'dev_fmt'
-     144 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   sound/soc/mediatek/mt79xx/mt79xx-afe-clk.c:46:25: note: in expansion of macro 'dev_err'
-      46 |                         dev_err(afe->dev, "%s(), devm_clk_get %s fail,
-         |                         ^~~~~~~
+vim +20 include/trace/hooks/typec.h
 
-
-vim +/dev_err +608 sound/soc/mediatek/mt79xx/mt79xx-afe-pcm.c
-
-   605	
-   606	MODULE_DESCRIPTION("Mediatek SoC AFE platform driver for ALSA MT79xx");
-   607	MODULE_AUTHOR("Vic Wu <vic.wu@mediatek.com>");
- > 608	MODULE_LICENSE("GPL");
+    15	
+    16	DECLARE_HOOK(android_vh_typec_tcpci_override_toggling,
+    17		TP_PROTO(struct tcpci *tcpci, struct tcpci_data *data, int *override_toggling),
+    18		TP_ARGS(tcpci, data, override_toggling));
+    19	
+  > 20	DECLARE_RESTRICTED_HOOK(android_rvh_typec_tcpci_chk_contaminant,
+    21		TP_PROTO(struct tcpci *tcpci, struct tcpci_data *data, int *ret),
+    22		TP_ARGS(tcpci, data, ret), 1);
+    23	
 
 -- 
 0-DAY CI Kernel Test Service
