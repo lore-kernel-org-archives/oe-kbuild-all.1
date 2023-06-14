@@ -1,97 +1,272 @@
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1612DDBF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 15:54:32 +0000 (UTC)
-X-UUID: 9838dc480ac911ee9cb5633481061a41-20230614
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=4NuQo0gKBxrcZxtYCs5sMJl+CvnlRB73xhVEIlMdfzM=;
-	b=D+afP+TbkHa+ign/9qntY9pl89G+SWOpEVA7xnu7KLjvKS2WYRpD2aiahD7wXy7S/8LRFk8OH5iTSweUMYBS1YJ4bFbp5aVYC+zO+BtTQd0U0f6JNki9h88I3/MDnhPK0yQDhDHOerHs+M7voqqLP5/0LpmMf4twtpFFus/SEL8=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.26,REQID:0cd6b2c6-be35-4d6c-81cb-cca38bd23cdc,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-5
-X-CID-META: VersionHash:cb9a4e1,CLOUDID:66f8116f-2f20-4998-991c-3b78627e4938,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 9838dc480ac911ee9cb5633481061a41-20230614
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
-	(envelope-from <wei-chin.tsai@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 186060915; Wed, 14 Jun 2023 23:39:05 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.186) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 14 Jun 2023 23:39:04 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 14 Jun 2023 23:39:04 +0800
-From: Wei Chin Tsai <Wei-chin.Tsai@mediatek.com>
-To: <lkp@intel.com>
-CC: <Wei-chin.Tsai@mediatek.com>, <angelogioacchino.delregno@collabora.com>,
-	<ivan.tseng@mediatek.com>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-mediatek@lists.infradead.org>, <linux@armlinux.org.uk>,
-	<matthias.bgg@gmail.com>, <mel.lee@mediatek.com>,
-	<oe-kbuild-all@lists.linux.dev>, <wsd_upstream@mediatek.com>
-Subject: [PATCH v3 1/1] memory: Fix export symbol twice compiler error for "export symbols for memory related functions" patch
-Date: Wed, 14 Jun 2023 23:39:02 +0800
-Message-ID: <20230614153902.26206-1-Wei-chin.Tsai@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <202306142030.GjGWnIkY-lkp@intel.com>
-References: <202306142030.GjGWnIkY-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6947D10966
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 16:04:49 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-3f9e36e5ea8so21059331cf.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 09:04:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1686758688; x=1689350688;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/+yno5ZdAMwferMqd2TLytY+ZQNkjo8dJsMMhlqbl50=;
+        b=ugRUKAKSeixsT0gVxhGuCfuSlx4ItfdDqIVpDYp6ndojs3JTKj+GZeUQ9TJM2nW8YB
+         qkYG/PC7JTLLeOWc0b+EazC8Mm5x+fbtd1IrQTnwc62SFQdFa0FS0IT9CZ45HUzTefGK
+         mJCl+WHOtshwD256Zp3BwiZWdpx07r3u6WCbAmUaO5BFZdGgmiQXi1wl+nURVxlOjF8E
+         BF8cKxps+VNviA6H7SIyQFMFzDKE9Z5k4/olVeHddk9cs9MVpl8z7PR7Uy9vHi/xhNVt
+         EfQw8ozrXgCl/4bO1hTcYVlrELMjKpin6gAUF4r2IPoVeD1/pg6jcdsBke8hr5m2GGwl
+         qMiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686758688; x=1689350688;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/+yno5ZdAMwferMqd2TLytY+ZQNkjo8dJsMMhlqbl50=;
+        b=XFTQvUK5HH7i44k2TbkQ1VPoTj4b3gJgPFu6woY+BhsdOH27H4nQirYdGomTHQAGz0
+         2NcYm8QyBB7oTyMnEJsGCRnrJGuJqC89AXKXGtcbHfqAPTdk5pfy4ZAKTswrLNyhJ73z
+         HSUEqEKhweg2kVrqd7knVqy9Gss/9mVeQUOwWrmIiVsIvSo/ihLUs80s40pfaWwXVuX/
+         STmBTJFozXYSQHzirD65vE3Ml3Pz8531pQtnO3w6iu/IfKxwUBbUmg6BqaIG7CnSCtgS
+         akZIHkyJh/LJDhh9OYJy4xjoV6FmjyBiCi5i71Y26K+el0BzWDcNg+xs2jGOg8P5MGZJ
+         rilw==
+X-Gm-Message-State: AC+VfDyyOg0qpNpPTf5w/T33Tnq9TfnjOv0E2NfWMeB0lxI9Zzxm5+yg
+	2uImcU2SoK10E6Pv1uFvinb9/ppPmMJ93OOdOkyzAw==
+X-Google-Smtp-Source: ACHHUZ6IC1Fq+VOrxsYn33ZUZ141xkcHJ9dV9IFuBMhWgqqDPg6I6zRraY5Bybr/0hXHZ66TuDmmF24oif1TejdOGq0=
+X-Received: by 2002:ad4:5c85:0:b0:626:273e:c356 with SMTP id
+ o5-20020ad45c85000000b00626273ec356mr22533723qvh.14.1686758687973; Wed, 14
+ Jun 2023 09:04:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <202305230231.3Wb7Q68G-lkp@intel.com> <edf2ec88-3586-bbb1-fbf1-9451393c12ec@csgroup.eu>
+In-Reply-To: <edf2ec88-3586-bbb1-fbf1-9451393c12ec@csgroup.eu>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Wed, 14 Jun 2023 12:04:36 -0400
+Message-ID: <CAKwvOdm3vNxp9GZrxs6s4h73pHgHD=sJjaPziGzxcr+K7iGd-g@mail.gmail.com>
+Subject: Re: arch/powerpc/math-emu/fcmpu.c:13:2: warning: variable 'A_c' set
+ but not used
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: kernel test robot <lkp@intel.com>, "llvm@lists.linux.dev" <llvm@lists.linux.dev>, 
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-User could not add the export symbol "arch_vma_name"
-in arch/arm/kernel/process.c and kernel/signal.c both.
-It would cause the export symbol twice compiler error
-Reported-by: kernel test robot <lkp@intel.com>
+On Wed, Jun 14, 2023 at 10:11=E2=80=AFAM Christophe Leroy
+<christophe.leroy@csgroup.eu> wrote:
+>
+> Hi,
+>
+> Le 22/05/2023 =C3=A0 21:00, kernel test robot a =C3=A9crit :
+> > Hi Christophe,
+> >
+> > FYI, the error/warning still remains.
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   44c026a73be8038f03dbdeef028b642880cf1511
+> > commit: 7245fc5bb7a966852d5bd7779d1f5855530b461a powerpc/math-emu: Remo=
+ve -w build flag and fix warnings
+> > date:   9 months ago
+> > config: powerpc-randconfig-r022-20230522 (https://download.01.org/0day-=
+ci/archive/20230523/202305230231.3Wb7Q68G-lkp@intel.com/config)
+> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project b0=
+fb98227c90adf2536c9ad644a74d5e92961111)
+> > reproduce (this is a W=3D1 build):
+> >          wget https://raw.githubusercontent.com/intel/lkp-tests/master/=
+sbin/make.cross -O ~/bin/make.cross
+> >          chmod +x ~/bin/make.cross
+> >          # install powerpc cross compiling tool for clang build
+> >          # apt-get install binutils-powerpc-linux-gnu
+> >          # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/lin=
+ux.git/commit/?id=3D7245fc5bb7a966852d5bd7779d1f5855530b461a
+> >          git remote add linus https://git.kernel.org/pub/scm/linux/kern=
+el/git/torvalds/linux.git
+> >          git fetch --no-tags linus master
+> >          git checkout 7245fc5bb7a966852d5bd7779d1f5855530b461a
+> >          # save the config file
+> >          mkdir build_dir && cp config build_dir/.config
+> >          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross=
+ W=3D1 O=3Dbuild_dir ARCH=3Dpowerpc olddefconfig
+> >          COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross=
+ W=3D1 O=3Dbuild_dir ARCH=3Dpowerpc SHELL=3D/bin/bash arch/powerpc/math-emu=
+/
+> >
+> > If you fix the issue, kindly add following tag where applicable
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202305230231.3Wb7Q68G-l=
+kp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> >>> arch/powerpc/math-emu/fcmpu.c:13:2: warning: variable 'A_c' set but n=
+ot used [-Wunused-but-set-variable]
+>
+> This code is imported, and there is no plan to make any change to it.
+> Can you desactivate that warning ?
 
-Signed-off-by: Wei Chin Tsai <Wei-chin.Tsai@mediatek.com>
----
- arch/arm/kernel/process.c | 3 +++
- kernel/signal.c           | 3 +++
- 2 files changed, 6 insertions(+)
+If the code is imported, and we don't plan to push fixes upstream,
+does it make sense to just set -Wno-unusued-but-set-variable in
+arch/powerpc/math-emu/Makefile?
 
-diff --git a/arch/arm/kernel/process.c b/arch/arm/kernel/process.c
-index df91412a1069..d71a9bafb584 100644
---- a/arch/arm/kernel/process.c
-+++ b/arch/arm/kernel/process.c
-@@ -343,7 +343,10 @@ const char *arch_vma_name(struct vm_area_struct *vma)
- {
- 	return is_gate_vma(vma) ? "[vectors]" : NULL;
- }
-+
-+#ifdef CONFIG_ARM
- EXPORT_SYMBOL_GPL(arch_vma_name);
-+#endif
- 
- /* If possible, provide a placement hint at a random offset from the
-  * stack for the sigpage and vdso pages.
-diff --git a/kernel/signal.c b/kernel/signal.c
-index a1abe77fcdc3..f7d03450781e 100644
---- a/kernel/signal.c
-+++ b/kernel/signal.c
-@@ -4700,7 +4700,10 @@ __weak const char *arch_vma_name(struct vm_area_struct *vma)
- {
- 	return NULL;
- }
-+
-+#ifdef CONFIG_ARM64
- EXPORT_SYMBOL_GPL(arch_vma_name);
-+#endif
- 
- static inline void siginfo_buildtime_checks(void)
- {
--- 
-2.18.0
+Wait, what?!
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arc=
+h/powerpc/math-emu/Makefile#n20
+arch/powerpc/math-emu/Makefile already has -Wunused-but-set-variable
+in ccflags-remove-y. But if KBUILD_EXTRA_WARN is set for W=3D1 builds,
+-Wunused-but-set-variable is added back, but only for math.o and
+math_efp.o.  The warning above comes from building fcmpu.o.  So how
+did  -Wunused-but-set-variable get set in the first place?
 
+commit 78c73c80fd86 ("powerpc/math-emu: Inhibit W=3D1 warnings")
+seems to have cleaned up this code for W=3D1 with GCC. This report is a
+result of W=3D1 with CC=3Dclang.
+
+>
+> Thanks
+> Christophe
+>
+> >             FP_DECL_D(A);
+> >             ^
+> >     include/math-emu/double.h:73:23: note: expanded from macro 'FP_DECL=
+_D'
+> >     #define FP_DECL_D(X)            _FP_DECL(2,X)
+> >                                     ^
+> >     include/math-emu/op-common.h:28:14: note: expanded from macro '_FP_=
+DECL'
+> >       _FP_I_TYPE X##_c=3D0, X##_s=3D0, X##_e=3D0; \
+> >                  ^
+> >     <scratch space>:124:1: note: expanded from here
+> >     A_c
+> >     ^
+> >>> arch/powerpc/math-emu/fcmpu.c:14:2: warning: variable 'B_c' set but n=
+ot used [-Wunused-but-set-variable]
+> >             FP_DECL_D(B);
+> >             ^
+> >     include/math-emu/double.h:73:23: note: expanded from macro 'FP_DECL=
+_D'
+> >     #define FP_DECL_D(X)            _FP_DECL(2,X)
+> >                                     ^
+> >     include/math-emu/op-common.h:28:14: note: expanded from macro '_FP_=
+DECL'
+> >       _FP_I_TYPE X##_c=3D0, X##_s=3D0, X##_e=3D0; \
+> >                  ^
+> >     <scratch space>:130:1: note: expanded from here
+> >     B_c
+> >     ^
+> >>> arch/powerpc/math-emu/fcmpu.c:15:2: warning: variable '_fex' set but =
+not used [-Wunused-but-set-variable]
+> >             FP_DECL_EX;
+> >             ^
+> >     include/math-emu/soft-fp.h:94:24: note: expanded from macro 'FP_DEC=
+L_EX'
+> >     #define FP_DECL_EX int _fex =3D 0
+> >                            ^
+> >     arch/powerpc/math-emu/fcmpu.c:11:1: warning: no previous prototype =
+for function 'fcmpu' [-Wmissing-prototypes]
+> >     fcmpu(u32 *ccr, int crfD, void *frA, void *frB)
+> >     ^
+> >     arch/powerpc/math-emu/fcmpu.c:10:1: note: declare 'static' if the f=
+unction is not intended to be used outside of this translation unit
+> >     int
+> >     ^
+> >     static
+> >     4 warnings generated.
+> > --
+> >>> arch/powerpc/math-emu/fctiw.c:14:2: warning: variable '_fex' set but =
+not used [-Wunused-but-set-variable]
+> >             FP_DECL_EX;
+> >             ^
+> >     include/math-emu/soft-fp.h:94:24: note: expanded from macro 'FP_DEC=
+L_EX'
+> >     #define FP_DECL_EX int _fex =3D 0
+> >                            ^
+> >     arch/powerpc/math-emu/fctiw.c:11:1: warning: no previous prototype =
+for function 'fctiw' [-Wmissing-prototypes]
+> >     fctiw(u32 *frD, void *frB)
+> >     ^
+> >     arch/powerpc/math-emu/fctiw.c:10:1: note: declare 'static' if the f=
+unction is not intended to be used outside of this translation unit
+> >     int
+> >     ^
+> >     static
+> >     2 warnings generated.
+> > --
+> >>> arch/powerpc/math-emu/fctiwz.c:14:2: warning: variable '_fex' set but=
+ not used [-Wunused-but-set-variable]
+> >             FP_DECL_EX;
+> >             ^
+> >     include/math-emu/soft-fp.h:94:24: note: expanded from macro 'FP_DEC=
+L_EX'
+> >     #define FP_DECL_EX int _fex =3D 0
+> >                            ^
+> >     arch/powerpc/math-emu/fctiwz.c:11:1: warning: no previous prototype=
+ for function 'fctiwz' [-Wmissing-prototypes]
+> >     fctiwz(u32 *frD, void *frB)
+> >     ^
+> >     arch/powerpc/math-emu/fctiwz.c:10:1: note: declare 'static' if the =
+function is not intended to be used outside of this translation unit
+> >     int
+> >     ^
+> >     static
+> >     2 warnings generated.
+> > --
+> >>> arch/powerpc/math-emu/fsel.c:14:2: warning: variable '_fex' set but n=
+ot used [-Wunused-but-set-variable]
+> >             FP_DECL_EX;
+> >             ^
+> >     include/math-emu/soft-fp.h:94:24: note: expanded from macro 'FP_DEC=
+L_EX'
+> >     #define FP_DECL_EX int _fex =3D 0
+> >                            ^
+> >     arch/powerpc/math-emu/fsel.c:11:1: warning: no previous prototype f=
+or function 'fsel' [-Wmissing-prototypes]
+> >     fsel(u32 *frD, void *frA, u32 *frB, u32 *frC)
+> >     ^
+> >     arch/powerpc/math-emu/fsel.c:10:1: note: declare 'static' if the fu=
+nction is not intended to be used outside of this translation unit
+> >     int
+> >     ^
+> >     static
+> >     2 warnings generated.
+> >
+> >
+> > vim +/A_c +13 arch/powerpc/math-emu/fcmpu.c
+> >
+> > ^1da177e4c3f41 arch/ppc/math-emu/fcmpu.c     Linus Torvalds 2005-04-16 =
+  9
+> > ^1da177e4c3f41 arch/ppc/math-emu/fcmpu.c     Linus Torvalds 2005-04-16 =
+ 10  int
+> > ^1da177e4c3f41 arch/ppc/math-emu/fcmpu.c     Linus Torvalds 2005-04-16 =
+ 11  fcmpu(u32 *ccr, int crfD, void *frA, void *frB)
+> > ^1da177e4c3f41 arch/ppc/math-emu/fcmpu.c     Linus Torvalds 2005-04-16 =
+ 12  {
+> > ^1da177e4c3f41 arch/ppc/math-emu/fcmpu.c     Linus Torvalds 2005-04-16 =
+@13    FP_DECL_D(A);
+> > ^1da177e4c3f41 arch/ppc/math-emu/fcmpu.c     Linus Torvalds 2005-04-16 =
+@14    FP_DECL_D(B);
+> > d2b194ed820880 arch/powerpc/math-emu/fcmpu.c Kumar Gala     2008-06-04 =
+@15    FP_DECL_EX;
+> > ^1da177e4c3f41 arch/ppc/math-emu/fcmpu.c     Linus Torvalds 2005-04-16 =
+ 16    int code[4] =3D { (1 << 3), (1 << 1), (1 << 2), (1 << 0) };
+> > ^1da177e4c3f41 arch/ppc/math-emu/fcmpu.c     Linus Torvalds 2005-04-16 =
+ 17    long cmp;
+> > ^1da177e4c3f41 arch/ppc/math-emu/fcmpu.c     Linus Torvalds 2005-04-16 =
+ 18
+> >
+> > :::::: The code at line 13 was first introduced by commit
+> > :::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+> >
+> > :::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+> > :::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+> >
+
+
+
+--=20
+Thanks,
+~Nick Desaulniers
