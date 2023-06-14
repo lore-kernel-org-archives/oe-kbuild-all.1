@@ -1,193 +1,128 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DECA7125C1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 20:27:59 +0000 (UTC)
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-62fe188255eso579786d6.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 13:27:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1686774478; x=1689366478;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kimLIYWPOvzs4k2x7Iocr5Znn/T70aABOYbrugGGfHk=;
-        b=1Dp95kTjoBgw5soGCnXEj5PVJ6JaMLGi2nMWtU3y4lJXt/E0oBA57JOFvEur5abN9G
-         /h1JgUgo4ExdPrbtD1+VINTEzbAsmENDcwvFunWnDCyWxHOOVP8Myu34ou4unGSmhQPG
-         QIpKgJJHxQ/JFZGzff9JsQfURNfLROVmZv9gBDoLXr2bFf1BHB2CDsdNKFsH9XqHB9ig
-         wPD4mqR+Bh2stXDXR9XGEVOoQJJpAgs76OvLjUNqtnV2Sl7c9Qyt+kx5eE0ZU28neurQ
-         pMaksSioupfoOYZWx9pkzPP1AEK254YXDgmmvTSAbq8boRAuFjnuBC1ZY1NpwywDKJCv
-         V9+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686774478; x=1689366478;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kimLIYWPOvzs4k2x7Iocr5Znn/T70aABOYbrugGGfHk=;
-        b=a9V6OCfcTw1HfsGJtu7q+tMc6cmk3zuuHnNPjLk0NFDU4EYejg7lYwNwgiam/BQdH7
-         4nQYF4JZ2+wTkYcaYIqNvFufa2+2mDmY9PXEwpJOFY7mAvyqY1uV8iE+krXBuKVQOIzr
-         2oBPJQHFdwhsVildraVNArfNUHiZeUij984nB1453hNvtFhqRiT8fv2Lm9M/dYsq93NE
-         QWMRWFpJbLd5Kp9iOr/qajvUwt/d7NzygRB3wX19ziXL07qUsKUxwJjn6AjYbAQILNcQ
-         ITRPPzHdb/3BsHzaXAAQe3Lxm6aA7dCN0nbzKMZG5bYAxfUuW6QJnSnCV8H0BzToFc7E
-         V05A==
-X-Gm-Message-State: AC+VfDxV563GC+c/j9+9Sn9qd+osE0/B8HaJOZpbmWIzQzbRRTpFEEK2
-	PuIGZiIBq9GfknrXoe7Xr9HnSSf3pKDamssC/iSm9g==
-X-Google-Smtp-Source: ACHHUZ7ay8BwIAHN3FlqdH3RTUmegJtrBYKRwr5TaPYYT2JLfVoH8FJtYQ8A89LRAaOeARNe1NIR4/MB8+6wMGmCs0o=
-X-Received: by 2002:ad4:5c81:0:b0:62d:e3d7:5b7a with SMTP id
- o1-20020ad45c81000000b0062de3d75b7amr3409806qvh.11.1686774478425; Wed, 14 Jun
- 2023 13:27:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC7729A1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 20:33:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686774828; x=1718310828;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=x4vnu0CwLyf2Q9EhzlInzRnxJnCCytOc1Vb/rhOgVuc=;
+  b=dW3q61zfw1nhT2O/Ms5m8HuOAaqkf4i2uG6djZYVrAcqJgI3f5ZGgOtG
+   phpGDgD74VenEZ9wsltyc9d8QbAzgfJfCBmaXneu6RSD/eKkecZ/erFFp
+   vY73Rno/DqvFR0LFVApjyh28X+3sugUpLJuGTt7VZ5WTsj8QyFctxRin3
+   o1m2SBDZvIsfwgmKviCr3S7LhjeiISLMXlA+C/rZJ6aP1UwtIPyo3gkPT
+   go1+Tqq0qT7HF+S0+Bbs1nIanKQhVtKSRmBiinEga2GAYGpUSNu/hztiG
+   xTDy/XE7Kt5I07tHFLyVj82PHYjeOw7zgYmPq2rFlZ93QJmOYmUmU3gRf
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="338363457"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="338363457"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 13:33:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="777412874"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="777412874"
+Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 14 Jun 2023 13:33:46 -0700
+Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9XBZ-00013V-2d;
+	Wed, 14 Jun 2023 20:33:45 +0000
+Date: Thu, 15 Jun 2023 04:33:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.19-stable 15111/29850]
+ drivers/cpuidle/cpuidle.c:598:27: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202306150412.HDoMlmBB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202306100035.VTusNhm4-lkp@intel.com> <202306131418.35B5D649DC@keescook>
-In-Reply-To: <202306131418.35B5D649DC@keescook>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Wed, 14 Jun 2023 16:27:46 -0400
-Message-ID: <CAKwvOdmZ7fMB1Kpat3wbcUxaVbWmjO30MzQcytUZ=2Yj-NLmTA@mail.gmail.com>
-Subject: Re: [linux-next:master 3357/8413] drivers/scsi/FlashPoint.c:1712:12:
- warning: stack frame size (1056) exceeds limit (1024) in 'FlashPoint_HandleInterrupt'
-To: Kees Cook <keescook@chromium.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Jun 13, 2023 at 5:22=E2=80=AFPM Kees Cook <keescook@chromium.org> w=
-rote:
->
-> On Sat, Jun 10, 2023 at 12:58:23AM +0800, kernel test robot wrote:
-> > First bad commit (maybe !=3D root cause):
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
-.git master
-> > head:   53ab6975c12d1ad86c599a8927e8c698b144d669
-> > commit: df8fc4e934c12b906d08050d7779f292b9c5c6b5 [3357/8413] kbuild: En=
-able -fstrict-flex-arrays=3D3
-> > config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/2=
-0230610/202306100035.VTusNhm4-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   7816e65d75d3e618bc0c54a22c9af5472c44d013
+commit: 02f88aaaac53929e0cf4fe50f807cdea4b9e224d [15111/29850] ANDROID: GKI: Export symbols arm_cpuidle_suspend, cpuidle_dev and cpuidle_register_governor
+config: i386-randconfig-s052-20230614 (https://download.01.org/0day-ci/archive/20230615/202306150412.HDoMlmBB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android-4.19-stable
+        git checkout 02f88aaaac53929e0cf4fe50f807cdea4b9e224d
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
+        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/cpuidle/
 
-^ I just checked this config. CONFIG_KASAN=3Dy is not set, so this is
-not a case of
-https://github.com/ClangBuiltLinux/linux/issues/39
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306150412.HDoMlmBB-lkp@intel.com/
 
-UBSAN is though (maybe a red herring) as well as GCOV and TSAN/KCSAN.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/cpuidle/cpuidle.c:598:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct cpuidle_device * @@
+   drivers/cpuidle/cpuidle.c:598:27: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   drivers/cpuidle/cpuidle.c:598:27: sparse:     got struct cpuidle_device *
+   drivers/cpuidle/cpuidle.c:630:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] <asn:3> *__vpp_verify @@     got struct cpuidle_device * @@
+   drivers/cpuidle/cpuidle.c:630:27: sparse:     expected void const [noderef] <asn:3> *__vpp_verify
+   drivers/cpuidle/cpuidle.c:630:27: sparse:     got struct cpuidle_device *
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/idr.h:16,
+                    from include/linux/kernfs.h:14,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/of.h:17,
+                    from include/linux/clocksource.h:19,
+                    from include/linux/clockchips.h:14,
+                    from drivers/cpuidle/cpuidle.c:11:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1166:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1166 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1157:27: note: 'mem_section' declared here
+    1157 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
 
-Disabling GCOV did not change the stack usage from allmodconfig.
+vim +598 drivers/cpuidle/cpuidle.c
 
-Disable KCSAN dropped it down from 2272 to 2160.
+4f86d3a8e29720 Len Brown      2007-10-03  584  
+1c192d047a0ddc Daniel Lezcano 2013-04-23  585  /**
+4c637b2175a0dc Daniel Lezcano 2013-04-23  586   * cpuidle_unregister: unregister a driver and the devices. This function
+4c637b2175a0dc Daniel Lezcano 2013-04-23  587   * can be used only if the driver has been previously registered through
+4c637b2175a0dc Daniel Lezcano 2013-04-23  588   * the cpuidle_register function.
+4c637b2175a0dc Daniel Lezcano 2013-04-23  589   *
+4c637b2175a0dc Daniel Lezcano 2013-04-23  590   * @drv: a valid pointer to a struct cpuidle_driver
+4c637b2175a0dc Daniel Lezcano 2013-04-23  591   */
+4c637b2175a0dc Daniel Lezcano 2013-04-23  592  void cpuidle_unregister(struct cpuidle_driver *drv)
+4c637b2175a0dc Daniel Lezcano 2013-04-23  593  {
+4c637b2175a0dc Daniel Lezcano 2013-04-23  594  	int cpu;
+4c637b2175a0dc Daniel Lezcano 2013-04-23  595  	struct cpuidle_device *device;
+4c637b2175a0dc Daniel Lezcano 2013-04-23  596  
+82467a5a885ddd Daniel Lezcano 2013-06-07  597  	for_each_cpu(cpu, drv->cpumask) {
+4c637b2175a0dc Daniel Lezcano 2013-04-23 @598  		device = &per_cpu(cpuidle_dev, cpu);
+4c637b2175a0dc Daniel Lezcano 2013-04-23  599  		cpuidle_unregister_device(device);
+4c637b2175a0dc Daniel Lezcano 2013-04-23  600  	}
+4c637b2175a0dc Daniel Lezcano 2013-04-23  601  
+4c637b2175a0dc Daniel Lezcano 2013-04-23  602  	cpuidle_unregister_driver(drv);
+4c637b2175a0dc Daniel Lezcano 2013-04-23  603  }
+4c637b2175a0dc Daniel Lezcano 2013-04-23  604  EXPORT_SYMBOL_GPL(cpuidle_unregister);
+4c637b2175a0dc Daniel Lezcano 2013-04-23  605  
 
-Disabling UBSAN produced no warnings, and changed the inlining
-behavior such that FlashPoint_HandleInterrupt only uses 656B rather
-than 2272 via allmodconfig.
+:::::: The code at line 598 was first introduced by commit
+:::::: 4c637b2175a0dc65d533494225525c6c82d73293 cpuidle: make a single register function for all
 
-Seems specific to:
-```
-CONFIG_UBSAN=3Dy
-CONFIG_CC_HAS_UBSAN_ARRAY_BOUNDS=3Dy
-CONFIG_UBSAN_BOUNDS=3Dy
-CONFIG_UBSAN_ARRAY_BOUNDS=3Dy
-# CONFIG_UBSAN_SHIFT is not set
-# CONFIG_UBSAN_UNREACHABLE is not set
-# CONFIG_UBSAN_BOOL is not set
-# CONFIG_UBSAN_ENUM is not set
-CONFIG_UBSAN_SANITIZE_ALL=3Dy
-```
-but adding these on top of powernv_defconfig I couldn't reproduce.  So
-perhaps we can do a config bisection between allmodconfig and
-powernv_defconfig to see what combination of configs in allmodconfig
-is causing this to blow up.
+:::::: TO: Daniel Lezcano <daniel.lezcano@linaro.org>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
-> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.gi=
-t 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> > reproduce (this is a W=3D1 build):
-> >         mkdir -p ~/bin
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/s=
-bin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # install powerpc cross compiling tool for clang build
-> >         # apt-get install binutils-powerpc-linux-gnu
-> >         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-ne=
-xt.git/commit/?id=3Ddf8fc4e934c12b906d08050d7779f292b9c5c6b5
-> >         git remote add linux-next https://git.kernel.org/pub/scm/linux/=
-kernel/git/next/linux-next.git
-> >         git fetch --no-tags linux-next master
-> >         git checkout df8fc4e934c12b906d08050d7779f292b9c5c6b5
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
-cross W=3D1 O=3Dbuild_dir ARCH=3Dpowerpc olddefconfig
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
-cross W=3D1 O=3Dbuild_dir ARCH=3Dpowerpc SHELL=3D/bin/bash drivers/
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306100035.VTusNhm4-l=
-kp@intel.com/
-> >
-> > All warnings (new ones prefixed by >>):
-> >
-> >    In file included from drivers/scsi/BusLogic.c:51:
-> > >> drivers/scsi/FlashPoint.c:1712:12: warning: stack frame size (1056) =
-exceeds limit (1024) in 'FlashPoint_HandleInterrupt' [-Wframe-larger-than]
-> >     1712 | static int FlashPoint_HandleInterrupt(void *pcard)
-> >          |            ^
-> >    1 warning generated.
->
-> I wasn't able to generate the warning with my Clang, but it sure is
-> close! Building with KCFLAGS=3D-Rpass-analysis=3Dstack-frame-layout I see=
-:
->
->
-> In file included from ../drivers/scsi/BusLogic.c:51:
-> ../drivers/scsi/FlashPoint.c:1713:1: remark:
-> Function: FlashPoint_HandleInterrupt
-> Offset: [SP-4], Type: Protector, Align: 4, Size: 4
-> Offset: [SP-8], Type: Spill, Align: 8, Size: 4
-> Offset: [SP-12], Type: Spill, Align: 4, Size: 4
-> Offset: [SP-16], Type: Spill, Align: 16, Size: 4
-
-Perhaps alignment 16B for a 4B variable leads to excessive padding?
-Perhaps this config changes the alignment of a type?  No, looks like
-most spills are the 4B w/ 4B alignment and the 16B alignment spills
-are insignificant.
-
-> Offset: [SP-20], Type: Spill, Align: 4, Size: 4
-> Offset: [SP-24], Type: Spill, Align: 8, Size: 4
-> Offset: [SP-28], Type: Spill, Align: 4, Size: 4
-> Offset: [SP-32], Type: Spill, Align: 16, Size: 4
-> Offset: [SP-36], Type: Spill, Align: 4, Size: 4
-> Offset: [SP-40], Type: Spill, Align: 8, Size: 4
-> Offset: [SP-44], Type: Spill, Align: 4, Size: 4
-> Offset: [SP-48], Type: Spill, Align: 16, Size: 4
-> Offset: [SP-52], Type: Spill, Align: 4, Size: 4
-> Offset: [SP-56], Type: Spill, Align: 8, Size: 4
-> Offset: [SP-60], Type: Spill, Align: 4, Size: 4
-> Offset: [SP-64], Type: Spill, Align: 16, Size: 4
-> Offset: [SP-68], Type: Spill, Align: 4, Size: 4
-> Offset: [SP-72], Type: Spill, Align: 8, Size: 4
-> Offset: [SP-76], Type: Variable, Align: 4, Size: 4
-> Offset: [SP-80], Type: Spill, Align: 4, Size: 4
-> Offset: [SP-84], Type: Spill, Align: 4, Size: 4
-> ...[4 byte spills]...
-> Offset: [SP-1012], Type: Variable, Align: 4, Size: 4
-> Offset: [SP-1016], Type: Variable, Align: 4, Size: 4
-> [-Rpass-analysis=3Dstack-frame-layout]
->
-> So something is very weird in FlashPoint_HandleInterrupt -- it has a
-> single while loop with an internal if/else if/.../else chain. So I don't
-> see why it would need such extensive spills...
->
-> This seems like a missed optimization in Clang, maybe?
->
-> --
-> Kees Cook
->
-
-
---=20
-Thanks,
-~Nick Desaulniers
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
