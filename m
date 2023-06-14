@@ -1,43 +1,43 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523807F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 18:07:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D4B7F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 18:07:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686766046; x=1718302046;
+  t=1686766048; x=1718302048;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mzgTCVB6MgWYfNroNyU4FpDRj/2b7u7y+haJ1IdPiHo=;
-  b=OyUvJRsy1Ew387t9W89xDT1dgjQVEv74CE3QAajG67wYxUy2Ykrysxn2
-   08erwirEo1M9Wuv19G/tbbsv2PK9309vccPdfOdhDHxtfQMPb+JBI+nkf
-   E5wsjz6EBRDFmSUacGGET+65mkdhupMOx2h8CmCeyU1wKaJ5LQIJbJ9d3
-   3JDEqETVm7oErcafgqa1pcz6yfZsmur5ZICmzLsjurH2/+2W4eLupKsyl
-   iulqunRtBa+Zbpu/cJPFazxoNhHu+jv/s5ZZ6SE91TVwSzJBiWJMzgZBB
-   SBbWTJuU1gT07VMUAOGm9PCWcWVOlc9Bo90Q8M7V1uept3o4gzVjsRtua
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="358694577"
+  bh=+L1Lm9OVzGXiqmDJvG56wx6Zqy0AYBcl5g4nmjjecQ8=;
+  b=gRlTlzQ/7CI8wTZ1og4T0bUUHdoDB61c9DG6FZnATWx02trT3mGnadaS
+   V8y8/d12moUd8Ckv24VjWyXolvaUKzDKTXmwyMZ1r7fsIc5PGgfU9WKw6
+   QxMkf+KmV/zD9V+ehxLJUS5tL/Z/XmuraNioMFNZzF/wdlTyzYeULfZzT
+   5jFAgMP2JGfiuHQXTaCC58kn6VbZk/s/Xe/VA5JrKa6HCS0hkeSwzMB4N
+   qifjHDASOEaUpXWj5+TPb2Vazt4z+sSye5uTSl2UfMerp1cl/RR7dNYU8
+   T9wjPXSE19k5INHp7TPJOa4UoapCTzMZ8mNy0+yvrH6TTn5cmnzT3Crad
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="358694579"
 X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="358694577"
+   d="scan'208";a="358694579"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 11:07:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="706322676"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="706322678"
 X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="706322676"
+   d="scan'208";a="706322678"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
   by orsmga007.jf.intel.com with ESMTP; 14 Jun 2023 11:07:21 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9Utu-0000vl-30;
+	id 1q9Utu-0000vj-2w;
 	Wed, 14 Jun 2023 18:07:22 +0000
-Date: Thu, 15 Jun 2023 02:06:47 +0800
+Date: Thu, 15 Jun 2023 02:06:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: Benjamin Berg <benjamin.berg@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev,
 	Gregory Greenman <gregory.greenman@intel.com>
 Subject: [iwlwifi-next:pending 86/94] net/wireless/scan.c:2030:47: error:
  'drv_data' undeclared
-Message-ID: <202306150259.NtnTXOUV-lkp@intel.com>
+Message-ID: <202306150240.13yJtLOv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,7 +50,7 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git pending
 head:   9e95c6f58fcfc05f7abf84534b63f4d287f4aaf8
 commit: ba8408a0a0ed1d5041aced32f51066c53298c16d [86/94] wifi: cfg80211: add inform_bss op to update BSS
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230615/202306150259.NtnTXOUV-lkp@intel.com/config)
+config: x86_64-randconfig-a015-20230612 (https://download.01.org/0day-ci/archive/20230615/202306150240.13yJtLOv-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
         # https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git/commit/?id=ba8408a0a0ed1d5041aced32f51066c53298c16d
@@ -60,12 +60,12 @@ reproduce (this is a W=1 build):
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash net/
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash net/wireless/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306150259.NtnTXOUV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306150240.13yJtLOv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
