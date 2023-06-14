@@ -1,43 +1,44 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5E4621
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 03:32:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729E1363
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 04:04:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686713540; x=1718249540;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CT55x2tL2fG/d4IOX+9OZ9stojWlPgduwPbXLbO2iOg=;
-  b=XcHL1aWnZvhc9YYHnojyprv3dV7XJX7d/PMDVvMmb9DDAQt76PH9eigp
-   f+sSj0M995Q8kwtySinTYQ7jiVOTAFc5/8H+zbuRNKsDkdUy5/xkE5+UH
-   IF6Lw28gt1baXrkXuWoVJ+xiezkLVZcULFm6EBo1Ctp6Ra606rpCX0VXJ
-   gOT7ufRTPZF/GJMjKb7htpO/LTqH03qRYGrc4mmvqbPQJSpjY+76tRXot
-   pS0yHOtZYNoyuywrsX/TqnR817HE83Cukudnl1r2K2RxGpSWGn5lCQwVM
-   T3MpQ6Od8ezuHyeqZ0Zm4yv+Z9nHZL1A2xQO9Q3e8A7U6jZra8p3VzJTh
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="360989942"
+  t=1686715441; x=1718251441;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=j9v4z+xOJMN2xrp3cgHzKRWncbNpcvkzIojQLXSttgw=;
+  b=Irj+R2zpFRQf29idgUAEqUYxarKKp2EVCI9+y9VQTc3TpwAd7BUN8oVZ
+   0yev/TE7NLiGi63ayyee4hvdAKsL3SjKRYg9+3E7oXY/HgME1uH70oVHR
+   bW8/p08LvqcZ4xQueQoeckc42YGXlvb+vkBx9wRFq4NWomSXDzQSdWOoY
+   eAr3LE05miO+WfoclcsqMc+cemN1BwClpXkNcKnFaDyeCo4Idpyek2mZx
+   8/0AsRglIM/CxeYwgd/FNwzxgr3hR8u8QZruyLTdVKprJ8mC1UYyu76ak
+   dL6kz0plbC1Hd5+TvCF6cF62fs72/zwU9Myh5qNPNZgz/OjfpgWMkTQgV
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="356007162"
 X-IronPort-AV: E=Sophos;i="6.00,241,1681196400"; 
-   d="scan'208";a="360989942"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 20:32:19 -0700
+   d="scan'208";a="356007162"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2023 21:02:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="744925057"
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="741680271"
 X-IronPort-AV: E=Sophos;i="6.00,241,1681196400"; 
-   d="scan'208";a="744925057"
+   d="scan'208";a="741680271"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 13 Jun 2023 20:32:18 -0700
+  by orsmga008.jf.intel.com with ESMTP; 13 Jun 2023 21:02:28 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9HF3-00006F-22;
-	Wed, 14 Jun 2023 03:32:17 +0000
-Date: Wed, 14 Jun 2023 11:29:15 +0800
+	id 1q9HiF-0000A1-2B;
+	Wed, 14 Jun 2023 04:02:27 +0000
+Date: Wed, 14 Jun 2023 12:01:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tomoyo-test1:master 1/1] include/linux/workqueue.h:582:9: error:
- call to '__warn_flushing_systemwide_wq' declared with attribute warning:
- Please avoid flushing system-wide workqueues.
-Message-ID: <202306141124.CN4TQtBe-lkp@intel.com>
+To: Arowa Suliman <arowa@chromium.org>, ath11k@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	Arowa Suliman <arowa@google.com>
+Subject: Re: [PATCH] wifi: ath11k: Add crash logging
+Message-ID: <202306141105.c1e82Q0y-lkp@intel.com>
+References: <20230614023125.284218-1-arowa@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,72 +47,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230614023125.284218-1-arowa@google.com>
 
-tree:   https://scm.osdn.net/gitroot/tomoyo/tomoyo-test1.git master
-head:   e52fa5e9fbe1c842c6a974f9b25d0162bba778bf
-commit: e52fa5e9fbe1c842c6a974f9b25d0162bba778bf [1/1] workqueue: Warn attempt to flush system-wide workqueues.
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230614/202306141124.CN4TQtBe-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Arowa,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on kvalo-ath/ath-next]
+[cannot apply to wireless/main wireless-next/main linus/master v6.4-rc6 next-20230613]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arowa-Suliman/wifi-ath11k-Add-crash-logging/20230614-103201
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git ath-next
+patch link:    https://lore.kernel.org/r/20230614023125.284218-1-arowa%40google.com
+patch subject: [PATCH] wifi: ath11k: Add crash logging
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230614/202306141105.c1e82Q0y-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
-        git remote add tomoyo-test1 https://scm.osdn.net/gitroot/tomoyo/tomoyo-test1.git
-        git fetch --no-tags tomoyo-test1 master
-        git checkout e52fa5e9fbe1c842c6a974f9b25d0162bba778bf
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add kvalo-ath https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git
+        git fetch kvalo-ath ath-next
+        git checkout kvalo-ath/ath-next
+        b4 shazam https://lore.kernel.org/r/20230614023125.284218-1-arowa@google.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/gpu/drm/i915/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/net/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306141124.CN4TQtBe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306141105.c1e82Q0y-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/rhashtable-types.h:15,
-                    from include/linux/ipc.h:7,
-                    from include/uapi/linux/sem.h:5,
-                    from include/linux/sem.h:5,
-                    from include/linux/sched.h:15,
-                    from include/linux/dma-fence.h:21,
-                    from include/linux/dma-resv.h:43,
-                    from drivers/gpu/drm/i915/display/intel_display.c:27:
-   drivers/gpu/drm/i915/display/intel_display.c: In function 'intel_modeset_driver_remove_noirq':
->> include/linux/workqueue.h:582:9: error: call to '__warn_flushing_systemwide_wq' declared with attribute warning: Please avoid flushing system-wide workqueues. [-Werror=attribute-warning]
-     582 |         __warn_flushing_systemwide_wq();                                \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:8741:9: note: in expansion of macro 'flush_scheduled_work'
-    8741 |         flush_scheduled_work();
-         |         ^~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+   drivers/net/wireless/ath/ath11k/mhi.c: In function 'ath11k_mhi_op_status_cb':
+>> drivers/net/wireless/ath/ath11k/mhi.c:328:25: warning: passing argument 2 of 'ath11k_info' makes pointer from integer without a cast [-Wint-conversion]
+     328 |         ath11k_info(ab, ATH11K_DBG_BOOT, "notify status reason %s\n",
+         |                         ^~~~~~~~~~~~~~~
+         |                         |
+         |                         int
+   In file included from drivers/net/wireless/ath/ath11k/mhi.c:14:
+   drivers/net/wireless/ath/ath11k/debug.h:76:69: note: expected 'const char *' but argument is of type 'int'
+      76 | __printf(2, 3) void ath11k_info(struct ath11k_base *ab, const char *fmt, ...);
+         |                                                         ~~~~~~~~~~~~^~~
 
 
-vim +/__warn_flushing_systemwide_wq +582 include/linux/workqueue.h
+vim +/ath11k_info +328 drivers/net/wireless/ath/ath11k/mhi.c
 
-8425e3d5bdbe8e Tejun Heo    2013-03-13  568  
-c4f135d643823a Tetsuo Handa 2022-06-01  569  /*
-c4f135d643823a Tetsuo Handa 2022-06-01  570   * Detect attempt to flush system-wide workqueues at compile time when possible.
-e52fa5e9fbe1c8 Tetsuo Handa 2023-06-13  571   * Warn attempt to flush system-wide workqueues at runtime.
-c4f135d643823a Tetsuo Handa 2022-06-01  572   *
-c4f135d643823a Tetsuo Handa 2022-06-01  573   * See https://lkml.kernel.org/r/49925af7-78a8-a3dd-bce6-cfc02e1a9236@I-love.SAKURA.ne.jp
-c4f135d643823a Tetsuo Handa 2022-06-01  574   * for reasons and steps for converting system-wide workqueues into local workqueues.
-c4f135d643823a Tetsuo Handa 2022-06-01  575   */
-c4f135d643823a Tetsuo Handa 2022-06-01  576  extern void __warn_flushing_systemwide_wq(void)
-c4f135d643823a Tetsuo Handa 2022-06-01  577  	__compiletime_warning("Please avoid flushing system-wide workqueues.");
-c4f135d643823a Tetsuo Handa 2022-06-01  578  
-e52fa5e9fbe1c8 Tetsuo Handa 2023-06-13  579  /* Please stop using this function, for this function will be removed in near future. */
-c4f135d643823a Tetsuo Handa 2022-06-01  580  #define flush_scheduled_work()						\
-c4f135d643823a Tetsuo Handa 2022-06-01  581  ({									\
-c4f135d643823a Tetsuo Handa 2022-06-01 @582  	__warn_flushing_systemwide_wq();				\
-c4f135d643823a Tetsuo Handa 2022-06-01  583  	__flush_workqueue(system_wq);					\
-c4f135d643823a Tetsuo Handa 2022-06-01  584  })
-c4f135d643823a Tetsuo Handa 2022-06-01  585  
-
-:::::: The code at line 582 was first introduced by commit
-:::::: c4f135d643823a869becfa87539f7820ef9d5bfa workqueue: Wrap flush_workqueue() using a macro
-
-:::::: TO: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-:::::: CC: Tejun Heo <tj@kernel.org>
+   322	
+   323	static void ath11k_mhi_op_status_cb(struct mhi_controller *mhi_cntrl,
+   324					    enum mhi_callback cb)
+   325	{
+   326		struct ath11k_base *ab = dev_get_drvdata(mhi_cntrl->cntrl_dev);
+   327	
+ > 328	        ath11k_info(ab, ATH11K_DBG_BOOT, "notify status reason %s\n",
+   329			   ath11k_mhi_op_callback_to_str(cb));
+   330	
+   331		switch (cb) {
+   332		case MHI_CB_SYS_ERROR:
+   333			ath11k_warn(ab, "firmware crashed: MHI_CB_SYS_ERROR\n");
+   334			break;
+   335		case MHI_CB_EE_RDDM:
+   336			ath11k_warn(ab, "firmware crashed: MHI_CB_EE_RDDM\n");
+   337	                if (!(test_bit(ATH11K_FLAG_UNREGISTERING, &ab->dev_flags)))
+   338				queue_work(ab->workqueue_aux, &ab->reset_work);
+   339			break;
+   340		default:
+   341			break;
+   342		}
+   343	}
+   344	
 
 -- 
 0-DAY CI Kernel Test Service
