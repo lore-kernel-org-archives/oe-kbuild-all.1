@@ -1,165 +1,120 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45B8DDB6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 15:13:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686755637; x=1718291637;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YX4y7lBqNFFJ0PedIid4kUnTJJmVgsFKsE3ZJAbPjMQ=;
-  b=BryI6iYUlmpIaRG/PcPx/MlPS/APd8R/Gusli0ar1jTNgsQ4zPPq+U8e
-   F274GKm93y69qgnFdGhfsHPq6OBbCmXuciPqbd/MhfqKcMcwXSoQtZY13
-   n4iuvKibJn5sX+7F+02S/jJ2ttImLuJXx9UydB5v+Hi9LcRy1jpWhHY/P
-   VO/6PPtUIWbA0nhabynZImS8tqZhdGJ7+f3YNCuAA6KJb8HwZQJBQQVJc
-   9XyiKd9JYqX71OwlT/XVla8SBz9BQq0MWV7lGRMVRP6z754azAW3Vtf07
-   /Z1fvfgXWhhlP2r4rSHMvwyzrON36Zq6PdPWguIrDTat0L5pWC76lFhq7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="361117399"
-X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="361117399"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 08:13:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="745115832"
-X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="745115832"
-Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 14 Jun 2023 08:13:52 -0700
-Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q9SBz-0000n5-2J;
-	Wed, 14 Jun 2023 15:13:51 +0000
-Date: Wed, 14 Jun 2023 23:10:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Stanley Chang <stanley_chang@realtek.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Stanley Chang <stanley_chang@realtek.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Flavio Suligoi <f.suligoi@asem.it>,
-	Douglas Anderson <dianders@chromium.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Matthias Kaehlcke <mka@chromium.org>, Ray Chi <raychi@google.com>,
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v4 2/5] phy: realtek: usb: Add driver for the Realtek SoC
- USB 2.0 PHY
-Message-ID: <202306142352.e4eBd3HX-lkp@intel.com>
-References: <20230614092850.21460-2-stanley_chang@realtek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA722C9C;
+	Wed, 14 Jun 2023 15:26:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BB41C433C0;
+	Wed, 14 Jun 2023 15:26:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1686756417;
+	bh=oMSxcw3X6zlLbI5UmWxFFgbH+T9vMTVCLfV7wjlwkcI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=OJmYGJaatmXiYivuVpGOckaMShdIE/Tx2FKVtqzbdRpmmUUqSN+leqytt5aqOQ9ev
+	 BxC80MBmI3zfOjs+JRFFxcwZnunlH7yLfAJu5OYcLmTgsx7Gv5bcHPt0U9sADJJETJ
+	 AAamKLLWdYwQ1ERIFJulBg8L7MOdegIMlhOe9ZnqPBsHq9RC/JGWvZ1c408iTJ1Yo5
+	 6ZMwPGPf4/ahTE5wD43rjw+lac8KDyXwAFH3E2QK0ybz59Y0M/PfdxViEUBYC4lFMK
+	 0fSREqduy3eYh8ggrW7Jmi7Kacg/E588Ja1QaJitwx8ALxUiS4o6D98rlRgHlCtQEN
+	 HZDk4WO5tv7gQ==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2b1af9ef7a9so11809911fa.1;
+        Wed, 14 Jun 2023 08:26:57 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxU++D6NzrfoBcuzXDZlCs5Bo7VPN9ySRHl5CuuXCSaUBLsv+MP
+	sa1nlnLYhTHB8MO411IhvP/t3Q7os1ZgNisJzw==
+X-Google-Smtp-Source: ACHHUZ7e2RDr8bq2bLrOdkSpQxhIRxybPf/oRpYUssszcDIESnr+wUGhHiDMVtpey3X5CHK6SJZ5VeBGRL8uqexvvsg=
+X-Received: by 2002:a2e:b046:0:b0:2ac:70fa:fb7b with SMTP id
+ d6-20020a2eb046000000b002ac70fafb7bmr7342135ljl.18.1686756415185; Wed, 14 Jun
+ 2023 08:26:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230614092850.21460-2-stanley_chang@realtek.com>
+References: <202306141702.ZaO9V2lk-lkp@intel.com> <ff92e980-a531-d37e-448d-c85a106a725a@kernel.org>
+In-Reply-To: <ff92e980-a531-d37e-448d-c85a106a725a@kernel.org>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 14 Jun 2023 09:26:42 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqLjp-hSULp8xFb1zpwdO7OdYDwH+XtgRjhsKfG2R-0Z3g@mail.gmail.com>
+Message-ID: <CAL_JsqLjp-hSULp8xFb1zpwdO7OdYDwH+XtgRjhsKfG2R-0Z3g@mail.gmail.com>
+Subject: Re: [linux-next:master 9063/9793] drivers/ata/pata_octeon_cf.c:835:7:
+ error: call to undeclared function 'of_property_read_reg'; ISO C99 and later
+ do not support implicit function declarations
+To: Damien Le Moal <dlemoal@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, Sergey Shtylyov <s.shtylyov@omp.ru>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Stanley,
+On Wed, Jun 14, 2023 at 3:41=E2=80=AFAM Damien Le Moal <dlemoal@kernel.org>=
+ wrote:
+>
+> On 6/14/23 18:23, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
+.git master
+> > head:   b16049b21162bb649cdd8519642a35972b7910fe
+> > commit: d0b2461678b12c08d43eaf6740485e2f2c3aeac6 [9063/9793] ata: Use o=
+f_property_read_reg() to parse "reg"
+> > config: mips-randconfig-r016-20230614 (https://download.01.org/0day-ci/=
+archive/20230614/202306141702.ZaO9V2lk-lkp@intel.com/config)
+> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.gi=
+t 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> > reproduce (this is a W=3D1 build):
+> >         mkdir -p ~/bin
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/s=
+bin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # install mips cross compiling tool for clang build
+> >         # apt-get install binutils-mips64-linux-gnuabi64
+> >         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-ne=
+xt.git/commit/?id=3Dd0b2461678b12c08d43eaf6740485e2f2c3aeac6
+> >         git remote add linux-next https://git.kernel.org/pub/scm/linux/=
+kernel/git/next/linux-next.git
+> >         git fetch --no-tags linux-next master
+> >         git checkout d0b2461678b12c08d43eaf6740485e2f2c3aeac6
+> >         # save the config file
+> >         mkdir build_dir && cp config build_dir/.config
+> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
+cross W=3D1 O=3Dbuild_dir ARCH=3Dmips olddefconfig
+> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
+cross W=3D1 O=3Dbuild_dir ARCH=3Dmips SHELL=3D/bin/bash drivers/ata/
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306141702.ZaO9V2lk-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >>> drivers/ata/pata_octeon_cf.c:835:7: error: call to undeclared functio=
+n 'of_property_read_reg'; ISO C99 and later do not support implicit functio=
+n declarations [-Wimplicit-function-declaration]
+> >      835 |         rv =3D of_property_read_reg(node, 0, &reg, NULL);
+>
+> Rob,
+>
+> I guess this is missing:
+>
+> diff --git a/drivers/ata/pata_octeon_cf.c b/drivers/ata/pata_octeon_cf.c
+> index 57b2166a6d5d..ff538b858928 100644
+> --- a/drivers/ata/pata_octeon_cf.c
+> +++ b/drivers/ata/pata_octeon_cf.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/slab.h>
+>  #include <linux/irq.h>
+>  #include <linux/of.h>
+> +#include <linux/of_address.h>
+>  #include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+>  #include <scsi/scsi_host.h>
+>
+> I can add that if you want. Or you can send a fix and I will queue it,
+> whichever is fine.
 
-kernel test robot noticed the following build warnings:
+If you can fix it up, that would be great.
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus robh/for-next linus/master v6.4-rc6 next-20230614]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I'll look into whether this can be made easier to reproduce. These
+patches had been on a branch and picked up by 0-day. There must be
+some implicit include of of_address.h somewhere.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanley-Chang/phy-realtek-usb-Add-driver-for-the-Realtek-SoC-USB-2-0-PHY/20230614-173349
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230614092850.21460-2-stanley_chang%40realtek.com
-patch subject: [PATCH v4 2/5] phy: realtek: usb: Add driver for the Realtek SoC USB 2.0 PHY
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230614/202306142352.e4eBd3HX-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-        git fetch usb usb-testing
-        git checkout usb/usb-testing
-        b4 shazam https://lore.kernel.org/r/20230614092850.21460-2-stanley_chang@realtek.com
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=sparc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/phy/realtek/
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306142352.e4eBd3HX-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/phy/realtek/phy-rtk-usb2.c: In function 'parse_phy_data':
->> drivers/phy/realtek/phy-rtk-usb2.c:1229:25: warning: variable 'phy_cfg' set but not used [-Wunused-but-set-variable]
-    1229 |         struct phy_cfg *phy_cfg;
-         |                         ^~~~~~~
-
-
-vim +/phy_cfg +1229 drivers/phy/realtek/phy-rtk-usb2.c
-
-  1224	
-  1225	static int parse_phy_data(struct rtk_phy *rtk_phy)
-  1226	{
-  1227		struct device *dev = rtk_phy->dev;
-  1228		struct device_node *node;
-> 1229		struct phy_cfg *phy_cfg;
-  1230		struct phy_parameter *phy_parameter;
-  1231		int ret = 0;
-  1232		int index;
-  1233	
-  1234		node = dev->of_node;
-  1235		phy_cfg = rtk_phy->phy_cfg;
-  1236	
-  1237		rtk_phy->phy_parameter = devm_kzalloc(dev, sizeof(struct phy_parameter) *
-  1238							rtk_phy->num_phy, GFP_KERNEL);
-  1239		if (!rtk_phy->phy_parameter)
-  1240			return -ENOMEM;
-  1241	
-  1242		for (index = 0; index < rtk_phy->num_phy; index++) {
-  1243			phy_parameter = &((struct phy_parameter *)rtk_phy->phy_parameter)[index];
-  1244	
-  1245			phy_parameter->phy_reg.reg_wrap_vstatus = of_iomap(dev->of_node, 0);
-  1246			phy_parameter->phy_reg.reg_gusb2phyacc0 = of_iomap(dev->of_node, 1) + index;
-  1247			phy_parameter->phy_reg.vstatus_index = index;
-  1248	
-  1249			if (of_property_read_bool(node, "realtek,inverse-hstx-sync-clock"))
-  1250				phy_parameter->inverse_hstx_sync_clock = true;
-  1251			else
-  1252				phy_parameter->inverse_hstx_sync_clock = false;
-  1253	
-  1254			if (of_property_read_u32_index(node, "realtek,driving-level",
-  1255						       index, &phy_parameter->driving_level))
-  1256				phy_parameter->driving_level = DEFAULT_DC_DRIVING_VALUE;
-  1257	
-  1258			if (of_property_read_u32_index(node, "realtek,driving-compensate",
-  1259						       index, &phy_parameter->driving_compensate))
-  1260				phy_parameter->driving_compensate = 0;
-  1261	
-  1262			if (of_property_read_u32_index(node, "realtek,disconnection-compensate",
-  1263						       index, &phy_parameter->disconnection_compensate))
-  1264				phy_parameter->disconnection_compensate = 0;
-  1265	
-  1266			get_phy_data_by_efuse(rtk_phy, phy_parameter, index);
-  1267	
-  1268			update_dc_driving_level(rtk_phy, phy_parameter);
-  1269	
-  1270			update_hs_clk_select(rtk_phy, phy_parameter);
-  1271		}
-  1272	
-  1273		return ret;
-  1274	}
-  1275	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Rob
