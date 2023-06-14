@@ -1,127 +1,173 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C83C10965
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 16:11:03 +0000 (UTC)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-62df5fbb186so16064886d6.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 09:11:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1686759062; x=1689351062;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RPoAD2cQx17/agVIIZsOPzeZQINLpmt+BsXjaxWZki4=;
-        b=2DCUbuGjivNIJ/K3I1lerX+RfjyNvVA8xfZg3jswm8hnjx6gB188rz1VgnhG7Nr26z
-         x+BQHwHpyARi1bmXdIkHmMqU1NK+9bq2sNlrQ+vYoHW9X30gvf0VtIAdVt1epMY8SHyq
-         Lfg/N1/RPpminwoF6d0pRnZxfwVO94QIDxnO+ZOD34FDCq7BqHwTLL77Y/f6XjSwZ5JF
-         nqn2bOc/17P1oEeHejjbVfCHZS1M02cp/b8orYyCl62ktElzmm7cBazlQQ+x8ecedmsO
-         5HE3UiHbvm9vH/LiWSiF+VH1d30Bq9G8dbEVqTLX8+fm0b5Z/zArT4LQgWjfjk3mIqK9
-         of0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686759062; x=1689351062;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RPoAD2cQx17/agVIIZsOPzeZQINLpmt+BsXjaxWZki4=;
-        b=H4V74DjLUjtcatuW8qlOp6AMcbuO8sLuXBcswjNGMd6gcGCnFDOlu+T203vzSwb87L
-         uJ13swNQpCqeAtisa9DAwOWfuS/t0qDC2RH0g6P/GOTL+O2PdNDLEqfbi6G3+x5ZSFyq
-         K/l/zWoSwoC43H2jh219SLRGQjc8tBTrujD7eg/BTDTzAgdnl72Bp5k7QHZEnnC2dIVt
-         QeVQ54qPEnfwKZCTacpW4ulE4NsMkSOxEPzlYr+QFGOdUecJfLMq+jwfLC8P2UvPasul
-         6X3LRUDmdoYOX+GsBPoNjA6U4UjjPF0ILRsVkL4WkbjYoeBtJZCs9W/CtCp42+6YRcCw
-         oalg==
-X-Gm-Message-State: AC+VfDwn5AZZzR/uCMDTZ492oXjigSOvDEDAyD2DEugynmSQCepaRyhU
-	EqeZ0HTpd2mxCZG580P+IsLOXMRLRIVVS9Bnklm/YQ==
-X-Google-Smtp-Source: ACHHUZ4DG7IYnl0dzuHTx3rIr2fbK++4fkHPSoufUcgeCw5+vOT0uOgO36Rfb0JrSFSLwGTCgt+Lgsx+U1ubKWTa+IA=
-X-Received: by 2002:a05:6214:2aa5:b0:625:953f:84f6 with SMTP id
- js5-20020a0562142aa500b00625953f84f6mr18277284qvb.6.1686759062132; Wed, 14
- Jun 2023 09:11:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7670E11184
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 16:16:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686759401; x=1718295401;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hNRyqUyJwPRgDx83ggrfVP33lL+susjiOlT7HtsU1sA=;
+  b=cHg8YP55Wx5qS+MREcq4xQEuI48PLKGuCrD12S1KfNw92LpykyvjSl9G
+   F27/5QyXWPmAcHizSXeqmGNrgqqo1JpFMahMqR7nKtsLAV2EB+tbcwtaf
+   LZ7w2mpgp/2CFarww7KYprdOQFCbcCCkA+vRI8hMzPacLgLoecAu9d84P
+   tWh/iA4f+0WBeW4hBDPQ+juQzsLu+oHeWpwXYmgP+r2dA0ewvn33Tv9aq
+   Prm488GEbv/kfM90akUtoLbQAN2IsLjZtxveCPacamBE/CeyUbCvI5zk7
+   EIUW7v2mxh3CCz+zmlbNamUrHmzoWN+xHfp1gz0vl3E6UGhJwY0IrQ9/x
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="424546803"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="424546803"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 09:14:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="824872060"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="824872060"
+Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 14 Jun 2023 09:14:36 -0700
+Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9T8l-0000qX-10;
+	Wed, 14 Jun 2023 16:14:35 +0000
+Date: Thu, 15 Jun 2023 00:13:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stanley Chang <stanley_chang@realtek.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Stanley Chang <stanley_chang@realtek.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Matthias Kaehlcke <mka@chromium.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Flavio Suligoi <f.suligoi@asem.it>, Ray Chi <raychi@google.com>,
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v4 3/5] phy: realtek: usb: Add driver for the Realtek SoC
+ USB 3.0 PHY
+Message-ID: <202306142340.nvui81i4-lkp@intel.com>
+References: <20230614092850.21460-3-stanley_chang@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202306132237.Z4LJE8bP-lkp@intel.com> <20230614-stadien-gasbetrieben-f9cbfc4343b8@brauner>
-In-Reply-To: <20230614-stadien-gasbetrieben-f9cbfc4343b8@brauner>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Wed, 14 Jun 2023 12:10:50 -0400
-Message-ID: <CAKwvOdnsJD2x+M9ANVNLCXita8L54Gd+=6Nuc6WsCLukFZry9A@mail.gmail.com>
-Subject: Re: [linux-next:master 2238/9385] drivers/gpu/drm/i915/display/intel_display_power.h:256:70:
- error: declaration of 'struct seq_file' will not be visible outside of this function
-To: Christian Brauner <brauner@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Alexander Gordeev <agordeev@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230614092850.21460-3-stanley_chang@realtek.com>
 
-On Wed, Jun 14, 2023 at 4:25=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> On Tue, Jun 13, 2023 at 10:39:01PM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
-.git master
-> > head:   1f6ce8392d6ff486af5ca96df9ded5882c4b6977
-> > commit: ef104443bffa004f631729dfc924f0b84abbd602 [2238/9385] procfs: co=
-nsolidate arch_report_meminfo declaration
-> > config: x86_64-randconfig-r036-20230612 (https://download.01.org/0day-c=
-i/archive/20230613/202306132237.Z4LJE8bP-lkp@intel.com/config)
-> > compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.gi=
-t 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-> > reproduce (this is a W=3D1 build):
-> >         mkdir -p ~/bin
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/s=
-bin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-ne=
-xt.git/commit/?id=3Def104443bffa004f631729dfc924f0b84abbd602
-> >         git remote add linux-next https://git.kernel.org/pub/scm/linux/=
-kernel/git/next/linux-next.git
-> >         git fetch --no-tags linux-next master
-> >         git checkout ef104443bffa004f631729dfc924f0b84abbd602
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
-cross W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 olddefconfig
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
-cross W=3D1 O=3Dbuild_dir ARCH=3Dx86_64 SHELL=3D/bin/bash
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306132237.Z4LJE8bP-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    In file included from <built-in>:4:
-> >    In file included from drivers/gpu/drm/i915/display/intel_display_pow=
-er_well.h:10:
-> > >> drivers/gpu/drm/i915/display/intel_display_power.h:256:70: error: de=
-claration of 'struct seq_file' will not be visible outside of this function=
- [-Werror,-Wvisibility]
-> >    void intel_display_power_debug(struct drm_i915_private *i915, struct=
- seq_file *m);
->
-> This seems odd. Arnd, any idea?
+Hi Stanley,
 
--Wvisibility is usually the result of a missed header inclusion.
-Since the parameter `i915` is a pointer to a type that hasn't been
-declared yet, it's an opaque type.  The code can compile just fine if
-the members are not accessed, but this is usually a code smell of
-someone using a type without the correct #include or forward
-declaration.
+kernel test robot noticed the following build warnings:
 
-I see lots of forward declaration of `struct drm_i915_private` in
-headers under drivers/gpu/drm/i915/, but maybe
-drivers/gpu/drm/i915/display/intel_display_power_well.h is missing
-one?
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus robh/for-next linus/master v6.4-rc6 next-20230614]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-commit ef1e17089190 ("drm/i915: Move power well get/put/enable/disable
-functions to a n
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanley-Chang/phy-realtek-usb-Add-driver-for-the-Realtek-SoC-USB-2-0-PHY/20230614-173349
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20230614092850.21460-3-stanley_chang%40realtek.com
+patch subject: [PATCH v4 3/5] phy: realtek: usb: Add driver for the Realtek SoC USB 3.0 PHY
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230614/202306142340.nvui81i4-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
+        git fetch usb usb-testing
+        git checkout usb/usb-testing
+        b4 shazam https://lore.kernel.org/r/20230614092850.21460-3-stanley_chang@realtek.com
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=sparc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=sparc SHELL=/bin/bash drivers/phy/realtek/
 
-seems to have added it though...
---=20
-Thanks,
-~Nick Desaulniers
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306142340.nvui81i4-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/phy/realtek/phy-rtk-usb3.c: In function 'rtk_usb3phy_probe':
+>> drivers/phy/realtek/phy-rtk-usb3.c:779:29: warning: variable 'node' set but not used [-Wunused-but-set-variable]
+     779 |         struct device_node *node;
+         |                             ^~~~
+
+
+vim +/node +779 drivers/phy/realtek/phy-rtk-usb3.c
+
+   774	
+   775	static int rtk_usb3phy_probe(struct platform_device *pdev)
+   776	{
+   777		struct rtk_phy *rtk_phy;
+   778		struct device *dev = &pdev->dev;
+ > 779		struct device_node *node;
+   780		struct phy *generic_phy;
+   781		struct phy_provider *phy_provider;
+   782		const struct phy_cfg *phy_cfg;
+   783		int ret;
+   784	
+   785		phy_cfg = of_device_get_match_data(dev);
+   786		if (!phy_cfg) {
+   787			dev_err(dev, "phy config are not assigned!\n");
+   788			return -EINVAL;
+   789		}
+   790	
+   791		rtk_phy = devm_kzalloc(dev, sizeof(*rtk_phy), GFP_KERNEL);
+   792		if (!rtk_phy)
+   793			return -ENOMEM;
+   794	
+   795		rtk_phy->dev			= &pdev->dev;
+   796		rtk_phy->phy.dev		= rtk_phy->dev;
+   797		rtk_phy->phy.label		= "rtk-usb3phy";
+   798		rtk_phy->phy.notify_port_status = rtk_phy_notify_port_status;
+   799	
+   800		rtk_phy->phy_cfg = devm_kzalloc(dev, sizeof(*phy_cfg), GFP_KERNEL);
+   801	
+   802		memcpy(rtk_phy->phy_cfg, phy_cfg, sizeof(*phy_cfg));
+   803	
+   804		node = dev->of_node;
+   805	
+   806		rtk_phy->num_phy = 1;
+   807	
+   808		ret = parse_phy_data(rtk_phy);
+   809		if (ret)
+   810			goto err;
+   811	
+   812		platform_set_drvdata(pdev, rtk_phy);
+   813	
+   814		generic_phy = devm_phy_create(rtk_phy->dev, NULL, &ops);
+   815		if (IS_ERR(generic_phy))
+   816			return PTR_ERR(generic_phy);
+   817	
+   818		phy_set_drvdata(generic_phy, rtk_phy);
+   819	
+   820		phy_provider = devm_of_phy_provider_register(rtk_phy->dev, of_phy_simple_xlate);
+   821		if (IS_ERR(phy_provider))
+   822			return PTR_ERR(phy_provider);
+   823	
+   824		ret = usb_add_phy_dev(&rtk_phy->phy);
+   825		if (ret)
+   826			goto err;
+   827	
+   828		create_debug_files(rtk_phy);
+   829	
+   830	err:
+   831		return ret;
+   832	}
+   833	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
