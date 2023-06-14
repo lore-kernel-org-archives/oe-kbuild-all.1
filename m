@@ -1,43 +1,50 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC147F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 18:38:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F55B2EC16;
+	Wed, 14 Jun 2023 18:38:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686767907; x=1718303907;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mkG4fYozRoxsYbof6Ti7zKkrkswQzjLlNdpNCgPeoRk=;
-  b=ifyMudKMgqw9OM80txQWUvoh/dcNGJL8TquUmfX3EJgVkK3Ce5ORBBWV
-   x3F+8t8LuEBgZ1AxAiER88W8kWjvCqV0gQ1jJa8grLscInq4ohgEozGug
-   POYZoWDDiVmREPhO+KaouTW0Cwb4vy/bPtzEU+PZxHCByg5UFH0/UOxmy
-   HpzW/fZAEzJTLSkZs1kJeqlYgJvhqVxkfHJiYxnztNCsdNnCwEU+zK7yf
-   oIGCNWCd9QTg2KsazpgbRXuHurlft2YkJL9C2Ak49ROhaBpo3oFgqD2zZ
-   QbC66CeQ/Rw5VKbG9UYWyoQtZ3mNfl1H1z8wxmL4jaJrYdvQnBlHlFr9B
+  t=1686767908; x=1718303908;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3juP/zZ0es/YUkn6xSx1QP7m7ZntPvgv8l4V1a11fWs=;
+  b=Ri8a786NvsvXi9gVMDTmuiuOlKcdnohrKyq4u3fbrcaYrC9AAfC84Xpq
+   0a4ITc1Z6SDk9/228skXnat1WhHZRt7qzLNSWqpHaf4FKcRWaN14yEcMA
+   eSwRlPuaQZrKJK6tNpBwZDsuAs7t+gR6I0Nh8SeCiyRkw1Fg3ZLisHPFz
+   VT34TuNO8boKjSFy/FxZbTTPyzdNG37dwjFXgklxvLRv9KkBTcKD8laiH
+   rS0tTwAUMrPCzilGWij5BfCcRjYYE2qaZ2Q6+Z+zCHGv0dijTMQhtVDrW
+   AFjPUtRe+qJ/IwonBEZze3fHFGjMTElkJHkX9CS09oD5ZOtWaM91e/QvU
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="348366092"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="356195113"
 X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="348366092"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 11:38:25 -0700
+   d="scan'208";a="356195113"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 11:38:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="741918871"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="745184233"
 X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="741918871"
+   d="scan'208";a="745184233"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 14 Jun 2023 11:38:24 -0700
+  by orsmga001.jf.intel.com with ESMTP; 14 Jun 2023 11:38:24 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9VNv-0000xF-1F;
+	id 1q9VNv-0000xH-1O;
 	Wed, 14 Jun 2023 18:38:23 +0000
 Date: Thu, 15 Jun 2023 02:38:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 14351/29850]
- kernel/dma/removed.c:107:30: sparse: sparse: incorrect type in assignment
- (different address spaces)
-Message-ID: <202306150205.r2aV002G-lkp@intel.com>
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Hannes Reinecke <hare@suse.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Christoph Hellwig <hch@lst.de>,
+	Luis Chamberlain <mcgrof@kernel.org>
+Subject: Re: [PATCH 1/2] highmem: Add memcpy_to_folio()
+Message-ID: <202306150241.f2mNsWXE-lkp@intel.com>
+References: <20230614134853.1521439-1-willy@infradead.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,260 +53,261 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230614134853.1521439-1-willy@infradead.org>
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   7816e65d75d3e618bc0c54a22c9af5472c44d013
-commit: c9a574054dbbc299aac39781a1d19a36fe0bc35a [14351/29850] ANDROID: GKI: drivers: Add dma removed ops
-config: i386-randconfig-s052-20230614 (https://download.01.org/0day-ci/archive/20230615/202306150205.r2aV002G-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android-4.19-stable
-        git checkout c9a574054dbbc299aac39781a1d19a36fe0bc35a
+Hi Matthew,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.4-rc6]
+[cannot apply to next-20230614]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/highmem-Add-memcpy_from_folio/20230614-215150
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230614134853.1521439-1-willy%40infradead.org
+patch subject: [PATCH 1/2] highmem: Add memcpy_to_folio()
+config: hexagon-randconfig-r015-20230614 (https://download.01.org/0day-ci/archive/20230615/202306150241.f2mNsWXE-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
+        git fetch akpm-mm mm-everything
+        git checkout akpm-mm/mm-everything
+        b4 shazam https://lore.kernel.org/r/20230614134853.1521439-1-willy@infradead.org
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/cpuidle/ kernel/dma/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/nvme/target/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306150205.r2aV002G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306150241.f2mNsWXE-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/dma/removed.c:107:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] <asn:2> *addr @@     got void * @@
-   kernel/dma/removed.c:107:30: sparse:     expected void [noderef] <asn:2> *addr
-   kernel/dma/removed.c:107:30: sparse:     got void *
->> kernel/dma/removed.c:119:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] <asn:2> *[assigned] addr @@     got void * @@
-   kernel/dma/removed.c:119:38: sparse:     expected void [noderef] <asn:2> *[assigned] addr
-   kernel/dma/removed.c:119:38: sparse:     got void *
->> kernel/dma/removed.c:127:16: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] <asn:2> *[assigned] addr @@
-   kernel/dma/removed.c:127:16: sparse:     expected void *
-   kernel/dma/removed.c:127:16: sparse:     got void [noderef] <asn:2> *[assigned] addr
->> kernel/dma/removed.c:71:6: sparse: sparse: symbol 'removed_alloc' was not declared. Should it be static?
->> kernel/dma/removed.c:131:5: sparse: sparse: symbol 'removed_mmap' was not declared. Should it be static?
->> kernel/dma/removed.c:146:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *cpu_addr @@
-   kernel/dma/removed.c:146:25: sparse:     expected void volatile [noderef] <asn:2> *addr
-   kernel/dma/removed.c:146:25: sparse:     got void *cpu_addr
->> kernel/dma/removed.c:138:6: sparse: sparse: symbol 'removed_free' was not declared. Should it be static?
->> kernel/dma/removed.c:187:6: sparse: sparse: symbol 'removed_sync_single_for_device' was not declared. Should it be static?
->> kernel/dma/removed.c:193:6: sparse: sparse: symbol 'removed_sync_sg_for_cpu' was not declared. Should it be static?
->> kernel/dma/removed.c:199:6: sparse: sparse: symbol 'removed_sync_sg_for_device' was not declared. Should it be static?
->> kernel/dma/removed.c:213:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] <asn:2> *addr @@     got void *remapped_address @@
-   kernel/dma/removed.c:213:17: sparse:     expected void volatile [noderef] <asn:2> *addr
-   kernel/dma/removed.c:213:17: sparse:     got void *remapped_address
->> kernel/dma/removed.c:211:6: sparse: sparse: symbol 'removed_unremap' was not declared. Should it be static?
->> kernel/dma/removed.c:228:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *( *remap )( ... ) @@     got void [noderef] <asn:2> *( * )( ... ) @@
-   kernel/dma/removed.c:228:35: sparse:     expected void *( *remap )( ... )
-   kernel/dma/removed.c:228:35: sparse:     got void [noderef] <asn:2> *( * )( ... )
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:22,
-                    from include/linux/module.h:13,
-                    from kernel/dma/removed.c:6:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1171:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
-    1171 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1162:27: note: 'mem_section' declared here
-    1162 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
-   kernel/dma/removed.c: At top level:
-   kernel/dma/removed.c:71:7: warning: no previous prototype for 'removed_alloc' [-Wmissing-prototypes]
-      71 | void *removed_alloc(struct device *dev, size_t size, dma_addr_t *handle,
-         |       ^~~~~~~~~~~~~
-   kernel/dma/removed.c:131:5: warning: no previous prototype for 'removed_mmap' [-Wmissing-prototypes]
-     131 | int removed_mmap(struct device *dev, struct vm_area_struct *vma,
-         |     ^~~~~~~~~~~~
-   kernel/dma/removed.c:138:6: warning: no previous prototype for 'removed_free' [-Wmissing-prototypes]
-     138 | void removed_free(struct device *dev, size_t size, void *cpu_addr,
-         |      ^~~~~~~~~~~~
-   kernel/dma/removed.c:187:6: warning: no previous prototype for 'removed_sync_single_for_device' [-Wmissing-prototypes]
-     187 | void removed_sync_single_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:193:6: warning: no previous prototype for 'removed_sync_sg_for_cpu' [-Wmissing-prototypes]
-     193 | void removed_sync_sg_for_cpu(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:199:6: warning: no previous prototype for 'removed_sync_sg_for_device' [-Wmissing-prototypes]
-     199 | void removed_sync_sg_for_device(struct device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:211:6: warning: no previous prototype for 'removed_unremap' [-Wmissing-prototypes]
-     211 | void removed_unremap(struct device *dev, void *remapped_address, size_t size)
-         |      ^~~~~~~~~~~~~~~
-   kernel/dma/removed.c:61:12: warning: 'dma_assign_removed_region' defined but not used [-Wunused-function]
-      61 | static int dma_assign_removed_region(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/dma/removed.c:33:12: warning: 'dma_init_removed_memory' defined but not used [-Wunused-function]
-      33 | static int dma_init_removed_memory(phys_addr_t phys_addr, size_t size,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~
+All warnings (new ones prefixed by >>):
 
-vim +107 kernel/dma/removed.c
+   In file included from drivers/nvme/target/fc.c:8:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/nvme/target/fc.c:8:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/nvme/target/fc.c:8:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/nvme/target/fc.c:8:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+>> include/linux/highmem.h:525:7: warning: comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int *') and 'typeof ((1UL << 12) - ((unsigned long)(offset) & ~(~((1 << 12) - 1)))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+     525 |                 n = min(len, PAGE_SIZE - offset_in_page(offset));
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:67:19: note: expanded from macro 'min'
+      67 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   In file included from drivers/nvme/target/fc.c:8:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+>> include/linux/highmem.h:534:7: warning: comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int *') and 'typeof ((1UL << 12)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+     534 |                 n = min(len, PAGE_SIZE);
+         |                     ^~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:67:19: note: expanded from macro 'min'
+      67 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   drivers/nvme/target/fc.c:176:1: warning: unused function 'nvmet_fc_iodnum' [-Wunused-function]
+     176 | nvmet_fc_iodnum(struct nvmet_fc_ls_iod *iodptr)
+         | ^
+   drivers/nvme/target/fc.c:182:1: warning: unused function 'nvmet_fc_fodnum' [-Wunused-function]
+     182 | nvmet_fc_fodnum(struct nvmet_fc_fcp_iod *fodptr)
+         | ^
+   10 warnings generated.
+--
+   In file included from drivers/nvme/target/loop.c:7:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/nvme/target/loop.c:7:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/nvme/target/loop.c:7:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/nvme/target/loop.c:8:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+>> include/linux/highmem.h:525:7: warning: comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int *') and 'typeof ((1UL << 12) - ((unsigned long)(offset) & ~(~((1 << 12) - 1)))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+     525 |                 n = min(len, PAGE_SIZE - offset_in_page(offset));
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:67:19: note: expanded from macro 'min'
+      67 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   In file included from drivers/nvme/target/loop.c:8:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+>> include/linux/highmem.h:534:7: warning: comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int *') and 'typeof ((1UL << 12)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
+     534 |                 n = min(len, PAGE_SIZE);
+         |                     ^~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:67:19: note: expanded from macro 'min'
+      67 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
+   8 warnings generated.
 
-    70	
-  > 71	void *removed_alloc(struct device *dev, size_t size, dma_addr_t *handle,
-    72			    gfp_t gfp, unsigned long attrs)
-    73	{
-    74		bool no_kernel_mapping = attrs & DMA_ATTR_NO_KERNEL_MAPPING;
-    75		bool skip_zeroing = attrs & DMA_ATTR_SKIP_ZEROING;
-    76		int pageno;
-    77		unsigned long order;
-    78		void __iomem *addr = NULL;
-    79		struct removed_region *dma_mem = dev->removed_mem;
-    80		int nbits;
-    81		unsigned int align;
-    82	
-    83		if (!gfpflags_allow_blocking(gfp))
-    84			return NULL;
-    85	
-    86		size = PAGE_ALIGN(size);
-    87		nbits = size >> PAGE_SHIFT;
-    88		order = get_order(size);
-    89	
-    90		if (order > get_order(SZ_1M))
-    91			order = get_order(SZ_1M);
-    92	
-    93		align = (1 << order) - 1;
-    94	
-    95	
-    96		mutex_lock(&dma_mem->lock);
-    97		pageno = bitmap_find_next_zero_area(dma_mem->bitmap, dma_mem->nr_pages,
-    98							0, nbits, align);
-    99	
-   100		if (pageno < dma_mem->nr_pages) {
-   101			phys_addr_t base = dma_mem->base + pageno * PAGE_SIZE;
-   102			*handle = base;
-   103	
-   104			bitmap_set(dma_mem->bitmap, pageno, nbits);
-   105	
-   106			if (no_kernel_mapping && skip_zeroing) {
- > 107				addr = (void *)NO_KERNEL_MAPPING_DUMMY;
-   108				goto out;
-   109			}
-   110	
-   111			addr = ioremap_wc(base, size);
-   112			if (WARN_ON(!addr)) {
-   113				bitmap_clear(dma_mem->bitmap, pageno, nbits);
-   114			} else {
-   115				if (!skip_zeroing)
-   116					memset_io(addr, 0, size);
-   117				if (no_kernel_mapping) {
-   118					iounmap(addr);
- > 119					addr = (void *)NO_KERNEL_MAPPING_DUMMY;
-   120				}
-   121				*handle = base;
-   122			}
-   123		}
-   124	
-   125	out:
-   126		mutex_unlock(&dma_mem->lock);
- > 127		return addr;
-   128	}
-   129	
-   130	
- > 131	int removed_mmap(struct device *dev, struct vm_area_struct *vma,
-   132			 void *cpu_addr, dma_addr_t dma_addr, size_t size,
-   133			 unsigned long attrs)
-   134	{
-   135		return -ENXIO;
-   136	}
-   137	
- > 138	void removed_free(struct device *dev, size_t size, void *cpu_addr,
-   139			  dma_addr_t handle, unsigned long attrs)
-   140	{
-   141		bool no_kernel_mapping = attrs & DMA_ATTR_NO_KERNEL_MAPPING;
-   142		struct removed_region *dma_mem = dev->removed_mem;
-   143	
-   144		size = PAGE_ALIGN(size);
-   145		if (!no_kernel_mapping)
- > 146			iounmap(cpu_addr);
-   147		mutex_lock(&dma_mem->lock);
-   148		bitmap_clear(dma_mem->bitmap, (handle - dma_mem->base) >> PAGE_SHIFT,
-   149					size >> PAGE_SHIFT);
-   150		mutex_unlock(&dma_mem->lock);
-   151	}
-   152	
-   153	static dma_addr_t removed_map_page(struct device *dev, struct page *page,
-   154				unsigned long offset, size_t size,
-   155				enum dma_data_direction dir,
-   156				unsigned long attrs)
-   157	{
-   158		return ~(dma_addr_t)0;
-   159	}
-   160	
-   161	static void removed_unmap_page(struct device *dev, dma_addr_t dma_handle,
-   162			size_t size, enum dma_data_direction dir,
-   163			unsigned long attrs)
-   164	{
-   165	}
-   166	
-   167	static int removed_map_sg(struct device *dev, struct scatterlist *sg,
-   168				int nents, enum dma_data_direction dir,
-   169				unsigned long attrs)
-   170	{
-   171		return 0;
-   172	}
-   173	
-   174	static void removed_unmap_sg(struct device *dev,
-   175				struct scatterlist *sg, int nents,
-   176				enum dma_data_direction dir,
-   177				unsigned long attrs)
-   178	{
-   179	}
-   180	
-   181	static void removed_sync_single_for_cpu(struct device *dev,
-   182				dma_addr_t dma_handle, size_t size,
-   183				enum dma_data_direction dir)
-   184	{
-   185	}
-   186	
- > 187	void removed_sync_single_for_device(struct device *dev,
-   188				dma_addr_t dma_handle, size_t size,
-   189				enum dma_data_direction dir)
-   190	{
-   191	}
-   192	
- > 193	void removed_sync_sg_for_cpu(struct device *dev,
-   194				struct scatterlist *sg, int nents,
-   195				enum dma_data_direction dir)
-   196	{
-   197	}
-   198	
- > 199	void removed_sync_sg_for_device(struct device *dev,
-   200				struct scatterlist *sg, int nents,
-   201				enum dma_data_direction dir)
-   202	{
-   203	}
-   204	
-   205	static void __iomem *removed_remap(struct device *dev, void *cpu_addr,
-   206				dma_addr_t handle, size_t size, unsigned long attrs)
-   207	{
-   208		return ioremap_wc(handle, size);
-   209	}
-   210	
- > 211	void removed_unremap(struct device *dev, void *remapped_address, size_t size)
-   212	{
- > 213		iounmap(remapped_address);
-   214	}
-   215	
-   216	const struct dma_map_ops removed_dma_ops = {
-   217		.alloc			= removed_alloc,
-   218		.free			= removed_free,
-   219		.mmap			= removed_mmap,
-   220		.map_page		= removed_map_page,
-   221		.unmap_page		= removed_unmap_page,
-   222		.map_sg			= removed_map_sg,
-   223		.unmap_sg		= removed_unmap_sg,
-   224		.sync_single_for_cpu	= removed_sync_single_for_cpu,
-   225		.sync_single_for_device	= removed_sync_single_for_device,
-   226		.sync_sg_for_cpu	= removed_sync_sg_for_cpu,
-   227		.sync_sg_for_device	= removed_sync_sg_for_device,
- > 228		.remap			= removed_remap,
-   229		.unremap		= removed_unremap,
-   230	};
-   231	EXPORT_SYMBOL(removed_dma_ops);
-   232	
+
+vim +525 include/linux/highmem.h
+
+   509	
+   510	/**
+   511	 * memcpy_to_folio - Copy a range of bytes to a folio
+   512	 * @folio: The folio to write to.
+   513	 * @offset: The first byte in the folio to store to.
+   514	 * @from: The memory to copy from.
+   515	 * @len: The number of bytes to copy.
+   516	 */
+   517	static inline void memcpy_to_folio(struct folio *folio, size_t offset,
+   518			const char *from, size_t len)
+   519	{
+   520		size_t n = len;
+   521	
+   522		VM_BUG_ON(offset + len > folio_size(folio));
+   523	
+   524		if (folio_test_highmem(folio))
+ > 525			n = min(len, PAGE_SIZE - offset_in_page(offset));
+   526		for (;;) {
+   527			char *to = kmap_local_folio(folio, offset);
+   528			memcpy(to, from, n);
+   529			kunmap_local(to);
+   530			if (!folio_test_highmem(folio) || n == len)
+   531				break;
+   532			offset += n;
+   533			len -= n;
+ > 534			n = min(len, PAGE_SIZE);
+   535		}
+   536		flush_dcache_folio(folio);
+   537	}
+   538	
 
 -- 
 0-DAY CI Kernel Test Service
