@@ -1,153 +1,209 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FE62EC2A;
-	Wed, 14 Jun 2023 18:38:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686767911; x=1718303911;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3sI4YDTtaY0g0URvNJ8Dd8m8uuHedTrH+fP517EWAwI=;
-  b=EOmHnCzpM3djQ+zN4Od85sGvmWkNZCmuiO2zK3lviEof4YB+nzc7kIH3
-   vOPUne6dG2xMLwtl8oubFq7dR8ZFOAYVjrmrAaN9gdymOY9R8HWlWPNKv
-   joWY7BKtzYKW+q016poox5y+67vdQNRWQgXP0p4VmesrxvCxR/X6NwA3p
-   u53HEdE9WclI2YRb38hGO198MFTyM81SAblhKiP3mxtrl+/QyZxArq/ZH
-   gbC6qizAByS/AfK6+/IBc006DBFhTyGOd6tzYME9XNNb30YFOuJhMBYCq
-   R2xGDzPDm07hvtFGRlwBycl1hktSvJc5UEmGl/wp2G8v7VXd8lEiW2US3
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="356195121"
-X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="356195121"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 11:38:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="745184234"
-X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="745184234"
-Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 14 Jun 2023 11:38:24 -0700
-Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q9VNv-0000xK-1R;
-	Wed, 14 Jun 2023 18:38:23 +0000
-Date: Thu, 15 Jun 2023 02:38:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jisheng Zhang <jszhang@kernel.org>,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 3/3] net: stmmac: use pcpu statistics where necessary
-Message-ID: <202306150255.k4BaJTXY-lkp@intel.com>
-References: <20230614161847.4071-4-jszhang@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB1C7C2FD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 18:51:49 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-62fe3f0903aso7564536d6.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 11:51:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1686768708; x=1689360708;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gMedmrS/p/Qxyg4JgB/GvkpfboCL/ncS9ZcNdcAtbBw=;
+        b=UG4Ark6caifqCaop3OHayxIjvEQgvufpDyjCM5L8BzrCuHdw77DcbxB1Imy4IC8a6j
+         qvmAc0+3PaU06ELv685Mw+4bpeFCSRW4PK0s3SwzOLqsQIqSTsTQDCDK55ajqHSTwWyI
+         sC1grb6BoLFLS9oBhZjp7CwWT1Qj/GTT8FSkUDr1tpPWQ3jJGvoabANwtbxO28cdXcWN
+         q5pi37Hc0VstR2/usj/5HwMeK/470ocHhii58WQZ94lV5Efc2lLbP3RlR0G0BH9Lj5F7
+         0GZpUwwCktMWI22h/AtlmWfX/W74AcOIAfLEb3gulcqM0Mj+/DkKbCGs4YII5Svee66w
+         mSdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686768708; x=1689360708;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gMedmrS/p/Qxyg4JgB/GvkpfboCL/ncS9ZcNdcAtbBw=;
+        b=WraQaMHeiD20QdZuCK5q4pQOjHjuOPI+9Ddwt3nZZ7n+y1TdLFkPjvnZ5hXe2JcGE/
+         LjaYbaVbEvt/XU/i0zMxrbwiEQJmuTEGk1mILtPQ9UP4Ik2S4YwJzm2G1TCtxi5Dne8i
+         AjeyixSyrGV5tTCtbVZFomScbocqw4DIW+SJxmR6wcR/6YqJ91bLezIHkLEJmErFKc7H
+         90KGREDADPBlKZRx4q7rINS8gNRgXVZi+XqFlY+1n4aivb4ju7EdfvsljuBgAxYyGcN9
+         r7UKNAf8MyoHn0gAVYDeI1ZPQnEUlCg92GzEitKyq1rOG5otPAbKxuRxXiCYCW/D24Qe
+         c5Bw==
+X-Gm-Message-State: AC+VfDyNKwBuf/DuosfU+Q4XUcfnPFuhVEGXujrCdv6pGQW2luWpmxqY
+	aiDJ0Kp4inFPbQI2Q48CTwO9KpfmtAv1RldsddghfA==
+X-Google-Smtp-Source: ACHHUZ7Wkp+teTCfoC7m4bCxnObJ2J7WNCIxCxch4HFFrKMCzde4tlGFIeZg71wvQEahtaEBZ2MTaSm/h278vtrJV8I=
+X-Received: by 2002:a05:6214:224a:b0:61b:75e0:6a19 with SMTP id
+ c10-20020a056214224a00b0061b75e06a19mr18911317qvc.14.1686768708272; Wed, 14
+ Jun 2023 11:51:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230614161847.4071-4-jszhang@kernel.org>
+References: <202305230231.3Wb7Q68G-lkp@intel.com> <edf2ec88-3586-bbb1-fbf1-9451393c12ec@csgroup.eu>
+ <CAKwvOdm3vNxp9GZrxs6s4h73pHgHD=sJjaPziGzxcr+K7iGd-g@mail.gmail.com> <5fd58e1e-9e5f-4bd7-2153-aa0055a3f6c5@csgroup.eu>
+In-Reply-To: <5fd58e1e-9e5f-4bd7-2153-aa0055a3f6c5@csgroup.eu>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Wed, 14 Jun 2023 14:51:36 -0400
+Message-ID: <CAKwvOdmrQKx=gTbcRuSRGBjd2q8Zf5YvpOuzoVJg4ovL96w4yg@mail.gmail.com>
+Subject: Re: arch/powerpc/math-emu/fcmpu.c:13:2: warning: variable 'A_c' set
+ but not used
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: kernel test robot <lkp@intel.com>, "llvm@lists.linux.dev" <llvm@lists.linux.dev>, 
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nathan Chancellor <nathan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jisheng,
+On Wed, Jun 14, 2023 at 2:26=E2=80=AFPM Christophe Leroy
+<christophe.leroy@csgroup.eu> wrote:
+>
+>
+>
+> Le 14/06/2023 =C3=A0 18:04, Nick Desaulniers a =C3=A9crit :
+> > On Wed, Jun 14, 2023 at 10:11=E2=80=AFAM Christophe Leroy
+> > <christophe.leroy@csgroup.eu> wrote:
+> >>
+> >> Hi,
+> >>
+> >> Le 22/05/2023 =C3=A0 21:00, kernel test robot a =C3=A9crit :
+> >>> Hi Christophe,
+> >>>
+> >>> FYI, the error/warning still remains.
+> >>>
+> >>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
+x.git master
+> >>> head:   44c026a73be8038f03dbdeef028b642880cf1511
+> >>> commit: 7245fc5bb7a966852d5bd7779d1f5855530b461a powerpc/math-emu: Re=
+move -w build flag and fix warnings
+> >>> date:   9 months ago
+> >>> config: powerpc-randconfig-r022-20230522 (https://download.01.org/0da=
+y-ci/archive/20230523/202305230231.3Wb7Q68G-lkp@intel.com/config)
+> >>> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project =
+b0fb98227c90adf2536c9ad644a74d5e92961111)
+> >>> reproduce (this is a W=3D1 build):
+> >>>           wget https://raw.githubusercontent.com/intel/lkp-tests/mast=
+er/sbin/make.cross -O ~/bin/make.cross
+> >>>           chmod +x ~/bin/make.cross
+> >>>           # install powerpc cross compiling tool for clang build
+> >>>           # apt-get install binutils-powerpc-linux-gnu
+> >>>           # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/=
+linux.git/commit/?id=3D7245fc5bb7a966852d5bd7779d1f5855530b461a
+> >>>           git remote add linus https://git.kernel.org/pub/scm/linux/k=
+ernel/git/torvalds/linux.git
+> >>>           git fetch --no-tags linus master
+> >>>           git checkout 7245fc5bb7a966852d5bd7779d1f5855530b461a
+> >>>           # save the config file
+> >>>           mkdir build_dir && cp config build_dir/.config
+> >>>           COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cr=
+oss W=3D1 O=3Dbuild_dir ARCH=3Dpowerpc olddefconfig
+> >>>           COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cr=
+oss W=3D1 O=3Dbuild_dir ARCH=3Dpowerpc SHELL=3D/bin/bash arch/powerpc/math-=
+emu/
+> >>>
+> >>> If you fix the issue, kindly add following tag where applicable
+> >>> | Reported-by: kernel test robot <lkp@intel.com>
+> >>> | Closes: https://lore.kernel.org/oe-kbuild-all/202305230231.3Wb7Q68G=
+-lkp@intel.com/
+> >>>
+> >>> All warnings (new ones prefixed by >>):
+> >>>
+> >>>>> arch/powerpc/math-emu/fcmpu.c:13:2: warning: variable 'A_c' set but=
+ not used [-Wunused-but-set-variable]
+> >>
+> >> This code is imported, and there is no plan to make any change to it.
+> >> Can you desactivate that warning ?
+> >
+> > If the code is imported, and we don't plan to push fixes upstream,
+> > does it make sense to just set -Wno-unusued-but-set-variable in
+> > arch/powerpc/math-emu/Makefile?
+>
+> Yes, that's done already but clang ignores it apparently.
+>
+> >
+> > Wait, what?!
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/arch/powerpc/math-emu/Makefile#n20
+> > arch/powerpc/math-emu/Makefile already has -Wunused-but-set-variable
+> > in ccflags-remove-y. But if KBUILD_EXTRA_WARN is set for W=3D1 builds,
+> > -Wunused-but-set-variable is added back, but only for math.o and
+> > math_efp.o.  The warning above comes from building fcmpu.o.  So how
+> > did  -Wunused-but-set-variable get set in the first place?
+>
+> Indeed.
+>
+> I looked once more and found out that:
+>
+>    clang -Wp,-MMD,arch/powerpc/math-emu/.fcmpu.o.d -nostdinc
+> -I./arch/powerpc/include -I./arch/powerpc/include/generated  -I./include
+> -I./arch/powerpc/include/uapi -I./arch/powerpc/include/generated/uapi
+> -I./include/uapi -I./include/generated/uapi -include
+> ./include/linux/compiler-version.h -include ./include/linux/kconfig.h
+> -include ./include/linux/compiler_types.h -D__KERNEL__ -I ./arch/powerpc
+> -DHAVE_AS_ATHIGH=3D1 -fmacro-prefix-map=3D./=3D -Wundef -DKBUILD_EXTRA_WA=
+RN1
+> -Wall -Wundef -Werror=3Dstrict-prototypes -Wno-trigraphs
+> -fno-strict-aliasing -fno-common -fshort-wchar -fno-PIE
+> -Werror=3Dimplicit-function-declaration -Werror=3Dimplicit-int
+> -Werror=3Dreturn-type -Wno-format-security -funsigned-char -std=3Dgnu11
+> --target=3Dpowerpc64le-linux-gnu -fintegrated-as
+> -Werror=3Dunknown-warning-option -Werror=3Dignored-optimization-argument
+> -Werror=3Doption-ignored -Werror=3Dunused-command-line-argument -mbig-end=
+ian
+> -m32 -msoft-float -pipe -mcpu=3Dpowerpc -mno-prefixed -mno-pcrel
+> -mno-altivec -mno-vsx -mno-mma -mno-spe -fno-asynchronous-unwind-tables
+> -mbig-endian -fno-delete-null-pointer-checks -Wno-frame-address
+> -Wno-address-of-packed-member -O2 -Wframe-larger-than=3D1024
+> -fno-stack-protector -Wno-gnu -Wno-unused-but-set-variable
+> -Wno-unused-const-variable -ftrivial-auto-var-init=3Dzero
+> -enable-trivial-auto-var-init-zero-knowing-it-will-be-removed-from-clang
+> -pg -Wdeclaration-after-statement -Wvla -Wno-pointer-sign
+> -Wcast-function-type -Wimplicit-fallthrough -fno-strict-overflow
+> -fno-stack-check -Werror=3Ddate-time -Werror=3Dincompatible-pointer-types
+> -Wextra -Wunused -Wno-unused-parameter -Wmissing-format-attribute
+> -Wold-style-definition -Wmissing-include-dirs -Wunused-const-variable
+> -Wno-missing-field-initializers -Wno-sign-compare -Wno-type-limits
+> -Wno-shift-negative-value -g -Werror
+> -DKBUILD_MODFILE=3D'"arch/powerpc/math-emu/fcmpu"'
+> -DKBUILD_BASENAME=3D'"fcmpu"' -DKBUILD_MODNAME=3D'"fcmpu"'
+> -D__KBUILD_MODNAME=3Dkmod_fcmpu -c -o arch/powerpc/math-emu/fcmpu.o
+> arch/powerpc/math-emu/fcmpu.c   ; ./tools/objtool/objtool --mcount
+> --uaccess --sec-address   arch/powerpc/math-emu/fcmpu.o
+>
+>
+> If you move -Wunused before -Wno-unused-but-set-variable, then you don't
+> have the warning/error anymore. So what ? What the hell is clang
+> behaving that way ?
 
-kernel test robot noticed the following build warnings:
+It's re-enabling ALL of the members of the -Wunused group without
+having checked to see if any more specific members were already
+disabled.
 
-[auto build test WARNING on sunxi/sunxi/for-next]
-[also build test WARNING on linus/master v6.4-rc6]
-[cannot apply to next-20230614]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> GCC documentation is explicit, see
+> https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html :
+>
+>    The combined effect of positive and negative forms is that more
+> specific options have priority over less specific ones, independently of
+> their position in the command-line.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/net-stmmac-don-t-clear-network-statistics-in-ndo_open/20230615-003137
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/20230614161847.4071-4-jszhang%40kernel.org
-patch subject: [PATCH 3/3] net: stmmac: use pcpu statistics where necessary
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230615/202306150255.k4BaJTXY-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add sunxi https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git
-        git fetch sunxi sunxi/for-next
-        git checkout sunxi/sunxi/for-next
-        b4 shazam https://lore.kernel.org/r/20230614161847.4071-4-jszhang@kernel.org
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/
+Ah, nice citation. I did not know that was the expected behavior of
+this group diagnostics.  Indeed, there's a behavior difference here.
+https://godbolt.org/z/13MxqrjcW
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306150255.k4BaJTXY-lkp@intel.com/
+>
+> Can clang be fixed ?
 
-All warnings (new ones prefixed by >>):
+Filed:
+https://github.com/llvm/llvm-project/issues/63315
 
-   drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c: In function 'stmmac_get_per_qstats':
->> drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:564:26: warning: 'start' is used uninitialized [-Wuninitialized]
-     564 |                 } while (u64_stats_fetch_retry(&stats->syncp, start));
-         |                          ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:551:22: note: 'start' was declared here
-     551 |         unsigned int start;
-         |                      ^~~~~
+>
+> Christophe
 
 
-vim +/start +564 drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c
 
-   546	
-   547	static void stmmac_get_per_qstats(struct stmmac_priv *priv, u64 *data)
-   548	{
-   549		u32 tx_cnt = priv->plat->tx_queues_to_use;
-   550		u32 rx_cnt = priv->plat->rx_queues_to_use;
-   551		unsigned int start;
-   552		int q, stat, cpu;
-   553		char *p;
-   554		u64 *pos;
-   555	
-   556		pos = data;
-   557		for_each_possible_cpu(cpu) {
-   558			struct stmmac_pcpu_stats *stats, snapshot;
-   559	
-   560			data = pos;
-   561			stats = per_cpu_ptr(priv->xstats.pstats, cpu);
-   562			do {
-   563				snapshot = *stats;
- > 564			} while (u64_stats_fetch_retry(&stats->syncp, start));
-   565	
-   566			for (q = 0; q < tx_cnt; q++) {
-   567				p = (char *)&snapshot + offsetof(struct stmmac_pcpu_stats,
-   568							    txq_stats[q].tx_pkt_n);
-   569				for (stat = 0; stat < STMMAC_TXQ_STATS; stat++) {
-   570					*data++ = (*(u64 *)p);
-   571					p += sizeof(u64);
-   572				}
-   573			}
-   574			for (q = 0; q < rx_cnt; q++) {
-   575				p = (char *)&snapshot + offsetof(struct stmmac_pcpu_stats,
-   576							    rxq_stats[q].rx_pkt_n);
-   577				for (stat = 0; stat < STMMAC_RXQ_STATS; stat++) {
-   578					*data++ = (*(u64 *)p);
-   579					p += sizeof(u64);
-   580				}
-   581			}
-   582		}
-   583	}
-   584	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Thanks,
+~Nick Desaulniers
