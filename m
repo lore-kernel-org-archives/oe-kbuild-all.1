@@ -1,448 +1,248 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from FRA01-MR2-obe.outbound.protection.outlook.com (mail-mr2fra01on2073.outbound.protection.outlook.com [40.107.9.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EBA7DDC0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 14:08:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686751696; x=1718287696;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Mt9SyJZwPeXkU6bQYo1qvvr2ExMtI7gtsbrGk9+TCLc=;
-  b=gSqo7CqVwuKpb3pg6QSJWbYwCZXIE0vQJIYORjT8iIFP//dCYJjKfhoU
-   5k4I0U9hSUtnpKhDnrfF4obHjrc2TcUWVdziF0l8DF5CGEN9Ac+AOFp+d
-   mBP/hYov9ofTtWm7dfZNXZn27D3ty5ecdaP/tYmzbhse3mp35gSwApxgM
-   1z3AJmw4G7LArjP2thoef27MW2JzC4hHphoHL2lyW8s971XT96ieAOn7J
-   jzxX9OyDA04kDPeRWJoL3y2DeV28X/C2KbPKt2vzj32bs0WC46z/HOOCn
-   wUNTzuqbPSOxCrnpi82iVptHIChP2xJmWYgF2k/ompYzPrzcLo9sV0Nsx
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="424503837"
-X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="424503837"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 07:08:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="886244393"
-X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="886244393"
-Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 14 Jun 2023 07:08:11 -0700
-Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q9RAQ-0000jF-2H;
-	Wed, 14 Jun 2023 14:08:10 +0000
-Date: Wed, 14 Jun 2023 22:07:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xiubo Li <xiubli@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org,
-	Patrick Donnelly <pdonnell@redhat.com>
-Subject: [ceph-client:testing 21/21] fs/ceph/file.c:24:29: warning: unused
- variable 'cl'
-Message-ID: <202306142255.ny5wITLE-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59797C137;
+	Wed, 14 Jun 2023 14:11:48 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aBYZyzvOfNu8oxCLCWE+fCOqDoJY5dXNHGmjD02OFXGvAdsikvVde/ZrZAOGjdVm54FrP2ms3zOpNh5PRXcVHTEdR7VYsLQvyDOQWGmNEJrxEjpHidOloTkzGDUZpYilpdDauWbMPREz0nJykDlggNaRqWYU4EQvUACiz8AKYweUIFyqv06CPf2vOO2Qy0zRz5Hl6+jci8TJSU2bVyY5cKnMDjaStD1poZSfAKClQZE+beVpQaD0jSoxbkeauSk8bQxsdXPLjiSCgkorz2L8PJ8FQto60cJcyZMDEgrGh3a0k20RGxjn0syYjICw4PC4UrCNmCoMo+ODolYWcAEu2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q6JWNaheoMxJVBTrgqYiCdH7WQAExMKUtIzFLilEy10=;
+ b=b8ncUC0OglkvXqOGPAvvN4R7zgJZS2SNHBUBgcrxlsCpJomEKID18X4vNT2BGfpTU54A83Vve0FNTUcXTXmREhRhx/jfQlJ/nA9NalT9QZyCXVB7wY06sdZIJEwvIDjWY3MgJNS9OrPgngSEw6AMnmZtMXheRxH9AECaLQ5TOIQH7qPJxsmwvYfBgcVDbkUxLL4qtljMDnQYDzAh8Rc9HBf3fIHLgJ42ZmpTOUKqXza29dvVwzsW36NvwixnOPynEGsTqb1t6qM3NYqXpiG0b3aZgtt4rVTku1+psfvTULKeWGl+VrsK152dm57TjDBnk8rGW+2InDm3fQEObryJ8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=csgroup.eu; dmarc=pass action=none header.from=csgroup.eu;
+ dkim=pass header.d=csgroup.eu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=csgroup.eu;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q6JWNaheoMxJVBTrgqYiCdH7WQAExMKUtIzFLilEy10=;
+ b=ZKvG7PGiyEAKOGzP/rwRBrH143RK9pc83LuOfSrIJ9sbQOW0MjZVesoUpSXf0DNiI7hnN5PVXYGK1w1X3qLgWPDmH+MgeEISY+LIW/AscmsIjwZ6uDZclZEQ/g/22S4jVYgVObntJMp2ENjt7VFLLxKjPaCCjc48foL+VWVE+++GcOuF3SK9KLTgZEL7ge5EV2ypMlVYPJjv8RyTmVi5sMOdV/VZ7WYtF7+LsKNSrZCxRZI0tvL0VPGB1tx0uHqhALwaPtuOw5iu5uekLAcjOW/iPJW3K6DI7CXTg7OvFRn5UcqktSjlFPnhiMuxvl9VuIIOTu5fCfOCfVjCRN8TWA==
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:31::15)
+ by MR1P264MB1748.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:12::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.37; Wed, 14 Jun
+ 2023 14:11:43 +0000
+Received: from MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::802b:33:561c:4217]) by MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::802b:33:561c:4217%4]) with mapi id 15.20.6477.037; Wed, 14 Jun 2023
+ 14:11:43 +0000
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+To: kernel test robot <lkp@intel.com>
+CC: "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Michael
+ Ellerman <mpe@ellerman.id.au>, Nathan Chancellor <nathan@kernel.org>
+Subject: Re: arch/powerpc/math-emu/fcmpu.c:13:2: warning: variable 'A_c' set
+ but not used
+Thread-Topic: arch/powerpc/math-emu/fcmpu.c:13:2: warning: variable 'A_c' set
+ but not used
+Thread-Index: AQHZjN/QsNPDFNpsGkKAVwWg+Ohdk6+KeoqA
+Date: Wed, 14 Jun 2023 14:11:43 +0000
+Message-ID: <edf2ec88-3586-bbb1-fbf1-9451393c12ec@csgroup.eu>
+References: <202305230231.3Wb7Q68G-lkp@intel.com>
+In-Reply-To: <202305230231.3Wb7Q68G-lkp@intel.com>
+Accept-Language: fr-FR, en-US
+Content-Language: fr-FR
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=csgroup.eu;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MRZP264MB2988:EE_|MR1P264MB1748:EE_
+x-ms-office365-filtering-correlation-id: 70788812-e1de-42d9-fddf-08db6ce1481f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ ujFrWJrc2w/5L1upg/lbeAx5s/7Xyl4DnWToi4Ax81NIscoNj1rglaggduSz3hf9ABmKn3J0aIPdodqJtDM8pi8prm1trpCcV78OUvVa+6HlnzlOocH8lAP8IwRKM1IhPQSSh3/jdTXF0KAQIVKNLBDfwNML5/UzfUZPxKKK9DLa6WuSr8VovOCVOPowCi9Nal8QhFrTCPdNZNWoMKGXYlsRL4qsQvJmQlyfcxjSSriizOnzKfODjcnb17bdX7ipSgI6NF6v6xySmRXf6pPirOBdDWilJFyhIlRCVLQVvmdTKGfN2Le5Fr0zw6Ob2gOsqYgtIcIsuM8HelN7Z9OzF4StEq5Ndbg2Ma47AdXjT97aeROLS/eBP1BC4GkSb1gbXw0ffBFt9tw/BIrGEezsI2TTEeUkkOAUSFAeA1+0cWRE3UrSGFOXOSoFE+jd1p72iebNVXjg1CdlYrRm8VUljemOdIOhnr+kRi9TCfsdIqB9dXKof9Vbq4E0oKrYi2qpRoKdxMyG8ixk3bmcES2oGRQ9XgTw6FRrqAPtUFad6OAeTuenUxJRisiucxr9CLt985f+ZCZHGbjjRTRYo4fWFPJ/iZuz0tFUTDAoxQdK4v/kL2TbY3zGKjQO7J1ihYsjeawnlFHSUBuROtpwLTmHQnnwnThwTj7nNjcbMLdFc2A=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(39860400002)(396003)(346002)(376002)(136003)(451199021)(31686004)(83380400001)(66574015)(122000001)(38100700002)(41300700001)(316002)(38070700005)(6486002)(71200400001)(6512007)(966005)(6506007)(26005)(66556008)(4326008)(64756008)(66476007)(66446008)(66946007)(76116006)(91956017)(2906002)(44832011)(86362001)(8936002)(6916009)(5660300002)(36756003)(8676002)(31696002)(2616005)(54906003)(478600001)(186003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?b2UzbDBZQ1JmbEdnZmdkNGZ5OWNDYTRrOTEvZVIxaXJ6ZGZReGxKelVEMlJD?=
+ =?utf-8?B?bnJvUHF3bTlNYlEvM1lZUUc1R0tCN0xZcHpQV3A0dEUwM3VrYlJqeWJmSzJ6?=
+ =?utf-8?B?WUJWSk5CaXNQZzJIZytFNVdodjNPcnFhZW9zdEFyZ1QweWp0SjlneXVrK0V1?=
+ =?utf-8?B?enF1RGNIMjRGOGhYVU5Ub1B5QkVzcnFPRjFienBJblpvTHc3QnJ5UVpGbmQ2?=
+ =?utf-8?B?QTh0eS9nenBvTjRIQ1Rhc1pvcnFFbGVXMVlTenlqcmdDOXRTZGYzdGxJQnlZ?=
+ =?utf-8?B?cENOaEFaa0FLdm44WVZTN1hEWlBYRkNXY0s0QkJiU0dsYzdrQzlHV1hVcTdt?=
+ =?utf-8?B?Rk5jbEZGVHRBUHJFVGNwNWY3ZnF4c3V0WFkrTnRibjRlVitqMWV6U3hMNTNx?=
+ =?utf-8?B?YjM1OXkvUis0YlNSQzVQQ1N6MkgvUDkvTTZyUG5nM2FaZHQ0bU4zK1hqUUVl?=
+ =?utf-8?B?NEVKZkpCdERibFJsQmJXZmoyODV2WXlvazVqRktjOExzVW5yYmxPZENBdWVJ?=
+ =?utf-8?B?VFVUSjJKRk5Ha3ZhTkp1Rk8rbGZsV2t3YkpHU1lzTExab3N0WUlJcDIrU1BN?=
+ =?utf-8?B?UnpNQWVjN25MbTZPS2drb0ZRcDQxUWpvMEY0ZVlBUEw1WmMxbHZoL1NJYnB2?=
+ =?utf-8?B?eHUrbE03WGVuQzJIUVNSTCs2RTN0RlN2S2l0Z1VJbVdpYnlpMVFILzBzL3hj?=
+ =?utf-8?B?ckdTY09ZeWtzaFJ1aXBCSy8zTlZsb2FqYzdlRlFsK1VVUGFsRU4xRFVvSzZr?=
+ =?utf-8?B?NFJ6eGJUTjFzTjhvWTRlSFBvOGtnd1hFbW93WWNnSTYxeFI3TXFpeVUxZlA0?=
+ =?utf-8?B?TmMwdHBZcEtSdUh0b0FWWXJ4WDVBNnV6MUEycTZrWHpxOHRJR2hQTTd6cExX?=
+ =?utf-8?B?eHhlLzg4SjBLSDZMak1pY1F1NlRJRk5IcEJRLzBLWDl5SVF1V2RmcGJKS0VL?=
+ =?utf-8?B?UVFpVG5TdnRrU0l0Mkk3dk1rNEJTUm9xeWlaMHBiakRNUG8vK2pwcnZySUow?=
+ =?utf-8?B?YkJ1aGpuNTl5QVI5SVJmQ3FBRHRUREdWL3A4REV6MG9uTWpzZ0NOSDZWbm5h?=
+ =?utf-8?B?MGFaTFRQV2wvbkdDRnEyNU52N2xHYkdlV0EzUFJxUXF6bDlnd0xBT05uMzZJ?=
+ =?utf-8?B?aDRYdFJqSnRQMzU3dlRYb0crdnhvQW5CVjV4alBOUFlLOEVUT01yR3oybFNE?=
+ =?utf-8?B?Q1VmV0dzcm91b3crMlBldXlZNFhObjBCOTExdENEeFZFNmpCWHlqakZBODh6?=
+ =?utf-8?B?QlpjTkswTE5ERWo3NlVFdHZBTzNwaHRNeERIeEUwSUVlT0t4S1pQNE1qUjVi?=
+ =?utf-8?B?dzBaMFcybC9TS3VjMkU4U2pGQWNnZFUraVFUUFBBZVY3OVkrREJFZnlkVVQv?=
+ =?utf-8?B?ZnpPTncrY1FlZ3czQmZ4ZEFRZXYxNHlvWVFScnBGZ0lyWHlBblVqa1VJUUw5?=
+ =?utf-8?B?cXFWcDRUNkJGdzhtQzNodXNBU0dTaHB5bTVSb29PcEhjM1JjdExBQUpOOWE2?=
+ =?utf-8?B?ckZWb1ZaY0xYc0E3cTlEamhWK2J1a3lGRUpDL0x6eVRCanhYeVlaUlljMGhF?=
+ =?utf-8?B?RTgrbXBFMTR5TzNqTmFTeEhRWmJkMmRlNldEWmkybEhLZEEvclN4UEgyOEZX?=
+ =?utf-8?B?M2dSVGVqSmRydWFPMVUwaENJVmZlaVFLWEtKYzQvMCtaeC9WMWtpTlNEc3Ez?=
+ =?utf-8?B?ZTBYcjk1N1NoYjNHcEQ0Ni9WTlB0b2V0WFlIRGF5cXBxS3U5RDAxak90SU9X?=
+ =?utf-8?B?VDN0S1FVdFhXNGI0K1M0SjNWeURLazlNQnRLNEJaTDNQZzVSY2RRZjRLQ2tS?=
+ =?utf-8?B?RnZaZlI5Mk1vWDJrUHh0Vm5zc054QVJsbEFzakd1UEQrYW1hTDRYK0pQRGZE?=
+ =?utf-8?B?YUJ3WWRsaVkvbEFsSDNQdFd0RDNmbU9DQ3o1MmdCNmh3RCtsT1dXOWx0V0p5?=
+ =?utf-8?B?OTlDMHMrWkd5S3daTjhTQmxzWkI0Skl6NGJkM2hXcEh3NElNUTNXbHZ5QmxY?=
+ =?utf-8?B?MkZoWXJEb3F5dlZRYzRubkVZNDNZRW8xdVc2enZiWTZFKzBWOU9BTml1RHNq?=
+ =?utf-8?B?Y3lpVFRKT3NsSGVwUVFGZk8wQllaVGN5aUtiR1FLMlpYZVU3TTI3N2FhaWFQ?=
+ =?utf-8?B?cS80VHFkc0V2bXVVSDFMV1poelVWZ2xJelJjMjN5UG10alBpMUE5akhETUM4?=
+ =?utf-8?B?Ync9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D2EBE9B576B39E40AABA4E1784AF4BC5@FRAP264.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OriginatorOrg: csgroup.eu
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MRZP264MB2988.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70788812-e1de-42d9-fddf-08db6ce1481f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jun 2023 14:11:43.6458
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 9914def7-b676-4fda-8815-5d49fb3b45c8
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QEEPPQx8UHQOp3wkDeh89NUW7KpUZU1Y9UBpkopDkEBMoqniE6yR1LhZq3tLRrqIADJesiOZdZTWPC8QqwasYUnDtvADlFYMyV0cAyptf6U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR1P264MB1748
 
-tree:   https://github.com/ceph/ceph-client.git testing
-head:   363520bbbed48e045504a785c8af582e7533a115
-commit: 363520bbbed48e045504a785c8af582e7533a115 [21/21] ceph: print the client global_id in all the debug logs
-config: i386-randconfig-i011-20230612 (https://download.01.org/0day-ci/archive/20230614/202306142255.ny5wITLE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        # https://github.com/ceph/ceph-client/commit/363520bbbed48e045504a785c8af582e7533a115
-        git remote add ceph-client https://github.com/ceph/ceph-client.git
-        git fetch --no-tags ceph-client testing
-        git checkout 363520bbbed48e045504a785c8af582e7533a115
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/ceph/
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306142255.ny5wITLE-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   fs/ceph/file.c: In function 'ceph_flags_sys2wire':
->> fs/ceph/file.c:24:29: warning: unused variable 'cl' [-Wunused-variable]
-      24 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_init_file_info':
-   fs/ceph/file.c:205:29: warning: unused variable 'cl' [-Wunused-variable]
-     205 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_init_file':
-   fs/ceph/file.c:264:29: warning: unused variable 'cl' [-Wunused-variable]
-     264 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_renew_caps':
-   fs/ceph/file.c:302:29: warning: unused variable 'cl' [-Wunused-variable]
-     302 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_open':
-   fs/ceph/file.c:363:29: warning: unused variable 'cl' [-Wunused-variable]
-     363 |         struct ceph_client *cl = fsc->client;
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_finish_async_create':
-   fs/ceph/file.c:644:29: warning: unused variable 'cl' [-Wunused-variable]
-     644 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_release':
-   fs/ceph/file.c:930:29: warning: unused variable 'cl' [-Wunused-variable]
-     930 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/file.c: In function '__ceph_sync_read':
-   fs/ceph/file.c:985:29: warning: unused variable 'cl' [-Wunused-variable]
-     985 |         struct ceph_client *cl = fsc->client;
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_sync_read':
-   fs/ceph/file.c:1183:29: warning: unused variable 'cl' [-Wunused-variable]
-    1183 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_aio_complete':
-   fs/ceph/file.c:1215:29: warning: unused variable 'cl' [-Wunused-variable]
-    1215 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_aio_complete_req':
-   fs/ceph/file.c:1268:29: warning: unused variable 'cl' [-Wunused-variable]
-    1268 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_direct_read_write':
-   fs/ceph/file.c:1415:29: warning: unused variable 'cl' [-Wunused-variable]
-    1415 |         struct ceph_client *cl = fsc->client;
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_sync_write':
-   fs/ceph/file.c:1642:29: warning: unused variable 'cl' [-Wunused-variable]
-    1642 |         struct ceph_client *cl = fsc->client;
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_read_iter':
-   fs/ceph/file.c:2043:29: warning: unused variable 'cl' [-Wunused-variable]
-    2043 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_write_iter':
-   fs/ceph/file.c:2204:29: warning: unused variable 'cl' [-Wunused-variable]
-    2204 |         struct ceph_client *cl = fsc->client;
-         |                             ^~
-   fs/ceph/file.c: In function 'ceph_fallocate':
-   fs/ceph/file.c:2537:29: warning: unused variable 'cl' [-Wunused-variable]
-    2537 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/file.c: In function 'is_file_size_ok':
-   fs/ceph/file.c:2674:29: warning: unused variable 'cl' [-Wunused-variable]
-    2674 |         struct ceph_client *cl = ceph_inode_to_client(src_inode);
-         |                             ^~
-   fs/ceph/file.c: In function '__ceph_copy_file_range':
-   fs/ceph/file.c:2834:29: warning: unused variable 'cl' [-Wunused-variable]
-    2834 |         struct ceph_client *cl = src_fsc->client;
-         |                             ^~
---
-   fs/ceph/caps.c: In function 'ceph_unreserve_caps':
->> fs/ceph/caps.c:311:29: warning: unused variable 'cl' [-Wunused-variable]
-     311 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_get_cap':
-   fs/ceph/caps.c:333:29: warning: unused variable 'cl' [-Wunused-variable]
-     333 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_put_cap':
-   fs/ceph/caps.c:388:29: warning: unused variable 'cl' [-Wunused-variable]
-     388 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/caps.c: In function '__check_cap_issue':
-   fs/ceph/caps.c:582:29: warning: unused variable 'cl' [-Wunused-variable]
-     582 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_add_cap':
-   fs/ceph/caps.c:658:29: warning: unused variable 'cl' [-Wunused-variable]
-     658 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function '__cap_is_valid':
-   fs/ceph/caps.c:791:29: warning: unused variable 'cl' [-Wunused-variable]
-     791 |         struct ceph_client *cl = cap->session->s_mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/caps.c: In function '__ceph_caps_issued':
-   fs/ceph/caps.c:816:29: warning: unused variable 'cl' [-Wunused-variable]
-     816 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function '__touch_cap':
-   fs/ceph/caps.c:874:29: warning: unused variable 'cl' [-Wunused-variable]
-     874 |         struct ceph_client *cl = s->s_mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/caps.c: In function '__ceph_caps_issued_mask':
-   fs/ceph/caps.c:896:29: warning: unused variable 'cl' [-Wunused-variable]
-     896 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_caps_revoking':
-   fs/ceph/caps.c:986:29: warning: unused variable 'cl' [-Wunused-variable]
-     986 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function '__ceph_remove_cap':
-   fs/ceph/caps.c:1140:29: warning: unused variable 'cl' [-Wunused-variable]
-    1140 |         struct ceph_client *cl = session->s_mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/caps.c: In function '__prep_cap':
-   fs/ceph/caps.c:1412:29: warning: unused variable 'cl' [-Wunused-variable]
-    1412 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_flush_snaps':
-   fs/ceph/caps.c:1735:29: warning: unused variable 'cl' [-Wunused-variable]
-    1735 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function '__mark_caps_flushing':
-   fs/ceph/caps.c:1927:29: warning: unused variable 'cl' [-Wunused-variable]
-    1927 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'try_nonblocking_invalidate':
-   fs/ceph/caps.c:1976:29: warning: unused variable 'cl' [-Wunused-variable]
-    1976 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_check_caps':
-   fs/ceph/caps.c:2026:29: warning: unused variable 'cl' [-Wunused-variable]
-    2026 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'flush_mdlog_and_wait_inode_unsafe_requests':
-   fs/ceph/caps.c:2369:29: warning: unused variable 'cl' [-Wunused-variable]
-    2369 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_fsync':
-   fs/ceph/caps.c:2487:29: warning: unused variable 'cl' [-Wunused-variable]
-    2487 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_write_inode':
-   fs/ceph/caps.c:2539:29: warning: unused variable 'cl' [-Wunused-variable]
-    2539 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_take_cap_refs':
-   fs/ceph/caps.c:2773:29: warning: unused variable 'cl' [-Wunused-variable]
-    2773 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'try_get_cap_refs':
-   fs/ceph/caps.c:2827:29: warning: unused variable 'cl' [-Wunused-variable]
-    2827 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'check_max_size':
-   fs/ceph/caps.c:2989:29: warning: unused variable 'cl' [-Wunused-variable]
-    2989 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_try_drop_cap_snap':
-   fs/ceph/caps.c:3206:29: warning: unused variable 'cl' [-Wunused-variable]
-    3206 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function '__ceph_put_cap_refs':
-   fs/ceph/caps.c:3242:29: warning: unused variable 'cl' [-Wunused-variable]
-    3242 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_put_wrbuffer_cap_refs':
-   fs/ceph/caps.c:3358:29: warning: unused variable 'cl' [-Wunused-variable]
-    3358 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'invalidate_aliases':
-   fs/ceph/caps.c:3443:29: warning: unused variable 'cl' [-Wunused-variable]
-    3443 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'handle_cap_flush_ack':
-   fs/ceph/caps.c:3819:29: warning: unused variable 'cl' [-Wunused-variable]
-    3819 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/caps.c: In function '__ceph_remove_capsnap':
-   fs/ceph/caps.c:3934:29: warning: unused variable 'cl' [-Wunused-variable]
-    3934 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/caps.c: In function 'handle_cap_flushsnap_ack':
-   fs/ceph/caps.c:3980:29: warning: unused variable 'cl' [-Wunused-variable]
-    3980 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/caps.c: In function 'handle_cap_trunc':
-   fs/ceph/caps.c:4032:29: warning: unused variable 'cl' [-Wunused-variable]
-    4032 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_check_delayed_caps':
-   fs/ceph/caps.c:4604:29: warning: unused variable 'cl' [-Wunused-variable]
-    4604 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/caps.c: In function 'flush_dirty_session_caps':
-   fs/ceph/caps.c:4650:29: warning: unused variable 'cl' [-Wunused-variable]
-    4650 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_encode_inode_release':
-   fs/ceph/caps.c:4794:29: warning: unused variable 'cl' [-Wunused-variable]
-    4794 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/caps.c: In function 'ceph_encode_dentry_release':
->> fs/ceph/caps.c:4888:29: warning: variable 'cl' set but not used [-Wunused-but-set-variable]
-    4888 |         struct ceph_client *cl;
-         |                             ^~
-   fs/ceph/caps.c: In function 'remove_capsnaps':
-   fs/ceph/caps.c:4940:29: warning: unused variable 'cl' [-Wunused-variable]
-    4940 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
---
-   fs/ceph/inode.c: In function 'ceph_get_inode':
->> fs/ceph/inode.c:132:29: warning: unused variable 'cl' [-Wunused-variable]
-     132 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
-   fs/ceph/inode.c: In function '__get_or_create_frag':
-   fs/ceph/inode.c:257:29: warning: unused variable 'cl' [-Wunused-variable]
-     257 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/inode.c: In function '__ceph_choose_frag':
-   fs/ceph/inode.c:322:29: warning: unused variable 'cl' [-Wunused-variable]
-     322 |         struct ceph_client *cl = ceph_inode_to_client(&ci->netfs.inode);
-         |                             ^~
-   fs/ceph/inode.c: In function 'ceph_alloc_inode':
->> fs/ceph/inode.c:568:32: warning: unused variable 'fsc' [-Wunused-variable]
-     568 |         struct ceph_fs_client *fsc = ceph_sb_to_fs_client(sb);
-         |                                ^~~
-   fs/ceph/inode.c: In function 'ceph_evict_inode':
-   fs/ceph/inode.c:691:29: warning: unused variable 'cl' [-Wunused-variable]
-     691 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/inode.c: In function 'ceph_fill_file_time':
-   fs/ceph/inode.c:849:29: warning: unused variable 'cl' [-Wunused-variable]
-     849 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/inode.c: In function '__update_dentry_lease':
-   fs/ceph/inode.c:1366:29: warning: unused variable 'cl' [-Wunused-variable]
-    1366 |         struct ceph_client *cl = ceph_inode_to_client(dir);
-         |                             ^~
-   fs/ceph/inode.c: In function 'fill_readdir_cache':
-   fs/ceph/inode.c:1884:29: warning: unused variable 'cl' [-Wunused-variable]
-    1884 |         struct ceph_client *cl = ceph_inode_to_client(dir);
-         |                             ^~
-   fs/ceph/inode.c: In function 'ceph_inode_set_size':
-   fs/ceph/inode.c:2123:29: warning: unused variable 'cl' [-Wunused-variable]
-    2123 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/inode.c: In function 'ceph_queue_inode_work':
-   fs/ceph/inode.c:2144:29: warning: unused variable 'cl' [-Wunused-variable]
-    2144 |         struct ceph_client *cl = fsc->client;
-         |                             ^~
-   fs/ceph/inode.c: In function '__ceph_do_pending_vmtruncate':
-   fs/ceph/inode.c:2226:29: warning: unused variable 'cl' [-Wunused-variable]
-    2226 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/inode.c: In function 'ceph_inode_work':
-   fs/ceph/inode.c:2289:29: warning: unused variable 'cl' [-Wunused-variable]
-    2289 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/inode.c: In function 'fill_fscrypt_truncate':
-   fs/ceph/inode.c:2362:29: warning: unused variable 'cl' [-Wunused-variable]
-    2362 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/inode.c: In function '__ceph_setattr':
-   fs/ceph/inode.c:2497:29: warning: unused variable 'cl' [-Wunused-variable]
-    2497 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/inode.c: In function '__ceph_do_getattr':
-   fs/ceph/inode.c:2892:29: warning: unused variable 'cl' [-Wunused-variable]
-    2892 |         struct ceph_client *cl = fsc->client;
-         |                             ^~
-   fs/ceph/inode.c: In function 'ceph_do_getvxattr':
-   fs/ceph/inode.c:2940:29: warning: unused variable 'cl' [-Wunused-variable]
-    2940 |         struct ceph_client *cl = fsc->client;
-         |                             ^~
---
-   fs/ceph/quota.c: In function 'lookup_quotarealm_inode':
->> fs/ceph/quota.c:134:29: warning: unused variable 'cl' [-Wunused-variable]
-     134 |         struct ceph_client *cl = mdsc->fsc->client;
-         |                             ^~
---
-   fs/ceph/addr.c: In function 'ceph_dirty_folio':
->> fs/ceph/addr.c:83:29: warning: unused variable 'cl' [-Wunused-variable]
-      83 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/addr.c: In function 'ceph_invalidate_folio':
-   fs/ceph/addr.c:141:29: warning: unused variable 'cl' [-Wunused-variable]
-     141 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/addr.c: In function 'ceph_release_folio':
-   fs/ceph/addr.c:168:29: warning: unused variable 'cl' [-Wunused-variable]
-     168 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/addr.c: In function 'finish_netfs_read':
-   fs/ceph/addr.c:247:29: warning: unused variable 'cl' [-Wunused-variable]
-     247 |         struct ceph_client *cl = fsc->client;
-         |                             ^~
-   fs/ceph/addr.c: In function 'ceph_netfs_issue_read':
-   fs/ceph/addr.c:351:29: warning: unused variable 'cl' [-Wunused-variable]
-     351 |         struct ceph_client *cl = fsc->client;
-         |                             ^~
-   fs/ceph/addr.c: In function 'ceph_init_request':
-   fs/ceph/addr.c:438:29: warning: unused variable 'cl' [-Wunused-variable]
-     438 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/addr.c: In function 'get_oldest_context':
-   fs/ceph/addr.c:568:29: warning: unused variable 'cl' [-Wunused-variable]
-     568 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/addr.c: In function 'writepage_nounlock':
-   fs/ceph/addr.c:665:29: warning: unused variable 'cl' [-Wunused-variable]
-     665 |         struct ceph_client *cl = fsc->client;
-         |                             ^~
-   fs/ceph/addr.c: In function 'ceph_find_incompatible':
-   fs/ceph/addr.c:1449:29: warning: unused variable 'cl' [-Wunused-variable]
-    1449 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/addr.c: In function 'ceph_write_end':
-   fs/ceph/addr.c:1554:29: warning: unused variable 'cl' [-Wunused-variable]
-    1554 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/addr.c: In function 'ceph_filemap_fault':
-   fs/ceph/addr.c:1619:29: warning: unused variable 'cl' [-Wunused-variable]
-    1619 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/addr.c: In function 'ceph_page_mkwrite':
-   fs/ceph/addr.c:1709:29: warning: unused variable 'cl' [-Wunused-variable]
-    1709 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/addr.c: In function 'ceph_fill_inline_data':
-   fs/ceph/addr.c:1812:29: warning: unused variable 'cl' [-Wunused-variable]
-    1812 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-   fs/ceph/addr.c: In function 'ceph_uninline_data':
-   fs/ceph/addr.c:1859:29: warning: unused variable 'cl' [-Wunused-variable]
-    1859 |         struct ceph_client *cl = fsc->client;
-         |                             ^~
-   fs/ceph/addr.c: In function '__ceph_pool_perm_get':
-   fs/ceph/addr.c:2015:29: warning: unused variable 'cl' [-Wunused-variable]
-    2015 |         struct ceph_client *cl = fsc->client;
-         |                             ^~
-   fs/ceph/addr.c: In function 'ceph_pool_perm_check':
-   fs/ceph/addr.c:2187:29: warning: unused variable 'cl' [-Wunused-variable]
-    2187 |         struct ceph_client *cl = ceph_inode_to_client(inode);
-         |                             ^~
-..
-
-
-vim +/cl +24 fs/ceph/file.c
-
-    21	
-    22	static __le32 ceph_flags_sys2wire(struct ceph_mds_client *mdsc, u32 flags)
-    23	{
-  > 24		struct ceph_client *cl = mdsc->fsc->client;
-    25		u32 wire_flags = 0;
-    26	
-    27		switch (flags & O_ACCMODE) {
-    28		case O_RDONLY:
-    29			wire_flags |= CEPH_O_RDONLY;
-    30			break;
-    31		case O_WRONLY:
-    32			wire_flags |= CEPH_O_WRONLY;
-    33			break;
-    34		case O_RDWR:
-    35			wire_flags |= CEPH_O_RDWR;
-    36			break;
-    37		}
-    38	
-    39		flags &= ~O_ACCMODE;
-    40	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+SGksDQoNCkxlIDIyLzA1LzIwMjMgw6AgMjE6MDAsIGtlcm5lbCB0ZXN0IHJvYm90IGEgw6ljcml0
+wqA6DQo+IEhpIENocmlzdG9waGUsDQo+IA0KPiBGWUksIHRoZSBlcnJvci93YXJuaW5nIHN0aWxs
+IHJlbWFpbnMuDQo+IA0KPiB0cmVlOiAgIGh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9s
+aW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdCBtYXN0ZXINCj4gaGVhZDogICA0NGMw
+MjZhNzNiZTgwMzhmMDNkYmRlZWYwMjhiNjQyODgwY2YxNTExDQo+IGNvbW1pdDogNzI0NWZjNWJi
+N2E5NjY4NTJkNWJkNzc3OWQxZjU4NTU1MzBiNDYxYSBwb3dlcnBjL21hdGgtZW11OiBSZW1vdmUg
+LXcgYnVpbGQgZmxhZyBhbmQgZml4IHdhcm5pbmdzDQo+IGRhdGU6ICAgOSBtb250aHMgYWdvDQo+
+IGNvbmZpZzogcG93ZXJwYy1yYW5kY29uZmlnLXIwMjItMjAyMzA1MjIgKGh0dHBzOi8vZG93bmxv
+YWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDIzMDUyMy8yMDIzMDUyMzAyMzEuM1diN1E2OEct
+bGtwQGludGVsLmNvbS9jb25maWcpDQo+IGNvbXBpbGVyOiBjbGFuZyB2ZXJzaW9uIDE3LjAuMCAo
+aHR0cHM6Ly9naXRodWIuY29tL2xsdm0vbGx2bS1wcm9qZWN0IGIwZmI5ODIyN2M5MGFkZjI1MzZj
+OWFkNjQ0YTc0ZDVlOTI5NjExMTEpDQo+IHJlcHJvZHVjZSAodGhpcyBpcyBhIFc9MSBidWlsZCk6
+DQo+ICAgICAgICAgIHdnZXQgaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2ludGVs
+L2xrcC10ZXN0cy9tYXN0ZXIvc2Jpbi9tYWtlLmNyb3NzIC1PIH4vYmluL21ha2UuY3Jvc3MNCj4g
+ICAgICAgICAgY2htb2QgK3ggfi9iaW4vbWFrZS5jcm9zcw0KPiAgICAgICAgICAjIGluc3RhbGwg
+cG93ZXJwYyBjcm9zcyBjb21waWxpbmcgdG9vbCBmb3IgY2xhbmcgYnVpbGQNCj4gICAgICAgICAg
+IyBhcHQtZ2V0IGluc3RhbGwgYmludXRpbHMtcG93ZXJwYy1saW51eC1nbnUNCj4gICAgICAgICAg
+IyBodHRwczovL2dpdC5rZXJuZWwub3JnL3B1Yi9zY20vbGludXgva2VybmVsL2dpdC90b3J2YWxk
+cy9saW51eC5naXQvY29tbWl0Lz9pZD03MjQ1ZmM1YmI3YTk2Njg1MmQ1YmQ3Nzc5ZDFmNTg1NTUz
+MGI0NjFhDQo+ICAgICAgICAgIGdpdCByZW1vdGUgYWRkIGxpbnVzIGh0dHBzOi8vZ2l0Lmtlcm5l
+bC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4LmdpdA0KPiAgICAg
+ICAgICBnaXQgZmV0Y2ggLS1uby10YWdzIGxpbnVzIG1hc3Rlcg0KPiAgICAgICAgICBnaXQgY2hl
+Y2tvdXQgNzI0NWZjNWJiN2E5NjY4NTJkNWJkNzc3OWQxZjU4NTU1MzBiNDYxYQ0KPiAgICAgICAg
+ICAjIHNhdmUgdGhlIGNvbmZpZyBmaWxlDQo+ICAgICAgICAgIG1rZGlyIGJ1aWxkX2RpciAmJiBj
+cCBjb25maWcgYnVpbGRfZGlyLy5jb25maWcNCj4gICAgICAgICAgQ09NUElMRVJfSU5TVEFMTF9Q
+QVRIPSRIT01FLzBkYXkgQ09NUElMRVI9Y2xhbmcgbWFrZS5jcm9zcyBXPTEgTz1idWlsZF9kaXIg
+QVJDSD1wb3dlcnBjIG9sZGRlZmNvbmZpZw0KPiAgICAgICAgICBDT01QSUxFUl9JTlNUQUxMX1BB
+VEg9JEhPTUUvMGRheSBDT01QSUxFUj1jbGFuZyBtYWtlLmNyb3NzIFc9MSBPPWJ1aWxkX2RpciBB
+UkNIPXBvd2VycGMgU0hFTEw9L2Jpbi9iYXNoIGFyY2gvcG93ZXJwYy9tYXRoLWVtdS8NCj4gDQo+
+IElmIHlvdSBmaXggdGhlIGlzc3VlLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWcgd2hlcmUgYXBw
+bGljYWJsZQ0KPiB8IFJlcG9ydGVkLWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNv
+bT4NCj4gfCBDbG9zZXM6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL29lLWtidWlsZC1hbGwvMjAy
+MzA1MjMwMjMxLjNXYjdRNjhHLWxrcEBpbnRlbC5jb20vDQo+IA0KPiBBbGwgd2FybmluZ3MgKG5l
+dyBvbmVzIHByZWZpeGVkIGJ5ID4+KToNCj4gDQo+Pj4gYXJjaC9wb3dlcnBjL21hdGgtZW11L2Zj
+bXB1LmM6MTM6Mjogd2FybmluZzogdmFyaWFibGUgJ0FfYycgc2V0IGJ1dCBub3QgdXNlZCBbLVd1
+bnVzZWQtYnV0LXNldC12YXJpYWJsZV0NCg0KVGhpcyBjb2RlIGlzIGltcG9ydGVkLCBhbmQgdGhl
+cmUgaXMgbm8gcGxhbiB0byBtYWtlIGFueSBjaGFuZ2UgdG8gaXQuIA0KQ2FuIHlvdSBkZXNhY3Rp
+dmF0ZSB0aGF0IHdhcm5pbmcgPw0KDQpUaGFua3MNCkNocmlzdG9waGUNCg0KPiAgICAgICAgICAg
+ICBGUF9ERUNMX0QoQSk7DQo+ICAgICAgICAgICAgIF4NCj4gICAgIGluY2x1ZGUvbWF0aC1lbXUv
+ZG91YmxlLmg6NzM6MjM6IG5vdGU6IGV4cGFuZGVkIGZyb20gbWFjcm8gJ0ZQX0RFQ0xfRCcNCj4g
+ICAgICNkZWZpbmUgRlBfREVDTF9EKFgpICAgICAgICAgICAgX0ZQX0RFQ0woMixYKQ0KPiAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeDQo+ICAgICBpbmNsdWRlL21hdGgtZW11
+L29wLWNvbW1vbi5oOjI4OjE0OiBub3RlOiBleHBhbmRlZCBmcm9tIG1hY3JvICdfRlBfREVDTCcN
+Cj4gICAgICAgX0ZQX0lfVFlQRSBYIyNfYz0wLCBYIyNfcz0wLCBYIyNfZT0wOyBcDQo+ICAgICAg
+ICAgICAgICAgICAgXg0KPiAgICAgPHNjcmF0Y2ggc3BhY2U+OjEyNDoxOiBub3RlOiBleHBhbmRl
+ZCBmcm9tIGhlcmUNCj4gICAgIEFfYw0KPiAgICAgXg0KPj4+IGFyY2gvcG93ZXJwYy9tYXRoLWVt
+dS9mY21wdS5jOjE0OjI6IHdhcm5pbmc6IHZhcmlhYmxlICdCX2MnIHNldCBidXQgbm90IHVzZWQg
+Wy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdDQo+ICAgICAgICAgICAgIEZQX0RFQ0xfRChCKTsN
+Cj4gICAgICAgICAgICAgXg0KPiAgICAgaW5jbHVkZS9tYXRoLWVtdS9kb3VibGUuaDo3MzoyMzog
+bm90ZTogZXhwYW5kZWQgZnJvbSBtYWNybyAnRlBfREVDTF9EJw0KPiAgICAgI2RlZmluZSBGUF9E
+RUNMX0QoWCkgICAgICAgICAgICBfRlBfREVDTCgyLFgpDQo+ICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIF4NCj4gICAgIGluY2x1ZGUvbWF0aC1lbXUvb3AtY29tbW9uLmg6Mjg6
+MTQ6IG5vdGU6IGV4cGFuZGVkIGZyb20gbWFjcm8gJ19GUF9ERUNMJw0KPiAgICAgICBfRlBfSV9U
+WVBFIFgjI19jPTAsIFgjI19zPTAsIFgjI19lPTA7IFwNCj4gICAgICAgICAgICAgICAgICBeDQo+
+ICAgICA8c2NyYXRjaCBzcGFjZT46MTMwOjE6IG5vdGU6IGV4cGFuZGVkIGZyb20gaGVyZQ0KPiAg
+ICAgQl9jDQo+ICAgICBeDQo+Pj4gYXJjaC9wb3dlcnBjL21hdGgtZW11L2ZjbXB1LmM6MTU6Mjog
+d2FybmluZzogdmFyaWFibGUgJ19mZXgnIHNldCBidXQgbm90IHVzZWQgWy1XdW51c2VkLWJ1dC1z
+ZXQtdmFyaWFibGVdDQo+ICAgICAgICAgICAgIEZQX0RFQ0xfRVg7DQo+ICAgICAgICAgICAgIF4N
+Cj4gICAgIGluY2x1ZGUvbWF0aC1lbXUvc29mdC1mcC5oOjk0OjI0OiBub3RlOiBleHBhbmRlZCBm
+cm9tIG1hY3JvICdGUF9ERUNMX0VYJw0KPiAgICAgI2RlZmluZSBGUF9ERUNMX0VYIGludCBfZmV4
+ID0gMA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICBeDQo+ICAgICBhcmNoL3Bvd2VycGMv
+bWF0aC1lbXUvZmNtcHUuYzoxMToxOiB3YXJuaW5nOiBubyBwcmV2aW91cyBwcm90b3R5cGUgZm9y
+IGZ1bmN0aW9uICdmY21wdScgWy1XbWlzc2luZy1wcm90b3R5cGVzXQ0KPiAgICAgZmNtcHUodTMy
+ICpjY3IsIGludCBjcmZELCB2b2lkICpmckEsIHZvaWQgKmZyQikNCj4gICAgIF4NCj4gICAgIGFy
+Y2gvcG93ZXJwYy9tYXRoLWVtdS9mY21wdS5jOjEwOjE6IG5vdGU6IGRlY2xhcmUgJ3N0YXRpYycg
+aWYgdGhlIGZ1bmN0aW9uIGlzIG5vdCBpbnRlbmRlZCB0byBiZSB1c2VkIG91dHNpZGUgb2YgdGhp
+cyB0cmFuc2xhdGlvbiB1bml0DQo+ICAgICBpbnQNCj4gICAgIF4NCj4gICAgIHN0YXRpYw0KPiAg
+ICAgNCB3YXJuaW5ncyBnZW5lcmF0ZWQuDQo+IC0tDQo+Pj4gYXJjaC9wb3dlcnBjL21hdGgtZW11
+L2ZjdGl3LmM6MTQ6Mjogd2FybmluZzogdmFyaWFibGUgJ19mZXgnIHNldCBidXQgbm90IHVzZWQg
+Wy1XdW51c2VkLWJ1dC1zZXQtdmFyaWFibGVdDQo+ICAgICAgICAgICAgIEZQX0RFQ0xfRVg7DQo+
+ICAgICAgICAgICAgIF4NCj4gICAgIGluY2x1ZGUvbWF0aC1lbXUvc29mdC1mcC5oOjk0OjI0OiBu
+b3RlOiBleHBhbmRlZCBmcm9tIG1hY3JvICdGUF9ERUNMX0VYJw0KPiAgICAgI2RlZmluZSBGUF9E
+RUNMX0VYIGludCBfZmV4ID0gMA0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICBeDQo+ICAg
+ICBhcmNoL3Bvd2VycGMvbWF0aC1lbXUvZmN0aXcuYzoxMToxOiB3YXJuaW5nOiBubyBwcmV2aW91
+cyBwcm90b3R5cGUgZm9yIGZ1bmN0aW9uICdmY3RpdycgWy1XbWlzc2luZy1wcm90b3R5cGVzXQ0K
+PiAgICAgZmN0aXcodTMyICpmckQsIHZvaWQgKmZyQikNCj4gICAgIF4NCj4gICAgIGFyY2gvcG93
+ZXJwYy9tYXRoLWVtdS9mY3Rpdy5jOjEwOjE6IG5vdGU6IGRlY2xhcmUgJ3N0YXRpYycgaWYgdGhl
+IGZ1bmN0aW9uIGlzIG5vdCBpbnRlbmRlZCB0byBiZSB1c2VkIG91dHNpZGUgb2YgdGhpcyB0cmFu
+c2xhdGlvbiB1bml0DQo+ICAgICBpbnQNCj4gICAgIF4NCj4gICAgIHN0YXRpYw0KPiAgICAgMiB3
+YXJuaW5ncyBnZW5lcmF0ZWQuDQo+IC0tDQo+Pj4gYXJjaC9wb3dlcnBjL21hdGgtZW11L2ZjdGl3
+ei5jOjE0OjI6IHdhcm5pbmc6IHZhcmlhYmxlICdfZmV4JyBzZXQgYnV0IG5vdCB1c2VkIFstV3Vu
+dXNlZC1idXQtc2V0LXZhcmlhYmxlXQ0KPiAgICAgICAgICAgICBGUF9ERUNMX0VYOw0KPiAgICAg
+ICAgICAgICBeDQo+ICAgICBpbmNsdWRlL21hdGgtZW11L3NvZnQtZnAuaDo5NDoyNDogbm90ZTog
+ZXhwYW5kZWQgZnJvbSBtYWNybyAnRlBfREVDTF9FWCcNCj4gICAgICNkZWZpbmUgRlBfREVDTF9F
+WCBpbnQgX2ZleCA9IDANCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgXg0KPiAgICAgYXJj
+aC9wb3dlcnBjL21hdGgtZW11L2ZjdGl3ei5jOjExOjE6IHdhcm5pbmc6IG5vIHByZXZpb3VzIHBy
+b3RvdHlwZSBmb3IgZnVuY3Rpb24gJ2ZjdGl3eicgWy1XbWlzc2luZy1wcm90b3R5cGVzXQ0KPiAg
+ICAgZmN0aXd6KHUzMiAqZnJELCB2b2lkICpmckIpDQo+ICAgICBeDQo+ICAgICBhcmNoL3Bvd2Vy
+cGMvbWF0aC1lbXUvZmN0aXd6LmM6MTA6MTogbm90ZTogZGVjbGFyZSAnc3RhdGljJyBpZiB0aGUg
+ZnVuY3Rpb24gaXMgbm90IGludGVuZGVkIHRvIGJlIHVzZWQgb3V0c2lkZSBvZiB0aGlzIHRyYW5z
+bGF0aW9uIHVuaXQNCj4gICAgIGludA0KPiAgICAgXg0KPiAgICAgc3RhdGljDQo+ICAgICAyIHdh
+cm5pbmdzIGdlbmVyYXRlZC4NCj4gLS0NCj4+PiBhcmNoL3Bvd2VycGMvbWF0aC1lbXUvZnNlbC5j
+OjE0OjI6IHdhcm5pbmc6IHZhcmlhYmxlICdfZmV4JyBzZXQgYnV0IG5vdCB1c2VkIFstV3VudXNl
+ZC1idXQtc2V0LXZhcmlhYmxlXQ0KPiAgICAgICAgICAgICBGUF9ERUNMX0VYOw0KPiAgICAgICAg
+ICAgICBeDQo+ICAgICBpbmNsdWRlL21hdGgtZW11L3NvZnQtZnAuaDo5NDoyNDogbm90ZTogZXhw
+YW5kZWQgZnJvbSBtYWNybyAnRlBfREVDTF9FWCcNCj4gICAgICNkZWZpbmUgRlBfREVDTF9FWCBp
+bnQgX2ZleCA9IDANCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgXg0KPiAgICAgYXJjaC9w
+b3dlcnBjL21hdGgtZW11L2ZzZWwuYzoxMToxOiB3YXJuaW5nOiBubyBwcmV2aW91cyBwcm90b3R5
+cGUgZm9yIGZ1bmN0aW9uICdmc2VsJyBbLVdtaXNzaW5nLXByb3RvdHlwZXNdDQo+ICAgICBmc2Vs
+KHUzMiAqZnJELCB2b2lkICpmckEsIHUzMiAqZnJCLCB1MzIgKmZyQykNCj4gICAgIF4NCj4gICAg
+IGFyY2gvcG93ZXJwYy9tYXRoLWVtdS9mc2VsLmM6MTA6MTogbm90ZTogZGVjbGFyZSAnc3RhdGlj
+JyBpZiB0aGUgZnVuY3Rpb24gaXMgbm90IGludGVuZGVkIHRvIGJlIHVzZWQgb3V0c2lkZSBvZiB0
+aGlzIHRyYW5zbGF0aW9uIHVuaXQNCj4gICAgIGludA0KPiAgICAgXg0KPiAgICAgc3RhdGljDQo+
+ICAgICAyIHdhcm5pbmdzIGdlbmVyYXRlZC4NCj4gDQo+IA0KPiB2aW0gKy9BX2MgKzEzIGFyY2gv
+cG93ZXJwYy9tYXRoLWVtdS9mY21wdS5jDQo+IA0KPiBeMWRhMTc3ZTRjM2Y0MSBhcmNoL3BwYy9t
+YXRoLWVtdS9mY21wdS5jICAgICBMaW51cyBUb3J2YWxkcyAyMDA1LTA0LTE2ICAgOQ0KPiBeMWRh
+MTc3ZTRjM2Y0MSBhcmNoL3BwYy9tYXRoLWVtdS9mY21wdS5jICAgICBMaW51cyBUb3J2YWxkcyAy
+MDA1LTA0LTE2ICAxMCAgaW50DQo+IF4xZGExNzdlNGMzZjQxIGFyY2gvcHBjL21hdGgtZW11L2Zj
+bXB1LmMgICAgIExpbnVzIFRvcnZhbGRzIDIwMDUtMDQtMTYgIDExICBmY21wdSh1MzIgKmNjciwg
+aW50IGNyZkQsIHZvaWQgKmZyQSwgdm9pZCAqZnJCKQ0KPiBeMWRhMTc3ZTRjM2Y0MSBhcmNoL3Bw
+Yy9tYXRoLWVtdS9mY21wdS5jICAgICBMaW51cyBUb3J2YWxkcyAyMDA1LTA0LTE2ICAxMiAgew0K
+PiBeMWRhMTc3ZTRjM2Y0MSBhcmNoL3BwYy9tYXRoLWVtdS9mY21wdS5jICAgICBMaW51cyBUb3J2
+YWxkcyAyMDA1LTA0LTE2IEAxMyAgCUZQX0RFQ0xfRChBKTsNCj4gXjFkYTE3N2U0YzNmNDEgYXJj
+aC9wcGMvbWF0aC1lbXUvZmNtcHUuYyAgICAgTGludXMgVG9ydmFsZHMgMjAwNS0wNC0xNiBAMTQg
+IAlGUF9ERUNMX0QoQik7DQo+IGQyYjE5NGVkODIwODgwIGFyY2gvcG93ZXJwYy9tYXRoLWVtdS9m
+Y21wdS5jIEt1bWFyIEdhbGEgICAgIDIwMDgtMDYtMDQgQDE1ICAJRlBfREVDTF9FWDsNCj4gXjFk
+YTE3N2U0YzNmNDEgYXJjaC9wcGMvbWF0aC1lbXUvZmNtcHUuYyAgICAgTGludXMgVG9ydmFsZHMg
+MjAwNS0wNC0xNiAgMTYgIAlpbnQgY29kZVs0XSA9IHsgKDEgPDwgMyksICgxIDw8IDEpLCAoMSA8
+PCAyKSwgKDEgPDwgMCkgfTsNCj4gXjFkYTE3N2U0YzNmNDEgYXJjaC9wcGMvbWF0aC1lbXUvZmNt
+cHUuYyAgICAgTGludXMgVG9ydmFsZHMgMjAwNS0wNC0xNiAgMTcgIAlsb25nIGNtcDsNCj4gXjFk
+YTE3N2U0YzNmNDEgYXJjaC9wcGMvbWF0aC1lbXUvZmNtcHUuYyAgICAgTGludXMgVG9ydmFsZHMg
+MjAwNS0wNC0xNiAgMTgNCj4gDQo+IDo6Ojo6OiBUaGUgY29kZSBhdCBsaW5lIDEzIHdhcyBmaXJz
+dCBpbnRyb2R1Y2VkIGJ5IGNvbW1pdA0KPiA6Ojo6OjogMWRhMTc3ZTRjM2Y0MTUyNGU4ODZiN2Yx
+YjhhMGMxZmM3MzIxY2FjMiBMaW51eC0yLjYuMTItcmMyDQo+IA0KPiA6Ojo6OjogVE86IExpbnVz
+IFRvcnZhbGRzIDx0b3J2YWxkc0BwcGM5NzAub3NkbC5vcmc+DQo+IDo6Ojo6OiBDQzogTGludXMg
+VG9ydmFsZHMgPHRvcnZhbGRzQHBwYzk3MC5vc2RsLm9yZz4NCj4gDQo=
