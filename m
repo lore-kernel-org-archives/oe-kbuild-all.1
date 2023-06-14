@@ -1,181 +1,108 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DE0AD36
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 16:40:41 +0000 (UTC)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-62fe1e6dc65so7725406d6.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 09:40:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1686760840; x=1689352840;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UXimn/P/5sCJZ7fCJTZ8BSazPdQnTt6zyCupGqR8k5w=;
-        b=OAoITSntNBYS+uJgf1ujmP2eeCLW9WF/FTefuiku8oybwrFBx+upKikf92RbfxXDE+
-         LnYGDbG150ZKoTMWfmq3xvUFJt8/h0GeDKE4BfhS5mPt4LFm8IFdGz0371yuNV+Z/fKH
-         BFj0AXE1/uumb9GBim7y91GR0ZrJp5EcO87efwp3wOhNFp8ZrMk82cAtVmQFn+3r6q/O
-         Rg1fgvFf/yOlmVFHUa43o0hvV3WXx27jsfTzl4CuRT9dho1R5DLVFyrR9QiIkd9mP4Mt
-         zzG27bxORvKu5rmKLtRzdL3zlEvwsqLHG5zaL7qJcVVUT6AFxL+ONDCwRBish4r8Ujgu
-         EM5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686760840; x=1689352840;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UXimn/P/5sCJZ7fCJTZ8BSazPdQnTt6zyCupGqR8k5w=;
-        b=GTYY6rVnHN4jYBcJYDO+juKWCzl0USRRH5dPwIGgILHjklG7/s7zADDZ/4q5iskZqm
-         C/gIXO82hZfFKvZJQTm0/aETywtGPp5a4WrgvNvS+55b5NCsw+sFz5dBhIRGocDNNhZR
-         WvYBoBvV8baumlyDT39s9zlrms3OypaEbApPruOSEFtYuDN32T00BGDbyW5fB1eJlJhl
-         vwVAXIzPPaET4kk6ZZD5QfuqPZJpcOFowd6cRtIUzu4eHb1WY8IhKlxqYo8zsBO3EqCh
-         mMHID+5+uyVTLLh66zBJhpGIYaJihZnzwOoZQTmLkKaVFAljm4tt2PooGizeMX6+IBQe
-         OpOw==
-X-Gm-Message-State: AC+VfDzZa/jtmqKLX5JOIjo8kMCc+kDTEnzhZUdJqcPzj0WbreUUxP+c
-	xVZ3f/DL0odZbbkXqiZDDjoS4cMbI2uFexRuGNfdzQ==
-X-Google-Smtp-Source: ACHHUZ6nzw2pIHfANPy+oymiDmwVUSVPnDXJQ6OjIAJWySkyRIMjr8q00W31fdmz4ODSODxrNZYayP0uNr3Rvjbpr08=
-X-Received: by 2002:a05:6214:e6e:b0:628:6abe:f06e with SMTP id
- jz14-20020a0562140e6e00b006286abef06emr17513666qvb.41.1686760840396; Wed, 14
- Jun 2023 09:40:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D5A7F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 17:17:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686763033; x=1718299033;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1rVknc6eI0s2SyaBRaLfKBU3jy707I2xZOIeKDgA+gA=;
+  b=SEU2SiRNmCVtgm6gafrsHL0GhcNeyLOsOtf91h9Iz1QXHbUXvzPZMoUS
+   YkbB7WEPiR+e7kPs/yr2yuCto69bYdSWOlMR1lJmo+BNv7AWHBOtnpPoX
+   A6Qi3YbiAPFpD7v9Bls/Z+tvVwLx/6Xn3qcAgnJL2TZeodymbIA2zMY+8
+   iTzFi5/T53xkUqs/icIPQkWMOodwd81zktMpMRK55F4qAjEpEy3OZho8n
+   jbYH8b58B+27iEcwg1DeiR3gQR2tn1mP6pjVMG2S8VIxwUFShRmxXfdPn
+   DUa6mDouWgAGUvsH/1ZDwHeJpYsGQ5b/4htNg3/DEicBHoKr58YkcTTrm
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="362053906"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="362053906"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 10:17:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="782176086"
+X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
+   d="scan'208";a="782176086"
+Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 14 Jun 2023 10:17:10 -0700
+Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9U6v-0000t3-1a;
+	Wed, 14 Jun 2023 17:16:49 +0000
+Date: Thu, 15 Jun 2023 01:15:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: JuenKit Yip <JuenKit_Yip@hotmail.com>, linux@roeck-us.net,
+	jdelvare@suse.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, JuenKit Yip <JuenKit_Yip@hotmail.com>
+Subject: Re: [PATCH 1/3] hwmon: (sht3x)remove sht3x_platform_data
+Message-ID: <202306150115.i0k7ulfo-lkp@intel.com>
+References: <DB4PR10MB6261D79FE16EC2BBD5316B91925AA@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202306110855.7TlBCIzI-lkp@intel.com> <CAHVXubhKstDeRDp8n-POR_eL0vh5DdHuWKHu7pN+X_j0rtG4Dw@mail.gmail.com>
-In-Reply-To: <CAHVXubhKstDeRDp8n-POR_eL0vh5DdHuWKHu7pN+X_j0rtG4Dw@mail.gmail.com>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Wed, 14 Jun 2023 12:40:28 -0400
-Message-ID: <CAKwvOd=yg5GE8eF5bFY4t2S-0Od3smH9iRB+2Ctkg=+WXM97ig@mail.gmail.com>
-Subject: Re: ld.lld: error: relocation R_RISCV_HI20 cannot be used against
- symbol 'misaligned_access_speed'; recompile with -fPIC
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DB4PR10MB6261D79FE16EC2BBD5316B91925AA@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
 
-On Tue, Jun 13, 2023 at 4:17=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc=
-.com> wrote:
->
-> On Sun, Jun 11, 2023 at 2:11=E2=80=AFAM kernel test robot <lkp@intel.com>=
- wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git master
-> > head:   022ce8862dff83c859089cd14bc4dca0733e2f90
-> > commit: 8dc2a7e8027fbeca0c7df81d4c82e735a59b5741 riscv: Fix relocatable=
- kernels with early alternatives using -fno-pie
-> > date:   10 days ago
-> > config: riscv-randconfig-r022-20230611 (https://download.01.org/0day-ci=
-/archive/20230611/202306110855.7TlBCIzI-lkp@intel.com/config)
-> > compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.gi=
-t ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> > reproduce (this is a W=3D1 build):
-> >         mkdir -p ~/bin
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/s=
-bin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # install riscv cross compiling tool for clang build
-> >         # apt-get install binutils-riscv64-linux-gnu
-> >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
-x.git/commit/?id=3D8dc2a7e8027fbeca0c7df81d4c82e735a59b5741
-> >         git remote add linus https://git.kernel.org/pub/scm/linux/kerne=
-l/git/torvalds/linux.git
-> >         git fetch --no-tags linus master
-> >         git checkout 8dc2a7e8027fbeca0c7df81d4c82e735a59b5741
-> >         # save the config file
-> >         mkdir build_dir && cp config build_dir/.config
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
-cross W=3D1 O=3Dbuild_dir ARCH=3Driscv olddefconfig
-> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
-cross W=3D1 O=3Dbuild_dir ARCH=3Driscv SHELL=3D/bin/bash
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306110855.7TlBCIzI-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> > >> ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol=
- 'misaligned_access_speed'; recompile with -fPIC
-> >    >>> defined in vmlinux.a(arch/riscv/kernel/cpufeature.o)
-> >    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
-> >    >>>               arch/riscv/errata/thead/errata.o:(thead_feature_pr=
-obe_func) in archive vmlinux.a
-> > --
-> > >> ld.lld: error: relocation R_RISCV_LO12_I cannot be used against symb=
-ol 'misaligned_access_speed'; recompile with -fPIC
-> >    >>> defined in vmlinux.a(arch/riscv/kernel/cpufeature.o)
-> >    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
-> >    >>>               arch/riscv/errata/thead/errata.o:(thead_feature_pr=
-obe_func) in archive vmlinux.a
-> > --
-> > >> ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol=
- 'riscv_cbom_block_size'; recompile with -fPIC
-> >    >>> defined in vmlinux.a(arch/riscv/mm/cacheflush.o)
-> >    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
-> >    >>>               arch/riscv/errata/thead/errata.o:(thead_errata_pat=
-ch_func) in archive vmlinux.a
-> > --
-> > >> ld.lld: error: relocation R_RISCV_LO12_S cannot be used against symb=
-ol 'riscv_cbom_block_size'; recompile with -fPIC
-> >    >>> defined in vmlinux.a(arch/riscv/mm/cacheflush.o)
-> >    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
-> >    >>>               arch/riscv/errata/thead/errata.o:(thead_errata_pat=
-ch_func) in archive vmlinux.a
-> > --
-> > >> ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol=
- '__per_cpu_offset'; recompile with -fPIC
-> >    >>> defined in vmlinux.a(mm/percpu.o)
-> >    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
-> >    >>>               arch/riscv/errata/thead/errata.o:(thead_feature_pr=
-obe_func) in archive vmlinux.a
-> > --
-> > >> ld.lld: error: relocation R_RISCV_LO12_I cannot be used against symb=
-ol '__per_cpu_offset'; recompile with -fPIC
-> >    >>> defined in vmlinux.a(mm/percpu.o)
-> >    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
-> >    >>>               arch/riscv/errata/thead/errata.o:(thead_feature_pr=
-obe_func) in archive vmlinux.a
-> >
->
-> So I looked into those errors, the config is basically =3D RELOCATABLE +
-> MEDLOW - EARLY_ALTERNATIVES. Then errata/thead is not compiled as
+Hi JuenKit,
 
-Thanks for taking a look.  Shouldn't CONFIG_RELOCATABLE be setting
--fPIC? If so, why is LLD complaining about -fPIC not being used?
+kernel test robot noticed the following build warnings:
 
-arch/riscv/Makefile sets -fPIE if CONFIG_RELOCATABLE =3D=3D y.
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.4-rc6 next-20230614]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Is it possible that -fpie was dropped for these object files, or
--fno-pic or -fno-pie was added to the cflags for these object files
-somehow?
+url:    https://github.com/intel-lab-lkp/linux/commits/JuenKit-Yip/hwmon-sht3x-add-medium-repeatability-support/20230614-143100
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/DB4PR10MB6261D79FE16EC2BBD5316B91925AA%40DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM
+patch subject: [PATCH 1/3] hwmon: (sht3x)remove sht3x_platform_data
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230615/202306150115.i0k7ulfo-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        git remote add groeck-staging https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git
+        git fetch groeck-staging hwmon-next
+        git checkout groeck-staging/hwmon-next
+        b4 shazam https://lore.kernel.org/r/DB4PR10MB6261D79FE16EC2BBD5316B91925AA@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/hwmon/
 
-I've filed
-https://github.com/ClangBuiltLinux/linux/issues/1872
-to track this.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306150115.i0k7ulfo-lkp@intel.com/
 
-> medany, which makes sense since we only need this code to be medany
-> when EARLY_ALTERNATIVES is enabled (because the code would be executed
-> with mmu off, which is not the case here).
->
-> I can fix those errors by adding the medany flag, but I'm not sure
-> actually we want to do that since we do not need it and gcc does not
-> complain: any idea?
->
-> Alex
->
->
->
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
->
+All warnings (new ones prefixed by >>):
+
+>> drivers/hwmon/sht3x.c:29:28: warning: 'sht3x_cmd_measure_blocking_lpm' defined but not used [-Wunused-const-variable=]
+      29 | static const unsigned char sht3x_cmd_measure_blocking_lpm[]    = { 0x2c, 0x10 };
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/hwmon/sht3x.c:25:28: warning: 'sht3x_cmd_measure_blocking_hpm' defined but not used [-Wunused-const-variable=]
+      25 | static const unsigned char sht3x_cmd_measure_blocking_hpm[]    = { 0x2c, 0x06 };
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
---=20
-Thanks,
-~Nick Desaulniers
+vim +/sht3x_cmd_measure_blocking_lpm +29 drivers/hwmon/sht3x.c
+
+7c84f7f80d6fcea David Frey  2016-06-02  23  
+cecbab8bdd40311 JuenKit Yip 2023-06-14  24  /* commands (high repeatability mode) */
+7c84f7f80d6fcea David Frey  2016-06-02 @25  static const unsigned char sht3x_cmd_measure_blocking_hpm[]    = { 0x2c, 0x06 };
+7c84f7f80d6fcea David Frey  2016-06-02  26  static const unsigned char sht3x_cmd_measure_nonblocking_hpm[] = { 0x24, 0x00 };
+7c84f7f80d6fcea David Frey  2016-06-02  27  
+cecbab8bdd40311 JuenKit Yip 2023-06-14  28  /* commands (low repeatability mode) */
+7c84f7f80d6fcea David Frey  2016-06-02 @29  static const unsigned char sht3x_cmd_measure_blocking_lpm[]    = { 0x2c, 0x10 };
+7c84f7f80d6fcea David Frey  2016-06-02  30  static const unsigned char sht3x_cmd_measure_nonblocking_lpm[] = { 0x24, 0x16 };
+7c84f7f80d6fcea David Frey  2016-06-02  31  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
