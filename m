@@ -1,50 +1,55 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F55B2EC16;
-	Wed, 14 Jun 2023 18:38:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FE62EC2A;
+	Wed, 14 Jun 2023 18:38:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686767908; x=1718303908;
+  t=1686767911; x=1718303911;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3juP/zZ0es/YUkn6xSx1QP7m7ZntPvgv8l4V1a11fWs=;
-  b=Ri8a786NvsvXi9gVMDTmuiuOlKcdnohrKyq4u3fbrcaYrC9AAfC84Xpq
-   0a4ITc1Z6SDk9/228skXnat1WhHZRt7qzLNSWqpHaf4FKcRWaN14yEcMA
-   eSwRlPuaQZrKJK6tNpBwZDsuAs7t+gR6I0Nh8SeCiyRkw1Fg3ZLisHPFz
-   VT34TuNO8boKjSFy/FxZbTTPyzdNG37dwjFXgklxvLRv9KkBTcKD8laiH
-   rS0tTwAUMrPCzilGWij5BfCcRjYYE2qaZ2Q6+Z+zCHGv0dijTMQhtVDrW
-   AFjPUtRe+qJ/IwonBEZze3fHFGjMTElkJHkX9CS09oD5ZOtWaM91e/QvU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="356195113"
+  bh=3sI4YDTtaY0g0URvNJ8Dd8m8uuHedTrH+fP517EWAwI=;
+  b=EOmHnCzpM3djQ+zN4Od85sGvmWkNZCmuiO2zK3lviEof4YB+nzc7kIH3
+   vOPUne6dG2xMLwtl8oubFq7dR8ZFOAYVjrmrAaN9gdymOY9R8HWlWPNKv
+   joWY7BKtzYKW+q016poox5y+67vdQNRWQgXP0p4VmesrxvCxR/X6NwA3p
+   u53HEdE9WclI2YRb38hGO198MFTyM81SAblhKiP3mxtrl+/QyZxArq/ZH
+   gbC6qizAByS/AfK6+/IBc006DBFhTyGOd6tzYME9XNNb30YFOuJhMBYCq
+   R2xGDzPDm07hvtFGRlwBycl1hktSvJc5UEmGl/wp2G8v7VXd8lEiW2US3
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="356195121"
 X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="356195113"
+   d="scan'208";a="356195121"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 11:38:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="745184233"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="745184234"
 X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="745184233"
+   d="scan'208";a="745184234"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
   by orsmga001.jf.intel.com with ESMTP; 14 Jun 2023 11:38:24 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9VNv-0000xH-1O;
+	id 1q9VNv-0000xK-1R;
 	Wed, 14 Jun 2023 18:38:23 +0000
-Date: Thu, 15 Jun 2023 02:38:08 +0800
+Date: Thu, 15 Jun 2023 02:38:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Hannes Reinecke <hare@suse.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	linux-fsdevel@vger.kernel.org, linux-block@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christoph Hellwig <hch@lst.de>,
-	Luis Chamberlain <mcgrof@kernel.org>
-Subject: Re: [PATCH 1/2] highmem: Add memcpy_to_folio()
-Message-ID: <202306150241.f2mNsWXE-lkp@intel.com>
-References: <20230614134853.1521439-1-willy@infradead.org>
+To: Jisheng Zhang <jszhang@kernel.org>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 3/3] net: stmmac: use pcpu statistics where necessary
+Message-ID: <202306150255.k4BaJTXY-lkp@intel.com>
+References: <20230614161847.4071-4-jszhang@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,261 +58,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230614134853.1521439-1-willy@infradead.org>
+In-Reply-To: <20230614161847.4071-4-jszhang@kernel.org>
 
-Hi Matthew,
+Hi Jisheng,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on akpm-mm/mm-everything]
+[auto build test WARNING on sunxi/sunxi/for-next]
 [also build test WARNING on linus/master v6.4-rc6]
 [cannot apply to next-20230614]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Wilcox-Oracle/highmem-Add-memcpy_from_folio/20230614-215150
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230614134853.1521439-1-willy%40infradead.org
-patch subject: [PATCH 1/2] highmem: Add memcpy_to_folio()
-config: hexagon-randconfig-r015-20230614 (https://download.01.org/0day-ci/archive/20230615/202306150241.f2mNsWXE-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jisheng-Zhang/net-stmmac-don-t-clear-network-statistics-in-ndo_open/20230615-003137
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20230614161847.4071-4-jszhang%40kernel.org
+patch subject: [PATCH 3/3] net: stmmac: use pcpu statistics where necessary
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230615/202306150255.k4BaJTXY-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
-        git fetch akpm-mm mm-everything
-        git checkout akpm-mm/mm-everything
-        b4 shazam https://lore.kernel.org/r/20230614134853.1521439-1-willy@infradead.org
+        git remote add sunxi https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git
+        git fetch sunxi sunxi/for-next
+        git checkout sunxi/sunxi/for-next
+        b4 shazam https://lore.kernel.org/r/20230614161847.4071-4-jszhang@kernel.org
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/nvme/target/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash drivers/net/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306150241.f2mNsWXE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306150255.k4BaJTXY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/nvme/target/fc.c:8:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/nvme/target/fc.c:8:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/nvme/target/fc.c:8:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/nvme/target/fc.c:8:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
->> include/linux/highmem.h:525:7: warning: comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int *') and 'typeof ((1UL << 12) - ((unsigned long)(offset) & ~(~((1 << 12) - 1)))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
-     525 |                 n = min(len, PAGE_SIZE - offset_in_page(offset));
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:67:19: note: expanded from macro 'min'
-      67 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
-      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
-      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
-         |                  ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
-      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
-   In file included from drivers/nvme/target/fc.c:8:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
->> include/linux/highmem.h:534:7: warning: comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int *') and 'typeof ((1UL << 12)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
-     534 |                 n = min(len, PAGE_SIZE);
-         |                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:67:19: note: expanded from macro 'min'
-      67 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
-      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
-      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
-         |                  ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
-      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
-   drivers/nvme/target/fc.c:176:1: warning: unused function 'nvmet_fc_iodnum' [-Wunused-function]
-     176 | nvmet_fc_iodnum(struct nvmet_fc_ls_iod *iodptr)
-         | ^
-   drivers/nvme/target/fc.c:182:1: warning: unused function 'nvmet_fc_fodnum' [-Wunused-function]
-     182 | nvmet_fc_fodnum(struct nvmet_fc_fcp_iod *fodptr)
-         | ^
-   10 warnings generated.
---
-   In file included from drivers/nvme/target/loop.c:7:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/nvme/target/loop.c:7:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/nvme/target/loop.c:7:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/nvme/target/loop.c:8:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
->> include/linux/highmem.h:525:7: warning: comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int *') and 'typeof ((1UL << 12) - ((unsigned long)(offset) & ~(~((1 << 12) - 1)))) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
-     525 |                 n = min(len, PAGE_SIZE - offset_in_page(offset));
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:67:19: note: expanded from macro 'min'
-      67 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
-      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
-      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
-         |                  ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
-      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
-   In file included from drivers/nvme/target/loop.c:8:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
->> include/linux/highmem.h:534:7: warning: comparison of distinct pointer types ('typeof (len) *' (aka 'unsigned int *') and 'typeof ((1UL << 12)) *' (aka 'unsigned long *')) [-Wcompare-distinct-pointer-types]
-     534 |                 n = min(len, PAGE_SIZE);
-         |                     ^~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:67:19: note: expanded from macro 'min'
-      67 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:36:24: note: expanded from macro '__careful_cmp'
-      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
-         |                               ^~~~~~~~~~~~~~~~
-   include/linux/minmax.h:26:4: note: expanded from macro '__safe_cmp'
-      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
-         |                  ^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:20:28: note: expanded from macro '__typecheck'
-      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-         |                    ~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~
-   8 warnings generated.
+   drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c: In function 'stmmac_get_per_qstats':
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:564:26: warning: 'start' is used uninitialized [-Wuninitialized]
+     564 |                 } while (u64_stats_fetch_retry(&stats->syncp, start));
+         |                          ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c:551:22: note: 'start' was declared here
+     551 |         unsigned int start;
+         |                      ^~~~~
 
 
-vim +525 include/linux/highmem.h
+vim +/start +564 drivers/net/ethernet/stmicro/stmmac/stmmac_ethtool.c
 
-   509	
-   510	/**
-   511	 * memcpy_to_folio - Copy a range of bytes to a folio
-   512	 * @folio: The folio to write to.
-   513	 * @offset: The first byte in the folio to store to.
-   514	 * @from: The memory to copy from.
-   515	 * @len: The number of bytes to copy.
-   516	 */
-   517	static inline void memcpy_to_folio(struct folio *folio, size_t offset,
-   518			const char *from, size_t len)
-   519	{
-   520		size_t n = len;
-   521	
-   522		VM_BUG_ON(offset + len > folio_size(folio));
-   523	
-   524		if (folio_test_highmem(folio))
- > 525			n = min(len, PAGE_SIZE - offset_in_page(offset));
-   526		for (;;) {
-   527			char *to = kmap_local_folio(folio, offset);
-   528			memcpy(to, from, n);
-   529			kunmap_local(to);
-   530			if (!folio_test_highmem(folio) || n == len)
-   531				break;
-   532			offset += n;
-   533			len -= n;
- > 534			n = min(len, PAGE_SIZE);
-   535		}
-   536		flush_dcache_folio(folio);
-   537	}
-   538	
+   546	
+   547	static void stmmac_get_per_qstats(struct stmmac_priv *priv, u64 *data)
+   548	{
+   549		u32 tx_cnt = priv->plat->tx_queues_to_use;
+   550		u32 rx_cnt = priv->plat->rx_queues_to_use;
+   551		unsigned int start;
+   552		int q, stat, cpu;
+   553		char *p;
+   554		u64 *pos;
+   555	
+   556		pos = data;
+   557		for_each_possible_cpu(cpu) {
+   558			struct stmmac_pcpu_stats *stats, snapshot;
+   559	
+   560			data = pos;
+   561			stats = per_cpu_ptr(priv->xstats.pstats, cpu);
+   562			do {
+   563				snapshot = *stats;
+ > 564			} while (u64_stats_fetch_retry(&stats->syncp, start));
+   565	
+   566			for (q = 0; q < tx_cnt; q++) {
+   567				p = (char *)&snapshot + offsetof(struct stmmac_pcpu_stats,
+   568							    txq_stats[q].tx_pkt_n);
+   569				for (stat = 0; stat < STMMAC_TXQ_STATS; stat++) {
+   570					*data++ = (*(u64 *)p);
+   571					p += sizeof(u64);
+   572				}
+   573			}
+   574			for (q = 0; q < rx_cnt; q++) {
+   575				p = (char *)&snapshot + offsetof(struct stmmac_pcpu_stats,
+   576							    rxq_stats[q].rx_pkt_n);
+   577				for (stat = 0; stat < STMMAC_RXQ_STATS; stat++) {
+   578					*data++ = (*(u64 *)p);
+   579					p += sizeof(u64);
+   580				}
+   581			}
+   582		}
+   583	}
+   584	
 
 -- 
 0-DAY CI Kernel Test Service
