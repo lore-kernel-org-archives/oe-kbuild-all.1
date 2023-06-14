@@ -1,221 +1,181 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570FB2EC04
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 16:36:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686760611; x=1718296611;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PsOWCkZcOBs5Lf/qI2Q/IdAZ6ylgFOk6/8rb5g367sM=;
-  b=AsMffXgMP3TnZqXLbzG/INfVu8+aaz9lKws05vGt0O+GRTuexXHuRRGT
-   IGZ0Hrq6/XRTv/EVN7W14sQtChRaY6OW2HCatH7+cVup+jcT7mh38TBYb
-   XnwV7k6naGtM5EKT8wZ5kcDgEAgAMwJV289iB8Ng7jvmc2EIdHB0usRrz
-   ysoscVUV+Xgvexk7l4/UmkkSgGdwkAah5gvM06iq0T4KTCpe4rjCTqn01
-   Dk1xEEvBQMcXIXmvUG3jaiO/lVGV7Ay32P6DrpVx3XY8aonewBGMy7wZS
-   6t8sMnYlp8rhXzgz/WKlsvhzPPd0CwsX0y5Ea7sxNgQBX0uKn4JCBIYws
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="361145060"
-X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="361145060"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 09:36:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="741892776"
-X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="741892776"
-Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 14 Jun 2023 09:36:43 -0700
-Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q9TTX-0000rF-32;
-	Wed, 14 Jun 2023 16:36:14 +0000
-Date: Thu, 15 Jun 2023 00:34:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.19-stable 14200/29850]
- drivers/of/irq.c:284:73: sparse: sparse: incorrect type in initializer
- (different base types)
-Message-ID: <202306150040.x4kzXMJ5-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DE0AD36
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 16:40:41 +0000 (UTC)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-62fe1e6dc65so7725406d6.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 09:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1686760840; x=1689352840;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UXimn/P/5sCJZ7fCJTZ8BSazPdQnTt6zyCupGqR8k5w=;
+        b=OAoITSntNBYS+uJgf1ujmP2eeCLW9WF/FTefuiku8oybwrFBx+upKikf92RbfxXDE+
+         LnYGDbG150ZKoTMWfmq3xvUFJt8/h0GeDKE4BfhS5mPt4LFm8IFdGz0371yuNV+Z/fKH
+         BFj0AXE1/uumb9GBim7y91GR0ZrJp5EcO87efwp3wOhNFp8ZrMk82cAtVmQFn+3r6q/O
+         Rg1fgvFf/yOlmVFHUa43o0hvV3WXx27jsfTzl4CuRT9dho1R5DLVFyrR9QiIkd9mP4Mt
+         zzG27bxORvKu5rmKLtRzdL3zlEvwsqLHG5zaL7qJcVVUT6AFxL+ONDCwRBish4r8Ujgu
+         EM5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686760840; x=1689352840;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UXimn/P/5sCJZ7fCJTZ8BSazPdQnTt6zyCupGqR8k5w=;
+        b=GTYY6rVnHN4jYBcJYDO+juKWCzl0USRRH5dPwIGgILHjklG7/s7zADDZ/4q5iskZqm
+         C/gIXO82hZfFKvZJQTm0/aETywtGPp5a4WrgvNvS+55b5NCsw+sFz5dBhIRGocDNNhZR
+         WvYBoBvV8baumlyDT39s9zlrms3OypaEbApPruOSEFtYuDN32T00BGDbyW5fB1eJlJhl
+         vwVAXIzPPaET4kk6ZZD5QfuqPZJpcOFowd6cRtIUzu4eHb1WY8IhKlxqYo8zsBO3EqCh
+         mMHID+5+uyVTLLh66zBJhpGIYaJihZnzwOoZQTmLkKaVFAljm4tt2PooGizeMX6+IBQe
+         OpOw==
+X-Gm-Message-State: AC+VfDzZa/jtmqKLX5JOIjo8kMCc+kDTEnzhZUdJqcPzj0WbreUUxP+c
+	xVZ3f/DL0odZbbkXqiZDDjoS4cMbI2uFexRuGNfdzQ==
+X-Google-Smtp-Source: ACHHUZ6nzw2pIHfANPy+oymiDmwVUSVPnDXJQ6OjIAJWySkyRIMjr8q00W31fdmz4ODSODxrNZYayP0uNr3Rvjbpr08=
+X-Received: by 2002:a05:6214:e6e:b0:628:6abe:f06e with SMTP id
+ jz14-20020a0562140e6e00b006286abef06emr17513666qvb.41.1686760840396; Wed, 14
+ Jun 2023 09:40:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202306110855.7TlBCIzI-lkp@intel.com> <CAHVXubhKstDeRDp8n-POR_eL0vh5DdHuWKHu7pN+X_j0rtG4Dw@mail.gmail.com>
+In-Reply-To: <CAHVXubhKstDeRDp8n-POR_eL0vh5DdHuWKHu7pN+X_j0rtG4Dw@mail.gmail.com>
+From: Nick Desaulniers <ndesaulniers@google.com>
+Date: Wed, 14 Jun 2023 12:40:28 -0400
+Message-ID: <CAKwvOd=yg5GE8eF5bFY4t2S-0Od3smH9iRB+2Ctkg=+WXM97ig@mail.gmail.com>
+Subject: Re: ld.lld: error: relocation R_RISCV_HI20 cannot be used against
+ symbol 'misaligned_access_speed'; recompile with -fPIC
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android-4.19-stable
-head:   7816e65d75d3e618bc0c54a22c9af5472c44d013
-commit: a323430753b95d8ac29fc0b3c2502b50f6073737 [14200/29850] ANDROID: GKI: of: irq: add helper to remap interrupts to another irqdomain
-config: i386-randconfig-s052-20230614 (https://download.01.org/0day-ci/archive/20230615/202306150040.x4kzXMJ5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android-4.19-stable
-        git checkout a323430753b95d8ac29fc0b3c2502b50f6073737
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=i386 SHELL=/bin/bash drivers/cpuidle/ drivers/of/ kernel/dma/
+On Tue, Jun 13, 2023 at 4:17=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc=
+.com> wrote:
+>
+> On Sun, Jun 11, 2023 at 2:11=E2=80=AFAM kernel test robot <lkp@intel.com>=
+ wrote:
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   022ce8862dff83c859089cd14bc4dca0733e2f90
+> > commit: 8dc2a7e8027fbeca0c7df81d4c82e735a59b5741 riscv: Fix relocatable=
+ kernels with early alternatives using -fno-pie
+> > date:   10 days ago
+> > config: riscv-randconfig-r022-20230611 (https://download.01.org/0day-ci=
+/archive/20230611/202306110855.7TlBCIzI-lkp@intel.com/config)
+> > compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.gi=
+t ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> > reproduce (this is a W=3D1 build):
+> >         mkdir -p ~/bin
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/s=
+bin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # install riscv cross compiling tool for clang build
+> >         # apt-get install binutils-riscv64-linux-gnu
+> >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linu=
+x.git/commit/?id=3D8dc2a7e8027fbeca0c7df81d4c82e735a59b5741
+> >         git remote add linus https://git.kernel.org/pub/scm/linux/kerne=
+l/git/torvalds/linux.git
+> >         git fetch --no-tags linus master
+> >         git checkout 8dc2a7e8027fbeca0c7df81d4c82e735a59b5741
+> >         # save the config file
+> >         mkdir build_dir && cp config build_dir/.config
+> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
+cross W=3D1 O=3Dbuild_dir ARCH=3Driscv olddefconfig
+> >         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang ~/bin/make.=
+cross W=3D1 O=3Dbuild_dir ARCH=3Driscv SHELL=3D/bin/bash
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306110855.7TlBCIzI-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> > >> ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol=
+ 'misaligned_access_speed'; recompile with -fPIC
+> >    >>> defined in vmlinux.a(arch/riscv/kernel/cpufeature.o)
+> >    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
+> >    >>>               arch/riscv/errata/thead/errata.o:(thead_feature_pr=
+obe_func) in archive vmlinux.a
+> > --
+> > >> ld.lld: error: relocation R_RISCV_LO12_I cannot be used against symb=
+ol 'misaligned_access_speed'; recompile with -fPIC
+> >    >>> defined in vmlinux.a(arch/riscv/kernel/cpufeature.o)
+> >    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
+> >    >>>               arch/riscv/errata/thead/errata.o:(thead_feature_pr=
+obe_func) in archive vmlinux.a
+> > --
+> > >> ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol=
+ 'riscv_cbom_block_size'; recompile with -fPIC
+> >    >>> defined in vmlinux.a(arch/riscv/mm/cacheflush.o)
+> >    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
+> >    >>>               arch/riscv/errata/thead/errata.o:(thead_errata_pat=
+ch_func) in archive vmlinux.a
+> > --
+> > >> ld.lld: error: relocation R_RISCV_LO12_S cannot be used against symb=
+ol 'riscv_cbom_block_size'; recompile with -fPIC
+> >    >>> defined in vmlinux.a(arch/riscv/mm/cacheflush.o)
+> >    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
+> >    >>>               arch/riscv/errata/thead/errata.o:(thead_errata_pat=
+ch_func) in archive vmlinux.a
+> > --
+> > >> ld.lld: error: relocation R_RISCV_HI20 cannot be used against symbol=
+ '__per_cpu_offset'; recompile with -fPIC
+> >    >>> defined in vmlinux.a(mm/percpu.o)
+> >    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
+> >    >>>               arch/riscv/errata/thead/errata.o:(thead_feature_pr=
+obe_func) in archive vmlinux.a
+> > --
+> > >> ld.lld: error: relocation R_RISCV_LO12_I cannot be used against symb=
+ol '__per_cpu_offset'; recompile with -fPIC
+> >    >>> defined in vmlinux.a(mm/percpu.o)
+> >    >>> referenced by errata.c:42 (arch/riscv/errata/thead/errata.c:42)
+> >    >>>               arch/riscv/errata/thead/errata.o:(thead_feature_pr=
+obe_func) in archive vmlinux.a
+> >
+>
+> So I looked into those errors, the config is basically =3D RELOCATABLE +
+> MEDLOW - EARLY_ALTERNATIVES. Then errata/thead is not compiled as
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306150040.x4kzXMJ5-lkp@intel.com/
+Thanks for taking a look.  Shouldn't CONFIG_RELOCATABLE be setting
+-fPIC? If so, why is LLD complaining about -fPIC not being used?
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/of/irq.c:284:73: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __be32 @@     got int @@
-   drivers/of/irq.c:284:73: sparse:     expected restricted __be32
-   drivers/of/irq.c:284:73: sparse:     got int
-   In file included from include/linux/gfp.h:6,
-                    from include/linux/idr.h:16,
-                    from include/linux/kernfs.h:14,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/device.h:16,
-                    from drivers/of/irq.c:19:
-   include/linux/mmzone.h: In function '__nr_to_section':
-   include/linux/mmzone.h:1171:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
-    1171 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
-         |             ^
-   include/linux/mmzone.h:1162:27: note: 'mem_section' declared here
-    1162 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
-         |                           ^~~~~~~~~~~
+arch/riscv/Makefile sets -fPIE if CONFIG_RELOCATABLE =3D=3D y.
 
-vim +284 drivers/of/irq.c
+Is it possible that -fpie was dropped for these object files, or
+-fno-pic or -fno-pie was added to the cflags for these object files
+somehow?
 
-   276	
-   277	int of_irq_domain_map(const struct irq_fwspec *in, struct irq_fwspec *out)
-   278	{
-   279		char *stem_name;
-   280		char *cells_name, *map_name = NULL, *mask_name = NULL;
-   281		char *pass_name = NULL;
-   282		struct device_node *cur, *new = NULL;
-   283		const __be32 *map, *mask, *pass;
- > 284		static const __be32 dummy_mask[] = { [0 ... MAX_PHANDLE_ARGS] = ~0 };
-   285		static const __be32 dummy_pass[] = { [0 ... MAX_PHANDLE_ARGS] = 0 };
-   286		__be32 initial_match_array[MAX_PHANDLE_ARGS];
-   287		const __be32 *match_array = initial_match_array;
-   288		int i, ret, map_len, match;
-   289		u32 in_size, out_size;
-   290	
-   291		stem_name = "";
-   292		cells_name = "#interrupt-cells";
-   293	
-   294		ret = -ENOMEM;
-   295		map_name = kasprintf(GFP_KERNEL, "irqdomain%s-map", stem_name);
-   296		if (!map_name)
-   297			goto free;
-   298	
-   299		mask_name = kasprintf(GFP_KERNEL, "irqdomain%s-map-mask", stem_name);
-   300		if (!mask_name)
-   301			goto free;
-   302	
-   303		pass_name = kasprintf(GFP_KERNEL, "irqdomain%s-map-pass-thru", stem_name);
-   304		if (!pass_name)
-   305			goto free;
-   306	
-   307		/* Get the #interrupt-cells property */
-   308		cur = to_of_node(in->fwnode);
-   309		ret = of_property_read_u32(cur, cells_name, &in_size);
-   310		if (ret < 0)
-   311			goto put;
-   312	
-   313		/* Precalculate the match array - this simplifies match loop */
-   314		for (i = 0; i < in_size; i++)
-   315			initial_match_array[i] = cpu_to_be32(in->param[i]);
-   316	
-   317		ret = -EINVAL;
-   318		/* Get the irqdomain-map property */
-   319		map = of_get_property(cur, map_name, &map_len);
-   320		if (!map) {
-   321			ret = 0;
-   322			goto free;
-   323		}
-   324		map_len /= sizeof(u32);
-   325	
-   326		/* Get the irqdomain-map-mask property (optional) */
-   327		mask = of_get_property(cur, mask_name, NULL);
-   328		if (!mask)
-   329			mask = dummy_mask;
-   330		/* Iterate through irqdomain-map property */
-   331		match = 0;
-   332		while (map_len > (in_size + 1) && !match) {
-   333			/* Compare specifiers */
-   334			match = 1;
-   335			for (i = 0; i < in_size; i++, map_len--)
-   336				match &= !((match_array[i] ^ *map++) & mask[i]);
-   337	
-   338			of_node_put(new);
-   339			new = of_find_node_by_phandle(be32_to_cpup(map));
-   340			map++;
-   341			map_len--;
-   342	
-   343			/* Check if not found */
-   344			if (!new)
-   345				goto put;
-   346	
-   347			if (!of_device_is_available(new))
-   348				match = 0;
-   349	
-   350			ret = of_property_read_u32(new, cells_name, &out_size);
-   351			if (ret)
-   352				goto put;
-   353	
-   354			/* Check for malformed properties */
-   355			if (WARN_ON(out_size > MAX_PHANDLE_ARGS))
-   356				goto put;
-   357			if (map_len < out_size)
-   358				goto put;
-   359	
-   360			/* Move forward by new node's #interrupt-cells amount */
-   361			map += out_size;
-   362			map_len -= out_size;
-   363		}
-   364		if (match) {
-   365			/* Get the irqdomain-map-pass-thru property (optional) */
-   366			pass = of_get_property(cur, pass_name, NULL);
-   367			if (!pass)
-   368				pass = dummy_pass;
-   369	
-   370			/*
-   371			 * Successfully parsed a irqdomain-map translation; copy new
-   372			 * specifier into the out structure, keeping the
-   373			 * bits specified in irqdomain-map-pass-thru.
-   374			 */
-   375			match_array = map - out_size;
-   376			for (i = 0; i < out_size; i++) {
-   377				__be32 val = *(map - out_size + i);
-   378	
-   379				out->param[i] = in->param[i];
-   380				if (i < in_size) {
-   381					val &= ~pass[i];
-   382					val |= cpu_to_be32(out->param[i]) & pass[i];
-   383				}
-   384	
-   385				out->param[i] = be32_to_cpu(val);
-   386			}
-   387			out->param_count = in_size = out_size;
-   388			out->fwnode = of_node_to_fwnode(new);
-   389		}
-   390	put:
-   391		of_node_put(cur);
-   392		of_node_put(new);
-   393	free:
-   394		kfree(mask_name);
-   395		kfree(map_name);
-   396		kfree(pass_name);
-   397	
-   398		return ret;
-   399	}
-   400	EXPORT_SYMBOL(of_irq_domain_map);
-   401	
+I've filed
+https://github.com/ClangBuiltLinux/linux/issues/1872
+to track this.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> medany, which makes sense since we only need this code to be medany
+> when EARLY_ALTERNATIVES is enabled (because the code would be executed
+> with mmu off, which is not the case here).
+>
+> I can fix those errors by adding the medany flag, but I'm not sure
+> actually we want to do that since we do not need it and gcc does not
+> complain: any idea?
+>
+> Alex
+>
+>
+>
+> > --
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
+>
+
+
+--=20
+Thanks,
+~Nick Desaulniers
