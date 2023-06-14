@@ -1,43 +1,46 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A606110
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 10:16:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96A51FD3;
+	Wed, 14 Jun 2023 11:10:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686737790; x=1718273790;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n0d8nIHSESY7AqDkIBCFX6tWwvjtX+8S1Ytmm11jzTk=;
-  b=ZR2lcva1elw6ZzBagtr4nae3G6/pxmOXugCVUESozDnmsRe8vGgBumNB
-   v/UY2xLBpblelT9E9L1puTyJwXyuEKMKQW+6Nlf7EdRlHJ3WMBWdgt+aB
-   Pu0TK6pwxgfopAUtUgBewDzRrg9pDE2ETFkn9UWtTJb9O6LvzWUSXnLY/
-   fawtM+fbOdCCMJXrdHoqFY3/ARMKCgwDqfnJr4EI5vtTR6WjJty+kRFr3
-   2nfmQ+nPAa9oYgNlUJZsbNtpYOcV+vu8P1I2NWbcMmoZgc/uNXn5RLdOH
-   +CffYgO9gvGC0MZEmhLtaVgQgYrV1jZb96zpggZn7GQ8FAmbgx0Wu2QIk
+  t=1686741003; x=1718277003;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sKUKsnbp/6owMK8pQSW/r9IccTSZ64R2EVqQyGjuXRU=;
+  b=Lfky4yi52FPK2cU/ToJxd9A6X9/iB4AwAIi8xApurCjArHH0lelBqXn+
+   z4cl4NEtj20JTh9O0QoU1ImjbjWmdqsgiFcGE9sMwtjpO2TIeSBRsUFNK
+   L/QjLPIkIhRbzLyqb8hLmJ5zDdiizVsiBeJEkrwDMBD84CPWodyK0uRvx
+   4nL2VnuaZps6TdJmXqw6RuBr94YXOoVjr3T76T3iGHD/eRsnYB+v2kutW
+   eBQ+qh+JCWSceXUQmawlmZMpz8261AeRUb49AAYITOlegnWjmws+nahhL
+   L8XoCJl/83hX1jSoJxVERE29F27iUYLrsimcKHY+Yo2zlYuZc0W6Jk/k7
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="361055678"
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="424468900"
 X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="361055678"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 03:16:29 -0700
+   d="scan'208";a="424468900"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 04:10:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="801860763"
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="689377072"
 X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="801860763"
+   d="scan'208";a="689377072"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by FMSMGA003.fm.intel.com with ESMTP; 14 Jun 2023 03:16:28 -0700
+  by orsmga006.jf.intel.com with ESMTP; 14 Jun 2023 04:10:00 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9NY5-0000W9-0i;
-	Wed, 14 Jun 2023 10:16:22 +0000
-Date: Wed, 14 Jun 2023 18:16:15 +0800
+	id 1q9OMs-0000Xd-1F;
+	Wed, 14 Jun 2023 11:09:08 +0000
+Date: Wed, 14 Jun 2023 19:07:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 5031/28487]
- sound/soc/hisilicon/hi3660-i2s.c:377:20: warning: assignment to 'struct
- pinctrl *' from 'int' makes pointer from integer without a cast
-Message-ID: <202306141819.N9GahzO4-lkp@intel.com>
+To: JuenKit Yip <JuenKit_Yip@hotmail.com>, linux@roeck-us.net,
+	jdelvare@suse.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	JuenKit Yip <JuenKit_Yip@hotmail.com>
+Subject: Re: [PATCH 2/3] hwmon: (sht3x) add medium repeatability support
+Message-ID: <202306141807.dzcXTxhF-lkp@intel.com>
+References: <DB4PR10MB62615481D91BA8A598234A18925AA@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,144 +49,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <DB4PR10MB62615481D91BA8A598234A18925AA@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
 
-Hi Youlin,
+Hi JuenKit,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   31cdb217f127543fa6979d42a2f53f13e077676b
-commit: b4b11198edb99eb17a4d032c3a80854d3a817b0d [5031/28487] ANDROID: sound: Add hikey960 i2s audio driver
-config: x86_64-randconfig-s022-20230614 (https://download.01.org/0day-ci/archive/20230614/202306141819.N9GahzO4-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-39-gce1a6720-dirty
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android13-5.10
-        git checkout b4b11198edb99eb17a4d032c3a80854d3a817b0d
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.4-rc6 next-20230614]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/JuenKit-Yip/hwmon-sht3x-add-medium-repeatability-support/20230614-143100
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/DB4PR10MB62615481D91BA8A598234A18925AA%40DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM
+patch subject: [PATCH 2/3] hwmon: (sht3x) add medium repeatability support
+config: hexagon-randconfig-r045-20230612 (https://download.01.org/0day-ci/archive/20230614/202306141807.dzcXTxhF-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add groeck-staging https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git
+        git fetch groeck-staging hwmon-next
+        git checkout groeck-staging/hwmon-next
+        b4 shazam https://lore.kernel.org/r/DB4PR10MB62615481D91BA8A598234A18925AA@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=x86_64 SHELL=/bin/bash sound/soc/hisilicon/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/hwmon/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306141819.N9GahzO4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306141807.dzcXTxhF-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/soc/hisilicon/hi3660-i2s.c: In function 'hi3660_i2s_probe':
-   sound/soc/hisilicon/hi3660-i2s.c:377:22: error: implicit declaration of function 'devm_pinctrl_get'; did you mean 'of_pinctrl_get'? [-Werror=implicit-function-declaration]
-     377 |         i2s->pctrl = devm_pinctrl_get(dev);
-         |                      ^~~~~~~~~~~~~~~~
-         |                      of_pinctrl_get
->> sound/soc/hisilicon/hi3660-i2s.c:377:20: warning: assignment to 'struct pinctrl *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     377 |         i2s->pctrl = devm_pinctrl_get(dev);
-         |                    ^
-   sound/soc/hisilicon/hi3660-i2s.c:384:28: error: implicit declaration of function 'pinctrl_lookup_state' [-Werror=implicit-function-declaration]
-     384 |         i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
-         |                            ^~~~~~~~~~~~~~~~~~~~
->> sound/soc/hisilicon/hi3660-i2s.c:384:26: warning: assignment to 'struct pinctrl_state *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     384 |         i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
-         |                          ^
-   sound/soc/hisilicon/hi3660-i2s.c:394:13: error: implicit declaration of function 'pinctrl_select_state' [-Werror=implicit-function-declaration]
-     394 |         if (pinctrl_select_state(i2s->pctrl, i2s->pin_default)) {
-         |             ^~~~~~~~~~~~~~~~~~~~
-   sound/soc/hisilicon/hi3660-i2s.c: In function 'hi3660_i2s_remove':
-   sound/soc/hisilicon/hi3660-i2s.c:422:9: error: implicit declaration of function 'pinctrl_put'; did you mean 'of_pinctrl_get'? [-Werror=implicit-function-declaration]
-     422 |         pinctrl_put(i2s->pctrl);
-         |         ^~~~~~~~~~~
-         |         of_pinctrl_get
-   cc1: some warnings being treated as errors
+   In file included from drivers/hwmon/sht3x.c:17:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/hwmon/sht3x.c:17:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/hwmon/sht3x.c:17:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   drivers/hwmon/sht3x.c:25:28: warning: unused variable 'sht3x_cmd_measure_blocking_hpm' [-Wunused-const-variable]
+      25 | static const unsigned char sht3x_cmd_measure_blocking_hpm[]    = { 0x2c, 0x06 };
+         |                            ^
+>> drivers/hwmon/sht3x.c:29:28: warning: unused variable 'sht3x_cmd_measure_blocking_mpm' [-Wunused-const-variable]
+      29 | static const unsigned char sht3x_cmd_measure_blocking_mpm[]    = { 0x2c, 0x0d };
+         |                            ^
+   drivers/hwmon/sht3x.c:33:28: warning: unused variable 'sht3x_cmd_measure_blocking_lpm' [-Wunused-const-variable]
+      33 | static const unsigned char sht3x_cmd_measure_blocking_lpm[]    = { 0x2c, 0x10 };
+         |                            ^
+   9 warnings generated.
 
 
-vim +377 sound/soc/hisilicon/hi3660-i2s.c
+vim +/sht3x_cmd_measure_blocking_mpm +29 drivers/hwmon/sht3x.c
 
-   332	
-   333	static int hi3660_i2s_probe(struct platform_device *pdev)
-   334	{
-   335		struct device *dev = &pdev->dev;
-   336		struct hi3660_i2s *i2s;
-   337		struct resource *res;
-   338		int ret;
-   339	
-   340		i2s = devm_kzalloc(dev, sizeof(*i2s), GFP_KERNEL);
-   341		if (!i2s)
-   342			return -ENOMEM;
-   343	
-   344		i2s->dev = dev;
-   345		spin_lock_init(&i2s->lock);
-   346	
-   347		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-   348		if (!res) {
-   349			ret = -ENODEV;
-   350			return ret;
-   351		}
-   352		i2s->base_phys = (phys_addr_t)res->start;
-   353	
-   354		i2s->dai = dai_init;
-   355		dev_set_drvdata(&pdev->dev, i2s);
-   356	
-   357		i2s->base = devm_ioremap_resource(dev, res);
-   358		if (IS_ERR(i2s->base)) {
-   359			dev_err(&pdev->dev, "ioremap failed\n");
-   360			ret = PTR_ERR(i2s->base);
-   361			return ret;
-   362		}
-   363	
-   364		res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-   365		if (!res) {
-   366			ret = -ENODEV;
-   367			return ret;
-   368		}
-   369		i2s->base_syscon = devm_ioremap(dev, res->start, resource_size(res));
-   370		if (IS_ERR(i2s->base_syscon)) {
-   371			dev_err(&pdev->dev, "ioremap failed\n");
-   372			ret = PTR_ERR(i2s->base_syscon);
-   373			return ret;
-   374		}
-   375	
-   376		/* i2s iomux config */
- > 377		i2s->pctrl = devm_pinctrl_get(dev);
-   378		if (IS_ERR(i2s->pctrl)) {
-   379			dev_err(dev, "could not get pinctrl\n");
-   380			ret = -EIO;
-   381			return ret;
-   382		}
-   383	
- > 384		i2s->pin_default = pinctrl_lookup_state(i2s->pctrl,
-   385						PINCTRL_STATE_DEFAULT);
-   386		if (IS_ERR(i2s->pin_default)) {
-   387			dev_err(dev,
-   388				"could not get default state (%li)\n",
-   389				PTR_ERR(i2s->pin_default));
-   390			ret = -EIO;
-   391			return ret;
-   392		}
-   393	
-   394		if (pinctrl_select_state(i2s->pctrl, i2s->pin_default)) {
-   395			dev_err(dev, "could not set pins to default state\n");
-   396			ret = -EIO;
-   397			return ret;
-   398		}
-   399	
-   400		ret = devm_snd_dmaengine_pcm_register(&pdev->dev,
-   401					&dmaengine_pcm_config, 0);
-   402		if (ret)
-   403			return ret;
-   404	
-   405		ret = snd_soc_register_component(&pdev->dev, &component_driver,
-   406					&i2s->dai, 1);
-   407		if (ret) {
-   408			dev_err(&pdev->dev, "Failed to register dai\n");
-   409			return ret;
-   410		}
-   411	
-   412		return 0;
-   413	}
-   414	
+    27	
+    28	/* commands (medium repeatability mode) */
+  > 29	static const unsigned char sht3x_cmd_measure_blocking_mpm[]    = { 0x2c, 0x0d };
+    30	static const unsigned char sht3x_cmd_measure_nonblocking_mpm[] = { 0x24, 0x0b };
+    31	
 
 -- 
 0-DAY CI Kernel Test Service
