@@ -1,60 +1,43 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFCDD5662
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 08:31:20 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-518ff822360so255839a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 01:31:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686731479; x=1689323479;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C4Dwzpmu97rB4KGedpolZ2PzKDT8YYymn8b5lJF/SX4=;
-        b=gBzww61T0ywzKRsyVhVVetgCEOorYCnpSpcgfkv1EjanKif3e347h79AUCNTT3ex/O
-         FR358bVOdkyNPXxeuHUREyRFGXwDHDXu213mxD0SPo1MEQspSwk61zE/KnB9mG3VL7kz
-         cqqD2K4kHb2kx2rRhw0zjDe551J8sdIzi/BJNC7yxPSi4SJSTk3pbw3b6fVPnZv1hbvt
-         4ewjirCPH2UG0mbSkGjD8lkfdKoL2hkYJ5WRgY6tgY7R7xPAHVZpkO3WLypmQc86SA9R
-         O1pvfjkc3qAk4pDwi4A5B407lQFS9WZpJ1uIuDRDUz+YhUjJdcyY7QjWE1v1p04QwLgd
-         zXag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686731479; x=1689323479;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C4Dwzpmu97rB4KGedpolZ2PzKDT8YYymn8b5lJF/SX4=;
-        b=OdcuhADWNAqEy2cKchNPOe8Z1fOeAX9v9VbVAHvXqdTGTTN5K8L/v0hO6uCLYmMxyy
-         KB6rWVajeT5/NVsTYjsBX7a6MK0lW5JGbJeUcfcKrHfiViKxz2fR9JSq9ezkbIWBh6KR
-         wCnlTazcwH9+9JtwjM/1BLk2Bx3grvZKEQ1t7YwlGsPNV5BtBfk/lovTRZaz6As8ZiJC
-         d0mEp28oPh5GW68IKv7e6QVkEXkNF6jpi2g4PODhbMJLXT1wBOsZUZlhCmAc9AAnFfKC
-         8Q4tQjJzAquhr3dhc5Ph6zWKlvRDsWc71cdk3SxmE5SGJ4lhovw/5sQOA/HoVPGnrTwY
-         hfxA==
-X-Gm-Message-State: AC+VfDyXHE+fXZQd228KNVXdCBUM5YbKaOJNmVIUSZD0TCK0DgI3lrDt
-	aPqjuZvvDCKR/lut15+GBXU=
-X-Google-Smtp-Source: ACHHUZ6DcSpPFTbStVYnSzS6jXiaHrNTaQlPE8PsvR9Xlww/NYGllA2HBOudCqtuw+SjzpCp5GKsaA==
-X-Received: by 2002:a50:ed84:0:b0:518:e7fc:33d1 with SMTP id h4-20020a50ed84000000b00518e7fc33d1mr320418edr.41.1686731478635;
-        Wed, 14 Jun 2023 01:31:18 -0700 (PDT)
-Received: from gmail.com ([81.168.73.77])
-        by smtp.gmail.com with ESMTPSA id v11-20020aa7d80b000000b005187bc1e2c8sm931896edq.72.2023.06.14.01.31.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Jun 2023 01:31:18 -0700 (PDT)
-Date: Wed, 14 Jun 2023 09:31:15 +0100
-From: Martin Habets <habetsm.xilinx@gmail.com>
-To: edward.cree@amd.com
-Cc: linux-net-drivers@amd.com, davem@davemloft.net, kuba@kernel.org,
-	pabeni@redhat.com, edumazet@google.com,
-	Edward Cree <ecree.xilinx@gmail.com>, netdev@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev, simon.horman@corigine.com,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH net-next] sfc: do not try to call tc functions when
- CONFIG_SFC_SRIOV=n
-Message-ID: <ZIl608QjU0HoX5l7@gmail.com>
-Mail-Followup-To: edward.cree@amd.com, linux-net-drivers@amd.com,
-	davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
-	edumazet@google.com, Edward Cree <ecree.xilinx@gmail.com>,
-	netdev@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	simon.horman@corigine.com, kernel test robot <lkp@intel.com>
-References: <20230612205428.1780-1-edward.cree@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFCE8C1B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 08:32:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686731535; x=1718267535;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WucSbq2K4kR853zKx414lhpfu5VLT6dQ6KbfH+gmmb0=;
+  b=Ylmqwo14tj8glPtmRzTlpAxqVLoKsTh81LS525hFuyspVQ1qBRa0c+35
+   bc+PUfaLWF85ClTbkSgqy03d7TD2k6qXdjYvehnz1ZhuM/TS+ylqMsrTu
+   wa/0tetn0c3KYf1eSH7alEieWLDevAt7AHtckGSzm+LwxeE5xesWe7NgL
+   LZsKo+oBerIuixcROPS5JEThPb0hzvS03FPnLIHrqLXqGjTN/ZVuF5Gx+
+   DFmZBryGX75idh6MrxwbSmLVKgxfHkuDTcN/XWF6A3ueBBBdR/0IWbbL9
+   NgA5n7TGWJUIM7JCpCTZZHAjT0VT6R/tqZJhfF21m+3CKX+UstdU81v6e
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="361037774"
+X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
+   d="scan'208";a="361037774"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 01:32:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="836196069"
+X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
+   d="scan'208";a="836196069"
+Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 14 Jun 2023 01:32:13 -0700
+Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9LvI-0000R7-0c;
+	Wed, 14 Jun 2023 08:32:12 +0000
+Date: Wed, 14 Jun 2023 16:31:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fan_pre_modify 26/29] fs/ksmbd/vfs.c:683:49: error:
+ passing argument 4 of 'vfs_path_parent_lookup' from incompatible pointer
+ type
+Message-ID: <202306141658.BwF1qKuS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,117 +46,177 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230612205428.1780-1-edward.cree@amd.com>
 
-On Mon, Jun 12, 2023 at 09:54:28PM +0100, edward.cree@amd.com wrote:
-> From: Edward Cree <ecree.xilinx@gmail.com>
-> 
-> Functions efx_tc_netdev_event and efx_tc_netevent_event do not exist
->  in that case as object files tc_bindings.o and tc_encap_actions.o
->  are not built, so the calls to them from ef100_netdev_event and
->  ef100_netevent_event cause link errors.
-> Guard the relevant part of ef100_netdev_event with #ifdef, as well as
->  the entire function ef100_netevent_event and the code that registers
->  and unregisters the netevent notifier.
-> Also guard the includes of tc_bindings.h and tc_encap_actions.h into
->  ef100_netdev.c, as the symbols from these headers are only available
->  when the corresponding object files are built.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202306102026.ISK5JfUQ-lkp@intel.com/
-> Fixes: 7e5e7d800011 ("sfc: neighbour lookup for TC encap action offload")
-> Signed-off-by: Edward Cree <ecree.xilinx@gmail.com>
-> ---
->  drivers/net/ethernet/sfc/ef100_netdev.c | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/sfc/ef100_netdev.c b/drivers/net/ethernet/sfc/ef100_netdev.c
-> index 7f7d560cb2b4..3bb0442de7ea 100644
-> --- a/drivers/net/ethernet/sfc/ef100_netdev.c
-> +++ b/drivers/net/ethernet/sfc/ef100_netdev.c
-> @@ -23,8 +23,10 @@
->  #include "mcdi_filters.h"
->  #include "rx_common.h"
->  #include "ef100_sriov.h"
-> +#ifdef CONFIG_SFC_SRIOV
->  #include "tc_bindings.h"
->  #include "tc_encap_actions.h"
-> +#endif
+tree:   https://github.com/amir73il/linux fan_pre_modify
+head:   d1e12ae958a97a287b314353957ab3c2e110af74
+commit: d1db97dbadc9149238922cf27f79e332c521e02c [26/29] fsnotify: prepare for directory entry pre-modify permission events
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230614/202306141658.BwF1qKuS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build):
+        # https://github.com/amir73il/linux/commit/d1db97dbadc9149238922cf27f79e332c521e02c
+        git remote add amir73il https://github.com/amir73il/linux
+        git fetch --no-tags amir73il fan_pre_modify
+        git checkout d1db97dbadc9149238922cf27f79e332c521e02c
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
 
-Don't do this, it is old-style coding.
-Put a static inline function definition inside the .h files
-for !CONFIG_SFC_SRIOV. Just for the APIs you need.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306141658.BwF1qKuS-lkp@intel.com/
 
->  #include "efx_devlink.h"
->  
->  static void ef100_update_name(struct efx_nic *efx)
-> @@ -301,22 +303,27 @@ int ef100_netdev_event(struct notifier_block *this,
->  {
->  	struct efx_nic *efx = container_of(this, struct efx_nic, netdev_notifier);
->  	struct net_device *net_dev = netdev_notifier_info_to_dev(ptr);
-> +#ifdef CONFIG_SFC_SRIOV
->  	struct ef100_nic_data *nic_data = efx->nic_data;
->  	int err;
-> +#endif
->  
->  	if (efx->net_dev == net_dev &&
->  	    (event == NETDEV_CHANGENAME || event == NETDEV_REGISTER))
->  		ef100_update_name(efx);
->  
-> +#ifdef CONFIG_SFC_SRIOV
->  	if (!nic_data->grp_mae)
+All errors (new ones prefixed by >>):
 
-Use IS_ENABLED(CONFIG_SFC_SRIOV) here, like was done in commit a59f832a71c9.
+   fs/ksmbd/vfs.c: In function 'ksmbd_vfs_rename':
+>> fs/ksmbd/vfs.c:683:49: error: passing argument 4 of 'vfs_path_parent_lookup' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     683 |                                      &new_path, &new_last, &new_type,
+         |                                                 ^~~~~~~~~
+         |                                                 |
+         |                                                 struct qstr *
+   In file included from fs/ksmbd/vfs.c:21:
+   include/linux/namei.h:84:71: note: expected 'struct lookup_result *' but argument is of type 'struct qstr *'
+      84 |                            struct path *parent, struct lookup_result *res,
+         |                                                 ~~~~~~~~~~~~~~~~~~~~~~^~~
+   fs/ksmbd/vfs.c:683:60: error: passing argument 5 of 'vfs_path_parent_lookup' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     683 |                                      &new_path, &new_last, &new_type,
+         |                                                            ^~~~~~~~~
+         |                                                            |
+         |                                                            int *
+   include/linux/namei.h:85:47: note: expected 'const struct path *' but argument is of type 'int *'
+      85 |                            const struct path *root);
+         |                            ~~~~~~~~~~~~~~~~~~~^~~~
+>> fs/ksmbd/vfs.c:682:15: error: too many arguments to function 'vfs_path_parent_lookup'
+     682 |         err = vfs_path_parent_lookup(to, lookup_flags | LOOKUP_BENEATH,
+         |               ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/namei.h:83:5: note: declared here
+      83 | int vfs_path_parent_lookup(struct filename *filename, unsigned int flags,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-Martin
 
->  		return NOTIFY_DONE;
->  	err = efx_tc_netdev_event(efx, event, net_dev);
->  	if (err & NOTIFY_STOP_MASK)
->  		return err;
-> +#endif
->  
->  	return NOTIFY_DONE;
->  }
->  
-> +#ifdef CONFIG_SFC_SRIOV
->  static int ef100_netevent_event(struct notifier_block *this,
->  				unsigned long event, void *ptr)
->  {
-> @@ -329,9 +336,9 @@ static int ef100_netevent_event(struct notifier_block *this,
->  	err = efx_tc_netevent_event(efx, event, ptr);
->  	if (err & NOTIFY_STOP_MASK)
->  		return err;
-> -
->  	return NOTIFY_DONE;
->  };
-> +#endif
->  
->  static int ef100_register_netdev(struct efx_nic *efx)
->  {
-> @@ -392,8 +399,8 @@ void ef100_remove_netdev(struct efx_probe_data *probe_data)
->  	rtnl_unlock();
->  
->  	unregister_netdevice_notifier(&efx->netdev_notifier);
-> -	unregister_netevent_notifier(&efx->netevent_notifier);
->  #if defined(CONFIG_SFC_SRIOV)
-> +	unregister_netevent_notifier(&efx->netevent_notifier);
->  	if (!efx->type->is_vf)
->  		efx_ef100_pci_sriov_disable(efx, true);
->  #endif
-> @@ -513,6 +520,7 @@ int ef100_probe_netdev(struct efx_probe_data *probe_data)
->  		goto fail;
->  	}
->  
-> +#ifdef CONFIG_SFC_SRIOV
->  	efx->netevent_notifier.notifier_call = ef100_netevent_event;
->  	rc = register_netevent_notifier(&efx->netevent_notifier);
->  	if (rc) {
-> @@ -520,6 +528,7 @@ int ef100_probe_netdev(struct efx_probe_data *probe_data)
->  			  "Failed to register netevent notifier, rc=%d\n", rc);
->  		goto fail;
->  	}
-> +#endif
->  
->  	efx_probe_devlink_unlock(efx);
->  	return rc;
+vim +/vfs_path_parent_lookup +683 fs/ksmbd/vfs.c
+
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  657  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  658  int ksmbd_vfs_rename(struct ksmbd_work *work, const struct path *old_path,
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  659  		     char *newname, int flags)
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  660  {
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  661  	struct dentry *old_parent, *new_dentry, *trap;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  662  	struct dentry *old_child = old_path->dentry;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  663  	struct path new_path;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  664  	struct qstr new_last;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  665  	struct renamedata rd;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  666  	struct filename *to;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  667  	struct ksmbd_share_config *share_conf = work->tcon->share_conf;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  668  	struct ksmbd_file *parent_fp;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  669  	int new_type;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  670  	int err, lookup_flags = LOOKUP_NO_SYMLINKS;
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  671  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  672  	if (ksmbd_override_fsids(work))
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  673  		return -ENOMEM;
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  674  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  675  	to = getname_kernel(newname);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  676  	if (IS_ERR(to)) {
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  677  		err = PTR_ERR(to);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  678  		goto revert_fsids;
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  679  	}
+4b637fc1890260 fs/cifsd/vfs.c Namjae Jeon  2021-06-18  680  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  681  retry:
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21 @682  	err = vfs_path_parent_lookup(to, lookup_flags | LOOKUP_BENEATH,
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21 @683  				     &new_path, &new_last, &new_type,
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  684  				     &share_conf->vfs_path);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  685  	if (err)
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  686  		goto out1;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  687  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  688  	if (old_path->mnt != new_path.mnt) {
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  689  		err = -EXDEV;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  690  		goto out2;
+4b637fc1890260 fs/cifsd/vfs.c Namjae Jeon  2021-06-18  691  	}
+4b637fc1890260 fs/cifsd/vfs.c Namjae Jeon  2021-06-18  692  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  693  	trap = lock_rename_child(old_child, new_path.dentry);
+4b637fc1890260 fs/cifsd/vfs.c Namjae Jeon  2021-06-18  694  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  695  	old_parent = dget(old_child->d_parent);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  696  	if (d_unhashed(old_child)) {
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  697  		err = -EINVAL;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  698  		goto out3;
+c36fca8630dda0 fs/cifsd/vfs.c Namjae Jeon  2021-03-30  699  	}
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  700  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  701  	parent_fp = ksmbd_lookup_fd_inode(d_inode(old_child->d_parent));
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  702  	if (parent_fp) {
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  703  		if (parent_fp->daccess & FILE_DELETE_LE) {
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  704  			pr_err("parent dir is opened with delete access\n");
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  705  			err = -ESHARE;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  706  			ksmbd_fd_put(work, parent_fp);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  707  			goto out3;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  708  		}
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  709  		ksmbd_fd_put(work, parent_fp);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  710  	}
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  711  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  712  	new_dentry = lookup_one_qstr_excl(&new_last, new_path.dentry,
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  713  					  lookup_flags | LOOKUP_RENAME_TARGET);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  714  	if (IS_ERR(new_dentry)) {
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  715  		err = PTR_ERR(new_dentry);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  716  		goto out3;
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  717  	}
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  718  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  719  	if (d_is_symlink(new_dentry)) {
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  720  		err = -EACCES;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  721  		goto out4;
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  722  	}
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  723  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  724  	if ((flags & RENAME_NOREPLACE) && d_is_positive(new_dentry)) {
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  725  		err = -EEXIST;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  726  		goto out4;
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  727  	}
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  728  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  729  	if (old_child == trap) {
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  730  		err = -EINVAL;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  731  		goto out4;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  732  	}
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  733  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  734  	if (new_dentry == trap) {
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  735  		err = -ENOTEMPTY;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  736  		goto out4;
+265fd1991c1db8 fs/ksmbd/vfs.c Hyunchul Lee 2021-09-25  737  	}
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  738  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  739  	rd.old_mnt_idmap	= mnt_idmap(old_path->mnt),
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  740  	rd.old_dir		= d_inode(old_parent),
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  741  	rd.old_dentry		= old_child,
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  742  	rd.new_mnt_idmap	= mnt_idmap(new_path.mnt),
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  743  	rd.new_dir		= new_path.dentry->d_inode,
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  744  	rd.new_dentry		= new_dentry,
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  745  	rd.flags		= flags,
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  746  	err = vfs_rename(&rd);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  747  	if (err)
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  748  		ksmbd_debug(VFS, "vfs_rename failed err %d\n", err);
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  749  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  750  out4:
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  751  	dput(new_dentry);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  752  out3:
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  753  	dput(old_parent);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  754  	unlock_rename(old_parent, new_path.dentry);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  755  out2:
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  756  	path_put(&new_path);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  757  
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  758  	if (retry_estale(err, lookup_flags)) {
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  759  		lookup_flags |= LOOKUP_REVAL;
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  760  		goto retry;
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  761  	}
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  762  out1:
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  763  	putname(to);
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  764  revert_fsids:
+74d7970febf7e9 fs/ksmbd/vfs.c Namjae Jeon  2023-04-21  765  	ksmbd_revert_fsids(work);
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  766  	return err;
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  767  }
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon  2021-03-16  768  
+
+:::::: The code at line 683 was first introduced by commit
+:::::: 74d7970febf7e9005375aeda0df821d2edffc9f7 ksmbd: fix racy issue from using ->d_parent and ->d_name
+
+:::::: TO: Namjae Jeon <linkinjeon@kernel.org>
+:::::: CC: Steve French <stfrench@microsoft.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
