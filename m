@@ -1,46 +1,47 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857346AAA;
-	Wed, 14 Jun 2023 10:06:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B736D18
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 14 Jun 2023 10:06:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1686737184; x=1718273184;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jWzfPbhC79qqaHTqzQY7E8PHAXtRi83kN66lly81vR4=;
-  b=eXK7NMJDkytpVIDIHorf/r1W44Fy/007vZo+4MWhpoLJk0YiEnLSIhI8
-   C9/FbQ2/5W0fvfasnaozzdoM0PGHxy/QgQwNiNpPoh3QqSxfVYJkhZDS2
-   5ocu4pj+GRDGfPvWxDFuHfHmdirc9il/TVOxUbWP5Xjy2+H1PJAPGSLNS
-   b0NVDFl6RXujwGPfl0ixVH1TAwtz1CUh+wUkd91O9n3Fq7JjvDW+dQE6L
-   xRhiL5pGbOvd6ystQyFAv6qiR1Rn8S/9ESdTlNhPAnfwIF4tQzK2iQQRU
-   HxvTqzt7z652aoNnun5DveJyN/XOfqXf9us9rhwqMwDe5Vliq1zUWE2Dy
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="361945624"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=u2q7DIL7KZMdPVJY+j0fFB8G8+b/l2FMT+JvZItGZyM=;
+  b=GsnMtH13E9JiaIwDQVW6V25UZ3+y5kmUPF6vNBRYwuqD7OTlEx/nSDJ7
+   exS7Yu1Q1ouNh1+TUekC8kW4oPajkzd1fKZg86jqcfUeMMTpgN6+e7zsk
+   KD29OPU6YnfjV84XQIjI9x6ncWSdZHu8IzQXRcr6yaSiOj/CCTuo/av9z
+   lzsKUTKrSI3y6mlTlP5Os16eXiUJIzEUkFDASI4Z5bIqbhdyXpR+Me/TG
+   wZg7a1yL5uYKVwyyEs/04Q5n+nwCEaWqV1XLtQsKfDmj9ieNt77HDrQa0
+   a8bL1VgDvuqI3iJlkV5Y8212hAL49NHP39Z6OJfI8u4AC3gGOjet7tGbQ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="444943704"
 X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="361945624"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 03:06:23 -0700
+   d="scan'208";a="444943704"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 03:06:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="745021639"
+X-IronPort-AV: E=McAfee;i="6600,9927,10740"; a="824753393"
 X-IronPort-AV: E=Sophos;i="6.00,242,1681196400"; 
-   d="scan'208";a="745021639"
+   d="scan'208";a="824753393"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga001.jf.intel.com with ESMTP; 14 Jun 2023 03:06:21 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 14 Jun 2023 03:06:21 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9NOO-0000Vl-39;
-	Wed, 14 Jun 2023 10:06:20 +0000
-Date: Wed, 14 Jun 2023 18:05:43 +0800
+	id 1q9NOP-0000Vp-0A;
+	Wed, 14 Jun 2023 10:06:21 +0000
+Date: Wed, 14 Jun 2023 18:05:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: JuenKit Yip <JuenKit_Yip@hotmail.com>, linux@roeck-us.net,
-	jdelvare@suse.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	JuenKit Yip <JuenKit_Yip@hotmail.com>
-Subject: Re: [PATCH 1/3] hwmon: (sht3x)remove sht3x_platform_data
-Message-ID: <202306141736.b9bPRO0Z-lkp@intel.com>
-References: <DB4PR10MB6261D79FE16EC2BBD5316B91925AA@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
+To: Guo Ren <guoren@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Greentime Hu <greentime.hu@sifive.com>,
+	Andy Chiu <andy.chiu@sifive.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [linux-next:master 6433/9793] arch/riscv/kernel/signal.c:94:16:
+ sparse: sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202306141719.MJHClSrC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,133 +50,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DB4PR10MB6261D79FE16EC2BBD5316B91925AA@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM>
 
-Hi JuenKit,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.4-rc6 next-20230614]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/JuenKit-Yip/hwmon-sht3x-add-medium-repeatability-support/20230614-143100
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/DB4PR10MB6261D79FE16EC2BBD5316B91925AA%40DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM
-patch subject: [PATCH 1/3] hwmon: (sht3x)remove sht3x_platform_data
-config: hexagon-randconfig-r045-20230612 (https://download.01.org/0day-ci/archive/20230614/202306141736.b9bPRO0Z-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   b16049b21162bb649cdd8519642a35972b7910fe
+commit: fa8e7cce55da3569259dc270801885c420eb50fe [6433/9793] riscv: Enable Vector code to be built
+config: riscv-randconfig-s031-20230612 (https://download.01.org/0day-ci/archive/20230614/202306141719.MJHClSrC-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce:
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add groeck-staging https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git
-        git fetch groeck-staging hwmon-next
-        git checkout groeck-staging/hwmon-next
-        b4 shazam https://lore.kernel.org/r/DB4PR10MB6261D79FE16EC2BBD5316B91925AA@DB4PR10MB6261.EURPRD10.PROD.OUTLOOK.COM
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=fa8e7cce55da3569259dc270801885c420eb50fe
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout fa8e7cce55da3569259dc270801885c420eb50fe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/hwmon/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306141736.b9bPRO0Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306141719.MJHClSrC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zihintpause'
+>> arch/riscv/kernel/signal.c:94:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *__x @@     got void [noderef] __user *[assigned] datap @@
+   arch/riscv/kernel/signal.c:94:16: sparse:     expected void *__x
+   arch/riscv/kernel/signal.c:94:16: sparse:     got void [noderef] __user *[assigned] datap
+>> arch/riscv/kernel/signal.c:126:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *datap @@     got void * @@
+   arch/riscv/kernel/signal.c:126:15: sparse:     expected void [noderef] __user *datap
+   arch/riscv/kernel/signal.c:126:15: sparse:     got void *
+>> arch/riscv/kernel/signal.c:126:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *datap @@     got void * @@
+   arch/riscv/kernel/signal.c:126:15: sparse:     expected void [noderef] __user *datap
+   arch/riscv/kernel/signal.c:126:15: sparse:     got void *
+>> arch/riscv/kernel/signal.c:126:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *datap @@     got void * @@
+   arch/riscv/kernel/signal.c:126:15: sparse:     expected void [noderef] __user *datap
+   arch/riscv/kernel/signal.c:126:15: sparse:     got void *
+>> arch/riscv/kernel/signal.c:126:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *datap @@     got void * @@
+   arch/riscv/kernel/signal.c:126:15: sparse:     expected void [noderef] __user *datap
+   arch/riscv/kernel/signal.c:126:15: sparse:     got void *
 
-   In file included from drivers/hwmon/sht3x.c:17:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/hwmon/sht3x.c:17:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/hwmon/sht3x.c:17:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/hwmon/sht3x.c:25:28: warning: unused variable 'sht3x_cmd_measure_blocking_hpm' [-Wunused-const-variable]
-      25 | static const unsigned char sht3x_cmd_measure_blocking_hpm[]    = { 0x2c, 0x06 };
-         |                            ^
->> drivers/hwmon/sht3x.c:29:28: warning: unused variable 'sht3x_cmd_measure_blocking_lpm' [-Wunused-const-variable]
-      29 | static const unsigned char sht3x_cmd_measure_blocking_lpm[]    = { 0x2c, 0x10 };
-         |                            ^
-   8 warnings generated.
+vim +94 arch/riscv/kernel/signal.c
 
+8ee0b41898fa26 Greentime Hu 2023-06-05   72  
+8ee0b41898fa26 Greentime Hu 2023-06-05   73  static long save_v_state(struct pt_regs *regs, void __user **sc_vec)
+8ee0b41898fa26 Greentime Hu 2023-06-05   74  {
+8ee0b41898fa26 Greentime Hu 2023-06-05   75  	struct __riscv_ctx_hdr __user *hdr;
+8ee0b41898fa26 Greentime Hu 2023-06-05   76  	struct __sc_riscv_v_state __user *state;
+8ee0b41898fa26 Greentime Hu 2023-06-05   77  	void __user *datap;
+8ee0b41898fa26 Greentime Hu 2023-06-05   78  	long err;
+8ee0b41898fa26 Greentime Hu 2023-06-05   79  
+8ee0b41898fa26 Greentime Hu 2023-06-05   80  	hdr = *sc_vec;
+8ee0b41898fa26 Greentime Hu 2023-06-05   81  	/* Place state to the user's signal context space after the hdr */
+8ee0b41898fa26 Greentime Hu 2023-06-05   82  	state = (struct __sc_riscv_v_state __user *)(hdr + 1);
+8ee0b41898fa26 Greentime Hu 2023-06-05   83  	/* Point datap right after the end of __sc_riscv_v_state */
+8ee0b41898fa26 Greentime Hu 2023-06-05   84  	datap = state + 1;
+8ee0b41898fa26 Greentime Hu 2023-06-05   85  
+8ee0b41898fa26 Greentime Hu 2023-06-05   86  	/* datap is designed to be 16 byte aligned for better performance */
+8ee0b41898fa26 Greentime Hu 2023-06-05   87  	WARN_ON(unlikely(!IS_ALIGNED((unsigned long)datap, 16)));
+8ee0b41898fa26 Greentime Hu 2023-06-05   88  
+8ee0b41898fa26 Greentime Hu 2023-06-05   89  	riscv_v_vstate_save(current, regs);
+8ee0b41898fa26 Greentime Hu 2023-06-05   90  	/* Copy everything of vstate but datap. */
+8ee0b41898fa26 Greentime Hu 2023-06-05   91  	err = __copy_to_user(&state->v_state, &current->thread.vstate,
+8ee0b41898fa26 Greentime Hu 2023-06-05   92  			     offsetof(struct __riscv_v_ext_state, datap));
+8ee0b41898fa26 Greentime Hu 2023-06-05   93  	/* Copy the pointer datap itself. */
+8ee0b41898fa26 Greentime Hu 2023-06-05  @94  	err |= __put_user(datap, &state->v_state.datap);
+8ee0b41898fa26 Greentime Hu 2023-06-05   95  	/* Copy the whole vector content to user space datap. */
+8ee0b41898fa26 Greentime Hu 2023-06-05   96  	err |= __copy_to_user(datap, current->thread.vstate.datap, riscv_v_vsize);
+8ee0b41898fa26 Greentime Hu 2023-06-05   97  	/* Copy magic to the user space after saving  all vector conetext */
+8ee0b41898fa26 Greentime Hu 2023-06-05   98  	err |= __put_user(RISCV_V_MAGIC, &hdr->magic);
+8ee0b41898fa26 Greentime Hu 2023-06-05   99  	err |= __put_user(riscv_v_sc_size, &hdr->size);
+8ee0b41898fa26 Greentime Hu 2023-06-05  100  	if (unlikely(err))
+8ee0b41898fa26 Greentime Hu 2023-06-05  101  		return err;
+8ee0b41898fa26 Greentime Hu 2023-06-05  102  
+8ee0b41898fa26 Greentime Hu 2023-06-05  103  	/* Only progress the sv_vec if everything has done successfully  */
+8ee0b41898fa26 Greentime Hu 2023-06-05  104  	*sc_vec += riscv_v_sc_size;
+8ee0b41898fa26 Greentime Hu 2023-06-05  105  	return 0;
+8ee0b41898fa26 Greentime Hu 2023-06-05  106  }
+8ee0b41898fa26 Greentime Hu 2023-06-05  107  
+8ee0b41898fa26 Greentime Hu 2023-06-05  108  /*
+8ee0b41898fa26 Greentime Hu 2023-06-05  109   * Restore Vector extension context from the user's signal frame. This function
+8ee0b41898fa26 Greentime Hu 2023-06-05  110   * assumes a valid extension header. So magic and size checking must be done by
+8ee0b41898fa26 Greentime Hu 2023-06-05  111   * the caller.
+8ee0b41898fa26 Greentime Hu 2023-06-05  112   */
+8ee0b41898fa26 Greentime Hu 2023-06-05  113  static long __restore_v_state(struct pt_regs *regs, void __user *sc_vec)
+8ee0b41898fa26 Greentime Hu 2023-06-05  114  {
+8ee0b41898fa26 Greentime Hu 2023-06-05  115  	long err;
+8ee0b41898fa26 Greentime Hu 2023-06-05  116  	struct __sc_riscv_v_state __user *state = sc_vec;
+8ee0b41898fa26 Greentime Hu 2023-06-05  117  	void __user *datap;
+8ee0b41898fa26 Greentime Hu 2023-06-05  118  
+8ee0b41898fa26 Greentime Hu 2023-06-05  119  	/* Copy everything of __sc_riscv_v_state except datap. */
+8ee0b41898fa26 Greentime Hu 2023-06-05  120  	err = __copy_from_user(&current->thread.vstate, &state->v_state,
+8ee0b41898fa26 Greentime Hu 2023-06-05  121  			       offsetof(struct __riscv_v_ext_state, datap));
+8ee0b41898fa26 Greentime Hu 2023-06-05  122  	if (unlikely(err))
+8ee0b41898fa26 Greentime Hu 2023-06-05  123  		return err;
+8ee0b41898fa26 Greentime Hu 2023-06-05  124  
+8ee0b41898fa26 Greentime Hu 2023-06-05  125  	/* Copy the pointer datap itself. */
+8ee0b41898fa26 Greentime Hu 2023-06-05 @126  	err = __get_user(datap, &state->v_state.datap);
+8ee0b41898fa26 Greentime Hu 2023-06-05  127  	if (unlikely(err))
+8ee0b41898fa26 Greentime Hu 2023-06-05  128  		return err;
+8ee0b41898fa26 Greentime Hu 2023-06-05  129  	/*
+8ee0b41898fa26 Greentime Hu 2023-06-05  130  	 * Copy the whole vector content from user space datap. Use
+8ee0b41898fa26 Greentime Hu 2023-06-05  131  	 * copy_from_user to prevent information leak.
+8ee0b41898fa26 Greentime Hu 2023-06-05  132  	 */
+8ee0b41898fa26 Greentime Hu 2023-06-05  133  	err = copy_from_user(current->thread.vstate.datap, datap, riscv_v_vsize);
+8ee0b41898fa26 Greentime Hu 2023-06-05  134  	if (unlikely(err))
+8ee0b41898fa26 Greentime Hu 2023-06-05  135  		return err;
+8ee0b41898fa26 Greentime Hu 2023-06-05  136  
+8ee0b41898fa26 Greentime Hu 2023-06-05  137  	riscv_v_vstate_restore(current, regs);
+8ee0b41898fa26 Greentime Hu 2023-06-05  138  
+8ee0b41898fa26 Greentime Hu 2023-06-05  139  	return err;
+8ee0b41898fa26 Greentime Hu 2023-06-05  140  }
+8ee0b41898fa26 Greentime Hu 2023-06-05  141  #else
+8ee0b41898fa26 Greentime Hu 2023-06-05  142  #define save_v_state(task, regs) (0)
+8ee0b41898fa26 Greentime Hu 2023-06-05  143  #define __restore_v_state(task, regs) (0)
+8ee0b41898fa26 Greentime Hu 2023-06-05  144  #endif
+8ee0b41898fa26 Greentime Hu 2023-06-05  145  
 
-vim +/sht3x_cmd_measure_blocking_hpm +25 drivers/hwmon/sht3x.c
+:::::: The code at line 94 was first introduced by commit
+:::::: 8ee0b41898fa26f66e32237f179b6989c65600d6 riscv: signal: Add sigcontext save/restore for vector
 
-7c84f7f80d6fcea David Frey  2016-06-02  23  
-cecbab8bdd40311 JuenKit Yip 2023-06-14  24  /* commands (high repeatability mode) */
-7c84f7f80d6fcea David Frey  2016-06-02 @25  static const unsigned char sht3x_cmd_measure_blocking_hpm[]    = { 0x2c, 0x06 };
-7c84f7f80d6fcea David Frey  2016-06-02  26  static const unsigned char sht3x_cmd_measure_nonblocking_hpm[] = { 0x24, 0x00 };
-7c84f7f80d6fcea David Frey  2016-06-02  27  
-cecbab8bdd40311 JuenKit Yip 2023-06-14  28  /* commands (low repeatability mode) */
-7c84f7f80d6fcea David Frey  2016-06-02 @29  static const unsigned char sht3x_cmd_measure_blocking_lpm[]    = { 0x2c, 0x10 };
-7c84f7f80d6fcea David Frey  2016-06-02  30  static const unsigned char sht3x_cmd_measure_nonblocking_lpm[] = { 0x24, 0x16 };
-7c84f7f80d6fcea David Frey  2016-06-02  31  
+:::::: TO: Greentime Hu <greentime.hu@sifive.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
