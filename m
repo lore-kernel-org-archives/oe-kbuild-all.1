@@ -1,43 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539FC13AD3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 12:28:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A98111AE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 13:00:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686832139; x=1718368139;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PSrskKZlWmBYo3xhpR4fwlF8ORJQIJHlRyLeM9j3t38=;
-  b=WccgpZ1C+rjikIBdA6Il9xOIQCwNpcHHHavaS+zW9m6IcU4No4llwMPm
-   keuym44SuHZymlW7MhWXq7FbNh7mTjP5i0ZEMp/aipDOxsax7o1dbIFim
-   Z0O4wYXn3MLDcGpUmNXDyJaY/gNt7MP0dqILHcgL5CZnShX1ZE0PEfmrk
-   wfmOID8m+QYEZuxSYPTosdLdhTvVfpj7twOJE9/Jk2EpTtMXtgaKLJbBO
-   zVr2/2QxNK7PzdDr2euwerH3PhW0Om89dYOy2ttYDanahwktBm2WJtjVW
-   9kgyjCgIRUanfFrz4EQ1JCLZ9mp8q29YGKqsEndX9+K/UExHyitppq4Wj
+  t=1686834030; x=1718370030;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=d0C+2QcZtEGWqlsBunLxrJlnDJ+Op1JSkAOIGof6GIU=;
+  b=R+iM+Z6uZ0hj9SuKAZFOzPofwfzlKRF1MJ6Vv+tS4cccF8G8OzoVAqGB
+   /ROKGo3Yn9Y45JE9+RC/lPTYt6+2BinDSeN3leGcLuuVCdhxReBqr4DZ6
+   qjxv3ujDfchsLsKemBnYHG+nfSlyh9E9CGggSaT28owmUWY2f0TBcXcRX
+   G+L4jqJW3x7Z5a/6Sb8OXE+cy8y6thJYc6hmXRW1+GsZmlqLIB+vW5ALM
+   xh7bZg+h0DOub8B6GIMZtZoBOczbk6YePRVaaJrry0zvyBonmR3eidoUP
+   tgT8pIByfl8t93DL5M5pEzMM2+DFFRF7EKyPj34lA3ghqfDihnklwY/kT
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="343598051"
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="348574610"
 X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="343598051"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 05:28:58 -0700
+   d="scan'208";a="348574610"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 06:00:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="777645970"
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="856944163"
 X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="777645970"
+   d="scan'208";a="856944163"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Jun 2023 05:28:57 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 15 Jun 2023 06:00:23 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9m5w-0001sR-2K;
-	Thu, 15 Jun 2023 12:28:56 +0000
-Date: Thu, 15 Jun 2023 20:28:42 +0800
+	id 1q9maN-0001tx-0F;
+	Thu, 15 Jun 2023 13:00:23 +0000
+Date: Thu, 15 Jun 2023 21:00:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 5610/26444]
- kernel/power/wakeup_reason.c:199:6: warning: no previous prototype for
- function '__log_abort_or_abnormal_wake'
-Message-ID: <202306152055.1wFcVsQY-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: [intel-lts:4.19/android_s 4065/30000]
+ security/integrity/ima/ima_policy.c:332:57: warning: passing argument 1 of
+ 'security_filter_rule_match' makes integer from pointer without a cast
+Message-ID: <202306152032.IDjTHesc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,73 +46,186 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Kelly,
+Hi Casey,
 
 FYI, the error/warning still remains.
 
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   e699d543bbc9d7614db3e01323c9321437304286
-commit: 189ced91cd7b0e440b0be876406fd36313a11c3f [5610/26444] ANDROID: power: wakeup_reason: wake reason enhancements
-config: x86_64-randconfig-r022-20230615 (https://download.01.org/0day-ci/archive/20230615/202306152055.1wFcVsQY-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   84b0def7f5485c67cb173427c2009a55c6303842
+commit: eed83a72594ddc4b511764ff1255ae244f8a0bc9 [4065/30000] LSM: Use multiple secids in LSM interfaces
+config: microblaze-buildonly-randconfig-r006-20230614 (https://download.01.org/0day-ci/archive/20230615/202306152032.IDjTHesc-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common android11-5.4
-        git checkout 189ced91cd7b0e440b0be876406fd36313a11c3f
+        # https://github.com/intel/linux-intel-lts/commit/eed83a72594ddc4b511764ff1255ae244f8a0bc9
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
+        git fetch --no-tags intel-lts 4.19/android_s
+        git checkout eed83a72594ddc4b511764ff1255ae244f8a0bc9
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash kernel/power/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash M=security/integrity/ima
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306152055.1wFcVsQY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306152032.IDjTHesc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/power/wakeup_reason.c:199:6: warning: no previous prototype for function '__log_abort_or_abnormal_wake' [-Wmissing-prototypes]
-   void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
-        ^
-   kernel/power/wakeup_reason.c:199:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
-   ^
-   static 
-   kernel/power/wakeup_reason.c:378:12: warning: no previous prototype for function 'wakeup_reason_init' [-Wmissing-prototypes]
-   int __init wakeup_reason_init(void)
-              ^
-   kernel/power/wakeup_reason.c:378:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __init wakeup_reason_init(void)
-   ^
-   static 
-   2 warnings generated.
+   security/integrity/ima/ima_policy.c: In function 'ima_lsm_update_rules':
+   security/integrity/ima/ima_policy.c:253:13: warning: variable 'result' set but not used [-Wunused-but-set-variable]
+     253 |         int result;
+         |             ^~~~~~
+   security/integrity/ima/ima_policy.c: In function 'ima_match_rules':
+>> security/integrity/ima/ima_policy.c:332:57: warning: passing argument 1 of 'security_filter_rule_match' makes integer from pointer without a cast [-Wint-conversion]
+     332 |                         rc = security_filter_rule_match(&osid,
+         |                                                         ^~~~~
+         |                                                         |
+         |                                                         struct secids *
+   In file included from security/integrity/ima/ima_policy.c:24:
+   security/integrity/ima/ima.h:311:50: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'struct secids *'
+     311 | static inline int security_filter_rule_match(u32 secid, u32 field, u32 op,
+         |                                              ~~~~^~~~~
+   security/integrity/ima/ima_policy.c:341:57: warning: passing argument 1 of 'security_filter_rule_match' makes integer from pointer without a cast [-Wint-conversion]
+     341 |                         rc = security_filter_rule_match(secid,
+         |                                                         ^~~~~
+         |                                                         |
+         |                                                         struct secids *
+   security/integrity/ima/ima.h:311:50: note: expected 'u32' {aka 'unsigned int'} but argument is of type 'struct secids *'
+     311 | static inline int security_filter_rule_match(u32 secid, u32 field, u32 op,
+         |                                              ~~~~^~~~~
+   security/integrity/ima/ima_policy.c: In function 'ima_init_policy':
+   security/integrity/ima/ima_policy.c:526:23: warning: comparison of unsigned expression in '< 0' is always false [-Wtype-limits]
+     526 |         for (i = 0; i < ARRAY_SIZE(build_appraise_rules); i++) {
+         |                       ^
+   security/integrity/ima/ima_policy.c: In function 'ima_parse_rule':
+   security/integrity/ima/ima_policy.c:856:39: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     856 |                         entry->uid_op = &uid_gt;
+         |                         ~~~~~~~~~~~~~~^~~~~~~~~
+   security/integrity/ima/ima_policy.c:857:17: note: here
+     857 |                 case Opt_uid_lt:
+         |                 ^~~~
+   security/integrity/ima/ima_policy.c:859:28: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     859 |                         if ((token == Opt_uid_lt) || (token == Opt_euid_lt))
+         |                            ^
+   security/integrity/ima/ima_policy.c:861:17: note: here
+     861 |                 case Opt_uid_eq:
+         |                 ^~~~
+   security/integrity/ima/ima_policy.c:888:42: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     888 |                         entry->fowner_op = &uid_gt;
+         |                         ~~~~~~~~~~~~~~~~~^~~~~~~~~
+   security/integrity/ima/ima_policy.c:889:17: note: here
+     889 |                 case Opt_fowner_lt:
+         |                 ^~~~
+   security/integrity/ima/ima_policy.c:890:28: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     890 |                         if (token == Opt_fowner_lt)
+         |                            ^
+   security/integrity/ima/ima_policy.c:892:17: note: here
+     892 |                 case Opt_fowner_eq:
+         |                 ^~~~
+   security/integrity/ima/ima_policy.c:405: warning: Function parameter or member 'flags' not described in 'ima_match_policy'
+   security/integrity/ima/ima_policy.c:999: warning: Function parameter or member 'rule' not described in 'ima_parse_add_rule'
+   microblaze-linux-ld: warning: security/integrity/ima/.tmp_mc_ima_policy.o: missing .note.GNU-stack section implies executable stack
+   microblaze-linux-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
 
 
-vim +/__log_abort_or_abnormal_wake +199 kernel/power/wakeup_reason.c
+vim +/security_filter_rule_match +332 security/integrity/ima/ima_policy.c
 
-   198	
- > 199	void __log_abort_or_abnormal_wake(bool abort, const char *fmt, va_list args)
-   200	{
-   201		unsigned long flags;
-   202	
-   203		spin_lock_irqsave(&wakeup_reason_lock, flags);
-   204	
-   205		/* Suspend abort or abnormal wake reason has already been logged. */
-   206		if (suspend_abort || abnormal_wake) {
-   207			spin_unlock_irqrestore(&wakeup_reason_lock, flags);
-   208			return;
-   209		}
-   210	
-   211		suspend_abort = abort;
-   212		abnormal_wake = !abort;
-   213		vsnprintf(non_irq_wake_reason, MAX_SUSPEND_ABORT_LEN, fmt, args);
-   214	
-   215		spin_unlock_irqrestore(&wakeup_reason_lock, flags);
-   216	}
-   217	
+   268	
+   269	/**
+   270	 * ima_match_rules - determine whether an inode matches the measure rule.
+   271	 * @rule: a pointer to a rule
+   272	 * @inode: a pointer to an inode
+   273	 * @cred: a pointer to a credentials structure for user validation
+   274	 * @secid: the secid of the task to be validated
+   275	 * @func: LIM hook identifier
+   276	 * @mask: requested action (MAY_READ | MAY_WRITE | MAY_APPEND | MAY_EXEC)
+   277	 *
+   278	 * Returns true on rule match, false on failure.
+   279	 */
+   280	static bool ima_match_rules(struct ima_rule_entry *rule, struct inode *inode,
+   281				    const struct cred *cred, struct secids *secid,
+   282				    enum ima_hooks func, int mask)
+   283	{
+   284		int i;
+   285	
+   286		if ((rule->flags & IMA_FUNC) &&
+   287		    (rule->func != func && func != POST_SETATTR))
+   288			return false;
+   289		if ((rule->flags & IMA_MASK) &&
+   290		    (rule->mask != mask && func != POST_SETATTR))
+   291			return false;
+   292		if ((rule->flags & IMA_INMASK) &&
+   293		    (!(rule->mask & mask) && func != POST_SETATTR))
+   294			return false;
+   295		if ((rule->flags & IMA_FSMAGIC)
+   296		    && rule->fsmagic != inode->i_sb->s_magic)
+   297			return false;
+   298		if ((rule->flags & IMA_FSNAME)
+   299		    && strcmp(rule->fsname, inode->i_sb->s_type->name))
+   300			return false;
+   301		if ((rule->flags & IMA_FSUUID) &&
+   302		    !uuid_equal(&rule->fsuuid, &inode->i_sb->s_uuid))
+   303			return false;
+   304		if ((rule->flags & IMA_UID) && !rule->uid_op(cred->uid, rule->uid))
+   305			return false;
+   306		if (rule->flags & IMA_EUID) {
+   307			if (has_capability_noaudit(current, CAP_SETUID)) {
+   308				if (!rule->uid_op(cred->euid, rule->uid)
+   309				    && !rule->uid_op(cred->suid, rule->uid)
+   310				    && !rule->uid_op(cred->uid, rule->uid))
+   311					return false;
+   312			} else if (!rule->uid_op(cred->euid, rule->uid))
+   313				return false;
+   314		}
+   315	
+   316		if ((rule->flags & IMA_FOWNER) &&
+   317		    !rule->fowner_op(inode->i_uid, rule->fowner))
+   318			return false;
+   319		for (i = 0; i < MAX_LSM_RULES; i++) {
+   320			int rc = 0;
+   321			struct secids osid;
+   322			int retried = 0;
+   323	
+   324			if (!rule->lsm[i].rule)
+   325				continue;
+   326	retry:
+   327			switch (i) {
+   328			case LSM_OBJ_USER:
+   329			case LSM_OBJ_ROLE:
+   330			case LSM_OBJ_TYPE:
+   331				security_inode_getsecid(inode, &osid);
+ > 332				rc = security_filter_rule_match(&osid,
+   333								rule->lsm[i].type,
+   334								Audit_equal,
+   335								rule->lsm[i].rule,
+   336								NULL);
+   337				break;
+   338			case LSM_SUBJ_USER:
+   339			case LSM_SUBJ_ROLE:
+   340			case LSM_SUBJ_TYPE:
+   341				rc = security_filter_rule_match(secid,
+   342								rule->lsm[i].type,
+   343								Audit_equal,
+   344								rule->lsm[i].rule,
+   345								NULL);
+   346			default:
+   347				break;
+   348			}
+   349			if ((rc < 0) && (!retried)) {
+   350				retried = 1;
+   351				ima_lsm_update_rules();
+   352				goto retry;
+   353			}
+   354			if (!rc)
+   355				return false;
+   356		}
+   357		return true;
+   358	}
+   359	
 
 -- 
 0-DAY CI Kernel Test Service
