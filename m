@@ -1,136 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC1515AEF;
-	Thu, 15 Jun 2023 15:41:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 830B2C433C8;
-	Thu, 15 Jun 2023 15:41:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686843686;
-	bh=q+fviFTWnM7ClsGX6apcWowNa53cnN1O72GvNjKUj0Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SKfb1f/w9pZO+h+1XLESWFDO2CoIXYaH2Lndd1KRL97/gOrvism9Bmc11aklQSxEi
-	 An/2qknfAU9opeiNg3ImVtB0EkjfCx3A7qrGMk8Z2mTaTfx/vWkx8Gag35CFBbWpb3
-	 EbKdUOHV16f+qV588pDcCYFlogCQNQWLJPhsCrr1uK2dIc0ojkAssqt7DfeLRYT6X4
-	 MPcL5pfJ/0om02PTH8oXR5nZxLFrpy++/40PvwpFf2oAVFcAMf7fZPm0B/nO5pJjKR
-	 hOBUcXtHuMqwMfltRw69f2wj7XhWH3mpI+4okIUy9GqwrtvZYLMRSaTURMF/TqjGIH
-	 /DC7TVaZaqH1Q==
-Date: Thu, 15 Jun 2023 08:41:23 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Yu Kuai <yukuai1@huaweicloud.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-raid@vger.kernel.org,
-	Song Liu <song@kernel.org>, "yukuai (C)" <yukuai3@huawei.com>,
-	Kees Cook <keescook@chromium.org>
-Subject: Re: [song-md:md-next 25/29] drivers/md/raid1-10.c:117:25: error:
- casting from randomized structure pointer type 'struct block_device *' to
- 'struct md_rdev *'
-Message-ID: <20230615154123.GA3665766@dev-arch.thelio-3990X>
-References: <202306142042.fmjfmTF8-lkp@intel.com>
- <dd0d4b24-a149-6796-90c6-b41e569d7902@huaweicloud.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D56D15AEF;
+	Thu, 15 Jun 2023 15:49:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686844180; x=1718380180;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=QHAwpPDLBnad2rYTFxuWJSJKj5sXgh6TSnP5PSsjbW8=;
+  b=Q9Jw3ddQboFTZ5u9cpREOrtyyE6TZanTLaApp/W0ER5STSSm4aQzlOii
+   3wFn0e2PfACsp8a2RbpquuVMU2ioNiQfM3bIClkN3jqmCo8OnLKGONuwt
+   opPTv/shBsLGkn+EdOg1iNEIeYVwreW6sDD4I5jbj0dVbtJ3FBWelm2IW
+   wlQBQnuHykPKtnAa0jPMj8Q/mDRgbGD1cPYpqnuweBY2VMppL+KqhSUn/
+   +l3IqQ45xGLSbB1Jhax0ggeMnvlj23W6LsEL+TXwrZTMkpVMyIXAnt6T0
+   XSD8jSV85DXGFIVePDTNqp52BhBX8gDfptbNb0WbW6Vrxts8LDkH7T9xM
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="343680301"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
+   d="scan'208";a="343680301"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 08:49:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="712508369"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
+   d="scan'208";a="712508369"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 15 Jun 2023 08:49:37 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9pE8-000074-1T;
+	Thu, 15 Jun 2023 15:49:36 +0000
+Date: Thu, 15 Jun 2023 23:49:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Fangrui Song <maskray@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nathan Chancellor <natechancellor@gmail.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [stable:linux-4.19.y 2317/9999] fs/select.c:926:12: warning: stack
+ frame size (1032) exceeds limit (1024) in 'do_sys_poll'
+Message-ID: <202306152308.tdxtNRsg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dd0d4b24-a149-6796-90c6-b41e569d7902@huaweicloud.com>
 
-On Thu, Jun 15, 2023 at 09:47:24AM +0800, Yu Kuai wrote:
-> Hi,
-> 
-> 在 2023/06/14 20:32, kernel test robot 写道:
-> > tree:   git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git md-next
-> > head:   460af1f9d9e62acce4a21f9bd00b5bcd5963bcd4
-> > commit: 8295efbe68c080047e98d9c0eb5cb933b238a8cb [25/29] md/raid1-10: factor out a helper to submit normal write
-> > config: arm-randconfig-r026-20230612 (https://download.01.org/0day-ci/archive/20230614/202306142042.fmjfmTF8-lkp@intel.com/config)
-> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> > reproduce (this is a W=1 build):
-> >          mkdir -p ~/bin
-> >          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> >          chmod +x ~/bin/make.cross
-> >          # install arm cross compiling tool for clang build
-> >          # apt-get install binutils-arm-linux-gnueabi
-> >          # https://git.kernel.org/pub/scm/linux/kernel/git/song/md.git/commit/?id=8295efbe68c080047e98d9c0eb5cb933b238a8cb
-> >          git remote add song-md git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git
-> >          git fetch --no-tags song-md md-next
-> >          git checkout 8295efbe68c080047e98d9c0eb5cb933b238a8cb
-> >          # save the config file
-> >          mkdir build_dir && cp config build_dir/.config
-> >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-> >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306142042.fmjfmTF8-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >     In file included from drivers/md/raid10.c:80:
-> > > > drivers/md/raid1-10.c:117:25: error: casting from randomized structure pointer type 'struct block_device *' to 'struct md_rdev *'
-> >       117 |         struct md_rdev *rdev = (struct md_rdev *)bio->bi_bdev;
-> 
-> I didn't hit this warning with W=1 in my local machine, so I guess this
-> might related to compiler. I'm using gcc (GCC) 12.2.1 and here is clang
-> version 17.0.0.
+Hi Fangrui,
 
-Interesting, I would have expected the GCC plugin to have the same
-behavior as clang (which has randstruct in the compiler proper) and
-error when casting randomized structures but I just tested with
-aarch64-linux-gnu-gcc (GCC) 13.1.0 and drivers/md/raid10.c builds just
-fine, so confirmed.
+First bad commit (maybe != root cause):
 
-For the record, this is a hard error, not a warning, so the build is
-broken in -next because of this:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   c111487599ab513f5a7ae4bb6fedaa077b022ecb
+commit: 69c122751164c3c343eea205fd5c3e1d5132f967 [2317/9999] Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
+config: mips-randconfig-r015-20230614 (https://download.01.org/0day-ci/archive/20230615/202306152308.tdxtNRsg-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/commit/?id=69c122751164c3c343eea205fd5c3e1d5132f967
+        git remote add stable https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+        git fetch --no-tags stable linux-4.19.y
+        git checkout 69c122751164c3c343eea205fd5c3e1d5132f967
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash
 
-https://github.com/ClangBuiltLinux/continuous-integration2/actions/runs/5278732212/jobs/9552208141
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306152308.tdxtNRsg-lkp@intel.com/
 
-> I'm planning to get rid of all these weird usage, which is used a lot in
-> raid, to borrow a field to store something else temporarily, but this
-> might take sometime.
-> 
-> Can someone help to confirm following change can prevent this warning?
-> 
-> struct md_rdev *rdev = (void *)bio->bi_bdev
+All warnings (new ones prefixed by >>):
 
-Yes, this fixes the build.
+   fs/select.c:594:5: warning: stack frame size (1168) exceeds limit (1024) in 'core_sys_select' [-Wframe-larger-than]
+     594 | int core_sys_select(int n, fd_set __user *inp, fd_set __user *outp,
+         |     ^
+>> fs/select.c:926:12: warning: stack frame size (1032) exceeds limit (1024) in 'do_sys_poll' [-Wframe-larger-than]
+     926 | static int do_sys_poll(struct pollfd __user *ufds, unsigned int nfds,
+         |            ^
+   2 warnings generated.
+--
+>> net/ceph/messenger.c:2695:12: warning: stack frame size (1232) exceeds limit (1024) in 'try_read' [-Wframe-larger-than]
+    2695 | static int try_read(struct ceph_connection *con)
+         |            ^
+   1 warning generated.
+--
+   drivers/usb/gadget/function/f_mass_storage.c:953:16: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
+     953 |         unsigned long   rc;
+         |                         ^
+>> drivers/usb/gadget/function/f_mass_storage.c:2445:12: warning: stack frame size (1040) exceeds limit (1024) in 'fsg_main_thread' [-Wframe-larger-than]
+    2445 | static int fsg_main_thread(void *common_)
+         |            ^
+   2 warnings generated.
 
-In the future, if you need to reproduce issues with clang, I have
-prebuilt versions of stable clang/LLVM available on kernel.org:
 
-https://mirrors.edge.kernel.org/pub/tools/llvm/
+vim +/do_sys_poll +926 fs/select.c
 
-Cheers,
-Nathan
+^1da177e4c3f41 Linus Torvalds  2005-04-16  922  
+70674f95c0a2ea Andi Kleen      2006-03-28  923  #define N_STACK_PPS ((sizeof(stack_pps) - sizeof(struct poll_list))  / \
+70674f95c0a2ea Andi Kleen      2006-03-28  924  			sizeof(struct pollfd))
+70674f95c0a2ea Andi Kleen      2006-03-28  925  
+e99ca56ce03dd9 Al Viro         2017-04-08 @926  static int do_sys_poll(struct pollfd __user *ufds, unsigned int nfds,
+766b9f928bd5b9 Deepa Dinamani  2016-05-19  927  		struct timespec64 *end_time)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  928  {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  929  	struct poll_wqueues table;
+252e5725cfb55a Oleg Nesterov   2007-10-16  930   	int err = -EFAULT, fdcount, len, size;
+30c14e40ed8546 Jes Sorensen    2006-03-31  931  	/* Allocate small arguments on the stack to save memory and be
+30c14e40ed8546 Jes Sorensen    2006-03-31  932  	   faster - use long to make sure the buffer is aligned properly
+30c14e40ed8546 Jes Sorensen    2006-03-31  933  	   on 64 bit archs to avoid unaligned access */
+30c14e40ed8546 Jes Sorensen    2006-03-31  934  	long stack_pps[POLL_STACK_ALLOC/sizeof(long)];
+252e5725cfb55a Oleg Nesterov   2007-10-16  935  	struct poll_list *const head = (struct poll_list *)stack_pps;
+252e5725cfb55a Oleg Nesterov   2007-10-16  936   	struct poll_list *walk = head;
+252e5725cfb55a Oleg Nesterov   2007-10-16  937   	unsigned long todo = nfds;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  938  
+d554ed895dc8f2 Jiri Slaby      2010-03-05  939  	if (nfds > rlimit(RLIMIT_NOFILE))
+^1da177e4c3f41 Linus Torvalds  2005-04-16  940  		return -EINVAL;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  941  
+252e5725cfb55a Oleg Nesterov   2007-10-16  942  	len = min_t(unsigned int, nfds, N_STACK_PPS);
+252e5725cfb55a Oleg Nesterov   2007-10-16  943  	for (;;) {
+252e5725cfb55a Oleg Nesterov   2007-10-16  944  		walk->next = NULL;
+252e5725cfb55a Oleg Nesterov   2007-10-16  945  		walk->len = len;
+252e5725cfb55a Oleg Nesterov   2007-10-16  946  		if (!len)
+252e5725cfb55a Oleg Nesterov   2007-10-16  947  			break;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  948  
+252e5725cfb55a Oleg Nesterov   2007-10-16  949  		if (copy_from_user(walk->entries, ufds + nfds-todo,
+252e5725cfb55a Oleg Nesterov   2007-10-16  950  					sizeof(struct pollfd) * walk->len))
+^1da177e4c3f41 Linus Torvalds  2005-04-16  951  			goto out_fds;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  952  
+252e5725cfb55a Oleg Nesterov   2007-10-16  953  		todo -= walk->len;
+252e5725cfb55a Oleg Nesterov   2007-10-16  954  		if (!todo)
+252e5725cfb55a Oleg Nesterov   2007-10-16  955  			break;
+252e5725cfb55a Oleg Nesterov   2007-10-16  956  
+252e5725cfb55a Oleg Nesterov   2007-10-16  957  		len = min(todo, POLLFD_PER_PAGE);
+252e5725cfb55a Oleg Nesterov   2007-10-16  958  		size = sizeof(struct poll_list) + sizeof(struct pollfd) * len;
+252e5725cfb55a Oleg Nesterov   2007-10-16  959  		walk = walk->next = kmalloc(size, GFP_KERNEL);
+252e5725cfb55a Oleg Nesterov   2007-10-16  960  		if (!walk) {
+252e5725cfb55a Oleg Nesterov   2007-10-16  961  			err = -ENOMEM;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  962  			goto out_fds;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  963  		}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  964  	}
+9f72949f679df0 David Woodhouse 2006-01-18  965  
+252e5725cfb55a Oleg Nesterov   2007-10-16  966  	poll_initwait(&table);
+ccec5ee302d5cb Mateusz Guzik   2016-01-06  967  	fdcount = do_poll(head, &table, end_time);
+252e5725cfb55a Oleg Nesterov   2007-10-16  968  	poll_freewait(&table);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  969  
+252e5725cfb55a Oleg Nesterov   2007-10-16  970  	for (walk = head; walk; walk = walk->next) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  971  		struct pollfd *fds = walk->entries;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  972  		int j;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  973  
+252e5725cfb55a Oleg Nesterov   2007-10-16  974  		for (j = 0; j < walk->len; j++, ufds++)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  975  			if (__put_user(fds[j].revents, &ufds->revents))
+^1da177e4c3f41 Linus Torvalds  2005-04-16  976  				goto out_fds;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  977    	}
+252e5725cfb55a Oleg Nesterov   2007-10-16  978  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  979  	err = fdcount;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  980  out_fds:
+252e5725cfb55a Oleg Nesterov   2007-10-16  981  	walk = head->next;
+252e5725cfb55a Oleg Nesterov   2007-10-16  982  	while (walk) {
+252e5725cfb55a Oleg Nesterov   2007-10-16  983  		struct poll_list *pos = walk;
+252e5725cfb55a Oleg Nesterov   2007-10-16  984  		walk = walk->next;
+252e5725cfb55a Oleg Nesterov   2007-10-16  985  		kfree(pos);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  986  	}
+252e5725cfb55a Oleg Nesterov   2007-10-16  987  
+^1da177e4c3f41 Linus Torvalds  2005-04-16  988  	return err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  989  }
+9f72949f679df0 David Woodhouse 2006-01-18  990  
 
-> >           |                                ^
-> >     1 error generated.
-> > 
-> > 
-> > vim +117 drivers/md/raid1-10.c
-> > 
-> >     113	
-> >     114	
-> >     115	static inline void raid1_submit_write(struct bio *bio)
-> >     116	{
-> >   > 117		struct md_rdev *rdev = (struct md_rdev *)bio->bi_bdev;
-> >     118	
-> >     119		bio->bi_next = NULL;
-> >     120		bio_set_dev(bio, rdev->bdev);
-> >     121		if (test_bit(Faulty, &rdev->flags))
-> >     122			bio_io_error(bio);
-> >     123		else if (unlikely(bio_op(bio) ==  REQ_OP_DISCARD &&
-> >     124				  !bdev_max_discard_sectors(bio->bi_bdev)))
-> >     125			/* Just ignore it */
-> >     126			bio_endio(bio);
-> >     127		else
-> >     128			submit_bio_noacct(bio);
-> >     129	}
-> >     130	
-> > 
-> 
-> 
+:::::: The code at line 926 was first introduced by commit
+:::::: e99ca56ce03dd90991025878152bae8b53484147 move compat select-related syscalls to fs/select.c
+
+:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
+:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
