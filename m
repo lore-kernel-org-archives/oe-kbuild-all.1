@@ -1,62 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344DD379;
-	Thu, 15 Jun 2023 01:24:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A8338B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 01:24:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686792262; x=1718328262;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TKMlT1y1/y5VedBm18Sg1VLQSNu3WZkBrgxFikyleQQ=;
-  b=EY3nXxpuelSPTOtvtf/zcrZ91/GsN8NM5U8jsFJGv5h1gII2hw7jwlmu
-   s/xTjlqYlv4pH8XKQT/3IpDzOtHYuS8QXjxBGk4NPVcB7HrduUK2N7dVS
-   KUy6YcgsaX9nglqzxy3k75ZhpYFVhrG/tILQN4ZjCvaoA/6LOzkt54DWz
-   ew3ulEzoQvoYJkKqyhaHbi4uZNETm4Xqd23kG8dgBkfUY3KLtJ912cHmL
-   Mvc7TiQgOLIf5AKSXDjMgkPbD6cYVCbEcWyX+FI5e7WsoJ3gTn13IVYHz
-   cLFlayXr3frLHAQDj/o26SgVyKsJkitYz4TZ/ilnlQvgTSE3BWlEG0bu0
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="422385832"
+  t=1686792263; x=1718328263;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2lTIMXY7e1z/u5pbSnrlSjWqluCgYh6iZsGxcA1Pm70=;
+  b=WuetZd3ilnjUfM0miWF2X8ZxzBbUHfEPMlwJdhVITF+ehykzNjtq6lRp
+   gkU93sowJys7NKoHMhkQZwfCfKLpOU5WC2B1R5edoajWJgi4FzUhPov9H
+   AcXZ+wGPaCuiGTUd/5H6m9usjegzUCb6nBQwy55FOfHtSu6aefgpRaL2H
+   dkd/lawVxQFXlbhlHNP8WGBr8HasDF+uLWoJ0r67fWvdWR65QHrmKzwb7
+   avjC4uyc0LBEx91H3AMuA0T0pFa5nFbrD0/RleJft6/8Ct7hT12t58A93
+   wXyBnLrhXkbEEdOxC3TAjm5xlWii/cTfxGNASu6KvOXvObqQRtvXeZ4fm
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="445149378"
 X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="422385832"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 18:24:11 -0700
+   d="scan'208";a="445149378"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 18:24:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="742052049"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="745291068"
 X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="742052049"
+   d="scan'208";a="745291068"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 14 Jun 2023 18:24:06 -0700
+  by orsmga001.jf.intel.com with ESMTP; 14 Jun 2023 18:24:06 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9biX-0001G1-1L;
+	id 1q9biX-0001G5-1S;
 	Thu, 15 Jun 2023 01:24:05 +0000
-Date: Thu, 15 Jun 2023 09:23:12 +0800
+Date: Thu, 15 Jun 2023 09:23:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Safonov <dima@arista.com>, David Ahern <dsahern@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Dmitry Safonov <dima@arista.com>,
-	Andy Lutomirski <luto@amacapital.net>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Bob Gilligan <gilligan@arista.com>,
-	Dan Carpenter <error27@gmail.com>,
-	David Laight <David.Laight@aculab.com>,
-	Donald Cassidy <dcassidy@redhat.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Eric W. Biederman" <ebiederm@xmission.com>,
-	Francesco Ruggeri <fruggeri05@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-	Ivan Delalande <colona@arista.com>,
-	Leonard Crestez <cdleonard@gmail.com>,
-	Salam Noureddine <noureddine@arista.com>
-Subject: Re: [PATCH v7 08/22] net/tcp: Add AO sign to RST packets
-Message-ID: <202306150955.0sJRXmfG-lkp@intel.com>
-References: <20230614230947.3954084-9-dima@arista.com>
+To: Omar Sandoval <osandov@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, Omar Sandoval <osandov@osandov.com>
+Subject: [osandov:xfs-realtime-optimizations 1/6]
+ fs/xfs/libxfs/xfs_rtbitmap.c:933:56: error: passing argument 6 of
+ 'xfs_rtcheck_range' from incompatible pointer type
+Message-ID: <202306150905.VH7UyACg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,137 +46,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230614230947.3954084-9-dima@arista.com>
 
-Hi Dmitry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on b6dad5178ceaf23f369c3711062ce1f2afc33644]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Safonov/net-tcp-Prepare-tcp_md5sig_pool-for-TCP-AO/20230615-071334
-base:   b6dad5178ceaf23f369c3711062ce1f2afc33644
-patch link:    https://lore.kernel.org/r/20230614230947.3954084-9-dima%40arista.com
-patch subject: [PATCH v7 08/22] net/tcp: Add AO sign to RST packets
-config: hexagon-randconfig-r025-20230612 (https://download.01.org/0day-ci/archive/20230615/202306150955.0sJRXmfG-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+tree:   https://github.com/osandov/linux.git xfs-realtime-optimizations
+head:   5ba181479ccf1893587b681617fbeadd7ef8d5df
+commit: fff8e989ac9a63f1c7a2e435384115bff5ba8410 [1/6] xfs: cache last bitmap block in realtime allocator
+config: i386-randconfig-i014-20230612 (https://download.01.org/0day-ci/archive/20230615/202306150905.VH7UyACg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git checkout b6dad5178ceaf23f369c3711062ce1f2afc33644
-        b4 shazam https://lore.kernel.org/r/20230614230947.3954084-9-dima@arista.com
+        # https://github.com/osandov/linux/commit/fff8e989ac9a63f1c7a2e435384115bff5ba8410
+        git remote add osandov https://github.com/osandov/linux.git
+        git fetch --no-tags osandov xfs-realtime-optimizations
+        git checkout fff8e989ac9a63f1c7a2e435384115bff5ba8410
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash net/ipv6/
+        make W=1 O=build_dir ARCH=i386 olddefconfig
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306150955.0sJRXmfG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306150905.VH7UyACg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from net/ipv6/tcp_ipv6.c:32:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from net/ipv6/tcp_ipv6.c:32:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from net/ipv6/tcp_ipv6.c:32:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> net/ipv6/tcp_ipv6.c:1136:1: warning: unused label 'out' [-Wunused-label]
-    1136 | out:
-         | ^~~~
-    1137 |         rcu_read_unlock();
-   7 warnings generated.
+   fs/xfs/libxfs/xfs_rtbitmap.c: In function 'xfs_rtcheck_alloc_range':
+>> fs/xfs/libxfs/xfs_rtbitmap.c:933:56: error: passing argument 6 of 'xfs_rtcheck_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     933 |         error = xfs_rtcheck_range(mp, tp, bno, len, 0, &new, &stat);
+         |                                                        ^~~~
+         |                                                        |
+         |                                                        xfs_rtblock_t * {aka long long unsigned int *}
+   fs/xfs/libxfs/xfs_rtbitmap.c:758:33: note: expected 'struct xfs_rtbuf_cache *' but argument is of type 'xfs_rtblock_t *' {aka 'long long unsigned int *'}
+     758 |         struct xfs_rtbuf_cache *rtbufc, /* in/out: cache of realtime blocks */
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+   fs/xfs/libxfs/xfs_rtbitmap.c:933:62: error: passing argument 7 of 'xfs_rtcheck_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     933 |         error = xfs_rtcheck_range(mp, tp, bno, len, 0, &new, &stat);
+         |                                                              ^~~~~
+         |                                                              |
+         |                                                              int *
+   fs/xfs/libxfs/xfs_rtbitmap.c:759:26: note: expected 'xfs_rtblock_t *' {aka 'long long unsigned int *'} but argument is of type 'int *'
+     759 |         xfs_rtblock_t   *new,           /* out: first block not matching */
+         |         ~~~~~~~~~~~~~~~~~^~~
+>> fs/xfs/libxfs/xfs_rtbitmap.c:933:17: error: too few arguments to function 'xfs_rtcheck_range'
+     933 |         error = xfs_rtcheck_range(mp, tp, bno, len, 0, &new, &stat);
+         |                 ^~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_rtbitmap.c:752:1: note: declared here
+     752 | xfs_rtcheck_range(
+         | ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/out +1136 net/ipv6/tcp_ipv6.c
+vim +/xfs_rtcheck_range +933 fs/xfs/libxfs/xfs_rtbitmap.c
 
-2045a93527d963 Dmitry Safonov           2023-06-15  1110  
-c24b14c46bb88d Song Liu                 2017-10-23  1111  	if (sk) {
-c24b14c46bb88d Song Liu                 2017-10-23  1112  		oif = sk->sk_bound_dev_if;
-052e0690f1f62f Eric Dumazet             2019-07-10  1113  		if (sk_fullsock(sk)) {
-052e0690f1f62f Eric Dumazet             2019-07-10  1114  			const struct ipv6_pinfo *np = tcp_inet6_sk(sk);
-052e0690f1f62f Eric Dumazet             2019-07-10  1115  
-c24b14c46bb88d Song Liu                 2017-10-23  1116  			trace_tcp_send_reset(sk, skb);
-052e0690f1f62f Eric Dumazet             2019-07-10  1117  			if (np->repflow)
-052e0690f1f62f Eric Dumazet             2019-07-10  1118  				label = ip6_flowlabel(ipv6h);
-e9a5dceee56cb5 Eric Dumazet             2019-09-24  1119  			priority = sk->sk_priority;
-dc6456e938e938 Antoine Tenart           2023-04-27  1120  			txhash = sk->sk_txhash;
-052e0690f1f62f Eric Dumazet             2019-07-10  1121  		}
-f6c0f5d209fa80 Eric Dumazet             2019-09-24  1122  		if (sk->sk_state == TCP_TIME_WAIT) {
-50a8accf10627b Eric Dumazet             2019-06-05  1123  			label = cpu_to_be32(inet_twsk(sk)->tw_flowlabel);
-f6c0f5d209fa80 Eric Dumazet             2019-09-24  1124  			priority = inet_twsk(sk)->tw_priority;
-9258b8b1be2e1e Eric Dumazet             2022-09-22  1125  			txhash = inet_twsk(sk)->tw_txhash;
-f6c0f5d209fa80 Eric Dumazet             2019-09-24  1126  		}
-323a53c41292a0 Eric Dumazet             2019-06-05  1127  	} else {
-a346abe051bd2b Eric Dumazet             2019-07-01  1128  		if (net->ipv6.sysctl.flowlabel_reflect & FLOWLABEL_REFLECT_TCP_RESET)
-323a53c41292a0 Eric Dumazet             2019-06-05  1129  			label = ip6_flowlabel(ipv6h);
-c24b14c46bb88d Song Liu                 2017-10-23  1130  	}
-c24b14c46bb88d Song Liu                 2017-10-23  1131  
-e92dd77e6fe0a3 Wei Wang                 2020-09-08  1132  	tcp_v6_send_response(sk, skb, seq, ack_seq, 0, 0, 0, oif, key, 1,
-2045a93527d963 Dmitry Safonov           2023-06-15  1133  			     ipv6_get_dsfield(ipv6h), label, priority, txhash,
-2045a93527d963 Dmitry Safonov           2023-06-15  1134  			     ao_key, traffic_key, rcv_next, ao_sne);
-658ddaaf6694ad Shawn Lu                 2012-01-31  1135  
-3b24d854cb3538 Eric Dumazet             2016-04-01 @1136  out:
-658ddaaf6694ad Shawn Lu                 2012-01-31  1137  	rcu_read_unlock();
-ecc51b6d5ca04b Arnaldo Carvalho de Melo 2005-12-12  1138  }
-^1da177e4c3f41 Linus Torvalds           2005-04-16  1139  
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  917  
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  918  #ifdef DEBUG
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  919  /*
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  920   * Check that the given extent (block range) is allocated already.
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  921   */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  922  STATIC int				/* error */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  923  xfs_rtcheck_alloc_range(
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  924  	xfs_mount_t	*mp,		/* file system mount point */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  925  	xfs_trans_t	*tp,		/* transaction pointer */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  926  	xfs_rtblock_t	bno,		/* starting block number of extent */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  927  	xfs_extlen_t	len)		/* length of extent */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  928  {
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  929  	xfs_rtblock_t	new;		/* dummy for xfs_rtcheck_range */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  930  	int		stat;
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  931  	int		error;
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  932  
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15 @933  	error = xfs_rtcheck_range(mp, tp, bno, len, 0, &new, &stat);
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  934  	if (error)
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  935  		return error;
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  936  	ASSERT(stat);
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  937  	return 0;
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  938  }
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  939  #else
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  940  #define xfs_rtcheck_alloc_range(m,t,b,l)	(0)
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  941  #endif
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  942  /*
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  943   * Free an extent in the realtime subvolume.  Length is expressed in
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  944   * realtime extents, as is the block number.
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  945   */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  946  int					/* error */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  947  xfs_rtfree_extent(
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  948  	xfs_trans_t	*tp,		/* transaction pointer */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  949  	xfs_rtblock_t	bno,		/* starting block number to free */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  950  	xfs_extlen_t	len)		/* length of extent freed */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  951  {
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  952  	int		error;		/* error value */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  953  	xfs_mount_t	*mp;		/* file system mount structure */
+fff8e989ac9a63 fs/xfs/libxfs/xfs_rtbitmap.c Omar Sandoval     2022-03-29  954  	struct xfs_rtbuf_cache rtbufc = {}; /* cache of realtime blocks */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  955  
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  956  	mp = tp->t_mountp;
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  957  
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  958  	ASSERT(mp->m_rbmip->i_itemp != NULL);
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  959  	ASSERT(xfs_isilocked(mp->m_rbmip, XFS_ILOCK_EXCL));
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  960  
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  961  	error = xfs_rtcheck_alloc_range(mp, tp, bno, len);
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  962  	if (error)
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  963  		return error;
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  964  
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  965  	/*
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  966  	 * Free the range of realtime blocks.
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  967  	 */
+fff8e989ac9a63 fs/xfs/libxfs/xfs_rtbitmap.c Omar Sandoval     2022-03-29  968  	error = xfs_rtfree_range(mp, tp, bno, len, &rtbufc);
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  969  	if (error) {
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  970  		return error;
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  971  	}
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  972  	/*
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  973  	 * Mark more blocks free in the superblock.
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  974  	 */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  975  	xfs_trans_mod_sb(tp, XFS_TRANS_SB_FREXTENTS, (long)len);
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  976  	/*
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  977  	 * If we've now freed all the blocks, reset the file sequence
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  978  	 * number to 0.
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  979  	 */
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  980  	if (tp->t_frextents_delta + mp->m_sb.sb_frextents ==
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  981  	    mp->m_sb.sb_rextents) {
+db07349da2f564 fs/xfs/libxfs/xfs_rtbitmap.c Christoph Hellwig 2021-03-29  982  		if (!(mp->m_rbmip->i_diflags & XFS_DIFLAG_NEWRTBM))
+db07349da2f564 fs/xfs/libxfs/xfs_rtbitmap.c Christoph Hellwig 2021-03-29  983  			mp->m_rbmip->i_diflags |= XFS_DIFLAG_NEWRTBM;
+c8ce540db5f67d fs/xfs/libxfs/xfs_rtbitmap.c Darrick J. Wong   2017-06-16  984  		*(uint64_t *)&VFS_I(mp->m_rbmip)->i_atime = 0;
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  985  		xfs_trans_log_inode(tp, mp->m_rbmip, XFS_ILOG_CORE);
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  986  	}
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  987  	return 0;
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner      2013-10-15  988  }
+fb3c3de2f65c00 fs/xfs/libxfs/xfs_rtbitmap.c Darrick J. Wong   2017-03-28  989  
+
+:::::: The code at line 933 was first introduced by commit
+:::::: c963c6193a5adaec58044e238ef23516d04e5a74 xfs: split xfs_rtalloc.c for userspace sanity
+
+:::::: TO: Dave Chinner <dchinner@redhat.com>
+:::::: CC: Ben Myers <bpm@sgi.com>
 
 -- 
 0-DAY CI Kernel Test Service
