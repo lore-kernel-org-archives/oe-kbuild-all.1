@@ -1,33 +1,42 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207612E0C5;
-	Thu, 15 Jun 2023 16:46:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EA1FC433CB;
-	Thu, 15 Jun 2023 16:46:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686847568;
-	bh=GsUBoRqU350gNkBM8pRmDRyyiYGNzjwJNQV3gsgh/2M=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=hL8L2VVQLM+vsiAn9bGdQlq/G5DlYK7zvQgKpKin9FPhHmTE+jX9Gat70BOEBp96m
-	 httE99Z9HxVujucmJKczI7WP7B6uQKD22NbR6EvnRLyZxCSD7RuGjZsoAAYRm4/vwH
-	 KOCxdCqzKbusGJv9MwFlfnqrUmQBvRti36T6o+gFrwxtCpP6Ka04razeyYlpgTM+KF
-	 v+co/PT1z9RSuWzR12TJpGzX0Yqk7KdbXlIBLbdLmR+VjoEbuIxhpBmZlUGzM2U0rD
-	 mtxgheemdmlOZ7K3J3LLRULxjHFPXclyZakNSc/fOX32HXFABSIzSP5B2cjjjDG+rA
-	 /zIHoRlYGbvjg==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 129D8CE09E0; Thu, 15 Jun 2023 09:46:08 -0700 (PDT)
-Date: Thu, 15 Jun 2023 09:46:08 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 7890/9793] kernel/rcu/rcuscale.c:301:20:
- error: use of undeclared identifier 'get_rcu_tasks_gp_kthread'; did you mean
- 'get_rcu_tasks_trace_gp_kthread'?
-Message-ID: <42d315e3-b01f-41f7-aff9-2e5763a3d489@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202306141920.TTvpsXwJ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC81FAD35
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 17:42:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686850964; x=1718386964;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Qnvsq2TgC8aO8wIAXVEUHd1zKalhVSeeXwB28FRkfOc=;
+  b=JZrqVpBO70bpg08AgZjTf79Ir48TBqoomwRhNLlnPS92Q1XOITAxFICP
+   ceYshZxuOCfik/fYtJHmYzBTkSSrEjSchB7uiRmVGryKfyFnrjiVbdoaQ
+   mCjFmQa0WeiyKv/423br7riXeZHxIIDJZWJGGk9S0sPMow577Ike4K/R5
+   47uNs3AEl0fsG8m6MBFNt0UsELRb3x/9VNrUkjzBsx3xC2RHbKVS1BOuW
+   mzqBLRk/pT9luchEqlginwg+22dh9zDaXjUno0BF8cf7oJ8SQ20GKQ3Hz
+   Ad4gRfsXfYFQJvBaIVoymOmt/45m18Pb59reRjufJhMuY4jTl+jLnRnWG
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="343729470"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
+   d="scan'208";a="343729470"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 10:42:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="959298954"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
+   d="scan'208";a="959298954"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 15 Jun 2023 10:42:42 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9qzZ-0000EH-2g;
+	Thu, 15 Jun 2023 17:42:41 +0000
+Date: Fri, 16 Jun 2023 01:42:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.4 16747/27777] htmldocs:
+ ./fs/inode.c:1609: WARNING: Inline emphasis start-string without end-string.
+Message-ID: <202306160118.rGE9hp01-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -36,85 +45,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202306141920.TTvpsXwJ-lkp@intel.com>
 
-On Wed, Jun 14, 2023 at 07:39:01PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   b16049b21162bb649cdd8519642a35972b7910fe
-> commit: df8fa2f1fc4c20cd300855a11b31ba5565f45ac6 [7890/9793] rcuscale: Measure RCU Tasks Trace grace-period kthread CPU time
-> config: arm-randconfig-r046-20230614 (https://download.01.org/0day-ci/archive/20230614/202306141920.TTvpsXwJ-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce (this is a W=1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm cross compiling tool for clang build
->         # apt-get install binutils-arm-linux-gnueabi
->         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=df8fa2f1fc4c20cd300855a11b31ba5565f45ac6
->         git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
->         git fetch --no-tags linux-next master
->         git checkout df8fa2f1fc4c20cd300855a11b31ba5565f45ac6
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash kernel/
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306141920.TTvpsXwJ-lkp@intel.com/
-> 
-> All error/warnings (new ones prefixed by >>):
-> 
-> >> kernel/rcu/rcuscale.c:301:20: error: use of undeclared identifier 'get_rcu_tasks_gp_kthread'; did you mean 'get_rcu_tasks_trace_gp_kthread'?
->      301 |         .rso_gp_kthread = get_rcu_tasks_gp_kthread,
->          |                           ^~~~~~~~~~~~~~~~~~~~~~~~
->          |                           get_rcu_tasks_trace_gp_kthread
->    include/linux/rcupdate_trace.h:90:21: note: 'get_rcu_tasks_trace_gp_kthread' declared here
->       90 | struct task_struct *get_rcu_tasks_trace_gp_kthread(void);
->          |                     ^
->    1 error generated.
-> --
->    In file included from kernel/rcu/update.c:649:
-> >> kernel/rcu/tasks.h:1113:21: warning: no previous prototype for function 'get_rcu_tasks_gp_kthread' [-Wmissing-prototypes]
->     1113 | struct task_struct *get_rcu_tasks_gp_kthread(void)
->          |                     ^
->    kernel/rcu/tasks.h:1113:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
->     1113 | struct task_struct *get_rcu_tasks_gp_kthread(void)
->          | ^
->          | static 
->    1 warning generated.
+Hi Jaegeuk,
 
-This should be fixed by these two commits in -rcu's "dev" branch:
+FYI, the error/warning still remains.
 
-df8fa2f1fc4c ("rcuscale: Measure RCU Tasks Trace grace-period kthread CPU time")
-	(Which replaced the commit tested.)
-a88fd06db226 ("rcuscale: fix building with RCU_TINY")
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   39a9b92e9828f28d3c1bfae81b3121d973b76ad3
+commit: 7a42ec4d9dae843ce99a9ee771d13c67084f2435 [16747/27777] Revert "Revert "fs: Enable bmap() function to properly return errors""
+reproduce:
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android12-5.4
+        git checkout 7a42ec4d9dae843ce99a9ee771d13c67084f2435
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
-Please let me know if there are still problems after these commits are
-in place.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306160118.rGE9hp01-lkp@intel.com/
 
-							Thanx, Paul
+All warnings (new ones prefixed by >>):
 
-> vim +301 kernel/rcu/rcuscale.c
-> 
->    289	
->    290	static struct rcu_scale_ops tasks_ops = {
->    291		.ptype		= RCU_TASKS_FLAVOR,
->    292		.init		= rcu_sync_scale_init,
->    293		.readlock	= tasks_scale_read_lock,
->    294		.readunlock	= tasks_scale_read_unlock,
->    295		.get_gp_seq	= rcu_no_completed,
->    296		.gp_diff	= rcu_seq_diff,
->    297		.async		= call_rcu_tasks,
->    298		.gp_barrier	= rcu_barrier_tasks,
->    299		.sync		= synchronize_rcu_tasks,
->    300		.exp_sync	= synchronize_rcu_tasks,
->  > 301		.rso_gp_kthread	= get_rcu_tasks_gp_kthread,
->    302		.name		= "tasks"
->    303	};
->    304	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+>> ./fs/inode.c:1609: WARNING: Inline emphasis start-string without end-string.
+
+vim +1609 ./fs/inode.c
+
+  1602	
+  1603	#ifdef CONFIG_BLOCK
+  1604	/**
+  1605	 *	bmap	- find a block number in a file
+  1606	 *	@inode:  inode owning the block number being requested
+  1607	 *	@block: pointer containing the block to find
+  1608	 *
+> 1609	 *	Replaces the value in *block with the block number on the device holding
+  1610	 *	corresponding to the requested block number in the file.
+  1611	 *	That is, asked for block 4 of inode 1 the function will replace the
+  1612	 *	4 in *block, with disk block relative to the disk start that holds that
+  1613	 *	block of the file.
+  1614	 *
+  1615	 *	Returns -EINVAL in case of error, 0 otherwise. If mapping falls into a
+  1616	 *	hole, returns 0 and *block is also set to 0.
+  1617	 */
+  1618	int bmap(struct inode *inode, sector_t *block)
+  1619	{
+  1620		if (!inode->i_mapping->a_ops->bmap)
+  1621			return -EINVAL;
+  1622	
+  1623		*block = inode->i_mapping->a_ops->bmap(inode->i_mapping, *block);
+  1624		return 0;
+  1625	}
+  1626	EXPORT_SYMBOL(bmap);
+  1627	#endif
+  1628	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
