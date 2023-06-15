@@ -1,47 +1,42 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDADE2E0FC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 20:58:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B2D2E0D4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 21:18:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686862733; x=1718398733;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=u/yF5q/mKuNIIasnmFpVP4NTwMSDM4yMAcvhwIuO2kk=;
-  b=bCZEc/ycpijCdo006at7d0IXwdTvXZpgaQBXMKV7mEdLL9iKnkuBvWeu
-   b/BaAYd2gd5wD4EzzQrCI0Rl4gV9qJcMGj5Zf/Jso0g+tGZKqxulxJmyT
-   XCcSqZFAyG570Wf4aQCpUVqCAVV4NR6bvTLI0SsSxwKNknhUkV4otC7Gq
-   kOOWNOMWeSgB+aWONzAtMStILgrWomDo/nBLFwrakyK74/sr4adh9eHVy
-   ArM/HqBdyEzdCczGOKF+sXiXmhWAhxFYAxs1UUXDYCPzwA6evQt76eAXr
-   Y4JY6FkqcighU9hqVGSVK0SRBw/WzMGtRr45+xo+j5N4MMw5eRHSdNwSP
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="422682379"
+  t=1686863932; x=1718399932;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=S4XH0M32qWiUrVRLEz7yrGH/OgHTT37julNFIgHFmdM=;
+  b=RvFLXgsn6mjER4+hdsWvfdZ5RpDRe7h92b/0hTmNLL6YxWVioHtY0Sq9
+   ExgSLLKqg9mVz3/TYeYEhlv+r8R5/jVlbGyGHVWCIDED2P863NtIVI+1V
+   UjdOHvtWmrnAuUkUN/Kl80rNXaR5evUOmGl3rvTvCLnme85S8Q66pycuz
+   FEqaG1cRFRnDJw5AsDLNnoiuLnSNiK3w2qJ+9mvcjmytlQYgjnGiCb4HZ
+   qTT+9klCJE0NhLZCJeyEWcv1D0BUT5UWSB9I9ccIc5QIZVrtr/p0TLXBU
+   UEXiuRMCfb6qsjjB231pQuTn9NW9MW76Vq4wxzRptrNIJezUd/NFhi+Qc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="387636620"
 X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="422682379"
+   d="scan'208";a="387636620"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 13:58:52 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 14:18:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="1042833189"
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="1042835331"
 X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="1042833189"
+   d="scan'208";a="1042835331"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 15 Jun 2023 13:58:50 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 15 Jun 2023 14:18:50 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9u3N-0000NB-1D;
-	Thu, 15 Jun 2023 20:58:49 +0000
-Date: Fri, 16 Jun 2023 04:58:15 +0800
+	id 1q9uMj-0000OH-38;
+	Thu, 15 Jun 2023 21:18:49 +0000
+Date: Fri, 16 Jun 2023 05:18:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lizhi Hou <lizhi.hou@amd.com>, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	robh@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Lizhi Hou <lizhi.hou@amd.com>,
-	max.zhen@amd.com, sonal.santan@amd.com,
-	stefano.stabellini@xilinx.com
-Subject: Re: [PATCH V9 6/6] of: unittest: Add pci_dt_testdrv pci driver
-Message-ID: <202306160410.HTDpoLQa-lkp@intel.com>
-References: <1686847842-33780-7-git-send-email-lizhi.hou@amd.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tglx-devel:init 13/17] arch/x86/mm/mem_encrypt.c:79:13: error:
+ redefinition of 'mem_encrypt_init'
+Message-ID: <202306160543.6uYOWD3f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,81 +45,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1686847842-33780-7-git-send-email-lizhi.hou@amd.com>
 
-Hi Lizhi,
+Hi Thomas,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus robh/for-next linus/master v6.4-rc6 next-20230615]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lizhi-Hou/of-dynamic-Add-interfaces-for-creating-device-node-dynamically/20230616-005610
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/1686847842-33780-7-git-send-email-lizhi.hou%40amd.com
-patch subject: [PATCH V9 6/6] of: unittest: Add pci_dt_testdrv pci driver
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230616/202306160410.HTDpoLQa-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git init
+head:   ac34be5c954816ae3e4097f58e82ce408cc4dcbb
+commit: e62e04db8441af32c19e3cc36ec2488c6eb62aed [13/17] init, x86: Move mem_encrypt_init() into arch_cpu_finalize_init()
+config: x86_64-randconfig-a005-20230615 (https://download.01.org/0day-ci/archive/20230616/202306160543.6uYOWD3f-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add pci https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git
-        git fetch pci next
-        git checkout pci/next
-        b4 shazam https://lore.kernel.org/r/1686847842-33780-7-git-send-email-lizhi.hou@amd.com
+        # https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=e62e04db8441af32c19e3cc36ec2488c6eb62aed
+        git remote add tglx-devel https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git
+        git fetch --no-tags tglx-devel init
+        git checkout e62e04db8441af32c19e3cc36ec2488c6eb62aed
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306160410.HTDpoLQa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306160543.6uYOWD3f-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/mips/include/asm/bug.h:42,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from include/linux/memblock.h:12,
-                    from drivers/of/unittest.c:8:
-   drivers/of/unittest.c: In function 'unittest_pci_probe':
->> include/linux/kern_levels.h:5:25: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 4 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
-     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:498:9: note: in expansion of macro 'printk'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:498:16: note: in expansion of macro 'KERN_ERR'
-     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~
-   drivers/of/unittest.c:45:17: note: in expansion of macro 'pr_err'
-      45 |                 pr_err("FAIL %s():%i " fmt, __func__, __LINE__, ##__VA_ARGS__); \
-         |                 ^~~~~~
-   drivers/of/unittest.c:3844:9: note: in expansion of macro 'unittest'
-    3844 |         unittest(res->start == exp_addr, "Incorrect translated address %llx, expected %llx\n",
-         |         ^~~~~~~~
+>> arch/x86/mm/mem_encrypt.c:79:13: error: redefinition of 'mem_encrypt_init'
+      79 | void __init mem_encrypt_init(void)
+         |             ^~~~~~~~~~~~~~~~
+   In file included from include/linux/mem_encrypt.h:17,
+                    from arch/x86/include/asm/processor-flags.h:6,
+                    from arch/x86/include/asm/irqflags.h:5,
+                    from include/linux/irqflags.h:16,
+                    from include/linux/rcupdate.h:26,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from include/linux/dma-mapping.h:7,
+                    from include/linux/dma-direct.h:9,
+                    from arch/x86/mm/mem_encrypt.c:10:
+   arch/x86/include/asm/mem_encrypt.h:88:20: note: previous definition of 'mem_encrypt_init' with type 'void(void)'
+      88 | static inline void mem_encrypt_init(void) { }
+         |                    ^~~~~~~~~~~~~~~~
 
 
-vim +5 include/linux/kern_levels.h
+vim +/mem_encrypt_init +79 arch/x86/mm/mem_encrypt.c
 
-314ba3520e513a Joe Perches 2012-07-30  4  
-04d2c8c83d0e3a Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3a Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3a Joe Perches 2012-07-30  7  
+20f07a044a76ae Kirill A. Shutemov 2021-12-06  77  
+20f07a044a76ae Kirill A. Shutemov 2021-12-06  78  /* Architecture __weak replacement functions */
+20f07a044a76ae Kirill A. Shutemov 2021-12-06 @79  void __init mem_encrypt_init(void)
+
+:::::: The code at line 79 was first introduced by commit
+:::::: 20f07a044a76aebaaa0603038857229b5c460d69 x86/sev: Move common memory encryption code to mem_encrypt.c
+
+:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+:::::: CC: Borislav Petkov <bp@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
