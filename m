@@ -1,94 +1,115 @@
-Received: from out-46.mta0.migadu.com (out-46.mta0.migadu.com [91.218.175.46])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC381FA6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 11:03:21 +0000 (UTC)
-Message-ID: <de03d60e-0720-33be-e0fa-fcde587489a5@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1686826999;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=31dJgRFCsqu//EY9h78jvruPaMDSErokC9iXi+ASWUw=;
-	b=SZ4wMuTBIUu5D2Uu+rBnCQy0OOD7DdSnRy6AEXBiO5JgDhnUOg4XrKl8If4miXjlDy6x7J
-	MzgA7Q0+0ZokiqjuTX4qM6Rf4lawzfyhkZcQgYn/uSbSS5B7layFM3KGBzzw9egKU2yUAn
-	EQFYzWrQDBmIwamHP8fw6n1db+1UiUw=
-Date: Thu, 15 Jun 2023 19:03:13 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5F320E0;
+	Thu, 15 Jun 2023 11:22:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686828169; x=1718364169;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=116F3/yC9e2Y/2nrti3FoTM8GkLnOVOOFoERu342pTk=;
+  b=RdtncISh6vK3wv2lL3aykrh4Hn6tjFlYOPv6L1in/0cmA5MQP1jnXFKC
+   UOQbkUrQVHO0W1vY8n3cCjA3y/1JSjJq8LVb1QJz93jND31I8yHx+6L4Q
+   /t9v2OKwpYR5ethezs02e9SFs0d9KghHX4CR8FXR4dIy6RZCqD2c6luYK
+   6Zi95giN9TipW0eDt+spMrYBOB+ILRBQgIoSXHMnWmCPL2/1Nqw/b+gZw
+   Fp/Qe3Sc78MLNwe4i0YuBEt+Ivm85ByfdVBeKLb3mpsm6TJDVdzVHfMOc
+   XKP0VnCHUYmR6F04MsIGhwXaYl+I4/0HouaIRx91ccaQapLrEEiHApPZ4
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="358875418"
+X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
+   d="scan'208";a="358875418"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 04:22:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="802300149"
+X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
+   d="scan'208";a="802300149"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by FMSMGA003.fm.intel.com with ESMTP; 15 Jun 2023 04:22:47 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1q9l3t-003vZ9-2r;
+	Thu, 15 Jun 2023 14:22:45 +0300
+Date: Thu, 15 Jun 2023 14:22:45 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Alexander Lobakin <alexandr.lobakin@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Yury Norov <yury.norov@gmail.com>
+Subject: Re: lib/test_bitmap.c:920:2: error: call to
+ '__compiletime_assert_239' declared with 'error' attribute: BUILD_BUG_ON
+ failed: !__builtin_constant_p(res)
+Message-ID: <ZIr0hZV/jcpZkRq2@smile.fi.intel.com>
+References: <202306151433.QKcn7ZNn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH] NFSv4.2: fix wrong shrinker_id
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, trond.myklebust@hammerspace.com,
- anna@kernel.org, fllinden@amazon.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org,
- linux-kernel@vger.kernel.org, Qi Zheng <zhengqi.arch@bytedance.com>
-References: <20230614072443.3264264-1-qi.zheng@linux.dev>
- <202306150121.cN9iKnvx-lkp@intel.com>
- <0d70dc6c-3f7e-b899-adcb-5b71c1aa298e@linux.dev>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Qi Zheng <qi.zheng@linux.dev>
-In-Reply-To: <0d70dc6c-3f7e-b899-adcb-5b71c1aa298e@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202306151433.QKcn7ZNn-lkp@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-
-
-On 2023/6/15 10:46, Qi Zheng wrote:
+On Thu, Jun 15, 2023 at 02:32:02PM +0800, kernel test robot wrote:
+> Hi Alexander,
 > 
+> FYI, the error/warning still remains.
 > 
-> On 2023/6/15 02:06, kernel test robot wrote:
->> Hi Qi,
->>
->> kernel test robot noticed the following build errors:
->>
->> [auto build test ERROR on linus/master]
->> [also build test ERROR on trondmy-nfs/linux-next v6.4-rc6 next-20230614]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:    
->> https://github.com/intel-lab-lkp/linux/commits/Qi-Zheng/NFSv4-2-fix-wrong-shrinker_id/20230614-152853
->> base:   linus/master
->> patch link:    
->> https://lore.kernel.org/r/20230614072443.3264264-1-qi.zheng%40linux.dev
->> patch subject: [PATCH] NFSv4.2: fix wrong shrinker_id
->> config: i386-debian-10.3 
->> (https://download.01.org/0day-ci/archive/20230615/202306150121.cN9iKnvx-lkp@intel.com/config)
->> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->> reproduce (this is a W=1 build):
->>          git checkout linus/master
->>          b4 shazam 
->> https://lore.kernel.org/r/20230614072443.3264264-1-qi.zheng@linux.dev
->>          # save the config file
->>          mkdir build_dir && cp config build_dir/.config
->>          make W=1 O=build_dir ARCH=i386 olddefconfig
->>          make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new 
->> version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: 
->> https://lore.kernel.org/oe-kbuild-all/202306150121.cN9iKnvx-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>, old ones prefixed by <<):
->>
->>>> ERROR: modpost: "free_prealloced_shrinker" [fs/nfs/nfsv4.ko] undefined!
->>>> ERROR: modpost: "register_shrinker_prepared" [fs/nfs/nfsv4.ko] 
->>>> undefined!
->>>> ERROR: modpost: "prealloc_shrinker" [fs/nfs/nfsv4.ko] undefined!
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   b6dad5178ceaf23f369c3711062ce1f2afc33644
+> commit: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
+> date:   12 months ago
+> config: arm64-randconfig-r025-20230615 (https://download.01.org/0day-ci/archive/20230615/202306151433.QKcn7ZNn-lkp@intel.com/config)
+> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+> reproduce (this is a W=1 build):
+>         mkdir -p ~/bin
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # install arm64 cross compiling tool for clang build
+>         # apt-get install binutils-aarch64-linux-gnu
+>         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dc34d5036692c614eef23c1130ee42a201c316bf
+>         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+>         git fetch --no-tags linus master
+>         git checkout dc34d5036692c614eef23c1130ee42a201c316bf
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash lib/
 > 
-> Ah, these three functions need to be exported. Will fix it in the v2.
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306151433.QKcn7ZNn-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
 
-Or we can just swap the order of register_shrinker() and 
-list_lru_init_memcg().
+>    888		/*
+>    889		 * Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }`.
+>    890		 * Clang on s390 optimizes bitops at compile-time as intended, but at
+>    891		 * the same time stops treating @bitmap and @bitopvar as compile-time
+>    892		 * constants after regular test_bit() is executed, thus triggering the
+>    893		 * build bugs below. So, call const_test_bit() there directly until
+>    894		 * the compiler is fixed.
+>    895		 */
+>    896		bitmap_clear(bitmap, 0, BITS_PER_LONG);
+>    897	#if defined(__s390__) && defined(__clang__)
+>    898		if (!const_test_bit(7, bitmap))
+>    899	#else
+>    900		if (!test_bit(7, bitmap))
+>    901	#endif
 
-> 
->>
+Hmm... Reveals the bug in clang/arm64?
+
+>    919		res = !test_bit(18, &bitopvar);
+>  > 920		BUILD_BUG_ON(!__builtin_constant_p(res));
+>    921		BUILD_BUG_ON(!res);
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
