@@ -1,87 +1,91 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39E212B61
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 14:44:18 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-311153ec442so597318f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 07:44:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686840257; x=1689432257;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tUB9EAsiNNama/Nfra3iw1TWWFpscYHsy3c18Oqy46o=;
-        b=ZQo1vaRttsd/TzuCN5Fi8CNjpHDcBxpSKiDn45GxvJt6mgryLLQyIi9rSfALLafibw
-         WTaiPkwCQczK19+cC5KYd992e7aluBlcppzeJbMHZNTw2tjmf3sGbB3FpM4KLS5i2nuZ
-         3HIQEahLEFmWDSJfq4khwkZXDkt/ZxqPGGRgC1hCQKJVBPXxytex8R9+0DXn580XEoJv
-         43QbdIwTMbu3qg1VeoCVjIUXEg8aYmunDlG3sCmtusO0HeXkFDG4SLdQ2/in2dJxqhk1
-         85MxWzLisIX1OCL193PKuCGOIwWc4kMPF2KdXAdpMLZ2Nf4DhwrOru9drvwhiZIqCDJ/
-         Baeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686840257; x=1689432257;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tUB9EAsiNNama/Nfra3iw1TWWFpscYHsy3c18Oqy46o=;
-        b=PjgabXjmlIq+lEYehHhuGA3ubN8uZ7rzLJZzzQLI6Hxulw5Osg4B+RSyyw1KMkoYmN
-         f2REG0oUVg3KvrWWGhaybpDAZVOx3WtRyxJWGMDQ09GaHKJg3Ik7jN8eD9bKIrumj87z
-         JD+3sTtaoC1kuhjwoeYf0lpcfq2QbklQoAdHePI7VkGQytlDesCdFD7KSWljgRappoIy
-         ia3bffy2TxW66MFXbskuYqLOOR9Q462/oalsepTr0BzMORhfTy0ZgoKZpfjhyShSSFXS
-         0AldbK+0deC6X32vrAePwIlsQ3O2OCHuKY6mJWwIVf4TmhT6clE/O6dFM94IqMBt2Ew2
-         YI2Q==
-X-Gm-Message-State: AC+VfDwlp/mMOr0oUBuwcWg1wDAnseuU5y6uVcP0GPXKPYsciW8C1o87
-	uMGRd2/B0RD3p+QOOCUc/og=
-X-Google-Smtp-Source: ACHHUZ5R89ykoHtSdJfBC8yprnCsljjY/5OU40mUxUncQjlP29uileaSLVeWG7/ais1PKvWMtOZABQ==
-X-Received: by 2002:adf:f601:0:b0:311:100a:d1e0 with SMTP id t1-20020adff601000000b00311100ad1e0mr3483681wrp.14.1686840256388;
-        Thu, 15 Jun 2023 07:44:16 -0700 (PDT)
-Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
-        by smtp.gmail.com with ESMTPSA id e13-20020a05600c218d00b003f709a7e46bsm20586198wme.46.2023.06.15.07.44.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Jun 2023 07:44:16 -0700 (PDT)
-Subject: Re: [linux-next:master 8214/10326]
- drivers/net/ethernet/sfc/tc_encap_actions.c:277: undefined reference to
- `ip_send_check'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>,
- Jakub Kicinski <kuba@kernel.org>, Simon Horman <simon.horman@corigine.com>,
- Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
- "linux-net-drivers@amd.com" <linux-net-drivers@amd.com>
-References: <202306151656.yttECVTP-lkp@intel.com>
-From: Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <a80867f3-a2b1-3ffb-d7b1-784e4bb94163@gmail.com>
-Date: Thu, 15 Jun 2023 15:44:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4CD12B94
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 15:08:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686841694; x=1718377694;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=s8acUvOGj+p4sKfS/xbMjh/bogEV798m3ErZq6jitNY=;
+  b=leX8U23C03LFxRUUw6oxNSIFjyjTDUNnecJQvRjQBKU2Tx1n0AuLv3tK
+   f1QBgLX9JmLHE0yeQa17FUCAdssea+qN3nFyGKeZwhjdX2VYczww7lubu
+   ws/gjjzcUGlrS34jqNSwtrkR9TnjWc4iAvgN7L7/U4yPhciBaEXTRCvj8
+   ExX56vCIvYRkqS6zDSj/awXRY27APHYvNNk9P9t0q+B6gmRaJAcOXqIl4
+   dGacMPs/1aq7lfI+Vpf734S1kXEEmOO/qksXptJAjr+E6jvt5R9WYrbFA
+   Pb0nxxLEeOQSbZ5DQeU2iCvst//jJAFToQTDm3EMVvZEHCXquXNVTtNmh
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="387443905"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
+   d="scan'208";a="387443905"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 08:07:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="1042697993"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
+   d="scan'208";a="1042697993"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 15 Jun 2023 08:07:35 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9oZT-00004w-0P;
+	Thu, 15 Jun 2023 15:07:35 +0000
+Date: Thu, 15 Jun 2023 23:07:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dasnavis Sabiya <sabiya.d@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-rt-linux-6.1.y-cicd 6/17]
+ scripts/dtc/include-prefixes/dt-bindings/pinctrl/k3.h:16:2: warning:
+ #warning "These bindings are deprecated. Instead, use the header in the DTS
+ source directory."
+Message-ID: <202306152329.exvy8OOt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202306151656.yttECVTP-lkp@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 15/06/2023 09:50, kernel test robot wrote:
-> config: riscv-buildonly-randconfig-r001-20230614 (https://download.01.org/0day-ci/archive/20230615/202306151656.yttECVTP-lkp@intel.com/config)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   4fda6c9cb0582b26e2c87d4885dd728a52abaa54
+commit: cc6651b1cfbce2352a7f360d45d9587775d7bd4e [6/17] arm64: dts: k3-am69-sk: Add overlay for DDR carveout memory nodes
+config: arm64-buildonly-randconfig-r005-20230615 (https://download.01.org/0day-ci/archive/20230615/202306152329.exvy8OOt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
+        git fetch --no-tags ti ti-rt-linux-6.1.y-cicd
+        git checkout cc6651b1cfbce2352a7f360d45d9587775d7bd4e
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash
 
-This has:
-# CONFIG_INET is not set
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306152329.exvy8OOt-lkp@intel.com/
 
-> All errors (new ones prefixed by >>):
-> 
->    riscv32-linux-ld: drivers/net/ethernet/sfc/tc_encap_actions.o: in function `.L0 ':
->>> drivers/net/ethernet/sfc/tc_encap_actions.c:277: undefined reference to `ip_send_check'
->    riscv32-linux-ld: drivers/net/ethernet/sfc/tc_encap_actions.o: in function `.L0 ':
->    include/linux/rhashtable.h:648: undefined reference to `arp_tbl'
->    riscv32-linux-ld: drivers/net/ethernet/sfc/tc_encap_actions.o: in function `.L0 ':
->    drivers/net/ethernet/sfc/tc_encap_actions.c:135: undefined reference to `ip_route_output_flow'
+All warnings (new ones prefixed by >>):
 
-From which these errors follow, since these symbols are in net/ipv4/*.o.
-Not sure whether to put ifdefs in tc_encap_actions.c, or just make
- CONFIG_SFC[_SRIOV?] depend on (or select?) CONFIG_INET.  Because is
- there really a use case for putting an sfc NIC in a box without IP?
+   In file included from arch/arm64/boot/dts/ti/k3-am69-sk-ddr-mem-carveout.dtso:13:
+>> scripts/dtc/include-prefixes/dt-bindings/pinctrl/k3.h:16:2: warning: #warning "These bindings are deprecated. Instead, use the header in the DTS source directory." [-Wcpp]
+      16 | #warning "These bindings are deprecated. Instead, use the header in the DTS source directory."
+         |  ^~~~~~~
+   arch/arm64/boot/dts/ti/k3-am69-sk-ddr-mem-carveout.dtso:176.20-189.3: Warning (interrupts_property): /fragment@1/__overlay__: Missing interrupt-parent
+   arch/arm64/boot/dts/ti/k3-am69-sk-ddr-mem-carveout.dtso:191.20-204.3: Warning (interrupts_property): /fragment@2/__overlay__: Missing interrupt-parent
+   arch/arm64/boot/dts/ti/k3-am69-sk-ddr-mem-carveout.dtso:206.20-219.3: Warning (interrupts_property): /fragment@3/__overlay__: Missing interrupt-parent
+   arch/arm64/boot/dts/ti/k3-am69-sk-ddr-mem-carveout.dtso:221.20-234.3: Warning (interrupts_property): /fragment@4/__overlay__: Missing interrupt-parent
+   arch/arm64/boot/dts/ti/k3-am69-sk-ddr-mem-carveout.dtso:236.20-249.3: Warning (interrupts_property): /fragment@5/__overlay__: Missing interrupt-parent
+   arch/arm64/boot/dts/ti/k3-am69-sk-ddr-mem-carveout.dtso:251.20-264.3: Warning (interrupts_property): /fragment@6/__overlay__: Missing interrupt-parent
 
--ed
+
+vim +16 scripts/dtc/include-prefixes/dt-bindings/pinctrl/k3.h
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
