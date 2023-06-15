@@ -1,270 +1,87 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B752134C3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 14:41:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686840083; x=1718376083;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vMJBPqk8o85UWoVE97voOEV6bOR7Y6nRG3mvmEf/Wcw=;
-  b=ZkpkOlFwmvdfPrt7XI4pIu2UB6bntT6BrMAfHB3CNoteMOIMzqnAWNqj
-   z9Ws2ao3yJUcDNRCy1enNS9dDl/otrbDWDcJ30n96xuoP9lYMduHNRC8k
-   Uxxtp7ial3sbSuqKA3iM+KEhgPx5CA8CXhivAvx6ORgrZtYZQ5NTivrYf
-   tFa5kAIizVnbhPZ/KF0IpQl9WXL40be6qVAj7IslTBWOiqyXQutusENje
-   Tq9hmT6KFp8dkZhR9LhI4o4tdHLbvfdmlW/TRlAf8zx3kH1/Qd7fcsCUT
-   0gt9u8w6yCJcnIWp+4heZ1hmxQ3enkldTb+H4BRbK7e+UN5HfsNaQODq1
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="348615461"
-X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="348615461"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 06:54:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="886668774"
-X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="886668774"
-Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga005.jf.intel.com with ESMTP; 15 Jun 2023 06:54:12 -0700
-Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q9nQR-0001x7-2W;
-	Thu, 15 Jun 2023 13:54:11 +0000
-Date: Thu, 15 Jun 2023 21:53:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 23/25]
- fs/erofs/decompressor_lzma.c:42:33: error: implicit declaration of function
- 'xz_dec_microlzma_end'
-Message-ID: <202306152130.OxkEJwID-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39E212B61
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 14:44:18 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-311153ec442so597318f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 07:44:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686840257; x=1689432257;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tUB9EAsiNNama/Nfra3iw1TWWFpscYHsy3c18Oqy46o=;
+        b=ZQo1vaRttsd/TzuCN5Fi8CNjpHDcBxpSKiDn45GxvJt6mgryLLQyIi9rSfALLafibw
+         WTaiPkwCQczK19+cC5KYd992e7aluBlcppzeJbMHZNTw2tjmf3sGbB3FpM4KLS5i2nuZ
+         3HIQEahLEFmWDSJfq4khwkZXDkt/ZxqPGGRgC1hCQKJVBPXxytex8R9+0DXn580XEoJv
+         43QbdIwTMbu3qg1VeoCVjIUXEg8aYmunDlG3sCmtusO0HeXkFDG4SLdQ2/in2dJxqhk1
+         85MxWzLisIX1OCL193PKuCGOIwWc4kMPF2KdXAdpMLZ2Nf4DhwrOru9drvwhiZIqCDJ/
+         Baeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686840257; x=1689432257;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tUB9EAsiNNama/Nfra3iw1TWWFpscYHsy3c18Oqy46o=;
+        b=PjgabXjmlIq+lEYehHhuGA3ubN8uZ7rzLJZzzQLI6Hxulw5Osg4B+RSyyw1KMkoYmN
+         f2REG0oUVg3KvrWWGhaybpDAZVOx3WtRyxJWGMDQ09GaHKJg3Ik7jN8eD9bKIrumj87z
+         JD+3sTtaoC1kuhjwoeYf0lpcfq2QbklQoAdHePI7VkGQytlDesCdFD7KSWljgRappoIy
+         ia3bffy2TxW66MFXbskuYqLOOR9Q462/oalsepTr0BzMORhfTy0ZgoKZpfjhyShSSFXS
+         0AldbK+0deC6X32vrAePwIlsQ3O2OCHuKY6mJWwIVf4TmhT6clE/O6dFM94IqMBt2Ew2
+         YI2Q==
+X-Gm-Message-State: AC+VfDwlp/mMOr0oUBuwcWg1wDAnseuU5y6uVcP0GPXKPYsciW8C1o87
+	uMGRd2/B0RD3p+QOOCUc/og=
+X-Google-Smtp-Source: ACHHUZ5R89ykoHtSdJfBC8yprnCsljjY/5OU40mUxUncQjlP29uileaSLVeWG7/ais1PKvWMtOZABQ==
+X-Received: by 2002:adf:f601:0:b0:311:100a:d1e0 with SMTP id t1-20020adff601000000b00311100ad1e0mr3483681wrp.14.1686840256388;
+        Thu, 15 Jun 2023 07:44:16 -0700 (PDT)
+Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
+        by smtp.gmail.com with ESMTPSA id e13-20020a05600c218d00b003f709a7e46bsm20586198wme.46.2023.06.15.07.44.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Jun 2023 07:44:16 -0700 (PDT)
+Subject: Re: [linux-next:master 8214/10326]
+ drivers/net/ethernet/sfc/tc_encap_actions.c:277: undefined reference to
+ `ip_send_check'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ Jakub Kicinski <kuba@kernel.org>, Simon Horman <simon.horman@corigine.com>,
+ Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+ "linux-net-drivers@amd.com" <linux-net-drivers@amd.com>
+References: <202306151656.yttECVTP-lkp@intel.com>
+From: Edward Cree <ecree.xilinx@gmail.com>
+Message-ID: <a80867f3-a2b1-3ffb-d7b1-784e4bb94163@gmail.com>
+Date: Thu, 15 Jun 2023 15:44:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <202306151656.yttECVTP-lkp@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   31e1367ff78eb68e54a2025e9c6601e3fa6c6312
-commit: ede603374aab4bb8a612fd3c1c84ceef11435fa1 [23/25] FROMGIT: erofs: lzma compression support
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230615/202306152130.OxkEJwID-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        git remote add android-common https://android.googlesource.com/kernel/common
-        git fetch --no-tags android-common mirror-chromeos-5.10-arcvm
-        git checkout ede603374aab4bb8a612fd3c1c84ceef11435fa1
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+On 15/06/2023 09:50, kernel test robot wrote:
+> config: riscv-buildonly-randconfig-r001-20230614 (https://download.01.org/0day-ci/archive/20230615/202306151656.yttECVTP-lkp@intel.com/config)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306152130.OxkEJwID-lkp@intel.com/
+This has:
+# CONFIG_INET is not set
 
-All errors (new ones prefixed by >>):
+> All errors (new ones prefixed by >>):
+> 
+>    riscv32-linux-ld: drivers/net/ethernet/sfc/tc_encap_actions.o: in function `.L0 ':
+>>> drivers/net/ethernet/sfc/tc_encap_actions.c:277: undefined reference to `ip_send_check'
+>    riscv32-linux-ld: drivers/net/ethernet/sfc/tc_encap_actions.o: in function `.L0 ':
+>    include/linux/rhashtable.h:648: undefined reference to `arp_tbl'
+>    riscv32-linux-ld: drivers/net/ethernet/sfc/tc_encap_actions.o: in function `.L0 ':
+>    drivers/net/ethernet/sfc/tc_encap_actions.c:135: undefined reference to `ip_route_output_flow'
 
-   fs/erofs/decompressor_lzma.c: In function 'z_erofs_lzma_exit':
->> fs/erofs/decompressor_lzma.c:42:33: error: implicit declaration of function 'xz_dec_microlzma_end' [-Werror=implicit-function-declaration]
-      42 |                                 xz_dec_microlzma_end(strm->state);
-         |                                 ^~~~~~~~~~~~~~~~~~~~
-   fs/erofs/decompressor_lzma.c: In function 'z_erofs_load_lzma_config':
->> fs/erofs/decompressor_lzma.c:136:31: error: implicit declaration of function 'xz_dec_microlzma_alloc' [-Werror=implicit-function-declaration]
-     136 |                 strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
-         |                               ^~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/decompressor_lzma.c:136:29: warning: assignment to 'struct xz_dec_microlzma *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     136 |                 strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
-         |                             ^
-   fs/erofs/decompressor_lzma.c: In function 'z_erofs_lzma_decompress':
->> fs/erofs/decompressor_lzma.c:193:9: error: implicit declaration of function 'xz_dec_microlzma_reset' [-Werror=implicit-function-declaration]
-     193 |         xz_dec_microlzma_reset(strm->state, inlen, outlen,
-         |         ^~~~~~~~~~~~~~~~~~~~~~
->> fs/erofs/decompressor_lzma.c:266:26: error: implicit declaration of function 'xz_dec_microlzma_run' [-Werror=implicit-function-declaration]
-     266 |                 xz_err = xz_dec_microlzma_run(strm->state, &strm->buf);
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+From which these errors follow, since these symbols are in net/ipv4/*.o.
+Not sure whether to put ifdefs in tc_encap_actions.c, or just make
+ CONFIG_SFC[_SRIOV?] depend on (or select?) CONFIG_INET.  Because is
+ there really a use case for putting an sfc NIC in a box without IP?
 
-
-vim +/xz_dec_microlzma_end +42 fs/erofs/decompressor_lzma.c
-
-    21	
-    22	void z_erofs_lzma_exit(void)
-    23	{
-    24		/* there should be no running fs instance */
-    25		while (z_erofs_lzma_avail_strms) {
-    26			struct z_erofs_lzma *strm;
-    27	
-    28			spin_lock(&z_erofs_lzma_lock);
-    29			strm = z_erofs_lzma_head;
-    30			if (!strm) {
-    31				spin_unlock(&z_erofs_lzma_lock);
-    32				DBG_BUGON(1);
-    33				return;
-    34			}
-    35			z_erofs_lzma_head = NULL;
-    36			spin_unlock(&z_erofs_lzma_lock);
-    37	
-    38			while (strm) {
-    39				struct z_erofs_lzma *n = strm->next;
-    40	
-    41				if (strm->state)
-  > 42					xz_dec_microlzma_end(strm->state);
-    43				kfree(strm);
-    44				--z_erofs_lzma_avail_strms;
-    45				strm = n;
-    46			}
-    47		}
-    48	}
-    49	
-    50	int z_erofs_lzma_init(void)
-    51	{
-    52		unsigned int i;
-    53	
-    54		/* by default, use # of possible CPUs instead */
-    55		if (!z_erofs_lzma_nstrms)
-    56			z_erofs_lzma_nstrms = num_possible_cpus();
-    57	
-    58		for (i = 0; i < z_erofs_lzma_nstrms; ++i) {
-    59			struct z_erofs_lzma *strm = kzalloc(sizeof(*strm), GFP_KERNEL);
-    60	
-    61			if (!strm) {
-    62				z_erofs_lzma_exit();
-    63				return -ENOMEM;
-    64			}
-    65			spin_lock(&z_erofs_lzma_lock);
-    66			strm->next = z_erofs_lzma_head;
-    67			z_erofs_lzma_head = strm;
-    68			spin_unlock(&z_erofs_lzma_lock);
-    69			++z_erofs_lzma_avail_strms;
-    70		}
-    71		return 0;
-    72	}
-    73	
-    74	int z_erofs_load_lzma_config(struct super_block *sb,
-    75				     struct erofs_super_block *dsb,
-    76				     struct z_erofs_lzma_cfgs *lzma, int size)
-    77	{
-    78		static DEFINE_MUTEX(lzma_resize_mutex);
-    79		unsigned int dict_size, i;
-    80		struct z_erofs_lzma *strm, *head = NULL;
-    81		int err;
-    82	
-    83		if (!lzma || size < sizeof(struct z_erofs_lzma_cfgs)) {
-    84			erofs_err(sb, "invalid lzma cfgs, size=%u", size);
-    85			return -EINVAL;
-    86		}
-    87		if (lzma->format) {
-    88			erofs_err(sb, "unidentified lzma format %x, please check kernel version",
-    89				  le16_to_cpu(lzma->format));
-    90			return -EINVAL;
-    91		}
-    92		dict_size = le32_to_cpu(lzma->dict_size);
-    93		if (dict_size > Z_EROFS_LZMA_MAX_DICT_SIZE || dict_size < 4096) {
-    94			erofs_err(sb, "unsupported lzma dictionary size %u",
-    95				  dict_size);
-    96			return -EINVAL;
-    97		}
-    98	
-    99		erofs_info(sb, "EXPERIMENTAL MicroLZMA in use. Use at your own risk!");
-   100	
-   101		/* in case 2 z_erofs_load_lzma_config() race to avoid deadlock */
-   102		mutex_lock(&lzma_resize_mutex);
-   103	
-   104		if (z_erofs_lzma_max_dictsize >= dict_size) {
-   105			mutex_unlock(&lzma_resize_mutex);
-   106			return 0;
-   107		}
-   108	
-   109		/* 1. collect/isolate all streams for the following check */
-   110		for (i = 0; i < z_erofs_lzma_avail_strms; ++i) {
-   111			struct z_erofs_lzma *last;
-   112	
-   113	again:
-   114			spin_lock(&z_erofs_lzma_lock);
-   115			strm = z_erofs_lzma_head;
-   116			if (!strm) {
-   117				spin_unlock(&z_erofs_lzma_lock);
-   118				wait_event(z_erofs_lzma_wq,
-   119					   READ_ONCE(z_erofs_lzma_head));
-   120				goto again;
-   121			}
-   122			z_erofs_lzma_head = NULL;
-   123			spin_unlock(&z_erofs_lzma_lock);
-   124	
-   125			for (last = strm; last->next; last = last->next)
-   126				++i;
-   127			last->next = head;
-   128			head = strm;
-   129		}
-   130	
-   131		err = 0;
-   132		/* 2. walk each isolated stream and grow max dict_size if needed */
-   133		for (strm = head; strm; strm = strm->next) {
-   134			if (strm->state)
-   135				xz_dec_microlzma_end(strm->state);
- > 136			strm->state = xz_dec_microlzma_alloc(XZ_PREALLOC, dict_size);
-   137			if (!strm->state)
-   138				err = -ENOMEM;
-   139		}
-   140	
-   141		/* 3. push back all to the global list and update max dict_size */
-   142		spin_lock(&z_erofs_lzma_lock);
-   143		DBG_BUGON(z_erofs_lzma_head);
-   144		z_erofs_lzma_head = head;
-   145		spin_unlock(&z_erofs_lzma_lock);
-   146	
-   147		z_erofs_lzma_max_dictsize = dict_size;
-   148		mutex_unlock(&lzma_resize_mutex);
-   149		return err;
-   150	}
-   151	
-   152	int z_erofs_lzma_decompress(struct z_erofs_decompress_req *rq,
-   153				    struct list_head *pagepool)
-   154	{
-   155		const unsigned int nrpages_out =
-   156			PAGE_ALIGN(rq->pageofs_out + rq->outputsize) >> PAGE_SHIFT;
-   157		const unsigned int nrpages_in =
-   158			PAGE_ALIGN(rq->inputsize) >> PAGE_SHIFT;
-   159		unsigned int inputmargin, inlen, outlen, pageofs;
-   160		struct z_erofs_lzma *strm;
-   161		u8 *kin;
-   162		bool bounced = false;
-   163		int no, ni, j, err = 0;
-   164	
-   165		/* 1. get the exact LZMA compressed size */
-   166		kin = kmap(*rq->in);
-   167		inputmargin = 0;
-   168		while (!kin[inputmargin & ~PAGE_MASK])
-   169			if (!(++inputmargin & ~PAGE_MASK))
-   170				break;
-   171	
-   172		if (inputmargin >= PAGE_SIZE) {
-   173			kunmap(*rq->in);
-   174			return -EFSCORRUPTED;
-   175		}
-   176		rq->inputsize -= inputmargin;
-   177	
-   178		/* 2. get an available lzma context */
-   179	again:
-   180		spin_lock(&z_erofs_lzma_lock);
-   181		strm = z_erofs_lzma_head;
-   182		if (!strm) {
-   183			spin_unlock(&z_erofs_lzma_lock);
-   184			wait_event(z_erofs_lzma_wq, READ_ONCE(z_erofs_lzma_head));
-   185			goto again;
-   186		}
-   187		z_erofs_lzma_head = strm->next;
-   188		spin_unlock(&z_erofs_lzma_lock);
-   189	
-   190		/* 3. multi-call decompress */
-   191		inlen = rq->inputsize;
-   192		outlen = rq->outputsize;
- > 193		xz_dec_microlzma_reset(strm->state, inlen, outlen,
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-ed
