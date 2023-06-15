@@ -1,45 +1,45 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5304C651
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 06:00:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4B0375;
+	Thu, 15 Jun 2023 06:32:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686808849; x=1718344849;
+  t=1686810770; x=1718346770;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MPZGn6hY/4cbra9oawhNo0qTl7i8RIyCE97RI+GHDMk=;
-  b=eBJlHfLQzpLjDHc7euHCbtdFJdNqsaYnystmndyabhvaO5UQ1DDR1g2+
-   meSaVT3TRv4RcT/S1OSev6SoWO1h6nzaAIyGTiJ8Er91m7YSRFv3zU9sk
-   750Px1afS60uuT3IG3Esl56K5+mx7JaHSXwF3ZfDQa4n21/LWExAxb3SI
-   z50/3LUFHTysMcExEg/g54k4DUo7LCox/MNwwIgOpx7+NYJtJiVIlspf4
-   DExGg6b5AKg/re5sF/xTLFDhGkChUn5DKopXeT+AAYHbKH919Zzu8LYh1
-   YZKMHHzkqXjG06YweMW2MB9SyjdOSyeVKE3EZDIjlkP5qgSkhw4sBqL/y
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="343521586"
+  bh=gzxZ32ZlhE6/+8VLXm+4b7siOqJhrhIW+gciOZRH2U0=;
+  b=eHsrV8yF6yyWt3kmPQAU8JPuMnODzxPHYZVdnCObqRwmV7IcRg7UhHQz
+   D4Znsa8Ao/UJ9kOfFudtSMYizRXcTzr+edmef7Qb+DUDYbv4WaDXiU+on
+   H7FeJpw8RjLaBZssHFo8wzk0lytK/a9gs8wWK91MBfsfBuRjiE0VCO+9n
+   ufpCmtWFzeIWv7d2MUJB+eL/NInEflCJPxL5v+jkZXRlyALu5lAZ7KQ/M
+   BSbTiuH8yMYqPfd/6mpWc3kbkbSVyNnKCppj7yfcNpjKx8nr/5ORUxiCQ
+   kZf0bpP7KNSbXEsoRKqcvxIgimlX0+XteRnmr1jb25A3X+2SV/CLafdsH
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="343527707"
 X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="343521586"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 23:00:48 -0700
+   d="scan'208";a="343527707"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 23:32:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="706511793"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="712345894"
 X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="706511793"
+   d="scan'208";a="712345894"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 14 Jun 2023 23:00:46 -0700
+  by orsmga002.jf.intel.com with ESMTP; 14 Jun 2023 23:32:47 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9g2H-0001X1-2L;
-	Thu, 15 Jun 2023 06:00:45 +0000
-Date: Thu, 15 Jun 2023 14:00:21 +0800
+	id 1q9gXG-0001Yb-2R;
+	Thu, 15 Jun 2023 06:32:46 +0000
+Date: Thu, 15 Jun 2023 14:32:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Niklas Cassel <niklas.cassel@wdc.com>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: [mkp-scsi:for-next 70/83] ./usr/include/linux/ioprio.h:107:8: error:
- unknown type name '__always_inline'
-Message-ID: <202306151347.WblKhRwQ-lkp@intel.com>
+To: Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: lib/test_bitmap.c:920:2: error: call to '__compiletime_assert_239'
+ declared with 'error' attribute: BUILD_BUG_ON failed:
+ !__builtin_constant_p(res)
+Message-ID: <202306151433.QKcn7ZNn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,35 +49,126 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-head:   aca416ac0b1fbe89d563f88cdb9884f986863d34
-commit: bfaaaa3d9d09974828dc5c5d44eb2657a65d6b60 [70/83] scsi: block: Improve ioprio value validity checks
-config: i386-randconfig-i012-20230614 (https://download.01.org/0day-ci/archive/20230615/202306151347.WblKhRwQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Alexander,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b6dad5178ceaf23f369c3711062ce1f2afc33644
+commit: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
+date:   12 months ago
+config: arm64-randconfig-r025-20230615 (https://download.01.org/0day-ci/archive/20230615/202306151433.QKcn7ZNn-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?id=bfaaaa3d9d09974828dc5c5d44eb2657a65d6b60
-        git remote add mkp-scsi https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git
-        git fetch --no-tags mkp-scsi for-next
-        git checkout bfaaaa3d9d09974828dc5c5d44eb2657a65d6b60
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm64 cross compiling tool for clang build
+        # apt-get install binutils-aarch64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dc34d5036692c614eef23c1130ee42a201c316bf
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout dc34d5036692c614eef23c1130ee42a201c316bf
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash lib/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306151347.WblKhRwQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306151433.QKcn7ZNn-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
->> ./usr/include/linux/ioprio.h:107:8: error: unknown type name '__always_inline'
-     107 | static __always_inline __u16 ioprio_value(int class, int level, int hint)
-         |        ^~~~~~~~~~~~~~~
->> ./usr/include/linux/ioprio.h:107:30: error: expected '=', ',', ';', 'asm' or '__attribute__' before 'ioprio_value'
-     107 | static __always_inline __u16 ioprio_value(int class, int level, int hint)
-         |                              ^~~~~~~~~~~~
+>> lib/test_bitmap.c:920:2: error: call to '__compiletime_assert_239' declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(res)
+           BUILD_BUG_ON(!__builtin_constant_p(res));
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:352:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:340:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:333:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:185:1: note: expanded from here
+   __compiletime_assert_239
+   ^
+   1 error generated.
+
+
+vim +920 lib/test_bitmap.c
+
+   871	
+   872	static void __init test_bitmap_const_eval(void)
+   873	{
+   874		DECLARE_BITMAP(bitmap, BITS_PER_LONG);
+   875		unsigned long initvar = BIT(2);
+   876		unsigned long bitopvar = 0;
+   877		unsigned long var = 0;
+   878		int res;
+   879	
+   880		/*
+   881		 * Compilers must be able to optimize all of those to compile-time
+   882		 * constants on any supported optimization level (-O2, -Os) and any
+   883		 * architecture. Otherwise, trigger a build bug.
+   884		 * The whole function gets optimized out then, there's nothing to do
+   885		 * in runtime.
+   886		 */
+   887	
+   888		/*
+   889		 * Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }`.
+   890		 * Clang on s390 optimizes bitops at compile-time as intended, but at
+   891		 * the same time stops treating @bitmap and @bitopvar as compile-time
+   892		 * constants after regular test_bit() is executed, thus triggering the
+   893		 * build bugs below. So, call const_test_bit() there directly until
+   894		 * the compiler is fixed.
+   895		 */
+   896		bitmap_clear(bitmap, 0, BITS_PER_LONG);
+   897	#if defined(__s390__) && defined(__clang__)
+   898		if (!const_test_bit(7, bitmap))
+   899	#else
+   900		if (!test_bit(7, bitmap))
+   901	#endif
+   902			bitmap_set(bitmap, 5, 2);
+   903	
+   904		/* Equals to `unsigned long bitopvar = BIT(20)` */
+   905		__change_bit(31, &bitopvar);
+   906		bitmap_shift_right(&bitopvar, &bitopvar, 11, BITS_PER_LONG);
+   907	
+   908		/* Equals to `unsigned long var = BIT(25)` */
+   909		var |= BIT(25);
+   910		if (var & BIT(0))
+   911			var ^= GENMASK(9, 6);
+   912	
+   913		/* __const_hweight<32|64>(GENMASK(6, 5)) == 2 */
+   914		res = bitmap_weight(bitmap, 20);
+   915		BUILD_BUG_ON(!__builtin_constant_p(res));
+   916		BUILD_BUG_ON(res != 2);
+   917	
+   918		/* !(BIT(31) & BIT(18)) == 1 */
+   919		res = !test_bit(18, &bitopvar);
+ > 920		BUILD_BUG_ON(!__builtin_constant_p(res));
+   921		BUILD_BUG_ON(!res);
+   922	
+   923		/* BIT(2) & GENMASK(14, 8) == 0 */
+   924		res = initvar & GENMASK(14, 8);
+   925		BUILD_BUG_ON(!__builtin_constant_p(res));
+   926		BUILD_BUG_ON(res);
+   927	
+   928		/* ~BIT(25) */
+   929		BUILD_BUG_ON(!__builtin_constant_p(~var));
+   930		BUILD_BUG_ON(~var != ~BIT(25));
+   931	}
+   932	
 
 -- 
 0-DAY CI Kernel Test Service
