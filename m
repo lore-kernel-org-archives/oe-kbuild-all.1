@@ -1,117 +1,130 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDEA656
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 04:49:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686804560; x=1718340560;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=CuyJEO6iwexue6aSEPRZFzmpGDJeUcvP/1helpu+xUI=;
-  b=TR+loyNRyfvCb8FRmHifEMJ+5bshOh/sG1lz+O46qrfCxsiADQsq1HRI
-   MkJoQiwO0l4DVqoUL1jCqVWkJ+7mNtb+1oi/2lUYTTzy5UsPN9HSh79Jb
-   rxKxnBCJcimNGNAIVWvSx4e8XOCortT29GTV06rxeqGooQK/eh6hvf0nh
-   3BQusmTm7IJGeih/M6CcMY4afCw7OtsnDcW5ti+xc2LonR/5ugfMrmqmK
-   r6T6aHNBKE5wOHGeF9WFSSLeAiOw4iy+mLwjzaqvIV+G27nbtC8LzkG0g
-   mxamdrOP0Y68ZURKTLAE+BUvllOtExrpholmARQufQr2LBfy8TfZOE+vc
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="387230276"
-X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="387230276"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2023 21:49:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="662639373"
-X-IronPort-AV: E=Sophos;i="6.00,243,1681196400"; 
-   d="scan'208";a="662639373"
-Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 14 Jun 2023 21:49:17 -0700
-Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1q9ev6-0001S1-2L;
-	Thu, 15 Jun 2023 04:49:16 +0000
-Date: Thu, 15 Jun 2023 12:48:34 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
-	Brandon Brnich <b-brnich@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y 77/107] include/trace/define_trace.h:95:10:
- fatal error: '../../drivers/media/platform/chips-media/trace.h' file not
- found
-Message-ID: <202306151205.K2kkiPni-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9095656
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 05:25:55 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4QhVrf6fvfz9snk;
+	Thu, 15 Jun 2023 07:16:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
+	s=MBO0001; t=1686806194;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NJ9tbVJW/fCl46tCIc1R0NLFQsIT3IjS2TXsnrWjR/8=;
+	b=ZctlEB0s8TfAASUrOzLthi/QgcNN6X6m3/DePewA4K/qpeiCwxEMurtxd0tSzG7do53CJ+
+	tSFqFpYo9ePxHfU7Cm51Go+RmaSXANonmXNEg5uxozQhc9VAvbVk43CAUNyT453nvDKSZF
+	Qs01o5gzn4NL9jpz0LKKsD98gOXwlhpSD02W2Oh/PhEY/axuCC9C0OPYCgPAIzT668X/im
+	Mc6UUmNJJ7vBT362UAyf+Tq8oxIQCYsxz6IYuP3+3kSiG5GxUyO1Mwb3k78Pp/LOE8MU1x
+	G34KCkEIct7Er1rvGNIOLfA0qjhSNY8AmJ1x7hxBjlho+nR/k21uxRcPolIqkg==
+References: <20230613083626.227476-3-frank@oltmanns.dev>
+ <202306132038.nUB6hmCv-lkp@intel.com> <87edmeqwva.fsf@oltmanns.dev>
+ <aa23f41c0e313e97122ac384d66e2325.sboyd@kernel.org>
+From: Frank Oltmanns <frank@oltmanns.dev>
+To: Stephen Boyd <sboyd@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, kernel test robot
+ <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, "A.s. Dong"
+ <aisheng.dong@nxp.com>, Abel Vesa <abelvesa@kernel.org>, Fabio Estevam
+ <festevam@gmail.com>, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, NXP Linux Team
+ <linux-imx@nxp.com>, Peng Fan <peng.fan@nxp.com>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
+ <shawnguo@kernel.org>
+Subject: Re: [PATCH v2 2/2] clk: tests: Add tests for fractional divisor
+ approximation
+In-reply-to: <aa23f41c0e313e97122ac384d66e2325.sboyd@kernel.org>
+Date: Thu, 15 Jun 2023 07:16:17 +0200
+Message-ID: <875y7ps3tq.fsf@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-Hi Sebastian,
+Hi Stephen,
 
-FYI, the error/warning still remains.
+On 2023-06-14 at 13:02:24 -0700, Stephen Boyd <sboyd@kernel.org> wrote:
+> Quoting Frank Oltmanns (2023-06-14 01:19:37)
+>> Hi,
+>>
+>> On 2023-06-13 at 20:48:21 +0800, kernel test robot <lkp@intel.com> wrote:
+>> > Hi Frank,
+>> >
+>> > kernel test robot noticed the following build errors:
+>> >
+>> > [auto build test ERROR on v6.4-rc6]
+>> > [also build test ERROR on linus/master]
+>> > [cannot apply to clk/clk-next next-20230613]
+>> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> > And when submitting patch, we suggest to use '--base' as documented in
+>> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>> >
+>> > url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Oltmanns/clk-fractional-divider-Improve-approximation-when-zero-based/20230613-163903
+>> > base:   v6.4-rc6
+>> > patch link:    https://lore.kernel.org/r/20230613083626.227476-3-frank%40oltmanns.dev
+>> > patch subject: [PATCH v2 2/2] clk: tests: Add tests for fractional divisor approximation
+>> > config: csky-randconfig-r011-20230612 (https://download.01.org/0day-ci/archive/20230613/202306132038.nUB6hmCv-lkp@intel.com/config)
+>> > compiler: csky-linux-gcc (GCC) 12.3.0
+>> > reproduce (this is a W=1 build):
+>> >         mkdir -p ~/bin
+>> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>> >         chmod +x ~/bin/make.cross
+>> >         git checkout v6.4-rc6
+>> >         b4 shazam https://lore.kernel.org/r/20230613083626.227476-3-frank@oltmanns.dev
+>> >         # save the config file
+>> >         mkdir build_dir && cp config build_dir/.config
+>> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky olddefconfig
+>> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=csky SHELL=/bin/bash
+>> >
+>> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> > the same patch/commit), kindly add following tags
+>> > | Reported-by: kernel test robot <lkp@intel.com>
+>> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306132038.nUB6hmCv-lkp@intel.com/
+>> >
+>> > All errors (new ones prefixed by >>, old ones prefixed by <<):
+>> >
+>> >>> ERROR: modpost: "clk_fractional_divider_general_approximation" [drivers/clk/clk_test.ko] undefined!
+>>
+>> The issue seems to be that clk_fractional_divider_general_approximation
+>> is not exported as a symbol, while the config builds the clk_test as a
+>> module:
+>> CONFIG_CLK_KUNIT_TEST=m
+>>
+>> If I'm not mistaken, this means that I can't test
+>> clk_fractional_divider_general_approximation directly. Instead I'd have
+>> to test it using clk_fractional_divider_ops.round_rate.
+>>
+>> Can someone more knowlegdable than me please confirm if my understanding
+>> is correct?
+>
+> Export the symbol.
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
-head:   9745edfc822376108888d3de7bb53e063a7be888
-commit: 3535376e4f9618805ce0c36abaf8e567b61c95f7 [77/107] media: platform: chips-media: Move Coda to separate folder
-config: arm-randconfig-r002-20230615 (https://download.01.org/0day-ci/archive/20230615/202306151205.K2kkiPni-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
-        git fetch --no-tags ti ti-rt-linux-6.1.y
-        git checkout 3535376e4f9618805ce0c36abaf8e567b61c95f7
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/media/platform/chips-media/coda/
+Ok. I can do that. Please note that I had already submitted a V3 [1],
+that went the way of using clk_fractional_divider_ops.round_rate. I
+apologize for not waiting for your feedback prior to submission. It
+won't happen again.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306151205.K2kkiPni-lkp@intel.com/
+I liked the approach of calling clk_fd_round_rate directly via the ops,
+because it might allow me to test the other ops as well using the same
+blueprint. Of course, I will not add test cases, if you don't want it.
+(Calling clk_fd_round_rate also had the side effect of teaching me, that
+fd clocks expect the fraction to be less than or equal to 1.)
 
-All errors (new ones prefixed by >>):
+I don't want to waste your time, but if you could maybe have a chance to
+look at the approach I took in V3 and tell me if you still want me to
+export the symbol instead, that would be really helpful. I'll follow
+your preference.
 
-   In file included from drivers/media/platform/chips-media/coda/coda-bit.c:32:
-   In file included from drivers/media/platform/chips-media/coda/trace.h:175:
->> include/trace/define_trace.h:95:10: fatal error: '../../drivers/media/platform/chips-media/trace.h' file not found
-      95 | #include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/define_trace.h:90:32: note: expanded from macro 'TRACE_INCLUDE'
-      90 | # define TRACE_INCLUDE(system) __TRACE_INCLUDE(system)
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/define_trace.h:87:34: note: expanded from macro '__TRACE_INCLUDE'
-      87 | # define __TRACE_INCLUDE(system) __stringify(TRACE_INCLUDE_PATH/system.h)
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/stringify.h:10:27: note: expanded from macro '__stringify'
-      10 | #define __stringify(x...)       __stringify_1(x)
-         |                                 ^~~~~~~~~~~~~~~~
-   include/linux/stringify.h:9:29: note: expanded from macro '__stringify_1'
-       9 | #define __stringify_1(x...)     #x
-         |                                 ^~
-   <scratch space>:33:1: note: expanded from here
-      33 | "../../drivers/media/platform/chips-media/trace.h"
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+If I don't hear back until the weekend, I will treat your three words
+above as your preference and prepare a V4 that goes back to calling
+clk_fractional_divider_general_approximation directly.
 
+Thank you,
+  Frank
 
-vim +95 include/trace/define_trace.h
-
-a8d154b0091683 Steven Rostedt 2009-04-10  94  
-a8d154b0091683 Steven Rostedt 2009-04-10 @95  #include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
-a8d154b0091683 Steven Rostedt 2009-04-10  96  
-
-:::::: The code at line 95 was first introduced by commit
-:::::: a8d154b009168337494fbf345671bab74d3e4b8b tracing: create automated trace defines
-
-:::::: TO: Steven Rostedt <srostedt@redhat.com>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[1]: https://lore.kernel.org/all/20230614185521.477924-3-frank@oltmanns.dev/
