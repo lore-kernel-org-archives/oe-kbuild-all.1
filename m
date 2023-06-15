@@ -1,47 +1,52 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4805D174F6;
-	Thu, 15 Jun 2023 22:00:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC6F19525
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 22:10:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686866457; x=1718402457;
+  t=1686867057; x=1718403057;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=VixVhVq+fB60ytIjlPKKkNw/tWOkMvypRvdQAxH+drM=;
-  b=kyVhkwH4Bk2+hQRV20aoXFVwybAMsof61Y8h/VQ8cMWCl/VcI6wH519K
-   dhcMQICQXbsm+wOhkQSXmo1N5sR4ahp9mjSKjvvzPscssNXMxuXVI/xzD
-   9a4BUes+tFWUTMDF3x8BAOXizKb/bTwpkglM/DCff59D6djU4DGzyd3Ul
-   h2n2H9yWQvWXXhBzjItNWvAstfkDM1/d9mygOmt9pcneD3SKcTsq8gkoV
-   ulP3RAUzVQ7Zg4UYVWttkvpX/sqBo+ogtF161QAOBYu2dga6pacMsVoay
-   D6q09ccDJpth/lTQPMuBDfRzIZXzk2dMbiJggiy1A7wO42YMCGT6QyEyE
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="339391356"
+  bh=i0FZYmK7JQiNiwfBTor0G0QvLv81S1GzzEFM2X655Vg=;
+  b=PgiubB5dmvc737eJxFpkTpZ06y1c86hQ+Bsia8IGZ5VtQGXpmfsDzjUp
+   zFT7FZfGtLQhpmfnH6wcJ1oNw5/JN23NlDhjdIpTmnuePEwm/+DRrpXXa
+   fsEWyoV0CzHbaHtimwoMFOI5oY0hnzmcqksX4htdqs728P/efPNCoha18
+   HNYlB840ja5XNYkF6SYWxLMNez4i82xH/zixwn/v4487iTwPCKY+aoxcV
+   35y8F29rSA2Yo+myRIoPEkXR6WaXmbkMvGqQrszqhVfwG1VYyZBJuEEsT
+   eZNTHg0LY+HJP3uLaJZdOlGJbsy1ppgKU1l4YdcOR35UZ4RfTcCwPu9wU
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="343792770"
 X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="339391356"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 15:00:55 -0700
+   d="scan'208";a="343792770"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 15:10:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="689970719"
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="662930662"
 X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="689970719"
+   d="scan'208";a="662930662"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 15 Jun 2023 15:00:52 -0700
+  by orsmga003.jf.intel.com with ESMTP; 15 Jun 2023 15:10:52 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9v1P-0000Qn-1F;
-	Thu, 15 Jun 2023 22:00:51 +0000
-Date: Fri, 16 Jun 2023 05:59:55 +0800
+	id 1q9vB5-0000RZ-2t;
+	Thu, 15 Jun 2023 22:10:51 +0000
+Date: Fri, 16 Jun 2023 06:10:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiaolei Wang <xiaolei.wang@windriver.com>, peter.chen@kernel.org,
-	pawell@cadence.com, rogerq@kernel.org, a-govindraju@ti.com,
-	gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: cdns3: Put the cdns set active part outside the
- spin lock
-Message-ID: <202306160517.DJARQEZU-lkp@intel.com>
-References: <20230615110424.4007675-1-xiaolei.wang@windriver.com>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Ruihai Zhou <zhouruihai@huaqin.corp-partner.google.com>,
+	Stephen Boyd <swboyd@chromium.org>,
+	yangcong <yangcong5@huaqin.corp-partner.google.com>,
+	Jitao Shi <jitao.shi@mediatek.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Sam Ravnborg <sam@ravnborg.org>, David Airlie <airlied@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/2] drm/panel: boe-tv101wum-nl6: Drop macros and open
+ code sequences
+Message-ID: <202306160538.B7HKWlKo-lkp@intel.com>
+References: <20230615-fix-boe-tv101wum-nl6-v1-1-8ac378405fb7@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,201 +55,344 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230615110424.4007675-1-xiaolei.wang@windriver.com>
+In-Reply-To: <20230615-fix-boe-tv101wum-nl6-v1-1-8ac378405fb7@linaro.org>
 
-Hi Xiaolei,
+Hi Linus,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.4-rc6 next-20230615]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on ac9a78681b921877518763ba0e89202254349d1b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiaolei-Wang/usb-cdns3-Put-the-cdns-set-active-part-outside-the-spin-lock/20230615-190721
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230615110424.4007675-1-xiaolei.wang%40windriver.com
-patch subject: [PATCH v2] usb: cdns3: Put the cdns set active part outside the spin lock
-config: riscv-randconfig-r042-20230615 (https://download.01.org/0day-ci/archive/20230616/202306160517.DJARQEZU-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/drm-panel-boe-tv101wum-nl6-Drop-macros-and-open-code-sequences/20230616-042312
+base:   ac9a78681b921877518763ba0e89202254349d1b
+patch link:    https://lore.kernel.org/r/20230615-fix-boe-tv101wum-nl6-v1-1-8ac378405fb7%40linaro.org
+patch subject: [PATCH 1/2] drm/panel: boe-tv101wum-nl6: Drop macros and open code sequences
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230616/202306160538.B7HKWlKo-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-        git fetch usb usb-testing
-        git checkout usb/usb-testing
-        b4 shazam https://lore.kernel.org/r/20230615110424.4007675-1-xiaolei.wang@windriver.com
+        git checkout ac9a78681b921877518763ba0e89202254349d1b
+        b4 shazam https://lore.kernel.org/r/20230615-fix-boe-tv101wum-nl6-v1-1-8ac378405fb7@linaro.org
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/usb/cdns3/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=alpha SHELL=/bin/bash drivers/gpu/drm/panel/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306160517.DJARQEZU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306160538.B7HKWlKo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/usb/cdns3/cdns3-plat.c:16:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/usb/cdns3/cdns3-plat.c:16:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/usb/cdns3/cdns3-plat.c:16:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     743 |         insb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/usb/cdns3/cdns3-plat.c:16:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     751 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/usb/cdns3/cdns3-plat.c:16:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     759 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/usb/cdns3/cdns3-plat.c:16:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     768 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/usb/cdns3/cdns3-plat.c:16:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     777 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/usb/cdns3/cdns3-plat.c:16:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     786 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/usb/cdns3/cdns3-plat.c:16:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1134 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/usb/cdns3/cdns3-plat.c:258:18: error: too few arguments to function call, expected 2, have 1
-     258 |         cdns_resume(cdns);
-         |         ~~~~~~~~~~~     ^
-   drivers/usb/cdns3/core.h:132:19: note: 'cdns_resume' declared here
-     132 | static inline int cdns_resume(struct cdns *cdns, u8 set_active)
-         |                   ^
->> drivers/usb/cdns3/cdns3-plat.c:261:2: error: call to undeclared function 'cdns_set_active'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     261 |         cdns_set_active(cdns, !PMSG_IS_AUTO(msg));
-         |         ^
-   13 warnings and 2 errors generated.
+>> drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c:776:5: warning: no previous prototype for 'boe_init' [-Wmissing-prototypes]
+     776 | int boe_init(struct mipi_dsi_device *dsi)
+         |     ^~~~~~~~
 
 
-vim +258 drivers/usb/cdns3/cdns3-plat.c
+vim +/boe_init +776 drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
 
-   229	
-   230	static int cdns3_controller_resume(struct device *dev, pm_message_t msg)
-   231	{
-   232		struct cdns *cdns = dev_get_drvdata(dev);
-   233		int ret;
-   234		unsigned long flags;
-   235	
-   236		if (!cdns->in_lpm)
-   237			return 0;
-   238	
-   239		if (cdns_power_is_lost(cdns)) {
-   240			phy_exit(cdns->usb2_phy);
-   241			ret = phy_init(cdns->usb2_phy);
-   242			if (ret)
-   243				return ret;
-   244	
-   245			phy_exit(cdns->usb3_phy);
-   246			ret = phy_init(cdns->usb3_phy);
-   247			if (ret)
-   248				return ret;
-   249		}
-   250	
-   251		ret = set_phy_power_on(cdns);
-   252		if (ret)
-   253			return ret;
-   254	
-   255		cdns3_set_platform_suspend(cdns->dev, false, false);
-   256	
-   257		spin_lock_irqsave(&cdns->lock, flags);
- > 258		cdns_resume(cdns);
-   259		cdns->in_lpm = false;
-   260		spin_unlock_irqrestore(&cdns->lock, flags);
- > 261		cdns_set_active(cdns, !PMSG_IS_AUTO(msg));
-   262		if (cdns->wakeup_pending) {
-   263			cdns->wakeup_pending = false;
-   264			enable_irq(cdns->wakeup_irq);
-   265		}
-   266		dev_dbg(cdns->dev, "%s ends\n", __func__);
-   267	
-   268		return ret;
-   269	}
-   270	
+   775	
+ > 776	int boe_init(struct mipi_dsi_device *dsi)
+   777	{
+   778		msleep(24);
+   779		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x05);
+   780		mipi_dsi_dcs_write_seq(dsi, 0xB1, 0xE5);
+   781		mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x52);
+   782		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x00);
+   783		mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x88);
+   784		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x04);
+   785		mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x00);
+   786		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x00);
+   787		mipi_dsi_dcs_write_seq(dsi, 0xB6, 0x03);
+   788		mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x8B);
+   789		mipi_dsi_dcs_write_seq(dsi, 0xBF, 0x1A);
+   790		mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x0F);
+   791		mipi_dsi_dcs_write_seq(dsi, 0xC2, 0x0C);
+   792		mipi_dsi_dcs_write_seq(dsi, 0xC3, 0x02);
+   793		mipi_dsi_dcs_write_seq(dsi, 0xC4, 0x0C);
+   794		mipi_dsi_dcs_write_seq(dsi, 0xC5, 0x02);
+   795		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x01);
+   796		mipi_dsi_dcs_write_seq(dsi, 0xE0, 0x26);
+   797		mipi_dsi_dcs_write_seq(dsi, 0xE1, 0x26);
+   798		mipi_dsi_dcs_write_seq(dsi, 0xDC, 0x00);
+   799		mipi_dsi_dcs_write_seq(dsi, 0xDD, 0x00);
+   800		mipi_dsi_dcs_write_seq(dsi, 0xCC, 0x26);
+   801		mipi_dsi_dcs_write_seq(dsi, 0xCD, 0x26);
+   802		mipi_dsi_dcs_write_seq(dsi, 0xC8, 0x00);
+   803		mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x00);
+   804		mipi_dsi_dcs_write_seq(dsi, 0xD2, 0x03);
+   805		mipi_dsi_dcs_write_seq(dsi, 0xD3, 0x03);
+   806		mipi_dsi_dcs_write_seq(dsi, 0xE6, 0x04);
+   807		mipi_dsi_dcs_write_seq(dsi, 0xE7, 0x04);
+   808		mipi_dsi_dcs_write_seq(dsi, 0xC4, 0x09);
+   809		mipi_dsi_dcs_write_seq(dsi, 0xC5, 0x09);
+   810		mipi_dsi_dcs_write_seq(dsi, 0xD8, 0x0A);
+   811		mipi_dsi_dcs_write_seq(dsi, 0xD9, 0x0A);
+   812		mipi_dsi_dcs_write_seq(dsi, 0xC2, 0x0B);
+   813		mipi_dsi_dcs_write_seq(dsi, 0xC3, 0x0B);
+   814		mipi_dsi_dcs_write_seq(dsi, 0xD6, 0x0C);
+   815		mipi_dsi_dcs_write_seq(dsi, 0xD7, 0x0C);
+   816		mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x05);
+   817		mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x05);
+   818		mipi_dsi_dcs_write_seq(dsi, 0xD4, 0x06);
+   819		mipi_dsi_dcs_write_seq(dsi, 0xD5, 0x06);
+   820		mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x07);
+   821		mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x07);
+   822		mipi_dsi_dcs_write_seq(dsi, 0xDE, 0x08);
+   823		mipi_dsi_dcs_write_seq(dsi, 0xDF, 0x08);
+   824		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x02);
+   825		mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x00);
+   826		mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x0D);
+   827		mipi_dsi_dcs_write_seq(dsi, 0xC2, 0x17);
+   828		mipi_dsi_dcs_write_seq(dsi, 0xC3, 0x26);
+   829		mipi_dsi_dcs_write_seq(dsi, 0xC4, 0x31);
+   830		mipi_dsi_dcs_write_seq(dsi, 0xC5, 0x1C);
+   831		mipi_dsi_dcs_write_seq(dsi, 0xC6, 0x2C);
+   832		mipi_dsi_dcs_write_seq(dsi, 0xC7, 0x33);
+   833		mipi_dsi_dcs_write_seq(dsi, 0xC8, 0x31);
+   834		mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x37);
+   835		mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x37);
+   836		mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x37);
+   837		mipi_dsi_dcs_write_seq(dsi, 0xCC, 0x39);
+   838		mipi_dsi_dcs_write_seq(dsi, 0xCD, 0x2E);
+   839		mipi_dsi_dcs_write_seq(dsi, 0xCE, 0x2F);
+   840		mipi_dsi_dcs_write_seq(dsi, 0xCF, 0x2F);
+   841		mipi_dsi_dcs_write_seq(dsi, 0xD0, 0x07);
+   842		mipi_dsi_dcs_write_seq(dsi, 0xD2, 0x00);
+   843		mipi_dsi_dcs_write_seq(dsi, 0xD3, 0x0D);
+   844		mipi_dsi_dcs_write_seq(dsi, 0xD4, 0x17);
+   845		mipi_dsi_dcs_write_seq(dsi, 0xD5, 0x26);
+   846		mipi_dsi_dcs_write_seq(dsi, 0xD6, 0x31);
+   847		mipi_dsi_dcs_write_seq(dsi, 0xD7, 0x3F);
+   848		mipi_dsi_dcs_write_seq(dsi, 0xD8, 0x3F);
+   849		mipi_dsi_dcs_write_seq(dsi, 0xD9, 0x3F);
+   850		mipi_dsi_dcs_write_seq(dsi, 0xDA, 0x3F);
+   851		mipi_dsi_dcs_write_seq(dsi, 0xDB, 0x37);
+   852		mipi_dsi_dcs_write_seq(dsi, 0xDC, 0x37);
+   853		mipi_dsi_dcs_write_seq(dsi, 0xDD, 0x37);
+   854		mipi_dsi_dcs_write_seq(dsi, 0xDE, 0x39);
+   855		mipi_dsi_dcs_write_seq(dsi, 0xDF, 0x2E);
+   856		mipi_dsi_dcs_write_seq(dsi, 0xE0, 0x2F);
+   857		mipi_dsi_dcs_write_seq(dsi, 0xE1, 0x2F);
+   858		mipi_dsi_dcs_write_seq(dsi, 0xE2, 0x07);
+   859		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x03);
+   860		mipi_dsi_dcs_write_seq(dsi, 0xC8, 0x0B);
+   861		mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x07);
+   862		mipi_dsi_dcs_write_seq(dsi, 0xC3, 0x00);
+   863		mipi_dsi_dcs_write_seq(dsi, 0xE7, 0x00);
+   864		mipi_dsi_dcs_write_seq(dsi, 0xC5, 0x2A);
+   865		mipi_dsi_dcs_write_seq(dsi, 0xDE, 0x2A);
+   866		mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x43);
+   867		mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x07);
+   868		mipi_dsi_dcs_write_seq(dsi, 0xE4, 0xC0);
+   869		mipi_dsi_dcs_write_seq(dsi, 0xE5, 0x0D);
+   870		mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x00);
+   871		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x06);
+   872		mipi_dsi_dcs_write_seq(dsi, 0xB8, 0xA5);
+   873		mipi_dsi_dcs_write_seq(dsi, 0xC0, 0xA5);
+   874		mipi_dsi_dcs_write_seq(dsi, 0xC7, 0x0F);
+   875		mipi_dsi_dcs_write_seq(dsi, 0xD5, 0x32);
+   876		mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x00);
+   877		mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x00);
+   878		mipi_dsi_dcs_write_seq(dsi, 0xBC, 0x00);
+   879		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x07);
+   880		mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x00);
+   881		mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x02);
+   882		mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x0F);
+   883		mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x25);
+   884		mipi_dsi_dcs_write_seq(dsi, 0xB5, 0x39);
+   885		mipi_dsi_dcs_write_seq(dsi, 0xB6, 0x4E);
+   886		mipi_dsi_dcs_write_seq(dsi, 0xB7, 0x72);
+   887		mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x97);
+   888		mipi_dsi_dcs_write_seq(dsi, 0xB9, 0xDC);
+   889		mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x22);
+   890		mipi_dsi_dcs_write_seq(dsi, 0xBB, 0xA4);
+   891		mipi_dsi_dcs_write_seq(dsi, 0xBC, 0x2B);
+   892		mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x2F);
+   893		mipi_dsi_dcs_write_seq(dsi, 0xBE, 0xA9);
+   894		mipi_dsi_dcs_write_seq(dsi, 0xBF, 0x25);
+   895		mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x61);
+   896		mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x97);
+   897		mipi_dsi_dcs_write_seq(dsi, 0xC2, 0xB2);
+   898		mipi_dsi_dcs_write_seq(dsi, 0xC3, 0xCD);
+   899		mipi_dsi_dcs_write_seq(dsi, 0xC4, 0xD9);
+   900		mipi_dsi_dcs_write_seq(dsi, 0xC5, 0xE7);
+   901		mipi_dsi_dcs_write_seq(dsi, 0xC6, 0xF4);
+   902		mipi_dsi_dcs_write_seq(dsi, 0xC7, 0xFA);
+   903		mipi_dsi_dcs_write_seq(dsi, 0xC8, 0xFC);
+   904		mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x00);
+   905		mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x00);
+   906		mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x16);
+   907		mipi_dsi_dcs_write_seq(dsi, 0xCC, 0xAF);
+   908		mipi_dsi_dcs_write_seq(dsi, 0xCD, 0xFF);
+   909		mipi_dsi_dcs_write_seq(dsi, 0xCE, 0xFF);
+   910		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x08);
+   911		mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x04);
+   912		mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x05);
+   913		mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x11);
+   914		mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x24);
+   915		mipi_dsi_dcs_write_seq(dsi, 0xB5, 0x39);
+   916		mipi_dsi_dcs_write_seq(dsi, 0xB6, 0x4F);
+   917		mipi_dsi_dcs_write_seq(dsi, 0xB7, 0x72);
+   918		mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x98);
+   919		mipi_dsi_dcs_write_seq(dsi, 0xB9, 0xDC);
+   920		mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x23);
+   921		mipi_dsi_dcs_write_seq(dsi, 0xBB, 0xA6);
+   922		mipi_dsi_dcs_write_seq(dsi, 0xBC, 0x2C);
+   923		mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x30);
+   924		mipi_dsi_dcs_write_seq(dsi, 0xBE, 0xAA);
+   925		mipi_dsi_dcs_write_seq(dsi, 0xBF, 0x26);
+   926		mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x62);
+   927		mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x9B);
+   928		mipi_dsi_dcs_write_seq(dsi, 0xC2, 0xB5);
+   929		mipi_dsi_dcs_write_seq(dsi, 0xC3, 0xCF);
+   930		mipi_dsi_dcs_write_seq(dsi, 0xC4, 0xDB);
+   931		mipi_dsi_dcs_write_seq(dsi, 0xC5, 0xE8);
+   932		mipi_dsi_dcs_write_seq(dsi, 0xC6, 0xF5);
+   933		mipi_dsi_dcs_write_seq(dsi, 0xC7, 0xFA);
+   934		mipi_dsi_dcs_write_seq(dsi, 0xC8, 0xFC);
+   935		mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x00);
+   936		mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x00);
+   937		mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x16);
+   938		mipi_dsi_dcs_write_seq(dsi, 0xCC, 0xAF);
+   939		mipi_dsi_dcs_write_seq(dsi, 0xCD, 0xFF);
+   940		mipi_dsi_dcs_write_seq(dsi, 0xCE, 0xFF);
+   941		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x09);
+   942		mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x04);
+   943		mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x02);
+   944		mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x16);
+   945		mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x24);
+   946		mipi_dsi_dcs_write_seq(dsi, 0xB5, 0x3B);
+   947		mipi_dsi_dcs_write_seq(dsi, 0xB6, 0x4F);
+   948		mipi_dsi_dcs_write_seq(dsi, 0xB7, 0x73);
+   949		mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x99);
+   950		mipi_dsi_dcs_write_seq(dsi, 0xB9, 0xE0);
+   951		mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x26);
+   952		mipi_dsi_dcs_write_seq(dsi, 0xBB, 0xAD);
+   953		mipi_dsi_dcs_write_seq(dsi, 0xBC, 0x36);
+   954		mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x3A);
+   955		mipi_dsi_dcs_write_seq(dsi, 0xBE, 0xAE);
+   956		mipi_dsi_dcs_write_seq(dsi, 0xBF, 0x2A);
+   957		mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x66);
+   958		mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x9E);
+   959		mipi_dsi_dcs_write_seq(dsi, 0xC2, 0xB8);
+   960		mipi_dsi_dcs_write_seq(dsi, 0xC3, 0xD1);
+   961		mipi_dsi_dcs_write_seq(dsi, 0xC4, 0xDD);
+   962		mipi_dsi_dcs_write_seq(dsi, 0xC5, 0xE9);
+   963		mipi_dsi_dcs_write_seq(dsi, 0xC6, 0xF6);
+   964		mipi_dsi_dcs_write_seq(dsi, 0xC7, 0xFA);
+   965		mipi_dsi_dcs_write_seq(dsi, 0xC8, 0xFC);
+   966		mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x00);
+   967		mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x00);
+   968		mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x16);
+   969		mipi_dsi_dcs_write_seq(dsi, 0xCC, 0xAF);
+   970		mipi_dsi_dcs_write_seq(dsi, 0xCD, 0xFF);
+   971		mipi_dsi_dcs_write_seq(dsi, 0xCE, 0xFF);
+   972		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x0A);
+   973		mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x00);
+   974		mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x02);
+   975		mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x0F);
+   976		mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x25);
+   977		mipi_dsi_dcs_write_seq(dsi, 0xB5, 0x39);
+   978		mipi_dsi_dcs_write_seq(dsi, 0xB6, 0x4E);
+   979		mipi_dsi_dcs_write_seq(dsi, 0xB7, 0x72);
+   980		mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x97);
+   981		mipi_dsi_dcs_write_seq(dsi, 0xB9, 0xDC);
+   982		mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x22);
+   983		mipi_dsi_dcs_write_seq(dsi, 0xBB, 0xA4);
+   984		mipi_dsi_dcs_write_seq(dsi, 0xBC, 0x2B);
+   985		mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x2F);
+   986		mipi_dsi_dcs_write_seq(dsi, 0xBE, 0xA9);
+   987		mipi_dsi_dcs_write_seq(dsi, 0xBF, 0x25);
+   988		mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x61);
+   989		mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x97);
+   990		mipi_dsi_dcs_write_seq(dsi, 0xC2, 0xB2);
+   991		mipi_dsi_dcs_write_seq(dsi, 0xC3, 0xCD);
+   992		mipi_dsi_dcs_write_seq(dsi, 0xC4, 0xD9);
+   993		mipi_dsi_dcs_write_seq(dsi, 0xC5, 0xE7);
+   994		mipi_dsi_dcs_write_seq(dsi, 0xC6, 0xF4);
+   995		mipi_dsi_dcs_write_seq(dsi, 0xC7, 0xFA);
+   996		mipi_dsi_dcs_write_seq(dsi, 0xC8, 0xFC);
+   997		mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x00);
+   998		mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x00);
+   999		mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x16);
+  1000		mipi_dsi_dcs_write_seq(dsi, 0xCC, 0xAF);
+  1001		mipi_dsi_dcs_write_seq(dsi, 0xCD, 0xFF);
+  1002		mipi_dsi_dcs_write_seq(dsi, 0xCE, 0xFF);
+  1003		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x0B);
+  1004		mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x04);
+  1005		mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x05);
+  1006		mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x11);
+  1007		mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x24);
+  1008		mipi_dsi_dcs_write_seq(dsi, 0xB5, 0x39);
+  1009		mipi_dsi_dcs_write_seq(dsi, 0xB6, 0x4F);
+  1010		mipi_dsi_dcs_write_seq(dsi, 0xB7, 0x72);
+  1011		mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x98);
+  1012		mipi_dsi_dcs_write_seq(dsi, 0xB9, 0xDC);
+  1013		mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x23);
+  1014		mipi_dsi_dcs_write_seq(dsi, 0xBB, 0xA6);
+  1015		mipi_dsi_dcs_write_seq(dsi, 0xBC, 0x2C);
+  1016		mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x30);
+  1017		mipi_dsi_dcs_write_seq(dsi, 0xBE, 0xAA);
+  1018		mipi_dsi_dcs_write_seq(dsi, 0xBF, 0x26);
+  1019		mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x62);
+  1020		mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x9B);
+  1021		mipi_dsi_dcs_write_seq(dsi, 0xC2, 0xB5);
+  1022		mipi_dsi_dcs_write_seq(dsi, 0xC3, 0xCF);
+  1023		mipi_dsi_dcs_write_seq(dsi, 0xC4, 0xDB);
+  1024		mipi_dsi_dcs_write_seq(dsi, 0xC5, 0xE8);
+  1025		mipi_dsi_dcs_write_seq(dsi, 0xC6, 0xF5);
+  1026		mipi_dsi_dcs_write_seq(dsi, 0xC7, 0xFA);
+  1027		mipi_dsi_dcs_write_seq(dsi, 0xC8, 0xFC);
+  1028		mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x00);
+  1029		mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x00);
+  1030		mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x16);
+  1031		mipi_dsi_dcs_write_seq(dsi, 0xCC, 0xAF);
+  1032		mipi_dsi_dcs_write_seq(dsi, 0xCD, 0xFF);
+  1033		mipi_dsi_dcs_write_seq(dsi, 0xCE, 0xFF);
+  1034		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x0C);
+  1035		mipi_dsi_dcs_write_seq(dsi, 0xB1, 0x04);
+  1036		mipi_dsi_dcs_write_seq(dsi, 0xB2, 0x02);
+  1037		mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x16);
+  1038		mipi_dsi_dcs_write_seq(dsi, 0xB4, 0x24);
+  1039		mipi_dsi_dcs_write_seq(dsi, 0xB5, 0x3B);
+  1040		mipi_dsi_dcs_write_seq(dsi, 0xB6, 0x4F);
+  1041		mipi_dsi_dcs_write_seq(dsi, 0xB7, 0x73);
+  1042		mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x99);
+  1043		mipi_dsi_dcs_write_seq(dsi, 0xB9, 0xE0);
+  1044		mipi_dsi_dcs_write_seq(dsi, 0xBA, 0x26);
+  1045		mipi_dsi_dcs_write_seq(dsi, 0xBB, 0xAD);
+  1046		mipi_dsi_dcs_write_seq(dsi, 0xBC, 0x36);
+  1047		mipi_dsi_dcs_write_seq(dsi, 0xBD, 0x3A);
+  1048		mipi_dsi_dcs_write_seq(dsi, 0xBE, 0xAE);
+  1049		mipi_dsi_dcs_write_seq(dsi, 0xBF, 0x2A);
+  1050		mipi_dsi_dcs_write_seq(dsi, 0xC0, 0x66);
+  1051		mipi_dsi_dcs_write_seq(dsi, 0xC1, 0x9E);
+  1052		mipi_dsi_dcs_write_seq(dsi, 0xC2, 0xB8);
+  1053		mipi_dsi_dcs_write_seq(dsi, 0xC3, 0xD1);
+  1054		mipi_dsi_dcs_write_seq(dsi, 0xC4, 0xDD);
+  1055		mipi_dsi_dcs_write_seq(dsi, 0xC5, 0xE9);
+  1056		mipi_dsi_dcs_write_seq(dsi, 0xC6, 0xF6);
+  1057		mipi_dsi_dcs_write_seq(dsi, 0xC7, 0xFA);
+  1058		mipi_dsi_dcs_write_seq(dsi, 0xC8, 0xFC);
+  1059		mipi_dsi_dcs_write_seq(dsi, 0xC9, 0x00);
+  1060		mipi_dsi_dcs_write_seq(dsi, 0xCA, 0x00);
+  1061		mipi_dsi_dcs_write_seq(dsi, 0xCB, 0x16);
+  1062		mipi_dsi_dcs_write_seq(dsi, 0xCC, 0xAF);
+  1063		mipi_dsi_dcs_write_seq(dsi, 0xCD, 0xFF);
+  1064		mipi_dsi_dcs_write_seq(dsi, 0xCE, 0xFF);
+  1065		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x00);
+  1066		mipi_dsi_dcs_write_seq(dsi, 0xB3, 0x08);
+  1067		mipi_dsi_dcs_write_seq(dsi, 0xB0, 0x04);
+  1068		mipi_dsi_dcs_write_seq(dsi, 0xB8, 0x68);
+  1069		msleep(150);
+  1070	
+  1071		return 0;
+  1072	}
+  1073	
 
 -- 
 0-DAY CI Kernel Test Service
