@@ -1,41 +1,43 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80DCEAF0;
-	Thu, 15 Jun 2023 19:56:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 187E6EAD9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 20:16:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686859013; x=1718395013;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=cWPQkrI1vH0GvJAOmIIymXog1dI5ezkrcJolaJcVPrA=;
-  b=l5fK/ysEWApSeZyjhhDipXlRhofhTmNFcVPUvqPZQwoj5QL5OGIdSfEz
-   xd+cknNxqbbgH+z0W2O252sB2QUFsMVYs5S3RJXmFamQX0fyuVsn5YeiJ
-   gMfQQ60KZPZH3eulU7hbnO9f9DEB1OFNzPCz3jl2wIY8o2blM77ZJkphD
-   wbUYxL/hICxB3me3Q2WJhzWi+BXHIskwM5BAhM83JURpUhLAYL34uHTGF
-   MpYtJsdsIp2KxMd34ibboITt5sX8Raermh2TnK/Mt3kYz3BJjpw3GTk8M
-   0v6S1l2VS7FgDZjWluqcL9+ZFYyC7qZGJIDhlD4ZMDa3elWFg0qo9SJ+3
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="362443447"
+  t=1686860218; x=1718396218;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kH5Cb/L5WSB063d6Udb7CJM348wIGhZElgRYNsAxI6Q=;
+  b=Rsi194ww18FZLhh4t1+wvewDCZ0xseDzQ4gXSx4UV7rSabHGrOeiH86I
+   cIvkPYvRRI5bHCf6lwADGBGT7EMqEDVInrYEC4qrfSQbk56sneSPz+2rA
+   CMZlTLVeObPX6ZbBWhw57G6LSRk5ey7NjeYYQSpEJ5QwoFvtsk89Pho3h
+   3RKwFHyrhvyPan81K1cdg0haOt/0VCBrAj8VBLz7SY5ICykzly7azlA9D
+   OpkKiBn9CBSFy2z5Rm1FI3Dx17AjDtKdZsmQDeENkyE+vISvtzlro8EyE
+   66Eq3xBqrv8j+hkWBH8YtmmW/lQ0yGKz12ldwMrYIWPpnFWNfzgBFJSiE
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="339371141"
 X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="362443447"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 12:56:51 -0700
+   d="scan'208";a="339371141"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 13:16:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="782615946"
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="886821065"
 X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="782615946"
+   d="scan'208";a="886821065"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 15 Jun 2023 12:56:48 -0700
+  by orsmga005.jf.intel.com with ESMTP; 15 Jun 2023 13:16:49 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9t5M-0000L4-02;
-	Thu, 15 Jun 2023 19:56:48 +0000
-Date: Fri, 16 Jun 2023 03:56:05 +0800
+	id 1q9tOi-0000Lp-1h;
+	Thu, 15 Jun 2023 20:16:48 +0000
+Date: Fri, 16 Jun 2023 04:16:40 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [powerpc:next-test 10/48] clang-15: error: unsupported option
- '-fsanitize=thread' for target 'powerpc-unknown-linux-gnu'
-Message-ID: <202306160335.cVKfCwNw-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.4 17409/27777] htmldocs:
+ Documentation/admin-guide/pstore-blk.rst:152: WARNING: Error in "kernel-doc"
+ directive:
+Message-ID: <202306160415.OBRM8JrT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,54 +47,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-CC: linuxppc-dev@lists.ozlabs.org
-TO: Rohan McLure <rmclure@linux.ibm.com>
-CC: Michael Ellerman <mpe@ellerman.id.au>
-CC: Christophe Leroy <christophe.leroy@csgroup.eu>
+Hi WeiXiong,
 
-Hi Rohan,
+FYI, the error/warning still remains.
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next-test
-head:   4adc95a3edc152ffc3b0c88117767a31c9c01a1e
-commit: 95567f46b4d20c047750a5e3029461afcdc67697 [10/48] powerpc/{32,book3e}: kcsan: Extend KCSAN Support
-config: powerpc-randconfig-r026-20230615 (https://download.01.org/0day-ci/archive/20230616/202306160335.cVKfCwNw-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build):
-        mkdir -p ~/bin
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install powerpc cross compiling tool for clang build
-        # apt-get install binutils-powerpc-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git/commit/?id=95567f46b4d20c047750a5e3029461afcdc67697
-        git remote add powerpc https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git
-        git fetch --no-tags powerpc next-test
-        git checkout 95567f46b4d20c047750a5e3029461afcdc67697
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=powerpc prepare
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   39a9b92e9828f28d3c1bfae81b3121d973b76ad3
+commit: c0003a71672a751ec23d85451cbe43ff64609ab1 [17409/27777] UPSTREAM: Documentation: Add details for pstore/blk
+reproduce:
+        git remote add android-common https://android.googlesource.com/kernel/common
+        git fetch --no-tags android-common android12-5.4
+        git checkout c0003a71672a751ec23d85451cbe43ff64609ab1
+        make menuconfig
+        # enable CONFIG_COMPILE_TEST, CONFIG_WARN_MISSING_DOCUMENTS, CONFIG_WARN_ABI_ERRORS
+        make htmldocs
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306160335.cVKfCwNw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306160415.OBRM8JrT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
->> clang-15: error: unsupported option '-fsanitize=thread' for target 'powerpc-unknown-linux-gnu'
-   make[2]: *** [scripts/Makefile.build:252: scripts/mod/empty.o] Error 1 shuffle=1721340420
->> clang-15: error: unsupported option '-fsanitize=thread' for target 'powerpc-unknown-linux-gnu'
-   make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 1 shuffle=1721340420
-   make[2]: Target 'scripts/mod/' not remade because of errors.
-   make[1]: *** [Makefile:1286: prepare0] Error 2 shuffle=1721340420
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2 shuffle=1721340420
-   make: Target 'prepare' not remade because of errors.
+>> Documentation/admin-guide/pstore-blk.rst:152: WARNING: Error in "kernel-doc" directive:
+>> Documentation/admin-guide/pstore-blk.rst: WARNING: document isn't included in any toctree
+
+vim +152 Documentation/admin-guide/pstore-blk.rst
+
+   151	
+ > 152	.. kernel-doc:: fs/pstore/blk.c
+   153	   :identifiers: register_pstore_blk
+   154	
 
 -- 
 0-DAY CI Kernel Test Service
