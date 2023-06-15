@@ -1,47 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5F320E0;
-	Thu, 15 Jun 2023 11:22:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4103C20E0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 11:26:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686828169; x=1718364169;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=116F3/yC9e2Y/2nrti3FoTM8GkLnOVOOFoERu342pTk=;
-  b=RdtncISh6vK3wv2lL3aykrh4Hn6tjFlYOPv6L1in/0cmA5MQP1jnXFKC
-   UOQbkUrQVHO0W1vY8n3cCjA3y/1JSjJq8LVb1QJz93jND31I8yHx+6L4Q
-   /t9v2OKwpYR5ethezs02e9SFs0d9KghHX4CR8FXR4dIy6RZCqD2c6luYK
-   6Zi95giN9TipW0eDt+spMrYBOB+ILRBQgIoSXHMnWmCPL2/1Nqw/b+gZw
-   Fp/Qe3Sc78MLNwe4i0YuBEt+Ivm85ByfdVBeKLb3mpsm6TJDVdzVHfMOc
-   XKP0VnCHUYmR6F04MsIGhwXaYl+I4/0HouaIRx91ccaQapLrEEiHApPZ4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="358875418"
+  t=1686828419; x=1718364419;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IAmNAYYVgODwRO76eoGCuAczmjTlo6b/tutd4bTWGYY=;
+  b=Ik7RHr7AnE+Zppe3f6yjRVNrBjpQMGCbOQ07WuOYDz1JKAV+YF69+zbH
+   30/qEuiHqSnhrxF3ftVt2aLHOXqXHodSjVsbGWdKgBNyk9S8x2QS0lyzj
+   OTwwE3lVbUJ0Cxl9Mo3lzPzmG57jZTQY5zi9m6a55fY9tQuZlj1S0xmKP
+   Qgx+PsPv7kKbuFLikaty0Lfg6u6cI8iSk3Xs6keZORFom3N45RRKrmUuj
+   BXw8OSjzxEckx9u3f6mVPEzmgc554hqcnH8Byey4eyfjVZ7RheVWwiFNy
+   9eyTCFPqHtDq3z2FWsdrdxymkaFlTeAzmSkgu2vBhJMHZp01gIupnTtGe
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="422490673"
 X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="358875418"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 04:22:48 -0700
+   d="scan'208";a="422490673"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 04:26:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="802300149"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="662753307"
 X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="802300149"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by FMSMGA003.fm.intel.com with ESMTP; 15 Jun 2023 04:22:47 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.96)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1q9l3t-003vZ9-2r;
-	Thu, 15 Jun 2023 14:22:45 +0300
-Date: Thu, 15 Jun 2023 14:22:45 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Alexander Lobakin <alexandr.lobakin@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Yury Norov <yury.norov@gmail.com>
-Subject: Re: lib/test_bitmap.c:920:2: error: call to
- '__compiletime_assert_239' declared with 'error' attribute: BUILD_BUG_ON
- failed: !__builtin_constant_p(res)
-Message-ID: <ZIr0hZV/jcpZkRq2@smile.fi.intel.com>
-References: <202306151433.QKcn7ZNn-lkp@intel.com>
+   d="scan'208";a="662753307"
+Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 15 Jun 2023 04:26:53 -0700
+Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9l7t-0001oH-0V;
+	Thu, 15 Jun 2023 11:26:53 +0000
+Date: Thu, 15 Jun 2023 19:26:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Meng Wei <wei.meng@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	Chang Ying <ying.chang@intel.com>
+Subject: [intel-lts:4.19/android_s 4020/30000]
+ drivers/media/i2c/max9286.c:109:13: warning: variable 'ret' set but not used
+Message-ID: <202306151950.3AbSwMaQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,66 +46,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202306151433.QKcn7ZNn-lkp@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Jun 15, 2023 at 02:32:02PM +0800, kernel test robot wrote:
-> Hi Alexander,
-> 
-> FYI, the error/warning still remains.
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   b6dad5178ceaf23f369c3711062ce1f2afc33644
-> commit: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
-> date:   12 months ago
-> config: arm64-randconfig-r025-20230615 (https://download.01.org/0day-ci/archive/20230615/202306151433.QKcn7ZNn-lkp@intel.com/config)
-> compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-> reproduce (this is a W=1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm64 cross compiling tool for clang build
->         # apt-get install binutils-aarch64-linux-gnu
->         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dc34d5036692c614eef23c1130ee42a201c316bf
->         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
->         git fetch --no-tags linus master
->         git checkout dc34d5036692c614eef23c1130ee42a201c316bf
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash lib/
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306151433.QKcn7ZNn-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
+Hi Meng,
 
->    888		/*
->    889		 * Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }`.
->    890		 * Clang on s390 optimizes bitops at compile-time as intended, but at
->    891		 * the same time stops treating @bitmap and @bitopvar as compile-time
->    892		 * constants after regular test_bit() is executed, thus triggering the
->    893		 * build bugs below. So, call const_test_bit() there directly until
->    894		 * the compiler is fixed.
->    895		 */
->    896		bitmap_clear(bitmap, 0, BITS_PER_LONG);
->    897	#if defined(__s390__) && defined(__clang__)
->    898		if (!const_test_bit(7, bitmap))
->    899	#else
->    900		if (!test_bit(7, bitmap))
->    901	#endif
+FYI, the error/warning still remains.
 
-Hmm... Reveals the bug in clang/arm64?
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   84b0def7f5485c67cb173427c2009a55c6303842
+commit: 41994ca1985584f12c52324f97effb3a8ae4a0c1 [4020/30000] media: i2c: add MAX9286/96705 SER/DES driver
+config: microblaze-buildonly-randconfig-r006-20230614 (https://download.01.org/0day-ci/archive/20230615/202306151950.3AbSwMaQ-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel/linux-intel-lts/commit/41994ca1985584f12c52324f97effb3a8ae4a0c1
+        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
+        git fetch --no-tags intel-lts 4.19/android_s
+        git checkout 41994ca1985584f12c52324f97effb3a8ae4a0c1
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash M=drivers/media/i2c
 
->    919		res = !test_bit(18, &bitopvar);
->  > 920		BUILD_BUG_ON(!__builtin_constant_p(res));
->    921		BUILD_BUG_ON(!res);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306151950.3AbSwMaQ-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+   drivers/media/i2c/max9286.c: In function 'max96705_write_register':
+   drivers/media/i2c/max9286.c:116:25: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+     116 |                 if (val < 0)
+         |                         ^
+>> drivers/media/i2c/max9286.c:109:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     109 |         int ret;
+         |             ^~~
+   drivers/media/i2c/max9286.c: At top level:
+>> drivers/media/i2c/max9286.c:839:4: warning: no previous prototype for 'get_output_link_order' [-Wmissing-prototypes]
+     839 | u8 get_output_link_order(struct max9286 *max)
+         |    ^~~~~~~~~~~~~~~~~~~~~
+   microblaze-linux-ld: warning: drivers/media/i2c/.tmp_mc_max9286.o: missing .note.GNU-stack section implies executable stack
+   microblaze-linux-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+
+
+vim +/ret +109 drivers/media/i2c/max9286.c
+
+   104	
+   105	/* Serializer register write */
+   106	static int max96705_write_register(struct max9286 *max,
+   107		unsigned int offset, u8 reg, u8 val)
+   108	{
+ > 109		int ret;
+   110		int retry, timeout = 10;
+   111		struct i2c_client *client = v4l2_get_subdevdata(&max->v4l2_sd);
+   112	
+   113		client->addr = S_ADDR_MAX96705 + offset;
+   114		for (retry = 0; retry < timeout; retry++) {
+   115			ret = i2c_smbus_write_byte_data(client, reg, val);
+ > 116			if (val < 0)
+   117				usleep_range(5000, 6000);
+   118			else
+   119				break;
+   120		}
+   121	
+   122		client->addr = DS_ADDR_MAX9286;
+   123		if (retry >= timeout) {
+   124			dev_err(max->v4l2_sd.dev,
+   125				"%s:write reg failed: reg=%2x\n", __func__, reg);
+   126			return -EREMOTEIO;
+   127		}
+   128	
+   129		return 0;
+   130	}
+   131	
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
