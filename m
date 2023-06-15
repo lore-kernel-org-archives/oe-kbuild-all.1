@@ -1,42 +1,42 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052C653BA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 09:42:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D83D53BA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 09:42:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686822175; x=1718358175;
+  t=1686822177; x=1718358177;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4JQNzal78cLd/6uuqHINP9nlfOL23Ka/qM8+rZ1hq/8=;
-  b=LtWOpFUeQlLxQ8Fv6IKdfWmw6WR14Xt+RA7F2NX8xU35uhShn4YCxZJI
-   0Sb5Up3tMKgJoraBcp4DOQtAg/IUjoNdTpMkg6ydODBkT36fZyZo+NVdR
-   /D/ZFJYSvFv1Zfcm6ap6ngMHcud5Z8r12dc7wCBITXiF5qdZtWFLqtyCR
-   kIxb83MFcLVPhUdc64I+eZM84zLAY594Lej7i6vf/VIjuxnSt6wVFjRG4
-   F884gFfPcP7+H7F26IcW4iFJ+WSmbhD91FZEUljlbPNdqL0/hFifJNwj0
-   bF808ks/hx+h7z87MpBxBO/I0joJQ4hC4Kjzm1iLFlKeQIN1nTJj0jH0v
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="424757861"
+  bh=WBnredUXA5Lim85EUTGa6FI2b8uC4hffGoSCskw1uXs=;
+  b=nf9aPlW3PTf5bQJ6EvoxMqW3mVWhaqXCbHLHCHTwgQQzhEH4U1eT7rZW
+   PRjdW5wLhsnKoTvmgq1U0wrTBOnQrfgAJ+hcQa9wcRz5exs9nHm6K519e
+   +OSShnp+XoCDG4wjbSfVjy+o6XxY0atmpF0FNkLowDwGYCJ9ZSMA9Yg8k
+   0Y9JTN7vrDy01KpAKJSwX76lXX4+r+UeJeIaeJ3Dyl/g0iJH714w2EsEb
+   8RE/8oXOtdZ5pfXW9n6w24XP05BllVCaFH84TfYLAq3Ozfwf3MYi/xDQv
+   s+DLBofjaZij8vhIW/fXWocPsmsmpgCaugVy+5wyf39pgheMdSc04wJbl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="424757863"
 X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="424757861"
+   d="scan'208";a="424757863"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 02:42:54 -0700
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="745437412"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="745437415"
 X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="745437412"
+   d="scan'208";a="745437415"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
   by orsmga001.jf.intel.com with ESMTP; 15 Jun 2023 02:42:53 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9jVE-0001i5-19;
+	id 1q9jVE-0001i7-1D;
 	Thu, 15 Jun 2023 09:42:52 +0000
-Date: Thu, 15 Jun 2023 17:42:25 +0800
+Date: Thu, 15 Jun 2023 17:42:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [android-common:mirror-chromeos-5.10-arcvm 23/25]
  fs/erofs/decompressor_lzma.c:136:29: warning: assignment to 'struct
  xz_dec_microlzma *' from 'int' makes pointer from integer without a cast
-Message-ID: <202306151728.mduoZC66-lkp@intel.com>
+Message-ID: <202306151726.mnEqhIdM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,7 +49,7 @@ Content-Disposition: inline
 tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
 head:   31e1367ff78eb68e54a2025e9c6601e3fa6c6312
 commit: ede603374aab4bb8a612fd3c1c84ceef11435fa1 [23/25] FROMGIT: erofs: lzma compression support
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230615/202306151728.mduoZC66-lkp@intel.com/config)
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230615/202306151726.mnEqhIdM-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
         git remote add android-common https://android.googlesource.com/kernel/common
@@ -57,13 +57,13 @@ reproduce (this is a W=1 build):
         git checkout ede603374aab4bb8a612fd3c1c84ceef11435fa1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/erofs/
+        make W=1 O=build_dir ARCH=x86_64 olddefconfig
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/erofs/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306151728.mduoZC66-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306151726.mnEqhIdM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
