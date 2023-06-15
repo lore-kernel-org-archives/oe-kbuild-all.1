@@ -1,168 +1,243 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2045.outbound.protection.outlook.com [40.107.220.45])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC15D2E0FC
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 21:53:14 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OVfZpm282D7xaUB2aHpxE2yk/Z4ekyBQTgiV+iexoGOi1/MvMYhUVeUxrMI8NLo+eakCC8o/z3HlZN3i9YvRO1++RoniNsMzcRUPcED3vMxYWhgCEyPDJIy9RyQY1vuAqWXraSR226KPD7yLVjItkgJ1CMabz+I7jRSlp38TnE7M8Mg8sOQrHEr77WiJLvKpGjM52LF2rN71Ca+2tC2oT1fauVoFPDVwQ1WUlaGGgmPzXQemHdO2pFiDwKu7stPa6+pqf9wBoAU2JVYhVSPsg55QqHXhjg6YdGweysw+yOXr2SwEw9RUM8HpXtLCf6EDLDc+lzvo6yY9uLVpSAc5kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XcIi9FkmeIPocxGNS1wu5NDlimqLjGl8C0ma0l17wyA=;
- b=HRMICfFr+S2zw/YO5CGd6+R1/WQeaMUrxwFKU/9vJdj5XX0Kgi7pFojwQr3IcVUAZdbbBM2r3RZvH+9h0JS7+mElxB+GIFqkx7DPd5EJFGqIvYIvWBuDbMfQLvOMVpd89so9tArp/7+gR6j4mV8IMCddXOf/bpT9jb1gCXkoxLUDlU+ii2LQ1ZQHH9meoNrTxDDN8NDGnDFftSkqpvostde4acbC055MYRL/ZLl8Xd7ZXsQEfQrdJfxAUGIZmP3UVxskdwseuw/CBm+K8zOlTme/oE7YxfMGVX3yaFfFSKuSl4LoWsRCykvx4+Blpg7bQbY8MfNXVo3U/Xe0sydxoQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=davemloft.net smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XcIi9FkmeIPocxGNS1wu5NDlimqLjGl8C0ma0l17wyA=;
- b=UVKaJ3HE15aFL3/cCIFvsg8quX0bWirO8+Kcmot4SveQUH44bMcUp7xlCUvX+JwuHMM0+er6i5ok9DPe9XrEsmk+JfQz8FJxj5FKuEx0lq12Na4BlpvINQ4JaTZ7Tuu+Fch5g+3noBYRCSI5Oi83c73mnPJ7mc7vGD/2XElr3xQ=
-Received: from MW4P220CA0001.NAMP220.PROD.OUTLOOK.COM (2603:10b6:303:115::6)
- by CH3PR12MB8725.namprd12.prod.outlook.com (2603:10b6:610:170::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6500.25; Thu, 15 Jun
- 2023 21:53:11 +0000
-Received: from MWH0EPF000989EB.namprd02.prod.outlook.com
- (2603:10b6:303:115:cafe::7c) by MW4P220CA0001.outlook.office365.com
- (2603:10b6:303:115::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6477.37 via Frontend
- Transport; Thu, 15 Jun 2023 21:53:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MWH0EPF000989EB.mail.protection.outlook.com (10.167.241.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6500.27 via Frontend Transport; Thu, 15 Jun 2023 21:53:10 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 15 Jun
- 2023 16:53:09 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Thu, 15 Jun
- 2023 16:53:09 -0500
-Received: from xcbecree41x.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23 via Frontend
- Transport; Thu, 15 Jun 2023 16:53:07 -0500
-From: <edward.cree@amd.com>
-To: <linux-net-drivers@amd.com>, <davem@davemloft.net>, <kuba@kernel.org>,
-	<pabeni@redhat.com>, <edumazet@google.com>
-CC: Edward Cree <ecree.xilinx@gmail.com>, <netdev@vger.kernel.org>,
-	<habetsm.xilinx@gmail.com>, <oe-kbuild-all@lists.linux.dev>,
-	<simon.horman@corigine.com>, <pieter.jansen-van-vuuren@amd.com>,
-	<naresh.kamboju@linaro.org>, kernel test robot <lkp@intel.com>
-Subject: [PATCH v2 net-next] sfc: do not try to call tc functions when CONFIG_SFC_SRIOV=n
-Date: Thu, 15 Jun 2023 22:52:43 +0100
-Message-ID: <20230615215243.34942-1-edward.cree@amd.com>
-X-Mailer: git-send-email 2.27.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D8C174DF;
+	Thu, 15 Jun 2023 22:00:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686866455; x=1718402455;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JN/6v0RRe0LtIZ2wBFgUzMVCscs41NCa1blW5xLxo3g=;
+  b=amc2EDw+vmz3cKVejQaH+sgXxQV5pa3MtpAZHOOQhEbYITjqMKnABdbE
+   Ysc6xfrv3fKkw7ZLVswjxjHtNOmusMg2iyzJyN4/HB8gZJvnVp5og+P+j
+   eJs8z3ZDV0x00qiWuInkJwke1L5YiZqYdQWEe3mDOXel9UDYf0PFO7C/5
+   pjs9lVlJvEI/FNo+DCuDplwfEWDKHSMxegY4Tm4mdQzWm0CU5TeeepTVW
+   3OkE0p02D4z8M7zt1CwtysVXUmPI6Ybx/smSOzzTHYWjR0YWvLudULIUP
+   ShwMo36WdCJ+aM4FIIB+SVCQZ0rcswAtpiUdCfAxmYhcKEW8CwM0K9NcL
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="338669733"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
+   d="scan'208";a="338669733"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 15:00:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="825471879"
+X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
+   d="scan'208";a="825471879"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 15 Jun 2023 15:00:52 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9v1P-0000Qt-1c;
+	Thu, 15 Jun 2023 22:00:51 +0000
+Date: Fri, 16 Jun 2023 05:59:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>, Song Liu <song@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-raid@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 06/11] md-bitmap: refactor md_bitmap_init_from_disk
+Message-ID: <202306160552.smw0qbmb-lkp@intel.com>
+References: <20230615064840.629492-7-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000989EB:EE_|CH3PR12MB8725:EE_
-X-MS-Office365-Filtering-Correlation-Id: fb14f676-7eef-411e-f63f-08db6deae930
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	StBiHvR97dNcYam10RvR5v9aciOFdnA15udo2j4xienz7/25aQzm3LjnMXQkXVO+Lqq7rdiPoQFOcnDW7JNk3wCufWaDoHb5ZxuwQAmYZcmNGRO441XNQCsN5so6XLAeKZxy3t2u7g2D7muH4NGeOa4syH02NHFWYUzafGsVT7OWLeI7/iRe1IVsfMuWNOaGaya1SUR7bgWsTh+0QXXsT2DK3ko3zWSs0U2IS6M5xiVWKen/2hU2q473JKDa3h1rYEM4D+7jjZCSsuWxUrJVPVAMdL4/Cm6k15rZsJ+qZdkOYV6Xj1+9waVxzuaR+1N2gvgoPM7OIhb3FTAXtMVV4GfJAWkaI+d7Deis1VnOGIlWvoJcWWNvPBV3agfASNhTklt3iMAGCwTPBHIJnKpqJsyZggB9FHyKYIEAjyOEJokkwoDn27iEiF0B0hIU9AZXGia5WtktnnnSAzxUpL1w7gC57kWsZ494havJCic1KdacWZ1q5Ct442+uoaaYMDtHxwXRhz8HasAoE2dSvVBZ2i0sEwjKHfcDuQbOyvzMYFoxP8OLJZSuZwnTRMSEyvyigsNXxRL6wjep7HlfBW2dSUxHywXzKaGonlAZl1S32o7QjZdTSEFTNEYde7GFFFZIUKH75K3/1Yi3fLPgvWnOV/gFaxVWf67Oufa1KDERJ7lQPlcjmkXaAoSgWvpBFPRdp6LYQzw7p2ODsTIugmsaOCCZQKay/339iJxhrMI05T+f/7gspIq7XLqaJY9zSBSx
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230028)(4636009)(39860400002)(346002)(136003)(376002)(396003)(451199021)(40470700004)(46966006)(36840700001)(81166007)(478600001)(82740400003)(6666004)(356005)(82310400005)(40480700001)(83380400001)(26005)(336012)(2616005)(426003)(36860700001)(47076005)(186003)(36756003)(1076003)(966005)(40460700003)(316002)(7416002)(41300700001)(2876002)(70206006)(70586007)(4326008)(86362001)(2906002)(5660300002)(8676002)(8936002)(110136005)(54906003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2023 21:53:10.3725
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb14f676-7eef-411e-f63f-08db6deae930
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000989EB.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8725
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230615064840.629492-7-hch@lst.de>
 
-From: Edward Cree <ecree.xilinx@gmail.com>
+Hi Christoph,
 
-Functions efx_tc_netdev_event and efx_tc_netevent_event do not exist
- in that case as object files tc_bindings.o and tc_encap_actions.o
- are not built, so the calls to them from ef100_netdev_event and
- ef100_netevent_event cause link errors.
-Wrap the corresponding header files (tc_bindings.h, tc_encap_actions.h)
- with #if IS_ENABLED(CONFIG_SFC_SRIOV), and add an #else with static
- inline stubs for these two functions.
+kernel test robot noticed the following build warnings:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202306102026.ISK5JfUQ-lkp@intel.com/
-Fixes: 7e5e7d800011 ("sfc: neighbour lookup for TC encap action offload")
-Signed-off-by: Edward Cree <ecree.xilinx@gmail.com>
----
- drivers/net/ethernet/sfc/tc_bindings.h      | 12 ++++++++++++
- drivers/net/ethernet/sfc/tc_encap_actions.h | 11 +++++++++++
- 2 files changed, 23 insertions(+)
+[auto build test WARNING on song-md/md-next]
+[also build test WARNING on device-mapper-dm/for-next linus/master v6.4-rc6 next-20230615]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/net/ethernet/sfc/tc_bindings.h b/drivers/net/ethernet/sfc/tc_bindings.h
-index 095ddeb59eb3..a326d23d322b 100644
---- a/drivers/net/ethernet/sfc/tc_bindings.h
-+++ b/drivers/net/ethernet/sfc/tc_bindings.h
-@@ -12,6 +12,7 @@
- #define EFX_TC_BINDINGS_H
- #include "net_driver.h"
- 
-+#if IS_ENABLED(CONFIG_SFC_SRIOV)
- #include <net/sch_generic.h>
- 
- struct efx_rep;
-@@ -28,4 +29,15 @@ int efx_tc_indr_setup_cb(struct net_device *net_dev, struct Qdisc *sch,
- 			 void (*cleanup)(struct flow_block_cb *block_cb));
- int efx_tc_netdev_event(struct efx_nic *efx, unsigned long event,
- 			struct net_device *net_dev);
-+
-+#else /* CONFIG_SFC_SRIOV */
-+
-+static inline int efx_tc_netdev_event(struct efx_nic *efx, unsigned long event,
-+				      struct net_device *net_dev)
-+{
-+	return NOTIFY_DONE;
-+}
-+
-+#endif /* CONFIG_SFC_SRIOV */
-+
- #endif /* EFX_TC_BINDINGS_H */
-diff --git a/drivers/net/ethernet/sfc/tc_encap_actions.h b/drivers/net/ethernet/sfc/tc_encap_actions.h
-index 4d755fb92daf..c3c7904ad7ff 100644
---- a/drivers/net/ethernet/sfc/tc_encap_actions.h
-+++ b/drivers/net/ethernet/sfc/tc_encap_actions.h
-@@ -12,6 +12,7 @@
- #define EFX_TC_ENCAP_ACTIONS_H
- #include "net_driver.h"
- 
-+#if IS_ENABLED(CONFIG_SFC_SRIOV)
- #include <linux/refcount.h>
- #include <net/tc_act/tc_tunnel_key.h>
- 
-@@ -100,4 +101,14 @@ void efx_tc_unregister_egdev(struct efx_nic *efx, struct net_device *net_dev);
- int efx_tc_netevent_event(struct efx_nic *efx, unsigned long event,
- 			  void *ptr);
- 
-+#else /* CONFIG_SFC_SRIOV */
-+
-+static inline int efx_tc_netevent_event(struct efx_nic *efx,
-+					unsigned long event, void *ptr)
-+{
-+	return NOTIFY_DONE;
-+}
-+
-+#endif /* CONFIG_SFC_SRIOV */
-+
- #endif /* EFX_TC_ENCAP_ACTIONS_H */
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/md-bitmap-initialize-variables-at-declaration-time-in-md_bitmap_file_unmap/20230615-154928
+base:   git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git md-next
+patch link:    https://lore.kernel.org/r/20230615064840.629492-7-hch%40lst.de
+patch subject: [PATCH 06/11] md-bitmap: refactor md_bitmap_init_from_disk
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230616/202306160552.smw0qbmb-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add song-md git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git
+        git fetch song-md md-next
+        git checkout song-md/md-next
+        b4 shazam https://lore.kernel.org/r/20230615064840.629492-7-hch@lst.de
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/md/
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306160552.smw0qbmb-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/md/md-bitmap.c:1107:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (file && i_size_read(file->f_mapping->host) < store->bytes) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/md/md-bitmap.c:1198:9: note: uninitialized use occurs here
+           return ret;
+                  ^~~
+   drivers/md/md-bitmap.c:1107:2: note: remove the 'if' if its condition is always false
+           if (file && i_size_read(file->f_mapping->host) < store->bytes) {
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/md/md-bitmap.c:1090:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   1 warning generated.
+
+
+vim +1107 drivers/md/md-bitmap.c
+
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1068  
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1069  /*
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1070   * Initialize the in-memory bitmap from the on-disk bitmap and set up the memory
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1071   * mapping of the bitmap file.
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1072   *
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1073   * Special case: If there's no bitmap file, or if the bitmap file had been
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1074   * previously kicked from the array, we mark all the bits as 1's in order to
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1075   * cause a full resync.
+6a07997fc34ac1 drivers/md/bitmap.c    NeilBrown         2005-09-09  1076   *
+6a07997fc34ac1 drivers/md/bitmap.c    NeilBrown         2005-09-09  1077   * We ignore all bits for sectors that end earlier than 'start'.
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1078   * This is used when reading an out-of-date bitmap.
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1079   */
+e64e4018d57271 drivers/md/md-bitmap.c Andy Shevchenko   2018-08-01  1080  static int md_bitmap_init_from_disk(struct bitmap *bitmap, sector_t start)
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1081  {
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1082  	bool outofdate = test_bit(BITMAP_STALE, &bitmap->flags);
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1083  	struct mddev *mddev = bitmap->mddev;
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1084  	unsigned long chunks = bitmap->counts.chunks;
+1ec885cdd01a9a drivers/md/bitmap.c    NeilBrown         2012-05-22  1085  	struct bitmap_storage *store = &bitmap->storage;
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1086  	struct file *file = store->file;
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1087  	unsigned long node_offset = 0;
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1088  	unsigned long bit_cnt = 0;
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1089  	unsigned long i;
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1090  	int ret;
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1091  
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1092  	if (!file && !mddev->bitmap_info.offset) {
+ef99bf480de9bd drivers/md/bitmap.c    NeilBrown         2012-05-22  1093  		/* No permanent bitmap - fill with '1s'. */
+1ec885cdd01a9a drivers/md/bitmap.c    NeilBrown         2012-05-22  1094  		store->filemap = NULL;
+1ec885cdd01a9a drivers/md/bitmap.c    NeilBrown         2012-05-22  1095  		store->file_pages = 0;
+ef99bf480de9bd drivers/md/bitmap.c    NeilBrown         2012-05-22  1096  		for (i = 0; i < chunks ; i++) {
+ef99bf480de9bd drivers/md/bitmap.c    NeilBrown         2012-05-22  1097  			/* if the disk bit is set, set the memory bit */
+40cffcc0e8f9f6 drivers/md/bitmap.c    NeilBrown         2012-05-22  1098  			int needed = ((sector_t)(i+1) << (bitmap->counts.chunkshift)
+ef99bf480de9bd drivers/md/bitmap.c    NeilBrown         2012-05-22  1099  				      >= start);
+e64e4018d57271 drivers/md/md-bitmap.c Andy Shevchenko   2018-08-01  1100  			md_bitmap_set_memory_bits(bitmap,
+40cffcc0e8f9f6 drivers/md/bitmap.c    NeilBrown         2012-05-22  1101  						  (sector_t)i << bitmap->counts.chunkshift,
+ef99bf480de9bd drivers/md/bitmap.c    NeilBrown         2012-05-22  1102  						  needed);
+ef99bf480de9bd drivers/md/bitmap.c    NeilBrown         2012-05-22  1103  		}
+ef99bf480de9bd drivers/md/bitmap.c    NeilBrown         2012-05-22  1104  		return 0;
+ef99bf480de9bd drivers/md/bitmap.c    NeilBrown         2012-05-22  1105  	}
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1106  
+d1244cb062750b drivers/md/bitmap.c    NeilBrown         2012-05-22 @1107  	if (file && i_size_read(file->f_mapping->host) < store->bytes) {
+ec0cc226854a79 drivers/md/bitmap.c    NeilBrown         2016-11-02  1108  		pr_warn("%s: bitmap file too short %lu < %lu\n",
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1109  			bmname(bitmap),
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1110  			(unsigned long) i_size_read(file->f_mapping->host),
+d1244cb062750b drivers/md/bitmap.c    NeilBrown         2012-05-22  1111  			store->bytes);
+4ad1366376bfef drivers/md/bitmap.c    NeilBrown         2007-07-17  1112  		goto err;
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1113  	}
+bc7f77de2cd817 drivers/md/bitmap.c    NeilBrown         2005-06-21  1114  
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1115  	if (mddev_is_clustered(mddev))
+b97e92574c0bf3 drivers/md/bitmap.c    Goldwyn Rodrigues 2014-06-06  1116  		node_offset = bitmap->cluster_slot * (DIV_ROUND_UP(store->bytes, PAGE_SIZE));
+b97e92574c0bf3 drivers/md/bitmap.c    Goldwyn Rodrigues 2014-06-06  1117  
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1118  	for (i = 0; i < store->file_pages; i++) {
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1119  		struct page *page = store->filemap[i];
+d785a06a0b9d0c drivers/md/bitmap.c    NeilBrown         2006-06-26  1120  		int count;
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1121  
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1122  		/* unmap the old page, we're done with it */
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1123  		if (i == store->file_pages - 1)
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1124  			count = store->bytes - i * PAGE_SIZE;
+d785a06a0b9d0c drivers/md/bitmap.c    NeilBrown         2006-06-26  1125  		else
+d785a06a0b9d0c drivers/md/bitmap.c    NeilBrown         2006-06-26  1126  			count = PAGE_SIZE;
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1127  
+27581e5ae01f77 drivers/md/bitmap.c    NeilBrown         2012-05-22  1128  		if (file)
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1129  			ret = read_file_page(file, i, bitmap, count, page);
+27581e5ae01f77 drivers/md/bitmap.c    NeilBrown         2012-05-22  1130  		else
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1131  			ret = read_sb_page(mddev, mddev->bitmap_info.offset,
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1132  					   page, i + node_offset, count);
+27581e5ae01f77 drivers/md/bitmap.c    NeilBrown         2012-05-22  1133  		if (ret)
+4ad1366376bfef drivers/md/bitmap.c    NeilBrown         2007-07-17  1134  			goto err;
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1135  	}
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1136  
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1137  	if (outofdate) {
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1138  		pr_warn("%s: bitmap file is out of date, doing full recovery\n",
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1139  			bmname(bitmap));
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1140  
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1141  		for (i = 0; i < store->file_pages; i++) {
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1142  			struct page *page = store->filemap[i];
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1143  			unsigned long offset = 0;
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1144  			void *paddr;
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1145  	
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1146  			if (i == 0 && !mddev->bitmap_info.external)
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1147  				offset = sizeof(bitmap_super_t);
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1148  
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1149  			/*
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1150  			 * If the bitmap is out of date, dirty the whole page
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1151  			 * and write it out
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1152  			 */
+b2f46e68825648 drivers/md/bitmap.c    Cong Wang         2011-11-28  1153  			paddr = kmap_atomic(page);
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1154  			memset(paddr + offset, 0xff, PAGE_SIZE - offset);
+b2f46e68825648 drivers/md/bitmap.c    Cong Wang         2011-11-28  1155  			kunmap_atomic(paddr);
+4ad1366376bfef drivers/md/bitmap.c    NeilBrown         2007-07-17  1156  
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1157  			write_page(bitmap, page, 1);
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1158  			if (test_bit(BITMAP_WRITE_ERROR, &bitmap->flags)) {
+4ad1366376bfef drivers/md/bitmap.c    NeilBrown         2007-07-17  1159  				ret = -EIO;
+4ad1366376bfef drivers/md/bitmap.c    NeilBrown         2007-07-17  1160  				goto err;
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1161  			}
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1162  		}
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1163  	}
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1164  
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1165  	for (i = 0; i < chunks; i++) {
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1166  		struct page *page = filemap_get_page(&bitmap->storage, i);
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1167  		unsigned long bit = file_page_offset(&bitmap->storage, i);
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1168  		void *paddr;
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1169  		bool was_set;
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1170  
+b2f46e68825648 drivers/md/bitmap.c    Cong Wang         2011-11-28  1171  		paddr = kmap_atomic(page);
+b405fe91e50c60 drivers/md/bitmap.c    NeilBrown         2012-05-22  1172  		if (test_bit(BITMAP_HOSTENDIAN, &bitmap->flags))
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1173  			was_set = test_bit(bit, paddr);
+bd926c63b7a684 drivers/md/bitmap.c    NeilBrown         2005-11-08  1174  		else
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1175  			was_set = test_bit_le(bit, paddr);
+b2f46e68825648 drivers/md/bitmap.c    Cong Wang         2011-11-28  1176  		kunmap_atomic(paddr);
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1177  
+5479b6ae3886b9 drivers/md/md-bitmap.c Christoph Hellwig 2023-06-15  1178  		if (was_set) {
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1179  			/* if the disk bit is set, set the memory bit */
+40cffcc0e8f9f6 drivers/md/bitmap.c    NeilBrown         2012-05-22  1180  			int needed = ((sector_t)(i+1) << bitmap->counts.chunkshift
+db305e507d5544 drivers/md/bitmap.c    NeilBrown         2009-05-07  1181  				      >= start);
+e64e4018d57271 drivers/md/md-bitmap.c Andy Shevchenko   2018-08-01  1182  			md_bitmap_set_memory_bits(bitmap,
+40cffcc0e8f9f6 drivers/md/bitmap.c    NeilBrown         2012-05-22  1183  						  (sector_t)i << bitmap->counts.chunkshift,
+db305e507d5544 drivers/md/bitmap.c    NeilBrown         2009-05-07  1184  						  needed);
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1185  			bit_cnt++;
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1186  		}
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1187  	}
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1188  
+ec0cc226854a79 drivers/md/bitmap.c    NeilBrown         2016-11-02  1189  	pr_debug("%s: bitmap initialized from disk: read %lu pages, set %lu of %lu bits\n",
+1ec885cdd01a9a drivers/md/bitmap.c    NeilBrown         2012-05-22  1190  		 bmname(bitmap), store->file_pages,
+d1244cb062750b drivers/md/bitmap.c    NeilBrown         2012-05-22  1191  		 bit_cnt, chunks);
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1192  
+4ad1366376bfef drivers/md/bitmap.c    NeilBrown         2007-07-17  1193  	return 0;
+4ad1366376bfef drivers/md/bitmap.c    NeilBrown         2007-07-17  1194  
+4ad1366376bfef drivers/md/bitmap.c    NeilBrown         2007-07-17  1195   err:
+ec0cc226854a79 drivers/md/bitmap.c    NeilBrown         2016-11-02  1196  	pr_warn("%s: bitmap initialisation failed: %d\n",
+4ad1366376bfef drivers/md/bitmap.c    NeilBrown         2007-07-17  1197  		bmname(bitmap), ret);
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1198  	return ret;
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1199  }
+32a7627cf3a353 drivers/md/bitmap.c    NeilBrown         2005-06-21  1200  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
