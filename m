@@ -1,27 +1,43 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 037CA63B9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 10:17:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EABF5C433C8;
-	Thu, 15 Jun 2023 10:17:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1686824261;
-	bh=hQdQb3K0zOzRAI12T6bqOiAqIhrQnkzx9T1sWotlFdE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vP+zPqy3Emd+Sfm+5jR1FrX2Zl5OpVkhRpotopb61/EIrZmAN/4gMKyoR8O2vM2BQ
-	 3Te8K6kSpxtoR4Q3ui6bhZ1s9vaGP3KFgTRBsHRt1eE+7SuXORFonsXZXjRnD+SOpC
-	 nlzRdA/B2vVV4Jswtfy6xLuO9NWKq/Y5xv98CTtE=
-Date: Thu, 15 Jun 2023 12:17:38 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Hongyu Xie <xiehongyu1@kylinos.cn>
-Cc: linux@armlinux.org.uk, jirislaby@kernel.org, corbet@lwn.net,
-	rdunlap@infradead.org, linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org, xy521521@gmail.com,
-	oe-kbuild-all@lists.linux.dev, lkp@intel.com, bagasdotme@gmail.com
-Subject: Re: [RESEND PATCH v4 -next] tty: serial: add panic serial helper
-Message-ID: <2023061502-submerge-preachy-4413@gregkh>
-References: <20230614025512.27746-1-xiehongyu1@kylinos.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE0863A7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 10:46:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686825976; x=1718361976;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6fqBy5yi8YFpLN6FMn9Msu01t31V9iTFKP3vnIALcqg=;
+  b=AZn8w37eyCKAIglEqaymhDaXMz8GpZBaSJmvkEImA2vFRc14fuoom6aT
+   gtauqBhbG5MTrhP22hYknXWLNa2pC/dLgKKIk7OMp5wH3Zb83oeBbpFwq
+   +1ifeVxVZnLGCOlQlgUn1upJSaOF9X09cjW7mjdkY0gI4T5WONnV7AqJa
+   AhN6ZMI/hNYlKBY4BiCr4vdsToRgXPpz5bwPoW7htw3Fnl+gbsmB1lAyI
+   RH/tn3TFEcLT293/f31YshpV+E9wQV3g9lxWRkuzbtS/oTc1v+sucpRkP
+   3Mi8ODOBR1QhGvk/YbNS3e3kpjzdXHJKpAIB1P6c0XxO1JeGyaLAF6CD4
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="387321217"
+X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
+   d="scan'208";a="387321217"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 03:46:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="777611012"
+X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
+   d="scan'208";a="777611012"
+Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
+  by fmsmga008.fm.intel.com with ESMTP; 15 Jun 2023 03:46:12 -0700
+Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9kTg-0001ll-1P;
+	Thu, 15 Jun 2023 10:45:53 +0000
+Date: Thu, 15 Jun 2023 18:44:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: include/linux/compiler_types.h:358:45: error: call to
+ '__compiletime_assert_669' declared with attribute error: BUILD_BUG_ON
+ failed: sizeof(struct ieee80211_rx_status) > sizeof(skb->cb)
+Message-ID: <202306151842.ws1F8UJf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -30,408 +46,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230614025512.27746-1-xiehongyu1@kylinos.cn>
 
-On Wed, Jun 14, 2023 at 10:55:12AM +0800, Hongyu Xie wrote:
-> It was inspired by kgdboc.
-> 
-> This is a debug module that allows you to get all kernel logs
-> after panic.
-> 
-> Normally you need to attach a USB-to-UART tool or enable kdump
-> before panic happens to get log from kernel after panic. If you
-> didn't do that and kdump is not working, you can't get any log to
-> know what happened before panic. If you have a USB-to-UART tool
-> and the UART port on your computer is working. This module helps
-> you to get all kernel log after panic() is called.
-> 
-> To use this, see Documentation/dev-tools/panic_serial_helper.rst.
-> 
-> Tested on an arm64 device.
-> 
-> Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
-> ---
+Hi Johannes,
 
-Why  is this a RESEND?  What's wrong with the previous version?
+FYI, the error/warning still remains.
 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b6dad5178ceaf23f369c3711062ce1f2afc33644
+commit: f66c48af7a110c0d694c4ac4a1257affb272a2ea mac80211: support minimal EHT rate reporting on RX
+date:   5 months ago
+config: arm-randconfig-r024-20230615 (https://download.01.org/0day-ci/archive/20230615/202306151842.ws1F8UJf-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=f66c48af7a110c0d694c4ac4a1257affb272a2ea
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout f66c48af7a110c0d694c4ac4a1257affb272a2ea
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash net/mac80211/
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306151842.ws1F8UJf-lkp@intel.com/
 
-> 
-> v4: fix some syntax problems in Documentation.
-> 
-> v3: fix problems in Documentation reported by
-> kernel test robot <lkp@intel.com>.
-> 
-> v2: replace uart with UART for consistency.
-> 
->  Documentation/dev-tools/index.rst             |   1 +
->  .../dev-tools/panic_serial_helper.rst         | 138 ++++
->  MAINTAINERS                                   |   5 +
->  drivers/tty/serial/Kconfig                    |  25 +
->  drivers/tty/serial/Makefile                   |   1 +
->  drivers/tty/serial/panic_serial_helper.c      | 619 ++++++++++++++++++
->  include/linux/panic.h                         |   1 +
->  kernel/panic.c                                |  12 +
->  8 files changed, 802 insertions(+)
->  create mode 100644 Documentation/dev-tools/panic_serial_helper.rst
->  create mode 100644 drivers/tty/serial/panic_serial_helper.c
-> 
-> diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-> index 6b0663075dc0..0655528e5a83 100644
-> --- a/Documentation/dev-tools/index.rst
-> +++ b/Documentation/dev-tools/index.rst
-> @@ -34,6 +34,7 @@ Documentation/dev-tools/testing-overview.rst
->     kselftest
->     kunit/index
->     ktap
-> +   panic_serial_helper
->  
->  
->  .. only::  subproject and html
-> diff --git a/Documentation/dev-tools/panic_serial_helper.rst b/Documentation/dev-tools/panic_serial_helper.rst
-> new file mode 100644
-> index 000000000000..d3c177f56bc4
-> --- /dev/null
-> +++ b/Documentation/dev-tools/panic_serial_helper.rst
-> @@ -0,0 +1,138 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +========================================================
-> +Using panic serial helper to get kernel logs after panic
-> +========================================================
-> +
-> +:Author: Hongyu Xie <xiehongyu1@kylinos.cn>
-> +
-> +What is this?
-> +=============
-> +
-> +A debug module inspired by kgdboc that allows you to get all kernel logs
-> +after panic.
-> +
-> +Why do you need it?
-> +===================
-> +
-> +There are many debugging methods to know what was going on before panic.
-> +
-> +The firs is Kdump. When it is enabled, you can get a core image after
-> +panic. Then use GDB or Crash to debug that core image to know what happened
-> +before panic (see ``Documentation/admin-guide/kdump/kdump.rst`` for Kdump
-> +documentation).
-> +
-> +Another way is to connect the UART side of a USB-to-UART tool to the
-> +debugging UART port (normally a 3 pin slot on the motherborad or a RS232
-> +port on the back panel of your PC) before panic happens. Then connect the
-> +USB side of a USB-to-UART tool to another PC. You can read all the kernel
-> +logs coming from that UART port through apps like minicom on another PC.
-> +So when panic happens you'll know what was going on.
-> +
-> +What if Kdump hasn't been enabled? And people don't always connect an
-> +USB-to-UART device while he/she is using the PC. When panic occurs, it's
-> +too late to connect the USB-to-UART device.
-> +
-> +For both situations, you can use panic_serial_helper module to get all
-> +necessary kernel logs once it is loaded.
-> +
-> +How to use it?
-> +==============
-> +
-> +Prerequisites
-> +--------------
-> +
-> +1. Same as kgdboc, the UART driver must implement two callbacks in the
-> +   struct uart_ops. See Documentation/dev-tools/kgdb.rst for details.
-> +
-> +2. Your PC has an UART port and it's working.
-> +
-> +How
-> +--------------
-> +
-> +First you need to enable ``CONFIG_PANIC_SERIAL_HELPER`` in your
-> +config. To enable it go to
-> +:menuselection:`Device Drivers-->Character devices-->Enable TTY (TTY [=y])-->Serial drivers`
-> +and select :menuselection:`debug through UART after panic`.
-> +
-> +Then build and deploy the kernel as usual.
-> +
-> +When the panic occurs, you need to do the following:
-> +
-> +1. connect the UART side of an USB-to-UART tool to any UART
-> +   port on your device (PC, server, Laptop, etc...).
-> +   Connect the USB side of that tool to another PC. Open
-> +   minicom (or other app) on that PC, and set "/dev/ttyUSB0"(or
-> +   "/dev/ttyUSB1 if there is already another USB-to-UART tool
-> +   connected to your device) with "115200 8N1".
-> +
-> +   It automatically selects the port where you first press the
-> +   "Enter" key (some keyboard labeled this with "Return").
-> +
-> +2. Press Enter and the help menu will appear::
-> +
-> +    help:
-> +
-> +        -a      show all kernel msg
-> +
-> +        -3      show S3 msg
-> +
-> +        -4      show S4 msg
-> +
-> +        -filter-[string]        show msg containing [string]
-> +
-> +        -q-     quit
-> +
-> +see ``Help menu options`` for details.
-> +
-> +3. Select one of above options and happy hacking!
-> +
-> +Help menu options
-> +-----------------
-> +Available options:
-> +
-> + - a
-> +
-> +   Show all the messages starting from ``Booting Linux on ...``
-> +
-> + - 3
-> +
-> +   If STR happened before panic, this will show messages starting from
-> +   ``PM: suspend entry...``
-> +
-> + - 4
-> +
-> +   If STD happened before panic, this will show messages starting from
-> +   ``PM: hibernation entry...``
-> +
-> + - filter-[string]
-> +
-> +   Provide case-ignored filter matching. For example, if you'd like to see
-> +   message lines that contain ``CPU`` or ``cpu``, you can pass either
-> +   ``filter-CPU`` or ``filter-cpu``. The corresponding output would be
-> +   like::
-> +
-> +     <6>[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x701f6633
-> +     <6>[    0.000000] Detected PIPT I-cache on CPU0
-> +     <6>[    0.000000] CPU features: detected: Kernel page table isolation (K
-> +
-> +     ...
-> +
-> +     <6>[    0.000000] GICv3: CPU0: using allocated LPI pending table @0x0000
-> +     <6>[    0.002411] smp: Bringing up secondary CPUs ...
-> +     <6>[    0.039105] Detected PIPT I-cache on CPU1
-> +
-> +     ...
-> +
-> +     <4>[    6.432129] CPU: 3 PID: 392 Comm: (crub_all) Tainted: G        W
-> +     <4>[    6.560279] CPU: 2 PID: 478 Comm: (ostnamed) Tainted: G        W
-> +
-> +     ...
-> +
-> +     <4>[  225.297828] CPU: 4 PID: 0 Comm: swapper/4 Tainted: G        W
-> +     <2>[  225.297909] SMP: stopping secondary CPUs
-> +     <0>[  225.297919] CPU features: 0x000000,02000800,0400421b
-> +
-> + - q
-> +
-> +   Return to help menu.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 74aeae10a151..73fcae8c2f39 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15972,6 +15972,11 @@ L:	platform-driver-x86@vger.kernel.org
->  S:	Maintained
->  F:	drivers/platform/x86/panasonic-laptop.c
->  
-> +PANIC SERIAL CONSOLE
-> +M:	Hongyu Xie <xiehongyu1@kylinos.cn>
-> +F:	drivers/tty/serial/panic_serial_helper.c
-> +F:	drivers/tty/serial/panic_serial_helper.h
-> +
->  PARALLAX PING IIO SENSOR DRIVER
->  M:	Andreas Klinger <ak@it-klinger.de>
->  L:	linux-iio@vger.kernel.org
-> diff --git a/drivers/tty/serial/Kconfig b/drivers/tty/serial/Kconfig
-> index 3e3fb377d90d..796441b58498 100644
-> --- a/drivers/tty/serial/Kconfig
-> +++ b/drivers/tty/serial/Kconfig
-> @@ -198,6 +198,31 @@ config SERIAL_KGDB_NMI
->  
->  	  If unsure, say N.
->  
-> +config PANIC_SERIAL_HELPER
-> +	tristate "debug through UART after panic"
-> +	depends on PANIC_TIMEOUT=0
-> +	select CONSOLE_POLL
-> +	help
-> +	  This is a debug module that allows you to get all kernel logs
-> +	  after panic.
-> +
-> +	  Normally you need to attach a USB-to-UART tool or enable kdump
-> +	  before panic happens to get log from kernel after panic. If you
-> +	  didn't do that and kdump is not working, you can't get any log to
-> +	  know what happened before panic. If you have a USB-to-UART tool
-> +	  and the UART port on your computer is working, this module helps
-> +	  you to get all kernel log after panic() is called.
-> +
-> +	  This module uses serial port in poll mode, so it's more stable
-> +	  than other debugging methods.
-> +
-> +	  Read <file:Documentation/dev-tools/panic_serial_helper.rst> for
-> +	  usage.
-> +
-> +	  Say Y if you have a working UART port and you want to gather
-> +	  kernel logs. To compile this as module (which will be called
-> +	  panic_serial_helper), say M. If unsure, say N.
-> +
->  config SERIAL_MESON
->  	tristate "Meson serial port support"
->  	depends on ARCH_MESON || COMPILE_TEST
-> diff --git a/drivers/tty/serial/Makefile b/drivers/tty/serial/Makefile
-> index 531ec3a19dae..d7f6fdc8913c 100644
-> --- a/drivers/tty/serial/Makefile
-> +++ b/drivers/tty/serial/Makefile
-> @@ -93,3 +93,4 @@ obj-$(CONFIG_SERIAL_MCTRL_GPIO)	+= serial_mctrl_gpio.o
->  
->  obj-$(CONFIG_SERIAL_KGDB_NMI) += kgdb_nmi.o
->  obj-$(CONFIG_KGDB_SERIAL_CONSOLE) += kgdboc.o
-> +obj-$(CONFIG_PANIC_SERIAL_HELPER) += panic_serial_helper.o
-> diff --git a/drivers/tty/serial/panic_serial_helper.c b/drivers/tty/serial/panic_serial_helper.c
-> new file mode 100644
-> index 000000000000..1d3d57bc6340
-> --- /dev/null
-> +++ b/drivers/tty/serial/panic_serial_helper.c
-> @@ -0,0 +1,619 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * panic_serial_helper.c Debug through UART when panic.
-> + *
-> + * Copyright (C) 2023 Xie Hongyu <xiehongyu1@kylinos.cn>
-> + *
-> + * Inspired by kgdboc.
-> + *
-> + */
-> +
-> +#define MODULE_NAME "panic_serial_helper"
-> +#define pr_fmt(fmt) MODULE_NAME ": " fmt
+All errors (new ones prefixed by >>):
 
-KBUILD_NAME is all you need, right?
-
-> +
-> +#include <linux/kmsg_dump.h>
-> +#include <linux/bsearch.h>
-> +#include <linux/slab.h>
-> +#include <linux/delay.h>
-> +#include <linux/module.h>
-> +#include <linux/tty_driver.h>
-> +#include <linux/serial_core.h>
-> +#include <linux/string.h>
-> +
-> +#define S3_ENTRY "PM: suspend entry"
-> +#define S3_EXIT "PM: suspend exit"
-> +#define S4_ENTRY "PM: hibernation entry"
-> +#define S4_EXIT "PM: hibernation exit"
-
-Why are these needed?  Why not just use strings where they are used as
-you are only using these once.
-
-> +
-> +/* list to store msg lines */
-> +static LIST_HEAD(psh_list);
-
-That's going to get HUGE, right?  How much memory does this module take
-up?
-
-> +
-> +/* msg line prototype */
-> +struct dmesg_lines {
-> +	struct list_head entry;
-> +	char *buf;
-> +	int size;
-
-size of what?
-
-> +};
-> +
-> +/* panic serial helper status*/
-
-Odd formatting :(
-
-> +enum PSHS {
-> +	PSHS_INIT,
-> +	PSHS_WAIT_HELP_INPUT,
-> +};
-
-What do these mean?
-
-> +
-> +/* panic serial helper msg type */
-> +enum PSHM_TYPE {
-> +	PSHM_TYPE_ALL,
-> +	PSHM_TYPE_S3,
-> +	PSHM_TYPE_S4,
-> +	PSHM_TYPE_STRINGS,
-> +	PSHM_TYPE_QUIT,
-
-Why do you have message types?
-
-But most importantly, why all of this at all?  Why not just tie into the
-pstore infrastructure?  Wouldn't that handle the majority of this for
-you?
-
-> +};
-> +
-> +/* whether UART is dumping msg */
-> +static bool dumping_msg;
-> +
-> +/* to filter msg */
-> +static char filter[256] = {0};
-> +
-> +struct psh_buf {
-> +#define PSH_BUF_SIZE 256
-> +	char buf[PSH_BUF_SIZE];
-> +	int cur;
-> +};
-> +
-> +static const char psh_tty_types[][32] = {
-> +	{"ttyAMA"},
-> +	{"ttyS"},
-> +	{"ttyPS"},
-> +	{"ttyLP"},
-> +	{"ttyARC"},
-> +	{"ttyAL"},
-> +	{"ttyUL"},
-
-Sorry, but hard-coded tty port names are not going to go well.  Why did
-you pick this tiny subset of valid tty names?
+   In file included from <command-line>:
+   net/mac80211/rx.c: In function 'ieee80211_rx_irqsafe':
+>> include/linux/compiler_types.h:358:45: error: call to '__compiletime_assert_669' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct ieee80211_rx_status) > sizeof(skb->cb)
+     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:339:25: note: in definition of macro '__compiletime_assert'
+     339 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:358:9: note: in expansion of macro '_compiletime_assert'
+     358 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   net/mac80211/rx.c:5283:9: note: in expansion of macro 'BUILD_BUG_ON'
+    5283 |         BUILD_BUG_ON(sizeof(struct ieee80211_rx_status) > sizeof(skb->cb));
+         |         ^~~~~~~~~~~~
 
 
-> +};
-> +
-> +#define TTY_OPS "115200n8n"
+vim +/__compiletime_assert_669 +358 include/linux/compiler_types.h
 
-Why this default?
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  344  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  345  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  346  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  347  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  348  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  349   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  350   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  351   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  352   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  353   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  354   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  355   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  356   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  357  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @358  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  359  
 
+:::::: The code at line 358 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
 
-> +
-> +struct psh_serial_dev {
-> +	struct list_head entry;
-> +	struct tty_driver *drv;
-> +	struct psh_buf buf;
-> +	enum PSHS psh_status;
-> +	enum PSHM_TYPE psh_msg_type;
-> +	int line;
-> +};
-> +
-> +struct psh_serial_dev *psh_dev;
-> +
-> +/* char handler prototype */
-> +struct c_handler {
-> +	char c;
-> +	int (*handler)(struct psh_serial_dev *dev, void *d);
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
-Why do you need a handler when you only have one handler?
-
-Anyway, please look at pstore and tie into that if you really want
-something like this.
-
-thanks,
-
-greg k-h
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
