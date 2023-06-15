@@ -1,48 +1,136 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9344F168D6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 15:32:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B749CC433C8;
-	Thu, 15 Jun 2023 15:32:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC1515AEF;
+	Thu, 15 Jun 2023 15:41:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 830B2C433C8;
+	Thu, 15 Jun 2023 15:41:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1686843143;
-	bh=5SnATU7YmUxOsuenF/gejJC249yKQjYfPce/JOhUOWQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Fl5x6BF3ZWVLCdsRfnZDPwMf+Rqho+sOljaHwKieGLvj/epsiBM6p/IwzLENpvAP6
-	 +J3ONH53Jn1cRaJ7a/cjZL99stBxCHywLr5TiCLvTed0Z5rtw0BB11shUBooaXIxJ/
-	 FJ/3b1nFjHPTACkJNJKJvHZjEmrxkoKTS314VBMBfs0LuXkXzz6OtQEHbwUNOAa5Ns
-	 vjdBPVh4VFH1h26YfpQmrZs3LJC060qJIZSTwX5MXtrD04voyOGp0uRh7kt3BPoozc
-	 coU1L10Lt352hfJnTkVo2vFMSlwYNXRTEYT+9uFAMmPwrk5GxYWxP4dXlvNV2x3MXk
-	 i3nBv6jWZQJQA==
-Date: Thu, 15 Jun 2023 08:32:21 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Edward Cree <ecree.xilinx@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, Linux
- Memory Management List <linux-mm@kvack.org>, Simon Horman
- <simon.horman@corigine.com>, Pieter Jansen van Vuuren
- <pieter.jansen-van-vuuren@amd.com>, "linux-net-drivers@amd.com"
- <linux-net-drivers@amd.com>
-Subject: Re: [linux-next:master 8214/10326]
- drivers/net/ethernet/sfc/tc_encap_actions.c:277: undefined reference to
- `ip_send_check'
-Message-ID: <20230615083221.4ab529c2@kernel.org>
-In-Reply-To: <a80867f3-a2b1-3ffb-d7b1-784e4bb94163@gmail.com>
-References: <202306151656.yttECVTP-lkp@intel.com>
-	<a80867f3-a2b1-3ffb-d7b1-784e4bb94163@gmail.com>
+	s=k20201202; t=1686843686;
+	bh=q+fviFTWnM7ClsGX6apcWowNa53cnN1O72GvNjKUj0Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SKfb1f/w9pZO+h+1XLESWFDO2CoIXYaH2Lndd1KRL97/gOrvism9Bmc11aklQSxEi
+	 An/2qknfAU9opeiNg3ImVtB0EkjfCx3A7qrGMk8Z2mTaTfx/vWkx8Gag35CFBbWpb3
+	 EbKdUOHV16f+qV588pDcCYFlogCQNQWLJPhsCrr1uK2dIc0ojkAssqt7DfeLRYT6X4
+	 MPcL5pfJ/0om02PTH8oXR5nZxLFrpy++/40PvwpFf2oAVFcAMf7fZPm0B/nO5pJjKR
+	 hOBUcXtHuMqwMfltRw69f2wj7XhWH3mpI+4okIUy9GqwrtvZYLMRSaTURMF/TqjGIH
+	 /DC7TVaZaqH1Q==
+Date: Thu, 15 Jun 2023 08:41:23 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Yu Kuai <yukuai1@huaweicloud.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-raid@vger.kernel.org,
+	Song Liu <song@kernel.org>, "yukuai (C)" <yukuai3@huawei.com>,
+	Kees Cook <keescook@chromium.org>
+Subject: Re: [song-md:md-next 25/29] drivers/md/raid1-10.c:117:25: error:
+ casting from randomized structure pointer type 'struct block_device *' to
+ 'struct md_rdev *'
+Message-ID: <20230615154123.GA3665766@dev-arch.thelio-3990X>
+References: <202306142042.fmjfmTF8-lkp@intel.com>
+ <dd0d4b24-a149-6796-90c6-b41e569d7902@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <dd0d4b24-a149-6796-90c6-b41e569d7902@huaweicloud.com>
 
-On Thu, 15 Jun 2023 15:44:14 +0100 Edward Cree wrote:
-> From which these errors follow, since these symbols are in net/ipv4/*.o.
-> Not sure whether to put ifdefs in tc_encap_actions.c, or just make
->  CONFIG_SFC[_SRIOV?] depend on (or select?) CONFIG_INET.  Because is
->  there really a use case for putting an sfc NIC in a box without IP?
+On Thu, Jun 15, 2023 at 09:47:24AM +0800, Yu Kuai wrote:
+> Hi,
+> 
+> 在 2023/06/14 20:32, kernel test robot 写道:
+> > tree:   git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git md-next
+> > head:   460af1f9d9e62acce4a21f9bd00b5bcd5963bcd4
+> > commit: 8295efbe68c080047e98d9c0eb5cb933b238a8cb [25/29] md/raid1-10: factor out a helper to submit normal write
+> > config: arm-randconfig-r026-20230612 (https://download.01.org/0day-ci/archive/20230614/202306142042.fmjfmTF8-lkp@intel.com/config)
+> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> > reproduce (this is a W=1 build):
+> >          mkdir -p ~/bin
+> >          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >          chmod +x ~/bin/make.cross
+> >          # install arm cross compiling tool for clang build
+> >          # apt-get install binutils-arm-linux-gnueabi
+> >          # https://git.kernel.org/pub/scm/linux/kernel/git/song/md.git/commit/?id=8295efbe68c080047e98d9c0eb5cb933b238a8cb
+> >          git remote add song-md git://git.kernel.org/pub/scm/linux/kernel/git/song/md.git
+> >          git fetch --no-tags song-md md-next
+> >          git checkout 8295efbe68c080047e98d9c0eb5cb933b238a8cb
+> >          # save the config file
+> >          mkdir build_dir && cp config build_dir/.config
+> >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+> >          COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306142042.fmjfmTF8-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >     In file included from drivers/md/raid10.c:80:
+> > > > drivers/md/raid1-10.c:117:25: error: casting from randomized structure pointer type 'struct block_device *' to 'struct md_rdev *'
+> >       117 |         struct md_rdev *rdev = (struct md_rdev *)bio->bi_bdev;
+> 
+> I didn't hit this warning with W=1 in my local machine, so I guess this
+> might related to compiler. I'm using gcc (GCC) 12.2.1 and here is clang
+> version 17.0.0.
 
-dependency on INET SGTM, FWIW.
+Interesting, I would have expected the GCC plugin to have the same
+behavior as clang (which has randstruct in the compiler proper) and
+error when casting randomized structures but I just tested with
+aarch64-linux-gnu-gcc (GCC) 13.1.0 and drivers/md/raid10.c builds just
+fine, so confirmed.
+
+For the record, this is a hard error, not a warning, so the build is
+broken in -next because of this:
+
+https://github.com/ClangBuiltLinux/continuous-integration2/actions/runs/5278732212/jobs/9552208141
+
+> I'm planning to get rid of all these weird usage, which is used a lot in
+> raid, to borrow a field to store something else temporarily, but this
+> might take sometime.
+> 
+> Can someone help to confirm following change can prevent this warning?
+> 
+> struct md_rdev *rdev = (void *)bio->bi_bdev
+
+Yes, this fixes the build.
+
+In the future, if you need to reproduce issues with clang, I have
+prebuilt versions of stable clang/LLVM available on kernel.org:
+
+https://mirrors.edge.kernel.org/pub/tools/llvm/
+
+Cheers,
+Nathan
+
+> >           |                                ^
+> >     1 error generated.
+> > 
+> > 
+> > vim +117 drivers/md/raid1-10.c
+> > 
+> >     113	
+> >     114	
+> >     115	static inline void raid1_submit_write(struct bio *bio)
+> >     116	{
+> >   > 117		struct md_rdev *rdev = (struct md_rdev *)bio->bi_bdev;
+> >     118	
+> >     119		bio->bi_next = NULL;
+> >     120		bio_set_dev(bio, rdev->bdev);
+> >     121		if (test_bit(Faulty, &rdev->flags))
+> >     122			bio_io_error(bio);
+> >     123		else if (unlikely(bio_op(bio) ==  REQ_OP_DISCARD &&
+> >     124				  !bdev_max_discard_sectors(bio->bi_bdev)))
+> >     125			/* Just ignore it */
+> >     126			bio_endio(bio);
+> >     127		else
+> >     128			submit_bio_noacct(bio);
+> >     129	}
+> >     130	
+> > 
+> 
+> 
