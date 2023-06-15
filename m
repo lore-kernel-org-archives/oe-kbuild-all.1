@@ -1,43 +1,47 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4103C20E0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 11:26:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DEC125DA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 15 Jun 2023 11:43:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686828419; x=1718364419;
+  t=1686829401; x=1718365401;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IAmNAYYVgODwRO76eoGCuAczmjTlo6b/tutd4bTWGYY=;
-  b=Ik7RHr7AnE+Zppe3f6yjRVNrBjpQMGCbOQ07WuOYDz1JKAV+YF69+zbH
-   30/qEuiHqSnhrxF3ftVt2aLHOXqXHodSjVsbGWdKgBNyk9S8x2QS0lyzj
-   OTwwE3lVbUJ0Cxl9Mo3lzPzmG57jZTQY5zi9m6a55fY9tQuZlj1S0xmKP
-   Qgx+PsPv7kKbuFLikaty0Lfg6u6cI8iSk3Xs6keZORFom3N45RRKrmUuj
-   BXw8OSjzxEckx9u3f6mVPEzmgc554hqcnH8Byey4eyfjVZ7RheVWwiFNy
-   9eyTCFPqHtDq3z2FWsdrdxymkaFlTeAzmSkgu2vBhJMHZp01gIupnTtGe
+  bh=8qWuFG48VzWSQ+RP20O2d6cvC9yxcsb/6CEju6hHO1o=;
+  b=jqx5XSmdPimkYFnaCamEpz8y1OTcqxvcccc+z19T9aP+qQ28UX+RN71D
+   8OiQfdLdecg5G5iNjicWeQKf6ZVET9SY1HzeQhfE/UGHd2gMSn/ifeAEu
+   zXVsB70Saam+LoCg8asOfx5F5kz575Z9mTAIOYrkf1vV34ucItL4foIZm
+   o3bnJvtTVLd/dU7qk8F1IMc5v2HhOzocwgJBrkNQ+hynyzPjQm4mRDtuV
+   0Pyy7VSxvJqn5YnG12YHWhCoYXIQvEnxwJAZ8KLWPVZSqTJCntM5Y3fmQ
+   hL8CTRxiNXtO3g11Gi20tQ1T9aVgL7utAHi31byFE0bcKyfIcRi3vjBol
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="422490673"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="445255923"
 X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="422490673"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 04:26:56 -0700
+   d="scan'208";a="445255923"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 04:38:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="662753307"
+X-IronPort-AV: E=McAfee;i="6600,9927,10741"; a="706626648"
 X-IronPort-AV: E=Sophos;i="6.00,244,1681196400"; 
-   d="scan'208";a="662753307"
+   d="scan'208";a="706626648"
 Received: from lkp-server02.sh.intel.com (HELO d59cacf64e9e) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 15 Jun 2023 04:26:53 -0700
+  by orsmga007.jf.intel.com with ESMTP; 15 Jun 2023 04:38:03 -0700
 Received: from kbuild by d59cacf64e9e with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9l7t-0001oH-0V;
-	Thu, 15 Jun 2023 11:26:53 +0000
-Date: Thu, 15 Jun 2023 19:26:09 +0800
+	id 1q9lHf-0001ol-1b;
+	Thu, 15 Jun 2023 11:37:19 +0000
+Date: Thu, 15 Jun 2023 19:36:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Meng Wei <wei.meng@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
-	Chang Ying <ying.chang@intel.com>
-Subject: [intel-lts:4.19/android_s 4020/30000]
- drivers/media/i2c/max9286.c:109:13: warning: variable 'ret' set but not used
-Message-ID: <202306151950.3AbSwMaQ-lkp@intel.com>
+To: Guo Ren <guoren@linux.alibaba.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Greentime Hu <greentime.hu@sifive.com>,
+	Andy Chiu <andy.chiu@sifive.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [linux-next:master 6420/10326] arch/riscv/kernel/signal.c:94:16:
+ sparse: sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202306151954.Rsz6HP7h-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,80 +51,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Meng,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   84b0def7f5485c67cb173427c2009a55c6303842
-commit: 41994ca1985584f12c52324f97effb3a8ae4a0c1 [4020/30000] media: i2c: add MAX9286/96705 SER/DES driver
-config: microblaze-buildonly-randconfig-r006-20230614 (https://download.01.org/0day-ci/archive/20230615/202306151950.3AbSwMaQ-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build):
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   925294c9aa184801cc0a451b69a18dd0fe7d847d
+commit: fa8e7cce55da3569259dc270801885c420eb50fe [6420/10326] riscv: Enable Vector code to be built
+config: riscv-randconfig-s031-20230611 (https://download.01.org/0day-ci/archive/20230615/202306151954.Rsz6HP7h-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce:
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/intel/linux-intel-lts/commit/41994ca1985584f12c52324f97effb3a8ae4a0c1
-        git remote add intel-lts https://github.com/intel/linux-intel-lts.git
-        git fetch --no-tags intel-lts 4.19/android_s
-        git checkout 41994ca1985584f12c52324f97effb3a8ae4a0c1
+        # apt-get install sparse
+        # sparse version: v0.6.4-39-gce1a6720-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=fa8e7cce55da3569259dc270801885c420eb50fe
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout fa8e7cce55da3569259dc270801885c420eb50fe
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=microblaze olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=microblaze SHELL=/bin/bash M=drivers/media/i2c
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/kernel/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306151950.3AbSwMaQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306151954.Rsz6HP7h-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zihintpause'
+>> arch/riscv/kernel/signal.c:94:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void *__val @@     got void [noderef] __user *[assigned] datap @@
+   arch/riscv/kernel/signal.c:94:16: sparse:     expected void *__val
+   arch/riscv/kernel/signal.c:94:16: sparse:     got void [noderef] __user *[assigned] datap
 
-   drivers/media/i2c/max9286.c: In function 'max96705_write_register':
-   drivers/media/i2c/max9286.c:116:25: warning: comparison is always false due to limited range of data type [-Wtype-limits]
-     116 |                 if (val < 0)
-         |                         ^
->> drivers/media/i2c/max9286.c:109:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     109 |         int ret;
-         |             ^~~
-   drivers/media/i2c/max9286.c: At top level:
->> drivers/media/i2c/max9286.c:839:4: warning: no previous prototype for 'get_output_link_order' [-Wmissing-prototypes]
-     839 | u8 get_output_link_order(struct max9286 *max)
-         |    ^~~~~~~~~~~~~~~~~~~~~
-   microblaze-linux-ld: warning: drivers/media/i2c/.tmp_mc_max9286.o: missing .note.GNU-stack section implies executable stack
-   microblaze-linux-ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+vim +94 arch/riscv/kernel/signal.c
 
+8ee0b41898fa26 Greentime Hu 2023-06-05   72  
+8ee0b41898fa26 Greentime Hu 2023-06-05   73  static long save_v_state(struct pt_regs *regs, void __user **sc_vec)
+8ee0b41898fa26 Greentime Hu 2023-06-05   74  {
+8ee0b41898fa26 Greentime Hu 2023-06-05   75  	struct __riscv_ctx_hdr __user *hdr;
+8ee0b41898fa26 Greentime Hu 2023-06-05   76  	struct __sc_riscv_v_state __user *state;
+8ee0b41898fa26 Greentime Hu 2023-06-05   77  	void __user *datap;
+8ee0b41898fa26 Greentime Hu 2023-06-05   78  	long err;
+8ee0b41898fa26 Greentime Hu 2023-06-05   79  
+8ee0b41898fa26 Greentime Hu 2023-06-05   80  	hdr = *sc_vec;
+8ee0b41898fa26 Greentime Hu 2023-06-05   81  	/* Place state to the user's signal context space after the hdr */
+8ee0b41898fa26 Greentime Hu 2023-06-05   82  	state = (struct __sc_riscv_v_state __user *)(hdr + 1);
+8ee0b41898fa26 Greentime Hu 2023-06-05   83  	/* Point datap right after the end of __sc_riscv_v_state */
+8ee0b41898fa26 Greentime Hu 2023-06-05   84  	datap = state + 1;
+8ee0b41898fa26 Greentime Hu 2023-06-05   85  
+8ee0b41898fa26 Greentime Hu 2023-06-05   86  	/* datap is designed to be 16 byte aligned for better performance */
+8ee0b41898fa26 Greentime Hu 2023-06-05   87  	WARN_ON(unlikely(!IS_ALIGNED((unsigned long)datap, 16)));
+8ee0b41898fa26 Greentime Hu 2023-06-05   88  
+8ee0b41898fa26 Greentime Hu 2023-06-05   89  	riscv_v_vstate_save(current, regs);
+8ee0b41898fa26 Greentime Hu 2023-06-05   90  	/* Copy everything of vstate but datap. */
+8ee0b41898fa26 Greentime Hu 2023-06-05   91  	err = __copy_to_user(&state->v_state, &current->thread.vstate,
+8ee0b41898fa26 Greentime Hu 2023-06-05   92  			     offsetof(struct __riscv_v_ext_state, datap));
+8ee0b41898fa26 Greentime Hu 2023-06-05   93  	/* Copy the pointer datap itself. */
+8ee0b41898fa26 Greentime Hu 2023-06-05  @94  	err |= __put_user(datap, &state->v_state.datap);
+8ee0b41898fa26 Greentime Hu 2023-06-05   95  	/* Copy the whole vector content to user space datap. */
+8ee0b41898fa26 Greentime Hu 2023-06-05   96  	err |= __copy_to_user(datap, current->thread.vstate.datap, riscv_v_vsize);
+8ee0b41898fa26 Greentime Hu 2023-06-05   97  	/* Copy magic to the user space after saving  all vector conetext */
+8ee0b41898fa26 Greentime Hu 2023-06-05   98  	err |= __put_user(RISCV_V_MAGIC, &hdr->magic);
+8ee0b41898fa26 Greentime Hu 2023-06-05   99  	err |= __put_user(riscv_v_sc_size, &hdr->size);
+8ee0b41898fa26 Greentime Hu 2023-06-05  100  	if (unlikely(err))
+8ee0b41898fa26 Greentime Hu 2023-06-05  101  		return err;
+8ee0b41898fa26 Greentime Hu 2023-06-05  102  
+8ee0b41898fa26 Greentime Hu 2023-06-05  103  	/* Only progress the sv_vec if everything has done successfully  */
+8ee0b41898fa26 Greentime Hu 2023-06-05  104  	*sc_vec += riscv_v_sc_size;
+8ee0b41898fa26 Greentime Hu 2023-06-05  105  	return 0;
+8ee0b41898fa26 Greentime Hu 2023-06-05  106  }
+8ee0b41898fa26 Greentime Hu 2023-06-05  107  
 
-vim +/ret +109 drivers/media/i2c/max9286.c
+:::::: The code at line 94 was first introduced by commit
+:::::: 8ee0b41898fa26f66e32237f179b6989c65600d6 riscv: signal: Add sigcontext save/restore for vector
 
-   104	
-   105	/* Serializer register write */
-   106	static int max96705_write_register(struct max9286 *max,
-   107		unsigned int offset, u8 reg, u8 val)
-   108	{
- > 109		int ret;
-   110		int retry, timeout = 10;
-   111		struct i2c_client *client = v4l2_get_subdevdata(&max->v4l2_sd);
-   112	
-   113		client->addr = S_ADDR_MAX96705 + offset;
-   114		for (retry = 0; retry < timeout; retry++) {
-   115			ret = i2c_smbus_write_byte_data(client, reg, val);
- > 116			if (val < 0)
-   117				usleep_range(5000, 6000);
-   118			else
-   119				break;
-   120		}
-   121	
-   122		client->addr = DS_ADDR_MAX9286;
-   123		if (retry >= timeout) {
-   124			dev_err(max->v4l2_sd.dev,
-   125				"%s:write reg failed: reg=%2x\n", __func__, reg);
-   126			return -EREMOTEIO;
-   127		}
-   128	
-   129		return 0;
-   130	}
-   131	
+:::::: TO: Greentime Hu <greentime.hu@sifive.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
