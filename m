@@ -1,44 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DEE1B914
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 19:46:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D7E1ED4C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 20:27:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686944813; x=1718480813;
+  t=1686947274; x=1718483274;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=og6p7RKERAxF4pL5O3wb2NljPfTNRcY4bGtg1M4lFUk=;
-  b=BNfekykxrUwbPayTxmlwjJXMwa7x7h99IibsPf1JAIz1KTXAwZCBPnGC
-   F9mCAysdA5p8DGei5ZR47xrs1UQEpJ0y6UkXXyUz4HZixpq7irurNGl7c
-   RVb++yiyMns8/rD98q3XVEUD0CQJLuEOOmb760VGaUwkNbUbzEgjqGN+d
-   MLKZLQkdgDFoJ3RX+tCZIU9a62nULszcxofl4PSGErG8AuKsqqoGbiwe7
-   Gx3f2ew91f2swymjTytVhIZiF+esser4aWdmlfZ/Odo0oQKxI9N6sqey7
-   J2po2wXtEMpAkrimE+YorZIaEmGPuZPNvCwRmV0vazDaPPaTzuD/FhzrE
+  bh=Fu9ai0aqxv/27DsfmPbNkS5Ip1nSYaTRAUNqikze1JY=;
+  b=NDj2JRQv6ta1Ud3IJPNHuijoboiMV8VJgvo+r/AMaWg7tW5ju9Ka6vWn
+   qSYTOjlmO1HwTrWBtH3zqGesJh6XYzKwgbzCHP/4YVmtXmbXERBIzEtCf
+   Jq6ykhvCJKB2jZdeSJQpqUO4BDv0r7qStsTABcipheR3/3IOeNZ61G4kq
+   +cRWYYx35xrCdCz9DFMMTqqiwY7HiiSS0P6nG1xdmaDrnyEh2FY2LgXuV
+   SbUfKJha8PBZVsnMYyOYxO9xb4QWwaXPFFPvbO0p3gPTPJo+OD93Rh+zK
+   pBhqMDAxkSiuiQtE4AUo1QWF8ilrcsulx63S95hgLjZ2L+xYVrqFD4Lbu
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="358173145"
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="338922775"
 X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
-   d="scan'208";a="358173145"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 12:46:52 -0700
+   d="scan'208";a="338922775"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 13:27:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="959730471"
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="857530903"
 X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
-   d="scan'208";a="959730471"
+   d="scan'208";a="857530903"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 16 Jun 2023 12:46:51 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2023 13:27:53 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAFPG-0001kQ-3B;
-	Fri, 16 Jun 2023 19:46:50 +0000
-Date: Sat, 17 Jun 2023 03:46:20 +0800
+	id 1qAG2y-0001mS-0q;
+	Fri, 16 Jun 2023 20:27:52 +0000
+Date: Sat, 17 Jun 2023 04:27:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dexuan Cui <decui@microsoft.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dcui-tdx:decui/upstream-tip/x86/tdx/v7 8/15]
- drivers/hv/vmbus_drv.c:2002:33: warning: unsigned conversion from 'long long
- int' to 'resource_size_t' {aka 'unsigned int'} changes value from
- '68182605824' to '3758096384'
-Message-ID: <202306170320.PLzDykRi-lkp@intel.com>
+Subject: [android-common:android-4.19-stable 12115/29970]
+ drivers/scsi/ufs/ufshcd-crypto.c:250:26: warning: no previous prototype for
+ function 'ufshcd_blk_crypto_mode_num_for_alg_dusize'
+Message-ID: <202306170458.ZdGaihTY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,154 +47,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/dcui/tdx decui/upstream-tip/x86/tdx/v7
-head:   8b6ccc53857db9fe8e915646c5ffc220f5750ddc
-commit: c7963fdd0f0e0a125dfe3ce7a292837896636707 [8/15] Drivers: hv: vmbus:  Hardcode MMIO resources in vmbus_walk_resources() when necessary
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230617/202306170320.PLzDykRi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230617/202306170320.PLzDykRi-lkp@intel.com/reproduce)
+Hi Satya,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android-4.19-stable
+head:   5ac3d09df993c5ac941e2a59e18c82db743dc069
+commit: b01c73ea7129745ce9d94b8d3b35663b716cd95b [12115/29970] BACKPORT: FROMLIST: Update Inline Encryption from v5 to v6 of patch series
+config: x86_64-randconfig-a005-20230616 (https://download.01.org/0day-ci/archive/20230617/202306170458.ZdGaihTY-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230617/202306170458.ZdGaihTY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306170320.PLzDykRi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306170458.ZdGaihTY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/hv/vmbus_drv.c: In function 'vmbus_walk_resources':
->> drivers/hv/vmbus_drv.c:2002:33: warning: unsigned conversion from 'long long int' to 'resource_size_t' {aka 'unsigned int'} changes value from '68182605824' to '3758096384' [-Woverflow]
-    2002 |                         start = 0xFE0000000;
-         |                                 ^~~~~~~~~~~
-   drivers/hv/vmbus_drv.c:2003:31: warning: unsigned conversion from 'long long int' to 'resource_size_t' {aka 'unsigned int'} changes value from '68719476735' to '4294967295' [-Woverflow]
-    2003 |                         end = 0xFFFFFFFFF;
-         |                               ^~~~~~~~~~~
+>> drivers/scsi/ufs/ufshcd-crypto.c:250:26: warning: no previous prototype for function 'ufshcd_blk_crypto_mode_num_for_alg_dusize' [-Wmissing-prototypes]
+   enum blk_crypto_mode_num ufshcd_blk_crypto_mode_num_for_alg_dusize(
+                            ^
+   drivers/scsi/ufs/ufshcd-crypto.c:250:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   enum blk_crypto_mode_num ufshcd_blk_crypto_mode_num_for_alg_dusize(
+   ^
+   static 
+   1 warning generated.
+   drivers/scsi/ufs/ufshcd-crypto.c:272: warning: Function parameter or member 'ksm_ops' not described in 'ufshcd_hba_init_crypto_spec'
 
 
-vim +2002 drivers/hv/vmbus_drv.c
+vim +/ufshcd_blk_crypto_mode_num_for_alg_dusize +250 drivers/scsi/ufs/ufshcd-crypto.c
 
-  1965	
-  1966	#ifdef CONFIG_ACPI
-  1967	/*
-  1968	 * VMBUS is an acpi enumerated device. Get the information we
-  1969	 * need from DSDT.
-  1970	 */
-  1971	static acpi_status vmbus_walk_resources(struct acpi_resource *res, void *ctx)
-  1972	{
-  1973		resource_size_t start = 0;
-  1974		resource_size_t end = 0;
-  1975		struct resource *new_res;
-  1976		struct resource **old_res = &hyperv_mmio;
-  1977		struct resource **prev_res = NULL;
-  1978		struct resource r;
-  1979	
-  1980		switch (res->type) {
-  1981	
-  1982		/*
-  1983		 * "Address" descriptors are for bus windows. Ignore
-  1984		 * "memory" descriptors, which are for registers on
-  1985		 * devices.
-  1986		 */
-  1987		case ACPI_RESOURCE_TYPE_ADDRESS32:
-  1988			start = res->data.address32.address.minimum;
-  1989			end = res->data.address32.address.maximum;
-  1990			if (start == 0 && end == 0xFFFFFFFF) {
-  1991				start = 0xF8000000;
-  1992				end = 0xFFFFFFFF;
-  1993				pr_warn("vmbus_walk_resources: using a default 32-bit MMIO range\n");
-  1994			}
-  1995			break;
-  1996	
-  1997		case ACPI_RESOURCE_TYPE_ADDRESS64:
-  1998			start = res->data.address64.address.minimum;
-  1999			end = res->data.address64.address.maximum;
-  2000	
-  2001			if (start == 0 && end == 0xFFFFFFFFFFFFFFFF) {
-> 2002				start = 0xFE0000000;
-  2003				end = 0xFFFFFFFFF;
-  2004				pr_warn("vmbus_walk_resources: using a default 64-bit MMIO range\n");
-  2005			}
-  2006			break;
-  2007	
-  2008		/*
-  2009		 * The IRQ information is needed only on ARM64, which Hyper-V
-  2010		 * sets up in the extended format. IRQ information is present
-  2011		 * on x86/x64 in the non-extended format but it is not used by
-  2012		 * Linux. So don't bother checking for the non-extended format.
-  2013		 */
-  2014		case ACPI_RESOURCE_TYPE_EXTENDED_IRQ:
-  2015			if (!acpi_dev_resource_interrupt(res, 0, &r)) {
-  2016				pr_err("Unable to parse Hyper-V ACPI interrupt\n");
-  2017				return AE_ERROR;
-  2018			}
-  2019			/* ARM64 INTID for VMbus */
-  2020			vmbus_interrupt = res->data.extended_irq.interrupts[0];
-  2021			/* Linux IRQ number */
-  2022			vmbus_irq = r.start;
-  2023			return AE_OK;
-  2024	
-  2025		default:
-  2026			/* Unused resource type */
-  2027			return AE_OK;
-  2028	
-  2029		}
-  2030		/*
-  2031		 * Ignore ranges that are below 1MB, as they're not
-  2032		 * necessary or useful here.
-  2033		 */
-  2034		if (end < 0x100000)
-  2035			return AE_OK;
-  2036	
-  2037		new_res = kzalloc(sizeof(*new_res), GFP_ATOMIC);
-  2038		if (!new_res)
-  2039			return AE_NO_MEMORY;
-  2040	
-  2041		/* If this range overlaps the virtual TPM, truncate it. */
-  2042		if (end > VTPM_BASE_ADDRESS && start < VTPM_BASE_ADDRESS)
-  2043			end = VTPM_BASE_ADDRESS;
-  2044	
-  2045		new_res->name = "hyperv mmio";
-  2046		new_res->flags = IORESOURCE_MEM;
-  2047		new_res->start = start;
-  2048		new_res->end = end;
-  2049	
-  2050		/*
-  2051		 * If two ranges are adjacent, merge them.
-  2052		 */
-  2053		do {
-  2054			if (!*old_res) {
-  2055				*old_res = new_res;
-  2056				break;
-  2057			}
-  2058	
-  2059			if (((*old_res)->end + 1) == new_res->start) {
-  2060				(*old_res)->end = new_res->end;
-  2061				kfree(new_res);
-  2062				break;
-  2063			}
-  2064	
-  2065			if ((*old_res)->start == new_res->end + 1) {
-  2066				(*old_res)->start = new_res->start;
-  2067				kfree(new_res);
-  2068				break;
-  2069			}
-  2070	
-  2071			if ((*old_res)->start > new_res->end) {
-  2072				new_res->sibling = *old_res;
-  2073				if (prev_res)
-  2074					(*prev_res)->sibling = new_res;
-  2075				*old_res = new_res;
-  2076				break;
-  2077			}
-  2078	
-  2079			prev_res = old_res;
-  2080			old_res = &(*old_res)->sibling;
-  2081	
-  2082		} while (1);
-  2083	
-  2084		return AE_OK;
-  2085	}
-  2086	#endif
-  2087	
+   249	
+ > 250	enum blk_crypto_mode_num ufshcd_blk_crypto_mode_num_for_alg_dusize(
+   251						enum ufs_crypto_alg ufs_crypto_alg,
+   252						enum ufs_crypto_key_size key_size)
+   253	{
+   254		/*
+   255		 * This is currently the only mode that UFS and blk-crypto both support.
+   256		 */
+   257		if (ufs_crypto_alg == UFS_CRYPTO_ALG_AES_XTS &&
+   258			key_size == UFS_CRYPTO_KEY_SIZE_256)
+   259			return BLK_ENCRYPTION_MODE_AES_256_XTS;
+   260	
+   261		return BLK_ENCRYPTION_MODE_INVALID;
+   262	}
+   263	
 
 -- 
 0-DAY CI Kernel Test Service
