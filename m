@@ -1,95 +1,117 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6025A92E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 15:21:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686928914; x=1718464914;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IrUB3wm5B53SwR3zC4PoaeRdFH3cGoQDoG6SRA6sz5g=;
-  b=hmsOhJKhicxCzHI2N/8REDIHqQLFHDGECAM+ETUUKSSeh41hDI6BDhpl
-   UZ5nz+lNw4i7hhe+0zg1eXFDikfn4WQ6TN1ftJHNjAJqARCz96bBSD+7a
-   YWAOz+XFRa3GubggsJUa7Y3k4Bt1jB6pa+Po8GweTWUSFcp9cdGLJI041
-   sxa0pj7z0VA1iI86vhrENXwOePImYKOT2SBoVY7D2mUCGQvyamANCn02Z
-   dP88PJk6piplwcTIS62f1psjGY07DA+MjLaryvF+QpqmwKi0XPjQjcvVl
-   3ZQ+2Vr/6CBx9saU6Z1TOotMRAMs+ikbsnfK29kyUsuCZ+U/lIAxLNMPy
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="445617590"
-X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="445617590"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 08:21:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="742709717"
-X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="742709717"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 16 Jun 2023 08:21:38 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qABGb-0001TA-2W;
-	Fri, 16 Jun 2023 15:21:37 +0000
-Date: Fri, 16 Jun 2023 23:21:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Peter Foley <pefoley2@pefoley.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Richard Weinberger <richard@nod.at>
-Subject: arch/um/drivers/pcap_kern.c:18:6: warning: no previous prototype for
- 'pcap_init_kern'
-Message-ID: <202306162327.v3SoLRFC-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91DDA92E;
+	Fri, 16 Jun 2023 15:26:10 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-1b52bf6e66aso5670415ad.3;
+        Fri, 16 Jun 2023 08:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686929170; x=1689521170;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TUdwy2/36hgEkTz9QJkYNZGHUYq2szwxedz8pSMdEEc=;
+        b=n80NvEX/NzO2un18OWbPTOcYy0kouVcPki0WsS/d1yCArFZjQKB8cXvLE+Rb3GCB/H
+         fTdgmhCzUJ4VM4raCRG8Sxx/SEUmYmCllGtk9HPOZe1H3uFt2DNpaJcuytR28HCOZGEx
+         1t3GcY8XpXSZU4hqfWt+T7OkEXIrtMQVmc9NcZIhrtgS6SC2H0KfB1x2AlDL0sGN4Ut7
+         psB5S0KnDvOAtcNttjgWLDyHv8qzXZB1DPUe7KZRkH8reQGEttf5QD1nIYwmePtDsNAu
+         t28HTDhWIOK4+S7YAq+cccetIYra3Yir4sXU5E6dOWTTwiHCboZXzfPv9wwWLeW8yCk+
+         y/3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686929170; x=1689521170;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TUdwy2/36hgEkTz9QJkYNZGHUYq2szwxedz8pSMdEEc=;
+        b=P56ATmwYlqzlQc/8OCk2Cz/noDbohczlwRTrmAxIXci+O45JiGrQfMPrp6a0WwUuTQ
+         tyCdHYEVspGehJFbrCYhmkADafo3sDCp8hznz9t/wXCB945rBhJXc5+E4j866CkCkbbv
+         +WZM70bKnv/rfsH0iDJGchBEEBAfPzsN0c/1GbaBMty21z9X8CqgONUFeRV3QiQq1G+3
+         6lZyTUplX7wOm1/TUkubA6Z+JVc2xaMOeiNVCbK4pt4rk7Tb4WXhJ5Di/uv4DHI4cfWQ
+         saQTo+fXwU74PThjl1yVuxlDpmpkQZg48pjo63EHApiefd+2w+hA4jKWVdMo+V6Wzy6I
+         97Lg==
+X-Gm-Message-State: AC+VfDySb7FR0/DQrymDaM9DMyiOqQfDimyVfO4KtsajPzf7T/E55cYG
+	e5+bgcrx1DMn2RgRn9qlZ4w=
+X-Google-Smtp-Source: ACHHUZ6tJnqdu9WxuDJ8CmeYjIt9Y0w9V7dOW1Z2eAhkp89iu/BfwTMbBZhm5OuOV7uCMXrrDrVwZg==
+X-Received: by 2002:a17:902:bb96:b0:1ac:8837:de9 with SMTP id m22-20020a170902bb9600b001ac88370de9mr1716854pls.3.1686929169864;
+        Fri, 16 Jun 2023 08:26:09 -0700 (PDT)
+Received: from redkillpc.. ([49.207.203.99])
+        by smtp.gmail.com with ESMTPSA id y13-20020a17090322cd00b001a69dfd918dsm15992057plg.187.2023.06.16.08.26.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Jun 2023 08:26:08 -0700 (PDT)
+From: Prathu Baronia <prathubaronia2011@gmail.com>
+To: prathubaronia2011@gmail.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: dan.carpenter@linaro.org,
+	error27@gmail.com,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	oe-kbuild@lists.linux.dev
+Subject: [PATCH v5 1/2] axis-fifo: use devm_kasprintf() for allocating formatted strings
+Date: Fri, 16 Jun 2023 20:55:59 +0530
+Message-Id: <20230616152602.33232-1-prathubaronia2011@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <ZIiTL5bzMUgs3L5K@redkillpc>
+References: <ZIiTL5bzMUgs3L5K@redkillpc>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   40f71e7cd3c6ac04293556ab0504a372393838ff
-commit: 2c4d3841a82b88ae8a7b518dc6206f84f68e705a um: Avoid pcap multiple definition errors
-date:   4 months ago
-config: um-randconfig-r036-20230616 (https://download.01.org/0day-ci/archive/20230616/202306162327.v3SoLRFC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230616/202306162327.v3SoLRFC-lkp@intel.com/reproduce)
+In various places, string buffers of a fixed size are allocated, and
+filled using snprintf() with the same fixed size, which is error-prone.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306162327.v3SoLRFC-lkp@intel.com/
+Replace this by calling devm_kasprintf() instead, which always uses the
+appropriate size. Allocate the device name with a unique identifier
+instead of a kernel address.
 
-All warnings (new ones prefixed by >>):
+Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
+---
+V4 -> V5: Remove the dev_info() and use a unique identifier for dev name
+V3 -> V4: Split into warning fixing and cleanup commits
+V2 -> V3: Fix smatch warnings from kernel test robot
+V1 -> V2: Split into logical commits and fix commit message
 
->> arch/um/drivers/pcap_kern.c:18:6: warning: no previous prototype for 'pcap_init_kern' [-Wmissing-prototypes]
-      18 | void pcap_init_kern(struct net_device *dev, void *data)
-         |      ^~~~~~~~~~~~~~
-   arch/um/drivers/pcap_kern.c:53:5: warning: no previous prototype for 'pcap_setup' [-Wmissing-prototypes]
-      53 | int pcap_setup(char *str, char **mac_out, void *data)
-         |     ^~~~~~~~~~
+ drivers/staging/axis-fifo/axis-fifo.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 7a21f2423204..5e070e00e27a 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -816,10 +816,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	 * ----------------------------
+ 	 */
+ 
+-	device_name = devm_kzalloc(dev, 32, GFP_KERNEL);
+-	if (!device_name)
+-		return -ENOMEM;
+-
+ 	/* allocate device wrapper memory */
+ 	fifo = devm_kzalloc(dev, sizeof(*fifo), GFP_KERNEL);
+ 	if (!fifo)
+@@ -857,7 +853,11 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
+ 
+ 	/* create unique device name */
+-	snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
++	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%d", DRIVER_NAME, pdev->id);
++	if (!device_name) {
++		rc = -ENOMEM;
++		goto err_initial;
++	}
+ 	dev_dbg(fifo->dt_device, "device name [%s]\n", device_name);
+ 
+ 	/* ----------------------------
 
-vim +/pcap_init_kern +18 arch/um/drivers/pcap_kern.c
-
-    17	
-  > 18	void pcap_init_kern(struct net_device *dev, void *data)
-    19	{
-    20		struct uml_net_private *pri;
-    21		struct pcap_data *ppri;
-    22		struct pcap_init *init = data;
-    23	
-    24		pri = netdev_priv(dev);
-    25		ppri = (struct pcap_data *) pri->user;
-    26		ppri->host_if = init->host_if;
-    27		ppri->promisc = init->promisc;
-    28		ppri->optimize = init->optimize;
-    29		ppri->filter = init->filter;
-    30	
-    31		printk("pcap backend, host interface %s\n", ppri->host_if);
-    32	}
-    33	
-
+base-commit: fb054096aea0576f0c0a61c598e5e9676443ee86
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
