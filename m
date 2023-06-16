@@ -1,135 +1,135 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BB16117;
-	Fri, 16 Jun 2023 11:34:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686915266; x=1718451266;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gbr4jm8n4C36LAYiMrKKV2rpEeX5CVWUxcQZtgju0xQ=;
-  b=SMvx0Gql5pNULeJrIoL9ntblbQDAiF8t2zA4Jz5vtrHMP0IK5Mk9URIY
-   7lyufcF1wyEj7iEOabydyvBaDEZUc6K3fxxARk/wHV03HHa5s+cDJfI6/
-   IVG54Fsl7IwfVE29tQLCcNK7lbE29YAvxo8B+NlZrk0D+Yn+2MyOkYzcL
-   x5epvbRLkK0YQAVb5uNARS7sh5FrnHjoXV5CILWehlGcJ7d6fCPi1SYFx
-   MZeSAvDljBZzCWRhUqEkwV1d4ysLWIFaCOpFqQib5NfG5Nlcw4gxauUQv
-   u5r+oCv30zWB9hA1lEafuzdQ3KJtPzr2+edYlr1nO8h+jSX7Qi1SMRBLF
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="445574688"
-X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="445574688"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 04:34:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="782872186"
-X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="782872186"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 16 Jun 2023 04:34:24 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qA7ih-0001BM-3A;
-	Fri, 16 Jun 2023 11:34:23 +0000
-Date: Fri, 16 Jun 2023 19:33:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joel Granados <j.granados@samsung.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [joelgranados:jag/sysctl-testing-for-0day 19/20]
- fs/quota/dquot.c:2957:9: error: too many arguments to function call,
- expected 2, have 3
-Message-ID: <202306161928.Z1SpdBON-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E7C314A8D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 11:49:48 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id E6E405C01E9;
+	Fri, 16 Jun 2023 07:49:47 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Fri, 16 Jun 2023 07:49:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to; s=fm1; t=
+	1686916187; x=1687002587; bh=tsVaKnscihshn+XWUoAkmcthgbGHdIDlich
+	8+0pF+Po=; b=j2jk7hnMYxBOey5oHRkSD8gaeZTSCcobqv3aiWw+ab3rAa/D1BU
+	6lK5GIkx+HrTpmSn2pImxPRMQeJzcYjjT9eqMZEvwL9CQesssgoOEKXsQ+ljEMLB
+	vTT+1VZzPjS1Vm71P2ZVdwSKSIGUbDd5kqUGH/JPtNY5ZIv/Bs96tNgFRgEsbdAZ
+	Fj0ghQ4ji9YlzZ3Hb2fiRdh6A+vF0AxKhDIT6FLl6QzJKWTqBdqU+8qGKJt3gUmO
+	5Z8t5XA9hMEGsBjThGJWCyIz+cDD0tlO5y5KG+SJf5i1oyDOs8woSPvoiDh7l6Q9
+	x7/KLqhZFJlLSf5qI3XV6pOMfcvCkwP/P1w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1686916187; x=1687002587; bh=tsVaKnscihshn+XWUoAkmcthgbGHdIDlich
+	8+0pF+Po=; b=aLJq3EDO8qdzvIGcOCl1OJ+wpODOSNkEoOpSBAZHcCw2sYjASQA
+	ng3wQ7jy0nTeQnK+dRUXiByYF5T40B5TlODGKNiIBVJevo3IJaP97pqVvWaEwBZd
+	3zql/G65FKhX4PCkMUzLfNBLQf6mYY4tW7mrmAj73z/Cc2SsARukKV3SO/HDohHe
+	4on6lXCa63WufHTFJSxzJsZEn/T6vI8bZ91Y4hs+edTp63UbXRmAj6w2blwB4Kz/
+	RHbHLjhB5LsUzTMZYU83+OtUHV+aYBupf8Tpe2imRcfmIldvlBqXuCdDOoqLge5I
+	oQlDP9fUlIaDvH+6spFiHAqQHIAUdKckxMg==
+X-ME-Sender: <xms:W0yMZHWONu9cT_S2uwZBaRyUfJEa1XoDyDLiRDhQfT7xRfPDdP0nuw>
+    <xme:W0yMZPnhCfBBZg4uHlf2BgAWWXhB1J6s4sQDg6PVRS6PuhN7Ao660Xoz9iqjp5cXo
+    _wrepT6rLCMc6aZnxk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrgedvgedggeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpefgkeeuleegieeghfduudeltdekfeffjeeuleehleefudettddtgfevueef
+    feeigeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:W0yMZDZFJ0zHF5cz_R80yltyEQzN4djqLo561Bqd_ncmdePso-PG3w>
+    <xmx:W0yMZCVokpscUQA7V4lBfDYKUUYJT9zPUX6uHryU_sNWtWuR80uiAQ>
+    <xmx:W0yMZBlaRxtkWV9kppTDrfl9WxHJ463kZrPwYEjJJWE3kaucM2UTtg>
+    <xmx:W0yMZEtwU5Uw-2HM0u_H2oHBgmAQ_vQTvf5QQfhYn3NKGcxeaXBmfQ>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 99D64B60089; Fri, 16 Jun 2023 07:49:47 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-496-g8c46984af0-fm-20230615.001-g8c46984a
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Message-Id: <c5f860ac-4bf7-46cd-aaec-f83ccbe4a6de@app.fastmail.com>
+In-Reply-To: <8bd6a1d8-a464-dc43-9ea3-a32c7f490bc1@collabora.com>
+References: <202306151506.goHEegOd-lkp@intel.com>
+ <8bd6a1d8-a464-dc43-9ea3-a32c7f490bc1@collabora.com>
+Date: Fri, 16 Jun 2023 13:49:26 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Benjamin Gaignard" <benjamin.gaignard@collabora.com>,
+ "kernel test robot" <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ "Linux Memory Management List" <linux-mm@kvack.org>,
+ "Mauro Carvalho Chehab" <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ "Nicolas Dufresne" <nicolas.dufresne@collabora.com>,
+ "Hans Verkuil" <hverkuil@xs4all.nl>
+Subject: Re: [linux-next:master 7549/10326]
+ drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1022:1:
+ warning: the frame size of 1112 bytes is larger than 1024 bytes
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/Joelgranados/linux.git jag/sysctl-testing-for-0day
-head:   669cf696035fa888754f34d948b9488c2206dd7d
-commit: 5e772f5e4567129c1d9e7b0dd05316dcd4ffec6b [19/20] sysctl: Add ARRAY_SIZE to the register_sysctl_init call
-config: hexagon-randconfig-r035-20230615 (https://download.01.org/0day-ci/archive/20230616/202306161928.Z1SpdBON-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230616/202306161928.Z1SpdBON-lkp@intel.com/reproduce)
+On Thu, Jun 15, 2023, at 10:46, Benjamin Gaignard wrote:
+> Le 15/06/2023 =C3=A0 09:35, kernel test robot a =C3=A9crit=C2=A0:
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202306151506.goHEegOd=
+-lkp@intel.com/
+>>
+>> All warnings (new ones prefixed by >>):
+>>
+>>     drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: =
+In function 'rockchip_vpu981_av1_dec_set_segmentation':
+>>>> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:102=
+2:1: warning: the frame size of 1112 bytes is larger than 1024 bytes [-W=
+frame-larger-than=3D]
+>>      1022 | }
+>>           | ^
+>
+> Arnd have alreaday send a patch to solve this gcc issue:
+> https://lore.kernel.org/lkml/20230601151832.3632525-1-arnd@kernel.org/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306161928.Z1SpdBON-lkp@intel.com/
+I just ran into the above issue with my workaround applied, so
+I think this is caused by something else.
 
-All errors (new ones prefixed by >>):
+I can see one 256 byte variable that is a little too large to fit on the=
+ stack, but
+that is not the main issue:
 
-   In file included from fs/quota/dquot.c:67:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from fs/quota/dquot.c:67:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from fs/quota/dquot.c:67:
-   In file included from include/linux/tty.h:12:
-   In file included from include/linux/tty_port.h:5:
-   In file included from include/linux/kfifo.h:42:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> fs/quota/dquot.c:2957:9: error: too many arguments to function call, expected 2, have 3
-    2957 |         register_sysctl_init("fs/quota", fs_dqstats_table,
-         |         ~~~~~~~~~~~~~~~~~~~~
-    2958 |                              ARRAY_SIZE(fs_dqstats_table));
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:56:25: note: expanded from macro 'ARRAY_SIZE'
-      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysctl.h:248:20: note: 'register_sysctl_init' declared here
-     248 | static inline void register_sysctl_init(const char *path, struct ctl_table *table)
-         |                    ^
-   6 warnings and 1 error generated.
+     u32 segval[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX] ;
 
+The actual problem appears to be the construction of temporary arrays
+on the stack like
 
-vim +2957 fs/quota/dquot.c
+#define AV1_DEC_REG(b, s, m) \
+        ((const struct hantro_reg) { \
+                .base =3D AV1_SWREG(b), \
+                .shift =3D s, \
+                .mask =3D m, \
+        })
 
-  2948	
-  2949	static int __init dquot_init(void)
-  2950	{
-  2951		int i, ret;
-  2952		unsigned long nr_hash, order;
-  2953	
-  2954		printk(KERN_NOTICE "VFS: Disk quotas %s\n", __DQUOT_VERSION__);
-  2955	
-  2956		register_sysctl_init("fs/quota", fs_dqstats_table,
-> 2957				     ARRAY_SIZE(fs_dqstats_table));
+#define av1_dec_out_ec_bypass           AV1_DEC_REG(3, 8,  0x1)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+hantro_reg_write(vpu, &av1_dec_out_ec_bypass, 1);
+
+Each one of these adds 12 bytes to the stack, and there are a lot
+of them here. If KASAN_STACK is active, they cannot overlap, and
+there is an addition redzone around each one, but the case I saw
+does not use KASAN or UBSAN.
+
+I've tried a few things like removing the debug printf in each
+register access, but that did not help. Maybe you have some other
+idea for how to simplify this code.
+
+      Arnd
