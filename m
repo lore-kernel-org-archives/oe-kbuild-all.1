@@ -1,43 +1,40 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742526AA4;
-	Fri, 16 Jun 2023 22:11:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76776398;
+	Fri, 16 Jun 2023 23:14:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686953518; x=1718489518;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FUSZ9horQxc+bj5NVltTkcgs/MiR9Xn7J5udMibuLIo=;
-  b=Ssi0OoF4bjLPo19nDGODyMPcsTtAPMVepQKYnXACuE9VW4azm+pntl7x
-   +YlyOvORkEelrlNDWc3kjoPmfsmW2XVq0iBhAO4JaL5lhkEFGH6TwT0fa
-   hM8zkMXt11KwbpxdQrdDBtTt4iaU3zxxTnLJRM+QOU76k+5LDsC1nP0aQ
-   rVtdi8jYhLKTtAODrdKHvkdZylEZ7/GYyOvxADZ6CXSBW8XkUcZEZ5FbD
-   OOGeXEpp5R7ZVtNT4iacHGdRSbXQF1Qw2wWNUdtpQCjHmoyWBZVbLwjeF
-   x8HjZCYAP8MlSpGI3yjw3vzPPPV5I/gKiqTkhsx+HCsqSl3fXphYB8kWl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="422979312"
+  t=1686957245; x=1718493245;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=JBlIJP78VbRgv33bQFDWjNFzb+rgpPjZTv8aQm6ZitY=;
+  b=Q+UT5mWsQw0Z+REWVXAq1cW5TyQvqdgvN0mUv/eCE3Buh8Z14bnRk0Y8
+   yutukcUqo/urBLHFejvGgdwSM+zHrEemykpVP/33LDQuiOTh2+sFJm37o
+   JMHZYOEX+TWhVy8uGc41esZ4dcXMEeYzWF5iehctEJD5PHzvcrPjpCoxQ
+   I3QZh1wGo2ED20twO7DP8yLhkfNCIkK5d0sjZNytzgL14mIfVFv2ly2jn
+   /D1dgFm3AH4hUJAflCm1Y+vi/77OhDs30eqGXZpV5GdNVOwg0DllK3Da3
+   JNeJi+7jHS9yd3w23KDnRrA03NOUoF2CdfJ3zCeDzORfnRV5SFLqmdnWy
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="445714052"
 X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
-   d="scan'208";a="422979312"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 15:11:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="663335426"
+   d="scan'208";a="445714052"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 16:14:00 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="746521711"
 X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
-   d="scan'208";a="663335426"
+   d="scan'208";a="746521711"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 16 Jun 2023 15:11:56 -0700
+  by orsmga001.jf.intel.com with ESMTP; 16 Jun 2023 16:13:59 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAHff-0001rA-13;
-	Fri, 16 Jun 2023 22:11:55 +0000
-Date: Sat, 17 Jun 2023 06:11:41 +0800
+	id 1qAIdi-0001u0-11;
+	Fri, 16 Jun 2023 23:13:58 +0000
+Date: Sat, 17 Jun 2023 07:13:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: [tip:x86/boot 13/18] arch/x86/mm/mem_encrypt.c:79:13: error:
- redefinition of 'mem_encrypt_init'
-Message-ID: <202306170650.aCZUuxjD-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: vmlinux.o: warning: objtool: set_ftrace_ops_ro+0x23: relocation to
+ !ENDBR: kprobe_emulate_loop+0x13
+Message-ID: <202306170722.zsVkjVO4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,68 +44,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Thomas,
+CC: linux-kernel@vger.kernel.org
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: Ingo Molnar <mingo@kernel.org>
+CC: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/boot
-head:   b81fac906a8f9e682e513ddd95697ec7a20878d4
-commit: 439e17576eb47f26b78c5bbc72e344d4206d2327 [13/18] init, x86: Move mem_encrypt_init() into arch_cpu_finalize_init()
-config: x86_64-randconfig-a005-20230616 (https://download.01.org/0day-ci/archive/20230617/202306170650.aCZUuxjD-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4973ca29552864a7a047ab8a15611a585827412f
+commit: db7adcfd1cec4e95155e37bc066fddab302c6340 x86/alternatives: Introduce int3_emulate_jcc()
+date:   5 months ago
+config: x86_64-randconfig-a014-20230617 (https://download.01.org/0day-ci/archive/20230617/202306170722.zsVkjVO4-lkp@intel.com/config)
 compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230617/202306170650.aCZUuxjD-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230617/202306170722.zsVkjVO4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306170650.aCZUuxjD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306170722.zsVkjVO4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/x86/mm/mem_encrypt.c:79:6: warning: attribute declaration must precede definition [-Wignored-attributes]
-   void __init mem_encrypt_init(void)
-        ^
-   include/linux/init.h:52:17: note: expanded from macro '__init'
-   #define __init          __section(".init.text") __cold  __latent_entropy __noinitretpoline
-                           ^
-   include/linux/compiler_attributes.h:303:56: note: expanded from macro '__section'
-   #define __section(section)              __attribute__((__section__(section)))
-                                                          ^
-   arch/x86/include/asm/mem_encrypt.h:88:20: note: previous definition is here
-   static inline void mem_encrypt_init(void) { }
-                      ^
-   arch/x86/mm/mem_encrypt.c:79:6: warning: attribute declaration must precede definition [-Wignored-attributes]
-   void __init mem_encrypt_init(void)
-        ^
-   include/linux/init.h:52:41: note: expanded from macro '__init'
-   #define __init          __section(".init.text") __cold  __latent_entropy __noinitretpoline
-                                                   ^
-   include/linux/compiler_types.h:104:34: note: expanded from macro '__cold'
-   #define __cold                          __attribute__((__cold__))
-                                                          ^
-   arch/x86/include/asm/mem_encrypt.h:88:20: note: previous definition is here
-   static inline void mem_encrypt_init(void) { }
-                      ^
->> arch/x86/mm/mem_encrypt.c:79:13: error: redefinition of 'mem_encrypt_init'
-   void __init mem_encrypt_init(void)
-               ^
-   arch/x86/include/asm/mem_encrypt.h:88:20: note: previous definition is here
-   static inline void mem_encrypt_init(void) { }
-                      ^
-   2 warnings and 1 error generated.
+   vmlinux.o: warning: objtool: resume_play_dead+0x1d: unreachable instruction
+>> vmlinux.o: warning: objtool: set_ftrace_ops_ro+0x23: relocation to !ENDBR: kprobe_emulate_loop+0x13
 
 
-vim +/mem_encrypt_init +79 arch/x86/mm/mem_encrypt.c
-
-20f07a044a76ae Kirill A. Shutemov 2021-12-06  77  
-20f07a044a76ae Kirill A. Shutemov 2021-12-06  78  /* Architecture __weak replacement functions */
-20f07a044a76ae Kirill A. Shutemov 2021-12-06 @79  void __init mem_encrypt_init(void)
-
-:::::: The code at line 79 was first introduced by commit
-:::::: 20f07a044a76aebaaa0603038857229b5c460d69 x86/sev: Move common memory encryption code to mem_encrypt.c
-
-:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-:::::: CC: Borislav Petkov <bp@suse.de>
+objdump-func vmlinux.o set_ftrace_ops_ro:
+0000 0000000000080810 <set_ftrace_ops_ro>:
+0000    80810:	f3 0f 1e fa          	endbr64
+0004    80814:	41 57                	push   %r15
+0006    80816:	41 56                	push   %r14
+0008    80818:	41 54                	push   %r12
+000a    8081a:	53                   	push   %rbx
+000b    8081b:	48 8b 1d 00 00 00 00 	mov    0x0(%rip),%rbx        # 80822 <set_ftrace_ops_ro+0x12>	8081e: R_X86_64_PC32	ftrace_ops_list-0x4
+0012    80822:	49 c7 c6 00 00 00 00 	mov    $0x0,%r14	80825: R_X86_64_32S	ftrace_list_end
+0019    80829:	48 c7 c0 00 00 00 00 	mov    $0x0,%rax	8082c: R_X86_64_32S	ftrace_regs_caller
+0020    80830:	48 f7 d8             	neg    %rax
+0023    80833:	4c 8d 3c 05 00 00 00 00 	lea    0x0(,%rax,1),%r15	80837: R_X86_64_32S	ftrace_regs_caller_end+0x1008
+002b    8083b:	49 c1 ef 0c          	shr    $0xc,%r15
+002f    8083f:	48 c7 c0 00 00 00 00 	mov    $0x0,%rax	80842: R_X86_64_32S	ftrace_caller
+0036    80846:	48 f7 d8             	neg    %rax
+0039    80849:	4c 8d 24 05 00 00 00 00 	lea    0x0(,%rax,1),%r12	8084d: R_X86_64_32S	ftrace_caller_end+0x1008
+0041    80851:	49 c1 ec 0c          	shr    $0xc,%r12
+0045    80855:	48 8b 43 10          	mov    0x10(%rbx),%rax
+0049    80859:	0f ba e0 0b          	bt     $0xb,%eax
+004d    8085d:	73 15                	jae    80874 <set_ftrace_ops_ro+0x64>
+004f    8085f:	a8 04                	test   $0x4,%al
+0051    80861:	48 8b bb 70 01 00 00 	mov    0x170(%rbx),%rdi
+0058    80868:	44 89 fe             	mov    %r15d,%esi
+005b    8086b:	41 0f 44 f4          	cmove  %r12d,%esi
+005f    8086f:	e8 00 00 00 00       	call   80874 <set_ftrace_ops_ro+0x64>	80870: R_X86_64_PLT32	set_memory_ro-0x4
+0064    80874:	48 8b 5b 08          	mov    0x8(%rbx),%rbx
+0068    80878:	48 85 db             	test   %rbx,%rbx
+006b    8087b:	74 05                	je     80882 <set_ftrace_ops_ro+0x72>
+006d    8087d:	4c 39 f3             	cmp    %r14,%rbx
+0070    80880:	75 d3                	jne    80855 <set_ftrace_ops_ro+0x45>
+0072    80882:	5b                   	pop    %rbx
+0073    80883:	41 5c                	pop    %r12
+0075    80885:	41 5e                	pop    %r14
+0077    80887:	41 5f                	pop    %r15
+0079    80889:	31 c0                	xor    %eax,%eax
+007b    8088b:	31 ff                	xor    %edi,%edi
+007d    8088d:	31 f6                	xor    %esi,%esi
+007f    8088f:	c3                   	ret
 
 -- 
 0-DAY CI Kernel Test Service
