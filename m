@@ -1,43 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5551775C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 15:42:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F591ACA2;
+	Fri, 16 Jun 2023 16:14:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686930162; x=1718466162;
+  t=1686932084; x=1718468084;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZMakjiuhTqydI0MvvFQYaPokx2Sti0rmVYUmkPHVpeg=;
-  b=A60my9yzPuJWMDHHVaRhaUL7r4mtVLkjcpcsXbGOCNwA4ePmy+X7vsC+
-   nw/4Z/7wpcpbhAvpA/WnKP4DkPvbUWeXF63LyDFMwjb1WDF0SwmACblu8
-   tCsIsVm1qUvWn5KIn4mRtRzI4oNMSvLq6NTq2G3wLbgg3TR5v98lM10ok
-   Rx4Su83/AfhzIFElO+LTw8Fg8HGP3cPlnYSDu6eC7pYtintZ/wacuClzS
-   vXo6X2ma7iyxCdGg1jyqCy4x+6NY1GJ02YqZXwgIrh9PmrxDdh3ckTCTo
-   YsXZX8JbcuL+e6j8glnKQlORLCGTpG/7jk3FSCEzlk6+gRoqFbjAaPXUj
+  bh=Z65nm2dEdioRGHx9EZ1gz14d7F5txR2xE24eguRT540=;
+  b=iKOCzfKaNoFXhAY2V4/owQyvEHYWKB7TwL4cjPPAmb+9oSj2rm3JWn5L
+   U/isTRqERt17oIJCu8OBxWcS9lAEMHBl1DFv29sOo/PNlQudhOLD8fnqW
+   134813RnYnoZqxiW/1gfwC/A6G3hrc0iQIiRIjoq7icuzgLpc/+W6+WS7
+   JimziQVReggLtU3uywjgU5DW3dA3Qy0QFN/X9bmqSbIH+mkr5R+iYg10X
+   z8F+1KlW876BcdLCKF2RgsiB2VTn743B34XdhdJow9fteRFHz+CXlVumH
+   Fv3jirhQ6zigA61ljY2zOZbE3UMJi24FfA265Xe4Ir+wcZ/CPWzSyB8DM
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="422893534"
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="362666312"
 X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="422893534"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 08:42:41 -0700
+   d="scan'208";a="362666312"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 09:14:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="742712860"
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="782960762"
 X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="742712860"
+   d="scan'208";a="782960762"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 16 Jun 2023 08:42:39 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 16 Jun 2023 09:14:42 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qABax-0001V6-0P;
-	Fri, 16 Jun 2023 15:42:39 +0000
-Date: Fri, 16 Jun 2023 23:41:55 +0800
+	id 1qAC5x-0001Xi-2d;
+	Fri, 16 Jun 2023 16:14:41 +0000
+Date: Sat, 17 Jun 2023 00:13:42 +0800
 From: kernel test robot <lkp@intel.com>
 To: Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Luis Chamberlain <mcgrof@kernel.org>
 Subject: [mcgrof-next:large-block-20230616-hacks 37/38]
- fs/iomap/buffered-io.c:830:56: warning: suggest braces around empty body in
- an 'if' statement
-Message-ID: <202306162311.8rwD3fds-lkp@intel.com>
+ fs/iomap/buffered-io.c:830:42: warning: if statement has empty body
+Message-ID: <202306170021.8TZdCFER-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,30 +50,82 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git large-block-20230616-hacks
 head:   5416cb31017b28b25627f4f5b8292af96bb65f58
 commit: ddf48d516b57d686874c57ffa3630ea19c4b7fdb [37/38] iomap: Copy larger chunks from userspace
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230616/202306162311.8rwD3fds-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230616/202306162311.8rwD3fds-lkp@intel.com/reproduce)
+config: hexagon-randconfig-r045-20230616 (https://download.01.org/0day-ci/archive/20230617/202306170021.8TZdCFER-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230617/202306170021.8TZdCFER-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306162311.8rwD3fds-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306170021.8TZdCFER-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/iomap/buffered-io.c: In function 'iomap_write_iter':
->> fs/iomap/buffered-io.c:830:56: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+   In file included from fs/iomap/buffered-io.c:9:
+   In file included from include/linux/iomap.h:7:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from fs/iomap/buffered-io.c:9:
+   In file included from include/linux/iomap.h:7:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from fs/iomap/buffered-io.c:9:
+   In file included from include/linux/iomap.h:7:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> fs/iomap/buffered-io.c:830:42: warning: if statement has empty body [-Wempty-body]
      830 |                 if (bytes > folio_size(folio) - offset);
          |                                                        ^
->> fs/iomap/buffered-io.c:830:17: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
-     830 |                 if (bytes > folio_size(folio) - offset);
-         |                 ^~
-   fs/iomap/buffered-io.c:831:25: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
-     831 |                         bytes = folio_size(folio) - offset;
-         |                         ^~~~~
+   fs/iomap/buffered-io.c:830:42: note: put the semicolon on a separate line to silence this warning
+   7 warnings generated.
 
 
-vim +/if +830 fs/iomap/buffered-io.c
+vim +830 fs/iomap/buffered-io.c
 
    780	
    781	static loff_t iomap_write_iter(struct iomap_iter *iter, struct iov_iter *i)
