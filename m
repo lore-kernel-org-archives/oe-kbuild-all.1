@@ -1,43 +1,43 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EA891B914
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 19:04:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820461B914;
+	Fri, 16 Jun 2023 19:04:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686942293; x=1718478293;
+  t=1686942295; x=1718478295;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8P19tpljWV1BsOEBzLAiEOlUXsxz+dr3KYg1rf1PYy8=;
-  b=i+2CS5rlTfHJiB4kBL2JQkY25bUK27+UID1QkiIGrlJ8WjktWO8j9HDz
-   +UedtMdqqFLvc5lTexEd12/iBgsMcBydvyukWCaQW1dAycXr8oo/duo2M
-   L6p7vzLAZmqGPqy52l2zWWV9WhwY5HqnM6I5f1CzWaysolZ5g+FuY2QeM
-   2DbSLwyBBKOEmO1V4Mk55GtmhuIEQNq0IJqrahOu1kgRWWtJln+Amd53T
-   SeLyef8XTNWC7xN5r3uNeRXlPZOnU/r/doeJqORGf81AG9tOiau6y/Qy0
-   bC+e42PF6Xu8OhrthlV4Kf58YK8TM0e3FeDX5ygzRNKkjcYIzaiJQ2GB5
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="425228754"
+  bh=F1TfEzcUbojNghVVm/GpXjNXv2VKSOR6h4VURdK/67E=;
+  b=JC6Xpu40ZcZiGst8nZ8Zyr6stFB7p1Nunupb+wGzOrAojiyPtOtD8KKa
+   T96irG+hqbeyPZcV56W4BFZNXUqQa2avbpWwIdVHgXgQ1OF4VxOrMgDGk
+   7pvVq5+5lAWn7UTSR+dfaKj0yGc/38wE68jbjqRVr0UQntrjhxPZrVs8r
+   LffN6gvQg+s8ORH/yCgdTYO6Hg//UwVQb7kein6Nhe9hT59tRthbiN4nZ
+   i2jj402S5ljUxKZLEVbClTvth2VYWFEbdb2rYtGpD03A4zW8mk/DLEQKy
+   dRtnhAOZ4eW0EElPDkmmJUmMgZLOTjNdX9oX1wkfVbqxlEbQIT2V0O64P
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="425228756"
 X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
-   d="scan'208";a="425228754"
+   d="scan'208";a="425228756"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
   by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 12:04:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="825844109"
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="825844107"
 X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
-   d="scan'208";a="825844109"
+   d="scan'208";a="825844107"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
   by fmsmga002.fm.intel.com with ESMTP; 16 Jun 2023 12:04:51 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAEkc-0001jM-1I;
+	id 1qAEkc-0001jI-13;
 	Fri, 16 Jun 2023 19:04:50 +0000
-Date: Sat, 17 Jun 2023 03:04:20 +0800
+Date: Sat, 17 Jun 2023 03:04:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Granados <j.granados@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [joelgranados:jag/sysctl-testing-for-0day 11/20]
- include/linux/build_bug.h:16:51: error: negative width in bit-field
- '<anonymous>'
-Message-ID: <202306170243.Mgv5Hgua-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org
+Subject: [tip:x86/boot 13/17] arch/x86/mm/mem_encrypt.c:79:6: warning:
+ attribute declaration must precede definition
+Message-ID: <202306170247.eQtCJPE8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,77 +47,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Joelgranados/linux.git jag/sysctl-testing-for-0day
-head:   669cf696035fa888754f34d948b9488c2206dd7d
-commit: b802dfaa54bfd76a004a5d213a83f3f6caf5d926 [11/20] sysctl: Add size argument to init_header
-config: i386-randconfig-i016-20230616 (https://download.01.org/0day-ci/archive/20230617/202306170243.Mgv5Hgua-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230617/202306170243.Mgv5Hgua-lkp@intel.com/reproduce)
+Hi Thomas,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/boot
+head:   b81fac906a8f9e682e513ddd95697ec7a20878d4
+commit: 439e17576eb47f26b78c5bbc72e344d4206d2327 [13/17] init, x86: Move mem_encrypt_init() into arch_cpu_finalize_init()
+config: x86_64-randconfig-a005-20230616 (https://download.01.org/0day-ci/archive/20230617/202306170247.eQtCJPE8-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230617/202306170247.eQtCJPE8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306170243.Mgv5Hgua-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306170247.eQtCJPE8-lkp@intel.com/
 
-Note: the joelgranados/jag/sysctl-testing-for-0day HEAD 669cf696035fa888754f34d948b9488c2206dd7d builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
-
-   In file included from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/nospec-branch.h:14,
-                    from arch/x86/include/asm/irqflags.h:9,
-                    from include/linux/irqflags.h:16,
-                    from include/linux/rcupdate.h:26,
-                    from include/linux/sysctl.h:26,
-                    from fs/proc/proc_sysctl.c:6:
-   fs/proc/proc_sysctl.c: In function '__register_sysctl_table':
-   include/linux/kernel.h:56:38: warning: division 'sizeof (struct ctl_table *) / sizeof (struct ctl_table)' does not compute the number of array elements [-Wsizeof-pointer-div]
-      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                      ^
-   fs/proc/proc_sysctl.c:1378:53: note: in expansion of macro 'ARRAY_SIZE'
-    1378 |         init_header(header, root, set, node, table, ARRAY_SIZE(table));
-         |                                                     ^~~~~~~~~~
-   fs/proc/proc_sysctl.c:1360:45: note: first 'sizeof' operand was declared here
-    1360 |         const char *path, struct ctl_table *table)
-         |                           ~~~~~~~~~~~~~~~~~~^~~~~
-   In file included from include/linux/init.h:5,
-                    from fs/proc/proc_sysctl.c:5:
->> include/linux/build_bug.h:16:51: error: negative width in bit-field '<anonymous>'
-      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-         |                                                   ^
-   include/linux/compiler.h:232:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
-     232 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
-         |                                 ^~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:56:59: note: in expansion of macro '__must_be_array'
-      56 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   fs/proc/proc_sysctl.c:1378:53: note: in expansion of macro 'ARRAY_SIZE'
-    1378 |         init_header(header, root, set, node, table, ARRAY_SIZE(table));
-         |                                                     ^~~~~~~~~~
+>> arch/x86/mm/mem_encrypt.c:79:6: warning: attribute declaration must precede definition [-Wignored-attributes]
+   void __init mem_encrypt_init(void)
+        ^
+   include/linux/init.h:52:17: note: expanded from macro '__init'
+   #define __init          __section(".init.text") __cold  __latent_entropy __noinitretpoline
+                           ^
+   include/linux/compiler_attributes.h:303:56: note: expanded from macro '__section'
+   #define __section(section)              __attribute__((__section__(section)))
+                                                          ^
+   arch/x86/include/asm/mem_encrypt.h:88:20: note: previous definition is here
+   static inline void mem_encrypt_init(void) { }
+                      ^
+>> arch/x86/mm/mem_encrypt.c:79:6: warning: attribute declaration must precede definition [-Wignored-attributes]
+   void __init mem_encrypt_init(void)
+        ^
+   include/linux/init.h:52:41: note: expanded from macro '__init'
+   #define __init          __section(".init.text") __cold  __latent_entropy __noinitretpoline
+                                                   ^
+   include/linux/compiler_types.h:104:34: note: expanded from macro '__cold'
+   #define __cold                          __attribute__((__cold__))
+                                                          ^
+   arch/x86/include/asm/mem_encrypt.h:88:20: note: previous definition is here
+   static inline void mem_encrypt_init(void) { }
+                      ^
+   arch/x86/mm/mem_encrypt.c:79:13: error: redefinition of 'mem_encrypt_init'
+   void __init mem_encrypt_init(void)
+               ^
+   arch/x86/include/asm/mem_encrypt.h:88:20: note: previous definition is here
+   static inline void mem_encrypt_init(void) { }
+                      ^
+   2 warnings and 1 error generated.
 
 
-vim +16 include/linux/build_bug.h
+vim +79 arch/x86/mm/mem_encrypt.c
 
-bc6245e5efd70c Ian Abbott       2017-07-10   6  
-bc6245e5efd70c Ian Abbott       2017-07-10   7  #ifdef __CHECKER__
-bc6245e5efd70c Ian Abbott       2017-07-10   8  #define BUILD_BUG_ON_ZERO(e) (0)
-bc6245e5efd70c Ian Abbott       2017-07-10   9  #else /* __CHECKER__ */
-bc6245e5efd70c Ian Abbott       2017-07-10  10  /*
-bc6245e5efd70c Ian Abbott       2017-07-10  11   * Force a compilation error if condition is true, but also produce a
-8788994376d84d Rikard Falkeborn 2019-12-04  12   * result (of value 0 and type int), so the expression can be used
-bc6245e5efd70c Ian Abbott       2017-07-10  13   * e.g. in a structure initializer (or where-ever else comma expressions
-bc6245e5efd70c Ian Abbott       2017-07-10  14   * aren't permitted).
-bc6245e5efd70c Ian Abbott       2017-07-10  15   */
-8788994376d84d Rikard Falkeborn 2019-12-04 @16  #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
-527edbc18a70e7 Masahiro Yamada  2019-01-03  17  #endif /* __CHECKER__ */
-527edbc18a70e7 Masahiro Yamada  2019-01-03  18  
+20f07a044a76ae Kirill A. Shutemov 2021-12-06  77  
+20f07a044a76ae Kirill A. Shutemov 2021-12-06  78  /* Architecture __weak replacement functions */
+20f07a044a76ae Kirill A. Shutemov 2021-12-06 @79  void __init mem_encrypt_init(void)
 
-:::::: The code at line 16 was first introduced by commit
-:::::: 8788994376d84d627450fd0d67deb6a66ddf07d7 linux/build_bug.h: change type to int
+:::::: The code at line 79 was first introduced by commit
+:::::: 20f07a044a76aebaaa0603038857229b5c460d69 x86/sev: Move common memory encryption code to mem_encrypt.c
 
-:::::: TO: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+:::::: CC: Borislav Petkov <bp@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
