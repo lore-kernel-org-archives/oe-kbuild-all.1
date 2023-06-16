@@ -1,48 +1,43 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31ED2109
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 21:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742526AA4;
+	Fri, 16 Jun 2023 22:11:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686949798; x=1718485798;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MGvblgTiM/nU8S83WbvkzafTeQ3MttQEJKhdcqTmHXA=;
-  b=g6allcfz+89X6Mw2pvRq/+ie1cDkcW4za4Z3hNDDKRWOfYLOuGmyrGNy
-   Zqj9bEQ+ZsVlZk9g7kLcbwjT95tAQA7X2j4u1YF3lJGb9ydPCxiVtC7yy
-   90kyTOa0D7AcZIecalXYyFlSmbYj+DxIagTG1r8oXroUiPcfAUqyOZ4hC
-   vt0/o6uz8TIQX3oULOr/rrg7Lb4R53hjgZRY0V57ncvXEEyzpySemgL6O
-   5lUVjlAZUf3lKXKWHPOF1q0bw7XgM6pKQuQWy117CYHY+rs3aOIHH+jKh
-   eUAnv+Yaxo/UVpN9ZD+A9rYNYJGhleu1KfujCN3r83K5JjxNPABjLpCid
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="344052166"
+  t=1686953518; x=1718489518;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FUSZ9horQxc+bj5NVltTkcgs/MiR9Xn7J5udMibuLIo=;
+  b=Ssi0OoF4bjLPo19nDGODyMPcsTtAPMVepQKYnXACuE9VW4azm+pntl7x
+   +YlyOvORkEelrlNDWc3kjoPmfsmW2XVq0iBhAO4JaL5lhkEFGH6TwT0fa
+   hM8zkMXt11KwbpxdQrdDBtTt4iaU3zxxTnLJRM+QOU76k+5LDsC1nP0aQ
+   rVtdi8jYhLKTtAODrdKHvkdZylEZ7/GYyOvxADZ6CXSBW8XkUcZEZ5FbD
+   OOGeXEpp5R7ZVtNT4iacHGdRSbXQF1Qw2wWNUdtpQCjHmoyWBZVbLwjeF
+   x8HjZCYAP8MlSpGI3yjw3vzPPPV5I/gKiqTkhsx+HCsqSl3fXphYB8kWl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="422979312"
 X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
-   d="scan'208";a="344052166"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 14:09:57 -0700
+   d="scan'208";a="422979312"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 15:11:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="802970275"
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="663335426"
 X-IronPort-AV: E=Sophos;i="6.00,248,1681196400"; 
-   d="scan'208";a="802970275"
+   d="scan'208";a="663335426"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 16 Jun 2023 14:09:54 -0700
+  by orsmga003.jf.intel.com with ESMTP; 16 Jun 2023 15:11:56 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAGhd-0001ok-2j;
-	Fri, 16 Jun 2023 21:09:53 +0000
-Date: Sat, 17 Jun 2023 05:09:45 +0800
+	id 1qAHff-0001rA-13;
+	Fri, 16 Jun 2023 22:11:55 +0000
+Date: Sat, 17 Jun 2023 06:11:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: KP Singh <kpsingh@kernel.org>, linux-security-module@vger.kernel.org,
-	bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, paul@paul-moore.com,
-	keescook@chromium.org, casey@schaufler-ca.com, song@kernel.org,
-	daniel@iogearbox.net, ast@kernel.org, jannh@google.com,
-	KP Singh <kpsingh@kernel.org>
-Subject: Re: [PATCH v2 3/5] security: Replace indirect LSM hook calls with
- static calls
-Message-ID: <202306170414.br6e1YPW-lkp@intel.com>
-References: <20230616000441.3677441-4-kpsingh@kernel.org>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org
+Subject: [tip:x86/boot 13/18] arch/x86/mm/mem_encrypt.c:79:13: error:
+ redefinition of 'mem_encrypt_init'
+Message-ID: <202306170650.aCZUuxjD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,154 +46,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230616000441.3677441-4-kpsingh@kernel.org>
 
-Hi KP,
+Hi Thomas,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on next-20230615]
-[also build test ERROR on v6.4-rc6]
-[cannot apply to bpf-next/master bpf/master pcmoore-selinux/next linus/master v6.4-rc6 v6.4-rc5 v6.4-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/KP-Singh/kernel-Add-helper-macros-for-loop-unrolling/20230616-080708
-base:   next-20230615
-patch link:    https://lore.kernel.org/r/20230616000441.3677441-4-kpsingh%40kernel.org
-patch subject: [PATCH v2 3/5] security: Replace indirect LSM hook calls with static calls
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230617/202306170414.br6e1YPW-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230617/202306170414.br6e1YPW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/boot
+head:   b81fac906a8f9e682e513ddd95697ec7a20878d4
+commit: 439e17576eb47f26b78c5bbc72e344d4206d2327 [13/18] init, x86: Move mem_encrypt_init() into arch_cpu_finalize_init()
+config: x86_64-randconfig-a005-20230616 (https://download.01.org/0day-ci/archive/20230617/202306170650.aCZUuxjD-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230617/202306170650.aCZUuxjD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306170414.br6e1YPW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306170650.aCZUuxjD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x28): undefined reference to `__SCT__lsm_static_call_binder_set_context_mgr_0'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x48): undefined reference to `__SCT__lsm_static_call_binder_set_context_mgr_1'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x68): undefined reference to `__SCT__lsm_static_call_binder_set_context_mgr_2'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x88): undefined reference to `__SCT__lsm_static_call_binder_set_context_mgr_3'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0xa8): undefined reference to `__SCT__lsm_static_call_binder_set_context_mgr_4'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0xc8): undefined reference to `__SCT__lsm_static_call_binder_transaction_0'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0xe8): undefined reference to `__SCT__lsm_static_call_binder_transaction_1'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x108): undefined reference to `__SCT__lsm_static_call_binder_transaction_2'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x128): undefined reference to `__SCT__lsm_static_call_binder_transaction_3'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x148): undefined reference to `__SCT__lsm_static_call_binder_transaction_4'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x168): undefined reference to `__SCT__lsm_static_call_binder_transfer_binder_0'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x188): undefined reference to `__SCT__lsm_static_call_binder_transfer_binder_1'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x1a8): undefined reference to `__SCT__lsm_static_call_binder_transfer_binder_2'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x1c8): undefined reference to `__SCT__lsm_static_call_binder_transfer_binder_3'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x1e8): undefined reference to `__SCT__lsm_static_call_binder_transfer_binder_4'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x208): undefined reference to `__SCT__lsm_static_call_binder_transfer_file_0'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x228): undefined reference to `__SCT__lsm_static_call_binder_transfer_file_1'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x248): undefined reference to `__SCT__lsm_static_call_binder_transfer_file_2'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x268): undefined reference to `__SCT__lsm_static_call_binder_transfer_file_3'
->> s390-linux-ld: security/security.o:(.data..ro_after_init+0x288): undefined reference to `__SCT__lsm_static_call_binder_transfer_file_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x2a8): undefined reference to `__SCT__lsm_static_call_ptrace_access_check_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x2c8): undefined reference to `__SCT__lsm_static_call_ptrace_access_check_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x2e8): undefined reference to `__SCT__lsm_static_call_ptrace_access_check_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x308): undefined reference to `__SCT__lsm_static_call_ptrace_access_check_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x328): undefined reference to `__SCT__lsm_static_call_ptrace_access_check_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x348): undefined reference to `__SCT__lsm_static_call_ptrace_traceme_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x368): undefined reference to `__SCT__lsm_static_call_ptrace_traceme_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x388): undefined reference to `__SCT__lsm_static_call_ptrace_traceme_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x3a8): undefined reference to `__SCT__lsm_static_call_ptrace_traceme_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x3c8): undefined reference to `__SCT__lsm_static_call_ptrace_traceme_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x3e8): undefined reference to `__SCT__lsm_static_call_capget_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x408): undefined reference to `__SCT__lsm_static_call_capget_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x428): undefined reference to `__SCT__lsm_static_call_capget_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x448): undefined reference to `__SCT__lsm_static_call_capget_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x468): undefined reference to `__SCT__lsm_static_call_capget_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x488): undefined reference to `__SCT__lsm_static_call_capset_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x4a8): undefined reference to `__SCT__lsm_static_call_capset_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x4c8): undefined reference to `__SCT__lsm_static_call_capset_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x4e8): undefined reference to `__SCT__lsm_static_call_capset_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x508): undefined reference to `__SCT__lsm_static_call_capset_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x528): undefined reference to `__SCT__lsm_static_call_capable_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x548): undefined reference to `__SCT__lsm_static_call_capable_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x568): undefined reference to `__SCT__lsm_static_call_capable_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x588): undefined reference to `__SCT__lsm_static_call_capable_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x5a8): undefined reference to `__SCT__lsm_static_call_capable_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x5c8): undefined reference to `__SCT__lsm_static_call_quotactl_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x5e8): undefined reference to `__SCT__lsm_static_call_quotactl_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x608): undefined reference to `__SCT__lsm_static_call_quotactl_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x628): undefined reference to `__SCT__lsm_static_call_quotactl_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x648): undefined reference to `__SCT__lsm_static_call_quotactl_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x668): undefined reference to `__SCT__lsm_static_call_quota_on_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x688): undefined reference to `__SCT__lsm_static_call_quota_on_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x6a8): undefined reference to `__SCT__lsm_static_call_quota_on_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x6c8): undefined reference to `__SCT__lsm_static_call_quota_on_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x6e8): undefined reference to `__SCT__lsm_static_call_quota_on_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x708): undefined reference to `__SCT__lsm_static_call_syslog_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x728): undefined reference to `__SCT__lsm_static_call_syslog_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x748): undefined reference to `__SCT__lsm_static_call_syslog_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x768): undefined reference to `__SCT__lsm_static_call_syslog_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x788): undefined reference to `__SCT__lsm_static_call_syslog_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x7a8): undefined reference to `__SCT__lsm_static_call_settime_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x7c8): undefined reference to `__SCT__lsm_static_call_settime_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x7e8): undefined reference to `__SCT__lsm_static_call_settime_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x808): undefined reference to `__SCT__lsm_static_call_settime_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x828): undefined reference to `__SCT__lsm_static_call_settime_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x848): undefined reference to `__SCT__lsm_static_call_vm_enough_memory_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x868): undefined reference to `__SCT__lsm_static_call_vm_enough_memory_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x888): undefined reference to `__SCT__lsm_static_call_vm_enough_memory_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x8a8): undefined reference to `__SCT__lsm_static_call_vm_enough_memory_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x8c8): undefined reference to `__SCT__lsm_static_call_vm_enough_memory_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x8e8): undefined reference to `__SCT__lsm_static_call_bprm_creds_for_exec_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x908): undefined reference to `__SCT__lsm_static_call_bprm_creds_for_exec_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x928): undefined reference to `__SCT__lsm_static_call_bprm_creds_for_exec_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x948): undefined reference to `__SCT__lsm_static_call_bprm_creds_for_exec_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x968): undefined reference to `__SCT__lsm_static_call_bprm_creds_for_exec_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x988): undefined reference to `__SCT__lsm_static_call_bprm_creds_from_file_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x9a8): undefined reference to `__SCT__lsm_static_call_bprm_creds_from_file_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x9c8): undefined reference to `__SCT__lsm_static_call_bprm_creds_from_file_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0x9e8): undefined reference to `__SCT__lsm_static_call_bprm_creds_from_file_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xa08): undefined reference to `__SCT__lsm_static_call_bprm_creds_from_file_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xa28): undefined reference to `__SCT__lsm_static_call_bprm_check_security_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xa48): undefined reference to `__SCT__lsm_static_call_bprm_check_security_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xa68): undefined reference to `__SCT__lsm_static_call_bprm_check_security_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xa88): undefined reference to `__SCT__lsm_static_call_bprm_check_security_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xaa8): undefined reference to `__SCT__lsm_static_call_bprm_check_security_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xac8): undefined reference to `__SCT__lsm_static_call_bprm_committing_creds_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xae8): undefined reference to `__SCT__lsm_static_call_bprm_committing_creds_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xb08): undefined reference to `__SCT__lsm_static_call_bprm_committing_creds_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xb28): undefined reference to `__SCT__lsm_static_call_bprm_committing_creds_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xb48): undefined reference to `__SCT__lsm_static_call_bprm_committing_creds_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xb68): undefined reference to `__SCT__lsm_static_call_bprm_committed_creds_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xb88): undefined reference to `__SCT__lsm_static_call_bprm_committed_creds_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xba8): undefined reference to `__SCT__lsm_static_call_bprm_committed_creds_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xbc8): undefined reference to `__SCT__lsm_static_call_bprm_committed_creds_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xbe8): undefined reference to `__SCT__lsm_static_call_bprm_committed_creds_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xc08): undefined reference to `__SCT__lsm_static_call_fs_context_dup_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xc28): undefined reference to `__SCT__lsm_static_call_fs_context_dup_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xc48): undefined reference to `__SCT__lsm_static_call_fs_context_dup_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xc68): undefined reference to `__SCT__lsm_static_call_fs_context_dup_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xc88): undefined reference to `__SCT__lsm_static_call_fs_context_dup_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xca8): undefined reference to `__SCT__lsm_static_call_fs_context_parse_param_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xcc8): undefined reference to `__SCT__lsm_static_call_fs_context_parse_param_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xce8): undefined reference to `__SCT__lsm_static_call_fs_context_parse_param_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xd08): undefined reference to `__SCT__lsm_static_call_fs_context_parse_param_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xd28): undefined reference to `__SCT__lsm_static_call_fs_context_parse_param_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xd48): undefined reference to `__SCT__lsm_static_call_sb_alloc_security_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xd68): undefined reference to `__SCT__lsm_static_call_sb_alloc_security_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xd88): undefined reference to `__SCT__lsm_static_call_sb_alloc_security_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xda8): undefined reference to `__SCT__lsm_static_call_sb_alloc_security_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xdc8): undefined reference to `__SCT__lsm_static_call_sb_alloc_security_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xde8): undefined reference to `__SCT__lsm_static_call_sb_delete_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xe08): undefined reference to `__SCT__lsm_static_call_sb_delete_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xe28): undefined reference to `__SCT__lsm_static_call_sb_delete_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xe48): undefined reference to `__SCT__lsm_static_call_sb_delete_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xe68): undefined reference to `__SCT__lsm_static_call_sb_delete_4'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xe88): undefined reference to `__SCT__lsm_static_call_sb_free_security_0'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xea8): undefined reference to `__SCT__lsm_static_call_sb_free_security_1'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xec8): undefined reference to `__SCT__lsm_static_call_sb_free_security_2'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xee8): undefined reference to `__SCT__lsm_static_call_sb_free_security_3'
-   s390-linux-ld: security/security.o:(.data..ro_after_init+0xf08): undefined reference to `__SCT__lsm_static_call_sb_free_security_4'
+   arch/x86/mm/mem_encrypt.c:79:6: warning: attribute declaration must precede definition [-Wignored-attributes]
+   void __init mem_encrypt_init(void)
+        ^
+   include/linux/init.h:52:17: note: expanded from macro '__init'
+   #define __init          __section(".init.text") __cold  __latent_entropy __noinitretpoline
+                           ^
+   include/linux/compiler_attributes.h:303:56: note: expanded from macro '__section'
+   #define __section(section)              __attribute__((__section__(section)))
+                                                          ^
+   arch/x86/include/asm/mem_encrypt.h:88:20: note: previous definition is here
+   static inline void mem_encrypt_init(void) { }
+                      ^
+   arch/x86/mm/mem_encrypt.c:79:6: warning: attribute declaration must precede definition [-Wignored-attributes]
+   void __init mem_encrypt_init(void)
+        ^
+   include/linux/init.h:52:41: note: expanded from macro '__init'
+   #define __init          __section(".init.text") __cold  __latent_entropy __noinitretpoline
+                                                   ^
+   include/linux/compiler_types.h:104:34: note: expanded from macro '__cold'
+   #define __cold                          __attribute__((__cold__))
+                                                          ^
+   arch/x86/include/asm/mem_encrypt.h:88:20: note: previous definition is here
+   static inline void mem_encrypt_init(void) { }
+                      ^
+>> arch/x86/mm/mem_encrypt.c:79:13: error: redefinition of 'mem_encrypt_init'
+   void __init mem_encrypt_init(void)
+               ^
+   arch/x86/include/asm/mem_encrypt.h:88:20: note: previous definition is here
+   static inline void mem_encrypt_init(void) { }
+                      ^
+   2 warnings and 1 error generated.
+
+
+vim +/mem_encrypt_init +79 arch/x86/mm/mem_encrypt.c
+
+20f07a044a76ae Kirill A. Shutemov 2021-12-06  77  
+20f07a044a76ae Kirill A. Shutemov 2021-12-06  78  /* Architecture __weak replacement functions */
+20f07a044a76ae Kirill A. Shutemov 2021-12-06 @79  void __init mem_encrypt_init(void)
+
+:::::: The code at line 79 was first introduced by commit
+:::::: 20f07a044a76aebaaa0603038857229b5c460d69 x86/sev: Move common memory encryption code to mem_encrypt.c
+
+:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+:::::: CC: Borislav Petkov <bp@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
