@@ -1,51 +1,46 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8537C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 00:03:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0ED36D;
+	Fri, 16 Jun 2023 00:44:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686873783; x=1718409783;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0lncjRivOzRs0P/v7LzH4bWBVMXhsYgp6N/aJVRQWqI=;
-  b=H4dub/I0hBXIQxeQj9C9ICSEuAMfAPc0LHMOi4zz+nLsR0QVulA3Ni7J
-   yfC4zhi+R1UbKJeSomv8evAXPKHOsnExcIOVL/LcLlxswEmn9G1rgHQ+s
-   BjxYsL4DdvjIpUnThmwgw6GF83ZNzGyi5TgOjwEgtNIUpsKT+HK0vIDMT
-   WiFvLrbUFs6O7SnveKmXFq2ZdnL8QxqSdc5OCkx8efE3aMM82TUN34AWT
-   a1PzDcJwoYrUXvTg7RxfhBe2tBVGW2TnkGcQ1WiVXqUYX//wumsR1Z88n
-   BreyktHx9e3a3unZGgDOuNnWFw2OanPs37OK+Bd4EVZd6BNztCVEI/GWk
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="362489221"
-X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="362489221"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 17:03:02 -0700
+  t=1686876242; x=1718412242;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6VMIw7zq8N8fDGyfLPP18isZxHcdtduQ/eil4I+EYWE=;
+  b=ITtnPYezHYtKwg6aZxfqrdEg6/lvBWqQYo8/gnO0nVuliY+0Hu2WhZ1R
+   M+2cdzxrfj7D5saYWUo2fi5tdXEj6ZfvSHu17WeVYQi1WVzAu3UIiRVVt
+   1wxtAtFrrYxhsCXEyjptOfGoo9Yr8qt+RsfdfhRVeLAPuPmmlcTzebf+k
+   YxXKwssUVv3iGIsVMZOaUmqUQZfD2qtnUanzpSQZLvNeY/60g1RvmOSor
+   oP3asL5xEUkrzF362ThvPr4gW89VXDhW4D1fvmK29TWvXTdhKDSmpoewq
+   Jqw2+MMLPTFlNbuSpYleeAHuQBYL6x5LSauLcBTgeF8pYw3PbLwIrXLQr
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="357953751"
+X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; 
+   d="scan'208";a="357953751"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 17:44:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="802607734"
-X-IronPort-AV: E=Sophos;i="6.00,245,1681196400"; 
-   d="scan'208";a="802607734"
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="857183114"
+X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; 
+   d="scan'208";a="857183114"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 15 Jun 2023 17:02:57 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 15 Jun 2023 17:43:59 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9wvY-0000XO-2H;
-	Fri, 16 Jun 2023 00:02:56 +0000
-Date: Fri, 16 Jun 2023 08:02:20 +0800
+	id 1q9xZG-0000aa-2l;
+	Fri, 16 Jun 2023 00:43:58 +0000
+Date: Fri, 16 Jun 2023 08:43:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wei Hu <weh@microsoft.com>, netdev@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
-	longli@microsoft.com, sharmaajay@microsoft.com, jgg@ziepe.ca,
-	leon@kernel.org, kys@microsoft.com, haiyangz@microsoft.com,
-	wei.liu@kernel.org, decui@microsoft.com, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	vkuznets@redhat.com, ssengar@linux.microsoft.com,
-	shradhagupta@linux.microsoft.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 1/1] RDMA/mana_ib: Add EQ interrupt support to mana ib
- driver.
-Message-ID: <202306160702.qHOTsE7v-lkp@intel.com>
-References: <20230615111412.1687573-1-weh@microsoft.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [linux-next:master 6153/10326] drivers/block/pktcdvd.c:1315:13:
+ warning: stack frame size (2496) exceeds limit (2048) in
+ 'pkt_handle_packets'
+Message-ID: <202306160811.nV1bMsK4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,71 +49,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230615111412.1687573-1-weh@microsoft.com>
 
-Hi Wei,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on horms-ipvs/master v6.4-rc6 next-20230615]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Hu/RDMA-mana_ib-Add-EQ-interrupt-support-to-mana-ib-driver/20230615-191709
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230615111412.1687573-1-weh%40microsoft.com
-patch subject: [PATCH v3 1/1] RDMA/mana_ib: Add EQ interrupt support to mana ib driver.
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230616/202306160702.qHOTsE7v-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   925294c9aa184801cc0a451b69a18dd0fe7d847d
+commit: 3a41db531e5124adaa3a9ab9ca0c724aee85b10c [6153/10326] pktcdvd: Get rid of custom printing macros
+config: riscv-buildonly-randconfig-r001-20230615 (https://download.01.org/0day-ci/archive/20230616/202306160811.nV1bMsK4-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
 reproduce (this is a W=1 build):
-        git checkout linus/master
-        b4 shazam https://lore.kernel.org/r/20230615111412.1687573-1-weh@microsoft.com
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=3a41db531e5124adaa3a9ab9ca0c724aee85b10c
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout 3a41db531e5124adaa3a9ab9ca0c724aee85b10c
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/infiniband/hw/mana/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/ mm//
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306160702.qHOTsE7v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306160811.nV1bMsK4-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/infiniband/hw/mana/main.c: In function 'mana_ib_destroy_eq':
->> drivers/infiniband/hw/mana/main.c:150:27: warning: unused variable 'ibdev' [-Wunused-variable]
-     150 |         struct ib_device *ibdev = ucontext->ibucontext.device;
-         |                           ^~~~~
+   drivers/block/pktcdvd.c:1364:12: warning: stack frame size (3648) exceeds limit (2048) in 'kcdrwd' [-Wframe-larger-than]
+   static int kcdrwd(void *foobar)
+              ^
+>> drivers/block/pktcdvd.c:1315:13: warning: stack frame size (2496) exceeds limit (2048) in 'pkt_handle_packets' [-Wframe-larger-than]
+   static void pkt_handle_packets(struct pktcdvd_device *pd)
+               ^
+   2 warnings generated.
 
 
-vim +/ibdev +150 drivers/infiniband/hw/mana/main.c
+vim +/pkt_handle_packets +1315 drivers/block/pktcdvd.c
 
-   145	
-   146	static void mana_ib_destroy_eq(struct mana_ib_ucontext *ucontext,
-   147				       struct mana_ib_dev *mdev)
-   148	{
-   149		struct gdma_context *gc = mdev->gdma_dev->gdma_context;
- > 150		struct ib_device *ibdev = ucontext->ibucontext.device;
-   151		struct gdma_queue *eq;
-   152		int i;
-   153	
-   154		if (!ucontext->eqs)
-   155			return;
-   156	
-   157		for (i = 0; i < gc->max_num_queues; i++) {
-   158			eq = ucontext->eqs[i].eq;
-   159			if (!eq)
-   160				continue;
-   161	
-   162			mana_gd_destroy_queue(gc, eq);
-   163		}
-   164	
-   165		kfree(ucontext->eqs);
-   166		ucontext->eqs = NULL;
-   167	}
-   168	
+4b83e99ee7092d Jens Axboe      2023-01-04  1314  
+4b83e99ee7092d Jens Axboe      2023-01-04 @1315  static void pkt_handle_packets(struct pktcdvd_device *pd)
+4b83e99ee7092d Jens Axboe      2023-01-04  1316  {
+3a41db531e5124 Andy Shevchenko 2023-03-10  1317  	struct device *ddev = disk_to_dev(pd->disk);
+4b83e99ee7092d Jens Axboe      2023-01-04  1318  	struct packet_data *pkt, *next;
+4b83e99ee7092d Jens Axboe      2023-01-04  1319  
+4b83e99ee7092d Jens Axboe      2023-01-04  1320  	/*
+4b83e99ee7092d Jens Axboe      2023-01-04  1321  	 * Run state machine for active packets
+4b83e99ee7092d Jens Axboe      2023-01-04  1322  	 */
+4b83e99ee7092d Jens Axboe      2023-01-04  1323  	list_for_each_entry(pkt, &pd->cdrw.pkt_active_list, list) {
+4b83e99ee7092d Jens Axboe      2023-01-04  1324  		if (atomic_read(&pkt->run_sm) > 0) {
+4b83e99ee7092d Jens Axboe      2023-01-04  1325  			atomic_set(&pkt->run_sm, 0);
+4b83e99ee7092d Jens Axboe      2023-01-04  1326  			pkt_run_state_machine(pd, pkt);
+4b83e99ee7092d Jens Axboe      2023-01-04  1327  		}
+4b83e99ee7092d Jens Axboe      2023-01-04  1328  	}
+4b83e99ee7092d Jens Axboe      2023-01-04  1329  
+4b83e99ee7092d Jens Axboe      2023-01-04  1330  	/*
+4b83e99ee7092d Jens Axboe      2023-01-04  1331  	 * Move no longer active packets to the free list
+4b83e99ee7092d Jens Axboe      2023-01-04  1332  	 */
+4b83e99ee7092d Jens Axboe      2023-01-04  1333  	spin_lock(&pd->cdrw.active_list_lock);
+4b83e99ee7092d Jens Axboe      2023-01-04  1334  	list_for_each_entry_safe(pkt, next, &pd->cdrw.pkt_active_list, list) {
+4b83e99ee7092d Jens Axboe      2023-01-04  1335  		if (pkt->state == PACKET_FINISHED_STATE) {
+4b83e99ee7092d Jens Axboe      2023-01-04  1336  			list_del(&pkt->list);
+4b83e99ee7092d Jens Axboe      2023-01-04  1337  			pkt_put_packet_data(pd, pkt);
+3a41db531e5124 Andy Shevchenko 2023-03-10  1338  			pkt_set_state(ddev, pkt, PACKET_IDLE_STATE);
+4b83e99ee7092d Jens Axboe      2023-01-04  1339  			atomic_set(&pd->scan_queue, 1);
+4b83e99ee7092d Jens Axboe      2023-01-04  1340  		}
+4b83e99ee7092d Jens Axboe      2023-01-04  1341  	}
+4b83e99ee7092d Jens Axboe      2023-01-04  1342  	spin_unlock(&pd->cdrw.active_list_lock);
+4b83e99ee7092d Jens Axboe      2023-01-04  1343  }
+4b83e99ee7092d Jens Axboe      2023-01-04  1344  
+
+:::::: The code at line 1315 was first introduced by commit
+:::::: 4b83e99ee7092df37a5cf292fde976ebc475ea63 Revert "pktcdvd: remove driver."
+
+:::::: TO: Jens Axboe <axboe@kernel.dk>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
