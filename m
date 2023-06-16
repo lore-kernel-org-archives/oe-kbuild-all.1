@@ -1,43 +1,55 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1674613AC1;
-	Fri, 16 Jun 2023 11:23:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E92D13AC1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 11:23:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686914608; x=1718450608;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2wBW/ZKAogvq84/ZILHc/yXwFVurx1OZ+M1yQcpdH6I=;
-  b=h8EPfhhf5mVVh7g+wyZUCyJ5WBnH5qkBw2vT5/5jDPg+6XWDpbfB0WT1
-   mAG3plUIy0mQC/AVqXYIRQVR+2P990vddZsnkg0HYsanzHY0XTt0Gu9dt
-   Yi/MTctuQhO3jWEHguZnTEYjm5z3zJjdHS14v94TwS5dUTlIfeYxgdg6O
-   gi/npMjp2vcPkVBKUqCGGfD3w/AKZ0VWvMMGKJHzrWwMC/JqKf5K9KIEd
-   XpC4YXNC0rv2NxVXERBodWSp1xx08iPYcm31stXt68nEM6xMZItjc6UU7
-   ayKdDYevBzd/ACRNH2WzJuVgwJnGweo9V2tyAaanGhZdqg5f9IQ2w86t4
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="356682758"
+  t=1686914610; x=1718450610;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mDlHBFyvTQFGzUvmEXVx2wFpXxheBWNoL0HLCWmLp7I=;
+  b=BMXjfbekv3pj9+5F/lGMkvIN7hJRujEracUzosR0YNDzsLZQKC8mP7w2
+   L03GG/Z11Vsi7cKJNndgaB+rInKQHHMA+53pvLlgtl/mkOL+Kwq0Sw4xV
+   04JVfsvbPrZuBHZgDX8qqujsQ5xyMmteJwbKjNtqoNCygz5NxiNh3CBUj
+   0csZS+zKopyaL4BUj3sWVOaItgW2d2ZAh44N4gV2s+69oozK5GVskVrKP
+   cLdPV/VlUVXyyyGquvYYzl/gmvs+gt7RX5gCNeHiMJnCyrg3qbUWT6zWT
+   NUeJC10eCjVFhmx0+Sj6YGtkrrstwer7a0tR/imOaTsGyDFtzMBI8sIvU
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="387899096"
 X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="356682758"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 04:23:25 -0700
+   d="scan'208";a="387899096"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 04:23:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="857348760"
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="707064234"
 X-IronPort-AV: E=Sophos;i="6.00,247,1681196400"; 
-   d="scan'208";a="857348760"
+   d="scan'208";a="707064234"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2023 04:23:24 -0700
+  by orsmga007.jf.intel.com with ESMTP; 16 Jun 2023 04:23:23 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qA7Y3-0001Ae-1Q;
+	id 1qA7Y3-0001Aj-1h;
 	Fri, 16 Jun 2023 11:23:23 +0000
-Date: Fri, 16 Jun 2023 19:23:07 +0800
+Date: Fri, 16 Jun 2023 19:23:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Granados <j.granados@samsung.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [joelgranados:jag/sysctl-testing-for-0day 17/20]
- security/loadpin/loadpin.c:259:61: error: too few arguments to function
- call, expected 3, have 2
-Message-ID: <202306161916.LD5txgh1-lkp@intel.com>
+To: Lucas Tanure <tanure@linux.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, Nick <nick@khadas.com>,
+	Artem <art@khadas.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-serial@vger.kernel.org, Lucas Tanure <tanure@linux.com>
+Subject: Re: [PATCH 3/6] clk: meson: t7: add peripheral clock controller
+Message-ID: <202306161946.Kk7xeos8-lkp@intel.com>
+References: <20230615182938.18487-4-tanure@linux.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,86 +58,111 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230615182938.18487-4-tanure@linux.com>
 
-tree:   https://github.com/Joelgranados/linux.git jag/sysctl-testing-for-0day
-head:   669cf696035fa888754f34d948b9488c2206dd7d
-commit: 4fc5681f466e84cdd9754c21b713a3af9a4d35b0 [17/20] sysctl: add ARRAY_SIZE to register_sysctl
-config: riscv-buildonly-randconfig-r001-20230615 (https://download.01.org/0day-ci/archive/20230616/202306161916.LD5txgh1-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230616/202306161916.LD5txgh1-lkp@intel.com/reproduce)
+Hi Lucas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on clk/clk-next tty/tty-testing tty/tty-next tty/tty-linus krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v6.4-rc6 next-20230616]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Tanure/dt-bindings-arm-amlogic-add-Amlogic-T7-based-Khadas-VIM4-bindings/20230616-023038
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230615182938.18487-4-tanure%40linux.com
+patch subject: [PATCH 3/6] clk: meson: t7: add peripheral clock controller
+config: arm64-buildonly-randconfig-r004-20230615 (https://download.01.org/0day-ci/archive/20230616/202306161946.Kk7xeos8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230616/202306161946.Kk7xeos8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306161916.LD5txgh1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306161946.Kk7xeos8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> security/loadpin/loadpin.c:259:61: error: too few arguments to function call, expected 3, have 2
-           if (!register_sysctl("kernel/loadpin", loadpin_sysctl_table))
-                ~~~~~~~~~~~~~~~                                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                      ^~~~
-   include/linux/sysctl.h:220:26: note: 'register_sysctl' declared here
-   struct ctl_table_header *register_sysctl(const char *path, struct ctl_table *table,
-                            ^
->> security/loadpin/loadpin.c:259:61: error: too few arguments to function call, expected 3, have 2
-           if (!register_sysctl("kernel/loadpin", loadpin_sysctl_table))
-                ~~~~~~~~~~~~~~~                                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:61: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                               ^~~~
-   include/linux/sysctl.h:220:26: note: 'register_sysctl' declared here
-   struct ctl_table_header *register_sysctl(const char *path, struct ctl_table *table,
-                            ^
->> security/loadpin/loadpin.c:259:61: error: too few arguments to function call, expected 3, have 2
-           if (!register_sysctl("kernel/loadpin", loadpin_sysctl_table))
-                ~~~~~~~~~~~~~~~                                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-                                                                                        ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
-           (cond) ?                                        \
-            ^~~~
-   include/linux/sysctl.h:220:26: note: 'register_sysctl' declared here
-   struct ctl_table_header *register_sysctl(const char *path, struct ctl_table *table,
-                            ^
-   3 errors generated.
+   drivers/clk/meson/t7.c:7084:51: warning: initialized field overwritten [-Woverride-init]
+    7084 |                 [CLKID_VID_PLL]                 = &t7_vid_pll.hw,
+         |                                                   ^
+   drivers/clk/meson/t7.c:7084:51: note: (near initialization for 't7_hw_onecell_data.hws[93]')
+   drivers/clk/meson/t7.c: In function 'meson_t7_probe':
+>> drivers/clk/meson/t7.c:7946:36: warning: variable 'mclk_data' set but not used [-Wunused-but-set-variable]
+    7946 |         struct meson_clk_pll_data *mclk_data;
+         |                                    ^~~~~~~~~
+   drivers/clk/meson/t7.c: At top level:
+   drivers/clk/meson/t7.c:689:37: warning: 't7_a73_dyn_clk_sel' defined but not used [-Wunused-const-variable=]
+     689 | static const struct clk_parent_data t7_a73_dyn_clk_sel[] = {
+         |                                     ^~~~~~~~~~~~~~~~~~
+   drivers/clk/meson/t7.c:93:29: warning: 'meson_pll_clk_no_ops' defined but not used [-Wunused-const-variable=]
+      93 | static const struct clk_ops meson_pll_clk_no_ops = {};
+         |                             ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +259 security/loadpin/loadpin.c
+vim +/mclk_data +7946 drivers/clk/meson/t7.c
 
-0ff9848067b7b9 Ke Wu             2019-05-30  252  
-70b62c25665f63 Kees Cook         2018-09-14  253  static int __init loadpin_init(void)
-9b091556a073a9 Kees Cook         2016-04-20  254  {
-13523bef1e2154 Kees Cook         2018-09-24  255  	pr_info("ready to pin (currently %senforcing)\n",
-13523bef1e2154 Kees Cook         2018-09-24  256  		enforce ? "" : "not ");
-0ff9848067b7b9 Ke Wu             2019-05-30  257  	parse_exclude();
-60ba1028fc7b73 Kees Cook         2022-12-09  258  #ifdef CONFIG_SYSCTL
-5df5bdc3c4733a Luis Chamberlain  2023-03-02 @259  	if (!register_sysctl("kernel/loadpin", loadpin_sysctl_table))
-60ba1028fc7b73 Kees Cook         2022-12-09  260  		pr_notice("sysctl registration failed!\n");
-60ba1028fc7b73 Kees Cook         2022-12-09  261  #endif
-d69dece5f5b6bc Casey Schaufler   2017-01-18  262  	security_add_hooks(loadpin_hooks, ARRAY_SIZE(loadpin_hooks), "loadpin");
-3f805f8cc23ba3 Matthias Kaehlcke 2022-06-27  263  
-70b62c25665f63 Kees Cook         2018-09-14  264  	return 0;
-9b091556a073a9 Kees Cook         2016-04-20  265  }
-9b091556a073a9 Kees Cook         2016-04-20  266  
-
-:::::: The code at line 259 was first introduced by commit
-:::::: 5df5bdc3c4733a47a818576c13a7bfd0f0715124 loadpin: simplify sysctls use with register_sysctl()
-
-:::::: TO: Luis Chamberlain <mcgrof@kernel.org>
-:::::: CC: Luis Chamberlain <mcgrof@kernel.org>
+  7939	
+  7940	static int __ref meson_t7_probe(struct platform_device *pdev)
+  7941	{
+  7942		struct device *dev = &pdev->dev;
+  7943		struct regmap *basic_map;
+  7944		struct regmap *pll_map;
+  7945		struct regmap *cpu_clk_map;
+> 7946		struct meson_clk_pll_data *mclk_data;
+  7947		int ret, i;
+  7948	
+  7949		/* Get regmap for different clock area */
+  7950		basic_map = t7_regmap_resource(dev, "basic");
+  7951		if (IS_ERR(basic_map)) {
+  7952			dev_err(dev, "basic clk registers not found\n");
+  7953			return PTR_ERR(basic_map);
+  7954		}
+  7955	
+  7956		pll_map = t7_regmap_resource(dev, "pll");
+  7957		if (IS_ERR(pll_map)) {
+  7958			dev_err(dev, "pll clk registers not found\n");
+  7959			return PTR_ERR(pll_map);
+  7960		}
+  7961	
+  7962		cpu_clk_map = t7_regmap_resource(dev, "cpu_clk");
+  7963		if (IS_ERR(cpu_clk_map)) {
+  7964			dev_err(dev, "cpu clk registers not found\n");
+  7965			return PTR_ERR(cpu_clk_map);
+  7966		}
+  7967	
+  7968		/* Populate regmap for the regmap backed clocks */
+  7969		for (i = 0; i < ARRAY_SIZE(t7_clk_regmaps); i++)
+  7970			t7_clk_regmaps[i]->map = basic_map;
+  7971	
+  7972		for (i = 0; i < ARRAY_SIZE(t7_cpu_clk_regmaps); i++)
+  7973			t7_cpu_clk_regmaps[i]->map = cpu_clk_map;
+  7974	
+  7975		for (i = 0; i < ARRAY_SIZE(t7_pll_clk_regmaps); i++)
+  7976			t7_pll_clk_regmaps[i]->map = pll_map;
+  7977		regmap_write(pll_map, ANACTRL_MPLL_CTRL0, 0x00000543);
+  7978	
+  7979		mclk_data = t7_mclk_pll_dco.data;
+  7980	
+  7981		for (i = 0; i < t7_hw_onecell_data.num; i++) {
+  7982			/* array might be sparse */
+  7983			if (!t7_hw_onecell_data.hws[i])
+  7984				continue;
+  7985	
+  7986			ret = devm_clk_hw_register(dev, t7_hw_onecell_data.hws[i]);
+  7987			if (ret) {
+  7988				dev_err(dev, "Clock registration failed\n");
+  7989				return ret;
+  7990			}
+  7991		}
+  7992		meson_t7_dvfs_setup(pdev);
+  7993	
+  7994	
+  7995		return devm_of_clk_add_hw_provider(dev, of_clk_hw_onecell_get, &t7_hw_onecell_data);
+  7996	}
+  7997	
 
 -- 
 0-DAY CI Kernel Test Service
