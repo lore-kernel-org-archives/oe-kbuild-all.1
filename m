@@ -1,48 +1,54 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B138648
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 03:42:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E7580B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 03:42:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686886931; x=1718422931;
+  t=1686886933; x=1718422933;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NTvG5ctWBX4OunZFs++KWo1lWVv7MlP+75F3gJ11Noo=;
-  b=EM2QXTrQ3Y/KNlDiBdNwY6z37UZ+QmifOYwLdRxT6ixZ3t0dYbyW6hVf
-   VrpMq3D1Zcz1SomxOkRPFrF9lAZPEbMrTnQoQWDV3v3jocJrj3nRd5tsH
-   dhuTKGhdfpruzbO6gdGXEsow9YVnXq05OHIojY6sYKJC+PXiVZudmIfmv
-   Cjg6LGFXnrYH5KTbQh9a0JQpTBnxvYyoGJKR5u8Cfcl/pVq5BUFtY+MbQ
-   5LZqdo6gAyodPvBJrcyJx0O040uzex4JOjhAAs/0RUKze5SFJ7y/R2oxH
-   e5gLrl1JKVbAzdtG+vuaDk6v14VfkIvX6zlX+Gly0cEfSYfbFdk+lgyDP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="425039554"
+  bh=Jr+kuhxyEDu1Y5qRfFJ8hxZ7m0E4zmTvsZ7xfbtASBc=;
+  b=Tex0k0uRNxJDqK3ru4XNxjzJoFosKPK0ziz+AycJeyTydmI+r2I/79uk
+   1SeAFqBNyo/oLrelm7hoOEgOI6Iwxen1jhLV67Yd39QVNEZdJktJMJlXy
+   6hqEQLS/ihILSnfUvg2cbNMvaAACXUNAIqgox/rE6O6MvjXmh/JrqOdYg
+   2ZQ8ZV88cG1n5BktFamCpcvbxQuaqXUPmg3rbdJD1FvdHu2wDkpGaiBwD
+   lJIWOg87osN9jtkRG2ixhJg93Areftmhm1PvNjmMmjK8b0mAtXBBHfr05
+   NplvFKWfNlAYedPTu8tCxaahh4Kg24+8RdXEmB7JZgkOyNFRL8s5rWMC4
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="425039559"
 X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; 
-   d="scan'208";a="425039554"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 20:42:10 -0700
+   d="scan'208";a="425039559"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 20:42:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="777988481"
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="663021981"
 X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; 
-   d="scan'208";a="777988481"
+   d="scan'208";a="663021981"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 15 Jun 2023 20:42:06 -0700
+  by orsmga003.jf.intel.com with ESMTP; 15 Jun 2023 20:42:07 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qA0Le-0000lz-0R;
+	id 1qA0Le-0000lx-0E;
 	Fri, 16 Jun 2023 03:42:06 +0000
-Date: Fri, 16 Jun 2023 11:41:34 +0800
+Date: Fri, 16 Jun 2023 11:41:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: KP Singh <kpsingh@kernel.org>, linux-security-module@vger.kernel.org,
-	bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, paul@paul-moore.com,
-	keescook@chromium.org, casey@schaufler-ca.com, song@kernel.org,
-	daniel@iogearbox.net, ast@kernel.org, jannh@google.com,
-	KP Singh <kpsingh@kernel.org>
-Subject: Re: [PATCH v2 3/5] security: Replace indirect LSM hook calls with
- static calls
-Message-ID: <202306161110.9jeDpzVN-lkp@intel.com>
-References: <20230616000441.3677441-4-kpsingh@kernel.org>
+To: Anshuman Khandual <anshuman.khandual@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	will@kernel.org, catalin.marinas@arm.com, mark.rutland@arm.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Mark Brown <broonie@kernel.org>, James Clark <james.clark@arm.com>,
+	Rob Herring <robh@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Suzuki Poulose <suzuki.poulose@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	linux-perf-users@vger.kernel.org
+Subject: Re: [PATCH V12 05/10] arm64/perf: Add branch stack support in ARMV8
+ PMU
+Message-ID: <202306161154.PwcAiVfV-lkp@intel.com>
+References: <20230615133239.442736-6-anshuman.khandual@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,163 +57,386 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230616000441.3677441-4-kpsingh@kernel.org>
+In-Reply-To: <20230615133239.442736-6-anshuman.khandual@arm.com>
 
-Hi KP,
+Hi Anshuman,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on next-20230615]
-[also build test ERROR on v6.4-rc6]
-[cannot apply to bpf-next/master bpf/master pcmoore-selinux/next linus/master v6.4-rc6 v6.4-rc5 v6.4-rc4]
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on tip/perf/core acme/perf/core linus/master v6.4-rc6 next-20230615]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/KP-Singh/kernel-Add-helper-macros-for-loop-unrolling/20230616-080708
-base:   next-20230615
-patch link:    https://lore.kernel.org/r/20230616000441.3677441-4-kpsingh%40kernel.org
-patch subject: [PATCH v2 3/5] security: Replace indirect LSM hook calls with static calls
-config: m68k-randconfig-r001-20230615 (https://download.01.org/0day-ci/archive/20230616/202306161110.9jeDpzVN-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/drivers-perf-arm_pmu-Add-new-sched_task-callback/20230615-223352
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20230615133239.442736-6-anshuman.khandual%40arm.com
+patch subject: [PATCH V12 05/10] arm64/perf: Add branch stack support in ARMV8 PMU
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230616/202306161154.PwcAiVfV-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git checkout next-20230615
-        b4 shazam https://lore.kernel.org/r/20230616000441.3677441-4-kpsingh@kernel.org
+        git remote add arm64 https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+        git fetch arm64 for-next/core
+        git checkout arm64/for-next/core
+        b4 shazam https://lore.kernel.org/r/20230615133239.442736-6-anshuman.khandual@arm.com
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=m68k SHELL=/bin/bash
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/perf/
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306161110.9jeDpzVN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306161154.PwcAiVfV-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x20): undefined reference to `__SCT__lsm_static_call_binder_set_context_mgr_0'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x30): undefined reference to `__SCT__lsm_static_call_binder_set_context_mgr_1'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x40): undefined reference to `__SCT__lsm_static_call_binder_transaction_0'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x50): undefined reference to `__SCT__lsm_static_call_binder_transaction_1'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x60): undefined reference to `__SCT__lsm_static_call_binder_transfer_binder_0'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x70): undefined reference to `__SCT__lsm_static_call_binder_transfer_binder_1'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x80): undefined reference to `__SCT__lsm_static_call_binder_transfer_file_0'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x90): undefined reference to `__SCT__lsm_static_call_binder_transfer_file_1'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0xa0): undefined reference to `__SCT__lsm_static_call_ptrace_access_check_0'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0xb0): undefined reference to `__SCT__lsm_static_call_ptrace_access_check_1'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0xc0): undefined reference to `__SCT__lsm_static_call_ptrace_traceme_0'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0xd0): undefined reference to `__SCT__lsm_static_call_ptrace_traceme_1'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0xe0): undefined reference to `__SCT__lsm_static_call_capget_0'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0xf0): undefined reference to `__SCT__lsm_static_call_capget_1'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x100): undefined reference to `__SCT__lsm_static_call_capset_0'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x110): undefined reference to `__SCT__lsm_static_call_capset_1'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x120): undefined reference to `__SCT__lsm_static_call_capable_0'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x130): undefined reference to `__SCT__lsm_static_call_capable_1'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x140): undefined reference to `__SCT__lsm_static_call_quotactl_0'
->> m68k-linux-ld: security/security.o:(.data..ro_after_init+0x150): undefined reference to `__SCT__lsm_static_call_quotactl_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x160): undefined reference to `__SCT__lsm_static_call_quota_on_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x170): undefined reference to `__SCT__lsm_static_call_quota_on_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x180): undefined reference to `__SCT__lsm_static_call_syslog_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x190): undefined reference to `__SCT__lsm_static_call_syslog_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x1a0): undefined reference to `__SCT__lsm_static_call_settime_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x1b0): undefined reference to `__SCT__lsm_static_call_settime_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x1c0): undefined reference to `__SCT__lsm_static_call_vm_enough_memory_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x1d0): undefined reference to `__SCT__lsm_static_call_vm_enough_memory_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x1e0): undefined reference to `__SCT__lsm_static_call_bprm_creds_for_exec_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x1f0): undefined reference to `__SCT__lsm_static_call_bprm_creds_for_exec_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x200): undefined reference to `__SCT__lsm_static_call_bprm_creds_from_file_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x210): undefined reference to `__SCT__lsm_static_call_bprm_creds_from_file_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x220): undefined reference to `__SCT__lsm_static_call_bprm_check_security_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x230): undefined reference to `__SCT__lsm_static_call_bprm_check_security_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x240): undefined reference to `__SCT__lsm_static_call_bprm_committing_creds_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x250): undefined reference to `__SCT__lsm_static_call_bprm_committing_creds_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x260): undefined reference to `__SCT__lsm_static_call_bprm_committed_creds_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x270): undefined reference to `__SCT__lsm_static_call_bprm_committed_creds_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x280): undefined reference to `__SCT__lsm_static_call_fs_context_dup_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x290): undefined reference to `__SCT__lsm_static_call_fs_context_dup_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x2a0): undefined reference to `__SCT__lsm_static_call_fs_context_parse_param_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x2b0): undefined reference to `__SCT__lsm_static_call_fs_context_parse_param_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x2c0): undefined reference to `__SCT__lsm_static_call_sb_alloc_security_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x2d0): undefined reference to `__SCT__lsm_static_call_sb_alloc_security_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x2e0): undefined reference to `__SCT__lsm_static_call_sb_delete_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x2f0): undefined reference to `__SCT__lsm_static_call_sb_delete_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x300): undefined reference to `__SCT__lsm_static_call_sb_free_security_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x310): undefined reference to `__SCT__lsm_static_call_sb_free_security_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x320): undefined reference to `__SCT__lsm_static_call_sb_free_mnt_opts_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x330): undefined reference to `__SCT__lsm_static_call_sb_free_mnt_opts_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x340): undefined reference to `__SCT__lsm_static_call_sb_eat_lsm_opts_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x350): undefined reference to `__SCT__lsm_static_call_sb_eat_lsm_opts_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x360): undefined reference to `__SCT__lsm_static_call_sb_mnt_opts_compat_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x370): undefined reference to `__SCT__lsm_static_call_sb_mnt_opts_compat_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x380): undefined reference to `__SCT__lsm_static_call_sb_remount_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x390): undefined reference to `__SCT__lsm_static_call_sb_remount_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x3a0): undefined reference to `__SCT__lsm_static_call_sb_kern_mount_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x3b0): undefined reference to `__SCT__lsm_static_call_sb_kern_mount_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x3c0): undefined reference to `__SCT__lsm_static_call_sb_show_options_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x3d0): undefined reference to `__SCT__lsm_static_call_sb_show_options_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x3e0): undefined reference to `__SCT__lsm_static_call_sb_statfs_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x3f0): undefined reference to `__SCT__lsm_static_call_sb_statfs_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x400): undefined reference to `__SCT__lsm_static_call_sb_mount_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x410): undefined reference to `__SCT__lsm_static_call_sb_mount_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x420): undefined reference to `__SCT__lsm_static_call_sb_umount_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x430): undefined reference to `__SCT__lsm_static_call_sb_umount_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x440): undefined reference to `__SCT__lsm_static_call_sb_pivotroot_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x450): undefined reference to `__SCT__lsm_static_call_sb_pivotroot_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x460): undefined reference to `__SCT__lsm_static_call_sb_set_mnt_opts_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x470): undefined reference to `__SCT__lsm_static_call_sb_set_mnt_opts_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x480): undefined reference to `__SCT__lsm_static_call_sb_clone_mnt_opts_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x490): undefined reference to `__SCT__lsm_static_call_sb_clone_mnt_opts_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x4a0): undefined reference to `__SCT__lsm_static_call_move_mount_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x4b0): undefined reference to `__SCT__lsm_static_call_move_mount_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x4c0): undefined reference to `__SCT__lsm_static_call_dentry_init_security_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x4d0): undefined reference to `__SCT__lsm_static_call_dentry_init_security_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x4e0): undefined reference to `__SCT__lsm_static_call_dentry_create_files_as_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x4f0): undefined reference to `__SCT__lsm_static_call_dentry_create_files_as_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x500): undefined reference to `__SCT__lsm_static_call_path_unlink_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x510): undefined reference to `__SCT__lsm_static_call_path_unlink_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x520): undefined reference to `__SCT__lsm_static_call_path_mkdir_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x530): undefined reference to `__SCT__lsm_static_call_path_mkdir_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x540): undefined reference to `__SCT__lsm_static_call_path_rmdir_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x550): undefined reference to `__SCT__lsm_static_call_path_rmdir_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x560): undefined reference to `__SCT__lsm_static_call_path_mknod_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x570): undefined reference to `__SCT__lsm_static_call_path_mknod_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x580): undefined reference to `__SCT__lsm_static_call_path_truncate_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x590): undefined reference to `__SCT__lsm_static_call_path_truncate_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x5a0): undefined reference to `__SCT__lsm_static_call_path_symlink_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x5b0): undefined reference to `__SCT__lsm_static_call_path_symlink_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x5c0): undefined reference to `__SCT__lsm_static_call_path_link_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x5d0): undefined reference to `__SCT__lsm_static_call_path_link_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x5e0): undefined reference to `__SCT__lsm_static_call_path_rename_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x5f0): undefined reference to `__SCT__lsm_static_call_path_rename_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x600): undefined reference to `__SCT__lsm_static_call_path_chmod_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x610): undefined reference to `__SCT__lsm_static_call_path_chmod_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x620): undefined reference to `__SCT__lsm_static_call_path_chown_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x630): undefined reference to `__SCT__lsm_static_call_path_chown_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x640): undefined reference to `__SCT__lsm_static_call_path_chroot_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x650): undefined reference to `__SCT__lsm_static_call_path_chroot_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x660): undefined reference to `__SCT__lsm_static_call_path_notify_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x670): undefined reference to `__SCT__lsm_static_call_path_notify_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x680): undefined reference to `__SCT__lsm_static_call_inode_alloc_security_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x690): undefined reference to `__SCT__lsm_static_call_inode_alloc_security_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x6a0): undefined reference to `__SCT__lsm_static_call_inode_free_security_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x6b0): undefined reference to `__SCT__lsm_static_call_inode_free_security_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x6c0): undefined reference to `__SCT__lsm_static_call_inode_init_security_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x6d0): undefined reference to `__SCT__lsm_static_call_inode_init_security_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x6e0): undefined reference to `__SCT__lsm_static_call_inode_init_security_anon_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x6f0): undefined reference to `__SCT__lsm_static_call_inode_init_security_anon_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x700): undefined reference to `__SCT__lsm_static_call_inode_create_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x710): undefined reference to `__SCT__lsm_static_call_inode_create_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x720): undefined reference to `__SCT__lsm_static_call_inode_link_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x730): undefined reference to `__SCT__lsm_static_call_inode_link_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x740): undefined reference to `__SCT__lsm_static_call_inode_unlink_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x750): undefined reference to `__SCT__lsm_static_call_inode_unlink_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x760): undefined reference to `__SCT__lsm_static_call_inode_symlink_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x770): undefined reference to `__SCT__lsm_static_call_inode_symlink_1'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x780): undefined reference to `__SCT__lsm_static_call_inode_mkdir_0'
-   m68k-linux-ld: security/security.o:(.data..ro_after_init+0x790): undefined reference to `__SCT__lsm_static_call_inode_mkdir_1'
+   drivers/perf/arm_pmuv3.c:143:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_RD'
+     143 |         [C(L1D)][C(OP_READ)][C(RESULT_MISS)]    = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:122:65: warning: initialized field overwritten [-Woverride-init]
+     122 | #define ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR                       0x0041
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:144:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR'
+     144 |         [C(L1D)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:122:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[0][1][0]')
+     122 | #define ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR                       0x0041
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:144:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR'
+     144 |         [C(L1D)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:124:65: warning: initialized field overwritten [-Woverride-init]
+     124 | #define ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR                0x0043
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:145:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR'
+     145 |         [C(L1D)][C(OP_WRITE)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:124:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[0][1][1]')
+     124 | #define ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR                0x0043
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:145:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR'
+     145 |         [C(L1D)][C(OP_WRITE)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:133:65: warning: initialized field overwritten [-Woverride-init]
+     133 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD                         0x004E
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:147:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD'
+     147 |         [C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:133:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][0][0]')
+     133 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD                         0x004E
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:147:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD'
+     147 |         [C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:134:65: warning: initialized field overwritten [-Woverride-init]
+     134 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR                         0x004F
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:148:52: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR'
+     148 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:134:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][1][0]')
+     134 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR                         0x004F
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:148:52: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR'
+     148 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:131:65: warning: initialized field overwritten [-Woverride-init]
+     131 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD                  0x004C
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:149:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD'
+     149 |         [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:131:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][0][1]')
+     131 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD                  0x004C
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:149:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD'
+     149 |         [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:132:65: warning: initialized field overwritten [-Woverride-init]
+     132 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR                  0x004D
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:150:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR'
+     150 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_MISS)]  = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:132:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][1][1]')
+     132 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR                  0x004D
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:150:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR'
+     150 |         [C(DTLB)][C(OP_WRITE)][C(RESULT_MISS)]  = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:148:65: warning: initialized field overwritten [-Woverride-init]
+     148 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD                      0x0060
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:152:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD'
+     152 |         [C(NODE)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:148:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[6][0][0]')
+     148 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD                      0x0060
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:152:51: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD'
+     152 |         [C(NODE)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD,
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:149:65: warning: initialized field overwritten [-Woverride-init]
+     149 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR                      0x0061
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:153:52: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR'
+     153 |         [C(NODE)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:149:65: note: (near initialization for 'armv8_vulcan_perf_cache_map[6][1][0]')
+     149 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR                      0x0061
+         |                                                                 ^~~~~~
+   drivers/perf/arm_pmuv3.c:153:52: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR'
+     153 |         [C(NODE)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR,
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/arm_pmuv3.c: In function 'armv8pmu_enable_event':
+>> drivers/perf/arm_pmuv3.c:714:17: error: implicit declaration of function 'armv8pmu_branch_enable'; did you mean 'static_branch_enable'? [-Werror=implicit-function-declaration]
+     714 |                 armv8pmu_branch_enable(event);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 static_branch_enable
+   drivers/perf/arm_pmuv3.c: In function 'armv8pmu_disable_event':
+>> drivers/perf/arm_pmuv3.c:720:17: error: implicit declaration of function 'armv8pmu_branch_disable'; did you mean 'static_branch_disable'? [-Werror=implicit-function-declaration]
+     720 |                 armv8pmu_branch_disable(event);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~
+         |                 static_branch_disable
+   drivers/perf/arm_pmuv3.c: In function 'armv8pmu_handle_irq':
+>> drivers/perf/arm_pmuv3.c:801:25: error: implicit declaration of function 'armv8pmu_branch_read'; did you mean 'armv8pmu_pmcr_read'? [-Werror=implicit-function-declaration]
+     801 |                         armv8pmu_branch_read(cpuc, event);
+         |                         ^~~~~~~~~~~~~~~~~~~~
+         |                         armv8pmu_pmcr_read
+   drivers/perf/arm_pmuv3.c: In function 'armv8pmu_sched_task':
+>> drivers/perf/arm_pmuv3.c:908:17: error: implicit declaration of function 'armv8pmu_branch_reset' [-Werror=implicit-function-declaration]
+     908 |                 armv8pmu_branch_reset();
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/arm_pmuv3.c: In function '__armv8_pmuv3_map_event':
+>> drivers/perf/arm_pmuv3.c:1021:41: error: implicit declaration of function 'armv8pmu_branch_attr_valid' [-Werror=implicit-function-declaration]
+    1021 |         if (has_branch_stack(event) && !armv8pmu_branch_attr_valid(event))
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/arm_pmuv3.c: In function '__armv8pmu_probe_pmu':
+>> drivers/perf/arm_pmuv3.c:1140:9: error: implicit declaration of function 'armv8pmu_branch_probe'; did you mean 'arm_pmu_acpi_probe'? [-Werror=implicit-function-declaration]
+    1140 |         armv8pmu_branch_probe(cpu_pmu);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+         |         arm_pmu_acpi_probe
+   cc1: some warnings being treated as errors
+
+
+vim +714 drivers/perf/arm_pmuv3.c
+
+   701	
+   702	static void armv8pmu_enable_event(struct perf_event *event)
+   703	{
+   704		/*
+   705		 * Enable counter and interrupt, and set the counter to count
+   706		 * the event that we're interested in.
+   707		 */
+   708		armv8pmu_disable_event_counter(event);
+   709		armv8pmu_write_event_type(event);
+   710		armv8pmu_enable_event_irq(event);
+   711		armv8pmu_enable_event_counter(event);
+   712	
+   713		if (has_branch_stack(event))
+ > 714			armv8pmu_branch_enable(event);
+   715	}
+   716	
+   717	static void armv8pmu_disable_event(struct perf_event *event)
+   718	{
+   719		if (has_branch_stack(event))
+ > 720			armv8pmu_branch_disable(event);
+   721	
+   722		armv8pmu_disable_event_counter(event);
+   723		armv8pmu_disable_event_irq(event);
+   724	}
+   725	
+   726	static void armv8pmu_start(struct arm_pmu *cpu_pmu)
+   727	{
+   728		struct perf_event_context *ctx;
+   729		int nr_user = 0;
+   730	
+   731		ctx = perf_cpu_task_ctx();
+   732		if (ctx)
+   733			nr_user = ctx->nr_user;
+   734	
+   735		if (sysctl_perf_user_access && nr_user)
+   736			armv8pmu_enable_user_access(cpu_pmu);
+   737		else
+   738			armv8pmu_disable_user_access();
+   739	
+   740		/* Enable all counters */
+   741		armv8pmu_pmcr_write(armv8pmu_pmcr_read() | ARMV8_PMU_PMCR_E);
+   742	}
+   743	
+   744	static void armv8pmu_stop(struct arm_pmu *cpu_pmu)
+   745	{
+   746		/* Disable all counters */
+   747		armv8pmu_pmcr_write(armv8pmu_pmcr_read() & ~ARMV8_PMU_PMCR_E);
+   748	}
+   749	
+   750	static irqreturn_t armv8pmu_handle_irq(struct arm_pmu *cpu_pmu)
+   751	{
+   752		u32 pmovsr;
+   753		struct perf_sample_data data;
+   754		struct pmu_hw_events *cpuc = this_cpu_ptr(cpu_pmu->hw_events);
+   755		struct pt_regs *regs;
+   756		int idx;
+   757	
+   758		/*
+   759		 * Get and reset the IRQ flags
+   760		 */
+   761		pmovsr = armv8pmu_getreset_flags();
+   762	
+   763		/*
+   764		 * Did an overflow occur?
+   765		 */
+   766		if (!armv8pmu_has_overflowed(pmovsr))
+   767			return IRQ_NONE;
+   768	
+   769		/*
+   770		 * Handle the counter(s) overflow(s)
+   771		 */
+   772		regs = get_irq_regs();
+   773	
+   774		/*
+   775		 * Stop the PMU while processing the counter overflows
+   776		 * to prevent skews in group events.
+   777		 */
+   778		armv8pmu_stop(cpu_pmu);
+   779		for (idx = 0; idx < cpu_pmu->num_events; ++idx) {
+   780			struct perf_event *event = cpuc->events[idx];
+   781			struct hw_perf_event *hwc;
+   782	
+   783			/* Ignore if we don't have an event. */
+   784			if (!event)
+   785				continue;
+   786	
+   787			/*
+   788			 * We have a single interrupt for all counters. Check that
+   789			 * each counter has overflowed before we process it.
+   790			 */
+   791			if (!armv8pmu_counter_has_overflowed(pmovsr, idx))
+   792				continue;
+   793	
+   794			hwc = &event->hw;
+   795			armpmu_event_update(event);
+   796			perf_sample_data_init(&data, 0, hwc->last_period);
+   797			if (!armpmu_event_set_period(event))
+   798				continue;
+   799	
+   800			if (has_branch_stack(event) && !WARN_ON(!cpuc->branches)) {
+ > 801				armv8pmu_branch_read(cpuc, event);
+   802				perf_sample_save_brstack(&data, event, &cpuc->branches->branch_stack);
+   803			}
+   804	
+   805			/*
+   806			 * Perf event overflow will queue the processing of the event as
+   807			 * an irq_work which will be taken care of in the handling of
+   808			 * IPI_IRQ_WORK.
+   809			 */
+   810			if (perf_event_overflow(event, &data, regs))
+   811				cpu_pmu->disable(event);
+   812		}
+   813		armv8pmu_start(cpu_pmu);
+   814	
+   815		return IRQ_HANDLED;
+   816	}
+   817	
+   818	static int armv8pmu_get_single_idx(struct pmu_hw_events *cpuc,
+   819					    struct arm_pmu *cpu_pmu)
+   820	{
+   821		int idx;
+   822	
+   823		for (idx = ARMV8_IDX_COUNTER0; idx < cpu_pmu->num_events; idx++) {
+   824			if (!test_and_set_bit(idx, cpuc->used_mask))
+   825				return idx;
+   826		}
+   827		return -EAGAIN;
+   828	}
+   829	
+   830	static int armv8pmu_get_chain_idx(struct pmu_hw_events *cpuc,
+   831					   struct arm_pmu *cpu_pmu)
+   832	{
+   833		int idx;
+   834	
+   835		/*
+   836		 * Chaining requires two consecutive event counters, where
+   837		 * the lower idx must be even.
+   838		 */
+   839		for (idx = ARMV8_IDX_COUNTER0 + 1; idx < cpu_pmu->num_events; idx += 2) {
+   840			if (!test_and_set_bit(idx, cpuc->used_mask)) {
+   841				/* Check if the preceding even counter is available */
+   842				if (!test_and_set_bit(idx - 1, cpuc->used_mask))
+   843					return idx;
+   844				/* Release the Odd counter */
+   845				clear_bit(idx, cpuc->used_mask);
+   846			}
+   847		}
+   848		return -EAGAIN;
+   849	}
+   850	
+   851	static int armv8pmu_get_event_idx(struct pmu_hw_events *cpuc,
+   852					  struct perf_event *event)
+   853	{
+   854		struct arm_pmu *cpu_pmu = to_arm_pmu(event->pmu);
+   855		struct hw_perf_event *hwc = &event->hw;
+   856		unsigned long evtype = hwc->config_base & ARMV8_PMU_EVTYPE_EVENT;
+   857	
+   858		/* Always prefer to place a cycle counter into the cycle counter. */
+   859		if (evtype == ARMV8_PMUV3_PERFCTR_CPU_CYCLES) {
+   860			if (!test_and_set_bit(ARMV8_IDX_CYCLE_COUNTER, cpuc->used_mask))
+   861				return ARMV8_IDX_CYCLE_COUNTER;
+   862			else if (armv8pmu_event_is_64bit(event) &&
+   863				   armv8pmu_event_want_user_access(event) &&
+   864				   !armv8pmu_has_long_event(cpu_pmu))
+   865					return -EAGAIN;
+   866		}
+   867	
+   868		/*
+   869		 * Otherwise use events counters
+   870		 */
+   871		if (armv8pmu_event_is_chained(event))
+   872			return	armv8pmu_get_chain_idx(cpuc, cpu_pmu);
+   873		else
+   874			return armv8pmu_get_single_idx(cpuc, cpu_pmu);
+   875	}
+   876	
+   877	static void armv8pmu_clear_event_idx(struct pmu_hw_events *cpuc,
+   878					     struct perf_event *event)
+   879	{
+   880		int idx = event->hw.idx;
+   881	
+   882		clear_bit(idx, cpuc->used_mask);
+   883		if (armv8pmu_event_is_chained(event))
+   884			clear_bit(idx - 1, cpuc->used_mask);
+   885	}
+   886	
+   887	static int armv8pmu_user_event_idx(struct perf_event *event)
+   888	{
+   889		if (!sysctl_perf_user_access || !armv8pmu_event_has_user_read(event))
+   890			return 0;
+   891	
+   892		/*
+   893		 * We remap the cycle counter index to 32 to
+   894		 * match the offset applied to the rest of
+   895		 * the counter indices.
+   896		 */
+   897		if (event->hw.idx == ARMV8_IDX_CYCLE_COUNTER)
+   898			return ARMV8_IDX_CYCLE_COUNTER_USER;
+   899	
+   900		return event->hw.idx;
+   901	}
+   902	
+   903	static void armv8pmu_sched_task(struct perf_event_pmu_context *pmu_ctx, bool sched_in)
+   904	{
+   905		struct arm_pmu *armpmu = to_arm_pmu(pmu_ctx->pmu);
+   906	
+   907		if (sched_in && armpmu->has_branch_stack)
+ > 908			armv8pmu_branch_reset();
+   909	}
+   910	
 
 -- 
 0-DAY CI Kernel Test Service
