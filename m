@@ -1,49 +1,62 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5922463A0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 07:31:14 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f8cdb12719so2582235e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 00:31:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97D8624
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 07:44:24 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-985b04c47c3so49472966b.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 00:44:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686900672; x=1689492672;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cChGQIty1IYA1Z9QffYMVvMHSh58mShOrUm17pTqqNI=;
-        b=Hnqv1NZbrzS+ukYzcYXuMMMP+ZRBZFVf3YQxXb4Tlf7brJWBWQm7sVrrhvN1OLIh9I
-         0kTh3apJeYs3Vy6nNT8smeHvVoJYwFU8h6AMkBPxaFy+ENdufHSHq0ARmU3CYd3GpU6Y
-         Rkin+bSCfVWxY6SEEVKFKMywuGWe7tI10g6qeZ1eTYWrd55c9AZq6ssldTYGYt6Sewpf
-         Mp8b5fFr79R9mkFe+R5R2Dk6Kt2dS0emjI5t1p3kPozHnVtpsOTRmoTOjSV88UG4qGlC
-         ZwjR8AmHcpMwPiL41td4SRE44vX2+WkSIvvS+yK82HGizoGJErq0UtnKi0qwgmRy4WSS
-         u3NA==
+        d=gmail.com; s=20221208; t=1686901463; x=1689493463;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rN2REcXZLHkDizaZLroN/v4ItN0FexKCG0VYqab5Qpo=;
+        b=e+P657IrlvSrpoL7qseymil4uYLY3fWtssRdWghpjjylzurjp8itex3eKktEv8zNUv
+         N/r0+zeETe9+Y9h7FQAD7shzA4UWumHESbtgGBJZWmmOE9oikhGl4yxcaEmtZkE8LZ7c
+         6UOJPRdNWmkv6N6iRJczKPz6TxeG4ZsjCgx7oU9wKZUbDtLEIoyCvJe0LxU6bqTatHAS
+         GgAYTy42I7E8rwzgbnssUPVgcY20+TKla6wmSkBYkFc8cOeswv4Fxi1kDrMJfcn7g3NC
+         aN8yOfaU9FzEaw7C6HENZ1VLgBfqJQXr2tNEJDZOBblDKvkL/puAod2fuudVlGBBbZfr
+         E2iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686900672; x=1689492672;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+        d=1e100.net; s=20221208; t=1686901463; x=1689493463;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cChGQIty1IYA1Z9QffYMVvMHSh58mShOrUm17pTqqNI=;
-        b=gXpEBtrHa047r1KATyUYoeNOw+97JrjpTxkADCxBkf7ltlPFxSZQO2FEbbJtqJxhnC
-         GK+0rPLjCVL4RIdl8s/t67i6GPk+00qCWBPy77Fvm9ag7cGl/yiVBxtKXsMUZahaAhIV
-         8QvyJyc+LayCyGC1fla/0flF17dVwnNh/Jbdhkk7/0AmH3sVGqPm6q5UeTqtiLC/Sziz
-         B1S5nUZa1ytqOEUz9qTqPWJqLxxEDVOINZH/r6Y0BYmCqYq35POY3LybBC4ytNDRJlxD
-         UMrBypykFjZlnAi9sxN7746N4cqXB/xqAZr8+lgbBz/tw223RbieGXq1mK4LVOjpvgEM
-         yRDQ==
-X-Gm-Message-State: AC+VfDz5n9dDqi88gsozQA/86WUIOINMWaOqPc1MkNwAxbW1Kjowccnn
-	z8uIOyPWa8vGAWvVmVFaqsB6KQ==
-X-Google-Smtp-Source: ACHHUZ6ueAVK11qRZPvI7PGYbkXA2M6FyjGq0KOMbk585g0qQQ/KUCeiXdglAMqym7LqwQaVRcFiQQ==
-X-Received: by 2002:a7b:ca4e:0:b0:3f7:e48b:9752 with SMTP id m14-20020a7bca4e000000b003f7e48b9752mr917771wml.32.1686900671912;
-        Fri, 16 Jun 2023 00:31:11 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id d22-20020a1c7316000000b003f80946116dsm1317726wmb.45.2023.06.16.00.31.08
+        bh=rN2REcXZLHkDizaZLroN/v4ItN0FexKCG0VYqab5Qpo=;
+        b=TpNL5dflw14Wv7AHT/aRkzXGVpSSTeYpAm3wVBdMN80m10Q7KKKhBqAoYOjEpTACjH
+         9eBv7jrrdZjJhEcvnVyfHPIKty9D9ReN/YIovkHXNcp83Lx1W8/BnOyJ4uh1ds4d249C
+         idp9MgFUzYTUXwpj2vjf1aA9C0PIqrirwW97cG73HY2ixqBVd4ltdFoGSj2pi4impQ3f
+         gutkeF744WslGIoUrIG+cYNWbPZbKOnFnQqEkrs9WNX8qaUX5FIVaSA1/BXyAc7mpc0H
+         PE+71hphXYtvOSm/r+y8Ie0yFsA6u36tj19mASwiAlZggTjJPbC/32YOeOTcmxOyxYGa
+         TP5g==
+X-Gm-Message-State: AC+VfDyc5tn1K5r+6OPU8rWndC/SQzp37H6Qkz6xFyBG+bsI4YkrQUz3
+	89VYWm5u+KGMLoucTuG+aKQ=
+X-Google-Smtp-Source: ACHHUZ7pPA3/BW059I6C5lJNbbB9g4Y/afesR/awu8piiBoE2S4p+R5WzdtpRiPhImzmHkMXKV+2JA==
+X-Received: by 2002:a17:907:803:b0:973:e79c:3da8 with SMTP id wv3-20020a170907080300b00973e79c3da8mr1062125ejb.17.1686901462673;
+        Fri, 16 Jun 2023 00:44:22 -0700 (PDT)
+Received: from gmail.com ([81.168.73.77])
+        by smtp.gmail.com with ESMTPSA id g18-20020a1709061c9200b00965a4350411sm3035012ejh.9.2023.06.16.00.44.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jun 2023 00:31:10 -0700 (PDT)
-Date: Fri, 16 Jun 2023 10:31:06 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Zhanhao Hu <zero12113@hust.edu.cn>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Abel Vesa <abel.vesa@linaro.org>
-Subject: [linux-next:master 8294/10546] drivers/clk/imx/clk-imx93.c:294
- imx93_clocks_probe() error: uninitialized symbol 'base'.
-Message-ID: <9c2acd81-3ad8-485d-819e-9e4201277831@kadam.mountain>
+        Fri, 16 Jun 2023 00:44:22 -0700 (PDT)
+Date: Fri, 16 Jun 2023 08:44:19 +0100
+From: Martin Habets <habetsm.xilinx@gmail.com>
+To: edward.cree@amd.com
+Cc: linux-net-drivers@amd.com, davem@davemloft.net, kuba@kernel.org,
+	pabeni@redhat.com, edumazet@google.com,
+	Edward Cree <ecree.xilinx@gmail.com>, netdev@vger.kernel.org,
+	oe-kbuild-all@lists.linux.dev, simon.horman@corigine.com,
+	pieter.jansen-van-vuuren@amd.com, naresh.kamboju@linaro.org,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2 net-next] sfc: do not try to call tc functions when
+ CONFIG_SFC_SRIOV=n
+Message-ID: <ZIwS03v672Qc+PJb@gmail.com>
+Mail-Followup-To: edward.cree@amd.com, linux-net-drivers@amd.com,
+	davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+	edumazet@google.com, Edward Cree <ecree.xilinx@gmail.com>,
+	netdev@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	simon.horman@corigine.com, pieter.jansen-van-vuuren@amd.com,
+	naresh.kamboju@linaro.org, kernel test robot <lkp@intel.com>
+References: <20230615215243.34942-1-edward.cree@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,71 +65,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230615215243.34942-1-edward.cree@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   925294c9aa184801cc0a451b69a18dd0fe7d847d
-commit: e02ba11b457647050cb16e7cad16cec3c252fade [8294/10546] clk: imx93: fix memory leak and missing unwind goto in imx93_clocks_probe
-config: arm-randconfig-m031-20230611 (https://download.01.org/0day-ci/archive/20230616/202306161533.4YDmL22b-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+On Thu, Jun 15, 2023 at 10:52:43PM +0100, edward.cree@amd.com wrote:
+> From: Edward Cree <ecree.xilinx@gmail.com>
+> 
+> Functions efx_tc_netdev_event and efx_tc_netevent_event do not exist
+>  in that case as object files tc_bindings.o and tc_encap_actions.o
+>  are not built, so the calls to them from ef100_netdev_event and
+>  ef100_netevent_event cause link errors.
+> Wrap the corresponding header files (tc_bindings.h, tc_encap_actions.h)
+>  with #if IS_ENABLED(CONFIG_SFC_SRIOV), and add an #else with static
+>  inline stubs for these two functions.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202306102026.ISK5JfUQ-lkp@intel.com/
+> Fixes: 7e5e7d800011 ("sfc: neighbour lookup for TC encap action offload")
+> Signed-off-by: Edward Cree <ecree.xilinx@gmail.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202306161533.4YDmL22b-lkp@intel.com/
+Reviewed-by: Martin Habets <habetsm.xilinx@gmail.com>
 
-smatch warnings:
-drivers/clk/imx/clk-imx93.c:294 imx93_clocks_probe() error: uninitialized symbol 'base'.
-
-vim +/base +294 drivers/clk/imx/clk-imx93.c
-
-24defbe194b650 Peng Fan       2022-02-28  258  static int imx93_clocks_probe(struct platform_device *pdev)
-24defbe194b650 Peng Fan       2022-02-28  259  {
-24defbe194b650 Peng Fan       2022-02-28  260  	struct device *dev = &pdev->dev;
-24defbe194b650 Peng Fan       2022-02-28  261  	struct device_node *np = dev->of_node;
-24defbe194b650 Peng Fan       2022-02-28  262  	const struct imx93_clk_root *root;
-24defbe194b650 Peng Fan       2022-02-28  263  	const struct imx93_clk_ccgr *ccgr;
-bda7b7f396f94d Peng Fan       2022-10-28  264  	void __iomem *base, *anatop_base;
-24defbe194b650 Peng Fan       2022-02-28  265  	int i, ret;
-24defbe194b650 Peng Fan       2022-02-28  266  
-e02ba11b457647 Zhanhao Hu     2023-06-01  267  	clk_hw_data = devm_kzalloc(dev, struct_size(clk_hw_data, hws,
-24defbe194b650 Peng Fan       2022-02-28  268  					  IMX93_CLK_END), GFP_KERNEL);
-24defbe194b650 Peng Fan       2022-02-28  269  	if (!clk_hw_data)
-24defbe194b650 Peng Fan       2022-02-28  270  		return -ENOMEM;
-24defbe194b650 Peng Fan       2022-02-28  271  
-24defbe194b650 Peng Fan       2022-02-28  272  	clk_hw_data->num = IMX93_CLK_END;
-24defbe194b650 Peng Fan       2022-02-28  273  	clks = clk_hw_data->hws;
-24defbe194b650 Peng Fan       2022-02-28  274  
-24defbe194b650 Peng Fan       2022-02-28  275  	clks[IMX93_CLK_DUMMY] = imx_clk_hw_fixed("dummy", 0);
-8178e245fa953f Dario Binacchi 2022-11-13  276  	clks[IMX93_CLK_24M] = imx_get_clk_hw_by_name(np, "osc_24m");
-8178e245fa953f Dario Binacchi 2022-11-13  277  	clks[IMX93_CLK_32K] = imx_get_clk_hw_by_name(np, "osc_32k");
-8178e245fa953f Dario Binacchi 2022-11-13  278  	clks[IMX93_CLK_EXT1] = imx_get_clk_hw_by_name(np, "clk_ext1");
-24defbe194b650 Peng Fan       2022-02-28  279  
-24defbe194b650 Peng Fan       2022-02-28  280  	clks[IMX93_CLK_SYS_PLL_PFD0] = imx_clk_hw_fixed("sys_pll_pfd0", 1000000000);
-24defbe194b650 Peng Fan       2022-02-28  281  	clks[IMX93_CLK_SYS_PLL_PFD0_DIV2] = imx_clk_hw_fixed_factor("sys_pll_pfd0_div2",
-24defbe194b650 Peng Fan       2022-02-28  282  								    "sys_pll_pfd0", 1, 2);
-24defbe194b650 Peng Fan       2022-02-28  283  	clks[IMX93_CLK_SYS_PLL_PFD1] = imx_clk_hw_fixed("sys_pll_pfd1", 800000000);
-24defbe194b650 Peng Fan       2022-02-28  284  	clks[IMX93_CLK_SYS_PLL_PFD1_DIV2] = imx_clk_hw_fixed_factor("sys_pll_pfd1_div2",
-24defbe194b650 Peng Fan       2022-02-28  285  								    "sys_pll_pfd1", 1, 2);
-24defbe194b650 Peng Fan       2022-02-28  286  	clks[IMX93_CLK_SYS_PLL_PFD2] = imx_clk_hw_fixed("sys_pll_pfd2", 625000000);
-24defbe194b650 Peng Fan       2022-02-28  287  	clks[IMX93_CLK_SYS_PLL_PFD2_DIV2] = imx_clk_hw_fixed_factor("sys_pll_pfd2_div2",
-24defbe194b650 Peng Fan       2022-02-28  288  								    "sys_pll_pfd2", 1, 2);
-24defbe194b650 Peng Fan       2022-02-28  289  
-24defbe194b650 Peng Fan       2022-02-28  290  	np = of_find_compatible_node(NULL, NULL, "fsl,imx93-anatop");
-e02ba11b457647 Zhanhao Hu     2023-06-01  291  	anatop_base = devm_of_iomap(dev, np, 0, NULL);
-24defbe194b650 Peng Fan       2022-02-28  292  	of_node_put(np);
-e02ba11b457647 Zhanhao Hu     2023-06-01  293  	if (WARN_ON(IS_ERR(anatop_base))) {
-e02ba11b457647 Zhanhao Hu     2023-06-01 @294  		ret = PTR_ERR(base);
-
-s/anatop_base/base/
-
-e02ba11b457647 Zhanhao Hu     2023-06-01  295  		goto unregister_hws;
-e02ba11b457647 Zhanhao Hu     2023-06-01  296  	}
-24defbe194b650 Peng Fan       2022-02-28  297  
-6b60c3ae3e98d0 Peng Fan       2023-04-03  298  	clks[IMX93_CLK_ARM_PLL] = imx_clk_fracn_gppll_integer("arm_pll", "osc_24m",
-6b60c3ae3e98d0 Peng Fan       2023-04-03  299  							      anatop_base + 0x1000,
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
+> ---
+>  drivers/net/ethernet/sfc/tc_bindings.h      | 12 ++++++++++++
+>  drivers/net/ethernet/sfc/tc_encap_actions.h | 11 +++++++++++
+>  2 files changed, 23 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/sfc/tc_bindings.h b/drivers/net/ethernet/sfc/tc_bindings.h
+> index 095ddeb59eb3..a326d23d322b 100644
+> --- a/drivers/net/ethernet/sfc/tc_bindings.h
+> +++ b/drivers/net/ethernet/sfc/tc_bindings.h
+> @@ -12,6 +12,7 @@
+>  #define EFX_TC_BINDINGS_H
+>  #include "net_driver.h"
+>  
+> +#if IS_ENABLED(CONFIG_SFC_SRIOV)
+>  #include <net/sch_generic.h>
+>  
+>  struct efx_rep;
+> @@ -28,4 +29,15 @@ int efx_tc_indr_setup_cb(struct net_device *net_dev, struct Qdisc *sch,
+>  			 void (*cleanup)(struct flow_block_cb *block_cb));
+>  int efx_tc_netdev_event(struct efx_nic *efx, unsigned long event,
+>  			struct net_device *net_dev);
+> +
+> +#else /* CONFIG_SFC_SRIOV */
+> +
+> +static inline int efx_tc_netdev_event(struct efx_nic *efx, unsigned long event,
+> +				      struct net_device *net_dev)
+> +{
+> +	return NOTIFY_DONE;
+> +}
+> +
+> +#endif /* CONFIG_SFC_SRIOV */
+> +
+>  #endif /* EFX_TC_BINDINGS_H */
+> diff --git a/drivers/net/ethernet/sfc/tc_encap_actions.h b/drivers/net/ethernet/sfc/tc_encap_actions.h
+> index 4d755fb92daf..c3c7904ad7ff 100644
+> --- a/drivers/net/ethernet/sfc/tc_encap_actions.h
+> +++ b/drivers/net/ethernet/sfc/tc_encap_actions.h
+> @@ -12,6 +12,7 @@
+>  #define EFX_TC_ENCAP_ACTIONS_H
+>  #include "net_driver.h"
+>  
+> +#if IS_ENABLED(CONFIG_SFC_SRIOV)
+>  #include <linux/refcount.h>
+>  #include <net/tc_act/tc_tunnel_key.h>
+>  
+> @@ -100,4 +101,14 @@ void efx_tc_unregister_egdev(struct efx_nic *efx, struct net_device *net_dev);
+>  int efx_tc_netevent_event(struct efx_nic *efx, unsigned long event,
+>  			  void *ptr);
+>  
+> +#else /* CONFIG_SFC_SRIOV */
+> +
+> +static inline int efx_tc_netevent_event(struct efx_nic *efx,
+> +					unsigned long event, void *ptr)
+> +{
+> +	return NOTIFY_DONE;
+> +}
+> +
+> +#endif /* CONFIG_SFC_SRIOV */
+> +
+>  #endif /* EFX_TC_ENCAP_ACTIONS_H */
