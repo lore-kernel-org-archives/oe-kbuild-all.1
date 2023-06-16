@@ -1,51 +1,49 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F3E63B2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 07:10:54 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-66682bd799fso397256b3a.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 00:10:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5922463A0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 07:31:14 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-3f8cdb12719so2582235e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 00:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1686899454; x=1689491454;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=799naZKQ3HRrAvxy793FowyiPnNWWqQPTaWEuQ8SNj4=;
-        b=frJkLom/h+1rdUdyDfac+fWDBvicYt7N1hwoHHSjy1OXQDJf7guLgVCmpcI9Lnu3QB
-         RD6hOxlugNTjQljzpCFv1wz5J8y6d2E8h9q53B0yOEFdfcRPg4GZHMcGdIRZwRGq8xJ4
-         NKDazwx2oNxnRHg0Mgk2Ya45GjRqyVUFpW6YXUeBXx6vGOAnf8aKYWsRm7uRCWdNwThM
-         STpm+NZ1vLmEeTD6y+9PKmIU8TViLNKz1kERM/4hWzSoVLjA4g+eB1CyZZ7+kN1VLRWE
-         CaSFFpkIdvNFAYNr7QJ1cmqT5PPt2VvwsYYmmZSUItBJwrsW+8+V1hssTbkEI9SGTxOj
-         3NXQ==
+        d=linaro.org; s=google; t=1686900672; x=1689492672;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cChGQIty1IYA1Z9QffYMVvMHSh58mShOrUm17pTqqNI=;
+        b=Hnqv1NZbrzS+ukYzcYXuMMMP+ZRBZFVf3YQxXb4Tlf7brJWBWQm7sVrrhvN1OLIh9I
+         0kTh3apJeYs3Vy6nNT8smeHvVoJYwFU8h6AMkBPxaFy+ENdufHSHq0ARmU3CYd3GpU6Y
+         Rkin+bSCfVWxY6SEEVKFKMywuGWe7tI10g6qeZ1eTYWrd55c9AZq6ssldTYGYt6Sewpf
+         Mp8b5fFr79R9mkFe+R5R2Dk6Kt2dS0emjI5t1p3kPozHnVtpsOTRmoTOjSV88UG4qGlC
+         ZwjR8AmHcpMwPiL41td4SRE44vX2+WkSIvvS+yK82HGizoGJErq0UtnKi0qwgmRy4WSS
+         u3NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686899454; x=1689491454;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=799naZKQ3HRrAvxy793FowyiPnNWWqQPTaWEuQ8SNj4=;
-        b=AaQ1gwJOHYtxiuc6iGsA2zxgf9FVQcaXLB86lCW0zQSc19r9Ffvmt0zUMqxsIjVv8K
-         SagU/qc1N4zbYGy7W+HWrINuKiX0LBLFANFfnl0nD0LjyXGYVXh9kK9eNOrmk7jwzM7z
-         dYBXUNLc/XxcS1X9rzu6qgWfSz2usaDZVnFkmBEwGHomqOj2pbNVWO7cwDHqRkrTX0qo
-         eouFmr8KEc8ydbrdUA9wrFZPx+ZpNLYQkUPBveTFeTLsTWa+xhOSIaX7eFNM7mUKmkvN
-         BtGWJugvbe6ldi9a3QWrdsICyNcBP5POe/8h9t8ZiGMXTF5uPHRNXhYeHBGMqdEQIaGk
-         MCFQ==
-X-Gm-Message-State: AC+VfDw747HOWTkk5cfkFzHefnmZoxnX5EP/X8FSQr/kom9QtW/d92w5
-	EKsZn/l0ViW4blPIVFrtswqTEg==
-X-Google-Smtp-Source: ACHHUZ6EbyB+kZx1jqGRBo0dQDGCJO78RMXAmOHS4v5RLCPHc/GR8FZwMvI9Y7L4J48swzExTQy+3Q==
-X-Received: by 2002:a05:6a21:118c:b0:119:5af7:7cd2 with SMTP id oj12-20020a056a21118c00b001195af77cd2mr1294070pzb.24.1686899454038;
-        Fri, 16 Jun 2023 00:10:54 -0700 (PDT)
-Received: from localhost ([122.172.87.195])
-        by smtp.gmail.com with ESMTPSA id q9-20020a170902a3c900b001ae5d21f760sm6549044plb.146.2023.06.16.00.10.52
+        d=1e100.net; s=20221208; t=1686900672; x=1689492672;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cChGQIty1IYA1Z9QffYMVvMHSh58mShOrUm17pTqqNI=;
+        b=gXpEBtrHa047r1KATyUYoeNOw+97JrjpTxkADCxBkf7ltlPFxSZQO2FEbbJtqJxhnC
+         GK+0rPLjCVL4RIdl8s/t67i6GPk+00qCWBPy77Fvm9ag7cGl/yiVBxtKXsMUZahaAhIV
+         8QvyJyc+LayCyGC1fla/0flF17dVwnNh/Jbdhkk7/0AmH3sVGqPm6q5UeTqtiLC/Sziz
+         B1S5nUZa1ytqOEUz9qTqPWJqLxxEDVOINZH/r6Y0BYmCqYq35POY3LybBC4ytNDRJlxD
+         UMrBypykFjZlnAi9sxN7746N4cqXB/xqAZr8+lgbBz/tw223RbieGXq1mK4LVOjpvgEM
+         yRDQ==
+X-Gm-Message-State: AC+VfDz5n9dDqi88gsozQA/86WUIOINMWaOqPc1MkNwAxbW1Kjowccnn
+	z8uIOyPWa8vGAWvVmVFaqsB6KQ==
+X-Google-Smtp-Source: ACHHUZ6ueAVK11qRZPvI7PGYbkXA2M6FyjGq0KOMbk585g0qQQ/KUCeiXdglAMqym7LqwQaVRcFiQQ==
+X-Received: by 2002:a7b:ca4e:0:b0:3f7:e48b:9752 with SMTP id m14-20020a7bca4e000000b003f7e48b9752mr917771wml.32.1686900671912;
+        Fri, 16 Jun 2023 00:31:11 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id d22-20020a1c7316000000b003f80946116dsm1317726wmb.45.2023.06.16.00.31.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Jun 2023 00:10:53 -0700 (PDT)
-Date: Fri, 16 Jun 2023 12:40:46 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [linux-next:master 9802/10326] drivers/opp/core.c:2710
- dev_pm_opp_xlate_performance_state() warn: variable dereferenced before
- check 'src_table' (see line 2698)
-Message-ID: <20230616071046.moywwqcnd7oyrdnb@vireshk-i7>
-References: <50eb1321-f9ae-4f14-8586-9aa6dc61e6bd@kadam.mountain>
+        Fri, 16 Jun 2023 00:31:10 -0700 (PDT)
+Date: Fri, 16 Jun 2023 10:31:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Zhanhao Hu <zero12113@hust.edu.cn>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Abel Vesa <abel.vesa@linaro.org>
+Subject: [linux-next:master 8294/10546] drivers/clk/imx/clk-imx93.c:294
+ imx93_clocks_probe() error: uninitialized symbol 'base'.
+Message-ID: <9c2acd81-3ad8-485d-819e-9e4201277831@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,26 +52,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <50eb1321-f9ae-4f14-8586-9aa6dc61e6bd@kadam.mountain>
 
-On 16-06-23, 10:05, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   925294c9aa184801cc0a451b69a18dd0fe7d847d
-> commit: 5437756c65c79f9520886bc54321d39c022c8638 [9802/10326] OPP: pstate is only valid for genpd OPP tables
-> config: i386-randconfig-m021-20230614 (https://download.01.org/0day-ci/archive/20230616/202306160347.AahnsjDj-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202306160347.AahnsjDj-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/opp/core.c:2710 dev_pm_opp_xlate_performance_state() warn: variable dereferenced before check 'src_table' (see line 2698)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   925294c9aa184801cc0a451b69a18dd0fe7d847d
+commit: e02ba11b457647050cb16e7cad16cec3c252fade [8294/10546] clk: imx93: fix memory leak and missing unwind goto in imx93_clocks_probe
+config: arm-randconfig-m031-20230611 (https://download.01.org/0day-ci/archive/20230616/202306161533.4YDmL22b-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
 
-Already fixed in my branch this morning. Should show up soon in
-linux-next. Thanks.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202306161533.4YDmL22b-lkp@intel.com/
+
+smatch warnings:
+drivers/clk/imx/clk-imx93.c:294 imx93_clocks_probe() error: uninitialized symbol 'base'.
+
+vim +/base +294 drivers/clk/imx/clk-imx93.c
+
+24defbe194b650 Peng Fan       2022-02-28  258  static int imx93_clocks_probe(struct platform_device *pdev)
+24defbe194b650 Peng Fan       2022-02-28  259  {
+24defbe194b650 Peng Fan       2022-02-28  260  	struct device *dev = &pdev->dev;
+24defbe194b650 Peng Fan       2022-02-28  261  	struct device_node *np = dev->of_node;
+24defbe194b650 Peng Fan       2022-02-28  262  	const struct imx93_clk_root *root;
+24defbe194b650 Peng Fan       2022-02-28  263  	const struct imx93_clk_ccgr *ccgr;
+bda7b7f396f94d Peng Fan       2022-10-28  264  	void __iomem *base, *anatop_base;
+24defbe194b650 Peng Fan       2022-02-28  265  	int i, ret;
+24defbe194b650 Peng Fan       2022-02-28  266  
+e02ba11b457647 Zhanhao Hu     2023-06-01  267  	clk_hw_data = devm_kzalloc(dev, struct_size(clk_hw_data, hws,
+24defbe194b650 Peng Fan       2022-02-28  268  					  IMX93_CLK_END), GFP_KERNEL);
+24defbe194b650 Peng Fan       2022-02-28  269  	if (!clk_hw_data)
+24defbe194b650 Peng Fan       2022-02-28  270  		return -ENOMEM;
+24defbe194b650 Peng Fan       2022-02-28  271  
+24defbe194b650 Peng Fan       2022-02-28  272  	clk_hw_data->num = IMX93_CLK_END;
+24defbe194b650 Peng Fan       2022-02-28  273  	clks = clk_hw_data->hws;
+24defbe194b650 Peng Fan       2022-02-28  274  
+24defbe194b650 Peng Fan       2022-02-28  275  	clks[IMX93_CLK_DUMMY] = imx_clk_hw_fixed("dummy", 0);
+8178e245fa953f Dario Binacchi 2022-11-13  276  	clks[IMX93_CLK_24M] = imx_get_clk_hw_by_name(np, "osc_24m");
+8178e245fa953f Dario Binacchi 2022-11-13  277  	clks[IMX93_CLK_32K] = imx_get_clk_hw_by_name(np, "osc_32k");
+8178e245fa953f Dario Binacchi 2022-11-13  278  	clks[IMX93_CLK_EXT1] = imx_get_clk_hw_by_name(np, "clk_ext1");
+24defbe194b650 Peng Fan       2022-02-28  279  
+24defbe194b650 Peng Fan       2022-02-28  280  	clks[IMX93_CLK_SYS_PLL_PFD0] = imx_clk_hw_fixed("sys_pll_pfd0", 1000000000);
+24defbe194b650 Peng Fan       2022-02-28  281  	clks[IMX93_CLK_SYS_PLL_PFD0_DIV2] = imx_clk_hw_fixed_factor("sys_pll_pfd0_div2",
+24defbe194b650 Peng Fan       2022-02-28  282  								    "sys_pll_pfd0", 1, 2);
+24defbe194b650 Peng Fan       2022-02-28  283  	clks[IMX93_CLK_SYS_PLL_PFD1] = imx_clk_hw_fixed("sys_pll_pfd1", 800000000);
+24defbe194b650 Peng Fan       2022-02-28  284  	clks[IMX93_CLK_SYS_PLL_PFD1_DIV2] = imx_clk_hw_fixed_factor("sys_pll_pfd1_div2",
+24defbe194b650 Peng Fan       2022-02-28  285  								    "sys_pll_pfd1", 1, 2);
+24defbe194b650 Peng Fan       2022-02-28  286  	clks[IMX93_CLK_SYS_PLL_PFD2] = imx_clk_hw_fixed("sys_pll_pfd2", 625000000);
+24defbe194b650 Peng Fan       2022-02-28  287  	clks[IMX93_CLK_SYS_PLL_PFD2_DIV2] = imx_clk_hw_fixed_factor("sys_pll_pfd2_div2",
+24defbe194b650 Peng Fan       2022-02-28  288  								    "sys_pll_pfd2", 1, 2);
+24defbe194b650 Peng Fan       2022-02-28  289  
+24defbe194b650 Peng Fan       2022-02-28  290  	np = of_find_compatible_node(NULL, NULL, "fsl,imx93-anatop");
+e02ba11b457647 Zhanhao Hu     2023-06-01  291  	anatop_base = devm_of_iomap(dev, np, 0, NULL);
+24defbe194b650 Peng Fan       2022-02-28  292  	of_node_put(np);
+e02ba11b457647 Zhanhao Hu     2023-06-01  293  	if (WARN_ON(IS_ERR(anatop_base))) {
+e02ba11b457647 Zhanhao Hu     2023-06-01 @294  		ret = PTR_ERR(base);
+
+s/anatop_base/base/
+
+e02ba11b457647 Zhanhao Hu     2023-06-01  295  		goto unregister_hws;
+e02ba11b457647 Zhanhao Hu     2023-06-01  296  	}
+24defbe194b650 Peng Fan       2022-02-28  297  
+6b60c3ae3e98d0 Peng Fan       2023-04-03  298  	clks[IMX93_CLK_ARM_PLL] = imx_clk_fracn_gppll_integer("arm_pll", "osc_24m",
+6b60c3ae3e98d0 Peng Fan       2023-04-03  299  							      anatop_base + 0x1000,
 
 -- 
-viresh
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
