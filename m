@@ -1,46 +1,45 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0ED36D;
-	Fri, 16 Jun 2023 00:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690B436D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 00:56:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686876242; x=1718412242;
+  t=1686876968; x=1718412968;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6VMIw7zq8N8fDGyfLPP18isZxHcdtduQ/eil4I+EYWE=;
-  b=ITtnPYezHYtKwg6aZxfqrdEg6/lvBWqQYo8/gnO0nVuliY+0Hu2WhZ1R
-   M+2cdzxrfj7D5saYWUo2fi5tdXEj6ZfvSHu17WeVYQi1WVzAu3UIiRVVt
-   1wxtAtFrrYxhsCXEyjptOfGoo9Yr8qt+RsfdfhRVeLAPuPmmlcTzebf+k
-   YxXKwssUVv3iGIsVMZOaUmqUQZfD2qtnUanzpSQZLvNeY/60g1RvmOSor
-   oP3asL5xEUkrzF362ThvPr4gW89VXDhW4D1fvmK29TWvXTdhKDSmpoewq
-   Jqw2+MMLPTFlNbuSpYleeAHuQBYL6x5LSauLcBTgeF8pYw3PbLwIrXLQr
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="357953751"
+  bh=b4xubKtmFs66TzoMVr5g1hfs2Or0KMwJCtjzLTqGEPo=;
+  b=FqaKgKgGItqdk1yfT7phfodbVbyWAJ/5FrWEv7Y+mS6uyn1e/QSMBsSI
+   E72Kc2HSbRC3L/9ByU3LjQlx45xXwmbz5Yq0CkRHa2PNJfvWGRozOgkpL
+   esIasdqx2QbE9qC0ZBg8CVIoxyB4ObOPw/cm29XC2IeMsf6p7n5C6X+Sm
+   UDn5cMbBjvUZizaj/5x299oj2Yk8Ur4RbYT1eHrir/SRWjJ71j7b2Qho/
+   rrVsrn1UkSq9/z8Lu842Ssu6Q/De8vB5Hnu0LO6BquwF5nNc2PMT+yC2t
+   ELn0G6oqmXivucoSuk11tSWizhs+pTDJrPtVrlsV0/Pqv18LO3p8gJ29F
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="357955846"
 X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; 
-   d="scan'208";a="357953751"
+   d="scan'208";a="357955846"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 17:44:01 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 17:55:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="857183114"
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="857185797"
 X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; 
-   d="scan'208";a="857183114"
+   d="scan'208";a="857185797"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 15 Jun 2023 17:43:59 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 15 Jun 2023 17:55:00 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1q9xZG-0000aa-2l;
-	Fri, 16 Jun 2023 00:43:58 +0000
-Date: Fri, 16 Jun 2023 08:43:56 +0800
+	id 1q9xjv-0000bF-0U;
+	Fri, 16 Jun 2023 00:54:59 +0000
+Date: Fri, 16 Jun 2023 08:54:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Jens Axboe <axboe@kernel.dk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [linux-next:master 6153/10326] drivers/block/pktcdvd.c:1315:13:
- warning: stack frame size (2496) exceeds limit (2048) in
- 'pkt_handle_packets'
-Message-ID: <202306160811.nV1bMsK4-lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-fix-2h 18/18] xtensa-linux-ld:
+ drivers/gpu/drm/nouveau/nouveau_drm.o:drivers/gpu/drm/nouveau/nouveau_drm.c:72:
+ multiple definition of `__UNIQUE_ID_ddebug_class_user317';
+ drivers/gpu/drm/mgag200/mgag200_drv.o:drivers/gpu/drm/mgag200/mgag200_drv.c:27:
+ first defined here
+Message-ID: <202306160806.4BNfDYNb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,81 +49,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   925294c9aa184801cc0a451b69a18dd0fe7d847d
-commit: 3a41db531e5124adaa3a9ab9ca0c724aee85b10c [6153/10326] pktcdvd: Get rid of custom printing macros
-config: riscv-buildonly-randconfig-r001-20230615 (https://download.01.org/0day-ci/archive/20230616/202306160811.nV1bMsK4-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+tree:   https://github.com/jimc/linux.git dd-fix-2h
+head:   162309f7c8f92fb607bec43703d0277bbb7de4c6
+commit: 162309f7c8f92fb607bec43703d0277bbb7de4c6 [18/18] drm-drivers: DRM_CLASSMAP_USE in 2nd batch of drivers, helpers
+config: xtensa-randconfig-r011-20230615 (https://download.01.org/0day-ci/archive/20230616/202306160806.4BNfDYNb-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.3.0
 reproduce (this is a W=1 build):
         mkdir -p ~/bin
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/?id=3a41db531e5124adaa3a9ab9ca0c724aee85b10c
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 3a41db531e5124adaa3a9ab9ca0c724aee85b10c
+        # https://github.com/jimc/linux/commit/162309f7c8f92fb607bec43703d0277bbb7de4c6
+        git remote add jimc https://github.com/jimc/linux.git
+        git fetch --no-tags jimc dd-fix-2h
+        git checkout 162309f7c8f92fb607bec43703d0277bbb7de4c6
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash drivers/ mm//
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=xtensa olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=xtensa SHELL=/bin/bash
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306160811.nV1bMsK4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306160806.4BNfDYNb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/block/pktcdvd.c:1364:12: warning: stack frame size (3648) exceeds limit (2048) in 'kcdrwd' [-Wframe-larger-than]
-   static int kcdrwd(void *foobar)
-              ^
->> drivers/block/pktcdvd.c:1315:13: warning: stack frame size (2496) exceeds limit (2048) in 'pkt_handle_packets' [-Wframe-larger-than]
-   static void pkt_handle_packets(struct pktcdvd_device *pd)
-               ^
-   2 warnings generated.
-
-
-vim +/pkt_handle_packets +1315 drivers/block/pktcdvd.c
-
-4b83e99ee7092d Jens Axboe      2023-01-04  1314  
-4b83e99ee7092d Jens Axboe      2023-01-04 @1315  static void pkt_handle_packets(struct pktcdvd_device *pd)
-4b83e99ee7092d Jens Axboe      2023-01-04  1316  {
-3a41db531e5124 Andy Shevchenko 2023-03-10  1317  	struct device *ddev = disk_to_dev(pd->disk);
-4b83e99ee7092d Jens Axboe      2023-01-04  1318  	struct packet_data *pkt, *next;
-4b83e99ee7092d Jens Axboe      2023-01-04  1319  
-4b83e99ee7092d Jens Axboe      2023-01-04  1320  	/*
-4b83e99ee7092d Jens Axboe      2023-01-04  1321  	 * Run state machine for active packets
-4b83e99ee7092d Jens Axboe      2023-01-04  1322  	 */
-4b83e99ee7092d Jens Axboe      2023-01-04  1323  	list_for_each_entry(pkt, &pd->cdrw.pkt_active_list, list) {
-4b83e99ee7092d Jens Axboe      2023-01-04  1324  		if (atomic_read(&pkt->run_sm) > 0) {
-4b83e99ee7092d Jens Axboe      2023-01-04  1325  			atomic_set(&pkt->run_sm, 0);
-4b83e99ee7092d Jens Axboe      2023-01-04  1326  			pkt_run_state_machine(pd, pkt);
-4b83e99ee7092d Jens Axboe      2023-01-04  1327  		}
-4b83e99ee7092d Jens Axboe      2023-01-04  1328  	}
-4b83e99ee7092d Jens Axboe      2023-01-04  1329  
-4b83e99ee7092d Jens Axboe      2023-01-04  1330  	/*
-4b83e99ee7092d Jens Axboe      2023-01-04  1331  	 * Move no longer active packets to the free list
-4b83e99ee7092d Jens Axboe      2023-01-04  1332  	 */
-4b83e99ee7092d Jens Axboe      2023-01-04  1333  	spin_lock(&pd->cdrw.active_list_lock);
-4b83e99ee7092d Jens Axboe      2023-01-04  1334  	list_for_each_entry_safe(pkt, next, &pd->cdrw.pkt_active_list, list) {
-4b83e99ee7092d Jens Axboe      2023-01-04  1335  		if (pkt->state == PACKET_FINISHED_STATE) {
-4b83e99ee7092d Jens Axboe      2023-01-04  1336  			list_del(&pkt->list);
-4b83e99ee7092d Jens Axboe      2023-01-04  1337  			pkt_put_packet_data(pd, pkt);
-3a41db531e5124 Andy Shevchenko 2023-03-10  1338  			pkt_set_state(ddev, pkt, PACKET_IDLE_STATE);
-4b83e99ee7092d Jens Axboe      2023-01-04  1339  			atomic_set(&pd->scan_queue, 1);
-4b83e99ee7092d Jens Axboe      2023-01-04  1340  		}
-4b83e99ee7092d Jens Axboe      2023-01-04  1341  	}
-4b83e99ee7092d Jens Axboe      2023-01-04  1342  	spin_unlock(&pd->cdrw.active_list_lock);
-4b83e99ee7092d Jens Axboe      2023-01-04  1343  }
-4b83e99ee7092d Jens Axboe      2023-01-04  1344  
-
-:::::: The code at line 1315 was first introduced by commit
-:::::: 4b83e99ee7092df37a5cf292fde976ebc475ea63 Revert "pktcdvd: remove driver."
-
-:::::: TO: Jens Axboe <axboe@kernel.dk>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+>> xtensa-linux-ld: drivers/gpu/drm/nouveau/nouveau_drm.o:drivers/gpu/drm/nouveau/nouveau_drm.c:72: multiple definition of `__UNIQUE_ID_ddebug_class_user317'; drivers/gpu/drm/mgag200/mgag200_drv.o:drivers/gpu/drm/mgag200/mgag200_drv.c:27: first defined here
 
 -- 
 0-DAY CI Kernel Test Service
