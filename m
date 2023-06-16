@@ -1,78 +1,81 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBD92627;
-	Fri, 16 Jun 2023 01:28:01 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E02C81FB;
-	Thu, 15 Jun 2023 18:28:44 -0700 (PDT)
-Received: from [10.163.45.18] (unknown [10.163.45.18])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 441323F5A1;
-	Thu, 15 Jun 2023 18:27:55 -0700 (PDT)
-Message-ID: <883f2a20-fe20-4d43-86cf-7847d59e2169@arm.com>
-Date: Fri, 16 Jun 2023 06:57:52 +0530
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6BC627
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 16 Jun 2023 01:37:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686879436; x=1718415436;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lUTdZIeKreKBd5bCCknL9JQYvm+0ljn4c1smTf9Okxs=;
+  b=P3uAjG+L+tHb2jQcRUViuSvZKGznMUMdYF8OB8nRokNJRbstCQ4pX+/4
+   jjBK3dO+DoamJPU8EuKWyNjsRIl/7/LI70xoAIGWnnhQ7UAQ8+A44BACZ
+   fWYILXmtnNGZb+N0YCM1fotytZhJkjfhKmj2tN9RcTdvaUq4QHgYuwCMt
+   0ov7qOj0RB2uZ5gBBbwdK/Bt3XVSv3m3YcMkir/Zn2O6cscr4s1iIpNi7
+   MDQBuwtzKFOHtGXcibyUhnqPyTPX7S7M18h9PbSfOR6HwmuL0jDCt/Qsy
+   9AbhR7x3NDslZ5ed9SwShmzpKiBmIkQrOUzKfXVYCk56MHkxgNcb4SErQ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="357962564"
+X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; 
+   d="scan'208";a="357962564"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2023 18:37:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10742"; a="959426545"
+X-IronPort-AV: E=Sophos;i="6.00,246,1681196400"; 
+   d="scan'208";a="959426545"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 15 Jun 2023 18:37:00 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q9yOa-0000d3-0c;
+	Fri, 16 Jun 2023 01:37:00 +0000
+Date: Fri, 16 Jun 2023 09:36:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-fix-2h 18/18] hppa-linux-ld:
+ drivers/gpu/drm/mgag200/mgag200_drv.o:(__dyndbg_class_users+0x0): multiple
+ definition of `__UNIQUE_ID_ddebug_class_user321';
+ drivers/gpu/drm/drm_gem_shmem_helper.o:(__dyndbg_class_users+0x0): first
+ defined here
+Message-ID: <202306160928.umbmptmo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH V12 05/10] arm64/perf: Add branch stack support in ARMV8
- PMU
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, will@kernel.org, catalin.marinas@arm.com,
- mark.rutland@arm.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Mark Brown <broonie@kernel.org>, James Clark <james.clark@arm.com>,
- Rob Herring <robh@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Suzuki Poulose <suzuki.poulose@arm.com>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>, linux-perf-users@vger.kernel.org
-References: <20230615133239.442736-6-anshuman.khandual@arm.com>
- <202306160706.Uei5XDoi-lkp@intel.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <202306160706.Uei5XDoi-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://github.com/jimc/linux.git dd-fix-2h
+head:   162309f7c8f92fb607bec43703d0277bbb7de4c6
+commit: 8590c8deb147627e6b78851808322da2669ff626 [18/18] drm-drivers: DRM_CLASSMAP_USE in 2nd batch of drivers, helpers
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20230616/202306160928.umbmptmo-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/jimc/linux/commit/8590c8deb147627e6b78851808322da2669ff626
+        git remote add jimc https://github.com/jimc/linux.git
+        git fetch --no-tags jimc dd-fix-2h
+        git checkout 8590c8deb147627e6b78851808322da2669ff626
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.3.0 ~/bin/make.cross W=1 O=build_dir ARCH=parisc SHELL=/bin/bash
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306160928.umbmptmo-lkp@intel.com/
 
-On 6/16/23 05:12, kernel test robot wrote:
-> Hi Anshuman,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on arm64/for-next/core]
-> [also build test ERROR on tip/perf/core acme/perf/core linus/master v6.4-rc6 next-20230615]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/drivers-perf-arm_pmu-Add-new-sched_task-callback/20230615-223352
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-> patch link:    https://lore.kernel.org/r/20230615133239.442736-6-anshuman.khandual%40arm.com
-> patch subject: [PATCH V12 05/10] arm64/perf: Add branch stack support in ARMV8 PMU
-> config: arm-randconfig-r004-20230615 (https://download.01.org/0day-ci/archive/20230616/202306160706.Uei5XDoi-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce (this is a W=1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm cross compiling tool for clang build
->         # apt-get install binutils-arm-linux-gnueabi
->         git remote add arm64 https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
->         git fetch arm64 for-next/core
->         git checkout arm64/for-next/core
->         b4 shazam https://lore.kernel.org/r/20230615133239.442736-6-anshuman.khandual@arm.com
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/perf/
+All errors (new ones prefixed by >>):
 
-I am unable to reproduce this on mainline 6.4-rc6 via default cross compiler
-on a W=1 build. Looking at all other problems reported on the file, it seems
-something is not right here. Reported build problems around these callbacks,
-i.e armv8pmu_branch_XXXX() do not make sense as they are available via config
-CONFIG_PERF_EVENTS which is also enabled along with CONFIG_ARM_PMUV3 in this
-test config.
+>> hppa-linux-ld: drivers/gpu/drm/mgag200/mgag200_drv.o:(__dyndbg_class_users+0x0): multiple definition of `__UNIQUE_ID_ddebug_class_user321'; drivers/gpu/drm/drm_gem_shmem_helper.o:(__dyndbg_class_users+0x0): first defined here
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
