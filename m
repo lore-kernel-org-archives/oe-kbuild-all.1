@@ -1,45 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B302A57;
-	Sat, 17 Jun 2023 04:12:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8228D622
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 04:35:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686975139; x=1718511139;
+  t=1686976517; x=1718512517;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U918sCaPPb+MTR0x8723+JOjGErECr7gkmOTXNP+lD8=;
-  b=FDfUfSL9ihylHAFbEPAyqzXhfyySVK+P+sys5BVvBo5fmlmcTDrLy/Su
-   eq/XFTNRPePv6EkYZnmbOfoMX/aqK3vUD78MDXZ0yRXCBnbm6Xjd13j1Q
-   l7GEkd3KkJKYKFLp/1831WXOaHrYgLhPPo0kiampUwyMHdheo3G0pX8SE
-   lEYwcUSOD0WqcIeuMkZouMxNJIMh7uoe37740I80QPBAzLL3R+Eik1wcd
-   za2xvEFlolGZAuF4SJ77QGokL/TilOXWijn4XyWmcmcnKoXfy2FkLUXbx
-   gjdTRNqeHIPvfmJjSMh8rQCOxaObeI7Zj2gms/eMm58twwXqNPbc7CgNj
+  bh=5/Mtmz7SXvub7XN7sqv3XcuaKlz4txnCHw5cuN4orDg=;
+  b=i/aexNjO5THSGNbUoZxPQ28xDvtRFc9ZfaxtQYSHQ6shfN93cRqyvXWm
+   B/ZHqXmK3iSc4sDbddrnWGY0XG28Wax+iUWbvjICJCTR1Jbg9iQ+0ztiw
+   PS/Q2dQxr9tNhdMng+gmNd8LsWFPSalGpvjE2+sfZzLUfbo0pb0wxMs+V
+   7vzS868u4CSZKkYTs4W9xdFu+DjBwf7mCL3CHQVlfTGlSDq6QSdvV5hXg
+   /XNJru1tn05jz+grdxSSgR4STvD5LTHUyMOTcoAU4PYlQCSSd5F3F2r4X
+   tamXWdfeJsr57bARPjVvZ+LQB7UKd+DnXjGL2E72PBBvKNfvaXyvCsbf8
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="349069420"
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="344098659"
 X-IronPort-AV: E=Sophos;i="6.00,249,1681196400"; 
-   d="scan'208";a="349069420"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 21:12:16 -0700
+   d="scan'208";a="344098659"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 21:35:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="713095471"
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="803050431"
 X-IronPort-AV: E=Sophos;i="6.00,249,1681196400"; 
-   d="scan'208";a="713095471"
+   d="scan'208";a="803050431"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 16 Jun 2023 21:12:14 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 16 Jun 2023 21:35:15 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qANIL-0002Fa-1x;
-	Sat, 17 Jun 2023 04:12:13 +0000
-Date: Sat, 17 Jun 2023 12:11:52 +0800
+	id 1qANec-0002HM-1z;
+	Sat, 17 Jun 2023 04:35:14 +0000
+Date: Sat, 17 Jun 2023 12:34:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dexuan Cui <decui@microsoft.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
-	Michael Kelley <mikelley@microsoft.com>
-Subject: [dcui-tdx:decui/upstream-tip/x86/tdx/v7 4/15] ld.lld: warning:
- vmlinux.o: DWARF unit at offset 0x0002bfbf contains invalid abbreviation 169
- at offset 0x0002bfcc, valid abbreviations are 1-2
-Message-ID: <202306171239.Ejkl3rVr-lkp@intel.com>
+To: Amir Goldstein <amir73il@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [amir73il:fs-overlayfs-mount_api 2/5] fs/overlayfs/super.c:672:26:
+ warning: logical not is only applied to the left hand side of this
+ comparison
+Message-ID: <202306171211.TddTueyj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,121 +47,283 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/dcui/tdx decui/upstream-tip/x86/tdx/v7
-head:   8b6ccc53857db9fe8e915646c5ffc220f5750ddc
-commit: 40528e7b482a0dcdb8a8b888640ba3e73a4b0ff6 [4/15] x86/hyperv: Support hypercalls for TDX guests
-config: i386-buildonly-randconfig-r004-20230616 (https://download.01.org/0day-ci/archive/20230617/202306171239.Ejkl3rVr-lkp@intel.com/config)
+tree:   https://github.com/amir73il/linux fs-overlayfs-mount_api
+head:   92f07f2d2d25bd003434448a51d74c23b00ed8e0
+commit: e86bd7d8e34e8ac3801e012acf3b794e0a58c405 [2/5] ovl: store enum redirect_mode in config instead of a string
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230617/202306171211.TddTueyj-lkp@intel.com/config)
 compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230617/202306171239.Ejkl3rVr-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230617/202306171211.TddTueyj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306171239.Ejkl3rVr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306171211.TddTueyj-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0002bfbf contains invalid abbreviation 169 at offset 0x0002bfcc, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0002c107 contains invalid abbreviation 169 at offset 0x0002c114, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0002c195 contains invalid abbreviation 169 at offset 0x0002c1a2, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0002c1db contains invalid abbreviation 169 at offset 0x0002c1e8, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x000402fe contains invalid abbreviation 169 at offset 0x0004030b, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0004d2ea contains invalid abbreviation 169 at offset 0x0004d2f7, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0004d314 contains invalid abbreviation 169 at offset 0x0004d321, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0004d33e contains invalid abbreviation 169 at offset 0x0004d34b, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0004d492 contains invalid abbreviation 169 at offset 0x0004d49f, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0006c05a contains invalid abbreviation 150 at offset 0x0006c067, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0006c242 contains invalid abbreviation 150 at offset 0x0006c24f, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0006c299 contains invalid abbreviation 150 at offset 0x0006c2a6, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0006c2d3 contains invalid abbreviation 150 at offset 0x0006c2e0, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0006c361 contains invalid abbreviation 150 at offset 0x0006c36e, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0006cb30 contains invalid abbreviation 46 at offset 0x0006cb3c, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0007b082 contains invalid abbreviation 133 at offset 0x0007b08f, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0007b0cb contains invalid abbreviation 133 at offset 0x0007b0d8, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0007b17f contains invalid abbreviation 133 at offset 0x0007b18c, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x000889d4 contains invalid abbreviation 133 at offset 0x000889e1, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x00088a2b contains invalid abbreviation 133 at offset 0x00088a38, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x000893db contains invalid abbreviation 51 at offset 0x000893e7, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x000b0273 contains invalid abbreviation 122 at offset 0x000b027f, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x000bd2f4 contains invalid abbreviation 122 at offset 0x000bd300, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x000c972f contains invalid abbreviation 25 at offset 0x000c973b, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x000e27df contains invalid abbreviation 158 at offset 0x000e27ec, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x000fa44f contains invalid abbreviation 158 at offset 0x000fa45c, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x000fa4ad contains invalid abbreviation 158 at offset 0x000fa4ba, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x000fa56c contains invalid abbreviation 158 at offset 0x000fa579, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x000fa59a contains invalid abbreviation 158 at offset 0x000fa5a7, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0011bcf2 contains invalid abbreviation 134 at offset 0x0011bcff, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x00141450 contains invalid abbreviation 109 at offset 0x0014145c, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0015f4fc contains invalid abbreviation 138 at offset 0x0015f509, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0015f592 contains invalid abbreviation 138 at offset 0x0015f59f, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0015f5d9 contains invalid abbreviation 138 at offset 0x0015f5e6, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x00186602 contains invalid abbreviation 131 at offset 0x0018660f, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x001866bb contains invalid abbreviation 131 at offset 0x001866c8, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x001b4471 contains invalid abbreviation 154 at offset 0x001b447e, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x001b44b9 contains invalid abbreviation 154 at offset 0x001b44c6, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x001b44e3 contains invalid abbreviation 154 at offset 0x001b44f0, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x001cc0ac contains invalid abbreviation 154 at offset 0x001cc0b9, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x001d7580 contains invalid abbreviation 154 at offset 0x001d758d, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x001e62f4 contains invalid abbreviation 122 at offset 0x001e6300, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x001e6cde contains invalid abbreviation 122 at offset 0x001e6cea, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x00212584 contains invalid abbreviation 144 at offset 0x00212591, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0022a23e contains invalid abbreviation 144 at offset 0x0022a24b, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0022a26c contains invalid abbreviation 144 at offset 0x0022a279, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x00237e94 contains invalid abbreviation 117 at offset 0x00237ea0, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x00260528 contains invalid abbreviation 134 at offset 0x00260535, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0026057a contains invalid abbreviation 134 at offset 0x00260587, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0026d6b6 contains invalid abbreviation 134 at offset 0x0026d6c3, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0027d784 contains invalid abbreviation 130 at offset 0x0027d791, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x002953f7 contains invalid abbreviation 130 at offset 0x00295404, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x002b5103 contains invalid abbreviation 138 at offset 0x002b5110, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x002dbbb7 contains invalid abbreviation 118 at offset 0x002dbbc3, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003042bf contains invalid abbreviation 150 at offset 0x003042cc, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003042fb contains invalid abbreviation 150 at offset 0x00304308, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0030434f contains invalid abbreviation 150 at offset 0x0030435c, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003043e9 contains invalid abbreviation 150 at offset 0x003043f6, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0031642b contains invalid abbreviation 126 at offset 0x00316437, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003181a9 contains invalid abbreviation 76 at offset 0x003181b5, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x00319cee contains invalid abbreviation 72 at offset 0x00319cfa, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0031a9df contains invalid abbreviation 56 at offset 0x0031a9eb, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0031aa1d contains invalid abbreviation 56 at offset 0x0031aa29, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x00329ce4 contains invalid abbreviation 111 at offset 0x00329cf0, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003456ae contains invalid abbreviation 120 at offset 0x003456ba, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0035675c contains invalid abbreviation 77 at offset 0x00356768, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0036c6d8 contains invalid abbreviation 142 at offset 0x0036c6e5, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0037e72d contains invalid abbreviation 50 at offset 0x0037e739, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0038c197 contains invalid abbreviation 111 at offset 0x0038c1a3, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003966dc contains invalid abbreviation 140 at offset 0x003966e9, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x00396721 contains invalid abbreviation 140 at offset 0x0039672e, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003a5f04 contains invalid abbreviation 144 at offset 0x003a5f11, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003ad43b contains invalid abbreviation 144 at offset 0x003ad448, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003ad4a5 contains invalid abbreviation 144 at offset 0x003ad4b2, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003bc86b contains invalid abbreviation 128 at offset 0x003bc878, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003bf87d contains invalid abbreviation 105 at offset 0x003bf889, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003bf90c contains invalid abbreviation 105 at offset 0x003bf918, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003bf93f contains invalid abbreviation 105 at offset 0x003bf94b, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003bf974 contains invalid abbreviation 105 at offset 0x003bf980, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003bf99c contains invalid abbreviation 105 at offset 0x003bf9a8, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003bfa17 contains invalid abbreviation 105 at offset 0x003bfa23, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003bfa58 contains invalid abbreviation 105 at offset 0x003bfa64, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003bfa8b contains invalid abbreviation 105 at offset 0x003bfa97, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003d00a8 contains invalid abbreviation 112 at offset 0x003d00b4, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003d00dd contains invalid abbreviation 112 at offset 0x003d00e9, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003d6657 contains invalid abbreviation 112 at offset 0x003d6663, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003e37e2 contains invalid abbreviation 94 at offset 0x003e37ee, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003e9689 contains invalid abbreviation 94 at offset 0x003e9695, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003e9a2c contains invalid abbreviation 94 at offset 0x003e9a38, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x003fac99 contains invalid abbreviation 100 at offset 0x003faca5, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x00411949 contains invalid abbreviation 106 at offset 0x00411955, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0041c266 contains invalid abbreviation 90 at offset 0x0041c272, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0041c2a7 contains invalid abbreviation 90 at offset 0x0041c2b3, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0041c39d contains invalid abbreviation 90 at offset 0x0041c3a9, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x004268ac contains invalid abbreviation 82 at offset 0x004268b8, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x004268ed contains invalid abbreviation 82 at offset 0x004268f9, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x00434bbb contains invalid abbreviation 110 at offset 0x00434bc7, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x0043bcba contains invalid abbreviation 110 at offset 0x0043bcc6, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x00454dbc contains invalid abbreviation 149 at offset 0x00454dc9, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x00454e96 contains invalid abbreviation 149 at offset 0x00454ea3, valid abbreviations are 1-2
-   ld.lld: warning: vmlinux.o: DWARF unit at offset 0x004550eb contains invalid abbreviation 149 at offset 0x004550f8, valid abbreviations are 1-2
+>> fs/overlayfs/super.c:672:26: warning: logical not is only applied to the left hand side of this comparison [-Wlogical-not-parentheses]
+           if (config->metacopy && !config->redirect_mode != OVL_REDIRECT_ON) {
+                                   ^                      ~~
+   fs/overlayfs/super.c:672:26: note: add parentheses after the '!' to evaluate the comparison first
+           if (config->metacopy && !config->redirect_mode != OVL_REDIRECT_ON) {
+                                   ^
+                                    (                                       )
+   fs/overlayfs/super.c:672:26: note: add parentheses around left hand side expression to silence this warning
+           if (config->metacopy && !config->redirect_mode != OVL_REDIRECT_ON) {
+                                   ^
+                                   (                     )
+   1 warning generated.
+
+
+vim +672 fs/overlayfs/super.c
+
+   516	
+   517	static int ovl_parse_opt(char *opt, struct ovl_config *config)
+   518	{
+   519		char *p;
+   520		bool metacopy_opt = false, redirect_opt = false;
+   521		bool nfs_export_opt = false, index_opt = false;
+   522	
+   523		while ((p = ovl_next_opt(&opt)) != NULL) {
+   524			int token;
+   525			substring_t args[MAX_OPT_ARGS];
+   526	
+   527			if (!*p)
+   528				continue;
+   529	
+   530			token = match_token(p, ovl_tokens, args);
+   531			switch (token) {
+   532			case OPT_UPPERDIR:
+   533				kfree(config->upperdir);
+   534				config->upperdir = match_strdup(&args[0]);
+   535				if (!config->upperdir)
+   536					return -ENOMEM;
+   537				break;
+   538	
+   539			case OPT_LOWERDIR:
+   540				kfree(config->lowerdir);
+   541				config->lowerdir = match_strdup(&args[0]);
+   542				if (!config->lowerdir)
+   543					return -ENOMEM;
+   544				break;
+   545	
+   546			case OPT_WORKDIR:
+   547				kfree(config->workdir);
+   548				config->workdir = match_strdup(&args[0]);
+   549				if (!config->workdir)
+   550					return -ENOMEM;
+   551				break;
+   552	
+   553			case OPT_DEFAULT_PERMISSIONS:
+   554				config->default_permissions = true;
+   555				break;
+   556	
+   557			case OPT_REDIRECT_DIR_ON:
+   558				config->redirect_mode = OVL_REDIRECT_ON;
+   559				redirect_opt = true;
+   560				break;
+   561	
+   562			case OPT_REDIRECT_DIR_OFF:
+   563				config->redirect_mode = ovl_redirect_always_follow ?
+   564							OVL_REDIRECT_FOLLOW :
+   565							OVL_REDIRECT_NOFOLLOW;
+   566				redirect_opt = true;
+   567				break;
+   568	
+   569			case OPT_REDIRECT_DIR_FOLLOW:
+   570				config->redirect_mode = OVL_REDIRECT_FOLLOW;
+   571				redirect_opt = true;
+   572				break;
+   573	
+   574			case OPT_REDIRECT_DIR_NOFOLLOW:
+   575				config->redirect_mode = OVL_REDIRECT_NOFOLLOW;
+   576				redirect_opt = true;
+   577				break;
+   578	
+   579			case OPT_INDEX_ON:
+   580				config->index = true;
+   581				index_opt = true;
+   582				break;
+   583	
+   584			case OPT_INDEX_OFF:
+   585				config->index = false;
+   586				index_opt = true;
+   587				break;
+   588	
+   589			case OPT_UUID_ON:
+   590				config->uuid = true;
+   591				break;
+   592	
+   593			case OPT_UUID_OFF:
+   594				config->uuid = false;
+   595				break;
+   596	
+   597			case OPT_NFS_EXPORT_ON:
+   598				config->nfs_export = true;
+   599				nfs_export_opt = true;
+   600				break;
+   601	
+   602			case OPT_NFS_EXPORT_OFF:
+   603				config->nfs_export = false;
+   604				nfs_export_opt = true;
+   605				break;
+   606	
+   607			case OPT_XINO_ON:
+   608				config->xino = OVL_XINO_ON;
+   609				break;
+   610	
+   611			case OPT_XINO_OFF:
+   612				config->xino = OVL_XINO_OFF;
+   613				break;
+   614	
+   615			case OPT_XINO_AUTO:
+   616				config->xino = OVL_XINO_AUTO;
+   617				break;
+   618	
+   619			case OPT_METACOPY_ON:
+   620				config->metacopy = true;
+   621				metacopy_opt = true;
+   622				break;
+   623	
+   624			case OPT_METACOPY_OFF:
+   625				config->metacopy = false;
+   626				metacopy_opt = true;
+   627				break;
+   628	
+   629			case OPT_VOLATILE:
+   630				config->ovl_volatile = true;
+   631				break;
+   632	
+   633			case OPT_USERXATTR:
+   634				config->userxattr = true;
+   635				break;
+   636	
+   637			default:
+   638				pr_err("unrecognized mount option \"%s\" or missing value\n",
+   639						p);
+   640				return -EINVAL;
+   641			}
+   642		}
+   643	
+   644		/* Workdir/index are useless in non-upper mount */
+   645		if (!config->upperdir) {
+   646			if (config->workdir) {
+   647				pr_info("option \"workdir=%s\" is useless in a non-upper mount, ignore\n",
+   648					config->workdir);
+   649				kfree(config->workdir);
+   650				config->workdir = NULL;
+   651			}
+   652			if (config->index && index_opt) {
+   653				pr_info("option \"index=on\" is useless in a non-upper mount, ignore\n");
+   654				index_opt = false;
+   655			}
+   656			config->index = false;
+   657		}
+   658	
+   659		if (!config->upperdir && config->ovl_volatile) {
+   660			pr_info("option \"volatile\" is meaningless in a non-upper mount, ignoring it.\n");
+   661			config->ovl_volatile = false;
+   662		}
+   663	
+   664		/*
+   665		 * This is to make the logic below simpler.  It doesn't make any other
+   666		 * difference, since redirect_dir=on is only used for upper.
+   667		 */
+   668		if (!config->upperdir && config->redirect_mode == OVL_REDIRECT_FOLLOW)
+   669			config->redirect_mode = OVL_REDIRECT_ON;
+   670	
+   671		/* Resolve metacopy -> redirect_dir dependency */
+ > 672		if (config->metacopy && !config->redirect_mode != OVL_REDIRECT_ON) {
+   673			if (metacopy_opt && redirect_opt) {
+   674				pr_err("conflicting options: metacopy=on,redirect_dir=%s\n",
+   675				       ovl_redirect_mode(config));
+   676				return -EINVAL;
+   677			}
+   678			if (redirect_opt) {
+   679				/*
+   680				 * There was an explicit redirect_dir=... that resulted
+   681				 * in this conflict.
+   682				 */
+   683				pr_info("disabling metacopy due to redirect_dir=%s\n",
+   684					ovl_redirect_mode(config));
+   685				config->metacopy = false;
+   686			} else {
+   687				/* Automatically enable redirect otherwise. */
+   688				config->redirect_mode = OVL_REDIRECT_ON;
+   689			}
+   690		}
+   691	
+   692		/* Resolve nfs_export -> index dependency */
+   693		if (config->nfs_export && !config->index) {
+   694			if (!config->upperdir &&
+   695			    config->redirect_mode != OVL_REDIRECT_NOFOLLOW) {
+   696				pr_info("NFS export requires \"redirect_dir=nofollow\" on non-upper mount, falling back to nfs_export=off.\n");
+   697				config->nfs_export = false;
+   698			} else if (nfs_export_opt && index_opt) {
+   699				pr_err("conflicting options: nfs_export=on,index=off\n");
+   700				return -EINVAL;
+   701			} else if (index_opt) {
+   702				/*
+   703				 * There was an explicit index=off that resulted
+   704				 * in this conflict.
+   705				 */
+   706				pr_info("disabling nfs_export due to index=off\n");
+   707				config->nfs_export = false;
+   708			} else {
+   709				/* Automatically enable index otherwise. */
+   710				config->index = true;
+   711			}
+   712		}
+   713	
+   714		/* Resolve nfs_export -> !metacopy dependency */
+   715		if (config->nfs_export && config->metacopy) {
+   716			if (nfs_export_opt && metacopy_opt) {
+   717				pr_err("conflicting options: nfs_export=on,metacopy=on\n");
+   718				return -EINVAL;
+   719			}
+   720			if (metacopy_opt) {
+   721				/*
+   722				 * There was an explicit metacopy=on that resulted
+   723				 * in this conflict.
+   724				 */
+   725				pr_info("disabling nfs_export due to metacopy=on\n");
+   726				config->nfs_export = false;
+   727			} else {
+   728				/*
+   729				 * There was an explicit nfs_export=on that resulted
+   730				 * in this conflict.
+   731				 */
+   732				pr_info("disabling metacopy due to nfs_export=on\n");
+   733				config->metacopy = false;
+   734			}
+   735		}
+   736	
+   737	
+   738		/* Resolve userxattr -> !redirect && !metacopy dependency */
+   739		if (config->userxattr) {
+   740			if (redirect_opt &&
+   741			    config->redirect_mode != OVL_REDIRECT_NOFOLLOW) {
+   742				pr_err("conflicting options: userxattr,redirect_dir=%s\n",
+   743				       ovl_redirect_mode(config));
+   744				return -EINVAL;
+   745			}
+   746			if (config->metacopy && metacopy_opt) {
+   747				pr_err("conflicting options: userxattr,metacopy=on\n");
+   748				return -EINVAL;
+   749			}
+   750			/*
+   751			 * Silently disable default setting of redirect and metacopy.
+   752			 * This shall be the default in the future as well: these
+   753			 * options must be explicitly enabled if used together with
+   754			 * userxattr.
+   755			 */
+   756			config->redirect_mode = OVL_REDIRECT_NOFOLLOW;
+   757			config->metacopy = false;
+   758		}
+   759	
+   760		return 0;
+   761	}
+   762	
 
 -- 
 0-DAY CI Kernel Test Service
