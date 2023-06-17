@@ -1,43 +1,45 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9AD10EF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 22:32:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0758810EF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 22:43:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687041175; x=1718577175;
+  t=1687041836; x=1718577836;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/4w5GHjcc0Rw0RGeZhXuEg8WDdISXO3VmVWgd31VMVo=;
-  b=VpmBSz2F9fZTbws4ol0z/9B06Sx42HqPR+4tN3OGvFS+F58/GsDB6r3O
-   VZXwD634IW9Xj0wKpgMPbc5x6Ds0M7KuTzJMEmlQdA03KAslGgLC+nsKb
-   nzpqwHxwc2EDX3mNFgwjChiHgPubiM/mM8IgDRq/Ey2hpv4GnKm9MZvGf
-   9YKr1sLQzmzNIF8uRACdGSaTdFZuG95MdROY020Zlt2rPryhd3VOWjRqf
-   bBq4xvEJnap+D9rb/Z6nV75nOln+jH3ijthRF1SkbYuzoAw7x1B/B938M
-   eJXC0r/LlO3RkN6th/6afhFAhBmrPjAyExj6VNRjlF7WCpAJJDm2X8MbQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="362847295"
+  bh=+lqS0S5bJNXOl5Hvq+NoWB6q60MG5/1C2qR2WQEryds=;
+  b=bC1qyElVbWwJSR+NaF/EgtyCE2ZA55ZpXEzSMF8YJZIaEXU1nwq5Df6G
+   b6t5xFM5tVPb599FgY1QbONv5jTiB2ScvW8aA0Jai0Ggg2VtpfHrYE3aC
+   zrLCT91ZUvx99P8dr9SjC9RYhTKpDzwkyfXOBNt4DKJM+EZhv7aYv6uwD
+   WKpsF5FMdC1tvBTRp9ZtFbQGjyiViV11+nmNtLGll7bbSQgntsMYs7wVp
+   /TG1RwOrrWMRVGJUK82+jxWNHbJLETz7CWIV+Q0VBdMEETTCQrLguKcEK
+   x28YaN0SSbdS+0Fnu5sSTr6G/YlHnC1JgJ0iCNitbwJYS6ApMHTRgtZIO
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="339045324"
 X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="362847295"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 15:32:55 -0700
+   d="scan'208";a="339045324"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 15:43:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="857784065"
+X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="826146813"
 X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="857784065"
+   d="scan'208";a="826146813"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2023 15:32:53 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 17 Jun 2023 15:43:53 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAeTU-0003Ay-1t;
-	Sat, 17 Jun 2023 22:32:52 +0000
-Date: Sun, 18 Jun 2023 06:32:00 +0800
+	id 1qAee8-0003BM-2X;
+	Sat, 17 Jun 2023 22:43:52 +0000
+Date: Sun, 18 Jun 2023 06:43:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Vineet Gupta <vgupta@kernel.org>
-Subject: drivers/scsi/hptiop.c:643:34: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202306180605.3ls3bvu7-lkp@intel.com>
+To: Luciano Coelho <luciano.coelho@intel.com>,
+	Golan Ben Ami <golan.ben.ami@intel.com>,
+	Michael Golant <michael.golant@intel.com>,
+	Johannes Berg <johannes.berg@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/gpu/drm/ttm/ttm_pool.c:378:22: sparse: sparse: incompatible
+ types in comparison expression (different type sizes):
+Message-ID: <202306180629.UqxMwJRf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,132 +49,138 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Randy,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1b29d271614abd97cc39782daa9d6dd70e98609f
-commit: c44f15c1c09481d50fd33478ebb5b8284f8f5edb arc: iounmap() arg is volatile
-date:   8 months ago
-config: arc-randconfig-s051-20230618 (https://download.01.org/0day-ci/archive/20230618/202306180605.3ls3bvu7-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230618/202306180605.3ls3bvu7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core61-58
+head:   35a3169c34b511417772fc39505bd841ca6b275c
+commit: 488c5dc8526b11ef7e565e4094620876ebb470f8 UPSTREAM: drm/ttm: new TT backend allocation pool v3
+date:   2 years, 2 months ago
+config: sparc64-randconfig-s053-20230615 (https://download.01.org/0day-ci/archive/20230618/202306180629.UqxMwJRf-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230618/202306180629.UqxMwJRf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306180605.3ls3bvu7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306180629.UqxMwJRf-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/scsi/hptiop.c:150:53: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/hptiop.c:171:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got restricted __le32 * @@
-   drivers/scsi/hptiop.c:171:9: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/scsi/hptiop.c:171:9: sparse:     got restricted __le32 *
-   drivers/scsi/hptiop.c:208:18: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got restricted __le32 * @@
-   drivers/scsi/hptiop.c:208:18: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/scsi/hptiop.c:208:18: sparse:     got restricted __le32 *
-   drivers/scsi/hptiop.c:209:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got restricted __le32 * @@
-   drivers/scsi/hptiop.c:209:9: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/scsi/hptiop.c:209:9: sparse:     got restricted __le32 *
-   drivers/scsi/hptiop.c:244:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] result @@     got int @@
-   drivers/scsi/hptiop.c:244:44: sparse:     expected restricted __le32 [usertype] result
-   drivers/scsi/hptiop.c:244:44: sparse:     got int
-   drivers/scsi/hptiop.c:289:35: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/hptiop.c:276:32: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/hptiop.c:277:34: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] cur_rptr @@     got restricted __le32 [usertype] outlist_rptr @@
-   drivers/scsi/hptiop.c:277:34: sparse:     expected unsigned int [usertype] cur_rptr
-   drivers/scsi/hptiop.c:277:34: sparse:     got restricted __le32 [usertype] outlist_rptr
-   drivers/scsi/hptiop.c:283:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] _tag @@     got restricted __le32 [usertype] val @@
-   drivers/scsi/hptiop.c:283:38: sparse:     expected unsigned int [usertype] _tag
-   drivers/scsi/hptiop.c:283:38: sparse:     got restricted __le32 [usertype] val
-   drivers/scsi/hptiop.c:288:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] outlist_rptr @@     got unsigned int [assigned] [usertype] cur_rptr @@
-   drivers/scsi/hptiop.c:288:52: sparse:     expected restricted __le32 [usertype] outlist_rptr
-   drivers/scsi/hptiop.c:288:52: sparse:     got unsigned int [assigned] [usertype] cur_rptr
-   drivers/scsi/hptiop.c:369:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got restricted __le32 * @@
-   drivers/scsi/hptiop.c:369:9: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/scsi/hptiop.c:369:9: sparse:     got restricted __le32 *
-   drivers/scsi/hptiop.c:370:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got restricted __le32 * @@
-   drivers/scsi/hptiop.c:370:9: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/scsi/hptiop.c:370:9: sparse:     got restricted __le32 *
-   drivers/scsi/hptiop.c:453:64: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct hpt_iop_request_get_config *info @@     got struct hpt_iop_request_get_config [noderef] __iomem *config @@
-   drivers/scsi/hptiop.c:453:64: sparse:     expected struct hpt_iop_request_get_config *info
-   drivers/scsi/hptiop.c:453:64: sparse:     got struct hpt_iop_request_get_config [noderef] __iomem *config
-   drivers/scsi/hptiop.c:455:25: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/hptiop.c:557:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got restricted __le32 * @@
-   drivers/scsi/hptiop.c:557:9: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/scsi/hptiop.c:557:9: sparse:     got restricted __le32 *
-   drivers/scsi/hptiop.c:637:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct hpt_iopmv_regs *regs @@     got void [noderef] __iomem * @@
-   drivers/scsi/hptiop.c:637:24: sparse:     expected struct hpt_iopmv_regs *regs
-   drivers/scsi/hptiop.c:637:24: sparse:     got void [noderef] __iomem *
->> drivers/scsi/hptiop.c:643:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got struct hpt_iopmv_regs *regs @@
-   drivers/scsi/hptiop.c:643:34: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/scsi/hptiop.c:643:34: sparse:     got struct hpt_iopmv_regs *regs
-   drivers/scsi/hptiop.c:667:26: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got struct hpt_iopmv_regs *regs @@
-   drivers/scsi/hptiop.c:667:26: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/scsi/hptiop.c:667:26: sparse:     got struct hpt_iopmv_regs *regs
-   drivers/scsi/hptiop.c:933:27: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/hptiop.c:938:34: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/hptiop.c:939:30: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/hptiop.c:943:43: sparse: sparse: invalid assignment: &=
-   drivers/scsi/hptiop.c:943:43: sparse:    left side has type restricted __le32
-   drivers/scsi/hptiop.c:943:43: sparse:    right side has type int
-   drivers/scsi/hptiop.c:944:43: sparse: sparse: invalid assignment: ^=
-   drivers/scsi/hptiop.c:944:43: sparse:    left side has type restricted __le32
-   drivers/scsi/hptiop.c:944:43: sparse:    right side has type int
-   drivers/scsi/hptiop.c:949:57: sparse: sparse: restricted __le32 degrades to integer
-   drivers/scsi/hptiop.c:949:48: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] intrfc_len @@     got unsigned int @@
-   drivers/scsi/hptiop.c:949:48: sparse:     expected restricted __le32 [usertype] intrfc_len
-   drivers/scsi/hptiop.c:949:48: sparse:     got unsigned int
-   drivers/scsi/hptiop.c:950:9: sparse: sparse: cast from restricted __le32
-   drivers/scsi/hptiop.c:975:9: sparse: sparse: cast from restricted __le32
-   drivers/scsi/hptiop.c:977:9: sparse: sparse: cast from restricted __le32
-   drivers/scsi/hptiop.c:980:9: sparse: sparse: cast from restricted __le32
-   drivers/scsi/hptiop.c:982:9: sparse: sparse: cast from restricted __le32
-   drivers/scsi/hptiop.c:985:9: sparse: sparse: cast from restricted __le32
-   drivers/scsi/hptiop.c:987:9: sparse: sparse: cast from restricted __le32
-   drivers/scsi/hptiop.c:990:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] inlist_wptr @@     got unsigned int @@
-   drivers/scsi/hptiop.c:990:35: sparse:     expected restricted __le32 [usertype] inlist_wptr
-   drivers/scsi/hptiop.c:990:35: sparse:     got unsigned int
-   drivers/scsi/hptiop.c:991:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int @@
-   drivers/scsi/hptiop.c:991:37: sparse:     expected restricted __le32 [usertype]
-   drivers/scsi/hptiop.c:991:37: sparse:     got unsigned int
-   drivers/scsi/hptiop.c:992:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] outlist_rptr @@     got unsigned int @@
-   drivers/scsi/hptiop.c:992:36: sparse:     expected restricted __le32 [usertype] outlist_rptr
-   drivers/scsi/hptiop.c:992:36: sparse:     got unsigned int
-   drivers/scsi/hptiop.c:1531:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got restricted __le32 * @@
-   drivers/scsi/hptiop.c:1531:9: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/scsi/hptiop.c:1531:9: sparse:     got restricted __le32 *
-   drivers/scsi/hptiop.c:1532:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got restricted __le32 * @@
-   drivers/scsi/hptiop.c:1532:9: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/scsi/hptiop.c:1532:9: sparse:     got restricted __le32 *
-   drivers/scsi/hptiop.c:150:51: sparse: sparse: dereference of noderef expression
-   drivers/scsi/hptiop.c:150:51: sparse: sparse: dereference of noderef expression
+>> drivers/gpu/drm/ttm/ttm_pool.c:378:22: sparse: sparse: incompatible types in comparison expression (different type sizes):
+>> drivers/gpu/drm/ttm/ttm_pool.c:378:22: sparse:    unsigned long *
+>> drivers/gpu/drm/ttm/ttm_pool.c:378:22: sparse:    int *
 
-vim +643 drivers/scsi/hptiop.c
+vim +378 drivers/gpu/drm/ttm/ttm_pool.c
 
-00f5970193e22c4 HighPoint Linux Team 2007-12-13  634  
-00f5970193e22c4 HighPoint Linux Team 2007-12-13  635  static int hptiop_map_pci_bar_mv(struct hptiop_hba *hba)
-00f5970193e22c4 HighPoint Linux Team 2007-12-13  636  {
-00f5970193e22c4 HighPoint Linux Team 2007-12-13  637  	hba->u.mv.regs = hptiop_map_pci_bar(hba, 0);
-9bcf091083065c7 Harvey Harrison      2008-05-22  638  	if (hba->u.mv.regs == NULL)
-00f5970193e22c4 HighPoint Linux Team 2007-12-13  639  		return -1;
-00f5970193e22c4 HighPoint Linux Team 2007-12-13  640  
-00f5970193e22c4 HighPoint Linux Team 2007-12-13  641  	hba->u.mv.mu = hptiop_map_pci_bar(hba, 2);
-9bcf091083065c7 Harvey Harrison      2008-05-22  642  	if (hba->u.mv.mu == NULL) {
-00f5970193e22c4 HighPoint Linux Team 2007-12-13 @643  		iounmap(hba->u.mv.regs);
-ede1e6f8b43246a HighPoint Linux Team 2006-05-16  644  		return -1;
-ede1e6f8b43246a HighPoint Linux Team 2006-05-16  645  	}
-ede1e6f8b43246a HighPoint Linux Team 2006-05-16  646  
-ede1e6f8b43246a HighPoint Linux Team 2006-05-16  647  	return 0;
-ede1e6f8b43246a HighPoint Linux Team 2006-05-16  648  }
-ede1e6f8b43246a HighPoint Linux Team 2006-05-16  649  
-
-:::::: The code at line 643 was first introduced by commit
-:::::: 00f5970193e22c48f399a2430635d6416b51befe [SCSI] hptiop: add more adapter models and other fixes
-
-:::::: TO: HighPoint Linux Team <linux@highpoint-tech.com>
-:::::: CC: James Bottomley <James.Bottomley@HansenPartnership.com>
+   339	
+   340	/**
+   341	 * ttm_pool_alloc - Fill a ttm_tt object
+   342	 *
+   343	 * @pool: ttm_pool to use
+   344	 * @tt: ttm_tt object to fill
+   345	 * @ctx: operation context
+   346	 *
+   347	 * Fill the ttm_tt object with pages and also make sure to DMA map them when
+   348	 * necessary.
+   349	 *
+   350	 * Returns: 0 on successe, negative error code otherwise.
+   351	 */
+   352	int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+   353			   struct ttm_operation_ctx *ctx)
+   354	{
+   355		unsigned long num_pages = tt->num_pages;
+   356		dma_addr_t *dma_addr = tt->dma_address;
+   357		struct page **caching = tt->pages;
+   358		struct page **pages = tt->pages;
+   359		gfp_t gfp_flags = GFP_USER;
+   360		unsigned int i, order;
+   361		struct page *p;
+   362		int r;
+   363	
+   364		WARN_ON(!num_pages || ttm_tt_is_populated(tt));
+   365		WARN_ON(dma_addr && !pool->dev);
+   366	
+   367		if (tt->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC)
+   368			gfp_flags |= __GFP_ZERO;
+   369	
+   370		if (tt->page_flags & TTM_PAGE_FLAG_NO_RETRY)
+   371			gfp_flags |= __GFP_RETRY_MAYFAIL;
+   372	
+   373		if (pool->use_dma32)
+   374			gfp_flags |= GFP_DMA32;
+   375		else
+   376			gfp_flags |= GFP_HIGHUSER;
+   377	
+ > 378		for (order = min(MAX_ORDER - 1UL, __fls(num_pages)); num_pages;
+   379		     order = min_t(unsigned int, order, __fls(num_pages))) {
+   380			bool apply_caching = false;
+   381			struct ttm_pool_type *pt;
+   382	
+   383			pt = ttm_pool_select_type(pool, tt->caching, order);
+   384			p = pt ? ttm_pool_type_take(pt) : NULL;
+   385			if (p) {
+   386				apply_caching = true;
+   387			} else {
+   388				p = ttm_pool_alloc_page(pool, gfp_flags, order);
+   389				if (p && PageHighMem(p))
+   390					apply_caching = true;
+   391			}
+   392	
+   393			if (!p) {
+   394				if (order) {
+   395					--order;
+   396					continue;
+   397				}
+   398				r = -ENOMEM;
+   399				goto error_free_all;
+   400			}
+   401	
+   402			if (apply_caching) {
+   403				r = ttm_pool_apply_caching(caching, pages,
+   404							   tt->caching);
+   405				if (r)
+   406					goto error_free_page;
+   407				caching = pages + (1 << order);
+   408			}
+   409	
+   410			r = ttm_mem_global_alloc_page(&ttm_mem_glob, p,
+   411						      (1 << order) * PAGE_SIZE,
+   412						      ctx);
+   413			if (r)
+   414				goto error_free_page;
+   415	
+   416			if (dma_addr) {
+   417				r = ttm_pool_map(pool, order, p, &dma_addr);
+   418				if (r)
+   419					goto error_global_free;
+   420			}
+   421	
+   422			num_pages -= 1 << order;
+   423			for (i = 1 << order; i; --i)
+   424				*(pages++) = p++;
+   425		}
+   426	
+   427		r = ttm_pool_apply_caching(caching, pages, tt->caching);
+   428		if (r)
+   429			goto error_free_all;
+   430	
+   431		return 0;
+   432	
+   433	error_global_free:
+   434		ttm_mem_global_free_page(&ttm_mem_glob, p, (1 << order) * PAGE_SIZE);
+   435	
+   436	error_free_page:
+   437		ttm_pool_free_page(pool, tt->caching, order, p);
+   438	
+   439	error_free_all:
+   440		num_pages = tt->num_pages - num_pages;
+   441		for (i = 0; i < num_pages; ) {
+   442			order = ttm_pool_page_order(pool, tt->pages[i]);
+   443			ttm_pool_free_page(pool, tt->caching, order, tt->pages[i]);
+   444			i += 1 << order;
+   445		}
+   446	
+   447		return r;
+   448	}
+   449	EXPORT_SYMBOL(ttm_pool_alloc);
+   450	
 
 -- 
 0-DAY CI Kernel Test Service
