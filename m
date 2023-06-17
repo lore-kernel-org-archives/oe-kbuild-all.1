@@ -1,41 +1,46 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40C82EC8;
-	Sat, 17 Jun 2023 21:18:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1172AED6
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 21:39:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687036733; x=1718572733;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=b8ZbW5m2/zsP/tll3k8Qo4J3HMNfwtQUcP06PRYOINY=;
-  b=WRJ2TsxqjZPKYxRAXA3ZpZ4PLC0qRIr5rEV2eWZGlC8yDglgFOGvu6Gy
-   M8QdtdnaEha2v9iTxA+tM3VCUHp+JDnn19gFwtiMJsSa4RDUCaizxrprS
-   4OK2gSwq3UqnRlHkd6jDb5sg1hHsDBiHUQ3jbYwaa5JjXyf0wMtbPL4Zd
-   hsxyjPu0U6BxBgNmOHrsmjVIp6sgLZobfYCH6Lba4zdXjoIeA5Q61ymHx
-   ZJP2RP0Z4opBHZ5YDZXWLKpfzjcuTFuh2vtuMXbk0RC83vDrja++Fli5R
-   ZpUrvvFhNt0zDFOcWmrYGDQDswRHeXpiQ+JXTLpPSJWadMbrI37DOWqDV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="339760316"
+  t=1687037997; x=1718573997;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LuIR2ORQCwFa1s2ukhXrTYFgFE0QY8glW9k4wZv8zDE=;
+  b=S9kU60il0zTrPRZyk7qo6e/73tDllJFCyPeDzSHW9QD5msXX50JF5qpn
+   +bmgCmD2bpr3Ps9u78KvwwmdCxaVt+cL72uZzfJKrdssziFPKzjXQJmJR
+   fkW3UUvtzdA78mw5c2E0YC6SiMtsROl3uDcSZ9bGT8hfXWdee6SbpjOzT
+   t2j4KCz4M009wVpVFvEYXY2l0PWDbXveJzvlBQvWsbsN5OceaBSGN9ZNA
+   heWp6/6MlfqdUFZXtObA6u40C/is17CK/t1befwQ08z9nbJi/l6af8nw0
+   ncyaiJdsA0HzF+ul0Dww+kOiBYsN0q7c/7JDgJurjVq9CdB9lmG5A8cDv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="425371850"
 X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="339760316"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 14:18:52 -0700
+   d="scan'208";a="425371850"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 14:39:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="837415649"
+X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="1043464793"
 X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="837415649"
+   d="scan'208";a="1043464793"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 17 Jun 2023 14:18:51 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 17 Jun 2023 14:39:51 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAdJq-00037E-1l;
-	Sat, 17 Jun 2023 21:18:50 +0000
-Date: Sun, 18 Jun 2023 05:18:20 +0800
+	id 1qAdeB-00037u-0J;
+	Sat, 17 Jun 2023 21:39:51 +0000
+Date: Sun, 18 Jun 2023 05:39:05 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [stable:linux-5.10.y 1989/9999] net/netlink/af_netlink.o: warning:
- objtool: netlink_dump()+0xb5a: unreachable instruction
-Message-ID: <202306180533.Hh40qofe-lkp@intel.com>
+To: Zhiyong Tao <zhiyong.tao@mediatek.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sean Wang <sean.wang@mediatek.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Eddie Huang <eddie.huang@mediatek.com>,
+	Pi-Hsun Shih <pihsun@chromium.org>
+Subject: [jsarha:topic/cros-sof-v4.14-rebase 3768/9999] warning: (PINCTRL_MTK
+ && ..) selects EINT_MTK which has unmet direct dependencies (PINCTRL && ..)
+ && ..))
+Message-ID: <202306180511.MmlpQzvr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,30 +50,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-TO: Eric Dumazet <edumazet@google.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Paolo Abeni <pabeni@redhat.com>
-CC: Sasha Levin <sashal@kernel.org>
-
-Hi Eric,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.10.y
-head:   a1f0beb13d9b8955e00caa48f909462fb70e6f73
-commit: 3d55b195747c1259c994b868a509beae947a7c6e [1989/9999] netlink: reset network and mac headers in netlink_dump()
-config: x86_64-randconfig-a001-20230618 (https://download.01.org/0day-ci/archive/20230618/202306180533.Hh40qofe-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230618/202306180533.Hh40qofe-lkp@intel.com/reproduce)
+tree:   https://github.com/jsarha/linux topic/cros-sof-v4.14-rebase
+head:   18a233f3f676a98dde00947535d99ab1a54da340
+commit: ce81cc2139314b111602c95744a88bdb2a25c40a [3768/9999] FROMGIT: pinctrl: mediatek: add pinctrl-paris that implements the vendor dt-bindings
+config: arm64-randconfig-s041-20230618 (https://download.01.org/0day-ci/archive/20230618/202306180511.MmlpQzvr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230618/202306180511.MmlpQzvr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306180533.Hh40qofe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306180511.MmlpQzvr-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/netlink/af_netlink.o: warning: objtool: netlink_dump()+0xb5a: unreachable instruction
+>> warning: (PINCTRL_MTK && PINCTRL_MTK_PARIS) selects EINT_MTK which has unmet direct dependencies (PINCTRL && (ARCH_MEDIATEK || COMPILE_TEST) && (PINCTRL_MTK || PINCTRL_MTK_MOORE || COMPILE_TEST))
 
 -- 
 0-DAY CI Kernel Test Service
