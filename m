@@ -1,43 +1,44 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4BAA28
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 03:52:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C165FA28
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 04:12:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686973935; x=1718509935;
+  t=1686975136; x=1718511136;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LVgqraNInfgmC3J4BjFWm1PXnvA7sFX9BeYuDNIczIw=;
-  b=hrLk1Sip37sa1UAoABuIF39b6abap0CxgnrddkdHP6tBI7+24+ZopY0t
-   vZloM9D5qAGMVN4P8Yuf0nFvAtnGHbhLB7f0UQlWbhTouEviBEgufCsK1
-   v7fy4MIc6rmbIO2Jso5XhUGe87DYNaj5HlYjDb7xniYMhXcJOyPNj5yfx
-   P+D6tOY8BtEGcWoX/32oXLlpc8iijh8gHBReES1SdDYfbhaeWic02xHCV
-   hM13lajp387Mk0Yb5sJQIIq0gyTsjJM7OfpWlFfY+oI2yApRhWpH/Uoqp
-   z5iDCtP6wXMKZi1gAuSoQKUYS6Nb4JCHhUJjWGjWAFHcenNmT5x1P9mT9
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="425298923"
+  bh=W6JKW9zPoix4BiLHytf0ruLXlBN52JKVkQZgkfMPD18=;
+  b=eMQqODnqV/CzSOdO/6zlSsayXdrrv/H/OC03Z/b+Y6864MzVIsw/1v+4
+   lrAVn4MjJzUPYN2Mw6sCOkaru098gVyO0mvMruWsCnKeqWMo1ILSaEudC
+   XKrAVmC/NuYbHlP4yG5GsbIGvMTlNR294a9TMkC9IbHM//v4kXSOXD476
+   hQQxe0+wm09PMjZUoZwxcrkBWVaX4fP2BRKOaw7dQoWfJSNBRd/dm3nMJ
+   M/MIU9nRyZCE/nNqfgTlaU7Ih0n+i9JJVauFl1b58VYVG92QfwUjI1KNe
+   ql3s1bYjOIlq4i9dYs2DxeAx09VrqNVAjvvQGBGXDW2XbUf3+NVHur1hp
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="349069417"
 X-IronPort-AV: E=Sophos;i="6.00,249,1681196400"; 
-   d="scan'208";a="425298923"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 20:52:14 -0700
+   d="scan'208";a="349069417"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 21:12:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="887324025"
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="713095470"
 X-IronPort-AV: E=Sophos;i="6.00,249,1681196400"; 
-   d="scan'208";a="887324025"
+   d="scan'208";a="713095470"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 16 Jun 2023 20:52:13 -0700
+  by orsmga002.jf.intel.com with ESMTP; 16 Jun 2023 21:12:14 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAMyy-0002EM-2p;
-	Sat, 17 Jun 2023 03:52:12 +0000
-Date: Sat, 17 Jun 2023 11:51:16 +0800
+	id 1qANIL-0002FY-1q;
+	Sat, 17 Jun 2023 04:12:13 +0000
+Date: Sat, 17 Jun 2023 12:11:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: cros-kernel-buildreports@googlegroups.com,
+	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:arcvm12-5.10 6053/27680]
- arch/arm64/kvm/perf.c:58:43: error: implicit declaration of function
- 'perf_num_counters'; did you mean 'dec_mm_counter'?
-Message-ID: <202306171100.MwNAZZ81-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.10 19/59]
+ drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:772:13: sparse: sparse:
+ incompatible types in comparison expression (different address spaces):
+Message-ID: <202306171252.yTQ0sPbf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,48 +48,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Marc,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common arcvm12-5.10
-head:   1d52f82a5a291f35847b6d4ddae50955aad91a50
-commit: 13dbdc0759fd4b89417f64d399ffa6a86fdc7caf [6053/27680] FROMGIT: KVM: arm64: Turn kvm_arm_support_pmu_v3() into a static key
-config: arm64-randconfig-r016-20230616 (https://download.01.org/0day-ci/archive/20230617/202306171100.MwNAZZ81-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230617/202306171100.MwNAZZ81-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.10
+head:   58db187472cb7ae781c98a3aa05a790a2d4f8680
+commit: 6bffcc8e8d40ca2b17197bee47338c1c35277eef [19/59] BACKPORT: drm/i915: Drop __rcu from gem_context->vm
+config: i386-randconfig-s043-20230615 (https://download.01.org/0day-ci/archive/20230617/202306171252.yTQ0sPbf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230617/202306171252.yTQ0sPbf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306171100.MwNAZZ81-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306171252.yTQ0sPbf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:772:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+>> drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:772:13: sparse:    struct i915_address_space [noderef] __rcu *
+>> drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:772:13: sparse:    struct i915_address_space *
+   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:798:49: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:798:49: sparse:    struct i915_address_space [noderef] __rcu *
+   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:798:49: sparse:    struct i915_address_space *
 
-   arch/arm64/kvm/perf.c: In function 'kvm_perf_init':
->> arch/arm64/kvm/perf.c:58:43: error: implicit declaration of function 'perf_num_counters'; did you mean 'dec_mm_counter'? [-Werror=implicit-function-declaration]
-      58 |         if (IS_ENABLED(CONFIG_ARM_PMU) && perf_num_counters() > 0)
-         |                                           ^~~~~~~~~~~~~~~~~
-         |                                           dec_mm_counter
-   cc1: some warnings being treated as errors
+vim +772 drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
 
+4ff4b44cbb70c2 drivers/gpu/drm/i915/i915_gem_execbuffer.c     Chris Wilson   2017-06-16  762  
+2889caa9232109 drivers/gpu/drm/i915/i915_gem_execbuffer.c     Chris Wilson   2017-06-16  763  static int eb_select_context(struct i915_execbuffer *eb)
+2889caa9232109 drivers/gpu/drm/i915/i915_gem_execbuffer.c     Chris Wilson   2017-06-16  764  {
+2889caa9232109 drivers/gpu/drm/i915/i915_gem_execbuffer.c     Chris Wilson   2017-06-16  765  	struct i915_gem_context *ctx;
+2889caa9232109 drivers/gpu/drm/i915/i915_gem_execbuffer.c     Chris Wilson   2017-06-16  766  
+2889caa9232109 drivers/gpu/drm/i915/i915_gem_execbuffer.c     Chris Wilson   2017-06-16  767  	ctx = i915_gem_context_lookup(eb->file->driver_priv, eb->args->rsvd1);
+5158fb6ca4e595 drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c Jason Ekstrand 2021-07-08  768  	if (unlikely(IS_ERR(ctx)))
+5158fb6ca4e595 drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c Jason Ekstrand 2021-07-08  769  		return PTR_ERR(ctx);
+2889caa9232109 drivers/gpu/drm/i915/i915_gem_execbuffer.c     Chris Wilson   2017-06-16  770  
+8f2a1057d6ec21 drivers/gpu/drm/i915/i915_gem_execbuffer.c     Chris Wilson   2019-04-25  771  	eb->gem_context = ctx;
+a4e7ccdac38ec8 drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c Chris Wilson   2019-10-04 @772  	if (rcu_access_pointer(ctx->vm))
+4f2c7337af638b drivers/gpu/drm/i915/i915_gem_execbuffer.c     Chris Wilson   2018-09-01  773  		eb->invalid_flags |= EXEC_OBJECT_NEEDS_GTT;
+2889caa9232109 drivers/gpu/drm/i915/i915_gem_execbuffer.c     Chris Wilson   2017-06-16  774  
+2889caa9232109 drivers/gpu/drm/i915/i915_gem_execbuffer.c     Chris Wilson   2017-06-16  775  	return 0;
+2889caa9232109 drivers/gpu/drm/i915/i915_gem_execbuffer.c     Chris Wilson   2017-06-16  776  }
+2889caa9232109 drivers/gpu/drm/i915/i915_gem_execbuffer.c     Chris Wilson   2017-06-16  777  
 
-vim +58 arch/arm64/kvm/perf.c
+:::::: The code at line 772 was first introduced by commit
+:::::: a4e7ccdac38ec8335d9e4e2656c1a041c77feae1 drm/i915: Move context management under GEM
 
-    50	
-    51	int kvm_perf_init(void)
-    52	{
-    53		/*
-    54		 * Check if HW_PERF_EVENTS are supported by checking the number of
-    55		 * hardware performance counters. This could ensure the presence of
-    56		 * a physical PMU and CONFIG_PERF_EVENT is selected.
-    57		 */
-  > 58		if (IS_ENABLED(CONFIG_ARM_PMU) && perf_num_counters() > 0)
-    59			static_branch_enable(&kvm_arm_pmu_available);
-    60	
-    61		return perf_register_guest_info_callbacks(&kvm_guest_cbs);
-    62	}
-    63	
+:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
 
 -- 
 0-DAY CI Kernel Test Service
