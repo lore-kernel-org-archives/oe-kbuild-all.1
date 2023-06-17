@@ -1,45 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D62637;
-	Sat, 17 Jun 2023 00:56:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D012636
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 02:49:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686963365; x=1718499365;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NC34Xt1Ps0wgxir38XPM++lYlRAx4kIA1Xg6FyjHaag=;
-  b=Wyb0CtGPfXOciB+N+Wt/d8/wS/Uv9y3LA+3VJgSst1K3NoNwzWbE7BkR
-   +VD8CCZ1Scw6GmrbouB4KMdbtLNKvsS5S2uXdUTsSszyFhV9TufOHtpbw
-   drcw7IogscfYcTFW1SM6MLVT/0bDG3qA4uTJFVP8em2zHE/jaNuPZHsZT
-   w15XfJkO3xVF6PVXU6LPl5o7NMYULJRvPBNzpNTKqzeXxw8Pwv3JCGrYO
-   BPlJEJrhagYm6lWtGUiJzp0pRln+fmPa402KXhVVBvNU0uUZu6zReQMxa
-   wuX8TNVUtTyZUNI60sznE2ZNUgGeVdT3B5Hj+h96g2iJa7l+gRf1k3nr8
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="356836644"
+  t=1686970151; x=1718506151;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JeHJD950M6yuXb6mwy4z5Mx9/VJF6OSE4Ji+YDaScTY=;
+  b=OFccbVsORfTd/fP1u1B6lKWQrpE4u7RMNgIt7S3Q5d5AxtdF3vE1ZQ7E
+   /TIHc/r02wltGJ9YzE/sHEyMaBwk88oslA7QxliHg+Dhje70jLRYMPvNu
+   cLXMB2baBOxJwXF1gIXkl+jnyEabHSQ5CQrKRAhzDyOmyXNERWtXC7FGa
+   Xnlz4JFfq4KGKSPinYaOqv0mbtYuJclFeOHjKabEu7Jjen6isCN4LrUIo
+   NZ8tH5eUDqNQIHST+dmdF81g51ZL01e6mp4ZOHlSLL6oZIxPfFlKVWToM
+   4++A7EOD2o6NI6qW4clzDkjzGUFh3fYXpP5UusMsBkKCGFY6opuX2wwlK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="349064196"
 X-IronPort-AV: E=Sophos;i="6.00,249,1681196400"; 
-   d="scan'208";a="356836644"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 17:56:04 -0700
+   d="scan'208";a="349064196"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2023 19:49:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="825940910"
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="837228092"
 X-IronPort-AV: E=Sophos;i="6.00,249,1681196400"; 
-   d="scan'208";a="825940910"
+   d="scan'208";a="837228092"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 16 Jun 2023 17:56:02 -0700
+  by orsmga004.jf.intel.com with ESMTP; 16 Jun 2023 19:49:08 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAKEU-00020e-01;
-	Sat, 17 Jun 2023 00:56:02 +0000
-Date: Sat, 17 Jun 2023 08:55:46 +0800
+	id 1qALzv-000288-12;
+	Sat, 17 Jun 2023 02:49:07 +0000
+Date: Sat, 17 Jun 2023 10:48:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH net-next] net: dqs: add NIC stall detector based on BQL
-Message-ID: <202306170803.0prwmKyK-lkp@intel.com>
-References: <20230616213236.2379935-1-kuba@kernel.org>
+To: Vincent Whitchurch <vincent.whitchurch@axis.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Richard Weinberger <richard@nod.at>
+Subject: arch/um/drivers/virt-pci.c:537:21: warning: no previous prototype
+ for 'pcibios_get_phb_of_node'
+Message-ID: <202306171053.SOGnteNi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,91 +46,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230616213236.2379935-1-kuba@kernel.org>
 
-Hi Jakub,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Kicinski/net-dqs-add-NIC-stall-detector-based-on-BQL/20230617-053320
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20230616213236.2379935-1-kuba%40kernel.org
-patch subject: [PATCH net-next] net: dqs: add NIC stall detector based on BQL
-config: arm-randconfig-r025-20230616 (https://download.01.org/0day-ci/archive/20230617/202306170803.0prwmKyK-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230617/202306170803.0prwmKyK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1639fae5132bc8a904af28d97cea0bedb3af802e
+commit: 314a1408b79a844dafdcde867d90de5d509409b7 um: virt-pci: implement pcibios_get_phb_of_node()
+date:   4 months ago
+config: um-randconfig-r026-20230617 (https://download.01.org/0day-ci/archive/20230617/202306171053.SOGnteNi-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230617/202306171053.SOGnteNi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306170803.0prwmKyK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306171053.SOGnteNi-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/dynamic_queue_limits.c:18:6: warning: no previous prototype for function 'dql_check_stall' [-Wmissing-prototypes]
-   void dql_check_stall(struct dql *dql)
-        ^
-   lib/dynamic_queue_limits.c:18:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void dql_check_stall(struct dql *dql)
-   ^
-   static 
-   1 warning generated.
+>> arch/um/drivers/virt-pci.c:537:21: warning: no previous prototype for 'pcibios_get_phb_of_node' [-Wmissing-prototypes]
+     537 | struct device_node *pcibios_get_phb_of_node(struct pci_bus *bus)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/dql_check_stall +18 lib/dynamic_queue_limits.c
+vim +/pcibios_get_phb_of_node +537 arch/um/drivers/virt-pci.c
 
-    17	
-  > 18	void dql_check_stall(struct dql *dql)
-    19	{
-    20		unsigned long stall_thrs, now;
-    21	
-    22		/* If we detect a stall see if anything was queued */
-    23		stall_thrs = READ_ONCE(dql->stall_thrs);
-    24		if (!stall_thrs)
-    25			return;
-    26	
-    27		now = jiffies;
-    28		if (time_after_eq(now, dql->last_reap + stall_thrs)) {
-    29			unsigned long hist_head, t, start, end;
-    30	
-    31			/* We are trying to detect a period of at least @stall_thrs
-    32			 * jiffies without any Tx completions, but during first half
-    33			 * of which some Tx was posted.
-    34			 */
-    35	dqs_again:
-    36			hist_head = READ_ONCE(dql->history_head);
-    37			smp_rmb();
-    38			/* oldest sample since last reap */
-    39			start = (hist_head - DQL_HIST_LEN + 1) * BITS_PER_LONG;
-    40			if (time_before(start, dql->last_reap + 1))
-    41				start = dql->last_reap + 1;
-    42			/* newest sample we should have already seen a completion for */
-    43			end = hist_head * BITS_PER_LONG + (BITS_PER_LONG - 1);
-    44			if (time_before(now, end + stall_thrs / 2))
-    45				end = now - stall_thrs / 2;
-    46	
-    47			for (t = start; time_before_eq(t, end); t++)
-    48				if (test_bit(t % (DQL_HIST_LEN * BITS_PER_LONG),
-    49					     dql->history))
-    50					break;
-    51			if (!time_before_eq(t, end))
-    52				goto no_stall;
-    53			if (hist_head != READ_ONCE(dql->history_head))
-    54				goto dqs_again;
-    55	
-    56			dql->stall_cnt++;
-    57			dql->stall_max = max_t(unsigned int, dql->stall_max, now - t);
-    58	
-    59			trace_dql_stall_detected(dql->stall_thrs, now - t,
-    60						 dql->last_reap, dql->history_head,
-    61						 now, dql->history);
-    62		}
-    63	no_stall:
-    64		dql->last_reap = now;
-    65	}
-    66	
+   535	
+   536	/* Copied from arch/x86/kernel/devicetree.c */
+ > 537	struct device_node *pcibios_get_phb_of_node(struct pci_bus *bus)
+   538	{
+   539		struct device_node *np;
+   540	
+   541		for_each_node_by_type(np, "pci") {
+   542			const void *prop;
+   543			unsigned int bus_min;
+   544	
+   545			prop = of_get_property(np, "bus-range", NULL);
+   546			if (!prop)
+   547				continue;
+   548			bus_min = be32_to_cpup(prop);
+   549			if (bus->number == bus_min)
+   550				return np;
+   551		}
+   552		return NULL;
+   553	}
+   554	
 
 -- 
 0-DAY CI Kernel Test Service
