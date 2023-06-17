@@ -1,121 +1,59 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68101117;
-	Sat, 17 Jun 2023 13:32:59 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4QjxmL3rQ0z9sks;
-	Sat, 17 Jun 2023 15:32:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oltmanns.dev;
-	s=MBO0001; t=1687008770;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AZoI4Bw3sCCyCXPTMLBEPFCqY8Pv58J03l2/6Q77EHA=;
-	b=QZKf+EFTILZO4/YhLIUf7kpElHYaNl+CQynchuZFnmnCaPr44U0e7D9CWo76xCX8YFTRj/
-	86v5AC8NrdL2uTOQYjN+9IeH8wAQ3NvWECUS1kPtHdd7EVio0VClDQd0qcwTpRIr5bGQSa
-	la0RL4TCuclqXrpuQTwuxbU6BfEnLB6AKFdbCKOvfQB9BWFaZTkeulgdm7+IU/sNzI4OqC
-	5/EGA4mVI4GzaBB1/lABi2Ju6ETporuiRiOJ/39n8ZOuRkRTrNtdSpSc005F/aB49eC3W9
-	qalHOdOTV7Q/snc8VP5i4AX+IncTgTvTUpXCMAm7hpsonAvbJ3Ymz3sTfXFvYw==
-References: <20230617102919.27564-3-frank@oltmanns.dev>
- <202306172036.EevtaVp6-lkp@intel.com>
-From: Frank Oltmanns <frank@oltmanns.dev>
-To: kernel test robot <lkp@intel.com>
-Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- "A.s. Dong" <aisheng.dong@nxp.com>, Abel Vesa <abelvesa@kernel.org>, Fabio
- Estevam <festevam@gmail.com>, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, NXP Linux Team
- <linux-imx@nxp.com>, Peng Fan <peng.fan@nxp.com>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo
- <shawnguo@kernel.org>, Elaine Zhang <zhangqing@rock-chips.com>
-Subject: Re: [PATCH v4 2/2] clk: fractional-divider: tests: Add test suite
- for edge cases
-In-reply-to: <202306172036.EevtaVp6-lkp@intel.com>
-Date: Sat, 17 Jun 2023 15:32:31 +0200
-Message-ID: <87legi2p00.fsf@oltmanns.dev>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF1F1117;
+	Sat, 17 Jun 2023 14:00:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BECADC433C0;
+	Sat, 17 Jun 2023 14:00:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1687010405;
+	bh=16Q1fD+TC/tzkSSYLPM02Yk89NzHUHa9D6kkl8csDrI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=No5rAoGBJIngpvTCaZ3eLJ0HW9pu6h8shBaF9MU8rgT4lQJs1dlr/HRVBU/32RpL5
+	 Jx1Yhj3eF7VAFUWfjP71KZ7LpSlroem6xUyGyZBKwKiuc8kIfbcofxPd88FNJ0QT5B
+	 K0u11APfWf3P2sMG14HB7qU1KDM8mie+lMGsfpRQ=
+Date: Sat, 17 Jun 2023 16:00:02 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Prathu Baronia <prathubaronia2011@gmail.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v5 1/2] axis-fifo: use devm_kasprintf() for allocating
+ formatted strings
+Message-ID: <2023061750-blog-curse-c1a3@gregkh>
+References: <ZIiTL5bzMUgs3L5K@redkillpc>
+ <20230616152602.33232-1-prathubaronia2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230616152602.33232-1-prathubaronia2011@gmail.com>
 
+On Fri, Jun 16, 2023 at 08:55:59PM +0530, Prathu Baronia wrote:
+> In various places, string buffers of a fixed size are allocated, and
+> filled using snprintf() with the same fixed size, which is error-prone.
+> 
+> Replace this by calling devm_kasprintf() instead, which always uses the
+> appropriate size. Allocate the device name with a unique identifier
+> instead of a kernel address.
 
-On 2023-06-17 at 20:15:20 +0800, kernel test robot <lkp@intel.com> wrote:
-> Hi Frank,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on clk/clk-next]
-> [also build test WARNING on linus/master v6.4-rc6 next-20230616]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Oltmanns/clk-fractional-divider-Improve-approximation-when-zero-based-and-export/20230617-183118
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-> patch link:    https://lore.kernel.org/r/20230617102919.27564-3-frank%40oltmanns.dev
-> patch subject: [PATCH v4 2/2] clk: fractional-divider: tests: Add test suite for edge cases
-> config: hexagon-randconfig-r035-20230617 (https://download.01.org/0day-ci/archive/20230617/202306172036.EevtaVp6-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce: (https://download.01.org/0day-ci/archive/20230617/202306172036.EevtaVp6-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306172036.EevtaVp6-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->>> drivers/clk/clk-fractional-divider_test.c:26:41: warning: variable 'max_m' set but not used [-Wunused-but-set-variable]
->       26 |         unsigned long rate, parent_rate, m, n, max_m, max_n;
->          |                                                ^
->    drivers/clk/clk-fractional-divider_test.c:88:41: warning: variable 'max_m' set but not used [-Wunused-but-set-variable]
->       88 |         unsigned long rate, parent_rate, m, n, max_m, max_n;
->          |                                                ^
->    2 warnings generated.
+You are doing two different things here, one is changing the allocation
+way, and the other is the name.  If one of those things turns out to
+break something, we have to revert this whole thing.
 
-Clang compiler warnings are fixed in version 5:
-https://lore.kernel.org/all/20230617131041.18313-1-frank@oltmanns.dev/
+So please make this two different changes, one to change to use
+devm_kasprintf() and the second to change the naming scheme, ESPECIALLY
+as you do not mention the name change in the subject line.  And that's
+going to be a user-visible change, so you need to make that VERY
+obvious.
 
->
->
-> vim +/max_m +26 drivers/clk/clk-fractional-divider_test.c
->
->     15
->     16	/*
->     17	 * Test the maximum denominator case for fd clock without flags.
->     18	 *
->     19	 * Expect the highest possible denominator to be used in order to get as close as possible to the
->     20	 * requested rate.
->     21	 */
->     22	static void clk_fd_test_approximation_max_denominator(struct kunit *test)
->     23	{
->     24		struct clk_fractional_divider *fd;
->     25		struct clk_hw *hw;
->   > 26		unsigned long rate, parent_rate, m, n, max_m, max_n;
->     27
->     28		fd = kunit_kzalloc(test, sizeof(*fd), GFP_KERNEL);
->     29		KUNIT_ASSERT_NOT_NULL(test, fd);
->     30
->     31		fd->mwidth = 3;
->     32		max_m = 7;
->     33		fd->nwidth = 3;
->     34		max_n = 7;
->     35
->     36		hw = &fd->hw;
->     37
->     38		rate = 240000000;
->     39		parent_rate = (max_n + 1) * rate; /* so that it exceeds the maximum divisor */
->     40
->     41		clk_fractional_divider_general_approximation(hw, rate, &parent_rate, &m, &n);
->     42		KUNIT_EXPECT_EQ(test, parent_rate, (max_n + 1) * rate); /* parent remains unchanged */
->     43		KUNIT_EXPECT_EQ(test, m, 1);
->     44		KUNIT_EXPECT_EQ(test, n, max_n);
->     45	}
->     46
+thanks,
+
+greg k-h
