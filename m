@@ -1,42 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85D77481
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 11:55:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961198C0F;
+	Sat, 17 Jun 2023 12:15:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687002937; x=1718538937;
+  t=1687004147; x=1718540147;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=G+HfwYIcm+n32dQlKCCmezW1oWNyiT7XDmX66Zx/zos=;
-  b=FN8Faj1NzxnPiXShCJ4UXCM9Q/iLObRfLWEUQoMQPMuVbWPeK3jMfEww
-   llO2sapz/JKLjYsIRivPHuK5naKeabXw+GkyPE7KYETak0s4ajCJqWlqy
-   djEx2d2ey3GvQFTW7tOQNkuRtXehC7zBX9TR1iePdIrecEiF2s2YYMdCs
-   QHRQ4ffHAazNztwuiZlFpO0IpLFf/7tq3WkAHkzM3kIRfNiQzepxA2zCx
-   rX/fMpsK47K8XRhepPjY4BjQ9vJ7ZzLLDb+GhttEHSxZq9ABx1mqhqH3N
-   5Vd2+JhxJwtssdknSVTS4Y7a7mo4GyVuTz1/xtTJi86EOLh9LN+eV1IxS
+  bh=mQ87SPnE3Di8X8k0ALKsp3NAdHIXJcUi2J4OGCuvT7M=;
+  b=jC0aBWdI1eOU3FDyesENWEP3tJUvux+sKMEA8M6J1SFhEuuZWB0I6Jva
+   oxsm5ueJyD6JHjJ81D79Q610AO/ZREEBDflh+NEz2zuCVQGo2D086Yjya
+   FwSQ21Hhh6om0S6E6REJa3X+EBGwSrLzs4cUPlRgvGv3pKLyXCdP56O2z
+   EYx4uwtT/1aN2IDv+v+1xXOiYA3rG+XoQ//oDYOkQ/3Yifa8DDERk2bxa
+   sGx777Z9LAk8WJ+gUz6ezd2Dut2OwQkKMk19919lEN6CMZ4ubszfTQcYp
+   XxXQAhLtW3za/YklVrn37PbtHZbFKhd2Wtob0NJWVEd0WY3ydaLmYUNaB
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="358255224"
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="344123938"
 X-IronPort-AV: E=Sophos;i="6.00,250,1681196400"; 
-   d="scan'208";a="358255224"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 04:55:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="690546088"
+   d="scan'208";a="344123938"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 05:15:37 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="746738268"
 X-IronPort-AV: E=Sophos;i="6.00,250,1681196400"; 
-   d="scan'208";a="690546088"
+   d="scan'208";a="746738268"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 17 Jun 2023 04:55:32 -0700
+  by orsmga001.jf.intel.com with ESMTP; 17 Jun 2023 05:15:31 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAUWi-0002jQ-0S;
-	Sat, 17 Jun 2023 11:55:32 +0000
-Date: Sat, 17 Jun 2023 19:54:57 +0800
+	id 1qAUq4-0002jg-1C;
+	Sat, 17 Jun 2023 12:15:32 +0000
+Date: Sat, 17 Jun 2023 20:15:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: Frank Oltmanns <frank@oltmanns.dev>,
 	Michael Turquette <mturquette@baylibre.com>,
 	Stephen Boyd <sboyd@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Frank Oltmanns <frank@oltmanns.dev>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Frank Oltmanns <frank@oltmanns.dev>,
 	"A.s. Dong" <aisheng.dong@nxp.com>, Abel Vesa <abelvesa@kernel.org>,
 	Fabio Estevam <festevam@gmail.com>,
 	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
@@ -48,7 +48,7 @@ Cc: oe-kbuild-all@lists.linux.dev, Frank Oltmanns <frank@oltmanns.dev>,
 	Elaine Zhang <zhangqing@rock-chips.com>
 Subject: Re: [PATCH v4 2/2] clk: fractional-divider: tests: Add test suite
  for edge cases
-Message-ID: <202306171912.PqJBpGMg-lkp@intel.com>
+Message-ID: <202306172036.EevtaVp6-lkp@intel.com>
 References: <20230617102919.27564-3-frank@oltmanns.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -74,25 +74,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Oltmanns/clk-fracti
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
 patch link:    https://lore.kernel.org/r/20230617102919.27564-3-frank%40oltmanns.dev
 patch subject: [PATCH v4 2/2] clk: fractional-divider: tests: Add test suite for edge cases
-config: arm-randconfig-r046-20230617 (https://download.01.org/0day-ci/archive/20230617/202306171912.PqJBpGMg-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230617/202306171912.PqJBpGMg-lkp@intel.com/reproduce)
+config: hexagon-randconfig-r035-20230617 (https://download.01.org/0day-ci/archive/20230617/202306172036.EevtaVp6-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230617/202306172036.EevtaVp6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306171912.PqJBpGMg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306172036.EevtaVp6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/clk/clk-fractional-divider_test.c: In function 'clk_fd_test_approximation_max_denominator':
->> drivers/clk/clk-fractional-divider_test.c:26:48: warning: variable 'max_m' set but not used [-Wunused-but-set-variable]
+>> drivers/clk/clk-fractional-divider_test.c:26:41: warning: variable 'max_m' set but not used [-Wunused-but-set-variable]
       26 |         unsigned long rate, parent_rate, m, n, max_m, max_n;
-         |                                                ^~~~~
-   drivers/clk/clk-fractional-divider_test.c: In function 'clk_fd_test_approximation_max_denominator_zero_based':
-   drivers/clk/clk-fractional-divider_test.c:88:48: warning: variable 'max_m' set but not used [-Wunused-but-set-variable]
+         |                                                ^
+   drivers/clk/clk-fractional-divider_test.c:88:41: warning: variable 'max_m' set but not used [-Wunused-but-set-variable]
       88 |         unsigned long rate, parent_rate, m, n, max_m, max_n;
-         |                                                ^~~~~
+         |                                                ^
+   2 warnings generated.
 
 
 vim +/max_m +26 drivers/clk/clk-fractional-divider_test.c
