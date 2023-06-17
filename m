@@ -1,42 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3931117
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 19:55:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D1C7F4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 20:57:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687031751; x=1718567751;
+  t=1687035472; x=1718571472;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ulgh4NO805c699E136QsCaIP9Rq2HBN9RUKpqI6p8rI=;
-  b=KnfKThKDQjuCHrmOQIAMDZcXhlzutfczaolPYnXZKiMq9aMWptrXXf+a
-   60PA323wWBC+MqRohaCc1FRmBaFlphi6X8qkPY25Bijhn9Dwt4Cp1Y2Su
-   smj0DF+Yci9pxyNoLVyJu2nmA7Qn8Hw9jWDorGNTSumIOQPfk9kA+Uu1A
-   3zG+avZ9OOpYXG0elwv+sQMtBydGyc4BqfATT5PCFy+bgO8iw5Wgu6d73
-   CTjs1IJPoUXg4c0UuVfIuDEO7J4VzSuxBxl6nE9BqnUHoYxiNbl0aA7dG
-   Faf7GXHJBsuC0luzsIJ96jY71frLsaWyfUP7GVHGHqd73s/0WvyAbBb+G
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="356912589"
+  bh=hGu2IWjpx7AX/b/cZk/U16XIe2sGuY+x/4nWRxHHlX4=;
+  b=J77vGsBCR6iCOP6nVFV10MKtCkjzjk0dgB8qdlxw7nqj3r38M84mfsSf
+   n4MrN8uxUmVPfgxZAlfb+D0oXVuCYKwJEAVvsOC517IKQ3Tuwyy/2zTRI
+   +O6fGmqwmxtq7IhKxP7YkmVanGb2UpqpiAanMIEPsysEirFjnUxCGJsy2
+   9AH6Cb7py7SgVEKkOYilQlCOdGGHChbwUgvmLGXKDNBRD/2u/bR1AkiK9
+   Bm3o+VXDOdAB3gyTJKjs8nKW/2iwUOYdg8p3Mg/V4CIMhajYAYHkyidAU
+   j9ikFDj+hnz9OsmEQPdM0Ug1/PKehKrQoHaiCSyl/m3TRi1Jd5sco/0SR
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="339759383"
 X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="356912589"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 12:55:50 -0700
+   d="scan'208";a="339759383"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 13:57:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="1043451655"
+X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="857772439"
 X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="1043451655"
+   d="scan'208";a="857772439"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Jun 2023 12:55:49 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2023 13:57:50 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAc1U-000346-28;
-	Sat, 17 Jun 2023 19:55:48 +0000
-Date: Sun, 18 Jun 2023 03:55:03 +0800
+	id 1qAczW-00036W-0J;
+	Sat, 17 Jun 2023 20:57:50 +0000
+Date: Sun, 18 Jun 2023 04:57:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:pr/137 1/7] drivers/gpu/drm/adp/adp_drv.c:220:19:
- warning: no previous prototype for 'adp_plane_new'
-Message-ID: <202306180324.tkmcWrQJ-lkp@intel.com>
+To: Janne Grunau <j@jannau.net>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>
+Subject: [asahilinux:pr/137 6/7] drivers/gpu/drm/adp/adp_drv.c:83:5: warning:
+ no previous prototype for 'adp_open'
+Message-ID: <202306180439.JYORFZCb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,221 +49,47 @@ Content-Disposition: inline
 
 tree:   https://github.com/AsahiLinux/linux pr/137
 head:   76b75538d804ebf2df27f871d68307892ac5d64b
-commit: 4427f8da930cf1ae027422d1ca6c736e21dd0348 [1/7] gpu: drm: adp: Add Apple Display Pipe driver
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230618/202306180324.tkmcWrQJ-lkp@intel.com/config)
+commit: 62bf550c25df552048b0c3fd0e02ee41d86b0943 [6/7] gpu: drm: adp: Refuse X* as client in open()
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230618/202306180439.JYORFZCb-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230618/202306180324.tkmcWrQJ-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230618/202306180439.JYORFZCb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306180324.tkmcWrQJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306180439.JYORFZCb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/adp/adp_drv.c:220:19: warning: no previous prototype for 'adp_plane_new' [-Wmissing-prototypes]
-     220 | struct adp_plane *adp_plane_new(struct adp_drv_private *adp, u8 id)
+>> drivers/gpu/drm/adp/adp_drv.c:83:5: warning: no previous prototype for 'adp_open' [-Wmissing-prototypes]
+      83 | int adp_open(struct inode *inode, struct file *filp)
+         |     ^~~~~~~~
+   drivers/gpu/drm/adp/adp_drv.c:253:19: warning: no previous prototype for 'adp_plane_new' [-Wmissing-prototypes]
+     253 | struct adp_plane *adp_plane_new(struct adp_drv_private *adp, u8 id)
          |                   ^~~~~~~~~~~~~
->> drivers/gpu/drm/adp/adp_drv.c:402:5: warning: no previous prototype for 'adp_detect_ctx' [-Wmissing-prototypes]
-     402 | int adp_detect_ctx(struct drm_connector *connector,
+   drivers/gpu/drm/adp/adp_drv.c:435:5: warning: no previous prototype for 'adp_detect_ctx' [-Wmissing-prototypes]
+     435 | int adp_detect_ctx(struct drm_connector *connector,
          |     ^~~~~~~~~~~~~~
 
 
-vim +/adp_plane_new +220 drivers/gpu/drm/adp/adp_drv.c
+vim +/adp_open +83 drivers/gpu/drm/adp/adp_drv.c
 
-   219	
- > 220	struct adp_plane *adp_plane_new(struct adp_drv_private *adp, u8 id)
-   221	{
-   222		struct drm_device *drm = &adp->drm;
-   223		struct adp_plane *plane;
-   224		enum drm_plane_type plane_type;
-   225	
-   226		plane_type = (id == 0) ? DRM_PLANE_TYPE_PRIMARY :
-   227			DRM_PLANE_TYPE_OVERLAY;
-   228	
-   229		plane = drmm_universal_plane_alloc(drm, struct adp_plane, base_plane,
-   230						   ALL_CRTCS, &adp_plane_funcs,
-   231						   plane_formats, ARRAY_SIZE(plane_formats),
-   232						   NULL, plane_type, "plane %d", id);
-   233		if (!plane) {
-   234			drm_err(drm, "failed to allocate plane");
-   235			return ERR_PTR(-ENOMEM);
-   236		}
-   237		plane->id = id;
-   238	
-   239		drm_plane_helper_add(&plane->base_plane, &adp_plane_helper_funcs);
-   240		return plane;
-   241	}
-   242	
-   243	static void adp_enable_vblank(struct adp_drv_private *adp)
-   244	{
-   245		u32 cur_ctrl;
-   246	
-   247		writel(ADP_INT_STATUS_INT_MASK, adp->fe + ADP_INT_STATUS);
-   248	
-   249		cur_ctrl = readl(adp->fe + ADP_CTRL);
-   250		writel(cur_ctrl | ADP_CTRL_VBLANK_ON, adp->fe + ADP_CTRL);
-   251	}
-   252	
-   253	static int adp_crtc_enable_vblank(struct drm_crtc *crtc)
-   254	{
-   255		struct drm_device *dev = crtc->dev;
-   256		struct adp_drv_private *adp = to_adp(dev);
-   257		adp_enable_vblank(adp);
-   258	
-   259		return 0;
-   260	}
-   261	
-   262	static void adp_disable_vblank(struct adp_drv_private *adp)
-   263	{
-   264		u32 cur_ctrl;
-   265	
-   266		cur_ctrl = readl(adp->fe + ADP_CTRL);
-   267		writel(cur_ctrl & ~ADP_CTRL_VBLANK_ON, adp->fe + ADP_CTRL);
-   268		writel(ADP_INT_STATUS_INT_MASK, adp->fe + ADP_INT_STATUS);
-   269	}
-   270	
-   271	static void adp_crtc_disable_vblank(struct drm_crtc *crtc)
-   272	{
-   273		struct drm_device *dev = crtc->dev;
-   274		struct adp_drv_private *adp = to_adp(dev);
-   275	
-   276		adp_disable_vblank(adp);
-   277	}
-   278	
-   279	
-   280	static void adp_crtc_atomic_enable(struct drm_crtc *crtc,
-   281					   struct drm_atomic_state *state)
-   282	{
-   283		struct adp_drv_private *adp = crtc_to_adp(crtc);
-   284		writel(0x1, adp->be + ADBE_BLEND_EN2);
-   285		writel(0x10, adp->be + ADBE_BLEND_EN1);
-   286		writel(0x1, adp->be + ADBE_BLEND_EN3);
-   287		writel(0x1, adp->be + ADBE_BLEND_BYPASS);
-   288		writel(0x1, adp->be + ADBE_BLEND_EN4);
-   289	}
-   290	
-   291	static void adp_crtc_atomic_disable(struct drm_crtc *crtc,
-   292					    struct drm_atomic_state *state)
-   293	{
-   294		struct adp_drv_private *adp = crtc_to_adp(crtc);
-   295		struct drm_crtc_state *old_state = drm_atomic_get_old_crtc_state(state, crtc);
-   296	
-   297		drm_atomic_helper_disable_planes_on_crtc(old_state, false);
-   298	
-   299		writel(0x0, adp->be + ADBE_BLEND_EN2);
-   300		writel(0x0, adp->be + ADBE_BLEND_EN1);
-   301		writel(0x0, adp->be + ADBE_BLEND_EN3);
-   302		writel(0x0, adp->be + ADBE_BLEND_BYPASS);
-   303		writel(0x0, adp->be + ADBE_BLEND_EN4);
-   304		drm_crtc_vblank_off(crtc);
-   305	}
-   306	
-   307	static void adp_crtc_atomic_flush(struct drm_crtc *crtc,
-   308					  struct drm_atomic_state *state)
-   309	{
-   310		u32 frame_num = 1;
-   311		struct adp_drv_private *adp = crtc_to_adp(crtc);
-   312		struct drm_crtc_state *new_state = drm_atomic_get_new_crtc_state(state, crtc);
-   313		u64 new_size = ALIGN(new_state->mode.hdisplay *
-   314				     new_state->mode.vdisplay * 4, PAGE_SIZE);
-   315	
-   316		if (new_size != adp->mask_buf_size) {
-   317			if (adp->mask_buf)
-   318				dma_free_coherent(crtc->dev->dev, adp->mask_buf_size,
-   319						  adp->mask_buf, adp->mask_iova);
-   320			adp->mask_buf = NULL;
-   321			if (new_size != 0) {
-   322				adp->mask_buf = dma_alloc_coherent(crtc->dev->dev, new_size,
-   323								   &adp->mask_iova, GFP_KERNEL);
-   324				memset(adp->mask_buf, 0xFF, new_size);
-   325				writel(adp->mask_iova, adp->be + ADBE_MASK_BUF);
-   326			}
-   327			adp->mask_buf_size = new_size;
-   328		}
-   329		writel(ADBE_FIFO_SYNC | frame_num, adp->be + ADBE_FIFO);
-   330		//FIXME: use adbe flush interrupt
-   331		spin_lock_irq(&crtc->dev->event_lock);
-   332		if (crtc->state->event) {
-   333			drm_crtc_vblank_get(crtc);
-   334			adp->event = crtc->state->event;
-   335		}
-   336		crtc->state->event = NULL;
-   337		spin_unlock_irq(&crtc->dev->event_lock);
-   338	}
-   339	
-   340	static const struct drm_crtc_funcs adp_crtc_funcs = {
-   341		.destroy = drm_crtc_cleanup,
-   342		.set_config = drm_atomic_helper_set_config,
-   343		.page_flip = drm_atomic_helper_page_flip,
-   344		.reset = drm_atomic_helper_crtc_reset,
-   345		.atomic_duplicate_state = drm_atomic_helper_crtc_duplicate_state,
-   346		.atomic_destroy_state = drm_atomic_helper_crtc_destroy_state,
-   347		.enable_vblank = adp_crtc_enable_vblank,
-   348		.disable_vblank = adp_crtc_disable_vblank,
-   349	};
-   350	
-   351	
-   352	static const struct drm_crtc_helper_funcs adp_crtc_helper_funcs = {
-   353		.atomic_enable = adp_crtc_atomic_enable,
-   354		.atomic_disable = adp_crtc_atomic_disable,
-   355		.atomic_flush = adp_crtc_atomic_flush,
-   356	};
-   357	
-   358	static int adp_setup_crtc(struct adp_drv_private *adp)
-   359	{
-   360		struct drm_device *drm = &adp->drm;
-   361		struct adp_plane *primary;
-   362		int ret;
-   363	
-   364		primary = adp_plane_new(adp, 0);
-   365		if (IS_ERR(primary))
-   366			return PTR_ERR(primary);
-   367	
-   368		ret = drm_crtc_init_with_planes(drm, &adp->crtc, &primary->base_plane,
-   369						NULL, &adp_crtc_funcs, NULL);
-   370		if (ret)
-   371			return ret;
-   372	
-   373		drm_crtc_helper_add(&adp->crtc, &adp_crtc_helper_funcs);
-   374		return 0;
-   375	}
-   376	
-   377	static int adp_get_modes(struct drm_connector *connector)
-   378	{
-   379		struct adp_drv_private *adp = conn_to_adp(connector);
-   380		struct drm_display_mode *mode;
-   381		u32 size;
-   382	
-   383		size = readl(adp->fe + ADP_SCREEN_SIZE);
-   384		mode = drm_mode_create(connector->dev);
-   385	
-   386		mode->vdisplay = size >> 16;
-   387		mode->hdisplay = size & 0xFFFF;
-   388		mode->hsync_start = mode->hdisplay + 8;
-   389		mode->hsync_end = mode->hsync_start + 80;
-   390		mode->htotal = mode->hsync_end + 40;
-   391		mode->vsync_start = mode->vdisplay + 1;
-   392		mode->vsync_end = mode->vsync_start + 15;
-   393		mode->vtotal = mode->vsync_end + 6;
-   394		mode->clock = (mode->vtotal * mode->htotal * 60) / 1000;
-   395		mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-   396		mode->flags = DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NVSYNC;
-   397		drm_mode_set_name(mode);
-   398		drm_mode_probed_add(connector, mode);
-   399		return 1;
-   400	}
-   401	
- > 402	int adp_detect_ctx(struct drm_connector *connector,
-   403			   struct drm_modeset_acquire_ctx *ctx,
-   404			   bool force) {
-   405		connector->display_info.non_desktop = true;
-   406		drm_object_property_set_value(&connector->base,
-   407					      connector->dev->mode_config.non_desktop_property,
-   408					      connector->display_info.non_desktop);
-   409		return connector_status_connected;
-   410	}
-   411	
+    82	
+  > 83	int adp_open(struct inode *inode, struct file *filp)
+    84	{
+    85		/*
+    86		 * The modesetting driver does not check the non-desktop connector
+    87		 * property and keeps the device open and locked. If the touchbar daemon
+    88		 * opens the device first modesetting breaks the whole X session.
+    89		 * Simply refuse to open the device for X11 server processes as
+    90		 * workaround.
+    91		 */
+    92		if (current->comm[0] == 'X')
+    93			return -EBUSY;
+    94	
+    95		return drm_open(inode, filp);
+    96	}
+    97	
 
 -- 
 0-DAY CI Kernel Test Service
