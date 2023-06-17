@@ -1,44 +1,47 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1982E0EA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 07:00:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289784C7E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 09:13:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686985222; x=1718521222;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=18EXmf1ImqqBQryVs0M61kNZg8/G3F7WDm4OV3eMEvc=;
-  b=YauU3AmGEXIkdfyzB5nOg9TzJ43JtS4Zhwwk4m9ZF+KxKWUgsiyoaYPZ
-   +7SbY5mt75pBulZAtR/iM8bv9KMep71n5NoPihL0EPslSbitoMRR6IIVj
-   T2bADrhfBvm+BhvpRMOAcZzTbdrL3OtWH32zwC5NWxT1HvqkU5q26omVR
-   LTPLo7tdbLXCZ/WBEu7y6S0xHMb1Mv9gbhBZXR/BFKxYlvf9grCrH7fWE
-   qu+qIxlEBzyFGgcV0y8tQQnf4Fnj8bxRjvk0A8JL6EYQWJKVwjp7Sn/Yi
-   zwGKToSaItHPDPft1q4g6FU2NFS4Ial5vIgigYLeGkiXXp9zoyPQ1vJiK
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="361903327"
+  t=1686993210; x=1718529210;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=08QS7Gwvov/7c+f5JerWj3mbiwURUQm6js4XGT9n+oU=;
+  b=AJZzpSzbM+my3uszudIzn78E/wJxfNuGAbGEP/p7V5jvA6Mq0LMqLM4z
+   REvR6HT/92vHSzQnLTT5vtSoIgM/zJs66vVqyWJja5oSII4vPE1rmorHV
+   rWIdM8FLDTBWplt94LIAwUbHvGzdrK+2kcN2DtAozllJPCLt+wtWK7pg3
+   MRq3jiLpkg6LLUBIb5+mR+wwik9f64lW+tAxJdzOHwzQPx0eErhof3HSB
+   C9aQzqPSQtOuUtuOFFbuJuDUOslLQUTuXixRPs3zYvAcYqFlx5mI1+mEf
+   GPxNcOTWSK1eR2b0YGnJsuNHrdw7j5NOn64g7xy0Bs4VDCkV4nixVVlXF
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="425317281"
 X-IronPort-AV: E=Sophos;i="6.00,250,1681196400"; 
-   d="scan'208";a="361903327"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 00:00:21 -0700
+   d="scan'208";a="425317281"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 02:13:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="713122387"
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="887374515"
 X-IronPort-AV: E=Sophos;i="6.00,250,1681196400"; 
-   d="scan'208";a="713122387"
+   d="scan'208";a="887374515"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 17 Jun 2023 00:00:20 -0700
+  by orsmga005.jf.intel.com with ESMTP; 17 Jun 2023 02:13:26 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAPv2-0002Q5-07;
-	Sat, 17 Jun 2023 07:00:20 +0000
-Date: Sat, 17 Jun 2023 14:59:19 +0800
+	id 1qARzp-0002Zf-2S;
+	Sat, 17 Jun 2023 09:13:25 +0000
+Date: Sat, 17 Jun 2023 17:12:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dexuan Cui <decui@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>,
-	Michael Kelley <mikelley@microsoft.com>
-Subject: [dcui-tdx:decui/upstream-tip/x86/tdx/v7-wip 7/15]
- arch/x86/hyperv/ivm.c:427: undefined reference to `__tdx_hypercall_ret'
-Message-ID: <202306171459.JCFAEPYe-lkp@intel.com>
+To: Miaohe Lin <linmiaohe@huawei.com>, hannes@cmpxchg.org,
+	mhocko@kernel.org, roman.gushchin@linux.dev, shakeelb@google.com,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, muchun.song@linux.dev,
+	cgroups@vger.kernel.org, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linmiaohe@huawei.com
+Subject: Re: [PATCH] memcg: remove unneeded header files
+Message-ID: <202306171649.O90yt13M-lkp@intel.com>
+References: <20230617072658.1826560-1-linmiaohe@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,45 +50,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230617072658.1826560-1-linmiaohe@huawei.com>
 
-tree:   https://github.com/dcui/tdx decui/upstream-tip/x86/tdx/v7-wip
-head:   2ed5ddebd0892b9aba336de12ecfef74076d1ce9
-commit: c95e14c94d53cbb21418b661eb397cee1c67dd24 [7/15] x86/hyperv: Support hypercalls for TDX guests
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230617/202306171459.JCFAEPYe-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build):
-        # https://github.com/dcui/tdx/commit/c95e14c94d53cbb21418b661eb397cee1c67dd24
-        git remote add dcui-tdx https://github.com/dcui/tdx
-        git fetch --no-tags dcui-tdx decui/upstream-tip/x86/tdx/v7-wip
-        git checkout c95e14c94d53cbb21418b661eb397cee1c67dd24
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 olddefconfig
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash
+Hi Miaohe,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.4-rc6 next-20230616]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Miaohe-Lin/memcg-remove-unneeded-header-files/20230617-152922
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230617072658.1826560-1-linmiaohe%40huawei.com
+patch subject: [PATCH] memcg: remove unneeded header files
+config: nios2-randconfig-r004-20230617 (https://download.01.org/0day-ci/archive/20230617/202306171649.O90yt13M-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230617/202306171649.O90yt13M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306171459.JCFAEPYe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306171649.O90yt13M-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `hv_tdx_hypercall':
->> arch/x86/hyperv/ivm.c:427: undefined reference to `__tdx_hypercall_ret'
+   mm/memcontrol.c: In function 'mem_cgroup_css_offline':
+>> mm/memcontrol.c:5447:9: error: implicit declaration of function 'wb_memcg_offline' [-Werror=implicit-function-declaration]
+    5447 |         wb_memcg_offline(memcg);
+         |         ^~~~~~~~~~~~~~~~
+   mm/memcontrol.c: In function 'mem_cgroup_move_account':
+>> mm/memcontrol.c:5788:29: error: implicit declaration of function 'mapping_can_writeback'; did you mean 'mapping_map_writable'? [-Werror=implicit-function-declaration]
+    5788 |                         if (mapping_can_writeback(mapping)) {
+         |                             ^~~~~~~~~~~~~~~~~~~~~
+         |                             mapping_map_writable
+   cc1: some warnings being treated as errors
 
 
-vim +427 arch/x86/hyperv/ivm.c
+vim +/wb_memcg_offline +5447 mm/memcontrol.c
 
-   418	
-   419	u64 hv_tdx_hypercall(u64 control, u64 param1, u64 param2)
-   420	{
-   421		struct tdx_hypercall_args args = { };
-   422	
-   423		args.r10 = control;
-   424		args.rdx = param1;
-   425		args.r8  = param2;
-   426	
- > 427		(void)__tdx_hypercall_ret(&args);
+8cdea7c0545426 Balbir Singh      2008-02-07  5424  
+eb95419b023aba Tejun Heo         2013-08-08  5425  static void mem_cgroup_css_offline(struct cgroup_subsys_state *css)
+df878fb04dea04 KAMEZAWA Hiroyuki 2008-02-07  5426  {
+eb95419b023aba Tejun Heo         2013-08-08  5427  	struct mem_cgroup *memcg = mem_cgroup_from_css(css);
+3bc942f372af38 Tejun Heo         2013-11-22  5428  	struct mem_cgroup_event *event, *tmp;
+79bd9814e5ec9a Tejun Heo         2013-11-22  5429  
+79bd9814e5ec9a Tejun Heo         2013-11-22  5430  	/*
+79bd9814e5ec9a Tejun Heo         2013-11-22  5431  	 * Unregister events and notify userspace.
+79bd9814e5ec9a Tejun Heo         2013-11-22  5432  	 * Notify userspace about cgroup removing only after rmdir of cgroup
+79bd9814e5ec9a Tejun Heo         2013-11-22  5433  	 * directory to avoid race between userspace and kernelspace.
+79bd9814e5ec9a Tejun Heo         2013-11-22  5434  	 */
+4ba9515d32bac1 Shakeel Butt      2021-09-02  5435  	spin_lock_irq(&memcg->event_list_lock);
+fba94807837850 Tejun Heo         2013-11-22  5436  	list_for_each_entry_safe(event, tmp, &memcg->event_list, list) {
+79bd9814e5ec9a Tejun Heo         2013-11-22  5437  		list_del_init(&event->list);
+79bd9814e5ec9a Tejun Heo         2013-11-22  5438  		schedule_work(&event->remove);
+79bd9814e5ec9a Tejun Heo         2013-11-22  5439  	}
+4ba9515d32bac1 Shakeel Butt      2021-09-02  5440  	spin_unlock_irq(&memcg->event_list_lock);
+ec64f51545fffb KAMEZAWA Hiroyuki 2009-04-02  5441  
+bf8d5d52ffe89a Roman Gushchin    2018-06-07  5442  	page_counter_set_min(&memcg->memory, 0);
+230671533d6463 Roman Gushchin    2018-06-07  5443  	page_counter_set_low(&memcg->memory, 0);
+63677c745d63ba Roman Gushchin    2017-09-06  5444  
+567e9ab2e614e5 Johannes Weiner   2016-01-20  5445  	memcg_offline_kmem(memcg);
+a178015cde6998 Yang Shi          2021-05-04  5446  	reparent_shrinker_deferred(memcg);
+52ebea749aaed1 Tejun Heo         2015-05-22 @5447  	wb_memcg_offline(memcg);
+e4dde56cd20867 Yu Zhao           2022-12-21  5448  	lru_gen_offline_memcg(memcg);
+73f576c04b9410 Johannes Weiner   2016-07-20  5449  
+591edfb10a949d Roman Gushchin    2018-10-26  5450  	drain_all_stock(memcg);
+591edfb10a949d Roman Gushchin    2018-10-26  5451  
+73f576c04b9410 Johannes Weiner   2016-07-20  5452  	mem_cgroup_id_put(memcg);
+df878fb04dea04 KAMEZAWA Hiroyuki 2008-02-07  5453  }
+df878fb04dea04 KAMEZAWA Hiroyuki 2008-02-07  5454  
 
 -- 
 0-DAY CI Kernel Test Service
