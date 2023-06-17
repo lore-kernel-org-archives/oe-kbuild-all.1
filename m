@@ -1,42 +1,43 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1973D3C0A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 10:48:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC903C0A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 17 Jun 2023 10:48:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1686998912; x=1718534912;
+  t=1686998914; x=1718534914;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0B16iPGijcdEmqnoTJ7HHdiLq3JYhlxBHUx2ubb9VJg=;
-  b=DwFHjQTieD6nUVTaYjyAGTtQWRowGEUmuULkfI7hhuzaf97NdmRALrye
-   J1txEqzuuO9y2g3GCoalZH2Y5OL2q91dQ6eqIuhH4KH1elXIfQA6usJ2b
-   QS3sJokdk76jbrRTJJseVFFXzPIfILXAv+kuCD6YzXiEVJVZWY5EWpJGs
-   od/zkdk0zlTkUmvT2ZM2f+KxgGvIohRZQj6llo2+8DDhhybS1JVjjwIfM
-   iTuZVKEYd8LhDdF1agce3jC2IDYVPwkGmvVb7Kip1ltthlA+If3KvflGD
-   bEF/EvN/Bap89POrmkzcF9AtY49+7UpYGR0nioMJF0RNc7VN3yELHhncU
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="344119422"
+  bh=2C9kDsHraKXEmCFYQQR1MEMei5BSURlLv7bj1/ra/uA=;
+  b=MLl3VKHcM+gwzSXhMpC/bl5Ngty046SQ1thAXDs/grwgUggzb6CF7zW0
+   euaO7glJGl4lIoR7JQjpdTKUo7zvue9LVepEdgmVBHESYULL2dHDmDCR6
+   pa+f+9nUOkk2IzLXNdgxVOqPxIhbFCN7+wNnucHihKXQywdLnFsmSwDS/
+   uNyO20uSzZhXpeRgp1rm06O+vlKxpmX+Y3/mFsr576uEpBVk5GYcm1XE9
+   IcXbrVslblcpx0vqI98vvRqqQQBQ1g5i4lZ+vDbyIsOFOkwwsEcI1jP0W
+   HCw1a2N3IKZUnEk8DJHBn6faUYNpanVjn1zNKdFMB1jjXwZXDFLNi/Uaj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="344119420"
 X-IronPort-AV: E=Sophos;i="6.00,250,1681196400"; 
-   d="scan'208";a="344119422"
+   d="scan'208";a="344119420"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
   by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 03:48:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="803106210"
+X-IronPort-AV: E=McAfee;i="6600,9927,10743"; a="803106209"
 X-IronPort-AV: E=Sophos;i="6.00,250,1681196400"; 
-   d="scan'208";a="803106210"
+   d="scan'208";a="803106209"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 17 Jun 2023 03:48:30 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qATTp-0002gG-2B;
+	id 1qATTp-0002gE-23;
 	Sat, 17 Jun 2023 10:48:29 +0000
-Date: Sat, 17 Jun 2023 18:48:04 +0800
+Date: Sat, 17 Jun 2023 18:47:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/spi/spi-mpc52xx-psc.c:195:5: warning: no previous prototype
- for 'mpc52xx_psc_spi_transfer_one_message'
-Message-ID: <202306171837.X7dsEWDB-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:arcvm12-5.10 6733/27680]
+ arch/arm64/kvm/fpsimd.c:129:33: error: implicit declaration of function
+ 'sve_cond_update_zcr_vq'
+Message-ID: <202306171854.v8E1clCt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,77 +47,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mark,
+Hi Marc,
 
 FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1639fae5132bc8a904af28d97cea0bedb3af802e
-commit: 145cfc3840e5931a789a8e2e76af841ab4cad44b spi: mpc52xx-psc: Switch to using core message queue
-date:   12 months ago
-config: powerpc-randconfig-r032-20230617 (https://download.01.org/0day-ci/archive/20230617/202306171837.X7dsEWDB-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230617/202306171837.X7dsEWDB-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common arcvm12-5.10
+head:   1d52f82a5a291f35847b6d4ddae50955aad91a50
+commit: b0e15c8c44275afef4aacfb1560e38b974b02ac8 [6733/27680] FROMGIT: KVM: arm64: Save/restore SVE state for nVHE
+config: arm64-randconfig-r016-20230616 (https://download.01.org/0day-ci/archive/20230617/202306171854.v8E1clCt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230617/202306171854.v8E1clCt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306171837.X7dsEWDB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306171854.v8E1clCt-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/spi/spi-mpc52xx-psc.c:195:5: warning: no previous prototype for 'mpc52xx_psc_spi_transfer_one_message' [-Wmissing-prototypes]
-     195 | int mpc52xx_psc_spi_transfer_one_message(struct spi_controller *ctlr,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/fpsimd.c: In function 'kvm_arch_vcpu_put_fp':
+>> arch/arm64/kvm/fpsimd.c:129:33: error: implicit declaration of function 'sve_cond_update_zcr_vq' [-Werror=implicit-function-declaration]
+     129 |                                 sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/mpc52xx_psc_spi_transfer_one_message +195 drivers/spi/spi-mpc52xx-psc.c
+vim +/sve_cond_update_zcr_vq +129 arch/arm64/kvm/fpsimd.c
 
-   194	
- > 195	int mpc52xx_psc_spi_transfer_one_message(struct spi_controller *ctlr,
-   196						 struct spi_message *m)
-   197	{
-   198		struct spi_device *spi;
-   199		struct spi_transfer *t = NULL;
-   200		unsigned cs_change;
-   201		int status;
-   202	
-   203		spi = m->spi;
-   204		cs_change = 1;
-   205		status = 0;
-   206		list_for_each_entry (t, &m->transfers, transfer_list) {
-   207			if (t->bits_per_word || t->speed_hz) {
-   208				status = mpc52xx_psc_spi_transfer_setup(spi, t);
-   209				if (status < 0)
-   210					break;
-   211			}
-   212	
-   213			if (cs_change)
-   214				mpc52xx_psc_spi_activate_cs(spi);
-   215			cs_change = t->cs_change;
-   216	
-   217			status = mpc52xx_psc_spi_transfer_rxtx(spi, t);
-   218			if (status)
-   219				break;
-   220			m->actual_length += t->len;
-   221	
-   222			spi_transfer_delay_exec(t);
-   223	
-   224			if (cs_change)
-   225				mpc52xx_psc_spi_deactivate_cs(spi);
-   226		}
-   227	
-   228		m->status = status;
-   229		if (status || !cs_change)
-   230			mpc52xx_psc_spi_deactivate_cs(spi);
-   231	
-   232		mpc52xx_psc_spi_transfer_setup(spi, NULL);
-   233	
-   234		spi_finalize_current_message(ctlr);
-   235	
-   236		return 0;
-   237	}
-   238	
+   108	
+   109	/*
+   110	 * Write back the vcpu FPSIMD regs if they are dirty, and invalidate the
+   111	 * cpu FPSIMD regs so that they can't be spuriously reused if this vcpu
+   112	 * disappears and another task or vcpu appears that recycles the same
+   113	 * struct fpsimd_state.
+   114	 */
+   115	void kvm_arch_vcpu_put_fp(struct kvm_vcpu *vcpu)
+   116	{
+   117		unsigned long flags;
+   118		bool host_has_sve = system_supports_sve();
+   119		bool guest_has_sve = vcpu_has_sve(vcpu);
+   120	
+   121		local_irq_save(flags);
+   122	
+   123		if (vcpu->arch.flags & KVM_ARM64_FP_ENABLED) {
+   124			if (guest_has_sve) {
+   125				__vcpu_sys_reg(vcpu, ZCR_EL1) = read_sysreg_el1(SYS_ZCR);
+   126	
+   127				/* Restore the VL that was saved when bound to the CPU */
+   128				if (!has_vhe())
+ > 129					sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1,
 
 -- 
 0-DAY CI Kernel Test Service
