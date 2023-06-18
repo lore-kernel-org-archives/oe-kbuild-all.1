@@ -1,42 +1,43 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8128FA23
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jun 2023 05:22:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB15310F9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jun 2023 05:22:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687065728; x=1718601728;
+  t=1687065730; x=1718601730;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=O52Lj54Vp17IDPRWK2O3NYG6U8qvaWARDBgnHzK+XXQ=;
-  b=CIw+WB43VneBsLJ93Avj6mGISK3Bpkw4NWXFIKmB6cGfjq4RqgP8EPyq
-   HbxFBgL2IuChnG7oSckVSUj2JPLpWtEv22PwFyPUCi7xIoBxRJRY1J/En
-   J+zWR6vFPv1YUP8RXWNAs2G3Av6K/pglgorkFUfFqRX0woGsU0gG8g0NZ
-   s0syFRyq/08FAOg3IraZrjrbEYGt+llNAsdBict+PYXTLNhpFW1X/TZMI
-   /JGF3O05/xE6Y6qxqPX4kF7BOLdzvZHDhP9107ghYqQpY+7rPvXGa/3Vo
-   ZxvfLCQsRQogO4hSzzFAzG9lEeo05n89aNIbfHtQE7hXNCxZAqtpZd/UE
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="356938667"
+  bh=jDo7zH6R3od1M/EGDwVcuWYWNzpXkmZ1gDk3i4KQia4=;
+  b=G9syn9ZeYejw7DGMsm1ykgDZM1G/v0GcK0cFEKwlX7Pn723wk84gRAFu
+   lg6WGQpwTZqHeys8vwJlIlFj2+3tNky55ukBUflPtkfyR4m7HK13LNelC
+   E6b9OsThQu/T65xqCPnEtYYm5KOqRrxsULgzORgrqUFT8GGevzVH0LPEG
+   3AnJV4gfWpGjgmOzBq8bP8azbqIBH7zbdPPe1YPoHclBnpDcXpT6ID4aG
+   7ADhp6wMcXSsh/pabmxg1l7/G3e3ZroaDWqWtKRnDofMAEfe6vNHqWYuO
+   oJlnxnSifNlDZ9IC6L7uMFZKqyuDdX1Ngb/lPg2xb75fi0kuMex8SJz4h
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="356938668"
 X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="356938667"
+   d="scan'208";a="356938668"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 22:22:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="783363622"
+X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="783363623"
 X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="783363622"
+   d="scan'208";a="783363623"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 17 Jun 2023 22:22:05 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAkrV-0003Sm-08;
-	Sun, 18 Jun 2023 05:22:05 +0000
-Date: Sun, 18 Jun 2023 13:21:34 +0800
+	id 1qAkrU-0003Si-3B;
+	Sun, 18 Jun 2023 05:22:04 +0000
+Date: Sun, 18 Jun 2023 13:21:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:upstream-f2fs-stable-linux-4.19.y 468/1172]
- fs/crypto/fname.c:87:17: sparse: sparse: Variable length array is used.
-Message-ID: <202306181312.q4aDUvgI-lkp@intel.com>
+Subject: [sashal-stable:pending-5.10 61/71]
+ drivers/net/ethernet/intel/igc/igc_main.c:5420:9: error: implicit
+ declaration of function 'pci_disable_ptm'; did you mean 'pci_disable_rom'?
+Message-ID: <202306181325.6RXpGrr9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,76 +47,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common upstream-f2fs-stable-linux-4.19.y
-head:   b9aeb147225616494256fcf913c559afd4088a05
-commit: 86eb43f574e090ecb3a2ca7366f4c74bd6ab3df2 [468/1172] fscrypt: improve format of no-key names
-config: i386-randconfig-s002-20230614 (https://download.01.org/0day-ci/archive/20230618/202306181312.q4aDUvgI-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
+head:   87acf79f290bed063b819f50da30208e7d2a263a
+commit: c074b9f5ab1ed5f73eb9cab7b1a3bcea36a1f1c5 [61/71] igc: Fix possible system crash when loading module
+config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230618/202306181325.6RXpGrr9-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230618/202306181312.q4aDUvgI-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230618/202306181325.6RXpGrr9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306181312.q4aDUvgI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306181325.6RXpGrr9-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/crypto/fname.c:87:17: sparse: sparse: Variable length array is used.
-   fs/crypto/fname.c:55: warning: Function parameter or member 'dirhash' not described in 'fscrypt_nokey_name'
-   fs/crypto/fname.c:55: warning: Function parameter or member 'bytes' not described in 'fscrypt_nokey_name'
-   fs/crypto/fname.c:55: warning: Function parameter or member 'sha256' not described in 'fscrypt_nokey_name'
-   fs/crypto/fname.c:117: warning: Function parameter or member 'inode' not described in 'fscrypt_fname_encrypt'
-   fs/crypto/fname.c:117: warning: Function parameter or member 'iname' not described in 'fscrypt_fname_encrypt'
-   fs/crypto/fname.c:117: warning: Function parameter or member 'out' not described in 'fscrypt_fname_encrypt'
-   fs/crypto/fname.c:117: warning: Function parameter or member 'olen' not described in 'fscrypt_fname_encrypt'
-   fs/crypto/fname.c:169: warning: Function parameter or member 'inode' not described in 'fname_decrypt'
-   fs/crypto/fname.c:169: warning: Function parameter or member 'iname' not described in 'fname_decrypt'
-   fs/crypto/fname.c:169: warning: Function parameter or member 'oname' not described in 'fname_decrypt'
-   fs/crypto/fname.c:218: warning: Function parameter or member 'src' not described in 'base64_encode'
-   fs/crypto/fname.c:218: warning: Function parameter or member 'len' not described in 'base64_encode'
-   fs/crypto/fname.c:218: warning: Function parameter or member 'dst' not described in 'base64_encode'
-   fs/crypto/fname.c:286: warning: Function parameter or member 'inode' not described in 'fscrypt_fname_alloc_buffer'
-   fs/crypto/fname.c:286: warning: Function parameter or member 'max_encrypted_len' not described in 'fscrypt_fname_alloc_buffer'
-   fs/crypto/fname.c:286: warning: Function parameter or member 'crypto_str' not described in 'fscrypt_fname_alloc_buffer'
-   fs/crypto/fname.c:306: warning: Function parameter or member 'crypto_str' not described in 'fscrypt_fname_free_buffer'
-   fs/crypto/fname.c:330: warning: Function parameter or member 'inode' not described in 'fscrypt_fname_disk_to_usr'
-   fs/crypto/fname.c:330: warning: Function parameter or member 'hash' not described in 'fscrypt_fname_disk_to_usr'
-   fs/crypto/fname.c:330: warning: Function parameter or member 'minor_hash' not described in 'fscrypt_fname_disk_to_usr'
-   fs/crypto/fname.c:330: warning: Function parameter or member 'iname' not described in 'fscrypt_fname_disk_to_usr'
-   fs/crypto/fname.c:330: warning: Function parameter or member 'oname' not described in 'fscrypt_fname_disk_to_usr'
+All errors (new ones prefixed by >>):
 
-vim +87 fs/crypto/fname.c
+   drivers/net/ethernet/intel/igc/igc_main.c: In function 'igc_remove':
+>> drivers/net/ethernet/intel/igc/igc_main.c:5420:9: error: implicit declaration of function 'pci_disable_ptm'; did you mean 'pci_disable_rom'? [-Werror=implicit-function-declaration]
+    5420 |         pci_disable_ptm(pdev);
+         |         ^~~~~~~~~~~~~~~
+         |         pci_disable_rom
+   cc1: some warnings being treated as errors
 
-    65	
-    66	static int fscrypt_do_sha256(const u8 *data, unsigned int data_len, u8 *result)
-    67	{
-    68		struct crypto_shash *tfm = READ_ONCE(sha256_hash_tfm);
-    69	
-    70		if (unlikely(!tfm)) {
-    71			struct crypto_shash *prev_tfm;
-    72	
-    73			tfm = crypto_alloc_shash("sha256", 0, 0);
-    74			if (IS_ERR(tfm)) {
-    75				fscrypt_err(NULL,
-    76					    "Error allocating SHA-256 transform: %ld",
-    77					    PTR_ERR(tfm));
-    78				return PTR_ERR(tfm);
-    79			}
-    80			prev_tfm = cmpxchg(&sha256_hash_tfm, NULL, tfm);
-    81			if (prev_tfm) {
-    82				crypto_free_shash(tfm);
-    83				tfm = prev_tfm;
-    84			}
-    85		}
-    86		{
-  > 87			SHASH_DESC_ON_STACK(desc, tfm);
-    88	
-    89			desc->tfm = tfm;
-    90			desc->flags = 0;
-    91	
-    92			return crypto_shash_digest(desc, data, data_len, result);
-    93		}
-    94	}
-    95	
+
+vim +5420 drivers/net/ethernet/intel/igc/igc_main.c
+
+  5399	
+  5400	/**
+  5401	 * igc_remove - Device Removal Routine
+  5402	 * @pdev: PCI device information struct
+  5403	 *
+  5404	 * igc_remove is called by the PCI subsystem to alert the driver
+  5405	 * that it should release a PCI device.  This could be caused by a
+  5406	 * Hot-Plug event, or because the driver is going to be removed from
+  5407	 * memory.
+  5408	 */
+  5409	static void igc_remove(struct pci_dev *pdev)
+  5410	{
+  5411		struct net_device *netdev = pci_get_drvdata(pdev);
+  5412		struct igc_adapter *adapter = netdev_priv(netdev);
+  5413	
+  5414		pm_runtime_get_noresume(&pdev->dev);
+  5415	
+  5416		igc_flush_nfc_rules(adapter);
+  5417	
+  5418		igc_ptp_stop(adapter);
+  5419	
+> 5420		pci_disable_ptm(pdev);
+  5421		pci_clear_master(pdev);
+  5422	
+  5423		set_bit(__IGC_DOWN, &adapter->state);
+  5424	
+  5425		del_timer_sync(&adapter->watchdog_timer);
+  5426		del_timer_sync(&adapter->phy_info_timer);
+  5427	
+  5428		cancel_work_sync(&adapter->reset_task);
+  5429		cancel_work_sync(&adapter->watchdog_task);
+  5430	
+  5431		/* Release control of h/w to f/w.  If f/w is AMT enabled, this
+  5432		 * would have already happened in close and is redundant.
+  5433		 */
+  5434		igc_release_hw_control(adapter);
+  5435		unregister_netdev(netdev);
+  5436	
+  5437		igc_clear_interrupt_scheme(adapter);
+  5438		pci_iounmap(pdev, adapter->io_addr);
+  5439		pci_release_mem_regions(pdev);
+  5440	
+  5441		free_netdev(netdev);
+  5442	
+  5443		pci_disable_pcie_error_reporting(pdev);
+  5444	
+  5445		pci_disable_device(pdev);
+  5446	}
+  5447	
 
 -- 
 0-DAY CI Kernel Test Service
