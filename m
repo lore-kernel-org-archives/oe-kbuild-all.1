@@ -1,43 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46CB7161;
-	Sun, 18 Jun 2023 00:07:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4308764A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jun 2023 01:08:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687046878; x=1718582878;
+  t=1687050540; x=1718586540;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0BoP/62sx1G44g8O/5pgdWI4xhFq2MViPN5pf+kKy0o=;
-  b=F+TO74klFSUIPvUsJHmZAdcILGO1ajL88mdcav3/BgfzdmPItJg9Y7/p
-   p3roCZRPvPo9gThKXAgoHoohWvbhDFwXrEgG/dzBHUxnvFRLgHVe6S/x8
-   vXc7O3fi1Wv7p7SEqPRiKO2TXHZ9fMUPKhm605qFBBcmg5dNrMVmJIjpl
-   Z4tYxXQ2ptN3ituLvNdfCesO0Q9EPRkS4QEPjgV17Px7RBrd02ot0EL5h
-   iwV6AknuxkJyASJl9cxskZ4pXTinyURvcOgHpPGEO7F95x9EbCc70N5Tq
-   NEC2f/eDomf/LCo7SlYa31QC9ZjuqEu40d05C7glFBFK2Lb7EVHwkMVzn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="445814488"
+  bh=AnEujotSLhyEVERG3+zsLm4ZQRsLsK4hBpjNQLardTg=;
+  b=Qr91RWl7Pujog3pfotAvXp+xp3faWClQJ0yftK9cF8L6onIcWB9LEkTV
+   WMR3xBiAjkxduRNg/JBbYV06iQPTihnNM4xxwQLZPy7tfDfqrWYWWNu27
+   yfDbjDE4LW+kK3ItdHNG09rXROGW/qdAHbPZ5HDlk20yMoz0FRBpntLQd
+   0fzHK2WKmD1MyEmfwCevMHfiMGXA2ONF+rLHdq3uIKp9dCH1uuLaTs+4O
+   BbUp+4RuTYrkMiv32wJzerwzjQlYqrx3KmcTAecu6+iUD9qZzD6bab81o
+   JfR3TXQbxXhVrEnD9G+HyRfFGD9GFsWwNS03tZ+zB75ec9AbhbZMBOJ00
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="344178834"
 X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="445814488"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 17:07:57 -0700
+   d="scan'208";a="344178834"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 18:08:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="707469830"
+X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="803226538"
 X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="707469830"
+   d="scan'208";a="803226538"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 17 Jun 2023 17:07:55 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 17 Jun 2023 18:08:58 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAfxT-0003Ei-0k;
-	Sun, 18 Jun 2023 00:07:55 +0000
-Date: Sun, 18 Jun 2023 08:07:45 +0800
+	id 1qAguX-0003Gu-1y;
+	Sun, 18 Jun 2023 01:08:57 +0000
+Date: Sun, 18 Jun 2023 09:08:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Granados <j.granados@samsung.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [joelgranados:jag/sysctl-testing-for-0day 15/17]
- security/apparmor/lsm.c:1788:56: error: too few arguments to function call,
- expected 3, have 2
-Message-ID: <202306180806.AEimnkkK-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:upstream-f2fs-stable-linux-4.19.y 289/1172]
+ fs/crypto/hkdf.c:47:9: sparse: sparse: Variable length array is used.
+Message-ID: <202306180836.RxjP1fTs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,49 +46,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/Joelgranados/linux.git jag/sysctl-testing-for-0day
-head:   cbba378db4b97256c72560da5762aaed778957c0
-commit: 7a2fed21b12abf7123a9ed26964303649e535eca [15/17] sysctl: Add size to register_sysctl
-config: i386-randconfig-r003-20230618 (https://download.01.org/0day-ci/archive/20230618/202306180806.AEimnkkK-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230618/202306180806.AEimnkkK-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common upstream-f2fs-stable-linux-4.19.y
+head:   b9aeb147225616494256fcf913c559afd4088a05
+commit: 6ad6af5912f72ad8c40baa072c3dabd321695dc1 [289/1172] fscrypt: add an HKDF-SHA512 implementation
+config: i386-randconfig-s002-20230614 (https://download.01.org/0day-ci/archive/20230618/202306180836.RxjP1fTs-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230618/202306180836.RxjP1fTs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306180806.AEimnkkK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306180836.RxjP1fTs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/crypto/hkdf.c:47:9: sparse: sparse: Variable length array is used.
+   fs/crypto/hkdf.c:120:9: sparse: sparse: Variable length array is used.
 
->> security/apparmor/lsm.c:1788:56: error: too few arguments to function call, expected 3, have 2
-           return register_sysctl("kernel", apparmor_sysctl_table) ? 0 : -ENOMEM;
-                  ~~~~~~~~~~~~~~~                                ^
-   include/linux/sysctl.h:230:26: note: 'register_sysctl' declared here
-   struct ctl_table_header *register_sysctl(const char *path, struct ctl_table *table,
-                            ^
-   1 error generated.
+vim +47 fs/crypto/hkdf.c
 
-
-vim +1788 security/apparmor/lsm.c
-
-e3ea1ca59adaef Tyler Hicks      2016-03-16  1785  
-e3ea1ca59adaef Tyler Hicks      2016-03-16  1786  static int __init apparmor_init_sysctl(void)
-e3ea1ca59adaef Tyler Hicks      2016-03-16  1787  {
-96200952abeb35 Luis Chamberlain 2023-03-02 @1788  	return register_sysctl("kernel", apparmor_sysctl_table) ? 0 : -ENOMEM;
-e3ea1ca59adaef Tyler Hicks      2016-03-16  1789  }
-e3ea1ca59adaef Tyler Hicks      2016-03-16  1790  #else
-e3ea1ca59adaef Tyler Hicks      2016-03-16  1791  static inline int apparmor_init_sysctl(void)
-e3ea1ca59adaef Tyler Hicks      2016-03-16  1792  {
-e3ea1ca59adaef Tyler Hicks      2016-03-16  1793  	return 0;
-e3ea1ca59adaef Tyler Hicks      2016-03-16  1794  }
-e3ea1ca59adaef Tyler Hicks      2016-03-16  1795  #endif /* CONFIG_SYSCTL */
-e3ea1ca59adaef Tyler Hicks      2016-03-16  1796  
-
-:::::: The code at line 1788 was first introduced by commit
-:::::: 96200952abeb35c4407851bfcdcbc144cc0d027d apparmor: simplify sysctls with register_sysctl_init()
-
-:::::: TO: Luis Chamberlain <mcgrof@kernel.org>
-:::::: CC: Luis Chamberlain <mcgrof@kernel.org>
+    25	
+    26	/*
+    27	 * HKDF consists of two steps:
+    28	 *
+    29	 * 1. HKDF-Extract: extract a pseudorandom key of length HKDF_HASHLEN bytes from
+    30	 *    the input keying material and optional salt.
+    31	 * 2. HKDF-Expand: expand the pseudorandom key into output keying material of
+    32	 *    any length, parameterized by an application-specific info string.
+    33	 *
+    34	 * HKDF-Extract can be skipped if the input is already a pseudorandom key of
+    35	 * length HKDF_HASHLEN bytes.  However, cipher modes other than AES-256-XTS take
+    36	 * shorter keys, and we don't want to force users of those modes to provide
+    37	 * unnecessarily long master keys.  Thus fscrypt still does HKDF-Extract.  No
+    38	 * salt is used, since fscrypt master keys should already be pseudorandom and
+    39	 * there's no way to persist a random salt per master key from kernel mode.
+    40	 */
+    41	
+    42	/* HKDF-Extract (RFC 5869 section 2.2), unsalted */
+    43	static int hkdf_extract(struct crypto_shash *hmac_tfm, const u8 *ikm,
+    44				unsigned int ikmlen, u8 prk[HKDF_HASHLEN])
+    45	{
+    46		static const u8 default_salt[HKDF_HASHLEN];
+  > 47		SHASH_DESC_ON_STACK(desc, hmac_tfm);
+    48		int err;
+    49	
+    50		err = crypto_shash_setkey(hmac_tfm, default_salt, HKDF_HASHLEN);
+    51		if (err)
+    52			return err;
+    53	
+    54		desc->tfm = hmac_tfm;
+    55		desc->flags = 0;
+    56		err = crypto_shash_digest(desc, ikm, ikmlen, prk);
+    57		shash_desc_zero(desc);
+    58		return err;
+    59	}
+    60	
 
 -- 
 0-DAY CI Kernel Test Service
