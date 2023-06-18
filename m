@@ -1,42 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D137CA2D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jun 2023 02:52:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34957EA1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jun 2023 03:23:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687056721; x=1718592721;
+  t=1687058583; x=1718594583;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=C5/yWKpq7rgqNtNoT7rVVBaL58OD9rfCMJGUBGI+HRs=;
-  b=bZ2nuZYU0a3GA7AV00onjAICkstjMOmChtNz/nvIRwul2VCPv56qbBce
-   hsVtB5bc1Ho/stowxIFaKZ4IXWrCnpPiAYuJyFGMyPLJ4nhFnKBlCC0no
-   tpeAPZLF6OJdSIislJ8bYWNjtJda9hCbesMsvGuI4lKJ91TTmZ8A3a8Qd
-   Yf4hRkGAyhNr8SwL1kHbgku4mL6CucqeygWCt1sRjo6sClRYjZcsej08U
-   2YYXv/QKRAH5rq/s2R5pwqOxGXrIJotvMea/QPqD2/+eE/liUdCwJrwby
-   hjRxAwJbg/p8kgFFZP8Ze+KWhVcJB11IyAZ/SYAZr2ygCKfhsMP2+cX2T
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="388352922"
+  bh=smxXsz1eQ1ID2FImTR5Xm+Zv+vjb6K+Hxj46b00jQ2A=;
+  b=gx9JaBUZulGByvLd8KkfY1hpa26FbA7pjE0/C2QXUB5hlxN2SkRLQSI3
+   7hqYSQfJekIaz6YUd4tS+AR41Nl14BQNn1vBaz0dMnQIVmU7LOCpIrzUE
+   RSlXLcb+VPUmQ9DGhE5i9tWu4evtC83nREjflXtwmJ6UABdBdm/n9xy3e
+   mjfWgoDuoIWPDHBsx7X17chgW7jSQiuyJmnRCIyiG6PF2YLOTyD5kfYfM
+   yNTy6NWwlIrJHrSc1rD9cqnOPnpebCnP534gRIVXgxlneOWru6j/w9cUZ
+   qQlSl30PL5W4g5/9bw1FnLRD84FWhXAs0KeOi2s3VhVYeFdgPFzLEDzvF
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="361981486"
 X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="388352922"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 19:52:01 -0700
+   d="scan'208";a="361981486"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 20:23:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="1043502749"
+X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="960059261"
 X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="1043502749"
+   d="scan'208";a="960059261"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Jun 2023 19:51:59 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 17 Jun 2023 20:23:01 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAiWF-0003K0-1J;
-	Sun, 18 Jun 2023 02:51:59 +0000
-Date: Sun, 18 Jun 2023 10:51:53 +0800
+	id 1qAj0G-0003LK-1a;
+	Sun, 18 Jun 2023 03:23:00 +0000
+Date: Sun, 18 Jun 2023 11:22:34 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jim Cromie <jim.cromie@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [jimc:dyn-drm-trc-10 19/27] drivers/gpu/drm/drm_print.c:72:31:
- warning: 'extern' variable has an initializer
-Message-ID: <202306181011.ZpRI5vmT-lkp@intel.com>
+ warning: '__drm_debug' initialized and declared 'extern'
+Message-ID: <202306181139.WV7jWTUZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,26 +47,37 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://github.com/jimc/linux.git dyn-drm-trc-10
-head:   ab328091f31050e41041ca26d09809f803ccc2ff
+head:   8c83f8b98f98e68f9748e826b4f733d222954dc9
 commit: d892a7cd0527fff6a2516100e77dd0e17034c75a [19/27] try-ref-init
-config: x86_64-buildonly-randconfig-r002-20230618 (https://download.01.org/0day-ci/archive/20230618/202306181011.ZpRI5vmT-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230618/202306181011.ZpRI5vmT-lkp@intel.com/reproduce)
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230618/202306181139.WV7jWTUZ-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230618/202306181139.WV7jWTUZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306181011.ZpRI5vmT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306181139.WV7jWTUZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_print.c:72:31: warning: 'extern' variable has an initializer [-Wextern-initializer]
-   DRM_CLASSMAP_PARAM_REF(debug, __drm_debug, drm_debug_classes, p);
-                                 ^
-   1 warning generated.
+   In file included from include/linux/printk.h:564,
+                    from include/asm-generic/bug.h:22,
+                    from arch/mips/include/asm/bug.h:42,
+                    from include/linux/bug.h:5,
+                    from include/linux/io.h:11,
+                    from drivers/gpu/drm/drm_print.c:28:
+>> drivers/gpu/drm/drm_print.c:72:31: warning: '__drm_debug' initialized and declared 'extern'
+      72 | DRM_CLASSMAP_PARAM_REF(debug, __drm_debug, drm_debug_classes, p);
+         |                               ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:191:30: note: in definition of macro 'DYNDBG_CLASSMAP_PARAM_REF'
+     191 |         extern unsigned long _bits = DYNDBG_CLASSMAP_PARAM_DEFAULT;     \
+         |                              ^~~~~
+   drivers/gpu/drm/drm_print.c:72:1: note: in expansion of macro 'DRM_CLASSMAP_PARAM_REF'
+      72 | DRM_CLASSMAP_PARAM_REF(debug, __drm_debug, drm_debug_classes, p);
+         | ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/extern +72 drivers/gpu/drm/drm_print.c
+vim +72 drivers/gpu/drm/drm_print.c
 
 f158936b60a787 Jim Cromie 2022-09-11  54  
 f158936b60a787 Jim Cromie 2022-09-11  55  #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
