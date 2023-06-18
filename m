@@ -1,43 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756F71865
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jun 2023 18:34:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C4957473;
+	Sun, 18 Jun 2023 21:19:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687113269; x=1718649269;
+  t=1687123183; x=1718659183;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Lx80KF67rW2jc9kg7t507RrhJJErkcoW/vtqPp5Ad6I=;
-  b=fRHJO4qCR1By/W3hNmlKhaq9kjHYFBhX8GXU007z4v0alajtUA5o39Wi
-   zJhDwfowZQMORczsxcQOZC0mfy3m0O0k56ina8eH65RljDH0K4rKJIFyp
-   h7bnUNzwHL44NxQFYpVEPBKWQ3huoVituaOICWC072i+K2Rmo/56bVxoJ
-   HO70rl5aP8f73WwBRfUGq+ycdl2kSdpfTU08i2QULi5JNW9wF+QCgrUbd
-   3PPAY8qOOAVHTLITNQwZeY2FglKB2dJlyTvqH5IqliT6OSmeLyEzyx8KP
-   /OTp4s7rc86pQ0Xe+ldFeBNeURyK4BEWRDFM7A9GMxl2N2ZG7oD9uSvNG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="356988810"
+  bh=Plcyh4dlupOF2/wvncz4aGtsbkmENnkZX2jLIs/uuNs=;
+  b=DxIYTYTddVQdIaKFF0eCM+kJ696HANCCnoQGJso5DmZSSUqCiH2a9e0Y
+   Djyyg3hSftnt+9cVBdiQfVU+3e6tUPSv4CEF20w1LV/LNvdCsvGuCGGLu
+   UJC9qM7Gc09GcIa8xUMOsKUx3gvenJq56+UCoBnjmaN2ZzKC+J1UVLvcy
+   N+BvLcqJBaUVCi0rOnjiW25lYLG92zbsJpHMHkR4gPbTOXpzTfwtMIs+l
+   +LAjI3XT5L+w8LLxEj4fYD2WpU/8Y/SHCfhdtWBeSb/rQKCWXxmDcDlfd
+   uetzIeTj11jUSz0pg7y48/SHqwpyGskoePduKotq0B5CPn9xFZh8DDFBv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="423169089"
 X-IronPort-AV: E=Sophos;i="6.00,253,1681196400"; 
-   d="scan'208";a="356988810"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2023 11:34:28 -0700
+   d="scan'208";a="423169089"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2023 14:19:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="960215808"
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="663772816"
 X-IronPort-AV: E=Sophos;i="6.00,253,1681196400"; 
-   d="scan'208";a="960215808"
+   d="scan'208";a="663772816"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 18 Jun 2023 11:34:27 -0700
+  by orsmga003.jf.intel.com with ESMTP; 18 Jun 2023 14:19:41 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qAxEJ-0003xY-0n;
-	Sun, 18 Jun 2023 18:34:27 +0000
-Date: Mon, 19 Jun 2023 02:34:18 +0800
+	id 1qAzoC-00042u-1K;
+	Sun, 18 Jun 2023 21:19:40 +0000
+Date: Mon, 19 Jun 2023 05:19:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [asahilinux:bits/110-smc 3/23]
- drivers/platform/apple/smc_core.c:210:26: sparse: sparse: cast to restricted
- __be32
-Message-ID: <202306190250.5eZsAVHE-lkp@intel.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: kernel/trace/trace_eprobe.c:427:1: warning: stack frame size (1424)
+ exceeds limit (1024) in 'process_fetch_insn'
+Message-ID: <202306190512.F00Ve0zD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,69 +47,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/AsahiLinux/linux bits/110-smc
-head:   107ed86e21d1522d5d5d9d629f1d9c371e37df7f
-commit: d55f4cc3a82c44e82a3fe6fc02403752ea0e2053 [3/23] platform/apple: Add new Apple Mac SMC driver
-config: arm64-randconfig-s052-20230618 (https://download.01.org/0day-ci/archive/20230619/202306190250.5eZsAVHE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230619/202306190250.5eZsAVHE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   8c1f0c38b31025f60437215dd27fffc293565fa4
+commit: b26a124cbfa80f42bfc4e63e1d5643ca98159d66 tracing/probes: Add symstr type for dynamic events
+date:   6 months ago
+config: riscv-randconfig-r011-20230619 (https://download.01.org/0day-ci/archive/20230619/202306190512.F00Ve0zD-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230619/202306190512.F00Ve0zD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306190250.5eZsAVHE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306190512.F00Ve0zD-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/platform/apple/smc_core.c:210:26: sparse: sparse: cast to restricted __be32
+All warnings (new ones prefixed by >>):
 
-vim +210 drivers/platform/apple/smc_core.c
+>> kernel/trace/trace_eprobe.c:427:1: warning: stack frame size (1424) exceeds limit (1024) in 'process_fetch_insn' [-Wframe-larger-than]
+     427 | process_fetch_insn(struct fetch_insn *code, void *rec, void *dest,
+         | ^
+   kernel/trace/trace_eprobe.c:561:13: warning: stack frame size (1584) exceeds limit (1024) in 'eprobe_trigger_func' [-Wframe-larger-than]
+     561 | static void eprobe_trigger_func(struct event_trigger_data *data,
+         |             ^
+   2 warnings generated.
+--
+>> kernel/trace/trace_uprobe.c:218:1: warning: stack frame size (1440) exceeds limit (1024) in 'process_fetch_insn' [-Wframe-larger-than]
+     218 | process_fetch_insn(struct fetch_insn *code, void *rec, void *dest,
+         | ^
+   1 warning generated.
 
-   190	
-   191	struct apple_smc *apple_smc_probe(struct device *dev, const struct apple_smc_backend_ops *ops, void *cookie)
-   192	{
-   193		struct apple_smc *smc;
-   194		u32 count;
-   195		int ret;
-   196	
-   197		smc = devm_kzalloc(dev, sizeof(*smc), GFP_KERNEL);
-   198		if (!smc)
-   199			return ERR_PTR(-ENOMEM);
-   200	
-   201		smc->dev = dev;
-   202		smc->be_cookie = cookie;
-   203		smc->be = ops;
-   204		mutex_init(&smc->mutex);
-   205		BLOCKING_INIT_NOTIFIER_HEAD(&smc->event_handlers);
-   206	
-   207		ret = apple_smc_read_u32(smc, SMC_KEY(#KEY), &count);
-   208		if (ret)
-   209			return ERR_PTR(dev_err_probe(dev, ret, "Failed to get key count"));
- > 210		smc->key_count = be32_to_cpu(count);
-   211	
-   212		ret = apple_smc_get_key_by_index(smc, 0, &smc->first_key);
-   213		if (ret)
-   214			return ERR_PTR(dev_err_probe(dev, ret, "Failed to get first key"));
-   215	
-   216		ret = apple_smc_get_key_by_index(smc, smc->key_count - 1, &smc->last_key);
-   217		if (ret)
-   218			return ERR_PTR(dev_err_probe(dev, ret, "Failed to get last key"));
-   219	
-   220		/* Enable notifications */
-   221		apple_smc_write_flag(smc, SMC_KEY(NTAP), 1);
-   222	
-   223		dev_info(dev, "Initialized (%d keys %p4ch..%p4ch)\n",
-   224			 smc->key_count, &smc->first_key, &smc->last_key);
-   225	
-   226		dev_set_drvdata(dev, smc);
-   227	
-   228		ret = mfd_add_devices(dev, -1, apple_smc_devs, ARRAY_SIZE(apple_smc_devs), NULL, 0, NULL);
-   229		if (ret)
-   230			return ERR_PTR(dev_err_probe(dev, ret, "Subdevice initialization failed"));
-   231	
-   232		return smc;
-   233	}
-   234	EXPORT_SYMBOL(apple_smc_probe);
-   235	
+
+vim +/process_fetch_insn +427 kernel/trace/trace_eprobe.c
+
+7491e2c442781a Tzvetomir Stoyanov (VMware  2021-08-19  424) 
+7491e2c442781a Tzvetomir Stoyanov (VMware  2021-08-19  425) /* Note that we don't verify it, since the code does not come from user space */
+7491e2c442781a Tzvetomir Stoyanov (VMware  2021-08-19  426) static int
+7491e2c442781a Tzvetomir Stoyanov (VMware  2021-08-19 @427) process_fetch_insn(struct fetch_insn *code, void *rec, void *dest,
+7491e2c442781a Tzvetomir Stoyanov (VMware  2021-08-19  428) 		   void *base)
+7491e2c442781a Tzvetomir Stoyanov (VMware  2021-08-19  429) {
+7491e2c442781a Tzvetomir Stoyanov (VMware  2021-08-19  430) 	unsigned long val;
+7491e2c442781a Tzvetomir Stoyanov (VMware  2021-08-19  431) 
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  432)  retry:
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  433) 	switch (code->op) {
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  434) 	case FETCH_OP_TP_ARG:
+7491e2c442781a Tzvetomir Stoyanov (VMware  2021-08-19  435) 		val = get_event_field(code, rec);
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  436) 		break;
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  437) 	case FETCH_OP_IMM:
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  438) 		val = code->immediate;
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  439) 		break;
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  440) 	case FETCH_OP_COMM:
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  441) 		val = (unsigned long)current->comm;
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  442) 		break;
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  443) 	case FETCH_OP_DATA:
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  444) 		val = (unsigned long)code->data;
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  445) 		break;
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  446) 	case FETCH_NOP_SYMBOL:	/* Ignore a place holder */
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  447) 		code++;
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  448) 		goto retry;
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  449) 	default:
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  450) 		return -EILSEQ;
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  451) 	}
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  452) 	code++;
+6a832ec3d680b3 Steven Rostedt (Google      2022-08-20  453) 	return process_fetch_insn_bottom(code, val, dest, base);
+7491e2c442781a Tzvetomir Stoyanov (VMware  2021-08-19  454) }
+7491e2c442781a Tzvetomir Stoyanov (VMware  2021-08-19  455) NOKPROBE_SYMBOL(process_fetch_insn)
+7491e2c442781a Tzvetomir Stoyanov (VMware  2021-08-19  456) 
+
+:::::: The code at line 427 was first introduced by commit
+:::::: 7491e2c442781a1860181adb5ab472a52075f393 tracing: Add a probe that attaches to trace events
+
+:::::: TO: Tzvetomir Stoyanov (VMware) <tz.stoyanov@gmail.com>
+:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
