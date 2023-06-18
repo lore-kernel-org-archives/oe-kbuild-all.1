@@ -1,104 +1,68 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 486301102
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jun 2023 05:56:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687067769; x=1718603769;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1krBRm2EhX7T/2Im/3VjCma002N66vVvm1xmCseV9wA=;
-  b=Y5ZWRGCBgbgule0an8ZZO3sAcsEpPcLkutyPTeeh+PWKwdMhYAyM2MNb
-   quPG7LIVkf2VnpUIeoYw5fsEigAcjJAzY8wv9DJu8KgL6g36fcTF+PY7L
-   w3DOWre97cdJQrq/P90MaRHIJVMZZTh3nQS+dswzRpX6p2Ypk/ntzTKoq
-   UFCJ58Ve/inkVMqNenHyMlvpsCdNIMV7cSbpkiNN9wdAUaBuNaD45r/Tb
-   KvJdZnzUR823JeLp4fs2RqvFwQUT5TLaHIGieApHp2B9DPk9sGM2KfAW6
-   LV1uQY0dB9Vr8nGN9r1Q11PVcdff+8ITijF6fFFLRN5nIBia/mFmDDuCU
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="423109955"
-X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="423109955"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2023 22:56:08 -0700
-X-IronPort-AV: E=McAfee;i="6600,9927,10744"; a="746996853"
-X-IronPort-AV: E=Sophos;i="6.00,251,1681196400"; 
-   d="scan'208";a="746996853"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 17 Jun 2023 22:56:06 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qAlOP-0003U2-2Y;
-	Sun, 18 Jun 2023 05:56:05 +0000
-Date: Sun, 18 Jun 2023 13:55:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 1934/27674]
- include/trace/hooks/preemptirq.h:28:1: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202306181343.DND6BmZF-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C601102
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jun 2023 06:15:47 +0000 (UTC)
+Received: from mail02.huawei.com (unknown [172.30.67.153])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTP id 4QkMfF0dyDz4f3rYv
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jun 2023 13:59:01 +0800 (CST)
+Received: from [10.174.176.73] (unknown [10.174.176.73])
+	by APP4 (Coremail) with SMTP id gCh0CgCXaK8lnY5kd+bcLw--.30297S3;
+	Sun, 18 Jun 2023 13:59:02 +0800 (CST)
+Subject: Re: [PATCH -next] block: fix wrong mode for blkdev_get_by_dev() from
+ disk_scan_partitions()
+To: kernel test robot <lkp@intel.com>, Yu Kuai <yukuai1@huaweicloud.com>,
+ hch@lst.de, axboe@kernel.dk, brauner@kernel.org, hare@suse.de,
+ dsterba@suse.com, jinpu.wang@ionos.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, yi.zhang@huawei.com, yangerkun@huawei.com,
+ "yukuai (C)" <yukuai3@huawei.com>
+References: <20230617103813.3708374-1-yukuai1@huaweicloud.com>
+ <202306172040.1dllc8rx-lkp@intel.com>
+From: Yu Kuai <yukuai1@huaweicloud.com>
+Message-ID: <1df1d531-cd16-5db5-6f36-744896aa945e@huaweicloud.com>
+Date: Sun, 18 Jun 2023 13:59:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <202306172040.1dllc8rx-lkp@intel.com>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgCXaK8lnY5kd+bcLw--.30297S3
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYg7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
+	6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
+	kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8I
+	cVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2js
+	IEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE
+	5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeV
+	CFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxG
+	xcIEc7CjxVA2Y2ka0xkIwI1lc7I2V7IY0VAS07AlzVAYIcxG8wCF04k20xvY0x0EwIxGrw
+	CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
+	14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
+	IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxK
+	x2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
+	AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-CM-SenderInfo: 51xn3trlr6x35dzhxuhorxvhhfrp/
+X-CFilter-Loop: Reflected
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   31e1367ff78eb68e54a2025e9c6601e3fa6c6312
-commit: 2e14f01dc4abfa95ab6192deea9b99c235f53ca3 [1934/27674] ANDROID: tracing: Add restricted vendor hooks for preemptirq events
-config: x86_64-randconfig-s021-20230614 (https://download.01.org/0day-ci/archive/20230618/202306181343.DND6BmZF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230618/202306181343.DND6BmZF-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306181343.DND6BmZF-lkp@intel.com/
+ÔÚ 2023/06/17 20:25, kernel test robot Ð´µÀ:
+> 
+>     block/genhd.c: In function 'disk_scan_partitions':
+>>> block/genhd.c:369:59: error: 'FMODE_EXCL' undeclared (first use in this function); did you mean 'FMODE_EXEC'?
+>       369 |         bdev = blkdev_get_by_dev(disk_devt(disk), mode & ~FMODE_EXCL, NULL,
+>           |                                                           ^~~~~~~~~~
+>           |                                                           FMODE_EXEC
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/trace/trace_preemptirq.c: note: in included file:
->> include/trace/hooks/preemptirq.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:28:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
->> include/trace/hooks/preemptirq.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:28:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/preemptirq.h:24:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:24:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:24:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/preemptirq.h:24:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:24:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:24:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
->> include/trace/hooks/preemptirq.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:28:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
->> include/trace/hooks/preemptirq.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/preemptirq.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/preemptirq.h:28:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+Sorry about this typo, I'll send a new version.
 
-vim +28 include/trace/hooks/preemptirq.h
+Thanks,
+Kuai
 
-    15	
-    16	DECLARE_RESTRICTED_HOOK(android_rvh_preempt_disable,
-    17		TP_PROTO(unsigned long ip, unsigned long parent_ip),
-    18		TP_ARGS(ip, parent_ip), 1);
-    19	
-    20	DECLARE_RESTRICTED_HOOK(android_rvh_preempt_enable,
-    21		TP_PROTO(unsigned long ip, unsigned long parent_ip),
-    22		TP_ARGS(ip, parent_ip), 1);
-    23	
-    24	DECLARE_RESTRICTED_HOOK(android_rvh_irqs_disable,
-    25		TP_PROTO(unsigned long ip, unsigned long parent_ip),
-    26		TP_ARGS(ip, parent_ip), 1);
-    27	
-  > 28	DECLARE_RESTRICTED_HOOK(android_rvh_irqs_enable,
-    29		TP_PROTO(unsigned long ip, unsigned long parent_ip),
-    30		TP_ARGS(ip, parent_ip), 1);
-    31	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
