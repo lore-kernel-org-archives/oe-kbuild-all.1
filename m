@@ -1,45 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392EB1118B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jun 2023 09:25:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A0DC131
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jun 2023 09:36:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687166723; x=1718702723;
+  t=1687167382; x=1718703382;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+A47zB5hiSMcVj0FB5tiHwF2TG/iWG3KTEoQFT+1r4Y=;
-  b=c7kIzm/3MRdkEiQJAaGzNT29UExECHRuGDbEowoHeEhXtDm/IER90bs2
-   EQH0lHZZ/WKz4eRPhKlW9w+IsYBjRGTyFp0092sxcyJUbx9byE9ERANqM
-   XT0hgdSKygTJac6I6XOSzdNLQf5tCSO6fMJ6i9vLwlrhYC362YYcMXRQh
-   LWsSb9lvF/qHTYZGkCxbGxu1rblrzAp+4gJw5ZeNjiv7tGfGAvGNcJID9
-   iyfhTNTYB7xfWt0Z4frdUR1xKSRLi5Q4GOgKEDGU6Yiox0F0HTyLtpV9G
-   Iwe2YXygu8s8/20pl2tpZcFwTWSZ0KhgFzal9li1kdxVrmfMTjCHbRi8N
+  bh=nRHBCKIrnylxPy/Jpsw3Cgqk86DTrAikfOve6iX1hfg=;
+  b=LVyyYzVMfq2+w7PFuWv2+nSHfgnSYdlsVx6CjenPgEq04lZwGN7k0RKO
+   9+3f0+R0cOrtSkQGhQP/8eMXAJq7hsC6STb0gfv27cnjdpZw/8TaOu5Js
+   xFAQaigy0pj6CIUcSMPIdEDcKEvDtA+o+xcF+Ad+4ZQGtd+IUDsyHzzSV
+   fh6nVzbYiUyNXT+Y0ladIt2DMG1dAb69e9Ic5uRjSTSnL4GYrfT1eHc4Q
+   svS7VL1QeSp8xsjtMlZUy5TE9APAdgkn8YbytELaeH5I2NfpP36moNlkz
+   k5QNew0UBuFqYyBlHHoo+krhdeI4u4ltf12PKqQWaY3CaE4Bh6uq23hmK
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="349308302"
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="423253523"
 X-IronPort-AV: E=Sophos;i="6.00,254,1681196400"; 
-   d="scan'208";a="349308302"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 02:25:22 -0700
+   d="scan'208";a="423253523"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 02:36:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="743381974"
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="713608140"
 X-IronPort-AV: E=Sophos;i="6.00,254,1681196400"; 
-   d="scan'208";a="743381974"
+   d="scan'208";a="713608140"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 19 Jun 2023 02:25:20 -0700
+  by orsmga002.jf.intel.com with ESMTP; 19 Jun 2023 02:36:20 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBB8R-0004a0-1q;
-	Mon, 19 Jun 2023 09:25:19 +0000
-Date: Mon, 19 Jun 2023 17:25:04 +0800
+	id 1qBBJ5-0004aG-2q;
+	Mon, 19 Jun 2023 09:36:19 +0000
+Date: Mon, 19 Jun 2023 17:35:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, Sean Paul <seanpaul@chromium.org>,
-	=?iso-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
-	"Kristian H. Kristensen" <hoegsberg@chromium.org>
-Subject: [jsarha:topic/cros-sof-v4.19 1155/6555]
- drivers/gpu/drm/drm_atomic_uapi.c:366:13: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202306191707.yLxrPJGl-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 7325/27674]
+ kernel/tracepoint.c:683:27: sparse: sparse: incorrect type in assignment
+ (different address spaces)
+Message-ID: <202306191708.lhPUtNKL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,86 +47,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jsarha/linux topic/cros-sof-v4.19
-head:   d7a3e91d8d16d1ef8653deec5a1fffc4de034a0c
-commit: dfdec43d0411076dc70591a0496a0824a8620695 [1155/6555] UPSTREAM: drm: extract drm_atomic_uapi.c
-config: xtensa-randconfig-s032-20230615 (https://download.01.org/0day-ci/archive/20230619/202306191707.yLxrPJGl-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230619/202306191707.yLxrPJGl-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   31e1367ff78eb68e54a2025e9c6601e3fa6c6312
+commit: cc6eed90a467a413b9c62fdd76e8f06347266a88 [7325/27674] ANDROID: vendor_hooks: Allow multiple attachments to restricted hooks
+config: x86_64-randconfig-s021-20230614 (https://download.01.org/0day-ci/archive/20230619/202306191708.lhPUtNKL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230619/202306191708.lhPUtNKL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306191707.yLxrPJGl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306191708.lhPUtNKL-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/drm_atomic_uapi.c:366:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected signed int *__pu_addr @@     got signed int [noderef] [usertype] <asn:1> *fence_ptr @@
-   drivers/gpu/drm/drm_atomic_uapi.c:366:13: sparse:     expected signed int *__pu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c:366:13: sparse:     got signed int [noderef] [usertype] <asn:1> *fence_ptr
->> drivers/gpu/drm/drm_atomic_uapi.c:366:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:1> *to @@     got signed int *__pu_addr @@
-   drivers/gpu/drm/drm_atomic_uapi.c:366:13: sparse:     expected void [noderef] <asn:1> *to
-   drivers/gpu/drm/drm_atomic_uapi.c:366:13: sparse:     got signed int *__pu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c:466:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected signed int *__pu_addr @@     got signed int [noderef] [usertype] <asn:1> *fence_ptr @@
-   drivers/gpu/drm/drm_atomic_uapi.c:466:21: sparse:     expected signed int *__pu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c:466:21: sparse:     got signed int [noderef] [usertype] <asn:1> *fence_ptr
-   drivers/gpu/drm/drm_atomic_uapi.c:466:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:1> *to @@     got signed int *__pu_addr @@
-   drivers/gpu/drm/drm_atomic_uapi.c:466:21: sparse:     expected void [noderef] <asn:1> *to
-   drivers/gpu/drm/drm_atomic_uapi.c:466:21: sparse:     got signed int *__pu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c:1052:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected signed int *__pu_addr @@     got signed int [noderef] [usertype] <asn:1> *out_fence_ptr @@
-   drivers/gpu/drm/drm_atomic_uapi.c:1052:13: sparse:     expected signed int *__pu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c:1052:13: sparse:     got signed int [noderef] [usertype] <asn:1> *out_fence_ptr
-   drivers/gpu/drm/drm_atomic_uapi.c:1052:13: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:1> *to @@     got signed int *__pu_addr @@
-   drivers/gpu/drm/drm_atomic_uapi.c:1052:13: sparse:     expected void [noderef] <asn:1> *to
-   drivers/gpu/drm/drm_atomic_uapi.c:1052:13: sparse:     got signed int *__pu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c:1230:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected signed int *__pu_addr @@     got signed int [noderef] [usertype] <asn:1> *out_fence_ptr @@
-   drivers/gpu/drm/drm_atomic_uapi.c:1230:21: sparse:     expected signed int *__pu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c:1230:21: sparse:     got signed int [noderef] [usertype] <asn:1> *out_fence_ptr
-   drivers/gpu/drm/drm_atomic_uapi.c:1230:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] <asn:1> *to @@     got signed int *__pu_addr @@
-   drivers/gpu/drm/drm_atomic_uapi.c:1230:21: sparse:     expected void [noderef] <asn:1> *to
-   drivers/gpu/drm/drm_atomic_uapi.c:1230:21: sparse:     got signed int *__pu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c:1297:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int const *__gu_addr @@     got unsigned int [noderef] [usertype] <asn:1> * @@
-   drivers/gpu/drm/drm_atomic_uapi.c:1297:21: sparse:     expected unsigned int const *__gu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c:1297:21: sparse:     got unsigned int [noderef] [usertype] <asn:1> *
->> drivers/gpu/drm/drm_atomic_uapi.c:1297:21: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] <asn:1> *from @@     got unsigned int const *__gu_addr @@
-   drivers/gpu/drm/drm_atomic_uapi.c:1297:21: sparse:     expected void const [noderef] <asn:1> *from
-   drivers/gpu/drm/drm_atomic_uapi.c:1297:21: sparse:     got unsigned int const *__gu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c:1314:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int const *__gu_addr @@     got unsigned int [noderef] [usertype] <asn:1> * @@
-   drivers/gpu/drm/drm_atomic_uapi.c:1314:21: sparse:     expected unsigned int const *__gu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c:1314:21: sparse:     got unsigned int [noderef] [usertype] <asn:1> *
-   drivers/gpu/drm/drm_atomic_uapi.c:1314:21: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] <asn:1> *from @@     got unsigned int const *__gu_addr @@
-   drivers/gpu/drm/drm_atomic_uapi.c:1314:21: sparse:     expected void const [noderef] <asn:1> *from
-   drivers/gpu/drm/drm_atomic_uapi.c:1314:21: sparse:     got unsigned int const *__gu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c:1327:29: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned int const *__gu_addr @@     got unsigned int [noderef] [usertype] <asn:1> * @@
-   drivers/gpu/drm/drm_atomic_uapi.c:1327:29: sparse:     expected unsigned int const *__gu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c:1327:29: sparse:     got unsigned int [noderef] [usertype] <asn:1> *
-   drivers/gpu/drm/drm_atomic_uapi.c:1327:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] <asn:1> *from @@     got unsigned int const *__gu_addr @@
-   drivers/gpu/drm/drm_atomic_uapi.c:1327:29: sparse:     expected void const [noderef] <asn:1> *from
-   drivers/gpu/drm/drm_atomic_uapi.c:1327:29: sparse:     got unsigned int const *__gu_addr
-   drivers/gpu/drm/drm_atomic_uapi.c: In function 'complete_signaling':
-   drivers/gpu/drm/drm_atomic_uapi.c:1193:26: warning: variable 'crtc' set but not used [-Wunused-but-set-variable]
-    1193 |         struct drm_crtc *crtc;
-         |                          ^~~~
+>> kernel/tracepoint.c:683:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func [noderef] __rcu *funcs @@     got void * @@
+   kernel/tracepoint.c:683:27: sparse:     expected struct tracepoint_func [noderef] __rcu *funcs
+   kernel/tracepoint.c:683:27: sparse:     got void *
+>> kernel/tracepoint.c:692:25: sparse: sparse: cast removes address space '__rcu' of expression
+>> kernel/tracepoint.c:714:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct tracepoint_func *tp_funcs @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   kernel/tracepoint.c:714:38: sparse:     expected struct tracepoint_func *tp_funcs
+   kernel/tracepoint.c:714:38: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+>> kernel/tracepoint.c:689:31: sparse: sparse: dereference of noderef expression
+   kernel/tracepoint.c:691:42: sparse: sparse: dereference of noderef expression
 
-vim +366 drivers/gpu/drm/drm_atomic_uapi.c
+vim +683 kernel/tracepoint.c
 
-   356	
-   357	static int set_out_fence_for_connector(struct drm_atomic_state *state,
-   358						struct drm_connector *connector,
-   359						s32 __user *fence_ptr)
-   360	{
-   361		unsigned int index = drm_connector_index(connector);
-   362	
-   363		if (!fence_ptr)
-   364			return 0;
-   365	
- > 366		if (put_user(-1, fence_ptr))
-   367			return -EFAULT;
-   368	
-   369		state->connectors[index].out_fence_ptr = fence_ptr;
-   370	
-   371		return 0;
-   372	}
-   373	
+   675	
+   676	#define ANDROID_RVH_NR_PROBES_MAX	2
+   677	static int rvh_func_add(struct tracepoint *tp, struct tracepoint_func *func)
+   678	{
+   679		int i;
+   680	
+   681		if (!static_key_enabled(&tp->key)) {
+   682			/* '+ 1' for the last NULL element */
+ > 683			tp->funcs = rvh_zalloc_funcs(ANDROID_RVH_NR_PROBES_MAX + 1);
+   684			if (!tp->funcs)
+   685				return ENOMEM;
+   686		}
+   687	
+   688		for (i = 0; i < ANDROID_RVH_NR_PROBES_MAX; i++) {
+ > 689			if (!tp->funcs[i].func) {
+   690				if (!static_key_enabled(&tp->key))
+   691					tp->funcs[i].data = func->data;
+ > 692				WRITE_ONCE(tp->funcs[i].func, func->func);
+   693	
+   694				return 0;
+   695			}
+   696		}
+   697	
+   698		return -EBUSY;
+   699	}
+   700	
+   701	static int android_rvh_add_func(struct tracepoint *tp, struct tracepoint_func *func)
+   702	{
+   703		int ret;
+   704	
+   705		if (tp->regfunc && !static_key_enabled(&tp->key)) {
+   706			ret = tp->regfunc();
+   707			if (ret < 0)
+   708				return ret;
+   709		}
+   710	
+   711		ret = rvh_func_add(tp, func);
+   712		if (ret)
+   713			return ret;
+ > 714		tracepoint_update_call(tp, tp->funcs, false);
+   715		static_key_enable(&tp->key);
+   716	
+   717		return 0;
+   718	}
+   719	
 
 -- 
 0-DAY CI Kernel Test Service
