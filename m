@@ -1,45 +1,45 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6492585
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jun 2023 07:09:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38FF123C0;
+	Mon, 19 Jun 2023 07:51:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687158559; x=1718694559;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bGiUFIF8yUuJGXJAu6oJjUa2LJQxb2Gy82Bl5iVzfFQ=;
-  b=Oxbx4Zm1Aah6ZkdOzAZDsC1gQpO9W9cIdnOIUU14DRRsGTYMOUMP1QUs
-   gg36Ndj69J2U/6m8akWKC4CPos8+cxXHTYGRipgkUcPtF9YFkBX5/K8Hx
-   DLnFDe2wLzkTiz6uW7Lg2Mf1OklX0/Kj4H2hl1/NrBvGVwl9JglkpeRqR
-   G6akDmCD7JYGMlpAKp8fGLL0Disd0y0ZMKKCsn7kRvqIgMlvj4tCDKHl7
-   R/Z4OOBuepR64fakHqOcCGdBnr5s6V1WJa5olzKC0GmAu8c/XP8wfN4JK
-   J3Njt3uv6QW93Muk5A7Tkacr6TDiZlfW30K7jtYYkRY8w5ZusMusPss0/
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="349281558"
+  t=1687161080; x=1718697080;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PxcVBICQNeVAj3QFH7+/xDQDOITRjaHft/KImrlUfV8=;
+  b=jZNgDlAwkwTd0sASmI6UII3eAv4yrO+0YhVNzYYrRV7YV9Zf1xIpzcyr
+   lrlI2IpGtoTprZLXkEiQPoPd3PmrEE+hfK+2WOVlql7wAThnogY+g/IeN
+   egDrDW4zFKqeBrsOWzVQPxB8dip90V8cSmkFywqjF1wLvcKv33q0dxMUk
+   lVCSy4sFSR1gWGulQdxVBd9j41p9B6FZ1c9fwWWRSa5Y2W05j5z1j2Cb8
+   cB1Sl9cvn60OhJkzUhu828lIFJZ0GA+adaiQTCaNJDVmzejNikoyxMGNY
+   Zs3PY6vkPsBvDPxQy3gWF4oaAPEj8TmEIgvNMNpJjg0IL12ccEB2gw4dU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="358442967"
 X-IronPort-AV: E=Sophos;i="6.00,254,1681196400"; 
-   d="scan'208";a="349281558"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 00:09:18 -0700
+   d="scan'208";a="358442967"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 00:51:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="713562449"
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="1043802890"
 X-IronPort-AV: E=Sophos;i="6.00,254,1681196400"; 
-   d="scan'208";a="713562449"
+   d="scan'208";a="1043802890"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 19 Jun 2023 00:09:16 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 19 Jun 2023 00:51:17 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qB90l-0004Ue-2N;
-	Mon, 19 Jun 2023 07:09:15 +0000
-Date: Mon, 19 Jun 2023 15:08:31 +0800
+	id 1qB9fR-0004XA-01;
+	Mon, 19 Jun 2023 07:51:17 +0000
+Date: Mon, 19 Jun 2023 15:50:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-4.14 29/34]
- drivers/gpu/drm/i915/intel_device_info.c:291:19: warning: format '%x'
- expects argument of type 'unsigned int', but argument 4 has type 'u8 * {aka
- unsigned char *}'
-Message-ID: <202306191536.Duddingb-lkp@intel.com>
+To: Jan Glauber <jglauber@digitalocean.com>, akpm@linux-foundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Jan Glauber <jglauber@digitalocean.com>
+Subject: Re: [PATCH] mm: Fix shmem THP counters on migration
+Message-ID: <202306191542.ru4fKk5y-lkp@intel.com>
+References: <20230619055735.141740-1-jglauber@digitalocean.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,196 +48,173 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230619055735.141740-1-jglauber@digitalocean.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-4.14
-head:   c6b7f293d5463f0343d6f47b54d31698e1736945
-commit: 767336b68f8a3096aa690b9799357245895a8ea8 [29/34] BACKPORT: drm/i915: store all subslice masks
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230619/202306191536.Duddingb-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230619/202306191536.Duddingb-lkp@intel.com/reproduce)
+Hi Jan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jan-Glauber/mm-Fix-shmem-THP-counters-on-migration/20230619-135947
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230619055735.141740-1-jglauber%40digitalocean.com
+patch subject: [PATCH] mm: Fix shmem THP counters on migration
+config: powerpc-randconfig-r021-20230619 (https://download.01.org/0day-ci/archive/20230619/202306191542.ru4fKk5y-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230619/202306191542.ru4fKk5y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306191536.Duddingb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306191542.ru4fKk5y-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/i915/intel_device_info.c:25:0:
-   drivers/gpu/drm/i915/intel_device_info.c: In function 'gen9_sseu_info_init':
->> drivers/gpu/drm/i915/intel_device_info.c:291:19: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'u8 * {aka unsigned char *}' [-Wformat=]
-     DRM_DEBUG_DRIVER("fuse2=0x%x subslice_mask=0x%x\n", fuse2, sseu->subslice_mask);
-                      ^                                         ~
-   include/drm/drm_print.h:396:25: note: in definition of macro 'DRM_DEBUG_DRIVER'
-     drm_dbg(DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-                            ^~~
---
-   drivers/gpu/drm/i915/intel_engine_cs.c: In function 'gen9_wa_init_mcr':
->> drivers/gpu/drm/i915/intel_engine_cs.c:1014:17: warning: passing argument 1 of 'ffs' makes integer from pointer without a cast [-Wint-conversion]
-     subslice = ffs(sseu->subslice_mask);
-                    ^~~~
-   In file included from include/linux/bitops.h:19:0,
-                    from include/linux/kernel.h:11,
-                    from include/asm-generic/bug.h:19,
-                    from arch/x86/include/asm/bug.h:83,
-                    from include/linux/bug.h:5,
-                    from include/linux/seq_file.h:7,
-                    from include/drm/drm_print.h:31,
-                    from drivers/gpu/drm/i915/intel_engine_cs.c:25:
-   arch/x86/include/asm/bitops.h:413:28: note: expected 'int' but argument is of type 'const u8 * {aka const unsigned char *}'
-    static __always_inline int ffs(int x)
-                               ^~~
-   In file included from include/drm/drm_print.h:29:0,
-                    from drivers/gpu/drm/i915/intel_engine_cs.c:25:
-   drivers/gpu/drm/i915/intel_engine_cs.c: In function '__intel_engine_context_size':
-   include/linux/compiler.h:77:22: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    # define unlikely(x) __builtin_expect(!!(x), 0)
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:115:2: note: in expansion of macro 'unlikely'
-     unlikely(__ret_warn_on);     \
-     ^~~~~~~~
-   drivers/gpu/drm/i915/i915_utils.h:43:25: note: in expansion of macro 'WARN'
-    #define MISSING_CASE(x) WARN(1, "Missing switch case (%lu) in %s\n", \
-                            ^~~~
-   drivers/gpu/drm/i915/intel_engine_cs.c:160:4: note: in expansion of macro 'MISSING_CASE'
-       MISSING_CASE(INTEL_GEN(dev_priv));
-       ^~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_engine_cs.c:161:3: note: here
-      case 10:
-      ^~~~
-   In file included from include/drm/drm_print.h:29:0,
-                    from drivers/gpu/drm/i915/intel_engine_cs.c:25:
-   include/linux/compiler.h:77:22: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    # define unlikely(x) __builtin_expect(!!(x), 0)
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/bug.h:115:2: note: in expansion of macro 'unlikely'
-     unlikely(__ret_warn_on);     \
-     ^~~~~~~~
-   drivers/gpu/drm/i915/i915_utils.h:43:25: note: in expansion of macro 'WARN'
-    #define MISSING_CASE(x) WARN(1, "Missing switch case (%lu) in %s\n", \
-                            ^~~~
-   drivers/gpu/drm/i915/intel_engine_cs.c:190:3: note: in expansion of macro 'MISSING_CASE'
-      MISSING_CASE(class);
-      ^~~~~~~~~~~~
-   drivers/gpu/drm/i915/intel_engine_cs.c:191:2: note: here
-     case VIDEO_DECODE_CLASS:
-     ^~~~
+>> mm/migrate.c:491:36: error: use of undeclared identifier 'NR_SHMEM_THP'; did you mean 'NR_SHMEM_THPS'?
+     491 |                                 __mod_lruvec_state(old_lruvec, NR_SHMEM_THP, -nr);
+         |                                                                ^~~~~~~~~~~~
+         |                                                                NR_SHMEM_THPS
+   include/linux/mmzone.h:181:2: note: 'NR_SHMEM_THPS' declared here
+     181 |         NR_SHMEM_THPS,
+         |         ^
+   mm/migrate.c:492:36: error: use of undeclared identifier 'NR_SHMEM_THP'; did you mean 'NR_SHMEM_THPS'?
+     492 |                                 __mod_lruvec_state(new_lruvec, NR_SHMEM_THP, nr);
+         |                                                                ^~~~~~~~~~~~
+         |                                                                NR_SHMEM_THPS
+   include/linux/mmzone.h:181:2: note: 'NR_SHMEM_THPS' declared here
+     181 |         NR_SHMEM_THPS,
+         |         ^
+   2 errors generated.
 
 
-vim +291 drivers/gpu/drm/i915/intel_device_info.c
+vim +491 mm/migrate.c
 
-94b4f3ba483ace Chris Wilson                2016-07-05  267  
-94b4f3ba483ace Chris Wilson                2016-07-05  268  static void gen9_sseu_info_init(struct drm_i915_private *dev_priv)
-94b4f3ba483ace Chris Wilson                2016-07-05  269  {
-94b4f3ba483ace Chris Wilson                2016-07-05  270  	struct intel_device_info *info = mkwrite_device_info(dev_priv);
-43b6799814ca1f Imre Deak                   2016-08-31  271  	struct sseu_dev_info *sseu = &info->sseu;
-94b4f3ba483ace Chris Wilson                2016-07-05  272  	int s, ss;
-767336b68f8a30 Lionel Landwerlin           2018-03-06  273  	u32 fuse2, eu_disable, subslice_mask;
-767336b68f8a30 Lionel Landwerlin           2018-03-06  274  	const u8 eu_mask = 0xff;
-94b4f3ba483ace Chris Wilson                2016-07-05  275  
-94b4f3ba483ace Chris Wilson                2016-07-05  276  	fuse2 = I915_READ(GEN8_FUSE2);
-f08a0c9234c86c Imre Deak                   2016-08-31  277  	sseu->slice_mask = (fuse2 & GEN8_F2_S_ENA_MASK) >> GEN8_F2_S_ENA_SHIFT;
-94b4f3ba483ace Chris Wilson                2016-07-05  278  
-767336b68f8a30 Lionel Landwerlin           2018-03-06  279  	/* BXT has a single slice and at most 3 subslices. */
-767336b68f8a30 Lionel Landwerlin           2018-03-06  280  	sseu->max_slices = IS_GEN9_LP(dev_priv) ? 1 : 3;
-767336b68f8a30 Lionel Landwerlin           2018-03-06  281  	sseu->max_subslices = IS_GEN9_LP(dev_priv) ? 3 : 4;
-767336b68f8a30 Lionel Landwerlin           2018-03-06  282  	sseu->max_eus_per_subslice = 8;
-767336b68f8a30 Lionel Landwerlin           2018-03-06  283  
-94b4f3ba483ace Chris Wilson                2016-07-05  284  	/*
-94b4f3ba483ace Chris Wilson                2016-07-05  285  	 * The subslice disable field is global, i.e. it applies
-94b4f3ba483ace Chris Wilson                2016-07-05  286  	 * to each of the enabled slices.
-94b4f3ba483ace Chris Wilson                2016-07-05  287  	*/
-767336b68f8a30 Lionel Landwerlin           2018-03-06  288  	subslice_mask = (1 << sseu->max_subslices) - 1;
-767336b68f8a30 Lionel Landwerlin           2018-03-06  289  	subslice_mask &= ~((fuse2 & GEN9_F2_SS_DIS_MASK) >>
-57ec171eae21ee Imre Deak                   2016-08-31  290  			   GEN9_F2_SS_DIS_SHIFT);
-7e8b7b831eef88 Cooper Chiou                2021-01-28 @291  	DRM_DEBUG_DRIVER("fuse2=0x%x subslice_mask=0x%x\n", fuse2, sseu->subslice_mask);
-94b4f3ba483ace Chris Wilson                2016-07-05  292  
-94b4f3ba483ace Chris Wilson                2016-07-05  293  	/*
-94b4f3ba483ace Chris Wilson                2016-07-05  294  	 * Iterate through enabled slices and subslices to
-94b4f3ba483ace Chris Wilson                2016-07-05  295  	 * count the total enabled EU.
-94b4f3ba483ace Chris Wilson                2016-07-05  296  	*/
-767336b68f8a30 Lionel Landwerlin           2018-03-06  297  	for (s = 0; s < sseu->max_slices; s++) {
-f08a0c9234c86c Imre Deak                   2016-08-31  298  		if (!(sseu->slice_mask & BIT(s)))
-94b4f3ba483ace Chris Wilson                2016-07-05  299  			/* skip disabled slice */
-94b4f3ba483ace Chris Wilson                2016-07-05  300  			continue;
-94b4f3ba483ace Chris Wilson                2016-07-05  301  
-767336b68f8a30 Lionel Landwerlin           2018-03-06  302  		sseu->subslice_mask[s] = subslice_mask;
-767336b68f8a30 Lionel Landwerlin           2018-03-06  303  
-94b4f3ba483ace Chris Wilson                2016-07-05  304  		eu_disable = I915_READ(GEN9_EU_DISABLE(s));
-767336b68f8a30 Lionel Landwerlin           2018-03-06  305  		for (ss = 0; ss < sseu->max_subslices; ss++) {
-94b4f3ba483ace Chris Wilson                2016-07-05  306  			int eu_per_ss;
-767336b68f8a30 Lionel Landwerlin           2018-03-06  307  			u8 eu_disabled_mask;
-94b4f3ba483ace Chris Wilson                2016-07-05  308  
-767336b68f8a30 Lionel Landwerlin           2018-03-06  309  			if (!(sseu->subslice_mask[s] & BIT(ss)))
-94b4f3ba483ace Chris Wilson                2016-07-05  310  				/* skip disabled subslice */
-94b4f3ba483ace Chris Wilson                2016-07-05  311  				continue;
-94b4f3ba483ace Chris Wilson                2016-07-05  312  
-767336b68f8a30 Lionel Landwerlin           2018-03-06  313  			eu_disabled_mask = (eu_disable >> (ss*8)) & eu_mask;
-767336b68f8a30 Lionel Landwerlin           2018-03-06  314  
-767336b68f8a30 Lionel Landwerlin           2018-03-06  315  			sseu_set_eus(sseu, s, ss, ~eu_disabled_mask);
-767336b68f8a30 Lionel Landwerlin           2018-03-06  316  
-767336b68f8a30 Lionel Landwerlin           2018-03-06  317  			eu_per_ss = sseu->max_eus_per_subslice -
-767336b68f8a30 Lionel Landwerlin           2018-03-06  318  				hweight8(eu_disabled_mask);
-94b4f3ba483ace Chris Wilson                2016-07-05  319  
-94b4f3ba483ace Chris Wilson                2016-07-05  320  			/*
-94b4f3ba483ace Chris Wilson                2016-07-05  321  			 * Record which subslice(s) has(have) 7 EUs. we
-94b4f3ba483ace Chris Wilson                2016-07-05  322  			 * can tune the hash used to spread work among
-94b4f3ba483ace Chris Wilson                2016-07-05  323  			 * subslices if they are unbalanced.
-94b4f3ba483ace Chris Wilson                2016-07-05  324  			 */
-94b4f3ba483ace Chris Wilson                2016-07-05  325  			if (eu_per_ss == 7)
-43b6799814ca1f Imre Deak                   2016-08-31  326  				sseu->subslice_7eu[s] |= BIT(ss);
-94b4f3ba483ace Chris Wilson                2016-07-05  327  		}
-94b4f3ba483ace Chris Wilson                2016-07-05  328  	}
-94b4f3ba483ace Chris Wilson                2016-07-05  329  
-767336b68f8a30 Lionel Landwerlin           2018-03-06  330  	sseu->eu_total = compute_eu_total(sseu);
-767336b68f8a30 Lionel Landwerlin           2018-03-06  331  
-94b4f3ba483ace Chris Wilson                2016-07-05  332  	/*
-94b4f3ba483ace Chris Wilson                2016-07-05  333  	 * SKL is expected to always have a uniform distribution
-94b4f3ba483ace Chris Wilson                2016-07-05  334  	 * of EU across subslices with the exception that any one
-94b4f3ba483ace Chris Wilson                2016-07-05  335  	 * EU in any one subslice may be fused off for die
-94b4f3ba483ace Chris Wilson                2016-07-05  336  	 * recovery. BXT is expected to be perfectly uniform in EU
-94b4f3ba483ace Chris Wilson                2016-07-05  337  	 * distribution.
-94b4f3ba483ace Chris Wilson                2016-07-05  338  	*/
-57ec171eae21ee Imre Deak                   2016-08-31  339  	sseu->eu_per_subslice = sseu_subslice_total(sseu) ?
-43b6799814ca1f Imre Deak                   2016-08-31  340  				DIV_ROUND_UP(sseu->eu_total,
-57ec171eae21ee Imre Deak                   2016-08-31  341  					     sseu_subslice_total(sseu)) : 0;
-94b4f3ba483ace Chris Wilson                2016-07-05  342  	/*
-c7ae7e9ab2078e Rodrigo Vivi                2017-06-06  343  	 * SKL+ supports slice power gating on devices with more than
-94b4f3ba483ace Chris Wilson                2016-07-05  344  	 * one slice, and supports EU power gating on devices with
-c7ae7e9ab2078e Rodrigo Vivi                2017-06-06  345  	 * more than one EU pair per subslice. BXT+ supports subslice
-94b4f3ba483ace Chris Wilson                2016-07-05  346  	 * power gating on devices with more than one subslice, and
-94b4f3ba483ace Chris Wilson                2016-07-05  347  	 * supports EU power gating on devices with more than one EU
-94b4f3ba483ace Chris Wilson                2016-07-05  348  	 * pair per subslice.
-94b4f3ba483ace Chris Wilson                2016-07-05  349  	*/
-43b6799814ca1f Imre Deak                   2016-08-31  350  	sseu->has_slice_pg =
-c7ae7e9ab2078e Rodrigo Vivi                2017-06-06  351  		!IS_GEN9_LP(dev_priv) && hweight8(sseu->slice_mask) > 1;
-43b6799814ca1f Imre Deak                   2016-08-31  352  	sseu->has_subslice_pg =
-254e0931f5b981 Michel Thierry              2017-01-09  353  		IS_GEN9_LP(dev_priv) && sseu_subslice_total(sseu) > 1;
-43b6799814ca1f Imre Deak                   2016-08-31  354  	sseu->has_eu_pg = sseu->eu_per_subslice > 2;
-94b4f3ba483ace Chris Wilson                2016-07-05  355  
-234516afbba56c Ander Conselvan de Oliveira 2017-03-17  356  	if (IS_GEN9_LP(dev_priv)) {
-767336b68f8a30 Lionel Landwerlin           2018-03-06  357  #define IS_SS_DISABLED(ss)	(!(sseu->subslice_mask[0] & BIT(ss)))
-767336b68f8a30 Lionel Landwerlin           2018-03-06  358  		info->has_pooled_eu = hweight8(sseu->subslice_mask[0]) == 3;
-234516afbba56c Ander Conselvan de Oliveira 2017-03-17  359  
-43b6799814ca1f Imre Deak                   2016-08-31  360  		sseu->min_eu_in_pool = 0;
-94b4f3ba483ace Chris Wilson                2016-07-05  361  		if (info->has_pooled_eu) {
-57ec171eae21ee Imre Deak                   2016-08-31  362  			if (IS_SS_DISABLED(2) || IS_SS_DISABLED(0))
-43b6799814ca1f Imre Deak                   2016-08-31  363  				sseu->min_eu_in_pool = 3;
-57ec171eae21ee Imre Deak                   2016-08-31  364  			else if (IS_SS_DISABLED(1))
-43b6799814ca1f Imre Deak                   2016-08-31  365  				sseu->min_eu_in_pool = 6;
-94b4f3ba483ace Chris Wilson                2016-07-05  366  			else
-43b6799814ca1f Imre Deak                   2016-08-31  367  				sseu->min_eu_in_pool = 9;
-94b4f3ba483ace Chris Wilson                2016-07-05  368  		}
-94b4f3ba483ace Chris Wilson                2016-07-05  369  #undef IS_SS_DISABLED
-94b4f3ba483ace Chris Wilson                2016-07-05  370  	}
-94b4f3ba483ace Chris Wilson                2016-07-05  371  }
-94b4f3ba483ace Chris Wilson                2016-07-05  372  
-
-:::::: The code at line 291 was first introduced by commit
-:::::: 7e8b7b831eef8845968681254854d4423d47acb4 BACKPORT: FROMLIST: drm/i915: Enable WaProgramMgsrForCorrectSliceSpecificMmioReads for Gen9
-
-:::::: TO: Cooper Chiou <cooper.chiou@intel.com>
-:::::: CC: Commit Bot <commit-bot@chromium.org>
+   389	
+   390	/*
+   391	 * Replace the page in the mapping.
+   392	 *
+   393	 * The number of remaining references must be:
+   394	 * 1 for anonymous pages without a mapping
+   395	 * 2 for pages with a mapping
+   396	 * 3 for pages with a mapping and PagePrivate/PagePrivate2 set.
+   397	 */
+   398	int folio_migrate_mapping(struct address_space *mapping,
+   399			struct folio *newfolio, struct folio *folio, int extra_count)
+   400	{
+   401		XA_STATE(xas, &mapping->i_pages, folio_index(folio));
+   402		struct zone *oldzone, *newzone;
+   403		int dirty;
+   404		int expected_count = folio_expected_refs(mapping, folio) + extra_count;
+   405		long nr = folio_nr_pages(folio);
+   406	
+   407		if (!mapping) {
+   408			/* Anonymous page without mapping */
+   409			if (folio_ref_count(folio) != expected_count)
+   410				return -EAGAIN;
+   411	
+   412			/* No turning back from here */
+   413			newfolio->index = folio->index;
+   414			newfolio->mapping = folio->mapping;
+   415			if (folio_test_swapbacked(folio))
+   416				__folio_set_swapbacked(newfolio);
+   417	
+   418			return MIGRATEPAGE_SUCCESS;
+   419		}
+   420	
+   421		oldzone = folio_zone(folio);
+   422		newzone = folio_zone(newfolio);
+   423	
+   424		xas_lock_irq(&xas);
+   425		if (!folio_ref_freeze(folio, expected_count)) {
+   426			xas_unlock_irq(&xas);
+   427			return -EAGAIN;
+   428		}
+   429	
+   430		/*
+   431		 * Now we know that no one else is looking at the folio:
+   432		 * no turning back from here.
+   433		 */
+   434		newfolio->index = folio->index;
+   435		newfolio->mapping = folio->mapping;
+   436		folio_ref_add(newfolio, nr); /* add cache reference */
+   437		if (folio_test_swapbacked(folio)) {
+   438			__folio_set_swapbacked(newfolio);
+   439			if (folio_test_swapcache(folio)) {
+   440				folio_set_swapcache(newfolio);
+   441				newfolio->private = folio_get_private(folio);
+   442			}
+   443		} else {
+   444			VM_BUG_ON_FOLIO(folio_test_swapcache(folio), folio);
+   445		}
+   446	
+   447		/* Move dirty while page refs frozen and newpage not yet exposed */
+   448		dirty = folio_test_dirty(folio);
+   449		if (dirty) {
+   450			folio_clear_dirty(folio);
+   451			folio_set_dirty(newfolio);
+   452		}
+   453	
+   454		xas_store(&xas, newfolio);
+   455	
+   456		/*
+   457		 * Drop cache reference from old page by unfreezing
+   458		 * to one less reference.
+   459		 * We know this isn't the last reference.
+   460		 */
+   461		folio_ref_unfreeze(folio, expected_count - nr);
+   462	
+   463		xas_unlock(&xas);
+   464		/* Leave irq disabled to prevent preemption while updating stats */
+   465	
+   466		/*
+   467		 * If moved to a different zone then also account
+   468		 * the page for that zone. Other VM counters will be
+   469		 * taken care of when we establish references to the
+   470		 * new page and drop references to the old page.
+   471		 *
+   472		 * Note that anonymous pages are accounted for
+   473		 * via NR_FILE_PAGES and NR_ANON_MAPPED if they
+   474		 * are mapped to swap space.
+   475		 */
+   476		if (newzone != oldzone) {
+   477			struct lruvec *old_lruvec, *new_lruvec;
+   478			struct mem_cgroup *memcg;
+   479	
+   480			memcg = folio_memcg(folio);
+   481			old_lruvec = mem_cgroup_lruvec(memcg, oldzone->zone_pgdat);
+   482			new_lruvec = mem_cgroup_lruvec(memcg, newzone->zone_pgdat);
+   483	
+   484			__mod_lruvec_state(old_lruvec, NR_FILE_PAGES, -nr);
+   485			__mod_lruvec_state(new_lruvec, NR_FILE_PAGES, nr);
+   486			if (folio_test_swapbacked(folio) && !folio_test_swapcache(folio)) {
+   487				__mod_lruvec_state(old_lruvec, NR_SHMEM, -nr);
+   488				__mod_lruvec_state(new_lruvec, NR_SHMEM, nr);
+   489	
+   490				if (folio_test_transhuge(folio)) {
+ > 491					__mod_lruvec_state(old_lruvec, NR_SHMEM_THP, -nr);
+   492					__mod_lruvec_state(new_lruvec, NR_SHMEM_THP, nr);
+   493				}
+   494			}
+   495	#ifdef CONFIG_SWAP
+   496			if (folio_test_swapcache(folio)) {
+   497				__mod_lruvec_state(old_lruvec, NR_SWAPCACHE, -nr);
+   498				__mod_lruvec_state(new_lruvec, NR_SWAPCACHE, nr);
+   499			}
+   500	#endif
+   501			if (dirty && mapping_can_writeback(mapping)) {
+   502				__mod_lruvec_state(old_lruvec, NR_FILE_DIRTY, -nr);
+   503				__mod_zone_page_state(oldzone, NR_ZONE_WRITE_PENDING, -nr);
+   504				__mod_lruvec_state(new_lruvec, NR_FILE_DIRTY, nr);
+   505				__mod_zone_page_state(newzone, NR_ZONE_WRITE_PENDING, nr);
+   506			}
+   507		}
+   508		local_irq_enable();
+   509	
+   510		return MIGRATEPAGE_SUCCESS;
+   511	}
+   512	EXPORT_SYMBOL(folio_migrate_mapping);
+   513	
 
 -- 
 0-DAY CI Kernel Test Service
