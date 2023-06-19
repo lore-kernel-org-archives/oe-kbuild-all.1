@@ -1,43 +1,52 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4847615A0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jun 2023 05:05:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687151107; x=1718687107;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cBezhm8JJLYYJWYKWCI11FXuciXo+VD59nScl8lv9eE=;
-  b=gpzUDljfrbswEP1/DIOyogiH31Hhdkyg6HVsp/tiUlVMRNVTbQMEaZss
-   MqFuW4WQ9TiGnvmFNDRa21fDPEBVNcRoLq3UX9gfH2hcPisuJ15RAHfEj
-   lHi1W48s834TtfWxchqGSqBJ8VfEkplVtHFUamy4G5gXfLCOb3ESP2U4v
-   E57P+z0sCG+awuI10jNptZAcdY9An1ZjvsSUYsoyJjFPF8EHQiYJEmENO
-   7R80wFrfzBRknNMUgLKkn1BCrA23PpBZH6Sj/R6PiXXh229BAdPUSG3Xh
-   tzTgHKe9C+cAxUTWgjN6yKXucIRND3jYGSND/y67Wrp701fMI0/Q2rSJg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="357032056"
-X-IronPort-AV: E=Sophos;i="6.00,253,1681196400"; 
-   d="scan'208";a="357032056"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2023 22:05:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="707756123"
-X-IronPort-AV: E=Sophos;i="6.00,253,1681196400"; 
-   d="scan'208";a="707756123"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 18 Jun 2023 22:05:04 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qB74a-0004M4-0T;
-	Mon, 19 Jun 2023 05:05:04 +0000
-Date: Mon, 19 Jun 2023 13:04:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mcgrof-next:large-block-20230618-hacks-v2 44/45]
- bus.c:(.text+0x264): multiple definition of `bdev_aops_reset';
- drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-Message-ID: <202306191312.jurjHYAb-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C585823A1
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jun 2023 05:10:22 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3f900cd3f96so17612695e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jun 2023 22:10:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687151420; x=1689743420;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+QznHElJ0HsTDedTwF3nhfH6BjoF5oIB1dW3I90TPnQ=;
+        b=LEDvOHnOUH1l1LaCUToBe08OnNgIcfKCIMXxIFWAbLrB3hetT7q1b85ekYhKB1upX5
+         OwoXX6puGIjBF2Cbf4qWIJBmh+yZv++IwQg5Wfd2NFlMnTpUQbNGpn8aC5siEYcbBpUe
+         xWiXvH8R3VR2SIaWgyyLOe8r3r74+IEcykCf66XSnayVGXw1BMlgM6//mFLJnOI5okij
+         XYfEaOXUy3Nssa1z3ak0hGPRxAyhFfagjepiF/F/3o8N9FYS8Wbn4Mha4COfAbfM402n
+         OANQb+YJelgWRTyS1g5Ie1dw8j4/Sgs04eVns0EFZyLHTGHQv0p25yDImPBZdGrz6BhL
+         562g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687151420; x=1689743420;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+QznHElJ0HsTDedTwF3nhfH6BjoF5oIB1dW3I90TPnQ=;
+        b=WnqI97RMcodMr0rH4OTXExQtWtNQ1k2Ep8J+yJt6hFnHRBHXPXwdQ9GO5nXtfWEZEg
+         5yHY1A+GolYMPxbV0bbbHNSuLefcf0MTBB9brPAcQSxbaqKaWEsAHBGLvyQFjzxKoGg3
+         wxNTqs5rWGBmCiuvurE43sby0JeUjv+tuaxqG5iKFN4qhm/PiKRbFH42aB/CxYzgjVnG
+         MnoR/y/yBjDvlx2cUovFWO3MALLWmgXeLt5986JTyF0eq4kCkMFYwR+q1TiQQuU+njwl
+         /dm0dcuAVinfjuyCXdvcO928Gh1caHUOm4IX+UAI9ZFV7PwX8p7lLvxSV0s2vHyZcjos
+         TdRA==
+X-Gm-Message-State: AC+VfDy5s4Cy/lthOj27y5xmwlQLnVzLfushMjewXzSYZy2qYV9h/LD3
+	aPGMRsIYjVgUaqwx1sbkIT4YYQ==
+X-Google-Smtp-Source: ACHHUZ5Aljbwjz3ukqyUzdcr3D87j/ncHf3cy4yJrqb9BxgDi0EBnLkZjKkzfQmMWkyUCJfBVdysNA==
+X-Received: by 2002:a7b:cd97:0:b0:3f9:a6f3:f23c with SMTP id y23-20020a7bcd97000000b003f9a6f3f23cmr1368753wmj.36.1687151420609;
+        Sun, 18 Jun 2023 22:10:20 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id x16-20020a05600c21d000b003f90b58df65sm3709589wmj.29.2023.06.18.22.10.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Jun 2023 22:10:19 -0700 (PDT)
+Date: Mon, 19 Jun 2023 08:10:14 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: [linux-next:master 6872/10546]
+ drivers/staging/media/atomisp/pci/atomisp_fops.c:532 atomisp_open() warn:
+ missing unwind goto?
+Message-ID: <146d3af9-afbd-4a9f-b5c0-bdc2a319ab10@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,53 +56,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.git large-block-20230618-hacks-v2
-head:   45755261f269a9ff35d37c5aa481e86424e78716
-commit: f698784915e1c993a52b563936ef824727a98e77 [44/45] bdev: allow to switch between bdev aops
-config: arc-randconfig-r043-20230619 (https://download.01.org/0day-ci/archive/20230619/202306191312.jurjHYAb-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230619/202306191312.jurjHYAb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f7efed9f38f886edb450041b82a6f15d663c98f8
+commit: 347f2e56b94e1ed197daa6697b22af049a82157d [6872/10546] media: atomisp: Simplify atomisp_open() and atomisp_release()
+config: i386-randconfig-m021-20230618 (https://download.01.org/0day-ci/archive/20230618/202306180511.XWN0Hr7F-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230618/202306180511.XWN0Hr7F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306191312.jurjHYAb-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202306180511.XWN0Hr7F-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/staging/media/atomisp/pci/atomisp_fops.c:532 atomisp_open() warn: missing unwind goto?
 
-   arceb-elf-ld: drivers/mmc/core/bus.o: in function `bdev_aops_reset':
->> bus.c:(.text+0x264): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/host.o: in function `bdev_aops_reset':
-   host.c:(.text+0xc98): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/mmc.o: in function `bdev_aops_reset':
-   mmc.c:(.text+0x2810): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/mmc_ops.o: in function `bdev_aops_reset':
-   mmc_ops.c:(.text+0x888): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/sd.o: in function `bdev_aops_reset':
-   sd.c:(.text+0x146c): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/sd_ops.o: in function `bdev_aops_reset':
-   sd_ops.c:(.text+0x23c): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/sdio.o: in function `bdev_aops_reset':
-   sdio.c:(.text+0x158c): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/sdio_ops.o: in function `bdev_aops_reset':
-   sdio_ops.c:(.text+0xd4): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/sdio_bus.o: in function `bdev_aops_reset':
-   sdio_bus.c:(.text+0x5dc): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/sdio_cis.o: in function `bdev_aops_reset':
-   sdio_cis.c:(.text+0x60c): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/sdio_io.o: in function `bdev_aops_reset':
-   sdio_io.c:(.text+0x83c): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/sdio_irq.o: in function `bdev_aops_reset':
-   sdio_irq.c:(.text+0x79c): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/slot-gpio.o: in function `bdev_aops_reset':
-   slot-gpio.c:(.text+0x3f4): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/regulator.o: in function `bdev_aops_reset':
-   regulator.c:(.text+0x4b4): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/pwrseq.o: in function `bdev_aops_reset':
-   pwrseq.c:(.text+0xe4): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
-   arceb-elf-ld: drivers/mmc/core/debugfs.o: in function `bdev_aops_reset':
-   debugfs.c:(.text+0x42c): multiple definition of `bdev_aops_reset'; drivers/mmc/core/core.o:core.c:(.text+0x2060): first defined here
+vim +532 drivers/staging/media/atomisp/pci/atomisp_fops.c
+
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  502  static int atomisp_open(struct file *file)
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  503  {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  504  	struct video_device *vdev = video_devdata(file);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  505  	struct atomisp_device *isp = video_get_drvdata(vdev);
+af69562a28faa5 drivers/staging/media/atomisp/pci/atomisp_fops.c          Hans de Goede         2022-08-28  506  	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
+af69562a28faa5 drivers/staging/media/atomisp/pci/atomisp_fops.c          Hans de Goede         2022-08-28  507  	struct atomisp_sub_device *asd = pipe->asd;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  508  	int ret;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  509  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  510  	dev_dbg(isp->dev, "open device %s\n", vdev->name);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  511  
+821e6f16125a0e drivers/staging/media/atomisp/pci/atomisp_fops.c          Mauro Carvalho Chehab 2021-11-05  512  	ret = v4l2_fh_open(file);
+ba6856aab1a7ed drivers/staging/media/atomisp/pci/atomisp_fops.c          Hans de Goede         2022-08-29  513  	if (ret)
+821e6f16125a0e drivers/staging/media/atomisp/pci/atomisp_fops.c          Mauro Carvalho Chehab 2021-11-05  514  		return ret;
+59a27d5c98f7f6 drivers/staging/media/atomisp/pci/atomisp_fops.c          Alan                  2017-11-06  515  
+f10fc1790d5ecd drivers/staging/media/atomisp/pci/atomisp_fops.c          Hans de Goede         2022-09-02  516  	mutex_lock(&isp->mutex);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  517  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  518  	asd->subdev.devnode = vdev;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  519  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  520  	if (!isp->input_cnt) {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  521  		dev_err(isp->dev, "no camera attached\n");
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  522  		ret = -EINVAL;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  523  		goto error;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  524  	}
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  525  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  526  	/*
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  527  	 * atomisp does not allow multiple open
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  528  	 */
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  529  	if (pipe->users) {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  530  		dev_dbg(isp->dev, "video node already opened\n");
+f10fc1790d5ecd drivers/staging/media/atomisp/pci/atomisp_fops.c          Hans de Goede         2022-09-02  531  		mutex_unlock(&isp->mutex);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19 @532  		return -EBUSY;
+
+Do we need to undo the v4l2_fh_open()?
+
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  533  	}
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  534  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  535  	/* runtime power management, turn on ISP */
+deb9119f807abd drivers/staging/media/atomisp/pci/atomisp_fops.c          Mauro Carvalho Chehab 2021-04-23  536  	ret = pm_runtime_resume_and_get(vdev->v4l2_dev->dev);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  537  	if (ret < 0) {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  538  		dev_err(isp->dev, "Failed to power on device\n");
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  539  		goto error;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  540  	}
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  541  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  542  	atomisp_dev_init_struct(isp);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  543  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  544  	ret = v4l2_subdev_call(isp->flash, core, s_power, 1);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  545  	if (ret < 0 && ret != -ENODEV && ret != -ENOIOCTLCMD) {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  546  		dev_err(isp->dev, "Failed to power-on flash\n");
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  547  		goto css_error;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  548  	}
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  549  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  550  	atomisp_subdev_init_struct(asd);
+60ec70a71a9f99 drivers/staging/media/atomisp/pci/atomisp_fops.c          Hans de Goede         2022-12-28  551  	/* Ensure that a mode is set */
+60ec70a71a9f99 drivers/staging/media/atomisp/pci/atomisp_fops.c          Hans de Goede         2022-12-28  552  	v4l2_ctrl_s_ctrl(asd->run_mode, pipe->default_run_mode);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  553  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  554  	pipe->users++;
+f10fc1790d5ecd drivers/staging/media/atomisp/pci/atomisp_fops.c          Hans de Goede         2022-09-02  555  	mutex_unlock(&isp->mutex);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  556  	return 0;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  557  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  558  css_error:
+deb9119f807abd drivers/staging/media/atomisp/pci/atomisp_fops.c          Mauro Carvalho Chehab 2021-04-23  559  	pm_runtime_put(vdev->v4l2_dev->dev);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  560  error:
+f10fc1790d5ecd drivers/staging/media/atomisp/pci/atomisp_fops.c          Hans de Goede         2022-09-02  561  	mutex_unlock(&isp->mutex);
+5b9853ad1329be drivers/staging/media/atomisp/pci/atomisp_fops.c          Hans de Goede         2022-08-29  562  	v4l2_fh_release(file);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  563  	return ret;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/atomisp_fops.c Mauro Carvalho Chehab 2020-04-19  564  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
