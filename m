@@ -1,122 +1,138 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8685523A1
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jun 2023 05:23:01 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3113306a595so1718334f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jun 2023 22:23:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687152179; x=1689744179;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hqTG9ArGdEzQq9IpwudIt3+5bVyc9z+fAnofQue9vuk=;
-        b=G6n8x8GTPahdlwUoSHolMAle9IuGP+3eqbiVzdJo9OtKANQXIUwqP13RQxcx7HQ596
-         I5DWNghs7/Awq3IzV3EeC9JoFQiXZoilTBh6TzPPmEOj1iQI5bp67LcpLTm2FnMv/93u
-         lDOIy3Vf9IsuEryVTIiq4E8e+TvtjjaKH6MYe/MSbsvfIIL9/q9fw++GAgJ7XiFUcFce
-         C3XvORx/JLHemFFSsPILkErVLIq5P1eQge6B/byhvP1PCR4LUthDzxUgjdQypsOY64hp
-         OKq5z1i0zJ94Shl/vHubqQfbFFuzZJlq/vOS3uCESNKpiKcN0XIdklw8ENOSdyIXGavi
-         Is5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687152179; x=1689744179;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hqTG9ArGdEzQq9IpwudIt3+5bVyc9z+fAnofQue9vuk=;
-        b=PKSTLZfX4atFqt4BGKsnZ16z0JkScGfgaw9G+FmpV0qKXCLpHFOLT6AN6mQg7zQG9N
-         Yx/NOrPGDLOWW8OrxZqQw9TPG80QYx0IxJZiswZCzj6Sst1wL0xdx/4pqf208AlxJ8n7
-         LNdJNiw4vgd+TryrCUZYKigt8zrcVgjhKvD6qSitlNaQYt6RKVw2cgFdeW+POQfh+lYd
-         cRJKIW4+z0qzyCq0J4tETQc8umH4BNlizfj69EmG6rq1Iqpwez5D0aLdDbIVg4RK996X
-         +d6/oNFNEfSnIFoZXhZwG1yGzKrNuvfOgGCoSvl1ikRdlzdIj+Bkk3JPxFqCeRF0jaUm
-         i6Ig==
-X-Gm-Message-State: AC+VfDwQaksj71QzRMz+l8aNf4vbPSNNEhPWnaq22K+sSzs9bKK68t/y
-	nrNw11APE+vmhMnv+8NMyNxo+g==
-X-Google-Smtp-Source: ACHHUZ6rbNZIsvRxN2mNLwCFxmQkU4vCbqWKMrwfob6c1HLg2lcpfnQ76tuEXWXsO5c0o0Xk74A5dA==
-X-Received: by 2002:a5d:44cf:0:b0:30f:be04:5b60 with SMTP id z15-20020a5d44cf000000b0030fbe045b60mr8280300wrr.56.1687152179557;
-        Sun, 18 Jun 2023 22:22:59 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id j8-20020a5d6188000000b0031118d80246sm10590507wru.29.2023.06.18.22.22.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Jun 2023 22:22:57 -0700 (PDT)
-Date: Mon, 19 Jun 2023 08:22:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Anup Patel <apatel@ventanamicro.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [avpatel:riscv_timer_imp_v1 43/50] drivers/iommu/dma-iommu.c:1698
- iommu_dma_compose_msi_msg() error: uninitialized symbol 'msi_addr'.
-Message-ID: <8cb591d2-d463-4585-a417-291fa2f24ae0@kadam.mountain>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8423185F;
+	Mon, 19 Jun 2023 05:45:22 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 03D822F4;
+	Sun, 18 Jun 2023 22:46:00 -0700 (PDT)
+Received: from [10.162.40.17] (a077893.blr.arm.com [10.162.40.17])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EBF263F663;
+	Sun, 18 Jun 2023 22:45:10 -0700 (PDT)
+Message-ID: <f624966d-5973-0aed-bd73-29ef0530e5ce@arm.com>
+Date: Mon, 19 Jun 2023 11:15:07 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH V12 05/10] arm64/perf: Add branch stack support in ARMV8
+ PMU
+Content-Language: en-US
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: kernel test robot <lkp@intel.com>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, will@kernel.org, mark.rutland@arm.com,
+ llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ Mark Brown <broonie@kernel.org>, James Clark <james.clark@arm.com>,
+ Rob Herring <robh@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Suzuki Poulose <suzuki.poulose@arm.com>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>, linux-perf-users@vger.kernel.org
+References: <20230615133239.442736-6-anshuman.khandual@arm.com>
+ <202306160706.Uei5XDoi-lkp@intel.com>
+ <883f2a20-fe20-4d43-86cf-7847d59e2169@arm.com> <ZIwpma4SAJ/ZUyh5@arm.com>
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <ZIwpma4SAJ/ZUyh5@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/avpatel/linux.git riscv_timer_imp_v1
-head:   74a10c4f3857dece3424b109452f63add2baa7f6
-commit: 59f0204d5995cda5dad48d7821d2d885a852f519 [43/50] irqchip/riscv-imsic: Improve IOMMU DMA support
-config: i386-randconfig-m021-20230618 (https://download.01.org/0day-ci/archive/20230619/202306190814.sEFyHNhA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230619/202306190814.sEFyHNhA-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202306190814.sEFyHNhA-lkp@intel.com/
 
-New smatch warnings:
-drivers/iommu/dma-iommu.c:1698 iommu_dma_compose_msi_msg() error: uninitialized symbol 'msi_addr'.
+On 6/16/23 14:51, Catalin Marinas wrote:
+> On Fri, Jun 16, 2023 at 06:57:52AM +0530, Anshuman Khandual wrote:
+>> On 6/16/23 05:12, kernel test robot wrote:
+>>> kernel test robot noticed the following build errors:
+>>>
+>>> [auto build test ERROR on arm64/for-next/core]
+>>> [also build test ERROR on tip/perf/core acme/perf/core linus/master v6.4-rc6 next-20230615]
+>>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>>> And when submitting patch, we suggest to use '--base' as documented in
+>>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>>
+>>> url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/drivers-perf-arm_pmu-Add-new-sched_task-callback/20230615-223352
+>>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+>>> patch link:    https://lore.kernel.org/r/20230615133239.442736-6-anshuman.khandual%40arm.com
+>>> patch subject: [PATCH V12 05/10] arm64/perf: Add branch stack support in ARMV8 PMU
+>>> config: arm-randconfig-r004-20230615 (https://download.01.org/0day-ci/archive/20230616/202306160706.Uei5XDoi-lkp@intel.com/config)
+>>> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+>>> reproduce (this is a W=1 build):
+>>>         mkdir -p ~/bin
+>>>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>>>         chmod +x ~/bin/make.cross
+>>>         # install arm cross compiling tool for clang build
+>>>         # apt-get install binutils-arm-linux-gnueabi
+>>>         git remote add arm64 https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+>>>         git fetch arm64 for-next/core
+>>>         git checkout arm64/for-next/core
+>>>         b4 shazam https://lore.kernel.org/r/20230615133239.442736-6-anshuman.khandual@arm.com
+>>>         # save the config file
+>>>         mkdir build_dir && cp config build_dir/.config
+>>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
+>>>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/perf/
+>>
+>> I am unable to reproduce this on mainline 6.4-rc6 via default cross compiler
+>> on a W=1 build. Looking at all other problems reported on the file, it seems
+>> something is not right here. Reported build problems around these callbacks,
+>> i.e armv8pmu_branch_XXXX() do not make sense as they are available via config
+>> CONFIG_PERF_EVENTS which is also enabled along with CONFIG_ARM_PMUV3 in this
+>> test config.
+> 
+> Have you tried applying this series on top of the arm64 for-next/core
+> branch? That's what the robot it testing (in the absence of a --base
+> option when generating the patches).
 
-Old smatch warnings:
-drivers/iommu/dma-iommu.c:1358 iommu_dma_unmap_sg() error: uninitialized symbol 'start'.
+Right, it turned out to be a build problem on arm (32 bit) platform instead.
+After arm_pmuv3.c moved into common ./drivers/perf from ./arch/arm64/kernel/,
+it can no longer access arch/arm64/include/asm/perf_event.h defined functions
+without breaking arm (32) bit. The following code block needs to be moved out
+from arch/arm64/include/asm/perf_event.h into include/linux/perf/arm_pmuv3.h
+(which is preferred as all call sites are inside drivers/perf/arm_pmuv3.c) or
+may be arm_pmu.h (which is one step higher in the abstraction).
 
-vim +/msi_addr +1698 drivers/iommu/dma-iommu.c
+struct pmu_hw_events;
+struct arm_pmu;
+struct perf_event;
 
-ece6e6f0218b77 Julien Grall      2019-05-01  1679  
-fa49364cd5e657 Robin Murphy      2022-08-16  1680  /**
-fa49364cd5e657 Robin Murphy      2022-08-16  1681   * iommu_dma_compose_msi_msg() - Apply translation to an MSI message
-fa49364cd5e657 Robin Murphy      2022-08-16  1682   * @desc: MSI descriptor prepared by iommu_dma_prepare_msi()
-fa49364cd5e657 Robin Murphy      2022-08-16  1683   * @msg: MSI message containing target physical address
-fa49364cd5e657 Robin Murphy      2022-08-16  1684   */
-fa49364cd5e657 Robin Murphy      2022-08-16  1685  void iommu_dma_compose_msi_msg(struct msi_desc *desc, struct msi_msg *msg)
-ece6e6f0218b77 Julien Grall      2019-05-01  1686  {
-ece6e6f0218b77 Julien Grall      2019-05-01  1687  	struct device *dev = msi_desc_to_dev(desc);
-ece6e6f0218b77 Julien Grall      2019-05-01  1688  	const struct iommu_domain *domain = iommu_get_domain_for_dev(dev);
-ece6e6f0218b77 Julien Grall      2019-05-01  1689  	const struct iommu_dma_msi_page *msi_page;
-59f0204d5995cd Anup Patel        2023-05-02  1690  	struct iommu_dma_cookie *cookie;
-59f0204d5995cd Anup Patel        2023-05-02  1691  	phys_addr_t msi_addr;
-59f0204d5995cd Anup Patel        2023-05-02  1692  
-59f0204d5995cd Anup Patel        2023-05-02  1693  	if (!domain || !domain->iova_cookie)
-59f0204d5995cd Anup Patel        2023-05-02  1694  		return;
-ece6e6f0218b77 Julien Grall      2019-05-01  1695  
-59f0204d5995cd Anup Patel        2023-05-02  1696  	cookie = domain->iova_cookie;
-ece6e6f0218b77 Julien Grall      2019-05-01  1697  	msi_page = msi_desc_get_iommu_cookie(desc);
-59f0204d5995cd Anup Patel        2023-05-02 @1698  	if (!msi_page || msi_page->phys != msi_addr) {
-                                                                                           ^^^^^^^^
-Uninitialized.
+#ifdef CONFIG_PERF_EVENTS
+static inline bool has_branch_stack(struct perf_event *event);
 
-59f0204d5995cd Anup Patel        2023-05-02  1699  		msi_addr = ((u64)msg->address_hi << 32) | msg->address_lo;
-59f0204d5995cd Anup Patel        2023-05-02  1700  		msi_addr &= ~(phys_addr_t)(cookie_msi_granule(cookie) - 1);
-ece6e6f0218b77 Julien Grall      2019-05-01  1701  
-59f0204d5995cd Anup Patel        2023-05-02  1702  		msi_desc_set_iommu_cookie(desc, NULL);
-59f0204d5995cd Anup Patel        2023-05-02  1703  		list_for_each_entry(msi_page, &cookie->msi_page_list, list) {
-59f0204d5995cd Anup Patel        2023-05-02  1704  			if (msi_page->phys == msi_addr) {
-59f0204d5995cd Anup Patel        2023-05-02  1705  				msi_desc_set_iommu_cookie(desc, msi_page);
-59f0204d5995cd Anup Patel        2023-05-02  1706  				break;
-59f0204d5995cd Anup Patel        2023-05-02  1707  			}
-59f0204d5995cd Anup Patel        2023-05-02  1708  		}
-59f0204d5995cd Anup Patel        2023-05-02  1709  		msi_page = msi_desc_get_iommu_cookie(desc);
-59f0204d5995cd Anup Patel        2023-05-02  1710  	}
-59f0204d5995cd Anup Patel        2023-05-02  1711  	if (WARN_ON(!msi_page))
-ece6e6f0218b77 Julien Grall      2019-05-01  1712  		return;
-ece6e6f0218b77 Julien Grall      2019-05-01  1713  
-44bb7e243bd4b4 Robin Murphy      2016-09-12  1714  	msg->address_hi = upper_32_bits(msi_page->iova);
-59f0204d5995cd Anup Patel        2023-05-02  1715  	msg->address_lo &= cookie_msi_granule(cookie) - 1;
-44bb7e243bd4b4 Robin Murphy      2016-09-12  1716  	msg->address_lo += lower_32_bits(msi_page->iova);
-44bb7e243bd4b4 Robin Murphy      2016-09-12  1717  }
+#ifdef CONFIG_ARM64_BRBE
+void armv8pmu_branch_read(struct pmu_hw_events *cpuc, struct perf_event *event);
+bool armv8pmu_branch_attr_valid(struct perf_event *event);
+void armv8pmu_branch_enable(struct perf_event *event);
+void armv8pmu_branch_disable(struct perf_event *event);
+void armv8pmu_branch_probe(struct arm_pmu *arm_pmu);
+void armv8pmu_branch_reset(void);
+int armv8pmu_task_ctx_cache_alloc(struct arm_pmu *arm_pmu);
+void armv8pmu_task_ctx_cache_free(struct arm_pmu *arm_pmu);
+void armv8pmu_branch_save(struct arm_pmu *arm_pmu, void *ctx);
+#else
+static inline void armv8pmu_branch_read(struct pmu_hw_events *cpuc, struct perf_event *event)
+{
+        WARN_ON_ONCE(!has_branch_stack(event));
+}
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+static inline bool armv8pmu_branch_attr_valid(struct perf_event *event)
+{
+        WARN_ON_ONCE(!has_branch_stack(event));
+        return false;
+}
 
+static inline void armv8pmu_branch_enable(struct perf_event *event)
+{
+        WARN_ON_ONCE(!has_branch_stack(event));
+}
+
+static inline void armv8pmu_branch_disable(struct perf_event *event)
+{
+        WARN_ON_ONCE(!has_branch_stack(event));
+}
+
+static inline void armv8pmu_branch_probe(struct arm_pmu *arm_pmu) { }
+static inline void armv8pmu_branch_reset(void) { }
+static inline int armv8pmu_task_ctx_cache_alloc(struct arm_pmu *arm_pmu) { return 0; }
+static inline void armv8pmu_task_ctx_cache_free(struct arm_pmu *arm_pmu) { }
+static inline void armv8pmu_branch_save(struct arm_pmu *arm_pmu, void *ctx) { }
+#endif
+#endif
