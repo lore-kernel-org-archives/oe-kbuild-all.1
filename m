@@ -1,49 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A421E8480
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 18 Jun 2023 23:35:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986DD4C60
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jun 2023 00:38:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687131353; x=1718667353;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VofrOuJxE/Vk0udrmnYtndlTeRd31idF1sSeKN8z/5Q=;
-  b=UQZ4HoKxseue0b97nmyOWK5ObxaNFFgiOqbf8ME13PV0bgRaYoP6dXEv
-   MQsoZEfZAaHW86qKurksBtx6Wz70mVPnuRSpggCwt2p//YshuU5BKkHW2
-   Wq9DIS+/YoX92Z+UrQbQzw/pmDoKfCTef3QsXFcyBZ9wCBIcu2DQM7vbv
-   tcOlzsmO6677JetFNIKBiNO+1QTEZBPlchjTAV44ghBaIIvldegA+AfAV
-   t6dEERfHIDfML9qaYmZvNcbyyNHdiqFUPBI4BC6pfBlEtHPYeTzKXEGen
-   4sjPYGIw5v3DoS7tAJrimOQqIiKZWTaa08bsX4cBOUI6oP7CD0jSGVqR7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="445896147"
+  t=1687135137; x=1718671137;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ssQ2QKM8aldJQhHlFukVmKmJTO2N+RnJsdadiIB56vg=;
+  b=OG62YhDfjdrGBktxWi5Ms35boWPScPUWd+0mwD6rwMupbxfhrG82dUIZ
+   pXfYwwiIUQ7rPb5+MiTfPUHTFJjI6BYp3U8GNHQiJCnho8641ePSZKug7
+   0coJ7oYFXdTyAkcV35NpsiHMQ/BJBtoaw2cWa5oKx3A3ITKl1ANDvHcwS
+   PxYFTeEWMOORkax+DFsWcFDCFquGDxVtk5RTG/G4KB3D7eJLKDFjd6RPY
+   Rpcvvhsh4h+jGDJTjKoKjA+U+lM6N7CWJlHlRJczPCFEihuYm3vdSMlS+
+   vsO5sW/KgSW3xHA3jezOG8ERVMWY1gDWCGPJHJyPUlCjc5ovyApg0vZhh
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="358391344"
 X-IronPort-AV: E=Sophos;i="6.00,253,1681196400"; 
-   d="scan'208";a="445896147"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2023 16:35:53 -0700
+   d="scan'208";a="358391344"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2023 17:38:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="887734980"
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="663801325"
 X-IronPort-AV: E=Sophos;i="6.00,253,1681196400"; 
-   d="scan'208";a="887734980"
+   d="scan'208";a="663801325"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 18 Jun 2023 16:35:48 -0700
+  by orsmga003.jf.intel.com with ESMTP; 18 Jun 2023 17:38:55 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qB1vw-00048M-0j;
-	Sun, 18 Jun 2023 23:35:48 +0000
-Date: Mon, 19 Jun 2023 07:35:21 +0800
+	id 1qB2v0-00049s-0v;
+	Mon, 19 Jun 2023 00:38:54 +0000
+Date: Mon, 19 Jun 2023 08:37:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bean Huo <beanhuo@iokpp.de>, viro@zeniv.linux.org.uk,
-	brauner@kernel.org, akpm@linux-foundation.org, jack@suse.cz,
-	jack@suse.com, tytso@mit.edu, adilger.kernel@dilger.ca,
-	mark@fasheh.com, jlbec@evilplan.org, joseph.qi@linux.alibaba.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	ocfs2-devel@oss.oracle.com, beanhuo@micron.com
-Subject: Re: [PATCH v1 2/5] fs/buffer.c: convert block_commit_write to return
- void
-Message-ID: <202306190729.oETrBjGU-lkp@intel.com>
-References: <20230618213250.694110-3-beanhuo@iokpp.de>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: include/linux/compiler_types.h:352:45: error: call to
+ '__compiletime_assert_406' declared with attribute error: BUILD_BUG_ON
+ failed: sizeof(cmd_a64_entry_t) != 64
+Message-ID: <202306190822.TJJHJRv7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,255 +46,231 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230618213250.694110-3-beanhuo@iokpp.de>
 
-Hi Bean,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tytso-ext4/dev]
-[also build test ERROR on vfs-idmapping/for-next linus/master v6.4-rc6]
-[cannot apply to akpm-mm/mm-everything next-20230616]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bean-Huo/fs-buffer-clean-up-block_commit_write/20230619-053759
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/20230618213250.694110-3-beanhuo%40iokpp.de
-patch subject: [PATCH v1 2/5] fs/buffer.c: convert block_commit_write to return void
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230619/202306190729.oETrBjGU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230619/202306190729.oETrBjGU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   45a3e24f65e90a047bef86f927ebdc4c710edaa1
+commit: 250c1a694ff304e5d69e74ab32755eddcc2b8f65 ARM: pxa: convert to multiplatform
+date:   1 year, 1 month ago
+config: arm-randconfig-r023-20230619 (https://download.01.org/0day-ci/archive/20230619/202306190822.TJJHJRv7-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230619/202306190822.TJJHJRv7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306190729.oETrBjGU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306190822.TJJHJRv7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   fs/ext4/move_extent.c: In function 'move_extent_per_page':
->> fs/ext4/move_extent.c:399:22: error: void value not ignored as it ought to be
-     399 |                 *err = block_commit_write(&folio[0]->page, from, from + replaced_size);
-         |                      ^
+   In file included from <command-line>:
+   drivers/scsi/qla2xxx/qla_os.c: In function 'qla2x00_module_init':
+>> include/linux/compiler_types.h:352:45: error: call to '__compiletime_assert_406' declared with attribute error: BUILD_BUG_ON failed: sizeof(cmd_a64_entry_t) != 64
+     352 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:333:25: note: in definition of macro '__compiletime_assert'
+     333 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:352:9: note: in expansion of macro '_compiletime_assert'
+     352 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_os.c:8033:9: note: in expansion of macro 'BUILD_BUG_ON'
+    8033 |         BUILD_BUG_ON(sizeof(cmd_a64_entry_t) != 64);
+         |         ^~~~~~~~~~~~
+--
+   In file included from <command-line>:
+   drivers/scsi/qla2xxx/qla_target.c: In function 'qlt_init':
+>> include/linux/compiler_types.h:352:45: error: call to '__compiletime_assert_323' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct ctio7_to_24xx) != 64
+     352 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:333:25: note: in definition of macro '__compiletime_assert'
+     333 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:352:9: note: in expansion of macro '_compiletime_assert'
+     352 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/qla_target.c:7413:9: note: in expansion of macro 'BUILD_BUG_ON'
+    7413 |         BUILD_BUG_ON(sizeof(struct ctio7_to_24xx) != 64);
+         |         ^~~~~~~~~~~~
+--
+   In file included from <command-line>:
+   drivers/scsi/qla2xxx/tcm_qla2xxx.c: In function 'tcm_qla2xxx_init':
+>> include/linux/compiler_types.h:352:45: error: call to '__compiletime_assert_310' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct abts_recv_from_24xx) != 64
+     352 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:333:25: note: in definition of macro '__compiletime_assert'
+     333 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:352:9: note: in expansion of macro '_compiletime_assert'
+     352 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   drivers/scsi/qla2xxx/tcm_qla2xxx.c:1923:9: note: in expansion of macro 'BUILD_BUG_ON'
+    1923 |         BUILD_BUG_ON(sizeof(struct abts_recv_from_24xx) != 64);
+         |         ^~~~~~~~~~~~
+--
+   In file included from drivers/net/ethernet/intel/i40e/i40e_adminq.h:9,
+                    from drivers/net/ethernet/intel/i40e/i40e_type.h:10,
+                    from drivers/net/ethernet/intel/i40e/i40e.h:40,
+                    from drivers/net/ethernet/intel/i40e/i40e_ptp.c:4:
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1174:1: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+    1174 | I40E_CHECK_STRUCT_LEN(0x40, i40e_aqc_cloud_filters_element_data);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1174:29: error: enumerator value for 'i40e_static_assert_i40e_aqc_cloud_filters_element_data' is not an integer constant
+    1174 | I40E_CHECK_STRUCT_LEN(0x40, i40e_aqc_cloud_filters_element_data);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1185:1: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+    1185 | I40E_CHECK_STRUCT_LEN(0x80, i40e_aqc_cloud_filters_element_bb);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1185:29: error: enumerator value for 'i40e_static_assert_i40e_aqc_cloud_filters_element_bb' is not an integer constant
+    1185 | I40E_CHECK_STRUCT_LEN(0x80, i40e_aqc_cloud_filters_element_bb);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1506:1: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+    1506 | I40E_CHECK_STRUCT_LEN(0x22, i40e_aqc_configure_partition_bw_data);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1506:29: error: enumerator value for 'i40e_static_assert_i40e_aqc_configure_partition_bw_data' is not an integer constant
+    1506 | I40E_CHECK_STRUCT_LEN(0x22, i40e_aqc_configure_partition_bw_data);
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:306:41: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+     306 | #define I40E_CHECK_CMD_LENGTH(X)        I40E_CHECK_STRUCT_LEN(16, X)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1769:1: note: in expansion of macro 'I40E_CHECK_CMD_LENGTH'
+    1769 | I40E_CHECK_CMD_LENGTH(i40e_aqc_get_link_status);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1769:23: error: enumerator value for 'i40e_static_assert_i40e_aqc_get_link_status' is not an integer constant
+    1769 | I40E_CHECK_CMD_LENGTH(i40e_aqc_get_link_status);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1769:1: note: in expansion of macro 'I40E_CHECK_CMD_LENGTH'
+    1769 | I40E_CHECK_CMD_LENGTH(i40e_aqc_get_link_status);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:39: warning: division by zero [-Wdiv-by-zero]
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                       ^
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1908:1: note: in expansion of macro 'I40E_CHECK_STRUCT_LEN'
+    1908 | I40E_CHECK_STRUCT_LEN(0x6, i40e_aqc_nvm_config_data_feature);
+         | ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:1908:28: error: enumerator value for 'i40e_static_assert_i40e_aqc_nvm_config_data_feature' is not an integer constant
+    1908 | I40E_CHECK_STRUCT_LEN(0x6, i40e_aqc_nvm_config_data_feature);
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_adminq_cmd.h:301:56: note: in definition of macro 'I40E_CHECK_STRUCT_LEN'
+     301 |         { i40e_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                        ^
+   In file included from drivers/net/ethernet/intel/i40e/i40e_prototype.h:9,
+                    from drivers/net/ethernet/intel/i40e/i40e.h:41:
+   include/linux/avf/virtchnl.h:160:43: warning: division by zero [-Wdiv-by-zero]
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                           ^
+   include/linux/avf/virtchnl.h:391:1: note: in expansion of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     391 | VIRTCHNL_CHECK_STRUCT_LEN(14, virtchnl_irq_map_info);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:391:31: error: enumerator value for 'virtchnl_static_assert_virtchnl_irq_map_info' is not an integer constant
+     391 | VIRTCHNL_CHECK_STRUCT_LEN(14, virtchnl_irq_map_info);
+         |                               ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:160:60: note: in definition of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                            ^
+   include/linux/avf/virtchnl.h:160:43: warning: division by zero [-Wdiv-by-zero]
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                           ^
+   include/linux/avf/virtchnl.h:484:1: note: in expansion of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     484 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_vlan_filter_list);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:484:30: error: enumerator value for 'virtchnl_static_assert_virtchnl_vlan_filter_list' is not an integer constant
+     484 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_vlan_filter_list);
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:160:60: note: in definition of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                            ^
+   include/linux/avf/virtchnl.h:160:43: warning: division by zero [-Wdiv-by-zero]
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                           ^
+   include/linux/avf/virtchnl.h:869:1: note: in expansion of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     869 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_key);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:869:30: error: enumerator value for 'virtchnl_static_assert_virtchnl_rss_key' is not an integer constant
+     869 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_key);
+         |                              ^~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:160:60: note: in definition of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                            ^
+   include/linux/avf/virtchnl.h:160:43: warning: division by zero [-Wdiv-by-zero]
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                           ^
+   include/linux/avf/virtchnl.h:877:1: note: in expansion of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     877 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_lut);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:877:30: error: enumerator value for 'virtchnl_static_assert_virtchnl_rss_lut' is not an integer constant
+     877 | VIRTCHNL_CHECK_STRUCT_LEN(6, virtchnl_rss_lut);
+         |                              ^~~~~~~~~~~~~~~~
+   include/linux/avf/virtchnl.h:160:60: note: in definition of macro 'VIRTCHNL_CHECK_STRUCT_LEN'
+     160 |         { virtchnl_static_assert_##X = (n)/((sizeof(struct X) == (n)) ? 1 : 0) }
+         |                                                            ^
 
 
-vim +399 fs/ext4/move_extent.c
+vim +/__compiletime_assert_406 +352 include/linux/compiler_types.h
 
-bb5574880574fe Dmitry Monakhov       2012-09-26  234  
-748de6736c1e48 Akira Fujita          2009-06-17  235  /**
-748de6736c1e48 Akira Fujita          2009-06-17  236   * move_extent_per_page - Move extent data per page
-748de6736c1e48 Akira Fujita          2009-06-17  237   *
-748de6736c1e48 Akira Fujita          2009-06-17  238   * @o_filp:			file structure of original file
-748de6736c1e48 Akira Fujita          2009-06-17  239   * @donor_inode:		donor inode
-748de6736c1e48 Akira Fujita          2009-06-17  240   * @orig_page_offset:		page index on original file
-65dd8327eb055a Xiaoguang Wang        2014-10-11  241   * @donor_page_offset:		page index on donor file
-748de6736c1e48 Akira Fujita          2009-06-17  242   * @data_offset_in_page:	block index where data swapping starts
-748de6736c1e48 Akira Fujita          2009-06-17  243   * @block_len_in_page:		the number of blocks to be swapped
-556615dcbf38b0 Lukas Czerner         2014-04-20  244   * @unwritten:			orig extent is unwritten or not
-f868a48d06f888 Akira Fujita          2009-11-23  245   * @err:			pointer to save return value
-748de6736c1e48 Akira Fujita          2009-06-17  246   *
-748de6736c1e48 Akira Fujita          2009-06-17  247   * Save the data in original inode blocks and replace original inode extents
-65dd8327eb055a Xiaoguang Wang        2014-10-11  248   * with donor inode extents by calling ext4_swap_extents().
-f868a48d06f888 Akira Fujita          2009-11-23  249   * Finally, write out the saved data in new original inode blocks. Return
-f868a48d06f888 Akira Fujita          2009-11-23  250   * replaced block count.
-748de6736c1e48 Akira Fujita          2009-06-17  251   */
-748de6736c1e48 Akira Fujita          2009-06-17  252  static int
-44fc48f7048ab9 Akira Fujita          2009-09-05  253  move_extent_per_page(struct file *o_filp, struct inode *donor_inode,
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  254  		     pgoff_t orig_page_offset, pgoff_t donor_page_offset,
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  255  		     int data_offset_in_page,
-556615dcbf38b0 Lukas Czerner         2014-04-20  256  		     int block_len_in_page, int unwritten, int *err)
-748de6736c1e48 Akira Fujita          2009-06-17  257  {
-496ad9aa8ef448 Al Viro               2013-01-23  258  	struct inode *orig_inode = file_inode(o_filp);
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  259) 	struct folio *folio[2] = {NULL, NULL};
-748de6736c1e48 Akira Fujita          2009-06-17  260  	handle_t *handle;
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  261  	ext4_lblk_t orig_blk_offset, donor_blk_offset;
-748de6736c1e48 Akira Fujita          2009-06-17  262  	unsigned long blocksize = orig_inode->i_sb->s_blocksize;
-f868a48d06f888 Akira Fujita          2009-11-23  263  	unsigned int tmp_data_size, data_size, replaced_size;
-bcff24887d00bc Eryu Guan             2016-02-12  264  	int i, err2, jblocks, retries = 0;
-f868a48d06f888 Akira Fujita          2009-11-23  265  	int replaced_count = 0;
-bb5574880574fe Dmitry Monakhov       2012-09-26  266  	int from = data_offset_in_page << orig_inode->i_blkbits;
-09cbfeaf1a5a67 Kirill A. Shutemov    2016-04-01  267  	int blocks_per_page = PAGE_SIZE >> orig_inode->i_blkbits;
-88c6b61ff1cfb4 Dmitry Monakhov       2014-11-05  268  	struct super_block *sb = orig_inode->i_sb;
-bcff24887d00bc Eryu Guan             2016-02-12  269  	struct buffer_head *bh = NULL;
-748de6736c1e48 Akira Fujita          2009-06-17  270  
-748de6736c1e48 Akira Fujita          2009-06-17  271  	/*
-748de6736c1e48 Akira Fujita          2009-06-17  272  	 * It needs twice the amount of ordinary journal buffers because
-748de6736c1e48 Akira Fujita          2009-06-17  273  	 * inode and donor_inode may change each different metadata blocks.
-748de6736c1e48 Akira Fujita          2009-06-17  274  	 */
-bb5574880574fe Dmitry Monakhov       2012-09-26  275  again:
-bb5574880574fe Dmitry Monakhov       2012-09-26  276  	*err = 0;
-748de6736c1e48 Akira Fujita          2009-06-17  277  	jblocks = ext4_writepage_trans_blocks(orig_inode) * 2;
-9924a92a8c2175 Theodore Ts'o         2013-02-08  278  	handle = ext4_journal_start(orig_inode, EXT4_HT_MOVE_EXTENTS, jblocks);
-748de6736c1e48 Akira Fujita          2009-06-17  279  	if (IS_ERR(handle)) {
-f868a48d06f888 Akira Fujita          2009-11-23  280  		*err = PTR_ERR(handle);
-f868a48d06f888 Akira Fujita          2009-11-23  281  		return 0;
-748de6736c1e48 Akira Fujita          2009-06-17  282  	}
-748de6736c1e48 Akira Fujita          2009-06-17  283  
-748de6736c1e48 Akira Fujita          2009-06-17  284  	orig_blk_offset = orig_page_offset * blocks_per_page +
-748de6736c1e48 Akira Fujita          2009-06-17  285  		data_offset_in_page;
-748de6736c1e48 Akira Fujita          2009-06-17  286  
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  287  	donor_blk_offset = donor_page_offset * blocks_per_page +
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  288  		data_offset_in_page;
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  289  
-f868a48d06f888 Akira Fujita          2009-11-23  290  	/* Calculate data_size */
-748de6736c1e48 Akira Fujita          2009-06-17  291  	if ((orig_blk_offset + block_len_in_page - 1) ==
-748de6736c1e48 Akira Fujita          2009-06-17  292  	    ((orig_inode->i_size - 1) >> orig_inode->i_blkbits)) {
-748de6736c1e48 Akira Fujita          2009-06-17  293  		/* Replace the last block */
-f868a48d06f888 Akira Fujita          2009-11-23  294  		tmp_data_size = orig_inode->i_size & (blocksize - 1);
-748de6736c1e48 Akira Fujita          2009-06-17  295  		/*
-f868a48d06f888 Akira Fujita          2009-11-23  296  		 * If data_size equal zero, it shows data_size is multiples of
-748de6736c1e48 Akira Fujita          2009-06-17  297  		 * blocksize. So we set appropriate value.
-748de6736c1e48 Akira Fujita          2009-06-17  298  		 */
-f868a48d06f888 Akira Fujita          2009-11-23  299  		if (tmp_data_size == 0)
-f868a48d06f888 Akira Fujita          2009-11-23  300  			tmp_data_size = blocksize;
-748de6736c1e48 Akira Fujita          2009-06-17  301  
-f868a48d06f888 Akira Fujita          2009-11-23  302  		data_size = tmp_data_size +
-748de6736c1e48 Akira Fujita          2009-06-17  303  			((block_len_in_page - 1) << orig_inode->i_blkbits);
-f868a48d06f888 Akira Fujita          2009-11-23  304  	} else
-f868a48d06f888 Akira Fujita          2009-11-23  305  		data_size = block_len_in_page << orig_inode->i_blkbits;
-f868a48d06f888 Akira Fujita          2009-11-23  306  
-f868a48d06f888 Akira Fujita          2009-11-23  307  	replaced_size = data_size;
-748de6736c1e48 Akira Fujita          2009-06-17  308  
-e8dfc854eef20a Vishal Moola (Oracle  2022-12-07  309) 	*err = mext_folio_double_lock(orig_inode, donor_inode, orig_page_offset,
-e8dfc854eef20a Vishal Moola (Oracle  2022-12-07  310) 				     donor_page_offset, folio);
-f868a48d06f888 Akira Fujita          2009-11-23  311  	if (unlikely(*err < 0))
-bb5574880574fe Dmitry Monakhov       2012-09-26  312  		goto stop_journal;
-8c854473917354 Dmitry Monakhov       2012-09-26  313  	/*
-556615dcbf38b0 Lukas Czerner         2014-04-20  314  	 * If orig extent was unwritten it can become initialized
-8c854473917354 Dmitry Monakhov       2012-09-26  315  	 * at any time after i_data_sem was dropped, in order to
-8c854473917354 Dmitry Monakhov       2012-09-26  316  	 * serialize with delalloc we have recheck extent while we
-8c854473917354 Dmitry Monakhov       2012-09-26  317  	 * hold page's lock, if it is still the case data copy is not
-8c854473917354 Dmitry Monakhov       2012-09-26  318  	 * necessary, just swap data blocks between orig and donor.
-8c854473917354 Dmitry Monakhov       2012-09-26  319  	 */
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  320) 
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  321) 	VM_BUG_ON_FOLIO(folio_test_large(folio[0]), folio[0]);
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  322) 	VM_BUG_ON_FOLIO(folio_test_large(folio[1]), folio[1]);
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  323) 	VM_BUG_ON_FOLIO(folio_nr_pages(folio[0]) != folio_nr_pages(folio[1]), folio[1]);
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  324) 
-556615dcbf38b0 Lukas Czerner         2014-04-20  325  	if (unwritten) {
-393d1d1d769338 Dr. Tilmann Bubeck    2013-04-08  326  		ext4_double_down_write_data_sem(orig_inode, donor_inode);
-8c854473917354 Dmitry Monakhov       2012-09-26  327  		/* If any of extents in range became initialized we have to
-8c854473917354 Dmitry Monakhov       2012-09-26  328  		 * fallback to data copying */
-556615dcbf38b0 Lukas Czerner         2014-04-20  329  		unwritten = mext_check_coverage(orig_inode, orig_blk_offset,
-8c854473917354 Dmitry Monakhov       2012-09-26  330  						block_len_in_page, 1, err);
-8c854473917354 Dmitry Monakhov       2012-09-26  331  		if (*err)
-8c854473917354 Dmitry Monakhov       2012-09-26  332  			goto drop_data_sem;
-8c854473917354 Dmitry Monakhov       2012-09-26  333  
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  334  		unwritten &= mext_check_coverage(donor_inode, donor_blk_offset,
-8c854473917354 Dmitry Monakhov       2012-09-26  335  						 block_len_in_page, 1, err);
-8c854473917354 Dmitry Monakhov       2012-09-26  336  		if (*err)
-8c854473917354 Dmitry Monakhov       2012-09-26  337  			goto drop_data_sem;
-748de6736c1e48 Akira Fujita          2009-06-17  338  
-556615dcbf38b0 Lukas Czerner         2014-04-20  339  		if (!unwritten) {
-393d1d1d769338 Dr. Tilmann Bubeck    2013-04-08  340  			ext4_double_up_write_data_sem(orig_inode, donor_inode);
-8c854473917354 Dmitry Monakhov       2012-09-26  341  			goto data_copy;
-8c854473917354 Dmitry Monakhov       2012-09-26  342  		}
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  343) 		if ((folio_has_private(folio[0]) &&
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  344) 		     !filemap_release_folio(folio[0], 0)) ||
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  345) 		    (folio_has_private(folio[1]) &&
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  346) 		     !filemap_release_folio(folio[1], 0))) {
-8c854473917354 Dmitry Monakhov       2012-09-26  347  			*err = -EBUSY;
-8c854473917354 Dmitry Monakhov       2012-09-26  348  			goto drop_data_sem;
-8c854473917354 Dmitry Monakhov       2012-09-26  349  		}
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  350  		replaced_count = ext4_swap_extents(handle, orig_inode,
-8c854473917354 Dmitry Monakhov       2012-09-26  351  						   donor_inode, orig_blk_offset,
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  352  						   donor_blk_offset,
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  353  						   block_len_in_page, 1, err);
-8c854473917354 Dmitry Monakhov       2012-09-26  354  	drop_data_sem:
-393d1d1d769338 Dr. Tilmann Bubeck    2013-04-08  355  		ext4_double_up_write_data_sem(orig_inode, donor_inode);
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  356) 		goto unlock_folios;
-8c854473917354 Dmitry Monakhov       2012-09-26  357  	}
-8c854473917354 Dmitry Monakhov       2012-09-26  358  data_copy:
-3060b6ef05603c Matthew Wilcox        2023-03-24  359  	*err = mext_page_mkuptodate(folio[0], from, from + replaced_size);
-bb5574880574fe Dmitry Monakhov       2012-09-26  360  	if (*err)
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  361) 		goto unlock_folios;
-748de6736c1e48 Akira Fujita          2009-06-17  362  
-bb5574880574fe Dmitry Monakhov       2012-09-26  363  	/* At this point all buffers in range are uptodate, old mapping layout
-bb5574880574fe Dmitry Monakhov       2012-09-26  364  	 * is no longer required, try to drop it now. */
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  365) 	if ((folio_has_private(folio[0]) &&
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  366) 		!filemap_release_folio(folio[0], 0)) ||
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  367) 	    (folio_has_private(folio[1]) &&
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  368) 		!filemap_release_folio(folio[1], 0))) {
-bb5574880574fe Dmitry Monakhov       2012-09-26  369  		*err = -EBUSY;
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  370) 		goto unlock_folios;
-bb5574880574fe Dmitry Monakhov       2012-09-26  371  	}
-6e2631463f3a2c Dmitry Monakhov       2014-07-27  372  	ext4_double_down_write_data_sem(orig_inode, donor_inode);
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  373  	replaced_count = ext4_swap_extents(handle, orig_inode, donor_inode,
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  374  					       orig_blk_offset, donor_blk_offset,
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  375  					   block_len_in_page, 1, err);
-6e2631463f3a2c Dmitry Monakhov       2014-07-27  376  	ext4_double_up_write_data_sem(orig_inode, donor_inode);
-bb5574880574fe Dmitry Monakhov       2012-09-26  377  	if (*err) {
-f868a48d06f888 Akira Fujita          2009-11-23  378  		if (replaced_count) {
-f868a48d06f888 Akira Fujita          2009-11-23  379  			block_len_in_page = replaced_count;
-f868a48d06f888 Akira Fujita          2009-11-23  380  			replaced_size =
-f868a48d06f888 Akira Fujita          2009-11-23  381  				block_len_in_page << orig_inode->i_blkbits;
-ac48b0a1d06888 Akira Fujita          2009-11-24  382  		} else
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  383) 			goto unlock_folios;
-748de6736c1e48 Akira Fujita          2009-06-17  384  	}
-bb5574880574fe Dmitry Monakhov       2012-09-26  385  	/* Perform all necessary steps similar write_begin()/write_end()
-bb5574880574fe Dmitry Monakhov       2012-09-26  386  	 * but keeping in mind that i_size will not change */
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  387) 	if (!folio_buffers(folio[0]))
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  388) 		create_empty_buffers(&folio[0]->page, 1 << orig_inode->i_blkbits, 0);
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  389) 	bh = folio_buffers(folio[0]);
-bcff24887d00bc Eryu Guan             2016-02-12  390  	for (i = 0; i < data_offset_in_page; i++)
-bcff24887d00bc Eryu Guan             2016-02-12  391  		bh = bh->b_this_page;
-bcff24887d00bc Eryu Guan             2016-02-12  392  	for (i = 0; i < block_len_in_page; i++) {
-bcff24887d00bc Eryu Guan             2016-02-12  393  		*err = ext4_get_block(orig_inode, orig_blk_offset + i, bh, 0);
-bcff24887d00bc Eryu Guan             2016-02-12  394  		if (*err < 0)
-bcff24887d00bc Eryu Guan             2016-02-12  395  			break;
-6ffe77bad545f4 Eryu Guan             2016-02-21  396  		bh = bh->b_this_page;
-bcff24887d00bc Eryu Guan             2016-02-12  397  	}
-bb5574880574fe Dmitry Monakhov       2012-09-26  398  	if (!*err)
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17 @399) 		*err = block_commit_write(&folio[0]->page, from, from + replaced_size);
-748de6736c1e48 Akira Fujita          2009-06-17  400  
-bb5574880574fe Dmitry Monakhov       2012-09-26  401  	if (unlikely(*err < 0))
-bb5574880574fe Dmitry Monakhov       2012-09-26  402  		goto repair_branches;
-bb5574880574fe Dmitry Monakhov       2012-09-26  403  
-bb5574880574fe Dmitry Monakhov       2012-09-26  404  	/* Even in case of data=writeback it is reasonable to pin
-bb5574880574fe Dmitry Monakhov       2012-09-26  405  	 * inode to transaction, to prevent unexpected data loss */
-73131fbb003b36 Ross Zwisler          2019-06-20  406  	*err = ext4_jbd2_inode_add_write(handle, orig_inode,
-73131fbb003b36 Ross Zwisler          2019-06-20  407  			(loff_t)orig_page_offset << PAGE_SHIFT, replaced_size);
-bb5574880574fe Dmitry Monakhov       2012-09-26  408  
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  409) unlock_folios:
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  410) 	folio_unlock(folio[0]);
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  411) 	folio_put(folio[0]);
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  412) 	folio_unlock(folio[1]);
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  413) 	folio_put(folio[1]);
-bb5574880574fe Dmitry Monakhov       2012-09-26  414  stop_journal:
-748de6736c1e48 Akira Fujita          2009-06-17  415  	ext4_journal_stop(handle);
-88c6b61ff1cfb4 Dmitry Monakhov       2014-11-05  416  	if (*err == -ENOSPC &&
-88c6b61ff1cfb4 Dmitry Monakhov       2014-11-05  417  	    ext4_should_retry_alloc(sb, &retries))
-88c6b61ff1cfb4 Dmitry Monakhov       2014-11-05  418  		goto again;
-bb5574880574fe Dmitry Monakhov       2012-09-26  419  	/* Buffer was busy because probably is pinned to journal transaction,
-bb5574880574fe Dmitry Monakhov       2012-09-26  420  	 * force transaction commit may help to free it. */
-88c6b61ff1cfb4 Dmitry Monakhov       2014-11-05  421  	if (*err == -EBUSY && retries++ < 4 && EXT4_SB(sb)->s_journal &&
-88c6b61ff1cfb4 Dmitry Monakhov       2014-11-05  422  	    jbd2_journal_force_commit_nested(EXT4_SB(sb)->s_journal))
-bb5574880574fe Dmitry Monakhov       2012-09-26  423  		goto again;
-f868a48d06f888 Akira Fujita          2009-11-23  424  	return replaced_count;
-bb5574880574fe Dmitry Monakhov       2012-09-26  425  
-bb5574880574fe Dmitry Monakhov       2012-09-26  426  repair_branches:
-bb5574880574fe Dmitry Monakhov       2012-09-26  427  	/*
-bb5574880574fe Dmitry Monakhov       2012-09-26  428  	 * This should never ever happen!
-bb5574880574fe Dmitry Monakhov       2012-09-26  429  	 * Extents are swapped already, but we are not able to copy data.
-bb5574880574fe Dmitry Monakhov       2012-09-26  430  	 * Try to swap extents to it's original places
-bb5574880574fe Dmitry Monakhov       2012-09-26  431  	 */
-393d1d1d769338 Dr. Tilmann Bubeck    2013-04-08  432  	ext4_double_down_write_data_sem(orig_inode, donor_inode);
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  433  	replaced_count = ext4_swap_extents(handle, donor_inode, orig_inode,
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  434  					       orig_blk_offset, donor_blk_offset,
-fcf6b1b729bcd2 Dmitry Monakhov       2014-08-30  435  					   block_len_in_page, 0, &err2);
-393d1d1d769338 Dr. Tilmann Bubeck    2013-04-08  436  	ext4_double_up_write_data_sem(orig_inode, donor_inode);
-bb5574880574fe Dmitry Monakhov       2012-09-26  437  	if (replaced_count != block_len_in_page) {
-54d3adbc29f0c7 Theodore Ts'o         2020-03-28  438  		ext4_error_inode_block(orig_inode, (sector_t)(orig_blk_offset),
-54d3adbc29f0c7 Theodore Ts'o         2020-03-28  439  				       EIO, "Unable to copy data block,"
-bb5574880574fe Dmitry Monakhov       2012-09-26  440  				       " data will be lost.");
-bb5574880574fe Dmitry Monakhov       2012-09-26  441  		*err = -EIO;
-bb5574880574fe Dmitry Monakhov       2012-09-26  442  	}
-bb5574880574fe Dmitry Monakhov       2012-09-26  443  	replaced_count = 0;
-6dd8fe86fa8472 Vishal Moola (Oracle  2022-11-17  444) 	goto unlock_folios;
-748de6736c1e48 Akira Fujita          2009-06-17  445  }
-748de6736c1e48 Akira Fujita          2009-06-17  446  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  338  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  339  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  340  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  341  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  342  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  343   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  344   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  345   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  346   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  347   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  348   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  349   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  350   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  351  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @352  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  353  
+
+:::::: The code at line 352 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
