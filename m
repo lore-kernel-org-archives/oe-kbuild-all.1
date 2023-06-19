@@ -1,45 +1,45 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56A12570
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jun 2023 06:58:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6492585
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jun 2023 07:09:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687157899; x=1718693899;
+  t=1687158559; x=1718694559;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8BBlBvTA8bVtv236lJomGMtrDRQTVw1q62ke8dcQK1M=;
-  b=IbJe2eY8hsUzI8GcclUIh6AqhYmraTTzT9iOMHAevqHn+liWVIXp/5iT
-   qCDpNBx5WFeBxOMVJQAwVnVibZ61bFYTZpzhmOM4jk7xZaCeDRmXELiZL
-   aKlrkfVg4/U+dv/CIK0/8V3mrVWs3QKUVJw0YAKWtNNRbMa1A/7NSO5zE
-   H2LVUHgdz4U1X+QYvNfmazG7Ig37KSzbPG2364F3LE2qmtaoHrixgqiRK
-   upswiOqxHbYS52NJmKQHnaClKp1gg3vlFbzBlqYD39E6JjUfy79LFCjb5
-   gEvBM9axU2tjUIKIhFak7X0rzN1LJhbhKfHDfuZsg5oTfMHt8gR0TQtxz
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="349279037"
+  bh=bGiUFIF8yUuJGXJAu6oJjUa2LJQxb2Gy82Bl5iVzfFQ=;
+  b=Oxbx4Zm1Aah6ZkdOzAZDsC1gQpO9W9cIdnOIUU14DRRsGTYMOUMP1QUs
+   gg36Ndj69J2U/6m8akWKC4CPos8+cxXHTYGRipgkUcPtF9YFkBX5/K8Hx
+   DLnFDe2wLzkTiz6uW7Lg2Mf1OklX0/Kj4H2hl1/NrBvGVwl9JglkpeRqR
+   G6akDmCD7JYGMlpAKp8fGLL0Disd0y0ZMKKCsn7kRvqIgMlvj4tCDKHl7
+   R/Z4OOBuepR64fakHqOcCGdBnr5s6V1WJa5olzKC0GmAu8c/XP8wfN4JK
+   J3Njt3uv6QW93Muk5A7Tkacr6TDiZlfW30K7jtYYkRY8w5ZusMusPss0/
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="349281558"
 X-IronPort-AV: E=Sophos;i="6.00,254,1681196400"; 
-   d="scan'208";a="349279037"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2023 23:58:18 -0700
+   d="scan'208";a="349281558"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 00:09:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="783607270"
+X-IronPort-AV: E=McAfee;i="6600,9927,10745"; a="713562449"
 X-IronPort-AV: E=Sophos;i="6.00,254,1681196400"; 
-   d="scan'208";a="783607270"
+   d="scan'208";a="713562449"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 18 Jun 2023 23:58:15 -0700
+  by orsmga002.jf.intel.com with ESMTP; 19 Jun 2023 00:09:16 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qB8q7-0004Tz-15;
-	Mon, 19 Jun 2023 06:58:15 +0000
-Date: Mon, 19 Jun 2023 14:58:10 +0800
+	id 1qB90l-0004Ue-2N;
+	Mon, 19 Jun 2023 07:09:15 +0000
+Date: Mon, 19 Jun 2023 15:08:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com,
 	Guenter Roeck <groeck@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [chrome-os:chromeos-4.14 29/34]
- drivers/gpu/drm/i915/intel_device_info.c:291:19: error: format '%x' expects
- argument of type 'unsigned int', but argument 4 has type 'u8 * {aka unsigned
- char *}'
-Message-ID: <202306191409.2ciNyrGB-lkp@intel.com>
+ drivers/gpu/drm/i915/intel_device_info.c:291:19: warning: format '%x'
+ expects argument of type 'unsigned int', but argument 4 has type 'u8 * {aka
+ unsigned char *}'
+Message-ID: <202306191536.Duddingb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,29 +52,28 @@ Content-Disposition: inline
 tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-4.14
 head:   c6b7f293d5463f0343d6f47b54d31698e1736945
 commit: 767336b68f8a3096aa690b9799357245895a8ea8 [29/34] BACKPORT: drm/i915: store all subslice masks
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230619/202306191409.2ciNyrGB-lkp@intel.com/config)
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20230619/202306191536.Duddingb-lkp@intel.com/config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230619/202306191409.2ciNyrGB-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230619/202306191536.Duddingb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306191409.2ciNyrGB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306191536.Duddingb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
    In file included from drivers/gpu/drm/i915/intel_device_info.c:25:0:
    drivers/gpu/drm/i915/intel_device_info.c: In function 'gen9_sseu_info_init':
->> drivers/gpu/drm/i915/intel_device_info.c:291:19: error: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'u8 * {aka unsigned char *}' [-Werror=format=]
+>> drivers/gpu/drm/i915/intel_device_info.c:291:19: warning: format '%x' expects argument of type 'unsigned int', but argument 4 has type 'u8 * {aka unsigned char *}' [-Wformat=]
      DRM_DEBUG_DRIVER("fuse2=0x%x subslice_mask=0x%x\n", fuse2, sseu->subslice_mask);
                       ^                                         ~
    include/drm/drm_print.h:396:25: note: in definition of macro 'DRM_DEBUG_DRIVER'
      drm_dbg(DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
                             ^~~
-   cc1: all warnings being treated as errors
 --
    drivers/gpu/drm/i915/intel_engine_cs.c: In function 'gen9_wa_init_mcr':
->> drivers/gpu/drm/i915/intel_engine_cs.c:1014:17: error: passing argument 1 of 'ffs' makes integer from pointer without a cast [-Werror=int-conversion]
+>> drivers/gpu/drm/i915/intel_engine_cs.c:1014:17: warning: passing argument 1 of 'ffs' makes integer from pointer without a cast [-Wint-conversion]
      subslice = ffs(sseu->subslice_mask);
                     ^~~~
    In file included from include/linux/bitops.h:19:0,
@@ -91,7 +90,7 @@ All errors (new ones prefixed by >>):
    In file included from include/drm/drm_print.h:29:0,
                     from drivers/gpu/drm/i915/intel_engine_cs.c:25:
    drivers/gpu/drm/i915/intel_engine_cs.c: In function '__intel_engine_context_size':
-   include/linux/compiler.h:77:22: error: this statement may fall through [-Werror=implicit-fallthrough=]
+   include/linux/compiler.h:77:22: warning: this statement may fall through [-Wimplicit-fallthrough=]
     # define unlikely(x) __builtin_expect(!!(x), 0)
                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
    include/asm-generic/bug.h:115:2: note: in expansion of macro 'unlikely'
@@ -108,7 +107,7 @@ All errors (new ones prefixed by >>):
       ^~~~
    In file included from include/drm/drm_print.h:29:0,
                     from drivers/gpu/drm/i915/intel_engine_cs.c:25:
-   include/linux/compiler.h:77:22: error: this statement may fall through [-Werror=implicit-fallthrough=]
+   include/linux/compiler.h:77:22: warning: this statement may fall through [-Wimplicit-fallthrough=]
     # define unlikely(x) __builtin_expect(!!(x), 0)
                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
    include/asm-generic/bug.h:115:2: note: in expansion of macro 'unlikely'
@@ -123,7 +122,6 @@ All errors (new ones prefixed by >>):
    drivers/gpu/drm/i915/intel_engine_cs.c:191:2: note: here
      case VIDEO_DECODE_CLASS:
      ^~~~
-   cc1: all warnings being treated as errors
 
 
 vim +291 drivers/gpu/drm/i915/intel_device_info.c
