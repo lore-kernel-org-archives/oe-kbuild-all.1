@@ -1,73 +1,78 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7FF123D9;
-	Mon, 19 Jun 2023 06:28:10 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 859A02F4;
-	Sun, 18 Jun 2023 23:28:53 -0700 (PDT)
-Received: from [10.162.40.17] (a077893.blr.arm.com [10.162.40.17])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F1F403F663;
-	Sun, 18 Jun 2023 23:28:03 -0700 (PDT)
-Message-ID: <63ddbe9b-dd08-0bbf-adc6-2f831575be3a@arm.com>
-Date: Mon, 19 Jun 2023 11:58:00 +0530
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB600210F;
+	Mon, 19 Jun 2023 06:43:51 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6b46f27f562so580848a34.0;
+        Sun, 18 Jun 2023 23:43:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687157030; x=1689749030;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wcz5YhvDWo9nMHfrg8LSktuXw46EWE7Cp3QeJgkSwTE=;
+        b=LQh3szetdHM+fLNYjwGz+X0VS6/aRK9FnpzfrU51Wz/KPC+7bYIMu6ARsuh5ukHZT4
+         fhrs20Btt++OwXu8NMn1Bqb0BsVBd4F6Z1xV5wZk8qaYUNnrqKrTD9c6OToLvqbZKkir
+         paXANcxa81+mlAzCCWndqdEBCQ66h0Hd4Z0dR5LTuh+dLVkq5OacNbWHmm92npfg8+ec
+         PCk2Avg8kGY8+F9fu8YTWbg3SPIvXWKF2+cOrx6vKoLSUdW1RoYE2T6k6mur2BzTyj+p
+         yqYquc3YpaH+3qjiMTgz5UsKWdcNP7XLaTuPI1UU6WEcLe4iSlSPqONB9plGuma6xqTd
+         eMvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687157030; x=1689749030;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wcz5YhvDWo9nMHfrg8LSktuXw46EWE7Cp3QeJgkSwTE=;
+        b=hewgzIo9vI6xM1BUjCSD2LcVwmlGXExk/Td1HGCEezFwMKNONK3hi/wPa1zaDer5Qz
+         dQiROJuLpSLGhSL/8PSYX3GG4pNbT5C3V/Nyr4jRROFgRvQ32IBHKB/lpilf8UMackWL
+         9RuWcpyt8nH9zO/TTWTqeMoOfx8UBpYyQFjodaGAmGFi5M7Vth7I0GhvvYE8IToCXwCH
+         pIYt+1tRXbmtbuuhE2TDyDrQ7yvmP7NDFqv7xiLxk82lbNwfbWsKA+kuTfsLdfpslVGW
+         2ay+Nfm2KKKgng12JL2TlEMYh6GrwVtfQprz9dTDwVtwV+zVwdISdkKW2BCBM+YJtpkG
+         0ULw==
+X-Gm-Message-State: AC+VfDxmQGGZCac4bXo8U9o/apJ4b54+Mb7dwtVrL6HKESjQFNpU+rQR
+	BfzxizeVI+vsUKD8cWRgty8=
+X-Google-Smtp-Source: ACHHUZ7hnsP1SpKLEg4iXqF5ZLMnTU4bawweCSpP8YiMUr6Ed5E6li0w/lVKIhZjxzMVBHbqC0fgZw==
+X-Received: by 2002:a05:6358:cd23:b0:129:b96d:1b0d with SMTP id gv35-20020a056358cd2300b00129b96d1b0dmr1286509rwb.1.1687157030454;
+        Sun, 18 Jun 2023 23:43:50 -0700 (PDT)
+Received: from redkillpc ([49.207.216.186])
+        by smtp.gmail.com with ESMTPSA id s188-20020a635ec5000000b005538bf7e3d6sm3513612pgb.88.2023.06.18.23.43.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Jun 2023 23:43:49 -0700 (PDT)
+Date: Mon, 19 Jun 2023 12:13:43 +0530
+From: Prathu Baronia <prathubaronia2011@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v5 1/2] axis-fifo: use devm_kasprintf() for allocating
+ formatted strings
+Message-ID: <ZI/5H+GZU6/2osGT@redkillpc>
+References: <ZIiTL5bzMUgs3L5K@redkillpc>
+ <20230616152602.33232-1-prathubaronia2011@gmail.com>
+ <2023061750-blog-curse-c1a3@gregkh>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH V12 07/10] arm64/perf: Add PERF_ATTACH_TASK_DATA to events
- with has_branch_stack()
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, will@kernel.org, catalin.marinas@arm.com,
- mark.rutland@arm.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Mark Brown <broonie@kernel.org>, James Clark <james.clark@arm.com>,
- Rob Herring <robh@kernel.org>, Marc Zyngier <maz@kernel.org>,
- Suzuki Poulose <suzuki.poulose@arm.com>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>, linux-perf-users@vger.kernel.org
-References: <20230615133239.442736-8-anshuman.khandual@arm.com>
- <202306161016.jJeqG6mc-lkp@intel.com>
-From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <202306161016.jJeqG6mc-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2023061750-blog-curse-c1a3@gregkh>
 
-
-
-On 6/16/23 08:08, kernel test robot wrote:
-> Hi Anshuman,
+On Sat, Jun 17, 2023 at 04:00:02PM +0200, Greg Kroah-Hartman wrote:
 > 
-> kernel test robot noticed the following build errors:
+> You are doing two different things here, one is changing the allocation
+> way, and the other is the name.  If one of those things turns out to
+> break something, we have to revert this whole thing.
 > 
-> [auto build test ERROR on arm64/for-next/core]
-> [also build test ERROR on tip/perf/core acme/perf/core linus/master v6.4-rc6 next-20230615]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/drivers-perf-arm_pmu-Add-new-sched_task-callback/20230615-223352
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-> patch link:    https://lore.kernel.org/r/20230615133239.442736-8-anshuman.khandual%40arm.com
-> patch subject: [PATCH V12 07/10] arm64/perf: Add PERF_ATTACH_TASK_DATA to events with has_branch_stack()
-> config: arm-randconfig-r004-20230615 (https://download.01.org/0day-ci/archive/20230616/202306161016.jJeqG6mc-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce (this is a W=1 build):
->         mkdir -p ~/bin
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # install arm cross compiling tool for clang build
->         # apt-get install binutils-arm-linux-gnueabi
->         git remote add arm64 https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
->         git fetch arm64 for-next/core
->         git checkout arm64/for-next/core
->         b4 shazam https://lore.kernel.org/r/20230615133239.442736-8-anshuman.khandual@arm.com
->         # save the config file
->         mkdir build_dir && cp config build_dir/.config
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm olddefconfig
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/perf/
+> So please make this two different changes, one to change to use
+> devm_kasprintf() and the second to change the naming scheme, ESPECIALLY
+> as you do not mention the name change in the subject line.  And that's
+> going to be a user-visible change, so you need to make that VERY
+> obvious.
+Makes sense greg, will do in v6.
 
-This build failure too gets solved via the header code block movement as mentioned earlier.
+Prathu
