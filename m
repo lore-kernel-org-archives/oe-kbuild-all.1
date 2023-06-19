@@ -1,44 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F3614A8B;
-	Mon, 19 Jun 2023 21:54:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE09522A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jun 2023 22:15:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687211688; x=1718747688;
+  t=1687212949; x=1718748949;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wvfDxTUeEwl3u4Dhs0uBFoPv8EOwdevXVgngFY8M7PA=;
-  b=IqZEdYzLBtAOUjxv/FL7DIzbr2oPEhSOakdCFYtqfzwy3BFVGqytgEOD
-   BZUB5D7gZzz0FGOa6Es+uWj6GTEJBz/XG18L6B67PammGbvD+wFi6Xj3J
-   smsCLFOuIHeKycz+9K3rHj2rrnVlKuNx1cnJnCRbHP/UU6wV+qLSU4qEX
-   ZZLDs/prbwjWwIo1w2DECrSOWGbNT9uAkKXOxyykb3dgAPm4LtuXhlT1/
-   dJBIBVwOe5/AHob4YgETH8ShQMiQBNJFqHH+Sougnpc3Xhwbcvlbn+7MZ
-   ybJzlp4FMmRdIxlATkaYkIeJ0w8VVXo2m+Lvec9+MWLIwniigFn6kSaUg
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="344464970"
+  bh=J7mXsZpoN5D1A5wSWkCHtGuxRRm88qR6ZJPGGdEatyM=;
+  b=HWvCjIPQ+6oJx8fqu2/5N99FB0JFy7dpc8ARHqETx6i15usqDtTvU+qp
+   t0RfDH0gxzXmGDMWADFfn4N7NuVQWf2FeOHp5b3zdGVJ3/6vAs0ulEMQl
+   E8f4f8A5CwMoxjAda+ZC6QlHLnv7MYqpPwJvRbpVzZAjabsuIGPENSiW9
+   uIBDrJr0al0VKSLlknqp8YG0uqcXDyFTorSvj8Hz4u3sYwdoijs0sl+6N
+   GaHzF7FWlRu1TVYBW52Uvvdstd+w2Q3BfsdSChxcplPv32+oKKf3EhZSr
+   7Go0fGh37MHztJx+c7lUigyIEIR12PEV+2GvmV4XCXojeg1qyKnTsrtQA
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="340061198"
 X-IronPort-AV: E=Sophos;i="6.00,255,1681196400"; 
-   d="scan'208";a="344464970"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 14:54:47 -0700
+   d="scan'208";a="340061198"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 15:15:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="783832186"
+X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="858345868"
 X-IronPort-AV: E=Sophos;i="6.00,255,1681196400"; 
-   d="scan'208";a="783832186"
+   d="scan'208";a="858345868"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 19 Jun 2023 14:54:47 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 19 Jun 2023 15:15:47 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBMpi-0005BM-1T;
-	Mon, 19 Jun 2023 21:54:46 +0000
-Date: Tue, 20 Jun 2023 05:54:26 +0800
+	id 1qBNA2-0005C8-3B;
+	Mon, 19 Jun 2023 22:15:46 +0000
+Date: Tue, 20 Jun 2023 06:15:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Steev Klimaszewski <steev@kali.org>
-Subject: [steev:lenovo-x13s-v6.4.0-rc7-hot 113/140]
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:647:28: warning: variable 'i' is
- uninitialized when used here
-Message-ID: <202306200518.Ft7v4vkz-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10-2023-07 1/1] arm-linux-gnueabi-ld:
+ hid-core.c:undefined reference to `uhid_hid_driver'
+Message-ID: <202306200649.LlvKODKb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,72 +46,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/steev/linux lenovo-x13s-v6.4.0-rc7-hot
-head:   6cedced75eb5ec70f59c98a202ba8dd3e4e224c2
-commit: 0fa917e9bd85f5fdf28d74a3ab85101fd8e87abf [113/140] drm/msm/dpu: add HDMI output support
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20230620/202306200518.Ft7v4vkz-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230620/202306200518.Ft7v4vkz-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.10-2023-07
+head:   c93516a2d02c0a1f0466b3f512977c40c1bee4f0
+commit: c93516a2d02c0a1f0466b3f512977c40c1bee4f0 [1/1] ANDROID: HID; Over-ride default maximum buffer size when using UHID
+config: arm-qcom_defconfig (https://download.01.org/0day-ci/archive/20230620/202306200649.LlvKODKb-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230620/202306200649.LlvKODKb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306200518.Ft7v4vkz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306200649.LlvKODKb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:647:28: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
-           info.h_tile_instance[0] = i;
-                                     ^
-   drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c:627:7: note: initialize the variable 'i' to silence this warning
-           int i;
-                ^
-                 = 0
-   1 warning generated.
-
-
-vim +/i +647 drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-
-   619	
-   620	static int _dpu_kms_initialize_hdmi(struct drm_device *dev,
-   621					    struct msm_drm_private *priv,
-   622					    struct dpu_kms *dpu_kms)
-   623	{
-   624		struct drm_encoder *encoder = NULL;
-   625		struct msm_display_info info;
-   626		int rc;
-   627		int i;
-   628	
-   629		if (!priv->hdmi)
-   630			return 0;
-   631	
-   632		encoder = dpu_encoder_init(dev, DRM_MODE_ENCODER_TMDS);
-   633		if (IS_ERR(encoder)) {
-   634			DPU_ERROR("encoder init failed for HDMI display\n");
-   635			return PTR_ERR(encoder);
-   636		}
-   637	
-   638		memset(&info, 0, sizeof(info));
-   639		rc = msm_hdmi_modeset_init(priv->hdmi, dev, encoder);
-   640		if (rc) {
-   641			DPU_ERROR("modeset_init failed for DP, rc = %d\n", rc);
-   642			drm_encoder_cleanup(encoder);
-   643			return rc;
-   644		}
-   645	
-   646		info.num_of_h_tiles = 1;
- > 647		info.h_tile_instance[0] = i;
-   648		info.intf_type = INTF_HDMI;
-   649		rc = dpu_encoder_setup(dev, encoder, &info);
-   650		if (rc) {
-   651			DPU_ERROR("failed to setup DPU encoder %d: rc:%d\n",
-   652				  encoder->base.id, rc);
-   653			return rc;
-   654		}
-   655	
-   656		return 0;
-   657	}
-   658	
+   arm-linux-gnueabi-ld: drivers/hid/hid-core.o: in function `hid_add_field':
+   hid-core.c:(.text+0x25b8): undefined reference to `uhid_hid_driver'
+>> arm-linux-gnueabi-ld: hid-core.c:(.text+0x25bc): undefined reference to `uhid_hid_driver'
+   arm-linux-gnueabi-ld: drivers/hid/hid-core.o: in function `hid_report_raw_event':
+>> (.text+0x2f08): undefined reference to `uhid_hid_driver'
+>> arm-linux-gnueabi-ld: (.text+0x2f0c): undefined reference to `uhid_hid_driver'
 
 -- 
 0-DAY CI Kernel Test Service
