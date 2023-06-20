@@ -1,42 +1,31 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DE44400
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 08:39:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687250347; x=1718786347;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lENMy1RZSrEswlm4nUDLq3ESpoLl2Gp7dSnR3viJRxk=;
-  b=eBpToGHZuVsC+ycdPKSygeBH6LZ+pv9CdcLdRhKzazGv5DrAnIjpR65r
-   flJj5rBYcp6yJUzxVg9FRYtPIxqsxSjuGDMx/yOqVOyxlXHcsga2v3DS3
-   FbzSt48oT9RSTzhaBUpGE6yyHdJBwR8vr7gbB+QEUshuyDjKF4+9BNg2A
-   FotZXDYD32XWvJQga6Cv2xXv2tcCqtnuI3eFn3pX9tlbz0wGtyvJuoPqq
-   Zu5A81l3psLHjNQorfFbrCPmND1LHwP4otmQGRLv6JPqnp8qmD2fi2LUl
-   k7yZpvoQQwS7hudMlZUZozOU4YnFd1HAW/e2/SyZsBQbYdX7N+rK2bSfb
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="358673714"
-X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; 
-   d="scan'208";a="358673714"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 01:39:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="717155359"
-X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; 
-   d="scan'208";a="717155359"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Jun 2023 01:39:05 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qBWtF-0005iW-01;
-	Tue, 20 Jun 2023 08:39:05 +0000
-Date: Tue, 20 Jun 2023 16:38:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anup Patel <apatel@ventanamicro.com>
-Cc: oe-kbuild-all@lists.linux.dev, Atish Patra <atishp@rivosinc.com>
-Subject: [avpatel:riscv_timer_imp_v1 11/51]
- arch/riscv/kvm/aia_device.c:105:4-5: Unneeded semicolon
-Message-ID: <202306201657.oHoFqOD2-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C30E56E;
+	Tue, 20 Jun 2023 09:24:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F120C433C0;
+	Tue, 20 Jun 2023 09:24:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1687253073;
+	bh=9N6EIJ38Xk+9+ewliRVUBI3DulDbnvVkXDhlrDbSKFI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kBn50GNBszeGoHi+Y44dG5B218OG3oc1Ieqb86NZDmEckz0UkrdXEq1YD16W0OeZe
+	 ocWl4ntMap/XL6+QUsZagw6La/LVOW/Vihvm01pIjp748HGGWXYmd8H9qfmbIIXmm4
+	 RGa6oWj2VJi69vCgQLzSrABBIcQIxWl8GH8oUq70=
+Date: Tue, 20 Jun 2023 11:24:30 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Prathu Baronia <prathubaronia2011@gmail.com>
+Cc: "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org, error27@gmail.com, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v6 1/2] axis-fifo: use devm_kasprintf() for allocating
+ formatted strings
+Message-ID: <2023062015-snipping-wanted-276b@gregkh>
+References: <ZI/5H+GZU6/2osGT@redkillpc>
+ <20230619162246.33007-1-prathubaronia2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,23 +34,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230619162246.33007-1-prathubaronia2011@gmail.com>
 
-tree:   https://github.com/avpatel/linux.git riscv_timer_imp_v1
-head:   a1052b9c33cad3633fbd2de9cc46e174feaa9716
-commit: 46df28076abd80c8be71820956cbb7f51ce5ea6c [11/51] RISC-V: KVM: Implement device interface for AIA irqchip
-config: riscv-randconfig-c032-20230620 (https://download.01.org/0day-ci/archive/20230620/202306201657.oHoFqOD2-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230620/202306201657.oHoFqOD2-lkp@intel.com/reproduce)
+On Mon, Jun 19, 2023 at 09:52:44PM +0530, Prathu Baronia wrote:
+> In various places, string buffers of a fixed size are allocated, and
+> filled using snprintf() with the same fixed size, which is error-prone.
+> 
+> Replace this by calling devm_kasprintf() instead, which always uses the
+> appropriate size.
+> 
+> Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
+> ---
+> V5 -> V6: Split into api change and name change commits
+> V4 -> V5: Remove the dev_info() and use a unique identifier for dev name
+> V3 -> V4: Split into warning fixing and cleanup commits
+> V2 -> V3: Fix smatch warnings from kernel test robot
+> V1 -> V2: Split into logical commits and fix commit message
+> 
+>  drivers/staging/axis-fifo/axis-fifo.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index 7a21f2423204..7d8da9ce2db8 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -816,10 +816,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
+>  	 * ----------------------------
+>  	 */
+>  
+> -	device_name = devm_kzalloc(dev, 32, GFP_KERNEL);
+> -	if (!device_name)
+> -		return -ENOMEM;
+> -
+>  	/* allocate device wrapper memory */
+>  	fifo = devm_kzalloc(dev, sizeof(*fifo), GFP_KERNEL);
+>  	if (!fifo)
+> @@ -857,7 +853,11 @@ static int axis_fifo_probe(struct platform_device *pdev)
+>  	dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
+>  
+>  	/* create unique device name */
+> -	snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
+> +	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%p", DRIVER_NAME, &r_mem->start);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306201657.oHoFqOD2-lkp@intel.com/
+As Dan points out, you are changing the name here :(
 
-cocci warnings: (new ones prefixed by >>)
->> arch/riscv/kvm/aia_device.c:105:4-5: Unneeded semicolon
-   arch/riscv/kvm/aia_device.c:166:2-3: Unneeded semicolon
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
