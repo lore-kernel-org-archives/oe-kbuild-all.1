@@ -1,92 +1,94 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA621FAD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 05:18:10 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-4f8735ac3e3so2203551e87.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jun 2023 22:18:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B6A1FA9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 05:38:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687238288; x=1689830288;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y7PuqpyqHE/HUVu8CRaW9WlThpzPBfO6+875ZQx+jnA=;
-        b=euZ3NbqF9mB24d0ScudIoCLcjGflfbklhPemkj/vHLxufMsWRiAGBP9qLHpeL7+ibl
-         KRmAsBeL396AbnFIajAYSoVRQP1OSDV73iXpEuEqKjWbJuW1jnhGCNpaD4i0QrN0y4SC
-         YYqtSkae846yMDjV3BaQJTSXpLLQqClqPJQylp5sQ9hbnOQKXk86ODhLiNMZFzXOUmqw
-         spw6fYU/7QuiB7LtKQuSToUkUX4PVOZ7HQi9Sg3oPqRwUMlyvKkWTohnsVrmuBqhDdjp
-         MORXtKz1IOxy2hQ2xYKKGz6TA5JWo/svqiWxln2fXV1LiYLgXbWOUwRQFaBoRWj+xMHI
-         ESxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687238288; x=1689830288;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y7PuqpyqHE/HUVu8CRaW9WlThpzPBfO6+875ZQx+jnA=;
-        b=K2UV71d4q3Vd/lirHUYA2epV7km/chsGQWYXZwcemC7//HZBYzOw807hiMQNMVw8n/
-         W8ZmMXts9DgPMQZ0WRQCOPg/RfwZBgWA6CWikflM2ZkeN3g1OXL7GRNGfMvG1quLLvRA
-         VF/R6KBuGL1YSoz5Dhz0ECNrpMSDQWFYeiAUGq5oUX61gRS4dgEHl5QSyLfIlk3utuQO
-         eqZ7bo9xy57OJPSnc6xWwA8Ucpkzz3rjgQl1k7qEmXuWWUtfTtUdSmV+fzwQDwf3s/T/
-         a1pQtjj4J5Z+DrvFa8XuCK19/A42ZlorTWduKFBqdKfvyBEzXiXDXtoNuIqqVkLLm8FU
-         vyQA==
-X-Gm-Message-State: AC+VfDy7p6OCtIiofWK6PJx8wZ1gogMK8yRFVPNgcSs6UtW1InpCSY8L
-	nFvduN24L/ccdgj5n26Ny0HLwA==
-X-Google-Smtp-Source: ACHHUZ5ccBcWPxcFeRk9KZTmk2iY37jAco/koAiv37L1FuAnmeROZMwkEffaczENJYwJooQ+gl1ReA==
-X-Received: by 2002:a2e:95c4:0:b0:2b4:6a20:f12d with SMTP id y4-20020a2e95c4000000b002b46a20f12dmr4718664ljh.43.1687238288311;
-        Mon, 19 Jun 2023 22:18:08 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id z8-20020a05600c220800b003f9b12b1598sm4395724wml.22.2023.06.19.22.18.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Jun 2023 22:18:05 -0700 (PDT)
-Date: Tue, 20 Jun 2023 08:18:02 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Prathu Baronia <prathubaronia2011@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-	Khadija Kamran <kamrankhadijadj@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	error27@gmail.com, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	oe-kbuild@lists.linux.dev
-Subject: Re: [PATCH v6 1/2] axis-fifo: use devm_kasprintf() for allocating
- formatted strings
-Message-ID: <e118d13a-d36e-4417-9fe5-68d46472c09a@kadam.mountain>
-References: <ZI/5H+GZU6/2osGT@redkillpc>
- <20230619162246.33007-1-prathubaronia2011@gmail.com>
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pScoDydckRzyRGchaCepeer7rRSenq0ZlGdA+uIoGoo=;
+  b=fGwCWJX+/MLVO1Mj3M0IcSlthF0gPL0CZs81ygyg9UlXUqLQWJSwG2MH
+   U0WQvzyRDmbD35Qg/zUw+91a7uVBDBbLzs9Lq90xAdYX3jNsFex0ogpqm
+   Vp5RGpXCIM1f/6CYe0qfoXjV+cwM3jUh9DZuvPqUY3u6IJWaX3Bf5AcTo
+   U=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.00,256,1681164000"; 
+   d="scan'208";a="59189220"
+Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 07:38:16 +0200
+Date: Tue, 20 Jun 2023 07:38:16 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+X-X-Sender: jll@hadrien
+To: Joel Granados <j.granados@samsung.com>
+cc: oe-kbuild-all@lists.linux.dev
+Subject: [joelgranados:jag/sysctl-testing-for-0day 25/35]
+ arch/arm64/kernel/armv8_deprecated.c:56:18-24: WARNING use flexible-array
+ member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+ (fwd)
+Message-ID: <alpine.DEB.2.22.394.2306200738000.3078@hadrien>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230619162246.33007-1-prathubaronia2011@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
 
-On Mon, Jun 19, 2023 at 09:52:44PM +0530, Prathu Baronia wrote:
-> In various places, string buffers of a fixed size are allocated, and
-> filled using snprintf() with the same fixed size, which is error-prone.
-> 
-> Replace this by calling devm_kasprintf() instead, which always uses the
-> appropriate size.
-> 
-> Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
-> ---
-> V5 -> V6: Split into api change and name change commits
-> V4 -> V5: Remove the dev_info() and use a unique identifier for dev name
-> V3 -> V4: Split into warning fixing and cleanup commits
-> V2 -> V3: Fix smatch warnings from kernel test robot
-> V1 -> V2: Split into logical commits and fix commit message
-> 
 
-> -	snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
-                                      ^^^
 
-> +	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%p", DRIVER_NAME, &r_mem->start);
-                                                          ^^
+---------- Forwarded message ----------
+Date: Tue, 20 Jun 2023 13:14:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [joelgranados:jag/sysctl-testing-for-0day 25/35]
+    arch/arm64/kernel/armv8_deprecated.c:56:18-24: WARNING use flexible-array
+    member instead
+    (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-
+    and-one-element-arrays)
 
-This is a sneaky fix which Greg already kind of complained about if I
-remember correctly...
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Joel Granados <j.granados@samsung.com>
 
-regards,
-dan carpenter
+tree:   https://github.com/Joelgranados/linux.git jag/sysctl-testing-for-0day
+head:   2b49f8dc213b7691cb69000b5a3986f82eb064e8
+commit: f002b0bcd6d09e496c1c8e39a430eafa5b96acdd [25/35] sysctl Remove end element in armv8_deprecated.c
+:::::: branch date: 18 hours ago
+:::::: commit date: 20 hours ago
+config: arm64-randconfig-c044-20230618 (https://download.01.org/0day-ci/archive/20230620/202306201323.r35D29tX-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230620/202306201323.r35D29tX-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202306201323.r35D29tX-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> arch/arm64/kernel/armv8_deprecated.c:56:18-24: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+
+vim +56 arch/arm64/kernel/armv8_deprecated.c
+
+587064b610c703 Punit Agrawal 2014-11-18  43
+b4453cc8a7ebbd Mark Rutland  2022-10-19  44  struct insn_emulation {
+587064b610c703 Punit Agrawal 2014-11-18  45  	const char			*name;
+587064b610c703 Punit Agrawal 2014-11-18  46  	enum legacy_insn_status		status;
+124c49b1b5d947 Mark Rutland  2022-10-19  47  	bool				(*try_emulate)(struct pt_regs *regs,
+124c49b1b5d947 Mark Rutland  2022-10-19  48  						       u32 insn);
+587064b610c703 Punit Agrawal 2014-11-18  49  	int				(*set_hw_mode)(bool enable);
+124c49b1b5d947 Mark Rutland  2022-10-19  50
+587064b610c703 Punit Agrawal 2014-11-18  51  	int current_mode;
+587064b610c703 Punit Agrawal 2014-11-18  52  	int min;
+587064b610c703 Punit Agrawal 2014-11-18  53  	int max;
+124c49b1b5d947 Mark Rutland  2022-10-19  54
+f002b0bcd6d09e Joel Granados 2023-06-19  55  	/* sysctl for this emulation */
+f002b0bcd6d09e Joel Granados 2023-06-19 @56  	struct ctl_table sysctl[1];
+587064b610c703 Punit Agrawal 2014-11-18  57  };
+587064b610c703 Punit Agrawal 2014-11-18  58
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
