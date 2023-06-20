@@ -1,42 +1,41 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FD717AB5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 19:22:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBD12AB55
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 20:02:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687288956; x=1718824956;
+  t=1687291373; x=1718827373;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zLzteslhLT3ZqeU0FdlOqAisiNJuBIJXPbLarm/HTMM=;
-  b=W77s/XEvVz1Xo/789ysizwGW6T8K2MEHym31+W9+nFBuKBXmiazItIf5
-   mgOksaAVE6PbcAqf52WeS6vYG8K4wvzAfnbk+a7lMObjdKTJKzSzqwbqu
-   ztpMCv9dwEm06e1mJqM/vyZEXTAao5XLASoKYZDwAfAPDmUvwCG2/IYHe
-   v8Y8nMvdLmTh9jxC0hSrKlfgIzSO4Ue54nqdByYGJv434GRi0ateVIUuU
-   8vOC7NjrpVTNgVbNJgCGwDI5fbDSy7R7aAbqedUkbGVTMONNnQe8G3Swh
-   Yw+tpwKwo6W60vWVYO4GiEwiD9QXWV93luX24q+QWNJ0AcJp7QRPSGP06
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="349693033"
+  bh=xC8h5nWZ4r3t154CLp4C5FI2xD8j7/pc0juWmAecKcw=;
+  b=OmPUua2ji7b28rajyP7+h1iKMRDEGF08iDywnfb/Aik/H7xx3HqZg5ev
+   ORfguTRXXmT/uWChMPBAFeQw23+iLp4dw0nNqWDw91FBnJSH3JPG5Xw8T
+   1UidiQXisjhnKpWZs9ym8rYNGQTGZ9JM+wQnvw5OF8mH0hxDux0wcRqRz
+   VkI5dxExqi3Kcn2uhHmekoESOjNkOZtl4jXrgABM0o6TgyGbmUT3r5lnM
+   3VNO5R6UNBURaicitbYeonGsp4D7hJFRbK1rf8hAR2VBAdE6kaBRcQTNK
+   YWmz/MGBOCDBL1k3kYWzNLOWmodShda6slae1grd7TXTs6FZMGh2IU9Fd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="446345440"
 X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="349693033"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 12:22:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="717338479"
+   d="scan'208";a="446345440"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 13:02:39 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="748277977"
 X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="717338479"
+   d="scan'208";a="748277977"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Jun 2023 12:22:34 -0700
+  by orsmga001.jf.intel.com with ESMTP; 20 Jun 2023 13:02:38 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBgvy-0006BI-0b;
-	Tue, 20 Jun 2023 19:22:34 +0000
-Date: Wed, 21 Jun 2023 03:21:41 +0800
+	id 1qBhYj-0006D6-0O;
+	Tue, 20 Jun 2023 20:02:37 +0000
+Date: Wed, 21 Jun 2023 04:02:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
+To: Peter Zijlstra <peterz@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:doe 7/10] ERROR: modpost: "pci_cma_claim_ownership"
- [drivers/vfio/pci/vfio-pci-core.ko] undefined!
-Message-ID: <202306210315.9EEK1UfA-lkp@intel.com>
+Subject: [peterz-queue:x86/urgent 1/2] vmlinux.o: warning: objtool:
+ kthread_from_fork+0x6: call to {dynamic}() leaves .noinstr.text section
+Message-ID: <202306210312.FjBtrRrF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,28 +45,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/l1k/linux doe
-head:   b925f4f202e380732b9dabe062d203b5d5a8296a
-commit: 163a42154fb7e38913ab7b80067cd4208fa8be86 [7/10] PCI/CMA: Grant guests exclusive control of authentication
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20230621/202306210315.9EEK1UfA-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210315.9EEK1UfA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/urgent
+head:   d715c2e3f6a2f5593adc5396085d61720c9578ae
+commit: e54a77cfaa98942e2f04827c7819d99dc3340c08 [1/2] x86/cfi: Fix ret_from_fork indirect calls
+config: x86_64-randconfig-a016-20230620 (https://download.01.org/0day-ci/archive/20230621/202306210312.FjBtrRrF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210312.FjBtrRrF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306210315.9EEK1UfA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306210312.FjBtrRrF-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "pci_cma_claim_ownership" [drivers/vfio/pci/vfio-pci-core.ko] undefined!
->> ERROR: modpost: "pci_cma_return_ownership" [drivers/vfio/pci/vfio-pci-core.ko] undefined!
+>> vmlinux.o: warning: objtool: kthread_from_fork+0x6: call to {dynamic}() leaves .noinstr.text section
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=n]) && !GENERIC_ATOMIC64 [=n]
-   Selected by [y]:
-   - IPMMU_VMSA [=y] && IOMMU_SUPPORT [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=n]) && !GENERIC_ATOMIC64 [=n]
+
+objdump-func vmlinux.o kthread_from_fork:
+0000 00000000000002f0 <kthread_from_fork>:
+0000      2f0:	48 89 f8             	mov    %rdi,%rax
+0003      2f3:	48 89 f7             	mov    %rsi,%rdi
+0006      2f6:	ff e0                	jmp    *%rax
+0008      2f8:	0f 1f 84 00 00 00 00 00 	nopl   0x0(%rax,%rax,1)
 
 -- 
 0-DAY CI Kernel Test Service
