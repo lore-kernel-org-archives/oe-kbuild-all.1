@@ -1,42 +1,42 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C52D174D1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 21:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BF516408
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 22:05:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687295681; x=1718831681;
+  t=1687298743; x=1718834743;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lpyMpVpgjd4tmVpC7advXYeHhDC6/5DpY8mZm2fkz1E=;
-  b=kBG5l7wD+sfWzNBpjtuSpR2KuOsCl+XbR8tppcR9XGsZ9I4viHjICO8Z
-   Y3DrvFiIDxswiCymMgftYIpsM7e00OY/DjwUTEcLUHt9LsAfQ7AC7IZc7
-   JnIzOk1E7GObd34HzTh9rRCSuTFsY/MQfeu2KN1U+FqQr3ocvnsaRY1W6
-   gqKRF/HWkYA4BC5tfvXOFsM/27KN+ZJgn+M4GbgYla1xvQA3L4YatHRof
-   Gu/+5PgZALLoVOB7Tvu/14tMUc+r/9gV5swGhsJGH5mP73EYcINtPjy50
-   6mlRc1rkx3StKhN5oKltC6OXFmMnXSACBiLMfpBrn0tvyrsH+GJgDNVGg
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="363407870"
+  bh=WCAxJ2yKOcSnS6zOTMV3gR2/FLkdoSakLnUYnkQKTx8=;
+  b=gRnWs5Tfpq5juPz//nJWjynDdCjzRaEXulJms/pSPUjVHxbw0ggeM9Yv
+   rHYNMBMdVHmhD1AFeZYQjxEfc5uQeDEmFcP+6Bo64f3GHDerahA+vPP1l
+   imUoNjzYSywAqD58mc7UTFUhR3iDupOX0siGdnMY57bVY/DNVdewqV2Vx
+   4Idm29BTuZFZEflwrumHyir2rEzl6Va8aim4pNqlW7i0Sxcxk/hIGtwIz
+   Dy1zqsqeQ80UHugUntPMDwT8i4AoII5v3pkN/iyLkvfGQOxPFfZnkNija
+   8M0PpVbYYGxsgqKgC8b0FxFfvqr9eUgBvQ7bXffhyMrubpMlEH8S11qN/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="425951830"
 X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="363407870"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 14:14:40 -0700
+   d="scan'208";a="425951830"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 15:05:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="960927293"
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="664407696"
 X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="960927293"
+   d="scan'208";a="664407696"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 20 Jun 2023 14:14:39 -0700
+  by orsmga003.jf.intel.com with ESMTP; 20 Jun 2023 15:05:41 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBigR-0006G8-0j;
-	Tue, 20 Jun 2023 21:14:39 +0000
-Date: Wed, 21 Jun 2023 05:13:48 +0800
+	id 1qBjTo-0006Hj-1U;
+	Tue, 20 Jun 2023 22:05:40 +0000
+Date: Wed, 21 Jun 2023 06:05:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rob Herring <robh@kernel.org>
+To: Jens Axboe <axboe@kernel.dk>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/sparc/kernel/traps_64.c:2839:13: error: no previous prototype
- for 'trap_init'
-Message-ID: <202306210547.QTEAjNch-lkp@intel.com>
+Subject: io_uring/net.c:206:25: sparse: sparse: incorrect type in assignment
+ (different address spaces)
+Message-ID: <202306210654.mDMcyMuB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,51 +46,187 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Rob,
-
-FYI, the error/warning still remains.
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   99ec1ed7c2ed358280588ab1d013387e8c7a9333
-commit: 7e09cb0b84ac5d17086a65ca21479dfec600a232 of: Drop cpu.h include from of_device.h
-date:   10 weeks ago
-config: sparc64-randconfig-c003-20230620 (https://download.01.org/0day-ci/archive/20230621/202306210547.QTEAjNch-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210547.QTEAjNch-lkp@intel.com/reproduce)
+head:   692b7dc87ca6d55ab254f8259e6f970171dc9d01
+commit: cac9e4418f4cbd548ccb065b3adcafe073f7f7d2 io_uring/net: save msghdr->msg_control for retries
+date:   7 days ago
+config: i386-randconfig-s001-20230620 (https://download.01.org/0day-ci/archive/20230621/202306210654.mDMcyMuB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210654.mDMcyMuB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306210547.QTEAjNch-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306210654.mDMcyMuB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   io_uring/net.c: note: in included file (through io_uring/io_uring.h):
+   include/linux/io_uring_types.h:179:37: sparse: sparse: array of flexible structures
+>> io_uring/net.c:206:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *msg_control @@     got void *msg_control @@
+   io_uring/net.c:206:25: sparse:     expected void [noderef] __user *msg_control
+   io_uring/net.c:206:25: sparse:     got void *msg_control
+>> io_uring/net.c:305:39: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *msg_control @@     got void [noderef] __user *msg_control @@
+   io_uring/net.c:305:39: sparse:     expected void *msg_control
+   io_uring/net.c:305:39: sparse:     got void [noderef] __user *msg_control
 
-   arch/sparc/kernel/traps_64.c:252:6: error: no previous prototype for 'is_no_fault_exception' [-Werror=missing-prototypes]
-     252 | bool is_no_fault_exception(struct pt_regs *regs)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/sparc/kernel/traps_64.c:2034:6: error: no previous prototype for 'do_mcd_err' [-Werror=missing-prototypes]
-    2034 | void do_mcd_err(struct pt_regs *regs, struct sun4v_error_entry ent)
-         |      ^~~~~~~~~~
-   arch/sparc/kernel/traps_64.c:2152:6: error: no previous prototype for 'sun4v_nonresum_error_user_handled' [-Werror=missing-prototypes]
-    2152 | bool sun4v_nonresum_error_user_handled(struct pt_regs *regs,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/sparc/kernel/traps_64.c:2839:13: error: no previous prototype for 'trap_init' [-Werror=missing-prototypes]
-    2839 | void __init trap_init(void)
-         |             ^~~~~~~~~
-   cc1: all warnings being treated as errors
+vim +206 io_uring/net.c
 
-
-vim +/trap_init +2839 arch/sparc/kernel/traps_64.c
-
-^1da177e4c3f41 arch/sparc64/kernel/traps.c Linus Torvalds 2005-04-16  2837  
-^1da177e4c3f41 arch/sparc64/kernel/traps.c Linus Torvalds 2005-04-16  2838  /* Only invoked on boot processor. */
-^1da177e4c3f41 arch/sparc64/kernel/traps.c Linus Torvalds 2005-04-16 @2839  void __init trap_init(void)
-
-:::::: The code at line 2839 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   194	
+   195	static int io_sendmsg_copy_hdr(struct io_kiocb *req,
+   196				       struct io_async_msghdr *iomsg)
+   197	{
+   198		struct io_sr_msg *sr = io_kiocb_to_cmd(req, struct io_sr_msg);
+   199		int ret;
+   200	
+   201		iomsg->msg.msg_name = &iomsg->addr;
+   202		iomsg->free_iov = iomsg->fast_iov;
+   203		ret = sendmsg_copy_msghdr(&iomsg->msg, sr->umsg, sr->msg_flags,
+   204						&iomsg->free_iov);
+   205		/* save msg_control as sys_sendmsg() overwrites it */
+ > 206		sr->msg_control = iomsg->msg.msg_control;
+   207		return ret;
+   208	}
+   209	
+   210	int io_send_prep_async(struct io_kiocb *req)
+   211	{
+   212		struct io_sr_msg *zc = io_kiocb_to_cmd(req, struct io_sr_msg);
+   213		struct io_async_msghdr *io;
+   214		int ret;
+   215	
+   216		if (!zc->addr || req_has_async_data(req))
+   217			return 0;
+   218		io = io_msg_alloc_async_prep(req);
+   219		if (!io)
+   220			return -ENOMEM;
+   221		ret = move_addr_to_kernel(zc->addr, zc->addr_len, &io->addr);
+   222		return ret;
+   223	}
+   224	
+   225	static int io_setup_async_addr(struct io_kiocb *req,
+   226				      struct sockaddr_storage *addr_storage,
+   227				      unsigned int issue_flags)
+   228	{
+   229		struct io_sr_msg *sr = io_kiocb_to_cmd(req, struct io_sr_msg);
+   230		struct io_async_msghdr *io;
+   231	
+   232		if (!sr->addr || req_has_async_data(req))
+   233			return -EAGAIN;
+   234		io = io_msg_alloc_async(req, issue_flags);
+   235		if (!io)
+   236			return -ENOMEM;
+   237		memcpy(&io->addr, addr_storage, sizeof(io->addr));
+   238		return -EAGAIN;
+   239	}
+   240	
+   241	int io_sendmsg_prep_async(struct io_kiocb *req)
+   242	{
+   243		int ret;
+   244	
+   245		if (!io_msg_alloc_async_prep(req))
+   246			return -ENOMEM;
+   247		ret = io_sendmsg_copy_hdr(req, req->async_data);
+   248		if (!ret)
+   249			req->flags |= REQ_F_NEED_CLEANUP;
+   250		return ret;
+   251	}
+   252	
+   253	void io_sendmsg_recvmsg_cleanup(struct io_kiocb *req)
+   254	{
+   255		struct io_async_msghdr *io = req->async_data;
+   256	
+   257		kfree(io->free_iov);
+   258	}
+   259	
+   260	int io_sendmsg_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
+   261	{
+   262		struct io_sr_msg *sr = io_kiocb_to_cmd(req, struct io_sr_msg);
+   263	
+   264		if (req->opcode == IORING_OP_SEND) {
+   265			if (READ_ONCE(sqe->__pad3[0]))
+   266				return -EINVAL;
+   267			sr->addr = u64_to_user_ptr(READ_ONCE(sqe->addr2));
+   268			sr->addr_len = READ_ONCE(sqe->addr_len);
+   269		} else if (sqe->addr2 || sqe->file_index) {
+   270			return -EINVAL;
+   271		}
+   272	
+   273		sr->umsg = u64_to_user_ptr(READ_ONCE(sqe->addr));
+   274		sr->len = READ_ONCE(sqe->len);
+   275		sr->flags = READ_ONCE(sqe->ioprio);
+   276		if (sr->flags & ~IORING_RECVSEND_POLL_FIRST)
+   277			return -EINVAL;
+   278		sr->msg_flags = READ_ONCE(sqe->msg_flags) | MSG_NOSIGNAL;
+   279		if (sr->msg_flags & MSG_DONTWAIT)
+   280			req->flags |= REQ_F_NOWAIT;
+   281	
+   282	#ifdef CONFIG_COMPAT
+   283		if (req->ctx->compat)
+   284			sr->msg_flags |= MSG_CMSG_COMPAT;
+   285	#endif
+   286		sr->done_io = 0;
+   287		return 0;
+   288	}
+   289	
+   290	int io_sendmsg(struct io_kiocb *req, unsigned int issue_flags)
+   291	{
+   292		struct io_sr_msg *sr = io_kiocb_to_cmd(req, struct io_sr_msg);
+   293		struct io_async_msghdr iomsg, *kmsg;
+   294		struct socket *sock;
+   295		unsigned flags;
+   296		int min_ret = 0;
+   297		int ret;
+   298	
+   299		sock = sock_from_file(req->file);
+   300		if (unlikely(!sock))
+   301			return -ENOTSOCK;
+   302	
+   303		if (req_has_async_data(req)) {
+   304			kmsg = req->async_data;
+ > 305			kmsg->msg.msg_control = sr->msg_control;
+   306		} else {
+   307			ret = io_sendmsg_copy_hdr(req, &iomsg);
+   308			if (ret)
+   309				return ret;
+   310			kmsg = &iomsg;
+   311		}
+   312	
+   313		if (!(req->flags & REQ_F_POLLED) &&
+   314		    (sr->flags & IORING_RECVSEND_POLL_FIRST))
+   315			return io_setup_async_msg(req, kmsg, issue_flags);
+   316	
+   317		flags = sr->msg_flags;
+   318		if (issue_flags & IO_URING_F_NONBLOCK)
+   319			flags |= MSG_DONTWAIT;
+   320		if (flags & MSG_WAITALL)
+   321			min_ret = iov_iter_count(&kmsg->msg.msg_iter);
+   322	
+   323		ret = __sys_sendmsg_sock(sock, &kmsg->msg, flags);
+   324	
+   325		if (ret < min_ret) {
+   326			if (ret == -EAGAIN && (issue_flags & IO_URING_F_NONBLOCK))
+   327				return io_setup_async_msg(req, kmsg, issue_flags);
+   328			if (ret > 0 && io_net_retry(sock, flags)) {
+   329				sr->done_io += ret;
+   330				req->flags |= REQ_F_PARTIAL_IO;
+   331				return io_setup_async_msg(req, kmsg, issue_flags);
+   332			}
+   333			if (ret == -ERESTARTSYS)
+   334				ret = -EINTR;
+   335			req_set_fail(req);
+   336		}
+   337		/* fast path, check for non-NULL to avoid function call */
+   338		if (kmsg->free_iov)
+   339			kfree(kmsg->free_iov);
+   340		req->flags &= ~REQ_F_NEED_CLEANUP;
+   341		io_netmsg_recycle(req, issue_flags);
+   342		if (ret >= 0)
+   343			ret += sr->done_io;
+   344		else if (sr->done_io)
+   345			ret = sr->done_io;
+   346		io_req_set_res(req, ret, 0);
+   347		return IOU_OK;
+   348	}
+   349	
 
 -- 
 0-DAY CI Kernel Test Service
