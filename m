@@ -1,44 +1,44 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 891102AB25
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 16:47:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B912AB20
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 17:29:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687279650; x=1718815650;
+  t=1687282173; x=1718818173;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5QZ3s914oi4ucxaLZ9r1COy3ZWKW6pIPXwuFz0lqUtE=;
-  b=WoZsqk5KV3ZaQ2DrofPrHd4yr32f3kvdfPXhGPP5VruQqwc1Md6GhIAd
-   xw/uqepfQejZlp8u3cze+uME5cZLC4cDeFfqChL1lrEj6KSV1EvWknwdE
-   QM7Kl/Fkmo5y2SvhmgwkXOdoiM5jiUeUla4vbcC/XLP7bJEH/hd/7d+uq
-   Zj0Bq1LeF7Lu0lu3R4+xCcWCBlQWJYZM0QhULnGEtG5S1KXJXQRbR2s2p
-   eOPDi+Tx/KKf5m56GWk96TYNcpEq4SJS5og3DSN0fUXdwHKxMGiM85XN3
-   FMLbcQ+UZ1Vlb7Q7XEGyD6ktuly6VpOzb7IDVTkIx+s8IuDdicQUAEK/L
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="357409266"
+  bh=/NLRe36IRPhR5TbxdpB3sUxMp68jnOSNtaAslBLc/ZI=;
+  b=YLnJ++V1Gc6T/iOvsaQSSVUX5ZMH7FM7XZ22C6gbuFhT9mkUInw9zbnM
+   15kavzNV3sjiWP6ENYtDk5wRgIRDy+iGlvGxnfKhp36qEQ/Mu+S3tG+Bd
+   OZeTar/BQHc0e7SuM/jhhEz45mJm3Vm46gzpaZpHD0FkL2MgqFsOxGbJI
+   VITWBuLFiaX7phhy1wKmpu24hjfwoeBzxPaqYiq5wCWuMSR8v2PjjvhrN
+   C9tP4tkZuyFU/GFKgYJSpDU46oFo4OyRKijqemG5bIy16V3lOpu20O7Bj
+   vzGvsvdWRJ1RRjOcS0MLYiLBXEjOZMvbdrxLgUsCMMAGygcdij1L12qpl
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="344673821"
 X-IronPort-AV: E=Sophos;i="6.00,257,1681196400"; 
-   d="scan'208";a="357409266"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 09:47:29 -0700
+   d="scan'208";a="344673821"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 10:29:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="1044355415"
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="838290870"
 X-IronPort-AV: E=Sophos;i="6.00,257,1681196400"; 
-   d="scan'208";a="1044355415"
+   d="scan'208";a="838290870"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 20 Jun 2023 09:47:27 -0700
+  by orsmga004.jf.intel.com with ESMTP; 20 Jun 2023 10:29:30 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBeVr-000644-1E;
-	Tue, 20 Jun 2023 16:47:27 +0000
-Date: Wed, 21 Jun 2023 00:47:00 +0800
+	id 1qBfAX-00065M-33;
+	Tue, 20 Jun 2023 17:29:29 +0000
+Date: Wed, 21 Jun 2023 01:29:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>
-Subject: [stable:linux-5.4.y 294/9999] drivers/ata/libata-scsi.c:2406:51:
- error: 'SECTOR_SHIFT' undeclared; did you mean 'SOFTIRQ_SHIFT'?
-Message-ID: <202306210040.PDqtOSpO-lkp@intel.com>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [driver-core:class_cleanup 41/47]
+ drivers/gpu/drm/../../accel/drm_accel.c:55:21: error: assignment of
+ read-only variable 'accel_class'
+Message-ID: <202306210110.7ADf9kzn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,176 +48,143 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.4.y
-head:   61a2f83e4762ee0c766f86944e612305f5888bcb
-commit: f7880745e91b77633da7f4428edf0ea3e50c4f4b [294/9999] libata: implement ATA_HORKAGE_MAX_TRIM_128M and apply to Sandisks
-config: powerpc-randconfig-r023-20230620 (https://download.01.org/0day-ci/archive/20230621/202306210040.PDqtOSpO-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210040.PDqtOSpO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git class_cleanup
+head:   dba7b38cece67048c402887753b21c5e06ae9138
+commit: f6c1685b3ed971b0c8d8bb51a3dae1189cca1455 [41/47] accel: make accel_class a static const structure
+config: sparc-randconfig-r022-20230620 (https://download.01.org/0day-ci/archive/20230621/202306210110.7ADf9kzn-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210110.7ADf9kzn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306210040.PDqtOSpO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306210110.7ADf9kzn-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-     123 | typedef blk_status_t (queue_rq_fn)(struct blk_mq_hw_ctx *,
-         |         ^~~~~~~~~~~~
-   include/linux/blk_types.h:78:48: error: type defaults to 'int' in declaration of 'error' [-Werror=implicit-int]
-      78 | static inline bool blk_path_error(blk_status_t error)
-         |                                                ^~~~~
-   include/linux/blk_types.h: In function 'blk_path_error':
-   include/linux/blk_types.h:81:9: error: type defaults to 'int' in type name [-Werror=implicit-int]
-      81 |         case BLK_STS_NOTSUPP:
-         |         ^~~~
-   include/linux/blk_types.h:82:9: error: type defaults to 'int' in type name [-Werror=implicit-int]
-      82 |         case BLK_STS_NOSPC:
-         |         ^~~~
-   include/linux/blk_types.h:83:9: error: type defaults to 'int' in type name [-Werror=implicit-int]
-      83 |         case BLK_STS_TARGET:
-         |         ^~~~
-   include/linux/blk_types.h:84:9: error: type defaults to 'int' in type name [-Werror=implicit-int]
-      84 |         case BLK_STS_NEXUS:
-         |         ^~~~
-   include/linux/blk_types.h:85:9: error: type defaults to 'int' in type name [-Werror=implicit-int]
-      85 |         case BLK_STS_MEDIUM:
-         |         ^~~~
-   include/linux/blk_types.h:86:9: error: type defaults to 'int' in type name [-Werror=implicit-int]
-      86 |         case BLK_STS_PROTECTION:
-         |         ^~~~
-   include/linux/blk_types.h: At top level:
-   include/linux/blk_types.h:154:33: error: type defaults to 'int' in declaration of 'bi_status' [-Werror=implicit-int]
-     154 |         blk_status_t            bi_status;
-         |                                 ^~~~~~~~~
-   drivers/ata/libata-scsi.c: In function 'ata_scsi_qc_new':
-   drivers/ata/libata-scsi.c:848:47: error: invalid use of undefined type 'struct request'
-     848 |         qc = ata_qc_new_init(dev, cmd->request->tag);
-         |                                               ^~
-   drivers/ata/libata-scsi.c:856:33: error: invalid use of undefined type 'struct request'
-     856 |                 if (cmd->request->rq_flags & RQF_QUIET)
-         |                                 ^~
-   drivers/ata/libata-scsi.c:856:46: error: 'RQF_QUIET' undeclared (first use in this function); did you mean 'BIO_QUIET'?
-     856 |                 if (cmd->request->rq_flags & RQF_QUIET)
-         |                                              ^~~~~~~~~
-         |                                              BIO_QUIET
-   drivers/ata/libata-scsi.c: In function 'ata_qc_set_pc_nbytes':
-   drivers/ata/libata-scsi.c:870:39: error: invalid use of undefined type 'struct request'
-     870 |         qc->extrabytes = scmd->request->extra_len;
-         |                                       ^~
-   In file included from include/asm-generic/bug.h:5:
-   drivers/ata/libata-scsi.c: In function 'atapi_drain_needed':
-   drivers/ata/libata-scsi.c:1240:21: error: implicit declaration of function 'blk_rq_is_passthrough' [-Werror=implicit-function-declaration]
-    1240 |         if (likely(!blk_rq_is_passthrough(rq)))
-         |                     ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'likely'
-      77 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   drivers/ata/libata-scsi.c:1243:14: error: implicit declaration of function 'blk_rq_bytes' [-Werror=implicit-function-declaration]
-    1243 |         if (!blk_rq_bytes(rq) || op_is_write(req_op(rq)))
-         |              ^~~~~~~~~~~~
-   include/linux/blk_types.h:381:15: error: invalid use of undefined type 'struct request'
-     381 |         ((req)->cmd_flags & REQ_OP_MASK)
-         |               ^~
-   drivers/ata/libata-scsi.c:1243:46: note: in expansion of macro 'req_op'
-    1243 |         if (!blk_rq_bytes(rq) || op_is_write(req_op(rq)))
-         |                                              ^~~~~~
-   drivers/ata/libata-scsi.c: In function 'ata_scsi_dev_config':
-   drivers/ata/libata-scsi.c:1258:9: error: implicit declaration of function 'blk_queue_max_hw_sectors' [-Werror=implicit-function-declaration]
-    1258 |         blk_queue_max_hw_sectors(q, dev->max_sectors);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/libata-scsi.c:1266:17: error: implicit declaration of function 'blk_queue_update_dma_pad' [-Werror=implicit-function-declaration]
-    1266 |                 blk_queue_update_dma_pad(q, ATA_DMA_PAD_SZ - 1);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/libata-scsi.c:1269:49: error: invalid use of undefined type 'struct request_queue'
-    1269 |                 buf = kmalloc(ATAPI_MAX_DRAIN, q->bounce_gfp | GFP_KERNEL);
-         |                                                 ^~
-   drivers/ata/libata-scsi.c:1275:17: error: implicit declaration of function 'blk_queue_dma_drain' [-Werror=implicit-function-declaration]
-    1275 |                 blk_queue_dma_drain(q, atapi_drain_needed, buf, ATAPI_MAX_DRAIN);
-         |                 ^~~~~~~~~~~~~~~~~~~
-   drivers/ata/libata-scsi.c:1293:9: error: implicit declaration of function 'blk_queue_update_dma_alignment' [-Werror=implicit-function-declaration]
-    1293 |         blk_queue_update_dma_alignment(q, sdev->sector_size - 1);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/libata-scsi.c: In function 'ata_scsi_slave_destroy':
-   drivers/ata/libata-scsi.c:1373:16: error: invalid use of undefined type 'struct request_queue'
-    1373 |         kfree(q->dma_drain_buffer);
-         |                ^~
-   drivers/ata/libata-scsi.c:1374:10: error: invalid use of undefined type 'struct request_queue'
-    1374 |         q->dma_drain_buffer = NULL;
-         |          ^~
-   drivers/ata/libata-scsi.c:1375:10: error: invalid use of undefined type 'struct request_queue'
-    1375 |         q->dma_drain_size = 0;
-         |          ^~
-   In file included from include/linux/fs.h:39,
-                    from include/linux/huge_mm.h:8,
-                    from include/linux/mm.h:587,
-                    from include/linux/scatterlist.h:8,
-                    from include/scsi/scsi.h:10,
-                    from drivers/ata/libata-scsi.c:25:
-   drivers/ata/libata-scsi.c: In function 'ata_scsi_rw_xlat':
-   drivers/ata/libata-scsi.c:1827:39: error: implicit declaration of function 'req_get_ioprio' [-Werror=implicit-function-declaration]
-    1827 |         int class = IOPRIO_PRIO_CLASS(req_get_ioprio(rq));
-         |                                       ^~~~~~~~~~~~~~
-   include/linux/ioprio.h:15:35: note: in definition of macro 'IOPRIO_PRIO_CLASS'
-      15 | #define IOPRIO_PRIO_CLASS(mask) ((mask) >> IOPRIO_CLASS_SHIFT)
-         |                                   ^~~~
-   drivers/ata/libata-scsi.c: In function 'ata_scsiop_inq_b0':
->> drivers/ata/libata-scsi.c:2406:51: error: 'SECTOR_SHIFT' undeclared (first use in this function); did you mean 'SOFTIRQ_SHIFT'?
-    2406 |                         max_blocks = 128 << (20 - SECTOR_SHIFT);
-         |                                                   ^~~~~~~~~~~~
-         |                                                   SOFTIRQ_SHIFT
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ATA
-   Depends on [n]: HAS_IOMEM [=y] && BLOCK [=n]
-   Selected by [y]:
-   - AKEBONO [=y] && PPC_47x [=y]
+   drivers/gpu/drm/../../accel/drm_accel.c: In function 'accel_sysfs_destroy':
+>> drivers/gpu/drm/../../accel/drm_accel.c:52:28: error: incompatible type for argument 1 of 'IS_ERR_OR_NULL'
+      52 |         if (IS_ERR_OR_NULL(accel_class))
+         |                            ^~~~~~~~~~~
+         |                            |
+         |                            struct class
+   In file included from include/linux/rwsem.h:17,
+                    from include/linux/mm_types.h:13,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:15,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13,
+                    from include/linux/debugfs.h:15,
+                    from drivers/gpu/drm/../../accel/drm_accel.c:9:
+   include/linux/err.h:39:68: note: expected 'const void *' but argument is of type 'struct class'
+      39 | static inline bool __must_check IS_ERR_OR_NULL(__force const void *ptr)
+         |                                                        ~~~~~~~~~~~~^~~
+>> drivers/gpu/drm/../../accel/drm_accel.c:54:23: error: incompatible type for argument 1 of 'class_destroy'
+      54 |         class_destroy(accel_class);
+         |                       ^~~~~~~~~~~
+         |                       |
+         |                       struct class
+   In file included from include/linux/device.h:31,
+                    from drivers/gpu/drm/../../accel/drm_accel.c:10:
+   include/linux/device/class.h:231:40: note: expected 'const struct class *' but argument is of type 'struct class'
+     231 | void class_destroy(const struct class *cls);
+         |                    ~~~~~~~~~~~~~~~~~~~~^~~
+>> drivers/gpu/drm/../../accel/drm_accel.c:55:21: error: assignment of read-only variable 'accel_class'
+      55 |         accel_class = NULL;
+         |                     ^
+   drivers/gpu/drm/../../accel/drm_accel.c: In function 'accel_set_device_instance_params':
+>> drivers/gpu/drm/../../accel/drm_accel.c:123:23: error: incompatible types when assigning to type 'const struct class *' from type 'struct class'
+     123 |         kdev->class = accel_class;
+         |                       ^~~~~~~~~~~
 
 
-vim +2406 drivers/ata/libata-scsi.c
+vim +/accel_class +55 drivers/gpu/drm/../../accel/drm_accel.c
 
-  2374	
-  2375	static unsigned int ata_scsiop_inq_b0(struct ata_scsi_args *args, u8 *rbuf)
-  2376	{
-  2377		struct ata_device *dev = args->dev;
-  2378		u16 min_io_sectors;
-  2379	
-  2380		rbuf[1] = 0xb0;
-  2381		rbuf[3] = 0x3c;		/* required VPD size with unmap support */
-  2382	
-  2383		/*
-  2384		 * Optimal transfer length granularity.
-  2385		 *
-  2386		 * This is always one physical block, but for disks with a smaller
-  2387		 * logical than physical sector size we need to figure out what the
-  2388		 * latter is.
-  2389		 */
-  2390		min_io_sectors = 1 << ata_id_log2_per_physical_sector(args->id);
-  2391		put_unaligned_be16(min_io_sectors, &rbuf[6]);
-  2392	
-  2393		/*
-  2394		 * Optimal unmap granularity.
-  2395		 *
-  2396		 * The ATA spec doesn't even know about a granularity or alignment
-  2397		 * for the TRIM command.  We can leave away most of the unmap related
-  2398		 * VPD page entries, but we have specifify a granularity to signal
-  2399		 * that we support some form of unmap - in thise case via WRITE SAME
-  2400		 * with the unmap bit set.
-  2401		 */
-  2402		if (ata_id_has_trim(args->id)) {
-  2403			u64 max_blocks = 65535 * ATA_MAX_TRIM_RNUM;
-  2404	
-  2405			if (dev->horkage & ATA_HORKAGE_MAX_TRIM_128M)
-> 2406				max_blocks = 128 << (20 - SECTOR_SHIFT);
-  2407	
-  2408			put_unaligned_be64(max_blocks, &rbuf[36]);
-  2409			put_unaligned_be32(1, &rbuf[28]);
-  2410		}
-  2411	
-  2412		return 0;
-  2413	}
-  2414	
+8bf4889762a8f5 Oded Gabbay 2022-10-31   49  
+8bf4889762a8f5 Oded Gabbay 2022-10-31   50  static void accel_sysfs_destroy(void)
+8bf4889762a8f5 Oded Gabbay 2022-10-31   51  {
+8bf4889762a8f5 Oded Gabbay 2022-10-31  @52  	if (IS_ERR_OR_NULL(accel_class))
+8bf4889762a8f5 Oded Gabbay 2022-10-31   53  		return;
+8bf4889762a8f5 Oded Gabbay 2022-10-31  @54  	class_destroy(accel_class);
+8bf4889762a8f5 Oded Gabbay 2022-10-31  @55  	accel_class = NULL;
+8bf4889762a8f5 Oded Gabbay 2022-10-31   56  }
+8bf4889762a8f5 Oded Gabbay 2022-10-31   57  
+2c204f3d53218d Oded Gabbay 2022-10-31   58  static int accel_name_info(struct seq_file *m, void *data)
+2c204f3d53218d Oded Gabbay 2022-10-31   59  {
+2c204f3d53218d Oded Gabbay 2022-10-31   60  	struct drm_info_node *node = (struct drm_info_node *) m->private;
+2c204f3d53218d Oded Gabbay 2022-10-31   61  	struct drm_minor *minor = node->minor;
+2c204f3d53218d Oded Gabbay 2022-10-31   62  	struct drm_device *dev = minor->dev;
+2c204f3d53218d Oded Gabbay 2022-10-31   63  	struct drm_master *master;
+2c204f3d53218d Oded Gabbay 2022-10-31   64  
+2c204f3d53218d Oded Gabbay 2022-10-31   65  	mutex_lock(&dev->master_mutex);
+2c204f3d53218d Oded Gabbay 2022-10-31   66  	master = dev->master;
+2c204f3d53218d Oded Gabbay 2022-10-31   67  	seq_printf(m, "%s", dev->driver->name);
+2c204f3d53218d Oded Gabbay 2022-10-31   68  	if (dev->dev)
+2c204f3d53218d Oded Gabbay 2022-10-31   69  		seq_printf(m, " dev=%s", dev_name(dev->dev));
+2c204f3d53218d Oded Gabbay 2022-10-31   70  	if (master && master->unique)
+2c204f3d53218d Oded Gabbay 2022-10-31   71  		seq_printf(m, " master=%s", master->unique);
+2c204f3d53218d Oded Gabbay 2022-10-31   72  	if (dev->unique)
+2c204f3d53218d Oded Gabbay 2022-10-31   73  		seq_printf(m, " unique=%s", dev->unique);
+2c204f3d53218d Oded Gabbay 2022-10-31   74  	seq_puts(m, "\n");
+2c204f3d53218d Oded Gabbay 2022-10-31   75  	mutex_unlock(&dev->master_mutex);
+2c204f3d53218d Oded Gabbay 2022-10-31   76  
+2c204f3d53218d Oded Gabbay 2022-10-31   77  	return 0;
+2c204f3d53218d Oded Gabbay 2022-10-31   78  }
+2c204f3d53218d Oded Gabbay 2022-10-31   79  
+2c204f3d53218d Oded Gabbay 2022-10-31   80  static const struct drm_info_list accel_debugfs_list[] = {
+2c204f3d53218d Oded Gabbay 2022-10-31   81  	{"name", accel_name_info, 0}
+2c204f3d53218d Oded Gabbay 2022-10-31   82  };
+2c204f3d53218d Oded Gabbay 2022-10-31   83  #define ACCEL_DEBUGFS_ENTRIES ARRAY_SIZE(accel_debugfs_list)
+2c204f3d53218d Oded Gabbay 2022-10-31   84  
+2c204f3d53218d Oded Gabbay 2022-10-31   85  /**
+2c204f3d53218d Oded Gabbay 2022-10-31   86   * accel_debugfs_init() - Initialize debugfs for accel minor
+2c204f3d53218d Oded Gabbay 2022-10-31   87   * @minor: Pointer to the drm_minor instance.
+2c204f3d53218d Oded Gabbay 2022-10-31   88   * @minor_id: The minor's id
+2c204f3d53218d Oded Gabbay 2022-10-31   89   *
+2c204f3d53218d Oded Gabbay 2022-10-31   90   * This function initializes the drm minor's debugfs members and creates
+2c204f3d53218d Oded Gabbay 2022-10-31   91   * a root directory for the minor in debugfs. It also creates common files
+2c204f3d53218d Oded Gabbay 2022-10-31   92   * for accelerators and calls the driver's debugfs init callback.
+2c204f3d53218d Oded Gabbay 2022-10-31   93   */
+2c204f3d53218d Oded Gabbay 2022-10-31   94  void accel_debugfs_init(struct drm_minor *minor, int minor_id)
+2c204f3d53218d Oded Gabbay 2022-10-31   95  {
+2c204f3d53218d Oded Gabbay 2022-10-31   96  	struct drm_device *dev = minor->dev;
+2c204f3d53218d Oded Gabbay 2022-10-31   97  	char name[64];
+2c204f3d53218d Oded Gabbay 2022-10-31   98  
+2c204f3d53218d Oded Gabbay 2022-10-31   99  	INIT_LIST_HEAD(&minor->debugfs_list);
+2c204f3d53218d Oded Gabbay 2022-10-31  100  	mutex_init(&minor->debugfs_lock);
+2c204f3d53218d Oded Gabbay 2022-10-31  101  	sprintf(name, "%d", minor_id);
+2c204f3d53218d Oded Gabbay 2022-10-31  102  	minor->debugfs_root = debugfs_create_dir(name, accel_debugfs_root);
+2c204f3d53218d Oded Gabbay 2022-10-31  103  
+2c204f3d53218d Oded Gabbay 2022-10-31  104  	drm_debugfs_create_files(accel_debugfs_list, ACCEL_DEBUGFS_ENTRIES,
+2c204f3d53218d Oded Gabbay 2022-10-31  105  				 minor->debugfs_root, minor);
+2c204f3d53218d Oded Gabbay 2022-10-31  106  
+2c204f3d53218d Oded Gabbay 2022-10-31  107  	if (dev->driver->debugfs_init)
+2c204f3d53218d Oded Gabbay 2022-10-31  108  		dev->driver->debugfs_init(minor);
+2c204f3d53218d Oded Gabbay 2022-10-31  109  }
+2c204f3d53218d Oded Gabbay 2022-10-31  110  
+2c204f3d53218d Oded Gabbay 2022-10-31  111  /**
+2c204f3d53218d Oded Gabbay 2022-10-31  112   * accel_set_device_instance_params() - Set some device parameters for accel device
+2c204f3d53218d Oded Gabbay 2022-10-31  113   * @kdev: Pointer to the device instance.
+2c204f3d53218d Oded Gabbay 2022-10-31  114   * @index: The minor's index
+2c204f3d53218d Oded Gabbay 2022-10-31  115   *
+2c204f3d53218d Oded Gabbay 2022-10-31  116   * This function creates the dev_t of the device using the accel major and
+2c204f3d53218d Oded Gabbay 2022-10-31  117   * the device's minor number. In addition, it sets the class and type of the
+2c204f3d53218d Oded Gabbay 2022-10-31  118   * device instance to the accel sysfs class and device type, respectively.
+2c204f3d53218d Oded Gabbay 2022-10-31  119   */
+2c204f3d53218d Oded Gabbay 2022-10-31  120  void accel_set_device_instance_params(struct device *kdev, int index)
+2c204f3d53218d Oded Gabbay 2022-10-31  121  {
+2c204f3d53218d Oded Gabbay 2022-10-31  122  	kdev->devt = MKDEV(ACCEL_MAJOR, index);
+2c204f3d53218d Oded Gabbay 2022-10-31 @123  	kdev->class = accel_class;
+2c204f3d53218d Oded Gabbay 2022-10-31  124  	kdev->type = &accel_sysfs_device_minor;
+2c204f3d53218d Oded Gabbay 2022-10-31  125  }
+2c204f3d53218d Oded Gabbay 2022-10-31  126  
+
+:::::: The code at line 55 was first introduced by commit
+:::::: 8bf4889762a8f5ea25610e426f132f585e9b5ed6 drivers/accel: define kconfig and register a new major
+
+:::::: TO: Oded Gabbay <ogabbay@kernel.org>
+:::::: CC: Oded Gabbay <ogabbay@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
