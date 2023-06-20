@@ -1,42 +1,44 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BF516408
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 22:05:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E272716408;
+	Tue, 20 Jun 2023 22:15:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687298743; x=1718834743;
+  t=1687299343; x=1718835343;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WCAxJ2yKOcSnS6zOTMV3gR2/FLkdoSakLnUYnkQKTx8=;
-  b=gRnWs5Tfpq5juPz//nJWjynDdCjzRaEXulJms/pSPUjVHxbw0ggeM9Yv
-   rHYNMBMdVHmhD1AFeZYQjxEfc5uQeDEmFcP+6Bo64f3GHDerahA+vPP1l
-   imUoNjzYSywAqD58mc7UTFUhR3iDupOX0siGdnMY57bVY/DNVdewqV2Vx
-   4Idm29BTuZFZEflwrumHyir2rEzl6Va8aim4pNqlW7i0Sxcxk/hIGtwIz
-   Dy1zqsqeQ80UHugUntPMDwT8i4AoII5v3pkN/iyLkvfGQOxPFfZnkNija
-   8M0PpVbYYGxsgqKgC8b0FxFfvqr9eUgBvQ7bXffhyMrubpMlEH8S11qN/
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="425951830"
+  bh=NA7DftGC9XFnIkHIH6XGKmuxsF8FZV+luD4GkWhFQCE=;
+  b=FUZiaQmnjK2chpwLJ0RE4vPrIut44QscV2Xnv8kBi3KrGI4/t9QkTeeR
+   wHZXocDhK7Uku7sR7pC+vf3GooORBQ7kbA2i43PK1oV2H+evUq/UA1We1
+   3JPc/RV+joKGToTxi8wADa6tSbbiI4EngktKT/UdtfNq2V1xXAeSVOCvE
+   tQMNq16kaS851QYzEjm2HcBDOOc0K2PZPnadLIJBv5tac7hz1U4Avsvm0
+   5ZLimRQJVj8GAymWS3cEQHjxH5PoYJMAKpJ7ldgORaEHw88Ahv8RZAko2
+   Ttfdyrq0Q6yrFkz82GiKwEU49An5OZ/qzvPxYU2mBZJlvVwxy8HMvdqIf
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="362540001"
 X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="425951830"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 15:05:42 -0700
+   d="scan'208";a="362540001"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 15:15:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="664407696"
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="838388045"
 X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="664407696"
+   d="scan'208";a="838388045"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 20 Jun 2023 15:05:41 -0700
+  by orsmga004.jf.intel.com with ESMTP; 20 Jun 2023 15:15:41 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBjTo-0006Hj-1U;
-	Tue, 20 Jun 2023 22:05:40 +0000
-Date: Wed, 21 Jun 2023 06:05:04 +0800
+	id 1qBjdU-0006Hw-1s;
+	Tue, 20 Jun 2023 22:15:40 +0000
+Date: Wed, 21 Jun 2023 06:15:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: io_uring/net.c:206:25: sparse: sparse: incorrect type in assignment
- (different address spaces)
-Message-ID: <202306210654.mDMcyMuB-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [esmil:jh7100-dmapool 19/39] arch/hexagon/kernel/dma.c:19:27: error:
+ use of undeclared identifier 'paddr'
+Message-ID: <202306210649.a442doRp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,187 +48,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   692b7dc87ca6d55ab254f8259e6f970171dc9d01
-commit: cac9e4418f4cbd548ccb065b3adcafe073f7f7d2 io_uring/net: save msghdr->msg_control for retries
-date:   7 days ago
-config: i386-randconfig-s001-20230620 (https://download.01.org/0day-ci/archive/20230621/202306210654.mDMcyMuB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210654.mDMcyMuB-lkp@intel.com/reproduce)
+tree:   https://github.com/esmil/linux jh7100-dmapool
+head:   41d6f3f3b3698aab55a40592597677c448a7093a
+commit: 801f1883c4bb70cc8c7725b85e220adc36a77a94 [19/39] dma-mapping: replace custom code with generic implementation
+config: hexagon-randconfig-r011-20230620 (https://download.01.org/0day-ci/archive/20230621/202306210649.a442doRp-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210649.a442doRp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306210654.mDMcyMuB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306210649.a442doRp-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   io_uring/net.c: note: in included file (through io_uring/io_uring.h):
-   include/linux/io_uring_types.h:179:37: sparse: sparse: array of flexible structures
->> io_uring/net.c:206:25: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *msg_control @@     got void *msg_control @@
-   io_uring/net.c:206:25: sparse:     expected void [noderef] __user *msg_control
-   io_uring/net.c:206:25: sparse:     got void *msg_control
->> io_uring/net.c:305:39: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *msg_control @@     got void [noderef] __user *msg_control @@
-   io_uring/net.c:305:39: sparse:     expected void *msg_control
-   io_uring/net.c:305:39: sparse:     got void [noderef] __user *msg_control
+All errors (new ones prefixed by >>):
 
-vim +206 io_uring/net.c
+   In file included from arch/hexagon/kernel/dma.c:8:
+   In file included from include/linux/dma-map-ops.h:9:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from arch/hexagon/kernel/dma.c:8:
+   In file included from include/linux/dma-map-ops.h:9:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from arch/hexagon/kernel/dma.c:8:
+   In file included from include/linux/dma-map-ops.h:9:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+>> arch/hexagon/kernel/dma.c:19:27: error: use of undeclared identifier 'paddr'
+           hexagon_inv_dcache_range(paddr, paddr + size);
+                                    ^
+   arch/hexagon/kernel/dma.c:19:34: error: use of undeclared identifier 'paddr'
+           hexagon_inv_dcache_range(paddr, paddr + size);
+                                           ^
+>> arch/hexagon/kernel/dma.c:24:2: error: call to undeclared function 'hexagon_flush_dcache_range'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           hexagon_flush_dcache_range(paddr, paddr + size);
+           ^
+   arch/hexagon/kernel/dma.c:24:2: note: did you mean 'hexagon_clean_dcache_range'?
+   arch/hexagon/include/asm/cacheflush.h:75:13: note: 'hexagon_clean_dcache_range' declared here
+   extern void hexagon_clean_dcache_range(unsigned long start, unsigned long end);
+               ^
+   arch/hexagon/kernel/dma.c:24:29: error: use of undeclared identifier 'paddr'
+           hexagon_flush_dcache_range(paddr, paddr + size);
+                                      ^
+   arch/hexagon/kernel/dma.c:24:36: error: use of undeclared identifier 'paddr'
+           hexagon_flush_dcache_range(paddr, paddr + size);
+                                             ^
+   6 warnings and 5 errors generated.
 
-   194	
-   195	static int io_sendmsg_copy_hdr(struct io_kiocb *req,
-   196				       struct io_async_msghdr *iomsg)
-   197	{
-   198		struct io_sr_msg *sr = io_kiocb_to_cmd(req, struct io_sr_msg);
-   199		int ret;
-   200	
-   201		iomsg->msg.msg_name = &iomsg->addr;
-   202		iomsg->free_iov = iomsg->fast_iov;
-   203		ret = sendmsg_copy_msghdr(&iomsg->msg, sr->umsg, sr->msg_flags,
-   204						&iomsg->free_iov);
-   205		/* save msg_control as sys_sendmsg() overwrites it */
- > 206		sr->msg_control = iomsg->msg.msg_control;
-   207		return ret;
-   208	}
-   209	
-   210	int io_send_prep_async(struct io_kiocb *req)
-   211	{
-   212		struct io_sr_msg *zc = io_kiocb_to_cmd(req, struct io_sr_msg);
-   213		struct io_async_msghdr *io;
-   214		int ret;
-   215	
-   216		if (!zc->addr || req_has_async_data(req))
-   217			return 0;
-   218		io = io_msg_alloc_async_prep(req);
-   219		if (!io)
-   220			return -ENOMEM;
-   221		ret = move_addr_to_kernel(zc->addr, zc->addr_len, &io->addr);
-   222		return ret;
-   223	}
-   224	
-   225	static int io_setup_async_addr(struct io_kiocb *req,
-   226				      struct sockaddr_storage *addr_storage,
-   227				      unsigned int issue_flags)
-   228	{
-   229		struct io_sr_msg *sr = io_kiocb_to_cmd(req, struct io_sr_msg);
-   230		struct io_async_msghdr *io;
-   231	
-   232		if (!sr->addr || req_has_async_data(req))
-   233			return -EAGAIN;
-   234		io = io_msg_alloc_async(req, issue_flags);
-   235		if (!io)
-   236			return -ENOMEM;
-   237		memcpy(&io->addr, addr_storage, sizeof(io->addr));
-   238		return -EAGAIN;
-   239	}
-   240	
-   241	int io_sendmsg_prep_async(struct io_kiocb *req)
-   242	{
-   243		int ret;
-   244	
-   245		if (!io_msg_alloc_async_prep(req))
-   246			return -ENOMEM;
-   247		ret = io_sendmsg_copy_hdr(req, req->async_data);
-   248		if (!ret)
-   249			req->flags |= REQ_F_NEED_CLEANUP;
-   250		return ret;
-   251	}
-   252	
-   253	void io_sendmsg_recvmsg_cleanup(struct io_kiocb *req)
-   254	{
-   255		struct io_async_msghdr *io = req->async_data;
-   256	
-   257		kfree(io->free_iov);
-   258	}
-   259	
-   260	int io_sendmsg_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe)
-   261	{
-   262		struct io_sr_msg *sr = io_kiocb_to_cmd(req, struct io_sr_msg);
-   263	
-   264		if (req->opcode == IORING_OP_SEND) {
-   265			if (READ_ONCE(sqe->__pad3[0]))
-   266				return -EINVAL;
-   267			sr->addr = u64_to_user_ptr(READ_ONCE(sqe->addr2));
-   268			sr->addr_len = READ_ONCE(sqe->addr_len);
-   269		} else if (sqe->addr2 || sqe->file_index) {
-   270			return -EINVAL;
-   271		}
-   272	
-   273		sr->umsg = u64_to_user_ptr(READ_ONCE(sqe->addr));
-   274		sr->len = READ_ONCE(sqe->len);
-   275		sr->flags = READ_ONCE(sqe->ioprio);
-   276		if (sr->flags & ~IORING_RECVSEND_POLL_FIRST)
-   277			return -EINVAL;
-   278		sr->msg_flags = READ_ONCE(sqe->msg_flags) | MSG_NOSIGNAL;
-   279		if (sr->msg_flags & MSG_DONTWAIT)
-   280			req->flags |= REQ_F_NOWAIT;
-   281	
-   282	#ifdef CONFIG_COMPAT
-   283		if (req->ctx->compat)
-   284			sr->msg_flags |= MSG_CMSG_COMPAT;
-   285	#endif
-   286		sr->done_io = 0;
-   287		return 0;
-   288	}
-   289	
-   290	int io_sendmsg(struct io_kiocb *req, unsigned int issue_flags)
-   291	{
-   292		struct io_sr_msg *sr = io_kiocb_to_cmd(req, struct io_sr_msg);
-   293		struct io_async_msghdr iomsg, *kmsg;
-   294		struct socket *sock;
-   295		unsigned flags;
-   296		int min_ret = 0;
-   297		int ret;
-   298	
-   299		sock = sock_from_file(req->file);
-   300		if (unlikely(!sock))
-   301			return -ENOTSOCK;
-   302	
-   303		if (req_has_async_data(req)) {
-   304			kmsg = req->async_data;
- > 305			kmsg->msg.msg_control = sr->msg_control;
-   306		} else {
-   307			ret = io_sendmsg_copy_hdr(req, &iomsg);
-   308			if (ret)
-   309				return ret;
-   310			kmsg = &iomsg;
-   311		}
-   312	
-   313		if (!(req->flags & REQ_F_POLLED) &&
-   314		    (sr->flags & IORING_RECVSEND_POLL_FIRST))
-   315			return io_setup_async_msg(req, kmsg, issue_flags);
-   316	
-   317		flags = sr->msg_flags;
-   318		if (issue_flags & IO_URING_F_NONBLOCK)
-   319			flags |= MSG_DONTWAIT;
-   320		if (flags & MSG_WAITALL)
-   321			min_ret = iov_iter_count(&kmsg->msg.msg_iter);
-   322	
-   323		ret = __sys_sendmsg_sock(sock, &kmsg->msg, flags);
-   324	
-   325		if (ret < min_ret) {
-   326			if (ret == -EAGAIN && (issue_flags & IO_URING_F_NONBLOCK))
-   327				return io_setup_async_msg(req, kmsg, issue_flags);
-   328			if (ret > 0 && io_net_retry(sock, flags)) {
-   329				sr->done_io += ret;
-   330				req->flags |= REQ_F_PARTIAL_IO;
-   331				return io_setup_async_msg(req, kmsg, issue_flags);
-   332			}
-   333			if (ret == -ERESTARTSYS)
-   334				ret = -EINTR;
-   335			req_set_fail(req);
-   336		}
-   337		/* fast path, check for non-NULL to avoid function call */
-   338		if (kmsg->free_iov)
-   339			kfree(kmsg->free_iov);
-   340		req->flags &= ~REQ_F_NEED_CLEANUP;
-   341		io_netmsg_recycle(req, issue_flags);
-   342		if (ret >= 0)
-   343			ret += sr->done_io;
-   344		else if (sr->done_io)
-   345			ret = sr->done_io;
-   346		io_req_set_res(req, ret, 0);
-   347		return IOU_OK;
-   348	}
-   349	
+
+vim +/paddr +19 arch/hexagon/kernel/dma.c
+
+    16	
+    17	static inline void arch_dma_cache_inv(phys_addr_t start, size_t size)
+    18	{
+  > 19		hexagon_inv_dcache_range(paddr, paddr + size);
+    20	}
+    21	
+    22	static inline void arch_dma_cache_wback_inv(phys_addr_t start, size_t size)
+    23	{
+  > 24		hexagon_flush_dcache_range(paddr, paddr + size);
+    25	}
+    26	
 
 -- 
 0-DAY CI Kernel Test Service
