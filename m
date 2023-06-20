@@ -1,55 +1,57 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3D915B2;
-	Tue, 20 Jun 2023 03:32:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687231977; x=1718767977;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vz9Elmf3UeS0RL3UTjU7uNXgCY47ti7fqCDYGrkHqhs=;
-  b=m9tobE2MoUEA6+xAN6tKuRg6pC29TlEust+Ya/vQLh8zFCy7h5Ov0a+k
-   dnK/cCILG9kowFVDJIsIJMVu126+qtzxGYWxeztBdhOsyPWUR1xzXVpWY
-   I4nevD/Ahas2SpikE0RihUsSgVayUbTOjj4Z038Yf6vkL3bYONatz3C3h
-   O/mTTSD+bkp5Ueod1obFWkRr/GWwEM/tNCSwlYv9HF9/hpFvnWE6OvAdd
-   iN6A1hUpDlb53yQ5CmtPD18ohDitiANmX25UBdqn3eD4E00/ZuHT4STCD
-   KnvA/i7/5wlo3wZg5fJoMAwoaFKxLVR1NKZS1l+c/tngcEBH1PjAaTawh
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="359758204"
-X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; 
-   d="scan'208";a="359758204"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 20:32:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="691279341"
-X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; 
-   d="scan'208";a="691279341"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 19 Jun 2023 20:32:50 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qBS6s-0005RH-0F;
-	Tue, 20 Jun 2023 03:32:50 +0000
-Date: Tue, 20 Jun 2023 11:32:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
-	tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
-	christian.koenig@amd.com, bskeggs@redhat.com,
-	Liam.Howlett@oracle.com, matthew.brost@intel.com,
-	boris.brezillon@collabora.com, alexdeucher@gmail.com,
-	ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
-	jason@jlekstrand.net
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@redhat.com>,
-	Donald Robson <donald.robson@imgtec.com>,
-	Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH drm-next v5 03/14] drm: manager to keep track of GPUs VA
- mappings
-Message-ID: <202306201123.4nvLB3cQ-lkp@intel.com>
-References: <20230620004217.4700-4-dakr@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA621FAD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 05:18:10 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-4f8735ac3e3so2203551e87.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 19 Jun 2023 22:18:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687238288; x=1689830288;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=y7PuqpyqHE/HUVu8CRaW9WlThpzPBfO6+875ZQx+jnA=;
+        b=euZ3NbqF9mB24d0ScudIoCLcjGflfbklhPemkj/vHLxufMsWRiAGBP9qLHpeL7+ibl
+         KRmAsBeL396AbnFIajAYSoVRQP1OSDV73iXpEuEqKjWbJuW1jnhGCNpaD4i0QrN0y4SC
+         YYqtSkae846yMDjV3BaQJTSXpLLQqClqPJQylp5sQ9hbnOQKXk86ODhLiNMZFzXOUmqw
+         spw6fYU/7QuiB7LtKQuSToUkUX4PVOZ7HQi9Sg3oPqRwUMlyvKkWTohnsVrmuBqhDdjp
+         MORXtKz1IOxy2hQ2xYKKGz6TA5JWo/svqiWxln2fXV1LiYLgXbWOUwRQFaBoRWj+xMHI
+         ESxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687238288; x=1689830288;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=y7PuqpyqHE/HUVu8CRaW9WlThpzPBfO6+875ZQx+jnA=;
+        b=K2UV71d4q3Vd/lirHUYA2epV7km/chsGQWYXZwcemC7//HZBYzOw807hiMQNMVw8n/
+         W8ZmMXts9DgPMQZ0WRQCOPg/RfwZBgWA6CWikflM2ZkeN3g1OXL7GRNGfMvG1quLLvRA
+         VF/R6KBuGL1YSoz5Dhz0ECNrpMSDQWFYeiAUGq5oUX61gRS4dgEHl5QSyLfIlk3utuQO
+         eqZ7bo9xy57OJPSnc6xWwA8Ucpkzz3rjgQl1k7qEmXuWWUtfTtUdSmV+fzwQDwf3s/T/
+         a1pQtjj4J5Z+DrvFa8XuCK19/A42ZlorTWduKFBqdKfvyBEzXiXDXtoNuIqqVkLLm8FU
+         vyQA==
+X-Gm-Message-State: AC+VfDy7p6OCtIiofWK6PJx8wZ1gogMK8yRFVPNgcSs6UtW1InpCSY8L
+	nFvduN24L/ccdgj5n26Ny0HLwA==
+X-Google-Smtp-Source: ACHHUZ5ccBcWPxcFeRk9KZTmk2iY37jAco/koAiv37L1FuAnmeROZMwkEffaczENJYwJooQ+gl1ReA==
+X-Received: by 2002:a2e:95c4:0:b0:2b4:6a20:f12d with SMTP id y4-20020a2e95c4000000b002b46a20f12dmr4718664ljh.43.1687238288311;
+        Mon, 19 Jun 2023 22:18:08 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id z8-20020a05600c220800b003f9b12b1598sm4395724wml.22.2023.06.19.22.18.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Jun 2023 22:18:05 -0700 (PDT)
+Date: Tue, 20 Jun 2023 08:18:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Prathu Baronia <prathubaronia2011@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
+	Khadija Kamran <kamrankhadijadj@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	error27@gmail.com, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	oe-kbuild@lists.linux.dev
+Subject: Re: [PATCH v6 1/2] axis-fifo: use devm_kasprintf() for allocating
+ formatted strings
+Message-ID: <e118d13a-d36e-4417-9fe5-68d46472c09a@kadam.mountain>
+References: <ZI/5H+GZU6/2osGT@redkillpc>
+ <20230619162246.33007-1-prathubaronia2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,66 +60,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230620004217.4700-4-dakr@redhat.com>
+In-Reply-To: <20230619162246.33007-1-prathubaronia2011@gmail.com>
 
-Hi Danilo,
+On Mon, Jun 19, 2023 at 09:52:44PM +0530, Prathu Baronia wrote:
+> In various places, string buffers of a fixed size are allocated, and
+> filled using snprintf() with the same fixed size, which is error-prone.
+> 
+> Replace this by calling devm_kasprintf() instead, which always uses the
+> appropriate size.
+> 
+> Signed-off-by: Prathu Baronia <prathubaronia2011@gmail.com>
+> ---
+> V5 -> V6: Split into api change and name change commits
+> V4 -> V5: Remove the dev_info() and use a unique identifier for dev name
+> V3 -> V4: Split into warning fixing and cleanup commits
+> V2 -> V3: Fix smatch warnings from kernel test robot
+> V1 -> V2: Split into logical commits and fix commit message
+> 
 
-kernel test robot noticed the following build warnings:
+> -	snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
+                                      ^^^
 
-[auto build test WARNING on 2222dcb0775d36de28992f56455ab3967b30d380]
+> +	device_name = devm_kasprintf(dev, GFP_KERNEL, "%s_%p", DRIVER_NAME, &r_mem->start);
+                                                          ^^
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230620-084448
-base:   2222dcb0775d36de28992f56455ab3967b30d380
-patch link:    https://lore.kernel.org/r/20230620004217.4700-4-dakr%40redhat.com
-patch subject: [PATCH drm-next v5 03/14] drm: manager to keep track of GPUs VA mappings
-config: hexagon-randconfig-r041-20230620 (https://download.01.org/0day-ci/archive/20230620/202306201123.4nvLB3cQ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230620/202306201123.4nvLB3cQ-lkp@intel.com/reproduce)
+This is a sneaky fix which Greg already kind of complained about if I
+remember correctly...
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306201123.4nvLB3cQ-lkp@intel.com/
+regards,
+dan carpenter
 
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/drm_gpuva_mgr.c:676:7: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
-     676 |         return WARN(check_add_overflow(addr, range, &end),
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     677 |                     "GPUVA address limited to %lu bytes, see Documentation.\n",
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                               %u
-     678 |                     MTREE_INDEX_SIZE);
-         |                     ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_gpuva_mgr.c:663:26: note: expanded from macro 'MTREE_INDEX_SIZE'
-     663 | #define MTREE_INDEX_SIZE sizeof(MTREE_INDEX_TYPE)
-         |                          ^
-   include/asm-generic/bug.h:133:29: note: expanded from macro 'WARN'
-     133 |                 __WARN_printf(TAINT_WARN, format);                      \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   include/asm-generic/bug.h:97:48: note: expanded from macro '__WARN_printf'
-      97 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg);      \
-         |                                                              ^~~
-   drivers/gpu/drm/drm_gpuva_mgr.c:1314:25: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
-    1314 |         struct drm_gpuva *va, *prev = NULL;
-         |                                ^
-   2 warnings generated.
-
-
-vim +676 drivers/gpu/drm/drm_gpuva_mgr.c
-
-   668	
-   669	static inline bool
-   670	drm_gpuva_check_overflow(u64 addr, u64 range)
-   671	{
-   672		MTREE_INDEX_TYPE end;
-   673	
-   674		return WARN(check_add_overflow(addr, range, &end),
-   675			    "GPUVA address limited to %lu bytes, see Documentation.\n",
- > 676			    MTREE_INDEX_SIZE);
-   677	}
-   678	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
