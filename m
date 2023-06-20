@@ -1,43 +1,55 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973B31119
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 02:19:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A881C15A8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 03:00:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687227588; x=1718763588;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BaV9thFHQdol5gxtLN0Q1jfELy5vFbjpEfVtRGaf3tk=;
-  b=GMD+8Ab2NKBL/KdrX0EEhVTRI4EVyONqIW8U+NW/3HJ5O/UXpDBnWY7u
-   i4MjcTuBPcp+C+SNKWDKWJPi0l6NTXVXptiW9l3A+l5tV3R0lw7T/AE6F
-   nFT3QbVgzpRdB+iTx3p3nNdByDd753Ia+FwyPpl+TlHaYhOvgvDi9KSar
-   ZwRgfvyvkNUKYOnWDTLC0RdJ2G8r1x6u+odPKw+iPQhuzlQflzzCZuFoR
-   gg+DUqnrfoUd5frq1LaoXWhmcKjtrhCbC2JJqmGpVuPId8SaFb8YLnXOt
-   LSgt/1rohzPTXpibRNIMp/pxAUzl0rkmKmx2kaXEUBv/kSg1oFnWdQOvc
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="423410786"
-X-IronPort-AV: E=Sophos;i="6.00,255,1681196400"; 
-   d="scan'208";a="423410786"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 19:19:47 -0700
+  t=1687230055; x=1718766055;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=z5eEsOZD4FR2rx478Lw4DduE9LHSpVA+uLN2qXeFF7o=;
+  b=D8dxj+R6FfjrmhohMF/q/QdXFGsd+9TKcl1F0B1zBQR+TyAr+N6B9AED
+   TTfKcnUc97BScTGiUB7c0kAL6B80Hcbey54mFRp2QDnP5vlh6MBxrI3JP
+   Jyi+/F9B4XnwPP4gmYkRaWtOkpOuQm9s5FhDLwBPnw51w+QkQGIJ6uj6H
+   Y68gSenS3MJVeK++YV5zUUVnUeo6RxAA9sFTD1rrqTRnbWgo3kOVSSutM
+   2tXH/HzAOOmEAX+LQB5ZgSqvk5H1CvSiX/7r/NKnfdJzuB5rYlssNxA4E
+   yYiI1T4Mmo5uZGzlVBZPzTXMIQigQCw/AfHuhhtmWZUGOVQM5qVCbEVUu
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="362291848"
+X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; 
+   d="scan'208";a="362291848"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2023 20:00:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="708086054"
-X-IronPort-AV: E=Sophos;i="6.00,255,1681196400"; 
-   d="scan'208";a="708086054"
+X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="960604952"
+X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; 
+   d="scan'208";a="960604952"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 19 Jun 2023 19:19:46 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 19 Jun 2023 20:00:48 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBQy9-0005Mi-1A;
-	Tue, 20 Jun 2023 02:19:45 +0000
-Date: Tue, 20 Jun 2023 10:19:16 +0800
+	id 1qBRbr-0005PI-0C;
+	Tue, 20 Jun 2023 03:00:47 +0000
+Date: Tue, 20 Jun 2023 11:00:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 12728/27674]
- include/trace/hooks/pci.h:15:1: sparse: sparse: incorrect type in assignment
- (different address spaces)
-Message-ID: <202306201034.8RORdh6T-lkp@intel.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+	tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
+	christian.koenig@amd.com, bskeggs@redhat.com,
+	Liam.Howlett@oracle.com, matthew.brost@intel.com,
+	boris.brezillon@collabora.com, alexdeucher@gmail.com,
+	ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+	jason@jlekstrand.net
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	Danilo Krummrich <dakr@redhat.com>,
+	Donald Robson <donald.robson@imgtec.com>,
+	Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH drm-next v5 03/14] drm: manager to keep track of GPUs VA
+ mappings
+Message-ID: <202306201034.GucldV3r-lkp@intel.com>
+References: <20230620004217.4700-4-dakr@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,81 +58,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230620004217.4700-4-dakr@redhat.com>
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   31e1367ff78eb68e54a2025e9c6601e3fa6c6312
-commit: bce9e7942ad39b8ecbbe592e6cae351c34b6991f [12728/27674] ANDROID: PCI/PM: Use usleep_range for d3hot_delay
-config: x86_64-randconfig-s021-20230614 (https://download.01.org/0day-ci/archive/20230620/202306201034.8RORdh6T-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230620/202306201034.8RORdh6T-lkp@intel.com/reproduce)
+Hi Danilo,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 2222dcb0775d36de28992f56455ab3967b30d380]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230620-084448
+base:   2222dcb0775d36de28992f56455ab3967b30d380
+patch link:    https://lore.kernel.org/r/20230620004217.4700-4-dakr%40redhat.com
+patch subject: [PATCH drm-next v5 03/14] drm: manager to keep track of GPUs VA mappings
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230620/202306201034.GucldV3r-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230620/202306201034.GucldV3r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306201034.8RORdh6T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306201034.GucldV3r-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/pci/pci.c:1024:13: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1024:21: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1024:31: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1024:39: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1033:35: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1033:54: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1034:19: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1034:37: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1064:23: sparse: sparse: invalid assignment: |=
-   drivers/pci/pci.c:1064:23: sparse:    left side has type unsigned short
-   drivers/pci/pci.c:1064:23: sparse:    right side has type restricted pci_power_t
-   drivers/pci/pci.c:1069:57: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1091:28: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [usertype] current_state @@     got int @@
-   drivers/pci/pci.c:1091:28: sparse:     expected restricted pci_power_t [usertype] current_state
-   drivers/pci/pci.c:1091:28: sparse:     got int
-   drivers/pci/pci.c:1140:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted pci_power_t [usertype] current_state @@     got int @@
-   drivers/pci/pci.c:1140:36: sparse:     expected restricted pci_power_t [usertype] current_state
-   drivers/pci/pci.c:1140:36: sparse:     got int
-   drivers/pci/pci.c:1318:13: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1318:21: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1320:18: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1320:26: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1343:13: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1343:22: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1350:46: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1350:54: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:1706:38: sparse: sparse: array of flexible structures
-   drivers/pci/pci.c:2279:44: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2580:61: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2581:45: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2747:20: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2747:38: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2770:49: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:2770:67: sparse: sparse: restricted pci_power_t degrades to integer
-   drivers/pci/pci.c:4671:13: sparse: sparse: invalid assignment: |=
-   drivers/pci/pci.c:4671:13: sparse:    left side has type unsigned short
-   drivers/pci/pci.c:4671:13: sparse:    right side has type restricted pci_power_t
-   drivers/pci/pci.c:4676:13: sparse: sparse: invalid assignment: |=
-   drivers/pci/pci.c:4676:13: sparse:    left side has type unsigned short
-   drivers/pci/pci.c:4676:13: sparse:    right side has type restricted pci_power_t
-   drivers/pci/pci.c: note: in included file:
->> include/trace/hooks/pci.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/pci.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/pci.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+All warnings (new ones prefixed by >>):
 
-vim +15 include/trace/hooks/pci.h
+   In file included from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/kref.h:16,
+                    from include/drm/drm_gem.h:37,
+                    from drivers/gpu/drm/drm_gpuva_mgr.c:28:
+   drivers/gpu/drm/drm_gpuva_mgr.c: In function 'drm_gpuva_check_overflow':
+>> drivers/gpu/drm/drm_gpuva_mgr.c:675:21: warning: format '%lu' expects argument of type 'long unsigned int', but argument 5 has type 'unsigned int' [-Wformat=]
+     675 |                     "GPUVA address limited to %lu bytes, see Documentation.\n",
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:97:62: note: in definition of macro '__WARN_printf'
+      97 |                 warn_slowpath_fmt(__FILE__, __LINE__, taint, arg);      \
+         |                                                              ^~~
+   drivers/gpu/drm/drm_gpuva_mgr.c:674:16: note: in expansion of macro 'WARN'
+     674 |         return WARN(check_add_overflow(addr, range, &end),
+         |                ^~~~
+   drivers/gpu/drm/drm_gpuva_mgr.c:675:49: note: format string is defined here
+     675 |                     "GPUVA address limited to %lu bytes, see Documentation.\n",
+         |                                               ~~^
+         |                                                 |
+         |                                                 long unsigned int
+         |                                               %u
+   drivers/gpu/drm/drm_gpuva_mgr.c: In function '__drm_gpuva_sm_map':
+   drivers/gpu/drm/drm_gpuva_mgr.c:1314:32: warning: variable 'prev' set but not used [-Wunused-but-set-variable]
+    1314 |         struct drm_gpuva *va, *prev = NULL;
+         |                                ^~~~
 
-     5	
-     6	#if !defined(_TRACE_HOOK_PCI_H) || defined(TRACE_HEADER_MULTI_READ)
-     7	#define _TRACE_HOOK_PCI_H
-     8	#include <linux/tracepoint.h>
-     9	#include <trace/hooks/vendor_hooks.h>
-    10	/*
-    11	 * Following tracepoints are not exported in tracefs and provide a
-    12	 * mechanism for vendor modules to hook and extend functionality
-    13	 */
-    14	
-  > 15	DECLARE_RESTRICTED_HOOK(android_rvh_pci_d3_sleep,
-    16	             TP_PROTO(struct pci_dev *dev, unsigned int delay, int *err),
-    17	             TP_ARGS(dev, delay, err), 1);
-    18	
+
+vim +675 drivers/gpu/drm/drm_gpuva_mgr.c
+
+   668	
+   669	static inline bool
+   670	drm_gpuva_check_overflow(u64 addr, u64 range)
+   671	{
+   672		MTREE_INDEX_TYPE end;
+   673	
+   674		return WARN(check_add_overflow(addr, range, &end),
+ > 675			    "GPUVA address limited to %lu bytes, see Documentation.\n",
+   676			    MTREE_INDEX_SIZE);
+   677	}
+   678	
 
 -- 
 0-DAY CI Kernel Test Service
