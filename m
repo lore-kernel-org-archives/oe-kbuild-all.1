@@ -1,44 +1,48 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B912AB20
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 17:29:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70E72AB3A;
+	Tue, 20 Jun 2023 17:50:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687282173; x=1718818173;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/NLRe36IRPhR5TbxdpB3sUxMp68jnOSNtaAslBLc/ZI=;
-  b=YLnJ++V1Gc6T/iOvsaQSSVUX5ZMH7FM7XZ22C6gbuFhT9mkUInw9zbnM
-   15kavzNV3sjiWP6ENYtDk5wRgIRDy+iGlvGxnfKhp36qEQ/Mu+S3tG+Bd
-   OZeTar/BQHc0e7SuM/jhhEz45mJm3Vm46gzpaZpHD0FkL2MgqFsOxGbJI
-   VITWBuLFiaX7phhy1wKmpu24hjfwoeBzxPaqYiq5wCWuMSR8v2PjjvhrN
-   C9tP4tkZuyFU/GFKgYJSpDU46oFo4OyRKijqemG5bIy16V3lOpu20O7Bj
-   vzGvsvdWRJ1RRjOcS0MLYiLBXEjOZMvbdrxLgUsCMMAGygcdij1L12qpl
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="344673821"
+  t=1687283434; x=1718819434;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/+vNaIXG9iaFY0nknjQbsz4ucYkJfdHZeLAfTVowxUw=;
+  b=KsWXrLQjclS4AZkJfy67zU12PXSFSajBYhjkysXx4CQRheLTVhWP+SN7
+   vFNQmITH0vCmmW4oFPZVZ8wNFl6Yd8ID5PYetmgce+r5Bbd2UWTDgL6Tm
+   D7QP1ubaW3sPuDGdyMQxE/Jq2IdodEZehZ1QLeE7/rC9DtM8ZTcKSjCEz
+   YAQy8niSbbK8j1UH18lKg8I6+ivSUPillS/oaDloCsETyOtqcXXDs2QGy
+   Izjki2jXB+fojlib88RoQSTdKK2LSNrtNNUBr8lqZi7/IfHxJttJ1S0CN
+   x+cBXQ/ktSKmU8U+yEt3nMjSnoIf4ZMmlaarQVK9C2BGsb85c+/DWWQS7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="340278994"
 X-IronPort-AV: E=Sophos;i="6.00,257,1681196400"; 
-   d="scan'208";a="344673821"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 10:29:32 -0700
+   d="scan'208";a="340278994"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 10:50:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="838290870"
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="827097063"
 X-IronPort-AV: E=Sophos;i="6.00,257,1681196400"; 
-   d="scan'208";a="838290870"
+   d="scan'208";a="827097063"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 20 Jun 2023 10:29:30 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 20 Jun 2023 10:50:31 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBfAX-00065M-33;
-	Tue, 20 Jun 2023 17:29:29 +0000
-Date: Wed, 21 Jun 2023 01:29:01 +0800
+	id 1qBfUs-000664-1V;
+	Tue, 20 Jun 2023 17:50:30 +0000
+Date: Wed, 21 Jun 2023 01:49:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ivan Orlov <ivan.orlov0322@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, devel@driverdev.osuosl.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [driver-core:class_cleanup 41/47]
- drivers/gpu/drm/../../accel/drm_accel.c:55:21: error: assignment of
- read-only variable 'accel_class'
-Message-ID: <202306210110.7ADf9kzn-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
+	dmaengine@vger.kernel.org, imx@lists.linux.dev, joy.zou@nxp.com,
+	krzysztof.kozlowski+dt@linaro.org, krzysztof.kozlowski@linaro.org,
+	linux-kernel@vger.kernel.org, peng.fan@nxp.com, robh+dt@kernel.org,
+	shenwei.wang@nxp.com, vkoul@kernel.org
+Subject: Re: [PATCH v8 01/12] dmaengine: fsl-edma: clean up EXPORT_SYMBOL_GPL
+ in fsl-edma-common.c
+Message-ID: <202306210131.zaHVasxz-lkp@intel.com>
+References: <20230618180925.2350169-2-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,144 +51,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230618180925.2350169-2-Frank.Li@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git class_cleanup
-head:   dba7b38cece67048c402887753b21c5e06ae9138
-commit: f6c1685b3ed971b0c8d8bb51a3dae1189cca1455 [41/47] accel: make accel_class a static const structure
-config: sparc-randconfig-r022-20230620 (https://download.01.org/0day-ci/archive/20230621/202306210110.7ADf9kzn-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210110.7ADf9kzn-lkp@intel.com/reproduce)
+Hi Frank,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on vkoul-dmaengine/next]
+[also build test ERROR on linus/master v6.4-rc7 next-20230620]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dmaengine-fsl-edma-clean-up-EXPORT_SYMBOL_GPL-in-fsl-edma-common-c/20230619-021341
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
+patch link:    https://lore.kernel.org/r/20230618180925.2350169-2-Frank.Li%40nxp.com
+patch subject: [PATCH v8 01/12] dmaengine: fsl-edma: clean up EXPORT_SYMBOL_GPL in fsl-edma-common.c
+config: s390-randconfig-c034-20230620 (https://download.01.org/0day-ci/archive/20230621/202306210131.zaHVasxz-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210131.zaHVasxz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306210110.7ADf9kzn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306210131.zaHVasxz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/../../accel/drm_accel.c: In function 'accel_sysfs_destroy':
->> drivers/gpu/drm/../../accel/drm_accel.c:52:28: error: incompatible type for argument 1 of 'IS_ERR_OR_NULL'
-      52 |         if (IS_ERR_OR_NULL(accel_class))
-         |                            ^~~~~~~~~~~
-         |                            |
-         |                            struct class
-   In file included from include/linux/rwsem.h:17,
-                    from include/linux/mm_types.h:13,
-                    from include/linux/mmzone.h:22,
-                    from include/linux/gfp.h:7,
-                    from include/linux/xarray.h:15,
-                    from include/linux/list_lru.h:14,
-                    from include/linux/fs.h:13,
-                    from include/linux/debugfs.h:15,
-                    from drivers/gpu/drm/../../accel/drm_accel.c:9:
-   include/linux/err.h:39:68: note: expected 'const void *' but argument is of type 'struct class'
-      39 | static inline bool __must_check IS_ERR_OR_NULL(__force const void *ptr)
-         |                                                        ~~~~~~~~~~~~^~~
->> drivers/gpu/drm/../../accel/drm_accel.c:54:23: error: incompatible type for argument 1 of 'class_destroy'
-      54 |         class_destroy(accel_class);
-         |                       ^~~~~~~~~~~
-         |                       |
-         |                       struct class
-   In file included from include/linux/device.h:31,
-                    from drivers/gpu/drm/../../accel/drm_accel.c:10:
-   include/linux/device/class.h:231:40: note: expected 'const struct class *' but argument is of type 'struct class'
-     231 | void class_destroy(const struct class *cls);
-         |                    ~~~~~~~~~~~~~~~~~~~~^~~
->> drivers/gpu/drm/../../accel/drm_accel.c:55:21: error: assignment of read-only variable 'accel_class'
-      55 |         accel_class = NULL;
-         |                     ^
-   drivers/gpu/drm/../../accel/drm_accel.c: In function 'accel_set_device_instance_params':
->> drivers/gpu/drm/../../accel/drm_accel.c:123:23: error: incompatible types when assigning to type 'const struct class *' from type 'struct class'
-     123 |         kdev->class = accel_class;
-         |                       ^~~~~~~~~~~
-
-
-vim +/accel_class +55 drivers/gpu/drm/../../accel/drm_accel.c
-
-8bf4889762a8f5 Oded Gabbay 2022-10-31   49  
-8bf4889762a8f5 Oded Gabbay 2022-10-31   50  static void accel_sysfs_destroy(void)
-8bf4889762a8f5 Oded Gabbay 2022-10-31   51  {
-8bf4889762a8f5 Oded Gabbay 2022-10-31  @52  	if (IS_ERR_OR_NULL(accel_class))
-8bf4889762a8f5 Oded Gabbay 2022-10-31   53  		return;
-8bf4889762a8f5 Oded Gabbay 2022-10-31  @54  	class_destroy(accel_class);
-8bf4889762a8f5 Oded Gabbay 2022-10-31  @55  	accel_class = NULL;
-8bf4889762a8f5 Oded Gabbay 2022-10-31   56  }
-8bf4889762a8f5 Oded Gabbay 2022-10-31   57  
-2c204f3d53218d Oded Gabbay 2022-10-31   58  static int accel_name_info(struct seq_file *m, void *data)
-2c204f3d53218d Oded Gabbay 2022-10-31   59  {
-2c204f3d53218d Oded Gabbay 2022-10-31   60  	struct drm_info_node *node = (struct drm_info_node *) m->private;
-2c204f3d53218d Oded Gabbay 2022-10-31   61  	struct drm_minor *minor = node->minor;
-2c204f3d53218d Oded Gabbay 2022-10-31   62  	struct drm_device *dev = minor->dev;
-2c204f3d53218d Oded Gabbay 2022-10-31   63  	struct drm_master *master;
-2c204f3d53218d Oded Gabbay 2022-10-31   64  
-2c204f3d53218d Oded Gabbay 2022-10-31   65  	mutex_lock(&dev->master_mutex);
-2c204f3d53218d Oded Gabbay 2022-10-31   66  	master = dev->master;
-2c204f3d53218d Oded Gabbay 2022-10-31   67  	seq_printf(m, "%s", dev->driver->name);
-2c204f3d53218d Oded Gabbay 2022-10-31   68  	if (dev->dev)
-2c204f3d53218d Oded Gabbay 2022-10-31   69  		seq_printf(m, " dev=%s", dev_name(dev->dev));
-2c204f3d53218d Oded Gabbay 2022-10-31   70  	if (master && master->unique)
-2c204f3d53218d Oded Gabbay 2022-10-31   71  		seq_printf(m, " master=%s", master->unique);
-2c204f3d53218d Oded Gabbay 2022-10-31   72  	if (dev->unique)
-2c204f3d53218d Oded Gabbay 2022-10-31   73  		seq_printf(m, " unique=%s", dev->unique);
-2c204f3d53218d Oded Gabbay 2022-10-31   74  	seq_puts(m, "\n");
-2c204f3d53218d Oded Gabbay 2022-10-31   75  	mutex_unlock(&dev->master_mutex);
-2c204f3d53218d Oded Gabbay 2022-10-31   76  
-2c204f3d53218d Oded Gabbay 2022-10-31   77  	return 0;
-2c204f3d53218d Oded Gabbay 2022-10-31   78  }
-2c204f3d53218d Oded Gabbay 2022-10-31   79  
-2c204f3d53218d Oded Gabbay 2022-10-31   80  static const struct drm_info_list accel_debugfs_list[] = {
-2c204f3d53218d Oded Gabbay 2022-10-31   81  	{"name", accel_name_info, 0}
-2c204f3d53218d Oded Gabbay 2022-10-31   82  };
-2c204f3d53218d Oded Gabbay 2022-10-31   83  #define ACCEL_DEBUGFS_ENTRIES ARRAY_SIZE(accel_debugfs_list)
-2c204f3d53218d Oded Gabbay 2022-10-31   84  
-2c204f3d53218d Oded Gabbay 2022-10-31   85  /**
-2c204f3d53218d Oded Gabbay 2022-10-31   86   * accel_debugfs_init() - Initialize debugfs for accel minor
-2c204f3d53218d Oded Gabbay 2022-10-31   87   * @minor: Pointer to the drm_minor instance.
-2c204f3d53218d Oded Gabbay 2022-10-31   88   * @minor_id: The minor's id
-2c204f3d53218d Oded Gabbay 2022-10-31   89   *
-2c204f3d53218d Oded Gabbay 2022-10-31   90   * This function initializes the drm minor's debugfs members and creates
-2c204f3d53218d Oded Gabbay 2022-10-31   91   * a root directory for the minor in debugfs. It also creates common files
-2c204f3d53218d Oded Gabbay 2022-10-31   92   * for accelerators and calls the driver's debugfs init callback.
-2c204f3d53218d Oded Gabbay 2022-10-31   93   */
-2c204f3d53218d Oded Gabbay 2022-10-31   94  void accel_debugfs_init(struct drm_minor *minor, int minor_id)
-2c204f3d53218d Oded Gabbay 2022-10-31   95  {
-2c204f3d53218d Oded Gabbay 2022-10-31   96  	struct drm_device *dev = minor->dev;
-2c204f3d53218d Oded Gabbay 2022-10-31   97  	char name[64];
-2c204f3d53218d Oded Gabbay 2022-10-31   98  
-2c204f3d53218d Oded Gabbay 2022-10-31   99  	INIT_LIST_HEAD(&minor->debugfs_list);
-2c204f3d53218d Oded Gabbay 2022-10-31  100  	mutex_init(&minor->debugfs_lock);
-2c204f3d53218d Oded Gabbay 2022-10-31  101  	sprintf(name, "%d", minor_id);
-2c204f3d53218d Oded Gabbay 2022-10-31  102  	minor->debugfs_root = debugfs_create_dir(name, accel_debugfs_root);
-2c204f3d53218d Oded Gabbay 2022-10-31  103  
-2c204f3d53218d Oded Gabbay 2022-10-31  104  	drm_debugfs_create_files(accel_debugfs_list, ACCEL_DEBUGFS_ENTRIES,
-2c204f3d53218d Oded Gabbay 2022-10-31  105  				 minor->debugfs_root, minor);
-2c204f3d53218d Oded Gabbay 2022-10-31  106  
-2c204f3d53218d Oded Gabbay 2022-10-31  107  	if (dev->driver->debugfs_init)
-2c204f3d53218d Oded Gabbay 2022-10-31  108  		dev->driver->debugfs_init(minor);
-2c204f3d53218d Oded Gabbay 2022-10-31  109  }
-2c204f3d53218d Oded Gabbay 2022-10-31  110  
-2c204f3d53218d Oded Gabbay 2022-10-31  111  /**
-2c204f3d53218d Oded Gabbay 2022-10-31  112   * accel_set_device_instance_params() - Set some device parameters for accel device
-2c204f3d53218d Oded Gabbay 2022-10-31  113   * @kdev: Pointer to the device instance.
-2c204f3d53218d Oded Gabbay 2022-10-31  114   * @index: The minor's index
-2c204f3d53218d Oded Gabbay 2022-10-31  115   *
-2c204f3d53218d Oded Gabbay 2022-10-31  116   * This function creates the dev_t of the device using the accel major and
-2c204f3d53218d Oded Gabbay 2022-10-31  117   * the device's minor number. In addition, it sets the class and type of the
-2c204f3d53218d Oded Gabbay 2022-10-31  118   * device instance to the accel sysfs class and device type, respectively.
-2c204f3d53218d Oded Gabbay 2022-10-31  119   */
-2c204f3d53218d Oded Gabbay 2022-10-31  120  void accel_set_device_instance_params(struct device *kdev, int index)
-2c204f3d53218d Oded Gabbay 2022-10-31  121  {
-2c204f3d53218d Oded Gabbay 2022-10-31  122  	kdev->devt = MKDEV(ACCEL_MAJOR, index);
-2c204f3d53218d Oded Gabbay 2022-10-31 @123  	kdev->class = accel_class;
-2c204f3d53218d Oded Gabbay 2022-10-31  124  	kdev->type = &accel_sysfs_device_minor;
-2c204f3d53218d Oded Gabbay 2022-10-31  125  }
-2c204f3d53218d Oded Gabbay 2022-10-31  126  
-
-:::::: The code at line 55 was first introduced by commit
-:::::: 8bf4889762a8f5ea25610e426f132f585e9b5ed6 drivers/accel: define kconfig and register a new major
-
-:::::: TO: Oded Gabbay <ogabbay@kernel.org>
-:::::: CC: Oded Gabbay <ogabbay@kernel.org>
+   s390-linux-ld: drivers/irqchip/irq-al-fic.o: in function `al_fic_init_dt':
+   irq-al-fic.c:(.init.text+0x58): undefined reference to `of_iomap'
+   s390-linux-ld: irq-al-fic.c:(.init.text+0xc8): undefined reference to `iounmap'
+   s390-linux-ld: drivers/dma/fsl-edma-main.o: in function `fsl_edma_probe':
+   fsl-edma-main.c:(.text+0xb5c): undefined reference to `devm_platform_ioremap_resource'
+>> s390-linux-ld: fsl-edma-main.c:(.text+0xf4c): undefined reference to `devm_platform_ioremap_resource'
+   s390-linux-ld: drivers/dma/idma64.o: in function `idma64_platform_probe':
+   idma64.c:(.text+0x20ea): undefined reference to `devm_platform_ioremap_resource'
+   s390-linux-ld: drivers/char/xillybus/xillybus_of.o: in function `xilly_drv_probe':
+   xillybus_of.c:(.text+0xaa): undefined reference to `devm_platform_ioremap_resource'
+   s390-linux-ld: drivers/pcmcia/cistpl.o: in function `set_cis_map':
+   drivers/pcmcia/cistpl.c:103: undefined reference to `ioremap'
+   s390-linux-ld: drivers/pcmcia/cistpl.c:110: undefined reference to `iounmap'
+   s390-linux-ld: drivers/pcmcia/cistpl.c:117: undefined reference to `iounmap'
+   s390-linux-ld: drivers/pcmcia/cistpl.c:118: undefined reference to `ioremap'
+   s390-linux-ld: drivers/pcmcia/cistpl.o: in function `release_cis_mem':
+   drivers/pcmcia/cistpl.c:72: undefined reference to `iounmap'
 
 -- 
 0-DAY CI Kernel Test Service
