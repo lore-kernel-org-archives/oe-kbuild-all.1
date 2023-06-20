@@ -1,54 +1,44 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE504C9A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 07:20:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562961FDD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 07:31:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687245606; x=1718781606;
+  t=1687246274; x=1718782274;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=AQehVaXeVezyZ1EIIBMhF2TW21RUDUgTxTT8HfMhib8=;
-  b=WlaMEncQAWShn2pzjFL4Y+rpP2sw6WcNLdqPVIFc3Hu9Oq2E0f90MCeT
-   4arIJUsHZogZuajSgOzfrh/OJmdPCFX9utVEHl4MWNeXaVSw2z6/46qta
-   fox6zBTi7194XjrrM6VaD32BT8TDFl6V49C+JqTFAyHcvdaYpTD8aJ5hi
-   ZZZetGvFqL2LZoyzjmjNhAAJeZDmQOZ0sTFKWqjLMrv2AOlBjg9QUxTj0
-   AbXGBx2xXvMcvSpEJlYaMiADK7N9u+x0gxzWk6VdpuMpeKVopn2EIPU7F
-   VgYS+RGvAeWRtjS+7PeHcv4+qJiEhiUKzrSBJa8IUL7q0ndITsN+En4bd
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="358657017"
+  bh=i7kG41A2Xomj8VRTEMb1+3KdeQRecNejJAW3tC1g1UE=;
+  b=ccHTMhpHLEjGeu6F+qFs9qG7J/owmRZ1lhXFmhWKslTIC32dIDZq0hEC
+   zfDJ38OaZTYx8KPdSlb1zSPf4+lgTC4Xx09F+g2hgM3iSr/B21PVsVcRS
+   4xhW1LWvatrpDt6OCgcTtS9tNGFBNnGNYOlQFkXf3M+V2Nix7YySJvTup
+   zn0PlbKIrnJa2NqO7JGhtBNqWrzbpf6ATKnSt+DSDAgIvHKuCcymtZisF
+   Echb0HPkK1mkAScBHIGcd/cpolc54aY+TI4IvVyMOqvuqRFVBrdoCS85o
+   QzRmqREZdS2u4WY0j7Q3aaFWFzphwVLxZ7kN8hq1wXFo67n/NicKw6P8m
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="358659184"
 X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; 
-   d="scan'208";a="358657017"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 00:20:05 -0700
+   d="scan'208";a="358659184"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 00:31:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="803839635"
+X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="708153740"
 X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; 
-   d="scan'208";a="803839635"
+   d="scan'208";a="708153740"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 20 Jun 2023 00:20:01 -0700
+  by orsmga007.jf.intel.com with ESMTP; 20 Jun 2023 00:31:01 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBVei-0005dS-2W;
-	Tue, 20 Jun 2023 07:20:00 +0000
-Date: Tue, 20 Jun 2023 15:18:58 +0800
+	id 1qBVpM-0005do-38;
+	Tue, 20 Jun 2023 07:31:00 +0000
+Date: Tue, 20 Jun 2023 15:30:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Rob Clark <robdclark@gmail.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Marek <jonathan@marek.ca>,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v3 2/6] drm/msm/a6xx: Use descriptive bitfield names for
- CP_PROTECT_CNTL
-Message-ID: <202306201502.pisn6tpR-lkp@intel.com>
-References: <20230517-topic-a7xx_prep-v3-2-a3ce3725385b@linaro.org>
+To: tien.sung.ang@intel.com, Dinh Nguyen <dinguyen@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ang Tien Sung <tien.sung.ang@intel.com>
+Subject: Re: [PATCH 1/2] firmware: stratix10-svc: Support up to N SVC clients
+Message-ID: <202306201523.U6yvKscG-lkp@intel.com>
+References: <20230620035205.1158032-1-tien.sung.ang@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,105 +47,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230517-topic-a7xx_prep-v3-2-a3ce3725385b@linaro.org>
+In-Reply-To: <20230620035205.1158032-1-tien.sung.ang@intel.com>
 
-Hi Konrad,
+Hi,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 47045630bc409ce6606d97b790895210dd1d517d]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.4-rc7 next-20230619]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/drm-msm-a6xx-Add-some-missing-header-definitions/20230620-004639
-base:   47045630bc409ce6606d97b790895210dd1d517d
-patch link:    https://lore.kernel.org/r/20230517-topic-a7xx_prep-v3-2-a3ce3725385b%40linaro.org
-patch subject: [PATCH v3 2/6] drm/msm/a6xx: Use descriptive bitfield names for CP_PROTECT_CNTL
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230620/202306201502.pisn6tpR-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230620/202306201502.pisn6tpR-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/tien-sung-ang-intel-com/firmware-stratix10-svc-Support-up-to-N-SVC-clients/20230620-115443
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230620035205.1158032-1-tien.sung.ang%40intel.com
+patch subject: [PATCH 1/2] firmware: stratix10-svc: Support up to N SVC clients
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230620/202306201523.U6yvKscG-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230620/202306201523.U6yvKscG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306201502.pisn6tpR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306201523.U6yvKscG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c: In function 'a6xx_set_cp_protect':
->> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:934:19: error: 'A6XX_CP_PROTECT_CNTL_ACCESS_PROT_EN' undeclared (first use in this function)
-     934 |                   A6XX_CP_PROTECT_CNTL_ACCESS_PROT_EN |
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/msm/adreno/a6xx_gpu.c:934:19: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:935:19: error: 'A6XX_CP_PROTECT_CNTL_ACCESS_FAULT_ON_VIOL_EN' undeclared (first use in this function)
-     935 |                   A6XX_CP_PROTECT_CNTL_ACCESS_FAULT_ON_VIOL_EN |
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/msm/adreno/a6xx_gpu.c:936:19: error: 'A6XX_CP_PROTECT_CNTL_LAST_SPAN_INF_RANGE' undeclared (first use in this function)
-     936 |                   A6XX_CP_PROTECT_CNTL_LAST_SPAN_INF_RANGE);
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SM_GCC_8350
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_VIDEOCC_8350 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8450
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8550
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   drivers/firmware/stratix10-svc.c: In function 'stratix10_svc_free_channels':
+>> drivers/firmware/stratix10-svc.c:1149:21: warning: the comparison will always evaluate as 'true' for the address of 'svc_fifo' will never be NULL [-Waddress]
+    1149 |                 if (&ctrl->chans[i].svc_fifo)
+         |                     ^
+   drivers/firmware/stratix10-svc.c:167:22: note: 'svc_fifo' declared here
+     167 |         struct kfifo svc_fifo;
+         |                      ^~~~~~~~
 
 
-vim +/A6XX_CP_PROTECT_CNTL_ACCESS_PROT_EN +934 drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+vim +1149 drivers/firmware/stratix10-svc.c
 
-   899	
-   900	static void a6xx_set_cp_protect(struct msm_gpu *gpu)
-   901	{
-   902		struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-   903		const u32 *regs = a6xx_protect;
-   904		unsigned i, count, count_max;
-   905	
-   906		if (adreno_is_a650(adreno_gpu)) {
-   907			regs = a650_protect;
-   908			count = ARRAY_SIZE(a650_protect);
-   909			count_max = 48;
-   910			BUILD_BUG_ON(ARRAY_SIZE(a650_protect) > 48);
-   911		} else if (adreno_is_a690(adreno_gpu)) {
-   912			regs = a690_protect;
-   913			count = ARRAY_SIZE(a690_protect);
-   914			count_max = 48;
-   915			BUILD_BUG_ON(ARRAY_SIZE(a690_protect) > 48);
-   916		} else if (adreno_is_a660_family(adreno_gpu)) {
-   917			regs = a660_protect;
-   918			count = ARRAY_SIZE(a660_protect);
-   919			count_max = 48;
-   920			BUILD_BUG_ON(ARRAY_SIZE(a660_protect) > 48);
-   921		} else {
-   922			regs = a6xx_protect;
-   923			count = ARRAY_SIZE(a6xx_protect);
-   924			count_max = 32;
-   925			BUILD_BUG_ON(ARRAY_SIZE(a6xx_protect) > 32);
-   926		}
-   927	
-   928		/*
-   929		 * Enable access protection to privileged registers, fault on an access
-   930		 * protect violation and select the last span to protect from the start
-   931		 * address all the way to the end of the register address space
-   932		 */
-   933		gpu_write(gpu, REG_A6XX_CP_PROTECT_CNTL,
- > 934			  A6XX_CP_PROTECT_CNTL_ACCESS_PROT_EN |
- > 935			  A6XX_CP_PROTECT_CNTL_ACCESS_FAULT_ON_VIOL_EN |
- > 936			  A6XX_CP_PROTECT_CNTL_LAST_SPAN_INF_RANGE);
-   937	
-   938		for (i = 0; i < count - 1; i++)
-   939			gpu_write(gpu, REG_A6XX_CP_PROTECT(i), regs[i]);
-   940		/* last CP_PROTECT to have "infinite" length on the last entry */
-   941		gpu_write(gpu, REG_A6XX_CP_PROTECT(count_max - 1), regs[i]);
-   942	}
-   943	
+  1138	
+  1139	static void stratix10_svc_free_channels(struct stratix10_svc_controller *ctrl)
+  1140	{
+  1141		int i;
+  1142	
+  1143		for (i = 0; i < SVC_NUM_CHANNEL; i++) {
+  1144			if (ctrl->chans[i].task) {
+  1145				kthread_stop(ctrl->chans[i].task);
+  1146				ctrl->chans[i].task = NULL;
+  1147			}
+  1148	
+> 1149			if (&ctrl->chans[i].svc_fifo)
+  1150				kfifo_free(&ctrl->chans[i].svc_fifo);
+  1151		}
+  1152	}
+  1153	
 
 -- 
 0-DAY CI Kernel Test Service
