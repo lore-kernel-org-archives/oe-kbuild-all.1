@@ -1,43 +1,54 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4EE46A5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 07:55:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C9D23C4
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 08:08:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687247711; x=1718783711;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mGkKtC5e62Cj7K2qDVKoRT3T8adz0k2VGlidsUPaoYI=;
-  b=ROu2mrooe/IV6lJMVkeS80ymFj3kDS5Bg2Lo4oeNAGjwPd1wHcuCMMJQ
-   OW7S+AHZs55l70cAOQnxgp17Xo8b0lCMjyuYezcSFobLD6nD/W2r2BGbY
-   bQxigkMkB59cfJsiWtlc7gkbfOYc5JsviWE+PXK/d7+N9oW3qRMaNu+dv
-   rOT3tS0gnjcjKJFGpR5UILzBCVYNVFbtFI3L326COB/9dcEkJxc3thX3h
-   TnM0b07GTZLqcwVSwaOR+njizCiVKoxDvLhYXSimkl9S/inJ0IU6GDjBI
-   cSLcbUkjx8LX94pkJtOcjwnmT16JBtQP38YUqokw7VW0idVwnJ4WBqRL9
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="362335737"
+  t=1687248508; x=1718784508;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pCyzHH0zuxlBkZMM80mYSrc2xnVOlYDQN4lfoJ3bmCM=;
+  b=lqKPIr/7WcLBAMUp/mjekRhaiTuM87XKR7NeMMtxnzLF0YeTgqjpEQAR
+   l4z9PBrA1+hMJcgggXfeuIqM+VVL+aWP3bz3C5AwksbI/3f2A1ptvkwQ4
+   H7f6rHxgZNyPnyO6ZyztpHqKBSa3gZRONq3jWintOZxBzVy05Nw0RkfJg
+   xhzx060k/KDovGqo4KwWzsQaQYcbyyVNUh3JelsKh3DQ314XAVGnwk/Sv
+   KAXpiw1I1tPSB0UyWYC2JQxR9S+/40gVcNh7YHxDahlirld9WypT/ryQR
+   NuBJGWefI3cRu8Y5Uu6yJKHECeQBZlmiNAuw+DWXqZ/dtFgg+UFgF+Su1
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="362338438"
 X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; 
-   d="scan'208";a="362335737"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 00:55:03 -0700
+   d="scan'208";a="362338438"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 01:08:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="664196593"
+X-IronPort-AV: E=McAfee;i="6600,9927,10746"; a="783976537"
 X-IronPort-AV: E=Sophos;i="6.00,256,1681196400"; 
-   d="scan'208";a="664196593"
+   d="scan'208";a="783976537"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 20 Jun 2023 00:55:02 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 20 Jun 2023 01:08:02 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBWCb-0005eS-1K;
-	Tue, 20 Jun 2023 07:55:01 +0000
-Date: Tue, 20 Jun 2023 15:54:11 +0800
+	id 1qBWPC-0005f2-0g;
+	Tue, 20 Jun 2023 08:08:02 +0000
+Date: Tue, 20 Jun 2023 16:07:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Louis Kuo <louis.kuo@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev, Tomasz Figa <tfiga@chromium.org>
-Subject: [jsarha:topic/chromeos-4.19-s0ix 9641/9999]
- drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:328:22: error:
- variable 'cal_sel' set but not used
-Message-ID: <202306201555.FxQnwTt5-lkp@intel.com>
+To: Markus Schneider-Pargmann <msp@baylibre.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Chun-Jie Chen <chun-jie.chen@mediatek.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Tinghan Shen <tinghan.shen@mediatek.com>,
+	Fabien Parent <parent.f@gmail.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Markus Schneider-Pargmann <msp@baylibre.com>
+Subject: Re: [PATCH v5 8/8] soc: mediatek: pm-domains: Add support for MT8365
+Message-ID: <202306201523.rqsnbV9X-lkp@intel.com>
+References: <20230619085344.2885311-9-msp@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,278 +57,222 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230619085344.2885311-9-msp@baylibre.com>
 
-Hi Louis,
+Hi Markus,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/jsarha/linux topic/chromeos-4.19-s0ix
-head:   430bdaa0a8c38697780f45a148964d71951df11f
-commit: 21d7588740d9f4e096005af37caa623d3d58f8f1 [9641/9999] BACKPORT: FROMLIST: media: platform: Add Mediatek sensor interface driver KConfig
-config: h8300-randconfig-r015-20230620 (https://download.01.org/0day-ci/archive/20230620/202306201555.FxQnwTt5-lkp@intel.com/config)
-compiler: h8300-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230620/202306201555.FxQnwTt5-lkp@intel.com/reproduce)
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk-dt/for-next linus/master v6.4-rc7 next-20230620]
+[cannot apply to mbgg-mediatek/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Schneider-Pargmann/dt-bindings-power-Add-MT8365-power-domains/20230619-165759
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230619085344.2885311-9-msp%40baylibre.com
+patch subject: [PATCH v5 8/8] soc: mediatek: pm-domains: Add support for MT8365
+config: arm64-randconfig-s043-20230619 (https://download.01.org/0day-ci/archive/20230620/202306201523.rqsnbV9X-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230620/202306201523.rqsnbV9X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306201555.FxQnwTt5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306201523.rqsnbV9X-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/soc/mediatek/mtk-pm-domains.c: note: in included file:
+>> drivers/soc/mediatek/mt8365-pm-domains.h:69:56: sparse: sparse: cast truncates bits from constant value (180 becomes 80)
 
-     256 |                         writel(0xffffff0f &
-         |                                ~~~~~~~~~~~^
-     257 |                                 readl(pmipi_rx + MIPI_RX_ANA18_CSI0B) |
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:259:43: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     259 |                         writel(0xff0fffff &
-         |                                ~~~~~~~~~~~^
-     260 |                                 readl(pmipi_rx + MIPI_RX_ANA1C_CSI0B) |
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:262:43: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     262 |                         writel(0xff0fffff &
-         |                                ~~~~~~~~~~~^
-     263 |                                 readl(pmipi_rx + MIPI_RX_ANA20_CSI0B) |
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:267:35: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     267 |                 writel(0xff0fff0f & readl(pmipi_rx + MIPI_RX_ANA18_CSI1A) |
-         |                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:269:35: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     269 |                 writel(0xffffff0f & readl(pmipi_rx + MIPI_RX_ANA1C_CSI1A) |
-         |                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:273:43: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     273 |                         writel(0xff0fff0f &
-         |                                ~~~~~~~~~~~^
-     274 |                                 readl(pmipi_rx + MIPI_RX_ANA18_CSI1B) |
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:276:43: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     276 |                         writel(0xffffff0f &
-         |                                ~~~~~~~~~~~^
-     277 |                                 readl(pmipi_rx + MIPI_RX_ANA1C_CSI1B) |
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:284:25: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     284 |         writel(0xffffff & readl(pmipi_rx + MIPI_RX_ANA24_CSI0A) |
-         |                ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:287:33: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     287 |                 writel(0xffffff & readl(pmipi_rx + MIPI_RX_ANA24_CSI0B) |
-         |                        ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:295:27: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     295 |         writel(0xfffffff7 & readl(pmipi_rx + MIPI_RX_ANA00_CSI0A) |
-         |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:298:35: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     298 |                 writel(0xfffffff7 & readl(pmipi_rx + MIPI_RX_ANA00_CSI0B) |
-         |                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:302:27: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     302 |         writel(0xfffffff7 & readl(pmipi_rx + MIPI_RX_ANA00_CSI0A) |
-         |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:305:35: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     305 |                 writel(0xfffffffb & readl(pmipi_rx + MIPI_RX_ANA00_CSI0B) |
-         |                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:311:33: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     311 |                 writel(0xffffff &
-         |                        ~~~~~~~~~^
-     312 |                         readl(pmipi_rx_conf + MIPI_RX_CON24_CSI0) |
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:315:33: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     315 |                 writel(0xffffff &
-         |                        ~~~~~~~~~^
-     316 |                         readl(pmipi_rx_conf + MIPI_RX_CON24_CSI0) |
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c: In function 'mtk_seninf_set_csi_mipi':
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:339:35: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     339 |                 writel(0x7ffff8fe & readl(seninf_base +
-         |                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-     340 |                         SENINF_TOP_PHY_SENINF_CTL_CSI1) | 0x80000200
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:345:35: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     345 |                 writel(0x7ffff8fe & readl(seninf_base +
-         |                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-     346 |                         SENINF_TOP_PHY_SENINF_CTL_CSI2) | 0x80000200
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:351:35: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     351 |                 writel(0x7ffff8fe & readl(seninf_base +
-         |                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-     352 |                         SENINF_TOP_PHY_SENINF_CTL_CSI0) | 0x80000200
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:358:35: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     358 |                 writel(0x7fffc8fe & readl(seninf_base +
-         |                        ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-     359 |                         SENINF_TOP_PHY_SENINF_CTL_CSI0) | 0x80001100
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:367:27: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     367 |         writel(0x8fffffff & readl(pseninf + SENINF1_CTRL) |
-         |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:371:27: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     371 |         writel(0xffffff9f & readl(pseninf + SENINF1_CTRL_EXT) |
-         |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:381:27: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     381 |         writel(0xffff00ff & readl(pseninf + SENINF1_CSI2_LNRD_TIMING) |
-         |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:387:27: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     387 |         writel(0xfffff3f8 & readl(pseninf + SENINF1_CSI2_RESYNC_MERGE_CTL) |
-         |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:394:27: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     394 |         writel(0xf5ffff7f & readl(pseninf + SENINF1_CSI2_CTL) |
-         |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:396:27: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     396 |         writel(0xffffff00 & readl(pseninf + SENINF1_CSI2_HS_TRAIL) |
-         |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:409:27: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     409 |         writel(0xffffff7f & readl(pseninf + SENINF1_CTRL) |
-         |                ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:328:22: error: variable 'cal_sel' set but not used [-Werror=unused-but-set-variable]
-     328 |         unsigned int cal_sel;
-         |                      ^~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c: In function 'mtk_seninf_power_on':
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:440:28: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     440 |         writel(0xffffffbfU & readl(pseninf + SENINF1_CTRL_EXT) |
-         |                ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/platform_device.h:14,
-                    from drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:5:
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c: In function 'seninf_link_setup':
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:622:22: error: format '%d' expects argument of type 'int', but argument 4 has type 'long unsigned int' [-Werror=format=]
-     622 |         dev_dbg(dev, "local->flags %d flags %d\n", local->flags, flags);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:1370:22: note: in definition of macro 'dev_fmt'
-    1370 | #define dev_fmt(fmt) fmt
-         |                      ^~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:622:9: note: in expansion of macro 'dev_dbg'
-     622 |         dev_dbg(dev, "local->flags %d flags %d\n", local->flags, flags);
-         |         ^~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:622:37: note: format string is defined here
-     622 |         dev_dbg(dev, "local->flags %d flags %d\n", local->flags, flags);
-         |                                    ~^
-         |                                     |
-         |                                     int
-         |                                    %ld
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:632:30: error: too many arguments for format [-Werror=format-extra-args]
-     632 |                 dev_dbg(dev, "set sensor port\n", local->index);
-         |                              ^~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:1370:22: note: in definition of macro 'dev_fmt'
-    1370 | #define dev_fmt(fmt) fmt
-         |                      ^~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:632:17: note: in expansion of macro 'dev_dbg'
-     632 |                 dev_dbg(dev, "set sensor port\n", local->index);
-         |                 ^~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c: In function 'seninf_enable_test_pattern':
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:721:62: error: suggest parentheses around arithmetic in operand of '|' [-Werror=parentheses]
-     721 |                         | priv->fmt[priv->port].format.width + 0x100;
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-   drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c: At top level:
->> drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:955:12: error: 'seninf_pm_resume' defined but not used [-Werror=unused-function]
-     955 | static int seninf_pm_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~
->> drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c:945:12: error: 'seninf_pm_suspend' defined but not used [-Werror=unused-function]
-     945 | static int seninf_pm_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+vim +69 drivers/soc/mediatek/mt8365-pm-domains.h
 
-
-vim +/cal_sel +328 drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c
-
-61e12ddf819761 Louis Kuo 2019-09-15  320  
-61e12ddf819761 Louis Kuo 2019-09-15  321  static void mtk_seninf_set_csi_mipi(struct mtk_seninf *priv,
-61e12ddf819761 Louis Kuo 2019-09-15  322  				    unsigned int seninf)
-61e12ddf819761 Louis Kuo 2019-09-15  323  {
-61e12ddf819761 Louis Kuo 2019-09-15  324  	void *seninf_base = priv->base_reg;
-61e12ddf819761 Louis Kuo 2019-09-15  325  	void *pseninf = priv->base_reg + 0x1000 * seninf;
-61e12ddf819761 Louis Kuo 2019-09-15  326  	unsigned int dpcm = mtk_seninf_get_dpcm(priv);
-61e12ddf819761 Louis Kuo 2019-09-15  327  	unsigned int data_lane_num = priv->sensor[priv->port].num_data_lanes;
-61e12ddf819761 Louis Kuo 2019-09-15 @328  	unsigned int cal_sel;
-61e12ddf819761 Louis Kuo 2019-09-15  329  	unsigned int data_header_order = 1;
-61e12ddf819761 Louis Kuo 2019-09-15  330  	unsigned int pad_sel = PAD_10BIT;
-61e12ddf819761 Louis Kuo 2019-09-15  331  	unsigned int val = 0;
-61e12ddf819761 Louis Kuo 2019-09-15  332  
-61e12ddf819761 Louis Kuo 2019-09-15  333  	dev_dbg(priv->dev, "IS_4D1C %d port %d\n",
-61e12ddf819761 Louis Kuo 2019-09-15  334  		is_4d1c(priv->port), priv->port);
-61e12ddf819761 Louis Kuo 2019-09-15  335  
-61e12ddf819761 Louis Kuo 2019-09-15  336  	switch (priv->port) {
-61e12ddf819761 Louis Kuo 2019-09-15  337  	case CFG_CSI_PORT_1:
-61e12ddf819761 Louis Kuo 2019-09-15  338  		cal_sel = 1;
-61e12ddf819761 Louis Kuo 2019-09-15  339  		writel(0x7ffff8fe & readl(seninf_base +
-61e12ddf819761 Louis Kuo 2019-09-15  340  			SENINF_TOP_PHY_SENINF_CTL_CSI1)	| 0x80000200
-61e12ddf819761 Louis Kuo 2019-09-15  341  			, seninf_base + SENINF_TOP_PHY_SENINF_CTL_CSI1);
-61e12ddf819761 Louis Kuo 2019-09-15  342  		break;
-61e12ddf819761 Louis Kuo 2019-09-15  343  	case CFG_CSI_PORT_2:
-61e12ddf819761 Louis Kuo 2019-09-15  344  		cal_sel = 2;
-61e12ddf819761 Louis Kuo 2019-09-15  345  		writel(0x7ffff8fe & readl(seninf_base +
-61e12ddf819761 Louis Kuo 2019-09-15  346  			SENINF_TOP_PHY_SENINF_CTL_CSI2)	| 0x80000200
-61e12ddf819761 Louis Kuo 2019-09-15  347  			, seninf_base + SENINF_TOP_PHY_SENINF_CTL_CSI2);
-61e12ddf819761 Louis Kuo 2019-09-15  348  		break;
-61e12ddf819761 Louis Kuo 2019-09-15  349  	case CFG_CSI_PORT_0:
-61e12ddf819761 Louis Kuo 2019-09-15  350  		cal_sel = 0;
-61e12ddf819761 Louis Kuo 2019-09-15  351  		writel(0x7ffff8fe & readl(seninf_base +
-61e12ddf819761 Louis Kuo 2019-09-15  352  			SENINF_TOP_PHY_SENINF_CTL_CSI0)	| 0x80000200
-61e12ddf819761 Louis Kuo 2019-09-15  353  			, seninf_base + SENINF_TOP_PHY_SENINF_CTL_CSI0);
-61e12ddf819761 Louis Kuo 2019-09-15  354  		break;
-61e12ddf819761 Louis Kuo 2019-09-15  355  	case CFG_CSI_PORT_0A:
-61e12ddf819761 Louis Kuo 2019-09-15  356  	case CFG_CSI_PORT_0B:
-61e12ddf819761 Louis Kuo 2019-09-15  357  		cal_sel = 0;
-61e12ddf819761 Louis Kuo 2019-09-15  358  		writel(0x7fffc8fe & readl(seninf_base +
-61e12ddf819761 Louis Kuo 2019-09-15  359  			SENINF_TOP_PHY_SENINF_CTL_CSI0)	| 0x80001100
-61e12ddf819761 Louis Kuo 2019-09-15  360  			, seninf_base + SENINF_TOP_PHY_SENINF_CTL_CSI0);
-61e12ddf819761 Louis Kuo 2019-09-15  361  		break;
-61e12ddf819761 Louis Kuo 2019-09-15  362  	}
-61e12ddf819761 Louis Kuo 2019-09-15  363  
-61e12ddf819761 Louis Kuo 2019-09-15  364  	/* First Enable Sensor interface and select pad (0x1a04_0200) */
-61e12ddf819761 Louis Kuo 2019-09-15  365  	writel(readl(pseninf + SENINF1_CTRL) | 0x1
-61e12ddf819761 Louis Kuo 2019-09-15  366  		, pseninf + SENINF1_CTRL);
-61e12ddf819761 Louis Kuo 2019-09-15  367  	writel(0x8fffffff & readl(pseninf + SENINF1_CTRL) |
-61e12ddf819761 Louis Kuo 2019-09-15  368  		(pad_sel << 28), pseninf + SENINF1_CTRL);
-61e12ddf819761 Louis Kuo 2019-09-15  369  	writel(0xffff0fff & readl(pseninf + SENINF1_CTRL)
-61e12ddf819761 Louis Kuo 2019-09-15  370  		, pseninf + SENINF1_CTRL);
-61e12ddf819761 Louis Kuo 2019-09-15  371  	writel(0xffffff9f & readl(pseninf + SENINF1_CTRL_EXT) |
-61e12ddf819761 Louis Kuo 2019-09-15  372  		0x40, pseninf + SENINF1_CTRL_EXT);
-61e12ddf819761 Louis Kuo 2019-09-15  373  
-61e12ddf819761 Louis Kuo 2019-09-15  374  	mtk_seninf_set_dphy(priv, seninf);
-61e12ddf819761 Louis Kuo 2019-09-15  375  
-61e12ddf819761 Louis Kuo 2019-09-15  376  	/* DPCM Enable */
-61e12ddf819761 Louis Kuo 2019-09-15  377  	val = 1 << ((dpcm == 0x2a) ? 15 : ((dpcm & 0xF) + 7));
-61e12ddf819761 Louis Kuo 2019-09-15  378  	writel(val, pseninf + SENINF1_CSI2_DPCM);
-61e12ddf819761 Louis Kuo 2019-09-15  379  
-61e12ddf819761 Louis Kuo 2019-09-15  380  	/* Settle delay */
-61e12ddf819761 Louis Kuo 2019-09-15  381  	writel(0xffff00ff & readl(pseninf + SENINF1_CSI2_LNRD_TIMING) |
-61e12ddf819761 Louis Kuo 2019-09-15  382  		(SENINF_SETTLE_DELAY << 8), pseninf + SENINF1_CSI2_LNRD_TIMING);
-61e12ddf819761 Louis Kuo 2019-09-15  383  	/* CSI2 control */
-61e12ddf819761 Louis Kuo 2019-09-15  384  	val = readl(pseninf + SENINF1_CSI2_CTL) | (data_header_order << 16) |
-61e12ddf819761 Louis Kuo 2019-09-15  385  		0x10 | ((1 << data_lane_num) - 1);
-61e12ddf819761 Louis Kuo 2019-09-15  386  	writel(val, pseninf + SENINF1_CSI2_CTL);
-61e12ddf819761 Louis Kuo 2019-09-15  387  	writel(0xfffff3f8 & readl(pseninf + SENINF1_CSI2_RESYNC_MERGE_CTL) |
-61e12ddf819761 Louis Kuo 2019-09-15  388  		0x3, pseninf + SENINF1_CSI2_RESYNC_MERGE_CTL);
-61e12ddf819761 Louis Kuo 2019-09-15  389  	writel(0xfffff800 & readl(pseninf + SENINF1_CSI2_MODE)
-61e12ddf819761 Louis Kuo 2019-09-15  390  		, pseninf + SENINF1_CSI2_MODE);
-61e12ddf819761 Louis Kuo 2019-09-15  391  	writel(0x1dff00, pseninf + SENINF1_CSI2_DPHY_SYNC);
-61e12ddf819761 Louis Kuo 2019-09-15  392  	writel(0xfffffffe & readl(pseninf + SENINF1_CSI2_SPARE0)
-61e12ddf819761 Louis Kuo 2019-09-15  393  		, pseninf + SENINF1_CSI2_SPARE0);
-61e12ddf819761 Louis Kuo 2019-09-15 @394  	writel(0xf5ffff7f & readl(pseninf + SENINF1_CSI2_CTL) |
-61e12ddf819761 Louis Kuo 2019-09-15  395  		0x2000000, pseninf + SENINF1_CSI2_CTL);
-61e12ddf819761 Louis Kuo 2019-09-15  396  	writel(0xffffff00 & readl(pseninf + SENINF1_CSI2_HS_TRAIL) |
-61e12ddf819761 Louis Kuo 2019-09-15  397  		SENINF_HS_TRAIL_PARAMETER, pseninf + SENINF1_CSI2_HS_TRAIL);
-61e12ddf819761 Louis Kuo 2019-09-15  398  
-61e12ddf819761 Louis Kuo 2019-09-15  399  	/* Set debug port to output packet number */
-61e12ddf819761 Louis Kuo 2019-09-15  400  	writel(0x8000001A, pseninf + SENINF1_CSI2_DGB_SEL);
-61e12ddf819761 Louis Kuo 2019-09-15  401  	/* Enable CSI2 IRQ mask */
-61e12ddf819761 Louis Kuo 2019-09-15  402  	/* Turn on all interrupt */
-61e12ddf819761 Louis Kuo 2019-09-15  403  	writel(0xffffffff, pseninf + SENINF1_CSI2_INT_EN);
-61e12ddf819761 Louis Kuo 2019-09-15  404  	/* Write clear CSI2 IRQ */
-61e12ddf819761 Louis Kuo 2019-09-15  405  	writel(0xffffffff, pseninf + SENINF1_CSI2_INT_STATUS);
-61e12ddf819761 Louis Kuo 2019-09-15  406  	/* Enable CSI2 Extend IRQ mask */
-61e12ddf819761 Louis Kuo 2019-09-15  407  	/* Turn on all interrupt */
-61e12ddf819761 Louis Kuo 2019-09-15  408  	writel(0x0000001f, pseninf + SENINF1_CSI2_INT_EN_EXT);
-61e12ddf819761 Louis Kuo 2019-09-15  409  	writel(0xffffff7f & readl(pseninf + SENINF1_CTRL) |
-61e12ddf819761 Louis Kuo 2019-09-15  410  		0x80, pseninf + SENINF1_CTRL);
-61e12ddf819761 Louis Kuo 2019-09-15  411  
-61e12ddf819761 Louis Kuo 2019-09-15  412  	udelay(1);
-61e12ddf819761 Louis Kuo 2019-09-15  413  	writel(0xffffff7f & readl(pseninf + SENINF1_CTRL)
-61e12ddf819761 Louis Kuo 2019-09-15  414  		, pseninf + SENINF1_CTRL);
-61e12ddf819761 Louis Kuo 2019-09-15  415  }
-61e12ddf819761 Louis Kuo 2019-09-15  416  
-
-:::::: The code at line 328 was first introduced by commit
-:::::: 61e12ddf8197612c314860cdc6efacf0c37424b6 BACKPORT: FROMLIST: media: platform: mtk-isp: Add Mediatek sensor interface driver
-
-:::::: TO: Louis Kuo <louis.kuo@mediatek.com>
-:::::: CC: Commit Bot <commit-bot@chromium.org>
+     8	
+     9	/*
+    10	 * MT8365 power domain support
+    11	 */
+    12	
+    13	#define MT8365_BUS_PROT_INFRA_WR_TOPAXI(_mask)				\
+    14			BUS_PROT_INFRA_WR(_mask,				\
+    15					  MT8365_INFRA_TOPAXI_PROTECTEN_SET,	\
+    16					  MT8365_INFRA_TOPAXI_PROTECTEN_CLR,	\
+    17					  MT8365_INFRA_TOPAXI_PROTECTEN_STA1)
+    18	
+    19	#define MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(_mask)			\
+    20			BUS_PROT_INFRA_WR(_mask,				\
+    21					  MT8365_INFRA_TOPAXI_PROTECTEN_1_SET,	\
+    22					  MT8365_INFRA_TOPAXI_PROTECTEN_1_CLR,	\
+    23					  MT8365_INFRA_TOPAXI_PROTECTEN_1_STA1)
+    24	
+    25	#define MT8365_BUS_PROT_SMI_WR_CLAMP_EN_PORT(port)			\
+    26			BUS_PROT_SMI_WR(BIT(port),				\
+    27					MT8365_SMI_COMMON_CLAMP_EN_SET,		\
+    28					MT8365_SMI_COMMON_CLAMP_EN_CLR,		\
+    29					MT8365_SMI_COMMON_CLAMP_EN)
+    30	
+    31	#define MT8365_BUS_PROT_WAY_EN(_set_mask, _set, _sta_mask, _sta)	\
+    32			_BUS_PROT(_set_mask, _set, _set, _sta_mask, _sta,	\
+    33				  BUS_PROT_COMPONENT_INFRA |			\
+    34				  BUS_PROT_STA_COMPONENT_INFRA_NAO |		\
+    35				  BUS_PROT_INVERTED |				\
+    36				  BUS_PROT_REG_UPDATE)
+    37	
+    38	static const struct scpsys_domain_data scpsys_domain_data_mt8365[] = {
+    39		[MT8365_POWER_DOMAIN_MM] = {
+    40			.name = "mm",
+    41			.sta_mask = PWR_STATUS_DISP,
+    42			.ctl_offs = 0x30c,
+    43			.pwr_sta_offs = 0x0180,
+    44			.pwr_sta2nd_offs = 0x0184,
+    45			.sram_pdn_bits = GENMASK(8, 8),
+    46			.sram_pdn_ack_bits = GENMASK(12, 12),
+    47			.bp_cfg = {
+    48				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+    49					MT8365_INFRA_TOPAXI_PROTECTEN_1_MM2INFRA_AXI_GALS_MST_0 |
+    50					MT8365_INFRA_TOPAXI_PROTECTEN_1_MM2INFRA_AXI_GALS_MST_1),
+    51				MT8365_BUS_PROT_INFRA_WR_TOPAXI(
+    52					MT8365_INFRA_TOPAXI_PROTECTEN_MM_M0 |
+    53					MT8365_INFRA_TOPAXI_PROTECTEN_MDMCU_M1 |
+    54					MT8365_INFRA_TOPAXI_PROTECTEN_MM2INFRA_AXI_GALS_SLV_0 |
+    55					MT8365_INFRA_TOPAXI_PROTECTEN_MM2INFRA_AXI_GALS_SLV_1),
+    56				MT8365_BUS_PROT_WAY_EN(
+    57					MT8365_INFRA_TOPAXI_SI0_WAY_EN_MMAPB_S,
+    58					MT8365_INFRA_TOPAXI_SI0_CTL,
+    59					MT8365_INFRA_NAO_TOPAXI_SI0_CTRL_UPDATED,
+    60					MT8365_INFRA_NAO_TOPAXI_SI0_STA),
+    61				MT8365_BUS_PROT_WAY_EN(
+    62					MT8365_INFRA_TOPAXI_SI2_WAY_EN_PERI_M1,
+    63					MT8365_INFRA_TOPAXI_SI2_CTL,
+    64					MT8365_INFRA_NAO_TOPAXI_SI2_CTRL_UPDATED,
+    65					MT8365_INFRA_NAO_TOPAXI_SI2_STA),
+    66				MT8365_BUS_PROT_INFRA_WR_TOPAXI(
+    67					MT8365_INFRA_TOPAXI_PROTECTEN_MMAPB_S),
+    68			},
+  > 69			.caps = MTK_SCPD_STRICT_BUS_PROTECTION | MTK_SCPD_HAS_INFRA_NAO,
+    70		},
+    71		[MT8365_POWER_DOMAIN_VENC] = {
+    72			.name = "venc",
+    73			.sta_mask = PWR_STATUS_VENC,
+    74			.ctl_offs = 0x0304,
+    75			.pwr_sta_offs = 0x0180,
+    76			.pwr_sta2nd_offs = 0x0184,
+    77			.sram_pdn_bits = GENMASK(8, 8),
+    78			.sram_pdn_ack_bits = GENMASK(12, 12),
+    79			.bp_cfg = {
+    80				MT8365_BUS_PROT_SMI_WR_CLAMP_EN_PORT(1),
+    81			},
+    82		},
+    83		[MT8365_POWER_DOMAIN_AUDIO] = {
+    84			.name = "audio",
+    85			.sta_mask = PWR_STATUS_AUDIO,
+    86			.ctl_offs = 0x0314,
+    87			.pwr_sta_offs = 0x0180,
+    88			.pwr_sta2nd_offs = 0x0184,
+    89			.sram_pdn_bits = GENMASK(12, 8),
+    90			.sram_pdn_ack_bits = GENMASK(17, 13),
+    91			.bp_cfg = {
+    92				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+    93					MT8365_INFRA_TOPAXI_PROTECTEN_1_PWRDNREQ_MP1_L2C_AFIFO |
+    94					MT8365_INFRA_TOPAXI_PROTECTEN_1_AUDIO_BUS_AUDIO_M),
+    95			},
+    96			.caps = MTK_SCPD_ACTIVE_WAKEUP,
+    97		},
+    98		[MT8365_POWER_DOMAIN_CONN] = {
+    99			.name = "conn",
+   100			.sta_mask = PWR_STATUS_CONN,
+   101			.ctl_offs = 0x032c,
+   102			.pwr_sta_offs = 0x0180,
+   103			.pwr_sta2nd_offs = 0x0184,
+   104			.sram_pdn_bits = 0,
+   105			.sram_pdn_ack_bits = 0,
+   106			.bp_cfg = {
+   107				MT8365_BUS_PROT_INFRA_WR_TOPAXI(
+   108					MT8365_INFRA_TOPAXI_PROTECTEN_AP2CONN_AHB),
+   109				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+   110					MT8365_INFRA_TOPAXI_PROTECTEN_1_CONN2INFRA_AXI_GALS_MST),
+   111				MT8365_BUS_PROT_INFRA_WR_TOPAXI(
+   112					MT8365_INFRA_TOPAXI_PROTECTEN_CONN2INFRA_AHB),
+   113				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+   114					MT8365_INFRA_TOPAXI_PROTECTEN_1_INFRA2CONN_AHB_GALS_SLV),
+   115			},
+   116			.caps = MTK_SCPD_ACTIVE_WAKEUP | MTK_SCPD_KEEP_DEFAULT_OFF,
+   117		},
+   118		[MT8365_POWER_DOMAIN_MFG] = {
+   119			.name = "mfg",
+   120			.sta_mask = PWR_STATUS_MFG,
+   121			.ctl_offs = 0x0338,
+   122			.pwr_sta_offs = 0x0180,
+   123			.pwr_sta2nd_offs = 0x0184,
+   124			.sram_pdn_bits = GENMASK(9, 8),
+   125			.sram_pdn_ack_bits = GENMASK(13, 12),
+   126			.bp_cfg = {
+   127				MT8365_BUS_PROT_INFRA_WR_TOPAXI(BIT(25)),
+   128				MT8365_BUS_PROT_INFRA_WR_TOPAXI(
+   129					MT8365_INFRA_TOPAXI_PROTECTEN_MFG_M0 |
+   130					MT8365_INFRA_TOPAXI_PROTECTEN_INFRA2MFG),
+   131			},
+   132		},
+   133		[MT8365_POWER_DOMAIN_CAM] = {
+   134			.name = "cam",
+   135			.sta_mask = BIT(25),
+   136			.ctl_offs = 0x0344,
+   137			.pwr_sta_offs = 0x0180,
+   138			.pwr_sta2nd_offs = 0x0184,
+   139			.sram_pdn_bits = GENMASK(9, 8),
+   140			.sram_pdn_ack_bits = GENMASK(13, 12),
+   141			.bp_cfg = {
+   142				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+   143					MT8365_INFRA_TOPAXI_PROTECTEN_1_CAM2MM_AXI_GALS_MST),
+   144				MT8365_BUS_PROT_SMI_WR_CLAMP_EN_PORT(2),
+   145			},
+   146		},
+   147		[MT8365_POWER_DOMAIN_VDEC] = {
+   148			.name = "vdec",
+   149			.sta_mask = BIT(31),
+   150			.ctl_offs = 0x0370,
+   151			.pwr_sta_offs = 0x0180,
+   152			.pwr_sta2nd_offs = 0x0184,
+   153			.sram_pdn_bits = GENMASK(8, 8),
+   154			.sram_pdn_ack_bits = GENMASK(12, 12),
+   155			.bp_cfg = {
+   156				MT8365_BUS_PROT_SMI_WR_CLAMP_EN_PORT(3),
+   157			},
+   158		},
+   159		[MT8365_POWER_DOMAIN_APU] = {
+   160			.name = "apu",
+   161			.sta_mask = BIT(16),
+   162			.ctl_offs = 0x0378,
+   163			.pwr_sta_offs = 0x0180,
+   164			.pwr_sta2nd_offs = 0x0184,
+   165			.sram_pdn_bits = GENMASK(14, 8),
+   166			.sram_pdn_ack_bits = GENMASK(21, 15),
+   167			.bp_cfg = {
+   168				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+   169					MT8365_INFRA_TOPAXI_PROTECTEN_1_APU2AP |
+   170					MT8365_INFRA_TOPAXI_PROTECTEN_1_APU_CBIP_GALS_MST),
+   171				MT8365_BUS_PROT_SMI_WR_CLAMP_EN_PORT(4),
+   172			},
+   173		},
+   174		[MT8365_POWER_DOMAIN_DSP] = {
+   175			.name = "dsp",
+   176			.sta_mask = BIT(17),
+   177			.ctl_offs = 0x037C,
+   178			.pwr_sta_offs = 0x0180,
+   179			.pwr_sta2nd_offs = 0x0184,
+   180			.sram_pdn_bits = GENMASK(11, 8),
+   181			.sram_pdn_ack_bits = GENMASK(15, 12),
+   182			.bp_cfg = {
+   183				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+   184					MT8365_INFRA_TOPAXI_PROTECTEN_1_PWRDNREQ_INFRA_GALS_ADB |
+   185					MT8365_INFRA_TOPAXI_PROTECTEN_1_AUDIO_BUS_DSP_M |
+   186					MT8365_INFRA_TOPAXI_PROTECTEN_1_AUDIO_BUS_DSP_S),
+   187			},
+   188			.caps = MTK_SCPD_ACTIVE_WAKEUP,
+   189		},
+   190	};
+   191	
 
 -- 
 0-DAY CI Kernel Test Service
