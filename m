@@ -1,45 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 913BF182BF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 20:13:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C52D174D1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 20 Jun 2023 21:14:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687292028; x=1718828028;
+  t=1687295681; x=1718831681;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yPSuLUZGBrAkUwOVKap/qjBnMC2qd+ZFNZ39KAY/1hk=;
-  b=iceC2gQypOjV1gUfXiQVAX3R5EU0nn7NW4OgiyBNXMRU2rrdM4J4VZJV
-   QPs9Mnf8EDDPUoOj629c6T1DHNxchX0g2vCmMleS9svBl9+I9+RUEbQ5W
-   MQK4Nrvzlkwgq9ayF2NzujtdOvOQvtD2LvwnDYn+GFkKabNaBXrEWJ5ZZ
-   gvwbtMsxQmmFNette8Ms84L8EV3hACI52lbbPjPJQG5PeTsoD1vcnCKpD
-   KvjmMV0ovlTo8okvJfSMciRzYt4vG52Pj7aEMdY/Dy7dmnLGl6ko0Ca6T
-   FM3ks7EnQPDSPVCT36C+f5pupBfKnJo9Vs8zsrSKfgq/skH7IEZJFg8xe
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="349705410"
+  bh=lpyMpVpgjd4tmVpC7advXYeHhDC6/5DpY8mZm2fkz1E=;
+  b=kBG5l7wD+sfWzNBpjtuSpR2KuOsCl+XbR8tppcR9XGsZ9I4viHjICO8Z
+   Y3DrvFiIDxswiCymMgftYIpsM7e00OY/DjwUTEcLUHt9LsAfQ7AC7IZc7
+   JnIzOk1E7GObd34HzTh9rRCSuTFsY/MQfeu2KN1U+FqQr3ocvnsaRY1W6
+   gqKRF/HWkYA4BC5tfvXOFsM/27KN+ZJgn+M4GbgYla1xvQA3L4YatHRof
+   Gu/+5PgZALLoVOB7Tvu/14tMUc+r/9gV5swGhsJGH5mP73EYcINtPjy50
+   6mlRc1rkx3StKhN5oKltC6OXFmMnXSACBiLMfpBrn0tvyrsH+GJgDNVGg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="363407870"
 X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="349705410"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 13:13:40 -0700
+   d="scan'208";a="363407870"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 14:14:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="804075994"
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="960927293"
 X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="804075994"
+   d="scan'208";a="960927293"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 20 Jun 2023 13:13:38 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 20 Jun 2023 14:14:39 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBhjN-0006EA-2D;
-	Tue, 20 Jun 2023 20:13:37 +0000
-Date: Wed, 21 Jun 2023 04:12:56 +0800
+	id 1qBigR-0006G8-0j;
+	Tue, 20 Jun 2023 21:14:39 +0000
+Date: Wed, 21 Jun 2023 05:13:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brent Lu <brent.lu@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Ranjan Dutta <ranjan.dutta@intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [intel-lts:5.10/yocto 7/27]
- sound/soc/intel/boards/sof_ssp_amp.c:97:6: warning: variable 'i' set but not
- used
-Message-ID: <202306210459.h4ddIjTJ-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/sparc/kernel/traps_64.c:2839:13: error: no previous prototype
+ for 'trap_init'
+Message-ID: <202306210547.QTEAjNch-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,77 +46,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
-head:   a60790fda7b098895a79befe8d7c941712259ba4
-commit: a41f0aabc1bf541c508a0dcea04f5fef66ea2f0b [7/27] ASoC: Intel: sof_ssp_amp: rename driver and support cs35l41 amplifier
-config: i386-randconfig-i012-20230621 (https://download.01.org/0day-ci/archive/20230621/202306210459.h4ddIjTJ-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210459.h4ddIjTJ-lkp@intel.com/reproduce)
+Hi Rob,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   99ec1ed7c2ed358280588ab1d013387e8c7a9333
+commit: 7e09cb0b84ac5d17086a65ca21479dfec600a232 of: Drop cpu.h include from of_device.h
+date:   10 weeks ago
+config: sparc64-randconfig-c003-20230620 (https://download.01.org/0day-ci/archive/20230621/202306210547.QTEAjNch-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210547.QTEAjNch-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306210459.h4ddIjTJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306210547.QTEAjNch-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/intel/boards/sof_ssp_amp.c:97:6: warning: variable 'i' set but not used [-Wunused-but-set-variable]
-           int i = 0;
-               ^
-   1 warning generated.
+   arch/sparc/kernel/traps_64.c:252:6: error: no previous prototype for 'is_no_fault_exception' [-Werror=missing-prototypes]
+     252 | bool is_no_fault_exception(struct pt_regs *regs)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/sparc/kernel/traps_64.c:2034:6: error: no previous prototype for 'do_mcd_err' [-Werror=missing-prototypes]
+    2034 | void do_mcd_err(struct pt_regs *regs, struct sun4v_error_entry ent)
+         |      ^~~~~~~~~~
+   arch/sparc/kernel/traps_64.c:2152:6: error: no previous prototype for 'sun4v_nonresum_error_user_handled' [-Werror=missing-prototypes]
+    2152 | bool sun4v_nonresum_error_user_handled(struct pt_regs *regs,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/sparc/kernel/traps_64.c:2839:13: error: no previous prototype for 'trap_init' [-Werror=missing-prototypes]
+    2839 | void __init trap_init(void)
+         |             ^~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +/i +97 sound/soc/intel/boards/sof_ssp_amp.c
+vim +/trap_init +2839 arch/sparc/kernel/traps_64.c
 
-    89	
-    90	static int sof_card_late_probe(struct snd_soc_card *card)
-    91	{
-    92		struct sof_card_private *ctx = snd_soc_card_get_drvdata(card);
-    93		struct snd_soc_component *component = NULL;
-    94		char jack_name[NAME_SIZE];
-    95		struct sof_hdmi_pcm *pcm;
-    96		int err;
-  > 97		int i = 0;
-    98	
-    99		if (!(sof_ssp_amp_quirk & SOF_HDMI_PLAYBACK_PRESENT))
-   100			return 0;
-   101	
-   102		/* HDMI is not supported by SOF on Baytrail/CherryTrail */
-   103		if (!ctx->idisp_codec)
-   104			return 0;
-   105	
-   106		if (list_empty(&ctx->hdmi_pcm_list))
-   107			return -EINVAL;
-   108	
-   109		if (ctx->common_hdmi_codec_drv) {
-   110			pcm = list_first_entry(&ctx->hdmi_pcm_list, struct sof_hdmi_pcm,
-   111					       head);
-   112			component = pcm->codec_dai->component;
-   113			return hda_dsp_hdmi_build_controls(card, component);
-   114		}
-   115	
-   116		list_for_each_entry(pcm, &ctx->hdmi_pcm_list, head) {
-   117			component = pcm->codec_dai->component;
-   118			snprintf(jack_name, sizeof(jack_name),
-   119				 "HDMI/DP, pcm=%d Jack", pcm->device);
-   120			err = snd_soc_card_jack_new(card, jack_name,
-   121						    SND_JACK_AVOUT, &pcm->sof_hdmi,
-   122						    NULL, 0);
-   123	
-   124			if (err)
-   125				return err;
-   126	
-   127			err = hdac_hdmi_jack_init(pcm->codec_dai, pcm->device,
-   128						  &pcm->sof_hdmi);
-   129			if (err < 0)
-   130				return err;
-   131	
-   132			i++;
-   133		}
-   134	
-   135		return hdac_hdmi_jack_port_init(component, &card->dapm);
-   136	}
-   137	
+^1da177e4c3f41 arch/sparc64/kernel/traps.c Linus Torvalds 2005-04-16  2837  
+^1da177e4c3f41 arch/sparc64/kernel/traps.c Linus Torvalds 2005-04-16  2838  /* Only invoked on boot processor. */
+^1da177e4c3f41 arch/sparc64/kernel/traps.c Linus Torvalds 2005-04-16 @2839  void __init trap_init(void)
+
+:::::: The code at line 2839 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
