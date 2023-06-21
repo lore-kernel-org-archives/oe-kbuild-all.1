@@ -1,110 +1,84 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A100BE61
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 10:47:17 +0000 (UTC)
-Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35LAjYaY017268;
-	Wed, 21 Jun 2023 10:46:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- mime-version; s=pp1; bh=cUvEvxNf99OC0k88ySjrYQUKcc+sx5zZabmgOf1+tQk=;
- b=dT9A36wxNF/H18bNyOoBZYiquvFEk5T7bETkEdtci+/xi1HuMFM4LPMUwnxEHAYrtzWY
- u2AHpiQPNEzDPr0sNpkyIRYkxnYX7yoUmATVM9Dv8r8D00+iLh8XK6n8Fl5YleeWreeK
- vHDmwt+ClSr3AK0Qpw/aN3JRnOXjM/Ub175vCXQGS59DqaM9phpl8AqdpEIcJSIdYCsN
- dIuCdZBSTklaaL4ONKYehmIVM3ph32UVdfnpPhCHRbd53zNfNZ2ntNWxPxOoguTaIwwJ
- 1lLPPN+Xo5LJXK3bF+xy7pzIbdYkyfKcOyNArFcNyKaVMjyYhIH0djS4uqF25m46BlfM Lw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rbyqwg0d0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 Jun 2023 10:46:39 +0000
-Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 35LAkNuD019302;
-	Wed, 21 Jun 2023 10:46:39 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rbyqwg0ce-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 Jun 2023 10:46:39 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-	by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 35L6SRWT029025;
-	Wed, 21 Jun 2023 10:46:37 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3r94f52q3c-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 Jun 2023 10:46:37 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 35LAkXYg45351266
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 21 Jun 2023 10:46:34 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D805720043;
-	Wed, 21 Jun 2023 10:46:33 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3E40C20040;
-	Wed, 21 Jun 2023 10:46:33 +0000 (GMT)
-Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.155.204.135])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Wed, 21 Jun 2023 10:46:33 +0000 (GMT)
-Date: Wed, 21 Jun 2023 12:46:31 +0200
-From: Alexander Gordeev <agordeev@linux.ibm.com>
-To: Baoquan He <bhe@redhat.com>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
-        oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
-        linux-mm@kvack.org, arnd@arndb.de, hch@lst.de,
-        christophe.leroy@csgroup.eu, rppt@kernel.org, willy@infradead.org,
-        wangkefeng.wang@huawei.com, schnelle@linux.ibm.com,
-        David.Laight@aculab.com, shorne@gmail.com, deller@gmx.de,
-        nathan@kernel.org, glaubitz@physik.fu-berlin.de,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
-Subject: Re: [PATCH v7 10/19] s390: mm: Convert to GENERIC_IOREMAP
-Message-ID: <ZJLVB3CtS+3TodSp@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-References: <20230620131356.25440-11-bhe@redhat.com>
- <202306211329.ticOJCSv-lkp@intel.com>
- <ZJLTxUOCEMh6l/El@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZJLTxUOCEMh6l/El@MiWiFi-R3L-srv>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: OXagYCuSxnkmVraMyxn6CTM15jQ9_mss
-X-Proofpoint-GUID: RQXGZsLdt6bFdFgkPFHjWxpGHSmnLbys
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2F3C2F0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 11:08:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C31C7C433C8;
+	Wed, 21 Jun 2023 11:08:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687345732;
+	bh=pDMlNd8ACfLvQmNU6tj/DpiQ1icRIIy6rldPkFKNQNY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nDaFj5hbkaoHpWVX2S1kRS79PjrjwDvtc3au5R9O09gR8LnTBUfvAscY33QWPoJLa
+	 yG1HfWL9Fzzwy7p48+VhvhQ3m3vY/tSdrFjR19RDbrGSRLUbfrsrnBLEmyseqKEyO1
+	 gkrRs4YuNMqo7H4GOqa4HnZb3vz2TwdAKEmMcqxaWSDspLJRNag+Pv4O8tFYXNagBf
+	 yZ/ijC3toU9H2EHmufaz74OxJ1I12W9ymtu9lPpf93uJvo2+OWdqG1f0PChBz6mY8c
+	 YIlp/CGFJF9HfHNIJrfqmxiI7j+jAqQwd7eP10mTPdLdPoZXMlKFjVMRkVJ6MJrp/y
+	 Vhhi+/RiEOIzA==
+Date: Wed, 21 Jun 2023 16:38:48 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Minda Chen <minda.chen@starfivetech.com>
+Cc: kernel test robot <lkp@intel.com>,
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+	Conor Dooley <conor@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Roger Quadros <rogerq@kernel.org>, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-riscv@lists.infradead.org,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Mason Huo <mason.huo@starfivetech.com>
+Subject: Re: [PATCH v7 4/5] phy: starfive: Add JH7110 PCIE 2.0 PHY driver
+Message-ID: <ZJLaQB7UB56+/mtN@matsya>
+References: <20230619094759.21013-5-minda.chen@starfivetech.com>
+ <202306192215.TvQco9m6-lkp@intel.com>
+ <d4824941-85dd-d378-be5b-072907b1169d@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-21_07,2023-06-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
- suspectscore=0 mlxlogscore=999 clxscore=1011 mlxscore=0 malwarescore=0
- priorityscore=1501 adultscore=0 spamscore=0 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306210089
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d4824941-85dd-d378-be5b-072907b1169d@starfivetech.com>
 
-On Wed, Jun 21, 2023 at 06:41:09PM +0800, Baoquan He wrote:
-
-Hi Baoquan,
-
-> > [auto build test ERROR on akpm-mm/mm-everything]
+On 21-06-23, 17:29, Minda Chen wrote:
+> 
+> 
+> On 2023/6/19 22:45, kernel test robot wrote:
+> > Hi Minda,
 > > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/asm-generic-iomap-h-remove-ARCH_HAS_IOREMAP_xx-macros/20230620-212135
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> > patch link:    https://lore.kernel.org/r/20230620131356.25440-11-bhe%40redhat.com
-> > patch subject: [PATCH v7 10/19] s390: mm: Convert to GENERIC_IOREMAP
-> > config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230621/202306211329.ticOJCSv-lkp@intel.com/config)
+> > kernel test robot noticed the following build errors:
+> > 
+> > [auto build test ERROR on robh/for-next]
+> > [also build test ERROR on linus/master v6.4-rc7 next-20230619]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Minda-Chen/dt-bindings-phy-Add-StarFive-JH7110-PCIe-PHY/20230619-184756
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+> > patch link:    https://lore.kernel.org/r/20230619094759.21013-5-minda.chen%40starfivetech.com
+> > patch subject: [PATCH v7 4/5] phy: starfive: Add JH7110 PCIE 2.0 PHY driver
+> > config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230619/202306192215.TvQco9m6-lkp@intel.com/config)
 > > compiler: s390-linux-gcc (GCC) 12.3.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211329.ticOJCSv-lkp@intel.com/reproduce)
-> 
-> Thanks for reporting this.
-> 
-> I followed steps in above reproduce link, it failed as below. Please
-> help check if anything is missing.
+> > reproduce: (https://download.01.org/0day-ci/archive/20230619/202306192215.TvQco9m6-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306192215.TvQco9m6-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>, old ones prefixed by <<):
+> > 
+> >>> ERROR: modpost: "devm_platform_ioremap_resource" [drivers/phy/starfive/phy-jh7110-pcie.ko] undefined!
+> I can not find this error. devm_platform_ioremap_resource is an exported symbol
 
-Could it be because you locally have the fix you posted aganst v6?
+Use the config and compiler provided in the report to repro this
 
-Thansk!
+-- 
+~Vinod
