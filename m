@@ -1,101 +1,175 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EEA2AB55
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 08:00:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687334403; x=1718870403;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/M6lCzQKtMMW9uTkAeD/+RA/fHkZkF0brwEfOepFotc=;
-  b=Ts5TRPfQfvokK8MSV0IKRVFsOrW2PqUD9n8A44xy29E4F7F47Boz2ALJ
-   l6jy9H92FwfQi2TeDIQlklPBzigoTwnHzPBQMc2qZnKzNMfHvhT31GjzH
-   xod5WW+sxacCZnWQ58RklvI1RpxtU5W/FT6KSgZfubGZUgrEHMVu5KLuo
-   rZsgNs/SG/fIkXuFZ2K980gQchj6G52Pa/9Y133ght0d3pGckrpaauHeI
-   aDvUKzTe8dwtMiSW/mPQJtqiQ5ItCkwzEHFBCfsofEhRmCBjaI+cz1nEL
-   vwwoEjUR/LdYd2LCgldHXgAa6bs6rHczgEPuHc1lufAfyjM5SiDkFHMpD
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="426056581"
-X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
-   d="scan'208";a="426056581"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 01:00:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="691754541"
-X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
-   d="scan'208";a="691754541"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 21 Jun 2023 01:00:01 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qBsky-0006fX-2b;
-	Wed, 21 Jun 2023 08:00:00 +0000
-Date: Wed, 21 Jun 2023 15:59:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 9505/26704]
- include/trace/hooks/sched.h:19:1: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202306211550.8Oy8KHCf-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6691F2AB55;
+	Wed, 21 Jun 2023 08:26:06 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-51a1d539ffaso10553031a12.0;
+        Wed, 21 Jun 2023 01:26:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687335964; x=1689927964;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ivOFqhONsWjGNS9OSTGh8qFu8QLsGx24fQPWOkbIcOA=;
+        b=PRTlCJlzhVtTbsQGpkAsFY8cL2ND3c1PgW5pXp9daK7lUhZXHuR9gVqP/oR8NYGwa2
+         nPXvP282lXJZ9zSL533fHtcfhFjSYs7QvpA2qdaDiu7jhX1cbfJ2Pyveu+OqV+OmVVPZ
+         AYT9ml5vDK/ByGA5cdsfuWnPk/IA70DGeXVca7xQ3AIAMiMIW7rI9wpxXL8azTGSAeIC
+         EfmoydJvcVuBN5VkKkJyzJbEKsA5P24GWZIGoeJ9baguQtwPzjk1T9d8iCB5cWPNYCrD
+         UylmWSzwfcICtaxBbxJHtn8bRmbLnHGDK8c9vphodFA9DltwwKJv+t+crhnkCEm69YEO
+         U/Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687335964; x=1689927964;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ivOFqhONsWjGNS9OSTGh8qFu8QLsGx24fQPWOkbIcOA=;
+        b=KcKzN6MDg1toE8vXE7mDgmwpJSEHbztw/yo4HHlt5srJlVCYcEIpKpDco5eAl7Qki1
+         AaTeTabDwV+37h+J/Ui5EqWzHuGLVskYs/hipr4AwbJvHQmW5qn/f1+Sr3nhMYsEir6h
+         s9wfAjdJvVOe+4HOmm3CPh/0084rxDTFy50ar6E1BARLRwvdMBXcDWosqa8wgrG/3dAp
+         gmE+IC/k0cTdoZA/R563QTdKagE9NnpnW4YzSCBORUScy730RhF0hK05U81TyJ09VCto
+         244F4c1otzTY20XMpq6lz7yklgSqjkGaRKPQa2cdkTDMVxOC0ukwYwK7q7yt/vwzQorv
+         NZHg==
+X-Gm-Message-State: AC+VfDxhCtfjcmSGBeFq7W1Btv8JxzLFPEjdJe0U3wjf7Ql0jIosE8nh
+	eTiTfSaFlTmr+u+/JdmAQx74fjv/HSbM+mI1MCPuxtWOM8Y=
+X-Google-Smtp-Source: ACHHUZ6ymUHOXQxnDoOi+pLGzY2/GyzcT0ruRj8/mp4dxEWEP7kbE/jw7tEQuAvl79Vslz0coTONZEy2zPi4V9H1ENQ=
+X-Received: by 2002:a05:6402:125a:b0:51b:4449:2970 with SMTP id
+ l26-20020a056402125a00b0051b44492970mr5826362edw.21.1687335964179; Wed, 21
+ Jun 2023 01:26:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202306211545.7b6CdqsL-lkp@intel.com>
+In-Reply-To: <202306211545.7b6CdqsL-lkp@intel.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 21 Jun 2023 11:25:27 +0300
+Message-ID: <CAHp75VcNj-P_WCvx2Pf9sj_ir2oKf2AZ-mdTP=KHSuPY7WcjeA@mail.gmail.com>
+Subject: Re: [jic23-iio:testing 6/10] drivers/iio/adc/max14001.c:135:13:
+ warning: result of comparison of constant 18446744073709551615 with
+ expression of type 'typeof (_Generic((mask), char: (unsigned char)0, unsigned
+ char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (un...
+To: kernel test robot <lkp@intel.com>
+Cc: Kim Seer Paller <kimseer.paller@analog.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   1ea6ab2cc196e3fddf9659166be30f28c04c4b95
-commit: 3b773b24e67678aae79072c2d5b7783e7d5dc6a1 [9505/26704] ANDROID: sched: add vendor hooks to handle scheduling priority
-config: i386-randconfig-s003-20230620 (https://download.01.org/0day-ci/archive/20230621/202306211550.8Oy8KHCf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211550.8Oy8KHCf-lkp@intel.com/reproduce)
+On Wed, Jun 21, 2023 at 10:19=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git tes=
+ting
+> head:   25e201cc6ff270abc062e13ff912292097cb2827
+> commit: d3e93b67f934a477c5851d575a2278f07c6242fb [6/10] iio: adc: max1400=
+1: New driver
+> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/2023=
+0621/202306211545.7b6CdqsL-lkp@intel.com/config)
+> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git =
+8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211545=
+.7b6CdqsL-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306211545.7b6CdqsL-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306211550.8Oy8KHCf-lkp@intel.com/
+Okay, you even haven't compiled your code :-(
+This should probably use one of the functions from bitfield.h.
+Like u32_encode_bits().
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/core.c:2207:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] <asn:4> *parent @@
-   kernel/sched/core.c:2207:17: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/core.c:2207:17: sparse:     got struct sched_domain [noderef] <asn:4> *parent
-   kernel/sched/core.c:2385:27: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:2385:27: sparse:    struct task_struct [noderef] <asn:4> *
-   kernel/sched/core.c:2385:27: sparse:    struct task_struct *
-   kernel/sched/core.c:4079:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:4079:17: sparse:    struct task_struct [noderef] <asn:4> *
-   kernel/sched/core.c:4079:17: sparse:    struct task_struct *
-   kernel/sched/core.c:6071:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/core.c:6071:9: sparse:    struct task_struct [noderef] <asn:4> *
-   kernel/sched/core.c:6071:9: sparse:    struct task_struct *
-   kernel/sched/core.c: note: in included file:
->> include/trace/hooks/sched.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
-   include/trace/hooks/sched.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/sched.h:19:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
-   include/trace/hooks/sched.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
-   include/trace/hooks/sched.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/sched.h:23:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
-   include/trace/hooks/sched.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
-   include/trace/hooks/sched.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/sched.h:27:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
-   include/trace/hooks/sched.h:31:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
-   include/trace/hooks/sched.h:31:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/sched.h:31:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
-   include/trace/hooks/sched.h:35:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
-   include/trace/hooks/sched.h:35:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/sched.h:35:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
 
-vim +19 include/trace/hooks/sched.h
+> >> drivers/iio/adc/max14001.c:135:13: warning: result of comparison of co=
+nstant 18446744073709551615 with expression of type 'typeof (_Generic((mask=
+), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (u=
+nsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0=
+, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsi=
+gned long)0, long: (unsigned long)0, unsigned long long: (unsigned long lon=
+g)0, long long: (unsigned long long)0, default: (mask)))' (aka 'unsigned in=
+t') is always false [-Wtautological-constant-out-of-range-compare]
+>            reg_data =3D FIELD_PREP(mask, val);
+>                       ^~~~~~~~~~~~~~~~~~~~~
+>    include/linux/bitfield.h:114:3: note: expanded from macro 'FIELD_PREP'
+>                    __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");  =
+  \
+>                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/bitfield.h:71:53: note: expanded from macro '__BF_FIELD_=
+CHECK'
+>                    BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >   =
+  \
+>                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~=
+~~~
+>    include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_=
+ON_MSG'
+>    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+>                                        ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+>    include/linux/compiler_types.h:397:22: note: expanded from macro 'comp=
+iletime_assert'
+>            _compiletime_assert(condition, msg, __compiletime_assert_, __C=
+OUNTER__)
+>            ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+>    include/linux/compiler_types.h:385:23: note: expanded from macro '_com=
+piletime_assert'
+>            __compiletime_assert(condition, msg, prefix, suffix)
+>            ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/compiler_types.h:377:9: note: expanded from macro '__com=
+piletime_assert'
+>                    if (!(condition))                                     =
+  \
+>                          ^~~~~~~~~
+>    1 warning generated.
+>
+>
+> vim +135 drivers/iio/adc/max14001.c
+>
+>    117
+>    118  static int max14001_reg_update(struct max14001_state *st,
+>    119                                  unsigned int reg_addr,
+>    120                                  unsigned int mask,
+>    121                                  unsigned int val)
+>    122  {
+>    123          int ret;
+>    124          unsigned int reg_data;
+>    125
+>    126          /* Enable SPI Registers Write */
+>    127          ret =3D max14001_write(st, MAX14001_WEN, MAX14001_WRITE_W=
+EN);
+>    128          if (ret)
+>    129                  return ret;
+>    130
+>    131          ret =3D max14001_read(st, reg_addr, &reg_data);
+>    132          if (ret)
+>    133                  return ret;
+>    134
+>  > 135          reg_data =3D FIELD_PREP(mask, val);
+>    136
+>    137          ret =3D max14001_write(st, reg_addr, reg_data);
+>    138          if (ret)
+>    139                  return ret;
+>    140
+>    141          /* Write Verification Register */
+>    142          ret =3D max14001_write_verification_reg(st, reg_addr);
+>    143          if (ret)
+>    144                  return ret;
+>    145
+>    146          /* Disable SPI Registers Write */
+>    147          return max14001_write(st, MAX14001_WEN, 0);
+>    148  }
+>    149
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-  > 19	DECLARE_RESTRICTED_HOOK(android_rvh_prepare_prio_fork,
-    20		TP_PROTO(struct task_struct *p),
-    21		TP_ARGS(p), 1);
-    22	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+--=20
+With Best Regards,
+Andy Shevchenko
