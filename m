@@ -1,147 +1,129 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DEFE8482
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 07:01:53 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-be3e2d172cbso4350992276.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 00:01:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20221208; t=1687330913; x=1689922913;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PnM3sYZw3GQcW3MdVZ0ugqF6RBJgBdIColQtb9ed96U=;
-        b=a4iI/7HHF7LWkvUxwasul3Oew6a00PDMS+4RRczoEtTu+rn1akG807FhZCMtKt9V33
-         Z2PPMEixfV4XZEyq7gKkigWK/VmisCkTXu2hnCwMYe5rLG1csEPQcEa6r1ib1p/l0pR8
-         6v4jOz9tC6E0g53EIYbxaWQlhF9bHX2ggVBNZLrnkJrJifl4xcqJ2xhAc+wh3A2/cTlJ
-         eCRkJc6WiDONnk5ad+3oM6GVBRZsWaIVmcL/koFlqBoAT+hDJTSNtdrWQ0hYkEEmp2+m
-         AGZtTYcRKckzbLixgJt7UA5RPLtt4eXVvSxnBMPaRznjQzApDE48uzkhva80M8spyvzJ
-         jhag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687330913; x=1689922913;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PnM3sYZw3GQcW3MdVZ0ugqF6RBJgBdIColQtb9ed96U=;
-        b=OMoIRHHrXOVSDRzAjqJNaKRRAhLaBn9UEEDAZKgv0GFOxCNgwykMq9t+rEnEKQE331
-         frWxlWUqupO3hwHrwA7J5nVvqMOqcaLgpHS1FOTq65U+jLGoF4glD9IhH/FyJ887a7/t
-         vG//FSWEK/cP/DpPGJi98o9ByMa9PZJT+EUaf5wIHOYMFvdZnGMBe0Xvloaw4EMhtsOL
-         AgbTwISIXYxTHkVDvpkPGu9c60DGVkxZxUnm7hc22ZXOBl3vEptn/hkVSCAvOi6t02Y/
-         OwqWNpO/HoAqkSneJ3w/7fKF59xFFB9VQAIOaKsB85N8L7deiQ+5+g+UYVCp8wm2lR8t
-         CPyQ==
-X-Gm-Message-State: AC+VfDzHw2ZAwdi/aKx927ysp9X+7ZUw8LoA9L5huhKjhC0RGbskUwUF
-	017K28fJpK6E0Oa+KXv4xvQGbsexS/3fLSjI9+JfHrA5z7Zdrtz3tDkGrw==
-X-Google-Smtp-Source: ACHHUZ7mdnwc40MDjB3o9RSDv/jVj8fi7F6Bg8LeH5WY2hbfqm3Z3rPjfVpRya0+1GDilZrRCM5V09DyYLeDpHfPkMU=
-X-Received: by 2002:a25:9391:0:b0:bd5:8625:89fc with SMTP id
- a17-20020a259391000000b00bd5862589fcmr5016173ybm.26.1687330912645; Wed, 21
- Jun 2023 00:01:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 070191C3E;
+	Wed, 21 Jun 2023 07:19:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687331947; x=1718867947;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iWyV50SPgitfephLKRCEFeqXC06wm/hIg9EhQleJn+4=;
+  b=RzMmzYxMbDEGv+Lw4bYxWMLFx55TTStR5D9NToNpRNloILRRJ+BWvqZQ
+   OKrPhmedUzOZYjkhBNRtfDcpWwTj5LwsV21yhTuDIRfgkWfIrW/ZcP0Sq
+   H2QU/WwZzxTP3T2aqX4izCDS7SH13nIqk+G0DnOP5DMXyvQKADd1xGAzt
+   ehD/sc3uahS+UjUM1cg/cpJuyWOzae6bj9G9HoqpWacpbJZtteJ0YzxHt
+   K+yquZygWu55ae8Yk42Ystu8wUhb+Pdh69yZ8/fQyAdMGMfF+Z82+Z4oY
+   TSkPykul9+hWvRoUGK8edxzCXp8906q4iT5uc76kjAnuOUaQIopybRQau
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="358962070"
+X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
+   d="scan'208";a="358962070"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 00:19:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="708592693"
+X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
+   d="scan'208";a="708592693"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 21 Jun 2023 00:19:00 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qBs7H-0006df-2H;
+	Wed, 21 Jun 2023 07:18:59 +0000
+Date: Wed, 21 Jun 2023 15:18:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kim Seer Paller <kimseer.paller@analog.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>
+Subject: [jic23-iio:testing 6/10] drivers/iio/adc/max14001.c:135:13: warning:
+ result of comparison of constant 18446744073709551615 with expression of
+ type 'typeof (_Generic((mask), char: (unsigned char)0, unsigned char:
+ (unsigned char)0, signed char: (unsigned char)0, unsigned short: (un...
+Message-ID: <202306211545.7b6CdqsL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20230620235726.3873043-3-surenb@google.com> <202306211007.hQoEsMrP-lkp@intel.com>
-In-Reply-To: <202306211007.hQoEsMrP-lkp@intel.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 21 Jun 2023 00:01:41 -0700
-Message-ID: <CAJuCfpGQb9ULrumZH3x=21--Sh9yJzWLHNcYTZGxi8DxeVkxGA@mail.gmail.com>
-Subject: Re: [PATCH 3/3] mm: check for VMA being detached before destroying it
-To: kernel test robot <lkp@intel.com>
-Cc: akpm@linux-foundation.org, oe-kbuild-all@lists.linux.dev, 
-	willy@infradead.org, torvalds@linuxfoundation.org, vegard.nossum@oracle.com, 
-	mpe@ellerman.id.au, Liam.Howlett@oracle.com, lrh2000@pku.edu.cn, 
-	mgorman@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Jun 20, 2023 at 7:15=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Suren,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on akpm-mm/mm-everything]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan=
-/mm-change-vma_start_read-to-fail-to-lock-a-detached-VMA/20230621-075833
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ev=
-erything
-> patch link:    https://lore.kernel.org/r/20230620235726.3873043-3-surenb%=
-40google.com
-> patch subject: [PATCH 3/3] mm: check for VMA being detached before destro=
-ying it
-> config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230=
-621/202306211007.hQoEsMrP-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211007=
-.hQoEsMrP-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306211007.hQoEsMrP-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflic=
-ts-sr]
->    scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconfli=
-cts-rr]
->    scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' =
-to generate conflict counterexamples
->    In file included from include/linux/pid_namespace.h:7,
->                     from include/linux/ptrace.h:10,
->                     from arch/alpha/kernel/asm-offsets.c:11:
->    include/linux/mm.h: In function 'vma_init':
-> >> include/linux/mm.h:753:12: error: 'struct vm_area_struct' has no membe=
-r named 'detached'
->      753 |         vma->detached =3D true;
->          |            ^~
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testing
+head:   25e201cc6ff270abc062e13ff912292097cb2827
+commit: d3e93b67f934a477c5851d575a2278f07c6242fb [6/10] iio: adc: max14001: New driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230621/202306211545.7b6CdqsL-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211545.7b6CdqsL-lkp@intel.com/reproduce)
 
-Yep, missed #ifdef CONFIG_PER_VMA_LOCK here. Will fix it in the next
-version but will wait a bit for possible feedback.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306211545.7b6CdqsL-lkp@intel.com/
 
->    arch/alpha/kernel/asm-offsets.c: At top level:
->    arch/alpha/kernel/asm-offsets.c:15:6: warning: no previous prototype f=
-or 'foo' [-Wmissing-prototypes]
->       15 | void foo(void)
->          |      ^~~
->    make[2]: *** [scripts/Makefile.build:114: arch/alpha/kernel/asm-offset=
-s.s] Error 1
->    make[2]: Target 'prepare' not remade because of errors.
->    make[1]: *** [Makefile:1287: prepare0] Error 2
->    make[1]: Target 'prepare' not remade because of errors.
->    make: *** [Makefile:226: __sub-make] Error 2
->    make: Target 'prepare' not remade because of errors.
->
->
-> vim +753 include/linux/mm.h
->
->    740
->    741  /*
->    742   * WARNING: vma_init does not initialize vma->vm_lock.
->    743   * Use vm_area_alloc()/vm_area_free() if vma needs locking.
->    744   */
->    745  static inline void vma_init(struct vm_area_struct *vma, struct mm=
-_struct *mm)
->    746  {
->    747          static const struct vm_operations_struct dummy_vm_ops =3D=
- {};
->    748
->    749          memset(vma, 0, sizeof(*vma));
->    750          vma->vm_mm =3D mm;
->    751          vma->vm_ops =3D &dummy_vm_ops;
->    752          INIT_LIST_HEAD(&vma->anon_vma_chain);
->  > 753          vma->detached =3D true;
->    754          vma_numab_state_init(vma);
->    755  }
->    756
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+All warnings (new ones prefixed by >>):
+
+>> drivers/iio/adc/max14001.c:135:13: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((mask), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (mask)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+           reg_data = FIELD_PREP(mask, val);
+                      ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:114:3: note: expanded from macro 'FIELD_PREP'
+                   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:71:53: note: expanded from macro '__BF_FIELD_CHECK'
+                   BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+   include/linux/compiler_types.h:397:22: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:385:23: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:377:9: note: expanded from macro '__compiletime_assert'
+                   if (!(condition))                                       \
+                         ^~~~~~~~~
+   1 warning generated.
+
+
+vim +135 drivers/iio/adc/max14001.c
+
+   117	
+   118	static int max14001_reg_update(struct max14001_state *st,
+   119					unsigned int reg_addr,
+   120					unsigned int mask,
+   121					unsigned int val)
+   122	{
+   123		int ret;
+   124		unsigned int reg_data;
+   125	
+   126		/* Enable SPI Registers Write */
+   127		ret = max14001_write(st, MAX14001_WEN, MAX14001_WRITE_WEN);
+   128		if (ret)
+   129			return ret;
+   130	
+   131		ret = max14001_read(st, reg_addr, &reg_data);
+   132		if (ret)
+   133			return ret;
+   134	
+ > 135		reg_data = FIELD_PREP(mask, val);
+   136	
+   137		ret = max14001_write(st, reg_addr, reg_data);
+   138		if (ret)
+   139			return ret;
+   140	
+   141		/* Write Verification Register */
+   142		ret = max14001_write_verification_reg(st, reg_addr);
+   143		if (ret)
+   144			return ret;
+   145	
+   146		/* Disable SPI Registers Write */
+   147		return max14001_write(st, MAX14001_WEN, 0);
+   148	}
+   149	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
