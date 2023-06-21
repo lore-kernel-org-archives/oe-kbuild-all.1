@@ -1,51 +1,53 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E6515BC;
-	Wed, 21 Jun 2023 02:16:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED6C15B1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 02:26:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687313763; x=1718849763;
+  t=1687314417; x=1718850417;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6m8oZcodhtix0QwhxR/xmxGRXoNB5c0KxxyIl1Y1I6M=;
-  b=n9N8uwfAmRFJz9ospGFXGmBGPZ9kCXhJBnREZRSd0SzRFd93gEmb4KaO
-   2/07kGZqnUjk2M7RMw0ZZcwEQgVqbD9jwdoQDes16cg8Frwi7jWd7DL4h
-   wmcPXDQVv5KUyzXwgSJx37O5nEjvaDYenInmH+X/j+KMtR/cHctpBeli5
-   6TnVguXOcvLEM+ajg9fIGCYW6BabTT4Qoy0fViV2ylt385p4UKPGLCedF
-   N5LjI7kuE0a1wEsjqPm91bbJ5Z9C1kIjoddPISa+3Q9PFKsTqX+tgJbhJ
-   YaVX3iK6sNCx/W0Z957qaf6PK1Bti8DfBsP8JKcRZsEgx44X8Ia+QzRo1
+  bh=EoAhUS47E9izYuucHbuu0d9aZFBnVw73UJlUamg3hvE=;
+  b=fjj6ndaV2lMaW+rySiUGJ0MJRLJABKhwJgWcwd+Zcf39pxv9UUvX3gA+
+   3INuHgIIeeAmHfkDMIMx5MF31dd+3qzaR3MCnZD6C8lX7dK2KPIOQsnKg
+   HP+dT9qxLhUD8KqkIca8iqOA0Qt3tJabWZqBZ+JDS7Rg/qEwkf6LbE4IR
+   qCxdaHHIsw13g6F1YReo9lWeYQNtDOexA1UCUYV3wK7fyneNTAW6ytsPo
+   GF2g2yXhXBaqXgcyI4xQ5TDv1KhbHVNMIWxVZH2xn7J4SRkJnBFecMoU+
+   T5iZhnm8Qll8lD+sZTTTtdYkaWa0ibdrahxtGOyOCY0G2Duf+hiLnL26z
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="362581733"
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="362584498"
 X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
-   d="scan'208";a="362581733"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 19:15:54 -0700
+   d="scan'208";a="362584498"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 19:26:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="858802795"
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="779670492"
 X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
-   d="scan'208";a="858802795"
+   d="scan'208";a="779670492"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Jun 2023 19:15:50 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 20 Jun 2023 19:26:52 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBnNt-0006Ro-2C;
-	Wed, 21 Jun 2023 02:15:49 +0000
-Date: Wed, 21 Jun 2023 10:15:39 +0800
+	id 1qBnYZ-0006Sg-1R;
+	Wed, 21 Jun 2023 02:26:51 +0000
+Date: Wed, 21 Jun 2023 10:26:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org, arnd@arndb.de,
-	hch@lst.de, christophe.leroy@csgroup.eu, rppt@kernel.org,
-	willy@infradead.org, agordeev@linux.ibm.com,
-	wangkefeng.wang@huawei.com, schnelle@linux.ibm.com,
-	David.Laight@aculab.com, shorne@gmail.com, deller@gmx.de,
-	nathan@kernel.org, glaubitz@physik.fu-berlin.de,
-	Baoquan He <bhe@redhat.com>, Brian Cain <bcain@quicinc.com>,
-	linux-hexagon@vger.kernel.org
-Subject: Re: [PATCH v7 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
-Message-ID: <202306211030.DioMEPhl-lkp@intel.com>
-References: <20230620131356.25440-3-bhe@redhat.com>
+To: Danilo Krummrich <dakr@redhat.com>, airlied@gmail.com, daniel@ffwll.ch,
+	tzimmermann@suse.de, mripard@kernel.org, corbet@lwn.net,
+	christian.koenig@amd.com, bskeggs@redhat.com,
+	Liam.Howlett@oracle.com, matthew.brost@intel.com,
+	boris.brezillon@collabora.com, alexdeucher@gmail.com,
+	ogabbay@kernel.org, bagasdotme@gmail.com, willy@infradead.org,
+	jason@jlekstrand.net
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+	Danilo Krummrich <dakr@redhat.com>
+Subject: Re: [PATCH drm-next v5 09/14] drm/nouveau: fence: separate fence
+ alloc and emit
+Message-ID: <202306211017.r9G5NqSc-lkp@intel.com>
+References: <20230620004217.4700-10-dakr@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,30 +56,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230620131356.25440-3-bhe@redhat.com>
+In-Reply-To: <20230620004217.4700-10-dakr@redhat.com>
 
-Hi Baoquan,
+Hi Danilo,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on 2222dcb0775d36de28992f56455ab3967b30d380]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/asm-generic-iomap-h-remove-ARCH_HAS_IOREMAP_xx-macros/20230620-212135
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230620131356.25440-3-bhe%40redhat.com
-patch subject: [PATCH v7 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
-config: hexagon-randconfig-r041-20230620 (https://download.01.org/0day-ci/archive/20230621/202306211030.DioMEPhl-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211030.DioMEPhl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Danilo-Krummrich/drm-execution-context-for-GEM-buffers-v4/20230620-084448
+base:   2222dcb0775d36de28992f56455ab3967b30d380
+patch link:    https://lore.kernel.org/r/20230620004217.4700-10-dakr%40redhat.com
+patch subject: [PATCH drm-next v5 09/14] drm/nouveau: fence: separate fence alloc and emit
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230621/202306211017.r9G5NqSc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211017.r9G5NqSc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306211030.DioMEPhl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306211017.r9G5NqSc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/hexagon/kernel/hexagon_ksyms.o: error: local symbol ioremap was exported
+   drivers/gpu/drm/nouveau/nouveau_dmem.c: In function 'nouveau_dmem_migrate_chunk':
+>> drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: error: 'chunk' undeclared (first use in this function)
+     681 |                 nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
+         |                                           ^~~~~
+   drivers/gpu/drm/nouveau/nouveau_dmem.c:681:43: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +/chunk +681 drivers/gpu/drm/nouveau/nouveau_dmem.c
+
+   664	
+   665	static void nouveau_dmem_migrate_chunk(struct nouveau_drm *drm,
+   666			struct nouveau_svmm *svmm, struct migrate_vma *args,
+   667			dma_addr_t *dma_addrs, u64 *pfns)
+   668	{
+   669		struct nouveau_fence *fence;
+   670		unsigned long addr = args->start, nr_dma = 0, i;
+   671	
+   672		for (i = 0; addr < args->end; i++) {
+   673			args->dst[i] = nouveau_dmem_migrate_copy_one(drm, svmm,
+   674					args->src[i], dma_addrs + nr_dma, pfns + i);
+   675			if (!dma_mapping_error(drm->dev->dev, dma_addrs[nr_dma]))
+   676				nr_dma++;
+   677			addr += PAGE_SIZE;
+   678		}
+   679	
+   680		if (!nouveau_fence_new(&fence))
+ > 681			nouveau_fence_emit(fence, chunk->drm->dmem->migrate.chan);
+   682		migrate_vma_pages(args);
+   683		nouveau_dmem_fence_done(&fence);
+   684		nouveau_pfns_map(svmm, args->vma->vm_mm, args->start, pfns, i);
+   685	
+   686		while (nr_dma--) {
+   687			dma_unmap_page(drm->dev->dev, dma_addrs[nr_dma], PAGE_SIZE,
+   688					DMA_BIDIRECTIONAL);
+   689		}
+   690		migrate_vma_finalize(args);
+   691	}
+   692	
 
 -- 
 0-DAY CI Kernel Test Service
