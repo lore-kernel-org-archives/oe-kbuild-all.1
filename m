@@ -1,42 +1,46 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1246C168AA
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 12:29:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD27DDA1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 12:40:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687350548; x=1718886548;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5lk6AmdRsuXtQVZewdn2e9G56aBUbX9ydU8Ase9QMPI=;
-  b=fPQ+nOjZIM1dpsSvXb84rKK+D2VBvV9bTRMTz5K061LNI28+cgs+IUB2
-   tQ16nKrOeDI95+sGRsXRtGJxqkmwaaJGIrolB+n+GQrE5Hp0JStEAEerP
-   Ksh/4+8xwS8ZRURCmUZdZySCmcyRQgZFnVO+ChVarqOkuBye9fO6VEppX
-   M5tVwhbhhZtULAWXUmhnemgH3iqCFpmRkTVcRst+rL0xhvTyZ4cBEUbt6
-   aB8eNR5e2bnmqdKE3Lped08bQoOCoktvCVzzJDVLqUFXV2TDTAzp43C5V
-   xAPSaLum5QzcyPynGVFyXegDXDRcbW8+GD3BfmPwK88dOKZoLzU2bxcko
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="339770417"
+  t=1687351212; x=1718887212;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HVhum5BVs1xL83ZgFv1hBEIGdcVvccPhMD7yvMOlJwU=;
+  b=kShidkwxD7oRsD40nKmdfwDb0PABeKdV/+y8HFGkyMY4rY0hzDUc5aNz
+   nwMRcrdkntAw3Ql9XwaatKeVb0vsr7cYOCM8QXVNPvjJpcO0m3WlAZbzJ
+   EnUnHU3NJ6hb/cpWLJ+qx+MNsLogu+MFIGFJ3gkReJEIuRyumGMevm8Lq
+   L1NGUY8nxAz3o4iQN/FsDr5QimsJWIgaKh4B4gFW4IQMLhgY+zKJhGHhZ
+   DJ17ucodixaKwWmcJCbByv1ecIjxrRq+Bs17//CXqJfGpbhyINyntr7A+
+   mBjppm2RuEmUVXlX0croQmhPtveXjVlPaawxyr7354QhaGMCuc88+Mz9o
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="340501665"
 X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="339770417"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 05:29:07 -0700
+   d="scan'208";a="340501665"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 05:40:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="961180019"
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="838599634"
 X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="961180019"
+   d="scan'208";a="838599634"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 21 Jun 2023 05:29:07 -0700
+  by orsmga004.jf.intel.com with ESMTP; 21 Jun 2023 05:40:05 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBwxO-0006pD-1J;
-	Wed, 21 Jun 2023 12:29:06 +0000
-Date: Wed, 21 Jun 2023 20:29:05 +0800
+	id 1qBx82-0006pX-1i;
+	Wed, 21 Jun 2023 12:40:06 +0000
+Date: Wed, 21 Jun 2023 20:39:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:jitalloc/v2.2 7/12] arch/arm64/include/asm/pgtable.h:25:33:
- warning: excess elements in scalar initializer
-Message-ID: <202306212018.Qf3499bd-lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] powerpc/ptrace: Split gpr32_set_common
+Message-ID: <202306212029.AbMrgmSQ-lkp@intel.com>
+References: <3086d189fa629e6c7bf800832921669450cc09bf.1687343697.git.christophe.leroy@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,92 +49,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <3086d189fa629e6c7bf800832921669450cc09bf.1687343697.git.christophe.leroy@csgroup.eu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git jitalloc/v2.2
-head:   4d3b7e33eca22e1fe243f586c13c875d248d29f6
-commit: f45f0df4710043b02303450a8a06282972bdc8b1 [7/12] arm64, execmem: extend execmem_params for generated code definitions
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230621/202306212018.Qf3499bd-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212018.Qf3499bd-lkp@intel.com/reproduce)
+Hi Christophe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on powerpc/next]
+[also build test WARNING on powerpc/fixes linus/master v6.4-rc7 next-20230621]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/powerpc-ptrace-Split-gpr32_set_common/20230621-183932
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/3086d189fa629e6c7bf800832921669450cc09bf.1687343697.git.christophe.leroy%40csgroup.eu
+patch subject: [PATCH] powerpc/ptrace: Split gpr32_set_common
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230621/202306212029.AbMrgmSQ-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212029.AbMrgmSQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306212018.Qf3499bd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306212029.AbMrgmSQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/arm64/kernel/module.c:34:18: error: 'struct execmem_range' has no member named 'text'
-      34 |                 .text = {
-         |                  ^~~~
-   arch/arm64/kernel/module.c:34:17: warning: braces around scalar initializer
-      34 |                 .text = {
-         |                 ^
-   arch/arm64/kernel/module.c:34:17: note: (near initialization for 'execmem_params.jit.start')
-   arch/arm64/kernel/module.c:35:25: error: field name not in record or union initializer
-      35 |                         .start = VMALLOC_START,
-         |                         ^
-   arch/arm64/kernel/module.c:35:25: note: (near initialization for 'execmem_params.jit.start')
-   arch/arm64/kernel/module.c:36:25: error: field name not in record or union initializer
-      36 |                         .end = VMALLOC_END,
-         |                         ^
-   arch/arm64/kernel/module.c:36:25: note: (near initialization for 'execmem_params.jit.start')
-   In file included from include/linux/pgtable.h:6,
-                    from arch/arm64/include/asm/io.h:12,
-                    from include/linux/io.h:13,
-                    from include/linux/irq.h:20,
-                    from include/asm-generic/hardirq.h:17,
-                    from arch/arm64/include/asm/hardirq.h:17,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/trace_recursion.h:5,
-                    from include/linux/ftrace.h:10,
-                    from arch/arm64/kernel/module.c:12:
->> arch/arm64/include/asm/pgtable.h:25:33: warning: excess elements in scalar initializer
-      25 | #define VMALLOC_END             (VMEMMAP_START - SZ_256M)
-         |                                 ^
-   arch/arm64/kernel/module.c:36:32: note: in expansion of macro 'VMALLOC_END'
-      36 |                         .end = VMALLOC_END,
-         |                                ^~~~~~~~~~~
-   arch/arm64/include/asm/pgtable.h:25:33: note: (near initialization for 'execmem_params.jit.start')
-      25 | #define VMALLOC_END             (VMEMMAP_START - SZ_256M)
-         |                                 ^
-   arch/arm64/kernel/module.c:36:32: note: in expansion of macro 'VMALLOC_END'
-      36 |                         .end = VMALLOC_END,
-         |                                ^~~~~~~~~~~
-   arch/arm64/kernel/module.c:37:25: error: field name not in record or union initializer
-      37 |                         .alignment = 1,
-         |                         ^
-   arch/arm64/kernel/module.c:37:25: note: (near initialization for 'execmem_params.jit.start')
-   arch/arm64/kernel/module.c:37:38: warning: excess elements in scalar initializer
-      37 |                         .alignment = 1,
-         |                                      ^
-   arch/arm64/kernel/module.c:37:38: note: (near initialization for 'execmem_params.jit.start')
-   arch/arm64/kernel/module.c: In function 'execmem_arch_params':
-   arch/arm64/kernel/module.c:54:27: error: 'struct execmem_range' has no member named 'text'
-      54 |         execmem_params.jit.text.pgprot = PAGE_KERNEL_ROX;
-         |                           ^
+>> arch/powerpc/kernel/ptrace/ptrace-view.c:719:5: warning: no previous prototype for 'gpr32_set_common_kernel' [-Wmissing-prototypes]
+     719 | int gpr32_set_common_kernel(struct task_struct *target,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/powerpc/kernel/ptrace/ptrace-view.c:757:5: warning: no previous prototype for 'gpr32_set_common_user' [-Wmissing-prototypes]
+     757 | int gpr32_set_common_user(struct task_struct *target,
+         |     ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +25 arch/arm64/include/asm/pgtable.h
+vim +/gpr32_set_common_kernel +719 arch/powerpc/kernel/ptrace/ptrace-view.c
 
-4f04d8f0054511 Catalin Marinas 2012-03-05  16  
-4f04d8f0054511 Catalin Marinas 2012-03-05  17  /*
-3e1907d5bf5a1e Ard Biesheuvel  2016-03-30  18   * VMALLOC range.
-08375198b01001 Catalin Marinas 2014-07-16  19   *
-f9040773b7bbbd Ard Biesheuvel  2016-02-16  20   * VMALLOC_START: beginning of the kernel vmalloc space
-a5315819c5e7e5 Mark Brown      2019-10-24  21   * VMALLOC_END: extends to the available space below vmemmap, PCI I/O space
-3e1907d5bf5a1e Ard Biesheuvel  2016-03-30  22   *	and fixed mappings
-4f04d8f0054511 Catalin Marinas 2012-03-05  23   */
-f9040773b7bbbd Ard Biesheuvel  2016-02-16  24  #define VMALLOC_START		(MODULES_END)
-9ad7c6d5e75b16 Ard Biesheuvel  2020-10-08 @25  #define VMALLOC_END		(VMEMMAP_START - SZ_256M)
-4f04d8f0054511 Catalin Marinas 2012-03-05  26  
-
-:::::: The code at line 25 was first introduced by commit
-:::::: 9ad7c6d5e75b160c9ce5775db610d964af45b83f arm64: mm: tidy up top of kernel VA space
-
-:::::: TO: Ard Biesheuvel <ardb@kernel.org>
-:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
+   718	
+ > 719	int gpr32_set_common_kernel(struct task_struct *target,
+   720				    const struct user_regset *regset,
+   721				    unsigned int pos, unsigned int count,
+   722				    const void *kbuf, unsigned long *regs)
+   723	{
+   724		const compat_ulong_t *k = kbuf;
+   725	
+   726		pos /= sizeof(compat_ulong_t);
+   727		count /= sizeof(compat_ulong_t);
+   728	
+   729		for (; count > 0 && pos < PT_MSR; --count)
+   730			regs[pos++] = *k++;
+   731	
+   732		if (count > 0 && pos == PT_MSR) {
+   733			set_user_msr(target, *k++);
+   734			++pos;
+   735			--count;
+   736		}
+   737	
+   738		for (; count > 0 && pos <= PT_MAX_PUT_REG; --count)
+   739			regs[pos++] = *k++;
+   740		for (; count > 0 && pos < PT_TRAP; --count, ++pos)
+   741			++k;
+   742	
+   743		if (count > 0 && pos == PT_TRAP) {
+   744			set_user_trap(target, *k++);
+   745			++pos;
+   746			--count;
+   747		}
+   748	
+   749		kbuf = k;
+   750		pos *= sizeof(compat_ulong_t);
+   751		count *= sizeof(compat_ulong_t);
+   752		user_regset_copyin_ignore(&pos, &count, &kbuf, NULL,
+   753					  (PT_TRAP + 1) * sizeof(compat_ulong_t), -1);
+   754		return 0;
+   755	}
+   756	
+ > 757	int gpr32_set_common_user(struct task_struct *target,
+   758				  const struct user_regset *regset,
+   759				  unsigned int pos, unsigned int count,
+   760				  const void __user *ubuf, unsigned long *regs)
+   761	{
+   762		const compat_ulong_t __user *u = ubuf;
+   763		compat_ulong_t reg;
+   764	
+   765		if (!user_read_access_begin(u, count))
+   766			return -EFAULT;
+   767	
+   768		pos /= sizeof(reg);
+   769		count /= sizeof(reg);
+   770	
+   771		for (; count > 0 && pos < PT_MSR; --count) {
+   772			unsafe_get_user(reg, u++, Efault);
+   773			regs[pos++] = reg;
+   774		}
+   775	
+   776		if (count > 0 && pos == PT_MSR) {
+   777			unsafe_get_user(reg, u++, Efault);
+   778			set_user_msr(target, reg);
+   779			++pos;
+   780			--count;
+   781		}
+   782	
+   783		for (; count > 0 && pos <= PT_MAX_PUT_REG; --count) {
+   784			unsafe_get_user(reg, u++, Efault);
+   785			regs[pos++] = reg;
+   786		}
+   787		for (; count > 0 && pos < PT_TRAP; --count, ++pos)
+   788			unsafe_get_user(reg, u++, Efault);
+   789	
+   790		if (count > 0 && pos == PT_TRAP) {
+   791			unsafe_get_user(reg, u++, Efault);
+   792			set_user_trap(target, reg);
+   793			++pos;
+   794			--count;
+   795		}
+   796		user_read_access_end();
+   797	
+   798		ubuf = u;
+   799		pos *= sizeof(reg);
+   800		count *= sizeof(reg);
+   801		user_regset_copyin_ignore(&pos, &count, NULL, &ubuf,
+   802					  (PT_TRAP + 1) * sizeof(reg), -1);
+   803		return 0;
+   804	
+   805	Efault:
+   806		user_read_access_end();
+   807		return -EFAULT;
+   808	}
+   809	
 
 -- 
 0-DAY CI Kernel Test Service
