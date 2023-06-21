@@ -1,44 +1,37 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18F42595
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 19:03:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687374198; x=1718910198;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7H5En4r0zGR77bmM2iIQWjdWSTDccoljAUj1AMqUSw0=;
-  b=RWfDz7f2fbnPqctjpcYyzPi04htFc/pEcKKq1Ace/fGn7Kygf3f7w0HO
-   FjVIkrrQhzx6zsYba3lguTsY21+bsPylVjcQMTvqJVyZsMgyVGpRhZmHf
-   c+5nPtp/A0mBdq13M8awk+7ldkGGz8eGpLUYHwueByWEsQaYwqm/CXIgq
-   TTIkBI+9pS+SZdeK8Eb8TFHTsdxrNaIfIC9WdXshR/Bo3qA2LrwL9MmFN
-   z/8AOC0EHopeNknj+nA4y0fMmWLlzRwAJSJZ0AlAzJUAASFd65ghaJ0jd
-   ZtHM4RXlx9Xabx67AdEsg8XbVWw6HLunUHLSFb0ur8Om9PgBccGFTvHhP
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="359139868"
-X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
-   d="scan'208";a="359139868"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 12:03:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="888800733"
-X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
-   d="scan'208";a="888800733"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 21 Jun 2023 12:03:16 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qC36p-00072P-2h;
-	Wed, 21 Jun 2023 19:03:15 +0000
-Date: Thu, 22 Jun 2023 03:02:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 131/145] ERROR: modpost: module
- snd-hda-scodec-cs35l41-i2c uses symbol cs35l41_hda_pm_ops from namespace
- SND_HDA_SCODEC_CS35L41, but does not import it.
-Message-ID: <202306220351.KSa2LWoj-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB53A2595;
+	Wed, 21 Jun 2023 19:08:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57E49C433C8;
+	Wed, 21 Jun 2023 19:08:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687374517;
+	bh=zdNbjZQDxHEv0urZ4/sBxzDu1D2R6w0MnTDSSEDgokU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AuwYWVtkQWT/4N9IbulYyZJj1z8dRiE8vsd9f5nH8bqW8aDlumt+7nDYbdhNVZ6XG
+	 Wia3nOiLE/TORccj3S8yb+LtvZURvwPVL7dbEPqWGKip47WeCfMEavvHKeuEfmRhPD
+	 vKguyAKJ3M9Jmmxs0IgZSbx26egIcE3l0AGl5bcgxad/+PR4/cSnbp8f8p+4BSRbmY
+	 SPOmAIDTOSclOrFhFvx/n9PjjTUc6wmjyMtxETMdHef0fSdbPMD6kohZNyPp0iIvGu
+	 xY608xVu5ykM5vel/iFfYGYhoC2dWfb7atZfNBczI2KMiL7759gWtnlXUIcsBBwkr1
+	 3GdEVAnwcnGIQ==
+Date: Wed, 21 Jun 2023 19:08:34 +0000
+From: Nathan Chancellor <nathan@kernel.org>
+To: Baoquan He <bhe@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arch@vger.kernel.org, linux-mm@kvack.org, arnd@arndb.de,
+	hch@lst.de, christophe.leroy@csgroup.eu, rppt@kernel.org,
+	willy@infradead.org, agordeev@linux.ibm.com,
+	wangkefeng.wang@huawei.com, schnelle@linux.ibm.com,
+	David.Laight@aculab.com, shorne@gmail.com, deller@gmx.de,
+	glaubitz@physik.fu-berlin.de, Brian Cain <bcain@quicinc.com>,
+	linux-hexagon@vger.kernel.org
+Subject: Re: [PATCH v7 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
+Message-ID: <20230621190834.GA842758@dev-arch.thelio-3990X>
+References: <20230620131356.25440-3-bhe@redhat.com>
+ <202306211030.DioMEPhl-lkp@intel.com>
+ <ZJK57Uw5ZYQZY3d+@MiWiFi-R3L-srv>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,28 +40,130 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ZJK57Uw5ZYQZY3d+@MiWiFi-R3L-srv>
 
-Hi Linux,
+On Wed, Jun 21, 2023 at 04:50:53PM +0800, Baoquan He wrote:
+> Hi,
+> 
+> On 06/21/23 at 10:15am, kernel test robot wrote:
+> > Hi Baoquan,
+> > 
+> > kernel test robot noticed the following build errors:
+> > 
+> > [auto build test ERROR on akpm-mm/mm-everything]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/asm-generic-iomap-h-remove-ARCH_HAS_IOREMAP_xx-macros/20230620-212135
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> > patch link:    https://lore.kernel.org/r/20230620131356.25440-3-bhe%40redhat.com
+> > patch subject: [PATCH v7 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
+> > config: hexagon-randconfig-r041-20230620 (https://download.01.org/0day-ci/archive/20230621/202306211030.DioMEPhl-lkp@intel.com/config)
+> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> > reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211030.DioMEPhl-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306211030.DioMEPhl-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> > >> arch/hexagon/kernel/hexagon_ksyms.o: error: local symbol ioremap was exported
+> 
+> I followed steps in your reproduce link, didn't reproduce the error as
+> above line reported. I can still see those PCI_IOMAP warning, however
+> they will disappear when rebuilding. The clone3 warning can always ben
+> seen. I didn't see the symbol ioremap error. Could you double check if
+> anything missed in steps?
+> 
+> [root@dell-pem620-01 linux]# COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+> Compiler will be installed in /root/0day
+> make --keep-going LLVM=1 CROSS_COMPILE=hexagon-linux- LLVM_IAS=1 --jobs=48 W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+> make[1]: Entering directory '/root/linux/build_dir'
+>   GEN     Makefile
+> ld.lld: /lib64/libtinfo.so.6: no version information available (required by ld.lld)
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+Hmmm, seems like a dynamic linking issue, likely because either libtinfo
+is not available or the version on your system is older or newer than
+the one that the compiler was built with.
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   56a52577a86d37cbdd9150c82ba277fe482b2b38
-commit: 0b32a845bbd24e8c3315cc80ea634d5be3d7e43b [131/145] UPSTREAM: ASoC: Intel: Skylake: Fix Kconfig dependency
-config: x86_64-randconfig-a005-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220351.KSa2LWoj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220351.KSa2LWoj-lkp@intel.com/reproduce)
+Intel folks, you can opt out of this particular library dependency with
+'-DLLVM_ENABLE_TERMINFO=OFF' to cmake, which will make it easier for
+others to use it; the compiler can still output color on most terminals
+even without libtinfo.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306220351.KSa2LWoj-lkp@intel.com/
+> tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
+> tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
+> tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
+> tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
+> tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the .gitignore files
+> tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .gitignore files
+> tools/testing/selftests/kvm/config: warning: ignored by one of the .gitignore files
+> tools/testing/selftests/kvm/settings: warning: ignored by one of the .gitignore files
+>   CALL    ../scripts/checksyscalls.sh
+> clang: /lib64/libtinfo.so.6: no version information available (required by clang)
+> <stdin>:1519:2: warning: syscall clone3 not implemented [-W#warnings]
+>  1519 | #warning syscall clone3 not implemented
+>       |  ^
+> 1 warning generated.
+> make[1]: Leaving directory '/root/linux/build_dir'
+> [root@dell-pem620-01 linux]# 
+> 
+> 
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+I am able to reproduce this with the kernel.org LLVM builds that I do,
+which should not have that library dependency:
 
-ERROR: modpost: module snd-hda-scodec-cs35l41-spi uses symbol cs35l41_hda_pm_ops from namespace SND_HDA_SCODEC_CS35L41, but does not import it.
->> ERROR: modpost: module snd-hda-scodec-cs35l41-i2c uses symbol cs35l41_hda_pm_ops from namespace SND_HDA_SCODEC_CS35L41, but does not import it.
+https://mirrors.edge.kernel.org/pub/tools/llvm/
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+$ curl -LSso .config https://download.01.org/0day-ci/archive/20230621/202306211030.DioMEPhl-lkp@intel.com/config
+
+$ make -skj"$(nproc)" ARCH=hexagon LLVM=$(realpath llvm-16.0.6-x86_64/bin)/ olddefconfig all
+...
+make[5]: *** No rule to make target 'arch/hexagon/mm/ioremap.o', needed by 'arch/hexagon/mm/built-in.a'.
+...
+arch/hexagon/kernel/hexagon_ksyms.o: error: local symbol ioremap was exported
+...
+
+The first issue is resolved with:
+
+diff --git a/arch/hexagon/mm/Makefile b/arch/hexagon/mm/Makefile
+index 49911a906fd0..ba4b04d962d6 100644
+--- a/arch/hexagon/mm/Makefile
++++ b/arch/hexagon/mm/Makefile
+@@ -3,5 +3,5 @@
+ # Makefile for Hexagon memory management subsystem
+ #
+ 
+-obj-y := init.o ioremap.o uaccess.o vm_fault.o cache.o
++obj-y := init.o uaccess.o vm_fault.o cache.o
+ obj-y += copy_to_user.o copy_from_user.o vm_tlb.o
+
+For the second issue, it seems that ioremap is exported in
+arch/hexagon/kernel/hexagon_ksyms.c but ioremap() is a static inline
+function with CONFIG_GENERIC_IOREMAP. I think we can just remove the
+ioremap and iounmap exports now, as ioremap() calls ioremap_prot(),
+which is exported, and iounmap() is exported in mm/ioremap.c.
+
+diff --git a/arch/hexagon/kernel/hexagon_ksyms.c b/arch/hexagon/kernel/hexagon_ksyms.c
+index ec56ce2d92a2..36a80e31d187 100644
+--- a/arch/hexagon/kernel/hexagon_ksyms.c
++++ b/arch/hexagon/kernel/hexagon_ksyms.c
+@@ -14,12 +14,10 @@
+ EXPORT_SYMBOL(__clear_user_hexagon);
+ EXPORT_SYMBOL(raw_copy_from_user);
+ EXPORT_SYMBOL(raw_copy_to_user);
+-EXPORT_SYMBOL(iounmap);
+ EXPORT_SYMBOL(__vmgetie);
+ EXPORT_SYMBOL(__vmsetie);
+ EXPORT_SYMBOL(__vmyield);
+ EXPORT_SYMBOL(empty_zero_page);
+-EXPORT_SYMBOL(ioremap);
+ EXPORT_SYMBOL(memcpy);
+ EXPORT_SYMBOL(memset);
+ 
+
+With those two diffs, the randconfig the robot provides builds and links
+without any errors.
+
+Cheers,
+Nathan
