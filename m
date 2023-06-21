@@ -1,65 +1,103 @@
-Received: from mail.nfschina.com (unknown [42.101.60.195])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id 8E58E185D;
-	Wed, 21 Jun 2023 06:31:14 +0000 (UTC)
-Received: from [172.30.11.106] (unknown [180.167.10.98])
-	by mail.nfschina.com (Maildata Gateway V2.8.8) with ESMTPSA id DEA7D602A0301;
-	Wed, 21 Jun 2023 14:28:45 +0800 (CST)
-Message-ID: <af2db7e9-5fd4-2120-8308-99b58f9ad1a6@nfschina.com>
-Date: Wed, 21 Jun 2023 14:28:44 +0800
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43841A949
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 06:47:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687330021; x=1718866021;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IcPWc3+kNtV6KHFjiciFksS255H6lfowUCvfoywr47E=;
+  b=PeHsS9y6SBHtXsgV3rYO1lAUFZGiFPYZLmfGeYy3M5oLD8lMBNXt0w8g
+   u8mDClxYGksX+yTI3+MgZgrj2O+zYyeKRn4i+D02VF2QAiAxzWJW5Bw68
+   BxZHQPlW+hd/mQIR/87SXeIoU5eo+ihOMPplsiayEuIENTaJmt0DIyzse
+   rCH7NpMR45I542qyDB3PUXLPGRrMhkVZmXLtfswyHofLyONH1RRk8mYRu
+   MKnfjmK2GPPh6oRRLdG+gSFiE0Bbhh6GsXEy5MPEpPSA2kRsXBnofoIay
+   rse6Wuwr+lWXvIVwGMzHbSvQdtywCb+5BkHVeGBdAJ+2bjqKyctABlRUC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="340428820"
+X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
+   d="scan'208";a="340428820"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 23:47:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="717511707"
+X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
+   d="scan'208";a="717511707"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 20 Jun 2023 23:46:59 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qBrcI-0006cd-1S;
+	Wed, 21 Jun 2023 06:46:58 +0000
+Date: Wed, 21 Jun 2023 14:46:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Eileen Yoon <eyn@gmx.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:pr/159 3/3] error: include/uapi/drm/ane_accel.h: missing
+ "WITH Linux-syscall-note" for SPDX-License-Identifier
+Message-ID: <202306211423.Jacr8riU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: =?UTF-8?B?UmU6IFtQQVRDSF0gZHJtL2FtZC9hbWRncHU6IFVzZSDigJxfX3BhY2tl?=
- =?UTF-8?B?ZOKAnCBpbnN0ZWFkIG9mICJwcmFnbWEgcGFjaygpIg==?=
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
- airlied@gmail.com, daniel@ffwll.ch
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Jane.Jian@amd.com,
- David.Francis@amd.com, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, Likun.Gao@amd.com
-X-MD-Sfrom: suhui@nfschina.com
-X-MD-SrcIP: 180.167.10.98
-From: Su Hui <suhui@nfschina.com>
-In-Reply-To: <34ae0f86-c32b-4d5a-be56-0654dba0f908@kadam.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2023/6/21 14:11, Dan Carpenter wrote:
-> When there was a #pragma then Sparse just turned off.  The Sparse
-> warnings are places where people forgot to put the __user in their casts
-> or didn't annotate endianness correctly.  It's not a "bug" to forget
-> to annotate endianness or user pointers.  That's how we used to do it
-> prior to 2003.  But these days it feels strange and dangerous to see
-> these sorts of warnings.
-Got it. And it is really strange when I first saw these warnings.
-Thanks for your explanation!
+tree:   https://github.com/AsahiLinux/linux pr/159
+head:   26d8a0ff3ba04a8aed94e1ebf8390c80c34a2d72
+commit: 26d8a0ff3ba04a8aed94e1ebf8390c80c34a2d72 [3/3] accel: ane: add driver for the Apple Neural Engine
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230621/202306211423.Jacr8riU-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211423.Jacr8riU-lkp@intel.com/reproduce)
 
-Su Hui
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306211423.Jacr8riU-lkp@intel.com/
 
->
-> Smatch also disabled some uninitialized variable checks.  These are
-> mostly false positives where we have a loop:
->
-> 	int r;
->
-> 	while (something) {
-> 		r = frob();
-> 	}
->
-> 	return r;
->
-> Smatch complains that we don't necessarily enter the loop.  I think
-> I'm going to disable this type of "enter the loop" warning when you
-> don't have the cross function database available.  That will silence
-> these for the kbuild bot.
->
-> regards,
-> dan carpenter
->
+All errors (new ones prefixed by >>):
+
+   loongarch64-linux-gcc: error: unrecognized command-line option '-mexplicit-relocs'
+   /bin/sh: 1: rustc: not found
+   expr: syntax error: unexpected argument '1.69.0'
+   /bin/sh: 1: rustc: not found
+   expr: syntax error: unexpected argument '1.69.0'
+   /bin/sh: 1: rustc: not found
+   expr: syntax error: unexpected argument '1.69.0'
+   /bin/sh: 1: rustc: not found
+   expr: syntax error: unexpected argument '1.69.0'
+   /bin/sh: 1: rustc: not found
+   expr: syntax error: unexpected argument '1.69.0'
+   /bin/sh: 1: rustc: not found
+   expr: syntax error: unexpected argument '1.69.0'
+   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+   /bin/sh: 1: rustc: not found
+   expr: syntax error: unexpected argument '1.69.0'
+   /bin/sh: 1: rustc: not found
+   expr: syntax error: unexpected argument '1.69.0'
+>> error: include/uapi/drm/ane_accel.h: missing "WITH Linux-syscall-note" for SPDX-License-Identifier
+   make[2]: *** [scripts/Makefile.headersinst:63: usr/include/drm/ane_accel.h] Error 1
+   make[2]: Target '__headers' not remade because of errors.
+   make[1]: *** [Makefile:1382: headers] Error 2
+   /bin/sh: 1: rustc: not found
+   expr: syntax error: unexpected argument '1.69.0'
+   loongarch64-linux-gcc: error: unrecognized command-line option '-mexplicit-relocs'
+   loongarch64-linux-gcc: error: unrecognized command-line option '-mexplicit-relocs'
+   loongarch64-linux-gcc: error: unrecognized command-line option '-mdirect-extern-access'
+   make[2]: *** [scripts/Makefile.build:252: scripts/mod/empty.o] Error 1
+   loongarch64-linux-gcc: error: unrecognized command-line option '-mdirect-extern-access'
+   make[2]: *** [scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 1
+   make[2]: Target 'scripts/mod/' not remade because of errors.
+   make[1]: *** [Makefile:1285: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
