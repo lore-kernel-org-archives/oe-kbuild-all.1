@@ -1,45 +1,44 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862FD18C35;
-	Wed, 21 Jun 2023 16:28:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B649168C2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 16:50:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687364895; x=1718900895;
+  t=1687366214; x=1718902214;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lD08uLgUK9ZigDPBHDtgSA0rj18RciqVRTnE8VS7w1k=;
-  b=boRO8UeOhE0YYswiADrGKFhGmPu3YvbR4MfrKcYM6ocD0ifQt35ap8gz
-   VMN7V5q4Iz3xuZ1hftePALcwUUP9Gz39qxf+jJQMVSHI5L3qu8XT3ID6R
-   OXMWi9HTxnkanjZCtHEC0ruSBFAB2FfdlVM5sstOOlmQ3ZP+WsBthmQay
-   sX68hRH5ENwzJQ7W1K725uYb9tdI516kipLRvTwMNFMISZwqCf9eBqh6l
-   N/NOujE5AVoofPa+c+zIg6SBV9c5ph7ZCC6npQphFynskUxblgyGF7Ll2
-   DZtHvKHzyOzFoeB1KHUBkA6BAu57ePpLNLLjCqFFyo0EtOKAGFJt88/D/
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=O2cYgDYfZq7uxx4j9ftKdOww9wTIdNHJIaNeOMcmb4k=;
+  b=auVwX1px0W2og6o2EZ+zdHrTFhK6uT3OlmDjMmlq0XZwNNKFrcu9f7d4
+   tSwTdl6/NkfrjqEp0RO0tT22AzJsrDvt07TWXExdlQw0aOGkimlzCDntv
+   R9a4mPMMxLikW3o0aDkyEpOnaTNVR6qEIrre0D82U4plCbudRG5+a+c+U
+   vECwqDVanXYAlZvZINhmcbZsw4WhX0ZfCMvaH+UKbBctvBdlnf+n5kPZU
+   +ODmoWeyoorVVJW9xiwwL+HCzmNXW7cxjIERfgU/BKztFSdCbGjH9BHA9
+   /BiukkF7napyB6YRklH+eTAd8ds5/3cGzdVTbx9dEuy2Jf4JtTnAI6KYO
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="360241095"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="363654037"
 X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
-   d="scan'208";a="360241095"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 09:28:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="859040594"
+   d="scan'208";a="363654037"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 09:48:15 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="748774225"
 X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
-   d="scan'208";a="859040594"
+   d="scan'208";a="748774225"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Jun 2023 09:28:12 -0700
+  by orsmga001.jf.intel.com with ESMTP; 21 Jun 2023 09:48:12 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qC0gl-0006wT-1v;
-	Wed, 21 Jun 2023 16:28:11 +0000
-Date: Thu, 22 Jun 2023 00:27:26 +0800
+	id 1qC108-0006xB-06;
+	Wed, 21 Jun 2023 16:48:12 +0000
+Date: Thu, 22 Jun 2023 00:48:04 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
 	thomas_os@shipmail.org, boris.brezillon@collabora.com,
 	arunpravin.paneerselvam@amd.com, dakr@redhat.com,
 	dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH 2/2] drm: add drm_exec selftests v4
-Message-ID: <202306220013.JRZDDrkO-lkp@intel.com>
+Message-ID: <202306220036.YcdJJD0a-lkp@intel.com>
 References: <20230621133700.7588-2-christian.koenig@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -47,8 +46,9 @@ List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230621133700.7588-2-christian.koenig@amd.com>
 
 Hi Christian,
@@ -65,48 +65,62 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-add-d
 base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
 patch link:    https://lore.kernel.org/r/20230621133700.7588-2-christian.koenig%40amd.com
 patch subject: [PATCH 2/2] drm: add drm_exec selftests v4
-config: hexagon-randconfig-r015-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220013.JRZDDrkO-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220013.JRZDDrkO-lkp@intel.com/reproduce)
+config: arm-randconfig-r014-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220036.YcdJJD0a-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220036.YcdJJD0a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306220013.JRZDDrkO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306220036.YcdJJD0a-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/tests/drm_exec_test.c:134:2: warning: variable '__drm_exec_retry_ptr' set but not used [-Wunused-but-set-variable]
-     134 |         drm_exec_until_all_locked(&exec)
-         |         ^
-   include/drm/drm_exec.h:78:13: note: expanded from macro 'drm_exec_until_all_locked'
+   In file included from drivers/gpu/drm/tests/drm_exec_test.c:13:
+   drivers/gpu/drm/tests/drm_exec_test.c: In function 'test_prepare_array':
+>> include/drm/drm_exec.h:78:20: warning: variable '__drm_exec_retry_ptr' set but not used [-Wunused-but-set-variable]
       78 |         for (void *__drm_exec_retry_ptr; ({                     \
-         |                    ^
-   1 warning generated.
+         |                    ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tests/drm_exec_test.c:134:9: note: in expansion of macro 'drm_exec_until_all_locked'
+     134 |         drm_exec_until_all_locked(&exec)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/__drm_exec_retry_ptr +134 drivers/gpu/drm/tests/drm_exec_test.c
+vim +/__drm_exec_retry_ptr +78 include/drm/drm_exec.h
 
-   121	
-   122	static void test_prepare_array(struct kunit *test)
-   123	{
-   124		struct drm_gem_object gobj1 = { };
-   125		struct drm_gem_object gobj2 = { };
-   126		struct drm_gem_object *array[] = { &gobj1, &gobj2 };
-   127		struct drm_exec exec;
-   128		int ret;
-   129	
-   130		drm_gem_private_object_init(&dev, &gobj1, PAGE_SIZE);
-   131		drm_gem_private_object_init(&dev, &gobj2, PAGE_SIZE);
-   132	
-   133		drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT);
- > 134		drm_exec_until_all_locked(&exec)
-   135			ret = drm_exec_prepare_array(&exec, array, ARRAY_SIZE(array),
-   136						     1);
-   137		KUNIT_EXPECT_EQ(test, ret, 0);
-   138		drm_exec_fini(&exec);
-   139	}
-   140	
+5d87375e05b5f7 Christian König 2023-06-21  52  
+5d87375e05b5f7 Christian König 2023-06-21  53  /**
+5d87375e05b5f7 Christian König 2023-06-21  54   * drm_exec_for_each_locked_object - iterate over all the locked objects
+5d87375e05b5f7 Christian König 2023-06-21  55   * @exec: drm_exec object
+5d87375e05b5f7 Christian König 2023-06-21  56   * @index: unsigned long index for the iteration
+5d87375e05b5f7 Christian König 2023-06-21  57   * @obj: the current GEM object
+5d87375e05b5f7 Christian König 2023-06-21  58   *
+5d87375e05b5f7 Christian König 2023-06-21  59   * Iterate over all the locked GEM objects inside the drm_exec object.
+5d87375e05b5f7 Christian König 2023-06-21  60   */
+5d87375e05b5f7 Christian König 2023-06-21  61  #define drm_exec_for_each_locked_object(exec, index, obj)	\
+5d87375e05b5f7 Christian König 2023-06-21  62  	for (index = 0, obj = (exec)->objects[0];		\
+5d87375e05b5f7 Christian König 2023-06-21  63  	     index < (exec)->num_objects;			\
+5d87375e05b5f7 Christian König 2023-06-21  64  	     ++index, obj = (exec)->objects[index])
+5d87375e05b5f7 Christian König 2023-06-21  65  
+5d87375e05b5f7 Christian König 2023-06-21  66  /**
+5d87375e05b5f7 Christian König 2023-06-21  67   * drm_exec_until_all_locked - loop until all GEM objects are locked
+5d87375e05b5f7 Christian König 2023-06-21  68   * @exec: drm_exec object
+5d87375e05b5f7 Christian König 2023-06-21  69   *
+5d87375e05b5f7 Christian König 2023-06-21  70   * Core functionality of the drm_exec object. Loops until all GEM objects are
+5d87375e05b5f7 Christian König 2023-06-21  71   * locked and no more contention exists. At the beginning of the loop it is
+5d87375e05b5f7 Christian König 2023-06-21  72   * guaranteed that no GEM object is locked.
+5d87375e05b5f7 Christian König 2023-06-21  73   *
+5d87375e05b5f7 Christian König 2023-06-21  74   * Since labels can't be defined local to the loops body we use a jump pointer
+5d87375e05b5f7 Christian König 2023-06-21  75   * to make sure that the retry is only used from within the loops body.
+5d87375e05b5f7 Christian König 2023-06-21  76   */
+5d87375e05b5f7 Christian König 2023-06-21  77  #define drm_exec_until_all_locked(exec)				\
+5d87375e05b5f7 Christian König 2023-06-21 @78  	for (void *__drm_exec_retry_ptr; ({			\
+5d87375e05b5f7 Christian König 2023-06-21  79  		__label__ __drm_exec_retry;			\
+5d87375e05b5f7 Christian König 2023-06-21  80  __drm_exec_retry:						\
+5d87375e05b5f7 Christian König 2023-06-21  81  		__drm_exec_retry_ptr = &&__drm_exec_retry;	\
+5d87375e05b5f7 Christian König 2023-06-21  82  		drm_exec_cleanup(exec);				\
+5d87375e05b5f7 Christian König 2023-06-21  83  	});)
+5d87375e05b5f7 Christian König 2023-06-21  84  
 
 -- 
 0-DAY CI Kernel Test Service
