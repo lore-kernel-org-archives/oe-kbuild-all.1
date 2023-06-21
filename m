@@ -1,124 +1,116 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F69F9DE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 14:53:45 +0000 (UTC)
-Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35LEmqhb023057;
-	Wed, 21 Jun 2023 14:53:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
- subject : message-id : references : content-type : in-reply-to :
- mime-version; s=pp1; bh=ufplYvlDcXmpwfmv6hySA3mz7btguYibmlfOu+EhMyQ=;
- b=RksFeJCqi8/XEsNsFNNOeDB6kOaDGSwtr/y3SMMlGsZiDdvUE0WTs/Sgq5XJRyXVSmHX
- +br3q8ohmX33mzOyLHHadNhxSQn5zaVrGCvgL/YeBzrHrY+GOut69jqxfe0E3z3I6g+V
- sxgB9PvEgYNW8nqPIgSEy/nLTRuCbIkMH02R5slzI7XTjRV8DIBwkc+o+3TTga/UeRGP
- DQW2O10/YgdwB8ZEf/CpMLQyaBTeFHE46P2ktveNTB3+Mgq3uHMmGqNSp9F5B4vSKty+
- pwUTVv95Ocmw+GHnz1zVWhDIkS2hnHlvLGH9GhSwBocuuVVzgIajx+sSLROTbfrxasxy 4Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rc3a3g3rb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 Jun 2023 14:53:10 +0000
-Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 35LEmtmJ023155;
-	Wed, 21 Jun 2023 14:53:10 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rc3a3g3q0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 Jun 2023 14:53:09 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
-	by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 35L5ZtLD020901;
-	Wed, 21 Jun 2023 14:53:07 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3r94f524m3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 Jun 2023 14:53:07 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 35LEr3vZ40960344
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 21 Jun 2023 14:53:03 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B7D1A20043;
-	Wed, 21 Jun 2023 14:53:03 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 11FD520040;
-	Wed, 21 Jun 2023 14:53:03 +0000 (GMT)
-Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.155.204.135])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Wed, 21 Jun 2023 14:53:03 +0000 (GMT)
-Date: Wed, 21 Jun 2023 16:53:01 +0200
-From: Alexander Gordeev <agordeev@linux.ibm.com>
-To: Baoquan He <bhe@redhat.com>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
-        oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
-        linux-mm@kvack.org, arnd@arndb.de, christophe.leroy@csgroup.eu,
-        hch@lst.de, rppt@kernel.org, willy@infradead.org,
-        wangkefeng.wang@huawei.com, schnelle@linux.ibm.com,
-        David.Laight@aculab.com, shorne@gmail.com, deller@gmx.de,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
-Subject: Re: [PATCH v6 10/19] s390: mm: Convert to GENERIC_IOREMAP
-Message-ID: <ZJMOzbQeVCLJfvXk@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-References: <20230609075528.9390-11-bhe@redhat.com>
- <202306100105.8GHnoMCP-lkp@intel.com>
- <ZIWrtFMUnRfVP5h0@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZIWrtFMUnRfVP5h0@MiWiFi-R3L-srv>
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: NsNfLNerAb4XCeCbSoD6l5PpTopTDxHU
-X-Proofpoint-ORIG-GUID: O67ntRKqq7CkkGkM2LAJDtH5Mvg4y18j
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F189018C2E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 15:46:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687362380; x=1718898380;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6aeZt3AGr6ft5yHMkjJnVz9mKRAHdriZ/qLt81RNsCk=;
+  b=eOnkERFWMP/jRvKEvw+8KvZ/iN/UHFEGBYO8OKThB9G7oSwo/npuK1ga
+   80Da7AWqjhLfCEhJLu/XZ9ykfxqWNL+66yp5aWJjpS1ZskrUL2zq5dGcf
+   VgYyFvvOx+kQj/bGLYM39tAsIvq7R7GtgzCU03+wQHtopZpvnwfqXfqqX
+   UiyVvjLCEhTn+C5YmbPZC3WtG0orcb7qxDInsTbi+2o5Jb3et7FFjtPI0
+   5qdU/+dHGraEFjV9/+GJQsJYOh8naUmn7yXb24qmuE5cdK4hJ0JWKTXjo
+   Anmm39BVqbxTvpVfTzsTooJQeehOrwcQbBpAY6VaLdNVnV5WKvBY/ICyJ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="359082024"
+X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
+   d="scan'208";a="359082024"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 08:46:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="717704974"
+X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
+   d="scan'208";a="717704974"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 21 Jun 2023 08:46:10 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qC025-0006uv-2s;
+	Wed, 21 Jun 2023 15:46:09 +0000
+Date: Wed, 21 Jun 2023 23:45:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Heiko Carstens <hca@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arc-rimi.c:undefined reference to `ioremap'
+Message-ID: <202306212350.fgz5R8Xv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-06-21_08,2023-06-16_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
- impostorscore=0 mlxscore=0 clxscore=1015 bulkscore=0 adultscore=0
- lowpriorityscore=0 phishscore=0 mlxlogscore=999 priorityscore=1501
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2305260000 definitions=main-2306210123
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Jun 11, 2023 at 07:10:44PM +0800, Baoquan He wrote:
+Hi Heiko,
 
-Hi Baoquan,
+FYI, the error/warning still remains.
 
-> From 26aedf424dac7e58dd1389e554cfe0693e2b371f Mon Sep 17 00:00:00 2001
-> From: Baoquan He <bhe@redhat.com>
-> Date: Sun, 11 Jun 2023 18:37:43 +0800
-> Subject: [PATCH] s390: mm: fix building error when converting to
->  GENERIC_IOREMAP
-> Content-type: text/plain
-> 
-> We should always include <asm/io.h> in ARCH, but not <asm-generic/io.h>
-> directly. Otherwise, macro defined by ARCH won't be seen and could cause
-> building error.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202306100105.8GHnoMCP-lkp@intel.com/
-> Signed-off-by: Baoquan He <bhe@redhat.com>
-> ---
->  arch/s390/kernel/perf_cpum_sf.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/s390/kernel/perf_cpum_sf.c b/arch/s390/kernel/perf_cpum_sf.c
-> index 7ef72f5ff52e..b0269f3881aa 100644
-> --- a/arch/s390/kernel/perf_cpum_sf.c
-> +++ b/arch/s390/kernel/perf_cpum_sf.c
-> @@ -22,7 +22,7 @@
->  #include <asm/irq.h>
->  #include <asm/debug.h>
->  #include <asm/timex.h>
-> -#include <asm-generic/io.h>
-> +#include <asm/io.h>
->  
->  /* Minimum number of sample-data-block-tables:
->   * At least one table is required for the sampling buffer structure.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e660abd551f1172e428b4e4003de887176a8a1fd
+commit: 6ef55060a1cc29dd54ff390f22cb3de266dab2b0 s390: make use of CONFIG_FUNCTION_ALIGNMENT
+date:   3 months ago
+config: s390-randconfig-r035-20230621 (https://download.01.org/0day-ci/archive/20230621/202306212350.fgz5R8Xv-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212350.fgz5R8Xv-lkp@intel.com/reproduce)
 
-Applied, thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306212350.fgz5R8Xv-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   s390-linux-ld: drivers/clk/clk-fixed-mmio.o: in function `fixed_mmio_clk_setup':
+   clk-fixed-mmio.c:(.text+0x92): undefined reference to `of_iomap'
+   s390-linux-ld: clk-fixed-mmio.c:(.text+0xda): undefined reference to `iounmap'
+   s390-linux-ld: drivers/dma/fsl-edma.o: in function `fsl_edma_probe':
+   fsl-edma.c:(.text+0xa02): undefined reference to `devm_platform_ioremap_resource'
+   s390-linux-ld: fsl-edma.c:(.text+0xc86): undefined reference to `devm_platform_ioremap_resource'
+   s390-linux-ld: drivers/dma/qcom/hidma.o: in function `hidma_probe':
+   hidma.c:(.text+0x137a): undefined reference to `devm_ioremap_resource'
+   s390-linux-ld: hidma.c:(.text+0x13d4): undefined reference to `devm_ioremap_resource'
+   s390-linux-ld: drivers/tty/ipwireless/main.o: in function `ipwireless_detach':
+   main.c:(.text+0x90): undefined reference to `iounmap'
+   s390-linux-ld: main.c:(.text+0xd4): undefined reference to `iounmap'
+   s390-linux-ld: drivers/tty/ipwireless/main.o: in function `config_ipwireless':
+   main.c:(.text+0x23e): undefined reference to `iounmap'
+   s390-linux-ld: main.c:(.text+0x35c): undefined reference to `iounmap'
+   s390-linux-ld: drivers/tty/ipwireless/main.o: in function `ipwireless_probe.part.0':
+   main.c:(.text+0x468): undefined reference to `ioremap'
+   s390-linux-ld: main.c:(.text+0x51c): undefined reference to `ioremap'
+   s390-linux-ld: main.c:(.text+0x56a): undefined reference to `iounmap'
+   s390-linux-ld: main.c:(.text+0x59e): undefined reference to `iounmap'
+   s390-linux-ld: drivers/net/arcnet/arc-rimi.o: in function `check_mirror':
+>> arc-rimi.c:(.text+0x2ba): undefined reference to `ioremap'
+>> s390-linux-ld: arc-rimi.c:(.text+0x2dc): undefined reference to `iounmap'
+   s390-linux-ld: drivers/net/arcnet/arc-rimi.o: in function `arc_rimi_exit':
+   arc-rimi.c:(.exit.text+0x2e): undefined reference to `iounmap'
+   s390-linux-ld: drivers/net/arcnet/arc-rimi.o: in function `arcrimi_found':
+   arc-rimi.c:(.init.text+0xec): undefined reference to `ioremap'
+   s390-linux-ld: arc-rimi.c:(.init.text+0x184): undefined reference to `iounmap'
+   s390-linux-ld: arc-rimi.c:(.init.text+0x2a4): undefined reference to `iounmap'
+   s390-linux-ld: arc-rimi.c:(.init.text+0x37e): undefined reference to `ioremap'
+   s390-linux-ld: arc-rimi.c:(.init.text+0x466): undefined reference to `iounmap'
+   s390-linux-ld: drivers/net/ethernet/smsc/smc91c92_cs.o: in function `smc91c92_release':
+   smc91c92_cs.c:(.text+0x9ce): undefined reference to `iounmap'
+   s390-linux-ld: drivers/net/ethernet/smsc/smc91c92_cs.o: in function `smc91c92_config':
+   smc91c92_cs.c:(.text+0x1a3a): undefined reference to `ioremap'
+   s390-linux-ld: drivers/net/ethernet/xircom/xirc2ps_cs.o: in function `xirc2ps_release':
+   xirc2ps_cs.c:(.text+0x39e): undefined reference to `iounmap'
+   s390-linux-ld: drivers/net/ethernet/xircom/xirc2ps_cs.o: in function `xirc2ps_config':
+   xirc2ps_cs.c:(.text+0x1674): undefined reference to `ioremap'
+   s390-linux-ld: drivers/pcmcia/cistpl.o: in function `set_cis_map':
+   cistpl.c:(.text+0x4a4): undefined reference to `ioremap'
+   s390-linux-ld: cistpl.c:(.text+0x4de): undefined reference to `iounmap'
+   s390-linux-ld: cistpl.c:(.text+0x562): undefined reference to `iounmap'
+   s390-linux-ld: cistpl.c:(.text+0x574): undefined reference to `ioremap'
+   s390-linux-ld: drivers/pcmcia/cistpl.o: in function `release_cis_mem':
+   cistpl.c:(.text+0xdb6): undefined reference to `iounmap'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
