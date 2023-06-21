@@ -1,45 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C7B19BD9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 23:10:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D066219BD9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 23:31:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687389024; x=1718925024;
+  t=1687390284; x=1718926284;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oXk1LsdLkKHTwWokaQoB/gZhRfMQlkR3KBUmEgeeLh4=;
-  b=kdUThyuQcXZnLL0d5EF/o2ATz6xbmMqsMFwfIL7IQABzH5yYkDmwlsMu
-   XNAOJ1CPtCTrvtHPkEvXqUEEPXjbTRPWgpcMYyKMV0ApjRH6bbZt08LHm
-   UWj5dXZdrBBQ+J4AcM+lw4CGorMjl4yG83darvlygsAL94gQ/RkB+CIq/
-   YbWH6w2+4tC7iCftaZB5us81S3d3lndepmD5AqfKjAdzX5FCKEbzmZHr6
-   eqFazsF+sdHeSXLS2aM5OdUuc5QpHUJNoX92smu+pnwxh0CjBAMt7q5IN
-   lWKgLRI4KK/qulBMV5yCaoM/XVwUFYocRs/bOV8cAetMCzChF6z2rCNlu
+  bh=yjGBrgrevFSw4OXkgtuL77NceT89pBKsDSYr1AhZSCQ=;
+  b=SGOnbIZPi+1pSOztomY5uGQhIVBPr0Nb/1hnTILY2oVQU479PTFMvMh4
+   4yHMuD9M5mz4sbjKRoCc6Jfc6UJUTymBzx1HAdnSeiy1PzEaoHtVA6Oyr
+   2O2l9whsvEc7U+9nTuFElq8YgWtO/5Cc45FK7UXKvRDWrI+AqO/l+Zk/R
+   2nuvbRD7bFYLzUo5C3YBZY0iv6Gxwulz9RXZFq5tCb67BbuBHqxpSekIv
+   FKPAEYqdYxB4hDSL5B9R2t20NcxfhxB5jSXgMvEqMC932WmX4PytrVxfX
+   3pp/x6YviBk7J5qBsvs07YzZ2U++IzxV6pQWdFpoaoP82tGPIEIDv8Hcw
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="350074323"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="360352022"
 X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
-   d="scan'208";a="350074323"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 16:10:23 -0700
+   d="scan'208";a="360352022"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 16:31:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="780006673"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="692034378"
 X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
-   d="scan'208";a="780006673"
+   d="scan'208";a="692034378"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 21 Jun 2023 16:10:22 -0700
+  by orsmga006.jf.intel.com with ESMTP; 21 Jun 2023 16:31:22 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qC6xx-00079H-0Y;
-	Wed, 21 Jun 2023 23:10:21 +0000
-Date: Thu, 22 Jun 2023 07:09:46 +0800
+	id 1qC7IH-00079t-1a;
+	Wed, 21 Jun 2023 23:31:21 +0000
+Date: Thu, 22 Jun 2023 07:30:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	intel-gfx@lists.freedesktop.org
+To: Pankaj Raghav <p.raghav@samsung.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [Intel-gfx] [PATCH 2/2] drm/i915: Handle legacy cursor update as
- normal update
-Message-ID: <202306220634.fnI3oGxP-lkp@intel.com>
-References: <20230621114827.167713-2-maarten.lankhorst@linux.intel.com>
+Subject: Re: [RFC 2/4] filemap: use minimum order while allocating folios
+Message-ID: <202306220746.W5YUD7lG-lkp@intel.com>
+References: <20230621083823.1724337-3-p.raghav@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,62 +46,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230621114827.167713-2-maarten.lankhorst@linux.intel.com>
+In-Reply-To: <20230621083823.1724337-3-p.raghav@samsung.com>
 
-Hi Maarten,
+Hi Pankaj,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on drm-tip/drm-tip]
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on axboe-block/for-next linus/master v6.4-rc7 next-20230621]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/drm-i915-Handle-legacy-cursor-update-as-normal-update/20230621-195009
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-patch link:    https://lore.kernel.org/r/20230621114827.167713-2-maarten.lankhorst%40linux.intel.com
-patch subject: [Intel-gfx] [PATCH 2/2] drm/i915: Handle legacy cursor update as normal update
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230622/202306220634.fnI3oGxP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220634.fnI3oGxP-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Pankaj-Raghav/fs-Allow-fine-grained-control-of-folio-sizes/20230621-172322
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230621083823.1724337-3-p.raghav%40samsung.com
+patch subject: [RFC 2/4] filemap: use minimum order while allocating folios
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230622/202306220746.W5YUD7lG-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220746.W5YUD7lG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306220634.fnI3oGxP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306220746.W5YUD7lG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/i915/display/intel_display.c: In function 'intel_atomic_cleanup_work':
->> drivers/gpu/drm/i915/display/intel_display.c:6900:54: error: 'dev' undeclared (first use in this function); did you mean 'cdev'?
-    6900 |                 drm_atomic_helper_wait_for_flip_done(dev, &state->base);
-         |                                                      ^~~
-         |                                                      cdev
-   drivers/gpu/drm/i915/display/intel_display.c:6900:54: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +6900 drivers/gpu/drm/i915/display/intel_display.c
-
-  6889	
-  6890	static void intel_atomic_cleanup_work(struct work_struct *work)
-  6891	{
-  6892		struct intel_atomic_state *state =
-  6893			container_of(work, struct intel_atomic_state, base.commit_work);
-  6894		struct drm_i915_private *i915 = to_i915(state->base.dev);
-  6895		struct intel_crtc_state *old_crtc_state;
-  6896		struct intel_crtc *crtc;
-  6897		int i;
-  6898	
-  6899		if (state->cursor_update)
-> 6900			drm_atomic_helper_wait_for_flip_done(dev, &state->base);
-  6901	
-  6902		for_each_old_intel_crtc_in_state(state, crtc, old_crtc_state, i)
-  6903			intel_color_cleanup_commit(old_crtc_state);
-  6904	
-  6905		drm_atomic_helper_cleanup_planes(&i915->drm, &state->base);
-  6906		drm_atomic_helper_commit_cleanup_done(&state->base);
-  6907		drm_atomic_state_put(&state->base);
-  6908	
-  6909		intel_atomic_helper_free_state(i915);
-  6910	}
-  6911	
+   powerpc-linux-ld: mm/readahead.o: in function `readahead_expand':
+>> readahead.c:(.text+0x1180): undefined reference to `__divdi3'
 
 -- 
 0-DAY CI Kernel Test Service
