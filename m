@@ -1,140 +1,124 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15587125C7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 14:34:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687358052; x=1718894052;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7Yp72vQGrEIEjKhB+n39f7HUmotlLVfqebhy1zryngc=;
-  b=kvaJQUiqj+O1zuGQ5W3t6YXU1pPC5pcdBz6FV0JoC2NF58xJBQUDxali
-   xQHfyehuPSU4hJh3XkX8oXhyq75xLPNPrsXMmERTASyx6RAQ6wFo8fRL6
-   QaqoBKDdKK5K5COp/6QrJN6WL0bH4xuOcH14IEpxgfbTVYlgO5+Sbxgw7
-   gXe1p+MGJ2UwLf7UFXbm5XPOZiKBfYTyisbfh6es0j3iE7USOpphrHcVa
-   78ctB+Xd52894r+9fxy9m68gYIz216aurDUS7/KnKZWpTmAR6x/low+vb
-   cD3+nPvXhe3F9u1z8y8Qs+kIVly1hUNVWNffcE6Hbh+HP+C6zx0awVTNi
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="339806629"
-X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="339806629"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 07:34:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="708725270"
-X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="708725270"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 21 Jun 2023 07:34:09 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qByuO-0006tF-34;
-	Wed, 21 Jun 2023 14:34:08 +0000
-Date: Wed, 21 Jun 2023 22:33:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:jitalloc/v2.2 10/12] arch/arm64/mm/init.c:507:18: error:
- 'struct execmem_range' has no member named 'text'
-Message-ID: <202306212252.IsaOJhEM-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F69F9DE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 14:53:45 +0000 (UTC)
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 35LEmqhb023057;
+	Wed, 21 Jun 2023 14:53:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=date : from : to : cc :
+ subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=pp1; bh=ufplYvlDcXmpwfmv6hySA3mz7btguYibmlfOu+EhMyQ=;
+ b=RksFeJCqi8/XEsNsFNNOeDB6kOaDGSwtr/y3SMMlGsZiDdvUE0WTs/Sgq5XJRyXVSmHX
+ +br3q8ohmX33mzOyLHHadNhxSQn5zaVrGCvgL/YeBzrHrY+GOut69jqxfe0E3z3I6g+V
+ sxgB9PvEgYNW8nqPIgSEy/nLTRuCbIkMH02R5slzI7XTjRV8DIBwkc+o+3TTga/UeRGP
+ DQW2O10/YgdwB8ZEf/CpMLQyaBTeFHE46P2ktveNTB3+Mgq3uHMmGqNSp9F5B4vSKty+
+ pwUTVv95Ocmw+GHnz1zVWhDIkS2hnHlvLGH9GhSwBocuuVVzgIajx+sSLROTbfrxasxy 4Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rc3a3g3rb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 Jun 2023 14:53:10 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 35LEmtmJ023155;
+	Wed, 21 Jun 2023 14:53:10 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3rc3a3g3q0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 Jun 2023 14:53:09 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+	by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 35L5ZtLD020901;
+	Wed, 21 Jun 2023 14:53:07 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3r94f524m3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 Jun 2023 14:53:07 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 35LEr3vZ40960344
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 21 Jun 2023 14:53:03 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B7D1A20043;
+	Wed, 21 Jun 2023 14:53:03 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 11FD520040;
+	Wed, 21 Jun 2023 14:53:03 +0000 (GMT)
+Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.155.204.135])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Wed, 21 Jun 2023 14:53:03 +0000 (GMT)
+Date: Wed, 21 Jun 2023 16:53:01 +0200
+From: Alexander Gordeev <agordeev@linux.ibm.com>
+To: Baoquan He <bhe@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+        oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org, arnd@arndb.de, christophe.leroy@csgroup.eu,
+        hch@lst.de, rppt@kernel.org, willy@infradead.org,
+        wangkefeng.wang@huawei.com, schnelle@linux.ibm.com,
+        David.Laight@aculab.com, shorne@gmail.com, deller@gmx.de,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
+Subject: Re: [PATCH v6 10/19] s390: mm: Convert to GENERIC_IOREMAP
+Message-ID: <ZJMOzbQeVCLJfvXk@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+References: <20230609075528.9390-11-bhe@redhat.com>
+ <202306100105.8GHnoMCP-lkp@intel.com>
+ <ZIWrtFMUnRfVP5h0@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZIWrtFMUnRfVP5h0@MiWiFi-R3L-srv>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: NsNfLNerAb4XCeCbSoD6l5PpTopTDxHU
+X-Proofpoint-ORIG-GUID: O67ntRKqq7CkkGkM2LAJDtH5Mvg4y18j
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-06-21_08,2023-06-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
+ impostorscore=0 mlxscore=0 clxscore=1015 bulkscore=0 adultscore=0
+ lowpriorityscore=0 phishscore=0 mlxlogscore=999 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2306210123
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git jitalloc/v2.2
-head:   4d3b7e33eca22e1fe243f586c13c875d248d29f6
-commit: 5f24f0d18c8afbea8c6adc7274c588f256197685 [10/12] arch: make execmem setup available regardless of CONFIG_MODULES
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230621/202306212252.IsaOJhEM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212252.IsaOJhEM-lkp@intel.com/reproduce)
+On Sun, Jun 11, 2023 at 07:10:44PM +0800, Baoquan He wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306212252.IsaOJhEM-lkp@intel.com/
+Hi Baoquan,
 
-All errors (new ones prefixed by >>):
+> From 26aedf424dac7e58dd1389e554cfe0693e2b371f Mon Sep 17 00:00:00 2001
+> From: Baoquan He <bhe@redhat.com>
+> Date: Sun, 11 Jun 2023 18:37:43 +0800
+> Subject: [PATCH] s390: mm: fix building error when converting to
+>  GENERIC_IOREMAP
+> Content-type: text/plain
+> 
+> We should always include <asm/io.h> in ARCH, but not <asm-generic/io.h>
+> directly. Otherwise, macro defined by ARCH won't be seen and could cause
+> building error.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202306100105.8GHnoMCP-lkp@intel.com/
+> Signed-off-by: Baoquan He <bhe@redhat.com>
+> ---
+>  arch/s390/kernel/perf_cpum_sf.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/s390/kernel/perf_cpum_sf.c b/arch/s390/kernel/perf_cpum_sf.c
+> index 7ef72f5ff52e..b0269f3881aa 100644
+> --- a/arch/s390/kernel/perf_cpum_sf.c
+> +++ b/arch/s390/kernel/perf_cpum_sf.c
+> @@ -22,7 +22,7 @@
+>  #include <asm/irq.h>
+>  #include <asm/debug.h>
+>  #include <asm/timex.h>
+> -#include <asm-generic/io.h>
+> +#include <asm/io.h>
+>  
+>  /* Minimum number of sample-data-block-tables:
+>   * At least one table is required for the sampling buffer structure.
 
->> arch/arm64/mm/init.c:507:18: error: 'struct execmem_range' has no member named 'text'
-     507 |                 .text = {
-         |                  ^~~~
-   arch/arm64/mm/init.c:507:17: warning: braces around scalar initializer
-     507 |                 .text = {
-         |                 ^
-   arch/arm64/mm/init.c:507:17: note: (near initialization for 'execmem_params.jit.start')
->> arch/arm64/mm/init.c:508:25: error: field name not in record or union initializer
-     508 |                         .start = VMALLOC_START,
-         |                         ^
-   arch/arm64/mm/init.c:508:25: note: (near initialization for 'execmem_params.jit.start')
-   arch/arm64/mm/init.c:509:25: error: field name not in record or union initializer
-     509 |                         .end = VMALLOC_END,
-         |                         ^
-   arch/arm64/mm/init.c:509:25: note: (near initialization for 'execmem_params.jit.start')
-   In file included from include/linux/pgtable.h:6,
-                    from arch/arm64/include/asm/io.h:12,
-                    from include/linux/io.h:13,
-                    from include/linux/irq.h:20,
-                    from include/asm-generic/hardirq.h:17,
-                    from arch/arm64/include/asm/hardirq.h:17,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/kernel_stat.h:9,
-                    from include/linux/cgroup.h:26,
-                    from include/linux/memcontrol.h:13,
-                    from include/linux/swap.h:9,
-                    from arch/arm64/mm/init.c:12:
-   arch/arm64/include/asm/pgtable.h:25:33: warning: excess elements in scalar initializer
-      25 | #define VMALLOC_END             (VMEMMAP_START - SZ_256M)
-         |                                 ^
-   arch/arm64/mm/init.c:509:32: note: in expansion of macro 'VMALLOC_END'
-     509 |                         .end = VMALLOC_END,
-         |                                ^~~~~~~~~~~
-   arch/arm64/include/asm/pgtable.h:25:33: note: (near initialization for 'execmem_params.jit.start')
-      25 | #define VMALLOC_END             (VMEMMAP_START - SZ_256M)
-         |                                 ^
-   arch/arm64/mm/init.c:509:32: note: in expansion of macro 'VMALLOC_END'
-     509 |                         .end = VMALLOC_END,
-         |                                ^~~~~~~~~~~
-   arch/arm64/mm/init.c:510:25: error: field name not in record or union initializer
-     510 |                         .alignment = 1,
-         |                         ^
-   arch/arm64/mm/init.c:510:25: note: (near initialization for 'execmem_params.jit.start')
-   arch/arm64/mm/init.c:510:38: warning: excess elements in scalar initializer
-     510 |                         .alignment = 1,
-         |                                      ^
-   arch/arm64/mm/init.c:510:38: note: (near initialization for 'execmem_params.jit.start')
-   arch/arm64/mm/init.c: In function 'execmem_arch_params':
-   arch/arm64/mm/init.c:527:27: error: 'struct execmem_range' has no member named 'text'
-     527 |         execmem_params.jit.text.pgprot = PAGE_KERNEL_ROX;
-         |                           ^
-
-
-vim +507 arch/arm64/mm/init.c
-
-   497	
-   498	#ifdef CONFIG_EXECMEM
-   499	static struct execmem_params execmem_params __ro_after_init = {
-   500		.modules = {
-   501			.text = {
-   502				.flags = EXECMEM_KASAN_SHADOW,
-   503				.alignment = MODULE_ALIGN,
-   504			},
-   505		},
-   506		.jit = {
- > 507			.text = {
- > 508				.start = VMALLOC_START,
-   509				.end = VMALLOC_END,
-   510				.alignment = 1,
-   511			},
-   512		},
-   513	};
-   514	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Applied, thanks!
