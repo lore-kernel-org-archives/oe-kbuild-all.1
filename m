@@ -1,43 +1,44 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC97171B0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 13:42:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F88156D0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 13:42:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687354937; x=1718890937;
+  t=1687354938; x=1718890938;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U1yHnpMVn6kBBWsPMNDBne8qgNBQqXGPQxotH9TyQro=;
-  b=WqB3WKAUX+sdSJxGWDuCuESvp4OClzrJEZN8ERDK0v16no5miXKCrgbr
-   W8NcmNAoOxZCfT8XPFecQTLubgV24Usgv4z2l/mZkYpI9kXn3ipvQEn46
-   +t+hOj0e62b7G4W9RU7NsUr5qIZULMO0ZXKgiTwBjuI40uOsmy6Fzxp5O
-   VTLkN+ZmdifOySaIfF7aodeNXwEg/1BlZXRjU7JUV1kJ2keu0drrHYEv+
-   ecn4Hw4HLHfrNv/3WXcEV489AjMKEskRYdyPDpAffPKGnXYI4a8zb5SGM
-   Xj3wldRMDw5TVC493q+r/1aCMKu3H3rIp/H46HQkRCY9GCvDx3Obdj7A/
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="359044222"
+  bh=5zptMe+kUTh6wnpPNcb+h0yGTj0MAfg2raBivVNailU=;
+  b=OzDGiw2f1/yZrTuEuHxrM2R0jBrFL8Co1EDC95RXXJKNtRGy5YKBcYz7
+   qtAsAOaiqTgnMRgpgxuTMOc5VA+6WMMlBTrThmJNa7FsX9EWZi1tBZspB
+   0AxJHJF4bkiQOuYyurp1XLzURTp0QNx3OU5qrNHkcfUkuwlofRCopjfim
+   QxxupGrtjYvSwiZS0jnFgc0XZOTbs4Of5z3QM4yZrLVEgB0BtPyLLlaPc
+   IYy53NIrbY1lHx42cdUHbS0tsZBLsFUIwYtXI9x+H2EQr7I8LphqnqTiZ
+   IZgsfPaIKArZIMHySml9EGCfgtletH0HH+mEm3gjb3k/FShncKdvV3FAN
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="339790836"
 X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="359044222"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 06:42:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="784503124"
+   d="scan'208";a="339790836"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 06:42:10 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="748689207"
 X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="784503124"
+   d="scan'208";a="748689207"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 21 Jun 2023 06:42:08 -0700
+  by orsmga001.jf.intel.com with ESMTP; 21 Jun 2023 06:42:08 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBy63-0006rV-2T;
+	id 1qBy63-0006rX-2X;
 	Wed, 21 Jun 2023 13:42:07 +0000
-Date: Wed, 21 Jun 2023 21:41:11 +0800
+Date: Wed, 21 Jun 2023 21:41:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4 18038/27779]
- include/trace/hooks/net.h:26:1: sparse: sparse: incorrect type in assignment
- (different address spaces)
-Message-ID: <202306212118.IyNw9Z2c-lkp@intel.com>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jouni =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>
+Subject: [linux-next:master 6157/11436]
+ drivers/gpu/drm/i915/soc/intel_gmch.c:41:13: warning: variable 'mchbar_addr'
+ set but not used
+Message-ID: <202306212119.fBNByIyn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,57 +48,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   29b74661c49e8dd78b13878e23f6e20910e52e39
-commit: 48b03352a3bd46c2aec1804fd36fc78b4270e3d0 [18038/27779] ANDROID: GKI: net: add vendor hooks for 'struct sock' lifecycle
-config: i386-randconfig-s003-20230620 (https://download.01.org/0day-ci/archive/20230621/202306212118.IyNw9Z2c-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   15e71592dbae49a674429c618a10401d7f992ac3
+commit: 3fecd469da9aa0b24bd965f05a8bf44f9d8e2a2e [6157/11436] drm/i915: re-enable -Wunused-but-set-variable
+config: x86_64-buildonly-randconfig-r003-20230621 (https://download.01.org/0day-ci/archive/20230621/202306212119.fBNByIyn-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212118.IyNw9Z2c-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212119.fBNByIyn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306212118.IyNw9Z2c-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306212119.fBNByIyn-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/core/sock.c: note: in included file:
->> include/trace/hooks/net.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
-   include/trace/hooks/net.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/net.h:26:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
-   include/trace/hooks/net.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
-   include/trace/hooks/net.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/net.h:28:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
-   include/trace/hooks/net.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
-   include/trace/hooks/net.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/net.h:28:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
-   net/core/sock.c:1910:9: sparse: sparse: context imbalance in 'sk_clone_lock' - wrong count at exit
-   net/core/sock.c:1914:6: sparse: sparse: context imbalance in 'sk_free_unlock_clone' - unexpected unlock
-   net/core/sock.c:3003:6: sparse: sparse: context imbalance in 'lock_sock_fast' - different lock contexts for basic block
-   net/core/sock.c:3502:13: sparse: sparse: context imbalance in 'proto_seq_start' - wrong count at exit
-   net/core/sock.c:3514:13: sparse: sparse: context imbalance in 'proto_seq_stop' - wrong count at exit
+All warnings (new ones prefixed by >>):
 
-vim +26 include/trace/hooks/net.h
+   drivers/gpu/drm/i915/soc/intel_gmch.c: In function 'intel_alloc_mchbar_resource':
+>> drivers/gpu/drm/i915/soc/intel_gmch.c:41:13: warning: variable 'mchbar_addr' set but not used [-Wunused-but-set-variable]
+      41 |         u64 mchbar_addr;
+         |             ^~~~~~~~~~~
 
-    11	
-    12	struct packet_type;
-    13	struct list_head;
-    14	struct sk_buff;
-    15	struct nf_conn;
-    16	struct sock;
-    17	DECLARE_HOOK(android_vh_ptype_head,
-    18		TP_PROTO(const struct packet_type *pt, struct list_head *vendor_pt),
-    19		TP_ARGS(pt, vendor_pt));
-    20	DECLARE_HOOK(android_vh_kfree_skb,
-    21		TP_PROTO(struct sk_buff *skb), TP_ARGS(skb));
-    22	DECLARE_RESTRICTED_HOOK(android_rvh_nf_conn_alloc,
-    23		TP_PROTO(struct nf_conn *nf_conn), TP_ARGS(nf_conn), 1);
-    24	DECLARE_RESTRICTED_HOOK(android_rvh_nf_conn_free,
-    25		TP_PROTO(struct nf_conn *nf_conn), TP_ARGS(nf_conn), 1);
-  > 26	DECLARE_RESTRICTED_HOOK(android_rvh_sk_alloc,
-    27		TP_PROTO(struct sock *sock), TP_ARGS(sock), 1);
-    28	DECLARE_RESTRICTED_HOOK(android_rvh_sk_free,
-    29		TP_PROTO(struct sock *sock), TP_ARGS(sock), 1);
-    30	
+
+vim +/mchbar_addr +41 drivers/gpu/drm/i915/soc/intel_gmch.c
+
+a13144e2286b0f Jani Nikula 2023-01-17  34  
+a13144e2286b0f Jani Nikula 2023-01-17  35  /* Allocate space for the MCH regs if needed, return nonzero on error */
+a13144e2286b0f Jani Nikula 2023-01-17  36  static int
+b1e7d8b0084396 Jani Nikula 2023-01-17  37  intel_alloc_mchbar_resource(struct drm_i915_private *i915)
+a13144e2286b0f Jani Nikula 2023-01-17  38  {
+b1e7d8b0084396 Jani Nikula 2023-01-17  39  	int reg = GRAPHICS_VER(i915) >= 4 ? MCHBAR_I965 : MCHBAR_I915;
+a13144e2286b0f Jani Nikula 2023-01-17  40  	u32 temp_lo, temp_hi = 0;
+a13144e2286b0f Jani Nikula 2023-01-17 @41  	u64 mchbar_addr;
+a13144e2286b0f Jani Nikula 2023-01-17  42  	int ret;
+a13144e2286b0f Jani Nikula 2023-01-17  43  
+b1e7d8b0084396 Jani Nikula 2023-01-17  44  	if (GRAPHICS_VER(i915) >= 4)
+b1e7d8b0084396 Jani Nikula 2023-01-17  45  		pci_read_config_dword(i915->gmch.pdev, reg + 4, &temp_hi);
+b1e7d8b0084396 Jani Nikula 2023-01-17  46  	pci_read_config_dword(i915->gmch.pdev, reg, &temp_lo);
+a13144e2286b0f Jani Nikula 2023-01-17  47  	mchbar_addr = ((u64)temp_hi << 32) | temp_lo;
+a13144e2286b0f Jani Nikula 2023-01-17  48  
+a13144e2286b0f Jani Nikula 2023-01-17  49  	/* If ACPI doesn't have it, assume we need to allocate it ourselves */
+a13144e2286b0f Jani Nikula 2023-01-17  50  #ifdef CONFIG_PNP
+a13144e2286b0f Jani Nikula 2023-01-17  51  	if (mchbar_addr &&
+a13144e2286b0f Jani Nikula 2023-01-17  52  	    pnp_range_reserved(mchbar_addr, mchbar_addr + MCHBAR_SIZE))
+a13144e2286b0f Jani Nikula 2023-01-17  53  		return 0;
+a13144e2286b0f Jani Nikula 2023-01-17  54  #endif
+a13144e2286b0f Jani Nikula 2023-01-17  55  
+a13144e2286b0f Jani Nikula 2023-01-17  56  	/* Get some space for it */
+b1e7d8b0084396 Jani Nikula 2023-01-17  57  	i915->gmch.mch_res.name = "i915 MCHBAR";
+b1e7d8b0084396 Jani Nikula 2023-01-17  58  	i915->gmch.mch_res.flags = IORESOURCE_MEM;
+b1e7d8b0084396 Jani Nikula 2023-01-17  59  	ret = pci_bus_alloc_resource(i915->gmch.pdev->bus,
+b1e7d8b0084396 Jani Nikula 2023-01-17  60  				     &i915->gmch.mch_res,
+a13144e2286b0f Jani Nikula 2023-01-17  61  				     MCHBAR_SIZE, MCHBAR_SIZE,
+a13144e2286b0f Jani Nikula 2023-01-17  62  				     PCIBIOS_MIN_MEM,
+a13144e2286b0f Jani Nikula 2023-01-17  63  				     0, pcibios_align_resource,
+b1e7d8b0084396 Jani Nikula 2023-01-17  64  				     i915->gmch.pdev);
+a13144e2286b0f Jani Nikula 2023-01-17  65  	if (ret) {
+b1e7d8b0084396 Jani Nikula 2023-01-17  66  		drm_dbg(&i915->drm, "failed bus alloc: %d\n", ret);
+b1e7d8b0084396 Jani Nikula 2023-01-17  67  		i915->gmch.mch_res.start = 0;
+a13144e2286b0f Jani Nikula 2023-01-17  68  		return ret;
+a13144e2286b0f Jani Nikula 2023-01-17  69  	}
+a13144e2286b0f Jani Nikula 2023-01-17  70  
+b1e7d8b0084396 Jani Nikula 2023-01-17  71  	if (GRAPHICS_VER(i915) >= 4)
+b1e7d8b0084396 Jani Nikula 2023-01-17  72  		pci_write_config_dword(i915->gmch.pdev, reg + 4,
+b1e7d8b0084396 Jani Nikula 2023-01-17  73  				       upper_32_bits(i915->gmch.mch_res.start));
+a13144e2286b0f Jani Nikula 2023-01-17  74  
+b1e7d8b0084396 Jani Nikula 2023-01-17  75  	pci_write_config_dword(i915->gmch.pdev, reg,
+b1e7d8b0084396 Jani Nikula 2023-01-17  76  			       lower_32_bits(i915->gmch.mch_res.start));
+a13144e2286b0f Jani Nikula 2023-01-17  77  	return 0;
+a13144e2286b0f Jani Nikula 2023-01-17  78  }
+a13144e2286b0f Jani Nikula 2023-01-17  79  
+
+:::::: The code at line 41 was first introduced by commit
+:::::: a13144e2286b0fbabd0794218ee699e37a8d4210 drm/i915/gmch: split out soc/intel_gmch
+
+:::::: TO: Jani Nikula <jani.nikula@intel.com>
+:::::: CC: Jani Nikula <jani.nikula@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
