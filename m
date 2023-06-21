@@ -1,41 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8FF8C2DE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 09:12:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6B0C2DE;
+	Wed, 21 Jun 2023 09:13:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687338724; x=1718874724;
+  t=1687338785; x=1718874785;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jvRN/G7kuBoE71V7KY3neGBBwoBoiaEmYSexjZMMCy0=;
-  b=Tbsci24jdjThd8ZJcqt+I6MfY9lJ6RhtVoZQjAq0DWHDitMyIU2y7fnn
-   WVfX57gWUPKtk8TJmYsmhvV6W0KCYlO0Z6a9IpE1P8AVVWO6SFRybeZl4
-   giqBA2lTsQjHW7skQrt1j35wnLy7lY2lIAtUhD2gaM0Jyv/cAVP4QAVfK
-   7S0lkqjJS4aQkbdjnypf8xZ7CMUhkOPQTHaMJGZ+NFltlduSkS34fAU+J
-   wHgfV/15Po183gynmbJqhm0augpbYyao7GkALBq3+dXEM7zFcHwXd8dVc
-   WStU32/EOTEhIvnHWHv1I34yLGwlW/XU7tAY0DNErtRFbe0+LqqKOoJHZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="357613744"
+  bh=79kA+sOgMQsTImS0HgJYpy/ecHv21tR8XYFCb5wjiQo=;
+  b=jqrFRuIjWpCyZIqOL0TDbTS2kvkj5Exqg8G+JMoFjmyW0EbvXBpiAnpP
+   rpEFTiyvDvhR7tTzGRu1v2Z5FMOOLftQ9ti06QrUVDOipofL4gF/pHwko
+   qqiGnfaw63eUGGEdsyjVnmgMgYp/vR7HAAgZOOI7BX1zqX10Y0CuXPS7I
+   yMTfsvluid50hdZ4q3hz2RUqSSUXd9FQg3u8RNCRyHXzoubgzUBecf09O
+   2278oG4CN/WqGoD3K+r7qcTH0S/ecTJTA/m/xG9h88TNMUyFM9/mvxyeA
+   EtxXsTqWBDPPvmQmSfnMtjA5xveDGg5EqqdxQupZ2h6bGUecLWILWaopU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="423781231"
 X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="357613744"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 02:12:03 -0700
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="748570922"
+   d="scan'208";a="423781231"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 02:13:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="804290115"
 X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="748570922"
+   d="scan'208";a="804290115"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 21 Jun 2023 02:12:02 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 21 Jun 2023 02:13:02 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBtsf-0006h9-2Y;
-	Wed, 21 Jun 2023 09:12:01 +0000
-Date: Wed, 21 Jun 2023 17:11:58 +0800
+	id 1qBttd-0006hF-2j;
+	Wed, 21 Jun 2023 09:13:01 +0000
+Date: Wed, 21 Jun 2023 17:12:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:jitalloc/v2.2 10/12] arch/riscv/mm/init.c:1377:17: warning:
- braces around scalar initializer
-Message-ID: <202306211733.y4BB81WC-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:jitalloc/v2.2 10/12] arch/riscv/mm/init.c:1377:4: error: field
+ designator 'text' does not refer to any field in type 'struct execmem_range'
+Message-ID: <202306211704.0qHZKXAQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,68 +50,33 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git jitalloc/v2.2
 head:   4d3b7e33eca22e1fe243f586c13c875d248d29f6
 commit: 5f24f0d18c8afbea8c6adc7274c588f256197685 [10/12] arch: make execmem setup available regardless of CONFIG_MODULES
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20230621/202306211733.y4BB81WC-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211733.y4BB81WC-lkp@intel.com/reproduce)
+config: riscv-randconfig-r034-20230620 (https://download.01.org/0day-ci/archive/20230621/202306211704.0qHZKXAQ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211704.0qHZKXAQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306211733.y4BB81WC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306211704.0qHZKXAQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/riscv/mm/init.c:1377:18: error: 'struct execmem_range' has no member named 'text'
+>> arch/riscv/mm/init.c:1377:4: error: field designator 'text' does not refer to any field in type 'struct execmem_range'
     1377 |                 .text = {
-         |                  ^~~~
->> arch/riscv/mm/init.c:1377:17: warning: braces around scalar initializer
-    1377 |                 .text = {
-         |                 ^
-   arch/riscv/mm/init.c:1377:17: note: (near initialization for 'execmem_params.jit.start')
-   arch/riscv/mm/init.c:1378:25: error: field name not in record or union initializer
+         |                 ~^~~~~~~~
     1378 |                         .pgprot = PAGE_KERNEL_READ_EXEC,
-         |                         ^
-   arch/riscv/mm/init.c:1378:25: note: (near initialization for 'execmem_params.jit.start')
-   In file included from arch/riscv/include/asm/thread_info.h:11,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/riscv/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/riscv/mm/init.c:10:
-   arch/riscv/include/asm/page.h:84:25: error: incompatible types when initializing type 'long unsigned int' using type 'pgprot_t'
-      84 | #define __pgprot(x)     ((pgprot_t) { (x) })
-         |                         ^
-   arch/riscv/include/asm/pgtable.h:183:33: note: in expansion of macro '__pgprot'
-     183 | #define PAGE_KERNEL_READ_EXEC   __pgprot((_PAGE_KERNEL & ~_PAGE_WRITE) \
-         |                                 ^~~~~~~~
-   arch/riscv/mm/init.c:1378:35: note: in expansion of macro 'PAGE_KERNEL_READ_EXEC'
-    1378 |                         .pgprot = PAGE_KERNEL_READ_EXEC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/mm/init.c:1379:25: error: field name not in record or union initializer
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     1379 |                         .alignment = 1,
-         |                         ^
-   arch/riscv/mm/init.c:1379:25: note: (near initialization for 'execmem_params.jit.start')
->> arch/riscv/mm/init.c:1379:38: warning: excess elements in scalar initializer
-    1379 |                         .alignment = 1,
-         |                                      ^
-   arch/riscv/mm/init.c:1379:38: note: (near initialization for 'execmem_params.jit.start')
-   arch/riscv/mm/init.c: In function 'execmem_arch_params':
-   arch/riscv/mm/init.c:1394:27: error: 'struct execmem_range' has no member named 'text'
+         |                         ~~~~~~~~~~~~~~~
+    1380 |                 },
+         |                 ~
+>> arch/riscv/mm/init.c:1394:21: error: no member named 'text' in 'struct execmem_range'
     1394 |         execmem_params.jit.text.start = VMALLOC_START;
-         |                           ^
-   arch/riscv/mm/init.c:1395:27: error: 'struct execmem_range' has no member named 'text'
+         |         ~~~~~~~~~~~~~~~~~~ ^
+   arch/riscv/mm/init.c:1395:21: error: no member named 'text' in 'struct execmem_range'
     1395 |         execmem_params.jit.text.end = VMALLOC_END;
-         |                           ^
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-   Depends on [n]: IOMMU_SUPPORT [=y] && (ARM || ARM64 || COMPILE_TEST [=n]) && !GENERIC_ATOMIC64 [=n]
-   Selected by [y]:
-   - IPMMU_VMSA [=y] && IOMMU_SUPPORT [=y] && (ARCH_RENESAS [=y] || COMPILE_TEST [=n]) && !GENERIC_ATOMIC64 [=n]
+         |         ~~~~~~~~~~~~~~~~~~ ^
+   3 errors generated.
 
 
 vim +1377 arch/riscv/mm/init.c
@@ -126,11 +93,22 @@ vim +1377 arch/riscv/mm/init.c
   1376		.jit = {
 > 1377			.text = {
   1378				.pgprot = PAGE_KERNEL_READ_EXEC,
-> 1379				.alignment = 1,
+  1379				.alignment = 1,
   1380			},
   1381		},
   1382	};
   1383	
+  1384	struct execmem_params __init *execmem_arch_params(void)
+  1385	{
+  1386	#ifdef CONFIG_64BIT
+  1387		execmem_params.modules.text.start = MODULES_VADDR;
+  1388		execmem_params.modules.text.end = MODULES_END;
+  1389	#else
+  1390		execmem_params.modules.text.start = VMALLOC_START;
+  1391		execmem_params.modules.text.end = VMALLOC_END;
+  1392	#endif
+  1393	
+> 1394		execmem_params.jit.text.start = VMALLOC_START;
 
 -- 
 0-DAY CI Kernel Test Service
