@@ -1,36 +1,36 @@
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B649168C2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 16:50:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B75168C2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 16:50:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687366214; x=1718902214;
+  t=1687366217; x=1718902217;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=O2cYgDYfZq7uxx4j9ftKdOww9wTIdNHJIaNeOMcmb4k=;
-  b=auVwX1px0W2og6o2EZ+zdHrTFhK6uT3OlmDjMmlq0XZwNNKFrcu9f7d4
-   tSwTdl6/NkfrjqEp0RO0tT22AzJsrDvt07TWXExdlQw0aOGkimlzCDntv
-   R9a4mPMMxLikW3o0aDkyEpOnaTNVR6qEIrre0D82U4plCbudRG5+a+c+U
-   vECwqDVanXYAlZvZINhmcbZsw4WhX0ZfCMvaH+UKbBctvBdlnf+n5kPZU
-   +ODmoWeyoorVVJW9xiwwL+HCzmNXW7cxjIERfgU/BKztFSdCbGjH9BHA9
-   /BiukkF7napyB6YRklH+eTAd8ds5/3cGzdVTbx9dEuy2Jf4JtTnAI6KYO
+  bh=D/jvwCEerwGBFWfNc5D+J1qZzVUNaA+8J5p0nV+vC+U=;
+  b=JmPLtDA9MOEjoHquPJrLBXgYgPGwqIJed+ORyMopu5jI8NOquLXkRiWj
+   mdSAVBTi0IozDjW07sEICfnlNT5HtGH6ZooDaPmIxjOHcXEA6VRcPRG1r
+   /w4fpbphuYafH80TftESUmbHQyGrIFjJStoez7TrqVeWIwfqhtX7LyQ3g
+   tDMUoCOUMctBN9nNfYlC26T+nXr7iHtP/f6LDit8W5cx8blcJADFlmChL
+   7ea0gqeF+RMFm0pVueLAzksvaulGWBxNlkuKgvXEPh5bcq6q7NiYQuf2a
+   QJBQ0Gh1rsw2c6GbVwSghI8nK4eECZk3/312fPDpvLBAOBZ1997i0Xn+j
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="363654037"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="363654044"
 X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
-   d="scan'208";a="363654037"
+   d="scan'208";a="363654044"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
   by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 09:48:15 -0700
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="748774225"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="748774226"
 X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
-   d="scan'208";a="748774225"
+   d="scan'208";a="748774226"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
   by orsmga001.jf.intel.com with ESMTP; 21 Jun 2023 09:48:12 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qC108-0006xB-06;
+	id 1qC108-0006xH-0O;
 	Wed, 21 Jun 2023 16:48:12 +0000
-Date: Thu, 22 Jun 2023 00:48:04 +0800
+Date: Thu, 22 Jun 2023 00:48:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
 	thomas_os@shipmail.org, boris.brezillon@collabora.com,
@@ -38,7 +38,7 @@ To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
 	dri-devel@lists.freedesktop.org
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH 2/2] drm: add drm_exec selftests v4
-Message-ID: <202306220036.YcdJJD0a-lkp@intel.com>
+Message-ID: <202306220029.L9DTnHh6-lkp@intel.com>
 References: <20230621133700.7588-2-christian.koenig@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -65,14 +65,14 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-add-d
 base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
 patch link:    https://lore.kernel.org/r/20230621133700.7588-2-christian.koenig%40amd.com
 patch subject: [PATCH 2/2] drm: add drm_exec selftests v4
-config: arm-randconfig-r014-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220036.YcdJJD0a-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220036.YcdJJD0a-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-r003-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220029.L9DTnHh6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220029.L9DTnHh6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306220036.YcdJJD0a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306220029.L9DTnHh6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
