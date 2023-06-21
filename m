@@ -1,42 +1,43 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8868F171B0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 13:42:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC97171B0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 13:42:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687354935; x=1718890935;
+  t=1687354937; x=1718890937;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=avcxcAJcdb86KMa44AlDgrhRAhKjHxyX5istsfwRPLk=;
-  b=THykyh+Bwj/0ToXrIVYxOn53XusucFZypXqaMDMxDCozzKdgwjRWvi7Z
-   VmJ+2wPrmd7LUL29BNrlAccEDItq8kvzIaLVH2TfwJxrwxLl0JOYKR3lc
-   HvjDaG0L+fycM7axlJa0Y5umRnkv36XfQAUs6Q6ysiyEXsWh3Db3RnGn+
-   Uq+Sn8DDg9XRYQLoqvynY2duLnVN3GRQCZOfaNP1tq9g02udo3HywoI9h
-   My4JBZh36co8vNk1Kvz35p/N7bZK1c9xOFqlrpbEaMU3HIE5DQDwLeaTo
-   /jCfdWSLMaJGBDVesYYl5+ixtCjjD8CjSrDJWFeIYi+r+4VRWfc3z4JdW
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="359044220"
+  bh=U1yHnpMVn6kBBWsPMNDBne8qgNBQqXGPQxotH9TyQro=;
+  b=WqB3WKAUX+sdSJxGWDuCuESvp4OClzrJEZN8ERDK0v16no5miXKCrgbr
+   W8NcmNAoOxZCfT8XPFecQTLubgV24Usgv4z2l/mZkYpI9kXn3ipvQEn46
+   +t+hOj0e62b7G4W9RU7NsUr5qIZULMO0ZXKgiTwBjuI40uOsmy6Fzxp5O
+   VTLkN+ZmdifOySaIfF7aodeNXwEg/1BlZXRjU7JUV1kJ2keu0drrHYEv+
+   ecn4Hw4HLHfrNv/3WXcEV489AjMKEskRYdyPDpAffPKGnXYI4a8zb5SGM
+   Xj3wldRMDw5TVC493q+r/1aCMKu3H3rIp/H46HQkRCY9GCvDx3Obdj7A/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="359044222"
 X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="359044220"
+   d="scan'208";a="359044222"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 06:42:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="784503123"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="784503124"
 X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="784503123"
+   d="scan'208";a="784503124"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 21 Jun 2023 06:42:08 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBy63-0006rT-2P;
+	id 1qBy63-0006rV-2T;
 	Wed, 21 Jun 2023 13:42:07 +0000
-Date: Wed, 21 Jun 2023 21:41:13 +0800
+Date: Wed, 21 Jun 2023 21:41:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Mike Rapoport (IBM)" <rppt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
-Subject: [rppt:jitalloc/v2.2 10/12] arch/powerpc/mm/mem.c:419:18: error:
- 'struct execmem_range' has no member named 'text'
-Message-ID: <202306212120.m2OLgLBW-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.4 18038/27779]
+ include/trace/hooks/net.h:26:1: sparse: sparse: incorrect type in assignment
+ (different address spaces)
+Message-ID: <202306212118.IyNw9Z2c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,63 +47,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git jitalloc/v2.2
-head:   4d3b7e33eca22e1fe243f586c13c875d248d29f6
-commit: 5f24f0d18c8afbea8c6adc7274c588f256197685 [10/12] arch: make execmem setup available regardless of CONFIG_MODULES
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230621/202306212120.m2OLgLBW-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212120.m2OLgLBW-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   29b74661c49e8dd78b13878e23f6e20910e52e39
+commit: 48b03352a3bd46c2aec1804fd36fc78b4270e3d0 [18038/27779] ANDROID: GKI: net: add vendor hooks for 'struct sock' lifecycle
+config: i386-randconfig-s003-20230620 (https://download.01.org/0day-ci/archive/20230621/202306212118.IyNw9Z2c-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212118.IyNw9Z2c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306212120.m2OLgLBW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306212118.IyNw9Z2c-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   net/core/sock.c: note: in included file:
+>> include/trace/hooks/net.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
+   include/trace/hooks/net.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/net.h:26:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
+   include/trace/hooks/net.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
+   include/trace/hooks/net.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/net.h:28:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
+   include/trace/hooks/net.h:28:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] <asn:4> *funcs @@
+   include/trace/hooks/net.h:28:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/net.h:28:1: sparse:     got struct tracepoint_func [noderef] <asn:4> *funcs
+   net/core/sock.c:1910:9: sparse: sparse: context imbalance in 'sk_clone_lock' - wrong count at exit
+   net/core/sock.c:1914:6: sparse: sparse: context imbalance in 'sk_free_unlock_clone' - unexpected unlock
+   net/core/sock.c:3003:6: sparse: sparse: context imbalance in 'lock_sock_fast' - different lock contexts for basic block
+   net/core/sock.c:3502:13: sparse: sparse: context imbalance in 'proto_seq_start' - wrong count at exit
+   net/core/sock.c:3514:13: sparse: sparse: context imbalance in 'proto_seq_stop' - wrong count at exit
 
->> arch/powerpc/mm/mem.c:419:18: error: 'struct execmem_range' has no member named 'text'
-     419 |                 .text = {
-         |                  ^~~~
-   arch/powerpc/mm/mem.c:419:17: warning: braces around scalar initializer
-     419 |                 .text = {
-         |                 ^
-   arch/powerpc/mm/mem.c:419:17: note: (near initialization for 'execmem_params.jit.start')
->> arch/powerpc/mm/mem.c:420:25: error: field name not in record or union initializer
-     420 |                         .alignment = 1,
-         |                         ^
-   arch/powerpc/mm/mem.c:420:25: note: (near initialization for 'execmem_params.jit.start')
-   arch/powerpc/mm/mem.c: In function 'execmem_arch_params':
-   arch/powerpc/mm/mem.c:457:27: error: 'struct execmem_range' has no member named 'text'
-     457 |         execmem_params.jit.text.start = VMALLOC_START;
-         |                           ^
-   arch/powerpc/mm/mem.c:458:27: error: 'struct execmem_range' has no member named 'text'
-     458 |         execmem_params.jit.text.end = VMALLOC_END;
-         |                           ^
-   arch/powerpc/mm/mem.c:461:35: error: 'struct execmem_range' has no member named 'text'
-     461 |                 execmem_params.jit.text.pgprot = PAGE_KERNEL_ROX;
-         |                                   ^
-   arch/powerpc/mm/mem.c:463:35: error: 'struct execmem_range' has no member named 'text'
-     463 |                 execmem_params.jit.text.pgprot = PAGE_KERNEL_EXEC;
-         |                                   ^
+vim +26 include/trace/hooks/net.h
 
-
-vim +419 arch/powerpc/mm/mem.c
-
-   410	
-   411	#ifdef CONFIG_EXECMEM
-   412	static struct execmem_params execmem_params __ro_after_init = {
-   413		.modules = {
-   414			.text = {
-   415				.alignment = 1,
-   416			},
-   417		},
-   418		.jit = {
- > 419			.text = {
- > 420				.alignment = 1,
-   421			},
-   422		},
-   423	};
-   424	
+    11	
+    12	struct packet_type;
+    13	struct list_head;
+    14	struct sk_buff;
+    15	struct nf_conn;
+    16	struct sock;
+    17	DECLARE_HOOK(android_vh_ptype_head,
+    18		TP_PROTO(const struct packet_type *pt, struct list_head *vendor_pt),
+    19		TP_ARGS(pt, vendor_pt));
+    20	DECLARE_HOOK(android_vh_kfree_skb,
+    21		TP_PROTO(struct sk_buff *skb), TP_ARGS(skb));
+    22	DECLARE_RESTRICTED_HOOK(android_rvh_nf_conn_alloc,
+    23		TP_PROTO(struct nf_conn *nf_conn), TP_ARGS(nf_conn), 1);
+    24	DECLARE_RESTRICTED_HOOK(android_rvh_nf_conn_free,
+    25		TP_PROTO(struct nf_conn *nf_conn), TP_ARGS(nf_conn), 1);
+  > 26	DECLARE_RESTRICTED_HOOK(android_rvh_sk_alloc,
+    27		TP_PROTO(struct sock *sock), TP_ARGS(sock), 1);
+    28	DECLARE_RESTRICTED_HOOK(android_rvh_sk_free,
+    29		TP_PROTO(struct sock *sock), TP_ARGS(sock), 1);
+    30	
 
 -- 
 0-DAY CI Kernel Test Service
