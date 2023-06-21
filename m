@@ -1,46 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 299B511CB4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 11:58:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687348691; x=1718884691;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/UaZYJmBVZXLtrLONhqjC70JFtiBLSaQl6d55pahEGM=;
-  b=R83mPrgPwx4Z659wRcnj/y21PVEdtCHvpZO/OcsL4394M96j+XUhtxHJ
-   YiLm6h3CDHxJHm+cn/BmIUnjNr5EAEfqkno/D/4cGgmv/ha6JSYVTyYfM
-   EO/VnchTG+6P/ytsGLj0fRkJkqrZNLbEjErxnN44IBgVJ6S91XwEG92ql
-   i/LM7UJf6LSseVqPPz9h1j0HrLjkMLxz8DbdY9yDyvloW5pWJEmJBAywT
-   KR+fkKbCkdX1NHYTsp4eVp0i+R+xAVG4w0UCruKg4YV1GU3selIuZdgsZ
-   YGeh/KIIj19pF0p6SR93uSKX4Tv5v0wFIXK0WBiNDdZXmrLYbWLnWdND2
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="340493094"
-X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="340493094"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 04:58:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="838591996"
-X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="838591996"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 21 Jun 2023 04:58:07 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qBwTO-0006op-0a;
-	Wed, 21 Jun 2023 11:58:06 +0000
-Date: Wed, 21 Jun 2023 19:57:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] powerpc/ptrace: Split gpr32_set_common
-Message-ID: <202306211940.y4kIhSei-lkp@intel.com>
-References: <3086d189fa629e6c7bf800832921669450cc09bf.1687343697.git.christophe.leroy@csgroup.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F74D11CB4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 11:58:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5208C433C8;
+	Wed, 21 Jun 2023 11:58:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687348717;
+	bh=zjlaqUJd/M2XG3eUFn4mMZVwk591aoxerwCGAG/o7Kg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HH2K6wz1VGKLKMLtvE0b4Iv/nxoeEKa+38PupxaUY2AxourukKfqZ9jcB5o7NUqyw
+	 sb+dYFkRi/KB8EEzEstq04IWUTuzAkCRgJ1Vpj020oEco12DfL5Vy+jkKP9N6GPTl0
+	 cDwiVvpDXeIrdLKynX8Gr4oK2fgKEgZSm2rgE/enKb2aKwT9g9LEU2psDIynmFi3zF
+	 Ir2vR09ejfeBzfKSlNzrkC5dvheSUOjbydClg5C+39yFx5MWfF2cVt5j5EMAGiOBam
+	 WPT3jZVD2gqpgXkwrAvQ9BsoDIryMXF2yoygQ9liWRBn0GScDDRYB+KD63NxNMOWpJ
+	 0TDFJnZAaENww==
+Date: Wed, 21 Jun 2023 17:28:33 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Conor Dooley <conor.dooley@microchip.com>
+Cc: Minda Chen <minda.chen@starfivetech.com>,
+	kernel test robot <lkp@intel.com>,
+	Emil Renner Berthing <emil.renner.berthing@canonical.com>,
+	Conor Dooley <conor@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Roger Quadros <rogerq@kernel.org>, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-riscv@lists.infradead.org,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Mason Huo <mason.huo@starfivetech.com>
+Subject: Re: [PATCH v7 4/5] phy: starfive: Add JH7110 PCIE 2.0 PHY driver
+Message-ID: <ZJLl6Sb0hPdYUGC0@matsya>
+References: <20230619094759.21013-5-minda.chen@starfivetech.com>
+ <202306192215.TvQco9m6-lkp@intel.com>
+ <d4824941-85dd-d378-be5b-072907b1169d@starfivetech.com>
+ <20230621-duckbill-scarf-fa79744cd42d@wendy>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,137 +46,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3086d189fa629e6c7bf800832921669450cc09bf.1687343697.git.christophe.leroy@csgroup.eu>
+In-Reply-To: <20230621-duckbill-scarf-fa79744cd42d@wendy>
 
-Hi Christophe,
+On 21-06-23, 12:44, Conor Dooley wrote:
+> Hey,
+> 
+> On Wed, Jun 21, 2023 at 05:29:34PM +0800, Minda Chen wrote:
+> > On 2023/6/19 22:45, kernel test robot wrote:
+> > > kernel test robot noticed the following build errors:
+> > > 
+> > > [auto build test ERROR on robh/for-next]
+> > > [also build test ERROR on linus/master v6.4-rc7 next-20230619]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > > And when submitting patch, we suggest to use '--base' as documented in
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > > 
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Minda-Chen/dt-bindings-phy-Add-StarFive-JH7110-PCIe-PHY/20230619-184756
+> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+> > > patch link:    https://lore.kernel.org/r/20230619094759.21013-5-minda.chen%40starfivetech.com
+> > > patch subject: [PATCH v7 4/5] phy: starfive: Add JH7110 PCIE 2.0 PHY driver
+> > > config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230619/202306192215.TvQco9m6-lkp@intel.com/config)
+> > > compiler: s390-linux-gcc (GCC) 12.3.0
+> > > reproduce: (https://download.01.org/0day-ci/archive/20230619/202306192215.TvQco9m6-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202306192215.TvQco9m6-lkp@intel.com/
+> > > 
+> > > All errors (new ones prefixed by >>, old ones prefixed by <<):
+> > > 
+> > >>> ERROR: modpost: "devm_platform_ioremap_resource" [drivers/phy/starfive/phy-jh7110-pcie.ko] undefined!
+> 
+> > I can not find this error. devm_platform_ioremap_resource is an exported symbol
+> 
+> I asked Arnd about this since the error confused me too. Arnd pointed
+> out that this "allmodconfig" isn't really allmodconfig as PCI is
+> disabled. On s390, CONFIG_HAS_IOMEM depends on PCI and thus none of
+> this devres stuff is usable without it. He suggested that you make the
+> driver depend on USB_SUPPORT, which in turn depends on HAS_IOMEM.
 
-kernel test robot noticed the following build errors:
+Or add HAS_IOMEM as few drivers already do :-)
 
-[auto build test ERROR on powerpc/next]
-[also build test ERROR on powerpc/fixes linus/master v6.4-rc7 next-20230621]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/powerpc-ptrace-Split-gpr32_set_common/20230621-183932
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/3086d189fa629e6c7bf800832921669450cc09bf.1687343697.git.christophe.leroy%40csgroup.eu
-patch subject: [PATCH] powerpc/ptrace: Split gpr32_set_common
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230621/202306211940.y4kIhSei-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211940.y4kIhSei-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306211940.y4kIhSei-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> arch/powerpc/kernel/ptrace/ptrace-view.c:719:5: error: no previous prototype for 'gpr32_set_common_kernel' [-Werror=missing-prototypes]
-     719 | int gpr32_set_common_kernel(struct task_struct *target,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> arch/powerpc/kernel/ptrace/ptrace-view.c:757:5: error: no previous prototype for 'gpr32_set_common_user' [-Werror=missing-prototypes]
-     757 | int gpr32_set_common_user(struct task_struct *target,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+> 
+> Cheers,
+> Conor.
+> 
+> > > ERROR: modpost: "devm_ioremap_resource" [drivers/dma/qcom/hdma.ko] undefined!
+> > > ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
+> > > ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
+> > > ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+> > > ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
+> > > ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
+> > > ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
+> > > ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
+> > > ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
+> > > WARNING: modpost: suppressed 19 unresolved symbol warnings because there were too many)
+> > >> Kconfig warnings: (for reference only)
+> > >    WARNING: unmet direct dependencies detected for USB_PHY
+> > >    Depends on [n]: USB_SUPPORT [=n]
+> > >    Selected by [m]:
+> > >    - PHY_STARFIVE_JH7110_PCIE [=m]
+> > > 
+> > I will fix it.
 
 
-vim +/gpr32_set_common_kernel +719 arch/powerpc/kernel/ptrace/ptrace-view.c
-
-   718	
- > 719	int gpr32_set_common_kernel(struct task_struct *target,
-   720				    const struct user_regset *regset,
-   721				    unsigned int pos, unsigned int count,
-   722				    const void *kbuf, unsigned long *regs)
-   723	{
-   724		const compat_ulong_t *k = kbuf;
-   725	
-   726		pos /= sizeof(compat_ulong_t);
-   727		count /= sizeof(compat_ulong_t);
-   728	
-   729		for (; count > 0 && pos < PT_MSR; --count)
-   730			regs[pos++] = *k++;
-   731	
-   732		if (count > 0 && pos == PT_MSR) {
-   733			set_user_msr(target, *k++);
-   734			++pos;
-   735			--count;
-   736		}
-   737	
-   738		for (; count > 0 && pos <= PT_MAX_PUT_REG; --count)
-   739			regs[pos++] = *k++;
-   740		for (; count > 0 && pos < PT_TRAP; --count, ++pos)
-   741			++k;
-   742	
-   743		if (count > 0 && pos == PT_TRAP) {
-   744			set_user_trap(target, *k++);
-   745			++pos;
-   746			--count;
-   747		}
-   748	
-   749		kbuf = k;
-   750		pos *= sizeof(compat_ulong_t);
-   751		count *= sizeof(compat_ulong_t);
-   752		user_regset_copyin_ignore(&pos, &count, &kbuf, NULL,
-   753					  (PT_TRAP + 1) * sizeof(compat_ulong_t), -1);
-   754		return 0;
-   755	}
-   756	
- > 757	int gpr32_set_common_user(struct task_struct *target,
-   758				  const struct user_regset *regset,
-   759				  unsigned int pos, unsigned int count,
-   760				  const void __user *ubuf, unsigned long *regs)
-   761	{
-   762		const compat_ulong_t __user *u = ubuf;
-   763		compat_ulong_t reg;
-   764	
-   765		if (!user_read_access_begin(u, count))
-   766			return -EFAULT;
-   767	
-   768		pos /= sizeof(reg);
-   769		count /= sizeof(reg);
-   770	
-   771		for (; count > 0 && pos < PT_MSR; --count) {
-   772			unsafe_get_user(reg, u++, Efault);
-   773			regs[pos++] = reg;
-   774		}
-   775	
-   776		if (count > 0 && pos == PT_MSR) {
-   777			unsafe_get_user(reg, u++, Efault);
-   778			set_user_msr(target, reg);
-   779			++pos;
-   780			--count;
-   781		}
-   782	
-   783		for (; count > 0 && pos <= PT_MAX_PUT_REG; --count) {
-   784			unsafe_get_user(reg, u++, Efault);
-   785			regs[pos++] = reg;
-   786		}
-   787		for (; count > 0 && pos < PT_TRAP; --count, ++pos)
-   788			unsafe_get_user(reg, u++, Efault);
-   789	
-   790		if (count > 0 && pos == PT_TRAP) {
-   791			unsafe_get_user(reg, u++, Efault);
-   792			set_user_trap(target, reg);
-   793			++pos;
-   794			--count;
-   795		}
-   796		user_read_access_end();
-   797	
-   798		ubuf = u;
-   799		pos *= sizeof(reg);
-   800		count *= sizeof(reg);
-   801		user_regset_copyin_ignore(&pos, &count, NULL, &ubuf,
-   802					  (PT_TRAP + 1) * sizeof(reg), -1);
-   803		return 0;
-   804	
-   805	Efault:
-   806		user_read_access_end();
-   807		return -EFAULT;
-   808	}
-   809	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Vinod
