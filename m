@@ -1,146 +1,137 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D5F156D2;
-	Wed, 21 Jun 2023 12:06:01 +0000 (UTC)
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4QmMb36DX8z6GD5W;
-	Wed, 21 Jun 2023 20:03:11 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 21 Jun
- 2023 13:05:52 +0100
-Date: Wed, 21 Jun 2023 13:05:52 +0100
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: "Paller, Kim Seer" <KimSeer.Paller@analog.com>
-CC: Andy Shevchenko <andy.shevchenko@gmail.com>, "llvm@lists.linux.dev"
-	<llvm@lists.linux.dev>, "oe-kbuild-all@lists.linux.dev"
-	<oe-kbuild-all@lists.linux.dev>, kernel test robot <lkp@intel.com>
-Subject: Re: [jic23-iio:testing 6/10] drivers/iio/adc/max14001.c:135:13:
- warning: result of comparison of constant 18446744073709551615 with
- expression of type 'typeof (_Generic((mask), char: (unsigned char)0,
- unsigned char: (unsigned char)0, signed char: (unsi...
-Message-ID: <20230621130552.00001574@Huawei.com>
-In-Reply-To: <010ac7c3707f4eb0aef285b5e823f8e3@analog.com>
-References: <202306211545.7b6CdqsL-lkp@intel.com>
-	<CAHp75VcNj-P_WCvx2Pf9sj_ir2oKf2AZ-mdTP=KHSuPY7WcjeA@mail.gmail.com>
-	<010ac7c3707f4eb0aef285b5e823f8e3@analog.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1246C168AA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 12:29:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687350548; x=1718886548;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5lk6AmdRsuXtQVZewdn2e9G56aBUbX9ydU8Ase9QMPI=;
+  b=fPQ+nOjZIM1dpsSvXb84rKK+D2VBvV9bTRMTz5K061LNI28+cgs+IUB2
+   tQ16nKrOeDI95+sGRsXRtGJxqkmwaaJGIrolB+n+GQrE5Hp0JStEAEerP
+   Ksh/4+8xwS8ZRURCmUZdZySCmcyRQgZFnVO+ChVarqOkuBye9fO6VEppX
+   M5tVwhbhhZtULAWXUmhnemgH3iqCFpmRkTVcRst+rL0xhvTyZ4cBEUbt6
+   aB8eNR5e2bnmqdKE3Lped08bQoOCoktvCVzzJDVLqUFXV2TDTAzp43C5V
+   xAPSaLum5QzcyPynGVFyXegDXDRcbW8+GD3BfmPwK88dOKZoLzU2bxcko
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="339770417"
+X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
+   d="scan'208";a="339770417"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 05:29:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="961180019"
+X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
+   d="scan'208";a="961180019"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 21 Jun 2023 05:29:07 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qBwxO-0006pD-1J;
+	Wed, 21 Jun 2023 12:29:06 +0000
+Date: Wed, 21 Jun 2023 20:29:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:jitalloc/v2.2 7/12] arch/arm64/include/asm/pgtable.h:25:33:
+ warning: excess elements in scalar initializer
+Message-ID: <202306212018.Qf3499bd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 21 Jun 2023 08:58:47 +0000
-"Paller, Kim Seer" <KimSeer.Paller@analog.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git jitalloc/v2.2
+head:   4d3b7e33eca22e1fe243f586c13c875d248d29f6
+commit: f45f0df4710043b02303450a8a06282972bdc8b1 [7/12] arm64, execmem: extend execmem_params for generated code definitions
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230621/202306212018.Qf3499bd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212018.Qf3499bd-lkp@intel.com/reproduce)
 
-> > -----Original Message-----
-> > From: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > Sent: Wednesday, June 21, 2023 4:25 PM
-> > To: kernel test robot <lkp@intel.com>
-> > Cc: Paller, Kim Seer <KimSeer.Paller@analog.com>; llvm@lists.linux.dev;=
- oe-
-> > kbuild-all@lists.linux.dev; Jonathan Cameron
-> > <Jonathan.Cameron@huawei.com>
-> > Subject: Re: [jic23-iio:testing 6/10] drivers/iio/adc/max14001.c:135:13:
-> > warning: result of comparison of constant 18446744073709551615 with
-> > expression of type 'typeof (_Generic((mask), char: (unsigned char)0, un=
-signed
-> > char: (unsigned char)0, signed char: (unsi...
-> >=20
-> > [External]
-> >=20
-> > On Wed, Jun 21, 2023 at 10:19=E2=80=AFAM kernel test robot <lkp@intel.c=
-om> wrote: =20
-> > >
-> > > tree: =20
-> > https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/kernel=
-/git/ji
-> > c23/iio.git__;!!A3Ni8CS0y2Y!45o_-MMr4xq4e_9PWpK-sQ_qHBbFbbS7Q2J-
-> > fNmTvSPAQXjYhpLYDteGHSeWEbdIAv364HiQBQy2tXMdnz3oesPJvyDEVg$
-> > testing =20
-> > > head:   25e201cc6ff270abc062e13ff912292097cb2827
-> > > commit: d3e93b67f934a477c5851d575a2278f07c6242fb [6/10] iio: adc:
-> > > max14001: New driver
-> > > config: x86_64-allyesconfig
-> > > (https://urldefense.com/v3/__https://download.01.org/0day-ci/archive/2
-> > > 0230621/202306211545.7b6CdqsL- =20
-> > lkp@intel.com/config__;!!A3Ni8CS0y2Y!45o =20
-> > > _-MMr4xq4e_9PWpK-sQ_qHBbFbbS7Q2J- =20
-> > fNmTvSPAQXjYhpLYDteGHSeWEbdIAv364HiQB =20
-> > > Qy2tXMdnz3oesOgKhx9ZQ$ )
-> > > compiler: clang version 15.0.7
-> > > (https://urldefense.com/v3/__https://github.com/llvm/llvm-project.git_
-> > > _;!!A3Ni8CS0y2Y!45o_-MMr4xq4e_9PWpK-sQ_qHBbFbbS7Q2J- =20
-> > fNmTvSPAQXjYhpLYDt =20
-> > > eGHSeWEbdIAv364HiQBQy2tXMdnz3oesOx97mL0Q$
-> > > 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-> > > reproduce:
-> > > (https://urldefense.com/v3/__https://download.01.org/0day-ci/archive/2
-> > > 0230621/202306211545.7b6CdqsL- =20
-> > lkp@intel.com/reproduce__;!!A3Ni8CS0y2Y! =20
-> > > 45o_-MMr4xq4e_9PWpK-sQ_qHBbFbbS7Q2J- =20
-> > fNmTvSPAQXjYhpLYDteGHSeWEbdIAv364H =20
-> > > iQBQy2tXMdnz3oesODMiAFrg$ )
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new
-> > > version of the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes:
-> > > | https://urldefense.com/v3/__https://lore.kernel.org/oe-kbuild-all/20
-> > > | 2306211545.7b6CdqsL-lkp@intel.com/__;!!A3Ni8CS0y2Y!45o_- =20
-> > MMr4xq4e_9PW =20
-> > > | pK-sQ_qHBbFbbS7Q2J- =20
-> > fNmTvSPAQXjYhpLYDteGHSeWEbdIAv364HiQBQy2tXMdnz3oe =20
-> > > | sOVGB0hTQ$
-> > >
-> > > All warnings (new ones prefixed by >>): =20
-> >=20
-> > Okay, you even haven't compiled your code :-( This should probably use =
-one of
-> > the functions from bitfield.h.
-> > Like u32_encode_bits(). =20
->=20
-> I wasn=E2=80=99t able to encounter and trigger this kind of warning in my=
- build. I built=20
-> and tested the code with rpi4 and linux kernel source tree before sending=
- the patch.=20
-> Perhaps I missed something. I will check and try to resolve this warning.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306212018.Qf3499bd-lkp@intel.com/
 
-Also passed my (admittedly limited these days as 0-day does such a good job=
-) local
-build tests.=20
-I guess some / most compilers could see it is constant, but a less observant
-one apparently doesn't.
+All warnings (new ones prefixed by >>):
 
-It's only called from one place, I'd just put the code inline so that the
-constant nature of that variable is explicit.  Or pass in the FIELD_PREP()
-value rather than computing it in the function.
-
-Send a new version and I'll switch it in for the one in the tree currently.
-
-However, it looks like that code was meant to do a read modify write cycle =
-and
-doesn't use the value read.  So probably a bug there anyway.
-
-Thanks,
-
-Jonathan
+   arch/arm64/kernel/module.c:34:18: error: 'struct execmem_range' has no member named 'text'
+      34 |                 .text = {
+         |                  ^~~~
+   arch/arm64/kernel/module.c:34:17: warning: braces around scalar initializer
+      34 |                 .text = {
+         |                 ^
+   arch/arm64/kernel/module.c:34:17: note: (near initialization for 'execmem_params.jit.start')
+   arch/arm64/kernel/module.c:35:25: error: field name not in record or union initializer
+      35 |                         .start = VMALLOC_START,
+         |                         ^
+   arch/arm64/kernel/module.c:35:25: note: (near initialization for 'execmem_params.jit.start')
+   arch/arm64/kernel/module.c:36:25: error: field name not in record or union initializer
+      36 |                         .end = VMALLOC_END,
+         |                         ^
+   arch/arm64/kernel/module.c:36:25: note: (near initialization for 'execmem_params.jit.start')
+   In file included from include/linux/pgtable.h:6,
+                    from arch/arm64/include/asm/io.h:12,
+                    from include/linux/io.h:13,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/arm64/include/asm/hardirq.h:17,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/trace_recursion.h:5,
+                    from include/linux/ftrace.h:10,
+                    from arch/arm64/kernel/module.c:12:
+>> arch/arm64/include/asm/pgtable.h:25:33: warning: excess elements in scalar initializer
+      25 | #define VMALLOC_END             (VMEMMAP_START - SZ_256M)
+         |                                 ^
+   arch/arm64/kernel/module.c:36:32: note: in expansion of macro 'VMALLOC_END'
+      36 |                         .end = VMALLOC_END,
+         |                                ^~~~~~~~~~~
+   arch/arm64/include/asm/pgtable.h:25:33: note: (near initialization for 'execmem_params.jit.start')
+      25 | #define VMALLOC_END             (VMEMMAP_START - SZ_256M)
+         |                                 ^
+   arch/arm64/kernel/module.c:36:32: note: in expansion of macro 'VMALLOC_END'
+      36 |                         .end = VMALLOC_END,
+         |                                ^~~~~~~~~~~
+   arch/arm64/kernel/module.c:37:25: error: field name not in record or union initializer
+      37 |                         .alignment = 1,
+         |                         ^
+   arch/arm64/kernel/module.c:37:25: note: (near initialization for 'execmem_params.jit.start')
+   arch/arm64/kernel/module.c:37:38: warning: excess elements in scalar initializer
+      37 |                         .alignment = 1,
+         |                                      ^
+   arch/arm64/kernel/module.c:37:38: note: (near initialization for 'execmem_params.jit.start')
+   arch/arm64/kernel/module.c: In function 'execmem_arch_params':
+   arch/arm64/kernel/module.c:54:27: error: 'struct execmem_range' has no member named 'text'
+      54 |         execmem_params.jit.text.pgprot = PAGE_KERNEL_ROX;
+         |                           ^
 
 
->=20
-> Thanks and best regards,
-> Kim Seer Paller
->=20
->=20
-> =20
+vim +25 arch/arm64/include/asm/pgtable.h
 
+4f04d8f0054511 Catalin Marinas 2012-03-05  16  
+4f04d8f0054511 Catalin Marinas 2012-03-05  17  /*
+3e1907d5bf5a1e Ard Biesheuvel  2016-03-30  18   * VMALLOC range.
+08375198b01001 Catalin Marinas 2014-07-16  19   *
+f9040773b7bbbd Ard Biesheuvel  2016-02-16  20   * VMALLOC_START: beginning of the kernel vmalloc space
+a5315819c5e7e5 Mark Brown      2019-10-24  21   * VMALLOC_END: extends to the available space below vmemmap, PCI I/O space
+3e1907d5bf5a1e Ard Biesheuvel  2016-03-30  22   *	and fixed mappings
+4f04d8f0054511 Catalin Marinas 2012-03-05  23   */
+f9040773b7bbbd Ard Biesheuvel  2016-02-16  24  #define VMALLOC_START		(MODULES_END)
+9ad7c6d5e75b16 Ard Biesheuvel  2020-10-08 @25  #define VMALLOC_END		(VMEMMAP_START - SZ_256M)
+4f04d8f0054511 Catalin Marinas 2012-03-05  26  
+
+:::::: The code at line 25 was first introduced by commit
+:::::: 9ad7c6d5e75b160c9ce5775db610d964af45b83f arm64: mm: tidy up top of kernel VA space
+
+:::::: TO: Ard Biesheuvel <ardb@kernel.org>
+:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
