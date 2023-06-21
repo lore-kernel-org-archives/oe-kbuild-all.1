@@ -1,42 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61A72595
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 18:43:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B2C18C28
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 18:52:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687373032; x=1718909032;
+  t=1687373538; x=1718909538;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=gfBpLFC7XnuC5rWOIqL9QCvn0TPJo00PCXHRuVPz410=;
-  b=konLUfm0d6Nr2VHaenhyYpeFNV//8l8LXyhT95DUuNUbFcmkPDCCEBIq
-   63po1kElPHdwaP48HBjlB51uzUkRph+tLgpeLrJQHdhx6Qs3bvRLK+u6w
-   CXLIUT4/EmYEbaXn70y2YCApC2uivUlfyrL7ZdMGJDaLPzbKBNffyXrVT
-   HfcfkQWfC/wBbWqtFTq16/GCxCmI98ERyIMu6QTTfhbMhEnRjNOPK4Ka+
-   rHy1l4LKSII2zJ/cdX66w0tkrhks4uo/4PST2Nj9pQN4yojXTYim1FzgV
-   jcmRIZKbktoomqKiYGAFi/zDJsoU6wrTqb5T7yzI8ZlTH4520wuElDCs7
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="360282999"
+  bh=4HIQIcu912psoYdIo6vxVinoQt9oNfF+oNv+kRiL5cM=;
+  b=QcSzBwr2PTjGF/IsSPEc8bvkxASHbu/FUhgy3LAsxDchGbsi8VjHfGGh
+   1VS/OorJKH1fRjCLbFcymT+G6t7eYe/BxRO29EfAvfX+OiMpxYlXoeTLC
+   /+pQ5WDY+M3GgkOpQLU2wbUhS1Uh656/wzifUmTh3Q5T1hjHkHUQzopZh
+   n+kNSOFGqUitLXFMto+j3WaNi2q8mQ5c2taJN5liEz97NBCBpiIVB2I8A
+   9MMyRP5w1Azd0WG5RGOEYTWxmLPQ51lfnoxyXuD4j+Td695PrTvO28SVD
+   5jfqEvOdfK2EUzzPURVI4bzxfKDo4t51wm0vvqF8JYmOtG3YniUqTpbey
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="423929832"
 X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
-   d="scan'208";a="360282999"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 11:42:20 -0700
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="748814260"
+   d="scan'208";a="423929832"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 11:52:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="804492703"
 X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
-   d="scan'208";a="748814260"
+   d="scan'208";a="804492703"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 21 Jun 2023 11:42:16 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 21 Jun 2023 11:52:16 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qC2mV-00071r-1H;
-	Wed, 21 Jun 2023 18:42:15 +0000
-Date: Thu, 22 Jun 2023 02:41:49 +0800
+	id 1qC2wB-000727-1y;
+	Wed, 21 Jun 2023 18:52:15 +0000
+Date: Thu, 22 Jun 2023 02:52:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vsyrjala:dpt_debug_2 2/3] include/drm/drm_print.h:456:39: warning:
+Subject: [vsyrjala:dpt_debug_2 2/3] include/drm/drm_print.h:456:39: error:
  format '%llx' expects argument of type 'long long unsigned int', but
  argument 5 has type 'unsigned int'
-Message-ID: <202306220236.omFSRSjd-lkp@intel.com>
+Message-ID: <202306220205.JOwwBV7x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,23 +50,23 @@ Content-Disposition: inline
 tree:   https://github.com/vsyrjala/linux.git dpt_debug_2
 head:   2f46ac9af5a093e6b0363752c07692d34672ff3a
 commit: 5eeedbfbcc698af4c74b3bfabf7fae2a309ed466 [2/3] dpt debug
-config: i386-randconfig-r032-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220236.omFSRSjd-lkp@intel.com/config)
+config: i386-randconfig-i003-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220205.JOwwBV7x-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220236.omFSRSjd-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220205.JOwwBV7x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306220236.omFSRSjd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306220205.JOwwBV7x-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    In file included from include/linux/device.h:15,
                     from include/linux/pm_qos.h:17,
                     from drivers/gpu/drm/i915/i915_drv.h:35,
                     from drivers/gpu/drm/i915/display/intel_dpt.c:11:
    drivers/gpu/drm/i915/display/intel_dpt.c: In function 'intel_dpt_debug':
->> include/drm/drm_print.h:456:39: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'unsigned int' [-Wformat=]
+>> include/drm/drm_print.h:456:39: error: format '%llx' expects argument of type 'long long unsigned int', but argument 5 has type 'unsigned int' [-Werror=format=]
      456 |         dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
          |                                       ^~~~~~~~
    include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
@@ -83,6 +84,7 @@ All warnings (new ones prefixed by >>):
    drivers/gpu/drm/i915/display/intel_dpt.c:91:17: note: in expansion of macro 'drm_err'
       91 |                 drm_err(&vm->i915->drm, "dpt %p [%d] physical address 0x%llx\n",
          |                 ^~~~~~~
+   cc1: all warnings being treated as errors
 
 
 vim +456 include/drm/drm_print.h
