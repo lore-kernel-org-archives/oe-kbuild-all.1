@@ -1,46 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD27DDA1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 12:40:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8868F171B0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 13:42:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687351212; x=1718887212;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HVhum5BVs1xL83ZgFv1hBEIGdcVvccPhMD7yvMOlJwU=;
-  b=kShidkwxD7oRsD40nKmdfwDb0PABeKdV/+y8HFGkyMY4rY0hzDUc5aNz
-   nwMRcrdkntAw3Ql9XwaatKeVb0vsr7cYOCM8QXVNPvjJpcO0m3WlAZbzJ
-   EnUnHU3NJ6hb/cpWLJ+qx+MNsLogu+MFIGFJ3gkReJEIuRyumGMevm8Lq
-   L1NGUY8nxAz3o4iQN/FsDr5QimsJWIgaKh4B4gFW4IQMLhgY+zKJhGHhZ
-   DJ17ucodixaKwWmcJCbByv1ecIjxrRq+Bs17//CXqJfGpbhyINyntr7A+
-   mBjppm2RuEmUVXlX0croQmhPtveXjVlPaawxyr7354QhaGMCuc88+Mz9o
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="340501665"
+  t=1687354935; x=1718890935;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=avcxcAJcdb86KMa44AlDgrhRAhKjHxyX5istsfwRPLk=;
+  b=THykyh+Bwj/0ToXrIVYxOn53XusucFZypXqaMDMxDCozzKdgwjRWvi7Z
+   VmJ+2wPrmd7LUL29BNrlAccEDItq8kvzIaLVH2TfwJxrwxLl0JOYKR3lc
+   HvjDaG0L+fycM7axlJa0Y5umRnkv36XfQAUs6Q6ysiyEXsWh3Db3RnGn+
+   Uq+Sn8DDg9XRYQLoqvynY2duLnVN3GRQCZOfaNP1tq9g02udo3HywoI9h
+   My4JBZh36co8vNk1Kvz35p/N7bZK1c9xOFqlrpbEaMU3HIE5DQDwLeaTo
+   /jCfdWSLMaJGBDVesYYl5+ixtCjjD8CjSrDJWFeIYi+r+4VRWfc3z4JdW
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="359044220"
 X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="340501665"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 05:40:10 -0700
+   d="scan'208";a="359044220"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 06:42:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="838599634"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="784503123"
 X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="838599634"
+   d="scan'208";a="784503123"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 21 Jun 2023 05:40:05 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 21 Jun 2023 06:42:08 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBx82-0006pX-1i;
-	Wed, 21 Jun 2023 12:40:06 +0000
-Date: Wed, 21 Jun 2023 20:39:24 +0800
+	id 1qBy63-0006rT-2P;
+	Wed, 21 Jun 2023 13:42:07 +0000
+Date: Wed, 21 Jun 2023 21:41:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] powerpc/ptrace: Split gpr32_set_common
-Message-ID: <202306212029.AbMrgmSQ-lkp@intel.com>
-References: <3086d189fa629e6c7bf800832921669450cc09bf.1687343697.git.christophe.leroy@csgroup.eu>
+To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:jitalloc/v2.2 10/12] arch/powerpc/mm/mem.c:419:18: error:
+ 'struct execmem_range' has no member named 'text'
+Message-ID: <202306212120.m2OLgLBW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,135 +45,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3086d189fa629e6c7bf800832921669450cc09bf.1687343697.git.christophe.leroy@csgroup.eu>
 
-Hi Christophe,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on powerpc/next]
-[also build test WARNING on powerpc/fixes linus/master v6.4-rc7 next-20230621]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/powerpc-ptrace-Split-gpr32_set_common/20230621-183932
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/3086d189fa629e6c7bf800832921669450cc09bf.1687343697.git.christophe.leroy%40csgroup.eu
-patch subject: [PATCH] powerpc/ptrace: Split gpr32_set_common
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20230621/202306212029.AbMrgmSQ-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git jitalloc/v2.2
+head:   4d3b7e33eca22e1fe243f586c13c875d248d29f6
+commit: 5f24f0d18c8afbea8c6adc7274c588f256197685 [10/12] arch: make execmem setup available regardless of CONFIG_MODULES
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20230621/202306212120.m2OLgLBW-lkp@intel.com/config)
 compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212029.AbMrgmSQ-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212120.m2OLgLBW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306212029.AbMrgmSQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306212120.m2OLgLBW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/powerpc/kernel/ptrace/ptrace-view.c:719:5: warning: no previous prototype for 'gpr32_set_common_kernel' [-Wmissing-prototypes]
-     719 | int gpr32_set_common_kernel(struct task_struct *target,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> arch/powerpc/kernel/ptrace/ptrace-view.c:757:5: warning: no previous prototype for 'gpr32_set_common_user' [-Wmissing-prototypes]
-     757 | int gpr32_set_common_user(struct task_struct *target,
-         |     ^~~~~~~~~~~~~~~~~~~~~
+>> arch/powerpc/mm/mem.c:419:18: error: 'struct execmem_range' has no member named 'text'
+     419 |                 .text = {
+         |                  ^~~~
+   arch/powerpc/mm/mem.c:419:17: warning: braces around scalar initializer
+     419 |                 .text = {
+         |                 ^
+   arch/powerpc/mm/mem.c:419:17: note: (near initialization for 'execmem_params.jit.start')
+>> arch/powerpc/mm/mem.c:420:25: error: field name not in record or union initializer
+     420 |                         .alignment = 1,
+         |                         ^
+   arch/powerpc/mm/mem.c:420:25: note: (near initialization for 'execmem_params.jit.start')
+   arch/powerpc/mm/mem.c: In function 'execmem_arch_params':
+   arch/powerpc/mm/mem.c:457:27: error: 'struct execmem_range' has no member named 'text'
+     457 |         execmem_params.jit.text.start = VMALLOC_START;
+         |                           ^
+   arch/powerpc/mm/mem.c:458:27: error: 'struct execmem_range' has no member named 'text'
+     458 |         execmem_params.jit.text.end = VMALLOC_END;
+         |                           ^
+   arch/powerpc/mm/mem.c:461:35: error: 'struct execmem_range' has no member named 'text'
+     461 |                 execmem_params.jit.text.pgprot = PAGE_KERNEL_ROX;
+         |                                   ^
+   arch/powerpc/mm/mem.c:463:35: error: 'struct execmem_range' has no member named 'text'
+     463 |                 execmem_params.jit.text.pgprot = PAGE_KERNEL_EXEC;
+         |                                   ^
 
 
-vim +/gpr32_set_common_kernel +719 arch/powerpc/kernel/ptrace/ptrace-view.c
+vim +419 arch/powerpc/mm/mem.c
 
-   718	
- > 719	int gpr32_set_common_kernel(struct task_struct *target,
-   720				    const struct user_regset *regset,
-   721				    unsigned int pos, unsigned int count,
-   722				    const void *kbuf, unsigned long *regs)
-   723	{
-   724		const compat_ulong_t *k = kbuf;
-   725	
-   726		pos /= sizeof(compat_ulong_t);
-   727		count /= sizeof(compat_ulong_t);
-   728	
-   729		for (; count > 0 && pos < PT_MSR; --count)
-   730			regs[pos++] = *k++;
-   731	
-   732		if (count > 0 && pos == PT_MSR) {
-   733			set_user_msr(target, *k++);
-   734			++pos;
-   735			--count;
-   736		}
-   737	
-   738		for (; count > 0 && pos <= PT_MAX_PUT_REG; --count)
-   739			regs[pos++] = *k++;
-   740		for (; count > 0 && pos < PT_TRAP; --count, ++pos)
-   741			++k;
-   742	
-   743		if (count > 0 && pos == PT_TRAP) {
-   744			set_user_trap(target, *k++);
-   745			++pos;
-   746			--count;
-   747		}
-   748	
-   749		kbuf = k;
-   750		pos *= sizeof(compat_ulong_t);
-   751		count *= sizeof(compat_ulong_t);
-   752		user_regset_copyin_ignore(&pos, &count, &kbuf, NULL,
-   753					  (PT_TRAP + 1) * sizeof(compat_ulong_t), -1);
-   754		return 0;
-   755	}
-   756	
- > 757	int gpr32_set_common_user(struct task_struct *target,
-   758				  const struct user_regset *regset,
-   759				  unsigned int pos, unsigned int count,
-   760				  const void __user *ubuf, unsigned long *regs)
-   761	{
-   762		const compat_ulong_t __user *u = ubuf;
-   763		compat_ulong_t reg;
-   764	
-   765		if (!user_read_access_begin(u, count))
-   766			return -EFAULT;
-   767	
-   768		pos /= sizeof(reg);
-   769		count /= sizeof(reg);
-   770	
-   771		for (; count > 0 && pos < PT_MSR; --count) {
-   772			unsafe_get_user(reg, u++, Efault);
-   773			regs[pos++] = reg;
-   774		}
-   775	
-   776		if (count > 0 && pos == PT_MSR) {
-   777			unsafe_get_user(reg, u++, Efault);
-   778			set_user_msr(target, reg);
-   779			++pos;
-   780			--count;
-   781		}
-   782	
-   783		for (; count > 0 && pos <= PT_MAX_PUT_REG; --count) {
-   784			unsafe_get_user(reg, u++, Efault);
-   785			regs[pos++] = reg;
-   786		}
-   787		for (; count > 0 && pos < PT_TRAP; --count, ++pos)
-   788			unsafe_get_user(reg, u++, Efault);
-   789	
-   790		if (count > 0 && pos == PT_TRAP) {
-   791			unsafe_get_user(reg, u++, Efault);
-   792			set_user_trap(target, reg);
-   793			++pos;
-   794			--count;
-   795		}
-   796		user_read_access_end();
-   797	
-   798		ubuf = u;
-   799		pos *= sizeof(reg);
-   800		count *= sizeof(reg);
-   801		user_regset_copyin_ignore(&pos, &count, NULL, &ubuf,
-   802					  (PT_TRAP + 1) * sizeof(reg), -1);
-   803		return 0;
-   804	
-   805	Efault:
-   806		user_read_access_end();
-   807		return -EFAULT;
-   808	}
-   809	
+   410	
+   411	#ifdef CONFIG_EXECMEM
+   412	static struct execmem_params execmem_params __ro_after_init = {
+   413		.modules = {
+   414			.text = {
+   415				.alignment = 1,
+   416			},
+   417		},
+   418		.jit = {
+ > 419			.text = {
+ > 420				.alignment = 1,
+   421			},
+   422		},
+   423	};
+   424	
 
 -- 
 0-DAY CI Kernel Test Service
