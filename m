@@ -1,43 +1,42 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124CF17747
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 14:23:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15587125C7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 14:34:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687357392; x=1718893392;
+  t=1687358052; x=1718894052;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EByyF0O5U64+uxoyOlrBs5UmT/Dwl52uk411TVhfsE8=;
-  b=WUuvSA7MmKxoiqplgzofYnRdNHGPW6ZMuPIZvuXJalj1pOyz1RQ57UQ/
-   yxR4JOoVafP0p+WX9qCYPV7uVnewQW6eJFgF159Hn2OJfrXQscXQFVSOV
-   /wVmjJPbp81Ppmk93DF+Dhm8ewen7FuXyuZNuhnPOTDpBvA3ue6Y6xgKr
-   D20YgZ4/vqHvtlFmbyH3MrAa/OVDrBWswsKrfuE102Wo8h5CvXINjmmsX
-   P6CgiPMPyIG34BKweG0+Wa+4OzS74HbL8MEHKqbTGqSfLUrPFpk8mn/rA
-   3PXZSQZES4d+OKiR6F0N6zax5N6LVqOq7WvwtyH/U46L7C0ci3TPeYOIO
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="344922442"
+  bh=7Yp72vQGrEIEjKhB+n39f7HUmotlLVfqebhy1zryngc=;
+  b=kvaJQUiqj+O1zuGQ5W3t6YXU1pPC5pcdBz6FV0JoC2NF58xJBQUDxali
+   xQHfyehuPSU4hJh3XkX8oXhyq75xLPNPrsXMmERTASyx6RAQ6wFo8fRL6
+   QaqoBKDdKK5K5COp/6QrJN6WL0bH4xuOcH14IEpxgfbTVYlgO5+Sbxgw7
+   gXe1p+MGJ2UwLf7UFXbm5XPOZiKBfYTyisbfh6es0j3iE7USOpphrHcVa
+   78ctB+Xd52894r+9fxy9m68gYIz216aurDUS7/KnKZWpTmAR6x/low+vb
+   cD3+nPvXhe3F9u1z8y8Qs+kIVly1hUNVWNffcE6Hbh+HP+C6zx0awVTNi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="339806629"
 X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="344922442"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 07:23:11 -0700
+   d="scan'208";a="339806629"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 07:34:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="779868742"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="708725270"
 X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="779868742"
+   d="scan'208";a="708725270"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 21 Jun 2023 07:23:09 -0700
+  by orsmga007.jf.intel.com with ESMTP; 21 Jun 2023 07:34:09 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qByjk-0006st-2I;
-	Wed, 21 Jun 2023 14:23:08 +0000
-Date: Wed, 21 Jun 2023 22:23:06 +0800
+	id 1qByuO-0006tF-34;
+	Wed, 21 Jun 2023 14:34:08 +0000
+Date: Wed, 21 Jun 2023 22:33:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Roger Quadros <rogerq@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: drivers/mtd/nand/raw/omap_elm.c:180:37: sparse: sparse: incorrect
- type in assignment (different base types)
-Message-ID: <202306212211.WDXokuWh-lkp@intel.com>
+To: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Mike Rapoport <rppt@kernel.org>
+Subject: [rppt:jitalloc/v2.2 10/12] arch/arm64/mm/init.c:507:18: error:
+ 'struct execmem_range' has no member named 'text'
+Message-ID: <202306212252.IsaOJhEM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,149 +46,94 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Roger,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e660abd551f1172e428b4e4003de887176a8a1fd
-commit: be34f45f0d4aa91c6b83d140f9ace1ca40a5f9dc memory: omap-gpmc: Make OMAP_GPMC config visible and selectable
-date:   1 year, 2 months ago
-config: arm64-randconfig-s031-20230621 (https://download.01.org/0day-ci/archive/20230621/202306212211.WDXokuWh-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rppt/linux.git jitalloc/v2.2
+head:   4d3b7e33eca22e1fe243f586c13c875d248d29f6
+commit: 5f24f0d18c8afbea8c6adc7274c588f256197685 [10/12] arch: make execmem setup available regardless of CONFIG_MODULES
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230621/202306212252.IsaOJhEM-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212211.WDXokuWh-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212252.IsaOJhEM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306212211.WDXokuWh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306212252.IsaOJhEM-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mtd/nand/raw/omap_elm.c:180:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/mtd/nand/raw/omap_elm.c:180:37: sparse:     expected unsigned int [usertype] val
-   drivers/mtd/nand/raw/omap_elm.c:180:37: sparse:     got restricted __be32 [usertype]
-   drivers/mtd/nand/raw/omap_elm.c:185:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/mtd/nand/raw/omap_elm.c:185:37: sparse:     expected unsigned int [usertype] val
-   drivers/mtd/nand/raw/omap_elm.c:185:37: sparse:     got restricted __be32 [usertype]
-   drivers/mtd/nand/raw/omap_elm.c:190:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/mtd/nand/raw/omap_elm.c:190:37: sparse:     expected unsigned int [usertype] val
-   drivers/mtd/nand/raw/omap_elm.c:190:37: sparse:     got restricted __be32 [usertype]
->> drivers/mtd/nand/raw/omap_elm.c:200:40: sparse: sparse: restricted __be32 degrades to integer
-   drivers/mtd/nand/raw/omap_elm.c:206:39: sparse: sparse: restricted __be32 degrades to integer
->> drivers/mtd/nand/raw/omap_elm.c:210:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/mtd/nand/raw/omap_elm.c:210:37: sparse:     expected unsigned int [assigned] [usertype] val
-   drivers/mtd/nand/raw/omap_elm.c:210:37: sparse:     got restricted __be32 [usertype]
-   drivers/mtd/nand/raw/omap_elm.c:213:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/mtd/nand/raw/omap_elm.c:213:37: sparse:     expected unsigned int [assigned] [usertype] val
-   drivers/mtd/nand/raw/omap_elm.c:213:37: sparse:     got restricted __be32 [usertype]
-   drivers/mtd/nand/raw/omap_elm.c:216:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/mtd/nand/raw/omap_elm.c:216:37: sparse:     expected unsigned int [assigned] [usertype] val
-   drivers/mtd/nand/raw/omap_elm.c:216:37: sparse:     got restricted __be32 [usertype]
-   drivers/mtd/nand/raw/omap_elm.c:219:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/mtd/nand/raw/omap_elm.c:219:37: sparse:     expected unsigned int [assigned] [usertype] val
-   drivers/mtd/nand/raw/omap_elm.c:219:37: sparse:     got restricted __be32 [usertype]
-   drivers/mtd/nand/raw/omap_elm.c:222:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/mtd/nand/raw/omap_elm.c:222:37: sparse:     expected unsigned int [assigned] [usertype] val
-   drivers/mtd/nand/raw/omap_elm.c:222:37: sparse:     got restricted __be32 [usertype]
-   drivers/mtd/nand/raw/omap_elm.c:225:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [assigned] [usertype] val @@     got restricted __be32 [usertype] @@
-   drivers/mtd/nand/raw/omap_elm.c:225:37: sparse:     expected unsigned int [assigned] [usertype] val
-   drivers/mtd/nand/raw/omap_elm.c:225:37: sparse:     got restricted __be32 [usertype]
-   drivers/mtd/nand/raw/omap_elm.c:228:39: sparse: sparse: restricted __be32 degrades to integer
+All errors (new ones prefixed by >>):
 
-vim +180 drivers/mtd/nand/raw/omap_elm.c
+>> arch/arm64/mm/init.c:507:18: error: 'struct execmem_range' has no member named 'text'
+     507 |                 .text = {
+         |                  ^~~~
+   arch/arm64/mm/init.c:507:17: warning: braces around scalar initializer
+     507 |                 .text = {
+         |                 ^
+   arch/arm64/mm/init.c:507:17: note: (near initialization for 'execmem_params.jit.start')
+>> arch/arm64/mm/init.c:508:25: error: field name not in record or union initializer
+     508 |                         .start = VMALLOC_START,
+         |                         ^
+   arch/arm64/mm/init.c:508:25: note: (near initialization for 'execmem_params.jit.start')
+   arch/arm64/mm/init.c:509:25: error: field name not in record or union initializer
+     509 |                         .end = VMALLOC_END,
+         |                         ^
+   arch/arm64/mm/init.c:509:25: note: (near initialization for 'execmem_params.jit.start')
+   In file included from include/linux/pgtable.h:6,
+                    from arch/arm64/include/asm/io.h:12,
+                    from include/linux/io.h:13,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/arm64/include/asm/hardirq.h:17,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/kernel_stat.h:9,
+                    from include/linux/cgroup.h:26,
+                    from include/linux/memcontrol.h:13,
+                    from include/linux/swap.h:9,
+                    from arch/arm64/mm/init.c:12:
+   arch/arm64/include/asm/pgtable.h:25:33: warning: excess elements in scalar initializer
+      25 | #define VMALLOC_END             (VMEMMAP_START - SZ_256M)
+         |                                 ^
+   arch/arm64/mm/init.c:509:32: note: in expansion of macro 'VMALLOC_END'
+     509 |                         .end = VMALLOC_END,
+         |                                ^~~~~~~~~~~
+   arch/arm64/include/asm/pgtable.h:25:33: note: (near initialization for 'execmem_params.jit.start')
+      25 | #define VMALLOC_END             (VMEMMAP_START - SZ_256M)
+         |                                 ^
+   arch/arm64/mm/init.c:509:32: note: in expansion of macro 'VMALLOC_END'
+     509 |                         .end = VMALLOC_END,
+         |                                ^~~~~~~~~~~
+   arch/arm64/mm/init.c:510:25: error: field name not in record or union initializer
+     510 |                         .alignment = 1,
+         |                         ^
+   arch/arm64/mm/init.c:510:25: note: (near initialization for 'execmem_params.jit.start')
+   arch/arm64/mm/init.c:510:38: warning: excess elements in scalar initializer
+     510 |                         .alignment = 1,
+         |                                      ^
+   arch/arm64/mm/init.c:510:38: note: (near initialization for 'execmem_params.jit.start')
+   arch/arm64/mm/init.c: In function 'execmem_arch_params':
+   arch/arm64/mm/init.c:527:27: error: 'struct execmem_range' has no member named 'text'
+     527 |         execmem_params.jit.text.pgprot = PAGE_KERNEL_ROX;
+         |                           ^
 
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  155  
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  156  /**
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  157   * elm_load_syndrome - Load ELM syndrome reg
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  158   * @info:	elm info
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  159   * @err_vec:	elm error vectors
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  160   * @ecc:	buffer with calculated ecc
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  161   *
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  162   * Load syndrome fragment registers with calculated ecc in reverse order.
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  163   */
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  164  static void elm_load_syndrome(struct elm_info *info,
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  165  		struct elm_errorvec *err_vec, u8 *ecc)
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  166  {
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  167  	int i, offset;
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  168  	u32 val;
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  169  
-79f013518d435e drivers/mtd/devices/elm.c Pekon Gupta    2014-03-20  170  	for (i = 0; i < info->ecc_steps; i++) {
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  171  
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  172  		/* Check error reported */
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  173  		if (err_vec[i].error_reported) {
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  174  			elm_configure_page_mode(info, i, true);
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  175  			offset = ELM_SYNDROME_FRAGMENT_0 +
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  176  				SYNDROME_FRAGMENT_REG_SIZE * i;
-ea0760244d2356 drivers/mtd/devices/elm.c Pekon Gupta    2014-03-20  177  			switch (info->bch_type) {
-ea0760244d2356 drivers/mtd/devices/elm.c Pekon Gupta    2014-03-20  178  			case BCH8_ECC:
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  179  				/* syndrome fragment 0 = ecc[9-12B] */
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04 @180  				val = cpu_to_be32(*(u32 *) &ecc[9]);
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  181  				elm_write_reg(info, offset, val);
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  182  
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  183  				/* syndrome fragment 1 = ecc[5-8B] */
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  184  				offset += 4;
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  185  				val = cpu_to_be32(*(u32 *) &ecc[5]);
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  186  				elm_write_reg(info, offset, val);
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  187  
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  188  				/* syndrome fragment 2 = ecc[1-4B] */
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  189  				offset += 4;
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  190  				val = cpu_to_be32(*(u32 *) &ecc[1]);
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  191  				elm_write_reg(info, offset, val);
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  192  
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  193  				/* syndrome fragment 3 = ecc[0B] */
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  194  				offset += 4;
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  195  				val = ecc[0];
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  196  				elm_write_reg(info, offset, val);
-ea0760244d2356 drivers/mtd/devices/elm.c Pekon Gupta    2014-03-20  197  				break;
-ea0760244d2356 drivers/mtd/devices/elm.c Pekon Gupta    2014-03-20  198  			case BCH4_ECC:
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  199  				/* syndrome fragment 0 = ecc[20-52b] bits */
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04 @200  				val = (cpu_to_be32(*(u32 *) &ecc[3]) >> 4) |
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  201  					((ecc[2] & 0xf) << 28);
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  202  				elm_write_reg(info, offset, val);
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  203  
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  204  				/* syndrome fragment 1 = ecc[0-20b] bits */
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  205  				offset += 4;
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  206  				val = cpu_to_be32(*(u32 *) &ecc[0]) >> 12;
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  207  				elm_write_reg(info, offset, val);
-ea0760244d2356 drivers/mtd/devices/elm.c Pekon Gupta    2014-03-20  208  				break;
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  209  			case BCH16_ECC:
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19 @210  				val = cpu_to_be32(*(u32 *) &ecc[22]);
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  211  				elm_write_reg(info, offset, val);
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  212  				offset += 4;
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  213  				val = cpu_to_be32(*(u32 *) &ecc[18]);
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  214  				elm_write_reg(info, offset, val);
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  215  				offset += 4;
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  216  				val = cpu_to_be32(*(u32 *) &ecc[14]);
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  217  				elm_write_reg(info, offset, val);
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  218  				offset += 4;
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  219  				val = cpu_to_be32(*(u32 *) &ecc[10]);
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  220  				elm_write_reg(info, offset, val);
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  221  				offset += 4;
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  222  				val = cpu_to_be32(*(u32 *) &ecc[6]);
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  223  				elm_write_reg(info, offset, val);
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  224  				offset += 4;
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  225  				val = cpu_to_be32(*(u32 *) &ecc[2]);
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  226  				elm_write_reg(info, offset, val);
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  227  				offset += 4;
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  228  				val = cpu_to_be32(*(u32 *) &ecc[0]) >> 16;
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  229  				elm_write_reg(info, offset, val);
-2be589e4b28457 drivers/mtd/devices/elm.c pekon gupta    2014-05-19  230  				break;
-ea0760244d2356 drivers/mtd/devices/elm.c Pekon Gupta    2014-03-20  231  			default:
-ea0760244d2356 drivers/mtd/devices/elm.c Pekon Gupta    2014-03-20  232  				pr_err("invalid config bch_type\n");
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  233  			}
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  234  		}
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  235  
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  236  		/* Update ecc pointer with ecc byte size */
-ea0760244d2356 drivers/mtd/devices/elm.c Pekon Gupta    2014-03-20  237  		ecc += info->ecc_syndrome_size;
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  238  	}
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  239  }
-bf22433575ef30 drivers/mtd/devices/elm.c Philip Avinash 2013-01-04  240  
 
-:::::: The code at line 180 was first introduced by commit
-:::::: bf22433575ef30a4807f0620498017df0f27df67 mtd: devices: elm: Add support for ELM error correction
+vim +507 arch/arm64/mm/init.c
 
-:::::: TO: Philip Avinash <avinashphilip@ti.com>
-:::::: CC: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
+   497	
+   498	#ifdef CONFIG_EXECMEM
+   499	static struct execmem_params execmem_params __ro_after_init = {
+   500		.modules = {
+   501			.text = {
+   502				.flags = EXECMEM_KASAN_SHADOW,
+   503				.alignment = MODULE_ALIGN,
+   504			},
+   505		},
+   506		.jit = {
+ > 507			.text = {
+ > 508				.start = VMALLOC_START,
+   509				.end = VMALLOC_END,
+   510				.alignment = 1,
+   511			},
+   512		},
+   513	};
+   514	
 
 -- 
 0-DAY CI Kernel Test Service
