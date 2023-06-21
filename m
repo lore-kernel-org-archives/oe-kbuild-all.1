@@ -1,43 +1,55 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16AA18C16;
-	Wed, 21 Jun 2023 17:39:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C968019E5B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 17:50:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687369156; x=1718905156;
+  t=1687369827; x=1718905827;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yywjmcFhp0Xhr10wWSryUggb3ssTjcNnG7Uf/H71MUg=;
-  b=Y2F+EyMM8J9AZ0FcJCFucvO4WHVLCMNKCr+XrVJxOxh+JlDDNCnaBFTG
-   zMeyA5odjhWANxbthNxJmmgdi4IqmzTcoaYves1LXz+E0XU3NOhDOwU60
-   FPnwF0kQ7I2m6TdOLMnThOm7loHegUAdbYqTzdhBF6AnfZC4m6rpV7U3d
-   GBWYlY4uUH5n8gs3ODssXpb4jw4ZNhkFBOADce0iZlmxnwC5nSwzgvOW8
-   0dRCIV2JuRYemDP18ZWRBD6ESz81h0dNeWgKV4jObt/vn/KulaBibW1iT
-   GUnfSCsFyX1QHBRnP+36gW06AsE26VtHGURTlB+jTl2yFKMnZCGnaw559
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="339869390"
+  bh=FvgO26ZV8KFkH6De3TQgsHq/u7Q2rPq8oBE4FkR4Q30=;
+  b=TKeTJDU07sj3kXX/n174Kyy5WueuWWc99h2L6XLFVN2sK61yWSgqC13e
+   NiUXAwyUsZZ4F1CiY7ZoymjkbjZgF5ugQDP2ZGHN+lyuZ0vfi2RZw9EN9
+   AMavHzb98eqZGG7BAEIaAM8sQZvOpMPvQlbzeuSn0ArbGU40DogTRIdou
+   ObYCTOEMiP2m95SttUctQ7L5j9kSQ/eNNX7tqk7LbYqnKXLlBKBEGGGA3
+   0tWH70KOJCn0+Ng8GAmvS5xucaZm782+3igmj91k2ciQSyp09h41z5g9X
+   o3jioouiJ3lr50Z0olvEN5UZ1NBGZyxw9dwlajscF9s/TfX9mtp4spQIY
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="357754001"
 X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
-   d="scan'208";a="339869390"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 10:39:15 -0700
+   d="scan'208";a="357754001"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 10:50:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="1044815270"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="664761236"
 X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
-   d="scan'208";a="1044815270"
+   d="scan'208";a="664761236"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 21 Jun 2023 10:39:14 -0700
+  by orsmga003.jf.intel.com with ESMTP; 21 Jun 2023 10:50:14 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qC1nV-0006zj-2F;
-	Wed, 21 Jun 2023 17:39:13 +0000
-Date: Thu, 22 Jun 2023 01:39:03 +0800
+	id 1qC1yA-0006zv-02;
+	Wed, 21 Jun 2023 17:50:14 +0000
+Date: Thu, 22 Jun 2023 01:49:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ivan Orlov <ivan.orlov0322@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] USB: make usb class a const structure
-Message-ID: <202306220131.tZ2QkUzF-lkp@intel.com>
-References: <20230621150903.1219439-1-ivan.orlov0322@gmail.com>
+To: Markus Schneider-Pargmann <msp@baylibre.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
+	Wolfgang Grandegger <wg@grandegger.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Vincent MAILHOL <mailhol.vincent@wanadoo.fr>,
+	Simon Horman <simon.horman@corigine.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-can@vger.kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Julien Panis <jpanis@baylibre.com>,
+	Markus Schneider-Pargmann <msp@baylibre.com>
+Subject: Re: [PATCH v4 01/12] can: m_can: Write transmit header and data in
+ one transaction
+Message-ID: <202306220154.20bzOw90-lkp@intel.com>
+References: <20230621092350.3130866-2-msp@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,136 +58,172 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230621150903.1219439-1-ivan.orlov0322@gmail.com>
+In-Reply-To: <20230621092350.3130866-2-msp@baylibre.com>
 
-Hi Ivan,
+Hi Markus,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linus/master v6.4-rc7 next-20230621]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on ac9a78681b921877518763ba0e89202254349d1b]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Orlov/USB-make-usb-class-a-const-structure/20230621-231418
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230621150903.1219439-1-ivan.orlov0322%40gmail.com
-patch subject: [PATCH v2] USB: make usb class a const structure
-config: hexagon-randconfig-r041-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220131.tZ2QkUzF-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220131.tZ2QkUzF-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Schneider-Pargmann/can-m_can-Write-transmit-header-and-data-in-one-transaction/20230621-173848
+base:   ac9a78681b921877518763ba0e89202254349d1b
+patch link:    https://lore.kernel.org/r/20230621092350.3130866-2-msp%40baylibre.com
+patch subject: [PATCH v4 01/12] can: m_can: Write transmit header and data in one transaction
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230622/202306220154.20bzOw90-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220154.20bzOw90-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306220131.tZ2QkUzF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306220154.20bzOw90-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/usb/core/file.c:25:
-   In file included from include/linux/usb.h:16:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from drivers/usb/core/file.c:25:
-   In file included from include/linux/usb.h:16:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from drivers/usb/core/file.c:25:
-   In file included from include/linux/usb.h:16:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:334:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
->> drivers/usb/core/file.c:132:6: warning: variable 'retval' is uninitialized when used here [-Wuninitialized]
-           if (retval)
-               ^~~~~~
-   drivers/usb/core/file.c:113:12: note: initialize the variable 'retval' to silence this warning
-           int retval;
-                     ^
-                      = 0
-   7 warnings generated.
+   drivers/net/can/m_can/m_can.c: In function 'm_can_tx_handler':
+>> drivers/net/can/m_can/m_can.c:1635:27: warning: unused variable 'fifo_header' [-Wunused-variable]
+    1635 |         struct id_and_dlc fifo_header;
+         |                           ^~~~~~~~~~~
 
 
-vim +/retval +132 drivers/usb/core/file.c
+vim +/fifo_header +1635 drivers/net/can/m_can/m_can.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  126  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  127  	if (class_driver->fops == NULL)
-0026e00523a85b Alan Stern         2010-09-21  128  		return -EINVAL;
-0026e00523a85b Alan Stern         2010-09-21  129  	if (intf->minor >= 0)
-0026e00523a85b Alan Stern         2010-09-21  130  		return -EADDRINUSE;
-0026e00523a85b Alan Stern         2010-09-21  131  
-0026e00523a85b Alan Stern         2010-09-21 @132  	if (retval)
-0026e00523a85b Alan Stern         2010-09-21  133  		return retval;
-0026e00523a85b Alan Stern         2010-09-21  134  
-079d440e103da3 Greg Kroah-Hartman 2012-05-01  135  	dev_dbg(&intf->dev, "looking for a minor, starting at %d\n", minor_base);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  136  
-d4ead16f50f9ad Alan Stern         2007-05-22  137  	down_write(&minor_rwsem);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  138  	for (minor = minor_base; minor < MAX_USB_MINORS; ++minor) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  139  		if (usb_minors[minor])
-^1da177e4c3f41 Linus Torvalds     2005-04-16  140  			continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  141  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  142  		usb_minors[minor] = class_driver->fops;
-0026e00523a85b Alan Stern         2010-09-21  143  		intf->minor = minor;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  144  		break;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  145  	}
-303911cfc5b95d Alan Stern         2019-08-12  146  	if (intf->minor < 0) {
-d4ead16f50f9ad Alan Stern         2007-05-22  147  		up_write(&minor_rwsem);
-0026e00523a85b Alan Stern         2010-09-21  148  		return -EXFULL;
-303911cfc5b95d Alan Stern         2019-08-12  149  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  150  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  151  	/* create a usb class device for this usb interface */
-7071a3ce0ca058 Kay Sievers        2008-05-02  152  	snprintf(name, sizeof(name), class_driver->name, minor - minor_base);
-56a929ad72b02b Ivan Orlov         2023-06-21  153  	intf->usb_dev = device_create(&usbmisc_class, &intf->dev,
-f7a386c5b8ff34 Kay Sievers        2009-04-30  154  				      MKDEV(USB_MAJOR, minor), class_driver,
-f8868ed0078a84 Andy Shevchenko    2015-12-10  155  				      "%s", kbasename(name));
-0873c76485c126 Greg Kroah-Hartman 2006-06-20  156  	if (IS_ERR(intf->usb_dev)) {
-0026e00523a85b Alan Stern         2010-09-21  157  		usb_minors[minor] = NULL;
-0026e00523a85b Alan Stern         2010-09-21  158  		intf->minor = -1;
-0873c76485c126 Greg Kroah-Hartman 2006-06-20  159  		retval = PTR_ERR(intf->usb_dev);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  160  	}
-303911cfc5b95d Alan Stern         2019-08-12  161  	up_write(&minor_rwsem);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  162  	return retval;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  163  }
-782e70c6fc2290 Greg Kroah-Hartman 2008-01-25  164  EXPORT_SYMBOL_GPL(usb_register_dev);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  165  
+10c1c3975a6663 Mario Huettel             2017-04-08  1627  
+441ac340169b79 Dan Murphy                2019-05-09  1628  static netdev_tx_t m_can_tx_handler(struct m_can_classdev *cdev)
+e0d1f4816f2a7e Dong Aisheng              2014-07-16  1629  {
+441ac340169b79 Dan Murphy                2019-05-09  1630  	struct canfd_frame *cf = (struct canfd_frame *)cdev->tx_skb->data;
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1631  	u8 len_padded = DIV_ROUND_UP(cf->len, 4);
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1632  	struct m_can_fifo_element fifo_element;
+441ac340169b79 Dan Murphy                2019-05-09  1633  	struct net_device *dev = cdev->net;
+441ac340169b79 Dan Murphy                2019-05-09  1634  	struct sk_buff *skb = cdev->tx_skb;
+812270e5445bd1 Matt Kline                2021-08-16 @1635  	struct id_and_dlc fifo_header;
+812270e5445bd1 Matt Kline                2021-08-16  1636  	u32 cccr, fdflags;
+c1eaf8b9bd3145 Markus Schneider-Pargmann 2022-12-06  1637  	u32 txfqs;
+812270e5445bd1 Matt Kline                2021-08-16  1638  	int err;
+10c1c3975a6663 Mario Huettel             2017-04-08  1639  	int putidx;
+e0d1f4816f2a7e Dong Aisheng              2014-07-16  1640  
+e04b2cfe61072c Marc Kleine-Budde         2021-05-05  1641  	cdev->tx_skb = NULL;
+e04b2cfe61072c Marc Kleine-Budde         2021-05-05  1642  
+10c1c3975a6663 Mario Huettel             2017-04-08  1643  	/* Generate ID field for TX buffer Element */
+10c1c3975a6663 Mario Huettel             2017-04-08  1644  	/* Common to all supported M_CAN versions */
+e0d1f4816f2a7e Dong Aisheng              2014-07-16  1645  	if (cf->can_id & CAN_EFF_FLAG) {
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1646  		fifo_element.id = cf->can_id & CAN_EFF_MASK;
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1647  		fifo_element.id |= TX_BUF_XTD;
+e0d1f4816f2a7e Dong Aisheng              2014-07-16  1648  	} else {
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1649  		fifo_element.id = ((cf->can_id & CAN_SFF_MASK) << 18);
+e0d1f4816f2a7e Dong Aisheng              2014-07-16  1650  	}
+e0d1f4816f2a7e Dong Aisheng              2014-07-16  1651  
+e0d1f4816f2a7e Dong Aisheng              2014-07-16  1652  	if (cf->can_id & CAN_RTR_FLAG)
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1653  		fifo_element.id |= TX_BUF_RTR;
+e0d1f4816f2a7e Dong Aisheng              2014-07-16  1654  
+441ac340169b79 Dan Murphy                2019-05-09  1655  	if (cdev->version == 30) {
+10c1c3975a6663 Mario Huettel             2017-04-08  1656  		netif_stop_queue(dev);
+10c1c3975a6663 Mario Huettel             2017-04-08  1657  
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1658  		fifo_element.dlc = can_fd_len2dlc(cf->len) << 16;
+80646733f11c2e Dong Aisheng              2014-11-18  1659  
+812270e5445bd1 Matt Kline                2021-08-16  1660  		/* Write the frame ID, DLC, and payload to the FIFO element. */
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1661  		err = m_can_fifo_write(cdev, 0, M_CAN_FIFO_ID, &fifo_element, 2);
+e39381770ec9ca Matt Kline                2021-08-16  1662  		if (err)
+e39381770ec9ca Matt Kline                2021-08-16  1663  			goto out_fail;
+e39381770ec9ca Matt Kline                2021-08-16  1664  
+812270e5445bd1 Matt Kline                2021-08-16  1665  		err = m_can_fifo_write(cdev, 0, M_CAN_FIFO_DATA,
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1666  				       cf->data, len_padded);
+e39381770ec9ca Matt Kline                2021-08-16  1667  		if (err)
+e39381770ec9ca Matt Kline                2021-08-16  1668  			goto out_fail;
+80646733f11c2e Dong Aisheng              2014-11-18  1669  
+441ac340169b79 Dan Murphy                2019-05-09  1670  		if (cdev->can.ctrlmode & CAN_CTRLMODE_FD) {
+441ac340169b79 Dan Murphy                2019-05-09  1671  			cccr = m_can_read(cdev, M_CAN_CCCR);
+20779943a080c5 Torin Cooper-Bennun       2021-05-04  1672  			cccr &= ~CCCR_CMR_MASK;
+80646733f11c2e Dong Aisheng              2014-11-18  1673  			if (can_is_canfd_skb(skb)) {
+80646733f11c2e Dong Aisheng              2014-11-18  1674  				if (cf->flags & CANFD_BRS)
+20779943a080c5 Torin Cooper-Bennun       2021-05-04  1675  					cccr |= FIELD_PREP(CCCR_CMR_MASK,
+20779943a080c5 Torin Cooper-Bennun       2021-05-04  1676  							   CCCR_CMR_CANFD_BRS);
+80646733f11c2e Dong Aisheng              2014-11-18  1677  				else
+20779943a080c5 Torin Cooper-Bennun       2021-05-04  1678  					cccr |= FIELD_PREP(CCCR_CMR_MASK,
+20779943a080c5 Torin Cooper-Bennun       2021-05-04  1679  							   CCCR_CMR_CANFD);
+80646733f11c2e Dong Aisheng              2014-11-18  1680  			} else {
+20779943a080c5 Torin Cooper-Bennun       2021-05-04  1681  				cccr |= FIELD_PREP(CCCR_CMR_MASK, CCCR_CMR_CAN);
+80646733f11c2e Dong Aisheng              2014-11-18  1682  			}
+441ac340169b79 Dan Murphy                2019-05-09  1683  			m_can_write(cdev, M_CAN_CCCR, cccr);
+80646733f11c2e Dong Aisheng              2014-11-18  1684  		}
+441ac340169b79 Dan Murphy                2019-05-09  1685  		m_can_write(cdev, M_CAN_TXBTIE, 0x1);
+2e8e79c416aae1 Marc Kleine-Budde         2022-03-17  1686  
+2e8e79c416aae1 Marc Kleine-Budde         2022-03-17  1687  		can_put_echo_skb(skb, dev, 0, 0);
+2e8e79c416aae1 Marc Kleine-Budde         2022-03-17  1688  
+441ac340169b79 Dan Murphy                2019-05-09  1689  		m_can_write(cdev, M_CAN_TXBAR, 0x1);
+10c1c3975a6663 Mario Huettel             2017-04-08  1690  		/* End of xmit function for version 3.0.x */
+10c1c3975a6663 Mario Huettel             2017-04-08  1691  	} else {
+10c1c3975a6663 Mario Huettel             2017-04-08  1692  		/* Transmit routine for version >= v3.1.x */
+10c1c3975a6663 Mario Huettel             2017-04-08  1693  
+c1eaf8b9bd3145 Markus Schneider-Pargmann 2022-12-06  1694  		txfqs = m_can_read(cdev, M_CAN_TXFQS);
+c1eaf8b9bd3145 Markus Schneider-Pargmann 2022-12-06  1695  
+10c1c3975a6663 Mario Huettel             2017-04-08  1696  		/* Check if FIFO full */
+c1eaf8b9bd3145 Markus Schneider-Pargmann 2022-12-06  1697  		if (_m_can_tx_fifo_full(txfqs)) {
+10c1c3975a6663 Mario Huettel             2017-04-08  1698  			/* This shouldn't happen */
+10c1c3975a6663 Mario Huettel             2017-04-08  1699  			netif_stop_queue(dev);
+10c1c3975a6663 Mario Huettel             2017-04-08  1700  			netdev_warn(dev,
+10c1c3975a6663 Mario Huettel             2017-04-08  1701  				    "TX queue active although FIFO is full.");
+441ac340169b79 Dan Murphy                2019-05-09  1702  
+441ac340169b79 Dan Murphy                2019-05-09  1703  			if (cdev->is_peripheral) {
+f524f829b75a7d Dan Murphy                2019-05-09  1704  				kfree_skb(skb);
+f524f829b75a7d Dan Murphy                2019-05-09  1705  				dev->stats.tx_dropped++;
+f524f829b75a7d Dan Murphy                2019-05-09  1706  				return NETDEV_TX_OK;
+f524f829b75a7d Dan Murphy                2019-05-09  1707  			} else {
+10c1c3975a6663 Mario Huettel             2017-04-08  1708  				return NETDEV_TX_BUSY;
+10c1c3975a6663 Mario Huettel             2017-04-08  1709  			}
+f524f829b75a7d Dan Murphy                2019-05-09  1710  		}
+10c1c3975a6663 Mario Huettel             2017-04-08  1711  
+10c1c3975a6663 Mario Huettel             2017-04-08  1712  		/* get put index for frame */
+c1eaf8b9bd3145 Markus Schneider-Pargmann 2022-12-06  1713  		putidx = FIELD_GET(TXFQS_TFQPI_MASK, txfqs);
+812270e5445bd1 Matt Kline                2021-08-16  1714  
+812270e5445bd1 Matt Kline                2021-08-16  1715  		/* Construct DLC Field, with CAN-FD configuration.
+812270e5445bd1 Matt Kline                2021-08-16  1716  		 * Use the put index of the fifo as the message marker,
+812270e5445bd1 Matt Kline                2021-08-16  1717  		 * used in the TX interrupt for sending the correct echo frame.
+812270e5445bd1 Matt Kline                2021-08-16  1718  		 */
+10c1c3975a6663 Mario Huettel             2017-04-08  1719  
+10c1c3975a6663 Mario Huettel             2017-04-08  1720  		/* get CAN FD configuration of frame */
+10c1c3975a6663 Mario Huettel             2017-04-08  1721  		fdflags = 0;
+10c1c3975a6663 Mario Huettel             2017-04-08  1722  		if (can_is_canfd_skb(skb)) {
+10c1c3975a6663 Mario Huettel             2017-04-08  1723  			fdflags |= TX_BUF_FDF;
+10c1c3975a6663 Mario Huettel             2017-04-08  1724  			if (cf->flags & CANFD_BRS)
+10c1c3975a6663 Mario Huettel             2017-04-08  1725  				fdflags |= TX_BUF_BRS;
+10c1c3975a6663 Mario Huettel             2017-04-08  1726  		}
+10c1c3975a6663 Mario Huettel             2017-04-08  1727  
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1728  		fifo_element.dlc = FIELD_PREP(TX_BUF_MM_MASK, putidx) |
+e39381770ec9ca Matt Kline                2021-08-16  1729  			FIELD_PREP(TX_BUF_DLC_MASK, can_fd_len2dlc(cf->len)) |
+e39381770ec9ca Matt Kline                2021-08-16  1730  			fdflags | TX_BUF_EFC;
+10c1c3975a6663 Mario Huettel             2017-04-08  1731  
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1732  		memcpy_and_pad(fifo_element.data, CANFD_MAX_DLEN, &cf->data,
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1733  			       cf->len, 0);
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1734  
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1735  		err = m_can_fifo_write(cdev, putidx, M_CAN_FIFO_ID,
+9a10b9d9f7e946 Markus Schneider-Pargmann 2023-06-21  1736  				       &fifo_element, 2 + len_padded);
+e39381770ec9ca Matt Kline                2021-08-16  1737  		if (err)
+e39381770ec9ca Matt Kline                2021-08-16  1738  			goto out_fail;
+10c1c3975a6663 Mario Huettel             2017-04-08  1739  
+10c1c3975a6663 Mario Huettel             2017-04-08  1740  		/* Push loopback echo.
+10c1c3975a6663 Mario Huettel             2017-04-08  1741  		 * Will be looped back on TX interrupt based on message marker
+10c1c3975a6663 Mario Huettel             2017-04-08  1742  		 */
+1dcb6e57db8334 Vincent Mailhol           2021-01-11  1743  		can_put_echo_skb(skb, dev, putidx, 0);
+10c1c3975a6663 Mario Huettel             2017-04-08  1744  
+10c1c3975a6663 Mario Huettel             2017-04-08  1745  		/* Enable TX FIFO element to start transfer  */
+441ac340169b79 Dan Murphy                2019-05-09  1746  		m_can_write(cdev, M_CAN_TXBAR, (1 << putidx));
+10c1c3975a6663 Mario Huettel             2017-04-08  1747  
+10c1c3975a6663 Mario Huettel             2017-04-08  1748  		/* stop network queue if fifo full */
+441ac340169b79 Dan Murphy                2019-05-09  1749  		if (m_can_tx_fifo_full(cdev) ||
+10c1c3975a6663 Mario Huettel             2017-04-08  1750  		    m_can_next_echo_skb_occupied(dev, putidx))
+10c1c3975a6663 Mario Huettel             2017-04-08  1751  			netif_stop_queue(dev);
+10c1c3975a6663 Mario Huettel             2017-04-08  1752  	}
+e0d1f4816f2a7e Dong Aisheng              2014-07-16  1753  
+e0d1f4816f2a7e Dong Aisheng              2014-07-16  1754  	return NETDEV_TX_OK;
+e39381770ec9ca Matt Kline                2021-08-16  1755  
+e39381770ec9ca Matt Kline                2021-08-16  1756  out_fail:
+e39381770ec9ca Matt Kline                2021-08-16  1757  	netdev_err(dev, "FIFO write returned %d\n", err);
+e39381770ec9ca Matt Kline                2021-08-16  1758  	m_can_disable_all_interrupts(cdev);
+e39381770ec9ca Matt Kline                2021-08-16  1759  	return NETDEV_TX_BUSY;
+e0d1f4816f2a7e Dong Aisheng              2014-07-16  1760  }
+e0d1f4816f2a7e Dong Aisheng              2014-07-16  1761  
 
 -- 
 0-DAY CI Kernel Test Service
