@@ -1,41 +1,44 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F189018C2E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 15:46:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA09219539
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 16:17:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687362380; x=1718898380;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6aeZt3AGr6ft5yHMkjJnVz9mKRAHdriZ/qLt81RNsCk=;
-  b=eOnkERFWMP/jRvKEvw+8KvZ/iN/UHFEGBYO8OKThB9G7oSwo/npuK1ga
-   80Da7AWqjhLfCEhJLu/XZ9ykfxqWNL+66yp5aWJjpS1ZskrUL2zq5dGcf
-   VgYyFvvOx+kQj/bGLYM39tAsIvq7R7GtgzCU03+wQHtopZpvnwfqXfqqX
-   UiyVvjLCEhTn+C5YmbPZC3WtG0orcb7qxDInsTbi+2o5Jb3et7FFjtPI0
-   5qdU/+dHGraEFjV9/+GJQsJYOh8naUmn7yXb24qmuE5cdK4hJ0JWKTXjo
-   Anmm39BVqbxTvpVfTzsTooJQeehOrwcQbBpAY6VaLdNVnV5WKvBY/ICyJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="359082024"
-X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="359082024"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 08:46:11 -0700
+  t=1687364236; x=1718900236;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rxKRee1PvgvFVbzPPQZHgcw3OZcbiMAAqPT/0q5+tqg=;
+  b=ZuiQuxR7n6A4jB0MlTU+BgzgPCF8U9wDeEExGIIZ+mRCC/2z2eCNKbmY
+   rvaMyqyzev6ymG3n9R/DN3SggWZy/37NTBzFzm/NPouYcy5mmGMKTvqIf
+   UJvBnLfnHrhZ4oyJjyf4LFVcWHND4ReGGGU15nqXJWOmjLJNuVM2BfAho
+   HFxsd2A2Esi0tWu//cur5iOrV/tJm+V1sS4CHgpyxKnro9jU/h1ZfZXK7
+   coHRErCu8fm4+WRgdkzex/Q9HIBO8rUm4cAu6YM4xpLt6TiLMGo3HS68D
+   S5bQebGppfus8j2Ffy+4UwSj9Omh++9IEYEGwQ00zr2LPTH1SpKZsGM1t
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="362766058"
+X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
+   d="scan'208";a="362766058"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 09:17:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="717704974"
-X-IronPort-AV: E=Sophos;i="6.00,260,1681196400"; 
-   d="scan'208";a="717704974"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="784538111"
+X-IronPort-AV: E=Sophos;i="6.00,261,1681196400"; 
+   d="scan'208";a="784538111"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Jun 2023 08:46:10 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 21 Jun 2023 09:17:12 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qC025-0006uv-2s;
-	Wed, 21 Jun 2023 15:46:09 +0000
-Date: Wed, 21 Jun 2023 23:45:31 +0800
+	id 1qC0W7-0006w7-1K;
+	Wed, 21 Jun 2023 16:17:11 +0000
+Date: Thu, 22 Jun 2023 00:16:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arc-rimi.c:undefined reference to `ioremap'
-Message-ID: <202306212350.fgz5R8Xv-lkp@intel.com>
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v5 4/4] PM: domains: Add and set generic sync state
+ callback
+Message-ID: <202306220007.ZM9y9ygo-lkp@intel.com>
+References: <20230621144019.3219858-5-abel.vesa@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,72 +47,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230621144019.3219858-5-abel.vesa@linaro.org>
 
-Hi Heiko,
+Hi Abel,
 
-FYI, the error/warning still remains.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e660abd551f1172e428b4e4003de887176a8a1fd
-commit: 6ef55060a1cc29dd54ff390f22cb3de266dab2b0 s390: make use of CONFIG_FUNCTION_ALIGNMENT
-date:   3 months ago
-config: s390-randconfig-r035-20230621 (https://download.01.org/0day-ci/archive/20230621/202306212350.fgz5R8Xv-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212350.fgz5R8Xv-lkp@intel.com/reproduce)
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on linus/master v6.4-rc7 next-20230621]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abel-Vesa/driver-core-Add-dev_set_drv_sync_state/20230621-224109
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20230621144019.3219858-5-abel.vesa%40linaro.org
+patch subject: [RFC PATCH v5 4/4] PM: domains: Add and set generic sync state callback
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20230622/202306220007.ZM9y9ygo-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220007.ZM9y9ygo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306212350.fgz5R8Xv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306220007.ZM9y9ygo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   s390-linux-ld: drivers/clk/clk-fixed-mmio.o: in function `fixed_mmio_clk_setup':
-   clk-fixed-mmio.c:(.text+0x92): undefined reference to `of_iomap'
-   s390-linux-ld: clk-fixed-mmio.c:(.text+0xda): undefined reference to `iounmap'
-   s390-linux-ld: drivers/dma/fsl-edma.o: in function `fsl_edma_probe':
-   fsl-edma.c:(.text+0xa02): undefined reference to `devm_platform_ioremap_resource'
-   s390-linux-ld: fsl-edma.c:(.text+0xc86): undefined reference to `devm_platform_ioremap_resource'
-   s390-linux-ld: drivers/dma/qcom/hidma.o: in function `hidma_probe':
-   hidma.c:(.text+0x137a): undefined reference to `devm_ioremap_resource'
-   s390-linux-ld: hidma.c:(.text+0x13d4): undefined reference to `devm_ioremap_resource'
-   s390-linux-ld: drivers/tty/ipwireless/main.o: in function `ipwireless_detach':
-   main.c:(.text+0x90): undefined reference to `iounmap'
-   s390-linux-ld: main.c:(.text+0xd4): undefined reference to `iounmap'
-   s390-linux-ld: drivers/tty/ipwireless/main.o: in function `config_ipwireless':
-   main.c:(.text+0x23e): undefined reference to `iounmap'
-   s390-linux-ld: main.c:(.text+0x35c): undefined reference to `iounmap'
-   s390-linux-ld: drivers/tty/ipwireless/main.o: in function `ipwireless_probe.part.0':
-   main.c:(.text+0x468): undefined reference to `ioremap'
-   s390-linux-ld: main.c:(.text+0x51c): undefined reference to `ioremap'
-   s390-linux-ld: main.c:(.text+0x56a): undefined reference to `iounmap'
-   s390-linux-ld: main.c:(.text+0x59e): undefined reference to `iounmap'
-   s390-linux-ld: drivers/net/arcnet/arc-rimi.o: in function `check_mirror':
->> arc-rimi.c:(.text+0x2ba): undefined reference to `ioremap'
->> s390-linux-ld: arc-rimi.c:(.text+0x2dc): undefined reference to `iounmap'
-   s390-linux-ld: drivers/net/arcnet/arc-rimi.o: in function `arc_rimi_exit':
-   arc-rimi.c:(.exit.text+0x2e): undefined reference to `iounmap'
-   s390-linux-ld: drivers/net/arcnet/arc-rimi.o: in function `arcrimi_found':
-   arc-rimi.c:(.init.text+0xec): undefined reference to `ioremap'
-   s390-linux-ld: arc-rimi.c:(.init.text+0x184): undefined reference to `iounmap'
-   s390-linux-ld: arc-rimi.c:(.init.text+0x2a4): undefined reference to `iounmap'
-   s390-linux-ld: arc-rimi.c:(.init.text+0x37e): undefined reference to `ioremap'
-   s390-linux-ld: arc-rimi.c:(.init.text+0x466): undefined reference to `iounmap'
-   s390-linux-ld: drivers/net/ethernet/smsc/smc91c92_cs.o: in function `smc91c92_release':
-   smc91c92_cs.c:(.text+0x9ce): undefined reference to `iounmap'
-   s390-linux-ld: drivers/net/ethernet/smsc/smc91c92_cs.o: in function `smc91c92_config':
-   smc91c92_cs.c:(.text+0x1a3a): undefined reference to `ioremap'
-   s390-linux-ld: drivers/net/ethernet/xircom/xirc2ps_cs.o: in function `xirc2ps_release':
-   xirc2ps_cs.c:(.text+0x39e): undefined reference to `iounmap'
-   s390-linux-ld: drivers/net/ethernet/xircom/xirc2ps_cs.o: in function `xirc2ps_config':
-   xirc2ps_cs.c:(.text+0x1674): undefined reference to `ioremap'
-   s390-linux-ld: drivers/pcmcia/cistpl.o: in function `set_cis_map':
-   cistpl.c:(.text+0x4a4): undefined reference to `ioremap'
-   s390-linux-ld: cistpl.c:(.text+0x4de): undefined reference to `iounmap'
-   s390-linux-ld: cistpl.c:(.text+0x562): undefined reference to `iounmap'
-   s390-linux-ld: cistpl.c:(.text+0x574): undefined reference to `ioremap'
-   s390-linux-ld: drivers/pcmcia/cistpl.o: in function `release_cis_mem':
-   cistpl.c:(.text+0xdb6): undefined reference to `iounmap'
+>> drivers/base/power/domain.c:664:6: warning: no previous prototype for 'pm_genpd_power_off_unused_sync_state' [-Wmissing-prototypes]
+     664 | void pm_genpd_power_off_unused_sync_state(struct device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/pm_genpd_power_off_unused_sync_state +664 drivers/base/power/domain.c
+
+   656	
+   657	/**
+   658	 * pm_genpd_power_off_unused_sync_state - Power off all domains for provider.
+   659	 * @dev: Provider's device.
+   660	 *
+   661	 * Request power off for all unused domains of the provider.
+   662	 * This should be used exclusively as sync state callback for genpd providers.
+   663	 */
+ > 664	void pm_genpd_power_off_unused_sync_state(struct device *dev)
+   665	{
+   666		struct generic_pm_domain *genpd;
+   667	
+   668		mutex_lock(&gpd_list_lock);
+   669	
+   670		list_for_each_entry(genpd, &gpd_list, gpd_list_node)
+   671			if (genpd->provider && genpd->provider->dev == dev)
+   672				genpd_queue_power_off_work(genpd);
+   673	
+   674		mutex_unlock(&gpd_list_lock);
+   675	}
+   676	EXPORT_SYMBOL_GPL(pm_genpd_power_off_unused_sync_state);
+   677	
 
 -- 
 0-DAY CI Kernel Test Service
