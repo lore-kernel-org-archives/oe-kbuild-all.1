@@ -1,51 +1,49 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE4317FE1
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 13:56:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1687355765;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=7y9KT9PySXHthutNF44xmw8PTiv1Tz4Z5j5n+ktDan8=;
-	b=Pcaysak2oXYE3NzwHuODC5eA9CoPu4lgPIfEhbpbGAIJJa2PCcbmA4sNuTNGCuxdMH2g2U
-	/E+IlYOcbXUPXYXOqFIV3/m7+2e+K7jJl1empK/kBvsu1mXu1mCzE6te5zCWbhGBUCmD0c
-	biMAThqLuPJ67BUABlTDzKfKbYM0Al4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-103-U3catim0OvG360Z-jaGMYg-1; Wed, 21 Jun 2023 09:56:01 -0400
-X-MC-Unique: U3catim0OvG360Z-jaGMYg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com [10.11.54.6])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E914D858290;
-	Wed, 21 Jun 2023 13:55:59 +0000 (UTC)
-Received: from localhost (ovpn-12-166.pek2.redhat.com [10.72.12.166])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id AF9512166B32;
-	Wed, 21 Jun 2023 13:55:58 +0000 (UTC)
-Date: Wed, 21 Jun 2023 21:55:55 +0800
-From: Baoquan He <bhe@redhat.com>
-To: Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
-	linux-mm@kvack.org, arnd@arndb.de, hch@lst.de,
-	christophe.leroy@csgroup.eu, rppt@kernel.org, willy@infradead.org,
-	wangkefeng.wang@huawei.com, schnelle@linux.ibm.com,
-	David.Laight@aculab.com, shorne@gmail.com, deller@gmx.de,
-	nathan@kernel.org, glaubitz@physik.fu-berlin.de,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
-Subject: Re: [PATCH v7 10/19] s390: mm: Convert to GENERIC_IOREMAP
-Message-ID: <ZJMBa76Yx3ITgMYH@MiWiFi-R3L-srv>
-References: <20230620131356.25440-11-bhe@redhat.com>
- <202306211329.ticOJCSv-lkp@intel.com>
- <ZJLTxUOCEMh6l/El@MiWiFi-R3L-srv>
- <ZJLVB3CtS+3TodSp@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E36418C06
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 14:22:41 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3f9bece8e19so8838035e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 07:22:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687357360; x=1689949360;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=i5FQ28UXLLS9quprYBX6Hgz3nuVVSc8qCU7+Q260LaE=;
+        b=o+/DzAm33ZFGKO4oDnoZZtxgwib4RZXyw9EATQB3KSTyNaYiQfxoZG1iX6u9g/Vxa9
+         A1iutDRj6P1M1juZwLwDDJ5dmCeJ2Pb5tegZGPezvazsLP+7lzuVh3tM/L0AjzUXlcX1
+         /cOPSofGJcUiezUpvfi9kgPS858T1kk7vhFm+iFTmimsEjAUTMZAHDUPyErHFk9qyo5t
+         0zeekHMHXWH0r6PbvTn37sbQx+552G/LPkRpguO7cw+e6Yomp6vMKHYN4G8zGypdkkAr
+         8sih1RdVMyKgKX6NFiMoBN8OmTED7JY8UEhNzLQKpgoAyggAxorPTiXhbo87BytSGJMP
+         uF6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687357360; x=1689949360;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=i5FQ28UXLLS9quprYBX6Hgz3nuVVSc8qCU7+Q260LaE=;
+        b=bCrZJGUBhS0o6l5C5B86ZwdOjezS7wQOaYGy3DhJAmu6LKf/p62H9WN+Rxr2u+cb0L
+         PE0qvFdtkSRdUcJe5cY1vG2WhCNj0j/nD9VlKEjJSc9RUDDpkXQGTlfthtY9X/Z6fQfp
+         WjeOKCLv67Hzbhgy3GwjbulAYCS4w0qWKij69IkClegotfWDpb+57/qLbeHmMG4Iv64O
+         Dh8Obn4N0GEfCxOci0mKyOiGez3cM4Lp4anC6wulHkCdILMeg3UyWOm1J8g+QOB9CerI
+         +Ty7cI0dbkxn5lvGD/P0pUVDS6oE2MCc5aAN89eQgC4ktZw3oT1gEeIGHgJQ+CircMA5
+         qcvA==
+X-Gm-Message-State: AC+VfDzGcLmC8HT66WV7nZKfYivGtzzBWnryOXvddoSZuybr+MXyn9ye
+	O6bMSKdQMAGVhJ8omJpjPLML/g==
+X-Google-Smtp-Source: ACHHUZ4QJ9krB1XYfv5R5c2CltCqvwm514jibjifvAvi1qnREZBLgEhh5Cl2bHJz0BksjYkAJ7yg1A==
+X-Received: by 2002:a05:600c:2255:b0:3f9:a6f3:8a55 with SMTP id a21-20020a05600c225500b003f9a6f38a55mr10035034wmm.37.1687357360178;
+        Wed, 21 Jun 2023 07:22:40 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id y7-20020a05600c364700b003f8fbe3bf7asm14483974wmq.32.2023.06.21.07.22.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Jun 2023 07:22:38 -0700 (PDT)
+Date: Wed, 21 Jun 2023 17:22:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Lukas Wunner <lukas@wunner.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [l1k:doe 2/10] lib/asn1_encoder.c:345
+ asn1_encode_integer_large_positive() error: we previously assumed 'integer'
+ could be null (see line 331)
+Message-ID: <2fce3745-4b58-4599-9beb-9132ba63edd0@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,32 +52,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZJLVB3CtS+3TodSp@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 
-On 06/21/23 at 12:46pm, Alexander Gordeev wrote:
-> On Wed, Jun 21, 2023 at 06:41:09PM +0800, Baoquan He wrote:
-> 
-> Hi Baoquan,
-> 
-> > > [auto build test ERROR on akpm-mm/mm-everything]
-> > > 
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/asm-generic-iomap-h-remove-ARCH_HAS_IOREMAP_xx-macros/20230620-212135
-> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> > > patch link:    https://lore.kernel.org/r/20230620131356.25440-11-bhe%40redhat.com
-> > > patch subject: [PATCH v7 10/19] s390: mm: Convert to GENERIC_IOREMAP
-> > > config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230621/202306211329.ticOJCSv-lkp@intel.com/config)
-> > > compiler: s390-linux-gcc (GCC) 12.3.0
-> > > reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211329.ticOJCSv-lkp@intel.com/reproduce)
-> > 
-> > Thanks for reporting this.
-> > 
-> > I followed steps in above reproduce link, it failed as below. Please
-> > help check if anything is missing.
-> 
-> Could it be because you locally have the fix you posted aganst v6?
+tree:   https://github.com/l1k/linux doe
+head:   a80fa5bd85f66ad910329bbe8bbb004f45b2bd68
+commit: af175bd2d0ae71f1c4843947e7405ef8c5902ba1 [2/10] lib/asn1_encoder: Add a function to encode many byte integer values.
+config: i386-randconfig-m021-20230620 (https://download.01.org/0day-ci/archive/20230621/202306212123.meq6uVfL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306212123.meq6uVfL-lkp@intel.com/reproduce)
 
-I am not sure. I failed to setup the cross compiling environment
-accoridng to steps of lkp. I borrowed a s390x machine, will build with
-the config of lkp test robot to see if I can reproduce it.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202306212123.meq6uVfL-lkp@intel.com/
+
+smatch warnings:
+lib/asn1_encoder.c:345 asn1_encode_integer_large_positive() error: we previously assumed 'integer' could be null (see line 331)
+
+vim +/integer +345 lib/asn1_encoder.c
+
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  318  unsigned char *
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  319  asn1_encode_integer_large_positive(unsigned char *data,
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  320  				   const unsigned char *end_data, u32 tag,
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  321  				   const unsigned char *integer, int len)
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  322  {
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  323  	int data_len = end_data - data;
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  324  	unsigned char *d = &data[2];
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  325  	bool found = false;
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  326  	int i;
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  327  
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  328  	if (WARN(tag > 30, "ASN.1 tag can't be > 30"))
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  329  		return ERR_PTR(-EINVAL);
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  330  
+af175bd2d0ae71 Jonathan Cameron 2022-09-06 @331  	if (!integer && WARN(len > 127, "BUG: recode tag is too big (>127)"))
+
+Let's assume !integer and len == 127
+
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  332  		return ERR_PTR(-EINVAL);
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  333  
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  334  	if (IS_ERR(data))
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  335  		return data;
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  336  
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  337  	if (data_len < 3)
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  338  		return ERR_PTR(-EINVAL);
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  339  
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  340  	data[0] = _tagn(UNIV, PRIM, tag);
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  341  	/* Leave space for length */
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  342  	data_len -= 2;
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  343  
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  344  	for (i = 0; i < len; i++) {
+af175bd2d0ae71 Jonathan Cameron 2022-09-06 @345  		int byte = integer[i];
+
+Then it would lead to a crash here
+
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  346  
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  347  		if (!found && byte == 0)
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  348  			continue;
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  349  
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  350  		/*
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  351  		 * as per encode_integer
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  352  		 */
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  353  		if (!found && (byte & 0x80)) {
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  354  			*d++ = 0;
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  355  			data_len--;
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  356  		}
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  357  		found = true;
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  358  		if (data_len == 0)
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  359  			return ERR_PTR(-EINVAL);
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  360  
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  361  		*d++ = byte;
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  362  		data_len--;
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  363  	}
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  364  
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  365  	data[1] = d - data - 2;
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  366  
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  367  	return d;
+af175bd2d0ae71 Jonathan Cameron 2022-09-06  368  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
