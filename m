@@ -1,54 +1,45 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DD910E6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 05:44:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC5A3D8B;
+	Wed, 21 Jun 2023 05:55:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687326252; x=1718862252;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=U+Hs7VtPqjXBCVMun5WSNlqD7ECDAgylE9+jVB73LoY=;
-  b=YIFNExe6tV1qCRWz5Pjg12LQmtb3PI4XggpnKiWzvXNtKtMk5uLtvJun
-   EglbvcXc29o89RD8Qsy5gCmGssrFTbn9rgemkw5CNTHzn3V+OJhftDyUu
-   BzPpTVJUzKpaFjhg9QtgOPqbgz5iX4Yes/cLRBxrPB3D5BPdbGm7Hd1cU
-   R1x5WBrvsn9gz34O7Q9KJOjg44efAPR3bvvVbElGCWhOrjDDFM0w4Tyj9
-   jCF/dzqBkhKdU85txBTncn1MEfAdo5TscqtWAn/BGh5PkEIj5XfP8UOfd
-   RWwSwpKWKymAG1G96cNz8zMjM28LeJh1J6sS9WkkJ6iw/5hAwoyiN4rWC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="360087387"
+  t=1687326913; x=1718862913;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AnKoyt07jyE0JSq/KjyoMyx60atWQ9DwUQeQAPnkltI=;
+  b=Dm1EUJXE8ERN6W+EGqe7lsNh48iM4jjmH/gB5LtRayzApu2Wq+z1xdi3
+   hQk1wpFQZVVtHCKl1AjrUmPLVQuUAX6tSdNtqnNA2JMebF/gNzUs4gogQ
+   8sqqA0KB1AzDDOhDnbq218cWjgAPyP2hEZ2ETcdVAJOvJ/b7BW8dStMzB
+   DqEI1qG2ofOl8D348FIoDO7fZl48KosktUEPBVflz/bB6/Mp3jrnSH/zZ
+   CZqHlT1XIf07ZUbf2/v8po5YaMypGwCxZ9uBtC33iQn55iJO7cJniiFOa
+   cMo3N+fhAgrgfRaxaZdSwy3tllGIT4c5A47bLQRD2IylfvBgOgP0VQtDr
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="357572539"
 X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
-   d="scan'208";a="360087387"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 22:44:03 -0700
+   d="scan'208";a="357572539"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 22:55:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="858847224"
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="744035640"
 X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
-   d="scan'208";a="858847224"
+   d="scan'208";a="744035640"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Jun 2023 22:43:58 -0700
+  by orsmga008.jf.intel.com with ESMTP; 20 Jun 2023 22:54:58 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBqdJ-0006ax-1Y;
-	Wed, 21 Jun 2023 05:43:57 +0000
-Date: Wed, 21 Jun 2023 13:43:16 +0800
+	id 1qBqnx-0006bH-2A;
+	Wed, 21 Jun 2023 05:54:57 +0000
+Date: Wed, 21 Jun 2023 13:54:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
-	linux-mm@kvack.org, arnd@arndb.de, hch@lst.de,
-	christophe.leroy@csgroup.eu, rppt@kernel.org, willy@infradead.org,
-	agordeev@linux.ibm.com, wangkefeng.wang@huawei.com,
-	schnelle@linux.ibm.com, David.Laight@aculab.com, shorne@gmail.com,
-	deller@gmx.de, nathan@kernel.org, glaubitz@physik.fu-berlin.de,
-	Baoquan He <bhe@redhat.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>, linux-s390@vger.kernel.org
-Subject: Re: [PATCH v7 10/19] s390: mm: Convert to GENERIC_IOREMAP
-Message-ID: <202306211329.ticOJCSv-lkp@intel.com>
-References: <20230620131356.25440-11-bhe@redhat.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: drivers/dma/dw-edma/dw-edma-v0-regs.h:37:4: warning: field sar
+ within 'struct dw_edma_v0_ch_regs' is less aligned than 'union (unnamed
+ union at drivers/dma/dw-edma/dw-edma-v0-regs.h:31:2)' and is usually due to
+ 'struct dw_edma_v0_ch_regs' being packed, wh...
+Message-ID: <202306211351.AsP2oCg8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,136 +48,234 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230620131356.25440-11-bhe@redhat.com>
 
-Hi Baoquan,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/asm-generic-iomap-h-remove-ARCH_HAS_IOREMAP_xx-macros/20230620-212135
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230620131356.25440-11-bhe%40redhat.com
-patch subject: [PATCH v7 10/19] s390: mm: Convert to GENERIC_IOREMAP
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230621/202306211329.ticOJCSv-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211329.ticOJCSv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e660abd551f1172e428b4e4003de887176a8a1fd
+commit: df99e7bbbec3180693b3d932a9cbc88346e2a30e ARM: omap1: use pci_remap_iospace() for omap_cf
+date:   1 year, 2 months ago
+config: arm-randconfig-r004-20230621 (https://download.01.org/0day-ci/archive/20230621/202306211351.AsP2oCg8-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211351.AsP2oCg8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306211329.ticOJCSv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306211351.AsP2oCg8-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/tty/ipwireless/main.c: In function 'ipwireless_probe':
-   drivers/tty/ipwireless/main.c:115:30: error: implicit declaration of function 'ioremap'; did you mean 'iounmap'? [-Werror=implicit-function-declaration]
-     115 |         ipw->common_memory = ioremap(p_dev->resource[2]->start,
-         |                              ^~~~~~~
-         |                              iounmap
->> drivers/tty/ipwireless/main.c:115:28: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     115 |         ipw->common_memory = ioremap(p_dev->resource[2]->start,
-         |                            ^
-   drivers/tty/ipwireless/main.c:139:26: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     139 |         ipw->attr_memory = ioremap(p_dev->resource[3]->start,
-         |                          ^
-   In file included from include/linux/io.h:13,
-                    from drivers/tty/ipwireless/main.c:26:
-   arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
-      29 | #define iounmap iounmap
-         |                 ^~~~~~~
-   drivers/tty/ipwireless/main.c:155:9: note: in expansion of macro 'iounmap'
-     155 |         iounmap(ipw->attr_memory);
-         |         ^~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/net/ethernet/smsc/smc91c92_cs.c: In function 'mhz_mfc_config':
->> drivers/net/ethernet/smsc/smc91c92_cs.c:447:17: error: implicit declaration of function 'ioremap'; did you mean 'ifr_map'? [-Werror=implicit-function-declaration]
-     447 |     smc->base = ioremap(link->resource[2]->start,
-         |                 ^~~~~~~
-         |                 ifr_map
->> drivers/net/ethernet/smsc/smc91c92_cs.c:447:15: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     447 |     smc->base = ioremap(link->resource[2]->start,
-         |               ^
-   In file included from include/linux/scatterlist.h:9,
-                    from include/linux/dma-mapping.h:11,
-                    from include/linux/skbuff.h:28,
-                    from include/net/net_namespace.h:43,
-                    from include/linux/netdevice.h:38,
-                    from drivers/net/ethernet/smsc/smc91c92_cs.c:38:
-   drivers/net/ethernet/smsc/smc91c92_cs.c: In function 'smc91c92_release':
-   arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
-      29 | #define iounmap iounmap
-         |                 ^~~~~~~
-   drivers/net/ethernet/smsc/smc91c92_cs.c:962:17: note: in expansion of macro 'iounmap'
-     962 |                 iounmap(smc->base);
-         |                 ^~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/net/ethernet/xircom/xirc2ps_cs.c: In function 'xirc2ps_config':
-   drivers/net/ethernet/xircom/xirc2ps_cs.c:843:28: error: implicit declaration of function 'ioremap'; did you mean 'iounmap'? [-Werror=implicit-function-declaration]
-     843 |         local->dingo_ccr = ioremap(link->resource[2]->start, 0x1000) + 0x0800;
-         |                            ^~~~~~~
-         |                            iounmap
->> drivers/net/ethernet/xircom/xirc2ps_cs.c:843:26: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     843 |         local->dingo_ccr = ioremap(link->resource[2]->start, 0x1000) + 0x0800;
-         |                          ^
-   In file included from include/linux/scatterlist.h:9,
-                    from include/linux/dma-mapping.h:11,
-                    from include/linux/skbuff.h:28,
-                    from include/linux/if_ether.h:19,
-                    from include/linux/ethtool.h:18,
-                    from drivers/net/ethernet/xircom/xirc2ps_cs.c:77:
-   drivers/net/ethernet/xircom/xirc2ps_cs.c: In function 'xirc2ps_release':
-   arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
-      29 | #define iounmap iounmap
-         |                 ^~~~~~~
-   drivers/net/ethernet/xircom/xirc2ps_cs.c:934:25: note: in expansion of macro 'iounmap'
-     934 |                         iounmap(local->dingo_ccr - 0x0800);
-         |                         ^~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/dma/dw-edma/dw-edma-v0-debugfs.c:13:
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:37:4: warning: field sar within 'struct dw_edma_v0_ch_regs' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:31:2)' and is usually due to 'struct dw_edma_v0_ch_regs' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      37 |         } sar;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:44:4: warning: field dar within 'struct dw_edma_v0_ch_regs' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:38:2)' and is usually due to 'struct dw_edma_v0_ch_regs' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      44 |         } dar;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:51:4: warning: field llp within 'struct dw_edma_v0_ch_regs' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:45:2)' and is usually due to 'struct dw_edma_v0_ch_regs' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      51 |         } llp;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:172:4: warning: field rd_err_status within 'struct dw_edma_v0_regs' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:166:2)' and is usually due to 'struct dw_edma_v0_regs' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+     172 |         } rd_err_status;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:182:4: warning: field rd_done_imwr within 'struct dw_edma_v0_regs' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:176:2)' and is usually due to 'struct dw_edma_v0_regs' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+     182 |         } rd_done_imwr;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:189:4: warning: field rd_abort_imwr within 'struct dw_edma_v0_regs' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:183:2)' and is usually due to 'struct dw_edma_v0_regs' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+     189 |         } rd_abort_imwr;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:71:4: warning: field wr_engine_hshake_cnt within 'struct dw_edma_v0_unroll' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:65:2)' and is usually due to 'struct dw_edma_v0_unroll' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      71 |         } wr_engine_hshake_cnt;
+         |           ^
+>> drivers/dma/dw-edma/dw-edma-v0-regs.h:79:4: warning: field rd_engine_hshake_cnt within 'struct dw_edma_v0_unroll' is less aligned than 'union (unnamed union at drivers/dma/dw-edma/dw-edma-v0-regs.h:73:2)' and is usually due to 'struct dw_edma_v0_unroll' being packed, which can lead to unaligned accesses [-Wunaligned-access]
+      79 |         } rd_engine_hshake_cnt;
+         |           ^
+   8 warnings generated.
 
 
-vim +447 drivers/net/ethernet/smsc/smc91c92_cs.c
+vim +37 drivers/dma/dw-edma/dw-edma-v0-regs.h
 
-b54bf94bf91e4c drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2008-08-02  422  
-fba395eee7d3f3 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2006-03-31  423  static int mhz_mfc_config(struct pcmcia_device *link)
-^1da177e4c3f41 drivers/net/pcmcia/smc91c92_cs.c Linus Torvalds    2005-04-16  424  {
-^1da177e4c3f41 drivers/net/pcmcia/smc91c92_cs.c Linus Torvalds    2005-04-16  425      struct net_device *dev = link->priv;
-^1da177e4c3f41 drivers/net/pcmcia/smc91c92_cs.c Linus Torvalds    2005-04-16  426      struct smc_private *smc = netdev_priv(dev);
-b5cb259e7fac55 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2010-07-24  427      unsigned int offset;
-b54bf94bf91e4c drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2008-08-02  428      int i;
-^1da177e4c3f41 drivers/net/pcmcia/smc91c92_cs.c Linus Torvalds    2005-04-16  429  
-00990e7ce0b0e5 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2010-07-30  430      link->config_flags |= CONF_ENABLE_SPKR | CONF_ENABLE_IRQ |
-00990e7ce0b0e5 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2010-07-30  431  	    CONF_AUTO_SET_IO;
-^1da177e4c3f41 drivers/net/pcmcia/smc91c92_cs.c Linus Torvalds    2005-04-16  432  
-^1da177e4c3f41 drivers/net/pcmcia/smc91c92_cs.c Linus Torvalds    2005-04-16  433      /* The Megahertz combo cards have modem-like CIS entries, so
-^1da177e4c3f41 drivers/net/pcmcia/smc91c92_cs.c Linus Torvalds    2005-04-16  434         we have to explicitly try a bunch of port combinations. */
-b54bf94bf91e4c drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2008-08-02  435      if (pcmcia_loop_config(link, mhz_mfc_config_check, NULL))
-dddfbd824b96a2 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2009-10-18  436  	    return -ENODEV;
-dddfbd824b96a2 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2009-10-18  437  
-9a017a910346af drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2010-07-24  438      dev->base_addr = link->resource[0]->start;
-^1da177e4c3f41 drivers/net/pcmcia/smc91c92_cs.c Linus Torvalds    2005-04-16  439  
-^1da177e4c3f41 drivers/net/pcmcia/smc91c92_cs.c Linus Torvalds    2005-04-16  440      /* Allocate a memory window, for accessing the ISR */
-cdb138080b7814 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2010-07-28  441      link->resource[2]->flags = WIN_DATA_WIDTH_8|WIN_MEMORY_TYPE_AM|WIN_ENABLE;
-cdb138080b7814 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2010-07-28  442      link->resource[2]->start = link->resource[2]->end = 0;
-cdb138080b7814 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2010-07-28  443      i = pcmcia_request_window(link, link->resource[2], 0);
-4c89e88bfde6a3 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2008-08-03  444      if (i != 0)
-dddfbd824b96a2 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2009-10-18  445  	    return -ENODEV;
-dddfbd824b96a2 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2009-10-18  446  
-cdb138080b7814 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2010-07-28 @447      smc->base = ioremap(link->resource[2]->start,
-cdb138080b7814 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2010-07-28  448  		    resource_size(link->resource[2]));
-7feabb6412ea23 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2010-07-29  449      offset = (smc->manfid == MANFID_MOTOROLA) ? link->config_base : 0;
-cdb138080b7814 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2010-07-28  450      i = pcmcia_map_mem_page(link, link->resource[2], offset);
-8e95a2026f3b43 drivers/net/pcmcia/smc91c92_cs.c Joe Perches       2009-12-03  451      if ((i == 0) &&
-8e95a2026f3b43 drivers/net/pcmcia/smc91c92_cs.c Joe Perches       2009-12-03  452  	(smc->manfid == MANFID_MEGAHERTZ) &&
-8e95a2026f3b43 drivers/net/pcmcia/smc91c92_cs.c Joe Perches       2009-12-03  453  	(smc->cardid == PRODID_MEGAHERTZ_EM3288))
-^1da177e4c3f41 drivers/net/pcmcia/smc91c92_cs.c Linus Torvalds    2005-04-16  454  	    mhz_3288_power(link);
-^1da177e4c3f41 drivers/net/pcmcia/smc91c92_cs.c Linus Torvalds    2005-04-16  455  
-dddfbd824b96a2 drivers/net/pcmcia/smc91c92_cs.c Dominik Brodowski 2009-10-18  456      return 0;
-^1da177e4c3f41 drivers/net/pcmcia/smc91c92_cs.c Linus Torvalds    2005-04-16  457  }
-^1da177e4c3f41 drivers/net/pcmcia/smc91c92_cs.c Linus Torvalds    2005-04-16  458  
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04   26  
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04   27  struct dw_edma_v0_ch_regs {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   28  	u32 ch_control1;				/* 0x0000 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   29  	u32 ch_control2;				/* 0x0004 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   30  	u32 transfer_size;				/* 0x0008 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   31  	union {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   32  		u64 reg;				/* 0x000c..0x0010 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   33  		struct {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   34  			u32 lsb;			/* 0x000c */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   35  			u32 msb;			/* 0x0010 */
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04   36  		};
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  @37  	} sar;
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   38  	union {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   39  		u64 reg;				/* 0x0014..0x0018 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   40  		struct {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   41  			u32 lsb;			/* 0x0014 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   42  			u32 msb;			/* 0x0018 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   43  		};
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  @44  	} dar;
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   45  	union {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   46  		u64 reg;				/* 0x001c..0x0020 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   47  		struct {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   48  			u32 lsb;			/* 0x001c */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   49  			u32 msb;			/* 0x0020 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   50  		};
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  @51  	} llp;
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   52  } __packed;
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04   53  
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04   54  struct dw_edma_v0_ch {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   55  	struct dw_edma_v0_ch_regs wr;			/* 0x0200 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   56  	u32 padding_1[55];				/* 0x0224..0x02fc */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   57  	struct dw_edma_v0_ch_regs rd;			/* 0x0300 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   58  	u32 padding_2[55];				/* 0x0324..0x03fc */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   59  } __packed;
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04   60  
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04   61  struct dw_edma_v0_unroll {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   62  	u32 padding_1;					/* 0x00f8 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   63  	u32 wr_engine_chgroup;				/* 0x0100 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   64  	u32 rd_engine_chgroup;				/* 0x0104 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   65  	union {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   66  		u64 reg;				/* 0x0108..0x010c */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   67  		struct {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   68  			u32 lsb;			/* 0x0108 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   69  			u32 msb;			/* 0x010c */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   70  		};
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  @71  	} wr_engine_hshake_cnt;
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   72  	u32 padding_2[2];				/* 0x0110..0x0114 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   73  	union {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   74  		u64 reg;				/* 0x0120..0x0124 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   75  		struct {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   76  			u32 lsb;			/* 0x0120 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   77  			u32 msb;			/* 0x0124 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18   78  		};
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  @79  	} rd_engine_hshake_cnt;
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   80  	u32 padding_3[2];				/* 0x0120..0x0124 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   81  	u32 wr_ch0_pwr_en;				/* 0x0128 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   82  	u32 wr_ch1_pwr_en;				/* 0x012c */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   83  	u32 wr_ch2_pwr_en;				/* 0x0130 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   84  	u32 wr_ch3_pwr_en;				/* 0x0134 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   85  	u32 wr_ch4_pwr_en;				/* 0x0138 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   86  	u32 wr_ch5_pwr_en;				/* 0x013c */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   87  	u32 wr_ch6_pwr_en;				/* 0x0140 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   88  	u32 wr_ch7_pwr_en;				/* 0x0144 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   89  	u32 padding_4[8];				/* 0x0148..0x0164 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   90  	u32 rd_ch0_pwr_en;				/* 0x0168 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   91  	u32 rd_ch1_pwr_en;				/* 0x016c */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   92  	u32 rd_ch2_pwr_en;				/* 0x0170 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   93  	u32 rd_ch3_pwr_en;				/* 0x0174 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   94  	u32 rd_ch4_pwr_en;				/* 0x0178 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   95  	u32 rd_ch5_pwr_en;				/* 0x018c */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   96  	u32 rd_ch6_pwr_en;				/* 0x0180 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   97  	u32 rd_ch7_pwr_en;				/* 0x0184 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   98  	u32 padding_5[30];				/* 0x0188..0x01fc */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18   99  	struct dw_edma_v0_ch ch[EDMA_V0_MAX_NR_CH];	/* 0x0200..0x1120 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  100  } __packed;
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04  101  
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04  102  struct dw_edma_v0_legacy {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  103  	u32 viewport_sel;				/* 0x00f8 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  104  	struct dw_edma_v0_ch_regs ch;			/* 0x0100..0x0120 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  105  } __packed;
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04  106  
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04  107  struct dw_edma_v0_regs {
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04  108  	/* eDMA global registers */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  109  	u32 ctrl_data_arb_prior;			/* 0x0000 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  110  	u32 padding_1;					/* 0x0004 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  111  	u32 ctrl;					/* 0x0008 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  112  	u32 wr_engine_en;				/* 0x000c */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  113  	u32 wr_doorbell;				/* 0x0010 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  114  	u32 padding_2;					/* 0x0014 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  115  	union {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  116  		u64 reg;				/* 0x0018..0x001c */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  117  		struct {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  118  			u32 lsb;			/* 0x0018 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  119  			u32 msb;			/* 0x001c */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  120  		};
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  121  	} wr_ch_arb_weight;
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  122  	u32 padding_3[3];				/* 0x0020..0x0028 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  123  	u32 rd_engine_en;				/* 0x002c */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  124  	u32 rd_doorbell;				/* 0x0030 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  125  	u32 padding_4;					/* 0x0034 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  126  	union {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  127  		u64 reg;				/* 0x0038..0x003c */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  128  		struct {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  129  			u32 lsb;			/* 0x0038 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  130  			u32 msb;			/* 0x003c */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  131  		};
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  132  	} rd_ch_arb_weight;
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  133  	u32 padding_5[3];				/* 0x0040..0x0048 */
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04  134  	/* eDMA interrupts registers */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  135  	u32 wr_int_status;				/* 0x004c */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  136  	u32 padding_6;					/* 0x0050 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  137  	u32 wr_int_mask;				/* 0x0054 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  138  	u32 wr_int_clear;				/* 0x0058 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  139  	u32 wr_err_status;				/* 0x005c */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  140  	union {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  141  		u64 reg;				/* 0x0060..0x0064 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  142  		struct {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  143  			u32 lsb;			/* 0x0060 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  144  			u32 msb;			/* 0x0064 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  145  		};
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  146  	} wr_done_imwr;
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  147  	union {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  148  		u64 reg;				/* 0x0068..0x006c */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  149  		struct {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  150  			u32 lsb;			/* 0x0068 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  151  			u32 msb;			/* 0x006c */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  152  		};
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  153  	} wr_abort_imwr;
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  154  	u32 wr_ch01_imwr_data;				/* 0x0070 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  155  	u32 wr_ch23_imwr_data;				/* 0x0074 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  156  	u32 wr_ch45_imwr_data;				/* 0x0078 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  157  	u32 wr_ch67_imwr_data;				/* 0x007c */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  158  	u32 padding_7[4];				/* 0x0080..0x008c */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  159  	u32 wr_linked_list_err_en;			/* 0x0090 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  160  	u32 padding_8[3];				/* 0x0094..0x009c */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  161  	u32 rd_int_status;				/* 0x00a0 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  162  	u32 padding_9;					/* 0x00a4 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  163  	u32 rd_int_mask;				/* 0x00a8 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  164  	u32 rd_int_clear;				/* 0x00ac */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  165  	u32 padding_10;					/* 0x00b0 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  166  	union {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  167  		u64 reg;				/* 0x00b4..0x00b8 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  168  		struct {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  169  			u32 lsb;			/* 0x00b4 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  170  			u32 msb;			/* 0x00b8 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  171  		};
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18 @172  	} rd_err_status;
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  173  	u32 padding_11[2];				/* 0x00bc..0x00c0 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  174  	u32 rd_linked_list_err_en;			/* 0x00c4 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  175  	u32 padding_12;					/* 0x00c8 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  176  	union {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  177  		u64 reg;				/* 0x00cc..0x00d0 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  178  		struct {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  179  			u32 lsb;			/* 0x00cc */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  180  			u32 msb;			/* 0x00d0 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  181  		};
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18 @182  	} rd_done_imwr;
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  183  	union {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  184  		u64 reg;				/* 0x00d4..0x00d8 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  185  		struct {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  186  			u32 lsb;			/* 0x00d4 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  187  			u32 msb;			/* 0x00d8 */
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  188  		};
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18 @189  	} rd_abort_imwr;
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  190  	u32 rd_ch01_imwr_data;				/* 0x00dc */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  191  	u32 rd_ch23_imwr_data;				/* 0x00e0 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  192  	u32 rd_ch45_imwr_data;				/* 0x00e4 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  193  	u32 rd_ch67_imwr_data;				/* 0x00e8 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  194  	u32 padding_13[4];				/* 0x00ec..0x00f8 */
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04  195  	/* eDMA channel context grouping */
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04  196  	union dw_edma_v0_type {
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  197  		struct dw_edma_v0_legacy legacy;	/* 0x00f8..0x0120 */
+b79f17517ad8c92 Gustavo Pimentel 2021-02-18  198  		struct dw_edma_v0_unroll unroll;	/* 0x00f8..0x1120 */
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04  199  	} type;
+04e0a39fc10f82a Gustavo Pimentel 2021-02-18  200  } __packed;
+7e4b8a4fbe2ceca Gustavo Pimentel 2019-06-04  201  
+
+:::::: The code at line 37 was first introduced by commit
+:::::: 04e0a39fc10f82a71b84af73351333b184cee578 dmaengine: dw-edma: Add writeq() and readq() for 64 bits architectures
+
+:::::: TO: Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+:::::: CC: Vinod Koul <vkoul@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
