@@ -1,55 +1,44 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30067F0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 00:51:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F1A10FB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 21 Jun 2023 01:23:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687308710; x=1718844710;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=byNNmiRwVHwfrGYMfTJ3x0bUzqPnibOKlP6YriwHef0=;
-  b=QGa0Z7R+0lZYs+gT4K18c3FuhA/GFC0r3OdTMEAFLk55FvTWjSVouXSw
-   en02yUTbQ78lt2OMFTC99TL8BjYzRB2DsNtbW2ye2e/pAXG0ID6+K9dUJ
-   nkED71WyzUWEBZ3W1pkPOTvlF/Mw+E7DMwMEoNC8yCnqnwyOjzAuMY0Qw
-   DKe6Ioj4/L07mQO2YzcH5cjHsFy+dzNkC1GvWnjMRzn2hS6TSsmY17jzb
-   a6hYchByh3eGvbzXGLmMKeGPfVQI4PhUAXy/mUMYeAO/2ROmEJCgE8SLx
-   BELhZjQ5sndFRjqd04fZH50g/xCB7t3TpTyimL/Wdc7svPpsbAbxAoWYk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="344764967"
+  t=1687310629; x=1718846629;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZrqGHq0mL8z5Z88231g4LCzcTyFnr0T0ya0ZxpD9tBo=;
+  b=lcqtHuERJYXlkMbyoYdwIHBnbbshicnwoH8yPvGDI3L7ZGwBzDF3NPxV
+   vfbpVzivf46FvyR4lGUmbZ8qcrSSILJB+cqlD/1pt138xGvu2IzqSgKTT
+   cEu2rkfdHclPIm/chX6OFDP4Bt8LFL03GgQFwH6DAa+r+zI7J9+8NHXR9
+   xTmKHiE2F6HYhSu7nWA8AZysV5AytWlpNZQI9AXUdn01AAK8lNfKijd5g
+   u8e8VkNbHlFMS/B0/CNY+x39DUXuHrDTnezY+fJv/g3iC7Zkl6u05HEtw
+   Ese2CiJaFtGhTx6tNbPyC5e5wriyFLIci9Wyx1iOpiMi1gMKlb58pWGlK
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="389419638"
 X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="344764967"
+   d="scan'208";a="389419638"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 17:51:50 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 18:23:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="717416691"
+X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="717425036"
 X-IronPort-AV: E=Sophos;i="6.00,258,1681196400"; 
-   d="scan'208";a="717416691"
+   d="scan'208";a="717425036"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 20 Jun 2023 17:51:47 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 20 Jun 2023 18:23:48 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qBm4Y-0006Nv-1d;
-	Wed, 21 Jun 2023 00:51:46 +0000
-Date: Wed, 21 Jun 2023 08:51:45 +0800
+	id 1qBmZX-0006PI-2E;
+	Wed, 21 Jun 2023 01:23:47 +0000
+Date: Wed, 21 Jun 2023 09:23:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Jason-JH.Lin" <jason-jh.lin@mediatek.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
-	Singo Chang <singo.chang@mediatek.com>,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	Jason-ch Chen <jason-ch.chen@mediatek.com>,
-	Nancy Lin <nancy.lin@mediatek.com>,
-	Johnson Wang <johnson.wang@mediatek.com>,
-	Shawn Sung <shawn.sung@mediatek.com>,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] drm/mediatek: Fix void-pointer-to-enum-cast warning
-Message-ID: <202306210852.JWLKcawy-lkp@intel.com>
-References: <20230620102804.17585-1-jason-jh.lin@mediatek.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hverkuil-media-tree:drop-count 1/1]
+ drivers/staging/media/tegra-video/tegra20.c:570:31: error: initialization of
+ 'int (*)(struct vb2_queue *)' from incompatible pointer type 'int (*)(struct
+ vb2_queue *, u32)' {aka 'int (*)(struct vb2_queue *, unsigned int)'}
+Message-ID: <202306210933.6TK7mQuo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,96 +47,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230620102804.17585-1-jason-jh.lin@mediatek.com>
 
-Hi Jason-JH.Lin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.4-rc7 next-20230620]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-JH-Lin/drm-mediatek-Fix-void-pointer-to-enum-cast-warning/20230620-182906
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20230620102804.17585-1-jason-jh.lin%40mediatek.com
-patch subject: [PATCH] drm/mediatek: Fix void-pointer-to-enum-cast warning
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230621/202306210852.JWLKcawy-lkp@intel.com/config)
+tree:   git://linuxtv.org/hverkuil/media_tree.git drop-count
+head:   1c9aaf193556b0c5be8007bd4b241fa5b42a4326
+commit: 1c9aaf193556b0c5be8007bd4b241fa5b42a4326 [1/1] Drop count arg with start_streaming
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230621/202306210933.6TK7mQuo-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210852.JWLKcawy-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230621/202306210933.6TK7mQuo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306210852.JWLKcawy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306210933.6TK7mQuo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c: In function 'ovl_adaptor_comp_init':
->> drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c:429:24: error: incompatible types when assigning to type 'enum mtk_ovl_adaptor_comp_type' from type 'const void *'
-     429 |                 type = of_id->data;
-         |                        ^~~~~
---
-   drivers/gpu/drm/mediatek/mtk_drm_drv.c: In function 'mtk_drm_probe':
->> drivers/gpu/drm/mediatek/mtk_drm_drv.c:831:29: error: incompatible types when assigning to type 'enum mtk_ddp_comp_type' from type 'const void *'
-     831 |                 comp_type = of_id->data;
-         |                             ^~~~~
+>> drivers/staging/media/tegra-video/tegra20.c:570:31: error: initialization of 'int (*)(struct vb2_queue *)' from incompatible pointer type 'int (*)(struct vb2_queue *, u32)' {aka 'int (*)(struct vb2_queue *, unsigned int)'} [-Werror=incompatible-pointer-types]
+     570 |         .vi_start_streaming = tegra20_vi_start_streaming,
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/tegra-video/tegra20.c:570:31: note: (near initialization for 'tegra20_vi_ops.vi_start_streaming')
+   cc1: some warnings being treated as errors
 
 
-vim +429 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
+vim +570 drivers/staging/media/tegra-video/tegra20.c
 
-   405	
-   406	static int ovl_adaptor_comp_init(struct device *dev, struct component_match **match)
-   407	{
-   408		struct mtk_disp_ovl_adaptor *priv = dev_get_drvdata(dev);
-   409		struct device_node *node, *parent;
-   410		struct platform_device *comp_pdev;
-   411	
-   412		parent = dev->parent->parent->of_node->parent;
-   413	
-   414		for_each_child_of_node(parent, node) {
-   415			const struct of_device_id *of_id;
-   416			enum mtk_ovl_adaptor_comp_type type;
-   417			int id;
-   418	
-   419			of_id = of_match_node(mtk_ovl_adaptor_comp_dt_ids, node);
-   420			if (!of_id)
-   421				continue;
-   422	
-   423			if (!of_device_is_available(node)) {
-   424				dev_dbg(dev, "Skipping disabled component %pOF\n",
-   425					node);
-   426				continue;
-   427			}
-   428	
- > 429			type = of_id->data;
-   430			id = ovl_adaptor_comp_get_id(dev, node, type);
-   431			if (id < 0) {
-   432				dev_warn(dev, "Skipping unknown component %pOF\n",
-   433					 node);
-   434				continue;
-   435			}
-   436	
-   437			comp_pdev = of_find_device_by_node(node);
-   438			if (!comp_pdev)
-   439				return -EPROBE_DEFER;
-   440	
-   441			priv->ovl_adaptor_comp[id] = &comp_pdev->dev;
-   442	
-   443			drm_of_component_match_add(dev, match, compare_of, node);
-   444			dev_dbg(dev, "Adding component match for %pOF\n", node);
-   445		}
-   446	
-   447		if (!*match) {
-   448			dev_err(dev, "No match device for ovl_adaptor\n");
-   449			return -ENODEV;
-   450		}
-   451	
-   452		return 0;
-   453	}
-   454	
+e740d199cf0ff1 Luca Ceresoli 2023-04-18  563  
+e740d199cf0ff1 Luca Ceresoli 2023-04-18  564  static const struct tegra_vi_ops tegra20_vi_ops = {
+e740d199cf0ff1 Luca Ceresoli 2023-04-18  565  	.vi_enable = tegra20_vi_enable,
+e740d199cf0ff1 Luca Ceresoli 2023-04-18  566  	.channel_host1x_syncpt_init = tegra20_channel_host1x_syncpt_init,
+e740d199cf0ff1 Luca Ceresoli 2023-04-18  567  	.channel_host1x_syncpt_free = tegra20_channel_host1x_syncpt_free,
+e740d199cf0ff1 Luca Ceresoli 2023-04-18  568  	.vi_fmt_align = tegra20_fmt_align,
+e740d199cf0ff1 Luca Ceresoli 2023-04-18  569  	.channel_queue_setup = tegra20_channel_queue_setup,
+e740d199cf0ff1 Luca Ceresoli 2023-04-18 @570  	.vi_start_streaming = tegra20_vi_start_streaming,
+e740d199cf0ff1 Luca Ceresoli 2023-04-18  571  	.vi_stop_streaming = tegra20_vi_stop_streaming,
+e740d199cf0ff1 Luca Ceresoli 2023-04-18  572  };
+e740d199cf0ff1 Luca Ceresoli 2023-04-18  573  
+
+:::::: The code at line 570 was first introduced by commit
+:::::: e740d199cf0ff1e53ddc2ab067c0a09b55845d68 staging: media: tegra-video: add support for Tegra20 parallel input
+
+:::::: TO: Luca Ceresoli <luca.ceresoli@bootlin.com>
+:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
 -- 
 0-DAY CI Kernel Test Service
