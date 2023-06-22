@@ -1,51 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722B31E536
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 19:16:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704DF20690
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 20:09:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687461412; x=1718997412;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uI2cugghMPMvRogKoZJ3oTm+3R3ufG4U0Yhvp+OeKGs=;
-  b=Q8PT/ydrF38qe8kDNboKk9JJ8nj/YDf3LKtNTsaLKm1x199Bxhlc9wPU
-   W68/GJUUBpRMzP8uRvrvLSQR2VMy2iar3AhbW3Ulp/pRsQpv43PFD9UNi
-   42TJTDUAVPmPvkRd7ZLV0/8JuwwqjmQVKIhiKrUxlas2zG96eQog2UDWV
-   XULjWHbnoNe2nvJ0cmXT9vSRv6y+64H8bfAx6UB9e/OLh8u4Te7qsytAw
-   WUtTmLCKWXrOdrYgn01f2kfG+VLgB7kUk0aGvXPYC0LRK9SKdnh8YM9c/
-   ZEUK5TmQAYsxMsNvHlt58vFAvhyiKqnzsarCDf6QbXpQyG/NS3wCFJIqG
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="359450995"
+  t=1687464555; x=1719000555;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LtS0lT4sAG7nMflmHY8kE1JPVbIuyfKTMTqmmmbftAA=;
+  b=GJPzHIuB0MOe6NjQPTQ5d42XLRIfu41/P8+ivYDE7crN83jaJJmuuPtO
+   m8LSrsYRzRTfW9ryFcK61vfS6h769RySY7ytedXMCr+qD+o/3zC/94n6D
+   GNuA+Brr/od9n5foFZURHgicnkGHpPZ1RfQMbpjEqJDJfBMkrmEg2r0AL
+   hHFKFBqQtbUChdVC0ZjoFSgyy2l4DpKXVbvg8dRoIvhQLgcOoXN8Z8Yh7
+   1fwVo1erzfQld65MrFHAk0jCm7em261U1uY8jymkX2r98l+vqVAdmwOp4
+   Obp4yQLDxDauwbhdTnsqEBK7rqhSnqdLyB0LxFtmxwpLHZPk0Qr1I96Vt
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="345360560"
 X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; 
-   d="scan'208";a="359450995"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 12:16:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="961695680"
+   d="scan'208";a="345360560"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 13:08:48 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="749472708"
 X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; 
-   d="scan'208";a="961695680"
+   d="scan'208";a="749472708"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 22 Jun 2023 12:16:46 -0700
+  by orsmga001.jf.intel.com with ESMTP; 22 Jun 2023 13:08:47 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qCPnR-0007kk-2R;
-	Thu, 22 Jun 2023 19:16:45 +0000
-Date: Fri, 23 Jun 2023 03:16:35 +0800
+	id 1qCQbm-0007lP-0L;
+	Thu, 22 Jun 2023 20:08:46 +0000
+Date: Fri, 23 Jun 2023 04:08:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sathvika Vasireddy <sv@linux.ibm.com>,
-	Naveen N Rao <naveen@kernel.org>
+To: "Borislav Petkov (AMD)" <bp@alien8.de>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v2 14/14] powerpc: Implement UACCESS validation on PPC32
-Message-ID: <202306230353.iPqv57lK-lkp@intel.com>
-References: <be282f27ad808418c7475b51a00b4cb035f89a95.1687430631.git.christophe.leroy@csgroup.eu>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: [stable:linux-6.3.y 832/2125] vmlinux.o: warning: objtool:
+ emit_return+0x39: relocation to !ENDBR: .text.__x86.return_thunk+0x3b
+Message-ID: <202306230453.Se5vFvig-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,157 +46,173 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <be282f27ad808418c7475b51a00b4cb035f89a95.1687430631.git.christophe.leroy@csgroup.eu>
 
-Hi Christophe,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on powerpc/next]
-[also build test WARNING on powerpc/fixes masahiroy-kbuild/for-next masahiroy-kbuild/fixes linus/master v6.4-rc7]
-[cannot apply to next-20230622]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/powerpc-kuap-Avoid-unnecessary-reads-of-MD_AP/20230622-185950
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
-patch link:    https://lore.kernel.org/r/be282f27ad808418c7475b51a00b4cb035f89a95.1687430631.git.christophe.leroy%40csgroup.eu
-patch subject: [PATCH v2 14/14] powerpc: Implement UACCESS validation on PPC32
-config: powerpc-randconfig-r025-20230622 (https://download.01.org/0day-ci/archive/20230623/202306230353.iPqv57lK-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230353.iPqv57lK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-6.3.y
+head:   00d3ac724541a0661b148b16cf34fac135a4fd53
+commit: e16be8fb7291568f5c1bbfc6367ba7e389eb0e79 [832/2125] x86/retbleed: Fix return thunk alignment
+config: x86_64-randconfig-a015-20230622 (https://download.01.org/0day-ci/archive/20230623/202306230453.Se5vFvig-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230453.Se5vFvig-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306230353.iPqv57lK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306230453.Se5vFvig-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   lib/ubsan.c:307:6: warning: no previous prototype for '__ubsan_handle_type_mismatch' [-Wmissing-prototypes]
-     307 | void __ubsan_handle_type_mismatch(struct type_mismatch_data *data,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/ubsan.o: warning: objtool: ubsan_type_mismatch_common+0x24: UACCESS-safe disables UACCESS
-   lib/ubsan.o: warning: objtool: __ubsan_handle_type_mismatch+0x54: call to _restgpr_30_x() with UACCESS enabled
-   lib/ubsan.o: warning: objtool: __ubsan_handle_type_mismatch_v1+0x5c: call to _restgpr_30_x() with UACCESS enabled
-   lib/ubsan.o: warning: objtool: __ubsan_handle_load_invalid_value+0x28: call to memset() with UACCESS enabled
-   lib/ubsan.o: warning: objtool: __ubsan_handle_shift_out_of_bounds+0x34: call to memset() with UACCESS enabled
---
->> arch/powerpc/kernel/ptrace/ptrace-view.o: warning: objtool: gpr32_set_common+0x2b8: redundant UACCESS disable
+   vmlinux.o: warning: objtool: ibt_selftest+0x11: sibling call from callable instruction with modified stack frame
+   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x77: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x80: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: fixup_bad_iret+0x9e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: noist_exc_debug+0x46: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_nmi+0xc4: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: poke_int3_handler+0x3e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: native_sched_clock+0x89: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: kvm_clock_read+0x39: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: pvclock_clocksource_read_nowd+0x8b: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: local_clock+0x6d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x50: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x6e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: enter_from_user_mode+0x38: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: syscall_enter_from_user_mode+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x38: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x38: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_exit+0xa3: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_kernel_exit_state+0x2a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_kernel_enter_state+0x2a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: context_tracking_recursion_enter+0xb1: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_kernel_enter.constprop.0+0x19: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_kernel_exit.constprop.0+0x42: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_nmi_enter+0x37: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_idle_enter+0x18: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_idle_exit+0x36: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_irq_enter+0x77: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_irq_exit+0x77: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __ct_user_enter+0x10e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: check_preemption_disabled.constprop.0+0x28: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: mwait_idle+0x31: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0x67: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0x7c: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_idle_enter+0x51: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: poll_idle+0x54: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ibt_selftest+0x1e: return with modified stack frame
+>> vmlinux.o: warning: objtool: emit_return+0x39: relocation to !ENDBR: .text.__x86.return_thunk+0x3b
 
 
-objdump-func vmlinux.o ubsan_type_mismatch_common:
-0000 00000000 <ubsan_type_mismatch_common>:
-0000    0:	94 21 ff e0 	stwu    r1,-32(r1)
-0004    4:	7c 08 02 a6 	mflr    r0
-0008    8:	bf 61 00 0c 	stmw    r27,12(r1)
-000c    c:	7c 7f 1b 78 	mr      r31,r3
-0010   10:	90 01 00 24 	stw     r0,36(r1)
-0014   14:	7c 9e 23 78 	mr      r30,r4
-0018   18:	48 00 00 01 	bl      18 <ubsan_type_mismatch_common+0x18>	18: R_PPC_REL24	__sanitizer_cov_trace_pc
-001c   1c:	7f 90 0a a6 	mfpid   r28
-0020   20:	39 20 00 00 	li      r9,0
-0024   24:	7d 30 0b a6 	mtpid   r9
-0028   28:	4c 00 01 2c 	isync
-002c   2c:	2c 1e 00 00 	cmpwi   r30,0
-0030   30:	40 e2 00 58 	bne+    88 <ubsan_type_mismatch_common+0x88>
-0034   34:	48 00 00 01 	bl      34 <ubsan_type_mismatch_common+0x34>	34: R_PPC_REL24	__sanitizer_cov_trace_pc
-0038   38:	80 7f 00 00 	lwz     r3,0(r31)
-003c   3c:	48 00 00 01 	bl      3c <ubsan_type_mismatch_common+0x3c>	3c: R_PPC_REL24	.text.suppress_report
-0040   40:	2c 03 00 00 	cmpwi   r3,0
-0044   44:	40 e2 01 30 	bne+    174 <ubsan_type_mismatch_common+0x174>
-0048   48:	48 00 00 01 	bl      48 <ubsan_type_mismatch_common+0x48>	48: R_PPC_REL24	__sanitizer_cov_trace_pc
-004c   4c:	80 7f 00 00 	lwz     r3,0(r31)
-0050   50:	3c 80 00 00 	lis     r4,0	52: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1
-0054   54:	38 84 00 00 	addi    r4,r4,0	56: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1
-0058   58:	48 00 00 01 	bl      58 <ubsan_type_mismatch_common+0x58>	58: R_PPC_REL24	.text.unlikely.ubsan_prologue
-005c   5c:	89 3f 00 0c 	lbz     r9,12(r31)
-0060   60:	3d 40 00 00 	lis     r10,0	62: R_PPC_ADDR16_HA	.rodata.type_check_kinds
-0064   64:	80 bf 00 04 	lwz     r5,4(r31)
-0068   68:	39 4a 00 00 	addi    r10,r10,0	6a: R_PPC_ADDR16_LO	.rodata.type_check_kinds
-006c   6c:	55 29 10 3a 	slwi    r9,r9,2
-0070   70:	7c 8a 48 2e 	lwzx    r4,r10,r9
-0074   74:	3c 60 00 00 	lis     r3,0	76: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0xf
-0078   78:	38 a5 00 04 	addi    r5,r5,4
-007c   7c:	38 63 00 00 	addi    r3,r3,0	7e: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0xf
-0080   80:	48 00 00 01 	bl      80 <ubsan_type_mismatch_common+0x80>	80: R_PPC_REL24	_printk
-0084   84:	48 00 00 ec 	b       170 <ubsan_type_mismatch_common+0x170>
-0088   88:	48 00 00 01 	bl      88 <ubsan_type_mismatch_common+0x88>	88: R_PPC_REL24	__sanitizer_cov_trace_pc
-008c   8c:	83 bf 00 08 	lwz     r29,8(r31)
-0090   90:	83 7f 00 00 	lwz     r27,0(r31)
-0094   94:	2c 1d 00 00 	cmpwi   r29,0
-0098   98:	41 c2 00 78 	beq-    110 <ubsan_type_mismatch_common+0x110>
-009c   9c:	3b bd ff ff 	addi    r29,r29,-1
-00a0   a0:	48 00 00 01 	bl      a0 <ubsan_type_mismatch_common+0xa0>	a0: R_PPC_REL24	__sanitizer_cov_trace_pc
-00a4   a4:	7f bd f0 39 	and.    r29,r29,r30
-00a8   a8:	41 e2 00 68 	beq+    110 <ubsan_type_mismatch_common+0x110>
-00ac   ac:	48 00 00 01 	bl      ac <ubsan_type_mismatch_common+0xac>	ac: R_PPC_REL24	__sanitizer_cov_trace_pc
-00b0   b0:	7f 63 db 78 	mr      r3,r27
-00b4   b4:	48 00 00 01 	bl      b4 <ubsan_type_mismatch_common+0xb4>	b4: R_PPC_REL24	.text.suppress_report
-00b8   b8:	2c 03 00 00 	cmpwi   r3,0
-00bc   bc:	40 e2 00 b8 	bne+    174 <ubsan_type_mismatch_common+0x174>
-00c0   c0:	48 00 00 01 	bl      c0 <ubsan_type_mismatch_common+0xc0>	c0: R_PPC_REL24	__sanitizer_cov_trace_pc
-00c4   c4:	80 7f 00 00 	lwz     r3,0(r31)
-00c8   c8:	3c 80 00 00 	lis     r4,0	ca: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0x2d
-00cc   cc:	38 84 00 00 	addi    r4,r4,0	ce: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0x2d
-00d0   d0:	48 00 00 01 	bl      d0 <ubsan_type_mismatch_common+0xd0>	d0: R_PPC_REL24	.text.unlikely.ubsan_prologue
-00d4   d4:	89 3f 00 0c 	lbz     r9,12(r31)
-00d8   d8:	3d 40 00 00 	lis     r10,0	da: R_PPC_ADDR16_HA	.rodata.type_check_kinds
-00dc   dc:	80 df 00 04 	lwz     r6,4(r31)
-00e0   e0:	39 4a 00 00 	addi    r10,r10,0	e2: R_PPC_ADDR16_LO	.rodata.type_check_kinds
-00e4   e4:	55 29 10 3a 	slwi    r9,r9,2
-00e8   e8:	7c 8a 48 2e 	lwzx    r4,r10,r9
-00ec   ec:	3c 60 00 00 	lis     r3,0	ee: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0x3f
-00f0   f0:	38 c6 00 04 	addi    r6,r6,4
-00f4   f4:	7f c5 f3 78 	mr      r5,r30
-00f8   f8:	38 63 00 00 	addi    r3,r3,0	fa: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0x3f
-00fc   fc:	48 00 00 01 	bl      fc <ubsan_type_mismatch_common+0xfc>	fc: R_PPC_REL24	_printk
-0100  100:	3c 60 00 00 	lis     r3,0	102: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0x67
-0104  104:	80 9f 00 08 	lwz     r4,8(r31)
-0108  108:	38 63 00 00 	addi    r3,r3,0	10a: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0x67
-010c  10c:	48 00 00 60 	b       16c <ubsan_type_mismatch_common+0x16c>
-0110  110:	48 00 00 01 	bl      110 <ubsan_type_mismatch_common+0x110>	110: R_PPC_REL24	__sanitizer_cov_trace_pc
-0114  114:	7f 63 db 78 	mr      r3,r27
-0118  118:	48 00 00 01 	bl      118 <ubsan_type_mismatch_common+0x118>	118: R_PPC_REL24	.text.suppress_report
-011c  11c:	2c 03 00 00 	cmpwi   r3,0
-0120  120:	40 e2 00 54 	bne+    174 <ubsan_type_mismatch_common+0x174>
-0124  124:	48 00 00 01 	bl      124 <ubsan_type_mismatch_common+0x124>	124: R_PPC_REL24	__sanitizer_cov_trace_pc
-0128  128:	80 7f 00 00 	lwz     r3,0(r31)
-012c  12c:	3c 80 00 00 	lis     r4,0	12e: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0x8c
-0130  130:	38 84 00 00 	addi    r4,r4,0	132: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0x8c
-0134  134:	48 00 00 01 	bl      134 <ubsan_type_mismatch_common+0x134>	134: R_PPC_REL24	.text.unlikely.ubsan_prologue
-0138  138:	89 3f 00 0c 	lbz     r9,12(r31)
-013c  13c:	3d 40 00 00 	lis     r10,0	13e: R_PPC_ADDR16_HA	.rodata.type_check_kinds
-0140  140:	39 4a 00 00 	addi    r10,r10,0	142: R_PPC_ADDR16_LO	.rodata.type_check_kinds
-0144  144:	55 29 10 3a 	slwi    r9,r9,2
-0148  148:	3c 60 00 00 	lis     r3,0	14a: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0xa1
-014c  14c:	7c 8a 48 2e 	lwzx    r4,r10,r9
-0150  150:	7f c5 f3 78 	mr      r5,r30
-0154  154:	38 63 00 00 	addi    r3,r3,0	156: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0xa1
-0158  158:	48 00 00 01 	bl      158 <ubsan_type_mismatch_common+0x158>	158: R_PPC_REL24	_printk
-015c  15c:	80 9f 00 04 	lwz     r4,4(r31)
-0160  160:	3c 60 00 00 	lis     r3,0	162: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0xca
-0164  164:	38 63 00 00 	addi    r3,r3,0	166: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0xca
-0168  168:	38 84 00 04 	addi    r4,r4,4
-016c  16c:	48 00 00 01 	bl      16c <ubsan_type_mismatch_common+0x16c>	16c: R_PPC_REL24	_printk
-0170  170:	48 00 00 01 	bl      170 <ubsan_type_mismatch_common+0x170>	170: R_PPC_REL24	.text.unlikely.ubsan_epilogue
-0174  174:	48 00 00 01 	bl      174 <ubsan_type_mismatch_common+0x174>	174: R_PPC_REL24	__sanitizer_cov_trace_pc
-0178  178:	2c 1c 00 00 	cmpwi   r28,0
-017c  17c:	41 e2 00 14 	beq+    190 <ubsan_type_mismatch_common+0x190>
-0180  180:	48 00 00 01 	bl      180 <ubsan_type_mismatch_common+0x180>	180: R_PPC_REL24	__sanitizer_cov_trace_pc
-0184  184:	81 22 0e b4 	lwz     r9,3764(r2)
-0188  188:	7d 30 0b a6 	mtpid   r9
-018c  18c:	4c 00 01 2c 	isync
-0190  190:	80 01 00 24 	lwz     r0,36(r1)
-0194  194:	83 61 00 0c 	lwz     r27,12(r1)
-0198  198:	83 81 00 10 	lwz     r28,16(r1)
-019c  19c:	83 a1 00 14 	lwz     r29,20(r1)
-01a0  1a0:	7c 08 03 a6 	mtlr    r0
-01a4  1a4:	83 c1 00 18 	lwz     r30,24(r1)
-01a8  1a8:	83 e1 00 1c 	lwz     r31,28(r1)
-01ac  1ac:	38 21 00 20 	addi    r1,r1,32
-01b0  1b0:	48 00 00 00 	b       1b0 <ubsan_type_mismatch_common+0x1b0>	1b0: R_PPC_REL24	__sanitizer_cov_trace_pc
+objdump-func vmlinux.o emit_return:
+0000 00000000000ef6c0 <emit_return>:
+0000    ef6c0:	e8 00 00 00 00       	call   ef6c5 <emit_return+0x5>	ef6c1: R_X86_64_PLT32	__fentry__-0x4
+0005    ef6c5:	48 b8 00 00 00 00 00 fc ff df 	movabs $0xdffffc0000000000,%rax
+000f    ef6cf:	55                   	push   %rbp
+0010    ef6d0:	48 89 fa             	mov    %rdi,%rdx
+0013    ef6d3:	48 c1 ea 03          	shr    $0x3,%rdx
+0017    ef6d7:	48 89 e5             	mov    %rsp,%rbp
+001a    ef6da:	41 55                	push   %r13
+001c    ef6dc:	41 54                	push   %r12
+001e    ef6de:	49 89 fc             	mov    %rdi,%r12
+0021    ef6e1:	53                   	push   %rbx
+0022    ef6e2:	48 83 ec 08          	sub    $0x8,%rsp
+0026    ef6e6:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
+002a    ef6ea:	0f 85 38 01 00 00    	jne    ef828 <emit_return+0x168>
+0030    ef6f0:	49 8b 1c 24          	mov    (%r12),%rbx
+0034    ef6f4:	e9 00 00 00 00       	jmp    ef6f9 <emit_return+0x39>	ef6f5: R_X86_64_PC32	.altinstr_aux+0xb4e
+0039    ef6f9:	49 bd 00 00 00 00 00 00 00 00 	movabs $0x0,%r13	ef6fb: R_X86_64_64	__x86_return_thunk-0x5
+0043    ef703:	49 29 f5             	sub    %rsi,%r13
+0046    ef706:	49 63 c5             	movslq %r13d,%rax
+0049    ef709:	49 39 c5             	cmp    %rax,%r13
+004c    ef70c:	0f 85 ed 00 00 00    	jne    ef7ff <emit_return+0x13f>
+0052    ef712:	48 b8 00 00 00 00 00 fc ff df 	movabs $0xdffffc0000000000,%rax
+005c    ef71c:	48 89 da             	mov    %rbx,%rdx
+005f    ef71f:	48 c1 ea 03          	shr    $0x3,%rdx
+0063    ef723:	0f b6 04 02          	movzbl (%rdx,%rax,1),%eax
+0067    ef727:	48 89 da             	mov    %rbx,%rdx
+006a    ef72a:	83 e2 07             	and    $0x7,%edx
+006d    ef72d:	38 d0                	cmp    %dl,%al
+006f    ef72f:	7f 08                	jg     ef739 <emit_return+0x79>
+0071    ef731:	84 c0                	test   %al,%al
+0073    ef733:	0f 85 0b 01 00 00    	jne    ef844 <emit_return+0x184>
+0079    ef739:	48 8d 7b 01          	lea    0x1(%rbx),%rdi
+007d    ef73d:	c6 03 e9             	movb   $0xe9,(%rbx)
+0080    ef740:	48 b8 00 00 00 00 00 fc ff df 	movabs $0xdffffc0000000000,%rax
+008a    ef74a:	48 89 fa             	mov    %rdi,%rdx
+008d    ef74d:	48 c1 ea 03          	shr    $0x3,%rdx
+0091    ef751:	0f b6 14 02          	movzbl (%rdx,%rax,1),%edx
+0095    ef755:	48 89 f8             	mov    %rdi,%rax
+0098    ef758:	83 e0 07             	and    $0x7,%eax
+009b    ef75b:	83 c0 03             	add    $0x3,%eax
+009e    ef75e:	38 d0                	cmp    %dl,%al
+00a0    ef760:	7c 08                	jl     ef76a <emit_return+0xaa>
+00a2    ef762:	84 d2                	test   %dl,%dl
+00a4    ef764:	0f 85 e7 00 00 00    	jne    ef851 <emit_return+0x191>
+00aa    ef76a:	44 89 6b 01          	mov    %r13d,0x1(%rbx)
+00ae    ef76e:	48 83 c3 05          	add    $0x5,%rbx
+00b2    ef772:	eb 59                	jmp    ef7cd <emit_return+0x10d>
+00b4    ef774:	48 b8 00 00 00 00 00 fc ff df 	movabs $0xdffffc0000000000,%rax
+00be    ef77e:	48 89 da             	mov    %rbx,%rdx
+00c1    ef781:	48 c1 ea 03          	shr    $0x3,%rdx
+00c5    ef785:	0f b6 04 02          	movzbl (%rdx,%rax,1),%eax
+00c9    ef789:	48 89 da             	mov    %rbx,%rdx
+00cc    ef78c:	83 e2 07             	and    $0x7,%edx
+00cf    ef78f:	38 d0                	cmp    %dl,%al
+00d1    ef791:	7f 08                	jg     ef79b <emit_return+0xdb>
+00d3    ef793:	84 c0                	test   %al,%al
+00d5    ef795:	0f 85 80 00 00 00    	jne    ef81b <emit_return+0x15b>
+00db    ef79b:	48 8d 7b 01          	lea    0x1(%rbx),%rdi
+00df    ef79f:	c6 03 c3             	movb   $0xc3,(%rbx)
+00e2    ef7a2:	48 b8 00 00 00 00 00 fc ff df 	movabs $0xdffffc0000000000,%rax
+00ec    ef7ac:	48 89 fa             	mov    %rdi,%rdx
+00ef    ef7af:	48 c1 ea 03          	shr    $0x3,%rdx
+00f3    ef7b3:	0f b6 04 02          	movzbl (%rdx,%rax,1),%eax
+00f7    ef7b7:	48 89 fa             	mov    %rdi,%rdx
+00fa    ef7ba:	83 e2 07             	and    $0x7,%edx
+00fd    ef7bd:	38 d0                	cmp    %dl,%al
+00ff    ef7bf:	7f 04                	jg     ef7c5 <emit_return+0x105>
+0101    ef7c1:	84 c0                	test   %al,%al
+0103    ef7c3:	75 4f                	jne    ef814 <emit_return+0x154>
+0105    ef7c5:	c6 43 01 cc          	movb   $0xcc,0x1(%rbx)
+0109    ef7c9:	48 83 c3 02          	add    $0x2,%rbx
+010d    ef7cd:	48 b8 00 00 00 00 00 fc ff df 	movabs $0xdffffc0000000000,%rax
+0117    ef7d7:	4c 89 e2             	mov    %r12,%rdx
+011a    ef7da:	48 c1 ea 03          	shr    $0x3,%rdx
+011e    ef7de:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
+0122    ef7e2:	75 56                	jne    ef83a <emit_return+0x17a>
+0124    ef7e4:	49 89 1c 24          	mov    %rbx,(%r12)
+0128    ef7e8:	48 83 c4 08          	add    $0x8,%rsp
+012c    ef7ec:	5b                   	pop    %rbx
+012d    ef7ed:	41 5c                	pop    %r12
+012f    ef7ef:	41 5d                	pop    %r13
+0131    ef7f1:	5d                   	pop    %rbp
+0132    ef7f2:	31 c0                	xor    %eax,%eax
+0134    ef7f4:	31 d2                	xor    %edx,%edx
+0136    ef7f6:	31 f6                	xor    %esi,%esi
+0138    ef7f8:	31 ff                	xor    %edi,%edi
+013a    ef7fa:	e9 00 00 00 00       	jmp    ef7ff <emit_return+0x13f>	ef7fb: R_X86_64_PLT32	__x86_return_thunk-0x4
+013f    ef7ff:	48 c7 c6 00 00 00 00 	mov    $0x0,%rsi	ef802: R_X86_64_32S	__x86_return_thunk
+0146    ef806:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	ef809: R_X86_64_32S	.rodata+0x5cd20
+014d    ef80d:	e8 00 00 00 00       	call   ef812 <emit_return+0x152>	ef80e: R_X86_64_PLT32	_printk-0x4
+0152    ef812:	eb b9                	jmp    ef7cd <emit_return+0x10d>
+0154    ef814:	e8 00 00 00 00       	call   ef819 <emit_return+0x159>	ef815: R_X86_64_PLT32	__asan_report_store1_noabort-0x4
+0159    ef819:	eb aa                	jmp    ef7c5 <emit_return+0x105>
+015b    ef81b:	48 89 df             	mov    %rbx,%rdi
+015e    ef81e:	e8 00 00 00 00       	call   ef823 <emit_return+0x163>	ef81f: R_X86_64_PLT32	__asan_report_store1_noabort-0x4
+0163    ef823:	e9 73 ff ff ff       	jmp    ef79b <emit_return+0xdb>
+0168    ef828:	48 89 75 e0          	mov    %rsi,-0x20(%rbp)
+016c    ef82c:	e8 00 00 00 00       	call   ef831 <emit_return+0x171>	ef82d: R_X86_64_PLT32	__asan_report_load8_noabort-0x4
+0171    ef831:	48 8b 75 e0          	mov    -0x20(%rbp),%rsi
+0175    ef835:	e9 b6 fe ff ff       	jmp    ef6f0 <emit_return+0x30>
+017a    ef83a:	4c 89 e7             	mov    %r12,%rdi
+017d    ef83d:	e8 00 00 00 00       	call   ef842 <emit_return+0x182>	ef83e: R_X86_64_PLT32	__asan_report_store8_noabort-0x4
+0182    ef842:	eb a0                	jmp    ef7e4 <emit_return+0x124>
+0184    ef844:	48 89 df             	mov    %rbx,%rdi
+0187    ef847:	e8 00 00 00 00       	call   ef84c <emit_return+0x18c>	ef848: R_X86_64_PLT32	__asan_report_store1_noabort-0x4
+018c    ef84c:	e9 e8 fe ff ff       	jmp    ef739 <emit_return+0x79>
+0191    ef851:	e8 00 00 00 00       	call   ef856 <emit_return+0x196>	ef852: R_X86_64_PLT32	__asan_report_store4_noabort-0x4
+0196    ef856:	e9 0f ff ff ff       	jmp    ef76a <emit_return+0xaa>
+019b    ef85b:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
+01a6    ef866:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
+01b1    ef871:	66 66 2e 0f 1f 84 00 00 00 00 00 	data16 cs nopw 0x0(%rax,%rax,1)
+01bc    ef87c:	0f 1f 40 00          	nopl   0x0(%rax)
 
 -- 
 0-DAY CI Kernel Test Service
