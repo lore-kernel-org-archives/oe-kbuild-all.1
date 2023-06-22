@@ -1,43 +1,51 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25891E536
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 19:16:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722B31E536
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 19:16:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687461409; x=1718997409;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rKhE+PldeIp+BLjAC8bFExZjW0dWo9wxPByxxOrqe2M=;
-  b=DvuyB0UufWNk9NyM+F9hZ6G0vlSdOYe1drq54uFrep8obOWcISrGPXu/
-   F7x4urNQg/k+i99KPDzD7p2eHDR1u0WGryM23e4S6+Zc+OcrnmQ0GqN1q
-   NS3L1XSX463Xg8+cRajdU46fh9Jt4ndujIEFDRjT0QEMod7Q/ftpkRIgW
-   O4ZVG6Yv+R7VF0Vsnaqgl5pKcaJh6JY6Pu0jKK2E38/OpKNSpHoOjCOdo
-   9rgagNEjuNgWzSce3j6DbWhpCTe7dd0Dub9vkElNQ7/hmXMe6brgSmXK2
-   BeR0jgl8JXPO2DTYD0HakmsBcb1ikPWhF9FZVVYMdW6EYxS8ssAzu6k9J
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="359450989"
+  t=1687461412; x=1718997412;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uI2cugghMPMvRogKoZJ3oTm+3R3ufG4U0Yhvp+OeKGs=;
+  b=Q8PT/ydrF38qe8kDNboKk9JJ8nj/YDf3LKtNTsaLKm1x199Bxhlc9wPU
+   W68/GJUUBpRMzP8uRvrvLSQR2VMy2iar3AhbW3Ulp/pRsQpv43PFD9UNi
+   42TJTDUAVPmPvkRd7ZLV0/8JuwwqjmQVKIhiKrUxlas2zG96eQog2UDWV
+   XULjWHbnoNe2nvJ0cmXT9vSRv6y+64H8bfAx6UB9e/OLh8u4Te7qsytAw
+   WUtTmLCKWXrOdrYgn01f2kfG+VLgB7kUk0aGvXPYC0LRK9SKdnh8YM9c/
+   ZEUK5TmQAYsxMsNvHlt58vFAvhyiKqnzsarCDf6QbXpQyG/NS3wCFJIqG
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="359450995"
 X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; 
-   d="scan'208";a="359450989"
+   d="scan'208";a="359450995"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 12:16:47 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 12:16:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="961695691"
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="961695680"
 X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; 
-   d="scan'208";a="961695691"
+   d="scan'208";a="961695680"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
   by fmsmga006.fm.intel.com with ESMTP; 22 Jun 2023 12:16:46 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qCPnR-0007kh-2I;
+	id 1qCPnR-0007kk-2R;
 	Thu, 22 Jun 2023 19:16:45 +0000
-Date: Fri, 23 Jun 2023 03:16:34 +0800
+Date: Fri, 23 Jun 2023 03:16:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hao Li <hao3.li@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:5.15/dovetail-xenomai 2/3]
- drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c:33:29: error: redefinition
- of 'priv'
-Message-ID: <202306230352.msGPyTQe-lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sathvika Vasireddy <sv@linux.ibm.com>,
+	Naveen N Rao <naveen@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v2 14/14] powerpc: Implement UACCESS validation on PPC32
+Message-ID: <202306230353.iPqv57lK-lkp@intel.com>
+References: <be282f27ad808418c7475b51a00b4cb035f89a95.1687430631.git.christophe.leroy@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,182 +54,157 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <be282f27ad808418c7475b51a00b4cb035f89a95.1687430631.git.christophe.leroy@csgroup.eu>
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.15/dovetail-xenomai
-head:   ef1fa9c790e4ab135c9beb006af1de69d2d48cd1
-commit: 02fbcd87e1fe787a9d8a1cdd09ae5acebf3859b4 [2/3] Merge tag 'v5.15.113-dovetail1-rebase' into 5.15/dovetail-xenomai
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230623/202306230352.msGPyTQe-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230352.msGPyTQe-lkp@intel.com/reproduce)
+Hi Christophe,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on powerpc/next]
+[also build test WARNING on powerpc/fixes masahiroy-kbuild/for-next masahiroy-kbuild/fixes linus/master v6.4-rc7]
+[cannot apply to next-20230622]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/powerpc-kuap-Avoid-unnecessary-reads-of-MD_AP/20230622-185950
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/be282f27ad808418c7475b51a00b4cb035f89a95.1687430631.git.christophe.leroy%40csgroup.eu
+patch subject: [PATCH v2 14/14] powerpc: Implement UACCESS validation on PPC32
+config: powerpc-randconfig-r025-20230622 (https://download.01.org/0day-ci/archive/20230623/202306230353.iPqv57lK-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230353.iPqv57lK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306230352.msGPyTQe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306230353.iPqv57lK-lkp@intel.com/
 
-Note: the intel-lts/5.15/dovetail-xenomai HEAD ef1fa9c790e4ab135c9beb006af1de69d2d48cd1 builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
-
-   drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c: In function 'dwmac4_core_init':
->> drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c:33:29: error: redefinition of 'priv'
-      33 |         struct stmmac_priv *priv = netdev_priv(dev);
-         |                             ^~~~
-   drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c:27:29: note: previous definition of 'priv' with type 'struct stmmac_priv *'
-      27 |         struct stmmac_priv *priv = netdev_priv(dev);
-         |                             ^~~~
+   lib/ubsan.c:307:6: warning: no previous prototype for '__ubsan_handle_type_mismatch' [-Wmissing-prototypes]
+     307 | void __ubsan_handle_type_mismatch(struct type_mismatch_data *data,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> lib/ubsan.o: warning: objtool: ubsan_type_mismatch_common+0x24: UACCESS-safe disables UACCESS
+   lib/ubsan.o: warning: objtool: __ubsan_handle_type_mismatch+0x54: call to _restgpr_30_x() with UACCESS enabled
+   lib/ubsan.o: warning: objtool: __ubsan_handle_type_mismatch_v1+0x5c: call to _restgpr_30_x() with UACCESS enabled
+   lib/ubsan.o: warning: objtool: __ubsan_handle_load_invalid_value+0x28: call to memset() with UACCESS enabled
+   lib/ubsan.o: warning: objtool: __ubsan_handle_shift_out_of_bounds+0x34: call to memset() with UACCESS enabled
 --
-   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c: In function 'dcn10_dmub_update_cursor_data':
->> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:3396:14: error: implicit declaration of function 'dcn10_dmub_should_update_cursor_data'; did you mean 'dcn10_dmub_update_cursor_data'? [-Werror=implicit-function-declaration]
-    3396 |         if (!dcn10_dmub_should_update_cursor_data(pipe_ctx, debug))
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |              dcn10_dmub_update_cursor_data
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:32,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/basics/dc_common.h:29,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/dcn10/dcn10_hw_sequencer.c:28:
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h: At top level:
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:137:22: warning: 'SYNAPTICS_DEVICE_ID' defined but not used [-Wunused-const-variable=]
-     137 | static const uint8_t SYNAPTICS_DEVICE_ID[] = "SYNA";
-         |                      ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:134:17: warning: 'DP_SINK_BRANCH_DEV_NAME_7580' defined but not used [-Wunused-const-variable=]
-     134 | static const u8 DP_SINK_BRANCH_DEV_NAME_7580[] = "7580\x80u";
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:132:22: warning: 'DP_SINK_DEVICE_STR_ID_2' defined but not used [-Wunused-const-variable=]
-     132 | static const uint8_t DP_SINK_DEVICE_STR_ID_2[] = {7, 1, 8, 7, 5};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:131:22: warning: 'DP_SINK_DEVICE_STR_ID_1' defined but not used [-Wunused-const-variable=]
-     131 | static const uint8_t DP_SINK_DEVICE_STR_ID_1[] = {7, 1, 8, 7, 3};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c: In function 'amdgpu_pci_probe':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2087:9: error: 'base' undeclared (first use in this function)
-    2087 |         base = pci_resource_start(pdev, 0);
-         |         ^~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2087:9: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2088:9: error: 'size' undeclared (first use in this function); did you mean 'ksize'?
-    2088 |         size = pci_resource_len(pdev, 0);
-         |         ^~~~
-         |         ksize
->> drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2089:9: error: 'is_fw_fb' undeclared (first use in this function)
-    2089 |         is_fw_fb = amdgpu_is_fw_framebuffer(base, size);
-         |         ^~~~~~~~
->> drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c:2089:20: error: implicit declaration of function 'amdgpu_is_fw_framebuffer' [-Werror=implicit-function-declaration]
-    2089 |         is_fw_fb = amdgpu_is_fw_framebuffer(base, size);
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c: In function 'amdgpu_runtime_pm_quirk':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:54:21: error: 'struct amdgpu_device' has no member named 'runpm'
-      54 |                 adev->runpm = false;
-         |                     ^~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c: In function 'amdgpu_driver_load_kms':
->> drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:193:25: error: 'struct amdgpu_device' has no member named 'is_fw_fb'
-     193 |                 if (adev->is_fw_fb)
-         |                         ^~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:194:29: error: 'struct amdgpu_device' has no member named 'runpm'
-     194 |                         adev->runpm = false;
-         |                             ^~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c:198:25: error: 'struct amdgpu_device' has no member named 'runpm'
-     198 |                 if (adev->runpm)
-         |                         ^~
---
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c: In function 'dm_update_crtc_state':
->> drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:8800:21: error: 'amdgpu_freesync_vid_mode' undeclared (first use in this function); did you mean 'is_freesync_video_mode'?
-    8800 |                 if (amdgpu_freesync_vid_mode && dm_new_crtc_state->stream &&
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                     is_freesync_video_mode
-   drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:8800:21: note: each undeclared identifier is reported only once for each function it appears in
-   In file included from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/core_types.h:32,
-                    from drivers/gpu/drm/amd/amdgpu/../display/dc/inc/link_enc_cfg.h:33,
-                    from drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:32:
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h: At top level:
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:137:22: warning: 'SYNAPTICS_DEVICE_ID' defined but not used [-Wunused-const-variable=]
-     137 | static const uint8_t SYNAPTICS_DEVICE_ID[] = "SYNA";
-         |                      ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:134:17: warning: 'DP_SINK_BRANCH_DEV_NAME_7580' defined but not used [-Wunused-const-variable=]
-     134 | static const u8 DP_SINK_BRANCH_DEV_NAME_7580[] = "7580\x80u";
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:132:22: warning: 'DP_SINK_DEVICE_STR_ID_2' defined but not used [-Wunused-const-variable=]
-     132 | static const uint8_t DP_SINK_DEVICE_STR_ID_2[] = {7, 1, 8, 7, 5};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/../display/include/ddc_service_types.h:131:22: warning: 'DP_SINK_DEVICE_STR_ID_1' defined but not used [-Wunused-const-variable=]
-     131 | static const uint8_t DP_SINK_DEVICE_STR_ID_1[] = {7, 1, 8, 7, 3};
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~
+>> arch/powerpc/kernel/ptrace/ptrace-view.o: warning: objtool: gpr32_set_common+0x2b8: redundant UACCESS disable
 
 
-vim +/priv +33 drivers/net/ethernet/stmicro/stmmac/dwmac4_core.c
-
-477286b53f5576 Alexandre TORGUE   2016-04-01  23  
-8cad443eacf661 Florian Fainelli   2018-01-18  24  static void dwmac4_core_init(struct mac_device_info *hw,
-8cad443eacf661 Florian Fainelli   2018-01-18  25  			     struct net_device *dev)
-477286b53f5576 Alexandre TORGUE   2016-04-01  26  {
-b0a513ba5b28be Wong Vee Khee      2022-07-14  27  	struct stmmac_priv *priv = netdev_priv(dev);
-477286b53f5576 Alexandre TORGUE   2016-04-01  28  	void __iomem *ioaddr = hw->pcsr;
-477286b53f5576 Alexandre TORGUE   2016-04-01  29  	u32 value = readl(ioaddr + GMAC_CONFIG);
-5f5549b9982831 Marek Vasut        2023-05-07  30  	u32 clk_rate;
-477286b53f5576 Alexandre TORGUE   2016-04-01  31  	
-9bd72068aa5030 Song Yoong Siang   2022-01-10  32  	int mtu = dev->mtu;
-9bd72068aa5030 Song Yoong Siang   2022-01-10 @33  	struct stmmac_priv *priv = netdev_priv(dev);
-9bd72068aa5030 Song Yoong Siang   2022-01-10  34  #ifdef CONFIG_STMMAC_NETWORK_PROXY
-9bd72068aa5030 Song Yoong Siang   2022-01-10  35  	if (!priv->networkproxy_exit) {
-9bd72068aa5030 Song Yoong Siang   2022-01-10  36  #endif
-477286b53f5576 Alexandre TORGUE   2016-04-01  37  		value |= GMAC_CORE_INIT;
-477286b53f5576 Alexandre TORGUE   2016-04-01  38  
-9bd72068aa5030 Song Yoong Siang   2022-01-10  39  		if (mtu > 1500)
-9bd72068aa5030 Song Yoong Siang   2022-01-10  40  			value |= GMAC_CONFIG_2K;
-9bd72068aa5030 Song Yoong Siang   2022-01-10  41  		if (mtu > 2000)
-9bd72068aa5030 Song Yoong Siang   2022-01-10  42  			value |= GMAC_CONFIG_JE;
-9bd72068aa5030 Song Yoong Siang   2022-01-10  43  
-02e57b9d7c8ce9 Giuseppe CAVALLARO 2016-06-24  44  		if (hw->ps) {
-02e57b9d7c8ce9 Giuseppe CAVALLARO 2016-06-24  45  			value |= GMAC_CONFIG_TE;
-02e57b9d7c8ce9 Giuseppe CAVALLARO 2016-06-24  46  
-ca84dfb9ab7084 LABBE Corentin     2017-05-24  47  			value &= hw->link.speed_mask;
-ca84dfb9ab7084 LABBE Corentin     2017-05-24  48  			switch (hw->ps) {
-ca84dfb9ab7084 LABBE Corentin     2017-05-24  49  			case SPEED_1000:
-ca84dfb9ab7084 LABBE Corentin     2017-05-24  50  				value |= hw->link.speed1000;
-ca84dfb9ab7084 LABBE Corentin     2017-05-24  51  				break;
-ca84dfb9ab7084 LABBE Corentin     2017-05-24  52  			case SPEED_100:
-ca84dfb9ab7084 LABBE Corentin     2017-05-24  53  				value |= hw->link.speed100;
-ca84dfb9ab7084 LABBE Corentin     2017-05-24  54  				break;
-ca84dfb9ab7084 LABBE Corentin     2017-05-24  55  			case SPEED_10:
-ca84dfb9ab7084 LABBE Corentin     2017-05-24  56  				value |= hw->link.speed10;
-ca84dfb9ab7084 LABBE Corentin     2017-05-24  57  				break;
-02e57b9d7c8ce9 Giuseppe CAVALLARO 2016-06-24  58  			}
-02e57b9d7c8ce9 Giuseppe CAVALLARO 2016-06-24  59  		}
-02e57b9d7c8ce9 Giuseppe CAVALLARO 2016-06-24  60  
-477286b53f5576 Alexandre TORGUE   2016-04-01  61  		writel(value, ioaddr + GMAC_CONFIG);
-9bd72068aa5030 Song Yoong Siang   2022-01-10  62  #ifdef CONFIG_STMMAC_NETWORK_PROXY
-9bd72068aa5030 Song Yoong Siang   2022-01-10  63  	}
-9bd72068aa5030 Song Yoong Siang   2022-01-10  64  #endif
-477286b53f5576 Alexandre TORGUE   2016-04-01  65  
-5f5549b9982831 Marek Vasut        2023-05-07  66  	/* Configure LPI 1us counter to number of CSR clock ticks in 1us - 1 */
-5f5549b9982831 Marek Vasut        2023-05-07  67  	clk_rate = clk_get_rate(priv->plat->stmmac_clk);
-5f5549b9982831 Marek Vasut        2023-05-07  68  	writel((clk_rate / 1000000) - 1, ioaddr + GMAC4_MAC_ONEUS_TIC_COUNTER);
-5f5549b9982831 Marek Vasut        2023-05-07  69  
-e879b7ab3739d8 Niklas Cassel      2018-02-09  70  	/* Enable GMAC interrupts */
-e879b7ab3739d8 Niklas Cassel      2018-02-09  71  	value = GMAC_INT_DEFAULT_ENABLE;
-1029117127540f Niklas Cassel      2018-02-09  72  
-3fe5cadbd3494b Giuseppe CAVALLARO 2016-06-24  73  	if (hw->pcs)
-3fe5cadbd3494b Giuseppe CAVALLARO 2016-06-24  74  		value |= GMAC_PCS_IRQ_DEFAULT;
-3fe5cadbd3494b Giuseppe CAVALLARO 2016-06-24  75  
-5a5586112b9295 Ong Boon Leong     2021-03-24  76  	/* Enable FPE interrupt */
-5a5586112b9295 Ong Boon Leong     2021-03-24  77  	if ((GMAC_HW_FEAT_FPESEL & readl(ioaddr + GMAC_HW_FEATURE3)) >> 26)
-5a5586112b9295 Ong Boon Leong     2021-03-24  78  		value |= GMAC_INT_FPE_EN;
-5a5586112b9295 Ong Boon Leong     2021-03-24  79  
-3fe5cadbd3494b Giuseppe CAVALLARO 2016-06-24  80  	writel(value, ioaddr + GMAC_INT_EN);
-1624f536c905dc Wong Vee Khee      2022-07-14  81  
-1624f536c905dc Wong Vee Khee      2022-07-14  82  	if (GMAC_INT_DEFAULT_ENABLE & GMAC_INT_TSIE)
-1624f536c905dc Wong Vee Khee      2022-07-14  83  		init_waitqueue_head(&priv->tstamp_busy_wait);
-477286b53f5576 Alexandre TORGUE   2016-04-01  84  }
-477286b53f5576 Alexandre TORGUE   2016-04-01  85  
-
-:::::: The code at line 33 was first introduced by commit
-:::::: 9bd72068aa5030ced0f4b76657a2e59911e5dc73 net: stmmac: add network proxy support
-
-:::::: TO: Song Yoong Siang <yoong.siang.song@intel.com>
-:::::: CC: Zhou Furong <furong.zhou@intel.com>
+objdump-func vmlinux.o ubsan_type_mismatch_common:
+0000 00000000 <ubsan_type_mismatch_common>:
+0000    0:	94 21 ff e0 	stwu    r1,-32(r1)
+0004    4:	7c 08 02 a6 	mflr    r0
+0008    8:	bf 61 00 0c 	stmw    r27,12(r1)
+000c    c:	7c 7f 1b 78 	mr      r31,r3
+0010   10:	90 01 00 24 	stw     r0,36(r1)
+0014   14:	7c 9e 23 78 	mr      r30,r4
+0018   18:	48 00 00 01 	bl      18 <ubsan_type_mismatch_common+0x18>	18: R_PPC_REL24	__sanitizer_cov_trace_pc
+001c   1c:	7f 90 0a a6 	mfpid   r28
+0020   20:	39 20 00 00 	li      r9,0
+0024   24:	7d 30 0b a6 	mtpid   r9
+0028   28:	4c 00 01 2c 	isync
+002c   2c:	2c 1e 00 00 	cmpwi   r30,0
+0030   30:	40 e2 00 58 	bne+    88 <ubsan_type_mismatch_common+0x88>
+0034   34:	48 00 00 01 	bl      34 <ubsan_type_mismatch_common+0x34>	34: R_PPC_REL24	__sanitizer_cov_trace_pc
+0038   38:	80 7f 00 00 	lwz     r3,0(r31)
+003c   3c:	48 00 00 01 	bl      3c <ubsan_type_mismatch_common+0x3c>	3c: R_PPC_REL24	.text.suppress_report
+0040   40:	2c 03 00 00 	cmpwi   r3,0
+0044   44:	40 e2 01 30 	bne+    174 <ubsan_type_mismatch_common+0x174>
+0048   48:	48 00 00 01 	bl      48 <ubsan_type_mismatch_common+0x48>	48: R_PPC_REL24	__sanitizer_cov_trace_pc
+004c   4c:	80 7f 00 00 	lwz     r3,0(r31)
+0050   50:	3c 80 00 00 	lis     r4,0	52: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1
+0054   54:	38 84 00 00 	addi    r4,r4,0	56: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1
+0058   58:	48 00 00 01 	bl      58 <ubsan_type_mismatch_common+0x58>	58: R_PPC_REL24	.text.unlikely.ubsan_prologue
+005c   5c:	89 3f 00 0c 	lbz     r9,12(r31)
+0060   60:	3d 40 00 00 	lis     r10,0	62: R_PPC_ADDR16_HA	.rodata.type_check_kinds
+0064   64:	80 bf 00 04 	lwz     r5,4(r31)
+0068   68:	39 4a 00 00 	addi    r10,r10,0	6a: R_PPC_ADDR16_LO	.rodata.type_check_kinds
+006c   6c:	55 29 10 3a 	slwi    r9,r9,2
+0070   70:	7c 8a 48 2e 	lwzx    r4,r10,r9
+0074   74:	3c 60 00 00 	lis     r3,0	76: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0xf
+0078   78:	38 a5 00 04 	addi    r5,r5,4
+007c   7c:	38 63 00 00 	addi    r3,r3,0	7e: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0xf
+0080   80:	48 00 00 01 	bl      80 <ubsan_type_mismatch_common+0x80>	80: R_PPC_REL24	_printk
+0084   84:	48 00 00 ec 	b       170 <ubsan_type_mismatch_common+0x170>
+0088   88:	48 00 00 01 	bl      88 <ubsan_type_mismatch_common+0x88>	88: R_PPC_REL24	__sanitizer_cov_trace_pc
+008c   8c:	83 bf 00 08 	lwz     r29,8(r31)
+0090   90:	83 7f 00 00 	lwz     r27,0(r31)
+0094   94:	2c 1d 00 00 	cmpwi   r29,0
+0098   98:	41 c2 00 78 	beq-    110 <ubsan_type_mismatch_common+0x110>
+009c   9c:	3b bd ff ff 	addi    r29,r29,-1
+00a0   a0:	48 00 00 01 	bl      a0 <ubsan_type_mismatch_common+0xa0>	a0: R_PPC_REL24	__sanitizer_cov_trace_pc
+00a4   a4:	7f bd f0 39 	and.    r29,r29,r30
+00a8   a8:	41 e2 00 68 	beq+    110 <ubsan_type_mismatch_common+0x110>
+00ac   ac:	48 00 00 01 	bl      ac <ubsan_type_mismatch_common+0xac>	ac: R_PPC_REL24	__sanitizer_cov_trace_pc
+00b0   b0:	7f 63 db 78 	mr      r3,r27
+00b4   b4:	48 00 00 01 	bl      b4 <ubsan_type_mismatch_common+0xb4>	b4: R_PPC_REL24	.text.suppress_report
+00b8   b8:	2c 03 00 00 	cmpwi   r3,0
+00bc   bc:	40 e2 00 b8 	bne+    174 <ubsan_type_mismatch_common+0x174>
+00c0   c0:	48 00 00 01 	bl      c0 <ubsan_type_mismatch_common+0xc0>	c0: R_PPC_REL24	__sanitizer_cov_trace_pc
+00c4   c4:	80 7f 00 00 	lwz     r3,0(r31)
+00c8   c8:	3c 80 00 00 	lis     r4,0	ca: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0x2d
+00cc   cc:	38 84 00 00 	addi    r4,r4,0	ce: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0x2d
+00d0   d0:	48 00 00 01 	bl      d0 <ubsan_type_mismatch_common+0xd0>	d0: R_PPC_REL24	.text.unlikely.ubsan_prologue
+00d4   d4:	89 3f 00 0c 	lbz     r9,12(r31)
+00d8   d8:	3d 40 00 00 	lis     r10,0	da: R_PPC_ADDR16_HA	.rodata.type_check_kinds
+00dc   dc:	80 df 00 04 	lwz     r6,4(r31)
+00e0   e0:	39 4a 00 00 	addi    r10,r10,0	e2: R_PPC_ADDR16_LO	.rodata.type_check_kinds
+00e4   e4:	55 29 10 3a 	slwi    r9,r9,2
+00e8   e8:	7c 8a 48 2e 	lwzx    r4,r10,r9
+00ec   ec:	3c 60 00 00 	lis     r3,0	ee: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0x3f
+00f0   f0:	38 c6 00 04 	addi    r6,r6,4
+00f4   f4:	7f c5 f3 78 	mr      r5,r30
+00f8   f8:	38 63 00 00 	addi    r3,r3,0	fa: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0x3f
+00fc   fc:	48 00 00 01 	bl      fc <ubsan_type_mismatch_common+0xfc>	fc: R_PPC_REL24	_printk
+0100  100:	3c 60 00 00 	lis     r3,0	102: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0x67
+0104  104:	80 9f 00 08 	lwz     r4,8(r31)
+0108  108:	38 63 00 00 	addi    r3,r3,0	10a: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0x67
+010c  10c:	48 00 00 60 	b       16c <ubsan_type_mismatch_common+0x16c>
+0110  110:	48 00 00 01 	bl      110 <ubsan_type_mismatch_common+0x110>	110: R_PPC_REL24	__sanitizer_cov_trace_pc
+0114  114:	7f 63 db 78 	mr      r3,r27
+0118  118:	48 00 00 01 	bl      118 <ubsan_type_mismatch_common+0x118>	118: R_PPC_REL24	.text.suppress_report
+011c  11c:	2c 03 00 00 	cmpwi   r3,0
+0120  120:	40 e2 00 54 	bne+    174 <ubsan_type_mismatch_common+0x174>
+0124  124:	48 00 00 01 	bl      124 <ubsan_type_mismatch_common+0x124>	124: R_PPC_REL24	__sanitizer_cov_trace_pc
+0128  128:	80 7f 00 00 	lwz     r3,0(r31)
+012c  12c:	3c 80 00 00 	lis     r4,0	12e: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0x8c
+0130  130:	38 84 00 00 	addi    r4,r4,0	132: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0x8c
+0134  134:	48 00 00 01 	bl      134 <ubsan_type_mismatch_common+0x134>	134: R_PPC_REL24	.text.unlikely.ubsan_prologue
+0138  138:	89 3f 00 0c 	lbz     r9,12(r31)
+013c  13c:	3d 40 00 00 	lis     r10,0	13e: R_PPC_ADDR16_HA	.rodata.type_check_kinds
+0140  140:	39 4a 00 00 	addi    r10,r10,0	142: R_PPC_ADDR16_LO	.rodata.type_check_kinds
+0144  144:	55 29 10 3a 	slwi    r9,r9,2
+0148  148:	3c 60 00 00 	lis     r3,0	14a: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0xa1
+014c  14c:	7c 8a 48 2e 	lwzx    r4,r10,r9
+0150  150:	7f c5 f3 78 	mr      r5,r30
+0154  154:	38 63 00 00 	addi    r3,r3,0	156: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0xa1
+0158  158:	48 00 00 01 	bl      158 <ubsan_type_mismatch_common+0x158>	158: R_PPC_REL24	_printk
+015c  15c:	80 9f 00 04 	lwz     r4,4(r31)
+0160  160:	3c 60 00 00 	lis     r3,0	162: R_PPC_ADDR16_HA	.rodata.ubsan_type_mismatch_common.str1.1+0xca
+0164  164:	38 63 00 00 	addi    r3,r3,0	166: R_PPC_ADDR16_LO	.rodata.ubsan_type_mismatch_common.str1.1+0xca
+0168  168:	38 84 00 04 	addi    r4,r4,4
+016c  16c:	48 00 00 01 	bl      16c <ubsan_type_mismatch_common+0x16c>	16c: R_PPC_REL24	_printk
+0170  170:	48 00 00 01 	bl      170 <ubsan_type_mismatch_common+0x170>	170: R_PPC_REL24	.text.unlikely.ubsan_epilogue
+0174  174:	48 00 00 01 	bl      174 <ubsan_type_mismatch_common+0x174>	174: R_PPC_REL24	__sanitizer_cov_trace_pc
+0178  178:	2c 1c 00 00 	cmpwi   r28,0
+017c  17c:	41 e2 00 14 	beq+    190 <ubsan_type_mismatch_common+0x190>
+0180  180:	48 00 00 01 	bl      180 <ubsan_type_mismatch_common+0x180>	180: R_PPC_REL24	__sanitizer_cov_trace_pc
+0184  184:	81 22 0e b4 	lwz     r9,3764(r2)
+0188  188:	7d 30 0b a6 	mtpid   r9
+018c  18c:	4c 00 01 2c 	isync
+0190  190:	80 01 00 24 	lwz     r0,36(r1)
+0194  194:	83 61 00 0c 	lwz     r27,12(r1)
+0198  198:	83 81 00 10 	lwz     r28,16(r1)
+019c  19c:	83 a1 00 14 	lwz     r29,20(r1)
+01a0  1a0:	7c 08 03 a6 	mtlr    r0
+01a4  1a4:	83 c1 00 18 	lwz     r30,24(r1)
+01a8  1a8:	83 e1 00 1c 	lwz     r31,28(r1)
+01ac  1ac:	38 21 00 20 	addi    r1,r1,32
+01b0  1b0:	48 00 00 00 	b       1b0 <ubsan_type_mismatch_common+0x1b0>	1b0: R_PPC_REL24	__sanitizer_cov_trace_pc
 
 -- 
 0-DAY CI Kernel Test Service
