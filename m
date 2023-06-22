@@ -1,53 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAEE32108B;
-	Thu, 22 Jun 2023 23:12:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 267822108B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 23:12:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687475573; x=1719011573;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YF+i4k+p20bNeWeCgKkHDXbLmP2kzXmF7Q2NTsnY5cs=;
-  b=OXuKAoOwUDRNP9/tIU7n3mxQHRZ7cm2/QJpDemfbelA4wijt1Vo1Ngui
-   DHQ/6ASHlCmkWwvjsGLWT233MCrycWNLHyud0TbQMPMcJdiKsCgb30m8x
-   PqVDVgGFZ4XRfZnHiUKxxDY73MG/RwQqdHJguJN9JtS4CdiH9a9UcuC91
-   wPq9xR7yGbL4+9oTr2vO9X8N08KDxi+qfMP+6TtQCsxO2Z6snNzS6+j4I
-   H0ck4N6LBp1QpBZu9ptyiteexAuywjq4b49rJGqMUGWWFQzTNeY4In5BL
-   jdc9TFbN1dWaMl9/OD7jKE8JVNC+rFe/utiV4cs1OFHNH6U8mMU7t1R+d
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="340976501"
+  t=1687475580; x=1719011580;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qpWYSUu+SpwTY2UQskF+dHCUDDHgb/xJE2XwYsJ54Bo=;
+  b=S9W+evziGdqwii1PMbEdzVGfFQ88AiS6Xvf2pJGx1vI2bSTVO3WlxwTf
+   BB7CrT3+ZhmKcC4FDk4w/UOOac0ENKLlTX2+l5zn8y5C0PN6bsnzGtAEA
+   Q6fjF7fjGcdlIuW9gaQyqwC3KFcC8fAo7ZVGtka9EnQxItqRqDiYpLYcg
+   cxC13wY9Kys0Hk83xXt3Irs6MtgG6o7XyCKpiq0YlSEJIdUMfAPd/Qnb0
+   3jwzYy+TmhGCXV9CPawfAieyLD5qp3EHypoCSsOZiDeLbTqncv533HEco
+   H3+yyDmvM+dGQrqiVzFoiZiZ5LxfkIlxdmXKdXd9DWdlzAolt0LMD4fga
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="358129102"
 X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
-   d="scan'208";a="340976501"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 16:12:52 -0700
+   d="scan'208";a="358129102"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 16:12:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="889261769"
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="1045427255"
 X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
-   d="scan'208";a="889261769"
+   d="scan'208";a="1045427255"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 22 Jun 2023 16:12:48 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 22 Jun 2023 16:12:48 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qCTTr-0007o7-21;
+	id 1qCTTr-0007oC-2Q;
 	Thu, 22 Jun 2023 23:12:47 +0000
-Date: Fri, 23 Jun 2023 07:12:35 +0800
+Date: Fri, 23 Jun 2023 07:12:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
-	tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-	nicolas.dufresne@collabora.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v3 10/11] media: v4l2: Add DELETE_BUF ioctl
-Message-ID: <202306230742.KaUokotT-lkp@intel.com>
-References: <20230622131349.144160-11-benjamin.gaignard@collabora.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.1-1.0.x-imx 2934/9881]
+ drivers/input/touchscreen/max11801_ts.c:148:5: warning: no previous
+ prototype for 'max11801_read_adc'
+Message-ID: <202306230751.va9sjcun-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,35 +46,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230622131349.144160-11-benjamin.gaignard@collabora.com>
 
-Hi Benjamin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linus/master v6.4-rc7]
-[cannot apply to next-20230622]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/media-videobuf2-Access-vb2_queue-bufs-array-through-helper-functions/20230622-214122
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230622131349.144160-11-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v3 10/11] media: v4l2: Add DELETE_BUF ioctl
-config: i386-buildonly-randconfig-r004-20230622 (https://download.01.org/0day-ci/archive/20230623/202306230742.KaUokotT-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230742.KaUokotT-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
+head:   3260d1af47b1bedfe12b79a26efa184b9a60a8a3
+commit: bd34cf3f292d182344cba8955612ed51d4717610 [2934/9881] MLK-11703-1: input: touchscreen: max11801_ts: Add DCM mode for max11801 ADC
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230623/202306230751.va9sjcun-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230751.va9sjcun-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306230742.KaUokotT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306230751.va9sjcun-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "vb2_core_delete_buf" [drivers/media/common/videobuf2/videobuf2-v4l2.ko] undefined!
+>> drivers/input/touchscreen/max11801_ts.c:148:5: warning: no previous prototype for 'max11801_read_adc' [-Wmissing-prototypes]
+     148 | u32 max11801_read_adc(void)
+         |     ^~~~~~~~~~~~~~~~~
+
+
+vim +/max11801_read_adc +148 drivers/input/touchscreen/max11801_ts.c
+
+   147	
+ > 148	u32 max11801_read_adc(void)
+   149	{
+   150		u32 adc_data;
+   151	
+   152		if (!max11801_client) {
+   153			pr_err("FAIL  max11801_client not initialize\n");
+   154			return -1;
+   155		}
+   156		adc_data = max11801_dcm_sample_aux(max11801_client);
+   157	
+   158		return adc_data;
+   159	}
+   160	EXPORT_SYMBOL_GPL(max11801_read_adc);
+   161	
 
 -- 
 0-DAY CI Kernel Test Service
