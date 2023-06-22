@@ -1,121 +1,144 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FB921F172
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 14:14:45 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3112d202363so5637692f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 07:14:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687443284; x=1690035284;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kfX6S9OowWMb6sUG+mepNdVVGBJ4KPy5SvO+ayQZZac=;
-        b=u7ZZMrU+t8YcO9ZBmaHYCTTHFGW2KNJ5fRHRMZ3J0E0245APLWB7SYDoS18ZfgaYiO
-         j9Ww4JENsGuw77b6lF/S9fKv776w0PcjNuJ1tr+PgKd9GjNSt6q/KuiEPAHgPY/wI6m0
-         96aKgTEoSRAoD1sdJEiCc4CHjeh5S0zAI42sJYXnQzpRX0fESKgc1QnTYuzFFovHO6xD
-         H8Bcs+s4h9RUK/CzBf8r7KcNeibfx8UGqK4KKCAkFYOcgz8XTOwTRBTDPQXHRRoEEy+O
-         j3jEXlLa+Wt1V3VQvPdaZ4wL1SufqB7qGU9n0PD6xVCRcYgbzday+Q2vo0NXabbtbUHe
-         Uq0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687443284; x=1690035284;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kfX6S9OowWMb6sUG+mepNdVVGBJ4KPy5SvO+ayQZZac=;
-        b=KGVUAxy+AAnpvBvj7R1/g3JA+JymsG1Q44OHXn2+DHFB+EfHu3FpQWWVRyThjGi1Cy
-         wISI9ONIMNWdcrla3lqActIZ4QNdHABIyDKbSxjzwpmXeJtL0n+H/YB7//hD70uABOiM
-         hhpfAj8Tr1hC9SI2K42ieTfIh/D5o1O/4BqMOChINl3CSBW13IjUiabzG1V19sf6B8Si
-         ZWI9qzyxcu8tB1h/xfw7GFrJ13kYY4XR+u0jQuf3yjJ38GAyFB9p7NwsGhUF5vmImeZI
-         Krljze03Zut2SsQ58q2qyrinTpzYW1s/j9/4SFizfa0TB2x5695cJhXDcOggw18jBafZ
-         0lKQ==
-X-Gm-Message-State: AC+VfDzcbmggbeCxNa2O+uaERfVppkqVewlYdXwem1olSAjkhl7zUW4O
-	QZfeAEJA+/cx5bADoRNbXlz9/g==
-X-Google-Smtp-Source: ACHHUZ5IRYDOppEO4192S+gCKuJCmc4/7++Z/4J+9t60AsTnCc7smADETO8AlE2mUNvvzq/cAoegSw==
-X-Received: by 2002:a5d:6386:0:b0:2f9:c2ab:e1de with SMTP id p6-20020a5d6386000000b002f9c2abe1demr14535921wru.14.1687443284022;
-        Thu, 22 Jun 2023 07:14:44 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id w3-20020adfee43000000b0030e5b1fffc3sm7263993wro.9.2023.06.22.07.14.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jun 2023 07:14:42 -0700 (PDT)
-Date: Thu, 22 Jun 2023 17:14:39 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Aurabindo Pillai <aurabindo.pillai@amd.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>
-Subject: [linux-next:master 7316/11867]
- drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:1673
- amdgpu_dm_init() error: we previously assumed 'adev->dm.dc' could be null
- (see line 1669)
-Message-ID: <8889c4d2-2629-4d69-bc4a-9b46fe0c5997@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4191F164
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 14:19:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687443590; x=1718979590;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=lEFCANJCLCSyMBnMveAmezzyB/W1nXcp4y6e8wmvkkU=;
+  b=FlcqSoGWKHsQflSYRLnwRCSRy4sCj8wNH8qMIVbP6oy2almgLOGAO43v
+   JRFxNoUoI27o88dlFBGbA+uD2vUZMd2Rh7ExCxIn6da8eTTZqMUaEsTT0
+   Dkrqub7ABF308rwtPq12MOSlM6bFNHLoP0KxxKVRpoS0UIbDnwhbsFKE9
+   Gq74tFYud2k5bYtGZjlUsgF2+h6C8F1msVsZY05x5OW6y2UXBtyWBBC2/
+   DiQD6uni+UPweHmuMqgiOGvA66t+/V/uB1wK9x1e43GYpE3Ks8aOH8Caj
+   xVl5ok05QN5bt1rvbgWoMNuqvjXyQX9l+UoGCjM4PqG7QnMV7/QJWO7Zx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="426465482"
+X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; 
+   d="scan'208";a="426465482"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 06:47:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="744594136"
+X-IronPort-AV: E=Sophos;i="6.01,263,1684825200"; 
+   d="scan'208";a="744594136"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 22 Jun 2023 06:47:39 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qCKew-0007Zb-2A;
+	Thu, 22 Jun 2023 13:47:38 +0000
+Date: Thu, 22 Jun 2023 21:47:36 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-rt-linux-6.1.y-cicd 6432/7798]
+ drivers/net/ethernet/pensando/ionic/ionic_main.c:557:9: warning: 'strncpy'
+ output truncated before terminating nul copying 31 bytes from a string of
+ the same length
+Message-ID: <202306222109.9rRNHeCC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c87d46a9e8ebd2f2c3960927b1d21687096d1109
-commit: 9788d087caffd8358d6e14349ee69d9385666719 [7316/11867] drm/amd/display: improve the message printed when loading DC
-config: mips-randconfig-m031-20230620 (https://download.01.org/0day-ci/archive/20230622/202306222109.GOpiisJ1-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306222109.GOpiisJ1-lkp@intel.com/reproduce)
+Hi Clark,
+
+FYI, the error/warning still remains.
+
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   4726bcde59c98fc82bc674eb67a16ccf64347e7c
+commit: 443e60197c8ffe05a0313bfef2d7bca7329bfaa3 [6432/7798] 'Linux 6.1.28-rt10'
+config: alpha-randconfig-r035-20230622 (https://download.01.org/0day-ci/archive/20230622/202306222109.9rRNHeCC-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306222109.9rRNHeCC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202306222109.GOpiisJ1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306222109.9rRNHeCC-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:1673 amdgpu_dm_init() error: we previously assumed 'adev->dm.dc' could be null (see line 1669)
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:1905 amdgpu_dm_fini() error: we previously assumed 'adev->dm.dc' could be null (see line 1889)
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6079 create_stream_for_sink() error: we previously assumed 'aconnector->dc_sink' could be null (see line 5971)
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:8708 amdgpu_dm_atomic_commit_tail() error: we previously assumed 'aconnector->dc_link' could be null (see line 8689)
-drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:8961 dm_force_atomic_commit() error: 'crtc_state' dereferencing possible ERR_PTR()
-
-vim +1673 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
-
-0dd79532340568 Zhan Liu            2021-03-08  1662  	INIT_LIST_HEAD(&adev->dm.da_list);
-57b9f3384c64e3 Fangzhi Zuo         2022-07-06  1663  
-57b9f3384c64e3 Fangzhi Zuo         2022-07-06  1664  	retrieve_dmi_info(&adev->dm);
-57b9f3384c64e3 Fangzhi Zuo         2022-07-06  1665  
-4562236b3bc0a2 Harry Wentland      2017-09-12  1666  	/* Display Core create. */
-4562236b3bc0a2 Harry Wentland      2017-09-12  1667  	adev->dm.dc = dc_create(&init_data);
-                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Allocation
-
-4562236b3bc0a2 Harry Wentland      2017-09-12  1668  
-423788c7a866cb Ernst Sjöstrand     2017-11-07 @1669  	if (adev->dm.dc) {
-                                                            ^^^^^^^^^^^
-Check for allocation failure
+   drivers/net/ethernet/pensando/ionic/ionic_main.c: In function 'ionic_identify':
+>> drivers/net/ethernet/pensando/ionic/ionic_main.c:557:9: warning: 'strncpy' output truncated before terminating nul copying 31 bytes from a string of the same length [-Wstringop-truncation]
+     557 |         strncpy(ident->drv.driver_ver_str, UTS_RELEASE,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     558 |                 sizeof(ident->drv.driver_ver_str) - 1);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-9788d087caffd8 Aurabindo Pillai    2023-05-05  1670  		DRM_INFO("Display Core v%s initialized on %s\n", DC_VER,
-bf7fda0b3736f9 Rodrigo Siqueira    2023-04-25  1671  			 dce_version_to_string(adev->dm.dc->ctx->dce_version));
-423788c7a866cb Ernst Sjöstrand     2017-11-07  1672  	} else {
-9788d087caffd8 Aurabindo Pillai    2023-05-05 @1673  		DRM_INFO("Display Core v%s failed to initialize on %s\n", DC_VER,
-9788d087caffd8 Aurabindo Pillai    2023-05-05  1674  			 dce_version_to_string(adev->dm.dc->ctx->dce_version));
-                                                                                               ^^^^^^^^^^^^^
-NULL pointer dereference
+vim +/strncpy +557 drivers/net/ethernet/pensando/ionic/ionic_main.c
 
-423788c7a866cb Ernst Sjöstrand     2017-11-07  1675  		goto error;
-423788c7a866cb Ernst Sjöstrand     2017-11-07  1676  	}
-4562236b3bc0a2 Harry Wentland      2017-09-12  1677  
-8a791dabea1816 Harry Wentland      2020-05-01  1678  	if (amdgpu_dc_debug_mask & DC_DISABLE_PIPE_SPLIT) {
-8a791dabea1816 Harry Wentland      2020-05-01  1679  		adev->dm.dc->debug.force_single_disp_pipe_split = false;
-8a791dabea1816 Harry Wentland      2020-05-01  1680  		adev->dm.dc->debug.pipe_split_policy = MPC_SPLIT_AVOID;
-8a791dabea1816 Harry Wentland      2020-05-01  1681  	}
+fbfb8031533c92 Shannon Nelson 2019-09-03  546  
+fbfb8031533c92 Shannon Nelson 2019-09-03  547  int ionic_identify(struct ionic *ionic)
+fbfb8031533c92 Shannon Nelson 2019-09-03  548  {
+fbfb8031533c92 Shannon Nelson 2019-09-03  549  	struct ionic_identity *ident = &ionic->ident;
+fbfb8031533c92 Shannon Nelson 2019-09-03  550  	struct ionic_dev *idev = &ionic->idev;
+fbfb8031533c92 Shannon Nelson 2019-09-03  551  	size_t sz;
+fbfb8031533c92 Shannon Nelson 2019-09-03  552  	int err;
+fbfb8031533c92 Shannon Nelson 2019-09-03  553  
+fbfb8031533c92 Shannon Nelson 2019-09-03  554  	memset(ident, 0, sizeof(*ident));
+fbfb8031533c92 Shannon Nelson 2019-09-03  555  
+fbfb8031533c92 Shannon Nelson 2019-09-03  556  	ident->drv.os_type = cpu_to_le32(IONIC_OS_TYPE_LINUX);
+1fcbebf115d9ce Shannon Nelson 2020-03-06 @557  	strncpy(ident->drv.driver_ver_str, UTS_RELEASE,
+fbfb8031533c92 Shannon Nelson 2019-09-03  558  		sizeof(ident->drv.driver_ver_str) - 1);
+fbfb8031533c92 Shannon Nelson 2019-09-03  559  
+fbfb8031533c92 Shannon Nelson 2019-09-03  560  	mutex_lock(&ionic->dev_cmd_lock);
+fbfb8031533c92 Shannon Nelson 2019-09-03  561  
+fbfb8031533c92 Shannon Nelson 2019-09-03  562  	sz = min(sizeof(ident->drv), sizeof(idev->dev_cmd_regs->data));
+fbfb8031533c92 Shannon Nelson 2019-09-03  563  	memcpy_toio(&idev->dev_cmd_regs->data, &ident->drv, sz);
+fbfb8031533c92 Shannon Nelson 2019-09-03  564  
+fbfb8031533c92 Shannon Nelson 2019-09-03  565  	ionic_dev_cmd_identify(idev, IONIC_IDENTITY_VERSION_1);
+fbfb8031533c92 Shannon Nelson 2019-09-03  566  	err = ionic_dev_cmd_wait(ionic, DEVCMD_TIMEOUT);
+fbfb8031533c92 Shannon Nelson 2019-09-03  567  	if (!err) {
+fbfb8031533c92 Shannon Nelson 2019-09-03  568  		sz = min(sizeof(ident->dev), sizeof(idev->dev_cmd_regs->data));
+fbfb8031533c92 Shannon Nelson 2019-09-03  569  		memcpy_fromio(&ident->dev, &idev->dev_cmd_regs->data, sz);
+fbfb8031533c92 Shannon Nelson 2019-09-03  570  	}
+fbfb8031533c92 Shannon Nelson 2019-09-03  571  	mutex_unlock(&ionic->dev_cmd_lock);
+fbfb8031533c92 Shannon Nelson 2019-09-03  572  
+a21b5d49e77a2e Shannon Nelson 2020-10-01  573  	if (err) {
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  574  		dev_err(ionic->dev, "Cannot identify ionic: %d\n", err);
+a21b5d49e77a2e Shannon Nelson 2020-10-01  575  		goto err_out;
+a21b5d49e77a2e Shannon Nelson 2020-10-01  576  	}
+fbfb8031533c92 Shannon Nelson 2019-09-03  577  
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  578  	if (isprint(idev->dev_info.fw_version[0]) &&
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  579  	    isascii(idev->dev_info.fw_version[0]))
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  580  		dev_info(ionic->dev, "FW: %.*s\n",
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  581  			 (int)(sizeof(idev->dev_info.fw_version) - 1),
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  582  			 idev->dev_info.fw_version);
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  583  	else
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  584  		dev_info(ionic->dev, "FW: (invalid string) 0x%02x 0x%02x 0x%02x 0x%02x ...\n",
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  585  			 (u8)idev->dev_info.fw_version[0],
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  586  			 (u8)idev->dev_info.fw_version[1],
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  587  			 (u8)idev->dev_info.fw_version[2],
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  588  			 (u8)idev->dev_info.fw_version[3]);
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  589  
+a21b5d49e77a2e Shannon Nelson 2020-10-01  590  	err = ionic_lif_identify(ionic, IONIC_LIF_TYPE_CLASSIC,
+a21b5d49e77a2e Shannon Nelson 2020-10-01  591  				 &ionic->ident.lif);
+a21b5d49e77a2e Shannon Nelson 2020-10-01  592  	if (err) {
+a21b5d49e77a2e Shannon Nelson 2020-10-01  593  		dev_err(ionic->dev, "Cannot identify LIFs: %d\n", err);
+a21b5d49e77a2e Shannon Nelson 2020-10-01  594  		goto err_out;
+a21b5d49e77a2e Shannon Nelson 2020-10-01  595  	}
+fbfb8031533c92 Shannon Nelson 2019-09-03  596  
+fbfb8031533c92 Shannon Nelson 2019-09-03  597  	return 0;
+fbfb8031533c92 Shannon Nelson 2019-09-03  598  
+a21b5d49e77a2e Shannon Nelson 2020-10-01  599  err_out:
+fbfb8031533c92 Shannon Nelson 2019-09-03  600  	return err;
+fbfb8031533c92 Shannon Nelson 2019-09-03  601  }
+fbfb8031533c92 Shannon Nelson 2019-09-03  602  
+
+:::::: The code at line 557 was first introduced by commit
+:::::: 1fcbebf115d9ce077c2ba5ecfb521cc1eedcb467 ionic: drop ethtool driver version
+
+:::::: TO: Shannon Nelson <snelson@pensando.io>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
