@@ -1,42 +1,54 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08FD17C9
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 01:55:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909B917C9;
+	Thu, 22 Jun 2023 02:05:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687398926; x=1718934926;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=brwQ9U2ovnHWPSR4AdXAYdLSRcO18MXVwCneEQvITdY=;
-  b=cwKKwn/IfIGHjBzurepqiXQdEtUtZKR8eUMQitmWgUXtRrBWfkcy+soz
-   UbGUZuSHwJaMdHDGpCqwnu0hpgfgtMN1EVqF5n3j74Vx4FA1C04xQA5+i
-   gLuw0V/3IpqqCXYkdRFDRMdkQc6/0BWfxyHU7HD98M0E6GJHHuPRLRR0x
-   0jx4R32I5d0N5mYnNh6cGhjhON/wVVIAvU7VQNZM078CY5KVvShdSsnip
-   6XTC8qQ8qQM7IuqcEopUNK33/IzCxr+kH1i6WSCVhs4Nsd7CCp67FP5+m
-   m3wZl0k/ICMOEW/Tg9HoywDHMAMrEx0Ulyw8nxWwAJMDXmrdKDRaVpInC
+  t=1687399530; x=1718935530;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Tqwmf7UCG/Oox40h1Vsl9C4SJhX8muGiwDzjdWU/aV8=;
+  b=BPV5JzH93YWBBi2EqQ8n72f+MJuPG58NlClaGUPHbaxk0Yu8k/LbeAi6
+   EMikNTpkGDCWSFSUlk/OsWIpf+o/A6hf+bVjTLK99iGYlOWDXNn2YVML9
+   8DAFJyUNo6wWdVmAD/wMRQXSclQ2+wVNWjNx5lJW7ONxlkBkNvaNW3T+M
+   h7V1whTG5iWA+dR6PpguSEM6syAn/q1Ym0xBbIQxT8rwPMzU2sFhwD/zg
+   MsrZBj+Ia5rk8SfBeM/EuOJoWBHgUXT1dsfl0t0Vsk+9YrPzZ8jRKTz+B
+   1KL69fGaw78vSrlSGBmucjCAbypQsMUHftigp2T/foyQbFgMfyylo1zOq
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="360376489"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="424031079"
 X-IronPort-AV: E=Sophos;i="6.00,262,1681196400"; 
-   d="scan'208";a="360376489"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 18:55:26 -0700
+   d="scan'208";a="424031079"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 19:05:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="827707301"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="714723808"
 X-IronPort-AV: E=Sophos;i="6.00,262,1681196400"; 
-   d="scan'208";a="827707301"
+   d="scan'208";a="714723808"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 21 Jun 2023 18:55:25 -0700
+  by orsmga002.jf.intel.com with ESMTP; 21 Jun 2023 19:05:25 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qC9Xg-0007Er-1e;
-	Thu, 22 Jun 2023 01:55:24 +0000
-Date: Thu, 22 Jun 2023 09:54:47 +0800
+	id 1qC9hM-0007FT-2g;
+	Thu, 22 Jun 2023 02:05:24 +0000
+Date: Thu, 22 Jun 2023 10:05:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.10 2/2] vmlinux.o: warning: objtool:
- .text.drbg_ctr_update: unexpected end of section
-Message-ID: <202306220947.QQTouXJv-lkp@intel.com>
+To: Markus Schneider-Pargmann <msp@baylibre.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Chun-Jie Chen <chun-jie.chen@mediatek.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Tinghan Shen <tinghan.shen@mediatek.com>,
+	Fabien Parent <parent.f@gmail.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Markus Schneider-Pargmann <msp@baylibre.com>
+Subject: Re: [PATCH v5 8/8] soc: mediatek: pm-domains: Add support for MT8365
+Message-ID: <202306220952.WMdPoLzE-lkp@intel.com>
+References: <20230619085344.2885311-9-msp@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,24 +57,227 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230619085344.2885311-9-msp@baylibre.com>
 
-tree:   https://android.googlesource.com/kernel/common android13-5.10
-head:   26fdb5f5bfb60f9eee81855ea64f13d25b369b2b
-commit: d4d78c7278ee4f6fd8f3b02c18e472e55558a98b [2/2] ANDROID: fuse-bpf: Fix non-fusebpf build
-config: x86_64-randconfig-a015-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220947.QQTouXJv-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220947.QQTouXJv-lkp@intel.com/reproduce)
+Hi Markus,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on krzk-dt/for-next linus/master v6.4-rc7 next-20230621]
+[cannot apply to mbgg-mediatek/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Schneider-Pargmann/dt-bindings-power-Add-MT8365-power-domains/20230619-165759
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20230619085344.2885311-9-msp%40baylibre.com
+patch subject: [PATCH v5 8/8] soc: mediatek: pm-domains: Add support for MT8365
+config: arm64-randconfig-r011-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220952.WMdPoLzE-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220952.WMdPoLzE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306220947.QQTouXJv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306220952.WMdPoLzE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: arch_do_signal()+0x306: call to sas_ss_reset() with UACCESS enabled
-   vmlinux.o: warning: objtool: ia32_setup_rt_frame()+0x13b: call to sas_ss_reset() with UACCESS enabled
->> vmlinux.o: warning: objtool: .text.drbg_ctr_update: unexpected end of section
+   In file included from drivers/soc/mediatek/mtk-pm-domains.c:27:
+>> drivers/soc/mediatek/mt8365-pm-domains.h:69:42: warning: implicit conversion from 'unsigned long' to 'u8' (aka 'unsigned char') changes value from 384 to 128 [-Wconstant-conversion]
+      69 |                 .caps = MTK_SCPD_STRICT_BUS_PROTECTION | MTK_SCPD_HAS_INFRA_NAO,
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +69 drivers/soc/mediatek/mt8365-pm-domains.h
+
+     8	
+     9	/*
+    10	 * MT8365 power domain support
+    11	 */
+    12	
+    13	#define MT8365_BUS_PROT_INFRA_WR_TOPAXI(_mask)				\
+    14			BUS_PROT_INFRA_WR(_mask,				\
+    15					  MT8365_INFRA_TOPAXI_PROTECTEN_SET,	\
+    16					  MT8365_INFRA_TOPAXI_PROTECTEN_CLR,	\
+    17					  MT8365_INFRA_TOPAXI_PROTECTEN_STA1)
+    18	
+    19	#define MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(_mask)			\
+    20			BUS_PROT_INFRA_WR(_mask,				\
+    21					  MT8365_INFRA_TOPAXI_PROTECTEN_1_SET,	\
+    22					  MT8365_INFRA_TOPAXI_PROTECTEN_1_CLR,	\
+    23					  MT8365_INFRA_TOPAXI_PROTECTEN_1_STA1)
+    24	
+    25	#define MT8365_BUS_PROT_SMI_WR_CLAMP_EN_PORT(port)			\
+    26			BUS_PROT_SMI_WR(BIT(port),				\
+    27					MT8365_SMI_COMMON_CLAMP_EN_SET,		\
+    28					MT8365_SMI_COMMON_CLAMP_EN_CLR,		\
+    29					MT8365_SMI_COMMON_CLAMP_EN)
+    30	
+    31	#define MT8365_BUS_PROT_WAY_EN(_set_mask, _set, _sta_mask, _sta)	\
+    32			_BUS_PROT(_set_mask, _set, _set, _sta_mask, _sta,	\
+    33				  BUS_PROT_COMPONENT_INFRA |			\
+    34				  BUS_PROT_STA_COMPONENT_INFRA_NAO |		\
+    35				  BUS_PROT_INVERTED |				\
+    36				  BUS_PROT_REG_UPDATE)
+    37	
+    38	static const struct scpsys_domain_data scpsys_domain_data_mt8365[] = {
+    39		[MT8365_POWER_DOMAIN_MM] = {
+    40			.name = "mm",
+    41			.sta_mask = PWR_STATUS_DISP,
+    42			.ctl_offs = 0x30c,
+    43			.pwr_sta_offs = 0x0180,
+    44			.pwr_sta2nd_offs = 0x0184,
+    45			.sram_pdn_bits = GENMASK(8, 8),
+    46			.sram_pdn_ack_bits = GENMASK(12, 12),
+    47			.bp_cfg = {
+    48				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+    49					MT8365_INFRA_TOPAXI_PROTECTEN_1_MM2INFRA_AXI_GALS_MST_0 |
+    50					MT8365_INFRA_TOPAXI_PROTECTEN_1_MM2INFRA_AXI_GALS_MST_1),
+    51				MT8365_BUS_PROT_INFRA_WR_TOPAXI(
+    52					MT8365_INFRA_TOPAXI_PROTECTEN_MM_M0 |
+    53					MT8365_INFRA_TOPAXI_PROTECTEN_MDMCU_M1 |
+    54					MT8365_INFRA_TOPAXI_PROTECTEN_MM2INFRA_AXI_GALS_SLV_0 |
+    55					MT8365_INFRA_TOPAXI_PROTECTEN_MM2INFRA_AXI_GALS_SLV_1),
+    56				MT8365_BUS_PROT_WAY_EN(
+    57					MT8365_INFRA_TOPAXI_SI0_WAY_EN_MMAPB_S,
+    58					MT8365_INFRA_TOPAXI_SI0_CTL,
+    59					MT8365_INFRA_NAO_TOPAXI_SI0_CTRL_UPDATED,
+    60					MT8365_INFRA_NAO_TOPAXI_SI0_STA),
+    61				MT8365_BUS_PROT_WAY_EN(
+    62					MT8365_INFRA_TOPAXI_SI2_WAY_EN_PERI_M1,
+    63					MT8365_INFRA_TOPAXI_SI2_CTL,
+    64					MT8365_INFRA_NAO_TOPAXI_SI2_CTRL_UPDATED,
+    65					MT8365_INFRA_NAO_TOPAXI_SI2_STA),
+    66				MT8365_BUS_PROT_INFRA_WR_TOPAXI(
+    67					MT8365_INFRA_TOPAXI_PROTECTEN_MMAPB_S),
+    68			},
+  > 69			.caps = MTK_SCPD_STRICT_BUS_PROTECTION | MTK_SCPD_HAS_INFRA_NAO,
+    70		},
+    71		[MT8365_POWER_DOMAIN_VENC] = {
+    72			.name = "venc",
+    73			.sta_mask = PWR_STATUS_VENC,
+    74			.ctl_offs = 0x0304,
+    75			.pwr_sta_offs = 0x0180,
+    76			.pwr_sta2nd_offs = 0x0184,
+    77			.sram_pdn_bits = GENMASK(8, 8),
+    78			.sram_pdn_ack_bits = GENMASK(12, 12),
+    79			.bp_cfg = {
+    80				MT8365_BUS_PROT_SMI_WR_CLAMP_EN_PORT(1),
+    81			},
+    82		},
+    83		[MT8365_POWER_DOMAIN_AUDIO] = {
+    84			.name = "audio",
+    85			.sta_mask = PWR_STATUS_AUDIO,
+    86			.ctl_offs = 0x0314,
+    87			.pwr_sta_offs = 0x0180,
+    88			.pwr_sta2nd_offs = 0x0184,
+    89			.sram_pdn_bits = GENMASK(12, 8),
+    90			.sram_pdn_ack_bits = GENMASK(17, 13),
+    91			.bp_cfg = {
+    92				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+    93					MT8365_INFRA_TOPAXI_PROTECTEN_1_PWRDNREQ_MP1_L2C_AFIFO |
+    94					MT8365_INFRA_TOPAXI_PROTECTEN_1_AUDIO_BUS_AUDIO_M),
+    95			},
+    96			.caps = MTK_SCPD_ACTIVE_WAKEUP,
+    97		},
+    98		[MT8365_POWER_DOMAIN_CONN] = {
+    99			.name = "conn",
+   100			.sta_mask = PWR_STATUS_CONN,
+   101			.ctl_offs = 0x032c,
+   102			.pwr_sta_offs = 0x0180,
+   103			.pwr_sta2nd_offs = 0x0184,
+   104			.sram_pdn_bits = 0,
+   105			.sram_pdn_ack_bits = 0,
+   106			.bp_cfg = {
+   107				MT8365_BUS_PROT_INFRA_WR_TOPAXI(
+   108					MT8365_INFRA_TOPAXI_PROTECTEN_AP2CONN_AHB),
+   109				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+   110					MT8365_INFRA_TOPAXI_PROTECTEN_1_CONN2INFRA_AXI_GALS_MST),
+   111				MT8365_BUS_PROT_INFRA_WR_TOPAXI(
+   112					MT8365_INFRA_TOPAXI_PROTECTEN_CONN2INFRA_AHB),
+   113				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+   114					MT8365_INFRA_TOPAXI_PROTECTEN_1_INFRA2CONN_AHB_GALS_SLV),
+   115			},
+   116			.caps = MTK_SCPD_ACTIVE_WAKEUP | MTK_SCPD_KEEP_DEFAULT_OFF,
+   117		},
+   118		[MT8365_POWER_DOMAIN_MFG] = {
+   119			.name = "mfg",
+   120			.sta_mask = PWR_STATUS_MFG,
+   121			.ctl_offs = 0x0338,
+   122			.pwr_sta_offs = 0x0180,
+   123			.pwr_sta2nd_offs = 0x0184,
+   124			.sram_pdn_bits = GENMASK(9, 8),
+   125			.sram_pdn_ack_bits = GENMASK(13, 12),
+   126			.bp_cfg = {
+   127				MT8365_BUS_PROT_INFRA_WR_TOPAXI(BIT(25)),
+   128				MT8365_BUS_PROT_INFRA_WR_TOPAXI(
+   129					MT8365_INFRA_TOPAXI_PROTECTEN_MFG_M0 |
+   130					MT8365_INFRA_TOPAXI_PROTECTEN_INFRA2MFG),
+   131			},
+   132		},
+   133		[MT8365_POWER_DOMAIN_CAM] = {
+   134			.name = "cam",
+   135			.sta_mask = BIT(25),
+   136			.ctl_offs = 0x0344,
+   137			.pwr_sta_offs = 0x0180,
+   138			.pwr_sta2nd_offs = 0x0184,
+   139			.sram_pdn_bits = GENMASK(9, 8),
+   140			.sram_pdn_ack_bits = GENMASK(13, 12),
+   141			.bp_cfg = {
+   142				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+   143					MT8365_INFRA_TOPAXI_PROTECTEN_1_CAM2MM_AXI_GALS_MST),
+   144				MT8365_BUS_PROT_SMI_WR_CLAMP_EN_PORT(2),
+   145			},
+   146		},
+   147		[MT8365_POWER_DOMAIN_VDEC] = {
+   148			.name = "vdec",
+   149			.sta_mask = BIT(31),
+   150			.ctl_offs = 0x0370,
+   151			.pwr_sta_offs = 0x0180,
+   152			.pwr_sta2nd_offs = 0x0184,
+   153			.sram_pdn_bits = GENMASK(8, 8),
+   154			.sram_pdn_ack_bits = GENMASK(12, 12),
+   155			.bp_cfg = {
+   156				MT8365_BUS_PROT_SMI_WR_CLAMP_EN_PORT(3),
+   157			},
+   158		},
+   159		[MT8365_POWER_DOMAIN_APU] = {
+   160			.name = "apu",
+   161			.sta_mask = BIT(16),
+   162			.ctl_offs = 0x0378,
+   163			.pwr_sta_offs = 0x0180,
+   164			.pwr_sta2nd_offs = 0x0184,
+   165			.sram_pdn_bits = GENMASK(14, 8),
+   166			.sram_pdn_ack_bits = GENMASK(21, 15),
+   167			.bp_cfg = {
+   168				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+   169					MT8365_INFRA_TOPAXI_PROTECTEN_1_APU2AP |
+   170					MT8365_INFRA_TOPAXI_PROTECTEN_1_APU_CBIP_GALS_MST),
+   171				MT8365_BUS_PROT_SMI_WR_CLAMP_EN_PORT(4),
+   172			},
+   173		},
+   174		[MT8365_POWER_DOMAIN_DSP] = {
+   175			.name = "dsp",
+   176			.sta_mask = BIT(17),
+   177			.ctl_offs = 0x037C,
+   178			.pwr_sta_offs = 0x0180,
+   179			.pwr_sta2nd_offs = 0x0184,
+   180			.sram_pdn_bits = GENMASK(11, 8),
+   181			.sram_pdn_ack_bits = GENMASK(15, 12),
+   182			.bp_cfg = {
+   183				MT8365_BUS_PROT_INFRA_WR_TOPAXI_1(
+   184					MT8365_INFRA_TOPAXI_PROTECTEN_1_PWRDNREQ_INFRA_GALS_ADB |
+   185					MT8365_INFRA_TOPAXI_PROTECTEN_1_AUDIO_BUS_DSP_M |
+   186					MT8365_INFRA_TOPAXI_PROTECTEN_1_AUDIO_BUS_DSP_S),
+   187			},
+   188			.caps = MTK_SCPD_ACTIVE_WAKEUP,
+   189		},
+   190	};
+   191	
 
 -- 
 0-DAY CI Kernel Test Service
