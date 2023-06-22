@@ -1,49 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8709D17D0;
-	Thu, 22 Jun 2023 04:10:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD2117E0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 05:02:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687407034; x=1718943034;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OpwDpPau9AQnWP8p0KdWhexr5emxOCDtM5hNbv3OmHY=;
-  b=iSpi4O2EM9aKdDyUvzX60GiEtDFyPbvM5Di/GFPCqKhb+PcPi7DbAGOI
-   r7KBpei9aEtFne+MUE+R+3UstIx2VvmwP3fmaCIalwrNJPnsGD63zX3SI
-   w/iqiIflhwGF3AeM3uinm/yLxpYyKtFo4P6Fwfs5FKj+BvgJOBZDjA8mO
-   tgYDKsHW9TqDCmmEqQb32RZEKfJdg+7RK2nSU0bHN9WPipJwYK4LhJrWA
-   1hmejasQ2O+wNlOpfkk1PpPt6Tj/mHWIW5vbaAyK98zlmSNj3CggB/epq
-   9G8KPfVU6bMs2weacE30lG8SIR9ke+qy4IRon+yXgVwiDYqYdt3sPxzM+
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="360397919"
+  t=1687410151; x=1718946151;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OTAXLy75u5X+llynqnAfrlMMmn5bpcvWvwTCRRfwU2s=;
+  b=eC1JRXfIkBUnMjDrqTsqClBjkIvXNEHpeg08qPd3Ak90Yr9REL7KirvM
+   rk+/vrsQ73ilHaAlE88hbNJTwVxXx3iQgwORkNtpm8jHwHYVskagRhSO7
+   e+tAEyAP52UHhGQaZNYfN3mQ+SoQ7hIiMK3Jk/jezp1nkNwRnUIrOwl2f
+   ZYTJq8aPZfCjO1gd4TKGz5hVlaQEraLxTGfMRQiJe+ryNIH6R2BBdHC8h
+   dYytlBoaXIbpd3cvH3+CP0omRRtQVM66qKW4LYWvz1CzO3+KdBL1KTik7
+   YxjI/neQq2DJC2zr2cV4Z07DIuvuGglztvARWWH9nhoeRjwyMos5VZxeT
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="339996119"
 X-IronPort-AV: E=Sophos;i="6.00,262,1681196400"; 
-   d="scan'208";a="360397919"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 21:10:33 -0700
+   d="scan'208";a="339996119"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 22:02:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="804627027"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="888950290"
 X-IronPort-AV: E=Sophos;i="6.00,262,1681196400"; 
-   d="scan'208";a="804627027"
+   d="scan'208";a="888950290"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 21 Jun 2023 21:10:29 -0700
+  by orsmga005.jf.intel.com with ESMTP; 21 Jun 2023 22:02:30 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qCBeO-0007Jv-1j;
-	Thu, 22 Jun 2023 04:10:28 +0000
-Date: Thu, 22 Jun 2023 12:10:26 +0800
+	id 1qCCSj-0007L5-1X;
+	Thu, 22 Jun 2023 05:02:29 +0000
+Date: Thu, 22 Jun 2023 13:02:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Besar Wicaksono <bwicaksono@nvidia.com>, suzuki.poulose@arm.com,
-	robin.murphy@arm.com, ilkka@os.amperecomputing.com,
-	catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-tegra@vger.kernel.org, treding@nvidia.com,
-	jonathanh@nvidia.com, vsethi@nvidia.com, rwiley@nvidia.com,
-	efunsten@nvidia.com, Besar Wicaksono <bwicaksono@nvidia.com>
-Subject: Re: [PATCH v4] perf: arm_cspmu: Separate Arm and vendor module
-Message-ID: <202306221135.Z877Um2S-lkp@intel.com>
-References: <20230620041438.32514-1-bwicaksono@nvidia.com>
+To: Huazhong Tan <tanhuazhong@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c:90:25:
+ warning: 'strncpy' specified bound depends on the length of the source
+ argument
+Message-ID: <202306221218.d8gEgeI8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,56 +46,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230620041438.32514-1-bwicaksono@nvidia.com>
 
-Hi Besar,
+Hi Huazhong,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on ea8d1c062a0e876e999e4f347daeb598d5e677ab]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Besar-Wicaksono/perf-arm_cspmu-Separate-Arm-and-vendor-module/20230620-121723
-base:   ea8d1c062a0e876e999e4f347daeb598d5e677ab
-patch link:    https://lore.kernel.org/r/20230620041438.32514-1-bwicaksono%40nvidia.com
-patch subject: [PATCH v4] perf: arm_cspmu: Separate Arm and vendor module
-config: arm64-randconfig-r011-20230621 (https://download.01.org/0day-ci/archive/20230622/202306221135.Z877Um2S-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306221135.Z877Um2S-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dad9774deaf1cf8e8f7483310dfb2690310193d2
+commit: 1556ea9120ffcf4faf7ac6b62a6e28216f260a23 net: hns3: refactor dump mac list of debugfs
+date:   2 years, 1 month ago
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230622/202306221218.d8gEgeI8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306221218.d8gEgeI8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306221135.Z877Um2S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306221218.d8gEgeI8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/perf/arm_cspmu/arm_cspmu.c:386:30: warning: no previous prototype for function 'arm_cspmu_impl_match_get' [-Wmissing-prototypes]
-     386 | struct arm_cspmu_impl_match *arm_cspmu_impl_match_get(u32 pmiidr)
-         |                              ^
-   drivers/perf/arm_cspmu/arm_cspmu.c:386:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     386 | struct arm_cspmu_impl_match *arm_cspmu_impl_match_get(u32 pmiidr)
-         | ^
-         | static 
-   1 warning generated.
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c: In function 'hclge_dbg_fill_content.constprop':
+>> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c:90:25: warning: 'strncpy' specified bound depends on the length of the source argument [-Wstringop-truncation]
+      90 |                         strncpy(pos, items[i].name, strlen(items[i].name));
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c:88:25: warning: 'strncpy' specified bound depends on the length of the source argument [-Wstringop-truncation]
+      88 |                         strncpy(pos, result[i], strlen(result[i]));
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/arm_cspmu_impl_match_get +386 drivers/perf/arm_cspmu/arm_cspmu.c
+vim +/strncpy +90 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.c
 
-   385	
- > 386	struct arm_cspmu_impl_match *arm_cspmu_impl_match_get(u32 pmiidr)
-   387	{
-   388		struct arm_cspmu_impl_match *match = impl_match;
-   389	
-   390		for (; match->pmiidr_val; match++) {
-   391			u32 mask = match->pmiidr_mask;
-   392	
-   393			if ((match->pmiidr_val & mask) == (pmiidr & mask))
-   394				break;
-   395		}
-   396	
-   397		return match;
-   398	}
-   399	
+    77	
+    78	static void hclge_dbg_fill_content(char *content, u16 len,
+    79					   const struct hclge_dbg_item *items,
+    80					   const char **result, u16 size)
+    81	{
+    82		char *pos = content;
+    83		u16 i;
+    84	
+    85		memset(content, ' ', len);
+    86		for (i = 0; i < size; i++) {
+    87			if (result)
+    88				strncpy(pos, result[i], strlen(result[i]));
+    89			else
+  > 90				strncpy(pos, items[i].name, strlen(items[i].name));
+    91			pos += strlen(items[i].name) + items[i].interval;
+    92		}
+    93		*pos++ = '\n';
+    94		*pos++ = '\0';
+    95	}
+    96	
 
 -- 
 0-DAY CI Kernel Test Service
