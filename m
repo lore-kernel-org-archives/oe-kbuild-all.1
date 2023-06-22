@@ -1,55 +1,41 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A0D22557
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 22:00:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8883320690;
+	Thu, 22 Jun 2023 22:10:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687471254; x=1719007254;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fWYQw7YkqZaC3rzHqhX8WgjjZeuhKInvStJbx+K0+hw=;
-  b=eMJH3XQVUdabHgSTRqx2xFOgNBi+YWNvQq3I5rNIEQSVK3azRuaTiuJD
-   b5pVaBRCulUbSASoPhLmF2jpmNnQH67MXNfpGFRDjGLODByGpx7DFqoRo
-   QesrSETuu4xDAopIaiHMYNYDFp32h8A4TQZd2elBThyB9DvHnfn3rYgh+
-   q8bYsCDuVYr17G7cKXTiEY9I0NgsleeFjcxwNy2yWOsmT8MSRP1wtHM8Q
-   0Cm41zBgJms8Zf3UkqWKMnQYASGHdwB2X4JIjUzPs6NpsxB8gP6PKirW0
-   XknjsdPlpziXSEzNVA3SdKltJ5zgUA/YyDoj+BtbZN1ZuYN3Qyr0sSz9E
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="359490224"
+  t=1687471849; x=1719007849;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tMCdOecJ6kaSDao+sC1xyRJf86ppTCRtmGd3WMAKh28=;
+  b=I1rsDz+31wuz/0GIKm3Za9Uz3M6DTLX0CnwYhhUDL4VoiGS3JZRFuyvP
+   UHDtHgublEX8c8rpj43QxeGEHDk4BKYMerda8B7KIeF3ZSQ2iwFmY++uI
+   G+eQiIB+7FMDLx229MkqpmURbcFzmVSD0IWbdReFmjv6MqFwaVt0tHKZc
+   2EZqqa8b4d+skd7i1+1KFhs5de61zGuZ7cNvy1TKyXgQKxXVy8LHIHwxN
+   a8HMPenHAESyVogVT/0zAtR+8chTgea963MkfvMoHZVCCP1nfw5mV5Q0C
+   C6lH4mbw1EUegp6FNhscpdrU9PRgbiFngGy7nPKeB6pXJIPTbEmUMyEhF
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="350388252"
 X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
-   d="scan'208";a="359490224"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 15:00:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="715095781"
+   d="scan'208";a="350388252"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 15:10:48 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="749508754"
 X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
-   d="scan'208";a="715095781"
+   d="scan'208";a="749508754"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 22 Jun 2023 15:00:47 -0700
+  by orsmga001.jf.intel.com with ESMTP; 22 Jun 2023 15:10:47 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qCSMA-0007mp-31;
-	Thu, 22 Jun 2023 22:00:46 +0000
-Date: Fri, 23 Jun 2023 06:00:06 +0800
+	id 1qCSVr-0007mz-0F;
+	Thu, 22 Jun 2023 22:10:47 +0000
+Date: Fri, 23 Jun 2023 06:10:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sumitra Sharma <sumitraartsy@gmail.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yhs@fb.com>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ira Weiny <ira.weiny@intel.com>,
-	Fabio <fmdefrancesco@gmail.com>, Deepak R Varma <drv@mailo.com>,
-	Sumitra Sharma <sumitraartsy@gmail.com>
-Subject: Re: [PATCH v3] lib/test_bpf: Call page_address() on page acquired
- with GFP_KERNEL flag
-Message-ID: <202306230559.hU5Aonpl-lkp@intel.com>
-References: <20230622080729.GA426913@sumitra.com>
+To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jirislaby:devel 21/75] drivers/tty/serial/serial_core.c:3511:3:
+ error: initializer element is not a compile-time constant
+Message-ID: <202306230617.8edLg1Rf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,85 +44,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230622080729.GA426913@sumitra.com>
 
-Hi Sumitra,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-[also build test WARNING on bpf/master linus/master v6.4-rc7 next-20230622]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sumitra-Sharma/lib-test_bpf-Call-page_address-on-page-acquired-with-GFP_KERNEL-flag/20230622-160846
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230622080729.GA426913%40sumitra.com
-patch subject: [PATCH v3] lib/test_bpf: Call page_address() on page acquired with GFP_KERNEL flag
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230623/202306230559.hU5Aonpl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230559.hU5Aonpl-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git devel
+head:   48bbb2920f04e3004c9ea9bce4ea600d9c17c599
+commit: 4d452b7101d5c1df0477776fdc0ad38d3e4034a5 [21/75] serial: make strlen of sysrq_toggle_seq[] a global constant
+config: i386-randconfig-i002-20230622 (https://download.01.org/0day-ci/archive/20230623/202306230617.8edLg1Rf-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230617.8edLg1Rf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306230559.hU5Aonpl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306230617.8edLg1Rf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   lib/test_bpf.c: In function 'generate_test_data':
->> lib/test_bpf.c:14395:1: warning: label 'err_free_page' defined but not used [-Wunused-label]
-   14395 | err_free_page:
-         | ^~~~~~~~~~~~~
+>> drivers/tty/serial/serial_core.c:3511:3: error: initializer element is not a compile-time constant
+                   strlen(CONFIG_MAGIC_SYSRQ_SERIAL_SEQUENCE);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +/err_free_page +14395 lib/test_bpf.c
+vim +3511 drivers/tty/serial/serial_core.c
 
-64a8946b447e41 Alexei Starovoitov 2014-05-08  14358  
-10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14359  static void *generate_test_data(struct bpf_test *test, int sub)
-64a8946b447e41 Alexei Starovoitov 2014-05-08  14360  {
-bac142acb90e95 Nicolas Schichan   2015-08-04  14361  	struct sk_buff *skb;
-bac142acb90e95 Nicolas Schichan   2015-08-04  14362  	struct page *page;
-bac142acb90e95 Nicolas Schichan   2015-08-04  14363  
-10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14364  	if (test->aux & FLAG_NO_DATA)
-10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14365  		return NULL;
-64a8946b447e41 Alexei Starovoitov 2014-05-08  14366  
-f516420f683d14 Xu Kuohai          2022-03-21  14367  	if (test->aux & FLAG_LARGE_MEM)
-f516420f683d14 Xu Kuohai          2022-03-21  14368  		return kmalloc(test->test[sub].data_size, GFP_KERNEL);
-f516420f683d14 Xu Kuohai          2022-03-21  14369  
-10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14370  	/* Test case expects an skb, so populate one. Various
-10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14371  	 * subtests generate skbs of different sizes based on
-10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14372  	 * the same data.
-10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14373  	 */
-bac142acb90e95 Nicolas Schichan   2015-08-04  14374  	skb = populate_skb(test->data, test->test[sub].data_size);
-bac142acb90e95 Nicolas Schichan   2015-08-04  14375  	if (!skb)
-bac142acb90e95 Nicolas Schichan   2015-08-04  14376  		return NULL;
-bac142acb90e95 Nicolas Schichan   2015-08-04  14377  
-bac142acb90e95 Nicolas Schichan   2015-08-04  14378  	if (test->aux & FLAG_SKB_FRAG) {
-bac142acb90e95 Nicolas Schichan   2015-08-04  14379  		/*
-bac142acb90e95 Nicolas Schichan   2015-08-04  14380  		 * when the test requires a fragmented skb, add a
-bac142acb90e95 Nicolas Schichan   2015-08-04  14381  		 * single fragment to the skb, filled with
-bac142acb90e95 Nicolas Schichan   2015-08-04  14382  		 * test->frag_data.
-bac142acb90e95 Nicolas Schichan   2015-08-04  14383  		 */
-bac142acb90e95 Nicolas Schichan   2015-08-04  14384  		page = alloc_page(GFP_KERNEL);
-bac142acb90e95 Nicolas Schichan   2015-08-04  14385  
-bac142acb90e95 Nicolas Schichan   2015-08-04  14386  		if (!page)
-bac142acb90e95 Nicolas Schichan   2015-08-04  14387  			goto err_kfree_skb;
-bac142acb90e95 Nicolas Schichan   2015-08-04  14388  
-4a8b1daa0ee566 Sumitra Sharma     2023-06-22  14389  		memcpy(page_address(page), test->frag_data, MAX_DATA);
-bac142acb90e95 Nicolas Schichan   2015-08-04  14390  		skb_add_rx_frag(skb, 0, page, 0, MAX_DATA, MAX_DATA);
-bac142acb90e95 Nicolas Schichan   2015-08-04  14391  	}
-bac142acb90e95 Nicolas Schichan   2015-08-04  14392  
-bac142acb90e95 Nicolas Schichan   2015-08-04  14393  	return skb;
-bac142acb90e95 Nicolas Schichan   2015-08-04  14394  
-bac142acb90e95 Nicolas Schichan   2015-08-04 @14395  err_free_page:
-bac142acb90e95 Nicolas Schichan   2015-08-04  14396  	__free_page(page);
-bac142acb90e95 Nicolas Schichan   2015-08-04  14397  err_kfree_skb:
-bac142acb90e95 Nicolas Schichan   2015-08-04  14398  	kfree_skb(skb);
-bac142acb90e95 Nicolas Schichan   2015-08-04  14399  	return NULL;
-10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14400  }
-10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14401  
+  3506	
+  3507	#ifdef CONFIG_MAGIC_SYSRQ_SERIAL
+  3508	static const u8 sysrq_toggle_seq[] = CONFIG_MAGIC_SYSRQ_SERIAL_SEQUENCE;
+  3509	/* Ideally, this would be strlen(sysrq_toggle_seq), but clang disagrees. */
+  3510	static const unsigned int sysrq_toggle_seq_len =
+> 3511			strlen(CONFIG_MAGIC_SYSRQ_SERIAL_SEQUENCE);
+  3512	
 
 -- 
 0-DAY CI Kernel Test Service
