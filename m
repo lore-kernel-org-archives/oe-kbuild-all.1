@@ -1,42 +1,45 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF88188
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 02:49:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB69188
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 03:30:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687402161; x=1718938161;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5QjLcdbcadTKTQxis9Ri4vrpkA81trw4pcIakR/OOMw=;
-  b=CIaYFT080OGxmorBhICooiz1RiqSZyj2ZY1NAdunKSJ4GI682DPsKWHI
-   jEVTnQuW8rUTRPtXbrngyWk02lPCW8D0BJq0f/dZv1nB1n9g30kk+w8Yt
-   /3F7KmohGZkkWAmudMq8A1rgtYIhWHIevta6IEwEdPDDSjJTnJkraz5OO
-   67ctgGGlCtd86a9Kk67BNyeq4BwsdTPBwcyUFBHr6jLEdEqdtsQeYxeTE
-   SaCwdkUpJJU3DNhzUgMoD+G4uDMEJA/JXaQ+Dmkn6t2WFo16IzUlosyeT
-   qVbUJkpFJgE647rdej3oEYQaetycD5OkvxyOcdmyuOIxvycJ2DnbI55aG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="339976570"
+  t=1687404632; x=1718940632;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9M7I1//XquKcZIL2PPA1I4Yksw7jYe7PccJhUo9OhyI=;
+  b=jR/UEpWI09bAhq5mI9e936JOXLyfyHPplfnJ/zTsq1BBqfTIBc+ZHLoB
+   D2ZtRdidhDwzJXRL4+Xky5MuRTXSLxQf0CqzWBgYUZxR2TpTJs1oJKwdw
+   s/nUjCivo6Z0RtpOv2dkHZxXlvcCk4Z5YbvoGTJCLy+IoKWIOdpWeSJWk
+   OfKiJw7+n2wRMyL94NlatgOsgYk/27KS6MPFX6UBLbOO+ShEcuF1VtssR
+   PyodCSGBfQSDqH6M/DSq2op8bRgFjUyRmwHh6qbYf+odpEuvlbH6ajhuD
+   jg0XvQOFt554NEzNq5YiMrEVLSCGU4ALdWQh9VqO0/C5abjXUNwFvA4Dn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="357868999"
 X-IronPort-AV: E=Sophos;i="6.00,262,1681196400"; 
-   d="scan'208";a="339976570"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 19:48:29 -0700
+   d="scan'208";a="357868999"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2023 20:30:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="784740117"
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="827727302"
 X-IronPort-AV: E=Sophos;i="6.00,262,1681196400"; 
-   d="scan'208";a="784740117"
+   d="scan'208";a="827727302"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 21 Jun 2023 19:48:27 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 21 Jun 2023 20:30:28 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qCAN0-0007HW-32;
-	Thu, 22 Jun 2023 02:48:26 +0000
-Date: Thu, 22 Jun 2023 10:48:10 +0800
+	id 1qCB1f-0007Il-2y;
+	Thu, 22 Jun 2023 03:30:27 +0000
+Date: Thu, 22 Jun 2023 11:29:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huazhong Tan <tanhuazhong@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/net/ethernet/hisilicon/hns3/hns3_debugfs.c:127:25: warning:
- 'strncpy' specified bound depends on the length of the source argument
-Message-ID: <202306221038.epkS842w-lkp@intel.com>
+To: Jan Kara <jack@suse.cz>, Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev, Christoph Hellwig <hch@infradead.org>,
+	linux-block@vger.kernel.org, Coly Li <colyli@suse.de>,
+	linux-bcache@vger.kernel.org, Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH 2/2] bcache: Fix bcache device claiming
+Message-ID: <202306221133.HFiLGynP-lkp@intel.com>
+References: <20230621162333.30027-2-jack@suse.cz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,72 +48,366 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230621162333.30027-2-jack@suse.cz>
 
-Hi Huazhong,
+Hi Jan,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dad9774deaf1cf8e8f7483310dfb2690310193d2
-commit: 77e9184869c9fb00a482357ea8eef3bd7ae3d45a net: hns3: refactor dump bd info of debugfs
-date:   2 years, 1 month ago
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230622/202306221038.epkS842w-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306221038.epkS842w-lkp@intel.com/reproduce)
+[auto build test ERROR on axboe-block/for-6.5/block]
+[also build test ERROR on next-20230621]
+[cannot apply to linus/master hch-configfs/for-next v6.4-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jan-Kara/bcache-Alloc-holder-object-before-async-registration/20230622-002543
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.5/block
+patch link:    https://lore.kernel.org/r/20230621162333.30027-2-jack%40suse.cz
+patch subject: [PATCH 2/2] bcache: Fix bcache device claiming
+config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230622/202306221133.HFiLGynP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306221133.HFiLGynP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306221038.epkS842w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306221133.HFiLGynP-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In function 'hns3_dbg_fill_content',
-       inlined from 'hns3_dbg_rx_bd_info' at drivers/net/ethernet/hisilicon/hns3/hns3_debugfs.c:358:2:
->> drivers/net/ethernet/hisilicon/hns3/hns3_debugfs.c:127:25: warning: 'strncpy' specified bound depends on the length of the source argument [-Wstringop-truncation]
-     127 |                         strncpy(pos, items[i].name, strlen(items[i].name));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In function 'hns3_dbg_fill_content',
-       inlined from 'hns3_dbg_rx_bd_info' at drivers/net/ethernet/hisilicon/hns3/hns3_debugfs.c:367:3:
-   drivers/net/ethernet/hisilicon/hns3/hns3_debugfs.c:125:25: warning: 'strncpy' specified bound depends on the length of the source argument [-Wstringop-truncation]
-     125 |                         strncpy(pos, result[i], strlen(result[i]));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In function 'hns3_dbg_fill_content',
-       inlined from 'hns3_dbg_tx_bd_info' at drivers/net/ethernet/hisilicon/hns3/hns3_debugfs.c:432:2:
->> drivers/net/ethernet/hisilicon/hns3/hns3_debugfs.c:127:25: warning: 'strncpy' specified bound depends on the length of the source argument [-Wstringop-truncation]
-     127 |                         strncpy(pos, items[i].name, strlen(items[i].name));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In function 'hns3_dbg_fill_content',
-       inlined from 'hns3_dbg_tx_bd_info' at drivers/net/ethernet/hisilicon/hns3/hns3_debugfs.c:441:3:
-   drivers/net/ethernet/hisilicon/hns3/hns3_debugfs.c:125:25: warning: 'strncpy' specified bound depends on the length of the source argument [-Wstringop-truncation]
-     125 |                         strncpy(pos, result[i], strlen(result[i]));
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/md/bcache/super.c: In function 'register_bcache':
+   drivers/md/bcache/super.c:2574:9: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+    2574 |         if (IS_ERR(bdev))
+         |         ^~
+   drivers/md/bcache/super.c:2576:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+    2576 |                 if (bdev == ERR_PTR(-EBUSY)) {
+         |                 ^~
+   drivers/md/bcache/super.c:2591:17: error: label 'out_free_holder' used but not defined
+    2591 |                 goto out_free_holder;
+         |                 ^~~~
+   drivers/md/bcache/super.c:2566:17: error: label 'out_put_sb_page' used but not defined
+    2566 |                 goto out_put_sb_page;
+         |                 ^~~~
+   drivers/md/bcache/super.c:2560:17: error: label 'out_blkdev_put' used but not defined
+    2560 |                 goto out_blkdev_put;
+         |                 ^~~~
+   drivers/md/bcache/super.c:2552:17: error: label 'out_free_sb' used but not defined
+    2552 |                 goto out_free_sb;
+         |                 ^~~~
+   drivers/md/bcache/super.c:2546:17: error: label 'out_free_path' used but not defined
+    2546 |                 goto out_free_path;
+         |                 ^~~~
+   drivers/md/bcache/super.c:2542:17: error: label 'out_module_put' used but not defined
+    2542 |                 goto out_module_put;
+         |                 ^~~~
+   drivers/md/bcache/super.c:2530:17: error: label 'out' used but not defined
+    2530 |                 goto out;
+         |                 ^~~~
+   drivers/md/bcache/super.c:2521:14: warning: variable 'quiet' set but not used [-Wunused-but-set-variable]
+    2521 |         bool quiet = false;
+         |              ^~~~~
+>> drivers/md/bcache/super.c:2520:14: warning: unused variable 'async_registration' [-Wunused-variable]
+    2520 |         bool async_registration = false;
+         |              ^~~~~~~~~~~~~~~~~~
+   drivers/md/bcache/super.c:2519:17: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    2519 |         ssize_t ret;
+         |                 ^~~
+   drivers/md/bcache/super.c:2592:9: error: no return statement in function returning non-void [-Werror=return-type]
+    2592 |         }
+         |         ^
+   drivers/md/bcache/super.c: At top level:
+   drivers/md/bcache/super.c:2594:9: warning: data definition has no type or storage class
+    2594 |         err = "failed to register device";
+         |         ^~~
+   drivers/md/bcache/super.c:2594:9: error: type defaults to 'int' in declaration of 'err' [-Werror=implicit-int]
+   drivers/md/bcache/super.c:2594:15: warning: initialization of 'int' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+    2594 |         err = "failed to register device";
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/md/bcache/super.c:2596:9: error: expected identifier or '(' before 'if'
+    2596 |         if (async_registration) {
+         |         ^~
+   drivers/md/bcache/super.c:2617:9: error: expected identifier or '(' before 'if'
+    2617 |         if (SB_IS_BDEV(sb)) {
+         |         ^~
+   drivers/md/bcache/super.c:2624:11: error: expected identifier or '(' before 'else'
+    2624 |         } else {
+         |           ^~~~
+   drivers/md/bcache/super.c:2631:9: warning: data definition has no type or storage class
+    2631 |         kfree(sb);
+         |         ^~~~~
+   drivers/md/bcache/super.c:2631:9: error: type defaults to 'int' in declaration of 'kfree' [-Werror=implicit-int]
+   drivers/md/bcache/super.c:2631:9: warning: parameter names (without types) in function declaration
+   drivers/md/bcache/super.c:2631:9: error: conflicting types for 'kfree'; have 'int()'
+   In file included from include/linux/fs.h:45,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/bio.h:10,
+                    from drivers/md/bcache/bcache.h:181,
+                    from drivers/md/bcache/super.c:10:
+   include/linux/slab.h:210:6: note: previous declaration of 'kfree' with type 'void(const void *)'
+     210 | void kfree(const void *objp);
+         |      ^~~~~
+   drivers/md/bcache/super.c:2632:9: warning: data definition has no type or storage class
+    2632 |         kfree(path);
+         |         ^~~~~
+   drivers/md/bcache/super.c:2632:9: error: type defaults to 'int' in declaration of 'kfree' [-Werror=implicit-int]
+   drivers/md/bcache/super.c:2632:9: warning: parameter names (without types) in function declaration
+   drivers/md/bcache/super.c:2632:9: error: conflicting types for 'kfree'; have 'int()'
+   include/linux/slab.h:210:6: note: previous declaration of 'kfree' with type 'void(const void *)'
+     210 | void kfree(const void *objp);
+         |      ^~~~~
+   In file included from include/linux/linkage.h:7,
+                    from include/linux/preempt.h:10,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/mempool.h:8,
+                    from include/linux/bio.h:8:
+   include/linux/export.h:27:21: error: expected declaration specifiers or '...' before '(' token
+      27 | #define THIS_MODULE (&__this_module)
+         |                     ^
+   drivers/md/bcache/super.c:2633:20: note: in expansion of macro 'THIS_MODULE'
+    2633 |         module_put(THIS_MODULE);
+         |                    ^~~~~~~~~~~
+   drivers/md/bcache/super.c:2634:11: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
+    2634 | async_done:
+         |           ^
+   drivers/md/bcache/super.c:2637:16: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
+    2637 | out_free_holder:
+         |                ^
+   drivers/md/bcache/super.c:2639:16: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
+    2639 | out_put_sb_page:
+         |                ^
+   In file included from arch/x86/include/asm/page.h:85,
+                    from arch/x86/include/asm/thread_info.h:12,
+                    from include/linux/thread_info.h:60,
+                    from arch/x86/include/asm/preempt.h:9,
+                    from include/linux/preempt.h:78:
+>> include/asm-generic/memory_model.h:55:2: error: expected identifier or '(' before ')' token
+      55 | })
+         |  ^
+   include/asm-generic/memory_model.h:65:21: note: in expansion of macro '__pfn_to_page'
+      65 | #define pfn_to_page __pfn_to_page
+         |                     ^~~~~~~~~~~~~
+   arch/x86/include/asm/page.h:68:33: note: in expansion of macro 'pfn_to_page'
+      68 | #define virt_to_page(kaddr)     pfn_to_page(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~~~
+   drivers/md/bcache/super.c:2640:18: note: in expansion of macro 'virt_to_page'
+    2640 |         put_page(virt_to_page(sb_disk));
+         |                  ^~~~~~~~~~~~
+   drivers/md/bcache/super.c:2641:15: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
+    2641 | out_blkdev_put:
+         |               ^
+   drivers/md/bcache/super.c:2643:12: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
+    2643 | out_free_sb:
+         |            ^
+   drivers/md/bcache/super.c:2645:14: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
+    2645 | out_free_path:
+         |              ^
+   drivers/md/bcache/super.c:2647:9: warning: data definition has no type or storage class
+    2647 |         path = NULL;
+         |         ^~~~
+   drivers/md/bcache/super.c:2647:9: error: type defaults to 'int' in declaration of 'path' [-Werror=implicit-int]
+   In file included from include/uapi/linux/posix_types.h:5,
+                    from include/uapi/linux/types.h:14,
+                    from include/linux/types.h:6,
+                    from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/x86/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:247,
+                    from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/wait.h:7:
+   include/linux/stddef.h:8:14: warning: initialization of 'int' from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+       8 | #define NULL ((void *)0)
+         |              ^
+   drivers/md/bcache/super.c:2647:16: note: in expansion of macro 'NULL'
+    2647 |         path = NULL;
+         |                ^~~~
+   drivers/md/bcache/super.c:2648:15: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
+    2648 | out_module_put:
+         |               ^
+   drivers/md/bcache/super.c:2650:4: error: expected '=', ',', ';', 'asm' or '__attribute__' before ':' token
+    2650 | out:
+         |    ^
+   In file included from include/linux/kernel.h:30,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/preempt.h:6:
+   include/linux/printk.h:428:10: error: expected identifier or '(' before ')' token
+     428 |         })
+         |          ^
+   include/linux/printk.h:455:26: note: in expansion of macro 'printk_index_wrap'
+     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                          ^~~~~~~~~~~~~~~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/md/bcache/super.c:2652:17: note: in expansion of macro 'pr_info'
+    2652 |                 pr_info("error %s: %s\n", path?path:"", err);
+         |                 ^~~~~~~
+   drivers/md/bcache/super.c:2653:9: error: expected identifier or '(' before 'return'
+    2653 |         return ret;
+         |         ^~~~~~
+   drivers/md/bcache/super.c:2654:1: error: expected identifier or '(' before '}' token
+    2654 | }
+         | ^
+   drivers/md/bcache/super.c:2492:13: warning: 'register_device_async' defined but not used [-Wunused-function]
+    2492 | static void register_device_async(struct async_reg_args *args)
+         |             ^~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/strncpy +127 drivers/net/ethernet/hisilicon/hns3/hns3_debugfs.c
+vim +/async_registration +2520 drivers/md/bcache/super.c
 
-   114	
-   115	static void hns3_dbg_fill_content(char *content, u16 len,
-   116					  const struct hns3_dbg_item *items,
-   117					  const char **result, u16 size)
-   118	{
-   119		char *pos = content;
-   120		u16 i;
-   121	
-   122		memset(content, ' ', len);
-   123		for (i = 0; i < size; i++) {
-   124			if (result)
-   125				strncpy(pos, result[i], strlen(result[i]));
-   126			else
- > 127				strncpy(pos, items[i].name, strlen(items[i].name));
-   128	
-   129			pos += strlen(items[i].name) + items[i].interval;
-   130		}
-   131	
-   132		*pos++ = '\n';
-   133		*pos++ = '\0';
-   134	}
-   135	
+867f981b0739bd Jan Kara          2023-06-21  2509  
+cafe563591446c Kent Overstreet   2013-03-23  2510  static ssize_t register_bcache(struct kobject *k, struct kobj_attribute *attr,
+cafe563591446c Kent Overstreet   2013-03-23  2511  			       const char *buffer, size_t size)
+cafe563591446c Kent Overstreet   2013-03-23  2512  {
+50246693f81fe8 Christoph Hellwig 2020-01-24  2513  	const char *err;
+29cda393bcaad1 Coly Li           2020-01-24  2514  	char *path = NULL;
+50246693f81fe8 Christoph Hellwig 2020-01-24  2515  	struct cache_sb *sb;
+cfa0c56db9c087 Christoph Hellwig 2020-01-24  2516  	struct cache_sb_disk *sb_disk;
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2517  	struct block_device *bdev, *bdev2;
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2518  	void *holder = NULL;
+50246693f81fe8 Christoph Hellwig 2020-01-24  2519  	ssize_t ret;
+a58e88bfdc4d52 Coly Li           2020-10-01 @2520  	bool async_registration = false;
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2521  	bool quiet = false;
+a58e88bfdc4d52 Coly Li           2020-10-01  2522  
+a58e88bfdc4d52 Coly Li           2020-10-01  2523  #ifdef CONFIG_BCACHE_ASYNC_REGISTRATION
+a58e88bfdc4d52 Coly Li           2020-10-01  2524  	async_registration = true;
+a58e88bfdc4d52 Coly Li           2020-10-01  2525  #endif
+cafe563591446c Kent Overstreet   2013-03-23  2526  
+50246693f81fe8 Christoph Hellwig 2020-01-24  2527  	ret = -EBUSY;
+29cda393bcaad1 Coly Li           2020-01-24  2528  	err = "failed to reference bcache module";
+cafe563591446c Kent Overstreet   2013-03-23  2529  	if (!try_module_get(THIS_MODULE))
+50246693f81fe8 Christoph Hellwig 2020-01-24  2530  		goto out;
+cafe563591446c Kent Overstreet   2013-03-23  2531  
+a59ff6ccc2bf2e Coly Li           2019-06-28  2532  	/* For latest state of bcache_is_reboot */
+a59ff6ccc2bf2e Coly Li           2019-06-28  2533  	smp_mb();
+29cda393bcaad1 Coly Li           2020-01-24  2534  	err = "bcache is in reboot";
+a59ff6ccc2bf2e Coly Li           2019-06-28  2535  	if (bcache_is_reboot)
+50246693f81fe8 Christoph Hellwig 2020-01-24  2536  		goto out_module_put;
+a59ff6ccc2bf2e Coly Li           2019-06-28  2537  
+50246693f81fe8 Christoph Hellwig 2020-01-24  2538  	ret = -ENOMEM;
+50246693f81fe8 Christoph Hellwig 2020-01-24  2539  	err = "cannot allocate memory";
+a56489d4b3c914 Florian Schmaus   2018-07-26  2540  	path = kstrndup(buffer, size, GFP_KERNEL);
+a56489d4b3c914 Florian Schmaus   2018-07-26  2541  	if (!path)
+50246693f81fe8 Christoph Hellwig 2020-01-24 @2542  		goto out_module_put;
+a56489d4b3c914 Florian Schmaus   2018-07-26  2543  
+a56489d4b3c914 Florian Schmaus   2018-07-26  2544  	sb = kmalloc(sizeof(struct cache_sb), GFP_KERNEL);
+a56489d4b3c914 Florian Schmaus   2018-07-26  2545  	if (!sb)
+50246693f81fe8 Christoph Hellwig 2020-01-24  2546  		goto out_free_path;
+cafe563591446c Kent Overstreet   2013-03-23  2547  
+50246693f81fe8 Christoph Hellwig 2020-01-24  2548  	ret = -EINVAL;
+cafe563591446c Kent Overstreet   2013-03-23  2549  	err = "failed to open device";
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2550  	bdev = blkdev_get_by_path(strim(path), BLK_OPEN_READ, NULL, NULL);
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2551  	if (IS_ERR(bdev))
+50246693f81fe8 Christoph Hellwig 2020-01-24  2552  		goto out_free_sb;
+f59fce847fc848 Kent Overstreet   2013-05-15  2553  
+f59fce847fc848 Kent Overstreet   2013-05-15  2554  	err = "failed to set blocksize";
+f59fce847fc848 Kent Overstreet   2013-05-15  2555  	if (set_blocksize(bdev, 4096))
+50246693f81fe8 Christoph Hellwig 2020-01-24  2556  		goto out_blkdev_put;
+cafe563591446c Kent Overstreet   2013-03-23  2557  
+cfa0c56db9c087 Christoph Hellwig 2020-01-24  2558  	err = read_super(sb, bdev, &sb_disk);
+cafe563591446c Kent Overstreet   2013-03-23  2559  	if (err)
+50246693f81fe8 Christoph Hellwig 2020-01-24  2560  		goto out_blkdev_put;
+cafe563591446c Kent Overstreet   2013-03-23  2561  
+867f981b0739bd Jan Kara          2023-06-21  2562  	holder = alloc_holder_object(sb);
+867f981b0739bd Jan Kara          2023-06-21  2563  	if (!holder) {
+867f981b0739bd Jan Kara          2023-06-21  2564  		ret = -ENOMEM;
+867f981b0739bd Jan Kara          2023-06-21  2565  		err = "cannot allocate memory";
+867f981b0739bd Jan Kara          2023-06-21  2566  		goto out_put_sb_page;
+867f981b0739bd Jan Kara          2023-06-21  2567  	}
+867f981b0739bd Jan Kara          2023-06-21  2568  
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2569  	/* Now reopen in exclusive mode with proper holder */
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2570  	bdev2 = blkdev_get_by_dev(bdev->bd_dev, BLK_OPEN_READ | BLK_OPEN_WRITE,
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2571  				  holder, NULL);
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2572  	blkdev_put(bdev, NULL);
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2573  	bdev = bdev2;
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2574  	if (IS_ERR(bdev))
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2575  		ret = PTR_ERR(bdev);
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2576  		if (bdev == ERR_PTR(-EBUSY)) {
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2577  			dev_t dev;
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2578  
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2579  			mutex_lock(&bch_register_lock);
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2580  			if (lookup_bdev(strim(path), &dev) == 0 &&
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2581  			    bch_is_open(dev))
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2582  				err = "device already registered";
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2583  			else
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2584  				err = "device busy";
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2585  			mutex_unlock(&bch_register_lock);
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2586  			if (attr == &ksysfs_register_quiet) {
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2587  				quiet = true;
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2588  				ret = size;
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2589  			}
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2590  		}
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2591  		goto out_free_holder;
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2592  	}
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2593  
+cc40daf91bdddb Tang Junhui       2018-03-05  2594  	err = "failed to register device";
+a58e88bfdc4d52 Coly Li           2020-10-01  2595  
+a58e88bfdc4d52 Coly Li           2020-10-01  2596  	if (async_registration) {
+9e23ccf8f0a22e Coly Li           2020-05-27  2597  		/* register in asynchronous way */
+9e23ccf8f0a22e Coly Li           2020-05-27  2598  		struct async_reg_args *args =
+9e23ccf8f0a22e Coly Li           2020-05-27  2599  			kzalloc(sizeof(struct async_reg_args), GFP_KERNEL);
+9e23ccf8f0a22e Coly Li           2020-05-27  2600  
+9e23ccf8f0a22e Coly Li           2020-05-27  2601  		if (!args) {
+9e23ccf8f0a22e Coly Li           2020-05-27  2602  			ret = -ENOMEM;
+9e23ccf8f0a22e Coly Li           2020-05-27  2603  			err = "cannot allocate memory";
+867f981b0739bd Jan Kara          2023-06-21  2604  			goto out_free_holder;
+9e23ccf8f0a22e Coly Li           2020-05-27  2605  		}
+9e23ccf8f0a22e Coly Li           2020-05-27  2606  
+9e23ccf8f0a22e Coly Li           2020-05-27  2607  		args->path	= path;
+9e23ccf8f0a22e Coly Li           2020-05-27  2608  		args->sb	= sb;
+9e23ccf8f0a22e Coly Li           2020-05-27  2609  		args->sb_disk	= sb_disk;
+9e23ccf8f0a22e Coly Li           2020-05-27  2610  		args->bdev	= bdev;
+867f981b0739bd Jan Kara          2023-06-21  2611  		args->holder	= holder;
+d7fae7b4fa1527 Kai Krakow        2021-02-10  2612  		register_device_async(args);
+9e23ccf8f0a22e Coly Li           2020-05-27  2613  		/* No wait and returns to user space */
+9e23ccf8f0a22e Coly Li           2020-05-27  2614  		goto async_done;
+9e23ccf8f0a22e Coly Li           2020-05-27  2615  	}
+9e23ccf8f0a22e Coly Li           2020-05-27  2616  
+2903381fce7100 Kent Overstreet   2013-04-11  2617  	if (SB_IS_BDEV(sb)) {
+4fa03402cda2fa Kent Overstreet   2014-03-17  2618  		mutex_lock(&bch_register_lock);
+867f981b0739bd Jan Kara          2023-06-21  2619  		ret = register_bdev(sb, sb_disk, bdev, holder);
+4fa03402cda2fa Kent Overstreet   2014-03-17  2620  		mutex_unlock(&bch_register_lock);
+bb6d355c2aff42 Coly Li           2019-04-25  2621  		/* blkdev_put() will be called in cached_dev_free() */
+fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2622  		if (ret < 0)
+fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2623  			goto out_free_sb;
+cafe563591446c Kent Overstreet   2013-03-23  2624  	} else {
+bb6d355c2aff42 Coly Li           2019-04-25  2625  		/* blkdev_put() will be called in bch_cache_release() */
+867f981b0739bd Jan Kara          2023-06-21  2626  		ret = register_cache(sb, sb_disk, bdev, holder);
+d55f7cb2e5c053 Chao Yu           2021-10-20  2627  		if (ret)
+fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2628  			goto out_free_sb;
+50246693f81fe8 Christoph Hellwig 2020-01-24  2629  	}
+50246693f81fe8 Christoph Hellwig 2020-01-24  2630  
+f59fce847fc848 Kent Overstreet   2013-05-15  2631  	kfree(sb);
+f59fce847fc848 Kent Overstreet   2013-05-15  2632  	kfree(path);
+f59fce847fc848 Kent Overstreet   2013-05-15  2633  	module_put(THIS_MODULE);
+9e23ccf8f0a22e Coly Li           2020-05-27  2634  async_done:
+50246693f81fe8 Christoph Hellwig 2020-01-24  2635  	return size;
+f59fce847fc848 Kent Overstreet   2013-05-15  2636  
+867f981b0739bd Jan Kara          2023-06-21  2637  out_free_holder:
+867f981b0739bd Jan Kara          2023-06-21  2638  	kfree(holder);
+50246693f81fe8 Christoph Hellwig 2020-01-24  2639  out_put_sb_page:
+cfa0c56db9c087 Christoph Hellwig 2020-01-24  2640  	put_page(virt_to_page(sb_disk));
+50246693f81fe8 Christoph Hellwig 2020-01-24  2641  out_blkdev_put:
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2642  	blkdev_put(bdev, holder);
+50246693f81fe8 Christoph Hellwig 2020-01-24  2643  out_free_sb:
+50246693f81fe8 Christoph Hellwig 2020-01-24  2644  	kfree(sb);
+50246693f81fe8 Christoph Hellwig 2020-01-24  2645  out_free_path:
+50246693f81fe8 Christoph Hellwig 2020-01-24  2646  	kfree(path);
+ae3cd299919af6 Coly Li           2020-01-24  2647  	path = NULL;
+50246693f81fe8 Christoph Hellwig 2020-01-24  2648  out_module_put:
+50246693f81fe8 Christoph Hellwig 2020-01-24  2649  	module_put(THIS_MODULE);
+50246693f81fe8 Christoph Hellwig 2020-01-24  2650  out:
+ee9eea7d8b1a83 Jan Kara          2023-06-21  2651  	if (!quiet)
+46f5aa8806e34f Joe Perches       2020-05-27  2652  		pr_info("error %s: %s\n", path?path:"", err);
+50246693f81fe8 Christoph Hellwig 2020-01-24  2653  	return ret;
+cafe563591446c Kent Overstreet   2013-03-23  2654  }
+cafe563591446c Kent Overstreet   2013-03-23  2655  
 
 -- 
 0-DAY CI Kernel Test Service
