@@ -1,43 +1,55 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64AD3D67
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 20:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A0D22557
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 22:00:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687466929; x=1719002929;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OoiV9l6K6vEGjFTw+m0DAbDm8+ocWX2i81qJ+WRIOnw=;
-  b=Lxnkdi22fD+omE4riwkLDCaxhKkQ4VQftfkic0ex3A3KTj+Dq8NAgyjs
-   Twn/KlqLQFCxWaJRGhhbz/Ik/2A8zD/Kxcsv9G4eW94/yNZqWeYhIdYnZ
-   /otzSWNiMUFSn60OcEGQM8wE5mq0S02/eOQtBXHne3g6IQjmIq+hnG2we
-   6iQ/XJFk5/2iTBRQBD0Gnfkwjobd+tKiZpGhIbLejXmH5F4vqgvIG/jMw
-   i6j+SuHxIDTEU+PG5OSOG/B67Kb/euh4G/sx58moEwFTEnG3X/LRR5f+1
-   Jxn4jw7uuMBatHetvs5sjaQb+svW7a+OTvadpCEj4TwaxuUySHW/eMHSa
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="446985556"
-X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; 
-   d="scan'208";a="446985556"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 13:48:48 -0700
+  t=1687471254; x=1719007254;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fWYQw7YkqZaC3rzHqhX8WgjjZeuhKInvStJbx+K0+hw=;
+  b=eMJH3XQVUdabHgSTRqx2xFOgNBi+YWNvQq3I5rNIEQSVK3azRuaTiuJD
+   b5pVaBRCulUbSASoPhLmF2jpmNnQH67MXNfpGFRDjGLODByGpx7DFqoRo
+   QesrSETuu4xDAopIaiHMYNYDFp32h8A4TQZd2elBThyB9DvHnfn3rYgh+
+   q8bYsCDuVYr17G7cKXTiEY9I0NgsleeFjcxwNy2yWOsmT8MSRP1wtHM8Q
+   0Cm41zBgJms8Zf3UkqWKMnQYASGHdwB2X4JIjUzPs6NpsxB8gP6PKirW0
+   XknjsdPlpziXSEzNVA3SdKltJ5zgUA/YyDoj+BtbZN1ZuYN3Qyr0sSz9E
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="359490224"
+X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
+   d="scan'208";a="359490224"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 15:00:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="889227899"
-X-IronPort-AV: E=Sophos;i="6.01,149,1684825200"; 
-   d="scan'208";a="889227899"
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="715095781"
+X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
+   d="scan'208";a="715095781"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 22 Jun 2023 13:48:47 -0700
+  by orsmga002.jf.intel.com with ESMTP; 22 Jun 2023 15:00:47 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qCREU-0007lr-12;
-	Thu, 22 Jun 2023 20:48:46 +0000
-Date: Fri, 23 Jun 2023 04:48:27 +0800
+	id 1qCSMA-0007mp-31;
+	Thu, 22 Jun 2023 22:00:46 +0000
+Date: Fri, 23 Jun 2023 06:00:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.1-1.0.x-imx 4752/9881]
- drivers/media/platform/mxc/capture/ov5640_v2.c:1708:32: warning: variable
- 'frame_rate' set but not used
-Message-ID: <202306230444.OD8FtNpR-lkp@intel.com>
+To: Sumitra Sharma <sumitraartsy@gmail.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+	Yonghong Song <yhs@fb.com>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@google.com>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Ira Weiny <ira.weiny@intel.com>,
+	Fabio <fmdefrancesco@gmail.com>, Deepak R Varma <drv@mailo.com>,
+	Sumitra Sharma <sumitraartsy@gmail.com>
+Subject: Re: [PATCH v3] lib/test_bpf: Call page_address() on page acquired
+ with GFP_KERNEL flag
+Message-ID: <202306230559.hU5Aonpl-lkp@intel.com>
+References: <20230622080729.GA426913@sumitra.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,97 +58,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230622080729.GA426913@sumitra.com>
 
-tree:   https://github.com/Freescale/linux-fslc 6.1-1.0.x-imx
-head:   3260d1af47b1bedfe12b79a26efa184b9a60a8a3
-commit: ce0e2f7e0ebc193aa10e4a6921c61302e470387c [4752/9881] Merge remote-tracking branch 'origin/capture/ov5640' into capture/next
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230623/202306230444.OD8FtNpR-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230444.OD8FtNpR-lkp@intel.com/reproduce)
+Hi Sumitra,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+[also build test WARNING on bpf/master linus/master v6.4-rc7 next-20230622]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sumitra-Sharma/lib-test_bpf-Call-page_address-on-page-acquired-with-GFP_KERNEL-flag/20230622-160846
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20230622080729.GA426913%40sumitra.com
+patch subject: [PATCH v3] lib/test_bpf: Call page_address() on page acquired with GFP_KERNEL flag
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230623/202306230559.hU5Aonpl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230559.hU5Aonpl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306230444.OD8FtNpR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306230559.hU5Aonpl-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/media/platform/mxc/capture/mx6s_capture.c:365:18: warning: no previous prototype for 'format_by_fourcc' [-Wmissing-prototypes]
-     365 | struct mx6s_fmt *format_by_fourcc(int fourcc)
-         |                  ^~~~~~~~~~~~~~~~
->> drivers/media/platform/mxc/capture/mx6s_capture.c:378:18: warning: no previous prototype for 'format_by_mbus' [-Wmissing-prototypes]
-     378 | struct mx6s_fmt *format_by_mbus(u32 code)
-         |                  ^~~~~~~~~~~~~~
->> drivers/media/platform/mxc/capture/mx6s_capture.c:396:6: warning: no previous prototype for 'csi_clk_enable' [-Wmissing-prototypes]
-     396 | void csi_clk_enable(struct mx6s_csi_dev *csi_dev)
-         |      ^~~~~~~~~~~~~~
->> drivers/media/platform/mxc/capture/mx6s_capture.c:403:6: warning: no previous prototype for 'csi_clk_disable' [-Wmissing-prototypes]
-     403 | void csi_clk_disable(struct mx6s_csi_dev *csi_dev)
-         |      ^~~~~~~~~~~~~~~
-   drivers/media/platform/mxc/capture/mx6s_capture.c: In function 'mx6sx_register_subdevs':
->> drivers/media/platform/mxc/capture/mx6s_capture.c:1792:35: warning: variable 'asd' set but not used [-Wunused-but-set-variable]
-    1792 |         struct v4l2_async_subdev *asd;
-         |                                   ^~~
---
-   drivers/media/platform/mxc/capture/ov5640_v2.c: In function 'ov5640_get_register':
-   drivers/media/platform/mxc/capture/ov5640_v2.c:792:28: warning: unused variable 'client' [-Wunused-variable]
-     792 |         struct i2c_client *client = v4l2_get_subdevdata(sd);
-         |                            ^~~~~~
-   drivers/media/platform/mxc/capture/ov5640_v2.c: In function 'ov5640_set_register':
-   drivers/media/platform/mxc/capture/ov5640_v2.c:811:28: warning: unused variable 'client' [-Wunused-variable]
-     811 |         struct i2c_client *client = v4l2_get_subdevdata(sd);
-         |                            ^~~~~~
-   drivers/media/platform/mxc/capture/ov5640_v2.c: In function 'init_device':
->> drivers/media/platform/mxc/capture/ov5640_v2.c:1708:32: warning: variable 'frame_rate' set but not used [-Wunused-but-set-variable]
-    1708 |         enum ov5640_frame_rate frame_rate;
-         |                                ^~~~~~~~~~
->> drivers/media/platform/mxc/capture/ov5640_v2.c:1706:13: warning: variable 'tgt_xclk' set but not used [-Wunused-but-set-variable]
-    1706 |         u32 tgt_xclk;   /* target xclk */
-         |             ^~~~~~~~
+   lib/test_bpf.c: In function 'generate_test_data':
+>> lib/test_bpf.c:14395:1: warning: label 'err_free_page' defined but not used [-Wunused-label]
+   14395 | err_free_page:
+         | ^~~~~~~~~~~~~
 
 
-vim +/frame_rate +1708 drivers/media/platform/mxc/capture/ov5640_v2.c
+vim +/err_free_page +14395 lib/test_bpf.c
 
-15d73846f70ad8 Robby Cai 2019-09-25  1698  
-15d73846f70ad8 Robby Cai 2019-09-25  1699  /*!
-15d73846f70ad8 Robby Cai 2019-09-25  1700   * dev_init - V4L2 sensor init
-15d73846f70ad8 Robby Cai 2019-09-25  1701   * @s: pointer to standard V4L2 device structure
-15d73846f70ad8 Robby Cai 2019-09-25  1702   *
-15d73846f70ad8 Robby Cai 2019-09-25  1703   */
-15d73846f70ad8 Robby Cai 2019-09-25  1704  static int init_device(void)
-15d73846f70ad8 Robby Cai 2019-09-25  1705  {
-15d73846f70ad8 Robby Cai 2019-09-25 @1706  	u32 tgt_xclk;	/* target xclk */
-15d73846f70ad8 Robby Cai 2019-09-25  1707  	u32 tgt_fps;	/* target frames per secound */
-15d73846f70ad8 Robby Cai 2019-09-25 @1708  	enum ov5640_frame_rate frame_rate;
-15d73846f70ad8 Robby Cai 2019-09-25  1709  	int ret;
-15d73846f70ad8 Robby Cai 2019-09-25  1710  
-15d73846f70ad8 Robby Cai 2019-09-25  1711  	ov5640_data.on = true;
-15d73846f70ad8 Robby Cai 2019-09-25  1712  
-15d73846f70ad8 Robby Cai 2019-09-25  1713  	/* mclk */
-15d73846f70ad8 Robby Cai 2019-09-25  1714  	tgt_xclk = ov5640_data.mclk;
-15d73846f70ad8 Robby Cai 2019-09-25  1715  
-15d73846f70ad8 Robby Cai 2019-09-25  1716  	/* Default camera frame rate is set in probe */
-15d73846f70ad8 Robby Cai 2019-09-25  1717  	tgt_fps = ov5640_data.streamcap.timeperframe.denominator /
-15d73846f70ad8 Robby Cai 2019-09-25  1718  		  ov5640_data.streamcap.timeperframe.numerator;
-15d73846f70ad8 Robby Cai 2019-09-25  1719  
-15d73846f70ad8 Robby Cai 2019-09-25  1720  	if (tgt_fps == 15)
-15d73846f70ad8 Robby Cai 2019-09-25  1721  		frame_rate = ov5640_15_fps;
-15d73846f70ad8 Robby Cai 2019-09-25  1722  	else if (tgt_fps == 30)
-15d73846f70ad8 Robby Cai 2019-09-25  1723  		frame_rate = ov5640_30_fps;
-15d73846f70ad8 Robby Cai 2019-09-25  1724  	else
-15d73846f70ad8 Robby Cai 2019-09-25  1725  		return -EINVAL; /* Only support 15fps or 30fps now. */
-15d73846f70ad8 Robby Cai 2019-09-25  1726  
-15d73846f70ad8 Robby Cai 2019-09-25  1727  	ret = ov5640_init_mode();
-15d73846f70ad8 Robby Cai 2019-09-25  1728  
-15d73846f70ad8 Robby Cai 2019-09-25  1729  	return ret;
-15d73846f70ad8 Robby Cai 2019-09-25  1730  }
-15d73846f70ad8 Robby Cai 2019-09-25  1731  
-
-:::::: The code at line 1708 was first introduced by commit
-:::::: 15d73846f70ad81bfd5552f6dd8eb96d520b3b02 media: capture: add ov5640 mipi and parallel driver of subdev version
-
-:::::: TO: Robby Cai <robby.cai@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+64a8946b447e41 Alexei Starovoitov 2014-05-08  14358  
+10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14359  static void *generate_test_data(struct bpf_test *test, int sub)
+64a8946b447e41 Alexei Starovoitov 2014-05-08  14360  {
+bac142acb90e95 Nicolas Schichan   2015-08-04  14361  	struct sk_buff *skb;
+bac142acb90e95 Nicolas Schichan   2015-08-04  14362  	struct page *page;
+bac142acb90e95 Nicolas Schichan   2015-08-04  14363  
+10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14364  	if (test->aux & FLAG_NO_DATA)
+10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14365  		return NULL;
+64a8946b447e41 Alexei Starovoitov 2014-05-08  14366  
+f516420f683d14 Xu Kuohai          2022-03-21  14367  	if (test->aux & FLAG_LARGE_MEM)
+f516420f683d14 Xu Kuohai          2022-03-21  14368  		return kmalloc(test->test[sub].data_size, GFP_KERNEL);
+f516420f683d14 Xu Kuohai          2022-03-21  14369  
+10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14370  	/* Test case expects an skb, so populate one. Various
+10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14371  	 * subtests generate skbs of different sizes based on
+10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14372  	 * the same data.
+10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14373  	 */
+bac142acb90e95 Nicolas Schichan   2015-08-04  14374  	skb = populate_skb(test->data, test->test[sub].data_size);
+bac142acb90e95 Nicolas Schichan   2015-08-04  14375  	if (!skb)
+bac142acb90e95 Nicolas Schichan   2015-08-04  14376  		return NULL;
+bac142acb90e95 Nicolas Schichan   2015-08-04  14377  
+bac142acb90e95 Nicolas Schichan   2015-08-04  14378  	if (test->aux & FLAG_SKB_FRAG) {
+bac142acb90e95 Nicolas Schichan   2015-08-04  14379  		/*
+bac142acb90e95 Nicolas Schichan   2015-08-04  14380  		 * when the test requires a fragmented skb, add a
+bac142acb90e95 Nicolas Schichan   2015-08-04  14381  		 * single fragment to the skb, filled with
+bac142acb90e95 Nicolas Schichan   2015-08-04  14382  		 * test->frag_data.
+bac142acb90e95 Nicolas Schichan   2015-08-04  14383  		 */
+bac142acb90e95 Nicolas Schichan   2015-08-04  14384  		page = alloc_page(GFP_KERNEL);
+bac142acb90e95 Nicolas Schichan   2015-08-04  14385  
+bac142acb90e95 Nicolas Schichan   2015-08-04  14386  		if (!page)
+bac142acb90e95 Nicolas Schichan   2015-08-04  14387  			goto err_kfree_skb;
+bac142acb90e95 Nicolas Schichan   2015-08-04  14388  
+4a8b1daa0ee566 Sumitra Sharma     2023-06-22  14389  		memcpy(page_address(page), test->frag_data, MAX_DATA);
+bac142acb90e95 Nicolas Schichan   2015-08-04  14390  		skb_add_rx_frag(skb, 0, page, 0, MAX_DATA, MAX_DATA);
+bac142acb90e95 Nicolas Schichan   2015-08-04  14391  	}
+bac142acb90e95 Nicolas Schichan   2015-08-04  14392  
+bac142acb90e95 Nicolas Schichan   2015-08-04  14393  	return skb;
+bac142acb90e95 Nicolas Schichan   2015-08-04  14394  
+bac142acb90e95 Nicolas Schichan   2015-08-04 @14395  err_free_page:
+bac142acb90e95 Nicolas Schichan   2015-08-04  14396  	__free_page(page);
+bac142acb90e95 Nicolas Schichan   2015-08-04  14397  err_kfree_skb:
+bac142acb90e95 Nicolas Schichan   2015-08-04  14398  	kfree_skb(skb);
+bac142acb90e95 Nicolas Schichan   2015-08-04  14399  	return NULL;
+10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14400  }
+10f18e0ba1ea7e Daniel Borkmann    2014-05-23  14401  
 
 -- 
 0-DAY CI Kernel Test Service
