@@ -1,154 +1,126 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2094.outbound.protection.outlook.com [40.107.113.94])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 973F93AA8C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 11:32:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SPCRgV01HfwKSoKsqwG4viAXKZPTCv9ENYV6CDPmRhkVtGJCarnfCXEOnH1zv2fec5TqBltjcp796+LCMWSWe3h4romncKmJHgAi5sbxnFntPPFOXyi6m7y34B2sg3lGvfFbXvgMtrLzzPVsX31rFLs9gc/5Ev9NNl1LAOe1LtnqYQqac5hKGmyw1HulBhWbP+sVb8dLfv1oE0SryX1oly6otVU7Hu7T68LrohYOnz+VC9BypThjv8k1+s2QpaMJbA6z16GBCn5/DMBoE5dlBnlJQH4V7/J/8Hc/vI4GNgX/D+uES+p/7fKACuKNDJdounvkwbnyq3TOl4+opErtnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3P62Be+pCDYPKe9BbvbfvWFuiME8IfeLwwV89it/lNs=;
- b=WE5MlhDkYL2NEYDiU6nZjTwOP1H6ngIanCrE6SfXcLs6nf1kdXCrEr1eqO9n4PHbaAUQCf0YJ6+yG7y9EG3X2JPzXlLkUH1rTHjYf1t/1EIsR2uCTCAcECZbEYKZyqUQt5QU9yqbztsT9f5xqz53AafBtOMljdF30LwBIcVhox24/p3Gv3GQPT9CoksSp9vs96BsWDWBrixWaagRuf8xnPog33ZPqDJOVYQqVOiXTvp6xGTUhW5WbqIezIRP/al6casMFO8nKvIeMNRx8P5vi1PKPfWCN5LFx7UYMFrlJ4eNSQlKvoF6xWvcs2wmEMwjZTBOEasPfeKgC0wPTmfGlw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3P62Be+pCDYPKe9BbvbfvWFuiME8IfeLwwV89it/lNs=;
- b=KuV/vig9gsr8nzVEjh8b6H9HTXOTH80M00xntItaVZkmqM4NY2V/2MUj2Yv5m9gpJdRoEFltuA8Fva6F96p3H80sxEukgJ4CRPmlC2xbW0YCjExr3hWdbkQn4s8S80bgNa8SirisVRy9oO/wqovHIRBEOOGpztESysfJF10QHug=
-Received: from TYWPR01MB8775.jpnprd01.prod.outlook.com (2603:1096:400:169::11)
- by OSRPR01MB12031.jpnprd01.prod.outlook.com (2603:1096:604:235::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.24; Thu, 22 Jun
- 2023 11:32:37 +0000
-Received: from TYWPR01MB8775.jpnprd01.prod.outlook.com
- ([fe80::16e4:67a4:68fe:f297]) by TYWPR01MB8775.jpnprd01.prod.outlook.com
- ([fe80::16e4:67a4:68fe:f297%7]) with mapi id 15.20.6521.024; Thu, 22 Jun 2023
- 11:32:37 +0000
-From: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-To: kernel test robot <lkp@intel.com>, Mark Brown <broonie@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, Geert Uytterhoeven
-	<geert+renesas@glider.be>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Magnus
- Damm <magnus.damm@gmail.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-spi@vger.kernel.org"
-	<linux-spi@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, Chris Paterson
-	<Chris.Paterson2@renesas.com>, Biju Das <biju.das@bp.renesas.com>
-Subject: RE: [PATCH 3/5] spi: Add support for Renesas CSI
-Thread-Topic: [PATCH 3/5] spi: Add support for Renesas CSI
-Thread-Index: AQHZpEoX6eyNXl3HSk+sRgzfSXQ64a+WUzAAgABdyIA=
-Date: Thu, 22 Jun 2023 11:32:37 +0000
-Message-ID:
- <TYWPR01MB87751C366432BF09F7B2BCC2C222A@TYWPR01MB8775.jpnprd01.prod.outlook.com>
-References: <20230621140944.257352-4-fabrizio.castro.jz@renesas.com>
- <202306221354.9ZWHS3y1-lkp@intel.com>
-In-Reply-To: <202306221354.9ZWHS3y1-lkp@intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYWPR01MB8775:EE_|OSRPR01MB12031:EE_
-x-ms-office365-filtering-correlation-id: 2ddba694-0320-421c-0eb9-08db7314613a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- 6i6maMcVnIRbt8Ktb0wrNmwaSfv8uM9rehwpZrrERSXvHzUD1fyjc2uo9/u6W6sl6vTi7fcg0/W+mm35rSKbKk/c/OKDizEJPeNArrpuW5F0Le3SWF/ajzoEdGKFC4Cml1PktdY+vwTyXytPaQ0IiGpPEhR3weX2Tk3Bn07B0prsnxVITrvPgqxNdwWjSF2XFDVrVQJJ6Mo62UUOfec3bAnjUEJCsMaQZ8IVZCqZUsiQqRHtg5y2KZxFhSUIFSvjzGGr9856qf+bsM6Ssi29kas3hBT44J1Kb6GDaCSekDDQfmeuq8XouwhgLm7GMzszzk3dkqVyl3UKllDwj1Q+ven3ihxTtqgn3qdypogblfcDLkOF69atsqrTLuVdnoYvmL6ASFXCAMfWxYctx4W5rHRNYY4qXaaPPXuoACFYz7mPLOSFuRXLRxWEqMVITcHnwX6WFBQ976dLUoH9Cc0WTHDh4f3qyriYBjROQ4v4e8LWWPxKnXtpDSIC0mHnV5TWCMjhQAa1Cj/XjNr5Xfaif+U9lJEUAEB1oPaPjT8jR1ZRR+chk+A4o5qMrqlcj9j19EfRMzvhwMxnkTAQprzJo5OxWzgcw09SaxzB7zucOkk=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYWPR01MB8775.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(396003)(136003)(39860400002)(346002)(376002)(451199021)(38070700005)(122000001)(38100700002)(2906002)(83380400001)(8936002)(41300700001)(8676002)(52536014)(5660300002)(186003)(9686003)(86362001)(6506007)(54906003)(966005)(7696005)(110136005)(76116006)(55016003)(64756008)(66446008)(66476007)(66556008)(66946007)(478600001)(316002)(71200400001)(4326008)(107886003)(33656002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?MeIKxkkQRq3sw4OlTfOi8M2h45YbY8/0PtZE6NgdaYZ1lW0Ft6oAz/CUFytW?=
- =?us-ascii?Q?sEq+eFzqPuJnzPRAWzKEOBGwUgXaPvptA4tBO+3aau776pCM9ufbEN6o6CLZ?=
- =?us-ascii?Q?qpNrhCZx/XVEtU2GHhBmlUTOKRdtbtOkScMlCGqlWKce++pKnDd+j22O22ag?=
- =?us-ascii?Q?6WNvfuA0MjF5NgVskZJo20OTsNI5RoDRiCou2WjgJEunc1zu2ZDgvNDdeVL7?=
- =?us-ascii?Q?+OSnZvwE8ILMkwNX2YhKUzWA/qCNpA6LXlGyx/tNE3LXixQ7PPSMj1KO5SXh?=
- =?us-ascii?Q?KjxU0RSx18eEBJCFMGMnkymO6cmwaJmF32GHYmQwQNdsibNflTG6zPlPlVAa?=
- =?us-ascii?Q?aBx4GuExnX2C4pVAgpu2MQ3eo3FnqYqcK2Zx5h3Cz4edQKfvJV5LX9KjMWEk?=
- =?us-ascii?Q?81W3EQAp/BldbR0977MGJ8gyfRRUiEyoDLiNhLMIOyaRLgyxEqBvws/2tLEs?=
- =?us-ascii?Q?hRdIPxIv/QZaGKAw/5j1W0okTiINJOrMUJtunHfxy4KNPzu8MPh6NMbJB+UF?=
- =?us-ascii?Q?M9e2MCvPN/eSOomwCy00PYb3EUkjSSERFuEDLgFffzxZETe23A1Zc2hWOvlm?=
- =?us-ascii?Q?Nkgd8hcnvKlRpLsyaG8o+Y4THSWelfIINxeVetW18i8ohG6AbpVwWRMG7x5P?=
- =?us-ascii?Q?hv47EQMZxhg0AIqwJjZB60I+vbY3Jlg5s1bxU6HkLU2RUBfbL3aSnvGsD0W8?=
- =?us-ascii?Q?J8IHuouNpqQwOirANaHeGxYekbPaLbjWiD9Wi1pII+hArsDHMjNTiZ8REgNV?=
- =?us-ascii?Q?XMBsVm/0MjhjHyc5pvhe08Ms51n1zrH3d525V3/Wq7ZUHA0ZPDjvyJzyf1ux?=
- =?us-ascii?Q?PPEuvJZl+WCLCV1OHOiDTbA3hJNog2iZnm3gq0JmjhsmLq3v1HuGmOsFT6Gc?=
- =?us-ascii?Q?yA6c7U+FGe6AjIRLLsERFYPk7GFOnxUbbzgTIE7Vk6a+eTSR0Ev0M0lNHh/4?=
- =?us-ascii?Q?zmy46ODMzi84jYJ9060FVxfDSRSIBL45i95mSxbH4JKLTvJTVPYr4+9sPsbt?=
- =?us-ascii?Q?orIsenJOLsh7ZW4jj+q2akt0CF8qOWiuXyu4zy7ojvk7BVdCP5mMMOal8vmY?=
- =?us-ascii?Q?BiKhrP+hgfcWcdOvp+tOhVjHiSp9SxuVNQTp7B+zjuxiErJLr59epVgmIJ0T?=
- =?us-ascii?Q?61hsx3UIA/GIxLiDZ3MF+C6/Fc3XUk66Nx0GfIeUibnGDGbq/RdszOMHVmrw?=
- =?us-ascii?Q?ZoQNryu3dH/zNJ9Cd2bWiW0ZKbGtLEptJaXPc/nkG5yJO0n4kdYUXTaMB/4X?=
- =?us-ascii?Q?bFuFu2dsmaZPyIj3yDGfanmMRHbyzF3ggM/ZLpJhbvuNoExeuup6ZwFCTAKE?=
- =?us-ascii?Q?oUNop6QeqjmLa4UMKiXlhkl3qkZEHorfYn5NZCoJtLDvM6JWYk9Yj9qHiv2L?=
- =?us-ascii?Q?unrSU/VGcQvRNJ5CyS3HMnz4wHlqWCxYDHwa86HsnpoqFYimo4Zu2Bu3WIKE?=
- =?us-ascii?Q?dYKCY1Gl4n0VnrYLTU46yX1qB58weMCdH5IL2MKaI4t2633wfDSBvWAX7WN9?=
- =?us-ascii?Q?8Daq+COWovky20rj3fJAzNgEJ0V85qcRXXbnzKr4Bb/ApF+BrcuDFhSLWLi9?=
- =?us-ascii?Q?viwJB3l5fCvI74/2j5M9lZTcX7MjnWRIP8GXe84h?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5D95239
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 11:54:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687434879; x=1718970879;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/c87+i79uLpjyUqmTVZGC2cM9UZv3W1PRdIWdtUAa/k=;
+  b=eSCR2iyvwCr6c8abX+GqCweL/Ilg77eOYOHMVrRFy3pYIsxhj3HXy9WQ
+   BzVpIomhBviHFDV6Iq/EYYJ48vD4S4Mt+1IaPtXB6GwOITus1cKxjTyac
+   N7vjj3+QzpeEHFEUECkBDH+QpXISHjqIzACnhWi87fXbzaBcTsiDuSECl
+   tWwZDmDUkKfWaItFkxYSUDrOiVJ1aAr5PAg9CSQ2jdz9OzlDM7CGuMEqH
+   6DIOamM3s7jWGpPJIR76iI78+Aq9ePQHfGaLfi/ChggCWF8ctTRsnT7eY
+   dVSb0Qeuv4kpydTk4/lui1ePfw+MqxQa3WA4XZoGNt0KS99KuzPGxGLGS
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="350202221"
+X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
+   d="scan'208";a="350202221"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 04:54:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="961555606"
+X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
+   d="scan'208";a="961555606"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga006.fm.intel.com with ESMTP; 22 Jun 2023 04:54:37 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qCItY-0007Wx-35;
+	Thu, 22 Jun 2023 11:54:36 +0000
+Date: Thu, 22 Jun 2023 19:54:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:pr/634 1393/9880]
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c:325:5: warning: no previous
+ prototype for 'cdns_mhdp_register_cec_driver'
+Message-ID: <202306221922.nPJzcvq1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB8775.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ddba694-0320-421c-0eb9-08db7314613a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jun 2023 11:32:37.0314
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dH3wn0Xw+BbOvdXd58ob50xIyaDUHMmBRocmi8vmr8MDQYHheoliXysp4/D+vwp8Gf25c6DypsQ/QzKsrhTgJyavdTtGoQpeFjPbc16eblc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSRPR01MB12031
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Dear All,
+Hi Li,
 
-> From: kernel test robot <lkp@intel.com>
-> Subject: Re: [PATCH 3/5] spi: Add support for Renesas CSI
->=20
-> Hi Fabrizio,
->=20
-> kernel test robot noticed the following build errors:
->=20
->=20
-> All errors (new ones prefixed by >>):
->=20
->    drivers/spi/spi-rzv2m-csi.c: In function 'rzv2m_csi_probe':
-> >> drivers/spi/spi-rzv2m-csi.c:608:15: error: implicit declaration of
-> function 'devm_request_irq'; did you mean 'devm_request_region'? [-
-> Werror=3Dimplicit-function-declaration]
->      608 |         ret =3D devm_request_irq(dev, irq,
-> rzv2m_csi_irq_handler, 0,
->          |               ^~~~~~~~~~~~~~~~
->          |               devm_request_region
+First bad commit (maybe != root cause):
 
-drivers/spi/spi-rzv2m-csi.c needs to include linux/interrupt.h ,
-I'll send a v2 to address this.
+tree:   https://github.com/Freescale/linux-fslc pr/634
+head:   386bab91e0ee054cb0fd7007a05f8ea3ed8c2c7d
+commit: 925a91175b17d3848258235b30c9bc4a94b58f85 [1393/9880] drm/display: update header path and name
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230622/202306221922.nPJzcvq1-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306221922.nPJzcvq1-lkp@intel.com/reproduce)
 
->    cc1: some warnings being treated as errors
->=20
-> Kconfig warnings: (for reference only)
->    WARNING: unmet direct dependencies detected for
-> IOMMU_IO_PGTABLE_LPAE
->    Depends on [n]: IOMMU_SUPPORT [=3Dy] && (ARM || ARM64 || COMPILE_TEST
-> [=3Dn]) && !GENERIC_ATOMIC64 [=3Dn]
->    Selected by [y]:
->    - IPMMU_VMSA [=3Dy] && IOMMU_SUPPORT [=3Dy] && (ARCH_RENESAS [=3Dy] ||
-> COMPILE_TEST [=3Dn]) && !GENERIC_ATOMIC64 [=3Dn]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306221922.nPJzcvq1-lkp@intel.com/
 
-This appears to be unrelated, it requires:
-https://lore.kernel.org/linux-iommu/20230330165817.21920-1-rdunlap@infradea=
-d.org/
+All warnings (new ones prefixed by >>):
 
-Cheers,
-Fab
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c:325:5: warning: no previous prototype for 'cdns_mhdp_register_cec_driver' [-Wmissing-prototypes]
+     325 | int cdns_mhdp_register_cec_driver(struct cdns_mhdp_cec *cec)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c:353:5: warning: no previous prototype for 'cdns_mhdp_unregister_cec_driver' [-Wmissing-prototypes]
+     353 | int cdns_mhdp_unregister_cec_driver(struct cdns_mhdp_cec *cec)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/cdns_mhdp_register_cec_driver +325 drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c
+
+cd2d042a0ebc13 Sandor Yu 2020-04-20  324  
+61347c8e1dba15 Sandor Yu 2020-11-16 @325  int cdns_mhdp_register_cec_driver(struct cdns_mhdp_cec *cec)
+cd2d042a0ebc13 Sandor Yu 2020-04-20  326  {
+cd2d042a0ebc13 Sandor Yu 2020-04-20  327  	int ret;
+cd2d042a0ebc13 Sandor Yu 2020-04-20  328  
+cd2d042a0ebc13 Sandor Yu 2020-04-20  329  	cec->adap = cec_allocate_adapter(&cdns_mhdp_cec_adap_ops, cec,
+cd2d042a0ebc13 Sandor Yu 2020-04-20  330  					 CEC_NAME,
+cd2d042a0ebc13 Sandor Yu 2020-04-20  331  					 CEC_CAP_PHYS_ADDR | CEC_CAP_LOG_ADDRS |
+cd2d042a0ebc13 Sandor Yu 2020-04-20  332  					 CEC_CAP_TRANSMIT | CEC_CAP_PASSTHROUGH
+cd2d042a0ebc13 Sandor Yu 2020-04-20  333  					 | CEC_CAP_RC, CEC_MAX_LOG_ADDRS);
+cd2d042a0ebc13 Sandor Yu 2020-04-20  334  	ret = PTR_ERR_OR_ZERO(cec->adap);
+cd2d042a0ebc13 Sandor Yu 2020-04-20  335  	if (ret)
+cd2d042a0ebc13 Sandor Yu 2020-04-20  336  		return ret;
+61347c8e1dba15 Sandor Yu 2020-11-16  337  	ret = cec_register_adapter(cec->adap, cec->dev);
+cd2d042a0ebc13 Sandor Yu 2020-04-20  338  	if (ret) {
+cd2d042a0ebc13 Sandor Yu 2020-04-20  339  		cec_delete_adapter(cec->adap);
+cd2d042a0ebc13 Sandor Yu 2020-04-20  340  		return ret;
+cd2d042a0ebc13 Sandor Yu 2020-04-20  341  	}
+cd2d042a0ebc13 Sandor Yu 2020-04-20  342  
+cd2d042a0ebc13 Sandor Yu 2020-04-20  343  	cec->cec_worker = kthread_create(mhdp_cec_poll_worker, cec, "cdns-mhdp-cec");
+cd2d042a0ebc13 Sandor Yu 2020-04-20  344  	if (IS_ERR(cec->cec_worker))
+cd2d042a0ebc13 Sandor Yu 2020-04-20  345  		dev_err(cec->dev, "failed  create hdp cec thread\n");
+cd2d042a0ebc13 Sandor Yu 2020-04-20  346  
+cd2d042a0ebc13 Sandor Yu 2020-04-20  347  	wake_up_process(cec->cec_worker);
+cd2d042a0ebc13 Sandor Yu 2020-04-20  348  
+61347c8e1dba15 Sandor Yu 2020-11-16  349  	dev_dbg(cec->dev, "CEC successfuly probed\n");
+cd2d042a0ebc13 Sandor Yu 2020-04-20  350  	return 0;
+cd2d042a0ebc13 Sandor Yu 2020-04-20  351  }
+cd2d042a0ebc13 Sandor Yu 2020-04-20  352  
+61347c8e1dba15 Sandor Yu 2020-11-16 @353  int cdns_mhdp_unregister_cec_driver(struct cdns_mhdp_cec *cec)
+cd2d042a0ebc13 Sandor Yu 2020-04-20  354  {
+cd2d042a0ebc13 Sandor Yu 2020-04-20  355  	if (cec->cec_worker) {
+cd2d042a0ebc13 Sandor Yu 2020-04-20  356  		kthread_stop(cec->cec_worker);
+cd2d042a0ebc13 Sandor Yu 2020-04-20  357  		cec->cec_worker = NULL;
+cd2d042a0ebc13 Sandor Yu 2020-04-20  358  	}
+cd2d042a0ebc13 Sandor Yu 2020-04-20  359  	cec_unregister_adapter(cec->adap);
+cd2d042a0ebc13 Sandor Yu 2020-04-20  360  	return 0;
+cd2d042a0ebc13 Sandor Yu 2020-04-20  361  }
+cd2d042a0ebc13 Sandor Yu 2020-04-20  362  
+
+:::::: The code at line 325 was first introduced by commit
+:::::: 61347c8e1dba157940e9db569f404755c66eac5c MLK-24081-03: drm: bridge: cdns-cec: support hdmi rx cec
+
+:::::: TO: Sandor Yu <Sandor.yu@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
