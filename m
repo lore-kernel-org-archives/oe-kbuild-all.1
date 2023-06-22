@@ -1,111 +1,86 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B101951A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 12:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687438075; x=1718974075;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KzvkdeReDQb2oGbt7GQCmBkSEB/v8FcPxILEzoZlC6U=;
-  b=OXtxfoxh7jA4Mx+l6qNYUiMI0K5dykiREir6+DXpOJiYvalo9R4RDiyZ
-   jHpyC7fOB0mhhybQChUMKNN/FGg5aiRgMPyhxu10CNAz5wv5mWYYedbQM
-   0Ix2fZU3ERKxQN3RS/Js7nEfiDwPLhs3d4vc72CPi2qFIqcKOALOb+Uba
-   jI25y2lge3yb7SMBsBlIdttynNbSi1QfOQnAZCDGIF/L3O+FQkz4Fb8Ax
-   a0UNVKwMNcWkGbgkeSsidcyzLPQWSIPnVrBTeuF1iKy6jiXOx6nVtYyji
-   r4bQ5xoL92YX6LLvLLvAQ7tbuuLInXV/ssUNiJuMBQIfoOn/Adx8P07lc
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="340813392"
-X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
-   d="scan'208";a="340813392"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 05:46:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="961569663"
-X-IronPort-AV: E=Sophos;i="6.00,263,1681196400"; 
-   d="scan'208";a="961569663"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 22 Jun 2023 05:46:38 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qCJht-0007YD-2t;
-	Thu, 22 Jun 2023 12:46:37 +0000
-Date: Thu, 22 Jun 2023 20:46:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:pr/634 7624/9880]
- drivers/staging/fsl_qbman/bman_config.c:155: warning: expecting prototype
- for bm_err_isr_<reg>_<verb>(). Prototype was for bm_err_isr_status_read()
- instead
-Message-ID: <202306222054.3lqsCyXH-lkp@intel.com>
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19A801EA73;
+	Thu, 22 Jun 2023 12:50:27 +0000 (UTC)
+Received: from loongson.cn (unknown [113.200.148.30])
+	by gateway (Coremail) with SMTP id _____8BxmMWMQ5RkvW8AAA--.747S3;
+	Thu, 22 Jun 2023 20:50:20 +0800 (CST)
+Received: from [10.130.0.149] (unknown [113.200.148.30])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxWM2LQ5RkrxwCAA--.11455S3;
+	Thu, 22 Jun 2023 20:50:19 +0800 (CST)
+Subject: Re: [PATCH v2 1/2] asm-generic: Unify uapi bitsperlong.h for arm64,
+ riscv and loongarch
+To: kernel test robot <lkp@intel.com>, Arnd Bergmann <arnd@arndb.de>
+References: <1687336748-4898-2-git-send-email-yangtiezhu@loongson.cn>
+ <202306220334.C80BpATp-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
+ loongarch@lists.linux.dev, linux-arch@vger.kernel.org, bpf@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, loongson-kernel@lists.loongnix.cn
+From: Tiezhu Yang <yangtiezhu@loongson.cn>
+Message-ID: <27295ba8-f57e-61c1-9cc4-f2207fd97ae0@loongson.cn>
+Date: Thu, 22 Jun 2023 20:50:19 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <202306220334.C80BpATp-lkp@intel.com>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:AQAAf8CxWM2LQ5RkrxwCAA--.11455S3
+X-CM-SenderInfo: p1dqw3xlh2x3gn0dqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj9xXoWrtF1ktrWrtFWDtr1xCF13Jrc_yoW3Wrb_A3
+	4aywsrGr1S9Fyqqws8CwsaqFyDJayUC3sruwn5Jw4DGFWIkw48Jws3W3srJF4kKrZxtw13
+	ZasYqr9Yyw17KosvyTuYvTs0mTUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUbI8YFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	WUJVW8JwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
+	Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE
+	14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1c
+	AE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
+	rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
+	CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
+	67AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr
+	0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUzZ2-
+	UUUUU
 
-Hi Camelia,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/Freescale/linux-fslc pr/634
-head:   386bab91e0ee054cb0fd7007a05f8ea3ed8c2c7d
-commit: cbe7fceb95a9bfb0770b58ff5f7c101abdf3106c [7624/9880] fsl_qbman: fix various errors when building with W=1
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20230622/202306222054.3lqsCyXH-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306222054.3lqsCyXH-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306222054.3lqsCyXH-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/staging/fsl_qbman/bman_config.c:155: warning: Function parameter or member 'bm' not described in 'bm_err_isr_status_read'
->> drivers/staging/fsl_qbman/bman_config.c:155: warning: expecting prototype for bm_err_isr_<reg>_<verb>(). Prototype was for bm_err_isr_status_read() instead
 
 
-vim +155 drivers/staging/fsl_qbman/bman_config.c
+On 06/22/2023 04:04 AM, kernel test robot wrote:
+> Hi Tiezhu,
+>
+> kernel test robot noticed the following build warnings:
+>
 
-4c43588a2cdb7e Madalin Bucur 2020-02-27  144  
-4c43588a2cdb7e Madalin Bucur 2020-02-27  145  /**
-4c43588a2cdb7e Madalin Bucur 2020-02-27  146   * bm_err_isr_<reg>_<verb> - Manipulate global interrupt registers
-4c43588a2cdb7e Madalin Bucur 2020-02-27  147   * @v: for accessors that write values, this is the 32-bit value
-4c43588a2cdb7e Madalin Bucur 2020-02-27  148   *
-4c43588a2cdb7e Madalin Bucur 2020-02-27  149   * Manipulates BMAN_ERR_ISR, BMAN_ERR_IER, BMAN_ERR_ISDR, BMAN_ERR_IIR. All
-4c43588a2cdb7e Madalin Bucur 2020-02-27  150   * manipulations except bm_err_isr_[un]inhibit() use 32-bit masks composed of
-4c43588a2cdb7e Madalin Bucur 2020-02-27  151   * the BM_EIRQ_*** definitions. Note that "bm_err_isr_enable_write" means
-4c43588a2cdb7e Madalin Bucur 2020-02-27  152   * "write the enable register" rather than "enable the write register"!
-4c43588a2cdb7e Madalin Bucur 2020-02-27  153   */
-4c43588a2cdb7e Madalin Bucur 2020-02-27  154  #define bm_err_isr_status_read(bm)	\
-4c43588a2cdb7e Madalin Bucur 2020-02-27 @155  		__bm_err_isr_read(bm, bm_isr_status)
-4c43588a2cdb7e Madalin Bucur 2020-02-27  156  #define bm_err_isr_status_clear(bm, m)	\
-4c43588a2cdb7e Madalin Bucur 2020-02-27  157  		__bm_err_isr_write(bm, bm_isr_status, m)
-4c43588a2cdb7e Madalin Bucur 2020-02-27  158  #define bm_err_isr_enable_read(bm)	\
-4c43588a2cdb7e Madalin Bucur 2020-02-27  159  		__bm_err_isr_read(bm, bm_isr_enable)
-4c43588a2cdb7e Madalin Bucur 2020-02-27  160  #define bm_err_isr_enable_write(bm, v)	\
-4c43588a2cdb7e Madalin Bucur 2020-02-27  161  		__bm_err_isr_write(bm, bm_isr_enable, v)
-4c43588a2cdb7e Madalin Bucur 2020-02-27  162  #define bm_err_isr_disable_read(bm)	\
-4c43588a2cdb7e Madalin Bucur 2020-02-27  163  		__bm_err_isr_read(bm, bm_isr_disable)
-4c43588a2cdb7e Madalin Bucur 2020-02-27  164  #define bm_err_isr_disable_write(bm, v)	\
-4c43588a2cdb7e Madalin Bucur 2020-02-27  165  		__bm_err_isr_write(bm, bm_isr_disable, v)
-4c43588a2cdb7e Madalin Bucur 2020-02-27  166  #define bm_err_isr_inhibit(bm)		\
-4c43588a2cdb7e Madalin Bucur 2020-02-27  167  		__bm_err_isr_write(bm, bm_isr_inhibit, 1)
-4c43588a2cdb7e Madalin Bucur 2020-02-27  168  #define bm_err_isr_uninhibit(bm)	\
-4c43588a2cdb7e Madalin Bucur 2020-02-27  169  		__bm_err_isr_write(bm, bm_isr_inhibit, 0)
-4c43588a2cdb7e Madalin Bucur 2020-02-27  170  
+...
 
-:::::: The code at line 155 was first introduced by commit
-:::::: 4c43588a2cdb7e8b01447a8a1d523cc6886e0e4c staging/fsl_qbman: add LSDK-19.09-V4.14 SDK DPAA QBMan files
+>    In file included from include/asm-generic/bitsperlong.h:5:
+>>> include/uapi/asm-generic/bitsperlong.h:13:9: warning: '__BITS_PER_LONG' macro redefined [-Wmacro-redefined]
 
-:::::: TO: Madalin Bucur <madalin.bucur@oss.nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+Oh, thanks for the report, I am sorry.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In order to silence the build warning, it should check the definition
+of __BITS_PER_LONG first at the beginning of bitsperlong.h, like this:
+
+#ifndef __BITS_PER_LONG
+
+#if defined(__CHAR_BIT__) && defined(__SIZEOF_LONG__)
+#define __BITS_PER_LONG (__CHAR_BIT__ * __SIZEOF_LONG__)
+#else
+#define __BITS_PER_LONG 32
+#endif
+
+#endif
+
+I will test and then send v3 later.
+
+Thanks,
+Tiezhu
+
