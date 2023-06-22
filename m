@@ -1,46 +1,49 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F8B33CD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 07:06:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687417599; x=1718953599;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ucz/cGBHZV0/08hkWPSC4dkuM9OUlC6Z+Ne26wBFqu0=;
-  b=fgcPOGM44RM4JhvU98OUWQ4F0w6sPU9vw5KCoRbdlLmRhZtK4JbMcWMp
-   ee9vQMM1/gpSUl74pPnzaLOFfXJPJvWoZc3CkOVR656pUgT16nUAten3n
-   h9Wv7GtvjTuxGC0Fow1VSOMubVlwUR3H6D2n2FdjHYQyHATkP8b0unYSR
-   urtRgLjGqcmo0OB6U7fl7vsA0gjW7kd5WYYy6TNonbS3/3MJwgd6VR5M4
-   hYAIHN4lyE/w6r9OOKfbfP6F0ruMlzRDnFTj5nShhmUO1PrIAdiyCHuIO
-   mGGcZieARrpb3rx0oKraVfHPfMHD6bS084mhCZeG+Cuu4OwTfsnacgpay
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="340746373"
-X-IronPort-AV: E=Sophos;i="6.00,262,1681196400"; 
-   d="scan'208";a="340746373"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 00:06:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10748"; a="708979705"
-X-IronPort-AV: E=Sophos;i="6.00,262,1681196400"; 
-   d="scan'208";a="708979705"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 22 Jun 2023 00:06:33 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qCEOl-0007Oz-2P;
-	Thu, 22 Jun 2023 07:06:31 +0000
-Date: Thu, 22 Jun 2023 15:05:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oswald Buddenhagen <oswald.buddenhagen@gmx.de>,
-	alsa-devel@alsa-project.org
-Cc: oe-kbuild-all@lists.linux.dev, Takashi Iwai <tiwai@suse.de>,
-	Jaroslav Kysela <perex@perex.cz>
-Subject: Re: [PATCH 8/8] ALSA: emu10k1: add high-rate playback in E-MU D.A.S.
- mode
-Message-ID: <202306221430.7QukSHhG-lkp@intel.com>
-References: <20230613073822.1343234-9-oswald.buddenhagen@gmx.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285DC15AF6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 08:27:13 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3f9002a1a39so51626615e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 01:27:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687422432; x=1690014432;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DJYHqw3D4Te2NgT7iaCLgVm9j4LM7F8hPpOSxaRVdzk=;
+        b=gP7EEAqA3xQjNJh7NhbxNgWTi6UzkZZJS5QUpJ6aKk0FpdwF6kBS/fusTOd3MJfaxZ
+         dE3C1gXGr0twsIU2NofYqTmAwsxUwJTtG832EAqv0oMXbD6VjFgwckcm+ULKQWZmzyVU
+         k2/IKx0n0uKp+g7/xR2HkYpulO8w1cYjRh5BrwxErAq1CORv33lq/Cko4kctDD2SzgAH
+         RgjVkWLBkyZOtIysN52AKCFBcnFcGoluEpckYeb6ucbfX8vBHdLN5mRfSeXvrs5ycGX7
+         oxIATVz8AOL3GAfpqQHq1zezkdyxqwElU4wq9p2trNOQvyDF8yvmlwLRpk2yWe11G45s
+         n6Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687422432; x=1690014432;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DJYHqw3D4Te2NgT7iaCLgVm9j4LM7F8hPpOSxaRVdzk=;
+        b=eDPWJxXz+FrWPoyvfRoGYc04jK7MM5Np1O3tGWxXBH/V9NH1g62TS1+eUUFRpWmEOz
+         4vwln71jX5aowd+L1GWmD2UCs4sl0WSGMfm0fQGrWQOgzqp5aSgZWo+n9/mb9JbhJQLH
+         sySzSdlvtudIawOam0EXkwTQbyAADvf/+iPNWNxjs6R3GihBFf3nA7NnV6loua2yYoxL
+         6HrSfTz0HBjpsvoPl8H+HMzplyVNGT3kCL1NRWjPBooBa93fO2/JqrN6aqgYSi3iYQCt
+         PgFnSXeBnYDXLWg3SKFf3gDZeYlL5tZA/dKygt6plygrsWZ8NAoyf+zOief55HZkamdg
+         cMqA==
+X-Gm-Message-State: AC+VfDzCW07Xl3YscAAv/ifyWJuVIZXIzFD5AfGeHlxFgBwxNXROgTAw
+	7Plo00FwRI9/fqvtdTRkmTz8uw==
+X-Google-Smtp-Source: ACHHUZ5uClDGzi1K5FLFcx1TiwjyJvCJ4iEBx+lJqD0eiXBTyOn+Jsh6bSQQbmq+4a635ehxy5+xSw==
+X-Received: by 2002:a7b:cd14:0:b0:3f9:b445:903b with SMTP id f20-20020a7bcd14000000b003f9b445903bmr6373733wmj.9.1687422432051;
+        Thu, 22 Jun 2023 01:27:12 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id e22-20020a05600c219600b003f8fb02c413sm7056261wme.8.2023.06.22.01.27.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jun 2023 01:27:09 -0700 (PDT)
+Date: Thu, 22 Jun 2023 11:27:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Steve French <stfrench@microsoft.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: fs/smb/client/smb2ops.c:2029 smb3_enum_snapshots() warn: variable
+ dereferenced before check 'ioc_buf' (see line 2003)
+Message-ID: <23b29243-66ba-4796-935a-39c7fff79027@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,89 +52,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230613073822.1343234-9-oswald.buddenhagen@gmx.de>
 
-Hi Oswald,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tiwai-sound/for-next]
-[also build test WARNING on next-20230621]
-[cannot apply to tiwai-sound/for-linus linus/master v6.4-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oswald-Buddenhagen/ALSA-emu10k1-introduce-alternative-E-MU-D-A-S-mode/20230613-154242
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230613073822.1343234-9-oswald.buddenhagen%40gmx.de
-patch subject: [PATCH 8/8] ALSA: emu10k1: add high-rate playback in E-MU D.A.S. mode
-config: i386-randconfig-s002-20230621 (https://download.01.org/0day-ci/archive/20230622/202306221430.7QukSHhG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230622/202306221430.7QukSHhG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   dad9774deaf1cf8e8f7483310dfb2690310193d2
+commit: 38c8a9a52082579090e34c033d439ed2cd1a462d smb: move client and server files to common directory fs/smb
+config: m68k-randconfig-m031-20230622 (https://download.01.org/0day-ci/archive/20230622/202306221539.2zBvWDuV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306221539.2zBvWDuV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306221430.7QukSHhG-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202306221539.2zBvWDuV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/pci/emu10k1/emupcm.c:1180:45: sparse: sparse: cast removes address space '__user' of expression
->> sound/pci/emu10k1/emupcm.c:1182:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got unsigned int [usertype] *src @@
-   sound/pci/emu10k1/emupcm.c:1182:41: sparse:     expected void const volatile [noderef] __user *ptr
-   sound/pci/emu10k1/emupcm.c:1182:41: sparse:     got unsigned int [usertype] *src
+smatch warnings:
+fs/smb/client/smb2ops.c:2029 smb3_enum_snapshots() warn: variable dereferenced before check 'ioc_buf' (see line 2003)
+fs/smb/client/dfs_cache.c:403 copy_ref_data() warn: passing a valid pointer to 'PTR_ERR'
 
-vim +/__user +1180 sound/pci/emu10k1/emupcm.c
+vim +/ioc_buf +2029 fs/smb/client/smb2ops.c
 
-  1146	
-  1147	static int snd_emu10k1_efx_playback_copy_user(struct snd_pcm_substream *substream,
-  1148						      int channel, unsigned long hwoff,
-  1149						      void __user *buf, unsigned long bytes)
-  1150	{
-  1151		struct snd_emu10k1 *emu = snd_pcm_substream_chip(substream);
-  1152		struct snd_pcm_runtime *runtime = substream->runtime;
-  1153		unsigned shift = emu->emu1010.clock_shift;
-  1154		unsigned i, j, k, channels, subchans, voices, frame_size, frames;
-  1155	
-  1156		if (!shift) {
-  1157			// Non-interleaved source
-  1158			if (copy_from_user(get_dma_ptr(runtime, channel, hwoff), buf, bytes))
-  1159				return -EFAULT;
-  1160		} else {
-  1161			// Interleaved source
-  1162			channels = runtime->channels;
-  1163			subchans = 1 << shift;
-  1164			voices = channels << shift;
-  1165			frame_size = voices << 2;
-  1166			// It is recommended that writes are period-sized, and it appears
-  1167			// unlikely that someone would actually use a period size which
-  1168			// is not divisible by four, so don't bother making it work.
-  1169			// This check should also prevent that hwoff becomes unaligned.
-  1170			// Ideally, snd_pcm_sw_params.xfer_align would handle this ...
-  1171			if (bytes % frame_size)
-  1172				return -EIO;
-  1173			frames = bytes / frame_size;
-  1174			hwoff /= voices;
-  1175			if (!user_access_begin(buf, bytes))
-  1176				return -EFAULT;
-  1177			for (i = 0; i < channels; i++) {
-  1178				for (j = 0; j < subchans; j++) {
-  1179					u32 *dst = get_dma_ptr_x(runtime, shift, i, j, hwoff);
-> 1180					u32 *src = (u32 *)buf + j * channels + i;
-  1181					for (k = 0; k < frames; k++, dst++, src += voices)
-> 1182						unsafe_get_user(*dst, src, faulted);
-  1183				}
-  1184			}
-  1185			user_access_end();
-  1186		}
-  1187		return 0;
-  1188	
-  1189	faulted:
-  1190		user_access_end();
-  1191		return -EFAULT;
-  1192	}
-  1193	
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1985  static int
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1986  smb3_enum_snapshots(const unsigned int xid, struct cifs_tcon *tcon,
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1987  		   struct cifsFileInfo *cfile, void __user *ioc_buf)
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1988  {
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1989  	char *retbuf = NULL;
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1990  	unsigned int ret_data_len = 0;
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1991  	int rc;
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  1992  	u32 max_response_size;
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1993  	struct smb_snapshot_array snapshot_in;
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  1994  
+973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  1995  	/*
+973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  1996  	 * On the first query to enumerate the list of snapshots available
+973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  1997  	 * for this volume the buffer begins with 0 (number of snapshots
+973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  1998  	 * which can be returned is zero since at that point we do not know
+973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  1999  	 * how big the buffer needs to be). On the second query,
+973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  2000  	 * it (ret_data_len) is set to number of snapshots so we can
+973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  2001  	 * know to set the maximum response size larger (see below).
+973189aba69e59 fs/cifs/smb2ops.c Steve French 2019-04-04  2002  	 */
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28 @2003  	if (get_user(ret_data_len, (unsigned int __user *)ioc_buf))
+
+If ioc_buf is NULL then this get_user() will return -EFAULT.  It's not
+a dereference.  I think Smatch gets confused how this implemented on
+arch/m68k/.
+
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2004  		return -EFAULT;
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2005  
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2006  	/*
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2007  	 * Note that for snapshot queries that servers like Azure expect that
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2008  	 * the first query be minimal size (and just used to get the number/size
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2009  	 * of previous versions) so response size must be specified as EXACTLY
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2010  	 * sizeof(struct snapshot_array) which is 16 when rounded up to multiple
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2011  	 * of eight bytes.
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2012  	 */
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2013  	if (ret_data_len == 0)
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2014  		max_response_size = MIN_SNAPSHOT_ARRAY_SIZE;
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2015  	else
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2016  		max_response_size = CIFSMaxBufSize;
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2017  
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2018  	rc = SMB2_ioctl(xid, tcon, cfile->fid.persistent_fid,
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2019  			cfile->fid.volatile_fid,
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2020  			FSCTL_SRV_ENUMERATE_SNAPSHOTS,
+153322f7536a18 fs/cifs/smb2ops.c Steve French 2019-03-28  2021  			NULL, 0 /* no input data */, max_response_size,
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2022  			(char **)&retbuf,
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2023  			&ret_data_len);
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2024  	cifs_dbg(FYI, "enum snaphots ioctl returned %d and ret buflen is %d\n",
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2025  			rc, ret_data_len);
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2026  	if (rc)
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2027  		return rc;
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2028  
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30 @2029  	if (ret_data_len && (ioc_buf != NULL) && (retbuf != NULL)) {
+
+Anyway, ioc_buf still can't be NULL at this point.
+
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2030  		/* Fixup buffer */
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2031  		if (copy_from_user(&snapshot_in, ioc_buf,
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2032  		    sizeof(struct smb_snapshot_array))) {
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2033  			rc = -EFAULT;
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2034  			kfree(retbuf);
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2035  			return rc;
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2036  		}
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2037  
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2038  		/*
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2039  		 * Check for min size, ie not large enough to fit even one GMT
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2040  		 * token (snapshot).  On the first ioctl some users may pass in
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2041  		 * smaller size (or zero) to simply get the size of the array
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2042  		 * so the user space caller can allocate sufficient memory
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2043  		 * and retry the ioctl again with larger array size sufficient
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2044  		 * to hold all of the snapshot GMT tokens on the second try.
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2045  		 */
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2046  		if (snapshot_in.snapshot_array_size < GMT_TOKEN_SIZE)
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2047  			ret_data_len = sizeof(struct smb_snapshot_array);
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2048  
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2049  		/*
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2050  		 * We return struct SRV_SNAPSHOT_ARRAY, followed by
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2051  		 * the snapshot array (of 50 byte GMT tokens) each
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2052  		 * representing an available previous version of the data
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2053  		 */
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2054  		if (ret_data_len > (snapshot_in.snapshot_array_size +
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2055  					sizeof(struct smb_snapshot_array)))
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2056  			ret_data_len = snapshot_in.snapshot_array_size +
+e02789a53d7133 fs/cifs/smb2ops.c Steve French 2018-08-09  2057  					sizeof(struct smb_snapshot_array);
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2058  
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2059  		if (copy_to_user(ioc_buf, retbuf, ret_data_len))
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2060  			rc = -EFAULT;
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2061  	}
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2062  
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2063  	kfree(retbuf);
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2064  	return rc;
+834170c85978b0 fs/cifs/smb2ops.c Steve French 2016-09-30  2065  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
