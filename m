@@ -1,46 +1,69 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F53423109;
-	Fri, 23 Jun 2023 22:43:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61EC0611C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jun 2023 23:04:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687560204; x=1719096204;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MhZLju72Wu953YaQliJabK/FxTEhlQ/IuuKL76TUfzs=;
-  b=n+iyhOqk/lnmP2J18u1fmgZQEI8mzUqSkzanfOPyFLMJiCfMsyxzOrF4
-   VkOqZ6Up8fLE3viugrj2BOADLeYFCMqshhJDVnV7LxOLHyYQnwkwsIsZP
-   woci7z6/9YyinoDqBH89JpxtnwOLOPkwvYrkEWEWh1Sb96g6TTH8/TAw/
-   NL0SBV7nDCnF62vcy7zrNnbY8+XUh5m99DKd9qWU4CS5rMFPlppwkfA7a
-   p4ylSBjmz0CdS0Pom4OQ1B+fqTtu8ChvfVc169IKyDkbzPGZwOz99Ud7h
-   kBGkt9dplk0dqYMaHHaSVwdypgh1mUMpUU2zYW8nCdfkf79WF65FgXTNP
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="364323804"
+  t=1687561469; x=1719097469;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZVIQAV24ZZvBUxLB5YkM+5OKqW2afiYkE/iBheQy6a8=;
+  b=fzJL00O1sg4psZuE6Dmw6wyqFeSPXX+ta5FcOqFTNQtEgU0CHpnCuPb5
+   K7Q2slAuL0Yz2P07urjEK9LNs22eEHTvZjsWLZ2g0TngCA0UDjUtUvmfF
+   92h/OhnDGNL8hB/Iv2NYqncgDIC68HwyM+CjUAuIySVGzXgLbWYVWfwis
+   x//ekaWez/k42q4MgqC2A/VR4ysPD0t/OAVwBXBYp5xc9OrI6lX8Si4bk
+   Kg5mRc+4B3jdeqFM0vEU8MvoScU9wa7EWRNKr6sM8LVPmvcarZSTTUNDh
+   pgerW6trou+tbBUwJA6kKPTZJ8WgBtpQXYEg6vtKvjwwAoebtmtn0HSvE
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="358372887"
 X-IronPort-AV: E=Sophos;i="6.01,153,1684825200"; 
-   d="scan'208";a="364323804"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 15:43:23 -0700
+   d="scan'208";a="358372887"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 16:04:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="718679708"
+X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="860031392"
 X-IronPort-AV: E=Sophos;i="6.01,153,1684825200"; 
-   d="scan'208";a="718679708"
+   d="scan'208";a="860031392"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 23 Jun 2023 15:43:21 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 23 Jun 2023 16:04:21 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qCpUu-0008Zf-0c;
-	Fri, 23 Jun 2023 22:43:20 +0000
-Date: Sat, 24 Jun 2023 06:43:14 +0800
+	id 1qCppE-0008a3-1H;
+	Fri, 23 Jun 2023 23:04:20 +0000
+Date: Sat, 24 Jun 2023 07:03:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	Peter Zijlstra <peterz@infradead.org>,
-	Kees Cook <keescook@chromium.org>
-Subject: [tip:locking/core 37/43]
- drivers/char/ipmi/ipmi_msghandler.c:5194:13: warning: stack frame size
- (1032) exceeds limit (1024) in 'ipmi_panic_request_and_wait'
-Message-ID: <202306240641.rigy2zg2-lkp@intel.com>
+To: Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	=?utf-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <emmir@google.com>,
+	Andrei Vagin <avagin@gmail.com>,
+	Danylo Mocherniuk <mdanylo@google.com>,
+	Paul Gofman <pgofman@codeweavers.com>,
+	Cyrill Gorcunov <gorcunov@gmail.com>,
+	Mike Rapoport <rppt@kernel.org>, Nadav Amit <namit@vmware.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Yang Shi <shy828301@gmail.com>, Vlastimil Babka <vbabka@suse.cz>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Yun Zhou <yun.zhou@windriver.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Alex Sierra <alex.sierra@amd.com>,
+	Muhammad Usama Anjum <usama.anjum@collabora.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Axel Rasmussen <axelrasmussen@google.com>,
+	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Greg KH <greg@kroah.com>
+Subject: Re: [PATCH v20 2/5] fs/proc/task_mmu: Implement IOCTL to get and
+ optionally clear info about PTEs
+Message-ID: <202306240610.V4FYUL8b-lkp@intel.com>
+References: <20230621072404.2918101-3-usama.anjum@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,75 +72,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230621072404.2918101-3-usama.anjum@collabora.com>
 
-Hi Mark,
+Hi Muhammad,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/core
-head:   b33eb50a92b0a298fa8a6ac350e741c3ec100f6d
-commit: 1d78814d41701c216e28fcf2656526146dec4a1a [37/43] locking/atomic: scripts: simplify raw_atomic*() definitions
-config: arm-randconfig-r016-20230622 (https://download.01.org/0day-ci/archive/20230624/202306240641.rigy2zg2-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230624/202306240641.rigy2zg2-lkp@intel.com/reproduce)
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on next-20230623]
+[cannot apply to linus/master v6.4-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Muhammad-Usama-Anjum/userfaultfd-UFFD_FEATURE_WP_ASYNC/20230621-171253
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230621072404.2918101-3-usama.anjum%40collabora.com
+patch subject: [PATCH v20 2/5] fs/proc/task_mmu: Implement IOCTL to get and optionally clear info about PTEs
+config: s390-randconfig-s043-20230622 (https://download.01.org/0day-ci/archive/20230624/202306240610.V4FYUL8b-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230624/202306240610.V4FYUL8b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306240641.rigy2zg2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306240610.V4FYUL8b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/proc/task_mmu.c:2209:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct page_region [noderef] __user *vec @@     got struct page_region * @@
+   fs/proc/task_mmu.c:2209:13: sparse:     expected struct page_region [noderef] __user *vec
+   fs/proc/task_mmu.c:2209:13: sparse:     got struct page_region *
 
->> drivers/char/ipmi/ipmi_msghandler.c:5194:13: warning: stack frame size (1032) exceeds limit (1024) in 'ipmi_panic_request_and_wait' [-Wframe-larger-than]
-   static void ipmi_panic_request_and_wait(struct ipmi_smi *intf,
-               ^
-   1 warning generated.
+vim +2209 fs/proc/task_mmu.c
 
-
-vim +/ipmi_panic_request_and_wait +5194 drivers/char/ipmi/ipmi_msghandler.c
-
-895dcfd1cab84d Corey Minyard  2012-03-28  5190  
-895dcfd1cab84d Corey Minyard  2012-03-28  5191  /*
-895dcfd1cab84d Corey Minyard  2012-03-28  5192   * Inside a panic, send a message and wait for a response.
-895dcfd1cab84d Corey Minyard  2012-03-28  5193   */
-a567b6230066e3 Corey Minyard  2018-04-05 @5194  static void ipmi_panic_request_and_wait(struct ipmi_smi *intf,
-895dcfd1cab84d Corey Minyard  2012-03-28  5195  					struct ipmi_addr *addr,
-895dcfd1cab84d Corey Minyard  2012-03-28  5196  					struct kernel_ipmi_msg *msg)
-895dcfd1cab84d Corey Minyard  2012-03-28  5197  {
-895dcfd1cab84d Corey Minyard  2012-03-28  5198  	struct ipmi_smi_msg  smi_msg;
-895dcfd1cab84d Corey Minyard  2012-03-28  5199  	struct ipmi_recv_msg recv_msg;
-895dcfd1cab84d Corey Minyard  2012-03-28  5200  	int rv;
-895dcfd1cab84d Corey Minyard  2012-03-28  5201  
-895dcfd1cab84d Corey Minyard  2012-03-28  5202  	smi_msg.done = dummy_smi_done_handler;
-895dcfd1cab84d Corey Minyard  2012-03-28  5203  	recv_msg.done = dummy_recv_done_handler;
-895dcfd1cab84d Corey Minyard  2012-03-28  5204  	atomic_add(2, &panic_done_count);
-895dcfd1cab84d Corey Minyard  2012-03-28  5205  	rv = i_ipmi_request(NULL,
-895dcfd1cab84d Corey Minyard  2012-03-28  5206  			    intf,
-895dcfd1cab84d Corey Minyard  2012-03-28  5207  			    addr,
-895dcfd1cab84d Corey Minyard  2012-03-28  5208  			    0,
-895dcfd1cab84d Corey Minyard  2012-03-28  5209  			    msg,
-895dcfd1cab84d Corey Minyard  2012-03-28  5210  			    intf,
-895dcfd1cab84d Corey Minyard  2012-03-28  5211  			    &smi_msg,
-895dcfd1cab84d Corey Minyard  2012-03-28  5212  			    &recv_msg,
-895dcfd1cab84d Corey Minyard  2012-03-28  5213  			    0,
-5fdb1fb2abe647 Corey Minyard  2017-09-05  5214  			    intf->addrinfo[0].address,
-5fdb1fb2abe647 Corey Minyard  2017-09-05  5215  			    intf->addrinfo[0].lun,
-895dcfd1cab84d Corey Minyard  2012-03-28  5216  			    0, 1); /* Don't retry, and don't wait. */
-895dcfd1cab84d Corey Minyard  2012-03-28  5217  	if (rv)
-895dcfd1cab84d Corey Minyard  2012-03-28  5218  		atomic_sub(2, &panic_done_count);
-82802f968bd311 Hidehiro Kawai 2015-07-27  5219  	else if (intf->handlers->flush_messages)
-82802f968bd311 Hidehiro Kawai 2015-07-27  5220  		intf->handlers->flush_messages(intf->send_info);
-82802f968bd311 Hidehiro Kawai 2015-07-27  5221  
-895dcfd1cab84d Corey Minyard  2012-03-28  5222  	while (atomic_read(&panic_done_count) != 0)
-895dcfd1cab84d Corey Minyard  2012-03-28  5223  		ipmi_poll(intf);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  5224  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  5225  
-
-:::::: The code at line 5194 was first introduced by commit
-:::::: a567b6230066e3a2c964e2dc914e7f9a436806c4 ipmi: Change ipmi_smi_t to struct ipmi_smi *
-
-:::::: TO: Corey Minyard <cminyard@mvista.com>
-:::::: CC: Corey Minyard <cminyard@mvista.com>
+  2193	
+  2194	static long do_pagemap_scan(struct mm_struct *mm, unsigned long __arg)
+  2195	{
+  2196		struct pm_scan_arg __user *uarg = (struct pm_scan_arg __user *)__arg;
+  2197		unsigned long long start, end, walk_start, walk_end;
+  2198		unsigned long long empty_slots, vec_index = 0;
+  2199		struct mmu_notifier_range range;
+  2200		struct page_region __user *vec;
+  2201		struct pagemap_scan_private p;
+  2202		struct pm_scan_arg arg;
+  2203		int ret = 0;
+  2204	
+  2205		if (copy_from_user(&arg, uarg, sizeof(arg)))
+  2206			return -EFAULT;
+  2207	
+  2208		start = untagged_addr((unsigned long)arg.start);
+> 2209		vec = (struct page_region *)untagged_addr((unsigned long)arg.vec);
+  2210	
+  2211		ret = pagemap_scan_args_valid(&arg, start, vec);
+  2212		if (ret)
+  2213			return ret;
+  2214	
+  2215		end = start + arg.len;
+  2216		p.max_pages = arg.max_pages;
+  2217		p.found_pages = 0;
+  2218		p.required_mask = arg.required_mask;
+  2219		p.anyof_mask = arg.anyof_mask;
+  2220		p.excluded_mask = arg.excluded_mask;
+  2221		p.return_mask = arg.return_mask;
+  2222		p.flags = arg.flags;
+  2223		p.flags |= ((p.required_mask | p.anyof_mask | p.excluded_mask) &
+  2224			    PAGE_IS_WRITTEN) ? PM_SCAN_REQUIRE_UFFD : 0;
+  2225		p.cur_buf.start = p.cur_buf.len = p.cur_buf.flags = 0;
+  2226		p.vec_buf = NULL;
+  2227		p.vec_buf_len = PAGEMAP_WALK_SIZE >> PAGE_SHIFT;
+  2228	
+  2229		/*
+  2230		 * Allocate smaller buffer to get output from inside the page walk
+  2231		 * functions and walk page range in PAGEMAP_WALK_SIZE size chunks. As
+  2232		 * we want to return output to user in compact form where no two
+  2233		 * consecutive regions should be continuous and have the same flags.
+  2234		 * So store the latest element in p.cur_buf between different walks and
+  2235		 * store the p.cur_buf at the end of the walk to the user buffer.
+  2236		 */
+  2237		if (IS_PM_SCAN_GET(p.flags)) {
+  2238			p.vec_buf = kmalloc_array(p.vec_buf_len, sizeof(*p.vec_buf),
+  2239						  GFP_KERNEL);
+  2240			if (!p.vec_buf)
+  2241				return -ENOMEM;
+  2242		}
+  2243	
+  2244		if (IS_PM_SCAN_WP(p.flags)) {
+  2245			mmu_notifier_range_init(&range, MMU_NOTIFY_PROTECTION_VMA, 0,
+  2246						mm, start, end);
+  2247			mmu_notifier_invalidate_range_start(&range);
+  2248		}
+  2249	
+  2250		walk_start = walk_end = start;
+  2251		while (walk_end < end && !ret) {
+  2252			if (IS_PM_SCAN_GET(p.flags)) {
+  2253				p.vec_buf_index = 0;
+  2254	
+  2255				/*
+  2256				 * All data is copied to cur_buf first. When more data
+  2257				 * is found, we push cur_buf to vec_buf and copy new
+  2258				 * data to cur_buf. Subtract 1 from length as the
+  2259				 * index of cur_buf isn't counted in length.
+  2260				 */
+  2261				empty_slots = arg.vec_len - vec_index;
+  2262				p.vec_buf_len = min(p.vec_buf_len, empty_slots - 1);
+  2263			}
+  2264	
+  2265			walk_end = (walk_start + PAGEMAP_WALK_SIZE) & PAGEMAP_WALK_MASK;
+  2266			if (walk_end > end)
+  2267				walk_end = end;
+  2268	
+  2269			ret = mmap_read_lock_killable(mm);
+  2270			if (ret)
+  2271				goto free_data;
+  2272			ret = walk_page_range(mm, walk_start, walk_end,
+  2273					      &pagemap_scan_ops, &p);
+  2274			mmap_read_unlock(mm);
+  2275	
+  2276			if (ret && ret != PM_SCAN_BUFFER_FULL &&
+  2277			    ret != PM_SCAN_FOUND_MAX_PAGES)
+  2278				goto free_data;
+  2279	
+  2280			walk_start = walk_end;
+  2281			if (IS_PM_SCAN_GET(p.flags) && p.vec_buf_index) {
+  2282				if (copy_to_user(&vec[vec_index], p.vec_buf,
+  2283						 p.vec_buf_index * sizeof(*p.vec_buf))) {
+  2284					/*
+  2285					 * Return error even though the OP succeeded
+  2286					 */
+  2287					ret = -EFAULT;
+  2288					goto free_data;
+  2289				}
+  2290				vec_index += p.vec_buf_index;
+  2291			}
+  2292		}
+  2293	
+  2294		if (p.cur_buf.len) {
+  2295			if (copy_to_user(&vec[vec_index], &p.cur_buf, sizeof(p.cur_buf))) {
+  2296				ret = -EFAULT;
+  2297				goto free_data;
+  2298			}
+  2299			vec_index++;
+  2300		}
+  2301	
+  2302		ret = vec_index;
+  2303	
+  2304	free_data:
+  2305		if (IS_PM_SCAN_WP(p.flags))
+  2306			mmu_notifier_invalidate_range_end(&range);
+  2307	
+  2308		kfree(p.vec_buf);
+  2309		return ret;
+  2310	}
+  2311	
 
 -- 
 0-DAY CI Kernel Test Service
