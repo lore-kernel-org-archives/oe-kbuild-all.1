@@ -1,43 +1,52 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C580A31
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jun 2023 07:18:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C2410F5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jun 2023 07:18:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687504683; x=1719040683;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GoYtdsW28jnf4PwVxH1W2c1JuZDB4tWxT/m3EBYQKXI=;
-  b=OXmJ68X+5WUPD3XxZDsRcJ14G5gFdRxlekbYEvxirwL222s/FdjsdeiF
-   tc4xd5u+9/oAdhKhyLD+vudWvBaKXRjp6Ne+DgWEQ+sKJw+Oy5vc2hAra
-   +FKGS5T2VMlnYkcuCj8pHTmzv0UU10KjaVWKBNPNKBXoWwY4J1GKZr6SX
-   b8+ta9GrUAQthPXrR6hPJTkSaAxNqYN7JhmCR9FKV7Kq8Zx8WBiNZ9O+5
-   dJXngDaL6ilcAzl5vMduvl0n0rdOWMqD6tWsAq1Cw4++Tfgb7A5IAr7G1
-   7IuYyrE4iZPH8VW6tthGfiVZImzOr1XS1rU5XYtzk1T11400KEvaQNN/W
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="358197899"
+  t=1687504685; x=1719040685;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X0oSPt8MKPSCdlW2qvnEeXQx55EsL81HO4NU7W+GvPE=;
+  b=chRqgEWRsnT1iFUMC8bkt8r3TBC/l2eji47cPeQpMtdZ/W2mrXNM3KxU
+   wrHhkzPjeRoR6Dx4IMv2sH74/iyqYB9FGk7yLDSP0A24rE9vmoD2eH+L+
+   s7ZtyuKRWwXKkhzTby0Q8w/HF/cbPOMVUyULNyUz69VMnQ5pUrEwFtY+f
+   GMoUxz5JJXg5dCM5OQ1V2GeDemLI8IBoJRj/z6Ro6rqveQKSooptE8nMn
+   XfgwQmhRW39E7zc0dmGpQThktzA55EkJENYgnw2Husd7QvC4G5tIJkPqK
+   5xw5VH/DfCP/huAFapXeFgIOHc4Lr3/1EAUMKs+x4BoN+RBq6mpo/dyeI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="358197909"
 X-IronPort-AV: E=Sophos;i="6.01,151,1684825200"; 
-   d="scan'208";a="358197899"
+   d="scan'208";a="358197909"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 00:18:02 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 00:18:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="889382381"
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="889382382"
 X-IronPort-AV: E=Sophos;i="6.01,151,1684825200"; 
-   d="scan'208";a="889382381"
+   d="scan'208";a="889382382"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
   by orsmga005.jf.intel.com with ESMTP; 23 Jun 2023 00:18:01 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qCb3Q-00084d-1D;
+	id 1qCb3Q-00084f-1K;
 	Fri, 23 Jun 2023 07:18:00 +0000
 Date: Fri, 23 Jun 2023 15:17:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:xfile-page-caching 35/202] fs/xfs/scrub/scrub.c:527:25:
- error: implicit declaration of function 'xchk_stats_elapsed_ns'; did you
- mean 'xchk_stats_elapsed_ms'?
-Message-ID: <202306231518.bvtiv2LO-lkp@intel.com>
+To: Benjamin Bara <bbara93@gmail.com>, Matthias Kaehlcke <mka@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Benjamin Bara <benjamin.bara@skidata.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 1/3] usb: misc: onboard-hub: support multiple power
+ supplies
+Message-ID: <202306231557.18uGlgSW-lkp@intel.com>
+References: <20230620-hx3-v6-1-6a1d6f8ce689@skidata.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,99 +55,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230620-hx3-v6-1-6a1d6f8ce689@skidata.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfile-page-caching
-head:   9f2fc0e8ef147d9fd9c6af47c4ab87427e0d2d19
-commit: 5368138492f38c80081b9f8d5fab01f72d755435 [35/202] xfs: track usage statistics of online fsck
-config: sparc-randconfig-c043-20230623 (https://download.01.org/0day-ci/archive/20230623/202306231518.bvtiv2LO-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230623/202306231518.bvtiv2LO-lkp@intel.com/reproduce)
+Hi Benjamin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 45a3e24f65e90a047bef86f927ebdc4c710edaa1]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Bara/usb-misc-onboard-hub-support-multiple-power-supplies/20230623-142256
+base:   45a3e24f65e90a047bef86f927ebdc4c710edaa1
+patch link:    https://lore.kernel.org/r/20230620-hx3-v6-1-6a1d6f8ce689%40skidata.com
+patch subject: [PATCH v6 1/3] usb: misc: onboard-hub: support multiple power supplies
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230623/202306231557.18uGlgSW-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230623/202306231557.18uGlgSW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306231518.bvtiv2LO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306231557.18uGlgSW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/xfs/scrub/scrub.c: In function 'xfs_scrub_metadata':
->> fs/xfs/scrub/scrub.c:527:25: error: implicit declaration of function 'xchk_stats_elapsed_ns'; did you mean 'xchk_stats_elapsed_ms'? [-Werror=implicit-function-declaration]
-     527 |         run.scrub_ns += xchk_stats_elapsed_ns(check_start);
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-         |                         xchk_stats_elapsed_ms
-   cc1: some warnings being treated as errors
+   drivers/usb/misc/onboard_usb_hub.c: In function 'onboard_hub_probe':
+>> drivers/usb/misc/onboard_usb_hub.c:262:59: warning: format '%ld' expects argument of type 'long int', but argument 4 has type 'unsigned int' [-Wformat=]
+     262 |                 return dev_err_probe(dev, -EINVAL, "max %ld supplies supported!\n",
+         |                                                         ~~^
+         |                                                           |
+         |                                                           long int
+         |                                                         %d
 
 
-vim +527 fs/xfs/scrub/scrub.c
+vim +262 drivers/usb/misc/onboard_usb_hub.c
 
-   460	
-   461	/* Dispatch metadata scrubbing. */
-   462	int
-   463	xfs_scrub_metadata(
-   464		struct file			*file,
-   465		struct xfs_scrub_metadata	*sm)
-   466	{
-   467		struct xchk_stats_run		run = { };
-   468		struct xfs_scrub		*sc;
-   469		struct xfs_mount		*mp = XFS_I(file_inode(file))->i_mount;
-   470		u64				check_start;
-   471		int				error = 0;
-   472	
-   473		BUILD_BUG_ON(sizeof(meta_scrub_ops) !=
-   474			(sizeof(struct xchk_meta_ops) * XFS_SCRUB_TYPE_NR));
-   475	
-   476		trace_xchk_start(XFS_I(file_inode(file)), sm, error);
-   477	
-   478		/* Forbidden if we are shut down or mounted norecovery. */
-   479		error = -ESHUTDOWN;
-   480		if (xfs_is_shutdown(mp))
-   481			goto out;
-   482		error = -ENOTRECOVERABLE;
-   483		if (xfs_has_norecovery(mp))
-   484			goto out;
-   485	
-   486		error = xchk_validate_inputs(mp, sm);
-   487		if (error)
-   488			goto out;
-   489	
-   490		xfs_warn_mount(mp, XFS_OPSTATE_WARNED_SCRUB,
-   491	 "EXPERIMENTAL online scrub feature in use. Use at your own risk!");
-   492	
-   493		sc = kzalloc(sizeof(struct xfs_scrub), XCHK_GFP_FLAGS);
-   494		if (!sc) {
-   495			error = -ENOMEM;
-   496			goto out;
-   497		}
-   498	
-   499		sc->mp = mp;
-   500		sc->file = file;
-   501		sc->sm = sm;
-   502		sc->ops = &meta_scrub_ops[sm->sm_type];
-   503		sc->sick_mask = xchk_health_mask_for_scrub_type(sm->sm_type);
-   504	retry_op:
-   505		/*
-   506		 * When repairs are allowed, prevent freezing or readonly remount while
-   507		 * scrub is running with a real transaction.
-   508		 */
-   509		if (sm->sm_flags & XFS_SCRUB_IFLAG_REPAIR) {
-   510			error = mnt_want_write_file(sc->file);
-   511			if (error)
-   512				goto out_sc;
-   513		}
-   514	
-   515		/* Set up for the operation. */
-   516		error = sc->ops->setup(sc);
-   517		if (error == -EDEADLOCK && !(sc->flags & XCHK_TRY_HARDER))
-   518			goto try_harder;
-   519		if (error == -ECHRNG && !(sc->flags & XCHK_NEED_DRAIN))
-   520			goto need_drain;
-   521		if (error)
-   522			goto out_teardown;
-   523	
-   524		/* Scrub for errors. */
-   525		check_start = xchk_stats_now();
-   526		error = sc->ops->scrub(sc);
- > 527		run.scrub_ns += xchk_stats_elapsed_ns(check_start);
+   240	
+   241	static int onboard_hub_probe(struct platform_device *pdev)
+   242	{
+   243		const struct of_device_id *of_id;
+   244		struct device *dev = &pdev->dev;
+   245		struct onboard_hub *hub;
+   246		unsigned int i;
+   247		int err;
+   248	
+   249		hub = devm_kzalloc(dev, sizeof(*hub), GFP_KERNEL);
+   250		if (!hub)
+   251			return -ENOMEM;
+   252	
+   253		of_id = of_match_device(onboard_hub_match, &pdev->dev);
+   254		if (!of_id)
+   255			return -ENODEV;
+   256	
+   257		hub->pdata = of_id->data;
+   258		if (!hub->pdata)
+   259			return -EINVAL;
+   260	
+   261		if (hub->pdata->num_supplies > MAX_SUPPLIES)
+ > 262			return dev_err_probe(dev, -EINVAL, "max %ld supplies supported!\n",
+   263					     MAX_SUPPLIES);
+   264	
+   265		for (i = 0; i < hub->pdata->num_supplies; i++)
+   266			hub->supplies[i].supply = supply_names[i];
+   267	
+   268		err = devm_regulator_bulk_get(dev, hub->pdata->num_supplies, hub->supplies);
+   269		if (err) {
+   270			dev_err(dev, "Failed to get regulator supplies: %d\n", err);
+   271			return err;
+   272		}
+   273	
+   274		hub->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+   275							  GPIOD_OUT_HIGH);
+   276		if (IS_ERR(hub->reset_gpio))
+   277			return dev_err_probe(dev, PTR_ERR(hub->reset_gpio), "failed to get reset GPIO\n");
+   278	
+   279		hub->dev = dev;
+   280		mutex_init(&hub->lock);
+   281		INIT_LIST_HEAD(&hub->udev_list);
+   282	
+   283		dev_set_drvdata(dev, hub);
+   284	
+   285		err = onboard_hub_power_on(hub);
+   286		if (err)
+   287			return err;
+   288	
+   289		/*
+   290		 * The USB driver might have been detached from the USB devices by
+   291		 * onboard_hub_remove() (e.g. through an 'unbind' by userspace),
+   292		 * make sure to re-attach it if needed.
+   293		 *
+   294		 * This needs to be done deferred to avoid self-deadlocks on systems
+   295		 * with nested onboard hubs.
+   296		 */
+   297		schedule_work(&attach_usb_driver_work);
+   298	
+   299		return 0;
+   300	}
+   301	
 
 -- 
 0-DAY CI Kernel Test Service
