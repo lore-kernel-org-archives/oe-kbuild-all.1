@@ -1,48 +1,45 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB49A20
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jun 2023 03:12:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3553A38;
+	Fri, 23 Jun 2023 03:22:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687489921; x=1719025921;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yZC8i7vWYWDPTok3ig35v5onjbfZVwf1jsj+jEeYsfE=;
-  b=Hf0oqCDPGutuTp3mgKERmkFC6qbbM42gvVambJgpWzxCb9Q7bnGdbe2S
-   B+ppp3iTo5XzDhXCTeWHAeE6A/1+ax+ca/ptFzT5H36YkaXr/H4J/Jgjx
-   O6M0o9wmoFvdmTiQM7ZwnCQyOijUsKuANMQPWrxenSz3CK2T/tvX2Qrht
-   4SWBagJajA8Y/EaP1V+ulu4SJshtb6N+VnmX0xa/Pe4snMgq7xhxTG+WT
-   0NdtZ6UmjU62/qE20zi+HD35h2nlz0lfVW03HMswOisdJ2vuDItrJ5k7q
-   gV+k7QFTJdnuJ9j6oQdLTxrdIFuvp2MP6VFBeT4ywkJ5l3vzycGWRqCHm
+  t=1687490578; x=1719026578;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=solkhqMpo5XNrKA1PPRv8uEUZc3lgINAUv4/pQtrONk=;
+  b=MeQGGsEHLpPnOR1zBZh04q/xnyujupD7ApQSjHNls5Nf7BwJhjId4llP
+   N9QKnqNRwy1rP8RH8gXJjxGOfbygk2VsnBtGEa544NpEHHrrUTnhnn0Md
+   uI0q/Rwf2gJbhTWu9DphiSPwwmooVCvFp3cY24oiLBBsuu+dr2z3yQzFv
+   CYXQaaURB+ZjRTlk0NI0G9Cce2YTuiQipDh8nx6d94g9qymLka7zZUjOM
+   2GvkhzRFCar4mVWzVBdrzCM8rQOi91rsJMCvywK4NwJVmOgZeYA4edgBF
+   wIVogyhYxT4eq+mLe2X8iz+CVF/ekpN0j6nZLE4ilI9CfeNyvTqJdL2l+
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="447048237"
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="350440068"
 X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
-   d="scan'208";a="447048237"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 20:11:58 -0700
+   d="scan'208";a="350440068"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 20:22:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="780464152"
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="744849072"
 X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
-   d="scan'208";a="780464152"
+   d="scan'208";a="744849072"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 22 Jun 2023 20:11:55 -0700
+  by orsmga008.jf.intel.com with ESMTP; 22 Jun 2023 20:22:55 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qCXDG-0007wd-1P;
-	Fri, 23 Jun 2023 03:11:54 +0000
-Date: Fri, 23 Jun 2023 11:11:17 +0800
+	id 1qCXNu-0007xN-2o;
+	Fri, 23 Jun 2023 03:22:54 +0000
+Date: Fri, 23 Jun 2023 11:22:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiko Stuebner <heiko@sntech.de>, palmer@dabbelt.com,
-	paul.walmsley@sifive.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
-	samuel@sholland.org, guoren@kernel.org, christoph.muellner@vrull.eu,
-	heiko@sntech.de, conor.dooley@microchip.com,
-	linux-kernel@vger.kernel.org,
-	Heiko Stuebner <heiko.stuebner@vrull.eu>
-Subject: Re: [PATCH v2 3/3] RISC-V: add T-Head vector errata handling
-Message-ID: <202306231142.j8XLzSQL-lkp@intel.com>
-References: <20230622231305.631331-4-heiko@sntech.de>
+To: Demi Marie Obenour <demi@invisiblethingslab.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dm-devel@redhat.com, Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>
+Subject: [device-mapper-dm:for-next 19/24] drivers/md/dm-ioctl.c:1402:15:
+ warning: format specifies type 'unsigned long' but the argument has type
+ 'unsigned int'
+Message-ID: <202306231121.8VDClqLC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,186 +48,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230622231305.631331-4-heiko@sntech.de>
 
-Hi Heiko,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20230622]
-[cannot apply to linus/master v6.4-rc7 v6.4-rc6 v6.4-rc5 v6.4-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/RISC-V-move-vector-available-status-into-a-dedicated-variable/20230623-081314
-base:   next-20230622
-patch link:    https://lore.kernel.org/r/20230622231305.631331-4-heiko%40sntech.de
-patch subject: [PATCH v2 3/3] RISC-V: add T-Head vector errata handling
-config: riscv-randconfig-r042-20230622 (https://download.01.org/0day-ci/archive/20230623/202306231142.j8XLzSQL-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230623/202306231142.j8XLzSQL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/device-mapper/linux-dm.git for-next
+head:   7d8bae011ec676d6c0a6ea18f2b74c9c32d57849
+commit: 5df1daff2cc63af7971c0643134f3372aa3b33a1 [19/24] dm ioctl: Check dm_target_spec is sufficiently aligned
+config: hexagon-randconfig-r041-20230622 (https://download.01.org/0day-ci/archive/20230623/202306231121.8VDClqLC-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230623/202306231121.8VDClqLC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306231142.j8XLzSQL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306231121.8VDClqLC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from arch/riscv/include/asm/alternative.h:9,
-                    from arch/riscv/include/asm/errata_list.h:8,
-                    from arch/riscv/include/asm/tlbflush.h:12,
-                    from arch/riscv/include/asm/pgtable.h:112,
-                    from arch/riscv/include/asm/uaccess.h:12,
-                    from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:11,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:33,
-                    from include/linux/compat.h:17,
-                    from arch/riscv/include/asm/elf.h:12,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from include/linux/energy_model.h:5,
-                    from kernel/sched/fair.c:23:
-   arch/riscv/include/asm/vector.h: In function '__riscv_v_vstate_save':
->> arch/riscv/include/asm/vector.h:206:17: error: expected ':' or ')' before 'THEAD_VSETVLI_T4X0E8M8D1'
-     206 |                 THEAD_VSETVLI_T4X0E8M8D1
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/alternative-macros.h:78:9: note: in definition of macro 'ALT_NEW_CONTENT'
-      78 |         new_c "\n"                                                      \
-         |         ^~~~~
-   arch/riscv/include/asm/alternative-macros.h:104:9: note: in expansion of macro '__ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/alternative-macros.h:152:9: note: in expansion of macro '_ALTERNATIVE_CFG'
-     152 |         _ALTERNATIVE_CFG(old_content, new_content, vendor_id, patch_id, CONFIG_k)
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/vector.h:192:23: note: in expansion of macro 'ALTERNATIVE'
-     192 |         asm volatile (ALTERNATIVE(
-         |                       ^~~~~~~~~~~
-   In file included from arch/riscv/include/asm/switch_to.h:11,
-                    from kernel/sched/fair.c:51:
-   arch/riscv/include/asm/vector.h:188:23: warning: unused variable 'vl' [-Wunused-variable]
-     188 |         unsigned long vl;
-         |                       ^~
-   arch/riscv/include/asm/vector.h: In function '__riscv_v_vstate_restore':
-   arch/riscv/include/asm/vector.h:239:17: error: expected ':' or ')' before 'THEAD_VSETVLI_T4X0E8M8D1'
-     239 |                 THEAD_VSETVLI_T4X0E8M8D1
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/alternative-macros.h:78:9: note: in definition of macro 'ALT_NEW_CONTENT'
-      78 |         new_c "\n"                                                      \
-         |         ^~~~~
-   arch/riscv/include/asm/alternative-macros.h:104:9: note: in expansion of macro '__ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/alternative-macros.h:152:9: note: in expansion of macro '_ALTERNATIVE_CFG'
-     152 |         _ALTERNATIVE_CFG(old_content, new_content, vendor_id, patch_id, CONFIG_k)
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/vector.h:225:23: note: in expansion of macro 'ALTERNATIVE'
-     225 |         asm volatile (ALTERNATIVE(
-         |                       ^~~~~~~~~~~
-   arch/riscv/include/asm/vector.h:222:23: warning: unused variable 'vl' [-Wunused-variable]
-     222 |         unsigned long vl;
-         |                       ^~
-   kernel/sched/fair.c: At top level:
-   kernel/sched/fair.c:688:5: warning: no previous prototype for 'sched_update_scaling' [-Wmissing-prototypes]
-     688 | int sched_update_scaling(void)
-         |     ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from arch/riscv/include/asm/alternative.h:9,
-                    from arch/riscv/include/asm/errata_list.h:8,
-                    from arch/riscv/include/asm/tlbflush.h:12,
-                    from arch/riscv/include/asm/pgtable.h:112,
-                    from arch/riscv/include/asm/uaccess.h:12,
-                    from include/linux/uaccess.h:11,
-                    from include/linux/sched/task.h:11,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/sched/cputime.h:5,
-                    from kernel/sched/build_utility.c:13:
-   arch/riscv/include/asm/vector.h: In function '__riscv_v_vstate_save':
->> arch/riscv/include/asm/vector.h:206:17: error: expected ':' or ')' before 'THEAD_VSETVLI_T4X0E8M8D1'
-     206 |                 THEAD_VSETVLI_T4X0E8M8D1
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/alternative-macros.h:78:9: note: in definition of macro 'ALT_NEW_CONTENT'
-      78 |         new_c "\n"                                                      \
-         |         ^~~~~
-   arch/riscv/include/asm/alternative-macros.h:104:9: note: in expansion of macro '__ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/alternative-macros.h:152:9: note: in expansion of macro '_ALTERNATIVE_CFG'
-     152 |         _ALTERNATIVE_CFG(old_content, new_content, vendor_id, patch_id, CONFIG_k)
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/vector.h:192:23: note: in expansion of macro 'ALTERNATIVE'
-     192 |         asm volatile (ALTERNATIVE(
-         |                       ^~~~~~~~~~~
-   In file included from arch/riscv/include/asm/switch_to.h:11,
-                    from kernel/sched/build_utility.c:51:
-   arch/riscv/include/asm/vector.h:188:23: warning: unused variable 'vl' [-Wunused-variable]
-     188 |         unsigned long vl;
-         |                       ^~
-   arch/riscv/include/asm/vector.h: In function '__riscv_v_vstate_restore':
-   arch/riscv/include/asm/vector.h:239:17: error: expected ':' or ')' before 'THEAD_VSETVLI_T4X0E8M8D1'
-     239 |                 THEAD_VSETVLI_T4X0E8M8D1
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/alternative-macros.h:78:9: note: in definition of macro 'ALT_NEW_CONTENT'
-      78 |         new_c "\n"                                                      \
-         |         ^~~~~
-   arch/riscv/include/asm/alternative-macros.h:104:9: note: in expansion of macro '__ALTERNATIVE_CFG'
-     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
-         |         ^~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/alternative-macros.h:152:9: note: in expansion of macro '_ALTERNATIVE_CFG'
-     152 |         _ALTERNATIVE_CFG(old_content, new_content, vendor_id, patch_id, CONFIG_k)
-         |         ^~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/vector.h:225:23: note: in expansion of macro 'ALTERNATIVE'
-     225 |         asm volatile (ALTERNATIVE(
-         |                       ^~~~~~~~~~~
-   arch/riscv/include/asm/vector.h:222:23: warning: unused variable 'vl' [-Wunused-variable]
-     222 |         unsigned long vl;
-         |                       ^~
+   In file included from drivers/md/dm-ioctl.c:9:
+   In file included from drivers/md/dm-core.h:15:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/md/dm-ioctl.c:9:
+   In file included from drivers/md/dm-core.h:15:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/md/dm-ioctl.c:9:
+   In file included from drivers/md/dm-core.h:15:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/md/dm-ioctl.c:1402:15: warning: format specifies type 'unsigned long' but the argument has type 'unsigned int' [-Wformat]
+    1402 |                 DMERR("Next dm_target_spec (offset %u) is not %lu-byte aligned",
+         |                                                               ~~~
+         |                                                               %u
+    1403 |                       next, __alignof__(struct dm_target_spec));
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device-mapper.h:626:47: note: expanded from macro 'DMERR'
+     626 | #define DMERR(fmt, ...) pr_err(DM_FMT(fmt), ##__VA_ARGS__)
+         |                                       ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:498:33: note: expanded from macro 'pr_err'
+     498 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                                ~~~     ^~~~~~~~~~~
+   include/linux/printk.h:455:60: note: expanded from macro 'printk'
+     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+   7 warnings generated.
 
 
-vim +206 arch/riscv/include/asm/vector.h
+vim +1402 drivers/md/dm-ioctl.c
 
-   184	
-   185	static inline void __riscv_v_vstate_save(struct __riscv_v_ext_state *save_to,
-   186						 void *datap)
-   187	{
-   188		unsigned long vl;
-   189	
-   190		riscv_v_enable();
-   191		__vstate_csr_save(save_to);
-   192		asm volatile (ALTERNATIVE(
-   193			"nop\n\t"
-   194			".option push\n\t"
-   195			".option arch, +v\n\t"
-   196			"vsetvli	%0, x0, e8, m8, ta, ma\n\t"
-   197			"vse8.v		v0, (%1)\n\t"
-   198			"add		%1, %1, %0\n\t"
-   199			"vse8.v		v8, (%1)\n\t"
-   200			"add		%1, %1, %0\n\t"
-   201			"vse8.v		v16, (%1)\n\t"
-   202			"add		%1, %1, %0\n\t"
-   203			"vse8.v		v24, (%1)\n\t"
-   204			".option pop\n\t",
-   205			"mv		t0, %1\n\t"
- > 206			THEAD_VSETVLI_T4X0E8M8D1
-   207			THEAD_VSB_V_V0T0
-   208			"addi		t0, t0, 128\n\t"
-   209			THEAD_VSB_V_V8T0
-   210			"addi		t0, t0, 128\n\t"
-   211			THEAD_VSB_V_V16T0
-   212			"addi		t0, t0, 128\n\t"
-   213			THEAD_VSB_V_V24T0, THEAD_VENDOR_ID,
-   214			ERRATA_THEAD_VECTOR, CONFIG_ERRATA_THEAD_VECTOR)
-   215			: "=&r" (vl) : "r" (datap) : "t0", "t4", "memory");
-   216		riscv_v_disable();
-   217	}
-   218	
+  1393	
+  1394	static int next_target(struct dm_target_spec *last, uint32_t next, void *end,
+  1395			       struct dm_target_spec **spec, char **target_params)
+  1396	{
+  1397		static_assert(__alignof__(struct dm_target_spec) <= 8,
+  1398			"struct dm_target_spec must not require more than 8-byte alignment");
+  1399	
+  1400		if (next % __alignof__(struct dm_target_spec)) {
+  1401			DMERR("Next dm_target_spec (offset %u) is not %lu-byte aligned",
+> 1402			      next, __alignof__(struct dm_target_spec));
+  1403			return -EINVAL;
+  1404		}
+  1405	
+  1406		*spec = (struct dm_target_spec *) ((unsigned char *) last + next);
+  1407		*target_params = (char *) (*spec + 1);
+  1408	
+  1409		if (*spec < (last + 1))
+  1410			return -EINVAL;
+  1411	
+  1412		return invalid_str(*target_params, end);
+  1413	}
+  1414	
 
 -- 
 0-DAY CI Kernel Test Service
