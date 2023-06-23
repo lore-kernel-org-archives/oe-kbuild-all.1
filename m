@@ -1,109 +1,237 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4153136A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jun 2023 02:42:21 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-989d03eae11so6786666b.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 19:42:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1687488139; x=1690080139;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ndjko3S2hirKMFAnIuo1tX8IBCKyfYQP4ApAN6KDs7o=;
-        b=EFn/Ga15ZGJpZokz5kA4WkUkjXOYehQoJdkIS0I3gMXB3DM8B8j9fLbHXUgHBYnyJg
-         wjVU4KicWhn8mlFVAQ/hqmhItgPwvbFw460BJC3EYgfXMa/ww6/cIqkB9IZPRAV8V6df
-         Br7hLJ44oT4z7s2MIu1wSnDfHEl274pRv10uA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687488139; x=1690080139;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ndjko3S2hirKMFAnIuo1tX8IBCKyfYQP4ApAN6KDs7o=;
-        b=PirpRObA0PqCHlT0cRZEnvfKA+E8zJYsPeEcwVeLx3rAmiX9XbGI18HGrLbTbHhPNg
-         b4oJVzB8KCMrvUd6TPU6cHm/F7vyYUFrCAMbSYdGgECtFhvlkdm1pM7Yo9FCyweeY22S
-         9hmSOl3U50pGExQ7V2WMP59z8WBdSz5jRdNddG2Usg+AQtP+SGAyYm3s3n1CX+lRhKfy
-         ABMWWjhi6u8uVYu7HbHQFfxXS3KbQ+Li828Nll/9R3pnMngoogd28wD7EiBoCKZzsIk9
-         e5mRKFQ9M5QDEVcXm+wsHlXlBdSUXTBtVTeb2Rlk8Yn7ncsG5WAqRAMATbsFidRN8ct1
-         0sGQ==
-X-Gm-Message-State: AC+VfDz7qmf5Y6hc2lCYoahqTwI3MyBygqUHCUUSdfdHCwr7IwhVHPAJ
-	jpRcsfVBwlIpUBOFdNngMUfGtgmKi3SKKBRCYi51kA==
-X-Google-Smtp-Source: ACHHUZ5p8qX9MLL4DMW8syLGIwleI1ijypEsjaLyY9cFvkVJSWLw8rwTaJaK0iZQkqXyw2o4u0K3wQ==
-X-Received: by 2002:a17:906:730c:b0:988:9d0f:db52 with SMTP id di12-20020a170906730c00b009889d0fdb52mr14096668ejc.35.1687488139262;
-        Thu, 22 Jun 2023 19:42:19 -0700 (PDT)
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com. [209.85.208.50])
-        by smtp.gmail.com with ESMTPSA id cf14-20020a170906b2ce00b00984822540c9sm5317760ejb.96.2023.06.22.19.42.18
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Jun 2023 19:42:18 -0700 (PDT)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-516500163b2so3765a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 22 Jun 2023 19:42:18 -0700 (PDT)
-X-Received: by 2002:a50:9ec2:0:b0:51a:1fd1:952f with SMTP id
- a60-20020a509ec2000000b0051a1fd1952fmr12395edf.1.1687488137869; Thu, 22 Jun
- 2023 19:42:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB49A20
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jun 2023 03:12:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687489921; x=1719025921;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yZC8i7vWYWDPTok3ig35v5onjbfZVwf1jsj+jEeYsfE=;
+  b=Hf0oqCDPGutuTp3mgKERmkFC6qbbM42gvVambJgpWzxCb9Q7bnGdbe2S
+   B+ppp3iTo5XzDhXCTeWHAeE6A/1+ax+ca/ptFzT5H36YkaXr/H4J/Jgjx
+   O6M0o9wmoFvdmTiQM7ZwnCQyOijUsKuANMQPWrxenSz3CK2T/tvX2Qrht
+   4SWBagJajA8Y/EaP1V+ulu4SJshtb6N+VnmX0xa/Pe4snMgq7xhxTG+WT
+   0NdtZ6UmjU62/qE20zi+HD35h2nlz0lfVW03HMswOisdJ2vuDItrJ5k7q
+   gV+k7QFTJdnuJ9j6oQdLTxrdIFuvp2MP6VFBeT4ywkJ5l3vzycGWRqCHm
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="447048237"
+X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
+   d="scan'208";a="447048237"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2023 20:11:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10749"; a="780464152"
+X-IronPort-AV: E=Sophos;i="6.01,150,1684825200"; 
+   d="scan'208";a="780464152"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga008.fm.intel.com with ESMTP; 22 Jun 2023 20:11:55 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qCXDG-0007wd-1P;
+	Fri, 23 Jun 2023 03:11:54 +0000
+Date: Fri, 23 Jun 2023 11:11:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Heiko Stuebner <heiko@sntech.de>, palmer@dabbelt.com,
+	paul.walmsley@sifive.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
+	samuel@sholland.org, guoren@kernel.org, christoph.muellner@vrull.eu,
+	heiko@sntech.de, conor.dooley@microchip.com,
+	linux-kernel@vger.kernel.org,
+	Heiko Stuebner <heiko.stuebner@vrull.eu>
+Subject: Re: [PATCH v2 3/3] RISC-V: add T-Head vector errata handling
+Message-ID: <202306231142.j8XLzSQL-lkp@intel.com>
+References: <20230622231305.631331-4-heiko@sntech.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202306230940.cAAzoBuj-lkp@intel.com>
-In-Reply-To: <202306230940.cAAzoBuj-lkp@intel.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 22 Jun 2023 19:42:04 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VqnC8o_Bsx8GWYNbp+mRb2kGdfkucy2+RV4tyyGBjK1A@mail.gmail.com>
-Message-ID: <CAD=FV=VqnC8o_Bsx8GWYNbp+mRb2kGdfkucy2+RV4tyyGBjK1A@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-nonmm-unstable 69/70] panic.c:undefined reference to `arch_trigger_cpumask_backtrace'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230622231305.631331-4-heiko@sntech.de>
 
-Hi,
+Hi Heiko,
 
-On Thu, Jun 22, 2023 at 6:27=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-no=
-nmm-unstable
-> head:   2f300c1db6849096050b341817208f97d55586b9
-> commit: 7cf0441a9e57e752c39bb70ceb2e74bbf66ec958 [69/70] powerpc: move ar=
-ch_trigger_cpumask_backtrace from nmi.h to irq.h
-> config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/202=
-30623/202306230940.cAAzoBuj-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230623/202306230940=
-.cAAzoBuj-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306230940.cAAzoBuj-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    powerpc-linux-ld: kernel/panic.o: in function `panic':
-> >> panic.c:(.text+0xa9c): undefined reference to `arch_trigger_cpumask_ba=
-cktrace'
-> >> powerpc-linux-ld: panic.c:(.text+0xae0): undefined reference to `arch_=
-trigger_cpumask_backtrace'
->    powerpc-linux-ld: kernel/panic.o: in function `oops_enter':
->    panic.c:(.text+0x1518): undefined reference to `arch_trigger_cpumask_b=
-acktrace'
->    powerpc-linux-ld: kernel/sched/core.o: in function `dump_cpu_task':
-> >> core.c:(.text+0x1dd70): undefined reference to `arch_trigger_cpumask_b=
-acktrace'
->    powerpc-linux-ld: kernel/hung_task.o: in function `check_hung_uninterr=
-uptible_tasks':
-> >> hung_task.c:(.text+0x11e0): undefined reference to `arch_trigger_cpuma=
-sk_backtrace'
->    powerpc-linux-ld: kernel/watchdog.o:watchdog.c:(.text+0x8f0): more und=
-efined references to `arch_trigger_cpumask_backtrace' follow
+kernel test robot noticed the following build errors:
 
-Argh. Since this is in Andrew's unstable, I'll send a v2 of my patch right =
-away.
+[auto build test ERROR on next-20230622]
+[cannot apply to linus/master v6.4-rc7 v6.4-rc6 v6.4-rc5 v6.4-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
--Doug
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/RISC-V-move-vector-available-status-into-a-dedicated-variable/20230623-081314
+base:   next-20230622
+patch link:    https://lore.kernel.org/r/20230622231305.631331-4-heiko%40sntech.de
+patch subject: [PATCH v2 3/3] RISC-V: add T-Head vector errata handling
+config: riscv-randconfig-r042-20230622 (https://download.01.org/0day-ci/archive/20230623/202306231142.j8XLzSQL-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230623/202306231142.j8XLzSQL-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306231142.j8XLzSQL-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/riscv/include/asm/alternative.h:9,
+                    from arch/riscv/include/asm/errata_list.h:8,
+                    from arch/riscv/include/asm/tlbflush.h:12,
+                    from arch/riscv/include/asm/pgtable.h:112,
+                    from arch/riscv/include/asm/uaccess.h:12,
+                    from include/linux/uaccess.h:11,
+                    from include/linux/sched/task.h:11,
+                    from include/linux/sched/signal.h:9,
+                    from include/linux/rcuwait.h:6,
+                    from include/linux/percpu-rwsem.h:7,
+                    from include/linux/fs.h:33,
+                    from include/linux/compat.h:17,
+                    from arch/riscv/include/asm/elf.h:12,
+                    from include/linux/elf.h:6,
+                    from include/linux/module.h:19,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/energy_model.h:5,
+                    from kernel/sched/fair.c:23:
+   arch/riscv/include/asm/vector.h: In function '__riscv_v_vstate_save':
+>> arch/riscv/include/asm/vector.h:206:17: error: expected ':' or ')' before 'THEAD_VSETVLI_T4X0E8M8D1'
+     206 |                 THEAD_VSETVLI_T4X0E8M8D1
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/alternative-macros.h:78:9: note: in definition of macro 'ALT_NEW_CONTENT'
+      78 |         new_c "\n"                                                      \
+         |         ^~~~~
+   arch/riscv/include/asm/alternative-macros.h:104:9: note: in expansion of macro '__ALTERNATIVE_CFG'
+     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
+         |         ^~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/alternative-macros.h:152:9: note: in expansion of macro '_ALTERNATIVE_CFG'
+     152 |         _ALTERNATIVE_CFG(old_content, new_content, vendor_id, patch_id, CONFIG_k)
+         |         ^~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/vector.h:192:23: note: in expansion of macro 'ALTERNATIVE'
+     192 |         asm volatile (ALTERNATIVE(
+         |                       ^~~~~~~~~~~
+   In file included from arch/riscv/include/asm/switch_to.h:11,
+                    from kernel/sched/fair.c:51:
+   arch/riscv/include/asm/vector.h:188:23: warning: unused variable 'vl' [-Wunused-variable]
+     188 |         unsigned long vl;
+         |                       ^~
+   arch/riscv/include/asm/vector.h: In function '__riscv_v_vstate_restore':
+   arch/riscv/include/asm/vector.h:239:17: error: expected ':' or ')' before 'THEAD_VSETVLI_T4X0E8M8D1'
+     239 |                 THEAD_VSETVLI_T4X0E8M8D1
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/alternative-macros.h:78:9: note: in definition of macro 'ALT_NEW_CONTENT'
+      78 |         new_c "\n"                                                      \
+         |         ^~~~~
+   arch/riscv/include/asm/alternative-macros.h:104:9: note: in expansion of macro '__ALTERNATIVE_CFG'
+     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
+         |         ^~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/alternative-macros.h:152:9: note: in expansion of macro '_ALTERNATIVE_CFG'
+     152 |         _ALTERNATIVE_CFG(old_content, new_content, vendor_id, patch_id, CONFIG_k)
+         |         ^~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/vector.h:225:23: note: in expansion of macro 'ALTERNATIVE'
+     225 |         asm volatile (ALTERNATIVE(
+         |                       ^~~~~~~~~~~
+   arch/riscv/include/asm/vector.h:222:23: warning: unused variable 'vl' [-Wunused-variable]
+     222 |         unsigned long vl;
+         |                       ^~
+   kernel/sched/fair.c: At top level:
+   kernel/sched/fair.c:688:5: warning: no previous prototype for 'sched_update_scaling' [-Wmissing-prototypes]
+     688 | int sched_update_scaling(void)
+         |     ^~~~~~~~~~~~~~~~~~~~
+--
+   In file included from arch/riscv/include/asm/alternative.h:9,
+                    from arch/riscv/include/asm/errata_list.h:8,
+                    from arch/riscv/include/asm/tlbflush.h:12,
+                    from arch/riscv/include/asm/pgtable.h:112,
+                    from arch/riscv/include/asm/uaccess.h:12,
+                    from include/linux/uaccess.h:11,
+                    from include/linux/sched/task.h:11,
+                    from include/linux/sched/signal.h:9,
+                    from include/linux/sched/cputime.h:5,
+                    from kernel/sched/build_utility.c:13:
+   arch/riscv/include/asm/vector.h: In function '__riscv_v_vstate_save':
+>> arch/riscv/include/asm/vector.h:206:17: error: expected ':' or ')' before 'THEAD_VSETVLI_T4X0E8M8D1'
+     206 |                 THEAD_VSETVLI_T4X0E8M8D1
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/alternative-macros.h:78:9: note: in definition of macro 'ALT_NEW_CONTENT'
+      78 |         new_c "\n"                                                      \
+         |         ^~~~~
+   arch/riscv/include/asm/alternative-macros.h:104:9: note: in expansion of macro '__ALTERNATIVE_CFG'
+     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
+         |         ^~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/alternative-macros.h:152:9: note: in expansion of macro '_ALTERNATIVE_CFG'
+     152 |         _ALTERNATIVE_CFG(old_content, new_content, vendor_id, patch_id, CONFIG_k)
+         |         ^~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/vector.h:192:23: note: in expansion of macro 'ALTERNATIVE'
+     192 |         asm volatile (ALTERNATIVE(
+         |                       ^~~~~~~~~~~
+   In file included from arch/riscv/include/asm/switch_to.h:11,
+                    from kernel/sched/build_utility.c:51:
+   arch/riscv/include/asm/vector.h:188:23: warning: unused variable 'vl' [-Wunused-variable]
+     188 |         unsigned long vl;
+         |                       ^~
+   arch/riscv/include/asm/vector.h: In function '__riscv_v_vstate_restore':
+   arch/riscv/include/asm/vector.h:239:17: error: expected ':' or ')' before 'THEAD_VSETVLI_T4X0E8M8D1'
+     239 |                 THEAD_VSETVLI_T4X0E8M8D1
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/alternative-macros.h:78:9: note: in definition of macro 'ALT_NEW_CONTENT'
+      78 |         new_c "\n"                                                      \
+         |         ^~~~~
+   arch/riscv/include/asm/alternative-macros.h:104:9: note: in expansion of macro '__ALTERNATIVE_CFG'
+     104 |         __ALTERNATIVE_CFG(old_c, new_c, vendor_id, patch_id, IS_ENABLED(CONFIG_k))
+         |         ^~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/alternative-macros.h:152:9: note: in expansion of macro '_ALTERNATIVE_CFG'
+     152 |         _ALTERNATIVE_CFG(old_content, new_content, vendor_id, patch_id, CONFIG_k)
+         |         ^~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/vector.h:225:23: note: in expansion of macro 'ALTERNATIVE'
+     225 |         asm volatile (ALTERNATIVE(
+         |                       ^~~~~~~~~~~
+   arch/riscv/include/asm/vector.h:222:23: warning: unused variable 'vl' [-Wunused-variable]
+     222 |         unsigned long vl;
+         |                       ^~
+
+
+vim +206 arch/riscv/include/asm/vector.h
+
+   184	
+   185	static inline void __riscv_v_vstate_save(struct __riscv_v_ext_state *save_to,
+   186						 void *datap)
+   187	{
+   188		unsigned long vl;
+   189	
+   190		riscv_v_enable();
+   191		__vstate_csr_save(save_to);
+   192		asm volatile (ALTERNATIVE(
+   193			"nop\n\t"
+   194			".option push\n\t"
+   195			".option arch, +v\n\t"
+   196			"vsetvli	%0, x0, e8, m8, ta, ma\n\t"
+   197			"vse8.v		v0, (%1)\n\t"
+   198			"add		%1, %1, %0\n\t"
+   199			"vse8.v		v8, (%1)\n\t"
+   200			"add		%1, %1, %0\n\t"
+   201			"vse8.v		v16, (%1)\n\t"
+   202			"add		%1, %1, %0\n\t"
+   203			"vse8.v		v24, (%1)\n\t"
+   204			".option pop\n\t",
+   205			"mv		t0, %1\n\t"
+ > 206			THEAD_VSETVLI_T4X0E8M8D1
+   207			THEAD_VSB_V_V0T0
+   208			"addi		t0, t0, 128\n\t"
+   209			THEAD_VSB_V_V8T0
+   210			"addi		t0, t0, 128\n\t"
+   211			THEAD_VSB_V_V16T0
+   212			"addi		t0, t0, 128\n\t"
+   213			THEAD_VSB_V_V24T0, THEAD_VENDOR_ID,
+   214			ERRATA_THEAD_VECTOR, CONFIG_ERRATA_THEAD_VECTOR)
+   215			: "=&r" (vl) : "r" (datap) : "t0", "t4", "memory");
+   216		riscv_v_disable();
+   217	}
+   218	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
