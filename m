@@ -1,117 +1,123 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E2F14A97
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jun 2023 21:35:30 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-4f957a45b10so1456909e87.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jun 2023 14:35:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1687556127; x=1690148127;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ce2hSnC2a6RnZFjCDjugGmpFjSLpWb0uqSzSXaQCs/g=;
-        b=Y1pvlYbo5zq+56C0Wcpt+2LDltVljjfwpzB7xHmN/YPtIYvti/AQXtMyQuvKgrCyfN
-         zQe44hcJrXWMyTpTFREQ/SICEczTlnwZoyb9MzuvlkE7M75O5qeI9MCBIB+KMhb53EtN
-         +7jxcYX8uLvKVrKj7oXmUEg8JwBUCqCJ2fzA0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687556127; x=1690148127;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ce2hSnC2a6RnZFjCDjugGmpFjSLpWb0uqSzSXaQCs/g=;
-        b=hVp7V22xsXNg2VE6VAiJgEh4HH2o23N2TZWugDtqkCvQJH69J3W0HhAdNGnxb7ebBA
-         idVVq7dSFpLCVr+j+7L04kceY+1kmuVD01fpHHhtX6TvLAZMXM9+iD6aZBsd3ZJgDu5a
-         FqK+eR9JPXlFy/uhetRjNPPFNZVe/m24Dxi8FYIaNjvBR5eOJPeFF+jiyEzTYI4x0/B/
-         Rur+wZZrV0M1QUWBj+aXw5QrwuyadsncBKm6wbWsnL68qycSJjYP+Lh2+Wq16wy/ut+F
-         8etcdW7BUgzJKzNctq5uK3PlNxlQhg5aRRdblryphfU/nLjjzEqHHeVT9yIGkpezlIgu
-         OGJA==
-X-Gm-Message-State: AC+VfDzgHOlBYkCpBspDfh99d2sd/wJWwRbb6iIlEABYR9h9HFQLqB98
-	XjJm/imE2Mu/BkR2OS1gPO2A5vgzXy2R3hbRRIOJxQ==
-X-Google-Smtp-Source: ACHHUZ5yEcfNoUpRp3TIx77VZjFhvKjUgiKiEUjMhSemnOZ4Rv79gQ475wY3QRVaYTFqWFjUwnej3A==
-X-Received: by 2002:a19:6748:0:b0:4f8:6bca:50d7 with SMTP id e8-20020a196748000000b004f86bca50d7mr9862329lfj.13.1687556126920;
-        Fri, 23 Jun 2023 14:35:26 -0700 (PDT)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com. [209.85.208.46])
-        by smtp.gmail.com with ESMTPSA id a22-20020aa7d756000000b0051be4cb7f54sm3231059eds.84.2023.06.23.14.35.26
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Jun 2023 14:35:26 -0700 (PDT)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-513ea2990b8so2919a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jun 2023 14:35:26 -0700 (PDT)
-X-Received: by 2002:a50:9f64:0:b0:519:6a72:aeea with SMTP id
- b91-20020a509f64000000b005196a72aeeamr10413edf.7.1687556125796; Fri, 23 Jun
- 2023 14:35:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBFC2154AC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 23 Jun 2023 21:42:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687556543; x=1719092543;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cASyFpEHf1nLL9Cr4ppq2AcWwmICv2n4T/LBtYoOVdQ=;
+  b=hNo84x/5JHsDYoDziqZwhoi+A8f4QIUHGcgcQRcss1p966W++17z24ro
+   gbcaQkZ1vsx7BPiTwN0bqSuLuIJlo/a5rmqFiPsn0X+osHH5gmNqb0iDC
+   LZ0oVuFVluo3jI6yiT21p+hKIN5fwxw8Eny3ZCmXGPYhqDWoijZv855Fr
+   jCI+zHcGOXhnFMquPmiKXGvr6+iYzmaid+GCdW0hU9ijbsdU7T6/8uasV
+   jZs4nZx7EXzIQAkESM35JET3uSfc1xtHEuul7Ttv/Ea24E1b+RGyQZXIr
+   VVxPvzafii+YcrbhWz1+s+mHG5lCC83S55Un5eaNJCX8k2kU9fZwlNoh+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="358358828"
+X-IronPort-AV: E=Sophos;i="6.01,153,1684825200"; 
+   d="scan'208";a="358358828"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 14:42:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="745131233"
+X-IronPort-AV: E=Sophos;i="6.01,153,1684825200"; 
+   d="scan'208";a="745131233"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 23 Jun 2023 14:42:20 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qCoXr-0008YN-1c;
+	Fri, 23 Jun 2023 21:42:19 +0000
+Date: Sat, 24 Jun 2023 05:41:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yunxiang Li <Yunxiang.Li@amd.com>, dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Yunxiang Li <Yunxiang.Li@amd.com>
+Subject: Re: [PATCH v2] dma-buf: allow nested dma_resv_reserve_fences
+Message-ID: <202306240508.nAff52YL-lkp@intel.com>
+References: <20230623200113.62051-1-Yunxiang.Li@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202306240558.jm85FlCG-lkp@intel.com>
-In-Reply-To: <202306240558.jm85FlCG-lkp@intel.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 23 Jun 2023 14:35:13 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XR8uMrRiQ=jmHk7XcV092OjF-9JpQM_eJ5QQrMnLx0Ag@mail.gmail.com>
-Message-ID: <CAD=FV=XR8uMrRiQ=jmHk7XcV092OjF-9JpQM_eJ5QQrMnLx0Ag@mail.gmail.com>
-Subject: Re: [linux-next:master 11921/12162] panic.c:undefined reference to `arch_trigger_cpumask_backtrace'
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Petr Mladek <pmladek@suse.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230623200113.62051-1-Yunxiang.Li@amd.com>
 
-Hi,
+Hi Yunxiang,
 
-On Fri, Jun 23, 2023 at 2:31=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   8d2be868b42c08290509c60515865f4de24ea704
-> commit: 1141ba8fc84c333b138946d4cf973f5ade78b9ed [11921/12162] powerpc: m=
-ove arch_trigger_cpumask_backtrace from nmi.h to irq.h
-> config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/202=
-30624/202306240558.jm85FlCG-lkp@intel.com/config)
-> compiler: powerpc-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230624/202306240558=
-.jm85FlCG-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202306240558.jm85FlCG-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    powerpc-linux-ld: kernel/panic.o: in function `panic':
-> >> panic.c:(.text.panic+0x2f8): undefined reference to `arch_trigger_cpum=
-ask_backtrace'
-> >> powerpc-linux-ld: panic.c:(.text.panic+0x33c): undefined reference to =
-`arch_trigger_cpumask_backtrace'
->    powerpc-linux-ld: kernel/panic.o: in function `oops_enter':
-> >> panic.c:(.text.oops_enter+0x58): undefined reference to `arch_trigger_=
-cpumask_backtrace'
->    powerpc-linux-ld: kernel/sched/core.o: in function `dump_cpu_task':
-> >> core.c:(.text.dump_cpu_task+0xe8): undefined reference to `arch_trigge=
-r_cpumask_backtrace'
->    powerpc-linux-ld: kernel/hung_task.o: in function `check_hung_uninterr=
-uptible_tasks':
-> >> hung_task.c:(.text.check_hung_uninterruptible_tasks+0x584): undefined =
-reference to `arch_trigger_cpumask_backtrace'
->    powerpc-linux-ld: kernel/watchdog.o:watchdog.c:(.text.watchdog_timer_f=
-n+0x4cc): more undefined references to `arch_trigger_cpumask_backtrace' fol=
-low
+kernel test robot noticed the following build errors:
 
-Same as the report I already responded to:
 
-https://lore.kernel.org/r/202306232330.luFAk63S-lkp@intel.com
 
-...just a different config (powerpc-allmodconfig vs.
-powerpc-randconfig-r025-20230622). Specifically this is the same
-commit git hash and thus also points to v1 of the patch instead of the
-newer v2.
+url:    https://github.com/intel-lab-lkp/linux/commits/UPDATE-20230624-040209/Yunxiang-Li/drm-amdgpu-fix-missing-fence-reserve-in-amdgpu_vm_sdma_commit/20230622-002915
+base:   the 2th patch of https://lore.kernel.org/r/20230621162652.10875-3-Yunxiang.Li%40amd.com
+patch link:    https://lore.kernel.org/r/20230623200113.62051-1-Yunxiang.Li%40amd.com
+patch subject: [PATCH v2] dma-buf: allow nested dma_resv_reserve_fences
+config: arc-randconfig-r006-20230622 (https://download.01.org/0day-ci/archive/20230624/202306240508.nAff52YL-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230624/202306240508.nAff52YL-lkp@intel.com/reproduce)
 
--Doug
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306240508.nAff52YL-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/dma-buf/dma-resv.c: In function 'dma_resv_add_fence':
+   drivers/dma-buf/dma-resv.c:326: error: unterminated #else
+     326 | #ifdef CONFIG_DEBUG_MUTEXES
+         | 
+   drivers/dma-buf/dma-resv.c:327:9: note: '-Wmisleading-indentation' is disabled from this point onwards, since column-tracking was disabled due to the size of the code/headers
+     327 |         else
+         |         ^~~~
+   drivers/dma-buf/dma-resv.c:327:9: note: adding '-flarge-source-files' will allow for more column-tracking support, at the expense of compilation time and memory
+   In file included from include/linux/build_bug.h:5,
+                    from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/mutex.h:15,
+                    from include/linux/ww_mutex.h:20,
+                    from include/linux/dma-resv.h:42,
+                    from drivers/dma-buf/dma-resv.c:36:
+>> include/linux/compiler.h:24:39: error: expected declaration or statement at end of input
+      24 |                         static struct ftrace_likely_data                \
+         |                                       ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:47:26: note: in expansion of macro '__branch_check__'
+      47 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+         |                          ^~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:125:9: note: in expansion of macro 'unlikely'
+     125 |         unlikely(__ret_warn_on);                                        \
+         |         ^~~~~~~~
+   drivers/dma-buf/dma-resv.c:328:17: note: in expansion of macro 'WARN_ON'
+     328 |                 WARN_ON(1); // missing fence slot allocation
+         |                 ^~~~~~~
+
+
+vim +24 include/linux/compiler.h
+
+1f0d69a9fc815d Steven Rostedt          2008-11-12  21  
+d45ae1f7041ac5 Steven Rostedt (VMware  2017-01-17  22) #define __branch_check__(x, expect, is_constant) ({			\
+2026d35741f2c3 Mikulas Patocka         2018-05-30  23  			long ______r;					\
+134e6a034cb004 Steven Rostedt (VMware  2017-01-19 @24) 			static struct ftrace_likely_data		\
+e04462fb82f8dd Miguel Ojeda            2018-09-03  25  				__aligned(4)				\
+33def8498fdde1 Joe Perches             2020-10-21  26  				__section("_ftrace_annotated_branch")	\
+1f0d69a9fc815d Steven Rostedt          2008-11-12  27  				______f = {				\
+134e6a034cb004 Steven Rostedt (VMware  2017-01-19  28) 				.data.func = __func__,			\
+134e6a034cb004 Steven Rostedt (VMware  2017-01-19  29) 				.data.file = __FILE__,			\
+134e6a034cb004 Steven Rostedt (VMware  2017-01-19  30) 				.data.line = __LINE__,			\
+1f0d69a9fc815d Steven Rostedt          2008-11-12  31  			};						\
+d45ae1f7041ac5 Steven Rostedt (VMware  2017-01-17  32) 			______r = __builtin_expect(!!(x), expect);	\
+d45ae1f7041ac5 Steven Rostedt (VMware  2017-01-17  33) 			ftrace_likely_update(&______f, ______r,		\
+d45ae1f7041ac5 Steven Rostedt (VMware  2017-01-17  34) 					     expect, is_constant);	\
+1f0d69a9fc815d Steven Rostedt          2008-11-12  35  			______r;					\
+1f0d69a9fc815d Steven Rostedt          2008-11-12  36  		})
+1f0d69a9fc815d Steven Rostedt          2008-11-12  37  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
