@@ -1,47 +1,55 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A532378
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jun 2023 01:58:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA40F634;
+	Sat, 24 Jun 2023 04:00:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687571906; x=1719107906;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UQgSUJXzji8+Hx4m9a0CSH99k9dDssf141UzmvhL6Pw=;
-  b=jFNHL95uV6N38eJmvssdumFt6UyMRevJnTsvj2BvIuwGMA/jDJFtlPmA
-   4E34QB06BZ7weybvim8eAv40KGXrvthMmJPbAS4B7Tmb2Nyb5SERI2IZX
-   tmjWHYCU7QhcMU+TgqomrIl4MdI/DtviMXm+7zgWvatO3Q5gfeunkjNhq
-   AqJTcK5FKeoM31Os0pCyQubNuKBPMTmIIbBB9DFCNMBQ8NHxI/+KshFO6
-   V37Vf7rw8Rg2JuFjWOVut4/EbESMuovLhOa0jEoudVRC4YCk8Va6n/Q6v
-   MgxxktSZsXnoqvZ0dRZSzLIuTxdLgSa1C5cuYXL8qtZTP+qZ9RIWY1Fyo
+  t=1687579234; x=1719115234;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DR/sOI0ICzHnAXoF490smBlO7L9ZNpDvfA83VAhdgTE=;
+  b=WFaXWvd4OhU5yeff9/JnNkHJqxrwJ64+vvXOnweGNuC2SdASlNZb3go+
+   10oD38GnzvPgulTGv/WCyrlKV3+/fCbMl3/e4tLE1EXzonRasdsGok0UE
+   7wmdvnnWSnguFhEnS57Vix5FyX0y6UabujoYapR+DpjT3HwkP6pKX5ucj
+   Z5Fy8GNyD4tYLz9jonefSHtS5Nq8V1Q4VVjn4XMFsykqbaPHXUuW6iBrA
+   mLHzZWJv72illP65WFbYqzw3okN6gaGavF4Fj4Ysp1r6sX2Y+MZDUsMQW
+   jPPe5rkd5Jg9wmnV5Y/zc93vvSi5PoGkOOPaYcbWhFFq7XXkiNDHsTKDE
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="359767878"
-X-IronPort-AV: E=Sophos;i="6.01,153,1684825200"; 
-   d="scan'208";a="359767878"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 18:58:25 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="447288283"
+X-IronPort-AV: E=Sophos;i="6.01,154,1684825200"; 
+   d="scan'208";a="447288283"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 21:00:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="709632663"
-X-IronPort-AV: E=Sophos;i="6.01,153,1684825200"; 
-   d="scan'208";a="709632663"
+X-IronPort-AV: E=McAfee;i="6600,9927,10750"; a="805403896"
+X-IronPort-AV: E=Sophos;i="6.01,154,1684825200"; 
+   d="scan'208";a="805403896"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 23 Jun 2023 18:58:23 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 23 Jun 2023 21:00:27 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qCsXe-0008dr-24;
-	Sat, 24 Jun 2023 01:58:22 +0000
-Date: Sat, 24 Jun 2023 09:58:05 +0800
+	id 1qCuRm-0008i5-0l;
+	Sat, 24 Jun 2023 04:00:26 +0000
+Date: Sat, 24 Jun 2023 12:00:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Kenny Ho <Kenny.Ho@amd.com>
-Subject: [linux-next:master 7532/12162]
- include/linux/fortify-string.h:529:25: error: call to
- '__read_overflow2_field' declared with attribute warning: detected read
- beyond size of field (2nd parameter); maybe use struct_group()?
-Message-ID: <202306240951.XX1tI4YV-lkp@intel.com>
+To: sean.wang@mediatek.com, nbd@nbd.name, lorenzo.bianconi@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	sean.wang@mediatek.com, Soul.Huang@mediatek.com,
+	Leon.Yen@mediatek.com, Eric-SY.Chang@mediatek.com,
+	Deren.Wu@mediatek.com, km.lin@mediatek.com,
+	jenhao.yang@mediatek.com, robin.chiu@mediatek.com,
+	Eddie.Chen@mediatek.com, ch.yeh@mediatek.com,
+	ted.huang@mediatek.com, Stella.Chang@mediatek.com,
+	Tom.Chou@mediatek.com, steve.lee@mediatek.com, jsiuda@google.com,
+	arowa@google.org, frankgor@google.com, kuabhs@google.com,
+	druth@google.com, abhishekpandit@google.com, shawnku@google.com,
+	linux-wireless@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	Jing Cai <jing.cai@mediatek.com>, Chris Lu <chris.lu@mediatek.com>
+Subject: Re: [PATCH v7 3/3] Bluetooth: btusb: mediatek: add MediaTek
+ devcoredump support
+Message-ID: <202306241129.L50H0ubx-lkp@intel.com>
+References: <ed1d0e9fe7758dac8a05dcff97c7dcb8e9b0be39.1687565769.git.objelf@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,161 +58,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <ed1d0e9fe7758dac8a05dcff97c7dcb8e9b0be39.1687565769.git.objelf@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8d2be868b42c08290509c60515865f4de24ea704
-commit: 1b320ad3f5a88602aef2f207bc211539a5496702 [7532/12162] drm/amd/amdgpu: introduce DRM_AMDGPU_WERROR
-config: mips-randconfig-c024-20230622 (https://download.01.org/0day-ci/archive/20230624/202306240951.XX1tI4YV-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230624/202306240951.XX1tI4YV-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bluetooth-next/master]
+[also build test ERROR on next-20230623]
+[cannot apply to bluetooth/master wireless/main wireless-next/main linus/master v6.4-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/sean-wang-mediatek-com/Bluetooth-btmtk-introduce-btmtk-reset-work/20230624-100756
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+patch link:    https://lore.kernel.org/r/ed1d0e9fe7758dac8a05dcff97c7dcb8e9b0be39.1687565769.git.objelf%40gmail.com
+patch subject: [PATCH v7 3/3] Bluetooth: btusb: mediatek: add MediaTek devcoredump support
+config: x86_64-buildonly-randconfig-r002-20230622 (https://download.01.org/0day-ci/archive/20230624/202306241129.L50H0ubx-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230624/202306241129.L50H0ubx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306240951.XX1tI4YV-lkp@intel.com/
-
-Note: the linux-next/master HEAD 8d2be868b42c08290509c60515865f4de24ea704 builds fine.
-      It may have been fixed somewhere.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306241129.L50H0ubx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/string.h:254,
-                    from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from arch/mips/include/asm/processor.h:15,
-                    from arch/mips/include/asm/thread_info.h:16,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/mips/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:78,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/firmware.h:7,
-                    from drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c:26:
-   In function 'fortify_memcpy_chk',
-       inlined from 'sienna_cichlid_append_powerplay_table' at drivers/gpu/drm/amd/amdgpu/../pm/swsmu/smu11/sienna_cichlid_ppt.c:444:2:
->> include/linux/fortify-string.h:529:25: error: call to '__read_overflow2_field' declared with attribute warning: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Werror=attribute-warning]
-     529 |                         __read_overflow2_field(q_size_field, size);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
+>> drivers/bluetooth/btmtk.c:381:32: error: no member named 'dump' in 'struct hci_dev'
+                   schedule_delayed_work(&hdev->dump.dump_timeout,
+                                          ~~~~  ^
+   1 error generated.
 
 
-vim +/__read_overflow2_field +529 include/linux/fortify-string.h
+vim +381 drivers/bluetooth/btmtk.c
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25  464  
-f68f2ff91512c1 Kees Cook      2021-04-20  465  /*
-f68f2ff91512c1 Kees Cook      2021-04-20  466   * To make sure the compiler can enforce protection against buffer overflows,
-f68f2ff91512c1 Kees Cook      2021-04-20  467   * memcpy(), memmove(), and memset() must not be used beyond individual
-f68f2ff91512c1 Kees Cook      2021-04-20  468   * struct members. If you need to copy across multiple members, please use
-f68f2ff91512c1 Kees Cook      2021-04-20  469   * struct_group() to create a named mirror of an anonymous struct union.
-f68f2ff91512c1 Kees Cook      2021-04-20  470   * (e.g. see struct sk_buff.) Read overflow checking is currently only
-f68f2ff91512c1 Kees Cook      2021-04-20  471   * done when a write overflow is also present, or when building with W=1.
-f68f2ff91512c1 Kees Cook      2021-04-20  472   *
-f68f2ff91512c1 Kees Cook      2021-04-20  473   * Mitigation coverage matrix
-f68f2ff91512c1 Kees Cook      2021-04-20  474   *					Bounds checking at:
-f68f2ff91512c1 Kees Cook      2021-04-20  475   *					+-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  476   *					| Compile time  |   Run time    |
-f68f2ff91512c1 Kees Cook      2021-04-20  477   * memcpy() argument sizes:		| write | read  | write | read  |
-f68f2ff91512c1 Kees Cook      2021-04-20  478   *        dest     source   length      +-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  479   * memcpy(known,   known,   constant)	|   y   |   y   |  n/a  |  n/a  |
-f68f2ff91512c1 Kees Cook      2021-04-20  480   * memcpy(known,   unknown, constant)	|   y   |   n   |  n/a  |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  481   * memcpy(known,   known,   dynamic)	|   n   |   n   |   B   |   B   |
-f68f2ff91512c1 Kees Cook      2021-04-20  482   * memcpy(known,   unknown, dynamic)	|   n   |   n   |   B   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  483   * memcpy(unknown, known,   constant)	|   n   |   y   |   V   |  n/a  |
-f68f2ff91512c1 Kees Cook      2021-04-20  484   * memcpy(unknown, unknown, constant)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  485   * memcpy(unknown, known,   dynamic)	|   n   |   n   |   V   |   B   |
-f68f2ff91512c1 Kees Cook      2021-04-20  486   * memcpy(unknown, unknown, dynamic)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  487   *					+-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  488   *
-f68f2ff91512c1 Kees Cook      2021-04-20  489   * y = perform deterministic compile-time bounds checking
-f68f2ff91512c1 Kees Cook      2021-04-20  490   * n = cannot perform deterministic compile-time bounds checking
-f68f2ff91512c1 Kees Cook      2021-04-20  491   * n/a = no run-time bounds checking needed since compile-time deterministic
-f68f2ff91512c1 Kees Cook      2021-04-20  492   * B = can perform run-time bounds checking (currently unimplemented)
-f68f2ff91512c1 Kees Cook      2021-04-20  493   * V = vulnerable to run-time overflow (will need refactoring to solve)
-f68f2ff91512c1 Kees Cook      2021-04-20  494   *
-f68f2ff91512c1 Kees Cook      2021-04-20  495   */
-54d9469bc515dc Kees Cook      2021-06-24  496  __FORTIFY_INLINE bool fortify_memcpy_chk(__kernel_size_t size,
-f68f2ff91512c1 Kees Cook      2021-04-20  497  					 const size_t p_size,
-f68f2ff91512c1 Kees Cook      2021-04-20  498  					 const size_t q_size,
-f68f2ff91512c1 Kees Cook      2021-04-20  499  					 const size_t p_size_field,
-f68f2ff91512c1 Kees Cook      2021-04-20  500  					 const size_t q_size_field,
-f68f2ff91512c1 Kees Cook      2021-04-20  501  					 const char *func)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  502  {
-a28a6e860c6cf2 Francis Laniel 2021-02-25  503  	if (__builtin_constant_p(size)) {
-f68f2ff91512c1 Kees Cook      2021-04-20  504  		/*
-f68f2ff91512c1 Kees Cook      2021-04-20  505  		 * Length argument is a constant expression, so we
-f68f2ff91512c1 Kees Cook      2021-04-20  506  		 * can perform compile-time bounds checking where
-fa35198f39571b Kees Cook      2022-09-19  507  		 * buffer sizes are also known at compile time.
-f68f2ff91512c1 Kees Cook      2021-04-20  508  		 */
-f68f2ff91512c1 Kees Cook      2021-04-20  509  
-f68f2ff91512c1 Kees Cook      2021-04-20  510  		/* Error when size is larger than enclosing struct. */
-fa35198f39571b Kees Cook      2022-09-19  511  		if (__compiletime_lessthan(p_size_field, p_size) &&
-fa35198f39571b Kees Cook      2022-09-19  512  		    __compiletime_lessthan(p_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25  513  			__write_overflow();
-fa35198f39571b Kees Cook      2022-09-19  514  		if (__compiletime_lessthan(q_size_field, q_size) &&
-fa35198f39571b Kees Cook      2022-09-19  515  		    __compiletime_lessthan(q_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25  516  			__read_overflow2();
-f68f2ff91512c1 Kees Cook      2021-04-20  517  
-f68f2ff91512c1 Kees Cook      2021-04-20  518  		/* Warn when write size argument larger than dest field. */
-fa35198f39571b Kees Cook      2022-09-19  519  		if (__compiletime_lessthan(p_size_field, size))
-f68f2ff91512c1 Kees Cook      2021-04-20  520  			__write_overflow_field(p_size_field, size);
-f68f2ff91512c1 Kees Cook      2021-04-20  521  		/*
-f68f2ff91512c1 Kees Cook      2021-04-20  522  		 * Warn for source field over-read when building with W=1
-f68f2ff91512c1 Kees Cook      2021-04-20  523  		 * or when an over-write happened, so both can be fixed at
-f68f2ff91512c1 Kees Cook      2021-04-20  524  		 * the same time.
-f68f2ff91512c1 Kees Cook      2021-04-20  525  		 */
-fa35198f39571b Kees Cook      2022-09-19  526  		if ((IS_ENABLED(KBUILD_EXTRA_WARN1) ||
-fa35198f39571b Kees Cook      2022-09-19  527  		     __compiletime_lessthan(p_size_field, size)) &&
-fa35198f39571b Kees Cook      2022-09-19  528  		    __compiletime_lessthan(q_size_field, size))
-f68f2ff91512c1 Kees Cook      2021-04-20 @529  			__read_overflow2_field(q_size_field, size);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  530  	}
-f68f2ff91512c1 Kees Cook      2021-04-20  531  	/*
-f68f2ff91512c1 Kees Cook      2021-04-20  532  	 * At this point, length argument may not be a constant expression,
-f68f2ff91512c1 Kees Cook      2021-04-20  533  	 * so run-time bounds checking can be done where buffer sizes are
-f68f2ff91512c1 Kees Cook      2021-04-20  534  	 * known. (This is not an "else" because the above checks may only
-f68f2ff91512c1 Kees Cook      2021-04-20  535  	 * be compile-time warnings, and we want to still warn for run-time
-f68f2ff91512c1 Kees Cook      2021-04-20  536  	 * overflows.)
-f68f2ff91512c1 Kees Cook      2021-04-20  537  	 */
-f68f2ff91512c1 Kees Cook      2021-04-20  538  
-f68f2ff91512c1 Kees Cook      2021-04-20  539  	/*
-f68f2ff91512c1 Kees Cook      2021-04-20  540  	 * Always stop accesses beyond the struct that contains the
-f68f2ff91512c1 Kees Cook      2021-04-20  541  	 * field, when the buffer's remaining size is known.
-311fb40aa0569a Kees Cook      2022-09-02  542  	 * (The SIZE_MAX test is to optimize away checks where the buffer
-f68f2ff91512c1 Kees Cook      2021-04-20  543  	 * lengths are unknown.)
-f68f2ff91512c1 Kees Cook      2021-04-20  544  	 */
-311fb40aa0569a Kees Cook      2022-09-02  545  	if ((p_size != SIZE_MAX && p_size < size) ||
-311fb40aa0569a Kees Cook      2022-09-02  546  	    (q_size != SIZE_MAX && q_size < size))
-f68f2ff91512c1 Kees Cook      2021-04-20  547  		fortify_panic(func);
-54d9469bc515dc Kees Cook      2021-06-24  548  
-54d9469bc515dc Kees Cook      2021-06-24  549  	/*
-54d9469bc515dc Kees Cook      2021-06-24  550  	 * Warn when writing beyond destination field size.
-54d9469bc515dc Kees Cook      2021-06-24  551  	 *
-54d9469bc515dc Kees Cook      2021-06-24  552  	 * We must ignore p_size_field == 0 for existing 0-element
-54d9469bc515dc Kees Cook      2021-06-24  553  	 * fake flexible arrays, until they are all converted to
-54d9469bc515dc Kees Cook      2021-06-24  554  	 * proper flexible arrays.
-54d9469bc515dc Kees Cook      2021-06-24  555  	 *
-9f7d69c5cd2390 Kees Cook      2022-09-19  556  	 * The implementation of __builtin_*object_size() behaves
-54d9469bc515dc Kees Cook      2021-06-24  557  	 * like sizeof() when not directly referencing a flexible
-54d9469bc515dc Kees Cook      2021-06-24  558  	 * array member, which means there will be many bounds checks
-54d9469bc515dc Kees Cook      2021-06-24  559  	 * that will appear at run-time, without a way for them to be
-54d9469bc515dc Kees Cook      2021-06-24  560  	 * detected at compile-time (as can be done when the destination
-54d9469bc515dc Kees Cook      2021-06-24  561  	 * is specifically the flexible array member).
-54d9469bc515dc Kees Cook      2021-06-24  562  	 * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101832
-54d9469bc515dc Kees Cook      2021-06-24  563  	 */
-54d9469bc515dc Kees Cook      2021-06-24  564  	if (p_size_field != 0 && p_size_field != SIZE_MAX &&
-54d9469bc515dc Kees Cook      2021-06-24  565  	    p_size != p_size_field && p_size_field < size)
-54d9469bc515dc Kees Cook      2021-06-24  566  		return true;
-54d9469bc515dc Kees Cook      2021-06-24  567  
-54d9469bc515dc Kees Cook      2021-06-24  568  	return false;
-a28a6e860c6cf2 Francis Laniel 2021-02-25  569  }
-a28a6e860c6cf2 Francis Laniel 2021-02-25  570  
-
-:::::: The code at line 529 was first introduced by commit
-:::::: f68f2ff91512c199ec24883001245912afc17873 fortify: Detect struct member overflows in memcpy() at compile-time
-
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Kees Cook <keescook@chromium.org>
+   364	
+   365	int btmtk_process_coredump(struct hci_dev *hdev, struct sk_buff *skb)
+   366	{
+   367		struct btmediatek_data *data = hci_get_priv(hdev);
+   368		int err;
+   369	
+   370		if (!IS_ENABLED(CONFIG_DEV_COREDUMP))
+   371			return 0;
+   372	
+   373		switch (data->cd_info.state) {
+   374		case HCI_DEVCOREDUMP_IDLE:
+   375			err = hci_devcd_init(hdev, MTK_COREDUMP_SIZE);
+   376			if (err < 0)
+   377				break;
+   378			data->cd_info.cnt = 0;
+   379	
+   380			/* It is supposed coredump can be done within 5 seconds */
+ > 381			schedule_delayed_work(&hdev->dump.dump_timeout,
+   382					      msecs_to_jiffies(5000));
+   383			fallthrough;
+   384		case HCI_DEVCOREDUMP_ACTIVE:
+   385		default:
+   386			err = hci_devcd_append(hdev, skb);
+   387			if (err < 0)
+   388				break;
+   389			data->cd_info.cnt++;
+   390	
+   391			/* Mediatek coredump data would be more than MTK_COREDUMP_NUM */
+   392			if (data->cd_info.cnt > MTK_COREDUMP_NUM &&
+   393			    skb->len > sizeof(MTK_COREDUMP_END) &&
+   394			    !memcmp((char *)&skb->data[skb->len - sizeof(MTK_COREDUMP_END)],
+   395				    MTK_COREDUMP_END, sizeof(MTK_COREDUMP_END) - 1)) {
+   396				bt_dev_info(hdev, "Mediatek coredump end");
+   397				hci_devcd_complete(hdev);
+   398			}
+   399	
+   400			break;
+   401		}
+   402	
+   403		if (err < 0)
+   404			kfree_skb(skb);
+   405	
+   406		return err;
+   407	}
+   408	EXPORT_SYMBOL_GPL(btmtk_process_coredump);
+   409	
 
 -- 
 0-DAY CI Kernel Test Service
