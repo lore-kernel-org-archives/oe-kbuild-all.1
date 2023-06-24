@@ -1,44 +1,45 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC35B3C10
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 24 Jun 2023 20:42:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E566AA8;
+	Sat, 24 Jun 2023 21:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687639339; x=1719175339;
+  t=1687641201; x=1719177201;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zEkUNVlwnKZwQrmEbnY3cUvApUeB5dZ6HtNANN0iOcc=;
-  b=NTQemiv3rf9qcYCnogTV3YAbGRjJ0cZABDgNVXCgyAJlYWZTr2Ej2hu+
-   bEPnj8H3DS0q7ROSNqJwOtiJNybqEPVkbzt2yP1DdciVyfHcMbmM/CHbS
-   3Vxc8v2Kjk9LRb1syn0Q4wMxZI2T5j6obSjZFuyNM8z3QDxPAPexpkCU7
-   hKZXttQOuZYkhI5sf6xnt2ctUYhAFy5DQaVZT9xBqJbWQERw9h5Q7G7ZJ
-   p+UxiFjY9fnUC1acJP403QEluWU+7u2beGay/CTU80TNop1ioNpQNTZHv
-   hYX9ASM7b1eWlrtNW0mO3ESOzLtY2WirbQsKtYj9wwxAZ5ADLkX6HAX/L
+  bh=cuCjv82KMYnE/rvAlPkCqzGdS0EwUnAzwioM7xu1I5Y=;
+  b=MJQoAiqV687X1t05dBqNfxAr9RpsyA+qVyxr5RUJEoMYcBwuLTtmVQEc
+   BAMfBBU05MNRgUja0sYlb1P3Jcc6ji8v0u+eJgu1Le8WOwUAjH0AZSeL/
+   eWbMVbQrZ2ttQ+5S1rId76PH0caUVUR908TxQ7er/0yDOXTk+rHpfh2f3
+   YZmXsJ419P4ZOf1VDyCNSWt91hP0AwFuJUZ7oESzjyeHGRtMUV0TPlGzi
+   2gaOWly8+hU2KsBdMcl/hh+P5hpnAoUllA0puqvM64cd7FBnG1ZC95vhx
+   aqla9BvSLqnf6tACrf/6XZ4/n6Y2NJ3vXEcjPRdbxhFzUTjJkkF6w8tqb
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="359852304"
-X-IronPort-AV: E=Sophos;i="6.01,155,1684825200"; 
-   d="scan'208";a="359852304"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2023 13:42:18 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="363535467"
+X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
+   d="scan'208";a="363535467"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2023 14:13:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="709795514"
-X-IronPort-AV: E=Sophos;i="6.01,155,1684825200"; 
-   d="scan'208";a="709795514"
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="805567186"
+X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
+   d="scan'208";a="805567186"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 24 Jun 2023 13:42:17 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 24 Jun 2023 14:13:18 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qDA5I-0009Ov-14;
-	Sat, 24 Jun 2023 20:42:16 +0000
-Date: Sun, 25 Jun 2023 04:42:13 +0800
+	id 1qDAZJ-0009R7-2G;
+	Sat, 24 Jun 2023 21:13:17 +0000
+Date: Sun, 25 Jun 2023 05:12:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 6299/12162]
- drivers/remoteproc/stm32_rproc.c:139:20: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202306250422.UozRcpxb-lkp@intel.com>
+To: Alexander Lobakin <alexandr.lobakin@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Yury Norov <yury.norov@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: lib/test_bitmap.c:920:2: error: call to __compiletime_assert_372
+ declared with 'error' attribute: BUILD_BUG_ON failed:
+ !__builtin_constant_p(res)
+Message-ID: <202306250533.CBxzOSEh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,69 +49,113 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Alexandre,
+Hi Alexander,
 
-First bad commit (maybe != root cause):
+FYI, the error/warning still remains.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8d2be868b42c08290509c60515865f4de24ea704
-commit: 9e4e24414cc6b45bd887d746a59691e295431ddf [6299/12162] arm64: introduce STM32 family on Armv8 architecture
-config: arm64-randconfig-s043-20230625 (https://download.01.org/0day-ci/archive/20230625/202306250422.UozRcpxb-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230625/202306250422.UozRcpxb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a92b7d26c743b9dc06d520f863d624e94978a1d9
+commit: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
+date:   12 months ago
+config: x86_64-buildonly-randconfig-r003-20230624 (https://download.01.org/0day-ci/archive/20230625/202306250533.CBxzOSEh-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230625/202306250533.CBxzOSEh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306250422.UozRcpxb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306250533.CBxzOSEh-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/remoteproc/stm32_rproc.c:122:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *va @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/stm32_rproc.c:122:12: sparse:     expected void *va
-   drivers/remoteproc/stm32_rproc.c:122:12: sparse:     got void [noderef] __iomem *
->> drivers/remoteproc/stm32_rproc.c:139:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *va @@
-   drivers/remoteproc/stm32_rproc.c:139:20: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/remoteproc/stm32_rproc.c:139:20: sparse:     got void *va
-   drivers/remoteproc/stm32_rproc.c:644:17: sparse: sparse: cast removes address space '__iomem' of expression
+All errors (new ones prefixed by >>):
 
-vim +139 drivers/remoteproc/stm32_rproc.c
+>> lib/test_bitmap.c:920:2: error: call to __compiletime_assert_372 declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(res)
+           BUILD_BUG_ON(!__builtin_constant_p(res));
+           ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:352:2: note: expanded from macro 'compiletime_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+           ^
+   include/linux/compiler_types.h:340:2: note: expanded from macro '_compiletime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:333:4: note: expanded from macro '__compiletime_assert'
+                           prefix ## suffix();                             \
+                           ^
+   <scratch space>:295:1: note: expanded from here
+   __compiletime_assert_372
+   ^
+   1 error generated.
 
-13140de09cc2dd Fabien Dessenne 2019-05-14  114  
-13140de09cc2dd Fabien Dessenne 2019-05-14  115  static int stm32_rproc_mem_alloc(struct rproc *rproc,
-13140de09cc2dd Fabien Dessenne 2019-05-14  116  				 struct rproc_mem_entry *mem)
-13140de09cc2dd Fabien Dessenne 2019-05-14  117  {
-13140de09cc2dd Fabien Dessenne 2019-05-14  118  	struct device *dev = rproc->dev.parent;
-13140de09cc2dd Fabien Dessenne 2019-05-14  119  	void *va;
-13140de09cc2dd Fabien Dessenne 2019-05-14  120  
-13140de09cc2dd Fabien Dessenne 2019-05-14  121  	dev_dbg(dev, "map memory: %pa+%x\n", &mem->dma, mem->len);
-13140de09cc2dd Fabien Dessenne 2019-05-14 @122  	va = ioremap_wc(mem->dma, mem->len);
-13140de09cc2dd Fabien Dessenne 2019-05-14  123  	if (IS_ERR_OR_NULL(va)) {
-13140de09cc2dd Fabien Dessenne 2019-05-14  124  		dev_err(dev, "Unable to map memory region: %pa+%x\n",
-13140de09cc2dd Fabien Dessenne 2019-05-14  125  			&mem->dma, mem->len);
-13140de09cc2dd Fabien Dessenne 2019-05-14  126  		return -ENOMEM;
-13140de09cc2dd Fabien Dessenne 2019-05-14  127  	}
-13140de09cc2dd Fabien Dessenne 2019-05-14  128  
-13140de09cc2dd Fabien Dessenne 2019-05-14  129  	/* Update memory entry va */
-13140de09cc2dd Fabien Dessenne 2019-05-14  130  	mem->va = va;
-13140de09cc2dd Fabien Dessenne 2019-05-14  131  
-13140de09cc2dd Fabien Dessenne 2019-05-14  132  	return 0;
-13140de09cc2dd Fabien Dessenne 2019-05-14  133  }
-13140de09cc2dd Fabien Dessenne 2019-05-14  134  
-13140de09cc2dd Fabien Dessenne 2019-05-14  135  static int stm32_rproc_mem_release(struct rproc *rproc,
-13140de09cc2dd Fabien Dessenne 2019-05-14  136  				   struct rproc_mem_entry *mem)
-13140de09cc2dd Fabien Dessenne 2019-05-14  137  {
-13140de09cc2dd Fabien Dessenne 2019-05-14  138  	dev_dbg(rproc->dev.parent, "unmap memory: %pa\n", &mem->dma);
-13140de09cc2dd Fabien Dessenne 2019-05-14 @139  	iounmap(mem->va);
-13140de09cc2dd Fabien Dessenne 2019-05-14  140  
-13140de09cc2dd Fabien Dessenne 2019-05-14  141  	return 0;
-13140de09cc2dd Fabien Dessenne 2019-05-14  142  }
-13140de09cc2dd Fabien Dessenne 2019-05-14  143  
 
-:::::: The code at line 139 was first introduced by commit
-:::::: 13140de09cc2dd5e5166ad42292bb82af4e23cef remoteproc: stm32: add an ST stm32_rproc driver
+vim +/error +920 lib/test_bitmap.c
 
-:::::: TO: Fabien Dessenne <fabien.dessenne@st.com>
-:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+   871	
+   872	static void __init test_bitmap_const_eval(void)
+   873	{
+   874		DECLARE_BITMAP(bitmap, BITS_PER_LONG);
+   875		unsigned long initvar = BIT(2);
+   876		unsigned long bitopvar = 0;
+   877		unsigned long var = 0;
+   878		int res;
+   879	
+   880		/*
+   881		 * Compilers must be able to optimize all of those to compile-time
+   882		 * constants on any supported optimization level (-O2, -Os) and any
+   883		 * architecture. Otherwise, trigger a build bug.
+   884		 * The whole function gets optimized out then, there's nothing to do
+   885		 * in runtime.
+   886		 */
+   887	
+   888		/*
+   889		 * Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }`.
+   890		 * Clang on s390 optimizes bitops at compile-time as intended, but at
+   891		 * the same time stops treating @bitmap and @bitopvar as compile-time
+   892		 * constants after regular test_bit() is executed, thus triggering the
+   893		 * build bugs below. So, call const_test_bit() there directly until
+   894		 * the compiler is fixed.
+   895		 */
+   896		bitmap_clear(bitmap, 0, BITS_PER_LONG);
+   897	#if defined(__s390__) && defined(__clang__)
+   898		if (!const_test_bit(7, bitmap))
+   899	#else
+   900		if (!test_bit(7, bitmap))
+   901	#endif
+   902			bitmap_set(bitmap, 5, 2);
+   903	
+   904		/* Equals to `unsigned long bitopvar = BIT(20)` */
+   905		__change_bit(31, &bitopvar);
+   906		bitmap_shift_right(&bitopvar, &bitopvar, 11, BITS_PER_LONG);
+   907	
+   908		/* Equals to `unsigned long var = BIT(25)` */
+   909		var |= BIT(25);
+   910		if (var & BIT(0))
+   911			var ^= GENMASK(9, 6);
+   912	
+   913		/* __const_hweight<32|64>(GENMASK(6, 5)) == 2 */
+   914		res = bitmap_weight(bitmap, 20);
+   915		BUILD_BUG_ON(!__builtin_constant_p(res));
+   916		BUILD_BUG_ON(res != 2);
+   917	
+   918		/* !(BIT(31) & BIT(18)) == 1 */
+   919		res = !test_bit(18, &bitopvar);
+ > 920		BUILD_BUG_ON(!__builtin_constant_p(res));
+   921		BUILD_BUG_ON(!res);
+   922	
+   923		/* BIT(2) & GENMASK(14, 8) == 0 */
+   924		res = initvar & GENMASK(14, 8);
+   925		BUILD_BUG_ON(!__builtin_constant_p(res));
+   926		BUILD_BUG_ON(res);
+   927	
+   928		/* ~BIT(25) */
+   929		BUILD_BUG_ON(!__builtin_constant_p(~var));
+   930		BUILD_BUG_ON(~var != ~BIT(25));
+   931	}
+   932	
 
 -- 
 0-DAY CI Kernel Test Service
