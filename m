@@ -1,42 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF17A645
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jun 2023 05:33:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F247C645
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jun 2023 05:43:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687671213; x=1719207213;
+  t=1687671813; x=1719207813;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t4NaCuCak/EtRqwROPVvqiLIxYqNjUC4LR932Wg2QdQ=;
-  b=hzruU7b+NVU1Fox9tPyYYzKnsb+zkuAXZv5UwYovaS7cyNQ8lEUjtHBN
-   hWfWOOIB7nq8kGHLQXJYjNP48uKTPHKsQ9RVPXJzJgmBw8aJIzgY/uwKC
-   hfBnlUEPaK1SzSdH2l6IXOi1tFQ3PBOj2kAQHiRb2Uiq6NG5V7HBgY6t2
-   5PvV43Oh81NYrlux763qWBjm65SzM39tPBxacAhMKqg9E8G7S1i/XfIjt
-   Cb5IoumSIigTFLSvqOMD7z0lXoHhJE95Rqz8UBX5KJHUtanYil0v6lrQq
-   eZDR41tUnsyyjj5D7cfpVl8PV1Ha+t920GdyeIv+bYt04UBRjCIcQYUPf
+  bh=r08HVJEgVWsSGFIWpshcxOR8BMqMpY8TUQmsOrW7pmA=;
+  b=iq9jYC/KTAk8uYB+FTTu5e27Up/KHsaXV4sXkTnytMKYg3EHyp06LXGD
+   yNUS5NPY/4x9bADwd9538oAhr1Fb39fTLFrlGNfpHr/viIiZ28FLC4RKQ
+   RiCJzxa07TMZMApmQzyViHegGAg2GEYozZiRqYIpMBlkxIRmv8e2dDbaG
+   fyLkdAWLvsl7ECotAtyZ7cSU7kUGdOL+4Mcuh0PL/QczzU6t7UuZEvG8q
+   9/Ge9BKvxiSt4QZNygiIdxod5haMam7S7M/jWy2HQwI7IV0swg/RUvsdU
+   Uc0k/GdgZArXxlXR6ELPWQxAAY5y+ZshVhFhknU1Eq3PtgIVo9WoRa/L7
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="361064183"
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="363580035"
 X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
-   d="scan'208";a="361064183"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2023 22:33:32 -0700
+   d="scan'208";a="363580035"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2023 22:43:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="889901034"
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="781027600"
 X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
-   d="scan'208";a="889901034"
+   d="scan'208";a="781027600"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 24 Jun 2023 22:33:31 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 24 Jun 2023 22:43:31 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qDINO-0009mX-1R;
-	Sun, 25 Jun 2023 05:33:30 +0000
-Date: Sun, 25 Jun 2023 13:32:32 +0800
+	id 1qDIX4-0009mj-1f;
+	Sun, 25 Jun 2023 05:43:30 +0000
+Date: Sun, 25 Jun 2023 13:42:52 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.10 26/55] fs/nilfs2/page.c:495:28: error:
- storage size of 'fbatch' isn't known
-Message-ID: <202306251354.snm1zvVd-lkp@intel.com>
+Subject: [sashal-stable:pending-4.19 26325/26342] fs/nilfs2/page.c:500:28:
+ warning: unused variable 'fbatch'
+Message-ID: <202306251324.m1QkYcP0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,126 +46,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
-head:   abb6d7530c1c0983b9806ab15bb69d335c6ca24a
-commit: e2173c13560d8c56f0cbc7176bd124608b5fbda4 [26/55] nilfs2: convert nilfs_find_uncommited_extent() to use filemap_get_folios_contig()
-config: arm-randconfig-r046-20230625 (https://download.01.org/0day-ci/archive/20230625/202306251354.snm1zvVd-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230625/202306251354.snm1zvVd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.19
+head:   5f0e89d38f13fd84e835d6c7ca04617367d2f1e6
+commit: f91efdaf2fd9c36f675a2ddfd227bc525d2cdb21 [26325/26342] nilfs2: convert nilfs_find_uncommited_extent() to use filemap_get_folios_contig()
+config: i386-debian-10.3 (https://download.01.org/0day-ci/archive/20230625/202306251324.m1QkYcP0-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230625/202306251324.m1QkYcP0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306251354.snm1zvVd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306251324.m1QkYcP0-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
    fs/nilfs2/page.c: In function 'nilfs_find_uncommitted_extent':
->> fs/nilfs2/page.c:495:28: error: storage size of 'fbatch' isn't known
-     495 |         struct folio_batch fbatch;
+   fs/nilfs2/page.c:500:28: error: storage size of 'fbatch' isn't known
+     500 |         struct folio_batch fbatch;
          |                            ^~~~~~
->> fs/nilfs2/page.c:503:9: error: implicit declaration of function 'folio_batch_init' [-Werror=implicit-function-declaration]
-     503 |         folio_batch_init(&fbatch);
+   fs/nilfs2/page.c:508:9: error: implicit declaration of function 'folio_batch_init' [-Werror=implicit-function-declaration]
+     508 |         folio_batch_init(&fbatch);
          |         ^~~~~~~~~~~~~~~~
->> fs/nilfs2/page.c:506:21: error: implicit declaration of function 'filemap_get_folios_contig' [-Werror=implicit-function-declaration]
-     506 |         nr_folios = filemap_get_folios_contig(inode->i_mapping, &index, ULONG_MAX,
+   fs/nilfs2/page.c:511:21: error: implicit declaration of function 'filemap_get_folios_contig' [-Werror=implicit-function-declaration]
+     511 |         nr_folios = filemap_get_folios_contig(inode->i_mapping, &index, ULONG_MAX,
          |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/nilfs2/page.c:515:17: error: implicit declaration of function 'folio_lock'; did you mean 'osq_lock'? [-Werror=implicit-function-declaration]
-     515 |                 folio_lock(folio);
+   fs/nilfs2/page.c:520:17: error: implicit declaration of function 'folio_lock'; did you mean 'osq_lock'? [-Werror=implicit-function-declaration]
+     520 |                 folio_lock(folio);
          |                 ^~~~~~~~~~
          |                 osq_lock
->> fs/nilfs2/page.c:516:21: error: implicit declaration of function 'folio_buffers'; did you mean 'lock_buffer'? [-Werror=implicit-function-declaration]
-     516 |                 if (folio_buffers(folio)) {
+   fs/nilfs2/page.c:521:21: error: implicit declaration of function 'folio_buffers'; did you mean 'lock_buffer'? [-Werror=implicit-function-declaration]
+     521 |                 if (folio_buffers(folio)) {
          |                     ^~~~~~~~~~~~~
          |                     lock_buffer
->> fs/nilfs2/page.c:520:34: error: invalid use of undefined type 'struct folio'
-     520 |                         b = folio->index << (PAGE_SHIFT - inode->i_blkbits);
+   fs/nilfs2/page.c:525:34: error: invalid use of undefined type 'struct folio'
+     525 |                         b = folio->index << (PAGE_SHIFT - inode->i_blkbits);
          |                                  ^~
->> fs/nilfs2/page.c:521:35: warning: assignment to 'struct buffer_head *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     521 |                         bh = head = folio_buffers(folio);
+   fs/nilfs2/page.c:526:35: warning: assignment to 'struct buffer_head *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     526 |                         bh = head = folio_buffers(folio);
          |                                   ^
->> fs/nilfs2/page.c:537:17: error: implicit declaration of function 'folio_unlock'; did you mean 'osq_unlock'? [-Werror=implicit-function-declaration]
-     537 |                 folio_unlock(folio);
+   fs/nilfs2/page.c:542:17: error: implicit declaration of function 'folio_unlock'; did you mean 'osq_unlock'? [-Werror=implicit-function-declaration]
+     542 |                 folio_unlock(folio);
          |                 ^~~~~~~~~~~~
          |                 osq_unlock
->> fs/nilfs2/page.c:541:9: error: implicit declaration of function 'folio_batch_release' [-Werror=implicit-function-declaration]
-     541 |         folio_batch_release(&fbatch);
+   fs/nilfs2/page.c:546:9: error: implicit declaration of function 'folio_batch_release' [-Werror=implicit-function-declaration]
+     546 |         folio_batch_release(&fbatch);
          |         ^~~~~~~~~~~~~~~~~~~
-   fs/nilfs2/page.c:495:28: warning: unused variable 'fbatch' [-Wunused-variable]
-     495 |         struct folio_batch fbatch;
+>> fs/nilfs2/page.c:500:28: warning: unused variable 'fbatch' [-Wunused-variable]
+     500 |         struct folio_batch fbatch;
          |                            ^~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +495 fs/nilfs2/page.c
+vim +/fbatch +500 fs/nilfs2/page.c
 
-   475	
-   476	/**
-   477	 * nilfs_find_uncommitted_extent - find extent of uncommitted data
-   478	 * @inode: inode
-   479	 * @start_blk: start block offset (in)
-   480	 * @blkoff: start offset of the found extent (out)
-   481	 *
-   482	 * This function searches an extent of buffers marked "delayed" which
-   483	 * starts from a block offset equal to or larger than @start_blk.  If
-   484	 * such an extent was found, this will store the start offset in
-   485	 * @blkoff and return its length in blocks.  Otherwise, zero is
-   486	 * returned.
-   487	 */
-   488	unsigned long nilfs_find_uncommitted_extent(struct inode *inode,
-   489						    sector_t start_blk,
-   490						    sector_t *blkoff)
-   491	{
-   492		unsigned int i, nr_folios;
-   493		pgoff_t index;
-   494		unsigned long length = 0;
- > 495		struct folio_batch fbatch;
-   496		struct folio *folio;
-   497	
-   498		if (inode->i_mapping->nrpages == 0)
-   499			return 0;
-   500	
-   501		index = start_blk >> (PAGE_SHIFT - inode->i_blkbits);
-   502	
- > 503		folio_batch_init(&fbatch);
-   504	
-   505	repeat:
- > 506		nr_folios = filemap_get_folios_contig(inode->i_mapping, &index, ULONG_MAX,
-   507				&fbatch);
-   508		if (nr_folios == 0)
-   509			return length;
-   510	
-   511		i = 0;
-   512		do {
-   513			folio = fbatch.folios[i];
-   514	
- > 515			folio_lock(folio);
- > 516			if (folio_buffers(folio)) {
-   517				struct buffer_head *bh, *head;
-   518				sector_t b;
-   519	
- > 520				b = folio->index << (PAGE_SHIFT - inode->i_blkbits);
- > 521				bh = head = folio_buffers(folio);
-   522				do {
-   523					if (b < start_blk)
-   524						continue;
-   525					if (buffer_delay(bh)) {
-   526						if (length == 0)
-   527							*blkoff = b;
-   528						length++;
-   529					} else if (length > 0) {
-   530						goto out_locked;
-   531					}
-   532				} while (++b, bh = bh->b_this_page, bh != head);
-   533			} else {
-   534				if (length > 0)
-   535					goto out_locked;
-   536			}
- > 537			folio_unlock(folio);
-   538	
-   539		} while (++i < nr_folios);
-   540	
- > 541		folio_batch_release(&fbatch);
+   480	
+   481	/**
+   482	 * nilfs_find_uncommitted_extent - find extent of uncommitted data
+   483	 * @inode: inode
+   484	 * @start_blk: start block offset (in)
+   485	 * @blkoff: start offset of the found extent (out)
+   486	 *
+   487	 * This function searches an extent of buffers marked "delayed" which
+   488	 * starts from a block offset equal to or larger than @start_blk.  If
+   489	 * such an extent was found, this will store the start offset in
+   490	 * @blkoff and return its length in blocks.  Otherwise, zero is
+   491	 * returned.
+   492	 */
+   493	unsigned long nilfs_find_uncommitted_extent(struct inode *inode,
+   494						    sector_t start_blk,
+   495						    sector_t *blkoff)
+   496	{
+   497		unsigned int i, nr_folios;
+   498		pgoff_t index;
+   499		unsigned long length = 0;
+ > 500		struct folio_batch fbatch;
 
 -- 
 0-DAY CI Kernel Test Service
