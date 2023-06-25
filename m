@@ -1,44 +1,43 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A424F7464
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jun 2023 19:11:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E417464
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jun 2023 19:31:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687720311; x=1719256311;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LXQMQDsuVKBhgCKx7mpUujKoE6xJtOFP1bpw9r2JXj8=;
-  b=BSVtF+MNLphtqyRP9byrdWTpQbNuyRb10zRKc7381qmNp4eQpzjJerLo
-   Bt3ySF8zZYgF2YKmmE5xeSIdBhFUbW7XVPQTmZhEEwie/S7ZVVi8KygrD
-   2RgrJe28lstpqGOhpyNbqLloI7CvX7lscsJpKVJBvEPNn7btQ2dcp3bN9
-   tz6wDBFvvkBa99+8TBvmU0BGosBC+mA1mfZuP9xa4iLB9jDb4zJSLiHtc
-   VFE3lFMVdvCCN9WnzQVKbxYGrk6QzmTBXfttLktUVV5tsp8HqXs18Fw0u
-   PoDLM8IvrHdybS+7+k21SPZiYR1Q8FV74jv3vFTgG1dHG+0i7lK1HYGLC
+  t=1687721513; x=1719257513;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=h5dlSzkRQUQ2h2ypHWTs/UaqgpF3m510tt4OGG6v2Ak=;
+  b=jq8e3yey1UAUpQCG9PZyF0YWMtWI9vcp215MOCb5E+1vk6F/skRcOkt0
+   ul59ye57FHhDR+1Ljgms6Gyz+iLrBneAghprrnY92uqroDE64QA1h1qoM
+   kRbeiRvvGMle/UXfxi6yRUU7gQ+WDr4P/7/n4RGLlLQS82HvKyaURCq0e
+   TBSlMQKr85TzQAUg2QnqWAku971VQB7yNA3HYudrfbS4cRsGHlfxY6Kdq
+   s+adb0IFsqY2IVkMw0PyHdkUq1XMPDsPLLKuuath2hXK3c9ZUOFoHQRr7
+   IHBgKyvFBVitXQsBFzL8mK5yDgecSJHFNqcSTRmARDEq90B/h5UIssJyw
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="363657348"
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="359977842"
 X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="363657348"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 12:11:50 -0700
+   d="scan'208";a="359977842"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 12:31:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="805780125"
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="745551535"
 X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="805780125"
+   d="scan'208";a="745551535"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 25 Jun 2023 12:11:49 -0700
+  by orsmga008.jf.intel.com with ESMTP; 25 Jun 2023 12:31:50 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qDV9I-000AEX-11;
-	Sun, 25 Jun 2023 19:11:48 +0000
-Date: Mon, 26 Jun 2023 03:11:11 +0800
+	id 1qDVSf-000AFR-0r;
+	Sun, 25 Jun 2023 19:31:49 +0000
+Date: Mon, 26 Jun 2023 03:31:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jingqi Liu <Jingqi.liu@intel.com>
+To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/5] iommu/vt-d: debugfs: Support specifying source
- identifier and PASID
-Message-ID: <202306260247.FFKVXdZt-lkp@intel.com>
-References: <20230625150442.42197-3-Jingqi.liu@intel.com>
+Subject: [sashal-stable:pending-4.14 19/24]
+ drivers/video/fbdev/imsttfb.c:1457:10: warning: 'return' with a value, in
+ function returning void
+Message-ID: <202306260342.5e7Kix4k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,121 +46,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230625150442.42197-3-Jingqi.liu@intel.com>
 
-Hi Jingqi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on v6.4-rc7]
-[also build test ERROR on linus/master next-20230623]
-[cannot apply to joro-iommu/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jingqi-Liu/iommu-vt-d-debugfs-Define-domain_translation_struct-file-ops/20230625-231912
-base:   v6.4-rc7
-patch link:    https://lore.kernel.org/r/20230625150442.42197-3-Jingqi.liu%40intel.com
-patch subject: [PATCH 2/5] iommu/vt-d: debugfs: Support specifying source identifier and PASID
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230626/202306260247.FFKVXdZt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230626/202306260247.FFKVXdZt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.14
+head:   0e9637227cc384da9adde8bf7e03e8d23fdb4fa1
+commit: c4cef46ac038645e61c8d88a3e2b45726d6f0f50 [19/24] fbdev: imsttfb: Release framebuffer and dealloc cmap on error path
+config: i386-randconfig-i011-20230625 (https://download.01.org/0day-ci/archive/20230626/202306260342.5e7Kix4k-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20230626/202306260342.5e7Kix4k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306260247.FFKVXdZt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306260342.5e7Kix4k-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/iommu/intel/debugfs.c: In function 'domain_translation_struct_write':
->> drivers/iommu/intel/debugfs.c:409:21: error: 'INVALID_IOASID' undeclared (first use in this function); did you mean 'INVALID_VFSUID'?
-     409 |         u32 pasid = INVALID_IOASID;
-         |                     ^~~~~~~~~~~~~~
-         |                     INVALID_VFSUID
-   drivers/iommu/intel/debugfs.c:409:21: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/video/fbdev/imsttfb.c: In function 'init_imstt':
+>> drivers/video/fbdev/imsttfb.c:1457:10: warning: 'return' with a value, in function returning void
+      return -ENODEV;
+             ^
+   drivers/video/fbdev/imsttfb.c:1351:13: note: declared here
+    static void init_imstt(struct fb_info *info)
+                ^~~~~~~~~~
 
 
-vim +409 drivers/iommu/intel/debugfs.c
+vim +/return +1457 drivers/video/fbdev/imsttfb.c
 
-   401	
-   402	static ssize_t domain_translation_struct_write(struct file *filp,
-   403			                               const char __user *ubuf,
-   404						       size_t cnt, loff_t *ppos)
-   405	{
-   406		char buf[BUF_SIZE], *srcid_ptr = NULL, *pasid_ptr = NULL;
-   407		unsigned int seg, bus, slot, func;
-   408		struct pci_dev *pdev = NULL;
- > 409		u32 pasid = INVALID_IOASID;
-   410		char *key, *pbuf;
-   411		int i = 0;
-   412	
-   413		if (cnt >= BUF_SIZE)
-   414			return -EINVAL;
-   415	
-   416		if (copy_from_user(buf, ubuf, cnt))
-   417			return -EFAULT;
-   418	
-   419		buf[cnt - 1] = 0;
-   420		if (!strcmp(buf, "auto")) {
-   421			if (show_domain_info)
-   422				show_domain_info->pdev = NULL;
-   423			*ppos += cnt;
-   424			return cnt;
-   425		}
-   426	
-   427		pbuf = buf;
-   428	
-   429		/* Seperate the input: one {source identifier, PASID} pair */
-   430		while ((key = strsep(&pbuf, ", ")) != NULL) {
-   431			if (!*key)
-   432				continue;
-   433			if (i >= 2) /* too many fields */
-   434				return -EINVAL;
-   435			if (i++ == 0)
-   436				srcid_ptr = key;
-   437			else
-   438				pasid_ptr = key;
-   439		}
-   440	
-   441		if (!srcid_ptr) /* no source identifier */
-   442			return -EINVAL;
-   443	
-   444		/*
-   445		 * The string of source identifier must be of the form:
-   446		 * [<domain>:]<bus>:<device>.<func>
-   447		 */
-   448		i = sscanf(srcid_ptr, "%x:%x:%x.%x", &seg, &bus, &slot, &func);
-   449		if (i != 4) {
-   450			seg = 0;
-   451			i = sscanf(srcid_ptr, "%x:%x.%x", &bus, &slot, &func);
-   452			if (i != 3)
-   453				return -EINVAL;
-   454		}
-   455	
-   456		pdev = pci_get_domain_bus_and_slot(seg, bus, PCI_DEVFN(slot, func));
-   457		if (!pdev)
-   458			return -EINVAL;
-   459	
-   460		if (pasid_ptr &&
-   461		    ((kstrtou32(pasid_ptr, 0, &pasid) < 0) || (pasid >= PASID_MAX)))
-   462			return -EINVAL;
-   463	
-   464		if (!show_domain_info) {
-   465			show_domain_info = kzalloc(sizeof(*show_domain_info),
-   466					           GFP_KERNEL);
-   467			if (!show_domain_info)
-   468				return -EINVAL;
-   469		}
-   470	
-   471		show_domain_info->pdev = pdev;
-   472		show_domain_info->pasid = pasid;
-   473	
-   474		*ppos += cnt;
-   475		return cnt;
-   476	}
-   477	
+  1418	
+  1419		if ((info->var.xres * info->var.yres) * (info->var.bits_per_pixel >> 3) > info->fix.smem_len
+  1420		    || !(compute_imstt_regvals(par, info->var.xres, info->var.yres))) {
+  1421			printk("imsttfb: %ux%ux%u not supported\n", info->var.xres, info->var.yres, info->var.bits_per_pixel);
+  1422			framebuffer_release(info);
+  1423			return;
+  1424		}
+  1425	
+  1426		sprintf(info->fix.id, "IMS TT (%s)", par->ramdac == IBM ? "IBM" : "TVP");
+  1427		info->fix.mmio_len = 0x1000;
+  1428		info->fix.accel = FB_ACCEL_IMS_TWINTURBO;
+  1429		info->fix.type = FB_TYPE_PACKED_PIXELS;
+  1430		info->fix.visual = info->var.bits_per_pixel == 8 ? FB_VISUAL_PSEUDOCOLOR
+  1431								: FB_VISUAL_DIRECTCOLOR;
+  1432		info->fix.line_length = info->var.xres * (info->var.bits_per_pixel >> 3);
+  1433		info->fix.xpanstep = 8;
+  1434		info->fix.ypanstep = 1;
+  1435		info->fix.ywrapstep = 0;
+  1436	
+  1437		info->var.accel_flags = FB_ACCELF_TEXT;
+  1438	
+  1439	//	if (par->ramdac == IBM)
+  1440	//		imstt_cursor_init(info);
+  1441		if (info->var.green.length == 6)
+  1442			set_565(par);
+  1443		else
+  1444			set_555(par);
+  1445		set_imstt_regvals(info, info->var.bits_per_pixel);
+  1446	
+  1447		info->var.pixclock = 1000000 / getclkMHz(par);
+  1448	
+  1449		info->fbops = &imsttfb_ops;
+  1450		info->flags = FBINFO_DEFAULT |
+  1451	                      FBINFO_HWACCEL_COPYAREA |
+  1452		              FBINFO_HWACCEL_FILLRECT |
+  1453		              FBINFO_HWACCEL_YPAN;
+  1454	
+  1455		if (fb_alloc_cmap(&info->cmap, 0, 0)) {
+  1456			framebuffer_release(info);
+> 1457			return -ENODEV;
+  1458		}
+  1459	
+  1460		if (register_framebuffer(info) < 0) {
+  1461			fb_dealloc_cmap(&info->cmap);
+  1462			framebuffer_release(info);
+  1463			return;
+  1464		}
+  1465	
+  1466		tmp = (read_reg_le32(par->dc_regs, SSTATUS) & 0x0f00) >> 8;
+  1467		fb_info(info, "%s frame buffer; %uMB vram; chip version %u\n",
+  1468			info->fix.id, info->fix.smem_len >> 20, tmp);
+  1469	}
+  1470	
 
 -- 
 0-DAY CI Kernel Test Service
