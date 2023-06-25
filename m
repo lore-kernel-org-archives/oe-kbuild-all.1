@@ -1,226 +1,234 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B2E7C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jun 2023 07:48:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7627C;
+	Sun, 25 Jun 2023 07:58:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687679317; x=1719215317;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OIBQhpzUUlmsmHoWgBRiLWYa/X75I1oAyCX0J5hHYM8=;
-  b=JCZB0TDbgt4iCIM+qZQW5bMYDHkWujZnq0n60rEUQ88hNxf2e7nfsfRQ
-   LcTMzQxi6bfGzaNpTwL+SP7yku1NXXiexNVDwmPPObOV+ByOvNtHBLPP8
-   yZX1adygzETfQ9VRYQtNhT9d4Fc3lnsxBcjub0ggGv2aWTKZHdGLZzyFC
-   Q+xE4x+zDql8Z3JuPaLUaRe6zLCz9rtakQVXR7lyku+WKN2PbKEBGcawH
-   hp3+ROCYaM25ToDY9bmx4qy1mwoxcxBuDzytt1oPtBp5WC8pfRsO+VwnN
-   06OXxpOMk3RBRpidnZT5Gf5OyDaYEmpQGYD3+2ZzQFXyUph73ckqxACWC
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="359906230"
+  t=1687679923; x=1719215923;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eTIwvrfKylgiLU30c+QKGL2VdYd5OeJbT6ROhsR0yJI=;
+  b=BaS8GFixg+b0Rv2y9rgXJZXHZJMB26aru050fc8B+JQ4qjGaA9x0Krok
+   +HIPFLax3U4nJDNmr8XS9XQX0w8PF5Xot97BDK3o3bbRc2ecwdptOLPT1
+   6RLnPOpFGRctkUPJQsO+AGg1YikbSWhaJe8BkQoZN5T+pQPLvSsnygS93
+   wcx5pzzmgGxh1+3ZnO+tZEH+7EplB+gqcoumhDuaC3h98R7blgPBpDG0p
+   ySGPtLG8Nej0KiWQhqhYFDXHHNVBY0ypqJqKVa9JVyBZMgiDXANMzYXm0
+   c53cO5d9aeJDUmPQ7nMU1b9nZWNt4ptWvQOxREC14jA66q00xGSIZH37c
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="447419943"
 X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
-   d="scan'208";a="359906230"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 00:48:36 -0700
+   d="scan'208";a="447419943"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 00:58:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="860334917"
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="693123135"
 X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
-   d="scan'208";a="860334917"
+   d="scan'208";a="693123135"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Jun 2023 00:48:34 -0700
+  by orsmga006.jf.intel.com with ESMTP; 25 Jun 2023 00:58:34 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qDKU6-0009rx-09;
-	Sun, 25 Jun 2023 07:48:34 +0000
-Date: Sun, 25 Jun 2023 15:47:43 +0800
+	id 1qDKdm-0009sJ-0Z;
+	Sun, 25 Jun 2023 07:58:34 +0000
+Date: Sun, 25 Jun 2023 15:57:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-4.19 26336/26342]
- drivers/mmc/host/meson-gx-mmc.c:1272:17: error: label 'free_host' used but
- not defined
-Message-ID: <202306251510.52Z8Mjgj-lkp@intel.com>
+To: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Matthew Wilcox <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+	xen-devel@lists.xenproject.org, kvm@vger.kernel.org,
+	Hugh Dickins <hughd@google.com>,
+	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH v5 24/33] m68k: Convert various functions to use ptdescs
+Message-ID: <202306251513.WVzxgGxu-lkp@intel.com>
+References: <20230622205745.79707-25-vishal.moola@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230622205745.79707-25-vishal.moola@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.19
-head:   5f0e89d38f13fd84e835d6c7ca04617367d2f1e6
-commit: bc1d3085f5e0820ece8dcd20b697bf9e3c151e8a [26336/26342] mmc: meson-gx: use devm_mmc_alloc_host
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230625/202306251510.52Z8Mjgj-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230625/202306251510.52Z8Mjgj-lkp@intel.com/reproduce)
+Hi Vishal,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20230622]
+[cannot apply to akpm-mm/mm-everything powerpc/next powerpc/fixes s390/features geert-m68k/for-next geert-m68k/for-linus linus/master v6.4-rc7 v6.4-rc6 v6.4-rc5 v6.4-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vishal-Moola-Oracle/mm-Add-PAGE_TYPE_OP-folio-functions/20230623-050011
+base:   next-20230622
+patch link:    https://lore.kernel.org/r/20230622205745.79707-25-vishal.moola%40gmail.com
+patch subject: [PATCH v5 24/33] m68k: Convert various functions to use ptdescs
+config: m68k-randconfig-s051-20230625 (https://download.01.org/0day-ci/archive/20230625/202306251513.WVzxgGxu-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230625/202306251513.WVzxgGxu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306251510.52Z8Mjgj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306251513.WVzxgGxu-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/mmc/host/meson-gx-mmc.c: In function 'meson_mmc_clk_init':
-   drivers/mmc/host/meson-gx-mmc.c:514:32: error: implicit declaration of function 'dev_err_probe'; did you mean 'device_reprobe'? [-Werror=implicit-function-declaration]
-     514 |                         return dev_err_probe(host->dev, PTR_ERR(clk),
-         |                                ^~~~~~~~~~~~~
-         |                                device_reprobe
-   drivers/mmc/host/meson-gx-mmc.c: In function 'meson_mmc_probe':
->> drivers/mmc/host/meson-gx-mmc.c:1272:17: error: label 'free_host' used but not defined
-    1272 |                 goto free_host;
-         |                 ^~~~
-   cc1: some warnings being treated as errors
+   In file included from arch/m68k/include/asm/pgalloc.h:12,
+                    from kernel/fork.c:103:
+   arch/m68k/include/asm/mcf_pgalloc.h: In function 'pgd_alloc':
+>> arch/m68k/include/asm/mcf_pgalloc.h:82:60: error: 'GFP_NOWARN' undeclared (first use in this function); did you mean 'GFP_NOWAIT'?
+      82 |         struct ptdesc *ptdesc = pagetable_alloc((GFP_DMA | GFP_NOWARN) &
+         |                                                            ^~~~~~~~~~
+         |                                                            GFP_NOWAIT
+   arch/m68k/include/asm/mcf_pgalloc.h:82:60: note: each undeclared identifier is reported only once for each function it appears in
+   arch/m68k/include/asm/mcf_pgalloc.h: At top level:
+>> arch/m68k/include/asm/mcf_pgalloc.h:23:16: warning: 'ptdesc_address' is static but used in inline function 'pte_alloc_one_kernel' which is not static
+      23 |         return ptdesc_address(ptdesc);
+         |                ^~~~~~~~~~~~~~
+>> arch/m68k/include/asm/mcf_pgalloc.h:17:33: warning: 'pagetable_alloc' is static but used in inline function 'pte_alloc_one_kernel' which is not static
+      17 |         struct ptdesc *ptdesc = pagetable_alloc((GFP_DMA | __GFP_ZERO) &
+         |                                 ^~~~~~~~~~~~~~~
+>> arch/m68k/include/asm/mcf_pgalloc.h:10:24: warning: 'virt_to_ptdesc' is static but used in inline function 'pte_free_kernel' which is not static
+      10 |         pagetable_free(virt_to_ptdesc(pte));
+         |                        ^~~~~~~~~~~~~~
+>> arch/m68k/include/asm/mcf_pgalloc.h:10:9: warning: 'pagetable_free' is static but used in inline function 'pte_free_kernel' which is not static
+      10 |         pagetable_free(virt_to_ptdesc(pte));
+         |         ^~~~~~~~~~~~~~
+--
+   In file included from arch/m68k/mm/mcfmmu.c:21:
+   arch/m68k/include/asm/mcf_pgalloc.h: In function 'pgd_alloc':
+>> arch/m68k/include/asm/mcf_pgalloc.h:82:60: error: 'GFP_NOWARN' undeclared (first use in this function); did you mean 'GFP_NOWAIT'?
+      82 |         struct ptdesc *ptdesc = pagetable_alloc((GFP_DMA | GFP_NOWARN) &
+         |                                                            ^~~~~~~~~~
+         |                                                            GFP_NOWAIT
+   arch/m68k/include/asm/mcf_pgalloc.h:82:60: note: each undeclared identifier is reported only once for each function it appears in
+   arch/m68k/mm/mcfmmu.c: At top level:
+   arch/m68k/mm/mcfmmu.c:36:13: warning: no previous prototype for 'paging_init' [-Wmissing-prototypes]
+      36 | void __init paging_init(void)
+         |             ^~~~~~~~~~~
+   arch/m68k/mm/mcfmmu.c: In function 'paging_init':
+   arch/m68k/mm/mcfmmu.c:41:37: warning: variable 'bootmem_end' set but not used [-Wunused-but-set-variable]
+      41 |         unsigned long next_pgtable, bootmem_end;
+         |                                     ^~~~~~~~~~~
+   arch/m68k/include/asm/mcf_pgalloc.h: At top level:
+>> arch/m68k/include/asm/mcf_pgalloc.h:23:16: warning: 'ptdesc_address' is static but used in inline function 'pte_alloc_one_kernel' which is not static
+      23 |         return ptdesc_address(ptdesc);
+         |                ^~~~~~~~~~~~~~
+>> arch/m68k/include/asm/mcf_pgalloc.h:17:33: warning: 'pagetable_alloc' is static but used in inline function 'pte_alloc_one_kernel' which is not static
+      17 |         struct ptdesc *ptdesc = pagetable_alloc((GFP_DMA | __GFP_ZERO) &
+         |                                 ^~~~~~~~~~~~~~~
+>> arch/m68k/include/asm/mcf_pgalloc.h:10:24: warning: 'virt_to_ptdesc' is static but used in inline function 'pte_free_kernel' which is not static
+      10 |         pagetable_free(virt_to_ptdesc(pte));
+         |                        ^~~~~~~~~~~~~~
+>> arch/m68k/include/asm/mcf_pgalloc.h:10:9: warning: 'pagetable_free' is static but used in inline function 'pte_free_kernel' which is not static
+      10 |         pagetable_free(virt_to_ptdesc(pte));
+         |         ^~~~~~~~~~~~~~
 
 
-vim +/free_host +1272 drivers/mmc/host/meson-gx-mmc.c
+vim +82 arch/m68k/include/asm/mcf_pgalloc.h
 
-51c5d8447bd71b Kevin Hilman        2016-10-19  1220  
-51c5d8447bd71b Kevin Hilman        2016-10-19  1221  static int meson_mmc_probe(struct platform_device *pdev)
-51c5d8447bd71b Kevin Hilman        2016-10-19  1222  {
-51c5d8447bd71b Kevin Hilman        2016-10-19  1223  	struct resource *res;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1224  	struct meson_host *host;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1225  	struct mmc_host *mmc;
-75a08b9a0fcb5e Remi Pommarel       2019-01-11  1226  	int ret;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1227  
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1228  	mmc = devm_mmc_alloc_host(&pdev->dev, sizeof(struct meson_host));
-51c5d8447bd71b Kevin Hilman        2016-10-19  1229  	if (!mmc)
-51c5d8447bd71b Kevin Hilman        2016-10-19  1230  		return -ENOMEM;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1231  	host = mmc_priv(mmc);
-51c5d8447bd71b Kevin Hilman        2016-10-19  1232  	host->mmc = mmc;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1233  	host->dev = &pdev->dev;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1234  	dev_set_drvdata(&pdev->dev, host);
-51c5d8447bd71b Kevin Hilman        2016-10-19  1235  
-51c5d8447bd71b Kevin Hilman        2016-10-19  1236  	/* Get regulators and the supported OCR mask */
-51c5d8447bd71b Kevin Hilman        2016-10-19  1237  	host->vqmmc_enabled = false;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1238  	ret = mmc_regulator_get_supply(mmc);
-fa54f3e359d6d0 Wolfram Sang        2017-10-14  1239  	if (ret)
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1240  		return ret;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1241  
-51c5d8447bd71b Kevin Hilman        2016-10-19  1242  	ret = mmc_of_parse(mmc);
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1243  	if (ret)
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1244  		return dev_err_probe(&pdev->dev, ret, "error parsing DT\n");
-51c5d8447bd71b Kevin Hilman        2016-10-19  1245  
-df06981514d43f Nan Li              2018-04-03  1246  	host->data = (struct meson_mmc_data *)
-df06981514d43f Nan Li              2018-04-03  1247  		of_device_get_match_data(&pdev->dev);
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1248  	if (!host->data)
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1249  		return -EINVAL;
-df06981514d43f Nan Li              2018-04-03  1250  
-19c6beaa064c4b Jerome Brunet       2018-05-15  1251  	ret = device_reset_optional(&pdev->dev);
-dfbfdf0be268f9 Krzysztof Kozlowski 2020-09-02  1252  	if (ret)
-dfbfdf0be268f9 Krzysztof Kozlowski 2020-09-02  1253  		return dev_err_probe(&pdev->dev, ret, "device reset failed\n");
-19c6beaa064c4b Jerome Brunet       2018-05-15  1254  
-51c5d8447bd71b Kevin Hilman        2016-10-19  1255  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-51c5d8447bd71b Kevin Hilman        2016-10-19  1256  	host->regs = devm_ioremap_resource(&pdev->dev, res);
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1257  	if (IS_ERR(host->regs))
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1258  		return PTR_ERR(host->regs);
-51c5d8447bd71b Kevin Hilman        2016-10-19  1259  
-75a08b9a0fcb5e Remi Pommarel       2019-01-11  1260  	host->irq = platform_get_irq(pdev, 0);
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1261  	if (host->irq <= 0)
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1262  		return -EINVAL;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1263  
-1e03331d6b4340 Jerome Brunet       2017-08-28  1264  	host->pinctrl = devm_pinctrl_get(&pdev->dev);
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1265  	if (IS_ERR(host->pinctrl))
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1266  		return PTR_ERR(host->pinctrl);
-1e03331d6b4340 Jerome Brunet       2017-08-28  1267  
-1e03331d6b4340 Jerome Brunet       2017-08-28  1268  	host->pins_default = pinctrl_lookup_state(host->pinctrl,
-1e03331d6b4340 Jerome Brunet       2017-08-28  1269  						  PINCTRL_STATE_DEFAULT);
-1e03331d6b4340 Jerome Brunet       2017-08-28  1270  	if (IS_ERR(host->pins_default)) {
-1e03331d6b4340 Jerome Brunet       2017-08-28  1271  		ret = PTR_ERR(host->pins_default);
-1e03331d6b4340 Jerome Brunet       2017-08-28 @1272  		goto free_host;
-1e03331d6b4340 Jerome Brunet       2017-08-28  1273  	}
-1e03331d6b4340 Jerome Brunet       2017-08-28  1274  
-1e03331d6b4340 Jerome Brunet       2017-08-28  1275  	host->pins_clk_gate = pinctrl_lookup_state(host->pinctrl,
-1e03331d6b4340 Jerome Brunet       2017-08-28  1276  						   "clk-gate");
-1e03331d6b4340 Jerome Brunet       2017-08-28  1277  	if (IS_ERR(host->pins_clk_gate)) {
-1e03331d6b4340 Jerome Brunet       2017-08-28  1278  		dev_warn(&pdev->dev,
-1e03331d6b4340 Jerome Brunet       2017-08-28  1279  			 "can't get clk-gate pinctrl, using clk_stop bit\n");
-1e03331d6b4340 Jerome Brunet       2017-08-28  1280  		host->pins_clk_gate = NULL;
-1e03331d6b4340 Jerome Brunet       2017-08-28  1281  	}
-1e03331d6b4340 Jerome Brunet       2017-08-28  1282  
-51c5d8447bd71b Kevin Hilman        2016-10-19  1283  	host->core_clk = devm_clk_get(&pdev->dev, "core");
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1284  	if (IS_ERR(host->core_clk))
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1285  		return PTR_ERR(host->core_clk);
-51c5d8447bd71b Kevin Hilman        2016-10-19  1286  
-51c5d8447bd71b Kevin Hilman        2016-10-19  1287  	ret = clk_prepare_enable(host->core_clk);
-51c5d8447bd71b Kevin Hilman        2016-10-19  1288  	if (ret)
-bc1d3085f5e082 Heiner Kallweit     2023-02-04  1289  		return ret;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1290  
-51c5d8447bd71b Kevin Hilman        2016-10-19  1291  	ret = meson_mmc_clk_init(host);
-51c5d8447bd71b Kevin Hilman        2016-10-19  1292  	if (ret)
-ce473d5b49d6ef Michał Zegan        2017-03-14  1293  		goto err_core_clk;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1294  
-3c39e2ca88016f Jerome Brunet       2017-08-28  1295  	/* set config to sane default */
-3c39e2ca88016f Jerome Brunet       2017-08-28  1296  	meson_mmc_cfg_init(host);
-3c39e2ca88016f Jerome Brunet       2017-08-28  1297  
-51c5d8447bd71b Kevin Hilman        2016-10-19  1298  	/* Stop execution */
-51c5d8447bd71b Kevin Hilman        2016-10-19  1299  	writel(0, host->regs + SD_EMMC_START);
-51c5d8447bd71b Kevin Hilman        2016-10-19  1300  
-74858655cbff05 Jerome Brunet       2017-08-28  1301  	/* clear, ack and enable interrupts */
-51c5d8447bd71b Kevin Hilman        2016-10-19  1302  	writel(0, host->regs + SD_EMMC_IRQ_EN);
-74858655cbff05 Jerome Brunet       2017-08-28  1303  	writel(IRQ_CRC_ERR | IRQ_TIMEOUTS | IRQ_END_OF_CHAIN,
-74858655cbff05 Jerome Brunet       2017-08-28  1304  	       host->regs + SD_EMMC_STATUS);
-74858655cbff05 Jerome Brunet       2017-08-28  1305  	writel(IRQ_CRC_ERR | IRQ_TIMEOUTS | IRQ_END_OF_CHAIN,
-74858655cbff05 Jerome Brunet       2017-08-28  1306  	       host->regs + SD_EMMC_IRQ_EN);
-51c5d8447bd71b Kevin Hilman        2016-10-19  1307  
-75a08b9a0fcb5e Remi Pommarel       2019-01-11  1308  	ret = request_threaded_irq(host->irq, meson_mmc_irq,
-f9e6a18a44de06 Martin Blumenstingl 2019-02-09  1309  				   meson_mmc_irq_thread, IRQF_SHARED,
-f9e6a18a44de06 Martin Blumenstingl 2019-02-09  1310  				   dev_name(&pdev->dev), host);
-51c5d8447bd71b Kevin Hilman        2016-10-19  1311  	if (ret)
-bd911ec467c674 Jerome Brunet       2017-08-28  1312  		goto err_init_clk;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1313  
-e5e4a3eb131f79 Heiner Kallweit     2017-03-25  1314  	mmc->caps |= MMC_CAP_CMD23;
-efe0b669716314 Heiner Kallweit     2017-02-07  1315  	mmc->max_blk_count = CMD_CFG_LENGTH_MASK;
-efe0b669716314 Heiner Kallweit     2017-02-07  1316  	mmc->max_req_size = mmc->max_blk_count * mmc->max_blk_size;
-79ed05e329c34c Heiner Kallweit     2017-04-07  1317  	mmc->max_segs = SD_EMMC_DESC_BUF_LEN / sizeof(struct sd_emmc_desc);
-79ed05e329c34c Heiner Kallweit     2017-04-07  1318  	mmc->max_seg_size = mmc->max_req_size;
-efe0b669716314 Heiner Kallweit     2017-02-07  1319  
-51c5d8447bd71b Kevin Hilman        2016-10-19  1320  	/* data bounce buffer */
-4136fcb547d2ba Heiner Kallweit     2017-02-07  1321  	host->bounce_buf_size = mmc->max_req_size;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1322  	host->bounce_buf =
-51c5d8447bd71b Kevin Hilman        2016-10-19  1323  		dma_alloc_coherent(host->dev, host->bounce_buf_size,
-51c5d8447bd71b Kevin Hilman        2016-10-19  1324  				   &host->bounce_dma_addr, GFP_KERNEL);
-51c5d8447bd71b Kevin Hilman        2016-10-19  1325  	if (host->bounce_buf == NULL) {
-51c5d8447bd71b Kevin Hilman        2016-10-19  1326  		dev_err(host->dev, "Unable to map allocate DMA bounce buffer.\n");
-51c5d8447bd71b Kevin Hilman        2016-10-19  1327  		ret = -ENOMEM;
-75a08b9a0fcb5e Remi Pommarel       2019-01-11  1328  		goto err_free_irq;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1329  	}
-51c5d8447bd71b Kevin Hilman        2016-10-19  1330  
-79ed05e329c34c Heiner Kallweit     2017-04-07  1331  	host->descs = dma_alloc_coherent(host->dev, SD_EMMC_DESC_BUF_LEN,
-79ed05e329c34c Heiner Kallweit     2017-04-07  1332  		      &host->descs_dma_addr, GFP_KERNEL);
-79ed05e329c34c Heiner Kallweit     2017-04-07  1333  	if (!host->descs) {
-79ed05e329c34c Heiner Kallweit     2017-04-07  1334  		dev_err(host->dev, "Allocating descriptor DMA buffer failed\n");
-79ed05e329c34c Heiner Kallweit     2017-04-07  1335  		ret = -ENOMEM;
-79ed05e329c34c Heiner Kallweit     2017-04-07  1336  		goto err_bounce_buf;
-79ed05e329c34c Heiner Kallweit     2017-04-07  1337  	}
-79ed05e329c34c Heiner Kallweit     2017-04-07  1338  
-51c5d8447bd71b Kevin Hilman        2016-10-19  1339  	mmc->ops = &meson_mmc_ops;
-f5506e0bbb2510 Yang Yingliang      2022-11-08  1340  	ret = mmc_add_host(mmc);
-f5506e0bbb2510 Yang Yingliang      2022-11-08  1341  	if (ret)
-f5506e0bbb2510 Yang Yingliang      2022-11-08  1342  		goto err_free_irq;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1343  
-51c5d8447bd71b Kevin Hilman        2016-10-19  1344  	return 0;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1345  
-79ed05e329c34c Heiner Kallweit     2017-04-07  1346  err_bounce_buf:
-79ed05e329c34c Heiner Kallweit     2017-04-07  1347  	dma_free_coherent(host->dev, host->bounce_buf_size,
-79ed05e329c34c Heiner Kallweit     2017-04-07  1348  			  host->bounce_buf, host->bounce_dma_addr);
-75a08b9a0fcb5e Remi Pommarel       2019-01-11  1349  err_free_irq:
-75a08b9a0fcb5e Remi Pommarel       2019-01-11  1350  	free_irq(host->irq, host);
-bd911ec467c674 Jerome Brunet       2017-08-28  1351  err_init_clk:
-bd911ec467c674 Jerome Brunet       2017-08-28  1352  	clk_disable_unprepare(host->mmc_clk);
-ce473d5b49d6ef Michał Zegan        2017-03-14  1353  err_core_clk:
-51c5d8447bd71b Kevin Hilman        2016-10-19  1354  	clk_disable_unprepare(host->core_clk);
-51c5d8447bd71b Kevin Hilman        2016-10-19  1355  	return ret;
-51c5d8447bd71b Kevin Hilman        2016-10-19  1356  }
-51c5d8447bd71b Kevin Hilman        2016-10-19  1357  
-
-:::::: The code at line 1272 was first introduced by commit
-:::::: 1e03331d6b4340461efefab8b1dee874009ad950 mmc: meson-gx: work around clk-stop issue
-
-:::::: TO: Jerome Brunet <jbrunet@baylibre.com>
-:::::: CC: Ulf Hansson <ulf.hansson@linaro.org>
+     7	
+     8	extern inline void pte_free_kernel(struct mm_struct *mm, pte_t *pte)
+     9	{
+  > 10		pagetable_free(virt_to_ptdesc(pte));
+    11	}
+    12	
+    13	extern const char bad_pmd_string[];
+    14	
+    15	extern inline pte_t *pte_alloc_one_kernel(struct mm_struct *mm)
+    16	{
+  > 17		struct ptdesc *ptdesc = pagetable_alloc((GFP_DMA | __GFP_ZERO) &
+    18				~__GFP_HIGHMEM, 0);
+    19	
+    20		if (!ptdesc)
+    21			return NULL;
+    22	
+  > 23		return ptdesc_address(ptdesc);
+    24	}
+    25	
+    26	extern inline pmd_t *pmd_alloc_kernel(pgd_t *pgd, unsigned long address)
+    27	{
+    28		return (pmd_t *) pgd;
+    29	}
+    30	
+    31	#define pmd_populate(mm, pmd, pte) (pmd_val(*pmd) = (unsigned long)(pte))
+    32	
+    33	#define pmd_populate_kernel pmd_populate
+    34	
+    35	static inline void __pte_free_tlb(struct mmu_gather *tlb, pgtable_t pgtable,
+    36					  unsigned long address)
+    37	{
+    38		struct ptdesc *ptdesc = virt_to_ptdesc(pgtable);
+    39	
+    40		pagetable_pte_dtor(ptdesc);
+    41		pagetable_free(ptdesc);
+    42	}
+    43	
+    44	static inline pgtable_t pte_alloc_one(struct mm_struct *mm)
+    45	{
+    46		struct ptdesc *ptdesc = pagetable_alloc(GFP_DMA | __GFP_ZERO, 0);
+    47		pte_t *pte;
+    48	
+    49		if (!ptdesc)
+    50			return NULL;
+    51		if (!pagetable_pte_ctor(ptdesc)) {
+    52			pagetable_free(ptdesc);
+    53			return NULL;
+    54		}
+    55	
+    56		pte = ptdesc_address(ptdesc);
+    57		return pte;
+    58	}
+    59	
+    60	static inline void pte_free(struct mm_struct *mm, pgtable_t pgtable)
+    61	{
+    62		struct ptdesc *ptdesc = virt_to_ptdesc(pgtable);
+    63	
+    64		pagetable_pte_dtor(ptdesc);
+    65		pagetable_free(ptdesc);
+    66	}
+    67	
+    68	/*
+    69	 * In our implementation, each pgd entry contains 1 pmd that is never allocated
+    70	 * or freed.  pgd_present is always 1, so this should never be called. -NL
+    71	 */
+    72	#define pmd_free(mm, pmd) BUG()
+    73	
+    74	static inline void pgd_free(struct mm_struct *mm, pgd_t *pgd)
+    75	{
+    76		pagetable_free(virt_to_ptdesc(pgd));
+    77	}
+    78	
+    79	static inline pgd_t *pgd_alloc(struct mm_struct *mm)
+    80	{
+    81		pgd_t *new_pgd;
+  > 82		struct ptdesc *ptdesc = pagetable_alloc((GFP_DMA | GFP_NOWARN) &
+    83				~__GFP_HIGHMEM, 0);
+    84	
+    85		if (!ptdesc)
+    86			return NULL;
+    87		new_pgd = ptdesc_address(ptdesc);
+    88	
+    89		memcpy(new_pgd, swapper_pg_dir, PTRS_PER_PGD * sizeof(pgd_t));
+    90		memset(new_pgd, 0, PAGE_OFFSET >> PGDIR_SHIFT);
+    91		return new_pgd;
+    92	}
+    93	
 
 -- 
 0-DAY CI Kernel Test Service
