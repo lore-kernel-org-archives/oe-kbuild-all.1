@@ -1,170 +1,226 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0372E7C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jun 2023 07:37:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B2E7C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jun 2023 07:48:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687678657; x=1719214657;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HRTqWZk+i6J11gco2kEkZ7R1o2P6Z0nqui3Rk8W0lzs=;
-  b=gBlWwlX7WrvRFBsYpRSrwPxhnVxRDjPo7WVL3oxaXgcL4MzHEZrszboD
-   OzL3dGaW3PIuXVJQYNd3rdEc17TqKQS0unr7YZNNxXB7eOuCX+abbB8l+
-   98ikdgG7MchxoRK+X3TtgtDXCHczoiqw49DyELNVvCBUL2oXwKJNkynR6
-   YMgRtZyefnb4nZ9fBs2WJGtlq1YuRI4HryCRjyZZElgI4W0yW0bqtQ/sS
-   yQtu53+NYPuf3yif1JP6JQIFV3VUNlsqeTgi/1S7wxWL9c4dk7WZBQtsn
-   sFz8bL72c819c6ft6Y5A6UeBIhVwB7SGYU1crv+kqOiJzUAcfda1XspXn
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="341378106"
+  t=1687679317; x=1719215317;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=OIBQhpzUUlmsmHoWgBRiLWYa/X75I1oAyCX0J5hHYM8=;
+  b=JCZB0TDbgt4iCIM+qZQW5bMYDHkWujZnq0n60rEUQ88hNxf2e7nfsfRQ
+   LcTMzQxi6bfGzaNpTwL+SP7yku1NXXiexNVDwmPPObOV+ByOvNtHBLPP8
+   yZX1adygzETfQ9VRYQtNhT9d4Fc3lnsxBcjub0ggGv2aWTKZHdGLZzyFC
+   Q+xE4x+zDql8Z3JuPaLUaRe6zLCz9rtakQVXR7lyku+WKN2PbKEBGcawH
+   hp3+ROCYaM25ToDY9bmx4qy1mwoxcxBuDzytt1oPtBp5WC8pfRsO+VwnN
+   06OXxpOMk3RBRpidnZT5Gf5OyDaYEmpQGYD3+2ZzQFXyUph73ckqxACWC
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="359906230"
 X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
-   d="scan'208";a="341378106"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 00:37:36 -0700
+   d="scan'208";a="359906230"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 00:48:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="715751160"
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="860334917"
 X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
-   d="scan'208";a="715751160"
+   d="scan'208";a="860334917"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 25 Jun 2023 00:37:34 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 25 Jun 2023 00:48:34 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qDKJR-0009rd-2m;
-	Sun, 25 Jun 2023 07:37:33 +0000
-Date: Sun, 25 Jun 2023 15:37:30 +0800
+	id 1qDKU6-0009rx-09;
+	Sun, 25 Jun 2023 07:48:34 +0000
+Date: Sun, 25 Jun 2023 15:47:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luciano Coelho <luciano.coelho@intel.com>,
-	Golan Ben Ami <golan.ben.ami@intel.com>,
-	Michael Golant <michael.golant@intel.com>,
-	Johannes Berg <johannes.berg@intel.com>
+To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: net/netfilter/../../fs/proc/internal.h:51:9: error: unknown type
- name 'proc_write_t'
-Message-ID: <202306251541.q9atO3BW-lkp@intel.com>
+Subject: [sashal-stable:pending-4.19 26336/26342]
+ drivers/mmc/host/meson-gx-mmc.c:1272:17: error: label 'free_host' used but
+ not defined
+Message-ID: <202306251510.52Z8Mjgj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi JP,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/chromeos.git chromeos-5.10__release/core59-42
-head:   e3fe4ac2447d89b8dca61663851e12d2f1247b56
-commit: dac2dd2be24d8fa1bc023a28affc0faf91bc62b9 ANDROID: netfilter: xt_qtaguid: add qtaguid matching module
-date:   2 years, 6 months ago
-config: h8300-randconfig-r036-20230625 (https://download.01.org/0day-ci/archive/20230625/202306251541.q9atO3BW-lkp@intel.com/config)
-compiler: h8300-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230625/202306251541.q9atO3BW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.19
+head:   5f0e89d38f13fd84e835d6c7ca04617367d2f1e6
+commit: bc1d3085f5e0820ece8dcd20b697bf9e3c151e8a [26336/26342] mmc: meson-gx: use devm_mmc_alloc_host
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230625/202306251510.52Z8Mjgj-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230625/202306251510.52Z8Mjgj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306251541.q9atO3BW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306251510.52Z8Mjgj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from net/netfilter/xt_qtaguid.c:40:
->> net/netfilter/../../fs/proc/internal.h:51:9: error: unknown type name 'proc_write_t'
-      51 |         proc_write_t write;
-         |         ^~~~~~~~~~~~
-   net/netfilter/xt_qtaguid.c:424:22: warning: no previous prototype for 'get_uid_data' [-Wmissing-prototypes]
-     424 | struct uid_tag_data *get_uid_data(uid_t uid, bool *found_res)
-         |                      ^~~~~~~~~~~~
-   net/netfilter/xt_qtaguid.c: In function 'iface_stat_create_ipv6':
-   net/netfilter/xt_qtaguid.c:1014:13: warning: variable 'addr_type' set but not used [-Wunused-but-set-variable]
-    1014 |         int addr_type;
-         |             ^~~~~~~~~
-   net/netfilter/xt_qtaguid.c: In function 'prdebug_full_state_locked':
-   net/netfilter/xt_qtaguid.c:1821:27: warning: function 'prdebug_full_state_locked' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1821 |                           fmt_buff, args);
-         |                           ^~~~~~~~
-   net/netfilter/xt_qtaguid.c: At top level:
-   net/netfilter/xt_qtaguid.c:2938:30: warning: 'proc_qtaguid_stats_fops' defined but not used [-Wunused-const-variable=]
-    2938 | static const struct proc_ops proc_qtaguid_stats_fops = {
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/xt_qtaguid.c:2917:30: warning: 'proc_qtaguid_ctrl_fops' defined but not used [-Wunused-const-variable=]
-    2917 | static const struct proc_ops proc_qtaguid_ctrl_fops = {
-         |                              ^~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/xt_qtaguid.c:1502:30: warning: 'proc_iface_stat_fmt_fops' defined but not used [-Wunused-const-variable=]
-    1502 | static const struct proc_ops proc_iface_stat_fmt_fops = {
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/xt_qtaguid.c:783:30: warning: 'read_bool_fops' defined but not used [-Wunused-const-variable=]
-     783 | static const struct proc_ops read_bool_fops = {
-         |                              ^~~~~~~~~~~~~~
-   net/netfilter/xt_qtaguid.c:778:30: warning: 'read_u64_fops' defined but not used [-Wunused-const-variable=]
-     778 | static const struct proc_ops read_u64_fops = {
-         |                              ^~~~~~~~~~~~~
-   net/netfilter/xt_qtaguid.c:125:20: warning: 'iface_stat_fmt_procfilename' defined but not used [-Wunused-variable]
-     125 | static const char *iface_stat_fmt_procfilename = "iface_stat_fmt";
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/netfilter/xt_qtaguid.c:123:20: warning: 'iface_stat_all_procfilename' defined but not used [-Wunused-variable]
-     123 | static const char *iface_stat_all_procfilename = "iface_stat_all";
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mmc/host/meson-gx-mmc.c: In function 'meson_mmc_clk_init':
+   drivers/mmc/host/meson-gx-mmc.c:514:32: error: implicit declaration of function 'dev_err_probe'; did you mean 'device_reprobe'? [-Werror=implicit-function-declaration]
+     514 |                         return dev_err_probe(host->dev, PTR_ERR(clk),
+         |                                ^~~~~~~~~~~~~
+         |                                device_reprobe
+   drivers/mmc/host/meson-gx-mmc.c: In function 'meson_mmc_probe':
+>> drivers/mmc/host/meson-gx-mmc.c:1272:17: error: label 'free_host' used but not defined
+    1272 |                 goto free_host;
+         |                 ^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/proc_write_t +51 net/netfilter/../../fs/proc/internal.h
+vim +/free_host +1272 drivers/mmc/host/meson-gx-mmc.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  19  
-59d8053f1e1690 David Howells     2013-04-11  20  /*
-59d8053f1e1690 David Howells     2013-04-11  21   * This is not completely implemented yet. The idea is to
-59d8053f1e1690 David Howells     2013-04-11  22   * create an in-memory tree (like the actual /proc filesystem
-59d8053f1e1690 David Howells     2013-04-11  23   * tree) of these proc_dir_entries, so that we can dynamically
-59d8053f1e1690 David Howells     2013-04-11  24   * add new files to /proc.
-59d8053f1e1690 David Howells     2013-04-11  25   *
-710585d4922fd3 Nicolas Dichtel   2014-12-10  26   * parent/subdir are used for the directory structure (every /proc file has a
-710585d4922fd3 Nicolas Dichtel   2014-12-10  27   * parent, but "subdir" is empty for all non-directory entries).
-710585d4922fd3 Nicolas Dichtel   2014-12-10  28   * subdir_node is used to build the rb tree "subdir" of the parent.
-59d8053f1e1690 David Howells     2013-04-11  29   */
-59d8053f1e1690 David Howells     2013-04-11  30  struct proc_dir_entry {
-163cf548db8887 Alexey Dobriyan   2018-02-06  31  	/*
-163cf548db8887 Alexey Dobriyan   2018-02-06  32  	 * number of callers into module in progress;
-163cf548db8887 Alexey Dobriyan   2018-02-06  33  	 * negative -> it's going away RSN
-163cf548db8887 Alexey Dobriyan   2018-02-06  34  	 */
-163cf548db8887 Alexey Dobriyan   2018-02-06  35  	atomic_t in_use;
-9cdd83e3100651 Alexey Dobriyan   2018-04-10  36  	refcount_t refcnt;
-163cf548db8887 Alexey Dobriyan   2018-02-06  37  	struct list_head pde_openers;	/* who did ->open, but not ->release */
-53f63345d893df Alexey Dobriyan   2018-02-06  38  	/* protects ->pde_openers and all struct pde_opener instances */
-53f63345d893df Alexey Dobriyan   2018-02-06  39  	spinlock_t pde_unload_lock;
-163cf548db8887 Alexey Dobriyan   2018-02-06  40  	struct completion *pde_unload_completion;
-163cf548db8887 Alexey Dobriyan   2018-02-06  41  	const struct inode_operations *proc_iops;
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03  42  	union {
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03  43  		const struct proc_ops *proc_ops;
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03  44  		const struct file_operations *proc_dir_ops;
-d56c0d45f0e27f Alexey Dobriyan   2020-02-03  45  	};
-1fde6f21d90f8b Alexey Dobriyan   2019-02-01  46  	const struct dentry_operations *proc_dops;
-3f3942aca6da35 Christoph Hellwig 2018-05-15  47  	union {
-fddda2b7b52118 Christoph Hellwig 2018-04-13  48  		const struct seq_operations *seq_ops;
-3f3942aca6da35 Christoph Hellwig 2018-05-15  49  		int (*single_show)(struct seq_file *, void *);
-3f3942aca6da35 Christoph Hellwig 2018-05-15  50  	};
-564def71765caf David Howells     2018-05-18 @51  	proc_write_t write;
-163cf548db8887 Alexey Dobriyan   2018-02-06  52  	void *data;
-44414d82cfe0f6 Christoph Hellwig 2018-04-24  53  	unsigned int state_size;
-59d8053f1e1690 David Howells     2013-04-11  54  	unsigned int low_ino;
-59d8053f1e1690 David Howells     2013-04-11  55  	nlink_t nlink;
-59d8053f1e1690 David Howells     2013-04-11  56  	kuid_t uid;
-59d8053f1e1690 David Howells     2013-04-11  57  	kgid_t gid;
-59d8053f1e1690 David Howells     2013-04-11  58  	loff_t size;
-710585d4922fd3 Nicolas Dichtel   2014-12-10  59  	struct proc_dir_entry *parent;
-4f1134370a29a5 Alexey Dobriyan   2018-04-10  60  	struct rb_root subdir;
-710585d4922fd3 Nicolas Dichtel   2014-12-10  61  	struct rb_node subdir_node;
-b4884f23331ae3 Alexey Dobriyan   2018-04-10  62  	char *name;
-163cf548db8887 Alexey Dobriyan   2018-02-06  63  	umode_t mode;
-d919b33dafb3e2 Alexey Dobriyan   2020-04-06  64  	u8 flags;
-59d8053f1e1690 David Howells     2013-04-11  65  	u8 namelen;
-24074a35c5c975 David Howells     2018-06-13  66  	char inline_name[];
-3859a271a003ab Kees Cook         2016-10-28  67  } __randomize_layout;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  68  
+51c5d8447bd71b Kevin Hilman        2016-10-19  1220  
+51c5d8447bd71b Kevin Hilman        2016-10-19  1221  static int meson_mmc_probe(struct platform_device *pdev)
+51c5d8447bd71b Kevin Hilman        2016-10-19  1222  {
+51c5d8447bd71b Kevin Hilman        2016-10-19  1223  	struct resource *res;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1224  	struct meson_host *host;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1225  	struct mmc_host *mmc;
+75a08b9a0fcb5e Remi Pommarel       2019-01-11  1226  	int ret;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1227  
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1228  	mmc = devm_mmc_alloc_host(&pdev->dev, sizeof(struct meson_host));
+51c5d8447bd71b Kevin Hilman        2016-10-19  1229  	if (!mmc)
+51c5d8447bd71b Kevin Hilman        2016-10-19  1230  		return -ENOMEM;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1231  	host = mmc_priv(mmc);
+51c5d8447bd71b Kevin Hilman        2016-10-19  1232  	host->mmc = mmc;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1233  	host->dev = &pdev->dev;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1234  	dev_set_drvdata(&pdev->dev, host);
+51c5d8447bd71b Kevin Hilman        2016-10-19  1235  
+51c5d8447bd71b Kevin Hilman        2016-10-19  1236  	/* Get regulators and the supported OCR mask */
+51c5d8447bd71b Kevin Hilman        2016-10-19  1237  	host->vqmmc_enabled = false;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1238  	ret = mmc_regulator_get_supply(mmc);
+fa54f3e359d6d0 Wolfram Sang        2017-10-14  1239  	if (ret)
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1240  		return ret;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1241  
+51c5d8447bd71b Kevin Hilman        2016-10-19  1242  	ret = mmc_of_parse(mmc);
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1243  	if (ret)
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1244  		return dev_err_probe(&pdev->dev, ret, "error parsing DT\n");
+51c5d8447bd71b Kevin Hilman        2016-10-19  1245  
+df06981514d43f Nan Li              2018-04-03  1246  	host->data = (struct meson_mmc_data *)
+df06981514d43f Nan Li              2018-04-03  1247  		of_device_get_match_data(&pdev->dev);
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1248  	if (!host->data)
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1249  		return -EINVAL;
+df06981514d43f Nan Li              2018-04-03  1250  
+19c6beaa064c4b Jerome Brunet       2018-05-15  1251  	ret = device_reset_optional(&pdev->dev);
+dfbfdf0be268f9 Krzysztof Kozlowski 2020-09-02  1252  	if (ret)
+dfbfdf0be268f9 Krzysztof Kozlowski 2020-09-02  1253  		return dev_err_probe(&pdev->dev, ret, "device reset failed\n");
+19c6beaa064c4b Jerome Brunet       2018-05-15  1254  
+51c5d8447bd71b Kevin Hilman        2016-10-19  1255  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+51c5d8447bd71b Kevin Hilman        2016-10-19  1256  	host->regs = devm_ioremap_resource(&pdev->dev, res);
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1257  	if (IS_ERR(host->regs))
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1258  		return PTR_ERR(host->regs);
+51c5d8447bd71b Kevin Hilman        2016-10-19  1259  
+75a08b9a0fcb5e Remi Pommarel       2019-01-11  1260  	host->irq = platform_get_irq(pdev, 0);
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1261  	if (host->irq <= 0)
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1262  		return -EINVAL;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1263  
+1e03331d6b4340 Jerome Brunet       2017-08-28  1264  	host->pinctrl = devm_pinctrl_get(&pdev->dev);
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1265  	if (IS_ERR(host->pinctrl))
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1266  		return PTR_ERR(host->pinctrl);
+1e03331d6b4340 Jerome Brunet       2017-08-28  1267  
+1e03331d6b4340 Jerome Brunet       2017-08-28  1268  	host->pins_default = pinctrl_lookup_state(host->pinctrl,
+1e03331d6b4340 Jerome Brunet       2017-08-28  1269  						  PINCTRL_STATE_DEFAULT);
+1e03331d6b4340 Jerome Brunet       2017-08-28  1270  	if (IS_ERR(host->pins_default)) {
+1e03331d6b4340 Jerome Brunet       2017-08-28  1271  		ret = PTR_ERR(host->pins_default);
+1e03331d6b4340 Jerome Brunet       2017-08-28 @1272  		goto free_host;
+1e03331d6b4340 Jerome Brunet       2017-08-28  1273  	}
+1e03331d6b4340 Jerome Brunet       2017-08-28  1274  
+1e03331d6b4340 Jerome Brunet       2017-08-28  1275  	host->pins_clk_gate = pinctrl_lookup_state(host->pinctrl,
+1e03331d6b4340 Jerome Brunet       2017-08-28  1276  						   "clk-gate");
+1e03331d6b4340 Jerome Brunet       2017-08-28  1277  	if (IS_ERR(host->pins_clk_gate)) {
+1e03331d6b4340 Jerome Brunet       2017-08-28  1278  		dev_warn(&pdev->dev,
+1e03331d6b4340 Jerome Brunet       2017-08-28  1279  			 "can't get clk-gate pinctrl, using clk_stop bit\n");
+1e03331d6b4340 Jerome Brunet       2017-08-28  1280  		host->pins_clk_gate = NULL;
+1e03331d6b4340 Jerome Brunet       2017-08-28  1281  	}
+1e03331d6b4340 Jerome Brunet       2017-08-28  1282  
+51c5d8447bd71b Kevin Hilman        2016-10-19  1283  	host->core_clk = devm_clk_get(&pdev->dev, "core");
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1284  	if (IS_ERR(host->core_clk))
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1285  		return PTR_ERR(host->core_clk);
+51c5d8447bd71b Kevin Hilman        2016-10-19  1286  
+51c5d8447bd71b Kevin Hilman        2016-10-19  1287  	ret = clk_prepare_enable(host->core_clk);
+51c5d8447bd71b Kevin Hilman        2016-10-19  1288  	if (ret)
+bc1d3085f5e082 Heiner Kallweit     2023-02-04  1289  		return ret;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1290  
+51c5d8447bd71b Kevin Hilman        2016-10-19  1291  	ret = meson_mmc_clk_init(host);
+51c5d8447bd71b Kevin Hilman        2016-10-19  1292  	if (ret)
+ce473d5b49d6ef Michał Zegan        2017-03-14  1293  		goto err_core_clk;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1294  
+3c39e2ca88016f Jerome Brunet       2017-08-28  1295  	/* set config to sane default */
+3c39e2ca88016f Jerome Brunet       2017-08-28  1296  	meson_mmc_cfg_init(host);
+3c39e2ca88016f Jerome Brunet       2017-08-28  1297  
+51c5d8447bd71b Kevin Hilman        2016-10-19  1298  	/* Stop execution */
+51c5d8447bd71b Kevin Hilman        2016-10-19  1299  	writel(0, host->regs + SD_EMMC_START);
+51c5d8447bd71b Kevin Hilman        2016-10-19  1300  
+74858655cbff05 Jerome Brunet       2017-08-28  1301  	/* clear, ack and enable interrupts */
+51c5d8447bd71b Kevin Hilman        2016-10-19  1302  	writel(0, host->regs + SD_EMMC_IRQ_EN);
+74858655cbff05 Jerome Brunet       2017-08-28  1303  	writel(IRQ_CRC_ERR | IRQ_TIMEOUTS | IRQ_END_OF_CHAIN,
+74858655cbff05 Jerome Brunet       2017-08-28  1304  	       host->regs + SD_EMMC_STATUS);
+74858655cbff05 Jerome Brunet       2017-08-28  1305  	writel(IRQ_CRC_ERR | IRQ_TIMEOUTS | IRQ_END_OF_CHAIN,
+74858655cbff05 Jerome Brunet       2017-08-28  1306  	       host->regs + SD_EMMC_IRQ_EN);
+51c5d8447bd71b Kevin Hilman        2016-10-19  1307  
+75a08b9a0fcb5e Remi Pommarel       2019-01-11  1308  	ret = request_threaded_irq(host->irq, meson_mmc_irq,
+f9e6a18a44de06 Martin Blumenstingl 2019-02-09  1309  				   meson_mmc_irq_thread, IRQF_SHARED,
+f9e6a18a44de06 Martin Blumenstingl 2019-02-09  1310  				   dev_name(&pdev->dev), host);
+51c5d8447bd71b Kevin Hilman        2016-10-19  1311  	if (ret)
+bd911ec467c674 Jerome Brunet       2017-08-28  1312  		goto err_init_clk;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1313  
+e5e4a3eb131f79 Heiner Kallweit     2017-03-25  1314  	mmc->caps |= MMC_CAP_CMD23;
+efe0b669716314 Heiner Kallweit     2017-02-07  1315  	mmc->max_blk_count = CMD_CFG_LENGTH_MASK;
+efe0b669716314 Heiner Kallweit     2017-02-07  1316  	mmc->max_req_size = mmc->max_blk_count * mmc->max_blk_size;
+79ed05e329c34c Heiner Kallweit     2017-04-07  1317  	mmc->max_segs = SD_EMMC_DESC_BUF_LEN / sizeof(struct sd_emmc_desc);
+79ed05e329c34c Heiner Kallweit     2017-04-07  1318  	mmc->max_seg_size = mmc->max_req_size;
+efe0b669716314 Heiner Kallweit     2017-02-07  1319  
+51c5d8447bd71b Kevin Hilman        2016-10-19  1320  	/* data bounce buffer */
+4136fcb547d2ba Heiner Kallweit     2017-02-07  1321  	host->bounce_buf_size = mmc->max_req_size;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1322  	host->bounce_buf =
+51c5d8447bd71b Kevin Hilman        2016-10-19  1323  		dma_alloc_coherent(host->dev, host->bounce_buf_size,
+51c5d8447bd71b Kevin Hilman        2016-10-19  1324  				   &host->bounce_dma_addr, GFP_KERNEL);
+51c5d8447bd71b Kevin Hilman        2016-10-19  1325  	if (host->bounce_buf == NULL) {
+51c5d8447bd71b Kevin Hilman        2016-10-19  1326  		dev_err(host->dev, "Unable to map allocate DMA bounce buffer.\n");
+51c5d8447bd71b Kevin Hilman        2016-10-19  1327  		ret = -ENOMEM;
+75a08b9a0fcb5e Remi Pommarel       2019-01-11  1328  		goto err_free_irq;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1329  	}
+51c5d8447bd71b Kevin Hilman        2016-10-19  1330  
+79ed05e329c34c Heiner Kallweit     2017-04-07  1331  	host->descs = dma_alloc_coherent(host->dev, SD_EMMC_DESC_BUF_LEN,
+79ed05e329c34c Heiner Kallweit     2017-04-07  1332  		      &host->descs_dma_addr, GFP_KERNEL);
+79ed05e329c34c Heiner Kallweit     2017-04-07  1333  	if (!host->descs) {
+79ed05e329c34c Heiner Kallweit     2017-04-07  1334  		dev_err(host->dev, "Allocating descriptor DMA buffer failed\n");
+79ed05e329c34c Heiner Kallweit     2017-04-07  1335  		ret = -ENOMEM;
+79ed05e329c34c Heiner Kallweit     2017-04-07  1336  		goto err_bounce_buf;
+79ed05e329c34c Heiner Kallweit     2017-04-07  1337  	}
+79ed05e329c34c Heiner Kallweit     2017-04-07  1338  
+51c5d8447bd71b Kevin Hilman        2016-10-19  1339  	mmc->ops = &meson_mmc_ops;
+f5506e0bbb2510 Yang Yingliang      2022-11-08  1340  	ret = mmc_add_host(mmc);
+f5506e0bbb2510 Yang Yingliang      2022-11-08  1341  	if (ret)
+f5506e0bbb2510 Yang Yingliang      2022-11-08  1342  		goto err_free_irq;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1343  
+51c5d8447bd71b Kevin Hilman        2016-10-19  1344  	return 0;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1345  
+79ed05e329c34c Heiner Kallweit     2017-04-07  1346  err_bounce_buf:
+79ed05e329c34c Heiner Kallweit     2017-04-07  1347  	dma_free_coherent(host->dev, host->bounce_buf_size,
+79ed05e329c34c Heiner Kallweit     2017-04-07  1348  			  host->bounce_buf, host->bounce_dma_addr);
+75a08b9a0fcb5e Remi Pommarel       2019-01-11  1349  err_free_irq:
+75a08b9a0fcb5e Remi Pommarel       2019-01-11  1350  	free_irq(host->irq, host);
+bd911ec467c674 Jerome Brunet       2017-08-28  1351  err_init_clk:
+bd911ec467c674 Jerome Brunet       2017-08-28  1352  	clk_disable_unprepare(host->mmc_clk);
+ce473d5b49d6ef Michał Zegan        2017-03-14  1353  err_core_clk:
+51c5d8447bd71b Kevin Hilman        2016-10-19  1354  	clk_disable_unprepare(host->core_clk);
+51c5d8447bd71b Kevin Hilman        2016-10-19  1355  	return ret;
+51c5d8447bd71b Kevin Hilman        2016-10-19  1356  }
+51c5d8447bd71b Kevin Hilman        2016-10-19  1357  
 
-:::::: The code at line 51 was first introduced by commit
-:::::: 564def71765caf65040f926c0783b9c27cc6c087 proc: Add a way to make network proc files writable
+:::::: The code at line 1272 was first introduced by commit
+:::::: 1e03331d6b4340461efefab8b1dee874009ad950 mmc: meson-gx: work around clk-stop issue
 
-:::::: TO: David Howells <dhowells@redhat.com>
-:::::: CC: David Howells <dhowells@redhat.com>
+:::::: TO: Jerome Brunet <jbrunet@baylibre.com>
+:::::: CC: Ulf Hansson <ulf.hansson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
