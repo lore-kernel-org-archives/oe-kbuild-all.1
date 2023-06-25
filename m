@@ -1,58 +1,42 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7627C;
-	Sun, 25 Jun 2023 07:58:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D399EA4
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 25 Jun 2023 09:09:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687679923; x=1719215923;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eTIwvrfKylgiLU30c+QKGL2VdYd5OeJbT6ROhsR0yJI=;
-  b=BaS8GFixg+b0Rv2y9rgXJZXHZJMB26aru050fc8B+JQ4qjGaA9x0Krok
-   +HIPFLax3U4nJDNmr8XS9XQX0w8PF5Xot97BDK3o3bbRc2ecwdptOLPT1
-   6RLnPOpFGRctkUPJQsO+AGg1YikbSWhaJe8BkQoZN5T+pQPLvSsnygS93
-   wcx5pzzmgGxh1+3ZnO+tZEH+7EplB+gqcoumhDuaC3h98R7blgPBpDG0p
-   ySGPtLG8Nej0KiWQhqhYFDXHHNVBY0ypqJqKVa9JVyBZMgiDXANMzYXm0
-   c53cO5d9aeJDUmPQ7nMU1b9nZWNt4ptWvQOxREC14jA66q00xGSIZH37c
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="447419943"
-X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
-   d="scan'208";a="447419943"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 00:58:41 -0700
+  t=1687684179; x=1719220179;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XT2BigcODpGi78GL+eKhtDrvBpBX0DzBk9Ul9Mt2yY8=;
+  b=Z2SKb124HT54AcjbUmdI0UKLahpOy6XqnJLyq+lFs0aqKVu7mbXTF/Pe
+   dc+pRu1v9gHK3KG+i2CLwcQL5FiVl14dfEVw98li8fzXkdl6NbHkXwafi
+   jSsGbTZXWXIF504DkzH3FfJ8so7zR6Szlnxd9PpzcMe3Mrdqjl4/Skob4
+   0xD6RfLL2z4UteD11zOXVfq/Vo6ociGvWUEL2mqDcgrl+ONeh/M/DXoWw
+   S64U7UMQXVypOxXeCKOmG5eF4rA6wUVo2iM5GCknJa4pJxX6ssm7npLit
+   0eUcJ7QjUL+SXekJNiAKU2gQ+zBBSefx7/kjCUU4sYL64MMNIu2pdi0Fq
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="424720370"
+X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; 
+   d="scan'208";a="424720370"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2023 02:09:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="693123135"
-X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
-   d="scan'208";a="693123135"
+X-IronPort-AV: E=McAfee;i="6600,9927,10751"; a="709905529"
+X-IronPort-AV: E=Sophos;i="6.01,157,1684825200"; 
+   d="scan'208";a="709905529"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 25 Jun 2023 00:58:34 -0700
+  by orsmga007.jf.intel.com with ESMTP; 25 Jun 2023 02:09:37 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qDKdm-0009sJ-0Z;
-	Sun, 25 Jun 2023 07:58:34 +0000
-Date: Sun, 25 Jun 2023 15:57:56 +0800
+	id 1qDLkW-0009vh-1Q;
+	Sun, 25 Jun 2023 09:09:36 +0000
+Date: Sun, 25 Jun 2023 17:09:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-	xen-devel@lists.xenproject.org, kvm@vger.kernel.org,
-	Hugh Dickins <hughd@google.com>,
-	"Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH v5 24/33] m68k: Convert various functions to use ptdescs
-Message-ID: <202306251513.WVzxgGxu-lkp@intel.com>
-References: <20230622205745.79707-25-vishal.moola@gmail.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-5.10 26/55] fs/nilfs2/page.c:495:21: error:
+ variable has incomplete type 'struct folio_batch'
+Message-ID: <202306251733.FK04Tzbh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,174 +45,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230622205745.79707-25-vishal.moola@gmail.com>
 
-Hi Vishal,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20230622]
-[cannot apply to akpm-mm/mm-everything powerpc/next powerpc/fixes s390/features geert-m68k/for-next geert-m68k/for-linus linus/master v6.4-rc7 v6.4-rc6 v6.4-rc5 v6.4-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vishal-Moola-Oracle/mm-Add-PAGE_TYPE_OP-folio-functions/20230623-050011
-base:   next-20230622
-patch link:    https://lore.kernel.org/r/20230622205745.79707-25-vishal.moola%40gmail.com
-patch subject: [PATCH v5 24/33] m68k: Convert various functions to use ptdescs
-config: m68k-randconfig-s051-20230625 (https://download.01.org/0day-ci/archive/20230625/202306251513.WVzxgGxu-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230625/202306251513.WVzxgGxu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
+head:   abb6d7530c1c0983b9806ab15bb69d335c6ca24a
+commit: e2173c13560d8c56f0cbc7176bd124608b5fbda4 [26/55] nilfs2: convert nilfs_find_uncommited_extent() to use filemap_get_folios_contig()
+config: i386-randconfig-i013-20230625 (https://download.01.org/0day-ci/archive/20230625/202306251733.FK04Tzbh-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230625/202306251733.FK04Tzbh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306251513.WVzxgGxu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306251733.FK04Tzbh-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/m68k/include/asm/pgalloc.h:12,
-                    from kernel/fork.c:103:
-   arch/m68k/include/asm/mcf_pgalloc.h: In function 'pgd_alloc':
->> arch/m68k/include/asm/mcf_pgalloc.h:82:60: error: 'GFP_NOWARN' undeclared (first use in this function); did you mean 'GFP_NOWAIT'?
-      82 |         struct ptdesc *ptdesc = pagetable_alloc((GFP_DMA | GFP_NOWARN) &
-         |                                                            ^~~~~~~~~~
-         |                                                            GFP_NOWAIT
-   arch/m68k/include/asm/mcf_pgalloc.h:82:60: note: each undeclared identifier is reported only once for each function it appears in
-   arch/m68k/include/asm/mcf_pgalloc.h: At top level:
->> arch/m68k/include/asm/mcf_pgalloc.h:23:16: warning: 'ptdesc_address' is static but used in inline function 'pte_alloc_one_kernel' which is not static
-      23 |         return ptdesc_address(ptdesc);
-         |                ^~~~~~~~~~~~~~
->> arch/m68k/include/asm/mcf_pgalloc.h:17:33: warning: 'pagetable_alloc' is static but used in inline function 'pte_alloc_one_kernel' which is not static
-      17 |         struct ptdesc *ptdesc = pagetable_alloc((GFP_DMA | __GFP_ZERO) &
-         |                                 ^~~~~~~~~~~~~~~
->> arch/m68k/include/asm/mcf_pgalloc.h:10:24: warning: 'virt_to_ptdesc' is static but used in inline function 'pte_free_kernel' which is not static
-      10 |         pagetable_free(virt_to_ptdesc(pte));
-         |                        ^~~~~~~~~~~~~~
->> arch/m68k/include/asm/mcf_pgalloc.h:10:9: warning: 'pagetable_free' is static but used in inline function 'pte_free_kernel' which is not static
-      10 |         pagetable_free(virt_to_ptdesc(pte));
-         |         ^~~~~~~~~~~~~~
---
-   In file included from arch/m68k/mm/mcfmmu.c:21:
-   arch/m68k/include/asm/mcf_pgalloc.h: In function 'pgd_alloc':
->> arch/m68k/include/asm/mcf_pgalloc.h:82:60: error: 'GFP_NOWARN' undeclared (first use in this function); did you mean 'GFP_NOWAIT'?
-      82 |         struct ptdesc *ptdesc = pagetable_alloc((GFP_DMA | GFP_NOWARN) &
-         |                                                            ^~~~~~~~~~
-         |                                                            GFP_NOWAIT
-   arch/m68k/include/asm/mcf_pgalloc.h:82:60: note: each undeclared identifier is reported only once for each function it appears in
-   arch/m68k/mm/mcfmmu.c: At top level:
-   arch/m68k/mm/mcfmmu.c:36:13: warning: no previous prototype for 'paging_init' [-Wmissing-prototypes]
-      36 | void __init paging_init(void)
-         |             ^~~~~~~~~~~
-   arch/m68k/mm/mcfmmu.c: In function 'paging_init':
-   arch/m68k/mm/mcfmmu.c:41:37: warning: variable 'bootmem_end' set but not used [-Wunused-but-set-variable]
-      41 |         unsigned long next_pgtable, bootmem_end;
-         |                                     ^~~~~~~~~~~
-   arch/m68k/include/asm/mcf_pgalloc.h: At top level:
->> arch/m68k/include/asm/mcf_pgalloc.h:23:16: warning: 'ptdesc_address' is static but used in inline function 'pte_alloc_one_kernel' which is not static
-      23 |         return ptdesc_address(ptdesc);
-         |                ^~~~~~~~~~~~~~
->> arch/m68k/include/asm/mcf_pgalloc.h:17:33: warning: 'pagetable_alloc' is static but used in inline function 'pte_alloc_one_kernel' which is not static
-      17 |         struct ptdesc *ptdesc = pagetable_alloc((GFP_DMA | __GFP_ZERO) &
-         |                                 ^~~~~~~~~~~~~~~
->> arch/m68k/include/asm/mcf_pgalloc.h:10:24: warning: 'virt_to_ptdesc' is static but used in inline function 'pte_free_kernel' which is not static
-      10 |         pagetable_free(virt_to_ptdesc(pte));
-         |                        ^~~~~~~~~~~~~~
->> arch/m68k/include/asm/mcf_pgalloc.h:10:9: warning: 'pagetable_free' is static but used in inline function 'pte_free_kernel' which is not static
-      10 |         pagetable_free(virt_to_ptdesc(pte));
-         |         ^~~~~~~~~~~~~~
+>> fs/nilfs2/page.c:495:21: error: variable has incomplete type 'struct folio_batch'
+           struct folio_batch fbatch;
+                              ^
+   fs/nilfs2/page.c:495:9: note: forward declaration of 'struct folio_batch'
+           struct folio_batch fbatch;
+                  ^
+>> fs/nilfs2/page.c:503:2: error: implicit declaration of function 'folio_batch_init' [-Werror,-Wimplicit-function-declaration]
+           folio_batch_init(&fbatch);
+           ^
+>> fs/nilfs2/page.c:506:14: error: implicit declaration of function 'filemap_get_folios_contig' [-Werror,-Wimplicit-function-declaration]
+           nr_folios = filemap_get_folios_contig(inode->i_mapping, &index, ULONG_MAX,
+                       ^
+>> fs/nilfs2/page.c:515:3: error: implicit declaration of function 'folio_lock' [-Werror,-Wimplicit-function-declaration]
+                   folio_lock(folio);
+                   ^
+>> fs/nilfs2/page.c:516:7: error: implicit declaration of function 'folio_buffers' [-Werror,-Wimplicit-function-declaration]
+                   if (folio_buffers(folio)) {
+                       ^
+>> fs/nilfs2/page.c:520:13: error: incomplete definition of type 'struct folio'
+                           b = folio->index << (PAGE_SHIFT - inode->i_blkbits);
+                               ~~~~~^
+   fs/nilfs2/page.c:496:9: note: forward declaration of 'struct folio'
+           struct folio *folio;
+                  ^
+   fs/nilfs2/page.c:521:14: error: incompatible integer to pointer conversion assigning to 'struct buffer_head *' from 'int' [-Wint-conversion]
+                           bh = head = folio_buffers(folio);
+                                     ^ ~~~~~~~~~~~~~~~~~~~~
+>> fs/nilfs2/page.c:537:3: error: implicit declaration of function 'folio_unlock' [-Werror,-Wimplicit-function-declaration]
+                   folio_unlock(folio);
+                   ^
+>> fs/nilfs2/page.c:541:2: error: implicit declaration of function 'folio_batch_release' [-Werror,-Wimplicit-function-declaration]
+           folio_batch_release(&fbatch);
+           ^
+   fs/nilfs2/page.c:546:2: error: implicit declaration of function 'folio_unlock' [-Werror,-Wimplicit-function-declaration]
+           folio_unlock(folio);
+           ^
+   10 errors generated.
 
 
-vim +82 arch/m68k/include/asm/mcf_pgalloc.h
+vim +495 fs/nilfs2/page.c
 
-     7	
-     8	extern inline void pte_free_kernel(struct mm_struct *mm, pte_t *pte)
-     9	{
-  > 10		pagetable_free(virt_to_ptdesc(pte));
-    11	}
-    12	
-    13	extern const char bad_pmd_string[];
-    14	
-    15	extern inline pte_t *pte_alloc_one_kernel(struct mm_struct *mm)
-    16	{
-  > 17		struct ptdesc *ptdesc = pagetable_alloc((GFP_DMA | __GFP_ZERO) &
-    18				~__GFP_HIGHMEM, 0);
-    19	
-    20		if (!ptdesc)
-    21			return NULL;
-    22	
-  > 23		return ptdesc_address(ptdesc);
-    24	}
-    25	
-    26	extern inline pmd_t *pmd_alloc_kernel(pgd_t *pgd, unsigned long address)
-    27	{
-    28		return (pmd_t *) pgd;
-    29	}
-    30	
-    31	#define pmd_populate(mm, pmd, pte) (pmd_val(*pmd) = (unsigned long)(pte))
-    32	
-    33	#define pmd_populate_kernel pmd_populate
-    34	
-    35	static inline void __pte_free_tlb(struct mmu_gather *tlb, pgtable_t pgtable,
-    36					  unsigned long address)
-    37	{
-    38		struct ptdesc *ptdesc = virt_to_ptdesc(pgtable);
-    39	
-    40		pagetable_pte_dtor(ptdesc);
-    41		pagetable_free(ptdesc);
-    42	}
-    43	
-    44	static inline pgtable_t pte_alloc_one(struct mm_struct *mm)
-    45	{
-    46		struct ptdesc *ptdesc = pagetable_alloc(GFP_DMA | __GFP_ZERO, 0);
-    47		pte_t *pte;
-    48	
-    49		if (!ptdesc)
-    50			return NULL;
-    51		if (!pagetable_pte_ctor(ptdesc)) {
-    52			pagetable_free(ptdesc);
-    53			return NULL;
-    54		}
-    55	
-    56		pte = ptdesc_address(ptdesc);
-    57		return pte;
-    58	}
-    59	
-    60	static inline void pte_free(struct mm_struct *mm, pgtable_t pgtable)
-    61	{
-    62		struct ptdesc *ptdesc = virt_to_ptdesc(pgtable);
-    63	
-    64		pagetable_pte_dtor(ptdesc);
-    65		pagetable_free(ptdesc);
-    66	}
-    67	
-    68	/*
-    69	 * In our implementation, each pgd entry contains 1 pmd that is never allocated
-    70	 * or freed.  pgd_present is always 1, so this should never be called. -NL
-    71	 */
-    72	#define pmd_free(mm, pmd) BUG()
-    73	
-    74	static inline void pgd_free(struct mm_struct *mm, pgd_t *pgd)
-    75	{
-    76		pagetable_free(virt_to_ptdesc(pgd));
-    77	}
-    78	
-    79	static inline pgd_t *pgd_alloc(struct mm_struct *mm)
-    80	{
-    81		pgd_t *new_pgd;
-  > 82		struct ptdesc *ptdesc = pagetable_alloc((GFP_DMA | GFP_NOWARN) &
-    83				~__GFP_HIGHMEM, 0);
-    84	
-    85		if (!ptdesc)
-    86			return NULL;
-    87		new_pgd = ptdesc_address(ptdesc);
-    88	
-    89		memcpy(new_pgd, swapper_pg_dir, PTRS_PER_PGD * sizeof(pgd_t));
-    90		memset(new_pgd, 0, PAGE_OFFSET >> PGDIR_SHIFT);
-    91		return new_pgd;
-    92	}
-    93	
+   475	
+   476	/**
+   477	 * nilfs_find_uncommitted_extent - find extent of uncommitted data
+   478	 * @inode: inode
+   479	 * @start_blk: start block offset (in)
+   480	 * @blkoff: start offset of the found extent (out)
+   481	 *
+   482	 * This function searches an extent of buffers marked "delayed" which
+   483	 * starts from a block offset equal to or larger than @start_blk.  If
+   484	 * such an extent was found, this will store the start offset in
+   485	 * @blkoff and return its length in blocks.  Otherwise, zero is
+   486	 * returned.
+   487	 */
+   488	unsigned long nilfs_find_uncommitted_extent(struct inode *inode,
+   489						    sector_t start_blk,
+   490						    sector_t *blkoff)
+   491	{
+   492		unsigned int i, nr_folios;
+   493		pgoff_t index;
+   494		unsigned long length = 0;
+ > 495		struct folio_batch fbatch;
+   496		struct folio *folio;
+   497	
+   498		if (inode->i_mapping->nrpages == 0)
+   499			return 0;
+   500	
+   501		index = start_blk >> (PAGE_SHIFT - inode->i_blkbits);
+   502	
+ > 503		folio_batch_init(&fbatch);
+   504	
+   505	repeat:
+ > 506		nr_folios = filemap_get_folios_contig(inode->i_mapping, &index, ULONG_MAX,
+   507				&fbatch);
+   508		if (nr_folios == 0)
+   509			return length;
+   510	
+   511		i = 0;
+   512		do {
+   513			folio = fbatch.folios[i];
+   514	
+ > 515			folio_lock(folio);
+ > 516			if (folio_buffers(folio)) {
+   517				struct buffer_head *bh, *head;
+   518				sector_t b;
+   519	
+ > 520				b = folio->index << (PAGE_SHIFT - inode->i_blkbits);
+   521				bh = head = folio_buffers(folio);
+   522				do {
+   523					if (b < start_blk)
+   524						continue;
+   525					if (buffer_delay(bh)) {
+   526						if (length == 0)
+   527							*blkoff = b;
+   528						length++;
+   529					} else if (length > 0) {
+   530						goto out_locked;
+   531					}
+   532				} while (++b, bh = bh->b_this_page, bh != head);
+   533			} else {
+   534				if (length > 0)
+   535					goto out_locked;
+   536			}
+ > 537			folio_unlock(folio);
+   538	
+   539		} while (++i < nr_folios);
+   540	
+ > 541		folio_batch_release(&fbatch);
 
 -- 
 0-DAY CI Kernel Test Service
