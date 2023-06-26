@@ -1,87 +1,151 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E140D2FC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jun 2023 16:00:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 890B2C433C0;
-	Mon, 26 Jun 2023 16:00:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1687795238;
-	bh=i4tVBNPzv67e9mTJvhtSJ3lylAEPaV6nTN6Y9hAyMLY=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=t/UArjN8DdB+Chfls+t8OxN6k52PG6ARVZX9Q7gyyI7nCXw2MbbNzt2fFShuqzMHG
-	 u2CA9/6cg/SgnlmX+M5OKEeaRpvaN5JLqLI0t2e6Sez2xoIhlEjCPTJ2QnGXXXg4/A
-	 byGg9XQISN1il8K82u8tDqdDMrH+Y0585MFLQtvrl0Q4b86Una9W9LPmVjkT3qTyBb
-	 8U20gzo7NltFAkcF9s8QIBedKJBKVWU+bXtK2tMq7YCmDYEUXEpl6dtAcjIdbHYPo6
-	 raLB2knAa1QId4iO7SS3R1JB9gVb3AkAg9eUuVlR7pzcMK/FtGUVS3lIdzF9N/l61I
-	 aUrkfklrU9YDA==
-Message-ID: <a8a86ee3e1c891dc934f0fef293c2b00.sboyd@kernel.org>
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7E3C8E9;
+	Mon, 26 Jun 2023 16:01:18 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 97BC921855;
+	Mon, 26 Jun 2023 16:01:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1687795276; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l2ryW+rViBd6L+rvMzNbesV3/gH4ubhGtrOLnJFR66I=;
+	b=UELeJTOOxIhZvM4NqKAEHIWFV8mQYhwKdN6b8ckf0NSyLshFEFlOEuG+tgvB+Ku7dZOakt
+	9hVhhHygbk6K/uf5Q8kN3ClzUHtc8hXepvEq4eUCAvZBcDI5a2nMYBI/ev7bgZrukhZz7y
+	tdKCEr4ylpNJ3zvV/LQKWGVN0fEnpF4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1687795276;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l2ryW+rViBd6L+rvMzNbesV3/gH4ubhGtrOLnJFR66I=;
+	b=e2ZRSvbcCcBpzb53nCJeMrTi8BIopCl+J+e4RCkrb5aD1cZkZTgAYbjQYr4AW221JyOham
+	A5aod6WlvMatnPAA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8417313483;
+	Mon, 26 Jun 2023 16:01:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id xH85IEy2mWTINAAAMHmgww
+	(envelope-from <jack@suse.cz>); Mon, 26 Jun 2023 16:01:16 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id EB1EFA0754; Mon, 26 Jun 2023 18:01:15 +0200 (CEST)
+Date: Mon, 26 Jun 2023 18:01:15 +0200
+From: Jan Kara <jack@suse.cz>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Jan Kara <jack@suse.cz>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
+	Kent Overstreet <kmo@daterainc.com>
+Subject: Re: [axboe-block:for-6.5/block-late 216/216]
+ drivers/md/bcache/super.c:2644 register_bcache() warn: passing freed memory
+ 'holder'
+Message-ID: <20230626160115.5ctxooc6dtdhrn7h@quack3>
+References: <0108ee74-6186-4707-ab31-8e4543d98db5@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <2f246b9c-1df0-a6e0-9666-b59d7ade9194@linaro.org>
-References: <202306231333.gPkThiXk-lkp@intel.com> <20230623065329.mrjplb3vplfpuky4@pengutronix.de> <2f246b9c-1df0-a6e0-9666-b59d7ade9194@linaro.org>
-Subject: Re: [daniel-lezcano:timers/drivers/next 6/9] drivers/clk/imx/clk-imx31.c:14:10: fatal error: soc/imx/timer.h: No such file or directory
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-To: Daniel Lezcano <daniel.lezcano@linaro.org>, Uwe =?utf-8?q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, kernel test robot <lkp@intel.com>
-Date: Mon, 26 Jun 2023 09:00:36 -0700
-User-Agent: alot/0.10
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0108ee74-6186-4707-ab31-8e4543d98db5@kadam.mountain>
 
-Quoting Daniel Lezcano (2023-06-23 00:09:10)
-> On 23/06/2023 08:53, Uwe Kleine-K=C3=B6nig wrote:
-> > Hello,
-> >=20
-> > On Fri, Jun 23, 2023 at 01:45:45PM +0800, kernel test robot wrote:
-> >> tree:   http://git.linaro.org/people/daniel.lezcano/linux timers/drive=
-rs/next
-> >> head:   6d0eb9759ac71fb5d008c90c0810d142f5a3ce99
-> >> commit: 9e9d7570485d724838322714cd413eb90d9459f4 [6/9] clocksource/dri=
-vers/imx-gpt: Fold <soc/imx/timer.h> into its only user
-> >> config: arm-allmodconfig (https://download.01.org/0day-ci/archive/2023=
-0623/202306231333.gPkThiXk-lkp@intel.com/config)
-> >> compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-> >> reproduce: (https://download.01.org/0day-ci/archive/20230623/202306231=
-333.gPkThiXk-lkp@intel.com/reproduce)
-> >>
-> >> If you fix the issue in a separate patch/commit (i.e. not just a new v=
-ersion of
-> >> the same patch/commit), kindly add following tags
-> >> | Reported-by: kernel test robot <lkp@intel.com>
-> >> | Closes: https://lore.kernel.org/oe-kbuild-all/202306231333.gPkThiXk-=
-lkp@intel.com/
-> >>
-> >> All errors (new ones prefixed by >>):
-> >>
-> >>>> drivers/clk/imx/clk-imx31.c:14:10: fatal error: soc/imx/timer.h: No =
-such file or directory
-> >>        14 | #include <soc/imx/timer.h>
-> >>           |          ^~~~~~~~~~~~~~~~~
-> >>     compilation terminated.
-> >> --
-> >>>> drivers/clk/imx/clk-imx35.c:13:10: fatal error: soc/imx/timer.h: No =
-such file or directory
-> >>        13 | #include <soc/imx/timer.h>
-> >=20
-> > I think happens because
-> > https://lore.kernel.org/r/20230328100531.879485-3-u.kleine-koenig@pengu=
-tronix.de
-> > was applied, but its prerequisite patch https://lore.kernel.org/r/20230=
-328100531.879485-2-u.kleine-koenig@pengutronix.de
-> > from the same series was not.
->=20
->=20
-> Ah, right. I skipped it because I thought there were no dependency.
->=20
-> Stephen, may I have your acked-by to pick the patch 2 which change a=20
-> driver in the clk directory ?
->=20
+On Mon 26-06-23 15:05:07, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.5/block-late
+> head:   2c5555983bd27d24162534b682b10654639a5576
+> commit: 2c5555983bd27d24162534b682b10654639a5576 [216/216] bcache: Fix bcache device claiming
+> config: i386-randconfig-m031-20230622 (https://download.01.org/0day-ci/archive/20230624/202306241746.1sA0eBvt-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230624/202306241746.1sA0eBvt-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202306241746.1sA0eBvt-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/md/bcache/super.c:2644 register_bcache() warn: passing freed memory 'holder'
 
-Sure. I don't see it in my inbox so
+I had a look into the code and frankly I don't see how this could happen.
+We can reach line 2644 only on explicit goto out_free_holder; which happens
+in two places and in both of them I don't see how holder could be already
+freed. Dan, can you share a bit more how the checker arrived at this
+conclusion?
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+								Honza
+
+> 
+> vim +/holder +2644 drivers/md/bcache/super.c
+> 
+> 9e23ccf8f0a22e Coly Li           2020-05-27  2608  		args->path	= path;
+> 9e23ccf8f0a22e Coly Li           2020-05-27  2609  		args->sb	= sb;
+> 9e23ccf8f0a22e Coly Li           2020-05-27  2610  		args->sb_disk	= sb_disk;
+> 9e23ccf8f0a22e Coly Li           2020-05-27  2611  		args->bdev	= bdev;
+> abcc0cbd49283f Jan Kara          2023-06-22  2612  		args->holder	= holder;
+> d7fae7b4fa1527 Kai Krakow        2021-02-10  2613  		register_device_async(args);
+> 9e23ccf8f0a22e Coly Li           2020-05-27  2614  		/* No wait and returns to user space */
+> 9e23ccf8f0a22e Coly Li           2020-05-27  2615  		goto async_done;
+> 9e23ccf8f0a22e Coly Li           2020-05-27  2616  	}
+> 9e23ccf8f0a22e Coly Li           2020-05-27  2617  
+> 2903381fce7100 Kent Overstreet   2013-04-11  2618  	if (SB_IS_BDEV(sb)) {
+> 4fa03402cda2fa Kent Overstreet   2014-03-17  2619  		mutex_lock(&bch_register_lock);
+> abcc0cbd49283f Jan Kara          2023-06-22  2620  		ret = register_bdev(sb, sb_disk, bdev, holder);
+> 4fa03402cda2fa Kent Overstreet   2014-03-17  2621  		mutex_unlock(&bch_register_lock);
+> bb6d355c2aff42 Coly Li           2019-04-25  2622  		/* blkdev_put() will be called in cached_dev_free() */
+> fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2623  		if (ret < 0)
+> fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2624  			goto out_free_sb;
+> cafe563591446c Kent Overstreet   2013-03-23  2625  	} else {
+> bb6d355c2aff42 Coly Li           2019-04-25  2626  		/* blkdev_put() will be called in bch_cache_release() */
+> abcc0cbd49283f Jan Kara          2023-06-22  2627  		ret = register_cache(sb, sb_disk, bdev, holder);
+> d55f7cb2e5c053 Chao Yu           2021-10-20  2628  		if (ret)
+> fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2629  			goto out_free_sb;
+> 50246693f81fe8 Christoph Hellwig 2020-01-24  2630  	}
+> 50246693f81fe8 Christoph Hellwig 2020-01-24  2631  
+> f59fce847fc848 Kent Overstreet   2013-05-15  2632  	kfree(sb);
+> f59fce847fc848 Kent Overstreet   2013-05-15  2633  	kfree(path);
+> f59fce847fc848 Kent Overstreet   2013-05-15  2634  	module_put(THIS_MODULE);
+> 9e23ccf8f0a22e Coly Li           2020-05-27  2635  async_done:
+> 50246693f81fe8 Christoph Hellwig 2020-01-24  2636  	return size;
+> f59fce847fc848 Kent Overstreet   2013-05-15  2637  
+> abcc0cbd49283f Jan Kara          2023-06-22  2638  out_free_holder:
+> abcc0cbd49283f Jan Kara          2023-06-22  2639  	kfree(holder);
+>                                                               ^^^^^^
+> freed
+> 
+> 50246693f81fe8 Christoph Hellwig 2020-01-24  2640  out_put_sb_page:
+> cfa0c56db9c087 Christoph Hellwig 2020-01-24  2641  	put_page(virt_to_page(sb_disk));
+> 50246693f81fe8 Christoph Hellwig 2020-01-24  2642  out_blkdev_put:
+> 2c5555983bd27d Jan Kara          2023-06-22  2643  	if (bdev)
+> 2c5555983bd27d Jan Kara          2023-06-22 @2644  		blkdev_put(bdev, holder);
+>                                                                                  ^^^^^^
+> Use after free
+> 
+> 50246693f81fe8 Christoph Hellwig 2020-01-24  2645  out_free_sb:
+> 50246693f81fe8 Christoph Hellwig 2020-01-24  2646  	kfree(sb);
+> 50246693f81fe8 Christoph Hellwig 2020-01-24  2647  out_free_path:
+> 50246693f81fe8 Christoph Hellwig 2020-01-24  2648  	kfree(path);
+> ae3cd299919af6 Coly Li           2020-01-24  2649  	path = NULL;
+> 50246693f81fe8 Christoph Hellwig 2020-01-24  2650  out_module_put:
+> 50246693f81fe8 Christoph Hellwig 2020-01-24  2651  	module_put(THIS_MODULE);
+> 50246693f81fe8 Christoph Hellwig 2020-01-24  2652  out:
+> 2c5555983bd27d Jan Kara          2023-06-22  2653  	if (!quiet)
+> 46f5aa8806e34f Joe Perches       2020-05-27  2654  		pr_info("error %s: %s\n", path?path:"", err);
+> 50246693f81fe8 Christoph Hellwig 2020-01-24  2655  	return ret;
+> cafe563591446c Kent Overstreet   2013-03-23  2656  }
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
