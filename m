@@ -1,43 +1,54 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FE37464
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jun 2023 09:21:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687771265; x=1719307265;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=OxoDYKes+yK7X6t6RqKhg0wpWRdW22YGq8MvZGmIHSA=;
-  b=GogIdSlweFibRHeIN6amEljaEQX9bhuT6QUnp3va3ScMr3l+30M9CUAS
-   dBjRaspduT8ln6ZEkbwZiDBg3lqaYjx1K1n1hN7e2AGA8hbYuPpd/Aaad
-   NMmwbVmmGkhRHOx7dREK+MaCL/4u0LaOcqbwK+UNM+jCUA03UFwk696mg
-   XzhfEb13tOcM/Rf2DXKez+47JyTQgQaTH43pDrt2PdoRta4tZvZ3ab2/8
-   bgFXZxfE9r0ApqNza0TV5mHm/3LBwEaJVJbfyxbqqUm3Dxj8ehcFkgPkX
-   6ZSD4m2FX352Pr85mrOHaFxAdw+xGP+YU2E1PhSjCLUyjdRMbXTjTTuCz
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="427215984"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="427215984"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 02:21:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="840198526"
-X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="840198526"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 26 Jun 2023 02:21:03 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qDiP9-000Aaz-02;
-	Mon, 26 Jun 2023 09:21:03 +0000
-Date: Mon, 26 Jun 2023 17:20:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: souradeep chakrabarti <schakrabarti@linux.microsoft.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/2 V3 net] net: mana: Fix MANA VF unload when host is
- unresponsive
-Message-ID: <ZJlYbnr2UzONeu5U@65525e8f8615>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A659E46BA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jun 2023 11:00:04 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-4f004cc54f4so3930653e87.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jun 2023 04:00:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1687777202; x=1690369202;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=G7sIG9mMWqnBSjmRGaB+tfEB5pMmkNJkQTNkwiFZC9I=;
+        b=kOuezhJK6qeL7RdVK0EOMNMSwUCf02bEbVt9y7n+j9VvQxFcy4KlmXddXqoSEo9xXw
+         Twj3oux1PDEvBM9/2TCSWUNNfx+Jh3sOhVwLSOMelasvm7JK/49oqOzkPnxvgR6rShTs
+         fhqd/Xktl6up0HT/IZGAldUumnle4bP0IQQuCNi8ALDLsig7t5ycgbte5L4+CtorhH7T
+         p5bEZMCRp91/Z9tD64QgcB61hKm42eeH0XdgZqedFbQpPzpzhZlkhSVtrnm8tHQzHOml
+         eHqGP7Pt/3v8HP739ro4zjbQcottNhuEZWYU5Mi47yOjxN/p8n0bxh1Ks//kGturNmfr
+         Ib2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687777202; x=1690369202;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G7sIG9mMWqnBSjmRGaB+tfEB5pMmkNJkQTNkwiFZC9I=;
+        b=C5APOLBS5vXDgLiYibv7eNMOys+glhhbqhNcFBf4OqEDxUzazg+rLWkyQekf5DIQPZ
+         IUIjaLA98p8A/1Sk6ZQbcQxOo07BMo2z3m+InbS8ndKV+wVoIQ7d+QWICtKbEBbXBY4T
+         AtVR6JadkLYOE27NgvCKzzcNXCIDIkKUDd68PxDxuLbvAguRaDjEIy0kfU4/NPTJ7ira
+         PBkV2nWyRxi3f7TnfvMyN1QtSqyMGqttgh2tyy8b/MBzmzMn8ESgSrCWxtDRYWWF+iBb
+         BwXeC8vINBTsCojoRiR3DY0YMBxZVypqNIg3FHt60DEqEQNl+AVJfSMXLLZ9H98VFkVS
+         u0Mg==
+X-Gm-Message-State: AC+VfDzr+JhvHbY7wQI+ZUNpeIgn5Yix/ULnvtNCJBbrGGQI13tPKVPI
+	Yxwq7J9Lg9mzhB+JrkP9IUzEVQ==
+X-Google-Smtp-Source: ACHHUZ4zYjhSY+qg0esWzswppt9V4YWWBAzQx43K/Cea8Dvc33slbb6+aW2ukojrhy6ftK1bsVxRaA==
+X-Received: by 2002:a19:8c18:0:b0:4f4:fdb4:c76d with SMTP id o24-20020a198c18000000b004f4fdb4c76dmr18353746lfd.47.1687777202458;
+        Mon, 26 Jun 2023 04:00:02 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id t12-20020a7bc3cc000000b003f604793989sm10065546wmj.18.2023.06.26.04.00.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jun 2023 04:00:01 -0700 (PDT)
+Date: Mon, 26 Jun 2023 13:59:58 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Daniel Wagner <dwagner@suse.de>,
+	linux-nvme@lists.infradead.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Shin'ichiro Kawasaki <shinichiro@fastmail.com>,
+	Sagi Grimberg <sagi@grimberg.me>, Hannes Reinecke <hare@suse.de>,
+	James Smart <jsmart2021@gmail.com>, Daniel Wagner <dwagner@suse.de>
+Subject: Re: [PATCH v2 4/5] nvme-fc: Make initial connect attempt synchronous
+Message-ID: <7ba59f01-57fe-4ad2-917a-0a199528b1f6@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,23 +57,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1687771137-26911-1-git-send-email-schakrabarti@linux.microsoft.com>
+In-Reply-To: <20230620133711.22840-5-dwagner@suse.de>
 
-Hi,
+Hi Daniel,
 
-Thanks for your patch.
+kernel test robot noticed the following build warnings:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
-Subject: [PATCH 1/2 V3 net] net: mana: Fix MANA VF unload when host is unresponsive
-Link: https://lore.kernel.org/stable/1687771137-26911-1-git-send-email-schakrabarti%40linux.microsoft.com
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/nvme-fc-Do-not-wait-in-vain-when-unloading-module/20230620-213849
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20230620133711.22840-5-dwagner%40suse.de
+patch subject: [PATCH v2 4/5] nvme-fc: Make initial connect attempt synchronous
+config: openrisc-randconfig-m041-20230622 (https://download.01.org/0day-ci/archive/20230624/202306240125.U2jdrjAY-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230624/202306240125.U2jdrjAY-lkp@intel.com/reproduce)
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202306240125.U2jdrjAY-lkp@intel.com/
+
+smatch warnings:
+drivers/nvme/host/fc.c:3590 nvme_fc_init_ctrl() warn: passing zero to 'ERR_PTR'
+
+vim +/ERR_PTR +3590 drivers/nvme/host/fc.c
+
+61bff8ef008845 James Smart       2017-04-23  3533  	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_fc_ctrl_ops, 0);
+61bff8ef008845 James Smart       2017-04-23  3534  	if (ret)
+98e3528012cd57 Ross Lagerwall    2023-01-20  3535  		goto out_free_queues;
+e399441de9115c James Smart       2016-12-02  3536  
+61bff8ef008845 James Smart       2017-04-23  3537  	/* at this point, teardown path changes to ref counting on nvme ctrl */
+e399441de9115c James Smart       2016-12-02  3538  
+98e3528012cd57 Ross Lagerwall    2023-01-20  3539  	ret = nvme_alloc_admin_tag_set(&ctrl->ctrl, &ctrl->admin_tag_set,
+98e3528012cd57 Ross Lagerwall    2023-01-20  3540  			&nvme_fc_admin_mq_ops,
+98e3528012cd57 Ross Lagerwall    2023-01-20  3541  			struct_size((struct nvme_fcp_op_w_sgl *)NULL, priv,
+98e3528012cd57 Ross Lagerwall    2023-01-20  3542  				    ctrl->lport->ops->fcprqst_priv_sz));
+98e3528012cd57 Ross Lagerwall    2023-01-20  3543  	if (ret)
+98e3528012cd57 Ross Lagerwall    2023-01-20  3544  		goto fail_ctrl;
+98e3528012cd57 Ross Lagerwall    2023-01-20  3545  
+e399441de9115c James Smart       2016-12-02  3546  	spin_lock_irqsave(&rport->lock, flags);
+e399441de9115c James Smart       2016-12-02  3547  	list_add_tail(&ctrl->ctrl_list, &rport->ctrl_list);
+e399441de9115c James Smart       2016-12-02  3548  	spin_unlock_irqrestore(&rport->lock, flags);
+e399441de9115c James Smart       2016-12-02  3549  
+ac881fd1288ca6 Daniel Wagner     2023-06-20  3550  	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_CONNECTING)) {
+4c984154efa131 James Smart       2018-06-13  3551  		dev_err(ctrl->ctrl.device,
+4c984154efa131 James Smart       2018-06-13  3552  			"NVME-FC{%d}: failed to init ctrl state\n", ctrl->cnum);
+4c984154efa131 James Smart       2018-06-13  3553  		goto fail_ctrl;
+
+No error code on this path.  Originally it didn't matter because it was
+hardcoded to return ERR_PTR(-EIO);
+
+17c4dc6eb7e1b2 James Smart       2017-10-09  3554  	}
+17c4dc6eb7e1b2 James Smart       2017-10-09  3555  
+ac881fd1288ca6 Daniel Wagner     2023-06-20  3556  	ret = nvme_fc_create_association(ctrl);
+ac881fd1288ca6 Daniel Wagner     2023-06-20  3557  	if (ret)
+4c984154efa131 James Smart       2018-06-13  3558  		goto fail_ctrl;
+4c984154efa131 James Smart       2018-06-13  3559  
+4c984154efa131 James Smart       2018-06-13  3560  	dev_info(ctrl->ctrl.device,
+4c984154efa131 James Smart       2018-06-13  3561  		"NVME-FC{%d}: new ctrl: NQN \"%s\"\n",
+e5ea42faa773c6 Hannes Reinecke   2021-09-22  3562  		ctrl->cnum, nvmf_ctrl_subsysnqn(&ctrl->ctrl));
+4c984154efa131 James Smart       2018-06-13  3563  
+4c984154efa131 James Smart       2018-06-13  3564  	return &ctrl->ctrl;
+4c984154efa131 James Smart       2018-06-13  3565  
+4c984154efa131 James Smart       2018-06-13  3566  fail_ctrl:
+19fce0470f0503 James Smart       2020-12-01  3567  	cancel_work_sync(&ctrl->ioerr_work);
+cf25809bec2c7d James Smart       2018-03-13  3568  	cancel_work_sync(&ctrl->ctrl.reset_work);
+cf25809bec2c7d James Smart       2018-03-13  3569  	cancel_delayed_work_sync(&ctrl->connect_work);
+cf25809bec2c7d James Smart       2018-03-13  3570  
+de41447aac034c Ewan D. Milne     2017-04-24  3571  	ctrl->ctrl.opts = NULL;
+17c4dc6eb7e1b2 James Smart       2017-10-09  3572  
+61bff8ef008845 James Smart       2017-04-23  3573  	/* initiate nvme ctrl ref counting teardown */
+e399441de9115c James Smart       2016-12-02  3574  	nvme_uninit_ctrl(&ctrl->ctrl);
+61bff8ef008845 James Smart       2017-04-23  3575  
+0b5a7669a457dd James Smart       2017-06-15  3576  	/* Remove core ctrl ref. */
+0b5a7669a457dd James Smart       2017-06-15  3577  	nvme_put_ctrl(&ctrl->ctrl);
+0b5a7669a457dd James Smart       2017-06-15  3578  
+61bff8ef008845 James Smart       2017-04-23  3579  	/* as we're past the point where we transition to the ref
+61bff8ef008845 James Smart       2017-04-23  3580  	 * counting teardown path, if we return a bad pointer here,
+61bff8ef008845 James Smart       2017-04-23  3581  	 * the calling routine, thinking it's prior to the
+61bff8ef008845 James Smart       2017-04-23  3582  	 * transition, will do an rport put. Since the teardown
+61bff8ef008845 James Smart       2017-04-23  3583  	 * path also does a rport put, we do an extra get here to
+61bff8ef008845 James Smart       2017-04-23  3584  	 * so proper order/teardown happens.
+61bff8ef008845 James Smart       2017-04-23  3585  	 */
+61bff8ef008845 James Smart       2017-04-23  3586  	nvme_fc_rport_get(rport);
+61bff8ef008845 James Smart       2017-04-23  3587  
+ac881fd1288ca6 Daniel Wagner     2023-06-20  3588  	if (ret > 0)
+ac881fd1288ca6 Daniel Wagner     2023-06-20  3589  		ret = -EIO;
+ac881fd1288ca6 Daniel Wagner     2023-06-20 @3590  	return ERR_PTR(ret);
+e399441de9115c James Smart       2016-12-02  3591  
+61bff8ef008845 James Smart       2017-04-23  3592  out_free_queues:
+61bff8ef008845 James Smart       2017-04-23  3593  	kfree(ctrl->queues);
+e399441de9115c James Smart       2016-12-02  3594  out_free_ida:
+61bff8ef008845 James Smart       2017-04-23  3595  	put_device(ctrl->dev);
+3dd83f4013f0e8 Sagi Grimberg     2022-02-14  3596  	ida_free(&nvme_fc_ctrl_cnt, ctrl->cnum);
+e399441de9115c James Smart       2016-12-02  3597  out_free_ctrl:
+e399441de9115c James Smart       2016-12-02  3598  	kfree(ctrl);
+e399441de9115c James Smart       2016-12-02  3599  out_fail:
+e399441de9115c James Smart       2016-12-02  3600  	/* exit via here doesn't follow ctlr ref points */
+e399441de9115c James Smart       2016-12-02  3601  	return ERR_PTR(ret);
+e399441de9115c James Smart       2016-12-02  3602  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
 
