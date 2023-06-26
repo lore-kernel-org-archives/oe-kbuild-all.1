@@ -1,42 +1,48 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F543947A;
-	Mon, 26 Jun 2023 13:39:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2C0947A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jun 2023 13:50:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687786751; x=1719322751;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=xOg20E9f1n3I03kJ5H2YgXDDsJyOE9BoJ/x7fIh/E+4=;
-  b=ELbKJNncaDc5fytlWBQFNK0nUhNxZDBbE1OrFO+8lWFQpWKpIz2W3TFz
-   lyzNqTCSvRIepmnxrovTbp+3hyUXl076Tt4ReV7YG82/yZ8KpKtFPwBeX
-   siYtCg5LPKYGvrz41BcwqX435Kt8yx1BxY1lmngGcR2ewba2lu+TaCeU6
-   vto14sNmfHgnnrj5GfnomMB1C2Wpknmmam+K+7JqovA5PsKKms0oHIPmm
-   TVtd4z1Z0lOi4caWC68Ytf3NGo+UtILv1GCOdADM/2CM4TAJE6uTaGWBW
-   rcYGcvZ2DVlga8Fac/H3eAa0L3f23fjS2wGs6BPP5t8CqAb7wl+qR0s34
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="363815569"
+  t=1687787413; x=1719323413;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qGg5y33q4e4oK5lvtFhWNAJKSP92j8o3bpLPCrQZZfs=;
+  b=I/G7MI3l43Oa8jCMqzJX8vIz4JaB2A5VcHnraZM5K9dvDR4DxWd+J8IT
+   pvFCXl4YBUbMoH1xAjB8+O/aQ9OuOYjVAUPRvqQ15QXw6HmqLc0NcsUb3
+   6WQXaKqJ9/ypXya1EN/dr/CH7XTRqXqY6VKzW7/V9MScQ+2S+BW1DdM6D
+   TT26WZXuDgjLMvhfmTRaWiUiBNZAtcAATQ2eS2ydErwhh8e7+fjhxTLp2
+   XauX0625nNh804aHHK5VbF9w6oRBOI5bLL90h/qO1baM48OHyPJEHmnS9
+   CmTxizWCqtiLCish7vF5+qBUsWrh+R1qBOr9lKsQuhyLajHq8ZgOWCOUc
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="346026085"
 X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="363815569"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 06:39:10 -0700
+   d="scan'208";a="346026085"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 06:50:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="1046502806"
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="890288228"
 X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
-   d="scan'208";a="1046502806"
+   d="scan'208";a="890288228"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 26 Jun 2023 06:39:09 -0700
+  by orsmga005.jf.intel.com with ESMTP; 26 Jun 2023 06:50:10 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qDmQv-000AiH-0K;
-	Mon, 26 Jun 2023 13:39:09 +0000
-Date: Mon, 26 Jun 2023 21:39:02 +0800
+	id 1qDmbZ-000AiL-0r;
+	Mon, 26 Jun 2023 13:50:09 +0000
+Date: Mon, 26 Jun 2023 21:49:46 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: ld.lld: error: vmlinux.a(kernel/bpf/btf.o):(function
- btf_parse_vmlinux: .text+0x4848): relocation R_RISCV_PCREL_HI20 out of
- range: -525535 is not in [-524288, 524287]; references __start_BTF
-Message-ID: <202306262145.vzymyN85-lkp@intel.com>
+To: D Scott Phillips <scott@os.amperecomputing.com>,
+	linux-arm-kernel@lists.infradead.org,
+	James Morse <james.morse@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, linux-kernel@vger.kernel.org,
+	Darren Hart <darren@os.amperecomputing.com>
+Subject: Re: [PATCH v5] arm64: sdei: abort running SDEI handlers during crash
+Message-ID: <202306262128.wAk7FLHn-lkp@intel.com>
+References: <20230626074748.2785-1-scott@os.amperecomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,75 +51,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230626074748.2785-1-scott@os.amperecomputing.com>
 
-CC: linux-kernel@vger.kernel.org
-TO: Jesse Taube <mr.bossman075@gmail.com>
-CC: Conor Dooley <conor.dooley@microchip.com>
-CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Hi Scott,
 
-Hi Jesse,
+kernel test robot noticed the following build errors:
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on arm/for-next arm/fixes kvmarm/next soc/for-next linus/master v6.4 next-20230626]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6995e2de6891c724bfeb2db33d7b87775f913ad1
-commit: 49f965b6fbca63904d7397ce96066fa992f401a3 soc: canaan: Make K210_SYSCTL depend on CLK_K210
-date:   3 months ago
-config: riscv-randconfig-r003-20230626 (https://download.01.org/0day-ci/archive/20230626/202306262145.vzymyN85-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230626/202306262145.vzymyN85-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/D-Scott-Phillips/arm64-sdei-abort-running-SDEI-handlers-during-crash/20230626-180652
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20230626074748.2785-1-scott%40os.amperecomputing.com
+patch subject: [PATCH v5] arm64: sdei: abort running SDEI handlers during crash
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230626/202306262128.wAk7FLHn-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230626/202306262128.wAk7FLHn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306262145.vzymyN85-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306262128.wAk7FLHn-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: vmlinux.a(kernel/bpf/btf.o):(function btf_parse_vmlinux: .text+0x4848): relocation R_RISCV_PCREL_HI20 out of range: -525535 is not in [-524288, 524287]; references __start_BTF
-   >>> referenced by btf.c:525 (kernel/bpf/btf.c:525)
-   >>> defined in vmlinux.a(kernel/bpf/btf.o)
---
->> ld.lld: error: vmlinux.a(kernel/bpf/btf.o):(function btf_parse_vmlinux: .text+0x4854): relocation R_RISCV_PCREL_HI20 out of range: -525535 is not in [-524288, 524287]; references __stop_BTF
-   >>> referenced by btf.c:525 (kernel/bpf/btf.c:525)
-   >>> defined in vmlinux.a(kernel/bpf/btf.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_lookup_names: .text+0x1a0): relocation R_RISCV_PCREL_HI20 out of range: -524978 is not in [-524288, 524287]; references kallsyms_seqs_of_names
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x44c): relocation R_RISCV_PCREL_HI20 out of range: -524978 is not in [-524288, 524287]; references kallsyms_num_syms
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x460): relocation R_RISCV_PCREL_HI20 out of range: -524978 is not in [-524288, 524287]; references kallsyms_relative_base
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_symbol: .text+0x464): relocation R_RISCV_PCREL_HI20 out of range: -524978 is not in [-524288, 524287]; references kallsyms_offsets
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_expand_symbol: .text+0x55c): relocation R_RISCV_PCREL_HI20 out of range: -524978 is not in [-524288, 524287]; references kallsyms_names
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_expand_symbol: .text+0x5a8): relocation R_RISCV_PCREL_HI20 out of range: -524978 is not in [-524288, 524287]; references kallsyms_token_index
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_expand_symbol: .text+0x5b0): relocation R_RISCV_PCREL_HI20 out of range: -524978 is not in [-524288, 524287]; references kallsyms_token_table
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_match_symbol: .text+0x6e8): relocation R_RISCV_PCREL_HI20 out of range: -524978 is not in [-524288, 524287]; references kallsyms_relative_base
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
---
->> ld.lld: error: vmlinux.a(kernel/kallsyms.o):(function kallsyms_on_each_match_symbol: .text+0x6f8): relocation R_RISCV_PCREL_HI20 out of range: -524978 is not in [-524288, 524287]; references kallsyms_seqs_of_names
-   >>> referenced by kallsyms.c
-   >>> defined in vmlinux.a(kernel/kallsyms.o)
-..
+   In file included from drivers/acpi/apei/ghes.c:20:
+>> include/linux/arm_sdei.h:10:10: fatal error: asm/sdei.h: No such file or directory
+      10 | #include <asm/sdei.h>
+         |          ^~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +10 include/linux/arm_sdei.h
+
+f9f05395f384ee James Morse 2019-01-29   9  
+ad6eb31ef90355 James Morse 2018-01-08 @10  #include <asm/sdei.h>
+ad6eb31ef90355 James Morse 2018-01-08  11  
 
 -- 
 0-DAY CI Kernel Test Service
