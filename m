@@ -1,76 +1,80 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345D64C75
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jun 2023 07:25:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03972440C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jun 2023 07:51:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687764354; x=1719300354;
+  t=1687765904; x=1719301904;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ovmpyK3yDDnNDzr1VTqaqPqoFXnw2eLPUONCrJb0f7U=;
-  b=lKpWqXRnuNt21YbdyuCAwTwrF4RWLdyrbrflei9af7wo/K7/xTH9qhA8
-   E1+3FSQrt4pPu6FImDasYq7KdgUgHHrHTByDHnezn8Y+BFbOuUTaRETGE
-   gKdmkWtCFZM8eBkhLQRVmJt7tny/1AvQQLa9cVo7jnIJR9FhBU8803Yhq
-   X9dW7C9AcCGOFrqQhToebByloFvYGXN8/fJ6jdMyVoafCCPbyta8rORx0
-   e3+1jYmlw4JTMVWLXEZ737phwW8SqhGLMDRb+rr0E+UoAOT3MjO5rS0n3
-   QAdJ+yAsBLsxGBdc/mseRAXIeu0pDwCgDCEgklOE+hDBc/vqE5depYidO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="363745581"
-X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="363745581"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 00:25:49 -0700
+  bh=CevVugZWyLM2yKe1xRiTE42MTeJD9rkcmF3hfxiyumE=;
+  b=U50AgdlqT1NlHMdAQW0anvbXlqBqbOx4HeuQZ0GQ/p3D+wzwwnsxwcdU
+   lPxQ08CtM5br0wfPDArDXxiehUaHM5FwYnYNt/z78ofmD0EVe9w7yA/S8
+   8gPhmRkU7th1xE2+MBIb0z6ImRSP4swCmucSG3DuNwMx6JrDvasrzgsnD
+   HWyRkeHZ5gd+8XeG34lVw2uNgu8Dbj9zx0WvMFVR+SxMlJeHrcZGYqano
+   qz/LmguqzvIrKHgXwkZpVhF3uglczih2+seJAEK/yVmGz9u0CkDtbCLJG
+   Y+JjSExpQBB88sRiZq6/rtgelMMmeTw+SDxBU6xaxlrNMxkaykLhj/Zrb
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="427198217"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
+   d="scan'208";a="427198217"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 00:51:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="962682095"
-X-IronPort-AV: E=Sophos;i="6.01,158,1684825200"; 
-   d="scan'208";a="962682095"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmsmga006.fm.intel.com with ESMTP; 26 Jun 2023 00:25:48 -0700
-Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+X-IronPort-AV: E=McAfee;i="6600,9927,10752"; a="1046399544"
+X-IronPort-AV: E=Sophos;i="6.01,159,1684825200"; 
+   d="scan'208";a="1046399544"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga005.fm.intel.com with ESMTP; 26 Jun 2023 00:51:42 -0700
+Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27; Mon, 26 Jun 2023 00:25:47 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ 15.1.2507.27; Mon, 26 Jun 2023 00:51:41 -0700
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.27 via Frontend Transport; Mon, 26 Jun 2023 00:25:47 -0700
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (104.47.73.171)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ 15.1.2507.27; Mon, 26 Jun 2023 00:51:40 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.27 via Frontend Transport; Mon, 26 Jun 2023 00:51:40 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 26 Jun 2023 00:25:46 -0700
+ 15.1.2507.23; Mon, 26 Jun 2023 00:51:40 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TpBpZTqOsDwx/5UEOS6Zv+fK0WKKHEbsNB9GvlPG8eechUHBs+0fLEDoIZoc+6XcQxj853N0W7H0GykUXAnvj6h8KO7tTK4rgl2rOG8E2M6WtluKVZtxsrviNeew3tYRD5VKh14ytaRaF7aEBT30Bdoj0GyHPlv80OpHowQlNKq6H5UmGVS+Ygz2K3csPtaHTUmzV8Fj+eQYjMrrJ9xHVspTFVc/Cs1fBIBES6h9DLiRCo74+h3jSiHbEirwT9A6hdMAcMZeVL1KxX0CRJVI+6mrOrcRs3y/2BKdbEVbC1sIAZd9GBgxrzv9GdA51soG8VNqc7aePqmClk9Txq6m/g==
+ b=QlH5ytabDeiX+jGd7ij/jEVTKqQYiW9o0SDLEvuSVg03kiHkcZzHvspzobYVPAoHH4tEBIGSHUfk/SZd1mSqwFmANJOfAXK3Sf3jDSgQuBqTTMdHYV6UNt+V/h2Bmp4rXnABBzOzapC3FnMwToVdp/IecU2vp/p4h+4YnqXTEB8yXu3WV82e2PXZX+wkEB8HMXVGTekeC1zPmJomPy8oX1s6jJeSDo20Ct4iT/IXuTG6dO1dKF6OAP/JEsBnvGsCzlBonWahp3jenJet8yo9yCtS6ImmvSe2+3gzQNgHDH/LGoeiVMkkmlgCugFcfjeBteLCWYFkxsnEEyCc9fPgVw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wNS1zdIRgVjL/yZfNPd16spLSRps9H735SUMYG46qe0=;
- b=UEdp99bNg3imASmqZKHAiaPGDX1IRdVlo2KEUleVphH4NZdaZSOUYeA0B3/ftd9mW1/9FjcyflxI0sBD50SxXDL/xNdX+TulxYNskQHGlnuTWNTRpPrXv5+GSDQeH/+L8VDiLJ7BuUffOCPhghR37ry/kETymF3MPRBNtQK/1y6PFmIvGeDLVDMJQM4nBxw9Pw3kvSpJgFpx1xMcVNs9UIYcWbb8ONb6p9mQc18ORxliMkFvo+fCiD4GLjNx0wNBjPPqT6y/pTojfkn/61NDfbf7v5T+ozIArfoDuyZx47vscHkZuVNB6T7wgv1zYwBhlGMpnS9AaapH4fM2YPmL6w==
+ bh=tusn25xz7MiKAZ/wOxkIUQqU6bgbZS0hwrq0wFDm7Kw=;
+ b=OGz0qrbPEDAtppn6Uobb5lQVrqGZu69faEqvbsoWTgvDYxLUed7aJKpHqkgsIP8E6KDj34BIngnkJFtMuE8MLl34fYYewjgtJ3p3sFoWqQb0GiSnHHLAvgriGB6Snc0RA7ApAPsUF1/x8jUwyyZM2zJuLq+mUkD1nTRzh1iZPvtQ+afD+j7MDPVKSQNdxDWDzqiv31Pk2Zyc29ekD8n85cv80CCnqFxSbDW1McdMBOhquobLCTUZL8hc330OHaLK6y4BgqA8ps9vxkFxcWKmzG74SOpx1S7ewEhqkUK0U/A9Bb0+4+1Vezu/gc1SsFwCIgfAgrvvKlMNLQC9qW+70g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com (2603:10b6:930:37::15)
- by IA0PR11MB8354.namprd11.prod.outlook.com (2603:10b6:208:48c::6) with
+ by PH0PR11MB5048.namprd11.prod.outlook.com (2603:10b6:510:3d::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Mon, 26 Jun
- 2023 07:25:41 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.23; Mon, 26 Jun
+ 2023 07:51:38 +0000
 Received: from CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::5486:41e6:7c9e:740e]) by CY5PR11MB6392.namprd11.prod.outlook.com
  ([fe80::5486:41e6:7c9e:740e%7]) with mapi id 15.20.6521.024; Mon, 26 Jun 2023
- 07:25:41 +0000
-Date: Mon, 26 Jun 2023 15:22:38 +0800
+ 07:51:37 +0000
+Date: Mon, 26 Jun 2023 15:48:34 +0800
 From: kernel test robot <yujie.liu@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [jimc:dd-fix-2j 11/17] lib/test_dynamic_debug.c:102:1: sparse:
- sparse: symbol 'map_disjoint_bits_classnames' was not declared. Should it be
- static?
-Message-ID: <202306241240.VNDPVuzl-lkp@intel.com>
+To: Mark Rutland <mark.rutland@arm.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Catalin
+ Marinas" <catalin.marinas@arm.com>
+Subject: include/linux/compiler_types.h:82:5: sparse: sparse: undefined
+ preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+Message-ID: <202306220043.IHVrU1h8-lkp@intel.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SI1PR02CA0021.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::14) To CY5PR11MB6392.namprd11.prod.outlook.com
+X-ClientProxiedBy: SI1PR02CA0014.apcprd02.prod.outlook.com
+ (2603:1096:4:1f7::9) To CY5PR11MB6392.namprd11.prod.outlook.com
  (2603:10b6:930:37::15)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -79,71 +83,174 @@ List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|IA0PR11MB8354:EE_
-X-MS-Office365-Filtering-Correlation-Id: 56c36654-f231-4fa9-98fc-08db76168bc5
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6392:EE_|PH0PR11MB5048:EE_
+X-MS-Office365-Filtering-Correlation-Id: f94843cf-905e-4423-042e-08db761a2bb5
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: gqWYP+6nG3OAJm7+4mZCnyDRfHKzPDfkQGoBtSO+XmMZdS2v8/HylxAgdRAFT3es8Riw5qt04Nz20oDxXZRVQy9V0tsVdZjMKE6ZxpMDKc8aFMRqt1P8ROyfJzfCFVrgckE/7iUk4fMyrvXo4kUIBcUwAko/5rTJF4nnpS1iZRU0tZIFQR4GmiI/iX28PtQ7jb3p05ykfqLm/AL9z0h+88lopPtNE5+awAKlIz8R2mGgm0FkkA+63JAnIF357P+NOf0lTCSLeKxop2StPJdZKIHRXK+k9Dp3JShu+go30L+269XzEUDnErlkaCzYmX1BclC8KmWOC6qjzspD1CJ0ojGemQY5IUfX1hX0Em2wtdjiEmY68njHVd9qtBctN/J4CJCAuojxAavI8XrDPjFKJ5tHYKDDoLTppTs0Es4L7dX+5A6TPbVCJ856GyzR7S1AOsglH65VBJ8G//TzWt/VgjAm7rd01FW7XuI6TVOX/2AXSNrMAsWS+rrm8QrYVBeUdvaAblPARhcf01RfsFvnUsbgWJhZOPfmutPNUWGLhpo7i/+kxwVkSPTAi6OlnwV1t3zZ/vKNrR085AEkXHKzaQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(39860400002)(136003)(376002)(396003)(346002)(366004)(451199021)(83380400001)(8936002)(966005)(316002)(6666004)(8676002)(4326008)(6486002)(41300700001)(36756003)(82960400001)(86362001)(38100700002)(2616005)(5660300002)(66946007)(66556008)(66476007)(6916009)(478600001)(2906002)(26005)(6512007)(186003)(1076003)(6506007);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam-Message-Info: tdAZh99Xni87s9u73d9dLiCPA24TyGVkbZQduBqdbqcDC9dk5o+pcMsqLS8c8h/+23sFvfbhUbtjGata/Orcz9AxtksRSD5tqDtpmkbAr7+Ub7wBz6LUWKH8RBGLUCMBiaAvIaA1maQe5twJBN2y3g5JJT38PtfVsTvjWI5DYaQYKMBrmvMGfL2wJWEIXtTSbe7nfpOGLOWJdkZYCo8vWlen7difSmKMFtc4CsFeZohbooU3zYycBBxl3FzeFBkAfZI2BC1tFeTMjLByjMiN6XGpr8htIkljzGzyXAb7uudXgPq8Voz7LQHEX2Qxwykt9aWQvjJ3a7ya9L4eQp/nW1FEYk03QvUczM8PT03cPLslU4VnDHZelenUZ2jb9vxjjZuwd6ZkPULzvJAJYLdOOqKNH0gdYvtzQvxjleqFCPrGeU5+5u2gAqhM2BjJNnUntDsuCjZCdgxMH1K+HgNFcYok5WfSkwGpV+y1CXHLBLj6UWdBhzCZh0k1M/o8n8qppeAsS0SHP6mmXS72Wp6FGzRyus7FScKpv4VrQ9ARGyI6hsG75FNGxIr7U8kcISLply1MlceOzUgPFNbiSGqPFg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR11MB6392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(396003)(376002)(366004)(136003)(346002)(39860400002)(451199021)(8676002)(8936002)(66476007)(66556008)(66946007)(41300700001)(316002)(6916009)(4326008)(6506007)(6512007)(1076003)(26005)(186003)(2616005)(478600001)(6666004)(966005)(6486002)(2906002)(5660300002)(30864003)(82960400001)(38100700002)(36756003)(86362001)(83380400001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JUzKGwVjtLG4Q7FCIrpIT+Z/Syy0cSlrV/3k5zWbRKpBxD1q1jKIldCyRa+L?=
- =?us-ascii?Q?ok5a2lW5dBUApYx4vDgRL5VI8+dpN8DTSoSJz0sPkzm1lvpndK+yBzeV2bIe?=
- =?us-ascii?Q?iGOVx9CS6/EkZNth7OSgLTGfwe59I3MimoJlSmnFeYh3u84gLNN0+CvwyCBj?=
- =?us-ascii?Q?2yXAOedCClv2wEaMovqSa8xrJXhudanv4aACCm8ygBF3UO+A+auN+CqliC5V?=
- =?us-ascii?Q?9xpfdwITm8ps1I+bmoDf7qz0HWunYfWUrEkhJhZ0/wW/BUPMWqQw1L65y6zp?=
- =?us-ascii?Q?6dR64dlltZsDe5oDAhdF3u0pj7uIi81CNGQsTMXhdbc2MWwvZ7YLYedHTh1v?=
- =?us-ascii?Q?ZozSLXA6n0YMuzJBW0FMZbDwr2oD1klX2MFAgNvCIYIwFgFvunuQABxQDrRT?=
- =?us-ascii?Q?qcK0WCPvsoNq8nFnLquAz3CXtCCetYeO1DbXA2QHXYJog6C8/E6ngNSTowwi?=
- =?us-ascii?Q?6SYhvdBA7h6P3s7pCNirR6TpZeqQ6oATjBp220Wrr1HLJIH0I0QIOcMCRlTf?=
- =?us-ascii?Q?UqBF9w5e9h3qA5s+ajz5qImB6BHGruae80b/oeAdDGkoPGZgVfiIIvd1X3YF?=
- =?us-ascii?Q?hZACF0l39oYssWUXBwqW61cxtNnj4PuLwTVfoweyvySWqX1LP+pT7tL/qVWU?=
- =?us-ascii?Q?WI3kca2h1B6V6KHMxcWEhNkOPFoYqCcXNiAtMLJKwPXc/W+dDzt4zE6Xezj9?=
- =?us-ascii?Q?jOtANwnGQWssNt3N53YxJBbrsUocyx7un4P8d3GmcL0buyAqDjA7SmdgV7J6?=
- =?us-ascii?Q?nzW0ZMVLf3AyuKjItGmypx+NabQDee1Pv3D3RRYotAdl4/bBT3oKJLzbL3Z9?=
- =?us-ascii?Q?X7FNV7g8/pz8qT9P5VTfJWR6IyNoPnRKpxeVPij9D160oZm3G0k635BKMxqD?=
- =?us-ascii?Q?2aMsDpztS9XEGq8gSMgZyuU/WliHshfpmH6B13KmtcZE2GRlXRt0E5tYZWG4?=
- =?us-ascii?Q?lbIW1kdD+2zB85Gah/yTkrCBGUTXwB0FcnCwEhIIKOXuST1y7PdnNvsN2uOE?=
- =?us-ascii?Q?6xmJEDPF2pejSeZ1uKvj6Rp6Bj1qWrYrn0Pda9MMSHjYs7Ydvt9VF2TWxFYL?=
- =?us-ascii?Q?FghnRieykJMPiIwrqmDdBNue7j9NilW8PXDSxRDADl6tdI2dR/rIcgWaXEiP?=
- =?us-ascii?Q?fy9kFYbDudS4pM5g+TuV9O59uhU/lDxF2gQLBAEoc0lgS0QBoMNd9lxO9FBN?=
- =?us-ascii?Q?o5DpbrevORCTn5du6MtOtT6qGrGXQV7uAijdcjvuWHXtEKF/OKFnhy+fW99x?=
- =?us-ascii?Q?XbSc6Ce77rxUYpDpHgLgfn40HuNX17e5yBtInPy/o954R4X4ikTIzVBwME5c?=
- =?us-ascii?Q?KYNN9D/ahJHgwQWLb/BD3YBzGU5PeSwgsAm2GhCaNCzBTPUj582Ci2dPkIKy?=
- =?us-ascii?Q?WFnwuggrNnfiQ2zBKh8ulo2rAhBRsrib2IxbrONLeO9mRsdoHcdzMY1hwwfp?=
- =?us-ascii?Q?vsxqaot1wj07gCckMgYIDkwtAr4JRmvuV2VmGu37TYtdqeYaZbZ21q1o1sUv?=
- =?us-ascii?Q?DFzRg3Xr18rTKlEHHz9s+rVjQN48VDy5mV3WoVHSSITuy/uvg86RuhFqgPdU?=
- =?us-ascii?Q?D+6N6mt4ePLFDa2+6tbyNRAUpL+f01aVCKtVwHsL?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56c36654-f231-4fa9-98fc-08db76168bc5
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0vJVP7T/1s7L7Q2qBe2l+NZ+WgduASCMP1p7Vjsh0ReoosDHpXGN1C7bmwVz?=
+ =?us-ascii?Q?0klRa1567YuKwUOkxzFMKPLqVav9kyiv0G+YcJjCnbBxtnOeVWk3YLvlUkOU?=
+ =?us-ascii?Q?6gweL5wFsBH5s+Q46YHglGPASyCUkAPdfmASlVjJdog+X05FxB3pbxx1zoVy?=
+ =?us-ascii?Q?Ly2fPH2OJfwZRzZncKMt8MQrSuXYNOf7JwwjVfb3RyMJpPYrbz5wOcCjs8OY?=
+ =?us-ascii?Q?jHqLVnrXCHoetBEu4iQ/s7rU54ixo0vr6CNTG08OxB6jIg8t1HExPASDJFCF?=
+ =?us-ascii?Q?+1f2FDeAdtxFzOzuF+cHr6da2KQ+nJu0gC+HbNpSZdhXJdj96JxXHBd08dhC?=
+ =?us-ascii?Q?HbdBSLP/lvLbUrAE6QItgQA6tRCtchXA2bM5iMe9xyr/V5KBmgW1IcURW5b2?=
+ =?us-ascii?Q?o9TAlLKCTVoqvnNqe/zjUcoSkk8zOylvxfscrUqLkTzh4hQCFMkBwEJvnoSV?=
+ =?us-ascii?Q?TmYuXanu89Gec0xIF7+3TEcoBuf24kD/6AdwI1uKNWdZWg//ByjSUzXtEyqP?=
+ =?us-ascii?Q?ViOM0Yce0pZdr0hYpg4rFdaM0dZn51+uSsKgTPn+76lC8BVjqdCcTckGwTvi?=
+ =?us-ascii?Q?1JSklIB5lsA2/IRLXqQapWMM6xCbFCBkUCxGixjQ3hTb1mVnaJxnhoxx57aR?=
+ =?us-ascii?Q?U6/5hcJNn4YV8iH+o7xy1ld/CRYDMKrMSN+7j91KucbnUaSL9K9NR9p3JGT3?=
+ =?us-ascii?Q?WLU4NUlM2XEIUSHGGl6ih4CdQktLHjpTCWaMYpQCrbmn/48yuh59yn6oplDW?=
+ =?us-ascii?Q?HZXdg09vYeN0YZ/pfYENee78nm4BJM8ZOPufNKfmBRWjG7/6nlw5h3ahhlH1?=
+ =?us-ascii?Q?rnFOyurKiK2AlD7WPKM8HDvLVDzMiMkZv7KLFXrGJO2oJbE6Wnne/CGuR4qX?=
+ =?us-ascii?Q?nx9MiJVKEOF3xEb5FqtXg0pAXXZKyJ4fEZGLWqij6kmi+lfX5K6h0Q33W0jj?=
+ =?us-ascii?Q?UE8op2azkuE+kjApcLhNrYmhTYgLgaqqEta0L4jVRBW48Q8Z7NL2GVPmHd/y?=
+ =?us-ascii?Q?3z4xzHLQT3eH27w19vjU9gCzz2UyERez567zRHEV0/M1w3mIYpqXWVyWNK/o?=
+ =?us-ascii?Q?7/zNBO0tHpSR+vUEFWJ1ylhinWIBr1sOQCECJDLn++ieYLCEyX1IiyPRIy26?=
+ =?us-ascii?Q?JH2akB6WDFdBQ5yu4P/6xPQWLhflULmZXSQvCpX9nP4Ll7X+G+Tex0khiENp?=
+ =?us-ascii?Q?kM7YFGdce3umZBCFQj3ORqdToMUkFKivSIO61IVY+q8gDJh+amfJa5f2breR?=
+ =?us-ascii?Q?hkXKJg4P6IjVq2mn2wQF5XwA/w7DifjDiejf2vNAjwHW6f8cfOSi5FZOeASx?=
+ =?us-ascii?Q?O9lVtIcnqWEQLEIKbyhCnyT0HXCGyKaOPdzrItvSrYKkErYuyH6uOyboVqv6?=
+ =?us-ascii?Q?p4Y9fAIsRjBrqmioi9Z1HD1VcwyyV6w0827topv5aYMRJLrt/rEKfO6lJyM5?=
+ =?us-ascii?Q?3HlTXWatQaWI+EuRT6N+b4ndfGiA1U8lEb9S25ycELqhZwtjikcRM20uXaqj?=
+ =?us-ascii?Q?/p2jRP7KTuNuI4R2M0SL3YXt4RJOXPxmwbx7+ggFB9P/qIdVMkhM8USoi1q+?=
+ =?us-ascii?Q?hf2+SIOet5cj0un07LbJZR9+QXauGivv32ZDZyS/?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f94843cf-905e-4423-042e-08db761a2bb5
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6392.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2023 07:25:41.0974
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2023 07:51:37.9346
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eDMPdQDlGBqlnJp+YR+26qK47oAE3b6l9wgEN95o/R2HCQSq0detje0hsTVpA5536pFCQ5fHr/6lDgh4940VDg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB8354
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2V0RQ87JGX4ngTBWJM/kYgs/ssDHAunhRC+MPKardnp1bi44SwlROS65OqQ+v/JfWiXdN2qXzR8gyI9JgfC2+Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5048
 X-OriginatorOrg: intel.com
 
-tree:   https://github.com/jimc/linux.git dd-fix-2j
-head:   4098fc4c48d0cb803788c4eeee53e03ddd157200
-commit: b03647afea5bd503a87dcfee0569af044c8cca6d [11/17] dyndbg-API: fix DECLARE_DYNDBG_CLASSMAP & CONFIG_DRM_USE_DYNAMIC_DEBUG
-config: um-randconfig-s053-20230621 (https://download.01.org/0day-ci/archive/20230624/202306241240.VNDPVuzl-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e660abd551f1172e428b4e4003de887176a8a1fd
+commit: c27cd083cfb9d392f304657ed00fcde1136704e7 Compiler attributes: GCC cold function alignment workarounds
+date:   5 months ago
+config: um-randconfig-s053-20230621 (https://download.01.org/0day-ci/archive/20230622/202306220043.IHVrU1h8-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230624/202306241240.VNDPVuzl-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230622/202306220043.IHVrU1h8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <yujie.liu@intel.com>
-| Closes: https://lore.kernel.org/r/202306241240.VNDPVuzl-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202306220043.IHVrU1h8-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> lib/test_dynamic_debug.c:102:1: sparse: sparse: symbol 'map_disjoint_bits_classnames' was not declared. Should it be static?
->> lib/test_dynamic_debug.c:115:1: sparse: sparse: symbol 'map_level_num_classnames' was not declared. Should it be static?
-   lib/test_dynamic_debug.c:118:1: sparse: sparse: symbol 'map_disjoint_names_classnames' was not declared. Should it be static?
-   lib/test_dynamic_debug.c:121:1: sparse: sparse: symbol 'map_level_names_classnames' was not declared. Should it be static?
+   arch/um/kernel/config.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/kernel/config.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:424:10: sparse: this was the original definition
+   arch/um/kernel/config.c: note: in included file (through arch/um/include/shared/init.h):
+>> include/linux/compiler_types.h:82:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+--
+   arch/um/drivers/fd.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h, arch/um/drivers/chan_user.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/drivers/fd.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:424:10: sparse: this was the original definition
+   arch/um/drivers/fd.c: note: in included file (through arch/um/include/shared/init.h, arch/um/drivers/chan_user.h):
+>> include/linux/compiler_types.h:82:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+--
+   arch/um/drivers/chan_user.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h, arch/um/drivers/chan_user.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/drivers/chan_user.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:424:10: sparse: this was the original definition
+   arch/um/drivers/chan_user.c: note: in included file (through arch/um/include/shared/init.h, arch/um/drivers/chan_user.h):
+>> include/linux/compiler_types.h:82:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+--
+   arch/um/drivers/port_user.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h, arch/um/drivers/chan_user.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/drivers/port_user.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:424:10: sparse: this was the original definition
+   arch/um/drivers/port_user.c: note: in included file (through arch/um/include/shared/init.h, arch/um/drivers/chan_user.h):
+>> include/linux/compiler_types.h:82:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+   arch/um/drivers/port_user.c:179:32: sparse: sparse: Using plain integer as NULL pointer
+--
+   arch/um/os-Linux/main.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/os-Linux/main.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:424:10: sparse: this was the original definition
+   arch/um/os-Linux/main.c: note: in included file (through arch/um/include/shared/init.h):
+>> include/linux/compiler_types.h:82:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+   arch/um/os-Linux/main.c:187:6: sparse: sparse: symbol '__wrap_malloc' was not declared. Should it be static?
+   arch/um/os-Linux/main.c:208:6: sparse: sparse: symbol '__wrap_calloc' was not declared. Should it be static?
+   arch/um/os-Linux/main.c:222:6: sparse: sparse: symbol '__wrap_free' was not declared. Should it be static?
+--
+   arch/um/os-Linux/mem.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/os-Linux/mem.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:424:10: sparse: this was the original definition
+   arch/um/os-Linux/mem.c: note: in included file (through arch/um/include/shared/init.h):
+>> include/linux/compiler_types.h:82:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+--
+   arch/um/os-Linux/process.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/os-Linux/process.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:424:10: sparse: this was the original definition
+   arch/um/os-Linux/process.c: note: in included file (through arch/um/include/shared/init.h):
+>> include/linux/compiler_types.h:82:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+--
+   arch/um/os-Linux/sigio.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/os-Linux/sigio.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:424:10: sparse: this was the original definition
+   arch/um/os-Linux/sigio.c: note: in included file (through arch/um/include/shared/init.h):
+>> include/linux/compiler_types.h:82:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+--
+   arch/um/os-Linux/start_up.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/os-Linux/start_up.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:424:10: sparse: this was the original definition
+   arch/um/os-Linux/start_up.c: note: in included file (through arch/um/include/shared/init.h):
+>> include/linux/compiler_types.h:82:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+--
+   arch/um/os-Linux/umid.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/os-Linux/umid.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:424:10: sparse: this was the original definition
+   arch/um/os-Linux/umid.c: note: in included file (through arch/um/include/shared/init.h):
+>> include/linux/compiler_types.h:82:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+--
+   arch/um/os-Linux/util.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/os-Linux/util.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:424:10: sparse: this was the original definition
+   arch/um/os-Linux/util.c: note: in included file (through arch/um/include/shared/init.h):
+>> include/linux/compiler_types.h:82:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+   arch/um/os-Linux/util.c:93:48: sparse: sparse: Using plain integer as NULL pointer
+--
+   arch/um/os-Linux/skas/mem.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/os-Linux/skas/mem.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:424:10: sparse: this was the original definition
+   arch/um/os-Linux/skas/mem.c: note: in included file (through arch/um/include/shared/init.h):
+>> include/linux/compiler_types.h:82:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+--
+   arch/um/os-Linux/skas/process.c: note: in included file (through include/linux/compiler_types.h, arch/um/include/shared/init.h):
+   include/linux/compiler_attributes.h:55:9: sparse: sparse: preprocessor token __always_inline redefined
+   arch/um/os-Linux/skas/process.c: note: in included file (through /usr/include/features.h, /usr/include/sys/types.h, arch/um/include/shared/user.h, builtin):
+   /usr/include/sys/cdefs.h:424:10: sparse: this was the original definition
+   arch/um/os-Linux/skas/process.c: note: in included file (through arch/um/include/shared/init.h):
+>> include/linux/compiler_types.h:82:5: sparse: sparse: undefined preprocessor identifier 'CONFIG_FUNCTION_ALIGNMENT'
+   arch/um/os-Linux/skas/process.c:300:5: sparse: sparse: symbol 'kill_userspace_mm' was not declared. Should it be static?
+
+vim +/CONFIG_FUNCTION_ALIGNMENT +82 include/linux/compiler_types.h
+
+a3f8a30f3f0079 Miguel Ojeda 2018-08-30  81  
+c27cd083cfb9d3 Mark Rutland 2023-01-23 @82  #if CONFIG_FUNCTION_ALIGNMENT > 0
+c27cd083cfb9d3 Mark Rutland 2023-01-23  83  #define __function_aligned		__aligned(CONFIG_FUNCTION_ALIGNMENT)
+c27cd083cfb9d3 Mark Rutland 2023-01-23  84  #else
+c27cd083cfb9d3 Mark Rutland 2023-01-23  85  #define __function_aligned
+c27cd083cfb9d3 Mark Rutland 2023-01-23  86  #endif
+c27cd083cfb9d3 Mark Rutland 2023-01-23  87  
 
 -- 
 0-DAY CI Kernel Test Service
