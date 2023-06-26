@@ -1,151 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7E3C8E9;
-	Mon, 26 Jun 2023 16:01:18 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 97BC921855;
-	Mon, 26 Jun 2023 16:01:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1687795276; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l2ryW+rViBd6L+rvMzNbesV3/gH4ubhGtrOLnJFR66I=;
-	b=UELeJTOOxIhZvM4NqKAEHIWFV8mQYhwKdN6b8ckf0NSyLshFEFlOEuG+tgvB+Ku7dZOakt
-	9hVhhHygbk6K/uf5Q8kN3ClzUHtc8hXepvEq4eUCAvZBcDI5a2nMYBI/ev7bgZrukhZz7y
-	tdKCEr4ylpNJ3zvV/LQKWGVN0fEnpF4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1687795276;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=l2ryW+rViBd6L+rvMzNbesV3/gH4ubhGtrOLnJFR66I=;
-	b=e2ZRSvbcCcBpzb53nCJeMrTi8BIopCl+J+e4RCkrb5aD1cZkZTgAYbjQYr4AW221JyOham
-	A5aod6WlvMatnPAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8417313483;
-	Mon, 26 Jun 2023 16:01:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id xH85IEy2mWTINAAAMHmgww
-	(envelope-from <jack@suse.cz>); Mon, 26 Jun 2023 16:01:16 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id EB1EFA0754; Mon, 26 Jun 2023 18:01:15 +0200 (CEST)
-Date: Mon, 26 Jun 2023 18:01:15 +0200
-From: Jan Kara <jack@suse.cz>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Jan Kara <jack@suse.cz>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
-	Kent Overstreet <kmo@daterainc.com>
-Subject: Re: [axboe-block:for-6.5/block-late 216/216]
- drivers/md/bcache/super.c:2644 register_bcache() warn: passing freed memory
- 'holder'
-Message-ID: <20230626160115.5ctxooc6dtdhrn7h@quack3>
-References: <0108ee74-6186-4707-ab31-8e4543d98db5@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADADD51B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jun 2023 16:10:10 +0000 (UTC)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-190-znHz0X3HMcKVclPaaTyJRg-1; Mon, 26 Jun 2023 17:10:06 +0100
+X-MC-Unique: znHz0X3HMcKVclPaaTyJRg-1
+Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
+ (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 26 Jun
+ 2023 17:10:05 +0100
+Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
+ id 15.00.1497.048; Mon, 26 Jun 2023 17:10:05 +0100
+From: David Laight <David.Laight@ACULAB.COM>
+To: 'kernel test robot' <lkp@intel.com>, You Kangren <youkangren@vivo.com>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu
+	<herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, "Adam
+ Guerin" <adam.guerin@intel.com>, Wojciech Ziemba <wojciech.ziemba@intel.com>,
+	Tom Zanussi <tom.zanussi@linux.intel.com>, Damian Muszynski
+	<damian.muszynski@intel.com>, Srinivas Kerekare
+	<srinivas.kerekare@intel.com>, "open list:QAT DRIVER" <qat-linux@intel.com>,
+	"open list:CRYPTO API" <linux-crypto@vger.kernel.org>, open list
+	<linux-kernel@vger.kernel.org>
+CC: "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"opensource.kernel@vivo.com" <opensource.kernel@vivo.com>
+Subject: RE: [PATCH] crypto: qat - Replace the if statement with min()
+Thread-Topic: [PATCH] crypto: qat - Replace the if statement with min()
+Thread-Index: AQHZqDgnNJK5CqqW/0m8bCwEEBu4Za+dQI0w
+Date: Mon, 26 Jun 2023 16:10:05 +0000
+Message-ID: <cac421069f384432a66c50701655f445@AcuMS.aculab.com>
+References: <20230626091541.1064-1-youkangren@vivo.com>
+ <202306262110.NCIrjtZF-lkp@intel.com>
+In-Reply-To: <202306262110.NCIrjtZF-lkp@intel.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0108ee74-6186-4707-ab31-8e4543d98db5@kadam.mountain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon 26-06-23 15:05:07, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.5/block-late
-> head:   2c5555983bd27d24162534b682b10654639a5576
-> commit: 2c5555983bd27d24162534b682b10654639a5576 [216/216] bcache: Fix bcache device claiming
-> config: i386-randconfig-m031-20230622 (https://download.01.org/0day-ci/archive/20230624/202306241746.1sA0eBvt-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230624/202306241746.1sA0eBvt-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202306241746.1sA0eBvt-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/md/bcache/super.c:2644 register_bcache() warn: passing freed memory 'holder'
+From: kernel test robot
+> Sent: 26 June 2023 15:11
+>=20
+> Hi You,
+>=20
+> kernel test robot noticed the following build warnings:
+>=20
+> [auto build test WARNING on herbert-cryptodev-2.6/master]
+> [also build test WARNING on herbert-crypto-2.6/master linus/master v6.4 n=
+ext-20230626]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+...
+> >> drivers/crypto/intel/qat/qat_common/qat_uclo.c:1989:12: warning: compa=
+rison of distinct pointer
+> types ('typeof (words_num) *' (aka 'unsigned int *') and 'typeof (1024) *=
+' (aka 'int *')) [-Wcompare-
+> distinct-pointer-types]
+>                    cpylen =3D min(words_num, UWORD_CPYBUF_SIZE);
+>                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-I had a look into the code and frankly I don't see how this could happen.
-We can reach line 2644 only on explicit goto out_free_holder; which happens
-in two places and in both of them I don't see how holder could be already
-freed. Dan, can you share a bit more how the checker arrived at this
-conclusion?
+UWORD_CPYBUF_SIZE needs to be defined as an unsigned constant.
 
-								Honza
+=09David
 
-> 
-> vim +/holder +2644 drivers/md/bcache/super.c
-> 
-> 9e23ccf8f0a22e Coly Li           2020-05-27  2608  		args->path	= path;
-> 9e23ccf8f0a22e Coly Li           2020-05-27  2609  		args->sb	= sb;
-> 9e23ccf8f0a22e Coly Li           2020-05-27  2610  		args->sb_disk	= sb_disk;
-> 9e23ccf8f0a22e Coly Li           2020-05-27  2611  		args->bdev	= bdev;
-> abcc0cbd49283f Jan Kara          2023-06-22  2612  		args->holder	= holder;
-> d7fae7b4fa1527 Kai Krakow        2021-02-10  2613  		register_device_async(args);
-> 9e23ccf8f0a22e Coly Li           2020-05-27  2614  		/* No wait and returns to user space */
-> 9e23ccf8f0a22e Coly Li           2020-05-27  2615  		goto async_done;
-> 9e23ccf8f0a22e Coly Li           2020-05-27  2616  	}
-> 9e23ccf8f0a22e Coly Li           2020-05-27  2617  
-> 2903381fce7100 Kent Overstreet   2013-04-11  2618  	if (SB_IS_BDEV(sb)) {
-> 4fa03402cda2fa Kent Overstreet   2014-03-17  2619  		mutex_lock(&bch_register_lock);
-> abcc0cbd49283f Jan Kara          2023-06-22  2620  		ret = register_bdev(sb, sb_disk, bdev, holder);
-> 4fa03402cda2fa Kent Overstreet   2014-03-17  2621  		mutex_unlock(&bch_register_lock);
-> bb6d355c2aff42 Coly Li           2019-04-25  2622  		/* blkdev_put() will be called in cached_dev_free() */
-> fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2623  		if (ret < 0)
-> fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2624  			goto out_free_sb;
-> cafe563591446c Kent Overstreet   2013-03-23  2625  	} else {
-> bb6d355c2aff42 Coly Li           2019-04-25  2626  		/* blkdev_put() will be called in bch_cache_release() */
-> abcc0cbd49283f Jan Kara          2023-06-22  2627  		ret = register_cache(sb, sb_disk, bdev, holder);
-> d55f7cb2e5c053 Chao Yu           2021-10-20  2628  		if (ret)
-> fc8f19cc5dce18 Christoph Hellwig 2020-01-24  2629  			goto out_free_sb;
-> 50246693f81fe8 Christoph Hellwig 2020-01-24  2630  	}
-> 50246693f81fe8 Christoph Hellwig 2020-01-24  2631  
-> f59fce847fc848 Kent Overstreet   2013-05-15  2632  	kfree(sb);
-> f59fce847fc848 Kent Overstreet   2013-05-15  2633  	kfree(path);
-> f59fce847fc848 Kent Overstreet   2013-05-15  2634  	module_put(THIS_MODULE);
-> 9e23ccf8f0a22e Coly Li           2020-05-27  2635  async_done:
-> 50246693f81fe8 Christoph Hellwig 2020-01-24  2636  	return size;
-> f59fce847fc848 Kent Overstreet   2013-05-15  2637  
-> abcc0cbd49283f Jan Kara          2023-06-22  2638  out_free_holder:
-> abcc0cbd49283f Jan Kara          2023-06-22  2639  	kfree(holder);
->                                                               ^^^^^^
-> freed
-> 
-> 50246693f81fe8 Christoph Hellwig 2020-01-24  2640  out_put_sb_page:
-> cfa0c56db9c087 Christoph Hellwig 2020-01-24  2641  	put_page(virt_to_page(sb_disk));
-> 50246693f81fe8 Christoph Hellwig 2020-01-24  2642  out_blkdev_put:
-> 2c5555983bd27d Jan Kara          2023-06-22  2643  	if (bdev)
-> 2c5555983bd27d Jan Kara          2023-06-22 @2644  		blkdev_put(bdev, holder);
->                                                                                  ^^^^^^
-> Use after free
-> 
-> 50246693f81fe8 Christoph Hellwig 2020-01-24  2645  out_free_sb:
-> 50246693f81fe8 Christoph Hellwig 2020-01-24  2646  	kfree(sb);
-> 50246693f81fe8 Christoph Hellwig 2020-01-24  2647  out_free_path:
-> 50246693f81fe8 Christoph Hellwig 2020-01-24  2648  	kfree(path);
-> ae3cd299919af6 Coly Li           2020-01-24  2649  	path = NULL;
-> 50246693f81fe8 Christoph Hellwig 2020-01-24  2650  out_module_put:
-> 50246693f81fe8 Christoph Hellwig 2020-01-24  2651  	module_put(THIS_MODULE);
-> 50246693f81fe8 Christoph Hellwig 2020-01-24  2652  out:
-> 2c5555983bd27d Jan Kara          2023-06-22  2653  	if (!quiet)
-> 46f5aa8806e34f Joe Perches       2020-05-27  2654  		pr_info("error %s: %s\n", path?path:"", err);
-> 50246693f81fe8 Christoph Hellwig 2020-01-24  2655  	return ret;
-> cafe563591446c Kent Overstreet   2013-03-23  2656  }
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
+PT, UK
+Registration No: 1397386 (Wales)
+
