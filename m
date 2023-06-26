@@ -1,86 +1,190 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADADD51B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jun 2023 16:10:10 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-190-znHz0X3HMcKVclPaaTyJRg-1; Mon, 26 Jun 2023 17:10:06 +0100
-X-MC-Unique: znHz0X3HMcKVclPaaTyJRg-1
-Received: from AcuMS.Aculab.com (10.202.163.6) by AcuMS.aculab.com
- (10.202.163.6) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Mon, 26 Jun
- 2023 17:10:05 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Mon, 26 Jun 2023 17:10:05 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'kernel test robot' <lkp@intel.com>, You Kangren <youkangren@vivo.com>,
-	Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Herbert Xu
-	<herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, "Adam
- Guerin" <adam.guerin@intel.com>, Wojciech Ziemba <wojciech.ziemba@intel.com>,
-	Tom Zanussi <tom.zanussi@linux.intel.com>, Damian Muszynski
-	<damian.muszynski@intel.com>, Srinivas Kerekare
-	<srinivas.kerekare@intel.com>, "open list:QAT DRIVER" <qat-linux@intel.com>,
-	"open list:CRYPTO API" <linux-crypto@vger.kernel.org>, open list
-	<linux-kernel@vger.kernel.org>
-CC: "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"opensource.kernel@vivo.com" <opensource.kernel@vivo.com>
-Subject: RE: [PATCH] crypto: qat - Replace the if statement with min()
-Thread-Topic: [PATCH] crypto: qat - Replace the if statement with min()
-Thread-Index: AQHZqDgnNJK5CqqW/0m8bCwEEBu4Za+dQI0w
-Date: Mon, 26 Jun 2023 16:10:05 +0000
-Message-ID: <cac421069f384432a66c50701655f445@AcuMS.aculab.com>
-References: <20230626091541.1064-1-youkangren@vivo.com>
- <202306262110.NCIrjtZF-lkp@intel.com>
-In-Reply-To: <202306262110.NCIrjtZF-lkp@intel.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 556DA46B6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jun 2023 18:49:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687805362; x=1719341362;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qnLHMpbg3ZnkksbNh8pRUr1WSMMqWaeBQV6ilzbnCg0=;
+  b=Y3c7kePgSUh4xYVRmCIgxET6xpY0TldDCPL9zfQHRpxPAhbkNP/SitMA
+   qBV0fVd11gTPqJDGlU2MvP+Ud/GNq3MrN3wr4bODPF29TTYIULbznxmt5
+   MjWCWJG+1uBu2p/n5N6a/q0td7hjSELDvVrq7++lFpuEF3gWA+zwInwx4
+   kmnZBWszkbvaRetPpf3fdEYdNDy7uyr9aF87eHhGeQnK3PtCPNn6VyOvB
+   de5m7J4JZ65SruQtpr86QGLG9HHCBZb1nD3/KtWjWro0vjqNYJ2pndybo
+   9zqHed94L73Bhilj+zJhFkjNz+40jnvMLs6BYY/GnSguJ9axp5htjJGPV
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="340944174"
+X-IronPort-AV: E=Sophos;i="6.01,160,1684825200"; 
+   d="scan'208";a="340944174"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 11:49:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="840385389"
+X-IronPort-AV: E=Sophos;i="6.01,160,1684825200"; 
+   d="scan'208";a="840385389"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 26 Jun 2023 11:49:18 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qDrH3-000AtJ-2M;
+	Mon, 26 Jun 2023 18:49:17 +0000
+Date: Tue, 27 Jun 2023 02:48:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: You Kangren <youkangren@vivo.com>, Kalle Valo <kvalo@kernel.org>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Simon Horman <simon.horman@corigine.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	"open list:RAYLINK/WEBGEAR 802.11 WIRELESS LAN DRIVER" <linux-wireless@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com
+Subject: Re: [PATCH] wifi: ray_cs: Replace the ternary conditional operator
+ with min()
+Message-ID: <202306270226.5BCJkelL-lkp@intel.com>
+References: <20230626093504.1325-1-youkangren@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230626093504.1325-1-youkangren@vivo.com>
 
-From: kernel test robot
-> Sent: 26 June 2023 15:11
->=20
-> Hi You,
->=20
-> kernel test robot noticed the following build warnings:
->=20
-> [auto build test WARNING on herbert-cryptodev-2.6/master]
-> [also build test WARNING on herbert-crypto-2.6/master linus/master v6.4 n=
-ext-20230626]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->=20
-...
-> >> drivers/crypto/intel/qat/qat_common/qat_uclo.c:1989:12: warning: compa=
-rison of distinct pointer
-> types ('typeof (words_num) *' (aka 'unsigned int *') and 'typeof (1024) *=
-' (aka 'int *')) [-Wcompare-
-> distinct-pointer-types]
->                    cpylen =3D min(words_num, UWORD_CPYBUF_SIZE);
->                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Hi You,
 
-UWORD_CPYBUF_SIZE needs to be defined as an unsigned constant.
+kernel test robot noticed the following build errors:
 
-=09David
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v6.4 next-20230626]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1=
-PT, UK
-Registration No: 1397386 (Wales)
+url:    https://github.com/intel-lab-lkp/linux/commits/You-Kangren/wifi-ray_cs-Replace-the-ternary-conditional-operator-with-min/20230626-173628
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20230626093504.1325-1-youkangren%40vivo.com
+patch subject: [PATCH] wifi: ray_cs: Replace the ternary conditional operator with min()
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230627/202306270226.5BCJkelL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230627/202306270226.5BCJkelL-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306270226.5BCJkelL-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/kernel.h:27,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/nospec-branch.h:14,
+                    from arch/x86/include/asm/paravirt_types.h:27,
+                    from arch/x86/include/asm/ptrace.h:97,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/net/wireless/legacy/ray_cs.c:20:
+   drivers/net/wireless/legacy/ray_cs.c: In function 'ray_rx':
+   include/linux/minmax.h:20:35: warning: comparison of distinct pointer types lacks a cast
+      20 |         (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+         |                                   ^~
+   include/linux/minmax.h:26:18: note: in expansion of macro '__typecheck'
+      26 |                 (__typecheck(x, y) && __no_side_effects(x, y))
+         |                  ^~~~~~~~~~~
+   include/linux/minmax.h:36:31: note: in expansion of macro '__safe_cmp'
+      36 |         __builtin_choose_expr(__safe_cmp(x, y), \
+         |                               ^~~~~~~~~~
+   include/linux/minmax.h:67:25: note: in expansion of macro '__careful_cmp'
+      67 | #define min(x, y)       __careful_cmp(x, y, <)
+         |                         ^~~~~~~~~~~~~
+   drivers/net/wireless/legacy/ray_cs.c:2089:35: note: in expansion of macro 'min'
+    2089 |                                   min(rx_len, sizeof(struct beacon_rx));
+         |                                   ^~~
+>> drivers/net/wireless/legacy/ray_cs.c:2089:72: error: expected ')' before ';' token
+    2089 |                                   min(rx_len, sizeof(struct beacon_rx));
+         |                                                                        ^
+   drivers/net/wireless/legacy/ray_cs.c:2088:34: note: to match this '('
+    2088 |                 copy_from_rx_buff(local, (UCHAR *) &local->last_bcn, pkt_addr,
+         |                                  ^
+>> drivers/net/wireless/legacy/ray_cs.c:2098:23: error: expected ';' before '}' token
+    2098 |                 break;
+         |                       ^
+         |                       ;
+    2099 |         }
+         |         ~              
+
+
+vim +2089 drivers/net/wireless/legacy/ray_cs.c
+
+  2042	
+  2043	/*===========================================================================*/
+  2044	static void ray_rx(struct net_device *dev, ray_dev_t *local,
+  2045			   struct rcs __iomem *prcs)
+  2046	{
+  2047		int rx_len;
+  2048		unsigned int pkt_addr;
+  2049		void __iomem *pmsg;
+  2050		pr_debug("ray_rx process rx packet\n");
+  2051	
+  2052		/* Calculate address of packet within Rx buffer */
+  2053		pkt_addr = ((readb(&prcs->var.rx_packet.rx_data_ptr[0]) << 8)
+  2054			    + readb(&prcs->var.rx_packet.rx_data_ptr[1])) & RX_BUFF_END;
+  2055		/* Length of first packet fragment */
+  2056		rx_len = (readb(&prcs->var.rx_packet.rx_data_length[0]) << 8)
+  2057		    + readb(&prcs->var.rx_packet.rx_data_length[1]);
+  2058	
+  2059		local->last_rsl = readb(&prcs->var.rx_packet.rx_sig_lev);
+  2060		pmsg = local->rmem + pkt_addr;
+  2061		switch (readb(pmsg)) {
+  2062		case DATA_TYPE:
+  2063			pr_debug("ray_rx data type\n");
+  2064			rx_data(dev, prcs, pkt_addr, rx_len);
+  2065			break;
+  2066		case AUTHENTIC_TYPE:
+  2067			pr_debug("ray_rx authentic type\n");
+  2068			if (sniffer)
+  2069				rx_data(dev, prcs, pkt_addr, rx_len);
+  2070			else
+  2071				rx_authenticate(local, prcs, pkt_addr, rx_len);
+  2072			break;
+  2073		case DEAUTHENTIC_TYPE:
+  2074			pr_debug("ray_rx deauth type\n");
+  2075			if (sniffer)
+  2076				rx_data(dev, prcs, pkt_addr, rx_len);
+  2077			else
+  2078				rx_deauthenticate(local, prcs, pkt_addr, rx_len);
+  2079			break;
+  2080		case NULL_MSG_TYPE:
+  2081			pr_debug("ray_cs rx NULL msg\n");
+  2082			break;
+  2083		case BEACON_TYPE:
+  2084			pr_debug("ray_rx beacon type\n");
+  2085			if (sniffer)
+  2086				rx_data(dev, prcs, pkt_addr, rx_len);
+  2087	
+  2088			copy_from_rx_buff(local, (UCHAR *) &local->last_bcn, pkt_addr,
+> 2089					  min(rx_len, sizeof(struct beacon_rx));
+  2090	
+  2091			local->beacon_rxed = 1;
+  2092			/* Get the statistics so the card counters never overflow */
+  2093			ray_get_stats(dev);
+  2094			break;
+  2095		default:
+  2096			pr_debug("ray_cs unknown pkt type %2x\n",
+  2097			      (unsigned int)readb(pmsg));
+> 2098			break;
+  2099		}
+  2100	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
