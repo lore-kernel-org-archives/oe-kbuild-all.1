@@ -1,100 +1,109 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA87171A8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 10:01:23 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-4f875b267d9so6099336e87.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 03:01:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687860081; x=1690452081;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/SCUY0Z05cMXhp1kkFMaE32gHxQv1w+PfecC34JG2EQ=;
-        b=yqyH+S7krHcEBz2MT+tOUcAx8qhyOvz/R5xej4OfAXvRP7MbsNW8fsPlAsaYj5rpcQ
-         oUsAM5gNLu+vecjaziYdZHIZkOUJJDJJJKc8QeXUeEHkY9ODTAOmMe0k3SqNAnwgNhcc
-         8hsZZG6n2NrKSHGqy1YsD1S/JjMr/sPDX+VqhMtcNGEQ2I536A2CxCMv8lCz4MZdAcWg
-         RNUr0bQlQdcjGae2SQHCxTLhwXf72Er8xRCoMxL/sMHk2Dfh0Vb6rJVkHEh44hee/ltp
-         EmNrPLBicrX275Bqwga1ItcERgqPMec5bJ6SVPDwcv8TctFga+yR58AeXPhqyJoQZ5MZ
-         Azyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687860081; x=1690452081;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/SCUY0Z05cMXhp1kkFMaE32gHxQv1w+PfecC34JG2EQ=;
-        b=f6aMaAAKGyoyDUmrK7HgvuHDjwSQ+/yD48Wk8CR3AJjAkGcu4Liz05DHGI3EGXKzDW
-         dRp/U/IfFcSGknIMxEtINjeVzqBypJ6xRRHzTpeTwyJy/dva4M5tBla739n1o+RN7b0u
-         qpj3N08ijmWE0wyjCltHE2RulPmF77OHGciNolaQaiPr8zJEHQ4ia7oUY5bqhjXlKuZN
-         ko92dyP1ogoWnevpdsQW5DZwvYmbJ0sx6HiZ0h0f7YxfE3xhUynBXcYtc3QQKzCGLRgS
-         91i6SnkE37MpsYr3MRZRSJ2j0ziFPSg/3hSCZOMF68jyWs21KYeSLoKYo4bXztbL0Wtw
-         54bA==
-X-Gm-Message-State: AC+VfDxlEd88U4sR9EUIyrHpL+fxWYg5YUkSWDzPSqCFky/9a1kkvuwi
-	ewjMNOYuLvpFJCVxFgepSHT4Gg==
-X-Google-Smtp-Source: ACHHUZ68qxnW7uxf9W2l9v5Vv+qrMipPbyF1x2KsFogxxtvsKWzdDn3QMda2V1lgSIzqlAJuGGN3SQ==
-X-Received: by 2002:ac2:558e:0:b0:4fb:7d73:d097 with SMTP id v14-20020ac2558e000000b004fb7d73d097mr1474730lfg.39.1687860081304;
-        Tue, 27 Jun 2023 03:01:21 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id w10-20020a1cf60a000000b003f9bd9e3226sm10205737wmc.7.2023.06.27.03.01.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jun 2023 03:01:18 -0700 (PDT)
-Date: Tue, 27 Jun 2023 13:01:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 22/24] Input: bcm-keypad - Simplify with
- dev_err_probe()
-Message-ID: <8d3ff4b2-8f43-428a-9cb1-9f939f64636b@kadam.mountain>
-References: <3b63bde3-797e-4d58-92a7-c77c953f17d6@kadam.mountain>
- <d5e3a542-3456-293e-8ea8-112eb8cff7cd@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F24B171CF
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 10:04:35 +0000 (UTC)
+Date: Tue, 27 Jun 2023 12:04:26 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1687860268;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vnAc0qn5dr9YyR1APaCxKjp+lkOIU+8IL/r2BbWTuD0=;
+	b=JnEfQn2LdtKg59SC1YPsvisVVZQ230jmea0JeJnuTK/3EMz337/hlzcWOJN0T0SNx18TAE
+	uN403jHBO+trtWEQ/fY09fi/fDyYB5ZF9S0XkuqigZu4Mpc1qYzP2iuzU/KFaqALj14ftr
+	274WqwBLixwWBNJ+4ozyI16crisbxrWqrUOw4fMJ6PKUx8WOQ9pjQlLxJ49gpgDMCtGST3
+	icQTOmmaJb2Lj6FmW0L9RCWRymqJ8MorVms6ZRY5B1LoM7bGL5Ahuhxmb4gyf/Fmx617Ns
+	u4SStHyQv0N4ubwl4bINZFf2ieGkKn1N4mTIgxHAruGf2+gmGjOVDDsY8K2YsQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1687860268;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vnAc0qn5dr9YyR1APaCxKjp+lkOIU+8IL/r2BbWTuD0=;
+	b=wdIViPPpVS34Mh4235TORFA3lZxz3ZyKFepJ2vECAv6M6TjE4d6E5NYRauZVgW2H5OpzuK
+	Wr/tRwXPawn1RuAQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: kernel test robot <lkp@intel.com>
+Cc: John Ogness <john.ogness@linutronix.de>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [rt-devel:linux-6.4.y-rt-rebase 49/83]
+ kernel/printk/printk.c:3361:6: warning: no previous prototype for
+ 'console_bkl_kthread_create'
+Message-ID: <20230627100426.SDCiho1V@linutronix.de>
+References: <202306270413.VuF8c38c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <d5e3a542-3456-293e-8ea8-112eb8cff7cd@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <202306270413.VuF8c38c-lkp@intel.com>
 
-On Tue, Jun 27, 2023 at 10:57:49AM +0200, Krzysztof Kozlowski wrote:
-> On 26/06/2023 15:05, Dan Carpenter wrote:
-> > Hi Krzysztof,
-> > 
-> > kernel test robot noticed the following build warnings:
-> > 
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/Input-gpio_keys_polled-Simplify-with-dev_err_probe/20230626-003156
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-> > patch link:    https://lore.kernel.org/r/20230625162817.100397-23-krzysztof.kozlowski%40linaro.org
-> > patch subject: [PATCH v4 22/24] Input: bcm-keypad - Simplify with dev_err_probe()
-> > config: i386-randconfig-m021-20230625 (https://download.01.org/0day-ci/archive/20230626/202306261505.wTjCXRIO-lkp@intel.com/config)
-> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20230626/202306261505.wTjCXRIO-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202306261505.wTjCXRIO-lkp@intel.com/
-> 
-> Thanks. I run smatch on the patchset before sending and did not point it
-> out. Nothing also after pulling latest master. I guess you run some
-> unreleased version?
+On 2023-06-27 04:21:33 [+0800], kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-rt-devel=
+=2Egit linux-6.4.y-rt-rebase
+> head:   af81296843894057eaa7e1054b5d8ae77d2e25b1
+> commit: d16247f05c66d83c413856b7b6aadc96bd61aade [49/83] printk: Add thre=
+aded printing support for BKL consoles.
+> config: arm-randconfig-r001-20230626 (https://download.01.org/0day-ci/arc=
+hive/20230627/202306270413.VuF8c38c-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230627/202306270413=
+=2EVuF8c38c-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306270413.VuF8c38c-lkp=
+@intel.com/
+>=20
+> All warnings (new ones prefixed by >>):
+>=20
+> >> kernel/printk/printk.c:3361:6: warning: no previous prototype for 'con=
+sole_bkl_kthread_create' [-Wmissing-prototypes]
+>     3361 | void console_bkl_kthread_create(void)
+>          |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-No, this is the kbuild bot.  It's using released code.  I tested it on
-my system as well and it should work...  That warning is newish though
-so maybe you're not using the latest Smatch?
+This is due to CONFIG_PRINTK=3Dn and I'm tempted to throw the diff below
+to make it go away. But then the CONFIG_PRINTK=3Dn builds don't boot and I
+don't even understand why we have register_console() in that case an=E2=80=
+=A6
 
-$ ~/progs/smatch/release/smatch_scripts/kchecker drivers/input/keyboard/bcm-keypad.c
-  CHECK   scripts/mod/empty.c
-  CALL    scripts/checksyscalls.sh
-  DESCEND objtool
-  INSTALL libsubcmd_headers
-  CC      drivers/input/keyboard/bcm-keypad.o
-  CHECK   drivers/input/keyboard/bcm-keypad.c
-drivers/input/keyboard/bcm-keypad.c:370 bcm_kp_probe() warn: passing zero to 'dev_err_probe'
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -459,8 +459,8 @@ bool have_boot_console;
+=20
+ static int unregister_console_locked(struct console *console);
+=20
+-#ifdef CONFIG_PRINTK
+ DECLARE_WAIT_QUEUE_HEAD(log_wait);
++#ifdef CONFIG_PRINTK
+ /* All 3 protected by @syslog_lock. */
+ /* the next printk record to read by syslog(READ) or /proc/kmsg */
+ static u64 syslog_seq;
+@@ -3302,6 +3302,7 @@ void console_start(struct console *conso
+ }
+ EXPORT_SYMBOL(console_start);
+=20
++#if CONFIG_PRINTK
+ static struct task_struct *console_bkl_kthread;
+=20
+ static bool printer_should_wake(u64 seq)
+@@ -3390,6 +3391,9 @@ void console_bkl_kthread_create(void)
+ 	 */
+ 	sched_set_normal(console_bkl_kthread, -20);
+ }
++#else
++static void console_bkl_kthread_create(void) { }
++#endif
+=20
+ static int __read_mostly keep_bootcon;
+=20
 
-regards,
-dan carpenter
-
+Sebastian
