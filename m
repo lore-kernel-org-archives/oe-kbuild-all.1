@@ -1,43 +1,47 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7699017FE5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 15:02:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CC01953C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 15:13:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687878179; x=1719414179;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jR6lUgVVq0V4eDSh7iu3DS0vZlusC4uGNZ4j+ZxHt1g=;
-  b=WMhS1YRGsLQJYttnIeT0r8qH7uD+vcakLwyTuztOKhEygak419/jXd6F
-   ntRfqIj26F3WD+LC7QhcsPAqz4Vrvye+5oVwkx1m8+52k/2xEeJOV+u4t
-   YaylkkCZxjkEaf0L8eWIYqIdWRwHKpYrQPXGJuH3pmCuZyMXK1eBDFAHX
-   bVCFcJwMesnX5hql+VyYeaAsibQbT2DYf44wdPmNoC+2MAOD14cQr8HUy
-   gy5/3C1ja0hr7Rk16xgG//HXXwbrM3L/nKRGOaK1Cy2Gv4nxXgefU3Fqv
-   +xnI83LSD+c4+ktJki2E8gNFc7TrrwwUOPNvZCS8a+ZiCEcr5tfiDM5IY
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="364141738"
+  t=1687878794; x=1719414794;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HlcACu4NktYvHeJklJldH7nKa6V69m9Xmjro04VfQZ4=;
+  b=VMJoIKVCVvHgdVnA8L6/A0oZFlS2Iywyqq9nBMZWnewQpZT4aSBJzamy
+   V73wcw8SitXPMbUxINF94msHqzjMQC9Pcw4FvgfygoWI8kJiwd0qBQF3Y
+   K7BwAPK4+NtPG+L8aO21kqAJIynQwya0KylabCcnqu+WUoN38MhNdKLPZ
+   Oq8futiJ765+NVE67pzK+hxiA3Qvf8llSmonq8nByY8A5xFs04zDxms+R
+   nUEXZjW/XHkf+RHJ0z8seXyndUqfXAVm7a8V4H67FfAuoiwMXOgpvhHCT
+   bSC1+RXZ12E2cOY31bLVdik4Mfqt9Fht0AcF1B4LPEWiSf9RDKrpsAgCE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="341937582"
 X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="364141738"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 08:02:11 -0700
+   d="scan'208";a="341937582"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 08:13:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="840717253"
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="719801536"
 X-IronPort-AV: E=Sophos;i="6.01,162,1684825200"; 
-   d="scan'208";a="840717253"
+   d="scan'208";a="719801536"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 27 Jun 2023 08:02:10 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 27 Jun 2023 08:13:10 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEACn-000C0Z-2m;
-	Tue, 27 Jun 2023 15:02:09 +0000
-Date: Tue, 27 Jun 2023 23:02:05 +0800
+	id 1qEANR-000C0j-2z;
+	Tue, 27 Jun 2023 15:13:09 +0000
+Date: Tue, 27 Jun 2023 23:12:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [plbossart-sound:sdw/hybrid-allocation-take3 9/11]
- drivers/soundwire/bus.c:809:19: warning: variable 'dev_num' is uninitialized
- when used here
-Message-ID: <202306272357.eUCxRjrQ-lkp@intel.com>
+To: Yu Kuai <yukuai1@huaweicloud.com>, logang@deltatee.com, hch@lst.de,
+	song@kernel.org, shli@fb.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-raid@vger.kernel.org,
+	linux-kernel@vger.kernel.org, yukuai3@huawei.com,
+	yukuai1@huaweicloud.com, yi.zhang@huawei.com, yangerkun@huawei.com
+Subject: Re: [PATCH -next 2/2] md/raid5-cache: fix null-ptr-deref in
+ r5l_reclaim_thread()
+Message-ID: <202306272247.VWiGIFDe-lkp@intel.com>
+References: <20230627085611.4186951-3-yukuai1@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,76 +50,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230627085611.4186951-3-yukuai1@huaweicloud.com>
 
-tree:   https://github.com/plbossart/sound sdw/hybrid-allocation-take3
-head:   48e0a8216e56a2d27bb5a9f021b7f16b2738898a
-commit: 089b994687a657df9134732b0fedb3fcd161795b [9/11] soundwire: bus: add helper to force re-enumeration
-config: arm-randconfig-r031-20230627 (https://download.01.org/0day-ci/archive/20230627/202306272357.eUCxRjrQ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230627/202306272357.eUCxRjrQ-lkp@intel.com/reproduce)
+Hi Yu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20230626]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Kuai/md-raid5-cache-Revert-md-raid5-cache-Clear-conf-log-after-finishing-work/20230627-165746
+base:   next-20230626
+patch link:    https://lore.kernel.org/r/20230627085611.4186951-3-yukuai1%40huaweicloud.com
+patch subject: [PATCH -next 2/2] md/raid5-cache: fix null-ptr-deref in r5l_reclaim_thread()
+config: x86_64-buildonly-randconfig-r003-20230627 (https://download.01.org/0day-ci/archive/20230627/202306272247.VWiGIFDe-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230627/202306272247.VWiGIFDe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306272357.eUCxRjrQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306272247.VWiGIFDe-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/soundwire/bus.c:809:19: warning: variable 'dev_num' is uninitialized when used here [-Wuninitialized]
-     809 |         slave->dev_num = dev_num;
-         |                          ^~~~~~~
-   drivers/soundwire/bus.c:785:13: note: initialize the variable 'dev_num' to silence this warning
-     785 |         int dev_num;
-         |                    ^
-         |                     = 0
-   1 warning generated.
+   drivers/md/raid5-cache.c: In function 'r5l_do_reclaim':
+>> drivers/md/raid5-cache.c:1496:24: warning: unused variable 'conf' [-Wunused-variable]
+    1496 |         struct r5conf *conf = log->rdev->mddev->private;
+         |                        ^~~~
 
 
-vim +/dev_num +809 drivers/soundwire/bus.c
+vim +/conf +1496 drivers/md/raid5-cache.c
 
-   775	
-   776	/**
-   777	 * sdw_slave_redo_enumeration() - Clear current device number, force the device to drop off
-   778	 * the bus and reenumerate
-   779	 * @slave: SDW Slave
-   780	 *
-   781	 */
-   782	int sdw_slave_redo_enumeration(struct sdw_slave *slave)
-   783	{
-   784		struct sdw_bus *bus = slave->bus;
-   785		int dev_num;
-   786		int ret = 0;
-   787	
-   788		mutex_lock(&bus->bus_lock);
-   789	
-   790		/* only deal with already enumerated device */
-   791		if (!slave->dev_num)
-   792			goto unlock;
-   793	
-   794		dev_dbg(&slave->dev, "%s: device %d forcing reset to redo enumeration\n",
-   795			__func__, slave->dev_num);
-   796	
-   797		ret = sdw_write_no_pm(slave, SDW_SCP_CTRL,  SDW_SCP_CTRL_FORCE_RESET);
-   798		if (ret < 0) {
-   799			dev_err(bus->dev, "device_num %d force reset failed: %d\n",
-   800				dev_num, ret);
-   801			goto unlock;
-   802		}
-   803	
-   804		/* clear the existing allocation */
-   805		clear_bit(slave->dev_num, bus->assigned);
-   806		if (bus->ops && bus->ops->put_device_num)
-   807			bus->ops->put_device_num(bus, slave);
-   808	
- > 809		slave->dev_num = dev_num;
-   810		slave->dev_num_sticky = dev_num;
-   811	
-   812	unlock:
-   813		mutex_unlock(&bus->bus_lock);
-   814		return ret;
-   815	}
-   816	EXPORT_SYMBOL(sdw_slave_redo_enumeration);
-   817	
+a39f7afde358ca Song Liu          2016-11-17  1493  
+0576b1c618ef22 Shaohua Li        2015-08-13  1494  static void r5l_do_reclaim(struct r5l_log *log)
+0576b1c618ef22 Shaohua Li        2015-08-13  1495  {
+a39f7afde358ca Song Liu          2016-11-17 @1496  	struct r5conf *conf = log->rdev->mddev->private;
+0576b1c618ef22 Shaohua Li        2015-08-13  1497  	sector_t reclaim_target = xchg(&log->reclaim_target, 0);
+170364619ac21c Christoph Hellwig 2015-10-05  1498  	sector_t reclaimable;
+170364619ac21c Christoph Hellwig 2015-10-05  1499  	sector_t next_checkpoint;
+a39f7afde358ca Song Liu          2016-11-17  1500  	bool write_super;
+0576b1c618ef22 Shaohua Li        2015-08-13  1501  
+0576b1c618ef22 Shaohua Li        2015-08-13  1502  	spin_lock_irq(&log->io_list_lock);
+a39f7afde358ca Song Liu          2016-11-17  1503  	write_super = r5l_reclaimable_space(log) > log->max_free_space ||
+a39f7afde358ca Song Liu          2016-11-17  1504  		reclaim_target != 0 || !list_empty(&log->no_space_stripes);
+0576b1c618ef22 Shaohua Li        2015-08-13  1505  	/*
+0576b1c618ef22 Shaohua Li        2015-08-13  1506  	 * move proper io_unit to reclaim list. We should not change the order.
+0576b1c618ef22 Shaohua Li        2015-08-13  1507  	 * reclaimable/unreclaimable io_unit can be mixed in the list, we
+0576b1c618ef22 Shaohua Li        2015-08-13  1508  	 * shouldn't reuse space of an unreclaimable io_unit
+0576b1c618ef22 Shaohua Li        2015-08-13  1509  	 */
+0576b1c618ef22 Shaohua Li        2015-08-13  1510  	while (1) {
+170364619ac21c Christoph Hellwig 2015-10-05  1511  		reclaimable = r5l_reclaimable_space(log);
+170364619ac21c Christoph Hellwig 2015-10-05  1512  		if (reclaimable >= reclaim_target ||
+0576b1c618ef22 Shaohua Li        2015-08-13  1513  		    (list_empty(&log->running_ios) &&
+0576b1c618ef22 Shaohua Li        2015-08-13  1514  		     list_empty(&log->io_end_ios) &&
+a8c34f915976e3 Shaohua Li        2015-09-02  1515  		     list_empty(&log->flushing_ios) &&
+04732f741dce5e Christoph Hellwig 2015-10-05  1516  		     list_empty(&log->finished_ios)))
+0576b1c618ef22 Shaohua Li        2015-08-13  1517  			break;
+0576b1c618ef22 Shaohua Li        2015-08-13  1518  
+170364619ac21c Christoph Hellwig 2015-10-05  1519  		md_wakeup_thread(log->rdev->mddev->thread);
+170364619ac21c Christoph Hellwig 2015-10-05  1520  		wait_event_lock_irq(log->iounit_wait,
+170364619ac21c Christoph Hellwig 2015-10-05  1521  				    r5l_reclaimable_space(log) > reclaimable,
+170364619ac21c Christoph Hellwig 2015-10-05  1522  				    log->io_list_lock);
+0576b1c618ef22 Shaohua Li        2015-08-13  1523  	}
+170364619ac21c Christoph Hellwig 2015-10-05  1524  
+f2ca7c4bb59762 Yu Kuai           2023-06-27  1525  	next_checkpoint = r5c_calculate_new_cp(log);
+0576b1c618ef22 Shaohua Li        2015-08-13  1526  	spin_unlock_irq(&log->io_list_lock);
+0576b1c618ef22 Shaohua Li        2015-08-13  1527  
+a39f7afde358ca Song Liu          2016-11-17  1528  	if (reclaimable == 0 || !write_super)
+0576b1c618ef22 Shaohua Li        2015-08-13  1529  		return;
+0576b1c618ef22 Shaohua Li        2015-08-13  1530  
+0576b1c618ef22 Shaohua Li        2015-08-13  1531  	/*
+0576b1c618ef22 Shaohua Li        2015-08-13  1532  	 * write_super will flush cache of each raid disk. We must write super
+0576b1c618ef22 Shaohua Li        2015-08-13  1533  	 * here, because the log area might be reused soon and we don't want to
+0576b1c618ef22 Shaohua Li        2015-08-13  1534  	 * confuse recovery
+0576b1c618ef22 Shaohua Li        2015-08-13  1535  	 */
+4b482044d24f3d Shaohua Li        2015-10-08  1536  	r5l_write_super_and_discard_space(log, next_checkpoint);
+0576b1c618ef22 Shaohua Li        2015-08-13  1537  
+0576b1c618ef22 Shaohua Li        2015-08-13  1538  	mutex_lock(&log->io_mutex);
+170364619ac21c Christoph Hellwig 2015-10-05  1539  	log->last_checkpoint = next_checkpoint;
+a39f7afde358ca Song Liu          2016-11-17  1540  	r5c_update_log_state(log);
+0576b1c618ef22 Shaohua Li        2015-08-13  1541  	mutex_unlock(&log->io_mutex);
+0576b1c618ef22 Shaohua Li        2015-08-13  1542  
+170364619ac21c Christoph Hellwig 2015-10-05  1543  	r5l_run_no_space_stripes(log);
+0576b1c618ef22 Shaohua Li        2015-08-13  1544  }
+0576b1c618ef22 Shaohua Li        2015-08-13  1545  
 
 -- 
 0-DAY CI Kernel Test Service
