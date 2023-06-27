@@ -1,42 +1,41 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA691396
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 05:36:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344B31396
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 05:36:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687844185; x=1719380185;
+  t=1687844188; x=1719380188;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=psiqOYuAs8yDmVj18r66in/Mzr5kWsU6LDZtydXo3kU=;
-  b=Hos/i0fL5UE5nhz08EvooHCZ2VhdzaROFLOeU1lavQ6oNMPIF9M359aj
-   2jS9AbhHyMDFQnGvFyyWFpkZyhbRPDcdm90Er2JPYYA1fWOtbyH2QJqSI
-   k/wkMvzkX8b/N91AwYJmo5v1SZPe5e7U9mdGH19mVnjz0DQyRioUBBHGu
-   3/ByftovlQrLI5N3bpDfUvh0n5RLBzfn+duU9tIRxIWY78Lu4kFIN010Y
-   UV7jSCtPuNMIXDVv88YMFUtRMQ85TdVOnaETSQfUUe46iA6IzkJmsn3Hk
-   Fy/jfSCrn6n0Hi20urfnnSpQSzNKLWtjGhHzfhDVmjJV0Y1MRcvt1VEC7
+  bh=T0/kM/RDZ4dFQbW9Ie8daGLF6+drT1R38AfVe20vPpI=;
+  b=O01rxWAvef1um9otcXn3qxo/JVAfs0RVdGrJMFdX1WshymaODCpEhtcY
+   7/9/13R8Cjit0d5y2Em1AfdTt+Hrib4h/fM/BFxqMnHo4fxrD1BdkQnhm
+   gspM7ROu1vx/HdsSzIjVyz7uB5GF/Nsi/7G28rF+2BZMhoR9C80PoN291
+   S6VjJFQqNyQ78kYGLxnxaR3hfZ4HBOrVb73ezxRgD4/i4ZLvfb238RdqS
+   zo8Gmj9MYkmUaI0EIEwqgKmfjwGIeKabJdNs1VI/8gjO3QxNS3sKfTb33
+   nuO2kaJN/Gykaox9CYeHN40yL+9r1brvpzjqXQWbVXE9Di6jGIh1cz49S
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="361520851"
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="361520855"
 X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="361520851"
+   d="scan'208";a="361520855"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 22:36:23 -0700
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="751511648"
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 22:36:24 -0700
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="751511647"
 X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="751511648"
+   d="scan'208";a="751511647"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
   by orsmga001.jf.intel.com with ESMTP; 26 Jun 2023 22:35:58 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qE1Mr-000Bjz-21;
+	id 1qE1Mr-000Bjx-1w;
 	Tue, 27 Jun 2023 05:35:57 +0000
-Date: Tue, 27 Jun 2023 13:35:19 +0800
+Date: Tue, 27 Jun 2023 13:35:20 +0800
 From: kernel test robot <lkp@intel.com>
 To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.4/zen-sauce 8/30]
- drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:131:9: warning: 'memcpy'
- reading 56 bytes from a region of size 20
-Message-ID: <202306271316.soSDuBBA-lkp@intel.com>
+Subject: [zen:6.4/zen-sauce 3/30] drivers/i2c/busses/i2c-nct6775.c:221:39:
+ warning: this statement may fall through
+Message-ID: <202306271347.C27oROXp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,98 +47,190 @@ Content-Disposition: inline
 
 tree:   https://github.com/zen-kernel/zen-kernel 6.4/zen-sauce
 head:   b404e67dcc4feba1cdabb224765f1382844ce016
-commit: d62f6d2ecc81f776550e456ea0e1040588da1858 [8/30] ZEN: Disable stack conservation for GCC
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20230627/202306271316.soSDuBBA-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230627/202306271316.soSDuBBA-lkp@intel.com/reproduce)
+commit: b43c180a45f23d1f98933afa05d7765bc6de3da6 [3/30] ZEN: Add OpenRGB patches
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230627/202306271347.C27oROXp-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230627/202306271347.C27oROXp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306271316.soSDuBBA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306271347.C27oROXp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In function 'virtio_crypto_alg_akcipher_init_session',
-       inlined from 'virtio_crypto_rsa_set_key' at drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:425:9:
->> drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:131:9: warning: 'memcpy' reading 56 bytes from a region of size 20 [-Wstringop-overread]
-     131 |         memcpy(&ctrl->u, para, sizeof(ctrl->u));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/virtio/virtio_crypto_akcipher_algs.c: In function 'virtio_crypto_rsa_set_key':
-   drivers/crypto/virtio/virtio_crypto_akcipher_algs.c:375:52: note: source object 'para' of size 20
-     375 |         struct virtio_crypto_akcipher_session_para para;
-         |                                                    ^~~~
+   drivers/i2c/busses/i2c-nct6775.c: In function 'nct6775_access':
+>> drivers/i2c/busses/i2c-nct6775.c:221:39: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     221 |                         tmp_data.byte = data->byte;
+         |                         ~~~~~~~~~~~~~~^~~~~~~~~~~~
+   drivers/i2c/busses/i2c-nct6775.c:222:17: note: here
+     222 |                 case I2C_SMBUS_BYTE:
+         |                 ^~~~
+   drivers/i2c/busses/i2c-nct6775.c: At top level:
+   drivers/i2c/busses/i2c-nct6775.c:93:27: warning: 'nct6775_device_names' defined but not used [-Wunused-const-variable=]
+      93 | static const char * const nct6775_device_names[] = {
+         |                           ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/memcpy +131 drivers/crypto/virtio/virtio_crypto_akcipher_algs.c
+vim +221 drivers/i2c/busses/i2c-nct6775.c
 
-59ca6c93387d32 zhenwei pi         2022-03-02  105  
-59ca6c93387d32 zhenwei pi         2022-03-02  106  static int virtio_crypto_alg_akcipher_init_session(struct virtio_crypto_akcipher_ctx *ctx,
-59ca6c93387d32 zhenwei pi         2022-03-02  107  		struct virtio_crypto_ctrl_header *header, void *para,
-59ca6c93387d32 zhenwei pi         2022-03-02  108  		const uint8_t *key, unsigned int keylen)
-59ca6c93387d32 zhenwei pi         2022-03-02  109  {
-59ca6c93387d32 zhenwei pi         2022-03-02  110  	struct scatterlist outhdr_sg, key_sg, inhdr_sg, *sgs[3];
-59ca6c93387d32 zhenwei pi         2022-03-02  111  	struct virtio_crypto *vcrypto = ctx->vcrypto;
-59ca6c93387d32 zhenwei pi         2022-03-02  112  	uint8_t *pkey;
-59ca6c93387d32 zhenwei pi         2022-03-02  113  	int err;
-59ca6c93387d32 zhenwei pi         2022-03-02  114  	unsigned int num_out = 0, num_in = 0;
-6fd763d155860e zhenwei pi         2022-05-06  115  	struct virtio_crypto_op_ctrl_req *ctrl;
-6fd763d155860e zhenwei pi         2022-05-06  116  	struct virtio_crypto_session_input *input;
-0756ad15b1fef2 zhenwei pi         2022-05-06  117  	struct virtio_crypto_ctrl_request *vc_ctrl_req;
-59ca6c93387d32 zhenwei pi         2022-03-02  118  
-4409c08d806721 Christophe JAILLET 2023-02-04  119  	pkey = kmemdup(key, keylen, GFP_KERNEL);
-59ca6c93387d32 zhenwei pi         2022-03-02  120  	if (!pkey)
-59ca6c93387d32 zhenwei pi         2022-03-02  121  		return -ENOMEM;
-59ca6c93387d32 zhenwei pi         2022-03-02  122  
-0756ad15b1fef2 zhenwei pi         2022-05-06  123  	vc_ctrl_req = kzalloc(sizeof(*vc_ctrl_req), GFP_KERNEL);
-0756ad15b1fef2 zhenwei pi         2022-05-06  124  	if (!vc_ctrl_req) {
-0756ad15b1fef2 zhenwei pi         2022-05-06  125  		err = -ENOMEM;
-0756ad15b1fef2 zhenwei pi         2022-05-06  126  		goto out;
-0756ad15b1fef2 zhenwei pi         2022-05-06  127  	}
-0756ad15b1fef2 zhenwei pi         2022-05-06  128  
-0756ad15b1fef2 zhenwei pi         2022-05-06  129  	ctrl = &vc_ctrl_req->ctrl;
-6fd763d155860e zhenwei pi         2022-05-06  130  	memcpy(&ctrl->header, header, sizeof(ctrl->header));
-6fd763d155860e zhenwei pi         2022-05-06 @131  	memcpy(&ctrl->u, para, sizeof(ctrl->u));
-0756ad15b1fef2 zhenwei pi         2022-05-06  132  	input = &vc_ctrl_req->input;
-6fd763d155860e zhenwei pi         2022-05-06  133  	input->status = cpu_to_le32(VIRTIO_CRYPTO_ERR);
-59ca6c93387d32 zhenwei pi         2022-03-02  134  
-6fd763d155860e zhenwei pi         2022-05-06  135  	sg_init_one(&outhdr_sg, ctrl, sizeof(*ctrl));
-59ca6c93387d32 zhenwei pi         2022-03-02  136  	sgs[num_out++] = &outhdr_sg;
-59ca6c93387d32 zhenwei pi         2022-03-02  137  
-59ca6c93387d32 zhenwei pi         2022-03-02  138  	sg_init_one(&key_sg, pkey, keylen);
-59ca6c93387d32 zhenwei pi         2022-03-02  139  	sgs[num_out++] = &key_sg;
-59ca6c93387d32 zhenwei pi         2022-03-02  140  
-6fd763d155860e zhenwei pi         2022-05-06  141  	sg_init_one(&inhdr_sg, input, sizeof(*input));
-59ca6c93387d32 zhenwei pi         2022-03-02  142  	sgs[num_out + num_in++] = &inhdr_sg;
-59ca6c93387d32 zhenwei pi         2022-03-02  143  
-977231e8d45657 zhenwei pi         2022-05-06  144  	err = virtio_crypto_ctrl_vq_request(vcrypto, sgs, num_out, num_in, vc_ctrl_req);
-977231e8d45657 zhenwei pi         2022-05-06  145  	if (err < 0)
-59ca6c93387d32 zhenwei pi         2022-03-02  146  		goto out;
-59ca6c93387d32 zhenwei pi         2022-03-02  147  
-6fd763d155860e zhenwei pi         2022-05-06  148  	if (le32_to_cpu(input->status) != VIRTIO_CRYPTO_OK) {
-0756ad15b1fef2 zhenwei pi         2022-05-06  149  		pr_err("virtio_crypto: Create session failed status: %u\n",
-0756ad15b1fef2 zhenwei pi         2022-05-06  150  			le32_to_cpu(input->status));
-59ca6c93387d32 zhenwei pi         2022-03-02  151  		err = -EINVAL;
-59ca6c93387d32 zhenwei pi         2022-03-02  152  		goto out;
-59ca6c93387d32 zhenwei pi         2022-03-02  153  	}
-59ca6c93387d32 zhenwei pi         2022-03-02  154  
-6fd763d155860e zhenwei pi         2022-05-06  155  	ctx->session_id = le64_to_cpu(input->session_id);
-59ca6c93387d32 zhenwei pi         2022-03-02  156  	ctx->session_valid = true;
-59ca6c93387d32 zhenwei pi         2022-03-02  157  	err = 0;
-59ca6c93387d32 zhenwei pi         2022-03-02  158  
-59ca6c93387d32 zhenwei pi         2022-03-02  159  out:
-0756ad15b1fef2 zhenwei pi         2022-05-06  160  	kfree(vc_ctrl_req);
-59ca6c93387d32 zhenwei pi         2022-03-02  161  	kfree_sensitive(pkey);
-59ca6c93387d32 zhenwei pi         2022-03-02  162  
-59ca6c93387d32 zhenwei pi         2022-03-02  163  	return err;
-59ca6c93387d32 zhenwei pi         2022-03-02  164  }
-59ca6c93387d32 zhenwei pi         2022-03-02  165  
-
-:::::: The code at line 131 was first introduced by commit
-:::::: 6fd763d155860eb7ea3a93c8b3bf926940ffa3fb virtio-crypto: change code style
-
-:::::: TO: zhenwei pi <pizhenwei@bytedance.com>
-:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+   197	
+   198	/* Return negative errno on error. */
+   199	static s32 nct6775_access(struct i2c_adapter * adap, u16 addr,
+   200			 unsigned short flags, char read_write,
+   201			 u8 command, int size, union i2c_smbus_data * data)
+   202	{
+   203		struct i2c_nct6775_adapdata *adapdata = i2c_get_adapdata(adap);
+   204		unsigned short nuvoton_nct6793d_smba = adapdata->smba;
+   205		int i, len, cnt;
+   206		union i2c_smbus_data tmp_data;
+   207		int timeout = 0;
+   208	
+   209		tmp_data.word = 0;
+   210		cnt = 0;
+   211		len = 0;
+   212	
+   213		outb_p(NCT6793D_SOFT_RESET, SMBHSTCTL);
+   214	
+   215		switch (size) {
+   216			case I2C_SMBUS_QUICK:
+   217				outb_p((addr << 1) | read_write,
+   218				       SMBHSTADD);
+   219				break;
+   220			case I2C_SMBUS_BYTE_DATA:
+ > 221				tmp_data.byte = data->byte;
+   222			case I2C_SMBUS_BYTE:
+   223				outb_p((addr << 1) | read_write,
+   224				       SMBHSTADD);
+   225				outb_p(command, SMBHSTIDX);
+   226				if (read_write == I2C_SMBUS_WRITE) {
+   227					outb_p(tmp_data.byte, SMBHSTDAT);
+   228					outb_p(NCT6793D_WRITE_BYTE, SMBHSTCMD);
+   229				}
+   230				else {
+   231					outb_p(NCT6793D_READ_BYTE, SMBHSTCMD);
+   232				}
+   233				break;
+   234			case I2C_SMBUS_WORD_DATA:
+   235				outb_p((addr << 1) | read_write,
+   236				       SMBHSTADD);
+   237				outb_p(command, SMBHSTIDX);
+   238				if (read_write == I2C_SMBUS_WRITE) {
+   239					outb_p(data->word & 0xff, SMBHSTDAT);
+   240					outb_p((data->word & 0xff00) >> 8, SMBHSTDAT);
+   241					outb_p(NCT6793D_WRITE_WORD, SMBHSTCMD);
+   242				}
+   243				else {
+   244					outb_p(NCT6793D_READ_WORD, SMBHSTCMD);
+   245				}
+   246				break;
+   247			case I2C_SMBUS_BLOCK_DATA:
+   248				outb_p((addr << 1) | read_write,
+   249				       SMBHSTADD);
+   250				outb_p(command, SMBHSTIDX);
+   251				if (read_write == I2C_SMBUS_WRITE) {
+   252					len = data->block[0];
+   253					if (len == 0 || len > I2C_SMBUS_BLOCK_MAX)
+   254						return -EINVAL;
+   255					outb_p(len, SMBBLKSZ);
+   256	
+   257					cnt = 1;
+   258					if (len >= 4) {
+   259						for (i = cnt; i <= 4; i++) {
+   260							outb_p(data->block[i], SMBHSTDAT);
+   261						}
+   262	
+   263						len -= 4;
+   264						cnt += 4;
+   265					}
+   266					else {
+   267						for (i = cnt; i <= len; i++ ) {
+   268							outb_p(data->block[i], SMBHSTDAT);
+   269						}
+   270	
+   271						len = 0;
+   272					}
+   273	
+   274					outb_p(NCT6793D_WRITE_BLOCK, SMBHSTCMD);
+   275				}
+   276				else {
+   277					return -ENOTSUPP;
+   278				}
+   279				break;
+   280			default:
+   281				dev_warn(&adap->dev, "Unsupported transaction %d\n", size);
+   282				return -EOPNOTSUPP;
+   283		}
+   284	
+   285		outb_p(NCT6793D_MANUAL_START, SMBHSTCTL);
+   286	
+   287		while ((size == I2C_SMBUS_BLOCK_DATA) && (len > 0)) {
+   288			if (read_write == I2C_SMBUS_WRITE) {
+   289				timeout = 0;
+   290				while ((inb_p(SMBHSTSTS) & NCT6793D_FIFO_EMPTY) == 0)
+   291				{
+   292					if(timeout > MAX_RETRIES)
+   293					{
+   294						return -ETIMEDOUT;
+   295					}
+   296					usleep_range(250, 500);
+   297					timeout++;
+   298				}
+   299	
+   300				//Load more bytes into FIFO
+   301				if (len >= 4) {
+   302					for (i = cnt; i <= (cnt + 4); i++) {
+   303						outb_p(data->block[i], SMBHSTDAT);
+   304					}
+   305	
+   306					len -= 4;
+   307					cnt += 4;
+   308				}
+   309				else {
+   310					for (i = cnt; i <= (cnt + len); i++) {
+   311						outb_p(data->block[i], SMBHSTDAT);
+   312					}
+   313	
+   314					len = 0;
+   315				}
+   316			}
+   317			else {
+   318				return -ENOTSUPP;
+   319			}
+   320			
+   321		}
+   322	
+   323		//wait for manual mode to complete
+   324		timeout = 0;
+   325		while ((inb_p(SMBHSTSTS) & NCT6793D_MANUAL_ACTIVE) != 0)
+   326		{
+   327			if(timeout > MAX_RETRIES)
+   328			{
+   329				return -ETIMEDOUT;
+   330			}
+   331			usleep_range(250, 500);
+   332			timeout++;
+   333		}
+   334	
+   335		if ((inb_p(SMBHSTERR) & NCT6793D_NO_ACK) != 0) {    	
+   336			return -ENXIO;
+   337		}
+   338		else if ((read_write == I2C_SMBUS_WRITE) || (size == I2C_SMBUS_QUICK)) {
+   339			return 0;
+   340		}
+   341	
+   342		switch (size) {
+   343			case I2C_SMBUS_QUICK:
+   344			case I2C_SMBUS_BYTE_DATA:
+   345				data->byte = inb_p(SMBHSTDAT);
+   346				break;
+   347			case I2C_SMBUS_WORD_DATA:
+   348				data->word = inb_p(SMBHSTDAT) + (inb_p(SMBHSTDAT) << 8);
+   349				break;
+   350		}
+   351		return 0;
+   352	}
+   353	
 
 -- 
 0-DAY CI Kernel Test Service
