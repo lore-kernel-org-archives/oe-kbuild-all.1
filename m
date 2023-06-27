@@ -1,52 +1,42 @@
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABFE57E6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 21:19:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388C22586
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 22:41:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687900766; x=1719436766;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9F6oczZXMEUoLAJfxEwJtk3XCCkCKi/30DZkczd5yX0=;
-  b=WUmsAsHUS//UgzN8YnIfUyZoVLzyxeJ9xD9/OnyW+U3qiS098+DrmU6I
-   06vmShePK0ugzAzx/buhX0/h6icZV0ilHbdAKZkX0CPJuUAY7KLBHq8Bv
-   3KPFP7OOx5MRBl8sSpVN5FTmR1HeTNVShQIGqJ2CeHFtnG7FN7L/sytbD
-   ysSJRx1YdW22pVfTi/xpUZBzOyvRMi48M7xlFOvenkVV9TBV6/D3xOKSe
-   bkLegUC6/LKrY1u0iEQt3aVFZwH9S2Wwuns/p3zcTAxiuMcNICinwypzX
-   /yzQB+NraQp4zSwmJXzjArWH/vd7ptVKirdHKXeZcWrTv48VJCWBDppyC
+  t=1687905687; x=1719441687;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5MZp6zc4TiYDk4ojaiLJBsukmrGQ3uZkCnL22XsYRwc=;
+  b=V0223smmcpYH6sTmgtIaNxsmyETftOKJjRwPB7pk5+BMvvnV3oqNGdTd
+   tO72lnbP0V3o/XNTlvWvShrDP/zyIQNnNg2B7iQcZSTkRYo1g1DgYJeKL
+   LIhJivrVID46dmeIMD91CjY6xBI1L7iMGFlaodA7TmFo7IGkzhx+fRphX
+   jVe4CDK4VKIloBdGr/03oGpVB29D+cJLJdX4UFukLZiYmIZP4oTMI+S9r
+   lfX4AOlgqu3x/LKCNx6F9jCQWoVhpkwde6VVS/fXdwkNCZB89iX3TeMz+
+   HSV9Ljs5qNBAWORRz7foflsRg+xj0W0VhzYkRBPzT05Bi1cbYGxW7AYvG
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="448068759"
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="448082460"
 X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
-   d="scan'208";a="448068759"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 14:19:25 -0700
+   d="scan'208";a="448082460"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 15:41:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="694047086"
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="840847508"
 X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
-   d="scan'208";a="694047086"
+   d="scan'208";a="840847508"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 27 Jun 2023 14:19:22 -0700
+  by orsmga004.jf.intel.com with ESMTP; 27 Jun 2023 15:41:25 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEG5p-000CHH-1b;
-	Tue, 27 Jun 2023 21:19:21 +0000
-Date: Wed, 28 Jun 2023 05:19:18 +0800
+	id 1qEHNE-000CKf-12;
+	Tue, 27 Jun 2023 22:41:24 +0000
+Date: Wed, 28 Jun 2023 06:41:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Phil Auld <pauld@redhat.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Juri Lelli <juri.lelli@redhat.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Daniel Bristot de Oliveira <bristot@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Ben Segall <bsegall@google.com>,
-	Steven Rostedt <rostedt@goodmis.org>, Mel Gorman <mgorman@suse.de>,
-	Phil Auld <pauld@redhat.com>
-Subject: Re: [PATCH v2] Sched/fair: Block nohz tick_stop when cfs bandwidth
- in use
-Message-ID: <202306280536.Zd5x1Zdv-lkp@intel.com>
-References: <20230627191201.344110-1-pauld@redhat.com>
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dyn-drm-trc-10 21/30] drivers/gpu/drm/drm_print.c:72:24:
+ warning: unused variable 'debug'
+Message-ID: <202306280642.oonB96F1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,57 +45,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230627191201.344110-1-pauld@redhat.com>
 
-Hi Phil,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/auto-latest]
-[also build test WARNING on linus/master v6.4 next-20230627]
-[cannot apply to tip/sched/core tip/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Phil-Auld/Sched-fair-Block-nohz-tick_stop-when-cfs-bandwidth-in-use/20230628-031312
-base:   tip/auto-latest
-patch link:    https://lore.kernel.org/r/20230627191201.344110-1-pauld%40redhat.com
-patch subject: [PATCH v2] Sched/fair: Block nohz tick_stop when cfs bandwidth in use
-config: nios2-randconfig-r035-20230627 (https://download.01.org/0day-ci/archive/20230628/202306280536.Zd5x1Zdv-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230628/202306280536.Zd5x1Zdv-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dyn-drm-trc-10
+head:   e7afba1683e5b4e8c906a446dffacf4b972b93e7
+commit: dcf72b82bb982ce856036f33169304fe79ff8118 [21/30] hack
+config: x86_64-rhel-8.3-rust (https://download.01.org/0day-ci/archive/20230628/202306280642.oonB96F1-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230628/202306280642.oonB96F1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306280536.Zd5x1Zdv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306280642.oonB96F1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/sched/fair.c:688:5: warning: no previous prototype for 'sched_update_scaling' [-Wmissing-prototypes]
-     688 | int sched_update_scaling(void)
-         |     ^~~~~~~~~~~~~~~~~~~~
->> kernel/sched/fair.c:6220:6: warning: no previous prototype for 'sched_cfs_bandwidth_active' [-Wmissing-prototypes]
-    6220 | bool sched_cfs_bandwidth_active(struct cfs_rq *cfs_rq)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_print.c:72:24: warning: unused variable 'debug' [-Wunused-variable]
+   DRM_CLASSMAP_PARAM_REF(debug, __drm_debug, drm_debug_classes, p);
+                          ^
+   1 warning generated.
 
 
-vim +/sched_cfs_bandwidth_active +6220 kernel/sched/fair.c
+vim +/debug +72 drivers/gpu/drm/drm_print.c
 
-  6212	
-  6213	static inline struct cfs_bandwidth *tg_cfs_bandwidth(struct task_group *tg)
-  6214	{
-  6215		return NULL;
-  6216	}
-  6217	static inline void destroy_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
-  6218	static inline void update_runtime_enabled(struct rq *rq) {}
-  6219	static inline void unthrottle_offline_cfs_rqs(struct rq *rq) {}
-> 6220	bool sched_cfs_bandwidth_active(struct cfs_rq *cfs_rq)
-  6221	{
-  6222		return false;
-  6223	}
-  6224	
+f158936b60a787 Jim Cromie 2022-09-11  54  
+f158936b60a787 Jim Cromie 2022-09-11  55  #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
+f158936b60a787 Jim Cromie 2022-09-11  56  module_param_named(debug, __drm_debug, ulong, 0600);
+f158936b60a787 Jim Cromie 2022-09-11  57  #else
+1a5e3ce6839aba Jim Cromie 2022-12-21  58  /* classnames must match value-symbols of enum drm_debug_category */
+1a5e3ce6839aba Jim Cromie 2022-12-21  59  DRM_CLASSMAP_DEFINE(drm_debug_classes, DD_CLASS_TYPE_DISJOINT_BITS,
+1a5e3ce6839aba Jim Cromie 2022-12-21  60  		    DRM_UT_CORE,
+f158936b60a787 Jim Cromie 2022-09-11  61  		    "DRM_UT_CORE",
+f158936b60a787 Jim Cromie 2022-09-11  62  		    "DRM_UT_DRIVER",
+f158936b60a787 Jim Cromie 2022-09-11  63  		    "DRM_UT_KMS",
+f158936b60a787 Jim Cromie 2022-09-11  64  		    "DRM_UT_PRIME",
+f158936b60a787 Jim Cromie 2022-09-11  65  		    "DRM_UT_ATOMIC",
+f158936b60a787 Jim Cromie 2022-09-11  66  		    "DRM_UT_VBL",
+f158936b60a787 Jim Cromie 2022-09-11  67  		    "DRM_UT_STATE",
+f158936b60a787 Jim Cromie 2022-09-11  68  		    "DRM_UT_LEASE",
+f158936b60a787 Jim Cromie 2022-09-11  69  		    "DRM_UT_DP",
+f158936b60a787 Jim Cromie 2022-09-11  70  		    "DRM_UT_DRMRES");
+f158936b60a787 Jim Cromie 2022-09-11  71  
+97cc7fe2e0bfbd Jim Cromie 2023-06-09 @72  DRM_CLASSMAP_PARAM_REF(debug, __drm_debug, drm_debug_classes, p);
+97cc7fe2e0bfbd Jim Cromie 2023-06-09  73  
+
+:::::: The code at line 72 was first introduced by commit
+:::::: 97cc7fe2e0bfbd79019847692f9f089cc7699597 dyndbg-API: promote DYNDBG_CLASSMAP_PARAM to API
+
+:::::: TO: Jim Cromie <jim.cromie@gmail.com>
+:::::: CC: Jim Cromie <jim.cromie@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
