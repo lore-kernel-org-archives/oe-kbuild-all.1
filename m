@@ -1,56 +1,55 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9CA15ACE;
-	Tue, 27 Jun 2023 08:22:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687854128; x=1719390128;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sfuE8q/3lqwwL754PtpWUP9ndf3pvT8nlm8myNt2UcU=;
-  b=IDxyypxUFUkJk/CKDomjnQDsSfEFbv7ZnW/UgA6qdkNerxOZy4QbH9Fg
-   lMY9YxdhLmlv50rbfs29/pmGFcXEpbwh1cvsYvdHpxw8oXqpMGE6vNasi
-   Q/ZEJdqjp6eUDadNj6iYvLD49+jrSVCv7BHUOqwCD8DD/Jxr7EOVy2ron
-   PJX2Oe21i4XxwEaRZ0vsikSUVe5/nYeqIuhdaNSnPQcYdp5t3KTnpOf21
-   aIym+PE9w1pyFbzTXRrMAjBld5hg9eUYMNiKX65d6rKAMQWpnOXSI9Fnx
-   hJQwt+2xKb0c8coDnjo1KK5HGXcicPlTKOt1Sekx12/IVg8+maz5+AIRL
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="392005624"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="392005624"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 01:22:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="861022715"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="861022715"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 27 Jun 2023 01:22:01 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qE3xZ-000BoL-0T;
-	Tue, 27 Jun 2023 08:22:01 +0000
-Date: Tue, 27 Jun 2023 16:21:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Mrunal Patel <mpatel@redhat.com>,
-	Ryan Phillips <rphillips@redhat.com>,
-	Brent Rowsell <browsell@redhat.com>, Peter Hunt <pehunt@redhat.com>,
-	Phil Auld <pauld@redhat.com>, Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH v3 5/9] cgroup/cpuset: Add cpuset.cpus.exclusive for v2
-Message-ID: <202306271649.1FoknGfO-lkp@intel.com>
-References: <20230627005529.1564984-6-longman@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F0415AF5;
+	Tue, 27 Jun 2023 08:24:16 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D9C292185A;
+	Tue, 27 Jun 2023 08:24:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1687854254; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f5MOajeWUh1yfSvYZXUKS2tIrxeOmCvgib/m8ZJw8qc=;
+	b=hi3GaVtGMFTQWow4V1aXHTrFut5Xns7X+bQ6g9mHF23cmJR5ZopWJarysZR1NPUhxX30fG
+	2gyucNyu4gJTj+/1sautdMLs2kQw2uyWwr+w5KCHenltyn2tozSxDF5Ew4StLM+39iFhbI
+	8ndBmzhJjTu/oTvbdnhf+17yMPBHmsU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1687854254;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f5MOajeWUh1yfSvYZXUKS2tIrxeOmCvgib/m8ZJw8qc=;
+	b=hHY+xDG+29r8t0o+GthAeoyGw0svM7clYOEZz4/ruRmeO28TYHadzXN5m0O8LKlPLxRmfP
+	myE6lnMzmkbdjmDA==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CB16C13276;
+	Tue, 27 Jun 2023 08:24:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id AqSKMa6cmmRcOgAAMHmgww
+	(envelope-from <jack@suse.cz>); Tue, 27 Jun 2023 08:24:14 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 49EA8A0762; Tue, 27 Jun 2023 10:24:14 +0200 (CEST)
+Date: Tue, 27 Jun 2023 10:24:14 +0200
+From: Jan Kara <jack@suse.cz>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Jan Kara <jack@suse.cz>, oe-kbuild@lists.linux.dev, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
+	Kent Overstreet <kmo@daterainc.com>
+Subject: Re: [axboe-block:for-6.5/block-late 216/216]
+ drivers/md/bcache/super.c:2644 register_bcache() warn: passing freed memory
+ 'holder'
+Message-ID: <20230627082414.wi6ufb5vzlqxjoc5@quack3>
+References: <0108ee74-6186-4707-ab31-8e4543d98db5@kadam.mountain>
+ <20230626160115.5ctxooc6dtdhrn7h@quack3>
+ <b815edc6-bed4-4ed3-9961-e76dd2f89457@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,166 +58,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230627005529.1564984-6-longman@redhat.com>
+In-Reply-To: <b815edc6-bed4-4ed3-9961-e76dd2f89457@kadam.mountain>
 
-Hi Waiman,
+On Tue 27-06-23 08:56:34, Dan Carpenter wrote:
+> On Mon, Jun 26, 2023 at 06:01:15PM +0200, Jan Kara wrote:
+> > On Mon 26-06-23 15:05:07, Dan Carpenter wrote:
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.5/block-late
+> > > head:   2c5555983bd27d24162534b682b10654639a5576
+> > > commit: 2c5555983bd27d24162534b682b10654639a5576 [216/216] bcache: Fix bcache device claiming
+> > > config: i386-randconfig-m031-20230622 (https://download.01.org/0day-ci/archive/20230624/202306241746.1sA0eBvt-lkp@intel.com/config)
+> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > > reproduce: (https://download.01.org/0day-ci/archive/20230624/202306241746.1sA0eBvt-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > > | Closes: https://lore.kernel.org/r/202306241746.1sA0eBvt-lkp@intel.com/
+> > > 
+> > > smatch warnings:
+> > > drivers/md/bcache/super.c:2644 register_bcache() warn: passing freed memory 'holder'
+> > 
+> > I had a look into the code and frankly I don't see how this could happen.
+> > We can reach line 2644 only on explicit goto out_free_holder; which happens
+> > in two places and in both of them I don't see how holder could be already
+> > freed. Dan, can you share a bit more how the checker arrived at this
+> > conclusion?
+> 
+> I think you're misreading the warning...  The free happens later.
 
-kernel test robot noticed the following build errors:
+Aha, I thought the warning is complaining about 'holder' being already
+freed when passed to kfree(). Apparently it is something else.
 
-[auto build test ERROR on next-20230626]
-[also build test ERROR on v6.4]
-[cannot apply to tj-cgroup/for-next linus/master v6.4 v6.4-rc7 v6.4-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> It's like this:
+> 
+> drivers/md/bcache/super.c
+>   2572          blkdev_put(bdev, NULL);
+>   2573          bdev = bdev2;
+>                 ^^^^^^^^^^^^
+> bdev is set here.
+> 
+>   2574          if (IS_ERR(bdev)) {
+>   2575                  ret = PTR_ERR(bdev);
+>   2576                  bdev = NULL;
+>   2577                  if (ret == -EBUSY) {
+>   2578                          dev_t dev;
+>   2579  
+>   2580                          mutex_lock(&bch_register_lock);
+>   2581                          if (lookup_bdev(strim(path), &dev) == 0 &&
+>   2582                              bch_is_open(dev))
+>   2583                                  err = "device already registered";
+>   2584                          else
+>   2585                                  err = "device busy";
+>   2586                          mutex_unlock(&bch_register_lock);
+>   2587                          if (attr == &ksysfs_register_quiet) {
+>   2588                                  quiet = true;
+>   2589                                  ret = size;
+>   2590                          }
+>   2591                  }
+>   2592                  goto out_free_holder;
+> 
+> bdev is NULL on this path so it's fine.
+> 
+>   2593          }
+>   2594  
+>   2595          err = "failed to register device";
+>   2596  
+>   2597          if (async_registration) {
+>   2598                  /* register in asynchronous way */
+>   2599                  struct async_reg_args *args =
+>   2600                          kzalloc(sizeof(struct async_reg_args), GFP_KERNEL);
+>   2601  
+>   2602                  if (!args) {
+>   2603                          ret = -ENOMEM;
+>   2604                          err = "cannot allocate memory";
+>   2605                          goto out_free_holder;
+>                                 ^^^^^^^^^^^^^^^^^^^^
+> Here is the issue.  Adding a "bdev = NULL;" before the goto would
+> silence the Smatch warning.  (That might not be the right thing to do).
+> 
+>   2606                  }
+>   2607  
+>   2608                  args->path      = path;
+>   2609                  args->sb        = sb;
+>   2610                  args->sb_disk   = sb_disk;
+>   2611                  args->bdev      = bdev;
+>   2612                  args->holder    = holder;
+>   2613                  register_device_async(args);
+>   2614                  /* No wait and returns to user space */
+>   2615                  goto async_done;
+>   2616          }
+>   2617  
+>   2618          if (SB_IS_BDEV(sb)) {
+>   2619                  mutex_lock(&bch_register_lock);
+>   2620                  ret = register_bdev(sb, sb_disk, bdev, holder);
+>   2621                  mutex_unlock(&bch_register_lock);
+>   2622                  /* blkdev_put() will be called in cached_dev_free() */
+>   2623                  if (ret < 0)
+>   2624                          goto out_free_sb;
+>   2625          } else {
+>   2626                  /* blkdev_put() will be called in bch_cache_release() */
+>   2627                  ret = register_cache(sb, sb_disk, bdev, holder);
+>   2628                  if (ret)
+>   2629                          goto out_free_sb;
+>   2630          }
+>   2631  
+>   2632          kfree(sb);
+>   2633          kfree(path);
+>   2634          module_put(THIS_MODULE);
+>   2635  async_done:
+>   2636          return size;
+>   2637  
+>   2638  out_free_holder:
+>   2639          kfree(holder);
+>                 ^^^^^^^^^^^^^
+> freed
+> 
+>   2640  out_put_sb_page:
+>   2641          put_page(virt_to_page(sb_disk));
+>   2642  out_blkdev_put:
+>   2643          if (bdev)
+>   2644                  blkdev_put(bdev, holder);
+>                                          ^^^^^^
+> bdev is non-NULL and holder is freed.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Waiman-Long/cgroup-cpuset-Inherit-parent-s-load-balance-state-in-v2/20230627-090025
-base:   next-20230626
-patch link:    https://lore.kernel.org/r/20230627005529.1564984-6-longman%40redhat.com
-patch subject: [PATCH v3 5/9] cgroup/cpuset: Add cpuset.cpus.exclusive for v2
-config: riscv-randconfig-r015-20230627 (https://download.01.org/0day-ci/archive/20230627/202306271649.1FoknGfO-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230627/202306271649.1FoknGfO-lkp@intel.com/reproduce)
+Ah, I see what smatch is actually disliking here now. So the code is
+actually correct as is - 'holder' is just a cookie value for blkdev_put()
+and never dereferenced. Also I have a series in the works that changes how
+block device opening is working which also gets rid of this oddity of
+passing freed pointer to blkdev_put() so I think we can leave it there for
+now.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306271649.1FoknGfO-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:743:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     743 |         insb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from kernel/cgroup/cpuset.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     751 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from kernel/cgroup/cpuset.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     759 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from kernel/cgroup/cpuset.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     768 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from kernel/cgroup/cpuset.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     777 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from kernel/cgroup/cpuset.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     786 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from kernel/cgroup/cpuset.c:29:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1134 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> kernel/cgroup/cpuset.c:699:8: error: array type 'cpumask_var_t' (aka 'struct cpumask[1]') is not assignable
-     699 |         cpus1 = cpumask_empty(cs1->exclusive_cpus)
-         |         ~~~~~ ^
-   kernel/cgroup/cpuset.c:701:8: error: array type 'cpumask_var_t' (aka 'struct cpumask[1]') is not assignable
-     701 |         cpus2 = cpumask_empty(cs2->exclusive_cpus)
-         |         ~~~~~ ^
-   13 warnings and 2 errors generated.
-
-
-vim +699 kernel/cgroup/cpuset.c
-
-   689	
-   690	/*
-   691	 * cpu_exclusive_check() - check if two cpusets are exclusive
-   692	 *
-   693	 * Return 0 if exclusive, -EINVAL if not
-   694	 */
-   695	static inline bool cpu_exclusive_check(struct cpuset *cs1, struct cpuset *cs2)
-   696	{
-   697		cpumask_var_t cpus1, cpus2;
-   698	
- > 699		cpus1 = cpumask_empty(cs1->exclusive_cpus)
-   700			? cs1->cpus_allowed : cs1->exclusive_cpus;
-   701		cpus2 = cpumask_empty(cs2->exclusive_cpus)
-   702			? cs2->cpus_allowed : cs2->exclusive_cpus;
-   703	
-   704		if (cpumask_intersects(cpus1, cpus2))
-   705			return -EINVAL;
-   706		return 0;
-   707	}
-   708	
+								Honza
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
