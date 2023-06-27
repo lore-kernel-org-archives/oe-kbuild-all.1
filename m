@@ -1,77 +1,66 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDB11386;
-	Tue, 27 Jun 2023 08:34:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687854888; x=1719390888;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=rO5d6eJVnjclI79/gdLC3qnZXV+fqM/bfTQfWr7iNHM=;
-  b=I5Iw8CPMAtIEJbx2d/79YZvQ0a4EWrR/l6PeihWWwmj5Na5WWsrER45Z
-   vKgDSFt3XN6nw+0mL2u8QceCm6YkKdbiahe0pmlEXdXhCTu7wDfFbteiX
-   B/0DrQGqNcEdjbTqjXtMdjj7SoIrLTcSSL8EeZyCoa+NAfm0q2XWvJRRI
-   DAwPRSwWwx8T3VOIBzRBloirnM6Fe2IXwfPlSqIu5e4BTWvDJHWFN5M5T
-   r8j5eGJ/J+jcr5d6cKKYC46kRp9iAkyjkh6INd1on6zkcMc7M5UanVMcm
-   TRnCLH/vK+mVSzMEHDvZTioOCjpg2oiiqxmRhVMvlPJinCuGxfmaTJRMk
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="341854444"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="341854444"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 01:34:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="719700786"
-X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="719700786"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 27 Jun 2023 01:34:41 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qE49B-000Bof-0y;
-	Tue, 27 Jun 2023 08:34:01 +0000
-Date: Tue, 27 Jun 2023 16:33:10 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [stable:linux-5.10.y 1755/9999] fs/freevxfs/vxfs_olt.o: warning:
- objtool: .text: unexpected end of section
-Message-ID: <202306271602.C1jbpWOA-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412D8EC2;
+	Tue, 27 Jun 2023 08:57:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59B67C433C8;
+	Tue, 27 Jun 2023 08:57:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1687856274;
+	bh=qDujfLZQmgvl7kJdh5u9YfTadKPZW6myWSe+E5524qo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NpXF2tShzYAn0GpjcK0vmbxyzuj08S2eU5ygqlM/Y/Pu7AOr49eoWLqB9NFKH7TAx
+	 sfoVFtNGz7Ps/EOJkTYurYXovTNiPAVL9iqbswVQ4PXC2fbRwJXp+1k4snyR0gV6xy
+	 QOp7inbYdAlnu60M9DH73HkBkhD8MhcwnjvfFqAXzYz4qsm5J1jpsIGXJAlDdUcV3S
+	 7fE4AYoIeCuTmcYcUhWKgmg27iCrxAJ09qj3rvRhgxBp99FsMhGdl8JEElmYzdWXju
+	 lLH/rfdQ3sBotJERatAEQD3HpEpZ+RfL2DT/QdgNR80h+km+w0eJgSdyTGD5BA7Mne
+	 QYvO9reZulu8Q==
+Message-ID: <d5e3a542-3456-293e-8ea8-112eb8cff7cd@kernel.org>
+Date: Tue, 27 Jun 2023 10:57:49 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v4 22/24] Input: bcm-keypad - Simplify with
+ dev_err_probe()
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+References: <3b63bde3-797e-4d58-92a7-c77c953f17d6@kadam.mountain>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+In-Reply-To: <3b63bde3-797e-4d58-92a7-c77c953f17d6@kadam.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-TO: Kees Cook <keescook@chromium.org>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Marco Elver <elver@google.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: Tadeusz Struk <tadeusz.struk@linaro.org>
+On 26/06/2023 15:05, Dan Carpenter wrote:
+> Hi Krzysztof,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Kozlowski/Input-gpio_keys_polled-Simplify-with-dev_err_probe/20230626-003156
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+> patch link:    https://lore.kernel.org/r/20230625162817.100397-23-krzysztof.kozlowski%40linaro.org
+> patch subject: [PATCH v4 22/24] Input: bcm-keypad - Simplify with dev_err_probe()
+> config: i386-randconfig-m021-20230625 (https://download.01.org/0day-ci/archive/20230626/202306261505.wTjCXRIO-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230626/202306261505.wTjCXRIO-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202306261505.wTjCXRIO-lkp@intel.com/
 
-Hi Kees,
+Thanks. I run smatch on the patchset before sending and did not point it
+out. Nothing also after pulling latest master. I guess you run some
+unreleased version?
 
-FYI, the error/warning still remains.
+Best regards,
+Krzysztof
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.10.y
-head:   ef0d5feb32ab7007d1316e9c5037cd7d9f7febbf
-commit: 58823a9b097cf36dd59c4d463396e15a5ec4efb7 [1755/9999] ubsan: remove CONFIG_UBSAN_OBJECT_SIZE
-config: x86_64-randconfig-a004-20230626 (https://download.01.org/0day-ci/archive/20230627/202306271602.C1jbpWOA-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230627/202306271602.C1jbpWOA-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306271602.C1jbpWOA-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> fs/freevxfs/vxfs_olt.o: warning: objtool: .text: unexpected end of section
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
