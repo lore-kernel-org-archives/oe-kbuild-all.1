@@ -1,53 +1,42 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF381FB1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 05:56:42 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-307d20548adso3731200f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 26 Jun 2023 22:56:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687845400; x=1690437400;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SkQIuWxAD95KvrXtRvp82QPsfa9BRLt6s9+5yKGbh58=;
-        b=BZosZAxpsVIA0J6K62Gybgpj2PPvKqe/2XN8oioWUc350oNNDSVucSdC1ny3bm8+j5
-         P2GFLlC5l+MwmSsa1gh0j/8sB5BGCdoGR8WIL3eeQdW8+M8soY6hcj0Gi5xaM4yyINYj
-         9DEyGJWtIWfzRrGYYOSI44huozvJuHL07+8aEkPbjzf9GJFvLjUvtovQO0GkIVQfueiV
-         GIxDh0qZ4Lbifa8lcaBLV/7MFkixuds4oB2U+JcNCQMPnaJhCo/GB+0dWXHAkHvwZEi1
-         QSvOWRAsTbAHVWQUjWENNcYH0klNezzHFGsf80Odi5jP5zUmqSKpMQChpxYJ8dVL6G2A
-         nOvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687845400; x=1690437400;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SkQIuWxAD95KvrXtRvp82QPsfa9BRLt6s9+5yKGbh58=;
-        b=jD43iIe5DLHHWoGgNkiQFzg/XaaUpkeWGRKpMfuaSgCD+iZLJA8lg+xZNE0KQa3gLt
-         0zk38lh+oNM4ja8tI6Q+F17XYDBAs3jV1Tfswx3ozquRLVCyw67G7BZLP3sMWzliwgH9
-         A4Sn331zOyZ2vAF5+EAPIUnt+osYqSfNUOvgIr4fFFfr9ioMBfCmjElnJOp31oaYk7Ch
-         8rTDw3AEXkOhycSiVHdKFWQZRTFQl8SR2cLGwvrY7ZpB79TfEwmR4jPFj0F+LAtJlD57
-         SA858xiHdShWFo8fBsOjTLgPJvYEjR4iU6YL+Rmv7Wc55tQGOKZK1N3OvFHHjvzXCqUw
-         Efsw==
-X-Gm-Message-State: AC+VfDzg8e3TVc54avPbOniDcrX34u3pcE0db+2Af2kGr++WwwWHlAFY
-	UHpL8/HIa+cl+1H4UFzR5UoChA==
-X-Google-Smtp-Source: ACHHUZ5JVyPaCV7z8RFHg7f1NpcQf44NfLYsMgORIOyVBGfZYk7iehoKaQzODkEsz1F2A3YATpCdgQ==
-X-Received: by 2002:adf:fec2:0:b0:313:fa66:9c08 with SMTP id q2-20020adffec2000000b00313fa669c08mr1256240wrs.71.1687845400496;
-        Mon, 26 Jun 2023 22:56:40 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l17-20020a5d5611000000b0030c6751a49dsm9157976wrv.115.2023.06.26.22.56.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jun 2023 22:56:37 -0700 (PDT)
-Date: Tue, 27 Jun 2023 08:56:34 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jan Kara <jack@suse.cz>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>, Kent Overstreet <kmo@daterainc.com>
-Subject: Re: [axboe-block:for-6.5/block-late 216/216]
- drivers/md/bcache/super.c:2644 register_bcache() warn: passing freed memory
- 'holder'
-Message-ID: <b815edc6-bed4-4ed3-9961-e76dd2f89457@kadam.mountain>
-References: <0108ee74-6186-4707-ab31-8e4543d98db5@kadam.mountain>
- <20230626160115.5ctxooc6dtdhrn7h@quack3>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046C5EC2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 06:48:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687848483; x=1719384483;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=c0x4IzZ5x7svya+o8vVZ3AnRHa0821u/ac4osGpmwik=;
+  b=Ee/C3GJoDBJNeOCj3Vr8DJ/TwQbhNoC0zqLI8H+V1VEzeUlAlaLWdDtT
+   t8AKGOvCyCu9pXs6ChhBbWVEaC4rbP280v9PJ7pRkK5J4bbBaAGHbHDAe
+   5icztexPBdJDtl+IVCoFM1QjMGiqV3zFRIeAXXyoEPav8LbvoAMPzWdyM
+   9k2lZ+FLOOMtkI6aP24jG/ub2SJEOcDPa+mZmjWHTGWT1nZmaAVrbMCck
+   2gDjbFVDdKy3zi1J5uEEg5uGlPW35fTqkTrCZ0LKvXYT0ibQqcfbpOLDd
+   rUCQHEthz2jPHF46U+jFm/WHgEqBq2MR5TEsNMn/F0p9XLSYh0k5dFxtw
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="360358657"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
+   d="scan'208";a="360358657"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 23:48:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="786467750"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
+   d="scan'208";a="786467750"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 26 Jun 2023 23:47:59 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qE2UY-000Bm1-2v;
+	Tue, 27 Jun 2023 06:47:58 +0000
+Date: Tue, 27 Jun 2023 14:47:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/gpu/drm/sti/sti_mixer.c:145:47: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202306271413.5vS46KMc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,137 +45,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230626160115.5ctxooc6dtdhrn7h@quack3>
 
-On Mon, Jun 26, 2023 at 06:01:15PM +0200, Jan Kara wrote:
-> On Mon 26-06-23 15:05:07, Dan Carpenter wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.5/block-late
-> > head:   2c5555983bd27d24162534b682b10654639a5576
-> > commit: 2c5555983bd27d24162534b682b10654639a5576 [216/216] bcache: Fix bcache device claiming
-> > config: i386-randconfig-m031-20230622 (https://download.01.org/0day-ci/archive/20230624/202306241746.1sA0eBvt-lkp@intel.com/config)
-> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20230624/202306241746.1sA0eBvt-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > | Closes: https://lore.kernel.org/r/202306241746.1sA0eBvt-lkp@intel.com/
-> > 
-> > smatch warnings:
-> > drivers/md/bcache/super.c:2644 register_bcache() warn: passing freed memory 'holder'
-> 
-> I had a look into the code and frankly I don't see how this could happen.
-> We can reach line 2644 only on explicit goto out_free_holder; which happens
-> in two places and in both of them I don't see how holder could be already
-> freed. Dan, can you share a bit more how the checker arrived at this
-> conclusion?
+Hi Arnd,
 
-I think you're misreading the warning...  The free happens later.  It's
-like this:
+First bad commit (maybe != root cause):
 
-drivers/md/bcache/super.c
-  2572          blkdev_put(bdev, NULL);
-  2573          bdev = bdev2;
-                ^^^^^^^^^^^^
-bdev is set here.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   1ef6663a587ba3e57dc5065a477db1c64481eedd
+commit: 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8 ARM: dove: multiplatform support
+date:   1 year, 3 months ago
+config: arm-randconfig-r071-20230627 (https://download.01.org/0day-ci/archive/20230627/202306271413.5vS46KMc-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230627/202306271413.5vS46KMc-lkp@intel.com/reproduce)
 
-  2574          if (IS_ERR(bdev)) {
-  2575                  ret = PTR_ERR(bdev);
-  2576                  bdev = NULL;
-  2577                  if (ret == -EBUSY) {
-  2578                          dev_t dev;
-  2579  
-  2580                          mutex_lock(&bch_register_lock);
-  2581                          if (lookup_bdev(strim(path), &dev) == 0 &&
-  2582                              bch_is_open(dev))
-  2583                                  err = "device already registered";
-  2584                          else
-  2585                                  err = "device busy";
-  2586                          mutex_unlock(&bch_register_lock);
-  2587                          if (attr == &ksysfs_register_quiet) {
-  2588                                  quiet = true;
-  2589                                  ret = size;
-  2590                          }
-  2591                  }
-  2592                  goto out_free_holder;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306271413.5vS46KMc-lkp@intel.com/
 
-bdev is NULL on this path so it's fine.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/sti/sti_mixer.c:145:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
+   drivers/gpu/drm/sti/sti_mixer.c:145:47: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/gpu/drm/sti/sti_mixer.c:145:47: sparse:     got void *
+>> drivers/gpu/drm/sti/sti_mixer.c:168:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/sti/sti_mixer.c:168:38: sparse:     expected void *addr
+   drivers/gpu/drm/sti/sti_mixer.c:168:38: sparse:     got void [noderef] __iomem *
 
-  2593          }
-  2594  
-  2595          err = "failed to register device";
-  2596  
-  2597          if (async_registration) {
-  2598                  /* register in asynchronous way */
-  2599                  struct async_reg_args *args =
-  2600                          kzalloc(sizeof(struct async_reg_args), GFP_KERNEL);
-  2601  
-  2602                  if (!args) {
-  2603                          ret = -ENOMEM;
-  2604                          err = "cannot allocate memory";
-  2605                          goto out_free_holder;
-                                ^^^^^^^^^^^^^^^^^^^^
-Here is the issue.  Adding a "bdev = NULL;" before the goto would
-silence the Smatch warning.  (That might not be the right thing to do).
+vim +145 drivers/gpu/drm/sti/sti_mixer.c
 
-  2606                  }
-  2607  
-  2608                  args->path      = path;
-  2609                  args->sb        = sb;
-  2610                  args->sb_disk   = sb_disk;
-  2611                  args->bdev      = bdev;
-  2612                  args->holder    = holder;
-  2613                  register_device_async(args);
-  2614                  /* No wait and returns to user space */
-  2615                  goto async_done;
-  2616          }
-  2617  
-  2618          if (SB_IS_BDEV(sb)) {
-  2619                  mutex_lock(&bch_register_lock);
-  2620                  ret = register_bdev(sb, sb_disk, bdev, holder);
-  2621                  mutex_unlock(&bch_register_lock);
-  2622                  /* blkdev_put() will be called in cached_dev_free() */
-  2623                  if (ret < 0)
-  2624                          goto out_free_sb;
-  2625          } else {
-  2626                  /* blkdev_put() will be called in bch_cache_release() */
-  2627                  ret = register_cache(sb, sb_disk, bdev, holder);
-  2628                  if (ret)
-  2629                          goto out_free_sb;
-  2630          }
-  2631  
-  2632          kfree(sb);
-  2633          kfree(path);
-  2634          module_put(THIS_MODULE);
-  2635  async_done:
-  2636          return size;
-  2637  
-  2638  out_free_holder:
-  2639          kfree(holder);
-                ^^^^^^^^^^^^^
-freed
+a5f81078a56c6a Vincent Abriou 2016-02-04  139  
+a5f81078a56c6a Vincent Abriou 2016-02-04  140  static void mixer_dbg_mxn(struct seq_file *s, void *addr)
+a5f81078a56c6a Vincent Abriou 2016-02-04  141  {
+a5f81078a56c6a Vincent Abriou 2016-02-04  142  	int i;
+a5f81078a56c6a Vincent Abriou 2016-02-04  143  
+a5f81078a56c6a Vincent Abriou 2016-02-04  144  	for (i = 1; i < 8; i++)
+a5f81078a56c6a Vincent Abriou 2016-02-04 @145  		seq_printf(s, "-0x%08X", (int)readl(addr + i * 4));
+a5f81078a56c6a Vincent Abriou 2016-02-04  146  }
+a5f81078a56c6a Vincent Abriou 2016-02-04  147  
+a5f81078a56c6a Vincent Abriou 2016-02-04  148  static int mixer_dbg_show(struct seq_file *s, void *arg)
+a5f81078a56c6a Vincent Abriou 2016-02-04  149  {
+a5f81078a56c6a Vincent Abriou 2016-02-04  150  	struct drm_info_node *node = s->private;
+a5f81078a56c6a Vincent Abriou 2016-02-04  151  	struct sti_mixer *mixer = (struct sti_mixer *)node->info_ent->data;
+a5f81078a56c6a Vincent Abriou 2016-02-04  152  
+a5f81078a56c6a Vincent Abriou 2016-02-04  153  	seq_printf(s, "%s: (vaddr = 0x%p)",
+a5f81078a56c6a Vincent Abriou 2016-02-04  154  		   sti_mixer_to_str(mixer), mixer->regs);
+a5f81078a56c6a Vincent Abriou 2016-02-04  155  
+a5f81078a56c6a Vincent Abriou 2016-02-04  156  	DBGFS_DUMP(GAM_MIXER_CTL);
+a5f81078a56c6a Vincent Abriou 2016-02-04  157  	mixer_dbg_ctl(s, sti_mixer_reg_read(mixer, GAM_MIXER_CTL));
+a5f81078a56c6a Vincent Abriou 2016-02-04  158  	DBGFS_DUMP(GAM_MIXER_BKC);
+a5f81078a56c6a Vincent Abriou 2016-02-04  159  	DBGFS_DUMP(GAM_MIXER_BCO);
+a5f81078a56c6a Vincent Abriou 2016-02-04  160  	DBGFS_DUMP(GAM_MIXER_BCS);
+a5f81078a56c6a Vincent Abriou 2016-02-04  161  	DBGFS_DUMP(GAM_MIXER_AVO);
+a5f81078a56c6a Vincent Abriou 2016-02-04  162  	DBGFS_DUMP(GAM_MIXER_AVS);
+a5f81078a56c6a Vincent Abriou 2016-02-04  163  	DBGFS_DUMP(GAM_MIXER_CRB);
+a5f81078a56c6a Vincent Abriou 2016-02-04  164  	mixer_dbg_crb(s, sti_mixer_reg_read(mixer, GAM_MIXER_CRB));
+a5f81078a56c6a Vincent Abriou 2016-02-04  165  	DBGFS_DUMP(GAM_MIXER_ACT);
+a5f81078a56c6a Vincent Abriou 2016-02-04  166  	DBGFS_DUMP(GAM_MIXER_MBP);
+a5f81078a56c6a Vincent Abriou 2016-02-04  167  	DBGFS_DUMP(GAM_MIXER_MX0);
+a5f81078a56c6a Vincent Abriou 2016-02-04 @168  	mixer_dbg_mxn(s, mixer->regs + GAM_MIXER_MX0);
+e9635133d47b9c Markus Elfring 2017-05-05  169  	seq_putc(s, '\n');
+a5f81078a56c6a Vincent Abriou 2016-02-04  170  	return 0;
+a5f81078a56c6a Vincent Abriou 2016-02-04  171  }
+a5f81078a56c6a Vincent Abriou 2016-02-04  172  
 
-  2640  out_put_sb_page:
-  2641          put_page(virt_to_page(sb_disk));
-  2642  out_blkdev_put:
-  2643          if (bdev)
-  2644                  blkdev_put(bdev, holder);
-                                         ^^^^^^
-bdev is non-NULL and holder is freed.
+:::::: The code at line 145 was first introduced by commit
+:::::: a5f81078a56c6ab57b7db2402ac64c34338004c5 drm/sti: add debugfs entries for MIXER crtc
 
-  2645  out_free_sb:
-  2646          kfree(sb);
-  2647  out_free_path:
-  2648          kfree(path);
-  2649          path = NULL;
-  2650  out_module_put:
-  2651          module_put(THIS_MODULE);
-  2652  out:
-  2653          if (!quiet)
-  2654                  pr_info("error %s: %s\n", path?path:"", err);
-  2655          return ret;
-  2656  }
+:::::: TO: Vincent Abriou <vincent.abriou@st.com>
+:::::: CC: Vincent Abriou <vincent.abriou@st.com>
 
-regards,
-dan carpenter
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
