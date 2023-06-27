@@ -1,44 +1,52 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783261308B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 19:37:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABFE57E6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 21:19:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687894638; x=1719430638;
+  t=1687900766; x=1719436766;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=wgyCfSddnSQbPwbxs/P5WjxSDpQdbH4hk+KK+yjnJMM=;
-  b=J5sKuW3z/t4VQmK8b2/LlZeyfT0l41nMzuD3IJBdP+wdLyakshyDP+/G
-   ScgL+zBRxhtFzueDDF+h8nzSwTgxCyyZv02kpETGKQPjJP9vfxOAWf8Pg
-   wP/egCZBrqk08jy7qUewNvjMxWfG6tkVP1w709R0qraZHfOedooderuse
-   DqtDYfAE3+MEtVTCgEIoHUNkkca3Pdf7QOqqeD7BRy3Ls4Rrebcb063tM
-   ofRC7BGWaK7YYdkpBtQ65g+enOk6EZL3qUrq7DcGT81rMNWY+vmR73Ag3
-   HAAsXpH8EUXwwyDDZwBUJZM1Ejk9jitebmCz+f/JOieCNcnkwFzKl8MDR
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="392295466"
+  bh=9F6oczZXMEUoLAJfxEwJtk3XCCkCKi/30DZkczd5yX0=;
+  b=WUmsAsHUS//UgzN8YnIfUyZoVLzyxeJ9xD9/OnyW+U3qiS098+DrmU6I
+   06vmShePK0ugzAzx/buhX0/h6icZV0ilHbdAKZkX0CPJuUAY7KLBHq8Bv
+   3KPFP7OOx5MRBl8sSpVN5FTmR1HeTNVShQIGqJ2CeHFtnG7FN7L/sytbD
+   ysSJRx1YdW22pVfTi/xpUZBzOyvRMi48M7xlFOvenkVV9TBV6/D3xOKSe
+   bkLegUC6/LKrY1u0iEQt3aVFZwH9S2Wwuns/p3zcTAxiuMcNICinwypzX
+   /yzQB+NraQp4zSwmJXzjArWH/vd7ptVKirdHKXeZcWrTv48VJCWBDppyC
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="448068759"
 X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
-   d="scan'208";a="392295466"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 12:37:17 -0700
+   d="scan'208";a="448068759"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 14:19:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="963325375"
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="694047086"
 X-IronPort-AV: E=Sophos;i="6.01,163,1684825200"; 
-   d="scan'208";a="963325375"
+   d="scan'208";a="694047086"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 27 Jun 2023 12:37:16 -0700
+  by orsmga006.jf.intel.com with ESMTP; 27 Jun 2023 14:19:22 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEEV1-000C9x-1q;
-	Tue, 27 Jun 2023 19:37:15 +0000
-Date: Wed, 28 Jun 2023 03:37:07 +0800
+	id 1qEG5p-000CHH-1b;
+	Tue, 27 Jun 2023 21:19:21 +0000
+Date: Wed, 28 Jun 2023 05:19:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna Kurapati <quic_kriskura@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v9 05/10] usb: dwc3: core: Refactor PHY logic to support
- Multiport Controller
-Message-ID: <202306280340.7mq13HUk-lkp@intel.com>
-References: <20230621043628.21485-6-quic_kriskura@quicinc.com>
+To: Phil Auld <pauld@redhat.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Juri Lelli <juri.lelli@redhat.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Ben Segall <bsegall@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Mel Gorman <mgorman@suse.de>,
+	Phil Auld <pauld@redhat.com>
+Subject: Re: [PATCH v2] Sched/fair: Block nohz tick_stop when cfs bandwidth
+ in use
+Message-ID: <202306280536.Zd5x1Zdv-lkp@intel.com>
+References: <20230627191201.344110-1-pauld@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,111 +55,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230621043628.21485-6-quic_kriskura@quicinc.com>
+In-Reply-To: <20230627191201.344110-1-pauld@redhat.com>
 
-Hi Krishna,
+Hi Phil,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus robh/for-next linus/master v6.4]
-[cannot apply to next-20230627]
+[auto build test WARNING on tip/auto-latest]
+[also build test WARNING on linus/master v6.4 next-20230627]
+[cannot apply to tip/sched/core tip/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-Kurapati/dt-bindings-usb-qcom-dwc3-Add-bindings-for-SC8280-Multiport/20230621-124117
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230621043628.21485-6-quic_kriskura%40quicinc.com
-patch subject: [PATCH v9 05/10] usb: dwc3: core: Refactor PHY logic to support Multiport Controller
-config: arm-randconfig-m041-20230627 (https://download.01.org/0day-ci/archive/20230628/202306280340.7mq13HUk-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230628/202306280340.7mq13HUk-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Phil-Auld/Sched-fair-Block-nohz-tick_stop-when-cfs-bandwidth-in-use/20230628-031312
+base:   tip/auto-latest
+patch link:    https://lore.kernel.org/r/20230627191201.344110-1-pauld%40redhat.com
+patch subject: [PATCH v2] Sched/fair: Block nohz tick_stop when cfs bandwidth in use
+config: nios2-randconfig-r035-20230627 (https://download.01.org/0day-ci/archive/20230628/202306280536.Zd5x1Zdv-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230628/202306280536.Zd5x1Zdv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306280340.7mq13HUk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306280536.Zd5x1Zdv-lkp@intel.com/
 
-New smatch warnings:
-drivers/usb/dwc3/core.c:2239 dwc3_resume_common() warn: inconsistent indenting
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/usb/dwc3/core.c:501 dwc3_alloc_event_buffers() warn: passing a valid pointer to 'PTR_ERR'
+   kernel/sched/fair.c:688:5: warning: no previous prototype for 'sched_update_scaling' [-Wmissing-prototypes]
+     688 | int sched_update_scaling(void)
+         |     ^~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/fair.c:6220:6: warning: no previous prototype for 'sched_cfs_bandwidth_active' [-Wmissing-prototypes]
+    6220 | bool sched_cfs_bandwidth_active(struct cfs_rq *cfs_rq)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +2239 drivers/usb/dwc3/core.c
 
-  2202	
-  2203	static int dwc3_resume_common(struct dwc3 *dwc, pm_message_t msg)
-  2204	{
-  2205		unsigned long	flags;
-  2206		int		ret;
-  2207		u32		reg;
-  2208		int		i;
-  2209	
-  2210		switch (dwc->current_dr_role) {
-  2211		case DWC3_GCTL_PRTCAP_DEVICE:
-  2212			ret = dwc3_core_init_for_resume(dwc);
-  2213			if (ret)
-  2214				return ret;
-  2215	
-  2216			dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_DEVICE);
-  2217			dwc3_gadget_resume(dwc);
-  2218			break;
-  2219		case DWC3_GCTL_PRTCAP_HOST:
-  2220			if (!PMSG_IS_AUTO(msg) && !device_may_wakeup(dwc->dev)) {
-  2221				ret = dwc3_core_init_for_resume(dwc);
-  2222				if (ret)
-  2223					return ret;
-  2224				dwc3_set_prtcap(dwc, DWC3_GCTL_PRTCAP_HOST);
-  2225				break;
-  2226			}
-  2227			/* Restore GUSB2PHYCFG bits that were modified in suspend */
-  2228			 for (i = 0; i < dwc->num_usb2_ports; i++) {
-  2229				reg = dwc3_readl(dwc->regs, DWC3_GUSB2PHYCFG(i));
-  2230				if (dwc->dis_u2_susphy_quirk)
-  2231					reg &= ~DWC3_GUSB2PHYCFG_SUSPHY;
-  2232	
-  2233				if (dwc->dis_enblslpm_quirk)
-  2234					reg &= ~DWC3_GUSB2PHYCFG_ENBLSLPM;
-  2235	
-  2236				dwc3_writel(dwc->regs, DWC3_GUSB2PHYCFG(i), reg);
-  2237			}
-  2238	
-> 2239			for (i = 0; i < dwc->num_usb2_ports; i++) {
-  2240				phy_pm_runtime_get_sync(dwc->usb2_generic_phy[i]);
-  2241				phy_pm_runtime_get_sync(dwc->usb3_generic_phy[i]);
-  2242			}
-  2243			break;
-  2244		case DWC3_GCTL_PRTCAP_OTG:
-  2245			/* nothing to do on runtime_resume */
-  2246			if (PMSG_IS_AUTO(msg))
-  2247				break;
-  2248	
-  2249			ret = dwc3_core_init_for_resume(dwc);
-  2250			if (ret)
-  2251				return ret;
-  2252	
-  2253			dwc3_set_prtcap(dwc, dwc->current_dr_role);
-  2254	
-  2255			dwc3_otg_init(dwc);
-  2256			if (dwc->current_otg_role == DWC3_OTG_ROLE_HOST) {
-  2257				dwc3_otg_host_init(dwc);
-  2258			} else if (dwc->current_otg_role == DWC3_OTG_ROLE_DEVICE) {
-  2259				spin_lock_irqsave(&dwc->lock, flags);
-  2260				dwc3_gadget_resume(dwc);
-  2261				spin_unlock_irqrestore(&dwc->lock, flags);
-  2262			}
-  2263	
-  2264			break;
-  2265		default:
-  2266			/* do nothing */
-  2267			break;
-  2268		}
-  2269	
-  2270		return 0;
-  2271	}
-  2272	
+vim +/sched_cfs_bandwidth_active +6220 kernel/sched/fair.c
+
+  6212	
+  6213	static inline struct cfs_bandwidth *tg_cfs_bandwidth(struct task_group *tg)
+  6214	{
+  6215		return NULL;
+  6216	}
+  6217	static inline void destroy_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
+  6218	static inline void update_runtime_enabled(struct rq *rq) {}
+  6219	static inline void unthrottle_offline_cfs_rqs(struct rq *rq) {}
+> 6220	bool sched_cfs_bandwidth_active(struct cfs_rq *cfs_rq)
+  6221	{
+  6222		return false;
+  6223	}
+  6224	
 
 -- 
 0-DAY CI Kernel Test Service
