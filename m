@@ -1,41 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344B31396
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 05:36:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790471396
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 05:46:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687844188; x=1719380188;
+  t=1687844770; x=1719380770;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T0/kM/RDZ4dFQbW9Ie8daGLF6+drT1R38AfVe20vPpI=;
-  b=O01rxWAvef1um9otcXn3qxo/JVAfs0RVdGrJMFdX1WshymaODCpEhtcY
-   7/9/13R8Cjit0d5y2Em1AfdTt+Hrib4h/fM/BFxqMnHo4fxrD1BdkQnhm
-   gspM7ROu1vx/HdsSzIjVyz7uB5GF/Nsi/7G28rF+2BZMhoR9C80PoN291
-   S6VjJFQqNyQ78kYGLxnxaR3hfZ4HBOrVb73ezxRgD4/i4ZLvfb238RdqS
-   zo8Gmj9MYkmUaI0EIEwqgKmfjwGIeKabJdNs1VI/8gjO3QxNS3sKfTb33
-   nuO2kaJN/Gykaox9CYeHN40yL+9r1brvpzjqXQWbVXE9Di6jGIh1cz49S
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="361520855"
+  bh=VJyJJdnrxQh4rp5neqiDwQlfZszsTCfX2LCJVS0lJXU=;
+  b=AtURCi9e14HqnR3yfmzzZ8t5Rv8PWm8nx8iCltohGrNHUJlm7rVRzejj
+   RIyayQfaV15nAyI2iZhtF4X2fR2BHfX79QMHa66uX60ojLzHnOj5CBoNj
+   ITUEKkuEu3aC8vJRPHvKjYF5hPL8WQLtxmNPRR7Lwltn0U7/Iq113KG7d
+   s41fPg6ZBXC0aYw5aGMQU0IVqaplB/lOnjWVj8VUefbs2ZSSbjTC5gk6R
+   Vhlr+/MNr1gKQLdfgu+nghbvHkN3I25SrnW06dSiFbvm6XzKDQe4zZdhI
+   AMVfzqGyMNlPGkFToVVHbFeIzbJnoDSkmYMUfPmyMq+JcPq30M+po6yul
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="360345547"
 X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="361520855"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 22:36:24 -0700
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="751511647"
+   d="scan'208";a="360345547"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 22:46:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="890545194"
 X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="751511647"
+   d="scan'208";a="890545194"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 26 Jun 2023 22:35:58 -0700
+  by orsmga005.jf.intel.com with ESMTP; 26 Jun 2023 22:45:58 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qE1Mr-000Bjx-1w;
-	Tue, 27 Jun 2023 05:35:57 +0000
-Date: Tue, 27 Jun 2023 13:35:20 +0800
+	id 1qE1WX-000BkL-2t;
+	Tue, 27 Jun 2023 05:45:57 +0000
+Date: Tue, 27 Jun 2023 13:45:47 +0800
 From: kernel test robot <lkp@intel.com>
 To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.4/zen-sauce 3/30] drivers/i2c/busses/i2c-nct6775.c:221:39:
- warning: this statement may fall through
-Message-ID: <202306271347.C27oROXp-lkp@intel.com>
+Subject: [zen:6.4/zen-sauce 2/30] drivers/scsi/vhba/vhba.c:145:6: error: no
+ previous prototype for 'devnum_to_bus_and_id'
+Message-ID: <202306271335.yj4QYkG0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,190 +48,332 @@ Content-Disposition: inline
 
 tree:   https://github.com/zen-kernel/zen-kernel 6.4/zen-sauce
 head:   b404e67dcc4feba1cdabb224765f1382844ce016
-commit: b43c180a45f23d1f98933afa05d7765bc6de3da6 [3/30] ZEN: Add OpenRGB patches
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20230627/202306271347.C27oROXp-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230627/202306271347.C27oROXp-lkp@intel.com/reproduce)
+commit: 9feb76c71e68a5b76b983f8f887772760a4b3f54 [2/30] ZEN: Add VHBA driver
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230627/202306271335.yj4QYkG0-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230627/202306271335.yj4QYkG0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306271347.C27oROXp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306271335.yj4QYkG0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/i2c/busses/i2c-nct6775.c: In function 'nct6775_access':
->> drivers/i2c/busses/i2c-nct6775.c:221:39: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     221 |                         tmp_data.byte = data->byte;
-         |                         ~~~~~~~~~~~~~~^~~~~~~~~~~~
-   drivers/i2c/busses/i2c-nct6775.c:222:17: note: here
-     222 |                 case I2C_SMBUS_BYTE:
-         |                 ^~~~
-   drivers/i2c/busses/i2c-nct6775.c: At top level:
-   drivers/i2c/busses/i2c-nct6775.c:93:27: warning: 'nct6775_device_names' defined but not used [-Wunused-const-variable=]
-      93 | static const char * const nct6775_device_names[] = {
-         |                           ^~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:145:6: error: no previous prototype for 'devnum_to_bus_and_id' [-Werror=missing-prototypes]
+     145 | void devnum_to_bus_and_id(unsigned int devnum, unsigned int *bus, unsigned int *id)
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:151:14: error: no previous prototype for 'bus_and_id_to_devnum' [-Werror=missing-prototypes]
+     151 | unsigned int bus_and_id_to_devnum(unsigned int bus, unsigned int id)
+         |              ^~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:156:21: error: no previous prototype for 'vhba_device_alloc' [-Werror=missing-prototypes]
+     156 | struct vhba_device *vhba_device_alloc (void)
+         |                     ^~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:176:6: error: no previous prototype for 'vhba_device_put' [-Werror=missing-prototypes]
+     176 | void vhba_device_put (struct vhba_device *vdev)
+         |      ^~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:183:21: error: no previous prototype for 'vhba_device_get' [-Werror=missing-prototypes]
+     183 | struct vhba_device *vhba_device_get (struct vhba_device *vdev)
+         |                     ^~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:190:5: error: no previous prototype for 'vhba_device_queue' [-Werror=missing-prototypes]
+     190 | int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
+         |     ^~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c: In function 'vhba_device_queue':
+>> drivers/scsi/vhba/vhba.c:192:23: error: variable 'vhost' set but not used [-Werror=unused-but-set-variable]
+     192 |     struct vhba_host *vhost;
+         |                       ^~~~~
+   drivers/scsi/vhba/vhba.c: At top level:
+>> drivers/scsi/vhba/vhba.c:219:5: error: no previous prototype for 'vhba_device_dequeue' [-Werror=missing-prototypes]
+     219 | int vhba_device_dequeue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
+         |     ^~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:274:6: error: no previous prototype for 'vhba_scan_devices_add' [-Werror=missing-prototypes]
+     274 | void vhba_scan_devices_add (struct vhba_host *vhost, int bus, int id)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:287:6: error: no previous prototype for 'vhba_scan_devices_remove' [-Werror=missing-prototypes]
+     287 | void vhba_scan_devices_remove (struct vhba_host *vhost, int bus, int id)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:300:6: error: no previous prototype for 'vhba_scan_devices' [-Werror=missing-prototypes]
+     300 | void vhba_scan_devices (struct work_struct *work)
+         |      ^~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:348:5: error: no previous prototype for 'vhba_add_device' [-Werror=missing-prototypes]
+     348 | int vhba_add_device (struct vhba_device *vdev)
+         |     ^~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:382:5: error: no previous prototype for 'vhba_remove_device' [-Werror=missing-prototypes]
+     382 | int vhba_remove_device (struct vhba_device *vdev)
+         |     ^~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:403:21: error: no previous prototype for 'vhba_lookup_device' [-Werror=missing-prototypes]
+     403 | struct vhba_device *vhba_lookup_device (int devnum)
+         |                     ^~~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:474:5: error: no previous prototype for 'vhba_queuecommand' [-Werror=missing-prototypes]
+     474 | int vhba_queuecommand (struct Scsi_Host *shost, struct scsi_cmnd *cmd)
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:508:5: error: no previous prototype for 'vhba_abort' [-Werror=missing-prototypes]
+     508 | int vhba_abort (struct scsi_cmnd *cmd)
+         |     ^~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:551:9: error: no previous prototype for 'do_request' [-Werror=missing-prototypes]
+     551 | ssize_t do_request (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, char __user *buf, size_t buf_len)
+         |         ^~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:617:9: error: no previous prototype for 'do_response' [-Werror=missing-prototypes]
+     617 | ssize_t do_response (struct vhba_device *vdev, unsigned long metatag, struct scsi_cmnd *cmd, const char __user *buf, size_t buf_len, struct vhba_response *res)
+         |         ^~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:693:22: error: no previous prototype for 'next_command' [-Werror=missing-prototypes]
+     693 | struct vhba_command *next_command (struct vhba_device *vdev)
+         |                      ^~~~~~~~~~~~
+>> drivers/scsi/vhba/vhba.c:710:22: error: no previous prototype for 'match_command' [-Werror=missing-prototypes]
+     710 | struct vhba_command *match_command (struct vhba_device *vdev, __u32 metatag)
+         |                      ^~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:727:22: error: no previous prototype for 'wait_command' [-Werror=missing-prototypes]
+     727 | struct vhba_command *wait_command (struct vhba_device *vdev, unsigned long flags)
+         |                      ^~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:754:9: error: no previous prototype for 'vhba_ctl_read' [-Werror=missing-prototypes]
+     754 | ssize_t vhba_ctl_read (struct file *file, char __user *buf, size_t buf_len, loff_t *offset)
+         |         ^~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:799:9: error: no previous prototype for 'vhba_ctl_write' [-Werror=missing-prototypes]
+     799 | ssize_t vhba_ctl_write (struct file *file, const char __user *buf, size_t buf_len, loff_t *offset)
+         |         ^~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:852:6: error: no previous prototype for 'vhba_ctl_ioctl' [-Werror=missing-prototypes]
+     852 | long vhba_ctl_ioctl (struct file *file, unsigned int cmd, unsigned long arg)
+         |      ^~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:886:6: error: no previous prototype for 'vhba_ctl_compat_ioctl' [-Werror=missing-prototypes]
+     886 | long vhba_ctl_compat_ioctl (struct file *file, unsigned int cmd, unsigned long arg)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:893:14: error: no previous prototype for 'vhba_ctl_poll' [-Werror=missing-prototypes]
+     893 | unsigned int vhba_ctl_poll (struct file *file, poll_table *wait)
+         |              ^~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:910:5: error: no previous prototype for 'vhba_ctl_open' [-Werror=missing-prototypes]
+     910 | int vhba_ctl_open (struct inode *inode, struct file *file)
+         |     ^~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:942:5: error: no previous prototype for 'vhba_ctl_release' [-Werror=missing-prototypes]
+     942 | int vhba_ctl_release (struct inode *inode, struct file *file)
+         |     ^~~~~~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:998:5: error: no previous prototype for 'vhba_probe' [-Werror=missing-prototypes]
+     998 | int vhba_probe (struct platform_device *pdev)
+         |     ^~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:1052:5: error: no previous prototype for 'vhba_remove' [-Werror=missing-prototypes]
+    1052 | int vhba_remove (struct platform_device *pdev)
+         |     ^~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:1068:6: error: no previous prototype for 'vhba_release' [-Werror=missing-prototypes]
+    1068 | void vhba_release (struct device * dev)
+         |      ^~~~~~~~~~~~
+   drivers/scsi/vhba/vhba.c:1090:12: error: no previous prototype for 'vhba_init' [-Werror=missing-prototypes]
+    1090 | int __init vhba_init (void)
+         |            ^~~~~~~~~
+   drivers/scsi/vhba/vhba.c:1115:13: error: no previous prototype for 'vhba_exit' [-Werror=missing-prototypes]
+    1115 | void __exit vhba_exit(void)
+         |             ^~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +221 drivers/i2c/busses/i2c-nct6775.c
+vim +/devnum_to_bus_and_id +145 drivers/scsi/vhba/vhba.c
 
+   140	
+   141	
+   142	
+   143	/* These functions define a symmetric 1:1 mapping between device numbers and
+   144	   the bus and id. We have reserved the last id per bus for the host itself. */
+ > 145	void devnum_to_bus_and_id(unsigned int devnum, unsigned int *bus, unsigned int *id)
+   146	{
+   147	    *bus = devnum / (VHBA_MAX_ID-1);
+   148	    *id  = devnum % (VHBA_MAX_ID-1);
+   149	}
+   150	
+ > 151	unsigned int bus_and_id_to_devnum(unsigned int bus, unsigned int id)
+   152	{
+   153	    return (bus * (VHBA_MAX_ID-1)) + id;
+   154	}
+   155	
+ > 156	struct vhba_device *vhba_device_alloc (void)
+   157	{
+   158	    struct vhba_device *vdev;
+   159	
+   160	    vdev = kzalloc(sizeof(struct vhba_device), GFP_KERNEL);
+   161	    if (!vdev) {
+   162	        return NULL;
+   163	    }
+   164	
+   165	    spin_lock_init(&vdev->cmd_lock);
+   166	    INIT_LIST_HEAD(&vdev->cmd_list);
+   167	    init_waitqueue_head(&vdev->cmd_wq);
+   168	    atomic_set(&vdev->refcnt, 1);
+   169	
+   170	    vdev->kbuf = NULL;
+   171	    vdev->kbuf_size = 0;
+   172	
+   173	    return vdev;
+   174	}
+   175	
+ > 176	void vhba_device_put (struct vhba_device *vdev)
+   177	{
+   178	    if (atomic_dec_and_test(&vdev->refcnt)) {
+   179	        kfree(vdev);
+   180	    }
+   181	}
+   182	
+ > 183	struct vhba_device *vhba_device_get (struct vhba_device *vdev)
+   184	{
+   185	    atomic_inc(&vdev->refcnt);
+   186	
+   187	    return vdev;
+   188	}
+   189	
+ > 190	int vhba_device_queue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
+   191	{
+ > 192	    struct vhba_host *vhost;
+   193	    struct vhba_command *vcmd;
+   194	    unsigned long flags;
+   195	
+   196	    vhost = platform_get_drvdata(&vhba_platform_device);
    197	
-   198	/* Return negative errno on error. */
-   199	static s32 nct6775_access(struct i2c_adapter * adap, u16 addr,
-   200			 unsigned short flags, char read_write,
-   201			 u8 command, int size, union i2c_smbus_data * data)
-   202	{
-   203		struct i2c_nct6775_adapdata *adapdata = i2c_get_adapdata(adap);
-   204		unsigned short nuvoton_nct6793d_smba = adapdata->smba;
-   205		int i, len, cnt;
-   206		union i2c_smbus_data tmp_data;
-   207		int timeout = 0;
-   208	
-   209		tmp_data.word = 0;
-   210		cnt = 0;
-   211		len = 0;
-   212	
-   213		outb_p(NCT6793D_SOFT_RESET, SMBHSTCTL);
-   214	
-   215		switch (size) {
-   216			case I2C_SMBUS_QUICK:
-   217				outb_p((addr << 1) | read_write,
-   218				       SMBHSTADD);
-   219				break;
-   220			case I2C_SMBUS_BYTE_DATA:
- > 221				tmp_data.byte = data->byte;
-   222			case I2C_SMBUS_BYTE:
-   223				outb_p((addr << 1) | read_write,
-   224				       SMBHSTADD);
-   225				outb_p(command, SMBHSTIDX);
-   226				if (read_write == I2C_SMBUS_WRITE) {
-   227					outb_p(tmp_data.byte, SMBHSTDAT);
-   228					outb_p(NCT6793D_WRITE_BYTE, SMBHSTCMD);
-   229				}
-   230				else {
-   231					outb_p(NCT6793D_READ_BYTE, SMBHSTCMD);
-   232				}
-   233				break;
-   234			case I2C_SMBUS_WORD_DATA:
-   235				outb_p((addr << 1) | read_write,
-   236				       SMBHSTADD);
-   237				outb_p(command, SMBHSTIDX);
-   238				if (read_write == I2C_SMBUS_WRITE) {
-   239					outb_p(data->word & 0xff, SMBHSTDAT);
-   240					outb_p((data->word & 0xff00) >> 8, SMBHSTDAT);
-   241					outb_p(NCT6793D_WRITE_WORD, SMBHSTCMD);
-   242				}
-   243				else {
-   244					outb_p(NCT6793D_READ_WORD, SMBHSTCMD);
-   245				}
-   246				break;
-   247			case I2C_SMBUS_BLOCK_DATA:
-   248				outb_p((addr << 1) | read_write,
-   249				       SMBHSTADD);
-   250				outb_p(command, SMBHSTIDX);
-   251				if (read_write == I2C_SMBUS_WRITE) {
-   252					len = data->block[0];
-   253					if (len == 0 || len > I2C_SMBUS_BLOCK_MAX)
-   254						return -EINVAL;
-   255					outb_p(len, SMBBLKSZ);
-   256	
-   257					cnt = 1;
-   258					if (len >= 4) {
-   259						for (i = cnt; i <= 4; i++) {
-   260							outb_p(data->block[i], SMBHSTDAT);
-   261						}
-   262	
-   263						len -= 4;
-   264						cnt += 4;
-   265					}
-   266					else {
-   267						for (i = cnt; i <= len; i++ ) {
-   268							outb_p(data->block[i], SMBHSTDAT);
-   269						}
-   270	
-   271						len = 0;
-   272					}
+   198	    vcmd = vhba_alloc_command();
+   199	    if (!vcmd) {
+   200	        return SCSI_MLQUEUE_HOST_BUSY;
+   201	    }
+   202	
+   203	    vcmd->cmd = cmd;
+   204	
+   205	    spin_lock_irqsave(&vdev->cmd_lock, flags);
+   206	#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 15, 0)
+   207	    vcmd->metatag = scsi_cmd_to_rq(vcmd->cmd)->tag;
+   208	#else
+   209	    vcmd->metatag = vcmd->cmd->request->tag;
+   210	#endif
+   211	    list_add_tail(&vcmd->entry, &vdev->cmd_list);
+   212	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
+   213	
+   214	    wake_up_interruptible(&vdev->cmd_wq);
+   215	
+   216	    return 0;
+   217	}
+   218	
+ > 219	int vhba_device_dequeue (struct vhba_device *vdev, struct scsi_cmnd *cmd)
+   220	{
+   221	    struct vhba_command *vcmd;
+   222	    int retval;
+   223	    unsigned long flags;
+   224	
+   225	    spin_lock_irqsave(&vdev->cmd_lock, flags);
+   226	    list_for_each_entry(vcmd, &vdev->cmd_list, entry) {
+   227	        if (vcmd->cmd == cmd) {
+   228	            list_del_init(&vcmd->entry);
+   229	            break;
+   230	        }
+   231	    }
+   232	
+   233	    /* command not found */
+   234	    if (&vcmd->entry == &vdev->cmd_list) {
+   235	        spin_unlock_irqrestore(&vdev->cmd_lock, flags);
+   236	        return SUCCESS;
+   237	    }
+   238	
+   239	    while (vcmd->status == VHBA_REQ_READING || vcmd->status == VHBA_REQ_WRITING) {
+   240	        spin_unlock_irqrestore(&vdev->cmd_lock, flags);
+   241	        scmd_dbg(cmd, "wait for I/O before aborting\n");
+   242	        schedule_timeout(1);
+   243	        spin_lock_irqsave(&vdev->cmd_lock, flags);
+   244	    }
+   245	
+   246	    retval = (vcmd->status == VHBA_REQ_SENT) ? FAILED : SUCCESS;
+   247	
+   248	    vhba_free_command(vcmd);
+   249	
+   250	    spin_unlock_irqrestore(&vdev->cmd_lock, flags);
+   251	
+   252	    return retval;
+   253	}
+   254	
+   255	#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 19, 0)
+   256	int vhba_slave_alloc(struct scsi_device *sdev)
+   257	{
+   258	    struct Scsi_Host *shost = sdev->host;
+   259	
+   260	    sdev_dbg(sdev, "enabling tagging (queue depth: %i).\n", sdev->queue_depth);
+   261	#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 17, 0)
+   262	    if (!shost_use_blk_mq(shost) && shost->bqt) {
+   263	#else
+   264	    if (shost->bqt) {
+   265	#endif
+   266	        blk_queue_init_tags(sdev->request_queue, sdev->queue_depth, shost->bqt);
+   267	    }
+   268	    scsi_adjust_queue_depth(sdev, 0, sdev->queue_depth);
+   269	
+   270	    return 0;
+   271	}
+   272	#endif
    273	
-   274					outb_p(NCT6793D_WRITE_BLOCK, SMBHSTCMD);
-   275				}
-   276				else {
-   277					return -ENOTSUPP;
-   278				}
-   279				break;
-   280			default:
-   281				dev_warn(&adap->dev, "Unsupported transaction %d\n", size);
-   282				return -EOPNOTSUPP;
-   283		}
-   284	
-   285		outb_p(NCT6793D_MANUAL_START, SMBHSTCTL);
+ > 274	void vhba_scan_devices_add (struct vhba_host *vhost, int bus, int id)
+   275	{
+   276	    struct scsi_device *sdev;
+   277	
+   278	    sdev = scsi_device_lookup(vhost->shost, bus, id, 0);
+   279	    if (!sdev) {
+   280	        scsi_add_device(vhost->shost, bus, id, 0);
+   281	    } else {
+   282	        dev_warn(&vhost->shost->shost_gendev, "tried to add an already-existing device %d:%d:0!\n", bus, id);
+   283	        scsi_device_put(sdev);
+   284	    }
+   285	}
    286	
-   287		while ((size == I2C_SMBUS_BLOCK_DATA) && (len > 0)) {
-   288			if (read_write == I2C_SMBUS_WRITE) {
-   289				timeout = 0;
-   290				while ((inb_p(SMBHSTSTS) & NCT6793D_FIFO_EMPTY) == 0)
-   291				{
-   292					if(timeout > MAX_RETRIES)
-   293					{
-   294						return -ETIMEDOUT;
-   295					}
-   296					usleep_range(250, 500);
-   297					timeout++;
-   298				}
+ > 287	void vhba_scan_devices_remove (struct vhba_host *vhost, int bus, int id)
+   288	{
+   289	    struct scsi_device *sdev;
+   290	
+   291	    sdev = scsi_device_lookup(vhost->shost, bus, id, 0);
+   292	    if (sdev) {
+   293	        scsi_remove_device(sdev);
+   294	        scsi_device_put(sdev);
+   295	    } else {
+   296	        dev_warn(&vhost->shost->shost_gendev, "tried to remove non-existing device %d:%d:0!\n", bus, id);
+   297	    }
+   298	}
    299	
-   300				//Load more bytes into FIFO
-   301				if (len >= 4) {
-   302					for (i = cnt; i <= (cnt + 4); i++) {
-   303						outb_p(data->block[i], SMBHSTDAT);
-   304					}
-   305	
-   306					len -= 4;
-   307					cnt += 4;
-   308				}
-   309				else {
-   310					for (i = cnt; i <= (cnt + len); i++) {
-   311						outb_p(data->block[i], SMBHSTDAT);
-   312					}
-   313	
-   314					len = 0;
-   315				}
-   316			}
-   317			else {
-   318				return -ENOTSUPP;
-   319			}
-   320			
-   321		}
-   322	
-   323		//wait for manual mode to complete
-   324		timeout = 0;
-   325		while ((inb_p(SMBHSTSTS) & NCT6793D_MANUAL_ACTIVE) != 0)
-   326		{
-   327			if(timeout > MAX_RETRIES)
-   328			{
-   329				return -ETIMEDOUT;
-   330			}
-   331			usleep_range(250, 500);
-   332			timeout++;
-   333		}
-   334	
-   335		if ((inb_p(SMBHSTERR) & NCT6793D_NO_ACK) != 0) {    	
-   336			return -ENXIO;
-   337		}
-   338		else if ((read_write == I2C_SMBUS_WRITE) || (size == I2C_SMBUS_QUICK)) {
-   339			return 0;
-   340		}
-   341	
-   342		switch (size) {
-   343			case I2C_SMBUS_QUICK:
-   344			case I2C_SMBUS_BYTE_DATA:
-   345				data->byte = inb_p(SMBHSTDAT);
-   346				break;
-   347			case I2C_SMBUS_WORD_DATA:
-   348				data->word = inb_p(SMBHSTDAT) + (inb_p(SMBHSTDAT) << 8);
-   349				break;
-   350		}
-   351		return 0;
-   352	}
-   353	
+ > 300	void vhba_scan_devices (struct work_struct *work)
+   301	{
+   302	    struct vhba_host *vhost = container_of(work, struct vhba_host, scan_devices);
+   303	    unsigned long flags;
+   304	    int change, exists;
+   305	    unsigned int devnum;
+   306	    unsigned int bus, id;
+   307	
+   308	    for (;;) {
+   309	        spin_lock_irqsave(&vhost->dev_lock, flags);
+   310	
+   311	        devnum = find_first_bit(vhost->chgmap, VHBA_MAX_DEVICES);
+   312	        if (devnum >= VHBA_MAX_DEVICES) {
+   313	            spin_unlock_irqrestore(&vhost->dev_lock, flags);
+   314	            break;
+   315	        }
+   316	        change = vhost->chgtype[devnum];
+   317	        exists = vhost->devices[devnum] != NULL;
+   318	
+   319	        vhost->chgtype[devnum] = 0;
+   320	        clear_bit(devnum, vhost->chgmap);
+   321	
+   322	        spin_unlock_irqrestore(&vhost->dev_lock, flags);
+   323	
+   324	        devnum_to_bus_and_id(devnum, &bus, &id);
+   325	
+   326	        if (change < 0) {
+   327	            dev_dbg(&vhost->shost->shost_gendev, "trying to remove target %d:%d:0\n", bus, id);
+   328	            vhba_scan_devices_remove(vhost, bus, id);
+   329	        } else if (change > 0) {
+   330	            dev_dbg(&vhost->shost->shost_gendev, "trying to add target %d:%d:0\n", bus, id);
+   331	            vhba_scan_devices_add(vhost, bus, id);
+   332	        } else {
+   333	            /* quick sequence of add/remove or remove/add; we determine
+   334	               which one it was by checking if device structure exists */
+   335	            if (exists) {
+   336	                /* remove followed by add: remove and (re)add */
+   337	                dev_dbg(&vhost->shost->shost_gendev, "trying to (re)add target %d:%d:0\n", bus, id);
+   338	                vhba_scan_devices_remove(vhost, bus, id);
+   339	                vhba_scan_devices_add(vhost, bus, id);
+   340	            } else {
+   341	                /* add followed by remove: no-op */
+   342	                dev_dbg(&vhost->shost->shost_gendev, "no-op for target %d:%d:0\n", bus, id);
+   343	            }
+   344	        }
+   345	    }
+   346	}
+   347	
 
 -- 
 0-DAY CI Kernel Test Service
