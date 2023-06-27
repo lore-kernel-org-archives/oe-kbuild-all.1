@@ -1,55 +1,41 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9475216402
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 08:29:04 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3094910b150so5046288f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 01:29:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1687854542; x=1690446542;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=p0AEkpId5NKKWlAE3rNOhm9AnzAa7pWdvgBZ1O/DAxM=;
-        b=wuKt4n63i2/voRs13Qxn47QLaYEFMVCIzveYI9zu8omD/xsiL2KfL5+pwbyQDgZRVz
-         UXdSJc6tgknO//TOus/WjkWw8k6gTzRxKI6u5j8U3jy9Rfae+ythdr0CpGcAmxuGUA4e
-         y2NGj3XF21KCi0BpLWgFAFFFplh+yqmzktgHhOYq7Zznyl24PkH6zF9eqkgxMRAGvRGk
-         8B5NIdK9Ob4L1HiXJfRbKj7loQtI5L6sRZgckHTMGkTN8Tqpgj/Iz7R33L1h3uTSEtjI
-         65GkiRuo6bZicwI5N2fv/5a/UE6SKuq7eiK/H+CtT0v00VIp0iM05ctuDEpYmMnzXFSZ
-         lDcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687854542; x=1690446542;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p0AEkpId5NKKWlAE3rNOhm9AnzAa7pWdvgBZ1O/DAxM=;
-        b=A0oQAIjaILzl/Nx+iH36fDK27TYYGgtKPs9H96fjcijL6v2SjT4FCD9qVX6BNXllHM
-         kPCWNqhe/Q9YIEj4+xMwJwnwi5A4K0Wvw8A3KhZQK+IhrkoBcn7Bcdq9pvw0pINRc+rO
-         hzdcVQ1nc9mtbKke7oYXA9QdORQvQVEQa4riyJuVYiXR1eASEFm5QqJ2SBruaHGLvRo3
-         /PSIVyjaIHi7Jqhc80QyQsxz7F4opXQ5pUWmYgyHr8iglA8VQA/Zl0wY7Tts99DQy+xb
-         lg/QOtf+Pu6DAq5Hp+MxCP16dfUXVVTSekrgHvwe4shW7FVF6VzPp7D+j9H/V6vdQjBz
-         S1Bg==
-X-Gm-Message-State: AC+VfDxr5E/WDMq5XJ6JncdYBG7WiHY58RWLj021cuezubIaWc9e9E1I
-	Ky1/zWNVCySCqXSf7873zzXy6Q==
-X-Google-Smtp-Source: ACHHUZ5ZHKzl0L2XSzBYsnnPrmgsZR9k1jwlHW8whf/Xjs/DkPIh1dfKZA70wzsm85SorsnYIbOPQA==
-X-Received: by 2002:adf:efcb:0:b0:311:1cec:225a with SMTP id i11-20020adfefcb000000b003111cec225amr22781045wrp.15.1687854542655;
-        Tue, 27 Jun 2023 01:29:02 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id cs7-20020a056000088700b0030ada01ca78sm9724907wrb.10.2023.06.27.01.28.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jun 2023 01:29:00 -0700 (PDT)
-Date: Tue, 27 Jun 2023 11:28:56 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Jan Kara <jack@suse.cz>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>, Kent Overstreet <kmo@daterainc.com>
-Subject: Re: [axboe-block:for-6.5/block-late 216/216]
- drivers/md/bcache/super.c:2644 register_bcache() warn: passing freed memory
- 'holder'
-Message-ID: <11782bf9-f37b-4ede-92e8-5ac80faa5ac7@kadam.mountain>
-References: <0108ee74-6186-4707-ab31-8e4543d98db5@kadam.mountain>
- <20230626160115.5ctxooc6dtdhrn7h@quack3>
- <b815edc6-bed4-4ed3-9961-e76dd2f89457@kadam.mountain>
- <20230627082414.wi6ufb5vzlqxjoc5@quack3>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDB11386;
+	Tue, 27 Jun 2023 08:34:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687854888; x=1719390888;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=rO5d6eJVnjclI79/gdLC3qnZXV+fqM/bfTQfWr7iNHM=;
+  b=I5Iw8CPMAtIEJbx2d/79YZvQ0a4EWrR/l6PeihWWwmj5Na5WWsrER45Z
+   vKgDSFt3XN6nw+0mL2u8QceCm6YkKdbiahe0pmlEXdXhCTu7wDfFbteiX
+   B/0DrQGqNcEdjbTqjXtMdjj7SoIrLTcSSL8EeZyCoa+NAfm0q2XWvJRRI
+   DAwPRSwWwx8T3VOIBzRBloirnM6Fe2IXwfPlSqIu5e4BTWvDJHWFN5M5T
+   r8j5eGJ/J+jcr5d6cKKYC46kRp9iAkyjkh6INd1on6zkcMc7M5UanVMcm
+   TRnCLH/vK+mVSzMEHDvZTioOCjpg2oiiqxmRhVMvlPJinCuGxfmaTJRMk
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="341854444"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
+   d="scan'208";a="341854444"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 01:34:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="719700786"
+X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
+   d="scan'208";a="719700786"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 27 Jun 2023 01:34:41 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qE49B-000Bof-0y;
+	Tue, 27 Jun 2023 08:34:01 +0000
+Date: Tue, 27 Jun 2023 16:33:10 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [stable:linux-5.10.y 1755/9999] fs/freevxfs/vxfs_olt.o: warning:
+ objtool: .text: unexpected end of section
+Message-ID: <202306271602.C1jbpWOA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -58,26 +44,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230627082414.wi6ufb5vzlqxjoc5@quack3>
 
-On Tue, Jun 27, 2023 at 10:24:14AM +0200, Jan Kara wrote:
-> >   2640  out_put_sb_page:
-> >   2641          put_page(virt_to_page(sb_disk));
-> >   2642  out_blkdev_put:
-> >   2643          if (bdev)
-> >   2644                  blkdev_put(bdev, holder);
-> >                                          ^^^^^^
-> > bdev is non-NULL and holder is freed.
-> 
-> Ah, I see what smatch is actually disliking here now. So the code is
-> actually correct as is - 'holder' is just a cookie value for blkdev_put()
-> and never dereferenced. Also I have a series in the works that changes how
-> block device opening is working which also gets rid of this oddity of
-> passing freed pointer to blkdev_put() so I think we can leave it there for
-> now.
+TO: Kees Cook <keescook@chromium.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Marco Elver <elver@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: Tadeusz Struk <tadeusz.struk@linaro.org>
 
-Sounds good.  Say if you didn't want to get rid of that, then I could
-have easily made this a special case, btw.
+Hi Kees,
 
-regards,
-dan carpenter
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.10.y
+head:   ef0d5feb32ab7007d1316e9c5037cd7d9f7febbf
+commit: 58823a9b097cf36dd59c4d463396e15a5ec4efb7 [1755/9999] ubsan: remove CONFIG_UBSAN_OBJECT_SIZE
+config: x86_64-randconfig-a004-20230626 (https://download.01.org/0day-ci/archive/20230627/202306271602.C1jbpWOA-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230627/202306271602.C1jbpWOA-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306271602.C1jbpWOA-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/freevxfs/vxfs_olt.o: warning: objtool: .text: unexpected end of section
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
