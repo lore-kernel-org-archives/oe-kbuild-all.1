@@ -1,118 +1,191 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046C5EC2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 06:48:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02583EC2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 06:49:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687848483; x=1719384483;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c0x4IzZ5x7svya+o8vVZ3AnRHa0821u/ac4osGpmwik=;
-  b=Ee/C3GJoDBJNeOCj3Vr8DJ/TwQbhNoC0zqLI8H+V1VEzeUlAlaLWdDtT
-   t8AKGOvCyCu9pXs6ChhBbWVEaC4rbP280v9PJ7pRkK5J4bbBaAGHbHDAe
-   5icztexPBdJDtl+IVCoFM1QjMGiqV3zFRIeAXXyoEPav8LbvoAMPzWdyM
-   9k2lZ+FLOOMtkI6aP24jG/ub2SJEOcDPa+mZmjWHTGWT1nZmaAVrbMCck
-   2gDjbFVDdKy3zi1J5uEEg5uGlPW35fTqkTrCZ0LKvXYT0ibQqcfbpOLDd
-   rUCQHEthz2jPHF46U+jFm/WHgEqBq2MR5TEsNMn/F0p9XLSYh0k5dFxtw
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="360358657"
+  t=1687848542; x=1719384542;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=0AnZNjahVUYYky9VqJyLh92JUcGLL5kZzsjeWCOxiJw=;
+  b=KyZcFjk7alP78K50b3JLQubex6vm3NuvyjLq9vei/xG+UG5PUZFI+YMY
+   /jYHs410gt8Um6YPLmVbrLXDIOcyp2eKpbnGYGwoSjILt628DYMlsiMMt
+   T00de3scp9yuBg6jVnm//pasAtWH7G7cBsbCXGVllg7JVp89lhg2eJc+K
+   oq7ApcdmtnSHQASrUmrUcLOsbmRB+EBI0gH6CsdIc1ji/iZ9lkBr/fU3p
+   2kF/6xvw+vqQ2MUxqAzdygFl2M3b62tjTBi/793IAjI0DunmpMsrE58BI
+   fHuljZZVNNmGw+rXbN/hBkpUv372SqplXBh5fV7hfqjZQHkMsDaT7WfD9
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="341833798"
 X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="360358657"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 23:48:01 -0700
+   d="scan'208";a="341833798"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 23:49:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="786467750"
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="781741410"
 X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="786467750"
+   d="scan'208";a="781741410"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 26 Jun 2023 23:47:59 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 26 Jun 2023 23:48:59 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qE2UY-000Bm1-2v;
-	Tue, 27 Jun 2023 06:47:58 +0000
-Date: Tue, 27 Jun 2023 14:47:53 +0800
+	id 1qE2VX-000Bm9-00;
+	Tue, 27 Jun 2023 06:48:59 +0000
+Date: Tue, 27 Jun 2023 14:48:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/gpu/drm/sti/sti_mixer.c:145:47: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202306271413.5vS46KMc-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Marc Zyngier <maz@kernel.org>
+Subject: [arm-platforms:kvm-arm64/asahi-base-6.4 9/19]
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1846:23: warning:
+ unused variable 'randbuf'
+Message-ID: <202306271421.iIdQ5eN6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Arnd,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1ef6663a587ba3e57dc5065a477db1c64481eedd
-commit: 09f6b27d5ddd9ad0ec096d1b0f8decdacc70f0f8 ARM: dove: multiplatform support
-date:   1 year, 3 months ago
-config: arm-randconfig-r071-20230627 (https://download.01.org/0day-ci/archive/20230627/202306271413.5vS46KMc-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230627/202306271413.5vS46KMc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/asahi-base-6.4
+head:   7333165f9eb8694e854bdfb887ce358f501f1d3d
+commit: 13de34d5091d4258c8c24cda5367c06bd95a5d18 [9/19] Merge remote-tracking branch 'asahi/bits/080-wifi' into kvm-asm64/asahi-base-6.4
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230627/202306271421.iIdQ5eN6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230627/202306271421.iIdQ5eN6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306271413.5vS46KMc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306271421.iIdQ5eN6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/sti/sti_mixer.c:145:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got void * @@
-   drivers/gpu/drm/sti/sti_mixer.c:145:47: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/gpu/drm/sti/sti_mixer.c:145:47: sparse:     got void *
->> drivers/gpu/drm/sti/sti_mixer.c:168:38: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem * @@
-   drivers/gpu/drm/sti/sti_mixer.c:168:38: sparse:     expected void *addr
-   drivers/gpu/drm/sti/sti_mixer.c:168:38: sparse:     got void [noderef] __iomem *
+All warnings (new ones prefixed by >>):
 
-vim +145 drivers/gpu/drm/sti/sti_mixer.c
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c: In function 'brcmf_pcie_download_fw_nvram':
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1846:23: warning: unused variable 'randbuf' [-Wunused-variable]
+    1846 |                 void *randbuf;
+         |                       ^~~~~~~
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1842:49: warning: unused variable 'footer' [-Wunused-variable]
+    1842 |                 struct brcmf_random_seed_footer footer = {
+         |                                                 ^~~~~~
 
-a5f81078a56c6a Vincent Abriou 2016-02-04  139  
-a5f81078a56c6a Vincent Abriou 2016-02-04  140  static void mixer_dbg_mxn(struct seq_file *s, void *addr)
-a5f81078a56c6a Vincent Abriou 2016-02-04  141  {
-a5f81078a56c6a Vincent Abriou 2016-02-04  142  	int i;
-a5f81078a56c6a Vincent Abriou 2016-02-04  143  
-a5f81078a56c6a Vincent Abriou 2016-02-04  144  	for (i = 1; i < 8; i++)
-a5f81078a56c6a Vincent Abriou 2016-02-04 @145  		seq_printf(s, "-0x%08X", (int)readl(addr + i * 4));
-a5f81078a56c6a Vincent Abriou 2016-02-04  146  }
-a5f81078a56c6a Vincent Abriou 2016-02-04  147  
-a5f81078a56c6a Vincent Abriou 2016-02-04  148  static int mixer_dbg_show(struct seq_file *s, void *arg)
-a5f81078a56c6a Vincent Abriou 2016-02-04  149  {
-a5f81078a56c6a Vincent Abriou 2016-02-04  150  	struct drm_info_node *node = s->private;
-a5f81078a56c6a Vincent Abriou 2016-02-04  151  	struct sti_mixer *mixer = (struct sti_mixer *)node->info_ent->data;
-a5f81078a56c6a Vincent Abriou 2016-02-04  152  
-a5f81078a56c6a Vincent Abriou 2016-02-04  153  	seq_printf(s, "%s: (vaddr = 0x%p)",
-a5f81078a56c6a Vincent Abriou 2016-02-04  154  		   sti_mixer_to_str(mixer), mixer->regs);
-a5f81078a56c6a Vincent Abriou 2016-02-04  155  
-a5f81078a56c6a Vincent Abriou 2016-02-04  156  	DBGFS_DUMP(GAM_MIXER_CTL);
-a5f81078a56c6a Vincent Abriou 2016-02-04  157  	mixer_dbg_ctl(s, sti_mixer_reg_read(mixer, GAM_MIXER_CTL));
-a5f81078a56c6a Vincent Abriou 2016-02-04  158  	DBGFS_DUMP(GAM_MIXER_BKC);
-a5f81078a56c6a Vincent Abriou 2016-02-04  159  	DBGFS_DUMP(GAM_MIXER_BCO);
-a5f81078a56c6a Vincent Abriou 2016-02-04  160  	DBGFS_DUMP(GAM_MIXER_BCS);
-a5f81078a56c6a Vincent Abriou 2016-02-04  161  	DBGFS_DUMP(GAM_MIXER_AVO);
-a5f81078a56c6a Vincent Abriou 2016-02-04  162  	DBGFS_DUMP(GAM_MIXER_AVS);
-a5f81078a56c6a Vincent Abriou 2016-02-04  163  	DBGFS_DUMP(GAM_MIXER_CRB);
-a5f81078a56c6a Vincent Abriou 2016-02-04  164  	mixer_dbg_crb(s, sti_mixer_reg_read(mixer, GAM_MIXER_CRB));
-a5f81078a56c6a Vincent Abriou 2016-02-04  165  	DBGFS_DUMP(GAM_MIXER_ACT);
-a5f81078a56c6a Vincent Abriou 2016-02-04  166  	DBGFS_DUMP(GAM_MIXER_MBP);
-a5f81078a56c6a Vincent Abriou 2016-02-04  167  	DBGFS_DUMP(GAM_MIXER_MX0);
-a5f81078a56c6a Vincent Abriou 2016-02-04 @168  	mixer_dbg_mxn(s, mixer->regs + GAM_MIXER_MX0);
-e9635133d47b9c Markus Elfring 2017-05-05  169  	seq_putc(s, '\n');
-a5f81078a56c6a Vincent Abriou 2016-02-04  170  	return 0;
-a5f81078a56c6a Vincent Abriou 2016-02-04  171  }
-a5f81078a56c6a Vincent Abriou 2016-02-04  172  
 
-:::::: The code at line 145 was first introduced by commit
-:::::: a5f81078a56c6ab57b7db2402ac64c34338004c5 drm/sti: add debugfs entries for MIXER crtc
+vim +/randbuf +1846 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
 
-:::::: TO: Vincent Abriou <vincent.abriou@st.com>
-:::::: CC: Vincent Abriou <vincent.abriou@st.com>
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1810  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1811  static int brcmf_pcie_download_fw_nvram(struct brcmf_pciedev_info *devinfo,
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1812  					const struct firmware *fw, void *nvram,
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1813  					u32 nvram_len)
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1814  {
+8602e62441aba2 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-06  1815  	struct brcmf_bus *bus = dev_get_drvdata(&devinfo->pdev->dev);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1816  	u32 sharedram_addr;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1817  	u32 sharedram_addr_written;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1818  	u32 loop_counter;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1819  	int err;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1820  	u32 address;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1821  	u32 resetintr;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1822  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1823  	brcmf_dbg(PCIE, "Halt ARM.\n");
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1824  	err = brcmf_pcie_enter_download_state(devinfo);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1825  	if (err)
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1826  		return err;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1827  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1828  	brcmf_dbg(PCIE, "Download FW %s\n", devinfo->fw_name);
+9466987f246758 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2022-02-01  1829  	memcpy_toio(devinfo->tcm + devinfo->ci->rambase,
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1830  		    (void *)fw->data, fw->size);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1831  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1832  	resetintr = get_unaligned_le32(fw->data);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1833  	release_firmware(fw);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1834  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1835  	/* reset last 4 bytes of RAM address. to be used for shared
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1836  	 * area. This identifies when FW is running
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1837  	 */
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1838  	brcmf_pcie_write_ram32(devinfo, devinfo->ci->ramsize - 4, 0);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1839  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1840  	if (nvram) {
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23  1841  		size_t rand_len = BRCMF_RANDOM_SEED_LENGTH;
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23 @1842  		struct brcmf_random_seed_footer footer = {
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23  1843  			.length = cpu_to_le32(rand_len),
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23  1844  			.magic = cpu_to_le32(BRCMF_RANDOM_SEED_MAGIC),
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23  1845  		};
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23 @1846  		void *randbuf;
+9587fcd02f3ed0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2021-12-23  1847  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1848  		brcmf_dbg(PCIE, "Download NVRAM %s\n", devinfo->nvram_name);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1849  		address = devinfo->ci->rambase + devinfo->ci->ramsize -
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1850  			  nvram_len;
+9466987f246758 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2022-02-01  1851  		memcpy_toio(devinfo->tcm + address, nvram, nvram_len);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1852  		brcmf_fw_nvram_free(nvram);
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1853  
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1854  		if (devinfo->otp.valid) {
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1855  			size_t rand_len = BRCMF_RANDOM_SEED_LENGTH;
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1856  			struct brcmf_random_seed_footer footer = {
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1857  				.length = cpu_to_le32(rand_len),
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1858  				.magic = cpu_to_le32(BRCMF_RANDOM_SEED_MAGIC),
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1859  			};
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1860  			void *randbuf;
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1861  
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1862  			/* Some Apple chips/firmwares expect a buffer of random
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1863  			 * data to be present before NVRAM
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1864  			 */
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1865  			brcmf_dbg(PCIE, "Download random seed\n");
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1866  
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1867  			address -= sizeof(footer);
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1868  			memcpy_toio(devinfo->tcm + address, &footer,
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1869  				    sizeof(footer));
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1870  
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1871  			address -= rand_len;
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1872  			randbuf = kzalloc(rand_len, GFP_KERNEL);
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1873  			get_random_bytes(randbuf, rand_len);
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1874  			memcpy_toio(devinfo->tcm + address, randbuf, rand_len);
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1875  			kfree(randbuf);
+91918ce88d9fef drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-02-14  1876  		}
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1877  	} else {
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1878  		brcmf_dbg(PCIE, "No matching NVRAM file found %s\n",
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1879  			  devinfo->nvram_name);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1880  	}
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1881  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1882  	sharedram_addr_written = brcmf_pcie_read_ram32(devinfo,
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1883  						       devinfo->ci->ramsize -
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1884  						       4);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1885  	brcmf_dbg(PCIE, "Bring ARM in running state\n");
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1886  	err = brcmf_pcie_exit_download_state(devinfo, resetintr);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1887  	if (err)
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1888  		return err;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1889  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1890  	brcmf_dbg(PCIE, "Wait for FW init\n");
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1891  	sharedram_addr = sharedram_addr_written;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1892  	loop_counter = BRCMF_PCIE_FW_UP_TIMEOUT / 50;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1893  	while ((sharedram_addr == sharedram_addr_written) && (loop_counter)) {
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1894  		msleep(50);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1895  		sharedram_addr = brcmf_pcie_read_ram32(devinfo,
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1896  						       devinfo->ci->ramsize -
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1897  						       4);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1898  		loop_counter--;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1899  	}
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1900  	if (sharedram_addr == sharedram_addr_written) {
+8602e62441aba2 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-06  1901  		brcmf_err(bus, "FW failed to initialize\n");
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1902  		return -ENODEV;
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1903  	}
+e0a8ef4d7b4315 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-20  1904  	if (sharedram_addr < devinfo->ci->rambase ||
+e0a8ef4d7b4315 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-20  1905  	    sharedram_addr >= devinfo->ci->rambase + devinfo->ci->ramsize) {
+e0a8ef4d7b4315 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-20  1906  		brcmf_err(bus, "Invalid shared RAM address 0x%08x\n",
+e0a8ef4d7b4315 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-20  1907  			  sharedram_addr);
+e0a8ef4d7b4315 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-20  1908  		return -ENODEV;
+e0a8ef4d7b4315 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Rafał Miłecki  2019-02-20  1909  	}
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1910  	brcmf_dbg(PCIE, "Shared RAM addr: 0x%08x\n", sharedram_addr);
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1911  
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1912  	return (brcmf_pcie_init_share_ram_info(devinfo, sharedram_addr));
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1913  }
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1914  
+
+:::::: The code at line 1846 was first introduced by commit
+:::::: 9587fcd02f3ed021ff3b81f3b18db5f54ce8f663 brcmfmac: pcie: Provide a buffer of random bytes to the device
+
+:::::: TO: Hector Martin <marcan@marcan.st>
+:::::: CC: Hector Martin <marcan@marcan.st>
 
 -- 
 0-DAY CI Kernel Test Service
