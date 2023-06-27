@@ -1,42 +1,55 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3C6EA1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 04:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4943EA1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 27 Jun 2023 04:13:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687839177; x=1719375177;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZHe3DKGMb6v1R75qFC82a5/JlcB8izt0zLN9dBfD2Cc=;
-  b=GIZiMRpwHeBM+kVeFgOkxerN3iKUihJKs6qVF3nnazkAveqrplFXDU5n
-   AusdrRP9tPOdI5KyN4++cwZY4FB3coXseSk8A5Bea9DzSh//6PIv1v5LH
-   DuBAxdszA5Sqw4j6Ts5RNcfSylng2zXKMolXDgEs4Ffffcu01qCY/jLmk
-   WxAkWI5yIzY8kfGY2ikRBh+m0W33eYIfMJteAGo9PzYwkCOwt8YcNEkFa
-   ZlqF56nbhhbonA95J1Kb8PItNF6M9YRtdDNhEMoBoHfbq3hoOoaxNA3PR
-   yJ4q2xyZajUICbjhqc9+21twP/pYDbe+18vXy1Kat0L7+LpxEroWrF7u8
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="360332568"
+  t=1687839180; x=1719375180;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e1b0fi0vY8js4lH2qqnZOIMHiQIDCirQwxuk84EGyQM=;
+  b=H7DOV8VfFryKhYQJ0A5/yOhjfxkzDC3QjXJM5nHLf4QahDlICjsi+sfx
+   XDKSOwO8i8+mZ5NPbOdjgA0ACiF0lnzuBl+nPnxf3uH8YTGlNX8LvioqU
+   V7/+jb5S0vkg83s6Ct3iIAhJXpGcxnv4Q6MOldNDYHYUAJbopW53q4slO
+   7b9O/udQtpSuSJX6GdtlL7iDtq80lJJkxtGNULnu8PtGtq0qSoKahhv58
+   EjJo6LbR/OzHP0QEVFn1Okkp0pDksEOQCUEg588iiqA2wJWx6JgEpdugM
+   Aflq5+Hn6W9xOz8eQ9zJkqieMD3MDGrg60iATNjiZ9zdOY696G7om49fd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="341809251"
 X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="360332568"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 21:12:56 -0700
+   d="scan'208";a="341809251"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2023 21:12:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="829491345"
+X-IronPort-AV: E=McAfee;i="6600,9927,10753"; a="786431884"
 X-IronPort-AV: E=Sophos;i="6.01,161,1684825200"; 
-   d="scan'208";a="829491345"
+   d="scan'208";a="786431884"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 26 Jun 2023 21:12:55 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 26 Jun 2023 21:12:55 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qE04U-000Bhd-36;
-	Tue, 27 Jun 2023 04:12:54 +0000
-Date: Tue, 27 Jun 2023 12:12:38 +0800
+	id 1qE04V-000Bhl-0C;
+	Tue, 27 Jun 2023 04:12:55 +0000
+Date: Tue, 27 Jun 2023 12:12:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jan Kara <jack@suse.cz>
-Subject: [jlayton:mgctime-next 7/93] fs/inode.c:2513:9: error: implicit
- declaration of function 'inode_set_ctime'; did you mean 'node_set_state'?
-Message-ID: <202306271226.ag15jTLR-lkp@intel.com>
+To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+	Zefan Li <lizefan.x@bytedance.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Juri Lelli <juri.lelli@redhat.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Mrunal Patel <mpatel@redhat.com>,
+	Ryan Phillips <rphillips@redhat.com>,
+	Brent Rowsell <browsell@redhat.com>, Peter Hunt <pehunt@redhat.com>,
+	Phil Auld <pauld@redhat.com>, Waiman Long <longman@redhat.com>
+Subject: Re: [PATCH v3 5/9] cgroup/cpuset: Add cpuset.cpus.exclusive for v2
+Message-ID: <202306271214.Vd5UDf4Y-lkp@intel.com>
+References: <20230627005529.1564984-6-longman@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,51 +58,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230627005529.1564984-6-longman@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git mgctime-next
-head:   154d68715278864ebe582de85bd53efc328a429e
-commit: b961e9d5d1cc00e5300057fc34118fbb64efd968 [7/93] fs: add ctime accessors infrastructure
-config: i386-randconfig-i061-20230625 (https://download.01.org/0day-ci/archive/20230627/202306271226.ag15jTLR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230627/202306271226.ag15jTLR-lkp@intel.com/reproduce)
+Hi Waiman,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20230626]
+[also build test ERROR on v6.4]
+[cannot apply to tj-cgroup/for-next linus/master v6.4 v6.4-rc7 v6.4-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Waiman-Long/cgroup-cpuset-Inherit-parent-s-load-balance-state-in-v2/20230627-090025
+base:   next-20230626
+patch link:    https://lore.kernel.org/r/20230627005529.1564984-6-longman%40redhat.com
+patch subject: [PATCH v3 5/9] cgroup/cpuset: Add cpuset.cpus.exclusive for v2
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20230627/202306271214.Vd5UDf4Y-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230627/202306271214.Vd5UDf4Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306271226.ag15jTLR-lkp@intel.com/
-
-Note: the jlayton/mgctime-next HEAD 154d68715278864ebe582de85bd53efc328a429e builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306271214.Vd5UDf4Y-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/inode.c: In function 'inode_ctime_set_current':
->> fs/inode.c:2513:9: error: implicit declaration of function 'inode_set_ctime'; did you mean 'node_set_state'? [-Werror=implicit-function-declaration]
-    2513 |         inode_set_ctime(inode, now);
-         |         ^~~~~~~~~~~~~~~
-         |         node_set_state
-   cc1: some warnings being treated as errors
+   kernel/cgroup/cpuset.c: In function 'cpu_exclusive_check':
+>> kernel/cgroup/cpuset.c:699:15: error: assignment to expression with array type
+     699 |         cpus1 = cpumask_empty(cs1->exclusive_cpus)
+         |               ^
+   kernel/cgroup/cpuset.c:701:15: error: assignment to expression with array type
+     701 |         cpus2 = cpumask_empty(cs2->exclusive_cpus)
+         |               ^
 
 
-vim +2513 fs/inode.c
+vim +699 kernel/cgroup/cpuset.c
 
-  2501	
-  2502	/**
-  2503	 * inode_ctime_set_current - set the ctime to current_time
-  2504	 * @inode: inode
-  2505	 *
-  2506	 * Set the inode->i_ctime to the current value for the inode. Returns
-  2507	 * the current value that was assigned to i_ctime.
-  2508	 */
-  2509	struct timespec64 inode_ctime_set_current(struct inode *inode)
-  2510	{
-  2511		struct timespec64 now = current_time(inode);
-  2512	
-> 2513		inode_set_ctime(inode, now);
-  2514		return now;
-  2515	}
-  2516	EXPORT_SYMBOL(inode_ctime_set_current);
-  2517	
+   689	
+   690	/*
+   691	 * cpu_exclusive_check() - check if two cpusets are exclusive
+   692	 *
+   693	 * Return 0 if exclusive, -EINVAL if not
+   694	 */
+   695	static inline bool cpu_exclusive_check(struct cpuset *cs1, struct cpuset *cs2)
+   696	{
+   697		cpumask_var_t cpus1, cpus2;
+   698	
+ > 699		cpus1 = cpumask_empty(cs1->exclusive_cpus)
+   700			? cs1->cpus_allowed : cs1->exclusive_cpus;
+   701		cpus2 = cpumask_empty(cs2->exclusive_cpus)
+   702			? cs2->cpus_allowed : cs2->exclusive_cpus;
+   703	
+   704		if (cpumask_intersects(cpus1, cpus2))
+   705			return -EINVAL;
+   706		return 0;
+   707	}
+   708	
 
 -- 
 0-DAY CI Kernel Test Service
