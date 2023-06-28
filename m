@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C8A7E2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 01:38:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80B71114
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 01:49:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687916313; x=1719452313;
+  t=1687916972; x=1719452972;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HkdZjr6cDFXV52aSAwRAnhlp5kTjHc/ukkdMv3cK/PA=;
-  b=LCXJerEZpEO71jOenWRDSCgfraiyBjNvvdVSdoDE2oh1OKmdeVVA0hQQ
-   11i+ku+EuWfuWNkl3PHlpnq7IkyOXcuq/5h0aNSLdobvnrIQhwLRkkQ68
-   B8e1s6fX5lhU0QQqbBMdQt4kiwFHPHZTdUcUkfQVNf1vTXcJt8+E6W3Z4
-   6JTmTcmuVguyVs0sBJWeBIwPtw/wHVHoEB5AP7FhxbWbPKogzJ3+mpjhw
-   xJ7shDDWXasX1hpnO0ZbqyGSSsRkEP9tqTjeZhTq/4gIujMdEA95o2Fn2
-   K/9Zf0T9uOlgcAKQIw9g3gz8+lob3XjQJDRDyqzcq3F/jUITN02L27seQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="342063631"
+  bh=IFceAcU9SluNqpGPULF1poRmxaCWzTCPH/cJJinJu+E=;
+  b=hUNcTi1JxKSdIWM/yl2BsSl9G8fMLIiyrB7LH86pjLgePdP2TtA7Uhlw
+   wfLTiLk1zV/saWnaLWvAvxA0bXqt4v9lvnJzSxNvfjL68N//U2fBFL6ea
+   UajWqQo0+ukQg9P+2Tr8z1QZ8x9KkKpni+NNISU/Wx4dn1T6+aowWtFcb
+   SfrnUJcbe5Ou755fJ3ZF4Fy4qNL2ZXNwcBEX/eAy25U9XbL7gEMexcx0L
+   fLLC9Px6m1M58SrKxNyI7EGH8BVjbk5IgYxwp4r9psNvxuib/Ih/bzIQd
+   O8527X51YU74+VDdR5kBmSBRNrDohVHydd2yb6arFBHhaCtVJLBmj2+sO
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="346487873"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="342063631"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 18:38:32 -0700
+   d="scan'208";a="346487873"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 18:49:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="1047197275"
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="666917208"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="1047197275"
+   d="scan'208";a="666917208"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 27 Jun 2023 18:38:30 -0700
+  by orsmga003.jf.intel.com with ESMTP; 27 Jun 2023 18:49:31 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEK8c-000CS5-0O;
-	Wed, 28 Jun 2023 01:38:30 +0000
-Date: Wed, 28 Jun 2023 09:38:17 +0800
+	id 1qEKJG-000CST-1g;
+	Wed, 28 Jun 2023 01:49:30 +0000
+Date: Wed, 28 Jun 2023 09:49:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [intel-tdx:guest-kexec 1/2]
  arch/x86/kernel/relocate_kernel_64.S:151: Error: too many positional
  arguments
-Message-ID: <202306280925.r9Z2nppv-lkp@intel.com>
+Message-ID: <202306280926.g6GuOctj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,14 +50,14 @@ Content-Disposition: inline
 tree:   https://github.com/intel/tdx.git guest-kexec
 head:   ac18652a4806023b0986b468dc9061c640383279
 commit: 0dc7dad5e4c5ab94e4429d16272f65de6307c5c0 [1/2] x86/kexec: Keep CR4.MCE during kexec for TDX guest
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20230628/202306280925.r9Z2nppv-lkp@intel.com/config)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230628/202306280926.g6GuOctj-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230628/202306280925.r9Z2nppv-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230628/202306280926.g6GuOctj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306280925.r9Z2nppv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306280926.g6GuOctj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
