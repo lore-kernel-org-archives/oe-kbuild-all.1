@@ -1,59 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B45C11181
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 21:26:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A6A1119C
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 22:07:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687987569; x=1719523569;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M7aa333XpPNGYhk+GT02yvHRVbg6aw/odt14RBTj1RI=;
-  b=Dal2uXJBjM/MotBy9zV7ZoXVfyGFvGzjNDqxG0/X3ORTUskejttQzt/P
-   9lZE1N5PSSXWqtLtSm+0ST0I1cuhCE52AYma6P5PWuUW5uQfckTHSOdPK
-   853wrJg+xNAAGl2zWn6HMpMXXyt03yzINhu6bdW2pak59yYo/hJ55T9bi
-   AcRCvd6c9/jlMmgw1goE12EALsW9IEZprbYow8IoE+cYXUkZrRlcwW08n
-   LOgtiSFfSu43jgGWOyxe24f9lpou8a5lA+7bT2wYJU/l6RWprTGkXxLbl
-   GK3QI059dr5sc5QERQcSP6/KqzyN5E6qPO0oaecIF6+XoytRSOR41bNWt
+  t=1687990078; x=1719526078;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ZeY+8Yxymz1KXtDg5QU/PzrB+RvBHaPET4J0a2Xb/+g=;
+  b=Iu+CVOnbID65pNA4OMgKhUQrmZoGrS7YzbHi3/SOE8tEPZ0sJvLUGFAh
+   nAmwmA9pD64uEpupYgdoyp26OzjycmJ+7SyxRhQBFT38jAYP0+rxSH9Sk
+   TmpBioaupvfhAUE2gnKTdSjPm9oKktDvbq7B20kZvC0K3QYvyqGUSMt0n
+   ulNR8KYKSoiiilBa6exGSj2LauBxX2Ds+9YOSn3VR2xcflCw48XLzFeIW
+   lilU0k+75mVQKFeWK5ivRPMDkS4p94ZHZUq0/yGbsVgwgNcRgQML174m5
+   QV+bUnAo8FwxsJ/Ws+7k+4m8qGMGAiX9yo9roV5IGJJ7MOqKN/80Wfz2m
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="351756285"
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="360819613"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="351756285"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 14:26:00 -0700
+   d="scan'208";a="360819613"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 15:07:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="861673519"
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="963776771"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="861673519"
+   d="scan'208";a="963776771"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2023 14:25:54 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 28 Jun 2023 15:07:56 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEcfh-000DVB-2t;
-	Wed, 28 Jun 2023 21:25:53 +0000
-Date: Thu, 29 Jun 2023 05:25:25 +0800
+	id 1qEdKO-000DXP-0K;
+	Wed, 28 Jun 2023 22:07:56 +0000
+Date: Thu, 29 Jun 2023 06:07:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Krishna Manikandan <quic_mkrishn@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org
-Subject: Re: [PATCH 2/4] regulator: Introduce Qualcomm REFGEN regulator driver
-Message-ID: <202306290533.nqqGHj1w-lkp@intel.com>
-References: <20230628-topic-refgen-v1-2-126e59573eeb@linaro.org>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.4/main 284/450] kernel/sched/cputime.c:256:31: error:
+ 'paravirt_steal_enabled' undeclared
+Message-ID: <202306290631.GNnHD3Pz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,65 +45,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230628-topic-refgen-v1-2-126e59573eeb@linaro.org>
 
-Hi Konrad,
+Hi Alfred,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on 5c875096d59010cee4e00da1f9c7bdb07a025dc2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/dt-bindings-regulator-Describe-Qualcomm-REFGEN-regulator/20230629-003148
-base:   5c875096d59010cee4e00da1f9c7bdb07a025dc2
-patch link:    https://lore.kernel.org/r/20230628-topic-refgen-v1-2-126e59573eeb%40linaro.org
-patch subject: [PATCH 2/4] regulator: Introduce Qualcomm REFGEN regulator driver
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20230629/202306290533.nqqGHj1w-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230629/202306290533.nqqGHj1w-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.4/main
+head:   b7a3f28f08a1e3dfd5659c6be6d4581900471a52
+commit: fa51a210dd580901cb9fde19d3d268b3dc9cd597 [284/450] sched/alt: Headers cleanup
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230629/202306290631.GNnHD3Pz-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230629/202306290631.GNnHD3Pz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306290533.nqqGHj1w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306290631.GNnHD3Pz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/irqflags.h:17,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/kref.h:16,
-                    from include/linux/mm_types.h:8,
-                    from include/linux/buildid.h:5,
-                    from include/linux/module.h:14,
-                    from drivers/regulator/qcom-refgen-regulator.c:7:
-   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
-      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
-         |    ^~~~~
-   drivers/regulator/qcom-refgen-regulator.c: In function 'qcom_sdm845_refgen_is_enabled':
->> drivers/regulator/qcom-refgen-regulator.c:64:13: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-      64 |         if (FIELD_GET(REFGEN_BG_CTRL_MASK, val) != REFGEN_BG_CTRL_ENABLE)
-         |             ^~~~~~~~~
+   In file included from kernel/sched/build_policy.c:56:
+   kernel/sched/cputime.c: In function 'steal_account_process_time':
+>> kernel/sched/cputime.c:256:31: error: 'paravirt_steal_enabled' undeclared (first use in this function)
+     256 |         if (static_key_false(&paravirt_steal_enabled)) {
+         |                               ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/cputime.c:256:31: note: each undeclared identifier is reported only once for each function it appears in
+>> kernel/sched/cputime.c:259:25: error: implicit declaration of function 'paravirt_steal_clock' [-Werror=implicit-function-declaration]
+     259 |                 steal = paravirt_steal_clock(smp_processor_id());
+         |                         ^~~~~~~~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
 
 
-vim +/FIELD_GET +64 drivers/regulator/qcom-refgen-regulator.c
+vim +/paravirt_steal_enabled +256 kernel/sched/cputime.c
 
-    57	
-    58	static int qcom_sdm845_refgen_is_enabled(struct regulator_dev *rdev)
-    59	{
-    60		struct qcom_refgen *vreg = rdev_get_drvdata(rdev);
-    61		u32 val;
-    62	
-    63		regmap_read(vreg->base, REFGEN_REG_BG_CTRL, &val);
-  > 64		if (FIELD_GET(REFGEN_BG_CTRL_MASK, val) != REFGEN_BG_CTRL_ENABLE)
-    65			return 0;
-    66	
-    67		regmap_read(vreg->base, REFGEN_REG_BIAS_EN, &val);
-    68		if (FIELD_GET(REFGEN_BIAS_EN_MASK, val) != REFGEN_BIAS_EN_ENABLE)
-    69			return 0;
-    70	
-    71		return 1;
-    72	}
-    73	
+1fcf54deb767d4 Josh Don            2022-06-29  247  
+03cbc732639ddc Wanpeng Li          2016-08-17  248  /*
+03cbc732639ddc Wanpeng Li          2016-08-17  249   * When a guest is interrupted for a longer amount of time, missed clock
+03cbc732639ddc Wanpeng Li          2016-08-17  250   * ticks are not redelivered later. Due to that, this function may on
+03cbc732639ddc Wanpeng Li          2016-08-17  251   * occasion account more time than the calling functions think elapsed.
+03cbc732639ddc Wanpeng Li          2016-08-17  252   */
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  253  static __always_inline u64 steal_account_process_time(u64 maxtime)
+73fbec604432e1 Frederic Weisbecker 2012-06-16  254  {
+73fbec604432e1 Frederic Weisbecker 2012-06-16  255  #ifdef CONFIG_PARAVIRT
+73fbec604432e1 Frederic Weisbecker 2012-06-16 @256  	if (static_key_false(&paravirt_steal_enabled)) {
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  257  		u64 steal;
+73fbec604432e1 Frederic Weisbecker 2012-06-16  258  
+73fbec604432e1 Frederic Weisbecker 2012-06-16 @259  		steal = paravirt_steal_clock(smp_processor_id());
+73fbec604432e1 Frederic Weisbecker 2012-06-16  260  		steal -= this_rq()->prev_steal_time;
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  261  		steal = min(steal, maxtime);
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  262  		account_steal_time(steal);
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  263  		this_rq()->prev_steal_time += steal;
+73fbec604432e1 Frederic Weisbecker 2012-06-16  264  
+2b1f967d80e8e5 Frederic Weisbecker 2017-01-31  265  		return steal;
+73fbec604432e1 Frederic Weisbecker 2012-06-16  266  	}
+73fbec604432e1 Frederic Weisbecker 2012-06-16  267  #endif
+807e5b80687c06 Wanpeng Li          2016-06-13  268  	return 0;
+73fbec604432e1 Frederic Weisbecker 2012-06-16  269  }
+73fbec604432e1 Frederic Weisbecker 2012-06-16  270  
+
+:::::: The code at line 256 was first introduced by commit
+:::::: 73fbec604432e1fbfeb1bc59a110dac1f98160f6 sched: Move cputime code to its own file
+
+:::::: TO: Frederic Weisbecker <fweisbec@gmail.com>
+:::::: CC: Frederic Weisbecker <fweisbec@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
