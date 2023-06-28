@@ -1,52 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A28215A4;
-	Wed, 28 Jun 2023 02:00:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07EDE7E1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 02:42:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687917636; x=1719453636;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eAtorlL9hKbOWTYbIFentcep4Cr94YB9cjfXVwCiIj8=;
-  b=H72jGYaRVSMf/RBdFVdgRm33QcUpSW9asBFokfceIL3nb25+3SIFcLue
-   evoGEUSAr+X4i9W6XCmwwCUfqvoQUUdcPea02KWmvEQPCvKgFH1gBGjpV
-   oJWf00Ez2t18CG9N8jF+byxFFTOtcXcwzyZBGHqvfCdM1WxuOfdQrnkdx
-   Ku7VqIPQa1Mq1gAslaCqEPKhcLcw7BFo8xV2NewytjZrvpPkGQwcrPghh
-   bd/VVaFLpe5UUjUoevgDtDlYMXUALl4uDonGPTTtdq/ArDH9lZJYSSuXz
-   YNpca0nk3WPtsi8M5YKZyU3OT4Ou6RNgPp5p+dkjt9T+/+ELFVs0A+Um+
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="361768852"
+  t=1687920157; x=1719456157;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7HRvLnMxNCtbOyeLn5m49lmxWMU9FiFS3yeC2KhDouY=;
+  b=kVFwr6BC5o3i7Peo3E3LgwjHAHi1S8X7nX6lOBws6oGLw64ak8wPwF6W
+   iTx4rxvEIa4/Pu89UbJwhaT6p4Kpz1KmOmKF5ATyd2qUM0MeMqYCi+6l9
+   AfK0XG1NOU+lJ+WT0F0+kReJfew9lAOkckLREax9i6XT7C0uQPjtOCquj
+   BYe3p3yhh/CQ/sP60Q856fv+QKyp1osiHFlzyoudYEmoItdf9w5RkArjL
+   klaJ8TDaN5ev9sxgRqAaDBlP/Cr8LvHGYQ+vhtBwzipt0IjislmKGQqcE
+   urdYyHNCksTw6xJxH6Q2D++JfFz2R5lFhWpdbsSoCNYGc3mJSlKvMT6J8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="351516218"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="361768852"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 19:00:35 -0700
+   d="scan'208";a="351516218"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 19:42:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="694106856"
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="710868168"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="694106856"
+   d="scan'208";a="710868168"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 27 Jun 2023 19:00:31 -0700
+  by orsmga007.jf.intel.com with ESMTP; 27 Jun 2023 19:42:35 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEKTu-000CSr-2O;
-	Wed, 28 Jun 2023 02:00:30 +0000
-Date: Wed, 28 Jun 2023 10:00:17 +0800
+	id 1qEL8c-000CYM-1P;
+	Wed, 28 Jun 2023 02:42:34 +0000
+Date: Wed, 28 Jun 2023 10:41:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
-	virtualization@lists.linux-foundation.org,
-	David Hildenbrand <david@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Oscar Salvador <osalvador@suse.de>, Michal Hocko <mhocko@suse.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH v1 3/5] mm/memory_hotplug: make
- offline_and_remove_memory() timeout instead of failing on fatal signals
-Message-ID: <202306280935.dKTWlHFD-lkp@intel.com>
-References: <20230627112220.229240-4-david@redhat.com>
+To: steven@liquorix.net
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [zen:6.4/prjc 284/385] kernel/sched/alt_debug.c:23:6: warning: no
+ previous prototype for 'proc_sched_show_task'
+Message-ID: <202306281025.qzMWob0D-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,52 +45,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230627112220.229240-4-david@redhat.com>
 
-Hi David,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6995e2de6891c724bfeb2db33d7b87775f913ad1]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Hildenbrand/mm-memory_hotplug-check-for-fatal-signals-only-in-offline_pages/20230627-192444
-base:   6995e2de6891c724bfeb2db33d7b87775f913ad1
-patch link:    https://lore.kernel.org/r/20230627112220.229240-4-david%40redhat.com
-patch subject: [PATCH v1 3/5] mm/memory_hotplug: make offline_and_remove_memory() timeout instead of failing on fatal signals
-config: x86_64-randconfig-x006-20230627 (https://download.01.org/0day-ci/archive/20230628/202306280935.dKTWlHFD-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230628/202306280935.dKTWlHFD-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.4/prjc
+head:   d6148915d97f4535395579f728454c4f68f0774b
+commit: fa51a210dd580901cb9fde19d3d268b3dc9cd597 [284/385] sched/alt: Headers cleanup
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20230628/202306281025.qzMWob0D-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230628/202306281025.qzMWob0D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306280935.dKTWlHFD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306281025.qzMWob0D-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/memory_hotplug.c:163:13: warning: unused variable 'mhp_offlining_timer_active' [-Wunused-variable]
-   static bool mhp_offlining_timer_active;
-               ^
-   mm/memory_hotplug.c:166:13: warning: unused function 'mhp_offline_timer_fn' [-Wunused-function]
-   static void mhp_offline_timer_fn(struct timer_list *unused)
-               ^
-   2 warnings generated.
+   In file included from kernel/sched/sched.h:9,
+                    from kernel/sched/alt_debug.c:9:
+   kernel/sched/alt_sched.h:481:42: warning: 'struct cpuidle_state' declared inside parameter list will not be visible outside of this definition or declaration
+     481 |                                   struct cpuidle_state *idle_state)
+         |                                          ^~~~~~~~~~~~~
+>> kernel/sched/alt_debug.c:23:6: warning: no previous prototype for 'proc_sched_show_task' [-Wmissing-prototypes]
+      23 | void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
+         |      ^~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/alt_debug.c:30:6: warning: no previous prototype for 'proc_sched_set_task' [-Wmissing-prototypes]
+      30 | void proc_sched_set_task(struct task_struct *p)
+         |      ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/mhp_offlining_timer_active +163 mm/memory_hotplug.c
+vim +/proc_sched_show_task +23 kernel/sched/alt_debug.c
 
-   154	
-   155	/*
-   156	 * Protected by the device hotplug lock: offline_and_remove_memory()
-   157	 * will activate a timer such that offlining cannot be stuck forever.
-   158	 *
-   159	 * With an active timer, fatal signals will be ignored, because they can be
-   160	 * counter-productive when dying user space triggers device unplug/driver
-   161	 * unloading that ends up offlining+removing device memory.
-   162	 */
- > 163	static bool mhp_offlining_timer_active;
-   164	static atomic_t mhp_offlining_timer_expired;
-   165	
+cedcd3e67433b3 Alfred Chen 2019-08-19  10  
+cedcd3e67433b3 Alfred Chen 2019-08-19  11  /*
+cedcd3e67433b3 Alfred Chen 2019-08-19  12   * This allows printing both to /proc/sched_debug and
+cedcd3e67433b3 Alfred Chen 2019-08-19  13   * to the console
+cedcd3e67433b3 Alfred Chen 2019-08-19  14   */
+cedcd3e67433b3 Alfred Chen 2019-08-19  15  #define SEQ_printf(m, x...)			\
+cedcd3e67433b3 Alfred Chen 2019-08-19  16   do {						\
+cedcd3e67433b3 Alfred Chen 2019-08-19  17  	if (m)					\
+cedcd3e67433b3 Alfred Chen 2019-08-19  18  		seq_printf(m, x);		\
+cedcd3e67433b3 Alfred Chen 2019-08-19  19  	else					\
+cedcd3e67433b3 Alfred Chen 2019-08-19  20  		pr_cont(x);			\
+cedcd3e67433b3 Alfred Chen 2019-08-19  21   } while (0)
+cedcd3e67433b3 Alfred Chen 2019-08-19  22  
+cedcd3e67433b3 Alfred Chen 2019-08-19 @23  void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
+cedcd3e67433b3 Alfred Chen 2019-08-19  24  			  struct seq_file *m)
+cedcd3e67433b3 Alfred Chen 2019-08-19  25  {
+cedcd3e67433b3 Alfred Chen 2019-08-19  26  	SEQ_printf(m, "%s (%d, #threads: %d)\n", p->comm, task_pid_nr_ns(p, ns),
+cedcd3e67433b3 Alfred Chen 2019-08-19  27  						get_nr_threads(p));
+cedcd3e67433b3 Alfred Chen 2019-08-19  28  }
+cedcd3e67433b3 Alfred Chen 2019-08-19  29  
+cedcd3e67433b3 Alfred Chen 2019-08-19 @30  void proc_sched_set_task(struct task_struct *p)
+
+:::::: The code at line 23 was first introduced by commit
+:::::: cedcd3e67433b3472068caf48ea86414191e0a6b Project C v5.7.5-r2
+
+:::::: TO: Alfred Chen <cchalpha@gmail.com>
+:::::: CC: Alfred Chen <cchalpha@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
