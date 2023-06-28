@@ -1,43 +1,53 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80B71114
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 01:49:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B5415A0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 02:00:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687916972; x=1719452972;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IFceAcU9SluNqpGPULF1poRmxaCWzTCPH/cJJinJu+E=;
-  b=hUNcTi1JxKSdIWM/yl2BsSl9G8fMLIiyrB7LH86pjLgePdP2TtA7Uhlw
-   wfLTiLk1zV/saWnaLWvAvxA0bXqt4v9lvnJzSxNvfjL68N//U2fBFL6ea
-   UajWqQo0+ukQg9P+2Tr8z1QZ8x9KkKpni+NNISU/Wx4dn1T6+aowWtFcb
-   SfrnUJcbe5Ou755fJ3ZF4Fy4qNL2ZXNwcBEX/eAy25U9XbL7gEMexcx0L
-   fLLC9Px6m1M58SrKxNyI7EGH8BVjbk5IgYxwp4r9psNvxuib/Ih/bzIQd
-   O8527X51YU74+VDdR5kBmSBRNrDohVHydd2yb6arFBHhaCtVJLBmj2+sO
+  t=1687917636; x=1719453636;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Kf4OUq5f8e7JmaiUhbLO6qC90pOxyi/ygia+z/UvdLA=;
+  b=EXxteSgoq2ECGLhSoUD0S/aaTJd8aNVCEh1VvCfjCFqzlY+eWPaFqaFg
+   Okn5c993qTpvya1ioV/X/+LFKHtEjL9uZrKFGu3vlMeEfss8+vGjGsOU6
+   di9dls/rNnhSEHzuR16H3tAcYAxH0GbgqeMfreVWz1s9iksSlFlnbubwT
+   73gRuiKo1YGLEB7A1oD52D0tPv+g6LgO7xbyMGl6p8bKlpPRoBXvwNiIk
+   1GAOuXV/iXpBjYna2Qs4J1rPtyyYCVBP+IaTqS0Qm7lV49ckTtnsxhUAk
+   S83H/MBeU2KndrVYfn8kmzA4YnNPQr9mAn2+ezb7x3aXZXZ0sKFfcUp43
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="346487873"
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="346489022"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="346487873"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 18:49:32 -0700
+   d="scan'208";a="346489022"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 19:00:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="666917208"
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="840895500"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="666917208"
+   d="scan'208";a="840895500"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 27 Jun 2023 18:49:31 -0700
+  by orsmga004.jf.intel.com with ESMTP; 27 Jun 2023 19:00:31 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEKJG-000CST-1g;
-	Wed, 28 Jun 2023 01:49:30 +0000
-Date: Wed, 28 Jun 2023 09:49:13 +0800
+	id 1qEKTu-000CSt-2U;
+	Wed, 28 Jun 2023 02:00:30 +0000
+Date: Wed, 28 Jun 2023 10:00:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-tdx:guest-kexec 1/2]
- arch/x86/kernel/relocate_kernel_64.S:151: Error: too many positional
- arguments
-Message-ID: <202306280926.g6GuOctj-lkp@intel.com>
+To: Jim Shargo <jshargo@chromium.org>, mairacanal@riseup.net,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Jim Shargo <jshargo@chromium.org>,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 4/6] drm/vkms: Add ConfigFS scaffolding to VKMS
+Message-ID: <202306280759.b1BQCTXw-lkp@intel.com>
+References: <20230623222353.97283-5-jshargo@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,149 +56,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230623222353.97283-5-jshargo@chromium.org>
 
-tree:   https://github.com/intel/tdx.git guest-kexec
-head:   ac18652a4806023b0986b468dc9061c640383279
-commit: 0dc7dad5e4c5ab94e4429d16272f65de6307c5c0 [1/2] x86/kexec: Keep CR4.MCE during kexec for TDX guest
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230628/202306280926.g6GuOctj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230628/202306280926.g6GuOctj-lkp@intel.com/reproduce)
+Hi Jim,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on drm-intel/for-linux-next next-20230627]
+[cannot apply to drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jim-Shargo/drm-vkms-Back-VKMS-with-DRM-memory-management-instead-of-static-objects/20230624-062659
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230623222353.97283-5-jshargo%40chromium.org
+patch subject: [PATCH v2 4/6] drm/vkms: Add ConfigFS scaffolding to VKMS
+config: xtensa-randconfig-r052-20230627 (https://download.01.org/0day-ci/archive/20230628/202306280759.b1BQCTXw-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230628/202306280759.b1BQCTXw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306280926.g6GuOctj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306280759.b1BQCTXw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arch/x86/kernel/relocate_kernel_64.S: Assembler messages:
->> arch/x86/kernel/relocate_kernel_64.S:151: Error: too many positional arguments
-
-
-vim +151 arch/x86/kernel/relocate_kernel_64.S
-
-   114	
-   115	SYM_CODE_START_LOCAL_NOALIGN(identity_mapped)
-   116		UNWIND_HINT_END_OF_STACK
-   117		/* set return address to 0 if not preserving context */
-   118		pushq	$0
-   119		/* store the start address on the stack */
-   120		pushq   %rdx
-   121	
-   122		/*
-   123		 * Clear X86_CR4_CET (if it was set) such that we can clear CR0_WP
-   124		 * below.
-   125		 */
-   126		movq	%cr4, %rax
-   127		andq	$~(X86_CR4_CET), %rax
-   128		movq	%rax, %cr4
-   129	
-   130		/*
-   131		 * Set cr0 to a known state:
-   132		 *  - Paging enabled
-   133		 *  - Alignment check disabled
-   134		 *  - Write protect disabled
-   135		 *  - No task switch
-   136		 *  - Don't do FP software emulation.
-   137		 *  - Protected mode enabled
-   138		 */
-   139		movq	%cr0, %rax
-   140		andq	$~(X86_CR0_AM | X86_CR0_WP | X86_CR0_TS | X86_CR0_EM), %rax
-   141		orl	$(X86_CR0_PG | X86_CR0_PE), %eax
-   142		movq	%rax, %cr0
-   143	
-   144		/*
-   145		 * Set cr4 to a known state:
-   146		 *  - physical address extension enabled
-   147		 *  - 5-level paging, if it was enabled before
-   148		 *  - Machine check exception on TDX guest. Clearing MCE is not allowed
-   149		 *    in TDX guests.
-   150		 */
- > 151		ALTERNATIVE "movl "$X86_CR4_PAE", %eax", \
-   152			    "movl "$(X86_CR4_PAE | X86_CR4_MCE)", %eax", X86_FEATURE_TDX_GUEST
-   153		testq	$X86_CR4_LA57, %r13
-   154		jz	1f
-   155		orl	$X86_CR4_LA57, %eax
-   156	1:
-   157		movq	%rax, %cr4
-   158	
-   159		jmp 1f
-   160	1:
-   161	
-   162		/* Flush the TLB (needed?) */
-   163		movq	%r9, %cr3
-   164	
-   165		/*
-   166		 * If SME is active, there could be old encrypted cache line
-   167		 * entries that will conflict with the now unencrypted memory
-   168		 * used by kexec. Flush the caches before copying the kernel.
-   169		 */
-   170		testq	%r12, %r12
-   171		jz 1f
-   172		wbinvd
-   173	1:
-   174	
-   175		movq	%rcx, %r11
-   176		call	swap_pages
-   177	
-   178		/*
-   179		 * To be certain of avoiding problems with self-modifying code
-   180		 * I need to execute a serializing instruction here.
-   181		 * So I flush the TLB by reloading %cr3 here, it's handy,
-   182		 * and not processor dependent.
-   183		 */
-   184		movq	%cr3, %rax
-   185		movq	%rax, %cr3
-   186	
-   187		/*
-   188		 * set all of the registers to known values
-   189		 * leave %rsp alone
-   190		 */
-   191	
-   192		testq	%r11, %r11
-   193		jnz 1f
-   194		xorl	%eax, %eax
-   195		xorl	%ebx, %ebx
-   196		xorl    %ecx, %ecx
-   197		xorl    %edx, %edx
-   198		xorl    %esi, %esi
-   199		xorl    %edi, %edi
-   200		xorl    %ebp, %ebp
-   201		xorl	%r8d, %r8d
-   202		xorl	%r9d, %r9d
-   203		xorl	%r10d, %r10d
-   204		xorl	%r11d, %r11d
-   205		xorl	%r12d, %r12d
-   206		xorl	%r13d, %r13d
-   207		xorl	%r14d, %r14d
-   208		xorl	%r15d, %r15d
-   209	
-   210		ANNOTATE_UNRET_SAFE
-   211		ret
-   212		int3
-   213	
-   214	1:
-   215		popq	%rdx
-   216		leaq	PAGE_SIZE(%r10), %rsp
-   217		ANNOTATE_RETPOLINE_SAFE
-   218		call	*%rdx
-   219	
-   220		/* get the re-entry point of the peer system */
-   221		movq	0(%rsp), %rbp
-   222		leaq	relocate_kernel(%rip), %r8
-   223		movq	CP_PA_SWAP_PAGE(%r8), %r10
-   224		movq	CP_PA_BACKUP_PAGES_MAP(%r8), %rdi
-   225		movq	CP_PA_TABLE_PAGE(%r8), %rax
-   226		movq	%rax, %cr3
-   227		lea	PAGE_SIZE(%r8), %rsp
-   228		call	swap_pages
-   229		movq	$virtual_mapped, %rax
-   230		pushq	%rax
-   231		ANNOTATE_UNRET_SAFE
-   232		ret
-   233		int3
-   234	SYM_CODE_END(identity_mapped)
-   235	
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/vkms/vkms_drv.c:266:9-16: WARNING: ERR_CAST can be used with pdev
 
 -- 
 0-DAY CI Kernel Test Service
