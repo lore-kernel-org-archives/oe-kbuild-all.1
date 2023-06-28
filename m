@@ -1,210 +1,146 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2101.outbound.protection.outlook.com [40.107.113.101])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23A3DC8E3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 15:47:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EKh4bdiRi9CZ7OLR/OtK7fcR0sWggDkYBDxVvFy6lnOlGmxfwrquGIWyo52wX35Z2PG4gfF0jcQlj57ER3Ten0dIU+9AMt8bKlNiOuKXcg9KN1JU3ZSEG38uzH+94L50SPvzeeu62xQtYsja85dZech7awdFtBXVLpYw8ZzCxspnWkDcEoHolAOyDzWr8mjbpaPZLJfiNOI9BjwNRbw337qP2+ok51Np0fJgpOuRVI7q7RuvN1cvl5XE5skORfn42Ax5csp8lAx4TmoiK/Zktc0YUs9cQSDZvzNGLDdwsYEL8nJ9VQ2W/HnON1aAnlv0fosoqMF/tdDDgCBmFNGTEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iX0GCuYbG6s3GEx14l9vMtfsbW9GO8KNPH1iqV5DWdk=;
- b=S5xzqCHMrjSPY3cTM03+Hou/0iq+rC4+XnmOIDivOXCohxP+8wUbTs8UfwLeIfs14BJwlKfZniISsriosLsHYMmIVPyJTgW8zMoWzJIk1wv9dkJi6FSozdXul9H7rDIKvQiw59skKZefSY2MTCrCYX3WHfWL/U0rkojRRf+WewzRtJHwp3MXEPl8nmBY5zqlKF+OEq+PBOZT5qxMk/Xl+tYMW8PPOKL7npCC95YsvZBYYo4n+cfFq2cNkb63yKhRapoXCF/Fna+TiIcUGEeAEPTCLNx6uFlSjsMiReiMgsW41aFqmjahhyJJwIqJnP5nu7m8X6S54eKnilQ8re5Bbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iX0GCuYbG6s3GEx14l9vMtfsbW9GO8KNPH1iqV5DWdk=;
- b=SpiNGU/w537Bco4J5aGvDKu7uFktHTMUXtr9ic9x1qF51wV1pHHTnPtiaHp4P5GSD/OtwgdxW1kn8rWRHaMIZ6Od58dn6qHVengvJwME9zt80ymSJLOyF9JCYJ75yY+qzzFgpyLOI21qSWy0ShF6ivdWZGxhTVkIYgl6JLpCMkY=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by OSZPR01MB7987.jpnprd01.prod.outlook.com (2603:1096:604:1bb::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6521.26; Wed, 28 Jun
- 2023 15:47:19 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::fc77:6148:d6a:c72b]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::fc77:6148:d6a:c72b%4]) with mapi id 15.20.6521.026; Wed, 28 Jun 2023
- 15:47:19 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: kernel test robot <lkp@intel.com>, Mark Brown <broonie@kernel.org>, Geert
- Uytterhoeven <geert@linux-m68k.org>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Linux
- Memory Management List <linux-mm@kvack.org>, "linux-clk@vger.kernel.org"
-	<linux-clk@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [linux-next:master 11663/12731] ERROR: modpost:
- "clk_unregister_fixed_rate" [drivers/regulator/raa215300.ko] undefined!
-Thread-Topic: [linux-next:master 11663/12731] ERROR: modpost:
- "clk_unregister_fixed_rate" [drivers/regulator/raa215300.ko] undefined!
-Thread-Index: AQHZqcAM7HG7mOzFskmlpyg7ZZhBJq+gUiTw
-Date: Wed, 28 Jun 2023 15:47:19 +0000
-Message-ID:
- <OS0PR01MB5922893DE97EAAD6BAA142558624A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <202306282012.sPQAuAN7-lkp@intel.com>
-In-Reply-To: <202306282012.sPQAuAN7-lkp@intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|OSZPR01MB7987:EE_
-x-ms-office365-filtering-correlation-id: d81513a3-478b-4527-82e8-08db77eef480
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- Uk2dPZWSjk5I5D3EEiJDpggahlG2Kl1vxbTjSA/CALM8gSVW8l5s8LC9qpbO980/DaTct2I+A5WDRNi9lIkzBmjoK5ut6PyeXnTknjt13NCApCPLoi0h0d8PL9xowkWTDo12lvu3PyRqVTlEeK87oKW2XeSlsJDA7FzD4zIVprc/FKFCqMYpbPAH0Fr6ujLngIDVzn4/Z+gLpohWxurzAuvzGdWVSzUSTvftZUi+mb6ETVeIrlROdOeUR/VKq45nnE9xmEpTeiLpGJbS5KAPUFbDmdXyqvB6g0Fcz+RwZD3v+TWqe8lrTrFxNIE5LoyCjwt0eCbxpGqE2gBxZc/N9GxHBJ3qV21U7gmZzyiLzsJTkxbJ4WcV52dijIW3dGSsTbCPxzAA78UqR9GY6avOTldIYVvAz0C9bGeBkbKPOhK6ln88CFnJH6b1Jmo+QQ5TnPAXmoj2XX1bh+yi3VeIA5pHIBnX1kGbpzAXTIGHLjC+WLJzeON4JI4GJQRcJmCkRVLM4dAF5hNNiJ1JkibJGkotXi/EcMsiPl7p2TQGtiK/ES+JdkD5pi99uDpm7Ssnrz40ZaGlSt+6DBIab75/CWJNqiLAZloALVZJlSa8iIACVXGvYKLxpHsJnYOSIt5R
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(136003)(346002)(376002)(366004)(396003)(39860400002)(451199021)(33656002)(4326008)(64756008)(66556008)(76116006)(66446008)(66946007)(478600001)(316002)(8936002)(66476007)(52536014)(5660300002)(8676002)(38070700005)(2906002)(6506007)(110136005)(55016003)(86362001)(54906003)(41300700001)(26005)(7696005)(186003)(71200400001)(9686003)(53546011)(83380400001)(122000001)(38100700002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?yD6ufzSL1eoTT2KC7cu86WGpD3gndrJAOvLl9gre7fh2gol1tkPEud8s6MIx?=
- =?us-ascii?Q?ZLuz88iJ2AD7wqQBQNjAHnVEW93TXf3UKK7CRzwAMSf0hv7H8gn6J5PlbRXE?=
- =?us-ascii?Q?HsvgAixTdsdXkPyN/g6zTOLdrrjMVQFBVXlxoWBof7WR2GtO13QtGQsq12v1?=
- =?us-ascii?Q?9JvJuBAqSfcq6y4VmRftOluuWTEIU5P5yhIsndXRBjicr9SzUF5qu9/9+UKA?=
- =?us-ascii?Q?8PFJyuckPeuU82pFLoFI7rvr/xUVOvczG2lELOLd7Jc8Oycs5LhN3kjQ44A/?=
- =?us-ascii?Q?LOZKBrgDv45FO1rA7bjKub1/n1zNPUoZgYbSjXA1dw5nOXECv2yBzhBBA3W6?=
- =?us-ascii?Q?Ung7ca4qEoMQ/xnmzT2OZE9q1hToBckSchQr/oHCXCquQbfBxhvrRLR/QxsP?=
- =?us-ascii?Q?e1+26jOciwN7mZ6Hf5hXfnJyEyWfkdN7tiJeMVY7Z98T3YTe7aS/ndiYu8ZN?=
- =?us-ascii?Q?T7PO1wZ/egMRuuNepVLT2AHgfWdpxmAQ+Ja0pwVpgh/5q8Wm10BJuI7UBokz?=
- =?us-ascii?Q?fA3GxBVMoO7mNRv7O+aXdEJzfIaJ8OQmGf5xsth2eDspP1sBZro7Q4VLv0Hk?=
- =?us-ascii?Q?hOKhfL0wGlBMqi1XfoociCquhY29Sm0ExjIFQ0F0LZZOqB0LDO88hcRZH8PB?=
- =?us-ascii?Q?Cwa07oaVm5raE+axg7eBfQL4MBuj14r1kHVKt1emitlSoMS0k9fr5KTGCF7a?=
- =?us-ascii?Q?XzVmiw1OzFCgpKsiXFNqvIt7pIdeFyvB+WiX0tel98xZmasp0+wnQFbfBkhb?=
- =?us-ascii?Q?PEjIHQrH95tCcrG/uYbi6EHML2yCBvQdDd61KCHmPC6/SWuaM8nvTZ+YYt6z?=
- =?us-ascii?Q?5F7qpMp2Eqef2T5sJvLxiGE0f3ZpSk51zr1GXSktOr2jAaB7nXstT9aouMJI?=
- =?us-ascii?Q?0/le/AA1D1zxJQxSisGeGk6qrTrymUcXGStM+21WrqObOXVh68tkS4K16UaO?=
- =?us-ascii?Q?HYQU72fvg3U1IFO5EKnM2cvwwUJUzkGlVLowXz5K3hE7gIaohVnV8Y4vAYUT?=
- =?us-ascii?Q?5/NjouLr7Prkxz8Lrp/I6+b2pHUpIzjKQ61sVt878w4Lcznu6WOAsxDYNMyK?=
- =?us-ascii?Q?h4s75iUrsS5zuYPSw01CInwGj9Bv0b0q5jZvAhey37mJJtiT+Tss1FFPY6cX?=
- =?us-ascii?Q?LDhrg7SQo8loCoqelU3hrfaToT2qi1f/wzKqvdUB5EpZCLDkVOtCDvuSeVT0?=
- =?us-ascii?Q?f15VM407lTlNv77CUEUb4oBMaL1bprUXz5JSlp0mNJLs7H7gc5O67MWQPV+Q?=
- =?us-ascii?Q?4YkqhexW3y+8wRH0QWZnVgjHW08IJpQLFr22LTVR2XFpKmtw8cPh3h1oBORh?=
- =?us-ascii?Q?6BLf7QIOdh+WcGWlWWMMDlO71Q6jzZRqY7HzQksjeN/pzfDPzkGH60xdO7yP?=
- =?us-ascii?Q?1SKzq/zkAmz6UiH3P3Zot/DsODoO689gnsKJxfIr+xfkZWxbu6aUTD4bWSnE?=
- =?us-ascii?Q?XcxQwYLdp2cvnJaPil58ro7ynhGnvuEF/9m3dcpp/+ixXOSWKWftkLYnGvxl?=
- =?us-ascii?Q?NPokTSbvfC/amH3V/YqkHjQKgp9VcPkq0GODMSZWVB589tGCtpRGdRtp69oD?=
- =?us-ascii?Q?TldOt/4Is8IJzhDsIbQ5hpKTjcntaPerrqAPbLXZ?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6F8C8E3;
+	Wed, 28 Jun 2023 16:13:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1687968828; x=1719504828;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kncRiweq+MRFd8eaFvbJ+dnKNGlyiYY+YtKh9izeZTw=;
+  b=jQtgzNdmJDWFMnr8QmQD66Or7FHnnryvvmbyXgMeyTudasDVfrDkxJoJ
+   WqD4Dvb44Z/UQdhpvSAO6penqSiJbpi5wpykmk9Gfz4ChL1cQNwf1D1SU
+   LP/Sz5U9OdoR4cMLrp2K6Jv+QoJZoAYgrl/0yPlAvhXw5yZadTuTX/luK
+   6wj7Rk5+MeaUSHzoGuROroNZm1j9k8lPYSVNZeSj/tcO4sTV6Cs36r5C+
+   4JRo20IsloYquzKXbewjn+iePpYHfVzF944eWRdYMTgLjH/nIhCYTfgAN
+   8U0yTSahnrW8EQ/+sZDAn2Jh4v5mkAIHIUwOMr0GNlP7PaYvN4Fla8qLI
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="346655282"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="346655282"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 09:09:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="861595309"
+X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
+   d="scan'208";a="861595309"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2023 09:09:46 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qEXjl-000DM5-2t;
+	Wed, 28 Jun 2023 16:09:45 +0000
+Date: Thu, 29 Jun 2023 00:09:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Laurent Dufour <ldufour@linux.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 6/9] cpu/SMT: Allow enabling partial SMT states via
+ sysfs
+Message-ID: <202306282340.Ihqm0fLA-lkp@intel.com>
+References: <20230628100558.43482-7-ldufour@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d81513a3-478b-4527-82e8-08db77eef480
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jun 2023 15:47:19.0647
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6/hcxBjEV//1q3QJrrci/dfwmjgvEnSPKI0NCY8sF42vcP+axr9Z0G0h4MQgSad424Rlk5DqHe35HI6PVJCFrbc8vMyPq9CPkm4pRM1kua4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB7987
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230628100558.43482-7-ldufour@linux.ibm.com>
 
-Hi All,
+Hi Laurent,
 
-I have come up with two solutions for fixing this issue.
+kernel test robot noticed the following build errors:
 
-Please suggest which solution, I should submit.
+[auto build test ERROR on powerpc/next]
+[also build test ERROR on powerpc/fixes tip/x86/core v6.4]
+[cannot apply to tip/smp/core linus/master next-20230628]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-First solution allows to build the driver for m68k architecture,
-whereas the second solution skips it.
+url:    https://github.com/intel-lab-lkp/linux/commits/Laurent-Dufour/cpu-SMT-Move-SMT-prototypes-into-cpu_smt-h/20230628-181323
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git next
+patch link:    https://lore.kernel.org/r/20230628100558.43482-7-ldufour%40linux.ibm.com
+patch subject: [PATCH v2 6/9] cpu/SMT: Allow enabling partial SMT states via sysfs
+config: arm-randconfig-r025-20230628 (https://download.01.org/0day-ci/archive/20230628/202306282340.Ihqm0fLA-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230628/202306282340.Ihqm0fLA-lkp@intel.com/reproduce)
 
-Solution 1: Add static inline functions in clk-provider.h
----------------------------------------------------------
-diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
-index 28ff6f1a6ada..425a31c2816c 100644
---- a/include/linux/clk-provider.h
-+++ b/include/linux/clk-provider.h
-@@ -365,9 +365,6 @@ struct clk_hw *__clk_hw_register_fixed_rate(struct devi=
-ce *dev,
- 		const struct clk_parent_data *parent_data, unsigned long flags,
- 		unsigned long fixed_rate, unsigned long fixed_accuracy,
- 		unsigned long clk_fixed_flags, bool devm);
--struct clk *clk_register_fixed_rate(struct device *dev, const char *name,
--		const char *parent_name, unsigned long flags,
--		unsigned long fixed_rate);
- /**
-  * clk_hw_register_fixed_rate - register fixed-rate clock with the clock
-  * framework
-@@ -481,7 +478,6 @@ struct clk *clk_register_fixed_rate(struct device *dev,=
- const char *name,
- 				     (parent_data), (flags), (fixed_rate), 0,    \
- 				     CLK_FIXED_RATE_PARENT_ACCURACY, false)
-=20
--void clk_unregister_fixed_rate(struct clk *clk);
- void clk_hw_unregister_fixed_rate(struct clk_hw *hw);
-=20
- void of_fixed_clk_setup(struct device_node *np);
-@@ -1297,11 +1293,22 @@ const char *__clk_get_name(const struct clk *clk);
- const char *clk_hw_get_name(const struct clk_hw *hw);
- #ifdef CONFIG_COMMON_CLK
- struct clk_hw *__clk_get_hw(struct clk *clk);
-+struct clk *clk_register_fixed_rate(struct device *dev, const char *name,
-+		const char *parent_name, unsigned long flags,
-+		unsigned long fixed_rate);
-+void clk_unregister_fixed_rate(struct clk *clk);
- #else
- static inline struct clk_hw *__clk_get_hw(struct clk *clk)
- {
- 	return (struct clk_hw *)clk;
- }
-+static inline struct clk *clk_register_fixed_rate(struct device *dev, cons=
-t char *name,
-+		const char *parent_name, unsigned long flags,
-+		unsigned long fixed_rate)
-+{
-+	return ERR_PTR(-ENOENT);
-+}
-+static inline void clk_unregister_fixed_rate(struct clk *clk) {}
- #endif
-=20
- struct clk *clk_hw_get_clk(struct clk_hw *hw, const char *con_id);
-Solution 2: Add dependency to COMMON_CLK
---------------------------------------
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306282340.Ihqm0fLA-lkp@intel.com/
 
-config REGULATOR_RAA215300
-	tristate "Renesas RAA215300 driver"
-	select REGMAP_I2C
-+	depends on COMMON_CLK
-	depends on I2C
-	help
-	  Support for the Renesas RAA215300 PMIC.
+All errors (new ones prefixed by >>):
 
-Cheers,
-Biju
+>> kernel/cpu.c:2606:29: error: use of undeclared identifier 'cpu_smt_max_threads'; did you mean 'sysctl_max_threads'?
+    2606 |             cpu_smt_num_threads != cpu_smt_max_threads)
+         |                                    ^~~~~~~~~~~~~~~~~~~
+         |                                    sysctl_max_threads
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_var'
+      58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^
+   include/linux/sysctl.h:294:5: note: 'sysctl_max_threads' declared here
+     294 | int sysctl_max_threads(struct ctl_table *table, int write, void *buffer,
+         |     ^
+>> kernel/cpu.c:2606:29: error: use of undeclared identifier 'cpu_smt_max_threads'; did you mean 'sysctl_max_threads'?
+    2606 |             cpu_smt_num_threads != cpu_smt_max_threads)
+         |                                    ^~~~~~~~~~~~~~~~~~~
+         |                                    sysctl_max_threads
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^
+   include/linux/compiler.h:58:61: note: expanded from macro '__trace_if_var'
+      58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^
+   include/linux/sysctl.h:294:5: note: 'sysctl_max_threads' declared here
+     294 | int sysctl_max_threads(struct ctl_table *table, int write, void *buffer,
+         |     ^
+>> kernel/cpu.c:2606:29: error: use of undeclared identifier 'cpu_smt_max_threads'; did you mean 'sysctl_max_threads'?
+    2606 |             cpu_smt_num_threads != cpu_smt_max_threads)
+         |                                    ^~~~~~~~~~~~~~~~~~~
+         |                                    sysctl_max_threads
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+      56 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_var'
+      58 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                                                      ^
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_value'
+      69 |         (cond) ?                                        \
+         |          ^
+   include/linux/sysctl.h:294:5: note: 'sysctl_max_threads' declared here
+     294 | int sysctl_max_threads(struct ctl_table *table, int write, void *buffer,
+         |     ^
+   3 errors generated.
 
-> -----Original Message-----
-> From: kernel test robot <lkp@intel.com>
-> Sent: Wednesday, June 28, 2023 1:53 PM
-> To: Biju Das <biju.das.jz@bp.renesas.com>
-> Cc: oe-kbuild-all@lists.linux.dev; Linux Memory Management List <linux-
-> mm@kvack.org>; Mark Brown <broonie@kernel.org>
-> Subject: [linux-next:master 11663/12731] ERROR: modpost:
-> "clk_unregister_fixed_rate" [drivers/regulator/raa215300.ko] undefined!
->=20
-> tree:
->=20
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new
-> version of the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:
->=20
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->=20
-> >> ERROR: modpost: "clk_unregister_fixed_rate"
-> [drivers/regulator/raa215300.ko] undefined!
-> >> ERROR: modpost: "clk_register_fixed_rate"
-> [drivers/regulator/raa215300.ko] undefined!
->=20
-> --
-> 0-DAY CI Kernel Test Service
+
+vim +2606 kernel/cpu.c
+
+  2594	
+  2595	static ssize_t control_show(struct device *dev,
+  2596				    struct device_attribute *attr, char *buf)
+  2597	{
+  2598		const char *state = smt_states[cpu_smt_control];
+  2599	
+  2600		/*
+  2601		 * If SMT is enabled but not all threads are enabled then show the
+  2602		 * number of threads. If all threads are enabled show "on". Otherwise
+  2603		 * show the state name.
+  2604		 */
+  2605		if (cpu_smt_control == CPU_SMT_ENABLED &&
+> 2606		    cpu_smt_num_threads != cpu_smt_max_threads)
+  2607			return sysfs_emit(buf, "%d\n", cpu_smt_num_threads);
+  2608	
+  2609		return snprintf(buf, PAGE_SIZE - 2, "%s\n", state);
+  2610	}
+  2611	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
