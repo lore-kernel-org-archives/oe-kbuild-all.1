@@ -1,44 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2442D518
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 18:04:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D449D518;
+	Wed, 28 Jun 2023 18:14:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687975493; x=1719511493;
+  t=1687976092; x=1719512092;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TeSOtIAiYLNKTwV2Sw1VFBxUCSl00HnIBN/n1Vq/Lus=;
-  b=WLFCbkRI/mFVB3UP49cWanX8ioPJZCsQF8LIc1HL8GZgWtbBKjLecA9z
-   PUgJ7Zc30VnWL7qJmhPN6DY0szkHyULi2KQvXopa9Aeqm9Z0RrI/F8FPi
-   2M5HHtyV1xsPoEcS3rybBFVD7rlt3PHz806L2MFO1SlUmvMeJESc668Ry
-   RNReHqBMiDmclVRM40W7uTCiYpRPfneG2PqtPyIiwowwZxTftXgxRhlE3
-   ZsLeUMrrQku1D828X05vp2uJxxtFItd6eyLrx6ZbgS8u1yptz/OXAL4kt
-   O1JLMJpV6kM3OpNlqxmGher6TUW8HAWlDNbh5AS+nHY9M3N+fQ6necrCU
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="361963341"
+  bh=k01upmdyss+6NNIQ8lG8Bnph4OIWKHmAe1qEjCFCWjk=;
+  b=fRrxxb7LkU83EpFiuOx7OihtqCp+h3Go42N9MRZbrzHGvQsUu8FOWcOn
+   FZcFDVmwGLOXyvytDIrV9DXLKO6Z87rNwf6YnUfIOGhb+KPQQFaSpRShq
+   H6W1rb21PA+tu1UQkttgfHckitHiMbCQKeH1yXrj3kxXYAgJXm3EyU4eG
+   nVXasFyf8d50NSRUBWFTVMdXbXC2OfmwmgiJ4nCxpG7ogJDNDz7UZLxpd
+   uZqC7FjPWchmLudjgUqpUQ2PgwcUAyuPHk0wNEjifSFStVzULuj4MowUB
+   OyxFuYBRaIFttf1iLD+VBfYezxdLd4NCFyDnNyZHDZIu75DCzs1cKcmI+
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="448307620"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="361963341"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 11:04:52 -0700
+   d="scan'208";a="448307620"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 11:14:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="1047504448"
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="963710744"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="1047504448"
+   d="scan'208";a="963710744"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Jun 2023 11:04:50 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 28 Jun 2023 11:14:50 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEZX7-000DPt-1h;
-	Wed, 28 Jun 2023 18:04:49 +0000
-Date: Thu, 29 Jun 2023 02:04:13 +0800
+	id 1qEZgn-000DQ1-2P;
+	Wed, 28 Jun 2023 18:14:49 +0000
+Date: Thu, 29 Jun 2023 02:14:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>
-Subject: drivers/net/dsa/sja1105/sja1105.o: warning: objtool:
- sja1105_fast_age() falls through to next function
- sja1105_mgmt_xmit.constprop.0.isra.0.cold()
-Message-ID: <202306290223.F7bMX6mq-lkp@intel.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [asahilinux:gpu/rust-wip 3/5] mm/shmem.c:96:8: warning: 'const' type
+ qualifier on return type has no effect
+Message-ID: <202306290207.4pcekBLh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,26 +46,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mark,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6aeadf7896bff4ca230702daba8788455e6b866e
-commit: c27cd083cfb9d392f304657ed00fcde1136704e7 Compiler attributes: GCC cold function alignment workarounds
-date:   5 months ago
-config: x86_64-randconfig-x052-20230628 (https://download.01.org/0day-ci/archive/20230629/202306290223.F7bMX6mq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230629/202306290223.F7bMX6mq-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux gpu/rust-wip
+head:   add608c3e9db6e64e0cde5d883257d6fa6163bea
+commit: 185978bc72854af761d4c55d648d7e0c237be725 [3/5] shmem: 16K on 4K hack
+config: arm-randconfig-r046-20230628 (https://download.01.org/0day-ci/archive/20230629/202306290207.4pcekBLh-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230629/202306290207.4pcekBLh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306290223.F7bMX6mq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306290207.4pcekBLh-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/dsa/sja1105/sja1105.o: warning: objtool: sja1105_fast_age() falls through to next function sja1105_mgmt_xmit.constprop.0.isra.0.cold()
+>> mm/shmem.c:96:8: warning: 'const' type qualifier on return type has no effect [-Wignored-qualifiers]
+      96 | static const unsigned long shmem_base_nr(struct address_space *mapping) {
+         |        ^~~~~~
+   1 warning generated.
+
+
+vim +/const +96 mm/shmem.c
+
+    95	
+  > 96	static const unsigned long shmem_base_nr(struct address_space *mapping) {
+    97		return 1L << mapping->order;
+    98	}
+    99	
 
 -- 
 0-DAY CI Kernel Test Service
