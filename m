@@ -1,46 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5763D53A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 18:57:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5AC10955
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 20:39:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687978674; x=1719514674;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Jh6Yo68JB6oWFdtn/7iL8FqvlLcXmL6Fp0vlENpUr+0=;
-  b=JXAWgxXO/IPmWVr0JmXU7wbWIrILizHRa6eD7h0xB8Eiouk26C6jk5s7
-   tEFaeOaJfgl7GI81B2CFJMqjX3wET7QGxSXIbhpAGEvtYlFctPVsYO4BP
-   yVHxI59JbJvhgHcHixu+uKJr9Prf69AiUephnNHOoS80li8Lg0pnymkWB
-   ogWabBoZP7Gnws5SaEj0hiVQJOxnPaH6m0/WxgwdBL2POoLB+E5F36FE2
-   TbO3TZknbtHH7qZFKULnINlhs5rs/agB+FNQqbFD0oz4OKa2C2/+xou6W
-   g/JzQIRi2iRQRcWrdjJiQUQI5PHVeHpStegjcab5JMzoxaqNU6w7yfN5a
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="427946146"
+  t=1687984795; x=1719520795;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zT1XlabESgMiTiX+QeuC4USR+f6IySr8NAFaLZVPnww=;
+  b=S08eZDuXO0M7Y3o075XkKTTItY8YgnnST00aHSHkgc1ksCTk/E/vAXhi
+   54RaMDwe7fRZhuVtBDnIaZzXkOJBJ5NFQ0fil2Ej5bCslJECh4g9CGRCv
+   9GS7PlVhxFD8MaMVf4Mc9QUKwdXCFSxN5Vs154OcNjLiIg1QQQ7pqrcEm
+   n7Ps3l1DsKyOP7b1SPjQDXrMySnXwP93slaBWsF3FAJ+ZR+b0IaQLHX+4
+   MaicY70R5deFPM54rr4yo7aswWAvKccGX4ST6vnnxT4NiVIr72dfdVhpq
+   K7wnvM0sECizc/p9wYwLBd1eRxllm5KSndSHvbSfKO71lTJBtjFcxobgy
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="365419212"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="427946146"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 11:57:54 -0700
+   d="scan'208";a="365419212"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 13:39:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="717069119"
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="752399098"
 X-IronPort-AV: E=Sophos;i="6.01,166,1684825200"; 
-   d="scan'208";a="717069119"
+   d="scan'208";a="752399098"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 28 Jun 2023 11:57:51 -0700
+  by orsmga001.jf.intel.com with ESMTP; 28 Jun 2023 13:39:54 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEaMQ-000DRd-38;
-	Wed, 28 Jun 2023 18:57:50 +0000
-Date: Thu, 29 Jun 2023 02:57:23 +0800
+	id 1qEbxB-000DUH-0o;
+	Wed, 28 Jun 2023 20:39:53 +0000
+Date: Thu, 29 Jun 2023 04:39:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Revanth Kumar Uppala <ruppala@nvidia.com>, linux@armlinux.org.uk,
-	andrew@lunn.ch, hkallweit1@gmail.com, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-tegra@vger.kernel.org,
-	Revanth Kumar Uppala <ruppala@nvidia.com>,
-	Narayan Reddy <narayanr@nvidia.com>
-Subject: Re: [PATCH 4/4] net: phy: aqr113c: Enable Wake-on-LAN (WOL)
-Message-ID: <202306290253.b8D3gQf8-lkp@intel.com>
-References: <20230628124326.55732-4-ruppala@nvidia.com>
+To: Helge Deller <deller@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [deller-parisc:for-next 10/26]
+ arch/parisc/kernel/drivers.c:745:19-20: Unneeded semicolon
+Message-ID: <202306290402.UU593bc1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,77 +45,21 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230628124326.55732-4-ruppala@nvidia.com>
 
-Hi Revanth,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net/main]
-[also build test WARNING on net-next/main linus/master horms-ipvs/master v6.4 next-20230628]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Revanth-Kumar-Uppala/net-phy-aquantia-Enable-MAC-Controlled-EEE/20230628-204746
-base:   net/main
-patch link:    https://lore.kernel.org/r/20230628124326.55732-4-ruppala%40nvidia.com
-patch subject: [PATCH 4/4] net: phy: aqr113c: Enable Wake-on-LAN (WOL)
-config: i386-randconfig-i013-20230628 (https://download.01.org/0day-ci/archive/20230629/202306290253.b8D3gQf8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230629/202306290253.b8D3gQf8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git for-next
+head:   a252a72d39e48b90bde2bfc56006a5e354eeaf10
+commit: 070c120be10a084ad7496db96e26ad805076f737 [10/26] parisc: drivers.c: Various doc and warning fixes
+config: parisc-randconfig-r054-20230628 (https://download.01.org/0day-ci/archive/20230629/202306290402.UU593bc1-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230629/202306290402.UU593bc1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306290253.b8D3gQf8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306290402.UU593bc1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/net/phy/aquantia_main.c: In function 'aqr_handle_interrupt':
->> drivers/net/phy/aquantia_main.c:476:29: warning: unused variable 'priv' [-Wunused-variable]
-     476 |         struct aqr107_priv *priv = phydev->priv;
-         |                             ^~~~
-
-
-vim +/priv +476 drivers/net/phy/aquantia_main.c
-
-   473	
-   474	static irqreturn_t aqr_handle_interrupt(struct phy_device *phydev)
-   475	{
- > 476		struct aqr107_priv *priv = phydev->priv;
-   477		int irq_status;
-   478		int ret;
-   479	
-   480		ret = phy_read_mmd(phydev, MDIO_MMD_C22EXT, MDIO_C22EXT_GBE_PHY_SGMII_TX_ALARM1);
-   481		if (ret < 0) {
-   482			phy_error(phydev);
-   483			return IRQ_NONE;
-   484		}
-   485	
-   486		if ((ret & MDIO_C22EXT_SGMII0_MAGIC_PKT_FRAME_MASK) ==
-   487		    MDIO_C22EXT_SGMII0_MAGIC_PKT_FRAME_MASK) {
-   488			/* Disable the WoL */
-   489			ret = aqr113c_wol_disable(phydev);
-   490			if (ret < 0)
-   491				return IRQ_NONE;
-   492		}
-   493	
-   494		irq_status = phy_read_mmd(phydev, MDIO_MMD_AN,
-   495					  MDIO_AN_TX_VEND_INT_STATUS2);
-   496		if (irq_status < 0) {
-   497			phy_error(phydev);
-   498			return IRQ_NONE;
-   499		}
-   500	
-   501		if (!(irq_status & MDIO_AN_TX_VEND_INT_STATUS2_MASK))
-   502			return IRQ_NONE;
-   503	
-   504		phy_trigger_machine(phydev);
-   505	
-   506		return IRQ_HANDLED;
-   507	}
-   508	
+cocci warnings: (new ones prefixed by >>)
+>> arch/parisc/kernel/drivers.c:745:19-20: Unneeded semicolon
 
 -- 
 0-DAY CI Kernel Test Service
