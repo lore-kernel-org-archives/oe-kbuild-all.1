@@ -1,43 +1,60 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE75BA32
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 11:40:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F314CBA2F;
+	Wed, 28 Jun 2023 12:12:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687952442; x=1719488442;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6SQjpZxE/hVFjyCr1Zgr0B8HWg11jFu4bkNrasqkexA=;
-  b=NIYNGbZjGBlHAk2Z/ElhgdivMD8O0cD3vs7fQ6WOzp9GWEECIG9Jk2sn
-   oKeLP09UhiJYNp/R+7y58N2RLdXk/HGbbRJjAgmZeu8tjW+50wo85d/EU
-   gb1i+v5Ax2Zp592SegjnlBKhYe4McgCzzheMmXkSpUmnGIFEdkdtkdrdn
-   PueZsC9g41cCHg5xWxb7vW7ImLT1FV76t8EiCWDWIDvX3EDaaLgwOkPjL
-   FDB5uAYDwC+6LBN/Om0lzibcQAN9b+FQTRWKDuhpEcWpuZfw6cJg8fIZw
-   QjWxzLEp7ur7krPKOUAJGkmzM6y+s526hnDusJqA2woZk8AAsO4ocF8D/
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="365281255"
+  t=1687954334; x=1719490334;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SO2aJTQFDpvmS5VCVuSHy31Q+lMPYy3bSbWqJ1yROBw=;
+  b=Ktx5+U0I+k8/0bb+M3YHftqL2UlUC/1Ew+4TEma9p1SK8fqmMw6dBiKR
+   q8PO1a5hQBQdUerL+kdseLnBdfdRacAD4JCCjzFe76KMeiz7/h082jS+J
+   Y5gpqv26hYZjf0FW8fDSQwX7XDQKQiqOr3VCuDCxyEyPDoxj2jcVp1Oa6
+   bOZpdEoYIb57fzX2VHA+IgSHe4ndmYLw54F/koabwMc91xRIwaUCfcb0F
+   DG/TWpAh9VE9a3Fa3rsoGfbGG83oZ9SJqY5QWZMZEgHk1iPtKZd4BMbZw
+   2HUJhEIeexYXat40QPyvOaUCaY0+hH+Hg+IAfs1TvgpKhFbf6BnWSSIKn
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="341413263"
 X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="365281255"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 04:40:41 -0700
+   d="scan'208";a="341413263"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 05:11:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="787012572"
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="752230431"
 X-IronPort-AV: E=Sophos;i="6.01,165,1684825200"; 
-   d="scan'208";a="787012572"
+   d="scan'208";a="752230431"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Jun 2023 04:40:39 -0700
+  by orsmga001.jf.intel.com with ESMTP; 28 Jun 2023 05:11:40 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qETXL-000DEL-0i;
-	Wed, 28 Jun 2023 11:40:39 +0000
-Date: Wed, 28 Jun 2023 19:40:28 +0800
+	id 1qEU1L-000DFB-2e;
+	Wed, 28 Jun 2023 12:11:39 +0000
+Date: Wed, 28 Jun 2023 20:11:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.4/prjc 295/385] kernel/sched/alt_core.c:4421:3: error: call
- to undeclared function 'hrtick_start'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202306281932.WTyh2uR7-lkp@intel.com>
+To: Nitesh Shetty <nj.shetty@samsung.com>, Jens Axboe <axboe@kernel.dk>,
+	Jonathan Corbet <corbet@lwn.net>, Alasdair Kergon <agk@redhat.com>,
+	Mike Snitzer <snitzer@kernel.org>, dm-devel@redhat.com,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	martin.petersen@oracle.com, linux-scsi@vger.kernel.org,
+	willy@infradead.org, hare@suse.de, djwong@kernel.org,
+	bvanassche@acm.org, ming.lei@redhat.com, dlemoal@kernel.org,
+	nitheshshetty@gmail.com, gost.dev@samsung.com,
+	Nitesh Shetty <nj.shetty@samsung.com>,
+	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+	Anuj Gupta <anuj20.g@samsung.com>,
+	Vincent Fu <vincent.fu@samsung.com>, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v13 9/9] null_blk: add support for copy offload
+Message-ID: <202306281909.TRNCf5eG-lkp@intel.com>
+References: <20230627183629.26571-10-nj.shetty@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,30 +63,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230627183629.26571-10-nj.shetty@samsung.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.4/prjc
-head:   d6148915d97f4535395579f728454c4f68f0774b
-commit: bcf5606dbe8958da33841ebb8b63ba49b86c097f [295/385] sched/alt: [Sync] 95c74abe404d io_uring: move to separate directory
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20230628/202306281932.WTyh2uR7-lkp@intel.com/config)
+Hi Nitesh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 53cdf865f90ba922a854c65ed05b519f9d728424]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nitesh-Shetty/block-Introduce-queue-limits-for-copy-offload-support/20230628-163126
+base:   53cdf865f90ba922a854c65ed05b519f9d728424
+patch link:    https://lore.kernel.org/r/20230627183629.26571-10-nj.shetty%40samsung.com
+patch subject: [PATCH v13 9/9] null_blk: add support for copy offload
+config: hexagon-randconfig-r045-20230628 (https://download.01.org/0day-ci/archive/20230628/202306281909.TRNCf5eG-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230628/202306281932.WTyh2uR7-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230628/202306281909.TRNCf5eG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306281932.WTyh2uR7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306281909.TRNCf5eG-lkp@intel.com/
 
-Note: the zen/6.4/prjc HEAD d6148915d97f4535395579f728454c4f68f0774b builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
-
-   In file included from kernel/sched/alt_core.c:16:
-   In file included from include/linux/sched/isolation.h:6:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
+   In file included from drivers/block/null_blk/main.c:12:
+   In file included from drivers/block/null_blk/null_blk.h:8:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
    include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
      547 |         val = __raw_readb(PCI_IOBASE + addr);
          |                           ~~~~~~~~~~ ^
@@ -79,24 +107,36 @@ All errors (new ones prefixed by >>):
    include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
       37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
          |                                                   ^
-   In file included from kernel/sched/alt_core.c:16:
-   In file included from include/linux/sched/isolation.h:6:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
+   In file included from drivers/block/null_blk/main.c:12:
+   In file included from drivers/block/null_blk/null_blk.h:8:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
    include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
      573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
          |                                                         ~~~~~~~~~~ ^
    include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
       35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
          |                                                   ^
-   In file included from kernel/sched/alt_core.c:16:
-   In file included from include/linux/sched/isolation.h:6:
-   In file included from include/linux/tick.h:8:
-   In file included from include/linux/clockchips.h:14:
-   In file included from include/linux/clocksource.h:22:
-   In file included from arch/um/include/asm/io.h:24:
+   In file included from drivers/block/null_blk/main.c:12:
+   In file included from drivers/block/null_blk/null_blk.h:8:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
    include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
      584 |         __raw_writeb(value, PCI_IOBASE + addr);
          |                             ~~~~~~~~~~ ^
@@ -106,192 +146,110 @@ All errors (new ones prefixed by >>):
    include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
      604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
          |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from kernel/sched/alt_core.c:42:
-   In file included from kernel/sched/sched.h:9:
-   kernel/sched/alt_sched.h:481:14: warning: declaration of 'struct cpuidle_state' will not be visible outside of this function [-Wvisibility]
-     481 |                                   struct cpuidle_state *idle_state)
-         |                                          ^
-   kernel/sched/alt_core.c:578:14: error: call to undeclared function 'sched_clock_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     578 |         s64 delta = sched_clock_cpu(cpu_of(rq)) - rq->clock;
-         |                     ^
-   kernel/sched/alt_core.c:966:6: warning: no previous prototype for function 'resched_curr' [-Wmissing-prototypes]
-     966 | void resched_curr(struct rq *rq)
-         |      ^
-   kernel/sched/alt_core.c:966:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     966 | void resched_curr(struct rq *rq)
-         | ^
-         | static 
-   kernel/sched/alt_core.c:989:6: warning: no previous prototype for function 'resched_cpu' [-Wmissing-prototypes]
-     989 | void resched_cpu(int cpu)
-         |      ^
-   kernel/sched/alt_core.c:989:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     989 | void resched_cpu(int cpu)
-         | ^
-         | static 
-   kernel/sched/alt_core.c:3894:2: error: call to undeclared function 'sched_clock_tick'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3894 |         sched_clock_tick();
+>> drivers/block/null_blk/main.c:1295:2: warning: variable 'rem' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1295 |         __rq_for_each_bio(bio, req) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/blk-mq.h:1012:2: note: expanded from macro '__rq_for_each_bio'
+    1012 |         if ((rq->bio))                  \
+         |         ^~~~~~~~~~~~~~
+   include/linux/compiler.h:55:28: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:30: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/block/null_blk/main.c:1300:15: note: uninitialized use occurs here
+    1300 |         if (WARN_ON(!rem))
+         |                      ^~~
+   include/asm-generic/bug.h:123:25: note: expanded from macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   drivers/block/null_blk/main.c:1295:2: note: remove the 'if' if its condition is always true
+    1295 |         __rq_for_each_bio(bio, req) {
          |         ^
-   kernel/sched/alt_core.c:3894:2: note: did you mean 'scheduler_tick'?
-   kernel/sched/alt_core.c:3887:6: note: 'scheduler_tick' declared here
-    3887 | void scheduler_tick(void)
-         |      ^
-    3888 | {
-    3889 |         int cpu __maybe_unused = smp_processor_id();
-    3890 |         struct rq *rq = cpu_rq(cpu);
-    3891 |         u64 resched_latency;
-    3892 | 
-    3893 |         arch_scale_freq_tick();
-    3894 |         sched_clock_tick();
-         |         ~~~~~~~~~~~~~~~~
-         |         scheduler_tick
->> kernel/sched/alt_core.c:4421:3: error: call to undeclared function 'hrtick_start'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4421 |                 hrtick_start(rq, next->time_slice);
-         |                 ^
-   kernel/sched/alt_core.c:4421:3: note: did you mean 'hrtimer_start'?
-   include/linux/hrtimer.h:415:20: note: 'hrtimer_start' declared here
-     415 | static inline void hrtimer_start(struct hrtimer *timer, ktime_t tim,
-         |                    ^
-   kernel/sched/alt_core.c:4440:2: error: call to undeclared function 'hrtick_start'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4440 |         hrtick_start(rq, next->time_slice);
+   include/linux/blk-mq.h:1012:2: note: expanded from macro '__rq_for_each_bio'
+    1012 |         if ((rq->bio))                  \
          |         ^
-   kernel/sched/alt_core.c:4558:21: error: use of undeclared identifier 'PF_FROZEN'
-    4558 |                                 !(prev->flags & PF_FROZEN);
-         |                                                 ^
-   kernel/sched/alt_core.c:4674:6: error: call to undeclared function 'tsk_is_pi_blocked'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4674 |         if (tsk_is_pi_blocked(tsk))
-         |             ^
-   kernel/sched/alt_core.c:7238:13: warning: no previous prototype for function 'sched_init_smp' [-Wmissing-prototypes]
-    7238 | void __init sched_init_smp(void)
-         |             ^
-   kernel/sched/alt_core.c:7238:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    7238 | void __init sched_init_smp(void)
-         | ^
-         | static 
-   kernel/sched/alt_core.c:7278:13: warning: no previous prototype for function 'sched_init' [-Wmissing-prototypes]
-    7278 | void __init sched_init(void)
-         |             ^
-   kernel/sched/alt_core.c:7278:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    7278 | void __init sched_init(void)
-         | ^
-         | static 
-   kernel/sched/alt_core.c:7633:20: warning: no previous prototype for function 'sched_create_group' [-Wmissing-prototypes]
-    7633 | struct task_group *sched_create_group(struct task_group *parent)
-         |                    ^
-   kernel/sched/alt_core.c:7633:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    7633 | struct task_group *sched_create_group(struct task_group *parent)
-         | ^
-         | static 
-   kernel/sched/alt_core.c:7644:6: warning: no previous prototype for function 'sched_online_group' [-Wmissing-prototypes]
-    7644 | void sched_online_group(struct task_group *tg, struct task_group *parent)
-         |      ^
-   kernel/sched/alt_core.c:7644:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    7644 | void sched_online_group(struct task_group *tg, struct task_group *parent)
-         | ^
-         | static 
-   kernel/sched/alt_core.c:7655:6: warning: no previous prototype for function 'sched_destroy_group' [-Wmissing-prototypes]
-    7655 | void sched_destroy_group(struct task_group *tg)
-         |      ^
-   kernel/sched/alt_core.c:7655:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    7655 | void sched_destroy_group(struct task_group *tg)
-         | ^
-         | static 
-   kernel/sched/alt_core.c:7661:6: warning: no previous prototype for function 'sched_release_group' [-Wmissing-prototypes]
-    7661 | void sched_release_group(struct task_group *tg)
-         |      ^
-   kernel/sched/alt_core.c:7661:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    7661 | void sched_release_group(struct task_group *tg)
-         | ^
-         | static 
-   kernel/sched/alt_core.c:7731:5: warning: no previous prototype for function 'sched_group_set_shares' [-Wmissing-prototypes]
-    7731 | int sched_group_set_shares(struct task_group *tg, unsigned long shares)
-         |     ^
-   kernel/sched/alt_core.c:7731:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    7731 | int sched_group_set_shares(struct task_group *tg, unsigned long shares)
-         | ^
-         | static 
-   kernel/sched/alt_core.c:7800:20: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-    7800 |         .legacy_cftypes = cpu_legacy_files,
-         |                           ^~~~~~~~~~~~~~~~
-   kernel/sched/alt_core.c:7799:20: note: previous initialization is here
-    7799 |         .legacy_cftypes = cpu_files,
-         |                           ^~~~~~~~~
-   23 warnings and 6 errors generated.
+   include/linux/compiler.h:55:23: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                       ^
+   drivers/block/null_blk/main.c:1287:12: note: initialize the variable 'rem' to silence this warning
+    1287 |         size_t rem, temp;
+         |                   ^
+         |                    = 0
+   7 warnings generated.
 
 
-vim +/hrtick_start +4421 kernel/sched/alt_core.c
+vim +1295 drivers/block/null_blk/main.c
 
-cedcd3e67433b3 Alfred Chen 2019-08-19  4399  
-cedcd3e67433b3 Alfred Chen 2019-08-19  4400  static inline struct task_struct *
-cedcd3e67433b3 Alfred Chen 2019-08-19  4401  choose_next_task(struct rq *rq, int cpu, struct task_struct *prev)
-cedcd3e67433b3 Alfred Chen 2019-08-19  4402  {
-cedcd3e67433b3 Alfred Chen 2019-08-19  4403  	struct task_struct *next;
-cedcd3e67433b3 Alfred Chen 2019-08-19  4404  
-cedcd3e67433b3 Alfred Chen 2019-08-19  4405  	if (unlikely(rq->skip)) {
-cedcd3e67433b3 Alfred Chen 2019-08-19  4406  		next = rq_runnable_task(rq);
-cedcd3e67433b3 Alfred Chen 2019-08-19  4407  		if (next == rq->idle) {
-cedcd3e67433b3 Alfred Chen 2019-08-19  4408  #ifdef	CONFIG_SMP
-cedcd3e67433b3 Alfred Chen 2019-08-19  4409  			if (!take_other_rq_tasks(rq, cpu)) {
-cedcd3e67433b3 Alfred Chen 2019-08-19  4410  #endif
-cedcd3e67433b3 Alfred Chen 2019-08-19  4411  				rq->skip = NULL;
-cedcd3e67433b3 Alfred Chen 2019-08-19  4412  				schedstat_inc(rq->sched_goidle);
-cedcd3e67433b3 Alfred Chen 2019-08-19  4413  				return next;
-cedcd3e67433b3 Alfred Chen 2019-08-19  4414  #ifdef	CONFIG_SMP
-cedcd3e67433b3 Alfred Chen 2019-08-19  4415  			}
-cedcd3e67433b3 Alfred Chen 2019-08-19  4416  			next = rq_runnable_task(rq);
-cedcd3e67433b3 Alfred Chen 2019-08-19  4417  #endif
-cedcd3e67433b3 Alfred Chen 2019-08-19  4418  		}
-cedcd3e67433b3 Alfred Chen 2019-08-19  4419  		rq->skip = NULL;
-cedcd3e67433b3 Alfred Chen 2019-08-19  4420  #ifdef CONFIG_HIGH_RES_TIMERS
-cedcd3e67433b3 Alfred Chen 2019-08-19 @4421  		hrtick_start(rq, next->time_slice);
-cedcd3e67433b3 Alfred Chen 2019-08-19  4422  #endif
-cedcd3e67433b3 Alfred Chen 2019-08-19  4423  		return next;
-cedcd3e67433b3 Alfred Chen 2019-08-19  4424  	}
-cedcd3e67433b3 Alfred Chen 2019-08-19  4425  
-cedcd3e67433b3 Alfred Chen 2019-08-19  4426  	next = sched_rq_first_task(rq);
-cedcd3e67433b3 Alfred Chen 2019-08-19  4427  	if (next == rq->idle) {
-cedcd3e67433b3 Alfred Chen 2019-08-19  4428  #ifdef	CONFIG_SMP
-cedcd3e67433b3 Alfred Chen 2019-08-19  4429  		if (!take_other_rq_tasks(rq, cpu)) {
-cedcd3e67433b3 Alfred Chen 2019-08-19  4430  #endif
-cedcd3e67433b3 Alfred Chen 2019-08-19  4431  			schedstat_inc(rq->sched_goidle);
-9a3feaa4d828fe Alfred Chen 2020-08-09  4432  			/*printk(KERN_INFO "sched: choose_next_task(%d) idle %px\n", cpu, next);*/
-cedcd3e67433b3 Alfred Chen 2019-08-19  4433  			return next;
-cedcd3e67433b3 Alfred Chen 2019-08-19  4434  #ifdef	CONFIG_SMP
-cedcd3e67433b3 Alfred Chen 2019-08-19  4435  		}
-cedcd3e67433b3 Alfred Chen 2019-08-19  4436  		next = sched_rq_first_task(rq);
-cedcd3e67433b3 Alfred Chen 2019-08-19  4437  #endif
-cedcd3e67433b3 Alfred Chen 2019-08-19  4438  	}
-cedcd3e67433b3 Alfred Chen 2019-08-19  4439  #ifdef CONFIG_HIGH_RES_TIMERS
-cedcd3e67433b3 Alfred Chen 2019-08-19  4440  	hrtick_start(rq, next->time_slice);
-cedcd3e67433b3 Alfred Chen 2019-08-19  4441  #endif
-9a3feaa4d828fe Alfred Chen 2020-08-09  4442  	/*printk(KERN_INFO "sched: choose_next_task(%d) next %px\n", cpu,
-9a3feaa4d828fe Alfred Chen 2020-08-09  4443  	 * next);*/
-cedcd3e67433b3 Alfred Chen 2019-08-19  4444  	return next;
-cedcd3e67433b3 Alfred Chen 2019-08-19  4445  }
-cedcd3e67433b3 Alfred Chen 2019-08-19  4446  
-
-:::::: The code at line 4421 was first introduced by commit
-:::::: cedcd3e67433b3472068caf48ea86414191e0a6b Project C v5.7.5-r2
-
-:::::: TO: Alfred Chen <cchalpha@gmail.com>
-:::::: CC: Alfred Chen <cchalpha@gmail.com>
+  1281	
+  1282	static inline int nullb_setup_copy_write(struct nullb *nullb,
+  1283			struct request *req, bool is_fua)
+  1284	{
+  1285		sector_t sector_in, sector_out;
+  1286		void *in, *out;
+  1287		size_t rem, temp;
+  1288		struct bio *bio;
+  1289		unsigned long offset_in, offset_out;
+  1290		struct nullb_page *t_page_in, *t_page_out;
+  1291		int ret = -EIO;
+  1292	
+  1293		sector_out = blk_rq_pos(req);
+  1294	
+> 1295		__rq_for_each_bio(bio, req) {
+  1296			sector_in = bio->bi_iter.bi_sector;
+  1297			rem = bio->bi_iter.bi_size;
+  1298		}
+  1299	
+  1300		if (WARN_ON(!rem))
+  1301			return BLK_STS_NOTSUPP;
+  1302	
+  1303		spin_lock_irq(&nullb->lock);
+  1304		while (rem > 0) {
+  1305			temp = min_t(size_t, nullb->dev->blocksize, rem);
+  1306			offset_in = (sector_in & SECTOR_MASK) << SECTOR_SHIFT;
+  1307			offset_out = (sector_out & SECTOR_MASK) << SECTOR_SHIFT;
+  1308	
+  1309			if (null_cache_active(nullb) && !is_fua)
+  1310				null_make_cache_space(nullb, PAGE_SIZE);
+  1311	
+  1312			t_page_in = null_lookup_page(nullb, sector_in, false,
+  1313				!null_cache_active(nullb));
+  1314			if (!t_page_in)
+  1315				goto err;
+  1316			t_page_out = null_insert_page(nullb, sector_out,
+  1317				!null_cache_active(nullb) || is_fua);
+  1318			if (!t_page_out)
+  1319				goto err;
+  1320	
+  1321			in = kmap_local_page(t_page_in->page);
+  1322			out = kmap_local_page(t_page_out->page);
+  1323	
+  1324			memcpy(out + offset_out, in + offset_in, temp);
+  1325			kunmap_local(out);
+  1326			kunmap_local(in);
+  1327			__set_bit(sector_out & SECTOR_MASK, t_page_out->bitmap);
+  1328	
+  1329			if (is_fua)
+  1330				null_free_sector(nullb, sector_out, true);
+  1331	
+  1332			rem -= temp;
+  1333			sector_in += temp >> SECTOR_SHIFT;
+  1334			sector_out += temp >> SECTOR_SHIFT;
+  1335		}
+  1336	
+  1337		ret = 0;
+  1338	err:
+  1339		spin_unlock_irq(&nullb->lock);
+  1340		return ret;
+  1341	}
+  1342	
 
 -- 
 0-DAY CI Kernel Test Service
