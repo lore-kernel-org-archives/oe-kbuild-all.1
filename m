@@ -1,42 +1,43 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 948E91847
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 03:46:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50477BA3E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 04:30:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687924016; x=1719460016;
+  t=1687926615; x=1719462615;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nE2yes+cxmgx9Qq1r/Wg7MltiIhyKVX7Q/m1lk+2NPo=;
-  b=g3Yp3rfkMsE5b7ZHsg4xNNU4dmOzq+7Dv0iDfVLeP7FnCn4kRJPRFaxq
-   QepfwAYmFDhCeP9W/KM3EpJoxrzidAz0fgNex+kobZYKTXrCqbIl/0Tn4
-   R/4AkMNIlTZXqJdiCr1UoqDcfuL62fn7p2G1DkgZiT7kqWU5hYT5aji29
-   ucdh+wZnj8DyXFb0S+z6bHeuwEhBaiATYMUUltS+lVb+twh6rAVa2Swhg
-   dMzpUVvRmH2IytkGN0dI32KUcrOOpbfmz/vhseXX2mqFbKA7tn0O8Mj2Y
-   DwZ7MRvk/lympI0TzRdrgWMYaQ1vJBdPrYTkT197vMaFyL3ANPwUtHy2R
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="359239579"
+  bh=cN4FKBfvVHDirP9czLEV2qkFuUvhIVFUEUkDE/urMYk=;
+  b=G5Tpq58oH4oX9B6r+Hv9U9pl3aqNvvf9xj2u2U3MW29Yv08e2lQM97yC
+   /FvCiujgfiP0btOdzs4V056E0XKe+nuFSos7fnpP7k5WdUSutzwQsnE/D
+   2AZT8m5g3BC+Hqk1ujT7lH4qSo3uxCEWG/R7oy9D1+tRH+w0AJZGsg2Zj
+   RbQnXeymPEBdFqw2fMWxJUhDOYqgGErCIfSrhBL4PkAJBKIH7pcWDSCIe
+   mOomkQsVrY8MN9C8QUmOOpzPT70hWslhpmw03DivtSF3evxsdAuAhoLxi
+   UbYuERTNapmjl4nATrU3JCi46Dzhg79Rshto4ZpUY99NMMrVAGdfAHXjZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="359246711"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="359239579"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 20:46:42 -0700
+   d="scan'208";a="359246711"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 21:28:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="720073509"
+X-IronPort-AV: E=McAfee;i="6600,9927,10754"; a="710890848"
 X-IronPort-AV: E=Sophos;i="6.01,164,1684825200"; 
-   d="scan'208";a="720073509"
+   d="scan'208";a="710890848"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 27 Jun 2023 20:46:41 -0700
+  by orsmga007.jf.intel.com with ESMTP; 27 Jun 2023 21:28:44 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEM8e-000CgX-1S;
-	Wed, 28 Jun 2023 03:46:40 +0000
-Date: Wed, 28 Jun 2023 11:46:05 +0800
+	id 1qEMnL-000Cll-2d;
+	Wed, 28 Jun 2023 04:28:43 +0000
+Date: Wed, 28 Jun 2023 12:27:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.4/prjc 290/385] kernel/sched/smp.h:14:20: error: redefinition
- of 'flush_smp_call_function_queue'
-Message-ID: <202306281148.io6YdEpy-lkp@intel.com>
+To: ckkim <changkon12@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-6.4.y 22/46]
+ drivers/power/reset/odroid-reboot.c:63:6: warning: no previous prototype for
+ 'odroid_card_reset'
+Message-ID: <202306281241.CHbaJWwP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,44 +47,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.4/prjc
-head:   d6148915d97f4535395579f728454c4f68f0774b
-commit: b93fdc02497d5dcf7405a2290c0acf7f7af011d9 [290/385] sched/alt: [Sync] 16bf5a5e1ec5 smp: Rename flush_smp_call_function_from_idle()
-config: x86_64-buildonly-randconfig-r001-20230627 (https://download.01.org/0day-ci/archive/20230628/202306281148.io6YdEpy-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230628/202306281148.io6YdEpy-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-6.4.y
+head:   1ad7bf90f68d5e5011908d842042648de70417bf
+commit: bd0bdc82050e1b70bdaec2177da9ed4718c02d7e [22/46] ODROID-COMMON: power:reset: Add odroid support
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230628/202306281241.CHbaJWwP-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230628/202306281241.CHbaJWwP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306281148.io6YdEpy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306281241.CHbaJWwP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_policy.c:35:
->> kernel/sched/smp.h:14:20: error: redefinition of 'flush_smp_call_function_queue'
-      14 | static inline void flush_smp_call_function_queue(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/sched/sched.h:9,
-                    from kernel/sched/build_policy.c:34:
-   kernel/sched/alt_sched.h:296:20: note: previous definition of 'flush_smp_call_function_queue' with type 'void(void)'
-     296 | static inline void flush_smp_call_function_queue(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/power/reset/odroid-reboot.c:63:6: warning: no previous prototype for 'odroid_card_reset' [-Wmissing-prototypes]
+      63 | void odroid_card_reset(void)
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/power/reset/odroid-reboot.c: In function 'odroid_restart_probe':
+   drivers/power/reset/odroid-reboot.c:141:17: error: 'arm_pm_restart' undeclared (first use in this function); did you mean 'alarm_restart'?
+     141 |                 arm_pm_restart = do_odroid_restart;
+         |                 ^~~~~~~~~~~~~~
+         |                 alarm_restart
+   drivers/power/reset/odroid-reboot.c:141:17: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/flush_smp_call_function_queue +14 kernel/sched/smp.h
+vim +/odroid_card_reset +63 drivers/power/reset/odroid-reboot.c
 
-d664e399128bd7 Thomas Gleixner 2022-04-13  10  
-d664e399128bd7 Thomas Gleixner 2022-04-13  11  #ifdef CONFIG_SMP
-16bf5a5e1ec564 Thomas Gleixner 2022-04-13  12  extern void flush_smp_call_function_queue(void);
-d664e399128bd7 Thomas Gleixner 2022-04-13  13  #else
-16bf5a5e1ec564 Thomas Gleixner 2022-04-13 @14  static inline void flush_smp_call_function_queue(void) { }
-
-:::::: The code at line 14 was first introduced by commit
-:::::: 16bf5a5e1ec56474ed2a19d72f272ed09a5d3ea1 smp: Rename flush_smp_call_function_from_idle()
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+    62	
+  > 63	void odroid_card_reset(void)
+    64	{
+    65		int ret = 0;
+    66	
+    67		if ((sd_vqsw == 0) && (sd_vmmc == 0))
+    68			return;
+    69	
+    70		if (sd_vqen == 0) {
+    71			gpio_free(sd_vqsw);
+    72			gpio_free(sd_vmmc);
+    73			ret = gpio_request_one(sd_vqsw,
+    74					GPIOF_OUT_INIT_LOW, "REBOOT");
+    75			CHECK_RET(ret);
+    76			mdelay(10);
+    77			ret = gpio_direction_output(sd_vqsw, 1);
+    78			CHECK_RET(ret);
+    79			ret = gpio_request_one(sd_vmmc,
+    80					GPIOF_OUT_INIT_LOW, "REBOOT");
+    81			CHECK_RET(ret);
+    82			mdelay(10);
+    83			ret = gpio_direction_output(sd_vqsw, 0);
+    84			CHECK_RET(ret);
+    85			ret = gpio_direction_output(sd_vmmc, 1);
+    86			CHECK_RET(ret);
+    87			mdelay(5);
+    88			gpio_free(sd_vqsw);
+    89			gpio_free(sd_vmmc);
+    90		} else {
+    91			gpio_free(sd_vqsw);
+    92			gpio_free(sd_vqen);
+    93			gpio_free(sd_vmmc);
+    94	
+    95			ret = gpio_request_one(sd_vqsw,
+    96					GPIOF_OUT_INIT_LOW, "REBOOT");
+    97			CHECK_RET(ret);
+    98			ret = gpio_request_one(sd_vqen,
+    99					GPIOF_OUT_INIT_LOW, "REBOOT");
+   100			CHECK_RET(ret);
+   101			ret = gpio_request_one(sd_vmmc,
+   102					GPIOF_OUT_INIT_LOW, "REBOOT");
+   103			CHECK_RET(ret);
+   104			mdelay(100);
+   105			ret = gpio_direction_input(sd_vqen);
+   106			CHECK_RET(ret);
+   107			ret = gpio_direction_input(sd_vmmc);
+   108			CHECK_RET(ret);
+   109			ret = gpio_direction_input(sd_vqsw);
+   110			CHECK_RET(ret);
+   111			mdelay(5);
+   112			gpio_free(sd_vqen);
+   113			gpio_free(sd_vmmc);
+   114			gpio_free(sd_vqsw);
+   115		}
+   116	}
+   117	
 
 -- 
 0-DAY CI Kernel Test Service
