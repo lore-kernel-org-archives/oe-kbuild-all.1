@@ -1,51 +1,42 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C83E125A9;
-	Thu, 29 Jun 2023 15:11:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0507111BB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jun 2023 15:21:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688051496; x=1719587496;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=N8Ugpq8ZQfcZ2Z6IggLq/f9MiRzED5tHNiTzV6ZRUkw=;
-  b=Cj8OMbnEXpXvdIPhuPx5dD7ZIslAqNcGiKEO8To9gjCf0tLU/TX9CMgP
-   vYvRM3Ua8x2Rhju9v5Y6VCtBIqwxrWwnTNVynxx6cCg9oQLjwk1UwUmcy
-   nb1KJwt9MRPA+V28uFh+zF4YPt9fW/S5rOEBwXGV+AQhgMvd2fxkDwfPR
-   I18yYaH2qXrIzOVXc10tc+b2ThoA6+FGRzPm8Qd760k/38BX+0/ezNwVE
-   msIgGNyBBYbWZE7XpA5eX51eDEn62FrxVUoUdvF2v9Vb394zaPIyzjYsF
-   7Uo7xZJq5lOQq/SIHzEE/rN8nZTNkvXW/IAHlhLeiOZrAIOhK6ccfotLS
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="392856815"
+  t=1688052092; x=1719588092;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ogawmUofc3Tse3N4ff1ABsuCD3qwMEMtosO9W/cj/js=;
+  b=VdgaPUgaf2CbQxJqEoz3Jz9JlDN8gt7mmcgrM18u7N+ncriDbWhPUkHM
+   KCOUEudCSRc8LJD8OO+iV9viT9Lm5q4uSvAkjqtO8pDxgajKdbchMsQEs
+   gU3ASYGQRoiPxhF+SmmKpGJkestWNgRBVM/5e0RUmdQrn3gJyiFjgsiJU
+   YQtKpeNkNOmrOV+lk7jmbwpDPczSt5fwSi03dqCNRg/6KFX+Zod8HpCvD
+   s6Q1tdVoMMESDVYFAZsDfdxQN5U8Le913TKKLXE6ZZbjy14ccHMNYeHoH
+   ZGg1D7GxPH3CeK/fEJ10fLhozHOhSa4GWKBFzV1LYVO66M+IMdC48v6bx
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="360985223"
 X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="392856815"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 08:11:34 -0700
+   d="scan'208";a="360985223"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 08:21:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="841481447"
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="807352516"
 X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="841481447"
+   d="scan'208";a="807352516"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 29 Jun 2023 08:11:30 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 29 Jun 2023 08:21:30 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEtIv-000EDZ-2k;
-	Thu, 29 Jun 2023 15:11:29 +0000
-Date: Thu, 29 Jun 2023 23:10:33 +0800
+	id 1qEtSc-000EDx-0V;
+	Thu, 29 Jun 2023 15:21:30 +0000
+Date: Thu, 29 Jun 2023 23:21:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: Re: [PATCH 2/2] mm: make show_free_areas() static
-Message-ID: <202306292233.w0XhREe0-lkp@intel.com>
-References: <20230629104357.35455-2-wangkefeng.wang@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 1/1] drivers/mmc/core/queue.c:313:21:
+ sparse: sparse: incorrect type in assignment (different base types)
+Message-ID: <202306292312.EghgK1uX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,383 +45,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230629104357.35455-2-wangkefeng.wang@huawei.com>
 
-Hi Kefeng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-make-show_free_areas-static/20230629-182958
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230629104357.35455-2-wangkefeng.wang%40huawei.com
-patch subject: [PATCH 2/2] mm: make show_free_areas() static
-config: riscv-randconfig-r042-20230629 (https://download.01.org/0day-ci/archive/20230629/202306292233.w0XhREe0-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230629/202306292233.w0XhREe0-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   fc49127a809fb397b0dd05a1a373f5e360e5ddfb
+commit: 7f5325b5bb9e2256378085bfc84bdf2feebaab54 [1/1] ANDROID: GKI: add vendor hook for mmc
+config: i386-randconfig-i063-20230629 (https://download.01.org/0day-ci/archive/20230629/202306292312.EghgK1uX-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230629/202306292312.EghgK1uX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306292233.w0XhREe0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306292312.EghgK1uX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mmc/core/queue.c:313:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] ret @@     got restricted blk_status_t [usertype] @@
+   drivers/mmc/core/queue.c:313:21: sparse:     expected int [addressable] ret
+   drivers/mmc/core/queue.c:313:21: sparse:     got restricted blk_status_t [usertype]
+   drivers/mmc/core/queue.c:316:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [addressable] ret @@     got restricted blk_status_t [usertype] @@
+   drivers/mmc/core/queue.c:316:21: sparse:     expected int [addressable] ret
+   drivers/mmc/core/queue.c:316:21: sparse:     got restricted blk_status_t [usertype]
+>> drivers/mmc/core/queue.c:338:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted blk_status_t @@     got int [addressable] [assigned] ret @@
+   drivers/mmc/core/queue.c:338:16: sparse:     expected restricted blk_status_t
+   drivers/mmc/core/queue.c:338:16: sparse:     got int [addressable] [assigned] ret
 
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     751 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from mm/nommu.c:23:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     759 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from mm/nommu.c:23:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     768 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from mm/nommu.c:23:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     777 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from mm/nommu.c:23:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     786 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from mm/nommu.c:23:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:9:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1134 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> mm/nommu.c:1239:2: error: call to undeclared function 'show_free_areas'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1239 |         show_free_areas(0, NULL);
-         |         ^
-   13 warnings and 1 error generated.
+vim +313 drivers/mmc/core/queue.c
 
+c09949cff5eb40 drivers/mmc/card/queue.c Adrian Hunter     2016-11-29  226  
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  227  static blk_status_t mmc_mq_queue_rq(struct blk_mq_hw_ctx *hctx,
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  228  				    const struct blk_mq_queue_data *bd)
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  229  {
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  230  	struct request *req = bd->rq;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  231  	struct request_queue *q = req->q;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  232  	struct mmc_queue *mq = q->queuedata;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  233  	struct mmc_card *card = mq->card;
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  234  	struct mmc_host *host = card->host;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  235  	enum mmc_issue_type issue_type;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  236  	enum mmc_issued issued;
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  237  	bool get_card, cqe_retune_ok;
+7f5325b5bb9e22 drivers/mmc/core/queue.c Wenchao Chen      2022-04-22  238  	int ret = 0;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  239  
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  240  	if (mmc_card_removed(mq->card)) {
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  241  		req->rq_flags |= RQF_QUIET;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  242  		return BLK_STS_IOERR;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  243  	}
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  244  
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  245  	issue_type = mmc_issue_type(mq, req);
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  246  
+f5d72c5c55bc39 drivers/mmc/core/queue.c Christoph Hellwig 2018-11-16  247  	spin_lock_irq(&mq->lock);
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  248  
+26caddf274cf1e drivers/mmc/core/queue.c Adrian Hunter     2018-08-21  249  	if (mq->recovery_needed || mq->busy) {
+f5d72c5c55bc39 drivers/mmc/core/queue.c Christoph Hellwig 2018-11-16  250  		spin_unlock_irq(&mq->lock);
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  251  		return BLK_STS_RESOURCE;
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  252  	}
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  253  
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  254  	switch (issue_type) {
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  255  	case MMC_ISSUE_DCMD:
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  256  		if (mmc_cqe_dcmd_busy(mq)) {
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  257  			mq->cqe_busy |= MMC_CQE_DCMD_BUSY;
+f5d72c5c55bc39 drivers/mmc/core/queue.c Christoph Hellwig 2018-11-16  258  			spin_unlock_irq(&mq->lock);
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  259  			return BLK_STS_RESOURCE;
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  260  		}
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  261  		break;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  262  	case MMC_ISSUE_ASYNC:
+511ce378e16f07 drivers/mmc/core/queue.c Baolin Wang       2020-02-12  263  		/*
+511ce378e16f07 drivers/mmc/core/queue.c Baolin Wang       2020-02-12  264  		 * For MMC host software queue, we only allow 2 requests in
+511ce378e16f07 drivers/mmc/core/queue.c Baolin Wang       2020-02-12  265  		 * flight to avoid a long latency.
+511ce378e16f07 drivers/mmc/core/queue.c Baolin Wang       2020-02-12  266  		 */
+7f5325b5bb9e22 drivers/mmc/core/queue.c Wenchao Chen      2022-04-22  267  		trace_android_vh_mmc_check_status(bd, &ret);
+7f5325b5bb9e22 drivers/mmc/core/queue.c Wenchao Chen      2022-04-22  268  		if (!ret && host->hsq_enabled && mq->in_flight[issue_type] > 2) {
+511ce378e16f07 drivers/mmc/core/queue.c Baolin Wang       2020-02-12  269  			spin_unlock_irq(&mq->lock);
+511ce378e16f07 drivers/mmc/core/queue.c Baolin Wang       2020-02-12  270  			return BLK_STS_RESOURCE;
+511ce378e16f07 drivers/mmc/core/queue.c Baolin Wang       2020-02-12  271  		}
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  272  		break;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  273  	default:
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  274  		/*
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  275  		 * Timeouts are handled by mmc core, and we don't have a host
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  276  		 * API to abort requests, so we can't handle the timeout anyway.
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  277  		 * However, when the timeout happens, blk_mq_complete_request()
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  278  		 * no longer works (to stop the request disappearing under us).
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  279  		 * To avoid racing with that, set a large timeout.
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  280  		 */
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  281  		req->timeout = 600 * HZ;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  282  		break;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  283  	}
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  284  
+26caddf274cf1e drivers/mmc/core/queue.c Adrian Hunter     2018-08-21  285  	/* Parallel dispatch of requests is not supported at the moment */
+26caddf274cf1e drivers/mmc/core/queue.c Adrian Hunter     2018-08-21  286  	mq->busy = true;
+26caddf274cf1e drivers/mmc/core/queue.c Adrian Hunter     2018-08-21  287  
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  288  	mq->in_flight[issue_type] += 1;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  289  	get_card = (mmc_tot_in_flight(mq) == 1);
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  290  	cqe_retune_ok = (mmc_cqe_qcnt(mq) == 1);
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  291  
+f5d72c5c55bc39 drivers/mmc/core/queue.c Christoph Hellwig 2018-11-16  292  	spin_unlock_irq(&mq->lock);
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  293  
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  294  	if (!(req->rq_flags & RQF_DONTPREP)) {
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  295  		req_to_mmc_queue_req(req)->retries = 0;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  296  		req->rq_flags |= RQF_DONTPREP;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  297  	}
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  298  
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  299  	if (get_card)
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  300  		mmc_get_card(card, &mq->ctx);
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  301  
+407a1c570f9248 drivers/mmc/core/queue.c Luca Porzio       2021-02-15  302  	if (host->cqe_enabled) {
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  303  		host->retune_now = host->need_retune && cqe_retune_ok &&
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  304  				   !host->hold_retune;
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  305  	}
+1e8e55b67030c6 drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  306  
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  307  	blk_mq_start_request(req);
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  308  
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  309  	issued = mmc_blk_mq_issue_rq(mq, req);
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  310  
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  311  	switch (issued) {
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  312  	case MMC_REQ_BUSY:
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29 @313  		ret = BLK_STS_RESOURCE;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  314  		break;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  315  	case MMC_REQ_FAILED_TO_START:
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  316  		ret = BLK_STS_IOERR;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  317  		break;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  318  	default:
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  319  		ret = BLK_STS_OK;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  320  		break;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  321  	}
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  322  
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  323  	if (issued != MMC_REQ_STARTED) {
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  324  		bool put_card = false;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  325  
+f5d72c5c55bc39 drivers/mmc/core/queue.c Christoph Hellwig 2018-11-16  326  		spin_lock_irq(&mq->lock);
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  327  		mq->in_flight[issue_type] -= 1;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  328  		if (mmc_tot_in_flight(mq) == 0)
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  329  			put_card = true;
+26caddf274cf1e drivers/mmc/core/queue.c Adrian Hunter     2018-08-21  330  		mq->busy = false;
+f5d72c5c55bc39 drivers/mmc/core/queue.c Christoph Hellwig 2018-11-16  331  		spin_unlock_irq(&mq->lock);
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  332  		if (put_card)
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  333  			mmc_put_card(card, &mq->ctx);
+26caddf274cf1e drivers/mmc/core/queue.c Adrian Hunter     2018-08-21  334  	} else {
+26caddf274cf1e drivers/mmc/core/queue.c Adrian Hunter     2018-08-21  335  		WRITE_ONCE(mq->busy, false);
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  336  	}
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  337  
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29 @338  	return ret;
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  339  }
+81196976ed946c drivers/mmc/core/queue.c Adrian Hunter     2017-11-29  340  
 
-vim +/show_free_areas +1239 mm/nommu.c
+:::::: The code at line 313 was first introduced by commit
+:::::: 81196976ed946cbf36bb41ddda402853c7df7cfa mmc: block: Add blk-mq support
 
-^1da177e4c3f41 Linus Torvalds          2005-04-16   996  
-^1da177e4c3f41 Linus Torvalds          2005-04-16   997  /*
-^1da177e4c3f41 Linus Torvalds          2005-04-16   998   * handle mapping creation for uClinux
-^1da177e4c3f41 Linus Torvalds          2005-04-16   999   */
-1fcfd8db7f82fa Oleg Nesterov           2015-09-09  1000  unsigned long do_mmap(struct file *file,
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1001  			unsigned long addr,
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1002  			unsigned long len,
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1003  			unsigned long prot,
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1004  			unsigned long flags,
-bebeb3d68b24bb Michel Lespinasse       2013-02-22  1005  			unsigned long pgoff,
-897ab3e0c49e24 Mike Rapoport           2017-02-24  1006  			unsigned long *populate,
-897ab3e0c49e24 Mike Rapoport           2017-02-24  1007  			struct list_head *uf)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1008  {
-8feae13110d60c David Howells           2009-01-08  1009  	struct vm_area_struct *vma;
-8feae13110d60c David Howells           2009-01-08  1010  	struct vm_region *region;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1011  	struct rb_node *rb;
-45e55300f11495 Peter Collingbourne     2020-08-06  1012  	vm_flags_t vm_flags;
-1fcfd8db7f82fa Oleg Nesterov           2015-09-09  1013  	unsigned long capabilities, result;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1014  	int ret;
-47d9644de92c1a Liam R. Howlett         2023-01-20  1015  	VMA_ITERATOR(vmi, current->mm, 0);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1016  
-41badc15cbad03 Michel Lespinasse       2013-02-22  1017  	*populate = 0;
-bebeb3d68b24bb Michel Lespinasse       2013-02-22  1018  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1019  	/* decide whether we should attempt the mapping, and if so what sort of
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1020  	 * mapping */
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1021  	ret = validate_mmap_request(file, addr, len, prot, flags, pgoff,
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1022  				    &capabilities);
-22cc877b32202b Leon Romanovsky         2015-06-24  1023  	if (ret < 0)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1024  		return ret;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1025  
-06aab5a3084e1d David Howells           2009-09-24  1026  	/* we ignore the address hint */
-06aab5a3084e1d David Howells           2009-09-24  1027  	addr = 0;
-f67d9b1576c1c6 Bob Liu                 2011-05-24  1028  	len = PAGE_ALIGN(len);
-06aab5a3084e1d David Howells           2009-09-24  1029  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1030  	/* we've determined that we can make the mapping, now translate what we
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1031  	 * now know into VMA flags */
-45e55300f11495 Peter Collingbourne     2020-08-06  1032  	vm_flags = determine_vm_flags(file, prot, flags, capabilities);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1033  
-8220543df1489e Matthew Wilcox (Oracle  2022-09-06  1034) 
-8feae13110d60c David Howells           2009-01-08  1035  	/* we're going to need to record the mapping */
-8feae13110d60c David Howells           2009-01-08  1036  	region = kmem_cache_zalloc(vm_region_jar, GFP_KERNEL);
-8feae13110d60c David Howells           2009-01-08  1037  	if (!region)
-8feae13110d60c David Howells           2009-01-08  1038  		goto error_getting_region;
-8feae13110d60c David Howells           2009-01-08  1039  
-490fc053865c9c Linus Torvalds          2018-07-21  1040  	vma = vm_area_alloc(current->mm);
-8feae13110d60c David Howells           2009-01-08  1041  	if (!vma)
-8feae13110d60c David Howells           2009-01-08  1042  		goto error_getting_vma;
-8feae13110d60c David Howells           2009-01-08  1043  
-47d9644de92c1a Liam R. Howlett         2023-01-20  1044  	if (vma_iter_prealloc(&vmi))
-47d9644de92c1a Liam R. Howlett         2023-01-20  1045  		goto error_vma_iter_prealloc;
-8220543df1489e Matthew Wilcox (Oracle  2022-09-06  1046) 
-1e2ae599d37e60 David Howells           2010-01-15  1047  	region->vm_usage = 1;
-8feae13110d60c David Howells           2009-01-08  1048  	region->vm_flags = vm_flags;
-8feae13110d60c David Howells           2009-01-08  1049  	region->vm_pgoff = pgoff;
-8feae13110d60c David Howells           2009-01-08  1050  
-1c71222e5f2393 Suren Baghdasaryan      2023-01-26  1051  	vm_flags_init(vma, vm_flags);
-8feae13110d60c David Howells           2009-01-08  1052  	vma->vm_pgoff = pgoff;
-8feae13110d60c David Howells           2009-01-08  1053  
-8feae13110d60c David Howells           2009-01-08  1054  	if (file) {
-cb0942b8124979 Al Viro                 2012-08-27  1055  		region->vm_file = get_file(file);
-cb0942b8124979 Al Viro                 2012-08-27  1056  		vma->vm_file = get_file(file);
-8feae13110d60c David Howells           2009-01-08  1057  	}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1058  
-8feae13110d60c David Howells           2009-01-08  1059  	down_write(&nommu_region_sem);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1060  
-8feae13110d60c David Howells           2009-01-08  1061  	/* if we want to share, we need to check for regions created by other
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1062  	 * mmap() calls that overlap with our proposed mapping
-8feae13110d60c David Howells           2009-01-08  1063  	 * - we can only share with a superset match on most regular files
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1064  	 * - shared mappings on character devices and memory backed files are
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1065  	 *   permitted to overlap inexactly as far as we are concerned for in
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1066  	 *   these cases, sharing is handled in the driver or filesystem rather
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1067  	 *   than here
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1068  	 */
-fc4f4be9b5271e David Hildenbrand       2023-01-02  1069  	if (is_nommu_shared_mapping(vm_flags)) {
-8feae13110d60c David Howells           2009-01-08  1070  		struct vm_region *pregion;
-8feae13110d60c David Howells           2009-01-08  1071  		unsigned long pglen, rpglen, pgend, rpgend, start;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1072  
-8feae13110d60c David Howells           2009-01-08  1073  		pglen = (len + PAGE_SIZE - 1) >> PAGE_SHIFT;
-8feae13110d60c David Howells           2009-01-08  1074  		pgend = pgoff + pglen;
-165b239270be61 David Howells           2007-03-22  1075  
-8feae13110d60c David Howells           2009-01-08  1076  		for (rb = rb_first(&nommu_region_tree); rb; rb = rb_next(rb)) {
-8feae13110d60c David Howells           2009-01-08  1077  			pregion = rb_entry(rb, struct vm_region, vm_rb);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1078  
-fc4f4be9b5271e David Hildenbrand       2023-01-02  1079  			if (!is_nommu_shared_mapping(pregion->vm_flags))
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1080  				continue;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1081  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1082  			/* search for overlapping mappings on the same file */
-496ad9aa8ef448 Al Viro                 2013-01-23  1083  			if (file_inode(pregion->vm_file) !=
-496ad9aa8ef448 Al Viro                 2013-01-23  1084  			    file_inode(file))
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1085  				continue;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1086  
-8feae13110d60c David Howells           2009-01-08  1087  			if (pregion->vm_pgoff >= pgend)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1088  				continue;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1089  
-8feae13110d60c David Howells           2009-01-08  1090  			rpglen = pregion->vm_end - pregion->vm_start;
-8feae13110d60c David Howells           2009-01-08  1091  			rpglen = (rpglen + PAGE_SIZE - 1) >> PAGE_SHIFT;
-8feae13110d60c David Howells           2009-01-08  1092  			rpgend = pregion->vm_pgoff + rpglen;
-8feae13110d60c David Howells           2009-01-08  1093  			if (pgoff >= rpgend)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1094  				continue;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1095  
-8feae13110d60c David Howells           2009-01-08  1096  			/* handle inexactly overlapping matches between
-8feae13110d60c David Howells           2009-01-08  1097  			 * mappings */
-8feae13110d60c David Howells           2009-01-08  1098  			if ((pregion->vm_pgoff != pgoff || rpglen != pglen) &&
-8feae13110d60c David Howells           2009-01-08  1099  			    !(pgoff >= pregion->vm_pgoff && pgend <= rpgend)) {
-8feae13110d60c David Howells           2009-01-08  1100  				/* new mapping is not a subset of the region */
-b4caecd48005fb Christoph Hellwig       2015-01-14  1101  				if (!(capabilities & NOMMU_MAP_DIRECT))
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1102  					goto sharing_violation;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1103  				continue;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1104  			}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1105  
-8feae13110d60c David Howells           2009-01-08  1106  			/* we've found a region we can share */
-1e2ae599d37e60 David Howells           2010-01-15  1107  			pregion->vm_usage++;
-8feae13110d60c David Howells           2009-01-08  1108  			vma->vm_region = pregion;
-8feae13110d60c David Howells           2009-01-08  1109  			start = pregion->vm_start;
-8feae13110d60c David Howells           2009-01-08  1110  			start += (pgoff - pregion->vm_pgoff) << PAGE_SHIFT;
-8feae13110d60c David Howells           2009-01-08  1111  			vma->vm_start = start;
-8feae13110d60c David Howells           2009-01-08  1112  			vma->vm_end = start + len;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1113  
-22cc877b32202b Leon Romanovsky         2015-06-24  1114  			if (pregion->vm_flags & VM_MAPPED_COPY)
-1c71222e5f2393 Suren Baghdasaryan      2023-01-26  1115  				vm_flags_set(vma, VM_MAPPED_COPY);
-22cc877b32202b Leon Romanovsky         2015-06-24  1116  			else {
-8feae13110d60c David Howells           2009-01-08  1117  				ret = do_mmap_shared_file(vma);
-8feae13110d60c David Howells           2009-01-08  1118  				if (ret < 0) {
-8feae13110d60c David Howells           2009-01-08  1119  					vma->vm_region = NULL;
-8feae13110d60c David Howells           2009-01-08  1120  					vma->vm_start = 0;
-8feae13110d60c David Howells           2009-01-08  1121  					vma->vm_end = 0;
-1e2ae599d37e60 David Howells           2010-01-15  1122  					pregion->vm_usage--;
-8feae13110d60c David Howells           2009-01-08  1123  					pregion = NULL;
-8feae13110d60c David Howells           2009-01-08  1124  					goto error_just_free;
-8feae13110d60c David Howells           2009-01-08  1125  				}
-8feae13110d60c David Howells           2009-01-08  1126  			}
-8feae13110d60c David Howells           2009-01-08  1127  			fput(region->vm_file);
-8feae13110d60c David Howells           2009-01-08  1128  			kmem_cache_free(vm_region_jar, region);
-8feae13110d60c David Howells           2009-01-08  1129  			region = pregion;
-8feae13110d60c David Howells           2009-01-08  1130  			result = start;
-8feae13110d60c David Howells           2009-01-08  1131  			goto share;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1132  		}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1133  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1134  		/* obtain the address at which to make a shared mapping
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1135  		 * - this is the hook for quasi-memory character devices to
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1136  		 *   tell us the location of a shared mapping
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1137  		 */
-b4caecd48005fb Christoph Hellwig       2015-01-14  1138  		if (capabilities & NOMMU_MAP_DIRECT) {
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1139  			addr = file->f_op->get_unmapped_area(file, addr, len,
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1140  							     pgoff, flags);
-bb005a59e08733 Namhyung Kim            2011-05-24  1141  			if (IS_ERR_VALUE(addr)) {
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1142  				ret = addr;
-bb005a59e08733 Namhyung Kim            2011-05-24  1143  				if (ret != -ENOSYS)
-8feae13110d60c David Howells           2009-01-08  1144  					goto error_just_free;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1145  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1146  				/* the driver refused to tell us where to site
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1147  				 * the mapping so we'll have to attempt to copy
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1148  				 * it */
-bb005a59e08733 Namhyung Kim            2011-05-24  1149  				ret = -ENODEV;
-b4caecd48005fb Christoph Hellwig       2015-01-14  1150  				if (!(capabilities & NOMMU_MAP_COPY))
-8feae13110d60c David Howells           2009-01-08  1151  					goto error_just_free;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1152  
-b4caecd48005fb Christoph Hellwig       2015-01-14  1153  				capabilities &= ~NOMMU_MAP_DIRECT;
-8feae13110d60c David Howells           2009-01-08  1154  			} else {
-8feae13110d60c David Howells           2009-01-08  1155  				vma->vm_start = region->vm_start = addr;
-8feae13110d60c David Howells           2009-01-08  1156  				vma->vm_end = region->vm_end = addr + len;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1157  			}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1158  		}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1159  	}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1160  
-8feae13110d60c David Howells           2009-01-08  1161  	vma->vm_region = region;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1162  
-645d83c5db970a David Howells           2009-09-24  1163  	/* set up the mapping
-b4caecd48005fb Christoph Hellwig       2015-01-14  1164  	 * - the region is filled in if NOMMU_MAP_DIRECT is still set
-645d83c5db970a David Howells           2009-09-24  1165  	 */
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1166  	if (file && vma->vm_flags & VM_SHARED)
-8feae13110d60c David Howells           2009-01-08  1167  		ret = do_mmap_shared_file(vma);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1168  	else
-645d83c5db970a David Howells           2009-09-24  1169  		ret = do_mmap_private(vma, region, len, capabilities);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1170  	if (ret < 0)
-645d83c5db970a David Howells           2009-09-24  1171  		goto error_just_free;
-645d83c5db970a David Howells           2009-09-24  1172  	add_nommu_region(region);
-8feae13110d60c David Howells           2009-01-08  1173  
-ea637639591def Jie Zhang               2009-12-14  1174  	/* clear anonymous mappings that don't ask for uninitialized data */
-0bf5f9492389aa Christoph Hellwig       2019-07-16  1175  	if (!vma->vm_file &&
-0bf5f9492389aa Christoph Hellwig       2019-07-16  1176  	    (!IS_ENABLED(CONFIG_MMAP_ALLOW_UNINITIALIZED) ||
-0bf5f9492389aa Christoph Hellwig       2019-07-16  1177  	     !(flags & MAP_UNINITIALIZED)))
-ea637639591def Jie Zhang               2009-12-14  1178  		memset((void *)region->vm_start, 0,
-ea637639591def Jie Zhang               2009-12-14  1179  		       region->vm_end - region->vm_start);
-ea637639591def Jie Zhang               2009-12-14  1180  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1181  	/* okay... we have a mapping; now we have to register it */
-8feae13110d60c David Howells           2009-01-08  1182  	result = vma->vm_start;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1183  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1184  	current->mm->total_vm += len >> PAGE_SHIFT;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1185  
-8feae13110d60c David Howells           2009-01-08  1186  share:
-07f1bc5ad79833 Liam R. Howlett         2023-01-20  1187  	BUG_ON(!vma->vm_region);
-07f1bc5ad79833 Liam R. Howlett         2023-01-20  1188  	setup_vma_to_mm(vma, current->mm);
-07f1bc5ad79833 Liam R. Howlett         2023-01-20  1189  	current->mm->map_count++;
-07f1bc5ad79833 Liam R. Howlett         2023-01-20  1190  	/* add the VMA to the tree */
-07f1bc5ad79833 Liam R. Howlett         2023-01-20  1191  	vma_iter_store(&vmi, vma);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1192  
-cfe79c00a2f4f6 Mike Frysinger          2010-01-06  1193  	/* we flush the region from the icache only when the first executable
-cfe79c00a2f4f6 Mike Frysinger          2010-01-06  1194  	 * mapping of it is made  */
-cfe79c00a2f4f6 Mike Frysinger          2010-01-06  1195  	if (vma->vm_flags & VM_EXEC && !region->vm_icache_flushed) {
-a75a2df68f87c4 Christoph Hellwig       2020-06-07  1196  		flush_icache_user_range(region->vm_start, region->vm_end);
-cfe79c00a2f4f6 Mike Frysinger          2010-01-06  1197  		region->vm_icache_flushed = true;
-cfe79c00a2f4f6 Mike Frysinger          2010-01-06  1198  	}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1199  
-cfe79c00a2f4f6 Mike Frysinger          2010-01-06  1200  	up_write(&nommu_region_sem);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1201  
-8feae13110d60c David Howells           2009-01-08  1202  	return result;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1203  
-8feae13110d60c David Howells           2009-01-08  1204  error_just_free:
-8feae13110d60c David Howells           2009-01-08  1205  	up_write(&nommu_region_sem);
-8feae13110d60c David Howells           2009-01-08  1206  error:
-47d9644de92c1a Liam R. Howlett         2023-01-20  1207  	vma_iter_free(&vmi);
-89a8640279f8bb David Howells           2009-10-30  1208  	if (region->vm_file)
-8feae13110d60c David Howells           2009-01-08  1209  		fput(region->vm_file);
-8feae13110d60c David Howells           2009-01-08  1210  	kmem_cache_free(vm_region_jar, region);
-89a8640279f8bb David Howells           2009-10-30  1211  	if (vma->vm_file)
-8feae13110d60c David Howells           2009-01-08  1212  		fput(vma->vm_file);
-3928d4f5ee37cd Linus Torvalds          2018-07-21  1213  	vm_area_free(vma);
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1214  	return ret;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1215  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1216  sharing_violation:
-8feae13110d60c David Howells           2009-01-08  1217  	up_write(&nommu_region_sem);
-22cc877b32202b Leon Romanovsky         2015-06-24  1218  	pr_warn("Attempt to share mismatched mappings\n");
-8feae13110d60c David Howells           2009-01-08  1219  	ret = -EINVAL;
-8feae13110d60c David Howells           2009-01-08  1220  	goto error;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1221  
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1222  error_getting_vma:
-8feae13110d60c David Howells           2009-01-08  1223  	kmem_cache_free(vm_region_jar, region);
-22cc877b32202b Leon Romanovsky         2015-06-24  1224  	pr_warn("Allocation of vma for %lu byte allocation from process %d failed\n",
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1225  			len, current->pid);
-7c669cfbec1271 Kefeng Wang             2023-06-29  1226  	show_mem();
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1227  	return -ENOMEM;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1228  
-8feae13110d60c David Howells           2009-01-08  1229  error_getting_region:
-22cc877b32202b Leon Romanovsky         2015-06-24  1230  	pr_warn("Allocation of vm region for %lu byte allocation from process %d failed\n",
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1231  			len, current->pid);
-7c669cfbec1271 Kefeng Wang             2023-06-29  1232  	show_mem();
-^1da177e4c3f41 Linus Torvalds          2005-04-16  1233  	return -ENOMEM;
-8220543df1489e Matthew Wilcox (Oracle  2022-09-06  1234) 
-47d9644de92c1a Liam R. Howlett         2023-01-20  1235  error_vma_iter_prealloc:
-8220543df1489e Matthew Wilcox (Oracle  2022-09-06  1236) 	kmem_cache_free(vm_region_jar, region);
-8220543df1489e Matthew Wilcox (Oracle  2022-09-06  1237) 	vm_area_free(vma);
-8220543df1489e Matthew Wilcox (Oracle  2022-09-06  1238) 	pr_warn("Allocation of vma tree for process %d failed\n", current->pid);
-8220543df1489e Matthew Wilcox (Oracle  2022-09-06 @1239) 	show_free_areas(0, NULL);
-8220543df1489e Matthew Wilcox (Oracle  2022-09-06  1240) 	return -ENOMEM;
-8220543df1489e Matthew Wilcox (Oracle  2022-09-06  1241) 
+:::::: TO: Adrian Hunter <adrian.hunter@intel.com>
+:::::: CC: Ulf Hansson <ulf.hansson@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
