@@ -1,128 +1,120 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B70C13AFA;
-	Thu, 29 Jun 2023 18:05:15 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1b84c7a2716so5746055ad.3;
-        Thu, 29 Jun 2023 11:05:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688061915; x=1690653915;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=0s7Y6s3ecqImGHBgNuM2Qg47pMrGrBaWPSXQdu9G88Q=;
-        b=UmYxpupOmyq3QF3ZX/BsCUHU+ey9PJmzsYYl20OSKEH/P5cydGupQX+kaxbKEB51TH
-         z/yFCCq1Z+8lvmFtmwkagJUeJo1ba80UNF6e3hyH65R6FT8HsoVktTcZsfeatlD+ADwV
-         Uug+F8IGtDGmENg1RxcaWHMbi2qZRdiyWooxmaWOUra5QjfHudaApmzINizOCXl9yGsM
-         hABTpJJP90m0b+vSZ0Ov9+xTYlNbGb2T2qFG8hBQIsP+TyLpiWNoi1OlUD7Kjg5H6VsA
-         i0UDju70IGtVB+f6Xn79gojPK1rSdTwDncGRgW7i8MhBiMqln0rjTidST6oOuFt6pa7b
-         V3qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688061915; x=1690653915;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0s7Y6s3ecqImGHBgNuM2Qg47pMrGrBaWPSXQdu9G88Q=;
-        b=LEs7GiVNoxSqlfH67QJQXopmVM8bDPYrC7i3cK3bgG3iXs0Pb9TCVlmPzFruwPXoJU
-         fKn0gPWucZud3Wi2e0BSZ9xYuxRpCO32DazoCWMr5yahKQtfhx7mdWd5Cko4ZXHYuwqR
-         U5W+gxeQaoWyzYLm4a75Sy8R4q0ogr6K/4fvVm0gUP+2huHAhoaAIpoJBK8J6xGMW4oD
-         FNT6sf/GOIGJ367UpUqd67r4G2IVP8gEXHnzZRwv80he1O6pqpX2Y2B63XVKAT9cw6cp
-         qSujVoWZNGtSyOComZnrfytJM2PlkIs1GXfyUBj5r8quR1Iqd+ijBJIigI/LePeYqRyy
-         cvmQ==
-X-Gm-Message-State: ABy/qLYTX/YraV9qWkmkRzGx5Ivyu25AFcgzlNRD8PNPVvpmL4slqufG
-	U842xYjVdZWnNdXq2vOWymI=
-X-Google-Smtp-Source: APBJJlEnHYi3SaAC4olf8cGsmuAbGyTsl1ngy3VD/Xca6MDa41a4QVr7zh7WaykkzBsS1xw748Bj5A==
-X-Received: by 2002:a17:902:f547:b0:1b8:5406:a34 with SMTP id h7-20020a170902f54700b001b854060a34mr2759621plf.24.1688061915293;
-        Thu, 29 Jun 2023 11:05:15 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id w8-20020a170902a70800b001b3d4d74749sm9435115plq.7.2023.06.29.11.05.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jun 2023 11:05:14 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <4959a591-609d-6b94-69a6-ccb92246b0f0@roeck-us.net>
-Date: Thu, 29 Jun 2023 11:05:12 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31221426A;
+	Thu, 29 Jun 2023 18:19:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688062750; x=1719598750;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9DOLFbhO0O3J0HemaMykBjcHL+MYDHY5ezxdTvkUU38=;
+  b=VzJ9WSWoUFwMdlzIyvZcZgzPzXCYVUhqd3at8dJqz68VyemUYK8a9YVH
+   ukv4Ze5+YHCcTPvEs5VX4oLXw0oLte1OdmM+Ej0OXR6wqb6agDA0YN43E
+   9QCt7Ti4lDPwewjHq6S2yMXNJ/9TnqYn7SNijDJGjEKNYufmFRl50vv5A
+   80DD2yfTsw0GCoF0YS6f+i0BMovv/MhSEbo5Y/CR0PwiCr0JsCcKq5mkO
+   jQE3w7xUj9ezrJgj2wY9yc/JBVhNzYiM64CdRtbiwL28Mq1H1j46xmf6X
+   vlTlYEEenlJMJ/gVhzhPzKC/nu6dU/8rI9ONo1nzf/MGnHvB9pFdEE6fp
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="362228698"
+X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
+   d="scan'208";a="362228698"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 11:16:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="752736543"
+X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
+   d="scan'208";a="752736543"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 29 Jun 2023 11:16:37 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qEwC4-000EKH-0s;
+	Thu, 29 Jun 2023 18:16:36 +0000
+Date: Fri, 30 Jun 2023 02:15:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c:3364:5: warning: stack frame
+ size (2208) exceeds limit (2048) in 'psp_init_ta_microcode'
+Message-ID: <202306300240.df8pU5Dy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] hwmon: (pmbus/acbel-fsg032) Add firmware version debugfs
- attribute
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Eddie James <eajames@linux.ibm.com>, linux-hwmon@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, jdelvare@suse.com, lakshmiy@us.ibm.com
-References: <b12935a2-a8b7-4d70-8c7d-6fd1e92037c2@kadam.mountain>
-From: Guenter Roeck <linux@roeck-us.net>
-In-Reply-To: <b12935a2-a8b7-4d70-8c7d-6fd1e92037c2@kadam.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 6/28/23 23:53, Dan Carpenter wrote:
-> Hi Eddie,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Eddie-James/hwmon-pmbus-acbel-fsg032-Add-firmware-version-debugfs-attribute/20230628-030615
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-> patch link:    https://lore.kernel.org/r/20230627184027.16343-1-eajames%40linux.ibm.com
-> patch subject: [PATCH] hwmon: (pmbus/acbel-fsg032) Add firmware version debugfs attribute
-> config: x86_64-randconfig-m001-20230627 (https://download.01.org/0day-ci/archive/20230628/202306281205.NFXmu7xb-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230628/202306281205.NFXmu7xb-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202306281205.NFXmu7xb-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/hwmon/pmbus/acbel-fsg032.c:36 acbel_fsg032_debugfs_read() warn: argument 4 to %02X specifier has type 'char'
-> 
-> vim +/char +36 drivers/hwmon/pmbus/acbel-fsg032.c
-> 
-> d2c6444389b625 Eddie James 2023-06-27  17  static ssize_t acbel_fsg032_debugfs_read(struct file *file, char __user *buf, size_t count,
-> d2c6444389b625 Eddie James 2023-06-27  18  					 loff_t *ppos)
-> d2c6444389b625 Eddie James 2023-06-27  19  {
-> d2c6444389b625 Eddie James 2023-06-27  20  	struct i2c_client *client = file->private_data;
-> d2c6444389b625 Eddie James 2023-06-27  21  	char data[I2C_SMBUS_BLOCK_MAX + 2] = { 0 };
-> 
-> data should probably be a u8.
-> 
-> d2c6444389b625 Eddie James 2023-06-27  22  	char out[8];
-> d2c6444389b625 Eddie James 2023-06-27  23  	int rc;
-> d2c6444389b625 Eddie James 2023-06-27  24  	int i;
-> d2c6444389b625 Eddie James 2023-06-27  25
-> d2c6444389b625 Eddie James 2023-06-27  26  	rc = pmbus_lock_interruptible(client);
-> d2c6444389b625 Eddie James 2023-06-27  27  	if (rc)
-> d2c6444389b625 Eddie James 2023-06-27  28  		return rc;
-> d2c6444389b625 Eddie James 2023-06-27  29
-> d2c6444389b625 Eddie James 2023-06-27  30  	rc = i2c_smbus_read_block_data(client, ACBEL_MFR_FW_REVISION, data);
-> d2c6444389b625 Eddie James 2023-06-27  31  	pmbus_unlock(client);
-> d2c6444389b625 Eddie James 2023-06-27  32  	if (rc < 0)
-> d2c6444389b625 Eddie James 2023-06-27  33  		return rc;
-> d2c6444389b625 Eddie James 2023-06-27  34
-> d2c6444389b625 Eddie James 2023-06-27  35  	for (i = 0; i < rc && i < 3; ++i)
-> d2c6444389b625 Eddie James 2023-06-27 @36  		snprintf(&out[i * 2], 3, "%02X", data[i]);
-> 
-> If data[i] is negative this will print FFFFFFF1 etc.  (This is an x86
-> config...  Did we ever merge that patch to make char signed by default?)
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3a8a670eeeaa40d87bd38a587438952741980c18
+commit: 994a97447e38182f530f246117a882c074d02af7 drm/amd: Parse both v1 and v2 TA microcode headers using same function
+date:   6 months ago
+config: arm64-randconfig-r026-20230629 (https://download.01.org/0day-ci/archive/20230630/202306300240.df8pU5Dy-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300240.df8pU5Dy-lkp@intel.com/reproduce)
 
-That makes me wonder what "%*phN\n" in the updated patch does, as it only passes
-'data' as pointer argument.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306300240.df8pU5Dy-lkp@intel.com/
 
-Either case, no need to resend. I fixed this up when applying it by
-declaring data[] as u8. I also dropped the unused variable.
+All warnings (new ones prefixed by >>):
 
-Thanks,
-Guenter
+   drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c:3116:5: warning: stack frame size (2688) exceeds limit (2048) in 'psp_init_sos_microcode' [-Wframe-larger-than]
+   int psp_init_sos_microcode(struct psp_context *psp,
+       ^
+   2603/2688 (96.84%) spills, 85/2688 (3.16%) variables
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c:3364:5: warning: stack frame size (2208) exceeds limit (2048) in 'psp_init_ta_microcode' [-Wframe-larger-than]
+   int psp_init_ta_microcode(struct psp_context *psp, const char *chip_name)
+       ^
+   2114/2208 (95.74%) spills, 94/2208 (4.26%) variables
+   2 warnings generated.
 
+
+vim +/psp_init_ta_microcode +3364 drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c
+
+  3363	
+> 3364	int psp_init_ta_microcode(struct psp_context *psp, const char *chip_name)
+  3365	{
+  3366		const struct common_firmware_header *hdr;
+  3367		struct amdgpu_device *adev = psp->adev;
+  3368		char fw_name[PSP_FW_NAME_LEN];
+  3369		int err;
+  3370	
+  3371		snprintf(fw_name, sizeof(fw_name), "amdgpu/%s_ta.bin", chip_name);
+  3372		err = request_firmware(&adev->psp.ta_fw, fw_name, adev->dev);
+  3373		if (err)
+  3374			return err;
+  3375		err = amdgpu_ucode_validate(adev->psp.ta_fw);
+  3376		if (err)
+  3377			return err;
+  3378	
+  3379		hdr = (const struct common_firmware_header *)adev->psp.ta_fw->data;
+  3380		switch (le16_to_cpu(hdr->header_version_major)) {
+  3381		case 1:
+  3382			err = parse_ta_v1_microcode(psp);
+  3383			break;
+  3384		case 2:
+  3385			err = parse_ta_v2_microcode(psp);
+  3386			break;
+  3387		default:
+  3388			dev_err(adev->dev, "unsupported TA header version\n");
+  3389			err = -EINVAL;
+  3390		}
+  3391	
+  3392		if (err) {
+  3393			dev_err(adev->dev, "fail to initialize ta microcode\n");
+  3394			release_firmware(adev->psp.ta_fw);
+  3395			adev->psp.ta_fw = NULL;
+  3396		}
+  3397	
+  3398		return err;
+  3399	}
+  3400	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
