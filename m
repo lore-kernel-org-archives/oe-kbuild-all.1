@@ -1,44 +1,46 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606961FC8;
-	Thu, 29 Jun 2023 05:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72803FDB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jun 2023 05:10:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688015353; x=1719551353;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Y1Y6IIeTig5+GnBwvFQEyUgrgjt9zq6I4ZoWrWE/Jx0=;
-  b=BezyJn5Eqr2xLc7hMF5Yf74UuQqn+MxL/27yGOdCuGHA1DvFC7Y609yU
-   T+Uya8tsZUGI1aBnhjjDVedIQ28HEQGp3ARaJxmrmrZJT33oyKtNTui3t
-   qK0v23ZDFWRPnkOTNtXZo/kXAHchJix911PaSR+J32VHqgJo5T+Yajhe8
-   DFyT2LNG0niSp/U9OFtXi4LUJQnoS+g/zOykgA8HDkg+bvp8wOLMlNkYc
-   Co5VHpIvVNUiK9U6JyXHSLbI8bFQVjR2lknac9+eyGPvIRneGnNo5MgVZ
-   GF7AoOuvUMayNeffwtilhYT6SPyNuOwdDHdDKHvOGgR1ISdP8EEnkFTfE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="341607459"
+  t=1688015417; x=1719551417;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1w13wxMhmgyEqQ3zXRYot0vWgqK5T6m4b5oZrcwXfQE=;
+  b=QZa40wZLT5yGdVgU5UXb5n3Hy6lXHCCWWHVFE+k/wtqKoBc5OG8FUkwi
+   cfIAuv8gtkug1XKZJ+rvvqX4OLuomih8pMyYpVp2ttL3AL+kXBqBc8bLB
+   7I6BKDIfuOyUhABlAmbbtbqqVdYaylJrF4/KzvIwYu44yS6OIoRVDPdmt
+   d8dKktS5KODWkUjeN1NkJ5PWLN+2nQf0pOosMZEyW3luiby4hIKU/PXbf
+   QvNP27/dJ/b4tsGIGFlB9OJK3GzOOHMy3S5A0eDa8cxMkNS3jpvaJew/J
+   8PK14j3sxE9Kjsp4dKY3PGxJvyinKYgDsph346apa8tbX2IVBKgdNA4jP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="342362843"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="341607459"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 22:09:11 -0700
+   d="scan'208";a="342362843"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 22:10:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="787254436"
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="694496365"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="787254436"
+   d="scan'208";a="694496365"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 28 Jun 2023 22:09:10 -0700
+  by orsmga006.jf.intel.com with ESMTP; 28 Jun 2023 22:10:11 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEju1-000DqH-1i;
-	Thu, 29 Jun 2023 05:09:09 +0000
-Date: Thu, 29 Jun 2023 13:08:55 +0800
+	id 1qEjv0-000DqL-1F;
+	Thu, 29 Jun 2023 05:10:10 +0000
+Date: Thu, 29 Jun 2023 13:09:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [vsyrjala:dpt_debug_2 2/6]
- drivers/gpu/drm/i915/display/intel_dpt.c:92:14: error: format specifies type
- 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned
- int')
-Message-ID: <202306291341.5XLYJC2w-lkp@intel.com>
+To: dengxiang <dengxiang@nfschina.com>, tiwai@suse.com,
+	yangyingliang@huawei.com, perex@perex.cz
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dengxiang@nfschina.com
+Subject: Re: [PATCH] ALSA: hda/realtek: Add quirks for Unis  H3C Desktop B760
+ & Q760
+Message-ID: <202306291229.5w2tIZjA-lkp@intel.com>
+References: <20230629030016.10185-1-dengxiang@nfschina.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,57 +49,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230629030016.10185-1-dengxiang@nfschina.com>
 
-tree:   https://github.com/vsyrjala/linux.git dpt_debug_2
-head:   1573b5144c0071b9c72796d530a5a18aa359ed94
-commit: 5eeedbfbcc698af4c74b3bfabf7fae2a309ed466 [2/6] dpt debug
-config: i386-randconfig-i004-20230628 (https://download.01.org/0day-ci/archive/20230629/202306291341.5XLYJC2w-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230629/202306291341.5XLYJC2w-lkp@intel.com/reproduce)
+Hi dengxiang,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tiwai-sound/for-next]
+[also build test WARNING on tiwai-sound/for-linus linus/master v6.4 next-20230628]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/dengxiang/ALSA-hda-realtek-Add-quirks-for-Unis-H3C-Desktop-B760-Q760/20230629-110147
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230629030016.10185-1-dengxiang%40nfschina.com
+patch subject: [PATCH] ALSA: hda/realtek: Add quirks for Unis  H3C Desktop B760 & Q760
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230629/202306291229.5w2tIZjA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230629/202306291229.5w2tIZjA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306291341.5XLYJC2w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306291229.5w2tIZjA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_dpt.c:92:14: error: format specifies type 'unsigned long long' but the argument has type 'dma_addr_t' (aka 'unsigned int') [-Werror,-Wformat]
-                           dpt, i++, page_to_phys(page));
-                                     ^~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:469:46: note: expanded from macro 'drm_err'
-           __drm_printk((drm), err,, "*ERROR* " fmt, ##__VA_ARGS__)
-                                                ~~~    ^~~~~~~~~~~
-   include/drm/drm_print.h:456:48: note: expanded from macro '__drm_printk'
-           dev_##level##type((drm)->dev, "[drm] " fmt, ##__VA_ARGS__)
-                                                  ~~~    ^~~~~~~~~~~
-   include/linux/dev_printk.h:144:65: note: expanded from macro 'dev_err'
-           dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                                  ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-                   _p_func(dev, fmt, ##__VA_ARGS__);                       \
-                                ~~~    ^~~~~~~~~~~
-   arch/x86/include/asm/io.h:159:31: note: expanded from macro 'page_to_phys'
-   #define page_to_phys(page)    ((dma_addr_t)page_to_pfn(page) << PAGE_SHIFT)
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   sound/pci/hda/patch_realtek.c: In function 'alc897_fixup_unis_h3c_x500s':
+>> sound/pci/hda/patch_realtek.c:11212:26: warning: unused variable 'spec' [-Wunused-variable]
+   11212 |         struct alc_spec *spec = codec->spec;
+         |                          ^~~~
 
 
-vim +92 drivers/gpu/drm/i915/display/intel_dpt.c
+vim +/spec +11212 sound/pci/hda/patch_realtek.c
 
-    82	
-    83	static void intel_dpt_debug(struct i915_address_space *vm)
-    84	{
-    85		struct i915_dpt *dpt = i915_vm_to_dpt(vm);
-    86		struct page *page;
-    87		struct sgt_iter iter;
-    88		int i = 0;
-    89	
-    90		for_each_sgt_page(page, iter, dpt->obj->mm.pages)
-    91			drm_err(&vm->i915->drm, "dpt %p [%d] physical address 0x%llx\n",
-  > 92				dpt, i++, page_to_phys(page));
-    93	}
-    94	
+ 11208	
+ 11209	static void alc897_fixup_unis_h3c_x500s(struct hda_codec *codec,
+ 11210						  const struct hda_fixup *fix, int action)
+ 11211	{
+ 11212		struct alc_spec *spec = codec->spec;
+ 11213	
+ 11214		if (action != HDA_FIXUP_ACT_PRE_PROBE)
+ 11215			return;
+ 11216	
+ 11217		snd_hda_add_verbs(codec, alc897_unis_h3c_x500s_eapd_verbs);
+ 11218	}
+ 11219	
 
 -- 
 0-DAY CI Kernel Test Service
