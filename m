@@ -1,44 +1,43 @@
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244A63FE0;
-	Thu, 29 Jun 2023 20:11:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC3F15491
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jun 2023 20:11:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688069502; x=1719605502;
+  t=1688069504; x=1719605504;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YR55s/YwddWxWwfOf0clS/o3BYmmdYN/Fe7FfYsaKLc=;
-  b=NFtIKUuI3UPh6DP5Dhgfjk7BpHjWWUTQ9Jm11tgrpkGGfrhTHIAhkc4E
-   XTfxI3NZzzk+GLCMffuetjMrOJIQJmXtZDfPnMfxMYuJ81O7fhFgbvXjd
-   wvfxxY571vY6mr1C1Jlf4upO/aMM7LugM537SGABajCsm0FV6/vBt4yev
-   3sYD0JmnM1X72ohvMWqmXqFFV7r4JeU0woFCHxcxnPmeP6JyIKm7P4VSf
-   2WrjxQQZ3EQq/KRERPD5yCZtNeQaxJFHA3E+eY/gpi1xM3vyi6aK/ns+M
-   0Fs1iS53+2pLNH4YOURjbGKXiEsaE7gya/HiE3zh8fGC54jm3TOnVWBK6
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="364795162"
+  bh=0hZo3Q2OkzAKeqy4/gM1dYm6yJZ5yZ3Nd1MfuJclxao=;
+  b=k2d4d6zRQqg7nm9/T3aPI8/1WMlVZobdkYRDLAsPcdbyTBXN9MUH+6bL
+   ZRaMJy4X0CLBfY+7/OVDir1JOM4Ur2G4mlfwfRQII4hRT24AbwhbNL73G
+   ZcaQjueWwPh1v8r6jqiFLYbntlT6n/hiMV7rRBIALJEoJFOVS182sxJ1/
+   10bLKo/0syuDr641HtvwlXJYfOq/J1ZRdgFNovurLaY1yeJuDRhRkBJCJ
+   rmvFIBfAJd00il9HrwoPFAbvChqybmhjmkH5aJiLDdc3uV9WeBZ1pLqFQ
+   55Or36t1OMU2P4GFT7Ov1rFJvdZH7YLkEBJDNJ6boI+HAR0qy02+THoEt
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="364795158"
 X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="364795162"
+   d="scan'208";a="364795158"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 13:11:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="891509621"
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="891509622"
 X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="891509621"
+   d="scan'208";a="891509622"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
   by orsmga005.jf.intel.com with ESMTP; 29 Jun 2023 13:11:39 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qExzO-000EN7-1I;
+	id 1qExzO-000ENA-1T;
 	Thu, 29 Jun 2023 20:11:38 +0000
-Date: Fri, 30 Jun 2023 04:11:32 +0800
+Date: Fri, 30 Jun 2023 04:11:31 +0800
 From: kernel test robot <lkp@intel.com>
 To: Takashi Iwai <tiwai@suse.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alsa-devel@alsa-project.org
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
 Subject: [tiwai-sound:topic/midi20-gadget 56/56]
  drivers/usb/gadget/function/f_midi2.c:483:6: warning: no previous prototype
- for function 'reply_ump_stream_fb_info'
-Message-ID: <202306300419.dOOgnkIH-lkp@intel.com>
+ for 'reply_ump_stream_fb_info'
+Message-ID: <202306300411.zojb9GzL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,25 +50,20 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git topic/midi20-gadget
 head:   ed28b6939ebadd073e731ccf0f2c6ce4ab102ffd
 commit: ed28b6939ebadd073e731ccf0f2c6ce4ab102ffd [56/56] usb: gadget: add support for USB MIDI 2.0 function driver (WIP)
-config: i386-randconfig-r023-20230629 (https://download.01.org/0day-ci/archive/20230630/202306300419.dOOgnkIH-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300419.dOOgnkIH-lkp@intel.com/reproduce)
+config: arc-randconfig-r005-20230629 (https://download.01.org/0day-ci/archive/20230630/202306300411.zojb9GzL-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300411.zojb9GzL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306300419.dOOgnkIH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306300411.zojb9GzL-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/usb/gadget/function/f_midi2.c:483:6: warning: no previous prototype for function 'reply_ump_stream_fb_info' [-Wmissing-prototypes]
-   void reply_ump_stream_fb_info(struct f_midi2 *midi2, int blk)
-        ^
-   drivers/usb/gadget/function/f_midi2.c:483:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void reply_ump_stream_fb_info(struct f_midi2 *midi2, int blk)
-   ^
-   static 
-   1 warning generated.
+>> drivers/usb/gadget/function/f_midi2.c:483:6: warning: no previous prototype for 'reply_ump_stream_fb_info' [-Wmissing-prototypes]
+     483 | void reply_ump_stream_fb_info(struct f_midi2 *midi2, int blk)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
 
 
 vim +/reply_ump_stream_fb_info +483 drivers/usb/gadget/function/f_midi2.c
