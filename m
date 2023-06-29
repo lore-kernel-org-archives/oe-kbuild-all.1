@@ -1,41 +1,41 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF0912B64
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jun 2023 15:00:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C83E125A9;
+	Thu, 29 Jun 2023 15:11:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688050846; x=1719586846;
+  t=1688051496; x=1719587496;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TaGZsvu3xmVN7axiPp+XOepxAwxY0VGq5pBeQB6e/Lk=;
-  b=ZgqHTXWlSh1FDQb3FxJxbdDoWxHS99WyMTPvqpFTpA95cgCzcD1oAOVr
-   irKTFNluT+w+dHlXFwBOWdgUI/HbN8JlZQMhhtHj63x45PLd7kM6pwfM1
-   bXPE0N/KbsG09GU6mMoXyKVG+tzVjKVFTJ0w8lZ7ux7yiL67HQ7FTODyQ
-   YPRrDMx7O2sadOIGanliahVccHCsBTBGp+yrhLj2DuB8Xw5DGgAWBcki3
-   +SkIvxdYkB6ll2DhGiXl2gP/z8ubZmfg+R4L5Lhu4NRRC06C6caG3JRqh
-   JGld4PwOPFrKI5FI/+G1Ioc8OuAOLll+Ymu5TAsuT1C2/bM74OQnbIJqa
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="364699006"
+  bh=N8Ugpq8ZQfcZ2Z6IggLq/f9MiRzED5tHNiTzV6ZRUkw=;
+  b=Cj8OMbnEXpXvdIPhuPx5dD7ZIslAqNcGiKEO8To9gjCf0tLU/TX9CMgP
+   vYvRM3Ua8x2Rhju9v5Y6VCtBIqwxrWwnTNVynxx6cCg9oQLjwk1UwUmcy
+   nb1KJwt9MRPA+V28uFh+zF4YPt9fW/S5rOEBwXGV+AQhgMvd2fxkDwfPR
+   I18yYaH2qXrIzOVXc10tc+b2ThoA6+FGRzPm8Qd760k/38BX+0/ezNwVE
+   msIgGNyBBYbWZE7XpA5eX51eDEn62FrxVUoUdvF2v9Vb394zaPIyzjYsF
+   7Uo7xZJq5lOQq/SIHzEE/rN8nZTNkvXW/IAHlhLeiOZrAIOhK6ccfotLS
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="392856815"
 X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="364699006"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 08:00:42 -0700
+   d="scan'208";a="392856815"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 08:11:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="667558908"
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="841481447"
 X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
-   d="scan'208";a="667558908"
+   d="scan'208";a="841481447"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 29 Jun 2023 08:00:30 -0700
+  by orsmga004.jf.intel.com with ESMTP; 29 Jun 2023 08:11:30 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEt8H-000EDF-20;
-	Thu, 29 Jun 2023 15:00:29 +0000
-Date: Thu, 29 Jun 2023 23:00:01 +0800
+	id 1qEtIv-000EDZ-2k;
+	Thu, 29 Jun 2023 15:11:29 +0000
+Date: Thu, 29 Jun 2023 23:10:33 +0800
 From: kernel test robot <lkp@intel.com>
 To: Kefeng Wang <wangkefeng.wang@huawei.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -44,7 +44,7 @@ Cc: oe-kbuild-all@lists.linux.dev,
 	Christophe Leroy <christophe.leroy@csgroup.eu>,
 	Kefeng Wang <wangkefeng.wang@huawei.com>
 Subject: Re: [PATCH 2/2] mm: make show_free_areas() static
-Message-ID: <202306292240.Rj0DlHfI-lkp@intel.com>
+Message-ID: <202306292233.w0XhREe0-lkp@intel.com>
 References: <20230629104357.35455-2-wangkefeng.wang@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -66,22 +66,121 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Kefeng-Wang/mm-make-show_
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20230629104357.35455-2-wangkefeng.wang%40huawei.com
 patch subject: [PATCH 2/2] mm: make show_free_areas() static
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20230629/202306292240.Rj0DlHfI-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230629/202306292240.Rj0DlHfI-lkp@intel.com/reproduce)
+config: riscv-randconfig-r042-20230629 (https://download.01.org/0day-ci/archive/20230629/202306292233.w0XhREe0-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230629/202306292233.w0XhREe0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306292240.Rj0DlHfI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306292233.w0XhREe0-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/nommu.c: In function 'do_mmap':
->> mm/nommu.c:1239:9: error: implicit declaration of function 'show_free_areas' [-Werror=implicit-function-declaration]
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:751:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     751 |         insw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from mm/nommu.c:23:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:759:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     759 |         insl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from mm/nommu.c:23:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:768:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     768 |         outsb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from mm/nommu.c:23:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:777:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     777 |         outsw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from mm/nommu.c:23:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:786:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     786 |         outsl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from mm/nommu.c:23:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:9:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/riscv/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1134:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1134 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> mm/nommu.c:1239:2: error: call to undeclared function 'show_free_areas'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     1239 |         show_free_areas(0, NULL);
-         |         ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+         |         ^
+   13 warnings and 1 error generated.
 
 
 vim +/show_free_areas +1239 mm/nommu.c
