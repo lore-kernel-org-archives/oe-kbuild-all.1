@@ -1,42 +1,47 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0D310ED
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jun 2023 01:11:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C221380;
+	Thu, 29 Jun 2023 02:03:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688001064; x=1719537064;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nA+ut5m4/RLEvLp/jVxSS0JnpcSvDicHrRwAHhXtNFQ=;
-  b=NiJMupWctMty5Qo170lRa52MHzA/L8C2zwTDKPq9EqpL3g8bYnOmne8O
-   X9DmFwjeZ6+r6xZOKDW6zfEEx0UJ7q1umryM51zK14xX0UPPYfuH7ZTGR
-   o1+3v2yCeyJqzW3zCFl/+leeihnbWfEk0wss1D+7dHfcl2zPP/Aj+0rRw
-   r0vPPKRLySF9As8PilWDeM0dqfxbzWESbX47SPaKiW+0FV/6O/XdGzUUX
-   7eUwpIEIV/D7zqG0OYunQn34Ms1JiD5CsZJF8IrV95EU50yD4Z/kU65RB
-   CtX1pz/pgSQggbLsJpFxNXy9WMpbY221bQPnbKO65bInUqw++wqVM61vL
+  t=1688004191; x=1719540191;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MqID3aXABUv7nc8CmrZcB8I0Vz3+y578ADvOER6lS44=;
+  b=JlJ3riuJ1I25WpwwluRx2/bcM20XZ8SfPB0nxU/3rFNFTp8+BIt6eZ8+
+   PMjxwoXzesFrd+DxKrg0ga+2YAwwG6KUAoetZFRR5zlz+zyXjkqv+Oxut
+   EWouaL7/eT9BAHCS+pjexntJm0EfnF9HIQsgfn1j+X/uMwjsfcgNF2oH1
+   UmNlkE5reiAVQKk+8l/B11dPgn2dGG1k8AFan1kKfAfmlZWfaZWVF2XWL
+   p22Qsbm5zV1SpS/CoGzNqdDkP6eRm5HiPvKTz0EQjXDbnfLCH+etijwrH
+   jiXoU+C1eRsSf6xX3MU3Nv1BajX5+aCoOvuMr13cVVzL0X756nuz7KIEA
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="425667912"
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="392726378"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="425667912"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 18:11:03 -0700
+   d="scan'208";a="392726378"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 19:03:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="861731127"
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="1047611857"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="861731127"
+   d="scan'208";a="1047611857"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2023 18:11:02 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 28 Jun 2023 19:03:04 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEgBZ-000DeN-1E;
-	Thu, 29 Jun 2023 01:11:01 +0000
-Date: Thu, 29 Jun 2023 09:10:58 +0800
+	id 1qEgzv-000DgL-2I;
+	Thu, 29 Jun 2023 02:03:03 +0000
+Date: Thu, 29 Jun 2023 10:02:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Helge Deller <deller@gmx.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [deller-parisc:for-next 22/32] drivers/eisa/eisa-bus.c:436:19:
- error: conflicting types for 'eisa_init'; have 'int(void)'
-Message-ID: <202306290952.UByfBLVv-lkp@intel.com>
+To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	rafael@kernel.org, lenb@kernel.org, viresh.kumar@linaro.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Subject: Re: [PATCH] cpufreq: intel_pstate: Fix scaling for hybrid capable
+ system with disabled E-cores
+Message-ID: <202306290948.ThmHeSqf-lkp@intel.com>
+References: <20230628225341.3718351-1-srinivas.pandruvada@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,57 +50,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230628225341.3718351-1-srinivas.pandruvada@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/deller/parisc-linux.git for-next
-head:   214047a456ac7f6ea80f532dd98c81f5d555c8db
-commit: 1de0c3dc65777c7dc433217ae9060d739420ce5c [22/32] parisc: Move function declarations to header file
-config: parisc-randconfig-r013-20230628 (https://download.01.org/0day-ci/archive/20230629/202306290952.UByfBLVv-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230629/202306290952.UByfBLVv-lkp@intel.com/reproduce)
+Hi Srinivas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on linus/master v6.4 next-20230628]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Pandruvada/cpufreq-intel_pstate-Fix-scaling-for-hybrid-capable-system-with-disabled-E-cores/20230629-065506
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20230628225341.3718351-1-srinivas.pandruvada%40linux.intel.com
+patch subject: [PATCH] cpufreq: intel_pstate: Fix scaling for hybrid capable system with disabled E-cores
+config: i386-buildonly-randconfig-r004-20230628 (https://download.01.org/0day-ci/archive/20230629/202306290948.ThmHeSqf-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230629/202306290948.ThmHeSqf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306290952.UByfBLVv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306290948.ThmHeSqf-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/eisa/eisa-bus.c:436:19: error: conflicting types for 'eisa_init'; have 'int(void)'
-     436 | static int __init eisa_init(void)
-         |                   ^~~~~~~~~
-   In file included from arch/parisc/include/asm/spinlock.h:7,
-                    from arch/parisc/include/asm/atomic.h:22,
-                    from include/linux/atomic.h:7,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:22,
-                    from drivers/eisa/eisa-bus.c:8:
-   arch/parisc/include/asm/processor.h:325:13: note: previous declaration of 'eisa_init' with type 'void(void)'
-     325 | extern void eisa_init(void);
-         |             ^~~~~~~~~
+>> drivers/cpufreq/intel_pstate.c:1975:10: error: use of undeclared identifier 'HYBRID_SCALING_FACTOR'
+                   return HYBRID_SCALING_FACTOR;
+                          ^
+>> drivers/cpufreq/intel_pstate.c:1979:10: error: call to undeclared function 'core_get_scaling'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                   return core_get_scaling();
+                          ^
+   drivers/cpufreq/intel_pstate.c:1979:10: note: did you mean 'core_get_val'?
+   drivers/cpufreq/intel_pstate.c:1932:12: note: 'core_get_val' declared here
+   static u64 core_get_val(struct cpudata *cpudata, int pstate)
+              ^
+>> drivers/cpufreq/intel_pstate.c:1990:9: error: call to undeclared function 'intel_pstate_cppc_get_scaling'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+           return intel_pstate_cppc_get_scaling(cpu);
+                  ^
+>> drivers/cpufreq/intel_pstate.c:2350:17: error: use of undeclared identifier 'core_get_scaling'; did you mean 'core_get_val'?
+           .get_scaling = core_get_scaling,
+                          ^~~~~~~~~~~~~~~~
+                          core_get_val
+   drivers/cpufreq/intel_pstate.c:1932:12: note: 'core_get_val' declared here
+   static u64 core_get_val(struct cpudata *cpudata, int pstate)
+              ^
+>> drivers/cpufreq/intel_pstate.c:2350:17: error: incompatible function pointer types initializing 'int (*)(void)' with an expression of type 'u64 (struct cpudata *, int)' (aka 'unsigned long long (struct cpudata *, int)') [-Werror,-Wincompatible-function-pointer-types]
+           .get_scaling = core_get_scaling,
+                          ^~~~~~~~~~~~~~~~
+   drivers/cpufreq/intel_pstate.c:2380:17: error: use of undeclared identifier 'core_get_scaling'; did you mean 'core_get_val'?
+           .get_scaling = core_get_scaling,
+                          ^~~~~~~~~~~~~~~~
+                          core_get_val
+   drivers/cpufreq/intel_pstate.c:1932:12: note: 'core_get_val' declared here
+   static u64 core_get_val(struct cpudata *cpudata, int pstate)
+              ^
+   drivers/cpufreq/intel_pstate.c:2380:17: error: incompatible function pointer types initializing 'int (*)(void)' with an expression of type 'u64 (struct cpudata *, int)' (aka 'unsigned long long (struct cpudata *, int)') [-Werror,-Wincompatible-function-pointer-types]
+           .get_scaling = core_get_scaling,
+                          ^~~~~~~~~~~~~~~~
+   7 errors generated.
 
 
-vim +436 drivers/eisa/eisa-bus.c
+vim +/HYBRID_SCALING_FACTOR +1975 drivers/cpufreq/intel_pstate.c
 
-^1da177e4c3f41 Linus Torvalds                2005-04-16  435  
-^1da177e4c3f41 Linus Torvalds                2005-04-16 @436  static int __init eisa_init(void)
-^1da177e4c3f41 Linus Torvalds                2005-04-16  437  {
-^1da177e4c3f41 Linus Torvalds                2005-04-16  438  	int r;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  439  
-33fd797b3e2c6a Thadeu Lima de Souza Cascardo 2010-03-05  440  	r = bus_register(&eisa_bus_type);
-33fd797b3e2c6a Thadeu Lima de Souza Cascardo 2010-03-05  441  	if (r)
-^1da177e4c3f41 Linus Torvalds                2005-04-16  442  		return r;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  443  
-^1da177e4c3f41 Linus Torvalds                2005-04-16  444  	printk(KERN_INFO "EISA bus registered\n");
-^1da177e4c3f41 Linus Torvalds                2005-04-16  445  	return 0;
-^1da177e4c3f41 Linus Torvalds                2005-04-16  446  }
-^1da177e4c3f41 Linus Torvalds                2005-04-16  447  
-
-:::::: The code at line 436 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+  1967	
+  1968	static int hwp_get_cpu_scaling(int cpu)
+  1969	{
+  1970		u8 cpu_type = 0;
+  1971	
+  1972		smp_call_function_single(cpu, hybrid_get_type, &cpu_type, 1);
+  1973		/* P-cores have a smaller perf level-to-freqency scaling factor. */
+  1974		if (cpu_type == 0x40)
+> 1975			return HYBRID_SCALING_FACTOR;
+  1976	
+  1977		/* Use default core scaling for E-cores */
+  1978		if (cpu_type == 0x20)
+> 1979			return core_get_scaling();
+  1980	
+  1981		/*
+  1982		 * If reached here, it means that, this system is either non
+  1983		 * hybrid system (like Tiger Lake) or hybrid capable system (like
+  1984		 * Alder Lake or Raptor Lake) with no E cores (CPUID for hybrid
+  1985		 * support is 0).
+  1986		 * All non hybrid systems, don't publish nominal_frequency
+  1987		 * field (means nominal frequency = 0), In that case
+  1988		 * the legacy core scaling is used.
+  1989		 */
+> 1990		return intel_pstate_cppc_get_scaling(cpu);
+  1991	}
+  1992	
 
 -- 
 0-DAY CI Kernel Test Service
