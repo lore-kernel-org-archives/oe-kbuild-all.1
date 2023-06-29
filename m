@@ -1,52 +1,51 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9461FA1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jun 2023 06:53:22 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fa96fd79feso3385065e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 23:53:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688021600; x=1690613600;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uhjK6sIK66Oywf/hcY6JkHXpmd2mlEaON7WL3gqbXH4=;
-        b=D+3t7hoc/1nO9xEQOaUH4DjrV2tZRA6ANa3fEKpuly6OsUUHjgRTgovgBE1jbaBdkB
-         xSvXFcIG4RIp9fmnve4EbO3FXBHU2oHvnF+87T71qiJ1mC2CJIPNWr+Rm0itZI4+hNuk
-         i9zJpjTTWrwRYZ/QXRvMp3kx5cxTLn96djJMMbJo637w/wmDnrxiGHUmI7GRYSwrj46C
-         9FV1gtZcMYYNCxcgKYSJswguPHGENF2Ll7YnT2z/KKbxzqBO+T1sSSt0Xrs9mzsbMjF5
-         a/KsnVyaJ7gFonhdBC66rrQ3dI7PazD/xXL8oAqQtmUMzRZzmekLANYZ5EEmAWJhesLe
-         voOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688021600; x=1690613600;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uhjK6sIK66Oywf/hcY6JkHXpmd2mlEaON7WL3gqbXH4=;
-        b=dstRg0uD9R9z7SxI0EQnfoAndeGU/k0dIIt0NYrtB7tJoMG6LmXOhr8k0twcHlUo1M
-         pmuRIuBKfanxHyNVN62p8FsQnj3xY+PgHZ8vScklTV4sokjYu1gKOpSjAZEb9N6YPuRp
-         xFqrnnd4PGsCNgsxwfJotzrQqAoLouqh0OiArmKaqsm7UPcTPIibuyST3aIyktrG4nba
-         tM2SKsMOSd7FWbiBnmkGFli2jAVxV4NeBTyQTeh6IQPXlRseo6huZQACYcU/TXt83pgt
-         xCu/GQgAf8JylfqQHv4B5kHnZo68HtdHBWY7h35hHwQQH2ct4zTvT4U78n1nTLDEf+AM
-         dcFg==
-X-Gm-Message-State: AC+VfDwZ4ViEkY7veflbuexrKcvWM0rmI7lFVOBq8eFA9sr527YvM653
-	j665/EcVASB9YYW2vg+Qv6HoeA==
-X-Google-Smtp-Source: ACHHUZ5xh5DE+84LDhRuxDKNAqTYdinTroqj86PueXQ/JA1QuzF2Lz4rvH8/zpTEMfGEjqGZkXSB0w==
-X-Received: by 2002:a7b:ca5a:0:b0:3fb:afa0:9a33 with SMTP id m26-20020a7bca5a000000b003fbafa09a33mr3407620wml.15.1688021600677;
-        Wed, 28 Jun 2023 23:53:20 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id c13-20020a7bc00d000000b003f735ba7736sm15873675wmb.46.2023.06.28.23.53.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 23:53:19 -0700 (PDT)
-Date: Thu, 29 Jun 2023 09:53:16 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Eddie James <eajames@linux.ibm.com>,
-	linux-hwmon@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux@roeck-us.net, jdelvare@suse.com,
-	lakshmiy@us.ibm.com, Eddie James <eajames@linux.ibm.com>
-Subject: Re: [PATCH] hwmon: (pmbus/acbel-fsg032) Add firmware version debugfs
- attribute
-Message-ID: <b12935a2-a8b7-4d70-8c7d-6fd1e92037c2@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E7F5257;
+	Thu, 29 Jun 2023 07:23:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688023400; x=1719559400;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=74L0FNsCDZ5Sbc+RH88Wm9TjQdzKD1PxAYE2xBAuh/8=;
+  b=Ygy8FB/C50WFQjlKr55+0eEcA69A3ZhqJBWOpEmz8yGdCgvdd0Hpy+/N
+   u63O4sXkNcYXu0I7S7PxDejt0zPgHA3wyImrHWTMYphehpG3vq2QyVFCE
+   UEfEtXYVOQlI4qESb5/scPh9Hlls7uIfbWpw9jzz5hgNys56OWgEBGTKB
+   wnQXXZ93YMTe4V6mLjDIeKNNGGR0BZ92PIUJZHS6zxuXM8KwFvn22k+1x
+   BBhG19esahpAP/azZ1Mca57WZ6Br3FWSkkAo+zssyA+XsfjVvboYCPPlb
+   /Dp0g4ANAGz5xquyuJIYGpaUUzgGoUYZ78Un2wPq2CuFP0+GPOWA1fq7b
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="425714105"
+X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
+   d="scan'208";a="425714105"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 00:23:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="1047687351"
+X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
+   d="scan'208";a="1047687351"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 29 Jun 2023 00:23:15 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qElzm-000Dwj-1p;
+	Thu, 29 Jun 2023 07:23:14 +0000
+Date: Thu, 29 Jun 2023 15:22:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andreas Hindborg <nmi@metaspace.dk>, Ming Lei <ming.lei@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Hans Holmberg <Hans.Holmberg@wdc.com>,
+	Aravind Ramesh <Aravind.Ramesh@wdc.com>,
+	Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+	Christoph Hellwig <hch@infradead.org>,
+	Matias Bjorling <Matias.Bjorling@wdc.com>,
+	Andreas Hindborg <a.hindborg@samsung.com>,
+	linux-kernel@vger.kernel.org, Damien Le Moal <dlemoal@kernel.org>,
+	gost.dev@samsung.com, Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH v4 3/4] ublk: enable zoned storage support
+Message-ID: <202306291515.z7ox8OTz-lkp@intel.com>
+References: <20230628190649.11233-4-nmi@metaspace.dk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,68 +54,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230627184027.16343-1-eajames@linux.ibm.com>
+In-Reply-To: <20230628190649.11233-4-nmi@metaspace.dk>
 
-Hi Eddie,
+Hi Andreas,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 3261ea42710e9665c9151006049411bd23b5411f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eddie-James/hwmon-pmbus-acbel-fsg032-Add-firmware-version-debugfs-attribute/20230628-030615
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20230627184027.16343-1-eajames%40linux.ibm.com
-patch subject: [PATCH] hwmon: (pmbus/acbel-fsg032) Add firmware version debugfs attribute
-config: x86_64-randconfig-m001-20230627 (https://download.01.org/0day-ci/archive/20230628/202306281205.NFXmu7xb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230628/202306281205.NFXmu7xb-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Hindborg/ublk-change-ublk-IO-command-defines-to-enum/20230629-031015
+base:   3261ea42710e9665c9151006049411bd23b5411f
+patch link:    https://lore.kernel.org/r/20230628190649.11233-4-nmi%40metaspace.dk
+patch subject: [PATCH v4 3/4] ublk: enable zoned storage support
+config: i386-randconfig-i006-20230628 (https://download.01.org/0day-ci/archive/20230629/202306291515.z7ox8OTz-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230629/202306291515.z7ox8OTz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202306281205.NFXmu7xb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306291515.z7ox8OTz-lkp@intel.com/
 
-smatch warnings:
-drivers/hwmon/pmbus/acbel-fsg032.c:36 acbel_fsg032_debugfs_read() warn: argument 4 to %02X specifier has type 'char'
+All errors (new ones prefixed by >>):
 
-vim +/char +36 drivers/hwmon/pmbus/acbel-fsg032.c
-
-d2c6444389b625 Eddie James 2023-06-27  17  static ssize_t acbel_fsg032_debugfs_read(struct file *file, char __user *buf, size_t count,
-d2c6444389b625 Eddie James 2023-06-27  18  					 loff_t *ppos)
-d2c6444389b625 Eddie James 2023-06-27  19  {
-d2c6444389b625 Eddie James 2023-06-27  20  	struct i2c_client *client = file->private_data;
-d2c6444389b625 Eddie James 2023-06-27  21  	char data[I2C_SMBUS_BLOCK_MAX + 2] = { 0 };
-
-data should probably be a u8.
-
-d2c6444389b625 Eddie James 2023-06-27  22  	char out[8];
-d2c6444389b625 Eddie James 2023-06-27  23  	int rc;
-d2c6444389b625 Eddie James 2023-06-27  24  	int i;
-d2c6444389b625 Eddie James 2023-06-27  25  
-d2c6444389b625 Eddie James 2023-06-27  26  	rc = pmbus_lock_interruptible(client);
-d2c6444389b625 Eddie James 2023-06-27  27  	if (rc)
-d2c6444389b625 Eddie James 2023-06-27  28  		return rc;
-d2c6444389b625 Eddie James 2023-06-27  29  
-d2c6444389b625 Eddie James 2023-06-27  30  	rc = i2c_smbus_read_block_data(client, ACBEL_MFR_FW_REVISION, data);
-d2c6444389b625 Eddie James 2023-06-27  31  	pmbus_unlock(client);
-d2c6444389b625 Eddie James 2023-06-27  32  	if (rc < 0)
-d2c6444389b625 Eddie James 2023-06-27  33  		return rc;
-d2c6444389b625 Eddie James 2023-06-27  34  
-d2c6444389b625 Eddie James 2023-06-27  35  	for (i = 0; i < rc && i < 3; ++i)
-d2c6444389b625 Eddie James 2023-06-27 @36  		snprintf(&out[i * 2], 3, "%02X", data[i]);
-
-If data[i] is negative this will print FFFFFFF1 etc.  (This is an x86
-config...  Did we ever merge that patch to make char signed by default?)
-
-d2c6444389b625 Eddie James 2023-06-27  37  
-d2c6444389b625 Eddie James 2023-06-27  38  	rc = i * 2;
-d2c6444389b625 Eddie James 2023-06-27  39  	out[rc++] = '\n';
-d2c6444389b625 Eddie James 2023-06-27  40  	out[rc++] = 0;
-d2c6444389b625 Eddie James 2023-06-27  41  	return simple_read_from_buffer(buf, count, ppos, out, rc);
-d2c6444389b625 Eddie James 2023-06-27  42  }
+>> ld.lld: error: undefined symbol: __udivdi3
+   >>> referenced by ublk_drv-zoned.c:16 (drivers/block/ublk_drv-zoned.c:16)
+   >>>               drivers/block/ublk_drv-zoned.o:(ublk_set_nr_zones) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
