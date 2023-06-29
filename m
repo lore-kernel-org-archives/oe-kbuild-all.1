@@ -1,66 +1,52 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D310E441D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jun 2023 05:10:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688015418; x=1719551418;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6LQAu91eVGZWW31xWhtJ43lX+y8sn/3qZXLOGp6FHk0=;
-  b=Ol6ec8y/b7GISf+4fs0hT47optLW1bOD7gdI0xgRjBQ2mHGUuHSHzLMh
-   MU8zbwlokuDAWNMWkmtUsh4wNCDL807qP4IGwjw8AGP9dLcaBHZ6AUCo7
-   xWsz+ZzRLeeoTC1kpRpauiPAQgZWF8qnaa4rDjEzp8537RfKsc7g1EA5i
-   HOnVbygyjaDtTIVZ5tGJaWfrzzUzyR4YdmEnlGch98gBvze4VDrxI8coZ
-   cWYQk0Fa0FExxGnslUczYajhOewTtYZ0D8E8wPgJtSfQApxZKpmtFieFV
-   lfiauEOITSCDHuHm5YYZAVFzdJb969UOkMuMV5hl627Jyn4KHxza22gvM
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="342362851"
-X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="342362851"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 22:10:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="694496366"
-X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="694496366"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 28 Jun 2023 22:10:11 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qEjv0-000DqN-1O;
-	Thu, 29 Jun 2023 05:10:10 +0000
-Date: Thu, 29 Jun 2023 13:09:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Alexandre Courbot <acourbot@chromium.org>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Tomasz Figa <tfiga@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Irui Wang <irui.wang@mediatek.com>,
-	George Sun <george.sun@mediatek.com>,
-	Steve Cho <stevecho@chromium.org>, devicetree@vger.kernel.org,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	linux-kernel@vger.kernel.org,
-	dri-devel <dri-devel@lists.freedesktop.org>,
-	Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
-	linux-mediatek@lists.infradead.org,
-	Hsin-Yi Wang <hsinyi@chromium.org>,
-	Fritz Koenig <frkoenig@chromium.org>,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: media: mediatek: vcodec: fix AV1 decode fail for 36bit iova
-Message-ID: <202306291250.o5AmGFiC-lkp@intel.com>
-References: <20230628054111.8967-1-xiaoyong.lu@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9461FA1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jun 2023 06:53:22 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fa96fd79feso3385065e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 28 Jun 2023 23:53:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688021600; x=1690613600;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uhjK6sIK66Oywf/hcY6JkHXpmd2mlEaON7WL3gqbXH4=;
+        b=D+3t7hoc/1nO9xEQOaUH4DjrV2tZRA6ANa3fEKpuly6OsUUHjgRTgovgBE1jbaBdkB
+         xSvXFcIG4RIp9fmnve4EbO3FXBHU2oHvnF+87T71qiJ1mC2CJIPNWr+Rm0itZI4+hNuk
+         i9zJpjTTWrwRYZ/QXRvMp3kx5cxTLn96djJMMbJo637w/wmDnrxiGHUmI7GRYSwrj46C
+         9FV1gtZcMYYNCxcgKYSJswguPHGENF2Ll7YnT2z/KKbxzqBO+T1sSSt0Xrs9mzsbMjF5
+         a/KsnVyaJ7gFonhdBC66rrQ3dI7PazD/xXL8oAqQtmUMzRZzmekLANYZ5EEmAWJhesLe
+         voOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688021600; x=1690613600;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uhjK6sIK66Oywf/hcY6JkHXpmd2mlEaON7WL3gqbXH4=;
+        b=dstRg0uD9R9z7SxI0EQnfoAndeGU/k0dIIt0NYrtB7tJoMG6LmXOhr8k0twcHlUo1M
+         pmuRIuBKfanxHyNVN62p8FsQnj3xY+PgHZ8vScklTV4sokjYu1gKOpSjAZEb9N6YPuRp
+         xFqrnnd4PGsCNgsxwfJotzrQqAoLouqh0OiArmKaqsm7UPcTPIibuyST3aIyktrG4nba
+         tM2SKsMOSd7FWbiBnmkGFli2jAVxV4NeBTyQTeh6IQPXlRseo6huZQACYcU/TXt83pgt
+         xCu/GQgAf8JylfqQHv4B5kHnZo68HtdHBWY7h35hHwQQH2ct4zTvT4U78n1nTLDEf+AM
+         dcFg==
+X-Gm-Message-State: AC+VfDwZ4ViEkY7veflbuexrKcvWM0rmI7lFVOBq8eFA9sr527YvM653
+	j665/EcVASB9YYW2vg+Qv6HoeA==
+X-Google-Smtp-Source: ACHHUZ5xh5DE+84LDhRuxDKNAqTYdinTroqj86PueXQ/JA1QuzF2Lz4rvH8/zpTEMfGEjqGZkXSB0w==
+X-Received: by 2002:a7b:ca5a:0:b0:3fb:afa0:9a33 with SMTP id m26-20020a7bca5a000000b003fbafa09a33mr3407620wml.15.1688021600677;
+        Wed, 28 Jun 2023 23:53:20 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id c13-20020a7bc00d000000b003f735ba7736sm15873675wmb.46.2023.06.28.23.53.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jun 2023 23:53:19 -0700 (PDT)
+Date: Thu, 29 Jun 2023 09:53:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Eddie James <eajames@linux.ibm.com>,
+	linux-hwmon@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux@roeck-us.net, jdelvare@suse.com,
+	lakshmiy@us.ibm.com, Eddie James <eajames@linux.ibm.com>
+Subject: Re: [PATCH] hwmon: (pmbus/acbel-fsg032) Add firmware version debugfs
+ attribute
+Message-ID: <b12935a2-a8b7-4d70-8c7d-6fd1e92037c2@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,120 +55,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230628054111.8967-1-xiaoyong.lu@mediatek.com>
+In-Reply-To: <20230627184027.16343-1-eajames@linux.ibm.com>
 
-Hi Xiaoyong,
+Hi Eddie,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on next-20230627]
-[cannot apply to media-tree/master v6.4 v6.4-rc7 v6.4-rc6 linus/master v6.4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiaoyong-Lu/media-mediatek-vcodec-fix-AV1-decode-fail-for-36bit-iova/20230628-134327
-base:   next-20230627
-patch link:    https://lore.kernel.org/r/20230628054111.8967-1-xiaoyong.lu%40mediatek.com
-patch subject: media: mediatek: vcodec: fix AV1 decode fail for 36bit iova
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230629/202306291250.o5AmGFiC-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230629/202306291250.o5AmGFiC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Eddie-James/hwmon-pmbus-acbel-fsg032-Add-firmware-version-debugfs-attribute/20230628-030615
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20230627184027.16343-1-eajames%40linux.ibm.com
+patch subject: [PATCH] hwmon: (pmbus/acbel-fsg032) Add firmware version debugfs attribute
+config: x86_64-randconfig-m001-20230627 (https://download.01.org/0day-ci/archive/20230628/202306281205.NFXmu7xb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230628/202306281205.NFXmu7xb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306291250.o5AmGFiC-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202306281205.NFXmu7xb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/hwmon/pmbus/acbel-fsg032.c:36 acbel_fsg032_debugfs_read() warn: argument 4 to %02X specifier has type 'char'
 
-   drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c: In function 'vdec_av1_slice_setup_tile_buffer':
->> drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c:1676:91: warning: suggest parentheses around '+' inside '<<' [-Wparentheses]
-    1676 |                 tile_info_buf[tile_info_base + 1] = (unsigned int)(tile_buf_pa >> 4) << 4 +
-         |                                                                                         ~~^
-    1677 |                         ((unsigned int)(tile_buf_pa >> 32) & 0xf);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                          
+vim +/char +36 drivers/hwmon/pmbus/acbel-fsg032.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SM_GCC_8350
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_VIDEOCC_8350 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8450
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8550
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+d2c6444389b625 Eddie James 2023-06-27  17  static ssize_t acbel_fsg032_debugfs_read(struct file *file, char __user *buf, size_t count,
+d2c6444389b625 Eddie James 2023-06-27  18  					 loff_t *ppos)
+d2c6444389b625 Eddie James 2023-06-27  19  {
+d2c6444389b625 Eddie James 2023-06-27  20  	struct i2c_client *client = file->private_data;
+d2c6444389b625 Eddie James 2023-06-27  21  	char data[I2C_SMBUS_BLOCK_MAX + 2] = { 0 };
 
+data should probably be a u8.
 
-vim +1676 drivers/media/platform/mediatek/vcodec/vdec/vdec_av1_req_lat_if.c
+d2c6444389b625 Eddie James 2023-06-27  22  	char out[8];
+d2c6444389b625 Eddie James 2023-06-27  23  	int rc;
+d2c6444389b625 Eddie James 2023-06-27  24  	int i;
+d2c6444389b625 Eddie James 2023-06-27  25  
+d2c6444389b625 Eddie James 2023-06-27  26  	rc = pmbus_lock_interruptible(client);
+d2c6444389b625 Eddie James 2023-06-27  27  	if (rc)
+d2c6444389b625 Eddie James 2023-06-27  28  		return rc;
+d2c6444389b625 Eddie James 2023-06-27  29  
+d2c6444389b625 Eddie James 2023-06-27  30  	rc = i2c_smbus_read_block_data(client, ACBEL_MFR_FW_REVISION, data);
+d2c6444389b625 Eddie James 2023-06-27  31  	pmbus_unlock(client);
+d2c6444389b625 Eddie James 2023-06-27  32  	if (rc < 0)
+d2c6444389b625 Eddie James 2023-06-27  33  		return rc;
+d2c6444389b625 Eddie James 2023-06-27  34  
+d2c6444389b625 Eddie James 2023-06-27  35  	for (i = 0; i < rc && i < 3; ++i)
+d2c6444389b625 Eddie James 2023-06-27 @36  		snprintf(&out[i * 2], 3, "%02X", data[i]);
 
-  1649	
-  1650	static void vdec_av1_slice_setup_tile_buffer(struct vdec_av1_slice_instance *instance,
-  1651						     struct vdec_av1_slice_vsi *vsi,
-  1652						     struct mtk_vcodec_mem *bs)
-  1653	{
-  1654		struct vdec_av1_slice_tile_group *tile_group = &instance->tile_group;
-  1655		struct vdec_av1_slice_uncompressed_header *uh = &vsi->frame.uh;
-  1656		struct vdec_av1_slice_tile *tile = &uh->tile;
-  1657		u32 tile_num, tile_row, tile_col;
-  1658		u32 allow_update_cdf = 0;
-  1659		u32 sb_boundary_x_m1 = 0, sb_boundary_y_m1 = 0;
-  1660		int tile_info_base;
-  1661		u64 tile_buf_pa;
-  1662		u32 *tile_info_buf = instance->tile.va;
-  1663		u64 pa = (u64)bs->dma_addr;
-  1664	
-  1665		if (uh->disable_cdf_update == 0)
-  1666			allow_update_cdf = 1;
-  1667	
-  1668		for (tile_num = 0; tile_num < tile_group->num_tiles; tile_num++) {
-  1669			/* each uint32 takes place of 4 bytes */
-  1670			tile_info_base = (AV1_TILE_BUF_SIZE * tile_num) >> 2;
-  1671			tile_row = tile_num / tile->tile_cols;
-  1672			tile_col = tile_num % tile->tile_cols;
-  1673			tile_info_buf[tile_info_base + 0] = (tile_group->tile_size[tile_num] << 3);
-  1674			tile_buf_pa = pa + tile_group->tile_start_offset[tile_num];
-  1675	
-> 1676			tile_info_buf[tile_info_base + 1] = (unsigned int)(tile_buf_pa >> 4) << 4 +
-  1677				((unsigned int)(tile_buf_pa >> 32) & 0xf);
-  1678			tile_info_buf[tile_info_base + 2] = (tile_buf_pa % 16) << 3;
-  1679	
-  1680			sb_boundary_x_m1 =
-  1681				(tile->mi_col_starts[tile_col + 1] - tile->mi_col_starts[tile_col] - 1) &
-  1682				0x3f;
-  1683			sb_boundary_y_m1 =
-  1684				(tile->mi_row_starts[tile_row + 1] - tile->mi_row_starts[tile_row] - 1) &
-  1685				0x1ff;
-  1686	
-  1687			tile_info_buf[tile_info_base + 3] = (sb_boundary_y_m1 << 7) | sb_boundary_x_m1;
-  1688			tile_info_buf[tile_info_base + 4] = ((allow_update_cdf << 18) | (1 << 16));
-  1689	
-  1690			if (tile_num == tile->context_update_tile_id &&
-  1691			    uh->disable_frame_end_update_cdf == 0)
-  1692				tile_info_buf[tile_info_base + 4] |= (1 << 17);
-  1693	
-  1694			mtk_vcodec_debug(instance, "// tile buf %d pos(%dx%d) offset 0x%x\n",
-  1695					 tile_num, tile_row, tile_col, tile_info_base);
-  1696			mtk_vcodec_debug(instance, "// %08x %08x %08x %08x\n",
-  1697					 tile_info_buf[tile_info_base + 0],
-  1698					 tile_info_buf[tile_info_base + 1],
-  1699					 tile_info_buf[tile_info_base + 2],
-  1700					 tile_info_buf[tile_info_base + 3]);
-  1701			mtk_vcodec_debug(instance, "// %08x %08x %08x %08x\n",
-  1702					 tile_info_buf[tile_info_base + 4],
-  1703					 tile_info_buf[tile_info_base + 5],
-  1704					 tile_info_buf[tile_info_base + 6],
-  1705					 tile_info_buf[tile_info_base + 7]);
-  1706		}
-  1707	}
-  1708	
+If data[i] is negative this will print FFFFFFF1 etc.  (This is an x86
+config...  Did we ever merge that patch to make char signed by default?)
+
+d2c6444389b625 Eddie James 2023-06-27  37  
+d2c6444389b625 Eddie James 2023-06-27  38  	rc = i * 2;
+d2c6444389b625 Eddie James 2023-06-27  39  	out[rc++] = '\n';
+d2c6444389b625 Eddie James 2023-06-27  40  	out[rc++] = 0;
+d2c6444389b625 Eddie James 2023-06-27  41  	return simple_read_from_buffer(buf, count, ppos, out, rc);
+d2c6444389b625 Eddie James 2023-06-27  42  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
