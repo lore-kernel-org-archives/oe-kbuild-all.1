@@ -1,103 +1,102 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3101714284;
-	Thu, 29 Jun 2023 19:09:20 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-676f16e0bc4so725052b3a.0;
-        Thu, 29 Jun 2023 12:09:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1688065760; x=1690657760;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GHxUo6xmiZ7UJTmxLdtD1BHWN7DAFibiiT2PwkiPplg=;
-        b=dkblGDhOczYF7XZYo470P1DCjNQH8FV9XL0PGG+hD+i2tKz8Zu4X8SYjDgm27akZnK
-         1TemU5ktkZmvu/TQupvUMEPDb3gprAG6dLvr/+qi1G90lQWDNyNtp9ViUkDhSw1463xR
-         FSdamd+Bycidk0/lP24wJrPsyskplBkpWJYiPBm9zpG7ABlX54DO2BSXhI5MiJALKgLv
-         y77rPBVeRS2ArpE+D8WyEQgZz6hGkBsSLDkbXwKyAsrG4CuOsgwKNZ3UkHECXVH5UmTt
-         /yCRZpQIZ+DaHttFVVDv3GrzWLiB9zHQY43TCTg/I15K12z45V2K4ZH8bG0qjjpqzyfp
-         Zhxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688065760; x=1690657760;
-        h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
-         :content-language:user-agent:mime-version:date:message-id:sender
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GHxUo6xmiZ7UJTmxLdtD1BHWN7DAFibiiT2PwkiPplg=;
-        b=l81CwxHn2h3jOrr7IphqJb/c7Y/kER5voBX9tS1HqgFMgqbqxxkVheqqWmkZJQtLq1
-         FlzhsD9OPqddycEr0PU/yfv2y5ahkP8PXayzfU+LECWPaW+BrrAVgpEjR+flkBVbv1BS
-         fQxyzm6QTDfjZaBrpdSPi4eJX/MVm/NjMI9vDyXEyw6iEKXyoo1y6OGW+3RRa0nibole
-         HgpVGQvxUiCIUrf6udp5+dJMvd/hlgZHMpH6jkWo3jplmoxULhxZ30/t3GKjzhrjM+eZ
-         YwpZRN2S/RtYvfsbp7AAmBcNXSVTd5seVSU3Msm+c0qOMHkvXzP+6x3A//BTYF3UEaXl
-         mQtQ==
-X-Gm-Message-State: AC+VfDwdYPfS6tD3VSsLXwVQyu7h5LVekjjpTbX5J9Q6y3wGVB8FG4NS
-	Ig3bFf1pCyMtEDrGM2m0Gds=
-X-Google-Smtp-Source: ACHHUZ5ts0HuX+l+OlWWcaPzm44ZWfCrd+jBcwultPqhcIKPqEEJMAbPF34Pn5uh3O4z1VA32Ef9Cw==
-X-Received: by 2002:a05:6a20:258b:b0:124:3ad9:7455 with SMTP id k11-20020a056a20258b00b001243ad97455mr810517pzd.2.1688065760351;
-        Thu, 29 Jun 2023 12:09:20 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id j6-20020a655586000000b0054fe7736ac1sm8157228pgs.76.2023.06.29.12.09.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jun 2023 12:09:19 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <1a27469a-4cdb-8cf0-c539-05103f2e0b8f@roeck-us.net>
-Date: Thu, 29 Jun 2023 12:09:17 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B3114298;
+	Thu, 29 Jun 2023 19:29:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688066981; x=1719602981;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JeQCZ/qBvTUpg29R7lpL3Y5r6MiEliTWnefc7dGvqBI=;
+  b=laxRkE7NpG+YEXJ3NYbJI8zd+0zSAvoEJQsaA9iN4FmlKH/eFuLxmDfz
+   WBlqLKCaMNb4bBwFVMpCdVWPkE9r0liYEkFb5gU8H8SdrvwWlx4XtkuAA
+   +KQjJYLwxGYdKF6yyfCqB4jviM2+wjkOPrioHvqcTzcr2EO+QCkzJlGEw
+   ag7iv0jIHMEqk20I08dNrcLxOMb04HxVfMipVjPdf1zYcnorgwlVUPEPR
+   VyiyNQu+CNgQCzlGPBmiFNNWHr32A6U1/0Bi6Ir21+y2WrsV9G93AdHYT
+   HRKCwMUz/F8TBPY90p3H8pqrPOPn7Ac7eKrs28KVXtd1vuwl7rp+b8T4J
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="359690239"
+X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
+   d="scan'208";a="359690239"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 12:29:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="1047931244"
+X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
+   d="scan'208";a="1047931244"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 29 Jun 2023 12:29:38 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qExKj-000EM5-2L;
+	Thu, 29 Jun 2023 19:29:37 +0000
+Date: Fri, 30 Jun 2023 03:29:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [stable:linux-5.15.y 55/9999] arch/x86/kvm/hyperv.c:2185:5: warning:
+ stack frame size (1036) exceeds limit (1024) in 'kvm_hv_hypercall'
+Message-ID: <202306300342.ctG3yOfI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Eddie James <eajames@linux.ibm.com>, linux-hwmon@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, jdelvare@suse.com, lakshmiy@us.ibm.com
-References: <20230627184027.16343-1-eajames@linux.ibm.com>
- <b12935a2-a8b7-4d70-8c7d-6fd1e92037c2@kadam.mountain>
- <45a29025-4c06-4f88-b82f-a8002c25c376@kadam.mountain>
-From: Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH] hwmon: (pmbus/acbel-fsg032) Add firmware version debugfs
- attribute
-In-Reply-To: <45a29025-4c06-4f88-b82f-a8002c25c376@kadam.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 6/29/23 11:59, Dan Carpenter wrote:
-> On Thu, Jun 29, 2023 at 09:53:16AM +0300, Dan Carpenter wrote:
->> d2c6444389b625 Eddie James 2023-06-27  22  	char out[8];
->> d2c6444389b625 Eddie James 2023-06-27  23  	int rc;
->> d2c6444389b625 Eddie James 2023-06-27  24  	int i;
->> d2c6444389b625 Eddie James 2023-06-27  25
->> d2c6444389b625 Eddie James 2023-06-27  26  	rc = pmbus_lock_interruptible(client);
->> d2c6444389b625 Eddie James 2023-06-27  27  	if (rc)
->> d2c6444389b625 Eddie James 2023-06-27  28  		return rc;
->> d2c6444389b625 Eddie James 2023-06-27  29
->> d2c6444389b625 Eddie James 2023-06-27  30  	rc = i2c_smbus_read_block_data(client, ACBEL_MFR_FW_REVISION, data);
->> d2c6444389b625 Eddie James 2023-06-27  31  	pmbus_unlock(client);
->> d2c6444389b625 Eddie James 2023-06-27  32  	if (rc < 0)
->> d2c6444389b625 Eddie James 2023-06-27  33  		return rc;
->> d2c6444389b625 Eddie James 2023-06-27  34
->> d2c6444389b625 Eddie James 2023-06-27  35  	for (i = 0; i < rc && i < 3; ++i)
->> d2c6444389b625 Eddie James 2023-06-27 @36  		snprintf(&out[i * 2], 3, "%02X", data[i]);
->>
->> If data[i] is negative this will print FFFFFFF1 etc.  (This is an x86
->> config...  Did we ever merge that patch to make char signed by default?)
-> 
-> I meant unsigned not signed.  But actually we debated both ways...
-> Signed by default would annoy PowerPC devs since they try to really
-> lean into the fact that char is unsigned on that arch.  :P
-> 
-> https://lwn.net/Articles/911914/
-> 
+Hi Vitaly,
 
-As if anything would be easy nowadays ;-). Anyway, in this case, the array
-should be explicitly unsigned, so changing the type to u8 was the right
-thing to do. Also, the driver should be usable on non-Intel systems,
-which is another reason to make the type sign-specific (even more so in
-the context of the above discussion).
+FYI, the error/warning still remains.
 
-Thanks,
-Guenter
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+head:   4af60700a60cc45ee4fb6d579cccf1b7bca20c34
+commit: cb188e07105f2216f5efbefac95df4b6ce266906 [55/9999] KVM: x86: hyper-v: HVCALL_SEND_IPI_EX is an XMM fast hypercall
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20230630/202306300342.ctG3yOfI-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300342.ctG3yOfI-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306300342.ctG3yOfI-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/x86/kvm/hyperv.c:2185:5: warning: stack frame size (1036) exceeds limit (1024) in 'kvm_hv_hypercall' [-Wframe-larger-than]
+   int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
+       ^
+   1 warning generated.
+
+
+vim +/kvm_hv_hypercall +2185 arch/x86/kvm/hyperv.c
+
+4ad81a91119df7 Vitaly Kuznetsov         2021-05-21  2184  
+e83d58874ba1de Andrey Smetanin          2015-07-03 @2185  int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
+e83d58874ba1de Andrey Smetanin          2015-07-03  2186  {
+4e62aa96d6e55c Vitaly Kuznetsov         2021-07-30  2187  	struct kvm_vcpu_hv *hv_vcpu = to_hv_vcpu(vcpu);
+bd38b32053eb1c Siddharth Chandrasekaran 2021-05-26  2188  	struct kvm_hv_hcall hc;
+bd38b32053eb1c Siddharth Chandrasekaran 2021-05-26  2189  	u64 ret = HV_STATUS_SUCCESS;
+e83d58874ba1de Andrey Smetanin          2015-07-03  2190  
+e83d58874ba1de Andrey Smetanin          2015-07-03  2191  	/*
+e83d58874ba1de Andrey Smetanin          2015-07-03  2192  	 * hypercall generates UD from non zero cpl and real mode
+e83d58874ba1de Andrey Smetanin          2015-07-03  2193  	 * per HYPER-V spec
+e83d58874ba1de Andrey Smetanin          2015-07-03  2194  	 */
+b3646477d458fb Jason Baron              2021-01-14  2195  	if (static_call(kvm_x86_get_cpl)(vcpu) != 0 || !is_protmode(vcpu)) {
+e83d58874ba1de Andrey Smetanin          2015-07-03  2196  		kvm_queue_exception(vcpu, UD_VECTOR);
+0d9c055eaaf41b Andrey Smetanin          2016-02-11  2197  		return 1;
+e83d58874ba1de Andrey Smetanin          2015-07-03  2198  	}
+e83d58874ba1de Andrey Smetanin          2015-07-03  2199  
+
+:::::: The code at line 2185 was first introduced by commit
+:::::: e83d58874ba1de74c13d3c6b05f95a023c860d25 kvm/x86: move Hyper-V MSR's/hypercall code into hyperv.c file
+
+:::::: TO: Andrey Smetanin <asmetanin@virtuozzo.com>
+:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
