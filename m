@@ -1,47 +1,50 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C221380;
-	Thu, 29 Jun 2023 02:03:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD5F15B4;
+	Thu, 29 Jun 2023 02:45:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688004191; x=1719540191;
+  t=1688006713; x=1719542713;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MqID3aXABUv7nc8CmrZcB8I0Vz3+y578ADvOER6lS44=;
-  b=JlJ3riuJ1I25WpwwluRx2/bcM20XZ8SfPB0nxU/3rFNFTp8+BIt6eZ8+
-   PMjxwoXzesFrd+DxKrg0ga+2YAwwG6KUAoetZFRR5zlz+zyXjkqv+Oxut
-   EWouaL7/eT9BAHCS+pjexntJm0EfnF9HIQsgfn1j+X/uMwjsfcgNF2oH1
-   UmNlkE5reiAVQKk+8l/B11dPgn2dGG1k8AFan1kKfAfmlZWfaZWVF2XWL
-   p22Qsbm5zV1SpS/CoGzNqdDkP6eRm5HiPvKTz0EQjXDbnfLCH+etijwrH
-   jiXoU+C1eRsSf6xX3MU3Nv1BajX5+aCoOvuMr13cVVzL0X756nuz7KIEA
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="392726378"
+  bh=Sz3uHkV84E6YZD5QJn6+OgayMM+VzvSDNs3af7bLUJo=;
+  b=n/QyZYeF7QPy6YQjPqqfu//KHarjjD+h9M/TYFR8O9m4KyIFGSkK+Y7u
+   9Iy4hF8qfdTvs22cN4KhoPwu9grbSGAC3kLDq8kaHkYm1z+zPFBCGrF+a
+   pKpaU7MhbURR/waZ0egWt3Fcqlr8CM9hv39CLC8LKOpBmWHSFdTezv7sT
+   1ObyT6tEqCmznzT59PDeOJ1Eki5Vz9J0qzJ1qqNo7msyAVavJ+93Ok/HS
+   vP7mqBjN4QdK+S2HSBTe7T4ASz7VQUBkjUjLH7usigqieX7iykKP6EDuy
+   5ZbJSRi5yiM1yfNhVqKgIPUVG6UDBmI8LrHAVNI5iUWDNg7L6O5AmbsTd
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="351806334"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="392726378"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 19:03:07 -0700
+   d="scan'208";a="351806334"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2023 19:45:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="1047611857"
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="787232211"
 X-IronPort-AV: E=Sophos;i="6.01,167,1684825200"; 
-   d="scan'208";a="1047611857"
+   d="scan'208";a="787232211"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 28 Jun 2023 19:03:04 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 28 Jun 2023 19:45:06 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qEgzv-000DgL-2I;
-	Thu, 29 Jun 2023 02:03:03 +0000
-Date: Thu, 29 Jun 2023 10:02:46 +0800
+	id 1qEheb-000DiD-03;
+	Thu, 29 Jun 2023 02:45:05 +0000
+Date: Thu, 29 Jun 2023 10:44:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	rafael@kernel.org, lenb@kernel.org, viresh.kumar@linaro.org
+To: Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
+	Chris Mason <chris.mason@fusionio.com>,
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Jaegeuk Kim <jaegeuk@kernel.org>, kernel-team@meta.com,
+	linux-btrfs@vger.kernel.org, linux-fscrypt@vger.kernel.org
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
-Subject: Re: [PATCH] cpufreq: intel_pstate: Fix scaling for hybrid capable
- system with disabled E-cores
-Message-ID: <202306290948.ThmHeSqf-lkp@intel.com>
-References: <20230628225341.3718351-1-srinivas.pandruvada@linux.intel.com>
+	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>
+Subject: Re: [PATCH v4 3/8] fscrypt: split setup_per_mode_enc_key()
+Message-ID: <202306291013.yc7R9Rb7-lkp@intel.com>
+References: <0ba2cb228aa367aea1442b8f1433f229040fe8dd.1687988119.git.sweettea-kernel@dorminy.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,97 +53,176 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230628225341.3718351-1-srinivas.pandruvada@linux.intel.com>
+In-Reply-To: <0ba2cb228aa367aea1442b8f1433f229040fe8dd.1687988119.git.sweettea-kernel@dorminy.me>
 
-Hi Srinivas,
+Hi Sweet,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on linus/master v6.4 next-20230628]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 00bc86ea26ac88043f48916c273afc9fbb40c73f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Srinivas-Pandruvada/cpufreq-intel_pstate-Fix-scaling-for-hybrid-capable-system-with-disabled-E-cores/20230629-065506
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20230628225341.3718351-1-srinivas.pandruvada%40linux.intel.com
-patch subject: [PATCH] cpufreq: intel_pstate: Fix scaling for hybrid capable system with disabled E-cores
-config: i386-buildonly-randconfig-r004-20230628 (https://download.01.org/0day-ci/archive/20230629/202306290948.ThmHeSqf-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sweet-Tea-Dorminy/fscrypt-move-inline-crypt-decision-to-info-setup/20230629-083929
+base:   00bc86ea26ac88043f48916c273afc9fbb40c73f
+patch link:    https://lore.kernel.org/r/0ba2cb228aa367aea1442b8f1433f229040fe8dd.1687988119.git.sweettea-kernel%40dorminy.me
+patch subject: [PATCH v4 3/8] fscrypt: split setup_per_mode_enc_key()
+config: um-randconfig-r014-20230628 (https://download.01.org/0day-ci/archive/20230629/202306291013.yc7R9Rb7-lkp@intel.com/config)
 compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230629/202306290948.ThmHeSqf-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230629/202306291013.yc7R9Rb7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306290948.ThmHeSqf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306291013.yc7R9Rb7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/cpufreq/intel_pstate.c:1975:10: error: use of undeclared identifier 'HYBRID_SCALING_FACTOR'
-                   return HYBRID_SCALING_FACTOR;
-                          ^
->> drivers/cpufreq/intel_pstate.c:1979:10: error: call to undeclared function 'core_get_scaling'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   return core_get_scaling();
-                          ^
-   drivers/cpufreq/intel_pstate.c:1979:10: note: did you mean 'core_get_val'?
-   drivers/cpufreq/intel_pstate.c:1932:12: note: 'core_get_val' declared here
-   static u64 core_get_val(struct cpudata *cpudata, int pstate)
-              ^
->> drivers/cpufreq/intel_pstate.c:1990:9: error: call to undeclared function 'intel_pstate_cppc_get_scaling'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           return intel_pstate_cppc_get_scaling(cpu);
+   In file included from fs/crypto/keysetup.c:14:
+   In file included from fs/crypto/fscrypt_private.h:17:
+   In file included from include/linux/blk-crypto.h:72:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from fs/crypto/keysetup.c:14:
+   In file included from fs/crypto/fscrypt_private.h:17:
+   In file included from include/linux/blk-crypto.h:72:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from fs/crypto/keysetup.c:14:
+   In file included from fs/crypto/fscrypt_private.h:17:
+   In file included from include/linux/blk-crypto.h:72:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> fs/crypto/keysetup.c:203:2: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+           if (fscrypt_is_key_prepared(prep_key, ci))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:55:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:57:30: note: expanded from macro '__trace_if_var'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/crypto/keysetup.c:225:9: note: uninitialized use occurs here
+           return err;
+                  ^~~
+   fs/crypto/keysetup.c:203:2: note: remove the 'if' if its condition is always false
+           if (fscrypt_is_key_prepared(prep_key, ci))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:55:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/crypto/keysetup.c:199:9: note: initialize the variable 'err' to silence this warning
+           int err;
                   ^
->> drivers/cpufreq/intel_pstate.c:2350:17: error: use of undeclared identifier 'core_get_scaling'; did you mean 'core_get_val'?
-           .get_scaling = core_get_scaling,
-                          ^~~~~~~~~~~~~~~~
-                          core_get_val
-   drivers/cpufreq/intel_pstate.c:1932:12: note: 'core_get_val' declared here
-   static u64 core_get_val(struct cpudata *cpudata, int pstate)
-              ^
->> drivers/cpufreq/intel_pstate.c:2350:17: error: incompatible function pointer types initializing 'int (*)(void)' with an expression of type 'u64 (struct cpudata *, int)' (aka 'unsigned long long (struct cpudata *, int)') [-Werror,-Wincompatible-function-pointer-types]
-           .get_scaling = core_get_scaling,
-                          ^~~~~~~~~~~~~~~~
-   drivers/cpufreq/intel_pstate.c:2380:17: error: use of undeclared identifier 'core_get_scaling'; did you mean 'core_get_val'?
-           .get_scaling = core_get_scaling,
-                          ^~~~~~~~~~~~~~~~
-                          core_get_val
-   drivers/cpufreq/intel_pstate.c:1932:12: note: 'core_get_val' declared here
-   static u64 core_get_val(struct cpudata *cpudata, int pstate)
-              ^
-   drivers/cpufreq/intel_pstate.c:2380:17: error: incompatible function pointer types initializing 'int (*)(void)' with an expression of type 'u64 (struct cpudata *, int)' (aka 'unsigned long long (struct cpudata *, int)') [-Werror,-Wincompatible-function-pointer-types]
-           .get_scaling = core_get_scaling,
-                          ^~~~~~~~~~~~~~~~
-   7 errors generated.
+                   = 0
+   13 warnings generated.
 
 
-vim +/HYBRID_SCALING_FACTOR +1975 drivers/cpufreq/intel_pstate.c
+vim +203 fs/crypto/keysetup.c
 
-  1967	
-  1968	static int hwp_get_cpu_scaling(int cpu)
-  1969	{
-  1970		u8 cpu_type = 0;
-  1971	
-  1972		smp_call_function_single(cpu, hybrid_get_type, &cpu_type, 1);
-  1973		/* P-cores have a smaller perf level-to-freqency scaling factor. */
-  1974		if (cpu_type == 0x40)
-> 1975			return HYBRID_SCALING_FACTOR;
-  1976	
-  1977		/* Use default core scaling for E-cores */
-  1978		if (cpu_type == 0x20)
-> 1979			return core_get_scaling();
-  1980	
-  1981		/*
-  1982		 * If reached here, it means that, this system is either non
-  1983		 * hybrid system (like Tiger Lake) or hybrid capable system (like
-  1984		 * Alder Lake or Raptor Lake) with no E cores (CPUID for hybrid
-  1985		 * support is 0).
-  1986		 * All non hybrid systems, don't publish nominal_frequency
-  1987		 * field (means nominal frequency = 0), In that case
-  1988		 * the legacy core scaling is used.
-  1989		 */
-> 1990		return intel_pstate_cppc_get_scaling(cpu);
-  1991	}
-  1992	
+8094c3ceb21ad93 fs/crypto/keyinfo.c  Eric Biggers      2019-01-06  186  
+7b4d2231643f5a9 fs/crypto/keysetup.c Sweet Tea Dorminy 2023-06-28  187  static int setup_new_mode_prepared_key(struct fscrypt_master_key *mk,
+7b4d2231643f5a9 fs/crypto/keysetup.c Sweet Tea Dorminy 2023-06-28  188  				       struct fscrypt_prepared_key *prep_key,
+7b4d2231643f5a9 fs/crypto/keysetup.c Sweet Tea Dorminy 2023-06-28  189  				       const struct fscrypt_info *ci,
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  190  				       u8 hkdf_context, bool include_fs_uuid)
+5dae460c2292dbb fs/crypto/keysetup.c Eric Biggers      2019-08-04  191  {
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  192  	const struct inode *inode = ci->ci_inode;
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  193  	const struct super_block *sb = inode->i_sb;
+5dae460c2292dbb fs/crypto/keysetup.c Eric Biggers      2019-08-04  194  	struct fscrypt_mode *mode = ci->ci_mode;
+85af90e57ce9697 fs/crypto/keysetup.c Eric Biggers      2019-12-09  195  	const u8 mode_num = mode - fscrypt_modes;
+5dae460c2292dbb fs/crypto/keysetup.c Eric Biggers      2019-08-04  196  	u8 mode_key[FSCRYPT_MAX_KEY_SIZE];
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  197  	u8 hkdf_info[sizeof(mode_num) + sizeof(sb->s_uuid)];
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  198  	unsigned int hkdf_infolen = 0;
+5dae460c2292dbb fs/crypto/keysetup.c Eric Biggers      2019-08-04  199  	int err;
+5dae460c2292dbb fs/crypto/keysetup.c Eric Biggers      2019-08-04  200  
+e3b1078bedd323d fs/crypto/keysetup.c Eric Biggers      2020-05-15  201  	mutex_lock(&fscrypt_mode_key_setup_mutex);
+e3b1078bedd323d fs/crypto/keysetup.c Eric Biggers      2020-05-15  202  
+5fee36095cda45d fs/crypto/keysetup.c Satya Tangirala   2020-07-02 @203  	if (fscrypt_is_key_prepared(prep_key, ci))
+7b4d2231643f5a9 fs/crypto/keysetup.c Sweet Tea Dorminy 2023-06-28  204  		goto out_unlock;
+5dae460c2292dbb fs/crypto/keysetup.c Eric Biggers      2019-08-04  205  
+5dae460c2292dbb fs/crypto/keysetup.c Eric Biggers      2019-08-04  206  	BUILD_BUG_ON(sizeof(mode_num) != 1);
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  207  	BUILD_BUG_ON(sizeof(sb->s_uuid) != 16);
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  208  	BUILD_BUG_ON(sizeof(hkdf_info) != 17);
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  209  	hkdf_info[hkdf_infolen++] = mode_num;
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  210  	if (include_fs_uuid) {
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  211  		memcpy(&hkdf_info[hkdf_infolen], &sb->s_uuid,
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  212  		       sizeof(sb->s_uuid));
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  213  		hkdf_infolen += sizeof(sb->s_uuid);
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  214  	}
+5dae460c2292dbb fs/crypto/keysetup.c Eric Biggers      2019-08-04  215  	err = fscrypt_hkdf_expand(&mk->mk_secret.hkdf,
+b103fb7653fff09 fs/crypto/keysetup.c Eric Biggers      2019-10-24  216  				  hkdf_context, hkdf_info, hkdf_infolen,
+5dae460c2292dbb fs/crypto/keysetup.c Eric Biggers      2019-08-04  217  				  mode_key, mode->keysize);
+5dae460c2292dbb fs/crypto/keysetup.c Eric Biggers      2019-08-04  218  	if (err)
+e3b1078bedd323d fs/crypto/keysetup.c Eric Biggers      2020-05-15  219  		goto out_unlock;
+5fee36095cda45d fs/crypto/keysetup.c Satya Tangirala   2020-07-02  220  	err = fscrypt_prepare_key(prep_key, mode_key, ci);
+5dae460c2292dbb fs/crypto/keysetup.c Eric Biggers      2019-08-04  221  	memzero_explicit(mode_key, mode->keysize);
+7b4d2231643f5a9 fs/crypto/keysetup.c Sweet Tea Dorminy 2023-06-28  222  
+e3b1078bedd323d fs/crypto/keysetup.c Eric Biggers      2020-05-15  223  out_unlock:
+e3b1078bedd323d fs/crypto/keysetup.c Eric Biggers      2020-05-15  224  	mutex_unlock(&fscrypt_mode_key_setup_mutex);
+e3b1078bedd323d fs/crypto/keysetup.c Eric Biggers      2020-05-15  225  	return err;
+5dae460c2292dbb fs/crypto/keysetup.c Eric Biggers      2019-08-04  226  }
+5dae460c2292dbb fs/crypto/keysetup.c Eric Biggers      2019-08-04  227  
 
 -- 
 0-DAY CI Kernel Test Service
