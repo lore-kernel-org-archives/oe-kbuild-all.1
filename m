@@ -1,60 +1,43 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803428489
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jun 2023 23:08:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8962210784;
+	Thu, 29 Jun 2023 23:28:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688080088; x=1719616088;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iznXYZ4xH3Nv8gWM89HiaGceomxOh3Ta2hE5jZaVkOM=;
-  b=hf7R9BmpUHb+H+KPeikLPY/F62jOVX+vZ2xUi4+cFoSMP3goXwN4sSm2
-   aphqsQE1NiP8vsP15kkpfIUNX/iXiT86U73biMPyopXHsqRoCcIoo16Dx
-   2qHRGo9G5QbxQxWAPKQQGz7EWJjuZrw8WvS6D02NfDmyRvkhk9ewuF8Cm
-   6SNKwaZ9qmzA8TXwn1nMoj5qLZO1Ro0P6NW5/1Gv29cy3oKug/eAPsHKd
-   UnEzk/N1WXQzu/b5gsDbPZh1vBMYeP+MM/eGwePrbcr/fULZznmVvz0Nz
-   QVvsP945RMWs3vqxPRzCWx5fwzSgi/vHIoizYl/s8mqbccP+MVDnk9Kqk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="352077267"
+  t=1688081284; x=1719617284;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tejttgQ4EyBz9Bxvk+OL8J2809bCqrZ4OrLeqzrRDt8=;
+  b=YIsMUe+9z4MqH92EgM2i886hs8Nf75kiFhWkRZejXQ1bQyVD61hBPTtT
+   RqGg29lvZiqewgeFUXVftXass8JUTXiHD7BlrCq/otvg4lz/xcrPYkaop
+   icKyuQlmOvzjWmFTu4UGL7YLzAbjGl94kn7dvy1aZDZveh3O/0rwZKAdP
+   DRg8PIVlqK3yG1nKfuVHsfh4HKWZW9pP09J/TQ6MoWqK8BzgrGDOUafOY
+   /S0NPrbRQATF2mM0tLDYNmefZ3hNvW3YUjV3zOfGEbGOqoIeBD/rXogEE
+   5H3HVT3+xN9zHxqgA6d1Tg6bK5v0JiCe+QmMOUXVMoAZyzbybHLCgMEtE
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="352081498"
 X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="352077267"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 16:08:07 -0700
+   d="scan'208";a="352081498"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 16:28:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="807531156"
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="717594220"
 X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="807531156"
+   d="scan'208";a="717594220"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 29 Jun 2023 16:08:02 -0700
+  by orsmga002.jf.intel.com with ESMTP; 29 Jun 2023 16:28:02 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qF0k5-000ETx-1u;
-	Thu, 29 Jun 2023 23:08:01 +0000
-Date: Fri, 30 Jun 2023 07:07:19 +0800
+	id 1qF13R-000EUb-34;
+	Thu, 29 Jun 2023 23:28:01 +0000
+Date: Fri, 30 Jun 2023 07:27:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Rob Clark <robdclark@gmail.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Sean Paul <sean@poorly.run>, David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Krishna Manikandan <quic_mkrishn@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/4] regulator: Introduce Qualcomm REFGEN regulator
- driver
-Message-ID: <202306300643.LHN1fbOT-lkp@intel.com>
-References: <20230628-topic-refgen-v2-2-6136487c78c5@linaro.org>
+To: Roberto Sassu <roberto.sassu@huawei.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [robertosassu:ima-evm-lsms-v2-devel-v5 29/31]
+ security/integrity/evm/evm_main.c:928:5: warning: no previous prototype for
+ function 'evm_inode_init_security'
+Message-ID: <202306300758.36V96Hbv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,138 +46,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230628-topic-refgen-v2-2-6136487c78c5@linaro.org>
 
-Hi Konrad,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 5c875096d59010cee4e00da1f9c7bdb07a025dc2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Konrad-Dybcio/dt-bindings-regulator-Describe-Qualcomm-REFGEN-regulator/20230630-043835
-base:   5c875096d59010cee4e00da1f9c7bdb07a025dc2
-patch link:    https://lore.kernel.org/r/20230628-topic-refgen-v2-2-6136487c78c5%40linaro.org
-patch subject: [PATCH v2 2/4] regulator: Introduce Qualcomm REFGEN regulator driver
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230630/202306300643.LHN1fbOT-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300643.LHN1fbOT-lkp@intel.com/reproduce)
+tree:   https://github.com/robertosassu/linux ima-evm-lsms-v2-devel-v5
+head:   bfb2bf0637de1448be0ddf96352a705a2f9140ac
+commit: f09f34b28a814ba2d9819e3b50dfac00c06d9020 [29/31] evm: Move to LSM infrastructure
+config: x86_64-randconfig-x004-20230629 (https://download.01.org/0day-ci/archive/20230630/202306300758.36V96Hbv-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300758.36V96Hbv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306300643.LHN1fbOT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306300758.36V96Hbv-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/cio/ccwgroup.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/cio/vfio_ccw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dasd_diag_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dasd_eckd_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dasd_fba_mod.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/block/dcssblk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/raw3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/con3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/char/fs3270.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/s390/net/lcs.o
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/fsl-edma.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/dma/idma64.ko] undefined!
->> ERROR: modpost: "devm_platform_ioremap_resource" [drivers/regulator/qcom-refgen-regulator.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/tty/ipwireless/ipwireless.ko] undefined!
-ERROR: modpost: "devm_platform_ioremap_resource" [drivers/char/xillybus/xillybus_of.ko] undefined!
-ERROR: modpost: "devm_memremap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "devm_memunmap" [drivers/misc/open-dice.ko] undefined!
-ERROR: modpost: "iounmap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-ERROR: modpost: "ioremap" [drivers/net/ethernet/8390/pcnet_cs.ko] undefined!
-WARNING: modpost: suppressed 13 unresolved symbol warnings because there were too many)
+>> security/integrity/evm/evm_main.c:928:5: warning: no previous prototype for function 'evm_inode_init_security' [-Wmissing-prototypes]
+   int evm_inode_init_security(struct inode *inode, struct inode *dir,
+       ^
+   security/integrity/evm/evm_main.c:928:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   int evm_inode_init_security(struct inode *inode, struct inode *dir,
+   ^
+   static 
+   1 warning generated.
+
+
+vim +/evm_inode_init_security +928 security/integrity/evm/evm_main.c
+
+66dbc325afcef9 Mimi Zohar            2011-03-15  924  
+cb72318069d5e9 Mimi Zohar            2011-03-09  925  /*
+9eea2904292c2d Roberto Sassu         2021-05-14  926   * evm_inode_init_security - initializes security.evm HMAC value
+cb72318069d5e9 Mimi Zohar            2011-03-09  927   */
+f48c517832579b Roberto Sassu         2023-05-23 @928  int evm_inode_init_security(struct inode *inode, struct inode *dir,
+f48c517832579b Roberto Sassu         2023-05-23  929  			    const struct qstr *qstr, struct xattr *xattrs,
+f48c517832579b Roberto Sassu         2023-05-23  930  			    int *xattr_count)
+cb72318069d5e9 Mimi Zohar            2011-03-09  931  {
+650b29dbdf2caf Thiago Jung Bauermann 2019-06-11  932  	struct evm_xattr *xattr_data;
+36218195f215df Roberto Sassu         2023-03-31  933  	struct xattr *xattr, *evm_xattr;
+36218195f215df Roberto Sassu         2023-03-31  934  	bool evm_protected_xattrs = false;
+cb72318069d5e9 Mimi Zohar            2011-03-09  935  	int rc;
+cb72318069d5e9 Mimi Zohar            2011-03-09  936  
+36218195f215df Roberto Sassu         2023-03-31  937  	if (!(evm_initialized & EVM_INIT_HMAC) || !xattrs)
+36218195f215df Roberto Sassu         2023-03-31  938  		return 0;
+36218195f215df Roberto Sassu         2023-03-31  939  
+36218195f215df Roberto Sassu         2023-03-31  940  	/*
+36218195f215df Roberto Sassu         2023-03-31  941  	 * security_inode_init_security() makes sure that the xattrs array is
+36218195f215df Roberto Sassu         2023-03-31  942  	 * contiguous, there is enough space for security.evm, and that there is
+36218195f215df Roberto Sassu         2023-03-31  943  	 * a terminator at the end of the array.
+36218195f215df Roberto Sassu         2023-03-31  944  	 */
+36218195f215df Roberto Sassu         2023-03-31  945  	for (xattr = xattrs; xattr->name; xattr++) {
+36218195f215df Roberto Sassu         2023-03-31  946  		if (evm_protected_xattr(xattr->name))
+36218195f215df Roberto Sassu         2023-03-31  947  			evm_protected_xattrs = true;
+36218195f215df Roberto Sassu         2023-03-31  948  	}
+36218195f215df Roberto Sassu         2023-03-31  949  
+36218195f215df Roberto Sassu         2023-03-31  950  	/* EVM xattr not needed. */
+36218195f215df Roberto Sassu         2023-03-31  951  	if (!evm_protected_xattrs)
+5a4730ba9517cf Mimi Zohar            2011-08-11  952  		return 0;
+cb72318069d5e9 Mimi Zohar            2011-03-09  953  
+f48c517832579b Roberto Sassu         2023-05-23  954  	evm_xattr = lsm_get_xattr_slot(xattrs, xattr_count);
+36218195f215df Roberto Sassu         2023-03-31  955  	/*
+36218195f215df Roberto Sassu         2023-03-31  956  	 * Array terminator (xattr name = NULL) must be the first non-filled
+36218195f215df Roberto Sassu         2023-03-31  957  	 * xattr slot.
+36218195f215df Roberto Sassu         2023-03-31  958  	 */
+36218195f215df Roberto Sassu         2023-03-31  959  	WARN_ONCE(evm_xattr != xattr,
+36218195f215df Roberto Sassu         2023-03-31  960  		  "%s: xattrs terminator is not the first non-filled slot\n",
+36218195f215df Roberto Sassu         2023-03-31  961  		  __func__);
+f48c517832579b Roberto Sassu         2023-05-23  962  
+cb72318069d5e9 Mimi Zohar            2011-03-09  963  	xattr_data = kzalloc(sizeof(*xattr_data), GFP_NOFS);
+cb72318069d5e9 Mimi Zohar            2011-03-09  964  	if (!xattr_data)
+cb72318069d5e9 Mimi Zohar            2011-03-09  965  		return -ENOMEM;
+cb72318069d5e9 Mimi Zohar            2011-03-09  966  
+650b29dbdf2caf Thiago Jung Bauermann 2019-06-11  967  	xattr_data->data.type = EVM_XATTR_HMAC;
+f48c517832579b Roberto Sassu         2023-05-23  968  	rc = evm_init_hmac(inode, xattrs, xattr_data->digest);
+cb72318069d5e9 Mimi Zohar            2011-03-09  969  	if (rc < 0)
+cb72318069d5e9 Mimi Zohar            2011-03-09  970  		goto out;
+cb72318069d5e9 Mimi Zohar            2011-03-09  971  
+cb72318069d5e9 Mimi Zohar            2011-03-09  972  	evm_xattr->value = xattr_data;
+cb72318069d5e9 Mimi Zohar            2011-03-09  973  	evm_xattr->value_len = sizeof(*xattr_data);
+9548906b2bb7ff Tetsuo Handa          2013-07-25  974  	evm_xattr->name = XATTR_EVM_SUFFIX;
+cb72318069d5e9 Mimi Zohar            2011-03-09  975  	return 0;
+cb72318069d5e9 Mimi Zohar            2011-03-09  976  out:
+cb72318069d5e9 Mimi Zohar            2011-03-09  977  	kfree(xattr_data);
+cb72318069d5e9 Mimi Zohar            2011-03-09  978  	return rc;
+cb72318069d5e9 Mimi Zohar            2011-03-09  979  }
+cb72318069d5e9 Mimi Zohar            2011-03-09  980  EXPORT_SYMBOL_GPL(evm_inode_init_security);
+cb72318069d5e9 Mimi Zohar            2011-03-09  981  
+
+:::::: The code at line 928 was first introduced by commit
+:::::: f48c517832579b520e79af7f9194fd5538f23d98 evm: Align evm_inode_init_security() definition with LSM infrastructure
+
+:::::: TO: Roberto Sassu <roberto.sassu@huawei.com>
+:::::: CC: Roberto Sassu <roberto.sassu@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
