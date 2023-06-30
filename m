@@ -1,43 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C96B15B1;
-	Fri, 30 Jun 2023 01:32:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AD615AE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jun 2023 01:54:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688088748; x=1719624748;
+  t=1688090049; x=1719626049;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h9HZr9GwNFKiQJp2x66B2V3zcIUKtMbHsDkn/k2HVJE=;
-  b=k+I9OoCnFZPxsqXN8+geYoT88SE0Dy177u+cvtV+995lxKjesTp1WK4a
-   E3gf0g0/y1Pe4e0j32IlgOcKAg5V9XS9VG/ohA42A9jaU16mu0zfozXOE
-   i5jgUs2GgoAMtp+fbSaj+GNcQ3+6E/IOJ/LRhDLiFGD0EQ6EdVtdTMeQO
-   I+VwWhOCwCGngdROkxDzdUUhGYTGPl5ibYe/1Rwg88k7EU6OTgIQKybla
-   tvhvsC+JTYXZRCIu05dK560cCHaf6B/5u2pSwylp/JQtnefoLhDchbgsi
-   txV/GP066aOAef2AZHGiglpBc1GfvB+cc0rAkNfDWe2OCiYwVyo9iLxIe
+  bh=4CjDXEvWphUKde8TWNaNOBKeVNNLYRe7b811KSDuPpE=;
+  b=XrAvB+YYU3yqC5J3bDdc+EzjK3GKVDgTob4Ro/JSoT8VtpGMMxCbvByU
+   rk36Bbjvzfs9MN5I8Fa8uLjEYqCny0UBBLzZTdjjPyjdDYyMYLFOp8zbl
+   Lt+TvDwZglwiwMIoZXjmdqmwELF9KMvryh4pwPr2Cn4hwJi9J1LVDJa2K
+   bILB9pInVNPjTf3c8bPNuiA2KMYVb0VsYfnqYYdtVna+fbr6kYJVK5Ksc
+   yTK5I0C4miFlYafmZOOvSeDBpcI9qT6Uzz9kuSUn8fpgRJ9OtXB3Ecym3
+   lIPeyym7uFhNR3DpdCOw16sClUvoUA9xYDQIv01MfdhJgsOOUNLqiytL/
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="362318314"
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="352107401"
 X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="362318314"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 18:32:08 -0700
+   d="scan'208";a="352107401"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 18:54:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="862132648"
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="752846651"
 X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="862132648"
+   d="scan'208";a="752846651"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 29 Jun 2023 18:32:07 -0700
+  by orsmga001.jf.intel.com with ESMTP; 29 Jun 2023 18:54:07 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qF2zW-000Ea1-1C;
-	Fri, 30 Jun 2023 01:32:06 +0000
-Date: Fri, 30 Jun 2023 09:31:30 +0800
+	id 1qF3Kp-000Ear-0T;
+	Fri, 30 Jun 2023 01:54:07 +0000
+Date: Fri, 30 Jun 2023 09:53:18 +0800
 From: kernel test robot <lkp@intel.com>
 To: Linus Walleij <linus.walleij@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [arm-integrator:kernel-in-vmalloc-v6.4-rc1-just-ttbr0-split 20/26]
- fs/binfmt_elf.c:1371:65: warning: format specifies type 'unsigned int' but
- the argument has type 'unsigned long'
-Message-ID: <202306300956.sonYcCul-lkp@intel.com>
+ fs/binfmt_elf.c:1402:52: error: 'struct file' has no member named 'name'
+Message-ID: <202306300913.MF6GRPSq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,123 +53,154 @@ FYI, the error/warning still remains.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git kernel-in-vmalloc-v6.4-rc1-just-ttbr0-split
 head:   d0cf2fe7497259ee8a7308da99a8cbafaab5e5b5
 commit: 8560cbc95c9fafe667f0faf076bba96cc2f4c717 [20/26] debug prints
-config: um-randconfig-r003-20230629 (https://download.01.org/0day-ci/archive/20230630/202306300956.sonYcCul-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300956.sonYcCul-lkp@intel.com/reproduce)
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20230630/202306300913.MF6GRPSq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300913.MF6GRPSq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306300956.sonYcCul-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306300913.MF6GRPSq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from fs/binfmt_elf.c:30:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from fs/binfmt_elf.c:30:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from fs/binfmt_elf.c:30:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> fs/binfmt_elf.c:1371:65: warning: format specifies type 'unsigned int' but the argument has type 'unsigned long' [-Wformat]
-    1371 |         pr_info("%s: call START_THREAD() entry at 0x%08x\n", __func__, elf_entry);
-         |                                                     ~~~~               ^~~~~~~~~
-         |                                                     %08lx
-   include/linux/printk.h:528:34: note: expanded from macro 'pr_info'
-     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
-         |                                 ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:455:60: note: expanded from macro 'printk'
-     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:427:19: note: expanded from macro 'printk_index_wrap'
+   In file included from include/linux/kernel.h:30,
+                    from arch/x86/include/asm/percpu.h:27,
+                    from arch/x86/include/asm/nospec-branch.h:14,
+                    from arch/x86/include/asm/paravirt_types.h:27,
+                    from arch/x86/include/asm/ptrace.h:97,
+                    from arch/x86/include/asm/math_emu.h:5,
+                    from arch/x86/include/asm/processor.h:13,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from fs/binfmt_elf.c:13:
+   fs/binfmt_elf.c: In function 'load_elf_binary':
+>> include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'long unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
      427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
-   13 warnings generated.
+         |                         ^~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:14:25: note: in expansion of macro 'KERN_SOH'
+      14 | #define KERN_INFO       KERN_SOH "6"    /* informational */
+         |                         ^~~~~~~~
+   include/linux/printk.h:528:16: note: in expansion of macro 'KERN_INFO'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~~
+   fs/binfmt_elf.c:1371:9: note: in expansion of macro 'pr_info'
+    1371 |         pr_info("%s: call START_THREAD() entry at 0x%08x\n", __func__, elf_entry);
+         |         ^~~~~~~
+   fs/binfmt_elf.c: In function 'load_elf_library':
+>> fs/binfmt_elf.c:1402:52: error: 'struct file' has no member named 'name'
+    1402 |         pr_info("trying %s on %s\n", __func__, file->name);
+         |                                                    ^~
+   include/linux/printk.h:427:33: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:528:9: note: in expansion of macro 'printk'
+     528 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   fs/binfmt_elf.c:1402:9: note: in expansion of macro 'pr_info'
+    1402 |         pr_info("trying %s on %s\n", __func__, file->name);
+         |         ^~~~~~~
 
 
-vim +1371 fs/binfmt_elf.c
+vim +1402 fs/binfmt_elf.c
 
-  1369	
-  1370		finalize_exec(bprm);
-> 1371		pr_info("%s: call START_THREAD() entry at 0x%08x\n", __func__, elf_entry);
-  1372		START_THREAD(elf_ex, regs, elf_entry, bprm->p);
-  1373		retval = 0;
-  1374	out:
-  1375		pr_info("%s: exit\n", __func__);
-  1376		return retval;
-  1377	
-  1378		/* error cleanup */
-  1379	out_free_dentry:
-  1380		kfree(interp_elf_ex);
-  1381		kfree(interp_elf_phdata);
-  1382	out_free_file:
-  1383		allow_write_access(interpreter);
-  1384		if (interpreter)
-  1385			fput(interpreter);
-  1386	out_free_ph:
-  1387		kfree(elf_phdata);
-  1388		goto out;
-  1389	}
   1390	
+  1391	#ifdef CONFIG_USELIB
+  1392	/* This is really simpleminded and specialized - we are loading an
+  1393	   a.out library that is given an ELF header. */
+  1394	static int load_elf_library(struct file *file)
+  1395	{
+  1396		struct elf_phdr *elf_phdata;
+  1397		struct elf_phdr *eppnt;
+  1398		unsigned long elf_bss, bss, len;
+  1399		int retval, error, i, j;
+  1400		struct elfhdr elf_ex;
+  1401	
+> 1402		pr_info("trying %s on %s\n", __func__, file->name);
+  1403		error = -ENOEXEC;
+  1404		retval = elf_read(file, &elf_ex, sizeof(elf_ex), 0);
+  1405		if (retval < 0)
+  1406			goto out;
+  1407	
+  1408		if (memcmp(elf_ex.e_ident, ELFMAG, SELFMAG) != 0)
+  1409			goto out;
+  1410	
+  1411		/* First of all, some simple consistency checks */
+  1412		if (elf_ex.e_type != ET_EXEC || elf_ex.e_phnum > 2 ||
+  1413		    !elf_check_arch(&elf_ex) || !file->f_op->mmap)
+  1414			goto out;
+  1415		if (elf_check_fdpic(&elf_ex))
+  1416			goto out;
+  1417	
+  1418		/* Now read in all of the header information */
+  1419	
+  1420		j = sizeof(struct elf_phdr) * elf_ex.e_phnum;
+  1421		/* j < ELF_MIN_ALIGN because elf_ex.e_phnum <= 2 */
+  1422	
+  1423		error = -ENOMEM;
+  1424		elf_phdata = kmalloc(j, GFP_KERNEL);
+  1425		if (!elf_phdata)
+  1426			goto out;
+  1427	
+  1428		eppnt = elf_phdata;
+  1429		error = -ENOEXEC;
+  1430		retval = elf_read(file, eppnt, j, elf_ex.e_phoff);
+  1431		if (retval < 0)
+  1432			goto out_free_ph;
+  1433	
+  1434		for (j = 0, i = 0; i<elf_ex.e_phnum; i++)
+  1435			if ((eppnt + i)->p_type == PT_LOAD)
+  1436				j++;
+  1437		if (j != 1)
+  1438			goto out_free_ph;
+  1439	
+  1440		while (eppnt->p_type != PT_LOAD)
+  1441			eppnt++;
+  1442	
+  1443		/* Now use mmap to map the library into memory. */
+  1444		error = vm_mmap(file,
+  1445				ELF_PAGESTART(eppnt->p_vaddr),
+  1446				(eppnt->p_filesz +
+  1447				 ELF_PAGEOFFSET(eppnt->p_vaddr)),
+  1448				PROT_READ | PROT_WRITE | PROT_EXEC,
+  1449				MAP_FIXED_NOREPLACE | MAP_PRIVATE,
+  1450				(eppnt->p_offset -
+  1451				 ELF_PAGEOFFSET(eppnt->p_vaddr)));
+  1452		if (error != ELF_PAGESTART(eppnt->p_vaddr))
+  1453			goto out_free_ph;
+  1454	
+  1455		elf_bss = eppnt->p_vaddr + eppnt->p_filesz;
+  1456		if (padzero(elf_bss)) {
+  1457			error = -EFAULT;
+  1458			goto out_free_ph;
+  1459		}
+  1460	
+  1461		len = ELF_PAGEALIGN(eppnt->p_filesz + eppnt->p_vaddr);
+  1462		bss = ELF_PAGEALIGN(eppnt->p_memsz + eppnt->p_vaddr);
+  1463		if (bss > len) {
+  1464			error = vm_brk(len, bss - len);
+  1465			if (error)
+  1466				goto out_free_ph;
+  1467		}
+  1468		error = 0;
+  1469	
+  1470	out_free_ph:
+  1471		kfree(elf_phdata);
+  1472	out:
+  1473		return error;
+  1474	}
+  1475	#endif /* #ifdef CONFIG_USELIB */
+  1476	
 
 -- 
 0-DAY CI Kernel Test Service
