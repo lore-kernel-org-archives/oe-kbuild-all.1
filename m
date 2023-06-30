@@ -1,43 +1,48 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7C4156D0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jun 2023 13:47:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCC5156D3;
+	Fri, 30 Jun 2023 13:47:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688132850; x=1719668850;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n8Fz8lhOgYgYrvlf7VbnQJ26Pc+M6vTlGmcTtuem8qo=;
-  b=CLvtM8YAu+3rrgyAmrDCdeZRWMfDFX71QvL+IaESkzoSWjvgV9eyrOE6
-   VkM/igWEWS00s6rUP95VgUM+vl0/icWUnbfzXA0z7I4NWmT42piscH19N
-   Z1mPBo/9CI9KJI6oeoePoEvpWIbQcz2eqvz+9DWnDWXV+l1mMZFNdMXCM
-   t5xv3mDCxu3TtTTAtDaMFE07pXYguWr6RzOi5+vy1ubG77MG+eh34o1uG
-   tkXVmuho6kC+THk0ZYyavTWUx6W+S4sGiPc13EO53/FdKGm7Hrr/mTkO4
-   c73w8tu6zuDsDsQvpdWeZLkarapbIHZRS/FbQPsfq45K65CfyERVBaF6w
+  t=1688132851; x=1719668851;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9sM2Z0ZbOcroZOD9P9vuoDOY6kcrOfhx3gRZ/Nk6+Og=;
+  b=cHxMImJ8xy1efwj2ppzbgKfJFUTkW+DhEcUiue+s9MuqkWCOtVZ+AR1y
+   y0EGjND7KnWLOgZuxK6j4cJ+Q1txbOIr/ToUedV/eX9D9GW/0BP8GaJql
+   qkHtKWtsEKUhIsDmhl2Ci6gG5G2lRipId0PHcK60Pu0iIZRu+AlVGfuT4
+   e1udSvHXbvwO2bAoBofz2MqfdALm9Pf2/yv6usfKIA9hr4u9Twx0anb2l
+   c1bFKUfMhnMPH1bR5INkQi8CyXVr2A42eOlyU9yjbaGBz6lwPfgUurLuO
+   GTQCzZFy2CTiq0jzKZa3ihkChl4d++GbjsMIqiDxYLnn5F7nQuWU5UDDx
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="352217781"
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="352217790"
 X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="352217781"
+   d="scan'208";a="352217790"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 06:47:29 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 06:47:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="783083986"
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="783083985"
 X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="783083986"
+   d="scan'208";a="783083985"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
   by fmsmga008.fm.intel.com with ESMTP; 30 Jun 2023 06:47:27 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qFET9-000F08-0X;
+	id 1qFET9-000F05-0O;
 	Fri, 30 Jun 2023 13:47:27 +0000
-Date: Fri, 30 Jun 2023 21:46:55 +0800
+Date: Fri, 30 Jun 2023 21:46:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-4.14-stable 21099/29940]
- arm-linux-gnueabi-gcc: error: unrecognized command line option
- '-ftrivial-auto-var-init=pattern'
-Message-ID: <202306302111.7mpfdTdP-lkp@intel.com>
+To: Vivek Pernamitta <quic_vpernami@quicinc.com>, mhi@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, mrana@quicinc.com,
+	quic_qianyu@quicinc.com, manivannan.sadhasivam@linaro.org,
+	Vivek Pernamitta <quic_vpernami@quicinc.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V1] net: mhi : Add support to enable ethernet interface
+Message-ID: <202306302115.IYBBlrFn-lkp@intel.com>
+References: <1688118281-13032-1-git-send-email-quic_vpernami@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,32 +51,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1688118281-13032-1-git-send-email-quic_vpernami@quicinc.com>
 
-Hi glider,
+Hi Vivek,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android-4.14-stable
-head:   e8c1340cbb0f24693dd9056f8d5a7808e4597b80
-commit: a7eda6eddca559c1c3a897a35692f9d49d46c9dd [21099/29940] BACKPORT: security: allow using Clang's zero initialization for stack variables
-config: arm-randconfig-r046-20230629 (https://download.01.org/0day-ci/archive/20230630/202306302111.7mpfdTdP-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20230630/202306302111.7mpfdTdP-lkp@intel.com/reproduce)
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v6.4 next-20230630]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vivek-Pernamitta/net-mhi-Add-support-to-enable-ethernet-interface/20230630-174659
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/1688118281-13032-1-git-send-email-quic_vpernami%40quicinc.com
+patch subject: [PATCH V1] net: mhi : Add support to enable ethernet interface
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230630/202306302115.IYBBlrFn-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230630/202306302115.IYBBlrFn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306302111.7mpfdTdP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306302115.IYBBlrFn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arm-linux-gnueabi-gcc: error: unrecognized command line option '-ftrivial-auto-var-init=pattern'
-   make[2]: *** [./Kbuild:22: kernel/bounds.s] Error 1 shuffle=2767728755
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1214: prepare0] Error 2 shuffle=2767728755
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:146: sub-make] Error 2 shuffle=2767728755
-   make: Target 'prepare' not remade because of errors.
+   drivers/net/mhi_net.c: In function 'mhi_net_newlink':
+>> drivers/net/mhi_net.c:327:37: warning: passing argument 1 of 'eth_random_addr' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+     327 |                 eth_random_addr(ndev->dev_addr);
+         |                                 ~~~~^~~~~~~~~~
+   In file included from drivers/net/mhi_net.c:14:
+   include/linux/etherdevice.h:230:40: note: expected 'u8 *' {aka 'unsigned char *'} but argument is of type 'const unsigned char *'
+     230 | static inline void eth_random_addr(u8 *addr)
+         |                                    ~~~~^~~~
+
+
+vim +327 drivers/net/mhi_net.c
+
+   320	
+   321	static int mhi_net_newlink(struct mhi_device *mhi_dev, struct net_device *ndev, bool eth_dev)
+   322	{
+   323		struct mhi_net_dev *mhi_netdev;
+   324		int err;
+   325	
+   326		if (eth_dev) {
+ > 327			eth_random_addr(ndev->dev_addr);
+   328			if (!is_valid_ether_addr(ndev->dev_addr))
+   329				return -EADDRNOTAVAIL;
+   330		}
+   331	
+   332		mhi_netdev = netdev_priv(ndev);
+   333	
+   334		dev_set_drvdata(&mhi_dev->dev, mhi_netdev);
+   335		mhi_netdev->ndev = ndev;
+   336		mhi_netdev->mdev = mhi_dev;
+   337		mhi_netdev->skbagg_head = NULL;
+   338		mhi_netdev->mru = mhi_dev->mhi_cntrl->mru;
+   339		mhi_netdev->ethernet_if = eth_dev;
+   340	
+   341		INIT_DELAYED_WORK(&mhi_netdev->rx_refill, mhi_net_rx_refill_work);
+   342		u64_stats_init(&mhi_netdev->stats.rx_syncp);
+   343		u64_stats_init(&mhi_netdev->stats.tx_syncp);
+   344	
+   345		/* Start MHI channels */
+   346		err = mhi_prepare_for_transfer(mhi_dev);
+   347		if (err)
+   348			return err;
+   349	
+   350		/* Number of transfer descriptors determines size of the queue */
+   351		mhi_netdev->rx_queue_sz = mhi_get_free_desc_count(mhi_dev, DMA_FROM_DEVICE);
+   352	
+   353		err = register_netdev(ndev);
+   354		if (err)
+   355			return err;
+   356	
+   357		return 0;
+   358	}
+   359	
 
 -- 
 0-DAY CI Kernel Test Service
