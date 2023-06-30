@@ -1,45 +1,49 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E776171BB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jun 2023 19:15:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F40017744;
+	Fri, 30 Jun 2023 19:46:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688152544; x=1719688544;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=phMO0ZX0Pt9exDNJvM6sMnah+jyXyBQsyVCUMocv9R8=;
-  b=gsfxMUXgzHsbNy0XZeROI7/vKhcajVXxaGVNAxPJFoekCfhnUrAUuR8V
-   8B8VuYsD/e1xVknw9nAk4vE3tnJ+ezp9KW0Dvx7kjjvxyWbxixyps/4eq
-   8CziBrfwV1eaIqipFJ0/UHEn2dni1NK3Gle6VLYRE47YbJlorHfyA3X0h
-   vl7/rLHlKIeBDjwmyUNOCn7SIaxLOhLR06aCs3ok34Rvb/g/+8SqAVg0U
-   +kVpXYgYdE2juubFb9QSvzfJ5Gy7dE6r802M9AEN4jhLNSrjmaGiJcDhz
-   T2zOQkpjIB0H3CWJ4XrgdC+CpVqst7viQsv4z8/MyiQodKT8U0fTg5ulY
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="342806219"
+  t=1688154405; x=1719690405;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5gtlQGYMm1ULeNUjSy6Nn3R1aUjHM5HNjqOWPEVH1+8=;
+  b=d62NB7RDcuGY9CSmJ+BkgRQ5OJR0tzjECiX5VCV77r9WbJgV5IK9ogMN
+   uVaVKjQnwlJp9RUas5i4cHee2zWBou7Cwti0mTsVcpWkxh23XLPDNYvvB
+   0F2QjwMx5jJtor/ofFWP0xCH6WsXI7QOZ8MY3Y67UhQKEzEoWfKiVrDkU
+   zmpPZb+aWfprqRkbUYdU5eqIOuStDQK86Xd65ou5zs/lA9uHlk1PpvzuE
+   0W6omHEnDrwU+wxOJ5kyulWrfnKJzug8v/l/egOhjx0d7T+1G8B53HA1U
+   21CTDofUGeMUrUN7VtTJofsoOJYAD7emE/FS8R4iWs3HWiM5Y2uiIGWdi
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="359955251"
 X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="342806219"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 12:15:43 -0700
+   d="scan'208";a="359955251"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 12:46:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="747514096"
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="721080924"
 X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="747514096"
+   d="scan'208";a="721080924"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 30 Jun 2023 12:15:41 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 30 Jun 2023 12:46:41 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qFJam-000FIN-0j;
-	Fri, 30 Jun 2023 19:15:40 +0000
-Date: Sat, 1 Jul 2023 03:14:57 +0800
+	id 1qFK4n-000FJl-0N;
+	Fri, 30 Jun 2023 19:46:41 +0000
+Date: Sat, 1 Jul 2023 03:45:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Colin Ian King <colin.i.king@gmail.com>, Jan Kara <jack@suse.com>,
-	linux-ext4@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] ext2: remove redundant assignment to variable desc
-Message-ID: <202307010203.gNQQkF8h-lkp@intel.com>
-References: <20230630163033.165326-1-colin.i.king@gmail.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [linux-next:master 7313/12815]
+ drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1888:5:
+ warning: stack frame size (2208) exceeds limit (2048) in
+ 'rockchip_vpu981_av1_dec_run'
+Message-ID: <202307010357.sY3iLanr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,152 +52,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230630163033.165326-1-colin.i.king@gmail.com>
 
-Hi Colin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.4 next-20230630]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Colin-Ian-King/ext2-remove-redundant-assignment-to-variable-desc/20230701-003209
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230630163033.165326-1-colin.i.king%40gmail.com
-patch subject: [PATCH][next] ext2: remove redundant assignment to variable desc
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230701/202307010203.gNQQkF8h-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230701/202307010203.gNQQkF8h-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6352a698ca5bf26a9199202666b16cf741f579f6
+commit: 727a400686a2c0d25015c9e44916a59b72882f83 [7313/12815] media: verisilicon: Add Rockchip AV1 decoder
+config: riscv-randconfig-r021-20230701 (https://download.01.org/0day-ci/archive/20230701/202307010357.sY3iLanr-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230701/202307010357.sY3iLanr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307010203.gNQQkF8h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307010357.sY3iLanr-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/ext2/ialloc.c: In function 'find_group_orlov':
->> fs/ext2/ialloc.c:276:41: warning: variable 'best_desc' set but not used [-Wunused-but-set-variable]
-     276 |                 struct ext2_group_desc *best_desc = NULL;
-         |                                         ^~~~~~~~~
+>> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1888:5: warning: stack frame size (2208) exceeds limit (2048) in 'rockchip_vpu981_av1_dec_run' [-Wframe-larger-than]
+   int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx)
+       ^
+   375/2208 (16.98%) spills, 1833/2208 (83.02%) variables
+   1 warning generated.
 
 
-vim +/best_desc +276 fs/ext2/ialloc.c
+vim +/rockchip_vpu981_av1_dec_run +1888 drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  250  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  251  static int find_group_orlov(struct super_block *sb, struct inode *parent)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  252  {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  253  	int parent_group = EXT2_I(parent)->i_block_group;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  254  	struct ext2_sb_info *sbi = EXT2_SB(sb);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  255  	struct ext2_super_block *es = sbi->s_es;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  256  	int ngroups = sbi->s_groups_count;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  257  	int inodes_per_group = EXT2_INODES_PER_GROUP(sb);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  258  	int freei;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  259  	int avefreei;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  260  	int free_blocks;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  261  	int avefreeb;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  262  	int blocks_per_dir;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  263  	int ndirs;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  264  	int max_debt, max_dirs, min_blocks, min_inodes;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  265  	int group = -1, i;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  266  	struct ext2_group_desc *desc;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  267  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  268  	freei = percpu_counter_read_positive(&sbi->s_freeinodes_counter);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  269  	avefreei = freei / ngroups;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  270  	free_blocks = percpu_counter_read_positive(&sbi->s_freeblocks_counter);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  271  	avefreeb = free_blocks / ngroups;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  272  	ndirs = percpu_counter_read_positive(&sbi->s_dirs_counter);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  273  
-2b0143b5c986be David Howells      2015-03-17  274  	if ((parent == d_inode(sb->s_root)) ||
-^1da177e4c3f41 Linus Torvalds     2005-04-16  275  	    (EXT2_I(parent)->i_flags & EXT2_TOPDIR_FL)) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @276  		struct ext2_group_desc *best_desc = NULL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  277  		int best_ndir = inodes_per_group;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  278  		int best_group = -1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  279  
-8032bf1233a746 Jason A. Donenfeld 2022-10-09  280  		parent_group = get_random_u32_below(ngroups);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  281  		for (i = 0; i < ngroups; i++) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  282  			group = (parent_group + i) % ngroups;
-ef2fb67989d30f Eric Sandeen       2007-10-16  283  			desc = ext2_get_group_desc (sb, group, NULL);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  284  			if (!desc || !desc->bg_free_inodes_count)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  285  				continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  286  			if (le16_to_cpu(desc->bg_used_dirs_count) >= best_ndir)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  287  				continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  288  			if (le16_to_cpu(desc->bg_free_inodes_count) < avefreei)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  289  				continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  290  			if (le16_to_cpu(desc->bg_free_blocks_count) < avefreeb)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  291  				continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  292  			best_group = group;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  293  			best_ndir = le16_to_cpu(desc->bg_used_dirs_count);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  294  			best_desc = desc;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  295  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  296  		if (best_group >= 0) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  297  			group = best_group;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  298  			goto found;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  299  		}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  300  		goto fallback;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  301  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  302  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  303  	if (ndirs == 0)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  304  		ndirs = 1;	/* percpu_counters are approximate... */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  305  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  306  	blocks_per_dir = (le32_to_cpu(es->s_blocks_count)-free_blocks) / ndirs;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  307  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  308  	max_dirs = ndirs / ngroups + inodes_per_group / 16;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  309  	min_inodes = avefreei - inodes_per_group / 4;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  310  	min_blocks = avefreeb - EXT2_BLOCKS_PER_GROUP(sb) / 4;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  311  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  312  	max_debt = EXT2_BLOCKS_PER_GROUP(sb) / max(blocks_per_dir, BLOCK_COST);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  313  	if (max_debt * INODE_COST > inodes_per_group)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  314  		max_debt = inodes_per_group / INODE_COST;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  315  	if (max_debt > 255)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  316  		max_debt = 255;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  317  	if (max_debt == 0)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  318  		max_debt = 1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  319  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  320  	for (i = 0; i < ngroups; i++) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  321  		group = (parent_group + i) % ngroups;
-ef2fb67989d30f Eric Sandeen       2007-10-16  322  		desc = ext2_get_group_desc (sb, group, NULL);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  323  		if (!desc || !desc->bg_free_inodes_count)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  324  			continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  325  		if (sbi->s_debts[group] >= max_debt)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  326  			continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  327  		if (le16_to_cpu(desc->bg_used_dirs_count) >= max_dirs)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  328  			continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  329  		if (le16_to_cpu(desc->bg_free_inodes_count) < min_inodes)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  330  			continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  331  		if (le16_to_cpu(desc->bg_free_blocks_count) < min_blocks)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  332  			continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  333  		goto found;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  334  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  335  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  336  fallback:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  337  	for (i = 0; i < ngroups; i++) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  338  		group = (parent_group + i) % ngroups;
-ef2fb67989d30f Eric Sandeen       2007-10-16  339  		desc = ext2_get_group_desc (sb, group, NULL);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  340  		if (!desc || !desc->bg_free_inodes_count)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  341  			continue;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  342  		if (le16_to_cpu(desc->bg_free_inodes_count) >= avefreei)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  343  			goto found;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  344  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  345  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  346  	if (avefreei) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  347  		/*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  348  		 * The free-inodes counter is approximate, and for really small
-^1da177e4c3f41 Linus Torvalds     2005-04-16  349  		 * filesystems the above test can fail to find any blockgroups
-^1da177e4c3f41 Linus Torvalds     2005-04-16  350  		 */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  351  		avefreei = 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  352  		goto fallback;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  353  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  354  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  355  	return -1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  356  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  357  found:
-^1da177e4c3f41 Linus Torvalds     2005-04-16  358  	return group;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  359  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  360  
+  1887	
+> 1888	int rockchip_vpu981_av1_dec_run(struct hantro_ctx *ctx)
+  1889	{
+  1890		struct hantro_dev *vpu = ctx->dev;
+  1891		struct vb2_v4l2_buffer *vb2_src;
+  1892		int ret;
+  1893	
+  1894		hantro_start_prepare_run(ctx);
+  1895	
+  1896		ret = rockchip_vpu981_av1_dec_prepare_run(ctx);
+  1897		if (ret)
+  1898			goto prepare_error;
+  1899	
+  1900		vb2_src = hantro_get_src_buf(ctx);
+  1901		if (!vb2_src) {
+  1902			ret = -EINVAL;
+  1903			goto prepare_error;
+  1904		}
+  1905	
+  1906		rockchip_vpu981_av1_dec_clean_refs(ctx);
+  1907		rockchip_vpu981_av1_dec_frame_ref(ctx, vb2_src->vb2_buf.timestamp);
+  1908	
+  1909		rockchip_vpu981_av1_dec_set_parameters(ctx);
+  1910		rockchip_vpu981_av1_dec_set_global_model(ctx);
+  1911		rockchip_vpu981_av1_dec_set_tile_info(ctx);
+  1912		rockchip_vpu981_av1_dec_set_reference_frames(ctx);
+  1913		rockchip_vpu981_av1_dec_set_segmentation(ctx);
+  1914		rockchip_vpu981_av1_dec_set_loopfilter(ctx);
+  1915		rockchip_vpu981_av1_dec_set_picture_dimensions(ctx);
+  1916		rockchip_vpu981_av1_dec_set_cdef(ctx);
+  1917		rockchip_vpu981_av1_dec_set_lr(ctx);
+  1918		rockchip_vpu981_av1_dec_set_prob(ctx);
+  1919	
+  1920		hantro_reg_write(vpu, &av1_dec_mode, AV1_DEC_MODE);
+  1921		hantro_reg_write(vpu, &av1_dec_out_ec_byte_word, 0);
+  1922		hantro_reg_write(vpu, &av1_write_mvs_e, 1);
+  1923		hantro_reg_write(vpu, &av1_dec_out_ec_bypass, 1);
+  1924		hantro_reg_write(vpu, &av1_dec_clk_gate_e, 1);
+  1925	
+  1926		hantro_reg_write(vpu, &av1_dec_abort_e, 0);
+  1927		hantro_reg_write(vpu, &av1_dec_tile_int_e, 0);
+  1928	
+  1929		hantro_reg_write(vpu, &av1_dec_alignment, 64);
+  1930		hantro_reg_write(vpu, &av1_apf_disable, 0);
+  1931		hantro_reg_write(vpu, &av1_apf_threshold, 8);
+  1932		hantro_reg_write(vpu, &av1_dec_buswidth, 2);
+  1933		hantro_reg_write(vpu, &av1_dec_max_burst, 16);
+  1934		hantro_reg_write(vpu, &av1_error_conceal_e, 0);
+  1935		hantro_reg_write(vpu, &av1_axi_rd_ostd_threshold, 64);
+  1936		hantro_reg_write(vpu, &av1_axi_wr_ostd_threshold, 64);
+  1937	
+  1938		hantro_reg_write(vpu, &av1_ext_timeout_cycles, 0xfffffff);
+  1939		hantro_reg_write(vpu, &av1_ext_timeout_override_e, 1);
+  1940		hantro_reg_write(vpu, &av1_timeout_cycles, 0xfffffff);
+  1941		hantro_reg_write(vpu, &av1_timeout_override_e, 1);
+  1942	
+  1943		rockchip_vpu981_av1_dec_set_output_buffer(ctx);
+  1944		rockchip_vpu981_av1_dec_set_input_buffer(ctx, vb2_src);
+  1945	
+  1946		hantro_end_prepare_run(ctx);
+  1947	
+  1948		hantro_reg_write(vpu, &av1_dec_e, 1);
+  1949	
+  1950		return 0;
+  1951	
+  1952	prepare_error:
+  1953		hantro_end_prepare_run(ctx);
+  1954		hantro_irq_done(vpu, VB2_BUF_STATE_ERROR);
+  1955		return ret;
+  1956	}
+  1957	
 
 -- 
 0-DAY CI Kernel Test Service
