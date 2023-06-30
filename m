@@ -1,43 +1,46 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EF51642C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jun 2023 16:58:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23271642C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jun 2023 16:58:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688144320; x=1719680320;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sUvFn7BQUsTfjsY4UYm8QejPHUhKXjjAIB5/x9BcE9s=;
-  b=PpUCCfCHUEqhxsvhUPQR3QwJHj/RFmb0kjyuo7G3JoTDlIA2mW01uSTe
-   9jKMSVxMUlS5JtrGkiXTh8BiUXLvJkmcs4ybsPQKXi/mJpiMG5WIOSidU
-   il5GX0sz0x4FoSmFG0Q2AYIzqzIGqn2EtsWm1wM0ou1burdhZOqE7bhEW
-   qoa2mm5NIyTmbL9TvJIkD15nbtRxJimwUhH9lie2KlN5+x5tFviY4+MUj
-   4nNpc9M9/916Oc1mthzYCvzCvTYVVvMh1aiFURokQWkjnBJ2hG8MiY6Gk
-   l2qtsk3SEfB1mMpl+UdLauYBoHe58uA0hEp5pBte6dgjTQc12FFaYcF4H
+  t=1688144323; x=1719680323;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kJUcYfTUHDV1l9ZO+lxeeTi4hIA3N2MMxaNF57SiJTk=;
+  b=bIhxgwzDHH9szTxDap47+S9ETt37wk6psiarwAwMINRnwWftzLL9EV5F
+   c1HRQy9vNCOyLc0n++rEv7OV9HjEmLk8xuMF9N8H1r39NI+KJdRWFILu0
+   2g3KyeJjYK6Jk/heaogsr0iG2Czbzbp7dB/Ng3cYfdJqvn0fY6roM6aq4
+   lAc2zXCrBPBvC9mFEJsyA1BmiYYVdRIqkNUk5PeL8IeGlk3LkFYhMMh7F
+   oIwacdgpnKNsi4nDpGtXD8cNyeWngtoqRboVXUj7m7C/aDHZOl5V5eMHs
+   rytvTu2mwKbH9s+D7UlAfNZXOeD55NC2P82uT0Vc5cR8p44kz2CQntJOx
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="361292406"
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="361292409"
 X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="361292406"
+   d="scan'208";a="361292409"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 09:58:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="747480980"
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="747480979"
 X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="747480980"
+   d="scan'208";a="747480979"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
   by orsmga008.jf.intel.com with ESMTP; 30 Jun 2023 09:58:36 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qFHS7-000FAt-1c;
+	id 1qFHS7-000FAr-1Y;
 	Fri, 30 Jun 2023 16:58:35 +0000
-Date: Sat, 1 Jul 2023 00:58:11 +0800
+Date: Sat, 1 Jul 2023 00:58:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chuck Lever <chuck.lever@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Simo Sorce <simo@redhat.com>
-Subject: net/sunrpc/auth_gss/gss_krb5_mech.c:325 gss_krb5_lookup_enctype()
- warn: unsigned 'i' is never less than zero.
-Message-ID: <202307010010.uGvpzuSy-lkp@intel.com>
+To: Zhu Ning <zhuning0077@gmail.com>, alsa-devel@alsa-project.org,
+	broonie@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, pierre-louis.bossart@linux.intel.com,
+	tiwai@suse.com, amadeuszx.slawinski@linux.intel.com,
+	Zhu Ning <zhuning0077@gmail.com>
+Subject: Re: [PATCH] ASoC: codecs: es8326: Fix power-up sequence
+Message-ID: <202307010058.iE2OHDes-lkp@intel.com>
+References: <20230630072515.49382-1-zhuning0077@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,51 +49,130 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230630072515.49382-1-zhuning0077@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e55e5df193d247a38a5e1ac65a5316a0adcc22fa
-commit: ddd8c1f975ee7c2fc60ea836540b5b10f97ac919 SUNRPC: Export get_gss_krb5_enctype()
-date:   4 months ago
-config: x86_64-randconfig-m001-20230629 (https://download.01.org/0day-ci/archive/20230701/202307010010.uGvpzuSy-lkp@intel.com/config)
+Hi Zhu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.4 next-20230630]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhu-Ning/ASoC-codecs-es8326-Fix-power-up-sequence/20230630-152707
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20230630072515.49382-1-zhuning0077%40gmail.com
+patch subject: [PATCH] ASoC: codecs: es8326: Fix power-up sequence
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230701/202307010058.iE2OHDes-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230701/202307010010.uGvpzuSy-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230701/202307010058.iE2OHDes-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307010010.uGvpzuSy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307010058.iE2OHDes-lkp@intel.com/
 
-New smatch warnings:
-net/sunrpc/auth_gss/gss_krb5_mech.c:325 gss_krb5_lookup_enctype() warn: unsigned 'i' is never less than zero.
-net/sunrpc/auth_gss/gss_krb5_mech.c:325 gss_krb5_lookup_enctype() warn: unsigned 'i' is never less than zero.
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-net/sunrpc/auth_gss/gss_krb5_mech.c:301 gss_krb5_prepare_enctype_priority_list() warn: unsigned 'i' is never less than zero.
-net/sunrpc/auth_gss/gss_krb5_mech.c:301 gss_krb5_prepare_enctype_priority_list() warn: unsigned 'i' is never less than zero.
-net/sunrpc/auth_gss/gss_krb5_mech.c:325 gss_krb5_lookup_enctype() warn: we never enter this loop
+   sound/soc/codecs/es8326.c: In function 'es8326_resume':
+>> sound/soc/codecs/es8326.c:713:61: error: 'ES8326_MUTE_MASK' undeclared (first use in this function); did you mean 'ES8326_MIC_SEL_MASK'?
+     713 |         regmap_update_bits(es8326->regmap, ES8326_DAC_MUTE, ES8326_MUTE_MASK,
+         |                                                             ^~~~~~~~~~~~~~~~
+         |                                                             ES8326_MIC_SEL_MASK
+   sound/soc/codecs/es8326.c:713:61: note: each undeclared identifier is reported only once for each function it appears in
+>> sound/soc/codecs/es8326.c:714:28: error: 'ES8326_MUTE' undeclared (first use in this function); did you mean 'ES8326_FMT'?
+     714 |                            ES8326_MUTE);
+         |                            ^~~~~~~~~~~
+         |                            ES8326_FMT
+>> sound/soc/codecs/es8326.c:719:15: error: 'struct es8326_priv' has no member named 'version'
+     719 |         es8326->version = reg;
+         |               ^~
 
-vim +/i +325 net/sunrpc/auth_gss/gss_krb5_mech.c
 
-   312	
-   313	/**
-   314	 * gss_krb5_lookup_enctype - Retrieve profile information for a given enctype
-   315	 * @etype: ENCTYPE value
-   316	 *
-   317	 * Returns a pointer to a gss_krb5_enctype structure, or NULL if no
-   318	 * matching etype is found.
-   319	 */
-   320	VISIBLE_IF_KUNIT
-   321	const struct gss_krb5_enctype *gss_krb5_lookup_enctype(u32 etype)
-   322	{
-   323		size_t i;
-   324	
- > 325		for (i = 0; i < ARRAY_SIZE(supported_gss_krb5_enctypes); i++)
-   326			if (supported_gss_krb5_enctypes[i].etype == etype)
-   327				return &supported_gss_krb5_enctypes[i];
-   328		return NULL;
-   329	}
-   330	EXPORT_SYMBOL_IF_KUNIT(gss_krb5_lookup_enctype);
-   331	
+vim +713 sound/soc/codecs/es8326.c
+
+   644	
+   645	static int es8326_resume(struct snd_soc_component *component)
+   646	{
+   647		struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
+   648		unsigned int reg;
+   649	
+   650		regcache_cache_only(es8326->regmap, false);
+   651		regcache_sync(es8326->regmap);
+   652	
+   653		/* reset register value to default */
+   654		regmap_write(es8326->regmap, ES8326_CSM_I2C_STA, 0x01);
+   655		usleep_range(1000, 3000);
+   656		regmap_write(es8326->regmap, ES8326_CSM_I2C_STA, 0x00);
+   657		/* reset internal state */
+   658		regmap_write(es8326->regmap, ES8326_RESET, 0x1f);
+   659		regmap_write(es8326->regmap, ES8326_VMIDSEL, 0x0E);
+   660		regmap_write(es8326->regmap, ES8326_HPJACK_TIMER, 0x88);
+   661		/* set headphone default type and detect pin */
+   662		regmap_write(es8326->regmap, ES8326_HPDET_TYPE, 0x81 |
+   663			     ES8326_HP_DET_SRC_PIN9);
+   664		regmap_write(es8326->regmap, ES8326_CLK_RESAMPLE, 0x05);
+   665	
+   666		/* set internal oscillator as clock source of headpone cp */
+   667		regmap_write(es8326->regmap, ES8326_CLK_DIV_CPC, 0x84);
+   668		regmap_write(es8326->regmap, ES8326_CLK_CTL, ES8326_CLK_ON);
+   669		/* clock manager reset release */
+   670		regmap_write(es8326->regmap, ES8326_RESET, 0x17);
+   671		/* set headphone detection as half scan mode */
+   672		regmap_write(es8326->regmap, ES8326_HP_MISC, 0x08);
+   673		regmap_write(es8326->regmap, ES8326_PULLUP_CTL, 0x02);
+   674	
+   675		/* enable headphone driver */
+   676		regmap_write(es8326->regmap, ES8326_HP_DRIVER, 0xa7);
+   677		regmap_write(es8326->regmap, ES8326_HP_DRIVER_REF, 0xa3);
+   678		regmap_write(es8326->regmap, ES8326_HP_DRIVER_REF, 0xb3);
+   679		regmap_write(es8326->regmap, ES8326_HP_DRIVER, 0xa1);
+   680	
+   681		regmap_write(es8326->regmap, ES8326_CLK_INV, 0x00);
+   682		regmap_write(es8326->regmap, ES8326_CLK_VMIDS1, 0xc4);
+   683		regmap_write(es8326->regmap, ES8326_CLK_VMIDS2, 0x81);
+   684		regmap_write(es8326->regmap, ES8326_CLK_CAL_TIME, 0x00);
+   685	
+   686		/* turn off headphone out */
+   687		regmap_write(es8326->regmap, ES8326_HP_CAL, 0x00);
+   688		/* set ADC and DAC in low power mode */
+   689		regmap_write(es8326->regmap, ES8326_ANA_LP, 0xf0);
+   690	
+   691		/* force micbias on */
+   692		regmap_write(es8326->regmap, ES8326_ANA_MICBIAS, 0x4f);
+   693		regmap_write(es8326->regmap, ES8326_SYS_BIAS, 0x08);
+   694		regmap_write(es8326->regmap, ES8326_ANA_VSEL, 0x7F);
+   695		/* select vdda as micbias source */
+   696		regmap_write(es8326->regmap, ES8326_VMIDLOW, 0x23);
+   697		/* set dac dsmclip = 1 */
+   698		regmap_write(es8326->regmap, ES8326_DAC_DSM, 0x08);
+   699		regmap_write(es8326->regmap, ES8326_DAC_VPPSCALE, 0x15);
+   700	
+   701		regmap_write(es8326->regmap, ES8326_INT_SOURCE, 0x0c);
+   702		regmap_write(es8326->regmap, ES8326_INTOUT_IO,
+   703			     es8326->interrupt_clk);
+   704		regmap_write(es8326->regmap, ES8326_SDINOUT1_IO,
+   705			    (ES8326_IO_DMIC_CLK << ES8326_SDINOUT1_SHIFT));
+   706		regmap_write(es8326->regmap, ES8326_SDINOUT23_IO, ES8326_IO_INPUT);
+   707	
+   708		regmap_write(es8326->regmap, ES8326_ANA_PDN, 0x3b);
+   709		regmap_write(es8326->regmap, ES8326_RESET, ES8326_CSM_ON);
+   710		regmap_update_bits(es8326->regmap, ES8326_PGAGAIN, ES8326_MIC_SEL_MASK,
+   711				   ES8326_MIC1_SEL);
+   712	
+ > 713		regmap_update_bits(es8326->regmap, ES8326_DAC_MUTE, ES8326_MUTE_MASK,
+ > 714				   ES8326_MUTE);
+   715	
+   716		regmap_write(es8326->regmap, ES8326_HPDET_TYPE, 0x80 |
+   717			     ES8326_HP_DET_SRC_PIN9 | es8326->jack_pol);
+   718		regmap_read(es8326->regmap, ES8326_CHIP_VERSION, &reg);
+ > 719		es8326->version = reg;
+   720		es8326_irq(es8326->irq, es8326);
+   721		return 0;
+   722	}
+   723	
 
 -- 
 0-DAY CI Kernel Test Service
