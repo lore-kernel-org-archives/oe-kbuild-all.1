@@ -1,58 +1,56 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76015232
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jun 2023 06:06:22 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-66c729f5618so1373801b3a.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jun 2023 23:06:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DA53FD4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jun 2023 06:18:55 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fbc12181b6so12249865e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jun 2023 23:18:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688105182; x=1690697182;
+        d=linaro.org; s=google; t=1688105933; x=1690697933;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FoQDqvgFjP9yIbNKgNX/63X8qzFVfopYrI03Z5gPuZs=;
-        b=YIKi3vyfcjrWLRboUKSiLakgNi2F9x57FRd5SmknzlK3rspfA0uYAcbIhva27p6QDz
-         VU5AX/yNquCmAikErptNFkBPOfwyqHl0kAYMpW4+IlPDwlBrRasgxaovywpLeExT3ZqU
-         JCKifxzyzqnZevbuBVTmJnjYMVAOWWUk47QApDTdKRzmfa29nq/JAmAP64gD5zidjyq1
-         8ZhbPCstfVz7ar1prAb8AoriRanmtjjldx/lrJ8YsqnAFNdGc3JDtUiyUodxszLFAleW
-         B3IKc3dCKQ/GjJQrdaJMRrkkH+ri00sxmpv33BVLxzFA5LCZt/4TODK9ozApWnjLPOrX
-         0msA==
+        bh=zr5rF21wCxAgCyW7DuVdlBs4zYqth3c0/Oqjm5ElJHw=;
+        b=QX1GbHZHOMS/I6qduXCOvQHqbJKZov2iJoruAGrNr6y2rYLwgeZN26SBlS64A1M1Lj
+         YW9umBOvF6cfJPlxpPZJcwrucrulpyAjKTfGH8C6id3fVVhYx3LfyfMhd1K+7993wIOP
+         qMSfysesD8oqYY+3aQer4bI68T87PwQ15b1oWm9Tqfi42jL7nyqcf0HniCxzrt8+UnCG
+         tsWojuyS+Td5TbMp45LEdHvV9sBqY8kK9V6QlsVYVRzUxMbikZkKJ+xGE/w+ZyaiynLS
+         bAboVJkBsOuEvUvMa1nUkckbSIYsJmuMNA0GyzxFzyMFZDTvX3m6MUZVbFNw4F/M30QA
+         mfEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688105182; x=1690697182;
+        d=1e100.net; s=20221208; t=1688105933; x=1690697933;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FoQDqvgFjP9yIbNKgNX/63X8qzFVfopYrI03Z5gPuZs=;
-        b=VCHsCd5aXO5dhTSk7D4A/ppsW6/iecDKRGkh42xm1XpAJ1d15g/SvVao179SMr59RZ
-         hXw8MKQQ3i3IOL099kTjQP2vD5GDDBDIWkzNTyre1NXDucFsIiiss6j8CwgHJWd8zqdp
-         r+r+vuqdsBpHHAaaafO2hKTM/xHMLrrmG49aCqtFBqrBFO/MGE9y5UMBOkPr75eD3sA4
-         b7m7YYCVas+8/3qWGNkbk/+GeO/Ir3nw5ZOKcFeo68fMeAfwccFhEk3PngO2kHUTSZsH
-         ORYPk604W3Pq9A01d/UGfkl635cEscYn4tlxDwrIla76eobI9DsRYMBtsbyCFUlmU+Qo
-         Iz0g==
-X-Gm-Message-State: ABy/qLbPg54NerIy0N1hH1cA1czAqXXKSkqzTi/abBoMrJ4lC8Y9Q3k5
-	IXi3Wg1m1YZkl7r/X8GO9nCpyg==
-X-Google-Smtp-Source: APBJJlHu5lo/ftGXXxmHcultaYkBbYMsHO52f4I9kLJs5dcbCEzDSBQuwf5ZAjZlxyBZksdGLuqLCQ==
-X-Received: by 2002:a05:6a00:2282:b0:668:7325:e184 with SMTP id f2-20020a056a00228200b006687325e184mr2392442pfe.16.1688105182122;
-        Thu, 29 Jun 2023 23:06:22 -0700 (PDT)
-Received: from localhost ([122.172.87.195])
-        by smtp.gmail.com with ESMTPSA id e5-20020a62ee05000000b0064fe06fe712sm9232900pfi.129.2023.06.29.23.06.20
+        bh=zr5rF21wCxAgCyW7DuVdlBs4zYqth3c0/Oqjm5ElJHw=;
+        b=YvrYz9ljAf9QrHtO8KYu89o/QlnE3Xlq8WRqIQb44GjKjsqLylrpTLFcFmIN1afpDw
+         5vlDgRiM2xXLftNRtqvJlN2/0SA8A9pcixb1yyXFUx8y38c0YJI5XRdi0iiev4HvMbMl
+         aVfJlVKn7xECyZXhTK2YWhQQUJ0Adln9j4lqytliO9YhQLCNbB388PFZF3XMzFLJP2r8
+         JkKmBFvpCe9YJLM213uxXK2XbEMCOUUG4q94HNzdFRNOZiqEqbg1gwN9gr5OR0DZ6gq/
+         91JjxurqEGf95tS6obwdxIyLkwiF2yHBsCSGeaBOs96AkchINrPOM2Bwi5K2ONyUCkHP
+         wJsQ==
+X-Gm-Message-State: AC+VfDwoGjvIPRlmc3imvCT6uDaHe11cGV7r2MmEmdkSjqiVnDdkyxaN
+	Z+9c9F+w4DQpFShglbJk/XJg3w==
+X-Google-Smtp-Source: ACHHUZ4nsmWQ8xs40ltmSBhxGzZcDTQ5vdYqASDgeCzIG3MODNSzst18118PLv/Va6+AHyucJZwfDg==
+X-Received: by 2002:a05:600c:2201:b0:3fa:91d2:55b6 with SMTP id z1-20020a05600c220100b003fa91d255b6mr1098206wml.9.1688105933535;
+        Thu, 29 Jun 2023 23:18:53 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id q9-20020a1ce909000000b003fbc90e030csm191540wmc.37.2023.06.29.23.18.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jun 2023 23:06:21 -0700 (PDT)
-Date: Fri, 30 Jun 2023 11:36:19 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Zhipeng Wang <zhipeng.wang_1@nxp.com>,
-	kernel test robot <lkp@intel.com>,
-	"llvm@lists.linux.dev" <llvm@lists.linux.dev>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [EXT] Re: [linux-next:master 5324/12162]
- drivers/cpufreq/cpufreq-dt-platdev.c:18:34: warning: unused variable
- 'allowlist'
-Message-ID: <20230630060619.zsfw4aynce7wt7cv@vireshk-i7>
-References: <202306250025.savpMM8L-lkp@intel.com>
- <20230626065345.2i562lyf23fantlm@vireshk-i7>
- <PAXPR04MB8304F58EE8AE785A8B823C09EB24A@PAXPR04MB8304.eurprd04.prod.outlook.com>
- <20230628153923.GA254367@dev-arch.thelio-3990X>
+        Thu, 29 Jun 2023 23:18:51 -0700 (PDT)
+Date: Fri, 30 Jun 2023 09:18:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild@lists.linux.dev, Eddie James <eajames@linux.ibm.com>,
+	linux-hwmon@vger.kernel.org, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	jdelvare@suse.com, lakshmiy@us.ibm.com
+Subject: Re: [PATCH] hwmon: (pmbus/acbel-fsg032) Add firmware version debugfs
+ attribute
+Message-ID: <07dac6f4-5b40-4a62-b1a9-257ec13938ed@kadam.mountain>
+References: <20230627184027.16343-1-eajames@linux.ibm.com>
+ <b12935a2-a8b7-4d70-8c7d-6fd1e92037c2@kadam.mountain>
+ <45a29025-4c06-4f88-b82f-a8002c25c376@kadam.mountain>
+ <1a27469a-4cdb-8cf0-c539-05103f2e0b8f@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,37 +59,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230628153923.GA254367@dev-arch.thelio-3990X>
+In-Reply-To: <1a27469a-4cdb-8cf0-c539-05103f2e0b8f@roeck-us.net>
 
-On 28-06-23, 08:39, Nathan Chancellor wrote:
-> On Wed, Jun 28, 2023 at 01:33:40AM +0000, Zhipeng Wang wrote:
-> > Hi,
+On Thu, Jun 29, 2023 at 12:09:17PM -0700, Guenter Roeck wrote:
+> On 6/29/23 11:59, Dan Carpenter wrote:
+> > On Thu, Jun 29, 2023 at 09:53:16AM +0300, Dan Carpenter wrote:
+> > > d2c6444389b625 Eddie James 2023-06-27  22  	char out[8];
+> > > d2c6444389b625 Eddie James 2023-06-27  23  	int rc;
+> > > d2c6444389b625 Eddie James 2023-06-27  24  	int i;
+> > > d2c6444389b625 Eddie James 2023-06-27  25
+> > > d2c6444389b625 Eddie James 2023-06-27  26  	rc = pmbus_lock_interruptible(client);
+> > > d2c6444389b625 Eddie James 2023-06-27  27  	if (rc)
+> > > d2c6444389b625 Eddie James 2023-06-27  28  		return rc;
+> > > d2c6444389b625 Eddie James 2023-06-27  29
+> > > d2c6444389b625 Eddie James 2023-06-27  30  	rc = i2c_smbus_read_block_data(client, ACBEL_MFR_FW_REVISION, data);
+> > > d2c6444389b625 Eddie James 2023-06-27  31  	pmbus_unlock(client);
+> > > d2c6444389b625 Eddie James 2023-06-27  32  	if (rc < 0)
+> > > d2c6444389b625 Eddie James 2023-06-27  33  		return rc;
+> > > d2c6444389b625 Eddie James 2023-06-27  34
+> > > d2c6444389b625 Eddie James 2023-06-27  35  	for (i = 0; i < rc && i < 3; ++i)
+> > > d2c6444389b625 Eddie James 2023-06-27 @36  		snprintf(&out[i * 2], 3, "%02X", data[i]);
+> > > 
+> > > If data[i] is negative this will print FFFFFFF1 etc.  (This is an x86
+> > > config...  Did we ever merge that patch to make char signed by default?)
 > > 
-> > I'm sorry for responding so late. I have also tried to reproduce this issue many times and I have not reproduced it.
+> > I meant unsigned not signed.  But actually we debated both ways...
+> > Signed by default would annoy PowerPC devs since they try to really
+> > lean into the fact that char is unsigned on that arch.  :P
+> > 
+> > https://lwn.net/Articles/911914/
+> > 
 > 
-> I can reproduce this with the configuration that the robot provided,
-> even with GCC.
-> 
->   $ curl -LSso .config https://download.01.org/0day-ci/archive/20230625/202306250025.savpMM8L-lkp@intel.com/config
-> 
->   $ make -skj"$(nproc)" ARCH=i386 CROSS_COMPILE=x86_64-linux- W=1 olddefconfig drivers/cpufreq/cpufreq-dt-platdev.o
->   drivers/cpufreq/cpufreq-dt-platdev.c:105:34: warning: 'blocklist' defined but not used [-Wunused-const-variable=]
->     102 | static const struct of_device_id blocklist[] __initconst = {
->         |                                  ^~~~~~~~~
->   drivers/cpufreq/cpufreq-dt-platdev.c:18:34: warning: 'allowlist' defined but not used [-Wunused-const-variable=]
->      17 | static const struct of_device_id allowlist[] __initconst = {
->         |                                  ^~~~~~~~~
-> 
-> The W=1 is the key here, this warning is not enabled in a normal build. This
-> configuration does not have CONFIG_OF=y, so of_match_node() is just defined as
-> NULL, meaning these variables are indeed unused.
+> As if anything would be easy nowadays ;-). Anyway, in this case, the array
+> should be explicitly unsigned, so changing the type to u8 was the right
+> thing to do. Also, the driver should be usable on non-Intel systems,
+> which is another reason to make the type sign-specific (even more so in
+> the context of the above discussion).
 
-Ahh. Sent a patch to fix it now. Thanks.
+Actually we did make char unsigned.  I don't know if I'm super
+comfortable with code that assumes char is unsigned.  It's makes
+backporting trickier.  But this is definitely a false positive so I have
+silenced the warning in Smatch.
 
-> However, I am kind of confused as to how the robot landed on 3b062a08698 as the
-> problematic commit, as I can reproduce these warnings without it.
+regards,
+dan carpenter
 
-Right.
-
--- 
-viresh
+--- a/check_kernel_printf.c
++++ b/check_kernel_printf.c
+@@ -827,7 +827,7 @@ hexbyte(const char *fmt, int fmt_len, struct expression *arg, int vaidx, struct
+                sm_warning("could not determine type of argument %d", vaidx);
+                return;
+        }
+-       if (type == &char_ctype || type == &schar_ctype)
++       if (type_signed(type) && (type == &char_ctype || type == &schar_ctype))
+                sm_warning("argument %d to %.*s specifier has type '%s'",
+                       vaidx, fmt_len, fmt, type_to_str(type));
+ }
