@@ -1,46 +1,42 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23271642C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jun 2023 16:58:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9325610EA
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jun 2023 17:19:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688144323; x=1719680323;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kJUcYfTUHDV1l9ZO+lxeeTi4hIA3N2MMxaNF57SiJTk=;
-  b=bIhxgwzDHH9szTxDap47+S9ETt37wk6psiarwAwMINRnwWftzLL9EV5F
-   c1HRQy9vNCOyLc0n++rEv7OV9HjEmLk8xuMF9N8H1r39NI+KJdRWFILu0
-   2g3KyeJjYK6Jk/heaogsr0iG2Czbzbp7dB/Ng3cYfdJqvn0fY6roM6aq4
-   lAc2zXCrBPBvC9mFEJsyA1BmiYYVdRIqkNUk5PeL8IeGlk3LkFYhMMh7F
-   oIwacdgpnKNsi4nDpGtXD8cNyeWngtoqRboVXUj7m7C/aDHZOl5V5eMHs
-   rytvTu2mwKbH9s+D7UlAfNZXOeD55NC2P82uT0Vc5cR8p44kz2CQntJOx
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="361292409"
+  t=1688145579; x=1719681579;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2XnpdNDYAlfWb93/ZH9LQN2suO7MK6f1+kIPkA+zt4U=;
+  b=g2j9hx1p1/GLX4Jhex6VYft0GxGr4k2ewc08ntXWH/O3EANcEmLMXnYP
+   IkVzL8lCe8chTmGOWKynnCs1pFNrEZnpU5RWtBIjmV+TedK6U3IxlTEoo
+   gLtt5h1xbQW4PdKnXnSWHjlGt8ftcHEImYXR/8OA8Wrh2thmA1x+6eJ7s
+   DVFhDAvgkv8XDlynVEoIqnYP4nj+aMWoL/1mxFJRoCZHniDtkb+gRHc5M
+   trO2tsHviEa48HWWQp1qcuZgzWu+OnSLu+YfVBjidSB3UJNPvR6NuwZvR
+   rQ+Pao68oTOQitVVDEMrjmy0PoMIjrwuQQ6k9lgYg18rfy1W5FOY6r5cd
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="426132995"
 X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="361292409"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 09:58:38 -0700
+   d="scan'208";a="426132995"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 10:19:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="747480979"
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="831019091"
 X-IronPort-AV: E=Sophos;i="6.01,171,1684825200"; 
-   d="scan'208";a="747480979"
+   d="scan'208";a="831019091"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 30 Jun 2023 09:58:36 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 30 Jun 2023 10:19:37 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qFHS7-000FAr-1Y;
-	Fri, 30 Jun 2023 16:58:35 +0000
-Date: Sat, 1 Jul 2023 00:58:12 +0800
+	id 1qFHmS-000FCG-2r;
+	Fri, 30 Jun 2023 17:19:36 +0000
+Date: Sat, 1 Jul 2023 01:19:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhu Ning <zhuning0077@gmail.com>, alsa-devel@alsa-project.org,
-	broonie@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, pierre-louis.bossart@linux.intel.com,
-	tiwai@suse.com, amadeuszx.slawinski@linux.intel.com,
-	Zhu Ning <zhuning0077@gmail.com>
-Subject: Re: [PATCH] ASoC: codecs: es8326: Fix power-up sequence
-Message-ID: <202307010058.iE2OHDes-lkp@intel.com>
-References: <20230630072515.49382-1-zhuning0077@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-4.14-stable 2/2] fs/verity/enable.c:26:9:
+ error: implicit declaration of function 'find_get_page_flags'
+Message-ID: <202307010156.FUvAeJBv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,130 +45,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230630072515.49382-1-zhuning0077@gmail.com>
 
-Hi Zhu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.4 next-20230630]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhu-Ning/ASoC-codecs-es8326-Fix-power-up-sequence/20230630-152707
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20230630072515.49382-1-zhuning0077%40gmail.com
-patch subject: [PATCH] ASoC: codecs: es8326: Fix power-up sequence
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230701/202307010058.iE2OHDes-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230701/202307010058.iE2OHDes-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-4.14-stable
+head:   e8c1340cbb0f24693dd9056f8d5a7808e4597b80
+commit: 285fc83a087180f0bc30b75285d4bc2cdcceae06 [2/2] BACKPORT: fsverity: don't drop pagecache at end of FS_IOC_ENABLE_VERITY
+config: x86_64-randconfig-x003-20230629 (https://download.01.org/0day-ci/archive/20230701/202307010156.FUvAeJBv-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230701/202307010156.FUvAeJBv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307010058.iE2OHDes-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307010156.FUvAeJBv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sound/soc/codecs/es8326.c: In function 'es8326_resume':
->> sound/soc/codecs/es8326.c:713:61: error: 'ES8326_MUTE_MASK' undeclared (first use in this function); did you mean 'ES8326_MIC_SEL_MASK'?
-     713 |         regmap_update_bits(es8326->regmap, ES8326_DAC_MUTE, ES8326_MUTE_MASK,
-         |                                                             ^~~~~~~~~~~~~~~~
-         |                                                             ES8326_MIC_SEL_MASK
-   sound/soc/codecs/es8326.c:713:61: note: each undeclared identifier is reported only once for each function it appears in
->> sound/soc/codecs/es8326.c:714:28: error: 'ES8326_MUTE' undeclared (first use in this function); did you mean 'ES8326_FMT'?
-     714 |                            ES8326_MUTE);
-         |                            ^~~~~~~~~~~
-         |                            ES8326_FMT
->> sound/soc/codecs/es8326.c:719:15: error: 'struct es8326_priv' has no member named 'version'
-     719 |         es8326->version = reg;
-         |               ^~
+>> fs/verity/enable.c:26:9: error: implicit declaration of function 'find_get_page_flags' [-Werror,-Wimplicit-function-declaration]
+           page = find_get_page_flags(filp->f_mapping, index, FGP_ACCESSED);
+                  ^
+>> fs/verity/enable.c:26:53: error: use of undeclared identifier 'FGP_ACCESSED'
+           page = find_get_page_flags(filp->f_mapping, index, FGP_ACCESSED);
+                                                              ^
+>> fs/verity/enable.c:33:10: error: implicit declaration of function 'read_mapping_page' [-Werror,-Wimplicit-function-declaration]
+                   page = read_mapping_page(filp->f_mapping, index, NULL);
+                          ^
+>> fs/verity/enable.c:33:8: error: incompatible integer to pointer conversion assigning to 'struct page *' from 'int' [-Wint-conversion]
+                   page = read_mapping_page(filp->f_mapping, index, NULL);
+                        ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   4 errors generated.
 
 
-vim +713 sound/soc/codecs/es8326.c
+vim +/find_get_page_flags +26 fs/verity/enable.c
 
-   644	
-   645	static int es8326_resume(struct snd_soc_component *component)
-   646	{
-   647		struct es8326_priv *es8326 = snd_soc_component_get_drvdata(component);
-   648		unsigned int reg;
-   649	
-   650		regcache_cache_only(es8326->regmap, false);
-   651		regcache_sync(es8326->regmap);
-   652	
-   653		/* reset register value to default */
-   654		regmap_write(es8326->regmap, ES8326_CSM_I2C_STA, 0x01);
-   655		usleep_range(1000, 3000);
-   656		regmap_write(es8326->regmap, ES8326_CSM_I2C_STA, 0x00);
-   657		/* reset internal state */
-   658		regmap_write(es8326->regmap, ES8326_RESET, 0x1f);
-   659		regmap_write(es8326->regmap, ES8326_VMIDSEL, 0x0E);
-   660		regmap_write(es8326->regmap, ES8326_HPJACK_TIMER, 0x88);
-   661		/* set headphone default type and detect pin */
-   662		regmap_write(es8326->regmap, ES8326_HPDET_TYPE, 0x81 |
-   663			     ES8326_HP_DET_SRC_PIN9);
-   664		regmap_write(es8326->regmap, ES8326_CLK_RESAMPLE, 0x05);
-   665	
-   666		/* set internal oscillator as clock source of headpone cp */
-   667		regmap_write(es8326->regmap, ES8326_CLK_DIV_CPC, 0x84);
-   668		regmap_write(es8326->regmap, ES8326_CLK_CTL, ES8326_CLK_ON);
-   669		/* clock manager reset release */
-   670		regmap_write(es8326->regmap, ES8326_RESET, 0x17);
-   671		/* set headphone detection as half scan mode */
-   672		regmap_write(es8326->regmap, ES8326_HP_MISC, 0x08);
-   673		regmap_write(es8326->regmap, ES8326_PULLUP_CTL, 0x02);
-   674	
-   675		/* enable headphone driver */
-   676		regmap_write(es8326->regmap, ES8326_HP_DRIVER, 0xa7);
-   677		regmap_write(es8326->regmap, ES8326_HP_DRIVER_REF, 0xa3);
-   678		regmap_write(es8326->regmap, ES8326_HP_DRIVER_REF, 0xb3);
-   679		regmap_write(es8326->regmap, ES8326_HP_DRIVER, 0xa1);
-   680	
-   681		regmap_write(es8326->regmap, ES8326_CLK_INV, 0x00);
-   682		regmap_write(es8326->regmap, ES8326_CLK_VMIDS1, 0xc4);
-   683		regmap_write(es8326->regmap, ES8326_CLK_VMIDS2, 0x81);
-   684		regmap_write(es8326->regmap, ES8326_CLK_CAL_TIME, 0x00);
-   685	
-   686		/* turn off headphone out */
-   687		regmap_write(es8326->regmap, ES8326_HP_CAL, 0x00);
-   688		/* set ADC and DAC in low power mode */
-   689		regmap_write(es8326->regmap, ES8326_ANA_LP, 0xf0);
-   690	
-   691		/* force micbias on */
-   692		regmap_write(es8326->regmap, ES8326_ANA_MICBIAS, 0x4f);
-   693		regmap_write(es8326->regmap, ES8326_SYS_BIAS, 0x08);
-   694		regmap_write(es8326->regmap, ES8326_ANA_VSEL, 0x7F);
-   695		/* select vdda as micbias source */
-   696		regmap_write(es8326->regmap, ES8326_VMIDLOW, 0x23);
-   697		/* set dac dsmclip = 1 */
-   698		regmap_write(es8326->regmap, ES8326_DAC_DSM, 0x08);
-   699		regmap_write(es8326->regmap, ES8326_DAC_VPPSCALE, 0x15);
-   700	
-   701		regmap_write(es8326->regmap, ES8326_INT_SOURCE, 0x0c);
-   702		regmap_write(es8326->regmap, ES8326_INTOUT_IO,
-   703			     es8326->interrupt_clk);
-   704		regmap_write(es8326->regmap, ES8326_SDINOUT1_IO,
-   705			    (ES8326_IO_DMIC_CLK << ES8326_SDINOUT1_SHIFT));
-   706		regmap_write(es8326->regmap, ES8326_SDINOUT23_IO, ES8326_IO_INPUT);
-   707	
-   708		regmap_write(es8326->regmap, ES8326_ANA_PDN, 0x3b);
-   709		regmap_write(es8326->regmap, ES8326_RESET, ES8326_CSM_ON);
-   710		regmap_update_bits(es8326->regmap, ES8326_PGAGAIN, ES8326_MIC_SEL_MASK,
-   711				   ES8326_MIC1_SEL);
-   712	
- > 713		regmap_update_bits(es8326->regmap, ES8326_DAC_MUTE, ES8326_MUTE_MASK,
- > 714				   ES8326_MUTE);
-   715	
-   716		regmap_write(es8326->regmap, ES8326_HPDET_TYPE, 0x80 |
-   717			     ES8326_HP_DET_SRC_PIN9 | es8326->jack_pol);
-   718		regmap_read(es8326->regmap, ES8326_CHIP_VERSION, &reg);
- > 719		es8326->version = reg;
-   720		es8326_irq(es8326->irq, es8326);
-   721		return 0;
-   722	}
-   723	
+46af35239934d8 Eric Biggers 2019-07-22  15  
+693ad1e5b397bb Eric Biggers 2020-01-06  16  /*
+693ad1e5b397bb Eric Biggers 2020-01-06  17   * Read a file data page for Merkle tree construction.  Do aggressive readahead,
+693ad1e5b397bb Eric Biggers 2020-01-06  18   * since we're sequentially reading the entire file.
+693ad1e5b397bb Eric Biggers 2020-01-06  19   */
+693ad1e5b397bb Eric Biggers 2020-01-06  20  static struct page *read_file_data_page(struct file *filp, pgoff_t index,
+693ad1e5b397bb Eric Biggers 2020-01-06  21  					struct file_ra_state *ra,
+693ad1e5b397bb Eric Biggers 2020-01-06  22  					unsigned long remaining_pages)
+693ad1e5b397bb Eric Biggers 2020-01-06  23  {
+693ad1e5b397bb Eric Biggers 2020-01-06  24  	struct page *page;
+693ad1e5b397bb Eric Biggers 2020-01-06  25  
+693ad1e5b397bb Eric Biggers 2020-01-06 @26  	page = find_get_page_flags(filp->f_mapping, index, FGP_ACCESSED);
+693ad1e5b397bb Eric Biggers 2020-01-06  27  	if (!page || !PageUptodate(page)) {
+693ad1e5b397bb Eric Biggers 2020-01-06  28  		if (page)
+693ad1e5b397bb Eric Biggers 2020-01-06  29  			put_page(page);
+693ad1e5b397bb Eric Biggers 2020-01-06  30  		else
+693ad1e5b397bb Eric Biggers 2020-01-06  31  			page_cache_sync_readahead(filp->f_mapping, ra, filp,
+693ad1e5b397bb Eric Biggers 2020-01-06  32  						  index, remaining_pages);
+693ad1e5b397bb Eric Biggers 2020-01-06 @33  		page = read_mapping_page(filp->f_mapping, index, NULL);
+693ad1e5b397bb Eric Biggers 2020-01-06  34  		if (IS_ERR(page))
+693ad1e5b397bb Eric Biggers 2020-01-06  35  			return page;
+693ad1e5b397bb Eric Biggers 2020-01-06  36  	}
+693ad1e5b397bb Eric Biggers 2020-01-06  37  	if (PageReadahead(page))
+693ad1e5b397bb Eric Biggers 2020-01-06  38  		page_cache_async_readahead(filp->f_mapping, ra, filp, page,
+693ad1e5b397bb Eric Biggers 2020-01-06  39  					   index, remaining_pages);
+693ad1e5b397bb Eric Biggers 2020-01-06  40  	return page;
+693ad1e5b397bb Eric Biggers 2020-01-06  41  }
+693ad1e5b397bb Eric Biggers 2020-01-06  42  
+
+:::::: The code at line 26 was first introduced by commit
+:::::: 693ad1e5b397bbc6c7fb971c8406426a5f21c8c1 fs-verity: implement readahead for FS_IOC_ENABLE_VERITY
+
+:::::: TO: Eric Biggers <ebiggers@google.com>
+:::::: CC: Jaegeuk Kim <jaegeuk@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
