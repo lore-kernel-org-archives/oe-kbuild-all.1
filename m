@@ -1,119 +1,46 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807131FA0;
-	Fri, 30 Jun 2023 03:20:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688095216; x=1719631216;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CleN5csZxWjHwwb4MOnNoiZ8h4BJOgyw+uua6zQ7x1U=;
-  b=WUeAial2pUBQcsKhjfbLCxsr2Xpg1Qc6yBqNobwwk9Bo34ECTulqoYL1
-   ScTSfo/pV0ZrDoSrDV270NqIKn90GPPrsefcukiVG7ZRA16H3YDchSYxX
-   H6guaciLQErYw6hemUCPOVjp8guFAz+xnACLNRFvzy2MqwcfL/kF7ikQp
-   5WtTlXOH0CzgYbrPQXt4GJr/1l09qL/EXHZWVPRBWI/4QFFPgbOfcmxzO
-   jbqpb+gMCZ9snbYnFYdstzIKCWBGgjyUMNQC12TUDhYJPijDTDNLC2yeL
-   yb2Osl79pIoPm/Y4z1SAv6r+ZtqnjWFJ6UQwxTWPr7CuuCQqOCJhwiO7y
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="393027490"
-X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="393027490"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 20:20:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="1048058620"
-X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="1048058620"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 29 Jun 2023 20:20:10 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qF4g5-000Ee1-1N;
-	Fri, 30 Jun 2023 03:20:09 +0000
-Date: Fri, 30 Jun 2023 11:19:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wei Hu <weh@microsoft.com>, netdev@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-rdma@vger.kernel.org,
-	longli@microsoft.com, sharmaajay@microsoft.com, jgg@ziepe.ca,
-	leon@kernel.org, kys@microsoft.com, haiyangz@microsoft.com,
-	wei.liu@kernel.org, decui@microsoft.com, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	vkuznets@redhat.com, ssengar@linux.microsoft.com,
-	shradhagupta@linux.microsoft.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 1/1] RDMA/mana_ib: Add EQ interrupt support to mana ib
- driver.
-Message-ID: <202306301145.qNZGZ0MP-lkp@intel.com>
-References: <20230615111412.1687573-1-weh@microsoft.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0807315BC
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jun 2023 04:41:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4684CC433C0;
+	Fri, 30 Jun 2023 04:41:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1688100060;
+	bh=Jgx68fXVf6UwXBtQ0GgdVmJu4ztcB3tkHPrO1oYqDn8=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=Cytun+vcdETAJBmepamRb5F9kJ7wQ1NFXR61qGV2J1tssD8XxFTxoGGms8qBPyC/5
+	 4RMBp192fPdj6eKxhr0b3EXJRkbuSxkYkSvUzthNajckhW4+kDl3q7JBkHZYTLsWim
+	 LMA1eaVRuVl247Mn3bwSYqRKf2mRLiguVVmnUR9t20w4WxQx2fszP7VqdixdgNEDcr
+	 vf++KXZlOFZsInqVSqXz8hCkA1GFKIx+AVVLyjMLvByZoBJ0Uc+ZXB2G5VOLv/qqtr
+	 XpRO1C4dNlZfiy1QKvG988Cr2ECmKu0JRN0xQnw0wQoARbU3CQRnAJeCMtKqzvYvWs
+	 xKHRSgtVy0hdQ==
+Message-ID: <d0a14215febf33fcfc36c40420ff352f.sboyd@kernel.org>
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230615111412.1687573-1-weh@microsoft.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <OS0PR01MB5922893DE97EAAD6BAA142558624A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+References: <202306282012.sPQAuAN7-lkp@intel.com> <OS0PR01MB5922893DE97EAAD6BAA142558624A@OS0PR01MB5922.jpnprd01.prod.outlook.com>
+Subject: RE: [linux-next:master 11663/12731] ERROR: modpost: "clk_unregister_fixed_rate" [drivers/regulator/raa215300.ko] undefined!
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev <oe-kbuild-all@lists.linux.dev>, Linux Memory Management List <linux-mm@kvack.org>, linux-clk@vger.kernel.org <linux-clk@vger.kernel.org>, linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>
+To: Biju Das <biju.das.jz@bp.renesas.com>, Geert Uytterhoeven <geert@linux-m68k.org>, Mark Brown <broonie@kernel.org>, kernel test robot <lkp@intel.com>
+Date: Thu, 29 Jun 2023 21:40:57 -0700
+User-Agent: alot/0.10
 
-Hi Wei,
+Quoting Biju Das (2023-06-28 08:47:19)
+> Hi All,
+>=20
+> I have come up with two solutions for fixing this issue.
+>=20
+> Please suggest which solution, I should submit.
+>=20
+> First solution allows to build the driver for m68k architecture,
+> whereas the second solution skips it.
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on horms-ipvs/master v6.4 next-20230629]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Hu/RDMA-mana_ib-Add-EQ-interrupt-support-to-mana-ib-driver/20230615-191709
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230615111412.1687573-1-weh%40microsoft.com
-patch subject: [PATCH v3 1/1] RDMA/mana_ib: Add EQ interrupt support to mana ib driver.
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230630/202306301145.qNZGZ0MP-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230630/202306301145.qNZGZ0MP-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306301145.qNZGZ0MP-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/infiniband/hw/mana/main.c:150:20: warning: unused variable 'ibdev' [-Wunused-variable]
-           struct ib_device *ibdev = ucontext->ibucontext.device;
-                             ^
-   1 warning generated.
-
-
-vim +/ibdev +150 drivers/infiniband/hw/mana/main.c
-
-   145	
-   146	static void mana_ib_destroy_eq(struct mana_ib_ucontext *ucontext,
-   147				       struct mana_ib_dev *mdev)
-   148	{
-   149		struct gdma_context *gc = mdev->gdma_dev->gdma_context;
- > 150		struct ib_device *ibdev = ucontext->ibucontext.device;
-   151		struct gdma_queue *eq;
-   152		int i;
-   153	
-   154		if (!ucontext->eqs)
-   155			return;
-   156	
-   157		for (i = 0; i < gc->max_num_queues; i++) {
-   158			eq = ucontext->eqs[i].eq;
-   159			if (!eq)
-   160				continue;
-   161	
-   162			mana_gd_destroy_queue(gc, eq);
-   163		}
-   164	
-   165		kfree(ucontext->eqs);
-   166		ucontext->eqs = NULL;
-   167	}
-   168	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I'd opt to depend on COMMON_CLK config.
