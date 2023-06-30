@@ -1,42 +1,40 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A1D134B5;
-	Fri, 30 Jun 2023 12:00:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1B914AB4;
+	Fri, 30 Jun 2023 12:21:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688126427; x=1719662427;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5jOmnjHXIKQVYrRMQpofDCwF1+31IdyvbBMDxUzmlzM=;
-  b=ERmxYh7jsYBRrYQMjpMG7J6PfV05RIu2ssYiEgGWblB7z/ThH73HqaR9
-   NXwk8lamATnPktBcFT8n5LtjZOG/YVa5N2vZGbo/2TF77lN2MGtxWVDVi
-   eH04WCslYHO3L5KuA9k5eI5L2eLtfD+q9/eLc9dnVUZxtKgos8+r6ktj0
-   yvnB6S3VnyusYm0kpavqgwgL8yzO+teudWSwwZ/vgg+EEuAhKrHJFkYe6
-   S1IH4jWc424UXmkMCLLSHL1fpxeb+8YxoGbQoZY/rrzaJsTKltWzR4ouE
-   WI66dPYd+pVSxnfe3aQ2K/7QvHEw3j195VwVFww0hu4Z68xgBCqkLpIs4
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="393105015"
+  t=1688127687; x=1719663687;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=+ZDLGPj7J48w0XqFNiONkapFVGymUoH4WRqyaLgIkv8=;
+  b=DDud1ohCON0ScazMbP86rjrAXxLqzkzi98dbaMNKa/EmpY4TH0ifHash
+   lkTbrstXKzkkz+SM4RfqnUEJ4ayBLFfmZ/sauROxiOA0JhxgCqf+Q/SFJ
+   X6EVHxg3laUSf3wCXxWWckbBYgsvMbt6TW/8c9dZcz+qHhSZX7y0dCF5K
+   DmRylXu4zOsKIbKCqfWDZmrhko1qnuWhiEDUQhc2IYMF38YjYzpsPMN16
+   eeaeV6abSz6MO108MFwxkYno4daWkRMgrx2JAfozX4w//vyLgGyoMgA/7
+   vQtU4ALfWerTO8YTpcNMfK9C8xOYZDjR1t3xIFq0YZnt7BMwqpkwL8iyv
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="364958173"
 X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="393105015"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 05:00:26 -0700
+   d="scan'208";a="364958173"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 05:21:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="711791585"
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="1048213668"
 X-IronPort-AV: E=Sophos;i="6.01,170,1684825200"; 
-   d="scan'208";a="711791585"
+   d="scan'208";a="1048213668"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 30 Jun 2023 05:00:25 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 30 Jun 2023 05:21:25 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qFCnY-000Ew9-1O;
-	Fri, 30 Jun 2023 12:00:24 +0000
-Date: Fri, 30 Jun 2023 19:59:24 +0800
+	id 1qFD7t-000Ex8-0b;
+	Fri, 30 Jun 2023 12:21:25 +0000
+Date: Fri, 30 Jun 2023 20:21:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:iov-extract 11/20] net/9p/trans_common.c:16:6: error:
- conflicting types for 'p9_unpin_pages'
-Message-ID: <202306301931.4Y3Srl04-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [stable:linux-6.1.y 4267/7107] error: unknown target CPU '8540'
+Message-ID: <202306302004.rqllCOkx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,52 +44,38 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git iov-extract
-head:   19ee2529bb48ab3bba1d2cfc7a0811ae08a22505
-commit: d2c1ef131970d6dd345eebda1d47874dd2ab18ac [11/20] 9p: Pin pages rather than ref'ing if appropriate
-config: hexagon-randconfig-r024-20230630 (https://download.01.org/0day-ci/archive/20230630/202306301931.4Y3Srl04-lkp@intel.com/config)
+TO: Christophe Leroy <christophe.leroy@csgroup.eu>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Michael Ellerman <mpe@ellerman.id.au>
+
+Hi Christophe,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-6.1.y
+head:   a1c449d00ff8ce2c5fcea5f755df682d1f6bc2ef
+commit: da0beae2449376326086e9f57468fd2b64736d2a [4267/7107] powerpc/64: Set default CPU in Kconfig
+config: powerpc-mpc8560_ads_defconfig (https://download.01.org/0day-ci/archive/20230630/202306302004.rqllCOkx-lkp@intel.com/config)
 compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230630/202306301931.4Y3Srl04-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230630/202306302004.rqllCOkx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306301931.4Y3Srl04-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306302004.rqllCOkx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/9p/trans_common.c:16:6: error: conflicting types for 'p9_unpin_pages'
-      16 | void p9_unpin_pages(struct page **pages, int nr_pages,
-         |      ^
-   net/9p/trans_common.h:7:6: note: previous declaration is here
-       7 | void p9_unpin_pages(struct page **pages, int nr_pages);
-         |      ^
->> net/9p/trans_common.c:23:4: error: call to undeclared function 'page_put_unpin'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      23 |                         page_put_unpin(pages[i], cleanup_mode);
-         |                         ^
-   net/9p/trans_common.c:23:4: note: did you mean 'page_put_link'?
-   include/linux/fs.h:2887:13: note: 'page_put_link' declared here
-    2887 | extern void page_put_link(void *);
-         |             ^
-   2 errors generated.
-
-
-vim +/p9_unpin_pages +16 net/9p/trans_common.c
-
-    10	
-    11	/**
-    12	 * p9_unpin_pages - Unpin pages after the transaction.
-    13	 * @pages: array of pages to be put
-    14	 * @nr_pages: size of array
-    15	 */
-  > 16	void p9_unpin_pages(struct page **pages, int nr_pages,
-    17			    unsigned int cleanup_mode)
-    18	{
-    19		int i;
-    20	
-    21		for (i = 0; i < nr_pages; i++)
-    22			if (pages[i])
-  > 23				page_put_unpin(pages[i], cleanup_mode);
+   clang: error: unsupported argument '-me500' to option '-Wa,'
+   make[2]: *** [scripts/Makefile.build:250: scripts/mod/empty.o] Error 1
+>> error: unknown target CPU '8540'
+   note: valid target CPU values are: generic, 440, 450, 601, 602, 603, 603e, 603ev, 604, 604e, 620, 630, g3, 7400, g4, 7450, g4+, 750, 8548, 970, g5, a2, e500, e500mc, e5500, power3, pwr3, power4, pwr4, power5, pwr5, power5x, pwr5x, power6, pwr6, power6x, pwr6x, power7, pwr7, power8, pwr8, power9, pwr9, power10, pwr10, powerpc, ppc, ppc32, powerpc64, ppc64, powerpc64le, ppc64le, future
+   make[2]: *** [scripts/Makefile.build:118: scripts/mod/devicetable-offsets.s] Error 1
+   make[2]: Target 'scripts/mod/' not remade because of errors.
+   make[1]: *** [Makefile:1288: prepare0] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:238: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
