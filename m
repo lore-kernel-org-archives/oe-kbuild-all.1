@@ -1,42 +1,42 @@
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AD615AE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jun 2023 01:54:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEBE15AE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jun 2023 02:04:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688090049; x=1719626049;
+  t=1688090650; x=1719626650;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4CjDXEvWphUKde8TWNaNOBKeVNNLYRe7b811KSDuPpE=;
-  b=XrAvB+YYU3yqC5J3bDdc+EzjK3GKVDgTob4Ro/JSoT8VtpGMMxCbvByU
-   rk36Bbjvzfs9MN5I8Fa8uLjEYqCny0UBBLzZTdjjPyjdDYyMYLFOp8zbl
-   Lt+TvDwZglwiwMIoZXjmdqmwELF9KMvryh4pwPr2Cn4hwJi9J1LVDJa2K
-   bILB9pInVNPjTf3c8bPNuiA2KMYVb0VsYfnqYYdtVna+fbr6kYJVK5Ksc
-   yTK5I0C4miFlYafmZOOvSeDBpcI9qT6Uzz9kuSUn8fpgRJ9OtXB3Ecym3
-   lIPeyym7uFhNR3DpdCOw16sClUvoUA9xYDQIv01MfdhJgsOOUNLqiytL/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="352107401"
+  bh=Du8/tIsdY1bnW0EeAbqhwPYBcLwTk5IjgQcZKeTzjoQ=;
+  b=RC3l03hnZRT983DaiCTNRl5si7MoV2eTj1OdG3gRqoVn3s6CnXEuyGbD
+   WhQGfmP76B6uFchrZ73WuByz4DOFIlZWVBBYnqF/QVFFnPj3fDRqGWi5B
+   9vCJXGhkUxFdGVxIwlMeYoFXGI/UR0+oyVyrirmKFm4zwKH1DGHumonPL
+   o1pLM748dRlt21/YtaaDZmoPiqHQet+0ngrwRxEM0HZDYbD11W3zs5AiT
+   4zxX5ZlAKG9nRxcB3ZIX1PiG7U0grN6y8HpxTcLKKMkVUNkVgz2CvUC/o
+   jNw0Svj26ExKarAbVG+FI+VS9e5R+Ow//80JH1UXBxNjtMtgudnUNC756
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="352108763"
 X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="352107401"
+   d="scan'208";a="352108763"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 18:54:09 -0700
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 19:04:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="752846651"
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="752848543"
 X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
-   d="scan'208";a="752846651"
+   d="scan'208";a="752848543"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 29 Jun 2023 18:54:07 -0700
+  by orsmga001.jf.intel.com with ESMTP; 29 Jun 2023 19:04:08 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qF3Kp-000Ear-0T;
-	Fri, 30 Jun 2023 01:54:07 +0000
-Date: Fri, 30 Jun 2023 09:53:18 +0800
+	id 1qF3UV-000EbD-10;
+	Fri, 30 Jun 2023 02:04:07 +0000
+Date: Fri, 30 Jun 2023 10:04:02 +0800
 From: kernel test robot <lkp@intel.com>
 To: Linus Walleij <linus.walleij@linaro.org>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [arm-integrator:kernel-in-vmalloc-v6.4-rc1-just-ttbr0-split 20/26]
  fs/binfmt_elf.c:1402:52: error: 'struct file' has no member named 'name'
-Message-ID: <202306300913.MF6GRPSq-lkp@intel.com>
+Message-ID: <202306300926.aYfRqO7s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -53,33 +53,26 @@ FYI, the error/warning still remains.
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-integrator.git kernel-in-vmalloc-v6.4-rc1-just-ttbr0-split
 head:   d0cf2fe7497259ee8a7308da99a8cbafaab5e5b5
 commit: 8560cbc95c9fafe667f0faf076bba96cc2f4c717 [20/26] debug prints
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20230630/202306300913.MF6GRPSq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300913.MF6GRPSq-lkp@intel.com/reproduce)
+config: arc-randconfig-r043-20230630 (https://download.01.org/0day-ci/archive/20230630/202306300926.aYfRqO7s-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230630/202306300926.aYfRqO7s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306300913.MF6GRPSq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306300926.aYfRqO7s-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    In file included from include/linux/kernel.h:30,
-                    from arch/x86/include/asm/percpu.h:27,
-                    from arch/x86/include/asm/nospec-branch.h:14,
-                    from arch/x86/include/asm/paravirt_types.h:27,
-                    from arch/x86/include/asm/ptrace.h:97,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/module.h:14,
                     from fs/binfmt_elf.c:13:
    fs/binfmt_elf.c: In function 'load_elf_binary':
->> include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'long unsigned int' [-Wformat=]
+   include/linux/kern_levels.h:5:25: warning: format '%x' expects argument of type 'unsigned int', but argument 3 has type 'long unsigned int' [-Wformat=]
        5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
          |                         ^~~~~~
    include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
