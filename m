@@ -1,56 +1,51 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DA53FD4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 Jun 2023 06:18:55 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-3fbc12181b6so12249865e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 29 Jun 2023 23:18:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688105933; x=1690697933;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zr5rF21wCxAgCyW7DuVdlBs4zYqth3c0/Oqjm5ElJHw=;
-        b=QX1GbHZHOMS/I6qduXCOvQHqbJKZov2iJoruAGrNr6y2rYLwgeZN26SBlS64A1M1Lj
-         YW9umBOvF6cfJPlxpPZJcwrucrulpyAjKTfGH8C6id3fVVhYx3LfyfMhd1K+7993wIOP
-         qMSfysesD8oqYY+3aQer4bI68T87PwQ15b1oWm9Tqfi42jL7nyqcf0HniCxzrt8+UnCG
-         tsWojuyS+Td5TbMp45LEdHvV9sBqY8kK9V6QlsVYVRzUxMbikZkKJ+xGE/w+ZyaiynLS
-         bAboVJkBsOuEvUvMa1nUkckbSIYsJmuMNA0GyzxFzyMFZDTvX3m6MUZVbFNw4F/M30QA
-         mfEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688105933; x=1690697933;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zr5rF21wCxAgCyW7DuVdlBs4zYqth3c0/Oqjm5ElJHw=;
-        b=YvrYz9ljAf9QrHtO8KYu89o/QlnE3Xlq8WRqIQb44GjKjsqLylrpTLFcFmIN1afpDw
-         5vlDgRiM2xXLftNRtqvJlN2/0SA8A9pcixb1yyXFUx8y38c0YJI5XRdi0iiev4HvMbMl
-         aVfJlVKn7xECyZXhTK2YWhQQUJ0Adln9j4lqytliO9YhQLCNbB388PFZF3XMzFLJP2r8
-         JkKmBFvpCe9YJLM213uxXK2XbEMCOUUG4q94HNzdFRNOZiqEqbg1gwN9gr5OR0DZ6gq/
-         91JjxurqEGf95tS6obwdxIyLkwiF2yHBsCSGeaBOs96AkchINrPOM2Bwi5K2ONyUCkHP
-         wJsQ==
-X-Gm-Message-State: AC+VfDwoGjvIPRlmc3imvCT6uDaHe11cGV7r2MmEmdkSjqiVnDdkyxaN
-	Z+9c9F+w4DQpFShglbJk/XJg3w==
-X-Google-Smtp-Source: ACHHUZ4nsmWQ8xs40ltmSBhxGzZcDTQ5vdYqASDgeCzIG3MODNSzst18118PLv/Va6+AHyucJZwfDg==
-X-Received: by 2002:a05:600c:2201:b0:3fa:91d2:55b6 with SMTP id z1-20020a05600c220100b003fa91d255b6mr1098206wml.9.1688105933535;
-        Thu, 29 Jun 2023 23:18:53 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q9-20020a1ce909000000b003fbc90e030csm191540wmc.37.2023.06.29.23.18.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jun 2023 23:18:51 -0700 (PDT)
-Date: Fri, 30 Jun 2023 09:18:48 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild@lists.linux.dev, Eddie James <eajames@linux.ibm.com>,
-	linux-hwmon@vger.kernel.org, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	jdelvare@suse.com, lakshmiy@us.ibm.com
-Subject: Re: [PATCH] hwmon: (pmbus/acbel-fsg032) Add firmware version debugfs
- attribute
-Message-ID: <07dac6f4-5b40-4a62-b1a9-257ec13938ed@kadam.mountain>
-References: <20230627184027.16343-1-eajames@linux.ibm.com>
- <b12935a2-a8b7-4d70-8c7d-6fd1e92037c2@kadam.mountain>
- <45a29025-4c06-4f88-b82f-a8002c25c376@kadam.mountain>
- <1a27469a-4cdb-8cf0-c539-05103f2e0b8f@roeck-us.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDD0522E;
+	Fri, 30 Jun 2023 06:34:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688106862; x=1719642862;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Lp8GVKCOH/lzScTS9lpD0yx5G69PduR8vAhXSWXJjbc=;
+  b=Y9GmXPkuXLafQjvDSDVgnhnoG/zP+EnwcoNAcnRcqa/4HRBbI6g4/z51
+   q+QUVDl28810iGVEcrOVifeOPlBeIV0cCZb3yVZ0C3FD1PxIsE++lgJGy
+   yUMB7nqNr+on7x+2yLoFpEHtw4pugZQZFs6YEEgHO/AbgRf08923J3pyb
+   0n5vt7WEhEg1d38itvmL6o3Ny9mfA+dYcabk+ItxpPii3x6DrzePPRy3S
+   GL85LQrtECxcWux238ykXT8mS0re++GYkmiSfUXHg7VBz087sR4fKXpb4
+   OsZ0mXXB+eiKChDvnPVXtrTTxQHfpg/J9EhJeGeuGzL5c5EBRCFr5ZzMI
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="364905092"
+X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
+   d="scan'208";a="364905092"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 23:34:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10756"; a="694926264"
+X-IronPort-AV: E=Sophos;i="6.01,169,1684825200"; 
+   d="scan'208";a="694926264"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by orsmga006.jf.intel.com with ESMTP; 29 Jun 2023 23:34:16 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qF7hv-000Elx-2x;
+	Fri, 30 Jun 2023 06:34:15 +0000
+Date: Fri, 30 Jun 2023 14:33:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: jeffxu@chromium.org, skhan@linuxfoundation.org, keescook@chromium.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	akpm@linux-foundation.org, dmitry.torokhov@gmail.com,
+	dverkamp@chromium.org, asmadeus@codewreck.org, hughd@google.com,
+	jeffxu@google.com, jorgelo@chromium.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, jannh@google.com,
+	linux-hardening@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] mm/memfd: sysctl: fix
+ MEMFD_NOEXEC_SCOPE_NOEXEC_ENFORCED
+Message-ID: <202306301435.dpXv0GwQ-lkp@intel.com>
+References: <20230630031721.623955-2-jeffxu@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,59 +54,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1a27469a-4cdb-8cf0-c539-05103f2e0b8f@roeck-us.net>
+In-Reply-To: <20230630031721.623955-2-jeffxu@google.com>
 
-On Thu, Jun 29, 2023 at 12:09:17PM -0700, Guenter Roeck wrote:
-> On 6/29/23 11:59, Dan Carpenter wrote:
-> > On Thu, Jun 29, 2023 at 09:53:16AM +0300, Dan Carpenter wrote:
-> > > d2c6444389b625 Eddie James 2023-06-27  22  	char out[8];
-> > > d2c6444389b625 Eddie James 2023-06-27  23  	int rc;
-> > > d2c6444389b625 Eddie James 2023-06-27  24  	int i;
-> > > d2c6444389b625 Eddie James 2023-06-27  25
-> > > d2c6444389b625 Eddie James 2023-06-27  26  	rc = pmbus_lock_interruptible(client);
-> > > d2c6444389b625 Eddie James 2023-06-27  27  	if (rc)
-> > > d2c6444389b625 Eddie James 2023-06-27  28  		return rc;
-> > > d2c6444389b625 Eddie James 2023-06-27  29
-> > > d2c6444389b625 Eddie James 2023-06-27  30  	rc = i2c_smbus_read_block_data(client, ACBEL_MFR_FW_REVISION, data);
-> > > d2c6444389b625 Eddie James 2023-06-27  31  	pmbus_unlock(client);
-> > > d2c6444389b625 Eddie James 2023-06-27  32  	if (rc < 0)
-> > > d2c6444389b625 Eddie James 2023-06-27  33  		return rc;
-> > > d2c6444389b625 Eddie James 2023-06-27  34
-> > > d2c6444389b625 Eddie James 2023-06-27  35  	for (i = 0; i < rc && i < 3; ++i)
-> > > d2c6444389b625 Eddie James 2023-06-27 @36  		snprintf(&out[i * 2], 3, "%02X", data[i]);
-> > > 
-> > > If data[i] is negative this will print FFFFFFF1 etc.  (This is an x86
-> > > config...  Did we ever merge that patch to make char signed by default?)
-> > 
-> > I meant unsigned not signed.  But actually we debated both ways...
-> > Signed by default would annoy PowerPC devs since they try to really
-> > lean into the fact that char is unsigned on that arch.  :P
-> > 
-> > https://lwn.net/Articles/911914/
-> > 
-> 
-> As if anything would be easy nowadays ;-). Anyway, in this case, the array
-> should be explicitly unsigned, so changing the type to u8 was the right
-> thing to do. Also, the driver should be usable on non-Intel systems,
-> which is another reason to make the type sign-specific (even more so in
-> the context of the above discussion).
+Hi,
 
-Actually we did make char unsigned.  I don't know if I'm super
-comfortable with code that assumes char is unsigned.  It's makes
-backporting trickier.  But this is definitely a false positive so I have
-silenced the warning in Smatch.
+kernel test robot noticed the following build errors:
 
-regards,
-dan carpenter
+[auto build test ERROR on akpm-mm/mm-everything]
 
---- a/check_kernel_printf.c
-+++ b/check_kernel_printf.c
-@@ -827,7 +827,7 @@ hexbyte(const char *fmt, int fmt_len, struct expression *arg, int vaidx, struct
-                sm_warning("could not determine type of argument %d", vaidx);
-                return;
-        }
--       if (type == &char_ctype || type == &schar_ctype)
-+       if (type_signed(type) && (type == &char_ctype || type == &schar_ctype))
-                sm_warning("argument %d to %.*s specifier has type '%s'",
-                       vaidx, fmt_len, fmt, type_to_str(type));
- }
+url:    https://github.com/intel-lab-lkp/linux/commits/jeffxu-chromium-org/mm-memfd-sysctl-fix-MEMFD_NOEXEC_SCOPE_NOEXEC_ENFORCED/20230630-111827
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230630031721.623955-2-jeffxu%40google.com
+patch subject: [PATCH v1 1/2] mm/memfd: sysctl: fix MEMFD_NOEXEC_SCOPE_NOEXEC_ENFORCED
+config: hexagon-randconfig-r005-20230630 (https://download.01.org/0day-ci/archive/20230630/202306301435.dpXv0GwQ-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230630/202306301435.dpXv0GwQ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306301435.dpXv0GwQ-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from mm/memfd.c:12:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from mm/memfd.c:12:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from mm/memfd.c:12:
+   In file included from include/linux/pagemap.h:11:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:334:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> mm/memfd.c:273:15: error: use of undeclared identifier 'MEMFD_NOEXEC_SCOPE_EXEC'
+     273 |         int sysctl = MEMFD_NOEXEC_SCOPE_EXEC;
+         |                      ^
+>> mm/memfd.c:311:17: error: use of undeclared identifier 'MEMFD_NOEXEC_SCOPE_NOEXEC_SEAL'
+     311 |                 if (sysctl == MEMFD_NOEXEC_SCOPE_NOEXEC_SEAL)
+         |                               ^
+>> mm/memfd.c:321:36: error: use of undeclared identifier 'MEMFD_NOEXEC_SCOPE_NOEXEC_ENFORCED'
+     321 |         if (flags & MFD_EXEC && sysctl >= MEMFD_NOEXEC_SCOPE_NOEXEC_ENFORCED) {
+         |                                           ^
+   6 warnings and 3 errors generated.
+
+
+vim +/MEMFD_NOEXEC_SCOPE_EXEC +273 mm/memfd.c
+
+   270	
+   271	static int sysctl_memfd_noexec(void)
+   272	{
+ > 273		int sysctl = MEMFD_NOEXEC_SCOPE_EXEC;
+   274	#ifdef CONFIG_SYSCTL
+   275		struct pid_namespace *ns;
+   276	
+   277		ns = task_active_pid_ns(current);
+   278		if (ns)
+   279			sysctl = ns->memfd_noexec_scope;
+   280	#endif
+   281		return sysctl;
+   282	}
+   283	
+   284	SYSCALL_DEFINE2(memfd_create,
+   285			const char __user *, uname,
+   286			unsigned int, flags)
+   287	{
+   288		char comm[TASK_COMM_LEN];
+   289		unsigned int *file_seals;
+   290		struct file *file;
+   291		int fd, error;
+   292		char *name;
+   293		long len;
+   294		int sysctl = sysctl_memfd_noexec();
+   295	
+   296		if (!(flags & MFD_HUGETLB)) {
+   297			if (flags & ~(unsigned int)MFD_ALL_FLAGS)
+   298				return -EINVAL;
+   299		} else {
+   300			/* Allow huge page size encoding in flags. */
+   301			if (flags & ~(unsigned int)(MFD_ALL_FLAGS |
+   302					(MFD_HUGE_MASK << MFD_HUGE_SHIFT)))
+   303				return -EINVAL;
+   304		}
+   305	
+   306		/* Invalid if both EXEC and NOEXEC_SEAL are set.*/
+   307		if ((flags & MFD_EXEC) && (flags & MFD_NOEXEC_SEAL))
+   308			return -EINVAL;
+   309	
+   310		if (!(flags & (MFD_EXEC | MFD_NOEXEC_SEAL))) {
+ > 311			if (sysctl == MEMFD_NOEXEC_SCOPE_NOEXEC_SEAL)
+   312				flags |= MFD_NOEXEC_SEAL;
+   313			else
+   314				flags |= MFD_EXEC;
+   315	
+   316			pr_warn_once(
+   317				"memfd_create() without MFD_EXEC nor MFD_NOEXEC_SEAL, pid=%d '%s'\n",
+   318				task_pid_nr(current), get_task_comm(comm, current));
+   319		}
+   320	
+ > 321		if (flags & MFD_EXEC && sysctl >= MEMFD_NOEXEC_SCOPE_NOEXEC_ENFORCED) {
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
