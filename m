@@ -1,45 +1,46 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5505DC2F0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jul 2023 16:04:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2B915A5;
+	Sat,  1 Jul 2023 16:46:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688227458; x=1719763458;
+  t=1688229980; x=1719765980;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=f6kxU9+J13QkSnx+aHuLhATVQStnxeWvDzsMCWH3B+Q=;
-  b=T9WoP2mfDLzMP3UwbZrRHqieTNM0RGzr5xGI48xpdNFpQfTU4ApcrjcD
-   vMzRVY8bmi2RZDwpwS0GiLqZ/LdP7NaGFojqjzmrlpacpQvvQy1w9c4fN
-   UTSY8fDOoZjzz0GE+FeKnzFBfO6o1nx3tLYRUEc+oIaN6p9xInv3GJ4St
-   TE9E4POC/1x+F7tk3ZcLb0BKTv6GRNQdKanFzDO28WXGy8l2JGkpe1z13
-   JuzCDVOg+VoNFLL01sbqpifIc+h4NekO1ng9KOWYxIF1C0kA1KZJZObQG
-   K+VF/shBIAWAK5yFc44j0Y1zF8fHBU/6MeYnY7JzsI1DqhXbjYEMIPujM
+  bh=xpBLTiZAkgLYAgc/awZjO9wpQmFf3GibSXy+NagE4q4=;
+  b=Lg8ffS9vPYknV0FJTkepa7NEpZOrwF5THnv7+sgruvP5pAiOPYMgYEs3
+   c7Duf2tVd9cgM9x0Eh1Rmh/jVGniHJhTESRy1HHfwCS0O0stRrext4HCG
+   kkHYG3skw/wWrvQuShogrKxnITLeBVWZJh6XUYSigiYwWjMnp1pnPEVPG
+   bLc0xkZuMIVexwJuqI88nYFwVKAQEx1QokMVPtCnpR1DJgm+P/OnqPSWq
+   FgyIZtvY31TB+kVfxPLoAr55VE+zCIzxSgnSqRO2JDtWK/6dxsNSkCWWL
+   gm0vqtVEdeTs5//DKZJa6mtPNfLArIINwoVCIZ1lmUFv3kvg9LWBXNwwz
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10758"; a="347384627"
+X-IronPort-AV: E=McAfee;i="6600,9927,10758"; a="393342615"
 X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="347384627"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2023 09:04:17 -0700
+   d="scan'208";a="393342615"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2023 09:46:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10758"; a="753290468"
+X-IronPort-AV: E=McAfee;i="6600,9927,10758"; a="668316570"
 X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
-   d="scan'208";a="753290468"
+   d="scan'208";a="668316570"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 01 Jul 2023 09:04:17 -0700
+  by orsmga003.jf.intel.com with ESMTP; 01 Jul 2023 09:46:16 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qFd54-000G6r-2h;
-	Sat, 01 Jul 2023 16:04:14 +0000
-Date: Sun, 2 Jul 2023 00:04:09 +0800
+	id 1qFdjj-000G8v-2h;
+	Sat, 01 Jul 2023 16:46:15 +0000
+Date: Sun, 2 Jul 2023 00:45:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: Zhang Shurong <zhang_shurong@foxmail.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, u.kleine-koenig@pengutronix.de,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	u.kleine-koenig@pengutronix.de, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	Zhang Shurong <zhang_shurong@foxmail.com>
 Subject: Re: [PATCH] usb: r8a66597-hcd: host: fix port index underflow and
  UBSAN complains
-Message-ID: <202307012328.34HpnWQC-lkp@intel.com>
+Message-ID: <202307020021.86RVwiyt-lkp@intel.com>
 References: <tencent_71A3B792C0AA3D9E148E517B24BC6E006A09@qq.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -65,29 +66,22 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Shurong/usb-r8a6659
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
 patch link:    https://lore.kernel.org/r/tencent_71A3B792C0AA3D9E148E517B24BC6E006A09%40qq.com
 patch subject: [PATCH] usb: r8a66597-hcd: host: fix port index underflow and UBSAN complains
-config: riscv-randconfig-r035-20230701 (https://download.01.org/0day-ci/archive/20230701/202307012328.34HpnWQC-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230701/202307012328.34HpnWQC-lkp@intel.com/reproduce)
+config: mips-randconfig-r003-20230701 (https://download.01.org/0day-ci/archive/20230702/202307020021.86RVwiyt-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230702/202307020021.86RVwiyt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307012328.34HpnWQC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307020021.86RVwiyt-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/usb/host/r8a66597-hcd.c: In function 'r8a66597_hub_control':
->> drivers/usb/host/r8a66597-hcd.c:2147:18: error: expected '=', ',', ';', 'asm' or '__attribute__' before '-=' token
-    2147 |         int port -= (port_index > 0);
-         |                  ^~
->> drivers/usb/host/r8a66597-hcd.c:2147:18: error: expected expression before '-=' token
->> drivers/usb/host/r8a66597-hcd.c:2148:60: error: 'port' undeclared (first use in this function)
-    2148 |         struct r8a66597_root_hub *rh = &r8a66597->root_hub[port];
-         |                                                            ^~~~
-   drivers/usb/host/r8a66597-hcd.c:2148:60: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/usb/host/r8a66597-hcd.c:2148:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    2148 |         struct r8a66597_root_hub *rh = &r8a66597->root_hub[port];
-         |         ^~~~~~
+>> drivers/usb/host/r8a66597-hcd.c:2147:11: error: invalid '-=' at end of declaration; did you mean '='?
+           int port -= (port_index > 0);
+                    ^~
+                    =
+   1 error generated.
 
 
 vim +2147 drivers/usb/host/r8a66597-hcd.c
@@ -102,7 +96,7 @@ vim +2147 drivers/usb/host/r8a66597-hcd.c
   2145		u32 port_index = wIndex & 0xFF;
   2146	
 > 2147		int port -= (port_index > 0);
-> 2148		struct r8a66597_root_hub *rh = &r8a66597->root_hub[port];
+  2148		struct r8a66597_root_hub *rh = &r8a66597->root_hub[port];
   2149	
   2150		ret = 0;
   2151	
