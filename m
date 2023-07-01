@@ -1,62 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2B73C3E
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jul 2023 17:33:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAEFDC433C8;
-	Sat,  1 Jul 2023 17:33:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1688232831;
-	bh=Qi5+rCo5OSESL3irx8I4QH5zyYOpnqET3mj+YVVIX6w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hH2Ew9rqT0hEJWUwUYLvFvCg93MYTQOj4X3hBQKdUTQwj66azXq3lstSYLXrKPPyw
-	 1p+lJh3jXaAqByaHpha4yhkoFU/j3eeRHZQDY+G8Q8sF8E1GfPxqrtynk7OAVrjPJf
-	 Ciy5riJoupw6d+lFaP0R9QDN25BPNv7bO0DAwr7NyxHCgDF7Ck6Iaq/ftxED9unuTY
-	 HM9mT5x3U4Pw5+KIY1v2YOCZK9Yy0nMHrA7HtKTcjqdGiaeq+RFqowbm7TCwrT7mhw
-	 QgM694Rz9D2ZuwAS2zdR0/9ZPvgs+Bysp+icTExAAkO3AgVQ4Vn1d9XPU96Wm3P027
-	 7Q93FxQZrBqRQ==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [sj:damon/next 33/35] mm/damon/core.c:290:1: error: function declaration isn't a prototype
-Date: Sat,  1 Jul 2023 17:33:49 +0000
-Message-Id: <20230701173349.47733-1-sj@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <202307020030.tSDmtlai-lkp@intel.com>
-References: 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E33C2DD
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jul 2023 18:28:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688236101; x=1719772101;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=emZhbCfguNVy5XePL4s5ylCI8nKG8H5etyDhN/w2EFw=;
+  b=He+pxd4VIy8g4bt5eqr4SbgkZFqGSxp9dNkGQcgBODTQNFDaXYRWvFRL
+   hD7O90zDSsT1B+KLXntmvAizYodBZVPZBVYV5I6dMy5+faYxnIfFCzbj+
+   0Dz27vQQ5XRPj98sJZW9HtjiSjgKg79+QM8v/+rw1niiLyX6U5a1SxeJR
+   OWAvGpSdydJPg62PYyK1V/JwF0lkqGWpxPzuthq7vOgchxY79COC7kiEi
+   p+xYVp/DN1vjMJ1JjrO48xYc8ZXKfuvbmsU2rXA5Nu9b1VGY4OYHvHOwV
+   0ZBns8xjFaeamdzTC5iQy177OBO1MR5e1qDmln+gRvsg+gb6NU5NJpO5Z
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10758"; a="428659769"
+X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
+   d="scan'208";a="428659769"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2023 11:28:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10758"; a="1048602908"
+X-IronPort-AV: E=Sophos;i="6.01,174,1684825200"; 
+   d="scan'208";a="1048602908"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 01 Jul 2023 11:28:19 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qFfKU-000GCP-0a;
+	Sat, 01 Jul 2023 18:28:18 +0000
+Date: Sun, 2 Jul 2023 02:27:33 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/base/regmap/regcache-maple.c:114:23: warning: 'upper_index'
+ is used uninitialized
+Message-ID: <202307020213.Qt5xjEi8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello test robot,
+Hi Mark,
 
-On Sun, 2 Jul 2023 00:55:44 +0800 kernel test robot <lkp@intel.com> wrote:
+FYI, the error/warning still remains.
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   b5a2d90d9d7d15714ca1dfb7bb74043ebd2a28d0
-> commit: 0389f4cef6f76094d3b2aed5bece0a4036dd859c [33/35] mm/damon/core: Implement moving_nr_accesses update function
-> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230702/202307020030.tSDmtlai-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230702/202307020030.tSDmtlai-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307020030.tSDmtlai-lkp@intel.com/
-> 
-> Note: the sj/damon/next HEAD b5a2d90d9d7d15714ca1dfb7bb74043ebd2a28d0 builds fine.
->       It only hurts bisectability.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e3c2b10d6f15640407bef3098accf10faa4ecf1b
+commit: f033c26de5a5734625d2dd1dc196745fae186f1b regmap: Add maple tree based register cache
+date:   3 months ago
+config: arc-vdk_hs38_defconfig (https://download.01.org/0day-ci/archive/20230702/202307020213.Qt5xjEi8-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230702/202307020213.Qt5xjEi8-lkp@intel.com/reproduce)
 
-Thank you very much for this kind report.  I indeed fixed up this but didn't
-squash the fix to the buggy commit.  I just squashed the fix into, and pushed.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307020213.Qt5xjEi8-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/base/regmap/regcache-maple.c: In function 'regcache_maple_drop':
+   drivers/base/regmap/regcache-maple.c:113:23: warning: 'lower_index' is used uninitialized [-Wuninitialized]
+     113 |         unsigned long lower_index, lower_last;
+         |                       ^~~~~~~~~~~
+   drivers/base/regmap/regcache-maple.c:113:36: warning: 'lower_last' is used uninitialized [-Wuninitialized]
+     113 |         unsigned long lower_index, lower_last;
+         |                                    ^~~~~~~~~~
+>> drivers/base/regmap/regcache-maple.c:114:23: warning: 'upper_index' is used uninitialized [-Wuninitialized]
+     114 |         unsigned long upper_index, upper_last;
+         |                       ^~~~~~~~~~~
+>> drivers/base/regmap/regcache-maple.c:114:36: warning: 'upper_last' is used uninitialized [-Wuninitialized]
+     114 |         unsigned long upper_index, upper_last;
+         |                                    ^~~~~~~~~~
 
 
-Thanks,
-SJ
+vim +/upper_index +114 drivers/base/regmap/regcache-maple.c
 
-[...]
+   106	
+   107	static int regcache_maple_drop(struct regmap *map, unsigned int min,
+   108				       unsigned int max)
+   109	{
+   110		struct maple_tree *mt = map->cache;
+   111		MA_STATE(mas, mt, min, max);
+   112		unsigned long *entry, *lower, *upper;
+ > 113		unsigned long lower_index, lower_last;
+ > 114		unsigned long upper_index, upper_last;
+   115		int ret;
+   116	
+   117		lower = NULL;
+   118		upper = NULL;
+   119	
+   120		mas_lock(&mas);
+   121	
+   122		mas_for_each(&mas, entry, max) {
+   123			/*
+   124			 * This is safe because the regmap lock means the
+   125			 * Maple lock is redundant, but we need to take it due
+   126			 * to lockdep asserts in the maple tree code.
+   127			 */
+   128			mas_unlock(&mas);
+   129	
+   130			/* Do we need to save any of this entry? */
+   131			if (mas.index < min) {
+   132				lower_index = mas.index;
+   133				lower_last = min -1;
+   134	
+   135				lower = kmemdup(entry, ((min - mas.index) *
+   136							sizeof(unsigned long)),
+   137						GFP_KERNEL);
+   138				if (!lower) {
+   139					ret = -ENOMEM;
+   140					goto out;
+   141				}
+   142			}
+   143	
+   144			if (mas.last > max) {
+   145				upper_index = max + 1;
+   146				upper_last = mas.last;
+   147	
+   148				upper = kmemdup(&entry[max + 1],
+   149						((mas.last - max) *
+   150						 sizeof(unsigned long)),
+   151						GFP_KERNEL);
+   152				if (!upper) {
+   153					ret = -ENOMEM;
+   154					goto out;
+   155				}
+   156			}
+   157	
+   158			kfree(entry);
+   159			mas_lock(&mas);
+   160			mas_erase(&mas);
+   161	
+   162			/* Insert new nodes with the saved data */
+   163			if (lower) {
+   164				mas_set_range(&mas, lower_index, lower_last);
+   165				ret = mas_store_gfp(&mas, lower, GFP_KERNEL);
+   166				if (ret != 0)
+   167					goto out;
+   168				lower = NULL;
+   169			}
+   170	
+   171			if (upper) {
+   172				mas_set_range(&mas, upper_index, upper_last);
+   173				ret = mas_store_gfp(&mas, upper, GFP_KERNEL);
+   174				if (ret != 0)
+   175					goto out;
+   176				upper = NULL;
+   177			}
+   178		}
+   179	
+   180	out:
+   181		mas_unlock(&mas);
+   182		kfree(lower);
+   183		kfree(upper);
+   184	
+   185		return ret;
+   186	}
+   187	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
