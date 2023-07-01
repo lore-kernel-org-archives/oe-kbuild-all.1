@@ -1,45 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4799C3C17
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jul 2023 07:02:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791EA441B;
+	Sat,  1 Jul 2023 08:14:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688194923; x=1719730923;
+  t=1688199246; x=1719735246;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b2tdZDijpkNbhOaoKT4z5wlvbzHwp1PIa7BELo0bGqo=;
-  b=cW5aC7RfcLq5wNGSf9vGrsDNe1mj1RNwLV+9+64XhpKcE/weZLS/x6Ih
-   DctYXn0leWd3Yo8oq/CKHLl1AJwoBmexMfktaY6QV3LQ7F8sRTLFBl1uo
-   tm1tOAY0kcXRTaXdoZbHa/kvxgyOSb9YEIxklGvYpvQf0TTma4fU4VoSw
-   a9UTb2qBKuofek/TVgZgFkoFoDlWrlyduqoJ10hK/XzTd0I958H2mcQ1u
-   oo4/yR3GgyNB5xgIpzFS7SOplbUF63OsQR4OTwdCb8uMwwPXB4ZJic657
-   abf9JPiWaF/QI44ElftEJxF5gvvJ/wZO3CNdBZDbR+6vVMqYlKkPOQ/aB
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="360040595"
-X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
-   d="scan'208";a="360040595"
+  bh=mZ2nGTYAWiHpDRm/SOo5zqQOhYqH6RSAz7mNe3RQ21o=;
+  b=FpZAeeGXabnCLgoi1D5lHjUtzUfcb20DB7SqC8Dcy4Ik+IsBOKK6g0Nt
+   eJ4+CzWCsmb7XUzl//bMt4UxYlOqbfYDQW9t58pfyIJPm25pRBzTQufC7
+   7MjBl0n1HJXw2AM8/QbQzn+YcDySV9Nmdw9kjI77TE6dT+WAeudmpKq56
+   loYX4oG72hxWmuvcsf8rHVAqhZC9AGp1xtYnJCcGTAglItGSMQP4tupSh
+   MslDRW/mOBkXEfZqbMCld1gJBApZDwP3Btkdrup0zlojtUH092DepBzUN
+   OCcdkLuHUK7WH7FKAcQmmWZiKd28BEo9Gazy/QSmOl6CZJy5GrpYTZvuA
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="428610071"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="428610071"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2023 00:02:02 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2023 01:14:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="783313192"
-X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
-   d="scan'208";a="783313192"
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="783328575"
+X-IronPort-AV: E=Sophos;i="6.01,173,1684825200"; 
+   d="scan'208";a="783328575"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 01 Jul 2023 00:02:01 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 01 Jul 2023 01:14:04 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qFUcJ-000Fn3-31;
-	Sat, 01 Jul 2023 07:01:59 +0000
-Date: Sat, 1 Jul 2023 15:01:42 +0800
+	id 1qFVk3-000Fs9-1x;
+	Sat, 01 Jul 2023 08:14:03 +0000
+Date: Sat, 1 Jul 2023 16:13:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [sailus-media-tree:metadata 7/7] htmldocs:
- Documentation/output/videodev2.h.rst:6: WARNING: undefined label:
- v4l2-fmt-flag-meta-line-based (if the link has no caption the label must
- precede a section header)
-Message-ID: <202307011445.xI9djX6d-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:splice-fix-corruption 3/4] ld.lld: error: undefined
+ symbol: folio_total_mapcount
+Message-ID: <202307011618.qtnPIiyW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,21 +46,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   acd95717f9d98767ad03e91b1b171352f9bcbaf9
-commit: 028cb656529e4cd7e40b21b97b078d5fb7809eed [7/7] media: v4l: Support line-based metadata capture
-reproduce: (https://download.01.org/0day-ci/archive/20230701/202307011445.xI9djX6d-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git splice-fix-corruption
+head:   b7635ac359c8d2a679e0c0bd9bf7acab652ff3fb
+commit: a7899df4243c815f5fff96738d4d3179b9113698 [3/4] splice: Remove some now-unused bits
+config: riscv-randconfig-r042-20230629 (https://download.01.org/0day-ci/archive/20230701/202307011618.qtnPIiyW-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230701/202307011618.qtnPIiyW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307011445.xI9djX6d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307011618.qtnPIiyW-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-fmt-flag-meta-line-based (if the link has no caption the label must precede a section header)
-
-vim +6 Documentation/output/videodev2.h.rst
+>> ld.lld: error: undefined symbol: folio_total_mapcount
+   >>> referenced by splice.c
+   >>>               fs/splice.o:(__se_sys_vmsplice) in archive vmlinux.a
+   >>> referenced by splice.c
+   >>>               fs/splice.o:(__se_sys_vmsplice) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
