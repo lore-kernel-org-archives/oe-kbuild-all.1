@@ -1,42 +1,43 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F10417CB
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jul 2023 02:23:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47C2817CB;
+	Sat,  1 Jul 2023 02:23:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688178234; x=1719714234;
+  t=1688178237; x=1719714237;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7wkDltbDCqWFKFzNVqRP5Jt8HkyEEBZJENAcelMRo14=;
-  b=EF4rSKJ5bdA8uidyfm3qZt63sD7/fZNY8ZEYasIc6lvONYH0pHbgJFYU
-   8zQvT5e/HGeQkbj+t1b/mzmusSIzgjJ06QSql5Xl7urSbcT6wR7uACRdT
-   m98CqI4JuSzroqXvCPdhi+B/LEgzH7CZEATe6sMw3QM4f4X1Eh5admxuq
-   61yB4BJZd6TqBDqFBS4w/DPe196Nbv3ORMdZit89fW5NpaeEse8N33uES
-   ZzmoyqkwWbzPJqmxljWvwFVfyiUJsuqIZERddAQYLApT9eeLh+hG+xtPP
-   3alU1Tf77Z9JQz6SLAjQcR1mP5K356qucMuAOVL4XePLm0Vzj/wcqDuWQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="360014406"
+  bh=eKTmB5BEOpfduCCA9IIE6ud1DkHBcBiOluSMKIMmeqM=;
+  b=jvviA364M87dUzxD3Ta4zJ8oOj20dNzf3eJ910lpWw+SBJvUjXeHGLSU
+   hG1DeOCnIM1BLdOlalY8YxUTtGb8VutBgci0EfaZtvGAgsEiM+sGPbp4L
+   IgTHo4n0xI4EwUCCYA0Aj6gtMKtTqEd7I2yk+lrkjWvsU/GGD2B4/T4gU
+   gMuyhSZ7QKqb+mBVUHUupdUF4un5/FA5rIwV89vhpXar8dvZtimgYf2lq
+   46zWm0O2p2x8rigmpI2ZtiCbLB3DKczZXxMxgd3T/aFcvL4ZvWbsMhxd6
+   LjYW+h8kSGa7grh7BV9LQUw+8980SItbl0F2q4XxiZjfP5IxFIaTI/zF8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="360014408"
 X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
-   d="scan'208";a="360014406"
+   d="scan'208";a="360014408"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2023 19:23:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="711980949"
+X-IronPort-AV: E=McAfee;i="6600,9927,10757"; a="711980947"
 X-IronPort-AV: E=Sophos;i="6.01,172,1684825200"; 
-   d="scan'208";a="711980949"
+   d="scan'208";a="711980947"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
   by orsmga007.jf.intel.com with ESMTP; 30 Jun 2023 19:23:51 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qFQH8-000FZP-2S;
+	id 1qFQH8-000FZL-2J;
 	Sat, 01 Jul 2023 02:23:50 +0000
-Date: Sat, 1 Jul 2023 10:22:57 +0800
+Date: Sat, 1 Jul 2023 10:22:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [sean-jc:x86/set_pmu_counter 2/3]
- include/linux/perf_event.h:1764:15: error: return type defaults to 'int'
-Message-ID: <202307011051.Xw6nUfBi-lkp@intel.com>
+ include/linux/perf_event.h:1764:15: error: type specifier missing, defaults
+ to 'int'
+Message-ID: <202307011038.1xetMr2o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,160 +50,377 @@ Content-Disposition: inline
 tree:   https://github.com/sean-jc/linux x86/set_pmu_counter
 head:   d9bd0175d1b17f120bac7fe0ccdc6ad9fe5207b4
 commit: b21829c0bfbbd3c9c9f53cc931f3536a45ba726f [2/3] perf: KVM: x86/pmu:
-config: um-defconfig (https://download.01.org/0day-ci/archive/20230701/202307011051.Xw6nUfBi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230701/202307011051.Xw6nUfBi-lkp@intel.com/reproduce)
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20230701/202307011038.1xetMr2o-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230701/202307011038.1xetMr2o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307011051.Xw6nUfBi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307011038.1xetMr2o-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/trace_events.h:10,
-                    from kernel/module/main.c:14:
->> include/linux/perf_event.h:1764:15: error: return type defaults to 'int' [-Werror=implicit-int]
-    1764 | static inline perf_event_set_count(struct perf_event *event, u64 count) { }
-         |               ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from init/main.c:21:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from init/main.c:21:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from init/main.c:21:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   In file included from init/main.c:21:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:10:
+>> include/linux/perf_event.h:1764:15: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
+   static inline perf_event_set_count(struct perf_event *event, u64 count) { }
+   ~~~~~~~~~~~~~ ^
+>> include/linux/perf_event.h:1764:75: error: non-void function does not return a value [-Werror,-Wreturn-type]
+   static inline perf_event_set_count(struct perf_event *event, u64 count) { }
+                                                                             ^
+   init/main.c:778:20: warning: no previous prototype for function 'arch_post_acpi_subsys_init' [-Wmissing-prototypes]
+   void __init __weak arch_post_acpi_subsys_init(void) { }
+                      ^
+   init/main.c:778:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __init __weak arch_post_acpi_subsys_init(void) { }
+   ^
+   static 
+   init/main.c:790:20: warning: no previous prototype for function 'mem_encrypt_init' [-Wmissing-prototypes]
+   void __init __weak mem_encrypt_init(void) { }
+                      ^
+   init/main.c:790:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __init __weak mem_encrypt_init(void) { }
+   ^
+   static 
+   init/main.c:792:20: warning: no previous prototype for function 'poking_init' [-Wmissing-prototypes]
+   void __init __weak poking_init(void) { }
+                      ^
+   init/main.c:792:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void __init __weak poking_init(void) { }
+   ^
+   static 
+   15 warnings and 2 errors generated.
 --
-   In file included from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:88,
-                    from kernel/time/hrtimer.c:30:
->> include/linux/perf_event.h:1764:15: error: return type defaults to 'int' [-Werror=implicit-int]
-    1764 | static inline perf_event_set_count(struct perf_event *event, u64 count) { }
-         |               ^~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:120:35: warning: initialized field overwritten [-Woverride-init]
-     120 |         [CLOCK_REALTIME]        = HRTIMER_BASE_REALTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:120:35: note: (near initialization for 'hrtimer_clock_to_base_table[0]')
-   kernel/time/hrtimer.c:121:35: warning: initialized field overwritten [-Woverride-init]
-     121 |         [CLOCK_MONOTONIC]       = HRTIMER_BASE_MONOTONIC,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:121:35: note: (near initialization for 'hrtimer_clock_to_base_table[1]')
-   kernel/time/hrtimer.c:122:35: warning: initialized field overwritten [-Woverride-init]
-     122 |         [CLOCK_BOOTTIME]        = HRTIMER_BASE_BOOTTIME,
-         |                                   ^~~~~~~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:122:35: note: (near initialization for 'hrtimer_clock_to_base_table[7]')
-   kernel/time/hrtimer.c:123:35: warning: initialized field overwritten [-Woverride-init]
-     123 |         [CLOCK_TAI]             = HRTIMER_BASE_TAI,
-         |                                   ^~~~~~~~~~~~~~~~
-   kernel/time/hrtimer.c:123:35: note: (near initialization for 'hrtimer_clock_to_base_table[11]')
-   kernel/time/hrtimer.c: In function '__run_hrtimer':
-   kernel/time/hrtimer.c:1648:14: warning: variable 'expires_in_hardirq' set but not used [-Wunused-but-set-variable]
-    1648 |         bool expires_in_hardirq;
-         |              ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from init/do_mounts.c:6:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from init/do_mounts.c:6:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from init/do_mounts.c:6:
+   In file included from include/linux/tty.h:12:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:42:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   In file included from init/do_mounts.c:22:
+   In file included from include/linux/nfs_fs.h:31:
+   In file included from include/linux/sunrpc/auth.h:13:
+   In file included from include/linux/sunrpc/sched.h:19:
+   include/linux/sunrpc/xdr.h:779:10: warning: result of comparison of constant 4611686018427387903 with expression of type '__u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+           if (len > SIZE_MAX / sizeof(*p))
+               ~~~ ^ ~~~~~~~~~~~~~~~~~~~~~
+   In file included from init/do_mounts.c:28:
+   In file included from init/do_mounts.h:5:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:10:
+>> include/linux/perf_event.h:1764:15: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
+   static inline perf_event_set_count(struct perf_event *event, u64 count) { }
+   ~~~~~~~~~~~~~ ^
+>> include/linux/perf_event.h:1764:75: error: non-void function does not return a value [-Werror,-Wreturn-type]
+   static inline perf_event_set_count(struct perf_event *event, u64 count) { }
+                                                                             ^
+   13 warnings and 2 errors generated.
 --
-   In file included from kernel/bpf/core.c:32:
->> include/linux/perf_event.h:1764:15: error: return type defaults to 'int' [-Werror=implicit-int]
-    1764 | static inline perf_event_set_count(struct perf_event *event, u64 count) { }
-         |               ^~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/core.c:1638:12: warning: no previous prototype for 'bpf_probe_read_kernel' [-Wmissing-prototypes]
-    1638 | u64 __weak bpf_probe_read_kernel(void *dst, u32 size, const void *unsafe_ptr)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/core.c:2075:6: warning: no previous prototype for 'bpf_patch_call_args' [-Wmissing-prototypes]
-    2075 | void bpf_patch_call_args(struct bpf_insn *insn, u32 stack_depth)
-         |      ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from init/noinitramfs.c:11:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from init/noinitramfs.c:11:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from init/noinitramfs.c:11:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   In file included from init/noinitramfs.c:11:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:10:
+>> include/linux/perf_event.h:1764:15: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
+   static inline perf_event_set_count(struct perf_event *event, u64 count) { }
+   ~~~~~~~~~~~~~ ^
+>> include/linux/perf_event.h:1764:75: error: non-void function does not return a value [-Werror,-Wreturn-type]
+   static inline perf_event_set_count(struct perf_event *event, u64 count) { }
+                                                                             ^
+   12 warnings and 2 errors generated.
 --
-   In file included from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:88,
-                    from init/main.c:21:
->> include/linux/perf_event.h:1764:15: error: return type defaults to 'int' [-Werror=implicit-int]
-    1764 | static inline perf_event_set_count(struct perf_event *event, u64 count) { }
-         |               ^~~~~~~~~~~~~~~~~~~~
-   init/main.c:778:20: warning: no previous prototype for 'arch_post_acpi_subsys_init' [-Wmissing-prototypes]
-     778 | void __init __weak arch_post_acpi_subsys_init(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   init/main.c:790:20: warning: no previous prototype for 'mem_encrypt_init' [-Wmissing-prototypes]
-     790 | void __init __weak mem_encrypt_init(void) { }
-         |                    ^~~~~~~~~~~~~~~~
-   init/main.c:792:20: warning: no previous prototype for 'poking_init' [-Wmissing-prototypes]
-     792 | void __init __weak poking_init(void) { }
-         |                    ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:88,
-                    from arch/x86/um/syscalls_64.c:10:
->> include/linux/perf_event.h:1764:15: error: return type defaults to 'int' [-Werror=implicit-int]
-    1764 | static inline perf_event_set_count(struct perf_event *event, u64 count) { }
-         |               ^~~~~~~~~~~~~~~~~~~~
-   arch/x86/um/syscalls_64.c:84:6: warning: no previous prototype for 'arch_switch_to' [-Wmissing-prototypes]
-      84 | void arch_switch_to(struct task_struct *to)
-         |      ^~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:88,
-                    from kernel/fork.c:55:
->> include/linux/perf_event.h:1764:15: error: return type defaults to 'int' [-Werror=implicit-int]
-    1764 | static inline perf_event_set_count(struct perf_event *event, u64 count) { }
-         |               ^~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:164:13: warning: no previous prototype for 'arch_release_task_struct' [-Wmissing-prototypes]
-     164 | void __weak arch_release_task_struct(struct task_struct *tsk)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:991:20: warning: no previous prototype for 'arch_task_cache_init' [-Wmissing-prototypes]
-     991 | void __init __weak arch_task_cache_init(void) { }
-         |                    ^~~~~~~~~~~~~~~~~~~~
-   kernel/fork.c:1086:12: warning: no previous prototype for 'arch_dup_task_struct' [-Wmissing-prototypes]
-    1086 | int __weak arch_dup_task_struct(struct task_struct *dst,
-         |            ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:88,
-                    from kernel/exit.c:42:
->> include/linux/perf_event.h:1764:15: error: return type defaults to 'int' [-Werror=implicit-int]
-    1764 | static inline perf_event_set_count(struct perf_event *event, u64 count) { }
-         |               ^~~~~~~~~~~~~~~~~~~~
-   kernel/exit.c:1917:32: warning: no previous prototype for 'abort' [-Wmissing-prototypes]
-    1917 | __weak __function_aligned void abort(void)
-         |                                ^~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:88,
-                    from fs/pipe.c:24:
->> include/linux/perf_event.h:1764:15: error: return type defaults to 'int' [-Werror=implicit-int]
-    1764 | static inline perf_event_set_count(struct perf_event *event, u64 count) { }
-         |               ^~~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:759:15: warning: no previous prototype for 'account_pipe_buffers' [-Wmissing-prototypes]
-     759 | unsigned long account_pipe_buffers(struct user_struct *user,
-         |               ^~~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:765:6: warning: no previous prototype for 'too_many_pipe_buffers_soft' [-Wmissing-prototypes]
-     765 | bool too_many_pipe_buffers_soft(unsigned long user_bufs)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:772:6: warning: no previous prototype for 'too_many_pipe_buffers_hard' [-Wmissing-prototypes]
-     772 | bool too_many_pipe_buffers_hard(unsigned long user_bufs)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:779:6: warning: no previous prototype for 'pipe_is_unprivileged_user' [-Wmissing-prototypes]
-     779 | bool pipe_is_unprivileged_user(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/pipe.c:1258:5: warning: no previous prototype for 'pipe_resize_ring' [-Wmissing-prototypes]
-    1258 | int pipe_resize_ring(struct pipe_inode_info *pipe, unsigned int nr_slots)
-         |     ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:88,
-                    from fs/d_path.c:2:
->> include/linux/perf_event.h:1764:15: error: return type defaults to 'int' [-Werror=implicit-int]
-    1764 | static inline perf_event_set_count(struct perf_event *event, u64 count) { }
-         |               ^~~~~~~~~~~~~~~~~~~~
-   fs/d_path.c:317:7: warning: no previous prototype for 'simple_dname' [-Wmissing-prototypes]
-     317 | char *simple_dname(struct dentry *dentry, char *buffer, int buflen)
-         |       ^~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from arch/x86/um/syscalls_64.c:10:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from arch/x86/um/syscalls_64.c:10:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from arch/x86/um/syscalls_64.c:10:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   In file included from arch/x86/um/syscalls_64.c:10:
+   In file included from include/linux/syscalls.h:88:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:10:
+>> include/linux/perf_event.h:1764:15: error: type specifier missing, defaults to 'int' [-Werror,-Wimplicit-int]
+   static inline perf_event_set_count(struct perf_event *event, u64 count) { }
+   ~~~~~~~~~~~~~ ^
+>> include/linux/perf_event.h:1764:75: error: non-void function does not return a value [-Werror,-Wreturn-type]
+   static inline perf_event_set_count(struct perf_event *event, u64 count) { }
+                                                                             ^
+   arch/x86/um/syscalls_64.c:84:6: warning: no previous prototype for function 'arch_switch_to' [-Wmissing-prototypes]
+   void arch_switch_to(struct task_struct *to)
+        ^
+   arch/x86/um/syscalls_64.c:84:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   void arch_switch_to(struct task_struct *to)
+   ^
+   static 
+   13 warnings and 2 errors generated.
+..
 
 
 vim +/int +1764 include/linux/perf_event.h
