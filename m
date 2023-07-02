@@ -1,43 +1,42 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA2ADDA5
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  1 Jul 2023 23:02:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6451361
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Jul 2023 00:01:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688252546; x=1719788546;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IYnW846sq0wYleV4YkOC4AOty92PdnoeHCbJ2AgN/Fo=;
-  b=hMi4GkXjpT0J7rlVFfu7J5BEIibXB9egAcwwo+j/2bovspYhNFu+OaxN
-   kpi1HWiMSAHo0DOPt8+CCTHddxSYyOV54U1BoDaodMceOMJHC6BcjASpn
-   GEpdJWXkMyg3/mzXZL8rZSAHiClcWk4TXlTsIbdymmYNuLYKtplVVh3sm
-   c8C5+rhXI9qPS4GAMPvo3/WkpQ/12asBPfkYw2SbkV5/ePuo7kMMrR099
-   kcMGIrzfkjU24Srfi3Mj9clHnqHJDxYEVhAaRWS86qTewF5zuYleIQoAY
-   vCY1k5foylimghzgmHxA8tOMrui67mJIsRMtM4rBzHNPqubR/ceJrvZua
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10758"; a="360113067"
+  t=1688256086; x=1719792086;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=dt3ish8l/dwCYC3dQF9tTPUPRNE2LfJ1WSODUJituTY=;
+  b=ZLK0nfJt0+pLLzSuITEtRlA+MzR2XY4/32WP9faoxeX1KZ6p37j7fyUv
+   T/hbRjrs9aiVNwqm96PLoSISlmo73KST/tWfmdb2sKOER35tHC0cx/C6u
+   F8kTykNo5FSxLoA6UKt0dmn0/8W12g6jFgWsTboZ3XZHuCQUFKL7xS98a
+   iQ/POQLRsnJKs5fvpOciNsiTcmlt7h/6BnYl1itewZXrqwASMsRBuDYXG
+   e1yOZmxeISS+nMxhxLRaapvBKrSqOqZVpkChhBdR136TbNxzsGR3TymIv
+   IKLzh5IsrrAeXuSx3YMU7uJgGwZeW4zphQFaa2nqxlz2tP/+vXrjipI1G
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10758"; a="365218305"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="360113067"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2023 16:02:25 -0700
+   d="scan'208";a="365218305"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2023 17:01:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10758"; a="712163735"
+X-IronPort-AV: E=McAfee;i="6600,9927,10758"; a="695411857"
 X-IronPort-AV: E=Sophos;i="6.01,175,1684825200"; 
-   d="scan'208";a="712163735"
+   d="scan'208";a="695411857"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 01 Jul 2023 16:02:23 -0700
+  by orsmga006.jf.intel.com with ESMTP; 01 Jul 2023 17:01:24 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qFjbi-000GJx-2j;
-	Sat, 01 Jul 2023 23:02:22 +0000
-Date: Sun, 2 Jul 2023 07:01:54 +0800
+	id 1qFkWp-000GL7-2e;
+	Sun, 02 Jul 2023 00:01:23 +0000
+Date: Sun, 2 Jul 2023 08:01:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Waiman Long <longman@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>
-Subject: kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in
- argument 1 (different address spaces)
-Message-ID: <202307020600.1oOCL8pD-lkp@intel.com>
+To: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] TIOCSTI: always enable for CAP_SYS_ADMIN
+Message-ID: <ZKC+UQ7HYVZCWhpR@65525e8f8615>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,116 +45,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230701235918.kwfathbdklkyrbde@begin>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   dfab92f27c600fea3cadc6e2cb39f092024e1fef
-commit: c0a581d7126c0bbc96163276f585fd7b4e4d8d0e tracing: Disable interrupt or preemption before acquiring arch_spinlock_t
-date:   9 months ago
-config: loongarch-randconfig-r073-20230627 (https://download.01.org/0day-ci/archive/20230702/202307020600.1oOCL8pD-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230702/202307020600.1oOCL8pD-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307020600.1oOCL8pD-lkp@intel.com/
+Thanks for your patch.
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/trace/trace.c:406:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct trace_export **list @@     got struct trace_export [noderef] __rcu ** @@
-   kernel/trace/trace.c:406:28: sparse:     expected struct trace_export **list
-   kernel/trace/trace.c:406:28: sparse:     got struct trace_export [noderef] __rcu **
-   kernel/trace/trace.c:420:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct trace_export **list @@     got struct trace_export [noderef] __rcu ** @@
-   kernel/trace/trace.c:420:33: sparse:     expected struct trace_export **list
-   kernel/trace/trace.c:420:33: sparse:     got struct trace_export [noderef] __rcu **
->> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
-   kernel/trace/trace.c:2430:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
-   kernel/trace/trace.c:2430:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
-   kernel/trace/trace.c:2430:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got unsigned int [noderef] __percpu * @@
-   kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
-   kernel/trace/trace.c:2430:9: sparse:     got unsigned int [noderef] __percpu *
->> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
-   kernel/trace/trace.c:2430:9: sparse:     got int [noderef] __percpu *
->> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
-   kernel/trace/trace.c:2430:9: sparse:     got int [noderef] __percpu *
->> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
-   kernel/trace/trace.c:2430:9: sparse:     got int [noderef] __percpu *
->> kernel/trace/trace.c:2430:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got int [noderef] __percpu * @@
-   kernel/trace/trace.c:2430:9: sparse:     expected void *ptr
-   kernel/trace/trace.c:2430:9: sparse:     got int [noderef] __percpu *
-   kernel/trace/trace.c:2879:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct event_filter *filter @@     got struct event_filter [noderef] __rcu *filter @@
-   kernel/trace/trace.c:2879:38: sparse:     expected struct event_filter *filter
-   kernel/trace/trace.c:2879:38: sparse:     got struct event_filter [noderef] __rcu *filter
-   kernel/trace/trace.c:7354:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct ring_buffer_event *[noderef] __percpu * @@
-   kernel/trace/trace.c:7354:20: sparse:     expected void *ptr
-   kernel/trace/trace.c:7354:20: sparse:     got struct ring_buffer_event *[noderef] __percpu *
-   kernel/trace/trace.c:7354:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct ring_buffer_event *[noderef] __percpu * @@
-   kernel/trace/trace.c:7354:20: sparse:     expected void *ptr
-   kernel/trace/trace.c:7354:20: sparse:     got struct ring_buffer_event *[noderef] __percpu *
-   kernel/trace/trace.c:7354:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct ring_buffer_event *[noderef] __percpu * @@
-   kernel/trace/trace.c:7354:20: sparse:     expected void *ptr
-   kernel/trace/trace.c:7354:20: sparse:     got struct ring_buffer_event *[noderef] __percpu *
-   kernel/trace/trace.c:7354:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *ptr @@     got struct ring_buffer_event *[noderef] __percpu * @@
-   kernel/trace/trace.c:7354:20: sparse:     expected void *ptr
-   kernel/trace/trace.c:7354:20: sparse:     got struct ring_buffer_event *[noderef] __percpu *
-   kernel/trace/trace.c:360:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/trace/trace.c:360:9: sparse:    struct trace_export [noderef] __rcu *
-   kernel/trace/trace.c:360:9: sparse:    struct trace_export *
-   kernel/trace/trace.c:375:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/trace/trace.c:375:9: sparse:    struct trace_export [noderef] __rcu *
-   kernel/trace/trace.c:375:9: sparse:    struct trace_export *
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-vim +2430 kernel/trace/trace.c
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH] TIOCSTI: always enable for CAP_SYS_ADMIN
+Link: https://lore.kernel.org/stable/20230701235918.kwfathbdklkyrbde%40begin
 
-  2410	
-  2411	static int trace_save_cmdline(struct task_struct *tsk)
-  2412	{
-  2413		unsigned tpid, idx;
-  2414	
-  2415		/* treat recording of idle task as a success */
-  2416		if (!tsk->pid)
-  2417			return 1;
-  2418	
-  2419		tpid = tsk->pid & (PID_MAX_DEFAULT - 1);
-  2420	
-  2421		/*
-  2422		 * It's not the end of the world if we don't get
-  2423		 * the lock, but we also don't want to spin
-  2424		 * nor do we want to disable interrupts,
-  2425		 * so if we miss here, then better luck next time.
-  2426		 *
-  2427		 * This is called within the scheduler and wake up, so interrupts
-  2428		 * had better been disabled and run queue lock been held.
-  2429		 */
-> 2430		lockdep_assert_preemption_disabled();
-  2431		if (!arch_spin_trylock(&trace_cmdline_lock))
-  2432			return 0;
-  2433	
-  2434		idx = savedcmd->map_pid_to_cmdline[tpid];
-  2435		if (idx == NO_CMDLINE_MAP) {
-  2436			idx = (savedcmd->cmdline_idx + 1) % savedcmd->cmdline_num;
-  2437	
-  2438			savedcmd->map_pid_to_cmdline[tpid] = idx;
-  2439			savedcmd->cmdline_idx = idx;
-  2440		}
-  2441	
-  2442		savedcmd->map_cmdline_to_pid[idx] = tsk->pid;
-  2443		set_cmdline(idx, tsk->comm);
-  2444	
-  2445		arch_spin_unlock(&trace_cmdline_lock);
-  2446	
-  2447		return 1;
-  2448	}
-  2449	
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
