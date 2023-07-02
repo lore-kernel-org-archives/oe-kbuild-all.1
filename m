@@ -1,51 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65A43FE4;
-	Sun,  2 Jul 2023 20:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5048E28EB
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Jul 2023 21:39:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688328413; x=1719864413;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KomjQBb5bvym6eCrKFp6yiJMpgWdmolf6Tuzqi2QmWI=;
-  b=M6N+//+8H4JJ8jkVgxxBkaT8p8D2BDCdPEBlkqhfnb3Y67LW5gzngp4v
-   IzNqnYKLawrPKOSRmBz/qGzk7SeW5qVt+NAxWryDsYcsyL36Ee+F+62j8
-   RVvZZ2ZH4fW5BCJTivc2eGlajzAslrUWmg/2Ml7SMhxnv+XUYVnpl9sRN
-   FqkZ4jEE9C0LG73MkhDVJnUKHxB7bGouzPrl/FSu8dAvUg73M36oogRE6
-   JxXl99ZrhBGnE58Xet7JePuq9lI3UZdk9CUbp9s3KuxObdEB0AFDkRZIZ
-   NxOgcQdtz0xaq0sCoMCCYqpgckZiiuKrceHRo64bKaZzit3beGSROKUfx
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="449115565"
+  t=1688333991; x=1719869991;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FJYvTq0poSjdj520coHwXf51VP0lmi2OyBWr8eTgcNc=;
+  b=WA7YSf75d9ZSoAaTdrNZ/6UmRTvUAxRE/IG7rlrDDNG16MKw7kVZPqij
+   CSX2hW3N60jSQaMgaXa1HvdptInpMjI/6b19dM0cQjZESknj9AsQ1V57y
+   mgl6fPl6maQJvPE4m8Tb66X7kvdw9dT6GihJdoaRaTg7fQkAw/stdwMLZ
+   Ja363owdo61/FOcnA34QpJw9FUpkin3Ka9u6OoI3GwkNK3j1ywccTHS6S
+   t8LRJIa4QYFiFqn8qIpkdMYHHHRgYWM+cJcqWBmF20evVWyN3Po2yaRp6
+   HLSmXy0vSZMWmqdVDT94z3y9BG/6XHfCLEDbgNh7kQmD9bLSR9GANfamU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="342332135"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="449115565"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 13:06:51 -0700
+   d="scan'208";a="342332135"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 14:39:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="842447071"
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="788314741"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="842447071"
+   d="scan'208";a="788314741"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 02 Jul 2023 13:06:47 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 02 Jul 2023 14:39:49 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qG3LK-000GrJ-2i;
-	Sun, 02 Jul 2023 20:06:46 +0000
-Date: Mon, 3 Jul 2023 04:06:28 +0800
+	id 1qG4nM-000Gt9-0V;
+	Sun, 02 Jul 2023 21:39:48 +0000
+Date: Mon, 3 Jul 2023 05:39:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Oltmanns <frank@oltmanns.dev>, Maxime Ripard <maxime@cerno.tech>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>, Roman Beranek <me@crly.cz>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Frank Oltmanns <frank@oltmanns.dev>
-Subject: Re: [PATCH v3 5/8] clk: sunxi-ng: nkm: Support finding closest rate
-Message-ID: <202307030302.s1bheEun-lkp@intel.com>
-References: <20230702-pll-mipi_set_rate_parent-v3-5-46dcb8aa9cbc@oltmanns.dev>
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linyunsheng:page_frag_virt_to_page 4/6]
+ drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:480:64: error: macro
+ "dma_map_single" requires 4 arguments, but only 3 given
+Message-ID: <202307030554.T9to9qZc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -54,99 +46,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230702-pll-mipi_set_rate_parent-v3-5-46dcb8aa9cbc@oltmanns.dev>
 
-Hi Frank,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6995e2de6891c724bfeb2db33d7b87775f913ad1]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Oltmanns/clk-sunxi-ng-nkm-consider-alternative-parent-rates-when-determining-rate/20230703-015726
-base:   6995e2de6891c724bfeb2db33d7b87775f913ad1
-patch link:    https://lore.kernel.org/r/20230702-pll-mipi_set_rate_parent-v3-5-46dcb8aa9cbc%40oltmanns.dev
-patch subject: [PATCH v3 5/8] clk: sunxi-ng: nkm: Support finding closest rate
-config: riscv-rv32_defconfig (https://download.01.org/0day-ci/archive/20230703/202307030302.s1bheEun-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230703/202307030302.s1bheEun-lkp@intel.com/reproduce)
+tree:   https://github.com/gestionlin/linux.git page_frag_virt_to_page
+head:   4d390b969a98bdee1a1521f8facec4560a7acea8
+commit: 6b4875ab0e9ea706555354387c195b29f6cf5690 [4/6] net: remove virt_to_page when dma mapping
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230703/202307030554.T9to9qZc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230703/202307030554.T9to9qZc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307030302.s1bheEun-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307030554.T9to9qZc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/clk/sunxi-ng/ccu_nkm.c:46:24: warning: variable 'tmp_diff' is uninitialized when used here [-Wuninitialized]
-      46 |                                         tmp_diff = rate - tmp_diff;
-         |                                                           ^~~~~~~~
-   drivers/clk/sunxi-ng/ccu_nkm.c:33:27: note: initialize the variable 'tmp_diff' to silence this warning
-      33 |                                 unsigned long tmp_diff;
-         |                                                       ^
-         |                                                        = 0
-   drivers/clk/sunxi-ng/ccu_nkm.c:93:24: warning: variable 'tmp_diff' is uninitialized when used here [-Wuninitialized]
-      93 |                                         tmp_diff = rate - tmp_diff;
-         |                                                           ^~~~~~~~
-   drivers/clk/sunxi-ng/ccu_nkm.c:82:27: note: initialize the variable 'tmp_diff' to silence this warning
-      82 |                                 unsigned long tmp_diff;
-         |                                                       ^
-         |                                                        = 0
-   2 warnings generated.
+   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c: In function 'dpaa2_eth_run_xdp':
+>> drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:480:64: error: macro "dma_map_single" requires 4 arguments, but only 3 given
+     480 |                                               DMA_BIDIRECTIONAL);
+         |                                                                ^
+   In file included from include/linux/skbuff.h:28,
+                    from include/linux/if_ether.h:19,
+                    from include/linux/etherdevice.h:20,
+                    from drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:8:
+   include/linux/dma-mapping.h:412: note: macro "dma_map_single" defined here
+     412 | #define dma_map_single(d, a, s, r) dma_map_single_attrs(d, a, s, r, 0)
+         | 
+>> drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:478:32: error: 'dma_map_single' undeclared (first use in this function); did you mean 'dma_map_sgtable'?
+     478 |                         addr = dma_map_single(priv->net_dev->dev.parent, vaddr
+         |                                ^~~~~~~~~~~~~~
+         |                                dma_map_sgtable
+   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:478:32: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/tmp_diff +46 drivers/clk/sunxi-ng/ccu_nkm.c
+vim +/dma_map_single +480 drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
 
-    19	
-    20	static unsigned long ccu_nkm_find_best_with_parent_adj(unsigned long *parent, unsigned long rate,
-    21							       struct _ccu_nkm *nkm, struct clk_hw *phw,
-    22							       unsigned long features)
-    23	{
-    24		unsigned long best_rate = 0, best_parent_rate = 0, tmp_parent = *parent;
-    25		unsigned long best_diff = ULONG_MAX;
-    26		unsigned long best_n = 0, best_k = 0, best_m = 0;
-    27		unsigned long _n, _k, _m;
-    28	
-    29		for (_k = nkm->min_k; _k <= nkm->max_k; _k++) {
-    30			for (_n = nkm->min_n; _n <= nkm->max_n; _n++) {
-    31				for (_m = nkm->min_m; _m <= nkm->max_m; _m++) {
-    32					unsigned long tmp_rate;
-    33					unsigned long tmp_diff;
-    34	
-    35					tmp_parent = clk_hw_round_rate(phw, rate * _m / (_n * _k));
-    36	
-    37					tmp_rate = tmp_parent * _n * _k / _m;
-    38	
-    39					if (features & CCU_FEATURE_CLOSEST_RATE) {
-    40						tmp_diff = rate > tmp_rate ?
-    41							   rate - tmp_rate :
-    42							   tmp_rate - rate;
-    43					} else {
-    44						if (tmp_rate > rate)
-    45							continue;
-  > 46						tmp_diff = rate - tmp_diff;
-    47					}
-    48	
-    49					if (tmp_diff < best_diff) {
-    50						best_rate = tmp_rate;
-    51						best_parent_rate = tmp_parent;
-    52						best_diff = tmp_diff;
-    53						best_n = _n;
-    54						best_k = _k;
-    55						best_m = _m;
-    56					}
-    57				}
-    58			}
-    59		}
-    60	
-    61		nkm->n = best_n;
-    62		nkm->k = best_k;
-    63		nkm->m = best_m;
-    64	
-    65		*parent = best_parent_rate;
-    66	
-    67		return best_rate;
-    68	}
-    69	
+   424	
+   425	static u32 dpaa2_eth_run_xdp(struct dpaa2_eth_priv *priv,
+   426				     struct dpaa2_eth_channel *ch,
+   427				     struct dpaa2_eth_fq *rx_fq,
+   428				     struct dpaa2_fd *fd, void *vaddr)
+   429	{
+   430		dma_addr_t addr = dpaa2_fd_get_addr(fd);
+   431		struct bpf_prog *xdp_prog;
+   432		struct xdp_buff xdp;
+   433		u32 xdp_act = XDP_PASS;
+   434		int err, offset;
+   435	
+   436		xdp_prog = READ_ONCE(ch->xdp.prog);
+   437		if (!xdp_prog)
+   438			goto out;
+   439	
+   440		offset = dpaa2_fd_get_offset(fd) - XDP_PACKET_HEADROOM;
+   441		xdp_init_buff(&xdp, DPAA2_ETH_RX_BUF_RAW_SIZE - offset, &ch->xdp_rxq);
+   442		xdp_prepare_buff(&xdp, vaddr + offset, XDP_PACKET_HEADROOM,
+   443				 dpaa2_fd_get_len(fd), false);
+   444	
+   445		xdp_act = bpf_prog_run_xdp(xdp_prog, &xdp);
+   446	
+   447		/* xdp.data pointer may have changed */
+   448		dpaa2_fd_set_offset(fd, xdp.data - vaddr);
+   449		dpaa2_fd_set_len(fd, xdp.data_end - xdp.data);
+   450	
+   451		switch (xdp_act) {
+   452		case XDP_PASS:
+   453			break;
+   454		case XDP_TX:
+   455			dpaa2_eth_xdp_enqueue(priv, ch, fd, vaddr, rx_fq->flowid);
+   456			break;
+   457		default:
+   458			bpf_warn_invalid_xdp_action(priv->net_dev, xdp_prog, xdp_act);
+   459			fallthrough;
+   460		case XDP_ABORTED:
+   461			trace_xdp_exception(priv->net_dev, xdp_prog, xdp_act);
+   462			fallthrough;
+   463		case XDP_DROP:
+   464			dpaa2_eth_recycle_buf(priv, ch, addr);
+   465			ch->stats.xdp_drop++;
+   466			break;
+   467		case XDP_REDIRECT:
+   468			dma_unmap_page(priv->net_dev->dev.parent, addr,
+   469				       priv->rx_buf_size, DMA_BIDIRECTIONAL);
+   470			ch->buf_count--;
+   471	
+   472			/* Allow redirect use of full headroom */
+   473			xdp.data_hard_start = vaddr;
+   474			xdp.frame_sz = DPAA2_ETH_RX_BUF_RAW_SIZE;
+   475	
+   476			err = xdp_do_redirect(priv->net_dev, &xdp, xdp_prog);
+   477			if (unlikely(err)) {
+ > 478				addr = dma_map_single(priv->net_dev->dev.parent, vaddr
+   479						      priv->rx_buf_size,
+ > 480						      DMA_BIDIRECTIONAL);
+   481				if (unlikely(dma_mapping_error(priv->net_dev->dev.parent, addr))) {
+   482					free_pages((unsigned long)vaddr, 0);
+   483				} else {
+   484					ch->buf_count++;
+   485					dpaa2_eth_recycle_buf(priv, ch, addr);
+   486				}
+   487				ch->stats.xdp_drop++;
+   488			} else {
+   489				ch->stats.xdp_redirect++;
+   490			}
+   491			break;
+   492		}
+   493	
+   494		ch->xdp.res |= xdp_act;
+   495	out:
+   496		return xdp_act;
+   497	}
+   498	
 
 -- 
 0-DAY CI Kernel Test Service
