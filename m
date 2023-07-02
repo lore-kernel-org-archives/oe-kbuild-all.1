@@ -1,43 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5048E28EB
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Jul 2023 21:39:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1045928EB
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  2 Jul 2023 21:59:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688333991; x=1719869991;
+  t=1688335192; x=1719871192;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FJYvTq0poSjdj520coHwXf51VP0lmi2OyBWr8eTgcNc=;
-  b=WA7YSf75d9ZSoAaTdrNZ/6UmRTvUAxRE/IG7rlrDDNG16MKw7kVZPqij
-   CSX2hW3N60jSQaMgaXa1HvdptInpMjI/6b19dM0cQjZESknj9AsQ1V57y
-   mgl6fPl6maQJvPE4m8Tb66X7kvdw9dT6GihJdoaRaTg7fQkAw/stdwMLZ
-   Ja363owdo61/FOcnA34QpJw9FUpkin3Ka9u6OoI3GwkNK3j1ywccTHS6S
-   t8LRJIa4QYFiFqn8qIpkdMYHHHRgYWM+cJcqWBmF20evVWyN3Po2yaRp6
-   HLSmXy0vSZMWmqdVDT94z3y9BG/6XHfCLEDbgNh7kQmD9bLSR9GANfamU
+  bh=AEcombl6k/BFE+sAUrDXIhP7pecEHMrBXpubAhrSxkw=;
+  b=CBR3sNDfd09LfR87a+yNP52KDF0dyHDnLxP9Zl28jZdwqd9l9VfCfDux
+   7umPC5w1QGZyu7gHK8vc9cf4TaWpdNSNYj78ZRCfqTZPIHnlBqKtOLsYT
+   yCR0gv978hHQkCttMxUQT2ZjkONFV6mnJ1DQ6ZNCf8bXhLnXut3tCfeDb
+   sGnvjOLoQLwgnguq/J05OjSK30AUfe3z15lbur1T4wG/SPWKNRShlWtTi
+   cq9WBQmSLHYqRqOD6dsUSzzqkxiAtMwuBypkX3za9s8Oba9BRpMcTBEXy
+   iHtj45WQ3LbL0KvG78ns5ciT7ZT1o04V8ElpIjexcyIIDtZsRn3WKnAsm
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="342332135"
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="393486284"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="342332135"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 14:39:50 -0700
+   d="scan'208";a="393486284"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 14:59:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="788314741"
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="747966459"
 X-IronPort-AV: E=Sophos;i="6.01,176,1684825200"; 
-   d="scan'208";a="788314741"
+   d="scan'208";a="747966459"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 02 Jul 2023 14:39:49 -0700
+  by orsmga008.jf.intel.com with ESMTP; 02 Jul 2023 14:59:47 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qG4nM-000Gt9-0V;
-	Sun, 02 Jul 2023 21:39:48 +0000
-Date: Mon, 3 Jul 2023 05:39:01 +0800
+	id 1qG56i-000Gtn-1e;
+	Sun, 02 Jul 2023 21:59:48 +0000
+Date: Mon, 3 Jul 2023 05:59:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yunsheng Lin <linyunsheng@huawei.com>
+To: Amir Goldstein <amir73il@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linyunsheng:page_frag_virt_to_page 4/6]
- drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:480:64: error: macro
- "dma_map_single" requires 4 arguments, but only 3 given
-Message-ID: <202307030554.T9to9qZc-lkp@intel.com>
+Subject: [amir73il:start-write-safe 3/5] fs/nfsd/vfs.c:1031:13: error: call
+ to undeclared function 'file_access_permission'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202307030533.JzRuE4Ev-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,115 +47,133 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/gestionlin/linux.git page_frag_virt_to_page
-head:   4d390b969a98bdee1a1521f8facec4560a7acea8
-commit: 6b4875ab0e9ea706555354387c195b29f6cf5690 [4/6] net: remove virt_to_page when dma mapping
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230703/202307030554.T9to9qZc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230703/202307030554.T9to9qZc-lkp@intel.com/reproduce)
+tree:   https://github.com/amir73il/linux start-write-safe
+head:   a5282aa7e38bc78059dd397d3313f16cebc97168
+commit: 7c555d357bf6cd0c111b63caf1299d747f9f028b [3/5] splice: move permission hook out of splice_direct_to_actor()
+config: s390-randconfig-r044-20230703 (https://download.01.org/0day-ci/archive/20230703/202307030533.JzRuE4Ev-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230703/202307030533.JzRuE4Ev-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307030554.T9to9qZc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307030533.JzRuE4Ev-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c: In function 'dpaa2_eth_run_xdp':
->> drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:480:64: error: macro "dma_map_single" requires 4 arguments, but only 3 given
-     480 |                                               DMA_BIDIRECTIONAL);
-         |                                                                ^
-   In file included from include/linux/skbuff.h:28,
-                    from include/linux/if_ether.h:19,
-                    from include/linux/etherdevice.h:20,
-                    from drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:8:
-   include/linux/dma-mapping.h:412: note: macro "dma_map_single" defined here
-     412 | #define dma_map_single(d, a, s, r) dma_map_single_attrs(d, a, s, r, 0)
-         | 
->> drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:478:32: error: 'dma_map_single' undeclared (first use in this function); did you mean 'dma_map_sgtable'?
-     478 |                         addr = dma_map_single(priv->net_dev->dev.parent, vaddr
-         |                                ^~~~~~~~~~~~~~
-         |                                dma_map_sgtable
-   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c:478:32: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from fs/nfsd/vfs.c:28:
+   In file included from include/linux/ima.h:13:
+   In file included from include/linux/kexec.h:19:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from fs/nfsd/vfs.c:28:
+   In file included from include/linux/ima.h:13:
+   In file included from include/linux/kexec.h:19:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from fs/nfsd/vfs.c:28:
+   In file included from include/linux/ima.h:13:
+   In file included from include/linux/kexec.h:19:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from fs/nfsd/vfs.c:36:
+   In file included from fs/nfsd/xdr3.h:11:
+   In file included from fs/nfsd/xdr.h:8:
+   In file included from fs/nfsd/nfsd.h:19:
+   In file included from include/linux/sunrpc/svc.h:17:
+   include/linux/sunrpc/xdr.h:778:10: warning: result of comparison of constant 4611686018427387903 with expression of type '__u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+     778 |         if (len > SIZE_MAX / sizeof(*p))
+         |             ~~~ ^ ~~~~~~~~~~~~~~~~~~~~~
+>> fs/nfsd/vfs.c:1031:13: error: call to undeclared function 'file_access_permission'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1031 |         host_err = file_access_permission(file, MAY_READ);
+         |                    ^
+   fs/nfsd/vfs.c:1031:13: note: did you mean 'file_permission'?
+   include/linux/fs.h:2519:19: note: 'file_permission' declared here
+    2519 | static inline int file_permission(struct file *file, int mask)
+         |                   ^
+   13 warnings and 1 error generated.
 
 
-vim +/dma_map_single +480 drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
+vim +/file_access_permission +1031 fs/nfsd/vfs.c
 
-   424	
-   425	static u32 dpaa2_eth_run_xdp(struct dpaa2_eth_priv *priv,
-   426				     struct dpaa2_eth_channel *ch,
-   427				     struct dpaa2_eth_fq *rx_fq,
-   428				     struct dpaa2_fd *fd, void *vaddr)
-   429	{
-   430		dma_addr_t addr = dpaa2_fd_get_addr(fd);
-   431		struct bpf_prog *xdp_prog;
-   432		struct xdp_buff xdp;
-   433		u32 xdp_act = XDP_PASS;
-   434		int err, offset;
-   435	
-   436		xdp_prog = READ_ONCE(ch->xdp.prog);
-   437		if (!xdp_prog)
-   438			goto out;
-   439	
-   440		offset = dpaa2_fd_get_offset(fd) - XDP_PACKET_HEADROOM;
-   441		xdp_init_buff(&xdp, DPAA2_ETH_RX_BUF_RAW_SIZE - offset, &ch->xdp_rxq);
-   442		xdp_prepare_buff(&xdp, vaddr + offset, XDP_PACKET_HEADROOM,
-   443				 dpaa2_fd_get_len(fd), false);
-   444	
-   445		xdp_act = bpf_prog_run_xdp(xdp_prog, &xdp);
-   446	
-   447		/* xdp.data pointer may have changed */
-   448		dpaa2_fd_set_offset(fd, xdp.data - vaddr);
-   449		dpaa2_fd_set_len(fd, xdp.data_end - xdp.data);
-   450	
-   451		switch (xdp_act) {
-   452		case XDP_PASS:
-   453			break;
-   454		case XDP_TX:
-   455			dpaa2_eth_xdp_enqueue(priv, ch, fd, vaddr, rx_fq->flowid);
-   456			break;
-   457		default:
-   458			bpf_warn_invalid_xdp_action(priv->net_dev, xdp_prog, xdp_act);
-   459			fallthrough;
-   460		case XDP_ABORTED:
-   461			trace_xdp_exception(priv->net_dev, xdp_prog, xdp_act);
-   462			fallthrough;
-   463		case XDP_DROP:
-   464			dpaa2_eth_recycle_buf(priv, ch, addr);
-   465			ch->stats.xdp_drop++;
-   466			break;
-   467		case XDP_REDIRECT:
-   468			dma_unmap_page(priv->net_dev->dev.parent, addr,
-   469				       priv->rx_buf_size, DMA_BIDIRECTIONAL);
-   470			ch->buf_count--;
-   471	
-   472			/* Allow redirect use of full headroom */
-   473			xdp.data_hard_start = vaddr;
-   474			xdp.frame_sz = DPAA2_ETH_RX_BUF_RAW_SIZE;
-   475	
-   476			err = xdp_do_redirect(priv->net_dev, &xdp, xdp_prog);
-   477			if (unlikely(err)) {
- > 478				addr = dma_map_single(priv->net_dev->dev.parent, vaddr
-   479						      priv->rx_buf_size,
- > 480						      DMA_BIDIRECTIONAL);
-   481				if (unlikely(dma_mapping_error(priv->net_dev->dev.parent, addr))) {
-   482					free_pages((unsigned long)vaddr, 0);
-   483				} else {
-   484					ch->buf_count++;
-   485					dpaa2_eth_recycle_buf(priv, ch, addr);
-   486				}
-   487				ch->stats.xdp_drop++;
-   488			} else {
-   489				ch->stats.xdp_redirect++;
-   490			}
-   491			break;
-   492		}
-   493	
-   494		ch->xdp.res |= xdp_act;
-   495	out:
-   496		return xdp_act;
-   497	}
-   498	
+  1005	
+  1006	/**
+  1007	 * nfsd_splice_read - Perform a VFS read using a splice pipe
+  1008	 * @rqstp: RPC transaction context
+  1009	 * @fhp: file handle of file to be read
+  1010	 * @file: opened struct file of file to be read
+  1011	 * @offset: starting byte offset
+  1012	 * @count: IN: requested number of bytes; OUT: number of bytes read
+  1013	 * @eof: OUT: set non-zero if operation reached the end of the file
+  1014	 *
+  1015	 * Returns nfs_ok on success, otherwise an nfserr stat value is
+  1016	 * returned.
+  1017	 */
+  1018	__be32 nfsd_splice_read(struct svc_rqst *rqstp, struct svc_fh *fhp,
+  1019				struct file *file, loff_t offset, unsigned long *count,
+  1020				u32 *eof)
+  1021	{
+  1022		struct splice_desc sd = {
+  1023			.len		= 0,
+  1024			.total_len	= *count,
+  1025			.pos		= offset,
+  1026			.u.data		= rqstp,
+  1027		};
+  1028		ssize_t host_err;
+  1029	
+  1030		trace_nfsd_read_splice(rqstp, fhp, offset, *count);
+> 1031		host_err = file_access_permission(file, MAY_READ);
+  1032		if (!host_err)
+  1033			host_err = splice_direct_to_actor(file, &sd,
+  1034							  nfsd_direct_splice_actor);
+  1035		return nfsd_finish_read(rqstp, fhp, file, offset, count, eof, host_err);
+  1036	}
+  1037	
 
 -- 
 0-DAY CI Kernel Test Service
