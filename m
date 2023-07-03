@@ -1,44 +1,42 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B94B388
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jul 2023 02:02:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3521625
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jul 2023 04:09:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688349738; x=1719885738;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ecbu0SPk9flX9mFlAxU04hxaHEIRn/m52Owm/S0UlDA=;
-  b=Dg/hmQ/adMatr5NhBOT5spWNy47cODjm0SR784iorMrlNDKyPaRyJQTP
-   7YbevniVfe4dDfvzvTkrQMXBwhmbli0F4StqnTSkNQOl5HQ8eQOF2MgAF
-   4EkWwPYb/ep9VbqtziYIaypxYsVsb/w87Dc9x1ETgNXigd6DeMO8g92Dy
-   BuBOwgtkC3uvy+XGrp5dN3607dc9nslp96q1MnibNQnDqYWsYqNKKcrwI
-   VVrUIwDKxFLUKu84FsyyfJ29NxHqTnhOeZuKYOJybeAAFdTB8vW57j8a1
-   fWNNHq5sEn5IvvEJPAQfrXNmsIXBeGgFaQEw6hsZKAG13apixUVzyl4lB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="343104635"
+  t=1688357342; x=1719893342;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dPhEmEb4DroScJxjEMffQQw64xsnfPFHnbXq0X8GLr0=;
+  b=Q48oUdDipXr7e2B5bY8OswVC7nQRHr2lRCaadGE6cqRb8OreVwTYahu2
+   WwcgfMp9zp3mBqvjOErtNUB40xzI70Sz1QsSaT5SgY0RKo5Sd81WEbQxJ
+   8LOhFbvtnqRwx8i76O14MxUmeqAOhzCU1Aa6izJJ4Xz/qeRY6BwriB31o
+   piL22uz1Kj1U/tduz2ZvDJFism3wEpysd8KRhnW26llY4EhFx/B8ugauZ
+   EBTEkG7RGfQ/5Dl+BTyxCjvwjKnKjYQGNVt1h52+BZ0YTZC2fYzGYE6FU
+   yGAeP19XYw/cWcTbPXOyG+zxAacOgPmg8q4TvRl/apot4+jltlQzh5DQn
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="360261780"
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="343104635"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 19:02:17 -0700
+   d="scan'208";a="360261780"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 21:09:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="748003800"
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="753611499"
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="748003800"
+   d="scan'208";a="753611499"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 02 Jul 2023 19:02:16 -0700
+  by orsmga001.jf.intel.com with ESMTP; 02 Jul 2023 21:09:00 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qG8tL-000H2z-0y;
-	Mon, 03 Jul 2023 02:02:15 +0000
-Date: Mon, 3 Jul 2023 10:01:35 +0800
+	id 1qGArz-000H6b-18;
+	Mon, 03 Jul 2023 04:08:59 +0000
+Date: Mon, 3 Jul 2023 12:08:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yonghong Song <yhs@fb.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH bpf-next 07/13] bpf: Add kernel/bpftool asm support
- for new instructions
-Message-ID: <202307030905.un0sidl5-lkp@intel.com>
-References: <20230629063756.1652245-1-yhs@fb.com>
+To: Tony Luck <tony.luck@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-ia64@vger.kernel.org
+Subject: [aegl:resctrl2_v64 2/3] arch/x86/include/asm/resctrl.h:114:45:
+ error: invalid use of undefined type 'struct resctrl_group'
+Message-ID: <202307031209.IWXDQGr5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,31 +45,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230629063756.1652245-1-yhs@fb.com>
 
-Hi Yonghong,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yonghong-Song/bpf-Support-new-sign-extension-load-insns/20230629-144251
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20230629063756.1652245-1-yhs%40fb.com
-patch subject: [RFC PATCH bpf-next 07/13] bpf: Add kernel/bpftool asm support for new instructions
-config: x86_64-randconfig-x061-20230702 (https://download.01.org/0day-ci/archive/20230703/202307030905.un0sidl5-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/aegl/linux.git resctrl2_v64
+head:   afb7cdd4d64023650b5cc6e003b1aa3d2ab80af1
+commit: eda3e6a0e3b6c896d9ced0e8488c06cd373abd2e [2/3] resctrl2: Arch x86 modules for most of the legacy control/monitor functions
+config: i386-randconfig-i062-20230703 (https://download.01.org/0day-ci/archive/20230703/202307031209.IWXDQGr5-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230703/202307030905.un0sidl5-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230703/202307031209.IWXDQGr5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307030905.un0sidl5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307031209.IWXDQGr5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/bpf/disasm.c:90:12: sparse: sparse: symbol 'bpf_alu_sign_string' was not declared. Should it be static?
->> kernel/bpf/disasm.c:95:12: sparse: sparse: symbol 'bpf_movs_string' was not declared. Should it be static?
+All error/warnings (new ones prefixed by >>):
+
+   In file included from arch/x86/kernel/process_32.c:55:
+>> arch/x86/include/asm/resctrl.h:101:36: warning: 'struct resctrl_group' declared inside parameter list will not be visible outside of this definition or declaration
+     101 | bool arch_alloc_resctrl_ids(struct resctrl_group *rg);
+         |                                    ^~~~~~~~~~~~~
+   arch/x86/include/asm/resctrl.h:102:35: warning: 'struct resctrl_group' declared inside parameter list will not be visible outside of this definition or declaration
+     102 | void arch_free_resctrl_ids(struct resctrl_group *rg);
+         |                                   ^~~~~~~~~~~~~
+   arch/x86/include/asm/resctrl.h:112:66: warning: 'struct resctrl_group' declared inside parameter list will not be visible outside of this definition or declaration
+     112 | static inline bool is_closid_match(struct task_struct *t, struct resctrl_group *rg)
+         |                                                                  ^~~~~~~~~~~~~
+   arch/x86/include/asm/resctrl.h: In function 'is_closid_match':
+>> arch/x86/include/asm/resctrl.h:114:45: error: invalid use of undefined type 'struct resctrl_group'
+     114 |         return (t->resctrl_ids >> 32) == (rg->resctrl_ids >> 32);
+         |                                             ^~
+   arch/x86/include/asm/resctrl.h: At top level:
+   arch/x86/include/asm/resctrl.h:117:75: warning: 'struct resctrl_group' declared inside parameter list will not be visible outside of this definition or declaration
+     117 | static inline bool arch_is_resctrl_id_match(struct task_struct *t, struct resctrl_group *rg)
+         |                                                                           ^~~~~~~~~~~~~
+   arch/x86/include/asm/resctrl.h: In function 'arch_is_resctrl_id_match':
+   arch/x86/include/asm/resctrl.h:119:15: error: invalid use of undefined type 'struct resctrl_group'
+     119 |         if (rg->type == DIR_MON)
+         |               ^~
+>> arch/x86/include/asm/resctrl.h:119:25: error: 'DIR_MON' undeclared (first use in this function)
+     119 |         if (rg->type == DIR_MON)
+         |                         ^~~~~~~
+   arch/x86/include/asm/resctrl.h:119:25: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/include/asm/resctrl.h:120:44: error: invalid use of undefined type 'struct resctrl_group'
+     120 |                 return t->resctrl_ids == rg->resctrl_ids;
+         |                                            ^~
+>> arch/x86/include/asm/resctrl.h:121:35: error: passing argument 2 of 'is_closid_match' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     121 |         return is_closid_match(t, rg);
+         |                                   ^~
+         |                                   |
+         |                                   struct resctrl_group *
+   arch/x86/include/asm/resctrl.h:112:81: note: expected 'struct resctrl_group *' but argument is of type 'struct resctrl_group *'
+     112 | static inline bool is_closid_match(struct task_struct *t, struct resctrl_group *rg)
+         |                                                           ~~~~~~~~~~~~~~~~~~~~~~^~
+   arch/x86/include/asm/resctrl.h: At top level:
+   arch/x86/include/asm/resctrl.h:124:68: warning: 'struct resctrl_group' declared inside parameter list will not be visible outside of this definition or declaration
+     124 | static inline bool arch_set_task_ids(struct task_struct *t, struct resctrl_group *rg)
+         |                                                                    ^~~~~~~~~~~~~
+   arch/x86/include/asm/resctrl.h: In function 'arch_set_task_ids':
+   arch/x86/include/asm/resctrl.h:126:15: error: invalid use of undefined type 'struct resctrl_group'
+     126 |         if (rg->type == DIR_MON) {
+         |               ^~
+   arch/x86/include/asm/resctrl.h:126:25: error: 'DIR_MON' undeclared (first use in this function)
+     126 |         if (rg->type == DIR_MON) {
+         |                         ^~~~~~~
+   arch/x86/include/asm/resctrl.h:127:41: error: passing argument 2 of 'is_closid_match' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     127 |                 if (!is_closid_match(t, rg)) {
+         |                                         ^~
+         |                                         |
+         |                                         struct resctrl_group *
+   arch/x86/include/asm/resctrl.h:112:81: note: expected 'struct resctrl_group *' but argument is of type 'struct resctrl_group *'
+     112 | static inline bool is_closid_match(struct task_struct *t, struct resctrl_group *rg)
+         |                                                           ~~~~~~~~~~~~~~~~~~~~~~^~
+   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:246,
+                    from include/linux/dev_printk.h:14,
+                    from include/linux/device.h:15,
+                    from include/linux/node.h:18,
+                    from include/linux/cpu.h:17,
+                    from arch/x86/kernel/process_32.c:12:
+   arch/x86/include/asm/resctrl.h:133:38: error: invalid use of undefined type 'struct resctrl_group'
+     133 |         WRITE_ONCE(t->resctrl_ids, rg->resctrl_ids);
+         |                                      ^~
+   include/asm-generic/rwonce.h:55:40: note: in definition of macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                                        ^~~
+   arch/x86/include/asm/resctrl.h:133:9: note: in expansion of macro 'WRITE_ONCE'
+     133 |         WRITE_ONCE(t->resctrl_ids, rg->resctrl_ids);
+         |         ^~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+>> fs/resctrl2/arch/x86/alloc.c:55:6: warning: no previous prototype for 'closid_free' [-Wmissing-prototypes]
+      55 | void closid_free(int closid)
+         |      ^~~~~~~~~~~
+--
+   fs/resctrl2/arch/x86/rdt_monitor.c: In function 'rdt_rmid_read':
+>> fs/resctrl2/arch/x86/rdt_monitor.c:304:26: warning: variable 'm' set but not used [-Wunused-but-set-variable]
+     304 |         struct mydomain *m;
+         |                          ^
+
+
+vim +114 arch/x86/include/asm/resctrl.h
+
+   100	
+ > 101	bool arch_alloc_resctrl_ids(struct resctrl_group *rg);
+   102	void arch_free_resctrl_ids(struct resctrl_group *rg);
+   103	bool arch_init_alloc_ids(struct resctrl_resource *r);
+   104	int rmid_alloc(int prmid);
+   105	void rmid_free(int rmid);
+   106	void arch_add_monitor(int mon_event);
+   107	void arch_del_monitor(int mon_event);
+   108	u64 rdt_rmid_read(int domain_id, int rmid, int event);
+   109	void rdt_mbm_apply_quirk(int num_rmids);
+   110	u64 get_corrected_mbm_count(u32 rmid, unsigned long val);
+   111	
+   112	static inline bool is_closid_match(struct task_struct *t, struct resctrl_group *rg)
+   113	{
+ > 114		return (t->resctrl_ids >> 32) == (rg->resctrl_ids >> 32);
+   115	}
+   116	
+   117	static inline bool arch_is_resctrl_id_match(struct task_struct *t, struct resctrl_group *rg)
+   118	{
+ > 119		if (rg->type == DIR_MON)
+   120			return t->resctrl_ids == rg->resctrl_ids;
+ > 121		return is_closid_match(t, rg);
+   122	}
+   123	
 
 -- 
 0-DAY CI Kernel Test Service
