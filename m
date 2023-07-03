@@ -1,43 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A2CB803
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jul 2023 06:42:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F8E803
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jul 2023 07:13:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688366521; x=1719902521;
+  t=1688368439; x=1719904439;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GVJRPLLzWdBT9QOerXJ55hu1ak6ZNokX28wFJuwc5RM=;
-  b=m2ZpZoAATtw+t+ecyX4SPwH9pGXrXuNkw+uyimdb8JUD8jLH0RikUFjC
-   ZQpJnrYExIvphg7nseDAEgayyddXpM+4Vcl2ubwYY8x1pzqyBZYmOWU5i
-   cVgnoOtuvzAiWsHDN9fM3/F9UZsBXrbjAy2cirsicIY3IOCUi6s7oVX0n
-   JljaLHCugk8T3JmwJLAH5w/4Sm//3TETdOFFYL3na96nM1mrYANAFLj+Q
-   SJxSKF1TLMQ4P8IsvTSg26xal57dMQ5ffXjr2SpAZxbXxjTeuIZxWA1ei
-   zXWMewAwWriV/NKVSLIjBKno/3blXDvk3jA6WbP4EGUNAHy4lNodjbUkP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="352630479"
+  bh=WEpGIYMSMPY4y707X8ag7bqeDALnQlq0+Of8UgOA9VM=;
+  b=O42nqQq1tzZnQMQQfwRFNoEu6naIRAvWzcWAA7Jd8NbAh/24s6N64f4x
+   epSVj08+4qNZjO0L5g5fFY5/6fdLz9aVl29JQHaUps8n136yIA7Pj91B9
+   houiuauAvG1qJyMAOxpkITx8CJxTrYfj6eZqnT12CT6vLM2j9QN4mKGTn
+   tVwxyZGIobUpsbDu/IWLtepVh8QezGBWxvtAu9kKxW+4MmPrmKetU3U0v
+   LAVLkY1pgnRvCEIs/txpjXPWpFkUDeWa4BURQpA4sa70GhoWoCqzj+9FL
+   9vNIbIWPTu/xFFv0kO0jGcrDXpIpmc8Tn2NDk+pMu7Lgbh5XkZKOSHzWY
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="361673356"
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="352630479"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 23:42:00 -0700
+   d="scan'208";a="361673356"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 00:13:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="668659322"
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="1048967168"
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="668659322"
+   d="scan'208";a="1048967168"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 02 Jul 2023 23:41:58 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 03 Jul 2023 00:13:57 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGDG0-000HCB-1P;
-	Mon, 03 Jul 2023 06:41:56 +0000
-Date: Mon, 3 Jul 2023 14:41:44 +0800
+	id 1qGDkz-000HD1-00;
+	Mon, 03 Jul 2023 07:13:57 +0000
+Date: Mon, 3 Jul 2023 15:13:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhang Rui <rui.zhang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: drivers/powercap/intel_rapl_tpmi.c:141:41: sparse: sparse: incorrect
- type in initializer (different address spaces)
-Message-ID: <202307031405.dy3druuy-lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ardb:x86-efi-runtime-cleanup 6/6]
+ arch/x86/include/asm/uv/bios.h:118:22: error: expected ')' before '*' token
+Message-ID: <202307031501.x99uET07-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,121 +46,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   a901a3568fd26ca9c4a82d8bc5ed5b3ed844d451
-commit: 9eef7f9da928c54149199e7b3215b82c2d595ccd powercap: intel_rapl: Introduce RAPL TPMI interface driver
-date:   6 weeks ago
-config: x86_64-randconfig-x062-20230703 (https://download.01.org/0day-ci/archive/20230703/202307031405.dy3druuy-lkp@intel.com/config)
+tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-efi-runtime-cleanup
+head:   22added69d4a97ad3edd0af0d8e403373f4bf17a
+commit: 22added69d4a97ad3edd0af0d8e403373f4bf17a [6/6] efi/x86: Rely on compiler to emit MS ABI calls
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230703/202307031501.x99uET07-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230703/202307031405.dy3druuy-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230703/202307031501.x99uET07-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307031405.dy3druuy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307031501.x99uET07-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/powercap/intel_rapl_tpmi.c:141:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [usertype] *tpmi_rapl_regs @@     got void [noderef] __iomem * @@
-   drivers/powercap/intel_rapl_tpmi.c:141:41: sparse:     expected unsigned long long [usertype] *tpmi_rapl_regs
-   drivers/powercap/intel_rapl_tpmi.c:141:41: sparse:     got void [noderef] __iomem *
+All errors (new ones prefixed by >>):
 
-vim +141 drivers/powercap/intel_rapl_tpmi.c
+   In file included from drivers/platform/x86/uv_sysfs.c:14:
+>> arch/x86/include/asm/uv/bios.h:118:22: error: expected ')' before '*' token
+     118 |         u64 (__efiapi *function)(enum uv_bios_cmd, ...);
+         |                      ^~
+         |                      )
 
-   132	
-   133	static int parse_one_domain(struct tpmi_rapl_package *trp, u32 offset)
-   134	{
-   135		u8 tpmi_domain_version;
-   136		enum rapl_domain_type domain_type;
-   137		enum tpmi_rapl_domain_type tpmi_domain_type;
-   138		enum tpmi_rapl_register reg_index;
-   139		enum rapl_domain_reg_id reg_id;
-   140		int tpmi_domain_size, tpmi_domain_flags;
- > 141		u64 *tpmi_rapl_regs = trp->base + offset;
-   142		u64 tpmi_domain_header = readq((void __iomem *)tpmi_rapl_regs);
-   143	
-   144		/* Domain Parent bits are ignored for now */
-   145		tpmi_domain_version = tpmi_domain_header & 0xff;
-   146		tpmi_domain_type = tpmi_domain_header >> 8 & 0xff;
-   147		tpmi_domain_size = tpmi_domain_header >> 16 & 0xff;
-   148		tpmi_domain_flags = tpmi_domain_header >> 32 & 0xffff;
-   149	
-   150		if (tpmi_domain_version != TPMI_RAPL_VERSION) {
-   151			pr_warn(FW_BUG "Unsupported version:%d\n", tpmi_domain_version);
-   152			return -ENODEV;
-   153		}
-   154	
-   155		/* Domain size: in unit of 128 Bytes */
-   156		if (tpmi_domain_size != 1) {
-   157			pr_warn(FW_BUG "Invalid Domain size %d\n", tpmi_domain_size);
-   158			return -EINVAL;
-   159		}
-   160	
-   161		/* Unit register and Energy Status register are mandatory for each domain */
-   162		if (!(tpmi_domain_flags & BIT(TPMI_RAPL_REG_UNIT)) ||
-   163		    !(tpmi_domain_flags & BIT(TPMI_RAPL_REG_ENERGY_STATUS))) {
-   164			pr_warn(FW_BUG "Invalid Domain flag 0x%x\n", tpmi_domain_flags);
-   165			return -EINVAL;
-   166		}
-   167	
-   168		switch (tpmi_domain_type) {
-   169		case TPMI_RAPL_DOMAIN_PACKAGE:
-   170			domain_type = RAPL_DOMAIN_PACKAGE;
-   171			break;
-   172		case TPMI_RAPL_DOMAIN_SYSTEM:
-   173			domain_type = RAPL_DOMAIN_PLATFORM;
-   174			break;
-   175		case TPMI_RAPL_DOMAIN_MEMORY:
-   176			domain_type = RAPL_DOMAIN_DRAM;
-   177			break;
-   178		default:
-   179			pr_warn(FW_BUG "Unsupported Domain type %d\n", tpmi_domain_type);
-   180			return -EINVAL;
-   181		}
-   182	
-   183		if (trp->priv.regs[domain_type][RAPL_DOMAIN_REG_UNIT]) {
-   184			pr_warn(FW_BUG "Duplicate Domain type %d\n", tpmi_domain_type);
-   185			return -EINVAL;
-   186		}
-   187	
-   188		reg_index = TPMI_RAPL_REG_HEADER;
-   189		while (++reg_index != TPMI_RAPL_REG_MAX) {
-   190			if (!(tpmi_domain_flags & BIT(reg_index)))
-   191				continue;
-   192	
-   193			switch (reg_index) {
-   194			case TPMI_RAPL_REG_UNIT:
-   195				reg_id = RAPL_DOMAIN_REG_UNIT;
-   196				break;
-   197			case TPMI_RAPL_REG_PL1:
-   198				reg_id = RAPL_DOMAIN_REG_LIMIT;
-   199				trp->priv.limits[domain_type] |= BIT(POWER_LIMIT1);
-   200				break;
-   201			case TPMI_RAPL_REG_PL2:
-   202				reg_id = RAPL_DOMAIN_REG_PL2;
-   203				trp->priv.limits[domain_type] |= BIT(POWER_LIMIT2);
-   204				break;
-   205			case TPMI_RAPL_REG_PL4:
-   206				reg_id = RAPL_DOMAIN_REG_PL4;
-   207				trp->priv.limits[domain_type] |= BIT(POWER_LIMIT4);
-   208				break;
-   209			case TPMI_RAPL_REG_ENERGY_STATUS:
-   210				reg_id = RAPL_DOMAIN_REG_STATUS;
-   211				break;
-   212			case TPMI_RAPL_REG_PERF_STATUS:
-   213				reg_id = RAPL_DOMAIN_REG_PERF;
-   214				break;
-   215			case TPMI_RAPL_REG_POWER_INFO:
-   216				reg_id = RAPL_DOMAIN_REG_INFO;
-   217				break;
-   218			default:
-   219				continue;
-   220			}
-   221			trp->priv.regs[domain_type][reg_id] = (u64)&tpmi_rapl_regs[reg_index];
-   222		}
-   223	
-   224		return 0;
-   225	}
-   226	
+
+vim +118 arch/x86/include/asm/uv/bios.h
+
+   110	
+   111	/*
+   112	 * The UV system table describes specific firmware
+   113	 * capabilities available to the Linux kernel at runtime.
+   114	 */
+   115	struct uv_systab {
+   116		char signature[4];	/* must be UV_SYSTAB_SIG */
+   117		u32 revision;		/* distinguish different firmware revs */
+ > 118		u64 (__efiapi *function)(enum uv_bios_cmd, ...);
+   119					/* BIOS runtime callback function ptr */
+   120		u32 size;		/* systab size (starting with _VERSION_UV4) */
+   121		struct {
+   122			u32 type:8;	/* type of entry */
+   123			u32 offset:24;	/* byte offset from struct start to entry */
+   124		} entry[1];		/* additional entries follow */
+   125	};
+   126	extern struct uv_systab *uv_systab;
+   127	
 
 -- 
 0-DAY CI Kernel Test Service
