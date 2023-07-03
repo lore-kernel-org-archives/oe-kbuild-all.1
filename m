@@ -1,49 +1,54 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75962DDBE
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jul 2023 13:00:16 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-3fbc244d384so40719915e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 03 Jul 2023 06:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1688389214; x=1690981214;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M3dY32YJdb0J4v2AuSDueYcxVXmppCxt2qe2TyAIO3o=;
-        b=MQZ8h8b6MjG0SyuJltC9tce3fzjsrYF/2AMHoieVP29eU51GfZwk/rmJLhIn0kvPN+
-         QSSZ6BPCl04Xd5YBx9+RXSsDm2NX7lzZMHq8DsrfbxkYTVLBnTwhEGcmaELuFsBDUkAz
-         pqQdhPnePu+2ld+fhFbASxDSLh6fNRttzSC4dVII/2xnI0UxSOcef1+SoKBASDfrBsSL
-         reIFn0mT0tGVxVmuzMPFstrE+TF+Wi6ub6SqBwnhq9xbfZ9GFDA/8/syWgL1onZVGi6u
-         4fC+nUl80JtSiwO1Nq3cqE2RyN6oTqiC44Qp7Tib35kDDKKB4BREhQY2AJhBWcH/LlH1
-         e+3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688389214; x=1690981214;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M3dY32YJdb0J4v2AuSDueYcxVXmppCxt2qe2TyAIO3o=;
-        b=iGjw6WBQw1WL986Xl+A04DyfslTCfTMjaDmDOv096qYQUNfbHuilqIwlBKpN7svMBY
-         GnVcf4uhFDn63EmbhSURy66YeKtaGXAJL5F3HCQ613V8M1TFbzuLsxYHH/lAbBueUy9z
-         3tZqRDjetSmvLyVducK6ecfTbHSLhG6BQWxf5imUAyEU6oxc/v196Lq9hbnBGdUs94Ri
-         ZRVg37KcwWS+oGZKfHu75Yt/DbFAkIet+N8S8bPq4vgESU8B9VkmnFqWIU3xNztzmGVu
-         KXXWXIYvlrSt5ihG3xQjU92moxIRD/4iGIp6VW3TfYpltkOpF+fa/1dYibqhMArFQZCu
-         hosQ==
-X-Gm-Message-State: AC+VfDwoU5HKTzsd/NIzOZwnKCYXq9uqKrQhbGul7M9GMCV9VB3WTtrr
-	ZLTg3JSUu3AV4AbvHhAcAb4FV2jX6ge5ZhPotew=
-X-Google-Smtp-Source: ACHHUZ5MucnkBiYH+4dn5QH+ikSD6oOLJ3aNIEMsnuFc5fLEPobSu2rYMasE/30Qs0HcY1/DwwJQZA==
-X-Received: by 2002:a7b:cb9a:0:b0:3fa:9590:a365 with SMTP id m26-20020a7bcb9a000000b003fa9590a365mr7393073wmi.17.1688389214454;
-        Mon, 03 Jul 2023 06:00:14 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h9-20020a05600c314900b003fa9a00d74csm8594808wmo.3.2023.07.03.06.00.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Jul 2023 06:00:11 -0700 (PDT)
-Date: Mon, 3 Jul 2023 16:00:01 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Takashi Sakamoto <o-takashi@sakamocchi.jp>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
-Subject: sound/firewire/amdtp-stream.c:1099 process_rx_packets() error:
- uninitialized symbol 'curr_cycle_time'.
-Message-ID: <bacd122c-175c-4fe8-bc6a-66de5820eed0@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0D2AEACF
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jul 2023 13:04:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688389468; x=1719925468;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oCgpW04UB0T6adNKQaJvNj1k+izTFprGjrj2QXmMcAQ=;
+  b=noFtevKFYo24HIL/2G7u35XpJribeN4ISEM8Ur84bERPYdNQoIAqEeor
+   f6ZkpCBkb9hbmm9FTrx4zvIzXwY9eLWdmm0BQXwzrWfRXRea4whe2idOV
+   6ZpmNOq7F6JQVEAwO+yI7RSu8WUyxNbHCX0lJ0/bsflOmUU0WMTDLFdtI
+   pLBXSbcZVFGJFC/ihfbguLk86OXyRb6Buryleu0rtZFKv7sA5sOALPiVY
+   lqGfrYVBFqRRItM6bUhqfe5IRqH7C0c75rOYFOgb/kh1+tqEwvQhFC9QG
+   H4ahKPUpSz0dY0iRIKug66qo2WMF0V2oC60jI2SVveXjwIgXocLoDts+O
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="449252040"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
+   d="scan'208";a="449252040"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 06:04:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="808578079"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
+   d="scan'208";a="808578079"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 03 Jul 2023 06:04:05 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qGJDo-000HNb-0Q;
+	Mon, 03 Jul 2023 13:04:04 +0000
+Date: Mon, 3 Jul 2023 21:03:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	alberto.dassatti@heig-vd.ch
+Cc: oe-kbuild-all@lists.linux.dev, dlemoal@kernel.org,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Dan Carpenter <error27@gmail.com>, stable@vger.kernel.org,
+	Shawn Lin <shawn.lin@rock-chips.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Rob Herring <robh@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, linux-pci@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] PCI: rockchip: Use 64-bit mask on MSI 64-bit PCI
+ address
+Message-ID: <202307032003.1fpK28pS-lkp@intel.com>
+References: <20230703085845.2052008-1-rick.wertenbroek@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,114 +57,190 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230703085845.2052008-1-rick.wertenbroek@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b25f62ccb490680a8cee755ac4528909395e0711
-commit: fef4e61b0b765b6d22badcd5b6575b159e7d510a ALSA: firewire-lib: extend tracepoints event including CYCLE_TIME of 1394 OHCI
-config: i386-randconfig-m021-20230701 (https://download.01.org/0day-ci/archive/20230701/202307011324.jFJ96dTo-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230701/202307011324.jFJ96dTo-lkp@intel.com/reproduce)
+Hi Rick,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on pci/next]
+[also build test WARNING on linus/master next-20230703]
+[cannot apply to pci/for-linus v6.4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rick-Wertenbroek/PCI-rockchip-Use-64-bit-mask-on-MSI-64-bit-PCI-address/20230703-165959
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20230703085845.2052008-1-rick.wertenbroek%40gmail.com
+patch subject: [PATCH v2] PCI: rockchip: Use 64-bit mask on MSI 64-bit PCI address
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20230703/202307032003.1fpK28pS-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230703/202307032003.1fpK28pS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307011324.jFJ96dTo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307032003.1fpK28pS-lkp@intel.com/
 
-New smatch warnings:
-sound/firewire/amdtp-stream.c:1099 process_rx_packets() error: uninitialized symbol 'curr_cycle_time'.
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-sound/firewire/amdtp-stream.c:944 generate_tx_packet_descs() error: uninitialized symbol 'curr_cycle_time'.
+   In file included from include/linux/bitops.h:6,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from arch/arm/include/asm/div64.h:107,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/configfs.h:22,
+                    from drivers/pci/controller/pcie-rockchip-ep.c:11:
+   drivers/pci/controller/pcie-rockchip-ep.c: In function 'rockchip_pcie_prog_ep_ob_atu':
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/pci/controller/pcie-rockchip.h:163:41: note: in expansion of macro 'GENMASK'
+     163 | #define PCIE_ADDR_MASK                  GENMASK(63, MIN_AXI_ADDR_BITS_PASSED)
+         |                                         ^~~~~~~
+   drivers/pci/controller/pcie-rockchip.h:167:49: note: in expansion of macro 'PCIE_ADDR_MASK'
+     167 | #define   PCIE_CORE_OB_REGION_ADDR0_LO_ADDR     PCIE_ADDR_MASK
+         |                                                 ^~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:77:44: note: in expansion of macro 'PCIE_CORE_OB_REGION_ADDR0_LO_ADDR'
+      77 |                 (lower_32_bits(pci_addr) & PCIE_CORE_OB_REGION_ADDR0_LO_ADDR);
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/asm-generic/div64.h:27:
+   drivers/pci/controller/pcie-rockchip-ep.c: In function 'rockchip_pcie_ep_send_msi_irq':
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
+      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/pci/controller/pcie-rockchip.h:163:41: note: in expansion of macro 'GENMASK'
+     163 | #define PCIE_ADDR_MASK                  GENMASK(63, MIN_AXI_ADDR_BITS_PASSED)
+         |                                         ^~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:394:54: note: in expansion of macro 'PCIE_ADDR_MASK'
+     394 |         if (unlikely(ep->irq_pci_addr != (pci_addr & PCIE_ADDR_MASK) ||
+         |                                                      ^~~~~~~~~~~~~~
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/pci/controller/pcie-rockchip.h:163:41: note: in expansion of macro 'GENMASK'
+     163 | #define PCIE_ADDR_MASK                  GENMASK(63, MIN_AXI_ADDR_BITS_PASSED)
+         |                                         ^~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:399:57: note: in expansion of macro 'PCIE_ADDR_MASK'
+     399 |                                              pci_addr & PCIE_ADDR_MASK,
+         |                                                         ^~~~~~~~~~~~~~
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/pci/controller/pcie-rockchip.h:163:41: note: in expansion of macro 'GENMASK'
+     163 | #define PCIE_ADDR_MASK                  GENMASK(63, MIN_AXI_ADDR_BITS_PASSED)
+         |                                         ^~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:400:47: note: in expansion of macro 'PCIE_ADDR_MASK'
+     400 |                                              ~PCIE_ADDR_MASK + 1);
+         |                                               ^~~~~~~~~~~~~~
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/pci/controller/pcie-rockchip.h:163:41: note: in expansion of macro 'GENMASK'
+     163 | #define PCIE_ADDR_MASK                  GENMASK(63, MIN_AXI_ADDR_BITS_PASSED)
+         |                                         ^~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:401:48: note: in expansion of macro 'PCIE_ADDR_MASK'
+     401 |                 ep->irq_pci_addr = (pci_addr & PCIE_ADDR_MASK);
+         |                                                ^~~~~~~~~~~~~~
+   In file included from include/linux/io.h:13,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/arm/include/asm/hardirq.h:10,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/pci.h:38,
+                    from include/linux/pci-epf.h:15,
+                    from include/linux/pci-epc.h:12,
+                    from drivers/pci/controller/pcie-rockchip-ep.c:15:
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   arch/arm/include/asm/io.h:281:75: note: in definition of macro 'writew_relaxed'
+     281 | #define writew_relaxed(v,c)     __raw_writew((__force u16) cpu_to_le16(v),c)
+         |                                                                           ^
+   drivers/pci/controller/pcie-rockchip-ep.c:405:9: note: in expansion of macro 'writew'
+     405 |         writew(data, ep->irq_cpu_addr + (pci_addr & ~PCIE_ADDR_MASK));
+         |         ^~~~~~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/pci/controller/pcie-rockchip.h:163:41: note: in expansion of macro 'GENMASK'
+     163 | #define PCIE_ADDR_MASK                  GENMASK(63, MIN_AXI_ADDR_BITS_PASSED)
+         |                                         ^~~~~~~
+   drivers/pci/controller/pcie-rockchip-ep.c:405:54: note: in expansion of macro 'PCIE_ADDR_MASK'
+     405 |         writew(data, ep->irq_cpu_addr + (pci_addr & ~PCIE_ADDR_MASK));
+         |                                                      ^~~~~~~~~~~~~~
+--
+   In file included from include/linux/bitops.h:6,
+                    from include/linux/kernel.h:22,
+                    from include/linux/clk.h:13,
+                    from drivers/pci/controller/pcie-rockchip-host.c:15:
+   drivers/pci/controller/pcie-rockchip-host.c: In function 'rockchip_pcie_prog_ob_atu':
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/pci/controller/pcie-rockchip.h:163:41: note: in expansion of macro 'GENMASK'
+     163 | #define PCIE_ADDR_MASK                  GENMASK(63, MIN_AXI_ADDR_BITS_PASSED)
+         |                                         ^~~~~~~
+   drivers/pci/controller/pcie-rockchip.h:167:49: note: in expansion of macro 'PCIE_ADDR_MASK'
+     167 | #define   PCIE_CORE_OB_REGION_ADDR0_LO_ADDR     PCIE_ADDR_MASK
+         |                                                 ^~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-host.c:733:35: note: in expansion of macro 'PCIE_CORE_OB_REGION_ADDR0_LO_ADDR'
+     733 |         ob_addr_0 |= lower_addr & PCIE_CORE_OB_REGION_ADDR0_LO_ADDR;
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-host.c: In function 'rockchip_pcie_prog_ib_atu':
+>> include/linux/bits.h:35:18: warning: right shift count is negative [-Wshift-count-negative]
+      35 |          (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+         |                  ^~
+   include/linux/bits.h:37:38: note: in expansion of macro '__GENMASK'
+      37 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   drivers/pci/controller/pcie-rockchip.h:163:41: note: in expansion of macro 'GENMASK'
+     163 | #define PCIE_ADDR_MASK                  GENMASK(63, MIN_AXI_ADDR_BITS_PASSED)
+         |                                         ^~~~~~~
+   drivers/pci/controller/pcie-rockchip.h:175:49: note: in expansion of macro 'PCIE_ADDR_MASK'
+     175 | #define   PCIE_CORE_IB_REGION_ADDR0_LO_ADDR     PCIE_ADDR_MASK
+         |                                                 ^~~~~~~~~~~~~~
+   drivers/pci/controller/pcie-rockchip-host.c:767:42: note: in expansion of macro 'PCIE_CORE_IB_REGION_ADDR0_LO_ADDR'
+     767 |         ib_addr_0 |= (lower_addr << 8) & PCIE_CORE_IB_REGION_ADDR0_LO_ADDR;
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +/curr_cycle_time +1099 sound/firewire/amdtp-stream.c
 
-9b1fcd9bf80206 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1047  static void process_rx_packets(struct fw_iso_context *context, u32 tstamp, size_t header_length,
-9b1fcd9bf80206 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1048  			       void *header, void *private_data)
-0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1049  {
-0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1050  	struct amdtp_stream *s = private_data;
-69efd5c4bd4c0e sound/firewire/amdtp-stream.c Takashi Sakamoto 2020-05-08  1051  	const struct amdtp_domain *d = s->domain;
-0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1052  	const __be32 *ctx_header = header;
-9b1fcd9bf80206 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1053  	const unsigned int events_per_period = d->events_per_period;
-60dd49298ec580 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1054  	unsigned int event_count = s->ctx_data.rx.event_count;
-f0117128879be6 sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1055  	struct pkt_desc *desc = s->packet_descs_cursor;
-233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1056  	unsigned int pkt_header_length;
-a0e023317e2d55 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1057  	unsigned int packets;
-fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10  1058  	u32 curr_cycle_time;
-d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1059  	bool need_hw_irq;
-0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1060  	int i;
-0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1061  
-0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1062  	if (s->packet_index < 0)
-0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1063  		return;
-0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1064  
-a0e023317e2d55 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1065  	// Calculate the number of packets in buffer and check XRUN.
-a0e023317e2d55 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1066  	packets = header_length / sizeof(*ctx_header);
-a0e023317e2d55 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1067  
-cec371ff1ab18d sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1068  	generate_rx_packet_descs(s, desc, ctx_header, packets);
-0f5cfcb24d9c93 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1069  
-cec371ff1ab18d sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1070  	process_ctx_payloads(s, desc, packets);
-5e2ece0fdceb02 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1071  
-233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1072  	if (!(s->flags & CIP_NO_HEADER))
-233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1073  		pkt_header_length = IT_PKT_HEADER_SIZE_CIP;
-233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1074  	else
-233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1075  		pkt_header_length = 0;
-233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1076  
-d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1077  	if (s == d->irq_target) {
-d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1078  		// At NO_PERIOD_WAKEUP mode, the packets for all IT/IR contexts are processed by
-d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1079  		// the tasks of user process operating ALSA PCM character device by calling ioctl(2)
-d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1080  		// with some requests, instead of scheduled hardware IRQ of an IT context.
-d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1081  		struct snd_pcm_substream *pcm = READ_ONCE(s->pcm);
-d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1082  		need_hw_irq = !pcm || !pcm->runtime->no_period_wakeup;
-d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1083  	} else {
-d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1084  		need_hw_irq = false;
-d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1085  	}
-d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1086  
-fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10  1087  	if (trace_amdtp_packet_enabled())
-fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10  1088  		(void)fw_card_read_cycle_time(fw_parent_device(s->unit)->card, &curr_cycle_time);
+vim +35 include/linux/bits.h
 
-If trace_amdtp_packet_enabled() is false then curr_cycle_time is
-uninitialized.
-
-fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10  1089  
-5e2ece0fdceb02 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1090  	for (i = 0; i < packets; ++i) {
-6bc1a2699b79d7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-24  1091  		struct {
-6bc1a2699b79d7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-24  1092  			struct fw_iso_packet params;
-67d92ee7a50b00 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1093  			__be32 header[CIP_HEADER_QUADLETS];
-6bc1a2699b79d7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-24  1094  		} template = { {0}, {0} };
-e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1095  		bool sched_irq = false;
-6bc1a2699b79d7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-24  1096  
-233dbbc7af5d27 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-20  1097  		build_it_pkt_header(s, desc->cycle, &template.params, pkt_header_length,
-f4f6ae7b7c1fdb sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-07-22  1098  				    desc->data_blocks, desc->data_block_counter,
-fef4e61b0b765b sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-10 @1099  				    desc->syt, i, curr_cycle_time);
-
-The curr_cycle_time variable is only going to be used if trace_amdtp_packet_enabled()
-is true.  We would consider it a false positive if build_it_pkt_header()
-is inlined but a bug if it's not.  (Technically passing uninitialized
-data is undefined behavior but if a function is inlined then it's not
-"passing" anything).
-
-31ef9134eb5263 sound/firewire/amdtp.c        Clemens Ladisch  2011-03-15  1100  
-2472cfb3232caf sound/firewire/amdtp-stream.c Takashi Sakamoto 2020-05-08  1101  		if (s == s->domain->irq_target) {
-e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1102  			event_count += desc->data_blocks;
-e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1103  			if (event_count >= events_per_period) {
-e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1104  				event_count -= events_per_period;
-d360870a5bcff7 sound/firewire/amdtp-stream.c Takashi Sakamoto 2021-05-27  1105  				sched_irq = need_hw_irq;
-e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1106  			}
-60dd49298ec580 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1107  		}
-e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1108  
-e229853d505d7a sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1109  		if (queue_out_packet(s, &template.params, sched_irq) < 0) {
-fce9b013fee94d sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-05-21  1110  			cancel_stream(s);
-a4103bd7fdd595 sound/firewire/amdtp.c        Takashi Sakamoto 2015-05-22  1111  			return;
-ccccad8646fad5 sound/firewire/amdtp.c        Takashi Sakamoto 2014-04-25  1112  		}
-cec371ff1ab18d sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1113  
-cec371ff1ab18d sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1114  		desc = amdtp_stream_next_packet_desc(s, desc);
-a4103bd7fdd595 sound/firewire/amdtp.c        Takashi Sakamoto 2015-05-22  1115  	}
-a4103bd7fdd595 sound/firewire/amdtp.c        Takashi Sakamoto 2015-05-22  1116  
-60dd49298ec580 sound/firewire/amdtp-stream.c Takashi Sakamoto 2019-10-18  1117  	s->ctx_data.rx.event_count = event_count;
-f0117128879be6 sound/firewire/amdtp-stream.c Takashi Sakamoto 2023-01-09  1118  	s->packet_descs_cursor = desc;
-31ef9134eb5263 sound/firewire/amdtp.c        Clemens Ladisch  2011-03-15  1119  }
+295bcca84916cb Rikard Falkeborn 2020-04-06  32  
+295bcca84916cb Rikard Falkeborn 2020-04-06  33  #define __GENMASK(h, l) \
+95b980d62d52c4 Masahiro Yamada  2019-07-16  34  	(((~UL(0)) - (UL(1) << (l)) + 1) & \
+95b980d62d52c4 Masahiro Yamada  2019-07-16 @35  	 (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+295bcca84916cb Rikard Falkeborn 2020-04-06  36  #define GENMASK(h, l) \
+295bcca84916cb Rikard Falkeborn 2020-04-06  37  	(GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+8bd9cb51daac89 Will Deacon      2018-06-19  38  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
