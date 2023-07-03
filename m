@@ -1,42 +1,44 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3521625
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jul 2023 04:09:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53BF10E8
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jul 2023 06:31:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688357342; x=1719893342;
+  t=1688365919; x=1719901919;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dPhEmEb4DroScJxjEMffQQw64xsnfPFHnbXq0X8GLr0=;
-  b=Q48oUdDipXr7e2B5bY8OswVC7nQRHr2lRCaadGE6cqRb8OreVwTYahu2
-   WwcgfMp9zp3mBqvjOErtNUB40xzI70Sz1QsSaT5SgY0RKo5Sd81WEbQxJ
-   8LOhFbvtnqRwx8i76O14MxUmeqAOhzCU1Aa6izJJ4Xz/qeRY6BwriB31o
-   piL22uz1Kj1U/tduz2ZvDJFism3wEpysd8KRhnW26llY4EhFx/B8ugauZ
-   EBTEkG7RGfQ/5Dl+BTyxCjvwjKnKjYQGNVt1h52+BZ0YTZC2fYzGYE6FU
-   yGAeP19XYw/cWcTbPXOyG+zxAacOgPmg8q4TvRl/apot4+jltlQzh5DQn
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="360261780"
+  bh=QnoDPLpQyAj8v4P3Zhj6Jy6YRUOToKOmYA4IYLp/ETI=;
+  b=TWujaGOZFGMN77ZqGILcnb01jGXWiL+byV+0nzknf7HKhZQuolV8sNCW
+   GIvNa9KfqaWaypXWTKppfXX2AO8SM7h0AX/pJ0Is4wz5eEjmkEBL4MyNV
+   pq60PEx7wsc0zAK8lpXYcjJ5nx5lDLtDHQTdGH1teLPuM3FvAMv0tv5Qp
+   OhWsopP31LW2v6O0xh3oIuI/+z+BlSTEtGvgVrPz2GSVWLJU/YiqjT0SG
+   dNw+llksKmF+djNd5LDvTGSOXy1z99eZiV57/9VlAU14Uf08UPGpimPgb
+   4QsnkUheA9Hpkl0yvWN+Lfy4OKkP7cgFBRfCaxqOtJfW98jn1mJQkdF3T
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="426486691"
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="360261780"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 21:09:01 -0700
+   d="scan'208";a="426486691"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2023 23:31:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="753611499"
+X-IronPort-AV: E=McAfee;i="6600,9927,10759"; a="721662068"
 X-IronPort-AV: E=Sophos;i="6.01,177,1684825200"; 
-   d="scan'208";a="753611499"
+   d="scan'208";a="721662068"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 02 Jul 2023 21:09:00 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 02 Jul 2023 23:31:56 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGArz-000H6b-18;
-	Mon, 03 Jul 2023 04:08:59 +0000
-Date: Mon, 3 Jul 2023 12:08:57 +0800
+	id 1qGD6K-000HBv-0v;
+	Mon, 03 Jul 2023 06:31:56 +0000
+Date: Mon, 3 Jul 2023 14:31:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tony Luck <tony.luck@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-ia64@vger.kernel.org
-Subject: [aegl:resctrl2_v64 2/3] arch/x86/include/asm/resctrl.h:114:45:
- error: invalid use of undefined type 'struct resctrl_group'
-Message-ID: <202307031209.IWXDQGr5-lkp@intel.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 62/89] include/linux/kexec.h:41:2: error:
+ #error KEXEC_SOURCE_MEMORY_LIMIT not defined
+Message-ID: <202307031404.Mjmo2JK6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,130 +48,145 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/aegl/linux.git resctrl2_v64
-head:   afb7cdd4d64023650b5cc6e003b1aa3d2ab80af1
-commit: eda3e6a0e3b6c896d9ced0e8488c06cd373abd2e [2/3] resctrl2: Arch x86 modules for most of the legacy control/monitor functions
-config: i386-randconfig-i062-20230703 (https://download.01.org/0day-ci/archive/20230703/202307031209.IWXDQGr5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230703/202307031209.IWXDQGr5-lkp@intel.com/reproduce)
+Hi Eric,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   f30ee81787a5abee6c7c72b0fcc30d428319c449
+commit: c717f7a0e6b98a52da146e1c09e4c5d92934ca41 [62/89] arm/kexec: refactor for kernel/Kconfig.kexec
+config: arm-randconfig-r046-20230703 (https://download.01.org/0day-ci/archive/20230703/202307031404.Mjmo2JK6-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230703/202307031404.Mjmo2JK6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307031209.IWXDQGr5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307031404.Mjmo2JK6-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/process_32.c:55:
->> arch/x86/include/asm/resctrl.h:101:36: warning: 'struct resctrl_group' declared inside parameter list will not be visible outside of this definition or declaration
-     101 | bool arch_alloc_resctrl_ids(struct resctrl_group *rg);
-         |                                    ^~~~~~~~~~~~~
-   arch/x86/include/asm/resctrl.h:102:35: warning: 'struct resctrl_group' declared inside parameter list will not be visible outside of this definition or declaration
-     102 | void arch_free_resctrl_ids(struct resctrl_group *rg);
-         |                                   ^~~~~~~~~~~~~
-   arch/x86/include/asm/resctrl.h:112:66: warning: 'struct resctrl_group' declared inside parameter list will not be visible outside of this definition or declaration
-     112 | static inline bool is_closid_match(struct task_struct *t, struct resctrl_group *rg)
-         |                                                                  ^~~~~~~~~~~~~
-   arch/x86/include/asm/resctrl.h: In function 'is_closid_match':
->> arch/x86/include/asm/resctrl.h:114:45: error: invalid use of undefined type 'struct resctrl_group'
-     114 |         return (t->resctrl_ids >> 32) == (rg->resctrl_ids >> 32);
-         |                                             ^~
-   arch/x86/include/asm/resctrl.h: At top level:
-   arch/x86/include/asm/resctrl.h:117:75: warning: 'struct resctrl_group' declared inside parameter list will not be visible outside of this definition or declaration
-     117 | static inline bool arch_is_resctrl_id_match(struct task_struct *t, struct resctrl_group *rg)
-         |                                                                           ^~~~~~~~~~~~~
-   arch/x86/include/asm/resctrl.h: In function 'arch_is_resctrl_id_match':
-   arch/x86/include/asm/resctrl.h:119:15: error: invalid use of undefined type 'struct resctrl_group'
-     119 |         if (rg->type == DIR_MON)
-         |               ^~
->> arch/x86/include/asm/resctrl.h:119:25: error: 'DIR_MON' undeclared (first use in this function)
-     119 |         if (rg->type == DIR_MON)
-         |                         ^~~~~~~
-   arch/x86/include/asm/resctrl.h:119:25: note: each undeclared identifier is reported only once for each function it appears in
-   arch/x86/include/asm/resctrl.h:120:44: error: invalid use of undefined type 'struct resctrl_group'
-     120 |                 return t->resctrl_ids == rg->resctrl_ids;
-         |                                            ^~
->> arch/x86/include/asm/resctrl.h:121:35: error: passing argument 2 of 'is_closid_match' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     121 |         return is_closid_match(t, rg);
-         |                                   ^~
-         |                                   |
-         |                                   struct resctrl_group *
-   arch/x86/include/asm/resctrl.h:112:81: note: expected 'struct resctrl_group *' but argument is of type 'struct resctrl_group *'
-     112 | static inline bool is_closid_match(struct task_struct *t, struct resctrl_group *rg)
-         |                                                           ~~~~~~~~~~~~~~~~~~~~~~^~
-   arch/x86/include/asm/resctrl.h: At top level:
-   arch/x86/include/asm/resctrl.h:124:68: warning: 'struct resctrl_group' declared inside parameter list will not be visible outside of this definition or declaration
-     124 | static inline bool arch_set_task_ids(struct task_struct *t, struct resctrl_group *rg)
-         |                                                                    ^~~~~~~~~~~~~
-   arch/x86/include/asm/resctrl.h: In function 'arch_set_task_ids':
-   arch/x86/include/asm/resctrl.h:126:15: error: invalid use of undefined type 'struct resctrl_group'
-     126 |         if (rg->type == DIR_MON) {
-         |               ^~
-   arch/x86/include/asm/resctrl.h:126:25: error: 'DIR_MON' undeclared (first use in this function)
-     126 |         if (rg->type == DIR_MON) {
-         |                         ^~~~~~~
-   arch/x86/include/asm/resctrl.h:127:41: error: passing argument 2 of 'is_closid_match' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     127 |                 if (!is_closid_match(t, rg)) {
-         |                                         ^~
-         |                                         |
-         |                                         struct resctrl_group *
-   arch/x86/include/asm/resctrl.h:112:81: note: expected 'struct resctrl_group *' but argument is of type 'struct resctrl_group *'
-     112 | static inline bool is_closid_match(struct task_struct *t, struct resctrl_group *rg)
-         |                                                           ~~~~~~~~~~~~~~~~~~~~~~^~
-   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:246,
-                    from include/linux/dev_printk.h:14,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from arch/x86/kernel/process_32.c:12:
-   arch/x86/include/asm/resctrl.h:133:38: error: invalid use of undefined type 'struct resctrl_group'
-     133 |         WRITE_ONCE(t->resctrl_ids, rg->resctrl_ids);
-         |                                      ^~
-   include/asm-generic/rwonce.h:55:40: note: in definition of macro '__WRITE_ONCE'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |                                        ^~~
-   arch/x86/include/asm/resctrl.h:133:9: note: in expansion of macro 'WRITE_ONCE'
-     133 |         WRITE_ONCE(t->resctrl_ids, rg->resctrl_ids);
-         |         ^~~~~~~~~~
+   In file included from drivers/misc/pvpanic/pvpanic-mmio.c:12:
+>> include/linux/kexec.h:41:2: error: #error KEXEC_SOURCE_MEMORY_LIMIT not defined
+      41 | #error KEXEC_SOURCE_MEMORY_LIMIT not defined
+         |  ^~~~~
+>> include/linux/kexec.h:45:2: error: #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
+      45 | #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
+         |  ^~~~~
+>> include/linux/kexec.h:49:2: error: #error KEXEC_CONTROL_MEMORY_LIMIT not defined
+      49 | #error KEXEC_CONTROL_MEMORY_LIMIT not defined
+         |  ^~~~~
+>> include/linux/kexec.h:57:2: error: #error KEXEC_CONTROL_PAGE_SIZE not defined
+      57 | #error KEXEC_CONTROL_PAGE_SIZE not defined
+         |  ^~~~~
+>> include/linux/kexec.h:61:2: error: #error KEXEC_ARCH not defined
+      61 | #error KEXEC_ARCH not defined
+         |  ^~~~~
+--
+   In file included from kernel/panic.c:25:
+>> include/linux/kexec.h:41:2: error: #error KEXEC_SOURCE_MEMORY_LIMIT not defined
+      41 | #error KEXEC_SOURCE_MEMORY_LIMIT not defined
+         |  ^~~~~
+>> include/linux/kexec.h:45:2: error: #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
+      45 | #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
+         |  ^~~~~
+>> include/linux/kexec.h:49:2: error: #error KEXEC_CONTROL_MEMORY_LIMIT not defined
+      49 | #error KEXEC_CONTROL_MEMORY_LIMIT not defined
+         |  ^~~~~
+>> include/linux/kexec.h:57:2: error: #error KEXEC_CONTROL_PAGE_SIZE not defined
+      57 | #error KEXEC_CONTROL_PAGE_SIZE not defined
+         |  ^~~~~
+>> include/linux/kexec.h:61:2: error: #error KEXEC_ARCH not defined
+      61 | #error KEXEC_ARCH not defined
+         |  ^~~~~
+   kernel/panic.c: In function '__warn':
+   kernel/panic.c:666:17: warning: function '__warn' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     666 |                 vprintk(args->fmt, args->args);
+         |                 ^~~~~~~
+--
+   In file included from kernel/kexec_core.c:15:
+>> include/linux/kexec.h:41:2: error: #error KEXEC_SOURCE_MEMORY_LIMIT not defined
+      41 | #error KEXEC_SOURCE_MEMORY_LIMIT not defined
+         |  ^~~~~
+>> include/linux/kexec.h:45:2: error: #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
+      45 | #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
+         |  ^~~~~
+>> include/linux/kexec.h:49:2: error: #error KEXEC_CONTROL_MEMORY_LIMIT not defined
+      49 | #error KEXEC_CONTROL_MEMORY_LIMIT not defined
+         |  ^~~~~
+>> include/linux/kexec.h:57:2: error: #error KEXEC_CONTROL_PAGE_SIZE not defined
+      57 | #error KEXEC_CONTROL_PAGE_SIZE not defined
+         |  ^~~~~
+>> include/linux/kexec.h:61:2: error: #error KEXEC_ARCH not defined
+      61 | #error KEXEC_ARCH not defined
+         |  ^~~~~
+   kernel/kexec_core.c: In function 'sanity_check_segment_list':
+>> kernel/kexec_core.c:179:29: error: 'KEXEC_DESTINATION_MEMORY_LIMIT' undeclared (first use in this function); did you mean 'KEXEC_CRASH_CONTROL_MEMORY_LIMIT'?
+     179 |                 if (mend >= KEXEC_DESTINATION_MEMORY_LIMIT)
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                             KEXEC_CRASH_CONTROL_MEMORY_LIMIT
+   kernel/kexec_core.c:179:29: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/kexec_core.c: In function 'kimage_alloc_normal_control_pages':
+>> kernel/kexec_core.c:388:31: error: 'KEXEC_CONTROL_MEMORY_LIMIT' undeclared (first use in this function); did you mean 'KEXEC_CONTROL_MEMORY_GFP'?
+     388 |                 if ((epfn >= (KEXEC_CONTROL_MEMORY_LIMIT >> PAGE_SHIFT)) ||
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                               KEXEC_CONTROL_MEMORY_GFP
+   kernel/kexec_core.c: In function 'kimage_alloc_crash_control_pages':
+>> include/linux/kexec.h:65:42: error: 'KEXEC_CONTROL_MEMORY_LIMIT' undeclared (first use in this function); did you mean 'KEXEC_CONTROL_MEMORY_GFP'?
+      65 | #define KEXEC_CRASH_CONTROL_MEMORY_LIMIT KEXEC_CONTROL_MEMORY_LIMIT
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kexec_core.c:454:32: note: in expansion of macro 'KEXEC_CRASH_CONTROL_MEMORY_LIMIT'
+     454 |                 if (hole_end > KEXEC_CRASH_CONTROL_MEMORY_LIMIT)
+         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/kexec_core.c: In function 'kimage_alloc_page':
+>> kernel/kexec_core.c:721:34: error: 'KEXEC_SOURCE_MEMORY_LIMIT' undeclared (first use in this function); did you mean 'KEXEC_CRASH_CONTROL_MEMORY_LIMIT'?
+     721 |                                 (KEXEC_SOURCE_MEMORY_LIMIT >> PAGE_SHIFT)) {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                  KEXEC_CRASH_CONTROL_MEMORY_LIMIT
+   kernel/kexec_core.c: In function '__crash_kexec':
+>> kernel/kexec_core.c:1061:25: error: implicit declaration of function 'crash_setup_regs' [-Werror=implicit-function-declaration]
+    1061 |                         crash_setup_regs(&fixed_regs, regs);
+         |                         ^~~~~~~~~~~~~~~~
    cc1: some warnings being treated as errors
---
->> fs/resctrl2/arch/x86/alloc.c:55:6: warning: no previous prototype for 'closid_free' [-Wmissing-prototypes]
-      55 | void closid_free(int closid)
-         |      ^~~~~~~~~~~
---
-   fs/resctrl2/arch/x86/rdt_monitor.c: In function 'rdt_rmid_read':
->> fs/resctrl2/arch/x86/rdt_monitor.c:304:26: warning: variable 'm' set but not used [-Wunused-but-set-variable]
-     304 |         struct mydomain *m;
-         |                          ^
 
 
-vim +114 arch/x86/include/asm/resctrl.h
+vim +41 include/linux/kexec.h
 
-   100	
- > 101	bool arch_alloc_resctrl_ids(struct resctrl_group *rg);
-   102	void arch_free_resctrl_ids(struct resctrl_group *rg);
-   103	bool arch_init_alloc_ids(struct resctrl_resource *r);
-   104	int rmid_alloc(int prmid);
-   105	void rmid_free(int rmid);
-   106	void arch_add_monitor(int mon_event);
-   107	void arch_del_monitor(int mon_event);
-   108	u64 rdt_rmid_read(int domain_id, int rmid, int event);
-   109	void rdt_mbm_apply_quirk(int num_rmids);
-   110	u64 get_corrected_mbm_count(u32 rmid, unsigned long val);
-   111	
-   112	static inline bool is_closid_match(struct task_struct *t, struct resctrl_group *rg)
-   113	{
- > 114		return (t->resctrl_ids >> 32) == (rg->resctrl_ids >> 32);
-   115	}
-   116	
-   117	static inline bool arch_is_resctrl_id_match(struct task_struct *t, struct resctrl_group *rg)
-   118	{
- > 119		if (rg->type == DIR_MON)
-   120			return t->resctrl_ids == rg->resctrl_ids;
- > 121		return is_closid_match(t, rg);
-   122	}
-   123	
+dc009d92435f99 Eric W. Biederman  2005-06-25  39  
+dc009d92435f99 Eric W. Biederman  2005-06-25  40  #ifndef KEXEC_SOURCE_MEMORY_LIMIT
+dc009d92435f99 Eric W. Biederman  2005-06-25 @41  #error KEXEC_SOURCE_MEMORY_LIMIT not defined
+dc009d92435f99 Eric W. Biederman  2005-06-25  42  #endif
+dc009d92435f99 Eric W. Biederman  2005-06-25  43  
+dc009d92435f99 Eric W. Biederman  2005-06-25  44  #ifndef KEXEC_DESTINATION_MEMORY_LIMIT
+dc009d92435f99 Eric W. Biederman  2005-06-25 @45  #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
+dc009d92435f99 Eric W. Biederman  2005-06-25  46  #endif
+dc009d92435f99 Eric W. Biederman  2005-06-25  47  
+dc009d92435f99 Eric W. Biederman  2005-06-25  48  #ifndef KEXEC_CONTROL_MEMORY_LIMIT
+dc009d92435f99 Eric W. Biederman  2005-06-25 @49  #error KEXEC_CONTROL_MEMORY_LIMIT not defined
+dc009d92435f99 Eric W. Biederman  2005-06-25  50  #endif
+dc009d92435f99 Eric W. Biederman  2005-06-25  51  
+7e01b5acd88b3f Martin Schwidefsky 2015-04-16  52  #ifndef KEXEC_CONTROL_MEMORY_GFP
+dc5cccacf4272d Russell King       2016-08-02  53  #define KEXEC_CONTROL_MEMORY_GFP (GFP_KERNEL | __GFP_NORETRY)
+7e01b5acd88b3f Martin Schwidefsky 2015-04-16  54  #endif
+7e01b5acd88b3f Martin Schwidefsky 2015-04-16  55  
+163f6876f5c3ff Huang Ying         2008-08-15  56  #ifndef KEXEC_CONTROL_PAGE_SIZE
+163f6876f5c3ff Huang Ying         2008-08-15 @57  #error KEXEC_CONTROL_PAGE_SIZE not defined
+dc009d92435f99 Eric W. Biederman  2005-06-25  58  #endif
+dc009d92435f99 Eric W. Biederman  2005-06-25  59  
+dc009d92435f99 Eric W. Biederman  2005-06-25  60  #ifndef KEXEC_ARCH
+dc009d92435f99 Eric W. Biederman  2005-06-25 @61  #error KEXEC_ARCH not defined
+dc009d92435f99 Eric W. Biederman  2005-06-25  62  #endif
+dc009d92435f99 Eric W. Biederman  2005-06-25  63  
+3d214faea6e4f9 Michael Holzheu    2011-10-30  64  #ifndef KEXEC_CRASH_CONTROL_MEMORY_LIMIT
+3d214faea6e4f9 Michael Holzheu    2011-10-30 @65  #define KEXEC_CRASH_CONTROL_MEMORY_LIMIT KEXEC_CONTROL_MEMORY_LIMIT
+3d214faea6e4f9 Michael Holzheu    2011-10-30  66  #endif
+3d214faea6e4f9 Michael Holzheu    2011-10-30  67  
+
+:::::: The code at line 41 was first introduced by commit
+:::::: dc009d92435f99498cbc579ce76bf28e837e2c14 [PATCH] kexec: add kexec syscalls
+
+:::::: TO: Eric W. Biederman <ebiederm@xmission.com>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
