@@ -1,94 +1,93 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89733259D
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jul 2023 18:37:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688409450; x=1719945450;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G5+6nEgjf+geJF8euj1/Wn5xmQNN3AVS4aahg34OoNU=;
-  b=HffXH33EA6yTj23zKnt3o5rqAWQV0oDhMToMHlSA23TfSo2ACmKSjsN4
-   SHgqBimjF+Csh84CQjXUrtNBEUV1nCUQ/QugJdcLljkR+t56bBsCOujin
-   8rVzop2sGIAOQdJeW76yOYrMr9kcscoc/74w6k+L9dMEVfz2KO4CfhqyC
-   af/I5DT9iqOE0cQDI4StswGeoaPiIz16nUChbAwe/1qyaVMtlDgnrHtEV
-   sMomsp3rM7BFZce3qdxaOejCmzxEepsJk48DrlMSLu7hI8/Li1sFFd/md
-   ezIjoOIAdZzqA4JAaueXHAW0nZlfkoiR7Eb0bRHP7mziJiVUgO5J+cbAu
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="343279819"
-X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="343279819"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 11:37:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="668830225"
-X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
-   d="scan'208";a="668830225"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 03 Jul 2023 11:37:20 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qGOQJ-000HaL-0u;
-	Mon, 03 Jul 2023 18:37:19 +0000
-Date: Tue, 4 Jul 2023 02:36:33 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.1 26/26]
- drivers/gpu/drm/i915/display/intel_pmdemand.h:36:24: error: 'I915_MAX_PIPES'
- undeclared here (not in a function)
-Message-ID: <202307040218.4V2FLxpY-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F53259D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jul 2023 18:42:02 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::228])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id EB013CFE13
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jul 2023 18:12:11 +0000 (UTC)
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+X-GND-Sasl: hadess@hadess.net
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8C6B01BF205;
+	Mon,  3 Jul 2023 18:12:03 +0000 (UTC)
+Message-ID: <0895ee64688ee3c839e6737dada9f17a7b92a39c.camel@hadess.net>
+Subject: Re: [PATCH v5] HID: steelseries: Add support for Arctis 1 XBox
+From: Bastien Nocera <hadess@hadess.net>
+To: Benjamin Tissoires <bentiss@kernel.org>, kernel test robot
+ <lkp@intel.com>
+Cc: linux-input@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Jiri Kosina <jikos@kernel.org>, Benjamin
+ Tissoires <benjamin.tissoires@redhat.com>
+Date: Mon, 03 Jul 2023 20:12:03 +0200
+In-Reply-To: <ytk64symj6g2rsoy5jfe4gpojiska7plv5w4lmofm7vifrap5h@4lpu33rqodos>
+References: <20230703102918.9941-1-hadess@hadess.net>
+	 <202307032208.b5brKeCt-lkp@intel.com>
+	 <ytk64symj6g2rsoy5jfe4gpojiska7plv5w4lmofm7vifrap5h@4lpu33rqodos>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.3 (3.48.3-1.fc38) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
-head:   b9c2968f3aefef7f4d9f13f04f40e27c61ef6d32
-commit: b9c2968f3aefef7f4d9f13f04f40e27c61ef6d32 [26/26] BACKPORT: drm/i915/mtl: Add support for PM DEMAND
-config: i386-randconfig-m021-20230703 (https://download.01.org/0day-ci/archive/20230704/202307040218.4V2FLxpY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230704/202307040218.4V2FLxpY-lkp@intel.com/reproduce)
+On Mon, 2023-07-03 at 17:33 +0200, Benjamin Tissoires wrote:
+>=20
+> On Jul 03 2023, kernel test robot wrote:
+> >=20
+> > Hi Bastien,
+> >=20
+> > kernel test robot noticed the following build errors:
+> >=20
+> > [auto build test ERROR on hid/for-next]
+> > [also build test ERROR on linus/master v6.4 next-20230703]
+> > [If your patch is applied to the wrong git tree, kindly drop us a
+> > note.
+> > And when submitting patch, we suggest to use '--base' as documented
+> > in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >=20
+> > url:=C2=A0=C2=A0=C2=A0
+> > https://github.com/intel-lab-lkp/linux/commits/Bastien-Nocera/HID-steel=
+series-Add-support-for-Arctis-1-XBox/20230703-183124
+> > base:=C2=A0=C2=A0
+> > https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git=C2=A0for-
+> > next
+> > patch link:=C2=A0=C2=A0=C2=A0
+> > https://lore.kernel.org/r/20230703102918.9941-1-hadess%40hadess.net
+> > patch subject: [PATCH v5] HID: steelseries: Add support for Arctis
+> > 1 XBox
+> > config: parisc-randconfig-r032-20230703
+> > (https://download.01.org/0day-ci/archive/20230703/202307032208.b5br
+> > KeCt-lkp@intel.com/config)
+> > compiler: hppa-linux-gcc (GCC) 12.3.0
+> > reproduce:
+> > (https://download.01.org/0day-ci/archive/20230703/202307032208.b5br
+> > KeCt-lkp@intel.com/reproduce)
+> >=20
+> > If you fix the issue in a separate patch/commit (i.e. not just a
+> > new version of
+> > the same patch/commit), kindly add following tags
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Closes:
+> > > https://lore.kernel.org/oe-kbuild-all/202307032208.b5brKeCt-lkp@intel=
+.com/
+> >=20
+> > All errors (new ones prefixed by >>):
+> >=20
+> > =C2=A0=C2=A0 hppa-linux-ld: drivers/hid/hid-steelseries.o: in function
+> > `.LC10':
+> > > > hid-steelseries.c:(.rodata.cst4+0x8): undefined reference to
+> > > > `hid_is_usb'
+>=20
+> Bastien, you need a depends on USB_HID IIRC in your Kconfig (at
+> least CONFIG_USB_HID is not set in that kernel test bot run).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307040218.4V2FLxpY-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from <command-line>:
->> drivers/gpu/drm/i915/display/intel_pmdemand.h:36:24: error: 'I915_MAX_PIPES' undeclared here (not in a function)
-      36 |         int ddi_clocks[I915_MAX_PIPES];
-         |                        ^~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_pmdemand.h:55:44: error: 'enum pipe' declared inside parameter list will not be visible outside of this definition or declaration [-Werror]
-      55 |                                       enum pipe pipe, int port_clock);
-         |                                            ^~~~
-   cc1: all warnings being treated as errors
-
-
-vim +/I915_MAX_PIPES +36 drivers/gpu/drm/i915/display/intel_pmdemand.h
-
-    31	
-    32	struct intel_pmdemand_state {
-    33		struct intel_global_state base;
-    34	
-    35		/* Maintain a persistent list of port clocks across all crtcs */
-  > 36		int ddi_clocks[I915_MAX_PIPES];
-    37	
-    38		/* Maintain a persistent list of non type C phys mask */
-    39		u16 active_combo_phys_mask;
-    40	
-    41		/* Parameters to be configured in the pmdemand registers */
-    42		struct pmdemand_params params;
-    43	};
-    44	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yeah, I just get to undo the changes from v3 ;)
