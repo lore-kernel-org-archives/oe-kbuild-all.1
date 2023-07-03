@@ -1,64 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 439C2111AF
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jul 2023 20:17:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8356DC433C7;
-	Mon,  3 Jul 2023 20:17:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1688415447;
-	bh=XHU+arubqBaR5pmsCXvdTB+U52TRbs5evboQlgh5QNM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=QyJfPH2Logy1xxnhXlrKcAaNQpk9tua6e0fnFVnzcHAVdviWFo/mGGToA+kX0YwOG
-	 RjmilJVLwp6/+L3OmUXe5Bo3bsQ73NUZLVu77SVgeD+KlaAuTKO25PQ4c3E/ubpD2D
-	 gFtBhPxCkmNpj0r+givPOB81woCUSTQWEQ+fDfPg=
-Date: Mon, 3 Jul 2023 13:17:26 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, Linux
- Memory Management List <linux-mm@kvack.org>, Baoquan He <bhe@redhat.com>
-Subject: Re: [akpm-mm:mm-unstable 62/89] include/linux/kexec.h:41:2: error:
- #error KEXEC_SOURCE_MEMORY_LIMIT not defined
-Message-Id: <20230703131726.d505551a7ea964341ece91ba@linux-foundation.org>
-In-Reply-To: <b5682972-bc67-4b65-33e3-d95182b5e0d0@oracle.com>
-References: <202307031404.Mjmo2JK6-lkp@intel.com>
-	<3e8eecd1-a277-2cfb-690e-5de2eb7b988e@oracle.com>
-	<20230703093144.27aa0d991c380f54be34ae93@linux-foundation.org>
-	<b5682972-bc67-4b65-33e3-d95182b5e0d0@oracle.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23E08111AF
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  3 Jul 2023 20:19:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688415564; x=1719951564;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gYriWA8xExn/dd9s+g7KCBfoUNyGqzDgjnqnOFD6Y6U=;
+  b=Ij5TRIqGq1eAxeTD7k0q1Wd4zLn+mkScPijvEuHdaR4q34GVynjh4dUs
+   xcPElEeYJaE0aD7g6PiY2CTnTNvhpuL2S7SNND4aFVGlw5EDCWKAOTjks
+   rIcX9TTUKPCWR7wUbdcNm5ARycRT7WqN7jHioqWz+mg2FSOcFC0H6E8Ku
+   oKNaNELjv0VuDlwN+YcAMbAP/SuMfeS57tFbcjMymeoKSoKUTYArDOKAc
+   2fBQfCWiy/2RQG/2vQuDO6T+LXdfu5revFnwqEJolI/2mEMdtJuc5VZut
+   zkoak4hsBNj/FcmtLqA/NhgmDCTu8jwPbNhmVonKQDwAsGN7LANYsD2O3
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="362999800"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
+   d="scan'208";a="362999800"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 13:19:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="808697560"
+X-IronPort-AV: E=Sophos;i="6.01,178,1684825200"; 
+   d="scan'208";a="808697560"
+Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 03 Jul 2023 13:19:22 -0700
+Received: from kbuild by 783282924a45 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qGQ13-000HdV-1p;
+	Mon, 03 Jul 2023 20:19:21 +0000
+Date: Tue, 4 Jul 2023 04:19:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Russell King <rmk+kernel@armlinux.org.uk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rmk-arm:sa1100 34/41] arch/arm/mach-sa1100/ipaq-sleeve-bus.c:69:19:
+ error: initialization of 'int (*)(const struct device *, struct
+ kobj_uevent_env *)' from incompatible pointer type 'int (*)(struct device *,
+ struct kobj_uevent_env *)'
+Message-ID: <202307040426.fSjN9unW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, 3 Jul 2023 13:34:21 -0500 Eric DeVolder <eric.devolder@oracle.com> wrote:
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm sa1100
+head:   ca9a42edad0dbc014cfe471c5e9d106dec9093f7
+commit: 1feef5951d049ea4fa2232462b9dbd7b8081368e [34/41] ARM: sa1100/h3xxx: sleeve support
+config: arm-assabet_defconfig (https://download.01.org/0day-ci/archive/20230704/202307040426.fSjN9unW-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230704/202307040426.fSjN9unW-lkp@intel.com/reproduce)
 
-> 
-> 
-> On 7/3/23 11:31, Andrew Morton wrote:
-> > On Mon, 3 Jul 2023 10:31:34 -0500 Eric DeVolder <eric.devolder@oracle.com> wrote:
-> > 
-> >> Here are three possible courses of action:
-> >>    - do nothing; preserve existing behavior as intended by the series (even though problems like this
-> >> can occur)
-> >>    - fix it with CRASH_DUMP selecting KEXEC to eliminate the problem
-> > 
-> > This one, please.
-> > 
-> > Or make CRASH_DUMP depend on KEXEC.
-> > 
-> >>    - do not fix it but document the reason why this problem occurs in the commit message
-> 
-> ok, great!
-> 
-> I also have an unrelated fix for riscv, and this correction (for both arm and mips). Is the correct 
-> action to post a new v4 version? Or is there a different method?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307040426.fSjN9unW-lkp@intel.com/
 
-If the changes are small then I feel that individual fix patches are
-kinder to people who have already reviewed the previous.
+All errors (new ones prefixed by >>):
 
-But a new version is OK if that's more reliable.
+>> arch/arm/mach-sa1100/ipaq-sleeve-bus.c:69:19: error: initialization of 'int (*)(const struct device *, struct kobj_uevent_env *)' from incompatible pointer type 'int (*)(struct device *, struct kobj_uevent_env *)' [-Werror=incompatible-pointer-types]
+      69 |         .uevent = ipaq_option_sleeve_uevent,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/mach-sa1100/ipaq-sleeve-bus.c:69:19: note: (near initialization for 'ipaq_option_sleeve_bus.uevent')
+   cc1: some warnings being treated as errors
+
+
+vim +69 arch/arm/mach-sa1100/ipaq-sleeve-bus.c
+
+    64	
+    65	struct bus_type ipaq_option_sleeve_bus = {
+    66		.name = "ipaq-sleeve",
+    67		.dev_groups = ipaq_option_sleeve_dev_groups,
+    68		.match = ipaq_option_sleeve_match,
+  > 69		.uevent = ipaq_option_sleeve_uevent,
+    70	};
+    71	EXPORT_SYMBOL_GPL(ipaq_option_sleeve_bus);
+    72	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
