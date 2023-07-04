@@ -1,46 +1,57 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5336128;
-	Tue,  4 Jul 2023 19:01:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A966128
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jul 2023 19:11:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688497267; x=1720033267;
+  t=1688497870; x=1720033870;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+GerdEuVYZNzgmpXytW8Sy7zJg7Ex3oVa7I4XH2Irmg=;
-  b=cSUrZxAcHcDFCnA4jN5pBs+89BIRRjfGMZ5xaQcbnG6DjRYUXdkQNWHv
-   yM+OddaX4Yk//QoxKLsc96xZGXYVzCRyWfDRth8Z3wHiNhBcdeoGvVuZd
-   zPAHkL9A9BKJD4rWLIhX/Pm3LYZ9P6sNT9tE6nIP6W1i1rDHc8Wu7ZIQu
-   mk//ipf/rLLb5NGEwnIC70SmOdaQs1H3dHCXiGPz4r5439E9j3NNCJXu4
-   B5jKMnASBE6XN1UkFD2RndrZWQ7bJyfUsqlp182B8rR7hM2FF3Ua1pdiN
-   2ffM/L5jNOgwRAatELG3rwRW2vDbMkM+xcPqCLr2AFD7e7znEg2+ojWto
+  bh=N+jEsHLauGx61KnltWviK6hcwVBEgkMktElW+SHC/C4=;
+  b=CBAoVYrSBzLcjIK6rmsU6x2mGdfCJN//bvOyFU+UkCRr5nisHmeK8BmO
+   dm+kNZaLPkuije4+YOZ6umn8MFyGTDLbVarPJw/JXhlYVHO4dNyAH2Wv6
+   5AQROg2oB0bX2+1ObntNDsAeCLb6fA1lVQJZ4IfL2ZJI2JMocFmi6op6B
+   Mgu26sdPATayzYZkHsHHoTU4vsUudXPF6fI+hrv2nnbroTSIUOrhygwKG
+   odK28OvvKeSzCjPdxwek3THDFJ9iwuqhggAbffJVBz99CBWymS6lw1xUC
+   blBlVSNTFMGsdNsG2El1+TJsEa8AOotcTMurMudYV/TFKEToN9bizBjmX
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="363213241"
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="429218472"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="363213241"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 12:01:06 -0700
+   d="scan'208";a="429218472"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 12:11:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="965574596"
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="832249738"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="965574596"
+   d="scan'208";a="832249738"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 04 Jul 2023 12:01:04 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 04 Jul 2023 12:11:05 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGlGp-000ISZ-2n;
-	Tue, 04 Jul 2023 19:01:03 +0000
-Date: Wed, 5 Jul 2023 03:00:47 +0800
+	id 1qGlQW-000ITj-28;
+	Tue, 04 Jul 2023 19:11:04 +0000
+Date: Wed, 5 Jul 2023 03:11:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andreas Helbech Kleist <andreaskleist@gmail.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andreas Helbech Kleist <andreaskleist@gmail.com>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Input: exc3000 - add ACPI support for EXC80H60
-Message-ID: <202307050258.WtWKQJdV-lkp@intel.com>
-References: <20230704105021.898555-1-andreaskleist@gmail.com>
+To: Yongqiang Niu <yongqiang.niu@mediatek.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, CK Hu <ck.hu@mediatek.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Project_Global_Chrome_Upstream_Group@mediatek.com,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Yongqiang Niu <yongqiang.niu@mediatek.com>,
+	linaro-mm-sig@lists.linaro.org, linux-mediatek@lists.infradead.org,
+	Maxime Ripard <maxime@cerno.tech>,
+	Hsin-Yi Wang <hsinyi@chromium.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	linux-media@vger.kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
+	linux-arm-kernel@lists.infradead.org,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: Re: [v4, PATCH] drm/mediatek: add dma buffer control for drm plane
+ disable
+Message-ID: <202307050325.QZv71se7-lkp@intel.com>
+References: <20230704090432.5844-1-yongqiang.niu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,51 +60,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230704105021.898555-1-andreaskleist@gmail.com>
+In-Reply-To: <20230704090432.5844-1-yongqiang.niu@mediatek.com>
 
-Hi Andreas,
+Hi Yongqiang,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on v6.4]
-[also build test ERROR on linus/master next-20230704]
-[cannot apply to dtor-input/next dtor-input/for-linus]
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on linus/master v6.4 next-20230704]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andreas-Helbech-Kleist/Input-exc3000-add-ACPI-support-for-EXC80H60/20230704-185127
-base:   v6.4
-patch link:    https://lore.kernel.org/r/20230704105021.898555-1-andreaskleist%40gmail.com
-patch subject: [PATCH] Input: exc3000 - add ACPI support for EXC80H60
-config: x86_64-randconfig-x001-20230703 (https://download.01.org/0day-ci/archive/20230705/202307050258.WtWKQJdV-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230705/202307050258.WtWKQJdV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yongqiang-Niu/drm-mediatek-add-dma-buffer-control-for-drm-plane-disable/20230704-170623
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20230704090432.5844-1-yongqiang.niu%40mediatek.com
+patch subject: [v4, PATCH] drm/mediatek: add dma buffer control for drm plane disable
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230705/202307050325.QZv71se7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230705/202307050325.QZv71se7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307050258.WtWKQJdV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307050325.QZv71se7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/input/touchscreen/exc3000.c:460:31: error: incompatible pointer to integer conversion initializing 'kernel_ulong_t' (aka 'unsigned long') with an expression of type 'struct eeti_dev_info *' [-Wint-conversion]
-           { "EGA00001", .driver_data = &exc3000_info[EETI_EXC80H60] },
-                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-
-
-vim +460 drivers/input/touchscreen/exc3000.c
-
-   457	
-   458	#ifdef CONFIG_ACPI
-   459	static const struct acpi_device_id exc3000_acpi_match[] = {
- > 460		{ "EGA00001", .driver_data = &exc3000_info[EETI_EXC80H60] },
-   461		{ }
-   462	};
-   463	MODULE_DEVICE_TABLE(acpi, exc3000_acpi_match);
-   464	#endif
-   465	
+>> ERROR: modpost: module mediatek-drm uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
 
 -- 
 0-DAY CI Kernel Test Service
