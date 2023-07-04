@@ -1,44 +1,43 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A6E620
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jul 2023 01:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5426620;
+	Tue,  4 Jul 2023 02:01:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688434171; x=1719970171;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4bncmtr0fYmT7FFhQWde9w7N9G+thHjl62QxmkYGYuA=;
-  b=NMT0ocNPzZyEqYYkAAuMuBdBNJlXbLVQ/YSKty286c8ipTghfETiu63E
-   sxy6HbUdrGO9IbfEqWrNjwiZ1bcN8jg1LrIhjSp95ndw9IYPIynOisbyW
-   Z+BjrCyfoF/03tGamIn5uKWHPawQDHEgI6/TbgrWwkN8WlR8uVvRtFWtK
-   n5RjGNqNYkFkh7627/J5KomyfHdIUM7hedQuVm27ddLZRrCOKNrv/9ypY
-   /d3IMzBwJnbXwyBmrtqWvUp83EGu2kaINTAvBz9RQSS2BzaeJGU8u9Qjl
-   +KJ6pr+taUAcr6DNbUrQ887rp5Krv7UDw+thNI1x17k0QX92xxUmtdlKT
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="352830022"
+  t=1688436095; x=1719972095;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HRSuOFx7DkaSJG7Z821vP8cgrmBC8OCzC1VHmmm/3CQ=;
+  b=RLauuz7XcA/OQv4ZVo2XzGUqfDOSRb5X7R5JQwnTaNAn/yVCOUrtM7Ee
+   FEnn1E4OsjnTGeMzVvB9dAZZ8yBeiSyx9xRADwbY7z1Ugk4niRkvR0EYq
+   XSFXdn+aWwLgKpJWsFE4C6avxYE2y1gCzDQWbRqqWOcoSTt3FJ9KzumZE
+   Kp40G1vwPHtOcd9HgkWvTf1ln5C+99BDBLXroE8Tdr4RLOzPyVm3W3mac
+   0ALBMnlR9PakyjLwq9IVVFxtLiMlbNwgA0NeSmxS+AMi0kPJL3jUAQfO4
+   XoyaeP6WcZOtoRCf6REFiKBg75Q8+i9dRIvp1huAizFjP8XEHmAoekPuz
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="393747403"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="352830022"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 18:29:31 -0700
+   d="scan'208";a="393747403"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 19:01:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="784050928"
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="712724104"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="784050928"
+   d="scan'208";a="712724104"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 03 Jul 2023 18:29:29 -0700
+  by orsmga007.jf.intel.com with ESMTP; 03 Jul 2023 19:01:30 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGUrA-000HmB-15;
-	Tue, 04 Jul 2023 01:29:28 +0000
-Date: Tue, 4 Jul 2023 09:28:40 +0800
+	id 1qGVM9-000Hn9-0P;
+	Tue, 04 Jul 2023 02:01:29 +0000
+Date: Tue, 4 Jul 2023 10:00:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-unstable 59/96] include/linux/kexec.h:41:2: error:
- #error KEXEC_SOURCE_MEMORY_LIMIT not defined
-Message-ID: <202307040903.rVi8UJrJ-lkp@intel.com>
+To: Nico Pache <npache@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC] arm64: properly define SOFT_DIRTY for arm64
+Message-ID: <202307040950.rfBxS8hh-lkp@intel.com>
+References: <20230703135526.930004-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,169 +46,165 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230703135526.930004-1-npache@redhat.com>
 
-Hi Eric,
+Hi Nico,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   1e72a0774792199f0a39d6f2c1dc1cfa32fcffcd
-commit: 62c177f4ed72c8c34d818f92f0d067a6c1b7cb80 [59/96] arm/kexec: refactor for kernel/Kconfig.kexec
-config: arm-randconfig-r016-20230703 (https://download.01.org/0day-ci/archive/20230704/202307040903.rVi8UJrJ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230704/202307040903.rVi8UJrJ-lkp@intel.com/reproduce)
+[auto build test ERROR on arm64/for-next/core]
+[also build test ERROR on arm/for-next arm/fixes kvmarm/next soc/for-next linus/master v6.4 next-20230703]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nico-Pache/arm64-properly-define-SOFT_DIRTY-for-arm64/20230703-220825
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
+patch link:    https://lore.kernel.org/r/20230703135526.930004-1-npache%40redhat.com
+patch subject: [RFC] arm64: properly define SOFT_DIRTY for arm64
+config: arm64-randconfig-r022-20230703 (https://download.01.org/0day-ci/archive/20230704/202307040950.rfBxS8hh-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230704/202307040950.rfBxS8hh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307040903.rVi8UJrJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307040950.rfBxS8hh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/crash_dump.h:5,
-                    from block/blk-mq.c:28:
->> include/linux/kexec.h:41:2: error: #error KEXEC_SOURCE_MEMORY_LIMIT not defined
-      41 | #error KEXEC_SOURCE_MEMORY_LIMIT not defined
-         |  ^~~~~
->> include/linux/kexec.h:45:2: error: #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
-      45 | #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
-         |  ^~~~~
->> include/linux/kexec.h:49:2: error: #error KEXEC_CONTROL_MEMORY_LIMIT not defined
-      49 | #error KEXEC_CONTROL_MEMORY_LIMIT not defined
-         |  ^~~~~
->> include/linux/kexec.h:57:2: error: #error KEXEC_CONTROL_PAGE_SIZE not defined
-      57 | #error KEXEC_CONTROL_PAGE_SIZE not defined
-         |  ^~~~~
->> include/linux/kexec.h:61:2: error: #error KEXEC_ARCH not defined
-      61 | #error KEXEC_ARCH not defined
-         |  ^~~~~
---
-   In file included from arch/arm/kernel/setup.c:20:
->> include/linux/kexec.h:41:2: error: #error KEXEC_SOURCE_MEMORY_LIMIT not defined
-      41 | #error KEXEC_SOURCE_MEMORY_LIMIT not defined
-         |  ^~~~~
->> include/linux/kexec.h:45:2: error: #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
-      45 | #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
-         |  ^~~~~
->> include/linux/kexec.h:49:2: error: #error KEXEC_CONTROL_MEMORY_LIMIT not defined
-      49 | #error KEXEC_CONTROL_MEMORY_LIMIT not defined
-         |  ^~~~~
->> include/linux/kexec.h:57:2: error: #error KEXEC_CONTROL_PAGE_SIZE not defined
-      57 | #error KEXEC_CONTROL_PAGE_SIZE not defined
-         |  ^~~~~
->> include/linux/kexec.h:61:2: error: #error KEXEC_ARCH not defined
-      61 | #error KEXEC_ARCH not defined
-         |  ^~~~~
-   In file included from arch/arm/include/asm/efi.h:12,
-                    from arch/arm/kernel/setup.c:37:
-   arch/arm/include/asm/fixmap.h:39:35: warning: '__end_of_fixed_addresses' defined but not used [-Wunused-const-variable=]
-      39 | static const enum fixed_addresses __end_of_fixed_addresses =
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from kernel/kexec_core.c:15:
->> include/linux/kexec.h:41:2: error: #error KEXEC_SOURCE_MEMORY_LIMIT not defined
-      41 | #error KEXEC_SOURCE_MEMORY_LIMIT not defined
-         |  ^~~~~
->> include/linux/kexec.h:45:2: error: #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
-      45 | #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
-         |  ^~~~~
->> include/linux/kexec.h:49:2: error: #error KEXEC_CONTROL_MEMORY_LIMIT not defined
-      49 | #error KEXEC_CONTROL_MEMORY_LIMIT not defined
-         |  ^~~~~
->> include/linux/kexec.h:57:2: error: #error KEXEC_CONTROL_PAGE_SIZE not defined
-      57 | #error KEXEC_CONTROL_PAGE_SIZE not defined
-         |  ^~~~~
->> include/linux/kexec.h:61:2: error: #error KEXEC_ARCH not defined
-      61 | #error KEXEC_ARCH not defined
-         |  ^~~~~
-   kernel/kexec_core.c: In function 'sanity_check_segment_list':
->> kernel/kexec_core.c:179:29: error: 'KEXEC_DESTINATION_MEMORY_LIMIT' undeclared (first use in this function); did you mean 'KEXEC_CRASH_CONTROL_MEMORY_LIMIT'?
-     179 |                 if (mend >= KEXEC_DESTINATION_MEMORY_LIMIT)
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                             KEXEC_CRASH_CONTROL_MEMORY_LIMIT
-   kernel/kexec_core.c:179:29: note: each undeclared identifier is reported only once for each function it appears in
-   kernel/kexec_core.c: In function 'kimage_alloc_normal_control_pages':
->> kernel/kexec_core.c:388:31: error: 'KEXEC_CONTROL_MEMORY_LIMIT' undeclared (first use in this function); did you mean 'KEXEC_CONTROL_MEMORY_GFP'?
-     388 |                 if ((epfn >= (KEXEC_CONTROL_MEMORY_LIMIT >> PAGE_SHIFT)) ||
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                               KEXEC_CONTROL_MEMORY_GFP
-   kernel/kexec_core.c: In function 'kimage_alloc_crash_control_pages':
->> include/linux/kexec.h:65:42: error: 'KEXEC_CONTROL_MEMORY_LIMIT' undeclared (first use in this function); did you mean 'KEXEC_CONTROL_MEMORY_GFP'?
-      65 | #define KEXEC_CRASH_CONTROL_MEMORY_LIMIT KEXEC_CONTROL_MEMORY_LIMIT
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/kexec_core.c:454:32: note: in expansion of macro 'KEXEC_CRASH_CONTROL_MEMORY_LIMIT'
-     454 |                 if (hole_end > KEXEC_CRASH_CONTROL_MEMORY_LIMIT)
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/kexec_core.c: In function 'kimage_alloc_page':
->> kernel/kexec_core.c:721:34: error: 'KEXEC_SOURCE_MEMORY_LIMIT' undeclared (first use in this function); did you mean 'KEXEC_CRASH_CONTROL_MEMORY_LIMIT'?
-     721 |                                 (KEXEC_SOURCE_MEMORY_LIMIT >> PAGE_SHIFT)) {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                  KEXEC_CRASH_CONTROL_MEMORY_LIMIT
-   kernel/kexec_core.c: In function '__crash_kexec':
-   kernel/kexec_core.c:1061:25: error: implicit declaration of function 'crash_setup_regs' [-Werror=implicit-function-declaration]
-    1061 |                         crash_setup_regs(&fixed_regs, regs);
-         |                         ^~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from kernel/panic.c:25:
->> include/linux/kexec.h:41:2: error: #error KEXEC_SOURCE_MEMORY_LIMIT not defined
-      41 | #error KEXEC_SOURCE_MEMORY_LIMIT not defined
-         |  ^~~~~
->> include/linux/kexec.h:45:2: error: #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
-      45 | #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
-         |  ^~~~~
->> include/linux/kexec.h:49:2: error: #error KEXEC_CONTROL_MEMORY_LIMIT not defined
-      49 | #error KEXEC_CONTROL_MEMORY_LIMIT not defined
-         |  ^~~~~
->> include/linux/kexec.h:57:2: error: #error KEXEC_CONTROL_PAGE_SIZE not defined
-      57 | #error KEXEC_CONTROL_PAGE_SIZE not defined
-         |  ^~~~~
->> include/linux/kexec.h:61:2: error: #error KEXEC_ARCH not defined
-      61 | #error KEXEC_ARCH not defined
-         |  ^~~~~
-   kernel/panic.c: In function '__warn':
-   kernel/panic.c:666:17: warning: function '__warn' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     666 |                 vprintk(args->fmt, args->args);
-         |                 ^~~~~~~
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/resource_ext.h:11:
+   In file included from include/linux/slab.h:163:
+   In file included from include/linux/kasan.h:33:
+   In file included from include/linux/pgtable.h:6:
+>> arch/arm64/include/asm/pgtable.h:1110:6: error: call to undeclared function 'arch_faults_on_old_pte'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1110 |         if (arch_faults_on_old_pte())
+         |             ^
+   arch/arm64/include/asm/pgtable.h:1118:6: error: call to undeclared function 'arch_faults_on_old_pte'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1118 |         if (arch_faults_on_old_pte())
+         |             ^
+   arch/arm64/include/asm/pgtable.h:1126:6: error: call to undeclared function 'arch_faults_on_old_pte'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1126 |         if (arch_faults_on_old_pte())
+         |             ^
+   arch/arm64/include/asm/pgtable.h:1134:6: error: call to undeclared function 'arch_faults_on_old_pte'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1134 |         if (arch_faults_on_old_pte())
+         |             ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/arm64/include/asm/elf.h:141:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      97 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+      62 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/arm64/include/asm/elf.h:141:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      97 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+      62 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/arm64/include/asm/elf.h:141:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:4: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+      98 |                         set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+      62 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/arm64/include/asm/elf.h:141:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:100:11: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     100 |                 return (set->sig[1] | set->sig[0]) == 0;
+         |                         ^        ~
+   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
+      62 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:14:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
 
 
-vim +41 include/linux/kexec.h
+vim +/arch_faults_on_old_pte +1110 arch/arm64/include/asm/pgtable.h
 
-dc009d92435f994 Eric W. Biederman  2005-06-25  39  
-dc009d92435f994 Eric W. Biederman  2005-06-25  40  #ifndef KEXEC_SOURCE_MEMORY_LIMIT
-dc009d92435f994 Eric W. Biederman  2005-06-25 @41  #error KEXEC_SOURCE_MEMORY_LIMIT not defined
-dc009d92435f994 Eric W. Biederman  2005-06-25  42  #endif
-dc009d92435f994 Eric W. Biederman  2005-06-25  43  
-dc009d92435f994 Eric W. Biederman  2005-06-25  44  #ifndef KEXEC_DESTINATION_MEMORY_LIMIT
-dc009d92435f994 Eric W. Biederman  2005-06-25 @45  #error KEXEC_DESTINATION_MEMORY_LIMIT not defined
-dc009d92435f994 Eric W. Biederman  2005-06-25  46  #endif
-dc009d92435f994 Eric W. Biederman  2005-06-25  47  
-dc009d92435f994 Eric W. Biederman  2005-06-25  48  #ifndef KEXEC_CONTROL_MEMORY_LIMIT
-dc009d92435f994 Eric W. Biederman  2005-06-25 @49  #error KEXEC_CONTROL_MEMORY_LIMIT not defined
-dc009d92435f994 Eric W. Biederman  2005-06-25  50  #endif
-dc009d92435f994 Eric W. Biederman  2005-06-25  51  
-7e01b5acd88b3f3 Martin Schwidefsky 2015-04-16  52  #ifndef KEXEC_CONTROL_MEMORY_GFP
-dc5cccacf4272da Russell King       2016-08-02  53  #define KEXEC_CONTROL_MEMORY_GFP (GFP_KERNEL | __GFP_NORETRY)
-7e01b5acd88b3f3 Martin Schwidefsky 2015-04-16  54  #endif
-7e01b5acd88b3f3 Martin Schwidefsky 2015-04-16  55  
-163f6876f5c3ff8 Huang Ying         2008-08-15  56  #ifndef KEXEC_CONTROL_PAGE_SIZE
-163f6876f5c3ff8 Huang Ying         2008-08-15 @57  #error KEXEC_CONTROL_PAGE_SIZE not defined
-dc009d92435f994 Eric W. Biederman  2005-06-25  58  #endif
-dc009d92435f994 Eric W. Biederman  2005-06-25  59  
-dc009d92435f994 Eric W. Biederman  2005-06-25  60  #ifndef KEXEC_ARCH
-dc009d92435f994 Eric W. Biederman  2005-06-25 @61  #error KEXEC_ARCH not defined
-dc009d92435f994 Eric W. Biederman  2005-06-25  62  #endif
-dc009d92435f994 Eric W. Biederman  2005-06-25  63  
-3d214faea6e4f9b Michael Holzheu    2011-10-30  64  #ifndef KEXEC_CRASH_CONTROL_MEMORY_LIMIT
-3d214faea6e4f9b Michael Holzheu    2011-10-30 @65  #define KEXEC_CRASH_CONTROL_MEMORY_LIMIT KEXEC_CONTROL_MEMORY_LIMIT
-3d214faea6e4f9b Michael Holzheu    2011-10-30  66  #endif
-3d214faea6e4f9b Michael Holzheu    2011-10-30  67  
-
-:::::: The code at line 41 was first introduced by commit
-:::::: dc009d92435f99498cbc579ce76bf28e837e2c14 [PATCH] kexec: add kexec syscalls
-
-:::::: TO: Eric W. Biederman <ebiederm@xmission.com>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+  1099	
+  1100	#ifdef CONFIG_ARM64_HW_AFDBM
+  1101	/*
+  1102	 * if we have the DBM bit we can utilize the software dirty bit as
+  1103	 * a mechanism to introduce the soft_dirty functionality; however, without
+  1104	 * it this bit is crucial to determining if a entry is dirty and we cannot
+  1105	 * clear it via software. DBM can also be disabled or broken on some early
+  1106	 * armv8 devices, so check its availability before modifying it.
+  1107	 */
+  1108	static inline pte_t pte_clear_soft_dirty(pte_t pte)
+  1109	{
+> 1110		if (arch_faults_on_old_pte())
+  1111			return pte;
+  1112	
+  1113		return clear_pte_bit(pte, __pgprot(PTE_DIRTY));
+  1114	}
+  1115	
 
 -- 
 0-DAY CI Kernel Test Service
