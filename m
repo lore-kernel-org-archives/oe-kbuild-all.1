@@ -1,44 +1,45 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED2B2CA4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jul 2023 16:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98472CA4
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jul 2023 16:36:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688488513; x=1720024513;
+  t=1688488563; x=1720024563;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z+mvhIFwSbVFn5fFC5IOLqsqorRk2RBvc8mSlENFgI0=;
-  b=b7OejFFIVs2aX3xQab0RBGF2uJ4LrJ64rV1dYC/San/AWUwjOdgxlBV1
-   1QbIsrm3gSmTBPhRUy53Aiicn3FVx+kHG3uFyxbNqen+Z3TOfOCQb/BAW
-   UJ8SVbepwzJHLBvAthEtZb4yn0KLBxBKrbzR9VpgNBbTTIoRSRjlI8Q4f
-   kuCB9CPYbZyKK1csWiaTCIDQ/XwM9NzQaW1ny30YrhFKIKC9s1LC8gAba
-   JLa1uH//6m6koql56FN6ToZjbAEzbA0cXIKpqKXbHtom0ueHzpagaQ2yl
-   S6/qRRzmJ/7ujJb1XpnC5QYJyXyUWM/TVddO/OHKKz+y7f477uErFRleL
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="366639915"
+  bh=6DcBfF6UYncnX4CzL6VBR976/do95la7p4Qu6Z8s9Uk=;
+  b=Uw3tuVbUxhHDqWxsO5tH6THr+o7Q8dtqBX2ulpxFquI2L65YwSyXL6AI
+   k29HUkUMVWQXygxd7bK8cpvGPS275RJ9ZSoNdgMowVlZn7vpyyrRbaUwU
+   12ug3x7CtJiu3oGQq37my05Ip95W02KGcdnKu3LJ4fwQTKkUa4BITEbEC
+   E7q5N5JnoiB8zP5forAWycgVjwVBZGNXpqHxlW7naEaVjrFj0CnMYvkyF
+   FKgTtQUJ7fVQvgNBDi2nLDQO+r9Cs1I6iSnp715LgZvyiDXGcLHLHvTKS
+   pkAO+DK/yXK8FmBS0Ar2VJ1aTulDKUSNi4iU0M1W6eNatqHHqr9z2AoGj
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="362020037"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="366639915"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 09:35:13 -0700
+   d="scan'208";a="362020037"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 09:36:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="863479265"
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="788908358"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="863479265"
+   d="scan'208";a="788908358"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 04 Jul 2023 09:35:00 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 04 Jul 2023 09:36:00 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGizU-000INn-0I;
-	Tue, 04 Jul 2023 16:35:00 +0000
-Date: Wed, 5 Jul 2023 00:34:55 +0800
+	id 1qGj0S-000INv-0P;
+	Tue, 04 Jul 2023 16:36:00 +0000
+Date: Wed, 5 Jul 2023 00:35:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [linux-next:master 12990/13166] arch/riscv/kernel/crash_core.c:8:27:
- error: 'VA_BITS' undeclared
-Message-ID: <202307050034.tAJSN9qy-lkp@intel.com>
+To: Vamsi Krishna Lanka <quic_vamslank@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Todd Kjos <tkjos@google.com>,
+	Prasad Sodagudi <psodagud@codeaurora.org>,
+	Sai Prakash Ranjan <quic_saipraka@quicinc.com>
+Subject: [sudeep-holla:android13-5.15/ffa 2837/4062]
+ include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address
+ space '__iomem' of expression
+Message-ID: <202307050039.YxktNdfP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,84 +49,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Eric,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1c6f93977947dbba1fc4d250c4eb8a7d4cfdecf1
-commit: 8d14224263d97d0d53061cf08c2fa911418b1b7f [12990/13166] riscv/kexec: refactor for kernel/Kconfig.kexec
-config: riscv-randconfig-r014-20230704 (https://download.01.org/0day-ci/archive/20230705/202307050034.tAJSN9qy-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230705/202307050034.tAJSN9qy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.15/ffa
+head:   c6013f50f1ae0e42d14d51a06118779ead3047ef
+commit: c7b6c40553f8ae90617595cc851e19520fbd945b [2837/4062] FROMLIST: tracing: Add register read/write tracing support
+config: arm64-randconfig-r081-20230703 (https://download.01.org/0day-ci/archive/20230705/202307050039.YxktNdfP-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230705/202307050039.YxktNdfP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307050034.tAJSN9qy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307050039.YxktNdfP-lkp@intel.com/
 
-Note: the linux-next/master HEAD 1c6f93977947dbba1fc4d250c4eb8a7d4cfdecf1 builds fine.
-      It may have been fixed somewhere.
+sparse warnings: (new ones prefixed by >>)
+   kernel/trace/trace_readwrite.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/rwmmio.h):
+>> include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:38:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:63:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:85:1: sparse: sparse: cast removes address space '__iomem' of expression
+   kernel/trace/trace_readwrite.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, include/trace/events/rwmmio.h):
+>> include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:38:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:63:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:85:1: sparse: sparse: cast removes address space '__iomem' of expression
+   kernel/trace/trace_readwrite.c:16:6: sparse: sparse: symbol 'log_write_mmio' was not declared. Should it be static?
+   kernel/trace/trace_readwrite.c:24:6: sparse: sparse: symbol 'log_post_write_mmio' was not declared. Should it be static?
+   kernel/trace/trace_readwrite.c:32:6: sparse: sparse: symbol 'log_read_mmio' was not declared. Should it be static?
+   kernel/trace/trace_readwrite.c:40:6: sparse: sparse: symbol 'log_post_read_mmio' was not declared. Should it be static?
 
-All errors (new ones prefixed by >>):
+vim +/__iomem +13 include/trace/events/rwmmio.h
 
-   In file included from arch/riscv/kernel/crash_core.c:3:
-   arch/riscv/kernel/crash_core.c: In function 'arch_crash_save_vmcoreinfo':
->> arch/riscv/kernel/crash_core.c:8:27: error: 'VA_BITS' undeclared (first use in this function)
-       8 |         VMCOREINFO_NUMBER(VA_BITS);
-         |                           ^~~~~~~
-   include/linux/crash_core.h:68:64: note: in definition of macro 'VMCOREINFO_NUMBER'
-      68 |         vmcoreinfo_append_str("NUMBER(%s)=%ld\n", #name, (long)name)
-         |                                                                ^~~~
-   arch/riscv/kernel/crash_core.c:8:27: note: each undeclared identifier is reported only once for each function it appears in
-       8 |         VMCOREINFO_NUMBER(VA_BITS);
-         |                           ^~~~~~~
-   include/linux/crash_core.h:68:64: note: in definition of macro 'VMCOREINFO_NUMBER'
-      68 |         vmcoreinfo_append_str("NUMBER(%s)=%ld\n", #name, (long)name)
-         |                                                                ^~~~
-   arch/riscv/kernel/crash_core.c:12:58: warning: format '%lx' expects argument of type 'long unsigned int', but argument 2 has type 'int' [-Wformat=]
-      12 |         vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
-         |                                                        ~~^
-         |                                                          |
-         |                                                          long unsigned int
-         |                                                        %x
->> arch/riscv/kernel/crash_core.c:14:64: error: 'VMEMMAP_START' undeclared (first use in this function)
-      14 |         vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
-         |                                                                ^~~~~~~~~~~~~
->> arch/riscv/kernel/crash_core.c:15:62: error: 'VMEMMAP_END' undeclared (first use in this function); did you mean 'MEMREMAP_ENC'?
-      15 |         vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
-         |                                                              ^~~~~~~~~~~
-         |                                                              MEMREMAP_ENC
->> arch/riscv/kernel/crash_core.c:17:64: error: 'MODULES_VADDR' undeclared (first use in this function)
-      17 |         vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
-         |                                                                ^~~~~~~~~~~~~
->> arch/riscv/kernel/crash_core.c:18:62: error: 'MODULES_END' undeclared (first use in this function)
-      18 |         vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
-         |                                                              ^~~~~~~~~~~
-
-
-vim +/VA_BITS +8 arch/riscv/kernel/crash_core.c
-
-649d6b1019a2f2 Xianting Tian 2022-10-26   5  
-649d6b1019a2f2 Xianting Tian 2022-10-26   6  void arch_crash_save_vmcoreinfo(void)
-649d6b1019a2f2 Xianting Tian 2022-10-26   7  {
-649d6b1019a2f2 Xianting Tian 2022-10-26  @8  	VMCOREINFO_NUMBER(VA_BITS);
-649d6b1019a2f2 Xianting Tian 2022-10-26   9  	VMCOREINFO_NUMBER(phys_ram_base);
-649d6b1019a2f2 Xianting Tian 2022-10-26  10  
-649d6b1019a2f2 Xianting Tian 2022-10-26  11  	vmcoreinfo_append_str("NUMBER(PAGE_OFFSET)=0x%lx\n", PAGE_OFFSET);
-649d6b1019a2f2 Xianting Tian 2022-10-26  12  	vmcoreinfo_append_str("NUMBER(VMALLOC_START)=0x%lx\n", VMALLOC_START);
-649d6b1019a2f2 Xianting Tian 2022-10-26  13  	vmcoreinfo_append_str("NUMBER(VMALLOC_END)=0x%lx\n", VMALLOC_END);
-649d6b1019a2f2 Xianting Tian 2022-10-26 @14  	vmcoreinfo_append_str("NUMBER(VMEMMAP_START)=0x%lx\n", VMEMMAP_START);
-649d6b1019a2f2 Xianting Tian 2022-10-26 @15  	vmcoreinfo_append_str("NUMBER(VMEMMAP_END)=0x%lx\n", VMEMMAP_END);
-649d6b1019a2f2 Xianting Tian 2022-10-26  16  #ifdef CONFIG_64BIT
-649d6b1019a2f2 Xianting Tian 2022-10-26 @17  	vmcoreinfo_append_str("NUMBER(MODULES_VADDR)=0x%lx\n", MODULES_VADDR);
-649d6b1019a2f2 Xianting Tian 2022-10-26 @18  	vmcoreinfo_append_str("NUMBER(MODULES_END)=0x%lx\n", MODULES_END);
-
-:::::: The code at line 8 was first introduced by commit
-:::::: 649d6b1019a2f243bc3a98cb85902a8ebf74289a RISC-V: Add arch_crash_save_vmcoreinfo support
-
-:::::: TO: Xianting Tian <xianting.tian@linux.alibaba.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+    12	
+  > 13	TRACE_EVENT(rwmmio_write,
+    14	
+    15		TP_PROTO(unsigned long caller, u64 val, u8 width, volatile void __iomem *addr),
+    16	
+    17		TP_ARGS(caller, val, width, addr),
+    18	
+    19		TP_STRUCT__entry(
+    20			__field(u64, caller)
+    21			__field(u64, val)
+    22			__field(u64, addr)
+    23			__field(u8, width)
+    24		),
+    25	
+    26		TP_fast_assign(
+    27			__entry->caller = caller;
+    28			__entry->val = val;
+    29			__entry->addr = (unsigned long)(void *)addr;
+    30			__entry->width = width;
+    31		),
+    32	
+    33		TP_printk("%pS width=%d val=%#llx addr=%#llx",
+    34			(void *)(unsigned long)__entry->caller, __entry->width,
+    35			__entry->val, __entry->addr)
+    36	);
+    37	
 
 -- 
 0-DAY CI Kernel Test Service
