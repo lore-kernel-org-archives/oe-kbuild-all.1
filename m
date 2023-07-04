@@ -1,43 +1,47 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1402B181
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jul 2023 02:31:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4667139A;
+	Tue,  4 Jul 2023 02:41:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688437907; x=1719973907;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fj4oMDFuwaq4F+Ae3c5h636j1McmEotsQCpKVVFiiCg=;
-  b=kRfz1u8uXCkj5b2+CNRf0xsTHpoH1NMgxh9vXI+c3aeU1Mu0u1UcP6JN
-   x+AnkfMc2A2Qvpn3Re4fX5N4j8uXcC+ilkane3ULJambPI/cKYkTFegTV
-   gChPPMvUOBF+9oXgvPPG5XhNey5iWRkPAS4DxS4GWYtngrwxZoYjLgmC8
-   ekorcCYIP6G9v47fVBJMrlzEgDTAb1wdq6IxmaI/1mAfRpVxuaodP0X4n
-   HvqYRkc/+TuVGd8GYoucBkmGNSySLK+mgQULEObTbP0uvApbW2Aqkm0p8
-   KIceVzlbMd7d2pX41Nrn18ptY2wfXXMULauON6svkQU6r+D+fFE+72K/A
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="342601747"
+  t=1688438495; x=1719974495;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yzaZaHeFj+MtIkZZG8c9b0aePx4PJL7zZMDi9ZMeGLk=;
+  b=bmpSoRJw0uuSG8vZOIOTNNsAw3VEju+QAUXSkD1R0bNEtuoXLIBrQP0l
+   xjE9Q1BQz8VKPLNNjRcfetEUfqnpea36D6MUfVQ0sBS3qGzgDZu9w3ZNB
+   PT6uGzWA+z4lK3DQFtC6wLgT3d1GfkUciiDQ8kmnHzANRSA2uO8Ii1uaB
+   LUVIpqHxIlOntEq6iZxVTh8/nZiESQ8GG4IInNEthQRUtdlcujqz5IpWj
+   fQtHNvingtZFNqE9qV+7J4AD2yUtAaKNG+xTJ3cwMztzAHqWIG6LuSals
+   F2Lix+X5IbxXqkxyAcbkmUulS4LNj3hgQqaSqo3LpRHYy6taiABrH6Lp8
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="347803817"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="342601747"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 19:31:31 -0700
+   d="scan'208";a="347803817"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 19:41:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="668914710"
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="832005652"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="668914710"
+   d="scan'208";a="832005652"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 03 Jul 2023 19:31:30 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 03 Jul 2023 19:41:30 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGVpB-000Ho6-2O;
-	Tue, 04 Jul 2023 02:31:29 +0000
-Date: Tue, 4 Jul 2023 10:31:09 +0800
+	id 1qGVyr-000HoP-31;
+	Tue, 04 Jul 2023 02:41:29 +0000
+Date: Tue, 4 Jul 2023 10:41:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nico Pache <npache@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC] arm64: properly define SOFT_DIRTY for arm64
-Message-ID: <202307041014.1YFuFmew-lkp@intel.com>
-References: <20230703135526.930004-1-npache@redhat.com>
+To: Sricharan Ramabadhran <quic_srichara@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Nitheesh Sekar <quic_nsekar@quicinc.com>,
+	Varadarajan Narayanan <quic_varada@quicinc.com>
+Subject: drivers/pinctrl/qcom/pinctrl-ipq5018.c:244:27: warning: unused
+ variable '_groups'
+Message-ID: <202307041035.xpbEVRNs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,78 +50,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230703135526.930004-1-npache@redhat.com>
 
-Hi Nico,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on arm/for-next arm/fixes kvmarm/next soc/for-next linus/master v6.4 next-20230703]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nico-Pache/arm64-properly-define-SOFT_DIRTY-for-arm64/20230703-220825
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20230703135526.930004-1-npache%40redhat.com
-patch subject: [RFC] arm64: properly define SOFT_DIRTY for arm64
-config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230704/202307041014.1YFuFmew-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230704/202307041014.1YFuFmew-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   24be4d0b46bb0c3c1dc7bacd30957d6144a70dfc
+commit: 725d1c8916583f9c09e5f05e5a55dd47fdca61c1 pinctrl: qcom: Add IPQ5018 pinctrl driver
+date:   4 weeks ago
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230704/202307041035.xpbEVRNs-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230704/202307041035.xpbEVRNs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307041014.1YFuFmew-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307041035.xpbEVRNs-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from include/linux/pgtable.h:6,
-                    from arch/arm64/include/asm/io.h:12,
-                    from include/linux/io.h:13,
-                    from include/acpi/acpi_io.h:5,
-                    from include/linux/acpi.h:37,
-                    from include/acpi/apei.h:9,
-                    from include/acpi/ghes.h:5,
-                    from include/linux/arm_sdei.h:8,
-                    from arch/arm64/kernel/asm-offsets.c:10:
-   arch/arm64/include/asm/pgtable.h: In function 'pte_clear_soft_dirty':
->> arch/arm64/include/asm/pgtable.h:1110:13: error: implicit declaration of function 'arch_faults_on_old_pte' [-Werror=implicit-function-declaration]
-    1110 |         if (arch_faults_on_old_pte())
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[2]: *** [scripts/Makefile.build:114: arch/arm64/kernel/asm-offsets.s] Error 1
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:1287: prepare0] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:226: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+>> drivers/pinctrl/qcom/pinctrl-ipq5018.c:244:27: warning: unused variable '_groups' [-Wunused-const-variable]
+     244 | static const char * const _groups[] = {
+         |                           ^
+   1 warning generated.
 
 
-vim +/arch_faults_on_old_pte +1110 arch/arm64/include/asm/pgtable.h
+vim +/_groups +244 drivers/pinctrl/qcom/pinctrl-ipq5018.c
 
-  1099	
-  1100	#ifdef CONFIG_ARM64_HW_AFDBM
-  1101	/*
-  1102	 * if we have the DBM bit we can utilize the software dirty bit as
-  1103	 * a mechanism to introduce the soft_dirty functionality; however, without
-  1104	 * it this bit is crucial to determining if a entry is dirty and we cannot
-  1105	 * clear it via software. DBM can also be disabled or broken on some early
-  1106	 * armv8 devices, so check its availability before modifying it.
-  1107	 */
-  1108	static inline pte_t pte_clear_soft_dirty(pte_t pte)
-  1109	{
-> 1110		if (arch_faults_on_old_pte())
-  1111			return pte;
-  1112	
-  1113		return clear_pte_bit(pte, __pgprot(PTE_DIRTY));
-  1114	}
-  1115	
+   243	
+ > 244	static const char * const _groups[] = {
+   245		"gpio0", "gpio1", "gpio2", "gpio3", "gpio4", "gpio5", "gpio6", "gpio7",
+   246		"gpio8", "gpio9", "gpio10", "gpio11", "gpio12", "gpio13", "gpio14",
+   247		"gpio15", "gpio16", "gpio17", "gpio18", "gpio19", "gpio20", "gpio21",
+   248		"gpio22", "gpio23", "gpio24", "gpio25", "gpio26", "gpio27", "gpio28",
+   249		"gpio29", "gpio30", "gpio31", "gpio32", "gpio33", "gpio34", "gpio35",
+   250		"gpio36", "gpio37", "gpio38", "gpio39", "gpio40", "gpio41", "gpio42",
+   251		"gpio43", "gpio44", "gpio45", "gpio46",
+   252	};
+   253	
 
 -- 
 0-DAY CI Kernel Test Service
