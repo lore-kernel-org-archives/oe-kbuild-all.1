@@ -1,45 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98472CA4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jul 2023 16:36:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6E56FCE
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jul 2023 17:27:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688488563; x=1720024563;
+  t=1688491624; x=1720027624;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6DcBfF6UYncnX4CzL6VBR976/do95la7p4Qu6Z8s9Uk=;
-  b=Uw3tuVbUxhHDqWxsO5tH6THr+o7Q8dtqBX2ulpxFquI2L65YwSyXL6AI
-   k29HUkUMVWQXygxd7bK8cpvGPS275RJ9ZSoNdgMowVlZn7vpyyrRbaUwU
-   12ug3x7CtJiu3oGQq37my05Ip95W02KGcdnKu3LJ4fwQTKkUa4BITEbEC
-   E7q5N5JnoiB8zP5forAWycgVjwVBZGNXpqHxlW7naEaVjrFj0CnMYvkyF
-   FKgTtQUJ7fVQvgNBDi2nLDQO+r9Cs1I6iSnp715LgZvyiDXGcLHLHvTKS
-   pkAO+DK/yXK8FmBS0Ar2VJ1aTulDKUSNi4iU0M1W6eNatqHHqr9z2AoGj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="362020037"
+  bh=2QGBOJZ19LcMZYyhoCW8k1flmQrDjPi3FZ7EiP3iiII=;
+  b=MkQUYQIY+xze2n/N8Bf9Qzj06wR7dOKVW9JCAW5BLG3fBKWf00h5/jqp
+   ojFJ5m1JN9RPpN8wLSgic52zjivA96+y3B0hSR5w57JxPs0OHalSerOAt
+   gvdb6neEvH+EqGRvPJDfv2MH3xaQrNyByUbrd1SVIuyhvl7a2VTICL8zy
+   2TQs2Fa4p1vaHi0YgoKYLlYdktEb9rK84vB5MC4NGfZJraXIcb7iZIIsW
+   OJDT1xcypnWBTAB9i8yrtI53evWqmHFMb4IEzLeoRHkRqfnJp9IRoPy10
+   eVIN2NKPdeHlhhSAIzQRQGjuztxPJMErLlTVDxVAeVhKSN3Jyzg8GR9fj
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="366648654"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="362020037"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 09:36:02 -0700
+   d="scan'208";a="366648654"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 10:27:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="788908358"
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="808993742"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="788908358"
+   d="scan'208";a="808993742"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 04 Jul 2023 09:36:00 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 04 Jul 2023 10:27:01 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGj0S-000INv-0P;
-	Tue, 04 Jul 2023 16:36:00 +0000
-Date: Wed, 5 Jul 2023 00:35:03 +0800
+	id 1qGjnp-000IPT-0P;
+	Tue, 04 Jul 2023 17:27:01 +0000
+Date: Wed, 5 Jul 2023 01:26:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vamsi Krishna Lanka <quic_vamslank@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Todd Kjos <tkjos@google.com>,
-	Prasad Sodagudi <psodagud@codeaurora.org>,
-	Sai Prakash Ranjan <quic_saipraka@quicinc.com>
-Subject: [sudeep-holla:android13-5.15/ffa 2837/4062]
- include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address
- space '__iomem' of expression
-Message-ID: <202307050039.YxktNdfP-lkp@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
+Subject: [tiwai-sound:test/snd_ctl_remove-lock-fix 34/38]
+ drivers/staging/greybus/audio_codec.c:810:26: warning: variable 'card' set
+ but not used
+Message-ID: <202307050117.pUc9sZub-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,62 +47,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sudeep.holla/linux.git android13-5.15/ffa
-head:   c6013f50f1ae0e42d14d51a06118779ead3047ef
-commit: c7b6c40553f8ae90617595cc851e19520fbd945b [2837/4062] FROMLIST: tracing: Add register read/write tracing support
-config: arm64-randconfig-r081-20230703 (https://download.01.org/0day-ci/archive/20230705/202307050039.YxktNdfP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230705/202307050039.YxktNdfP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/snd_ctl_remove-lock-fix
+head:   6dd4ae925ae5b90ccfbcb11dce06fd505cc18bc8
+commit: 812cf704dac9f2f275d7bc53818fcccde62dcef8 [34/38] staging: greybus: Avoid abusing controls_rwsem
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20230705/202307050117.pUc9sZub-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230705/202307050117.pUc9sZub-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307050039.YxktNdfP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307050117.pUc9sZub-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/trace/trace_readwrite.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/rwmmio.h):
->> include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address space '__iomem' of expression
-   include/trace/events/rwmmio.h:38:1: sparse: sparse: cast removes address space '__iomem' of expression
-   include/trace/events/rwmmio.h:63:1: sparse: sparse: cast removes address space '__iomem' of expression
-   include/trace/events/rwmmio.h:85:1: sparse: sparse: cast removes address space '__iomem' of expression
-   kernel/trace/trace_readwrite.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, include/trace/events/rwmmio.h):
->> include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address space '__iomem' of expression
-   include/trace/events/rwmmio.h:38:1: sparse: sparse: cast removes address space '__iomem' of expression
-   include/trace/events/rwmmio.h:63:1: sparse: sparse: cast removes address space '__iomem' of expression
-   include/trace/events/rwmmio.h:85:1: sparse: sparse: cast removes address space '__iomem' of expression
-   kernel/trace/trace_readwrite.c:16:6: sparse: sparse: symbol 'log_write_mmio' was not declared. Should it be static?
-   kernel/trace/trace_readwrite.c:24:6: sparse: sparse: symbol 'log_post_write_mmio' was not declared. Should it be static?
-   kernel/trace/trace_readwrite.c:32:6: sparse: sparse: symbol 'log_read_mmio' was not declared. Should it be static?
-   kernel/trace/trace_readwrite.c:40:6: sparse: sparse: symbol 'log_post_read_mmio' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +13 include/trace/events/rwmmio.h
+   drivers/staging/greybus/audio_codec.c: In function 'gbaudio_register_module':
+>> drivers/staging/greybus/audio_codec.c:810:26: warning: variable 'card' set but not used [-Wunused-but-set-variable]
+     810 |         struct snd_card *card;
+         |                          ^~~~
+   drivers/staging/greybus/audio_codec.c: In function 'gbaudio_unregister_module':
+   drivers/staging/greybus/audio_codec.c:938:26: warning: unused variable 'card' [-Wunused-variable]
+     938 |         struct snd_card *card = comp->card->snd_card;
+         |                          ^~~~
 
-    12	
-  > 13	TRACE_EVENT(rwmmio_write,
-    14	
-    15		TP_PROTO(unsigned long caller, u64 val, u8 width, volatile void __iomem *addr),
-    16	
-    17		TP_ARGS(caller, val, width, addr),
-    18	
-    19		TP_STRUCT__entry(
-    20			__field(u64, caller)
-    21			__field(u64, val)
-    22			__field(u64, addr)
-    23			__field(u8, width)
-    24		),
-    25	
-    26		TP_fast_assign(
-    27			__entry->caller = caller;
-    28			__entry->val = val;
-    29			__entry->addr = (unsigned long)(void *)addr;
-    30			__entry->width = width;
-    31		),
-    32	
-    33		TP_printk("%pS width=%d val=%#llx addr=%#llx",
-    34			(void *)(unsigned long)__entry->caller, __entry->width,
-    35			__entry->val, __entry->addr)
-    36	);
-    37	
+
+vim +/card +810 drivers/staging/greybus/audio_codec.c
+
+64a7e2cceb75cc drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  805  
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  806  int gbaudio_register_module(struct gbaudio_module_info *module)
+d3d2af51f9c2f2 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  807  {
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  808  	int ret;
+ce7bd8325dc75c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  809  	struct snd_soc_component *comp;
+2b8c2b51000e3d drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-04-21 @810  	struct snd_card *card;
+ac40b4d1e40997 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  811  	struct gbaudio_jack *jack = NULL;
+d3d2af51f9c2f2 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  812  
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  813  	if (!gbcodec) {
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  814  		dev_err(module->dev, "GB Codec not yet probed\n");
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  815  		return -EAGAIN;
+d3d2af51f9c2f2 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  816  	}
+d3d2af51f9c2f2 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  817  
+ce7bd8325dc75c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  818  	comp = gbcodec->component;
+ce7bd8325dc75c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  819  	card = comp->card->snd_card;
+2b8c2b51000e3d drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-04-21  820  
+812cf704dac9f2 drivers/staging/greybus/audio_codec.c Takashi Iwai    2023-07-04  821  	mutex_lock(&gbcodec->register_mutex);
+d3d2af51f9c2f2 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  822  
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  823  	if (module->num_dais) {
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  824  		dev_err(gbcodec->dev,
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  825  			"%d:DAIs not supported via gbcodec driver\n",
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  826  			module->num_dais);
+812cf704dac9f2 drivers/staging/greybus/audio_codec.c Takashi Iwai    2023-07-04  827  		mutex_unlock(&gbcodec->register_mutex);
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  828  		return -EINVAL;
+d3d2af51f9c2f2 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  829  	}
+d3d2af51f9c2f2 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  830  
+ce7bd8325dc75c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  831  	ret = gbaudio_init_jack(module, comp->card);
+64a7e2cceb75cc drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  832  	if (ret) {
+812cf704dac9f2 drivers/staging/greybus/audio_codec.c Takashi Iwai    2023-07-04  833  		mutex_unlock(&gbcodec->register_mutex);
+64a7e2cceb75cc drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  834  		return ret;
+64a7e2cceb75cc drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  835  	}
+64a7e2cceb75cc drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  836  
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  837  	if (module->dapm_widgets)
+ce7bd8325dc75c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  838  		snd_soc_dapm_new_controls(&comp->dapm, module->dapm_widgets,
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  839  					  module->num_dapm_widgets);
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  840  	if (module->controls)
+ce7bd8325dc75c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  841  		snd_soc_add_component_controls(comp, module->controls,
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  842  					       module->num_controls);
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  843  	if (module->dapm_routes)
+ce7bd8325dc75c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  844  		snd_soc_dapm_add_routes(&comp->dapm, module->dapm_routes,
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  845  					module->num_dapm_routes);
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  846  
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  847  	/* card already instantiated, create widgets here only */
+ce7bd8325dc75c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  848  	if (comp->card->instantiated) {
+620d28440c10b8 drivers/staging/greybus/audio_codec.c Deepak R Varma  2020-10-22  849  		gbaudio_dapm_link_component_dai_widgets(comp->card, &comp->dapm);
+64a7e2cceb75cc drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  850  #ifdef CONFIG_SND_JACK
+461ab8077d573d drivers/staging/greybus/audio_codec.c Gioh Kim        2017-02-09  851  		/*
+461ab8077d573d drivers/staging/greybus/audio_codec.c Gioh Kim        2017-02-09  852  		 * register jack devices for this module
+461ab8077d573d drivers/staging/greybus/audio_codec.c Gioh Kim        2017-02-09  853  		 * from codec->jack_list
+461ab8077d573d drivers/staging/greybus/audio_codec.c Gioh Kim        2017-02-09  854  		 */
+ac40b4d1e40997 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  855  		list_for_each_entry(jack, &module->jack_list, list) {
+ce7bd8325dc75c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  856  			snd_device_register(comp->card->snd_card,
+ac40b4d1e40997 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  857  					    jack->jack.jack);
+64a7e2cceb75cc drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  858  		}
+64a7e2cceb75cc drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  859  #endif
+bb9986ef6b311f drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-05-04  860  	}
+64a7e2cceb75cc drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  861  
+c188fdc8176a8c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-05-04  862  	mutex_lock(&gbcodec->lock);
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  863  	list_add(&module->list, &gbcodec->module_list);
+c188fdc8176a8c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-05-04  864  	mutex_unlock(&gbcodec->lock);
+c188fdc8176a8c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-05-04  865  
+ce7bd8325dc75c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  866  	if (comp->card->instantiated)
+ce7bd8325dc75c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  867  		ret = snd_soc_dapm_new_widgets(comp->card);
+ce7bd8325dc75c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  868  	dev_dbg(comp->dev, "Registered %s module\n", module->name);
+d3d2af51f9c2f2 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  869  
+812cf704dac9f2 drivers/staging/greybus/audio_codec.c Takashi Iwai    2023-07-04  870  	mutex_unlock(&gbcodec->register_mutex);
+bb9986ef6b311f drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-05-04  871  	return ret;
+d3d2af51f9c2f2 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  872  }
+6dd67645f22cfe drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  873  EXPORT_SYMBOL(gbaudio_register_module);
+d3d2af51f9c2f2 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  874  
+
+:::::: The code at line 810 was first introduced by commit
+:::::: 2b8c2b51000e3d056f9aa27a64b93feabddf77a4 greybus: audio: Changes in response to ASoC cleanup
+
+:::::: TO: Vaibhav Agarwal <vaibhav.agarwal@linaro.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
