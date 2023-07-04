@@ -1,43 +1,43 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED15C6D18;
-	Tue,  4 Jul 2023 16:14:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5005694
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jul 2023 16:24:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688487241; x=1720023241;
+  t=1688487842; x=1720023842;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=R8g1bwf5c8d/A4CHf60RuC/ImvuRfeDIvX+0Z0/qH3U=;
-  b=EbU0FkwptdeZIzySSINKeeZ0Sz/Ir26jrl5Gsp3cSOdYAhlkhEUhEM7b
-   nmq/23uOhG6+M/QYzH5I7693SXXhvsU0Zyx/GsA9bbY3nQhPvLDdeq810
-   kVeXbZfodFfLqA89vYdw9HZsq3BGcMUpk6ThQXxx7Wfn+esDCchqzx7dt
-   LQtpdKSIXj6y2KWg6cHOJ7L0ZlNgEeJTJ2nUhcZUDcbIIpb6DTHcf1IAI
-   uV/E7BFkmCI9KAiXqXheAVf8M+1tWRaT6oUOROp87Lu8EzGB5miCGHhAD
-   EI1lbzV6wykBymzTftm6ZW6TdYF2rCnlhGcRPE2eQ+YfnreOFvxFM3XsG
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="360631608"
+  bh=pQ+KgVJZxgyfoqpOc0mtdzRwSNqb4Gx833XeJ+Qep4M=;
+  b=bj5uq/6Q76rjppEhzUo0LtohNaH7XzcSTCUTYZT3nRq1aNe88iYRFy5E
+   C0/8fKaGEGPrB7ohn+klqOqhaaSMcnYwTrRaUDksF20s1PQ5ouFEEQvcp
+   zUJqgE7DmoNPWr35G3HIno4Je6ELmUwyu5aw7bxMOcT9dzBXXkNFH2NQ6
+   vfI36TyY1PPENgMLaA8LVCleC4Nl9F7QvzfcsuvM+YpSTgvpG9G8712cN
+   uXvIwg3gnzKMJkY9navlNAWDnYjlxufiXRevVrvwOE43ztAFLW0Z5XSNR
+   0GC5TpuCSGfjbo43WeucY9ZNg2TZvOJuwHIEq1qT+HYfwjJ1YVbQ/T0wx
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="360633117"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="360631608"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 09:14:01 -0700
+   d="scan'208";a="360633117"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 09:24:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="832212766"
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="788905111"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="832212766"
+   d="scan'208";a="788905111"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 04 Jul 2023 09:13:59 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 04 Jul 2023 09:24:00 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGif9-000IMT-09;
-	Tue, 04 Jul 2023 16:13:59 +0000
-Date: Wed, 5 Jul 2023 00:13:17 +0800
+	id 1qGiop-000INJ-2o;
+	Tue, 04 Jul 2023 16:23:59 +0000
+Date: Wed, 5 Jul 2023 00:23:35 +0800
 From: kernel test robot <lkp@intel.com>
 To: Miaohe Lin <linmiaohe@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [RFC PATCH] mm: memory-failure: add missing set_mce_nospec() for
  memory_failure()
-Message-ID: <202307050036.KEckskkD-lkp@intel.com>
+Message-ID: <202307050025.piXqvNt6-lkp@intel.com>
 References: <20230704121948.1331846-1-linmiaohe@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -60,29 +60,52 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Miaohe-Lin/mm-memory-fail
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
 patch link:    https://lore.kernel.org/r/20230704121948.1331846-1-linmiaohe%40huawei.com
 patch subject: [RFC PATCH] mm: memory-failure: add missing set_mce_nospec() for memory_failure()
-config: arm64-randconfig-r003-20230704 (https://download.01.org/0day-ci/archive/20230705/202307050036.KEckskkD-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230705/202307050036.KEckskkD-lkp@intel.com/reproduce)
+config: arm64-randconfig-r021-20230704 (https://download.01.org/0day-ci/archive/20230705/202307050025.piXqvNt6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230705/202307050025.piXqvNt6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307050036.KEckskkD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307050025.piXqvNt6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/memory-failure.c:2406:9: warning: logical not is only applied to the left hand side of this bitwise operator [-Wlogical-not-parentheses]
+   In file included from include/linux/export.h:5,
+                    from include/linux/linkage.h:7,
+                    from include/linux/kernel.h:17,
+                    from mm/memory-failure.c:39:
+   mm/memory-failure.c: In function 'memory_failure_work_func':
+>> mm/memory-failure.c:2406:37: warning: suggest parentheses around operand of '!' or change '&' to '&&' or '!' to '~' [-Wparentheses]
     2406 |                                 if (!entry.flags & MF_SW_SIMULATED)
-         |                                     ^            ~
-   mm/memory-failure.c:2406:9: note: add parentheses after the '!' to evaluate the bitwise operator first
+         |                                     ^~~~~~~~~~~~
+   include/linux/compiler.h:57:52: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+   mm/memory-failure.c:2406:33: note: in expansion of macro 'if'
     2406 |                                 if (!entry.flags & MF_SW_SIMULATED)
-         |                                     ^                             
-         |                                      (                            )
-   mm/memory-failure.c:2406:9: note: add parentheses around left hand side expression to silence this warning
+         |                                 ^~
+>> mm/memory-failure.c:2406:37: warning: suggest parentheses around operand of '!' or change '&' to '&&' or '!' to '~' [-Wparentheses]
     2406 |                                 if (!entry.flags & MF_SW_SIMULATED)
-         |                                     ^           
-         |                                     (           )
-   1 warning generated.
+         |                                     ^~~~~~~~~~~~
+   include/linux/compiler.h:57:61: note: in definition of macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+   mm/memory-failure.c:2406:33: note: in expansion of macro 'if'
+    2406 |                                 if (!entry.flags & MF_SW_SIMULATED)
+         |                                 ^~
+>> mm/memory-failure.c:2406:37: warning: suggest parentheses around operand of '!' or change '&' to '&&' or '!' to '~' [-Wparentheses]
+    2406 |                                 if (!entry.flags & MF_SW_SIMULATED)
+         |                                     ^~~~~~~~~~~~
+   include/linux/compiler.h:68:10: note: in definition of macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   include/linux/compiler.h:55:28: note: in expansion of macro '__trace_if_var'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                            ^~~~~~~~~~~~~~
+   mm/memory-failure.c:2406:33: note: in expansion of macro 'if'
+    2406 |                                 if (!entry.flags & MF_SW_SIMULATED)
+         |                                 ^~
 
 
 vim +2406 mm/memory-failure.c
