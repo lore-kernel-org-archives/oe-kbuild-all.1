@@ -1,43 +1,48 @@
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EEB625
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jul 2023 04:15:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0AC651;
+	Tue,  4 Jul 2023 04:15:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688444135; x=1719980135;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZEOKIJuaR2nGf7/SElUvVYZ+AeSws71NmKJliL5de3Y=;
-  b=FTIRQRZ1SvuT/QjxdFtQaa/IbYKPjlN/cKEwSDrtwJngEIp/8V6GZ5f0
-   YdQsJNZ9uhphcXnfsPAmFlSr01MaHbJlhcnf3uzSljt6qu0XYdk2Wtl5o
-   JiM8XtOI4K2eVfXDAGRh2fZK6Ktme4lqtScWNm3rSa2bArDEEKGTy3glp
-   kOcBygeSEbXcqi0LugHVnFjeeCAFMY+Z6AAedFXFvCt2dB7M/lWlNrzrQ
-   NSx8D8aN9kRPI2S3L+gPM19q4nfOLR2/BgHCzyZQZKI+RfYGFVD2P4nn0
-   IlOR+kjQvuCW2/bxbKnguAKgzA7BmULGIb55wVAbdux8Wxb4ZCnj/b5Cq
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="360505712"
+  t=1688444137; x=1719980137;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/F+LIQsLzXez+IC1rONpFuok02j+UYPREA6i/RpbJpE=;
+  b=IYKFbTatx85NCWGf4IaY+frY/t7IPDVobF8PFtnvrwUaAhNO/sdzVeqX
+   ON6kpO3foJdl+8yrNheLPySHej/OFWJ2yNDbu9Y1HZo5O9wMkujZBerOb
+   9jFf/Xty4XsbLCKQdOumVIEJmYVLKHdGfNTWSUPlwBwObfoVqMFRvPcgW
+   qYDTXj+c6L9lJzLAazw3uw8hs2AMzSBLccndg6tPwfK56O2bWn3QNG1zS
+   bPdJc0RAqyi7FqRb46nlikb1Zzp+2NK+tg3uZvXry3Q45ihwCXaWglwZF
+   WkH2P2+gZr9ajXpSZzIj9iYXfcyndMNOlwwNSJUbIEZvZ1ZkxkLkrHVER
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="360505715"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="360505712"
+   d="scan'208";a="360505715"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 21:15:34 -0700
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 21:15:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="753933288"
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="753933285"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="753933288"
+   d="scan'208";a="753933285"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
   by orsmga001.jf.intel.com with ESMTP; 03 Jul 2023 21:15:33 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGXRs-000Hs9-10;
+	id 1qGXRs-000Hs7-0x;
 	Tue, 04 Jul 2023 04:15:32 +0000
-Date: Tue, 4 Jul 2023 12:14:56 +0800
+Date: Tue, 4 Jul 2023 12:15:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/iommufd_nesting-07032023-yi 9/65]
- drivers/iommu/iommufd/hw_pagetable.c:130 iommufd_hw_pagetable_alloc() warn:
- inconsistent indenting
-Message-ID: <202307041245.GFf0QwMd-lkp@intel.com>
+To: Matteo Rizzo <matteorizzo@google.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, cl@linux.com, penberg@kernel.org,
+	rientjes@google.com, iamjoonsoo.kim@lge.com,
+	akpm@linux-foundation.org, vbabka@suse.cz
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	roman.gushchin@linux.dev, 42.hyeyoo@gmail.com, jannh@google.com,
+	matteorizzo@google.com
+Subject: Re: [PATCH] mm/slub: refactor freelist to use custom type
+Message-ID: <202307041252.XCQcx0eb-lkp@intel.com>
+References: <20230703143820.152479-1-matteorizzo@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,141 +51,174 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230703143820.152479-1-matteorizzo@google.com>
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_nesting-07032023-yi
-head:   ac623a6f5d61ed4f4d90a3f835c668728b07ab95
-commit: ec9e02ca63a655973a1f9b9a66f19e1065504df3 [9/65] iommufd: Pass in hwpt_type/parent/user_data to iommufd_hw_pagetable_alloc()
-config: i386-randconfig-m021-20230703 (https://download.01.org/0day-ci/archive/20230704/202307041245.GFf0QwMd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230704/202307041245.GFf0QwMd-lkp@intel.com/reproduce)
+Hi Matteo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on a901a3568fd26ca9c4a82d8bc5ed5b3ed844d451]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matteo-Rizzo/mm-slub-refactor-freelist-to-use-custom-type/20230703-223944
+base:   a901a3568fd26ca9c4a82d8bc5ed5b3ed844d451
+patch link:    https://lore.kernel.org/r/20230703143820.152479-1-matteorizzo%40google.com
+patch subject: [PATCH] mm/slub: refactor freelist to use custom type
+config: arm-randconfig-r001-20230703 (https://download.01.org/0day-ci/archive/20230704/202307041252.XCQcx0eb-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230704/202307041252.XCQcx0eb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307041245.GFf0QwMd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307041252.XCQcx0eb-lkp@intel.com/
 
-smatch warnings:
-drivers/iommu/iommufd/hw_pagetable.c:130 iommufd_hw_pagetable_alloc() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-vim +130 drivers/iommu/iommufd/hw_pagetable.c
+   mm/slub.c:368:15: error: unknown type name 'freeptr_t'
+   static inline freeptr_t freelist_ptr_encode(const struct kmem_cache *s,
+                 ^
+>> mm/slub.c:385:10: error: use of undeclared identifier 'freeptr_t'
+           return (freeptr_t){.v = (unsigned long)ptr};
+                   ^
+   mm/slub.c:390:6: error: unknown type name 'freeptr_t'
+                                           freeptr_t ptr, unsigned long ptr_addr)
+                                           ^
+>> mm/slub.c:408:45: error: expected expression
+           return freelist_ptr_decode(s, *(freeptr_t *)(ptr_addr),
+                                                      ^
+   mm/slub.c:408:34: error: use of undeclared identifier 'freeptr_t'
+           return freelist_ptr_decode(s, *(freeptr_t *)(ptr_addr),
+                                           ^
+   mm/slub.c:415:45: error: expected expression
+           return freelist_dereference(s, (freeptr_t *)(object + s->offset));
+                                                      ^
+   mm/slub.c:415:34: error: use of undeclared identifier 'freeptr_t'
+           return freelist_dereference(s, (freeptr_t *)(object + s->offset));
+                                           ^
+   mm/slub.c:439:2: error: use of undeclared identifier 'freeptr_t'
+           freeptr_t p;
+           ^
+   mm/slub.c:446:43: error: expected expression
+           copy_from_kernel_nofault(&p, (freeptr_t *)freepointer_addr, sizeof(p));
+                                                    ^
+   mm/slub.c:446:32: error: use of undeclared identifier 'freeptr_t'
+           copy_from_kernel_nofault(&p, (freeptr_t *)freepointer_addr, sizeof(p));
+                                         ^
+>> mm/slub.c:446:69: error: use of undeclared identifier 'p'
+           copy_from_kernel_nofault(&p, (freeptr_t *)freepointer_addr, sizeof(p));
+                                                                              ^
+   mm/slub.c:446:28: error: use of undeclared identifier 'p'
+           copy_from_kernel_nofault(&p, (freeptr_t *)freepointer_addr, sizeof(p));
+                                     ^
+   mm/slub.c:447:32: error: use of undeclared identifier 'p'
+           return freelist_ptr_decode(s, p, freepointer_addr);
+                                         ^
+   mm/slub.c:459:15: error: expected expression
+           *(freeptr_t *)freeptr_addr = freelist_ptr_encode(s, fp, freeptr_addr);
+                        ^
+   mm/slub.c:459:4: error: use of undeclared identifier 'freeptr_t'
+           *(freeptr_t *)freeptr_addr = freelist_ptr_encode(s, fp, freeptr_addr);
+             ^
+   mm/slub.c:2285:15: warning: variable 'partial_slabs' set but not used [-Wunused-but-set-variable]
+           unsigned int partial_slabs = 0;
+                        ^
+   1 warning and 15 errors generated.
 
-    60	
-    61	/**
-    62	 * iommufd_hw_pagetable_alloc() - Get an iommu_domain for a device
-    63	 * @ictx: iommufd context
-    64	 * @ioas: IOAS to associate the domain with
-    65	 * @idev: Device to get an iommu_domain for
-    66	 * @hwpt_type: Requested type of hw_pagetable
-    67	 * @parent: Optional parent HWPT to associate with
-    68	 * @user_data: Optional user_data pointer
-    69	 * @immediate_attach: True if idev should be attached to the hwpt
-    70	 *
-    71	 * Allocate a new iommu_domain and return it as a hw_pagetable. The HWPT
-    72	 * will be linked to the given ioas and upon return the underlying iommu_domain
-    73	 * is fully popoulated.
-    74	 *
-    75	 * The caller must hold the ioas->mutex until after
-    76	 * iommufd_object_abort_and_destroy() or iommufd_object_finalize() is called on
-    77	 * the returned hwpt.
-    78	 */
-    79	struct iommufd_hw_pagetable *
-    80	iommufd_hw_pagetable_alloc(struct iommufd_ctx *ictx, struct iommufd_ioas *ioas,
-    81				   struct iommufd_device *idev,
-    82				   enum iommu_hwpt_type hwpt_type,
-    83				   struct iommufd_hw_pagetable *parent,
-    84				   union iommu_domain_user_data *user_data,
-    85				   bool immediate_attach)
-    86	{
-    87		const struct iommu_ops *ops = dev_iommu_ops(idev->dev);
-    88		struct iommu_domain *parent_domain = NULL;
-    89		struct iommufd_hw_pagetable *hwpt;
-    90		int rc;
-    91	
-    92		lockdep_assert_held(&ioas->mutex);
-    93	
-    94		if (parent && !user_data)
-    95			return ERR_PTR(-EINVAL);
-    96		if (user_data && !ops->domain_alloc_user)
-    97			return ERR_PTR(-EOPNOTSUPP);
-    98	
-    99		hwpt = iommufd_object_alloc(ictx, hwpt, IOMMUFD_OBJ_HW_PAGETABLE);
-   100		if (IS_ERR(hwpt))
-   101			return hwpt;
-   102	
-   103		INIT_LIST_HEAD(&hwpt->hwpt_item);
-   104		/* Pairs with iommufd_hw_pagetable_destroy() */
-   105		refcount_inc(&ioas->obj.users);
-   106		hwpt->ioas = ioas;
-   107		if (parent) {
-   108			hwpt->parent = parent;
-   109			parent_domain = parent->domain;
-   110			refcount_inc(&parent->obj.users);
-   111		}
-   112	
-   113		if (ops->domain_alloc_user) {
-   114			hwpt->domain = ops->domain_alloc_user(idev->dev, hwpt_type,
-   115							      parent_domain, user_data);
-   116			if (IS_ERR(hwpt->domain)) {
-   117				rc = PTR_ERR(hwpt->domain);
-   118				hwpt->domain = NULL;
-   119				goto out_abort;
-   120			}
-   121		} else {
-   122			hwpt->domain = iommu_domain_alloc(idev->dev->bus);
-   123			if (!hwpt->domain) {
-   124				rc = -ENOMEM;
-   125				goto out_abort;
-   126			}
-   127		}
-   128	
-   129		/* It must be either NESTED or UNMANAGED, depending on parent_domain */
- > 130	       if (WARN_ON_ONCE((parent_domain &&
-   131				 hwpt->domain->type != IOMMU_DOMAIN_NESTED) ||
-   132				(!parent_domain &&
-   133				 hwpt->domain->type != IOMMU_DOMAIN_UNMANAGED))) {
-   134			rc = -EINVAL;
-   135			goto out_abort;
-   136		}
-   137	
-   138		/*
-   139		 * Set the coherency mode before we do iopt_table_add_domain() as some
-   140		 * iommus have a per-PTE bit that controls it and need to decide before
-   141		 * doing any maps. It is an iommu driver bug to report
-   142		 * IOMMU_CAP_ENFORCE_CACHE_COHERENCY but fail enforce_cache_coherency on
-   143		 * a new domain.
-   144		 */
-   145		if (idev->enforce_cache_coherency) {
-   146			rc = iommufd_hw_pagetable_enforce_cc(hwpt);
-   147			if (WARN_ON(rc))
-   148				goto out_abort;
-   149		}
-   150	
-   151		/*
-   152		 * immediate_attach exists only to accommodate iommu drivers that cannot
-   153		 * directly allocate a domain. These drivers do not finish creating the
-   154		 * domain until attach is completed. Thus we must have this call
-   155		 * sequence. Once those drivers are fixed this should be removed.
-   156		 */
-   157		if (immediate_attach) {
-   158			rc = iommufd_hw_pagetable_attach(hwpt, idev);
-   159			if (rc)
-   160				goto out_abort;
-   161		}
-   162	
-   163		rc = iopt_table_add_domain(&hwpt->ioas->iopt, hwpt->domain);
-   164		if (rc)
-   165			goto out_detach;
-   166		list_add_tail(&hwpt->hwpt_item, &hwpt->ioas->hwpt_list);
-   167		return hwpt;
-   168	
-   169	out_detach:
-   170		if (immediate_attach)
-   171			iommufd_hw_pagetable_detach(idev);
-   172	out_abort:
-   173		iommufd_object_abort_and_destroy(ictx, &hwpt->obj);
-   174		return ERR_PTR(rc);
-   175	}
-   176	
+
+vim +/freeptr_t +385 mm/slub.c
+
+   358	
+   359	/********************************************************************
+   360	 * 			Core slab cache functions
+   361	 *******************************************************************/
+   362	
+   363	/*
+   364	 * Returns freelist pointer (ptr). With hardening, this is obfuscated
+   365	 * with an XOR of the address where the pointer is held and a per-cache
+   366	 * random number.
+   367	 */
+ > 368	static inline freeptr_t freelist_ptr_encode(const struct kmem_cache *s,
+   369						    void *ptr, unsigned long ptr_addr)
+   370	{
+   371	#ifdef CONFIG_SLAB_FREELIST_HARDENED
+   372		/*
+   373		 * When CONFIG_KASAN_SW/HW_TAGS is enabled, ptr_addr might be tagged.
+   374		 * Normally, this doesn't cause any issues, as both set_freepointer()
+   375		 * and get_freepointer() are called with a pointer with the same tag.
+   376		 * However, there are some issues with CONFIG_SLUB_DEBUG code. For
+   377		 * example, when __free_slub() iterates over objects in a cache, it
+   378		 * passes untagged pointers to check_object(). check_object() in turns
+   379		 * calls get_freepointer() with an untagged pointer, which causes the
+   380		 * freepointer to be restored incorrectly.
+   381		 */
+   382		return (freeptr_t){.v = (unsigned long)ptr ^ s->random ^
+   383				swab((unsigned long)kasan_reset_tag((void *)ptr_addr))};
+   384	#else
+ > 385		return (freeptr_t){.v = (unsigned long)ptr};
+   386	#endif
+   387	}
+   388	
+   389	static inline void *freelist_ptr_decode(const struct kmem_cache *s,
+   390						freeptr_t ptr, unsigned long ptr_addr)
+   391	{
+   392		void *decoded;
+   393	
+   394	#ifdef CONFIG_SLAB_FREELIST_HARDENED
+   395		/* See the comment in freelist_ptr_encode */
+   396		decoded = (void *)(ptr.v ^ s->random ^
+   397			swab((unsigned long)kasan_reset_tag((void *)ptr_addr)));
+   398	#else
+   399		decoded = (void *)ptr.v;
+   400	#endif
+   401		return decoded;
+   402	}
+   403	
+   404	/* Returns the freelist pointer recorded at location ptr_addr. */
+   405	static inline void *freelist_dereference(const struct kmem_cache *s,
+   406						 void *ptr_addr)
+   407	{
+ > 408		return freelist_ptr_decode(s, *(freeptr_t *)(ptr_addr),
+   409				    (unsigned long)ptr_addr);
+   410	}
+   411	
+   412	static inline void *get_freepointer(struct kmem_cache *s, void *object)
+   413	{
+   414		object = kasan_reset_tag(object);
+   415		return freelist_dereference(s, (freeptr_t *)(object + s->offset));
+   416	}
+   417	
+   418	#ifndef CONFIG_SLUB_TINY
+   419	static void prefetch_freepointer(const struct kmem_cache *s, void *object)
+   420	{
+   421		prefetchw(object + s->offset);
+   422	}
+   423	#endif
+   424	
+   425	/*
+   426	 * When running under KMSAN, get_freepointer_safe() may return an uninitialized
+   427	 * pointer value in the case the current thread loses the race for the next
+   428	 * memory chunk in the freelist. In that case this_cpu_cmpxchg_double() in
+   429	 * slab_alloc_node() will fail, so the uninitialized value won't be used, but
+   430	 * KMSAN will still check all arguments of cmpxchg because of imperfect
+   431	 * handling of inline assembly.
+   432	 * To work around this problem, we apply __no_kmsan_checks to ensure that
+   433	 * get_freepointer_safe() returns initialized memory.
+   434	 */
+   435	__no_kmsan_checks
+   436	static inline void *get_freepointer_safe(struct kmem_cache *s, void *object)
+   437	{
+   438		unsigned long freepointer_addr;
+ > 439		freeptr_t p;
+   440	
+   441		if (!debug_pagealloc_enabled_static())
+   442			return get_freepointer(s, object);
+   443	
+   444		object = kasan_reset_tag(object);
+   445		freepointer_addr = (unsigned long)object + s->offset;
+ > 446		copy_from_kernel_nofault(&p, (freeptr_t *)freepointer_addr, sizeof(p));
+   447		return freelist_ptr_decode(s, p, freepointer_addr);
+   448	}
+   449	
 
 -- 
 0-DAY CI Kernel Test Service
