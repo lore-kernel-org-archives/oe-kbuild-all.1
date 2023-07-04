@@ -1,43 +1,42 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC6F6128;
-	Tue,  4 Jul 2023 19:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2277979CC
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jul 2023 20:09:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688500448; x=1720036448;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6H7Uav+540qIGXzUwwOKNXWwL6NrxClpdVBYfGRoUrs=;
-  b=PoyYS67rCkYn13654QjoK4mYvNKDoBrVKISz2OC87hmDFVQ5uDyijHWE
-   cutexg0Dgjn7h1RucNabEOcg/yHk6KP8wdTEu8OTeXuptYWJPbN+Mmup9
-   258X63UZiXmqg3U76dT/ogp2pCVAF3qGUr1xp1bi4CHKXTRVYjrqVwJ3J
-   GvEO80cvi0+CrFEpYs24WjD/RvLd0xUEBkYMfNS7d8TFXnN3x6Gv4ybWi
-   rqOCFcwZX5so5KAAPF6uTOSj0Yr/1lpDT7lUzvn6cITr6M+Kx731pEOBh
-   eyWeSHKa5WgwOLO5FKIOrmDD3EVD9v7DgrjXuqemn+pJlcbKkbMQon6kG
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="365750835"
+  t=1688501350; x=1720037350;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=NNmJNtnF9pCiStFXF9MVPbEuQxx66cX165aM1uTNkV4=;
+  b=Hg2D3I4OCeSHUGwWw/pYLyg9nC8Y9xT6N7BM/LQsZvQIOFywHZzOgeoV
+   tQkOOnUYVrxn5u8LGY7NEspRFOvmHLuNHms+qFB5c+EMSBsljgSTq5VBT
+   guX1jTn3AonpBXbaAV8yz963Waa2k2QyndJI+WUqpAWqeJN8setQvFd70
+   6hLGmqY/R2RceUeWG5ksF7YlYw/0IRyN9IzJvg7SalVEYItbd/KVZ6mVN
+   R68t/oFM+gYrZjFeqHsqk3CNL+1b9vz1OrJc+PjD4UGtQWmqMcMg3VvDq
+   3ZVtw1A//p1v5azZmfmIoS/iCSLfx/zUgldpqzAcQVPCV6VGtypvh8rfm
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="363221756"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="365750835"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 12:54:07 -0700
+   d="scan'208";a="363221756"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 13:09:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="712953150"
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="1049480631"
 X-IronPort-AV: E=Sophos;i="6.01,181,1684825200"; 
-   d="scan'208";a="712953150"
+   d="scan'208";a="1049480631"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 04 Jul 2023 12:54:06 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 04 Jul 2023 13:09:07 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGm69-000IVP-2G;
-	Tue, 04 Jul 2023 19:54:05 +0000
-Date: Wed, 5 Jul 2023 03:53:30 +0800
+	id 1qGmKg-000IWB-1U;
+	Tue, 04 Jul 2023 20:09:06 +0000
+Date: Wed, 5 Jul 2023 04:08:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas Gleixner <tglx@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [tglx-devel:x86/topology 9/39]
- arch/x86/kernel/cpu/mce/inject.c:437:28: error: no member named 'topo' in
- 'struct cpuinfo_topology'
-Message-ID: <202307050329.SJ4qd5hh-lkp@intel.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/1] fork: lock VMAs of the parent process when forking
+Message-ID: <ZKR8PtubX/atawm0@65525e8f8615>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,46 +45,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230704200656.2526715-1-surenb@google.com>
 
-Hi Thomas,
+Hi,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+Thanks for your patch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/topology
-head:   3f2657ab54543fb9ee5894d239f8b7131a6ffac8
-commit: ea35973627dfe1f61f68306a3664dcfea513d0c8 [9/39] x86/cpu: Move x86_max_cores into topology info
-config: x86_64-randconfig-r003-20230704 (https://download.01.org/0day-ci/archive/20230705/202307050329.SJ4qd5hh-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230705/202307050329.SJ4qd5hh-lkp@intel.com/reproduce)
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307050329.SJ4qd5hh-lkp@intel.com/
+Rule: 'Cc: stable@vger.kernel.org' or 'commit <sha1> upstream.'
+Subject: [PATCH 1/1] fork: lock VMAs of the parent process when forking
+Link: https://lore.kernel.org/stable/20230704200656.2526715-1-surenb%40google.com
 
-All errors (new ones prefixed by >>):
-
->> arch/x86/kernel/cpu/mce/inject.c:437:28: error: no member named 'topo' in 'struct cpuinfo_topology'
-           cores_per_node = (c->topo.topo.num_cores_per_pkg * smp_num_siblings) /
-                             ~~~~~~~ ^
-   1 error generated.
-
-
-vim +437 arch/x86/kernel/cpu/mce/inject.c
-
-   431	
-   432	static u32 get_nbc_for_node(int node_id)
-   433	{
-   434		struct cpuinfo_x86 *c = &boot_cpu_data;
-   435		u32 cores_per_node;
-   436	
- > 437		cores_per_node = (c->topo.topo.num_cores_per_pkg * smp_num_siblings) /
-   438			amd_get_nodes_per_socket();
-   439	
-   440		return cores_per_node * node_id;
-   441	}
-   442	
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
