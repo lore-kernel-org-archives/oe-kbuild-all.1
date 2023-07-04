@@ -1,48 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0AC651;
-	Tue,  4 Jul 2023 04:15:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B28863F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  4 Jul 2023 05:28:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688444137; x=1719980137;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/F+LIQsLzXez+IC1rONpFuok02j+UYPREA6i/RpbJpE=;
-  b=IYKFbTatx85NCWGf4IaY+frY/t7IPDVobF8PFtnvrwUaAhNO/sdzVeqX
-   ON6kpO3foJdl+8yrNheLPySHej/OFWJ2yNDbu9Y1HZo5O9wMkujZBerOb
-   9jFf/Xty4XsbLCKQdOumVIEJmYVLKHdGfNTWSUPlwBwObfoVqMFRvPcgW
-   qYDTXj+c6L9lJzLAazw3uw8hs2AMzSBLccndg6tPwfK56O2bWn3QNG1zS
-   bPdJc0RAqyi7FqRb46nlikb1Zzp+2NK+tg3uZvXry3Q45ihwCXaWglwZF
-   WkH2P2+gZr9ajXpSZzIj9iYXfcyndMNOlwwNSJUbIEZvZ1ZkxkLkrHVER
+  t=1688448517; x=1719984517;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KP5I1UIrrKbMbQtwqnriArfKRwLwlA8EkIMKPnnR0Pw=;
+  b=GdktpReavmjgSVfHS1IPR+LVOfNa+cbiUYmny8UmF/qT3yP2qGI3XKhH
+   KznlpfY1nqyuEUSj8Xs/IqPG5vE9V2Mg55eahpGWGEb5iCLYPrxx7voiv
+   t2XmN/thkgP6dycGBCo3xNMzMCupPLzFd8HnGAEfIljd4tpQOaYxC/Pph
+   GDMx2Rq3FvT7Z45TVyWobCKGp/oeU3hF24OZSFvT1dVfdx9qebG8exw/3
+   VWJL0cB1oc45XTCHwwK0cKJ8o6nKsAML9kNbV+iXlBOL5c39YHhTvXC0r
+   QGPPzIp3KXgj/QvRjd9fKb8SJK9jdW6J6Zy+yMfE3lmCp8XlC9zZ/aSUy
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="360505715"
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="429075915"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="360505715"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 21:15:36 -0700
+   d="scan'208";a="429075915"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2023 22:28:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="753933285"
+X-IronPort-AV: E=McAfee;i="6600,9927,10760"; a="832039620"
 X-IronPort-AV: E=Sophos;i="6.01,179,1684825200"; 
-   d="scan'208";a="753933285"
+   d="scan'208";a="832039620"
 Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 03 Jul 2023 21:15:33 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 03 Jul 2023 22:28:35 -0700
 Received: from kbuild by 783282924a45 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGXRs-000Hs7-0x;
-	Tue, 04 Jul 2023 04:15:32 +0000
-Date: Tue, 4 Jul 2023 12:15:03 +0800
+	id 1qGYaY-000Hu3-2I;
+	Tue, 04 Jul 2023 05:28:34 +0000
+Date: Tue, 4 Jul 2023 13:28:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matteo Rizzo <matteorizzo@google.com>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, cl@linux.com, penberg@kernel.org,
-	rientjes@google.com, iamjoonsoo.kim@lge.com,
-	akpm@linux-foundation.org, vbabka@suse.cz
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	roman.gushchin@linux.dev, 42.hyeyoo@gmail.com, jannh@google.com,
-	matteorizzo@google.com
-Subject: Re: [PATCH] mm/slub: refactor freelist to use custom type
-Message-ID: <202307041252.XCQcx0eb-lkp@intel.com>
-References: <20230703143820.152479-1-matteorizzo@google.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.15 2196/21334]
+ drivers/staging/android/debug_kinfo.c:164:34: warning:
+ 'debug_kinfo_of_match' defined but not used
+Message-ID: <202307041334.Da8KpM7f-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,174 +46,165 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230703143820.152479-1-matteorizzo@google.com>
 
-Hi Matteo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a901a3568fd26ca9c4a82d8bc5ed5b3ed844d451]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matteo-Rizzo/mm-slub-refactor-freelist-to-use-custom-type/20230703-223944
-base:   a901a3568fd26ca9c4a82d8bc5ed5b3ed844d451
-patch link:    https://lore.kernel.org/r/20230703143820.152479-1-matteorizzo%40google.com
-patch subject: [PATCH] mm/slub: refactor freelist to use custom type
-config: arm-randconfig-r001-20230703 (https://download.01.org/0day-ci/archive/20230704/202307041252.XCQcx0eb-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230704/202307041252.XCQcx0eb-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android13-5.15
+head:   a68e7f0e6fe3971c1524bf0f6ebc88f02e641613
+commit: 1a9c7b3e3bdd87a10205891806a0d880fe27230c [2196/21334] ANDROID: staging: add debug-kinfo driver
+config: x86_64-randconfig-x061-20230704 (https://download.01.org/0day-ci/archive/20230704/202307041334.Da8KpM7f-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230704/202307041334.Da8KpM7f-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307041252.XCQcx0eb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307041334.Da8KpM7f-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   mm/slub.c:368:15: error: unknown type name 'freeptr_t'
-   static inline freeptr_t freelist_ptr_encode(const struct kmem_cache *s,
-                 ^
->> mm/slub.c:385:10: error: use of undeclared identifier 'freeptr_t'
-           return (freeptr_t){.v = (unsigned long)ptr};
-                   ^
-   mm/slub.c:390:6: error: unknown type name 'freeptr_t'
-                                           freeptr_t ptr, unsigned long ptr_addr)
-                                           ^
->> mm/slub.c:408:45: error: expected expression
-           return freelist_ptr_decode(s, *(freeptr_t *)(ptr_addr),
-                                                      ^
-   mm/slub.c:408:34: error: use of undeclared identifier 'freeptr_t'
-           return freelist_ptr_decode(s, *(freeptr_t *)(ptr_addr),
-                                           ^
-   mm/slub.c:415:45: error: expected expression
-           return freelist_dereference(s, (freeptr_t *)(object + s->offset));
-                                                      ^
-   mm/slub.c:415:34: error: use of undeclared identifier 'freeptr_t'
-           return freelist_dereference(s, (freeptr_t *)(object + s->offset));
-                                           ^
-   mm/slub.c:439:2: error: use of undeclared identifier 'freeptr_t'
-           freeptr_t p;
-           ^
-   mm/slub.c:446:43: error: expected expression
-           copy_from_kernel_nofault(&p, (freeptr_t *)freepointer_addr, sizeof(p));
-                                                    ^
-   mm/slub.c:446:32: error: use of undeclared identifier 'freeptr_t'
-           copy_from_kernel_nofault(&p, (freeptr_t *)freepointer_addr, sizeof(p));
-                                         ^
->> mm/slub.c:446:69: error: use of undeclared identifier 'p'
-           copy_from_kernel_nofault(&p, (freeptr_t *)freepointer_addr, sizeof(p));
-                                                                              ^
-   mm/slub.c:446:28: error: use of undeclared identifier 'p'
-           copy_from_kernel_nofault(&p, (freeptr_t *)freepointer_addr, sizeof(p));
-                                     ^
-   mm/slub.c:447:32: error: use of undeclared identifier 'p'
-           return freelist_ptr_decode(s, p, freepointer_addr);
-                                         ^
-   mm/slub.c:459:15: error: expected expression
-           *(freeptr_t *)freeptr_addr = freelist_ptr_encode(s, fp, freeptr_addr);
-                        ^
-   mm/slub.c:459:4: error: use of undeclared identifier 'freeptr_t'
-           *(freeptr_t *)freeptr_addr = freelist_ptr_encode(s, fp, freeptr_addr);
-             ^
-   mm/slub.c:2285:15: warning: variable 'partial_slabs' set but not used [-Wunused-but-set-variable]
-           unsigned int partial_slabs = 0;
-                        ^
-   1 warning and 15 errors generated.
+>> drivers/staging/android/debug_kinfo.c:164:34: warning: 'debug_kinfo_of_match' defined but not used [-Wunused-const-variable=]
+     164 | static const struct of_device_id debug_kinfo_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~
+--
+   ld: warning: arch/x86/power/hibernate_asm_64.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: arch/x86/power/hibernate_asm_64.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+   ld: drivers/media/common/videobuf2/videobuf2-core.o: in function `vb2_core_streamon':
+>> drivers/media/common/videobuf2/videobuf2-core.c:2055: undefined reference to `v4l_vb2q_enable_media_source'
 
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
 
-vim +/freeptr_t +385 mm/slub.c
+sparse warnings: (new ones prefixed by >>)
+>> drivers/staging/android/debug_kinfo.c:64:30: sparse: sparse: Using plain integer as NULL pointer
 
-   358	
-   359	/********************************************************************
-   360	 * 			Core slab cache functions
-   361	 *******************************************************************/
-   362	
-   363	/*
-   364	 * Returns freelist pointer (ptr). With hardening, this is obfuscated
-   365	 * with an XOR of the address where the pointer is held and a per-cache
-   366	 * random number.
-   367	 */
- > 368	static inline freeptr_t freelist_ptr_encode(const struct kmem_cache *s,
-   369						    void *ptr, unsigned long ptr_addr)
-   370	{
-   371	#ifdef CONFIG_SLAB_FREELIST_HARDENED
-   372		/*
-   373		 * When CONFIG_KASAN_SW/HW_TAGS is enabled, ptr_addr might be tagged.
-   374		 * Normally, this doesn't cause any issues, as both set_freepointer()
-   375		 * and get_freepointer() are called with a pointer with the same tag.
-   376		 * However, there are some issues with CONFIG_SLUB_DEBUG code. For
-   377		 * example, when __free_slub() iterates over objects in a cache, it
-   378		 * passes untagged pointers to check_object(). check_object() in turns
-   379		 * calls get_freepointer() with an untagged pointer, which causes the
-   380		 * freepointer to be restored incorrectly.
-   381		 */
-   382		return (freeptr_t){.v = (unsigned long)ptr ^ s->random ^
-   383				swab((unsigned long)kasan_reset_tag((void *)ptr_addr))};
-   384	#else
- > 385		return (freeptr_t){.v = (unsigned long)ptr};
-   386	#endif
-   387	}
-   388	
-   389	static inline void *freelist_ptr_decode(const struct kmem_cache *s,
-   390						freeptr_t ptr, unsigned long ptr_addr)
-   391	{
-   392		void *decoded;
-   393	
-   394	#ifdef CONFIG_SLAB_FREELIST_HARDENED
-   395		/* See the comment in freelist_ptr_encode */
-   396		decoded = (void *)(ptr.v ^ s->random ^
-   397			swab((unsigned long)kasan_reset_tag((void *)ptr_addr)));
-   398	#else
-   399		decoded = (void *)ptr.v;
-   400	#endif
-   401		return decoded;
-   402	}
-   403	
-   404	/* Returns the freelist pointer recorded at location ptr_addr. */
-   405	static inline void *freelist_dereference(const struct kmem_cache *s,
-   406						 void *ptr_addr)
-   407	{
- > 408		return freelist_ptr_decode(s, *(freeptr_t *)(ptr_addr),
-   409				    (unsigned long)ptr_addr);
-   410	}
-   411	
-   412	static inline void *get_freepointer(struct kmem_cache *s, void *object)
-   413	{
-   414		object = kasan_reset_tag(object);
-   415		return freelist_dereference(s, (freeptr_t *)(object + s->offset));
-   416	}
-   417	
-   418	#ifndef CONFIG_SLUB_TINY
-   419	static void prefetch_freepointer(const struct kmem_cache *s, void *object)
-   420	{
-   421		prefetchw(object + s->offset);
-   422	}
-   423	#endif
-   424	
-   425	/*
-   426	 * When running under KMSAN, get_freepointer_safe() may return an uninitialized
-   427	 * pointer value in the case the current thread loses the race for the next
-   428	 * memory chunk in the freelist. In that case this_cpu_cmpxchg_double() in
-   429	 * slab_alloc_node() will fail, so the uninitialized value won't be used, but
-   430	 * KMSAN will still check all arguments of cmpxchg because of imperfect
-   431	 * handling of inline assembly.
-   432	 * To work around this problem, we apply __no_kmsan_checks to ensure that
-   433	 * get_freepointer_safe() returns initialized memory.
-   434	 */
-   435	__no_kmsan_checks
-   436	static inline void *get_freepointer_safe(struct kmem_cache *s, void *object)
-   437	{
-   438		unsigned long freepointer_addr;
- > 439		freeptr_t p;
-   440	
-   441		if (!debug_pagealloc_enabled_static())
-   442			return get_freepointer(s, object);
-   443	
-   444		object = kasan_reset_tag(object);
-   445		freepointer_addr = (unsigned long)object + s->offset;
- > 446		copy_from_kernel_nofault(&p, (freeptr_t *)freepointer_addr, sizeof(p));
-   447		return freelist_ptr_decode(s, p, freepointer_addr);
-   448	}
-   449	
+vim +/debug_kinfo_of_match +164 drivers/staging/android/debug_kinfo.c
+
+    57	
+    58	static int build_info_set(const char *str, const struct kernel_param *kp)
+    59	{
+    60		struct kernel_all_info *all_info;
+    61		size_t build_info_size;
+    62		int ret = 0;
+    63	
+  > 64		if (all_info_addr == 0 || all_info_size == 0) {
+    65			ret = -EPERM;
+    66			goto Exit;
+    67		}
+    68	
+    69		all_info = (struct kernel_all_info *)all_info_addr;
+    70		build_info_size = sizeof(all_info->info.build_info);
+    71	
+    72		memcpy(&all_info->info.build_info, str, min(build_info_size - 1, strlen(str)));
+    73		update_kernel_all_info(all_info);
+    74	
+    75		if (strlen(str) > build_info_size) {
+    76			pr_warn("%s: Build info buffer (len: %zd) can't hold entire string '%s'\n",
+    77					__func__, build_info_size, str);
+    78			ret = -ENOMEM;
+    79		}
+    80	
+    81	Exit:
+    82		vunmap(all_info_addr);
+    83		return ret;
+    84	}
+    85	
+    86	static const struct kernel_param_ops build_info_op = {
+    87		.set = build_info_set,
+    88	};
+    89	
+    90	module_param_cb(build_info, &build_info_op, NULL, 0200);
+    91	MODULE_PARM_DESC(build_info, "Write build info to field 'build_info' of debug kinfo.");
+    92	
+    93	static int debug_kinfo_probe(struct platform_device *pdev)
+    94	{
+    95		struct device_node *mem_region;
+    96		struct reserved_mem *rmem;
+    97		struct kernel_all_info *all_info;
+    98		struct kernel_info *info;
+    99	
+   100		mem_region = of_parse_phandle(pdev->dev.of_node, "memory-region", 0);
+   101		if (!mem_region) {
+   102			dev_warn(&pdev->dev, "no such memory-region\n");
+   103			return -ENODEV;
+   104		}
+   105	
+   106		rmem = of_reserved_mem_lookup(mem_region);
+   107		if (!rmem) {
+   108			dev_warn(&pdev->dev, "no such reserved mem of node name %s\n",
+   109					pdev->dev.of_node->name);
+   110			return -ENODEV;
+   111		}
+   112	
+   113		/* Deferred until dss.ko(dpm.o) and debug-snapshot-debug-kinfo.ko are ready */
+   114		if (!rmem->priv) {
+   115			return -EPROBE_DEFER;
+   116		}
+   117	
+   118		if (!rmem->base || !rmem->size) {
+   119			dev_warn(&pdev->dev, "unexpected reserved memory\n");
+   120			return -EINVAL;
+   121		}
+   122	
+   123		if (rmem->size < sizeof(struct kernel_all_info)) {
+   124			dev_warn(&pdev->dev, "unexpected reserved memory size\n");
+   125			return -EINVAL;
+   126		}
+   127	
+   128		all_info_addr = rmem->priv;
+   129		all_info_size = rmem->size;
+   130	
+   131		memset(all_info_addr, 0, all_info_size);
+   132		all_info = (struct kernel_all_info *)all_info_addr;
+   133		info = &(all_info->info);
+   134		info->enabled_all = IS_ENABLED(CONFIG_KALLSYMS_ALL);
+   135		info->enabled_base_relative = IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE);
+   136		info->enabled_absolute_percpu = IS_ENABLED(CONFIG_KALLSYMS_ABSOLUTE_PERCPU);
+   137		info->enabled_cfi_clang = IS_ENABLED(CONFIG_CFI_CLANG);
+   138		info->num_syms = kallsyms_num_syms;
+   139		info->name_len = KSYM_NAME_LEN;
+   140		info->bit_per_long = BITS_PER_LONG;
+   141		info->module_name_len = MODULE_NAME_LEN;
+   142		info->symbol_len = KSYM_SYMBOL_LEN;
+   143		info->_addresses_pa = (u64)virt_to_phys((volatile void *)kallsyms_addresses);
+   144		info->_relative_pa = (u64)virt_to_phys((volatile void *)kallsyms_relative_base);
+   145		info->_stext_pa = (u64)virt_to_phys(_stext);
+   146		info->_etext_pa = (u64)virt_to_phys(_etext);
+   147		info->_sinittext_pa = (u64)virt_to_phys(_sinittext);
+   148		info->_einittext_pa = (u64)virt_to_phys(_einittext);
+   149		info->_end_pa = (u64)virt_to_phys(_end);
+   150		info->_offsets_pa = (u64)virt_to_phys((volatile void *)kallsyms_offsets);
+   151		info->_names_pa = (u64)virt_to_phys((volatile void *)kallsyms_names);
+   152		info->_token_table_pa = (u64)virt_to_phys((volatile void *)kallsyms_token_table);
+   153		info->_token_index_pa = (u64)virt_to_phys((volatile void *)kallsyms_token_index);
+   154		info->_markers_pa = (u64)virt_to_phys((volatile void *)kallsyms_markers);
+   155		info->thread_size = THREAD_SIZE;
+   156		info->swapper_pg_dir_pa = (u64)virt_to_phys(swapper_pg_dir);
+   157		strlcpy(info->last_uts_release, init_utsname()->release, sizeof(info->last_uts_release));
+   158	
+   159		update_kernel_all_info(all_info);
+   160	
+   161		return 0;
+   162	}
+   163	
+ > 164	static const struct of_device_id debug_kinfo_of_match[] = {
+   165		{ .compatible	= "google,debug-kinfo" },
+   166		{},
+   167	};
+   168	MODULE_DEVICE_TABLE(of, debug_kinfo_of_match);
+   169	
 
 -- 
 0-DAY CI Kernel Test Service
