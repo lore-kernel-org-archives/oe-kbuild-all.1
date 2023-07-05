@@ -1,54 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC06A46AB
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jul 2023 17:17:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C832134C0
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jul 2023 17:48:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688577427; x=1720113427;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0Dw+QDQUJHMAT3bZNG/T7PvNSKyBjgzzz7A5MOKCsdI=;
-  b=HPnd0F9T2NXsLN8KBhamwj+ODLxQjhGMsMv6AmQhv92QFeFaiYnjBtMr
-   Y0E0fGFKhyPnNIP7DvG5gdqLKHF/oWh3h9nc7a4J8UxOhyU69Zaudt8T+
-   BCPUrlObdV72pIyhStkJzxJnuWFo2RuIWQ9jf4REvSeSjQrI2uz09zokn
-   eoQ9dhdL9qwFev8ViCO30Oz3jP1hm+jQLedliw28p+neBXOi4gnJZnxP4
-   dYvBjiwyrZhI4Fm6gn1AlcUTgBoxuL/IohHaBGf1N5hfAJg+Mbt0nD0Cp
-   2yWzJnw/bSrJ+BRpShVhA+0nFh/GWVcnjoKiMM2MwVtqlUKc2vJEpiMAx
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="362267419"
+  t=1688579285; x=1720115285;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UBCRISO5bvEzaroCbX4doD2mQ5QibjmGkyPvu/AjBxc=;
+  b=SiaylBysa4pB7WItpbOo4wm0q12WmnCjlRVSGo9XIMNLHmfEnRBTPC78
+   hIIE0489CSagV+OS4pH05apDuG1ys7WkEATFSw3q/nbpBEgYNbgJu2Pgs
+   L/F89WFXdajbzMfrZQIbPGwujFiHk+X260E4y94unt10mZGiKngARbXIC
+   l6VwHPEbgFRO8OUKJnIoGl1Xu2yO5sQeAr+r46I5NSYcPBaN6ytsQ8vsu
+   rzcIFVKX4/p6cps8Kw8opc5KIVuprnvYG3gGzPiy8iYAIWktW8X0VeBBj
+   6FZun/3qkiKnTV6CaYEIeNMfrmKqApcR6fL47Y0Le2r+kV5TjBwIk5JsL
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="427088001"
 X-IronPort-AV: E=Sophos;i="6.01,183,1684825200"; 
-   d="scan'208";a="362267419"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 10:17:06 -0700
+   d="scan'208";a="427088001"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 10:48:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="713260175"
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="669481729"
 X-IronPort-AV: E=Sophos;i="6.01,183,1684825200"; 
-   d="scan'208";a="713260175"
+   d="scan'208";a="669481729"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 05 Jul 2023 10:17:03 -0700
+  by orsmga003.jf.intel.com with ESMTP; 05 Jul 2023 10:48:03 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qH67h-0000jy-39;
-	Wed, 05 Jul 2023 17:17:01 +0000
-Date: Thu, 6 Jul 2023 01:16:31 +0800
+	id 1qH6bj-0000ko-0E;
+	Wed, 05 Jul 2023 17:48:03 +0000
+Date: Thu, 6 Jul 2023 01:47:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Cc: oe-kbuild-all@lists.linux.dev, intel-wired-lan@lists.osuosl.org,
-	bpf@vger.kernel.org, netdev@vger.kernel.org,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Subject: Re: [PATCH 3/4] igb: add AF_XDP zero-copy Rx support
-Message-ID: <202307060154.LjqekYIL-lkp@intel.com>
-References: <20230704095915.9750-4-sriram.yagnaraman@est.tech>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
+Subject: [tiwai-sound:test/snd_ctl_remove-lock-fix 40/54] htmldocs:
+ ./include/sound/control.h:162: warning: expecting prototype for
+ snd_ctl_find_id(). Prototype was for snd_ctl_find_id_mixer() instead
+Message-ID: <202307060119.mTXEyy6N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,79 +46,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230704095915.9750-4-sriram.yagnaraman@est.tech>
 
-Hi Sriram,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tnguy-next-queue/dev-queue]
-[also build test WARNING on tnguy-net-queue/dev-queue horms-ipvs/master linus/master v6.4 next-20230705]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sriram-Yagnaraman/igb-prepare-for-AF_XDP-zero-copy-support/20230704-180613
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
-patch link:    https://lore.kernel.org/r/20230704095915.9750-4-sriram.yagnaraman%40est.tech
-patch subject: [PATCH 3/4] igb: add AF_XDP zero-copy Rx support
-config: openrisc-randconfig-r093-20230705 (https://download.01.org/0day-ci/archive/20230706/202307060154.LjqekYIL-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230706/202307060154.LjqekYIL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/snd_ctl_remove-lock-fix
+head:   9ad18619a06d551105bd84191dca5bb5295277c7
+commit: 59444a29dbfd44718fef15083aa339c2c8b579b5 [40/54] ALSA: control: Introduce snd_ctl_find_id_mixer()
+reproduce: (https://download.01.org/0day-ci/archive/20230706/202307060119.mTXEyy6N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307060154.LjqekYIL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307060119.mTXEyy6N-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/intel/igb/igb_main.c:2016:32: sparse: sparse: incompatible types in conditional expression (different base types):
->> drivers/net/ethernet/intel/igb/igb_main.c:2016:32: sparse:    bool
->> drivers/net/ethernet/intel/igb/igb_main.c:2016:32: sparse:    void
-   drivers/net/ethernet/intel/igb/igb_main.c:4920:27: sparse: sparse: incompatible types in conditional expression (different base types):
-   drivers/net/ethernet/intel/igb/igb_main.c:4920:27: sparse:    bool
-   drivers/net/ethernet/intel/igb/igb_main.c:4920:27: sparse:    void
+All warnings (new ones prefixed by >>):
 
-vim +2016 drivers/net/ethernet/intel/igb/igb_main.c
+>> ./include/sound/control.h:162: warning: expecting prototype for snd_ctl_find_id(). Prototype was for snd_ctl_find_id_mixer() instead
 
-  1984	
-  1985	/**
-  1986	 *  igb_configure - configure the hardware for RX and TX
-  1987	 *  @adapter: private board structure
-  1988	 **/
-  1989	static void igb_configure(struct igb_adapter *adapter)
-  1990	{
-  1991		struct net_device *netdev = adapter->netdev;
-  1992		int i;
-  1993	
-  1994		igb_get_hw_control(adapter);
-  1995		igb_set_rx_mode(netdev);
-  1996		igb_setup_tx_mode(adapter);
-  1997	
-  1998		igb_restore_vlan(adapter);
-  1999	
-  2000		igb_setup_tctl(adapter);
-  2001		igb_setup_mrqc(adapter);
-  2002		igb_setup_rctl(adapter);
-  2003	
-  2004		igb_nfc_filter_restore(adapter);
-  2005		igb_configure_tx(adapter);
-  2006		igb_configure_rx(adapter);
-  2007	
-  2008		igb_rx_fifo_flush_82575(&adapter->hw);
-  2009	
-  2010		/* call igb_desc_unused which always leaves
-  2011		 * at least 1 descriptor unused to make sure
-  2012		 * next_to_use != next_to_clean
-  2013		 */
-  2014		for (i = 0; i < adapter->num_rx_queues; i++) {
-  2015			struct igb_ring *ring = adapter->rx_ring[i];
-> 2016			ring->xsk_pool ?
-  2017				igb_alloc_rx_buffers_zc(ring, igb_desc_unused(ring)) :
-  2018				igb_alloc_rx_buffers(ring, igb_desc_unused(ring));
-  2019		}
-  2020	}
-  2021	
+vim +162 ./include/sound/control.h
+
+   147	
+   148	/**
+   149	 * snd_ctl_find_id - find the control instance with the given name string
+   150	 * @card: the card instance
+   151	 * @name: the name string
+   152	 *
+   153	 * Finds the control instance with the given name and
+   154	 * @SNDRV_CTL_ELEM_IFACE_MIXER. Other fields are set to zero.
+   155	 *
+   156	 * This is merely a wrapper to snd_ctl_find_id().
+   157	 *
+   158	 * Return: The pointer of the instance if found, or %NULL if not.
+   159	 */
+   160	static inline struct snd_kcontrol *
+   161	snd_ctl_find_id_mixer(struct snd_card *card, const char *name)
+ > 162	{
+   163		struct snd_ctl_elem_id id = {};
+   164	
+   165		id.iface = SNDRV_CTL_ELEM_IFACE_MIXER;
+   166		strscpy(id.name, name, sizeof(id.name));
+   167		return snd_ctl_find_id(card, &id);
+   168	}
+   169	
 
 -- 
 0-DAY CI Kernel Test Service
