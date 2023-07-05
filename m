@@ -1,43 +1,43 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD08910F0
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jul 2023 05:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C0DA10F0
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jul 2023 06:14:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688535712; x=1720071712;
+  t=1688537655; x=1720073655;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YalOplbqrAamAEODAwI/tKXi7a8OVnxqRfZbG2iVOBw=;
-  b=HQp69tn1FIX1aqH/Xba41USZ0N9lVAG7NfMhVuUl+rqb3ZzLpTiakRk5
-   zf/6n2XENkV1K25h3HQxe2ZyCeDo1k24zSpXDO6nCUdMiJj3C6ChHmt3T
-   2t4F2/xQwKJxoGlSHuO0zlcdgNfbrIliq6TOreuZ12TrAhl30839GWroh
-   edbg1ZvKABJANeliHev2mWAuxxGohOS4K/6pNU3IKvzgshYVyqcxZhWlm
-   msoT9se134CKVwiyZqJ6KIMQTdil9WZylrI5SIlQGMTrnnd0SLrdMnrfQ
-   LvdJUDf5btRKCpxy8Z+UIgiYpBg2eSJ8AfeghrW4RRkMlN1cIrea7ETHJ
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="360733051"
+  bh=EKeGi3s9lQ/3qKhohZs1w4V2QuHBYiMKNwJwhq2cgwo=;
+  b=TCqZgbtje5+wn2+1tQd3yoZAL71ja1lJZFiGd1wJNm4Ob/3plG2crLLz
+   jZm5uLinaN+wqukDrBuu5uMf09DaurCQGBsTxIBqcAcqzn/Ak7OQtVFrT
+   2g9ZWGzW/Cu6Xhuwm+hCSS7DqsUjEpRz0z+YdFchl6T8PN4Kc7QD0+TVr
+   26gplzVNCHxpbBmlzdXj9MoGCUAbAp0Zdgv2kQMtS5bGk+a5RECYoDKpP
+   f2IJd+LyIiXMnbsLbzmv0bI6FVBXCZtVprcP0IxbbVjQI0ZYTgVa+7/KL
+   hz5v6P31Nv76zcXxeYBGqf9QVy1X8yb2LaXDylLviAM2DafQdDuOEYazZ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="394008865"
 X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="360733051"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 22:41:51 -0700
+   d="scan'208";a="394008865"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2023 23:13:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="843161387"
+X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="696342052"
 X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="843161387"
+   d="scan'208";a="696342052"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 04 Jul 2023 22:41:50 -0700
+  by orsmga006.jf.intel.com with ESMTP; 04 Jul 2023 23:13:50 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qGvGv-0000PU-0U;
-	Wed, 05 Jul 2023 05:41:49 +0000
-Date: Wed, 5 Jul 2023 13:41:43 +0800
+	id 1qGvlt-0000QE-1o;
+	Wed, 05 Jul 2023 06:13:49 +0000
+Date: Wed, 5 Jul 2023 14:13:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
-Subject: [tiwai-sound:test/snd_ctl_remove-lock-fix 34/38]
- drivers/staging/greybus/audio_codec.c:810:26: warning: variable 'card' set
- but not used
-Message-ID: <202307051355.BQPsIfxL-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:mirror-chromeos-5.10-arcvm 15032/28660]
+ drivers/virtio/virtio_wl.c:938:39: warning: assignment to 'struct dma_fence
+ *' from 'int' makes pointer from integer without a cast
+Message-ID: <202307051436.FxEGsWlg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,184 +47,124 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/snd_ctl_remove-lock-fix
-head:   6dd4ae925ae5b90ccfbcb11dce06fd505cc18bc8
-commit: 812cf704dac9f2f275d7bc53818fcccde62dcef8 [34/38] staging: greybus: Avoid abusing controls_rwsem
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230705/202307051355.BQPsIfxL-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230705/202307051355.BQPsIfxL-lkp@intel.com/reproduce)
+Hi David,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   f525b45859c737549efe5a735c935e0ee895e875
+commit: 6686780d2960d81b608e66938266602d276ea4d1 [15032/28660] CHROMIUM: virtio-wl: add support for host fences
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230705/202307051436.FxEGsWlg-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230705/202307051436.FxEGsWlg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307051355.BQPsIfxL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307051436.FxEGsWlg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/staging/greybus/audio_codec.c: In function 'gbaudio_register_module':
->> drivers/staging/greybus/audio_codec.c:810:26: warning: variable 'card' set but not used [-Wunused-but-set-variable]
-     810 |         struct snd_card *card;
-         |                          ^~~~
-   drivers/staging/greybus/audio_codec.c: In function 'gbaudio_unregister_module':
->> drivers/staging/greybus/audio_codec.c:938:26: warning: unused variable 'card' [-Wunused-variable]
-     938 |         struct snd_card *card = comp->card->snd_card;
-         |                          ^~~~
+   drivers/virtio/virtio_wl.c: In function 'virtwl_vfd_send':
+   drivers/virtio/virtio_wl.c:938:41: error: implicit declaration of function 'sync_file_get_fence'; did you mean 'sync_file_range'? [-Werror=implicit-function-declaration]
+     938 |                                 fence = sync_file_get_fence(vfd_fds[i]);
+         |                                         ^~~~~~~~~~~~~~~~~~~
+         |                                         sync_file_range
+>> drivers/virtio/virtio_wl.c:938:39: warning: assignment to 'struct dma_fence *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     938 |                                 fence = sync_file_get_fence(vfd_fds[i]);
+         |                                       ^
+   drivers/virtio/virtio_wl.c:939:46: error: implicit declaration of function 'is_local_fence' [-Werror=implicit-function-declaration]
+     939 |                                 if (fence && is_local_fence(fence)) {
+         |                                              ^~~~~~~~~~~~~~
+   drivers/virtio/virtio_wl.c: In function 'virtwl_ioctl_recv':
+   drivers/virtio/virtio_wl.c:1417:32: error: implicit declaration of function 'sync_file_create'; did you mean 'sync_file_range'? [-Werror=implicit-function-declaration]
+    1417 |                         sync = sync_file_create(&fence->base);
+         |                                ^~~~~~~~~~~~~~~~
+         |                                sync_file_range
+>> drivers/virtio/virtio_wl.c:1417:30: warning: assignment to 'struct sync_file *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1417 |                         sync = sync_file_create(&fence->base);
+         |                              ^
+   drivers/virtio/virtio_wl.c:1435:42: error: invalid use of undefined type 'struct sync_file'
+    1435 |                                 fput(sync->file);
+         |                                          ^~
+   drivers/virtio/virtio_wl.c:1438:45: error: invalid use of undefined type 'struct sync_file'
+    1438 |                         fd_install(ret, sync->file);
+         |                                             ^~
+   cc1: some warnings being treated as errors
 
 
-vim +/card +810 drivers/staging/greybus/audio_codec.c
+vim +938 drivers/virtio/virtio_wl.c
 
-64a7e2cceb75cca drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  805  
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  806  int gbaudio_register_module(struct gbaudio_module_info *module)
-d3d2af51f9c2f29 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  807  {
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  808  	int ret;
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  809  	struct snd_soc_component *comp;
-2b8c2b51000e3d0 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-04-21 @810  	struct snd_card *card;
-ac40b4d1e409971 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  811  	struct gbaudio_jack *jack = NULL;
-d3d2af51f9c2f29 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  812  
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  813  	if (!gbcodec) {
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  814  		dev_err(module->dev, "GB Codec not yet probed\n");
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  815  		return -EAGAIN;
-d3d2af51f9c2f29 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  816  	}
-d3d2af51f9c2f29 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  817  
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  818  	comp = gbcodec->component;
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  819  	card = comp->card->snd_card;
-2b8c2b51000e3d0 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-04-21  820  
-812cf704dac9f2f drivers/staging/greybus/audio_codec.c Takashi Iwai    2023-07-04  821  	mutex_lock(&gbcodec->register_mutex);
-d3d2af51f9c2f29 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  822  
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  823  	if (module->num_dais) {
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  824  		dev_err(gbcodec->dev,
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  825  			"%d:DAIs not supported via gbcodec driver\n",
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  826  			module->num_dais);
-812cf704dac9f2f drivers/staging/greybus/audio_codec.c Takashi Iwai    2023-07-04  827  		mutex_unlock(&gbcodec->register_mutex);
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  828  		return -EINVAL;
-d3d2af51f9c2f29 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  829  	}
-d3d2af51f9c2f29 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  830  
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  831  	ret = gbaudio_init_jack(module, comp->card);
-64a7e2cceb75cca drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  832  	if (ret) {
-812cf704dac9f2f drivers/staging/greybus/audio_codec.c Takashi Iwai    2023-07-04  833  		mutex_unlock(&gbcodec->register_mutex);
-64a7e2cceb75cca drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  834  		return ret;
-64a7e2cceb75cca drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  835  	}
-64a7e2cceb75cca drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  836  
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  837  	if (module->dapm_widgets)
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  838  		snd_soc_dapm_new_controls(&comp->dapm, module->dapm_widgets,
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  839  					  module->num_dapm_widgets);
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  840  	if (module->controls)
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  841  		snd_soc_add_component_controls(comp, module->controls,
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  842  					       module->num_controls);
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  843  	if (module->dapm_routes)
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  844  		snd_soc_dapm_add_routes(&comp->dapm, module->dapm_routes,
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  845  					module->num_dapm_routes);
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  846  
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  847  	/* card already instantiated, create widgets here only */
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  848  	if (comp->card->instantiated) {
-620d28440c10b8f drivers/staging/greybus/audio_codec.c Deepak R Varma  2020-10-22  849  		gbaudio_dapm_link_component_dai_widgets(comp->card, &comp->dapm);
-64a7e2cceb75cca drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  850  #ifdef CONFIG_SND_JACK
-461ab8077d573d4 drivers/staging/greybus/audio_codec.c Gioh Kim        2017-02-09  851  		/*
-461ab8077d573d4 drivers/staging/greybus/audio_codec.c Gioh Kim        2017-02-09  852  		 * register jack devices for this module
-461ab8077d573d4 drivers/staging/greybus/audio_codec.c Gioh Kim        2017-02-09  853  		 * from codec->jack_list
-461ab8077d573d4 drivers/staging/greybus/audio_codec.c Gioh Kim        2017-02-09  854  		 */
-ac40b4d1e409971 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  855  		list_for_each_entry(jack, &module->jack_list, list) {
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  856  			snd_device_register(comp->card->snd_card,
-ac40b4d1e409971 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  857  					    jack->jack.jack);
-64a7e2cceb75cca drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  858  		}
-64a7e2cceb75cca drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  859  #endif
-bb9986ef6b311fb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-05-04  860  	}
-64a7e2cceb75cca drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  861  
-c188fdc8176a8cb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-05-04  862  	mutex_lock(&gbcodec->lock);
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  863  	list_add(&module->list, &gbcodec->module_list);
-c188fdc8176a8cb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-05-04  864  	mutex_unlock(&gbcodec->lock);
-c188fdc8176a8cb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-05-04  865  
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  866  	if (comp->card->instantiated)
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  867  		ret = snd_soc_dapm_new_widgets(comp->card);
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  868  	dev_dbg(comp->dev, "Registered %s module\n", module->name);
-d3d2af51f9c2f29 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  869  
-812cf704dac9f2f drivers/staging/greybus/audio_codec.c Takashi Iwai    2023-07-04  870  	mutex_unlock(&gbcodec->register_mutex);
-bb9986ef6b311fb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-05-04  871  	return ret;
-d3d2af51f9c2f29 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  872  }
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  873  EXPORT_SYMBOL(gbaudio_register_module);
-d3d2af51f9c2f29 drivers/staging/greybus/audio-codec.c Vaibhav Agarwal 2015-11-23  874  
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  875  static void gbaudio_codec_clean_data_tx(struct gbaudio_data_connection *data)
-25de3491f110648 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-01-13  876  {
-79cb2b26f54e883 drivers/staging/greybus/audio_codec.c Chaehyun Lim    2016-09-20  877  	u16 i2s_port, cportid;
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  878  	int ret;
-d764212f73cf270 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  879  
-d764212f73cf270 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  880  	if (list_is_singular(&gbcodec->module_list)) {
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  881  		ret = gb_audio_apbridgea_stop_tx(data->connection, 0);
-5bbe14b7acc2a00 drivers/staging/greybus/audio_codec.c Mark Greer      2016-02-29  882  		if (ret)
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  883  			return;
-620d28440c10b8f drivers/staging/greybus/audio_codec.c Deepak R Varma  2020-10-22  884  		ret = gb_audio_apbridgea_shutdown_tx(data->connection, 0);
-25de3491f110648 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-01-13  885  		if (ret)
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  886  			return;
-d764212f73cf270 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  887  	}
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  888  	i2s_port = 0;	/* fixed for now */
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  889  	cportid = data->connection->hd_cport_id;
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  890  	ret = gb_audio_apbridgea_unregister_cport(data->connection,
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  891  						  i2s_port, cportid,
-4a8e519902e73c8 drivers/staging/greybus/audio_codec.c Mark Greer      2016-02-26  892  						  AUDIO_APBRIDGEA_DIRECTION_TX);
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  893  	data->state[0] = GBAUDIO_CODEC_SHUTDOWN;
-b19df7b9950cd8c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-02-16  894  }
-b19df7b9950cd8c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-02-16  895  
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  896  static void gbaudio_codec_clean_data_rx(struct gbaudio_data_connection *data)
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  897  {
-79cb2b26f54e883 drivers/staging/greybus/audio_codec.c Chaehyun Lim    2016-09-20  898  	u16 i2s_port, cportid;
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  899  	int ret;
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  900  
-d764212f73cf270 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  901  	if (list_is_singular(&gbcodec->module_list)) {
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  902  		ret = gb_audio_apbridgea_stop_rx(data->connection, 0);
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  903  		if (ret)
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  904  			return;
-620d28440c10b8f drivers/staging/greybus/audio_codec.c Deepak R Varma  2020-10-22  905  		ret = gb_audio_apbridgea_shutdown_rx(data->connection, 0);
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  906  		if (ret)
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  907  			return;
-d764212f73cf270 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  908  	}
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  909  	i2s_port = 0;	/* fixed for now */
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  910  	cportid = data->connection->hd_cport_id;
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  911  	ret = gb_audio_apbridgea_unregister_cport(data->connection,
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  912  						  i2s_port, cportid,
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  913  						  AUDIO_APBRIDGEA_DIRECTION_RX);
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  914  	data->state[1] = GBAUDIO_CODEC_SHUTDOWN;
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  915  }
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  916  
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  917  static void gbaudio_codec_cleanup(struct gbaudio_module_info *module)
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  918  {
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  919  	struct gbaudio_data_connection *data;
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  920  	int pb_state, cap_state;
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  921  
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  922  	dev_dbg(gbcodec->dev, "%s: removed, cleanup APBridge\n", module->name);
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  923  	list_for_each_entry(data, &module->data_list, list) {
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  924  		pb_state = data->state[0];
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  925  		cap_state = data->state[1];
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  926  
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  927  		if (pb_state > GBAUDIO_CODEC_SHUTDOWN)
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  928  			gbaudio_codec_clean_data_tx(data);
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  929  
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  930  		if (cap_state > GBAUDIO_CODEC_SHUTDOWN)
-591c45227a77505 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-04  931  			gbaudio_codec_clean_data_rx(data);
-6339d2322c47f4b drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-01-13  932  	}
-6339d2322c47f4b drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-01-13  933  }
-6339d2322c47f4b drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-01-13  934  
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  935  void gbaudio_unregister_module(struct gbaudio_module_info *module)
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  936  {
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  937  	struct snd_soc_component *comp = gbcodec->component;
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09 @938  	struct snd_card *card = comp->card->snd_card;
-ac40b4d1e409971 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  939  	struct gbaudio_jack *jack, *n;
-33cc283928249b2 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-08-05  940  	int mask;
-b19df7b9950cd8c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-02-16  941  
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  942  	dev_dbg(comp->dev, "Unregister %s module\n", module->name);
-b19df7b9950cd8c drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-02-16  943  
-812cf704dac9f2f drivers/staging/greybus/audio_codec.c Takashi Iwai    2023-07-04  944  	mutex_lock(&gbcodec->register_mutex);
-6dd67645f22cfeb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-03-29  945  	mutex_lock(&gbcodec->lock);
-bb9986ef6b311fb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-05-04  946  	gbaudio_codec_cleanup(module);
-bb9986ef6b311fb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-05-04  947  	list_del(&module->list);
-ce7bd8325dc75c8 drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2020-07-09  948  	dev_dbg(comp->dev, "Process Unregister %s module\n", module->name);
-c188fdc8176a8cb drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-05-04  949  	mutex_unlock(&gbcodec->lock);
-6339d2322c47f4b drivers/staging/greybus/audio_codec.c Vaibhav Agarwal 2016-01-13  950  
-
-:::::: The code at line 810 was first introduced by commit
-:::::: 2b8c2b51000e3d056f9aa27a64b93feabddf77a4 greybus: audio: Changes in response to ASoC cleanup
-
-:::::: TO: Vaibhav Agarwal <vaibhav.agarwal@linaro.org>
-:::::: CC: Greg Kroah-Hartman <gregkh@google.com>
+   886	
+   887	static int virtwl_vfd_send(struct file *filp, const char __user *buffer,
+   888						       u32 len, int *vfd_fds)
+   889	{
+   890		struct virtwl_vfd *vfd = filp->private_data;
+   891		struct virtwl_info *vi = vfd->vi;
+   892		struct fd vfd_files[VIRTWL_SEND_MAX_ALLOCS] = { { 0 } };
+   893		struct virtwl_vfd *vfds[VIRTWL_SEND_MAX_ALLOCS] = { 0 };
+   894	#ifdef SEND_VIRTGPU_RESOURCES
+   895		struct dma_buf *virtgpu_dma_bufs[VIRTWL_SEND_MAX_ALLOCS] = { 0 };
+   896		struct dma_fence *virtgpu_dma_fence[VIRTWL_SEND_MAX_ALLOCS] = { 0 };
+   897		bool foreign_id = false;
+   898	#endif
+   899		size_t vfd_count = 0;
+   900		size_t vfd_ids_size;
+   901		size_t ctrl_send_size;
+   902		struct virtio_wl_ctrl_vfd_send *ctrl_send;
+   903		u8 *vfd_ids;
+   904		u8 *out_buffer;
+   905		struct completion finish_completion;
+   906		struct scatterlist out_sg;
+   907		struct scatterlist in_sg;
+   908		struct sg_table sgt;
+   909		struct vm_struct *area;
+   910		bool vmalloced;
+   911		int ret;
+   912		int i;
+   913	
+   914		if (vfd_fds) {
+   915			for (i = 0; i < VIRTWL_SEND_MAX_ALLOCS; i++) {
+   916				struct fd vfd_file;
+   917				int fd = vfd_fds[i];
+   918				struct dma_fence *fence;
+   919				struct dma_buf *dma_buf = ERR_PTR(-EINVAL);
+   920				bool handled = false;
+   921	
+   922				if (fd < 0)
+   923					break;
+   924	
+   925				vfd_file = fdget(vfd_fds[i]);
+   926				if (!vfd_file.file) {
+   927					ret = -EBADFD;
+   928					goto put_files;
+   929				}
+   930	
+   931				if (vfd_file.file->f_op == &virtwl_vfd_fops) {
+   932					vfd_files[i] = vfd_file;
+   933					vfds[i] = vfd_file.file->private_data;
+   934					handled = true;
+   935				}
+   936	
+   937				if (!handled) {
+ > 938					fence = sync_file_get_fence(vfd_fds[i]);
+   939					if (fence && is_local_fence(fence)) {
+   940						vfd_files[i] = vfd_file;
+   941						vfds[i] = to_virtwl_fence(fence)->vfd;
+   942						handled = true;
+   943					}
+   944				}
+   945	
+   946				if (handled) {
+   947					if (vfds[i] && vfds[i]->id) {
+   948						vfd_count++;
+   949						continue;
+   950					}
+   951	
+   952					ret = -EINVAL;
+   953					goto put_files;
+   954				}
+   955	
 
 -- 
 0-DAY CI Kernel Test Service
