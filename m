@@ -1,43 +1,54 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322B510946;
-	Wed,  5 Jul 2023 15:06:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC06A46AB
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jul 2023 17:17:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688569561; x=1720105561;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2eKCNfTLx5X9CGvvYZcLg4TrP7wEz2lmlRmDhRNA5Oc=;
-  b=hyvxd/FcakFWgNSYFeGg13hs3tWZrD8dNIgBJBOEatV+PZ65aGXUmAED
-   PggwvQ6XqgTcGGFwBoBkIXP/MnBxkpChqFSOjdBJzwAkO5Hbw39KBF31G
-   DVW4QrUlRodO9dPdTXR5Q8yLZncX2T6lJpIBrlyW7m3B/7z8nVU9QEzAE
-   GC1ZaeujMA5jkacghO2saeg7W/QH7eZgnCW1yiV0wMnMPsNMD8Fm7xz9C
-   oyJYo0rz7tcJfuLLUPj+nX4X6jsmS/2111GEdxRNJKaDuiZ4+o5KXyn/f
-   eqfIhVJU6W9PwUn4VPlAZtzP0lYPv+PElCjjRGwZDKoHE1BJfsm+s4qRq
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="429400593"
+  t=1688577427; x=1720113427;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0Dw+QDQUJHMAT3bZNG/T7PvNSKyBjgzzz7A5MOKCsdI=;
+  b=HPnd0F9T2NXsLN8KBhamwj+ODLxQjhGMsMv6AmQhv92QFeFaiYnjBtMr
+   Y0E0fGFKhyPnNIP7DvG5gdqLKHF/oWh3h9nc7a4J8UxOhyU69Zaudt8T+
+   BCPUrlObdV72pIyhStkJzxJnuWFo2RuIWQ9jf4REvSeSjQrI2uz09zokn
+   eoQ9dhdL9qwFev8ViCO30Oz3jP1hm+jQLedliw28p+neBXOi4gnJZnxP4
+   dYvBjiwyrZhI4Fm6gn1AlcUTgBoxuL/IohHaBGf1N5hfAJg+Mbt0nD0Cp
+   2yWzJnw/bSrJ+BRpShVhA+0nFh/GWVcnjoKiMM2MwVtqlUKc2vJEpiMAx
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="362267419"
 X-IronPort-AV: E=Sophos;i="6.01,183,1684825200"; 
-   d="scan'208";a="429400593"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 08:05:02 -0700
+   d="scan'208";a="362267419"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 10:17:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="843314593"
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="713260175"
 X-IronPort-AV: E=Sophos;i="6.01,183,1684825200"; 
-   d="scan'208";a="843314593"
+   d="scan'208";a="713260175"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 05 Jul 2023 08:05:00 -0700
+  by orsmga007.jf.intel.com with ESMTP; 05 Jul 2023 10:17:03 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qH43v-0000gk-1m;
-	Wed, 05 Jul 2023 15:04:59 +0000
-Date: Wed, 5 Jul 2023 23:04:22 +0800
+	id 1qH67h-0000jy-39;
+	Wed, 05 Jul 2023 17:17:01 +0000
+Date: Thu, 6 Jul 2023 01:16:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sven Peter <sven@svenpeter.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Hector Martin <marcan@marcan.st>
-Subject: [asahilinux:bits/170-atcphy 3/4] drivers/phy/apple/atc.c:1571:6:
- warning: variable 'ret' set but not used
-Message-ID: <202307052242.iiAtRcgJ-lkp@intel.com>
+To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Cc: oe-kbuild-all@lists.linux.dev, intel-wired-lan@lists.osuosl.org,
+	bpf@vger.kernel.org, netdev@vger.kernel.org,
+	Jesse Brandeburg <jesse.brandeburg@intel.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Subject: Re: [PATCH 3/4] igb: add AF_XDP zero-copy Rx support
+Message-ID: <202307060154.LjqekYIL-lkp@intel.com>
+References: <20230704095915.9750-4-sriram.yagnaraman@est.tech>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,75 +57,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230704095915.9750-4-sriram.yagnaraman@est.tech>
 
-tree:   https://github.com/AsahiLinux/linux bits/170-atcphy
-head:   e3ed55ca947e67fac029ec3917d1f2ca6371d360
-commit: 42ffc8978cdb02ee0131e1315bd7548f92f09690 [3/4] WIP: phy: apple: Add Apple Type-C PHY
-config: arm64-randconfig-r024-20230705 (https://download.01.org/0day-ci/archive/20230705/202307052242.iiAtRcgJ-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230705/202307052242.iiAtRcgJ-lkp@intel.com/reproduce)
+Hi Sriram,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tnguy-next-queue/dev-queue]
+[also build test WARNING on tnguy-net-queue/dev-queue horms-ipvs/master linus/master v6.4 next-20230705]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sriram-Yagnaraman/igb-prepare-for-AF_XDP-zero-copy-support/20230704-180613
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+patch link:    https://lore.kernel.org/r/20230704095915.9750-4-sriram.yagnaraman%40est.tech
+patch subject: [PATCH 3/4] igb: add AF_XDP zero-copy Rx support
+config: openrisc-randconfig-r093-20230705 (https://download.01.org/0day-ci/archive/20230706/202307060154.LjqekYIL-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230706/202307060154.LjqekYIL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307052242.iiAtRcgJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307060154.LjqekYIL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/intel/igb/igb_main.c:2016:32: sparse: sparse: incompatible types in conditional expression (different base types):
+>> drivers/net/ethernet/intel/igb/igb_main.c:2016:32: sparse:    bool
+>> drivers/net/ethernet/intel/igb/igb_main.c:2016:32: sparse:    void
+   drivers/net/ethernet/intel/igb/igb_main.c:4920:27: sparse: sparse: incompatible types in conditional expression (different base types):
+   drivers/net/ethernet/intel/igb/igb_main.c:4920:27: sparse:    bool
+   drivers/net/ethernet/intel/igb/igb_main.c:4920:27: sparse:    void
 
->> drivers/phy/apple/atc.c:1571:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-    1571 |         int ret = 0;
-         |             ^
-   1 warning generated.
+vim +2016 drivers/net/ethernet/intel/igb/igb_main.c
 
-
-vim +/ret +1571 drivers/phy/apple/atc.c
-
-  1566	
-  1567	static int atcphy_usb3_power_on(struct phy *phy)
-  1568	{
-  1569		struct apple_atcphy *atcphy = phy_get_drvdata(phy);
-  1570		enum atcphy_pipehandler_state state;
-> 1571		int ret = 0;
-  1572	
-  1573		/*
-  1574		 * Both usb role switch and mux set work will be running concurrently.
-  1575		 * Make sure atcphy_mux_set_work is done bringing up ATCPHY before
-  1576		 * trying to switch dwc3 to the correct PHY.
-  1577		 */
-  1578		mutex_lock(&atcphy->lock);
-  1579		if (atcphy->mode != atcphy->target_mode) {
-  1580			reinit_completion(&atcphy->atcphy_online_event);
-  1581			mutex_unlock(&atcphy->lock);
-  1582			wait_for_completion_timeout(&atcphy->atcphy_online_event,
-  1583						msecs_to_jiffies(1000));
-  1584			mutex_lock(&atcphy->lock);
-  1585		}
-  1586	
-  1587		if (atcphy->mode != atcphy->target_mode) {
-  1588			dev_err(atcphy->dev, "ATCPHY did not come up; won't allow dwc3 to come up.\n");
-  1589			return -EINVAL;
-  1590		}
-  1591	
-  1592		atcphy->dwc3_online = true;
-  1593		state = atcphy_modes[atcphy->mode].pipehandler_state;
-  1594		switch (state) {
-  1595		case ATCPHY_PIPEHANDLER_STATE_USB2:
-  1596		case ATCPHY_PIPEHANDLER_STATE_USB3:
-  1597			ret = atcphy_configure_pipehandler(atcphy, state);
-  1598			break;
-  1599	
-  1600		case ATCPHY_PIPEHANDLER_STATE_INVALID:
-  1601		default:
-  1602			dev_warn(atcphy->dev, "Invalid state %d in usb3_set_phy\n",
-  1603				 state);
-  1604			ret = -EINVAL;
-  1605		}
-  1606	
-  1607		mutex_unlock(&atcphy->lock);
-  1608	
-  1609		return 0;
-  1610	}
-  1611	
+  1984	
+  1985	/**
+  1986	 *  igb_configure - configure the hardware for RX and TX
+  1987	 *  @adapter: private board structure
+  1988	 **/
+  1989	static void igb_configure(struct igb_adapter *adapter)
+  1990	{
+  1991		struct net_device *netdev = adapter->netdev;
+  1992		int i;
+  1993	
+  1994		igb_get_hw_control(adapter);
+  1995		igb_set_rx_mode(netdev);
+  1996		igb_setup_tx_mode(adapter);
+  1997	
+  1998		igb_restore_vlan(adapter);
+  1999	
+  2000		igb_setup_tctl(adapter);
+  2001		igb_setup_mrqc(adapter);
+  2002		igb_setup_rctl(adapter);
+  2003	
+  2004		igb_nfc_filter_restore(adapter);
+  2005		igb_configure_tx(adapter);
+  2006		igb_configure_rx(adapter);
+  2007	
+  2008		igb_rx_fifo_flush_82575(&adapter->hw);
+  2009	
+  2010		/* call igb_desc_unused which always leaves
+  2011		 * at least 1 descriptor unused to make sure
+  2012		 * next_to_use != next_to_clean
+  2013		 */
+  2014		for (i = 0; i < adapter->num_rx_queues; i++) {
+  2015			struct igb_ring *ring = adapter->rx_ring[i];
+> 2016			ring->xsk_pool ?
+  2017				igb_alloc_rx_buffers_zc(ring, igb_desc_unused(ring)) :
+  2018				igb_alloc_rx_buffers(ring, igb_desc_unused(ring));
+  2019		}
+  2020	}
+  2021	
 
 -- 
 0-DAY CI Kernel Test Service
