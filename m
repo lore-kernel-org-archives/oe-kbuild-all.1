@@ -1,42 +1,51 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852F04C9E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jul 2023 10:18:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688552337; x=1720088337;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h71dZMZY9PjrEmE0s46MOXHD1z7Ryzf1qWs3lkNpL1g=;
-  b=bEctA8YSTei5nOjHo7UXGM+rKotmyZE/v8a8FOcKS8/FR/huQI5ZrI0b
-   e0Uuuh2KV4N/zjfKCqMmCdKCfPjiDlbqTQfptfQvUOe5FxUczJExeQiAa
-   z3RscLHP2Z8whz92b1aEYnJBZ/ACqgZQYikJtEqQVk8wzxfO/J+JhEQ2O
-   iuF4i41hCrWKX0+PC9Tvo07QFMj9a1y72D/l7im8Tyi1OQv6TaMSmI0Py
-   e3GHT8WEFrdhPwzs5CHqVxptSqEZfU1e7MPxr7LQWZWILNeRYw/UZZxCd
-   H03k/o03fewgluRQZqCMy5mlp0J5FpTuKOAhj6q4eeBF635ngxa0MjPTv
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="429338191"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="429338191"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2023 03:18:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10761"; a="696403868"
-X-IronPort-AV: E=Sophos;i="6.01,182,1684825200"; 
-   d="scan'208";a="696403868"
-Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 05 Jul 2023 03:18:55 -0700
-Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qGzb4-0000ZW-3D;
-	Wed, 05 Jul 2023 10:18:54 +0000
-Date: Wed, 5 Jul 2023 18:18:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:mirror-chromeos-5.10-arcvm 23789/28660]
- mm/vmscan.c:4621:5: warning: no previous prototype for 'print_node_mglru'
-Message-ID: <202307051825.hL3urMIB-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E0979CA
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  5 Jul 2023 13:04:03 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-307d58b3efbso7288936f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 05 Jul 2023 06:04:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688562241; x=1691154241;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LRtlL5U9YZfE/0Bf1WN6Cfic6tkO5XVWWjm7V1kAKkU=;
+        b=nRbS2NXJ4X3I35gJinID6AsJpOXOQFJoD1j7U5L3JjrAA/ZomGt9xPfCTAPANOPUQh
+         qANOv1sIyNk5fuW1OMQLemYC3lX3Fqkhs2xbzWU5WdqrQS1nud6gHvpPfFAuN1PgYHP+
+         2u4uQWV6g6grNexVG90Zblq7O6UJoeTQwbbHAdUhm9sXVPiuPZS/69yni5CXTzciP577
+         5YS7WZIoGrKJlGiG92ad/0jzqrzZanEpMs0RtOTR3rTHIGWw/Vq4qcsaEMbjsf0BCnGZ
+         qfjW2hH4Lj+xLC+6l4ctAoUbK3ujUkdwIfZ481rPdnkizLT9soCqWNbpDv5ifMDsg1L6
+         tisQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688562241; x=1691154241;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LRtlL5U9YZfE/0Bf1WN6Cfic6tkO5XVWWjm7V1kAKkU=;
+        b=C9ZiME9OBCaMf+odPV0pWb3elrDevIusOBizd30OSAcWqwfS8pW8FtGYL2DIFOWMfy
+         7EDeHR75vbzXea2JGYowwVnhHitgbSJAFxNgdt5gCb5FxLFVJjd1JvSg6mGR7poVNV3b
+         sU4kTPCg/51WZBPJuZ8RWv4WKHH5esPYRNqaJjOS0PqdD4j0/lxe1orgeYmQPjiUVc9r
+         /eYRBPee/9l5mwfOgySiTLJ398CwFGblvNnar8L7q+0TPtKA85olhuL7mYd2alDxbx1X
+         whGu4pGsOwT3pcGxmum5QoHumgCaIsZxiLBdXzFkkpK2GbyzQxnaOukxctPIzYLjb6X5
+         p8qw==
+X-Gm-Message-State: ABy/qLYQF1vXRdPmHJGVbPr4eRccrMyC7S7GRCSNfmD6yhzutEgpZIAB
+	gTlMfKVb855zV88jnE+fNfdneA==
+X-Google-Smtp-Source: APBJJlH80m+8XxUMjAWGnMCnWL6lwxkrZFfYDEIqxKuoQsqtUJlKGi7zjhLA4lCOchb7t1j0ITkJAw==
+X-Received: by 2002:adf:f6d1:0:b0:313:f7a1:3d92 with SMTP id y17-20020adff6d1000000b00313f7a13d92mr12756274wrp.66.1688562241301;
+        Wed, 05 Jul 2023 06:04:01 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id j15-20020adff00f000000b00314315071bbsm10336087wro.38.2023.07.05.06.03.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Jul 2023 06:03:59 -0700 (PDT)
+Date: Wed, 5 Jul 2023 16:03:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Roan van Dijk <roan@protonic.nl>,
+	jic23@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, lars@metafoo.de,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	roan@protonic.nl
+Subject: Re: [PATCH] iio: chemical: scd4x: Add pressure compensation
+Message-ID: <2cada93d-239f-404b-a69c-ba23dd4c48a8@kadam.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,92 +54,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20230704084706.370637-1-roan@protonic.nl>
 
-Hi Bryan,
+Hi Roan,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
-head:   f525b45859c737549efe5a735c935e0ee895e875
-commit: 2038834ed810ff10b875445a030663d659c69500 [23789/28660] CHROMIUM: Reland of add implementation of MGLRU in sysfs
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20230705/202307051825.hL3urMIB-lkp@intel.com/config)
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Roan-van-Dijk/iio-chemical-scd4x-Add-pressure-compensation/20230704-170621
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20230704084706.370637-1-roan%40protonic.nl
+patch subject: [PATCH] iio: chemical: scd4x: Add pressure compensation
+config: x86_64-randconfig-m001-20230705 (https://download.01.org/0day-ci/archive/20230705/202307052018.7DV5CAOH-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230705/202307051825.hL3urMIB-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230705/202307052018.7DV5CAOH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307051825.hL3urMIB-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202307052018.7DV5CAOH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/iio/chemical/scd4x.c:385 scd4x_read_raw() error: uninitialized symbol 'ret'.
+drivers/iio/chemical/scd4x.c:388 scd4x_read_raw() error: uninitialized symbol 'tmp'.
 
-   mm/vmscan.c:678:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
-     678 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         |               ^~~~~~~~~~~
->> mm/vmscan.c:4621:5: warning: no previous prototype for 'print_node_mglru' [-Wmissing-prototypes]
-    4621 | int print_node_mglru(struct lruvec *lruvec, char *buf, int orig_pos)
-         |     ^~~~~~~~~~~~~~~~
-   mm/vmscan.c: In function 'show_lru_gen_admin':
-   mm/vmscan.c:4691:62: warning: format '%s' expects argument of type 'char *', but argument 5 has type 'void *' [-Wformat=]
-    4691 |                                                 "memcg %5hu %s\n", mem_cgroup_id(memcg), path);
-         |                                                             ~^                           ~~~~
-         |                                                              |                           |
-         |                                                              char *                      void *
-         |                                                             %p
-   mm/vmscan.c:4702:21: warning: assignment to 'char *' from 'long unsigned int' makes pointer from integer without a cast [-Wint-conversion]
-    4702 |                 buf = PAGE_SIZE - 1;
-         |                     ^
+vim +/ret +385 drivers/iio/chemical/scd4x.c
 
+49d22b695cbb69 Roan van Dijk 2021-10-08  335  static int scd4x_read_raw(struct iio_dev *indio_dev,
+49d22b695cbb69 Roan van Dijk 2021-10-08  336  			struct iio_chan_spec const *chan, int *val,
+49d22b695cbb69 Roan van Dijk 2021-10-08  337  			int *val2, long mask)
+49d22b695cbb69 Roan van Dijk 2021-10-08  338  {
+49d22b695cbb69 Roan van Dijk 2021-10-08  339  	struct scd4x_state *state = iio_priv(indio_dev);
+49d22b695cbb69 Roan van Dijk 2021-10-08  340  	int ret;
+49d22b695cbb69 Roan van Dijk 2021-10-08  341  	__be16 tmp;
+49d22b695cbb69 Roan van Dijk 2021-10-08  342  
+49d22b695cbb69 Roan van Dijk 2021-10-08  343  	switch (mask) {
+49d22b695cbb69 Roan van Dijk 2021-10-08  344  	case IIO_CHAN_INFO_RAW:
+49d22b695cbb69 Roan van Dijk 2021-10-08  345  		ret = iio_device_claim_direct_mode(indio_dev);
+49d22b695cbb69 Roan van Dijk 2021-10-08  346  		if (ret)
+49d22b695cbb69 Roan van Dijk 2021-10-08  347  			return ret;
+49d22b695cbb69 Roan van Dijk 2021-10-08  348  
+49d22b695cbb69 Roan van Dijk 2021-10-08  349  		mutex_lock(&state->lock);
+49d22b695cbb69 Roan van Dijk 2021-10-08  350  		ret = scd4x_read_channel(state, chan->address);
+49d22b695cbb69 Roan van Dijk 2021-10-08  351  		mutex_unlock(&state->lock);
+49d22b695cbb69 Roan van Dijk 2021-10-08  352  
+49d22b695cbb69 Roan van Dijk 2021-10-08  353  		iio_device_release_direct_mode(indio_dev);
+49d22b695cbb69 Roan van Dijk 2021-10-08  354  		if (ret < 0)
+49d22b695cbb69 Roan van Dijk 2021-10-08  355  			return ret;
+49d22b695cbb69 Roan van Dijk 2021-10-08  356  
+49d22b695cbb69 Roan van Dijk 2021-10-08  357  		*val = ret;
+49d22b695cbb69 Roan van Dijk 2021-10-08  358  		return IIO_VAL_INT;
+49d22b695cbb69 Roan van Dijk 2021-10-08  359  	case IIO_CHAN_INFO_SCALE:
+e46e2512ac84bd Roan van Dijk 2021-10-21  360  		if (chan->type == IIO_CONCENTRATION) {
+e46e2512ac84bd Roan van Dijk 2021-10-21  361  			*val = 0;
+e46e2512ac84bd Roan van Dijk 2021-10-21  362  			*val2 = 100;
+e46e2512ac84bd Roan van Dijk 2021-10-21  363  			return IIO_VAL_INT_PLUS_MICRO;
+e46e2512ac84bd Roan van Dijk 2021-10-21  364  		} else if (chan->type == IIO_TEMP) {
+49d22b695cbb69 Roan van Dijk 2021-10-08  365  			*val = 175000;
+49d22b695cbb69 Roan van Dijk 2021-10-08  366  			*val2 = 65536;
+49d22b695cbb69 Roan van Dijk 2021-10-08  367  			return IIO_VAL_FRACTIONAL;
+49d22b695cbb69 Roan van Dijk 2021-10-08  368  		} else if (chan->type == IIO_HUMIDITYRELATIVE) {
+49d22b695cbb69 Roan van Dijk 2021-10-08  369  			*val = 100000;
+49d22b695cbb69 Roan van Dijk 2021-10-08  370  			*val2 = 65536;
+49d22b695cbb69 Roan van Dijk 2021-10-08  371  			return IIO_VAL_FRACTIONAL;
+49d22b695cbb69 Roan van Dijk 2021-10-08  372  		}
+49d22b695cbb69 Roan van Dijk 2021-10-08  373  		return -EINVAL;
+49d22b695cbb69 Roan van Dijk 2021-10-08  374  	case IIO_CHAN_INFO_OFFSET:
+49d22b695cbb69 Roan van Dijk 2021-10-08  375  		*val = -16852;
+49d22b695cbb69 Roan van Dijk 2021-10-08  376  		*val2 = 114286;
+49d22b695cbb69 Roan van Dijk 2021-10-08  377  		return IIO_VAL_INT_PLUS_MICRO;
+49d22b695cbb69 Roan van Dijk 2021-10-08  378  	case IIO_CHAN_INFO_CALIBBIAS:
+49d22b695cbb69 Roan van Dijk 2021-10-08  379  		mutex_lock(&state->lock);
+8e4a309948cffe Roan van Dijk 2023-07-04  380  		if (chan->type == IIO_TEMP)
+49d22b695cbb69 Roan van Dijk 2021-10-08  381  			ret = scd4x_read(state, CMD_GET_TEMP_OFFSET, &tmp, sizeof(tmp));
+8e4a309948cffe Roan van Dijk 2023-07-04  382  		else if (chan->type == IIO_PRESSURE)
+8e4a309948cffe Roan van Dijk 2023-07-04  383  			ret = scd4x_read(state, CMD_GET_AMB_PRESSURE, &tmp, sizeof(tmp));
 
-vim +/print_node_mglru +4621 mm/vmscan.c
+ret is uninitialized if type != IIO_TEMP and != IIO_PRESSURE.
 
-  4620	
-> 4621	int print_node_mglru(struct lruvec *lruvec, char *buf, int orig_pos)
-  4622	{
-  4623		unsigned long seq;
-  4624		struct lrugen *lrugen = &lruvec->evictable;
-  4625	
-  4626		DEFINE_MAX_SEQ(lruvec);
-  4627		DEFINE_MIN_SEQ(lruvec);
-  4628	
-  4629		int print_pos = orig_pos;
-  4630	
-  4631		seq = min(min_seq[0], min_seq[1]);
-  4632	
-  4633		for (; seq <= max_seq; seq++) {
-  4634			int gen, type, zone;
-  4635			unsigned int msecs;
-  4636	
-  4637			gen = lru_gen_from_seq(seq);
-  4638			msecs = jiffies_to_msecs(jiffies - READ_ONCE(lrugen->timestamps[gen]));
-  4639	
-  4640			print_pos += snprintf(buf + print_pos, PAGE_SIZE - print_pos,
-  4641				" %10lu %10u", seq, msecs);
-  4642	
-  4643			for (type = 0; type < ANON_AND_FILE; type++) {
-  4644				long size = 0;
-  4645	
-  4646				if (seq < min_seq[type]) {
-  4647					print_pos += snprintf(buf + print_pos,
-  4648						PAGE_SIZE - print_pos, "         -0 ");
-  4649					continue;
-  4650				}
-  4651	
-  4652				for (zone = 0; zone < MAX_NR_ZONES; zone++)
-  4653					size += READ_ONCE(lrugen->sizes[gen][type][zone]);
-  4654	
-  4655				print_pos += snprintf(buf + print_pos,
-  4656					PAGE_SIZE - print_pos, " %10lu ", max(size, 0L));
-  4657			}
-  4658	
-  4659			print_pos += snprintf(buf + print_pos, PAGE_SIZE - print_pos, "\n");
-  4660	
-  4661		}
-  4662	
-  4663		return print_pos - orig_pos;
-  4664	}
-  4665	
+49d22b695cbb69 Roan van Dijk 2021-10-08  384  		mutex_unlock(&state->lock);
+49d22b695cbb69 Roan van Dijk 2021-10-08 @385  		if (ret)
+49d22b695cbb69 Roan van Dijk 2021-10-08  386  			return ret;
+49d22b695cbb69 Roan van Dijk 2021-10-08  387  
+49d22b695cbb69 Roan van Dijk 2021-10-08 @388  		*val = be16_to_cpu(tmp);
+49d22b695cbb69 Roan van Dijk 2021-10-08  389  
+49d22b695cbb69 Roan van Dijk 2021-10-08  390  		return IIO_VAL_INT;
+49d22b695cbb69 Roan van Dijk 2021-10-08  391  	default:
+49d22b695cbb69 Roan van Dijk 2021-10-08  392  		return -EINVAL;
+49d22b695cbb69 Roan van Dijk 2021-10-08  393  	}
+49d22b695cbb69 Roan van Dijk 2021-10-08  394  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
