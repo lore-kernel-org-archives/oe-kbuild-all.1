@@ -1,192 +1,535 @@
-Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2133.outbound.protection.outlook.com [40.107.114.133])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BB7110E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jul 2023 07:52:25 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FK3HRUsUZicDDV7e/DzMi8C/sIAkbibwIjh7pPhEEie4pSwERSI415EI6hj/YmRtCbpkBi5ijm4rxE427eoEvi5RKb897HT6uIu3A3iYiWXFGp5IiJBK1bLgGvfetUtU0v8nktfwf3T1yF5ub8yynxrz3l0LQarf+UnMBdSrfscOK6VWAU1xo5Juin5w+R2smNXl+VzHeMSOo8hwJrfyhbUYOak0WJmBgXrUKSKN5hhuDwSy/lNJMX1xkh+mhxGsD5MAQtq1q4cS/PJUFZLLqxnfphwNkHOCMytJiwaKFzXk4Udw649uSGBFeOLivJLbPnWX9dKvOzZazAHDnaoglg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GDTgkf0TqArHU2K65Fvmh4hBc0kg0NoaFQqi6DFak7A=;
- b=S8QSiS2pgoxUScadRaz6qUZuV12s2cpPC+dnHF7JeG+MHv/Tnwl5Qa0NeH2ynFYI9bkqiFIZ62zc4HoEYuynEUi3CkG3oMJ8qyw7hN1kJ0sYiUAShkWnOMEWZMgHVNSyGIM8+WwoA4MaWv5nM9+5UXbvLa2Daf02lOUY0pbwBb4xmv+NbjH3IVdFzwtOrD8krsIhboi4jJAa3LEtdLZhJXGKiW/NRCY2WtWJ7nMTHQGeLmJo1hiw8GcWEqwGJ6d7Q4Zkg/A2We/r99GRXyn4JlFaCBhk9BSYOjEY5QCaM5aMz1iRIVlcGLUh6gCwik1rJxUkSMjiMAhDfBg61oFX+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GDTgkf0TqArHU2K65Fvmh4hBc0kg0NoaFQqi6DFak7A=;
- b=LCws1IjwioCPu/ieSdSCb/T0Yrrm8TKqGSqdjnkazhEUBIWO1+cWO0XzGPr2SbBoIj6DnPk2TaYAEByFGgLguiQ3wbmUrKAivVdmAbgifK6Yz3Nn/bAmtvVRsPknUO306mzjqURuhXYEwe0eGbaPhOTq5/QIDSpfnILjqsQoAMs=
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com (2603:1096:604:bb::5)
- by TY3PR01MB11134.jpnprd01.prod.outlook.com (2603:1096:400:3d3::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6565.17; Thu, 6 Jul
- 2023 07:52:23 +0000
-Received: from OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::fc77:6148:d6a:c72b]) by OS0PR01MB5922.jpnprd01.prod.outlook.com
- ([fe80::fc77:6148:d6a:c72b%4]) with mapi id 15.20.6565.016; Thu, 6 Jul 2023
- 07:52:23 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: kernel test robot <lkp@intel.com>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Mark Brown
-	<broonie@kernel.org>
-Subject: RE: drivers/regulator/raa215300.c:42:12: sparse: sparse: symbol
- 'xin_name' was not declared. Should it be static?
-Thread-Topic: drivers/regulator/raa215300.c:42:12: sparse: sparse: symbol
- 'xin_name' was not declared. Should it be static?
-Thread-Index: AQHZr94+SYZHE8YigUyuYU/ChOcO1q+sXYjg
-Date: Thu, 6 Jul 2023 07:52:23 +0000
-Message-ID:
- <OS0PR01MB5922483BE3B70DF77C6FACEC862CA@OS0PR01MB5922.jpnprd01.prod.outlook.com>
-References: <202307061555.Gx6hEBT4-lkp@intel.com>
-In-Reply-To: <202307061555.Gx6hEBT4-lkp@intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OS0PR01MB5922:EE_|TY3PR01MB11134:EE_
-x-ms-office365-filtering-correlation-id: df6cad9c-f7ea-4bf5-ccd6-08db7df5eef4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- cPqC+jmJhxccAx9EsA3/nT3qMfJWfSWn6YkutPS79rNcGr4at+UGudogRvyIr+EP64FzQJ0BfXbThHfZYXshaeZCNmuTuj3MO0CIsqqPgNNDnVDP3wI1KMr4EnhwAs55BbLd9FLWp8YAe9/EqXWFZpQcIsukAExAl8YOv3Bc/oMXQ0DkAqPYcTAOXFMP+DstMp8+0E+ANRfxSZnV5EMt01cZbTD47g7KDL1LhTvtTS2xD10ei/P6AVKjsGTJQwT3zgSiZaKGgoDUoWPuMmUMAJNb4pfo0MQXlCS+yFDvhWmULfYxIHKZKbALqV6olQdJeH7FBKx1DDMl0z6Om2Nwo67Ph9xth6t+1xUBb7wA9RcNgb2xFBwlHPo+ozheS/Msth6ikqw1R6nnKyQP8DuwLGNbJzuUYod8S6uZmRbI2k2RNnFPXlvsk7aVhFUcUt/qt3nR80qErpWWyzRiTfB4C093lZiv5QnA4mBidrDXOYONwuSItCGE1IG9AYELZM922FHQAPW4E1+74aICP5arnrE6JuSmzUYx6sHFfcPyJ0rV9rAyYVplHwefaOMbR6nncrP0JOl0sQK0NhT0JXU651oIwPALU0SuELh89k3srlg=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS0PR01MB5922.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(4636009)(366004)(376002)(346002)(136003)(396003)(39860400002)(451199021)(66446008)(4326008)(6916009)(66476007)(64756008)(66556008)(76116006)(66946007)(9686003)(122000001)(38100700002)(186003)(38070700005)(86362001)(53546011)(6506007)(26005)(83380400001)(33656002)(966005)(45080400002)(478600001)(7696005)(55016003)(41300700001)(54906003)(8936002)(8676002)(316002)(71200400001)(5660300002)(2906002)(52536014);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?mCC4L+h9S7elqJPIQE/aFuMev8vLWeCzST00Jdqgbc98jmR050X8n9Hg9vdk?=
- =?us-ascii?Q?GBJ7hhkeAp/VQWYFKX3d9wTmOOfw9LVIawNlkDqRNFwLOyXz269kmzGRZwuZ?=
- =?us-ascii?Q?YtwEZheo/aR9EpZudJNeGMXtPDYiQSgk0vWBVlFLfnTKezwA/XEoUij7tS7y?=
- =?us-ascii?Q?jUrQPq5P5uS93uD/fOBRJxmYt81B//JWrAyc8puZZfMQ+AjyOToxFMmyom8I?=
- =?us-ascii?Q?a1M/kffKfOEzKkSBHxDvYOAcJnFMH/mQgona5cGiziwoQgAsomSsEApA64wl?=
- =?us-ascii?Q?by//bObWM5F+OvLw1AL8BuvLpqXXaOMmGSqse3eQ6vr2zUOa9d7XUse1Du7w?=
- =?us-ascii?Q?yEK1885drQselJwDaajFh/ML4jun7fvBzAEVDhq9LRxKOVKp3uj8syKAsZMY?=
- =?us-ascii?Q?ILN1CsB7RVTf9DAo/DCGd+vOUqfj9NPzR71+sMUXsIA44XGSSfGIALZH0VlZ?=
- =?us-ascii?Q?7AkqQ+bjgw2olgDlGi8sfPCII2B+u58iGRRkqqrQO2npJkiTrxg4S8/5Xx9l?=
- =?us-ascii?Q?UG0JRHnmj8jHBjGXX8wz6wOUXUMpW8SI7ywsFZNeZZzQlnHUnhaCtwy0Hx6g?=
- =?us-ascii?Q?KCt9j+gX/HCuJ00YS1a2amS0z3TM88olR1GE5Z/xybKhPNe6aKfoFtwL3ayr?=
- =?us-ascii?Q?Vh/Ok1bdtpGGapyIV+EVepteWRP9TWnAuGQb7rU3oO0854G52CGOOp/Z3YaH?=
- =?us-ascii?Q?4FTWqJYoLWhC3mE1iQErwV/wlQsbhDGlh5YJgUlWcH00aM1bMvF/JNmE0Iyj?=
- =?us-ascii?Q?PNqkv+vB99AORgQThkKAmyJrOdUOqP6ZNedwUa0wIadV6JNoYpu576oojEsp?=
- =?us-ascii?Q?CaSAPXI3wN8/AWUvDYXUa58d50AbDX3jk2WWJ4EvioKJKx9vDhzG2PL2vzvX?=
- =?us-ascii?Q?ukjm3Eb7JggJLiQ/FjlL3rof7WFPZbXfm2+cYH368U658DWJ2Cur7hMyAF4a?=
- =?us-ascii?Q?ZYER6emH5Rzvb5tSHSJftHcEKtE9bUXcz6RRQ6dLj+AyMSQ+8Z3DKm5Cf/ZE?=
- =?us-ascii?Q?BnCLb5FYSGZWfJjf3OSGUDrsMyMBVj9LEIbCGtWQCPBWvP3CV/pB7W/au8l8?=
- =?us-ascii?Q?a5q8QRakp5DlkYXqtj2NmXDVL1O5cym8elnpyZa9v6+dk0r28q0K1W5621Mm?=
- =?us-ascii?Q?n48aG8DE9yLHAfUJHccykSnWsa1qY4WJbW4SnBJFPg/pdOprqqV1wk1oUV1m?=
- =?us-ascii?Q?SuvalweHNWOaYH8iGSUtjNabLgRZlcSwMkapCNM3LyuPS9jc/nGMhqra72dU?=
- =?us-ascii?Q?MTY2vZUH09lLJdSiHgDHvbNpXY56Pc2ahiRjeFHhpgmAxBHaDfu4DQC+nqkD?=
- =?us-ascii?Q?I7KG2/5yvPglRoEku+AohB8IQ4AQkVQIcSTLIWd7OkaYeXwmUHlwE1sTZ7RQ?=
- =?us-ascii?Q?iPwjL/quiCJ8xvnzLeJgPDf0D0fSGlKe0wDCiLO/li621jZyEv7TfqRhJgFS?=
- =?us-ascii?Q?hHtQwUIEAvi57EBIJuc7yu02XSzYG2dvL9CJA1H4leReGr+oSjMUGZI/ae8W?=
- =?us-ascii?Q?Lf3jFRFt/Gugj5DN6k/77A16NcTiz149tLhaj1XMg02bnIX3dmKyb+fj6hx9?=
- =?us-ascii?Q?K6APaPczB0yBie0DBAMtTS5M/bPIcZCgDA7FNRna?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959DE539B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jul 2023 09:31:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688635873; x=1720171873;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jWmHAbyAWN0xB0roSZnKWgU8Ev18OWtNoe6Zqa0irRw=;
+  b=lN4ODGL0VAVmPXWEPYP9vGwEn3lOTsizhecDkIg4ZCOEJ7w9/pp5qbGO
+   i9M5uItIF8/RNZQvdcWZQs/0ZSs3n7KVp21uWivIMJEJ2obdnUzOwnytq
+   JoVjV+TJzpo7j5XXmynsudDfDTf+gIwg5QGcn/N6vMNQCrrm6T7epH6oB
+   2I+ZT5BRnetpRZeachPwc/OBrPnEX29q1LqX01nFDZUS4JB2mAaH2gq4s
+   nj4wvO44lIuRd9nBtNEcW3ZToOAMhBj6fG10/I9GtYK5ID4t8iMK4LR9L
+   1sNcW6dok45zTY/gbe9osprc/lNmvMGk+6+LHgwpRO6ub98BgOYOw4mFb
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="361027495"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
+   d="scan'208";a="361027495"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 02:31:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10762"; a="789487043"
+X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
+   d="scan'208";a="789487043"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 06 Jul 2023 02:30:22 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qHLJd-0001E2-12;
+	Thu, 06 Jul 2023 09:30:21 +0000
+Date: Thu, 6 Jul 2023 17:29:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [arm-platforms:kvm-arm64/nv-fgt-wip 72/72]
+ arch/arm64/kvm/emulate-nested.c:1024:32: error: 'HDFGRTR_GROUP' undeclared
+ here (not in a function); did you mean 'HDFGxTR_GROUP'?
+Message-ID: <202307061756.3iTnq8i4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OS0PR01MB5922.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: df6cad9c-f7ea-4bf5-ccd6-08db7df5eef4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jul 2023 07:52:23.2095
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LpHwajJJplDAgZWIquWZdCZfi5pc6RxIhHFvEq/WblEEIXwsYbJIrWhWzEbhRmCbGqCLulFev6KoR1QDoOV+tMsECLNQ5/T6ysAo4XKzO/s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11134
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Kernel test robot,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/nv-fgt-wip
+head:   35f13e585d8cd39dfa07bbf9bd6eefb739ee1d32
+commit: 35f13e585d8cd39dfa07bbf9bd6eefb739ee1d32 [72/72] WIP
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230706/202307061756.3iTnq8i4-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230706/202307061756.3iTnq8i4-lkp@intel.com/reproduce)
 
-A patch[1] is already posted for fixing this issue
-[1] https://patchwork.kernel.org/project/linux-renesas-soc/patch/2023062910=
-4200.102663-1-biju.das.jz@bp.renesas.com/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307061756.3iTnq8i4-lkp@intel.com/
 
-Cheers,
-Biju
+All errors (new ones prefixed by >>):
 
-> -----Original Message-----
-> From: kernel test robot <lkp@intel.com>
-> Sent: Thursday, July 6, 2023 8:48 AM
-> To: Biju Das <biju.das.jz@bp.renesas.com>
-> Cc: oe-kbuild-all@lists.linux.dev; linux-kernel@vger.kernel.org; Mark
-> Brown <broonie@kernel.org>
-> Subject: drivers/regulator/raa215300.c:42:12: sparse: sparse: symbol
-> 'xin_name' was not declared. Should it be static?
->
-> tree:
-> https://git.ke/
-> rnel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git&data=
-=3D
-> 05%7C01%7Cbiju.das.jz%40bp.renesas.com%7Ce3f3ca7fb3df491ae9a608db7df5603
-> 3%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C638242265057971867%7CUnkn
-> own%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLC
-> JXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3D5JI%2BnSc2P4jtEtPt%2FqiNh%2F14plQuAs=
-v
-> nr5MnYKsI4u4%3D&reserved=3D0 master
-> head:   c17414a273b81fe4e34e11d69fc30cc8b1431614
-> commit: 7bce16630837c705f72e8fd53a11ae8c236236f4 regulator: Add Renesas
-> PMIC RAA215300 driver
-> date:   13 days ago
-> config: i386-randconfig-i061-20230706
-> (https://downl/
-> oad.01.org%2F0day-ci%2Farchive%2F20230706%2F202307061555.Gx6hEBT4-
-> lkp%40intel.com%2Fconfig&data=3D05%7C01%7Cbiju.das.jz%40bp.renesas.com%7C=
-e
-> 3f3ca7fb3df491ae9a608db7df56033%7C53d82571da1947e49cb4625a166a4a2a%7C0%7
-> C0%7C638242265057971867%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQ
-> IjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DOct%2F=
-b
-> Vber853uFXBq5djHVUhWfGgx%2Bslq%2F2eBZW%2FRy4%3D&reserved=3D0)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce:
-> (https://downl/
-> oad.01.org%2F0day-ci%2Farchive%2F20230706%2F202307061555.Gx6hEBT4-
-> lkp%40intel.com%2Freproduce&data=3D05%7C01%7Cbiju.das.jz%40bp.renesas.com=
-%
-> 7Ce3f3ca7fb3df491ae9a608db7df56033%7C53d82571da1947e49cb4625a166a4a2a%7C
-> 0%7C0%7C638242265057971867%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiL
-> CJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3DmLR=
-4
-> jlOOOebkI97gUy%2BhDTm26z0oqbwFh8kKXG1Gjwo%3D&reserved=3D0)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new
-> version of the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:
-> | https://lore/
-> | .kernel.org%2Foe-kbuild-all%2F202307061555.Gx6hEBT4-lkp%40intel.com%2F
-> | &data=3D05%7C01%7Cbiju.das.jz%40bp.renesas.com%7Ce3f3ca7fb3df491ae9a608=
-d
-> | b7df56033%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C638242265057971
-> | 867%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTi
-> | I6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3Dq8KGqKPKSdpT4ojrGtzna4=
-o
-> | 0nMVKF1s%2F7qoSwXprJ2o%3D&reserved=3D0
->
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/regulator/raa215300.c:42:12: sparse: sparse: symbol
-> 'xin_name' was not declared. Should it be static?
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github/
-> .com%2Fintel%2Flkp-
-> tests%2Fwiki&data=3D05%7C01%7Cbiju.das.jz%40bp.renesas.com%7Ce3f3ca7fb3df=
-4
-> 91ae9a608db7df56033%7C53d82571da1947e49cb4625a166a4a2a%7C0%7C0%7C6382422
-> 65057971867%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIi
-> LCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=3Dr8lSb3miJtyGUa2Cuz=
-8
-> 60cVTGlLU3Mhar3PJdRLUBSU%3D&reserved=3D0
+>> arch/arm64/kvm/emulate-nested.c:1024:32: error: 'HDFGRTR_GROUP' undeclared here (not in a function); did you mean 'HDFGxTR_GROUP'?
+    1024 |         SR_FGT(SYS_PMBIDR_EL1, HDFGRTR, PMBIDR_EL1, 1),
+         |                                ^~~~~~~
+   arch/arm64/kvm/emulate-nested.c:849:32: note: in definition of macro 'SR_FGT'
+     849 |                         .fgt = g ## _GROUP,                     \
+         |                                ^
+>> arch/arm64/kvm/emulate-nested.c:1202:16: error: 'SYS_TRC' undeclared here (not in a function)
+    1202 |         SR_FGT(SYS_TRC, HDFGRTR, TRC, 1),
+         |                ^~~~~~~
+   arch/arm64/kvm/emulate-nested.c:846:35: note: in definition of macro 'SR_FGT'
+     846 |                 .encoding       = sr,                           \
+         |                                   ^~
+>> arch/arm64/kvm/emulate-nested.c:1215:16: error: 'SYS_PMOVS' undeclared here (not in a function)
+    1215 |         SR_FGT(SYS_PMOVS, HDFGRTR, PMOVS, 1),
+         |                ^~~~~~~~~
+   arch/arm64/kvm/emulate-nested.c:846:35: note: in definition of macro 'SR_FGT'
+     846 |                 .encoding       = sr,                           \
+         |                                   ^~
+>> arch/arm64/kvm/emulate-nested.c:1216:16: error: 'SYS_PMINTEN' undeclared here (not in a function)
+    1216 |         SR_FGT(SYS_PMINTEN, HDFGRTR, PMINTEN, 1),
+         |                ^~~~~~~~~~~
+   arch/arm64/kvm/emulate-nested.c:846:35: note: in definition of macro 'SR_FGT'
+     846 |                 .encoding       = sr,                           \
+         |                                   ^~
+>> arch/arm64/kvm/emulate-nested.c:1217:16: error: 'SYS_PMCNTEN' undeclared here (not in a function); did you mean 'SYS_PMCR_EL0'?
+    1217 |         SR_FGT(SYS_PMCNTEN, HDFGRTR, PMCNTEN, 1),
+         |                ^~~~~~~~~~~
+   arch/arm64/kvm/emulate-nested.c:846:35: note: in definition of macro 'SR_FGT'
+     846 |                 .encoding       = sr,                           \
+         |                                   ^~
+>> arch/arm64/kvm/emulate-nested.c:1220:16: error: 'SYS_PMEVTYPERn_EL0' undeclared here (not in a function); did you mean 'PMEVTYPER0_EL0'?
+    1220 |         SR_FGT(SYS_PMEVTYPERn_EL0, HDFGRTR, PMEVTYPERn_EL0, 1),
+         |                ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/emulate-nested.c:846:35: note: in definition of macro 'SR_FGT'
+     846 |                 .encoding       = sr,                           \
+         |                                   ^~
+>> arch/arm64/kvm/emulate-nested.c:1221:16: error: 'SYS_PMEVCNTRn_EL0' undeclared here (not in a function); did you mean 'PMEVCNTR0_EL0'?
+    1221 |         SR_FGT(SYS_PMEVCNTRn_EL0, HDFGRTR, PMEVCNTRn_EL0, 1),
+         |                ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/emulate-nested.c:846:35: note: in definition of macro 'SR_FGT'
+     846 |                 .encoding       = sr,                           \
+         |                                   ^~
+>> arch/arm64/kvm/emulate-nested.c:1227:16: error: 'SYS_DBGCLAIM' undeclared here (not in a function)
+    1227 |         SR_FGT(SYS_DBGCLAIM, HDFGRTR, DBGCLAIM, 1),
+         |                ^~~~~~~~~~~~
+   arch/arm64/kvm/emulate-nested.c:846:35: note: in definition of macro 'SR_FGT'
+     846 |                 .encoding       = sr,                           \
+         |                                   ^~
+>> arch/arm64/kvm/emulate-nested.c:1229:16: error: 'SYS_DBGWVRn_EL1' undeclared here (not in a function)
+    1229 |         SR_FGT(SYS_DBGWVRn_EL1, HDFGRTR, DBGWVRn_EL1, 1),
+         |                ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/emulate-nested.c:846:35: note: in definition of macro 'SR_FGT'
+     846 |                 .encoding       = sr,                           \
+         |                                   ^~
+>> arch/arm64/kvm/emulate-nested.c:1230:16: error: 'SYS_DBGWCRn_EL1' undeclared here (not in a function)
+    1230 |         SR_FGT(SYS_DBGWCRn_EL1, HDFGRTR, DBGWCRn_EL1, 1),
+         |                ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/emulate-nested.c:846:35: note: in definition of macro 'SR_FGT'
+     846 |                 .encoding       = sr,                           \
+         |                                   ^~
+>> arch/arm64/kvm/emulate-nested.c:1231:16: error: 'SYS_DBGBVRn_EL1' undeclared here (not in a function)
+    1231 |         SR_FGT(SYS_DBGBVRn_EL1, HDFGRTR, DBGBVRn_EL1, 1),
+         |                ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/emulate-nested.c:846:35: note: in definition of macro 'SR_FGT'
+     846 |                 .encoding       = sr,                           \
+         |                                   ^~
+>> arch/arm64/kvm/emulate-nested.c:1232:16: error: 'SYS_DBGBCRn_EL1' undeclared here (not in a function)
+    1232 |         SR_FGT(SYS_DBGBCRn_EL1, HDFGRTR, DBGBCRn_EL1, 1),
+         |                ^~~~~~~~~~~~~~~
+   arch/arm64/kvm/emulate-nested.c:846:35: note: in definition of macro 'SR_FGT'
+     846 |                 .encoding       = sr,                           \
+         |                                   ^~
+
+
+vim +1024 arch/arm64/kvm/emulate-nested.c
+
+   843	
+   844	#define SR_FGT(sr, g, b, p)					\
+   845		{							\
+   846			.encoding	= sr,				\
+   847			.end		= sr,				\
+   848			.tc		= {				\
+   849				.fgt = g ## _GROUP,			\
+   850				.bit = g ## _EL2_ ## b ## _SHIFT,	\
+   851				.pol = p,				\
+   852			},						\
+   853		}
+   854	
+   855	static const struct encoding_to_trap_config encoding_to_fgt[] __initdata = {
+   856		/* HFGTR_EL2, HFGWTR_EL2 */
+   857		SR_FGT(SYS_TPIDR2_EL0, HFGxTR, nTPIDR2_EL0, 0),
+   858		SR_FGT(SYS_SMPRI_EL1, HFGxTR, nSMPRI_EL1, 0),
+   859		SR_FGT(SYS_ACCDATA_EL1, HFGxTR, nACCDATA_EL1, 0),
+   860		SR_FGT(SYS_ERXADDR_EL1, HFGxTR, ERXADDR_EL1, 1),
+   861		SR_FGT(SYS_ERXPFGCDN_EL1, HFGxTR, ERXPFGCDN_EL1, 1),
+   862		SR_FGT(SYS_ERXPFGCTL_EL1, HFGxTR, ERXPFGCTL_EL1, 1),
+   863		SR_FGT(SYS_ERXPFGF_EL1, HFGxTR, ERXPFGF_EL1, 1),
+   864		SR_FGT(SYS_ERXMISC0_EL1, HFGxTR, ERXMISCn_EL1, 1),
+   865		SR_FGT(SYS_ERXMISC1_EL1, HFGxTR, ERXMISCn_EL1, 1),
+   866		SR_FGT(SYS_ERXMISC2_EL1, HFGxTR, ERXMISCn_EL1, 1),
+   867		SR_FGT(SYS_ERXMISC3_EL1, HFGxTR, ERXMISCn_EL1, 1),
+   868		SR_FGT(SYS_ERXSTATUS_EL1, HFGxTR, ERXSTATUS_EL1, 1),
+   869		SR_FGT(SYS_ERXCTLR_EL1, HFGxTR, ERXCTLR_EL1, 1),
+   870		SR_FGT(SYS_ERXFR_EL1, HFGxTR, ERXFR_EL1, 1),
+   871		SR_FGT(SYS_ERRSELR_EL1, HFGxTR, ERRSELR_EL1, 1),
+   872		SR_FGT(SYS_ERRIDR_EL1, HFGxTR, ERRIDR_EL1, 1),
+   873		SR_FGT(SYS_ICC_IGRPEN0_EL1, HFGxTR, ICC_IGRPENn_EL1, 1),
+   874		SR_FGT(SYS_ICC_IGRPEN1_EL1, HFGxTR, ICC_IGRPENn_EL1, 1),
+   875		SR_FGT(SYS_VBAR_EL1, HFGxTR, VBAR_EL1, 1),
+   876		SR_FGT(SYS_TTBR1_EL1, HFGxTR, TTBR1_EL1, 1),
+   877		SR_FGT(SYS_TTBR0_EL1, HFGxTR, TTBR0_EL1, 1),
+   878		SR_FGT(SYS_TPIDR_EL0, HFGxTR, TPIDR_EL0, 1),
+   879		SR_FGT(SYS_TPIDRRO_EL0, HFGxTR, TPIDRRO_EL0, 1),
+   880		SR_FGT(SYS_TPIDR_EL1, HFGxTR, TPIDR_EL1, 1),
+   881		SR_FGT(SYS_TCR_EL1, HFGxTR, TCR_EL1, 1),
+   882		SR_FGT(SYS_SCXTNUM_EL0, HFGxTR, SCXTNUM_EL0, 1),
+   883		SR_FGT(SYS_SCXTNUM_EL1, HFGxTR, SCXTNUM_EL1, 1),
+   884		SR_FGT(SYS_SCTLR_EL1, HFGxTR, SCTLR_EL1, 1),
+   885		SR_FGT(SYS_REVIDR_EL1, HFGxTR, REVIDR_EL1, 1),
+   886		SR_FGT(SYS_PAR_EL1, HFGxTR, PAR_EL1, 1),
+   887		SR_FGT(SYS_MPIDR_EL1, HFGxTR, MPIDR_EL1, 1),
+   888		SR_FGT(SYS_MIDR_EL1, HFGxTR, MIDR_EL1, 1),
+   889		SR_FGT(SYS_MAIR_EL1, HFGxTR, MAIR_EL1, 1),
+   890		SR_FGT(SYS_LORSA_EL1, HFGxTR, LORSA_EL1, 1),
+   891		SR_FGT(SYS_LORN_EL1, HFGxTR, LORN_EL1, 1),
+   892		SR_FGT(SYS_LORID_EL1, HFGxTR, LORID_EL1, 1),
+   893		SR_FGT(SYS_LOREA_EL1, HFGxTR, LOREA_EL1, 1),
+   894		SR_FGT(SYS_LORC_EL1, HFGxTR, LORC_EL1, 1),
+   895		SR_FGT(SYS_ISR_EL1, HFGxTR, ISR_EL1, 1),
+   896		SR_FGT(SYS_FAR_EL1, HFGxTR, FAR_EL1, 1),
+   897		SR_FGT(SYS_ESR_EL1, HFGxTR, ESR_EL1, 1),
+   898		SR_FGT(SYS_DCZID_EL0, HFGxTR, DCZID_EL0, 1),
+   899		SR_FGT(SYS_CTR_EL0, HFGxTR, CTR_EL0, 1),
+   900		SR_FGT(SYS_CSSELR_EL1, HFGxTR, CSSELR_EL1, 1),
+   901		SR_FGT(SYS_CPACR_EL1, HFGxTR, CPACR_EL1, 1),
+   902		SR_FGT(SYS_CONTEXTIDR_EL1, HFGxTR, CONTEXTIDR_EL1, 1),
+   903		SR_FGT(SYS_CLIDR_EL1, HFGxTR, CLIDR_EL1, 1),
+   904		SR_FGT(SYS_CCSIDR_EL1, HFGxTR, CCSIDR_EL1, 1),
+   905		SR_FGT(SYS_APIBKEYLO_EL1, HFGxTR, APIBKey, 1),
+   906		SR_FGT(SYS_APIBKEYHI_EL1, HFGxTR, APIBKey, 1),
+   907		SR_FGT(SYS_APIAKEYLO_EL1, HFGxTR, APIAKey, 1),
+   908		SR_FGT(SYS_APIAKEYHI_EL1, HFGxTR, APIAKey, 1),
+   909		SR_FGT(SYS_APGAKEYLO_EL1, HFGxTR, APGAKey, 1),
+   910		SR_FGT(SYS_APGAKEYHI_EL1, HFGxTR, APGAKey, 1),
+   911		SR_FGT(SYS_APDBKEYLO_EL1, HFGxTR, APDBKey, 1),
+   912		SR_FGT(SYS_APDBKEYHI_EL1, HFGxTR, APDBKey, 1),
+   913		SR_FGT(SYS_APDAKEYLO_EL1, HFGxTR, APDAKey, 1),
+   914		SR_FGT(SYS_APDAKEYHI_EL1, HFGxTR, APDAKey, 1),
+   915		SR_FGT(SYS_AMAIR_EL1, HFGxTR, AMAIR_EL1, 1),
+   916		SR_FGT(SYS_AIDR_EL1, HFGxTR, AIDR_EL1, 1),
+   917		SR_FGT(SYS_AFSR1_EL1, HFGxTR, AFSR1_EL1, 1),
+   918		SR_FGT(SYS_AFSR0_EL1, HFGxTR, AFSR0_EL1, 1),
+   919		/* HFGITR_EL2 */
+   920		SR_FGT(OP_BRB_IALL, HFGITR, nBRBIALL, 0),
+   921		SR_FGT(OP_BRB_INJ, HFGITR, nBRBINJ, 0),
+   922		SR_FGT(SYS_DC_CVAC, HFGITR, DCCVAC, 1),
+   923		SR_FGT(SYS_DC_CGVAC, HFGITR, DCCVAC, 1),
+   924		SR_FGT(SYS_DC_CGDVAC, HFGITR, DCCVAC, 1),
+   925		SR_FGT(OP_CPP_RCTX, HFGITR, CPPRCTX, 1),
+   926		SR_FGT(OP_DVP_RCTX, HFGITR, DVPRCTX, 1),
+   927		SR_FGT(OP_CFP_RCTX, HFGITR, CFPRCTX, 1),
+   928		SR_FGT(OP_TLBI_VAALE1, HFGITR, TLBIVAALE1, 1),
+   929		SR_FGT(OP_TLBI_VALE1, HFGITR, TLBIVALE1, 1),
+   930		SR_FGT(OP_TLBI_VAAE1, HFGITR, TLBIVAAE1, 1),
+   931		SR_FGT(OP_TLBI_ASIDE1, HFGITR, TLBIASIDE1, 1),
+   932		SR_FGT(OP_TLBI_VAE1, HFGITR, TLBIVAE1, 1),
+   933		SR_FGT(OP_TLBI_VMALLE1, HFGITR, TLBIVMALLE1, 1),
+   934		SR_FGT(OP_TLBI_RVAALE1, HFGITR, TLBIRVAALE1, 1),
+   935		SR_FGT(OP_TLBI_RVALE1, HFGITR, TLBIRVALE1, 1),
+   936		SR_FGT(OP_TLBI_RVAAE1, HFGITR, TLBIRVAAE1, 1),
+   937		SR_FGT(OP_TLBI_RVAE1, HFGITR, TLBIRVAE1, 1),
+   938		SR_FGT(OP_TLBI_RVAALE1IS, HFGITR, TLBIRVAALE1IS, 1),
+   939		SR_FGT(OP_TLBI_RVALE1IS, HFGITR, TLBIRVALE1IS, 1),
+   940		SR_FGT(OP_TLBI_RVAAE1IS, HFGITR, TLBIRVAAE1IS, 1),
+   941		SR_FGT(OP_TLBI_RVAE1IS, HFGITR, TLBIRVAE1IS, 1),
+   942		SR_FGT(OP_TLBI_VAALE1IS, HFGITR, TLBIVAALE1IS, 1),
+   943		SR_FGT(OP_TLBI_VALE1IS, HFGITR, TLBIVALE1IS, 1),
+   944		SR_FGT(OP_TLBI_VAAE1IS, HFGITR, TLBIVAAE1IS, 1),
+   945		SR_FGT(OP_TLBI_ASIDE1IS, HFGITR, TLBIASIDE1IS, 1),
+   946		SR_FGT(OP_TLBI_VAE1IS, HFGITR, TLBIVAE1IS, 1),
+   947		SR_FGT(OP_TLBI_VMALLE1IS, HFGITR, TLBIVMALLE1IS, 1),
+   948		SR_FGT(OP_TLBI_RVAALE1OS, HFGITR, TLBIRVAALE1OS, 1),
+   949		SR_FGT(OP_TLBI_RVALE1OS, HFGITR, TLBIRVALE1OS, 1),
+   950		SR_FGT(OP_TLBI_RVAAE1OS, HFGITR, TLBIRVAAE1OS, 1),
+   951		SR_FGT(OP_TLBI_RVAE1OS, HFGITR, TLBIRVAE1OS, 1),
+   952		SR_FGT(OP_TLBI_VAALE1OS, HFGITR, TLBIVAALE1OS, 1),
+   953		SR_FGT(OP_TLBI_VALE1OS, HFGITR, TLBIVALE1OS, 1),
+   954		SR_FGT(OP_TLBI_VAAE1OS, HFGITR, TLBIVAAE1OS, 1),
+   955		SR_FGT(OP_TLBI_ASIDE1OS, HFGITR, TLBIASIDE1OS, 1),
+   956		SR_FGT(OP_TLBI_VAE1OS, HFGITR, TLBIVAE1OS, 1),
+   957		SR_FGT(OP_TLBI_VMALLE1OS, HFGITR, TLBIVMALLE1OS, 1),
+   958		/* FIXME: nXS variants must be checked against HCRX_EL2.FGTnXS */
+   959		SR_FGT(OP_TLBI_VAALE1NXS, HFGITR, TLBIVAALE1, 1),
+   960		SR_FGT(OP_TLBI_VALE1NXS, HFGITR, TLBIVALE1, 1),
+   961		SR_FGT(OP_TLBI_VAAE1NXS, HFGITR, TLBIVAAE1, 1),
+   962		SR_FGT(OP_TLBI_ASIDE1NXS, HFGITR, TLBIASIDE1, 1),
+   963		SR_FGT(OP_TLBI_VAE1NXS, HFGITR, TLBIVAE1, 1),
+   964		SR_FGT(OP_TLBI_VMALLE1NXS, HFGITR, TLBIVMALLE1, 1),
+   965		SR_FGT(OP_TLBI_RVAALE1NXS, HFGITR, TLBIRVAALE1, 1),
+   966		SR_FGT(OP_TLBI_RVALE1NXS, HFGITR, TLBIRVALE1, 1),
+   967		SR_FGT(OP_TLBI_RVAAE1NXS, HFGITR, TLBIRVAAE1, 1),
+   968		SR_FGT(OP_TLBI_RVAE1NXS, HFGITR, TLBIRVAE1, 1),
+   969		SR_FGT(OP_TLBI_RVAALE1ISNXS, HFGITR, TLBIRVAALE1IS, 1),
+   970		SR_FGT(OP_TLBI_RVALE1ISNXS, HFGITR, TLBIRVALE1IS, 1),
+   971		SR_FGT(OP_TLBI_RVAAE1ISNXS, HFGITR, TLBIRVAAE1IS, 1),
+   972		SR_FGT(OP_TLBI_RVAE1ISNXS, HFGITR, TLBIRVAE1IS, 1),
+   973		SR_FGT(OP_TLBI_VAALE1ISNXS, HFGITR, TLBIVAALE1IS, 1),
+   974		SR_FGT(OP_TLBI_VALE1ISNXS, HFGITR, TLBIVALE1IS, 1),
+   975		SR_FGT(OP_TLBI_VAAE1ISNXS, HFGITR, TLBIVAAE1IS, 1),
+   976		SR_FGT(OP_TLBI_ASIDE1ISNXS, HFGITR, TLBIASIDE1IS, 1),
+   977		SR_FGT(OP_TLBI_VAE1ISNXS, HFGITR, TLBIVAE1IS, 1),
+   978		SR_FGT(OP_TLBI_VMALLE1ISNXS, HFGITR, TLBIVMALLE1IS, 1),
+   979		SR_FGT(OP_TLBI_RVAALE1OSNXS, HFGITR, TLBIRVAALE1OS, 1),
+   980		SR_FGT(OP_TLBI_RVALE1OSNXS, HFGITR, TLBIRVALE1OS, 1),
+   981		SR_FGT(OP_TLBI_RVAAE1OSNXS, HFGITR, TLBIRVAAE1OS, 1),
+   982		SR_FGT(OP_TLBI_RVAE1OSNXS, HFGITR, TLBIRVAE1OS, 1),
+   983		SR_FGT(OP_TLBI_VAALE1OSNXS, HFGITR, TLBIVAALE1OS, 1),
+   984		SR_FGT(OP_TLBI_VALE1OSNXS, HFGITR, TLBIVALE1OS, 1),
+   985		SR_FGT(OP_TLBI_VAAE1OSNXS, HFGITR, TLBIVAAE1OS, 1),
+   986		SR_FGT(OP_TLBI_ASIDE1OSNXS, HFGITR, TLBIASIDE1OS, 1),
+   987		SR_FGT(OP_TLBI_VAE1OSNXS, HFGITR, TLBIVAE1OS, 1),
+   988		SR_FGT(OP_TLBI_VMALLE1OSNXS, HFGITR, TLBIVMALLE1OS, 1),
+   989		SR_FGT(OP_AT_S1E1WP, HFGITR, ATS1E1WP, 1),
+   990		SR_FGT(OP_AT_S1E1RP, HFGITR, ATS1E1RP, 1),
+   991		SR_FGT(OP_AT_S1E0W, HFGITR, ATS1E0W, 1),
+   992		SR_FGT(OP_AT_S1E0R, HFGITR, ATS1E0R, 1),
+   993		SR_FGT(OP_AT_S1E1W, HFGITR, ATS1E1W, 1),
+   994		SR_FGT(OP_AT_S1E1R, HFGITR, ATS1E1R, 1),
+   995		SR_FGT(SYS_DC_ZVA, HFGITR, DCZVA, 1),
+   996		SR_FGT(SYS_DC_GVA, HFGITR, DCZVA, 1),
+   997		SR_FGT(SYS_DC_GZVA, HFGITR, DCZVA, 1),
+   998		SR_FGT(SYS_DC_CIVAC, HFGITR, DCCIVAC, 1),
+   999		SR_FGT(SYS_DC_CIGVAC, HFGITR, DCCIVAC, 1),
+  1000		SR_FGT(SYS_DC_CIGDVAC, HFGITR, DCCIVAC, 1),
+  1001		SR_FGT(SYS_DC_CVADP, HFGITR, DCCVADP, 1),
+  1002		SR_FGT(SYS_DC_CGVADP, HFGITR, DCCVADP, 1),
+  1003		SR_FGT(SYS_DC_CGDVADP, HFGITR, DCCVADP, 1),
+  1004		SR_FGT(SYS_DC_CVAP, HFGITR, DCCVAP, 1),
+  1005		SR_FGT(SYS_DC_CGVAP, HFGITR, DCCVAP, 1),
+  1006		SR_FGT(SYS_DC_CGDVAP, HFGITR, DCCVAP, 1),
+  1007		SR_FGT(SYS_DC_CVAU, HFGITR, DCCVAU, 1),
+  1008		SR_FGT(SYS_DC_CISW, HFGITR, DCCISW, 1),
+  1009		SR_FGT(SYS_DC_CIGSW, HFGITR, DCCISW, 1),
+  1010		SR_FGT(SYS_DC_CIGDSW, HFGITR, DCCISW, 1),
+  1011		SR_FGT(SYS_DC_CSW, HFGITR, DCCSW, 1),
+  1012		SR_FGT(SYS_DC_CGSW, HFGITR, DCCSW, 1),
+  1013		SR_FGT(SYS_DC_CGDSW, HFGITR, DCCSW, 1),
+  1014		SR_FGT(SYS_DC_ISW, HFGITR, DCISW, 1),
+  1015		SR_FGT(SYS_DC_IGSW, HFGITR, DCISW, 1),
+  1016		SR_FGT(SYS_DC_IGDSW, HFGITR, DCISW, 1),
+  1017		SR_FGT(SYS_DC_IVAC, HFGITR, DCIVAC, 1),
+  1018		SR_FGT(SYS_DC_IGVAC, HFGITR, DCIVAC, 1),
+  1019		SR_FGT(SYS_DC_IGDVAC, HFGITR, DCIVAC, 1),
+  1020		SR_FGT(SYS_IC_IVAU, HFGITR, ICIVAU, 1),
+  1021		SR_FGT(SYS_IC_IALLU, HFGITR, ICIALLU, 1),
+  1022		SR_FGT(SYS_IC_IALLUIS, HFGITR, ICIALLUIS, 1),
+  1023		/* HDFGRTR_EL2, HDFGWTR_EL2 */
+> 1024		SR_FGT(SYS_PMBIDR_EL1, HDFGRTR, PMBIDR_EL1, 1),
+  1025		SR_FGT(SYS_PMSNEVFR_EL1, HDFGRTR, nPMSNEVFR_EL1, 0),
+  1026	
+  1027	#define	SYS_BRBINF_EL1(n)	sys_reg(2, 1, 8, (n & 7), (((n & 8) >> 1) | 0))
+  1028	#define SYS_BRBINFINJ_EL1	sys_reg(2, 1, 9, 1, 0)
+  1029	#define	SYS_BRBSRC_EL1(n)	sys_reg(2, 1, 8, (n & 7), (((n & 8) >> 1) | 1))
+  1030	#define SYS_BRBSRCINJ_EL1	sys_reg(2, 1, 9, 1, 1)
+  1031	#define	SYS_BRBTGT_EL1(n)	sys_reg(2, 1, 8, (n & 7), (((n & 8) >> 1) | 2))
+  1032	#define SYS_BRBTGTINJ_EL1	sys_reg(2, 1, 9, 1, 2)
+  1033	#define SYS_BRBTS_EL1		sys_reg(2, 1, 9, 0, 2)
+  1034	
+  1035		SR_FGT(SYS_BRBINF_EL1(0), HDFGRTR, nBRBDATA, 0),
+  1036		SR_FGT(SYS_BRBINF_EL1(1), HDFGRTR, nBRBDATA, 0),
+  1037		SR_FGT(SYS_BRBINF_EL1(2), HDFGRTR, nBRBDATA, 0),
+  1038		SR_FGT(SYS_BRBINF_EL1(3), HDFGRTR, nBRBDATA, 0),
+  1039		SR_FGT(SYS_BRBINF_EL1(4), HDFGRTR, nBRBDATA, 0),
+  1040		SR_FGT(SYS_BRBINF_EL1(5), HDFGRTR, nBRBDATA, 0),
+  1041		SR_FGT(SYS_BRBINF_EL1(6), HDFGRTR, nBRBDATA, 0),
+  1042		SR_FGT(SYS_BRBINF_EL1(7), HDFGRTR, nBRBDATA, 0),
+  1043		SR_FGT(SYS_BRBINF_EL1(8), HDFGRTR, nBRBDATA, 0),
+  1044		SR_FGT(SYS_BRBINF_EL1(9), HDFGRTR, nBRBDATA, 0),
+  1045		SR_FGT(SYS_BRBINF_EL1(10), HDFGRTR, nBRBDATA, 0),
+  1046		SR_FGT(SYS_BRBINF_EL1(11), HDFGRTR, nBRBDATA, 0),
+  1047		SR_FGT(SYS_BRBINF_EL1(12), HDFGRTR, nBRBDATA, 0),
+  1048		SR_FGT(SYS_BRBINF_EL1(13), HDFGRTR, nBRBDATA, 0),
+  1049		SR_FGT(SYS_BRBINF_EL1(14), HDFGRTR, nBRBDATA, 0),
+  1050		SR_FGT(SYS_BRBINF_EL1(15), HDFGRTR, nBRBDATA, 0),
+  1051		SR_FGT(SYS_BRBINF_EL1(16), HDFGRTR, nBRBDATA, 0),
+  1052		SR_FGT(SYS_BRBINF_EL1(17), HDFGRTR, nBRBDATA, 0),
+  1053		SR_FGT(SYS_BRBINF_EL1(18), HDFGRTR, nBRBDATA, 0),
+  1054		SR_FGT(SYS_BRBINF_EL1(19), HDFGRTR, nBRBDATA, 0),
+  1055		SR_FGT(SYS_BRBINF_EL1(20), HDFGRTR, nBRBDATA, 0),
+  1056		SR_FGT(SYS_BRBINF_EL1(21), HDFGRTR, nBRBDATA, 0),
+  1057		SR_FGT(SYS_BRBINF_EL1(22), HDFGRTR, nBRBDATA, 0),
+  1058		SR_FGT(SYS_BRBINF_EL1(23), HDFGRTR, nBRBDATA, 0),
+  1059		SR_FGT(SYS_BRBINF_EL1(24), HDFGRTR, nBRBDATA, 0),
+  1060		SR_FGT(SYS_BRBINF_EL1(25), HDFGRTR, nBRBDATA, 0),
+  1061		SR_FGT(SYS_BRBINF_EL1(26), HDFGRTR, nBRBDATA, 0),
+  1062		SR_FGT(SYS_BRBINF_EL1(27), HDFGRTR, nBRBDATA, 0),
+  1063		SR_FGT(SYS_BRBINF_EL1(28), HDFGRTR, nBRBDATA, 0),
+  1064		SR_FGT(SYS_BRBINF_EL1(29), HDFGRTR, nBRBDATA, 0),
+  1065		SR_FGT(SYS_BRBINF_EL1(30), HDFGRTR, nBRBDATA, 0),
+  1066		SR_FGT(SYS_BRBINF_EL1(31), HDFGRTR, nBRBDATA, 0),
+  1067		SR_FGT(SYS_BRBINFINJ_EL1, HDFGRTR, nBRBDATA, 0),
+  1068		SR_FGT(SYS_BRBSRC_EL1(0), HDFGRTR, nBRBDATA, 0),
+  1069		SR_FGT(SYS_BRBSRC_EL1(1), HDFGRTR, nBRBDATA, 0),
+  1070		SR_FGT(SYS_BRBSRC_EL1(2), HDFGRTR, nBRBDATA, 0),
+  1071		SR_FGT(SYS_BRBSRC_EL1(3), HDFGRTR, nBRBDATA, 0),
+  1072		SR_FGT(SYS_BRBSRC_EL1(4), HDFGRTR, nBRBDATA, 0),
+  1073		SR_FGT(SYS_BRBSRC_EL1(5), HDFGRTR, nBRBDATA, 0),
+  1074		SR_FGT(SYS_BRBSRC_EL1(6), HDFGRTR, nBRBDATA, 0),
+  1075		SR_FGT(SYS_BRBSRC_EL1(7), HDFGRTR, nBRBDATA, 0),
+  1076		SR_FGT(SYS_BRBSRC_EL1(8), HDFGRTR, nBRBDATA, 0),
+  1077		SR_FGT(SYS_BRBSRC_EL1(9), HDFGRTR, nBRBDATA, 0),
+  1078		SR_FGT(SYS_BRBSRC_EL1(10), HDFGRTR, nBRBDATA, 0),
+  1079		SR_FGT(SYS_BRBSRC_EL1(11), HDFGRTR, nBRBDATA, 0),
+  1080		SR_FGT(SYS_BRBSRC_EL1(12), HDFGRTR, nBRBDATA, 0),
+  1081		SR_FGT(SYS_BRBSRC_EL1(13), HDFGRTR, nBRBDATA, 0),
+  1082		SR_FGT(SYS_BRBSRC_EL1(14), HDFGRTR, nBRBDATA, 0),
+  1083		SR_FGT(SYS_BRBSRC_EL1(15), HDFGRTR, nBRBDATA, 0),
+  1084		SR_FGT(SYS_BRBSRC_EL1(16), HDFGRTR, nBRBDATA, 0),
+  1085		SR_FGT(SYS_BRBSRC_EL1(17), HDFGRTR, nBRBDATA, 0),
+  1086		SR_FGT(SYS_BRBSRC_EL1(18), HDFGRTR, nBRBDATA, 0),
+  1087		SR_FGT(SYS_BRBSRC_EL1(19), HDFGRTR, nBRBDATA, 0),
+  1088		SR_FGT(SYS_BRBSRC_EL1(20), HDFGRTR, nBRBDATA, 0),
+  1089		SR_FGT(SYS_BRBSRC_EL1(21), HDFGRTR, nBRBDATA, 0),
+  1090		SR_FGT(SYS_BRBSRC_EL1(22), HDFGRTR, nBRBDATA, 0),
+  1091		SR_FGT(SYS_BRBSRC_EL1(23), HDFGRTR, nBRBDATA, 0),
+  1092		SR_FGT(SYS_BRBSRC_EL1(24), HDFGRTR, nBRBDATA, 0),
+  1093		SR_FGT(SYS_BRBSRC_EL1(25), HDFGRTR, nBRBDATA, 0),
+  1094		SR_FGT(SYS_BRBSRC_EL1(26), HDFGRTR, nBRBDATA, 0),
+  1095		SR_FGT(SYS_BRBSRC_EL1(27), HDFGRTR, nBRBDATA, 0),
+  1096		SR_FGT(SYS_BRBSRC_EL1(28), HDFGRTR, nBRBDATA, 0),
+  1097		SR_FGT(SYS_BRBSRC_EL1(29), HDFGRTR, nBRBDATA, 0),
+  1098		SR_FGT(SYS_BRBSRC_EL1(30), HDFGRTR, nBRBDATA, 0),
+  1099		SR_FGT(SYS_BRBSRC_EL1(31), HDFGRTR, nBRBDATA, 0),
+  1100		SR_FGT(SYS_BRBSRCINJ_EL1, HDFGRTR, nBRBDATA, 0),
+  1101		SR_FGT(SYS_BRBTGT_EL1(0), HDFGRTR, nBRBDATA, 0),
+  1102		SR_FGT(SYS_BRBTGT_EL1(1), HDFGRTR, nBRBDATA, 0),
+  1103		SR_FGT(SYS_BRBTGT_EL1(2), HDFGRTR, nBRBDATA, 0),
+  1104		SR_FGT(SYS_BRBTGT_EL1(3), HDFGRTR, nBRBDATA, 0),
+  1105		SR_FGT(SYS_BRBTGT_EL1(4), HDFGRTR, nBRBDATA, 0),
+  1106		SR_FGT(SYS_BRBTGT_EL1(5), HDFGRTR, nBRBDATA, 0),
+  1107		SR_FGT(SYS_BRBTGT_EL1(6), HDFGRTR, nBRBDATA, 0),
+  1108		SR_FGT(SYS_BRBTGT_EL1(7), HDFGRTR, nBRBDATA, 0),
+  1109		SR_FGT(SYS_BRBTGT_EL1(8), HDFGRTR, nBRBDATA, 0),
+  1110		SR_FGT(SYS_BRBTGT_EL1(9), HDFGRTR, nBRBDATA, 0),
+  1111		SR_FGT(SYS_BRBTGT_EL1(10), HDFGRTR, nBRBDATA, 0),
+  1112		SR_FGT(SYS_BRBTGT_EL1(11), HDFGRTR, nBRBDATA, 0),
+  1113		SR_FGT(SYS_BRBTGT_EL1(12), HDFGRTR, nBRBDATA, 0),
+  1114		SR_FGT(SYS_BRBTGT_EL1(13), HDFGRTR, nBRBDATA, 0),
+  1115		SR_FGT(SYS_BRBTGT_EL1(14), HDFGRTR, nBRBDATA, 0),
+  1116		SR_FGT(SYS_BRBTGT_EL1(15), HDFGRTR, nBRBDATA, 0),
+  1117		SR_FGT(SYS_BRBTGT_EL1(16), HDFGRTR, nBRBDATA, 0),
+  1118		SR_FGT(SYS_BRBTGT_EL1(17), HDFGRTR, nBRBDATA, 0),
+  1119		SR_FGT(SYS_BRBTGT_EL1(18), HDFGRTR, nBRBDATA, 0),
+  1120		SR_FGT(SYS_BRBTGT_EL1(19), HDFGRTR, nBRBDATA, 0),
+  1121		SR_FGT(SYS_BRBTGT_EL1(20), HDFGRTR, nBRBDATA, 0),
+  1122		SR_FGT(SYS_BRBTGT_EL1(21), HDFGRTR, nBRBDATA, 0),
+  1123		SR_FGT(SYS_BRBTGT_EL1(22), HDFGRTR, nBRBDATA, 0),
+  1124		SR_FGT(SYS_BRBTGT_EL1(23), HDFGRTR, nBRBDATA, 0),
+  1125		SR_FGT(SYS_BRBTGT_EL1(24), HDFGRTR, nBRBDATA, 0),
+  1126		SR_FGT(SYS_BRBTGT_EL1(25), HDFGRTR, nBRBDATA, 0),
+  1127		SR_FGT(SYS_BRBTGT_EL1(26), HDFGRTR, nBRBDATA, 0),
+  1128		SR_FGT(SYS_BRBTGT_EL1(27), HDFGRTR, nBRBDATA, 0),
+  1129		SR_FGT(SYS_BRBTGT_EL1(28), HDFGRTR, nBRBDATA, 0),
+  1130		SR_FGT(SYS_BRBTGT_EL1(29), HDFGRTR, nBRBDATA, 0),
+  1131		SR_FGT(SYS_BRBTGT_EL1(30), HDFGRTR, nBRBDATA, 0),
+  1132		SR_FGT(SYS_BRBTGT_EL1(31), HDFGRTR, nBRBDATA, 0),
+  1133		SR_FGT(SYS_BRBTGTINJ_EL1, HDFGRTR, nBRBDATA, 0),
+  1134		SR_FGT(SYS_BRBTS_EL1, HDFGRTR, nBRBDATA, 0),
+  1135	
+  1136	#define SYS_BRBCR_EL1	sys_reg(2, 1, 9, 0, 0)
+  1137	#define SYS_BRBFCR_EL1	sys_reg(2, 1, 9, 0, 1)
+  1138	
+  1139		SR_FGT(SYS_BRBCR_EL1, HDFGRTR, nBRBCTL, 0),
+  1140		SR_FGT(SYS_BRBFCR_EL1, HDFGRTR, nBRBCTL, 0),
+  1141	
+  1142	#define SYS_BRBIDR0_EL1	sys_reg(2, 1, 9, 2, 0)
+  1143	
+  1144		SR_FGT(SYS_BRBIDR0_EL1, HDFGRTR, nBRBIDR, 0),
+  1145	
+  1146		SR_FGT(SYS_PMCEID0_EL0, HDFGRTR, PMCEIDn_EL0, 1),
+  1147		SR_FGT(SYS_PMCEID1_EL0, HDFGRTR, PMCEIDn_EL0, 1),
+  1148		SR_FGT(SYS_PMUSERENR_EL0, HDFGRTR, PMUSERENR_EL0, 1),
+  1149		SR_FGT(SYS_TRBTRG_EL1, HDFGRTR, TRBTRG_EL1, 1),
+  1150		SR_FGT(SYS_TRBSR_EL1, HDFGRTR, TRBSR_EL1, 1),
+  1151		SR_FGT(SYS_TRBPTR_EL1, HDFGRTR, TRBPTR_EL1, 1),
+  1152		SR_FGT(SYS_TRBMAR_EL1, HDFGRTR, TRBMAR_EL1, 1),
+  1153		SR_FGT(SYS_TRBLIMITR_EL1, HDFGRTR, TRBLIMITR_EL1, 1),
+  1154		SR_FGT(SYS_TRBIDR_EL1, HDFGRTR, TRBIDR_EL1, 1),
+  1155		SR_FGT(SYS_TRBBASER_EL1, HDFGRTR, TRBBASER_EL1, 1),
+  1156	
+  1157	#define SYS_TRCVICTLR		sys_reg(2, 1, 0, 0, 2)
+  1158	#define SYS_TRCSTATR		sys_reg(2, 1, 0, 3, 2)
+  1159	#define SYS_TRCSSCSR(n)		sys_reg(2, 1, 1, (8 | n), 2)
+  1160	#define SYS_TRCSEQSTR		sys_reg(2, 1, 0, 7, 4)
+  1161	#define SYS_TRCPRGCTLR		sys_reg(2, 1, 0, 1, 0)
+  1162	#define SYS_TRCOSLSR		sys_reg(2, 1, 1, 1, 4)
+  1163	#define SYS_TRCIMSPEC(n)	sys_reg(2, 1, 0, n, 7)
+  1164	#define SYS_TRCDEVARCH		sys_reg(2, 1, 7, 15, 6)
+  1165	#define SYS_TRCDEVID		sys_reg(2, 1, 7, 2, 7)
+  1166	#define SYS_TRCCNTVR(n)		sys_reg(2, 1, 0, (8 | n), 5)
+  1167	#define SYS_TRCCLAIMSET		sys_reg(2, 1, 7, 8, 6)
+  1168	#define SYS_TRCCLAIMCLR		sys_reg(2, 1, 7, 9, 6)
+  1169	#define SYS_TRCAUXCTLR		sys_reg(2, 1, 0, 6, 0)
+  1170	#define SYS_TRCAUTHSTATUS	sys_reg(2, 1, 7, 14, 6)
+  1171	
+  1172		SR_FGT(SYS_TRCVICTLR, HDFGRTR, TRCVICTLR, 1),
+  1173		SR_FGT(SYS_TRCSTATR, HDFGRTR, TRCSTATR, 1),
+  1174		SR_FGT(SYS_TRCSSCSR(0), HDFGRTR, TRCSSCSRn, 1),
+  1175		SR_FGT(SYS_TRCSSCSR(1), HDFGRTR, TRCSSCSRn, 1),
+  1176		SR_FGT(SYS_TRCSSCSR(2), HDFGRTR, TRCSSCSRn, 1),
+  1177		SR_FGT(SYS_TRCSSCSR(3), HDFGRTR, TRCSSCSRn, 1),
+  1178		SR_FGT(SYS_TRCSSCSR(4), HDFGRTR, TRCSSCSRn, 1),
+  1179		SR_FGT(SYS_TRCSSCSR(5), HDFGRTR, TRCSSCSRn, 1),
+  1180		SR_FGT(SYS_TRCSSCSR(6), HDFGRTR, TRCSSCSRn, 1),
+  1181		SR_FGT(SYS_TRCSSCSR(7), HDFGRTR, TRCSSCSRn, 1),
+  1182		SR_FGT(SYS_TRCSEQSTR, HDFGRTR, TRCSEQSTR, 1),
+  1183		SR_FGT(SYS_TRCPRGCTLR, HDFGRTR, TRCPRGCTLR, 1),
+  1184		SR_FGT(SYS_TRCOSLSR, HDFGRTR, TRCOSLSR, 1),
+  1185		SR_FGT(SYS_TRCIMSPEC(1), HDFGRTR, TRCIMSPECn, 1),
+  1186		SR_FGT(SYS_TRCIMSPEC(2), HDFGRTR, TRCIMSPECn, 1),
+  1187		SR_FGT(SYS_TRCIMSPEC(3), HDFGRTR, TRCIMSPECn, 1),
+  1188		SR_FGT(SYS_TRCIMSPEC(4), HDFGRTR, TRCIMSPECn, 1),
+  1189		SR_FGT(SYS_TRCIMSPEC(5), HDFGRTR, TRCIMSPECn, 1),
+  1190		SR_FGT(SYS_TRCIMSPEC(6), HDFGRTR, TRCIMSPECn, 1),
+  1191		SR_FGT(SYS_TRCIMSPEC(7), HDFGRTR, TRCIMSPECn, 1),
+  1192		SR_FGT(SYS_TRCDEVARCH, HDFGRTR, TRCID, 1),
+  1193		SR_FGT(SYS_TRCDEVID, HDFGRTR, TRCID, 1),
+  1194		SR_FGT(SYS_TRCCNTVR(0), HDFGRTR, TRCCNTVRn, 1),
+  1195		SR_FGT(SYS_TRCCNTVR(1), HDFGRTR, TRCCNTVRn, 1),
+  1196		SR_FGT(SYS_TRCCNTVR(2), HDFGRTR, TRCCNTVRn, 1),
+  1197		SR_FGT(SYS_TRCCNTVR(3), HDFGRTR, TRCCNTVRn, 1),
+  1198		SR_FGT(SYS_TRCCLAIMCLR, HDFGRTR, TRCCLAIM, 1),
+  1199		SR_FGT(SYS_TRCCLAIMSET, HDFGRTR, TRCCLAIM, 1),
+  1200		SR_FGT(SYS_TRCAUXCTLR, HDFGRTR, TRCAUXCTLR, 1),
+  1201		SR_FGT(SYS_TRCAUTHSTATUS, HDFGRTR, TRCAUTHSTATUS, 1),
+> 1202		SR_FGT(SYS_TRC, HDFGRTR, TRC, 1),
+  1203		SR_FGT(SYS_PMSLATFR_EL1, HDFGRTR, PMSLATFR_EL1, 1),
+  1204		SR_FGT(SYS_PMSIRR_EL1, HDFGRTR, PMSIRR_EL1, 1),
+  1205		SR_FGT(SYS_PMSIDR_EL1, HDFGRTR, PMSIDR_EL1, 1),
+  1206		SR_FGT(SYS_PMSICR_EL1, HDFGRTR, PMSICR_EL1, 1),
+  1207		SR_FGT(SYS_PMSFCR_EL1, HDFGRTR, PMSFCR_EL1, 1),
+  1208		SR_FGT(SYS_PMSEVFR_EL1, HDFGRTR, PMSEVFR_EL1, 1),
+  1209		SR_FGT(SYS_PMSCR_EL1, HDFGRTR, PMSCR_EL1, 1),
+  1210		SR_FGT(SYS_PMBSR_EL1, HDFGRTR, PMBSR_EL1, 1),
+  1211		SR_FGT(SYS_PMBPTR_EL1, HDFGRTR, PMBPTR_EL1, 1),
+  1212		SR_FGT(SYS_PMBLIMITR_EL1, HDFGRTR, PMBLIMITR_EL1, 1),
+  1213		SR_FGT(SYS_PMMIR_EL1, HDFGRTR, PMMIR_EL1, 1),
+  1214		SR_FGT(SYS_PMSELR_EL0, HDFGRTR, PMSELR_EL0, 1),
+> 1215		SR_FGT(SYS_PMOVS, HDFGRTR, PMOVS, 1),
+> 1216		SR_FGT(SYS_PMINTEN, HDFGRTR, PMINTEN, 1),
+> 1217		SR_FGT(SYS_PMCNTEN, HDFGRTR, PMCNTEN, 1),
+  1218		SR_FGT(SYS_PMCCNTR_EL0, HDFGRTR, PMCCNTR_EL0, 1),
+  1219		SR_FGT(SYS_PMCCFILTR_EL0, HDFGRTR, PMCCFILTR_EL0, 1),
+> 1220		SR_FGT(SYS_PMEVTYPERn_EL0, HDFGRTR, PMEVTYPERn_EL0, 1),
+> 1221		SR_FGT(SYS_PMEVCNTRn_EL0, HDFGRTR, PMEVCNTRn_EL0, 1),
+  1222		SR_FGT(SYS_OSDLR_EL1, HDFGRTR, OSDLR_EL1, 1),
+  1223		SR_FGT(SYS_OSECCR_EL1, HDFGRTR, OSECCR_EL1, 1),
+  1224		SR_FGT(SYS_OSLSR_EL1, HDFGRTR, OSLSR_EL1, 1),
+  1225		SR_FGT(SYS_DBGPRCR_EL1, HDFGRTR, DBGPRCR_EL1, 1),
+  1226		SR_FGT(SYS_DBGAUTHSTATUS_EL1, HDFGRTR, DBGAUTHSTATUS_EL1, 1),
+  1227		SR_FGT(SYS_DBGCLAIM, HDFGRTR, DBGCLAIM, 1),
+  1228		SR_FGT(SYS_MDSCR_EL1, HDFGRTR, MDSCR_EL1, 1),
+  1229		SR_FGT(SYS_DBGWVRn_EL1, HDFGRTR, DBGWVRn_EL1, 1),
+  1230		SR_FGT(SYS_DBGWCRn_EL1, HDFGRTR, DBGWCRn_EL1, 1),
+  1231		SR_FGT(SYS_DBGBVRn_EL1, HDFGRTR, DBGBVRn_EL1, 1),
+  1232		SR_FGT(SYS_DBGBCRn_EL1, HDFGRTR, DBGBCRn_EL1, 1),
+  1233	};
+  1234	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
