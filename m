@@ -1,34 +1,34 @@
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B4A1548B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jul 2023 21:29:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753691548B
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jul 2023 21:29:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688678985; x=1720214985;
+  t=1688678988; x=1720214988;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VsIUqppXuxnOAhGsUK9zEFAw6oAbnicdIehKzg84eAE=;
-  b=C/hqcM+rLEHptw+t/i+LiOq8ZoRoGVpXvwuLeaPXZu1U6IylEjO00tyg
-   doBm2KnOvXPnBDkmnhxH4nQ8Fg9eO5jxT8LSRewOzHAbVBmoSKUtp6pma
-   NuaLgUnmVG8d+i4uCUzVo7IEGtBmULZ58U1KUy1+v0B8gkh7TpFzQSxEN
-   dpkF3ZfJ9wb7Vz6rvfII/LFXIRNUr0CrBe4cKhqrJ3zVG2+0fJqCw6SYB
-   3oIj+Xwv+Qv90x3NvTGdb0dP6vL6pBGQcQU5FO29zX3ZG0HUSXwMUJLXE
-   Urn3hM2uAi4GjKZfr1Za2oBy0FdA+FEBF8X56PvlFabU5SltkdU16kPgH
+  bh=EKkrO1g3OQ0mVB3u2lypD3U9+ddD96o0/zqvP7TQbkI=;
+  b=CSsONpV2arIkLp6chayGRjuuvOPfQzIP2fOz62nvMSikhZYgQrrrQYdC
+   UTYbFmGbqq+ocxICTuocCRSXmhKCxLqdkV13Z7IgP7lm9goplPGXeL6NY
+   o90mkf/oJzDmpRMQds06gPLws4Z74cz+yoD+RGUn7BfMoYvk2SUMjmoWz
+   j92W2OxsllXMo6bVbv8qhoHqnhksVGbAJL9oQn15PdtkVR3rCA87fkA6z
+   /jfkrtDtVVTffqJ95lE4ziLT413uRKYQ1TvO+xeIT/vmkzIO3s0OQN/R5
+   0BUl/ykb0cuqfPJBCgk/DAMhLXBy5iHdgIEEQhfhr240DVsVHUACrjx03
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="348524700"
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="348524702"
 X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
-   d="scan'208";a="348524700"
+   d="scan'208";a="348524702"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 14:29:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="789709456"
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="789709454"
 X-IronPort-AV: E=Sophos;i="6.01,185,1684825200"; 
-   d="scan'208";a="789709456"
+   d="scan'208";a="789709454"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
   by fmsmga004.fm.intel.com with ESMTP; 06 Jul 2023 14:29:43 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHWXm-0001Za-2I;
+	id 1qHWXm-0001ZY-2E;
 	Thu, 06 Jul 2023 21:29:42 +0000
 Date: Fri, 7 Jul 2023 05:29:07 +0800
 From: kernel test robot <lkp@intel.com>
@@ -37,7 +37,7 @@ Cc: oe-kbuild-all@lists.linux.dev
 Subject: [tobetter:odroid-6.1.y 4606/7271] drivers/char/aml-gpiomem.c:128:29:
  error: implicit declaration of function 'phys_mem_access_prot'; did you mean
  'phys_mem_access_prot_allowed'?
-Message-ID: <202307070502.WeSiWdRS-lkp@intel.com>
+Message-ID: <202307070524.dPTAZKu6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,14 +50,14 @@ Content-Disposition: inline
 tree:   https://github.com/tobetter/linux odroid-6.1.y
 head:   75d4aa9f650a9465ed7109062e98625502745688
 commit: 7ff99842a2f49291177856844102f1aa00687214 [4606/7271] ODROID-N2/C4: char: Add /dev/gpiomem device
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20230707/202307070502.WeSiWdRS-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230707/202307070502.WeSiWdRS-lkp@intel.com/reproduce)
+config: parisc-randconfig-r081-20230703 (https://download.01.org/0day-ci/archive/20230707/202307070524.dPTAZKu6-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230707/202307070524.dPTAZKu6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307070502.WeSiWdRS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307070524.dPTAZKu6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
