@@ -1,43 +1,46 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02DB63BA
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jul 2023 22:41:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329B663BA
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jul 2023 22:41:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688683306; x=1720219306;
+  t=1688683309; x=1720219309;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OsvN0bzqwmnB24bz7ypxnl2ETr+cco+I5Dzx3gjaol8=;
-  b=MxXxXqCle3PN9Go1T2btFxYonqoPzJh1GYSd4f/rAp4xpWlHAMeZ8U9w
-   mOD4hTTce3alWzJV4PmLFQkPqZ1E+PEM4XgSBkzFrRbXBgrvmTKzGmTwL
-   6Pi92BZH3hBf70qOfaf9CdLoOaFA0M8sapBtpstIP7iG11cKJgFMj40A7
-   V1jc2kikTlwnPBOEkxu3blk3RUSOG4EoqEEZs9v2CIMX2ZAaSmBWVJJyB
-   4YlbPkCasFSjKeyfWoD43YVvsdA/C7ByGmE+6rNcwWyCp7I8lwq2qBlm2
-   H1NOS4zDyIBnsqVJOcWUL7JCMCkD2Eg2KNxbsk8/pPgGE2c5+SEi+QLrr
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="362611026"
+  bh=MmBONzz0UGwupZUADPdDtq/xMA194kD1MSnmPwBWgOo=;
+  b=dUt1l+tkP8QH5h5tSQaA28EfwRGKJ/lNGW259TKeLvPH01AzWhzzYgjC
+   +cGna+jYH/YjEaLaMmDwm9LodLNvGwGrIJjDFNPaidKgy9V2wYP/X9FNu
+   gWmvfx92WGkXJUJL7Kh0XDa6KwURth2f4ZKJzZxCTQVtlF5fDd4vVwPKj
+   A94r9YGG1ewPzD2B80ah+Vt0Tjc7MQuBuXYAHcZ9AhxvRSoIUbERWZyP6
+   FJRdMygN/perqc/PD4tAfsQ/TPKRBlhs+N8hUGexNK5e0XXheoxHQEyLA
+   O1mRsIsEunihem3Y0GYQygKbMwos7Cqj2VTZli+sAFDSOCi9aChm040w0
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="362611028"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="362611026"
+   d="scan'208";a="362611028"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 15:41:45 -0700
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 15:41:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="809818569"
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="809818570"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="809818569"
+   d="scan'208";a="809818570"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
   by FMSMGA003.fm.intel.com with ESMTP; 06 Jul 2023 15:41:44 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHXfT-0001ao-2N;
+	id 1qHXfT-0001am-2J;
 	Thu, 06 Jul 2023 22:41:43 +0000
-Date: Fri, 7 Jul 2023 06:40:44 +0800
+Date: Fri, 7 Jul 2023 06:40:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 8/19] kernel/time/tick-sched.c:1367:6:
- warning: no previous prototype for 'tick_nohz_hres_to_lres'
-Message-ID: <202307070650.otnLfv7i-lkp@intel.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Subject: drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1022:1:
+ warning: the frame size of 1112 bytes is larger than 1024 bytes
+Message-ID: <202307070653.xxncAC2W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,58 +50,281 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   1399e15df0015b10457b746f91a91c16a8d6274c
-commit: b9937f09c9e0ab857c06ec9360be17f860be5d42 [8/19] CHROMIUM: hrtimer: Add a sysctl to lower resolution of timers
-config: arc-randconfig-r043-20230707 (https://download.01.org/0day-ci/archive/20230707/202307070650.otnLfv7i-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230707/202307070650.otnLfv7i-lkp@intel.com/reproduce)
+Hi Benjamin,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   a452483508d7b70b0f6c69e249ec0b3ea2330b5c
+commit: 727a400686a2c0d25015c9e44916a59b72882f83 media: verisilicon: Add Rockchip AV1 decoder
+date:   4 weeks ago
+config: arm-randconfig-r023-20230707 (https://download.01.org/0day-ci/archive/20230707/202307070653.xxncAC2W-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230707/202307070653.xxncAC2W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307070650.otnLfv7i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307070653.xxncAC2W-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/time/tick-sched.c:1367:6: warning: no previous prototype for 'tick_nohz_hres_to_lres' [-Wmissing-prototypes]
-    1367 | void tick_nohz_hres_to_lres(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: In function 'rockchip_vpu981_av1_dec_set_segmentation':
+>> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1022:1: warning: the frame size of 1112 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    1022 | }
+         | ^
 
 
-vim +/tick_nohz_hres_to_lres +1367 kernel/time/tick-sched.c
+vim +1022 drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
 
-  1363	
-  1364	/**
-  1365	 * tick_nohz_hres_to_lres - switch from Highres to Lowres
-  1366	 */
-> 1367	void tick_nohz_hres_to_lres(void)
-  1368	{
-  1369		ktime_t next_tick;
-  1370		struct tick_sched *ts = this_cpu_ptr(&tick_cpu_sched);
-  1371		struct tick_device *td = this_cpu_ptr(&tick_cpu_device);
-  1372	
-  1373		if (WARN_ON(ts->nohz_mode != NOHZ_MODE_HIGHRES))
-  1374			return;
-  1375	
-  1376		WARN_ON(td->mode != TICKDEV_MODE_ONESHOT);
-  1377		WARN_ON(clockevent_get_state(td->evtdev) != CLOCK_EVT_STATE_ONESHOT);
-  1378		td->evtdev->event_handler = tick_nohz_handler;
-  1379	
-  1380		hrtimer_cancel(&ts->sched_timer);
-  1381		hrtimer_set_expires(&ts->sched_timer, ts->last_tick);
-  1382	
-  1383		/* Forward the time to expire in the future */
-  1384		hrtimer_forward(&ts->sched_timer, ktime_get(), TICK_NSEC);
-  1385		next_tick = hrtimer_get_expires(&ts->sched_timer);
-  1386	
-  1387		tick_program_event(next_tick, 1);
-  1388		tick_nohz_activate(ts, NOHZ_MODE_LOWRES);
-  1389	
-  1390		if (ts->tick_stopped)
-  1391			ts->next_tick = next_tick;
-  1392	}
-  1393	
+   776	
+   777	static void rockchip_vpu981_av1_dec_set_segmentation(struct hantro_ctx *ctx)
+   778	{
+   779		struct hantro_av1_dec_hw_ctx *av1_dec = &ctx->av1_dec;
+   780		struct hantro_av1_dec_ctrls *ctrls = &av1_dec->ctrls;
+   781		const struct v4l2_ctrl_av1_frame *frame = ctrls->frame;
+   782		const struct v4l2_av1_segmentation *seg = &frame->segmentation;
+   783		u32 segval[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX] = { 0 };
+   784		struct hantro_dev *vpu = ctx->dev;
+   785		u8 segsign = 0, preskip_segid = 0, last_active_seg = 0, i, j;
+   786	
+   787		if (!!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_ENABLED) &&
+   788		    frame->primary_ref_frame < V4L2_AV1_REFS_PER_FRAME) {
+   789			int idx = rockchip_vpu981_get_frame_index(ctx, frame->primary_ref_frame);
+   790	
+   791			if (idx >= 0) {
+   792				dma_addr_t luma_addr, mv_addr = 0;
+   793				struct hantro_decoded_buffer *seg;
+   794				size_t mv_offset = rockchip_vpu981_av1_dec_chroma_size(ctx);
+   795	
+   796				seg = vb2_to_hantro_decoded_buf(&av1_dec->frame_refs[idx].vb2_ref->vb2_buf);
+   797				luma_addr = hantro_get_dec_buf_addr(ctx, &seg->base.vb.vb2_buf);
+   798				mv_addr = luma_addr + mv_offset;
+   799	
+   800				hantro_write_addr(vpu, AV1_SEGMENTATION, mv_addr);
+   801				hantro_reg_write(vpu, &av1_use_temporal3_mvs, 1);
+   802			}
+   803		}
+   804	
+   805		hantro_reg_write(vpu, &av1_segment_temp_upd_e,
+   806				 !!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_TEMPORAL_UPDATE));
+   807		hantro_reg_write(vpu, &av1_segment_upd_e,
+   808				 !!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_UPDATE_MAP));
+   809		hantro_reg_write(vpu, &av1_segment_e,
+   810				 !!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_ENABLED));
+   811	
+   812		hantro_reg_write(vpu, &av1_error_resilient,
+   813				 !!(frame->flags & V4L2_AV1_FRAME_FLAG_ERROR_RESILIENT_MODE));
+   814	
+   815		if (IS_INTRA(frame->frame_type) ||
+   816		    !!(frame->flags & V4L2_AV1_FRAME_FLAG_ERROR_RESILIENT_MODE)) {
+   817			hantro_reg_write(vpu, &av1_use_temporal3_mvs, 0);
+   818		}
+   819	
+   820		if (seg->flags & V4L2_AV1_SEGMENTATION_FLAG_ENABLED) {
+   821			int s;
+   822	
+   823			for (s = 0; s < V4L2_AV1_MAX_SEGMENTS; s++) {
+   824				if (seg->feature_enabled[s] &
+   825				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_Q)) {
+   826					segval[s][V4L2_AV1_SEG_LVL_ALT_Q] =
+   827					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_Q]),
+   828						  0, 255);
+   829					segsign |=
+   830						(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_Q] < 0) << s;
+   831				}
+   832	
+   833				if (seg->feature_enabled[s] &
+   834				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_Y_V))
+   835					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_V] =
+   836						clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]),
+   837						      -63, 63);
+   838	
+   839				if (seg->feature_enabled[s] &
+   840				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_Y_H))
+   841					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_H] =
+   842					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]),
+   843						  -63, 63);
+   844	
+   845				if (seg->feature_enabled[s] &
+   846				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_U))
+   847					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_U] =
+   848					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_U]),
+   849						  -63, 63);
+   850	
+   851				if (seg->feature_enabled[s] &
+   852				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_V))
+   853					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_V] =
+   854					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_V]),
+   855						  -63, 63);
+   856	
+   857				if (frame->frame_type && seg->feature_enabled[s] &
+   858				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_REF_FRAME))
+   859					segval[s][V4L2_AV1_SEG_LVL_REF_FRAME]++;
+   860	
+   861				if (seg->feature_enabled[s] &
+   862				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_REF_SKIP))
+   863					segval[s][V4L2_AV1_SEG_LVL_REF_SKIP] = 1;
+   864	
+   865				if (seg->feature_enabled[s] &
+   866				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_REF_GLOBALMV))
+   867					segval[s][V4L2_AV1_SEG_LVL_REF_GLOBALMV] = 1;
+   868			}
+   869		}
+   870	
+   871		for (i = 0; i < V4L2_AV1_MAX_SEGMENTS; i++) {
+   872			for (j = 0; j < V4L2_AV1_SEG_LVL_MAX; j++) {
+   873				if (seg->feature_enabled[i]
+   874				    & V4L2_AV1_SEGMENT_FEATURE_ENABLED(j)) {
+   875					preskip_segid |= (j >= V4L2_AV1_SEG_LVL_REF_FRAME);
+   876					last_active_seg = max(i, last_active_seg);
+   877				}
+   878			}
+   879		}
+   880	
+   881		hantro_reg_write(vpu, &av1_last_active_seg, last_active_seg);
+   882		hantro_reg_write(vpu, &av1_preskip_segid, preskip_segid);
+   883	
+   884		hantro_reg_write(vpu, &av1_seg_quant_sign, segsign);
+   885	
+   886		/* Write QP, filter level, ref frame and skip for every segment */
+   887		hantro_reg_write(vpu, &av1_quant_seg0,
+   888				 segval[0][V4L2_AV1_SEG_LVL_ALT_Q]);
+   889		hantro_reg_write(vpu, &av1_filt_level_delta0_seg0,
+   890				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
+   891		hantro_reg_write(vpu, &av1_filt_level_delta1_seg0,
+   892				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
+   893		hantro_reg_write(vpu, &av1_filt_level_delta2_seg0,
+   894				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_U]);
+   895		hantro_reg_write(vpu, &av1_filt_level_delta3_seg0,
+   896				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_V]);
+   897		hantro_reg_write(vpu, &av1_refpic_seg0,
+   898				 segval[0][V4L2_AV1_SEG_LVL_REF_FRAME]);
+   899		hantro_reg_write(vpu, &av1_skip_seg0,
+   900				 segval[0][V4L2_AV1_SEG_LVL_REF_SKIP]);
+   901		hantro_reg_write(vpu, &av1_global_mv_seg0,
+   902				 segval[0][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
+   903	
+   904		hantro_reg_write(vpu, &av1_quant_seg1,
+   905				 segval[1][V4L2_AV1_SEG_LVL_ALT_Q]);
+   906		hantro_reg_write(vpu, &av1_filt_level_delta0_seg1,
+   907				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
+   908		hantro_reg_write(vpu, &av1_filt_level_delta1_seg1,
+   909				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
+   910		hantro_reg_write(vpu, &av1_filt_level_delta2_seg1,
+   911				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_U]);
+   912		hantro_reg_write(vpu, &av1_filt_level_delta3_seg1,
+   913				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_V]);
+   914		hantro_reg_write(vpu, &av1_refpic_seg1,
+   915				 segval[1][V4L2_AV1_SEG_LVL_REF_FRAME]);
+   916		hantro_reg_write(vpu, &av1_skip_seg1,
+   917				 segval[1][V4L2_AV1_SEG_LVL_REF_SKIP]);
+   918		hantro_reg_write(vpu, &av1_global_mv_seg1,
+   919				 segval[1][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
+   920	
+   921		hantro_reg_write(vpu, &av1_quant_seg2,
+   922				 segval[2][V4L2_AV1_SEG_LVL_ALT_Q]);
+   923		hantro_reg_write(vpu, &av1_filt_level_delta0_seg2,
+   924				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
+   925		hantro_reg_write(vpu, &av1_filt_level_delta1_seg2,
+   926				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
+   927		hantro_reg_write(vpu, &av1_filt_level_delta2_seg2,
+   928				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_U]);
+   929		hantro_reg_write(vpu, &av1_filt_level_delta3_seg2,
+   930				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_V]);
+   931		hantro_reg_write(vpu, &av1_refpic_seg2,
+   932				 segval[2][V4L2_AV1_SEG_LVL_REF_FRAME]);
+   933		hantro_reg_write(vpu, &av1_skip_seg2,
+   934				 segval[2][V4L2_AV1_SEG_LVL_REF_SKIP]);
+   935		hantro_reg_write(vpu, &av1_global_mv_seg2,
+   936				 segval[2][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
+   937	
+   938		hantro_reg_write(vpu, &av1_quant_seg3,
+   939				 segval[3][V4L2_AV1_SEG_LVL_ALT_Q]);
+   940		hantro_reg_write(vpu, &av1_filt_level_delta0_seg3,
+   941				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
+   942		hantro_reg_write(vpu, &av1_filt_level_delta1_seg3,
+   943				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
+   944		hantro_reg_write(vpu, &av1_filt_level_delta2_seg3,
+   945				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_U]);
+   946		hantro_reg_write(vpu, &av1_filt_level_delta3_seg3,
+   947				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_V]);
+   948		hantro_reg_write(vpu, &av1_refpic_seg3,
+   949				 segval[3][V4L2_AV1_SEG_LVL_REF_FRAME]);
+   950		hantro_reg_write(vpu, &av1_skip_seg3,
+   951				 segval[3][V4L2_AV1_SEG_LVL_REF_SKIP]);
+   952		hantro_reg_write(vpu, &av1_global_mv_seg3,
+   953				 segval[3][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
+   954	
+   955		hantro_reg_write(vpu, &av1_quant_seg4,
+   956				 segval[4][V4L2_AV1_SEG_LVL_ALT_Q]);
+   957		hantro_reg_write(vpu, &av1_filt_level_delta0_seg4,
+   958				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
+   959		hantro_reg_write(vpu, &av1_filt_level_delta1_seg4,
+   960				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
+   961		hantro_reg_write(vpu, &av1_filt_level_delta2_seg4,
+   962				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_U]);
+   963		hantro_reg_write(vpu, &av1_filt_level_delta3_seg4,
+   964				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_V]);
+   965		hantro_reg_write(vpu, &av1_refpic_seg4,
+   966				 segval[4][V4L2_AV1_SEG_LVL_REF_FRAME]);
+   967		hantro_reg_write(vpu, &av1_skip_seg4,
+   968				 segval[4][V4L2_AV1_SEG_LVL_REF_SKIP]);
+   969		hantro_reg_write(vpu, &av1_global_mv_seg4,
+   970				 segval[4][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
+   971	
+   972		hantro_reg_write(vpu, &av1_quant_seg5,
+   973				 segval[5][V4L2_AV1_SEG_LVL_ALT_Q]);
+   974		hantro_reg_write(vpu, &av1_filt_level_delta0_seg5,
+   975				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
+   976		hantro_reg_write(vpu, &av1_filt_level_delta1_seg5,
+   977				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
+   978		hantro_reg_write(vpu, &av1_filt_level_delta2_seg5,
+   979				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_U]);
+   980		hantro_reg_write(vpu, &av1_filt_level_delta3_seg5,
+   981				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_V]);
+   982		hantro_reg_write(vpu, &av1_refpic_seg5,
+   983				 segval[5][V4L2_AV1_SEG_LVL_REF_FRAME]);
+   984		hantro_reg_write(vpu, &av1_skip_seg5,
+   985				 segval[5][V4L2_AV1_SEG_LVL_REF_SKIP]);
+   986		hantro_reg_write(vpu, &av1_global_mv_seg5,
+   987				 segval[5][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
+   988	
+   989		hantro_reg_write(vpu, &av1_quant_seg6,
+   990				 segval[6][V4L2_AV1_SEG_LVL_ALT_Q]);
+   991		hantro_reg_write(vpu, &av1_filt_level_delta0_seg6,
+   992				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
+   993		hantro_reg_write(vpu, &av1_filt_level_delta1_seg6,
+   994				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
+   995		hantro_reg_write(vpu, &av1_filt_level_delta2_seg6,
+   996				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_U]);
+   997		hantro_reg_write(vpu, &av1_filt_level_delta3_seg6,
+   998				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_V]);
+   999		hantro_reg_write(vpu, &av1_refpic_seg6,
+  1000				 segval[6][V4L2_AV1_SEG_LVL_REF_FRAME]);
+  1001		hantro_reg_write(vpu, &av1_skip_seg6,
+  1002				 segval[6][V4L2_AV1_SEG_LVL_REF_SKIP]);
+  1003		hantro_reg_write(vpu, &av1_global_mv_seg6,
+  1004				 segval[6][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
+  1005	
+  1006		hantro_reg_write(vpu, &av1_quant_seg7,
+  1007				 segval[7][V4L2_AV1_SEG_LVL_ALT_Q]);
+  1008		hantro_reg_write(vpu, &av1_filt_level_delta0_seg7,
+  1009				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
+  1010		hantro_reg_write(vpu, &av1_filt_level_delta1_seg7,
+  1011				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
+  1012		hantro_reg_write(vpu, &av1_filt_level_delta2_seg7,
+  1013				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_U]);
+  1014		hantro_reg_write(vpu, &av1_filt_level_delta3_seg7,
+  1015				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_V]);
+  1016		hantro_reg_write(vpu, &av1_refpic_seg7,
+  1017				 segval[7][V4L2_AV1_SEG_LVL_REF_FRAME]);
+  1018		hantro_reg_write(vpu, &av1_skip_seg7,
+  1019				 segval[7][V4L2_AV1_SEG_LVL_REF_SKIP]);
+  1020		hantro_reg_write(vpu, &av1_global_mv_seg7,
+  1021				 segval[7][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
+> 1022	}
+  1023	
 
 -- 
 0-DAY CI Kernel Test Service
