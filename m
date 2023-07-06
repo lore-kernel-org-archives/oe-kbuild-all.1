@@ -1,46 +1,44 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329B663BA
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jul 2023 22:41:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0580E63BA
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  6 Jul 2023 22:51:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688683309; x=1720219309;
+  t=1688683909; x=1720219909;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MmBONzz0UGwupZUADPdDtq/xMA194kD1MSnmPwBWgOo=;
-  b=dUt1l+tkP8QH5h5tSQaA28EfwRGKJ/lNGW259TKeLvPH01AzWhzzYgjC
-   +cGna+jYH/YjEaLaMmDwm9LodLNvGwGrIJjDFNPaidKgy9V2wYP/X9FNu
-   gWmvfx92WGkXJUJL7Kh0XDa6KwURth2f4ZKJzZxCTQVtlF5fDd4vVwPKj
-   A94r9YGG1ewPzD2B80ah+Vt0Tjc7MQuBuXYAHcZ9AhxvRSoIUbERWZyP6
-   FJRdMygN/perqc/PD4tAfsQ/TPKRBlhs+N8hUGexNK5e0XXheoxHQEyLA
-   O1mRsIsEunihem3Y0GYQygKbMwos7Cqj2VTZli+sAFDSOCi9aChm040w0
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="362611028"
+  bh=4xApv630bDWGA3D1AqAA58hMQu4Ci3gLE1FNV1ctCI8=;
+  b=muDYh3VNME/zPfQNKIqLNWIsEfiV/cxlnm6ljBjRT3bZnVdbXseuVV2+
+   kSfZHEes8LO09fCp1NwXjQRl7tsdTWhRp3oslLKvZ5ihj7c3Y8C3o65/j
+   2eG4GUZdQEwQs08m6sUOghKRcRJKkxHOieNgx9SdJMQICyToAWlVUj6vZ
+   VyM56ZkAdNM2/U0kJEscdpZQe6CP1LRlmT4hZMTPD4+r73C1UqXGONZSr
+   d72rpEWQV1jgzpQmEifJrjaO7xuobrVBDEm3yKVzNifms2tVR6v99mQ2G
+   feWHMGYWNldMdc8o/ukiMJ0BButyMag9r2N6u9JyuaFFe1oa7mShQ/Hys
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="343331359"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="362611028"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 15:41:46 -0700
+   d="scan'208";a="343331359"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 15:51:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="809818570"
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="843889869"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="809818570"
+   d="scan'208";a="843889869"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 06 Jul 2023 15:41:44 -0700
+  by orsmga004.jf.intel.com with ESMTP; 06 Jul 2023 15:51:45 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHXfT-0001am-2J;
-	Thu, 06 Jul 2023 22:41:43 +0000
-Date: Fri, 7 Jul 2023 06:40:45 +0800
+	id 1qHXp9-0001aw-2R;
+	Thu, 06 Jul 2023 22:51:43 +0000
+Date: Fri, 7 Jul 2023 06:50:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: Seung-Woo Kim <sw0312.kim@samsung.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1022:1:
- warning: the frame size of 1112 bytes is larger than 1024 bytes
-Message-ID: <202307070653.xxncAC2W-lkp@intel.com>
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Florian Fainelli <f.fainelli@gmail.com>
+Subject: lib/crypto/chacha.c:64:1: warning: the frame size of 1600 bytes is
+ larger than 1024 bytes
+Message-ID: <202307070612.8DMHJyR2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,281 +48,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Benjamin,
+Hi Seung-Woo,
 
-FYI, the error/warning still remains.
+First bad commit (maybe != root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   a452483508d7b70b0f6c69e249ec0b3ea2330b5c
-commit: 727a400686a2c0d25015c9e44916a59b72882f83 media: verisilicon: Add Rockchip AV1 decoder
-date:   4 weeks ago
-config: arm-randconfig-r023-20230707 (https://download.01.org/0day-ci/archive/20230707/202307070653.xxncAC2W-lkp@intel.com/config)
+commit: d539fee9f825b0c8eac049732c83562b28a483b5 ARM: 9253/1: ubsan: select ARCH_HAS_UBSAN_SANITIZE_ALL
+date:   8 months ago
+config: arm-randconfig-r015-20230707 (https://download.01.org/0day-ci/archive/20230707/202307070612.8DMHJyR2-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230707/202307070653.xxncAC2W-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20230707/202307070612.8DMHJyR2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307070653.xxncAC2W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307070612.8DMHJyR2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: In function 'rockchip_vpu981_av1_dec_set_segmentation':
->> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1022:1: warning: the frame size of 1112 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    1022 | }
+   lib/crypto/chacha.c: In function 'chacha_permute':
+>> lib/crypto/chacha.c:64:1: warning: the frame size of 1600 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+      64 | }
+         | ^
+--
+   drivers/crypto/ccree/cc_hash.c: In function 'cc_hash_setkey':
+>> drivers/crypto/ccree/cc_hash.c:919:1: warning: the frame size of 1056 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     919 | }
          | ^
 
 
-vim +1022 drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
+vim +64 lib/crypto/chacha.c
 
-   776	
-   777	static void rockchip_vpu981_av1_dec_set_segmentation(struct hantro_ctx *ctx)
-   778	{
-   779		struct hantro_av1_dec_hw_ctx *av1_dec = &ctx->av1_dec;
-   780		struct hantro_av1_dec_ctrls *ctrls = &av1_dec->ctrls;
-   781		const struct v4l2_ctrl_av1_frame *frame = ctrls->frame;
-   782		const struct v4l2_av1_segmentation *seg = &frame->segmentation;
-   783		u32 segval[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX] = { 0 };
-   784		struct hantro_dev *vpu = ctx->dev;
-   785		u8 segsign = 0, preskip_segid = 0, last_active_seg = 0, i, j;
-   786	
-   787		if (!!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_ENABLED) &&
-   788		    frame->primary_ref_frame < V4L2_AV1_REFS_PER_FRAME) {
-   789			int idx = rockchip_vpu981_get_frame_index(ctx, frame->primary_ref_frame);
-   790	
-   791			if (idx >= 0) {
-   792				dma_addr_t luma_addr, mv_addr = 0;
-   793				struct hantro_decoded_buffer *seg;
-   794				size_t mv_offset = rockchip_vpu981_av1_dec_chroma_size(ctx);
-   795	
-   796				seg = vb2_to_hantro_decoded_buf(&av1_dec->frame_refs[idx].vb2_ref->vb2_buf);
-   797				luma_addr = hantro_get_dec_buf_addr(ctx, &seg->base.vb.vb2_buf);
-   798				mv_addr = luma_addr + mv_offset;
-   799	
-   800				hantro_write_addr(vpu, AV1_SEGMENTATION, mv_addr);
-   801				hantro_reg_write(vpu, &av1_use_temporal3_mvs, 1);
-   802			}
-   803		}
-   804	
-   805		hantro_reg_write(vpu, &av1_segment_temp_upd_e,
-   806				 !!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_TEMPORAL_UPDATE));
-   807		hantro_reg_write(vpu, &av1_segment_upd_e,
-   808				 !!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_UPDATE_MAP));
-   809		hantro_reg_write(vpu, &av1_segment_e,
-   810				 !!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_ENABLED));
-   811	
-   812		hantro_reg_write(vpu, &av1_error_resilient,
-   813				 !!(frame->flags & V4L2_AV1_FRAME_FLAG_ERROR_RESILIENT_MODE));
-   814	
-   815		if (IS_INTRA(frame->frame_type) ||
-   816		    !!(frame->flags & V4L2_AV1_FRAME_FLAG_ERROR_RESILIENT_MODE)) {
-   817			hantro_reg_write(vpu, &av1_use_temporal3_mvs, 0);
-   818		}
-   819	
-   820		if (seg->flags & V4L2_AV1_SEGMENTATION_FLAG_ENABLED) {
-   821			int s;
-   822	
-   823			for (s = 0; s < V4L2_AV1_MAX_SEGMENTS; s++) {
-   824				if (seg->feature_enabled[s] &
-   825				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_Q)) {
-   826					segval[s][V4L2_AV1_SEG_LVL_ALT_Q] =
-   827					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_Q]),
-   828						  0, 255);
-   829					segsign |=
-   830						(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_Q] < 0) << s;
-   831				}
-   832	
-   833				if (seg->feature_enabled[s] &
-   834				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_Y_V))
-   835					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_V] =
-   836						clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]),
-   837						      -63, 63);
-   838	
-   839				if (seg->feature_enabled[s] &
-   840				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_Y_H))
-   841					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_H] =
-   842					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]),
-   843						  -63, 63);
-   844	
-   845				if (seg->feature_enabled[s] &
-   846				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_U))
-   847					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_U] =
-   848					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_U]),
-   849						  -63, 63);
-   850	
-   851				if (seg->feature_enabled[s] &
-   852				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_V))
-   853					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_V] =
-   854					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_V]),
-   855						  -63, 63);
-   856	
-   857				if (frame->frame_type && seg->feature_enabled[s] &
-   858				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_REF_FRAME))
-   859					segval[s][V4L2_AV1_SEG_LVL_REF_FRAME]++;
-   860	
-   861				if (seg->feature_enabled[s] &
-   862				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_REF_SKIP))
-   863					segval[s][V4L2_AV1_SEG_LVL_REF_SKIP] = 1;
-   864	
-   865				if (seg->feature_enabled[s] &
-   866				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_REF_GLOBALMV))
-   867					segval[s][V4L2_AV1_SEG_LVL_REF_GLOBALMV] = 1;
-   868			}
-   869		}
-   870	
-   871		for (i = 0; i < V4L2_AV1_MAX_SEGMENTS; i++) {
-   872			for (j = 0; j < V4L2_AV1_SEG_LVL_MAX; j++) {
-   873				if (seg->feature_enabled[i]
-   874				    & V4L2_AV1_SEGMENT_FEATURE_ENABLED(j)) {
-   875					preskip_segid |= (j >= V4L2_AV1_SEG_LVL_REF_FRAME);
-   876					last_active_seg = max(i, last_active_seg);
-   877				}
-   878			}
-   879		}
-   880	
-   881		hantro_reg_write(vpu, &av1_last_active_seg, last_active_seg);
-   882		hantro_reg_write(vpu, &av1_preskip_segid, preskip_segid);
-   883	
-   884		hantro_reg_write(vpu, &av1_seg_quant_sign, segsign);
-   885	
-   886		/* Write QP, filter level, ref frame and skip for every segment */
-   887		hantro_reg_write(vpu, &av1_quant_seg0,
-   888				 segval[0][V4L2_AV1_SEG_LVL_ALT_Q]);
-   889		hantro_reg_write(vpu, &av1_filt_level_delta0_seg0,
-   890				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   891		hantro_reg_write(vpu, &av1_filt_level_delta1_seg0,
-   892				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   893		hantro_reg_write(vpu, &av1_filt_level_delta2_seg0,
-   894				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   895		hantro_reg_write(vpu, &av1_filt_level_delta3_seg0,
-   896				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   897		hantro_reg_write(vpu, &av1_refpic_seg0,
-   898				 segval[0][V4L2_AV1_SEG_LVL_REF_FRAME]);
-   899		hantro_reg_write(vpu, &av1_skip_seg0,
-   900				 segval[0][V4L2_AV1_SEG_LVL_REF_SKIP]);
-   901		hantro_reg_write(vpu, &av1_global_mv_seg0,
-   902				 segval[0][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-   903	
-   904		hantro_reg_write(vpu, &av1_quant_seg1,
-   905				 segval[1][V4L2_AV1_SEG_LVL_ALT_Q]);
-   906		hantro_reg_write(vpu, &av1_filt_level_delta0_seg1,
-   907				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   908		hantro_reg_write(vpu, &av1_filt_level_delta1_seg1,
-   909				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   910		hantro_reg_write(vpu, &av1_filt_level_delta2_seg1,
-   911				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   912		hantro_reg_write(vpu, &av1_filt_level_delta3_seg1,
-   913				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   914		hantro_reg_write(vpu, &av1_refpic_seg1,
-   915				 segval[1][V4L2_AV1_SEG_LVL_REF_FRAME]);
-   916		hantro_reg_write(vpu, &av1_skip_seg1,
-   917				 segval[1][V4L2_AV1_SEG_LVL_REF_SKIP]);
-   918		hantro_reg_write(vpu, &av1_global_mv_seg1,
-   919				 segval[1][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-   920	
-   921		hantro_reg_write(vpu, &av1_quant_seg2,
-   922				 segval[2][V4L2_AV1_SEG_LVL_ALT_Q]);
-   923		hantro_reg_write(vpu, &av1_filt_level_delta0_seg2,
-   924				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   925		hantro_reg_write(vpu, &av1_filt_level_delta1_seg2,
-   926				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   927		hantro_reg_write(vpu, &av1_filt_level_delta2_seg2,
-   928				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   929		hantro_reg_write(vpu, &av1_filt_level_delta3_seg2,
-   930				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   931		hantro_reg_write(vpu, &av1_refpic_seg2,
-   932				 segval[2][V4L2_AV1_SEG_LVL_REF_FRAME]);
-   933		hantro_reg_write(vpu, &av1_skip_seg2,
-   934				 segval[2][V4L2_AV1_SEG_LVL_REF_SKIP]);
-   935		hantro_reg_write(vpu, &av1_global_mv_seg2,
-   936				 segval[2][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-   937	
-   938		hantro_reg_write(vpu, &av1_quant_seg3,
-   939				 segval[3][V4L2_AV1_SEG_LVL_ALT_Q]);
-   940		hantro_reg_write(vpu, &av1_filt_level_delta0_seg3,
-   941				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   942		hantro_reg_write(vpu, &av1_filt_level_delta1_seg3,
-   943				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   944		hantro_reg_write(vpu, &av1_filt_level_delta2_seg3,
-   945				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   946		hantro_reg_write(vpu, &av1_filt_level_delta3_seg3,
-   947				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   948		hantro_reg_write(vpu, &av1_refpic_seg3,
-   949				 segval[3][V4L2_AV1_SEG_LVL_REF_FRAME]);
-   950		hantro_reg_write(vpu, &av1_skip_seg3,
-   951				 segval[3][V4L2_AV1_SEG_LVL_REF_SKIP]);
-   952		hantro_reg_write(vpu, &av1_global_mv_seg3,
-   953				 segval[3][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-   954	
-   955		hantro_reg_write(vpu, &av1_quant_seg4,
-   956				 segval[4][V4L2_AV1_SEG_LVL_ALT_Q]);
-   957		hantro_reg_write(vpu, &av1_filt_level_delta0_seg4,
-   958				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   959		hantro_reg_write(vpu, &av1_filt_level_delta1_seg4,
-   960				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   961		hantro_reg_write(vpu, &av1_filt_level_delta2_seg4,
-   962				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   963		hantro_reg_write(vpu, &av1_filt_level_delta3_seg4,
-   964				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   965		hantro_reg_write(vpu, &av1_refpic_seg4,
-   966				 segval[4][V4L2_AV1_SEG_LVL_REF_FRAME]);
-   967		hantro_reg_write(vpu, &av1_skip_seg4,
-   968				 segval[4][V4L2_AV1_SEG_LVL_REF_SKIP]);
-   969		hantro_reg_write(vpu, &av1_global_mv_seg4,
-   970				 segval[4][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-   971	
-   972		hantro_reg_write(vpu, &av1_quant_seg5,
-   973				 segval[5][V4L2_AV1_SEG_LVL_ALT_Q]);
-   974		hantro_reg_write(vpu, &av1_filt_level_delta0_seg5,
-   975				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   976		hantro_reg_write(vpu, &av1_filt_level_delta1_seg5,
-   977				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   978		hantro_reg_write(vpu, &av1_filt_level_delta2_seg5,
-   979				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   980		hantro_reg_write(vpu, &av1_filt_level_delta3_seg5,
-   981				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   982		hantro_reg_write(vpu, &av1_refpic_seg5,
-   983				 segval[5][V4L2_AV1_SEG_LVL_REF_FRAME]);
-   984		hantro_reg_write(vpu, &av1_skip_seg5,
-   985				 segval[5][V4L2_AV1_SEG_LVL_REF_SKIP]);
-   986		hantro_reg_write(vpu, &av1_global_mv_seg5,
-   987				 segval[5][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-   988	
-   989		hantro_reg_write(vpu, &av1_quant_seg6,
-   990				 segval[6][V4L2_AV1_SEG_LVL_ALT_Q]);
-   991		hantro_reg_write(vpu, &av1_filt_level_delta0_seg6,
-   992				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-   993		hantro_reg_write(vpu, &av1_filt_level_delta1_seg6,
-   994				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-   995		hantro_reg_write(vpu, &av1_filt_level_delta2_seg6,
-   996				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-   997		hantro_reg_write(vpu, &av1_filt_level_delta3_seg6,
-   998				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-   999		hantro_reg_write(vpu, &av1_refpic_seg6,
-  1000				 segval[6][V4L2_AV1_SEG_LVL_REF_FRAME]);
-  1001		hantro_reg_write(vpu, &av1_skip_seg6,
-  1002				 segval[6][V4L2_AV1_SEG_LVL_REF_SKIP]);
-  1003		hantro_reg_write(vpu, &av1_global_mv_seg6,
-  1004				 segval[6][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-  1005	
-  1006		hantro_reg_write(vpu, &av1_quant_seg7,
-  1007				 segval[7][V4L2_AV1_SEG_LVL_ALT_Q]);
-  1008		hantro_reg_write(vpu, &av1_filt_level_delta0_seg7,
-  1009				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
-  1010		hantro_reg_write(vpu, &av1_filt_level_delta1_seg7,
-  1011				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
-  1012		hantro_reg_write(vpu, &av1_filt_level_delta2_seg7,
-  1013				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_U]);
-  1014		hantro_reg_write(vpu, &av1_filt_level_delta3_seg7,
-  1015				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_V]);
-  1016		hantro_reg_write(vpu, &av1_refpic_seg7,
-  1017				 segval[7][V4L2_AV1_SEG_LVL_REF_FRAME]);
-  1018		hantro_reg_write(vpu, &av1_skip_seg7,
-  1019				 segval[7][V4L2_AV1_SEG_LVL_REF_SKIP]);
-  1020		hantro_reg_write(vpu, &av1_global_mv_seg7,
-  1021				 segval[7][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
-> 1022	}
-  1023	
+e192be9d9a3055 lib/chacha20.c Theodore Ts'o 2016-06-12  15  
+1ca1b917940c24 lib/chacha.c   Eric Biggers  2018-11-16  16  static void chacha_permute(u32 *x, int nrounds)
+e192be9d9a3055 lib/chacha20.c Theodore Ts'o 2016-06-12  17  {
+e192be9d9a3055 lib/chacha20.c Theodore Ts'o 2016-06-12  18  	int i;
+e192be9d9a3055 lib/chacha20.c Theodore Ts'o 2016-06-12  19  
+1ca1b917940c24 lib/chacha.c   Eric Biggers  2018-11-16  20  	/* whitelist the allowed round counts */
+aa7624093cb7fb lib/chacha.c   Eric Biggers  2018-11-16  21  	WARN_ON_ONCE(nrounds != 20 && nrounds != 12);
+1ca1b917940c24 lib/chacha.c   Eric Biggers  2018-11-16  22  
+1ca1b917940c24 lib/chacha.c   Eric Biggers  2018-11-16  23  	for (i = 0; i < nrounds; i += 2) {
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  24  		x[0]  += x[4];    x[12] = rol32(x[12] ^ x[0],  16);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  25  		x[1]  += x[5];    x[13] = rol32(x[13] ^ x[1],  16);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  26  		x[2]  += x[6];    x[14] = rol32(x[14] ^ x[2],  16);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  27  		x[3]  += x[7];    x[15] = rol32(x[15] ^ x[3],  16);
+e192be9d9a3055 lib/chacha20.c Theodore Ts'o 2016-06-12  28  
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  29  		x[8]  += x[12];   x[4]  = rol32(x[4]  ^ x[8],  12);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  30  		x[9]  += x[13];   x[5]  = rol32(x[5]  ^ x[9],  12);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  31  		x[10] += x[14];   x[6]  = rol32(x[6]  ^ x[10], 12);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  32  		x[11] += x[15];   x[7]  = rol32(x[7]  ^ x[11], 12);
+e192be9d9a3055 lib/chacha20.c Theodore Ts'o 2016-06-12  33  
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  34  		x[0]  += x[4];    x[12] = rol32(x[12] ^ x[0],   8);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  35  		x[1]  += x[5];    x[13] = rol32(x[13] ^ x[1],   8);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  36  		x[2]  += x[6];    x[14] = rol32(x[14] ^ x[2],   8);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  37  		x[3]  += x[7];    x[15] = rol32(x[15] ^ x[3],   8);
+e192be9d9a3055 lib/chacha20.c Theodore Ts'o 2016-06-12  38  
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  39  		x[8]  += x[12];   x[4]  = rol32(x[4]  ^ x[8],   7);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  40  		x[9]  += x[13];   x[5]  = rol32(x[5]  ^ x[9],   7);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  41  		x[10] += x[14];   x[6]  = rol32(x[6]  ^ x[10],  7);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  42  		x[11] += x[15];   x[7]  = rol32(x[7]  ^ x[11],  7);
+e192be9d9a3055 lib/chacha20.c Theodore Ts'o 2016-06-12  43  
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  44  		x[0]  += x[5];    x[15] = rol32(x[15] ^ x[0],  16);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  45  		x[1]  += x[6];    x[12] = rol32(x[12] ^ x[1],  16);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  46  		x[2]  += x[7];    x[13] = rol32(x[13] ^ x[2],  16);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  47  		x[3]  += x[4];    x[14] = rol32(x[14] ^ x[3],  16);
+e192be9d9a3055 lib/chacha20.c Theodore Ts'o 2016-06-12  48  
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  49  		x[10] += x[15];   x[5]  = rol32(x[5]  ^ x[10], 12);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  50  		x[11] += x[12];   x[6]  = rol32(x[6]  ^ x[11], 12);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  51  		x[8]  += x[13];   x[7]  = rol32(x[7]  ^ x[8],  12);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  52  		x[9]  += x[14];   x[4]  = rol32(x[4]  ^ x[9],  12);
+e192be9d9a3055 lib/chacha20.c Theodore Ts'o 2016-06-12  53  
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  54  		x[0]  += x[5];    x[15] = rol32(x[15] ^ x[0],   8);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  55  		x[1]  += x[6];    x[12] = rol32(x[12] ^ x[1],   8);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  56  		x[2]  += x[7];    x[13] = rol32(x[13] ^ x[2],   8);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  57  		x[3]  += x[4];    x[14] = rol32(x[14] ^ x[3],   8);
+e192be9d9a3055 lib/chacha20.c Theodore Ts'o 2016-06-12  58  
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  59  		x[10] += x[15];   x[5]  = rol32(x[5]  ^ x[10],  7);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  60  		x[11] += x[12];   x[6]  = rol32(x[6]  ^ x[11],  7);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  61  		x[8]  += x[13];   x[7]  = rol32(x[7]  ^ x[8],   7);
+7660b1fb367eb3 lib/chacha20.c Eric Biggers  2017-12-31  62  		x[9]  += x[14];   x[4]  = rol32(x[4]  ^ x[9],   7);
+e192be9d9a3055 lib/chacha20.c Theodore Ts'o 2016-06-12  63  	}
+dd333449d0fb66 lib/chacha20.c Eric Biggers  2018-11-16 @64  }
+dd333449d0fb66 lib/chacha20.c Eric Biggers  2018-11-16  65  
+
+:::::: The code at line 64 was first introduced by commit
+:::::: dd333449d0fb667c5250c42488a7e90470e16c77 crypto: chacha20-generic - add HChaCha20 library function
+
+:::::: TO: Eric Biggers <ebiggers@google.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
