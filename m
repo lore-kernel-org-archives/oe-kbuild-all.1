@@ -1,43 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4F31847
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 05:15:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95BBE1847
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 05:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688706955; x=1720242955;
+  t=1688707614; x=1720243614;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+Lp1BKTv/W4E0zdCCH6ll+5WitGDXSH0gydccqbJ1Hw=;
-  b=ivG3Fp2nblH2y9XHtXujNhLt1t75WSJChd4BbGVNp4GQOzZIZWgnqDuF
-   M7cWuz3FUG18l0B17eBffifL8GQCgQyfK+VMwt08blOIZq6DkK2RqpimS
-   4bOcLjO5sj59KeqB/4M7jgbh2fsERSMspCJIQNooiywqE/fX5Uy+724tr
-   S7HQ/Zgn7kB35MvgI/AL1gQDHjyTaozg+K6gHM0ChEz1+mHjzY1IP1u9G
-   Gl8jz2gME0vs8GVw7uAZVaHSkK8FIhBTMGVl2EpWEcO5o3WRyH8yzU6EI
-   TpTIWtjigpz2amQ9CnqoZJMLrzsRNda22tnbQMdImmsnkiJGnszNPkdb6
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="343391258"
+  bh=j5FigJxoFPSevRBplWyCC3cSyTfWYcWd+otIThq6j6U=;
+  b=KtU4kRZh2TOz5d2ElbNxdYs+kHXd7sivOA182LhNjggSCC2kE9OJ1/Nk
+   DHMT5/UompHgkKFN/bx46j/jzDi9HG53RwSnYXMtNoaKYUSYxtKxY286S
+   f71Dxt1r/NsQmvy/a+vz3bj8OfTuogn2zq4GTlnafYeXeWiz3+ZGN2oXm
+   26EJHqNNGCpTr44o9PpgcKbM3oxSpLj7aGFW3KpNbs2m0sZFfH0n7ab6g
+   pfiV5s4lgOxKFurKLBy1DmMiimG45mbi9GmphKWo5gCYQKtvSeRryqG38
+   CE6Ruw7OLQ5XqtPhDvJwd9c/yPxeKX+KgSMdP38WYOdUM2+Cr09PZvwjw
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="361280311"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="343391258"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 22:15:53 -0700
+   d="scan'208";a="361280311"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 22:26:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="713856810"
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="749415010"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="713856810"
+   d="scan'208";a="749415010"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 06 Jul 2023 22:15:52 -0700
+  by orsmga008.jf.intel.com with ESMTP; 06 Jul 2023 22:26:52 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHdot-0001n8-1E;
-	Fri, 07 Jul 2023 05:15:51 +0000
-Date: Fri, 7 Jul 2023 13:15:43 +0800
+	id 1qHdzX-0001nP-1k;
+	Fri, 07 Jul 2023 05:26:51 +0000
+Date: Fri, 7 Jul 2023 13:26:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-5.10 161/224]
- drivers/gpu/drm/msm/adreno/a5xx_gpu.c:1596:13: error: implicit declaration
- of function 'adreno_cmp_rev'
-Message-ID: <202307071335.MxjOLLNH-lkp@intel.com>
+Subject: [sashal-stable:pending-4.19 58/86]
+ drivers/gpu/drm/sun4i/sun4i_tcon.c:661:21: error: implicit declaration of
+ function 'devm_clk_get_enabled'
+Message-ID: <202307071347.amCEKL0V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,76 +47,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-5.10
-head:   f0a133b849634b4a3052fb456a980bf89a08f154
-commit: eb9e2a58334f2d0671b39f6ccafb5aa29ebc43ea [161/224] drm/msm/a5xx: really check for A510 in a5xx_gpu_init
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20230707/202307071335.MxjOLLNH-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230707/202307071335.MxjOLLNH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.19
+head:   b53596175480d790f9254a50e5fc5eb8ae15df06
+commit: bce03c0f8a6dc7bb6fceddc250b57cbb2c2cfda7 [58/86] drm: sun4i_tcon: use devm_clk_get_enabled in `sun4i_tcon_init_clocks`
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20230707/202307071347.amCEKL0V-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230707/202307071347.amCEKL0V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307071335.MxjOLLNH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307071347.amCEKL0V-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/msm/adreno/a5xx_gpu.c: In function 'a5xx_gpu_init':
->> drivers/gpu/drm/msm/adreno/a5xx_gpu.c:1596:13: error: implicit declaration of function 'adreno_cmp_rev' [-Werror=implicit-function-declaration]
-    1596 |         if (adreno_cmp_rev(ADRENO_REV(5, 1, 0, ANY_ID), config->rev))
-         |             ^~~~~~~~~~~~~~
-   In file included from drivers/gpu/drm/msm/adreno/a5xx_gpu.h:7,
-                    from drivers/gpu/drm/msm/adreno/a5xx_gpu.c:14:
->> drivers/gpu/drm/msm/adreno/a5xx_gpu.c:1596:48: error: 'ANY_ID' undeclared (first use in this function)
-    1596 |         if (adreno_cmp_rev(ADRENO_REV(5, 1, 0, ANY_ID), config->rev))
-         |                                                ^~~~~~
-   drivers/gpu/drm/msm/adreno/adreno_gpu.h:43:51: note: in definition of macro 'ADRENO_REV'
-      43 |         ((struct adreno_rev){ core, major, minor, patchid })
-         |                                                   ^~~~~~~
-   drivers/gpu/drm/msm/adreno/a5xx_gpu.c:1596:48: note: each undeclared identifier is reported only once for each function it appears in
-    1596 |         if (adreno_cmp_rev(ADRENO_REV(5, 1, 0, ANY_ID), config->rev))
-         |                                                ^~~~~~
-   drivers/gpu/drm/msm/adreno/adreno_gpu.h:43:51: note: in definition of macro 'ADRENO_REV'
-      43 |         ((struct adreno_rev){ core, major, minor, patchid })
-         |                                                   ^~~~~~~
+   drivers/gpu/drm/sun4i/sun4i_tcon.c:236:6: warning: no previous prototype for 'sun4i_tcon_set_mux' [-Wmissing-prototypes]
+     236 | void sun4i_tcon_set_mux(struct sun4i_tcon *tcon, int channel,
+         |      ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/sun4i/sun4i_tcon.c: In function 'sun4i_tcon_init_clocks':
+>> drivers/gpu/drm/sun4i/sun4i_tcon.c:661:21: error: implicit declaration of function 'devm_clk_get_enabled' [-Werror=implicit-function-declaration]
+     661 |         tcon->clk = devm_clk_get_enabled(dev, "ahb");
+         |                     ^~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/sun4i/sun4i_tcon.c:661:19: warning: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     661 |         tcon->clk = devm_clk_get_enabled(dev, "ahb");
+         |                   ^
+   drivers/gpu/drm/sun4i/sun4i_tcon.c:668:29: warning: assignment to 'struct clk *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     668 |                 tcon->sclk0 = devm_clk_get_enabled(dev, "tcon-ch0");
+         |                             ^
    cc1: some warnings being treated as errors
 
 
-vim +/adreno_cmp_rev +1596 drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+vim +/devm_clk_get_enabled +661 drivers/gpu/drm/sun4i/sun4i_tcon.c
 
-  1564	
-  1565	struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
-  1566	{
-  1567		struct msm_drm_private *priv = dev->dev_private;
-  1568		struct platform_device *pdev = priv->gpu_pdev;
-  1569		struct adreno_platform_config *config = pdev->dev.platform_data;
-  1570		struct a5xx_gpu *a5xx_gpu = NULL;
-  1571		struct adreno_gpu *adreno_gpu;
-  1572		struct msm_gpu *gpu;
-  1573		unsigned int nr_rings;
-  1574		int ret;
-  1575	
-  1576		if (!pdev) {
-  1577			DRM_DEV_ERROR(dev->dev, "No A5XX device is defined\n");
-  1578			return ERR_PTR(-ENXIO);
-  1579		}
-  1580	
-  1581		a5xx_gpu = kzalloc(sizeof(*a5xx_gpu), GFP_KERNEL);
-  1582		if (!a5xx_gpu)
-  1583			return ERR_PTR(-ENOMEM);
-  1584	
-  1585		adreno_gpu = &a5xx_gpu->base;
-  1586		gpu = &adreno_gpu->base;
-  1587	
-  1588		adreno_gpu->registers = a5xx_registers;
-  1589	
-  1590		a5xx_gpu->lm_leakage = 0x4E001A;
-  1591	
-  1592		check_speed_bin(&pdev->dev);
-  1593	
-  1594		nr_rings = 4;
-  1595	
-> 1596		if (adreno_cmp_rev(ADRENO_REV(5, 1, 0, ANY_ID), config->rev))
+   657	
+   658	static int sun4i_tcon_init_clocks(struct device *dev,
+   659					  struct sun4i_tcon *tcon)
+   660	{
+ > 661		tcon->clk = devm_clk_get_enabled(dev, "ahb");
+   662		if (IS_ERR(tcon->clk)) {
+   663			dev_err(dev, "Couldn't get the TCON bus clock\n");
+   664			return PTR_ERR(tcon->clk);
+   665		}
+   666	
+   667		if (tcon->quirks->has_channel_0) {
+   668			tcon->sclk0 = devm_clk_get_enabled(dev, "tcon-ch0");
+   669			if (IS_ERR(tcon->sclk0)) {
+   670				dev_err(dev, "Couldn't get the TCON channel 0 clock\n");
+   671				return PTR_ERR(tcon->sclk0);
+   672			}
+   673		}
+   674	
+   675		if (tcon->quirks->has_channel_1) {
+   676			tcon->sclk1 = devm_clk_get(dev, "tcon-ch1");
+   677			if (IS_ERR(tcon->sclk1)) {
+   678				dev_err(dev, "Couldn't get the TCON channel 1 clock\n");
+   679				return PTR_ERR(tcon->sclk1);
+   680			}
+   681		}
+   682	
+   683		return 0;
+   684	}
+   685	
 
 -- 
 0-DAY CI Kernel Test Service
