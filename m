@@ -1,43 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D165BEA0
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 04:44:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FAD0EA0
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 04:54:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688705093; x=1720241093;
+  t=1688705694; x=1720241694;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nD42HRx5vJXU3q7h4tSdfN3r4GdJj1E6kKSLmIZ3xCY=;
-  b=QYpqA9sYi/qjxu0Oxiz/HLbNvpN9akvsrQqEEL8QeaVU97GzLzVGyo6F
-   yCpotE7VR9P5PcNP5/oyvjkT6rv5V3m7HPZFNuYVOxE+O9f5GMbZgzZFs
-   rXUiuHXoe+flTur2IWsrQElD4Vy/wgx+CPdwt6G6OhFn2Lw8l0FNv/PFn
-   bV28iWGaXSAIeNNYAtMpkhij4uFTp52MWdd1aJOJldtg7HlypIxqTuxxo
-   kDnj8+j8f5AKvFsNgeVlMrMxhuDvn2LhOK/rreE3O0zKlPJN7QJZeSLEX
-   QLEeXoBArFkDNXWKtAHevIK2cimdfjl52l6Hkt7C2iBObZhoJgLRn69EY
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="353644817"
+  bh=LgldmfA4LzB7+LsGsLhJ/NliyvJEqcva3PgMfN4xTJ4=;
+  b=ghOT8BMWIk6zruhrhIU7+GBbVXoUad0ca7Rc33XYqxEeAWxKYu9xNE28
+   cBa0YahnjF/K+mpV0vbiQ7RBdZvA/0cSaYZRDYiEilH7DCX6rVervrey1
+   /zNTBXHrtWAwqgRSRe32vCnIn5uUtB/pVEdaj0DwUDYUIUAuCaooM2gM5
+   ZJRG40Mw/8E3uhbZ+6Rdg0/YvRH5SKfwy+/k1Y4DQFK9MMMT9njoNUvHP
+   qnUO7ioLrPWhrHWWa2c4CZCe0f4ZjJCtBHJinYIDM3TZgEKxbOQjD2Qzd
+   K+2xHaF5dPECsKesEBBiywN1gHnajj0ddHbJV948xsIz6+OBA0Hsl6rO9
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="343388919"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="353644817"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 21:44:53 -0700
+   d="scan'208";a="343388919"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 21:54:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="833224137"
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="713849977"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="833224137"
+   d="scan'208";a="713849977"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 06 Jul 2023 21:44:51 -0700
+  by orsmga007.jf.intel.com with ESMTP; 06 Jul 2023 21:54:51 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHdKs-0001m6-34;
-	Fri, 07 Jul 2023 04:44:50 +0000
-Date: Fri, 7 Jul 2023 12:44:07 +0800
+	id 1qHdUZ-0001mM-0D;
+	Fri, 07 Jul 2023 04:54:51 +0000
+Date: Fri, 7 Jul 2023 12:54:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Stanley <joel@jms.id.au>
+To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [shenki:aspeed-xvuart-host-driver 1/3]
- drivers/usb/host/xhci.c:821:9: error: implicit declaration of function
- 'pci_reset_function_locked'
-Message-ID: <202307071251.PXxKPhZe-lkp@intel.com>
+Subject: [sashal-stable:pending-6.3 444/447] fs/cifs/dfs.c:179:33: warning:
+ variable 'server' set but not used
+Message-ID: <202307071213.bb9MzsY6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,81 +46,138 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/shenki/linux aspeed-xvuart-host-driver
-head:   8384d7b383c2aff772d5503ddddd8a938e48c43f
-commit: 2f1386a42c87b79737b1363bbfd01f7b6c1aee2e [1/3] xhci: Reset controller on xhci shutdown
-config: arc-randconfig-r043-20230707 (https://download.01.org/0day-ci/archive/20230707/202307071251.PXxKPhZe-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230707/202307071251.PXxKPhZe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.3
+head:   51bfdb3b0197233d991e42cdd52b7816db375594
+commit: 94c435f9ab6d7bf728644b293b9189b609b87da5 [444/447] smb: client: fix shared DFS root mounts with different prefixes
+config: microblaze-randconfig-r016-20230707 (https://download.01.org/0day-ci/archive/20230707/202307071213.bb9MzsY6-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230707/202307071213.bb9MzsY6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307071251.PXxKPhZe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307071213.bb9MzsY6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/usb/host/xhci.c: In function 'xhci_shutdown':
->> drivers/usb/host/xhci.c:821:9: error: implicit declaration of function 'pci_reset_function_locked' [-Werror=implicit-function-declaration]
-     821 |         pci_reset_function_locked(to_pci_dev(hcd->self.sysdev));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   fs/cifs/dfs.c: In function '__dfs_mount_share':
+>> fs/cifs/dfs.c:179:33: warning: variable 'server' set but not used [-Wunused-but-set-variable]
+     179 |         struct TCP_Server_Info *server;
+         |                                 ^~~~~~
 
 
-vim +/pci_reset_function_locked +821 drivers/usb/host/xhci.c
+vim +/server +179 fs/cifs/dfs.c
 
-   773	
-   774	/*
-   775	 * Shutdown HC (not bus-specific)
-   776	 *
-   777	 * This is called when the machine is rebooting or halting.  We assume that the
-   778	 * machine will be powered off, and the HC's internal state will be reset.
-   779	 * Don't bother to free memory.
-   780	 *
-   781	 * This will only ever be called with the main usb_hcd (the USB3 roothub).
-   782	 */
-   783	void xhci_shutdown(struct usb_hcd *hcd)
-   784	{
-   785		struct xhci_hcd *xhci = hcd_to_xhci(hcd);
-   786	
-   787		if (xhci->quirks & XHCI_SPURIOUS_REBOOT)
-   788			usb_disable_xhci_ports(to_pci_dev(hcd->self.sysdev));
-   789	
-   790		/* Don't poll the roothubs after shutdown. */
-   791		xhci_dbg(xhci, "%s: stopping usb%d port polling.\n",
-   792				__func__, hcd->self.busnum);
-   793		clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
-   794		del_timer_sync(&hcd->rh_timer);
-   795	
-   796		if (xhci->shared_hcd) {
-   797			clear_bit(HCD_FLAG_POLL_RH, &xhci->shared_hcd->flags);
-   798			del_timer_sync(&xhci->shared_hcd->rh_timer);
-   799		}
-   800	
-   801		spin_lock_irq(&xhci->lock);
-   802		xhci_halt(xhci);
-   803	
-   804		/*
-   805		 * Workaround for spurious wakeps at shutdown with HSW, and for boot
-   806		 * firmware delay in ADL-P PCH if port are left in U3 at shutdown
-   807		 */
-   808		if (xhci->quirks & XHCI_SPURIOUS_WAKEUP ||
-   809		    xhci->quirks & XHCI_RESET_TO_DEFAULT)
-   810			xhci_reset(xhci, XHCI_RESET_SHORT_USEC);
-   811	
-   812		spin_unlock_irq(&xhci->lock);
-   813	
-   814		xhci_cleanup_msix(xhci);
-   815	
-   816		xhci_dbg_trace(xhci, trace_xhci_dbg_init,
-   817				"xhci_shutdown completed - status = %x",
-   818				readl(&xhci->op_regs->status));
-   819	
-   820		/* TI XHCI controllers do not come back after kexec without this hack */
- > 821		pci_reset_function_locked(to_pci_dev(hcd->self.sysdev));
-   822	}
-   823	EXPORT_SYMBOL_GPL(xhci_shutdown);
-   824	
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  172  
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  173  static int __dfs_mount_share(struct cifs_mount_ctx *mnt_ctx)
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  174  {
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  175  	struct cifs_sb_info *cifs_sb = mnt_ctx->cifs_sb;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  176  	struct smb3_fs_context *ctx = mnt_ctx->fs_ctx;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  177  	char *ref_path = NULL, *full_path = NULL;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  178  	struct dfs_cache_tgt_iterator *tit;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17 @179  	struct TCP_Server_Info *server;
+396935de145589 Paulo Alcantara 2023-03-14  180  	struct cifs_tcon *tcon;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  181  	char *origin_fullpath = NULL;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  182  	int num_links = 0;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  183  	int rc;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  184  
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  185  	ref_path = dfs_get_path(cifs_sb, ctx->UNC);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  186  	if (IS_ERR(ref_path))
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  187  		return PTR_ERR(ref_path);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  188  
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  189  	full_path = build_unc_path_to_root(ctx, cifs_sb, true);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  190  	if (IS_ERR(full_path)) {
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  191  		rc = PTR_ERR(full_path);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  192  		full_path = NULL;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  193  		goto out;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  194  	}
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  195  
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  196  	origin_fullpath = kstrdup(full_path, GFP_KERNEL);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  197  	if (!origin_fullpath) {
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  198  		rc = -ENOMEM;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  199  		goto out;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  200  	}
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  201  
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  202  	do {
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  203  		struct dfs_cache_tgt_list tl = DFS_CACHE_TGT_LIST_INIT(tl);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  204  
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  205  		rc = dfs_get_referral(mnt_ctx, ref_path + 1, NULL, &tl);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  206  		if (rc)
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  207  			break;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  208  
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  209  		tit = dfs_cache_get_tgt_iterator(&tl);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  210  		if (!tit) {
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  211  			cifs_dbg(VFS, "%s: dfs referral (%s) with no targets\n", __func__,
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  212  				 ref_path + 1);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  213  			rc = -ENOENT;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  214  			dfs_cache_free_tgts(&tl);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  215  			break;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  216  		}
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  217  
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  218  		do {
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  219  			rc = get_dfs_conn(mnt_ctx, ref_path, full_path, tit);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  220  			if (!rc)
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  221  				break;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  222  			if (rc == -EREMOTE) {
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  223  				if (++num_links > MAX_NESTED_LINKS) {
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  224  					rc = -ELOOP;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  225  					break;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  226  				}
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  227  				kfree(ref_path);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  228  				kfree(full_path);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  229  				ref_path = full_path = NULL;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  230  
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  231  				full_path = build_unc_path_to_root(ctx, cifs_sb, true);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  232  				if (IS_ERR(full_path)) {
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  233  					rc = PTR_ERR(full_path);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  234  					full_path = NULL;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  235  				} else {
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  236  					ref_path = dfs_get_path(cifs_sb, full_path);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  237  					if (IS_ERR(ref_path)) {
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  238  						rc = PTR_ERR(ref_path);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  239  						ref_path = NULL;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  240  					}
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  241  				}
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  242  				break;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  243  			}
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  244  		} while ((tit = dfs_cache_get_next_tgt(&tl, tit)));
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  245  		dfs_cache_free_tgts(&tl);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  246  	} while (rc == -EREMOTE);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  247  
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  248  	if (!rc) {
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  249  		server = mnt_ctx->server;
+396935de145589 Paulo Alcantara 2023-03-14  250  		tcon = mnt_ctx->tcon;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  251  
+94c435f9ab6d7b Paulo Alcantara 2023-06-26  252  		spin_lock(&tcon->tc_lock);
+94c435f9ab6d7b Paulo Alcantara 2023-06-26  253  		if (!tcon->origin_fullpath) {
+94c435f9ab6d7b Paulo Alcantara 2023-06-26  254  			tcon->origin_fullpath = origin_fullpath;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  255  			origin_fullpath = NULL;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  256  		}
+94c435f9ab6d7b Paulo Alcantara 2023-06-26  257  		spin_unlock(&tcon->tc_lock);
+396935de145589 Paulo Alcantara 2023-03-14  258  
+396935de145589 Paulo Alcantara 2023-03-14  259  		if (list_empty(&tcon->dfs_ses_list)) {
+396935de145589 Paulo Alcantara 2023-03-14  260  			list_replace_init(&mnt_ctx->dfs_ses_list,
+396935de145589 Paulo Alcantara 2023-03-14  261  					  &tcon->dfs_ses_list);
+3139ea00ef1b9f Paulo Alcantara 2023-04-27  262  			queue_delayed_work(dfscache_wq, &tcon->dfs_cache_work,
+3139ea00ef1b9f Paulo Alcantara 2023-04-27  263  					   dfs_cache_get_ttl() * HZ);
+396935de145589 Paulo Alcantara 2023-03-14  264  		} else {
+396935de145589 Paulo Alcantara 2023-03-14  265  			dfs_put_root_smb_sessions(&mnt_ctx->dfs_ses_list);
+396935de145589 Paulo Alcantara 2023-03-14  266  		}
+396935de145589 Paulo Alcantara 2023-03-14  267  	}
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  268  
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  269  out:
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  270  	kfree(origin_fullpath);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  271  	kfree(ref_path);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  272  	kfree(full_path);
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  273  	return rc;
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  274  }
+a1c0d00572fca4 Paulo Alcantara 2022-11-17  275  
+
+:::::: The code at line 179 was first introduced by commit
+:::::: a1c0d00572fca4adcb40e1fbd3acd481fc75e20b cifs: share dfs connections and supers
+
+:::::: TO: Paulo Alcantara <pc@cjr.nz>
+:::::: CC: Steve French <stfrench@microsoft.com>
 
 -- 
 0-DAY CI Kernel Test Service
