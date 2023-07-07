@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0485623C7
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 19:41:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325A217726
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 20:12:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688758872; x=1720294872;
+  t=1688760733; x=1720296733;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PCcplMsi/8rRpcVmj6FSLI7d7Ka19d5vqdyybxKiClo=;
-  b=P3h1gntvLQ6W6EDcLlh96jSbj6UK8OWxTK/oRB9o1AJ/uBIZM0Ooh6Ez
-   4Td+/SE3dPR4zPzeVyu4mzkdb0Ax69tkMNK3aY+KD2M+rusRa1v1GmWnH
-   N/kRbkpE4hq/ODG1LVogdR1RHZFWa9XGzKoHfvlmzaqkJ5dfZD32mBj1z
-   qukl21pYTxL3b3raq+rWwD7MoE9kEfm6ZEhmp55TCgcuL0C57vcf3HXK0
-   Q3FLdRI73VaUDHyUNmTTmqiZpd4HrJazzVGhV+i9sliBZtL9y2QNuifzg
-   uLXsIQWHvoUc4sAPMynDkjFFOswze+gJT9nY6g1R+dTS/uiCWSWa3Y5SH
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="344297025"
+  bh=6jsFjPE6WOVxqzRf19OWApkzkZKGWE/KloDs1I4SFyI=;
+  b=J2+YAetWueUC6apWhsnxf3X88nZXt8HUbXXTmo7N/OnLDbhCyqm5rQjc
+   Y3GvqDlpfo+F5CnKKDJoxuBFXCQA5uRLyP92TjKJy/HjIQxGJwlNwH0+E
+   e9GOPXZu6ghmDuaMBK4cUe/WLNHPcGTK33jljM3nqGd5FvkSQl0RMH5n/
+   XqfysZXY65gEGg5BSriQzAAyobaC6roe8ATfQ7e8bMV9oF+gSv5ndENxm
+   L4ExIOP2PmfvxOb2GXLq21XkBBINGdTzOPAOXmx0A1YqKBewP6oE0QIK1
+   1XrfhwiwpOdCQkhz1htVXNAvdR/jxR3c8KkMPLtxL+16NLnrtYMG6QW6r
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="364012847"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="344297025"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 12:41:10 -0700
+   d="scan'208";a="364012847"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 13:12:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="790085275"
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="785469127"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="790085275"
+   d="scan'208";a="785469127"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 07 Jul 2023 12:41:09 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 07 Jul 2023 13:12:09 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHrKG-0002Ek-0N;
-	Fri, 07 Jul 2023 19:41:08 +0000
-Date: Sat, 8 Jul 2023 03:40:09 +0800
+	id 1qHroG-0002Fe-1m;
+	Fri, 07 Jul 2023 20:12:08 +0000
+Date: Sat, 8 Jul 2023 04:11:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Subject: arch/sh/boards/mach-hp6xx/hp6xx_apm.c:32:22: warning: variable
- 'backup' set but not used
-Message-ID: <202307080311.ZgsVj2PR-lkp@intel.com>
+To: Matthew Wilcox <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [willy-pagecache:set_ptes 13/37]
+ arch/loongarch/include/asm/pgtable.h:341:17: error: implicit declaration of
+ function 'set_pte_at'; did you mean 'set_pmd_at'?
+Message-ID: <202307080436.gR49oUPx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,84 +47,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Masahiro,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4f6b6c2b2f86b7878a770736bf478d8a263ff0bc
-commit: 706afcea16cd83fecb7c2229ccc31bb237ffdbef sh: Fix -Wmissing-include-dirs warnings for various platforms
-date:   2 days ago
-config: sh-hp6xx_defconfig (https://download.01.org/0day-ci/archive/20230708/202307080311.ZgsVj2PR-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230708/202307080311.ZgsVj2PR-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/willy/pagecache set_ptes
+head:   a357c8502e070a8a7aa2fa94492fd040ae053b78
+commit: 4d8ff6824fca631b7236c305e3cd3aac0c831a88 [13/37] loongarch: Implement the new page table range API
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230708/202307080436.gR49oUPx-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230708/202307080436.gR49oUPx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307080311.ZgsVj2PR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307080436.gR49oUPx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arch/sh/boards/mach-hp6xx/hp6xx_apm.c: In function 'hp6x0_apm_get_power_status':
->> arch/sh/boards/mach-hp6xx/hp6xx_apm.c:32:22: warning: variable 'backup' set but not used [-Wunused-but-set-variable]
-      32 |         int battery, backup, charging, percentage;
-         |                      ^~~~~~
+   In file included from include/linux/pgtable.h:6,
+                    from include/linux/mm.h:29,
+                    from arch/loongarch/kernel/asm-offsets.c:9:
+   arch/loongarch/include/asm/pgtable.h: In function 'pte_clear':
+>> arch/loongarch/include/asm/pgtable.h:341:17: error: implicit declaration of function 'set_pte_at'; did you mean 'set_pmd_at'? [-Werror=implicit-function-declaration]
+     341 |                 set_pte_at(mm, addr, ptep, __pte(_PAGE_GLOBAL));
+         |                 ^~~~~~~~~~
+         |                 set_pmd_at
+   In file included from include/linux/cacheflush.h:5,
+                    from include/linux/highmem.h:8,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/writeback.h:13,
+                    from include/linux/memcontrol.h:22,
+                    from include/linux/swap.h:9,
+                    from include/linux/suspend.h:5,
+                    from arch/loongarch/kernel/asm-offsets.c:11:
+   include/linux/cacheflush.h: At top level:
+>> arch/loongarch/include/asm/cacheflush.h:53:57: error: expected identifier or '(' before 'do'
+      53 | #define flush_dcache_folio(folio)                       do { } while (0)
+         |                                                         ^~
+   include/linux/cacheflush.h:14:20: note: in expansion of macro 'flush_dcache_folio'
+      14 | static inline void flush_dcache_folio(struct folio *folio)
+         |                    ^~~~~~~~~~~~~~~~~~
+>> arch/loongarch/include/asm/cacheflush.h:53:64: error: expected identifier or '(' before 'while'
+      53 | #define flush_dcache_folio(folio)                       do { } while (0)
+         |                                                                ^~~~~
+   include/linux/cacheflush.h:14:20: note: in expansion of macro 'flush_dcache_folio'
+      14 | static inline void flush_dcache_folio(struct folio *folio)
+         |                    ^~~~~~~~~~~~~~~~~~
+>> include/linux/cacheflush.h:17: warning: "flush_dcache_folio" redefined
+      17 | #define flush_dcache_folio flush_dcache_folio
+         | 
+   arch/loongarch/include/asm/cacheflush.h:53: note: this is the location of the previous definition
+      53 | #define flush_dcache_folio(folio)                       do { } while (0)
+         | 
+   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
+      17 | void output_ptreg_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
+      64 | void output_task_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
+      79 | void output_thread_info_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
+      95 | void output_thread_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:138:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
+     138 | void output_thread_fpu_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:178:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
+     178 | void output_mm_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:210:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
+     210 | void output_sc_defines(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:218:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
+     218 | void output_signal_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:256:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
+     256 | void output_smpboot_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:266:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
+     266 | void output_pbe_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~
+   arch/loongarch/kernel/asm-offsets.c:278:6: warning: no previous prototype for 'output_fgraph_ret_regs_defines' [-Wmissing-prototypes]
+     278 | void output_fgraph_ret_regs_defines(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1275: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:234: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:234: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/backup +32 arch/sh/boards/mach-hp6xx/hp6xx_apm.c
+vim +341 arch/loongarch/include/asm/pgtable.h
 
-dd4f99b42dcce8 arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2008-03-06  29  
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  30  static void hp6x0_apm_get_power_status(struct apm_power_info *info)
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  31  {
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24 @32  	int battery, backup, charging, percentage;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  33  	u8 pgdr;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  34  
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  35  	battery		= adc_single(ADC_CHANNEL_BATTERY);
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  36  	backup		= adc_single(ADC_CHANNEL_BACKUP);
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  37  	charging	= adc_single(ADC_CHANNEL_CHARGE);
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  38  
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  39  	percentage = 100 * (battery - HP680_BATTERY_MIN) /
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  40  			   (HP680_BATTERY_MAX - HP680_BATTERY_MIN);
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  41  
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  42  	/* % of full battery */
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  43  	info->battery_life = percentage;
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  44  
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  45  	/* We want our estimates in minutes */
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  46  	info->units = 0;
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  47  
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  48  	/* Extremely(!!) rough estimate, we will replace this with a datalist later on */
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  49  	info->time = (2 * battery);
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  50  
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  51  	info->ac_line_status = (battery > HP680_BATTERY_AC_ON) ?
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  52  			 APM_AC_ONLINE : APM_AC_OFFLINE;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  53  
-9d56dd3b083a3b arch/sh/boards/mach-hp6xx/hp6xx_apm.c Paul Mundt         2010-01-26  54  	pgdr = __raw_readb(PGDR);
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  55  	if (pgdr & PGDR_MAIN_BATTERY_OUT) {
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  56  		info->battery_status	= APM_BATTERY_STATUS_NOT_PRESENT;
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  57  		info->battery_flag	= 0x80;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  58  	} else if (charging < 8) {
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  59  		info->battery_status	= APM_BATTERY_STATUS_CHARGING;
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  60  		info->battery_flag	= 0x08;
-8b03c040e4efaa arch/sh/boards/hp6xx/hp6xx_apm.c      Kristoffer Ericson 2008-03-04  61  		info->ac_line_status	= 0x01;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  62  	} else if (percentage <= APM_CRITICAL) {
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  63  		info->battery_status	= APM_BATTERY_STATUS_CRITICAL;
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  64  		info->battery_flag	= 0x04;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  65  	} else if (percentage <= APM_LOW) {
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  66  		info->battery_status	= APM_BATTERY_STATUS_LOW;
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  67  		info->battery_flag	= 0x02;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  68  	} else {
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  69  		info->battery_status	= APM_BATTERY_STATUS_HIGH;
-0a9b0db19262db arch/sh/boards/hp6xx/hp6xx_apm.c      Paul Mundt         2007-01-24  70  		info->battery_flag	= 0x01;
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  71  	}
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  72  }
-3aa770e7972723 arch/sh/boards/hp6xx/hp6xx_apm.c      Andriy Skulysh     2006-09-27  73  
+09cfefb7fa70c3 Huacai Chen 2022-05-31  336  
+09cfefb7fa70c3 Huacai Chen 2022-05-31  337  static inline void pte_clear(struct mm_struct *mm, unsigned long addr, pte_t *ptep)
+09cfefb7fa70c3 Huacai Chen 2022-05-31  338  {
+09cfefb7fa70c3 Huacai Chen 2022-05-31  339  	/* Preserve global status for the pair */
+09cfefb7fa70c3 Huacai Chen 2022-05-31  340  	if (pte_val(*ptep_buddy(ptep)) & _PAGE_GLOBAL)
+09cfefb7fa70c3 Huacai Chen 2022-05-31 @341  		set_pte_at(mm, addr, ptep, __pte(_PAGE_GLOBAL));
+09cfefb7fa70c3 Huacai Chen 2022-05-31  342  	else
+09cfefb7fa70c3 Huacai Chen 2022-05-31  343  		set_pte_at(mm, addr, ptep, __pte(0));
+09cfefb7fa70c3 Huacai Chen 2022-05-31  344  }
+09cfefb7fa70c3 Huacai Chen 2022-05-31  345  
 
-:::::: The code at line 32 was first introduced by commit
-:::::: 0a9b0db19262dbb09f3a34195e68cafd5dc3fa10 [APM] SH: Convert to use shared APM emulation.
+:::::: The code at line 341 was first introduced by commit
+:::::: 09cfefb7fa70c3af011b0db0a513fd80b2f18abc LoongArch: Add memory management
 
-:::::: TO: Paul Mundt <lethal@linux-sh.org>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+:::::: TO: Huacai Chen <chenhuacai@loongson.cn>
+:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
 
 -- 
 0-DAY CI Kernel Test Service
