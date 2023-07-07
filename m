@@ -1,43 +1,43 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED931852
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 06:08:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18FE31852
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 06:18:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688710134; x=1720246134;
+  t=1688710735; x=1720246735;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9xA0TzFO87QcC0oCTlkVEcDZtBL0YP3r7T82rd530mc=;
-  b=h/Swkk4zb7FYpwrzd5GBCJPR/wDpO9m2nshxfvmJy6mjkLfLG56QRrOu
-   epoKTAw/RobryOXDPgqmg6fAzrcWmtlBivMl35mS66VI3qF4CR/Y/gpIw
-   B0SPx5E9lr3p3LTNvOIDE1hDsYUSHKzqcGqCSYM1jsXvoccrxf5JzWKAT
-   zvGcKcACfMX0n/m36wWYO0l20KMqLOoQ1Wyn2Cv2QskfST6Gd0CjDk6b2
-   aoi21H3s+vyxf6MkZHGtD4X2STZ9lWFd8GPu85pDmX3LBAjbhCmNwZaj1
-   qdrkCYpk3NZm8emX38vZv5wFFjvTAa3qO0eWLabohKL5lHxRyGJQW/G0D
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="344145066"
+  bh=MkRE//IDAootJLyPoh+RwHPmTACJw2KJneRG/ZGrKsg=;
+  b=aA8gNYM8LQkvXQn3J7NQ8Xaqgbt0ZGtXPOC3+tevMFRnX4SnInL4LlMw
+   UmCcRd6kjyFLHSvDqX/PR0ZpYRKbd7Dm7OfujRyMJQvJZqo20gxRIS7C+
+   WzZS9yjDRLsluJ8MJQ0jF82p6W7z5zVCG6C85cGULzKj9HR0aKK69oEc1
+   Qi0KqDziYM9a3Twdezz5U4iTF0cS/jCCma9eJGK5A33Cc3JM9ysIRoFwO
+   DpgdyluPb2s92PJVGe9+xlQ9/DD+TZDSnNwcK3UU3fRY6GkfbXFY/sLpa
+   IR1uyKrGWTPEMWYkoAml8I0OJfdJRa34GDwgm3dGPUdXdy4VTkj98TD03
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="427495685"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="344145066"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 23:08:53 -0700
+   d="scan'208";a="427495685"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 23:18:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="785224155"
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="809919418"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="785224155"
+   d="scan'208";a="809919418"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 06 Jul 2023 23:08:52 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 06 Jul 2023 23:18:53 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHeeC-0001p6-0o;
-	Fri, 07 Jul 2023 06:08:52 +0000
-Date: Fri, 7 Jul 2023 14:08:07 +0800
+	id 1qHens-0001pa-1I;
+	Fri, 07 Jul 2023 06:18:52 +0000
+Date: Fri, 7 Jul 2023 14:18:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
+To: Joel Stanley <joel@jms.id.au>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-6.1 51/377]
- drivers/thermal/mediatek/auxadc_thermal.c:562: warning: expecting prototype
- for raw_to_mcelsius(). Prototype was for raw_to_mcelsius_v1() instead
-Message-ID: <202307071353.WQByt7h3-lkp@intel.com>
+Subject: [shenki:aspeed-xvuart-host-driver 1/3]
+ drivers/usb/host/xhci.c:821:2: error: implicit declaration of function
+ 'pci_reset_function_locked'
+Message-ID: <202307071417.LjEvXTQi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,60 +47,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Balsam,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.1
-head:   91da1079a24840825fccc4b320c4a08b4b66fcdd
-commit: 0c5ad2b0ede5b59edcbbb1114c18d9f5cdda47a4 [51/377] thermal/drivers/mediatek: Relocate driver to mediatek folder
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230707/202307071353.WQByt7h3-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230707/202307071353.WQByt7h3-lkp@intel.com/reproduce)
+tree:   https://github.com/shenki/linux aspeed-xvuart-host-driver
+head:   8384d7b383c2aff772d5503ddddd8a938e48c43f
+commit: 2f1386a42c87b79737b1363bbfd01f7b6c1aee2e [1/3] xhci: Reset controller on xhci shutdown
+config: x86_64-buildonly-randconfig-r002-20230706 (https://download.01.org/0day-ci/archive/20230707/202307071417.LjEvXTQi-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230707/202307071417.LjEvXTQi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307071353.WQByt7h3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307071417.LjEvXTQi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/thermal/mediatek/auxadc_thermal.c:562: warning: expecting prototype for raw_to_mcelsius(). Prototype was for raw_to_mcelsius_v1() instead
+>> drivers/usb/host/xhci.c:821:2: error: implicit declaration of function 'pci_reset_function_locked' [-Werror,-Wimplicit-function-declaration]
+           pci_reset_function_locked(to_pci_dev(hcd->self.sysdev));
+           ^
+   1 error generated.
 
 
-vim +562 drivers/thermal/mediatek/auxadc_thermal.c
+vim +/pci_reset_function_locked +821 drivers/usb/host/xhci.c
 
-a4ffe6b52d27f4 drivers/thermal/mtk_thermal.c Michael Kao   2019-02-01  551  
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  552  /**
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  553   * raw_to_mcelsius - convert a raw ADC value to mcelsius
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  554   * @mt:	The thermal controller
-3772bb422072d4 drivers/thermal/mtk_thermal.c Amit Kucheria 2019-11-20  555   * @sensno:	sensor number
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  556   * @raw:	raw ADC value
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  557   *
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  558   * This converts the raw ADC value to mcelsius using the SoC specific
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  559   * calibration constants
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  560   */
-54bf1e5a629dfb drivers/thermal/mtk_thermal.c Henry Yen     2020-04-30  561  static int raw_to_mcelsius_v1(struct mtk_thermal *mt, int sensno, s32 raw)
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30 @562  {
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  563  	s32 tmp;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  564  
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  565  	raw &= 0xfff;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  566  
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  567  	tmp = 203450520 << 3;
-f84514766985d3 drivers/thermal/mtk_thermal.c Michael Kao   2019-02-01  568  	tmp /= mt->conf->cali_val + mt->o_slope;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  569  	tmp /= 10000 + mt->adc_ge;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  570  	tmp *= raw - mt->vts[sensno] - 3350;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  571  	tmp >>= 3;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  572  
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  573  	return mt->degc_cali * 500 - tmp;
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  574  }
-a92db1c8089e82 drivers/thermal/mtk_thermal.c Sascha Hauer  2015-11-30  575  
-
-:::::: The code at line 562 was first introduced by commit
-:::::: a92db1c8089e82b7524545d15b6d6ee6cee67965 thermal: Add Mediatek thermal controller support
-
-:::::: TO: Sascha Hauer <s.hauer@pengutronix.de>
-:::::: CC: Eduardo Valentin <edubezval@gmail.com>
+   773	
+   774	/*
+   775	 * Shutdown HC (not bus-specific)
+   776	 *
+   777	 * This is called when the machine is rebooting or halting.  We assume that the
+   778	 * machine will be powered off, and the HC's internal state will be reset.
+   779	 * Don't bother to free memory.
+   780	 *
+   781	 * This will only ever be called with the main usb_hcd (the USB3 roothub).
+   782	 */
+   783	void xhci_shutdown(struct usb_hcd *hcd)
+   784	{
+   785		struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+   786	
+   787		if (xhci->quirks & XHCI_SPURIOUS_REBOOT)
+   788			usb_disable_xhci_ports(to_pci_dev(hcd->self.sysdev));
+   789	
+   790		/* Don't poll the roothubs after shutdown. */
+   791		xhci_dbg(xhci, "%s: stopping usb%d port polling.\n",
+   792				__func__, hcd->self.busnum);
+   793		clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
+   794		del_timer_sync(&hcd->rh_timer);
+   795	
+   796		if (xhci->shared_hcd) {
+   797			clear_bit(HCD_FLAG_POLL_RH, &xhci->shared_hcd->flags);
+   798			del_timer_sync(&xhci->shared_hcd->rh_timer);
+   799		}
+   800	
+   801		spin_lock_irq(&xhci->lock);
+   802		xhci_halt(xhci);
+   803	
+   804		/*
+   805		 * Workaround for spurious wakeps at shutdown with HSW, and for boot
+   806		 * firmware delay in ADL-P PCH if port are left in U3 at shutdown
+   807		 */
+   808		if (xhci->quirks & XHCI_SPURIOUS_WAKEUP ||
+   809		    xhci->quirks & XHCI_RESET_TO_DEFAULT)
+   810			xhci_reset(xhci, XHCI_RESET_SHORT_USEC);
+   811	
+   812		spin_unlock_irq(&xhci->lock);
+   813	
+   814		xhci_cleanup_msix(xhci);
+   815	
+   816		xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+   817				"xhci_shutdown completed - status = %x",
+   818				readl(&xhci->op_regs->status));
+   819	
+   820		/* TI XHCI controllers do not come back after kexec without this hack */
+ > 821		pci_reset_function_locked(to_pci_dev(hcd->self.sysdev));
+   822	}
+   823	EXPORT_SYMBOL_GPL(xhci_shutdown);
+   824	
 
 -- 
 0-DAY CI Kernel Test Service
