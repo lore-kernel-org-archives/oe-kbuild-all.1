@@ -1,42 +1,42 @@
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D67717ACF
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 22:17:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9184317ACF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 22:17:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688768234; x=1720304234;
+  t=1688768236; x=1720304236;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9n6s/NxY9hFc9Ydb8doEe7DVJJAeNqsAwiGQ9U6KObQ=;
-  b=DGxNq6RF3yeRtCQng3eYFInJ59xlVSKtZqCC1GgAVTQ8vQMD2q1CSYGQ
-   bZWSWkve7FlxooaJcq5mGmShWk7pmsrFdpjou9+E8wQuY1BS39tNs8ztM
-   /+mBBkSWu6hpW5mPcowspWA7ANfvsqeb/G/vobnww9JWUsIO7WqkI2Jmr
-   qe1E04wAvzQTwZRZS+hFxGdcJAHL/0s1YZpyKGNKv+2Lw1Ze8fdbrQTCK
-   kAo4M6tJPAd9JavUPf3SSFZFnFQWpNwEUzpl5klIme5ieDL2BdzVi7u2X
-   6cr7Hd4TedxclX4UphxS35UYHmtcnkPDo9nX6IrETI9ODlKa1d/+DQ90O
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="430056716"
+  bh=EO9NDmZ4DxKNY6qeQlYO5AJWP0P9Zn9PBFAAbzQVzxI=;
+  b=oDOz4NxzF0iq1LD/1A+MwqD0ZHCxUezPRdMVtj8vl3ibG390thN8qntc
+   o1zDBbTKoporRE/9NHo8KpYY0lFK0acFzBsQqzP/O8x8NjOwEdpX+Sn3K
+   iZzq83G3phpxMsgafTkqEsJpAplE8CLvaDoCbbfT90UXz7AzmSG3QJLrN
+   ltp2mAqhGPgYF2tZSUkjuqcAlwS8Rc+TyCORwYoJEeJnYaonIZRSlyWve
+   G9veVe96HRZq0vJRKFrsDqZlW7dNX6SsH9u/dzGz7qhaY/plshiqL+1Jo
+   YJ/fhB2ttCW7LkbSffh+vB2C88EDJbFmOIuAqMD5/Te6mKgpR43Vy8tEU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="430056717"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="430056716"
+   d="scan'208";a="430056717"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 15:17:12 -0700
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 15:17:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="749691838"
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="749691837"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="749691838"
+   d="scan'208";a="749691837"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
   by orsmga008.jf.intel.com with ESMTP; 07 Jul 2023 15:17:11 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHtlG-0002Kc-30;
+	id 1qHtlG-0002Ke-39;
 	Fri, 07 Jul 2023 22:17:10 +0000
-Date: Sat, 8 Jul 2023 06:16:47 +0800
+Date: Sat, 8 Jul 2023 06:16:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:set_ptes 8/37] arch/arm/mm/fault-armv.c:201:2:
- error: must use 'struct' tag to refer to type 'folio'
-Message-ID: <202307080629.FseYW2CJ-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/arm/mm/proc-v7.S:545: Error: invalid constant
+ (fffffffffffffbf4) after fixup
+Message-ID: <202307080603.Pv5BNrbH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,89 +46,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/willy/pagecache set_ptes
-head:   72c34bd0b2a432506d992bdc1e3a89260461667d
-commit: 6a318c90f141321a62598894caba1bdacf01eb9b [8/37] arm: Implement the new page table range API
-config: arm-randconfig-r012-20230708 (https://download.01.org/0day-ci/archive/20230708/202307080629.FseYW2CJ-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230708/202307080629.FseYW2CJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4f6b6c2b2f86b7878a770736bf478d8a263ff0bc
+commit: 84fc863606239d8b434e59e6bbbe805f457e5767 ARM: make ARCH_MULTIPLATFORM user-visible
+date:   10 months ago
+config: arm-randconfig-r035-20230708 (https://download.01.org/0day-ci/archive/20230708/202307080603.Pv5BNrbH-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230708/202307080603.Pv5BNrbH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307080629.FseYW2CJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307080603.Pv5BNrbH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/arm/mm/fault-armv.c:201:2: error: must use 'struct' tag to refer to type 'folio'
-           folio = page_folio(pfn_to_page(pfn));
-           ^
-           struct 
->> arch/arm/mm/fault-armv.c:201:8: error: expected identifier or '('
-           folio = page_folio(pfn_to_page(pfn));
-                 ^
->> arch/arm/mm/fault-armv.c:202:32: error: incompatible pointer types passing 'struct page *' to parameter of type 'struct folio *' [-Werror,-Wincompatible-pointer-types]
-           mapping = folio_flush_mapping(page);
-                                         ^~~~
-   include/linux/pagemap.h:404:71: note: passing argument to parameter 'folio' here
-   static inline struct address_space *folio_flush_mapping(struct folio *folio)
-                                                                         ^
->> arch/arm/mm/fault-armv.c:203:42: error: use of undeclared identifier 'folio'
-           if (!test_and_set_bit(PG_dcache_clean, &folio->flags))
-                                                   ^
->> arch/arm/mm/fault-armv.c:203:42: error: use of undeclared identifier 'folio'
-   arch/arm/mm/fault-armv.c:204:33: error: use of undeclared identifier 'folio'
-                   __flush_dcache_folio(mapping, folio);
-                                                 ^
-   6 errors generated.
+   arch/arm/mm/proc-v7.S: Assembler messages:
+>> arch/arm/mm/proc-v7.S:545: Error: invalid constant (fffffffffffffbf4) after fixup
 
 
-vim +201 arch/arm/mm/fault-armv.c
+vim +545 arch/arm/mm/proc-v7.S
 
-   170	
-   171	/*
-   172	 * Take care of architecture specific things when placing a new PTE into
-   173	 * a page table, or changing an existing PTE.  Basically, there are two
-   174	 * things that we need to take care of:
-   175	 *
-   176	 *  1. If PG_dcache_clean is not set for the page, we need to ensure
-   177	 *     that any cache entries for the kernels virtual memory
-   178	 *     range are written back to the page.
-   179	 *  2. If we have multiple shared mappings of the same space in
-   180	 *     an object, we need to deal with the cache aliasing issues.
-   181	 *
-   182	 * Note that the pte lock will be held.
-   183	 */
-   184	void update_mmu_cache_range(struct vm_fault *vmf, struct vm_area_struct *vma,
-   185			unsigned long addr, pte_t *ptep, unsigned int nr)
-   186	{
-   187		unsigned long pfn = pte_pfn(*ptep);
-   188		struct address_space *mapping;
-   189		struct page *page;
-   190	
-   191		if (!pfn_valid(pfn))
-   192			return;
-   193	
-   194		/*
-   195		 * The zero page is never written to, so never has any dirty
-   196		 * cache lines, and therefore never needs to be flushed.
-   197		 */
-   198		if (is_zero_pfn(pfn))
-   199			return;
-   200	
- > 201		folio = page_folio(pfn_to_page(pfn));
- > 202		mapping = folio_flush_mapping(page);
- > 203		if (!test_and_set_bit(PG_dcache_clean, &folio->flags))
-   204			__flush_dcache_folio(mapping, folio);
-   205		if (mapping) {
-   206			if (cache_is_vivt())
-   207				make_coherent(mapping, vma, addr, ptep, pfn);
-   208			else if (vma->vm_flags & VM_EXEC)
-   209				__flush_icache_all();
-   210		}
-   211	}
-   212	#endif	/* __LINUX_ARM_ARCH__ < 6 */
-   213	
+de4901933f6dfc Gregory CLEMENT 2012-10-03  483  
+14eff1812679c7 Daniel Walker   2010-09-17  484  __v7_setup:
+95731b8ee63ec9 Ard Biesheuvel  2021-02-11  485  	do_invalidate_l1
+1946d6ef9d7bd4 Russell King    2009-06-01  486  
+bac51ad9d14f6b Russell King    2015-07-09  487  __v7_setup_cont:
+c76f238e261b8d Russell King    2015-04-04  488  	and	r0, r9, #0xff000000		@ ARM?
+c76f238e261b8d Russell King    2015-04-04  489  	teq	r0, #0x41000000
+17e7bf86690eaa Russell King    2015-04-04  490  	bne	__errata_finish
+4419496884ed16 Russell King    2015-04-04  491  	and	r3, r9, #0x00f00000		@ variant
+4419496884ed16 Russell King    2015-04-04  492  	and	r6, r9, #0x0000000f		@ revision
+b2c3e38a54714e Russell King    2015-04-04  493  	orr	r6, r6, r3, lsr #20-4		@ combine variant and revision
+4419496884ed16 Russell King    2015-04-04  494  	ubfx	r0, r9, #4, #12			@ primary part number
+1946d6ef9d7bd4 Russell King    2009-06-01  495  
+6491848d1ab246 Will Deacon     2010-09-14  496  	/* Cortex-A8 Errata */
+6491848d1ab246 Will Deacon     2010-09-14  497  	ldr	r10, =0x00000c08		@ Cortex-A8 primary part number
+6491848d1ab246 Will Deacon     2010-09-14  498  	teq	r0, r10
+17e7bf86690eaa Russell King    2015-04-04  499  	beq	__ca8_errata
+9f05027c7cb3cf Will Deacon     2010-09-14  500  
+9f05027c7cb3cf Will Deacon     2010-09-14  501  	/* Cortex-A9 Errata */
+17e7bf86690eaa Russell King    2015-04-04  502  	ldr	r10, =0x00000c09		@ Cortex-A9 primary part number
+9f05027c7cb3cf Will Deacon     2010-09-14  503  	teq	r0, r10
+17e7bf86690eaa Russell King    2015-04-04  504  	beq	__ca9_errata
+1946d6ef9d7bd4 Russell King    2009-06-01  505  
+62c0f4a53447bc Doug Anderson   2016-04-07  506  	/* Cortex-A12 Errata */
+62c0f4a53447bc Doug Anderson   2016-04-07  507  	ldr	r10, =0x00000c0d		@ Cortex-A12 primary part number
+62c0f4a53447bc Doug Anderson   2016-04-07  508  	teq	r0, r10
+62c0f4a53447bc Doug Anderson   2016-04-07  509  	beq	__ca12_errata
+62c0f4a53447bc Doug Anderson   2016-04-07  510  
+62c0f4a53447bc Doug Anderson   2016-04-07  511  	/* Cortex-A17 Errata */
+62c0f4a53447bc Doug Anderson   2016-04-07  512  	ldr	r10, =0x00000c0e		@ Cortex-A17 primary part number
+62c0f4a53447bc Doug Anderson   2016-04-07  513  	teq	r0, r10
+62c0f4a53447bc Doug Anderson   2016-04-07  514  	beq	__ca17_errata
+62c0f4a53447bc Doug Anderson   2016-04-07  515  
+84b6504f560157 Will Deacon     2013-08-20  516  	/* Cortex-A15 Errata */
+17e7bf86690eaa Russell King    2015-04-04  517  	ldr	r10, =0x00000c0f		@ Cortex-A15 primary part number
+84b6504f560157 Will Deacon     2013-08-20  518  	teq	r0, r10
+17e7bf86690eaa Russell King    2015-04-04  519  	beq	__ca15_errata
+84b6504f560157 Will Deacon     2013-08-20  520  
+17e7bf86690eaa Russell King    2015-04-04  521  __errata_finish:
+17e7bf86690eaa Russell King    2015-04-04  522  	mov	r10, #0
+bbe888864ec324 Catalin Marinas 2007-05-08  523  	mcr	p15, 0, r10, c7, c5, 0		@ I+BTB cache invalidate
+2eb8c82bc492d5 Catalin Marinas 2007-07-20  524  #ifdef CONFIG_MMU
+bbe888864ec324 Catalin Marinas 2007-05-08  525  	mcr	p15, 0, r10, c8, c7, 0		@ invalidate I + D TLBs
+b2c3e38a54714e Russell King    2015-04-04  526  	v7_ttb_setup r10, r4, r5, r8, r3	@ TTBCR, TTBRx setup
+b2c3e38a54714e Russell King    2015-04-04  527  	ldr	r3, =PRRR			@ PRRR
+f6b0fa02e8b070 Russell King    2011-02-06  528  	ldr	r6, =NMRR			@ NMRR
+b2c3e38a54714e Russell King    2015-04-04  529  	mcr	p15, 0, r3, c10, c2, 0		@ write PRRR
+3f69c0c1af288d Russell King    2008-09-15  530  	mcr	p15, 0, r6, c10, c2, 1		@ write NMRR
+078c04545ba56d Jonathan Austin 2012-04-12  531  #endif
+bae0ca2bc550d1 Will Deacon     2014-02-07  532  	dsb					@ Complete invalidations
+078c04545ba56d Jonathan Austin 2012-04-12  533  #ifndef CONFIG_ARM_THUMBEE
+078c04545ba56d Jonathan Austin 2012-04-12  534  	mrc	p15, 0, r0, c0, c1, 0		@ read ID_PFR0 for ThumbEE
+078c04545ba56d Jonathan Austin 2012-04-12  535  	and	r0, r0, #(0xf << 12)		@ ThumbEE enabled field
+078c04545ba56d Jonathan Austin 2012-04-12  536  	teq	r0, #(1 << 12)			@ check if ThumbEE is present
+078c04545ba56d Jonathan Austin 2012-04-12  537  	bne	1f
+b2c3e38a54714e Russell King    2015-04-04  538  	mov	r3, #0
+b2c3e38a54714e Russell King    2015-04-04  539  	mcr	p14, 6, r3, c1, c0, 0		@ Initialize TEEHBR to 0
+078c04545ba56d Jonathan Austin 2012-04-12  540  	mrc	p14, 6, r0, c0, c0, 0		@ load TEECR
+078c04545ba56d Jonathan Austin 2012-04-12  541  	orr	r0, r0, #1			@ set the 1st bit in order to
+078c04545ba56d Jonathan Austin 2012-04-12  542  	mcr	p14, 6, r0, c0, c0, 0		@ stop userspace TEEHBR access
+078c04545ba56d Jonathan Austin 2012-04-12  543  1:
+bdaaaec39792ee Catalin Marinas 2009-07-24  544  #endif
+b2c3e38a54714e Russell King    2015-04-04 @545  	adr	r3, v7_crval
+b2c3e38a54714e Russell King    2015-04-04  546  	ldmia	r3, {r3, r6}
+457c2403c513c7 Ben Dooks       2013-02-12  547   ARM_BE8(orr	r6, r6, #1 << 25)		@ big-endian page tables
+64d2dc384e41e2 Leif Lindholm   2010-09-16  548  #ifdef CONFIG_SWP_EMULATE
+b2c3e38a54714e Russell King    2015-04-04  549  	orr     r3, r3, #(1 << 10)              @ set SW bit in "clear"
+64d2dc384e41e2 Leif Lindholm   2010-09-16  550  	bic     r6, r6, #(1 << 10)              @ clear it in "mmuset"
+26584853a44c58 Catalin Marinas 2009-05-30  551  #endif
+bbe888864ec324 Catalin Marinas 2007-05-08  552     	mrc	p15, 0, r0, c1, c0, 0		@ read control register
+b2c3e38a54714e Russell King    2015-04-04  553  	bic	r0, r0, r3			@ clear bits them
+2eb8c82bc492d5 Catalin Marinas 2007-07-20  554  	orr	r0, r0, r6			@ set them
+347c8b70b1d525 Catalin Marinas 2009-07-24  555   THUMB(	orr	r0, r0, #1 << 30	)	@ Thumb exceptions
+6ebbf2ce437b33 Russell King    2014-06-30  556  	ret	lr				@ return to head.S:__ret
+93ed3970114983 Catalin Marinas 2008-08-28  557  ENDPROC(__v7_setup)
+bbe888864ec324 Catalin Marinas 2007-05-08  558  
+5085f3ff458521 Russell King    2010-10-01  559  	__INITDATA
+5085f3ff458521 Russell King    2010-10-01  560  
+f5fe12b1eaee22 Russell King    2018-05-14  561  	.weak cpu_v7_bugs_init
+f5fe12b1eaee22 Russell King    2018-05-14  562  
+78a8f3c365b885 Dave Martin     2011-06-23  563  	@ define struct processor (see <asm/proc-fns.h> and proc-macros.S)
+f5fe12b1eaee22 Russell King    2018-05-14  564  	define_processor_functions v7, dabort=v7_early_abort, pabort=v7_pabort, suspend=1, bugs=cpu_v7_bugs_init
+06c23f5ffe7ad4 Russell King    2018-04-20  565  
+
+:::::: The code at line 545 was first introduced by commit
+:::::: b2c3e38a54714e917c9e8675ff5812dca1c0f39d ARM: redo TTBR setup code for LPAE
+
+:::::: TO: Russell King <rmk+kernel@arm.linux.org.uk>
+:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
