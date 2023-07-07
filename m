@@ -1,334 +1,273 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785685383
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 07:00:44 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:27cd:2d0a:f02b:d955] (unknown [IPv6:2a01:e0a:120:3210:27cd:2d0a:f02b:d955])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 78CF86606FCE;
-	Fri,  7 Jul 2023 08:00:42 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1688713242;
-	bh=o/I7fjLCFcRoXx0b4O64F6oyCphgV5iTWGVfHol6hls=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NClDh3Z4vgyI0CaoSydUxFUbNKOPT0d/cZHbNUnDCefkEYbPF5dTZohCdn3jz4GUF
-	 HcmKEhtKyiDLCNHDvp5vHG5YpBWOxfCB4I7qgI14nkE3LI7H9nWTq4FrHo8JO9RwQh
-	 L/wIgaMQOPasvnWWl+PjJd7OLqCUBssO+bJX5MxrJw8TX8YJ7tKL3YiUJtwW2/wQds
-	 NCkJ+NZiXzL53iIqIAiVW6Zob1hahuxl0HoukRjYLVfcOI+UE2+HRpbt7iM12uYc1F
-	 lZvO3+v8TT5YodjzZrWWL/nTrTTUTiEAk1S2YR/eQnYr/LBFzuLhc9Rr/lNFF+fhuD
-	 En+HATO7fQ1ug==
-Message-ID: <efcdeb3d-49c1-bc08-6e9e-2472320ae0f5@collabora.com>
-Date: Fri, 7 Jul 2023 09:00:40 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1D55383
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 07:11:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1688713917; x=1720249917;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lxYmeuHR+vR3TKor+R1bS1QITorRkMrSH5SxK/bR668=;
+  b=VoD3kO0EjI5Q0ly/LD3Km5RWREw/EpEoGsajB2wXwleZyrl/jsKbszv7
+   T1vvQ6c7IBU+y/oB8dsAUudjPEtvysUyV9hWWMjzBMlO+IhpapG5qo1Xq
+   +TfKm5s7vflpAjr/DsF3HhYMrIoem/sD8CU+Uj2n7obApdSvFeSk0TlzV
+   Y5NbqmntuuqOERYbrwSKPM7Ax1ptTnn9GRU6KZdSwDolMV4jKADtrbZAW
+   5NLWNod5M5yK4qoHfD8ds12L7kIRxgLPRyNbTZ6/rIbONSdE65PtFnn7x
+   hmg+I0C4APhk9iVIB/9t3orfYGIJ/IVAjNhdSrWEv6Ea0tjPX6wxhxMLq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="362691842"
+X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
+   d="scan'208";a="362691842"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 00:11:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="713900481"
+X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
+   d="scan'208";a="713900481"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by orsmga007.jf.intel.com with ESMTP; 07 Jul 2023 00:11:54 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qHfdB-0001rC-0t;
+	Fri, 07 Jul 2023 07:11:53 +0000
+Date: Fri, 7 Jul 2023 15:11:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-6.4 90/526]
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: warning: objtool: vmw_port_hb_in+0x147:
+ undefined stack state
+Message-ID: <202307071527.YqN4MAXf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re:
- drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1022:1:
- warning: the frame size of 1112 bytes is larger than 1024 bytes
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Hans Verkuil <hverkuil@xs4all.nl>
-References: <202307070653.xxncAC2W-lkp@intel.com>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <202307070653.xxncAC2W-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.4
+head:   a24316f176c2c08713d96667428ef5093c090294
+commit: aeb6b7c6b6ef84ab496189cdbc698426092aa46c [90/526] drm/vmwgfx: Add unwind hints around RBP clobber
+config: x86_64-randconfig-x015-20230707 (https://download.01.org/0day-ci/archive/20230707/202307071527.YqN4MAXf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230707/202307071527.YqN4MAXf-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307071527.YqN4MAXf-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: warning: objtool: vmw_port_hb_in+0x147: undefined stack state
+>> drivers/gpu/drm/vmwgfx/vmwgfx_msg.o: warning: objtool: vmw_port_hb_out+0x141: undefined stack state
 
 
-Le 07/07/2023 à 00:40, kernel test robot a écrit :
-> Hi Benjamin,
->
-> FYI, the error/warning still remains.
+objdump-func vmlinux.o vmw_port_hb_in:
+0000 000000000181c80e <vmw_port_hb_in>:
+0000  181c80e:	e8 00 00 00 00       	call   181c813 <vmw_port_hb_in+0x5>	181c80f: R_X86_64_PLT32	__fentry__-0x4
+0005  181c813:	41 57                	push   %r15
+0007  181c815:	49 89 f7             	mov    %rsi,%r15
+000a  181c818:	41 56                	push   %r14
+000c  181c81a:	41 55                	push   %r13
+000e  181c81c:	41 54                	push   %r12
+0010  181c81e:	49 89 d4             	mov    %rdx,%r12
+0013  181c821:	55                   	push   %rbp
+0014  181c822:	48 89 fd             	mov    %rdi,%rbp
+0017  181c825:	53                   	push   %rbx
+0018  181c826:	bb ff ff 37 00       	mov    $0x37ffff,%ebx
+001d  181c82b:	48 c1 e3 2a          	shl    $0x2a,%rbx
+0021  181c82f:	48 83 ec 78          	sub    $0x78,%rsp
+0025  181c833:	48 c7 44 24 18 b3 8a b5 41 	movq   $0x41b58ab3,0x18(%rsp)
+002e  181c83c:	4c 8d 74 24 18       	lea    0x18(%rsp),%r14
+0033  181c841:	48 c7 44 24 20 00 00 00 00 	movq   $0x0,0x20(%rsp)	181c846: R_X86_64_32S	.rodata.str1.1+0x19f279
+003c  181c84a:	49 c1 ee 03          	shr    $0x3,%r14
+0040  181c84e:	48 c7 44 24 28 00 00 00 00 	movq   $0x0,0x28(%rsp)	181c853: R_X86_64_32S	.text+0x181c80e
+0049  181c857:	49 8d 04 1e          	lea    (%r14,%rbx,1),%rax
+004d  181c85b:	c7 00 f1 f1 f1 f1    	movl   $0xf1f1f1f1,(%rax)
+0053  181c861:	c7 40 04 00 f3 f3 f3 	movl   $0xf3f3f300,0x4(%rax)
+005a  181c868:	65 48 8b 04 25 28 00 00 00 	mov    %gs:0x28,%rax
+0063  181c871:	48 89 44 24 70       	mov    %rax,0x70(%rsp)
+0068  181c876:	48 b8 fe fe fe fe fe fe fe fe 	movabs $0xfefefefefefefefe,%rax
+0072  181c880:	48 89 44 24 38       	mov    %rax,0x38(%rsp)
+0077  181c885:	84 c9                	test   %cl,%cl
+0079  181c887:	75 16                	jne    181c89f <vmw_port_hb_in+0x91>
+007b  181c889:	48 89 e8             	mov    %rbp,%rax
+007e  181c88c:	bb 00 00 01 00       	mov    $0x10000,%ebx
+0083  181c891:	48 c1 e8 03          	shr    $0x3,%rax
+0087  181c895:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
+008c  181c89a:	e9 d9 01 00 00       	jmp    181ca78 <vmw_port_hb_in+0x26a>
+0091  181c89f:	31 ff                	xor    %edi,%edi
+0093  181c8a1:	e8 00 00 00 00       	call   181c8a6 <vmw_port_hb_in+0x98>	181c8a2: R_X86_64_PLT32	cc_platform_has-0x4
+0098  181c8a6:	84 c0                	test   %al,%al
+009a  181c8a8:	75 df                	jne    181c889 <vmw_port_hb_in+0x7b>
+009c  181c8aa:	48 8d 7d 08          	lea    0x8(%rbp),%rdi
+00a0  181c8ae:	48 89 f8             	mov    %rdi,%rax
+00a3  181c8b1:	48 c1 e8 03          	shr    $0x3,%rax
+00a7  181c8b5:	8a 14 18             	mov    (%rax,%rbx,1),%dl
+00aa  181c8b8:	48 89 f8             	mov    %rdi,%rax
+00ad  181c8bb:	83 e0 07             	and    $0x7,%eax
+00b0  181c8be:	83 c0 03             	add    $0x3,%eax
+00b3  181c8c1:	38 d0                	cmp    %dl,%al
+00b5  181c8c3:	7c 09                	jl     181c8ce <vmw_port_hb_in+0xc0>
+00b7  181c8c5:	84 d2                	test   %dl,%dl
+00b9  181c8c7:	74 05                	je     181c8ce <vmw_port_hb_in+0xc0>
+00bb  181c8c9:	e8 00 00 00 00       	call   181c8ce <vmw_port_hb_in+0xc0>	181c8ca: R_X86_64_PLT32	__asan_report_load4_noabort-0x4
+00c0  181c8ce:	48 89 ea             	mov    %rbp,%rdx
+00c3  181c8d1:	b8 ff ff 37 00       	mov    $0x37ffff,%eax
+00c8  181c8d6:	44 8b 6d 08          	mov    0x8(%rbp),%r13d
+00cc  181c8da:	48 c1 e0 2a          	shl    $0x2a,%rax
+00d0  181c8de:	48 c1 ea 03          	shr    $0x3,%rdx
+00d4  181c8e2:	8a 14 02             	mov    (%rdx,%rax,1),%dl
+00d7  181c8e5:	48 89 e8             	mov    %rbp,%rax
+00da  181c8e8:	83 e0 07             	and    $0x7,%eax
+00dd  181c8eb:	ff c0                	inc    %eax
+00df  181c8ed:	38 d0                	cmp    %dl,%al
+00e1  181c8ef:	7c 0c                	jl     181c8fd <vmw_port_hb_in+0xef>
+00e3  181c8f1:	84 d2                	test   %dl,%dl
+00e5  181c8f3:	74 08                	je     181c8fd <vmw_port_hb_in+0xef>
+00e7  181c8f5:	48 89 ef             	mov    %rbp,%rdi
+00ea  181c8f8:	e8 00 00 00 00       	call   181c8fd <vmw_port_hb_in+0xef>	181c8f9: R_X86_64_PLT32	__asan_report_load2_noabort-0x4
+00ef  181c8fd:	0f b7 55 00          	movzwl 0x0(%rbp),%edx
+00f3  181c901:	48 8d 7d 04          	lea    0x4(%rbp),%rdi
+00f7  181c905:	b8 ff ff 37 00       	mov    $0x37ffff,%eax
+00fc  181c90a:	48 c1 e0 2a          	shl    $0x2a,%rax
+0100  181c90e:	89 d3                	mov    %edx,%ebx
+0102  181c910:	48 89 fa             	mov    %rdi,%rdx
+0105  181c913:	48 c1 ea 03          	shr    $0x3,%rdx
+0109  181c917:	c1 e3 10             	shl    $0x10,%ebx
+010c  181c91a:	8a 14 02             	mov    (%rdx,%rax,1),%dl
+010f  181c91d:	48 89 f8             	mov    %rdi,%rax
+0112  181c920:	83 e0 07             	and    $0x7,%eax
+0115  181c923:	83 c0 03             	add    $0x3,%eax
+0118  181c926:	38 d0                	cmp    %dl,%al
+011a  181c928:	7c 09                	jl     181c933 <vmw_port_hb_in+0x125>
+011c  181c92a:	84 d2                	test   %dl,%dl
+011e  181c92c:	74 05                	je     181c933 <vmw_port_hb_in+0x125>
+0120  181c92e:	e8 00 00 00 00       	call   181c933 <vmw_port_hb_in+0x125>	181c92f: R_X86_64_PLT32	__asan_report_load4_noabort-0x4
+0125  181c933:	89 da                	mov    %ebx,%edx
+0127  181c935:	8b 75 04             	mov    0x4(%rbp),%esi
+012a  181c938:	b8 68 58 4d 56       	mov    $0x564d5868,%eax
+012f  181c93d:	bb 00 00 01 00       	mov    $0x10000,%ebx
+0134  181c942:	83 ca 01             	or     $0x1,%edx
+0137  181c945:	4c 89 e1             	mov    %r12,%rcx
+013a  181c948:	4c 89 ff             	mov    %r15,%rdi
+013d  181c94b:	55                   	push   %rbp
+013e  181c94c:	4c 89 ed             	mov    %r13,%rbp
+0141  181c94f:	66 ba 59 56          	mov    $0x5659,%dx
+0145  181c953:	f3 6c                	rep insb (%dx),%es:(%rdi)
+0147  181c955:	5d                   	pop    %rbp
+0148  181c956:	48 89 5c 24 38       	mov    %rbx,0x38(%rsp)
+014d  181c95b:	e9 5c 01 00 00       	jmp    181cabc <vmw_port_hb_in+0x2ae>
+0152  181c960:	41 bd 04 00 00 00    	mov    $0x4,%r13d
+0158  181c966:	48 8d 7d 04          	lea    0x4(%rbp),%rdi
+015c  181c96a:	b8 ff ff 37 00       	mov    $0x37ffff,%eax
+0161  181c96f:	4d 39 ec             	cmp    %r13,%r12
+0164  181c972:	48 89 fa             	mov    %rdi,%rdx
+0167  181c975:	4d 0f 46 ec          	cmovbe %r12,%r13
+016b  181c979:	48 c1 e0 2a          	shl    $0x2a,%rax
+016f  181c97d:	48 c1 ea 03          	shr    $0x3,%rdx
+0173  181c981:	8a 14 02             	mov    (%rdx,%rax,1),%dl
+0176  181c984:	48 89 f8             	mov    %rdi,%rax
+0179  181c987:	83 e0 07             	and    $0x7,%eax
+017c  181c98a:	83 c0 03             	add    $0x3,%eax
+017f  181c98d:	38 d0                	cmp    %dl,%al
+0181  181c98f:	0f 8d ee 00 00 00    	jge    181ca83 <vmw_port_hb_in+0x275>
+0187  181c995:	8b 45 04             	mov    0x4(%rbp),%eax
+018a  181c998:	48 8d 7d 08          	lea    0x8(%rbp),%rdi
+018e  181c99c:	48 89 fa             	mov    %rdi,%rdx
+0191  181c99f:	48 89 04 24          	mov    %rax,(%rsp)
+0195  181c9a3:	b8 ff ff 37 00       	mov    $0x37ffff,%eax
+019a  181c9a8:	48 c1 ea 03          	shr    $0x3,%rdx
+019e  181c9ac:	48 c1 e0 2a          	shl    $0x2a,%rax
+01a2  181c9b0:	8a 14 02             	mov    (%rdx,%rax,1),%dl
+01a5  181c9b3:	48 89 f8             	mov    %rdi,%rax
+01a8  181c9b6:	83 e0 07             	and    $0x7,%eax
+01ab  181c9b9:	83 c0 03             	add    $0x3,%eax
+01ae  181c9bc:	38 d0                	cmp    %dl,%al
+01b0  181c9be:	0f 8d d1 00 00 00    	jge    181ca95 <vmw_port_hb_in+0x287>
+01b6  181c9c4:	8b 45 08             	mov    0x8(%rbp),%eax
+01b9  181c9c7:	48 8b 4c 24 10       	mov    0x10(%rsp),%rcx
+01be  181c9cc:	48 89 44 24 08       	mov    %rax,0x8(%rsp)
+01c3  181c9d1:	b8 ff ff 37 00       	mov    $0x37ffff,%eax
+01c8  181c9d6:	48 c1 e0 2a          	shl    $0x2a,%rax
+01cc  181c9da:	8a 14 01             	mov    (%rcx,%rax,1),%dl
+01cf  181c9dd:	48 89 e8             	mov    %rbp,%rax
+01d2  181c9e0:	83 e0 07             	and    $0x7,%eax
+01d5  181c9e3:	ff c0                	inc    %eax
+01d7  181c9e5:	38 d0                	cmp    %dl,%al
+01d9  181c9e7:	0f 8d ba 00 00 00    	jge    181caa7 <vmw_port_hb_in+0x299>
+01df  181c9ed:	0f b7 55 00          	movzwl 0x0(%rbp),%edx
+01e3  181c9f1:	48 8b 34 24          	mov    (%rsp),%rsi
+01e7  181c9f5:	b8 68 58 4d 56       	mov    $0x564d5868,%eax
+01ec  181c9fa:	bb 01 00 00 00       	mov    $0x1,%ebx
+01f1  181c9ff:	48 8b 7c 24 08       	mov    0x8(%rsp),%rdi
+01f6  181ca04:	b9 1e 00 04 00       	mov    $0x4001e,%ecx
+01fb  181ca09:	c1 e2 10             	shl    $0x10,%edx
+01fe  181ca0c:	66 ba 58 56          	mov    $0x5658,%dx
+0202  181ca10:	ed                   	in     (%dx),%eax
+0203  181ca11:	0f ba e1 10          	bt     $0x10,%ecx
+0207  181ca15:	48 89 5c 24 38       	mov    %rbx,0x38(%rsp)
+020c  181ca1a:	48 89 cb             	mov    %rcx,%rbx
+020f  181ca1d:	0f 83 99 00 00 00    	jae    181cabc <vmw_port_hb_in+0x2ae>
+0215  181ca23:	b9 01 00 00 00       	mov    $0x1,%ecx
+021a  181ca28:	31 d2                	xor    %edx,%edx
+021c  181ca2a:	31 f6                	xor    %esi,%esi
+021e  181ca2c:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	181ca2f: R_X86_64_32S	_ftrace_annotated_branch+0x191700
+0225  181ca33:	e8 00 00 00 00       	call   181ca38 <vmw_port_hb_in+0x22a>	181ca34: R_X86_64_PLT32	ftrace_likely_update-0x4
+022a  181ca38:	b9 01 00 00 00       	mov    $0x1,%ecx
+022f  181ca3d:	31 d2                	xor    %edx,%edx
+0231  181ca3f:	31 f6                	xor    %esi,%esi
+0233  181ca41:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	181ca44: R_X86_64_32S	_ftrace_annotated_branch+0x1916d0
+023a  181ca48:	4d 29 ec             	sub    %r13,%r12
+023d  181ca4b:	e8 00 00 00 00       	call   181ca50 <vmw_port_hb_in+0x242>	181ca4c: R_X86_64_PLT32	ftrace_likely_update-0x4
+0242  181ca50:	b9 01 00 00 00       	mov    $0x1,%ecx
+0247  181ca55:	31 d2                	xor    %edx,%edx
+0249  181ca57:	31 f6                	xor    %esi,%esi
+024b  181ca59:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	181ca5c: R_X86_64_32S	_ftrace_annotated_branch+0x1916a0
+0252  181ca60:	e8 00 00 00 00       	call   181ca65 <vmw_port_hb_in+0x257>	181ca61: R_X86_64_PLT32	ftrace_likely_update-0x4
+0257  181ca65:	4c 89 ff             	mov    %r15,%rdi
+025a  181ca68:	4c 89 ea             	mov    %r13,%rdx
+025d  181ca6b:	4d 01 ef             	add    %r13,%r15
+0260  181ca6e:	48 8d 74 24 38       	lea    0x38(%rsp),%rsi
+0265  181ca73:	e8 00 00 00 00       	call   181ca78 <vmw_port_hb_in+0x26a>	181ca74: R_X86_64_PLT32	memcpy-0x4
+026a  181ca78:	4d 85 e4             	test   %r12,%r12
+026d  181ca7b:	0f 85 df fe ff ff    	jne    181c960 <vmw_port_hb_in+0x152>
+0273  181ca81:	eb 39                	jmp    181cabc <vmw_port_hb_in+0x2ae>
+0275  181ca83:	84 d2                	test   %dl,%dl
+0277  181ca85:	0f 84 0a ff ff ff    	je     181c995 <vmw_port_hb_in+0x187>
+027d  181ca8b:	e8 00 00 00 00       	call   181ca90 <vmw_port_hb_in+0x282>	181ca8c: R_X86_64_PLT32	__asan_report_load4_noabort-0x4
+0282  181ca90:	e9 00 ff ff ff       	jmp    181c995 <vmw_port_hb_in+0x187>
+0287  181ca95:	84 d2                	test   %dl,%dl
+0289  181ca97:	0f 84 27 ff ff ff    	je     181c9c4 <vmw_port_hb_in+0x1b6>
+028f  181ca9d:	e8 00 00 00 00       	call   181caa2 <vmw_port_hb_in+0x294>	181ca9e: R_X86_64_PLT32	__asan_report_load4_noabort-0x4
+0294  181caa2:	e9 1d ff ff ff       	jmp    181c9c4 <vmw_port_hb_in+0x1b6>
+0299  181caa7:	84 d2                	test   %dl,%dl
+029b  181caa9:	0f 84 3e ff ff ff    	je     181c9ed <vmw_port_hb_in+0x1df>
+02a1  181caaf:	48 89 ef             	mov    %rbp,%rdi
+02a4  181cab2:	e8 00 00 00 00       	call   181cab7 <vmw_port_hb_in+0x2a9>	181cab3: R_X86_64_PLT32	__asan_report_load2_noabort-0x4
+02a9  181cab7:	e9 31 ff ff ff       	jmp    181c9ed <vmw_port_hb_in+0x1df>
+02ae  181cabc:	b8 ff ff 37 00       	mov    $0x37ffff,%eax
+02b3  181cac1:	31 d2                	xor    %edx,%edx
+02b5  181cac3:	48 c1 e0 2a          	shl    $0x2a,%rax
+02b9  181cac7:	49 89 14 06          	mov    %rdx,(%r14,%rax,1)
+02bd  181cacb:	48 8b 44 24 70       	mov    0x70(%rsp),%rax
+02c2  181cad0:	65 48 2b 04 25 28 00 00 00 	sub    %gs:0x28,%rax
+02cb  181cad9:	74 05                	je     181cae0 <vmw_port_hb_in+0x2d2>
+02cd  181cadb:	e8 00 00 00 00       	call   181cae0 <vmw_port_hb_in+0x2d2>	181cadc: R_X86_64_PLT32	__stack_chk_fail-0x4
+02d2  181cae0:	48 83 c4 78          	add    $0x78,%rsp
+02d6  181cae4:	48 89 d8             	mov    %rbx,%rax
+02d9  181cae7:	5b                   	pop    %rbx
+02da  181cae8:	5d                   	pop    %rbp
+02db  181cae9:	41 5c                	pop    %r12
+02dd  181caeb:	41 5d                	pop    %r13
+02df  181caed:	41 5e                	pop    %r14
+02e1  181caef:	41 5f                	pop    %r15
+02e3  181caf1:	c3                   	ret
+02e4  181caf2:	cc                   	int3
 
-Arnd have send a patch to fix this kind of problem:
-https://lore.kernel.org/lkml/20230616144854.3818934-2-arnd@kernel.org/T/
-but I don't see it the tree.
-I think that why the warning still remains.
-
-Regards,
-Benjamin
-
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   a452483508d7b70b0f6c69e249ec0b3ea2330b5c
-> commit: 727a400686a2c0d25015c9e44916a59b72882f83 media: verisilicon: Add Rockchip AV1 decoder
-> date:   4 weeks ago
-> config: arm-randconfig-r023-20230707 (https://download.01.org/0day-ci/archive/20230707/202307070653.xxncAC2W-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230707/202307070653.xxncAC2W-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307070653.xxncAC2W-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->     drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c: In function 'rockchip_vpu981_av1_dec_set_segmentation':
->>> drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c:1022:1: warning: the frame size of 1112 bytes is larger than 1024 bytes [-Wframe-larger-than=]
->      1022 | }
->           | ^
->
->
-> vim +1022 drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
->
->     776	
->     777	static void rockchip_vpu981_av1_dec_set_segmentation(struct hantro_ctx *ctx)
->     778	{
->     779		struct hantro_av1_dec_hw_ctx *av1_dec = &ctx->av1_dec;
->     780		struct hantro_av1_dec_ctrls *ctrls = &av1_dec->ctrls;
->     781		const struct v4l2_ctrl_av1_frame *frame = ctrls->frame;
->     782		const struct v4l2_av1_segmentation *seg = &frame->segmentation;
->     783		u32 segval[V4L2_AV1_MAX_SEGMENTS][V4L2_AV1_SEG_LVL_MAX] = { 0 };
->     784		struct hantro_dev *vpu = ctx->dev;
->     785		u8 segsign = 0, preskip_segid = 0, last_active_seg = 0, i, j;
->     786	
->     787		if (!!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_ENABLED) &&
->     788		    frame->primary_ref_frame < V4L2_AV1_REFS_PER_FRAME) {
->     789			int idx = rockchip_vpu981_get_frame_index(ctx, frame->primary_ref_frame);
->     790	
->     791			if (idx >= 0) {
->     792				dma_addr_t luma_addr, mv_addr = 0;
->     793				struct hantro_decoded_buffer *seg;
->     794				size_t mv_offset = rockchip_vpu981_av1_dec_chroma_size(ctx);
->     795	
->     796				seg = vb2_to_hantro_decoded_buf(&av1_dec->frame_refs[idx].vb2_ref->vb2_buf);
->     797				luma_addr = hantro_get_dec_buf_addr(ctx, &seg->base.vb.vb2_buf);
->     798				mv_addr = luma_addr + mv_offset;
->     799	
->     800				hantro_write_addr(vpu, AV1_SEGMENTATION, mv_addr);
->     801				hantro_reg_write(vpu, &av1_use_temporal3_mvs, 1);
->     802			}
->     803		}
->     804	
->     805		hantro_reg_write(vpu, &av1_segment_temp_upd_e,
->     806				 !!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_TEMPORAL_UPDATE));
->     807		hantro_reg_write(vpu, &av1_segment_upd_e,
->     808				 !!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_UPDATE_MAP));
->     809		hantro_reg_write(vpu, &av1_segment_e,
->     810				 !!(seg->flags & V4L2_AV1_SEGMENTATION_FLAG_ENABLED));
->     811	
->     812		hantro_reg_write(vpu, &av1_error_resilient,
->     813				 !!(frame->flags & V4L2_AV1_FRAME_FLAG_ERROR_RESILIENT_MODE));
->     814	
->     815		if (IS_INTRA(frame->frame_type) ||
->     816		    !!(frame->flags & V4L2_AV1_FRAME_FLAG_ERROR_RESILIENT_MODE)) {
->     817			hantro_reg_write(vpu, &av1_use_temporal3_mvs, 0);
->     818		}
->     819	
->     820		if (seg->flags & V4L2_AV1_SEGMENTATION_FLAG_ENABLED) {
->     821			int s;
->     822	
->     823			for (s = 0; s < V4L2_AV1_MAX_SEGMENTS; s++) {
->     824				if (seg->feature_enabled[s] &
->     825				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_Q)) {
->     826					segval[s][V4L2_AV1_SEG_LVL_ALT_Q] =
->     827					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_Q]),
->     828						  0, 255);
->     829					segsign |=
->     830						(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_Q] < 0) << s;
->     831				}
->     832	
->     833				if (seg->feature_enabled[s] &
->     834				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_Y_V))
->     835					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_V] =
->     836						clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]),
->     837						      -63, 63);
->     838	
->     839				if (seg->feature_enabled[s] &
->     840				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_Y_H))
->     841					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_H] =
->     842					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]),
->     843						  -63, 63);
->     844	
->     845				if (seg->feature_enabled[s] &
->     846				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_U))
->     847					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_U] =
->     848					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_U]),
->     849						  -63, 63);
->     850	
->     851				if (seg->feature_enabled[s] &
->     852				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_ALT_LF_V))
->     853					segval[s][V4L2_AV1_SEG_LVL_ALT_LF_V] =
->     854					    clamp(abs(seg->feature_data[s][V4L2_AV1_SEG_LVL_ALT_LF_V]),
->     855						  -63, 63);
->     856	
->     857				if (frame->frame_type && seg->feature_enabled[s] &
->     858				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_REF_FRAME))
->     859					segval[s][V4L2_AV1_SEG_LVL_REF_FRAME]++;
->     860	
->     861				if (seg->feature_enabled[s] &
->     862				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_REF_SKIP))
->     863					segval[s][V4L2_AV1_SEG_LVL_REF_SKIP] = 1;
->     864	
->     865				if (seg->feature_enabled[s] &
->     866				    V4L2_AV1_SEGMENT_FEATURE_ENABLED(V4L2_AV1_SEG_LVL_REF_GLOBALMV))
->     867					segval[s][V4L2_AV1_SEG_LVL_REF_GLOBALMV] = 1;
->     868			}
->     869		}
->     870	
->     871		for (i = 0; i < V4L2_AV1_MAX_SEGMENTS; i++) {
->     872			for (j = 0; j < V4L2_AV1_SEG_LVL_MAX; j++) {
->     873				if (seg->feature_enabled[i]
->     874				    & V4L2_AV1_SEGMENT_FEATURE_ENABLED(j)) {
->     875					preskip_segid |= (j >= V4L2_AV1_SEG_LVL_REF_FRAME);
->     876					last_active_seg = max(i, last_active_seg);
->     877				}
->     878			}
->     879		}
->     880	
->     881		hantro_reg_write(vpu, &av1_last_active_seg, last_active_seg);
->     882		hantro_reg_write(vpu, &av1_preskip_segid, preskip_segid);
->     883	
->     884		hantro_reg_write(vpu, &av1_seg_quant_sign, segsign);
->     885	
->     886		/* Write QP, filter level, ref frame and skip for every segment */
->     887		hantro_reg_write(vpu, &av1_quant_seg0,
->     888				 segval[0][V4L2_AV1_SEG_LVL_ALT_Q]);
->     889		hantro_reg_write(vpu, &av1_filt_level_delta0_seg0,
->     890				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
->     891		hantro_reg_write(vpu, &av1_filt_level_delta1_seg0,
->     892				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
->     893		hantro_reg_write(vpu, &av1_filt_level_delta2_seg0,
->     894				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_U]);
->     895		hantro_reg_write(vpu, &av1_filt_level_delta3_seg0,
->     896				 segval[0][V4L2_AV1_SEG_LVL_ALT_LF_V]);
->     897		hantro_reg_write(vpu, &av1_refpic_seg0,
->     898				 segval[0][V4L2_AV1_SEG_LVL_REF_FRAME]);
->     899		hantro_reg_write(vpu, &av1_skip_seg0,
->     900				 segval[0][V4L2_AV1_SEG_LVL_REF_SKIP]);
->     901		hantro_reg_write(vpu, &av1_global_mv_seg0,
->     902				 segval[0][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
->     903	
->     904		hantro_reg_write(vpu, &av1_quant_seg1,
->     905				 segval[1][V4L2_AV1_SEG_LVL_ALT_Q]);
->     906		hantro_reg_write(vpu, &av1_filt_level_delta0_seg1,
->     907				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
->     908		hantro_reg_write(vpu, &av1_filt_level_delta1_seg1,
->     909				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
->     910		hantro_reg_write(vpu, &av1_filt_level_delta2_seg1,
->     911				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_U]);
->     912		hantro_reg_write(vpu, &av1_filt_level_delta3_seg1,
->     913				 segval[1][V4L2_AV1_SEG_LVL_ALT_LF_V]);
->     914		hantro_reg_write(vpu, &av1_refpic_seg1,
->     915				 segval[1][V4L2_AV1_SEG_LVL_REF_FRAME]);
->     916		hantro_reg_write(vpu, &av1_skip_seg1,
->     917				 segval[1][V4L2_AV1_SEG_LVL_REF_SKIP]);
->     918		hantro_reg_write(vpu, &av1_global_mv_seg1,
->     919				 segval[1][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
->     920	
->     921		hantro_reg_write(vpu, &av1_quant_seg2,
->     922				 segval[2][V4L2_AV1_SEG_LVL_ALT_Q]);
->     923		hantro_reg_write(vpu, &av1_filt_level_delta0_seg2,
->     924				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
->     925		hantro_reg_write(vpu, &av1_filt_level_delta1_seg2,
->     926				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
->     927		hantro_reg_write(vpu, &av1_filt_level_delta2_seg2,
->     928				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_U]);
->     929		hantro_reg_write(vpu, &av1_filt_level_delta3_seg2,
->     930				 segval[2][V4L2_AV1_SEG_LVL_ALT_LF_V]);
->     931		hantro_reg_write(vpu, &av1_refpic_seg2,
->     932				 segval[2][V4L2_AV1_SEG_LVL_REF_FRAME]);
->     933		hantro_reg_write(vpu, &av1_skip_seg2,
->     934				 segval[2][V4L2_AV1_SEG_LVL_REF_SKIP]);
->     935		hantro_reg_write(vpu, &av1_global_mv_seg2,
->     936				 segval[2][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
->     937	
->     938		hantro_reg_write(vpu, &av1_quant_seg3,
->     939				 segval[3][V4L2_AV1_SEG_LVL_ALT_Q]);
->     940		hantro_reg_write(vpu, &av1_filt_level_delta0_seg3,
->     941				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
->     942		hantro_reg_write(vpu, &av1_filt_level_delta1_seg3,
->     943				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
->     944		hantro_reg_write(vpu, &av1_filt_level_delta2_seg3,
->     945				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_U]);
->     946		hantro_reg_write(vpu, &av1_filt_level_delta3_seg3,
->     947				 segval[3][V4L2_AV1_SEG_LVL_ALT_LF_V]);
->     948		hantro_reg_write(vpu, &av1_refpic_seg3,
->     949				 segval[3][V4L2_AV1_SEG_LVL_REF_FRAME]);
->     950		hantro_reg_write(vpu, &av1_skip_seg3,
->     951				 segval[3][V4L2_AV1_SEG_LVL_REF_SKIP]);
->     952		hantro_reg_write(vpu, &av1_global_mv_seg3,
->     953				 segval[3][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
->     954	
->     955		hantro_reg_write(vpu, &av1_quant_seg4,
->     956				 segval[4][V4L2_AV1_SEG_LVL_ALT_Q]);
->     957		hantro_reg_write(vpu, &av1_filt_level_delta0_seg4,
->     958				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
->     959		hantro_reg_write(vpu, &av1_filt_level_delta1_seg4,
->     960				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
->     961		hantro_reg_write(vpu, &av1_filt_level_delta2_seg4,
->     962				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_U]);
->     963		hantro_reg_write(vpu, &av1_filt_level_delta3_seg4,
->     964				 segval[4][V4L2_AV1_SEG_LVL_ALT_LF_V]);
->     965		hantro_reg_write(vpu, &av1_refpic_seg4,
->     966				 segval[4][V4L2_AV1_SEG_LVL_REF_FRAME]);
->     967		hantro_reg_write(vpu, &av1_skip_seg4,
->     968				 segval[4][V4L2_AV1_SEG_LVL_REF_SKIP]);
->     969		hantro_reg_write(vpu, &av1_global_mv_seg4,
->     970				 segval[4][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
->     971	
->     972		hantro_reg_write(vpu, &av1_quant_seg5,
->     973				 segval[5][V4L2_AV1_SEG_LVL_ALT_Q]);
->     974		hantro_reg_write(vpu, &av1_filt_level_delta0_seg5,
->     975				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
->     976		hantro_reg_write(vpu, &av1_filt_level_delta1_seg5,
->     977				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
->     978		hantro_reg_write(vpu, &av1_filt_level_delta2_seg5,
->     979				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_U]);
->     980		hantro_reg_write(vpu, &av1_filt_level_delta3_seg5,
->     981				 segval[5][V4L2_AV1_SEG_LVL_ALT_LF_V]);
->     982		hantro_reg_write(vpu, &av1_refpic_seg5,
->     983				 segval[5][V4L2_AV1_SEG_LVL_REF_FRAME]);
->     984		hantro_reg_write(vpu, &av1_skip_seg5,
->     985				 segval[5][V4L2_AV1_SEG_LVL_REF_SKIP]);
->     986		hantro_reg_write(vpu, &av1_global_mv_seg5,
->     987				 segval[5][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
->     988	
->     989		hantro_reg_write(vpu, &av1_quant_seg6,
->     990				 segval[6][V4L2_AV1_SEG_LVL_ALT_Q]);
->     991		hantro_reg_write(vpu, &av1_filt_level_delta0_seg6,
->     992				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
->     993		hantro_reg_write(vpu, &av1_filt_level_delta1_seg6,
->     994				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
->     995		hantro_reg_write(vpu, &av1_filt_level_delta2_seg6,
->     996				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_U]);
->     997		hantro_reg_write(vpu, &av1_filt_level_delta3_seg6,
->     998				 segval[6][V4L2_AV1_SEG_LVL_ALT_LF_V]);
->     999		hantro_reg_write(vpu, &av1_refpic_seg6,
->    1000				 segval[6][V4L2_AV1_SEG_LVL_REF_FRAME]);
->    1001		hantro_reg_write(vpu, &av1_skip_seg6,
->    1002				 segval[6][V4L2_AV1_SEG_LVL_REF_SKIP]);
->    1003		hantro_reg_write(vpu, &av1_global_mv_seg6,
->    1004				 segval[6][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
->    1005	
->    1006		hantro_reg_write(vpu, &av1_quant_seg7,
->    1007				 segval[7][V4L2_AV1_SEG_LVL_ALT_Q]);
->    1008		hantro_reg_write(vpu, &av1_filt_level_delta0_seg7,
->    1009				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_Y_V]);
->    1010		hantro_reg_write(vpu, &av1_filt_level_delta1_seg7,
->    1011				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_Y_H]);
->    1012		hantro_reg_write(vpu, &av1_filt_level_delta2_seg7,
->    1013				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_U]);
->    1014		hantro_reg_write(vpu, &av1_filt_level_delta3_seg7,
->    1015				 segval[7][V4L2_AV1_SEG_LVL_ALT_LF_V]);
->    1016		hantro_reg_write(vpu, &av1_refpic_seg7,
->    1017				 segval[7][V4L2_AV1_SEG_LVL_REF_FRAME]);
->    1018		hantro_reg_write(vpu, &av1_skip_seg7,
->    1019				 segval[7][V4L2_AV1_SEG_LVL_REF_SKIP]);
->    1020		hantro_reg_write(vpu, &av1_global_mv_seg7,
->    1021				 segval[7][V4L2_AV1_SEG_LVL_REF_GLOBALMV]);
->> 1022	}
->    1023	
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
