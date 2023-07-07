@@ -1,43 +1,43 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE131774B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 23:10:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 558AB17AD3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 23:10:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688771415; x=1720307415;
+  t=1688771418; x=1720307418;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bkm9BHpbJyODZ5Zpunq4o5En3rTQAIvsFmdNYJjCtB8=;
-  b=GmUIXjmJSpe1mHZXXIxWrhyYmulWKBnVKJugH0H5rKnMk/9E5QktdA8l
-   dZm4DsKxpZBO301ixcZxJ2bpQyKPqBkt0XwoQarTUAuYTyjzG2Msk11G6
-   wvSPTMAfDFHMiCgXouMi6OCgw3AclfPFWhmDTmMPqiLIdJ74dS3DOxnkf
-   9TD0cAdpKWgA7Q+gSaGlHbziS5C+Tjc5R+w5I9b5G9t0cClVAGVTk3y4R
-   fTjQu6zYMasUO7yqit4mH3GVsW+0TJ4roQHOZNdKKFxgKL2e/4pt6mRvA
-   YW1pCitFeVvoZDHxlI/wrwAA0+0cSNX8PESOCH9xUtzFfjmldQPB18aR+
+  bh=se0DsduSdJtZzyAvVnwqnWBTau2ZERGTLq6YO3AGKIA=;
+  b=fUYtb3uNCekL5+i5IMOzXw5B8eq0jKtgQBjg80PHZi+7alP7mGDJMYkk
+   XEQ+BUoTi6/W8tGEKOgkPKs/TneTwYyk8+3RLS9kc37xHgW+A364KHhj2
+   D4eSukitoAmhd7d/n4teFFE7ljWcjbdml4rnIOJk+COMuQze2nr91rU45
+   H5+gKzBwWi2nlT0cLYw+Z/v5jJUTh7mzhiMxGjciAMoio2nU6W3ghki2Q
+   FU7qD57fsxk8a1aRbFHcO7dri2HQGaQrsGWLAyHlC/PIH0SS2tNl2LNNd
+   nveX4xQ0ZczGxzKm1DVyZBjh7S/+hBZbuEBdpIrHqaqM4Zg+V27da4Qo0
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="343586421"
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="343586423"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="343586421"
+   d="scan'208";a="343586423"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
   by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 16:10:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="785506742"
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="785506744"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="785506742"
+   d="scan'208";a="785506744"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
   by fmsmga008.fm.intel.com with ESMTP; 07 Jul 2023 16:10:12 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHuaa-0002Mk-0S;
+	id 1qHuaa-0002Mp-0Z;
 	Fri, 07 Jul 2023 23:10:12 +0000
-Date: Sat, 8 Jul 2023 07:09:57 +0800
+Date: Sat, 8 Jul 2023 07:09:58 +0800
 From: kernel test robot <lkp@intel.com>
 To: Matthew Wilcox <willy@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:set_ptes 14/38]
- arch/loongarch/include/asm/cacheflush.h:53:57: error: expected identifier or
- '(' before 'do'
-Message-ID: <202307080759.hhJOJH83-lkp@intel.com>
+Subject: [willy-pagecache:set_ptes 1/38]
+ drivers/net/ethernet/pensando/ionic/ionic_main.c:557:9: warning: 'strncpy'
+ output truncated copying 31 bytes from a string of length 39
+Message-ID: <202307080701.vKApJh3L-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,100 +49,91 @@ Content-Disposition: inline
 
 tree:   git://git.infradead.org/users/willy/pagecache set_ptes
 head:   72c34bd0b2a432506d992bdc1e3a89260461667d
-commit: f57e47780e45bbe3d5618e1854b16b17d9be7d9a [14/38] loongarch: Implement the new page table range API
-config: loongarch-randconfig-r013-20230708 (https://download.01.org/0day-ci/archive/20230708/202307080759.hhJOJH83-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230708/202307080759.hhJOJH83-lkp@intel.com/reproduce)
+commit: 1f2c0a3e162256e26cf9002c3c45c0d5f19890b3 [1/38] __folio_needs_release
+config: alpha-randconfig-r014-20230708 (https://download.01.org/0day-ci/archive/20230708/202307080701.vKApJh3L-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230708/202307080701.vKApJh3L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307080759.hhJOJH83-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307080701.vKApJh3L-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/writeback.h:13,
-                    from include/linux/memcontrol.h:22,
-                    from include/linux/swap.h:9,
-                    from include/linux/suspend.h:5,
-                    from arch/loongarch/kernel/asm-offsets.c:11:
->> arch/loongarch/include/asm/cacheflush.h:53:57: error: expected identifier or '(' before 'do'
-      53 | #define flush_dcache_folio(folio)                       do { } while (0)
-         |                                                         ^~
-   include/linux/cacheflush.h:14:20: note: in expansion of macro 'flush_dcache_folio'
-      14 | static inline void flush_dcache_folio(struct folio *folio)
-         |                    ^~~~~~~~~~~~~~~~~~
->> arch/loongarch/include/asm/cacheflush.h:53:64: error: expected identifier or '(' before 'while'
-      53 | #define flush_dcache_folio(folio)                       do { } while (0)
-         |                                                                ^~~~~
-   include/linux/cacheflush.h:14:20: note: in expansion of macro 'flush_dcache_folio'
-      14 | static inline void flush_dcache_folio(struct folio *folio)
-         |                    ^~~~~~~~~~~~~~~~~~
->> include/linux/cacheflush.h:17: warning: "flush_dcache_folio" redefined
-      17 | #define flush_dcache_folio flush_dcache_folio
-         | 
-   arch/loongarch/include/asm/cacheflush.h:53: note: this is the location of the previous definition
-      53 | #define flush_dcache_folio(folio)                       do { } while (0)
-         | 
-   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      17 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      64 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      79 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      95 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:138:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     138 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:178:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     178 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:210:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     210 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:218:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     218 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:256:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     256 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1 shuffle=4376737
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1275: prepare0] Error 2 shuffle=4376737
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=4376737
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=4376737
-   make: Target 'prepare' not remade because of errors.
+   drivers/net/ethernet/pensando/ionic/ionic_main.c: In function 'ionic_identify':
+>> drivers/net/ethernet/pensando/ionic/ionic_main.c:557:9: warning: 'strncpy' output truncated copying 31 bytes from a string of length 39 [-Wstringop-truncation]
+     557 |         strncpy(ident->drv.driver_ver_str, UTS_RELEASE,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     558 |                 sizeof(ident->drv.driver_ver_str) - 1);
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +53 arch/loongarch/include/asm/cacheflush.h
+vim +/strncpy +557 drivers/net/ethernet/pensando/ionic/ionic_main.c
 
-    41	
-    42	#define flush_cache_all()				do { } while (0)
-    43	#define flush_cache_mm(mm)				do { } while (0)
-    44	#define flush_cache_dup_mm(mm)				do { } while (0)
-    45	#define flush_cache_range(vma, start, end)		do { } while (0)
-    46	#define flush_cache_page(vma, vmaddr, pfn)		do { } while (0)
-    47	#define flush_cache_vmap(start, end)			do { } while (0)
-    48	#define flush_cache_vunmap(start, end)			do { } while (0)
-    49	#define flush_icache_page(vma, page)			do { } while (0)
-    50	#define flush_icache_pages(vma, page)			do { } while (0)
-    51	#define flush_icache_user_page(vma, page, addr, len)	do { } while (0)
-    52	#define flush_dcache_page(page)				do { } while (0)
-  > 53	#define flush_dcache_folio(folio)			do { } while (0)
-    54	#define flush_dcache_mmap_lock(mapping)			do { } while (0)
-    55	#define flush_dcache_mmap_unlock(mapping)		do { } while (0)
-    56	
+fbfb8031533c92 Shannon Nelson 2019-09-03  546  
+fbfb8031533c92 Shannon Nelson 2019-09-03  547  int ionic_identify(struct ionic *ionic)
+fbfb8031533c92 Shannon Nelson 2019-09-03  548  {
+fbfb8031533c92 Shannon Nelson 2019-09-03  549  	struct ionic_identity *ident = &ionic->ident;
+fbfb8031533c92 Shannon Nelson 2019-09-03  550  	struct ionic_dev *idev = &ionic->idev;
+fbfb8031533c92 Shannon Nelson 2019-09-03  551  	size_t sz;
+fbfb8031533c92 Shannon Nelson 2019-09-03  552  	int err;
+fbfb8031533c92 Shannon Nelson 2019-09-03  553  
+fbfb8031533c92 Shannon Nelson 2019-09-03  554  	memset(ident, 0, sizeof(*ident));
+fbfb8031533c92 Shannon Nelson 2019-09-03  555  
+fbfb8031533c92 Shannon Nelson 2019-09-03  556  	ident->drv.os_type = cpu_to_le32(IONIC_OS_TYPE_LINUX);
+1fcbebf115d9ce Shannon Nelson 2020-03-06 @557  	strncpy(ident->drv.driver_ver_str, UTS_RELEASE,
+fbfb8031533c92 Shannon Nelson 2019-09-03  558  		sizeof(ident->drv.driver_ver_str) - 1);
+fbfb8031533c92 Shannon Nelson 2019-09-03  559  
+fbfb8031533c92 Shannon Nelson 2019-09-03  560  	mutex_lock(&ionic->dev_cmd_lock);
+fbfb8031533c92 Shannon Nelson 2019-09-03  561  
+fbfb8031533c92 Shannon Nelson 2019-09-03  562  	sz = min(sizeof(ident->drv), sizeof(idev->dev_cmd_regs->data));
+fbfb8031533c92 Shannon Nelson 2019-09-03  563  	memcpy_toio(&idev->dev_cmd_regs->data, &ident->drv, sz);
+fbfb8031533c92 Shannon Nelson 2019-09-03  564  
+f43a96d91df1a0 Shannon Nelson 2022-10-26  565  	ionic_dev_cmd_identify(idev, IONIC_DEV_IDENTITY_VERSION_2);
+fbfb8031533c92 Shannon Nelson 2019-09-03  566  	err = ionic_dev_cmd_wait(ionic, DEVCMD_TIMEOUT);
+fbfb8031533c92 Shannon Nelson 2019-09-03  567  	if (!err) {
+fbfb8031533c92 Shannon Nelson 2019-09-03  568  		sz = min(sizeof(ident->dev), sizeof(idev->dev_cmd_regs->data));
+fbfb8031533c92 Shannon Nelson 2019-09-03  569  		memcpy_fromio(&ident->dev, &idev->dev_cmd_regs->data, sz);
+fbfb8031533c92 Shannon Nelson 2019-09-03  570  	}
+fbfb8031533c92 Shannon Nelson 2019-09-03  571  	mutex_unlock(&ionic->dev_cmd_lock);
+fbfb8031533c92 Shannon Nelson 2019-09-03  572  
+a21b5d49e77a2e Shannon Nelson 2020-10-01  573  	if (err) {
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  574  		dev_err(ionic->dev, "Cannot identify ionic: %d\n", err);
+a21b5d49e77a2e Shannon Nelson 2020-10-01  575  		goto err_out;
+a21b5d49e77a2e Shannon Nelson 2020-10-01  576  	}
+fbfb8031533c92 Shannon Nelson 2019-09-03  577  
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  578  	if (isprint(idev->dev_info.fw_version[0]) &&
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  579  	    isascii(idev->dev_info.fw_version[0]))
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  580  		dev_info(ionic->dev, "FW: %.*s\n",
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  581  			 (int)(sizeof(idev->dev_info.fw_version) - 1),
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  582  			 idev->dev_info.fw_version);
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  583  	else
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  584  		dev_info(ionic->dev, "FW: (invalid string) 0x%02x 0x%02x 0x%02x 0x%02x ...\n",
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  585  			 (u8)idev->dev_info.fw_version[0],
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  586  			 (u8)idev->dev_info.fw_version[1],
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  587  			 (u8)idev->dev_info.fw_version[2],
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  588  			 (u8)idev->dev_info.fw_version[3]);
+36b20b7fb1c3cb Shannon Nelson 2021-10-01  589  
+a21b5d49e77a2e Shannon Nelson 2020-10-01  590  	err = ionic_lif_identify(ionic, IONIC_LIF_TYPE_CLASSIC,
+a21b5d49e77a2e Shannon Nelson 2020-10-01  591  				 &ionic->ident.lif);
+a21b5d49e77a2e Shannon Nelson 2020-10-01  592  	if (err) {
+a21b5d49e77a2e Shannon Nelson 2020-10-01  593  		dev_err(ionic->dev, "Cannot identify LIFs: %d\n", err);
+a21b5d49e77a2e Shannon Nelson 2020-10-01  594  		goto err_out;
+a21b5d49e77a2e Shannon Nelson 2020-10-01  595  	}
+fbfb8031533c92 Shannon Nelson 2019-09-03  596  
+fbfb8031533c92 Shannon Nelson 2019-09-03  597  	return 0;
+fbfb8031533c92 Shannon Nelson 2019-09-03  598  
+a21b5d49e77a2e Shannon Nelson 2020-10-01  599  err_out:
+fbfb8031533c92 Shannon Nelson 2019-09-03  600  	return err;
+fbfb8031533c92 Shannon Nelson 2019-09-03  601  }
+fbfb8031533c92 Shannon Nelson 2019-09-03  602  
+
+:::::: The code at line 557 was first introduced by commit
+:::::: 1fcbebf115d9ce077c2ba5ecfb521cc1eedcb467 ionic: drop ethtool driver version
+
+:::::: TO: Shannon Nelson <snelson@pensando.io>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
