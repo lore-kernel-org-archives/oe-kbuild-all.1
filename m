@@ -1,43 +1,43 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487A81876
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 04:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFC61876
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 04:22:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688703173; x=1720239173;
+  t=1688703773; x=1720239773;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6OpUPwwUncVMomghvhXKwMvvHPM/4RocCy2Juqg1z9k=;
-  b=gJZlZwcciIWpqAGxCIQ5kgleIg+WoiPlNVLGD9+L2DsrZmlPcip8SCAx
-   /XSGIxpJF/peqKAAZSQZR2fFilsA8LZkidOAtrwSo6+PFR14ir3N1bucE
-   +UPq/cLs/MzoGN2M/e4kt8Tmh0BNvzB3iv4dNPthPHBh8R5znexrBMo41
-   z9UiL9jWD0OsTRJWMk6QVWUlX5gwqFSiMyFYtcL93g8/kc1/Z70XMRWVY
-   1xv4yAHDFSzAervxcVJ9wDuC3f8ft2T8WJlrrD8R9UOKRbE/GBiFTuRYU
-   K7GvQLbwVYMobvKhdPUjVtKhwIlidb8Pg009iuU4zHbV/Rw2q5a/tVRML
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="362663787"
+  bh=UH4RCaQNsKslLK2Dom/4wIY9gICLDhmsJYJTeoNlYtI=;
+  b=DsodBy7/kew1orN7H/b+7SW6su4t2e7II29kQO/js//QLACTWToORAM9
+   c34KfK2K5uI+r5MZRAlb/PNcCCyn6RvA82y+xQp3xfW6zJMWAXEONnwNK
+   yPSgOABLcCSjRknJ1gYk/NpekUy3utAc/ARGSilJkUAKxEYjb55I470Fb
+   ybV6x4hx3S579p1ZHropOdI5qOGOfuzJA7gz83Ox1LWug4BvlgIRjcNJm
+   Lmvty+V9k2iBIGm9hVwaFlZ6pByFVlR4cZFfD/O4uKf0BShlkp1NwLuCV
+   lALSv8jn3GPi5CaGeWJ68+RXFeaLWq7l6t6Ab3t+TZBO1SMV5Z7uUOk2a
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="362665628"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="362663787"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 21:12:52 -0700
+   d="scan'208";a="362665628"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 21:22:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="966480561"
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="843962508"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="966480561"
+   d="scan'208";a="843962508"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 06 Jul 2023 21:12:51 -0700
+  by orsmga004.jf.intel.com with ESMTP; 06 Jul 2023 21:22:51 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHcpu-0001kU-0T;
-	Fri, 07 Jul 2023 04:12:50 +0000
-Date: Fri, 7 Jul 2023 12:12:29 +0800
+	id 1qHcza-0001l0-1O;
+	Fri, 07 Jul 2023 04:22:50 +0000
+Date: Fri, 7 Jul 2023 12:22:49 +0800
 From: kernel test robot <lkp@intel.com>
 To: Joel Stanley <joel@jms.id.au>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [shenki:aspeed-xvuart-host-driver 3/3]
  drivers/soc/aspeed/aspeed-host-bmc-dev.c:189:9: error: implicit declaration
  of function 'pci_release_region'; did you mean 'pci_release_regions'?
-Message-ID: <202307071239.pQHSvVlN-lkp@intel.com>
+Message-ID: <202307071244.E2AoIRiC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,14 +50,14 @@ Content-Disposition: inline
 tree:   https://github.com/shenki/linux aspeed-xvuart-host-driver
 head:   8384d7b383c2aff772d5503ddddd8a938e48c43f
 commit: 8384d7b383c2aff772d5503ddddd8a938e48c43f [3/3] soc/aspeed: Add BMC host driver
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230707/202307071239.pQHSvVlN-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230707/202307071239.pQHSvVlN-lkp@intel.com/reproduce)
+config: m68k-randconfig-r022-20230707 (https://download.01.org/0day-ci/archive/20230707/202307071244.E2AoIRiC-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230707/202307071244.E2AoIRiC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307071239.pQHSvVlN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307071244.E2AoIRiC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
