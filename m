@@ -1,43 +1,42 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325A217726
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 20:12:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A1B0A4E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 20:53:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688760733; x=1720296733;
+  t=1688763193; x=1720299193;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6jsFjPE6WOVxqzRf19OWApkzkZKGWE/KloDs1I4SFyI=;
-  b=J2+YAetWueUC6apWhsnxf3X88nZXt8HUbXXTmo7N/OnLDbhCyqm5rQjc
-   Y3GvqDlpfo+F5CnKKDJoxuBFXCQA5uRLyP92TjKJy/HjIQxGJwlNwH0+E
-   e9GOPXZu6ghmDuaMBK4cUe/WLNHPcGTK33jljM3nqGd5FvkSQl0RMH5n/
-   XqfysZXY65gEGg5BSriQzAAyobaC6roe8ATfQ7e8bMV9oF+gSv5ndENxm
-   L4ExIOP2PmfvxOb2GXLq21XkBBINGdTzOPAOXmx0A1YqKBewP6oE0QIK1
-   1XrfhwiwpOdCQkhz1htVXNAvdR/jxR3c8KkMPLtxL+16NLnrtYMG6QW6r
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="364012847"
+  bh=EZKorzmsJQaAcsuY+ZqNVY2dqyf8jNLlA4Jql4wPP3A=;
+  b=KLuz5e3CRzsaKH+np58Uyf9IXKYj8VrdINpXi0g44lBcbruh3MM5mnxy
+   OMLtZN0tmNgROYgTPbEvl/Jben87Mv3uj+fPIdAf1+n9haD81d32FQ68x
+   0Dkh6FtKHDLSzvaoAwsAyvwIgT2JH9PRocgjO8lM0IWEpUOi+QHXcbdOV
+   PRzpgUUCVJ8UoifLNUlhAk0H2ouLzqFdZd6v4EWeIk0W0TS6uVwk2l4nh
+   zEbXwyQU3GXBaoMhzTTi/nRJQUM257EPJsGWcgkH7glINQQSViEH3QO93
+   XDZqylGdg/OCiSRktEbYaLuldKSHFtbgXUf2xfMJHKimu1ldqE6+9yZYD
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="394750046"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="364012847"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 13:12:10 -0700
+   d="scan'208";a="394750046"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 13:53:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="785469127"
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="790103834"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="785469127"
+   d="scan'208";a="790103834"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 07 Jul 2023 13:12:09 -0700
+  by fmsmga004.fm.intel.com with ESMTP; 07 Jul 2023 13:53:10 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHroG-0002Fe-1m;
-	Fri, 07 Jul 2023 20:12:08 +0000
-Date: Sat, 8 Jul 2023 04:11:23 +0800
+	id 1qHsRx-0002Hq-1t;
+	Fri, 07 Jul 2023 20:53:09 +0000
+Date: Sat, 8 Jul 2023 04:52:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: Matthew Wilcox <willy@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:set_ptes 13/37]
- arch/loongarch/include/asm/pgtable.h:341:17: error: implicit declaration of
- function 'set_pte_at'; did you mean 'set_pmd_at'?
-Message-ID: <202307080436.gR49oUPx-lkp@intel.com>
+Subject: [willy-pagecache:set_ptes 17/37] arch/nios2/mm/cacheflush.c:194:48:
+ error: passing argument 2 of 'flush_aliases' from incompatible pointer type
+Message-ID: <202307080417.UdjRvCfq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,116 +48,85 @@ Content-Disposition: inline
 
 tree:   git://git.infradead.org/users/willy/pagecache set_ptes
 head:   a357c8502e070a8a7aa2fa94492fd040ae053b78
-commit: 4d8ff6824fca631b7236c305e3cd3aac0c831a88 [13/37] loongarch: Implement the new page table range API
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230708/202307080436.gR49oUPx-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230708/202307080436.gR49oUPx-lkp@intel.com/reproduce)
+commit: 125fcada3cb2a5fa5f9d8b48f95d730935552948 [17/37] nios2: Implement the new page table range API
+config: nios2-randconfig-r021-20230708 (https://download.01.org/0day-ci/archive/20230708/202307080417.UdjRvCfq-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230708/202307080417.UdjRvCfq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307080436.gR49oUPx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307080417.UdjRvCfq-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
-   In file included from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:29,
-                    from arch/loongarch/kernel/asm-offsets.c:9:
-   arch/loongarch/include/asm/pgtable.h: In function 'pte_clear':
->> arch/loongarch/include/asm/pgtable.h:341:17: error: implicit declaration of function 'set_pte_at'; did you mean 'set_pmd_at'? [-Werror=implicit-function-declaration]
-     341 |                 set_pte_at(mm, addr, ptep, __pte(_PAGE_GLOBAL));
-         |                 ^~~~~~~~~~
-         |                 set_pmd_at
-   In file included from include/linux/cacheflush.h:5,
-                    from include/linux/highmem.h:8,
-                    from include/linux/bvec.h:10,
-                    from include/linux/blk_types.h:10,
-                    from include/linux/writeback.h:13,
-                    from include/linux/memcontrol.h:22,
-                    from include/linux/swap.h:9,
-                    from include/linux/suspend.h:5,
-                    from arch/loongarch/kernel/asm-offsets.c:11:
-   include/linux/cacheflush.h: At top level:
->> arch/loongarch/include/asm/cacheflush.h:53:57: error: expected identifier or '(' before 'do'
-      53 | #define flush_dcache_folio(folio)                       do { } while (0)
-         |                                                         ^~
-   include/linux/cacheflush.h:14:20: note: in expansion of macro 'flush_dcache_folio'
-      14 | static inline void flush_dcache_folio(struct folio *folio)
-         |                    ^~~~~~~~~~~~~~~~~~
->> arch/loongarch/include/asm/cacheflush.h:53:64: error: expected identifier or '(' before 'while'
-      53 | #define flush_dcache_folio(folio)                       do { } while (0)
-         |                                                                ^~~~~
-   include/linux/cacheflush.h:14:20: note: in expansion of macro 'flush_dcache_folio'
-      14 | static inline void flush_dcache_folio(struct folio *folio)
-         |                    ^~~~~~~~~~~~~~~~~~
->> include/linux/cacheflush.h:17: warning: "flush_dcache_folio" redefined
-      17 | #define flush_dcache_folio flush_dcache_folio
-         | 
-   arch/loongarch/include/asm/cacheflush.h:53: note: this is the location of the previous definition
-      53 | #define flush_dcache_folio(folio)                       do { } while (0)
-         | 
-   arch/loongarch/kernel/asm-offsets.c:17:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      17 | void output_ptreg_defines(void)
+>> arch/nios2/mm/cacheflush.c:162:6: warning: no previous prototype for '__flush_dcache_folio' [-Wmissing-prototypes]
+     162 | void __flush_dcache_folio(struct address_space *mapping, struct folio *folio)
          |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:64:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      64 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:79:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      79 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:95:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      95 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:138:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     138 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:178:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     178 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:210:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     210 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:218:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     218 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:256:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     256 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:266:6: warning: no previous prototype for 'output_pbe_defines' [-Wmissing-prototypes]
-     266 | void output_pbe_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:278:6: warning: no previous prototype for 'output_fgraph_ret_regs_defines' [-Wmissing-prototypes]
-     278 | void output_fgraph_ret_regs_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/nios2/mm/cacheflush.c: In function 'flush_dcache_folio':
+>> arch/nios2/mm/cacheflush.c:194:48: error: passing argument 2 of 'flush_aliases' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     194 |                         flush_aliases(mapping, folio);
+         |                                                ^~~~~
+         |                                                |
+         |                                                struct folio *
+   arch/nios2/mm/cacheflush.c:74:71: note: expected 'struct page *' but argument is of type 'struct folio *'
+      74 | static void flush_aliases(struct address_space *mapping, struct page *page)
+         |                                                          ~~~~~~~~~~~~~^~~~
+   arch/nios2/mm/cacheflush.c: In function 'update_mmu_cache_range':
+   arch/nios2/mm/cacheflush.c:234:40: error: passing argument 2 of 'flush_aliases' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     234 |                 flush_aliases(mapping, folio);
+         |                                        ^~~~~
+         |                                        |
+         |                                        struct folio *
+   arch/nios2/mm/cacheflush.c:74:71: note: expected 'struct page *' but argument is of type 'struct folio *'
+      74 | static void flush_aliases(struct address_space *mapping, struct page *page)
+         |                                                          ~~~~~~~~~~~~~^~~~
    cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1275: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
 
 
-vim +341 arch/loongarch/include/asm/pgtable.h
+vim +/flush_aliases +194 arch/nios2/mm/cacheflush.c
 
-09cfefb7fa70c3 Huacai Chen 2022-05-31  336  
-09cfefb7fa70c3 Huacai Chen 2022-05-31  337  static inline void pte_clear(struct mm_struct *mm, unsigned long addr, pte_t *ptep)
-09cfefb7fa70c3 Huacai Chen 2022-05-31  338  {
-09cfefb7fa70c3 Huacai Chen 2022-05-31  339  	/* Preserve global status for the pair */
-09cfefb7fa70c3 Huacai Chen 2022-05-31  340  	if (pte_val(*ptep_buddy(ptep)) & _PAGE_GLOBAL)
-09cfefb7fa70c3 Huacai Chen 2022-05-31 @341  		set_pte_at(mm, addr, ptep, __pte(_PAGE_GLOBAL));
-09cfefb7fa70c3 Huacai Chen 2022-05-31  342  	else
-09cfefb7fa70c3 Huacai Chen 2022-05-31  343  		set_pte_at(mm, addr, ptep, __pte(0));
-09cfefb7fa70c3 Huacai Chen 2022-05-31  344  }
-09cfefb7fa70c3 Huacai Chen 2022-05-31  345  
-
-:::::: The code at line 341 was first introduced by commit
-:::::: 09cfefb7fa70c3af011b0db0a513fd80b2f18abc LoongArch: Add memory management
-
-:::::: TO: Huacai Chen <chenhuacai@loongson.cn>
-:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
+   161	
+ > 162	void __flush_dcache_folio(struct address_space *mapping, struct folio *folio)
+   163	{
+   164		/*
+   165		 * Writeback any data associated with the kernel mapping of this
+   166		 * page.  This ensures that data in the physical page is mutually
+   167		 * coherent with the kernels mapping.
+   168		 */
+   169		unsigned long start = (unsigned long)folio_address(folio);
+   170	
+   171		__flush_dcache(start, start + folio_size(folio));
+   172	}
+   173	
+   174	void flush_dcache_folio(struct folio *folio)
+   175	{
+   176		struct address_space *mapping;
+   177	
+   178		/*
+   179		 * The zero page is never written to, so never has any dirty
+   180		 * cache lines, and therefore never needs to be flushed.
+   181		 */
+   182		if (is_zero_pfn(folio_pfn(folio)))
+   183			return;
+   184	
+   185		mapping = folio_flush_mapping(folio);
+   186	
+   187		/* Flush this page if there are aliases. */
+   188		if (mapping && !mapping_mapped(mapping)) {
+   189			clear_bit(PG_dcache_clean, &folio->flags);
+   190		} else {
+   191			__flush_dcache_folio(mapping, folio);
+   192			if (mapping) {
+   193				unsigned long start = (unsigned long)folio_address(folio);
+ > 194				flush_aliases(mapping, folio);
+   195				flush_icache_range(start, start + folio_size(folio));
+   196			}
+   197			set_bit(PG_dcache_clean, &folio->flags);
+   198		}
+   199	}
+   200	EXPORT_SYMBOL(flush_dcache_folio);
+   201	
 
 -- 
 0-DAY CI Kernel Test Service
