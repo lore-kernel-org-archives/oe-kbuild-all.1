@@ -1,43 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFC61876
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 04:22:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4871876
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  7 Jul 2023 04:23:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688703773; x=1720239773;
+  t=1688703833; x=1720239833;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UH4RCaQNsKslLK2Dom/4wIY9gICLDhmsJYJTeoNlYtI=;
-  b=DsodBy7/kew1orN7H/b+7SW6su4t2e7II29kQO/js//QLACTWToORAM9
-   c34KfK2K5uI+r5MZRAlb/PNcCCyn6RvA82y+xQp3xfW6zJMWAXEONnwNK
-   yPSgOABLcCSjRknJ1gYk/NpekUy3utAc/ARGSilJkUAKxEYjb55I470Fb
-   ybV6x4hx3S579p1ZHropOdI5qOGOfuzJA7gz83Ox1LWug4BvlgIRjcNJm
-   Lmvty+V9k2iBIGm9hVwaFlZ6pByFVlR4cZFfD/O4uKf0BShlkp1NwLuCV
-   lALSv8jn3GPi5CaGeWJ68+RXFeaLWq7l6t6Ab3t+TZBO1SMV5Z7uUOk2a
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="362665628"
+  bh=L1ksJAqsZNVsKA+l6PKf89zx4B680RujdwchitpOcUU=;
+  b=f98q6F0791VJCnQFEZVK0XfW3L5lktEASGY8BCXTA2d2Y8fkx9wdyhVV
+   iRSF/qg47YP1bo/YUv/xEUvTS5fXbxMHuxibqr/2jYaylWBPxQVCR48vO
+   PQGaovUxmfjcNDL9VLKRj9Pbi26jDlm9+uEvS0y9EcSemBvO1orjKPyDf
+   VIUkctGGWU2DxgvYUUr9QvWa9ruEnpyZvDg1k95rmvycHDMIR4W3ZPzy/
+   LHOz+CPUKWHkvBF/BuPpWsVtJ1ZES0qG/58njpiWaWeTcIYOdYi4lh0Vp
+   4CwpggMThb5wI8HMwC0D2q4AJ3rKuN7Cmp2yL62iaz1x138+PvxK95w1L
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="363837159"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="362665628"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 21:22:52 -0700
+   d="scan'208";a="363837159"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2023 21:23:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="843962508"
+X-IronPort-AV: E=McAfee;i="6600,9927,10763"; a="749399966"
 X-IronPort-AV: E=Sophos;i="6.01,187,1684825200"; 
-   d="scan'208";a="843962508"
+   d="scan'208";a="749399966"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga004.jf.intel.com with ESMTP; 06 Jul 2023 21:22:51 -0700
+  by orsmga008.jf.intel.com with ESMTP; 06 Jul 2023 21:23:51 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHcza-0001l0-1O;
-	Fri, 07 Jul 2023 04:22:50 +0000
-Date: Fri, 7 Jul 2023 12:22:49 +0800
+	id 1qHd0Y-0001l7-1f;
+	Fri, 07 Jul 2023 04:23:50 +0000
+Date: Fri, 7 Jul 2023 12:22:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Joel Stanley <joel@jms.id.au>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [shenki:aspeed-xvuart-host-driver 3/3]
- drivers/soc/aspeed/aspeed-host-bmc-dev.c:189:9: error: implicit declaration
- of function 'pci_release_region'; did you mean 'pci_release_regions'?
-Message-ID: <202307071244.E2AoIRiC-lkp@intel.com>
+ drivers/soc/aspeed/aspeed-host-bmc-dev.c:77:12: warning: stack frame size
+ (1232) exceeds limit (1024) in 'aspeed_pci_host_bmc_device_probe'
+Message-ID: <202307071202.5BqSVHR1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,30 +50,28 @@ Content-Disposition: inline
 tree:   https://github.com/shenki/linux aspeed-xvuart-host-driver
 head:   8384d7b383c2aff772d5503ddddd8a938e48c43f
 commit: 8384d7b383c2aff772d5503ddddd8a938e48c43f [3/3] soc/aspeed: Add BMC host driver
-config: m68k-randconfig-r022-20230707 (https://download.01.org/0day-ci/archive/20230707/202307071244.E2AoIRiC-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230707/202307071244.E2AoIRiC-lkp@intel.com/reproduce)
+config: riscv-randconfig-r042-20230707 (https://download.01.org/0day-ci/archive/20230707/202307071202.5BqSVHR1-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230707/202307071202.5BqSVHR1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307071244.E2AoIRiC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307071202.5BqSVHR1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/soc/aspeed/aspeed-host-bmc-dev.c: In function 'aspeed_pci_host_bmc_device_probe':
->> drivers/soc/aspeed/aspeed-host-bmc-dev.c:189:9: error: implicit declaration of function 'pci_release_region'; did you mean 'pci_release_regions'? [-Werror=implicit-function-declaration]
-     189 |         pci_release_region(pdev, 1);
-         |         ^~~~~~~~~~~~~~~~~~
-         |         pci_release_regions
-   cc1: some warnings being treated as errors
+>> drivers/soc/aspeed/aspeed-host-bmc-dev.c:77:12: warning: stack frame size (1232) exceeds limit (1024) in 'aspeed_pci_host_bmc_device_probe' [-Wframe-larger-than]
+   static int aspeed_pci_host_bmc_device_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+              ^
+   1 warning generated.
 
 
-vim +189 drivers/soc/aspeed/aspeed-host-bmc-dev.c
+vim +/aspeed_pci_host_bmc_device_probe +77 drivers/soc/aspeed/aspeed-host-bmc-dev.c
 
     75	
     76	#define BMC_MSI_IDX_BASE	4
-    77	static int aspeed_pci_host_bmc_device_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+  > 77	static int aspeed_pci_host_bmc_device_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
     78	{
     79		struct uart_8250_port uart[VUART_MAX_PARMS];
     80		struct aspeed_pci_bmc_dev *pci_bmc_dev;
@@ -185,7 +183,7 @@ vim +189 drivers/soc/aspeed/aspeed-host-bmc-dev.c
    186	
    187	out_unreg:
    188	out_free1:
- > 189		pci_release_region(pdev, 1);
+   189		pci_release_region(pdev, 1);
    190	out_free0:
    191		pci_release_region(pdev, 0);
    192		kfree(pci_bmc_dev);
