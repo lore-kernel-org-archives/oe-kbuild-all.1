@@ -1,46 +1,42 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BC4A925;
-	Sat,  8 Jul 2023 19:26:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE24CA925
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jul 2023 19:36:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688844396; x=1720380396;
+  t=1688844995; x=1720380995;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h73p14Pwr2Ja2iCPT7wZ+Is7+VKZvYyK9wvq8H8wi5o=;
-  b=Y3bvhjVvQH0vcA8aCvqMAgEEEucPv7KWhwmi8sF5hrOvxgASGw5eCzct
-   NhrPJXuouUZW62TOjg+1EO8iByBNyI2K8xeJ33IYmH8uuakW6ZXS3XyBi
-   m1eIwcbvwJDcAy5laTLHW8gO1JlIj9JpjafykE/gnjiG5nGkS9GWNwxfx
-   sMPqDj3U6ubQV5enZkUBRZeBxS2i7ehLnwzFBdzApj4vOtRSm6GeXqDI2
-   CPQoVCta/1YMvAdny3YD2Ty0S77Ui3wZZipLLFfW2uTItg7TJIlYujIko
-   YV+LeH2julDUeMeFfLFqf22AkOI/s3I+PPLmXebMHlqyaaf7q+4I57GY5
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="353945068"
+  bh=4kctwFID7xeJcXy3hDYivjLDO88moJQ/G3nkTXYryio=;
+  b=lYEXSyluf+FVJzQE/reQqhrWAqscZeMGf6hKP6FHQxtG5wJZQZkdanKg
+   3wxgrxQG//gU3RLayp9bxXi/7A7h0Qap+y0hoxafy8iqBc0eb1+f8Sfik
+   HoADMXL2U9UgnhhG6PebmbU4CgE9bqddzuCZGynBsx+kvcVtGwoDxIvEn
+   k1mHOYWzNUvboFbyfTtvYDX7sOBha+4Qj7/rYjStt8U9UnlOD9J9ie/ji
+   Fg1N0SowJtNL7Xv3V6Cy8k+vMjZMguL/fCpWrO06prk29okuDRM4wPVjw
+   DuAoOVSC0/as50S7+hqxH7RF+HTRiBDVXZ08HBVWPOUTEwtcWEWyj2xUa
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="427780017"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="353945068"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2023 12:26:35 -0700
+   d="scan'208";a="427780017"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2023 12:36:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="670487737"
+X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="894330678"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="670487737"
+   d="scan'208";a="894330678"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 08 Jul 2023 12:26:33 -0700
+  by orsmga005.jf.intel.com with ESMTP; 08 Jul 2023 12:36:34 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qIDZh-0002sC-0C;
-	Sat, 08 Jul 2023 19:26:33 +0000
-Date: Sun, 9 Jul 2023 03:26:05 +0800
+	id 1qIDjN-0002sc-0m;
+	Sat, 08 Jul 2023 19:36:33 +0000
+Date: Sun, 9 Jul 2023 03:36:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Manuel Lauss <manuel.lauss@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [stable:linux-5.10.y 9848/9999]
- arch/mips/alchemy/common/dbdma.c:632:7: error: use of undeclared identifier
- 'dma_default_coherent'
-Message-ID: <202307090359.ifBaEvxm-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:sched/maybe 13/13] kernel/sched/fair.c:7096:49:
+ sparse: sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202307090324.j0H5Ekvl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,93 +46,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.10.y
-head:   381518b4a9165cd793599c1668c82079fcbcbe1f
-commit: 619672bf2d04cdc1bc3925defd0312c2ef11e5d0 [9848/9999] MIPS: Alchemy: fix dbdma2
-config: mips-randconfig-r023-20230708 (https://download.01.org/0day-ci/archive/20230709/202307090359.ifBaEvxm-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20230709/202307090359.ifBaEvxm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/maybe
+head:   442ca5588ff277c79f1cd6c29d4df9373c1006ad
+commit: 442ca5588ff277c79f1cd6c29d4df9373c1006ad [13/13] sched/fair: Multi-LLC select_idle_sibling()
+config: openrisc-randconfig-r073-20230708 (https://download.01.org/0day-ci/archive/20230709/202307090324.j0H5Ekvl-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230709/202307090324.j0H5Ekvl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307090359.ifBaEvxm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307090324.j0H5Ekvl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/fair.c:939:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
+   kernel/sched/fair.c:939:34: sparse:     expected struct sched_entity const *se
+   kernel/sched/fair.c:939:34: sparse:     got struct sched_entity [noderef] __rcu *
+   kernel/sched/fair.c:12070:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:12070:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:12070:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:7086:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:7086:41: sparse:     expected struct sched_domain *parent
+   kernel/sched/fair.c:7086:41: sparse:     got struct sched_domain [noderef] __rcu *parent
+>> kernel/sched/fair.c:7096:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_child @@     got struct sched_domain [noderef] __rcu * @@
+   kernel/sched/fair.c:7096:49: sparse:     expected struct sched_domain *sd_child
+   kernel/sched/fair.c:7096:49: sparse:     got struct sched_domain [noderef] __rcu *
+   kernel/sched/fair.c:7622:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:7622:20: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:7622:20: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:7824:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] tmp @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:7824:9: sparse:     expected struct sched_domain *[assigned] tmp
+   kernel/sched/fair.c:7824:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:8001:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:8001:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:8001:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:8299:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:8299:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:8299:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:9295:40: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *child @@     got struct sched_domain [noderef] __rcu *child @@
+   kernel/sched/fair.c:9295:40: sparse:     expected struct sched_domain *child
+   kernel/sched/fair.c:9295:40: sparse:     got struct sched_domain [noderef] __rcu *child
+   kernel/sched/fair.c:9922:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/fair.c:9922:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/fair.c:9922:22: sparse:    struct task_struct *
+   kernel/sched/fair.c:11342:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:11342:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:11342:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:11001:44: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sched_domain *sd_parent @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:11001:44: sparse:     expected struct sched_domain *sd_parent
+   kernel/sched/fair.c:11001:44: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:11438:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
+   kernel/sched/fair.c:11438:9: sparse:     expected struct sched_domain *[assigned] sd
+   kernel/sched/fair.c:11438:9: sparse:     got struct sched_domain [noderef] __rcu *parent
+   kernel/sched/fair.c:6198:35: sparse: sparse: marked inline, but without a definition
+   kernel/sched/fair.c: note: in included file:
+   kernel/sched/sched.h:2276:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2276:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2276:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2114:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2114:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2114:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2114:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2114:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2114:25: sparse:    struct task_struct *
 
->> arch/mips/alchemy/common/dbdma.c:632:7: error: use of undeclared identifier 'dma_default_coherent'
-           if (!dma_default_coherent)
-                ^
-   arch/mips/alchemy/common/dbdma.c:695:7: error: use of undeclared identifier 'dma_default_coherent'
-           if (!dma_default_coherent)
-                ^
-   2 errors generated.
+vim +7096 kernel/sched/fair.c
 
-
-vim +/dma_default_coherent +632 arch/mips/alchemy/common/dbdma.c
-
-   586	
-   587	/*
-   588	 * Put a source buffer into the DMA ring.
-   589	 * This updates the source pointer and byte count.  Normally used
-   590	 * for memory to fifo transfers.
-   591	 */
-   592	u32 au1xxx_dbdma_put_source(u32 chanid, dma_addr_t buf, int nbytes, u32 flags)
-   593	{
-   594		chan_tab_t		*ctp;
-   595		au1x_ddma_desc_t	*dp;
-   596	
-   597		/*
-   598		 * I guess we could check this to be within the
-   599		 * range of the table......
-   600		 */
-   601		ctp = *(chan_tab_t **)chanid;
-   602	
-   603		/*
-   604		 * We should have multiple callers for a particular channel,
-   605		 * an interrupt doesn't affect this pointer nor the descriptor,
-   606		 * so no locking should be needed.
-   607		 */
-   608		dp = ctp->put_ptr;
-   609	
-   610		/*
-   611		 * If the descriptor is valid, we are way ahead of the DMA
-   612		 * engine, so just return an error condition.
-   613		 */
-   614		if (dp->dscr_cmd0 & DSCR_CMD0_V)
-   615			return 0;
-   616	
-   617		/* Load up buffer address and byte count. */
-   618		dp->dscr_source0 = buf & ~0UL;
-   619		dp->dscr_cmd1 = nbytes;
-   620		/* Check flags */
-   621		if (flags & DDMA_FLAGS_IE)
-   622			dp->dscr_cmd0 |= DSCR_CMD0_IE;
-   623		if (flags & DDMA_FLAGS_NOIE)
-   624			dp->dscr_cmd0 &= ~DSCR_CMD0_IE;
-   625	
-   626		/*
-   627		 * There is an erratum on certain Au1200/Au1550 revisions that could
-   628		 * result in "stale" data being DMA'ed. It has to do with the snoop
-   629		 * logic on the cache eviction buffer.  dma_default_coherent is set
-   630		 * to false on these parts.
-   631		 */
- > 632		if (!dma_default_coherent)
-   633			dma_cache_wback_inv(KSEG0ADDR(buf), nbytes);
-   634		dp->dscr_cmd0 |= DSCR_CMD0_V;	/* Let it rip */
-   635		wmb(); /* drain writebuffer */
-   636		dma_cache_wback_inv((unsigned long)dp, sizeof(*dp));
-   637		ctp->chan_ptr->ddma_dbell = 0;
-   638		wmb(); /* force doorbell write out to dma engine */
-   639	
-   640		/* Get next descriptor pointer. */
-   641		ctp->put_ptr = phys_to_virt(DSCR_GET_NXTPTR(dp->dscr_nxtptr));
-   642	
-   643		/* Return something non-zero. */
-   644		return nbytes;
-   645	}
-   646	EXPORT_SYMBOL(au1xxx_dbdma_put_source);
-   647	
+  7078	
+  7079	/*
+  7080	 * For the multiple-LLC per node case, make sure to try the other LLC's if the
+  7081	 * local LLC comes up empty.
+  7082	 */
+  7083	static int
+  7084	select_idle_node(struct task_struct *p, struct sched_domain *sd, int target)
+  7085	{
+  7086		struct sched_domain *parent = sd->parent;
+  7087		struct sched_group *sg;
+  7088	
+  7089		/* Make sure to not cross nodes. */
+  7090		if (!parent || parent->flags & SD_NUMA)
+  7091			return -1;
+  7092	
+  7093		sg = parent->groups;
+  7094		do {
+  7095			int cpu = cpumask_first(sched_group_span(sg));
+> 7096			struct sched_domain *sd_child = per_cpu(sd_llc, cpu);
+  7097	
+  7098			if (!cpus_share_cache(cpu, target) && sd_child) {
+  7099				int i = select_idle_cpu(p, sd_child,
+  7100							test_idle_cores(cpu), cpu);
+  7101				if ((unsigned)i < nr_cpumask_bits)
+  7102					return i;
+  7103			}
+  7104	
+  7105			sg = sg->next;
+  7106		} while (sg != parent->groups);
+  7107	
+  7108		return -1;
+  7109	}
+  7110	
 
 -- 
 0-DAY CI Kernel Test Service
