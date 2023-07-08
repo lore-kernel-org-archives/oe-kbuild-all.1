@@ -1,43 +1,44 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D7879FA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jul 2023 16:22:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDBC1851;
+	Sat,  8 Jul 2023 17:13:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688833353; x=1720369353;
+  t=1688836413; x=1720372413;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XTDA+59CeMchFfUY5SdwBcrP1FopXJOFs5VsfZXVFe0=;
-  b=e9xwkLOMdLtMIw83dIpQ3qACzg3EbF2ol19Ks9RaAF0kqlUL7GC9EPUt
-   pV5H0Ucfv6DvVX5RC1O5yEvh11gGWqv8qA1gfLMg8MUyEHfcENlJ65XfM
-   IpV7CBHRXee7RTUPd9gv1U674SA/ciBS41QiRb+nGKmMyEzuLwnjOt7Tn
-   uLJOkVqBAwLrktWo+OjEP0qbZgzJfnNw82O2s2l7kMYsxvqYeA5co37lz
-   cpZuDDsYdlK5BbJTelRmzq4dzJL8jFzoBn+kAWN7v8ad3R9mSCDJS8f7y
-   EwPEUmJq8leH/TzUL2Mrg7qH1kXhhPxQujWuah87jBC3wOBGn/MVlVQ7m
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="344407894"
+  bh=+rzUu+oZlSmldGm40Ut2AeFFgioWscbUel1B8Sy+aws=;
+  b=SPHLjCbPFMHK7NBbE3qL3SkW37+ThmNE42ld88rJ+bHlqLEXfN0ExJKS
+   Z81Pr6q3x4t6YFjIAuWcjMmsSfMUVTg5Xa+uU9FA23E1jYQcM3WDeoahN
+   jkXf1mNGKlwkmVZskd3KXSoptd5PKGZ6QgytkGMzaIZP79octvLs3dZir
+   svYrlxY5VZlEGQQX7bYLOrL/XjXEdNUcUjhjvskAHcYt9LdDf9/g5hK1o
+   a1i9R2rddm24F+vsMwdr+Byz8YL9Nq13U5yP2S44YuX+ccaDdDKwQHauh
+   OnUB8iB62RMtVk0h531NdCerqzLSilhRy0o1ECy7jMi6f0jNwDA3P1+VB
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="367571158"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="344407894"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2023 09:22:31 -0700
+   d="scan'208";a="367571158"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2023 10:13:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="670460104"
+X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="966953224"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="670460104"
+   d="scan'208";a="966953224"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 08 Jul 2023 09:22:31 -0700
+  by fmsmga006.fm.intel.com with ESMTP; 08 Jul 2023 10:13:31 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qIAha-0002nQ-0U;
-	Sat, 08 Jul 2023 16:22:30 +0000
-Date: Sun, 9 Jul 2023 00:21:52 +0800
+	id 1qIBUw-0002oq-3B;
+	Sat, 08 Jul 2023 17:13:30 +0000
+Date: Sun, 9 Jul 2023 01:13:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:sched/eevdf-runtime 15/24] kernel/sched/fair.c:721:6:
- sparse: sparse: symbol 'update_entity_lag' was not declared. Should it be
- static?
-Message-ID: <202307090042.dyNAig2S-lkp@intel.com>
+To: Tim C Chen <tim.c.chen@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Peter Zijlstra <peterz@infradead.org>
+Subject: [peterz-queue:sched/maybe 8/13] kernel/sched/topology.c:1290:31:
+ warning: incompatible integer to pointer conversion passing 'int' to
+ parameter of type 'const struct cpumask *'
+Message-ID: <202307090100.O0VfVUS9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,40 +48,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/eevdf-runtime
-head:   4b03b4e708197d55de7a3a16fd071e6e9d6e2a40
-commit: 67e6cafbc7860c02ee1c37eaa8906dd655a32297 [15/24] sched/fair: Add lag based placement
-config: x86_64-randconfig-r073-20230708 (https://download.01.org/0day-ci/archive/20230709/202307090042.dyNAig2S-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230709/202307090042.dyNAig2S-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/maybe
+head:   442ca5588ff277c79f1cd6c29d4df9373c1006ad
+commit: 0d045c1e0af4c25c053c9a5719b66e7f5648a3b2 [8/13] sched/topology: Record number of cores in sched group
+config: powerpc-ppc64e_defconfig (https://download.01.org/0day-ci/archive/20230709/202307090100.O0VfVUS9-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230709/202307090100.O0VfVUS9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307090042.dyNAig2S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307090100.O0VfVUS9-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sched/fair.c:721:6: sparse: sparse: symbol 'update_entity_lag' was not declared. Should it be static?
-   kernel/sched/fair.c:1065:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
-   kernel/sched/fair.c:1065:34: sparse:     expected struct sched_entity const *se
-   kernel/sched/fair.c:1065:34: sparse:     got struct sched_entity [noderef] __rcu *
-   kernel/sched/fair.c:8167:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8167:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8167:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:8465:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/fair.c:8465:38: sparse:     expected struct task_struct *curr
-   kernel/sched/fair.c:8465:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/fair.c:6402:35: sparse: sparse: marked inline, but without a definition
-   kernel/sched/fair.c: note: in included file:
-   kernel/sched/sched.h:2279:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2279:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2279:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2117:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2117:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2117:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2117:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2117:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2117:25: sparse:    struct task_struct *
+All warnings (new ones prefixed by >>):
+
+   In file included from kernel/sched/build_utility.c:89:
+   kernel/sched/topology.c:1290:31: error: implicit declaration of function 'cpu_smt_mask' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+                           cpumask_andnot(mask, mask, cpu_smt_mask(cpu));
+                                                      ^
+   arch/powerpc/include/asm/smp.h:139:22: note: expanded from macro 'cpu_smt_mask'
+   #define cpu_smt_mask cpu_smt_mask
+                        ^
+   kernel/sched/topology.c:1290:31: note: did you mean 'cpu_cpu_mask'?
+   arch/powerpc/include/asm/smp.h:139:22: note: expanded from macro 'cpu_smt_mask'
+   #define cpu_smt_mask cpu_smt_mask
+                        ^
+   include/linux/topology.h:243:37: note: 'cpu_cpu_mask' declared here
+   static inline const struct cpumask *cpu_cpu_mask(int cpu)
+                                       ^
+   In file included from kernel/sched/build_utility.c:89:
+>> kernel/sched/topology.c:1290:31: warning: incompatible integer to pointer conversion passing 'int' to parameter of type 'const struct cpumask *' [-Wint-conversion]
+                           cpumask_andnot(mask, mask, cpu_smt_mask(cpu));
+                                                      ^~~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/smp.h:139:22: note: expanded from macro 'cpu_smt_mask'
+   #define cpu_smt_mask cpu_smt_mask
+                        ^
+   include/linux/cpumask.h:610:29: note: passing argument to parameter 'src2p' here
+                                     const struct cpumask *src2p)
+                                                           ^
+   1 warning and 1 error generated.
+
+
+vim +1290 kernel/sched/topology.c
+
+  1264	
+  1265	/*
+  1266	 * Initialize sched groups cpu_capacity.
+  1267	 *
+  1268	 * cpu_capacity indicates the capacity of sched group, which is used while
+  1269	 * distributing the load between different sched groups in a sched domain.
+  1270	 * Typically cpu_capacity for all the groups in a sched domain will be same
+  1271	 * unless there are asymmetries in the topology. If there are asymmetries,
+  1272	 * group having more cpu_capacity will pickup more load compared to the
+  1273	 * group having less cpu_capacity.
+  1274	 */
+  1275	static void init_sched_groups_capacity(int cpu, struct sched_domain *sd)
+  1276	{
+  1277		struct sched_group *sg = sd->groups;
+  1278		struct cpumask *mask = sched_domains_tmpmask2;
+  1279	
+  1280		WARN_ON(!sg);
+  1281	
+  1282		do {
+  1283			int cpu, cores = 0, max_cpu = -1;
+  1284	
+  1285			sg->group_weight = cpumask_weight(sched_group_span(sg));
+  1286	
+  1287			cpumask_copy(mask, sched_group_span(sg));
+  1288			for_each_cpu(cpu, mask) {
+  1289				cores++;
+> 1290				cpumask_andnot(mask, mask, cpu_smt_mask(cpu));
+  1291			}
+  1292			sg->cores = cores;
+  1293	
+  1294			if (!(sd->flags & SD_ASYM_PACKING))
+  1295				goto next;
+  1296	
+  1297			for_each_cpu(cpu, sched_group_span(sg)) {
+  1298				if (max_cpu < 0)
+  1299					max_cpu = cpu;
+  1300				else if (sched_asym_prefer(cpu, max_cpu))
+  1301					max_cpu = cpu;
+  1302			}
+  1303			sg->asym_prefer_cpu = max_cpu;
+  1304	
+  1305	next:
+  1306			sg = sg->next;
+  1307		} while (sg != sd->groups);
+  1308	
+  1309		if (cpu != group_balance_cpu(sg))
+  1310			return;
+  1311	
+  1312		update_group_capacity(sd, cpu);
+  1313	}
+  1314	
 
 -- 
 0-DAY CI Kernel Test Service
