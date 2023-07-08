@@ -1,42 +1,43 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937537F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jul 2023 00:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CDAE7F
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jul 2023 00:42:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688776337; x=1720312337;
+  t=1688776938; x=1720312938;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=O8bjMnnf1Cx2ClFDuQpT4PnnoXRoFQJHzeEZElQMmbk=;
-  b=bRRN7Wj8XCrOduxrUUKHGYqSBghxlwu/E9YwCM8KYnNNmCNmqCKvOKCJ
-   ErnPtqEifYhBSYFsOcJkXW6Lx09IsGfB+ZEH9zDkPQ1pKmtyPOQB9EUye
-   BOuCEYPwlwaFWxV1QcZxJIkzmITaMpPXGMjg84N6uavaWxCS1rtSiFOtg
-   TtBY8rfwWtMtQNwACG+Raywe7nx1yaEMoNYlg89Hxgxm21kgiilD+a4H/
-   6H1CBMFSuvo6uhirEKaoyqfuM73bPBEuosNdkaiC3/SysKK7az9sNJ3ik
-   9y5J3y+xKY2uvVGSjS17znxl6FkMun5CMU+65nL09oEc3DqEESYBtZrmE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="427696833"
+  bh=9pCgHCkaQtwhVOc6FKKmQHAWJuofQh5ZUXQQ7N0K3g8=;
+  b=TgBcoafr2xSTDDiXWMcC7LAWoRpTgblOwM4v/KXZHbizNoH5rCyKeNh5
+   1dHkuqIGi/Q64MGSquO9Uaj6X8vf0DaWYI+0BxnkERt6gyn9kT3EcrBLL
+   oM1ypqvbBIDWPP10rdqR3vjSy2RSLzpKQoEbtPEfpqu6eogAAG+pgw5GO
+   RgZdfNiGqHTKUsOT6oSFwfGrpBUSz87WeVqtzfvVDPrq0MMW3vCqOuWrG
+   gn1Iq3fO4AyEEDsMLWmPdEL4trVUlNuCuwca9dAVKrJkN4h4z845eORGE
+   Kuazhwj9TSpf4dDk+5kf4aQFJtgbLLiK1pyQrOo+GtJkqyUUQAIVvDz59
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="367501273"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="427696833"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 17:32:16 -0700
+   d="scan'208";a="367501273"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 17:42:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="864724582"
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="810212493"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="864724582"
+   d="scan'208";a="810212493"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 07 Jul 2023 17:32:15 -0700
+  by FMSMGA003.fm.intel.com with ESMTP; 07 Jul 2023 17:42:16 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHvry-0002QQ-3C;
-	Sat, 08 Jul 2023 00:32:14 +0000
-Date: Sat, 8 Jul 2023 08:31:55 +0800
+	id 1qHw1f-0002R4-1M;
+	Sat, 08 Jul 2023 00:42:15 +0000
+Date: Sat, 8 Jul 2023 08:42:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:set_ptes 9/38] arch/arm/mm/fault-armv.c:201:2:
- error: must use 'struct' tag to refer to type 'folio'
-Message-ID: <202307080809.g6EnqjvD-lkp@intel.com>
+Subject: [zen:6.4/prjc 378/386] kernel/sched/alt_core.c:135:1: sparse:
+ sparse: symbol '__pcpu_scope_sched_cpu_llc_mask' was not declared. Should it
+ be static?
+Message-ID: <202307080826.Oc4k3vDJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,89 +47,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/willy/pagecache set_ptes
-head:   72c34bd0b2a432506d992bdc1e3a89260461667d
-commit: 440dacbb8de713a54c1f2c71e070576dee31424e [9/38] arm: Implement the new page table range API
-config: arm-am200epdkit_defconfig (https://download.01.org/0day-ci/archive/20230708/202307080809.g6EnqjvD-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230708/202307080809.g6EnqjvD-lkp@intel.com/reproduce)
+Hi Alfred,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/zen-kernel/zen-kernel 6.4/prjc
+head:   ea6d5107f9aa76407998568ad4cbcf54879ee0c0
+commit: 8541fa12f886cf52e531f9b31d76e9c0684d5c5e [378/386] sched/alt: [Sync] cc9cb0a71725 sched, smp: Trace IPIs sent via send_call_function_single_ipi()
+config: x86_64-randconfig-x062-20230703 (https://download.01.org/0day-ci/archive/20230708/202307080826.Oc4k3vDJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230708/202307080826.Oc4k3vDJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307080809.g6EnqjvD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307080826.Oc4k3vDJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> arch/arm/mm/fault-armv.c:201:2: error: must use 'struct' tag to refer to type 'folio'
-     201 |         folio = page_folio(pfn_to_page(pfn));
-         |         ^
-         |         struct 
->> arch/arm/mm/fault-armv.c:201:8: error: expected identifier or '('
-     201 |         folio = page_folio(pfn_to_page(pfn));
-         |               ^
->> arch/arm/mm/fault-armv.c:202:32: error: incompatible pointer types passing 'struct page *' to parameter of type 'struct folio *' [-Werror,-Wincompatible-pointer-types]
-     202 |         mapping = folio_flush_mapping(page);
-         |                                       ^~~~
-   include/linux/pagemap.h:404:71: note: passing argument to parameter 'folio' here
-     404 | static inline struct address_space *folio_flush_mapping(struct folio *folio)
-         |                                                                       ^
->> arch/arm/mm/fault-armv.c:203:42: error: use of undeclared identifier 'folio'
-     203 |         if (!test_and_set_bit(PG_dcache_clean, &folio->flags))
-         |                                                 ^
->> arch/arm/mm/fault-armv.c:203:42: error: use of undeclared identifier 'folio'
-   arch/arm/mm/fault-armv.c:204:33: error: use of undeclared identifier 'folio'
-     204 |                 __flush_dcache_folio(mapping, folio);
-         |                                               ^
-   6 errors generated.
-
-
-vim +201 arch/arm/mm/fault-armv.c
-
-   170	
-   171	/*
-   172	 * Take care of architecture specific things when placing a new PTE into
-   173	 * a page table, or changing an existing PTE.  Basically, there are two
-   174	 * things that we need to take care of:
-   175	 *
-   176	 *  1. If PG_dcache_clean is not set for the page, we need to ensure
-   177	 *     that any cache entries for the kernels virtual memory
-   178	 *     range are written back to the page.
-   179	 *  2. If we have multiple shared mappings of the same space in
-   180	 *     an object, we need to deal with the cache aliasing issues.
-   181	 *
-   182	 * Note that the pte lock will be held.
-   183	 */
-   184	void update_mmu_cache_range(struct vm_fault *vmf, struct vm_area_struct *vma,
-   185			unsigned long addr, pte_t *ptep, unsigned int nr)
-   186	{
-   187		unsigned long pfn = pte_pfn(*ptep);
-   188		struct address_space *mapping;
-   189		struct page *page;
-   190	
-   191		if (!pfn_valid(pfn))
-   192			return;
-   193	
-   194		/*
-   195		 * The zero page is never written to, so never has any dirty
-   196		 * cache lines, and therefore never needs to be flushed.
-   197		 */
-   198		if (is_zero_pfn(pfn))
-   199			return;
-   200	
- > 201		folio = page_folio(pfn_to_page(pfn));
- > 202		mapping = folio_flush_mapping(page);
- > 203		if (!test_and_set_bit(PG_dcache_clean, &folio->flags))
-   204			__flush_dcache_folio(mapping, folio);
-   205		if (mapping) {
-   206			if (cache_is_vivt())
-   207				make_coherent(mapping, vma, addr, ptep, pfn);
-   208			else if (vma->vm_flags & VM_EXEC)
-   209				__flush_icache_all();
-   210		}
-   211	}
-   212	#endif	/* __LINUX_ARM_ARCH__ < 6 */
-   213	
+sparse warnings: (new ones prefixed by >>)
+>> kernel/sched/alt_core.c:135:1: sparse: sparse: symbol '__pcpu_scope_sched_cpu_llc_mask' was not declared. Should it be static?
+>> kernel/sched/alt_core.c:136:1: sparse: sparse: symbol '__pcpu_scope_sched_cpu_topo_end_mask' was not declared. Should it be static?
+>> kernel/sched/alt_core.c:148:1: sparse: sparse: symbol '__pcpu_scope_sd_llc_id' was not declared. Should it be static?
+   kernel/sched/alt_core.c:1008:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:1008:38: sparse:     expected struct task_struct *curr
+   kernel/sched/alt_core.c:1008:38: sparse:     got struct task_struct [noderef] __rcu *curr
+>> kernel/sched/alt_core.c:1044:6: sparse: sparse: symbol 'select_nohz_load_balancer' was not declared. Should it be static?
+   kernel/sched/alt_core.c:1819:44: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1819:44: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1819:44: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:2600:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:2600:28: sparse:     expected struct task_struct const *p
+   kernel/sched/alt_core.c:2600:28: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/alt_core.c:7180:43: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *push_task @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:7180:43: sparse:     expected struct task_struct *push_task
+   kernel/sched/alt_core.c:7180:43: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/alt_core.c:4008:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:4008:15: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:4008:15: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:4727:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:4727:14: sparse:     expected struct task_struct *prev
+   kernel/sched/alt_core.c:4727:14: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/alt_core.c:5263:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:5263:17: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:5263:17: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:5413:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:5413:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:5413:22: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:7028:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/alt_core.c:7028:25: sparse:     expected struct task_struct *p
+   kernel/sched/alt_core.c:7028:25: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/alt_core.c:535:6: sparse: sparse: context imbalance in 'raw_spin_rq_lock_nested' - wrong count at exit
+   kernel/sched/alt_core.c:554:6: sparse: sparse: context imbalance in 'raw_spin_rq_unlock' - unexpected unlock
+   kernel/sched/alt_core.c:1156:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1777:38: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1777:38: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1777:38: sparse:    struct task_struct const *
+   kernel/sched/alt_core.c:1156:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1156:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1156:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1156:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1156:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1156:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/alt_core.c:1156:37: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct *
+   kernel/sched/alt_core.c:1156:37: sparse:    struct task_struct [noderef] __rcu *
 
 -- 
 0-DAY CI Kernel Test Service
