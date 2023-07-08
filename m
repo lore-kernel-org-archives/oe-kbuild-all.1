@@ -1,43 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E8479FA
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jul 2023 16:01:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D7879FA
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jul 2023 16:22:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688832091; x=1720368091;
+  t=1688833353; x=1720369353;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+vJWjgSc4ZaOqtJjVoLMtv7ArbIWpapLs+nK78yhrz8=;
-  b=kalZeFyKDpjT0Ubk4EuoVgvciYQxRSxs2Eoe6LHhWH/FMsQcaUD3IbLf
-   vuPGWov2bq7L3G0203wB+22gXNdvOCC6PyWKbG41xqRL4CTJBBGS6VQTI
-   BAl9qY4lLjQPhUHoK/on/VNIRAI0LkKo0Rb729lZ9vjiYBMN/1tuFl8cP
-   qRUkztQybmmnD0gr9lK29pDqu2UVxHk7FGm646LZRHzmZQhShlIYacQvx
-   rA1LG257tHPbuvNn62wuiyV1dpxQzSkwXiHBCVPwFF7YHQW74avNCNwD5
-   vf+Y5pC75zTD4g0XdyPh8Qv3YI+oArchiOwZjnvpON+8h3yhNzw0v/sde
+  bh=XTDA+59CeMchFfUY5SdwBcrP1FopXJOFs5VsfZXVFe0=;
+  b=e9xwkLOMdLtMIw83dIpQ3qACzg3EbF2ol19Ks9RaAF0kqlUL7GC9EPUt
+   pV5H0Ucfv6DvVX5RC1O5yEvh11gGWqv8qA1gfLMg8MUyEHfcENlJ65XfM
+   IpV7CBHRXee7RTUPd9gv1U674SA/ciBS41QiRb+nGKmMyEzuLwnjOt7Tn
+   uLJOkVqBAwLrktWo+OjEP0qbZgzJfnNw82O2s2l7kMYsxvqYeA5co37lz
+   cpZuDDsYdlK5BbJTelRmzq4dzJL8jFzoBn+kAWN7v8ad3R9mSCDJS8f7y
+   EwPEUmJq8leH/TzUL2Mrg7qH1kXhhPxQujWuah87jBC3wOBGn/MVlVQ7m
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="364112715"
+X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="344407894"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="364112715"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2023 09:01:30 -0700
+   d="scan'208";a="344407894"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2023 09:22:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="755512946"
+X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="670460104"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="755512946"
+   d="scan'208";a="670460104"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga001.jf.intel.com with ESMTP; 08 Jul 2023 09:01:29 -0700
+  by orsmga003.jf.intel.com with ESMTP; 08 Jul 2023 09:22:31 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qIANE-0002m2-2S;
-	Sat, 08 Jul 2023 16:01:28 +0000
-Date: Sun, 9 Jul 2023 00:00:40 +0800
+	id 1qIAha-0002nQ-0U;
+	Sat, 08 Jul 2023 16:22:30 +0000
+Date: Sun, 9 Jul 2023 00:21:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
+To: Peter Zijlstra <peterz@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:set_ptes 17/38]
- arch/mips/include/asm/pgtable.h:227:30: error: lvalue required as left
- operand of assignment
-Message-ID: <202307082311.dSEvqgZu-lkp@intel.com>
+Subject: [peterz-queue:sched/eevdf-runtime 15/24] kernel/sched/fair.c:721:6:
+ sparse: sparse: symbol 'update_entity_lag' was not declared. Should it be
+ static?
+Message-ID: <202307090042.dyNAig2S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,68 +47,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/willy/pagecache set_ptes
-head:   7060937be3a5f61655bba15cf777da99cacc3081
-commit: af2a84d6a76e3a436c45a2c083557970781ca371 [17/38] mips: Implement the new page table range API
-config: mips-gpr_defconfig (https://download.01.org/0day-ci/archive/20230708/202307082311.dSEvqgZu-lkp@intel.com/config)
-compiler: mipsel-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230708/202307082311.dSEvqgZu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/eevdf-runtime
+head:   4b03b4e708197d55de7a3a16fd071e6e9d6e2a40
+commit: 67e6cafbc7860c02ee1c37eaa8906dd655a32297 [15/24] sched/fair: Add lag based placement
+config: x86_64-randconfig-r073-20230708 (https://download.01.org/0day-ci/archive/20230709/202307090042.dyNAig2S-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230709/202307090042.dyNAig2S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307082311.dSEvqgZu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307090042.dyNAig2S-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:29,
-                    from arch/mips/kernel/asm-offsets.c:15:
-   arch/mips/include/asm/pgtable.h: In function 'set_ptes':
->> arch/mips/include/asm/pgtable.h:227:30: error: lvalue required as left operand of assignment
-     227 |                 pte_val(pte) += 1 << PFN_PTE_SHIFT;
-         |                              ^~
-   make[3]: *** [scripts/Makefile.build:116: arch/mips/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1275: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +227 arch/mips/include/asm/pgtable.h
-
-   203	
-   204	static inline void set_ptes(struct mm_struct *mm, unsigned long addr,
-   205			pte_t *ptep, pte_t pte, unsigned int nr)
-   206	{
-   207		unsigned int i;
-   208		bool do_sync = false;
-   209	
-   210		for (i = 0; i < nr; i++) {
-   211			if (!pte_present(pte))
-   212				continue;
-   213			if (pte_present(ptep[i]) &&
-   214			    (pte_pfn(ptep[i]) == pte_pfn(pte)))
-   215				continue;
-   216			do_sync = true;
-   217		}
-   218	
-   219		if (do_sync)
-   220			__update_cache(addr, pte);
-   221	
-   222		for (;;) {
-   223			set_pte(ptep, pte);
-   224			if (--nr == 0)
-   225				break;
-   226			ptep++;
- > 227			pte_val(pte) += 1 << PFN_PTE_SHIFT;
-   228		}
-   229	}
-   230	#define set_ptes set_ptes
-   231	
+sparse warnings: (new ones prefixed by >>)
+>> kernel/sched/fair.c:721:6: sparse: sparse: symbol 'update_entity_lag' was not declared. Should it be static?
+   kernel/sched/fair.c:1065:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_entity const *se @@     got struct sched_entity [noderef] __rcu * @@
+   kernel/sched/fair.c:1065:34: sparse:     expected struct sched_entity const *se
+   kernel/sched/fair.c:1065:34: sparse:     got struct sched_entity [noderef] __rcu *
+   kernel/sched/fair.c:8167:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:8167:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:8167:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:8465:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/fair.c:8465:38: sparse:     expected struct task_struct *curr
+   kernel/sched/fair.c:8465:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/fair.c:6402:35: sparse: sparse: marked inline, but without a definition
+   kernel/sched/fair.c: note: in included file:
+   kernel/sched/sched.h:2279:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2279:9: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2279:9: sparse:    struct task_struct *
+   kernel/sched/sched.h:2117:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2117:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2117:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2117:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2117:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2117:25: sparse:    struct task_struct *
 
 -- 
 0-DAY CI Kernel Test Service
