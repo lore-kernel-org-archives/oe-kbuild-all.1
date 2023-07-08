@@ -1,43 +1,42 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A347F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jul 2023 01:35:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F05B7E2
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jul 2023 02:57:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688780120; x=1720316120;
+  t=1688785041; x=1720321041;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iETgqR9zXgClO867LOiIvfqdSK3NzzRUNarUdf9ZB3Y=;
-  b=MRWQVZgo9GudPkE/4v6xd9NJzu1m51Vf7hrcyUv4wx/xagFC+RRLSh4r
-   RQfQfSVagvvuIT89Dj5l7zTCLTNIoPjiJZL/n75ho9wkJfr50t9LHNSix
-   B28rk/0BbI6jZxc9RmEbasMjwPgynnRuy+4lznTrJpoIdR5GSFTlL7Xto
-   4Xkm+SiUgruVldhjH1po6gMAppJuIvxs3OJvCM+Bm5g2ju4+jFOpvV1Il
-   Me+n/ig5WIskxEC2M63zqoFhavUbco29JP7jKf1E1B2RdUgS38KuwMQa2
-   YJUZFp+MhGeHqsrobQZXUKjHsBgc5EvuMt70zmZNgVHe2Q6B0K6oAiQke
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="430081191"
+  bh=0tmXfmrHvHpbdDTCFiyIOWE3y1wvMx8obmWN9//PH6I=;
+  b=dcw0ZN6g9inR0aGSlj0BKTJPENapZeRptOPKYy6ma20/KkaUicshB4PP
+   T0vAgkRJ8qoDnY03Mb+F5sGeQH4Dwj4n9laMkMpMJ/LXU0djo/vrVwpJT
+   CWW4RReC8tSxNcwp2XeR3c7C87p962TeQLZkO+XhbM2mtnCzEF14tMcea
+   n5ntZq2f6ty77z09+B1kmuB8oKXZ6AHS1fEGRqt9tMYcPeORdbhB8xsfa
+   25izFF1g3G2g+BvXdmG0+zowf1e/IlwtoDT+sME/yHpm/9DYkjJ1O4QoU
+   0Fy+oyjrjRjq29zFVGsFNlxbLEGCkLNh1OyDBs8c5C/OjjYt85f/E64TJ
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="361493176"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="430081191"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 18:35:19 -0700
+   d="scan'208";a="361493176"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2023 19:57:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="894173458"
+X-IronPort-AV: E=McAfee;i="6600,9927,10764"; a="670348580"
 X-IronPort-AV: E=Sophos;i="6.01,189,1684825200"; 
-   d="scan'208";a="894173458"
+   d="scan'208";a="670348580"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 07 Jul 2023 18:35:17 -0700
+  by orsmga003.jf.intel.com with ESMTP; 07 Jul 2023 19:57:19 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qHwqy-0002T9-2D;
-	Sat, 08 Jul 2023 01:35:16 +0000
-Date: Sat, 8 Jul 2023 09:34:19 +0800
+	id 1qHy8M-0002W6-1D;
+	Sat, 08 Jul 2023 02:57:18 +0000
+Date: Sat, 8 Jul 2023 10:57:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: Matthew Wilcox <willy@infradead.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:set_ptes 18/37] mm/userfaultfd.c:123:26: error:
- passing argument 1 of 'update_mmu_cache_range' from incompatible pointer
- type
-Message-ID: <202307080917.tfTowcae-lkp@intel.com>
+Subject: [willy-pagecache:set_ptes 9/38] mm/filemap.c:2709: undefined
+ reference to `flush_dcache_folio'
+Message-ID: <202307081040.pxdFGWsP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,838 +48,161 @@ Content-Disposition: inline
 
 tree:   git://git.infradead.org/users/willy/pagecache set_ptes
 head:   72c34bd0b2a432506d992bdc1e3a89260461667d
-commit: 4759f93bef657de98286621060fbac30083b9fef [18/37] openrisc: Implement the new page table range API
-config: openrisc-randconfig-r003-20230708 (https://download.01.org/0day-ci/archive/20230708/202307080917.tfTowcae-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230708/202307080917.tfTowcae-lkp@intel.com/reproduce)
+commit: 440dacbb8de713a54c1f2c71e070576dee31424e [9/38] arm: Implement the new page table range API
+config: arm-randconfig-r061-20230704 (https://download.01.org/0day-ci/archive/20230708/202307081040.pxdFGWsP-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230708/202307081040.pxdFGWsP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307080917.tfTowcae-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307081040.pxdFGWsP-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:29,
-                    from mm/userfaultfd.c:8:
-   arch/openrisc/include/asm/pgtable.h:383:50: warning: 'struct vm_failt' declared inside parameter list will not be visible outside of this definition or declaration
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                                  ^~~~~~~~
-   mm/userfaultfd.c: In function 'mfill_atomic_install_pte':
->> mm/userfaultfd.c:123:26: error: passing argument 1 of 'update_mmu_cache_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     123 |         update_mmu_cache(dst_vma, dst_addr, dst_pte);
-         |                          ^~~~~~~
-         |                          |
-         |                          struct vm_area_struct *
-   arch/openrisc/include/asm/pgtable.h:392:32: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                ^~~
-   arch/openrisc/include/asm/pgtable.h:383:60: note: expected 'struct vm_failt *' but argument is of type 'struct vm_area_struct *'
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                           ~~~~~~~~~~~~~~~~~^~~
-   mm/userfaultfd.c:123:35: warning: passing argument 2 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     123 |         update_mmu_cache(dst_vma, dst_addr, dst_pte);
-         |                                   ^~~~~~~~
-         |                                   |
-         |                                   long unsigned int
-   arch/openrisc/include/asm/pgtable.h:392:37: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                     ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:40: note: expected 'struct vm_area_struct *' but argument is of type 'long unsigned int'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/userfaultfd.c:123:45: warning: passing argument 3 of 'update_mmu_cache_range' makes integer from pointer without a cast [-Wint-conversion]
-     123 |         update_mmu_cache(dst_vma, dst_addr, dst_pte);
-         |                                             ^~~~~~~
-         |                                             |
-         |                                             pte_t *
-   arch/openrisc/include/asm/pgtable.h:392:43: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                           ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:59: note: expected 'long unsigned int' but argument is of type 'pte_t *'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                                             ~~~~~~~~~~~~~~^~~~~~~
-   arch/openrisc/include/asm/pgtable.h:392:49: warning: passing argument 4 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                                 ^
-         |                                                 |
-         |                                                 int
-   mm/userfaultfd.c:123:9: note: in expansion of macro 'update_mmu_cache'
-     123 |         update_mmu_cache(dst_vma, dst_addr, dst_pte);
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:385:24: note: expected 'pte_t *' but argument is of type 'int'
-     385 |                 pte_t *ptep, unsigned int nr)
-         |                 ~~~~~~~^~~~
->> arch/openrisc/include/asm/pgtable.h:392:9: error: too few arguments to function 'update_mmu_cache_range'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/userfaultfd.c:123:9: note: in expansion of macro 'update_mmu_cache'
-     123 |         update_mmu_cache(dst_vma, dst_addr, dst_pte);
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:383:20: note: declared here
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   mm/userfaultfd.c: In function 'mfill_atomic_pte_zeropage':
-   mm/userfaultfd.c:237:26: error: passing argument 1 of 'update_mmu_cache_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     237 |         update_mmu_cache(dst_vma, dst_addr, dst_pte);
-         |                          ^~~~~~~
-         |                          |
-         |                          struct vm_area_struct *
-   arch/openrisc/include/asm/pgtable.h:392:32: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                ^~~
-   arch/openrisc/include/asm/pgtable.h:383:60: note: expected 'struct vm_failt *' but argument is of type 'struct vm_area_struct *'
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                           ~~~~~~~~~~~~~~~~~^~~
-   mm/userfaultfd.c:237:35: warning: passing argument 2 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     237 |         update_mmu_cache(dst_vma, dst_addr, dst_pte);
-         |                                   ^~~~~~~~
-         |                                   |
-         |                                   long unsigned int
-   arch/openrisc/include/asm/pgtable.h:392:37: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                     ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:40: note: expected 'struct vm_area_struct *' but argument is of type 'long unsigned int'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/userfaultfd.c:237:45: warning: passing argument 3 of 'update_mmu_cache_range' makes integer from pointer without a cast [-Wint-conversion]
-     237 |         update_mmu_cache(dst_vma, dst_addr, dst_pte);
-         |                                             ^~~~~~~
-         |                                             |
-         |                                             pte_t *
-   arch/openrisc/include/asm/pgtable.h:392:43: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                           ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:59: note: expected 'long unsigned int' but argument is of type 'pte_t *'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                                             ~~~~~~~~~~~~~~^~~~~~~
-   arch/openrisc/include/asm/pgtable.h:392:49: warning: passing argument 4 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                                 ^
-         |                                                 |
-         |                                                 int
-   mm/userfaultfd.c:237:9: note: in expansion of macro 'update_mmu_cache'
-     237 |         update_mmu_cache(dst_vma, dst_addr, dst_pte);
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:385:24: note: expected 'pte_t *' but argument is of type 'int'
-     385 |                 pte_t *ptep, unsigned int nr)
-         |                 ~~~~~~~^~~~
->> arch/openrisc/include/asm/pgtable.h:392:9: error: too few arguments to function 'update_mmu_cache_range'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/userfaultfd.c:237:9: note: in expansion of macro 'update_mmu_cache'
-     237 |         update_mmu_cache(dst_vma, dst_addr, dst_pte);
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:383:20: note: declared here
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/linux/pgtable.h:6,
-                    from include/linux/mm.h:29,
-                    from arch/openrisc/include/asm/pgalloc.h:20,
-                    from arch/openrisc/include/asm/io.h:18,
-                    from include/linux/io.h:13,
-                    from include/linux/irq.h:20,
-                    from include/asm-generic/hardirq.h:17,
-                    from ./arch/openrisc/include/generated/asm/hardirq.h:1,
-                    from include/linux/hardirq.h:11,
-                    from include/linux/interrupt.h:11,
-                    from include/linux/kernel_stat.h:9,
-                    from mm/memory.c:42:
-   arch/openrisc/include/asm/pgtable.h:383:50: warning: 'struct vm_failt' declared inside parameter list will not be visible outside of this definition or declaration
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                                  ^~~~~~~~
-   mm/memory.c: In function 'restore_exclusive_pte':
->> mm/memory.c:739:26: error: passing argument 1 of 'update_mmu_cache_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     739 |         update_mmu_cache(vma, address, ptep);
-         |                          ^~~
-         |                          |
-         |                          struct vm_area_struct *
-   arch/openrisc/include/asm/pgtable.h:392:32: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                ^~~
-   arch/openrisc/include/asm/pgtable.h:383:60: note: expected 'struct vm_failt *' but argument is of type 'struct vm_area_struct *'
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                           ~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:739:31: warning: passing argument 2 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     739 |         update_mmu_cache(vma, address, ptep);
-         |                               ^~~~~~~
-         |                               |
-         |                               long unsigned int
-   arch/openrisc/include/asm/pgtable.h:392:37: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                     ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:40: note: expected 'struct vm_area_struct *' but argument is of type 'long unsigned int'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:739:40: warning: passing argument 3 of 'update_mmu_cache_range' makes integer from pointer without a cast [-Wint-conversion]
-     739 |         update_mmu_cache(vma, address, ptep);
-         |                                        ^~~~
-         |                                        |
-         |                                        pte_t *
-   arch/openrisc/include/asm/pgtable.h:392:43: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                           ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:59: note: expected 'long unsigned int' but argument is of type 'pte_t *'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                                             ~~~~~~~~~~~~~~^~~~~~~
-   arch/openrisc/include/asm/pgtable.h:392:49: warning: passing argument 4 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                                 ^
-         |                                                 |
-         |                                                 int
-   mm/memory.c:739:9: note: in expansion of macro 'update_mmu_cache'
-     739 |         update_mmu_cache(vma, address, ptep);
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:385:24: note: expected 'pte_t *' but argument is of type 'int'
-     385 |                 pte_t *ptep, unsigned int nr)
-         |                 ~~~~~~~^~~~
->> arch/openrisc/include/asm/pgtable.h:392:9: error: too few arguments to function 'update_mmu_cache_range'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:739:9: note: in expansion of macro 'update_mmu_cache'
-     739 |         update_mmu_cache(vma, address, ptep);
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:383:20: note: declared here
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c: In function 'insert_pfn':
-   mm/memory.c:2151:50: error: passing argument 1 of 'update_mmu_cache_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2151 |                                 update_mmu_cache(vma, addr, pte);
-         |                                                  ^~~
-         |                                                  |
-         |                                                  struct vm_area_struct *
-   arch/openrisc/include/asm/pgtable.h:392:32: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                ^~~
-   arch/openrisc/include/asm/pgtable.h:383:60: note: expected 'struct vm_failt *' but argument is of type 'struct vm_area_struct *'
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                           ~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:2151:55: warning: passing argument 2 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-    2151 |                                 update_mmu_cache(vma, addr, pte);
-         |                                                       ^~~~
-         |                                                       |
-         |                                                       long unsigned int
-   arch/openrisc/include/asm/pgtable.h:392:37: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                     ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:40: note: expected 'struct vm_area_struct *' but argument is of type 'long unsigned int'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:2151:61: warning: passing argument 3 of 'update_mmu_cache_range' makes integer from pointer without a cast [-Wint-conversion]
-    2151 |                                 update_mmu_cache(vma, addr, pte);
-         |                                                             ^~~
-         |                                                             |
-         |                                                             pte_t *
-   arch/openrisc/include/asm/pgtable.h:392:43: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                           ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:59: note: expected 'long unsigned int' but argument is of type 'pte_t *'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                                             ~~~~~~~~~~~~~~^~~~~~~
-   arch/openrisc/include/asm/pgtable.h:392:49: warning: passing argument 4 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                                 ^
-         |                                                 |
-         |                                                 int
-   mm/memory.c:2151:33: note: in expansion of macro 'update_mmu_cache'
-    2151 |                                 update_mmu_cache(vma, addr, pte);
-         |                                 ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:385:24: note: expected 'pte_t *' but argument is of type 'int'
-     385 |                 pte_t *ptep, unsigned int nr)
-         |                 ~~~~~~~^~~~
->> arch/openrisc/include/asm/pgtable.h:392:9: error: too few arguments to function 'update_mmu_cache_range'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:2151:33: note: in expansion of macro 'update_mmu_cache'
-    2151 |                                 update_mmu_cache(vma, addr, pte);
-         |                                 ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:383:20: note: declared here
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:2168:26: error: passing argument 1 of 'update_mmu_cache_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2168 |         update_mmu_cache(vma, addr, pte); /* XXX: why not for insert_page? */
-         |                          ^~~
-         |                          |
-         |                          struct vm_area_struct *
-   arch/openrisc/include/asm/pgtable.h:392:32: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                ^~~
-   arch/openrisc/include/asm/pgtable.h:383:60: note: expected 'struct vm_failt *' but argument is of type 'struct vm_area_struct *'
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                           ~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:2168:31: warning: passing argument 2 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-    2168 |         update_mmu_cache(vma, addr, pte); /* XXX: why not for insert_page? */
-         |                               ^~~~
-         |                               |
-         |                               long unsigned int
-   arch/openrisc/include/asm/pgtable.h:392:37: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                     ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:40: note: expected 'struct vm_area_struct *' but argument is of type 'long unsigned int'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:2168:37: warning: passing argument 3 of 'update_mmu_cache_range' makes integer from pointer without a cast [-Wint-conversion]
-    2168 |         update_mmu_cache(vma, addr, pte); /* XXX: why not for insert_page? */
-         |                                     ^~~
-         |                                     |
-         |                                     pte_t *
-   arch/openrisc/include/asm/pgtable.h:392:43: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                           ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:59: note: expected 'long unsigned int' but argument is of type 'pte_t *'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                                             ~~~~~~~~~~~~~~^~~~~~~
-   arch/openrisc/include/asm/pgtable.h:392:49: warning: passing argument 4 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                                 ^
-         |                                                 |
-         |                                                 int
-   mm/memory.c:2168:9: note: in expansion of macro 'update_mmu_cache'
-    2168 |         update_mmu_cache(vma, addr, pte); /* XXX: why not for insert_page? */
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:385:24: note: expected 'pte_t *' but argument is of type 'int'
-     385 |                 pte_t *ptep, unsigned int nr)
-         |                 ~~~~~~~^~~~
->> arch/openrisc/include/asm/pgtable.h:392:9: error: too few arguments to function 'update_mmu_cache_range'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:2168:9: note: in expansion of macro 'update_mmu_cache'
-    2168 |         update_mmu_cache(vma, addr, pte); /* XXX: why not for insert_page? */
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:383:20: note: declared here
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c: In function '__wp_page_copy_user':
-   mm/memory.c:2867:42: error: passing argument 1 of 'update_mmu_cache_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    2867 |                         update_mmu_cache(vma, addr, vmf->pte);
-         |                                          ^~~
-         |                                          |
-         |                                          struct vm_area_struct *
-   arch/openrisc/include/asm/pgtable.h:392:32: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                ^~~
-   arch/openrisc/include/asm/pgtable.h:383:60: note: expected 'struct vm_failt *' but argument is of type 'struct vm_area_struct *'
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                           ~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:2867:47: warning: passing argument 2 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-    2867 |                         update_mmu_cache(vma, addr, vmf->pte);
-         |                                               ^~~~
-         |                                               |
-         |                                               long unsigned int
-   arch/openrisc/include/asm/pgtable.h:392:37: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                     ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:40: note: expected 'struct vm_area_struct *' but argument is of type 'long unsigned int'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:2867:56: warning: passing argument 3 of 'update_mmu_cache_range' makes integer from pointer without a cast [-Wint-conversion]
-    2867 |                         update_mmu_cache(vma, addr, vmf->pte);
-         |                                                     ~~~^~~~~
-         |                                                        |
-         |                                                        pte_t *
-   arch/openrisc/include/asm/pgtable.h:392:43: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                           ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:59: note: expected 'long unsigned int' but argument is of type 'pte_t *'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                                             ~~~~~~~~~~~~~~^~~~~~~
-   arch/openrisc/include/asm/pgtable.h:392:49: warning: passing argument 4 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                                 ^
-         |                                                 |
-         |                                                 int
-   mm/memory.c:2867:25: note: in expansion of macro 'update_mmu_cache'
-    2867 |                         update_mmu_cache(vma, addr, vmf->pte);
-         |                         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:385:24: note: expected 'pte_t *' but argument is of type 'int'
-     385 |                 pte_t *ptep, unsigned int nr)
-         |                 ~~~~~~~^~~~
->> arch/openrisc/include/asm/pgtable.h:392:9: error: too few arguments to function 'update_mmu_cache_range'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:2867:25: note: in expansion of macro 'update_mmu_cache'
-    2867 |                         update_mmu_cache(vma, addr, vmf->pte);
-         |                         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:383:20: note: declared here
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c: In function 'wp_page_reuse':
-   mm/memory.c:3045:34: error: passing argument 1 of 'update_mmu_cache_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    3045 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                                  ^~~
-         |                                  |
-         |                                  struct vm_area_struct *
-   arch/openrisc/include/asm/pgtable.h:392:32: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                ^~~
-   arch/openrisc/include/asm/pgtable.h:383:60: note: expected 'struct vm_failt *' but argument is of type 'struct vm_area_struct *'
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                           ~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:3045:42: warning: passing argument 2 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-    3045 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                                       ~~~^~~~~~~~~
-         |                                          |
-         |                                          long unsigned int
-   arch/openrisc/include/asm/pgtable.h:392:37: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                     ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:40: note: expected 'struct vm_area_struct *' but argument is of type 'long unsigned int'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:3045:56: warning: passing argument 3 of 'update_mmu_cache_range' makes integer from pointer without a cast [-Wint-conversion]
-    3045 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                                                     ~~~^~~~~
-         |                                                        |
-         |                                                        pte_t *
-   arch/openrisc/include/asm/pgtable.h:392:43: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                           ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:59: note: expected 'long unsigned int' but argument is of type 'pte_t *'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                                             ~~~~~~~~~~~~~~^~~~~~~
-   arch/openrisc/include/asm/pgtable.h:392:49: warning: passing argument 4 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                                 ^
-         |                                                 |
-         |                                                 int
-   mm/memory.c:3045:17: note: in expansion of macro 'update_mmu_cache'
-    3045 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                 ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:385:24: note: expected 'pte_t *' but argument is of type 'int'
-     385 |                 pte_t *ptep, unsigned int nr)
-         |                 ~~~~~~~^~~~
->> arch/openrisc/include/asm/pgtable.h:392:9: error: too few arguments to function 'update_mmu_cache_range'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:3045:17: note: in expansion of macro 'update_mmu_cache'
-    3045 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                 ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:383:20: note: declared here
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c: In function 'wp_page_copy':
-   mm/memory.c:3169:34: error: passing argument 1 of 'update_mmu_cache_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    3169 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                                  ^~~
-         |                                  |
-         |                                  struct vm_area_struct *
-   arch/openrisc/include/asm/pgtable.h:392:32: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                ^~~
-   arch/openrisc/include/asm/pgtable.h:383:60: note: expected 'struct vm_failt *' but argument is of type 'struct vm_area_struct *'
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                           ~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:3169:42: warning: passing argument 2 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-    3169 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                                       ~~~^~~~~~~~~
-         |                                          |
-         |                                          long unsigned int
-   arch/openrisc/include/asm/pgtable.h:392:37: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                     ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:40: note: expected 'struct vm_area_struct *' but argument is of type 'long unsigned int'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:3169:56: warning: passing argument 3 of 'update_mmu_cache_range' makes integer from pointer without a cast [-Wint-conversion]
-    3169 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                                                     ~~~^~~~~
-         |                                                        |
-         |                                                        pte_t *
-   arch/openrisc/include/asm/pgtable.h:392:43: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                           ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:59: note: expected 'long unsigned int' but argument is of type 'pte_t *'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                                             ~~~~~~~~~~~~~~^~~~~~~
-   arch/openrisc/include/asm/pgtable.h:392:49: warning: passing argument 4 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                                 ^
-         |                                                 |
-         |                                                 int
-   mm/memory.c:3169:17: note: in expansion of macro 'update_mmu_cache'
-    3169 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                 ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:385:24: note: expected 'pte_t *' but argument is of type 'int'
-     385 |                 pte_t *ptep, unsigned int nr)
-         |                 ~~~~~~~^~~~
->> arch/openrisc/include/asm/pgtable.h:392:9: error: too few arguments to function 'update_mmu_cache_range'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:3169:17: note: in expansion of macro 'update_mmu_cache'
-    3169 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                 ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:383:20: note: declared here
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c: In function 'do_swap_page':
-   mm/memory.c:4039:26: error: passing argument 1 of 'update_mmu_cache_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    4039 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                          ^~~
-         |                          |
-         |                          struct vm_area_struct *
-   arch/openrisc/include/asm/pgtable.h:392:32: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                ^~~
-   arch/openrisc/include/asm/pgtable.h:383:60: note: expected 'struct vm_failt *' but argument is of type 'struct vm_area_struct *'
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                           ~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:4039:34: warning: passing argument 2 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-    4039 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                               ~~~^~~~~~~~~
-         |                                  |
-         |                                  long unsigned int
-   arch/openrisc/include/asm/pgtable.h:392:37: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                     ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:40: note: expected 'struct vm_area_struct *' but argument is of type 'long unsigned int'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:4039:48: warning: passing argument 3 of 'update_mmu_cache_range' makes integer from pointer without a cast [-Wint-conversion]
-    4039 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                                             ~~~^~~~~
-         |                                                |
-         |                                                pte_t *
-   arch/openrisc/include/asm/pgtable.h:392:43: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                           ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:59: note: expected 'long unsigned int' but argument is of type 'pte_t *'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                                             ~~~~~~~~~~~~~~^~~~~~~
-   arch/openrisc/include/asm/pgtable.h:392:49: warning: passing argument 4 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                                 ^
-         |                                                 |
-         |                                                 int
-   mm/memory.c:4039:9: note: in expansion of macro 'update_mmu_cache'
-    4039 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:385:24: note: expected 'pte_t *' but argument is of type 'int'
-     385 |                 pte_t *ptep, unsigned int nr)
-         |                 ~~~~~~~^~~~
->> arch/openrisc/include/asm/pgtable.h:392:9: error: too few arguments to function 'update_mmu_cache_range'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:4039:9: note: in expansion of macro 'update_mmu_cache'
-    4039 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:383:20: note: declared here
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c: In function 'do_anonymous_page':
-   mm/memory.c:4163:26: error: passing argument 1 of 'update_mmu_cache_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    4163 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                          ^~~
-         |                          |
-         |                          struct vm_area_struct *
-   arch/openrisc/include/asm/pgtable.h:392:32: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                ^~~
-   arch/openrisc/include/asm/pgtable.h:383:60: note: expected 'struct vm_failt *' but argument is of type 'struct vm_area_struct *'
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                           ~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:4163:34: warning: passing argument 2 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-    4163 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                               ~~~^~~~~~~~~
-         |                                  |
-         |                                  long unsigned int
-   arch/openrisc/include/asm/pgtable.h:392:37: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                     ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:40: note: expected 'struct vm_area_struct *' but argument is of type 'long unsigned int'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:4163:48: warning: passing argument 3 of 'update_mmu_cache_range' makes integer from pointer without a cast [-Wint-conversion]
-    4163 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                                             ~~~^~~~~
-         |                                                |
-         |                                                pte_t *
-   arch/openrisc/include/asm/pgtable.h:392:43: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                           ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:59: note: expected 'long unsigned int' but argument is of type 'pte_t *'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                                             ~~~~~~~~~~~~~~^~~~~~~
-   arch/openrisc/include/asm/pgtable.h:392:49: warning: passing argument 4 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                                 ^
-         |                                                 |
-         |                                                 int
-   mm/memory.c:4163:9: note: in expansion of macro 'update_mmu_cache'
-    4163 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:385:24: note: expected 'pte_t *' but argument is of type 'int'
-     385 |                 pte_t *ptep, unsigned int nr)
-         |                 ~~~~~~~^~~~
->> arch/openrisc/include/asm/pgtable.h:392:9: error: too few arguments to function 'update_mmu_cache_range'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:4163:9: note: in expansion of macro 'update_mmu_cache'
-    4163 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:383:20: note: declared here
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c: In function 'finish_fault':
-   mm/memory.c:4425:34: error: passing argument 1 of 'update_mmu_cache_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    4425 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                                  ^~~
-         |                                  |
-         |                                  struct vm_area_struct *
-   arch/openrisc/include/asm/pgtable.h:392:32: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                ^~~
-   arch/openrisc/include/asm/pgtable.h:383:60: note: expected 'struct vm_failt *' but argument is of type 'struct vm_area_struct *'
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                           ~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:4425:42: warning: passing argument 2 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-    4425 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                                       ~~~^~~~~~~~~
-         |                                          |
-         |                                          long unsigned int
-   arch/openrisc/include/asm/pgtable.h:392:37: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                     ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:40: note: expected 'struct vm_area_struct *' but argument is of type 'long unsigned int'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:4425:56: warning: passing argument 3 of 'update_mmu_cache_range' makes integer from pointer without a cast [-Wint-conversion]
-    4425 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                                                     ~~~^~~~~
-         |                                                        |
-         |                                                        pte_t *
-   arch/openrisc/include/asm/pgtable.h:392:43: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                           ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:59: note: expected 'long unsigned int' but argument is of type 'pte_t *'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                                             ~~~~~~~~~~~~~~^~~~~~~
-   arch/openrisc/include/asm/pgtable.h:392:49: warning: passing argument 4 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                                 ^
-         |                                                 |
-         |                                                 int
-   mm/memory.c:4425:17: note: in expansion of macro 'update_mmu_cache'
-    4425 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                 ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:385:24: note: expected 'pte_t *' but argument is of type 'int'
-     385 |                 pte_t *ptep, unsigned int nr)
-         |                 ~~~~~~~^~~~
->> arch/openrisc/include/asm/pgtable.h:392:9: error: too few arguments to function 'update_mmu_cache_range'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:4425:17: note: in expansion of macro 'update_mmu_cache'
-    4425 |                 update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                 ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:383:20: note: declared here
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c: In function 'do_numa_page':
-   mm/memory.c:4823:26: error: passing argument 1 of 'update_mmu_cache_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    4823 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                          ^~~
-         |                          |
-         |                          struct vm_area_struct *
-   arch/openrisc/include/asm/pgtable.h:392:32: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                ^~~
-   arch/openrisc/include/asm/pgtable.h:383:60: note: expected 'struct vm_failt *' but argument is of type 'struct vm_area_struct *'
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                           ~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:4823:34: warning: passing argument 2 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-    4823 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                               ~~~^~~~~~~~~
-         |                                  |
-         |                                  long unsigned int
-   arch/openrisc/include/asm/pgtable.h:392:37: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                     ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:40: note: expected 'struct vm_area_struct *' but argument is of type 'long unsigned int'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:4823:48: warning: passing argument 3 of 'update_mmu_cache_range' makes integer from pointer without a cast [-Wint-conversion]
-    4823 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |                                             ~~~^~~~~
-         |                                                |
-         |                                                pte_t *
-   arch/openrisc/include/asm/pgtable.h:392:43: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                           ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:59: note: expected 'long unsigned int' but argument is of type 'pte_t *'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                                             ~~~~~~~~~~~~~~^~~~~~~
-   arch/openrisc/include/asm/pgtable.h:392:49: warning: passing argument 4 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                                 ^
-         |                                                 |
-         |                                                 int
-   mm/memory.c:4823:9: note: in expansion of macro 'update_mmu_cache'
-    4823 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:385:24: note: expected 'pte_t *' but argument is of type 'int'
-     385 |                 pte_t *ptep, unsigned int nr)
-         |                 ~~~~~~~^~~~
->> arch/openrisc/include/asm/pgtable.h:392:9: error: too few arguments to function 'update_mmu_cache_range'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:4823:9: note: in expansion of macro 'update_mmu_cache'
-    4823 |         update_mmu_cache(vma, vmf->address, vmf->pte);
-         |         ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:383:20: note: declared here
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c: In function 'handle_pte_fault':
-   mm/memory.c:4972:37: error: passing argument 1 of 'update_mmu_cache_range' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    4972 |                 update_mmu_cache(vmf->vma, vmf->address, vmf->pte);
-         |                                  ~~~^~~~~
-         |                                     |
-         |                                     struct vm_area_struct *
-   arch/openrisc/include/asm/pgtable.h:392:32: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                ^~~
-   arch/openrisc/include/asm/pgtable.h:383:60: note: expected 'struct vm_failt *' but argument is of type 'struct vm_area_struct *'
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                                           ~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:4972:47: warning: passing argument 2 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-    4972 |                 update_mmu_cache(vmf->vma, vmf->address, vmf->pte);
-         |                                            ~~~^~~~~~~~~
-         |                                               |
-         |                                               long unsigned int
-   arch/openrisc/include/asm/pgtable.h:392:37: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                     ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:40: note: expected 'struct vm_area_struct *' but argument is of type 'long unsigned int'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~^~~
-   mm/memory.c:4972:61: warning: passing argument 3 of 'update_mmu_cache_range' makes integer from pointer without a cast [-Wint-conversion]
-    4972 |                 update_mmu_cache(vmf->vma, vmf->address, vmf->pte);
-         |                                                          ~~~^~~~~
-         |                                                             |
-         |                                                             pte_t *
-   arch/openrisc/include/asm/pgtable.h:392:43: note: in definition of macro 'update_mmu_cache'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                           ^~~~
-   arch/openrisc/include/asm/pgtable.h:384:59: note: expected 'long unsigned int' but argument is of type 'pte_t *'
-     384 |                 struct vm_area_struct *vma, unsigned long address,
-         |                                             ~~~~~~~~~~~~~~^~~~~~~
-   arch/openrisc/include/asm/pgtable.h:392:49: warning: passing argument 4 of 'update_mmu_cache_range' makes pointer from integer without a cast [-Wint-conversion]
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |                                                 ^
-         |                                                 |
-         |                                                 int
-   mm/memory.c:4972:17: note: in expansion of macro 'update_mmu_cache'
-    4972 |                 update_mmu_cache(vmf->vma, vmf->address, vmf->pte);
-         |                 ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:385:24: note: expected 'pte_t *' but argument is of type 'int'
-     385 |                 pte_t *ptep, unsigned int nr)
-         |                 ~~~~~~~^~~~
->> arch/openrisc/include/asm/pgtable.h:392:9: error: too few arguments to function 'update_mmu_cache_range'
-     392 |         update_mmu_cache_range(vma, addr, ptep, 1)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   mm/memory.c:4972:17: note: in expansion of macro 'update_mmu_cache'
-    4972 |                 update_mmu_cache(vmf->vma, vmf->address, vmf->pte);
-         |                 ^~~~~~~~~~~~~~~~
-   arch/openrisc/include/asm/pgtable.h:383:20: note: declared here
-     383 | static inline void update_mmu_cache_range(struct vm_failt *vmf,
-         |                    ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-..
+   arm-linux-gnueabi-ld: mm/filemap.o: in function `filemap_read':
+>> mm/filemap.c:2709: undefined reference to `flush_dcache_folio'
+   arm-linux-gnueabi-ld: mm/filemap.o: in function `filemap_splice_read':
+   mm/filemap.c:2964: undefined reference to `flush_dcache_folio'
+   arm-linux-gnueabi-ld: fs/libfs.o: in function `simple_read_folio':
+>> fs/libfs.c:789: undefined reference to `flush_dcache_folio'
+   arm-linux-gnueabi-ld: fs/remap_range.o: in function `vfs_dedupe_file_range_compare':
+>> fs/remap_range.c:234: undefined reference to `flush_dcache_folio'
+>> arm-linux-gnueabi-ld: fs/remap_range.c:235: undefined reference to `flush_dcache_folio'
+   arm-linux-gnueabi-ld: fs/netfs/buffered_read.o:fs/netfs/buffered_read.c:84: more undefined references to `flush_dcache_folio' follow
 
 
-vim +/update_mmu_cache_range +123 mm/userfaultfd.c
+vim +2709 mm/filemap.c
 
-643aa36eadebdc Wei Yang              2019-11-30   47  
-153132571f0204 Axel Rasmussen        2021-06-30   48  /*
-153132571f0204 Axel Rasmussen        2021-06-30   49   * Install PTEs, to map dst_addr (within dst_vma) to page.
-153132571f0204 Axel Rasmussen        2021-06-30   50   *
-7d64ae3ab648a9 Axel Rasmussen        2021-06-30   51   * This function handles both MCOPY_ATOMIC_NORMAL and _CONTINUE for both shmem
-7d64ae3ab648a9 Axel Rasmussen        2021-06-30   52   * and anon, and for both shared and private VMAs.
-153132571f0204 Axel Rasmussen        2021-06-30   53   */
-61c5004022f56c Axel Rasmussen        2023-03-14   54  int mfill_atomic_install_pte(pmd_t *dst_pmd,
-153132571f0204 Axel Rasmussen        2021-06-30   55  			     struct vm_area_struct *dst_vma,
-153132571f0204 Axel Rasmussen        2021-06-30   56  			     unsigned long dst_addr, struct page *page,
-d9712937037e0c Axel Rasmussen        2023-03-14   57  			     bool newly_allocated, uffd_flags_t flags)
-153132571f0204 Axel Rasmussen        2021-06-30   58  {
-153132571f0204 Axel Rasmussen        2021-06-30   59  	int ret;
-61c5004022f56c Axel Rasmussen        2023-03-14   60  	struct mm_struct *dst_mm = dst_vma->vm_mm;
-153132571f0204 Axel Rasmussen        2021-06-30   61  	pte_t _dst_pte, *dst_pte;
-153132571f0204 Axel Rasmussen        2021-06-30   62  	bool writable = dst_vma->vm_flags & VM_WRITE;
-153132571f0204 Axel Rasmussen        2021-06-30   63  	bool vm_shared = dst_vma->vm_flags & VM_SHARED;
-93b0d9178743a6 Peter Xu              2022-11-02   64  	bool page_in_cache = page_mapping(page);
-153132571f0204 Axel Rasmussen        2021-06-30   65  	spinlock_t *ptl;
-28965f0f8be62e Vishal Moola (Oracle  2022-11-01   66) 	struct folio *folio;
-153132571f0204 Axel Rasmussen        2021-06-30   67  	struct inode *inode;
-153132571f0204 Axel Rasmussen        2021-06-30   68  	pgoff_t offset, max_off;
-153132571f0204 Axel Rasmussen        2021-06-30   69  
-153132571f0204 Axel Rasmussen        2021-06-30   70  	_dst_pte = mk_pte(page, dst_vma->vm_page_prot);
-9ae0f87d009ca6 Peter Xu              2021-11-05   71  	_dst_pte = pte_mkdirty(_dst_pte);
-153132571f0204 Axel Rasmussen        2021-06-30   72  	if (page_in_cache && !vm_shared)
-153132571f0204 Axel Rasmussen        2021-06-30   73  		writable = false;
-8ee79edff6d3b4 Peter Xu              2022-05-12   74  	if (writable)
-23a219c1860bc9 Rick Edgecombe        2023-06-12   75  		_dst_pte = pte_mkwrite(_dst_pte, dst_vma);
-d9712937037e0c Axel Rasmussen        2023-03-14   76  	if (flags & MFILL_ATOMIC_WP)
-f1eb1bacfba901 Peter Xu              2022-12-14   77  		_dst_pte = pte_mkuffd_wp(_dst_pte);
-153132571f0204 Axel Rasmussen        2021-06-30   78  
-3622d3cde30898 Hugh Dickins          2023-06-08   79  	ret = -EAGAIN;
-153132571f0204 Axel Rasmussen        2021-06-30   80  	dst_pte = pte_offset_map_lock(dst_mm, dst_pmd, dst_addr, &ptl);
-3622d3cde30898 Hugh Dickins          2023-06-08   81  	if (!dst_pte)
-3622d3cde30898 Hugh Dickins          2023-06-08   82  		goto out;
-153132571f0204 Axel Rasmussen        2021-06-30   83  
-153132571f0204 Axel Rasmussen        2021-06-30   84  	if (vma_is_shmem(dst_vma)) {
-153132571f0204 Axel Rasmussen        2021-06-30   85  		/* serialize against truncate with the page table lock */
-153132571f0204 Axel Rasmussen        2021-06-30   86  		inode = dst_vma->vm_file->f_inode;
-153132571f0204 Axel Rasmussen        2021-06-30   87  		offset = linear_page_index(dst_vma, dst_addr);
-153132571f0204 Axel Rasmussen        2021-06-30   88  		max_off = DIV_ROUND_UP(i_size_read(inode), PAGE_SIZE);
-153132571f0204 Axel Rasmussen        2021-06-30   89  		ret = -EFAULT;
-153132571f0204 Axel Rasmussen        2021-06-30   90  		if (unlikely(offset >= max_off))
-153132571f0204 Axel Rasmussen        2021-06-30   91  			goto out_unlock;
-153132571f0204 Axel Rasmussen        2021-06-30   92  	}
-153132571f0204 Axel Rasmussen        2021-06-30   93  
-153132571f0204 Axel Rasmussen        2021-06-30   94  	ret = -EEXIST;
-8ee79edff6d3b4 Peter Xu              2022-05-12   95  	/*
-8ee79edff6d3b4 Peter Xu              2022-05-12   96  	 * We allow to overwrite a pte marker: consider when both MISSING|WP
-8ee79edff6d3b4 Peter Xu              2022-05-12   97  	 * registered, we firstly wr-protect a none pte which has no page cache
-8ee79edff6d3b4 Peter Xu              2022-05-12   98  	 * page backing it, then access the page.
-8ee79edff6d3b4 Peter Xu              2022-05-12   99  	 */
-c33c794828f212 Ryan Roberts          2023-06-12  100  	if (!pte_none_mostly(ptep_get(dst_pte)))
-153132571f0204 Axel Rasmussen        2021-06-30  101  		goto out_unlock;
-153132571f0204 Axel Rasmussen        2021-06-30  102  
-28965f0f8be62e Vishal Moola (Oracle  2022-11-01  103) 	folio = page_folio(page);
-cea86fe246b694 Hugh Dickins          2022-02-14  104  	if (page_in_cache) {
-cea86fe246b694 Hugh Dickins          2022-02-14  105  		/* Usually, cache pages are already added to LRU */
-cea86fe246b694 Hugh Dickins          2022-02-14  106  		if (newly_allocated)
-28965f0f8be62e Vishal Moola (Oracle  2022-11-01  107) 			folio_add_lru(folio);
-cea86fe246b694 Hugh Dickins          2022-02-14  108  		page_add_file_rmap(page, dst_vma, false);
-cea86fe246b694 Hugh Dickins          2022-02-14  109  	} else {
-40f2bbf71161fa David Hildenbrand     2022-05-09  110  		page_add_new_anon_rmap(page, dst_vma, dst_addr);
-28965f0f8be62e Vishal Moola (Oracle  2022-11-01  111) 		folio_add_lru_vma(folio, dst_vma);
-cea86fe246b694 Hugh Dickins          2022-02-14  112  	}
-153132571f0204 Axel Rasmussen        2021-06-30  113  
-153132571f0204 Axel Rasmussen        2021-06-30  114  	/*
-153132571f0204 Axel Rasmussen        2021-06-30  115  	 * Must happen after rmap, as mm_counter() checks mapping (via
-153132571f0204 Axel Rasmussen        2021-06-30  116  	 * PageAnon()), which is set by __page_set_anon_rmap().
-153132571f0204 Axel Rasmussen        2021-06-30  117  	 */
-153132571f0204 Axel Rasmussen        2021-06-30  118  	inc_mm_counter(dst_mm, mm_counter(page));
-153132571f0204 Axel Rasmussen        2021-06-30  119  
-153132571f0204 Axel Rasmussen        2021-06-30  120  	set_pte_at(dst_mm, dst_addr, dst_pte, _dst_pte);
-153132571f0204 Axel Rasmussen        2021-06-30  121  
-153132571f0204 Axel Rasmussen        2021-06-30  122  	/* No need to invalidate - it was non-present before */
-153132571f0204 Axel Rasmussen        2021-06-30 @123  	update_mmu_cache(dst_vma, dst_addr, dst_pte);
-153132571f0204 Axel Rasmussen        2021-06-30  124  	ret = 0;
-153132571f0204 Axel Rasmussen        2021-06-30  125  out_unlock:
-153132571f0204 Axel Rasmussen        2021-06-30  126  	pte_unmap_unlock(dst_pte, ptl);
-3622d3cde30898 Hugh Dickins          2023-06-08  127  out:
-153132571f0204 Axel Rasmussen        2021-06-30  128  	return ret;
-153132571f0204 Axel Rasmussen        2021-06-30  129  }
-153132571f0204 Axel Rasmussen        2021-06-30  130  
+5ccc944dce3df5 Matthew Wilcox (Oracle  2022-06-10  2611) 
+723ef24b9b379e Kent Overstreet         2020-12-14  2612  /**
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2613   * filemap_read - Read data from the page cache.
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2614   * @iocb: The iocb to read.
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2615   * @iter: Destination for the data.
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2616   * @already_read: Number of bytes already read by the caller.
+723ef24b9b379e Kent Overstreet         2020-12-14  2617   *
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2618   * Copies data from the page cache.  If the data is not currently present,
+7e0a126519b826 Matthew Wilcox (Oracle  2022-04-29  2619)  * uses the readahead and read_folio address_space operations to fetch it.
+723ef24b9b379e Kent Overstreet         2020-12-14  2620   *
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2621   * Return: Total number of bytes copied, including those already read by
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2622   * the caller.  If an error happens before any bytes are copied, returns
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2623   * a negative error number.
+723ef24b9b379e Kent Overstreet         2020-12-14  2624   */
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2625  ssize_t filemap_read(struct kiocb *iocb, struct iov_iter *iter,
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2626  		ssize_t already_read)
+723ef24b9b379e Kent Overstreet         2020-12-14  2627  {
+723ef24b9b379e Kent Overstreet         2020-12-14  2628  	struct file *filp = iocb->ki_filp;
+06c0444290cecf Kent Overstreet         2020-12-14  2629  	struct file_ra_state *ra = &filp->f_ra;
+723ef24b9b379e Kent Overstreet         2020-12-14  2630  	struct address_space *mapping = filp->f_mapping;
+723ef24b9b379e Kent Overstreet         2020-12-14  2631  	struct inode *inode = mapping->host;
+25d6a23e8d2808 Matthew Wilcox (Oracle  2021-12-06  2632) 	struct folio_batch fbatch;
+ff993ba130009b Matthew Wilcox (Oracle  2021-02-24  2633) 	int i, error = 0;
+06c0444290cecf Kent Overstreet         2020-12-14  2634  	bool writably_mapped;
+06c0444290cecf Kent Overstreet         2020-12-14  2635  	loff_t isize, end_offset;
+881a8706c13e41 Haibo Li                2023-06-28  2636  	loff_t last_pos = ra->prev_pos;
+723ef24b9b379e Kent Overstreet         2020-12-14  2637  
+723ef24b9b379e Kent Overstreet         2020-12-14  2638  	if (unlikely(iocb->ki_pos >= inode->i_sb->s_maxbytes))
+723ef24b9b379e Kent Overstreet         2020-12-14  2639  		return 0;
+3644e2d2dda78e Kent Overstreet         2020-12-18  2640  	if (unlikely(!iov_iter_count(iter)))
+3644e2d2dda78e Kent Overstreet         2020-12-18  2641  		return 0;
+3644e2d2dda78e Kent Overstreet         2020-12-18  2642  
+723ef24b9b379e Kent Overstreet         2020-12-14  2643  	iov_iter_truncate(iter, inode->i_sb->s_maxbytes);
+25d6a23e8d2808 Matthew Wilcox (Oracle  2021-12-06  2644) 	folio_batch_init(&fbatch);
+723ef24b9b379e Kent Overstreet         2020-12-14  2645  
+06c0444290cecf Kent Overstreet         2020-12-14  2646  	do {
+06c0444290cecf Kent Overstreet         2020-12-14  2647  		cond_resched();
+723ef24b9b379e Kent Overstreet         2020-12-14  2648  
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2649  		/*
+723ef24b9b379e Kent Overstreet         2020-12-14  2650  		 * If we've already successfully copied some data, then we
+723ef24b9b379e Kent Overstreet         2020-12-14  2651  		 * can no longer safely return -EIOCBQUEUED. Hence mark
+723ef24b9b379e Kent Overstreet         2020-12-14  2652  		 * an async read NOWAIT at that point.
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2653  		 */
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2654  		if ((iocb->ki_flags & IOCB_WAITQ) && already_read)
+723ef24b9b379e Kent Overstreet         2020-12-14  2655  			iocb->ki_flags |= IOCB_NOWAIT;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2656  
+8c8387ee3f55a3 David Howells           2021-11-05  2657  		if (unlikely(iocb->ki_pos >= i_size_read(inode)))
+8c8387ee3f55a3 David Howells           2021-11-05  2658  			break;
+8c8387ee3f55a3 David Howells           2021-11-05  2659  
+3fc40265ae2b48 David Howells           2023-05-22  2660  		error = filemap_get_pages(iocb, iter->count, &fbatch, false);
+ff993ba130009b Matthew Wilcox (Oracle  2021-02-24  2661) 		if (error < 0)
+06c0444290cecf Kent Overstreet         2020-12-14  2662  			break;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2663  
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2664  		/*
+06c0444290cecf Kent Overstreet         2020-12-14  2665  		 * i_size must be checked after we know the pages are Uptodate.
+06c0444290cecf Kent Overstreet         2020-12-14  2666  		 *
+06c0444290cecf Kent Overstreet         2020-12-14  2667  		 * Checking i_size after the check allows us to calculate
+06c0444290cecf Kent Overstreet         2020-12-14  2668  		 * the correct value for "nr", which means the zero-filled
+06c0444290cecf Kent Overstreet         2020-12-14  2669  		 * part of the page is not copied back to userspace (unless
+06c0444290cecf Kent Overstreet         2020-12-14  2670  		 * another truncate extends the file - this is desired though).
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2671  		 */
+06c0444290cecf Kent Overstreet         2020-12-14  2672  		isize = i_size_read(inode);
+06c0444290cecf Kent Overstreet         2020-12-14  2673  		if (unlikely(iocb->ki_pos >= isize))
+25d6a23e8d2808 Matthew Wilcox (Oracle  2021-12-06  2674) 			goto put_folios;
+06c0444290cecf Kent Overstreet         2020-12-14  2675  		end_offset = min_t(loff_t, isize, iocb->ki_pos + iter->count);
+723ef24b9b379e Kent Overstreet         2020-12-14  2676  
+06c0444290cecf Kent Overstreet         2020-12-14  2677  		/*
+06c0444290cecf Kent Overstreet         2020-12-14  2678  		 * Once we start copying data, we don't want to be touching any
+06c0444290cecf Kent Overstreet         2020-12-14  2679  		 * cachelines that might be contended:
+06c0444290cecf Kent Overstreet         2020-12-14  2680  		 */
+06c0444290cecf Kent Overstreet         2020-12-14  2681  		writably_mapped = mapping_writably_mapped(mapping);
+06c0444290cecf Kent Overstreet         2020-12-14  2682  
+06c0444290cecf Kent Overstreet         2020-12-14  2683  		/*
+5ccc944dce3df5 Matthew Wilcox (Oracle  2022-06-10  2684) 		 * When a read accesses the same folio several times, only
+06c0444290cecf Kent Overstreet         2020-12-14  2685  		 * mark it as accessed the first time.
+06c0444290cecf Kent Overstreet         2020-12-14  2686  		 */
+881a8706c13e41 Haibo Li                2023-06-28  2687  		if (!pos_same_folio(iocb->ki_pos, last_pos - 1,
+5ccc944dce3df5 Matthew Wilcox (Oracle  2022-06-10  2688) 				    fbatch.folios[0]))
+25d6a23e8d2808 Matthew Wilcox (Oracle  2021-12-06  2689) 			folio_mark_accessed(fbatch.folios[0]);
+06c0444290cecf Kent Overstreet         2020-12-14  2690  
+25d6a23e8d2808 Matthew Wilcox (Oracle  2021-12-06  2691) 		for (i = 0; i < folio_batch_count(&fbatch); i++) {
+25d6a23e8d2808 Matthew Wilcox (Oracle  2021-12-06  2692) 			struct folio *folio = fbatch.folios[i];
+d996fc7f615feb Matthew Wilcox (Oracle  2021-10-31  2693) 			size_t fsize = folio_size(folio);
+d996fc7f615feb Matthew Wilcox (Oracle  2021-10-31  2694) 			size_t offset = iocb->ki_pos & (fsize - 1);
+cbd59c48ae2bca Matthew Wilcox (Oracle  2021-02-24  2695) 			size_t bytes = min_t(loff_t, end_offset - iocb->ki_pos,
+d996fc7f615feb Matthew Wilcox (Oracle  2021-10-31  2696) 					     fsize - offset);
+cbd59c48ae2bca Matthew Wilcox (Oracle  2021-02-24  2697) 			size_t copied;
+06c0444290cecf Kent Overstreet         2020-12-14  2698  
+d996fc7f615feb Matthew Wilcox (Oracle  2021-10-31  2699) 			if (end_offset < folio_pos(folio))
+cbd59c48ae2bca Matthew Wilcox (Oracle  2021-02-24  2700) 				break;
+cbd59c48ae2bca Matthew Wilcox (Oracle  2021-02-24  2701) 			if (i > 0)
+d996fc7f615feb Matthew Wilcox (Oracle  2021-10-31  2702) 				folio_mark_accessed(folio);
+06c0444290cecf Kent Overstreet         2020-12-14  2703  			/*
+d996fc7f615feb Matthew Wilcox (Oracle  2021-10-31  2704) 			 * If users can be writing to this folio using arbitrary
+d996fc7f615feb Matthew Wilcox (Oracle  2021-10-31  2705) 			 * virtual addresses, take care of potential aliasing
+d996fc7f615feb Matthew Wilcox (Oracle  2021-10-31  2706) 			 * before reading the folio on the kernel side.
+06c0444290cecf Kent Overstreet         2020-12-14  2707  			 */
+d996fc7f615feb Matthew Wilcox (Oracle  2021-10-31  2708) 			if (writably_mapped)
+d996fc7f615feb Matthew Wilcox (Oracle  2021-10-31 @2709) 				flush_dcache_folio(folio);
+cbd59c48ae2bca Matthew Wilcox (Oracle  2021-02-24  2710) 
+d996fc7f615feb Matthew Wilcox (Oracle  2021-10-31  2711) 			copied = copy_folio_to_iter(folio, offset, bytes, iter);
+06c0444290cecf Kent Overstreet         2020-12-14  2712  
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2713  			already_read += copied;
+06c0444290cecf Kent Overstreet         2020-12-14  2714  			iocb->ki_pos += copied;
+881a8706c13e41 Haibo Li                2023-06-28  2715  			last_pos = iocb->ki_pos;
+06c0444290cecf Kent Overstreet         2020-12-14  2716  
+06c0444290cecf Kent Overstreet         2020-12-14  2717  			if (copied < bytes) {
+06c0444290cecf Kent Overstreet         2020-12-14  2718  				error = -EFAULT;
+06c0444290cecf Kent Overstreet         2020-12-14  2719  				break;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2720  			}
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2721  		}
+25d6a23e8d2808 Matthew Wilcox (Oracle  2021-12-06  2722) put_folios:
+25d6a23e8d2808 Matthew Wilcox (Oracle  2021-12-06  2723) 		for (i = 0; i < folio_batch_count(&fbatch); i++)
+25d6a23e8d2808 Matthew Wilcox (Oracle  2021-12-06  2724) 			folio_put(fbatch.folios[i]);
+25d6a23e8d2808 Matthew Wilcox (Oracle  2021-12-06  2725) 		folio_batch_init(&fbatch);
+06c0444290cecf Kent Overstreet         2020-12-14  2726  	} while (iov_iter_count(iter) && iocb->ki_pos < isize && !error);
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2727  
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2728  	file_accessed(filp);
+881a8706c13e41 Haibo Li                2023-06-28  2729  	ra->prev_pos = last_pos;
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2730  	return already_read ? already_read : error;
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2731  }
+87fa0f3eb267ee Christoph Hellwig       2021-02-24  2732  EXPORT_SYMBOL_GPL(filemap_read);
+^1da177e4c3f41 Linus Torvalds          2005-04-16  2733  
 
-:::::: The code at line 123 was first introduced by commit
-:::::: 153132571f0204dc5844faf6b0f8096c6c29d277 userfaultfd/shmem: support UFFDIO_CONTINUE for shmem
+:::::: The code at line 2709 was first introduced by commit
+:::::: d996fc7f615feb5986f67829e18a8d8400f41361 filemap: Convert filemap_read() to use a folio
 
-:::::: TO: Axel Rasmussen <axelrasmussen@google.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Matthew Wilcox (Oracle) <willy@infradead.org>
+:::::: CC: Matthew Wilcox (Oracle) <willy@infradead.org>
 
 -- 
 0-DAY CI Kernel Test Service
