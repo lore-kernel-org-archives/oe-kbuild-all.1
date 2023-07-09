@@ -1,46 +1,45 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC134A941
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  8 Jul 2023 19:36:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D40F7EA
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jul 2023 00:31:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688844997; x=1720380997;
+  t=1688862700; x=1720398700;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XrSPqfRIhmkmeqWYN/whmgvL9/lC37owCO5J8gQMTVQ=;
-  b=Gw7402hHrzCDQdwMcIMQ6s7l9AsdQqJLgr+oXpoivYiNa83aH2XV+F1Z
-   R4h9vRaBjcttLAussuYh9OToYaICQXeTwTqXuCbfCBvzlZEW1aBfXjv+F
-   0Vv5RjoGJYvpqU63RtfNs+SieuFqZP/dTzPo9G+YwrKINZjaHS9FG9Hbq
-   w3zNHzMHb72IeG6AlauYw00q3KWdLjffTNgccyGihVuqKxJcj7bUR8Lpi
-   SPSoiPHjWVXDFNXSz0jqtCobnFO6phb24YNpnWlK9GpmnD0IUrSslLbbJ
-   WszBRM0+uWmIxDPaiWTgiTbY7Y0xdYpPbLVyGZ2icomqjTrFuIJPDaKI/
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="427780019"
+  bh=foqkk4X00LtTRc0GuhCsFB3imuJfUHGwgk6AXs4ND2M=;
+  b=Xp8G3NRCLpo8Wb9mcUJrebvTrJkkl3OiGsDsdDTVqNPFFuW9J5uMcfX0
+   bNjnG/POYLxzBi9QLxs3+R6gvkbuBcyeOxaoTY33ywrisRMp7yj/ftgZ3
+   j2dQBPYaIjIdHbNCEqfrDXMWbky90mzYiHQH/KV4V2AbLBNYmsmzrhWZX
+   bnQiIzzPbQIeJ1NlBYWv0DDKMMTJPwSFPbn757ZrL3wix/mOznMWMCsu1
+   HACSvyv2mvbKLbV7VhLb3+TQhbgJfOFLM/SSHn4oMVCWOiPa4/84HbqG7
+   K0OolnoJwN1Qvu/YarDm2wWSgjZsNiakP97RFRpXYVGKnlA5qoz5VnkRq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="343707274"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="427780019"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2023 12:36:36 -0700
+   d="scan'208";a="343707274"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2023 17:31:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="894330679"
+X-IronPort-AV: E=McAfee;i="6600,9927,10765"; a="864929157"
 X-IronPort-AV: E=Sophos;i="6.01,191,1684825200"; 
-   d="scan'208";a="894330679"
+   d="scan'208";a="864929157"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 08 Jul 2023 12:36:34 -0700
+  by fmsmga001.fm.intel.com with ESMTP; 08 Jul 2023 17:31:37 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qIDjN-0002sg-0u;
-	Sat, 08 Jul 2023 19:36:33 +0000
-Date: Sun, 9 Jul 2023 03:36:22 +0800
+	id 1qIIKt-0002xw-37;
+	Sun, 09 Jul 2023 00:31:35 +0000
+Date: Sun, 9 Jul 2023 08:30:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yimin Gu <ustcymgu@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Jesse Taube <Mr.Bossman075@gmail.com>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: arch/riscv/mm/init.c:1204:48: sparse: sparse: cast truncates bits
- from constant value (100000000 becomes 0)
-Message-ID: <202307090340.NydZlDAr-lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Sui Jingfeng <suijingfeng@loongson.cn>,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: [drm-misc:drm-misc-next 1/14]
+ drivers/video/fbdev/hyperv_fb.c:1033:24: error: 'screen_info' undeclared
+Message-ID: <202307090823.nxnT8Kk5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,151 +49,154 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yimin,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8689f4f2ea561dd080118eeb05c0255ac9542905
-commit: b5e2c507b06c9d36411845149162a804ae7b04a9 riscv: Kconfig: Allow RV32 to build with no MMU
-date:   3 months ago
-config: riscv-randconfig-r091-20230709 (https://download.01.org/0day-ci/archive/20230709/202307090340.NydZlDAr-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230709/202307090340.NydZlDAr-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   b63f5e5ca945e1c0341a2c3278575bb82bf8b890
+commit: 8b0d13545b091729e0aa05ff9981e2d06c1e2ee5 [1/14] efi: Do not include <linux/screen_info.h> from EFI header
+config: arm64-allyesconfig (https://download.01.org/0day-ci/archive/20230709/202307090823.nxnT8Kk5-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230709/202307090823.nxnT8Kk5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307090340.NydZlDAr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307090823.nxnT8Kk5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   WARNING: invalid argument to '-march': '_zihintpause'
->> arch/riscv/mm/init.c:1204:48: sparse: sparse: cast truncates bits from constant value (100000000 becomes 0)
+All errors (new ones prefixed by >>):
+
+   drivers/video/fbdev/hyperv_fb.c: In function 'hvfb_getmem':
+>> drivers/video/fbdev/hyperv_fb.c:1033:24: error: 'screen_info' undeclared (first use in this function)
+    1033 |                 base = screen_info.lfb_base;
+         |                        ^~~~~~~~~~~
+   drivers/video/fbdev/hyperv_fb.c:1033:24: note: each undeclared identifier is reported only once for each function it appears in
 --
-   WARNING: invalid argument to '-march': '_zihintpause'
-   fs/ext4/mballoc.c: note: in included file (through include/linux/timex.h, include/linux/time32.h, include/linux/time.h, ...):
->> arch/riscv/include/asm/timex.h:25:16: sparse: sparse: cast removes address space '__iomem' of expression
->> arch/riscv/include/asm/timex.h:25:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
-   arch/riscv/include/asm/timex.h:25:16: sparse:     expected void const volatile [noderef] __iomem *addr
-   arch/riscv/include/asm/timex.h:25:16: sparse:     got unsigned int [usertype] *
->> arch/riscv/include/asm/timex.h:25:16: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
-   arch/riscv/include/asm/timex.h:25:16: sparse:     expected void const volatile [noderef] __iomem *addr
-   arch/riscv/include/asm/timex.h:25:16: sparse:     got unsigned int [usertype] *
-   fs/ext4/mballoc.c:1217:9: sparse: sparse: context imbalance in 'ext4_mb_init_cache' - different lock contexts for basic block
-   fs/ext4/mballoc.c:2127:5: sparse: sparse: context imbalance in 'ext4_mb_try_best_found' - different lock contexts for basic block
-   fs/ext4/mballoc.c:2155:5: sparse: sparse: context imbalance in 'ext4_mb_find_by_goal' - different lock contexts for basic block
-   fs/ext4/mballoc.c:2448:12: sparse: sparse: context imbalance in 'ext4_mb_good_group_nolock' - wrong count at exit
-   fs/ext4/mballoc.c:2670:58: sparse: sparse: context imbalance in 'ext4_mb_regular_allocator' - different lock contexts for basic block
-   fs/ext4/mballoc.c:2942:13: sparse: sparse: context imbalance in 'ext4_mb_seq_structs_summary_start' - wrong count at exit
-   fs/ext4/mballoc.c:3322:17: sparse: sparse: context imbalance in 'ext4_discard_work' - different lock contexts for basic block
-   fs/ext4/mballoc.c:3525:17: sparse: sparse: context imbalance in 'ext4_mb_release' - different lock contexts for basic block
-   fs/ext4/mballoc.c:3647:26: sparse: sparse: context imbalance in 'ext4_free_data_in_buddy' - wrong count at exit
-   fs/ext4/mballoc.c:3852:15: sparse: sparse: context imbalance in 'ext4_mb_mark_diskspace_used' - different lock contexts for basic block
-   fs/ext4/mballoc.c:3964:9: sparse: sparse: context imbalance in 'ext4_mb_mark_bb' - different lock contexts for basic block
-   fs/ext4/mballoc.c:4240:13: sparse: sparse: context imbalance in 'ext4_discard_allocated_blocks' - different lock contexts for basic block
-   fs/ext4/mballoc.c:4542:13: sparse: sparse: context imbalance in 'ext4_mb_put_pa' - different lock contexts for basic block
-   fs/ext4/mballoc.c:4926:9: sparse: sparse: context imbalance in 'ext4_mb_discard_group_preallocations' - different lock contexts for basic block
-   fs/ext4/mballoc.c:5017:9: sparse: sparse: context imbalance in 'ext4_discard_preallocations' - different lock contexts for basic block
-   fs/ext4/mballoc.c:5084:9: sparse: sparse: context imbalance in 'ext4_mb_show_ac' - different lock contexts for basic block
-   fs/ext4/mballoc.c:5313:9: sparse: sparse: context imbalance in 'ext4_mb_discard_lg_preallocations' - different lock contexts for basic block
-   fs/ext4/mballoc.c:5084:9: sparse: sparse: context imbalance in 'ext4_mb_new_blocks' - different lock contexts for basic block
-   fs/ext4/mballoc.c:5910:9: sparse: sparse: context imbalance in 'ext4_mb_clear_bb' - different lock contexts for basic block
-   fs/ext4/mballoc.c:6309:15: sparse: sparse: context imbalance in 'ext4_group_add_blocks' - different lock contexts for basic block
-   fs/ext4/mballoc.c:3601:40: sparse: sparse: context imbalance in 'ext4_trim_extent' - wrong count at exit
-   fs/ext4/mballoc.c:6400:9: sparse: sparse: context imbalance in 'ext4_try_to_trim_range' - different lock contexts for basic block
-   fs/ext4/mballoc.c:6418:1: sparse: sparse: context imbalance in 'ext4_trim_all_free' - different lock contexts for basic block
-   fs/ext4/mballoc.c:6560:1: sparse: sparse: context imbalance in 'ext4_mballoc_query_range' - different lock contexts for basic block
---
-   WARNING: invalid argument to '-march': '_zihintpause'
->> drivers/clocksource/timer-clint.c:82:24: sparse: sparse: cast removes address space '__iomem' of expression
->> drivers/clocksource/timer-clint.c:82:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
-   drivers/clocksource/timer-clint.c:82:24: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/clocksource/timer-clint.c:82:24: sparse:     got unsigned int [usertype] *
-   drivers/clocksource/timer-clint.c:80:22: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/clocksource/timer-clint.c:80:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned int [usertype] * @@
-   drivers/clocksource/timer-clint.c:80:22: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/clocksource/timer-clint.c:80:22: sparse:     got unsigned int [usertype] *
-   drivers/clocksource/timer-clint.c:237:36: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void * @@     got struct clock_event_device [noderef] __percpu * @@
-   drivers/clocksource/timer-clint.c:237:36: sparse:     expected void *
-   drivers/clocksource/timer-clint.c:237:36: sparse:     got struct clock_event_device [noderef] __percpu *
+   drivers/gpu/drm/hyperv/hyperv_drm_drv.c: In function 'hyperv_setup_vram':
+>> drivers/gpu/drm/hyperv/hyperv_drm_drv.c:75:54: error: 'screen_info' undeclared (first use in this function)
+      75 |         drm_aperture_remove_conflicting_framebuffers(screen_info.lfb_base,
+         |                                                      ^~~~~~~~~~~
+   drivers/gpu/drm/hyperv/hyperv_drm_drv.c:75:54: note: each undeclared identifier is reported only once for each function it appears in
 
-vim +1204 arch/riscv/mm/init.c
 
-671f9a3e2e24cd Anup Patel      2019-06-28  1154  
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1155  /*
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1156   * reserve_crashkernel() - reserves memory for crash kernel
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1157   *
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1158   * This function reserves memory area given in "crashkernel=" kernel command
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1159   * line parameter. The memory reserved is used by dump capture kernel when
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1160   * primary kernel is crashing.
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1161   */
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1162  static void __init reserve_crashkernel(void)
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1163  {
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1164  	unsigned long long crash_base = 0;
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1165  	unsigned long long crash_size = 0;
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1166  	unsigned long search_start = memblock_start_of_DRAM();
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1167  	unsigned long search_end = memblock_end_of_DRAM();
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1168  
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1169  	int ret = 0;
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1170  
-d414cb379ac35e Jisheng Zhang   2022-03-23  1171  	if (!IS_ENABLED(CONFIG_KEXEC_CORE))
-d414cb379ac35e Jisheng Zhang   2022-03-23  1172  		return;
-5640975003d023 Nick Kossifidis 2021-04-19  1173  	/*
-5640975003d023 Nick Kossifidis 2021-04-19  1174  	 * Don't reserve a region for a crash kernel on a crash kernel
-5640975003d023 Nick Kossifidis 2021-04-19  1175  	 * since it doesn't make much sense and we have limited memory
-5640975003d023 Nick Kossifidis 2021-04-19  1176  	 * resources.
-5640975003d023 Nick Kossifidis 2021-04-19  1177  	 */
-5640975003d023 Nick Kossifidis 2021-04-19  1178  	if (is_kdump_kernel()) {
-5640975003d023 Nick Kossifidis 2021-04-19  1179  		pr_info("crashkernel: ignoring reservation request\n");
-5640975003d023 Nick Kossifidis 2021-04-19  1180  		return;
-5640975003d023 Nick Kossifidis 2021-04-19  1181  	}
-5640975003d023 Nick Kossifidis 2021-04-19  1182  
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1183  	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1184  				&crash_size, &crash_base);
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1185  	if (ret || !crash_size)
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1186  		return;
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1187  
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1188  	crash_size = PAGE_ALIGN(crash_size);
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1189  
-a7259df7670240 Mike Rapoport   2021-09-02  1190  	if (crash_base) {
-a7259df7670240 Mike Rapoport   2021-09-02  1191  		search_start = crash_base;
-a7259df7670240 Mike Rapoport   2021-09-02  1192  		search_end = crash_base + crash_size;
-a7259df7670240 Mike Rapoport   2021-09-02  1193  	}
-a7259df7670240 Mike Rapoport   2021-09-02  1194  
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1195  	/*
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1196  	 * Current riscv boot protocol requires 2MB alignment for
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1197  	 * RV64 and 4MB alignment for RV32 (hugepage size)
-decf89f86ecd3c Nick Kossifidis 2021-11-26  1198  	 *
-decf89f86ecd3c Nick Kossifidis 2021-11-26  1199  	 * Try to alloc from 32bit addressible physical memory so that
-decf89f86ecd3c Nick Kossifidis 2021-11-26  1200  	 * swiotlb can work on the crash kernel.
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1201  	 */
-decf89f86ecd3c Nick Kossifidis 2021-11-26  1202  	crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
-decf89f86ecd3c Nick Kossifidis 2021-11-26  1203  					       search_start,
-decf89f86ecd3c Nick Kossifidis 2021-11-26 @1204  					       min(search_end, (unsigned long) SZ_4G));
-decf89f86ecd3c Nick Kossifidis 2021-11-26  1205  	if (crash_base == 0) {
-decf89f86ecd3c Nick Kossifidis 2021-11-26  1206  		/* Try again without restricting region to 32bit addressible memory */
-a7259df7670240 Mike Rapoport   2021-09-02  1207  		crash_base = memblock_phys_alloc_range(crash_size, PMD_SIZE,
-a7259df7670240 Mike Rapoport   2021-09-02  1208  						search_start, search_end);
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1209  		if (crash_base == 0) {
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1210  			pr_warn("crashkernel: couldn't allocate %lldKB\n",
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1211  				crash_size >> 10);
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1212  			return;
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1213  		}
-decf89f86ecd3c Nick Kossifidis 2021-11-26  1214  	}
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1215  
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1216  	pr_info("crashkernel: reserved 0x%016llx - 0x%016llx (%lld MB)\n",
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1217  		crash_base, crash_base + crash_size, crash_size >> 20);
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1218  
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1219  	crashk_res.start = crash_base;
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1220  	crashk_res.end = crash_base + crash_size - 1;
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1221  }
-e53d28180d4d0f Nick Kossifidis 2021-04-19  1222  
+vim +/screen_info +1033 drivers/video/fbdev/hyperv_fb.c
 
-:::::: The code at line 1204 was first introduced by commit
-:::::: decf89f86ecd3c3c3de81c562010d5797bea3de1 riscv: try to allocate crashkern region from 32bit addressible memory
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09   988  
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29   989  
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29   990  /* Get framebuffer memory from Hyper-V video pci space */
+3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05   991  static int hvfb_getmem(struct hv_device *hdev, struct fb_info *info)
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29   992  {
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26   993  	struct hvfb_par *par = info->par;
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26   994  	struct pci_dev *pdev  = NULL;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29   995  	void __iomem *fb_virt;
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26   996  	int gen2vm = efi_enabled(EFI_BOOT);
+81d2393485f099 drivers/video/fbdev/hyperv_fb.c Thomas Zimmermann 2022-12-19   997  	resource_size_t base, size;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09   998  	phys_addr_t paddr;
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26   999  	int ret;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1000  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1001  	if (!gen2vm) {
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1002  		pdev = pci_get_device(PCI_VENDOR_ID_MICROSOFT,
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1003  			PCI_DEVICE_ID_HYPERV_VIDEO, NULL);
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1004  		if (!pdev) {
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1005  			pr_err("Unable to find PCI Hyper-V video\n");
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1006  			return -ENODEV;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1007  		}
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1008  
+81d2393485f099 drivers/video/fbdev/hyperv_fb.c Thomas Zimmermann 2022-12-19  1009  		base = pci_resource_start(pdev, 0);
+81d2393485f099 drivers/video/fbdev/hyperv_fb.c Thomas Zimmermann 2022-12-19  1010  		size = pci_resource_len(pdev, 0);
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1011  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1012  		/*
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1013  		 * For Gen 1 VM, we can directly use the contiguous memory
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1014  		 * from VM. If we succeed, deferred IO happens directly
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1015  		 * on this allocated framebuffer memory, avoiding extra
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1016  		 * memory copy.
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1017  		 */
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1018  		paddr = hvfb_get_phymem(hdev, screen_fb_size);
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1019  		if (paddr != (phys_addr_t) -1) {
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1020  			par->mmio_pp = paddr;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1021  			par->mmio_vp = par->dio_vp = __va(paddr);
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1022  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1023  			info->fix.smem_start = paddr;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1024  			info->fix.smem_len = screen_fb_size;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1025  			info->screen_base = par->mmio_vp;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1026  			info->screen_size = screen_fb_size;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1027  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1028  			par->need_docopy = false;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1029  			goto getmem_done;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1030  		}
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1031  		pr_info("Unable to allocate enough contiguous physical memory on Gen 1 VM. Using MMIO instead.\n");
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1032  	} else {
+81d2393485f099 drivers/video/fbdev/hyperv_fb.c Thomas Zimmermann 2022-12-19 @1033  		base = screen_info.lfb_base;
+81d2393485f099 drivers/video/fbdev/hyperv_fb.c Thomas Zimmermann 2022-12-19  1034  		size = screen_info.lfb_size;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1035  	}
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1036  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1037  	/*
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1038  	 * Cannot use the contiguous physical memory.
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1039  	 * Allocate mmio space for framebuffer.
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1040  	 */
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1041  	dio_fb_size =
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1042  		screen_width * screen_height * screen_depth / 8;
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1043  
+c4b4d7047f16a8 drivers/video/fbdev/hyperv_fb.c Saurabh Sengar    2022-04-27  1044  	ret = vmbus_allocate_mmio(&par->mem, hdev, 0, -1,
+3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05  1045  				  screen_fb_size, 0x100000, true);
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1046  	if (ret != 0) {
+3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05  1047  		pr_err("Unable to allocate framebuffer memory\n");
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1048  		goto err1;
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1049  	}
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1050  
+5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1051  	/*
+5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1052  	 * Map the VRAM cacheable for performance. This is also required for
+5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1053  	 * VM Connect to display properly for ARM64 Linux VM, as the host also
+5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1054  	 * maps the VRAM cacheable.
+5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1055  	 */
+5f1251a48c17b5 drivers/video/fbdev/hyperv_fb.c Dexuan Cui        2020-11-17  1056  	fb_virt = ioremap_cache(par->mem->start, screen_fb_size);
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1057  	if (!fb_virt)
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1058  		goto err2;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1059  
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1060  	/* Allocate memory for deferred IO */
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1061  	par->dio_vp = vzalloc(round_up(dio_fb_size, PAGE_SIZE));
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1062  	if (par->dio_vp == NULL)
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1063  		goto err3;
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1064  
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1065  	/* Physical address of FB device */
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1066  	par->mmio_pp = par->mem->start;
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1067  	/* Virtual address of FB device */
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1068  	par->mmio_vp = (unsigned char *) fb_virt;
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1069  
+3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05  1070  	info->fix.smem_start = par->mem->start;
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1071  	info->fix.smem_len = dio_fb_size;
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1072  	info->screen_base = par->dio_vp;
+d21987d709e807 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-09-18  1073  	info->screen_size = dio_fb_size;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1074  
+3a6fb6c4255c38 drivers/video/fbdev/hyperv_fb.c Wei Hu            2019-12-09  1075  getmem_done:
+5fbcc6708fe32e drivers/video/fbdev/hyperv_fb.c Daniel Vetter     2023-04-06  1076  	aperture_remove_conflicting_devices(base, size, KBUILD_MODNAME);
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1077  
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1078  	if (gen2vm) {
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1079  		/* framebuffer is reallocated, clear screen_info to avoid misuse from kexec */
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1080  		screen_info.lfb_size = 0;
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1081  		screen_info.lfb_base = 0;
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1082  		screen_info.orig_video_isVGA = 0;
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1083  	} else {
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1084  		pci_dev_put(pdev);
+3cb73bc3fa2a3c drivers/video/fbdev/hyperv_fb.c Kairui Song       2020-10-14  1085  	}
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1086  
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1087  	return 0;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1088  
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1089  err3:
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1090  	iounmap(fb_virt);
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1091  err2:
+696ca5e82c057a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2016-04-05  1092  	vmbus_free_mmio(par->mem->start, screen_fb_size);
+3546448338e76a drivers/video/fbdev/hyperv_fb.c Jake Oshins       2015-08-05  1093  	par->mem = NULL;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1094  err1:
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1095  	if (!gen2vm)
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1096  		pci_dev_put(pdev);
+9069fd54960304 drivers/video/hyperv_fb.c       Gerd Hoffmann     2014-02-26  1097  
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1098  	return -ENOMEM;
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1099  }
+68a2d20b79b105 drivers/video/hyperv_fb.c       Haiyang Zhang     2013-04-29  1100  
 
-:::::: TO: Nick Kossifidis <mick@ics.forth.gr>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+:::::: The code at line 1033 was first introduced by commit
+:::::: 81d2393485f0990cf6566b0c9e0697c199f68ae5 fbdev/hyperv-fb: Do not set struct fb_info.apertures
+
+:::::: TO: Thomas Zimmermann <tzimmermann@suse.de>
+:::::: CC: Thomas Zimmermann <tzimmermann@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
