@@ -1,46 +1,43 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2625C9B;
-	Sun,  9 Jul 2023 17:44:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 219258828
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  9 Jul 2023 18:36:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688924695; x=1720460695;
+  t=1688927818; x=1720463818;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8U6HApipRwoFX7KL3kdB1H5crxskD7kEsnoPjs5vQdk=;
-  b=UXJ1YfCnjYoIq35yZ5J0nsghaKpXficVheqClLKYTnN2gnHqxWkjvZae
-   kw2elXCgcwXowipuClYfYq+eMCmWXeB11o6n0nTCJU9NaawR54qZCBex5
-   Zxcrhm64ajlIqdATMEAZPhz21MOAVg6AK0MWNfdVe6VPt3DX06UydZGul
-   0Pd2ZQo4SnpgjhUd0qsUi7ANEjKw882HwyUg2FO80/MK6f08NgTHgDP6h
-   upC2bLtYfvH2qUzbWUb1A926Ir0SJiVgrFAQYyn6UWHfhaRWPJp68MG6d
-   B/FG9gMVG1Sw8FlXkGlH+Qh+hO+5b7OmKmCo7gbvO1inFMF3AGaTMnHv/
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="430262115"
-X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
-   d="scan'208";a="430262115"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2023 10:44:53 -0700
+  bh=WSYU3YGKOX624FTWNqkMWqURgkvhH1boXRdtcsHx9Io=;
+  b=WYe5bWWbVg+4uNtjdkkDk1CqrG1V2WC9oYdRhyjFYve9oiB6nq6XiMM4
+   VCjq76JQsGHD4U6UIC26phBH74um3XXDoXSHnq0Dpj1xljp9yfglAkDy5
+   Ye0GNVquL/UGBvCzHB6WWe9StZ8qmkITJTIO336pHYC/FW+aRj6OC0bTx
+   4LzJ6mZsRn5KAcJRRvsMZnt9LLMgnaMfm1rEcw48ZCEl02H34lCsqRfmx
+   STkDlQ5ENZTpGSGFj6xdqWvKTr42pR3KXfvwvmYXNCFHziB1V6a/UkIn6
+   hwOIFwwOrbYyLBMq3rpSBHFpFPHI+D6ClFHv22OuUqNg6Tf6s7dKJVCKU
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="367689195"
+X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; 
+   d="scan'208";a="367689195"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2023 11:36:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="714558620"
-X-IronPort-AV: E=Sophos;i="6.01,192,1684825200"; 
-   d="scan'208";a="714558620"
+X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="755747012"
+X-IronPort-AV: E=Sophos;i="6.01,193,1684825200"; 
+   d="scan'208";a="755747012"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 09 Jul 2023 10:44:51 -0700
+  by orsmga001.jf.intel.com with ESMTP; 09 Jul 2023 11:36:53 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qIYSo-0003K0-1i;
-	Sun, 09 Jul 2023 17:44:50 +0000
-Date: Mon, 10 Jul 2023 01:44:43 +0800
+	id 1qIZH9-0003L6-22;
+	Sun, 09 Jul 2023 18:36:51 +0000
+Date: Mon, 10 Jul 2023 02:36:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Nancy.Lin" <nancy.lin@mediatek.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c:415:10: warning:
- cast to smaller integer type 'enum mtk_ovl_adaptor_comp_type' from 'const
- void *'
-Message-ID: <202307100103.5TXiJnCm-lkp@intel.com>
+To: Sui Jingfeng <suijingfeng@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org
+Subject: [drm-misc:drm-misc-next 2/3]
+ drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse: incorrect
+ type in argument 1 (different address spaces)
+Message-ID: <202307100243.v3hv6aes-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,83 +47,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Nancy.Lin,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1c7873e3364570ec89343ff4877e0f27a7b21a61
-commit: 453c3364632a1f305db7d425dc9f8d6711cd3491 drm/mediatek: Add ovl_adaptor support for MT8195
-date:   4 months ago
-config: arm64-randconfig-r021-20230709 (https://download.01.org/0day-ci/archive/20230710/202307100103.5TXiJnCm-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230710/202307100103.5TXiJnCm-lkp@intel.com/reproduce)
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   8d1077cf2e43b15fefd76ebec2b71541eb27ef2c
+commit: f39db26c54281da6a785259498ca74b5e470476f [2/3] drm: Add kms driver for loongson display controller
+config: i386-randconfig-i063-20230710 (https://download.01.org/0day-ci/archive/20230710/202307100243.v3hv6aes-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230710/202307100243.v3hv6aes-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307100103.5TXiJnCm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307100243.v3hv6aes-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void *kptr @@
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     expected void volatile [noderef] __iomem *
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:27:35: sparse:     got void *kptr
+>> drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem * @@     got void *kptr @@
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     expected void const volatile [noderef] __iomem *
+   drivers/gpu/drm/loongson/lsdc_benchmark.c:42:51: sparse:     got void *kptr
 
->> drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c:415:10: warning: cast to smaller integer type 'enum mtk_ovl_adaptor_comp_type' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-     415 |                 type = (enum mtk_ovl_adaptor_comp_type)of_id->data;
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+vim +27 drivers/gpu/drm/loongson/lsdc_benchmark.c
 
-
-vim +415 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
-
-   391	
-   392	static int ovl_adaptor_comp_init(struct device *dev, struct component_match **match)
-   393	{
-   394		struct mtk_disp_ovl_adaptor *priv = dev_get_drvdata(dev);
-   395		struct device_node *node, *parent;
-   396		struct platform_device *comp_pdev;
-   397	
-   398		parent = dev->parent->parent->of_node->parent;
-   399	
-   400		for_each_child_of_node(parent, node) {
-   401			const struct of_device_id *of_id;
-   402			enum mtk_ovl_adaptor_comp_type type;
-   403			int id;
-   404	
-   405			of_id = of_match_node(mtk_ovl_adaptor_comp_dt_ids, node);
-   406			if (!of_id)
-   407				continue;
-   408	
-   409			if (!of_device_is_available(node)) {
-   410				dev_dbg(dev, "Skipping disabled component %pOF\n",
-   411					node);
-   412				continue;
-   413			}
-   414	
- > 415			type = (enum mtk_ovl_adaptor_comp_type)of_id->data;
-   416			id = ovl_adaptor_comp_get_id(dev, node, type);
-   417			if (id < 0) {
-   418				dev_warn(dev, "Skipping unknown component %pOF\n",
-   419					 node);
-   420				continue;
-   421			}
-   422	
-   423			comp_pdev = of_find_device_by_node(node);
-   424			if (!comp_pdev)
-   425				return -EPROBE_DEFER;
-   426	
-   427			priv->ovl_adaptor_comp[id] = &comp_pdev->dev;
-   428	
-   429			drm_of_component_match_add(dev, match, compare_of, node);
-   430			dev_dbg(dev, "Adding component match for %pOF\n", node);
-   431		}
-   432	
-   433		if (!*match) {
-   434			dev_err(dev, "No match device for ovl_adaptor\n");
-   435			return -ENODEV;
-   436		}
-   437	
-   438		return 0;
-   439	}
-   440	
+    12	
+    13	typedef void (*lsdc_copy_proc_t)(struct lsdc_bo *src_bo,
+    14					 struct lsdc_bo *dst_bo,
+    15					 unsigned int size,
+    16					 int n);
+    17	
+    18	static void lsdc_copy_gtt_to_vram_cpu(struct lsdc_bo *src_bo,
+    19					      struct lsdc_bo *dst_bo,
+    20					      unsigned int size,
+    21					      int n)
+    22	{
+    23		lsdc_bo_kmap(src_bo);
+    24		lsdc_bo_kmap(dst_bo);
+    25	
+    26		while (n--)
+  > 27			memcpy_toio(dst_bo->kptr, src_bo->kptr, size);
+    28	
+    29		lsdc_bo_kunmap(src_bo);
+    30		lsdc_bo_kunmap(dst_bo);
+    31	}
+    32	
+    33	static void lsdc_copy_vram_to_gtt_cpu(struct lsdc_bo *src_bo,
+    34					      struct lsdc_bo *dst_bo,
+    35					      unsigned int size,
+    36					      int n)
+    37	{
+    38		lsdc_bo_kmap(src_bo);
+    39		lsdc_bo_kmap(dst_bo);
+    40	
+    41		while (n--)
+  > 42			memcpy_fromio(dst_bo->kptr, src_bo->kptr, size);
+    43	
+    44		lsdc_bo_kunmap(src_bo);
+    45		lsdc_bo_kunmap(dst_bo);
+    46	}
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
