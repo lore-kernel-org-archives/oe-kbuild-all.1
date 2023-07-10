@@ -1,44 +1,41 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E35A12B73
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jul 2023 15:45:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7AC107B4;
+	Mon, 10 Jul 2023 16:47:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689003922; x=1720539922;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SqI6DBcn9y4QkhWEjJ5qOI6pXtXnTv6XpNdf54rvWWE=;
-  b=NJoTU4noX6OzqU6Yh8W1JUKH/WDBsndTYRXbPbbJ5+qORPl5TV/ntE49
-   zxhO3IUcEkeCtD5RWm5YEGDR12il8YwYlj2GT1la0CsUWokawVbkupCoO
-   nKDLyO3hEBdqnzyisgPZjYol848quK+lftaXDZn74cX/10ulO9hMZCgeA
-   OlwljrHhJAKRch8IB9harYCNviT7tIVnih00tSU8ISKiEvueT+iGm4bDP
-   9aJ4cPgDtimil0WJWcUD2/PfnMx1PnEkHdwaC2yye9aBKq1hgaPDScrNz
-   em5VhB0dicSZyER8tAzvznJmMJDrN6rCYQfGQZWILPuXDrXnCGPa/XEaG
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="364416584"
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="364416584"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2023 08:45:21 -0700
+  t=1689007646; x=1720543646;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=z5DGHSNiDT9m5Ci6Ti12SEeF+oZtg594GsoI+FDrtj0=;
+  b=YcEhzcq9dEOGcC1507sltu0eob/8qp+4lYA00Vn+Wop2+0Spk87LbkEU
+   8A6TicDbL41kP8mKOa2BNgAOCt8Ibtv3wxqqX5EcY5yURUgAniqTiB8V3
+   lD1nvis1vmJjy70gyadtPNoJViALsRyLgh+tcNwc1+5+pD7UqXrqBIoh0
+   6DQNEMbiVNbH4m0TE4/APEvNUaU2a9KUifKc2IrgmnGVWMC1IhXQS3UjG
+   iBr/9zcY7EBOaOMTDfCbHW/5rzhScf84j5U1uVHcJ2idQ6a8uOcrd27so
+   WriPbYFRvWgl9p55lC5EYG5jmFgyGuWMXRiguUU4cEgaGT8PHhb0iw+zh
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="344719130"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="344719130"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2023 09:47:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="834314761"
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="834314761"
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="1051414556"
+X-IronPort-AV: E=Sophos;i="6.01,195,1684825200"; 
+   d="scan'208";a="1051414556"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Jul 2023 08:45:19 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 10 Jul 2023 09:47:21 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qIt4h-0003n2-0a;
-	Mon, 10 Jul 2023 15:45:19 +0000
-Date: Mon, 10 Jul 2023 23:44:44 +0800
+	id 1qIu2i-0003pE-22;
+	Mon, 10 Jul 2023 16:47:20 +0000
+Date: Tue, 11 Jul 2023 00:46:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Fomichev <a.fomichev@yadro.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-ntb@googlegroups.com,
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>
-Subject: [jonmason-ntb:ntb-perf-latency 2/5]
- drivers/ntb/test/ntb_perf.c:1185:35: error: implicit declaration of function
- 'get_random_int'; did you mean 'get_random_long'?
-Message-ID: <202307102335.rdB7ccFY-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: vmlinux.o: warning: objtool: rust_begin_unwind+0x5c:
+ rust_helper_BUG() is missing a __noreturn annotation
+Message-ID: <202307110053.7fgkfbOw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,56 +45,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jonmason/ntb ntb-perf-latency
-head:   d7d7b0ad2f253736c7c9862df3f2cdabd0359385
-commit: 40de9cf6319f5a01c50a8f0550ed658515776b72 [2/5] ntb_perf: extend with poll latency measurement
-config: x86_64-randconfig-x013-20230710 (https://download.01.org/0day-ci/archive/20230710/202307102335.rdB7ccFY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230710/202307102335.rdB7ccFY-lkp@intel.com/reproduce)
+CC: linux-kernel@vger.kernel.org
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
+CC: Miroslav Benes <mbenes@suse.cz>
+
+Hi Josh,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+commit: fedb724c3db5490234ddde0103811c28c2fedae0 objtool: Detect missing __noreturn annotations
+date:   8 weeks ago
+config: x86_64-randconfig-r022-20230710 (https://download.01.org/0day-ci/archive/20230711/202307110053.7fgkfbOw-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230711/202307110053.7fgkfbOw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307102335.rdB7ccFY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307110053.7fgkfbOw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/ntb/test/ntb_perf.c: In function 'perf_init_pl':
->> drivers/ntb/test/ntb_perf.c:1185:35: error: implicit declaration of function 'get_random_int'; did you mean 'get_random_long'? [-Werror=implicit-function-declaration]
-    1185 |                         *bp = (u8)get_random_int();
-         |                                   ^~~~~~~~~~~~~~
-         |                                   get_random_long
-   cc1: some warnings being treated as errors
+>> vmlinux.o: warning: objtool: rust_begin_unwind+0x5c: rust_helper_BUG() is missing a __noreturn annotation
 
 
-vim +1185 drivers/ntb/test/ntb_perf.c
-
-  1166	
-  1167	static int perf_init_pl(struct perf_poll_lat_data *pldata)
-  1168	{
-  1169		struct perf_ctx *perf = pldata->perf;
-  1170		struct perf_peer *peer = perf->test_peer;
-  1171		u8 *bp;
-  1172	
-  1173		pldata->src = kmalloc_node(peer->outbuf_size, GFP_KERNEL,
-  1174					 dev_to_node(&perf->ntb->dev));
-  1175		if (!pldata->src)
-  1176			return -ENOMEM;
-  1177	
-  1178		/*
-  1179		 * Prepare random data to send, guaranteed exclusion of 0x00 (unreceived)
-  1180		 * and 0xFF (stop_word)
-  1181		 */
-  1182		get_random_bytes(pldata->src, peer->outbuf_size);
-  1183		for (bp = pldata->src; bp < (u8 *) pldata->src + peer->outbuf_size; bp++)
-  1184			while (*bp == 0 || *bp == stop_word)
-> 1185				*bp = (u8)get_random_int();
-  1186	
-  1187		memset(peer->inbuf, 0, peer->inbuf_size);
-  1188	
-  1189		return 0;
-  1190	}
-  1191	
+objdump-func vmlinux.o rust_begin_unwind:
+0000 00000000000c0585 <rust_begin_unwind>:
+0000    c0585:	48 83 ec 48          	sub    $0x48,%rsp
+0004    c0589:	48 89 e0             	mov    %rsp,%rax
+0007    c058c:	48 89 38             	mov    %rdi,(%rax)
+000a    c058f:	48 8d 4c 24 08       	lea    0x8(%rsp),%rcx
+000f    c0594:	48 89 01             	mov    %rax,(%rcx)
+0012    c0597:	48 c7 41 08 00 00 00 00 	movq   $0x0,0x8(%rcx)	c059b: R_X86_64_32S	_RNvXsR_NtCs3yuwAp0waWO_4core3fmtRNtNtNtB7_5panic10panic_info9PanicInfoNtB5_7Display3fmtCsfATHBUcknU9_6kernel
+001a    c059f:	48 8d 54 24 18       	lea    0x18(%rsp),%rdx
+001f    c05a4:	48 c7 02 00 00 00 00 	movq   $0x0,(%rdx)	c05a7: R_X86_64_32S	.rodata+0x13758
+0026    c05ab:	48 c7 42 08 02 00 00 00 	movq   $0x2,0x8(%rdx)
+002e    c05b3:	48 c7 42 10 00 00 00 00 	movq   $0x0,0x10(%rdx)
+0036    c05bb:	48 89 4a 20          	mov    %rcx,0x20(%rdx)
+003a    c05bf:	48 c7 42 28 01 00 00 00 	movq   $0x1,0x28(%rdx)
+0042    c05c7:	48 c7 c7 00 00 00 00 	mov    $0x0,%rdi	c05ca: R_X86_64_32S	_RNvNtNtCsfATHBUcknU9_6kernel5print14format_strings5EMERG
+0049    c05ce:	48 c7 c6 00 00 00 00 	mov    $0x0,%rsi	c05d1: R_X86_64_32S	.rodata+0x134e8
+0050    c05d5:	31 c0                	xor    %eax,%eax
+0052    c05d7:	e8 00 00 00 00       	call   c05dc <rust_begin_unwind+0x57>	c05d8: R_X86_64_PLT32	_printk-0x4
+0057    c05dc:	e8 00 00 00 00       	call   c05e1 <rust_begin_unwind+0x5c>	c05dd: R_X86_64_PLT32	rust_helper_BUG-0x4
+005c    c05e1:	eb fe                	jmp    c05e1 <rust_begin_unwind+0x5c>
 
 -- 
 0-DAY CI Kernel Test Service
