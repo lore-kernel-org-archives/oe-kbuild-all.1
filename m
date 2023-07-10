@@ -1,142 +1,100 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D6E2522B;
-	Mon, 10 Jul 2023 07:02:12 +0000 (UTC)
-Received: from loongson.cn (unknown [10.20.42.43])
-	by gateway (Coremail) with SMTP id _____8DxPOvxrKtk3_sCAA--.3482S3;
-	Mon, 10 Jul 2023 15:02:09 +0800 (CST)
-Received: from [10.20.42.43] (unknown [10.20.42.43])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8DxzM7trKtk+uAmAA--.45449S3;
-	Mon, 10 Jul 2023 15:02:07 +0800 (CST)
-Message-ID: <cfaa947b-0388-2464-6379-8b7ac2c57757@loongson.cn>
-Date: Mon, 10 Jul 2023 15:02:05 +0800
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C833D5388
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jul 2023 07:05:06 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fbc6ab5ff5so42755485e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jul 2023 00:05:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1688972705; x=1691564705;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mFvL3tlkpDhpLI9w7XrEtJqw/lbmRTQDmsFPeVlaTJE=;
+        b=B+OAWea8safjLliid5fb8P1XEOByAWmJtrdPeO8vVt0BsfB3sAQ/HEWF0pq51BZPP/
+         9u6eXAkqEVbhocmUjbg2FiO7/4ydZdcFxw2s8OQrvJmOxT7ymv/XvTaj8BCcYMrkJSpe
+         QPDT9DIoeFUUY6bTwyxFsdUzKFFiTcEOCfa+mrSxkonkUTXuBPf6Xn1fiZm8FyQTZPi6
+         l8VqvMGpytp9+RGRmBHRwUHr1wjESiWVsJvoWcG8fr0+Gt/ezkG3pD+6ZPE0GcnGRTFj
+         5f78Id5wtOSSXzbr8qM/drdbmelMDLqumNxOArrLO+/XVHuNqxzyEXY3sEfNRj3OMOrm
+         XMYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688972705; x=1691564705;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mFvL3tlkpDhpLI9w7XrEtJqw/lbmRTQDmsFPeVlaTJE=;
+        b=SUlgP3nYm4JSzp2uquCgExydlLnmJdif+rOL6FI2iJpcEi1yfipz7IQbtlj6ZgBdIq
+         YSozq4QtGnjv/eQmEBY1pnh7lJuk5q9UvR6v3//vEG9aTH3tF2CD9xplYVtf16m3TeHU
+         wpbCuJWNLzufhAOxZtYFCsltRBRuV5XjYPSccbnA5SUuCFYO0SEq2A9IFwMPin+eTVcP
+         gBWCzhXazlyo1MVMvMSWPxAWYTztGVxOj12IFuPoVRaaw97eX4HZDuGz1QG8/UM70S8h
+         cIhzt9DVr4dvfQHncHLhzovYW0cNmONPeiY3hOCK8AVy5hQlpzxSFZ8zcihDFUMovEzB
+         EKXQ==
+X-Gm-Message-State: ABy/qLZWLK0IfG0KVpNCP1CC/OwsubXCwZix/10ZAVBGXQ4PFYqKCwCr
+	U2o2Bk+ZjLeLixOHHaIh6ERbPiVz/1DzWMAKJwEq7Q==
+X-Google-Smtp-Source: APBJJlE3NFpHmzslV9vKFkDNQrbvhe42+Doh1LqIf2mh+PVW47q644xaDCXNbv5LQWJCaCVpTz2Lne60UkJ44T2N8sA=
+X-Received: by 2002:adf:fe01:0:b0:314:23b:dc56 with SMTP id
+ n1-20020adffe01000000b00314023bdc56mr8033189wrr.71.1688972704715; Mon, 10 Jul
+ 2023 00:05:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [drm-misc:drm-misc-next 2/3]
- drivers/gpu/drm/loongson/lsdc_plane.c:199
- lsdc_cursor_plane_atomic_async_check() warn: variable dereferenced before
- check 'state' (see line 180)
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org
-References: <ff8f09e7-d8c3-4b02-ae76-47dbac830cdb@kadam.mountain>
-From: suijingfeng <suijingfeng@loongson.cn>
-In-Reply-To: <ff8f09e7-d8c3-4b02-ae76-47dbac830cdb@kadam.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:AQAAf8DxzM7trKtk+uAmAA--.45449S3
-X-CM-SenderInfo: xvxlyxpqjiv03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBj93XoWxuFykJFWxCFWfXw1DCw1fXwc_yoW7Ar48pF
-	4Ut34rAr12g3WkGrW0yr4akry5uw1rt3WUCw1qvr17KFyDta4aqrsrW39I9r43ArWUCwsI
-	kF48Xrn8Kr4xKwcCm3ZEXasCq-sJn29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
-	Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE
-	14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1c
-	AE67vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
-	rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtw
-	CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
-	67AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr
-	0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8vA
-	pUUUUUU==
+References: <202307100638.uoomUZol-lkp@intel.com>
+In-Reply-To: <202307100638.uoomUZol-lkp@intel.com>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Mon, 10 Jul 2023 09:04:52 +0200
+Message-ID: <CAHVXubg2BUeM72rG5xLZFRQQ+eGfS3An0zeY7ueiH4nwFOeGcA@mail.gmail.com>
+Subject: Re: ld.lld: error: section .bss load address range overlaps with .init.pi.text
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-
-Thanks for testing,
-
-What do you means about tell me this?
-
-I means that would you like to help fixing this warning?
-
-Or otherwise, I will fix this someday.
-
-
-On 2023/7/10 14:29, Dan Carpenter wrote:
-> tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> head:   8d1077cf2e43b15fefd76ebec2b71541eb27ef2c
-> commit: f39db26c54281da6a785259498ca74b5e470476f [2/3] drm: Add kms driver for loongson display controller
-> config: i386-randconfig-m021-20230710 (https://download.01.org/0day-ci/archive/20230710/202307100423.rV7D05Uq-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230710/202307100423.rV7D05Uq-lkp@intel.com/reproduce)
+On Mon, Jul 10, 2023 at 12:23=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
 >
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
+> commit: 3b90b09af5be42491a8a74a549318cfa265b3029 riscv: Fix orphan sectio=
+n warnings caused by kernel/pi
+> date:   9 weeks ago
+> config: riscv-randconfig-r022-20230710 (https://download.01.org/0day-ci/a=
+rchive/20230710/202307100638.uoomUZol-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git =
+4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> reproduce: (https://download.01.org/0day-ci/archive/20230710/202307100638=
+.uoomUZol-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202307100423.rV7D05Uq-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307100638.uoomUZol-lkp=
+@intel.com/
 >
-> smatch warnings:
-> drivers/gpu/drm/loongson/lsdc_plane.c:199 lsdc_cursor_plane_atomic_async_check() warn: variable dereferenced before check 'state' (see line 180)
+> All errors (new ones prefixed by >>):
 >
-> vim +/state +199 drivers/gpu/drm/loongson/lsdc_plane.c
->
-> f39db26c54281d Sui Jingfeng 2023-06-15  174  static int lsdc_cursor_plane_atomic_async_check(struct drm_plane *plane,
-> f39db26c54281d Sui Jingfeng 2023-06-15  175  						struct drm_atomic_state *state)
-> f39db26c54281d Sui Jingfeng 2023-06-15  176  {
-> f39db26c54281d Sui Jingfeng 2023-06-15  177  	struct drm_plane_state *new_state;
-> f39db26c54281d Sui Jingfeng 2023-06-15  178  	struct drm_crtc_state *crtc_state;
-> f39db26c54281d Sui Jingfeng 2023-06-15  179
-> f39db26c54281d Sui Jingfeng 2023-06-15 @180  	new_state = drm_atomic_get_new_plane_state(state, plane);
->                                                                                             ^^^^^
-> state is dereferenced inside this function
->
-> f39db26c54281d Sui Jingfeng 2023-06-15  181
-> f39db26c54281d Sui Jingfeng 2023-06-15  182  	if (!plane->state || !plane->state->fb) {
-> f39db26c54281d Sui Jingfeng 2023-06-15  183  		drm_dbg(plane->dev, "%s: state is NULL\n", plane->name);
-> f39db26c54281d Sui Jingfeng 2023-06-15  184  		return -EINVAL;
-> f39db26c54281d Sui Jingfeng 2023-06-15  185  	}
-> f39db26c54281d Sui Jingfeng 2023-06-15  186
-> f39db26c54281d Sui Jingfeng 2023-06-15  187  	if (new_state->crtc_w != new_state->crtc_h) {
-> f39db26c54281d Sui Jingfeng 2023-06-15  188  		drm_dbg(plane->dev, "unsupported cursor size: %ux%u\n",
-> f39db26c54281d Sui Jingfeng 2023-06-15  189  			new_state->crtc_w, new_state->crtc_h);
-> f39db26c54281d Sui Jingfeng 2023-06-15  190  		return -EINVAL;
-> f39db26c54281d Sui Jingfeng 2023-06-15  191  	}
-> f39db26c54281d Sui Jingfeng 2023-06-15  192
-> f39db26c54281d Sui Jingfeng 2023-06-15  193  	if (new_state->crtc_w != 64 && new_state->crtc_w != 32) {
-> f39db26c54281d Sui Jingfeng 2023-06-15  194  		drm_dbg(plane->dev, "unsupported cursor size: %ux%u\n",
-> f39db26c54281d Sui Jingfeng 2023-06-15  195  			new_state->crtc_w, new_state->crtc_h);
-> f39db26c54281d Sui Jingfeng 2023-06-15  196  		return -EINVAL;
-> f39db26c54281d Sui Jingfeng 2023-06-15  197  	}
-> f39db26c54281d Sui Jingfeng 2023-06-15  198
-> f39db26c54281d Sui Jingfeng 2023-06-15 @199  	if (state) {
->                                                      ^^^^^
-> Checked too late
->
-> f39db26c54281d Sui Jingfeng 2023-06-15  200  		crtc_state = drm_atomic_get_existing_crtc_state(state, new_state->crtc);
-> f39db26c54281d Sui Jingfeng 2023-06-15  201  	} else {
-> f39db26c54281d Sui Jingfeng 2023-06-15  202  		crtc_state = plane->crtc->state;
-> f39db26c54281d Sui Jingfeng 2023-06-15  203  		drm_dbg(plane->dev, "%s: atomic state is NULL\n", plane->name);
-> f39db26c54281d Sui Jingfeng 2023-06-15  204  	}
-> f39db26c54281d Sui Jingfeng 2023-06-15  205
-> f39db26c54281d Sui Jingfeng 2023-06-15  206  	if (!crtc_state->active)
-> f39db26c54281d Sui Jingfeng 2023-06-15  207  		return -EINVAL;
-> f39db26c54281d Sui Jingfeng 2023-06-15  208
-> f39db26c54281d Sui Jingfeng 2023-06-15  209  	if (plane->state->crtc != new_state->crtc ||
-> f39db26c54281d Sui Jingfeng 2023-06-15  210  	    plane->state->src_w != new_state->src_w ||
-> f39db26c54281d Sui Jingfeng 2023-06-15  211  	    plane->state->src_h != new_state->src_h ||
-> f39db26c54281d Sui Jingfeng 2023-06-15  212  	    plane->state->crtc_w != new_state->crtc_w ||
-> f39db26c54281d Sui Jingfeng 2023-06-15  213  	    plane->state->crtc_h != new_state->crtc_h)
-> f39db26c54281d Sui Jingfeng 2023-06-15  214  		return -EINVAL;
-> f39db26c54281d Sui Jingfeng 2023-06-15  215
-> f39db26c54281d Sui Jingfeng 2023-06-15  216  	if (new_state->visible != plane->state->visible)
-> f39db26c54281d Sui Jingfeng 2023-06-15  217  		return -EINVAL;
-> f39db26c54281d Sui Jingfeng 2023-06-15  218
-> f39db26c54281d Sui Jingfeng 2023-06-15  219  	return drm_atomic_helper_check_plane_state(plane->state,
-> f39db26c54281d Sui Jingfeng 2023-06-15  220  						   crtc_state,
-> f39db26c54281d Sui Jingfeng 2023-06-15  221  						   DRM_PLANE_NO_SCALING,
-> f39db26c54281d Sui Jingfeng 2023-06-15  222  						   DRM_PLANE_NO_SCALING,
-> f39db26c54281d Sui Jingfeng 2023-06-15  223  						   true, true);
-> f39db26c54281d Sui Jingfeng 2023-06-15  224  }
+> >> ld.lld: error: section .bss load address range overlaps with .init.pi.=
+text
+>    >>> .bss range is [0xDD5000, 0x1EC438F]
+>    >>> .init.pi.text range is [0x1DBC350, 0x1DBF39B]
+> --
+> >> ld.lld: error: section .rodata load address range overlaps with .init.=
+pi.bss
+>    >>> .rodata range is [0x1DBF400, 0x2888177]
+>    >>> .init.pi.bss range is [0x1EC4390, 0x1EC478F]
 >
 
+XIP_KERNEL=3Dy so nothing to do here.
+
+Thanks,
+
+Alex
+
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
