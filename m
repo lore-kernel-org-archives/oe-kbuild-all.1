@@ -1,100 +1,245 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C833D5388
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jul 2023 07:05:06 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-3fbc6ab5ff5so42755485e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jul 2023 00:05:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20221208.gappssmtp.com; s=20221208; t=1688972705; x=1691564705;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mFvL3tlkpDhpLI9w7XrEtJqw/lbmRTQDmsFPeVlaTJE=;
-        b=B+OAWea8safjLliid5fb8P1XEOByAWmJtrdPeO8vVt0BsfB3sAQ/HEWF0pq51BZPP/
-         9u6eXAkqEVbhocmUjbg2FiO7/4ydZdcFxw2s8OQrvJmOxT7ymv/XvTaj8BCcYMrkJSpe
-         QPDT9DIoeFUUY6bTwyxFsdUzKFFiTcEOCfa+mrSxkonkUTXuBPf6Xn1fiZm8FyQTZPi6
-         l8VqvMGpytp9+RGRmBHRwUHr1wjESiWVsJvoWcG8fr0+Gt/ezkG3pD+6ZPE0GcnGRTFj
-         5f78Id5wtOSSXzbr8qM/drdbmelMDLqumNxOArrLO+/XVHuNqxzyEXY3sEfNRj3OMOrm
-         XMYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688972705; x=1691564705;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mFvL3tlkpDhpLI9w7XrEtJqw/lbmRTQDmsFPeVlaTJE=;
-        b=SUlgP3nYm4JSzp2uquCgExydlLnmJdif+rOL6FI2iJpcEi1yfipz7IQbtlj6ZgBdIq
-         YSozq4QtGnjv/eQmEBY1pnh7lJuk5q9UvR6v3//vEG9aTH3tF2CD9xplYVtf16m3TeHU
-         wpbCuJWNLzufhAOxZtYFCsltRBRuV5XjYPSccbnA5SUuCFYO0SEq2A9IFwMPin+eTVcP
-         gBWCzhXazlyo1MVMvMSWPxAWYTztGVxOj12IFuPoVRaaw97eX4HZDuGz1QG8/UM70S8h
-         cIhzt9DVr4dvfQHncHLhzovYW0cNmONPeiY3hOCK8AVy5hQlpzxSFZ8zcihDFUMovEzB
-         EKXQ==
-X-Gm-Message-State: ABy/qLZWLK0IfG0KVpNCP1CC/OwsubXCwZix/10ZAVBGXQ4PFYqKCwCr
-	U2o2Bk+ZjLeLixOHHaIh6ERbPiVz/1DzWMAKJwEq7Q==
-X-Google-Smtp-Source: APBJJlE3NFpHmzslV9vKFkDNQrbvhe42+Doh1LqIf2mh+PVW47q644xaDCXNbv5LQWJCaCVpTz2Lne60UkJ44T2N8sA=
-X-Received: by 2002:adf:fe01:0:b0:314:23b:dc56 with SMTP id
- n1-20020adffe01000000b00314023bdc56mr8033189wrr.71.1688972704715; Mon, 10 Jul
- 2023 00:05:04 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D183D8C;
+	Mon, 10 Jul 2023 07:19:25 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 86BEC1F38D;
+	Mon, 10 Jul 2023 07:19:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1688973563; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CShbLxLYLgeAfcg9l2dl1kdjePNzwuvFwqF8VwAgzuQ=;
+	b=X1WR6m31E2IDkJ5Kn6WkTEbWr2burhCeyxucRKLeBIBkeeEX2F6QUS2llobGjE6bKGvVVb
+	Pn4EhnyCvwJRMhrEvut4jeVF/bxL7sbUepvPJv/KWVmg/A7DDfGP7QfU/qxvM+CIuesu1C
+	LSlMlBaxub5w3Ov9GTbit3X2JbY6eYo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1688973563;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=CShbLxLYLgeAfcg9l2dl1kdjePNzwuvFwqF8VwAgzuQ=;
+	b=x3JvWtqeQb5+N+geD70zWspfzqdf29a2WZoDwwTE2WK1DAXXi8rRXo1aGwAJYFdheKFVhn
+	wVq+g1dJK9xv7BBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 62EF513A05;
+	Mon, 10 Jul 2023 07:19:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id GFQOF/uwq2QxbAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 10 Jul 2023 07:19:23 +0000
+Message-ID: <91d19fa9-9749-a741-b098-8bbf91ba23e7@suse.de>
+Date: Mon, 10 Jul 2023 09:19:21 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202307100638.uoomUZol-lkp@intel.com>
-In-Reply-To: <202307100638.uoomUZol-lkp@intel.com>
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Mon, 10 Jul 2023 09:04:52 +0200
-Message-ID: <CAHVXubg2BUeM72rG5xLZFRQQ+eGfS3An0zeY7ueiH4nwFOeGcA@mail.gmail.com>
-Subject: Re: ld.lld: error: section .bss load address range overlaps with .init.pi.text
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [drm-misc:drm-misc-next 2/3]
+ drivers/gpu/drm/loongson/lsdc_plane.c:199
+ lsdc_cursor_plane_atomic_async_check() warn: variable dereferenced before
+ check 'state' (see line 180)
+Content-Language: en-US
+To: suijingfeng <suijingfeng@loongson.cn>,
+ Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
+References: <ff8f09e7-d8c3-4b02-ae76-47dbac830cdb@kadam.mountain>
+ <cfaa947b-0388-2464-6379-8b7ac2c57757@loongson.cn>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <cfaa947b-0388-2464-6379-8b7ac2c57757@loongson.cn>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Z2nWaC0q8k6Nk32T04vu4lPh"
 
-On Mon, Jul 10, 2023 at 12:23=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
-> commit: 3b90b09af5be42491a8a74a549318cfa265b3029 riscv: Fix orphan sectio=
-n warnings caused by kernel/pi
-> date:   9 weeks ago
-> config: riscv-randconfig-r022-20230710 (https://download.01.org/0day-ci/a=
-rchive/20230710/202307100638.uoomUZol-lkp@intel.com/config)
-> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git =
-4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> reproduce: (https://download.01.org/0day-ci/archive/20230710/202307100638=
-.uoomUZol-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307100638.uoomUZol-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> ld.lld: error: section .bss load address range overlaps with .init.pi.=
-text
->    >>> .bss range is [0xDD5000, 0x1EC438F]
->    >>> .init.pi.text range is [0x1DBC350, 0x1DBF39B]
-> --
-> >> ld.lld: error: section .rodata load address range overlaps with .init.=
-pi.bss
->    >>> .rodata range is [0x1DBF400, 0x2888177]
->    >>> .init.pi.bss range is [0x1EC4390, 0x1EC478F]
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Z2nWaC0q8k6Nk32T04vu4lPh
+Content-Type: multipart/mixed; boundary="------------idV08D0pHLOxqZY0P7QVhILU";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: suijingfeng <suijingfeng@loongson.cn>,
+ Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, dri-devel@lists.freedesktop.org,
+ oe-kbuild-all@lists.linux.dev
+Message-ID: <91d19fa9-9749-a741-b098-8bbf91ba23e7@suse.de>
+Subject: Re: [drm-misc:drm-misc-next 2/3]
+ drivers/gpu/drm/loongson/lsdc_plane.c:199
+ lsdc_cursor_plane_atomic_async_check() warn: variable dereferenced before
+ check 'state' (see line 180)
+References: <ff8f09e7-d8c3-4b02-ae76-47dbac830cdb@kadam.mountain>
+ <cfaa947b-0388-2464-6379-8b7ac2c57757@loongson.cn>
+In-Reply-To: <cfaa947b-0388-2464-6379-8b7ac2c57757@loongson.cn>
 
-XIP_KERNEL=3Dy so nothing to do here.
+--------------idV08D0pHLOxqZY0P7QVhILU
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Thanks,
+SGkNCg0KQW0gMTAuMDcuMjMgdW0gMDk6MDIgc2NocmllYiBzdWlqaW5nZmVuZzoNCj4gSGks
+DQo+IA0KPiANCj4gVGhhbmtzIGZvciB0ZXN0aW5nLA0KPiANCj4gV2hhdCBkbyB5b3UgbWVh
+bnMgYWJvdXQgdGVsbCBtZSB0aGlzPw0KPiANCj4gSSBtZWFucyB0aGF0IHdvdWxkIHlvdSBs
+aWtlIHRvIGhlbHAgZml4aW5nIHRoaXMgd2FybmluZz8NCg0KVGhlIGNvZGUgaW4gZHJtX2F0
+b21pY19nZXRfbmV3X3BsYW5lX3N0YXRlKCkgZGVyZWZlcmVuY2VzIHRoZSBzdGF0ZSANCnBh
+cmFtZXRlci4gIExhdGVyIGluIHlvdXIgZnVuY3Rpb24sIHlvdSB0ZXN0IGZvciBzdGF0ZSB0
+byBiZSBub24tTlVMTC4NClRoYXQncyB3aGF0IHRoZSB3YXJuaW5nIGlzIGFib3V0Lg0KDQpZ
+b3Ugc2hvdWxkIGJlIGFibGUgdG8gc2lsZW5jZSB0aGlzIHdhcm5pbmcgYnkgcmVtb3Zpbmcg
+dGhlIHN0YXRlIHRlc3QgDQpmcm9tIHlvdXIgZnVuY3Rpb24gKGFuZCBhbHNvIGRlbGV0ZSB0
+aGF0IGVsc2UgYnJhbmNoKS4gVGhlcmUgc2hvdWxkIA0KYWx3YXlzIGJlIGFuIGF0b21pYyBz
+dGF0ZSBwcmVzZW50IGFuZCB0aGUgYXRvbWljLWNoZWNrIGNhbGxiYWNrcyBzaG91bGQgDQpu
+b3QgYmUgY2FsbGVkIHdpdGhvdXQgYSBzdGF0ZS4gSWYgbm90LCB0aGUgZHJpdmVyIG1vc3Qg
+bGlrZWx5IGZhaWxlZCB0byANCmluaXRpYWxpemUgY29ycmVjdGx5Lg0KDQpCZXN0IHJlZ2Fy
+ZHMNClRob21hcw0KDQo+IA0KPiBPciBvdGhlcndpc2UsIEkgd2lsbCBmaXggdGhpcyBzb21l
+ZGF5Lg0KPiANCj4gDQo+IE9uIDIwMjMvNy8xMCAxNDoyOSwgRGFuIENhcnBlbnRlciB3cm90
+ZToNCj4+IHRyZWU6wqDCoCBnaXQ6Ly9hbm9uZ2l0LmZyZWVkZXNrdG9wLm9yZy9kcm0vZHJt
+LW1pc2MgZHJtLW1pc2MtbmV4dA0KPj4gaGVhZDrCoMKgIDhkMTA3N2NmMmU0M2IxNWZlZmQ3
+NmViZWMyYjcxNTQxZWIyN2VmMmMNCj4+IGNvbW1pdDogZjM5ZGIyNmM1NDI4MWRhNmE3ODUy
+NTk0OThjYTc0YjVlNDcwNDc2ZiBbMi8zXSBkcm06IEFkZCBrbXMgDQo+PiBkcml2ZXIgZm9y
+IGxvb25nc29uIGRpc3BsYXkgY29udHJvbGxlcg0KPj4gY29uZmlnOiBpMzg2LXJhbmRjb25m
+aWctbTAyMS0yMDIzMDcxMCANCj4+IChodHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNp
+L2FyY2hpdmUvMjAyMzA3MTAvMjAyMzA3MTAwNDIzLnJWN0QwNVVxLWxrcEBpbnRlbC5jb20v
+Y29uZmlnKQ0KPj4gY29tcGlsZXI6IGdjYy0xMiAoRGViaWFuIDEyLjIuMC0xNCkgMTIuMi4w
+DQo+PiByZXByb2R1Y2U6IA0KPj4gKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kv
+YXJjaGl2ZS8yMDIzMDcxMC8yMDIzMDcxMDA0MjMuclY3RDA1VXEtbGtwQGludGVsLmNvbS9y
+ZXByb2R1Y2UpDQo+Pg0KPj4gSWYgeW91IGZpeCB0aGUgaXNzdWUgaW4gYSBzZXBhcmF0ZSBw
+YXRjaC9jb21taXQgKGkuZS4gbm90IGp1c3QgYSBuZXcgDQo+PiB2ZXJzaW9uIG9mDQo+PiB0
+aGUgc2FtZSBwYXRjaC9jb21taXQpLCBraW5kbHkgYWRkIGZvbGxvd2luZyB0YWdzDQo+PiB8
+IFJlcG9ydGVkLWJ5OiBrZXJuZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4NCj4+IHwg
+UmVwb3J0ZWQtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAbGluYXJvLm9yZz4N
+Cj4+IHwgQ2xvc2VzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9yLzIwMjMwNzEwMDQyMy5y
+VjdEMDVVcS1sa3BAaW50ZWwuY29tLw0KPj4NCj4+IHNtYXRjaCB3YXJuaW5nczoNCj4+IGRy
+aXZlcnMvZ3B1L2RybS9sb29uZ3Nvbi9sc2RjX3BsYW5lLmM6MTk5IA0KPj4gbHNkY19jdXJz
+b3JfcGxhbmVfYXRvbWljX2FzeW5jX2NoZWNrKCkgd2FybjogdmFyaWFibGUgZGVyZWZlcmVu
+Y2VkIA0KPj4gYmVmb3JlIGNoZWNrICdzdGF0ZScgKHNlZSBsaW5lIDE4MCkNCj4+DQo+PiB2
+aW0gKy9zdGF0ZSArMTk5IGRyaXZlcnMvZ3B1L2RybS9sb29uZ3Nvbi9sc2RjX3BsYW5lLmMN
+Cj4+DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDE3NMKg
+IHN0YXRpYyBpbnQgDQo+PiBsc2RjX2N1cnNvcl9wbGFuZV9hdG9taWNfYXN5bmNfY2hlY2so
+c3RydWN0IGRybV9wbGFuZSAqcGxhbmUsDQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2Zl
+bmcgMjAyMy0wNi0xNcKgIDE3NSAgICAgICAgICAgICAgICAgICAgICAgICAgDQo+PiBzdHJ1
+Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUpDQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmlu
+Z2ZlbmcgMjAyMy0wNi0xNcKgIDE3NsKgIHsNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5n
+ZmVuZyAyMDIzLTA2LTE1wqAgMTc3wqDCoMKgwqDCoCBzdHJ1Y3QgDQo+PiBkcm1fcGxhbmVf
+c3RhdGUgKm5ld19zdGF0ZTsNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIz
+LTA2LTE1wqAgMTc4wqDCoMKgwqDCoCBzdHJ1Y3QgZHJtX2NydGNfc3RhdGUgDQo+PiAqY3J0
+Y19zdGF0ZTsNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIzLTA2LTE1wqAg
+MTc5DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNSBAMTgwwqDC
+oMKgwqDCoCBuZXdfc3RhdGUgPSANCj4+IGRybV9hdG9taWNfZ2V0X25ld19wbGFuZV9zdGF0
+ZShzdGF0ZSwgcGxhbmUpOw0KPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXl5eXl4NCj4+IHN0
+YXRlIGlzIGRlcmVmZXJlbmNlZCBpbnNpZGUgdGhpcyBmdW5jdGlvbg0KPj4NCj4+IGYzOWRi
+MjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIzLTA2LTE1wqAgMTgxDQo+PiBmMzlkYjI2YzU0
+MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDE4MsKgwqDCoMKgwqAgaWYgKCFwbGFu
+ZS0+c3RhdGUgfHwgDQo+PiAhcGxhbmUtPnN0YXRlLT5mYikgew0KPj4gZjM5ZGIyNmM1NDI4
+MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYtMTXCoCAxODMgICAgICAgICAgDQo+PiBkcm1fZGJn
+KHBsYW5lLT5kZXYsICIlczogc3RhdGUgaXMgTlVMTFxuIiwgcGxhbmUtPm5hbWUpOw0KPj4g
+ZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYtMTXCoCAxODTCoMKgwqDCoMKg
+wqDCoMKgwqAgcmV0dXJuIC1FSU5WQUw7DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2Zl
+bmcgMjAyMy0wNi0xNcKgIDE4NcKgwqDCoMKgwqAgfQ0KPj4gZjM5ZGIyNmM1NDI4MWQgU3Vp
+IEppbmdmZW5nIDIwMjMtMDYtMTXCoCAxODYNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5n
+ZmVuZyAyMDIzLTA2LTE1wqAgMTg3wqDCoMKgwqDCoCBpZiAobmV3X3N0YXRlLT5jcnRjX3cg
+DQo+PiAhPSBuZXdfc3RhdGUtPmNydGNfaCkgew0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEpp
+bmdmZW5nIDIwMjMtMDYtMTXCoCAxODggICAgICAgICAgDQo+PiBkcm1fZGJnKHBsYW5lLT5k
+ZXYsICJ1bnN1cHBvcnRlZCBjdXJzb3Igc2l6ZTogJXV4JXVcbiIsDQo+PiBmMzlkYjI2YzU0
+MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDE4OSAgICAgICAgICAgICAgDQo+PiBu
+ZXdfc3RhdGUtPmNydGNfdywgbmV3X3N0YXRlLT5jcnRjX2gpOw0KPj4gZjM5ZGIyNmM1NDI4
+MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYtMTXCoCAxOTDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0
+dXJuIC1FSU5WQUw7DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0x
+NcKgIDE5McKgwqDCoMKgwqAgfQ0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5nIDIw
+MjMtMDYtMTXCoCAxOTINCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIzLTA2
+LTE1wqAgMTkzwqDCoMKgwqDCoCBpZiAobmV3X3N0YXRlLT5jcnRjX3cgDQo+PiAhPSA2NCAm
+JiBuZXdfc3RhdGUtPmNydGNfdyAhPSAzMikgew0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEpp
+bmdmZW5nIDIwMjMtMDYtMTXCoCAxOTQgICAgICAgICAgDQo+PiBkcm1fZGJnKHBsYW5lLT5k
+ZXYsICJ1bnN1cHBvcnRlZCBjdXJzb3Igc2l6ZTogJXV4JXVcbiIsDQo+PiBmMzlkYjI2YzU0
+MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDE5NSAgICAgICAgICAgICAgDQo+PiBu
+ZXdfc3RhdGUtPmNydGNfdywgbmV3X3N0YXRlLT5jcnRjX2gpOw0KPj4gZjM5ZGIyNmM1NDI4
+MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYtMTXCoCAxOTbCoMKgwqDCoMKgwqDCoMKgwqAgcmV0
+dXJuIC1FSU5WQUw7DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0x
+NcKgIDE5N8KgwqDCoMKgwqAgfQ0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5nIDIw
+MjMtMDYtMTXCoCAxOTgNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIzLTA2
+LTE1IEAxOTnCoMKgwqDCoMKgIGlmIChzdGF0ZSkgew0KPj4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgXl5eXl4NCj4+IENoZWNrZWQgdG9v
+IGxhdGUNCj4+DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKg
+IDIwMMKgwqDCoMKgwqDCoMKgwqDCoCBjcnRjX3N0YXRlID0gDQo+PiBkcm1fYXRvbWljX2dl
+dF9leGlzdGluZ19jcnRjX3N0YXRlKHN0YXRlLCBuZXdfc3RhdGUtPmNydGMpOw0KPj4gZjM5
+ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYtMTXCoCAyMDHCoMKgwqDCoMKgIH0g
+ZWxzZSB7DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDIw
+MsKgwqDCoMKgwqDCoMKgwqDCoCBjcnRjX3N0YXRlID0gDQo+PiBwbGFuZS0+Y3J0Yy0+c3Rh
+dGU7DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDIwMyAg
+ICAgICAgICANCj4+IGRybV9kYmcocGxhbmUtPmRldiwgIiVzOiBhdG9taWMgc3RhdGUgaXMg
+TlVMTFxuIiwgcGxhbmUtPm5hbWUpOw0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5n
+IDIwMjMtMDYtMTXCoCAyMDTCoMKgwqDCoMKgIH0NCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBK
+aW5nZmVuZyAyMDIzLTA2LTE1wqAgMjA1DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2Zl
+bmcgMjAyMy0wNi0xNcKgIDIwNsKgwqDCoMKgwqAgaWYgKCFjcnRjX3N0YXRlLT5hY3RpdmUp
+DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDIwN8KgwqDC
+oMKgwqDCoMKgwqDCoCByZXR1cm4gLUVJTlZBTDsNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBK
+aW5nZmVuZyAyMDIzLTA2LTE1wqAgMjA4DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2Zl
+bmcgMjAyMy0wNi0xNcKgIDIwOcKgwqDCoMKgwqAgaWYgDQo+PiAocGxhbmUtPnN0YXRlLT5j
+cnRjICE9IG5ld19zdGF0ZS0+Y3J0YyB8fA0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdm
+ZW5nIDIwMjMtMDYtMTXCoCAyMTAgICAgICAgICAgDQo+PiBwbGFuZS0+c3RhdGUtPnNyY193
+ICE9IG5ld19zdGF0ZS0+c3JjX3cgfHwNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVu
+ZyAyMDIzLTA2LTE1wqAgMjExICAgICAgICAgIA0KPj4gcGxhbmUtPnN0YXRlLT5zcmNfaCAh
+PSBuZXdfc3RhdGUtPnNyY19oIHx8DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2Zlbmcg
+MjAyMy0wNi0xNcKgIDIxMiAgICAgICAgICANCj4+IHBsYW5lLT5zdGF0ZS0+Y3J0Y193ICE9
+IG5ld19zdGF0ZS0+Y3J0Y193IHx8DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2Zlbmcg
+MjAyMy0wNi0xNcKgIDIxMyAgICAgICAgICANCj4+IHBsYW5lLT5zdGF0ZS0+Y3J0Y19oICE9
+IG5ld19zdGF0ZS0+Y3J0Y19oKQ0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5nIDIw
+MjMtMDYtMTXCoCAyMTTCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FSU5WQUw7DQo+PiBm
+MzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDIxNQ0KPj4gZjM5ZGIy
+NmM1NDI4MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYtMTXCoCAyMTbCoMKgwqDCoMKgIGlmIA0K
+Pj4gKG5ld19zdGF0ZS0+dmlzaWJsZSAhPSBwbGFuZS0+c3RhdGUtPnZpc2libGUpDQo+PiBm
+MzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNcKgIDIxN8KgwqDCoMKgwqDC
+oMKgwqDCoCByZXR1cm4gLUVJTlZBTDsNCj4+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVu
+ZyAyMDIzLTA2LTE1wqAgMjE4DQo+PiBmMzlkYjI2YzU0MjgxZCBTdWkgSmluZ2ZlbmcgMjAy
+My0wNi0xNcKgIDIxOcKgwqDCoMKgwqAgcmV0dXJuIA0KPj4gZHJtX2F0b21pY19oZWxwZXJf
+Y2hlY2tfcGxhbmVfc3RhdGUocGxhbmUtPnN0YXRlLA0KPj4gZjM5ZGIyNmM1NDI4MWQgU3Vp
+IEppbmdmZW5nIDIwMjMtMDYtMTUgIA0KPj4gMjIwwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY3J0Y19zdGF0ZSwNCj4+IGYzOWRi
+MjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIzLTA2LTE1ICANCj4+IDIyMcKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIERSTV9QTEFO
+RV9OT19TQ0FMSU5HLA0KPj4gZjM5ZGIyNmM1NDI4MWQgU3VpIEppbmdmZW5nIDIwMjMtMDYt
+MTUgIA0KPj4gMjIywqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgRFJNX1BMQU5FX05PX1NDQUxJTkcsDQo+PiBmMzlkYjI2YzU0Mjgx
+ZCBTdWkgSmluZ2ZlbmcgMjAyMy0wNi0xNSAgDQo+PiAyMjPCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0cnVlLCB0cnVlKTsNCj4+
+IGYzOWRiMjZjNTQyODFkIFN1aSBKaW5nZmVuZyAyMDIzLTA2LTE1wqAgMjI0wqAgfQ0KPj4N
+Cj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9w
+ZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1hbnkgR21iSA0KRnJhbmtlbnN0cmFz
+c2UgMTQ2LCA5MDQ2MSBOdWVybmJlcmcsIEdlcm1hbnkNCkdGOiBJdm8gVG90ZXYsIEFuZHJl
+dyBNeWVycywgQW5kcmV3IE1jRG9uYWxkLCBCb3VkaWVuIE1vZXJtYW4NCkhSQiAzNjgwOSAo
+QUcgTnVlcm5iZXJnKQ0K
 
-Alex
+--------------idV08D0pHLOxqZY0P7QVhILU--
 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+--------------Z2nWaC0q8k6Nk32T04vu4lPh
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmSrsPkFAwAAAAAACgkQlh/E3EQov+AY
+MxAAsDdqes7ZAeWsTAJULuaBauPAvRFafYHEdkBk/h8vEJIn664Go8aX+Y90g6Io+n45ncw7cm3l
+f9hi02Oc4MHSGJb/TvpaOxggNxMOeF6XpJtBwcvNQT/p8CHgqHFZ/VB8gnj2PfXS0EoJh/tXH0OC
+zx77nYQ43g5XqLtyZTFthr55a+UGbazfe8ecVc1GYOLR/TUINpQkSfMFa9I8RGikisRVNN6wO4q5
+8zTrSpwn+ueHdgeFjRjLubcicim+FvC95T/svmZL9hCDtjjXadi87hbQMF97Sf5cvP8AZdtwrLu9
+L49qXRJgWV3mHNbnsTGaPcWezm1w7JJRQ7FV/74qSkdtn+vJSFW7AOXwA7YBMvB7/6FSOrSiQelg
+OxfMmSJQqLZg63W4YfcERBdXVp1R3uVTSmrQ6/RVhB1WvzXdXY+8kJoGcuwhfnxBRubCIQ9f1dl4
+GhxuFW8H7O2bCYKzkpEMDo61xJoOM6cNDTlS1uTWxw5yepZz9R2QEEatq/NMLYxC/MWRYEoJc65G
+RW/HL64SMPp4AQOVXV4XOTTAiy8leRMVnwJhGK6c3YSi7jxxlCEqMpDyThyztOggA04WI7v8tUNc
+dNsI0HKKkUfPcGH99HpncH56MopKHUyImcTJFqjMyN5rHnRsxHyWCF4yXRgeFihaBXoBLEHwWgyw
+xR0=
+=7K8e
+-----END PGP SIGNATURE-----
+
+--------------Z2nWaC0q8k6Nk32T04vu4lPh--
