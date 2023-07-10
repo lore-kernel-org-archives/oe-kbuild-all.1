@@ -1,77 +1,159 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1733517C4
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jul 2023 04:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1688964013; x=1720500013;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UOUaiguCef64qsJv1iADJ0JKEdcapd14q4Yi/uTKdyo=;
-  b=TdtecAWUbfa107c2x6BTxZNyVLBANSuzjCxW29Xeq2HePbGSuRcqfghh
-   SwbnUOCy+AYR1xvRK/kj+8lMB86cWU7UOwuwW7mhy8bHR4G5SxsAfLL+t
-   ZYsH22w0+QzEAWD1i7iLHumE59UHt24GkGPepZ24jsvaI28z/YuM6a9Ps
-   QEjLqrL1VdOPPHimcb7FnrE1AHdLCNc7XoYOyuBz5+q2AJuUBNPr2WVxn
-   Zcauq17FAd9U0EmufvNw81d29RvnVnIbLqQ7haVzSldZtsV0a2SIZnzee
-   HWqiVuww/Wo2MUNOn9Z+jMdxJsSf8RxhREOllszjUkiqm5uM7Su7ZD1cC
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="354112397"
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="354112397"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2023 21:40:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10766"; a="834128656"
-X-IronPort-AV: E=Sophos;i="6.01,194,1684825200"; 
-   d="scan'208";a="834128656"
-Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2023 21:40:06 -0700
-Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qIigw-0003XE-13;
-	Mon, 10 Jul 2023 04:40:06 +0000
-Date: Mon, 10 Jul 2023 12:39:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ian Rogers <irogers@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Namhyung Kim <namhyung@kernel.org>
-Subject: tools/perf/util/bpf_skel/vmlinux/vmlinux.h: warning: ignored by one
- of the .gitignore files
-Message-ID: <202307101239.qYEDPWtZ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A230B3C00
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jul 2023 06:05:29 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-99342a599e9so534337466b.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 09 Jul 2023 23:05:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1688969128; x=1691561128;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C/5sXBX6w+tx4fzz42BcVYvkT5fYXODw7taXVRoe5E4=;
+        b=VZPa7xtNdgB2TAHCpqnZpgTYHg5TAPiEGf5ws0Sz3CMZVM3Z0gXNkTttmrHBn2LAz8
+         dTg1/TKtwHNAgu5Vs9xKfyy4yKcVojt+4g1yCBD4+5Ius8IgrZvXKgnPgOf13fyKbZI+
+         yDy9qXQ0t6i6IaVXWCCVEQHo0fFEfnqU0BaoEsokcHkl5Lx5akcBrPgehA1pqrXoI0Hk
+         7L9xEr25Aw7MGz67Aenl1sHh65VJgJCKwAz5zUEkItpz7AsrwmfAi8Wx8C2YatGfcu9/
+         oBVpMGjbGhAJylf1uJzQT5G8CQwTWmxP6g0j7WMjmdFYs5KTXqFQrzsDO28yOLKnpGo4
+         XAag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1688969128; x=1691561128;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C/5sXBX6w+tx4fzz42BcVYvkT5fYXODw7taXVRoe5E4=;
+        b=Ap+G3Y47lvRPxGdbm5MuZ4k9qUwmMgiUiUwwHIRdEDPXhoIHo/4jyd3a7jJVZpReRn
+         gzqVMTqjYy3ScfsACsP6QS25qa8MtNnKAKx3wW0J1oIZDyE/Uy+3IF7+HJQU9tqR8a6M
+         ubu1sZtA389vWCDedH1wAvXFW/yFsezHsk8IVqk/y/CMXawaK1tYqx+KspW5JB3ZNdg1
+         uTXJJxAYG5quzBqDz1K6dR8NFaeilrzN+63r1Jan/JYleSaVYhMJipv/Y/RoWF3pxcyW
+         igRLKvOiKoJFjVrI862HTFxNCYHC16IXhkmqwBdfUl/WiObPG9XXAz0+KqnQAeVguJse
+         C+7Q==
+X-Gm-Message-State: ABy/qLYuwAjlVNz6DxwsrXNbfSn74N+hVMSDHkyQ2pzKgH946REH6OSM
+	kC/ZQbYZJA6DVZJW6TmaBPSNVg==
+X-Google-Smtp-Source: APBJJlEAeqh7WntGsbBW64VEcC+MW9HxtmE6MYzXkcd/We3xh1O8zeXD5iFrXnlmwb8Jb+WPICf/cQ==
+X-Received: by 2002:a17:906:7a0f:b0:974:1c98:d2d9 with SMTP id d15-20020a1709067a0f00b009741c98d2d9mr12858788ejo.3.1688969127746;
+        Sun, 09 Jul 2023 23:05:27 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.223.104])
+        by smtp.gmail.com with ESMTPSA id r11-20020a17090638cb00b00992b510089asm5639601ejd.84.2023.07.09.23.05.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 09 Jul 2023 23:05:27 -0700 (PDT)
+Message-ID: <6251cf1b-6428-81e5-50b2-d65cd514063a@linaro.org>
+Date: Mon, 10 Jul 2023 08:05:25 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.12.0
+Subject: Re: [PATCH v6 2/5] media: platform: visconti: Add Toshiba Visconti
+ Video Input Interface driver
+Content-Language: en-US
+To: yuji2.ishikawa@toshiba.co.jp, lkp@intel.com, hverkuil@xs4all.nl,
+ sakari.ailus@iki.fi, laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+ robh+dt@kernel.org, krzk@kernel.org, conor+dt@kernel.org,
+ nobuhiro1.iwamatsu@toshiba.co.jp
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20230620031111.3776-3-yuji2.ishikawa@toshiba.co.jp>
+ <202306202006.FUjZfd9O-lkp@intel.com>
+ <TYAPR01MB6201668A86ACD9794B2E3A5C9230A@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <TYAPR01MB6201668A86ACD9794B2E3A5C9230A@TYAPR01MB6201.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
-commit: b7a2d774c9c5a9a3228c6169ecf32f05b96609cf perf build: Add ability to build with a generated vmlinux.h
-date:   2 weeks ago
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20230710/202307101239.qYEDPWtZ-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230710/202307101239.qYEDPWtZ-lkp@intel.com/reproduce)
+On 10/07/2023 02:16, yuji2.ishikawa@toshiba.co.jp wrote:
+>> -----Original Message-----
+>> From: kernel test robot <lkp@intel.com>
+>> Sent: Tuesday, June 20, 2023 9:58 PM
+>> To: ishikawa yuji(石川 悠司 ○ＲＤＣ□ＡＩＴＣ○ＥＡ開)
+>> <yuji2.ishikawa@toshiba.co.jp>; Hans Verkuil <hverkuil@xs4all.nl>; Sakari
+>> Ailus <sakari.ailus@iki.fi>; Laurent Pinchart
+>> <laurent.pinchart@ideasonboard.com>; Mauro Carvalho Chehab
+>> <mchehab@kernel.org>; Rob Herring <robh+dt@kernel.org>; Krzysztof
+>> Kozlowski <krzk@kernel.org>; Conor Dooley <conor+dt@kernel.org>;
+>> iwamatsu nobuhiro(岩松 信洋 ○ＤＩＴＣ□ＤＩＴ○ＯＳＴ)
+>> <nobuhiro1.iwamatsu@toshiba.co.jp>
+>> Cc: llvm@lists.linux.dev; oe-kbuild-all@lists.linux.dev;
+>> linux-media@vger.kernel.org; devicetree@vger.kernel.org;
+>> linux-arm-kernel@lists.infradead.org; linux-kernel@vger.kernel.org
+>> Subject: Re: [PATCH v6 2/5] media: platform: visconti: Add Toshiba Visconti
+>> Video Input Interface driver
+>>
+>> Hi Yuji,
+>>
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on media-tree/master] [also build test ERROR on
+>> linus/master sailus-media-tree/streams v6.4-rc7 next-20230620] [If your patch
+>> is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:
+>> https://github.com/intel-lab-lkp/linux/commits/Yuji-Ishikawa/dt-bindings-me
+>> dia-platform-visconti-Add-Toshiba-Visconti-Video-Input-Interface-bindings/20
+>> 230620-120839
+>> base:   git://linuxtv.org/media_tree.git master
+>> patch link:
+>> https://lore.kernel.org/r/20230620031111.3776-3-yuji2.ishikawa%40toshiba.co.j
+>> p
+>> patch subject: [PATCH v6 2/5] media: platform: visconti: Add Toshiba Visconti
+>> Video Input Interface driver
+>> config: x86_64-buildonly-randconfig-r001-20230620
+>> (https://download.01.org/0day-ci/archive/20230620/202306202006.FUjZfd9O-l
+>> kp@intel.com/config)
+>> compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git
+>> 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+>> reproduce:
+>> (https://download.01.org/0day-ci/archive/20230620/202306202006.FUjZfd9O-l
+>> kp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of the
+>> same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes:
+>> | https://lore.kernel.org/oe-kbuild-all/202306202006.FUjZfd9O-lkp@intel.
+>> | com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>    In file included from <built-in>:1:
+>>    In file included from ./usr/include/linux/visconti_viif.h:12:
+>>>> usr/include/linux/videodev2.h:2464:20: error: field has incomplete type
+>> 'struct timespec'
+>>            struct timespec                 timestamp;
+>>                                            ^
+>>    usr/include/linux/videodev2.h:2464:9: note: forward declaration of 'struct
+>> timespec'
+>>            struct timespec                 timestamp;
+>>                   ^
+>>    1 error generated.
+>>
+>> --
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-tests/wiki
+> 
+> I could not reproduce the error with the steps had been specified.
+> 
+> * archived config file didn't compile Visconti VIIF driver (at least, COMPILE_TEST is needed)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307101239.qYEDPWtZ-lkp@intel.com/
+That's not true. The config has enabled CONFIG_VIDEO_VISCONTI_VIIF, so
+your reproduction steps were not correct (e.g. wrong arch, compiler etc).
 
-All warnings (new ones prefixed by >>):
+> * the error message didn't appear even if I add some options to config file.
+> * Environment:
+>   * OS: Ubuntu 22.04
+>   * compiler: Ubuntu clang version 15.07
 
->> tools/perf/util/bpf_skel/vmlinux/vmlinux.h: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/kvm/config: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/kvm/settings: warning: ignored by one of the .gitignore files
+Different compilers can have have or not have warnings, but it does not
+allow to ignore this warning. You can analyze the code even without
+reproducing it, if the reproduction is a problem.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Krzysztof
+
