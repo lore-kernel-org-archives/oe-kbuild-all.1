@@ -1,44 +1,44 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442FC14AB5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 14:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D6919BC5
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 14:32:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689084131; x=1720620131;
+  t=1689085927; x=1720621927;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v2Y9tc1bjtnPJu6bwZnH5SIex5dOJ+HoNwYwEk3hIBY=;
-  b=M4TGFu3hRUI0dWpukIpzXlRMQDE8n4wTVgWCOphfoYm9YZkctmBDui1U
-   p89LmGyJiphuDQ+4soELHVZMFAHSxiDceA6e34Y93PuOgyjdbVKNyLSRG
-   bSj+JYvyAd8oEdo4V6zzFMvX0vKXJgIlV9e7cnWTH+v8fjs9+O1+1mwZg
-   yP+X7GcZSt+GUKBNVKW5FYL/jjAOpHS6jd0bNjaioHOpYshdqKt+Mu5TB
-   PK322SibkQoaiV/6S5U1NCYJOBO00WrXv67D+oqQRayXg6IUhSscl/kdD
-   +qEuMByVajK5McMjmvCnv5FS/3Vk7AGKjJH8eQZoRSdCJS+PxPOtO9+Sr
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="344940841"
+  bh=uaPaAWp912yZxbzWUykOiv6d2w/8QgTlqNDfXdzEyjc=;
+  b=XvYVCAVKlfN0r2tYnbyaWk1p3o83ljuA0fLeMgVYcylkE3lFUDpl+jna
+   cNm5FfEjKlymwM01tJfvWO/dyQdnYTF96/HB0JbaTS9vjjZ+M5ClTJkgn
+   2VcLgd6sseAlVUizkHAF+ezUmKzeDM7JkW7HkMT0gCCIHKNJFF0mguUxm
+   8ATtuvqA6U3rojY6dYR80F6bJfHbf5h2/AE69iPg4SlRZAUbKRSBE3nsY
+   tea0Yol8MWow/vxbe8MzVtp6C3MC/kYz5FeXZALwhf9T7HfRh1DnEByXY
+   ZT/Lwhs0hO2L6ijOfZ6zhQjv3x1uBphVPardANChGYU805j8L7O/KoJC3
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="364672928"
 X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; 
-   d="scan'208";a="344940841"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 07:02:07 -0700
+   d="scan'208";a="364672928"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 07:32:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="724447058"
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="786639199"
 X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; 
-   d="scan'208";a="724447058"
+   d="scan'208";a="786639199"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Jul 2023 07:02:04 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 11 Jul 2023 07:32:04 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJDwJ-0004qU-1G;
-	Tue, 11 Jul 2023 14:02:03 +0000
-Date: Tue, 11 Jul 2023 22:01:27 +0800
+	id 1qJEPL-0004rL-2r;
+	Tue, 11 Jul 2023 14:32:03 +0000
+Date: Tue, 11 Jul 2023 22:31:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steve Jeong <how2soft@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>,
-	linux-doc@vger.kernel.org
-Subject: [tobetter:odroid-6.1.y 1/28] drivers/char/rk3568-gpiomem.c:2:
- warning: This comment starts with '/**', but isn't a kernel-doc comment.
- Refer Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202307112153.HxNLkhCL-lkp@intel.com>
+To: Hardik T Shah <hardik.t.shah@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	Sanyog Kale <sanyog.r.kale@intel.com>
+Subject: [intel-lts:4.19/android_s 3785/30000]
+ drivers/base/regmap/regmap-sdwint.c:215:16: warning: no previous prototype
+ for 'regmap_init_sdwint'
+Message-ID: <202307112259.oNpidw7Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -48,66 +48,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/tobetter/linux odroid-6.1.y
-head:   75d4aa9f650a9465ed7109062e98625502745688
-commit: 161dee9509736facbf1906dd1005e70e240389fa [1/28] ODROID-M1: Add /dev/gpiomem device
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230711/202307112153.HxNLkhCL-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230711/202307112153.HxNLkhCL-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
+head:   d86cf6f06c9415a617dd1a1e3c9dc081a3cf0f8f
+commit: 2bb2777dedaa6adce2de5a407af68bce8dd6d727 [3785/30000] Soundwire squashed commits
+config: i386-randconfig-i005-20230710 (https://download.01.org/0day-ci/archive/20230711/202307112259.oNpidw7Z-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230711/202307112259.oNpidw7Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307112153.HxNLkhCL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307112259.oNpidw7Z-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/char/rk3568-gpiomem.c:2: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * GPIO memory device driver
+   In file included from include/linux/gfp.h:6,
+                    from include/linux/idr.h:16,
+                    from include/linux/kernfs.h:14,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/device.h:16,
+                    from include/linux/sdw_bus.h:29,
+                    from drivers/base/regmap/regmap-sdwint.c:22:
+   include/linux/mmzone.h: In function '__nr_to_section':
+   include/linux/mmzone.h:1156:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
+    1156 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
+         |             ^
+   include/linux/mmzone.h:1147:27: note: 'mem_section' declared here
+    1147 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
+         |                           ^~~~~~~~~~~
+   include/linux/sdw_bus.h: At top level:
+   include/linux/sdw_bus.h:549:24: warning: 'struct sdw_impl_def_intr_stat' declared inside parameter list will not be visible outside of this definition or declaration
+     549 |                 struct sdw_impl_def_intr_stat *intr_status);
+         |                        ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/base/regmap/regmap-sdwint.c:215:16: warning: no previous prototype for 'regmap_init_sdwint' [-Wmissing-prototypes]
+     215 | struct regmap *regmap_init_sdwint(struct sdw_slv *sdw,
+         |                ^~~~~~~~~~~~~~~~~~
+   drivers/base/regmap/regmap-sdwint.c:241: warning: Function parameter or member 'sdw' not described in 'devm_regmap_init_sdwint'
 
 
-vim +2 drivers/char/rk3568-gpiomem.c
+vim +/regmap_init_sdwint +215 drivers/base/regmap/regmap-sdwint.c
 
-   > 2	 * GPIO memory device driver
-     3	 *
-     4	 * Creates a chardev /dev/gpiomem which will provide user access to
-     5	 * the rk3568's GPIO registers when it is mmap()'d.
-     6	 * No longer need root for user GPIO access, but without relaxing permissions
-     7	 * on /dev/mem.
-     8	 *
-     9	 * Written by Luke Wren <luke@raspberrypi.org>
-    10	 * Copyright (c) 2015, Raspberry Pi (Trading) Ltd.
-    11	 *
-    12	 * Redistribution and use in source and binary forms, with or without
-    13	 * modification, are permitted provided that the following conditions
-    14	 * are met:
-    15	 * 1. Redistributions of source code must retain the above copyright
-    16	 *    notice, this list of conditions, and the following disclaimer,
-    17	 *    without modification.
-    18	 * 2. Redistributions in binary form must reproduce the above copyright
-    19	 *    notice, this list of conditions and the following disclaimer in the
-    20	 *    documentation and/or other materials provided with the distribution.
-    21	 * 3. The names of the above-listed copyright holders may not be used
-    22	 *    to endorse or promote products derived from this software without
-    23	 *    specific prior written permission.
-    24	 *
-    25	 * ALTERNATIVELY, this software may be distributed under the terms of the
-    26	 * GNU General Public License ("GPL") version 2, as published by the Free
-    27	 * Software Foundation.
-    28	 *
-    29	 * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
-    30	 * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-    31	 * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-    32	 * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
-    33	 * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-    34	 * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
-    35	 * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-    36	 * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-    37	 * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-    38	 * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-    39	 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-    40	 */
-    41	
+   205	
+   206	/**
+   207	 * regmap_init_sdwint(): Initialise register map
+   208	 *
+   209	 * @sdw: Device that will be interacted with
+   210	 * @config: Configuration for register map
+   211	 *
+   212	 * The return value will be an ERR_PTR() on error or a valid pointer to
+   213	 * a struct regmap.
+   214	 */
+ > 215	struct regmap *regmap_init_sdwint(struct sdw_slv *sdw,
+   216				       const struct regmap_config *config)
+   217	{
+   218		int ret;
+   219	
+   220		ret = regmap_sdw_config_check(config);
+   221		if (ret)
+   222			return ERR_PTR(ret);
+   223	
+   224		return regmap_init(&sdw->dev, &regmap_sdw, &sdw->dev, config);
+   225	}
+   226	EXPORT_SYMBOL_GPL(regmap_init_sdwint);
+   227	
+   228	
 
 -- 
 0-DAY CI Kernel Test Service
