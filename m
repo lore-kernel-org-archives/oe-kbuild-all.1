@@ -1,43 +1,43 @@
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C6E1EA90
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 23:51:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933511EA90
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 23:51:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689119489; x=1720655489;
+  t=1689119491; x=1720655491;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uIspA5PzfmL+2DIqvivJCXmJ7FukG9b/hulDlty64ZE=;
-  b=QpXyE/30PORM7sdZL/qadANqJMSWDAS8F3CZZ6ajE3ryqgf2hlu/DoxT
-   /6AAl7OIuR11p3WbrAYfGqISU3mZQYEnTd2513rPlNlKuim0AK6VgB49X
-   jhXXIdy+STJ2+XlHufBG8CyAJjJjbDwpQ63E/0+mb9qA7rctk8ShfWq+M
-   1gzxQZmK24OjU8TtakQ52jcxVwF3NSFD3uaEO40PIwuiKkOySLSs4mYCB
-   tinjbh3cR6EBwK/3kqfPlAK7Hb3dK0FESqRpVyu2zNTISRiaQ2hOLTuyT
-   XHxelQZq04cj+WWJGU+uJGDFCpuDpJ9pw50DDaHSPaOovoA63Ca+uUNPz
+  bh=kFV4tYJnga60wjMWGU1+JvwPxYCL1q5aOLWWOAAp1uY=;
+  b=XhkrUPl6EIzW6TMuMQXa2fcUB04cnSg/zRzBDm6IfC51skd+4zERwR89
+   AiOvuGXe+aI2z+pU7qq09sJ0NE8jTGIzWDc/9zuXm87EKEAQvbquQZGLm
+   p2mRnVmnC4TTsaF6mDGA4Y6HEJ2oA1oejfQy4N+Gq9ovStQ99avldCRSP
+   LFw0tCEtuYvdlMQ7LWRIXT3drnLgRavrRByHWxGfkT0h/mvZxgJ9JTIkL
+   fMS8CnHCPQsNUCajBerhHtkvzouoQeV5WJd+gzESIVNOMjr2glY9K8XQm
+   miZcPtirtdNGYMv4GB12MvOdaPkOFf1MGXczQda1K7nXY4cAJ+nbtgADV
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="363627915"
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="363627917"
 X-IronPort-AV: E=Sophos;i="6.01,198,1684825200"; 
-   d="scan'208";a="363627915"
+   d="scan'208";a="363627917"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
   by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 16:51:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="1051972566"
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="1051972565"
 X-IronPort-AV: E=Sophos;i="6.01,198,1684825200"; 
-   d="scan'208";a="1051972566"
+   d="scan'208";a="1051972565"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
   by fmsmga005.fm.intel.com with ESMTP; 11 Jul 2023 16:51:26 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJN8g-0005CD-0J;
+	id 1qJN8g-0005CF-0O;
 	Tue, 11 Jul 2023 23:51:26 +0000
-Date: Wed, 12 Jul 2023 07:50:33 +0800
+Date: Wed, 12 Jul 2023 07:50:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: Rob Herring <robh@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:dt/header-cleanups 16/94] drivers/atm/fore200e.c:2531:15:
- warning: assignment to 'const struct of_device_id *' from 'int' makes
- pointer from integer without a cast
-Message-ID: <202307120735.YNhs4WNt-lkp@intel.com>
+Subject: [robh:dt/header-cleanups 22/94] drivers/clk/clk-lochnagar.c:249:17:
+ error: implicit declaration of function 'of_match_device'; did you mean
+ 'of_match_node'?
+Message-ID: <202307120719.lwdzGOhA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,75 +49,93 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
 head:   a06a0a7290918c32601c858af488a504c5e39025
-commit: 18c4d967401f1de3bea333dd95ec7e73d5364e03 [16/94] atm: fore200e: Explicitly include correct DT includes
-config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230712/202307120735.YNhs4WNt-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230712/202307120735.YNhs4WNt-lkp@intel.com/reproduce)
+commit: f048df4b58626a11855e74453a9d4015ce4b3fa3 [22/94] clk: Explicitly include correct DT includes
+config: nios2-randconfig-r012-20230712 (https://download.01.org/0day-ci/archive/20230712/202307120719.lwdzGOhA-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230712/202307120719.lwdzGOhA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307120735.YNhs4WNt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307120719.lwdzGOhA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/atm/fore200e.c: In function 'fore200e_sba_probe':
-   drivers/atm/fore200e.c:2531:17: error: implicit declaration of function 'of_match_device'; did you mean 'of_match_node'? [-Werror=implicit-function-declaration]
-    2531 |         match = of_match_device(fore200e_sba_match, &op->dev);
+   drivers/clk/clk-lochnagar.c: In function 'lochnagar_clk_probe':
+>> drivers/clk/clk-lochnagar.c:249:17: error: implicit declaration of function 'of_match_device'; did you mean 'of_match_node'? [-Werror=implicit-function-declaration]
+     249 |         of_id = of_match_device(lochnagar_of_match, dev);
          |                 ^~~~~~~~~~~~~~~
          |                 of_match_node
->> drivers/atm/fore200e.c:2531:15: warning: assignment to 'const struct of_device_id *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    2531 |         match = of_match_device(fore200e_sba_match, &op->dev);
+>> drivers/clk/clk-lochnagar.c:249:15: warning: assignment to 'const struct of_device_id *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     249 |         of_id = of_match_device(lochnagar_of_match, dev);
          |               ^
    cc1: some warnings being treated as errors
 
 
-vim +2531 drivers/atm/fore200e.c
+vim +249 drivers/clk/clk-lochnagar.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  2521  
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2522  #ifdef CONFIG_SBUS
-b1608d69cb804e Grant Likely       2011-05-18  2523  static const struct of_device_id fore200e_sba_match[];
-6c44512d06d3f6 Greg Kroah-Hartman 2012-12-21  2524  static int fore200e_sba_probe(struct platform_device *op)
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2525  {
-b1608d69cb804e Grant Likely       2011-05-18  2526  	const struct of_device_id *match;
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2527  	struct fore200e *fore200e;
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2528  	static int index = 0;
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2529  	int err;
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2530  
-b1608d69cb804e Grant Likely       2011-05-18 @2531  	match = of_match_device(fore200e_sba_match, &op->dev);
-b1608d69cb804e Grant Likely       2011-05-18  2532  	if (!match)
-1c48a5c93da631 Grant Likely       2011-02-17  2533  		return -EINVAL;
-1c48a5c93da631 Grant Likely       2011-02-17  2534  
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2535  	fore200e = kzalloc(sizeof(struct fore200e), GFP_KERNEL);
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2536  	if (!fore200e)
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2537  		return -ENOMEM;
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2538  
-0efe5523894a26 Christoph Hellwig  2018-10-09  2539  	fore200e->bus = &fore200e_sbus_ops;
-aff9d262fbf021 Christoph Hellwig  2018-10-09  2540  	fore200e->dev = &op->dev;
-1636f8ac2b0841 Grant Likely       2010-06-18  2541  	fore200e->irq = op->archdata.irqs[0];
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2542  	fore200e->phys_base = op->resource[0].start;
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2543  
-0efe5523894a26 Christoph Hellwig  2018-10-09  2544  	sprintf(fore200e->name, "SBA-200E-%d", index);
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2545  
-d9ca676bcb26e1 Dan Williams       2010-12-08  2546  	err = fore200e_init(fore200e, &op->dev);
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2547  	if (err < 0) {
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2548  		fore200e_shutdown(fore200e);
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2549  		kfree(fore200e);
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2550  		return err;
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2551  	}
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2552  
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2553  	index++;
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2554  	dev_set_drvdata(&op->dev, fore200e);
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2555  
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2556  	return 0;
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2557  }
-826b6cfcd5d4c3 David S. Miller    2008-08-27  2558  
+055ca54777b72e Charles Keepax 2019-06-25  236  
+055ca54777b72e Charles Keepax 2019-06-25  237  static int lochnagar_clk_probe(struct platform_device *pdev)
+76c547830bd116 Charles Keepax 2019-03-19  238  {
+76c547830bd116 Charles Keepax 2019-03-19  239  	struct clk_init_data clk_init = {
+76c547830bd116 Charles Keepax 2019-03-19  240  		.ops = &lochnagar_clk_ops,
+76c547830bd116 Charles Keepax 2019-03-19  241  	};
+055ca54777b72e Charles Keepax 2019-06-25  242  	struct device *dev = &pdev->dev;
+055ca54777b72e Charles Keepax 2019-06-25  243  	struct lochnagar_clk_priv *priv;
+055ca54777b72e Charles Keepax 2019-06-25  244  	const struct of_device_id *of_id;
+76c547830bd116 Charles Keepax 2019-03-19  245  	struct lochnagar_clk *lclk;
+055ca54777b72e Charles Keepax 2019-06-25  246  	struct lochnagar_config *conf;
+76c547830bd116 Charles Keepax 2019-03-19  247  	int ret, i;
+76c547830bd116 Charles Keepax 2019-03-19  248  
+055ca54777b72e Charles Keepax 2019-06-25 @249  	of_id = of_match_device(lochnagar_of_match, dev);
+055ca54777b72e Charles Keepax 2019-06-25  250  	if (!of_id)
+055ca54777b72e Charles Keepax 2019-06-25  251  		return -EINVAL;
+055ca54777b72e Charles Keepax 2019-06-25  252  
+055ca54777b72e Charles Keepax 2019-06-25  253  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+055ca54777b72e Charles Keepax 2019-06-25  254  	if (!priv)
+055ca54777b72e Charles Keepax 2019-06-25  255  		return -ENOMEM;
+055ca54777b72e Charles Keepax 2019-06-25  256  
+055ca54777b72e Charles Keepax 2019-06-25  257  	priv->dev = dev;
+055ca54777b72e Charles Keepax 2019-06-25  258  	priv->regmap = dev_get_regmap(dev->parent, NULL);
+055ca54777b72e Charles Keepax 2019-06-25  259  	conf = (struct lochnagar_config *)of_id->data;
+055ca54777b72e Charles Keepax 2019-06-25  260  
+055ca54777b72e Charles Keepax 2019-06-25  261  	memcpy(priv->lclks, conf->clks, sizeof(priv->lclks));
+055ca54777b72e Charles Keepax 2019-06-25  262  
+055ca54777b72e Charles Keepax 2019-06-25  263  	clk_init.parent_data = conf->parents;
+055ca54777b72e Charles Keepax 2019-06-25  264  	clk_init.num_parents = conf->nparents;
+055ca54777b72e Charles Keepax 2019-06-25  265  
+76c547830bd116 Charles Keepax 2019-03-19  266  	for (i = 0; i < ARRAY_SIZE(priv->lclks); i++) {
+76c547830bd116 Charles Keepax 2019-03-19  267  		lclk = &priv->lclks[i];
+76c547830bd116 Charles Keepax 2019-03-19  268  
+76c547830bd116 Charles Keepax 2019-03-19  269  		if (!lclk->name)
+76c547830bd116 Charles Keepax 2019-03-19  270  			continue;
+76c547830bd116 Charles Keepax 2019-03-19  271  
+76c547830bd116 Charles Keepax 2019-03-19  272  		clk_init.name = lclk->name;
+76c547830bd116 Charles Keepax 2019-03-19  273  
+76c547830bd116 Charles Keepax 2019-03-19  274  		lclk->priv = priv;
+76c547830bd116 Charles Keepax 2019-03-19  275  		lclk->hw.init = &clk_init;
+76c547830bd116 Charles Keepax 2019-03-19  276  
+055ca54777b72e Charles Keepax 2019-06-25  277  		ret = devm_clk_hw_register(dev, &lclk->hw);
+76c547830bd116 Charles Keepax 2019-03-19  278  		if (ret) {
+055ca54777b72e Charles Keepax 2019-06-25  279  			dev_err(dev, "Failed to register %s: %d\n",
+76c547830bd116 Charles Keepax 2019-03-19  280  				lclk->name, ret);
+76c547830bd116 Charles Keepax 2019-03-19  281  			return ret;
+76c547830bd116 Charles Keepax 2019-03-19  282  		}
+76c547830bd116 Charles Keepax 2019-03-19  283  	}
+76c547830bd116 Charles Keepax 2019-03-19  284  
+055ca54777b72e Charles Keepax 2019-06-25  285  	ret = devm_of_clk_add_hw_provider(dev, lochnagar_of_clk_hw_get, priv);
+76c547830bd116 Charles Keepax 2019-03-19  286  	if (ret < 0)
+055ca54777b72e Charles Keepax 2019-06-25  287  		dev_err(dev, "Failed to register provider: %d\n", ret);
+76c547830bd116 Charles Keepax 2019-03-19  288  
+76c547830bd116 Charles Keepax 2019-03-19  289  	return ret;
+76c547830bd116 Charles Keepax 2019-03-19  290  }
+76c547830bd116 Charles Keepax 2019-03-19  291  
 
-:::::: The code at line 2531 was first introduced by commit
-:::::: b1608d69cb804e414d0887140ba08a9398e4e638 drivercore: revert addition of of_match to struct device
+:::::: The code at line 249 was first introduced by commit
+:::::: 055ca54777b72e4e3d1b1f4e76376b8428086c02 clk: lochnagar: Use new parent_data approach to register clock parents
 
-:::::: TO: Grant Likely <grant.likely@secretlab.ca>
-:::::: CC: Grant Likely <grant.likely@secretlab.ca>
+:::::: TO: Charles Keepax <ckeepax@opensource.cirrus.com>
+:::::: CC: Stephen Boyd <sboyd@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
