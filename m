@@ -1,157 +1,300 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917953D7B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 06:26:43 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-3fbc1218262so60616035e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 10 Jul 2023 23:26:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689056801; x=1691648801;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aW5+rXuaq7TJXCcRzo6xDmek0tWPICmc1aRt4r1oLPg=;
-        b=SlUO/Mwxym9ydWKE/vvQ1EA0ONlJhRL4g8AyqssMYmCHKOof2daEbgK4J+7J6dFIsz
-         L0EzJYn2MKzJ2qtLzuMHfz25clYpkKQUkG7rUjcmOnH3WJqogCl2K2D25oPWdSvTQGZM
-         fYbXr1z5AamgOSMHL4EjeD+Li49NwjeHS7jxhayQEhDpIllV5Rld+HyvmyMc224f72ds
-         5E1MvqieWtb1ori16wYYI2iHHFVISSTlkkX4xccyD7EoVIlmNzZXVHfdsfwW8wJSQv8g
-         UexWfuGfqWhZe4w2YJiHLalJ4es68+1WSR8owV2ACNLzTD1P7g2unRZq2u/bC50h1QGU
-         bSVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689056801; x=1691648801;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aW5+rXuaq7TJXCcRzo6xDmek0tWPICmc1aRt4r1oLPg=;
-        b=PP+WotD6PAo1LfBQM8IhYkb1M7yaV6rCBFszG/Wo5D+cEXC8cSzo4+jTzSXaQvM0hY
-         w9uO8LBp+Re2AKR/L33BdPIpKxkojt0SyGvAeV3yIOkXSVNdWXqYaMerer8Y30jg/SY/
-         jgkHeIPbxVV8ENpy+yUmpi3eBbCiHoGI5iRkhuOi1P3Nq0q9yA63Z0ji9Pc6+qaPjfEr
-         kbNIbxsKw3cGiSAzsu58YNJuV6HMS4OQy//jgzDApErH1zdqCJ1E79R2m+SEaPq7RsOa
-         EudzEipZTZe2geXkbvEfYuaqBcuHScgB1vxx+8mn67l+L4gpIJ2DZ+xcsFZ9hcMvNduv
-         NNQA==
-X-Gm-Message-State: ABy/qLaE95IOzGTgjeZCoKif7KQX1z9/OQfPRkAoZ5cTCbo8f5fAIBUS
-	PlQx4vrHLqU5fE/Iq4cirjxrHg==
-X-Google-Smtp-Source: APBJJlFcygAOFYB5s3BZMDOQA2sdkTpuyxBJ7bP/LLurgp0PUce22pucUbk//Hrnd5VYzgW7/omiSQ==
-X-Received: by 2002:a05:6000:370:b0:313:f9a0:c530 with SMTP id f16-20020a056000037000b00313f9a0c530mr16037477wrf.52.1689056801434;
-        Mon, 10 Jul 2023 23:26:41 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id l6-20020adffe86000000b0031435731dfasm1305600wrr.35.2023.07.10.23.26.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jul 2023 23:26:40 -0700 (PDT)
-Date: Tue, 11 Jul 2023 09:26:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Hsia-Jun Li <randy.li@synaptics.com>,
-	linux-media@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, ayaka@soulik.info,
-	hans.verkuil@cisco.com, tfiga@chromium.org, mchehab@kernel.org,
-	laurent.pinchart@ideasonboard.com, hiroh@chromium.org,
-	hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
-	nicolas@ndufresne.ca, "Hsia-Jun(Randy) Li" <randy.li@synaptics.com>
-Subject: Re: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
-Message-ID: <396eb32d-5016-4eb7-aea2-b6e824aecadf@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCA5211F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 06:44:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1689057847;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jMxvCGVApT+/gBu1e9SCdTJXqw0c3Cx5d5hb47SKJuk=;
+	b=L8bFNyd9ArKRE/MAIt8KpKbJ3EoWPrUJbsiQNhAd2SyyA0pbqrHMEDBXwqc9KRbaOnHfFy
+	oQJmpKOIVEB751Z484CIsH7nogKSv9cyu3/BJ4lZ/QH5XBp+ACypBndAgJp3XXQIU1FMZ2
+	nQ0aIC8vgioGx0Q/dUor77ach+Zb80c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-414-gQzsAU4CN_mNUvV9DIHymg-1; Tue, 11 Jul 2023 02:44:04 -0400
+X-MC-Unique: gQzsAU4CN_mNUvV9DIHymg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com [10.11.54.7])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6E4B91C08960;
+	Tue, 11 Jul 2023 06:44:03 +0000 (UTC)
+Received: from localhost (ovpn-12-93.pek2.redhat.com [10.72.12.93])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 668F11454141;
+	Tue, 11 Jul 2023 06:44:00 +0000 (UTC)
+Date: Tue, 11 Jul 2023 14:43:50 +0800
+From: Baoquan He <bhe@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Christoph Hellwig <hch@lst.de>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>
+Subject: Re: [linux-next:master 1208/1391] arch/s390/include/asm/io.h:29:17:
+ error: implicit declaration of function 'iounmap'; did you mean 'vunmap'?
+Message-ID: <ZKz6JoKXJIRQHAeW@MiWiFi-R3L-srv>
+References: <202307111309.401QvMTN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <202307111309.401QvMTN-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230704040044.681850-3-randy.li@synaptics.com>
 
-Hi Hsia-Jun,
+Hi,
 
-kernel test robot noticed the following build warnings:
+On 07/11/23 at 02:06pm, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   8e4b7f2f3d6071665b1dfd70786229c8a5d6c256
+> commit: 438780c042f7b65cb02ac16846f226fe87f3b410 [1208/1391] s390: mm: convert to GENERIC_IOREMAP
+> config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230711/202307111309.401QvMTN-lkp@intel.com/config)
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+In above config file, we have:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hsia-Jun-Li/media-v4l2-mem2mem-allow-device-run-without-buf/20230704-120308
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20230704040044.681850-3-randy.li%40synaptics.com
-patch subject: [PATCH 2/2] media: v4l2-mem2mem: add a list for buf used by hw
-config: arm64-randconfig-m041-20230710 (https://download.01.org/0day-ci/archive/20230711/202307110324.A5LMPHou-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230711/202307110324.A5LMPHou-lkp@intel.com/reproduce)
+# CONFIG_PCI is not set
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307110324.A5LMPHou-lkp@intel.com/
+It's not the mentioned commit which caused these reported erros. They
+have been there for long time. Below patchset I posted can fix them:
 
-smatch warnings:
-drivers/media/v4l2-core/v4l2-mem2mem.c:343 __v4l2_m2m_try_queue() error: uninitialized symbol 'src'.
-drivers/media/v4l2-core/v4l2-mem2mem.c:343 __v4l2_m2m_try_queue() error: uninitialized symbol 'dst'.
+[PATCH 0/8] Make several Kconfig options depend on HAS_IOMEM
+https://lore.kernel.org/all/20230707135852.24292-1-bhe@redhat.com/T/#u
 
-vim +/src +343 drivers/media/v4l2-core/v4l2-mem2mem.c
+Thanks
 
-9db3bbf58be59a drivers/media/v4l2-core/v4l2-mem2mem.c Ezequiel Garcia    2018-07-25  296  static void __v4l2_m2m_try_queue(struct v4l2_m2m_dev *m2m_dev,
-9db3bbf58be59a drivers/media/v4l2-core/v4l2-mem2mem.c Ezequiel Garcia    2018-07-25  297  				 struct v4l2_m2m_ctx *m2m_ctx)
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  298  {
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  299  	unsigned long flags_job;
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  300  	struct vb2_v4l2_buffer *dst, *src;
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  301  
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  302  	dprintk("Trying to schedule a job for m2m_ctx: %p\n", m2m_ctx);
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  303  
-f3e1a4c9d7a02d drivers/media/v4l2-core/v4l2-mem2mem.c Randy Li           2023-07-04  304  	if (!(m2m_ctx->out_q_ctx.q.streaming || m2m_ctx->out_q_ctx.buffered)
-f3e1a4c9d7a02d drivers/media/v4l2-core/v4l2-mem2mem.c Randy Li           2023-07-04  305  	    || !(m2m_ctx->cap_q_ctx.q.streaming
-f3e1a4c9d7a02d drivers/media/v4l2-core/v4l2-mem2mem.c Randy Li           2023-07-04  306  		 || m2m_ctx->cap_q_ctx.buffered)) {
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  307  		dprintk("Streaming needs to be on for both queues\n");
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  308  		return;
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  309  	}
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  310  
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  311  	spin_lock_irqsave(&m2m_dev->job_spinlock, flags_job);
-2ad5389b341282 drivers/media/v4l2-core/v4l2-mem2mem.c Shaik Ameer Basha  2013-09-20  312  
-2ad5389b341282 drivers/media/v4l2-core/v4l2-mem2mem.c Shaik Ameer Basha  2013-09-20  313  	/* If the context is aborted then don't schedule it */
-2ad5389b341282 drivers/media/v4l2-core/v4l2-mem2mem.c Shaik Ameer Basha  2013-09-20  314  	if (m2m_ctx->job_flags & TRANS_ABORT) {
-2ad5389b341282 drivers/media/v4l2-core/v4l2-mem2mem.c Shaik Ameer Basha  2013-09-20  315  		dprintk("Aborted context\n");
-cbec2836f8be61 drivers/media/v4l2-core/v4l2-mem2mem.c Sakari Ailus       2018-10-18  316  		goto job_unlock;
-2ad5389b341282 drivers/media/v4l2-core/v4l2-mem2mem.c Shaik Ameer Basha  2013-09-20  317  	}
-2ad5389b341282 drivers/media/v4l2-core/v4l2-mem2mem.c Shaik Ameer Basha  2013-09-20  318  
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  319  	if (m2m_ctx->job_flags & TRANS_QUEUED) {
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  320  		dprintk("On job queue already\n");
-cbec2836f8be61 drivers/media/v4l2-core/v4l2-mem2mem.c Sakari Ailus       2018-10-18  321  		goto job_unlock;
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  322  	}
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  323  
-cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  324) 	if (list_empty(&m2m_ctx->out_q_ctx.hw_queue)) {
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  325  		src = v4l2_m2m_next_src_buf(m2m_ctx);
-cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  326) 
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  327  		if (!src && !m2m_ctx->out_q_ctx.buffered) {
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  328  			dprintk("No input buffers available\n");
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  329  			goto job_unlock;
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  330  		}
-cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  331) 	}
-
-src uninitialized on else path.
-
-cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  332) 
-cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  333) 	if (list_empty(&m2m_ctx->cap_q_ctx.hw_queue)) {
-cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  334) 		dst = v4l2_m2m_next_dst_buf(m2m_ctx);
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  335  		if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
-7f98639def42a6 drivers/media/video/v4l2-mem2mem.c     Pawel Osciak       2010-04-23  336  			dprintk("No output buffers available\n");
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  337  			goto job_unlock;
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  338  		}
-cafbe530b02613 drivers/media/v4l2-core/v4l2-mem2mem.c Hsia-Jun(Randy  Li 2023-07-04  339) 	}
-
-dst not initialized if !list_empty()
-
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  340  
-f07602ac388723 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  341  	m2m_ctx->new_frame = true;
-f07602ac388723 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  342  
-f07602ac388723 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11 @343  	if (src && dst && dst->is_held &&
-
-Uninitialized.
-
-f07602ac388723 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  344  	    dst->vb2_buf.copied_timestamp &&
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  345  	    dst->vb2_buf.timestamp != src->vb2_buf.timestamp) {
-86ef61ad686c17 drivers/media/v4l2-core/v4l2-mem2mem.c Nicolas Dufresne   2022-04-26  346  		dprintk("Timestamp mismatch, returning held capture buffer\n");
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  347  		dst->is_held = false;
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  348  		v4l2_m2m_dst_buf_remove(m2m_ctx);
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  349  		v4l2_m2m_buf_done(dst, VB2_BUF_STATE_DONE);
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  350  		dst = v4l2_m2m_next_dst_buf(m2m_ctx);
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  351  
-f8cca8c97a63d7 drivers/media/v4l2-core/v4l2-mem2mem.c Hans Verkuil       2019-10-11  352  		if (!dst && !m2m_ctx->cap_q_ctx.buffered) {
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> compiler: s390-linux-gcc (GCC) 12.3.0
+> reproduce: (https://download.01.org/0day-ci/archive/20230711/202307111309.401QvMTN-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202307111309.401QvMTN-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from include/linux/io.h:13,
+>                     from include/linux/pci.h:39,
+>                     from drivers/pcmcia/cistpl.c:21:
+>    drivers/pcmcia/cistpl.c: In function 'release_cis_mem':
+> >> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+>       29 | #define iounmap iounmap
+>          |                 ^~~~~~~
+>    drivers/pcmcia/cistpl.c:72:17: note: in expansion of macro 'iounmap'
+>       72 |                 iounmap(s->cis_virt);
+>          |                 ^~~~~~~
+>    drivers/pcmcia/cistpl.c: In function 'set_cis_map':
+> >> drivers/pcmcia/cistpl.c:103:31: error: implicit declaration of function 'ioremap'; did you mean 'iounmap'? [-Werror=implicit-function-declaration]
+>      103 |                 s->cis_virt = ioremap(mem->res->start, s->map_size);
+>          |                               ^~~~~~~
+>          |                               iounmap
+>    drivers/pcmcia/cistpl.c:103:29: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      103 |                 s->cis_virt = ioremap(mem->res->start, s->map_size);
+>          |                             ^
+>    drivers/pcmcia/cistpl.c:118:29: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      118 |                 s->cis_virt = ioremap(mem->static_start, s->map_size);
+>          |                             ^
+>    cc1: some warnings being treated as errors
+> --
+>    drivers/net/arcnet/com90xx.c: In function 'com90xx_probe':
+> >> drivers/net/arcnet/com90xx.c:225:24: error: implicit declaration of function 'ioremap'; did you mean 'ifr_map'? [-Werror=implicit-function-declaration]
+>      225 |                 base = ioremap(*p, MIRROR_SIZE);
+>          |                        ^~~~~~~
+>          |                        ifr_map
+>    drivers/net/arcnet/com90xx.c:225:22: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      225 |                 base = ioremap(*p, MIRROR_SIZE);
+>          |                      ^
+>    In file included from include/linux/scatterlist.h:9,
+>                     from include/linux/dma-mapping.h:11,
+>                     from include/linux/skbuff.h:28,
+>                     from include/net/net_namespace.h:43,
+>                     from include/linux/netdevice.h:38,
+>                     from drivers/net/arcnet/com90xx.c:36:
+> >> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+>       29 | #define iounmap iounmap
+>          |                 ^~~~~~~
+>    drivers/net/arcnet/com90xx.c:260:17: note: in expansion of macro 'iounmap'
+>      260 |                 iounmap(base);
+>          |                 ^~~~~~~
+>    drivers/net/arcnet/com90xx.c: In function 'check_mirror':
+>    drivers/net/arcnet/com90xx.c:444:11: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      444 |         p = ioremap(addr, size);
+>          |           ^
+>    drivers/net/arcnet/com90xx.c: In function 'com90xx_found':
+>    drivers/net/arcnet/com90xx.c:526:23: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      526 |         lp->mem_start = ioremap(dev->mem_start,
+>          |                       ^
+>    cc1: some warnings being treated as errors
+> --
+>    drivers/net/arcnet/arc-rimi.c: In function 'check_mirror':
+> >> drivers/net/arcnet/arc-rimi.c:107:13: error: implicit declaration of function 'ioremap'; did you mean 'ifr_map'? [-Werror=implicit-function-declaration]
+>      107 |         p = ioremap(addr, size);
+>          |             ^~~~~~~
+>          |             ifr_map
+>    drivers/net/arcnet/arc-rimi.c:107:11: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      107 |         p = ioremap(addr, size);
+>          |           ^
+>    In file included from include/linux/scatterlist.h:9,
+>                     from include/linux/dma-mapping.h:11,
+>                     from include/linux/skbuff.h:28,
+>                     from include/net/net_namespace.h:43,
+>                     from include/linux/netdevice.h:38,
+>                     from drivers/net/arcnet/arc-rimi.c:35:
+> >> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+>       29 | #define iounmap iounmap
+>          |                 ^~~~~~~
+>    drivers/net/arcnet/arc-rimi.c:113:17: note: in expansion of macro 'iounmap'
+>      113 |                 iounmap(p);
+>          |                 ^~~~~~~
+>    drivers/net/arcnet/arc-rimi.c: In function 'arcrimi_found':
+>    drivers/net/arcnet/arc-rimi.c:131:11: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      131 |         p = ioremap(dev->mem_start, MIRROR_SIZE);
+>          |           ^
+>    drivers/net/arcnet/arc-rimi.c:202:23: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      202 |         lp->mem_start = ioremap(dev->mem_start,
+>          |                       ^
+>    cc1: some warnings being treated as errors
+> --
+>    drivers/tty/ipwireless/main.c: In function 'ipwireless_probe':
+> >> drivers/tty/ipwireless/main.c:115:30: error: implicit declaration of function 'ioremap'; did you mean 'iounmap'? [-Werror=implicit-function-declaration]
+>      115 |         ipw->common_memory = ioremap(p_dev->resource[2]->start,
+>          |                              ^~~~~~~
+>          |                              iounmap
+>    drivers/tty/ipwireless/main.c:115:28: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      115 |         ipw->common_memory = ioremap(p_dev->resource[2]->start,
+>          |                            ^
+>    drivers/tty/ipwireless/main.c:139:26: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      139 |         ipw->attr_memory = ioremap(p_dev->resource[3]->start,
+>          |                          ^
+>    In file included from include/linux/io.h:13,
+>                     from drivers/tty/ipwireless/main.c:26:
+> >> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+>       29 | #define iounmap iounmap
+>          |                 ^~~~~~~
+>    drivers/tty/ipwireless/main.c:155:9: note: in expansion of macro 'iounmap'
+>      155 |         iounmap(ipw->attr_memory);
+>          |         ^~~~~~~
+>    cc1: some warnings being treated as errors
+> --
+>    drivers/net/ethernet/8390/pcnet_cs.c: In function 'get_hwinfo':
+> >> drivers/net/ethernet/8390/pcnet_cs.c:290:12: error: implicit declaration of function 'ioremap'; did you mean 'ifr_map'? [-Werror=implicit-function-declaration]
+>      290 |     virt = ioremap(link->resource[2]->start,
+>          |            ^~~~~~~
+>          |            ifr_map
+>    drivers/net/ethernet/8390/pcnet_cs.c:290:10: warning: assignment to 'u_char *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      290 |     virt = ioremap(link->resource[2]->start,
+>          |          ^
+>    In file included from include/linux/scatterlist.h:9,
+>                     from include/linux/dma-mapping.h:11,
+>                     from include/linux/skbuff.h:28,
+>                     from include/net/net_namespace.h:43,
+>                     from include/linux/netdevice.h:38,
+>                     from drivers/net/ethernet/8390/pcnet_cs.c:38:
+> >> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+>       29 | #define iounmap iounmap
+>          |                 ^~~~~~~
+>    drivers/net/ethernet/8390/pcnet_cs.c:311:5: note: in expansion of macro 'iounmap'
+>      311 |     iounmap(virt);
+>          |     ^~~~~~~
+>    drivers/net/ethernet/8390/pcnet_cs.c: In function 'setup_shmem_window':
+>    drivers/net/ethernet/8390/pcnet_cs.c:1440:16: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>     1440 |     info->base = ioremap(link->resource[3]->start,
+>          |                ^
+>    cc1: some warnings being treated as errors
+> --
+>    drivers/net/ethernet/fujitsu/fmvj18x_cs.c: In function 'fmvj18x_get_hwinfo':
+> >> drivers/net/ethernet/fujitsu/fmvj18x_cs.c:549:12: error: implicit declaration of function 'ioremap'; did you mean 'iounmap'? [-Werror=implicit-function-declaration]
+>      549 |     base = ioremap(link->resource[2]->start, resource_size(link->resource[2]));
+>          |            ^~~~~~~
+>          |            iounmap
+>    drivers/net/ethernet/fujitsu/fmvj18x_cs.c:549:10: warning: assignment to 'u_char *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      549 |     base = ioremap(link->resource[2]->start, resource_size(link->resource[2]));
+>          |          ^
+>    In file included from include/linux/scatterlist.h:9,
+>                     from include/linux/dma-mapping.h:11,
+>                     from include/linux/skbuff.h:28,
+>                     from include/linux/if_ether.h:19,
+>                     from include/linux/ethtool.h:18,
+>                     from drivers/net/ethernet/fujitsu/fmvj18x_cs.c:45:
+> >> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+>       29 | #define iounmap iounmap
+>          |                 ^~~~~~~
+>    drivers/net/ethernet/fujitsu/fmvj18x_cs.c:579:5: note: in expansion of macro 'iounmap'
+>      579 |     iounmap(base);
+>          |     ^~~~~~~
+>    drivers/net/ethernet/fujitsu/fmvj18x_cs.c: In function 'fmvj18x_setup_mfc':
+>    drivers/net/ethernet/fujitsu/fmvj18x_cs.c:600:14: warning: assignment to 'u_char *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      600 |     lp->base = ioremap(link->resource[3]->start,
+>          |              ^
+>    cc1: some warnings being treated as errors
+> --
+>    drivers/net/ethernet/smsc/smc91c92_cs.c: In function 'mhz_mfc_config':
+> >> drivers/net/ethernet/smsc/smc91c92_cs.c:447:17: error: implicit declaration of function 'ioremap'; did you mean 'ifr_map'? [-Werror=implicit-function-declaration]
+>      447 |     smc->base = ioremap(link->resource[2]->start,
+>          |                 ^~~~~~~
+>          |                 ifr_map
+>    drivers/net/ethernet/smsc/smc91c92_cs.c:447:15: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      447 |     smc->base = ioremap(link->resource[2]->start,
+>          |               ^
+>    In file included from include/linux/scatterlist.h:9,
+>                     from include/linux/dma-mapping.h:11,
+>                     from include/linux/skbuff.h:28,
+>                     from include/net/net_namespace.h:43,
+>                     from include/linux/netdevice.h:38,
+>                     from drivers/net/ethernet/smsc/smc91c92_cs.c:38:
+>    drivers/net/ethernet/smsc/smc91c92_cs.c: In function 'smc91c92_release':
+> >> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+>       29 | #define iounmap iounmap
+>          |                 ^~~~~~~
+>    drivers/net/ethernet/smsc/smc91c92_cs.c:962:17: note: in expansion of macro 'iounmap'
+>      962 |                 iounmap(smc->base);
+>          |                 ^~~~~~~
+>    cc1: some warnings being treated as errors
+> --
+>    drivers/net/ethernet/xircom/xirc2ps_cs.c: In function 'xirc2ps_config':
+> >> drivers/net/ethernet/xircom/xirc2ps_cs.c:843:28: error: implicit declaration of function 'ioremap'; did you mean 'iounmap'? [-Werror=implicit-function-declaration]
+>      843 |         local->dingo_ccr = ioremap(link->resource[2]->start, 0x1000) + 0x0800;
+>          |                            ^~~~~~~
+>          |                            iounmap
+>    drivers/net/ethernet/xircom/xirc2ps_cs.c:843:26: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+>      843 |         local->dingo_ccr = ioremap(link->resource[2]->start, 0x1000) + 0x0800;
+>          |                          ^
+>    In file included from include/linux/scatterlist.h:9,
+>                     from include/linux/dma-mapping.h:11,
+>                     from include/linux/skbuff.h:28,
+>                     from include/linux/if_ether.h:19,
+>                     from include/linux/ethtool.h:18,
+>                     from drivers/net/ethernet/xircom/xirc2ps_cs.c:77:
+>    drivers/net/ethernet/xircom/xirc2ps_cs.c: In function 'xirc2ps_release':
+> >> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+>       29 | #define iounmap iounmap
+>          |                 ^~~~~~~
+>    drivers/net/ethernet/xircom/xirc2ps_cs.c:934:25: note: in expansion of macro 'iounmap'
+>      934 |                         iounmap(local->dingo_ccr - 0x0800);
+>          |                         ^~~~~~~
+>    cc1: some warnings being treated as errors
+> 
+> 
+> vim +29 arch/s390/include/asm/io.h
+> 
+>     24	
+>     25	/*
+>     26	 * I/O memory mapping functions.
+>     27	 */
+>     28	#define ioremap_prot ioremap_prot
+>   > 29	#define iounmap iounmap
+>     30	
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+> 
 
