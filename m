@@ -1,49 +1,44 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E40182AA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 09:56:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8040182B6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 10:26:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689069361; x=1720605361;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M/f+ykgD0/00bi7s9VfR+ZWCB9q02eWktKsVZC95AV4=;
-  b=YW9rZdgQxBi7gWLadRP6qG8+TjxfpZbX2QtUtKxk948Z+ajbXQytarDf
-   +DTMZuEc4pygVCwl4sAMRGzQkOrpbyNpZcwXMjIrDIRjAZbrnR17Tl9no
-   U29yBgVQT0xAKxgaDFY8AaonJE0Z2qgb+dkOSssH+RbW/3zAMkqOVLXhu
-   qLaPTNykJ3VfTo/vytgIg3zMLhtehUSNr0buYZOn6ouCJr2OcdtkZgx2F
-   S257R7u94ZI8m8vAWAXn9pV22lVYiCWLFsbDdbWHfmgUPc7j3cZriE9pw
-   DmKm5juLZjo2KNUNZOyP1uwnL+EMCO4PRtaKNBbdeKX6jFghvyub6Jouj
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="368075974"
+  t=1689071160; x=1720607160;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=E7btjBme9KoZknGz/HMEspE+7Uerw2TFLoA16ff4Ves=;
+  b=nOBcjkNZKI8ln/etFiFpmjROlMhHaF9ysYIoyDDEkAyDG1ZtsFE7/FOM
+   1aJa1COfxOY5jIgn7AfOiJCFlNbDAqNpCVVTYxK4lcwspfpPV6ZviqWCk
+   EIPuhs75wn8C80XVVRzNWdwdLhRgx5XDmMdxFELtW7XmuvrrxBLC18oUx
+   HLmUiNc6WRPjLiJ8mwC0c33pq4XdXXzOrqHdM1fyEE8qmmJZEpNL/y3Gp
+   ZtrorQrkyj4E/W6KIcawgGFjdSJyJk5NH0NFEkYVIcXZyB4agCJMpmjhM
+   LqhrM0q+F7Qbsj9mbNiVZsf5azn9U5UJ7q+8gjHbDaJXv04NbRPlZZK9i
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="354445609"
 X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; 
-   d="scan'208";a="368075974"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 02:56:00 -0700
+   d="scan'208";a="354445609"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 03:26:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="715126919"
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="1051733161"
 X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; 
-   d="scan'208";a="715126919"
+   d="scan'208";a="1051733161"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 11 Jul 2023 02:55:58 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 11 Jul 2023 03:25:58 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJA69-0004hd-1f;
-	Tue, 11 Jul 2023 09:55:57 +0000
-Date: Tue, 11 Jul 2023 17:55:05 +0800
+	id 1qJAZB-0004iN-38;
+	Tue, 11 Jul 2023 10:25:57 +0000
+Date: Tue, 11 Jul 2023 18:25:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Luke D. Jones" <luke@ljones.dev>, hdegoede@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, corentin.chary@gmail.com,
-	acpi4asus-user@lists.sourceforge.net,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, markgross@kernel.org,
-	jdelvare@suse.com, linux@roeck-us.net,
-	"Luke D. Jones" <luke@ljones.dev>
-Subject: Re: [PATCH v2 8/8] platform/x86: asus-wmi: expose dGPU and CPU
- tunables for ROG
-Message-ID: <202307111702.ErlUZY2B-lkp@intel.com>
-References: <20230630053552.976579-9-luke@ljones.dev>
+To: Dan Carpenter <error27@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chuck Lever <chuck.lever@oracle.com>
+Subject: [stable:linux-4.19.y 2019/6356] include/linux/sunrpc/xdr.h:512:17:
+ error: comparison is always false due to limited range of data type
+Message-ID: <202307111814.JtWpig7E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,43 +47,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230630053552.976579-9-luke@ljones.dev>
 
-Hi Luke,
+Hi Dan,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.5-rc1 next-20230711]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luke-D-Jones/platform-x86-asus-wmi-add-support-for-showing-charger-mode/20230630-133937
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20230630053552.976579-9-luke%40ljones.dev
-patch subject: [PATCH v2 8/8] platform/x86: asus-wmi: expose dGPU and CPU tunables for ROG
-reproduce: (https://download.01.org/0day-ci/archive/20230711/202307111702.ErlUZY2B-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   94bffc1044d871e2ec89b2621e9a384355832988
+commit: 3a2789e8ccb4a3e2a631f6817a2d3bb98b8c4fd8 [2019/6356] NFSD: prevent integer overflow on 32 bit systems
+config: sparc64-randconfig-r072-20230710 (https://download.01.org/0day-ci/archive/20230711/202307111814.JtWpig7E-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230711/202307111814.JtWpig7E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307111702.ErlUZY2B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307111814.JtWpig7E-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Documentation/ABI/testing/sysfs-platform-asus-wmi:131: WARNING: Unexpected indentation.
+   In file included from include/linux/sunrpc/sched.h:19,
+                    from include/linux/sunrpc/auth.h:15,
+                    from include/linux/nfs_fs.h:31,
+                    from arch/sparc/kernel/sys_sparc32.c:25:
+   include/linux/sunrpc/xdr.h: In function 'xdr_stream_decode_uint32_array':
+>> include/linux/sunrpc/xdr.h:512:17: error: comparison is always false due to limited range of data type [-Werror=type-limits]
+     512 |         if (len > SIZE_MAX / sizeof(*p))
+         |                 ^
+   In file included from include/linux/ethtool.h:17,
+                    from include/linux/netdevice.h:41,
+                    from include/net/sock.h:51,
+                    from include/linux/tcp.h:23,
+                    from include/linux/ipv6.h:87,
+                    from include/net/ipv6.h:16,
+                    from include/linux/sunrpc/clnt.h:28,
+                    from include/linux/nfs_fs.h:32:
+   include/linux/compat.h: In function 'put_compat_sigset':
+   include/linux/compat.h:495:58: error: this statement may fall through [-Werror=implicit-fallthrough=]
+     495 |         case 4: v.sig[7] = (set->sig[3] >> 32); v.sig[6] = set->sig[3];
+         |                                                 ~~~~~~~~~^~~~~~~~~~~~~
+   include/linux/compat.h:496:9: note: here
+     496 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |         ^~~~
+   include/linux/compat.h:496:58: error: this statement may fall through [-Werror=implicit-fallthrough=]
+     496 |         case 3: v.sig[5] = (set->sig[2] >> 32); v.sig[4] = set->sig[2];
+         |                                                 ~~~~~~~~~^~~~~~~~~~~~~
+   include/linux/compat.h:497:9: note: here
+     497 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |         ^~~~
+   include/linux/compat.h:497:58: error: this statement may fall through [-Werror=implicit-fallthrough=]
+     497 |         case 2: v.sig[3] = (set->sig[1] >> 32); v.sig[2] = set->sig[1];
+         |                                                 ~~~~~~~~~^~~~~~~~~~~~~
+   include/linux/compat.h:498:9: note: here
+     498 |         case 1: v.sig[1] = (set->sig[0] >> 32); v.sig[0] = set->sig[0];
+         |         ^~~~
+   cc1: all warnings being treated as errors
 
-vim +131 Documentation/ABI/testing/sysfs-platform-asus-wmi
 
- > 131	Date:		Jun 2023
-   132	KernelVersion:	6.5
-   133	Contact:	"Luke Jones" <luke@ljones.dev>
-   134	Description:
-   135			Set the Package Power Target total of CPU: PL1 on Intel, SPL on AMD.
-   136			Shown on Intel+Nvidia or AMD+Nvidia based systems.
-   137				* min=5, max=250
-   138	
+vim +512 include/linux/sunrpc/xdr.h
+
+   490	
+   491	/**
+   492	 * xdr_stream_decode_uint32_array - Decode variable length array of integers
+   493	 * @xdr: pointer to xdr_stream
+   494	 * @array: location to store the integer array or NULL
+   495	 * @array_size: number of elements to store
+   496	 *
+   497	 * Return values:
+   498	 *   On success, returns number of elements stored in @array
+   499	 *   %-EBADMSG on XDR buffer overflow
+   500	 *   %-EMSGSIZE if the size of the array exceeds @array_size
+   501	 */
+   502	static inline ssize_t
+   503	xdr_stream_decode_uint32_array(struct xdr_stream *xdr,
+   504			__u32 *array, size_t array_size)
+   505	{
+   506		__be32 *p;
+   507		__u32 len;
+   508		ssize_t retval;
+   509	
+   510		if (unlikely(xdr_stream_decode_u32(xdr, &len) < 0))
+   511			return -EBADMSG;
+ > 512		if (len > SIZE_MAX / sizeof(*p))
+   513			return -EBADMSG;
+   514		p = xdr_inline_decode(xdr, len * sizeof(*p));
+   515		if (unlikely(!p))
+   516			return -EBADMSG;
+   517		if (array == NULL)
+   518			return len;
+   519		if (len <= array_size) {
+   520			if (len < array_size)
+   521				memset(array+len, 0, (array_size-len)*sizeof(*array));
+   522			array_size = len;
+   523			retval = len;
+   524		} else
+   525			retval = -EMSGSIZE;
+   526		for (; array_size > 0; p++, array++, array_size--)
+   527			*array = be32_to_cpup(p);
+   528		return retval;
+   529	}
+   530	#endif /* __KERNEL__ */
+   531	
 
 -- 
 0-DAY CI Kernel Test Service
