@@ -1,47 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C631DDFD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 23:10:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C6E1EA90
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 23:51:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689117028; x=1720653028;
+  t=1689119489; x=1720655489;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/tg9SVWwsK/m25W5wKadnd9Bp6Ug6c47oQ8fA91riUU=;
-  b=n7ZQRWuel8xuC7gnRxqpBbLouJ4XQ9qSuG6zo9oybFmXALRDvYAAGSIh
-   hTkiYbpiZdPSBtkMteBkJMoYAQOejWKLIF3tRA2GlIHgyrbOKpHsEeEp2
-   WpUMydBtpq/aIZXwQjNx+2k6XgyN3ZF6RRQoe6a1UV0cGAkxO4Vlbdz01
-   JP/HPKsVlAuw0LFKo5J1COMbhU1cPJmZeMAKlGq3Y6eTPlQzaa6Ip5OXC
-   I0TOWNosSVTMrLIcTtjAT2P0b6vpcN7r3v0R5EnamIt8lB9VyskNpbZmu
-   B0EFqJBVtemDro9qh+JhA30dQfn96joBYJ2eVcPoFe+9Zv1UCsQiw7NwE
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="344357765"
-X-IronPort-AV: E=Sophos;i="6.01,197,1684825200"; 
-   d="scan'208";a="344357765"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 16:10:27 -0700
+  bh=uIspA5PzfmL+2DIqvivJCXmJ7FukG9b/hulDlty64ZE=;
+  b=QpXyE/30PORM7sdZL/qadANqJMSWDAS8F3CZZ6ajE3ryqgf2hlu/DoxT
+   /6AAl7OIuR11p3WbrAYfGqISU3mZQYEnTd2513rPlNlKuim0AK6VgB49X
+   jhXXIdy+STJ2+XlHufBG8CyAJjJjbDwpQ63E/0+mb9qA7rctk8ShfWq+M
+   1gzxQZmK24OjU8TtakQ52jcxVwF3NSFD3uaEO40PIwuiKkOySLSs4mYCB
+   tinjbh3cR6EBwK/3kqfPlAK7Hb3dK0FESqRpVyu2zNTISRiaQ2hOLTuyT
+   XHxelQZq04cj+WWJGU+uJGDFCpuDpJ9pw50DDaHSPaOovoA63Ca+uUNPz
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="363627915"
+X-IronPort-AV: E=Sophos;i="6.01,198,1684825200"; 
+   d="scan'208";a="363627915"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 16:51:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="724657223"
-X-IronPort-AV: E=Sophos;i="6.01,197,1684825200"; 
-   d="scan'208";a="724657223"
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="1051972566"
+X-IronPort-AV: E=Sophos;i="6.01,198,1684825200"; 
+   d="scan'208";a="1051972566"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Jul 2023 16:10:25 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 11 Jul 2023 16:51:26 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJMUy-0005Az-1z;
-	Tue, 11 Jul 2023 23:10:24 +0000
-Date: Wed, 12 Jul 2023 07:09:40 +0800
+	id 1qJN8g-0005CD-0J;
+	Tue, 11 Jul 2023 23:51:26 +0000
+Date: Wed, 12 Jul 2023 07:50:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nick Alcock <nick.alcock@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, Kris Van Hees <kris.van.hees@oracle.com>,
-	Tomas Jedlicka <tomas.jedlicka@oracle.com>,
-	Eugene Loh <eugene.loh@oracle.com>,
-	David Mc Lean <david.mclean@oracle.com>,
-	Vincent Lim <vincent.lim@oracle.com>
-Subject: [oracle-dtrace:v2/6.4 10/13] drivers/virt/acrn/irqfd.c:146:39:
- error: passing argument 2 of 'init_poll_funcptr' from incompatible pointer
- type
-Message-ID: <202307120710.24AWdH40-lkp@intel.com>
+To: Rob Herring <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:dt/header-cleanups 16/94] drivers/atm/fore200e.c:2531:15:
+ warning: assignment to 'const struct of_device_id *' from 'int' makes
+ pointer from integer without a cast
+Message-ID: <202307120735.YNhs4WNt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -51,114 +47,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/oracle/dtrace-linux-kernel v2/6.4
-head:   9b6d57638acaddc5e1016dbcfea27771df400611
-commit: 19ce4a9705869b25a970a68669e8837cf78b1ead [10/13] waitfd: new syscall implementing waitpid() over fds
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230712/202307120710.24AWdH40-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230712/202307120710.24AWdH40-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
+head:   a06a0a7290918c32601c858af488a504c5e39025
+commit: 18c4d967401f1de3bea333dd95ec7e73d5364e03 [16/94] atm: fore200e: Explicitly include correct DT includes
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20230712/202307120735.YNhs4WNt-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230712/202307120735.YNhs4WNt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307120710.24AWdH40-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307120735.YNhs4WNt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/virt/acrn/irqfd.c: In function 'acrn_irqfd_assign':
->> drivers/virt/acrn/irqfd.c:146:39: error: passing argument 2 of 'init_poll_funcptr' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     146 |         init_poll_funcptr(&irqfd->pt, hsm_irqfd_poll_func);
-         |                                       ^~~~~~~~~~~~~~~~~~~
-         |                                       |
-         |                                       void (*)(struct file *, wait_queue_head_t *, poll_table *) {aka void (*)(struct file *, struct wait_queue_head *, struct poll_table_struct *)}
-   In file included from drivers/virt/acrn/irqfd.c:14:
-   include/linux/poll.h:82:70: note: expected 'poll_queue_proc' {aka 'void (*)(struct file *, struct wait_queue_head *, struct poll_table_struct *, long unsigned int)'} but argument is of type 'void (*)(struct file *, wait_queue_head_t *, poll_table *)' {aka 'void (*)(struct file *, struct wait_queue_head *, struct poll_table_struct *)'}
-      82 | static inline void init_poll_funcptr(poll_table *pt, poll_queue_proc qproc)
-         |                                                      ~~~~~~~~~~~~~~~~^~~~~
+   drivers/atm/fore200e.c: In function 'fore200e_sba_probe':
+   drivers/atm/fore200e.c:2531:17: error: implicit declaration of function 'of_match_device'; did you mean 'of_match_node'? [-Werror=implicit-function-declaration]
+    2531 |         match = of_match_device(fore200e_sba_match, &op->dev);
+         |                 ^~~~~~~~~~~~~~~
+         |                 of_match_node
+>> drivers/atm/fore200e.c:2531:15: warning: assignment to 'const struct of_device_id *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    2531 |         match = of_match_device(fore200e_sba_match, &op->dev);
+         |               ^
    cc1: some warnings being treated as errors
 
 
-vim +/init_poll_funcptr +146 drivers/virt/acrn/irqfd.c
+vim +2531 drivers/atm/fore200e.c
 
-aa3b483ff1d71c Shuo Liu    2021-02-07  104  
-aa3b483ff1d71c Shuo Liu    2021-02-07  105  /*
-aa3b483ff1d71c Shuo Liu    2021-02-07  106   * Assign an eventfd to a VM and create a HSM irqfd associated with the
-aa3b483ff1d71c Shuo Liu    2021-02-07  107   * eventfd. The properties of the HSM irqfd are built from a &struct
-aa3b483ff1d71c Shuo Liu    2021-02-07  108   * acrn_irqfd.
-aa3b483ff1d71c Shuo Liu    2021-02-07  109   */
-aa3b483ff1d71c Shuo Liu    2021-02-07  110  static int acrn_irqfd_assign(struct acrn_vm *vm, struct acrn_irqfd *args)
-aa3b483ff1d71c Shuo Liu    2021-02-07  111  {
-aa3b483ff1d71c Shuo Liu    2021-02-07  112  	struct eventfd_ctx *eventfd = NULL;
-aa3b483ff1d71c Shuo Liu    2021-02-07  113  	struct hsm_irqfd *irqfd, *tmp;
-dcf9625f2adf33 Yejune Deng 2021-02-21  114  	__poll_t events;
-aa3b483ff1d71c Shuo Liu    2021-02-07  115  	struct fd f;
-aa3b483ff1d71c Shuo Liu    2021-02-07  116  	int ret = 0;
-aa3b483ff1d71c Shuo Liu    2021-02-07  117  
-aa3b483ff1d71c Shuo Liu    2021-02-07  118  	irqfd = kzalloc(sizeof(*irqfd), GFP_KERNEL);
-aa3b483ff1d71c Shuo Liu    2021-02-07  119  	if (!irqfd)
-aa3b483ff1d71c Shuo Liu    2021-02-07  120  		return -ENOMEM;
-aa3b483ff1d71c Shuo Liu    2021-02-07  121  
-aa3b483ff1d71c Shuo Liu    2021-02-07  122  	irqfd->vm = vm;
-aa3b483ff1d71c Shuo Liu    2021-02-07  123  	memcpy(&irqfd->msi, &args->msi, sizeof(args->msi));
-aa3b483ff1d71c Shuo Liu    2021-02-07  124  	INIT_LIST_HEAD(&irqfd->list);
-aa3b483ff1d71c Shuo Liu    2021-02-07  125  	INIT_WORK(&irqfd->shutdown, hsm_irqfd_shutdown_work);
-aa3b483ff1d71c Shuo Liu    2021-02-07  126  
-aa3b483ff1d71c Shuo Liu    2021-02-07  127  	f = fdget(args->fd);
-aa3b483ff1d71c Shuo Liu    2021-02-07  128  	if (!f.file) {
-aa3b483ff1d71c Shuo Liu    2021-02-07  129  		ret = -EBADF;
-aa3b483ff1d71c Shuo Liu    2021-02-07  130  		goto out;
-aa3b483ff1d71c Shuo Liu    2021-02-07  131  	}
-aa3b483ff1d71c Shuo Liu    2021-02-07  132  
-aa3b483ff1d71c Shuo Liu    2021-02-07  133  	eventfd = eventfd_ctx_fileget(f.file);
-aa3b483ff1d71c Shuo Liu    2021-02-07  134  	if (IS_ERR(eventfd)) {
-aa3b483ff1d71c Shuo Liu    2021-02-07  135  		ret = PTR_ERR(eventfd);
-aa3b483ff1d71c Shuo Liu    2021-02-07  136  		goto fail;
-aa3b483ff1d71c Shuo Liu    2021-02-07  137  	}
-aa3b483ff1d71c Shuo Liu    2021-02-07  138  
-aa3b483ff1d71c Shuo Liu    2021-02-07  139  	irqfd->eventfd = eventfd;
-aa3b483ff1d71c Shuo Liu    2021-02-07  140  
-aa3b483ff1d71c Shuo Liu    2021-02-07  141  	/*
-aa3b483ff1d71c Shuo Liu    2021-02-07  142  	 * Install custom wake-up handling to be notified whenever underlying
-aa3b483ff1d71c Shuo Liu    2021-02-07  143  	 * eventfd is signaled.
-aa3b483ff1d71c Shuo Liu    2021-02-07  144  	 */
-aa3b483ff1d71c Shuo Liu    2021-02-07  145  	init_waitqueue_func_entry(&irqfd->wait, hsm_irqfd_wakeup);
-aa3b483ff1d71c Shuo Liu    2021-02-07 @146  	init_poll_funcptr(&irqfd->pt, hsm_irqfd_poll_func);
-aa3b483ff1d71c Shuo Liu    2021-02-07  147  
-aa3b483ff1d71c Shuo Liu    2021-02-07  148  	mutex_lock(&vm->irqfds_lock);
-aa3b483ff1d71c Shuo Liu    2021-02-07  149  	list_for_each_entry(tmp, &vm->irqfds, list) {
-aa3b483ff1d71c Shuo Liu    2021-02-07  150  		if (irqfd->eventfd != tmp->eventfd)
-aa3b483ff1d71c Shuo Liu    2021-02-07  151  			continue;
-aa3b483ff1d71c Shuo Liu    2021-02-07  152  		ret = -EBUSY;
-aa3b483ff1d71c Shuo Liu    2021-02-07  153  		mutex_unlock(&vm->irqfds_lock);
-aa3b483ff1d71c Shuo Liu    2021-02-07  154  		goto fail;
-aa3b483ff1d71c Shuo Liu    2021-02-07  155  	}
-aa3b483ff1d71c Shuo Liu    2021-02-07  156  	list_add_tail(&irqfd->list, &vm->irqfds);
-aa3b483ff1d71c Shuo Liu    2021-02-07  157  	mutex_unlock(&vm->irqfds_lock);
-aa3b483ff1d71c Shuo Liu    2021-02-07  158  
-aa3b483ff1d71c Shuo Liu    2021-02-07  159  	/* Check the pending event in this stage */
-dcf9625f2adf33 Yejune Deng 2021-02-21  160  	events = vfs_poll(f.file, &irqfd->pt);
-aa3b483ff1d71c Shuo Liu    2021-02-07  161  
-a758b7c4c6f21f Yejune Deng 2021-03-10  162  	if (events & EPOLLIN)
-aa3b483ff1d71c Shuo Liu    2021-02-07  163  		acrn_irqfd_inject(irqfd);
-aa3b483ff1d71c Shuo Liu    2021-02-07  164  
-aa3b483ff1d71c Shuo Liu    2021-02-07  165  	fdput(f);
-aa3b483ff1d71c Shuo Liu    2021-02-07  166  	return 0;
-aa3b483ff1d71c Shuo Liu    2021-02-07  167  fail:
-aa3b483ff1d71c Shuo Liu    2021-02-07  168  	if (eventfd && !IS_ERR(eventfd))
-aa3b483ff1d71c Shuo Liu    2021-02-07  169  		eventfd_ctx_put(eventfd);
-aa3b483ff1d71c Shuo Liu    2021-02-07  170  
-aa3b483ff1d71c Shuo Liu    2021-02-07  171  	fdput(f);
-aa3b483ff1d71c Shuo Liu    2021-02-07  172  out:
-aa3b483ff1d71c Shuo Liu    2021-02-07  173  	kfree(irqfd);
-aa3b483ff1d71c Shuo Liu    2021-02-07  174  	return ret;
-aa3b483ff1d71c Shuo Liu    2021-02-07  175  }
-aa3b483ff1d71c Shuo Liu    2021-02-07  176  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  2521  
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2522  #ifdef CONFIG_SBUS
+b1608d69cb804e Grant Likely       2011-05-18  2523  static const struct of_device_id fore200e_sba_match[];
+6c44512d06d3f6 Greg Kroah-Hartman 2012-12-21  2524  static int fore200e_sba_probe(struct platform_device *op)
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2525  {
+b1608d69cb804e Grant Likely       2011-05-18  2526  	const struct of_device_id *match;
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2527  	struct fore200e *fore200e;
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2528  	static int index = 0;
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2529  	int err;
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2530  
+b1608d69cb804e Grant Likely       2011-05-18 @2531  	match = of_match_device(fore200e_sba_match, &op->dev);
+b1608d69cb804e Grant Likely       2011-05-18  2532  	if (!match)
+1c48a5c93da631 Grant Likely       2011-02-17  2533  		return -EINVAL;
+1c48a5c93da631 Grant Likely       2011-02-17  2534  
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2535  	fore200e = kzalloc(sizeof(struct fore200e), GFP_KERNEL);
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2536  	if (!fore200e)
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2537  		return -ENOMEM;
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2538  
+0efe5523894a26 Christoph Hellwig  2018-10-09  2539  	fore200e->bus = &fore200e_sbus_ops;
+aff9d262fbf021 Christoph Hellwig  2018-10-09  2540  	fore200e->dev = &op->dev;
+1636f8ac2b0841 Grant Likely       2010-06-18  2541  	fore200e->irq = op->archdata.irqs[0];
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2542  	fore200e->phys_base = op->resource[0].start;
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2543  
+0efe5523894a26 Christoph Hellwig  2018-10-09  2544  	sprintf(fore200e->name, "SBA-200E-%d", index);
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2545  
+d9ca676bcb26e1 Dan Williams       2010-12-08  2546  	err = fore200e_init(fore200e, &op->dev);
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2547  	if (err < 0) {
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2548  		fore200e_shutdown(fore200e);
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2549  		kfree(fore200e);
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2550  		return err;
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2551  	}
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2552  
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2553  	index++;
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2554  	dev_set_drvdata(&op->dev, fore200e);
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2555  
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2556  	return 0;
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2557  }
+826b6cfcd5d4c3 David S. Miller    2008-08-27  2558  
 
-:::::: The code at line 146 was first introduced by commit
-:::::: aa3b483ff1d71c50b33db154048dff9a8f08ac71 virt: acrn: Introduce irqfd
+:::::: The code at line 2531 was first introduced by commit
+:::::: b1608d69cb804e414d0887140ba08a9398e4e638 drivercore: revert addition of of_match to struct device
 
-:::::: TO: Shuo Liu <shuo.a.liu@intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Grant Likely <grant.likely@secretlab.ca>
+:::::: CC: Grant Likely <grant.likely@secretlab.ca>
 
 -- 
 0-DAY CI Kernel Test Service
