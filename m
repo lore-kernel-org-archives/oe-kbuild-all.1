@@ -1,43 +1,47 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B343E1426B;
-	Tue, 11 Jul 2023 22:39:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C631DDFD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 23:10:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689115166; x=1720651166;
+  t=1689117028; x=1720653028;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H35hh2eCOlupriQYSROoxTxTb6q7rwmY7bz+sP4Na44=;
-  b=T8VmZ9KDaavMzMkAiOYWBXBGikejsrDiFeO0tLXByPIrqRD0tCU82eVO
-   SBK8bRSh0f/y1oUZKyg/gWqlgSVYM9SMH33vrJsw07AVajh8aBEq2yZ4R
-   xf4xaKoR+IhGfwJsEXmmWspkM2rLMyhxfQHNcWiVzlQmHijFo2j1iL9aR
-   jVAxSy+Q+q0Wx+6kM5tTJUYWVphFdWu+6buIFBisJFYhxcZkJq+oC4TYf
-   I5gqhpO/eGCky5ZN34xt4dnsRP3MoKaJf6uGkzAMED6eM4VrR6CublaDK
-   l3Yad0/KqZuivhfUgR4TTXmf8G9D7244kGsFagb7FtK6+dKeOiIzmVRpv
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="354653350"
+  bh=/tg9SVWwsK/m25W5wKadnd9Bp6Ug6c47oQ8fA91riUU=;
+  b=n7ZQRWuel8xuC7gnRxqpBbLouJ4XQ9qSuG6zo9oybFmXALRDvYAAGSIh
+   hTkiYbpiZdPSBtkMteBkJMoYAQOejWKLIF3tRA2GlIHgyrbOKpHsEeEp2
+   WpUMydBtpq/aIZXwQjNx+2k6XgyN3ZF6RRQoe6a1UV0cGAkxO4Vlbdz01
+   JP/HPKsVlAuw0LFKo5J1COMbhU1cPJmZeMAKlGq3Y6eTPlQzaa6Ip5OXC
+   I0TOWNosSVTMrLIcTtjAT2P0b6vpcN7r3v0R5EnamIt8lB9VyskNpbZmu
+   B0EFqJBVtemDro9qh+JhA30dQfn96joBYJ2eVcPoFe+9Zv1UCsQiw7NwE
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="344357765"
 X-IronPort-AV: E=Sophos;i="6.01,197,1684825200"; 
-   d="scan'208";a="354653350"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 15:39:25 -0700
+   d="scan'208";a="344357765"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 16:10:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="698623689"
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="724657223"
 X-IronPort-AV: E=Sophos;i="6.01,197,1684825200"; 
-   d="scan'208";a="698623689"
+   d="scan'208";a="724657223"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga006.jf.intel.com with ESMTP; 11 Jul 2023 15:39:24 -0700
+  by fmsmga007.fm.intel.com with ESMTP; 11 Jul 2023 16:10:25 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJM0x-0005AD-2q;
-	Tue, 11 Jul 2023 22:39:23 +0000
-Date: Wed, 12 Jul 2023 06:38:56 +0800
+	id 1qJMUy-0005Az-1z;
+	Tue, 11 Jul 2023 23:10:24 +0000
+Date: Wed, 12 Jul 2023 07:09:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <keescook@chromium.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: drivers/crypto/ccree/cc_aead.c:541:12: warning: stack frame size
- (1104) exceeds limit (1024) in 'cc_aead_setkey'
-Message-ID: <202307120605.u4Quc7pF-lkp@intel.com>
+To: Nick Alcock <nick.alcock@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, Kris Van Hees <kris.van.hees@oracle.com>,
+	Tomas Jedlicka <tomas.jedlicka@oracle.com>,
+	Eugene Loh <eugene.loh@oracle.com>,
+	David Mc Lean <david.mclean@oracle.com>,
+	Vincent Lim <vincent.lim@oracle.com>
+Subject: [oracle-dtrace:v2/6.4 10/13] drivers/virt/acrn/irqfd.c:146:39:
+ error: passing argument 2 of 'init_poll_funcptr' from incompatible pointer
+ type
+Message-ID: <202307120710.24AWdH40-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,138 +51,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Kees,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   3f01e9fed8454dcd89727016c3e5b2fbb8f8e50c
-commit: 607e57c6c62c00965ae276902c166834ce73014a hardening: Remove Clang's enable flag for -ftrivial-auto-var-init=zero
-date:   10 months ago
-config: powerpc-randconfig-r024-20230712 (https://download.01.org/0day-ci/archive/20230712/202307120605.u4Quc7pF-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce: (https://download.01.org/0day-ci/archive/20230712/202307120605.u4Quc7pF-lkp@intel.com/reproduce)
+tree:   https://github.com/oracle/dtrace-linux-kernel v2/6.4
+head:   9b6d57638acaddc5e1016dbcfea27771df400611
+commit: 19ce4a9705869b25a970a68669e8837cf78b1ead [10/13] waitfd: new syscall implementing waitpid() over fds
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230712/202307120710.24AWdH40-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230712/202307120710.24AWdH40-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307120605.u4Quc7pF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307120710.24AWdH40-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/crypto/ccree/cc_aead.c:541:12: warning: stack frame size (1104) exceeds limit (1024) in 'cc_aead_setkey' [-Wframe-larger-than]
-   static int cc_aead_setkey(struct crypto_aead *tfm, const u8 *key,
-              ^
-   296/1104 (26.81%) spills, 808/1104 (73.19%) variables
-   1 warning generated.
+   drivers/virt/acrn/irqfd.c: In function 'acrn_irqfd_assign':
+>> drivers/virt/acrn/irqfd.c:146:39: error: passing argument 2 of 'init_poll_funcptr' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     146 |         init_poll_funcptr(&irqfd->pt, hsm_irqfd_poll_func);
+         |                                       ^~~~~~~~~~~~~~~~~~~
+         |                                       |
+         |                                       void (*)(struct file *, wait_queue_head_t *, poll_table *) {aka void (*)(struct file *, struct wait_queue_head *, struct poll_table_struct *)}
+   In file included from drivers/virt/acrn/irqfd.c:14:
+   include/linux/poll.h:82:70: note: expected 'poll_queue_proc' {aka 'void (*)(struct file *, struct wait_queue_head *, struct poll_table_struct *, long unsigned int)'} but argument is of type 'void (*)(struct file *, wait_queue_head_t *, poll_table *)' {aka 'void (*)(struct file *, struct wait_queue_head *, struct poll_table_struct *)'}
+      82 | static inline void init_poll_funcptr(poll_table *pt, poll_queue_proc qproc)
+         |                                                      ~~~~~~~~~~~~~~~~^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/cc_aead_setkey +541 drivers/crypto/ccree/cc_aead.c
+vim +/init_poll_funcptr +146 drivers/virt/acrn/irqfd.c
 
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  540  
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22 @541  static int cc_aead_setkey(struct crypto_aead *tfm, const u8 *key,
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  542  			  unsigned int keylen)
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  543  {
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  544  	struct cc_aead_ctx *ctx = crypto_aead_ctx(tfm);
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  545  	struct cc_crypto_req cc_req = {};
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  546  	struct cc_hw_desc desc[MAX_AEAD_SETKEY_SEQ];
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  547  	unsigned int seq_len = 0;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  548  	struct device *dev = drvdata_to_dev(ctx->drvdata);
-dc95b5350a8f07 Eric Biggers     2018-12-16  549  	const u8 *enckey, *authkey;
-dc95b5350a8f07 Eric Biggers     2018-12-16  550  	int rc;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  551  
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  552  	dev_dbg(dev, "Setting key in context @%p for %s. key=%p keylen=%u\n",
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  553  		ctx, crypto_tfm_alg_name(crypto_aead_tfm(tfm)), key, keylen);
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  554  
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  555  	/* STAT_PHASE_0: Init and sanity checks */
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  556  
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  557  	if (ctx->auth_mode != DRV_HASH_NULL) { /* authenc() alg. */
-dc95b5350a8f07 Eric Biggers     2018-12-16  558  		struct crypto_authenc_keys keys;
-dc95b5350a8f07 Eric Biggers     2018-12-16  559  
-dc95b5350a8f07 Eric Biggers     2018-12-16  560  		rc = crypto_authenc_extractkeys(&keys, key, keylen);
-dc95b5350a8f07 Eric Biggers     2018-12-16  561  		if (rc)
-674f368a952c48 Eric Biggers     2019-12-30  562  			return rc;
-dc95b5350a8f07 Eric Biggers     2018-12-16  563  		enckey = keys.enckey;
-dc95b5350a8f07 Eric Biggers     2018-12-16  564  		authkey = keys.authkey;
-dc95b5350a8f07 Eric Biggers     2018-12-16  565  		ctx->enc_keylen = keys.enckeylen;
-dc95b5350a8f07 Eric Biggers     2018-12-16  566  		ctx->auth_keylen = keys.authkeylen;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  567  
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  568  		if (ctx->cipher_mode == DRV_CIPHER_CTR) {
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  569  			/* the nonce is stored in bytes at end of key */
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  570  			if (ctx->enc_keylen <
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  571  			    (AES_MIN_KEY_SIZE + CTR_RFC3686_NONCE_SIZE))
-674f368a952c48 Eric Biggers     2019-12-30  572  				return -EINVAL;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  573  			/* Copy nonce from last 4 bytes in CTR key to
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  574  			 *  first 4 bytes in CTR IV
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  575  			 */
-dc95b5350a8f07 Eric Biggers     2018-12-16  576  			memcpy(ctx->ctr_nonce, enckey + ctx->enc_keylen -
-dc95b5350a8f07 Eric Biggers     2018-12-16  577  			       CTR_RFC3686_NONCE_SIZE, CTR_RFC3686_NONCE_SIZE);
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  578  			/* Set CTR key size */
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  579  			ctx->enc_keylen -= CTR_RFC3686_NONCE_SIZE;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  580  		}
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  581  	} else { /* non-authenc - has just one key */
-dc95b5350a8f07 Eric Biggers     2018-12-16  582  		enckey = key;
-dc95b5350a8f07 Eric Biggers     2018-12-16  583  		authkey = NULL;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  584  		ctx->enc_keylen = keylen;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  585  		ctx->auth_keylen = 0;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  586  	}
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  587  
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  588  	rc = validate_keys_sizes(ctx);
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  589  	if (rc)
-674f368a952c48 Eric Biggers     2019-12-30  590  		return rc;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  591  
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  592  	/* STAT_PHASE_1: Copy key to ctx */
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  593  
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  594  	/* Get key material */
-dc95b5350a8f07 Eric Biggers     2018-12-16  595  	memcpy(ctx->enckey, enckey, ctx->enc_keylen);
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  596  	if (ctx->enc_keylen == 24)
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  597  		memset(ctx->enckey + 24, 0, CC_AES_KEY_SIZE_MAX - 24);
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  598  	if (ctx->auth_mode == DRV_HASH_XCBC_MAC) {
-dc95b5350a8f07 Eric Biggers     2018-12-16  599  		memcpy(ctx->auth_state.xcbc.xcbc_keys, authkey,
-dc95b5350a8f07 Eric Biggers     2018-12-16  600  		       ctx->auth_keylen);
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  601  	} else if (ctx->auth_mode != DRV_HASH_NULL) { /* HMAC */
-dc95b5350a8f07 Eric Biggers     2018-12-16  602  		rc = cc_get_plain_hmac_key(tfm, authkey, ctx->auth_keylen);
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  603  		if (rc)
-674f368a952c48 Eric Biggers     2019-12-30  604  			return rc;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  605  	}
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  606  
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  607  	/* STAT_PHASE_2: Create sequence */
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  608  
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  609  	switch (ctx->auth_mode) {
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  610  	case DRV_HASH_SHA1:
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  611  	case DRV_HASH_SHA256:
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  612  		seq_len = hmac_setkey(desc, ctx);
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  613  		break;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  614  	case DRV_HASH_XCBC_MAC:
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  615  		seq_len = xcbc_setkey(desc, ctx);
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  616  		break;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  617  	case DRV_HASH_NULL: /* non-authenc modes, e.g., CCM */
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  618  		break; /* No auth. key setup */
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  619  	default:
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  620  		dev_err(dev, "Unsupported authenc (%d)\n", ctx->auth_mode);
-674f368a952c48 Eric Biggers     2019-12-30  621  		return -ENOTSUPP;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  622  	}
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  623  
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  624  	/* STAT_PHASE_3: Submit sequence to HW */
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  625  
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  626  	if (seq_len > 0) { /* For CCM there is no sequence to setup the key */
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  627  		rc = cc_send_sync_request(ctx->drvdata, &cc_req, desc, seq_len);
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  628  		if (rc) {
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  629  			dev_err(dev, "send_request() failed (rc=%d)\n", rc);
-674f368a952c48 Eric Biggers     2019-12-30  630  			return rc;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  631  		}
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  632  	}
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  633  
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  634  	/* Update STAT_PHASE_3 */
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  635  	return rc;
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  636  }
-ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  637  
+aa3b483ff1d71c Shuo Liu    2021-02-07  104  
+aa3b483ff1d71c Shuo Liu    2021-02-07  105  /*
+aa3b483ff1d71c Shuo Liu    2021-02-07  106   * Assign an eventfd to a VM and create a HSM irqfd associated with the
+aa3b483ff1d71c Shuo Liu    2021-02-07  107   * eventfd. The properties of the HSM irqfd are built from a &struct
+aa3b483ff1d71c Shuo Liu    2021-02-07  108   * acrn_irqfd.
+aa3b483ff1d71c Shuo Liu    2021-02-07  109   */
+aa3b483ff1d71c Shuo Liu    2021-02-07  110  static int acrn_irqfd_assign(struct acrn_vm *vm, struct acrn_irqfd *args)
+aa3b483ff1d71c Shuo Liu    2021-02-07  111  {
+aa3b483ff1d71c Shuo Liu    2021-02-07  112  	struct eventfd_ctx *eventfd = NULL;
+aa3b483ff1d71c Shuo Liu    2021-02-07  113  	struct hsm_irqfd *irqfd, *tmp;
+dcf9625f2adf33 Yejune Deng 2021-02-21  114  	__poll_t events;
+aa3b483ff1d71c Shuo Liu    2021-02-07  115  	struct fd f;
+aa3b483ff1d71c Shuo Liu    2021-02-07  116  	int ret = 0;
+aa3b483ff1d71c Shuo Liu    2021-02-07  117  
+aa3b483ff1d71c Shuo Liu    2021-02-07  118  	irqfd = kzalloc(sizeof(*irqfd), GFP_KERNEL);
+aa3b483ff1d71c Shuo Liu    2021-02-07  119  	if (!irqfd)
+aa3b483ff1d71c Shuo Liu    2021-02-07  120  		return -ENOMEM;
+aa3b483ff1d71c Shuo Liu    2021-02-07  121  
+aa3b483ff1d71c Shuo Liu    2021-02-07  122  	irqfd->vm = vm;
+aa3b483ff1d71c Shuo Liu    2021-02-07  123  	memcpy(&irqfd->msi, &args->msi, sizeof(args->msi));
+aa3b483ff1d71c Shuo Liu    2021-02-07  124  	INIT_LIST_HEAD(&irqfd->list);
+aa3b483ff1d71c Shuo Liu    2021-02-07  125  	INIT_WORK(&irqfd->shutdown, hsm_irqfd_shutdown_work);
+aa3b483ff1d71c Shuo Liu    2021-02-07  126  
+aa3b483ff1d71c Shuo Liu    2021-02-07  127  	f = fdget(args->fd);
+aa3b483ff1d71c Shuo Liu    2021-02-07  128  	if (!f.file) {
+aa3b483ff1d71c Shuo Liu    2021-02-07  129  		ret = -EBADF;
+aa3b483ff1d71c Shuo Liu    2021-02-07  130  		goto out;
+aa3b483ff1d71c Shuo Liu    2021-02-07  131  	}
+aa3b483ff1d71c Shuo Liu    2021-02-07  132  
+aa3b483ff1d71c Shuo Liu    2021-02-07  133  	eventfd = eventfd_ctx_fileget(f.file);
+aa3b483ff1d71c Shuo Liu    2021-02-07  134  	if (IS_ERR(eventfd)) {
+aa3b483ff1d71c Shuo Liu    2021-02-07  135  		ret = PTR_ERR(eventfd);
+aa3b483ff1d71c Shuo Liu    2021-02-07  136  		goto fail;
+aa3b483ff1d71c Shuo Liu    2021-02-07  137  	}
+aa3b483ff1d71c Shuo Liu    2021-02-07  138  
+aa3b483ff1d71c Shuo Liu    2021-02-07  139  	irqfd->eventfd = eventfd;
+aa3b483ff1d71c Shuo Liu    2021-02-07  140  
+aa3b483ff1d71c Shuo Liu    2021-02-07  141  	/*
+aa3b483ff1d71c Shuo Liu    2021-02-07  142  	 * Install custom wake-up handling to be notified whenever underlying
+aa3b483ff1d71c Shuo Liu    2021-02-07  143  	 * eventfd is signaled.
+aa3b483ff1d71c Shuo Liu    2021-02-07  144  	 */
+aa3b483ff1d71c Shuo Liu    2021-02-07  145  	init_waitqueue_func_entry(&irqfd->wait, hsm_irqfd_wakeup);
+aa3b483ff1d71c Shuo Liu    2021-02-07 @146  	init_poll_funcptr(&irqfd->pt, hsm_irqfd_poll_func);
+aa3b483ff1d71c Shuo Liu    2021-02-07  147  
+aa3b483ff1d71c Shuo Liu    2021-02-07  148  	mutex_lock(&vm->irqfds_lock);
+aa3b483ff1d71c Shuo Liu    2021-02-07  149  	list_for_each_entry(tmp, &vm->irqfds, list) {
+aa3b483ff1d71c Shuo Liu    2021-02-07  150  		if (irqfd->eventfd != tmp->eventfd)
+aa3b483ff1d71c Shuo Liu    2021-02-07  151  			continue;
+aa3b483ff1d71c Shuo Liu    2021-02-07  152  		ret = -EBUSY;
+aa3b483ff1d71c Shuo Liu    2021-02-07  153  		mutex_unlock(&vm->irqfds_lock);
+aa3b483ff1d71c Shuo Liu    2021-02-07  154  		goto fail;
+aa3b483ff1d71c Shuo Liu    2021-02-07  155  	}
+aa3b483ff1d71c Shuo Liu    2021-02-07  156  	list_add_tail(&irqfd->list, &vm->irqfds);
+aa3b483ff1d71c Shuo Liu    2021-02-07  157  	mutex_unlock(&vm->irqfds_lock);
+aa3b483ff1d71c Shuo Liu    2021-02-07  158  
+aa3b483ff1d71c Shuo Liu    2021-02-07  159  	/* Check the pending event in this stage */
+dcf9625f2adf33 Yejune Deng 2021-02-21  160  	events = vfs_poll(f.file, &irqfd->pt);
+aa3b483ff1d71c Shuo Liu    2021-02-07  161  
+a758b7c4c6f21f Yejune Deng 2021-03-10  162  	if (events & EPOLLIN)
+aa3b483ff1d71c Shuo Liu    2021-02-07  163  		acrn_irqfd_inject(irqfd);
+aa3b483ff1d71c Shuo Liu    2021-02-07  164  
+aa3b483ff1d71c Shuo Liu    2021-02-07  165  	fdput(f);
+aa3b483ff1d71c Shuo Liu    2021-02-07  166  	return 0;
+aa3b483ff1d71c Shuo Liu    2021-02-07  167  fail:
+aa3b483ff1d71c Shuo Liu    2021-02-07  168  	if (eventfd && !IS_ERR(eventfd))
+aa3b483ff1d71c Shuo Liu    2021-02-07  169  		eventfd_ctx_put(eventfd);
+aa3b483ff1d71c Shuo Liu    2021-02-07  170  
+aa3b483ff1d71c Shuo Liu    2021-02-07  171  	fdput(f);
+aa3b483ff1d71c Shuo Liu    2021-02-07  172  out:
+aa3b483ff1d71c Shuo Liu    2021-02-07  173  	kfree(irqfd);
+aa3b483ff1d71c Shuo Liu    2021-02-07  174  	return ret;
+aa3b483ff1d71c Shuo Liu    2021-02-07  175  }
+aa3b483ff1d71c Shuo Liu    2021-02-07  176  
 
-:::::: The code at line 541 was first introduced by commit
-:::::: ff27e85a85bbde19589f775297db92ff925e5981 crypto: ccree - add AEAD support
+:::::: The code at line 146 was first introduced by commit
+:::::: aa3b483ff1d71c50b33db154048dff9a8f08ac71 virt: acrn: Introduce irqfd
 
-:::::: TO: Gilad Ben-Yossef <gilad@benyossef.com>
-:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+:::::: TO: Shuo Liu <shuo.a.liu@intel.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
