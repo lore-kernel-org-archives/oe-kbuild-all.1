@@ -1,52 +1,43 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA6D1DDEE
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 22:29:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B343E1426B;
+	Tue, 11 Jul 2023 22:39:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689114571; x=1720650571;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MF0/oGx5uxSt1HWGanh/IFZ/ftm5LhHIhZxGiK2UjMQ=;
-  b=KiTl8Y/xPDTxiPmIauItiWrkJ8cDjIrT+fjf+ruMsmwFWR5YPNH1e7sV
-   YZskHhDRkwxygV4WZy6Dw16ZaY9hj8mcYFofAtbg4t775KEevIVMQvYBp
-   6U4JZ1QOBONSOSkRFw3w9TO+5hkXr9ewQW3Mf353w5Xe1tRuxE1Za3dnq
-   Oq5ieywBZmp90TXUcpZbTnxXsTronWWUTF8dyN88nNzjQ7U5N17tN0Uy+
-   7oPUgjYPpoSuLjytcHKmwjqbu8h8JxG/ufJkfsOVVWEvI6R+uo8zMjsep
-   63pWPdStyq0Xwqy+7HNXfnzk2VHq6VifcPCRYBSxlV9r6G244TrNo9Yiv
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="344351874"
+  t=1689115166; x=1720651166;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H35hh2eCOlupriQYSROoxTxTb6q7rwmY7bz+sP4Na44=;
+  b=T8VmZ9KDaavMzMkAiOYWBXBGikejsrDiFeO0tLXByPIrqRD0tCU82eVO
+   SBK8bRSh0f/y1oUZKyg/gWqlgSVYM9SMH33vrJsw07AVajh8aBEq2yZ4R
+   xf4xaKoR+IhGfwJsEXmmWspkM2rLMyhxfQHNcWiVzlQmHijFo2j1iL9aR
+   jVAxSy+Q+q0Wx+6kM5tTJUYWVphFdWu+6buIFBisJFYhxcZkJq+oC4TYf
+   I5gqhpO/eGCky5ZN34xt4dnsRP3MoKaJf6uGkzAMED6eM4VrR6CublaDK
+   l3Yad0/KqZuivhfUgR4TTXmf8G9D7244kGsFagb7FtK6+dKeOiIzmVRpv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="354653350"
 X-IronPort-AV: E=Sophos;i="6.01,197,1684825200"; 
-   d="scan'208";a="344351874"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 15:29:27 -0700
+   d="scan'208";a="354653350"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 15:39:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="834883015"
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="698623689"
 X-IronPort-AV: E=Sophos;i="6.01,197,1684825200"; 
-   d="scan'208";a="834883015"
+   d="scan'208";a="698623689"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 11 Jul 2023 15:29:24 -0700
+  by orsmga006.jf.intel.com with ESMTP; 11 Jul 2023 15:39:24 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJLrH-00059p-1b;
-	Tue, 11 Jul 2023 22:29:23 +0000
-Date: Wed, 12 Jul 2023 06:28:37 +0800
+	id 1qJM0x-0005AD-2q;
+	Tue, 11 Jul 2023 22:39:23 +0000
+Date: Wed, 12 Jul 2023 06:38:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nico Pache <npache@redhat.com>, linux-arm-kernel@lists.infradead.org,
+To: Kees Cook <keescook@chromium.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, aquini@redhat.com,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	David Hildenbrand <david@redhat.com>,
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-	Liu Shixin <liushixin2@huawei.com>, Will Deacon <will@kernel.org>,
-	Yu Zhao <yuzhao@google.com>
-Subject: Re: [PATCH V2] arm64: properly define SOFT_DIRTY functionality
-Message-ID: <202307120618.qcxXw9mm-lkp@intel.com>
-References: <20230704133633.1918147-1-npache@redhat.com>
+Subject: drivers/crypto/ccree/cc_aead.c:541:12: warning: stack frame size
+ (1104) exceeds limit (1024) in 'cc_aead_setkey'
+Message-ID: <202307120605.u4Quc7pF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -55,164 +46,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230704133633.1918147-1-npache@redhat.com>
 
-Hi Nico,
+Hi Kees,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on arm64/for-next/core]
-[also build test ERROR on arm/for-next arm/fixes kvmarm/next soc/for-next linus/master v6.5-rc1 next-20230711]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nico-Pache/arm64-properly-define-SOFT_DIRTY-functionality/20230704-213758
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-next/core
-patch link:    https://lore.kernel.org/r/20230704133633.1918147-1-npache%40redhat.com
-patch subject: [PATCH V2] arm64: properly define SOFT_DIRTY functionality
-config: arm64-randconfig-r001-20230712 (https://download.01.org/0day-ci/archive/20230712/202307120618.qcxXw9mm-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230712/202307120618.qcxXw9mm-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3f01e9fed8454dcd89727016c3e5b2fbb8f8e50c
+commit: 607e57c6c62c00965ae276902c166834ce73014a hardening: Remove Clang's enable flag for -ftrivial-auto-var-init=zero
+date:   10 months ago
+config: powerpc-randconfig-r024-20230712 (https://download.01.org/0day-ci/archive/20230712/202307120605.u4Quc7pF-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce: (https://download.01.org/0day-ci/archive/20230712/202307120605.u4Quc7pF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307120618.qcxXw9mm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307120605.u4Quc7pF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/mm_inline.h:10,
-                    from fs/proc/task_mmu.c:3:
-   include/linux/swapops.h: In function 'pte_swp_clear_flags':
-   include/linux/swapops.h:77:23: error: implicit declaration of function 'pte_swp_clear_soft_dirty'; did you mean 'pte_swp_soft_dirty'? [-Werror=implicit-function-declaration]
-      77 |                 pte = pte_swp_clear_soft_dirty(pte);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                       pte_swp_soft_dirty
-   include/linux/swapops.h:77:23: error: incompatible types when assigning to type 'pte_t' from type 'int'
-   include/linux/swapops.h: In function 'pmd_to_swp_entry':
-   include/linux/swapops.h:506:13: error: implicit declaration of function 'pmd_swp_soft_dirty'; did you mean 'pte_swp_soft_dirty'? [-Werror=implicit-function-declaration]
-     506 |         if (pmd_swp_soft_dirty(pmd))
-         |             ^~~~~~~~~~~~~~~~~~
-         |             pte_swp_soft_dirty
-   include/linux/swapops.h:507:23: error: implicit declaration of function 'pmd_swp_clear_soft_dirty'; did you mean 'pmd_swp_clear_uffd_wp'? [-Werror=implicit-function-declaration]
-     507 |                 pmd = pmd_swp_clear_soft_dirty(pmd);
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                       pmd_swp_clear_uffd_wp
-   include/linux/swapops.h:507:23: error: incompatible types when assigning to type 'pmd_t' from type 'int'
-   fs/proc/task_mmu.c: In function 'pagemap_pmd_range':
->> fs/proc/task_mmu.c:1488:29: error: implicit declaration of function 'pmd_soft_dirty'; did you mean 'pte_soft_dirty'? [-Werror=implicit-function-declaration]
-    1488 |                         if (pmd_soft_dirty(pmd))
-         |                             ^~~~~~~~~~~~~~
-         |                             pte_soft_dirty
-   cc1: some warnings being treated as errors
+>> drivers/crypto/ccree/cc_aead.c:541:12: warning: stack frame size (1104) exceeds limit (1024) in 'cc_aead_setkey' [-Wframe-larger-than]
+   static int cc_aead_setkey(struct crypto_aead *tfm, const u8 *key,
+              ^
+   296/1104 (26.81%) spills, 808/1104 (73.19%) variables
+   1 warning generated.
 
 
-vim +1488 fs/proc/task_mmu.c
+vim +/cc_aead_setkey +541 drivers/crypto/ccree/cc_aead.c
 
-bcf8039ed45f56 Dave Hansen           2008-06-12  1463  
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1464  static int pagemap_pmd_range(pmd_t *pmdp, unsigned long addr, unsigned long end,
-2165009bdf63f7 Dave Hansen           2008-06-12  1465  			     struct mm_walk *walk)
-85863e475e59af Matt Mackall          2008-02-04  1466  {
-f995ece24dfecb Naoya Horiguchi       2015-02-11  1467  	struct vm_area_struct *vma = walk->vma;
-2165009bdf63f7 Dave Hansen           2008-06-12  1468  	struct pagemapread *pm = walk->private;
-bf929152e9f6c4 Kirill A. Shutemov    2013-11-14  1469  	spinlock_t *ptl;
-05fbf357d94152 Konstantin Khlebnikov 2015-02-11  1470  	pte_t *pte, *orig_pte;
-85863e475e59af Matt Mackall          2008-02-04  1471  	int err = 0;
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1472  #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-24d7275ce27918 Yang Shi              2022-02-11  1473  	bool migration = false;
-24d7275ce27918 Yang Shi              2022-02-11  1474  
-b6ec57f4b92e9b Kirill A. Shutemov    2016-01-21  1475  	ptl = pmd_trans_huge_lock(pmdp, vma);
-b6ec57f4b92e9b Kirill A. Shutemov    2016-01-21  1476  	if (ptl) {
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1477  		u64 flags = 0, frame = 0;
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1478  		pmd_t pmd = *pmdp;
-84c3fc4e9c563d Zi Yan                2017-09-08  1479  		struct page *page = NULL;
-0f8975ec4db2c8 Pavel Emelyanov       2013-07-03  1480  
-b83d7e432399d4 Huang Ying            2017-11-02  1481  		if (vma->vm_flags & VM_SOFTDIRTY)
-deb945441b9408 Konstantin Khlebnikov 2015-09-08  1482  			flags |= PM_SOFT_DIRTY;
-d9104d1ca96624 Cyrill Gorcunov       2013-09-11  1483  
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1484  		if (pmd_present(pmd)) {
-84c3fc4e9c563d Zi Yan                2017-09-08  1485  			page = pmd_page(pmd);
-77bb499bb60f4b Konstantin Khlebnikov 2015-09-08  1486  
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1487  			flags |= PM_PRESENT;
-b83d7e432399d4 Huang Ying            2017-11-02 @1488  			if (pmd_soft_dirty(pmd))
-b83d7e432399d4 Huang Ying            2017-11-02  1489  				flags |= PM_SOFT_DIRTY;
-fb8e37f35a2fe1 Peter Xu              2021-06-30  1490  			if (pmd_uffd_wp(pmd))
-fb8e37f35a2fe1 Peter Xu              2021-06-30  1491  				flags |= PM_UFFD_WP;
-1c90308e7a77af Konstantin Khlebnikov 2015-09-08  1492  			if (pm->show_pfn)
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1493  				frame = pmd_pfn(pmd) +
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1494  					((addr & ~PMD_MASK) >> PAGE_SHIFT);
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1495  		}
-84c3fc4e9c563d Zi Yan                2017-09-08  1496  #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
-84c3fc4e9c563d Zi Yan                2017-09-08  1497  		else if (is_swap_pmd(pmd)) {
-84c3fc4e9c563d Zi Yan                2017-09-08  1498  			swp_entry_t entry = pmd_to_swp_entry(pmd);
-ab6ecf247a9321 Huang Ying            2018-06-07  1499  			unsigned long offset;
-84c3fc4e9c563d Zi Yan                2017-09-08  1500  
-ab6ecf247a9321 Huang Ying            2018-06-07  1501  			if (pm->show_pfn) {
-0d206b5d2e0d7d Peter Xu              2022-08-11  1502  				if (is_pfn_swap_entry(entry))
-0d206b5d2e0d7d Peter Xu              2022-08-11  1503  					offset = swp_offset_pfn(entry);
-0d206b5d2e0d7d Peter Xu              2022-08-11  1504  				else
-0d206b5d2e0d7d Peter Xu              2022-08-11  1505  					offset = swp_offset(entry);
-0d206b5d2e0d7d Peter Xu              2022-08-11  1506  				offset = offset +
-ab6ecf247a9321 Huang Ying            2018-06-07  1507  					((addr & ~PMD_MASK) >> PAGE_SHIFT);
-84c3fc4e9c563d Zi Yan                2017-09-08  1508  				frame = swp_type(entry) |
-88c28f2469151b Huang Ying            2018-04-20  1509  					(offset << MAX_SWAPFILES_SHIFT);
-ab6ecf247a9321 Huang Ying            2018-06-07  1510  			}
-84c3fc4e9c563d Zi Yan                2017-09-08  1511  			flags |= PM_SWAP;
-b83d7e432399d4 Huang Ying            2017-11-02  1512  			if (pmd_swp_soft_dirty(pmd))
-b83d7e432399d4 Huang Ying            2017-11-02  1513  				flags |= PM_SOFT_DIRTY;
-fb8e37f35a2fe1 Peter Xu              2021-06-30  1514  			if (pmd_swp_uffd_wp(pmd))
-fb8e37f35a2fe1 Peter Xu              2021-06-30  1515  				flags |= PM_UFFD_WP;
-84c3fc4e9c563d Zi Yan                2017-09-08  1516  			VM_BUG_ON(!is_pmd_migration_entry(pmd));
-24d7275ce27918 Yang Shi              2022-02-11  1517  			migration = is_migration_entry(entry);
-af5cdaf82238fb Alistair Popple       2021-06-30  1518  			page = pfn_swap_entry_to_page(entry);
-84c3fc4e9c563d Zi Yan                2017-09-08  1519  		}
-84c3fc4e9c563d Zi Yan                2017-09-08  1520  #endif
-84c3fc4e9c563d Zi Yan                2017-09-08  1521  
-24d7275ce27918 Yang Shi              2022-02-11  1522  		if (page && !migration && page_mapcount(page) == 1)
-84c3fc4e9c563d Zi Yan                2017-09-08  1523  			flags |= PM_MMAP_EXCLUSIVE;
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1524  
-5aaabe831eb527 Naoya Horiguchi       2012-03-21  1525  		for (; addr != end; addr += PAGE_SIZE) {
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1526  			pagemap_entry_t pme = make_pme(frame, flags);
-5aaabe831eb527 Naoya Horiguchi       2012-03-21  1527  
-092b50bacd1cdb Naoya Horiguchi       2012-03-21  1528  			err = add_to_pagemap(addr, &pme, pm);
-5aaabe831eb527 Naoya Horiguchi       2012-03-21  1529  			if (err)
-5aaabe831eb527 Naoya Horiguchi       2012-03-21  1530  				break;
-ab6ecf247a9321 Huang Ying            2018-06-07  1531  			if (pm->show_pfn) {
-ab6ecf247a9321 Huang Ying            2018-06-07  1532  				if (flags & PM_PRESENT)
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1533  					frame++;
-88c28f2469151b Huang Ying            2018-04-20  1534  				else if (flags & PM_SWAP)
-88c28f2469151b Huang Ying            2018-04-20  1535  					frame += (1 << MAX_SWAPFILES_SHIFT);
-5aaabe831eb527 Naoya Horiguchi       2012-03-21  1536  			}
-ab6ecf247a9321 Huang Ying            2018-06-07  1537  		}
-bf929152e9f6c4 Kirill A. Shutemov    2013-11-14  1538  		spin_unlock(ptl);
-5aaabe831eb527 Naoya Horiguchi       2012-03-21  1539  		return err;
-5aaabe831eb527 Naoya Horiguchi       2012-03-21  1540  	}
-5aaabe831eb527 Naoya Horiguchi       2012-03-21  1541  
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1542  	if (pmd_trans_unstable(pmdp))
-45f83cefe3a5f0 Andrea Arcangeli      2012-03-28  1543  		return 0;
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1544  #endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-bcf8039ed45f56 Dave Hansen           2008-06-12  1545  
-81d0fa623c5b8d Peter Feiner          2014-10-09  1546  	/*
-f995ece24dfecb Naoya Horiguchi       2015-02-11  1547  	 * We can assume that @vma always points to a valid one and @end never
-f995ece24dfecb Naoya Horiguchi       2015-02-11  1548  	 * goes beyond vma->vm_end.
-81d0fa623c5b8d Peter Feiner          2014-10-09  1549  	 */
-356515e7b64c26 Konstantin Khlebnikov 2015-09-08  1550  	orig_pte = pte = pte_offset_map_lock(walk->mm, pmdp, addr, &ptl);
-f995ece24dfecb Naoya Horiguchi       2015-02-11  1551  	for (; addr < end; pte++, addr += PAGE_SIZE) {
-81d0fa623c5b8d Peter Feiner          2014-10-09  1552  		pagemap_entry_t pme;
-05fbf357d94152 Konstantin Khlebnikov 2015-02-11  1553  
-deb945441b9408 Konstantin Khlebnikov 2015-09-08  1554  		pme = pte_to_pagemap_entry(pm, vma, addr, *pte);
-092b50bacd1cdb Naoya Horiguchi       2012-03-21  1555  		err = add_to_pagemap(addr, &pme, pm);
-85863e475e59af Matt Mackall          2008-02-04  1556  		if (err)
-05fbf357d94152 Konstantin Khlebnikov 2015-02-11  1557  			break;
-85863e475e59af Matt Mackall          2008-02-04  1558  	}
-05fbf357d94152 Konstantin Khlebnikov 2015-02-11  1559  	pte_unmap_unlock(orig_pte, ptl);
-05fbf357d94152 Konstantin Khlebnikov 2015-02-11  1560  
-85863e475e59af Matt Mackall          2008-02-04  1561  	cond_resched();
-85863e475e59af Matt Mackall          2008-02-04  1562  
-85863e475e59af Matt Mackall          2008-02-04  1563  	return err;
-85863e475e59af Matt Mackall          2008-02-04  1564  }
-85863e475e59af Matt Mackall          2008-02-04  1565  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  540  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22 @541  static int cc_aead_setkey(struct crypto_aead *tfm, const u8 *key,
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  542  			  unsigned int keylen)
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  543  {
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  544  	struct cc_aead_ctx *ctx = crypto_aead_ctx(tfm);
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  545  	struct cc_crypto_req cc_req = {};
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  546  	struct cc_hw_desc desc[MAX_AEAD_SETKEY_SEQ];
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  547  	unsigned int seq_len = 0;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  548  	struct device *dev = drvdata_to_dev(ctx->drvdata);
+dc95b5350a8f07 Eric Biggers     2018-12-16  549  	const u8 *enckey, *authkey;
+dc95b5350a8f07 Eric Biggers     2018-12-16  550  	int rc;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  551  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  552  	dev_dbg(dev, "Setting key in context @%p for %s. key=%p keylen=%u\n",
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  553  		ctx, crypto_tfm_alg_name(crypto_aead_tfm(tfm)), key, keylen);
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  554  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  555  	/* STAT_PHASE_0: Init and sanity checks */
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  556  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  557  	if (ctx->auth_mode != DRV_HASH_NULL) { /* authenc() alg. */
+dc95b5350a8f07 Eric Biggers     2018-12-16  558  		struct crypto_authenc_keys keys;
+dc95b5350a8f07 Eric Biggers     2018-12-16  559  
+dc95b5350a8f07 Eric Biggers     2018-12-16  560  		rc = crypto_authenc_extractkeys(&keys, key, keylen);
+dc95b5350a8f07 Eric Biggers     2018-12-16  561  		if (rc)
+674f368a952c48 Eric Biggers     2019-12-30  562  			return rc;
+dc95b5350a8f07 Eric Biggers     2018-12-16  563  		enckey = keys.enckey;
+dc95b5350a8f07 Eric Biggers     2018-12-16  564  		authkey = keys.authkey;
+dc95b5350a8f07 Eric Biggers     2018-12-16  565  		ctx->enc_keylen = keys.enckeylen;
+dc95b5350a8f07 Eric Biggers     2018-12-16  566  		ctx->auth_keylen = keys.authkeylen;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  567  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  568  		if (ctx->cipher_mode == DRV_CIPHER_CTR) {
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  569  			/* the nonce is stored in bytes at end of key */
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  570  			if (ctx->enc_keylen <
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  571  			    (AES_MIN_KEY_SIZE + CTR_RFC3686_NONCE_SIZE))
+674f368a952c48 Eric Biggers     2019-12-30  572  				return -EINVAL;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  573  			/* Copy nonce from last 4 bytes in CTR key to
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  574  			 *  first 4 bytes in CTR IV
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  575  			 */
+dc95b5350a8f07 Eric Biggers     2018-12-16  576  			memcpy(ctx->ctr_nonce, enckey + ctx->enc_keylen -
+dc95b5350a8f07 Eric Biggers     2018-12-16  577  			       CTR_RFC3686_NONCE_SIZE, CTR_RFC3686_NONCE_SIZE);
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  578  			/* Set CTR key size */
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  579  			ctx->enc_keylen -= CTR_RFC3686_NONCE_SIZE;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  580  		}
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  581  	} else { /* non-authenc - has just one key */
+dc95b5350a8f07 Eric Biggers     2018-12-16  582  		enckey = key;
+dc95b5350a8f07 Eric Biggers     2018-12-16  583  		authkey = NULL;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  584  		ctx->enc_keylen = keylen;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  585  		ctx->auth_keylen = 0;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  586  	}
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  587  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  588  	rc = validate_keys_sizes(ctx);
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  589  	if (rc)
+674f368a952c48 Eric Biggers     2019-12-30  590  		return rc;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  591  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  592  	/* STAT_PHASE_1: Copy key to ctx */
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  593  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  594  	/* Get key material */
+dc95b5350a8f07 Eric Biggers     2018-12-16  595  	memcpy(ctx->enckey, enckey, ctx->enc_keylen);
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  596  	if (ctx->enc_keylen == 24)
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  597  		memset(ctx->enckey + 24, 0, CC_AES_KEY_SIZE_MAX - 24);
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  598  	if (ctx->auth_mode == DRV_HASH_XCBC_MAC) {
+dc95b5350a8f07 Eric Biggers     2018-12-16  599  		memcpy(ctx->auth_state.xcbc.xcbc_keys, authkey,
+dc95b5350a8f07 Eric Biggers     2018-12-16  600  		       ctx->auth_keylen);
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  601  	} else if (ctx->auth_mode != DRV_HASH_NULL) { /* HMAC */
+dc95b5350a8f07 Eric Biggers     2018-12-16  602  		rc = cc_get_plain_hmac_key(tfm, authkey, ctx->auth_keylen);
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  603  		if (rc)
+674f368a952c48 Eric Biggers     2019-12-30  604  			return rc;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  605  	}
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  606  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  607  	/* STAT_PHASE_2: Create sequence */
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  608  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  609  	switch (ctx->auth_mode) {
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  610  	case DRV_HASH_SHA1:
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  611  	case DRV_HASH_SHA256:
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  612  		seq_len = hmac_setkey(desc, ctx);
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  613  		break;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  614  	case DRV_HASH_XCBC_MAC:
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  615  		seq_len = xcbc_setkey(desc, ctx);
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  616  		break;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  617  	case DRV_HASH_NULL: /* non-authenc modes, e.g., CCM */
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  618  		break; /* No auth. key setup */
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  619  	default:
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  620  		dev_err(dev, "Unsupported authenc (%d)\n", ctx->auth_mode);
+674f368a952c48 Eric Biggers     2019-12-30  621  		return -ENOTSUPP;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  622  	}
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  623  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  624  	/* STAT_PHASE_3: Submit sequence to HW */
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  625  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  626  	if (seq_len > 0) { /* For CCM there is no sequence to setup the key */
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  627  		rc = cc_send_sync_request(ctx->drvdata, &cc_req, desc, seq_len);
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  628  		if (rc) {
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  629  			dev_err(dev, "send_request() failed (rc=%d)\n", rc);
+674f368a952c48 Eric Biggers     2019-12-30  630  			return rc;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  631  		}
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  632  	}
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  633  
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  634  	/* Update STAT_PHASE_3 */
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  635  	return rc;
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  636  }
+ff27e85a85bbde Gilad Ben-Yossef 2018-01-22  637  
+
+:::::: The code at line 541 was first introduced by commit
+:::::: ff27e85a85bbde19589f775297db92ff925e5981 crypto: ccree - add AEAD support
+
+:::::: TO: Gilad Ben-Yossef <gilad@benyossef.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 -- 
 0-DAY CI Kernel Test Service
