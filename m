@@ -1,43 +1,47 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4EF14A9D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 05:55:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53ABC3D7B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 06:08:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689054946; x=1720590946;
+  t=1689055692; x=1720591692;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pLpo4cTQlkmUgyhJ9PAeneKD7qZoJ8gZDxicsq+k6/Q=;
-  b=KJxkcKG+O/4R+4vT4bCMntDITfgMn4RSZp2EHNG9Plkn3Mu8v98sRJmO
-   rDJWmCmqI6qeqLI/tAuN2wuM2hhP/vDy6/d25cYq3ZPsRNlJaZVKQAepQ
-   T6W1ZVa/HAQYVMSCZ6wu4Jjo/xQ59Xc3HBFbP7pqFSWnJFxWS99PW01a7
-   7f4KTQsnpDKAStfSwRcY0FJqKtb1nx7xryBmyQhRbwWj20QPeyWNzm5Sk
-   6ScnDvM+cfjMnPgQiE2DMgbnih65YzI36F0cDDGDbEqqdvcqvf28e9DGX
-   KBXEQvpQWL5WBlF7EMmMVQY63QDZ5hCuvZcJjGeH5EB8cDz47vuywGn4O
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="450894034"
+  bh=dYK8d7dc8GhbgWk3tzr6pOzmu7kAEEo9s4fieI33h2o=;
+  b=gW3dnhOVbUciGTo0RqQXRprNxlL6Z0xPse0BG3AI6Iimg6lsQYf78jh1
+   LWWtK5y49yx33XZl7fVcGX4Va4abOb13xvjzMZW+efv5M5IccsS+sE7xT
+   GzMuD6CszMMxZlsILo8c6esBTYYT/E6G8HxFL4kRGaRThrG6ZvroZ1CON
+   0ZE7ypRmwxJEAV2dGtc9XI7TfiVIY6+5lYTywjhHfBpCKcUaaYZiQBF8X
+   22AmUzUAYYZt+hkxe8uszcNl4fjGlQmSBmSvEtcirycjk81DFZ3Sm2ICx
+   hXbJm9E5VxcS2e+D5gtJ1f87TkFQrJ2dBDYWPquoEKlFeUHms5w+wVtAf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="344132597"
 X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; 
-   d="scan'208";a="450894034"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2023 22:55:44 -0700
+   d="scan'208";a="344132597"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2023 23:07:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="834532608"
+X-IronPort-AV: E=McAfee;i="6600,9927,10767"; a="845155897"
 X-IronPort-AV: E=Sophos;i="6.01,196,1684825200"; 
-   d="scan'208";a="834532608"
+   d="scan'208";a="845155897"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 10 Jul 2023 22:55:43 -0700
+  by orsmga004.jf.intel.com with ESMTP; 10 Jul 2023 23:07:44 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJ6Le-0004NP-3D;
-	Tue, 11 Jul 2023 05:55:43 +0000
-Date: Tue, 11 Jul 2023 13:55:17 +0800
+	id 1qJ6XI-0004Nn-0Q;
+	Tue, 11 Jul 2023 06:07:44 +0000
+Date: Tue, 11 Jul 2023 14:06:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thermal:thermal/bleeding-edge 1/4]
- drivers/thermal/tegra/../thermal_core.h:18:2: warning: #warning This header
- can only be included by the thermal core code
-Message-ID: <202307111359.HZqRfobP-lkp@intel.com>
+To: Baoquan He <bhe@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Christoph Hellwig <hch@lst.de>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>
+Subject: [linux-next:master 1208/1391] arch/s390/include/asm/io.h:29:17:
+ error: implicit declaration of function 'iounmap'; did you mean 'vunmap'?
+Message-ID: <202307111309.401QvMTN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,37 +51,231 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Daniel,
-
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
-
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/thermal/linux.git thermal/bleeding-edge
-head:   c1601aa7a4588e3b79522dfba93c41630f04950f
-commit: 1211989c112f7e29bf11589aab7ee6da5ae9540c [1/4] thermal/core: Hardening the self-encapsulation
-config: arm64-randconfig-r006-20230710 (https://download.01.org/0day-ci/archive/20230711/202307111359.HZqRfobP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230711/202307111359.HZqRfobP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8e4b7f2f3d6071665b1dfd70786229c8a5d6c256
+commit: 438780c042f7b65cb02ac16846f226fe87f3b410 [1208/1391] s390: mm: convert to GENERIC_IOREMAP
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20230711/202307111309.401QvMTN-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230711/202307111309.401QvMTN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307111359.HZqRfobP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307111309.401QvMTN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/thermal/tegra/soctherm.c:36:
->> drivers/thermal/tegra/../thermal_core.h:18:2: warning: #warning This header can only be included by the thermal core code [-Wcpp]
-      18 | #warning This header can only be included by the thermal core code
-         |  ^~~~~~~
+   In file included from include/linux/io.h:13,
+                    from include/linux/pci.h:39,
+                    from drivers/pcmcia/cistpl.c:21:
+   drivers/pcmcia/cistpl.c: In function 'release_cis_mem':
+>> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+      29 | #define iounmap iounmap
+         |                 ^~~~~~~
+   drivers/pcmcia/cistpl.c:72:17: note: in expansion of macro 'iounmap'
+      72 |                 iounmap(s->cis_virt);
+         |                 ^~~~~~~
+   drivers/pcmcia/cistpl.c: In function 'set_cis_map':
+>> drivers/pcmcia/cistpl.c:103:31: error: implicit declaration of function 'ioremap'; did you mean 'iounmap'? [-Werror=implicit-function-declaration]
+     103 |                 s->cis_virt = ioremap(mem->res->start, s->map_size);
+         |                               ^~~~~~~
+         |                               iounmap
+   drivers/pcmcia/cistpl.c:103:29: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     103 |                 s->cis_virt = ioremap(mem->res->start, s->map_size);
+         |                             ^
+   drivers/pcmcia/cistpl.c:118:29: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     118 |                 s->cis_virt = ioremap(mem->static_start, s->map_size);
+         |                             ^
+   cc1: some warnings being treated as errors
+--
+   drivers/net/arcnet/com90xx.c: In function 'com90xx_probe':
+>> drivers/net/arcnet/com90xx.c:225:24: error: implicit declaration of function 'ioremap'; did you mean 'ifr_map'? [-Werror=implicit-function-declaration]
+     225 |                 base = ioremap(*p, MIRROR_SIZE);
+         |                        ^~~~~~~
+         |                        ifr_map
+   drivers/net/arcnet/com90xx.c:225:22: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     225 |                 base = ioremap(*p, MIRROR_SIZE);
+         |                      ^
+   In file included from include/linux/scatterlist.h:9,
+                    from include/linux/dma-mapping.h:11,
+                    from include/linux/skbuff.h:28,
+                    from include/net/net_namespace.h:43,
+                    from include/linux/netdevice.h:38,
+                    from drivers/net/arcnet/com90xx.c:36:
+>> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+      29 | #define iounmap iounmap
+         |                 ^~~~~~~
+   drivers/net/arcnet/com90xx.c:260:17: note: in expansion of macro 'iounmap'
+     260 |                 iounmap(base);
+         |                 ^~~~~~~
+   drivers/net/arcnet/com90xx.c: In function 'check_mirror':
+   drivers/net/arcnet/com90xx.c:444:11: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     444 |         p = ioremap(addr, size);
+         |           ^
+   drivers/net/arcnet/com90xx.c: In function 'com90xx_found':
+   drivers/net/arcnet/com90xx.c:526:23: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     526 |         lp->mem_start = ioremap(dev->mem_start,
+         |                       ^
+   cc1: some warnings being treated as errors
+--
+   drivers/net/arcnet/arc-rimi.c: In function 'check_mirror':
+>> drivers/net/arcnet/arc-rimi.c:107:13: error: implicit declaration of function 'ioremap'; did you mean 'ifr_map'? [-Werror=implicit-function-declaration]
+     107 |         p = ioremap(addr, size);
+         |             ^~~~~~~
+         |             ifr_map
+   drivers/net/arcnet/arc-rimi.c:107:11: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     107 |         p = ioremap(addr, size);
+         |           ^
+   In file included from include/linux/scatterlist.h:9,
+                    from include/linux/dma-mapping.h:11,
+                    from include/linux/skbuff.h:28,
+                    from include/net/net_namespace.h:43,
+                    from include/linux/netdevice.h:38,
+                    from drivers/net/arcnet/arc-rimi.c:35:
+>> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+      29 | #define iounmap iounmap
+         |                 ^~~~~~~
+   drivers/net/arcnet/arc-rimi.c:113:17: note: in expansion of macro 'iounmap'
+     113 |                 iounmap(p);
+         |                 ^~~~~~~
+   drivers/net/arcnet/arc-rimi.c: In function 'arcrimi_found':
+   drivers/net/arcnet/arc-rimi.c:131:11: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     131 |         p = ioremap(dev->mem_start, MIRROR_SIZE);
+         |           ^
+   drivers/net/arcnet/arc-rimi.c:202:23: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     202 |         lp->mem_start = ioremap(dev->mem_start,
+         |                       ^
+   cc1: some warnings being treated as errors
+--
+   drivers/tty/ipwireless/main.c: In function 'ipwireless_probe':
+>> drivers/tty/ipwireless/main.c:115:30: error: implicit declaration of function 'ioremap'; did you mean 'iounmap'? [-Werror=implicit-function-declaration]
+     115 |         ipw->common_memory = ioremap(p_dev->resource[2]->start,
+         |                              ^~~~~~~
+         |                              iounmap
+   drivers/tty/ipwireless/main.c:115:28: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     115 |         ipw->common_memory = ioremap(p_dev->resource[2]->start,
+         |                            ^
+   drivers/tty/ipwireless/main.c:139:26: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     139 |         ipw->attr_memory = ioremap(p_dev->resource[3]->start,
+         |                          ^
+   In file included from include/linux/io.h:13,
+                    from drivers/tty/ipwireless/main.c:26:
+>> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+      29 | #define iounmap iounmap
+         |                 ^~~~~~~
+   drivers/tty/ipwireless/main.c:155:9: note: in expansion of macro 'iounmap'
+     155 |         iounmap(ipw->attr_memory);
+         |         ^~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/net/ethernet/8390/pcnet_cs.c: In function 'get_hwinfo':
+>> drivers/net/ethernet/8390/pcnet_cs.c:290:12: error: implicit declaration of function 'ioremap'; did you mean 'ifr_map'? [-Werror=implicit-function-declaration]
+     290 |     virt = ioremap(link->resource[2]->start,
+         |            ^~~~~~~
+         |            ifr_map
+   drivers/net/ethernet/8390/pcnet_cs.c:290:10: warning: assignment to 'u_char *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     290 |     virt = ioremap(link->resource[2]->start,
+         |          ^
+   In file included from include/linux/scatterlist.h:9,
+                    from include/linux/dma-mapping.h:11,
+                    from include/linux/skbuff.h:28,
+                    from include/net/net_namespace.h:43,
+                    from include/linux/netdevice.h:38,
+                    from drivers/net/ethernet/8390/pcnet_cs.c:38:
+>> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+      29 | #define iounmap iounmap
+         |                 ^~~~~~~
+   drivers/net/ethernet/8390/pcnet_cs.c:311:5: note: in expansion of macro 'iounmap'
+     311 |     iounmap(virt);
+         |     ^~~~~~~
+   drivers/net/ethernet/8390/pcnet_cs.c: In function 'setup_shmem_window':
+   drivers/net/ethernet/8390/pcnet_cs.c:1440:16: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1440 |     info->base = ioremap(link->resource[3]->start,
+         |                ^
+   cc1: some warnings being treated as errors
+--
+   drivers/net/ethernet/fujitsu/fmvj18x_cs.c: In function 'fmvj18x_get_hwinfo':
+>> drivers/net/ethernet/fujitsu/fmvj18x_cs.c:549:12: error: implicit declaration of function 'ioremap'; did you mean 'iounmap'? [-Werror=implicit-function-declaration]
+     549 |     base = ioremap(link->resource[2]->start, resource_size(link->resource[2]));
+         |            ^~~~~~~
+         |            iounmap
+   drivers/net/ethernet/fujitsu/fmvj18x_cs.c:549:10: warning: assignment to 'u_char *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     549 |     base = ioremap(link->resource[2]->start, resource_size(link->resource[2]));
+         |          ^
+   In file included from include/linux/scatterlist.h:9,
+                    from include/linux/dma-mapping.h:11,
+                    from include/linux/skbuff.h:28,
+                    from include/linux/if_ether.h:19,
+                    from include/linux/ethtool.h:18,
+                    from drivers/net/ethernet/fujitsu/fmvj18x_cs.c:45:
+>> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+      29 | #define iounmap iounmap
+         |                 ^~~~~~~
+   drivers/net/ethernet/fujitsu/fmvj18x_cs.c:579:5: note: in expansion of macro 'iounmap'
+     579 |     iounmap(base);
+         |     ^~~~~~~
+   drivers/net/ethernet/fujitsu/fmvj18x_cs.c: In function 'fmvj18x_setup_mfc':
+   drivers/net/ethernet/fujitsu/fmvj18x_cs.c:600:14: warning: assignment to 'u_char *' {aka 'unsigned char *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     600 |     lp->base = ioremap(link->resource[3]->start,
+         |              ^
+   cc1: some warnings being treated as errors
+--
+   drivers/net/ethernet/smsc/smc91c92_cs.c: In function 'mhz_mfc_config':
+>> drivers/net/ethernet/smsc/smc91c92_cs.c:447:17: error: implicit declaration of function 'ioremap'; did you mean 'ifr_map'? [-Werror=implicit-function-declaration]
+     447 |     smc->base = ioremap(link->resource[2]->start,
+         |                 ^~~~~~~
+         |                 ifr_map
+   drivers/net/ethernet/smsc/smc91c92_cs.c:447:15: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     447 |     smc->base = ioremap(link->resource[2]->start,
+         |               ^
+   In file included from include/linux/scatterlist.h:9,
+                    from include/linux/dma-mapping.h:11,
+                    from include/linux/skbuff.h:28,
+                    from include/net/net_namespace.h:43,
+                    from include/linux/netdevice.h:38,
+                    from drivers/net/ethernet/smsc/smc91c92_cs.c:38:
+   drivers/net/ethernet/smsc/smc91c92_cs.c: In function 'smc91c92_release':
+>> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+      29 | #define iounmap iounmap
+         |                 ^~~~~~~
+   drivers/net/ethernet/smsc/smc91c92_cs.c:962:17: note: in expansion of macro 'iounmap'
+     962 |                 iounmap(smc->base);
+         |                 ^~~~~~~
+   cc1: some warnings being treated as errors
+--
+   drivers/net/ethernet/xircom/xirc2ps_cs.c: In function 'xirc2ps_config':
+>> drivers/net/ethernet/xircom/xirc2ps_cs.c:843:28: error: implicit declaration of function 'ioremap'; did you mean 'iounmap'? [-Werror=implicit-function-declaration]
+     843 |         local->dingo_ccr = ioremap(link->resource[2]->start, 0x1000) + 0x0800;
+         |                            ^~~~~~~
+         |                            iounmap
+   drivers/net/ethernet/xircom/xirc2ps_cs.c:843:26: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     843 |         local->dingo_ccr = ioremap(link->resource[2]->start, 0x1000) + 0x0800;
+         |                          ^
+   In file included from include/linux/scatterlist.h:9,
+                    from include/linux/dma-mapping.h:11,
+                    from include/linux/skbuff.h:28,
+                    from include/linux/if_ether.h:19,
+                    from include/linux/ethtool.h:18,
+                    from drivers/net/ethernet/xircom/xirc2ps_cs.c:77:
+   drivers/net/ethernet/xircom/xirc2ps_cs.c: In function 'xirc2ps_release':
+>> arch/s390/include/asm/io.h:29:17: error: implicit declaration of function 'iounmap'; did you mean 'vunmap'? [-Werror=implicit-function-declaration]
+      29 | #define iounmap iounmap
+         |                 ^~~~~~~
+   drivers/net/ethernet/xircom/xirc2ps_cs.c:934:25: note: in expansion of macro 'iounmap'
+     934 |                         iounmap(local->dingo_ccr - 0x0800);
+         |                         ^~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +18 drivers/thermal/tegra/../thermal_core.h
+vim +29 arch/s390/include/asm/io.h
 
-    16	
-    17	#ifndef THERMAL_CORE_SUBSYS
-  > 18	#warning This header can only be included by the thermal core code
-    19	#endif
-    20	
+    24	
+    25	/*
+    26	 * I/O memory mapping functions.
+    27	 */
+    28	#define ioremap_prot ioremap_prot
+  > 29	#define iounmap iounmap
+    30	
 
 -- 
 0-DAY CI Kernel Test Service
