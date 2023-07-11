@@ -1,36 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E328D1E50F;
-	Tue, 11 Jul 2023 17:20:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B76AFC433CA;
-	Tue, 11 Jul 2023 17:20:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689096011;
-	bh=0x7thVqvoMJLS+jYevpe76UFSqxecS9xef82lMrGa00=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jpr/isp/keQPzKORZrnZW0bPMU7W6AgKLRgyA/rP0dBC6J40H4eTC4CnRKae25NEz
-	 V9BMwz1gjYE3E7hm61usKMdGg1rhsxRvy1NrfOFi9pNBuipooot8gWGjWnPHpgBKOn
-	 3+IHiZ32k+bQigDguA66VECb6YwYOiDgA+0+qK2gyvJrVVRZyv9vwq2WaGcDDFEe0W
-	 bQbTPJoMiyok5wkfLSMFyaXkWFcFnjFZ3UUjsuo24fQiTUZu83e5PlxT+YQUnduyDX
-	 k0AfsgHSdabFVi5If5WhV0mrFOT6F5tqRPOODryif56R1FXwZjagZ/oFNyBM2QZjGh
-	 R0XuXzlBNVs6w==
-Date: Tue, 11 Jul 2023 10:20:08 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Baoquan He <bhe@redhat.com>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Christoph Hellwig <hch@lst.de>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>
-Subject: Re: [akpm-mm:mm-unstable 86/125] drivers/irqchip/irq-al-fic.c:281:2:
- error: call to undeclared function 'iounmap'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <20230711172008.GA369569@dev-arch.thelio-3990X>
-References: <202307110516.V0qgum1Q-lkp@intel.com>
- <ZKymIF5NdqXP1ydb@MiWiFi-R3L-srv>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1C91DDF8;
+	Tue, 11 Jul 2023 17:28:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689096506; x=1720632506;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=n/d0HxIZ3PqYXHvJfoHiZh9fSmQvLJlWQgHmgSMSGKo=;
+  b=dCaEVIhqmdRqqZ5Hs009C84osAYoyfXt+8qXJcDE8TAT4hQ7Q7+IFJsk
+   D4N5n7tAr64lMIIGQjsXiA20bBX5w3EwK7bJeNT1GXZ0oXBOqXkL9j5cS
+   iaaRtoQJFz3xhZOfbFvv3iCk/TXVKizbt3fUqphjjORGjKo2rWfbx16wP
+   26yF+/AOmyTfgvrB6VCGPAoUnpJp+Q11v9IUEdk5hN0O3rjWls/5CJuB8
+   tALC8dpRg4AQeUGHkPEevac4OhIKAIuCeMa6GxFWZkt0u0194PI2iIM07
+   Doa9FcVU/GBxxFGE0dVt4jVrSnzhrfL18zUkW0MgIV/dQNBNc585mErb0
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="345001368"
+X-IronPort-AV: E=Sophos;i="6.01,197,1684825200"; 
+   d="scan'208";a="345001368"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 10:28:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="865798170"
+X-IronPort-AV: E=Sophos;i="6.01,197,1684825200"; 
+   d="scan'208";a="865798170"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by fmsmga001.fm.intel.com with ESMTP; 11 Jul 2023 10:28:12 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qJH9n-0004yS-1o;
+	Tue, 11 Jul 2023 17:28:11 +0000
+Date: Wed, 12 Jul 2023 01:27:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Fangrui Song <maskray@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nathan Chancellor <natechancellor@gmail.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [stable:linux-4.19.y 2317/9999] sound/soc/amd/acp-rt5645.c:180:36:
+ warning: unused variable 'cz_audio_acpi_match'
+Message-ID: <202307120145.xyjgOLe4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -39,191 +49,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZKymIF5NdqXP1ydb@MiWiFi-R3L-srv>
 
-Hi Baoquan,
+Hi Fangrui,
 
-On Tue, Jul 11, 2023 at 08:45:20AM +0800, Baoquan He wrote:
-> Hi,
-> 
-> On 07/11/23 at 05:22am, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-> > head:   17712b3b36c898462c3d31d4b47bd069e87359c5
-> > commit: 7aeb1874c9d6e390a405529c7eec76d2486f65d8 [86/125] s390: mm: convert to GENERIC_IOREMAP
-> > config: s390-randconfig-r015-20230710 (https://download.01.org/0day-ci/archive/20230711/202307110516.V0qgum1Q-lkp@intel.com/config)
-> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> > reproduce: (https://download.01.org/0day-ci/archive/20230711/202307110516.V0qgum1Q-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202307110516.V0qgum1Q-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> >    In file included from drivers/irqchip/irq-al-fic.c:7:
-> >    In file included from include/linux/irq.h:20:
-> >    In file included from include/linux/io.h:13:
-> >    In file included from arch/s390/include/asm/io.h:78:
-> >    include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-> >      547 |         val = __raw_readb(PCI_IOBASE + addr);
-> 
-> Thanks for reporting. I am not gonna to fix it because Nathan told me
-> there had been a series specifically taking care of the PCI_IOBASE
-> warnings from Niklas. Quote Nathan's words here for reference:
-> 
-> 
-> https://lore.kernel.org/all/20230612160237.GA199007@dev-arch.thelio-3990X/T/#u
-> ===
-> I believe that this series [1] by Niklas Schnelle should take care of
-> the PCI_IOBASE warnings (which are not Hexagon specific), so there is no
-> need to worry about them when they show up in build reports.
-> 
-> [1]: https://lore.kernel.org/20230522105049.1467313-1-schnelle@linux.ibm.com/
-> 
-> Cheers,
-> Nathan
-> ===
-> 
-> >          |                           ~~~~~~~~~~ ^
-> >    include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-> >      560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-> >          |                                                         ~~~~~~~~~~ ^
-> >    include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-> >       37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-> >          |                                                           ^
-> >    include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-> >      102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-> >          |                                                      ^
-> >    In file included from drivers/irqchip/irq-al-fic.c:7:
-> >    In file included from include/linux/irq.h:20:
-> >    In file included from include/linux/io.h:13:
-> >    In file included from arch/s390/include/asm/io.h:78:
-> >    include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-> >      573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-> >          |                                                         ~~~~~~~~~~ ^
-> >    include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-> >       35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-> >          |                                                           ^
-> >    include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-> >      115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-> >          |                                                      ^
-> >    In file included from drivers/irqchip/irq-al-fic.c:7:
-> >    In file included from include/linux/irq.h:20:
-> >    In file included from include/linux/io.h:13:
-> >    In file included from arch/s390/include/asm/io.h:78:
-> >    include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-> >      584 |         __raw_writeb(value, PCI_IOBASE + addr);
-> >          |                             ~~~~~~~~~~ ^
-> >    include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-> >      594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-> >          |                                                       ~~~~~~~~~~ ^
-> >    include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-> >      604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-> >          |                                                       ~~~~~~~~~~ ^
-> >    include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-> >      692 |         readsb(PCI_IOBASE + addr, buffer, count);
-> >          |                ~~~~~~~~~~ ^
-> >    include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-> >      700 |         readsw(PCI_IOBASE + addr, buffer, count);
-> >          |                ~~~~~~~~~~ ^
-> >    include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-> >      708 |         readsl(PCI_IOBASE + addr, buffer, count);
-> >          |                ~~~~~~~~~~ ^
-> >    include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-> >      717 |         writesb(PCI_IOBASE + addr, buffer, count);
-> >          |                 ~~~~~~~~~~ ^
-> >    include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-> >      726 |         writesw(PCI_IOBASE + addr, buffer, count);
-> >          |                 ~~~~~~~~~~ ^
-> >    include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-> >      735 |         writesl(PCI_IOBASE + addr, buffer, count);
-> >          |                 ~~~~~~~~~~ ^
-> > >> drivers/irqchip/irq-al-fic.c:281:2: error: call to undeclared function 'iounmap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-> >      281 |         iounmap(base);
-> >          |         ^
-> >    arch/s390/include/asm/io.h:29:17: note: expanded from macro 'iounmap'
-> >       29 | #define iounmap iounmap
-> >          |                 ^
-> >    drivers/irqchip/irq-al-fic.c:281:2: note: did you mean 'vunmap'?
-> >    arch/s390/include/asm/io.h:29:17: note: expanded from macro 'iounmap'
-> >       29 | #define iounmap iounmap
-> >          |                 ^
-> >    include/linux/vmalloc.h:167:13: note: 'vunmap' declared here
-> >      167 | extern void vunmap(const void *addr);
-> >          |             ^
-> >    12 warnings and 1 error generated.
+First bad commit (maybe != root cause):
 
-It seems like this was the error that the robot thinks that your patch
-introduced, which seems like it might be legitimate? Is an
-asm-generic/io.h include missing somewhere or is there some prexisting
-issue that is exposed with your patch?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-4.19.y
+head:   94bffc1044d871e2ec89b2621e9a384355832988
+commit: 69c122751164c3c343eea205fd5c3e1d5132f967 [2317/9999] Makefile: Fix GCC_TOOLCHAIN_DIR prefix for Clang cross compilation
+config: mips-randconfig-r034-20230710 (https://download.01.org/0day-ci/archive/20230712/202307120145.xyjgOLe4-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230712/202307120145.xyjgOLe4-lkp@intel.com/reproduce)
 
-Cheers,
-Nathan
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307120145.xyjgOLe4-lkp@intel.com/
 
-> > vim +/iounmap +281 drivers/irqchip/irq-al-fic.c
-> > 
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  236  
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  237  static int __init al_fic_init_dt(struct device_node *node,
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  238  				 struct device_node *parent)
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  239  {
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  240  	int ret;
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  241  	void __iomem *base;
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  242  	unsigned int parent_irq;
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  243  	struct al_fic *fic;
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  244  
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  245  	if (!parent) {
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  246  		pr_err("%s: unsupported - device require a parent\n",
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  247  		       node->name);
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  248  		return -EINVAL;
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  249  	}
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  250  
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  251  	base = of_iomap(node, 0);
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  252  	if (!base) {
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  253  		pr_err("%s: fail to map memory\n", node->name);
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  254  		return -ENOMEM;
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  255  	}
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  256  
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  257  	parent_irq = irq_of_parse_and_map(node, 0);
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  258  	if (!parent_irq) {
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  259  		pr_err("%s: fail to map irq\n", node->name);
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  260  		ret = -EINVAL;
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  261  		goto err_unmap;
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  262  	}
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  263  
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  264  	fic = al_fic_wire_init(node,
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  265  			       base,
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  266  			       node->name,
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  267  			       parent_irq);
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  268  	if (IS_ERR(fic)) {
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  269  		pr_err("%s: fail to initialize irqchip (%lu)\n",
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  270  		       node->name,
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  271  		       PTR_ERR(fic));
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  272  		ret = PTR_ERR(fic);
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  273  		goto err_irq_dispose;
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  274  	}
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  275  
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  276  	return 0;
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  277  
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  278  err_irq_dispose:
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  279  	irq_dispose_mapping(parent_irq);
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  280  err_unmap:
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10 @281  	iounmap(base);
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  282  
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  283  	return ret;
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  284  }
-> > 1eb77c3bcdb70f Talel Shenhar 2019-06-10  285  
-> > 
-> > :::::: The code at line 281 was first introduced by commit
-> > :::::: 1eb77c3bcdb70f2501f419b3da45b19acaf01072 irqchip/al-fic: Introduce Amazon's Annapurna Labs Fabric Interrupt Controller Driver
-> > 
-> > :::::: TO: Talel Shenhar <talel@amazon.com>
-> > :::::: CC: Marc Zyngier <marc.zyngier@arm.com>
-> > 
-> > -- 
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> > 
-> 
-> 
+All warnings (new ones prefixed by >>):
+
+>> sound/soc/amd/acp-rt5645.c:180:36: warning: unused variable 'cz_audio_acpi_match' [-Wunused-const-variable]
+   static const struct acpi_device_id cz_audio_acpi_match[] = {
+                                      ^
+   1 warning generated.
+
+
+vim +/cz_audio_acpi_match +180 sound/soc/amd/acp-rt5645.c
+
+566a1847fb37f1 Akshu Agrawal 2017-10-18  179  
+566a1847fb37f1 Akshu Agrawal 2017-10-18 @180  static const struct acpi_device_id cz_audio_acpi_match[] = {
+566a1847fb37f1 Akshu Agrawal 2017-10-18  181  	{ "AMDI1002", 0 },
+566a1847fb37f1 Akshu Agrawal 2017-10-18  182  	{},
+566a1847fb37f1 Akshu Agrawal 2017-10-18  183  };
+566a1847fb37f1 Akshu Agrawal 2017-10-18  184  MODULE_DEVICE_TABLE(acpi, cz_audio_acpi_match);
+566a1847fb37f1 Akshu Agrawal 2017-10-18  185  
+
+:::::: The code at line 180 was first introduced by commit
+:::::: 566a1847fb37f1b12d997f85623cbf8658c87394 ASoC: AMD: Add machine driver for cz rt5650
+
+:::::: TO: Akshu Agrawal <akshu.agrawal@amd.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
