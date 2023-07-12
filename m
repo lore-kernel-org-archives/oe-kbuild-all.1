@@ -1,49 +1,42 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC7E2AB4E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 13:37:05 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-314313f127fso7211059f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 06:37:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689169023; x=1691761023;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7aIsCgAEppDTo87SF0nTw6+UTGDKYZtSnvTAef+gOT4=;
-        b=EZeovcCJRb22vO8l93sN8nUXkydJlOcD0nUt9COZhB92H+jIuY6LRMNruXUFuhmTfS
-         S6b79kN/PGUQ+FUU0m5iOYzTU+jJYcSOx/Dlojn0PGL1OWbrvU7FwAHDZ50Dyogp0geR
-         SvtlsJziNxh+sOU+ah+pbou4CEGlObgsGKwPPXCjk4qm0RxAUhNUWhsQzet/pnLlFiqc
-         OjXmOimTHg6DpMnAg/U1us8gY3rBqLY8b2VoIBN0Xsv/Yd8HNQkDY0COr3TrXTnd0cEB
-         1o6YILHJI9RIniC2esLGATJRVGEINQHKCTM3HsXl4L3tOs6IDu04DRfm6m80mhEzxvmz
-         eLfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689169023; x=1691761023;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7aIsCgAEppDTo87SF0nTw6+UTGDKYZtSnvTAef+gOT4=;
-        b=erYy1BOuSYUxww7FBdRoRjoTsb4jztGwv+igtGVOL9FuSiLG/4LVDjGs9LZutbF7cV
-         eSIHnoXJ0PHPnhrasNOTzupbKenMULxu1jWIEQKogUCsXwAoKbGHAGb+LptIK4GQFi0P
-         r59drceyxJV9eI0oku05wdmb3yey5yXNoQO7NKt/oECBd6JAakGX3nMH7ul4gvUNPkjn
-         exycFqDPEStRCDeTPAsytnoZ7RyxdlxZB8A1CgYtpjdLmbeD36M13x8W+OkRkBErF721
-         ws0NNzDxquQ9/rLtxIacO+hDKtGnCqLwJfkfmD2XzdY01Qt3oidnmgEwRomvBsTqMMfT
-         r8yQ==
-X-Gm-Message-State: ABy/qLbbqor792WLEtMbDJVMBpTRtTl9d5muRv+AnP2tkxwZA+S/g3xv
-	jjUjzPV+YiboJLEiCRQZTL4KTg==
-X-Google-Smtp-Source: APBJJlFfWPEH5aJKXahNUW4XOD9+F38TUViK/4xi8D88ZoAGAkC+NYbUQV91fwqACh4OhQggIyYvgQ==
-X-Received: by 2002:a05:6000:196e:b0:314:1648:9d7d with SMTP id da14-20020a056000196e00b0031416489d7dmr17786193wrb.64.1689169023539;
-        Wed, 12 Jul 2023 06:37:03 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id q14-20020a05600000ce00b003062b2c5255sm5153502wrx.40.2023.07.12.06.37.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jul 2023 06:37:01 -0700 (PDT)
-Date: Wed, 12 Jul 2023 16:36:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Utkarsh Patel <utkarsh.h.patel@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 1/2] platform/chrome: cros_ec_typec: Configure Retimer
- cable type
-Message-ID: <18933ae4-e110-4eec-af23-ceb39f83821d@kadam.mountain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCD72AB54
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 13:38:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689169138; x=1720705138;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=z0vn6K5R9hDQX06RtI1v5ujf0WEjcOgSR0a5XeyEUNY=;
+  b=YHO88O4yMjlLJNJInTod/3VgZ5K6R1L3NiFntW6cSVHs7e+0H+sCXKMo
+   GFt5UXnGWrOdwKltKW48BQ0HnICtTAAPtbauqtjfyhWlpR04V5NdRAMW0
+   IexVggvQ4kRUxjliXxvc+uQfIrUPyoIEUwXx1kD1zZvbi862HljZIJJYf
+   +EQjDMyIxlDu2tAMPpo7S+dvtqxZaHrvmKgm138niPjkBkkCpGT35Tc97
+   /iwqjUR++QH5X9NKf9FTlFOpA/foTuMviJrwGEqyfO6MXS3oa8kGeUmwl
+   zFp/JatSgFek3/mDfsVn8J9DlPuZL4uT9HaqeKHyp4+CJXOQ1t0eWN2xW
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="451252029"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
+   d="scan'208";a="451252029"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 06:38:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="724883878"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
+   d="scan'208";a="724883878"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 12 Jul 2023 06:38:56 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qJa3T-0005jb-2X;
+	Wed, 12 Jul 2023 13:38:55 +0000
+Date: Wed, 12 Jul 2023 21:38:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:xtensa-6.5-rc1-esp32wifi 19/28] ERROR: modpost:
+ "esp_deinit_bt" [drivers/net/wireless/espressif/main.ko] undefined!
+Message-ID: <202307122119.Hu0iJ8yw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,68 +45,146 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230628173727.701140-2-utkarsh.h.patel@intel.com>
 
-Hi Utkarsh,
+Hi Max,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Utkarsh-Patel/platform-chrome-cros_ec_typec-Configure-Retimer-cable-type/20230629-013750
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20230628173727.701140-2-utkarsh.h.patel%40intel.com
-patch subject: [PATCH v2 1/2] platform/chrome: cros_ec_typec: Configure Retimer cable type
-config: i386-randconfig-m021-20230710 (https://download.01.org/0day-ci/archive/20230712/202307122026.7Iaz7rZa-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230712/202307122026.7Iaz7rZa-lkp@intel.com/reproduce)
+tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.5-rc1-esp32wifi
+head:   eb949d6688cf40bfaa832ca9e10978c2892e1ffe
+commit: 686647ff768e7504ab7ef2a15e2abcd73be88735 [19/28] esp_wifi: drop static esp_adapter and esp_get_adapter()
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230712/202307122119.Hu0iJ8yw-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230712/202307122119.Hu0iJ8yw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202307122026.7Iaz7rZa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307122119.Hu0iJ8yw-lkp@intel.com/
 
-smatch warnings:
-drivers/platform/chrome/cros_ec_typec.c:421 cros_typec_get_cable_vdo() warn: iterator used outside loop: 'node'
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/node +421 drivers/platform/chrome/cros_ec_typec.c
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
+ERROR: modpost: "cmd_set_mac" [drivers/net/wireless/espressif/main.ko] undefined!
+ERROR: modpost: "cmd_set_mcast_mac_list" [drivers/net/wireless/espressif/main.ko] undefined!
+ERROR: modpost: "process_event_esp_bootup" [drivers/net/wireless/espressif/main.ko] undefined!
+ERROR: modpost: "process_cmd_resp" [drivers/net/wireless/espressif/main.ko] undefined!
+ERROR: modpost: "process_cmd_event" [drivers/net/wireless/espressif/main.ko] undefined!
+ERROR: modpost: "esp_hci_update_rx_counter" [drivers/net/wireless/espressif/main.ko] undefined!
+ERROR: modpost: "ap_bssid" [drivers/net/wireless/espressif/main.ko] undefined!
+>> ERROR: modpost: "esp_deinit_bt" [drivers/net/wireless/espressif/main.ko] undefined!
+>> ERROR: modpost: "esp_init_bt" [drivers/net/wireless/espressif/main.ko] undefined!
+>> ERROR: modpost: "esp_commands_setup" [drivers/net/wireless/espressif/main.ko] undefined!
+WARNING: modpost: suppressed 26 unresolved symbol warnings because there were too many)
 
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  409  static int cros_typec_get_cable_vdo(struct cros_typec_data *typec, int port_num,
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  410  				    uint16_t svid)
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  411  {
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  412  	struct cros_typec_port *port = typec->ports[port_num];
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  413  	struct list_head *head = &port->plug_mode_list;
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  414  	struct cros_typec_altmode_node *node;
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  415  
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  416  	list_for_each_entry(node, head, list) {
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  417  		if (node->amode->svid == svid)
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  418  			break;
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  419  	}
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  420  
-614bf1649c6dd4 Utkarsh Patel   2023-06-28 @421  	if (node->amode->svid != svid)
-
-This doesn't work and I'm slightly surprised that it doesn't crash in
-testing.  If list_for_each_entry() doesn't hit a break statement then
-node points to invalid (but non-NULL) pointer.  The pointer is a offset
-from &port->plug_mode_list in this case.
-
-It should be:
-
-	list_for_each_entry(node, head, list) {
-		if (node->amode->svid == svid)
-			return node->amode->vdo;
-	}
-
-	return 0;
-
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  422  		return 0;
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  423  
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  424  	return node->amode->vdo;
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  425  }
-614bf1649c6dd4 Utkarsh Patel   2023-06-28  426  
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SM_GCC_8350
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [m]:
+   - SM_VIDEOCC_8350 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   WARNING: unmet direct dependencies detected for SM_GCC_8450
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [m]:
+   - SM_GPUCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   - SM_VIDEOCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   WARNING: unmet direct dependencies detected for SM_GCC_8550
+   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
+   Selected by [m]:
+   - SM_GPUCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+   - SM_VIDEOCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
