@@ -1,120 +1,175 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96F783FFE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 11:10:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60674C433C8;
-	Wed, 12 Jul 2023 11:10:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689160210;
-	bh=39wbeC46xBU+aebKVuRHWzCgIK4Wt5S050ChSTqVZt8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZoxXmW8kcd/6xAYK8h795BAo3CMm1go1R6LFeN3HGU28VdYA8a9MOrFDm4CGw1Sil
-	 FyaUnnYDDrAnT1clxG1dmNIBXakouYV3lLSfgwTUjqfszYQVqx73B6fYOM4QPUc9sy
-	 qmgxOc98qHxagx+QuY4KraHNQDoglWdTq0X5A73wraz3JQGfKJANUddBJULiGAn/Zs
-	 LbatxGF5JJ/x2qn/fdR4Wst+AbxZPTSYXQun9nR/ngixxiAIQezPyGenZDvZCYFiG3
-	 uvSE7I/gmcW55h2EsepPkgB+8/n2Vgd8lQdwf9MSX75w2ICqkFqJLHCMbrjDNZwNQP
-	 V/x1irEQHoLcg==
-Date: Wed, 12 Jul 2023 13:10:06 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Jan Kara <jack@suse.cz>
-Subject: Re: [jlayton:mgctime 50/118] fs/hostfs/hostfs_kern.c:520:36: error:
- incompatible type for argument 2 of 'inode_set_ctime_to_ts'
-Message-ID: <20230712-jungpflanze-kilowatt-835f9a9500d8@brauner>
-References: <202307120235.UI0A6Op0-lkp@intel.com>
- <20230712-anorak-milan-27f887149be5@brauner>
- <88f8baec599aaedc79da058e288086238a01f46f.camel@kernel.org>
- <9b053f2717e99494f83271c2693eee6a99b55660.camel@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0173200D7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 11:15:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689160555; x=1720696555;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VaSJaOUeBARY51yecU9kK2FaJsp0tymXU8rZsXJ6gpg=;
+  b=KO6/5FYOZjjXrY4DJqKt84X1Hvku977eUP98lFj/gMRPGsHZwn5cBbem
+   3+AUxhunpELv1Yx5wDqaCrhs1t/EamwhcGoE5LmS7npoEK6Kd101IIYWk
+   CpX4lLBAvWbgNCWfPJmQxVCmQN5yedBniYVfSvyXSn21sf3Sm2I/Yo9Zu
+   Y6NpXbpwFLuh9GTIf7a4Kw71N4nuu1rJil7vPYBk0l0KM188/Peo5PnKW
+   SyDBEgF7uBEo0dQV81JAJB0SLsB9lkPUiLATg8XRMeTkMYRGBqukckYKJ
+   OvVay/dlXEFnK9TFU+rSHJoDfrOREVL+iloeSVtPP4Wx87jBKxypB9M/v
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="354771076"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
+   d="scan'208";a="354771076"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 04:15:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="791596829"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
+   d="scan'208";a="791596829"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 12 Jul 2023 04:15:53 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qJXp2-0005eC-1Y;
+	Wed, 12 Jul 2023 11:15:52 +0000
+Date: Wed, 12 Jul 2023 19:15:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sashal-stable:pending-6.4 704/719]
+ drivers/acpi/acpi_platform.c:126:17: error: implicit declaration of function
+ 'acpi_match_acpi_device'; did you mean 'acpi_match_device'?
+Message-ID: <202307121935.BsRzMU7p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9b053f2717e99494f83271c2693eee6a99b55660.camel@kernel.org>
 
-On Wed, Jul 12, 2023 at 06:35:08AM -0400, Jeff Layton wrote:
-> On Wed, 2023-07-12 at 06:18 -0400, Jeff Layton wrote:
-> > On Wed, 2023-07-12 at 12:08 +0200, Christian Brauner wrote:
-> > > On Wed, Jul 12, 2023 at 02:30:10AM +0800, kernel test robot wrote:
-> > > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git mgctime
-> > > > head:   61142a4e29e09f59b3b640f0f691e00af4c4a6f9
-> > > > commit: 2ceaa835b4f50d1b0c0fa678f352bb4f6f5f8062 [50/118] hostfs: convert to ctime accessor functions
-> > > > config: um-defconfig (https://download.01.org/0day-ci/archive/20230712/202307120235.UI0A6Op0-lkp@intel.com/config)
-> > > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > > > reproduce: (https://download.01.org/0day-ci/archive/20230712/202307120235.UI0A6Op0-lkp@intel.com/reproduce)
-> > > > 
-> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > the same patch/commit), kindly add following tags
-> > > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > > Closes: https://lore.kernel.org/oe-kbuild-all/202307120235.UI0A6Op0-lkp@intel.com/
-> > > > 
-> > > > All errors (new ones prefixed by >>):
-> > > > 
-> > > >    fs/hostfs/hostfs_kern.c: In function 'hostfs_inode_update':
-> > > > > > fs/hostfs/hostfs_kern.c:520:36: error: incompatible type for argument 2 of 'inode_set_ctime_to_ts'
-> > > >      520 |         inode_set_ctime_to_ts(ino, &st->ctime);
-> > > >          |                                    ^~~~~~~~~~
-> > > >          |                                    |
-> > > >          |                                    const struct hostfs_timespec *
-> > > >    In file included from fs/hostfs/hostfs_kern.c:9:
-> > > >    include/linux/fs.h:1499:73: note: expected 'struct timespec64' but argument is of type 'const struct hostfs_timespec *'
-> > > >     1499 |                                                       struct timespec64 ts)
-> > > >          |                                                       ~~~~~~~~~~~~~~~~~~^~
-> > > 
-> > > This bug is also present in the patches I applied. I've fixed it up the
-> > > following way:
-> > > 
-> > > diff --git a/fs/hostfs/hostfs_kern.c b/fs/hostfs/hostfs_kern.c
-> > > index 182af84a9c12..1f24ed13cf40 100644
-> > > --- a/fs/hostfs/hostfs_kern.c
-> > > +++ b/fs/hostfs/hostfs_kern.c
-> > > @@ -517,7 +517,8 @@ static int hostfs_inode_update(struct inode *ino, const struct hostfs_stat *st)
-> > >                 (struct timespec64){ st->atime.tv_sec, st->atime.tv_nsec };
-> > >         ino->i_mtime =
-> > >                 (struct timespec64){ st->mtime.tv_sec, st->mtime.tv_nsec };
-> > > -       inode_set_ctime_to_ts(ino, &st->ctime);
-> > > +       inode_set_ctime_to_ts(ino, (struct timespec64){ st->ctime.tv_sec,
-> > > +                                                       st->ctime.tv_nsec });
-> > >         ino->i_size = st->size;
-> > >         ino->i_blocks = st->blocks;
-> > >         return 0;
-> > > 
-> > > Let me know if that's wrong.
-> > > 
-> > 
-> > That should work, but it's not quite as clean looking as:
-> > 
-> >     inode_set_ctime(ino, st->ctime.tv_sec, st->ctime.tv_nsec);
-> > 
-> > I'm having trouble build testing this though as I don't have a config
-> > that enables CONFIG_HOSTFS, and I'm not quite sure how to get there.
-> 
-> 
-> Yeah, I'm not sure what I'm doing wrong, but when I take the config file
-> associated with this bug report and run it through make oldconfig,
-> CONFIG_HOSTFS ends up being disabled. I've not been able to test this
-> properly.
-> 
-> Is there some trick to building a proper UML kernel these days?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.4
+head:   3e07459e3b3562fda8192f91db788c99827f23a0
+commit: d034fcbb7913738b4e324fd6e6c41bd7936bc2d9 [704/719] ACPI: platform: Ignore SMB0001 only when it has resources
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230712/202307121935.BsRzMU7p-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230712/202307121935.BsRzMU7p-lkp@intel.com/reproduce)
 
-So what I end up doing is:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307121935.BsRzMU7p-lkp@intel.com/
 
-cd kernel-repo/
-mkdir build
-cp /boot/$config build/.config
-make ARCH=um O=build.v1/ fs/hostfs/hostfs_kern.o
+All errors (new ones prefixed by >>):
 
-that should be enough to test whether this compiles. With your change
-applied:
+   drivers/acpi/acpi_platform.c: In function 'acpi_create_platform_device':
+>> drivers/acpi/acpi_platform.c:126:17: error: implicit declaration of function 'acpi_match_acpi_device'; did you mean 'acpi_match_device'? [-Werror=implicit-function-declaration]
+     126 |         match = acpi_match_acpi_device(forbidden_id_list, adev);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 acpi_match_device
+   drivers/acpi/acpi_platform.c:126:15: warning: assignment to 'const struct acpi_device_id *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     126 |         match = acpi_match_acpi_device(forbidden_id_list, adev);
+         |               ^
+   cc1: some warnings being treated as errors
 
-> make -j7 ARCH=um O=build.v1/ fs/hostfs/hostfs_kern.o
-  GEN     Makefile
-  DESCEND bpf/resolve_btfids
-  INSTALL libsubcmd_headers
-  CALL    ../scripts/checksyscalls.sh
-  CC      fs/hostfs/hostfs_kern.o
+
+vim +126 drivers/acpi/acpi_platform.c
+
+    98	
+    99	/**
+   100	 * acpi_create_platform_device - Create platform device for ACPI device node
+   101	 * @adev: ACPI device node to create a platform device for.
+   102	 * @properties: Optional collection of build-in properties.
+   103	 *
+   104	 * Check if the given @adev can be represented as a platform device and, if
+   105	 * that's the case, create and register a platform device, populate its common
+   106	 * resources and returns a pointer to it.  Otherwise, return %NULL.
+   107	 *
+   108	 * Name of the platform device will be the same as @adev's.
+   109	 */
+   110	struct platform_device *acpi_create_platform_device(struct acpi_device *adev,
+   111							    const struct property_entry *properties)
+   112	{
+   113		struct acpi_device *parent = acpi_dev_parent(adev);
+   114		struct platform_device *pdev = NULL;
+   115		struct platform_device_info pdevinfo;
+   116		const struct acpi_device_id *match;
+   117		struct resource_entry *rentry;
+   118		struct list_head resource_list;
+   119		struct resource *resources = NULL;
+   120		int count;
+   121	
+   122		/* If the ACPI node already has a physical device attached, skip it. */
+   123		if (adev->physical_node_count)
+   124			return NULL;
+   125	
+ > 126		match = acpi_match_acpi_device(forbidden_id_list, adev);
+   127		if (match) {
+   128			if (match->driver_data & ACPI_ALLOW_WO_RESOURCES) {
+   129				bool has_resources = false;
+   130	
+   131				acpi_walk_resources(adev->handle, METHOD_NAME__CRS,
+   132						    acpi_platform_resource_count, &has_resources);
+   133				if (has_resources)
+   134					return ERR_PTR(-EINVAL);
+   135			} else {
+   136				return ERR_PTR(-EINVAL);
+   137			}
+   138		}
+   139	
+   140		INIT_LIST_HEAD(&resource_list);
+   141		count = acpi_dev_get_resources(adev, &resource_list, NULL, NULL);
+   142		if (count < 0)
+   143			return NULL;
+   144		if (count > 0) {
+   145			resources = kcalloc(count, sizeof(*resources), GFP_KERNEL);
+   146			if (!resources) {
+   147				acpi_dev_free_resource_list(&resource_list);
+   148				return ERR_PTR(-ENOMEM);
+   149			}
+   150			count = 0;
+   151			list_for_each_entry(rentry, &resource_list, node)
+   152				acpi_platform_fill_resource(adev, rentry->res,
+   153							    &resources[count++]);
+   154	
+   155			acpi_dev_free_resource_list(&resource_list);
+   156		}
+   157	
+   158		memset(&pdevinfo, 0, sizeof(pdevinfo));
+   159		/*
+   160		 * If the ACPI node has a parent and that parent has a physical device
+   161		 * attached to it, that physical device should be the parent of the
+   162		 * platform device we are about to create.
+   163		 */
+   164		pdevinfo.parent = parent ? acpi_get_first_physical_node(parent) : NULL;
+   165		pdevinfo.name = dev_name(&adev->dev);
+   166		pdevinfo.id = PLATFORM_DEVID_NONE;
+   167		pdevinfo.res = resources;
+   168		pdevinfo.num_res = count;
+   169		pdevinfo.fwnode = acpi_fwnode_handle(adev);
+   170		pdevinfo.properties = properties;
+   171	
+   172		if (acpi_dma_supported(adev))
+   173			pdevinfo.dma_mask = DMA_BIT_MASK(32);
+   174		else
+   175			pdevinfo.dma_mask = 0;
+   176	
+   177		pdev = platform_device_register_full(&pdevinfo);
+   178		if (IS_ERR(pdev))
+   179			dev_err(&adev->dev, "platform device creation failed: %ld\n",
+   180				PTR_ERR(pdev));
+   181		else {
+   182			set_dev_node(&pdev->dev, acpi_get_node(adev->handle));
+   183			dev_dbg(&adev->dev, "created platform device %s\n",
+   184				dev_name(&pdev->dev));
+   185		}
+   186	
+   187		kfree(resources);
+   188	
+   189		return pdev;
+   190	}
+   191	EXPORT_SYMBOL_GPL(acpi_create_platform_device);
+   192	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
