@@ -1,43 +1,43 @@
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506A620F8E;
-	Wed, 12 Jul 2023 19:07:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DB320F8E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 19:07:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689188831; x=1720724831;
+  t=1689188834; x=1720724834;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M1Dp/cbEsk1JdVsJnQjzTXulT6UHNErky1OV1oQ7O2Q=;
-  b=iDAm0bc/1GN4onk0Z5ONK8o4BnRtRcB5Rx5edP9PSNGXvX8zeaoa9ile
-   4n9YRxq2CkmiBvUj6vExBs4WAcBiRp8L3ncg1JbzQdMhMPr/RLYy1h4b2
-   XNxZE0ke9NvuYwapX1XUx+YQRczXW726EHhBzcYjaFRELXsf02ge0eUJa
-   YmF5cyYOOTArtua3IhRYIrk4A2nbUm9xq6jmnYdfpJloNduUTj0ze0Q3J
-   dav2vxPVSWzfSoU5+9m340rT6wmEgdP4bmpwsNntM/bOPBS5w4+wx9+9e
-   hKM8u9PwjEsKk8PN2dwWvwTsUvo7vGmKkzw5QLbIbaOnresttJ0Fxpt9S
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="344578369"
+  bh=gcjGDruZyGTfGpkQ1MCiKB8h8VZ9OZfoMgLL4lJXHp8=;
+  b=HY/mpHiNTPmIL0mWkOoNeae27a/jIejtqEcl1N3y5UE/4M0yrANUfJlu
+   B1CsJBGb7FhL91PaSU/9YXiokrwjMWgpAk97QgSxrT+hT4Mnt/SXB4eiA
+   FM3jylzSufKEsDQ+V2Dpf68VbWAHvFtBSMBB876CQsz8Ux4CLCs+uea0k
+   0tbeZvLtsrE0x/zMCSldWn99cMy+/HFDKj4qNJ3BC6duSnPZgRIkHWcTD
+   cZUIkZtXB7EdJRMUQruvkrpnKSYJz5LPwZEyQTflEMpxj/qGuBTTNpYXE
+   SXcDy9iMmdTc82+RXEixzlV5hwDKKMsE8i1+YUOfWEnZ8Yss/Qt8S6M8W
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="344578365"
 X-IronPort-AV: E=Sophos;i="6.01,200,1684825200"; 
-   d="scan'208";a="344578369"
+   d="scan'208";a="344578365"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 12:07:07 -0700
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 12:07:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="671973965"
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="671973962"
 X-IronPort-AV: E=Sophos;i="6.01,200,1684825200"; 
-   d="scan'208";a="671973965"
+   d="scan'208";a="671973962"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
   by orsmga003.jf.intel.com with ESMTP; 12 Jul 2023 12:07:05 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJfB2-0005w6-2X;
+	id 1qJfB2-0005w1-2M;
 	Wed, 12 Jul 2023 19:07:04 +0000
-Date: Thu, 13 Jul 2023 03:06:54 +0800
+Date: Thu, 13 Jul 2023 03:06:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ben Skeggs <bskeggs@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [skeggsb-nouveau:00.02-gsp-rm 76/83]
  drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c:303:1: warning: no previous
- prototype for function 'r535_fifo_runl_ctor'
-Message-ID: <202307130343.InlOx9Mq-lkp@intel.com>
+ prototype for 'r535_fifo_runl_ctor'
+Message-ID: <202307130314.2OySgGXY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,109 +50,20 @@ Content-Disposition: inline
 tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 00.02-gsp-rm
 head:   3f6fc48703e02597683babc04c512ca13bb95e19
 commit: bb6ac47f73075e361e7abcafa3a4dd5610596e8c [76/83] WIPdrm/nouveau/fifo/r535: initial support
-config: s390-randconfig-r044-20230712 (https://download.01.org/0day-ci/archive/20230713/202307130343.InlOx9Mq-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230713/202307130343.InlOx9Mq-lkp@intel.com/reproduce)
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230713/202307130314.2OySgGXY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230713/202307130314.2OySgGXY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307130343.InlOx9Mq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307130314.2OySgGXY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c:22:
-   In file included from drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h:5:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/engine/fifo.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/engine.h:5:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c:22:
-   In file included from drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h:5:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/engine/fifo.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/engine.h:5:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c:22:
-   In file included from drivers/gpu/drm/nouveau/nvkm/engine/fifo/priv.h:5:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/engine/fifo.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/engine.h:5:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c:303:1: warning: no previous prototype for function 'r535_fifo_runl_ctor' [-Wmissing-prototypes]
+>> drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c:303:1: warning: no previous prototype for 'r535_fifo_runl_ctor' [-Wmissing-prototypes]
      303 | r535_fifo_runl_ctor(struct nvkm_fifo *fifo)
-         | ^
-   drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c:302:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     302 | int
-         | ^
-         | static 
-   13 warnings generated.
+         | ^~~~~~~~~~~~~~~~~~~
 
 
 vim +/r535_fifo_runl_ctor +303 drivers/gpu/drm/nouveau/nvkm/engine/fifo/r535.c
