@@ -1,43 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3DD214E5;
-	Wed, 12 Jul 2023 15:42:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8AB214EA
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 16:13:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689176522; x=1720712522;
+  t=1689178382; x=1720714382;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yGl990ayjvNcYAAT668WonCAg9+5TRkua8H5N/gpkwk=;
-  b=dycCQ7F1K/fhDGbH1KbjNAooimTbdYstH3BGWip3Th/GA3UN44uE+RNj
-   zWKO7ZqY135eIKSalXR/PkArBWkgmFG6yIWz5Lk64LdcobffIjS3LW63P
-   ISUS/ngp1luON6xOZ2vp+h9Cpn4xzHseN3tPcZz+hovj+IA+FiwwUPhpC
-   Qf0llFMqIJTwVVusAdxjtD3xLAQMHQVPGBIuCkK7AmG9bYZp6xTNvt4Bf
-   i3sWHaeko0YsJj9D7k+3VsHX3q908x5U7wgtwY2b1jcQgg2SZOmUmw00S
-   hGB21vXamlihGuHPKouAA4MVueOMoshjuFzNm3QHsVwOPCALmqJZ2PHgZ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="364957666"
+  bh=hiEKGPg6R5TGr1os1mjumN6MVqZ6DnqvDnm4e+Z7NrI=;
+  b=Ij/TRyiqkLBIl0aZQPhmgyAOFmSMee+HsOYPwt6S/fBT/pEMth9eVv2Q
+   Se3caihcDlvXnVrAq2w/eNy7J0iKbeAhZR8Slr9EDyDmrfOszzDekrlVR
+   dIK8dParByC42soFUv77fIZyfQ6iayFoYX01zzGgBe9jepteYglPI/ef2
+   e2N3cAyZTrxhVluJDoINYTfh1tWlBfsDZirj8AztN0gDbHG1jWcbAexzS
+   hMA6Ge/aYyZsxA45n483dsc1ioJV4Am+cicAdRxVKE84EJg7qbJvbNB3N
+   9D5n/y9L4MQAF2jkNcsLlYUC0ukdsP1QlqkqcYBSslenR93xUWehqTdU7
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="431068950"
 X-IronPort-AV: E=Sophos;i="6.01,200,1684825200"; 
-   d="scan'208";a="364957666"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 08:42:00 -0700
+   d="scan'208";a="431068950"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 09:13:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="968239965"
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="835206402"
 X-IronPort-AV: E=Sophos;i="6.01,200,1684825200"; 
-   d="scan'208";a="968239965"
+   d="scan'208";a="835206402"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 12 Jul 2023 08:41:58 -0700
+  by fmsmga002.fm.intel.com with ESMTP; 12 Jul 2023 09:13:00 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJbyX-0005mj-26;
-	Wed, 12 Jul 2023 15:41:57 +0000
-Date: Wed, 12 Jul 2023 23:41:37 +0800
+	id 1qJcSZ-0005of-1c;
+	Wed, 12 Jul 2023 16:12:59 +0000
+Date: Thu, 13 Jul 2023 00:12:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ben Skeggs <bskeggs@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [skeggsb-nouveau:00.02-gsp-rm 70/83]
  drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:172:1: warning: no previous
- prototype for function 'nvkm_gsp_fwsec_v2'
-Message-ID: <202307122326.VQukrJb4-lkp@intel.com>
+ prototype for 'nvkm_gsp_fwsec_v2'
+Message-ID: <202307130031.xw4VdIuI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,113 +50,28 @@ Content-Disposition: inline
 tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 00.02-gsp-rm
 head:   3f6fc48703e02597683babc04c512ca13bb95e19
 commit: f96cac9d383d166bb0a7d85437ed2d87ee8610e9 [70/83] WIPdrm/nouveau/gsp/r535: add support for booting GSP-RM
-config: s390-randconfig-r044-20230712 (https://download.01.org/0day-ci/archive/20230712/202307122326.VQukrJb4-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230712/202307122326.VQukrJb4-lkp@intel.com/reproduce)
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20230713/202307130031.xw4VdIuI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230713/202307130031.xw4VdIuI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307122326.VQukrJb4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307130031.xw4VdIuI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:22:
-   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:22:
-   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:22:
-   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/gsp/priv.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3:
-   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4:
-   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:13:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:172:1: warning: no previous prototype for function 'nvkm_gsp_fwsec_v2' [-Wmissing-prototypes]
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:172:1: warning: no previous prototype for 'nvkm_gsp_fwsec_v2' [-Wmissing-prototypes]
      172 | nvkm_gsp_fwsec_v2(struct nvkm_gsp *gsp, const char *name,
-         | ^
-   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:171:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     171 | int
-         | ^
-         | static 
->> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:222:1: warning: no previous prototype for function 'nvkm_gsp_fwsec_v3' [-Wmissing-prototypes]
+         | ^~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:222:1: warning: no previous prototype for 'nvkm_gsp_fwsec_v3' [-Wmissing-prototypes]
      222 | nvkm_gsp_fwsec_v3(struct nvkm_gsp *gsp, const char *name,
-         | ^
-   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c:221:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     221 | int
-         | ^
-         | static 
-   14 warnings generated.
+         | ^~~~~~~~~~~~~~~~~
+--
+   drivers/gpu/drm/nouveau/nvkm/subdev/gsp/tu102.c: In function 'tu102_gsp_booter_ctor':
+>> drivers/gpu/drm/nouveau/nvkm/subdev/gsp/tu102.c:39:29: warning: variable 'meta' set but not used [-Wunused-but-set-variable]
+      39 |         u32 loc, sig, cnt, *meta;
+         |                             ^~~~
 
 
 vim +/nvkm_gsp_fwsec_v2 +172 drivers/gpu/drm/nouveau/nvkm/subdev/gsp/fwsec.c
