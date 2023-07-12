@@ -1,91 +1,120 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f201.google.com (mail-yb1-f201.google.com [209.85.219.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F0514F95
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 16:53:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689180790; x=1720716790;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/eEj6DDSZX2YfNcARYHoU0IfdgLSnrq1NLrpkZp6oKU=;
-  b=E/KhOD3RJ00njqUdCZSi1+ntW7jA/9OcPfSdnESIxY2gYCn8jESqTFcq
-   kFl+TS+sdRWrah6vlV7O6Zrn1kxh8aTgp+DqKEciBAAIGnhQ7Y8fNHVUF
-   8WGoOYBLj1NcXjq3tOTOxoXKoxPGmC4MkIz7/0NTxvmHDCUaLwqfGAA85
-   P9Hjkmo0drfBQHZcG+8i61lfi9e492vkpTJfQeysVQK30/5aE/qRJfTzU
-   80p2nn2EEIZkgglahFhrRGjgrf+81rH90ZUHdFPB/tObjV3k1BdUOp/JV
-   cbe0u+7hXOGEtYLC0nx0yF89QYsjBkUHQpIRo3mtpSMbJzQePt3DP+BiL
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="364975910"
-X-IronPort-AV: E=Sophos;i="6.01,200,1684825200"; 
-   d="scan'208";a="364975910"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 09:53:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="671940212"
-X-IronPort-AV: E=Sophos;i="6.01,200,1684825200"; 
-   d="scan'208";a="671940212"
-Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 12 Jul 2023 09:53:02 -0700
-Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qJd5J-0005rN-31;
-	Wed, 12 Jul 2023 16:53:01 +0000
-Date: Thu, 13 Jul 2023 00:52:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com,
-	Guenter Roeck <groeck@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-5.15 8/27] kernel/time/hrtimer.c:990:6: sparse:
- sparse: symbol 'hrtimer_switch_to_lres' was not declared. Should it be
- static?
-Message-ID: <202307130047.Yb9iuu9r-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B561F95D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 16:53:29 +0000 (UTC)
+Received: by mail-yb1-f201.google.com with SMTP id 3f1490d57ef6-c5cea5773e8so7859841276.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 09:53:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20221208; t=1689180808; x=1691772808;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TuwmCccTzzPRVYbABitkJk2otUQw/JA11EzNmmOq3F8=;
+        b=LY3EnhCMzD5FX+ReAkl8wiSgiqXHx+ha+7COu+SQjXOgfs3EXcRzd8FuOv6s6gMFGY
+         Sx6bXEKZUfyyIdrzMJyxYmejS3qH5NB0y2W7dxHfgnutJE1JBHqB83xDnwmY3vcnpojX
+         JdCErBkT+loA7bbAhxqn2cB8tEam7rho/dMbz2QifbhAm9KZSq6ZyWiCEBL2vaIYP+S2
+         U4Kevd+b1B2218tpwRIAt0LzXPVjxtpwINm2ehnh7y+li0kep8KKUuI5BHxBBwEd0lyg
+         m9UfxX9YZ05wnWp/uxTGjEgSCeWR09MUqGHPChylubjoPz90kTOFbTnO6V59DV80Zf82
+         iaxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1689180808; x=1691772808;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TuwmCccTzzPRVYbABitkJk2otUQw/JA11EzNmmOq3F8=;
+        b=TjA1JijXKaBbA8jw737+2WqJHAjHAC48g9xdSJQT9eAO+oh/dDeWBwHLG8M7+kDPqD
+         PpiODKyuCC4ybUhOfVRpeU5eAMwcFP7PGVz6eUro4POcK6BKF1LloW7C74K+bJGv+t1D
+         C+vUl5EkAp/qOdKdWOU2lyhAss9lFs4LAM13Ne0e/WsZ7AvpwnUZHgAHPYWskZjWMwmt
+         i8EgZ0rIIYUFMa037nSzrI8xINK0kyo2/9coaMN22ocEeVh7RKC4iTHC4tlJkwtG9Gfd
+         lts6dyYCoN6+LXy/LfOErAqf99r2yd0RGnQq/sakyNJckYruKRmk0hnf8kttO1hvs0RH
+         KlHg==
+X-Gm-Message-State: ABy/qLYQEIMpJTQLkWEOt/8uHi/EXm+2Y5y5fkLRairDJHcf3vTfWWtu
+	Flt4DsV+z9Xl/10QU7gQVg8vy+n7i1I=
+X-Google-Smtp-Source: APBJJlHPzUYAMUevw56rN72xCda5PMJmwguFn3cN/qClrzRT6VtD9MBYOBO1RPRXFRDT8Ob9wSXcO/zDXXw=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5c37])
+ (user=seanjc job=sendgmr) by 2002:a25:aba1:0:b0:c15:cbd1:60da with SMTP id
+ v30-20020a25aba1000000b00c15cbd160damr162947ybi.6.1689180808382; Wed, 12 Jul
+ 2023 09:53:28 -0700 (PDT)
+Date: Wed, 12 Jul 2023 09:53:26 -0700
+In-Reply-To: <87y1jn52pp.fsf@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+References: <202307080326.zDp7E3o0-lkp@intel.com> <87y1jn52pp.fsf@redhat.com>
+Message-ID: <ZK7ahtc2DVx6E/si@google.com>
+Subject: Re: [stable:linux-5.15.y 55/9999] arch/x86/kvm/hyperv.c:2185:5:
+ error: stack frame size (1036) exceeds limit (1024) in 'kvm_hv_hypercall'
+From: Sean Christopherson <seanjc@google.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-5.15
-head:   b2dc8e4c888801835618a1cefb5530358116c53b
-commit: b9937f09c9e0ab857c06ec9360be17f860be5d42 [8/27] CHROMIUM: hrtimer: Add a sysctl to lower resolution of timers
-config: i386-randconfig-i062-20230712 (https://download.01.org/0day-ci/archive/20230713/202307130047.Yb9iuu9r-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20230713/202307130047.Yb9iuu9r-lkp@intel.com/reproduce)
+On Mon, Jul 10, 2023, Vitaly Kuznetsov wrote:
+> kernel test robot <lkp@intel.com> writes:
+> 
+> > Hi Vitaly,
+> >
+> > First bad commit (maybe != root cause):
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git linux-5.15.y
+> > head:   d54cfc420586425d418a53871290cc4a59d33501
+> > commit: cb188e07105f2216f5efbefac95df4b6ce266906 [55/9999] KVM: x86: hyper-v: HVCALL_SEND_IPI_EX is an XMM fast hypercall
+> > config: i386-buildonly-randconfig-r006-20230708 (https://download.01.org/0day-ci/archive/20230708/202307080326.zDp7E3o0-lkp@intel.com/config)
+> > compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+> > reproduce: (https://download.01.org/0day-ci/archive/20230708/202307080326.zDp7E3o0-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202307080326.zDp7E3o0-lkp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >>> arch/x86/kvm/hyperv.c:2185:5: error: stack frame size (1036) exceeds limit (1024) in 'kvm_hv_hypercall' [-Werror,-Wframe-larger-than]
+> >    int kvm_hv_hypercall(struct kvm_vcpu *vcpu)
+> >        ^
+> >    1 error generated.
+> 
+> (sorry for delayed reply)
+> 
+> This used to be a warning (without CONFIG_KVM_WERROR I guess?) :-) E.g.
+> 
+> https://lore.kernel.org/kvm/87zgg6sza8.fsf@redhat.com/#t
+> 
+> where Nathan explained LLVM's behavior:
+> 
+> https://lore.kernel.org/kvm/Yvp87jlVWg0e376v@dev-arch.thelio-3990X/
+> 
+> This was 'fixed' upstream with
+> 
+> commit 7d5e88d301f84a7b64602dbe3640f288223095ea
+> Author: Vitaly Kuznetsov <vkuznets@redhat.com>
+> Date:   Tue Nov 1 15:53:56 2022 +0100
+> 
+>     KVM: x86: hyper-v: Use preallocated buffer in 'struct kvm_vcpu_hv' instead of on-stack 'sparse_banks'
+>   
+> and personally, I'm not against backporting it to 5.15.y but I seriously
+> doubt it is worth the hassle (i386 KVM + llvm + CONFIG_KVM_WERROR is
+> likely an impossible combo).
+> 
+> Also, there seems to be another build problem with CONFIG_KVM_WERROR I
+> met with clan-16 and the same config:
+> 
+> ../arch/x86/kvm/x86.c:2315:19: error: unused function 'gtod_is_based_on_tsc' [-Werror,-Wunused-function]
+> static inline int gtod_is_based_on_tsc(int mode)
+> 
+> TL;DR: Let's ignore this for 5.15, not worth fixing IMO. Cc: kvm@ to
+> check if anyone thinks differently.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307130047.Yb9iuu9r-lkp@intel.com/
+Ya, ignore it.  KVM_WERROR is off-by-default for 32-bit builds, and all evidence
+suggests that no one uses KVM with 32-bit kernels these days, so I can't imagine
+this negatively affects anyone.
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/time/hrtimer.c:990:6: sparse: sparse: symbol 'hrtimer_switch_to_lres' was not declared. Should it be static?
-   kernel/time/hrtimer.c:176:33: sparse: sparse: context imbalance in 'lock_hrtimer_base' - wrong count at exit
-   kernel/time/hrtimer.c:1320:28: sparse: sparse: context imbalance in 'hrtimer_start_range_ns' - unexpected unlock
-   kernel/time/hrtimer.c:1355:28: sparse: sparse: context imbalance in 'hrtimer_try_to_cancel' - unexpected unlock
-   kernel/time/hrtimer.c:1476:9: sparse: sparse: context imbalance in '__hrtimer_get_remaining' - unexpected unlock
+  config KVM_WERROR
+        bool "Compile KVM with -Werror"
+        # KASAN may cause the build to fail due to larger frames
+        default y if X86_64 && !KASAN
 
-vim +/hrtimer_switch_to_lres +990 kernel/time/hrtimer.c
-
-   986	
-   987	/*
-   988	 * Switch to low resolution mode
-   989	 */
- > 990	void hrtimer_switch_to_lres(void)
-   991	{
-   992		struct hrtimer_cpu_base *base = this_cpu_ptr(&hrtimer_bases);
-   993	
-   994		if (!__hrtimer_hres_active(base))
-   995			return;
-   996	
-   997		tick_nohz_hres_to_lres();
-   998		base->hres_active = 0;
-   999		hrtimer_resolution = LOW_RES_NSEC;
-  1000	}
-  1001	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
