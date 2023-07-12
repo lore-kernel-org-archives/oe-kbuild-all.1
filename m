@@ -1,93 +1,136 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26D9200A9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 10:13:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689156834; x=1720692834;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6jByQsRCloBAm9WCTXzWFZGbRJr3KVAvd99twUzyDAM=;
-  b=SrNjrH/6qmGSGFUHWBN8gi5TPbjdstCcGpMzE1tpgKSCyrEwifYVT9+O
-   /+aMxlTPCTR4CYyX9fGuaesL6gcp2DpdOLVGy9bTO07LHzfzbvlUh+diw
-   Mpb8J4yVfcjRK5nyzSpTqa7D4LGGkbhGQviXONWNoLf+J14kvB1yeFjYY
-   PM/TXHmSeEd7KEhIArqPBtzFHhDpym+JrURWI1ooiH0tBxPgitMrXpI/2
-   55kJ5qIhSOL5RPmBCbEhR5X47alJYA8QzwdaS91QQiYpVIxUgCp9aftya
-   pUgWwToftcAL/l9X+VIs+2He5VbTTX66/YsTPb+D8QU0/coxLnihGNxa/
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="430983238"
-X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
-   d="scan'208";a="430983238"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 03:13:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="721456441"
-X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
-   d="scan'208";a="721456441"
-Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 12 Jul 2023 03:13:51 -0700
-Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qJWr0-0005bj-2V;
-	Wed, 12 Jul 2023 10:13:50 +0000
-Date: Wed, 12 Jul 2023 18:13:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [yiliu1765-iommufd:wip/iommufd_pasid 67/70]
- drivers/iommu/iommufd/pasid.c:119: warning: expecting prototype for
- iommufd_device_attach_pasid(). Prototype was for
- iommufd_device_pasid_attach() instead
-Message-ID: <202307121817.9V3HrNXJ-lkp@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9085200A5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 10:18:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCABEC433C8;
+	Wed, 12 Jul 2023 10:18:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1689157122;
+	bh=Wn0GZvl0RH2mmUtd9F1UyxxLq2VLaJCmRaAaCZKuJmg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=cPrOAibjL/VmpNyw8inXtg8AwL8Pg7Dun8fHdhLXo+UUicXJ0jgNjXq/B0xatuAbI
+	 TfC4qbOeWfYIpBq4XdN1UyU2z3adJ0u5ZZeV1wfYy0icweJIfe28uZW5pcFf7C2CIg
+	 +pzFcVcH4fh6RWJjx/OWJgrefnEL5Zva9sKGtF7Nd1t0Kpccm0I9X9BMOK7M987mIE
+	 OgzazkUoHRcO9IPI+DXC5zQX6v4P5b96zYcqmh/oowhKjgArzbJS58gMGcnQZQI+pB
+	 5ilPTOOCuFbKx8zjzHDC/lS0qMXjb+9QwmeRDHCTw9SjMol2rxUlo8fPKN9mhu/YzE
+	 rSRbBmBMq6bDg==
+Message-ID: <88f8baec599aaedc79da058e288086238a01f46f.camel@kernel.org>
+Subject: Re: [jlayton:mgctime 50/118] fs/hostfs/hostfs_kern.c:520:36: error:
+ incompatible type for argument 2 of 'inode_set_ctime_to_ts'
+From: Jeff Layton <jlayton@kernel.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, Jan
+ Kara <jack@suse.cz>
+Date: Wed, 12 Jul 2023 06:18:40 -0400
+In-Reply-To: <20230712-anorak-milan-27f887149be5@brauner>
+References: <202307120235.UI0A6Op0-lkp@intel.com>
+	 <20230712-anorak-milan-27f887149be5@brauner>
+Content-Type: text/plain; charset="ISO-8859-15"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid
-head:   8db4af69ff01c9d7e21e41bf884c6c727dd8525a
-commit: b737865f47b20f2304d429eec76eaa778f355955 [67/70] iommufd: Allow attach/replace hwpt per pasid
-config: arm-randconfig-r046-20230712 (https://download.01.org/0day-ci/archive/20230712/202307121817.9V3HrNXJ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230712/202307121817.9V3HrNXJ-lkp@intel.com/reproduce)
+On Wed, 2023-07-12 at 12:08 +0200, Christian Brauner wrote:
+> On Wed, Jul 12, 2023 at 02:30:10AM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.g=
+it mgctime
+> > head:   61142a4e29e09f59b3b640f0f691e00af4c4a6f9
+> > commit: 2ceaa835b4f50d1b0c0fa678f352bb4f6f5f8062 [50/118] hostfs: conve=
+rt to ctime accessor functions
+> > config: um-defconfig (https://download.01.org/0day-ci/archive/20230712/=
+202307120235.UI0A6Op0-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce: (https://download.01.org/0day-ci/archive/20230712/2023071202=
+35.UI0A6Op0-lkp@intel.com/reproduce)
+> >=20
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > > Closes: https://lore.kernel.org/oe-kbuild-all/202307120235.UI0A6Op0-l=
+kp@intel.com/
+> >=20
+> > All errors (new ones prefixed by >>):
+> >=20
+> >    fs/hostfs/hostfs_kern.c: In function 'hostfs_inode_update':
+> > > > fs/hostfs/hostfs_kern.c:520:36: error: incompatible type for argume=
+nt 2 of 'inode_set_ctime_to_ts'
+> >      520 |         inode_set_ctime_to_ts(ino, &st->ctime);
+> >          |                                    ^~~~~~~~~~
+> >          |                                    |
+> >          |                                    const struct hostfs_times=
+pec *
+> >    In file included from fs/hostfs/hostfs_kern.c:9:
+> >    include/linux/fs.h:1499:73: note: expected 'struct timespec64' but a=
+rgument is of type 'const struct hostfs_timespec *'
+> >     1499 |                                                       struct=
+ timespec64 ts)
+> >          |                                                       ~~~~~~=
+~~~~~~~~~~~~^~
+>=20
+> This bug is also present in the patches I applied. I've fixed it up the
+> following way:
+>=20
+> diff --git a/fs/hostfs/hostfs_kern.c b/fs/hostfs/hostfs_kern.c
+> index 182af84a9c12..1f24ed13cf40 100644
+> --- a/fs/hostfs/hostfs_kern.c
+> +++ b/fs/hostfs/hostfs_kern.c
+> @@ -517,7 +517,8 @@ static int hostfs_inode_update(struct inode *ino, con=
+st struct hostfs_stat *st)
+>                 (struct timespec64){ st->atime.tv_sec, st->atime.tv_nsec =
+};
+>         ino->i_mtime =3D
+>                 (struct timespec64){ st->mtime.tv_sec, st->mtime.tv_nsec =
+};
+> -       inode_set_ctime_to_ts(ino, &st->ctime);
+> +       inode_set_ctime_to_ts(ino, (struct timespec64){ st->ctime.tv_sec,
+> +                                                       st->ctime.tv_nsec=
+ });
+>         ino->i_size =3D st->size;
+>         ino->i_blocks =3D st->blocks;
+>         return 0;
+>=20
+> Let me know if that's wrong.
+>=20
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307121817.9V3HrNXJ-lkp@intel.com/
+That should work, but it's not quite as clean looking as:
 
-All warnings (new ones prefixed by >>):
+    inode_set_ctime(ino, st->ctime.tv_sec, st->ctime.tv_nsec);
 
->> drivers/iommu/iommufd/pasid.c:119: warning: expecting prototype for iommufd_device_attach_pasid(). Prototype was for iommufd_device_pasid_attach() instead
+I'm having trouble build testing this though as I don't have a config
+that enables CONFIG_HOSTFS, and I'm not quite sure how to get there.
 
+> >=20
+> >=20
+> > vim +/inode_set_ctime_to_ts +520 fs/hostfs/hostfs_kern.c
+> >=20
+> >    510=09
+> >    511	static int hostfs_inode_update(struct inode *ino, const struct h=
+ostfs_stat *st)
+> >    512	{
+> >    513		set_nlink(ino, st->nlink);
+> >    514		i_uid_write(ino, st->uid);
+> >    515		i_gid_write(ino, st->gid);
+> >    516		ino->i_atime =3D
+> >    517			(struct timespec64){ st->atime.tv_sec, st->atime.tv_nsec };
+> >    518		ino->i_mtime =3D
+> >    519			(struct timespec64){ st->mtime.tv_sec, st->mtime.tv_nsec };
+> >  > 520		inode_set_ctime_to_ts(ino, &st->ctime);
+> >    521		ino->i_size =3D st->size;
+> >    522		ino->i_blocks =3D st->blocks;
+> >    523		return 0;
+> >    524	}
+> >    525=09
+> >=20
+> > --=20
+> > 0-DAY CI Kernel Test Service
+> > https://github.com/intel/lkp-tests/wiki
 
-vim +119 drivers/iommu/iommufd/pasid.c
-
-   105	
-   106	/**
-   107	 * iommufd_device_attach_pasid - Connect a {device, pasid} to an iommu_domain
-   108	 * @idev: device to attach
-   109	 * @pasid: pasid to attach
-   110	 * @pt_id: IOMMUFD_OBJ_HW_PAGETABLE to attach
-   111	 *
-   112	 * This connects a pasid in the device to an iommu_domain. Once this
-   113	 * completes the device could do DMA with the pasid. Caller should
-   114	 * guarantee the pasid is usable by the current user.
-   115	 *
-   116	 * This function is undone by calling iommufd_device_detach_pasid().
-   117	 */
-   118	int iommufd_device_pasid_attach(struct iommufd_device *idev, u32 pasid, u32 pt_id)
- > 119	{
-   120		return iommufd_device_pasid_change_pt(idev, pasid, pt_id,
-   121						      &iommufd_device_pasid_do_attach);
-   122	}
-   123	EXPORT_SYMBOL_NS_GPL(iommufd_device_pasid_attach, IOMMUFD);
-   124	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+Jeff Layton <jlayton@kernel.org>
