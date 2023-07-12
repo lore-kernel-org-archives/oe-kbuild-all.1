@@ -1,42 +1,43 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECCD72AB54
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 13:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF2E2AB42;
+	Wed, 12 Jul 2023 13:59:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689169138; x=1720705138;
+  t=1689170399; x=1720706399;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z0vn6K5R9hDQX06RtI1v5ujf0WEjcOgSR0a5XeyEUNY=;
-  b=YHO88O4yMjlLJNJInTod/3VgZ5K6R1L3NiFntW6cSVHs7e+0H+sCXKMo
-   GFt5UXnGWrOdwKltKW48BQ0HnICtTAAPtbauqtjfyhWlpR04V5NdRAMW0
-   IexVggvQ4kRUxjliXxvc+uQfIrUPyoIEUwXx1kD1zZvbi862HljZIJJYf
-   +EQjDMyIxlDu2tAMPpo7S+dvtqxZaHrvmKgm138niPjkBkkCpGT35Tc97
-   /iwqjUR++QH5X9NKf9FTlFOpA/foTuMviJrwGEqyfO6MXS3oa8kGeUmwl
-   zFp/JatSgFek3/mDfsVn8J9DlPuZL4uT9HaqeKHyp4+CJXOQ1t0eWN2xW
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="451252029"
+  bh=PRlPBqYoM/SN6JYafk7V3kd7ra6x3eS+M88Gw+/PiOI=;
+  b=MaHGgt5pQDlmXj1S4DgOmR57xQybTsjWN36dnynIm55Xkx3o7qLjU9oz
+   dOgkhalofAygmbyBRRk3qteFxDvSL9s03qKsEGtkAjOE+NwRvaC9+xE1A
+   ydRHtfe5wzvoEofvSmHkELjmTTbVTQTEOajC2RcXBmIKtAJCh0V4hExfA
+   RFDBXe/HxfsWfK+wv8JbJlYTVWhpuAv5ZwVYoE9QLN5l2nFCF5bMs8VPC
+   CTGtgjMR/7ca/jAUWG17iwG37wY4br7p4yzVar6oLs1x57sGG0F+c25zp
+   gbWToZWL8KJpUZYknMuyjgLRch5FAnmwSRCW3gSpz3sCR4m2E1b/RW+lN
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="354800827"
 X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
-   d="scan'208";a="451252029"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 06:38:57 -0700
+   d="scan'208";a="354800827"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 06:59:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="724883878"
+X-IronPort-AV: E=McAfee;i="6600,9927,10769"; a="756769852"
 X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
-   d="scan'208";a="724883878"
+   d="scan'208";a="756769852"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 12 Jul 2023 06:38:56 -0700
+  by orsmga001.jf.intel.com with ESMTP; 12 Jul 2023 06:59:56 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJa3T-0005jb-2X;
-	Wed, 12 Jul 2023 13:38:55 +0000
-Date: Wed, 12 Jul 2023 21:38:44 +0800
+	id 1qJaNo-0005kN-1N;
+	Wed, 12 Jul 2023 13:59:56 +0000
+Date: Wed, 12 Jul 2023 21:59:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Filippov <jcmvbkbc@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.5-rc1-esp32wifi 19/28] ERROR: modpost:
- "esp_deinit_bt" [drivers/net/wireless/espressif/main.ko] undefined!
-Message-ID: <202307122119.Hu0iJ8yw-lkp@intel.com>
+To: Ben Skeggs <bskeggs@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [skeggsb-nouveau:00.02-gsp-rm 53/83]
+ drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:399:1: warning: no
+ previous prototype for function 'nv50_instmem_dtor'
+Message-ID: <202307122123.IFMlZWGG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,144 +47,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Max,
-
-First bad commit (maybe != root cause):
-
-tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.5-rc1-esp32wifi
-head:   eb949d6688cf40bfaa832ca9e10978c2892e1ffe
-commit: 686647ff768e7504ab7ef2a15e2abcd73be88735 [19/28] esp_wifi: drop static esp_adapter and esp_get_adapter()
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20230712/202307122119.Hu0iJ8yw-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230712/202307122119.Hu0iJ8yw-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/skeggsb/nouveau 00.02-gsp-rm
+head:   3f6fc48703e02597683babc04c512ca13bb95e19
+commit: ae58a2cfdd7490ba3d968e3d898b1c953455f936 [53/83] drm/nouveau/imem/tu102-: prepare for GSP-RM
+config: s390-randconfig-r044-20230712 (https://download.01.org/0day-ci/archive/20230712/202307122123.IFMlZWGG-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230712/202307122123.IFMlZWGG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307122119.Hu0iJ8yw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307122123.IFMlZWGG-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_lblcr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_dh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sh.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_sed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_nq.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_twos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_ftp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/ipvs/ip_vs_pe_sip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_defrag_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/nf_reject_ipv4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_gre.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ip_vti.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ah4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/esp4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/xfrm4_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tunnel4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/inet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/tcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_algo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/ip6table_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_defrag_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/xfrm6_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/tunnel6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/sit.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ip6_udp_tunnel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ar9331.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_brcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_dsa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_gswip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_hellcreek.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ksz.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_lan9303.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_mtk.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_none.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_ocelot_8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_qca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl4_a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rtl8_4.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_rzn1_a5psw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_sja1105.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_trailer.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/dsa/tag_xrs700x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/8021q/8021q.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_crypto_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/mptcp/mptcp_token_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/packet/af_packet_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/key/af_key.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/nf_conntrack_bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/bridge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/sunrpc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/auth_rpcgss.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sunrpc/auth_gss/rpcsec_gss_krb5.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/kcm/kcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/atm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/mpoa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/sctp/sctp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/smc/smc_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/chnl_net.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/caif/caif_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/6lowpan/ieee802154_6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ieee802154/ieee802154_socket.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nci/nci_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/vmw_vsock/vsock_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
-ERROR: modpost: "cmd_set_mac" [drivers/net/wireless/espressif/main.ko] undefined!
-ERROR: modpost: "cmd_set_mcast_mac_list" [drivers/net/wireless/espressif/main.ko] undefined!
-ERROR: modpost: "process_event_esp_bootup" [drivers/net/wireless/espressif/main.ko] undefined!
-ERROR: modpost: "process_cmd_resp" [drivers/net/wireless/espressif/main.ko] undefined!
-ERROR: modpost: "process_cmd_event" [drivers/net/wireless/espressif/main.ko] undefined!
-ERROR: modpost: "esp_hci_update_rx_counter" [drivers/net/wireless/espressif/main.ko] undefined!
-ERROR: modpost: "ap_bssid" [drivers/net/wireless/espressif/main.ko] undefined!
->> ERROR: modpost: "esp_deinit_bt" [drivers/net/wireless/espressif/main.ko] undefined!
->> ERROR: modpost: "esp_init_bt" [drivers/net/wireless/espressif/main.ko] undefined!
->> ERROR: modpost: "esp_commands_setup" [drivers/net/wireless/espressif/main.ko] undefined!
-WARNING: modpost: suppressed 26 unresolved symbol warnings because there were too many)
+   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:25:
+   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/instmem/priv.h:5:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/subdev/instmem.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
+   In file included from include/linux/pci.h:39:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:25:
+   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/instmem/priv.h:5:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/subdev/instmem.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
+   In file included from include/linux/pci.h:39:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:25:
+   In file included from drivers/gpu/drm/nouveau/nvkm/subdev/instmem/priv.h:5:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/subdev/instmem.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/subdev.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/device.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/oclass.h:3:
+   In file included from drivers/gpu/drm/nouveau/include/nvkm/core/os.h:4:
+   In file included from drivers/gpu/drm/nouveau/include/nvif/os.h:8:
+   In file included from include/linux/pci.h:39:
+   In file included from include/linux/io.h:13:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:399:1: warning: no previous prototype for function 'nv50_instmem_dtor' [-Wmissing-prototypes]
+     399 | nv50_instmem_dtor(struct nvkm_instmem *base)
+         | ^
+   drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c:398:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     398 | void *
+         | ^
+         | static 
+   13 warnings generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SM_GCC_8350
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_VIDEOCC_8350 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8450
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8450 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   WARNING: unmet direct dependencies detected for SM_GCC_8550
-   Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=m] && (ARM64 || COMPILE_TEST [=n])
-   Selected by [m]:
-   - SM_GPUCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
-   - SM_VIDEOCC_8550 [=m] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=m]
+
+vim +/nv50_instmem_dtor +399 drivers/gpu/drm/nouveau/nvkm/subdev/instmem/nv50.c
+
+   397	
+   398	void *
+ > 399	nv50_instmem_dtor(struct nvkm_instmem *base)
+   400	{
+   401		return nv50_instmem(base);
+   402	}
+   403	
 
 -- 
 0-DAY CI Kernel Test Service
