@@ -1,120 +1,81 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A01F441F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 10:35:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FC63C433C8;
-	Wed, 12 Jul 2023 10:35:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1689158109;
-	bh=xTddMLEVeR5URjwY2eqhfvxpVX/aHvw646pUf+J7QII=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=jXi08kRyiMIRdQ5HOckylwit8aDuoqBjzHZcCNR4IfOvPqtVVZwAvqXLuq6iBbf43
-	 Gwb4LuHHlgH/7fv1frDTPZ6+/jS1M9CG3YohfNdF21OroE41zgG1I1+aRbszM48xQI
-	 s6V6c/Akdq6c8ArDPQMRe8/vpxTZCdTDzSDRJfyAXI5PZBJCakqL3MV82turhaw+Sk
-	 OePZSNNoyqpY+GyHifzow0a267GAnzo+P+8Q3C+AQ9AbsRaWh9BOmoUfnB8e+yKrT6
-	 fxDnAbT3C8uMq7fmJGeUq39OW+HIWcRXK9XoYBOZpL9YnkyWWVUKPk9+/IJlMLcPSD
-	 7lnfyjh8Vrgag==
-Message-ID: <9b053f2717e99494f83271c2693eee6a99b55660.camel@kernel.org>
-Subject: Re: [jlayton:mgctime 50/118] fs/hostfs/hostfs_kern.c:520:36: error:
- incompatible type for argument 2 of 'inode_set_ctime_to_ts'
-From: Jeff Layton <jlayton@kernel.org>
-To: Christian Brauner <brauner@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev, Jan
- Kara <jack@suse.cz>
-Date: Wed, 12 Jul 2023 06:35:08 -0400
-In-Reply-To: <88f8baec599aaedc79da058e288086238a01f46f.camel@kernel.org>
-References: <202307120235.UI0A6Op0-lkp@intel.com>
-	 <20230712-anorak-milan-27f887149be5@brauner>
-	 <88f8baec599aaedc79da058e288086238a01f46f.camel@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-15"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F04441F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 10:43:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689158634; x=1720694634;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/5E6oQTGDsqNuAIcDnLG1ju1GbkJz0rR/8X5mdWHD+A=;
+  b=WgoC3W+owozp+hTTLo2cib5Y/M6oV8WkqP2XcDkDsc1ALdsT032Kk++e
+   /vvn5NmQfqElDT5mwsi62A1cFX48RF8cdhSVgDojlabmHur0MIF6l9exa
+   3FW5aGMaCZJ6IZi1KwVGWN62ijFUQXNtE1Hbdq1XBhQlx6wHNiP8neuwV
+   s4fhwv7ZFAiRMTuU+TmHMBP5CUi5APdd1h96XKaEQ9zk9bY3SlLc7ThLa
+   tgh8ZhoesFb3Pm5Dk2csMRv1l9DPiQ5+Y9P19b3UANK398mCshQtgRb7J
+   YNCqtlFG31oC9MutXdih9TYAPWkcH4t4Q5go0Jt3sdhu9TDlyoY7KQGm0
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="362323262"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
+   d="scan'208";a="362323262"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 03:43:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="724841776"
+X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
+   d="scan'208";a="724841776"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 12 Jul 2023 03:43:52 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qJXK3-0005dJ-2c;
+	Wed, 12 Jul 2023 10:43:51 +0000
+Date: Wed, 12 Jul 2023 18:43:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ivan Babrou <github@ivan.computer>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bobrik:ivan/kernfs-fsid 1/1] fs/kernfs/mount.c:50:5: warning: no
+ previous prototype for 'kernfs_statfs'
+Message-ID: <202307121811.orL7hDGV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2023-07-12 at 06:18 -0400, Jeff Layton wrote:
-> On Wed, 2023-07-12 at 12:08 +0200, Christian Brauner wrote:
-> > On Wed, Jul 12, 2023 at 02:30:10AM +0800, kernel test robot wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux=
-.git mgctime
-> > > head:   61142a4e29e09f59b3b640f0f691e00af4c4a6f9
-> > > commit: 2ceaa835b4f50d1b0c0fa678f352bb4f6f5f8062 [50/118] hostfs: con=
-vert to ctime accessor functions
-> > > config: um-defconfig (https://download.01.org/0day-ci/archive/2023071=
-2/202307120235.UI0A6Op0-lkp@intel.com/config)
-> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > > reproduce: (https://download.01.org/0day-ci/archive/20230712/20230712=
-0235.UI0A6Op0-lkp@intel.com/reproduce)
-> > >=20
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> > > the same patch/commit), kindly add following tags
-> > > > Reported-by: kernel test robot <lkp@intel.com>
-> > > > Closes: https://lore.kernel.org/oe-kbuild-all/202307120235.UI0A6Op0=
--lkp@intel.com/
-> > >=20
-> > > All errors (new ones prefixed by >>):
-> > >=20
-> > >    fs/hostfs/hostfs_kern.c: In function 'hostfs_inode_update':
-> > > > > fs/hostfs/hostfs_kern.c:520:36: error: incompatible type for argu=
-ment 2 of 'inode_set_ctime_to_ts'
-> > >      520 |         inode_set_ctime_to_ts(ino, &st->ctime);
-> > >          |                                    ^~~~~~~~~~
-> > >          |                                    |
-> > >          |                                    const struct hostfs_tim=
-espec *
-> > >    In file included from fs/hostfs/hostfs_kern.c:9:
-> > >    include/linux/fs.h:1499:73: note: expected 'struct timespec64' but=
- argument is of type 'const struct hostfs_timespec *'
-> > >     1499 |                                                       stru=
-ct timespec64 ts)
-> > >          |                                                       ~~~~=
-~~~~~~~~~~~~~~^~
-> >=20
-> > This bug is also present in the patches I applied. I've fixed it up the
-> > following way:
-> >=20
-> > diff --git a/fs/hostfs/hostfs_kern.c b/fs/hostfs/hostfs_kern.c
-> > index 182af84a9c12..1f24ed13cf40 100644
-> > --- a/fs/hostfs/hostfs_kern.c
-> > +++ b/fs/hostfs/hostfs_kern.c
-> > @@ -517,7 +517,8 @@ static int hostfs_inode_update(struct inode *ino, c=
-onst struct hostfs_stat *st)
-> >                 (struct timespec64){ st->atime.tv_sec, st->atime.tv_nse=
-c };
-> >         ino->i_mtime =3D
-> >                 (struct timespec64){ st->mtime.tv_sec, st->mtime.tv_nse=
-c };
-> > -       inode_set_ctime_to_ts(ino, &st->ctime);
-> > +       inode_set_ctime_to_ts(ino, (struct timespec64){ st->ctime.tv_se=
-c,
-> > +                                                       st->ctime.tv_ns=
-ec });
-> >         ino->i_size =3D st->size;
-> >         ino->i_blocks =3D st->blocks;
-> >         return 0;
-> >=20
-> > Let me know if that's wrong.
-> >=20
->=20
-> That should work, but it's not quite as clean looking as:
->=20
->     inode_set_ctime(ino, st->ctime.tv_sec, st->ctime.tv_nsec);
->=20
-> I'm having trouble build testing this though as I don't have a config
-> that enables CONFIG_HOSTFS, and I'm not quite sure how to get there.
+tree:   https://github.com/bobrik/linux ivan/kernfs-fsid
+head:   556d2ad5c816ebd4bc5144ef2cf82e2a5622b040
+commit: 556d2ad5c816ebd4bc5144ef2cf82e2a5622b040 [1/1] kernfs: attach uuid for every kernfs and report it in fsid
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20230712/202307121811.orL7hDGV-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 12.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20230712/202307121811.orL7hDGV-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307121811.orL7hDGV-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> fs/kernfs/mount.c:50:5: warning: no previous prototype for 'kernfs_statfs' [-Wmissing-prototypes]
+      50 | int kernfs_statfs(struct dentry *dentry, struct kstatfs *buf)
+         |     ^~~~~~~~~~~~~
 
 
-Yeah, I'm not sure what I'm doing wrong, but when I take the config file
-associated with this bug report and run it through make oldconfig,
-CONFIG_HOSTFS ends up being disabled. I've not been able to test this
-properly.
+vim +/kernfs_statfs +50 fs/kernfs/mount.c
 
-Is there some trick to building a proper UML kernel these days?
---=20
-Jeff Layton <jlayton@kernel.org>
+    49	
+  > 50	int kernfs_statfs(struct dentry *dentry, struct kstatfs *buf)
+    51	{
+    52		simple_statfs(dentry, buf);
+    53		buf->f_fsid = uuid_to_fsid(dentry->d_sb->s_uuid.b);
+    54		return 0;
+    55	}
+    56	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
