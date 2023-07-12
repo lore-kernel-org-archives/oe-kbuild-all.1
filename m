@@ -1,43 +1,43 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933511EA90
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 11 Jul 2023 23:51:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C217EACA;
+	Wed, 12 Jul 2023 00:01:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689119491; x=1720655491;
+  t=1689120089; x=1720656089;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kFV4tYJnga60wjMWGU1+JvwPxYCL1q5aOLWWOAAp1uY=;
-  b=XhkrUPl6EIzW6TMuMQXa2fcUB04cnSg/zRzBDm6IfC51skd+4zERwR89
-   AiOvuGXe+aI2z+pU7qq09sJ0NE8jTGIzWDc/9zuXm87EKEAQvbquQZGLm
-   p2mRnVmnC4TTsaF6mDGA4Y6HEJ2oA1oejfQy4N+Gq9ovStQ99avldCRSP
-   LFw0tCEtuYvdlMQ7LWRIXT3drnLgRavrRByHWxGfkT0h/mvZxgJ9JTIkL
-   fMS8CnHCPQsNUCajBerhHtkvzouoQeV5WJd+gzESIVNOMjr2glY9K8XQm
-   miZcPtirtdNGYMv4GB12MvOdaPkOFf1MGXczQda1K7nXY4cAJ+nbtgADV
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="363627917"
+  bh=6+dYUOMDmVHMoxhJMJILgnA9v+qVLm0S+ieYw+xGWUQ=;
+  b=AB0jr7K6UFHA9A9OynJj3al4CgDK+Kfo8alqF4cUincTRDu3D1gsg3p3
+   TX15uRHn3QN/eaSF6oP7M8AO2QnX0ArTCe2ClyA7SuevS6+fgKn8QJ0dH
+   6f8OJw0pOW6DeCI+TZnveeTztOJ38LPwQ/w/tfVV/TtTOEkTezlooM7SJ
+   Z65j5dERkGVFGdF36Is89PUxy2bPixaDseR36MUR7ZASVOC3nXz0QBjcC
+   QxvrAyTOcV2PGBWk8uXh6zRVgKbzmN+vr+7/shXejs2mi4+nTQtSEV++F
+   7VT3uO20H6+xOZL6lupoisold1LyXWytiGa0YnYcFPc7vooDUATtvZOPf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="367385066"
 X-IronPort-AV: E=Sophos;i="6.01,198,1684825200"; 
-   d="scan'208";a="363627917"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 16:51:28 -0700
+   d="scan'208";a="367385066"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2023 17:01:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="1051972565"
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="756560321"
 X-IronPort-AV: E=Sophos;i="6.01,198,1684825200"; 
-   d="scan'208";a="1051972565"
+   d="scan'208";a="756560321"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 11 Jul 2023 16:51:26 -0700
+  by orsmga001.jf.intel.com with ESMTP; 11 Jul 2023 17:01:26 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJN8g-0005CF-0O;
-	Tue, 11 Jul 2023 23:51:26 +0000
-Date: Wed, 12 Jul 2023 07:50:32 +0800
+	id 1qJNIM-0005CX-0p;
+	Wed, 12 Jul 2023 00:01:26 +0000
+Date: Wed, 12 Jul 2023 08:00:45 +0800
 From: kernel test robot <lkp@intel.com>
 To: Rob Herring <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [robh:dt/header-cleanups 22/94] drivers/clk/clk-lochnagar.c:249:17:
- error: implicit declaration of function 'of_match_device'; did you mean
- 'of_match_node'?
-Message-ID: <202307120719.lwdzGOhA-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [robh:dt/header-cleanups 22/94] drivers/clk/clk-lochnagar.c:249:8:
+ warning: incompatible integer to pointer conversion assigning to 'const
+ struct of_device_id *' from 'int'
+Message-ID: <202307120721.4t0XQ1eq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -50,26 +50,28 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/header-cleanups
 head:   a06a0a7290918c32601c858af488a504c5e39025
 commit: f048df4b58626a11855e74453a9d4015ce4b3fa3 [22/94] clk: Explicitly include correct DT includes
-config: nios2-randconfig-r012-20230712 (https://download.01.org/0day-ci/archive/20230712/202307120719.lwdzGOhA-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230712/202307120719.lwdzGOhA-lkp@intel.com/reproduce)
+config: arm-randconfig-r032-20230710 (https://download.01.org/0day-ci/archive/20230712/202307120721.4t0XQ1eq-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce: (https://download.01.org/0day-ci/archive/20230712/202307120721.4t0XQ1eq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307120719.lwdzGOhA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307120721.4t0XQ1eq-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/clk/clk-lochnagar.c: In function 'lochnagar_clk_probe':
->> drivers/clk/clk-lochnagar.c:249:17: error: implicit declaration of function 'of_match_device'; did you mean 'of_match_node'? [-Werror=implicit-function-declaration]
-     249 |         of_id = of_match_device(lochnagar_of_match, dev);
-         |                 ^~~~~~~~~~~~~~~
-         |                 of_match_node
->> drivers/clk/clk-lochnagar.c:249:15: warning: assignment to 'const struct of_device_id *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     249 |         of_id = of_match_device(lochnagar_of_match, dev);
-         |               ^
-   cc1: some warnings being treated as errors
+   drivers/clk/clk-lochnagar.c:249:10: error: implicit declaration of function 'of_match_device' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
+           of_id = of_match_device(lochnagar_of_match, dev);
+                   ^
+   drivers/clk/clk-lochnagar.c:249:10: note: did you mean 'of_match_node'?
+   include/linux/of.h:371:35: note: 'of_match_node' declared here
+   extern const struct of_device_id *of_match_node(
+                                     ^
+>> drivers/clk/clk-lochnagar.c:249:8: warning: incompatible integer to pointer conversion assigning to 'const struct of_device_id *' from 'int' [-Wint-conversion]
+           of_id = of_match_device(lochnagar_of_match, dev);
+                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
 
 
 vim +249 drivers/clk/clk-lochnagar.c
