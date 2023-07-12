@@ -1,43 +1,42 @@
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADABDDA5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 08:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDD2DDA5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 08:08:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689149334; x=1720685334;
+  t=1689149337; x=1720685337;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7w06GCzu7mtcTxgbh8s3Kw8rX1g3+6KeFNMJMO//CzI=;
-  b=JieqDR0pI6Et+wFjopt1o8oiuNtyn8F3makt6hfBgmfcit03l0XCpk8z
-   ecBR4sdSgNb4zRXAFlc392+TNnaVQvJN9QJJwDryDWpEqDIa7bB/bf/Hj
-   9gbjUlo0Qv5ALrosKKPmv+2oRwY7XglVpAbAkS3hK+AAwQu0fjhoWQ0tK
-   fqLQLgwljARov0oNg7vY0hXdy9XTszLPwjJ2oTgA0fHw/3RqDxhPIFBOA
-   9g0ju6CpFnKjodovHWhSs0KYYMpHJVwRgGsEn6Bbb3fyKt/hIH3imzwzl
-   gN7X43RcFAyYe8qUWLZFWCzlr9yLRnA2xIgKtCDVEc7g9YEt0eMx8I0Kl
+  bh=K5CAdqHVONcQE24H407me+k4NmJgnmGhxccIHsVK1G4=;
+  b=a7eD9o0gjWCvMZ//IsF7cXMVMtffHTG62L8bXTGjEcNBl7+4LoZZWk/d
+   dtViLRaoTpEs+Wv8K+GXqp+v++RFFcb6tLSeFP9xGXaK6Fh2Safv5rLSS
+   t4JgzimwvHdilphptHJubxTnmCYpXzBsPs6gi8/aEMH0kuxH4Rchbf7cr
+   JRWPmvSBta+iYUcwOMjS3rpxudRsyIxJGGlElXTF6NEnZn2RTrA7izRSL
+   fnf2tvC5mK2x2O79+vpqByQtaUJOV1Url/dJvkimaT3MLPwSx3ePNKpjX
+   iJpN2gngclt1C27UTJTiSD/RMpe5+iBxKQkb2U4oJe5E9o6KfCRCcnSrk
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="364865743"
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="364865740"
 X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
-   d="scan'208";a="364865743"
+   d="scan'208";a="364865740"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 01:08:49 -0700
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 01:08:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="724780980"
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="724780981"
 X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
-   d="scan'208";a="724780980"
+   d="scan'208";a="724780981"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
   by fmsmga007.fm.intel.com with ESMTP; 12 Jul 2023 01:08:47 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJUtz-0005X8-00;
+	id 1qJUtz-0005XB-05;
 	Wed, 12 Jul 2023 08:08:47 +0000
 Date: Wed, 12 Jul 2023 16:08:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-4.19 98/112]
- drivers/tty/serial/8250/8250_omap.c:1304:15: error: implicit declaration of
- function 'pm_runtime_resume_and_get'; did you mean 'pm_runtime_resume'?
-Message-ID: <202307121615.VZ4rW0M1-lkp@intel.com>
+Subject: [sashal-stable:pending-6.1 486/536] include/net/tc_wrapper.h:236:15:
+ error: incomplete definition of type 'struct tc_action_ops'
+Message-ID: <202307121548.iLJ4VXMi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,242 +46,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-4.19
-head:   21e3cac0e3a18d3283f4a4dd16f6023535cda50e
-commit: 08005db596938af4b84c9add63617cf14b8e9328 [98/112] serial: 8250_omap: Use force_suspend and resume for system suspend
-config: arm-randconfig-r001-20230712 (https://download.01.org/0day-ci/archive/20230712/202307121615.VZ4rW0M1-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20230712/202307121615.VZ4rW0M1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.1
+head:   d1ccb2b601e7279db7b279cbfb6d8792cc280299
+commit: ea09157885cea63734eee783b4251d6b5935dfe0 [486/536] net/sched: add retpoline wrapper for tc
+config: s390-randconfig-r026-20230712 (https://download.01.org/0day-ci/archive/20230712/202307121548.iLJ4VXMi-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce: (https://download.01.org/0day-ci/archive/20230712/202307121548.iLJ4VXMi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307121615.VZ4rW0M1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307121548.iLJ4VXMi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/tty/serial/8250/8250_omap.c: In function 'omap8250_probe':
-   drivers/tty/serial/8250/8250_omap.c:1258:9: error: implicit declaration of function 'cpu_latency_qos_remove_request'; did you mean 'dev_pm_qos_remove_request'? [-Werror=implicit-function-declaration]
-    1258 |         cpu_latency_qos_remove_request(&priv->pm_qos_request);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         dev_pm_qos_remove_request
-   drivers/tty/serial/8250/8250_omap.c: In function 'omap8250_suspend':
->> drivers/tty/serial/8250/8250_omap.c:1304:15: error: implicit declaration of function 'pm_runtime_resume_and_get'; did you mean 'pm_runtime_resume'? [-Werror=implicit-function-declaration]
-    1304 |         err = pm_runtime_resume_and_get(dev);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |               pm_runtime_resume
-   cc1: some warnings being treated as errors
+   In file included from net/sched/sch_api.c:19:
+   In file included from include/linux/skbuff.h:31:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from net/sched/sch_api.c:19:
+   In file included from include/linux/skbuff.h:31:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from net/sched/sch_api.c:19:
+   In file included from include/linux/skbuff.h:31:
+   In file included from include/linux/dma-mapping.h:10:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:75:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     692 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     700 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     708 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     717 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     726 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     735 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   In file included from net/sched/sch_api.c:34:
+>> include/net/tc_wrapper.h:236:15: error: incomplete definition of type 'struct tc_action_ops'
+     236 |         return a->ops->act(skb, a, res);
+         |                ~~~~~~^
+   include/net/act_api.h:22:8: note: forward declaration of 'struct tc_action_ops'
+      22 | struct tc_action_ops;
+         |        ^
+   12 warnings and 1 error generated.
 
 
-vim +1304 drivers/tty/serial/8250/8250_omap.c
+vim +236 include/net/tc_wrapper.h
 
-  1109	
-  1110	static int omap8250_probe(struct platform_device *pdev)
-  1111	{
-  1112		struct resource *regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-  1113		struct resource *irq = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
-  1114		struct omap8250_priv *priv;
-  1115		struct uart_8250_port up;
-  1116		int ret;
-  1117		void __iomem *membase;
-  1118	
-  1119		if (!regs || !irq) {
-  1120			dev_err(&pdev->dev, "missing registers or irq\n");
-  1121			return -EINVAL;
-  1122		}
-  1123	
-  1124		priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-  1125		if (!priv)
-  1126			return -ENOMEM;
-  1127	
-  1128		membase = devm_ioremap_nocache(&pdev->dev, regs->start,
-  1129					       resource_size(regs));
-  1130		if (!membase)
-  1131			return -ENODEV;
-  1132	
-  1133		memset(&up, 0, sizeof(up));
-  1134		up.port.dev = &pdev->dev;
-  1135		up.port.mapbase = regs->start;
-  1136		up.port.membase = membase;
-  1137		up.port.irq = irq->start;
-  1138		/*
-  1139		 * It claims to be 16C750 compatible however it is a little different.
-  1140		 * It has EFR and has no FCR7_64byte bit. The AFE (which it claims to
-  1141		 * have) is enabled via EFR instead of MCR. The type is set here 8250
-  1142		 * just to get things going. UNKNOWN does not work for a few reasons and
-  1143		 * we don't need our own type since we don't use 8250's set_termios()
-  1144		 * or pm callback.
-  1145		 */
-  1146		up.port.type = PORT_8250;
-  1147		up.port.iotype = UPIO_MEM;
-  1148		up.port.flags = UPF_FIXED_PORT | UPF_FIXED_TYPE | UPF_SOFT_FLOW |
-  1149			UPF_HARD_FLOW;
-  1150		up.port.private_data = priv;
-  1151	
-  1152		up.port.regshift = 2;
-  1153		up.port.fifosize = 64;
-  1154		up.tx_loadsz = 64;
-  1155		up.capabilities = UART_CAP_FIFO;
-  1156	#ifdef CONFIG_PM
-  1157		/*
-  1158		 * Runtime PM is mostly transparent. However to do it right we need to a
-  1159		 * TX empty interrupt before we can put the device to auto idle. So if
-  1160		 * PM is not enabled we don't add that flag and can spare that one extra
-  1161		 * interrupt in the TX path.
-  1162		 */
-  1163		up.capabilities |= UART_CAP_RPM;
-  1164	#endif
-  1165		up.port.set_termios = omap_8250_set_termios;
-  1166		up.port.set_mctrl = omap8250_set_mctrl;
-  1167		up.port.pm = omap_8250_pm;
-  1168		up.port.startup = omap_8250_startup;
-  1169		up.port.shutdown = omap_8250_shutdown;
-  1170		up.port.throttle = omap_8250_throttle;
-  1171		up.port.unthrottle = omap_8250_unthrottle;
-  1172		up.port.rs485_config = omap_8250_rs485_config;
-  1173	
-  1174		if (pdev->dev.of_node) {
-  1175			const struct of_device_id *id;
-  1176	
-  1177			ret = of_alias_get_id(pdev->dev.of_node, "serial");
-  1178	
-  1179			of_property_read_u32(pdev->dev.of_node, "clock-frequency",
-  1180					     &up.port.uartclk);
-  1181			priv->wakeirq = irq_of_parse_and_map(pdev->dev.of_node, 1);
-  1182	
-  1183			id = of_match_device(of_match_ptr(omap8250_dt_ids), &pdev->dev);
-  1184			if (id && id->data)
-  1185				priv->habit |= *(u8 *)id->data;
-  1186		} else {
-  1187			ret = pdev->id;
-  1188		}
-  1189		if (ret < 0) {
-  1190			dev_err(&pdev->dev, "failed to get alias/pdev id\n");
-  1191			return ret;
-  1192		}
-  1193		up.port.line = ret;
-  1194	
-  1195		if (!up.port.uartclk) {
-  1196			up.port.uartclk = DEFAULT_CLK_SPEED;
-  1197			dev_warn(&pdev->dev,
-  1198				 "No clock speed specified: using default: %d\n",
-  1199				 DEFAULT_CLK_SPEED);
-  1200		}
-  1201	
-  1202		priv->latency = PM_QOS_CPU_DMA_LAT_DEFAULT_VALUE;
-  1203		priv->calc_latency = PM_QOS_CPU_DMA_LAT_DEFAULT_VALUE;
-  1204		pm_qos_add_request(&priv->pm_qos_request, PM_QOS_CPU_DMA_LATENCY,
-  1205				   priv->latency);
-  1206		INIT_WORK(&priv->qos_work, omap8250_uart_qos_work);
-  1207	
-  1208		spin_lock_init(&priv->rx_dma_lock);
-  1209	
-  1210		device_init_wakeup(&pdev->dev, true);
-  1211		pm_runtime_enable(&pdev->dev);
-  1212		pm_runtime_use_autosuspend(&pdev->dev);
-  1213		pm_runtime_set_autosuspend_delay(&pdev->dev, -1);
-  1214	
-  1215		pm_runtime_irq_safe(&pdev->dev);
-  1216	
-  1217		pm_runtime_get_sync(&pdev->dev);
-  1218	
-  1219		omap_serial_fill_features_erratas(&up, priv);
-  1220		up.port.handle_irq = omap8250_no_handle_irq;
-  1221	#ifdef CONFIG_SERIAL_8250_DMA
-  1222		if (pdev->dev.of_node) {
-  1223			/*
-  1224			 * Oh DMA support. If there are no DMA properties in the DT then
-  1225			 * we will fall back to a generic DMA channel which does not
-  1226			 * really work here. To ensure that we do not get a generic DMA
-  1227			 * channel assigned, we have the the_no_dma_filter_fn() here.
-  1228			 * To avoid "failed to request DMA" messages we check for DMA
-  1229			 * properties in DT.
-  1230			 */
-  1231			ret = of_property_count_strings(pdev->dev.of_node, "dma-names");
-  1232			if (ret == 2) {
-  1233				up.dma = &priv->omap8250_dma;
-  1234				priv->omap8250_dma.fn = the_no_dma_filter_fn;
-  1235				priv->omap8250_dma.tx_dma = omap_8250_tx_dma;
-  1236				priv->omap8250_dma.rx_dma = omap_8250_rx_dma;
-  1237				priv->omap8250_dma.rx_size = RX_TRIGGER;
-  1238				priv->omap8250_dma.rxconf.src_maxburst = RX_TRIGGER;
-  1239				priv->omap8250_dma.txconf.dst_maxburst = TX_TRIGGER;
-  1240			}
-  1241		}
-  1242	#endif
-  1243		ret = serial8250_register_8250_port(&up);
-  1244		if (ret < 0) {
-  1245			dev_err(&pdev->dev, "unable to register 8250 port\n");
-  1246			goto err;
-  1247		}
-  1248		priv->line = ret;
-  1249		platform_set_drvdata(pdev, priv);
-  1250		pm_runtime_mark_last_busy(&pdev->dev);
-  1251		pm_runtime_put_autosuspend(&pdev->dev);
-  1252		return 0;
-  1253	err:
-  1254		pm_runtime_dont_use_autosuspend(&pdev->dev);
-  1255		pm_runtime_put_sync(&pdev->dev);
-  1256		flush_work(&priv->qos_work);
-  1257		pm_runtime_disable(&pdev->dev);
-> 1258		cpu_latency_qos_remove_request(&priv->pm_qos_request);
-  1259		return ret;
-  1260	}
-  1261	
-  1262	static int omap8250_remove(struct platform_device *pdev)
-  1263	{
-  1264		struct omap8250_priv *priv = platform_get_drvdata(pdev);
-  1265	
-  1266		pm_runtime_dont_use_autosuspend(&pdev->dev);
-  1267		pm_runtime_put_sync(&pdev->dev);
-  1268		flush_work(&priv->qos_work);
-  1269		pm_runtime_disable(&pdev->dev);
-  1270		serial8250_unregister_port(priv->line);
-  1271		pm_qos_remove_request(&priv->pm_qos_request);
-  1272		device_init_wakeup(&pdev->dev, false);
-  1273		return 0;
-  1274	}
-  1275	
-  1276	#ifdef CONFIG_PM_SLEEP
-  1277	static int omap8250_prepare(struct device *dev)
-  1278	{
-  1279		struct omap8250_priv *priv = dev_get_drvdata(dev);
-  1280	
-  1281		if (!priv)
-  1282			return 0;
-  1283		priv->is_suspending = true;
-  1284		return 0;
-  1285	}
-  1286	
-  1287	static void omap8250_complete(struct device *dev)
-  1288	{
-  1289		struct omap8250_priv *priv = dev_get_drvdata(dev);
-  1290	
-  1291		if (!priv)
-  1292			return;
-  1293		priv->is_suspending = false;
-  1294	}
-  1295	
-  1296	static int omap8250_suspend(struct device *dev)
-  1297	{
-  1298		struct omap8250_priv *priv = dev_get_drvdata(dev);
-  1299		struct uart_8250_port *up = serial8250_get_port(priv->line);
-  1300		int err;
-  1301	
-  1302		serial8250_suspend_port(priv->line);
-  1303	
-> 1304		err = pm_runtime_resume_and_get(dev);
-  1305		if (err)
-  1306			return err;
-  1307		if (!device_may_wakeup(dev))
-  1308			priv->wer = 0;
-  1309		serial_out(up, UART_OMAP_WER, priv->wer);
-  1310		err = pm_runtime_force_suspend(dev);
-  1311		flush_work(&priv->qos_work);
-  1312	
-  1313		return err;
-  1314	}
-  1315	
+   232	
+   233	static inline int tc_act(struct sk_buff *skb, const struct tc_action *a,
+   234				   struct tcf_result *res)
+   235	{
+ > 236		return a->ops->act(skb, a, res);
+   237	}
+   238	
 
 -- 
 0-DAY CI Kernel Test Service
