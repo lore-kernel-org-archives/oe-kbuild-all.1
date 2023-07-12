@@ -1,42 +1,43 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDD2DDA5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 08:08:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70150DDBC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 12 Jul 2023 08:29:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1689149337; x=1720685337;
+  t=1689150590; x=1720686590;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K5CAdqHVONcQE24H407me+k4NmJgnmGhxccIHsVK1G4=;
-  b=a7eD9o0gjWCvMZ//IsF7cXMVMtffHTG62L8bXTGjEcNBl7+4LoZZWk/d
-   dtViLRaoTpEs+Wv8K+GXqp+v++RFFcb6tLSeFP9xGXaK6Fh2Safv5rLSS
-   t4JgzimwvHdilphptHJubxTnmCYpXzBsPs6gi8/aEMH0kuxH4Rchbf7cr
-   JRWPmvSBta+iYUcwOMjS3rpxudRsyIxJGGlElXTF6NEnZn2RTrA7izRSL
-   fnf2tvC5mK2x2O79+vpqByQtaUJOV1Url/dJvkimaT3MLPwSx3ePNKpjX
-   iJpN2gngclt1C27UTJTiSD/RMpe5+iBxKQkb2U4oJe5E9o6KfCRCcnSrk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="364865740"
+  bh=MUGEbJaItnwT5cDWIz+ePxXLD0Dl7gmfYtFfr8RkFJU=;
+  b=E/zB6KiAmhEJRRmTY1Z59Qu5rwR6jIE0K80Oax5xrIB/KsWABZ5RUiMY
+   /lkhVqMvhsbnqMVwX08585AXDf1Yda1mVTRg/wFkeg99MRFQAKF2uBaHk
+   1hI+axAKMZXJblP1CPtXOi31SjsBLLF10OfR+CV7JqUdMqxGX0Tz42uih
+   s95fZaMBkBGbmtzwZyqysqreKKoLEgU88Njgfb0/PI1wCNDwq6Hh7c/nw
+   JsGRShkyksCQCUejABEoilqC3Xnq55/slBcoMdk/186kPoPBmI0KobdXf
+   OLGdgzCqkADVGH9e1D3+U5U7UpP+sqFm07aagUGs2Vn5+aMAeDa7M0Y3H
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="428571557"
 X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
-   d="scan'208";a="364865740"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 01:08:48 -0700
+   d="scan'208";a="428571557"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2023 01:29:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="724780981"
+X-IronPort-AV: E=McAfee;i="6600,9927,10768"; a="756675454"
 X-IronPort-AV: E=Sophos;i="6.01,199,1684825200"; 
-   d="scan'208";a="724780981"
+   d="scan'208";a="756675454"
 Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 12 Jul 2023 01:08:47 -0700
+  by orsmga001.jf.intel.com with ESMTP; 12 Jul 2023 01:29:48 -0700
 Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1qJUtz-0005XB-05;
-	Wed, 12 Jul 2023 08:08:47 +0000
-Date: Wed, 12 Jul 2023 16:08:12 +0800
+	id 1qJVEJ-0005YN-20;
+	Wed, 12 Jul 2023 08:29:47 +0000
+Date: Wed, 12 Jul 2023 16:28:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: Sasha Levin <sashal@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sashal-stable:pending-6.1 486/536] include/net/tc_wrapper.h:236:15:
- error: incomplete definition of type 'struct tc_action_ops'
-Message-ID: <202307121548.iLJ4VXMi-lkp@intel.com>
+Subject: [sashal-stable:pending-6.4 704/719]
+ drivers/acpi/acpi_platform.c:126:15: warning: assignment to 'const struct
+ acpi_device_id *' from 'int' makes pointer from integer without a cast
+Message-ID: <202307121620.TaNvUXtv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,102 +47,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.1
-head:   d1ccb2b601e7279db7b279cbfb6d8792cc280299
-commit: ea09157885cea63734eee783b4251d6b5935dfe0 [486/536] net/sched: add retpoline wrapper for tc
-config: s390-randconfig-r026-20230712 (https://download.01.org/0day-ci/archive/20230712/202307121548.iLJ4VXMi-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230712/202307121548.iLJ4VXMi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git pending-6.4
+head:   3e07459e3b3562fda8192f91db788c99827f23a0
+commit: d034fcbb7913738b4e324fd6e6c41bd7936bc2d9 [704/719] ACPI: platform: Ignore SMB0001 only when it has resources
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20230712/202307121620.TaNvUXtv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20230712/202307121620.TaNvUXtv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202307121548.iLJ4VXMi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307121620.TaNvUXtv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from net/sched/sch_api.c:19:
-   In file included from include/linux/skbuff.h:31:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from net/sched/sch_api.c:19:
-   In file included from include/linux/skbuff.h:31:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from net/sched/sch_api.c:19:
-   In file included from include/linux/skbuff.h:31:
-   In file included from include/linux/dma-mapping.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:75:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:692:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     692 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:700:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     700 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:708:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     708 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:717:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     717 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:726:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     726 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:735:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     735 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from net/sched/sch_api.c:34:
->> include/net/tc_wrapper.h:236:15: error: incomplete definition of type 'struct tc_action_ops'
-     236 |         return a->ops->act(skb, a, res);
-         |                ~~~~~~^
-   include/net/act_api.h:22:8: note: forward declaration of 'struct tc_action_ops'
-      22 | struct tc_action_ops;
-         |        ^
-   12 warnings and 1 error generated.
+   drivers/acpi/acpi_platform.c: In function 'acpi_create_platform_device':
+   drivers/acpi/acpi_platform.c:126:17: error: implicit declaration of function 'acpi_match_acpi_device'; did you mean 'acpi_match_device'? [-Werror=implicit-function-declaration]
+     126 |         match = acpi_match_acpi_device(forbidden_id_list, adev);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 acpi_match_device
+>> drivers/acpi/acpi_platform.c:126:15: warning: assignment to 'const struct acpi_device_id *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     126 |         match = acpi_match_acpi_device(forbidden_id_list, adev);
+         |               ^
+   cc1: some warnings being treated as errors
 
 
-vim +236 include/net/tc_wrapper.h
+vim +126 drivers/acpi/acpi_platform.c
 
-   232	
-   233	static inline int tc_act(struct sk_buff *skb, const struct tc_action *a,
-   234				   struct tcf_result *res)
-   235	{
- > 236		return a->ops->act(skb, a, res);
-   237	}
-   238	
+    98	
+    99	/**
+   100	 * acpi_create_platform_device - Create platform device for ACPI device node
+   101	 * @adev: ACPI device node to create a platform device for.
+   102	 * @properties: Optional collection of build-in properties.
+   103	 *
+   104	 * Check if the given @adev can be represented as a platform device and, if
+   105	 * that's the case, create and register a platform device, populate its common
+   106	 * resources and returns a pointer to it.  Otherwise, return %NULL.
+   107	 *
+   108	 * Name of the platform device will be the same as @adev's.
+   109	 */
+   110	struct platform_device *acpi_create_platform_device(struct acpi_device *adev,
+   111							    const struct property_entry *properties)
+   112	{
+   113		struct acpi_device *parent = acpi_dev_parent(adev);
+   114		struct platform_device *pdev = NULL;
+   115		struct platform_device_info pdevinfo;
+   116		const struct acpi_device_id *match;
+   117		struct resource_entry *rentry;
+   118		struct list_head resource_list;
+   119		struct resource *resources = NULL;
+   120		int count;
+   121	
+   122		/* If the ACPI node already has a physical device attached, skip it. */
+   123		if (adev->physical_node_count)
+   124			return NULL;
+   125	
+ > 126		match = acpi_match_acpi_device(forbidden_id_list, adev);
+   127		if (match) {
+   128			if (match->driver_data & ACPI_ALLOW_WO_RESOURCES) {
+   129				bool has_resources = false;
+   130	
+   131				acpi_walk_resources(adev->handle, METHOD_NAME__CRS,
+   132						    acpi_platform_resource_count, &has_resources);
+   133				if (has_resources)
+   134					return ERR_PTR(-EINVAL);
+   135			} else {
+   136				return ERR_PTR(-EINVAL);
+   137			}
+   138		}
+   139	
+   140		INIT_LIST_HEAD(&resource_list);
+   141		count = acpi_dev_get_resources(adev, &resource_list, NULL, NULL);
+   142		if (count < 0)
+   143			return NULL;
+   144		if (count > 0) {
+   145			resources = kcalloc(count, sizeof(*resources), GFP_KERNEL);
+   146			if (!resources) {
+   147				acpi_dev_free_resource_list(&resource_list);
+   148				return ERR_PTR(-ENOMEM);
+   149			}
+   150			count = 0;
+   151			list_for_each_entry(rentry, &resource_list, node)
+   152				acpi_platform_fill_resource(adev, rentry->res,
+   153							    &resources[count++]);
+   154	
+   155			acpi_dev_free_resource_list(&resource_list);
+   156		}
+   157	
+   158		memset(&pdevinfo, 0, sizeof(pdevinfo));
+   159		/*
+   160		 * If the ACPI node has a parent and that parent has a physical device
+   161		 * attached to it, that physical device should be the parent of the
+   162		 * platform device we are about to create.
+   163		 */
+   164		pdevinfo.parent = parent ? acpi_get_first_physical_node(parent) : NULL;
+   165		pdevinfo.name = dev_name(&adev->dev);
+   166		pdevinfo.id = PLATFORM_DEVID_NONE;
+   167		pdevinfo.res = resources;
+   168		pdevinfo.num_res = count;
+   169		pdevinfo.fwnode = acpi_fwnode_handle(adev);
+   170		pdevinfo.properties = properties;
+   171	
+   172		if (acpi_dma_supported(adev))
+   173			pdevinfo.dma_mask = DMA_BIT_MASK(32);
+   174		else
+   175			pdevinfo.dma_mask = 0;
+   176	
+   177		pdev = platform_device_register_full(&pdevinfo);
+   178		if (IS_ERR(pdev))
+   179			dev_err(&adev->dev, "platform device creation failed: %ld\n",
+   180				PTR_ERR(pdev));
+   181		else {
+   182			set_dev_node(&pdev->dev, acpi_get_node(adev->handle));
+   183			dev_dbg(&adev->dev, "created platform device %s\n",
+   184				dev_name(&pdev->dev));
+   185		}
+   186	
+   187		kfree(resources);
+   188	
+   189		return pdev;
+   190	}
+   191	EXPORT_SYMBOL_GPL(acpi_create_platform_device);
+   192	
 
 -- 
 0-DAY CI Kernel Test Service
