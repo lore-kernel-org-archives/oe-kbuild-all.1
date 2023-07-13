@@ -1,80 +1,142 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8772414F8B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jul 2023 14:35:32 +0000 (UTC)
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-5776312eaddso6983857b3.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 13 Jul 2023 07:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1689258931; x=1691850931;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=U+nZs1D1Fy78rQMYBUsa2zJlUYwdKFxkmf3A1rmDrGU=;
-        b=cGS20WglFZH80oZCUsh3d643sr0inSlbZIvRBWljXnUlcarcOVGnweAmCGDjTSdOVA
-         3V+b9h3IjNR1DVnHjfZtaXJ+EfFsA6w35kyu79aodg0E+JQ1ly5PiHe/1U1v5Iod/QjP
-         zs/A8wWV6qi1c1uGhe2uJXcSWxPzxOx1NPWBvBbfsE5jxSxpnKM8a0/N/PC5GB7SlIKn
-         KimZIbhMrw66fsuBNCqHcOEwy9HH17RaAGLrsTRZMYXHC67Q+NR5VkLA+2IC9Xk2Etw4
-         17hlZjF5Cl5oPFbb140M8iMeJ9bJ6uLpC0DqA04l8pt4xnfqcIgJSA3fVlyfS1MnS4Wt
-         IlDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689258931; x=1691850931;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U+nZs1D1Fy78rQMYBUsa2zJlUYwdKFxkmf3A1rmDrGU=;
-        b=XuGK0Ful92YBaV0T9lBlVoyGuR7RD+QJniZvvGYbnAz1a6md1kYmJoU8tntvXaeMtt
-         np6XHgvrk+JgF0AncaBep52/VhVVQt/oubvKgXDDXghEzwtB7OinmN15yHR3lDYTJ40D
-         wcGrz1IalU853hBS2aES+rHlkdU062jUICNfLFJm5x8aHwp/8xmWGR7Hg6f660aLsqai
-         B0qKtc0c+Mq/Kr8xSL/uYW9X7C5Lb3tFEQcMcrouvULi+STWR1YfyaJBx+o4y5J+CLUh
-         BEyOMLPSivm/4gGj7J+W1f1c+OD1Z36+ZtI+ba4C3cba0UEt5xzufk+j38o5KHZbDiXo
-         pNNw==
-X-Gm-Message-State: ABy/qLbUMse7TtBdZ++wGJv92gUiRkkGWU9mkak0Yhq2wIW/7DxpdIJB
-	at0tKnIpCg7UdiQ52cfyx1B+W/MbhCkDq1dAazMGmQ==
-X-Google-Smtp-Source: APBJJlFCLSbqykMOKhVl4eIiYOTG4q0RsjPmrCXlhwTgVypmlxf76Gjvj7/gN6V04qVsMULZmHQMNfUyUWDPWx5kvIY=
-X-Received: by 2002:a0d:db4e:0:b0:577:18a9:fde9 with SMTP id
- d75-20020a0ddb4e000000b0057718a9fde9mr1863913ywe.43.1689258931405; Thu, 13
- Jul 2023 07:35:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7D317754;
+	Thu, 13 Jul 2023 14:50:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1689259845; x=1720795845;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=915bhMfyutTP9zinhbT8vja86UsdrYvNYhlqMI7fEXI=;
+  b=clUMm8ciwlreU8QOj3IG/KEt+ktIzTwqboKXdOz+QN7Al0+AgZsI7sLO
+   upH8ZhhqcS6e+zsVgb/B+h1DN7FL8p6ep5dFMY5uJPoM+IigEHFykjgP2
+   QYo5BMjJ1e2lR73qIIcHaxQYM2PLS0xAZhOnuBPAT4bV9DU52RncTzzUT
+   3ntNO2WUGrh/NcG8IVlh2Ld2dJkURP02jbezs5WVTk+KKEBdH6i4MtCCr
+   xu3o0g+FMb4jAVSRJ4e6QzIdN+ZorIgZD6p/WTyPRndIg/1+H+JlrmCAE
+   A2HYtNdRnPd8lNILiJvs5bYOvtCBNN6KvLunB+6oQx6EdkRRjG5xA6qlv
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="368756848"
+X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; 
+   d="scan'208";a="368756848"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2023 07:16:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10770"; a="812013577"
+X-IronPort-AV: E=Sophos;i="6.01,203,1684825200"; 
+   d="scan'208";a="812013577"
+Received: from lkp-server01.sh.intel.com (HELO c544d7fc5005) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 13 Jul 2023 07:16:54 -0700
+Received: from kbuild by c544d7fc5005 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qJx7m-0006ej-0t;
+	Thu, 13 Jul 2023 14:16:54 +0000
+Date: Thu, 13 Jul 2023 22:16:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [krzk-github:n/audio-wsa884x-on-top-of-wip-sm8450-audio-on-next
+ 38/42] sound/soc/codecs/lpass-tx-macro.c:847:24: warning: variable
+ 'dmic_clk_reg' is uninitialized when used here
+Message-ID: <202307132214.NYeD2XiY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202307132143.zFvbDAGK-lkp@intel.com>
-In-Reply-To: <202307132143.zFvbDAGK-lkp@intel.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 13 Jul 2023 16:34:55 +0200
-Message-ID: <CAPDyKFqsy-rNe38zbu+=ARcMMFQ-KcUScAqm8LcZBy0nA_eaSg@mail.gmail.com>
-Subject: Re: [ulfh-mmc:next 3/11] drivers/mmc/host/mmci.c:811:17: error:
- implicit declaration of function 'dev_sbg'; did you mean 'dev_dbg'?
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 13 Jul 2023 at 16:20, kernel test robot <lkp@intel.com> wrote:
->
-> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git next
-> head:   9f8a7787f3f98b77d0844a83a6df6fe383d88ca2
-> commit: 1b12ce08ebdfd50e7b593b370c087ded61a9fae0 [3/11] mmc: mmci: Improve ux500 debug prints
-> config: arm64-randconfig-r024-20230713 (https://download.01.org/0day-ci/archive/20230713/202307132143.zFvbDAGK-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 12.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20230713/202307132143.zFvbDAGK-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202307132143.zFvbDAGK-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    drivers/mmc/host/mmci.c: In function 'ux500_busy_complete':
-> >> drivers/mmc/host/mmci.c:811:17: error: implicit declaration of function 'dev_sbg'; did you mean 'dev_dbg'? [-Werror=implicit-function-declaration]
->      811 |                 dev_sbg(mmc_dev(host->mmc), "fell through on state %d, CMD%02x\n",
->          |                 ^~~~~~~
->          |                 dev_dbg
->    cc1: some warnings being treated as errors
+tree:   https://github.com/krzk/linux n/audio-wsa884x-on-top-of-wip-sm8450-audio-on-next
+head:   e3b5f5398ba6aa06d39089408493667a98fa0a60
+commit: 9e9e574223b5ed43d8d8c9ba0faa1546b6d20919 [38/42] ASoC: codecs: tx-macro: correct TX SMIC MUXn widgets on SM8350+
+config: i386-randconfig-i005-20230713 (https://download.01.org/0day-ci/archive/20230713/202307132214.NYeD2XiY-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce: (https://download.01.org/0day-ci/archive/20230713/202307132214.NYeD2XiY-lkp@intel.com/reproduce)
 
-Thanks for reporting, I have amended the patch to fix the build error.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202307132214.NYeD2XiY-lkp@intel.com/
 
-Kind regards
-Uffe
+All warnings (new ones prefixed by >>):
+
+>> sound/soc/codecs/lpass-tx-macro.c:847:24: warning: variable 'dmic_clk_reg' is uninitialized when used here [-Wuninitialized]
+                                                       mic_sel_reg, dmic_clk_reg,
+                                                                    ^~~~~~~~~~~~
+   sound/soc/codecs/lpass-tx-macro.c:804:18: note: initialize the variable 'dmic_clk_reg' to silence this warning
+           u16 dmic_clk_reg;
+                           ^
+                            = 0
+   1 warning generated.
+
+
+vim +/dmic_clk_reg +847 sound/soc/codecs/lpass-tx-macro.c
+
+   795	
+   796	static int tx_macro_put_dec_enum(struct snd_kcontrol *kcontrol,
+   797					 struct snd_ctl_elem_value *ucontrol)
+   798	{
+   799		struct snd_soc_dapm_widget *widget = snd_soc_dapm_kcontrol_widget(kcontrol);
+   800		struct snd_soc_component *component = snd_soc_dapm_to_component(widget->dapm);
+   801		struct soc_enum *e = (struct soc_enum *)kcontrol->private_value;
+   802		unsigned int val;
+   803		u16 mic_sel_reg;
+   804		u16 dmic_clk_reg;
+   805		struct tx_macro *tx = snd_soc_component_get_drvdata(component);
+   806	
+   807		val = ucontrol->value.enumerated.item[0];
+   808		if (val >= e->items)
+   809			return -EINVAL;
+   810	
+   811		switch (e->reg) {
+   812		case CDC_TX_INP_MUX_ADC_MUX0_CFG0:
+   813			mic_sel_reg = CDC_TX0_TX_PATH_CFG0;
+   814			break;
+   815		case CDC_TX_INP_MUX_ADC_MUX1_CFG0:
+   816			mic_sel_reg = CDC_TX1_TX_PATH_CFG0;
+   817			break;
+   818		case CDC_TX_INP_MUX_ADC_MUX2_CFG0:
+   819			mic_sel_reg = CDC_TX2_TX_PATH_CFG0;
+   820			break;
+   821		case CDC_TX_INP_MUX_ADC_MUX3_CFG0:
+   822			mic_sel_reg = CDC_TX3_TX_PATH_CFG0;
+   823			break;
+   824		case CDC_TX_INP_MUX_ADC_MUX4_CFG0:
+   825			mic_sel_reg = CDC_TX4_TX_PATH_CFG0;
+   826			break;
+   827		case CDC_TX_INP_MUX_ADC_MUX5_CFG0:
+   828			mic_sel_reg = CDC_TX5_TX_PATH_CFG0;
+   829			break;
+   830		case CDC_TX_INP_MUX_ADC_MUX6_CFG0:
+   831			mic_sel_reg = CDC_TX6_TX_PATH_CFG0;
+   832			break;
+   833		case CDC_TX_INP_MUX_ADC_MUX7_CFG0:
+   834			mic_sel_reg = CDC_TX7_TX_PATH_CFG0;
+   835			break;
+   836		default:
+   837			dev_err(component->dev, "Error in configuration!!\n");
+   838			return -EINVAL;
+   839		}
+   840	
+   841		if (val != 0) {
+   842			if (widget->shift) /* MSM DMIC */
+   843				snd_soc_component_write_field(component, mic_sel_reg,
+   844							      CDC_TXn_ADC_DMIC_SEL_MASK, 1);
+   845			else if (tx->data->ver <= LPASS_VER_9_0_0)
+   846				tx_macro_update_smic_sel_v9(component, widget, tx,
+ > 847							    mic_sel_reg, dmic_clk_reg,
+   848							    val);
+   849			else
+   850				tx_macro_update_smic_sel_v9_2(component, widget, tx,
+   851							      mic_sel_reg, dmic_clk_reg,
+   852							      val);
+   853		}
+   854	
+   855		return snd_soc_dapm_put_enum_double(kcontrol, ucontrol);
+   856	}
+   857	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
